@@ -42,12 +42,12 @@ const ERROR = {
   dark: '#cc3b3b',
   darker: '#b33434',
 };
-const ORANGE = {
-  lighter: '#fbcd9f',
-  light: '#f9a857',
-  main: '#F6830F',
-  dark: '#ac5c0b',
-  darker: '#7b4208',
+const BLUE = {
+  lighter: '#626e8e',
+  light: '#4c597d',
+  main: '#1F305D',
+  dark: '#19264a',
+  darker: '#162241',
 };
 
 const GREY: any = {
@@ -85,7 +85,7 @@ const COMMON = {
   success: { ...SUCCESS, contrastText: GREY[800] },
   warning: { ...WARNING, contrastText: GREY[800] },
   error: { ...ERROR, contrastText: '#fff' },
-  orange: { ...ORANGE, contrastText: '#fff' },
+  blue: { ...BLUE, contrastText: '#fff' },
   grey: GREY,
   gradients: GRADIENTS,
 
