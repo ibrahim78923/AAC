@@ -1,6 +1,17 @@
+import ThemeLocalization from '../theme/ThemeLocalization';
+import ThemeProvider from '../theme/index';
 import '@/styles/globals.css';
-import type { AppProps } from 'next/app';
 
-export default function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />;
+export default function App(props: any) {
+  const { Component, pageProps } = props;
+
+  const getLayout = Component.getLayout ?? ((page: any) => page);
+
+  return (
+    <ThemeProvider>
+      <ThemeLocalization>
+        {getLayout(<Component {...pageProps} />)}
+      </ThemeLocalization>
+    </ThemeProvider>
+  );
 }
