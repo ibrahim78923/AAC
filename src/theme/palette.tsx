@@ -1,14 +1,11 @@
 import { alpha } from '@mui/material/styles';
 
-// ----------------------------------------------------------------------
-
 export function createGradient(color1: string, color2: string) {
   return `linear-gradient(90deg, ${color1} 10.76%, ${color2} 133.7%)`;
 }
 
-// SETUP COLORS
 const PRIMARY = {
-  lighter: '#60d5c4',
+  lighter: '#cff2ed',
   light: '#2da291',
   main: '#38CAB5',
   dark: '#16847f',
@@ -60,7 +57,7 @@ const GREY: any = {
   600: '#929294',
   700: '#aaabac',
   800: '#c2c3c5',
-  900: '#dbdcdd',
+  900: '#6B7280',
   500_8: alpha('#919EAB', 0.08),
   500_12: alpha('#919EAB', 0.12),
   500_16: alpha('#919EAB', 0.16),
