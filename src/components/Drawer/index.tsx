@@ -20,6 +20,7 @@ const CommonDrawer = ({
   title,
   okText,
   submitHandler,
+  isOk,
 }: CommonDrawerPropsI) => {
   const theme = useTheme();
   return (
@@ -28,8 +29,8 @@ const CommonDrawer = ({
       onClose={() => setIsDrawerOpen(false)}
       anchor="right"
       sx={{
-        '& .css-2c66hw-MuiPaper-root-MuiDrawer-paper': {
-          borderRadius: '30px 0px 0px 30px',
+        '& .css-yaabfu-MuiPaper-root-MuiDrawer-paper': {
+          borderRadius: '30px 0px 0px 30px !important',
         },
       }}
     >
@@ -75,6 +76,8 @@ const CommonDrawer = ({
               alignItems: 'center',
               justifyContent: 'flex-end',
               gap: '16px',
+              padding: '24px',
+              borderTop: '1px solid #E5E7EB',
             }}
           >
             <Button
@@ -89,17 +92,19 @@ const CommonDrawer = ({
             >
               Cancel
             </Button>
-            <Button
-              variant="contained"
-              sx={{
-                padding: '0px 22px',
-                height: '44px',
-                fontWeight: '500',
-              }}
-              onClick={submitHandler}
-            >
-              {okText}
-            </Button>
+            {isOk && (
+              <Button
+                variant="contained"
+                sx={{
+                  padding: '0px 22px',
+                  height: '44px',
+                  fontWeight: '500',
+                }}
+                onClick={submitHandler}
+              >
+                {okText}
+              </Button>
+            )}
           </Toolbar>
         </AppBar>
       </Box>

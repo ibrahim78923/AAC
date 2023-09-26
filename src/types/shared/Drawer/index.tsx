@@ -4,5 +4,6 @@ export interface CommonDrawerPropsI {
   children: React.ReactNode;
   title: string;
   okText: string;
+  isOk: boolean;
   submitHandler: () => void;
 }

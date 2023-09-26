@@ -3,9 +3,11 @@ import Box from '@mui/material/Box';
 import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import CommonDrawer from '@/components/Drawer';
+import TextEditor from '@/components/TextEditor';
 
 const Jobs = () => {
   const [isJobPostingDrawer, setIsJobPostingDrawer] = useState(false);
+  const [editorValue, setEditorValue] = useState<string>('');
 
   const handelPostJob = () => {};
 
@@ -48,9 +50,12 @@ const Jobs = () => {
         setIsDrawerOpen={setIsJobPostingDrawer}
         title="Post a Job"
         okText="Post"
+        isOk={false}
         submitHandler={handelPostJob}
       >
         <span>dummy text</span>
+        <br />
+        <TextEditor value={editorValue} onChange={setEditorValue} />
       </CommonDrawer>
     </Box>
   );
