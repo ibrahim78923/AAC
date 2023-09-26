@@ -5,9 +5,15 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import { Grid } from '@mui/material';
 import { useTheme } from '@mui/material';
-
+import { Theme } from '@mui/material/styles';
 const UserInfo = () => {
-  const theme = useTheme();
+  const theme = useTheme<Theme>();
+  const styles = {
+    mainCardBox: (theme: Theme) => ({
+      backgroundColor: theme?.blue?.main,
+    }),
+  };
+
   return (
     <Card sx={styles.mainCardBox(theme?.palette)}>
       <CardContent>
@@ -37,9 +43,3 @@ const UserInfo = () => {
   );
 };
 export default UserInfo;
-
-const styles = {
-  mainCardBox: (theme: any) => ({
-    backgroundColor: theme?.blue?.main,
-  }),
-};
