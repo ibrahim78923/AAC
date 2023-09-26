@@ -1,6 +1,7 @@
 import SuperAdminLayout from '@/layouts/SuperAdminLayout/SuperAdminLayout';
+import BillingAndInvoicesTable from '@/modules/BillingAndInvoices/BillingAndInvoicesTable';
 function BillingInvoicesPage() {
-  return <div>Billing and Invoices Page</div>;
+  return <BillingAndInvoicesTable />;
 }
 export default BillingInvoicesPage;
 BillingInvoicesPage.getLayout = function getLayout(page: any) {
