@@ -1,6 +1,10 @@
 import CommonDrawer from '@/components/Drawer';
+import { ViewBillingDetailsPropsI } from '@/types/modules/BillingAndDetails';
 import { Grid, Typography } from '@mui/material';
-const ViewBillingDetails = ({ isViewDetailOpen, setIsViewDeailOpen }: any) => {
+const ViewBillingDetails = ({
+  isViewDetailOpen,
+  setIsViewDeailOpen,
+}: ViewBillingDetailsPropsI) => {
   return (
     <CommonDrawer
       isDrawerOpen={isViewDetailOpen}
