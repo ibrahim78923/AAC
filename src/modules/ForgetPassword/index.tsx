@@ -7,7 +7,7 @@ import Link from 'next/link';
 import Box from '@mui/material/Box';
 import { styled } from '@mui/system';
 import InputField from '@/components/InputField';
-import Dashboard from '../../assets/images/shared/login-dashboard.svg';
+import Dashboard from '@/assets/images/shared/login-dashboard.svg';
 import { CompanyLogo } from '@/assets/images/shared/companylogo';
 
 export default function ForgetPasswords() {
@@ -127,18 +127,18 @@ export default function ForgetPasswords() {
                           height="23px"
                           autoComplete="off"
                           type="text"
-                          hasError={!!errors.email}
+                          hasError={!!errors?.email}
                         />
                       )}
                     />
 
-                    {errors.email && (
+                    {errors?.email && (
                       <Typography
                         variant="body1"
                         sx={{ color: theme?.palette?.error?.main }}
                       >
                         {' '}
-                        {errors.email.message}
+                        {errors?.email?.message}
                       </Typography>
                     )}
 

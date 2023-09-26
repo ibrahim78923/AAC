@@ -9,7 +9,7 @@ import { styled } from '@mui/system';
 import InputField from '@/components/InputField';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-import Dashboard from '../../assets/images/shared/login-dashboard.svg';
+import Dashboard from '@/assets/images/shared/login-dashboard.svg';
 import { CompanyLogo } from '@/assets/images/shared/companylogo';
 
 export default function Login() {
@@ -121,18 +121,18 @@ export default function Login() {
                       height="23px"
                       autoComplete="off"
                       type="text"
-                      hasError={!!errors.email}
+                      hasError={!!errors?.email}
                     />
                   )}
                 />
 
-                {errors.email && (
+                {errors?.email && (
                   <Typography
                     variant="body1"
                     sx={{ color: theme?.palette?.error?.main }}
                   >
                     {' '}
-                    {errors.email.message}
+                    {errors?.email?.message}
                   </Typography>
                 )}
 
@@ -152,7 +152,7 @@ export default function Login() {
                       width="100%"
                       height="23px"
                       autoComplete="off"
-                      hasError={!!errors.passwords}
+                      hasError={!!errors?.passwords}
                       type={isShowPassword ? 'text' : 'password'}
                       InputProps={{
                         endAdornment: (
@@ -179,13 +179,13 @@ export default function Login() {
                     />
                   )}
                 />
-                {errors.passwords && (
+                {errors?.passwords && (
                   <Typography
                     variant="body1"
                     sx={{ color: theme?.palette?.error?.main }}
                   >
                     {' '}
-                    {errors.passwords.message}
+                    {errors?.passwords?.message}
                   </Typography>
                 )}
                 <Button
