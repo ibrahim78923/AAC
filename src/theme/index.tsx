@@ -5,11 +5,9 @@ import {
   ThemeProvider as MUIThemeProvider,
 } from '@mui/material/styles';
 import GlobalStyles from '@mui/material/GlobalStyles';
-
 import palette from './palette';
 import typography from './typography';
 import breakpoints from './breakpoints';
-import { customShadows } from './shadows';
 
 // ----------------------------------------------------------------------
 
@@ -20,8 +18,6 @@ export default function ThemeProvider({ children }: { children: ReactNode }) {
     breakpoints,
     spacing: 10,
     shape: { borderRadius: 4 },
-    direction: 'rtl',
-    customShadows: customShadows.light,
   };
 
   const theme = createTheme(themeOptions);

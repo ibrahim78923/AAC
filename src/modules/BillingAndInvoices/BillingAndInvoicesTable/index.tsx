@@ -1,12 +1,14 @@
 import Search from '@/components/Search';
+import { useState } from 'react';
 
 function BillingAndInvoicesTable() {
-  const handleSearch = () => {};
+  const [searchByClientName, setSearchByClientName] = useState('');
+
   return (
     <Search
-      onChange={handleSearch}
+      searchBy={searchByClientName}
+      setSearchBy={setSearchByClientName}
       label="Search Here By Client Name"
-      height={56}
       width="260px"
     />
   );

@@ -2,23 +2,36 @@ import React from 'react';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import SearchShared from '@/assets/icons/shared/search-shared';
+import { debouncedSearch } from '@/utils';
 
-function Search({ onChange, label, width }: any) {
+function Search({ label, searchBy, setSearchBy }: any) {
+  const handleSearchValue = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    debouncedSearch(value, setSearchBy);
+  };
+
+  const handleChangeSearch = (e: any) => {
+    setSearchBy(e.target.value);
+    handleSearchValue(e);
+  };
   return (
     <TextField
-      onChange={onChange}
+      onChange={handleChangeSearch}
+      value={searchBy}
       sx={{
         background: 'transparent',
         '& .MuiOutlinedInput-root ': {
           '& fieldset': {
             textAlign: 'right',
             borderColor: '#E5E7EB',
-            width: width,
+            width: '260px',
             borderRadius: '8px',
-            color: '#6B7280',
+            '@media (max-width: 600px)': {
+              width: '100%', // Adjust the width for smaller screens
+            },
           },
-          '&:hover fieldset': {
-            borderColor: 'transparent',
+          '& .MuiInputBase-input': {
+            color: 'black',
           },
           '&.Mui-focused fieldset': {
             borderColor: '#E5E7EB',
@@ -26,8 +39,9 @@ function Search({ onChange, label, width }: any) {
         },
       }}
       id="outlined-basic"
-      label={label}
+      placeholder={label}
       variant="outlined"
+      autoComplete="off"
       InputProps={{
         endAdornment: (
           <InputAdornment position="end">
