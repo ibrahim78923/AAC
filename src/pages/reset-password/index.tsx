@@ -1,4 +1,4 @@
-import ResetPassword from '@/modules/ResetPassword/ResetPassword';
+import ResetPassword from '@/modules/ResetPassword';
 
 function ResetPasswordPage() {
   return (
