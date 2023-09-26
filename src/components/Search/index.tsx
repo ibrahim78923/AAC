@@ -4,7 +4,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import SearchShared from '@/assets/icons/shared/search-shared';
 import { debouncedSearch } from '@/utils';
 
-function Search({ label, searchBy, setSearchBy }: any) {
+function Search({ label, width, searchBy, setSearchBy }: any) {
   const handleSearchValue = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     debouncedSearch(value, setSearchBy);
@@ -24,7 +24,7 @@ function Search({ label, searchBy, setSearchBy }: any) {
           '& fieldset': {
             textAlign: 'right',
             borderColor: '#E5E7EB',
-            width: '260px',
+            width: width,
             borderRadius: '8px',
             '@media (max-width: 600px)': {
               width: '100%', // Adjust the width for smaller screens
