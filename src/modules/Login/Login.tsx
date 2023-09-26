@@ -1,17 +1,16 @@
 import React, { useState } from 'react';
 import { useTheme } from '@emotion/react';
 import { Grid, Button, InputAdornment, Typography } from '@mui/material';
-// import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
+import { useForm, Controller, FormProvider } from 'react-hook-form';
 import Image from 'next/image';
 import Link from 'next/link';
+import Box from '@mui/material/Box';
+import { styled } from '@mui/system';
+import InputField from '@/components/InputField';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import Dashboard from '../../assets/images/shared/login-dashboard.svg';
 import Logo from '../../assets/images/shared/company-logo.svg';
-import Box from '@mui/material/Box';
-import { styled } from '@mui/system';
-import { useForm, Controller, FormProvider } from 'react-hook-form';
-import InputField from '@/components/InputField';
 
 export default function Login() {
   const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
@@ -51,15 +50,13 @@ export default function Login() {
     color: '#38CAB5',
     fontWeight: '600',
   };
+
   const loginDashboard = {
     backgroundColor: 'rgb(245, 245, 245)',
     height: '100vh',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    // '@media (max-width: 900px)': {
-    //   display: "none",
-    // }
   };
 
   const formStyling = {
@@ -91,7 +88,7 @@ export default function Login() {
         <Grid item xs={12} md={6} lg={6}>
           <Box
             className="form-styled"
-            sx={{ width: { md: '60%', xs: '90%' }, margin: 'auto' }}
+            sx={{ width: { md: '60%', sm: '70%', xs: '90%' }, margin: 'auto' }}
           >
             <Typography variant="h2">Sign In to Air Applecart</Typography>
             <Typography variant="h6" sx={{ color: '#9CA3AF' }}>
@@ -197,7 +194,18 @@ export default function Login() {
             </FormProvider>
           </Box>
         </Grid>
-        <Grid item xs={0} md={6} lg={6} style={loginDashboard}>
+        <Grid
+          item
+          xs={0}
+          md={6}
+          lg={6}
+          style={loginDashboard}
+          sx={{
+            '@media (max-width: 900px)': {
+              display: 'none !important', // Hide the element when the screen width is less than 900px
+            },
+          }}
+        >
           <Image src={Dashboard} alt="dashborad" style={{ width: '100%' }} />
         </Grid>
       </Grid>

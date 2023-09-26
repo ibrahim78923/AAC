@@ -34,6 +34,13 @@ export default function InputField({
       autoFocus
       autoComplete={autoComplete}
       sx={{
+        '& div': {
+          border: 'none',
+          '&:hover fieldset': {
+            borderColor: '#88DFD3 !important',
+            boxShadow: '0px 0px 0px 3px #A0E5DB80',
+          },
+        },
         width: width,
         '& input': {
           height: height,
