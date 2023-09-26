@@ -90,7 +90,9 @@ export default function Login() {
             className="form-styled"
             sx={{ width: { md: '60%', sm: '70%', xs: '90%' }, margin: 'auto' }}
           >
-            <Typography variant="h2">Sign In to Air Applecart</Typography>
+            <Typography variant="h3" sx={{ color: '#1F2937' }}>
+              Sign In to Air Applecart
+            </Typography>
             <Typography variant="h6" sx={{ color: '#9CA3AF' }}>
               Let’s Get Started
             </Typography>
@@ -103,7 +105,13 @@ export default function Login() {
                   name="email"
                   control={control}
                   defaultValue=""
-                  rules={{ required: 'email is required' }}
+                  rules={{
+                    required: 'required field',
+                    pattern: {
+                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                      message: 'Invalid email address',
+                    },
+                  }}
                   render={({ field }) => (
                     <InputField
                       field={{ ...field }}
@@ -124,7 +132,7 @@ export default function Login() {
                     sx={{ color: theme?.palette?.error?.main }}
                   >
                     {' '}
-                    required field
+                    {errors.email.message}
                   </Typography>
                 )}
 
@@ -135,7 +143,7 @@ export default function Login() {
                   name="passwords"
                   control={control}
                   defaultValue=""
-                  rules={{ required: 'passwords is required' }}
+                  rules={{ required: 'required field' }}
                   render={({ field }) => (
                     <InputField
                       field={{ ...field }}
@@ -177,7 +185,7 @@ export default function Login() {
                     sx={{ color: theme?.palette?.error?.main }}
                   >
                     {' '}
-                    required field
+                    {errors.passwords.message}
                   </Typography>
                 )}
                 <Button

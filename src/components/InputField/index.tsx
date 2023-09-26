@@ -40,6 +40,9 @@ export default function InputField({
             borderColor: '#88DFD3 !important',
             boxShadow: '0px 0px 0px 3px #A0E5DB80',
           },
+          '&:focus fieldset': {
+            borderColor: 'none !important',
+          },
         },
         width: width,
         '& input': {
@@ -51,7 +54,7 @@ export default function InputField({
           color: 'black',
         },
         '& fieldset': {
-          border: `1.5px solid ${
+          border: `1px solid ${
             hasError ? theme?.palette?.error?.main : '#E5E7EB'
           }`,
         },
