@@ -7,7 +7,7 @@ import ViewBillingDetails from '../ViewBillingDetails';
 
 function BillingAndInvoicesTable() {
   const [searchByClientName, setSearchByClientName] = useState('');
-  const [isViewDetailOpen, setIsViewDeailOpen] = useState(false);
+  const [isViewDetailOpen, setIsViewDeailOpen] = useState<boolean>(false);
   return (
     <>
       <Grid>
