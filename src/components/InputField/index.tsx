@@ -1,17 +1,6 @@
 import { TextField } from '@mui/material';
 import { useTheme } from '@emotion/react';
-
-interface inputTextField {
-  field: any;
-  name: string;
-  placeholder: string;
-  width: string;
-  height: string;
-  autoComplete: string;
-  InputProps: any;
-  type: string;
-  hasError: any;
-}
+import { InterfaceInputTextField } from '@/types/modules/InputField';
 
 export default function InputField({
   field,
@@ -23,7 +12,7 @@ export default function InputField({
   InputProps,
   type,
   hasError,
-}: inputTextField) {
+}: InterfaceInputTextField) {
   const theme = useTheme();
   return (
     <TextField

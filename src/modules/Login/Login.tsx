@@ -10,7 +10,7 @@ import InputField from '@/components/InputField';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import Dashboard from '../../assets/images/shared/login-dashboard.svg';
-import Logo from '../../assets/images/shared/company-logo.svg';
+import { CompanyLogo } from '@/assets/images/shared/companylogo';
 
 export default function Login() {
   const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
@@ -72,7 +72,7 @@ export default function Login() {
     <Box sx={{ background: 'white', height: '100vh' }}>
       <AuthHeader>
         <Box>
-          <Image src={Logo} alt="Logo" style={{ width: '100%' }} />
+          <CompanyLogo />
         </Box>
         <Box>
           <Link href="/sign-up" variant="contained">
