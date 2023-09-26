@@ -4,6 +4,7 @@ import { Grid, Typography, Button } from '@mui/material';
 import PlusShared from '@/assets/icons/shared/plus-shared';
 import GenerateInvoice from '../GenerateInvoice';
 import ViewBillingDetails from '../ViewBillingDetails';
+
 function BillingAndInvoicesTable() {
   const [searchByClientName, setSearchByClientName] = useState('');
   const [isViewDetailOpen, setIsViewDeailOpen] = useState(false);
@@ -25,14 +26,6 @@ function BillingAndInvoicesTable() {
           </Grid>
         </Grid>
         <Grid container mt={2}>
-          <Grid item xs={6} sm={6}>
-            <Search
-              searchBy={searchByClientName}
-              setSearchBy={setSearchByClientName}
-              label="Search By Name"
-              width="260px"
-            />
-          </Grid>
           <Grid item xs={6} sm={6}>
             <Search
               searchBy={searchByClientName}
