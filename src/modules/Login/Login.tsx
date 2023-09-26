@@ -1,20 +1,26 @@
 import React, { useState } from 'react';
+import { useTheme } from '@emotion/react';
 import { Grid, Button, InputAdornment, Typography } from '@mui/material';
 // import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
 import Image from 'next/image';
 import Link from 'next/link';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-// import Dashboard from '../../assets/images/shared/login-dashboard.svg';
+import Dashboard from '../../assets/images/shared/login-dashboard.svg';
 import Logo from '../../assets/images/shared/company-logo.svg';
 import Box from '@mui/material/Box';
 import { styled } from '@mui/system';
 import { useForm, Controller, FormProvider } from 'react-hook-form';
 import InputField from '@/components/InputField';
 
-export default function ForgetPassword() {
+export default function Login() {
   const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
-  const { handleSubmit, control } = useForm();
+  const theme = useTheme();
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm();
 
   const AuthHeader = styled('div')({
     display: 'flex',
@@ -45,16 +51,16 @@ export default function ForgetPassword() {
     color: '#38CAB5',
     fontWeight: '600',
   };
-  // const loginDashboard = {
-  //   backgroundColor: 'rgb(245, 245, 245)',
-  //   height: '100vh',
-  //   display: 'flex',
-  //   alignItems: 'center',
-  //   justifyContent: 'center',
-  //   // '@media (max-width: 900px)': {
-  //   //   display: "none",
-  //   // }
-  // };
+  const loginDashboard = {
+    backgroundColor: 'rgb(245, 245, 245)',
+    height: '100vh',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    // '@media (max-width: 900px)': {
+    //   display: "none",
+    // }
+  };
 
   const formStyling = {
     display: 'grid',
@@ -63,9 +69,7 @@ export default function ForgetPassword() {
     padding: '30px',
     marginTop: '30px',
   };
-  const onSubmit = () => {
-    // console.log(data);
-  };
+  const onSubmit = () => {};
 
   return (
     <Box sx={{ background: 'white', height: '100vh' }}>
@@ -87,7 +91,7 @@ export default function ForgetPassword() {
         <Grid item xs={12} md={6} lg={6}>
           <Box
             className="form-styled"
-            sx={{ width: { md: '70%', xs: '90%' }, margin: 'auto' }}
+            sx={{ width: { md: '60%', xs: '90%' }, margin: 'auto' }}
           >
             <Typography variant="h2">Sign In to Air Applecart</Typography>
             <Typography variant="h6" sx={{ color: '#9CA3AF' }}>
@@ -99,22 +103,35 @@ export default function ForgetPassword() {
                   Email <span style={{ color: 'red' }}>*</span>
                 </label>
                 <Controller
-                  name="emails"
+                  name="email"
                   control={control}
                   defaultValue=""
-                  rules={{ required: 'Email is required' }}
+                  rules={{ required: 'email is required' }}
                   render={({ field }) => (
                     <InputField
                       field={{ ...field }}
-                      name="emails"
+                      name="email"
                       placeholder="Enter email"
                       width="100%"
                       height="23px"
                       autoComplete="off"
+                      type="text"
+                      hasError={!!errors.email}
                     />
                   )}
                 />
-                <label style={{ marginBottom: '8px', marginTop: '5px' }}>
+
+                {errors.email && (
+                  <Typography
+                    variant="body1"
+                    sx={{ color: theme?.palette?.error?.main }}
+                  >
+                    {' '}
+                    required field
+                  </Typography>
+                )}
+
+                <label style={{ marginBottom: '8px', marginTop: '10px' }}>
                   password <span style={{ color: 'red' }}>*</span>
                 </label>
                 <Controller
@@ -130,6 +147,7 @@ export default function ForgetPassword() {
                       width="100%"
                       height="23px"
                       autoComplete="off"
+                      hasError={!!errors.passwords}
                       type={isShowPassword ? 'text' : 'password'}
                       InputProps={{
                         endAdornment: (
@@ -154,46 +172,21 @@ export default function ForgetPassword() {
                         ),
                       }}
                     />
-
-                    // <TextField
-                    //   {...field}
-                    //   fullWidth
-                    //   id="password"
-                    //   name="passwords"
-                    //   variant="outlined"
-                    //   required
-                    //   type={isShowPassword ? "text" : "password"}
-                    //   placeholder="Enter password"
-                    //   autoComplete='off'
-                    //   size="medium"
-                    //   className="sign-in-input"
-                    //   sx={{
-                    //     "& input": {
-                    //       height: "25px",
-                    //       borderRadius: "8px",
-                    //       fontSize: "16px",
-                    //       padding: "10px",
-                    //     },
-
-                    //   }}
-                    //   InputProps={{
-                    //     endAdornment: (
-                    //       <InputAdornment
-                    //         position="end"
-                    //         sx={{ width: "30px", cursor: "pointer" }}
-                    //       >
-                    //         {isShowPassword ? <RemoveRedEyeIcon onClick={() => setIsShowPassword(!isShowPassword)} /> : <VisibilityOffIcon onClick={() => setIsShowPassword(!isShowPassword)} />}
-                    //       </InputAdornment>
-                    //     ),
-                    //   }}
-                    // />
                   )}
                 />
-
+                {errors.passwords && (
+                  <Typography
+                    variant="body1"
+                    sx={{ color: theme?.palette?.error?.main }}
+                  >
+                    {' '}
+                    required field
+                  </Typography>
+                )}
                 <Button
                   type="submit"
                   variant="contained"
-                  sx={{ marginY: '20px' }}
+                  sx={{ marginY: '30px' }}
                 >
                   Sign In
                 </Button>
@@ -204,9 +197,9 @@ export default function ForgetPassword() {
             </FormProvider>
           </Box>
         </Grid>
-        {/* <Grid item xs={0} md={6} lg={6} style={loginDashboard}>
-          <Image src={Dashboard} alt="dashborad" style={{ width: "100%" }} />
-        </Grid> */}
+        <Grid item xs={0} md={6} lg={6} style={loginDashboard}>
+          <Image src={Dashboard} alt="dashborad" style={{ width: '100%' }} />
+        </Grid>
       </Grid>
     </Box>
   );
