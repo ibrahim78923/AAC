@@ -13,7 +13,6 @@ const ReactQuill = dynamic(() => import('react-quill'), {
 });
 const TextEditor = ({ value, onChange }: TextEditorPropsI) => {
   const theme = useTheme();
-
   const modules = {
     toolbar: {
       container: [
@@ -25,7 +24,6 @@ const TextEditor = ({ value, onChange }: TextEditorPropsI) => {
       ],
     },
   };
-
   return (
     <Box
       sx={{
@@ -38,6 +36,7 @@ const TextEditor = ({ value, onChange }: TextEditorPropsI) => {
         },
         '& .ql-container.ql-snow': {
           border: 'none',
+          height: '110px',
         },
       }}
     >

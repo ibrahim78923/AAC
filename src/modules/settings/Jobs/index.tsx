@@ -8,9 +8,7 @@ import TextEditor from '@/components/TextEditor';
 const Jobs = () => {
   const [isJobPostingDrawer, setIsJobPostingDrawer] = useState(false);
   const [editorValue, setEditorValue] = useState<string>('');
-
   const handelPostJob = () => {};
-
   return (
     <Box
       sx={{
@@ -43,7 +41,6 @@ const Jobs = () => {
           Post a Job
         </Button>
       </Box>
-
       <Box>Common table</Box>
       <CommonDrawer
         isDrawerOpen={isJobPostingDrawer}
