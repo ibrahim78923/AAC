@@ -8,7 +8,7 @@ import Box from '@mui/material/Box';
 import { styled } from '@mui/system';
 import InputField from '@/components/InputField';
 import Dashboard from '../../assets/images/shared/login-dashboard.svg';
-import Logo from '../../assets/images/shared/company-logo.svg';
+import { CompanyLogo } from '@/assets/images/shared/companylogo';
 
 export default function ForgetPasswords() {
   const [emailSuccess, setEmailSuccess] = useState<boolean>(false);
@@ -66,7 +66,7 @@ export default function ForgetPasswords() {
     <Box sx={{ background: 'white', height: '100vh' }}>
       <AuthHeader>
         <Box>
-          <Image src={Logo} alt="Logo" style={{ width: '100%' }} />
+          <CompanyLogo />
         </Box>
         <Box>
           <Link href="/login" variant="contained">
