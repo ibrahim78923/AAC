@@ -6,14 +6,14 @@ import Typography from '@mui/material/Typography';
 import { Grid } from '@mui/material';
 import { useTheme } from '@mui/material';
 import { Theme } from '@mui/material/styles';
+
+const styles = {
+  mainCardBox: (theme: Theme) => ({
+    backgroundColor: theme?.blue?.main,
+  }),
+};
 const UserInfo = () => {
   const theme = useTheme<Theme>();
-  const styles = {
-    mainCardBox: (theme: Theme) => ({
-      backgroundColor: theme?.blue?.main,
-    }),
-  };
-
   return (
     <Card sx={styles.mainCardBox(theme?.palette)}>
       <CardContent>
