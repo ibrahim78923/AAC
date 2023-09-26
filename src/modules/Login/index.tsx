@@ -9,8 +9,54 @@ import { styled } from '@mui/system';
 import InputField from '@/components/InputField';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-import Dashboard from '../../assets/images/shared/login-dashboard.svg';
+import Dashboard from '@/assets/images/shared/login-dashboard.svg';
 import { CompanyLogo } from '@/assets/images/shared/companylogo';
+
+const AuthHeader = styled('div')({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  position: 'fixed',
+  top: 20,
+  width: '100%',
+  zIndex: 1,
+  padding: '0 7%',
+  '& a': {
+    backgroundColor: '#41CCB8',
+    color: '#fff',
+    border: 'none',
+    borderRadius: '5px',
+    fontSize: '16px',
+    cursor: 'pointer',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '85px',
+    height: '44px',
+  },
+});
+
+const aTag = {
+  textAlign: 'center',
+  color: '#38CAB5',
+  fontWeight: '600',
+};
+
+const loginDashboard = {
+  backgroundColor: 'rgb(245, 245, 245)',
+  height: '100vh',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+};
+
+const formStyling = {
+  display: 'grid',
+  border: '1.5px solid #E5E7EB',
+  borderRadius: '8px',
+  padding: '30px',
+  marginTop: '30px',
+};
 
 export default function Login() {
   const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
@@ -21,51 +67,6 @@ export default function Login() {
     formState: { errors },
   } = useForm();
 
-  const AuthHeader = styled('div')({
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    position: 'fixed',
-    top: 20,
-    width: '100%',
-    zIndex: 1,
-    padding: '0 7%',
-    '& a': {
-      backgroundColor: '#41CCB8',
-      color: '#fff',
-      border: 'none',
-      borderRadius: '5px',
-      fontSize: '16px',
-      cursor: 'pointer',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      width: '85px',
-      height: '44px',
-    },
-  });
-
-  const aTag = {
-    textAlign: 'center',
-    color: '#38CAB5',
-    fontWeight: '600',
-  };
-
-  const loginDashboard = {
-    backgroundColor: 'rgb(245, 245, 245)',
-    height: '100vh',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  };
-
-  const formStyling = {
-    display: 'grid',
-    border: '1.5px solid #E5E7EB',
-    borderRadius: '8px',
-    padding: '30px',
-    marginTop: '30px',
-  };
   const onSubmit = () => {};
 
   return (
@@ -90,7 +91,9 @@ export default function Login() {
             className="form-styled"
             sx={{ width: { md: '60%', sm: '70%', xs: '90%' }, margin: 'auto' }}
           >
-            <Typography variant="h2">Sign In to Air Applecart</Typography>
+            <Typography variant="h3" sx={{ color: '#1F2937' }}>
+              Sign In to Air Applecart
+            </Typography>
             <Typography variant="h6" sx={{ color: '#9CA3AF' }}>
               Let’s Get Started
             </Typography>
@@ -103,7 +106,13 @@ export default function Login() {
                   name="email"
                   control={control}
                   defaultValue=""
-                  rules={{ required: 'email is required' }}
+                  rules={{
+                    required: 'required field',
+                    pattern: {
+                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                      message: 'Invalid email address',
+                    },
+                  }}
                   render={({ field }) => (
                     <InputField
                       field={{ ...field }}
@@ -113,18 +122,18 @@ export default function Login() {
                       height="23px"
                       autoComplete="off"
                       type="text"
-                      hasError={!!errors.email}
+                      hasError={!!errors?.email}
                     />
                   )}
                 />
 
-                {errors.email && (
+                {errors?.email && (
                   <Typography
                     variant="body1"
                     sx={{ color: theme?.palette?.error?.main }}
                   >
                     {' '}
-                    required field
+                    {errors?.email?.message}
                   </Typography>
                 )}
 
@@ -135,7 +144,7 @@ export default function Login() {
                   name="passwords"
                   control={control}
                   defaultValue=""
-                  rules={{ required: 'passwords is required' }}
+                  rules={{ required: 'required field' }}
                   render={({ field }) => (
                     <InputField
                       field={{ ...field }}
@@ -144,7 +153,7 @@ export default function Login() {
                       width="100%"
                       height="23px"
                       autoComplete="off"
-                      hasError={!!errors.passwords}
+                      hasError={!!errors?.passwords}
                       type={isShowPassword ? 'text' : 'password'}
                       InputProps={{
                         endAdornment: (
@@ -171,13 +180,13 @@ export default function Login() {
                     />
                   )}
                 />
-                {errors.passwords && (
+                {errors?.passwords && (
                   <Typography
                     variant="body1"
                     sx={{ color: theme?.palette?.error?.main }}
                   >
                     {' '}
-                    required field
+                    {errors?.passwords?.message}
                   </Typography>
                 )}
                 <Button
