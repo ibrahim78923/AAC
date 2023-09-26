@@ -9,7 +9,7 @@ import GlobalStyles from '@mui/material/GlobalStyles';
 import palette from './palette';
 import typography from './typography';
 import breakpoints from './breakpoints';
-import shadows, { customShadows } from './shadows';
+import { customShadows } from './shadows';
 
 // ----------------------------------------------------------------------
 
@@ -21,7 +21,6 @@ export default function ThemeProvider({ children }: { children: ReactNode }) {
     spacing: 10,
     shape: { borderRadius: 4 },
     direction: 'rtl',
-    shadows: shadows.light,
     customShadows: customShadows.light,
   };
 
