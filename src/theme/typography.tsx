@@ -50,9 +50,9 @@ const typography = {
     fontSize: pxToRem(20),
   },
   subtitle2: {
-    fontWeight: 500,
+    fontWeight: 700,
     lineHeight: 1.5,
-    fontSize: pxToRem(12),
+    fontSize: pxToRem(16),
   },
   body1: {
     lineHeight: 1.5,
@@ -69,7 +69,7 @@ const typography = {
   overline: {
     fontWeight: 700,
     lineHeight: 1.5,
-    fontSize: pxToRem(12),
+    fontSize: pxToRem(16),
     textTransform: 'uppercase',
   },
   button: {
