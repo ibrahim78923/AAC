@@ -1,4 +1,4 @@
-import ForgetPassword from '@/modules/ForgetPassword/ForgetPassword';
+import ForgetPassword from '@/modules/ForgetPassword';
 
 function ForgetPasswordPage() {
   return (

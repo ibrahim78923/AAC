@@ -7,66 +7,68 @@ import Link from 'next/link';
 import Box from '@mui/material/Box';
 import { styled } from '@mui/system';
 import InputField from '@/components/InputField';
-import Dashboard from '../../assets/images/shared/login-dashboard.svg';
-import Logo from '../../assets/images/shared/company-logo.svg';
+import Dashboard from '@/assets/images/shared/login-dashboard.svg';
+import { CompanyLogo } from '@/assets/images/shared/companylogo';
 
-export default function ForgetPasswords() {
-  const [emailSuccess, setEmailSuccess] = useState<boolean>(false);
+const AuthHeader = styled('div')({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  position: 'fixed',
+  top: 20,
+  width: '100%',
+  zIndex: 1,
+  padding: '0 7%',
+  '& a': {
+    backgroundColor: '#41CCB8',
+    color: '#fff',
+    border: 'none',
+    borderRadius: '5px',
+    fontSize: '16px',
+    cursor: 'pointer',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '85px',
+    height: '44px',
+  },
+});
+
+const loginDashboard = {
+  backgroundColor: 'rgb(245, 245, 245)',
+  height: '100vh',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+};
+
+const formStyling = {
+  display: 'grid',
+  border: '1.5px solid #E5E7EB',
+  borderRadius: '8px',
+  padding: '30px',
+  marginTop: '30px',
+};
+
+export default function ForgetPassword() {
+  const [isEmailSuccess, setIsEmailSuccess] = useState<boolean>(false);
   const theme = useTheme();
+
   const {
     handleSubmit,
     control,
     formState: { errors },
   } = useForm();
 
-  const AuthHeader = styled('div')({
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    position: 'fixed',
-    top: 20,
-    width: '100%',
-    zIndex: 1,
-    padding: '0 7%',
-    '& a': {
-      backgroundColor: '#41CCB8',
-      color: '#fff',
-      border: 'none',
-      borderRadius: '5px',
-      fontSize: '16px',
-      cursor: 'pointer',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      width: '85px',
-      height: '44px',
-    },
-  });
-
-  const loginDashboard = {
-    backgroundColor: 'rgb(245, 245, 245)',
-    height: '100vh',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  };
-
-  const formStyling = {
-    display: 'grid',
-    border: '1.5px solid #E5E7EB',
-    borderRadius: '8px',
-    padding: '30px',
-    marginTop: '30px',
-  };
   const onSubmit = () => {
-    setEmailSuccess(true);
+    setIsEmailSuccess(true);
   };
 
   return (
     <Box sx={{ background: 'white', height: '100vh' }}>
       <AuthHeader>
         <Box>
-          <Image src={Logo} alt="Logo" style={{ width: '100%' }} />
+          <CompanyLogo />
         </Box>
         <Box>
           <Link href="/login" variant="contained">
@@ -90,7 +92,7 @@ export default function ForgetPasswords() {
             >
               Forget Password{' '}
             </Typography>
-            {!emailSuccess && (
+            {!isEmailSuccess && (
               <Typography
                 variant="h6"
                 sx={{ color: '#9CA3AF', textAlign: 'center' }}
@@ -102,7 +104,19 @@ export default function ForgetPasswords() {
 
             <FormProvider>
               <form onSubmit={handleSubmit(onSubmit)} style={formStyling}>
-                {!emailSuccess ? (
+                {isEmailSuccess ? (
+                  <>
+                    <Typography variant="h3" sx={{ textAlign: 'center' }}>
+                      Email Sent
+                    </Typography>
+                    <Typography
+                      variant="h6"
+                      sx={{ textAlign: 'center', marginTop: '20px' }}
+                    >
+                      Password reset email has been sent to registered email.
+                    </Typography>
+                  </>
+                ) : (
                   <>
                     <label style={{ marginBottom: '8px', marginTop: '5px' }}>
                       Email <span style={{ color: 'red' }}>*</span>
@@ -127,18 +141,18 @@ export default function ForgetPasswords() {
                           height="23px"
                           autoComplete="off"
                           type="text"
-                          hasError={!!errors.email}
+                          hasError={!!errors?.email}
                         />
                       )}
                     />
 
-                    {errors.email && (
+                    {errors?.email && (
                       <Typography
                         variant="body1"
                         sx={{ color: theme?.palette?.error?.main }}
                       >
                         {' '}
-                        {errors.email.message}
+                        {errors?.email?.message}
                       </Typography>
                     )}
 
@@ -149,18 +163,6 @@ export default function ForgetPasswords() {
                     >
                       Continue
                     </Button>
-                  </>
-                ) : (
-                  <>
-                    <Typography variant="h3" sx={{ textAlign: 'center' }}>
-                      Email Sent
-                    </Typography>
-                    <Typography
-                      variant="h6"
-                      sx={{ textAlign: 'center', marginTop: '20px' }}
-                    >
-                      Password reset email has been sent to registered email.
-                    </Typography>
                   </>
                 )}
               </form>
