@@ -33,11 +33,13 @@ function SubscriptionInvoices() {
             <Tab label="Payment Methods" value="paymentMethods" />
           </TabList>
         </Box>
-        <TabPanel value="subscription">
-          <Subscriptions />
-        </TabPanel>
-        <TabPanel value="invoices">Item Two</TabPanel>
-        <TabPanel value="paymentMethods">Item Three</TabPanel>
+        <Box sx={{ pt: '40px', '& .MuiTabPanel-root': { p: '0' } }}>
+          <TabPanel value="subscription">
+            <Subscriptions />
+          </TabPanel>
+          <TabPanel value="invoices">Item Two</TabPanel>
+          <TabPanel value="paymentMethods">Item Three</TabPanel>
+        </Box>
       </TabContext>
     </>
   );

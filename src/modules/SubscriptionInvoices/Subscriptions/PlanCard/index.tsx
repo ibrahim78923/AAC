@@ -1,8 +1,8 @@
 import React, { FC, useEffect } from 'react';
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, Typography, Stack } from '@mui/material';
 interface PlanCardProps {
   status?: string;
-  icon: React.ReactNode;
+  icon: any;
   title: string;
   planDuration?: string;
   planUsers?: string;
@@ -10,11 +10,12 @@ interface PlanCardProps {
   price: string;
   billOn: string;
   type?: string;
-  navigateToBillingDetail?: any;
-  navigateToManagePlan?: any;
+  handleBillingDetail?: any;
+  handleManagePlan?: any;
 }
 
 const PlanCard: FC<PlanCardProps> = ({
+  status,
   icon,
   title,
   planDuration,
@@ -23,9 +24,76 @@ const PlanCard: FC<PlanCardProps> = ({
   price,
   billOn,
   type,
+  handleBillingDetail,
 }) => {
   /* VARIABLE DECLARATION
   -------------------------------------------------------------------------------------*/
+  const planCard = {
+    border: `1px solid #E5E7EB`,
+    borderRadius: `20px 4px 20px 4px`,
+  };
+  const planStatus = {
+    display: `flex`,
+    justifyContent: `flex-end`,
+    padding: `20px 20px 9px 20px`,
+    minHeight: '57px',
+  };
+  const planActiveChip = {
+    fontSize: `14px`,
+    lineHeight: `1.42857`,
+    color: `#47B263`,
+    backgroundColor: `#E4FFEB`,
+    padding: `4px 12px`,
+    borderRadius: `16px`,
+  };
+  const planIcon = {
+    borderRadius: `50%`,
+    height: `51px`,
+    width: `51px`,
+    backgroundColor: `#EBFAF8`,
+    margin: `0 auto`,
+    display: `flex`,
+    alignItems: `center`,
+    justifyContent: `center`,
+  };
+  const planTitle = {
+    textAlign: 'center',
+    fontWeight: '600',
+  };
+  const planPlan = {
+    fontSize: '12px',
+    fontWeight: '500',
+    color: '#374151',
+    textAlign: 'center',
+    mt: '4px',
+    pb: '16px',
+  };
+  const planStrip = {
+    backgroundColor: `#EBFAF8`,
+    p: `9px`,
+    textAlign: `center`,
+  };
+  const planPrice = {
+    fontSize: '32px',
+    fontWeight: '700',
+    lineHeight: '1.5',
+  };
+  const planBillOn = {
+    color: `#6B7280`,
+    lineHeight: '1.42857',
+  };
+  const planType = {
+    fontSize: '16px',
+    lineHeight: '1.5',
+    fontWeight: '500',
+    color: '#1F2937',
+    textAlign: 'center',
+    mt: '10px',
+  };
+  const planActions = {
+    p: '24px 20px',
+    justifyContent: 'center',
+  };
 
   /* EVENT FUNCTIONS
   -------------------------------------------------------------------------------------*/
@@ -37,75 +105,39 @@ const PlanCard: FC<PlanCardProps> = ({
   /* RENDER COMPONENT
   -------------------------------------------------------------------------------------*/
   return (
-    <Box
-      sx={{
-        border: `1px solid #E5E7EB`,
-        borderRadius: `20px 4px 20px 4px`,
-      }}
-    >
-      <Box
-        sx={{
-          display: `flex`,
-          justifyContent: `flex-end`,
-          padding: `20px 20px 9px 20px`,
-        }}
-      >
-        <Box
-          sx={{
-            fontSize: `14px`,
-            lineHeight: `1.42857`,
-            color: `#47B263`,
-            backgroundColor: `#E4FFEB`,
-            padding: `4px 12px`,
-            borderRadius: `16px`,
-          }}
-        >
-          Active
-        </Box>
+    <Box sx={planCard}>
+      <Box sx={planStatus}>
+        {status === 'active' && <Box sx={planActiveChip}>Active</Box>}
       </Box>
-      <Box
-        sx={{
-          borderRadius: `50%`,
-          height: `51px`,
-          width: `51px`,
-          backgroundColor: `#EBFAF8`,
-          margin: `0 auto`,
-          display: `flex`,
-          alignItems: `center`,
-          justifyContent: `center`,
-        }}
-      >
-        {icon}
-      </Box>
-      <Typography
-        variant={`h5`}
-        sx={{ textAlign: 'center', fontWeight: '600' }}
-      >
+
+      <Box sx={planIcon}>{icon}</Box>
+
+      <Typography variant={`h5`} sx={planTitle}>
         {title}
       </Typography>
-      <Box>
+
+      <Box sx={planPlan}>
         <Box component={'span'} sx={{ color: '#9CA3AF' }}>
-          {planDuration}
+          {planDuration}{' '}
         </Box>
-        ({planUsers}/{planData})
+        ({planUsers} users / {planData})
       </Box>
-      <Box
-        sx={{
-          backgroundColor: `#EBFAF8`,
-          p: `9px`,
-          textAlign: `center`,
-        }}
-      >
-        <Typography variant={`h2`}>£{price}</Typography>
-        <Typography variant="body2" sx={{ color: `#6B7280` }}>
-          {billOn}
+
+      <Box sx={planStrip}>
+        <Box sx={planPrice}>£{price}</Box>
+        <Typography variant="body2" sx={planBillOn}>
+          {status === 'active' ? `To be billed on ${billOn}` : '-'}
         </Typography>
       </Box>
-      <Typography variant="h6">{type}</Typography>
-      <div className="plan-card-actions">
-        <Button variant="contained">Billing Details</Button>
-        <Button>Manage Plan</Button>
-      </div>
+
+      <Box sx={planType}>{type}</Box>
+
+      <Stack spacing={'12px'} useFlexGap direction={'row'} sx={planActions}>
+        <Button variant="contained" onClick={handleBillingDetail}>
+          Billing Details
+        </Button>
+        <Button variant="outlined">Manage Plan</Button>
+      </Stack>
     </Box>
   );
 };

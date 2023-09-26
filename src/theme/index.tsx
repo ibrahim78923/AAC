@@ -20,7 +20,6 @@ export default function ThemeProvider({ children }: { children: ReactNode }) {
     breakpoints,
     spacing: 10,
     shape: { borderRadius: 4 },
-    direction: 'rtl',
     customShadows: customShadows.light,
   };
 

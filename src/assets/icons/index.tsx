@@ -1,3 +1,6 @@
+// Icons Shared
+export { default as IconCloseDrawer } from './shared/icon-close-drawer';
+
 // Icons Organization Admin Sucbscription & Invoices Module
 export { default as IconProductSales } from './modules/OrganizationSubscription/icon-product-sales';
 export { default as IconProductService } from './modules/OrganizationSubscription/icon-product-service';
