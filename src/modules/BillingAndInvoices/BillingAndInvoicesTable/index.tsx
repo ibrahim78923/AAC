@@ -1,9 +1,10 @@
 import Search from '@/components/Search';
 import { useState } from 'react';
 import { Grid, Typography, Button } from '@mui/material';
-import PlusShared from '@/assets/icons/shared/plus-shared';
+
 import GenerateInvoice from '../GenerateInvoice';
 import ViewBillingDetails from '../ViewBillingDetails';
+import PlusSharedIcon from '@/assets/icons/shared/plus-shared';
 
 function BillingAndInvoicesTable() {
   const [searchByClientName, setSearchByClientName] = useState('');
@@ -18,7 +19,7 @@ function BillingAndInvoicesTable() {
           <Grid item xs={6} sm={6} sx={{ textAlign: 'end' }}>
             <Button
               onClick={() => setIsViewDeailOpen(true)}
-              startIcon={<PlusShared />}
+              startIcon={<PlusSharedIcon />}
               variant="contained"
             >
               Assign Plan
