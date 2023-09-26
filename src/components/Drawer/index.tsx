@@ -7,11 +7,8 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
-import Image from 'next/image';
-//types
 import { CommonDrawerPropsI } from '@/types/shared/Drawer';
-//icons
-import closeIcon from '../../assets/icons/shared/close-icon.svg';
+import CloseIcon from '@/assets/icons/shared/close-icon';
 
 const CommonDrawer = ({
   isDrawerOpen,
@@ -31,6 +28,7 @@ const CommonDrawer = ({
       sx={{
         '& .css-yaabfu-MuiPaper-root-MuiDrawer-paper': {
           borderRadius: '30px 0px 0px 30px !important',
+          color: 'black',
         },
       }}
     >
@@ -54,11 +52,9 @@ const CommonDrawer = ({
             }}
           >
             <Typography variant="h5">{title}</Typography>
-            <Image
-              src={closeIcon}
-              alt="close"
-              onClick={() => setIsDrawerOpen(false)}
-            />
+            <Box onClick={() => setIsDrawerOpen(false)}>
+              <CloseIcon />
+            </Box>
           </Toolbar>
         </AppBar>
         <Box flex="1" overflow="scroll">
