@@ -1,5 +1,5 @@
 import React from 'react';
-import InvoicvesListView from './ListView';
+import InvoicvesListView from './ListView/ListView';
 
 const SalesInvoices = () => {
   return (
