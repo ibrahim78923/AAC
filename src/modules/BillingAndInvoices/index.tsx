@@ -1,6 +1,6 @@
 import BillingAndInvoicesTable from './BillingAndInvoicesTable';
 
-function BillingAndInvoices() {
+const BillingAndInvoices = () => {
   return <BillingAndInvoicesTable />;
-}
+};
 export default BillingAndInvoices;

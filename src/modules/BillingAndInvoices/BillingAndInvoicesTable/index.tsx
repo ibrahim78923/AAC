@@ -6,7 +6,7 @@ import GenerateInvoice from '../GenerateInvoice';
 import ViewBillingDetails from '../ViewBillingDetails';
 import PlusSharedIcon from '@/assets/icons/shared/plus-shared';
 
-function BillingAndInvoicesTable() {
+const BillingAndInvoicesTable = () => {
   const [searchByClientName, setSearchByClientName] = useState('');
   const [isViewDetailOpen, setIsViewDeailOpen] = useState<boolean>(false);
   return (
@@ -44,6 +44,6 @@ function BillingAndInvoicesTable() {
       />
     </>
   );
-}
+};
 
 export default BillingAndInvoicesTable;

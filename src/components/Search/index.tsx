@@ -6,7 +6,7 @@ import { useTheme } from '@mui/material';
 import { SearchPropsI } from '@/types/shared/Search';
 import SearchSharedIcon from '@/assets/icons/shared/search-shared';
 
-function Search({ label, width, searchBy, setSearchBy }: SearchPropsI) {
+const Search = ({ label, width, searchBy, setSearchBy }: SearchPropsI) => {
   const theme = useTheme();
   const handleChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchBy(e.target.value);
@@ -53,6 +53,6 @@ function Search({ label, width, searchBy, setSearchBy }: SearchPropsI) {
       }}
     />
   );
-}
+};
 
 export default Search;
