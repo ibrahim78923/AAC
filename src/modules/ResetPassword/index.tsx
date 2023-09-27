@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTheme } from '@emotion/react';
 import { Grid, Button, Typography } from '@mui/material';
 import { useForm, Controller, FormProvider } from 'react-hook-form';
@@ -8,7 +8,9 @@ import Box from '@mui/material/Box';
 import { styled } from '@mui/system';
 import InputField from '@/components/InputField';
 import Dashboard from '@/assets/images/shared/login-dashboard.svg';
+import resetPasswordSuccess from '@/assets/icons/shared/onSuccess.gif';
 import { CompanyLogo } from '@/assets/images/shared/companylogo';
+import { useRouter } from 'next/router';
 
 const AuthHeader = styled('div')({
   display: 'flex',
@@ -51,6 +53,10 @@ const formStyling = {
 };
 
 export default function ResetPassword() {
+  const [isShowError, setIsShowError] = useState<boolean>(false);
+  const [isMatchPassword, setIsMatchPassword] = useState<boolean>(false);
+  const [isSuccess, setIsSuccess] = useState<boolean>(false);
+  const router = useRouter();
   const theme = useTheme();
   const {
     handleSubmit,
@@ -58,12 +64,27 @@ export default function ResetPassword() {
     formState: { errors },
   } = useForm();
 
-  const isPasswordValid = (password) => {
+  const isPasswordValid = (password: string) => {
     const regex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{8,}$/;
     return regex.test(password);
   };
 
-  const onSubmit = () => {};
+  const onSubmit = (data: any) => {
+    const { newPassword, confirmPassword } = data;
+
+    if (isPasswordValid(newPassword)) {
+      if (newPassword !== confirmPassword) {
+        setIsMatchPassword(true);
+      } else {
+        setIsMatchPassword(false);
+        setIsSuccess(true);
+
+        setTimeout(() => {
+          router.push('/login');
+        }, 2000);
+      }
+    }
+  };
 
   return (
     <Box sx={{ background: 'white', height: '100vh' }}>
@@ -72,8 +93,8 @@ export default function ResetPassword() {
           <CompanyLogo />
         </Box>
         <Box>
-          <Link href="/sign-up" variant="contained">
-            SignUp
+          <Link href="/login" variant="contained">
+            Sign In
           </Link>
         </Box>
       </AuthHeader>
@@ -87,97 +108,139 @@ export default function ResetPassword() {
             className="form-styled"
             sx={{ width: { md: '60%', sm: '70%', xs: '90%' }, margin: 'auto' }}
           >
-            <Typography
-              variant="h3"
-              sx={{ textAlign: 'center', color: '#1F2937' }}
-            >
-              Reset Password
-            </Typography>
+            {!isSuccess && (
+              <Typography
+                variant="h3"
+                sx={{ textAlign: 'center', color: '#1F2937' }}
+              >
+                Reset Password
+              </Typography>
+            )}
 
             <FormProvider>
               <form onSubmit={handleSubmit(onSubmit)} style={formStyling}>
-                <label style={{ marginBottom: '8px', marginTop: '10px' }}>
-                  New password <span style={{ color: 'red' }}>*</span>
-                </label>
-                <Controller
-                  name="newPasswords"
-                  control={control}
-                  defaultValue=""
-                  rules={{
-                    required: 'required field',
-                    validate: (value) =>
-                      isPasswordValid(value) ||
-                      'Password does not meet criteria',
-                  }}
-                  render={({ field }) => (
-                    <InputField
-                      field={{ ...field }}
-                      name="newPasswords"
-                      placeholder="Enter password"
-                      width="100%"
-                      height="23px"
-                      autoComplete="off"
-                      hasError={!!errors?.newPasswords}
-                      type="text"
+                {isSuccess ? (
+                  <Box sx={{ textAlign: 'center' }}>
+                    <Typography
+                      variant="h3"
+                      sx={{ marginBottom: '15px', color: '#1F2937' }}
+                    >
+                      Reset Password
+                    </Typography>
+
+                    <Image
+                      src={resetPasswordSuccess}
+                      alt="successIcon"
+                      style={{ width: '170px', height: '170px' }}
                     />
-                  )}
-                />
-                <Typography
-                  variant="subtitle2"
-                  sx={{ marginTop: '7px', color: theme?.palette?.error?.main }}
-                >
-                  The Password must be at least 8 characters long having 1
-                  capital letter,1 small letter and 1 numeric digit
-                </Typography>
 
-                {errors?.newPasswords && (
-                  <Typography
-                    variant="body1"
-                    sx={{ color: theme?.palette?.error?.main }}
-                  >
-                    {' '}
-                    {errors?.newPasswords?.message}
-                  </Typography>
-                )}
-
-                <label style={{ marginBottom: '8px', marginTop: '10px' }}>
-                  Confirm Password <span style={{ color: 'red' }}>*</span>
-                </label>
-                <Controller
-                  name="confirmPasswords"
-                  control={control}
-                  defaultValue=""
-                  rules={{ required: 'required field' }}
-                  render={({ field }) => (
-                    <InputField
-                      field={{ ...field }}
-                      name="confirmPasswords"
-                      placeholder="Confirm Password"
-                      width="100%"
-                      height="23px"
-                      autoComplete="off"
-                      hasError={!!errors?.confirmPasswords}
-                      type="text"
+                    <Typography sx={{ marginTop: '15px', color: '#1F2937' }}>
+                      {' '}
+                      Password reset email has been sent to registered email.{' '}
+                    </Typography>
+                  </Box>
+                ) : (
+                  <>
+                    <label style={{ marginBottom: '8px', marginTop: '10px' }}>
+                      New password <span style={{ color: 'red' }}>*</span>
+                    </label>
+                    <Controller
+                      name="newPassword"
+                      control={control}
+                      defaultValue=""
+                      rules={{
+                        required: 'required field',
+                        validate: (value) =>
+                          isPasswordValid(value)
+                            ? setIsShowError(false)
+                            : setIsShowError(true),
+                      }}
+                      render={({ field }) => (
+                        <InputField
+                          field={{ ...field }}
+                          name="newPassword"
+                          placeholder="Enter password"
+                          width="100%"
+                          height="23px"
+                          autoComplete="off"
+                          hasError={!!errors?.newPassword}
+                          type="text"
+                        />
+                      )}
                     />
-                  )}
-                />
-                {errors?.confirmPasswords && (
-                  <Typography
-                    variant="body1"
-                    sx={{ color: theme?.palette?.error?.main }}
-                  >
-                    {' '}
-                    {errors?.confirmPasswords?.message}
-                  </Typography>
-                )}
+                    <Typography
+                      variant="subtitle2"
+                      sx={{
+                        marginTop: '7px',
+                        color: isShowError && theme?.palette?.error?.main,
+                      }}
+                    >
+                      The Password must be at least 8 characters long having 1
+                      capital letter,1 small letter and 1 numeric digit
+                    </Typography>
 
-                <Button
-                  type="submit"
-                  variant="contained"
-                  sx={{ marginY: '30px' }}
-                >
-                  Set Password
-                </Button>
+                    {errors?.newPassword && (
+                      <Typography
+                        variant="body1"
+                        sx={{ color: theme?.palette?.error?.main }}
+                      >
+                        {' '}
+                        {errors?.newPassword?.message}
+                      </Typography>
+                    )}
+
+                    <label style={{ marginBottom: '8px', marginTop: '10px' }}>
+                      Confirm Password <span style={{ color: 'red' }}>*</span>
+                    </label>
+                    <Controller
+                      name="confirmPassword"
+                      control={control}
+                      defaultValue=""
+                      rules={{
+                        required: 'Required field',
+                      }}
+                      render={({ field }) => (
+                        <InputField
+                          field={{ ...field }}
+                          name="confirmPassword"
+                          placeholder="Confirm Password"
+                          width="100%"
+                          height="23px"
+                          autoComplete="off"
+                          hasError={!!errors?.confirmPassword}
+                          type="text"
+                        />
+                      )}
+                    />
+
+                    {isMatchPassword && (
+                      <Typography
+                        variant="subtitle2"
+                        sx={{ color: theme?.palette?.error?.main }}
+                      >
+                        password not match
+                      </Typography>
+                    )}
+
+                    {errors?.confirmPassword && (
+                      <Typography
+                        variant="body1"
+                        sx={{ color: theme?.palette?.error?.main }}
+                      >
+                        {' '}
+                        {errors?.confirmPassword?.message}
+                      </Typography>
+                    )}
+
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      sx={{ marginY: '30px' }}
+                    >
+                      Set Password
+                    </Button>
+                  </>
+                )}
               </form>
             </FormProvider>
           </Box>
