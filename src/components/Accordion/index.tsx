@@ -5,9 +5,14 @@ import { ArrowUp, ArrowDown } from '@/assets/icons';
 interface AccordionItemProps {
   title: string;
   children: React.ReactNode;
+  sxProps: any;
 }
 
-const AccordionItem: React.FC<AccordionItemProps> = ({ title, children }) => {
+const AccordionItem: React.FC<AccordionItemProps> = ({
+  title,
+  children,
+  sxProps,
+}) => {
   const [expanded, setExpanded] = useState(false);
 
   return (
@@ -18,6 +23,7 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ title, children }) => {
           borderRadius: '4px !important',
           bgcolor: '#35456D',
           '& .Mui-expanded': { minHeight: '0 !important' },
+          ...sxProps,
         }}
         expanded={expanded}
         onChange={() => setExpanded(!expanded)}
@@ -27,7 +33,7 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ title, children }) => {
             color: '#fff',
             fontWeight: '500',
             fontSize: '14px',
-            '& .MuiAccordionSummary-content': {
+            '& .Mui-expanded': {
               m: '16px 0 !important',
             },
             '& .MuiAccordionSummary-expandIconWrapper.Mui-expanded': {
