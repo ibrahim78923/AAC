@@ -20,7 +20,7 @@ import ReportsIcon from '../../assets/images/shared/reports.png';
 import Image from 'next/image';
 import Link from 'next/link';
 import Header from './Header';
-import { uuid } from 'uuidv4';
+import { v4 as uuidv4 } from 'uuid';
 
 const drawerWidth = 220;
 
@@ -75,7 +75,6 @@ export default function SuperAdminLayout(props: Props) {
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
-
   const drawer = (
     <>
       <Box sx={{ p: 2 }}>
@@ -83,7 +82,7 @@ export default function SuperAdminLayout(props: Props) {
       </Box>
 
       {items.map((link) => (
-        <Link key={uuid()} href={`${link.key}`}>
+        <Link key={uuidv4()} href={`${link.key}`}>
           <ListItem key={link.key} disablePadding>
             <ListItemButton>
               <ListItemIcon>
