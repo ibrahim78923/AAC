@@ -1,6 +1,6 @@
 export interface SearchPropsI {
   label: string;
-  width: string;
-  searchBy: boolean;
-  setSearchBy: React.Dispatch<React.SetStateAction<boolean>> | string;
+  searchBy: string;
+  setSearchBy: any;
+  width: string | number;
 }
