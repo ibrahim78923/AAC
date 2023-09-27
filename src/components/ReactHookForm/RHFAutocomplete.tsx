@@ -12,7 +12,7 @@ export default function RHFAutocomplete({
   const { control } = useFormContext();
   const [open, setOpen] = useState(false);
 
-  const label = other.label;
+  const label = other?.label;
 
   const onChanged = (e: any, newValue: any, onChange: any) => {
     onChange(newValue);
