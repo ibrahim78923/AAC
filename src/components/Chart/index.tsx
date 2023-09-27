@@ -30,4 +30,4 @@ export const CustomChart = ({
 
 // ----------------------------------------------------------------------
 
-export { default as ChartStyle } from './ChartStyle';
+export { default as ChartStyle } from './Chart.style';

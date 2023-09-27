@@ -1,3 +1,4 @@
+import { alpha } from '@mui/material';
 import { ApexOptions } from 'apexcharts';
 const XYLABELSTYLE = {
   style: {
@@ -7,7 +8,23 @@ const XYLABELSTYLE = {
     colors: '#A0A3BD',
   },
 };
+export const cssStyles = (theme: any) => {
+  return {
+    bgBlur: (props?: any) => {
+      const color =
+        props?.color || theme?.palette.background.default || '#000000';
 
+      const blur = props?.blur || 6;
+      const opacity = props?.opacity || 0.8;
+
+      return {
+        backdropFilter: `blur(${blur}px)`,
+        WebkitBackdropFilter: `blur(${blur}px)`, // Fix on Mobile
+        backgroundColor: alpha(color, opacity),
+      };
+    },
+  };
+};
 export const baroptions = (type: any, options: ApexOptions): ApexOptions => ({
   chart: {
     type: type,

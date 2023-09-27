@@ -1,29 +1,10 @@
 // @mui
 import { alpha, useTheme } from '@mui/material/styles';
 import { GlobalStyles } from '@mui/material';
-// utils
-// ----------------------------------------------------------------------
-export const cssStyles = (theme: any) => {
-  return {
-    bgBlur: (props?: any) => {
-      const color =
-        props?.color || theme?.palette.background.default || '#000000';
-
-      const blur = props?.blur || 6;
-      const opacity = props?.opacity || 0.8;
-
-      return {
-        backdropFilter: `blur(${blur}px)`,
-        WebkitBackdropFilter: `blur(${blur}px)`, // Fix on Mobile
-        backgroundColor: alpha(color, opacity),
-      };
-    },
-  };
-};
+import { cssStyles } from './Chart.utils';
 
 export default function ChartStyle() {
   const theme: any = useTheme();
-
   return (
     <GlobalStyles
       styles={{
@@ -33,7 +14,6 @@ export default function ChartStyle() {
             ...cssStyles(theme).bgBlur(),
             border: 0,
             color: theme.palette.text.primary,
-            boxShadow: theme.customShadows.dropdown,
             borderRadius: Number(theme.shape.borderRadius) * 1.5,
             '&:before': { borderBottomColor: 'transparent' },
             '&:after': {
@@ -43,17 +23,9 @@ export default function ChartStyle() {
           '.apexcharts-tooltip.apexcharts-theme-light': {
             ...cssStyles(theme).bgBlur(),
             border: 0,
-            boxShadow: theme.customShadows.dropdown,
             borderRadius: Number(theme.shape.borderRadius) * 1.5,
             '& .apexcharts-tooltip-title': {
-              border: 0,
-              textAlign: 'center',
-              fontWeight: theme.typography.fontWeightBold,
-              backgroundColor: theme.palette.grey[500_16],
-              color:
-                theme.palette.text[
-                  theme.palette.mode === 'light' ? 'secondary' : 'primary'
-                ],
+              display: 'none',
             },
           },
           // Legend
