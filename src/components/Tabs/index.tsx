@@ -1,6 +1,9 @@
 import * as React from 'react';
+
 import { Tabs, Tab, Box, TextField } from '@mui/material';
+
 import { CommonTabsProps, TabPanelProps } from '@/types/shared/Tabs';
+
 import { uuid } from 'uuidv4';
 
 const style = {

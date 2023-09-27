@@ -1,11 +1,19 @@
 import React from 'react';
+
 import Image from 'next/image';
+
 import { Box, Typography, Button } from '@mui/material';
+
 import cardProps from '@/types/shared/ProfileCard';
+
+import {
+  EmailIcon,
+  PhoneIcon,
+  EditIcon,
+  EditIconColored,
+} from '@/assets/icons';
+
 import { UserProfile } from '@/assets/images';
-import { EmailIcon, PhoneIcon } from '@/assets/icons';
-import EditIconShared from '@/assets/icons/shared/edit-shared';
-import EditColoredIconShared from '@/assets/icons/shared/edit-colored-shared';
 
 const style = {
   cardWrapper: {
@@ -97,7 +105,7 @@ const ProfileCard = (props: cardProps) => {
             sx={style.editIcon}
             onClick={handleEditImage}
           >
-            <EditIconShared />
+            <EditIcon />
           </Box>
           <Image className="user_profile" alt="user_profile" src={src} />
         </Box>
@@ -121,7 +129,6 @@ const ProfileCard = (props: cardProps) => {
               <Typography component="span" sx={style.iconWrapper}>
                 <PhoneIcon />
               </Typography>
-
               {phone}
             </Box>
           </Box>
@@ -130,7 +137,7 @@ const ProfileCard = (props: cardProps) => {
       {editBtn && (
         <Button onClick={handleEditProfile}>
           Edit Profile
-          <EditColoredIconShared />
+          <EditIconColored />
         </Button>
       )}
     </Box>

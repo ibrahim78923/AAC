@@ -1,10 +1,14 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
+
 import { Box, Button, Menu, MenuItem, Stack, Typography } from '@mui/material';
-import { FilterSharedIcon, PlusSharedIcon } from '@/assets/icons';
-import { ArrowDropDown } from '@mui/icons-material';
+
 import CommonTabs from '@/components/Tabs';
+
 import CommonDrawer from '@/components/Drawer';
-import React from 'react';
+
+import { ArrowDropDown } from '@mui/icons-material';
+
+import { FilterSharedIcon, PlusSharedIcon } from '@/assets/icons';
 
 const UserManagementSuperAdmin = () => {
   const [selectedValue, setSelectedValue] = useState(null);
