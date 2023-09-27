@@ -1,6 +1,6 @@
-import CloseIcon from '@/assets/icons/shared/AlertModels/close-icon';
-import { Box, Button, Modal, Typography } from '@mui/material';
 import React from 'react';
+import { Box, Button, Modal, Typography } from '@mui/material';
+import CloseIcon from '@/assets/icons/shared/AlertModels/close-icon';
 import {
   checkModelType,
   checkModelTypeForImage,
@@ -123,8 +123,4 @@ export const AlertModals: React.FunctionComponent<ModelProps> = ({
       </Modal>
     </Box>
   );
-};
-
-AlertModals.defaultProps = {
-  type: 'delete',
 };
