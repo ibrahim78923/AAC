@@ -1,7 +1,7 @@
 import { useState, Children, SyntheticEvent } from 'react';
 import { Tabs, Tab, Typography, useTheme, Box, Card } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import { styles, sxStyles } from './HorizontalTabs.style';
+import { styles } from './HorizontalTabs.style';
 import { uuid } from 'uuidv4';
 
 const HorizontalTabs = (props: any) => {
@@ -27,7 +27,7 @@ const HorizontalTabs = (props: any) => {
 
   const theme: any = useTheme();
   return (
-    <Card sx={sxStyles?.cardStyle(spacing, disableBoxShadow)}>
+    <Card sx={styles?.cardStyle(spacing, disableBoxShadow)}>
       <Tabs
         selectionFollowsFocus
         orientation="horizontal"
@@ -58,10 +58,7 @@ const HorizontalTabs = (props: any) => {
           />
         ))}
         {addIcon && (
-          <AddCircleIcon
-            sx={sxStyles?.circleIconStyle}
-            onClick={handleAddTab}
-          />
+          <AddCircleIcon sx={styles?.circleIconStyle} onClick={handleAddTab} />
         )}
       </Tabs>
       <Box sx={{ py: 2 }}>
