@@ -4,11 +4,18 @@ import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import CommonDrawer from '@/components/Drawer';
 import TextEditor from '@/components/TextEditor';
+import SearchableSelect from '@/components/SearchableSelect';
 
 const Jobs = () => {
   const [isJobPostingDrawer, setIsJobPostingDrawer] = useState(false);
   const [editorValue, setEditorValue] = useState<string>('');
-  const handelPostJob = () => {};
+
+  const onClose = () => {
+    setIsJobPostingDrawer(false);
+  };
+  const submitHandler = () => {
+    setIsJobPostingDrawer(false);
+  };
   return (
     <Box
       sx={{
@@ -44,15 +51,18 @@ const Jobs = () => {
       <Box>Common table</Box>
       <CommonDrawer
         isDrawerOpen={isJobPostingDrawer}
-        setIsDrawerOpen={setIsJobPostingDrawer}
+        onClose={onClose}
         title="Post a Job"
         okText="Post"
-        isOk={false}
-        submitHandler={handelPostJob}
+        isOk={true}
+        footer={true}
+        submitHandler={submitHandler}
       >
         <span>dummy text</span>
         <br />
         <TextEditor value={editorValue} onChange={setEditorValue} />
+        <br />
+        <SearchableSelect />
       </CommonDrawer>
     </Box>
   );
