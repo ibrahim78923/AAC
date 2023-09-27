@@ -1,3 +1,5 @@
+import debounce from 'lodash.debounce';
+
 export function isNullOrEmpty(
   value: string | null | undefined | unknown[] | Record<string, unknown>,
 ): boolean {
@@ -19,3 +21,10 @@ export function isNullOrEmpty(
 
   return false;
 }
+
+//=====debounce search
+
+const DEBOUNCE_DELAY = 1000;
+export const debouncedSearch = debounce((value: any, setSearchBy: any) => {
+  setSearchBy(value);
+}, DEBOUNCE_DELAY);
