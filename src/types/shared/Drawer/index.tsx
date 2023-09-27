@@ -1,9 +1,9 @@
 export interface CommonDrawerPropsI {
-  isDrawerOpen: boolean;
-  setIsDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  open: boolean;
+  onClose: () => void;
   children: React.ReactNode;
   title: string;
-  okText: string;
-  isOk: boolean;
-  submitHandler: () => void;
+  okText?: string;
+  isOk?: boolean;
+  submitHandler?: () => void;
 }

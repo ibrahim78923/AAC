@@ -11,8 +11,8 @@ import { CommonDrawerPropsI } from '@/types/shared/Drawer';
 import CloseIcon from '@/assets/icons/shared/close-icon';
 
 const CommonDrawer = ({
-  isDrawerOpen,
-  setIsDrawerOpen,
+  open,
+  onClose,
   children,
   title,
   okText,
@@ -22,8 +22,8 @@ const CommonDrawer = ({
   const theme = useTheme();
   return (
     <Drawer
-      open={isDrawerOpen}
-      onClose={() => setIsDrawerOpen(false)}
+      open={open}
+      onClose={onClose}
       anchor="right"
       sx={{
         '& .css-yaabfu-MuiPaper-root-MuiDrawer-paper': {
@@ -52,7 +52,7 @@ const CommonDrawer = ({
             }}
           >
             <Typography variant="h5">{title}</Typography>
-            <Box onClick={() => setIsDrawerOpen(false)}>
+            <Box onClick={onClose}>
               <CloseIcon />
             </Box>
           </Toolbar>

@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import PlanCard from './PlanCard';
-import { Box, Grid } from '@mui/material';
+import { Grid } from '@mui/material';
 import {
   IconProductSales,
   IconProductService,
   IconProductMarketing,
   IconProductOperation,
   IconProductLoyaltyProgram,
-} from '../../../assets/icons';
+} from '@/assets/icons';
 import BillingDetail from './BillingDetail';
 
 // Temporary data
@@ -120,28 +120,26 @@ function Subscriptions() {
   -------------------------------------------------------------------------------------*/
   return (
     <>
-      <Box className="subscription-content">
-        <Grid container rowSpacing={'24px'} columnSpacing={'60px'}>
-          {data?.map((plan: any) => {
-            return (
-              <Grid item key={plan.id} xs={4}>
-                <PlanCard
-                  status={plan.status}
-                  icon={getProductIcon(plan.product)}
-                  title={plan.product}
-                  planDuration={plan.planDuration}
-                  planUsers={plan?.planUsers}
-                  planData={plan?.planData}
-                  price={plan.price}
-                  billOn={plan.billOn}
-                  type={plan.type}
-                  handleBillingDetail={handleDrawerOpen}
-                />
-              </Grid>
-            );
-          })}
-        </Grid>
-      </Box>
+      <Grid container rowSpacing={'24px'} columnSpacing={'60px'}>
+        {data?.map((plan: any) => {
+          return (
+            <Grid item key={plan.id} xs={4}>
+              <PlanCard
+                status={plan.status}
+                icon={getProductIcon(plan.product)}
+                title={plan.product}
+                planDuration={plan.planDuration}
+                planUsers={plan?.planUsers}
+                planData={plan?.planData}
+                price={plan.price}
+                billOn={plan.billOn}
+                type={plan.type}
+                handleBillingDetail={handleDrawerOpen}
+              />
+            </Grid>
+          );
+        })}
+      </Grid>
 
       <BillingDetail open={openDrawer} onClose={handleDrawerClose} />
     </>
