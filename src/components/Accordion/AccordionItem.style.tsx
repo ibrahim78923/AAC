@@ -1,4 +1,4 @@
-export const styles: any = (isActive: any) => [
+export const styles: any = (isActive: boolean) => [
   {
     accordionStyle: {
       backgroundColor: '#35456D',

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { AccordionItem } from './AccordionItem.type';
-import { AccordionSummary } from '@mui/material';
+import { AccordionSummary, Collapse } from '@mui/material';
 import { ArrowUp, ArrowDown } from '@/assets/icons';
 import { styles } from './AccordionItem.style';
 
@@ -22,7 +22,9 @@ const AccordionItem: React.FC<AccordionItem> = ({ sectionTitle, children }) => {
       >
         {sectionTitle}
       </AccordionSummary>
-      <div style={styleArr[0].panelStyle}>{children}</div>
+      <Collapse in={isActive} sx={styleArr[0].panelStyle}>
+        {children}
+      </Collapse>
     </div>
   );
 };
