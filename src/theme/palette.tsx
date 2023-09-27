@@ -5,8 +5,8 @@ export function createGradient(color1: string, color2: string) {
 }
 
 const PRIMARY = {
-  lighter: '#cff2ed',
-  light: '#2da291',
+  lighter: '#EBFAF8)',
+  light: '#D7F4F0',
   main: '#38CAB5',
   dark: '#16847f',
   darker: '#278d7f',
@@ -53,6 +53,13 @@ const SLATE_BLUE = {
   dark: '#2c3441',
   darker: '#272e39',
 };
+const INFO = {
+  lighter: '#ceeff5',
+  light: '#85d6e7',
+  main: '#0aadcf',
+  dark: '#3bbdd9',
+  darker: '#23b5d4',
+};
 const GREY: any = {
   0: '#FFFFFF',
   100: '#f9fafb',
@@ -60,13 +67,13 @@ const GREY: any = {
   300: '#f7f7f9',
   400: '#f3f4f6',
   500: '#7a7a7b',
-  600: '#929294',
+  600: '#271211',
   700: '#E5E7EB',
   800: '#1F2937',
   900: '#9CA3AF',
   500_8: '#1F2937',
-  500_12: '#9CA3AF',
-  500_16: '#E5E7EB',
+  500_12: '#4B5563',
+  500_16: '#111827',
   500_24: alpha('#919EAB', 0.24),
   500_32: alpha('#919EAB', 0.32),
   500_48: alpha('#919EAB', 0.48),
@@ -74,6 +81,11 @@ const GREY: any = {
   500_80: alpha('#919EAB', 0.8),
 };
 
+const CUSTOM_COLORS = {
+  0: '#667085',
+  1: '#6B7280',
+  2: '#D1D5DB',
+};
 const GRADIENTS = {
   primary: createGradient(PRIMARY.light, PRIMARY.main),
   success: createGradient(SUCCESS.light, SUCCESS.main),
@@ -89,6 +101,8 @@ const COMMON = {
   warning: { ...WARNING, contrastText: GREY[800] },
   error: { ...ERROR, contrastText: GREY[800] },
   blue: { ...BLUE, contrastText: GREY[800] },
+  info: { ...INFO, contrastText: GREY[800] },
+  custom: { ...CUSTOM_COLORS, contrastText: GREY[800] },
   slateBlue: { ...SLATE_BLUE, contrastText: GREY[800] },
   grey: GREY,
   gradients: GRADIENTS,

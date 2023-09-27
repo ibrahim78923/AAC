@@ -7,7 +7,9 @@ import {
   useTheme,
   Theme,
 } from '@mui/material';
-
+import { LogoSharedIcon } from '@/assets/icons';
+import Image from 'next/image';
+import { AvatarImage } from '@/assets/images';
 const styles = {
   mainCardBox: (theme: Theme) => ({
     backgroundColor: theme?.blue?.main,
@@ -27,7 +29,7 @@ const UserInfo = () => {
               variant="h5"
               sx={styles?.airAppleCardHeading(theme?.palette)}
             >
-              Air Applecart
+              <LogoSharedIcon /> Air Applecart
             </Typography>
             <Typography variant="customStyle">123 Street Address</Typography>
             <br />
@@ -41,6 +43,7 @@ const UserInfo = () => {
             <br />
           </Grid>
           <Grid item sm={6}>
+            <Image src={AvatarImage} alt="avatar-image" />
             <Typography
               variant="subtitle2"
               sx={styles?.airAppleCardHeading(theme?.palette)}
