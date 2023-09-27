@@ -5,7 +5,7 @@ import { ArrowUp, ArrowDown } from '@/assets/icons';
 interface AccordionItemProps {
   title: string;
   children: React.ReactNode;
-  sxProps: any;
+  sxProps: object;
 }
 
 const AccordionItem: React.FC<AccordionItemProps> = ({
