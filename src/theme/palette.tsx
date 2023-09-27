@@ -5,7 +5,7 @@ export function createGradient(color1: string, color2: string) {
 }
 
 const PRIMARY = {
-  lighter: '#EBFAF8)',
+  lighter: '#EBFAF8',
   light: '#D7F4F0',
   main: '#38CAB5',
   dark: '#16847f',

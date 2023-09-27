@@ -11,22 +11,24 @@ import { CommonDrawerPropsI } from '@/types/shared/Drawer';
 import CloseIcon from '@/assets/icons/shared/close-icon';
 
 const CommonDrawer = ({
-  open,
+  isDrawerOpen,
   onClose,
   children,
   title,
   okText,
   submitHandler,
   isOk,
+  cancelText,
+  footer,
 }: CommonDrawerPropsI) => {
   const theme = useTheme();
   return (
     <Drawer
-      open={open}
+      open={isDrawerOpen}
       onClose={onClose}
       anchor="right"
       sx={{
-        '& .css-yaabfu-MuiPaper-root-MuiDrawer-paper': {
+        '& .MuiDrawer-paperAnchorRight': {
           borderRadius: '30px 0px 0px 30px !important',
           color: 'black',
         },
@@ -58,51 +60,52 @@ const CommonDrawer = ({
           </Toolbar>
         </AppBar>
         <Box flex="1" overflow="scroll">
-          <Container>
-            <p>{children}</p>
-          </Container>
+          <Container>{children}</Container>
         </Box>
-        <AppBar
-          position="static"
-          sx={{ backgroundColor: '#fff', boxShadow: 'none' }}
-        >
-          <Toolbar
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'flex-end',
-              gap: '16px',
-              padding: '24px',
-              borderTop: '1px solid #E5E7EB',
-            }}
+        {footer && (
+          <Box
+            position="static"
+            sx={{ backgroundColor: '#fff', boxShadow: 'none' }}
           >
-            <Button
+            <Toolbar
               sx={{
-                color: theme.palette?.grey[500],
-                border: '1px solid #E5E7EB',
-                padding: '0px 22px',
-                height: '44px',
-                fontWeight: '500',
-                '&:hover': { bgcolor: theme.palette.grey[400] },
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'flex-end',
+                gap: '16px',
+                padding: '24px',
+                borderTop: '1px solid #E5E7EB',
               }}
             >
-              Cancel
-            </Button>
-            {isOk && (
               <Button
-                variant="contained"
                 sx={{
+                  color: theme.palette?.grey[500],
+                  border: '1px solid #E5E7EB',
                   padding: '0px 22px',
                   height: '44px',
                   fontWeight: '500',
+                  '&:hover': { bgcolor: theme.palette.grey[400] },
                 }}
-                onClick={submitHandler}
+                onClick={onClose}
               >
-                {okText}
+                {cancelText ? cancelText : 'Cancel'}
               </Button>
-            )}
-          </Toolbar>
-        </AppBar>
+              {isOk && (
+                <Button
+                  variant="contained"
+                  sx={{
+                    padding: '0px 22px',
+                    height: '44px',
+                    fontWeight: '500',
+                  }}
+                  onClick={submitHandler}
+                >
+                  {okText}
+                </Button>
+              )}
+            </Toolbar>
+          </Box>
+        )}
       </Box>
     </Drawer>
   );

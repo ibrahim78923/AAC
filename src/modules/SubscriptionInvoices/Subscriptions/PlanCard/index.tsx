@@ -14,6 +14,77 @@ interface PlanCardProps {
   handleManagePlan?: any;
 }
 
+const planCard = (theme: any) => ({
+  border: `1px solid ${theme.palette.grey[700]}`,
+  borderRadius: `20px 4px 20px 4px`,
+});
+const planStatus = {
+  display: `flex`,
+  justifyContent: `flex-end`,
+  padding: `20px 20px 9px 20px`,
+  minHeight: '57px',
+};
+const planActiveChip = {
+  fontSize: `14px`,
+  lineHeight: `1.42857`,
+  color: `success.main`,
+  backgroundColor: `success.lighter`,
+  padding: `4px 12px`,
+  borderRadius: `16px`,
+};
+const planIcon = {
+  borderRadius: `50%`,
+  height: `51px`,
+  width: `51px`,
+  backgroundColor: `primary.lighter`,
+  margin: `0 auto`,
+  display: `flex`,
+  alignItems: `center`,
+  justifyContent: `center`,
+};
+const planTitle = {
+  textAlign: 'center',
+  fontWeight: '600',
+};
+const planPlan = {
+  fontSize: '12px',
+  fontWeight: '500',
+  color: '#374151',
+  textAlign: 'center',
+  mt: '4px',
+  pb: '16px',
+};
+const planStrip = {
+  backgroundColor: `primary.lighter`,
+  p: `9px`,
+  textAlign: `center`,
+};
+const planPrice = {
+  fontSize: '32px',
+  fontWeight: '700',
+  lineHeight: '1.5',
+};
+const planBillOn = (theme: any) => ({
+  color: theme.palette.custom[1],
+  lineHeight: '1.42857',
+});
+const planType = (theme: any) => ({
+  fontSize: '16px',
+  lineHeight: '1.5',
+  fontWeight: '500',
+  color: theme.palette.grey[800],
+  textAlign: 'center',
+  mt: '10px',
+});
+const planActions = {
+  p: '24px 20px',
+  justifyContent: 'center',
+};
+const buttonOutlineGrey = (theme: any) => ({
+  borderColor: theme.palette.custom[1],
+  color: theme.palette.custom[1],
+});
+
 const PlanCard: FC<PlanCardProps> = ({
   status,
   icon,
@@ -28,72 +99,6 @@ const PlanCard: FC<PlanCardProps> = ({
 }) => {
   /* VARIABLE DECLARATION
   -------------------------------------------------------------------------------------*/
-  const planCard = {
-    border: `1px solid #E5E7EB`,
-    borderRadius: `20px 4px 20px 4px`,
-  };
-  const planStatus = {
-    display: `flex`,
-    justifyContent: `flex-end`,
-    padding: `20px 20px 9px 20px`,
-    minHeight: '57px',
-  };
-  const planActiveChip = {
-    fontSize: `14px`,
-    lineHeight: `1.42857`,
-    color: `#47B263`,
-    backgroundColor: `#E4FFEB`,
-    padding: `4px 12px`,
-    borderRadius: `16px`,
-  };
-  const planIcon = {
-    borderRadius: `50%`,
-    height: `51px`,
-    width: `51px`,
-    backgroundColor: `#EBFAF8`,
-    margin: `0 auto`,
-    display: `flex`,
-    alignItems: `center`,
-    justifyContent: `center`,
-  };
-  const planTitle = {
-    textAlign: 'center',
-    fontWeight: '600',
-  };
-  const planPlan = {
-    fontSize: '12px',
-    fontWeight: '500',
-    color: '#374151',
-    textAlign: 'center',
-    mt: '4px',
-    pb: '16px',
-  };
-  const planStrip = {
-    backgroundColor: `#EBFAF8`,
-    p: `9px`,
-    textAlign: `center`,
-  };
-  const planPrice = {
-    fontSize: '32px',
-    fontWeight: '700',
-    lineHeight: '1.5',
-  };
-  const planBillOn = {
-    color: `#6B7280`,
-    lineHeight: '1.42857',
-  };
-  const planType = {
-    fontSize: '16px',
-    lineHeight: '1.5',
-    fontWeight: '500',
-    color: '#1F2937',
-    textAlign: 'center',
-    mt: '10px',
-  };
-  const planActions = {
-    p: '24px 20px',
-    justifyContent: 'center',
-  };
 
   /* EVENT FUNCTIONS
   -------------------------------------------------------------------------------------*/
@@ -136,7 +141,9 @@ const PlanCard: FC<PlanCardProps> = ({
         <Button variant="contained" onClick={handleBillingDetail}>
           Billing Details
         </Button>
-        <Button variant="outlined">Manage Plan</Button>
+        <Button variant="outlined" sx={buttonOutlineGrey}>
+          Manage Plan
+        </Button>
       </Stack>
     </Box>
   );
