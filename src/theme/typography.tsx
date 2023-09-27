@@ -1,9 +1,6 @@
 import { pxToRem, responsiveFontSizes } from '../utils/getFontValue';
 
-// ----------------------------------------------------------------------
-
-const FONT_FAMILY = 'Plus Jakarta Sans;'; // Google Font
-// const FONT_SECONDARY = 'CircularStd, sans-serif'; // Local Font
+const FONT_FAMILY = 'Plus Jakarta Sans;';
 
 const typography = {
   fontFamily: FONT_FAMILY,
@@ -53,9 +50,9 @@ const typography = {
     fontSize: pxToRem(20),
   },
   subtitle2: {
-    fontWeight: 500,
+    fontWeight: 700,
     lineHeight: 1.5,
-    fontSize: pxToRem(12),
+    fontSize: pxToRem(16),
   },
   body1: {
     lineHeight: 1.5,
@@ -72,7 +69,7 @@ const typography = {
   overline: {
     fontWeight: 700,
     lineHeight: 1.5,
-    fontSize: pxToRem(12),
+    fontSize: pxToRem(16),
     textTransform: 'uppercase',
   },
   button: {
@@ -92,13 +89,11 @@ declare module '@mui/material/styles' {
     formTopHeading: React.CSSProperties;
   }
 
-  // allow configuration using `createTheme`
   interface TypographyVariantsOptions {
     formTopHeading?: React.CSSProperties;
   }
 }
 
-// Update the Typography's variant prop options
 declare module '@mui/material/Typography' {
   interface TypographyPropsVariantOverrides {
     formTopHeading: true;

@@ -1,19 +1,18 @@
 import React from 'react';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
-import SearchShared from '@/assets/icons/shared/search-shared';
 import { debouncedSearch } from '@/utils';
+import { useTheme } from '@mui/material';
+import { SearchPropsI } from '@/types/shared/Search';
+import SearchSharedIcon from '@/assets/icons/shared/search-shared';
 
-function Search({ label, width, searchBy, setSearchBy }: any) {
-  const handleSearchValue = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-    debouncedSearch(value, setSearchBy);
-  };
-
-  const handleChangeSearch = (e: any) => {
+const Search = ({ label, width, searchBy, setSearchBy }: SearchPropsI) => {
+  const theme = useTheme();
+  const handleChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchBy(e.target.value);
-    handleSearchValue(e);
+    debouncedSearch(e.target.value, setSearchBy);
   };
+
   return (
     <TextField
       onChange={handleChangeSearch}
@@ -30,6 +29,9 @@ function Search({ label, width, searchBy, setSearchBy }: any) {
               width: '100%', // Adjust the width for smaller screens
             },
           },
+          '&:hover fieldset': {
+            borderColor: theme?.palette?.primary?.main,
+          },
           '& .MuiInputBase-input': {
             color: 'black',
           },
@@ -45,12 +47,12 @@ function Search({ label, width, searchBy, setSearchBy }: any) {
       InputProps={{
         endAdornment: (
           <InputAdornment position="end">
-            <SearchShared />
+            <SearchSharedIcon />
           </InputAdornment>
         ),
       }}
     />
   );
-}
+};
 
 export default Search;

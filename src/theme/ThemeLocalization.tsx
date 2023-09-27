@@ -1,8 +1,5 @@
-// @mui
 import { ThemeProvider, createTheme, useTheme } from '@mui/material/styles';
 import { ReactNode } from 'react';
-
-// ----------------------------------------------------------------------
 
 export default function ThemeLocalization({
   children,
