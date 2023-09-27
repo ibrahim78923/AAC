@@ -1,10 +1,9 @@
 import React from 'react';
-import TextField from '@mui/material/TextField';
-import InputAdornment from '@mui/material/InputAdornment';
+import { TextField, InputAdornment } from '@mui/material';
 import { debouncedSearch } from '@/utils';
-import { useTheme } from '@mui/material';
 import { SearchPropsI } from '@/types/shared/Search';
 import SearchSharedIcon from '@/assets/icons/shared/search-shared';
+import { useTheme } from '@mui/styles';
 
 const Search = ({ label, width, searchBy, setSearchBy }: SearchPropsI) => {
   const theme = useTheme();

@@ -1,11 +1,12 @@
-import * as React from 'react';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import Typography from '@mui/material/Typography';
-import { Grid } from '@mui/material';
-import { useTheme } from '@mui/material';
-import { Theme } from '@mui/material/styles';
+import {
+  Card,
+  CardActions,
+  CardContent,
+  Typography,
+  Grid,
+  useTheme,
+  Theme,
+} from '@mui/material';
 
 const styles = {
   mainCardBox: (theme: Theme) => ({

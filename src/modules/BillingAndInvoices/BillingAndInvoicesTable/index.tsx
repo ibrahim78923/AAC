@@ -1,6 +1,6 @@
-import Search from '@/components/Search';
 import { useState } from 'react';
 import { Grid, Typography, Button } from '@mui/material';
+import Search from '@/components/Search';
 import GenerateInvoice from '../GenerateInvoice';
 import ViewBillingDetails from '../ViewBillingDetails';
 import PlusSharedIcon from '@/assets/icons/shared/plus-shared';

@@ -1,6 +1,6 @@
+import { Grid, Typography } from '@mui/material';
 import CommonDrawer from '@/components/Drawer';
 import { ViewBillingDetailsPropsI } from '@/types/modules/BillingAndDetails';
-import { Grid, Typography } from '@mui/material';
 const ViewBillingDetails = ({
   isViewDetailOpen,
   setIsViewDeailOpen,
