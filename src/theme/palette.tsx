@@ -19,7 +19,7 @@ const SECONDARY = {
   darker: '#25304c',
 };
 const SUCCESS = {
-  lighter: '#EEF9F1;',
+  lighter: '#E4FFEB;',
   light: '#AAF27F',
   main: '#47B263',
   dark: '#229A16',
