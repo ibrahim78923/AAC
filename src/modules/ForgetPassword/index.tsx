@@ -50,7 +50,7 @@ const formStyling = {
   marginTop: '30px',
 };
 
-export default function ForgetPassword() {
+const ForgetPassword = () => {
   const [isEmailSuccess, setIsEmailSuccess] = useState<boolean>(false);
   const theme = useTheme();
 
@@ -88,14 +88,17 @@ export default function ForgetPassword() {
           >
             <Typography
               variant="h3"
-              sx={{ color: '#1F2937', textAlign: 'center' }}
+              sx={{ color: theme?.palette?.grey[500_8], textAlign: 'center' }}
             >
               Forget Password{' '}
             </Typography>
             {!isEmailSuccess && (
               <Typography
                 variant="h6"
-                sx={{ color: '#9CA3AF', textAlign: 'center' }}
+                sx={{
+                  color: theme?.palette?.grey[500_12],
+                  textAlign: 'center',
+                }}
               >
                 Let’s Get Start Enter the email associated with your account and
                 we’ll send an email with instructions to reset your password!
@@ -186,4 +189,5 @@ export default function ForgetPassword() {
       </Grid>
     </Box>
   );
-}
+};
+export default ForgetPassword;

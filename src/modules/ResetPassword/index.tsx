@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
-import { useTheme } from '@emotion/react';
-import { Grid, Button, Typography } from '@mui/material';
 import { useForm, Controller, FormProvider } from 'react-hook-form';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { Grid, Button, Typography } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import { styled } from '@mui/system';
 import InputField from '@/components/InputField';
 import Dashboard from '@/assets/images/shared/login-dashboard.svg';
 import resetPasswordSuccess from '@/assets/icons/shared/onSuccess.gif';
 import { CompanyLogo } from '@/assets/images/shared/companylogo';
-import { useRouter } from 'next/router';
 
 const AuthHeader = styled('div')({
   display: 'flex',
@@ -52,7 +52,7 @@ const formStyling = {
   marginTop: '30px',
 };
 
-export default function ResetPassword() {
+const ResetPassword = () => {
   const [isShowError, setIsShowError] = useState<boolean>(false);
   const [isMatchPassword, setIsMatchPassword] = useState<boolean>(false);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
@@ -111,7 +111,7 @@ export default function ResetPassword() {
             {!isSuccess && (
               <Typography
                 variant="h3"
-                sx={{ textAlign: 'center', color: '#1F2937' }}
+                sx={{ textAlign: 'center', color: theme?.palette?.grey[500_8] }}
               >
                 Reset Password
               </Typography>
@@ -123,7 +123,10 @@ export default function ResetPassword() {
                   <Box sx={{ textAlign: 'center' }}>
                     <Typography
                       variant="h3"
-                      sx={{ marginBottom: '15px', color: '#1F2937' }}
+                      sx={{
+                        marginBottom: '15px',
+                        color: theme?.palette?.grey[500_8],
+                      }}
                     >
                       Reset Password
                     </Typography>
@@ -134,7 +137,12 @@ export default function ResetPassword() {
                       style={{ width: '170px', height: '170px' }}
                     />
 
-                    <Typography sx={{ marginTop: '15px', color: '#1F2937' }}>
+                    <Typography
+                      sx={{
+                        marginTop: '15px',
+                        color: theme?.palette?.grey[500_8],
+                      }}
+                    >
                       {' '}
                       Password reset email has been sent to registered email.{' '}
                     </Typography>
@@ -169,7 +177,7 @@ export default function ResetPassword() {
                       )}
                     />
                     <Typography
-                      variant="subtitle2"
+                      variant="body2"
                       sx={{
                         marginTop: '7px',
                         color: isShowError && theme?.palette?.error?.main,
@@ -215,7 +223,7 @@ export default function ResetPassword() {
 
                     {isMatchPassword && (
                       <Typography
-                        variant="subtitle2"
+                        variant="body2"
                         sx={{ color: theme?.palette?.error?.main }}
                       >
                         password not match
@@ -262,4 +270,5 @@ export default function ResetPassword() {
       </Grid>
     </Box>
   );
-}
+};
+export default ResetPassword;

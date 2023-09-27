@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import { useTheme } from '@emotion/react';
-import { Grid, Button, InputAdornment, Typography } from '@mui/material';
 import { useForm, Controller, FormProvider } from 'react-hook-form';
 import Image from 'next/image';
 import Link from 'next/link';
+import { Grid, Button, InputAdornment, Typography } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import { styled } from '@mui/system';
-import InputField from '@/components/InputField';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import { styled } from '@mui/system';
+import InputField from '@/components/InputField';
 import Dashboard from '@/assets/images/shared/login-dashboard.svg';
 import { CompanyLogo } from '@/assets/images/shared/companylogo';
 
@@ -58,7 +58,7 @@ const formStyling = {
   marginTop: '30px',
 };
 
-export default function Login() {
+const Login = () => {
   const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
   const theme = useTheme();
   const {
@@ -91,10 +91,16 @@ export default function Login() {
             className="form-styled"
             sx={{ width: { md: '60%', sm: '70%', xs: '90%' }, margin: 'auto' }}
           >
-            <Typography variant="h3" sx={{ color: '#1F2937' }}>
+            <Typography
+              variant="h3"
+              sx={{ color: theme?.palette?.grey[500_8] }}
+            >
               Sign In to Air Applecart
             </Typography>
-            <Typography variant="h6" sx={{ color: '#9CA3AF' }}>
+            <Typography
+              variant="h6"
+              sx={{ color: theme?.palette?.grey[500_12] }}
+            >
               Let’s Get Started
             </Typography>
             <FormProvider>
@@ -220,4 +226,6 @@ export default function Login() {
       </Grid>
     </Box>
   );
-}
+};
+
+export default Login;
