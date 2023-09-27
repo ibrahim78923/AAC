@@ -1,6 +1,10 @@
-import { useState, useEffect } from 'react';
-import PlanCard from './PlanCard';
+import React, { useState, useEffect } from 'react';
+
 import { Grid } from '@mui/material';
+
+import PlanCard from './PlanCard';
+import BillingDetail from './BillingDetail';
+
 import {
   IconProductSales,
   IconProductService,
@@ -8,7 +12,6 @@ import {
   IconProductOperation,
   IconProductLoyaltyProgram,
 } from '@/assets/icons';
-import BillingDetail from './BillingDetail';
 
 // Temporary data
 const data = [

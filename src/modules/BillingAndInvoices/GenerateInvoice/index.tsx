@@ -1,4 +1,5 @@
 import { Grid } from '@mui/material';
+
 import UserInfo from './UserInfo';
 
 const GenerateInvoice = () => {
