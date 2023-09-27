@@ -1,54 +1,29 @@
-import React, { useState } from 'react';
-import { Accordion, AccordionDetails, AccordionSummary } from '@mui/material';
+import { useState } from 'react';
+import { AccordionItem } from './AccordionItem.type';
+import { AccordionSummary } from '@mui/material';
 import { ArrowUp, ArrowDown } from '@/assets/icons';
+import { styles } from './AccordionItem.style';
 
-interface AccordionItemProps {
-  title: string;
-  children: React.ReactNode;
-  sxProps: object;
-}
+const AccordionItem: React.FC<AccordionItem> = ({ sectionTitle, children }) => {
+  const [isActive, setIsActive] = useState(false);
 
-const AccordionItem: React.FC<AccordionItemProps> = ({
-  title,
-  children,
-  sxProps,
-}) => {
-  const [expanded, setExpanded] = useState(false);
+  const styleArr = styles(isActive);
+
+  const handleAccordionClick = () => {
+    setIsActive(!isActive);
+  };
 
   return (
-    <>
-      <Accordion
-        elevation={0}
-        sx={{
-          borderRadius: '4px !important',
-          bgcolor: '#35456D',
-          '& .Mui-expanded': { minHeight: '0 !important' },
-          ...sxProps,
-        }}
-        expanded={expanded}
-        onChange={() => setExpanded(!expanded)}
+    <div>
+      <AccordionSummary
+        style={styleArr[0].accordionStyle}
+        onClick={handleAccordionClick}
+        expandIcon={isActive ? <ArrowUp /> : <ArrowDown />}
       >
-        <AccordionSummary
-          sx={{
-            color: '#fff',
-            fontWeight: '500',
-            fontSize: '14px',
-            '& .Mui-expanded': {
-              m: '16px 0 !important',
-            },
-            '& .MuiAccordionSummary-expandIconWrapper.Mui-expanded': {
-              transform: 'rotate(0deg)',
-            },
-          }}
-          expandIcon={expanded ? <ArrowUp /> : <ArrowDown />}
-          aria-controls="panel1d-content"
-          id="panel1d-header"
-        >
-          <div>{title}</div>
-        </AccordionSummary>
-        <AccordionDetails sx={{ bgcolor: '#fff' }}>{children}</AccordionDetails>
-      </Accordion>
-    </>
+        {sectionTitle}
+      </AccordionSummary>
+      <div style={styleArr[0].panelStyle}>{children}</div>
+    </div>
   );
 };
 
