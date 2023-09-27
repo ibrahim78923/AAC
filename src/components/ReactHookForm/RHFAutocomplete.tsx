@@ -1,7 +1,6 @@
 import { Fragment, useState } from 'react';
 import { useFormContext, Controller } from 'react-hook-form';
-import TextField from '@mui/material/TextField';
-import Autocomplete from '@mui/material/Autocomplete';
+import { TextField, Autocomplete } from '@mui/material';
 
 export default function RHFAutocomplete({
   name,
