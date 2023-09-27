@@ -1,6 +1,7 @@
-import { Box, Button, Stack } from '@mui/material';
+import { Box, Button, Stack, Typography } from '@mui/material';
 import React from 'react';
 import ChooseQuotes from './ChooseQuotes/ChooseQuotes';
+import EditDetails from './EditDetails/EditDetails';
 
 const CreateInvoice = (props: any) => {
   const { setIsListViewPgae } = props;
@@ -12,13 +13,26 @@ const CreateInvoice = (props: any) => {
 
   return (
     <Box>
+      <Typography variant="h3">Step 1</Typography>
+      <ChooseQuotes />
+      <Typography variant="h3">Step 2</Typography>
+      <EditDetails />
+      <Typography variant="h3">Step 3</Typography>
       <ChooseQuotes />
       <Stack justifyContent="space-between" alignItems="center" direction="row">
-        <Button onClick={cancelBtnHandler}>Back</Button>
+        <Button onClick={cancelBtnHandler} variant="outlined">
+          Back
+        </Button>
         <Box>
-          <Button onClick={cancelBtnHandler}>Cancel</Button>
-          <Button onClick={cancelBtnHandler}>Skip</Button>
-          <Button variant="contained">Next</Button>
+          <Stack gap="10px" direction="row">
+            <Button onClick={cancelBtnHandler} variant="outlined">
+              Cancel
+            </Button>
+            <Button onClick={cancelBtnHandler} variant="outlined">
+              Skip
+            </Button>
+            <Button variant="contained">Next</Button>
+          </Stack>
         </Box>
       </Stack>
     </Box>

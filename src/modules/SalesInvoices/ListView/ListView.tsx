@@ -9,9 +9,10 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { ArrowDropDown, FilterAlt } from '@mui/icons-material';
+import { ArrowDropDown } from '@mui/icons-material';
 import React, { useState } from 'react';
 import InvoicesTable from './ViewTable';
+import FilterDrawer from './FilterDrawer';
 
 const InvoicvesListView = (props: any) => {
   const { setIsListViewPgae } = props;
@@ -80,10 +81,7 @@ const InvoicvesListView = (props: any) => {
             >
               <RefreshIcon />
             </Box>
-            <Button sx={{ border: '1px solid #D1D5DB', color: '#6B7280' }}>
-              {' '}
-              <FilterAlt fontSize="small" /> Filter
-            </Button>
+            <FilterDrawer />
           </Stack>
         </Grid>
       </Grid>

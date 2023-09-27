@@ -5,6 +5,7 @@ import {
   MenuItem,
   Select,
   SelectChangeEvent,
+  Typography,
 } from '@mui/material';
 import { uuid } from 'uuidv4';
 
@@ -29,6 +30,7 @@ const ChooseQuotes = () => {
   return (
     <Box>
       <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+        <Typography>Select Quotes</Typography>
         <Select value={age} onChange={handleChange}>
           {options.map((item: any) => (
             <MenuItem key={uuid()} value={item.value}>
