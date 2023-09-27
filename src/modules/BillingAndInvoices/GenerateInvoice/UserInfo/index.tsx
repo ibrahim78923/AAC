@@ -1,15 +1,24 @@
-import * as React from 'react';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import Typography from '@mui/material/Typography';
-import { Grid } from '@mui/material';
-import { useTheme } from '@mui/material';
-import { Theme } from '@mui/material/styles';
+import Image from 'next/image';
+
+import {
+  Card,
+  CardActions,
+  CardContent,
+  Typography,
+  Grid,
+  useTheme,
+  Theme,
+} from '@mui/material';
+
+import { LogoSharedIcon } from '@/assets/icons';
+import { AvatarImage } from '@/assets/images';
 
 const styles = {
   mainCardBox: (theme: Theme) => ({
     backgroundColor: theme?.blue?.main,
+  }),
+  airAppleCardHeading: (theme: Theme) => ({
+    color: theme?.common?.white,
   }),
 };
 const UserInfo = () => {
@@ -19,22 +28,43 @@ const UserInfo = () => {
       <CardContent>
         <Grid container>
           <Grid item sm={6}>
-            <Typography variant="h5" gutterBottom>
-              Air Applecart
+            <Typography
+              variant="h5"
+              sx={styles?.airAppleCardHeading(theme?.palette)}
+            >
+              <LogoSharedIcon /> Air Applecart
             </Typography>
-            <Typography variant="subtitle2">123 Street Address</Typography>
-            <Typography variant="subtitle2">City | State | Zip Code</Typography>
-            <Typography variant="subtitle2">Phone No</Typography>
-            <Typography variant="subtitle2">Company Email</Typography>
+            <Typography variant="customStyle">123 Street Address</Typography>
+            <br />
+            <Typography variant="customStyle">
+              City | State | Zip Code
+            </Typography>
+            <br />
+            <Typography variant="customStyle">Phone No</Typography>
+            <br />
+            <Typography variant="customStyle">Company Email</Typography>
+            <br />
           </Grid>
           <Grid item sm={6}>
-            <Typography variant="h5" gutterBottom>
-              Air Applecart
+            <Image src={AvatarImage} alt="avatar-image" />
+            <Typography
+              variant="subtitle2"
+              sx={styles?.airAppleCardHeading(theme?.palette)}
+            >
+              Olivia Rhye
             </Typography>
-            <Typography variant="subtitle2">123 Street Address</Typography>
-            <Typography variant="subtitle2">City | State | Zip Code</Typography>
-            <Typography variant="subtitle2">Phone No</Typography>
-            <Typography variant="subtitle2">Company Email</Typography>
+            <Typography variant="customStyle">Extreme Commerce</Typography>
+            <br />
+            <Typography variant="customStyle">123 Street Address</Typography>
+            <br />
+            <Typography variant="customStyle">
+              City | State | Zip Code
+            </Typography>
+            <br />
+            <Typography variant="customStyle">Phone No</Typography>
+            <br />
+            <Typography variant="customStyle">Company Email</Typography>
+            <br />
           </Grid>
         </Grid>
       </CardContent>
