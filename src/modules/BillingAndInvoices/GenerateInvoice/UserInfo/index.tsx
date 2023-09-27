@@ -1,3 +1,5 @@
+import Image from 'next/image';
+
 import {
   Card,
   CardActions,
@@ -7,9 +9,10 @@ import {
   useTheme,
   Theme,
 } from '@mui/material';
+
 import { LogoSharedIcon } from '@/assets/icons';
-import Image from 'next/image';
 import { AvatarImage } from '@/assets/images';
+
 const styles = {
   mainCardBox: (theme: Theme) => ({
     backgroundColor: theme?.blue?.main,

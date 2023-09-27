@@ -1,4 +1,3 @@
-// @mui
 import useResponsive from '@/hooks/useResponsive';
 import { useTheme } from '@mui/material/styles';
 
