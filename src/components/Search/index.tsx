@@ -22,7 +22,7 @@ const Search = ({ label, width, searchBy, setSearchBy }: SearchPropsI) => {
         '& .MuiOutlinedInput-root ': {
           '& fieldset': {
             textAlign: 'right',
-            borderColor: '#E5E7EB',
+            borderColor: theme?.palette?.grey[500_16],
             width: width,
             borderRadius: '8px',
             '@media (max-width: 600px)': {
@@ -33,10 +33,10 @@ const Search = ({ label, width, searchBy, setSearchBy }: SearchPropsI) => {
             borderColor: theme?.palette?.primary?.main,
           },
           '& .MuiInputBase-input': {
-            color: 'black',
+            color: theme?.palette?.common?.black,
           },
           '&.Mui-focused fieldset': {
-            borderColor: '#E5E7EB',
+            borderColor: theme?.palette?.grey[500_16],
           },
         },
       }}

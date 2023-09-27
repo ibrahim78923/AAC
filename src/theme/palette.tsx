@@ -46,7 +46,13 @@ const BLUE = {
   dark: '#19264a',
   darker: '#162241',
 };
-
+const SLATE_BLUE = {
+  lighter: '#878d97',
+  light: '#5f6774',
+  main: '#374151',
+  dark: '#2c3441',
+  darker: '#272e39',
+};
 const GREY: any = {
   0: '#FFFFFF',
   100: '#f9fafb',
@@ -81,8 +87,9 @@ const COMMON = {
   secondary: { ...SECONDARY, contrastText: '#fff' },
   success: { ...SUCCESS, contrastText: GREY[800] },
   warning: { ...WARNING, contrastText: GREY[800] },
-  error: { ...ERROR, contrastText: '#fff' },
-  blue: { ...BLUE, contrastText: '#fff' },
+  error: { ...ERROR, contrastText: GREY[800] },
+  blue: { ...BLUE, contrastText: GREY[800] },
+  slateBlue: { ...SLATE_BLUE, contrastText: GREY[800] },
   grey: GREY,
   gradients: GRADIENTS,
 

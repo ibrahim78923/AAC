@@ -11,6 +11,9 @@ const styles = {
   mainCardBox: (theme: Theme) => ({
     backgroundColor: theme?.blue?.main,
   }),
+  airAppleCardHeading: (theme: Theme) => ({
+    color: theme?.common?.white,
+  }),
 };
 const UserInfo = () => {
   const theme = useTheme<Theme>();
@@ -19,22 +22,42 @@ const UserInfo = () => {
       <CardContent>
         <Grid container>
           <Grid item sm={6}>
-            <Typography variant="h5" gutterBottom>
+            <Typography
+              variant="h5"
+              sx={styles?.airAppleCardHeading(theme?.palette)}
+            >
               Air Applecart
             </Typography>
-            <Typography variant="subtitle2">123 Street Address</Typography>
-            <Typography variant="subtitle2">City | State | Zip Code</Typography>
-            <Typography variant="subtitle2">Phone No</Typography>
-            <Typography variant="subtitle2">Company Email</Typography>
+            <Typography variant="customStyle">123 Street Address</Typography>
+            <br />
+            <Typography variant="customStyle">
+              City | State | Zip Code
+            </Typography>
+            <br />
+            <Typography variant="customStyle">Phone No</Typography>
+            <br />
+            <Typography variant="customStyle">Company Email</Typography>
+            <br />
           </Grid>
           <Grid item sm={6}>
-            <Typography variant="h5" gutterBottom>
-              Air Applecart
+            <Typography
+              variant="subtitle2"
+              sx={styles?.airAppleCardHeading(theme?.palette)}
+            >
+              Olivia Rhye
             </Typography>
-            <Typography variant="subtitle2">123 Street Address</Typography>
-            <Typography variant="subtitle2">City | State | Zip Code</Typography>
-            <Typography variant="subtitle2">Phone No</Typography>
-            <Typography variant="subtitle2">Company Email</Typography>
+            <Typography variant="customStyle">Extreme Commerce</Typography>
+            <br />
+            <Typography variant="customStyle">123 Street Address</Typography>
+            <br />
+            <Typography variant="customStyle">
+              City | State | Zip Code
+            </Typography>
+            <br />
+            <Typography variant="customStyle">Phone No</Typography>
+            <br />
+            <Typography variant="customStyle">Company Email</Typography>
+            <br />
           </Grid>
         </Grid>
       </CardContent>

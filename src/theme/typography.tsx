@@ -52,7 +52,7 @@ const typography = {
   subtitle2: {
     fontWeight: 700,
     lineHeight: 1.5,
-    fontSize: pxToRem(16),
+    fontSize: pxToRem(12),
   },
   body1: {
     lineHeight: 1.5,
@@ -82,21 +82,28 @@ const typography = {
     fontWeight: 600,
     fontSize: pxToRem(18),
   },
+  customStyle: {
+    fontSize: pxToRem(12),
+    color: '#fff',
+  },
 };
 
 declare module '@mui/material/styles' {
   interface TypographyVariants {
     formTopHeading: React.CSSProperties;
+    customStyle: React.CSSProperties;
   }
 
   interface TypographyVariantsOptions {
     formTopHeading?: React.CSSProperties;
+    customStyle: React.CSSProperties;
   }
 }
 
 declare module '@mui/material/Typography' {
   interface TypographyPropsVariantOverrides {
     formTopHeading: true;
+    customStyle: true;
   }
 }
 
