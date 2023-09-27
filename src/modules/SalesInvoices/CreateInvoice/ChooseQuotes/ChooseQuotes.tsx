@@ -1,0 +1,44 @@
+import React from 'react';
+import {
+  Box,
+  FormControl,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+} from '@mui/material';
+import { uuid } from 'uuidv4';
+
+const ChooseQuotes = () => {
+  const [age, setAge] = React.useState('');
+
+  const handleChange = (event: SelectChangeEvent) => {
+    setAge(event.target.value);
+  };
+
+  const options = [
+    { label: 'Opton 1', value: 'Opton 1' },
+    { label: 'Opton 2', value: 'Opton 2' },
+    { label: 'Opton 3', value: 'Opton 3' },
+    { label: 'Opton 4', value: 'Opton 4' },
+    { label: 'Opton 5', value: 'Opton 5' },
+    { label: 'Opton 6', value: 'Opton 6' },
+    { label: 'Opton 7', value: 'Opton 7' },
+    { label: 'Opton 8', value: 'Opton 8' },
+  ];
+
+  return (
+    <Box>
+      <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+        <Select value={age} onChange={handleChange}>
+          {options.map((item: any) => (
+            <MenuItem key={uuid()} value={item.value}>
+              {item.label}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+    </Box>
+  );
+};
+
+export default ChooseQuotes;

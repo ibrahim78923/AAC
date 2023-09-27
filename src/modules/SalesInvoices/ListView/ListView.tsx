@@ -13,7 +13,8 @@ import { ArrowDropDown, FilterAlt } from '@mui/icons-material';
 import React, { useState } from 'react';
 import InvoicesTable from './ViewTable';
 
-const InvoicvesListView = () => {
+const InvoicvesListView = (props: any) => {
+  const { setIsListViewPgae } = props;
   const [selectedValue, setSelectedValue] = useState(null);
   const [selected, setSelected] = useState<readonly string[]>([]);
 
@@ -29,8 +30,11 @@ const InvoicvesListView = () => {
     <>
       <Stack direction="row" justifyContent="space-between">
         <Typography variant="h3">Invoice</Typography>
-        <Button variant="contained" sx={{ display: 'flex', gap: '10px' }}>
-          {' '}
+        <Button
+          variant="contained"
+          sx={{ display: 'flex', gap: '10px' }}
+          onClick={() => setIsListViewPgae(true)}
+        >
           <PlusIcon /> Create Invoice
         </Button>
       </Stack>
