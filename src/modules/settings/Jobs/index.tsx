@@ -16,6 +16,7 @@ const Jobs = () => {
   const submitHandler = () => {
     setIsJobPostingDrawer(false);
   };
+
   return (
     <Box
       sx={{
@@ -49,6 +50,7 @@ const Jobs = () => {
         </Button>
       </Box>
       <Box>Common table</Box>
+
       <CommonDrawer
         isDrawerOpen={isJobPostingDrawer}
         onClose={onClose}
@@ -58,11 +60,13 @@ const Jobs = () => {
         footer={true}
         submitHandler={submitHandler}
       >
-        <span>dummy text</span>
-        <br />
-        <TextEditor value={editorValue} onChange={setEditorValue} />
-        <br />
-        <SearchableSelect />
+        <>
+          <span>dummy text</span>
+          <br />
+          <TextEditor value={editorValue} onChange={setEditorValue} />
+          <br />
+          <SearchableSelect />
+        </>
       </CommonDrawer>
     </Box>
   );
