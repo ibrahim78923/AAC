@@ -1,6 +1,7 @@
-import { Box, Stack, Typography } from '@mui/material';
 import React from 'react';
-import { uuid } from 'uuidv4';
+import { Box, Stack, Typography } from '@mui/material';
+import { LogoSharedIcon } from '@/assets/icons';
+import { v4 as uuidv4 } from 'uuid';
 
 const DetailCard = () => {
   const style = {
@@ -39,22 +40,25 @@ const DetailCard = () => {
     <Box sx={style?.cardDetails}>
       <Box className="air-apple-card">
         <Stack direction="row" justifyContent="space-between">
-          <Stack gap="5px">
+          <Stack gap="20px" direction="row">
+            <Box sx={{ mt: '5px' }}>
+              <LogoSharedIcon />
+            </Box>
             {cardDetails.map((item: any) => (
-              <Box key={uuid()}>
+              <Box key={uuidv4()}>
                 <Typography variant="h5">{item.label}</Typography>
                 {item.details?.map((val: any) => (
-                  <Typography key={uuid()}>{val.title}</Typography>
+                  <Typography key={uuidv4()}>{val.title}</Typography>
                 ))}
               </Box>
             ))}
           </Stack>
           <Box>
             {clientDetails.map((item: any) => (
-              <Stack gap="5px" key={uuid()}>
+              <Stack gap="5px" key={uuidv4()}>
                 <Typography variant="h5">{item.label}</Typography>
                 {item.details?.map((val: any) => (
-                  <Typography key={uuid()}>{val.title}</Typography>
+                  <Typography key={uuidv4()}>{val.title}</Typography>
                 ))}
               </Stack>
             ))}

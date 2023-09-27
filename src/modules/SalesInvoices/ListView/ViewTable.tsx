@@ -1,118 +1,87 @@
 import { useState, useMemo } from 'react';
-import Box from '@mui/material/Box';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
-import TableRow from '@mui/material/TableRow';
-import TableSortLabel from '@mui/material/TableSortLabel';
-import Paper from '@mui/material/Paper';
-import Checkbox from '@mui/material/Checkbox';
+import {
+  Box,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TablePagination,
+  TableRow,
+  MenuItem,
+  Select,
+  TableSortLabel,
+  Paper,
+  Checkbox,
+  Table,
+} from '@mui/material';
 import { visuallyHidden } from '@mui/utils';
-import { MenuItem, Select } from '@mui/material';
 
 interface Data {
   invoiceAmount: string;
   linkedQuote: string;
-  status: number;
+  status: string;
   invoiceName: string;
   createdBy: string;
   createdDate: string;
 }
 
-function createData(
-  invoiceName: string,
-  invoiceAmount: string,
-  status: number,
-  linkedQuote: string,
-  createdBy: string,
-  createdDate: string,
-): Data {
-  return {
-    invoiceName,
-    invoiceAmount,
-    status,
-    linkedQuote,
-    createdBy,
-    createdDate,
-  };
-}
-
 const rows = [
-  createData(
-    'Iphone Import from UK',
-    '£20',
-    3.7,
-    'Iphone import from Uk',
-    'Azeem Aslam',
-    '23/09/2023',
-  ),
-  createData(
-    'Laptop purchase deal',
-    '£20',
-    3.7,
-    'Iphone import from Uk',
-    'Azeem Aslam',
-    '23/09/2023',
-  ),
-  createData(
-    'Mobile accessories',
-    '£20',
-    3.7,
-    'Iphone import from Uk',
-    'Azeem Aslam',
-    '23/09/2023',
-  ),
-  createData(
-    'Laptop accessories',
-    '£20',
-    3.7,
-    'Iphone import from Uk',
-    'Azeem Aslam',
-    '23/09/2023',
-  ),
-  createData(
-    'Computer accessories',
-    '£20',
-    3.7,
-    'Iphone import from Uk',
-    'Azeem Aslam',
-    '23/09/2023',
-  ),
-  createData(
-    'Tablet accessories',
-    '£20',
-    3.7,
-    'Iphone import from Uk',
-    'Azeem Aslam',
-    '23/09/2023',
-  ),
-  createData(
-    'Electrical accessories',
-    '£20',
-    3.7,
-    'Iphone import from Uk',
-    'Azeem Aslam',
-    '23/09/2023',
-  ),
-  createData(
-    'Electronic accessories',
-    '£20',
-    3.7,
-    'Iphone import from Uk',
-    'Azeem Aslam',
-    '23/09/2023',
-  ),
-  createData(
-    'Mac accessories',
-    '£20',
-    3.7,
-    'Iphone import from Uk',
-    'Azeem Aslam',
-    '23/09/2023',
-  ),
+  {
+    invoiceName: 'Iphone accessories',
+    invoiceAmount: '£20',
+    status: 'Paid',
+    linkedQuote: 'Iphone import from Uk',
+    createdBy: 'Azeem Aslam',
+    createdDate: '23/09/2023',
+  },
+  {
+    invoiceName: 'Tablet accessories',
+    invoiceAmount: '£20',
+    status: 'Published',
+    linkedQuote: 'Iphone import from Uk',
+    createdBy: 'Azeem Aslam',
+    createdDate: '23/09/2023',
+  },
+  {
+    invoiceName: 'Computer accessories',
+    invoiceAmount: '£20',
+    status: 'Paid',
+    linkedQuote: 'Iphone import from Uk',
+    createdBy: 'Azeem Aslam',
+    createdDate: '23/09/2023',
+  },
+  {
+    invoiceName: 'Mobile accessories',
+    invoiceAmount: '£20',
+    status: 'view',
+    linkedQuote: 'Iphone import from Uk',
+    createdBy: 'Azeem Aslam',
+    createdDate: '23/09/2023',
+  },
+  {
+    invoiceName: 'Mac accessories',
+    invoiceAmount: '£20',
+    status: 'Published',
+    linkedQuote: 'Iphone import from Uk',
+    createdBy: 'Azeem Aslam',
+    createdDate: '23/09/2023',
+  },
+  {
+    invoiceName: 'Electric accessories',
+    invoiceAmount: '£20',
+    status: 'Paid',
+    linkedQuote: 'Iphone import from Uk',
+    createdBy: 'Azeem Aslam',
+    createdDate: '23/09/2023',
+  },
+  {
+    invoiceName: 'Electronic accessories',
+    invoiceAmount: '£20',
+    status: 'View',
+    linkedQuote: 'Iphone import from Uk',
+    createdBy: 'Azeem Aslam',
+    createdDate: '23/09/2023',
+  },
 ];
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
@@ -212,7 +181,7 @@ interface EnhancedTableProps {
   rowCount: number;
 }
 
-function EnhancedTableHead(props: EnhancedTableProps) {
+const ListViewTable = (props: EnhancedTableProps) => {
   const {
     onSelectAllClick,
     order,
@@ -264,14 +233,13 @@ function EnhancedTableHead(props: EnhancedTableProps) {
       </TableRow>
     </TableHead>
   );
-}
+};
 
-export default function InvoicesTable(props: any) {
+const InvoicesTable = (props: any) => {
   const { selected, setSelected } = props;
   const [order, setOrder] = useState<Order>('asc');
-  const [selectedOptions, setSelectedOptions] = useState('');
+  const [selectedOptions, setSelectedOptions] = useState('Option 1');
   const [orderBy, setOrderBy] = useState<keyof Data>('invoiceAmount');
-  // const [selected, setSelected] = useState<readonly string[]>([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
@@ -342,7 +310,7 @@ export default function InvoicesTable(props: any) {
       <Paper sx={{ width: '100%', mb: 2 }}>
         <TableContainer>
           <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle">
-            <EnhancedTableHead
+            <ListViewTable
               numSelected={selected.length}
               order={order}
               orderBy={orderBy}
@@ -391,7 +359,6 @@ export default function InvoicesTable(props: any) {
                           setSelectedOptions(event.target.value)
                         }
                       >
-                        <MenuItem value="">Select an option</MenuItem>
                         <MenuItem value="Option 1">Option 1</MenuItem>
                         <MenuItem value="Option 2">Option 2</MenuItem>
                         <MenuItem value="Option 3">Option 3</MenuItem>
@@ -423,4 +390,6 @@ export default function InvoicesTable(props: any) {
       </Paper>
     </Box>
   );
-}
+};
+
+export default InvoicesTable;

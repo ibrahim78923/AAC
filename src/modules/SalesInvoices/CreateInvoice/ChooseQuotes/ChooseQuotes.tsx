@@ -7,7 +7,7 @@ import {
   SelectChangeEvent,
   Typography,
 } from '@mui/material';
-import { uuid } from 'uuidv4';
+import { v4 as uuidv4 } from 'uuid';
 
 const ChooseQuotes = () => {
   const [age, setAge] = React.useState('');
@@ -33,7 +33,7 @@ const ChooseQuotes = () => {
         <Typography>Select Quotes</Typography>
         <Select value={age} onChange={handleChange}>
           {options.map((item: any) => (
-            <MenuItem key={uuid()} value={item.value}>
+            <MenuItem key={uuidv4()} value={item.value}>
               {item.label}
             </MenuItem>
           ))}

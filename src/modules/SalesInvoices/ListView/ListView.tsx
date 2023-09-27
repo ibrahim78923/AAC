@@ -1,4 +1,4 @@
-import { PlusIcon, RefreshIcon } from '@/assets/icons';
+import React, { useState } from 'react';
 import {
   Box,
   Button,
@@ -6,17 +6,18 @@ import {
   Menu,
   MenuItem,
   Stack,
-  TextField,
   Typography,
 } from '@mui/material';
 import { ArrowDropDown } from '@mui/icons-material';
-import React, { useState } from 'react';
 import InvoicesTable from './ViewTable';
 import FilterDrawer from './FilterDrawer';
+import { PlusSharedIcon, RefreshIcon } from '@/assets/icons';
+import Search from '@/components/Search';
 
 const InvoicvesListView = (props: any) => {
   const { setIsListViewPgae } = props;
   const [selectedValue, setSelectedValue] = useState(null);
+  const [searchBy, setSearchBy] = useState('');
   const [selected, setSelected] = useState<readonly string[]>([]);
 
   const handleClick = (event: any) => {
@@ -35,17 +36,19 @@ const InvoicvesListView = (props: any) => {
           variant="contained"
           sx={{ display: 'flex', gap: '10px' }}
           onClick={() => setIsListViewPgae(true)}
+          startIcon={<PlusSharedIcon />}
         >
-          <PlusIcon /> Create Invoice
+          {' '}
+          Create Invoice{' '}
         </Button>
       </Stack>
       <Grid container sx={{ marginTop: '30px' }}>
         <Grid item xs={6}>
-          <TextField
-            id="outlined-search"
-            placeholder="Search Here"
-            type="search"
-            size="small"
+          <Search
+            label="Search Here"
+            searchBy={searchBy}
+            setSearchBy={setSearchBy}
+            width={240}
           />
         </Grid>
         <Grid item xs={6}>
