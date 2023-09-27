@@ -1,3 +1,4 @@
+import NotFound from '@/components/NotFound';
 import SuperAdminLayout from '@/layouts/SuperAdminLayout/SuperAdminLayout';
 import BarChart from '@/modules/BarChart/BarChart';
 import { useTheme } from '@emotion/react';
@@ -23,6 +24,10 @@ export default function Home() {
 
       <Button variant="contained">Add Button</Button>
       <Button> Cancel </Button>
+      <NotFound
+        type="error"
+        message="Data not found. Please check your request or try again later."
+      />
     </div>
   );
 }
