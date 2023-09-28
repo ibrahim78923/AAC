@@ -24,7 +24,7 @@ export const data: any = [
     status: 'Drafts',
     insertedTickets: 'Sharemydine',
     Author: 'Alee',
-    folder: 'Tech support',
+    folder: 'Tech support 3',
   },
 ];
 export const columns: any = [
