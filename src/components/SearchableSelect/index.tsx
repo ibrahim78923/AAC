@@ -1,14 +1,53 @@
-import React, { useEffect, useRef, useState } from 'react';
-import Box from '@mui/material/Box';
-import MenuItem from '@mui/material/MenuItem';
-import TextField from '@mui/material/TextField';
-import { Typography } from '@mui/material';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 
-const SearchableSelect = () => {
+import {
+  Box,
+  InputAdornment,
+  MenuItem,
+  TextField,
+  useTheme,
+} from '@mui/material';
+
+import {
+  DropdownDataPropsI,
+  SearchableSelectPropsI,
+} from './SearchableSelect.interface';
+
+import { ArrowDownIcon } from '@/assets/icons';
+import {
+  SearchSelectStyles,
+  wrapperSearchDropdown,
+} from './SearchableSelect.style';
+
+const SearchableSelect: React.FC<SearchableSelectPropsI> = ({
+  dropdownData,
+  renderOption,
+  setValue,
+  selectedValue,
+}) => {
   const [isSearchableSelect, setIsSearchableSelect] = useState(false);
-
+  const [searchQuery, setSearchQuery] = useState('');
   const textFieldRef = useRef<HTMLDivElement | null>(null);
+  const [selectedDropdownValue, setSelectedDropdownValue] = useState('');
+  const theme = useTheme();
+  const selectOptions = useMemo(() => {
+    const query = searchQuery.toLowerCase();
+    return dropdownData.filter((option: DropdownDataPropsI) => {
+      for (const key in option) {
+        if (
+          typeof option[key] === 'string' &&
+          option[key].toLowerCase().includes(query)
+        ) {
+          return true;
+        }
+      }
+      return false;
+    });
+  }, [dropdownData, searchQuery]);
 
+  const handleSearchFieldClick = (event: React.MouseEvent) => {
+    event.stopPropagation();
+  };
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -24,9 +63,6 @@ const SearchableSelect = () => {
     };
   }, []);
 
-  const handleSearchFieldClick = (event: React.MouseEvent) => {
-    event.stopPropagation();
-  };
   return (
     <Box
       sx={{
@@ -38,49 +74,61 @@ const SearchableSelect = () => {
         id="outlined-basic"
         label=""
         variant="outlined"
+        value={selectedValue ? selectedValue : selectedDropdownValue}
         placeholder="Select"
+        contentEditable={false}
         onClick={() => setIsSearchableSelect(true)}
         sx={{
+          '& div': {
+            border: 'none',
+            '&:hover fieldset': {
+              borderColor: '#88DFD3 !important',
+              boxShadow: '0px 0px 0px 3px #A0E5DB80',
+            },
+          },
           width: '100%',
-          height: '44px',
-          '& .css-s5zijf-MuiInputBase-root-MuiOutlinedInput-root': {
+          '& input': {
+            height: '44px',
+            border: `none`,
             borderRadius: '8px',
-            border: ' #E5E7EB',
+            fontSize: '16px',
+            padding: '0px 10px',
+            color: 'black',
           },
         }}
         ref={textFieldRef}
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="end">
+              <ArrowDownIcon />
+            </InputAdornment>
+          ),
+        }}
       />
-
       {isSearchableSelect && (
-        <Box
-          sx={{
-            width: '100%',
-            position: 'absolute',
-            left: '0',
-            top: '58px',
-            borderRadius: '8px',
-            border: '1px solid #F3F4F6',
-            background: '#fff',
-            boxShadow:
-              '0px 4px 6px -2px rgba(16, 24, 40, 0.03), 0px 12px 16px -4px rgba(16, 24, 40, 0.08)',
-          }}
-        >
+        <Box sx={wrapperSearchDropdown}>
           <TextField
             id="search-field"
             label=""
+            value={searchQuery}
             variant="outlined"
-            placeholder="Select"
+            placeholder="Search Here"
             onClick={handleSearchFieldClick}
-            sx={{
-              width: { lg: '440px', md: '440px', sm: '100%', xs: '100%' },
-              borderRadius: '8px',
-            }}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            sx={() => SearchSelectStyles.searchSelect(theme)}
           />
-          <MenuItem value={10}>
-            <Typography variant="h6" sx={{ color: 'red' }}>
-              h6 (Air Apple Cart)
-            </Typography>
-          </MenuItem>
+          {selectOptions &&
+            selectOptions.map((item: DropdownDataPropsI) => (
+              <MenuItem
+                value={item.id}
+                key={item.id}
+                onClick={() => (
+                  setValue(item), setSelectedDropdownValue(item.label)
+                )}
+              >
+                {renderOption(item)}
+              </MenuItem>
+            ))}
         </Box>
       )}
     </Box>

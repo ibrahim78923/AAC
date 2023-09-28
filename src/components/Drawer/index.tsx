@@ -1,14 +1,16 @@
 import React from 'react';
-import Drawer from '@mui/material/Drawer';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Container from '@mui/material/Container';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import { useTheme } from '@mui/material/styles';
+import {
+  Drawer,
+  Box,
+  Button,
+  Container,
+  AppBar,
+  Toolbar,
+  Typography,
+} from '@mui/material';
 import { CommonDrawerPropsI } from '@/types/shared/Drawer';
 import CloseIcon from '@/assets/icons/shared/close-icon';
+import { useTheme } from '@mui/material/styles';
 
 const CommonDrawer = ({
   isDrawerOpen,

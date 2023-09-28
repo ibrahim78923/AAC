@@ -1,21 +1,35 @@
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
 import React, { useState } from 'react';
-import Button from '@mui/material/Button';
+
+import { Box, Button, Typography } from '@mui/material';
+
 import CommonDrawer from '@/components/Drawer';
 import TextEditor from '@/components/TextEditor';
 import SearchableSelect from '@/components/SearchableSelect';
 
+import { candidatesArray } from '@/mock/modules/Settings/Jobs';
+import { CandidatesArrayI } from './jobs.interface';
+
 const Jobs = () => {
   const [isJobPostingDrawer, setIsJobPostingDrawer] = useState(false);
   const [editorValue, setEditorValue] = useState<string>('');
+  const [searchableSelectValue, setSearchableSelectValue] =
+    useState<CandidatesArrayI>();
 
   const onClose = () => {
     setIsJobPostingDrawer(false);
   };
+
   const submitHandler = () => {
     setIsJobPostingDrawer(false);
   };
+
+  function renderCustomOption(option: any) {
+    return (
+      <Typography variant="h6" sx={{ color: '#4B5563' }}>
+        {option.label} - {option.name}
+      </Typography>
+    );
+  }
 
   return (
     <Box
@@ -65,7 +79,12 @@ const Jobs = () => {
           <br />
           <TextEditor value={editorValue} onChange={setEditorValue} />
           <br />
-          <SearchableSelect />
+          <SearchableSelect
+            dropdownData={candidatesArray}
+            renderOption={renderCustomOption}
+            setValue={setSearchableSelectValue}
+            selectedValue={searchableSelectValue?.label || ''}
+          />
         </>
       </CommonDrawer>
     </Box>
