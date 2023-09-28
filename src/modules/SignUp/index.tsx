@@ -55,9 +55,6 @@ const formStyling = {
 
 const CheckBoxStyle = {
   color: '#D1D5DB',
-  '& checked': {
-    color: 'red !important',
-  },
 };
 
 const SignUp = () => {
@@ -65,6 +62,9 @@ const SignUp = () => {
   const [isMatchPassword, setIsMatchPassword] = useState<boolean>(false);
   const [isStepComplete, setIsStepComplete] = useState<boolean>(false);
   const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
+  const [isShowConfirmPassword, setIsShowConfirmPassword] =
+    useState<boolean>(false);
+  // const [isSuccess, setIsSuccess] = useState<boolean>(false);
 
   const theme = useTheme();
   const {
@@ -128,10 +128,7 @@ const SignUp = () => {
               <form onSubmit={handleSubmit(onSubmit)} style={formStyling}>
                 {isStepComplete ? (
                   <>
-                    <Typography
-                      variant="body2"
-                      sx={{ marginBottom: '8px', marginTop: '20px' }}
-                    >
+                    <Typography variant="body2" sx={{ marginBottom: '8px' }}>
                       Select Product(s) <span style={{ color: 'red' }}>*</span>
                     </Typography>
 
@@ -335,17 +332,19 @@ const SignUp = () => {
                           height="23px"
                           autoComplete="off"
                           hasError={!!errors?.confirmPassword}
-                          type={isShowPassword ? 'text' : 'password'}
+                          type={isShowConfirmPassword ? 'text' : 'password'}
                           InputProps={{
                             endAdornment: (
                               <InputAdornment
                                 position="end"
                                 sx={{ width: '30px', cursor: 'pointer' }}
                               >
-                                {isShowPassword ? (
+                                {isShowConfirmPassword ? (
                                   <Box
                                     onClick={() =>
-                                      setIsShowPassword(!isShowPassword)
+                                      setIsShowConfirmPassword(
+                                        !isShowConfirmPassword,
+                                      )
                                     }
                                   >
                                     <EyeIcon />
@@ -353,7 +352,9 @@ const SignUp = () => {
                                 ) : (
                                   <Box
                                     onClick={() =>
-                                      setIsShowPassword(!isShowPassword)
+                                      setIsShowConfirmPassword(
+                                        !isShowConfirmPassword,
+                                      )
                                     }
                                   >
                                     <EyeSlashIcon />
@@ -387,17 +388,14 @@ const SignUp = () => {
                     <Button
                       type="submit"
                       variant="contained"
-                      sx={{ marginY: '30px' }}
+                      sx={{ marginTop: '30px' }}
                     >
                       Sign Up
                     </Button>
                   </>
                 ) : (
                   <>
-                    <Typography
-                      variant="body2"
-                      style={{ marginBottom: '8px', marginTop: '5px' }}
-                    >
+                    <Typography variant="body2" style={{ marginBottom: '8px' }}>
                       Full Name <span style={{ color: 'red' }}>*</span>
                     </Typography>
                     <Controller
@@ -489,7 +487,7 @@ const SignUp = () => {
                           width="100%"
                           height="23px"
                           autoComplete="off"
-                          type="text"
+                          type="number"
                           hasError={!!errors?.phoneNumber}
                         />
                       )}
@@ -507,7 +505,7 @@ const SignUp = () => {
 
                     <Button
                       variant="contained"
-                      sx={{ marginY: '30px' }}
+                      sx={{ marginTop: '30px' }}
                       onClick={() => setIsStepComplete(true)}
                     >
                       Next
