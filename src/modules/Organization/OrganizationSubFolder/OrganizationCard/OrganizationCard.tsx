@@ -1,16 +1,37 @@
-import React from 'react';
+import React, { useState } from 'react';
+
+import Image from 'next/image';
+
 import { Grid, Box, Typography } from '@mui/material';
+
+import CommonDrawer from '@/components/Drawer';
+
 import logo from '../../../../assets/images/modules/organization/orcalologo.png';
 import user from '../../../../assets/images/modules/organization/user.png';
 import sms from '../../../../assets/images/modules/organization/sms.png';
 import phone from '../../../../assets/images/modules/organization/phone.png';
 import edit from '../../../../assets/images/modules/organization/edit.png';
-import Image from 'next/image';
+
 import { productItem } from './MockData';
 
 const OrganizationCard = () => {
+  const [openDrawer, setOpenDrawer] = useState(false);
+
   return (
     <>
+      <CommonDrawer
+        isDrawerOpen={openDrawer}
+        onClose={() => {
+          setOpenDrawer(false);
+        }}
+        title="Edit Info"
+        okText="ok"
+        isOk={true}
+        footer={true}
+        // submitHandler={}
+      >
+        edit information
+      </CommonDrawer>
       <Box sx={{ paddingTop: '5px' }}>
         <Grid container spacing={2}>
           <Grid item lg={6} md={6} sm={6} xs={12}>
@@ -119,6 +140,9 @@ const OrganizationCard = () => {
                 </Grid>
                 <Grid item lg={4} md={4} sm={6} xs={12}>
                   <Box
+                    onClick={() => {
+                      setOpenDrawer(true);
+                    }}
                     sx={{
                       display: 'flex',
                       alignItems: 'center',

@@ -1,7 +1,10 @@
 import React from 'react';
+
 import { Box, Typography } from '@mui/material';
+
 import OrganizationCard from './OrganizationSubFolder/OrganizationCard/OrganizationCard';
 import OrganizationTable from './OrganizationSubFolder/OrganizationTable/OrganizationTable';
+
 const Organization = () => {
   return (
     <>

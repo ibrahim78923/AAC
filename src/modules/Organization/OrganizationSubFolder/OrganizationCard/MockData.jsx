@@ -2,7 +2,6 @@ import sale from "../../../../assets/images/modules/organization/Featuredicon.pn
 import sent from "../../../../assets/images/modules/organization/sent.png";
 import service from "../../../../assets/images/modules/organization/service.png";
 
-
 export const productItem = [
     {
         id: "1",
@@ -17,13 +16,13 @@ export const productItem = [
         img: sent,
         name: "Marketing",
         color: "#9CA3AF",
-        status:true
+        status:false
     },
     {
         id: "3",
         img: service,
         name: "Service",
         color: "#9CA3AF",
-        status:true
+        status:false
     },
 ]

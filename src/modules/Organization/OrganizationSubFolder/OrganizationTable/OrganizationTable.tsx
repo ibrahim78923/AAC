@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
+
 import Image from 'next/image';
+
 import {
   Grid,
   Box,
-  TextField,
-  InputAdornment,
   Button,
   Menu,
   MenuItem,
@@ -16,12 +16,20 @@ import {
   TableRow,
   Avatar,
   AvatarGroup,
+  Typography,
 } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
+
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+
+import Search from '@/components/Search';
+import CommonDrawer from '@/components/Drawer';
+
 import add from '../../../../assets/images/modules/organization/addcircle.png';
 
 const OrganizationTable = () => {
+  const [openDrawer, setOpenDrawer] = useState(false);
+  const [openEditDrawer, setOpenEditDrawer] = useState(false);
+  const [value, setValue] = useState('search here');
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
@@ -30,6 +38,7 @@ const OrganizationTable = () => {
   };
   const handleClose = () => {
     setAnchorEl(null);
+    setOpenEditDrawer(true);
   };
 
   function createData(
@@ -89,18 +98,53 @@ const OrganizationTable = () => {
 
   return (
     <>
+      <CommonDrawer
+        isDrawerOpen={openDrawer}
+        onClose={() => {
+          setOpenDrawer(false);
+        }}
+        title="Create Company"
+        okText="ok"
+        isOk={true}
+        footer={true}
+        // submitHandler={}
+      >
+        <Typography variant="h5">Company Logo</Typography>
+        <center>
+          <Box
+            sx={{
+              border: '1px solid #E5E7EB',
+              borderRadius: '100px',
+              width: '120px',
+              height: '120px',
+              boxShadow:
+                '0px 2px 4px -2px #1018280F, 5px 5px 9px -2px #1018281A',
+            }}
+          ></Box>
+        </center>
+      </CommonDrawer>
+      <CommonDrawer
+        isDrawerOpen={openEditDrawer}
+        onClose={() => {
+          setOpenEditDrawer(false);
+        }}
+        title="Edit Company"
+        okText="ok"
+        isOk={true}
+        footer={true}
+        // submitHandler={}
+      >
+        Add COMPANY account
+      </CommonDrawer>
       <Box>
         <Grid container spacing={2}>
           <Grid item lg={3} md={3} sm={6} xs={12}>
-            <TextField
-              sx={{ width: '100%' }}
-              placeholder="Search here"
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <SearchIcon />
-                  </InputAdornment>
-                ),
+            <Search
+              label="Search here"
+              width="100%"
+              searchBy={value}
+              setSearchBy={(e: string) => {
+                setValue(e);
               }}
             />
           </Grid>
@@ -109,6 +153,7 @@ const OrganizationTable = () => {
               sx={{
                 display: 'flex',
                 justifyContent: 'flex-end',
+                flexWrap: 'wrap',
                 columnGap: '10px',
               }}
             >
@@ -118,6 +163,7 @@ const OrganizationTable = () => {
                   color: '#6B7280',
                   fontSize: '14px',
                   fontWeight: 500,
+                  width: { lg: 'unset', md: 'unset', sm: 'unset', xs: '100%' },
                 }}
                 aria-controls={open ? 'basic-menu' : undefined}
                 aria-haspopup="true"
@@ -137,13 +183,17 @@ const OrganizationTable = () => {
               >
                 <MenuItem onClick={handleClose}>Edit</MenuItem>
                 <MenuItem onClick={handleClose}>View</MenuItem>
+                <MenuItem>Delete</MenuItem>
               </Menu>
-
               <Button
-                onClick={() => {}}
+                onClick={() => {
+                  setOpenDrawer(true);
+                }}
                 variant="contained"
                 sx={{
-                  background: '#38CAB5',
+                  display: 'flex',
+                  alignContent: 'center',
+                  columnGap: '10px',
                   '&:hover': {
                     backgroundColor: '#38CAB5',
                     color: '#fff',
