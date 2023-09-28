@@ -5,27 +5,22 @@ import {
   ThemeProvider as MUIThemeProvider,
 } from '@mui/material/styles';
 import GlobalStyles from '@mui/material/GlobalStyles';
-
 import palette from './palette';
 import typography from './typography';
 import breakpoints from './breakpoints';
-import { customShadows } from './shadows';
-
-// ----------------------------------------------------------------------
+import CustomShadows from './shadows';
 
 export default function ThemeProvider({ children }: { children: ReactNode }) {
   const themeOptions: any = {
     palette: palette.light,
     typography,
     breakpoints,
+    CustomShadows: CustomShadows,
     spacing: 10,
     shape: { borderRadius: 4 },
-    direction: 'rtl',
-    customShadows: customShadows.light,
   };
 
   const theme = createTheme(themeOptions);
-  // theme.components = componentsOverride(theme);
 
   return (
     <MUIThemeProvider theme={theme}>

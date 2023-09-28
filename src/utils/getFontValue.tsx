@@ -1,4 +1,3 @@
-// @mui
 import useResponsive from '@/hooks/useResponsive';
 import { useTheme } from '@mui/material/styles';
 
@@ -57,7 +56,7 @@ export function responsiveFontSizes({ sm, md, lg }: any) {
 
 // ----------------------------------------------------------------------
 
-function useWidth() {
+const useWidth = () => {
   const theme = useTheme();
   const keys = [...theme.breakpoints.keys].reverse();
   return (
@@ -66,4 +65,4 @@ function useWidth() {
       return !output && matches ? key : output;
     }, null) || 'xs'
   );
-}
+};

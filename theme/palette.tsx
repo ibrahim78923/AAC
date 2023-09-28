@@ -1,15 +1,10 @@
-import { alpha } from '@mui/material/styles';
-
-// ----------------------------------------------------------------------
-
 export function createGradient(color1: string, color2: string) {
   return `linear-gradient(90deg, ${color1} 10.76%, ${color2} 133.7%)`;
 }
 
-// SETUP COLORS
 const PRIMARY = {
-  lighter: '#60d5c4',
-  light: '#2da291',
+  lighter: '#EBFAF8',
+  light: '#D7F4F0',
   main: '#38CAB5',
   dark: '#16847f',
   darker: '#278d7f',
@@ -22,7 +17,7 @@ const SECONDARY = {
   darker: '#25304c',
 };
 const SUCCESS = {
-  lighter: '#EEF9F1;',
+  lighter: '#E4FFEB;',
   light: '#AAF27F',
   main: '#47B263',
   dark: '#229A16',
@@ -48,29 +43,46 @@ const BLUE = {
   main: '#1F305D',
   dark: '#19264a',
   darker: '#162241',
+  dull_blue: '#111827',
 };
-
+const SLATE_BLUE = {
+  lighter: '#878d97',
+  light: '#5f6774',
+  main: '#374151',
+  dark: '#2c3441',
+  darker: '#272e39',
+};
+const INFO = {
+  lighter: '#ceeff5',
+  light: '#85d6e7',
+  main: '#0aadcf',
+  dark: '#3bbdd9',
+  darker: '#23b5d4',
+};
 const GREY: any = {
-  0: '#FFFFFF',
+  0: '#D1D5DB',
   100: '#f9fafb',
   200: '#f8f8fa',
   300: '#f7f7f9',
   400: '#f3f4f6',
   500: '#7a7a7b',
-  600: '#929294',
-  700: '#aaabac',
-  800: '#c2c3c5',
-  900: '#dbdcdd',
-  500_8: alpha('#919EAB', 0.08),
-  500_12: alpha('#919EAB', 0.12),
-  500_16: alpha('#919EAB', 0.16),
-  500_24: alpha('#919EAB', 0.24),
-  500_32: alpha('#919EAB', 0.32),
-  500_48: alpha('#919EAB', 0.48),
-  500_56: alpha('#919EAB', 0.56),
-  500_80: alpha('#919EAB', 0.8),
+  600: '#4B5563',
+  700: '#E5E7EB',
+  800: '#1F2937',
+  900: '#9CA3AF',
 };
 
+const CUSTOM_COLORS = {
+  lighter: '#5C5C5C',
+  light: '#667085',
+  main: '#6B7280',
+  dark: '#D1D5DB',
+
+  bluish_gray: '#BCC1CE',
+  grayish_blue: '#6B7280',
+  aqua_breeze: '#A0E5DB80',
+  light_green: ' #88DFD3',
+};
 const GRADIENTS = {
   primary: createGradient(PRIMARY.light, PRIMARY.main),
   success: createGradient(SUCCESS.light, SUCCESS.main),
@@ -84,18 +96,21 @@ const COMMON = {
   secondary: { ...SECONDARY, contrastText: '#fff' },
   success: { ...SUCCESS, contrastText: GREY[800] },
   warning: { ...WARNING, contrastText: GREY[800] },
-  error: { ...ERROR, contrastText: '#fff' },
-  blue: { ...BLUE, contrastText: '#fff' },
+  error: { ...ERROR, contrastText: GREY[800] },
+  blue: { ...BLUE, contrastText: GREY[800] },
+  info: { ...INFO, contrastText: GREY[800] },
+  custom: { ...CUSTOM_COLORS, contrastText: GREY[800] },
+  slateBlue: { ...SLATE_BLUE, contrastText: GREY[800] },
   grey: GREY,
   gradients: GRADIENTS,
 
-  divider: GREY[500_24],
+  divider: GREY[400],
   action: {
-    hover: GREY[500_8],
-    selected: GREY[500_16],
-    disabled: GREY[500_80],
-    disabledBackground: GREY[500_24],
-    focus: GREY[500_24],
+    hover: GREY[400],
+    selected: GREY[400],
+    disabled: GREY[400],
+    disabledBackground: GREY[400],
+    focus: GREY[400],
     hoverOpacity: 0.08,
     disabledOpacity: 0.48,
   },
@@ -123,3 +138,14 @@ const palette = {
 };
 
 export default palette;
+declare module '@mui/material/styles' {
+  interface Palette {
+    custom: any;
+    blue: any;
+  }
+
+  interface PaletteOptions {
+    custom?: any;
+    blue?: any;
+  }
+}
