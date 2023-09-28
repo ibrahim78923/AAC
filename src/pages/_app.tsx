@@ -1,4 +1,3 @@
-import NotistackProvider from '@/components/CustomNotistack';
 import '@/styles/globals.css';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -14,9 +13,7 @@ export default function App(props: any) {
     <ThemeProvider>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <ThemeLocalization>
-          <NotistackProvider>
-            {getLayout(<Component {...pageProps} />)}
-          </NotistackProvider>
+          {getLayout(<Component {...pageProps} />)}
         </ThemeLocalization>
       </LocalizationProvider>
     </ThemeProvider>
