@@ -1,11 +1,9 @@
-import { alpha } from '@mui/material/styles';
-
 export function createGradient(color1: string, color2: string) {
   return `linear-gradient(90deg, ${color1} 10.76%, ${color2} 133.7%)`;
 }
 
 const PRIMARY = {
-  lighter: '#EBFAF8)',
+  lighter: '#EBFAF8',
   light: '#D7F4F0',
   main: '#38CAB5',
   dark: '#16847f',
@@ -45,6 +43,7 @@ const BLUE = {
   main: '#1F305D',
   dark: '#19264a',
   darker: '#162241',
+  dull_blue: '#111827',
 };
 const SLATE_BLUE = {
   lighter: '#878d97',
@@ -61,30 +60,28 @@ const INFO = {
   darker: '#23b5d4',
 };
 const GREY: any = {
-  0: '#FFFFFF',
+  0: '#D1D5DB',
   100: '#f9fafb',
   200: '#f8f8fa',
   300: '#f7f7f9',
   400: '#f3f4f6',
   500: '#7a7a7b',
-  600: '#271211',
+  600: '#4B5563',
   700: '#E5E7EB',
   800: '#1F2937',
   900: '#9CA3AF',
-  500_8: '#1F2937',
-  500_12: '#4B5563',
-  500_16: '#111827',
-  500_24: alpha('#919EAB', 0.24),
-  500_32: alpha('#919EAB', 0.32),
-  500_48: alpha('#919EAB', 0.48),
-  500_56: alpha('#919EAB', 0.56),
-  500_80: alpha('#919EAB', 0.8),
 };
 
 const CUSTOM_COLORS = {
-  0: '#667085',
-  1: '#6B7280',
-  2: '#D1D5DB',
+  lighter: '#5C5C5C',
+  light: '#667085',
+  main: '#6B7280',
+  dark: '#D1D5DB',
+
+  bluish_gray: '#BCC1CE',
+  grayish_blue: '#6B7280',
+  aqua_breeze: '#A0E5DB80',
+  light_green: ' #88DFD3',
 };
 const GRADIENTS = {
   primary: createGradient(PRIMARY.light, PRIMARY.main),
@@ -141,3 +138,14 @@ const palette = {
 };
 
 export default palette;
+declare module '@mui/material/styles' {
+  interface Palette {
+    custom: any;
+    blue: any;
+  }
+
+  interface PaletteOptions {
+    custom?: any;
+    blue?: any;
+  }
+}
