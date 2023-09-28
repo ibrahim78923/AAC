@@ -1,0 +1,540 @@
+import React, { useState } from 'react';
+import { useForm, Controller, FormProvider } from 'react-hook-form';
+import Image from 'next/image';
+import Link from 'next/link';
+import { Grid, Button, InputAdornment, Typography } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import { styled } from '@mui/system';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import InputField from '@/components/InputField';
+import Dashboard from '@/assets/images/shared/login-dashboard.svg';
+import { CompanyLogo } from '@/assets/images/shared/companylogo';
+import { EyeIcon, EyeSlashIcon } from '@/assets/icons';
+
+const AuthHeader = styled('div')({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  position: 'fixed',
+  top: 20,
+  width: '100%',
+  zIndex: 1,
+  padding: '0 7%',
+  '& a': {
+    backgroundColor: '#41CCB8',
+    color: '#fff',
+    border: 'none',
+    borderRadius: '5px',
+    fontSize: '16px',
+    cursor: 'pointer',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '85px',
+    height: '44px',
+  },
+});
+
+const loginDashboard = {
+  backgroundColor: 'rgb(245, 245, 245)',
+  height: '100vh',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+};
+
+const formStyling = {
+  display: 'grid',
+  border: '1.5px solid #E5E7EB',
+  borderRadius: '8px',
+  padding: '30px',
+  marginTop: '30px',
+};
+
+const CheckBoxStyle = {
+  color: '#D1D5DB',
+  '& checked': {
+    color: 'red !important',
+  },
+};
+
+const SignUp = () => {
+  const [isShowError, setIsShowError] = useState<boolean>(false);
+  const [isMatchPassword, setIsMatchPassword] = useState<boolean>(false);
+  const [isStepComplete, setIsStepComplete] = useState<boolean>(false);
+  const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
+
+  const theme = useTheme();
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm();
+
+  const isPasswordValid = (password: string) => {
+    const regex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{8,}$/;
+    return regex.test(password);
+  };
+
+  const onSubmit = (data: any) => {
+    const { createPassword, confirmPassword } = data;
+
+    if (isPasswordValid(createPassword)) {
+      if (createPassword !== confirmPassword) {
+        setIsMatchPassword(true);
+      } else {
+        setIsMatchPassword(false);
+      }
+    }
+  };
+
+  return (
+    <Box sx={{ background: 'white', height: '100vh' }}>
+      <AuthHeader>
+        <Box>
+          <CompanyLogo />
+        </Box>
+        <Box>
+          <Link href="/login" variant="contained">
+            SigIn
+          </Link>
+        </Box>
+      </AuthHeader>
+      <Grid
+        container
+        spacing={2}
+        sx={{ height: '100vh', alignItems: 'center' }}
+      >
+        <Grid item xs={12} md={6} lg={6}>
+          <Box
+            className="form-styled"
+            sx={{ width: { md: '60%', sm: '70%', xs: '90%' }, margin: 'auto' }}
+          >
+            <Typography
+              variant="h3"
+              sx={{ color: theme?.palette?.grey[500_8] }}
+            >
+              Welcome to Air Applecart
+            </Typography>
+            <Typography
+              variant="h6"
+              sx={{ color: theme?.palette?.grey[500_12] }}
+            >
+              Let’s Get Started!
+            </Typography>
+            <FormProvider>
+              <form onSubmit={handleSubmit(onSubmit)} style={formStyling}>
+                {isStepComplete ? (
+                  <>
+                    <Typography
+                      variant="body2"
+                      sx={{ marginBottom: '8px', marginTop: '20px' }}
+                    >
+                      Select Product(s) <span style={{ color: 'red' }}>*</span>
+                    </Typography>
+
+                    <Grid container spacing={2}>
+                      <Grid item xs={12} md={6} lg={6}>
+                        <Controller
+                          name="Sales"
+                          control={control}
+                          rules={{ required: 'required field' }}
+                          render={({ field }) => (
+                            <FormControlLabel
+                              control={
+                                <Checkbox {...field} sx={CheckBoxStyle} />
+                              }
+                              label="Sales"
+                            />
+                          )}
+                        />
+                      </Grid>
+                      <Grid item xs={12} md={6} lg={6}>
+                        <Controller
+                          name="Operation"
+                          control={control}
+                          render={({ field }) => (
+                            <FormControlLabel
+                              control={
+                                <Checkbox {...field} sx={CheckBoxStyle} />
+                              }
+                              label="Operation"
+                            />
+                          )}
+                        />
+                      </Grid>
+                    </Grid>
+
+                    <Grid container spacing={2}>
+                      <Grid item xs={12} md={6} lg={6}>
+                        <Controller
+                          name="Marketing"
+                          control={control}
+                          render={({ field }) => (
+                            <FormControlLabel
+                              control={
+                                <Checkbox {...field} sx={CheckBoxStyle} />
+                              }
+                              label="Marketing"
+                            />
+                          )}
+                        />
+                      </Grid>
+                      <Grid item xs={12} md={6} lg={6}>
+                        <Controller
+                          name="Service"
+                          control={control}
+                          render={({ field }) => (
+                            <FormControlLabel
+                              control={
+                                <Checkbox {...field} sx={CheckBoxStyle} />
+                              }
+                              label="Service"
+                            />
+                          )}
+                        />
+                      </Grid>
+                    </Grid>
+
+                    {errors?.Sales && (
+                      <Typography
+                        variant="body1"
+                        sx={{ color: theme?.palette?.error?.main }}
+                      >
+                        {' '}
+                        {errors?.Sales?.message}
+                      </Typography>
+                    )}
+
+                    <Typography
+                      variant="body2"
+                      sx={{ marginBottom: '8px', marginTop: '20px' }}
+                    >
+                      Delegate Reference Number (DRN) if applied
+                    </Typography>
+                    <Controller
+                      name="DRNumber"
+                      control={control}
+                      defaultValue=""
+                      render={({ field }) => (
+                        <InputField
+                          field={{ ...field }}
+                          name="DRNumber"
+                          placeholder="Enter DRN"
+                          width="100%"
+                          height="23px"
+                          autoComplete="off"
+                          type="number"
+                          hasError={!!errors?.DRNumber}
+                        />
+                      )}
+                    />
+
+                    <Typography sx={{ marginBottom: '8px', fontSize: '12px' }}>
+                      Enter DRN Number
+                    </Typography>
+
+                    <Typography
+                      variant="body2"
+                      style={{ marginBottom: '8px', marginTop: '10px' }}
+                    >
+                      Create Password <span style={{ color: 'red' }}>*</span>
+                    </Typography>
+                    <Controller
+                      name="createPassword"
+                      control={control}
+                      defaultValue=""
+                      rules={{
+                        required: 'required field',
+                        validate: (value) =>
+                          isPasswordValid(value)
+                            ? setIsShowError(false)
+                            : setIsShowError(true),
+                      }}
+                      render={({ field }) => (
+                        <InputField
+                          field={{ ...field }}
+                          name="createPassword"
+                          placeholder="Enter password"
+                          width="100%"
+                          height="23px"
+                          autoComplete="off"
+                          hasError={!!errors?.createPassword}
+                          type={isShowPassword ? 'text' : 'password'}
+                          InputProps={{
+                            endAdornment: (
+                              <InputAdornment
+                                position="end"
+                                sx={{ width: '30px', cursor: 'pointer' }}
+                              >
+                                {isShowPassword ? (
+                                  <Box
+                                    onClick={() =>
+                                      setIsShowPassword(!isShowPassword)
+                                    }
+                                  >
+                                    <EyeIcon />
+                                  </Box>
+                                ) : (
+                                  <Box
+                                    onClick={() =>
+                                      setIsShowPassword(!isShowPassword)
+                                    }
+                                  >
+                                    <EyeSlashIcon />
+                                  </Box>
+                                )}
+                              </InputAdornment>
+                            ),
+                          }}
+                        />
+                      )}
+                    />
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        marginTop: '7px',
+                        color: isShowError && theme?.palette?.error?.main,
+                      }}
+                    >
+                      The Password must be at least 8 characters long having 1
+                      capital letter,1 small letter and 1 numeric digit
+                    </Typography>
+
+                    {errors?.createPassword && (
+                      <Typography
+                        variant="body1"
+                        sx={{ color: theme?.palette?.error?.main }}
+                      >
+                        {' '}
+                        {errors?.createPassword?.message}
+                      </Typography>
+                    )}
+
+                    <Typography
+                      variant="body2"
+                      style={{ marginBottom: '8px', marginTop: '10px' }}
+                    >
+                      Confirm Password <span style={{ color: 'red' }}>*</span>
+                    </Typography>
+                    <Controller
+                      name="confirmPassword"
+                      control={control}
+                      defaultValue=""
+                      rules={{
+                        required: 'Required field',
+                      }}
+                      render={({ field }) => (
+                        <InputField
+                          field={{ ...field }}
+                          name="confirmPassword"
+                          placeholder="Confirm Password"
+                          width="100%"
+                          height="23px"
+                          autoComplete="off"
+                          hasError={!!errors?.confirmPassword}
+                          type={isShowPassword ? 'text' : 'password'}
+                          InputProps={{
+                            endAdornment: (
+                              <InputAdornment
+                                position="end"
+                                sx={{ width: '30px', cursor: 'pointer' }}
+                              >
+                                {isShowPassword ? (
+                                  <Box
+                                    onClick={() =>
+                                      setIsShowPassword(!isShowPassword)
+                                    }
+                                  >
+                                    <EyeIcon />
+                                  </Box>
+                                ) : (
+                                  <Box
+                                    onClick={() =>
+                                      setIsShowPassword(!isShowPassword)
+                                    }
+                                  >
+                                    <EyeSlashIcon />
+                                  </Box>
+                                )}
+                              </InputAdornment>
+                            ),
+                          }}
+                        />
+                      )}
+                    />
+
+                    {isMatchPassword && (
+                      <Typography
+                        variant="body2"
+                        sx={{ color: theme?.palette?.error?.main }}
+                      >
+                        password not match
+                      </Typography>
+                    )}
+
+                    {errors?.confirmPassword && (
+                      <Typography
+                        variant="body1"
+                        sx={{ color: theme?.palette?.error?.main }}
+                      >
+                        {' '}
+                        {errors?.confirmPassword?.message}
+                      </Typography>
+                    )}
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      sx={{ marginY: '30px' }}
+                    >
+                      Sign Up
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Typography
+                      variant="body2"
+                      style={{ marginBottom: '8px', marginTop: '5px' }}
+                    >
+                      Full Name <span style={{ color: 'red' }}>*</span>
+                    </Typography>
+                    <Controller
+                      name="fullName"
+                      control={control}
+                      defaultValue=""
+                      rules={{ required: 'required field' }}
+                      render={({ field }) => (
+                        <InputField
+                          field={{ ...field }}
+                          name="fullName"
+                          placeholder="Enter fullName"
+                          width="100%"
+                          height="23px"
+                          autoComplete="off"
+                          type="text"
+                          hasError={!!errors?.fullName}
+                        />
+                      )}
+                    />
+
+                    {errors?.fullName && (
+                      <Typography
+                        variant="body1"
+                        sx={{ color: theme?.palette?.error?.main }}
+                      >
+                        {' '}
+                        {errors?.fullName?.message}
+                      </Typography>
+                    )}
+
+                    <Typography
+                      variant="body2"
+                      style={{ marginBottom: '8px', marginTop: '20px' }}
+                    >
+                      Email <span style={{ color: 'red' }}>*</span>
+                    </Typography>
+                    <Controller
+                      name="email"
+                      control={control}
+                      defaultValue=""
+                      rules={{
+                        required: 'required field',
+                        pattern: {
+                          value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                          message: 'Invalid email address',
+                        },
+                      }}
+                      render={({ field }) => (
+                        <InputField
+                          field={{ ...field }}
+                          name="email"
+                          placeholder="Enter email"
+                          width="100%"
+                          height="23px"
+                          autoComplete="off"
+                          type="text"
+                          hasError={!!errors?.email}
+                        />
+                      )}
+                    />
+
+                    {errors?.email && (
+                      <Typography
+                        variant="body1"
+                        sx={{ color: theme?.palette?.error?.main }}
+                      >
+                        {' '}
+                        {errors?.email?.message}
+                      </Typography>
+                    )}
+
+                    <Typography
+                      variant="body2"
+                      sx={{ marginBottom: '8px', marginTop: '20px' }}
+                    >
+                      Phone Number <span style={{ color: 'red' }}>*</span>
+                    </Typography>
+                    <Controller
+                      name="phoneNumber"
+                      control={control}
+                      defaultValue=""
+                      rules={{ required: 'required field' }}
+                      render={({ field }) => (
+                        <InputField
+                          field={{ ...field }}
+                          name="phoneNumber"
+                          placeholder="Enter Number"
+                          width="100%"
+                          height="23px"
+                          autoComplete="off"
+                          type="text"
+                          hasError={!!errors?.phoneNumber}
+                        />
+                      )}
+                    />
+
+                    {errors?.phoneNumber && (
+                      <Typography
+                        variant="body1"
+                        sx={{ color: theme?.palette?.error?.main }}
+                      >
+                        {' '}
+                        {errors?.phoneNumber?.message}
+                      </Typography>
+                    )}
+
+                    <Button
+                      variant="contained"
+                      sx={{ marginY: '30px' }}
+                      onClick={() => setIsStepComplete(true)}
+                    >
+                      Next
+                    </Button>
+                  </>
+                )}
+              </form>
+            </FormProvider>
+          </Box>
+        </Grid>
+        <Grid
+          item
+          xs={0}
+          md={6}
+          lg={6}
+          style={loginDashboard}
+          sx={{
+            '@media (max-width: 900px)': {
+              display: 'none !important', // Hide the element when the screen width is less than 900px
+            },
+          }}
+        >
+          <Image src={Dashboard} alt="dashborad" style={{ width: '100%' }} />
+        </Grid>
+      </Grid>
+    </Box>
+  );
+};
+
+export default SignUp;
