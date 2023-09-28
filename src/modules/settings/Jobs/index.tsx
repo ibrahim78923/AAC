@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, TextField, Typography } from '@mui/material';
 
 import CommonDrawer from '@/components/Drawer';
 import TextEditor from '@/components/TextEditor';
 import SearchableSelect from '@/components/SearchableSelect';
 
 import { candidatesArray } from '@/mock/modules/Settings/Jobs';
-import { CandidatesArrayI } from './jobs.interface';
+
+import { CandidatesArrayI } from './Jobs.interface';
+import { Controller, useForm } from 'react-hook-form';
 
 const Jobs = () => {
   const [isJobPostingDrawer, setIsJobPostingDrawer] = useState(false);
@@ -15,21 +17,27 @@ const Jobs = () => {
   const [searchableSelectValue, setSearchableSelectValue] =
     useState<CandidatesArrayI>();
 
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = () => {
+    setIsJobPostingDrawer(false);
+  };
+
   const onClose = () => {
     setIsJobPostingDrawer(false);
   };
 
-  const submitHandler = () => {
-    setIsJobPostingDrawer(false);
-  };
-
-  function renderCustomOption(option: any) {
+  const renderCustomOption = (option: any) => {
     return (
       <Typography variant="h6" sx={{ color: '#4B5563' }}>
-        {option.label} - {option.name}
+        {option.label}
       </Typography>
     );
-  }
+  };
 
   return (
     <Box
@@ -72,19 +80,41 @@ const Jobs = () => {
         okText="Post"
         isOk={true}
         footer={true}
-        submitHandler={submitHandler}
+        submitHandler={handleSubmit(onSubmit)}
       >
         <>
           <span>dummy text</span>
           <br />
           <TextEditor value={editorValue} onChange={setEditorValue} />
           <br />
-          <SearchableSelect
-            dropdownData={candidatesArray}
-            renderOption={renderCustomOption}
-            setValue={setSearchableSelectValue}
-            selectedValue={searchableSelectValue?.label || ''}
-          />
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Controller
+              name="name"
+              control={control}
+              rules={{ required: 'Name is required' }}
+              render={({ field }) => (
+                <TextField
+                  label="Name"
+                  fullWidth
+                  variant="outlined"
+                  error={!!errors.name}
+                  helperText={errors.name?.message}
+                  {...field}
+                />
+              )}
+            />
+            <SearchableSelect
+              dropdownData={candidatesArray}
+              renderOption={renderCustomOption}
+              setValue={setSearchableSelectValue}
+              selectedValue={searchableSelectValue?.label || ''}
+              name="Search candidate"
+              label=""
+              control={control}
+              rules={{ required: 'candidate is required' }}
+              error={!!errors.message}
+            />
+          </form>
         </>
       </CommonDrawer>
     </Box>

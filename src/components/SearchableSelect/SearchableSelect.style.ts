@@ -28,6 +28,7 @@ export const textareaSearchDropdown = {
     color: 'black',
   },
 };
+
 export const SearchSelectStyles = {
   searchSelect: (theme: any) => {
     return {

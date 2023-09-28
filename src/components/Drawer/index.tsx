@@ -101,6 +101,7 @@ const CommonDrawer = ({
                     fontWeight: '500',
                   }}
                   onClick={submitHandler}
+                  type="submit"
                 >
                   {okText}
                 </Button>

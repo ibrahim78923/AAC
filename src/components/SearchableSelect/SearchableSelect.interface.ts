@@ -6,4 +6,9 @@ export interface SearchableSelectPropsI {
   renderOption: (option: DropdownDataPropsI) => React.ReactNode;
   setValue?: any;
   selectedValue?: string;
+  name?: any;
+  label?: string;
+  control?: any;
+  rules?: object;
+  error?: any;
 }
