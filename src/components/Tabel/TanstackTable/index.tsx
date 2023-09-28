@@ -12,7 +12,7 @@ import {
 
 import useTanstackTable from './TanstackTable.hook';
 import { DownIcon, UpIcon } from '@/assets/icons';
-import { columns, data } from './TanstackTable.mock';
+// import { columns, data } from './TanstackTable.mock';
 import {
   StyledTableCell,
   StyledTableRow,
@@ -22,9 +22,9 @@ import { TTable } from './TanstackTable.interface';
 import { flexRender } from '@tanstack/react-table';
 
 const TanstackTable = ({
-  //   columns,
-  //   data,
-  rootSX = {},
+  columns,
+  data,
+  rootSX,
   showSerialNo = false,
 }: TTable) => {
   const table = useTanstackTable(data, columns, showSerialNo);
