@@ -3,6 +3,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import ThemeProvider from '../../theme';
 import ThemeLocalization from '../../theme/ThemeLocalization';
+import { SnackbarProvider } from 'notistack';
 
 export default function App(props: any) {
   const { Component, pageProps } = props;
@@ -13,7 +14,9 @@ export default function App(props: any) {
     <ThemeProvider>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <ThemeLocalization>
-          {getLayout(<Component {...pageProps} />)}
+          <SnackbarProvider>
+            {getLayout(<Component {...pageProps} />)}
+          </SnackbarProvider>
         </ThemeLocalization>
       </LocalizationProvider>
     </ThemeProvider>
