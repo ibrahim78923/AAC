@@ -1,19 +1,14 @@
-import CloseIcon from '@/assets/icons/shared/AlertModels/close-icon';
-import { Box, Button, Modal, Typography } from '@mui/material';
 import React from 'react';
+import { Box, Button, Modal, Typography } from '@mui/material';
+
 import {
   checkModelType,
   checkModelTypeForImage,
   checkModelTypeMessage,
 } from './AlertModals.utils';
-
-interface ModelProps {
-  message: string;
-  type: string;
-  open: boolean;
-  handleClose: (value: boolean) => void;
-  handleSubmit: () => void;
-}
+import { ModelProps } from './AlertModals.interface';
+import CloseIcon from '@/assets/icons/shared/AlertModels/close-icon';
+import { styles } from './AlertModals.styles';
 
 export const AlertModals: React.FunctionComponent<ModelProps> = ({
   message,
@@ -31,58 +26,12 @@ export const AlertModals: React.FunctionComponent<ModelProps> = ({
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box
-          sx={{
-            minHeight: '100vh',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          <Box
-            sx={{
-              background: 'white',
-              borderRadius: '20px',
-              maxWidth: '580px',
-              width: '100%',
-              border: '1px solid #E5E7EB',
-              boxShadow: '0px 4px 24px -4px rgba(16, 24, 40, 0.02)',
-              margin: 'auto',
-              minHeight: '190px',
-              padding: '24px',
-              '@media (max-width:581px)': {
-                maxWidth: '100%',
-                margin: '0 12px',
-              },
-            }}
-          >
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'flex-start',
-                justifyContent: 'space-between',
-              }}
-            >
-              <Box
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'flex-start',
-                  gap: '10px',
-                }}
-              >
+        <Box sx={styles.parentBox}>
+          <Box sx={styles.modalBox}>
+            <Box sx={styles.innerBox1}>
+              <Box sx={styles.innerBox2}>
                 {checkModelTypeForImage(type)}
-                <Typography
-                  component="span"
-                  sx={{
-                    color: '#374151',
-                    fontSize: '24px',
-                    fontStyle: 'normal',
-                    fontWeight: 600,
-                    lineHeight: '30px',
-                    textTransform: 'capitalize',
-                  }}
-                >
+                <Typography component="span" sx={styles.modalTypeText}>
                   {checkModelType(type)}
                 </Typography>
               </Box>
@@ -91,26 +40,11 @@ export const AlertModals: React.FunctionComponent<ModelProps> = ({
               </Box>
             </Box>
             <Box sx={{ margin: '20px 0' }}>
-              <Typography
-                sx={{
-                  fontSize: '16px',
-                  fontStyle: 'normal',
-                  fontWeight: 400,
-                  lineHeight: '24px',
-                  color: '#4B5563',
-                }}
-              >
+              <Typography sx={styles.messageText}>
                 {message ? message : checkModelTypeMessage(type)}
               </Typography>
             </Box>
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'flex-end',
-                gap: '16px',
-              }}
-            >
+            <Box sx={styles.buttonBox}>
               <Button onClick={() => handleClose(open)} variant="outlined">
                 No
               </Button>
