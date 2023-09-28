@@ -41,8 +41,8 @@ const InvoicvesListView = (props: any) => {
           Create Invoice
         </Button>
       </Stack>
-      <Grid container sx={{ marginTop: '30px' }}>
-        <Grid item xs={6}>
+      <Grid spacing={2} container sx={{ marginTop: '30px' }}>
+        <Grid item xs={12} md={6}>
           <Search
             label="Search Here"
             searchBy={searchBy}
@@ -50,9 +50,9 @@ const InvoicvesListView = (props: any) => {
             width={240}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <Stack direction="row" justifyContent="end" gap={1}>
-            <div>
+            <Box>
               <Button
                 disabled={selected.length > 0 ? false : true}
                 onClick={handleClick}
@@ -71,7 +71,7 @@ const InvoicvesListView = (props: any) => {
                 <MenuItem onClick={handleClose}>Download</MenuItem>
                 <MenuItem onClick={handleClose}>Delete</MenuItem>
               </Menu>
-            </div>
+            </Box>
             <Box
               sx={{
                 border: '1px solid #D1D5DB',

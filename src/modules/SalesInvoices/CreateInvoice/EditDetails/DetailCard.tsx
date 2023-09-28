@@ -39,7 +39,11 @@ const DetailCard = () => {
   return (
     <Box sx={style?.cardDetails}>
       <Box className="air-apple-card">
-        <Stack direction="row" justifyContent="space-between">
+        <Stack
+          gap={2}
+          direction={{ xs: 'column', md: 'row' }}
+          justifyContent="space-between"
+        >
           <Stack gap="20px" direction="row">
             <Box sx={{ mt: '5px' }}>
               <LogoSharedIcon />

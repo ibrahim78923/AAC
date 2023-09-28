@@ -8,13 +8,15 @@ import {
   TablePagination,
   TableRow,
   MenuItem,
-  Select,
   TableSortLabel,
   Paper,
   Checkbox,
   Table,
+  Button,
+  Menu,
 } from '@mui/material';
 import { visuallyHidden } from '@mui/utils';
+import { ArrowDropDown } from '@mui/icons-material';
 
 interface Data {
   invoiceAmount: string;
@@ -64,48 +66,29 @@ function stableSort<T>(
   return stabilizedThis.map((el) => el[0]);
 }
 
-interface HeadCell {
-  disablePadding: boolean;
-  id: keyof Data;
-  label: string;
-  numeric: boolean;
-}
-
-const headCells: readonly HeadCell[] = [
+const headCells = [
   {
     id: 'invoiceName',
-    numeric: false,
-    disablePadding: true,
     label: 'Invoice Name',
   },
   {
     id: 'invoiceAmount',
-    numeric: true,
-    disablePadding: false,
     label: 'Invoice Amount',
   },
   {
     id: 'status',
-    numeric: true,
-    disablePadding: false,
     label: 'Status',
   },
   {
     id: 'linkedQuote',
-    numeric: true,
-    disablePadding: false,
     label: 'Linked Quote',
   },
   {
     id: 'createdBy',
-    numeric: true,
-    disablePadding: false,
     label: 'Created By',
   },
   {
     id: 'createdDate',
-    numeric: true,
-    disablePadding: false,
     label: 'Created Date',
   },
 ];
@@ -150,11 +133,9 @@ const ListViewTable = (props: EnhancedTableProps) => {
             }}
           />
         </TableCell>
-        {headCells.map((headCell) => (
+        {headCells.map((headCell: any) => (
           <TableCell
             key={headCell.id}
-            align={headCell.numeric ? 'right' : 'left'}
-            padding={headCell.disablePadding ? 'none' : 'normal'}
             sortDirection={orderBy === headCell.id ? order : false}
           >
             <TableSortLabel
@@ -179,7 +160,7 @@ const ListViewTable = (props: EnhancedTableProps) => {
 const InvoicesTable = (props: any) => {
   const { selected, setSelected } = props;
   const [order, setOrder] = useState<Order>('asc');
-  const [selectedOptions, setSelectedOptions] = useState('Option 1');
+  const [selectedValue, setSelectedValue] = useState(null);
   const [orderBy, setOrderBy] = useState<keyof Data>('invoiceAmount');
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -197,16 +178,7 @@ const InvoicesTable = (props: any) => {
     {
       invoiceName: 'Iphone accessories',
       invoiceAmount: '£20',
-      status: (
-        <Select
-          value={selectedOptions}
-          onChange={(event: any) => setSelectedOptions(event.target.value)}
-        >
-          <MenuItem value="Option 1">Option 1</MenuItem>
-          <MenuItem value="Option 2">Option 2</MenuItem>
-          <MenuItem value="Option 3">Option 3</MenuItem>
-        </Select>
-      ),
+      status: 'paid',
       linkedQuote: 'Iphone import from Uk',
       createdBy: 'Azeem Aslam',
       createdDate: '23/09/2023',
@@ -214,16 +186,7 @@ const InvoicesTable = (props: any) => {
     {
       invoiceName: 'Tablet accessories',
       invoiceAmount: '£20',
-      status: (
-        <Select
-          value={selectedOptions}
-          onChange={(event: any) => setSelectedOptions(event.target.value)}
-        >
-          <MenuItem value="Option 1">Option 1</MenuItem>
-          <MenuItem value="Option 2">Option 2</MenuItem>
-          <MenuItem value="Option 3">Option 3</MenuItem>
-        </Select>
-      ),
+      status: 'Published',
       linkedQuote: 'Iphone import from Uk',
       createdBy: 'Azeem Aslam',
       createdDate: '23/09/2023',
@@ -231,7 +194,7 @@ const InvoicesTable = (props: any) => {
     {
       invoiceName: 'Computer accessories',
       invoiceAmount: '£20',
-      status: 'Paid',
+      status: 'paid',
       linkedQuote: 'Iphone import from Uk',
       createdBy: 'Azeem Aslam',
       createdDate: '23/09/2023',
@@ -239,7 +202,7 @@ const InvoicesTable = (props: any) => {
     {
       invoiceName: 'Mobile accessories',
       invoiceAmount: '£20',
-      status: 'view',
+      status: 'Draft',
       linkedQuote: 'Iphone import from Uk',
       createdBy: 'Azeem Aslam',
       createdDate: '23/09/2023',
@@ -247,7 +210,7 @@ const InvoicesTable = (props: any) => {
     {
       invoiceName: 'Mac accessories',
       invoiceAmount: '£20',
-      status: 'Published',
+      status: 'View',
       linkedQuote: 'Iphone import from Uk',
       createdBy: 'Azeem Aslam',
       createdDate: '23/09/2023',
@@ -255,7 +218,7 @@ const InvoicesTable = (props: any) => {
     {
       invoiceName: 'Electric accessories',
       invoiceAmount: '£20',
-      status: 'Paid',
+      status: 'paid',
       linkedQuote: 'Iphone import from Uk',
       createdBy: 'Azeem Aslam',
       createdDate: '23/09/2023',
@@ -263,7 +226,7 @@ const InvoicesTable = (props: any) => {
     {
       invoiceName: 'Electronic accessories',
       invoiceAmount: '£20',
-      status: 'View',
+      status: 'Published',
       linkedQuote: 'Iphone import from Uk',
       createdBy: 'Azeem Aslam',
       createdDate: '23/09/2023',
@@ -323,6 +286,14 @@ const InvoicesTable = (props: any) => {
     [order, orderBy, page, rowsPerPage],
   );
 
+  const handleStatusClick = (event: any) => {
+    setSelectedValue(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setSelectedValue(null);
+  };
+
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
@@ -344,7 +315,6 @@ const InvoicesTable = (props: any) => {
                 return (
                   <TableRow
                     hover
-                    onClick={(event) => handleClick(event, row.invoiceName)}
                     role="checkbox"
                     aria-checked={isItemSelected}
                     tabIndex={-1}
@@ -354,6 +324,7 @@ const InvoicesTable = (props: any) => {
                   >
                     <TableCell padding="checkbox">
                       <Checkbox
+                        onClick={(event) => handleClick(event, row.invoiceName)}
                         color="primary"
                         checked={isItemSelected}
                         inputProps={{
@@ -369,11 +340,36 @@ const InvoicesTable = (props: any) => {
                     >
                       {row.invoiceName}
                     </TableCell>
-                    <TableCell align="right">{row.invoiceAmount}</TableCell>
-                    <TableCell align="right"> {row.status} </TableCell>
-                    <TableCell align="right">{row.linkedQuote}</TableCell>
-                    <TableCell align="right">{row.createdBy}</TableCell>
-                    <TableCell align="right">{row.createdDate}</TableCell>
+                    <TableCell>{row.invoiceAmount}</TableCell>
+                    <TableCell align="left">
+                      <Box>
+                        <Button
+                          onClick={handleStatusClick}
+                          sx={{
+                            border: '1px solid #D1D5DB',
+                            color: '#6B7280',
+                            borderRadius: '30px',
+                            padding: '3px 8px',
+                          }}
+                        >
+                          {row.status}
+                          <ArrowDropDown />
+                        </Button>
+                        <Menu
+                          id="simple-menu"
+                          anchorEl={selectedValue}
+                          open={Boolean(selectedValue)}
+                          onClose={handleClose}
+                        >
+                          <MenuItem onClick={handleClose}>Paid</MenuItem>
+                          <MenuItem onClick={handleClose}>Published</MenuItem>
+                          <MenuItem onClick={handleClose}>Download</MenuItem>
+                        </Menu>
+                      </Box>
+                    </TableCell>
+                    <TableCell>{row.linkedQuote}</TableCell>
+                    <TableCell>{row.createdBy}</TableCell>
+                    <TableCell>{row.createdDate}</TableCell>
                   </TableRow>
                 );
               })}
