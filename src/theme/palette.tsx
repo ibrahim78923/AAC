@@ -5,8 +5,8 @@ export function createGradient(color1: string, color2: string) {
 }
 
 const PRIMARY = {
-  lighter: '#cff2ed',
-  light: '#2da291',
+  lighter: '#EBFAF8)',
+  light: '#D7F4F0',
   main: '#38CAB5',
   dark: '#16847f',
   darker: '#278d7f',
@@ -19,7 +19,7 @@ const SECONDARY = {
   darker: '#25304c',
 };
 const SUCCESS = {
-  lighter: '#EEF9F1;',
+  lighter: '#E4FFEB;',
   light: '#AAF27F',
   main: '#47B263',
   dark: '#229A16',
@@ -46,7 +46,20 @@ const BLUE = {
   dark: '#19264a',
   darker: '#162241',
 };
-
+const SLATE_BLUE = {
+  lighter: '#878d97',
+  light: '#5f6774',
+  main: '#374151',
+  dark: '#2c3441',
+  darker: '#272e39',
+};
+const INFO = {
+  lighter: '#ceeff5',
+  light: '#85d6e7',
+  main: '#0aadcf',
+  dark: '#3bbdd9',
+  darker: '#23b5d4',
+};
 const GREY: any = {
   0: '#FFFFFF',
   100: '#f9fafb',
@@ -54,13 +67,13 @@ const GREY: any = {
   300: '#f7f7f9',
   400: '#f3f4f6',
   500: '#7a7a7b',
-  600: '#929294',
-  700: '#aaabac',
-  800: '#c2c3c5',
-  900: '#6B7280',
+  600: '#271211',
+  700: '#E5E7EB',
+  800: '#1F2937',
+  900: '#9CA3AF',
   500_8: '#1F2937',
-  500_12: '#9CA3AF',
-  500_16: '#E5E7EB',
+  500_12: '#4B5563',
+  500_16: '#111827',
   500_24: alpha('#919EAB', 0.24),
   500_32: alpha('#919EAB', 0.32),
   500_48: alpha('#919EAB', 0.48),
@@ -68,6 +81,11 @@ const GREY: any = {
   500_80: alpha('#919EAB', 0.8),
 };
 
+const CUSTOM_COLORS = {
+  0: '#667085',
+  1: '#6B7280',
+  2: '#D1D5DB',
+};
 const GRADIENTS = {
   primary: createGradient(PRIMARY.light, PRIMARY.main),
   success: createGradient(SUCCESS.light, SUCCESS.main),
@@ -81,18 +99,21 @@ const COMMON = {
   secondary: { ...SECONDARY, contrastText: '#fff' },
   success: { ...SUCCESS, contrastText: GREY[800] },
   warning: { ...WARNING, contrastText: GREY[800] },
-  error: { ...ERROR, contrastText: '#fff' },
-  blue: { ...BLUE, contrastText: '#fff' },
+  error: { ...ERROR, contrastText: GREY[800] },
+  blue: { ...BLUE, contrastText: GREY[800] },
+  info: { ...INFO, contrastText: GREY[800] },
+  custom: { ...CUSTOM_COLORS, contrastText: GREY[800] },
+  slateBlue: { ...SLATE_BLUE, contrastText: GREY[800] },
   grey: GREY,
   gradients: GRADIENTS,
 
-  divider: GREY[500_24],
+  divider: GREY[400],
   action: {
-    hover: GREY[500_8],
-    selected: GREY[500_16],
-    disabled: GREY[500_80],
-    disabledBackground: GREY[500_24],
-    focus: GREY[500_24],
+    hover: GREY[400],
+    selected: GREY[400],
+    disabled: GREY[400],
+    disabledBackground: GREY[400],
+    focus: GREY[400],
     hoverOpacity: 0.08,
     disabledOpacity: 0.48,
   },
