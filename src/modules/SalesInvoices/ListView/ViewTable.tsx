@@ -25,65 +25,6 @@ interface Data {
   createdDate: string;
 }
 
-const rows = [
-  {
-    invoiceName: 'Iphone accessories',
-    invoiceAmount: '£20',
-    status: 'Paid',
-    linkedQuote: 'Iphone import from Uk',
-    createdBy: 'Azeem Aslam',
-    createdDate: '23/09/2023',
-  },
-  {
-    invoiceName: 'Tablet accessories',
-    invoiceAmount: '£20',
-    status: 'Published',
-    linkedQuote: 'Iphone import from Uk',
-    createdBy: 'Azeem Aslam',
-    createdDate: '23/09/2023',
-  },
-  {
-    invoiceName: 'Computer accessories',
-    invoiceAmount: '£20',
-    status: 'Paid',
-    linkedQuote: 'Iphone import from Uk',
-    createdBy: 'Azeem Aslam',
-    createdDate: '23/09/2023',
-  },
-  {
-    invoiceName: 'Mobile accessories',
-    invoiceAmount: '£20',
-    status: 'view',
-    linkedQuote: 'Iphone import from Uk',
-    createdBy: 'Azeem Aslam',
-    createdDate: '23/09/2023',
-  },
-  {
-    invoiceName: 'Mac accessories',
-    invoiceAmount: '£20',
-    status: 'Published',
-    linkedQuote: 'Iphone import from Uk',
-    createdBy: 'Azeem Aslam',
-    createdDate: '23/09/2023',
-  },
-  {
-    invoiceName: 'Electric accessories',
-    invoiceAmount: '£20',
-    status: 'Paid',
-    linkedQuote: 'Iphone import from Uk',
-    createdBy: 'Azeem Aslam',
-    createdDate: '23/09/2023',
-  },
-  {
-    invoiceName: 'Electronic accessories',
-    invoiceAmount: '£20',
-    status: 'View',
-    linkedQuote: 'Iphone import from Uk',
-    createdBy: 'Azeem Aslam',
-    createdDate: '23/09/2023',
-  },
-];
-
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
     return -1;
@@ -252,9 +193,86 @@ const InvoicesTable = (props: any) => {
     setOrderBy(property);
   };
 
+  const rows: any = [
+    {
+      invoiceName: 'Iphone accessories',
+      invoiceAmount: '£20',
+      status: (
+        <Select
+          value={selectedOptions}
+          onChange={(event: any) => setSelectedOptions(event.target.value)}
+        >
+          <MenuItem value="Option 1">Option 1</MenuItem>
+          <MenuItem value="Option 2">Option 2</MenuItem>
+          <MenuItem value="Option 3">Option 3</MenuItem>
+        </Select>
+      ),
+      linkedQuote: 'Iphone import from Uk',
+      createdBy: 'Azeem Aslam',
+      createdDate: '23/09/2023',
+    },
+    {
+      invoiceName: 'Tablet accessories',
+      invoiceAmount: '£20',
+      status: (
+        <Select
+          value={selectedOptions}
+          onChange={(event: any) => setSelectedOptions(event.target.value)}
+        >
+          <MenuItem value="Option 1">Option 1</MenuItem>
+          <MenuItem value="Option 2">Option 2</MenuItem>
+          <MenuItem value="Option 3">Option 3</MenuItem>
+        </Select>
+      ),
+      linkedQuote: 'Iphone import from Uk',
+      createdBy: 'Azeem Aslam',
+      createdDate: '23/09/2023',
+    },
+    {
+      invoiceName: 'Computer accessories',
+      invoiceAmount: '£20',
+      status: 'Paid',
+      linkedQuote: 'Iphone import from Uk',
+      createdBy: 'Azeem Aslam',
+      createdDate: '23/09/2023',
+    },
+    {
+      invoiceName: 'Mobile accessories',
+      invoiceAmount: '£20',
+      status: 'view',
+      linkedQuote: 'Iphone import from Uk',
+      createdBy: 'Azeem Aslam',
+      createdDate: '23/09/2023',
+    },
+    {
+      invoiceName: 'Mac accessories',
+      invoiceAmount: '£20',
+      status: 'Published',
+      linkedQuote: 'Iphone import from Uk',
+      createdBy: 'Azeem Aslam',
+      createdDate: '23/09/2023',
+    },
+    {
+      invoiceName: 'Electric accessories',
+      invoiceAmount: '£20',
+      status: 'Paid',
+      linkedQuote: 'Iphone import from Uk',
+      createdBy: 'Azeem Aslam',
+      createdDate: '23/09/2023',
+    },
+    {
+      invoiceName: 'Electronic accessories',
+      invoiceAmount: '£20',
+      status: 'View',
+      linkedQuote: 'Iphone import from Uk',
+      createdBy: 'Azeem Aslam',
+      createdDate: '23/09/2023',
+    },
+  ];
+
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelected = rows.map((n) => n.invoiceName);
+      const newSelected = rows.map((n: any) => n.invoiceName);
       setSelected(newSelected);
       return;
     }
@@ -298,7 +316,7 @@ const InvoicesTable = (props: any) => {
 
   const visibleRows = useMemo(
     () =>
-      stableSort(rows, getComparator(order, orderBy)).slice(
+      stableSort(rows, getComparator(order, orderBy))?.slice(
         page * rowsPerPage,
         page * rowsPerPage + rowsPerPage,
       ),
@@ -319,7 +337,7 @@ const InvoicesTable = (props: any) => {
               rowCount={rows.length}
             />
             <TableBody>
-              {visibleRows.map((row, index) => {
+              {visibleRows.map((row: any, index) => {
                 const isItemSelected = isSelected(row.invoiceName);
                 const labelId = `enhanced-table-checkbox-${index}`;
 
@@ -352,18 +370,7 @@ const InvoicesTable = (props: any) => {
                       {row.invoiceName}
                     </TableCell>
                     <TableCell align="right">{row.invoiceAmount}</TableCell>
-                    <TableCell align="right">
-                      <Select
-                        value={selectedOptions}
-                        onChange={(event: any) =>
-                          setSelectedOptions(event.target.value)
-                        }
-                      >
-                        <MenuItem value="Option 1">Option 1</MenuItem>
-                        <MenuItem value="Option 2">Option 2</MenuItem>
-                        <MenuItem value="Option 3">Option 3</MenuItem>
-                      </Select>
-                    </TableCell>
+                    <TableCell align="right"> {row.status} </TableCell>
                     <TableCell align="right">{row.linkedQuote}</TableCell>
                     <TableCell align="right">{row.createdBy}</TableCell>
                     <TableCell align="right">{row.createdDate}</TableCell>

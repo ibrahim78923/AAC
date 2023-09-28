@@ -38,8 +38,7 @@ const InvoicvesListView = (props: any) => {
           onClick={() => setIsListViewPgae(true)}
           startIcon={<PlusSharedIcon />}
         >
-          {' '}
-          Create Invoice{' '}
+          Create Invoice
         </Button>
       </Stack>
       <Grid container sx={{ marginTop: '30px' }}>
