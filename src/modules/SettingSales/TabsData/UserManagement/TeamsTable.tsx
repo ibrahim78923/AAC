@@ -1,5 +1,5 @@
 import React from 'react';
-import SearchIcon from '@mui/icons-material/Search';
+
 import {
   Box,
   InputAdornment,
@@ -11,8 +11,10 @@ import {
   TableRow,
   TextField,
 } from '@mui/material';
-import { DeleteCrossIcon, ViewEyeIcon } from '@/assets/icons';
-import EditPenIcon from '@/assets/icons/modules/SettingsUserManagement/edit-pen';
+
+import SearchIcon from '@mui/icons-material/Search';
+
+import { DeleteCrossIcon, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
 
 function createData(name: string, teamMember: number, action: any) {
   return { name, teamMember, action };

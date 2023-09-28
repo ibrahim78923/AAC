@@ -1,8 +1,14 @@
+import React, { useState } from 'react';
+
 import { Box, Button, Typography, Tabs, Tab } from '@mui/material';
-import React from 'react';
-import UserTable from './UserTable';
-import TeamsTable from './TeamsTable';
+
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+
+import UserTable from './UserTable';
+
+import TeamsTable from './TeamsTable';
+
+import CommonDrawer from '@/components/Drawer';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -39,50 +45,86 @@ function a11yProps(index: number) {
 
 const UserManagement = () => {
   const [value, setValue] = React.useState(0);
+  const [addUserOpen, setAddUserOpen] = useState(false);
+  const [createTeamOpen, setCreateTeamOpen] = useState(false);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
 
-  return (
-    <Box
-      sx={{
-        border: '1px solid #EAECF0',
-        borderRadius: '8px',
-        boxShadow: '0px 1px 2px 0px #1018280F, 0px 1px 3px 0px #1018281A',
-        padding: '1rem',
-      }}
-    >
-      <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Typography variant="h4">User Manangement</Typography>
+  const handleCloseDrawer = () => {
+    setAddUserOpen(false);
+    setCreateTeamOpen(false);
+  };
 
-        <Button
-          variant="contained"
-          sx={{ display: 'flex', alignItems: 'center', columnGap: '10px' }}
-        >
-          <AddCircleIcon sx={{ color: '#ffff', fontSize: '16px' }} />{' '}
-          {value === 0 ? 'Add User' : 'Create Team'}
-        </Button>
-      </Box>
-      <Box sx={{ width: '100%' }}>
-        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-          <Tabs
-            value={value}
-            onChange={handleChange}
-            aria-label="basic tabs example"
+  return (
+    <>
+      <CommonDrawer
+        isDrawerOpen={addUserOpen}
+        onClose={handleCloseDrawer}
+        title={'Add User'}
+        okText={'OK'}
+        footer={true}
+        isOk={true}
+        // submitHandler={}
+      >
+        aDD USER form
+      </CommonDrawer>
+      <CommonDrawer
+        isDrawerOpen={createTeamOpen}
+        onClose={handleCloseDrawer}
+        title={'Create Team'}
+        okText={'OK'}
+        footer={true}
+        isOk={true}
+        // submitHandler={}
+      >
+        CREATE team form
+      </CommonDrawer>
+      <Box
+        sx={{
+          border: '1px solid #EAECF0',
+          borderRadius: '8px',
+          boxShadow: '0px 1px 2px 0px #1018280F, 0px 1px 3px 0px #1018281A',
+          padding: '1rem',
+        }}
+      >
+        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+          <Typography variant="h4">User Manangement</Typography>
+
+          <Button
+            onClick={() => {
+              {
+                value === 0 ? setAddUserOpen(true) : setCreateTeamOpen(true);
+              }
+            }}
+            variant="contained"
+            sx={{ display: 'flex', alignItems: 'center', columnGap: '10px' }}
           >
-            <Tab label="User" {...a11yProps(0)} />
-            <Tab label="Teams" {...a11yProps(1)} />
-          </Tabs>
+            <AddCircleIcon sx={{ color: '#ffff', fontSize: '16px' }} />
+            {value === 0 ? 'Add User' : 'Create Team'}
+          </Button>
         </Box>
-        <CustomTabPanel value={value} index={0}>
-          <UserTable />
-        </CustomTabPanel>
-        <CustomTabPanel value={value} index={1}>
-          <TeamsTable />
-        </CustomTabPanel>
+        <Box sx={{ width: '100%' }}>
+          <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+            <Tabs
+              value={value}
+              onChange={handleChange}
+              aria-label="basic tabs example"
+            >
+              <Tab label="User" {...a11yProps(0)} />
+              <Tab label="Teams" {...a11yProps(1)} />
+            </Tabs>
+          </Box>
+          <CustomTabPanel value={value} index={0}>
+            <UserTable />
+          </CustomTabPanel>
+          <CustomTabPanel value={value} index={1}>
+            <TeamsTable />
+          </CustomTabPanel>
+        </Box>
       </Box>
-    </Box>
+    </>
   );
 };
 

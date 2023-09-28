@@ -1,3 +1,5 @@
+import React, { useState } from 'react';
+
 import {
   Box,
   Button,
@@ -13,11 +15,16 @@ import {
   TableRow,
   TextField,
   Switch,
+  Select,
 } from '@mui/material';
-import React from 'react';
+
+import { SelectChangeEvent } from '@mui/material/Select';
+
 import SearchIcon from '@mui/icons-material/Search';
+
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+
+import CommonDrawer from '@/components/Drawer';
 
 function createData(
   name: string,
@@ -31,6 +38,7 @@ function createData(
 
 const UserTable = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [editOpen, setEditOpen] = useState(false);
   const [age, setAge] = React.useState('10');
   const [role, setRole] = React.useState('10');
 
@@ -46,6 +54,11 @@ const UserTable = () => {
   };
   const handleClose = () => {
     setAnchorEl(null);
+    setEditOpen(true);
+  };
+
+  const handleCloseDrawer = () => {
+    setEditOpen(false);
   };
 
   const rows = [
@@ -163,6 +176,17 @@ const UserTable = () => {
   ];
   return (
     <>
+      <CommonDrawer
+        isDrawerOpen={editOpen}
+        onClose={handleCloseDrawer}
+        title={'User View'}
+        okText={'OK'}
+        footer={true}
+        isOk={true}
+        // submitHandler={}
+      >
+        form
+      </CommonDrawer>
       <Box
         sx={{
           display: 'flex',

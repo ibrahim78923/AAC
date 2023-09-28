@@ -1,6 +1,9 @@
 import React from 'react';
+
 import { Box, Tabs, Tab, Typography } from '@mui/material';
+
 import RolesRight from './TabsData/RolesRight';
+
 import UserManagement from './TabsData/UserManagement/UserManagement';
 
 interface TabPanelProps {
@@ -30,7 +33,7 @@ function TabPanel(props: TabPanelProps) {
   );
 }
 const SettingSales = () => {
-  const [value, setValue] = React.useState<any>(3);
+  const [value, setValue] = React.useState<any>(2);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
