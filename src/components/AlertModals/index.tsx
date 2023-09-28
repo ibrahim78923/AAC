@@ -1,6 +1,5 @@
 import React from 'react';
 import { Box, Button, Modal, Typography } from '@mui/material';
-
 import {
   checkModelType,
   checkModelTypeForImage,
@@ -19,7 +18,6 @@ export const AlertModals: React.FunctionComponent<ModelProps> = ({
 }: ModelProps) => {
   return (
     <Box>
-      <Button>Open modal</Button>
       <Modal
         open={open}
         onClose={handleClose}
@@ -57,8 +55,4 @@ export const AlertModals: React.FunctionComponent<ModelProps> = ({
       </Modal>
     </Box>
   );
-};
-
-AlertModals.defaultProps = {
-  type: 'delete',
 };
