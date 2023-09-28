@@ -38,15 +38,7 @@ const TanstackTable = ({
                 <TableRow key={headerGroup.id}>
                   {headerGroup.headers.map((header) => (
                     <StyledTableCell key={header.id}>
-                      <Box
-                        sx={styles.cell}
-                        {...{
-                          className: header.column.getCanSort()
-                            ? 'cursor-pointer select-none'
-                            : '',
-                          onClick: header.column.getToggleSortingHandler(),
-                        }}
-                      >
+                      <Box sx={styles.cell}>
                         {header.isPlaceholder
                           ? null
                           : flexRender(
@@ -60,9 +52,9 @@ const TanstackTable = ({
                             flexDirection={'column'}
                             marginLeft={'4px'}
                             gap={'2px'}
-                            onClick={() =>
-                              header.column.getToggleSortingHandler()
-                            }
+                            {...{
+                              onClick: header.column.getToggleSortingHandler(),
+                            }}
                           >
                             <UpIcon
                               color={
