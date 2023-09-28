@@ -21,7 +21,7 @@ import {
 import { TTable } from './TanstackTable.interface';
 import { flexRender } from '@tanstack/react-table';
 
-const TanstackTabel = ({
+const TanstackTable = ({
   //   columns,
   //   data,
   rootSX = {},
@@ -109,4 +109,4 @@ const TanstackTabel = ({
   );
 };
 
-export default TanstackTabel;
+export default TanstackTable;
