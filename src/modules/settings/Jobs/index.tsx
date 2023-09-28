@@ -2,7 +2,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import React, { useState } from 'react';
 import Button from '@mui/material/Button';
-import CommonDrawer from '@/components/Drawer';
+import CommonDrawer from '@/components/CommonDrawer';
 import TextEditor from '@/components/TextEditor';
 
 const Jobs = () => {
