@@ -7,6 +7,8 @@ export { default as IconProductService } from './modules/OrganizationSubscriptio
 export { default as IconProductMarketing } from './modules/OrganizationSubscription/icon-product-marketing';
 export { default as IconProductOperation } from './modules/OrganizationSubscription/icon-product-operation';
 export { default as IconProductLoyaltyProgram } from './modules/OrganizationSubscription/icon-product-loyalty-program';
+export { default as IconPlane } from './modules/OrganizationSubscription/icon-plane';
+export { default as IconArrowBack } from './modules/OrganizationSubscription/Icon-arrow-back';
 
 // More exports from here
 export { default as ExampleSharedCase } from './shared/example-shared';

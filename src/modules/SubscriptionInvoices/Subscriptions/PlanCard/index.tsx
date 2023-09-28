@@ -1,5 +1,6 @@
 import React, { FC, useEffect } from 'react';
 import { Box, Button, Typography, Stack } from '@mui/material';
+import { useRouter } from 'next/router';
 interface PlanCardProps {
   status?: string;
   icon: any;
@@ -99,6 +100,7 @@ const PlanCard: FC<PlanCardProps> = ({
 }) => {
   /* VARIABLE DECLARATION
   -------------------------------------------------------------------------------------*/
+  const router = useRouter();
 
   /* EVENT FUNCTIONS
   -------------------------------------------------------------------------------------*/
@@ -141,7 +143,11 @@ const PlanCard: FC<PlanCardProps> = ({
         <Button variant="contained" onClick={handleBillingDetail}>
           Billing Details
         </Button>
-        <Button variant="outlined" sx={buttonOutlineGrey}>
+        <Button
+          variant="outlined"
+          sx={buttonOutlineGrey}
+          onClick={() => router.push('/subscription-invoices/manage-plan')}
+        >
           Manage Plan
         </Button>
       </Stack>

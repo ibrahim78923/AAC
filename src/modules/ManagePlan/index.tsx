@@ -1,12 +1,49 @@
-import React, { useEffect } from 'react';
-import { Box } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
+import {
+  Box,
+  Typography,
+  Button,
+  Grid,
+  FormControl,
+  TextField,
+  InputLabel,
+  Select,
+  MenuItem,
+  SelectChangeEvent,
+  Chip,
+  Stack,
+} from '@mui/material';
+
+import { IconPlane } from '@/assets/icons';
+
+import {
+  cardStyle,
+  cardHeaderStyle,
+  cardHeaderIconStyle,
+  cardHeaderActionStyle,
+  dividerStyle,
+  planSelectionRow,
+  planSelectionForm,
+  planTableRow,
+  planTableTd,
+  planTableTdBold,
+  planTableTh,
+  updateSubscriptionStyle,
+  cancelButtonStyle,
+} from './styles';
 
 const ManagePlan = () => {
   /* VARIABLE DECLARATION
   -------------------------------------------------------------------------------------*/
+  const router = useRouter();
+  const [value, setValue] = useState('');
 
   /* EVENT FUNCTIONS
   -------------------------------------------------------------------------------------*/
+  const handleChange = (event: SelectChangeEvent) => {
+    setValue(event.target.value as string);
+  };
 
   /* EVENT LISTENERS
   -------------------------------------------------------------------------------------*/
@@ -16,7 +53,151 @@ const ManagePlan = () => {
   -------------------------------------------------------------------------------------*/
   return (
     <>
-      <Box>Manage Plan</Box>
+      <Box sx={cardStyle}>
+        <Box sx={cardHeaderStyle}>
+          <Box sx={cardHeaderIconStyle}>
+            <IconPlane />
+          </Box>
+          <Typography variant="h6" sx={{ fontWeight: '600' }}>
+            Sales
+          </Typography>
+          <Box sx={cardHeaderActionStyle}>
+            <Button
+              onClick={() => router.push('/subscription-invoices/choose-plan')}
+            >
+              Change Plan
+            </Button>
+          </Box>
+        </Box>
+
+        <Box sx={dividerStyle}></Box>
+
+        <Box sx={planSelectionRow}>
+          <Typography
+            variant="body1"
+            sx={{ color: 'secondary.main', mr: '24px' }}
+          >
+            <Box>Plan</Box>
+            <Box sx={{ mt: '12px' }}>Growth</Box>
+          </Typography>
+          <Box sx={planSelectionForm}>
+            <Grid container spacing={3}>
+              <Grid item xs={4}>
+                <FormControl fullWidth>
+                  <InputLabel id="billingCycle">Billing Cycle</InputLabel>
+                  <Select
+                    labelId="billingCycle"
+                    value={value}
+                    label="Age"
+                    onChange={handleChange}
+                  >
+                    <MenuItem value={'paidMonthly'}>Paid Monthly</MenuItem>
+                    <MenuItem value={'paidQuarterly'}>Paid Quarterly</MenuItem>
+                    <MenuItem value={'paidHalfYearly'}>
+                      Paid Half-Yearly
+                    </MenuItem>
+                    <MenuItem value={'paidAnnually'}>Paid Annually</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item xs={4}>
+                <TextField
+                  label="Max Additional User"
+                  type="number"
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs={4}>
+                <TextField label="Additional Storage" type="number" fullWidth />
+              </Grid>
+            </Grid>
+          </Box>
+        </Box>
+      </Box>
+
+      {/* Subscription  Summary */}
+      <Box sx={cardStyle}>
+        <Typography variant="h5" sx={{ color: '#111827', mb: '28px' }}>
+          Subscription Summary
+        </Typography>
+        <Box sx={cardHeaderStyle}>
+          <Box sx={cardHeaderIconStyle}>
+            <IconPlane />
+          </Box>
+          <Typography variant="h6" sx={{ fontWeight: '600' }}>
+            Sales
+          </Typography>
+          <Box sx={cardHeaderActionStyle}>
+            <Chip label={'Paid Monthly'} color="primary" />
+          </Box>
+        </Box>
+
+        <Box sx={dividerStyle}></Box>
+
+        <Typography variant="h6" sx={{ fontWeight: '600' }}>
+          Growth Plan
+        </Typography>
+
+        <Box sx={planTableRow}>
+          <Box sx={planTableTd}>Plan Price</Box>
+          <Box sx={planTableTh}>£ 20</Box>
+        </Box>
+        <Box sx={planTableRow}>
+          <Box sx={planTableTd}>
+            3 Additional Users{' '}
+            <Box component="span" sx={{ fontSize: '12px' }}>
+              (£ 15/user)
+            </Box>
+          </Box>
+          <Box sx={planTableTh}>£ 45</Box>
+        </Box>
+        <Box sx={planTableRow}>
+          <Box sx={planTableTd}>
+            Additional Storage{' '}
+            <Box component="span" sx={{ fontSize: '12px' }}>
+              (£ 1/GB)
+            </Box>
+          </Box>
+          <Box sx={planTableTh}>£ 1</Box>
+        </Box>
+        <Box sx={planTableRow}>
+          <Box sx={planTableTdBold}>
+            Discount{' '}
+            <Box component="span" sx={{ fontSize: '12px' }}>
+              (10%)
+            </Box>
+          </Box>
+          <Box sx={planTableTh}>-£ 10</Box>
+        </Box>
+        <Box sx={planTableRow}>
+          <Box sx={planTableTdBold}>
+            Tax{' '}
+            <Box component="span" sx={{ fontSize: '12px' }}>
+              (Vat 20%)
+            </Box>
+          </Box>
+          <Box sx={planTableTh}>£ 27</Box>
+        </Box>
+
+        <Box sx={dividerStyle}></Box>
+
+        <Box sx={planTableRow}>
+          <Box sx={planTableTdBold}>Total Cost</Box>
+          <Box sx={planTableTh}>£ 158</Box>
+        </Box>
+      </Box>
+
+      <Stack
+        spacing={'12px'}
+        useFlexGap
+        direction={'row'}
+        sx={updateSubscriptionStyle}
+      >
+        <Button sx={cancelButtonStyle}>Cancel</Button>
+        <Button variant="contained" color="primary">
+          Update Subscription
+        </Button>
+      </Stack>
     </>
   );
 };
