@@ -4,7 +4,7 @@ import Image from 'next/image';
 
 import { Box, Typography, Button } from '@mui/material';
 
-import cardProps from '@/types/shared/ProfileCard';
+import cardProps from './ProfileCardInterface';
 
 import {
   EmailIcon,
@@ -15,73 +15,7 @@ import {
 
 import { UserProfile } from '@/assets/images';
 
-const style = {
-  cardWrapper: {
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
-    backgroundColor: '#fff',
-    borderRadius: '8px',
-    flexWrap: 'wrap',
-    display: 'flex',
-    padding: '24px',
-  },
-  profile: {
-    gap: { md: '24px', xs: '12px' },
-    alignItems: 'center',
-    flexWrap: 'wrap',
-    display: 'flex',
-  },
-  badge: {
-    backgroundColor: '#E6FAEB',
-    borderRadius: '30px',
-    padding: '2px 8px',
-    color: '#47B263',
-  },
-  imgWrapper: {
-    position: 'relative',
-    borderRadius: '21px',
-    overflow: 'hidden',
-    height: 120,
-    width: 120,
-    '& .user_profile': {
-      objectFit: 'cover',
-      heigth: '100%',
-      width: '100%',
-    },
-    '&:hover': {
-      '& .edit-Icon': {
-        display: 'flex',
-      },
-    },
-  },
-  editIcon: {
-    transition: 'all 0.2s linear',
-    justifyContent: 'center',
-    background: '#79839E99',
-    position: 'absolute',
-    alignItems: 'center',
-    cursor: 'pointer',
-    display: 'none',
-    height: '100%',
-    width: '100%',
-    left: 0,
-    top: 0,
-  },
-  iconWrapper: {
-    background: '#F9FAFB',
-    borderRadius: '4px',
-    height: '28px',
-    width: '28px',
-    alignItems: 'center',
-    display: 'flex',
-    justifyContent: 'center',
-  },
-  icon: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '15px',
-  },
-};
+import { style } from './ProfileCard.style';
 
 const ProfileCard = (props: cardProps) => {
   const {

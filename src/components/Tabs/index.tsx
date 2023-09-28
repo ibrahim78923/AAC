@@ -1,30 +1,15 @@
 import * as React from 'react';
 
-import { Tabs, Tab, Box, TextField } from '@mui/material';
+import { Tabs, Tab, Box } from '@mui/material';
 
-import { CommonTabsProps, TabPanelProps } from '@/types/shared/Tabs';
+import Search from '../Search';
 
-import { uuid } from 'uuidv4';
+import { CommonTabsProps, TabPanelProps } from './TabsInterface';
 
-const style = {
-  tabWrapper: {
-    '& .text-primary-my': { minWidth: 'auto', paddingBottom: '0px' },
-  },
-  headerWrapper: {
-    padding: '12px 24px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    flexWrap: 'wrap',
-    gap: '15px',
-  },
-  headerChild: {
-    display: 'flex',
-    alignItems: 'center',
-    flexWrap: 'wrap',
-    gap: '8px',
-  },
-};
+import { v4 as uuidv4 } from 'uuid';
+
+import { style } from './Tabs.style';
+
 const CustomTabPanel = (props: TabPanelProps) => {
   const { children, value, index, ...other } = props;
 
@@ -55,6 +40,7 @@ const CommonTabs = (props: CommonTabsProps) => {
     isHeader,
     headerChildren,
     searchBarProps = {},
+    getTabVal = () => {},
   } = props;
   const arrayChildren = React.Children.toArray(children);
 
@@ -62,6 +48,7 @@ const CommonTabs = (props: CommonTabsProps) => {
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
+    getTabVal(newValue);
   };
 
   return (
@@ -72,7 +59,7 @@ const CommonTabs = (props: CommonTabsProps) => {
             <Tab
               classes={{ textColorPrimary: 'text-primary-my' }}
               disableRipple
-              key={uuid()}
+              key={uuidv4()}
               label={tab}
               {...a11yProps(index)}
             />
@@ -81,16 +68,12 @@ const CommonTabs = (props: CommonTabsProps) => {
       </Box>
       {isHeader && (
         <Box sx={style.headerWrapper}>
-          <TextField
-            placeholder={searchBarProps.placeholder || 'search here'}
-            size="small"
-            {...searchBarProps}
-          />
+          <Search {...searchBarProps} />
           <Box sx={style.headerChild}>{headerChildren}</Box>
         </Box>
       )}
       {arrayChildren?.map((tab: React.ReactNode | string, index: number) => (
-        <div key={uuid()}>
+        <div key={uuidv4()}>
           {value === index && (
             <CustomTabPanel value={value} index={index}>
               {tab}

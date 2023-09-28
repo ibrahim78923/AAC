@@ -1,4 +1,4 @@
-import { TextFieldProps } from '@mui/material';
+import { SearchPropsI } from '../../types/shared/Search';
 
 export interface TabPanelProps {
   children?: React.ReactNode;
@@ -11,5 +11,6 @@ export interface CommonTabsProps {
   children?: React.ReactNode;
   isHeader?: boolean;
   headerChildren?: React.ReactNode;
-  searchBarProps?: TextFieldProps;
+  searchBarProps?: SearchPropsI;
+  getTabVal?: ({}: number) => void;
 }

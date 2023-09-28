@@ -10,14 +10,23 @@ import { ArrowDropDown } from '@mui/icons-material';
 
 import { FilterSharedIcon, PlusSharedIcon } from '@/assets/icons';
 
+import UsersList from './Users/UsersList';
+
+import ProfileCard from '@/components/ProfileCard';
+
 const UserManagementSuperAdmin = () => {
-  const [selectedValue, setSelectedValue] = useState(null);
-  const [openFilterDrawer, setOpenFilterDrawer] = useState(false);
+  const [selected, setSelected] = React.useState<readonly string[]>([]);
   const [openAddUserDrawer, setOpenAddUserDrawer] = useState(false);
+  const [openFilterDrawer, setOpenFilterDrawer] = useState(false);
+  const [selectedValue, setSelectedValue] = useState(null);
+  const [tabVal, setTabVal] = useState<number>(0);
+  const [search, setSearch] = useState('');
 
   const handleClick = (event: any) => {
     setSelectedValue(event.currentTarget);
   };
+
+  const handleAddRole = () => {};
 
   const handleClose = () => {
     setSelectedValue(null);
@@ -28,23 +37,31 @@ const UserManagementSuperAdmin = () => {
       <Stack direction="row" justifyContent="space-between" alignItems="center">
         <Typography variant="h4">User Management</Typography>
         <Button
-          onClick={() => {
-            setOpenAddUserDrawer(true);
-          }}
+          onClick={() =>
+            tabVal === 0 ? setOpenAddUserDrawer(true) : handleAddRole
+          }
           variant="contained"
           startIcon={<PlusSharedIcon />}
         >
-          Add User
+          {tabVal === 0 ? 'Add User' : 'Add Role'}
         </Button>
       </Stack>
       <Box>
         <CommonTabs
+          getTabVal={(val: number) => setTabVal(val)}
+          searchBarProps={{
+            label: 'Search Here',
+            setSearchBy: setSearch,
+            searchBy: search,
+            width: '260px',
+          }}
           isHeader={true}
           tabsArray={['User', 'Role and Rights']}
           headerChildren={
             <>
               <Box>
                 <Button
+                  disabled={selected?.length > 0 ? false : true}
                   onClick={handleClick}
                   sx={{ border: '1px solid #D1D5DB', color: '#6B7280' }}
                 >
@@ -74,8 +91,8 @@ const UserManagementSuperAdmin = () => {
             </>
           }
         >
-          <Typography variant="h6">User</Typography>
-          <Typography variant="h6">Role and rights</Typography>
+          <UsersList selected={selected} setSelected={setSelected} />
+          <ProfileCard />
         </CommonTabs>
       </Box>
 
