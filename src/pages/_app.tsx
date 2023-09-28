@@ -1,3 +1,4 @@
+import NotistackProvider from '@/components/CustomNotistack';
 import ThemeLocalization from '../theme/ThemeLocalization';
 import ThemeProvider from '../theme/index';
 import '@/styles/globals.css';
@@ -13,7 +14,9 @@ export default function App(props: any) {
     <ThemeProvider>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <ThemeLocalization>
-          {getLayout(<Component {...pageProps} />)}
+          <NotistackProvider>
+            {getLayout(<Component {...pageProps} />)}
+          </NotistackProvider>
         </ThemeLocalization>
       </LocalizationProvider>
     </ThemeProvider>
