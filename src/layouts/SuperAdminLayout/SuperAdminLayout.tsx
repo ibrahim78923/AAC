@@ -1,100 +1,200 @@
-import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import CssBaseline from '@mui/material/CssBaseline';
+import React, { useState } from 'react';
 
-import Drawer from '@mui/material/Drawer';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-
-import Toolbar from '@mui/material/Toolbar';
-
-import Logo from '../../assets/images/shared/Logo.png';
-import DashboardIcon from '../../assets/images/shared/dashboard.png';
-import UserManagementIcon from '../../assets/images/shared/user-management.png';
-import PlanManagementIcon from '../../assets/images/shared/plan-management.png';
-import BillingInvoiceIcon from '../../assets/images/shared/billing-invoices.png';
-
-import ReportsIcon from '../../assets/images/shared/reports.png';
 import Image from 'next/image';
 import Link from 'next/link';
-import Header from './Header';
-import { uuid } from 'uuidv4';
+import { useRouter } from 'next/router';
+
+import {
+  AppBar,
+  Box,
+  Drawer,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  Toolbar,
+  CssBaseline,
+  useTheme,
+  List,
+  ListItemText,
+  Collapse,
+} from '@mui/material';
+
+import Header from './Header/Header';
+
+import { isNullOrEmpty } from '@/utils';
+
+import { LowerSuperAdminItems, SuperAdminItems } from './SuperAdminLayout.data';
+
+import { SuperAdminLayoutI } from './SuperAdminLayout.interface';
+
+import { ExpandLess, ExpandMore } from '@mui/icons-material';
+import { LogoImage, LogoutImage } from '@/assets/images';
+
+import { SuperAdminLayoutStyles } from './SuperAdminLayoutStyles';
+
+import { v4 as uuidv4 } from 'uuid';
 
 const drawerWidth = 220;
 
-interface Props {
-  window?: () => Window;
-  children: React.ReactNode;
-}
-
-type MenuItem = {
-  key: React.Key;
-  icon?: any;
-  label: React.ReactNode;
-  type?: 'group';
-  children?: {
-    key: React.Key;
-    label: React.ReactNode;
-  }[];
-};
-
-const items: MenuItem[] = [
-  {
-    key: 'super-admin-dashboard',
-    icon: DashboardIcon,
-    label: 'Dashboard',
-  },
-  {
-    key: 'super-admin-user-management',
-    icon: UserManagementIcon,
-    label: 'User Management',
-  },
-  {
-    key: 'super-admin-plan-management',
-    icon: PlanManagementIcon,
-    label: 'Plan Management',
-  },
-  {
-    key: 'super-admin-billing-invoices',
-    icon: BillingInvoiceIcon,
-    label: 'Billing & Invoices',
-  },
-  {
-    key: 'super-admin-reports',
-    icon: ReportsIcon,
-    label: 'Reports',
-  },
-];
-
-export default function SuperAdminLayout(props: Props) {
+const SuperAdminLayout = (props: SuperAdminLayoutI) => {
+  const theme = useTheme();
   const { window, children } = props;
-  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const router = useRouter();
+
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const [isDropDownOpen, setisDropDownOpen] = useState(false);
 
   const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
+    setIsMobileOpen(!isMobileOpen);
+  };
+  const role = 'super-admin';
+  const dropDownOpenHandler = () => {
+    if (role === 'super-admin') {
+      setisDropDownOpen(!isDropDownOpen);
+    } else {
+      router.push('/sale-settings');
+    }
   };
 
   const drawer = (
     <>
-      <Box sx={{ p: 2 }}>
-        <Image src={Logo} alt="logo" />
+      <Box sx={{ padding: '0px 0px 20px 10px' }}>
+        <Image src={LogoImage} alt="logo" />
       </Box>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          flexDirection: 'column',
+          height: '100%',
+        }}
+      >
+        <Box>
+          {!isNullOrEmpty(SuperAdminItems) &&
+            SuperAdminItems.map((link) => (
+              <Link
+                key={uuidv4()}
+                href={`${link.key}`}
+                onClick={() => setisDropDownOpen(false)}
+              >
+                {link.role.includes(role) && (
+                  <ListItem key={link.key} sx={{ padding: '6px 0px 6px 0px' }}>
+                    <ListItemButton
+                      sx={SuperAdminLayoutStyles.mainNavLink(
+                        link,
+                        router,
+                        theme,
+                      )}
+                    >
+                      <ListItemIcon sx={{ minWidth: 40 }}>
+                        <Image
+                          src={link.icon}
+                          alt={link.icon}
+                          style={{
+                            opacity: router.pathname.includes(`${link.key}`)
+                              ? '1'
+                              : '0.4',
+                          }}
+                        />
+                      </ListItemIcon>
 
-      {items.map((link) => (
-        <Link key={uuid()} href={`${link.key}`}>
-          <ListItem key={link.key} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                <Image src={link.icon} alt={link.icon} />
+                      {link.label}
+                    </ListItemButton>
+                  </ListItem>
+                )}
+              </Link>
+            ))}
+        </Box>
+        <Box sx={{ paddingBottom: '20px' }}>
+          <List component="nav" aria-labelledby="nested-list-subheader">
+            {!isNullOrEmpty(LowerSuperAdminItems) &&
+              LowerSuperAdminItems.map((item) => (
+                <div key={uuidv4()}>
+                  {item.role.includes(role) && (
+                    <ListItem style={{ padding: '6px 0px' }}>
+                      <ListItemButton
+                        onClick={dropDownOpenHandler}
+                        sx={SuperAdminLayoutStyles.collapseMenuOpener(
+                          item,
+                          router,
+                          isDropDownOpen,
+                          theme,
+                        )}
+                      >
+                        <ListItemIcon sx={{ minWidth: 40 }}>
+                          <Image
+                            src={item.logo}
+                            alt="icons"
+                            style={{
+                              opacity:
+                                router.pathname.includes(`${item.name}`) ||
+                                isDropDownOpen
+                                  ? '1'
+                                  : '0.4',
+                            }}
+                          />
+                        </ListItemIcon>
+                        {item.name}
+                        <ListItemText />
+                        {role === 'super-admin' ? (
+                          isDropDownOpen ? (
+                            <ExpandLess />
+                          ) : (
+                            <ExpandMore />
+                          )
+                        ) : null}
+                      </ListItemButton>
+                    </ListItem>
+                  )}
+
+                  {item.textNames && (
+                    <Collapse in={isDropDownOpen} timeout="auto" unmountOnExit>
+                      <List component="div" disablePadding>
+                        {item.textNames.map((subItem) => (
+                          <Link key={uuidv4()} href={`${subItem.key}`}>
+                            <ListItemButton
+                              key={item.name}
+                              sx={SuperAdminLayoutStyles.collapseMenu(
+                                subItem,
+                                router,
+                                theme,
+                              )}
+                            >
+                              <Link key={uuidv4()} href={`${subItem.key}`}>
+                                {subItem.label}
+                              </Link>
+                            </ListItemButton>
+                          </Link>
+                        ))}
+                      </List>
+                    </Collapse>
+                  )}
+                </div>
+              ))}
+          </List>
+          <Link key={uuidv4()} href={`/logout`}>
+            <ListItemButton
+              sx={{
+                fontSize: '14px',
+                '&:hover': {
+                  background: 'transparent',
+                },
+              }}
+            >
+              <ListItemIcon sx={{ minWidth: 40 }}>
+                <Image
+                  src={LogoutImage}
+                  alt="LogoutIcon"
+                  style={{
+                    opacity: '0.4',
+                  }}
+                />
               </ListItemIcon>
-
-              {link.label}
+              Logout
             </ListItemButton>
-          </ListItem>
-        </Link>
-      ))}
+          </Link>
+        </Box>
+      </Box>
     </>
   );
 
@@ -104,16 +204,7 @@ export default function SuperAdminLayout(props: Props) {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar
-        sx={{
-          width: { md: `calc(100% - ${drawerWidth}px)` },
-          ml: { sm: `${drawerWidth}px` },
-          background: '#FFF',
-          boxShadow: 'none',
-          color: 'black',
-          p: '18px 24px',
-        }}
-      >
+      <AppBar sx={SuperAdminLayoutStyles.appToolbar(drawerWidth, theme)}>
         <Header handleDrawerToggle={handleDrawerToggle} />
       </AppBar>
       <Box
@@ -121,64 +212,32 @@ export default function SuperAdminLayout(props: Props) {
         sx={{ width: { md: drawerWidth }, flexShrink: { md: 0 } }}
         aria-label="mailbox folders"
       >
-        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Drawer
           container={container}
           variant="temporary"
-          open={mobileOpen}
+          open={isMobileOpen}
           onClose={handleDrawerToggle}
           ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
+            keepMounted: true,
           }}
-          sx={{
-            display: { xs: 'block', md: 'none' },
-            '& .MuiDrawer-paper': {
-              boxSizing: 'border-box',
-              width: drawerWidth,
-            },
-          }}
+          sx={SuperAdminLayoutStyles.mobileDrawer(drawerWidth)}
         >
           {drawer}
         </Drawer>
         <Drawer
           variant="permanent"
-          sx={{
-            display: { xs: 'none', md: 'block' },
-            '& .MuiDrawer-paper': {
-              boxSizing: 'border-box',
-              width: drawerWidth,
-            },
-          }}
+          sx={SuperAdminLayoutStyles.mainDrawer(drawerWidth)}
           open
         >
           {drawer}
         </Drawer>
       </Box>
-      <Box
-        component="main"
-        sx={{
-          flexGrow: 1,
-          p: 3,
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
-          background: '#F7F9FB',
-          height: 'calc(100vh)',
-          padding: '24px',
-          overflow: 'auto',
-        }}
-      >
+      <Box component="main" sx={SuperAdminLayoutStyles.layoutBox(drawerWidth)}>
         <Toolbar />
-        <Box
-          sx={{
-            background: '#FFF',
-            minHeight: `calc(100% - ${70}px)`,
-            height: 'auto',
-            padding: '24px',
-            borderRadius: '8px',
-          }}
-        >
-          {children}
-        </Box>
+        <Box sx={SuperAdminLayoutStyles.layoutInnerBox(theme)}>{children}</Box>
       </Box>
     </Box>
   );
-}
+};
+
+export default SuperAdminLayout;
