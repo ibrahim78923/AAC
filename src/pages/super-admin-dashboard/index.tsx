@@ -1,7 +1,7 @@
 import SuperAdminLayout from '@/layouts/SuperAdminLayout/SuperAdminLayout';
 
 function SuperAdminPage() {
-  return <div>Dashboard Page</div>;
+  return <div>Dashboard</div>;
 }
 export default SuperAdminPage;
 SuperAdminPage.getLayout = function getLayout(page: any) {
