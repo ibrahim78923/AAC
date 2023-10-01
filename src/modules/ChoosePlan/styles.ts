@@ -1,17 +1,20 @@
-export const cardStyle = {
-  backgroundColor: '#fff',
-  boxShadow: '0 3px 6px 0 rgba(107, 114, 128, 0.1)',
-  p: '20px',
-  borderRadius: '8px',
-  '&:not(:first-child)': {
-    mt: '20px',
-  },
+export const tableContainer = {
+  border: '1px solid #E6E9F5',
+  borderRadius: '4px',
 };
 
-export const cardHeaderStyle = {
-  display: 'flex',
-  alignItems: 'center',
-};
+export const tableHeadStyle = (theme: any) => ({
+  '& .MuiTableCell-head': {
+    backgroundColor: '#F9FAFB',
+    border: '1px solid #E6E9F5',
+    textAlign: 'center',
+    fontSize: '18px',
+    fontWeight: '600',
+    lineHeight: '1.5',
+    color: theme.palette.custom[1],
+    p: '26px 16px',
+  },
+});
 
 export const cardHeaderIconStyle = {
   display: 'flex',
