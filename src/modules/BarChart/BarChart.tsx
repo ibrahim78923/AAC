@@ -4,20 +4,7 @@ import { Box, Grid } from '@mui/material';
 import { CustomChart } from '@/components/Chart';
 // =========================================================================
 export default function BarChart() {
-  const barseries: any = [
-    {
-      data: [12, 3, 40, 30, 5, 10],
-    },
-    {
-      data: [44, 55, 41, 64, 22, 43, 21],
-    },
-    {
-      data: [53, 32, 33, 52, 13, 44, 32],
-    },
-    {
-      data: [12, 3, 40, 30, 5, 10],
-    },
-  ];
+  const barseries: any = [44, 55, 13, 43, 22];
   const baroptions: ApexOptions = {
     labels: [
       'New',
@@ -37,8 +24,8 @@ export default function BarChart() {
           <CustomChart
             options={baroptions}
             series={barseries}
-            type="bar"
-            height={312}
+            type="pie"
+            height={380}
           />
         </Box>
       </Grid>
