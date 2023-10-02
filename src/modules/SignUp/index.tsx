@@ -9,13 +9,13 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import InputField from '@/components/InputField';
 import { AuthHeader, formStyling, loginDashboard } from './SignUp.style';
-import Dashboard from '@/assets/icons/shared/login-dashboard.svg';
 import {
   EyeIcon,
   EyeSlashIcon,
   CompanyLogoIcon,
   VerifiedIcon,
 } from '@/assets/icons';
+import { LoginDashboardImage } from '@/assets/images';
 
 const SignUp = () => {
   const [isShowError, setIsShowError] = useState<boolean>(false);
@@ -545,11 +545,7 @@ const SignUp = () => {
                 },
               }}
             >
-              <Image
-                src={Dashboard}
-                alt="dashborad"
-                style={{ width: '100%' }}
-              />
+              <Image src={LoginDashboardImage} alt="dashborad" />
             </Grid>
           </>
         )}

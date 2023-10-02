@@ -8,9 +8,9 @@ import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import InputField from '@/components/InputField';
 import { AuthHeader, formStyling, loginDashboard } from './ResetPassword.style';
-import Dashboard from '@/assets/icons/shared/login-dashboard.svg';
 import resetPasswordSuccess from '@/assets/icons/shared/onSuccess.gif';
 import { CompanyLogoIcon } from '@/assets/icons';
+import { LoginDashboardImage } from '@/assets/images';
 
 const ResetPassword = () => {
   const [isShowError, setIsShowError] = useState<boolean>(false);
@@ -225,7 +225,7 @@ const ResetPassword = () => {
             },
           }}
         >
-          <Image src={Dashboard} alt="dashborad" style={{ width: '100%' }} />
+          <Image src={LoginDashboardImage} alt="dashborad" />
         </Grid>
       </Grid>
     </Box>

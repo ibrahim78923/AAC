@@ -11,8 +11,8 @@ import {
   formStyling,
   loginDashboard,
 } from './ForgetPassword.style';
-import Dashboard from '@/assets/icons/shared/login-dashboard.svg';
 import { CompanyLogoIcon } from '@/assets/icons';
+import { LoginDashboardImage } from '@/assets/images';
 
 const ForgetPassword = () => {
   const [isEmailSuccess, setIsEmailSuccess] = useState<boolean>(false);
@@ -148,7 +148,7 @@ const ForgetPassword = () => {
             },
           }}
         >
-          <Image src={Dashboard} alt="dashborad" style={{ width: '100%' }} />
+          <Image src={LoginDashboardImage} alt="dashborad" />
         </Grid>
       </Grid>
     </Box>

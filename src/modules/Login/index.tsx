@@ -9,8 +9,8 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import InputField from '@/components/InputField';
 import { AuthHeader, aTag, formStyling, loginDashboard } from './Login.style';
-import Dashboard from '@/assets/icons/shared/login-dashboard.svg';
 import { CompanyLogoIcon } from '@/assets/icons';
+import { LoginDashboardImage } from '@/assets/images';
 
 const Login = () => {
   const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
@@ -175,7 +175,11 @@ const Login = () => {
             },
           }}
         >
-          <Image src={Dashboard} alt="dashborad" style={{ width: '100%' }} />
+          <Image
+            src={LoginDashboardImage}
+            alt="dashborad"
+            style={{ width: '100%' }}
+          />
         </Grid>
       </Grid>
     </Box>

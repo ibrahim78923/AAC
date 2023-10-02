@@ -37,3 +37,4 @@ export { default as DocumentImage } from '../../assets/images/modules/header/doc
 export { default as MailImage } from '../../assets/images/modules/header/mail.png';
 export { default as MessageImage } from '../../assets/images/modules/header/message-top.png';
 export { default as ArrowSquareLeftImage } from '../../assets/images/modules/header/arrow-square-left.png';
+export { default as LoginDashboardImage } from '../../assets/images/shared/login-dashboard.png';
