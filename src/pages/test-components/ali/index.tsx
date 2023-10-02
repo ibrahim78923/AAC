@@ -1,10 +1,10 @@
-import AddRequestApproval from '@/modules/Ticket/AddRequestApproval';
+import ApprovalPage from '@/modules/ApprovalTickets/components/RequestApprovalPage';
 import React from 'react';
 
 const TextComponentAli: React.FC = () => {
   return (
     <div>
-      <AddRequestApproval />
+      <ApprovalPage />
     </div>
   );
 };

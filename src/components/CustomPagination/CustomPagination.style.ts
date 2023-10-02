@@ -1,16 +1,14 @@
 export const paddingStyle = {
   '& .Mui-selected': {
-    backgroundColor: '#D1D5DB !important',
-    color: '#374151',
+    backgroundColor: 'custom.dark',
     margin: '0',
   },
   '& .MuiPaginationItem-root': {
-    fontSize: '0.875rem',
     height: '40px',
     width: '40px',
     border: '1px solid #D1D5DB',
     borderRadius: '1px',
-    color: '#6B7280',
+    color: 'custom.main',
     margin: '0',
     display: 'flex',
     alignItems: 'center',
@@ -41,7 +39,7 @@ export const tablePaginationStyle = {
     border: '1px solid #D1D5DB',
     borderRadius: '4px',
     backgroundColor: 'transparent',
-    color: '#6B7280',
+    color: 'custom.main',
     height: '20px',
     width: '24px',
     display: 'flex',
@@ -55,12 +53,12 @@ export const tablePaginationStyle = {
   },
   '.MuiTablePagination-selectLabel': {
     fontWeight: '500',
-    color: '#6B7280',
+    color: 'custom.main',
   },
   '.MuiTablePagination-displayedRows': {
     fontWeight: '500',
     marginLeft: '-25px',
-    color: '#6B7280',
+    color: 'custom.main',
   },
   '& .MuiTablePagination-actions': {
     display: 'none',

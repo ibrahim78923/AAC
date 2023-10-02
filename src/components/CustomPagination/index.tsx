@@ -1,9 +1,8 @@
-import React from 'react';
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import { Grid, IconButton, Pagination, TablePagination } from '@mui/material';
 import { CustomPaginationProps } from './CustomPagination.interface';
-import { useCustomPaginationState } from './CustomPagination.state';
+import { useCustomPaginationState } from './useCustomPagination';
 
 import {
   paddingStyle,
