@@ -12,7 +12,7 @@ const HorizontalTabs = (props: any) => {
     variant = 'scrollable',
     spacing,
     defaultValue = 0,
-    disableBoxShadow = false,
+    disableBoxShadow = true,
     disabled = false,
     addIcon = false,
     handleAddTab,
@@ -37,7 +37,7 @@ const HorizontalTabs = (props: any) => {
         value={value}
         defaultValue={defaultValue}
         onChange={handleChange}
-        scrollButtons={false}
+        // scrollButtons={false}
         allowScrollButtonsMobile
       >
         {tabsDataArray?.map((title: string) => (
