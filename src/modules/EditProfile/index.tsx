@@ -48,19 +48,10 @@ const EditProfile = () => {
                     autoComplete="off"
                     type="text"
                     hasError={!!errors?.firstName}
+                    error={errors?.firstName?.message}
                   />
                 )}
               />
-
-              {errors?.firstName && (
-                <Typography
-                  variant="body1"
-                  sx={{ color: theme?.palette?.error?.main }}
-                >
-                  {' '}
-                  {errors?.firstName?.message}
-                </Typography>
-              )}
             </Grid>
 
             <Grid item xs={12} md={6} lg={6}>
@@ -106,19 +97,10 @@ const EditProfile = () => {
                     autoComplete="off"
                     type="text"
                     hasError={!!errors?.lastName}
+                    error={errors?.firstName?.message}
                   />
                 )}
               />
-
-              {errors?.lastName && (
-                <Typography
-                  variant="body1"
-                  sx={{ color: theme?.palette?.error?.main }}
-                >
-                  {' '}
-                  {errors?.lastName?.message}
-                </Typography>
-              )}
             </Grid>
 
             <Grid item xs={12} md={6} lg={6}></Grid>

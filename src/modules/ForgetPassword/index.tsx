@@ -109,19 +109,10 @@ const ForgetPassword = () => {
                           autoComplete="off"
                           type="text"
                           hasError={!!errors?.email}
+                          error={errors?.email?.message}
                         />
                       )}
                     />
-
-                    {errors?.email && (
-                      <Typography
-                        variant="body1"
-                        sx={{ color: theme?.palette?.error?.main }}
-                      >
-                        {' '}
-                        {errors?.email?.message}
-                      </Typography>
-                    )}
 
                     <Button
                       type="submit"

@@ -83,19 +83,10 @@ const Login = () => {
                       autoComplete="off"
                       type="text"
                       hasError={!!errors?.email}
+                      error={errors?.email?.message}
                     />
                   )}
                 />
-
-                {errors?.email && (
-                  <Typography
-                    variant="body1"
-                    sx={{ color: theme?.palette?.error?.main }}
-                  >
-                    {' '}
-                    {errors?.email?.message}
-                  </Typography>
-                )}
 
                 <label style={{ marginBottom: '8px', marginTop: '10px' }}>
                   password <span style={{ color: 'red' }}>*</span>
@@ -114,6 +105,7 @@ const Login = () => {
                       height="23px"
                       autoComplete="off"
                       hasError={!!errors?.passwords}
+                      error={errors?.passwords?.message}
                       type={isShowPassword ? 'text' : 'password'}
                       InputProps={{
                         endAdornment: (
@@ -140,15 +132,7 @@ const Login = () => {
                     />
                   )}
                 />
-                {errors?.passwords && (
-                  <Typography
-                    variant="body1"
-                    sx={{ color: theme?.palette?.error?.main }}
-                  >
-                    {' '}
-                    {errors?.passwords?.message}
-                  </Typography>
-                )}
+
                 <Button
                   type="submit"
                   variant="contained"

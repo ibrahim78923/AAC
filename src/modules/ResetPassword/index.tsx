@@ -133,6 +133,7 @@ const ResetPassword = () => {
                           autoComplete="off"
                           hasError={!!errors?.newPassword}
                           type="text"
+                          error={errors?.newPassword?.message}
                         />
                       )}
                     />
@@ -146,16 +147,6 @@ const ResetPassword = () => {
                       The Password must be at least 8 characters long having 1
                       capital letter,1 small letter and 1 numeric digit
                     </Typography>
-
-                    {errors?.newPassword && (
-                      <Typography
-                        variant="body1"
-                        sx={{ color: theme?.palette?.error?.main }}
-                      >
-                        {' '}
-                        {errors?.newPassword?.message}
-                      </Typography>
-                    )}
 
                     <label style={{ marginBottom: '8px', marginTop: '10px' }}>
                       Confirm Password <span style={{ color: 'red' }}>*</span>
@@ -177,6 +168,7 @@ const ResetPassword = () => {
                           autoComplete="off"
                           hasError={!!errors?.confirmPassword}
                           type="text"
+                          error={errors?.confirmPassword?.message}
                         />
                       )}
                     />
@@ -187,16 +179,6 @@ const ResetPassword = () => {
                         sx={{ color: theme?.palette?.error?.main }}
                       >
                         password not match
-                      </Typography>
-                    )}
-
-                    {errors?.confirmPassword && (
-                      <Typography
-                        variant="body1"
-                        sx={{ color: theme?.palette?.error?.main }}
-                      >
-                        {' '}
-                        {errors?.confirmPassword?.message}
                       </Typography>
                     )}
 
