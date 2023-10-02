@@ -271,6 +271,7 @@ const SignUp = () => {
                               height="23px"
                               autoComplete="off"
                               hasError={!!errors?.createPassword}
+                              error={errors?.createPassword?.message}
                               type={isShowPassword ? 'text' : 'password'}
                               InputProps={{
                                 endAdornment: (
@@ -312,16 +313,6 @@ const SignUp = () => {
                           1 capital letter,1 small letter and 1 numeric digit
                         </Typography>
 
-                        {errors?.createPassword && (
-                          <Typography
-                            variant="body1"
-                            sx={{ color: theme?.palette?.error?.main }}
-                          >
-                            {' '}
-                            {errors?.createPassword?.message}
-                          </Typography>
-                        )}
-
                         <Typography
                           variant="body2"
                           style={{ marginBottom: '8px', marginTop: '10px' }}
@@ -345,6 +336,7 @@ const SignUp = () => {
                               height="23px"
                               autoComplete="off"
                               hasError={!!errors?.confirmPassword}
+                              error={errors?.confirmPassword?.message}
                               type={isShowConfirmPassword ? 'text' : 'password'}
                               InputProps={{
                                 endAdornment: (
@@ -389,15 +381,6 @@ const SignUp = () => {
                           </Typography>
                         )}
 
-                        {errors?.confirmPassword && (
-                          <Typography
-                            variant="body1"
-                            sx={{ color: theme?.palette?.error?.main }}
-                          >
-                            {' '}
-                            {errors?.confirmPassword?.message}
-                          </Typography>
-                        )}
                         <Button
                           type="submit"
                           variant="contained"
@@ -429,19 +412,10 @@ const SignUp = () => {
                               autoComplete="off"
                               type="text"
                               hasError={!!errors?.fullName}
+                              error={errors?.fullName?.message}
                             />
                           )}
                         />
-
-                        {errors?.fullName && (
-                          <Typography
-                            variant="body1"
-                            sx={{ color: theme?.palette?.error?.main }}
-                          >
-                            {' '}
-                            {errors?.fullName?.message}
-                          </Typography>
-                        )}
 
                         <Typography
                           variant="body2"
@@ -471,19 +445,10 @@ const SignUp = () => {
                               autoComplete="off"
                               type="text"
                               hasError={!!errors?.email}
+                              error={errors?.email?.message}
                             />
                           )}
                         />
-
-                        {errors?.email && (
-                          <Typography
-                            variant="body1"
-                            sx={{ color: theme?.palette?.error?.main }}
-                          >
-                            {' '}
-                            {errors?.email?.message}
-                          </Typography>
-                        )}
 
                         <Typography
                           variant="body2"
@@ -506,19 +471,10 @@ const SignUp = () => {
                               autoComplete="off"
                               type="number"
                               hasError={!!errors?.phoneNumber}
+                              error={errors?.phoneNumber?.message}
                             />
                           )}
                         />
-
-                        {errors?.phoneNumber && (
-                          <Typography
-                            variant="body1"
-                            sx={{ color: theme?.palette?.error?.main }}
-                          >
-                            {' '}
-                            {errors?.phoneNumber?.message}
-                          </Typography>
-                        )}
 
                         <Button
                           variant="contained"
