@@ -1,4 +1,3 @@
-import React from 'react';
 import { Checkbox } from '@mui/material';
 
 export const data: any = [
@@ -27,7 +26,7 @@ export const data: any = [
     status: 'Done',
   },
 ];
-export const columns: any = [
+export const columns: any = (setIsDrawerOpen: any) => [
   {
     accessorFn: (row: any) => row.Id,
     id: 'Id',
@@ -39,7 +38,14 @@ export const columns: any = [
     accessorFn: (row: any) => row.taskID,
     id: 'TaskID',
     cell: (info: any) => (
-      <span style={{ color: '#0AADC7' }}>{info.getValue()}</span>
+      <span
+        style={{ color: '#0AADC7', cursor: 'pointer' }}
+        onClick={() => {
+          setIsDrawerOpen(true);
+        }}
+      >
+        {info.getValue()}
+      </span>
     ),
     header: 'Task ID',
     isSortable: true,

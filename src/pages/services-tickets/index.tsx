@@ -1,6 +1,11 @@
-import SuperAdminLayout from '@/layouts/SuperAdminLayout/SuperAdminLayout';
+import SuperAdminLayout from '@/layouts/SuperAdminLayout';
+import ServicesTickets from '@/modules/ServicesTickets';
 const ServicesTicketsPage = () => {
-  return <>Ticket details list</>;
+  return (
+    <>
+      <ServicesTickets />
+    </>
+  );
 };
 
 ServicesTicketsPage.getLayout = function getLayout(page: any) {
