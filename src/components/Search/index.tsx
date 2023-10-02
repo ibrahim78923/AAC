@@ -5,7 +5,7 @@ import { useTheme } from '@mui/material/styles';
 
 import { debouncedSearch } from '@/utils';
 
-import { SearchI } from './Search.type';
+import { SearchI } from './Search.interface';
 
 import SearchSharedIcon from '@/assets/icons/shared/search-shared';
 
