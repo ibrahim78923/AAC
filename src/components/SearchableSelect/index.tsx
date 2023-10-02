@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
+
 import {
   Box,
   InputAdornment,
@@ -7,17 +8,18 @@ import {
   Typography,
   useTheme,
 } from '@mui/material';
-import { ArrowDownIcon } from '@/assets/icons';
+
 import { Controller } from 'react-hook-form';
-import {
-  SearchSelectStyles,
-  textareaSearchDropdown,
-  wrapperSearchDropdown,
-} from './SearchableSelect.style';
+import { SearchSelectStyles } from './SearchableSelect.style';
+
+import { isNullOrEmpty } from '@/utils';
+
 import {
   DropdownDataPropsI,
   SearchableSelectPropsI,
 } from './SearchableSelect.interface';
+
+import { ArrowDownIcon } from '@/assets/icons';
 
 const SearchableSelect: React.FC<SearchableSelectPropsI> = ({
   dropdownData,
@@ -26,6 +28,8 @@ const SearchableSelect: React.FC<SearchableSelectPropsI> = ({
   control,
   rules,
   label,
+  width,
+  height,
 }) => {
   const [isSearchableSelect, setIsSearchableSelect] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -76,9 +80,9 @@ const SearchableSelect: React.FC<SearchableSelectPropsI> = ({
           <Typography
             variant="h6"
             mt={1}
-            style={{ color: theme?.palette?.grey[500_12] }}
+            style={{ color: theme?.palette.grey[600] }}
           >
-            {label || 'Candidates'}
+            {label}
           </Typography>
           <Box sx={{ width: '100%', position: 'relative' }}>
             <TextField
@@ -87,8 +91,8 @@ const SearchableSelect: React.FC<SearchableSelectPropsI> = ({
               value={field?.value?.label}
               placeholder="Select"
               contentEditable={false}
-              onClick={() => setIsSearchableSelect(true)}
-              sx={textareaSearchDropdown}
+              onClick={() => setIsSearchableSelect(!isSearchableSelect)}
+              sx={SearchSelectStyles.textareaSearchDropdown(width, height)}
               ref={textFieldRef}
               InputProps={{
                 endAdornment: (
@@ -102,7 +106,7 @@ const SearchableSelect: React.FC<SearchableSelectPropsI> = ({
               {...field}
             />
             {isSearchableSelect && (
-              <Box sx={wrapperSearchDropdown}>
+              <Box sx={SearchSelectStyles.wrapperSearchDropdown}>
                 <TextField
                   id={`${name}-search-field`}
                   label=""
@@ -110,20 +114,21 @@ const SearchableSelect: React.FC<SearchableSelectPropsI> = ({
                   placeholder="Search Here"
                   onClick={handleSearchFieldClick}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  sx={() => SearchSelectStyles.searchSelect(theme)}
+                  sx={SearchSelectStyles.searchSelect(theme)}
                 />
-                {selectOptions.map((item: DropdownDataPropsI) => (
-                  <MenuItem
-                    value={item.id}
-                    key={item.id}
-                    onClick={() => {
-                      field.onChange(item.label);
-                      setIsSearchableSelect(false);
-                    }}
-                  >
-                    {renderOption(item)}
-                  </MenuItem>
-                ))}
+                {!isNullOrEmpty(selectOptions) &&
+                  selectOptions.map((item: DropdownDataPropsI) => (
+                    <MenuItem
+                      value={item.id}
+                      key={item.id}
+                      onClick={() => {
+                        field.onChange(item.label);
+                        setIsSearchableSelect(false);
+                      }}
+                    >
+                      {renderOption(item)}
+                    </MenuItem>
+                  ))}
               </Box>
             )}
           </Box>

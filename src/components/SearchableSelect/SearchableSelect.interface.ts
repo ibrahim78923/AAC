@@ -11,4 +11,6 @@ export interface SearchableSelectPropsI {
   control?: any;
   rules?: object;
   error?: any;
+  width?: string;
+  height?: string;
 }

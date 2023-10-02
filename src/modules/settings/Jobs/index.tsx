@@ -1,40 +1,15 @@
 import React, { useState } from 'react';
-import { Button, Typography, Box, TextField } from '@mui/material';
-import CommonDrawer from '@/components/CommonDrawer';
-import TextEditor from '@/components/TextEditor';
-import SearchableSelect from '@/components/SearchableSelect';
 
-import { candidatesArray } from '@/mock/modules/Settings/Jobs';
+import { Button, Typography, Box, Tabs, Tab } from '@mui/material';
 
-import { CandidatesArrayI } from './Jobs.interface';
-import { Controller, useForm } from 'react-hook-form';
+import JobPosting from './JobPosting';
+import JobApplication from './JobApplication';
 
 const Jobs = () => {
   const [isJobPostingDrawer, setIsJobPostingDrawer] = useState(false);
-  const [editorValue, setEditorValue] = useState<string>('');
-  const [searchableSelectValue, setSearchableSelectValue] =
-    useState<CandidatesArrayI>();
-
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-
-  const onSubmit = () => {
-    setIsJobPostingDrawer(false);
-  };
-
-  const onClose = () => {
-    setIsJobPostingDrawer(false);
-  };
-
-  const renderCustomOption = (option: any) => {
-    return (
-      <Typography variant="h6" sx={{ color: '#4B5563' }}>
-        {option.label}
-      </Typography>
-    );
+  const [tabsValue, setTabsValue] = React.useState(0);
+  const handleTabsChange = (event: React.SyntheticEvent, newValue: number) => {
+    setTabsValue(newValue);
   };
 
   return (
@@ -55,66 +30,28 @@ const Jobs = () => {
         <Typography variant="h5" sx={{ fontWeight: '600' }}>
           Jobs
         </Typography>
-        <Button
-          sx={{
-            backgroundColor: '#38CAB5',
-            color: '#fff',
-            width: '127px',
-            height: '36px',
-            borderRadius: '4px',
-            textTransform: 'none',
-          }}
-          onClick={() => setIsJobPostingDrawer(true)}
-        >
-          Post a Job
-        </Button>
+        {tabsValue === 0 && (
+          <Button
+            variant="contained"
+            sx={{ height: '36px' }}
+            onClick={() => setIsJobPostingDrawer(true)}
+          >
+            Post a Job
+          </Button>
+        )}
       </Box>
-      <Box>Common table</Box>
 
-      <CommonDrawer
-        isDrawerOpen={isJobPostingDrawer}
-        onClose={onClose}
-        title="Post a Job"
-        okText="Post"
-        isOk={true}
-        footer={true}
-        submitHandler={handleSubmit(onSubmit)}
-      >
-        <>
-          <span>dummy text</span>
-          <br />
-          <TextEditor value={editorValue} onChange={setEditorValue} />
-          <br />
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <Controller
-              name="name"
-              control={control}
-              rules={{ required: 'Name is required' }}
-              render={({ field }) => (
-                <TextField
-                  label="Name"
-                  fullWidth
-                  variant="outlined"
-                  error={!!errors.name}
-                  helperText={errors.name?.message}
-                  {...field}
-                />
-              )}
-            />
-            <SearchableSelect
-              dropdownData={candidatesArray}
-              renderOption={renderCustomOption}
-              setValue={setSearchableSelectValue}
-              selectedValue={searchableSelectValue?.label || ''}
-              name="Search candidate"
-              label="Candidate"
-              control={control}
-              rules={{ required: 'required field' }}
-              error={!!errors.message}
-            />
-          </form>
-        </>
-      </CommonDrawer>
+      <Tabs value={tabsValue} onChange={handleTabsChange}>
+        <Tab label="Job Posting" />
+        <Tab label="Job Application" />
+      </Tabs>
+      {tabsValue === 0 && (
+        <JobPosting
+          isJobPostingDrawer={isJobPostingDrawer}
+          setIsJobPostingDrawer={setIsJobPostingDrawer}
+        />
+      )}
+      {tabsValue === 1 && <JobApplication />}
     </Box>
   );
 };

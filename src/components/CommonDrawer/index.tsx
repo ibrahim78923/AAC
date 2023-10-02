@@ -7,10 +7,10 @@ import {
   AppBar,
   Toolbar,
   Typography,
+  useTheme,
 } from '@mui/material';
 import { CommonDrawerPropsI } from '@/types/shared/Drawer';
 import CloseIcon from '@/assets/icons/shared/close-icon';
-import { useTheme } from '@mui/material/styles';
 
 const CommonDrawer = ({
   isDrawerOpen,
@@ -31,8 +31,8 @@ const CommonDrawer = ({
       anchor="right"
       sx={{
         '& .MuiDrawer-paperAnchorRight': {
-          borderRadius: '30px 0px 0px 30px !important',
-          color: 'black',
+          borderRadius: '30px 0px 0px 30px',
+          color: theme?.palette?.grey[600],
         },
       }}
     >
