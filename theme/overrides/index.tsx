@@ -1,6 +1,4 @@
-import Fab from './Fab';
 import Card from './Card';
-import Chip from './Chip';
 import Tabs from './Tabs';
 import Menu from './Menu';
 import Link from './Link';
@@ -13,7 +11,6 @@ import Input from './Input';
 import Radio from './Radio';
 import Drawer from './Drawer';
 import Dialog from './Dialog';
-import Avatar from './Avatar';
 import Slider from './Slider';
 import Button from './Button';
 import Switch from './Switch';
@@ -21,7 +18,6 @@ import SvgIcon from './SvgIcon';
 import Tooltip from './Tooltip';
 import Popover from './Popover';
 import Stepper from './Stepper';
-import DataGrid from './DataGrid';
 import Skeleton from './Skeleton';
 import Backdrop from './Backdrop';
 import Progress from './Progress';
@@ -38,9 +34,7 @@ import LoadingButton from './LoadingButton';
 
 const ComponentsOverrides = (theme: any) => {
   return Object.assign(
-    Fab(theme),
     Tabs(theme),
-    Chip(theme),
     Card(theme),
     Menu(theme),
     Link(),
@@ -54,7 +48,6 @@ const ComponentsOverrides = (theme: any) => {
     Switch(theme),
     Button(theme),
     Dialog(theme),
-    Avatar(theme),
     Slider(theme),
     Drawer(theme),
     Stepper(theme),
@@ -62,7 +55,6 @@ const ComponentsOverrides = (theme: any) => {
     Popover(theme),
     SvgIcon(),
     Checkbox(theme),
-    DataGrid(theme),
     Skeleton(theme),
     Backdrop(theme),
     Progress(theme),
