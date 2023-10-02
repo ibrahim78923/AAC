@@ -1,4 +1,4 @@
-import SuperAdminLayout from '@/layouts/SuperAdminLayout/SuperAdminLayout';
+import SuperAdminLayout from '@/layouts/SuperAdminLayout';
 import ExampleFolderReports from '@/modules/ExampleFolderReports';
 
 function ExampleFolderReportsPage() {
