@@ -13,6 +13,7 @@ import { FilterSharedIcon, PlusSharedIcon } from '@/assets/icons';
 import UsersList from './Users/UsersList';
 
 import ProfileCard from '@/components/ProfileCard';
+import UsersFilters from './Users/UsersFilters/UsersFilters';
 
 const UserManagementSuperAdmin = () => {
   const [selected, setSelected] = React.useState<readonly string[]>([]);
@@ -105,7 +106,7 @@ const UserManagementSuperAdmin = () => {
           submitHandler={() => {}}
           isOk={true}
         >
-          <Typography>content here</Typography>
+          <UsersFilters />
         </CommonDrawer>
       )}
 

@@ -1,6 +1,9 @@
-import { Box, Grid } from '@mui/material';
 import React from 'react';
+
+import { Box, Grid } from '@mui/material';
+
 import UsersSidebar from './UsersSidebar/UsersSidebar';
+
 import UsersDetails from './UsersDetails/UsersDetails';
 
 const UsersOrganizationAdmin = () => {

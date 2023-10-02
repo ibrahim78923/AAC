@@ -1,10 +1,21 @@
-import { FilterSharedIcon } from '@/assets/icons';
-import PlusShared from '@/assets/icons/shared/plus-shared';
-import Search from '@/components/Search';
+import React, { useState } from 'react';
+
 import { Avatar, Box, Button, Divider, Typography } from '@mui/material';
-import React from 'react';
+
+import CommonDrawer from '@/components/Drawer';
+
+import Search from '@/components/Search';
+
+import FilterUser from '../UsersDetails/Drawers/FilterUser/FilterUser';
+
+import AddUser from '../UsersDetails/Drawers/AddUser/AddUser';
+
+import { FilterSharedIcon, PlusSharedIcon } from '@/assets/icons';
 
 const UsersSidebar = () => {
+  const [openFilterDrawer, setOpenFilterDrawer] = useState(false);
+  const [openAdduserDrawer, setOpenAdduserDrawer] = useState(false);
+
   return (
     <Box p={'24px'}>
       <Box
@@ -16,7 +27,13 @@ const UsersSidebar = () => {
         }}
       >
         <Typography variant="h3">Users</Typography>
-        <Button variant="contained" startIcon={<PlusShared />}>
+        <Button
+          onClick={() => {
+            setOpenAdduserDrawer(true);
+          }}
+          variant="contained"
+          startIcon={<PlusSharedIcon />}
+        >
           Add User
         </Button>
       </Box>
@@ -27,6 +44,9 @@ const UsersSidebar = () => {
       >
         <Search label="Placeholder" />
         <Button
+          onClick={() => {
+            setOpenFilterDrawer(true);
+          }}
           sx={{
             border: '1px solid grey',
             justifyContent: 'center',
@@ -57,6 +77,32 @@ const UsersSidebar = () => {
           </Box>
         </Box>
       </Box>
+
+      {openFilterDrawer && (
+        <CommonDrawer
+          isDrawerOpen={openFilterDrawer}
+          setIsDrawerOpen={setOpenFilterDrawer}
+          title="Filters"
+          okText="Apply"
+          submitHandler={() => {}}
+          isOk={true}
+        >
+          <FilterUser />
+        </CommonDrawer>
+      )}
+
+      {openAdduserDrawer && (
+        <CommonDrawer
+          isDrawerOpen={openAdduserDrawer}
+          setIsDrawerOpen={setOpenAdduserDrawer}
+          title="Add User"
+          okText="Add"
+          submitHandler={() => {}}
+          isOk={true}
+        >
+          <AddUser />
+        </CommonDrawer>
+      )}
     </Box>
   );
 };

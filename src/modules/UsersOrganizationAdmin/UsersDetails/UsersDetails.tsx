@@ -1,12 +1,25 @@
-import ProfileCard from '@/components/ProfileCard';
-import CommonTabs from '@/components/Tabs';
+import React, { useState } from 'react';
+
 import { Box, Button, Grid } from '@mui/material';
-import React from 'react';
+
+import ProfileCard from '@/components/ProfileCard';
+
+import CommonTabs from '@/components/Tabs';
+
+import CommonDrawer from '@/components/Drawer';
+
 import Accounts from './Accounts/Accounts';
+
 import Profile from './Profile/Profile';
+
+import AddAccount from './Drawers/AddAccount/AddAccount';
+
 import PlusShared from '@/assets/icons/shared/plus-shared';
 
 const UsersDetails = () => {
+  const [tabValue, setTabVal] = useState<number>();
+  const [oepnAddAccountDrawer, setOpenAddAccountDrawer] = useState(false);
+
   return (
     <Box>
       <Grid container>
@@ -15,7 +28,8 @@ const UsersDetails = () => {
         </Grid>
         <Grid lg={12}>
           <CommonTabs
-            isHeader={true}
+            isHeader={tabValue === 0 ? true : false}
+            getTabVal={(val: number) => setTabVal(val)}
             tabsArray={['Accounts', 'Profile']}
             searchBarProps={{
               label: 'Search Here',
@@ -23,6 +37,7 @@ const UsersDetails = () => {
             }}
             headerChildren={
               <Button
+                onClick={() => setOpenAddAccountDrawer(true)}
                 sx={{ border: '1px solid #D1D5DB', color: '#6B7280' }}
                 variant="outlined"
                 startIcon={<PlusShared />}
@@ -36,6 +51,18 @@ const UsersDetails = () => {
           </CommonTabs>
         </Grid>
       </Grid>
+      {oepnAddAccountDrawer && (
+        <CommonDrawer
+          isDrawerOpen={oepnAddAccountDrawer}
+          setIsDrawerOpen={setOpenAddAccountDrawer}
+          title="Add Account"
+          okText="Add"
+          submitHandler={() => {}}
+          isOk={true}
+        >
+          <AddAccount />
+        </CommonDrawer>
+      )}
     </Box>
   );
 };
