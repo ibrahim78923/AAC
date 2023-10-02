@@ -10,3 +10,4 @@ export { default as RHFSelect } from './RHFSelect';
 export { default as RHFTextField } from './RHFTextField';
 export { default as RHFTimePicker } from './RHFTimePicker';
 export { default as RHFUploadFile } from './RHFUploadFile';
+export { default as RHFEditor } from './RHFEditor';
