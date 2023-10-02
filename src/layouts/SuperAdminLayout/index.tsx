@@ -19,18 +19,18 @@ import {
   Collapse,
 } from '@mui/material';
 
-import Header from './Header/Header';
+import Header from './Header';
 
 import { isNullOrEmpty } from '@/utils';
 
 import { LowerSuperAdminItems, SuperAdminItems } from './SuperAdminLayout.data';
 
-import { SuperAdminLayoutI } from './SuperAdminLayout.interface';
+import { SuperAdminLayoutI } from './SuperAdminLayout.type';
 
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import { LogoImage, LogoutImage } from '@/assets/images';
 
-import { SuperAdminLayoutStyles } from './SuperAdminLayoutStyles';
+import { SuperAdminLayoutStyles } from './SuperAdminLayout.style';
 
 import { v4 as uuidv4 } from 'uuid';
 

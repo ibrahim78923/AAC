@@ -16,9 +16,9 @@ import {
 
 import { isNullOrEmpty } from '@/utils';
 
-import { QuickLinksData } from '../SuperAdminLayout.data';
+import { QuickLinksData } from '../../SuperAdminLayout.data';
 
-import { LinkCheckedItemsI } from '../SuperAdminLayout.interface';
+import { LinkCheckedItemsI } from '../../SuperAdminLayout.type';
 
 import {
   AddImage,
@@ -84,6 +84,13 @@ const LinkDropdown = () => {
         transformOrigin={{
           vertical: 'top',
           horizontal: 'right',
+        }}
+        sx={{
+          marginTop: '20px',
+
+          '& .MuiPopover-paper': {
+            borderRadius: '10px',
+          },
         }}
       >
         <Box

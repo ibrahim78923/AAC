@@ -1,6 +1,6 @@
 import { Button, ButtonGroup } from '@mui/material';
 
-import SuperAdminLayout from '@/layouts/SuperAdminLayout/SuperAdminLayout';
+import SuperAdminLayout from '@/layouts/SuperAdminLayout';
 
 export default function Home() {
   return (
