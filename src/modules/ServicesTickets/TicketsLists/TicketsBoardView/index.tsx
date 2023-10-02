@@ -1,7 +1,9 @@
+import { TicketInfoCard } from './TicketInfoCard';
+
 export const TableBoardView = () => {
   return (
     <>
-      <>TableBoardView</>
+      <TicketInfoCard />
     </>
   );
 };
