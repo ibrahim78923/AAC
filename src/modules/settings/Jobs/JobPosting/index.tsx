@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 
-import { Box, TextField, useTheme, Typography } from '@mui/material';
+import { Box, TextField, useTheme, Typography, Button } from '@mui/material';
 
 import CommonDrawer from '@/components/CommonDrawer';
 import SearchableSelect from '@/components/SearchableSelect';
 import TextEditor from '@/components/TextEditor';
+import Search from '@/components/Search';
 
 import { candidatesArray } from '@/mock/modules/Settings/Jobs';
 
@@ -12,12 +13,17 @@ import { JobPostingPropsI } from './JobPostingProps.interface';
 
 import { Controller, useForm } from 'react-hook-form';
 
+import { FilterSharedIcon, RefreshSharedIcon } from '@/assets/icons';
+
+import { JobsPostingStyles } from './Jobs.styles';
+
 const JobPosting = ({
   isJobPostingDrawer,
   setIsJobPostingDrawer,
-}: JobPostingPropsI[]) => {
+}: JobPostingPropsI) => {
   const theme = useTheme();
   const [editorValue, setEditorValue] = useState<string>('');
+  const [jobPostingSearch, setJobPostingSearch] = useState<string>('');
   const {
     control,
     handleSubmit,
@@ -42,7 +48,45 @@ const JobPosting = ({
 
   return (
     <Box>
-      <Box>Common table</Box>
+      <Box
+        mt={2}
+        mb={3}
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        }}
+      >
+        <Search
+          label={'ss'}
+          searchBy={jobPostingSearch}
+          setSearchBy={setJobPostingSearch}
+          width="100%"
+        />
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '10px',
+          }}
+        >
+          <Button sx={JobsPostingStyles.refreshButton}>
+            <RefreshSharedIcon />
+          </Button>
+          <Button sx={JobsPostingStyles.filterButton(theme)}>
+            <FilterSharedIcon /> &nbsp; Filter
+          </Button>
+        </Box>
+      </Box>
+      <Box
+        sx={{
+          backgroundColor: '#ececec73',
+          height: '300px',
+          borderRadius: '15px',
+        }}
+      >
+        Common table
+      </Box>
       <CommonDrawer
         isDrawerOpen={isJobPostingDrawer}
         onClose={onClose}
@@ -53,27 +97,33 @@ const JobPosting = ({
         submitHandler={handleSubmit(onSubmit)}
       >
         <>
-          <span>dummy text</span>
-          <br />
-          <TextEditor value={editorValue} onChange={setEditorValue} />
-          <br />
           <form onSubmit={handleSubmit(onSubmit)}>
             <Controller
               name="name"
               control={control}
               rules={{ required: 'Name is required' }}
               render={({ field }) => (
-                <TextField
-                  label=""
-                  fullWidth
-                  placeholder="Type here"
-                  variant="outlined"
-                  error={!!errors.name}
-                  helperText={errors.name?.message}
-                  {...field}
-                />
+                <>
+                  <Typography
+                    variant="h6"
+                    mt={1}
+                    style={{ color: theme?.palette.grey[600] }}
+                  >
+                    Job Post
+                  </Typography>
+                  <TextField
+                    label=""
+                    fullWidth
+                    placeholder="Type here"
+                    variant="outlined"
+                    error={!!errors.name}
+                    helperText={errors.name?.message}
+                    {...field}
+                  />
+                </>
               )}
             />
+
             <SearchableSelect
               dropdownData={candidatesArray}
               renderOption={renderCustomOption}
@@ -83,6 +133,7 @@ const JobPosting = ({
               rules={{ required: 'required field' }}
               error={!!errors.message}
             />
+            <TextEditor value={editorValue} onChange={setEditorValue} />
           </form>
         </>
       </CommonDrawer>
