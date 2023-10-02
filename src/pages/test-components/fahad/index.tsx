@@ -1,7 +1,14 @@
+import SuperAdminLayout from '@/layouts/SuperAdminLayout';
 import TicketTasks from '@/modules/ServiceTickets/Tasks';
 
-const TicketTasksPage = () => {
-  return <TicketTasks />;
+export const TestComponentFahad = () => {
+  return (
+    <div>
+      <TicketTasks />
+    </div>
+  );
 };
-
-export default TicketTasksPage;
+TestComponentFahad.getLayout = function getLayout(page: any) {
+  return <SuperAdminLayout>{page}</SuperAdminLayout>;
+};
+export default TestComponentFahad;
