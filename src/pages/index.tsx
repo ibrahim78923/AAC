@@ -1,5 +1,5 @@
 import NotFound from '@/components/NotFound';
-import SuperAdminLayout from '@/layouts/SuperAdminLayout/SuperAdminLayout';
+import SuperAdminLayout from '@/layouts/SuperAdminLayout';
 import BarChart from '@/modules/BarChart/BarChart';
 import { useTheme } from '@emotion/react';
 import { Button, Typography } from '@mui/material';
