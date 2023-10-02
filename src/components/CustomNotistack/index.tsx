@@ -1,6 +1,11 @@
 import React from 'react';
 import { useSnackbar, SnackbarProvider } from 'notistack';
-import Image from 'next/image';
+import {
+  AlertErrorIcon,
+  AlertInfoIcon,
+  AlertSuccessIcon,
+  AlertWarninIcon,
+} from '@/assets/icons';
 import {
   variantBackgroundColors,
   variantColors,
@@ -41,43 +46,23 @@ export default function CustomNotistack() {
       maxSnack={1}
       iconVariant={{
         success: (
-          <div style={{ marginRight: '10px' }}>
-            <Image
-              src="/Alert Icons.png"
-              alt="Success"
-              width={24}
-              height={24}
-            />
+          <div style={{ marginRight: '10px', marginTop: '0.5rem' }}>
+            <AlertSuccessIcon />
           </div>
         ),
         error: (
-          <div style={{ marginRight: '10px' }}>
-            <Image
-              src="/AlertIconsRedCross.svg"
-              alt="error"
-              width={24}
-              height={24}
-            />
+          <div style={{ marginRight: '10px', marginTop: '0.5rem' }}>
+            <AlertErrorIcon />
           </div>
         ),
         warning: (
-          <div style={{ marginRight: '10px' }}>
-            <Image
-              src="/AlertIconsYellowwarring.svg"
-              alt="warning"
-              width={24}
-              height={24}
-            />
+          <div style={{ marginRight: '10px', marginTop: '0.5rem' }}>
+            <AlertWarninIcon />
           </div>
         ),
         info: (
-          <div style={{ marginRight: '10px' }}>
-            <Image
-              src="/AlertIconsBlueInfo.svg"
-              alt="info"
-              width={24}
-              height={24}
-            />
+          <div style={{ marginRight: '10px', marginTop: '0.5rem' }}>
+            <AlertInfoIcon />
           </div>
         ),
       }}

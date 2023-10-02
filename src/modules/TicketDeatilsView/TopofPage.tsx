@@ -1,14 +1,15 @@
-import React from 'react';
 import { Grid, Typography } from '@mui/material';
 import { useTheme } from '@emotion/react';
-import vuesax from '../../assets/ViewIcon/vuesax.svg';
-import kebabmenu from '../../assets/ViewIcon/kebab menu - Copy.svg';
-import meeting from '../../assets/ViewIcon/meeting.svg';
-import sms from '../../assets/ViewIcon/sms.png';
-import call from '../../assets/ViewIcon/call.svg';
-import backarrow from '../../assets/ViewIcon/Back Arrow.svg';
-import Image from 'next/image';
+import ViewDetailVuesaxIcon from '../../assets/icons/modules/view-detail-Icon/view-details-vuesax-icon';
 import CustomTimePicker from './timepicker';
+import {
+  ViewDetailBackArrowIcon,
+  ViewDetailCallIcon,
+  ViewDetailKababMenuIcon,
+  ViewDetailMeetingIcon,
+} from '@/assets/icons';
+import SmsImage from '@/assets/images/modules/viewdetails/sms-image.png';
+import Image from 'next/image';
 
 export default function ToofPage() {
   const theme = useTheme();
@@ -17,24 +18,18 @@ export default function ToofPage() {
       <Grid
         container
         spacing={2}
-        justifyContent={'space-around'}
-        alignItems={'center'}
+        justifyContent={'space-between'}
         display={'flex'}
         flexDirection={'row'}
+        maxWidth={'100%'}
       >
         <Grid
           item
-          xs={9}
           sx={{
             display: 'flex',
           }}
         >
-          <Image
-            src={backarrow} // Provide the actual path to your image
-            width={24} // Specify the width of the image
-            height={24} // Specify the height of the image
-            alt="Description of the image" // Provide a meaningful alt text
-          />
+          <ViewDetailBackArrowIcon />
           <Typography
             variant="h6"
             sx={{ color: theme?.palette?.primary?.main }}
@@ -45,38 +40,14 @@ export default function ToofPage() {
             What’s wrong with my email?
           </Typography>
         </Grid>
-        <Grid item xs={2} sx={{ display: 'flex' }}>
-          <Image
-            src={vuesax} // Provide the actual path to your image
-            width={24} // Specify the width of the image
-            height={24} // Specify the height of the image
-            alt="Description of the image" // Provide a meaningful alt text
-          />
+        <Grid item sx={{ display: 'flex' }}>
+          <ViewDetailVuesaxIcon />
           <CustomTimePicker />
-          <Image
-            src={kebabmenu} // Provide the actual path to your image
-            width={24} // Specify the width of the image
-            height={24} // Specify the height of the image
-            alt="Description of the image" // Provide a meaningful alt text
-          />
-          <Image
-            src={meeting} // Provide the actual path to your image
-            width={24} // Specify the width of the image
-            height={24} // Specify the height of the image
-            alt="Description of the image" // Provide a meaningful alt text
-          />
-          <Image
-            src={call} // Provide the actual path to your image
-            width={24} // Specify the width of the image
-            height={24} // Specify the height of the image
-            alt="Description of the image" // Provide a meaningful alt text
-          />
-          <Image
-            src={sms} // Provide the actual path to your image
-            width={24} // Specify the width of the image
-            height={24} // Specify the height of the image
-            alt="Description of the image" // Provide a meaningful alt text
-          />
+
+          <ViewDetailMeetingIcon />
+          <ViewDetailCallIcon />
+          <Image src={SmsImage} width={24} height={24} alt="Badge" />
+          <ViewDetailKababMenuIcon />
         </Grid>
       </Grid>
     </>

@@ -1,5 +1,4 @@
 import React, { useState, ChangeEvent } from 'react';
-
 function CustomTimePicker() {
   const [time, setTime] = useState<string>('');
 
