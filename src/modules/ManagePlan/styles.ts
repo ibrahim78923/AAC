@@ -29,7 +29,7 @@ export const cardHeaderActionStyle = {
 };
 
 export const dividerStyle = (theme: any) => ({
-  borderTop: `1px solid ${theme.palette.custom[3]}`,
+  borderTop: `1px solid ${theme.palette.custom.off_white1}`,
   margin: '24px 0',
 });
 
@@ -69,7 +69,7 @@ export const planTableTh = (theme: any) => ({
 });
 
 export const updateSubscriptionStyle = (theme: any) => ({
-  borderTop: `1px solid ${theme.palette.custom[3]}`,
+  borderTop: `1px solid ${theme.palette.custom.off_white1}`,
   mt: '110px',
   pt: '24px',
   justifyContent: 'flex-end',
