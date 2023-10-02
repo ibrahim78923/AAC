@@ -109,9 +109,9 @@ const Jobs = () => {
               setValue={setSearchableSelectValue}
               selectedValue={searchableSelectValue?.label || ''}
               name="Search candidate"
-              label=""
+              label="Candidate"
               control={control}
-              rules={{ required: 'candidate is required' }}
+              rules={{ required: 'required field' }}
               error={!!errors.message}
             />
           </form>
