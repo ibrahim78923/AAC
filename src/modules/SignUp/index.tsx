@@ -9,7 +9,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import InputField from '@/components/InputField';
 import { AuthHeader, formStyling, loginDashboard } from './SignUp.style';
-import Dashboard from '@/assets/images/shared/login-dashboard.svg';
+import Dashboard from '@/assets/icons/shared/login-dashboard.svg';
 import {
   EyeIcon,
   EyeSlashIcon,

@@ -11,7 +11,7 @@ import {
   formStyling,
   loginDashboard,
 } from './ForgetPassword.style';
-import Dashboard from '@/assets/images/shared/login-dashboard.svg';
+import Dashboard from '@/assets/icons/shared/login-dashboard.svg';
 import { CompanyLogoIcon } from '@/assets/icons';
 
 const ForgetPassword = () => {

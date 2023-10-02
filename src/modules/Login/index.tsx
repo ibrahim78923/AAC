@@ -9,7 +9,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import InputField from '@/components/InputField';
 import { AuthHeader, aTag, formStyling, loginDashboard } from './Login.style';
-import Dashboard from '@/assets/images/shared/login-dashboard.svg';
+import Dashboard from '@/assets/icons/shared/login-dashboard.svg';
 import { CompanyLogoIcon } from '@/assets/icons';
 
 const Login = () => {
