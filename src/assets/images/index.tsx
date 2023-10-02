@@ -1,2 +1,39 @@
 // More exports from here
 export { default as AvatarImage } from './shared/avatar.png';
+
+export { default as LogoImage } from '../../assets/images/shared/Logo.png';
+
+export { default as LinkImage } from './modules/header/link.png';
+export { default as QuickLinkImage } from './modules/header/quick-link.png';
+export { default as AddImage } from './modules/header/add-icon.png';
+export { default as DeleteImage } from './modules/header/delete.png';
+export { default as LogoutImage } from '../../assets/images/modules/header/logout.png';
+export { default as SearchImage } from './modules/header/search.png';
+export { default as NotificationImage } from './shared/notification.png';
+export { default as HomeMenuImage } from './modules//header/home-menu.png';
+export { default as ArrowDownImage } from './modules/header/arrow-down.png';
+export { default as ArrowUpImage } from './modules/header/upward-arrow.png';
+export { default as DashboardImage } from '../../assets/images/modules/header/menu.png';
+export { default as UserManagementImage } from '../../assets/images/modules/header/user-management.png';
+export { default as PlanManagementImage } from '../../assets/images/modules/header/plan-management.png';
+export { default as BillingInvoiceImage } from '../../assets/images/modules/header/billing-invoices.png';
+export { default as SettingImage } from '../../assets/images/modules/header/setting.png';
+export { default as ReportsImage } from '../../assets/images/modules/header/reports.png';
+export { default as SettingQuickImage } from '../../assets/images/modules/header/setting-link.png';
+export { default as ProfileUserImage } from '../../assets/images/modules/header/profile-user.png';
+export { default as AddNewRoleSettingImage } from '../../assets/images/modules/header/add-new-role-settings.png';
+export { default as ForecastImage } from '../../assets/images/modules/header/forecast.png';
+export { default as QuotesImage } from '../../assets/images/modules/header/quote.png';
+export { default as BuildingImage } from '../../assets/images/modules/header/buliding.png';
+export { default as AvailableImage } from '../../assets/images/modules/header/checked.png';
+export { default as BusyImage } from '../../assets/images/modules/header/busy.png';
+export { default as MeetingImage } from '../../assets/images/modules/header/meeting.png';
+export { default as AwayImage } from '../../assets/images/modules/header/away.png';
+export { default as BreakImage } from '../../assets/images/modules/header/break.png';
+export { default as CallImage } from '../../assets/images/modules/header/call.png';
+export { default as ContactImage } from '../../assets/images/modules/header/contact.png';
+export { default as MeetingTopImage } from '../../assets/images/modules/header/meeting-icon.png';
+export { default as DocumentImage } from '../../assets/images/modules/header/document.png';
+export { default as MailImage } from '../../assets/images/modules/header/mail.png';
+export { default as MessageImage } from '../../assets/images/modules/header/message-top.png';
+export { default as ArrowSquareLeftImage } from '../../assets/images/modules/header/arrow-square-left.png';
