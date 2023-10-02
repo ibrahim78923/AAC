@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
+import { IconArrowBack } from '@/assets/icons';
 import {
   Box,
   Typography,
@@ -7,11 +8,18 @@ import {
   Table,
   TableBody,
   TableCell,
-  TableHead,
   TableRow,
+  Button,
 } from '@mui/material';
-import { IconArrowBack } from '@/assets/icons';
-import { tableContainer, tableHeadStyle } from './styles';
+import {
+  tableContainer,
+  tableStyle,
+  tableHeadStyle,
+  productBoxTitleStyle,
+  productBoxTextStyle,
+  planBoxStyle,
+  freeTrialBoxStyle,
+} from './styles';
 
 const ChoosePlan = () => {
   /* VARIABLE DECLARATION
@@ -40,27 +48,80 @@ const ChoosePlan = () => {
       </Box>
 
       <TableContainer sx={tableContainer}>
-        <Table>
-          <TableHead sx={tableHeadStyle}>
-            <TableRow>
-              <TableCell></TableCell>
-              <TableCell>Free Plan</TableCell>
-              <TableCell>Growth Plan</TableCell>
-              <TableCell>Enterprise Plan</TableCell>
-              <TableCell>Premium Plan</TableCell>
-            </TableRow>
-          </TableHead>
+        <Table sx={tableStyle}>
           <TableBody>
-            <TableRow
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell component="th" scope="row">
-                row.name
+            <TableRow sx={tableHeadStyle}>
+              <TableCell
+                rowSpan={3}
+                sx={{ width: '228px', pl: '32px', pr: '32px' }}
+              >
+                <Typography variant="h3" sx={productBoxTitleStyle}>
+                  Sales
+                </Typography>
+                <Typography variant="body1" sx={productBoxTextStyle}>
+                  Everything your sales team need to work better and together.
+                </Typography>
               </TableCell>
-              <TableCell align="right">row.calories</TableCell>
-              <TableCell align="right">row.fat</TableCell>
-              <TableCell align="right">row.carbs</TableCell>
-              <TableCell align="right">row.protein</TableCell>
+              <TableCell component="th">Free Plan</TableCell>
+              <TableCell component="th">Growth Plan</TableCell>
+              <TableCell component="th">Enterprise Plan</TableCell>
+              <TableCell component="th">Premium Plan</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell sx={freeTrialBoxStyle}>
+                <Typography variant="h4">Free Trial</Typography>
+                <Typography variant="body1">1 Month</Typography>
+              </TableCell>
+              <TableCell sx={planBoxStyle}>
+                <Typography variant="h3">
+                  £20<Box component={'span'}>/Month</Box>
+                </Typography>
+                <Button variant="contained" color="primary">
+                  Buy Plan
+                </Button>
+              </TableCell>
+              <TableCell sx={planBoxStyle}>
+                <Typography variant="h3">
+                  £300<Box component={'span'}>/Month</Box>
+                </Typography>
+                <Button variant="contained" color="primary">
+                  Buy Plan
+                </Button>
+              </TableCell>
+              <TableCell sx={planBoxStyle}>
+                <Typography variant="h3">
+                  £450<Box component={'span'}>/Month</Box>
+                </Typography>
+                <Button variant="contained" color="primary">
+                  Buy Plan
+                </Button>
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>
+                <Typography variant="body2">
+                  Essential tools to put your customers first and deliver
+                  authethic services
+                </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography variant="body2">
+                  Essential tools to put your customers first and deliver
+                  authethic services
+                </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography variant="body2">
+                  Essential tools to put your customers first and deliver
+                  authethic services
+                </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography variant="body2">
+                  Essential tools to put your customers first and deliver
+                  authethic services
+                </Typography>
+              </TableCell>
             </TableRow>
           </TableBody>
         </Table>

@@ -1,12 +1,17 @@
-export const tableContainer = {
-  border: '1px solid #E6E9F5',
+export const tableContainer = (theme: any) => ({
+  border: `1px solid ${theme.palette.custom[4]}`,
   borderRadius: '4px',
-};
+});
+
+export const tableStyle = (theme: any) => ({
+  '& .MuiTableCell-root': {
+    border: `1px solid ${theme.palette.custom[4]}`,
+  },
+});
 
 export const tableHeadStyle = (theme: any) => ({
-  '& .MuiTableCell-head': {
+  '& th.MuiTableCell-root': {
     backgroundColor: '#F9FAFB',
-    border: '1px solid #E6E9F5',
     textAlign: 'center',
     fontSize: '18px',
     fontWeight: '600',
@@ -16,69 +21,32 @@ export const tableHeadStyle = (theme: any) => ({
   },
 });
 
-export const cardHeaderIconStyle = {
-  display: 'flex',
-  height: '40px',
-  width: '40px',
-  backgroundColor: 'primary.lighter',
-  justifyContent: 'center',
-  alignItems: 'center',
-  borderRadius: '2px',
-  mr: '24px',
-};
-
-export const cardHeaderActionStyle = {
-  ml: 'auto',
-};
-
-export const dividerStyle = (theme: any) => ({
-  borderTop: `1px solid ${theme.palette.custom[3]}`,
-  margin: '24px 0',
+export const productBoxTitleStyle = (theme: any) => ({
+  fontSize: '24px',
+  lineHeight: '1.25',
+  color: theme.palette.grey[800],
 });
 
-export const planSelectionRow = {
-  display: 'flex',
-};
-
-export const planSelectionForm = {
-  flex: '1',
-};
-
-export const planTableRow = {
-  display: 'flex',
-  justifyContent: 'space-between',
-  p: '4px 0',
-};
-
-export const planTableTd = (theme: any) => ({
+export const productBoxTextStyle = (theme: any) => ({
   color: theme.palette.custom[1],
-  fontSize: '16px',
-  lineHeight: '1.5',
 });
 
-export const planTableTdBold = (theme: any) => ({
-  color: theme.palette.slateBlue.main,
-  fontSize: '16px',
-  fontWeight: '600',
-  lineHeight: '1.5',
+export const planBoxStyle = (theme: any) => ({
+  pt: '32px',
+  pb: '32px',
+  textAlign: 'center',
+  '& .MuiTypography-h3': {
+    color: 'slateBlue.main',
+    mb: '28px',
+
+    '& span': {
+      fontSize: '14px',
+      fontWeight: '400',
+      color: theme.palette.custom[1],
+    },
+  },
 });
 
-export const planTableTh = (theme: any) => ({
-  color: theme.palette.slateBlue.main,
-  fontSize: '18px',
-  fontWeight: '700',
-  lineHeight: 1.5555556,
-  textAlign: 'right',
-});
-
-export const updateSubscriptionStyle = (theme: any) => ({
-  borderTop: `1px solid ${theme.palette.custom[3]}`,
-  mt: '110px',
-  pt: '24px',
-  justifyContent: 'flex-end',
-});
-
-export const cancelButtonStyle = (theme: any) => ({
-  backgroundColor: theme.palette.grey[400],
-  color: theme.palette.custom[1],
+export const freeTrialBoxStyle = () => ({
+  textAlign: 'center',
 });

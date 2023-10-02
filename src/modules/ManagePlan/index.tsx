@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import { IconPlane } from '@/assets/icons';
 import {
   Box,
   Typography,
@@ -14,9 +15,6 @@ import {
   Chip,
   Stack,
 } from '@mui/material';
-
-import { IconPlane } from '@/assets/icons';
-
 import {
   cardStyle,
   cardHeaderStyle,

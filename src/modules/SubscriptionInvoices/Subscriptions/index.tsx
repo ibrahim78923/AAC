@@ -111,6 +111,7 @@ function Subscriptions() {
   const handleDrawerOpen = () => {
     setOpenDrawer(true);
   };
+
   const handleDrawerClose = () => {
     setOpenDrawer(false);
   };

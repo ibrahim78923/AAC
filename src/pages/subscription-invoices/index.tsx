@@ -8,6 +8,7 @@ function SubscriptionInvoicesPage() {
     </>
   );
 }
+
 export default SubscriptionInvoicesPage;
 SubscriptionInvoicesPage.getLayout = function getLayout(page: any) {
   return <SuperAdminLayout>{page}</SuperAdminLayout>;

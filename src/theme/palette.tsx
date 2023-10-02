@@ -86,6 +86,7 @@ const CUSTOM_COLORS = {
   1: '#6B7280',
   2: '#D1D5DB',
   3: '#E9EAEF',
+  4: '#E6E9F5',
 };
 const GRADIENTS = {
   primary: createGradient(PRIMARY.light, PRIMARY.main),
