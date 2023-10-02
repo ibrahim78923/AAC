@@ -50,3 +50,36 @@ export const planBoxStyle = (theme: any) => ({
 export const freeTrialBoxStyle = () => ({
   textAlign: 'center',
 });
+
+export const planDetailTextStyle = () => ({
+  '& .MuiTableCell-root': {
+    textAlign: 'center',
+  },
+  '& .MuiTypography-root': {
+    color: 'custom.main',
+  },
+});
+
+export const sideHeaderStyle = () => ({
+  fontSize: '18px',
+  fontWeight: '400',
+  lineHeight: '1.555556',
+  color: 'custom.main',
+  p: '12px 32px',
+});
+
+export const userIncludesStyle = () => ({
+  p: '6px 16px',
+  textAlign: 'center',
+  '& .MuiTypography-h6': {
+    fontWeight: '600',
+    fontSize: '14px',
+    lineHeight: '1.42857',
+    color: 'slateBlue.main',
+  },
+  '& .MuiTypography-body2': {
+    color: 'custom.main',
+    fontSize: '14px',
+    lineHeight: '1.42857',
+  },
+});

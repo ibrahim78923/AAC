@@ -19,6 +19,9 @@ import {
   productBoxTextStyle,
   planBoxStyle,
   freeTrialBoxStyle,
+  planDetailTextStyle,
+  sideHeaderStyle,
+  userIncludesStyle,
 } from './styles';
 
 const ChoosePlan = () => {
@@ -67,6 +70,7 @@ const ChoosePlan = () => {
               <TableCell component="th">Enterprise Plan</TableCell>
               <TableCell component="th">Premium Plan</TableCell>
             </TableRow>
+
             <TableRow>
               <TableCell sx={freeTrialBoxStyle}>
                 <Typography variant="h4">Free Trial</Typography>
@@ -97,30 +101,87 @@ const ChoosePlan = () => {
                 </Button>
               </TableCell>
             </TableRow>
+
+            <TableRow sx={planDetailTextStyle}>
+              <TableCell>
+                <Typography variant="body2">
+                  Essential tools to put your customers first and deliver
+                  authethic services
+                </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography variant="body2">
+                  Essential tools to put your customers first and deliver
+                  authethic services
+                </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography variant="body2">
+                  Essential tools to put your customers first and deliver
+                  authethic services
+                </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography variant="body2">
+                  Essential tools to put your customers first and deliver
+                  authethic services
+                </Typography>
+              </TableCell>
+            </TableRow>
+
             <TableRow>
-              <TableCell>
-                <Typography variant="body2">
-                  Essential tools to put your customers first and deliver
-                  authethic services
-                </Typography>
+              <TableCell sx={sideHeaderStyle}>Users</TableCell>
+              <TableCell sx={userIncludesStyle}>
+                <Typography variant="h6">Includes 1 users</Typography>
               </TableCell>
-              <TableCell>
+              <TableCell sx={userIncludesStyle}>
+                <Typography variant="h6">Includes 2 paid users</Typography>
                 <Typography variant="body2">
-                  Essential tools to put your customers first and deliver
-                  authethic services
+                  £ 10/ Month per additional user
                 </Typography>
+                <Typography variant="body2">Allow 3 GB storage</Typography>
               </TableCell>
-              <TableCell>
+              <TableCell sx={userIncludesStyle}>
+                <Typography variant="h6">Include 5 paid users</Typography>
                 <Typography variant="body2">
-                  Essential tools to put your customers first and deliver
-                  authethic services
+                  £100/ Month per additional user
                 </Typography>
+                <Typography variant="body2">Allow 5 GB storage</Typography>
               </TableCell>
-              <TableCell>
+              <TableCell sx={userIncludesStyle}>
+                <Typography variant="h6">Include 10 paid users</Typography>
                 <Typography variant="body2">
-                  Essential tools to put your customers first and deliver
-                  authethic services
+                  £120/ Month per additional user
                 </Typography>
+                <Typography variant="body2">Allow 7 GB storage</Typography>
+              </TableCell>
+            </TableRow>
+
+            <TableRow>
+              <TableCell sx={sideHeaderStyle}>Max Additional Users</TableCell>
+              <TableCell sx={userIncludesStyle}>
+                <Typography variant="h6">-</Typography>
+              </TableCell>
+              <TableCell sx={userIncludesStyle}>
+                <Typography variant="h6">Includes 2 paid users</Typography>
+                <Typography variant="body2">
+                  £ 10/ Month per additional user
+                </Typography>
+                <Typography variant="body2">Allow 3 GB storage</Typography>
+              </TableCell>
+              <TableCell sx={userIncludesStyle}>
+                <Typography variant="h6">Include 5 paid users</Typography>
+                <Typography variant="body2">
+                  £100/ Month per additional user
+                </Typography>
+                <Typography variant="body2">Allow 5 GB storage</Typography>
+              </TableCell>
+              <TableCell sx={userIncludesStyle}>
+                <Typography variant="h6">Include 10 paid users</Typography>
+                <Typography variant="body2">
+                  £120/ Month per additional user
+                </Typography>
+                <Typography variant="body2">Allow 7 GB storage</Typography>
               </TableCell>
             </TableRow>
           </TableBody>
