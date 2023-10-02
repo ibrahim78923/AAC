@@ -18,7 +18,6 @@ import {
   StyledTableRow,
   styles,
 } from './TanstackTable.styles';
-import { TTable } from './TanstackTable.interface';
 import { flexRender } from '@tanstack/react-table';
 
 const TanstackTable = ({
@@ -26,7 +25,7 @@ const TanstackTable = ({
   data,
   rootSX,
   showSerialNo = false,
-}: TTable) => {
+}: any) => {
   const table = useTanstackTable(data, columns, showSerialNo);
   return (
     <Grid container sx={{ position: 'relative', ...rootSX }}>
@@ -36,7 +35,7 @@ const TanstackTable = ({
             <TableHead>
               {table.getHeaderGroups().map((headerGroup) => (
                 <TableRow key={headerGroup.id}>
-                  {headerGroup.headers.map((header) => (
+                  {headerGroup.headers.map((header: any) => (
                     <StyledTableCell key={header.id}>
                       <Box sx={styles.cell}>
                         {header.isPlaceholder
@@ -46,7 +45,7 @@ const TanstackTable = ({
                               header.getContext(),
                             )}
 
-                        {header.column.columnDef.isSortable && (
+                        {header?.column?.columnDef?.isSortable && (
                           <Box
                             display={'flex'}
                             flexDirection={'column'}
