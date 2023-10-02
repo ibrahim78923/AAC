@@ -57,7 +57,7 @@ export const planPrice = {
 };
 
 export const planBillOn = (theme: any) => ({
-  color: theme.palette.custom[1],
+  color: theme.palette.custom.main,
   lineHeight: '1.42857',
 });
 
@@ -76,6 +76,6 @@ export const planActions = {
 };
 
 export const buttonOutlineGrey = (theme: any) => ({
-  borderColor: theme.palette.custom[1],
-  color: theme.palette.custom[1],
+  borderColor: theme.palette.custom.main,
+  color: theme.palette.custom.main,
 });

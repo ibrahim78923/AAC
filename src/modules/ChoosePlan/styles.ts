@@ -1,11 +1,11 @@
 export const tableContainer = (theme: any) => ({
-  border: `1px solid ${theme.palette.custom[4]}`,
+  border: `1px solid ${theme.palette.custom.off_white2}`,
   borderRadius: '4px',
 });
 
 export const tableStyle = (theme: any) => ({
   '& .MuiTableCell-root': {
-    border: `1px solid ${theme.palette.custom[4]}`,
+    border: `1px solid ${theme.palette.custom.off_white2}`,
   },
 });
 
@@ -16,7 +16,7 @@ export const tableHeadStyle = (theme: any) => ({
     fontSize: '18px',
     fontWeight: '600',
     lineHeight: '1.5',
-    color: theme.palette.custom[1],
+    color: theme.palette.custom.main,
     p: '26px 16px',
   },
 });
@@ -28,7 +28,7 @@ export const productBoxTitleStyle = (theme: any) => ({
 });
 
 export const productBoxTextStyle = (theme: any) => ({
-  color: theme.palette.custom[1],
+  color: theme.palette.custom.main,
 });
 
 export const planBoxStyle = (theme: any) => ({
@@ -42,7 +42,7 @@ export const planBoxStyle = (theme: any) => ({
     '& span': {
       fontSize: '14px',
       fontWeight: '400',
-      color: theme.palette.custom[1],
+      color: theme.palette.custom.main,
     },
   },
 });

@@ -1,6 +1,6 @@
 import React, { FC, useEffect } from 'react';
 import { Box, Typography } from '@mui/material';
-import CommonDrawer from '@/components/Drawer';
+import CommonDrawer from '@/components/CommonDrawer';
 import { BillingDetailProps } from './interface';
 
 const BillingDetail: FC<BillingDetailProps> = ({ open, onClose }) => {
