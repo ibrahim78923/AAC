@@ -6,51 +6,11 @@ import { useRouter } from 'next/router';
 import { Grid, Button, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import { styled } from '@mui/system';
 import InputField from '@/components/InputField';
+import { AuthHeader, formStyling, loginDashboard } from './ResetPassword.style';
 import Dashboard from '@/assets/images/shared/login-dashboard.svg';
 import resetPasswordSuccess from '@/assets/icons/shared/onSuccess.gif';
-import { CompanyLogo } from '@/assets/images/shared/companylogo';
-
-const AuthHeader = styled('div')({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  position: 'fixed',
-  top: 20,
-  width: '100%',
-  zIndex: 1,
-  padding: '0 7%',
-  '& a': {
-    backgroundColor: '#41CCB8',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '5px',
-    fontSize: '16px',
-    cursor: 'pointer',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '85px',
-    height: '44px',
-  },
-});
-
-const loginDashboard = {
-  backgroundColor: 'rgb(245, 245, 245)',
-  height: '100vh',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-};
-
-const formStyling = {
-  display: 'grid',
-  border: '1.5px solid #E5E7EB',
-  borderRadius: '8px',
-  padding: '30px',
-  marginTop: '30px',
-};
+import { CompanyLogoIcon } from '@/assets/icons';
 
 const ResetPassword = () => {
   const [isShowError, setIsShowError] = useState<boolean>(false);
@@ -90,7 +50,7 @@ const ResetPassword = () => {
     <Box sx={{ background: 'white', height: '100vh' }}>
       <AuthHeader>
         <Box>
-          <CompanyLogo />
+          <CompanyLogoIcon />
         </Box>
         <Box>
           <Link href="/login" variant="contained">
