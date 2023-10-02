@@ -1,9 +1,13 @@
-import PlusShared from '@/assets/icons/shared/plus-shared';
+import { useState } from 'react';
+import { DownIcon, PlusSharedIcon } from '@/assets/icons';
 import { WIDGETSDATA } from '@/mock/modules/Meetings';
 import { Box, Button, Grid, Typography } from '@mui/material';
-import React from 'react';
+import { NoMeetings } from './NoMeetings';
+import { MeetingsTable } from './MeetingsTable';
+import { MeetingsTableData } from './MeetingsTable/MeetingsTable.utils';
 
 export const Meeting = () => {
+  const [meetingsData, setMeetingsData] = useState([]);
   return (
     <>
       <div className="meeting">
@@ -24,14 +28,15 @@ export const Meeting = () => {
             xs={6}
           >
             <Button
-              endIcon={<PlusShared />}
+              endIcon={<DownIcon />}
               disableElevation
+              disabled={!!!meetingsData.length}
               variant="contained"
               sx={{
                 bgcolor: '#fff !important',
                 border: '1px solid #E5E7EB',
                 borderRadius: '4px',
-                color: '#D1D5DB',
+                color: '#6B7280',
                 fontWeight: '500',
               }}
             >
@@ -41,7 +46,7 @@ export const Meeting = () => {
               sx={{
                 fontWeight: '500',
               }}
-              startIcon={<PlusShared />}
+              startIcon={<PlusSharedIcon />}
               disableElevation
               variant="contained"
             >
@@ -49,7 +54,7 @@ export const Meeting = () => {
             </Button>
           </Grid>
         </Grid>
-        <Grid container spacing={3}>
+        <Grid mb="20px" container spacing={3}>
           {WIDGETSDATA.map((item) => (
             <Grid item key={item.id} xs={4}>
               <Box
@@ -90,6 +95,14 @@ export const Meeting = () => {
             </Grid>
           ))}
         </Grid>
+        {!!MeetingsTableData.length ? (
+          <MeetingsTable
+            meetingsData={meetingsData}
+            setMeetingsData={setMeetingsData}
+          />
+        ) : (
+          <NoMeetings />
+        )}
       </div>
     </>
   );

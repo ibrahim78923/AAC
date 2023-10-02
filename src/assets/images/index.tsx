@@ -37,3 +37,6 @@ export { default as DocumentImage } from '../../assets/images/modules/header/doc
 export { default as MailImage } from '../../assets/images/modules/header/mail.png';
 export { default as MessageImage } from '../../assets/images/modules/header/message-top.png';
 export { default as ArrowSquareLeftImage } from '../../assets/images/modules/header/arrow-square-left.png';
+export { default as DiscussionImage } from '../../assets/images/modules/tickets/meetings/discussion.png';
+export { default as TeamsLogo } from '../../assets/images/modules/tickets/meetings/teams.png';
+export { default as ZoomLogo } from '../../assets/images/modules/tickets/meetings/zoom.png';
