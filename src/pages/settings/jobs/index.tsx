@@ -1,5 +1,4 @@
-import SuperAdminLayout from '@/layouts/SuperAdminLayout/SuperAdminLayout';
-
+import SuperAdminLayout from '@/layouts/SuperAdminLayout';
 import Jobs from '@/modules/settings/Jobs';
 
 const JobsPage = () => {

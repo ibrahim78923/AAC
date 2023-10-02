@@ -12,9 +12,15 @@ import {
   InputBase,
   useTheme,
   IconButton,
+  Dialog,
 } from '@mui/material';
 
-import LinkDropdown from './LinkDropdown';
+import MenuIcon from '@mui/icons-material/Menu';
+
+import LinkDropdown from './LinkDropDown';
+import AccountMenu from './AccountMenu';
+import Search from '@/components/Search';
+import NotificationDropdown from './NotificationDropDown';
 
 import { isNullOrEmpty } from '@/utils';
 
@@ -28,11 +34,8 @@ import {
   ArrowDownImage,
   ArrowUpImage,
   AvatarImage,
-  HomeMenuImage,
-  NotificationImage,
   SearchImage,
 } from '@/assets/images';
-import MenuIcon from '@mui/icons-material/Menu';
 
 import { HeaderStyles } from './Header.style';
 
@@ -51,6 +54,16 @@ const Header = (props: any) => {
   const [statusDropDown, setStatusDropDown] = useState<null | HTMLElement>(
     null,
   );
+  const [searchValue, SetSearchValue] = useState<string>('');
+  const [isOpenModal, setIsOpenModal] = useState(false);
+
+  const handleClickOpen = () => {
+    setIsOpenModal(true);
+  };
+
+  const handleClose = () => {
+    setIsOpenModal(false);
+  };
 
   const isProfileDropDownOpen = Boolean(profileDropDown);
   const isStatusOpen = Boolean(statusDropDown);
@@ -86,7 +99,7 @@ const Header = (props: any) => {
           justifyContent: 'space-between',
         }}
       >
-        <Box>
+        <Box sx={{ display: 'flex' }}>
           <IconButton
             aria-label="open drawer"
             edge="start"
@@ -106,6 +119,18 @@ const Header = (props: any) => {
                 inputProps={{ 'aria-label': 'search' }}
               />
               <IconButton onClick={handleExpandClick}>
+                <Image src={SearchImage} alt="search" />
+              </IconButton>
+            </Box>
+          </Box>
+
+          <Box sx={{ display: { md: 'block', lg: 'none' } }}>
+            <Box
+              component="form"
+              sx={HeaderStyles.searchIcon(theme)}
+              onClick={handleClickOpen}
+            >
+              <IconButton>
                 <Image src={SearchImage} alt="search" />
               </IconButton>
             </Box>
@@ -137,11 +162,11 @@ const Header = (props: any) => {
                 ))}
             </Box>
           )}
-          {role === 'sales' && <Image src={HomeMenuImage} alt="dropdown" />}
+          {role && <AccountMenu />}
 
           <LinkDropdown />
+          <NotificationDropdown />
 
-          <Image src={NotificationImage} alt="dropdown" />
           {role === 'sales' && (
             <Typography
               variant="subtitle1"
@@ -168,6 +193,9 @@ const Header = (props: any) => {
             onClose={closeProfileDropDown}
             MenuListProps={{
               'aria-labelledby': 'basic-button',
+            }}
+            sx={{
+              marginTop: '20px',
             }}
           >
             <MenuItem>
@@ -240,6 +268,29 @@ const Header = (props: any) => {
           </Menu>
         </Box>
       </Box>
+
+      <Dialog
+        open={isOpenModal}
+        onClose={handleClose}
+        maxWidth="md"
+        sx={{
+          '& .MuiDialog-paper': {
+            width: '300px',
+            height: '300px',
+            padding: '20px 20px',
+            alignItems: 'center',
+          },
+        }}
+      >
+        <Box>
+          <Search
+            searchBy={searchValue}
+            setSearchBy={SetSearchValue}
+            label="Search By Name"
+            width="260px"
+          />
+        </Box>
+      </Dialog>
     </>
   );
 };

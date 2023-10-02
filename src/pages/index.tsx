@@ -1,4 +1,4 @@
-import SuperAdminLayout from '@/layouts/SuperAdminLayout/SuperAdminLayout';
+import SuperAdminLayout from '@/layouts/SuperAdminLayout';
 import { useTheme } from '@emotion/react';
 import { Button, Typography } from '@mui/material';
 
