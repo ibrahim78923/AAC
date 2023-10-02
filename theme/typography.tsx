@@ -1,4 +1,4 @@
-import { pxToRem, responsiveFontSizes } from '../utils/getFontValue';
+import { pxToRem, responsiveFontSizes } from '@/utils/getFontValue';
 
 const FONT_FAMILY = 'Plus Jakarta Sans;';
 
@@ -48,11 +48,13 @@ const typography = {
     fontWeight: 700,
     lineHeight: 1.5,
     fontSize: pxToRem(20),
+    ...responsiveFontSizes({ xs: 10, sm: 10, md: 10, lg: 18 }),
   },
   subtitle2: {
     fontWeight: 700,
     lineHeight: 1.5,
     fontSize: pxToRem(12),
+    ...responsiveFontSizes({ sm: 18, md: 18, lg: 18 }),
   },
   body1: {
     lineHeight: 1.5,
