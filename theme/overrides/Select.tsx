@@ -1,10 +1,5 @@
-//
-//
 import { InputSelectIcon } from './CustomIcons';
-
-// ----------------------------------------------------------------------
-
-export default function Select() {
+const Select = () => {
   return {
     MuiSelect: {
       defaultProps: {
@@ -12,4 +7,5 @@ export default function Select() {
       },
     },
   };
-}
+};
+export default Select;

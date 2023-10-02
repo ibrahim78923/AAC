@@ -1,6 +1,4 @@
-// ----------------------------------------------------------------------
-
-export default function Table(theme: any) {
+const Table = (theme: any) => {
   return {
     MuiTableRow: {
       styleOverrides: {
@@ -70,4 +68,5 @@ export default function Table(theme: any) {
       },
     },
   };
-}
+};
+export default Table;

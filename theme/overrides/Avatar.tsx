@@ -1,6 +1,4 @@
-// ----------------------------------------------------------------------
-
-export default function Avatar(theme: any) {
+const Avatar = (theme: any) => {
   return {
     MuiAvatar: {
       styleOverrides: {
@@ -24,4 +22,5 @@ export default function Avatar(theme: any) {
       },
     },
   };
-}
+};
+export default Avatar;

@@ -1,6 +1,4 @@
-// ----------------------------------------------------------------------
-
-export default function Button(theme: any) {
+const Button = (theme: any) => {
   return {
     MuiButton: {
       styleOverrides: {
@@ -56,4 +54,5 @@ export default function Button(theme: any) {
       },
     },
   };
-}
+};
+export default Button;

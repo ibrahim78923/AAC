@@ -1,6 +1,4 @@
-// ----------------------------------------------------------------------
-
-export default function Stepper(theme: any) {
+const Stepper = (theme: any) => {
   return {
     MuiStepConnector: {
       styleOverrides: {
@@ -10,4 +8,5 @@ export default function Stepper(theme: any) {
       },
     },
   };
-}
+};
+export default Stepper;

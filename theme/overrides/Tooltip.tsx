@@ -1,6 +1,4 @@
-// ----------------------------------------------------------------------
-
-export default function Tooltip(theme: any) {
+const Tooltip = (theme: any) => {
   const isLight = theme.palette.mode === 'light';
 
   return {
@@ -15,4 +13,5 @@ export default function Tooltip(theme: any) {
       },
     },
   };
-}
+};
+export default Tooltip;

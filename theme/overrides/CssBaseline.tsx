@@ -1,6 +1,4 @@
-// ----------------------------------------------------------------------
-
-export default function CssBaseline() {
+const CssBaseline = () => {
   return {
     MuiCssBaseline: {
       styleOverrides: {
@@ -42,4 +40,5 @@ export default function CssBaseline() {
       },
     },
   };
-}
+};
+export default CssBaseline;

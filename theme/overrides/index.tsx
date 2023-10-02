@@ -1,4 +1,3 @@
-//
 import Fab from './Fab';
 import Card from './Card';
 import Chip from './Chip';
@@ -28,8 +27,6 @@ import DataGrid from './DataGrid';
 import Skeleton from './Skeleton';
 import Backdrop from './Backdrop';
 import Progress from './Progress';
-import Timeline from './Timeline';
-import TreeView from './TreeView';
 import Checkbox from './Checkbox';
 import Accordion from './Accordion';
 import Typography from './Typography';
@@ -38,13 +35,11 @@ import Breadcrumbs from './Breadcrumbs';
 import ButtonGroup from './ButtonGroup';
 import CssBaseline from './CssBaseline';
 import Autocomplete from './Autocomplete';
-import ToggleButton from './ToggleButton';
+
 import ControlLabel from './ControlLabel';
 import LoadingButton from './LoadingButton';
 
-// ----------------------------------------------------------------------
-
-export default function ComponentsOverrides(theme: any) {
+const ComponentsOverrides = (theme: any) => {
   return Object.assign(
     Fab(theme),
     Tabs(theme),
@@ -74,8 +69,6 @@ export default function ComponentsOverrides(theme: any) {
     Checkbox(theme),
     DataGrid(theme),
     Skeleton(theme),
-    Timeline(theme),
-    TreeView(theme),
     Backdrop(theme),
     Progress(theme),
     Accordion(theme),
@@ -86,7 +79,8 @@ export default function ComponentsOverrides(theme: any) {
     CssBaseline(),
     Autocomplete(theme),
     ControlLabel(theme),
-    ToggleButton(theme),
     LoadingButton(),
   );
-}
+};
+
+export default ComponentsOverrides;

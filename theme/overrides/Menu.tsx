@@ -1,6 +1,4 @@
-// ----------------------------------------------------------------------
-
-export default function Menu(theme: any) {
+const Menu = (theme: any) => {
   return {
     MuiMenuItem: {
       styleOverrides: {
@@ -15,4 +13,5 @@ export default function Menu(theme: any) {
       },
     },
   };
-}
+};
+export default Menu;

@@ -1,6 +1,4 @@
-// ----------------------------------------------------------------------
-
-export default function Breadcrumbs(theme: any) {
+const Breadcrumbs = (theme: any) => {
   return {
     MuiBreadcrumbs: {
       styleOverrides: {
@@ -11,4 +9,5 @@ export default function Breadcrumbs(theme: any) {
       },
     },
   };
-}
+};
+export default Breadcrumbs;

@@ -1,6 +1,4 @@
-// ----------------------------------------------------------------------
-
-export default function Slider(theme: any) {
+const Slider = (theme: any) => {
   const isLight = theme.palette.mode === 'light';
 
   return {
@@ -26,4 +24,5 @@ export default function Slider(theme: any) {
       },
     },
   };
-}
+};
+export default Slider;

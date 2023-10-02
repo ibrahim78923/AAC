@@ -1,6 +1,4 @@
-// ----------------------------------------------------------------------
-
-export default function SvgIcon() {
+const SvgIcon = () => {
   return {
     MuiSvgIcon: {
       styleOverrides: {
@@ -17,4 +15,5 @@ export default function SvgIcon() {
       },
     },
   };
-}
+};
+export default SvgIcon;

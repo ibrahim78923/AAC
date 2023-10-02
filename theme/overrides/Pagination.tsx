@@ -1,8 +1,6 @@
 import { alpha } from '@mui/material/styles';
 
-// ----------------------------------------------------------------------
-
-export default function Pagination(theme: any) {
+const Pagination = (theme: any) => {
   return {
     MuiPaginationItem: {
       styleOverrides: {
@@ -35,4 +33,5 @@ export default function Pagination(theme: any) {
       },
     },
   };
-}
+};
+export default Pagination;

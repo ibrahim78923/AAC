@@ -1,4 +1,4 @@
-export interface SearchPropsI {
+export interface SearchI {
   label: string;
   searchBy: string;
   setSearchBy: any;

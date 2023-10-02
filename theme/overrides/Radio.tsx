@@ -1,6 +1,4 @@
-// ----------------------------------------------------------------------
-
-export default function Radio(theme: any) {
+const Radio = (theme: any) => {
   return {
     MuiRadio: {
       styleOverrides: {
@@ -16,4 +14,5 @@ export default function Radio(theme: any) {
       },
     },
   };
-}
+};
+export default Radio;

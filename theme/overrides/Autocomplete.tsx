@@ -1,6 +1,4 @@
-// ----------------------------------------------------------------------
-
-export default function Autocomplete(theme: any) {
+const Autocomplete = (theme: any) => {
   return {
     MuiAutocomplete: {
       styleOverrides: {
@@ -18,4 +16,5 @@ export default function Autocomplete(theme: any) {
       },
     },
   };
-}
+};
+export default Autocomplete;

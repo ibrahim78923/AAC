@@ -1,6 +1,4 @@
-// ----------------------------------------------------------------------
-
-export default function Fab(theme: any) {
+const Fab = (theme: any) => {
   return {
     MuiFab: {
       defaultProps: {
@@ -35,4 +33,5 @@ export default function Fab(theme: any) {
       },
     },
   };
-}
+};
+export default Fab;

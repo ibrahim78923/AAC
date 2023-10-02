@@ -1,6 +1,4 @@
-// ----------------------------------------------------------------------
-
-export default function Progress(theme: any) {
+const Progress = (theme: any) => {
   const isLight = theme.palette.mode === 'light';
 
   return {
@@ -23,4 +21,5 @@ export default function Progress(theme: any) {
       },
     },
   };
-}
+};
+export default Progress;

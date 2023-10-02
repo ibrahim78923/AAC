@@ -1,6 +1,4 @@
-// ----------------------------------------------------------------------
-
-export default function ControlLabel(theme: any) {
+const ControlLabel = (theme: any) => {
   return {
     MuiFormControlLabel: {
       styleOverrides: {
@@ -24,4 +22,5 @@ export default function ControlLabel(theme: any) {
       },
     },
   };
-}
+};
+export default ControlLabel;

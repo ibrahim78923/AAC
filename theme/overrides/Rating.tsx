@@ -1,12 +1,10 @@
 //
 import { StarIcon } from './CustomIcons';
 
-// ----------------------------------------------------------------------
-
 const ICON_SMALL = { width: 20, height: 20 };
 const ICON_LARGE = { width: 28, height: 28 };
 
-export default function Rating(theme: any) {
+const Rating = (theme: any) => {
   return {
     MuiRating: {
       defaultProps: {
@@ -26,4 +24,5 @@ export default function Rating(theme: any) {
       },
     },
   };
-}
+};
+export default Rating;

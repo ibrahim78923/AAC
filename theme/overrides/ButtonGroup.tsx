@@ -1,9 +1,6 @@
-// ----------------------------------------------------------------------
-
-export default function ButtonGroup(theme: any) {
+const ButtonGroup = (theme: any) => {
   const styleContained = (color: any) => ({
     props: { variant: 'contained', color },
-    // style: { boxShadow: theme?.customShadows[color] },
   });
 
   return {
@@ -11,7 +8,6 @@ export default function ButtonGroup(theme: any) {
       variants: [
         {
           props: { variant: 'contained', color: 'inherit' },
-          // style: { boxShadow: theme?.customShadows?.z8 },
         },
         styleContained('primary'),
         styleContained('secondary'),
@@ -44,4 +40,5 @@ export default function ButtonGroup(theme: any) {
       },
     },
   };
-}
+};
+export default ButtonGroup;

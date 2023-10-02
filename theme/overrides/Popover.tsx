@@ -1,6 +1,4 @@
-// ----------------------------------------------------------------------
-
-export default function Popover(theme: any) {
+const Popover = (theme: any) => {
   return {
     MuiPopover: {
       styleOverrides: {
@@ -11,4 +9,5 @@ export default function Popover(theme: any) {
       },
     },
   };
-}
+};
+export default Popover;

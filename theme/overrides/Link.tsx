@@ -1,6 +1,4 @@
-// ----------------------------------------------------------------------
-
-export default function Link() {
+const Link = () => {
   return {
     MuiLink: {
       defaultProps: {
@@ -8,4 +6,5 @@ export default function Link() {
       },
     },
   };
-}
+};
+export default Link;

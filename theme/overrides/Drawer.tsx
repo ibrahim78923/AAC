@@ -1,8 +1,6 @@
 import { alpha } from '@mui/material';
 
-// ----------------------------------------------------------------------
-
-export default function Drawer(theme: any) {
+const Drawer = (theme: any) => {
   const isLight = theme.palette.mode === 'light';
 
   return {
@@ -31,4 +29,5 @@ export default function Drawer(theme: any) {
       },
     },
   };
-}
+};
+export default Drawer;

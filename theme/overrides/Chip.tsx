@@ -1,9 +1,6 @@
-//
 import { CloseIcon } from './CustomIcons';
 
-// ----------------------------------------------------------------------
-
-export default function Chip(theme: any) {
+const Chip = (theme: any) => {
   return {
     MuiChip: {
       defaultProps: {
@@ -45,4 +42,5 @@ export default function Chip(theme: any) {
       },
     },
   };
-}
+};
+export default Chip;

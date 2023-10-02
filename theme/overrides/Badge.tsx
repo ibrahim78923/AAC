@@ -1,6 +1,4 @@
-// ----------------------------------------------------------------------
-
-export default function Badge() {
+const Badge = () => {
   return {
     MuiBadge: {
       styleOverrides: {
@@ -12,4 +10,5 @@ export default function Badge() {
       },
     },
   };
-}
+};
+export default Badge;

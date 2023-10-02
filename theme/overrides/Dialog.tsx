@@ -1,6 +1,4 @@
-// ----------------------------------------------------------------------
-
-export default function Dialog(theme: any) {
+const Dialog = (theme: any) => {
   return {
     MuiDialog: {
       styleOverrides: {
@@ -55,4 +53,5 @@ export default function Dialog(theme: any) {
       },
     },
   };
-}
+};
+export default Dialog;

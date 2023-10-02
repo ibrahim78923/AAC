@@ -1,6 +1,4 @@
-// ----------------------------------------------------------------------
-
-export default function LoadingButton() {
+const LoadingButton = () => {
   return {
     MuiLoadingButton: {
       styleOverrides: {
@@ -17,4 +15,5 @@ export default function LoadingButton() {
       },
     },
   };
-}
+};
+export default LoadingButton;

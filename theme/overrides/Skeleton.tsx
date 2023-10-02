@@ -1,6 +1,4 @@
-// ----------------------------------------------------------------------
-
-export default function Skeleton(theme: any) {
+const Skeleton = (theme: any) => {
   return {
     MuiSkeleton: {
       defaultProps: {
@@ -14,4 +12,5 @@ export default function Skeleton(theme: any) {
       },
     },
   };
-}
+};
+export default Skeleton;

@@ -5,11 +5,11 @@ import { useTheme } from '@mui/material/styles';
 
 import { debouncedSearch } from '@/utils';
 
-import { SearchPropsI } from './Search.type';
+import { SearchI } from './Search.type';
 
 import SearchSharedIcon from '@/assets/icons/shared/search-shared';
 
-type CombinedProps = TextFieldProps & SearchPropsI;
+type CombinedProps = TextFieldProps & SearchI;
 const Search = ({
   label,
   width,

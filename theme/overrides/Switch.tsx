@@ -1,6 +1,4 @@
-// ----------------------------------------------------------------------
-
-export default function Switch(theme: any) {
+const Switch = (theme: any) => {
   const isLight = theme.palette.mode === 'light';
 
   return {
@@ -30,4 +28,5 @@ export default function Switch(theme: any) {
       },
     },
   };
-}
+};
+export default Switch;
