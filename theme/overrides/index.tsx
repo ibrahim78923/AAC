@@ -14,11 +14,9 @@ import Radio from './Radio';
 import Drawer from './Drawer';
 import Dialog from './Dialog';
 import Avatar from './Avatar';
-import Rating from './Rating';
 import Slider from './Slider';
 import Button from './Button';
 import Switch from './Switch';
-import Select from './Select';
 import SvgIcon from './SvgIcon';
 import Tooltip from './Tooltip';
 import Popover from './Popover';
@@ -35,7 +33,6 @@ import Breadcrumbs from './Breadcrumbs';
 import ButtonGroup from './ButtonGroup';
 import CssBaseline from './CssBaseline';
 import Autocomplete from './Autocomplete';
-
 import ControlLabel from './ControlLabel';
 import LoadingButton from './LoadingButton';
 
@@ -55,9 +52,7 @@ const ComponentsOverrides = (theme: any) => {
     Paper(theme),
     Alert(theme),
     Switch(theme),
-    Select(),
     Button(theme),
-    Rating(theme),
     Dialog(theme),
     Avatar(theme),
     Slider(theme),

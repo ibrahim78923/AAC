@@ -1,12 +1,6 @@
-import { CloseIcon } from './CustomIcons';
-
 const Chip = (theme: any) => {
   return {
     MuiChip: {
-      defaultProps: {
-        deleteIcon: <CloseIcon />,
-      },
-
       styleOverrides: {
         colorDefault: {
           '& .MuiChip-avatarMedium, .MuiChip-avatarSmall': {

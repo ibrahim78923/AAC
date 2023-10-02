@@ -1,5 +1,3 @@
-import { ErrorIcon, InfoIcon, SuccessIcon, WarningIcon } from './CustomIcons';
-
 const Alert = (theme: any) => {
   const isLight = theme.palette.mode === 'light';
 
@@ -26,15 +24,6 @@ const Alert = (theme: any) => {
 
   return {
     MuiAlert: {
-      defaultProps: {
-        iconMapping: {
-          info: <InfoIcon />,
-          success: <SuccessIcon />,
-          warning: <WarningIcon />,
-          error: <ErrorIcon />,
-        },
-      },
-
       styleOverrides: {
         message: {
           '& .MuiAlertTitle-root': {

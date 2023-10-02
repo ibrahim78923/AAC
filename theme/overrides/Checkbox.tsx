@@ -1,18 +1,6 @@
-import {
-  CheckboxIcon,
-  CheckboxCheckedIcon,
-  CheckboxIndeterminateIcon,
-} from './CustomIcons';
-
 const Checkbox = (theme: any) => {
   return {
     MuiCheckbox: {
-      defaultProps: {
-        icon: <CheckboxIcon />,
-        checkedIcon: <CheckboxCheckedIcon />,
-        indeterminateIcon: <CheckboxIndeterminateIcon />,
-      },
-
       styleOverrides: {
         root: {
           padding: theme.spacing(1),

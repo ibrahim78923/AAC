@@ -28,7 +28,6 @@ const Input = (theme: any) => {
           fontSize: '16px',
           padding: '10px',
           color: 'black',
-          // backgroundColor:"red"
         },
         underline: {
           '&:before': {
