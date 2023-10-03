@@ -36,9 +36,7 @@ export const columns: any = (
     cell: (info: any) => (
       <Checkbox
         color="primary"
-        onClick={() => {
-          handleCheckboxChange;
-        }}
+        onChange={handleCheckboxChange}
         name={info.getValue()}
       />
     ),
