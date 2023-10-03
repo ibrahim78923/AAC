@@ -1,14 +1,9 @@
-import SuperAdminLayout from '@/layouts/SuperAdminLayout/SuperAdminLayout';
-import Meeting from '@/modules/Meetings';
+import Layout from '@/layout';
 
-function SuperAdminPage() {
-  return (
-    <div>
-      <Meeting />
-    </div>
-  );
-}
+const SuperAdminPage = () => {
+  return <div>Dashboard Page</div>;
+};
 export default SuperAdminPage;
 SuperAdminPage.getLayout = function getLayout(page: any) {
-  return <SuperAdminLayout>{page}</SuperAdminLayout>;
+  return <Layout>{page}</Layout>;
 };

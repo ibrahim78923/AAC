@@ -5,17 +5,17 @@ import {
   checkModelTypeForImage,
   checkModelTypeMessage,
 } from './AlertModals.utils';
-import { ModelProps } from './AlertModals.interface';
+import { ModelPropsI } from './AlertModals.interface';
 import CloseIcon from '@/assets/icons/shared/AlertModels/close-icon';
 import { styles } from './AlertModals.styles';
 
-export const AlertModals: React.FunctionComponent<ModelProps> = ({
+export const AlertModals: React.FunctionComponent<ModelPropsI> = ({
   message,
   type,
   open,
   handleClose,
   handleSubmit,
-}: ModelProps) => {
+}: ModelPropsI) => {
   return (
     <Box>
       <Modal
@@ -26,8 +26,8 @@ export const AlertModals: React.FunctionComponent<ModelProps> = ({
       >
         <Box sx={styles.parentBox}>
           <Box sx={styles.modalBox}>
-            <Box sx={styles.innerBox1}>
-              <Box sx={styles.innerBox2}>
+            <Box sx={styles.innerBoxOne}>
+              <Box sx={styles.innerBoxTwo}>
                 {checkModelTypeForImage(type)}
                 <Typography component="span" sx={styles.modalTypeText}>
                   {checkModelType(type)}

@@ -1,6 +1,6 @@
 import { alpha } from '@mui/material';
 import { ApexOptions } from 'apexcharts';
-const XYLABELSTYLE = {
+export const XYLABELSTYLE = {
   style: {
     fontSize: '14px',
     fontFamily: 'Outfit, Arial, sans-serif',
