@@ -4,10 +4,13 @@ export const TicketTaskDrawer = ({ isDrawerOpen, setIsDrawerOpen }: any) => {
   return (
     <CommonDrawer
       isDrawerOpen={isDrawerOpen}
-      setIsDrawerOpen={setIsDrawerOpen}
+      onClose={() => {
+        setIsDrawerOpen(false);
+      }}
       title="Add New Task"
       submitHandler={() => {}}
-      isOk
+      footer={true}
+      isOk={true}
       okText="Add Task"
     >
       <div></div>
