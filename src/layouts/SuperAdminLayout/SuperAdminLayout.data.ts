@@ -11,6 +11,7 @@ import {
   DashboardImage,
   DocumentImage,
   ForecastImage,
+  LogoutImage,
   MailImage,
   MeetingImage,
   MeetingTopImage,
@@ -31,7 +32,7 @@ type MenuItemI = {
   role: string;
 };
 
-export const SuperAdminItems: MenuItemI[] = [
+export const SuperAdminRoutes: MenuItemI[] = [
   {
     key: 'super-admin-dashboard',
     icon: DashboardImage,
@@ -62,6 +63,9 @@ export const SuperAdminItems: MenuItemI[] = [
     label: 'Reports',
     role: 'super-admin',
   },
+];
+
+export const SalesRoutes: any = [
   {
     key: 'sales-dashboard',
     icon: DashboardImage,
@@ -80,6 +84,22 @@ export const SuperAdminItems: MenuItemI[] = [
     icon: ForecastImage,
     label: 'Forecast',
     role: 'sales',
+  },
+  {
+    key: 'super-admin',
+    label: 'Data Layout',
+    icon: SettingImage,
+    role: 'super-admin',
+    textNames: [
+      {
+        key: 'super-admin-reports',
+        label: 'Jo',
+      },
+      {
+        key: 'super-admin-reports',
+        label: 'FA',
+      },
+    ],
   },
 
   {
@@ -107,13 +127,30 @@ export const SuperAdminItems: MenuItemI[] = [
     label: 'Reports',
     role: 'sales',
   },
+  {
+    key: 'super-admin-user-management',
+    label: 'Setting',
+    icon: SettingImage,
+    role: 'super-admin',
+    textNames: [
+      {
+        key: 'super-admin-reports',
+        label: 'Jobs',
+      },
+      {
+        key: 'super-admin-reports',
+        label: 'FAQs',
+      },
+    ],
+  },
 ];
 
-export const LowerSuperAdminItems = [
+export const LowerSuperAdminRoutes = [
   {
-    name: 'Setting',
-    logo: SettingImage,
+    label: 'Setting',
+    icon: SettingImage,
     role: 'super-admin',
+    key: 'settings',
     textNames: [
       {
         key: 'super-admin-reports',
@@ -154,10 +191,35 @@ export const LowerSuperAdminItems = [
     ],
   },
   {
-    name: 'Settings',
-    key: 'sales-settings',
+    label: 'Logout',
+    key: 'logout',
     role: 'sales',
-    logo: SettingImage,
+    icon: LogoutImage,
+  },
+];
+
+export const LowerSalesRoutes = [
+  {
+    label: 'Setting',
+    icon: SettingImage,
+    role: 'super-admin',
+    key: 'settings',
+    textNames: [
+      {
+        key: 'super-admin-reports',
+        label: 'Jobs',
+      },
+      {
+        key: 'super-admin-reports',
+        label: 'FAQs',
+      },
+    ],
+  },
+  {
+    label: 'Logout',
+    key: 'logout',
+    role: 'sales',
+    icon: LogoutImage,
   },
 ];
 
@@ -248,3 +310,21 @@ export const QuickLinkData = [
     icon: MessageImage,
   },
 ];
+
+const ROLES_ROUTES: any = {
+  SUPER_ADMIN: SuperAdminRoutes,
+  AIR_SALES: SalesRoutes,
+};
+
+export const getRoutes = (role: any) => {
+  return ROLES_ROUTES[role];
+};
+
+const LOWER_ROLES_ROUTES: any = {
+  SUPER_ADMIN: LowerSuperAdminRoutes,
+  AIR_SALES: LowerSalesRoutes,
+};
+
+export const getLowerRoutes = (role: any) => {
+  return LOWER_ROLES_ROUTES[role];
+};

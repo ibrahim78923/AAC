@@ -15,7 +15,6 @@ import {
   CssBaseline,
   useTheme,
   List,
-  ListItemText,
   Collapse,
 } from '@mui/material';
 
@@ -23,37 +22,37 @@ import Header from './Header';
 
 import { isNullOrEmpty } from '@/utils';
 
-import { LowerSuperAdminItems, SuperAdminItems } from './SuperAdminLayout.data';
+import { getLowerRoutes, getRoutes } from './SuperAdminLayout.data';
 
 import { SuperAdminLayoutI } from './SuperAdminLayout.type';
 
-import { ExpandLess, ExpandMore } from '@mui/icons-material';
-import { LogoImage, LogoutImage } from '@/assets/images';
+import { ArrowDownImage, ArrowUpImage, LogoImage } from '@/assets/images';
 
 import { SuperAdminLayoutStyles } from './SuperAdminLayout.style';
 
 import { v4 as uuidv4 } from 'uuid';
 
 const drawerWidth = 220;
-
+const role = 'AIR_SALES';
 const SuperAdminLayout = (props: SuperAdminLayoutI) => {
   const theme = useTheme();
   const { window, children } = props;
   const router = useRouter();
 
+  const routes = getRoutes(role);
+  const lowerRoutes = getLowerRoutes(role);
+
   const [isMobileOpen, setIsMobileOpen] = useState(false);
-  const [isDropDownOpen, setisDropDownOpen] = useState(false);
+  const [isDropDownOpen, setIsDropDownOpen] = useState<any>({});
 
   const handleDrawerToggle = () => {
     setIsMobileOpen(!isMobileOpen);
   };
-  const role = 'super-admin';
-  const dropDownOpenHandler = () => {
-    if (role === 'super-admin') {
-      setisDropDownOpen(!isDropDownOpen);
-    } else {
-      router.push('/sale-settings');
-    }
+  const toggleDropDown = (linkKey: any) => {
+    setIsDropDownOpen((prevState: any) => ({
+      ...prevState,
+      [linkKey]: !prevState[linkKey],
+    }));
   };
 
   const drawer = (
@@ -70,129 +69,216 @@ const SuperAdminLayout = (props: SuperAdminLayoutI) => {
         }}
       >
         <Box>
-          {!isNullOrEmpty(SuperAdminItems) &&
-            SuperAdminItems.map((link) => (
-              <Link
-                key={uuidv4()}
-                href={`${link.key}`}
-                onClick={() => setisDropDownOpen(false)}
-              >
-                {link.role.includes(role) && (
-                  <ListItem key={link.key} sx={{ padding: '6px 0px 6px 0px' }}>
-                    <ListItemButton
-                      sx={SuperAdminLayoutStyles.mainNavLink(
-                        link,
-                        router,
-                        theme,
-                      )}
-                    >
-                      <ListItemIcon sx={{ minWidth: 40 }}>
-                        <Image
-                          src={link.icon}
-                          alt={link.icon}
-                          style={{
-                            opacity: router.pathname.includes(`${link.key}`)
-                              ? '1'
-                              : '0.4',
-                          }}
-                        />
-                      </ListItemIcon>
-
-                      {link.label}
-                    </ListItemButton>
-                  </ListItem>
-                )}
-              </Link>
-            ))}
-        </Box>
-        <Box sx={{ paddingBottom: '20px' }}>
-          <List component="nav" aria-labelledby="nested-list-subheader">
-            {!isNullOrEmpty(LowerSuperAdminItems) &&
-              LowerSuperAdminItems.map((item) => (
+          <List>
+            {!isNullOrEmpty(routes) &&
+              routes.map((link) => (
                 <div key={uuidv4()}>
-                  {item.role.includes(role) && (
-                    <ListItem style={{ padding: '6px 0px' }}>
-                      <ListItemButton
-                        onClick={dropDownOpenHandler}
-                        sx={SuperAdminLayoutStyles.collapseMenuOpener(
-                          item,
-                          router,
-                          isDropDownOpen,
-                          theme,
-                        )}
+                  {link.textNames ? (
+                    <>
+                      <ListItem sx={{ padding: '6px 0px 6px 0px' }}>
+                        <Link
+                          href={`${link.key}`}
+                          style={{
+                            width: '100%',
+                            padding: '0px',
+                          }}
+                        >
+                          <ListItemButton
+                            sx={SuperAdminLayoutStyles.mainNavLink(
+                              link,
+                              router,
+                              theme,
+                            )}
+                            onClick={() => toggleDropDown(link.key)}
+                          >
+                            <ListItemIcon sx={{ minWidth: 40 }}>
+                              <Image
+                                src={link.icon}
+                                alt="icons"
+                                style={{
+                                  opacity:
+                                    router.pathname === link.key ||
+                                    isDropDownOpen[link.key]
+                                      ? '1'
+                                      : '0.4',
+                                }}
+                              />
+                            </ListItemIcon>
+
+                            {link.label}
+
+                            <Box sx={{ paddingLeft: '15px' }}>
+                              <Image
+                                src={
+                                  isDropDownOpen[link.key]
+                                    ? ArrowUpImage
+                                    : ArrowDownImage
+                                }
+                                alt="Avatar"
+                              />
+                            </Box>
+                          </ListItemButton>
+                        </Link>
+                      </ListItem>
+                      <Collapse
+                        in={isDropDownOpen[link.key]}
+                        timeout="auto"
+                        unmountOnExit
                       >
-                        <ListItemIcon sx={{ minWidth: 40 }}>
-                          <Image
-                            src={item.logo}
-                            alt="icons"
-                            style={{
-                              opacity:
-                                router.pathname.includes(`${item.name}`) ||
-                                isDropDownOpen
+                        <List component="div" disablePadding>
+                          {link.textNames.map((subItem: any) => (
+                            <ListItem
+                              key={subItem.key}
+                              sx={{ padding: '6px 0px' }}
+                            >
+                              <ListItemButton
+                                sx={SuperAdminLayoutStyles.collapseMenu(
+                                  subItem,
+                                  router,
+                                  theme,
+                                )}
+                              >
+                                <Link href={`/${subItem.key}`}>
+                                  {subItem.label}
+                                </Link>
+                              </ListItemButton>
+                            </ListItem>
+                          ))}
+                        </List>
+                      </Collapse>
+                    </>
+                  ) : (
+                    <Link key={link.key} href={`/${link.key}`}>
+                      <ListItem sx={{ padding: '6px 0px 6px 0px' }}>
+                        <ListItemButton
+                          sx={SuperAdminLayoutStyles.mainNavLink(
+                            link,
+                            router,
+                            theme,
+                          )}
+                        >
+                          <ListItemIcon sx={{ minWidth: 40 }}>
+                            <Image
+                              src={link.icon}
+                              alt={link.icon}
+                              style={{
+                                opacity: router.pathname.includes(`${link.key}`)
                                   ? '1'
                                   : '0.4',
-                            }}
-                          />
-                        </ListItemIcon>
-                        {item.name}
-                        <ListItemText />
-                        {role === 'super-admin' ? (
-                          isDropDownOpen ? (
-                            <ExpandLess />
-                          ) : (
-                            <ExpandMore />
-                          )
-                        ) : null}
-                      </ListItemButton>
-                    </ListItem>
-                  )}
-
-                  {item.textNames && (
-                    <Collapse in={isDropDownOpen} timeout="auto" unmountOnExit>
-                      <List component="div" disablePadding>
-                        {item.textNames.map((subItem) => (
-                          <Link key={uuidv4()} href={`${subItem.key}`}>
-                            <ListItemButton
-                              key={item.name}
-                              sx={SuperAdminLayoutStyles.collapseMenu(
-                                subItem,
-                                router,
-                                theme,
-                              )}
-                            >
-                              <Link key={uuidv4()} href={`${subItem.key}`}>
-                                {subItem.label}
-                              </Link>
-                            </ListItemButton>
-                          </Link>
-                        ))}
-                      </List>
-                    </Collapse>
+                              }}
+                            />
+                          </ListItemIcon>
+                          {link.label}
+                        </ListItemButton>
+                      </ListItem>
+                    </Link>
                   )}
                 </div>
               ))}
           </List>
-          <Link key={uuidv4()} href={`/logout`}>
-            <ListItemButton
-              sx={{
-                fontSize: '14px',
-                '&:hover': {
-                  background: 'transparent',
-                },
-              }}
-            >
-              <ListItemIcon sx={{ minWidth: 40 }}>
-                <Image
-                  src={LogoutImage}
-                  alt="LogoutIcon"
-                  style={{
-                    opacity: '0.4',
-                  }}
-                />
-              </ListItemIcon>
-              Logout
-            </ListItemButton>
-          </Link>
+        </Box>
+
+        <Box sx={{ paddingBottom: '20px' }}>
+          <List>
+            {!isNullOrEmpty(lowerRoutes) &&
+              lowerRoutes.map((link) => (
+                <div key={link.key}>
+                  {link.textNames ? (
+                    <>
+                      <ListItem sx={{ padding: '6px 0px 6px 0px' }}>
+                        <Link href={`${link.key}`}>
+                          <ListItemButton
+                            sx={SuperAdminLayoutStyles.mainNavLink(
+                              link,
+                              router,
+                              theme,
+                            )}
+                            onClick={() => toggleDropDown(link.key)}
+                          >
+                            <ListItemIcon sx={{ minWidth: 40 }}>
+                              <Image
+                                src={link.icon}
+                                alt="icons"
+                                style={{
+                                  opacity:
+                                    router.pathname === link.key ||
+                                    isDropDownOpen[link.key]
+                                      ? '1'
+                                      : '0.4',
+                                }}
+                              />
+                            </ListItemIcon>
+
+                            {link.label}
+                            <Box sx={{ paddingLeft: '20px' }}>
+                              <Image
+                                src={
+                                  isDropDownOpen[link.key]
+                                    ? ArrowUpImage
+                                    : ArrowDownImage
+                                }
+                                alt="Avatar"
+                              />
+                            </Box>
+                          </ListItemButton>
+                        </Link>
+                      </ListItem>
+                      <Collapse
+                        in={isDropDownOpen[link.key]}
+                        timeout="auto"
+                        unmountOnExit
+                      >
+                        <List component="div" disablePadding>
+                          {link.textNames.map((subItem) => (
+                            <ListItem
+                              key={subItem.key}
+                              sx={{ padding: '6px 0px' }}
+                            >
+                              <ListItemButton
+                                sx={SuperAdminLayoutStyles.collapseMenu(
+                                  subItem,
+                                  router,
+                                  theme,
+                                )}
+                              >
+                                <Link href={`/${subItem.key}`}>
+                                  {subItem.label}
+                                </Link>
+                              </ListItemButton>
+                            </ListItem>
+                          ))}
+                        </List>
+                      </Collapse>
+                    </>
+                  ) : (
+                    <Link key={link.key} href={`/${link.key}`}>
+                      <ListItem sx={{ padding: '6px 0px 6px 0px' }}>
+                        <ListItemButton
+                          sx={SuperAdminLayoutStyles.mainNavLink(
+                            link,
+                            router,
+                            theme,
+                          )}
+                        >
+                          <ListItemIcon sx={{ minWidth: 40 }}>
+                            <Image
+                              src={link.icon}
+                              alt={link.icon}
+                              style={{
+                                opacity: router.pathname.includes(`${link.key}`)
+                                  ? '1'
+                                  : '0.4',
+                              }}
+                            />
+                          </ListItemIcon>
+                          {link.label}
+                        </ListItemButton>
+                      </ListItem>
+                    </Link>
+                  )}
+                </div>
+              ))}
+          </List>
         </Box>
       </Box>
     </>
