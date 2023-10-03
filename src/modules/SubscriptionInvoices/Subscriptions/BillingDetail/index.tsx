@@ -1,7 +1,7 @@
 import React, { FC, useEffect } from 'react';
 import { Box, Typography } from '@mui/material';
 import CommonDrawer from '@/components/CommonDrawer';
-import { BillingDetailProps } from './interface';
+import { BillingDetailProps } from './BillingDetail.interface';
 
 const BillingDetail: FC<BillingDetailProps> = ({ open, onClose }) => {
   /* VARIABLE DECLARATION

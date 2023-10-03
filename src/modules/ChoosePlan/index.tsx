@@ -1,8 +1,5 @@
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { IconArrowBack, IconTickCircle } from '@/assets/icons';
-import { styles } from './styles';
-import Counter from './Counter';
 import {
   Box,
   Typography,
@@ -13,6 +10,9 @@ import {
   TableRow,
   Button,
 } from '@mui/material';
+import { IconArrowBack, IconTickCircle } from '@/assets/icons';
+import Counter from './Counter';
+import { styles } from './ChoosePlan.style';
 
 const ChoosePlan = () => {
   /* VARIABLE DECLARATION

@@ -1,8 +1,8 @@
 import React, { FC, useEffect } from 'react';
-import { Box, Button, Typography, Stack } from '@mui/material';
 import { useRouter } from 'next/router';
-import { PlanCardProps } from './interface';
-import { styles } from './styles';
+import { Box, Button, Typography, Stack } from '@mui/material';
+import { PlanCardProps } from './PlanCard.interface';
+import { styles } from './PlanCard.styles';
 
 const PlanCard: FC<PlanCardProps> = ({
   status,

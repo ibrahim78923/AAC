@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { IconPlane } from '@/assets/icons';
-import { styles } from './styles';
 import {
   Box,
   Typography,
@@ -16,6 +14,8 @@ import {
   Chip,
   Stack,
 } from '@mui/material';
+import { IconPlane } from '@/assets/icons';
+import { styles } from './ManagePlan.style';
 
 const ManagePlan = () => {
   /* VARIABLE DECLARATION
