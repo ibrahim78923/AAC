@@ -16,19 +16,20 @@ import {
 
 import { isNullOrEmpty } from '@/utils';
 
-import { QuickLinksData } from '../../SuperAdminLayout.data';
+import { QuickLinksData } from '../../Layout.data';
 
-import { LinkCheckedItemsI } from '../../SuperAdminLayout.type';
+import { LinkCheckedItemsI } from '../../Layout.interface';
 
 import {
-  AddImage,
   ArrowSquareLeftImage,
   DeleteImage,
   LinkImage,
   QuickLinkImage,
 } from '@/assets/images';
 
-import { LinkDropDownStyles } from './LinkDropdown.style';
+import { styles } from './LinkDropdown.style';
+
+import { PlusSharedIcon } from '@/assets/icons';
 
 import { v4 as uuidv4 } from 'uuid';
 
@@ -66,7 +67,7 @@ const LinkDropdown = () => {
   return (
     <div>
       <Box
-        sx={LinkDropDownStyles.quickLinkButtonStyle(isLinkDropDownOpen, theme)}
+        sx={styles.quickLinkButtonStyle(isLinkDropDownOpen, theme)}
         onClick={dropDownOpenHandler}
       >
         <Image src={LinkImage} alt="link" />
@@ -87,10 +88,6 @@ const LinkDropdown = () => {
         }}
         sx={{
           marginTop: '20px',
-
-          '& .MuiPopover-paper': {
-            borderRadius: '10px',
-          },
         }}
       >
         <Box
@@ -103,7 +100,7 @@ const LinkDropdown = () => {
           }}
         >
           <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1 }}>
-            <Box sx={LinkDropDownStyles.menuDropDownLink(isEditLink, theme)}>
+            <Box sx={styles.menuDropDownLink(isEditLink, theme)}>
               <Image
                 src={isEditLink ? QuickLinkImage : ArrowSquareLeftImage}
                 alt="GreenLink"
@@ -142,10 +139,10 @@ const LinkDropdown = () => {
 
             <Button
               variant="contained"
-              sx={{ minWidth: '0px', gap: 1 }}
+              sx={{ minWidth: '0px', gap: 1, height: '32px' }}
               onClick={() => setIsEditLink(!isEditLink)}
             >
-              <Image src={AddImage} alt="add-icon" />
+              <PlusSharedIcon />
               {!isEditLink && <Typography>Save</Typography>}
             </Button>
           </Box>

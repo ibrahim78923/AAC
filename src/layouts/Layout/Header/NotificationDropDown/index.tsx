@@ -52,7 +52,6 @@ const NotificationDropdown = () => {
         sx={{
           marginTop: '20px',
           '& .MuiPopover-paper': {
-            borderRadius: '10px',
             height: '80vh',
             width: '350px',
           },

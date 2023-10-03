@@ -1,4 +1,4 @@
-export interface SuperAdminLayoutI {
+export interface LayoutI {
   window?: () => Window;
   children: React.ReactNode;
 }

@@ -4,7 +4,7 @@ const Popover = (theme: any) => {
       styleOverrides: {
         paper: {
           boxShadow: theme?.customShadows?.dropdown,
-          borderRadius: Number(theme.shape.borderRadius) * 1.5,
+          borderRadius: '10px',
         },
       },
     },

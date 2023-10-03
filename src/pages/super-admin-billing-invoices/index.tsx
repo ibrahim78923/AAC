@@ -1,9 +1,9 @@
-import SuperAdminLayout from '@/layouts/SuperAdminLayout';
+import Layout from '@/layouts/Layout';
 import BillingAndInvoicesTable from '@/modules/BillingAndInvoices/BillingAndInvoicesTable';
-function BillingInvoicesPage() {
+const BillingInvoicesPage = () => {
   return <BillingAndInvoicesTable />;
-}
+};
 export default BillingInvoicesPage;
 BillingInvoicesPage.getLayout = function getLayout(page: any) {
-  return <SuperAdminLayout>{page}</SuperAdminLayout>;
+  return <Layout>{page}</Layout>;
 };

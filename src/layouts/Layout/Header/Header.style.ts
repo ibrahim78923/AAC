@@ -1,10 +1,10 @@
-export const HeaderStyles = {
+export const styles = {
   searchAnimation: (isExpanded: boolean, theme: any) => {
     return {
       display: 'flex',
       alignItems: 'center',
       transition: 'width 0.3s ease-in-out',
-      width: isExpanded ? 250 : 35,
+      width: isExpanded ? 250 : 42,
       background: !isExpanded ? '#F6F7FC' : theme.palette.common.white,
       borderRadius: '20px',
       color: theme.palette.common.black,
@@ -17,7 +17,7 @@ export const HeaderStyles = {
     return {
       display: 'flex',
       alignItems: 'center',
-      width: 35,
+      width: 40,
       background: '#F6F7FC',
       borderRadius: '20px',
       color: theme.palette.common.black,

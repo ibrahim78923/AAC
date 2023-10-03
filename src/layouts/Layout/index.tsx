@@ -23,20 +23,20 @@ import Header from './Header';
 
 import { isNullOrEmpty } from '@/utils';
 
-import { LowerSuperAdminItems, SuperAdminItems } from './SuperAdminLayout.data';
+import { LowerSuperAdminItems, SuperAdminItems } from './Layout.data';
 
-import { SuperAdminLayoutI } from './SuperAdminLayout.type';
+import { LayoutI } from './Layout.interface';
 
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import { LogoImage, LogoutImage } from '@/assets/images';
 
-import { SuperAdminLayoutStyles } from './SuperAdminLayout.style';
+import { styles } from './Layout.style';
 
 import { v4 as uuidv4 } from 'uuid';
 
 const drawerWidth = 220;
 
-const SuperAdminLayout = (props: SuperAdminLayoutI) => {
+const Layout = (props: LayoutI) => {
   const theme = useTheme();
   const { window, children } = props;
   const router = useRouter();
@@ -79,13 +79,9 @@ const SuperAdminLayout = (props: SuperAdminLayoutI) => {
                 {link.role.includes(role) && (
                   <ListItem key={link.key} sx={{ padding: '6px 0px 6px 0px' }}>
                     <ListItemButton
-                      sx={SuperAdminLayoutStyles.mainNavLink(
-                        link,
-                        router,
-                        theme,
-                      )}
+                      sx={styles.mainNavLink(link, router, theme)}
                     >
-                      <ListItemIcon sx={{ minWidth: 40 }}>
+                      <ListItemIcon sx={{ minWidth: 20 }}>
                         <Image
                           src={link.icon}
                           alt={link.icon}
@@ -113,7 +109,7 @@ const SuperAdminLayout = (props: SuperAdminLayoutI) => {
                     <ListItem style={{ padding: '6px 0px' }}>
                       <ListItemButton
                         onClick={dropDownOpenHandler}
-                        sx={SuperAdminLayoutStyles.collapseMenuOpener(
+                        sx={styles.collapseMenuOpener(
                           item,
                           router,
                           isDropDownOpen,
@@ -153,11 +149,7 @@ const SuperAdminLayout = (props: SuperAdminLayoutI) => {
                           <Link key={uuidv4()} href={`${subItem.key}`}>
                             <ListItemButton
                               key={item.name}
-                              sx={SuperAdminLayoutStyles.collapseMenu(
-                                subItem,
-                                router,
-                                theme,
-                              )}
+                              sx={styles.collapseMenu(subItem, router, theme)}
                             >
                               <Link key={uuidv4()} href={`${subItem.key}`}>
                                 {subItem.label}
@@ -203,7 +195,7 @@ const SuperAdminLayout = (props: SuperAdminLayoutI) => {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar sx={SuperAdminLayoutStyles.appToolbar(drawerWidth, theme)}>
+      <AppBar sx={styles.appToolbar(drawerWidth, theme)}>
         <Header handleDrawerToggle={handleDrawerToggle} />
       </AppBar>
       <Box
@@ -219,24 +211,20 @@ const SuperAdminLayout = (props: SuperAdminLayoutI) => {
           ModalProps={{
             keepMounted: true,
           }}
-          sx={SuperAdminLayoutStyles.mobileDrawer(drawerWidth)}
+          sx={styles.mobileDrawer(drawerWidth)}
         >
           {drawer}
         </Drawer>
-        <Drawer
-          variant="permanent"
-          sx={SuperAdminLayoutStyles.mainDrawer(drawerWidth)}
-          open
-        >
+        <Drawer variant="permanent" sx={styles.mainDrawer(drawerWidth)} open>
           {drawer}
         </Drawer>
       </Box>
-      <Box component="main" sx={SuperAdminLayoutStyles.layoutBox(drawerWidth)}>
+      <Box component="main" sx={styles.layoutBox(drawerWidth)}>
         <Toolbar />
-        <Box sx={SuperAdminLayoutStyles.layoutInnerBox(theme)}>{children}</Box>
+        <Box sx={styles.layoutInnerBox(theme)}>{children}</Box>
       </Box>
     </Box>
   );
 };
 
-export default SuperAdminLayout;
+export default Layout;

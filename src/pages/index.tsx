@@ -1,6 +1,6 @@
 import { Button, ButtonGroup } from '@mui/material';
 
-import SuperAdminLayout from '@/layouts/SuperAdminLayout';
+import Layout from '@/layouts/Layout';
 
 export default function Home() {
   return (
@@ -24,5 +24,5 @@ export default function Home() {
   );
 }
 Home.getLayout = function getLayout(page: any) {
-  return <SuperAdminLayout>{page}</SuperAdminLayout>;
+  return <Layout>{page}</Layout>;
 };

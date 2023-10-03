@@ -55,7 +55,6 @@ const AccountMenu = () => {
         sx={{
           marginTop: '20px',
           '& .MuiPopover-paper': {
-            borderRadius: '10px',
             height: '93vh',
             width: '450px',
           },

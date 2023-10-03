@@ -24,22 +24,14 @@ import NotificationDropdown from './NotificationDropDown';
 
 import { isNullOrEmpty } from '@/utils';
 
-import {
-  ProfileDropDown,
-  QuickLinkData,
-  StatusDropDown,
-} from '../SuperAdminLayout.data';
+import { ProfileDropDown, QuickLinkData, StatusDropDown } from '../Layout.data';
 
-import {
-  ArrowDownImage,
-  ArrowUpImage,
-  AvatarImage,
-  SearchImage,
-} from '@/assets/images';
+import { ArrowDownImage, ArrowUpImage, AvatarImage } from '@/assets/images';
 
-import { HeaderStyles } from './Header.style';
+import { styles } from './Header.style';
 
 import { v4 as uuidv4 } from 'uuid';
+import { SearchSharedIcon } from '@/assets/icons';
 
 const role = 'super-admin';
 
@@ -111,7 +103,7 @@ const Header = (props: any) => {
           <Box sx={{ display: { xs: 'none', lg: 'block' } }}>
             <Box
               component="form"
-              sx={HeaderStyles.searchAnimation(isExpanded, theme)}
+              sx={styles.searchAnimation(isExpanded, theme)}
             >
               <InputBase
                 fullWidth
@@ -119,7 +111,8 @@ const Header = (props: any) => {
                 inputProps={{ 'aria-label': 'search' }}
               />
               <IconButton onClick={handleExpandClick}>
-                <Image src={SearchImage} alt="search" />
+                {/* <Image src={SearchImage} alt="search" /> */}
+                <SearchSharedIcon />
               </IconButton>
             </Box>
           </Box>
@@ -127,11 +120,11 @@ const Header = (props: any) => {
           <Box sx={{ display: { md: 'block', lg: 'none' } }}>
             <Box
               component="form"
-              sx={HeaderStyles.searchIcon(theme)}
+              sx={styles.searchIcon(theme)}
               onClick={handleClickOpen}
             >
               <IconButton>
-                <Image src={SearchImage} alt="search" />
+                <SearchSharedIcon />
               </IconButton>
             </Box>
           </Box>
@@ -145,13 +138,10 @@ const Header = (props: any) => {
           }}
         >
           {role === 'sales' && (
-            <Box sx={HeaderStyles.quickLinkBox(theme)}>
+            <Box sx={styles.quickLinkBox(theme)}>
               {!isNullOrEmpty(QuickLinkData) &&
                 QuickLinkData.map((image) => (
-                  <Box
-                    key={uuidv4()}
-                    sx={HeaderStyles.innerQuickLinkBox(theme)}
-                  >
+                  <Box key={uuidv4()} sx={styles.innerQuickLinkBox(theme)}>
                     <Image
                       src={image?.icon}
                       alt="logo"

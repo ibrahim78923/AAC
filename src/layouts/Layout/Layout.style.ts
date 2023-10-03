@@ -1,4 +1,4 @@
-export const SuperAdminLayoutStyles = {
+export const styles = {
   collapseMenu: (subItem: any, router: any, theme: any) => {
     return {
       padding: '8px 0px  8px 55px',

@@ -8,15 +8,15 @@ const Checkbox = (theme: any) => {
             color: theme.palette.action.disabled,
           },
           '& .MuiSvgIcon-fontSizeMedium': {
-            width: 30,
-            height: 30,
+            width: 20,
+            height: 20,
           },
           '& .MuiSvgIcon-fontSizeSmall': {
             width: 20,
             height: 20,
           },
           svg: {
-            fontSize: 30,
+            fontSize: 20,
             '&[font-size=small]': {
               fontSize: 20,
             },

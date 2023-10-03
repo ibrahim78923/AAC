@@ -1,4 +1,4 @@
-export const LinkDropDownStyles = {
+export const styles = {
   quickLinkButtonStyle: (isLinkDropDownOpen: boolean, theme: any) => {
     return {
       borderRadius: '4px',
