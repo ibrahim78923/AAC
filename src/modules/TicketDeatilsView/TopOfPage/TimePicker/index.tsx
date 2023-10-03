@@ -1,5 +1,5 @@
-import { inputStyle } from './TimePicker.interface';
-import useTimePickerState from './TimePicker.state';
+import { inputStyle } from './TimePicker.style';
+import useTimePickerState from './UseTimePicker';
 
 function DetailTimePicker() {
   const { time, handleTimeChange } = useTimePickerState();
