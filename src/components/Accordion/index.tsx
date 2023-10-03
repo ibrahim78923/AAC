@@ -1,6 +1,6 @@
 import { AccordionItem } from './AccordionItem.type';
 import { AccordionSummary, Collapse } from '@mui/material';
-import { ArrowUp, ArrowDown } from '@/assets/icons';
+import { ArrowUpIcon, ArrowDownIcon } from '@/assets/icons';
 import { UseAccordionItem } from './UseAccordionItem';
 import { styles } from './AccordionItem.style';
 
@@ -12,7 +12,7 @@ const AccordionItem: React.FC<AccordionItem> = ({ sectionTitle, children }) => {
       <AccordionSummary
         style={styleArr[0].accordionStyle}
         onClick={handleAccordionClick}
-        expandIcon={isActive ? <ArrowUp /> : <ArrowDown />}
+        expandIcon={isActive ? <ArrowUpIcon /> : <ArrowDownIcon />}
       >
         {sectionTitle}
       </AccordionSummary>
