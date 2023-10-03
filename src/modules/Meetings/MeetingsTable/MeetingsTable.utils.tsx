@@ -1,4 +1,4 @@
-import { Checkbox } from '@mui/material';
+import { Box, Checkbox } from '@mui/material';
 export const MeetingsTableColumns = (
   meetingsData: any,
   setMeetingsData: any,
@@ -48,7 +48,9 @@ export const MeetingsTableColumns = (
     accessorFn: (row: any) => row.title,
     id: 'title',
     cell: (info: any) => (
-      <span style={{ color: '#0AADC7' }}>{info.getValue()}</span>
+      <Box sx={{ color: 'common.black', fontWeight: '500' }}>
+        {info.getValue()}
+      </Box>
     ),
     header: 'Title',
     isSortable: true,
@@ -58,21 +60,33 @@ export const MeetingsTableColumns = (
     id: 'owner',
     isSortable: true,
     header: 'Owner',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => (
+      <Box sx={{ color: 'common.black', fontWeight: '500' }}>
+        {info.getValue()}
+      </Box>
+    ),
   },
   {
     accessorFn: (row: any) => row.dueDate,
     id: 'dueDate',
     isSortable: true,
     header: 'Due Date',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => (
+      <Box sx={{ color: 'blue.dull_blue', fontWeight: '500' }}>
+        {info.getValue()}
+      </Box>
+    ),
   },
   {
     accessorFn: (row: any) => row.outcome,
     id: 'outcome',
     isSortable: true,
     header: 'Outcome',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => (
+      <Box sx={{ color: 'custom.main', fontWeight: '500' }}>
+        {info.getValue()}
+      </Box>
+    ),
   },
 ];
 

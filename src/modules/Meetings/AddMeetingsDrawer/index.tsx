@@ -1,12 +1,15 @@
 import CommonDrawer from '@/components/CommonDrawer';
-import { AddMeetingsDrawerTypes } from './AddMeetingsDrawer.types';
+import { AddMeetingsDrawerPropsI } from './AddMeetingsDrawer.interface';
 
-export const AddMeetingsDrawer = ({ open }: AddMeetingsDrawerTypes) => {
+export const AddMeetingsDrawer = ({
+  open,
+  setDrawerOpen,
+}: AddMeetingsDrawerPropsI) => {
   return (
     <div>
       <CommonDrawer
         isDrawerOpen={open}
-        setIsDrawerOpen={setIsDrawerOpen}
+        setIsDrawerOpen={setDrawerOpen}
         title="Add New Task"
         submitHandler={() => {}}
         isOk

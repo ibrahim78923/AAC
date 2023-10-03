@@ -5,12 +5,15 @@ import { Box, Button, Grid, Typography } from '@mui/material';
 import { NoMeetings } from './NoMeetings';
 import { MeetingsTable } from './MeetingsTable';
 import { MeetingsTableData } from './MeetingsTable/MeetingsTable.utils';
+import { AddMeetingsDrawer } from './AddMeetingsDrawer';
 
 export const Meeting = () => {
   const [meetingsData, setMeetingsData] = useState([]);
+  const [drawerOpen, setDrawerOpen] = useState(false);
   return (
     <>
       <div className="meeting">
+        <AddMeetingsDrawer open={drawerOpen} setDrawerOpen={setDrawerOpen} />
         <Grid container sx={{ mb: '20px' }}>
           <Grid item xs={6}>
             <Typography variant="h5" fontWeight={500} color="#374151">
@@ -34,10 +37,20 @@ export const Meeting = () => {
               variant="contained"
               sx={{
                 bgcolor: '#fff !important',
-                border: '1px solid #E5E7EB',
+                border: '1px solid #D1D5DB',
                 borderRadius: '4px',
                 color: '#6B7280',
                 fontWeight: '500',
+                '&.Mui-disabled': {
+                  border: '1px solid #E5E7EB',
+                  color: '#D1D5DB',
+                  '& path': {
+                    fill: '#D1D5DB',
+                  },
+                },
+                '& path': {
+                  fill: '#6B7280',
+                },
               }}
             >
               Actions
@@ -48,6 +61,7 @@ export const Meeting = () => {
               }}
               startIcon={<PlusSharedIcon />}
               disableElevation
+              onClick={() => setDrawerOpen(true)}
               variant="contained"
             >
               Add Meeting
@@ -101,7 +115,7 @@ export const Meeting = () => {
             setMeetingsData={setMeetingsData}
           />
         ) : (
-          <NoMeetings />
+          <NoMeetings setDrawerOpen={setDrawerOpen} />
         )}
       </div>
     </>

@@ -2,8 +2,9 @@ import Image from 'next/image';
 import { Box, Button, Grid, Typography } from '@mui/material';
 import { PlusSharedIcon } from '@/assets/icons';
 import { DiscussionImage, TeamsLogo, ZoomLogo } from '@/assets/images';
+import { NoMeetingsPropsI } from './NoMeetings.interface';
 
-export const NoMeetings = () => {
+export const NoMeetings = ({ setDrawerOpen }: NoMeetingsPropsI) => {
   return (
     <>
       <Grid mt="100px" container>
@@ -37,6 +38,7 @@ export const NoMeetings = () => {
             }}
             startIcon={<PlusSharedIcon />}
             disableElevation
+            onClick={() => setDrawerOpen(true)}
             variant="contained"
           >
             Add Meeting
