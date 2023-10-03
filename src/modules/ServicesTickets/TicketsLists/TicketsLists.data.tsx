@@ -6,6 +6,7 @@ export const TABLE_CONSTANTS = {
   CUSTOMIZE_COLUMN: 'customize-column',
   FILTER_DATA: 'filter-data',
   BULK_UPDATE_DATA: 'bulk-update-data',
+  CREATE_NEW_TICKET: 'create-new-ticket',
 };
 
 export const ticketsListsData: any = [

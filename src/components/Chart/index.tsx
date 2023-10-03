@@ -1,6 +1,6 @@
 import dynamic from 'next/dynamic';
 import { ChartStyle } from '.';
-import { CustomChartTypes } from './Chart.types';
+import { CustomChartPropsI } from './Chart.interface';
 import { baroptions } from './Chart.utils';
 
 const ReactApexChart = dynamic(() => import('react-apexcharts'), {
@@ -13,7 +13,7 @@ export const CustomChart = ({
   type,
   height = '312',
   width,
-}: CustomChartTypes) => {
+}: CustomChartPropsI) => {
   return (
     <>
       <ChartStyle />
