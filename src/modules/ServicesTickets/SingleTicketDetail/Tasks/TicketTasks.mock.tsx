@@ -26,11 +26,22 @@ export const data: any = [
     status: 'Done',
   },
 ];
-export const columns: any = (setIsDrawerOpen: any) => [
+export const columns: any = (
+  setIsDrawerOpen: any,
+  handleCheckboxChange: any,
+) => [
   {
     accessorFn: (row: any) => row.Id,
     id: 'Id',
-    cell: (info: any) => <Checkbox color="primary" name={info.getValue()} />,
+    cell: (info: any) => (
+      <Checkbox
+        color="primary"
+        onClick={() => {
+          handleCheckboxChange;
+        }}
+        name={info.getValue()}
+      />
+    ),
     header: <Checkbox color="primary" name="Id" />,
     isSortable: false,
   },

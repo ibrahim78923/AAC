@@ -7,7 +7,11 @@ import { PlusSharedIcon, ActionButtonIcon } from '@/assets/icons';
 import { taskStyles } from './TicketTasks.styles';
 
 export const Tasks = () => {
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
+  const [active, setActive] = useState<boolean>(false);
+  const handleCheckboxChange = (event: any) => {
+    setActive(event.target.checked);
+  };
   return (
     <div>
       <div style={taskStyles?.headContainer}>
@@ -15,7 +19,11 @@ export const Tasks = () => {
           Task
         </Typography>
         <div style={taskStyles?.btnContainer}>
-          <Button sx={taskStyles?.actionBtn} endIcon={<ActionButtonIcon />}>
+          <Button
+            sx={taskStyles?.actionBtn}
+            endIcon={<ActionButtonIcon />}
+            disabled={!active}
+          >
             Action
           </Button>
           <Button
@@ -32,7 +40,10 @@ export const Tasks = () => {
         setIsDrawerOpen={setIsDrawerOpen}
       />
       <br />
-      <TanstackTable columns={columns(setIsDrawerOpen)} data={data} />
+      <TanstackTable
+        columns={columns(setIsDrawerOpen, handleCheckboxChange)}
+        data={data}
+      />
     </div>
   );
 };
