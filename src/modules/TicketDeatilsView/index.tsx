@@ -1,10 +1,7 @@
-import React from 'react';
-import ToofPage from './TopofPage';
-import DetailViewCard from './viewcardDetail';
-
-import DetailTabs from './detailTab';
-import DetailsProperties from './detailsProperties';
-import CustomNotistack from '@/components/CustomNotistack';
+import DetailsProperties from './DetailsProperties';
+import DetailTabs from './DetailTab';
+import ToofPage from './TopOfPage';
+import DetailViewCard from './ViewCardDetail';
 
 export default function TicketDetaile() {
   return (
@@ -13,7 +10,6 @@ export default function TicketDetaile() {
       <DetailViewCard />
       <DetailTabs />
       <DetailsProperties />
-      <CustomNotistack />
     </>
   );
 }

@@ -166,9 +166,9 @@ function DetailsProperties() {
     // formState: { isSubmitting },
   } = methods;
 
-  // const onSubmit = async (data: any) => {
-  //   // console.log(data);
-  // };
+  const onSubmit = async () => {
+    // console.log(data);
+  };
 
   return (
     <>

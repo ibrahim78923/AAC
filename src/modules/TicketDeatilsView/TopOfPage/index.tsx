@@ -1,7 +1,6 @@
 import { Grid, Typography } from '@mui/material';
 import { useTheme } from '@emotion/react';
-import ViewDetailVuesaxIcon from '../../assets/icons/modules/view-detail-Icon/view-details-vuesax-icon';
-import CustomTimePicker from './timepicker';
+import ViewDetailVuesaxIcon from '../../../assets/icons/modules/view-detail-Icon/view-details-vuesax-icon';
 import {
   ViewDetailBackArrowIcon,
   ViewDetailCallIcon,
@@ -10,6 +9,7 @@ import {
 } from '@/assets/icons';
 import SmsImage from '@/assets/images/modules/viewdetails/sms-image.png';
 import Image from 'next/image';
+import CustomTimePicker from './TimePicker';
 
 export default function ToofPage() {
   const theme = useTheme();
@@ -43,7 +43,6 @@ export default function ToofPage() {
         <Grid item sx={{ display: 'flex' }}>
           <ViewDetailVuesaxIcon />
           <CustomTimePicker />
-
           <ViewDetailMeetingIcon />
           <ViewDetailCallIcon />
           <Image src={SmsImage} width={24} height={24} alt="Badge" />

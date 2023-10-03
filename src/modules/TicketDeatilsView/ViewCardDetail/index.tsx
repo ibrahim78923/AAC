@@ -2,8 +2,8 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import { Grid, Typography, Box, Divider } from '@mui/material';
 import Image from 'next/image';
-import BadgeImag from '../../assets/images/modules/viewdetails/_Badge-base-image.png';
-import ViewDetailAvaterImage from '../../assets/images/modules/viewdetails/view-avatar-image.png';
+import BadgeImag from '../../../assets/images/modules/viewdetails/_Badge-base-image.png';
+import ViewDetailAvaterImage from '../../../assets/images/modules/viewdetails/view-avatar-image.png';
 import { useTheme } from '@emotion/react';
 import { ViewDetailDocumentTextIcon } from '@/assets/icons';
 export default function DetailViewCard() {
@@ -35,8 +35,11 @@ export default function DetailViewCard() {
             <Grid container sx={{ maxWidth: '100%' }}>
               <Grid
                 item
-                xl={2.8}
-                xs={2.8}
+                xl={3}
+                sm={5}
+                xs={11}
+                lg={3.5}
+                md={3.3}
                 sx={{ display: 'flex', flexDirection: 'column' }}
               >
                 <Box
@@ -84,15 +87,20 @@ export default function DetailViewCard() {
                   </Typography>
                 </Box>
               </Grid>
+
               <Divider
                 orientation="vertical"
                 flexItem
-                sx={{ background: '#EAECF0', mr: '4rem' }}
+                sx={{ background: '#EAECF0', mr: '2rem', ml: '2rem' }}
               />
+
               <Grid
                 item
-                xs={6}
-                xl={6}
+                xs={11}
+                xl={5}
+                sm={5}
+                lg={4.2}
+                md={4}
                 sx={{ display: 'flex', flexDirection: 'column' }}
               >
                 <Box
@@ -106,7 +114,7 @@ export default function DetailViewCard() {
                     variant="body1"
                     sx={{
                       ...margin_2,
-                      width: '80%', // Set width to 50%
+                      width: '80%',
                     }}
                   >
                     Hi Team,
@@ -133,12 +141,14 @@ export default function DetailViewCard() {
                   </Typography>
                 </Box>
               </Grid>
+
               <Divider
                 orientation="vertical"
                 flexItem
-                sx={{ background: '#EAECF0', mr: '4rem' }}
+                sx={{ background: '#EAECF0', mr: '2rem', ml: '2rem' }}
               />
-              <Grid item xs={2.2} xl={2.2}>
+
+              <Grid item xs={11} xl={3} sm={3.5} lg={2.8} md={3}>
                 <Box
                   sx={{
                     display: 'flex',
