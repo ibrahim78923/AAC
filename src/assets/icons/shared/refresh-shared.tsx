@@ -1,6 +1,6 @@
 import React from 'react';
 
-const refreshShared = () => {
+const RefreshShared = () => {
   return (
     <svg
       width="18"
@@ -18,4 +18,4 @@ const refreshShared = () => {
   );
 };
 
-export default refreshShared;
+export default RefreshShared;
