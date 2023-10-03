@@ -20,12 +20,12 @@ export const styles = {
       margin: '0 12px',
     },
   },
-  innerBox1: {
+  innerBoxOne: {
     display: 'flex',
     alignItems: 'flex-start',
     justifyContent: 'space-between',
   },
-  innerBox2: {
+  innerBoxTwo: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'flex-start',
