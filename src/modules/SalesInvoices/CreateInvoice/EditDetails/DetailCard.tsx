@@ -1,44 +1,29 @@
 import React from 'react';
 import { Box, Stack, Typography } from '@mui/material';
+import {
+  clientDetails,
+  cardDetails,
+  invoiceDetail,
+} from '@/mock/modules/SalesInvoices/index';
 import { LogoSharedIcon } from '@/assets/icons';
+import { useTheme } from '@mui/material/styles';
 import { v4 as uuidv4 } from 'uuid';
 
-const DetailCard = () => {
-  const style = {
-    cardDetails: {
-      padding: '10px 20px',
-      bgcolor: '#1F305D',
-      color: '#fff',
-      borderRadius: '6px',
-    },
-  };
+const style = {
+  cardDetails: {
+    padding: '10px 20px',
+    bgcolor: '#1F305D',
+    color: '#fff',
+    borderRadius: '6px',
+  },
+};
 
-  const cardDetails = [
-    {
-      label: 'Air Applecart',
-      details: [
-        { title: '123 street Address' },
-        { title: 'City | State | Zip Code' },
-        { title: 'Phone No' },
-        { title: 'Company Email' },
-      ],
-    },
-  ];
-  const clientDetails = [
-    {
-      label: 'Client Information',
-      details: [
-        { title: '123 street Address' },
-        { title: 'City | State | Zip Code' },
-        { title: 'Phone No' },
-        { title: 'Company Email' },
-      ],
-    },
-  ];
+const DetailCard = () => {
+  const theme = useTheme();
 
   return (
-    <Box sx={style?.cardDetails}>
-      <Box className="air-apple-card">
+    <Box>
+      <Box sx={style?.cardDetails} className="air-apple-card">
         <Stack
           gap={2}
           direction={{ xs: 'column', md: 'row' }}
@@ -67,6 +52,19 @@ const DetailCard = () => {
               </Stack>
             ))}
           </Box>
+        </Stack>
+      </Box>
+      <Box
+        className="invoice-detail"
+        sx={{ marginTop: '20px', p: '10px', bgcolor: theme.palette?.grey[100] }}
+      >
+        <Stack direction="row" justifyContent="space-between">
+          {invoiceDetail?.map((item) => (
+            <Stack direction="row" gap="3px" key={uuidv4()}>
+              <Typography sx={{ fontWeight: 'bold' }}>{item.title}:</Typography>
+              <Typography>{item.value}</Typography>
+            </Stack>
+          ))}
         </Stack>
       </Box>
     </Box>

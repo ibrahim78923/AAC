@@ -7,8 +7,8 @@ import {
   Select,
   Stack,
 } from '@mui/material';
-import { FilterAlt } from '@mui/icons-material';
 import CommonDrawer from '@/components/Drawer';
+import { FilterAlt } from '@mui/icons-material';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 interface IFormInput {
@@ -21,7 +21,9 @@ const FilterDrawer = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const { register, handleSubmit } = useForm<IFormInput>();
-  const onSubmit: SubmitHandler<IFormInput> = () => {};
+  const onSubmit: SubmitHandler<IFormInput> = () => {
+    // console.log(data);
+  };
 
   return (
     <Box>
@@ -39,7 +41,7 @@ const FilterDrawer = () => {
         setIsDrawerOpen={setIsDrawerOpen}
         title="Filters"
         isOk={true}
-        submitHandler={() => {}}
+        submitHandler={handleSubmit(onSubmit)}
       >
         <form onSubmit={handleSubmit(onSubmit)}>
           <Stack gap={3}>
@@ -68,7 +70,6 @@ const FilterDrawer = () => {
               </Select>
             </FormControl>
           </Stack>
-          {/* <input type="submit" /> */}
         </form>
       </CommonDrawer>
     </Box>
