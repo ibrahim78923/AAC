@@ -37,5 +37,5 @@ export { default as CrossImage } from './modules/HeaderAndSidebar/cross.png';
 export { default as NotificationAvatarImage } from './modules/HeaderAndSidebar/notification-avatar.png';
 export { default as ArrowSquareLeftImage } from './modules/HeaderAndSidebar/arrow-square-left.png';
 export { default as DiscussionImage } from '../../assets/images/modules/tickets/meetings/discussion.png';
-export { default as TeamsLogo } from '../../assets/images/modules/tickets/meetings/teams.png';
-export { default as ZoomLogo } from '../../assets/images/modules/tickets/meetings/zoom.png';
+export { default as TeamsImage } from '../../assets/images/modules/tickets/meetings/teams.png';
+export { default as ZoomImage } from '../../assets/images/modules/tickets/meetings/zoom.png';

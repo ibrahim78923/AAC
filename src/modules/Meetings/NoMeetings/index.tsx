@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { Box, Button, Grid, Typography } from '@mui/material';
 import { PlusSharedIcon } from '@/assets/icons';
-import { DiscussionImage, TeamsLogo, ZoomLogo } from '@/assets/images';
+import { DiscussionImage, ZoomImage, TeamsImage } from '@/assets/images';
 import { NoMeetingsPropsI } from './NoMeetings.interface';
 
 export const NoMeetings = ({ setDrawerOpen }: NoMeetingsPropsI) => {
@@ -66,8 +66,8 @@ export const NoMeetings = ({ setDrawerOpen }: NoMeetingsPropsI) => {
                 alignItems: 'center',
               }}
             >
-              <Image alt="Teams Logo" src={TeamsLogo} />
-              <Image alt="Zoom Logo" src={ZoomLogo} />
+              <Image alt="Teams Logo" src={TeamsImage} />
+              <Image alt="Zoom Logo" src={ZoomImage} />
             </Box>
           </Box>
         </Grid>
