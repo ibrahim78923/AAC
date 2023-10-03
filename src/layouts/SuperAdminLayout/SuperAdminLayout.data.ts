@@ -150,7 +150,7 @@ export const LowerSuperAdminRoutes = [
     label: 'Setting',
     icon: SettingImage,
     role: 'super-admin',
-    key: 'settings',
+    key: 'super-admin-dashboard',
     textNames: [
       {
         key: 'super-admin-reports',

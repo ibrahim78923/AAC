@@ -33,7 +33,7 @@ import { SuperAdminLayoutStyles } from './SuperAdminLayout.style';
 import { v4 as uuidv4 } from 'uuid';
 
 const drawerWidth = 220;
-const role = 'AIR_SALES';
+const role = 'SUPER_ADMIN';
 const SuperAdminLayout = (props: SuperAdminLayoutI) => {
   const theme = useTheme();
   const { window, children } = props;
@@ -129,7 +129,7 @@ const SuperAdminLayout = (props: SuperAdminLayoutI) => {
                           {link.textNames.map((subItem: any) => (
                             <ListItem
                               key={subItem.key}
-                              sx={{ padding: '6px 0px' }}
+                              sx={{ padding: '2px 0px' }}
                             >
                               <ListItemButton
                                 sx={SuperAdminLayoutStyles.collapseMenu(
@@ -138,7 +138,7 @@ const SuperAdminLayout = (props: SuperAdminLayoutI) => {
                                   theme,
                                 )}
                               >
-                                <Link href={`/${subItem.key}`}>
+                                <Link href={`${subItem.key}`}>
                                   {subItem.label}
                                 </Link>
                               </ListItemButton>
@@ -186,7 +186,7 @@ const SuperAdminLayout = (props: SuperAdminLayoutI) => {
                   {link.textNames ? (
                     <>
                       <ListItem sx={{ padding: '6px 0px 6px 0px' }}>
-                        <Link href={`${link.key}`}>
+                        <Link href={`${link.key}`} style={{ width: '100%' }}>
                           <ListItemButton
                             sx={SuperAdminLayoutStyles.mainNavLink(
                               link,
@@ -232,7 +232,7 @@ const SuperAdminLayout = (props: SuperAdminLayoutI) => {
                           {link.textNames.map((subItem) => (
                             <ListItem
                               key={subItem.key}
-                              sx={{ padding: '6px 0px' }}
+                              sx={{ padding: '2px 0px' }}
                             >
                               <ListItemButton
                                 sx={SuperAdminLayoutStyles.collapseMenu(
@@ -241,7 +241,7 @@ const SuperAdminLayout = (props: SuperAdminLayoutI) => {
                                   theme,
                                 )}
                               >
-                                <Link href={`/${subItem.key}`}>
+                                <Link href={`${subItem.key}`}>
                                   {subItem.label}
                                 </Link>
                               </ListItemButton>
