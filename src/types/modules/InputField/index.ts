@@ -1,4 +1,4 @@
-export interface InterfaceInputTextField {
+export interface InputPropsI {
   field: any;
   name: string;
   placeholder: string;
