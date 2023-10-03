@@ -2,6 +2,7 @@ import {
   RHFDatePicker,
   RHFSelect,
   RHFTextField,
+  RHFTimePicker,
 } from '@/components/ReactHookForm';
 export const dataArray = [
   {
@@ -34,8 +35,8 @@ export const dataArray = [
   },
   {
     componentProps: {
-      name: 'Priority *',
-      label: 'Priority *',
+      name: 'priority',
+      label: 'Priority',
       fullWidth: true,
       select: true,
     },
@@ -58,7 +59,7 @@ export const dataArray = [
   },
   {
     componentProps: {
-      name: 'Urgency',
+      name: 'urgency',
       label: 'Urgency',
       fullWidth: true,
       select: true,
@@ -206,8 +207,8 @@ export const dataArray = [
   },
   {
     componentProps: {
-      name: 'Planned start Date',
-      label: 'Planned start Date',
+      name: 'plannedStartDate',
+      label: 'Planned Start Date',
       fullWidth: true,
       select: true,
     },
@@ -222,12 +223,11 @@ export const dataArray = [
   },
   {
     componentProps: {
-      name: 'Planned start Date',
-      label: 'Planned start Date',
+      name: 'plannedStartTime',
+      label: '',
       fullWidth: true,
-      value: '02:56',
     },
-    component: RHFTextField,
+    component: RHFTimePicker,
     md: 2,
   },
 
@@ -250,11 +250,10 @@ export const dataArray = [
   {
     componentProps: {
       name: 'Planned start Date',
-      label: 'Planned start Date',
+      label: '',
       fullWidth: true,
-      value: '02:56',
     },
-    component: RHFTextField,
+    component: RHFTimePicker,
     md: 2,
   },
   {
@@ -262,7 +261,6 @@ export const dataArray = [
       name: 'Planned Effort',
       label: 'Planned Effort',
       fullWidth: true,
-      value: 'Eg: 1h 10m',
     },
     component: RHFTextField,
     md: 4,

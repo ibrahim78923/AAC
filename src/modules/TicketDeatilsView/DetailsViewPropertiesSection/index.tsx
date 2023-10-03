@@ -4,7 +4,8 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import { uuid } from 'uuidv4';
-import { dataArray } from './DetailsViewPropeSect.Data';
+import { dataArray } from './DetailsViewPropeSect.data';
+
 function DetailsVeiwPropSect() {
   const methods: any = useForm({
     resolver: yupResolver(

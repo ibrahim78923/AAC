@@ -141,7 +141,7 @@ export default function DetailViewCard() {
                       component="span"
                       variant="h6"
                       sx={{
-                        color: theme?.palette?.ButtonTyDeal?.main,
+                        color: theme?.palette?.primary?.main,
                         ml: '1rem',
                         textDecoration: 'underline',
                       }}
