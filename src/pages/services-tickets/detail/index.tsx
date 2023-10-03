@@ -1,12 +1,7 @@
 import Layout from '@/layout';
 import { SingleTicketDetail } from '@/modules/ServicesTickets/SingleTicketDetail';
-
 const SingleTicketDetailPage = () => {
-  return (
-    <>
-      <SingleTicketDetail />
-    </>
-  );
+  return <SingleTicketDetail />;
 };
 
 SingleTicketDetailPage.getLayout = function getLayout(page: any) {

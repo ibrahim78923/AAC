@@ -23,7 +23,7 @@ import { flexRender } from '@tanstack/react-table';
 const TanstackTable = ({
   columns,
   data,
-  rootSX = {},
+  rootSX,
   showSerialNo = false,
 }: any) => {
   const table = useTanstackTable(data, columns, showSerialNo);

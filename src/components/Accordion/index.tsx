@@ -1,24 +1,21 @@
-import { useState } from 'react';
-import { AccordionItem } from './AccordionItem.type';
+import { AccordionItemI } from './AccordionItem.type';
 import { AccordionSummary, Collapse } from '@mui/material';
-import { ArrowUp, ArrowDownIcon } from '@/assets/icons';
+import { ArrowUpIcon, ArrowDownIcon } from '@/assets/icons';
+import { UseAccordionItem } from './UseAccordionItem';
 import { styles } from './AccordionItem.style';
 
-const AccordionItem: React.FC<AccordionItem> = ({ sectionTitle, children }) => {
-  const [isActive, setIsActive] = useState(false);
-
+const AccordionItem: React.FC<AccordionItemI> = ({
+  sectionTitle,
+  children,
+}) => {
+  const { handleAccordionClick, isActive } = UseAccordionItem();
   const styleArr = styles(isActive);
-
-  const handleAccordionClick = () => {
-    setIsActive(!isActive);
-  };
-
   return (
     <div>
       <AccordionSummary
         style={styleArr[0].accordionStyle}
         onClick={handleAccordionClick}
-        expandIcon={isActive ? <ArrowUp /> : <ArrowDownIcon />}
+        expandIcon={isActive ? <ArrowUpIcon /> : <ArrowDownIcon />}
       >
         {sectionTitle}
       </AccordionSummary>
