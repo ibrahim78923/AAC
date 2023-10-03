@@ -36,7 +36,8 @@ const BillingAndInvoicesTable = () => {
               searchBy={searchByClientName}
               setSearchBy={setSearchByClientName}
               label="Search By Name"
-              width="260px"
+              size="small"
+              fullWidth
             />
           </Grid>
         </Grid>

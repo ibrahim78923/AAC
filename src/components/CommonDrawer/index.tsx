@@ -25,17 +25,7 @@ const CommonDrawer = ({
 }: CommonDrawerPropsI) => {
   const theme = useTheme();
   return (
-    <Drawer
-      open={isDrawerOpen}
-      onClose={onClose}
-      anchor="right"
-      sx={{
-        '& .MuiDrawer-paperAnchorRight': {
-          borderRadius: '30px 0px 0px 30px',
-          color: theme?.palette?.grey[600],
-        },
-      }}
-    >
+    <Drawer open={isDrawerOpen} onClose={onClose} anchor="right">
       <Box
         display="flex"
         flexDirection="column"

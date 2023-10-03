@@ -1,9 +1,8 @@
-import SuperAdminLayout from '@/layouts/SuperAdminLayout';
-
-function UserManagementPage() {
+import Layout from '@/layouts/Layout';
+const UserManagementPage = () => {
   return <div>User Management Page</div>;
-}
+};
 export default UserManagementPage;
 UserManagementPage.getLayout = function getLayout(page: any) {
-  return <SuperAdminLayout>{page}</SuperAdminLayout>;
+  return <Layout>{page}</Layout>;
 };
