@@ -1,17 +1,17 @@
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import { Grid, IconButton, Pagination, TablePagination } from '@mui/material';
-import { CustomPaginationProps } from './CustomPagination.interface';
+import { CustomPaginationPropsI } from './CustomPagination.interface';
 import { useCustomPaginationState } from './useCustomPagination';
 
 import {
   paddingStyle,
   iconStyle,
-  iconStyle2,
+  iconStyleTwo,
   tablePaginationStyle,
 } from './CustomPagination.style';
 
-const CustomPagination: React.FC<CustomPaginationProps> = ({
+const CustomPagination: React.FC<CustomPaginationPropsI> = ({
   count,
   rowsPerPageOptions,
   entriePages,
@@ -55,7 +55,7 @@ const CustomPagination: React.FC<CustomPaginationProps> = ({
           <IconButton
             disabled={page === 1}
             onClick={() => handleChangePage(page - 1)}
-            sx={iconStyle2}
+            sx={iconStyleTwo}
           >
             <ArrowCircleLeftIcon />
           </IconButton>

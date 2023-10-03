@@ -25,7 +25,7 @@ export const iconStyle = {
   margin: '0',
 };
 
-export const iconStyle2 = {
+export const iconStyleTwo = {
   padding: '8px',
   borderRadius: '8px 0 0 8px',
   height: '40px',
@@ -62,5 +62,8 @@ export const tablePaginationStyle = {
   },
   '& .MuiTablePagination-actions': {
     display: 'none',
+  },
+  '& .MuiTablePagination-selectIcon': {
+    margin: '2px 5px 0 0',
   },
 };
