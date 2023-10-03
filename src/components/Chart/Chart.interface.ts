@@ -1,5 +1,5 @@
 import { ApexOptions } from 'apexcharts';
-export interface CustomChartTypes {
+export interface CustomChartPropsI {
   options: ApexOptions;
   series: ApexAxisChartSeries;
   type:
