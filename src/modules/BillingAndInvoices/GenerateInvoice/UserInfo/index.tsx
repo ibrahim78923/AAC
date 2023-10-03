@@ -13,14 +13,8 @@ import {
 import { LogoSharedIcon } from '@/assets/icons';
 import { AvatarImage } from '@/assets/images';
 
-const styles = {
-  mainCardBox: (theme: Theme) => ({
-    backgroundColor: theme?.blue?.main,
-  }),
-  airAppleCardHeading: (theme: Theme) => ({
-    color: theme?.common?.white,
-  }),
-};
+import { styles } from './UserInfo.style';
+
 const UserInfo = () => {
   const theme = useTheme<Theme>();
   return (

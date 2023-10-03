@@ -64,6 +64,10 @@ const typography = {
     lineHeight: 22 / 14,
     fontSize: pxToRem(14),
   },
+  body3: {
+    lineHeight: 22 / 14,
+    fontSize: pxToRem(12),
+  },
   caption: {
     lineHeight: 1.5,
     fontSize: pxToRem(16),
@@ -106,6 +110,7 @@ declare module '@mui/material/Typography' {
   interface TypographyPropsVariantOverrides {
     formTopHeading: true;
     customStyle: true;
+    body3: true;
   }
 }
 
