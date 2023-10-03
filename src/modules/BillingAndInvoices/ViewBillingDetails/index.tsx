@@ -1,6 +1,6 @@
 import { Grid, Typography } from '@mui/material';
 
-import CommonDrawer from '@/components/Drawer';
+import CommonDrawer from '@/components/CommonDrawer';
 
 import { ViewBillingDetailsPropsI } from '@/types/modules/BillingAndDetails';
 
