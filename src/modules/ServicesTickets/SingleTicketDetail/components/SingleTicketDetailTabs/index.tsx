@@ -5,7 +5,7 @@ import { RelatedTickets } from '../../RelatedTickets';
 import { Assests } from '../../Assests';
 import { Associations } from '../../Associations';
 import { Details } from '../../Details';
-import { Meetings } from '../../Meetings';
+import { Meetings } from '../../Details/Meetings';
 import { Activities } from '../../Activities';
 import { Conversations } from '../../Conversations';
 
