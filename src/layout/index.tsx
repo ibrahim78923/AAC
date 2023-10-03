@@ -24,12 +24,13 @@ import { isNullOrEmpty } from '@/utils';
 
 import { LayoutI } from './Layout.interface';
 
+import { getLowerRoutes, getRoutes } from './Layout.data';
+
 import { ArrowDownImage, ArrowUpImage, LogoImage } from '@/assets/images';
 
 import { styles } from './Layout.style';
 
 import { v4 as uuidv4 } from 'uuid';
-import { getLowerRoutes, getRoutes } from './Layout.data';
 
 const drawerWidth = 220;
 const role = 'SUPER_ADMIN';
@@ -43,13 +44,13 @@ const Layout = (props: LayoutI) => {
   const lowerRoutes = getLowerRoutes(role);
 
   const [isMobileOpen, setIsMobileOpen] = useState(false);
-  const [isDropDownOpen, setIsDropDownOpen] = useState<any>({});
+  const [dropDownOpen, setDropDownOpen] = useState<any>({});
 
   const handleDrawerToggle = () => {
     setIsMobileOpen(!isMobileOpen);
   };
   const toggleDropDown = (linkKey: any) => {
-    setIsDropDownOpen((prevState: any) => ({
+    setDropDownOpen((prevState: any) => ({
       ...prevState,
       [linkKey]: !prevState[linkKey],
     }));
@@ -70,7 +71,7 @@ const Layout = (props: LayoutI) => {
         <Box>
           <List>
             {!isNullOrEmpty(routes) &&
-              routes.map((link) => (
+              routes.map((link: any) => (
                 <div key={uuidv4()}>
                   {link.textNames ? (
                     <>
@@ -93,7 +94,7 @@ const Layout = (props: LayoutI) => {
                                 style={{
                                   opacity:
                                     router.pathname === link.key ||
-                                    isDropDownOpen[link.key]
+                                    dropDownOpen[link.key]
                                       ? '1'
                                       : '0.4',
                                 }}
@@ -105,7 +106,7 @@ const Layout = (props: LayoutI) => {
                             <Box sx={{ paddingLeft: '15px' }}>
                               <Image
                                 src={
-                                  isDropDownOpen[link.key]
+                                  dropDownOpen[link.key]
                                     ? ArrowUpImage
                                     : ArrowDownImage
                                 }
@@ -116,14 +117,14 @@ const Layout = (props: LayoutI) => {
                         </Link>
                       </ListItem>
                       <Collapse
-                        in={isDropDownOpen[link.key]}
+                        in={dropDownOpen[link.key]}
                         timeout="auto"
                         unmountOnExit
                       >
                         <List component="div" disablePadding>
                           {link.textNames.map((subItem: any) => (
                             <ListItem
-                              key={subItem.key}
+                              key={uuidv4()}
                               sx={{ padding: '2px 0px' }}
                             >
                               <ListItemButton
@@ -168,8 +169,8 @@ const Layout = (props: LayoutI) => {
         <Box sx={{ paddingBottom: '20px' }}>
           <List>
             {!isNullOrEmpty(lowerRoutes) &&
-              lowerRoutes.map((link) => (
-                <div key={link.key}>
+              lowerRoutes.map((link: any) => (
+                <div key={uuidv4()}>
                   {link.textNames ? (
                     <>
                       <ListItem sx={{ padding: '6px 0px 6px 0px' }}>
@@ -185,7 +186,7 @@ const Layout = (props: LayoutI) => {
                                 style={{
                                   opacity:
                                     router.pathname === link.key ||
-                                    isDropDownOpen[link.key]
+                                    dropDownOpen[link.key]
                                       ? '1'
                                       : '0.4',
                                 }}
@@ -196,7 +197,7 @@ const Layout = (props: LayoutI) => {
                             <Box sx={{ paddingLeft: '20px' }}>
                               <Image
                                 src={
-                                  isDropDownOpen[link.key]
+                                  dropDownOpen[link.key]
                                     ? ArrowUpImage
                                     : ArrowDownImage
                                 }
@@ -207,14 +208,14 @@ const Layout = (props: LayoutI) => {
                         </Link>
                       </ListItem>
                       <Collapse
-                        in={isDropDownOpen[link.key]}
+                        in={dropDownOpen[link.key]}
                         timeout="auto"
                         unmountOnExit
                       >
                         <List component="div" disablePadding>
-                          {link.textNames.map((subItem) => (
+                          {link.textNames.map((subItem: any) => (
                             <ListItem
-                              key={subItem.key}
+                              key={uuidv4()}
                               sx={{ padding: '2px 0px' }}
                             >
                               <ListItemButton

@@ -1,4 +1,4 @@
-import Layout from '@/layouts/Layout';
+import Layout from '@/layout';
 
 const PlanManagementPage = () => {
   return <div>Plan Management Page</div>;
