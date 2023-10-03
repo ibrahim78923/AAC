@@ -2,20 +2,7 @@ import React, { FC, useEffect } from 'react';
 import { Box, Button, Typography, Stack } from '@mui/material';
 import { useRouter } from 'next/router';
 import { PlanCardProps } from './interface';
-import {
-  planCard,
-  planStatus,
-  planActiveChip,
-  planIcon,
-  planTitle,
-  planPlan,
-  planStrip,
-  planPrice,
-  planBillOn,
-  planActions,
-  planType,
-  buttonOutlineGrey,
-} from './styles';
+import { styles } from './styles';
 
 const PlanCard: FC<PlanCardProps> = ({
   status,
@@ -43,40 +30,45 @@ const PlanCard: FC<PlanCardProps> = ({
   /* RENDER COMPONENT
   -------------------------------------------------------------------------------------*/
   return (
-    <Box sx={planCard}>
-      <Box sx={planStatus}>
-        {status === 'active' && <Box sx={planActiveChip}>Active</Box>}
+    <Box sx={styles.planCard}>
+      <Box sx={styles.planStatus}>
+        {status === 'active' && <Box sx={styles.planActiveChip}>Active</Box>}
       </Box>
 
-      <Box sx={planIcon}>{icon}</Box>
+      <Box sx={styles.planIcon}>{icon}</Box>
 
-      <Typography variant={`h5`} sx={planTitle}>
+      <Typography variant={`h6`} sx={styles.planTitle}>
         {title}
       </Typography>
 
-      <Box sx={planPlan}>
-        <Box component={'span'} sx={{ color: '#9CA3AF' }}>
+      <Box sx={styles.planPlan}>
+        <Box component={'span'} sx={styles.planPlanLight}>
           {planDuration}{' '}
         </Box>
         ({planUsers} users / {planData})
       </Box>
 
-      <Box sx={planStrip}>
-        <Box sx={planPrice}>£{price}</Box>
-        <Typography variant="body2" sx={planBillOn}>
+      <Box sx={styles.planStrip}>
+        <Box sx={styles.planPrice}>£{price}</Box>
+        <Typography variant="body2" sx={styles.planBillOn}>
           {status === 'active' ? `To be billed on ${billOn}` : '-'}
         </Typography>
       </Box>
 
-      <Box sx={planType}>{type}</Box>
+      <Box sx={styles.planType}>{type}</Box>
 
-      <Stack spacing={'12px'} useFlexGap direction={'row'} sx={planActions}>
+      <Stack
+        spacing={'12px'}
+        useFlexGap
+        direction={'row'}
+        sx={styles.planActions}
+      >
         <Button variant="contained" onClick={handleBillingDetail}>
           Billing Details
         </Button>
         <Button
           variant="outlined"
-          sx={buttonOutlineGrey}
+          sx={styles.buttonOutlineGrey}
           onClick={() => router.push('/subscription-invoices/manage-plan')}
         >
           Manage Plan

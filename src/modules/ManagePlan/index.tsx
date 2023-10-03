@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { IconPlane } from '@/assets/icons';
+import { styles } from './styles';
 import {
   Box,
   Typography,
@@ -15,21 +16,6 @@ import {
   Chip,
   Stack,
 } from '@mui/material';
-import {
-  cardStyle,
-  cardHeaderStyle,
-  cardHeaderIconStyle,
-  cardHeaderActionStyle,
-  dividerStyle,
-  planSelectionRow,
-  planSelectionForm,
-  planTableRow,
-  planTableTd,
-  planTableTdBold,
-  planTableTh,
-  updateSubscriptionStyle,
-  cancelButtonStyle,
-} from './styles';
 
 const ManagePlan = () => {
   /* VARIABLE DECLARATION
@@ -51,15 +37,15 @@ const ManagePlan = () => {
   -------------------------------------------------------------------------------------*/
   return (
     <>
-      <Box sx={cardStyle}>
-        <Box sx={cardHeaderStyle}>
-          <Box sx={cardHeaderIconStyle}>
+      <Box sx={styles.card}>
+        <Box sx={styles.cardHeader}>
+          <Box sx={styles.cardHeaderIcon}>
             <IconPlane />
           </Box>
           <Typography variant="h6" sx={{ fontWeight: '600' }}>
             Sales
           </Typography>
-          <Box sx={cardHeaderActionStyle}>
+          <Box sx={styles.cardHeaderAction}>
             <Button
               onClick={() => router.push('/subscription-invoices/choose-plan')}
             >
@@ -68,9 +54,9 @@ const ManagePlan = () => {
           </Box>
         </Box>
 
-        <Box sx={dividerStyle}></Box>
+        <Box sx={styles.divider}></Box>
 
-        <Box sx={planSelectionRow}>
+        <Box sx={styles.planSelectionRow}>
           <Typography
             variant="body1"
             sx={{ color: 'secondary.main', mr: '24px' }}
@@ -78,7 +64,7 @@ const ManagePlan = () => {
             <Box>Plan</Box>
             <Box sx={{ mt: '12px' }}>Growth</Box>
           </Typography>
-          <Box sx={planSelectionForm}>
+          <Box sx={styles.planSelectionForm}>
             <Grid container spacing={3}>
               <Grid item xs={4}>
                 <FormControl fullWidth>
@@ -114,74 +100,74 @@ const ManagePlan = () => {
       </Box>
 
       {/* Subscription  Summary */}
-      <Box sx={cardStyle}>
+      <Box sx={styles.card}>
         <Typography variant="h5" sx={{ color: '#111827', mb: '28px' }}>
           Subscription Summary
         </Typography>
-        <Box sx={cardHeaderStyle}>
-          <Box sx={cardHeaderIconStyle}>
+        <Box sx={styles.cardHeader}>
+          <Box sx={styles.cardHeaderIcon}>
             <IconPlane />
           </Box>
           <Typography variant="h6" sx={{ fontWeight: '600' }}>
             Sales
           </Typography>
-          <Box sx={cardHeaderActionStyle}>
+          <Box sx={styles.cardHeaderAction}>
             <Chip label={'Paid Monthly'} color="primary" />
           </Box>
         </Box>
 
-        <Box sx={dividerStyle}></Box>
+        <Box sx={styles.divider}></Box>
 
         <Typography variant="h6" sx={{ fontWeight: '600' }}>
           Growth Plan
         </Typography>
 
-        <Box sx={planTableRow}>
-          <Box sx={planTableTd}>Plan Price</Box>
-          <Box sx={planTableTh}>£ 20</Box>
+        <Box sx={styles.planTableRow}>
+          <Box sx={styles.planTableTd}>Plan Price</Box>
+          <Box sx={styles.planTableTh}>£ 20</Box>
         </Box>
-        <Box sx={planTableRow}>
-          <Box sx={planTableTd}>
+        <Box sx={styles.planTableRow}>
+          <Box sx={styles.planTableTd}>
             3 Additional Users{' '}
             <Box component="span" sx={{ fontSize: '12px' }}>
               (£ 15/user)
             </Box>
           </Box>
-          <Box sx={planTableTh}>£ 45</Box>
+          <Box sx={styles.planTableTh}>£ 45</Box>
         </Box>
-        <Box sx={planTableRow}>
-          <Box sx={planTableTd}>
+        <Box sx={styles.planTableRow}>
+          <Box sx={styles.planTableTd}>
             Additional Storage{' '}
             <Box component="span" sx={{ fontSize: '12px' }}>
               (£ 1/GB)
             </Box>
           </Box>
-          <Box sx={planTableTh}>£ 1</Box>
+          <Box sx={styles.planTableTh}>£ 1</Box>
         </Box>
-        <Box sx={planTableRow}>
-          <Box sx={planTableTdBold}>
+        <Box sx={styles.planTableRow}>
+          <Box sx={styles.planTableTdBold}>
             Discount{' '}
             <Box component="span" sx={{ fontSize: '12px' }}>
               (10%)
             </Box>
           </Box>
-          <Box sx={planTableTh}>-£ 10</Box>
+          <Box sx={styles.planTableTh}>-£ 10</Box>
         </Box>
-        <Box sx={planTableRow}>
-          <Box sx={planTableTdBold}>
+        <Box sx={styles.planTableRow}>
+          <Box sx={styles.planTableTdBold}>
             Tax{' '}
             <Box component="span" sx={{ fontSize: '12px' }}>
               (Vat 20%)
             </Box>
           </Box>
-          <Box sx={planTableTh}>£ 27</Box>
+          <Box sx={styles.planTableTh}>£ 27</Box>
         </Box>
 
-        <Box sx={dividerStyle}></Box>
+        <Box sx={styles.divider}></Box>
 
-        <Box sx={planTableRow}>
-          <Box sx={planTableTdBold}>Total Cost</Box>
-          <Box sx={planTableTh}>£ 158</Box>
+        <Box sx={styles.planTableRow}>
+          <Box sx={styles.planTableTdBold}>Total Cost</Box>
+          <Box sx={styles.planTableTh}>£ 158</Box>
         </Box>
       </Box>
 
@@ -189,9 +175,14 @@ const ManagePlan = () => {
         spacing={'12px'}
         useFlexGap
         direction={'row'}
-        sx={updateSubscriptionStyle}
+        sx={styles.updateSubscription}
       >
-        <Button sx={cancelButtonStyle}>Cancel</Button>
+        <Button
+          sx={styles.cancelButton}
+          onClick={() => router.push('/subscription-invoices')}
+        >
+          Cancel
+        </Button>
         <Button variant="contained" color="primary">
           Update Subscription
         </Button>

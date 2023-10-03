@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Tab, Box } from '@mui/material';
 import { TabList, TabPanel, TabContext } from '@mui/lab';
+import { Tab, Box } from '@mui/material';
+import PaymentMethods from './PaymentMethods';
 import Subscriptions from './Subscriptions';
+import Invoices from './Invoices';
 
 function SubscriptionInvoices() {
   /* VARIABLE DECLARATION
@@ -37,8 +39,12 @@ function SubscriptionInvoices() {
           <TabPanel value="subscription">
             <Subscriptions />
           </TabPanel>
-          <TabPanel value="invoices">Item Two</TabPanel>
-          <TabPanel value="paymentMethods">Item Three</TabPanel>
+          <TabPanel value="invoices">
+            <Invoices />
+          </TabPanel>
+          <TabPanel value="paymentMethods">
+            <PaymentMethods />
+          </TabPanel>
         </Box>
       </TabContext>
     </>

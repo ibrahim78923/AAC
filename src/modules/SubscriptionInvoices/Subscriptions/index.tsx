@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from 'react';
-
 import { Grid } from '@mui/material';
-
 import PlanCard from './PlanCard';
 import BillingDetail from './BillingDetail';
-
 import {
   IconProductSales,
   IconProductService,
@@ -124,10 +121,14 @@ function Subscriptions() {
   -------------------------------------------------------------------------------------*/
   return (
     <>
-      <Grid container rowSpacing={'24px'} columnSpacing={'60px'}>
+      <Grid
+        container
+        rowSpacing={'24px'}
+        columnSpacing={{ xs: '24px', xl: '60px' }}
+      >
         {data?.map((plan: any) => {
           return (
-            <Grid item key={plan.id} xs={4}>
+            <Grid item key={plan.id} xs={12} md={6} lg={4}>
               <PlanCard
                 status={plan.status}
                 icon={getProductIcon(plan.product)}

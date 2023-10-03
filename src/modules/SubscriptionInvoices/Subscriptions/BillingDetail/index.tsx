@@ -41,8 +41,8 @@ const BillingDetail: FC<BillingDetailProps> = ({ open, onClose }) => {
           mt: '14px',
         }}
       >
-        <Box sx={{}}>Feb 2,2023</Box>
-        <Box sx={{}}>After £400.00 custom</Box>
+        <Box>Feb 2,2023</Box>
+        <Box>After £400.00 custom</Box>
       </Box>
     </CommonDrawer>
   );

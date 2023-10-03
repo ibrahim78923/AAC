@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { IconArrowBack, IconTickCircle } from '@/assets/icons';
+import { styles } from './styles';
+import Counter from './Counter';
 import {
   Box,
   Typography,
@@ -11,8 +13,6 @@ import {
   TableRow,
   Button,
 } from '@mui/material';
-import { styles } from './styles';
-import Counter from './Counter';
 
 const ChoosePlan = () => {
   /* VARIABLE DECLARATION
@@ -43,6 +43,7 @@ const ChoosePlan = () => {
       <TableContainer sx={styles.tableContainer}>
         <Table sx={styles.table}>
           <TableBody>
+            {/* Table Head Row */}
             <TableRow sx={styles.tableHead}>
               <TableCell
                 rowSpan={3}
@@ -61,6 +62,7 @@ const ChoosePlan = () => {
               <TableCell component="th">Premium Plan</TableCell>
             </TableRow>
 
+            {/* Plan Price Row */}
             <TableRow>
               <TableCell sx={styles.freeTrialBox}>
                 <Typography variant="h4">Free Trial</Typography>
@@ -119,6 +121,7 @@ const ChoosePlan = () => {
               </TableCell>
             </TableRow>
 
+            {/* Users Row */}
             <TableRow>
               <TableCell sx={styles.sideHeader}>Users</TableCell>
               <TableCell sx={styles.userIncludes}>
@@ -147,6 +150,7 @@ const ChoosePlan = () => {
               </TableCell>
             </TableRow>
 
+            {/* Max Additional Users Row */}
             <TableRow>
               <TableCell sx={styles.sideHeader}>Max Additional Users</TableCell>
               <TableCell sx={styles.userIncludes}>
@@ -163,6 +167,7 @@ const ChoosePlan = () => {
               </TableCell>
             </TableRow>
 
+            {/* Max Additional Storage Row */}
             <TableRow>
               <TableCell sx={styles.sideHeader}>
                 Max Additional Srorage
@@ -181,6 +186,7 @@ const ChoosePlan = () => {
               </TableCell>
             </TableRow>
 
+            {/* Sales Activities Row */}
             <TableRow>
               <TableCell sx={styles.salesActivities}>
                 <Typography variant="h6">Sales Activities</Typography>
@@ -191,6 +197,7 @@ const ChoosePlan = () => {
               <TableCell></TableCell>
             </TableRow>
 
+            {/* Tasks, Appointments and Notes Row */}
             <TableRow>
               <TableCell sx={styles.sideHeader}>
                 Tasks, Appointments and Notes
@@ -209,6 +216,7 @@ const ChoosePlan = () => {
               </TableCell>
             </TableRow>
 
+            {/* Custom Sales Activites Row */}
             <TableRow>
               <TableCell sx={styles.sideHeader}>
                 Custom Sales Activites
@@ -227,6 +235,7 @@ const ChoosePlan = () => {
               </TableCell>
             </TableRow>
 
+            {/* CRM Customization Row */}
             <TableRow>
               <TableCell sx={styles.salesActivities}>
                 <Typography variant="h6">CRM Customization</Typography>
@@ -237,6 +246,7 @@ const ChoosePlan = () => {
               <TableCell></TableCell>
             </TableRow>
 
+            {/* Workflows Row */}
             <TableRow>
               <TableCell sx={styles.sideHeader}>Workflows</TableCell>
               <TableCell sx={styles.workflowCell}>20</TableCell>
