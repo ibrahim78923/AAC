@@ -1,10 +1,13 @@
-import { AccordionItem } from './AccordionItem.type';
+import { AccordionItemI } from './AccordionItem.type';
 import { AccordionSummary, Collapse } from '@mui/material';
 import { ArrowUpIcon, ArrowDownIcon } from '@/assets/icons';
 import { UseAccordionItem } from './UseAccordionItem';
 import { styles } from './AccordionItem.style';
 
-const AccordionItem: React.FC<AccordionItem> = ({ sectionTitle, children }) => {
+const AccordionItem: React.FC<AccordionItemI> = ({
+  sectionTitle,
+  children,
+}) => {
   const { handleAccordionClick, isActive } = UseAccordionItem();
   const styleArr = styles(isActive);
   return (
