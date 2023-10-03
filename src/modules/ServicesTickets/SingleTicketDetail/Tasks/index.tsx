@@ -3,7 +3,7 @@ import TanstackTable from '@/components/Tabel/TanstackTable';
 import { columns, data } from './TicketTasks.mock';
 import { Button, Typography } from '@mui/material';
 import { TicketTaskDrawer } from './TicketTaskDrawer';
-import { PlusSharedIcon, ActionButtonIcon } from '@/assets/icons';
+// import { ActionButtonIcon, PlusSharedIcon } from '@/assets/icons';
 import { taskStyles } from './TicketTasks.styles';
 
 export const Tasks = () => {
@@ -21,7 +21,7 @@ export const Tasks = () => {
         <div style={taskStyles?.btnContainer}>
           <Button
             sx={taskStyles?.actionBtn}
-            endIcon={<ActionButtonIcon />}
+            // endIcon={<ActionButtonIcon />}
             disabled={!active}
           >
             Action
@@ -29,16 +29,13 @@ export const Tasks = () => {
           <Button
             sx={taskStyles?.addTaskBtn}
             onClick={() => setIsDrawerOpen(true)}
-            startIcon={<PlusSharedIcon />}
+            // startIcon={<PlusSharedIcon />}
           >
             Add New Task
           </Button>
         </div>
       </div>
-      <TicketTaskDrawer
-        isDrawerOpen={isDrawerOpen}
-        setIsDrawerOpen={setIsDrawerOpen}
-      />
+      <TicketTaskDrawer isDrawerOpen={isDrawerOpen} onClose={setIsDrawerOpen} />
       <br />
       <TanstackTable
         columns={columns(setIsDrawerOpen, handleCheckboxChange)}

@@ -1,19 +1,37 @@
 import CommonDrawer from '@/components/CommonDrawer';
+import CreateTicket from './CreateTicket';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import {
+  createTicketDefaultValues,
+  createTicketValidationSchema,
+} from './CreateTicket/CreateTicket.data';
 
-export const TicketTaskDrawer = ({ isDrawerOpen, setIsDrawerOpen }: any) => {
+export const TicketTaskDrawer = ({ isDrawerOpen, onClose }: any) => {
+  const methodsCreateNewTicketForm = useForm({
+    resolver: yupResolver(createTicketValidationSchema),
+    defaultValues: createTicketDefaultValues,
+  });
+  const submitCreateNewTicket = async () => {};
   return (
     <CommonDrawer
       isDrawerOpen={isDrawerOpen}
       onClose={() => {
-        setIsDrawerOpen(false);
+        onClose(false);
       }}
       title="Add New Task"
-      submitHandler={() => {}}
+      submitHandler={() => {
+        methodsCreateNewTicketForm.handleSubmit(submitCreateNewTicket)();
+      }}
       footer={true}
       isOk={true}
       okText="Add Task"
     >
-      <div></div>
+      <CreateTicket
+        submitCreateNewTicket={submitCreateNewTicket}
+        methods={methodsCreateNewTicketForm}
+        handleSubmit={methodsCreateNewTicketForm.handleSubmit}
+      />
     </CommonDrawer>
   );
 };

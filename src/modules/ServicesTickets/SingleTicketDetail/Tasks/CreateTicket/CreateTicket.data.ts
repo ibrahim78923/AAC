@@ -9,7 +9,7 @@ import {
 import * as Yup from 'yup';
 
 export const createTicketValidationSchema = Yup.object().shape({
-  requester: Yup.string().required('Field is Required'),
+  title: Yup.string().required('Field is Required'),
   subject: Yup.string().trim().required('Field is Required'),
   description: Yup.string(),
   category: Yup.string(),
@@ -28,7 +28,7 @@ export const createTicketValidationSchema = Yup.object().shape({
 });
 
 export const createTicketDefaultValues = {
-  requester: '', //01
+  title: '', //01
   subject: '', //2
   description: '', //3
   category: '', //4
@@ -49,8 +49,8 @@ export const createTicketDefaultValues = {
 export const createTicketDataArray = [
   {
     componentProps: {
-      name: 'requester',
-      label: 'Requester',
+      name: 'title',
+      label: 'Title',
       fullWidth: true,
       select: true,
     },
