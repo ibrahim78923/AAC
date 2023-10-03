@@ -38,3 +38,4 @@ export { default as MailImage } from '../../assets/images/modules/header/mail.pn
 export { default as MessageImage } from '../../assets/images/modules/header/message-top.png';
 export { default as ArrowSquareLeftImage } from '../../assets/images/modules/header/arrow-square-left.png';
 export { default as LoginDashboardImage } from '../../assets/images/shared/login-dashboard.png';
+export { default as RQCodeImage } from '../../assets/images/shared/qr-code.png';

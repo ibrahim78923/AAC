@@ -1,204 +1,67 @@
 import React from 'react';
-import { useForm, Controller, FormProvider } from 'react-hook-form';
-import { Grid, Button, Typography } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
+import { Tabs, Tab } from '@mui/material';
 import Box from '@mui/material/Box';
-import InputField from '@/components/InputField';
+import Profile from './Profile/Profile';
+import Security from './Security/Security';
 
 const EditProfile = () => {
-  const {
-    handleSubmit,
-    control,
-    formState: { errors },
-  } = useForm();
-  const theme = useTheme();
+  interface TabPanelProps {
+    children?: React.ReactNode;
+    index: number;
+    value: number;
+  }
 
-  const onSubmit = () => {};
+  function CustomTabPanel(props: TabPanelProps) {
+    const { children, value, index, ...other } = props;
+
+    return (
+      <div
+        role="tabpanel"
+        hidden={value !== index}
+        id={`simple-tabpanel-${index}`}
+        aria-labelledby={`simple-tab-${index}`}
+        {...other}
+      >
+        {value === index && (
+          <Box sx={{ p: 3 }}>
+            <>{children}</>
+          </Box>
+        )}
+      </div>
+    );
+  }
+
+  function a11yProps(index: number) {
+    return {
+      id: `simple-tab-${index}`,
+      'aria-controls': `simple-tabpanel-${index}`,
+    };
+  }
+
+  const [value, setValue] = React.useState(0);
+
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    setValue(newValue);
+  };
 
   return (
-    <Box>
-      <Typography
-        variant="h4"
-        sx={{ color: theme?.palette?.grey[500_8], marginBottom: '20px' }}
-      >
-        Work Information
-      </Typography>
-
-      <FormProvider>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Grid container spacing={2}>
-            <Grid item xs={12} md={6} lg={6}>
-              <Typography variant="body2" sx={{ marginBottom: '8px' }}>
-                First Name <span style={{ color: 'red' }}>*</span>
-              </Typography>
-              <Controller
-                name="firstName"
-                control={control}
-                defaultValue=""
-                rules={{
-                  required: 'required field',
-                }}
-                render={({ field }) => (
-                  <InputField
-                    field={{ ...field }}
-                    name="firstName"
-                    placeholder="Enter First Name"
-                    width="100%"
-                    height="23px"
-                    autoComplete="off"
-                    type="text"
-                    hasError={!!errors?.firstName}
-                    error={errors?.firstName?.message}
-                  />
-                )}
-              />
-            </Grid>
-
-            <Grid item xs={12} md={6} lg={6}>
-              <Typography variant="body2" sx={{ marginBottom: '8px' }}>
-                Middle Name{' '}
-              </Typography>
-              <Controller
-                name="middleName"
-                control={control}
-                defaultValue=""
-                render={({ field }) => (
-                  <InputField
-                    field={{ ...field }}
-                    name="middleName"
-                    placeholder="Enter Middle Name"
-                    width="100%"
-                    height="23px"
-                    autoComplete="off"
-                    type="text"
-                  />
-                )}
-              />
-            </Grid>
-
-            <Grid item xs={12} md={6} lg={6}>
-              <Typography variant="body2" sx={{ marginBottom: '8px' }}>
-                Last Name <span style={{ color: 'red' }}>*</span>
-              </Typography>
-              <Controller
-                name="lastName"
-                control={control}
-                defaultValue=""
-                rules={{
-                  required: 'required field',
-                }}
-                render={({ field }) => (
-                  <InputField
-                    field={{ ...field }}
-                    name="lastName"
-                    placeholder="Enter Last Name"
-                    width="100%"
-                    height="23px"
-                    autoComplete="off"
-                    type="text"
-                    hasError={!!errors?.lastName}
-                    error={errors?.firstName?.message}
-                  />
-                )}
-              />
-            </Grid>
-
-            <Grid item xs={12} md={6} lg={6}></Grid>
-
-            <Grid item xs={12} md={6} lg={6}>
-              <Typography variant="body2" sx={{ marginBottom: '8px' }}>
-                Work Phone Number{' '}
-              </Typography>
-              <Controller
-                name="WorkPhoneNumber"
-                control={control}
-                defaultValue=""
-                render={({ field }) => (
-                  <InputField
-                    field={{ ...field }}
-                    name="WorkPhoneNumber"
-                    placeholder="Enter Middle Name"
-                    width="100%"
-                    height="23px"
-                    autoComplete="off"
-                    type="number"
-                  />
-                )}
-              />
-            </Grid>
-
-            <Grid item xs={12} md={6} lg={6}>
-              <Typography variant="body2" sx={{ marginBottom: '8px' }}>
-                Mobile Number{' '}
-              </Typography>
-              <Controller
-                name="MobileNumber"
-                control={control}
-                defaultValue=""
-                render={({ field }) => (
-                  <InputField
-                    field={{ ...field }}
-                    name="MobileNumber"
-                    placeholder="Enter Middle Name"
-                    width="100%"
-                    height="23px"
-                    autoComplete="off"
-                    type="number"
-                  />
-                )}
-              />
-            </Grid>
-
-            <Grid item xs={12} md={6} lg={6}>
-              <Typography variant="body2" sx={{ marginBottom: '8px' }}>
-                Company Name{' '}
-              </Typography>
-              <Controller
-                name="CompanyName"
-                control={control}
-                defaultValue=""
-                render={({ field }) => (
-                  <InputField
-                    field={{ ...field }}
-                    name="CompanyName"
-                    placeholder="Enter Company Name"
-                    width="100%"
-                    height="23px"
-                    autoComplete="off"
-                    type="number"
-                  />
-                )}
-              />
-            </Grid>
-
-            <Grid item xs={12} md={6} lg={6}>
-              <Typography variant="body2" sx={{ marginBottom: '8px' }}>
-                Job Title{' '}
-              </Typography>
-              <Controller
-                name="Job Title"
-                control={control}
-                defaultValue=""
-                render={({ field }) => (
-                  <InputField
-                    field={{ ...field }}
-                    name="Job Title"
-                    placeholder="Enter Job Title"
-                    width="100%"
-                    height="23px"
-                    autoComplete="off"
-                    type="text"
-                  />
-                )}
-              />
-            </Grid>
-          </Grid>
-
-          <Button type="submit" variant="contained" sx={{ marginY: '30px' }}>
-            Save
-          </Button>
-        </form>
-      </FormProvider>
+    <Box sx={{ width: '100%' }}>
+      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          aria-label="basic tabs example"
+        >
+          <Tab label="Profile" {...a11yProps(0)} />
+          <Tab label="Security" {...a11yProps(1)} />
+        </Tabs>
+      </Box>
+      <CustomTabPanel value={value} index={0}>
+        <Profile />
+      </CustomTabPanel>
+      <CustomTabPanel value={value} index={1}>
+        <Security />
+      </CustomTabPanel>
     </Box>
   );
 };
