@@ -6,9 +6,11 @@ export const styles = {
       '&:hover': {
         background: 'transparent',
       },
-      color:
-        router.pathname.includes(`${subItem.key}`) &&
-        theme.palette.secondary.main,
+      color: router.pathname.includes(`${subItem.key}`)
+        ? theme.palette.secondary.main
+        : theme.palette.grey[900],
+      background:
+        router.pathname.includes(`${subItem.key}`) && theme.palette.grey[400],
     };
   },
   collapseMenuOpener: (
@@ -48,8 +50,9 @@ export const styles = {
       padding: '7px 0px 7px 10px',
       borderRadius: '5px',
       fontSize: '14px',
-      color:
-        router.pathname.includes(`${link.key}`) && theme.palette.secondary.main,
+      color: router.pathname.includes(`${link.key}`)
+        ? theme.palette.secondary.main
+        : theme.palette.grey[900],
     };
   },
   appToolbar: (drawerWidth: number, theme: any) => {
