@@ -10,7 +10,7 @@ import {
 } from '@mui/material';
 
 import { Controller } from 'react-hook-form';
-import { SearchSelectStyles } from './SearchableSelect.style';
+import { styles } from './SearchableSelect.style';
 
 import { isNullOrEmpty } from '@/utils';
 
@@ -84,7 +84,7 @@ const SearchableSelect: React.FC<SearchableSelectPropsI> = ({
           >
             {label}
           </Typography>
-          <Box sx={{ width: '100%', position: 'relative' }}>
+          <Box sx={{ width: '100%', position: 'relative', zIndex: '2' }}>
             <TextField
               id={name}
               variant="outlined"
@@ -92,7 +92,7 @@ const SearchableSelect: React.FC<SearchableSelectPropsI> = ({
               placeholder="Select"
               contentEditable={false}
               onClick={() => setIsSearchableSelect(!isSearchableSelect)}
-              sx={SearchSelectStyles.textareaSearchDropdown(width, height)}
+              sx={styles.textareaSearchDropdown(width, height)}
               ref={textFieldRef}
               InputProps={{
                 endAdornment: (
@@ -106,7 +106,7 @@ const SearchableSelect: React.FC<SearchableSelectPropsI> = ({
               {...field}
             />
             {isSearchableSelect && (
-              <Box sx={SearchSelectStyles.wrapperSearchDropdown}>
+              <Box sx={styles.wrapperSearchDropdown}>
                 <TextField
                   id={`${name}-search-field`}
                   label=""
@@ -114,7 +114,7 @@ const SearchableSelect: React.FC<SearchableSelectPropsI> = ({
                   placeholder="Search Here"
                   onClick={handleSearchFieldClick}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  sx={SearchSelectStyles.searchSelect(theme)}
+                  sx={styles.searchSelect(theme)}
                 />
                 {!isNullOrEmpty(selectOptions) &&
                   selectOptions.map((item: DropdownDataPropsI) => (

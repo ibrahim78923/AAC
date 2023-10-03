@@ -1,4 +1,4 @@
-export const JobsPostingStyles = {
+export const styles = {
   refreshButton: {
     width: '54px',
     height: '40px',

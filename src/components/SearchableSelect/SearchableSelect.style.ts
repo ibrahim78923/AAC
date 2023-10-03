@@ -1,4 +1,4 @@
-export const SearchSelectStyles = {
+export const styles = {
   wrapperSearchDropdown: {
     width: '100%',
     position: 'absolute',

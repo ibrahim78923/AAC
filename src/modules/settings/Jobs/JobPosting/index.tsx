@@ -15,7 +15,7 @@ import { Controller, useForm } from 'react-hook-form';
 
 import { FilterSharedIcon, RefreshSharedIcon } from '@/assets/icons';
 
-import { JobsPostingStyles } from './Jobs.styles';
+import { styles } from './Jobs.styles';
 
 const JobPosting = ({
   isJobPostingDrawer,
@@ -31,10 +31,6 @@ const JobPosting = ({
   } = useForm();
 
   const onSubmit = () => {
-    setIsJobPostingDrawer(false);
-  };
-
-  const onClose = () => {
     setIsJobPostingDrawer(false);
   };
 
@@ -58,7 +54,7 @@ const JobPosting = ({
         }}
       >
         <Search
-          label={'ss'}
+          label={'Search here'}
           searchBy={jobPostingSearch}
           setSearchBy={setJobPostingSearch}
           width="100%"
@@ -70,10 +66,10 @@ const JobPosting = ({
             gap: '10px',
           }}
         >
-          <Button sx={JobsPostingStyles.refreshButton}>
+          <Button sx={styles.refreshButton}>
             <RefreshSharedIcon />
           </Button>
-          <Button sx={JobsPostingStyles.filterButton(theme)}>
+          <Button sx={styles.filterButton(theme)}>
             <FilterSharedIcon /> &nbsp; Filter
           </Button>
         </Box>
@@ -89,7 +85,7 @@ const JobPosting = ({
       </Box>
       <CommonDrawer
         isDrawerOpen={isJobPostingDrawer}
-        onClose={onClose}
+        onClose={() => setIsJobPostingDrawer(false)}
         title="Post a Job"
         okText="Post"
         isOk={true}
