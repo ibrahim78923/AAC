@@ -1,5 +1,5 @@
-import DetailsProperties from './DetailsProperties';
-import DetailTabs from './DetailTab';
+import DetailTabs from './DetailViewTab';
+import DetailsVeiwPropSect from './DetailsViewPropertiesSection';
 import ToofPage from './TopOfPage';
 import DetailViewCard from './ViewCardDetail';
 
@@ -9,7 +9,7 @@ export default function TicketDetaile() {
       <ToofPage />
       <DetailViewCard />
       <DetailTabs />
-      <DetailsProperties />
+      <DetailsVeiwPropSect />
     </>
   );
 }

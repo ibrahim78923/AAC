@@ -1,16 +1,6 @@
-import HorizontalTabs from '@/components/Tabs/HorizontalTabs';
 import { Grid } from '@mui/material';
-
-const TEST_COMPONENT_TABS = [
-  'Details',
-  'Tasks',
-  'Related  Tickets',
-  'Assets',
-  'Meetings',
-  'Meetings',
-  'Conversation',
-];
-
+import HorizontalTabs from '@/components/Tabs/HorizontalTabs';
+import { TEST_COMPONENT_TABS } from './DetaileVeiwTab.data';
 export const DetailTabs = () => {
   return (
     <>
