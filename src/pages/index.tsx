@@ -1,34 +1,128 @@
-import NotFound from '@/components/NotFound';
+import AddIconWithBg from '@/assets/icons/shared/add-icon-with-bg-white';
+import ConversationModel from '@/components/Model/CoversationModel';
+// import NotFound from '@/components/NotFound';
 import SuperAdminLayout from '@/layouts/SuperAdminLayout/SuperAdminLayout';
-import BarChart from '@/modules/BarChart/BarChart';
-import { useTheme } from '@emotion/react';
-import { Button, Typography } from '@mui/material';
+// import BarChart from '@/modules/BarChart/BarChart';
+// import { useTheme } from '@emotion/react';
+import { Box, Button, Menu, MenuItem, Typography } from '@mui/material';
+import { useState } from 'react';
 
 export default function Home() {
-  const theme = useTheme();
-  return (
-    <div>
-      <Typography variant="h1">h1 (Air Apple Cart)</Typography>
-      <Typography variant="h2">h2 (Air Apple Cart)</Typography>
-      <Typography variant="h3">h3 (Air Apple Cart)</Typography>
-      <Typography variant="h4">h4 (Air Apple Cart)</Typography>
-      <Typography variant="h5">h5 (Air Apple Cart)</Typography>
-      <Typography variant="h6">h6 (Air Apple Cart)</Typography>
-      <Typography variant="subtitle1">SubTitle 1 (Air Apple Cart)</Typography>
-      <Typography variant="subtitle2">Subtitle 2 (Air Apple Cart)</Typography>
-      <BarChart />
-      <Typography variant="body1" sx={{ color: theme?.primary?.main }}>
-        Body 1 (Air Apple Cart)
-      </Typography>
-      <Typography variant="body2">Body 2 (Air Apple Cart)</Typography>
+  const [isConversation, setIsConversation] = useState<boolean>(false);
 
-      <Button variant="contained">Add Button</Button>
-      <Button> Cancel </Button>
-      <NotFound
-        type="error"
-        message="Data not found. Please check your request or try again later."
-      />
-    </div>
+  const [addCoversation, setAddCoversation] = useState<null | HTMLElement>(
+    null,
+  );
+  const open = Boolean(addCoversation);
+  const handleClickButtonMenu = (
+    event: React.MouseEvent<HTMLButtonElement>,
+  ) => {
+    setAddCoversation(event.currentTarget);
+  };
+  const handleCloseButtonMenu = () => {
+    setAddCoversation(null);
+    // just for desgin will remove
+    setIsConversation(!isConversation);
+  };
+
+  return (
+    <Box sx={{ mt: '20px' }}>
+      <ConversationModel />
+      <Box
+        sx={{
+          display: 'flex',
+          alignContent: 'center',
+          justifyContent: 'space-between',
+        }}
+      >
+        <Typography variant="h4">Conversation</Typography>
+        {isConversation && (
+          <>
+            <Button
+              variant="contained"
+              startIcon={<AddIconWithBg />}
+              id="basic-button"
+              aria-controls={open ? 'basic-menu' : undefined}
+              aria-haspopup="true"
+              aria-expanded={open ? 'true' : undefined}
+              onClick={handleClickButtonMenu}
+            >
+              {' '}
+              Add Conversation
+            </Button>
+            <Menu
+              id="basic-menu"
+              anchorEl={addCoversation}
+              open={open}
+              onClose={handleCloseButtonMenu}
+              sx={{
+                '& .MuiList-root': {
+                  width: '280px',
+                },
+              }}
+              MenuListProps={{
+                'aria-labelledby': 'basic-button',
+              }}
+            >
+              <MenuItem onClick={handleCloseButtonMenu}>Note</MenuItem>
+              <MenuItem onClick={handleCloseButtonMenu}>Reply</MenuItem>
+              <MenuItem onClick={handleCloseButtonMenu}>Forward</MenuItem>
+              <MenuItem onClick={handleCloseButtonMenu}>Discuss</MenuItem>
+            </Menu>
+          </>
+        )}
+      </Box>
+      {isConversation ? (
+        <></>
+      ) : (
+        <>
+          <Box
+            sx={{
+              mt: '300px',
+              display: 'flex',
+              justifyContent: 'center',
+            }}
+          >
+            <Box sx={{ textAlign: 'center' }}>
+              <Typography fontSize={'13px'} mb={'10px'}>
+                There are no conversation available{' '}
+              </Typography>
+              <Button
+                variant="contained"
+                startIcon={<AddIconWithBg />}
+                id="basic-button"
+                aria-controls={open ? 'basic-menu' : undefined}
+                aria-haspopup="true"
+                aria-expanded={open ? 'true' : undefined}
+                onClick={handleClickButtonMenu}
+              >
+                {' '}
+                Add
+              </Button>
+              <Menu
+                id="basic-menu"
+                anchorEl={addCoversation}
+                open={open}
+                onClose={handleCloseButtonMenu}
+                sx={{
+                  '& .MuiList-root': {
+                    width: '280px',
+                  },
+                }}
+                MenuListProps={{
+                  'aria-labelledby': 'basic-button',
+                }}
+              >
+                <MenuItem onClick={handleCloseButtonMenu}>Note</MenuItem>
+                <MenuItem onClick={handleCloseButtonMenu}>Reply</MenuItem>
+                <MenuItem onClick={handleCloseButtonMenu}>Forward</MenuItem>
+                <MenuItem onClick={handleCloseButtonMenu}>Discuss</MenuItem>
+              </Menu>
+            </Box>
+          </Box>
+        </>
+      )}
+    </Box>
   );
 }
 Home.getLayout = function getLayout(page: any) {
