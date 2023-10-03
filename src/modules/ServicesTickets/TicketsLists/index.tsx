@@ -17,7 +17,11 @@ export const TicketsLists = () => {
   } = useTicketsLists();
   return (
     <>
-      <TicketsListHeader />
+      <TicketsListHeader
+        setOpenCreateTicket={() =>
+          openDrawer?.(TABLE_CONSTANTS.CREATE_NEW_TICKET)
+        }
+      />
       <br />
       <TicketsListSubHeader
         onFilterClick={() => openDrawer?.(TABLE_CONSTANTS.FILTER_DATA)}
