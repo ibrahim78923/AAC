@@ -3,9 +3,9 @@ import InputField from '@/components/InputField';
 import TextEditor from '@/components/TextEditor';
 import { Box, Typography } from '@mui/material';
 import { Controller } from 'react-hook-form';
-import { useAddRequestApproval } from './useAddRequestApproval';
+import { useAddRequestApprovalDrawer } from './useAddRequestApproval';
 
-const AddRequestApproval: React.FC = (props) => {
+const AddRequestApprovalDrawer: React.FC = (props) => {
   const { isDrawerOpen, setIsDrawerOpen }: any = props;
   const {
     handleSubmit,
@@ -15,7 +15,7 @@ const AddRequestApproval: React.FC = (props) => {
     setEditorValue,
     editorValue,
     theme,
-  } = useAddRequestApproval();
+  } = useAddRequestApprovalDrawer();
   return (
     <>
       <CommonDrawer
@@ -51,6 +51,7 @@ const AddRequestApproval: React.FC = (props) => {
                 autoComplete="off"
                 type="text"
                 hasError={!!errors?.email}
+                InputProps={undefined}
               />
             )}
           />
@@ -60,7 +61,7 @@ const AddRequestApproval: React.FC = (props) => {
               variant="body1"
               sx={{ color: theme?.palette?.error?.main }}
             >
-              {errors?.email?.message}
+              {errors?.root?.message}
             </Typography>
           )}
         </Box>
@@ -73,4 +74,4 @@ const AddRequestApproval: React.FC = (props) => {
   );
 };
 
-export default AddRequestApproval;
+export default AddRequestApprovalDrawer;

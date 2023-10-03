@@ -2,7 +2,7 @@ import { useTheme } from '@mui/material';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-export function useAddRequestApproval() {
+export function useAddRequestApprovalDrawer() {
   const [editorValue, setEditorValue] = useState<string>('');
   const theme = useTheme();
   const {
