@@ -10,7 +10,7 @@ import {
   SelectChangeEvent,
 } from '@mui/material';
 import { Theme, useTheme } from '@mui/material/styles';
-import { uuid } from 'uuidv4';
+import { v4 as uuidv4 } from 'uuid';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -45,7 +45,7 @@ function ChipWrapper({ selected }: any) {
       {selected.slice(0, 3).map(({ label }: any) => (
         <Chip
           sx={{ backgroundColor: '#e4e7eb', color: '#000000' }}
-          key={uuid()}
+          key={uuidv4()}
           label={label}
         />
       ))}
@@ -118,7 +118,7 @@ export default function RHFMultiSelect({
           >
             {options.map(({ value, ...other }: any) => (
               <MenuItem
-                key={uuid()}
+                key={uuidv4()}
                 value={{ value, ...other }}
                 style={getStyles(value, field?.value, theme)}
               >
