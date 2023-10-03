@@ -9,3 +9,5 @@ export { default as EyeIcon } from './shared/eye';
 export { default as verifiedIcon } from './shared/verified';
 export { default as CompanyLogoIcon } from './shared/company-logo';
 export { default as VerifiedIcon } from './shared/verified';
+export { default as DownloadIcon } from './shared/download';
+export { default as CopyIcon } from './shared/copy';
