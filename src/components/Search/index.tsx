@@ -40,7 +40,9 @@ const Search = ({
             },
           },
           '&:hover fieldset': {
-            borderColor: theme?.palette?.primary?.main,
+            borderColor: theme?.palette?.custom?.light_green,
+            boxShadow: '0px 0px 0px 3px #A0E5DB80',
+            // borderColor: theme?.palette?.primary?.main,
           },
           '& .MuiInputBase-input': {
             color: theme?.palette?.common?.black,

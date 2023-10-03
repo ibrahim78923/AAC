@@ -31,7 +31,7 @@ const BillingAndInvoicesTable = () => {
           </Grid>
         </Grid>
         <Grid container mt={2}>
-          <Grid item xs={6} sm={6}>
+          <Grid item xs={6} sm={6} mt={4}>
             <Search
               searchBy={searchByClientName}
               setSearchBy={setSearchByClientName}
