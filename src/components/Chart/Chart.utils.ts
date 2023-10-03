@@ -1,6 +1,6 @@
 import { alpha } from '@mui/material';
 import { ApexOptions } from 'apexcharts';
-const XYLABELSTYLE = {
+export const labelXYStyles = {
   style: {
     fontSize: '14px',
     fontFamily: 'Outfit, Arial, sans-serif',
@@ -50,7 +50,7 @@ export const baroptions = (type: any, options: ApexOptions): ApexOptions => ({
   },
   xaxis: {
     labels: {
-      ...XYLABELSTYLE,
+      ...labelXYStyles,
       ...options?.xaxis?.labels,
     },
     axisTicks: {
@@ -63,7 +63,7 @@ export const baroptions = (type: any, options: ApexOptions): ApexOptions => ({
   },
   yaxis: {
     labels: {
-      ...XYLABELSTYLE,
+      ...labelXYStyles,
     },
     ...options?.yaxis,
   },

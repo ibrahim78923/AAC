@@ -1,15 +1,19 @@
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
 import React, { useState } from 'react';
-import Button from '@mui/material/Button';
-import CommonDrawer from '@/components/CommonDrawer';
-import TextEditor from '@/components/TextEditor';
+
+import { Button, Typography, Box, Tabs, Tab } from '@mui/material';
+
+import JobPosting from './JobPosting';
+import JobApplication from './JobApplication';
+
+import PlusShared from '@/assets/icons/shared/plus-shared';
 
 const Jobs = () => {
-  const [isJobPostingDrawer, setIsJobPostingDrawer] = useState(false);
-  const [editorValue, setEditorValue] = useState<string>('');
+  const [isJobPostingDrawer, setIsJobPostingDrawer] = useState<boolean>(false);
+  const [tabsValue, setTabsValue] = React.useState(0);
 
-  const handelPostJob = () => {};
+  const handleTabsChange = (event: React.SyntheticEvent, newValue: number) => {
+    setTabsValue(newValue);
+  };
 
   return (
     <Box
@@ -24,39 +28,34 @@ const Jobs = () => {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
+          marginBottom: '19px',
         }}
       >
-        <Typography variant="h5" sx={{ fontWeight: '600' }}>
+        <Typography variant="h3" sx={{ fontWeight: '600' }}>
           Jobs
         </Typography>
-        <Button
-          sx={{
-            backgroundColor: '#38CAB5',
-            color: '#fff',
-            width: '127px',
-            height: '36px',
-            borderRadius: '4px',
-            textTransform: 'none',
-          }}
-          onClick={() => setIsJobPostingDrawer(true)}
-        >
-          Post a Job
-        </Button>
+        {tabsValue === 0 && (
+          <Button
+            variant="contained"
+            sx={{ height: '36px', fontWeight: '500' }}
+            onClick={() => setIsJobPostingDrawer(true)}
+          >
+            <PlusShared /> &nbsp; Post a Job
+          </Button>
+        )}
       </Box>
 
-      <Box>Common table</Box>
-      <CommonDrawer
-        isDrawerOpen={isJobPostingDrawer}
-        setIsDrawerOpen={setIsJobPostingDrawer}
-        title="Post a Job"
-        okText="Post"
-        isOk={false}
-        submitHandler={handelPostJob}
-      >
-        <span>dummy text</span>
-        <br />
-        <TextEditor value={editorValue} onChange={setEditorValue} />
-      </CommonDrawer>
+      <Tabs value={tabsValue} onChange={handleTabsChange}>
+        <Tab label="Job Posting" />
+        <Tab label="Job Application" />
+      </Tabs>
+      {tabsValue === 0 && (
+        <JobPosting
+          isJobPostingDrawer={isJobPostingDrawer}
+          setIsJobPostingDrawer={setIsJobPostingDrawer}
+        />
+      )}
+      {tabsValue === 1 && <JobApplication />}
     </Box>
   );
 };

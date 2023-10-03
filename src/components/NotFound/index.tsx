@@ -1,25 +1,11 @@
 import React from 'react';
 import { Typography, Box } from '@mui/material';
+import NotFoundPropsI from './NotFound.interface';
+import { styles } from './NotFound.style.ts';
 
-const style = {
-  CardNotFound: {
-    backgroundColor: '#E57373',
-    color: '#fff',
-    padding: '10px',
-    borderRadius: '12px',
-    width: 'fit-content',
-    marginTop: '10px',
-  },
-};
-
-interface NotFoundProps {
-  type: string;
-  message: string;
-}
-
-const NotFound: React.FC<NotFoundProps> = ({ message }) => {
+const NotFound: React.FC<NotFoundPropsI> = ({ message }) => {
   return (
-    <Box sx={style?.CardNotFound}>
+    <Box sx={styles?.CardNotFound}>
       <Typography variant="h6">{message}</Typography>
     </Box>
   );
