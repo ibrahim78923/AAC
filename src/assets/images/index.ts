@@ -38,3 +38,6 @@ export { default as NotificationAvatarImage } from './modules/HeaderAndSidebar/n
 export { default as ArrowSquareLeftImage } from './modules/HeaderAndSidebar/arrow-square-left.png';
 export { default as LoginDashboardImage } from '../../assets/images/shared/login-dashboard.png';
 export { default as RQCodeImage } from '../../assets/images/shared/qr-code.png';
+export { default as DiscussionImage } from '../../assets/images/modules/tickets/meetings/discussion.png';
+export { default as TeamsImage } from '../../assets/images/modules/tickets/meetings/teams.png';
+export { default as ZoomImage } from '../../assets/images/modules/tickets/meetings/zoom.png';
