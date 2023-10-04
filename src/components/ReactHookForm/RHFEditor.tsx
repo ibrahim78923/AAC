@@ -1,7 +1,13 @@
+// form
 import { useFormContext, Controller } from 'react-hook-form';
+// @mui
+import { FormHelperText } from '@mui/material';
 import TextEditor from '../TextEditor';
+import CustomLabel from '../Label';
 
-export default function RHFEditor({ name, fullWidth = true, ...other }: any) {
+// ----------------------------------------------------------------------
+
+export default function RHFEditor({ name, required, ...other }: any) {
   const { control } = useFormContext();
 
   return (
@@ -9,16 +15,29 @@ export default function RHFEditor({ name, fullWidth = true, ...other }: any) {
       name={name}
       control={control}
       render={({ field, fieldState: { error } }) => (
-        <TextEditor
-          {...field}
-          error={!!error}
-          helperText={error?.message}
-          fullWidth={fullWidth}
-          onChange={(text) => {
-            field.onChange(text);
-          }}
-          {...other}
-        />
+        <>
+          {other?.label && (
+            <CustomLabel
+              label={other?.label}
+              error={error}
+              required={required}
+            />
+          )}
+          <TextEditor
+            id={name}
+            name={name}
+            value={field.value}
+            onChange={field.onChange}
+            error={!!error}
+            {...other}
+          />
+          <FormHelperText
+            error
+            sx={{ px: 2, position: 'absolute', textTransform: 'capitalize' }}
+          >
+            {error?.message}
+          </FormHelperText>
+        </>
       )}
     />
   );
