@@ -8,7 +8,6 @@ import {
   RHFTextField,
   RHFTimePicker,
 } from '@/components/ReactHookForm';
-import dayjs from 'dayjs';
 import * as yup from 'yup';
 
 export const dropdownDummy = [
@@ -42,7 +41,7 @@ export const UpdationValues = {
   description: 'description',
   gender: 'female',
   rememberMe: true,
-  dob: dayjs(new Date('2023-09-12')),
+  dob: new Date('2023-09-12'),
   timeFrom: handleSetTime('02:09:00'),
   timeTo: handleSetTime('03:09:00'),
   editor: '<p>some random text </p><br/><h1>Hello Editor</h1>',
