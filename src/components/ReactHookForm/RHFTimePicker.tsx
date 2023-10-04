@@ -1,8 +1,7 @@
 // form
 import { useFormContext, Controller } from 'react-hook-form';
 // @mui
-import { LocalizationProvider, TimePicker } from '@mui/x-date-pickers';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { TimePicker } from '@mui/x-date-pickers';
 import { Typography } from '@mui/material';
 import CustomLabel from '../Label';
 // ----------------------------------------------------------------------
@@ -24,26 +23,24 @@ export default function RHFTimePicker({
           {label && (
             <CustomLabel label={label} error={error} required={required} />
           )}
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <TimePicker
-              {...field}
-              {...other}
-              slotProps={{
-                textField: {
-                  helperText: (
-                    <Typography component={'span'} position={'absolute'}>
-                      {error?.message}
-                    </Typography>
-                  ),
-                  error: error,
-                  fullWidth: other.fullWidth,
-                  size: other.size,
-                  inputProps: { style: { height: 27 } },
-                },
-              }}
-              label={''}
-            />
-          </LocalizationProvider>
+          <TimePicker
+            {...field}
+            {...other}
+            slotProps={{
+              textField: {
+                helperText: (
+                  <Typography component={'span'} position={'absolute'}>
+                    {error?.message}
+                  </Typography>
+                ),
+                error: error,
+                fullWidth: other.fullWidth,
+                size: other.size,
+                inputProps: { style: { height: 27 } },
+              },
+            }}
+            label={''}
+          />
         </>
       )}
     />
