@@ -9,11 +9,12 @@ export const AddMeetingsDrawer = ({
     <div>
       <CommonDrawer
         isDrawerOpen={open}
-        setIsDrawerOpen={setDrawerOpen}
-        title="Add New Task"
+        onClose={() => setDrawerOpen(false)}
+        title="Add Meeting"
         submitHandler={() => {}}
-        isOk
-        okText="Add Task"
+        isOk={true}
+        footer={true}
+        okText="Save"
       >
         <div></div>
       </CommonDrawer>

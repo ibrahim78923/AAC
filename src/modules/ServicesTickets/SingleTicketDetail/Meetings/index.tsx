@@ -1,21 +1,22 @@
 import { useState } from 'react';
 import { DownIcon, PlusSharedIcon } from '@/assets/icons';
 import { WIDGETSDATA } from '@/mock/modules/Meetings';
-import { Box, Button, Grid, Typography } from '@mui/material';
-import { NoMeetings } from './NoMeetings';
-import { MeetingsTable } from './MeetingsTable';
-import { MeetingsTableData } from './MeetingsTable/MeetingsTable.utils';
+import { Box, Button, Grid, Typography, useMediaQuery } from '@mui/material';
 import { AddMeetingsDrawer } from './AddMeetingsDrawer';
+import { MeetingsTableData } from './MeetingsTable/MeetingsTable.utils';
+import { MeetingsTable } from './MeetingsTable';
+import { NoMeetings } from './NoMeetings';
 
-export const Meeting = () => {
+export const Meetings = () => {
   const [meetingsData, setMeetingsData] = useState([]);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const matches = useMediaQuery('(max-width:600px)');
   return (
     <>
       <div className="meeting">
         <AddMeetingsDrawer open={drawerOpen} setDrawerOpen={setDrawerOpen} />
         <Grid container sx={{ mb: '20px' }}>
-          <Grid item xs={6}>
+          <Grid item sm={6} xs={12}>
             <Typography variant="h5" fontWeight={500} color="#374151">
               Meetings
             </Typography>
@@ -27,14 +28,18 @@ export const Meeting = () => {
               justifyContent: 'end',
               alignItems: 'center',
               gap: '20px',
+              flexDirection: { sm: 'row', xs: 'column' },
+              mt: { sm: '', xs: '20px' },
             }}
-            xs={6}
+            sm={6}
+            xs={12}
           >
             <Button
               endIcon={<DownIcon />}
               disableElevation
               disabled={!!!meetingsData.length}
               variant="contained"
+              fullWidth={matches}
               sx={{
                 bgcolor: '#fff !important',
                 border: '1px solid #D1D5DB',
@@ -59,6 +64,7 @@ export const Meeting = () => {
               sx={{
                 fontWeight: '500',
               }}
+              fullWidth={matches}
               startIcon={<PlusSharedIcon />}
               disableElevation
               onClick={() => setDrawerOpen(true)}
@@ -70,7 +76,7 @@ export const Meeting = () => {
         </Grid>
         <Grid mb="20px" container spacing={3}>
           {WIDGETSDATA.map((item) => (
-            <Grid item key={item.id} xs={4}>
+            <Grid item key={item.id} sm={4} xs={12}>
               <Box
                 sx={{
                   bgcolor: 'common.white',
@@ -121,4 +127,4 @@ export const Meeting = () => {
     </>
   );
 };
-export default Meeting;
+export default Meetings;
