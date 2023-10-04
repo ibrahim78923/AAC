@@ -93,13 +93,13 @@ const ResetPassword = () => {
                     >
                       Reset Password
                     </Typography>
-
-                    <Image
-                      src={resetPasswordSuccess}
-                      alt="successIcon"
-                      style={{ width: '170px', height: '170px' }}
-                    />
-
+                    <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                      <Image
+                        src={resetPasswordSuccess}
+                        alt="successIcon"
+                        style={{ width: '170px', height: '170px' }}
+                      />
+                    </Box>
                     <Typography
                       sx={{
                         marginTop: '15px',

@@ -26,7 +26,6 @@ const Security = () => {
   const [isShowError, setIsShowError] = useState<boolean>(false);
   const [isChecked, setIsChecked] = useState<boolean>(false);
   const [isVerifyCode, setIsVerifyCode] = useState<boolean>(false);
-  const [isFinishVerify, setIsFinishVerify] = useState<boolean>(false);
 
   const {
     handleSubmit,
@@ -54,10 +53,6 @@ const Security = () => {
 
   const SwitchhandleChange = (e: any) => {
     setIsChecked(e.target.checked);
-  };
-
-  const finish = () => {
-    setIsFinishVerify(true);
   };
 
   return (
@@ -245,7 +240,7 @@ const Security = () => {
             textAlign: 'center',
           }}
         >
-          {isVerifyCode || isFinishVerify ? (
+          {isVerifyCode ? (
             <>
               <Typography variant="h5" sx={{ marginBottom: '15px' }}>
                 Recovery Codes
@@ -344,11 +339,7 @@ const Security = () => {
                   </Typography>
                 </Button>
 
-                <Button
-                  variant="contained"
-                  sx={{ marginTop: '15px' }}
-                  onClick={finish}
-                >
+                <Button variant="contained" sx={{ marginTop: '15px' }}>
                   Finish
                 </Button>
               </Box>
@@ -369,7 +360,9 @@ const Security = () => {
                   Authy, Google Authenticator, LastPass Authenticator{' '}
                 </Link>
               </Typography>
-              <Image src={RQCodeImage} alt="dropdown" />
+              <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                <Image src={RQCodeImage} alt="dropdown" />
+              </Box>
               <Typography sx={{ marginBottom: '15px' }}>
                 Can’t Scan the QR Code?
               </Typography>

@@ -37,3 +37,4 @@ export { default as CrossImage } from './modules/HeaderAndSidebar/cross.png';
 export { default as NotificationAvatarImage } from './modules/HeaderAndSidebar/notification-avatar.png';
 export { default as ArrowSquareLeftImage } from './modules/HeaderAndSidebar/arrow-square-left.png';
 export { default as LoginDashboardImage } from '../../assets/images/shared/login-dashboard.png';
+export { default as RQCodeImage } from '../../assets/images/shared/qr-code.png';
