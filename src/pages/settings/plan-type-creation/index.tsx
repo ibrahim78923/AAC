@@ -1,9 +1,9 @@
-import SuperAdminLayout from '@/layouts/SuperAdminLayout/SuperAdminLayout';
+import Layout from '@/layout';
 import PlanTypeCreation from '@/modules/settings/PlanTypeCreation';
-function PlanTypeCreationPage() {
+const PlanTypeCreationPage = () => {
   return <PlanTypeCreation />;
-}
+};
 export default PlanTypeCreationPage;
 PlanTypeCreationPage.getLayout = function getLayout(page: any) {
-  return <SuperAdminLayout>{page}</SuperAdminLayout>;
+  return <Layout>{page}</Layout>;
 };

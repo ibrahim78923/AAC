@@ -3,11 +3,8 @@ import dynamic from 'next/dynamic';
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import 'react-quill/dist/quill.snow.css';
+import { TextEditorPropsI } from './TextEditor.interface';
 
-interface TextEditorPropsI {
-  value: string;
-  onChange: (value: string) => void;
-}
 const ReactQuill = dynamic(() => import('react-quill'), {
   ssr: false,
 });
