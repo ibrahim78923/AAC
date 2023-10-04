@@ -5,10 +5,8 @@ import Link from 'next/link';
 import { Grid, Button, InputAdornment, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import InputField from '@/components/InputField';
-import { CompanyLogoIcon } from '@/assets/icons';
+import { CompanyLogoIcon, EyeIcon, EyeSlashIcon } from '@/assets/icons';
 import { LoginDashboardImage } from '@/assets/images';
 import { styles } from './Login.style';
 
@@ -125,17 +123,21 @@ const Login = () => {
                             sx={{ width: '30px', cursor: 'pointer' }}
                           >
                             {isShowPassword ? (
-                              <RemoveRedEyeIcon
+                              <Box
                                 onClick={() =>
                                   setIsShowPassword(!isShowPassword)
                                 }
-                              />
+                              >
+                                <EyeIcon />
+                              </Box>
                             ) : (
-                              <VisibilityOffIcon
+                              <Box
                                 onClick={() =>
                                   setIsShowPassword(!isShowPassword)
                                 }
-                              />
+                              >
+                                <EyeSlashIcon />
+                              </Box>
                             )}
                           </InputAdornment>
                         ),
