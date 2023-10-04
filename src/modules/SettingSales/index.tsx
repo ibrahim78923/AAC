@@ -4,7 +4,7 @@ import { Box, Tabs, Tab, Typography } from '@mui/material';
 
 import RolesRight from './TabsData/RolesRight';
 
-import UserManagement from './TabsData/UserManagement/UserManagement';
+import UserManagement from './TabsData/UserManagement';
 
 interface TabPanelProps {
   children?: React.ReactNode;

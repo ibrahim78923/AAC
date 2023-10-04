@@ -2,13 +2,20 @@ import React, { useState } from 'react';
 
 import Image from 'next/image';
 
-import { Grid, Box, Typography, Checkbox } from '@mui/material';
+import {
+  Grid,
+  Box,
+  Typography,
+  Checkbox,
+  Theme,
+  useTheme,
+} from '@mui/material';
 
-import CommonDrawer from '@/components/Drawer';
+import CommonDrawer from '@/components/CommonDrawer';
 
 import comLogo from '@/assets/images/modules/organization/intellogo.png';
 import featureIcon from '@/assets/images/modules/organization/Featuredicon.png';
-import { AddPenIcon } from '@/assets/images';
+import { AddPenIcon } from '../../../../assets/images';
 import logo from '@/assets/images/modules/organization/orcalologo.png';
 import user from '@/assets/images/modules/organization/user.png';
 import sms from '@/assets/images/modules/organization/sms.png';
@@ -19,7 +26,7 @@ import { productItem } from './MockData';
 
 const OrganizationCard = () => {
   const [openDrawer, setOpenDrawer] = useState(false);
-
+  const theme = useTheme<Theme>();
   return (
     <>
       <CommonDrawer
@@ -38,7 +45,7 @@ const OrganizationCard = () => {
           <Box sx={{ position: 'relative' }}>
             <Box
               sx={{
-                border: '1px solid #E5E7EB',
+                border: `1px solid ${theme?.palette?.grey[700]}`,
                 borderRadius: '100px',
                 width: '120px',
                 height: '120px',
@@ -69,7 +76,7 @@ const OrganizationCard = () => {
         >
           <Box
             sx={{
-              border: '1px solid #E9EAEF',
+              border: `1px solid ${theme?.palette?.grey[900]}`,
               borderRadius: '8px',
               padding: '0.7rem',
             }}
@@ -95,7 +102,7 @@ const OrganizationCard = () => {
           </Box>
           <Box
             sx={{
-              border: '1px solid #E9EAEF',
+              border: `1px solid ${theme?.palette?.grey[900]}`,
               borderRadius: '8px',
               padding: '0.7rem',
             }}
@@ -120,7 +127,7 @@ const OrganizationCard = () => {
           </Box>
           <Box
             sx={{
-              border: '1px solid #E9EAEF',
+              border: `1px solid ${theme?.palette?.grey[900]}`,
               borderRadius: '8px',
               padding: '0.7rem',
             }}
@@ -145,7 +152,7 @@ const OrganizationCard = () => {
           </Box>
           <Box
             sx={{
-              border: '1px solid #E9EAEF',
+              border: `1px solid ${theme?.palette?.grey[900]}`,
               borderRadius: '8px',
               padding: '0.7rem',
             }}
@@ -175,7 +182,7 @@ const OrganizationCard = () => {
           <Grid item lg={6} md={6} sm={6} xs={12}>
             <Box
               sx={{
-                border: '1px solid #E5E7EB',
+                border: `1px solid ${theme?.palette?.grey[700]}`,
                 borderRadius: '8px',
                 padding: '1rem',
               }}
@@ -209,7 +216,7 @@ const OrganizationCard = () => {
                         fontSize: '24px',
                         fontWeight: 500,
                         lineHeight: '30px',
-                        color: '#374151',
+                        color: `${theme?.palette?.custom.main}`,
                       }}
                     >
                       Orcalo Holdings
@@ -228,7 +235,7 @@ const OrganizationCard = () => {
                           fontSize: '12px',
                           fontWeight: 500,
                           lineHeight: '18px',
-                          color: '#374151',
+                          color: `${theme?.palette?.custom.main}`,
                         }}
                       >
                         John Doe
@@ -248,7 +255,7 @@ const OrganizationCard = () => {
                           fontSize: '12px',
                           fontWeight: 500,
                           lineHeight: '18px',
-                          color: '#374151',
+                          color: `${theme?.palette?.custom.main}`,
                         }}
                       >
                         Johndoe@gmail.com
@@ -268,7 +275,7 @@ const OrganizationCard = () => {
                           fontSize: '12px',
                           fontWeight: 500,
                           lineHeight: '18px',
-                          color: '#374151',
+                          color: `${theme?.palette?.custom.main}`,
                         }}
                       >
                         (316) 555-0116
@@ -300,7 +307,7 @@ const OrganizationCard = () => {
                         fontSize: '12px',
                         fontWeight: 500,
                         lineHeight: '18px',
-                        color: '#38CAB5',
+                        color: `${theme?.palette?.primary.main}`,
                       }}
                     >
                       Edit Info
@@ -313,7 +320,7 @@ const OrganizationCard = () => {
           <Grid item lg={6} md={6} sm={6} xs={12}>
             <Box
               sx={{
-                border: '1px solid #E5E7EB',
+                border: `1px solid ${theme?.palette?.grey[700]}`,
                 borderRadius: '8px',
                 padding: '1rem',
               }}
@@ -325,7 +332,7 @@ const OrganizationCard = () => {
                       fontWeight: 600,
                       fontSize: '20px',
                       lineHeight: '30px',
-                      color: '#374151',
+                      color: `${theme?.palette?.custom.main}`,
                       textAlign: {
                         lg: 'start',
                         md: 'start',
@@ -340,7 +347,7 @@ const OrganizationCard = () => {
                         fontWeight: 400,
                         fontSize: '16px',
                         lineHeight: '24px',
-                        color: '#374151',
+                        color: `${theme?.palette?.custom.main}`,
                       }}
                     >
                       (4)
@@ -365,8 +372,8 @@ const OrganizationCard = () => {
                         borderRadius: '40px',
                         display: 'flex',
                         alignItems: 'center',
-                        background: '#d7f4f0',
-                        color: '#38cab5',
+                        background: `${theme?.palette?.primary.light}`,
+                        color: `${theme?.palette?.primary.main}`,
                         padding: '0.4rem',
                         fontSize: '12px',
                         fontWeight: 400,
@@ -391,7 +398,7 @@ const OrganizationCard = () => {
                         display: 'flex',
                         alignItems: 'center',
                         background: '#FF4A4A1A',
-                        color: '#FF4A4A',
+                        color: `${theme?.palette?.error.main}`,
                         padding: '0.4rem',
                         fontSize: '12px',
                         fontWeight: 400,

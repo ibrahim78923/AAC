@@ -1,6 +1,14 @@
 import React, { useState } from 'react';
 
-import { Box, Button, Typography, Tabs, Tab } from '@mui/material';
+import {
+  Box,
+  Button,
+  Typography,
+  Tabs,
+  Tab,
+  Theme,
+  useTheme,
+} from '@mui/material';
 
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
@@ -8,7 +16,7 @@ import UserTable from './UserTable';
 
 import TeamsTable from './TeamsTable';
 
-import CommonDrawer from '@/components/Drawer';
+import CommonDrawer from '@/components/CommonDrawer';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -47,6 +55,7 @@ const UserManagement = () => {
   const [value, setValue] = React.useState(0);
   const [addUserOpen, setAddUserOpen] = useState(false);
   const [createTeamOpen, setCreateTeamOpen] = useState(false);
+  const theme = useTheme<Theme>();
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -83,7 +92,7 @@ const UserManagement = () => {
       </CommonDrawer>
       <Box
         sx={{
-          border: '1px solid #EAECF0',
+          border: `1px solid ${theme?.palette?.grey[700]}`,
           borderRadius: '8px',
           boxShadow: '0px 1px 2px 0px #1018280F, 0px 1px 3px 0px #1018281A',
           padding: '1rem',
@@ -107,7 +116,12 @@ const UserManagement = () => {
             variant="contained"
             sx={{ display: 'flex', alignItems: 'center', columnGap: '10px' }}
           >
-            <AddCircleIcon sx={{ color: '#ffff', fontSize: '16px' }} />
+            <AddCircleIcon
+              sx={{
+                color: `${theme?.palette?.common.white}`,
+                fontSize: '16px',
+              }}
+            />
             {value === 0 ? 'Add User' : 'Create Team'}
           </Button>
         </Box>

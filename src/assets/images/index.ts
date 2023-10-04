@@ -36,3 +36,5 @@ export { default as IcLinkImage } from './modules/HeaderAndSidebar/ic-link.png';
 export { default as CrossImage } from './modules/HeaderAndSidebar/cross.png';
 export { default as NotificationAvatarImage } from './modules/HeaderAndSidebar/notification-avatar.png';
 export { default as ArrowSquareLeftImage } from './modules/HeaderAndSidebar/arrow-square-left.png';
+// export { default as AvatarImage } from './shared/avatar.png';
+export { default as AddPenIcon } from './modules/organization/edit-blue-pen';

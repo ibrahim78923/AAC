@@ -22,7 +22,7 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
-import CommonDrawer from '@/components/Drawer';
+import CommonDrawer from '@/components/CommonDrawer';
 
 function createData(
   name: string,

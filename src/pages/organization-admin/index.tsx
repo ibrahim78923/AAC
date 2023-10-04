@@ -1,4 +1,4 @@
-import Organization from '@/modules/Organization/Organization';
+import Organization from '@/modules/Organization';
 import React from 'react';
 
 // const OrganizationPage = () => {
@@ -7,7 +7,7 @@ import React from 'react';
 
 // export default OrganizationPage
 
-import SuperAdminLayout from '@/layouts/SuperAdminLayout/SuperAdminLayout';
+import SuperAdminLayout from '../../layout';
 function OrganizationPage() {
   return (
     <div>

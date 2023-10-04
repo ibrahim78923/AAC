@@ -1,5 +1,5 @@
-import SuperAdminLayout from '@/layouts/SuperAdminLayout/SuperAdminLayout';
-import SettingSales from '@/modules/SettingSales/SettingSales';
+import SuperAdminLayout from '../../layout';
+import SettingSales from '@/modules/SettingSales';
 function SettingsSalePage() {
   return (
     <div>

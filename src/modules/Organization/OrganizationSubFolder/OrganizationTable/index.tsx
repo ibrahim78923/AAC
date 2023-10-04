@@ -18,12 +18,14 @@ import {
   AvatarGroup,
   Typography,
   Checkbox,
+  Theme,
+  useTheme,
 } from '@mui/material';
 
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 import Search from '@/components/Search';
-import CommonDrawer from '@/components/Drawer';
+import CommonDrawer from '@/components/CommonDrawer';
 
 import add from '@/assets/images/modules/organization/addcircle.png';
 import featureIcon from '@/assets/images/modules/organization/Featuredicon.png';
@@ -35,7 +37,7 @@ const OrganizationTable = () => {
   const [value, setValue] = useState('search here');
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-
+  const theme = useTheme<Theme>();
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -117,7 +119,7 @@ const OrganizationTable = () => {
           <Box sx={{ position: 'relative' }}>
             <Box
               sx={{
-                border: '1px solid #E5E7EB',
+                border: `1px solid ${theme?.palette?.grey[700]}`,
                 borderRadius: '100px',
                 width: '120px',
                 height: '120px',
@@ -282,8 +284,8 @@ const OrganizationTable = () => {
             >
               <Button
                 sx={{
-                  border: '1px solid #D1D5DB',
-                  color: '#6B7280',
+                  border: `1px solid ${theme?.palette?.custom.dark}`,
+                  color: `${theme?.palette?.custom.main}`,
                   fontSize: '14px',
                   fontWeight: 500,
                   width: { lg: 'unset', md: 'unset', sm: 'unset', xs: '100%' },
@@ -293,7 +295,10 @@ const OrganizationTable = () => {
                 aria-expanded={open ? 'true' : undefined}
                 onClick={handleClick}
               >
-                Action <ArrowDropDownIcon sx={{ color: '#6B7280' }} />
+                Action
+                <ArrowDropDownIcon
+                  sx={{ color: `${theme?.palette?.custom.main}` }}
+                />
               </Button>
               <Menu
                 id="basic-menu"
@@ -317,10 +322,6 @@ const OrganizationTable = () => {
                   display: 'flex',
                   alignContent: 'center',
                   columnGap: '10px',
-                  '&:hover': {
-                    backgroundColor: '#38CAB5',
-                    color: '#fff',
-                  },
                 }}
               >
                 <Image src={add} alt="add" /> Add Company Account

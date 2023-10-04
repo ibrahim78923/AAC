@@ -14,13 +14,15 @@ import {
   TableRow,
   Switch,
   Select,
+  Theme,
+  useTheme,
 } from '@mui/material';
 
 import { SelectChangeEvent } from '@mui/material/Select';
 
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
-import CommonDrawer from '@/components/Drawer';
+import CommonDrawer from '@/components/CommonDrawer';
 import Search from '@/components/Search';
 
 function createData(
@@ -36,6 +38,7 @@ function createData(
 const UserTable = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [editOpen, setEditOpen] = useState(false);
+  const theme = useTheme<Theme>();
   const [age, setAge] = React.useState('10');
   const [role, setRole] = React.useState('10');
 
@@ -206,9 +209,9 @@ const UserTable = () => {
           aria-expanded={open ? 'true' : undefined}
           onClick={handleClick}
           sx={{
-            border: '1px solid #D1D5DB',
+            border: `1px solid ${theme?.palette?.grey[700]}`,
             borderRadius: '4px',
-            color: '#6B7280',
+            color: `${theme?.palette?.custom.main}`,
             display: 'flex',
             alignItems: 'center',
             padding: '0.7rem',
