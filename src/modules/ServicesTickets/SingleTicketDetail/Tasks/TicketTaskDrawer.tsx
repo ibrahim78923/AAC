@@ -11,7 +11,7 @@ export const TicketTaskDrawer = ({
   isDrawerOpen,
   onClose,
   id,
-  detailTitle,
+  taskDetail,
 }: any) => {
   const methodsCreateNewTicketForm = useForm({
     resolver: yupResolver(createTicketValidationSchema),
@@ -46,12 +46,14 @@ export const TicketTaskDrawer = ({
           onClose={() => {
             onClose(false);
           }}
-          title={detailTitle}
+          title={taskDetail?.taskID}
           submitHandler={() => {}}
           footer={true}
           isOk={true}
           okText="Update"
-        ></CommonDrawer>
+        >
+          <div>{taskDetail?.taskName}</div>
+        </CommonDrawer>
       ) : (
         <CommonDrawer
           isDrawerOpen={isDrawerOpen}

@@ -10,6 +10,7 @@ export const Tasks = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [isUpdateDrawerOpen, setIsUpdateDrawerOpen] = useState<boolean>(false);
   const [active, setActive] = useState<boolean>(false);
+  const [index, setIndex] = useState<any>(0);
   const handleCheckboxChange = (event: any) => {
     setActive(event.target.checked);
   };
@@ -45,11 +46,11 @@ export const Tasks = () => {
         isDrawerOpen={isUpdateDrawerOpen}
         onClose={setIsUpdateDrawerOpen}
         id="details"
-        detailTitle={data[0].taskID}
+        taskDetail={data[data.findIndex((img: any) => img.taskID === index)]}
       />
       <br />
       <TanstackTable
-        columns={columns(setIsUpdateDrawerOpen, handleCheckboxChange)}
+        columns={columns(setIsUpdateDrawerOpen, handleCheckboxChange, setIndex)}
         data={data}
       />
     </div>

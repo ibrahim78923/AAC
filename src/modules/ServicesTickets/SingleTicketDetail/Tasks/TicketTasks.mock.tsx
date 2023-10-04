@@ -29,6 +29,7 @@ export const data: any = [
 export const columns: any = (
   setIsDrawerOpen: any,
   handleCheckboxChange: any,
+  setIndex: any,
 ) => [
   {
     accessorFn: (row: any) => row.Id,
@@ -51,6 +52,7 @@ export const columns: any = (
         style={{ color: '#0AADC7', cursor: 'pointer' }}
         onClick={() => {
           setIsDrawerOpen(true);
+          setIndex(info.getValue());
         }}
       >
         {info.getValue()}
