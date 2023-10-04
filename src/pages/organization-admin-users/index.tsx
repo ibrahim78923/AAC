@@ -1,4 +1,4 @@
-import SuperAdminLayout from '@/layouts/SuperAdminLayout/SuperAdminLayout';
+import Layout from '@/layout';
 import UsersOrganizationAdmin from '@/modules/UsersOrganizationAdmin/UsersOrganizationAdmin';
 
 const OrganizationAdminUsersPage = () => {
@@ -7,5 +7,5 @@ const OrganizationAdminUsersPage = () => {
 export default OrganizationAdminUsersPage;
 
 OrganizationAdminUsersPage.getLayout = function getLayout(page: any) {
-  return <SuperAdminLayout>{page}</SuperAdminLayout>;
+  return <Layout>{page}</Layout>;
 };

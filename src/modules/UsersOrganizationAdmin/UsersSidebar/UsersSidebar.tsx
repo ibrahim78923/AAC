@@ -2,15 +2,13 @@ import React, { useState } from 'react';
 
 import { Avatar, Box, Button, Divider, Typography } from '@mui/material';
 
-import CommonDrawer from '@/components/Drawer';
-
-import Search from '@/components/Search';
-
 import FilterUser from '../UsersDetails/Drawers/FilterUser/FilterUser';
 
 import AddUser from '../UsersDetails/Drawers/AddUser/AddUser';
 
 import { FilterSharedIcon, PlusSharedIcon } from '@/assets/icons';
+
+import CommonDrawer from '@/components/CommonDrawer';
 
 const UsersSidebar = () => {
   const [openFilterDrawer, setOpenFilterDrawer] = useState(false);
@@ -42,7 +40,7 @@ const UsersSidebar = () => {
         py={1}
         sx={{ display: 'flex', justifyContent: 'space-between', gap: '10px' }}
       >
-        <Search label="Placeholder" />
+        {/* <Search label="Placeholder" /> */}
         <Button
           onClick={() => {
             setOpenFilterDrawer(true);
@@ -81,10 +79,14 @@ const UsersSidebar = () => {
       {openFilterDrawer && (
         <CommonDrawer
           isDrawerOpen={openFilterDrawer}
-          setIsDrawerOpen={setOpenFilterDrawer}
+          submitHandler={() => {
+            setOpenFilterDrawer(false);
+          }}
+          onClose={() => {
+            setOpenFilterDrawer(false);
+          }}
           title="Filters"
           okText="Apply"
-          submitHandler={() => {}}
           isOk={true}
         >
           <FilterUser />
@@ -94,10 +96,14 @@ const UsersSidebar = () => {
       {openAdduserDrawer && (
         <CommonDrawer
           isDrawerOpen={openAdduserDrawer}
-          setIsDrawerOpen={setOpenAdduserDrawer}
+          submitHandler={() => {
+            setOpenAdduserDrawer(false);
+          }}
+          onClose={() => {
+            setOpenAdduserDrawer(false);
+          }}
           title="Add User"
           okText="Add"
-          submitHandler={() => {}}
           isOk={true}
         >
           <AddUser />

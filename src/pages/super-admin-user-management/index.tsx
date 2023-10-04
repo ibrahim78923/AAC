@@ -1,6 +1,11 @@
 import Layout from '@/layout';
+import UserManagementSuperAdmin from '@/modules/UserManagementSuperAdmin/UserManagementSuperAdmin';
 const UserManagementPage = () => {
-  return <div>User Management Page</div>;
+  return (
+    <div>
+      <UserManagementSuperAdmin />
+    </div>
+  );
 };
 export default UserManagementPage;
 UserManagementPage.getLayout = function getLayout(page: any) {

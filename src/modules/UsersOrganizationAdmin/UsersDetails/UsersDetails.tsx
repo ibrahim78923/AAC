@@ -6,7 +6,7 @@ import ProfileCard from '@/components/ProfileCard';
 
 import CommonTabs from '@/components/Tabs';
 
-import CommonDrawer from '@/components/Drawer';
+import CommonDrawer from '@/components/CommonDrawer';
 
 import Accounts from './Accounts/Accounts';
 
@@ -54,10 +54,15 @@ const UsersDetails = () => {
       {oepnAddAccountDrawer && (
         <CommonDrawer
           isDrawerOpen={oepnAddAccountDrawer}
-          setIsDrawerOpen={setOpenAddAccountDrawer}
+          // setIsDrawerOpen={()=>{setOpenAddAccountDrawer(false)}}
           title="Add Account"
           okText="Add"
-          submitHandler={() => {}}
+          submitHandler={() => {
+            setOpenAddAccountDrawer(false);
+          }}
+          onClose={() => {
+            setOpenAddAccountDrawer(false);
+          }}
           isOk={true}
         >
           <AddAccount />

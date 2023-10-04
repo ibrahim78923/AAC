@@ -4,8 +4,6 @@ import { Box, Button, Menu, MenuItem, Stack, Typography } from '@mui/material';
 
 import CommonTabs from '@/components/Tabs';
 
-import CommonDrawer from '@/components/Drawer';
-
 import { ArrowDropDown } from '@mui/icons-material';
 
 import { FilterSharedIcon, PlusSharedIcon } from '@/assets/icons';
@@ -14,6 +12,7 @@ import UsersList from './Users/UsersList';
 
 import ProfileCard from '@/components/ProfileCard';
 import UsersFilters from './Users/UsersFilters/UsersFilters';
+import CommonDrawer from '@/components/CommonDrawer';
 
 const UserManagementSuperAdmin = () => {
   const [selected, setSelected] = React.useState<readonly string[]>([]);
@@ -100,10 +99,14 @@ const UserManagementSuperAdmin = () => {
       {openFilterDrawer && (
         <CommonDrawer
           isDrawerOpen={openFilterDrawer}
-          setIsDrawerOpen={setOpenFilterDrawer}
           title="Filters"
           okText="Apply"
-          submitHandler={() => {}}
+          submitHandler={() => {
+            setOpenFilterDrawer(false);
+          }}
+          onClose={() => {
+            setOpenFilterDrawer(false);
+          }}
           isOk={true}
         >
           <UsersFilters />
@@ -113,10 +116,14 @@ const UserManagementSuperAdmin = () => {
       {openAddUserDrawer && (
         <CommonDrawer
           isDrawerOpen={openAddUserDrawer}
-          setIsDrawerOpen={setOpenAddUserDrawer}
+          submitHandler={() => {
+            setOpenAddUserDrawer(false);
+          }}
+          onClose={() => {
+            setOpenAddUserDrawer(false);
+          }}
           title="Add User"
           okText="Add"
-          submitHandler={() => {}}
           isOk={true}
         >
           <Typography>content here</Typography>
