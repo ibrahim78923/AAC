@@ -117,7 +117,6 @@ const ForgetPassword = () => {
                         variant="body1"
                         sx={{ color: theme?.palette?.error?.main }}
                       >
-                        {' '}
                         {errors?.email?.message}
                       </Typography>
                     )}
