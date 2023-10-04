@@ -1,10 +1,11 @@
-import SuperAdminLayout from '@/layouts/SuperAdminLayout/SuperAdminLayout';
+import Layout from '@/layout';
+import { SingleTicketDetail } from '@/modules/ServicesTickets/SingleTicketDetail';
 const SingleTicketDetailPage = () => {
-  return <>single ticket view</>;
+  return <SingleTicketDetail />;
 };
 
 SingleTicketDetailPage.getLayout = function getLayout(page: any) {
-  return <SuperAdminLayout>{page}</SuperAdminLayout>;
+  return <Layout>{page}</Layout>;
 };
 
 export default SingleTicketDetailPage;

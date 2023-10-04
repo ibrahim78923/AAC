@@ -15,6 +15,11 @@ import {
   ticketsFilterFormSchema,
 } from './components/TicketsFilter/TicketsFilter.data';
 import { TicketsFilter } from './components/TicketsFilter';
+import CreateTicket from '../CreateTicket';
+import {
+  createTicketDefaultValues,
+  createTicketValidationSchema,
+} from '../CreateTicket/CreateTicket.data';
 
 export const useTicketsLists = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -22,7 +27,11 @@ export const useTicketsLists = () => {
   const [to, setTo] = useState(false);
   const theme = useTheme();
   const router = useRouter();
+
   const submitTicketBulkUpdateForm = async () => {};
+
+  const submitCreateNewTicket = async () => {};
+
   const [ticketsListsColumn, seTTicketsListsColumn] = useState(
     ticketsListsColumnFunction(theme, router),
   );
@@ -31,14 +40,17 @@ export const useTicketsLists = () => {
     resolver: yupResolver(ticketsBulkUpdateFormSchemaFunction?.(to)),
     defaultValues: ticketsBulkUpdateFormSchemaFunction?.(to),
   });
-  // const methodsTicketFilterForm: any = useForm({
-  //   resolver: yupResolver(ticketsFilterFormSchema),
-  //   defaultValues: ticketsFilterDefaultFormValuesFunction(),
-  // });
+
   const methodsTicketFilterForm = useForm({
     resolver: yupResolver(ticketsFilterFormSchema),
     defaultValues: ticketsFilterDefaultFormValuesFunction?.(),
   });
+
+  const methodsCreateNewTicketForm = useForm({
+    resolver: yupResolver(createTicketValidationSchema),
+    defaultValues: createTicketDefaultValues,
+  });
+
   const customizeColumns: any = ticketsListsColumnPersist.reduce(
     (x: any, y: any) => {
       const { id } = y;
@@ -113,6 +125,21 @@ export const useTicketsLists = () => {
           methods={methodsBulkUpdateForm}
           reset={methodsBulkUpdateForm?.reset}
           handleSubmit={methodsBulkUpdateForm.handleSubmit}
+        />
+      ),
+    },
+    'create-new-ticket': {
+      title: 'Create Ticket',
+      okText: 'Submit',
+      isOk: true,
+      submitHandler: () => {
+        methodsCreateNewTicketForm.handleSubmit(submitCreateNewTicket)();
+      },
+      children: (
+        <CreateTicket
+          submitCreateNewTicket={submitCreateNewTicket}
+          methods={methodsCreateNewTicketForm}
+          handleSubmit={methodsCreateNewTicketForm.handleSubmit}
         />
       ),
     },

@@ -2,7 +2,8 @@ import SkeletonFormExample from '@/components/Skeletons/SkeletonForm/SkeletonFor
 import SkeletonTableExample from '@/components/Skeletons/SkeletonTable/SkeletonTable.example';
 import TanstackTable from '@/components/Tabel/TanstackTable';
 import HorizontalTabsExample from '@/components/Tabs/HorizontalTabs/HorizontalTabs.example';
-import SuperAdminLayout from '@/layouts/SuperAdminLayout/SuperAdminLayout';
+import SuperAdminLayout from '@/layouts/SuperAdminLayout';
+// import SuperAdminLayout from '@/layouts/SuperAdminLayout/SuperAdminLayout';
 import { TicketsLists } from '@/modules/ServicesTickets/TicketsLists';
 import { Button, Checkbox } from '@mui/material';
 import { useSnackbar } from 'notistack';

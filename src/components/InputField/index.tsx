@@ -34,7 +34,7 @@ export default function InputField({
     },
     '& fieldset': {
       border: `1.5px solid ${
-        hasError ? theme?.palette?.error?.main : '#E5E7EB'
+        hasError ? theme?.palette?.error?.main : theme?.palette?.grey[700]
       }`,
     },
   };
