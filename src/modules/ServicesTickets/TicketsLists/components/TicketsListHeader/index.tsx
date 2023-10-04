@@ -1,7 +1,7 @@
 import { Box, Button, Typography } from '@mui/material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import PublishIcon from '@mui/icons-material/Publish';
-export const TicketsListHeader = () => {
+export const TicketsListHeader = ({ setOpenCreateTicket }: any) => {
   return (
     <>
       <Box
@@ -26,6 +26,7 @@ export const TicketsListHeader = () => {
             variant="contained"
             size="large"
             startIcon={<AddCircleOutlineIcon />}
+            onClick={() => setOpenCreateTicket?.()}
           >
             Create Ticket
           </Button>
