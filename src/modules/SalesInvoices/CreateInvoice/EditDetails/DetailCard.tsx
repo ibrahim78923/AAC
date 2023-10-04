@@ -7,16 +7,8 @@ import {
 } from '@/mock/modules/SalesInvoices/index';
 import { LogoSharedIcon } from '@/assets/icons';
 import { useTheme } from '@mui/material/styles';
+import { style } from './EditDetail.style';
 import { v4 as uuidv4 } from 'uuid';
-
-const style = {
-  cardDetails: {
-    padding: '10px 20px',
-    bgcolor: '#1F305D',
-    color: '#fff',
-    borderRadius: '6px',
-  },
-};
 
 const DetailCard = () => {
   const theme = useTheme();
@@ -58,7 +50,10 @@ const DetailCard = () => {
         className="invoice-detail"
         sx={{ marginTop: '20px', p: '10px', bgcolor: theme.palette?.grey[100] }}
       >
-        <Stack direction="row" justifyContent="space-between">
+        <Stack
+          direction={{ xs: 'column', md: 'row' }}
+          justifyContent="space-between"
+        >
           {invoiceDetail?.map((item) => (
             <Stack direction="row" gap="3px" key={uuidv4()}>
               <Typography sx={{ fontWeight: 'bold' }}>{item.title}:</Typography>

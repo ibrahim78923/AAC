@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   Box,
   Stack,
@@ -7,28 +8,38 @@ import {
   Card,
   CardActions,
   CardContent,
+  TextField,
+  InputAdornment,
 } from '@mui/material';
+import { AddCircleRounded } from '@mui/icons-material';
+import { useTheme } from '@mui/material/styles';
 import { PlusSharedIcon } from '@/assets/icons';
 import { productTotalDetails } from './EditDetailsData';
 import { v4 as uuidv4 } from 'uuid';
 
 const ProductsTable = () => {
+  const [isDiscount, setIsDiscount] = useState(false);
+  const theme = useTheme();
+
   return (
     <Box mt={3}>
-      <Stack direction="row" justifyContent="space-between">
+      <Stack
+        direction={{ xs: 'column', sm: 'row' }}
+        justifyContent="space-between"
+        my={2}
+      >
         <Typography variant="h4">Products</Typography>
         <Button
           variant="contained"
           sx={{ display: 'flex', gap: '10px' }}
-          // onClick={() => setIsListViewPgae(true)}
           startIcon={<PlusSharedIcon />}
         >
           Add Products
         </Button>
       </Stack>
-      <Stack direction="row" gap={3}>
+      <Stack direction={{ xs: 'column', lg: 'row' }} gap={3}>
         <TextareaAutosize minRows={15} cols={180} placeholder="Comments" />
-        <Card sx={{ width: '325px', p: '10px 15px' }}>
+        <Card sx={{ width: { xs: '100%', lg: '325px' }, p: '10px 15px' }}>
           <CardContent>
             {productTotalDetails?.map((item: any) => (
               <Box key={uuidv4()}>
@@ -53,8 +64,55 @@ const ProductsTable = () => {
                 ))}
               </Box>
             ))}
+            <Box
+              display="flex"
+              justifyContent="space-between"
+              alignItems="center"
+            >
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '10px',
+                  cursor: 'pointer',
+                }}
+                onClick={() => {
+                  setIsDiscount(true);
+                }}
+              >
+                {!isDiscount && <AddCircleRounded />}
+                <Typography>Discount</Typography>
+              </Box>
+              {!isDiscount ? (
+                <Typography sx={{ color: theme?.palette?.custom?.dark }}>
+                  0%
+                </Typography>
+              ) : (
+                <TextField
+                  type="number"
+                  sx={{
+                    '& input': {
+                      width: '10px',
+                      '&::-webkit-inner-spin-button, &::-webkit-outer-spin-button':
+                        {
+                          '-webkit-appearance': 'none',
+                        },
+                    },
+                  }}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">%</InputAdornment>
+                    ),
+                    inputProps: { min: 0, max: 100 },
+                  }}
+                  size="small"
+                />
+              )}
+            </Box>
           </CardContent>
-          <CardActions sx={{ d: 'flex', justifyContent: 'space-between' }}>
+          <CardActions
+            sx={{ display: 'flex', justifyContent: 'space-between' }}
+          >
             {/* <Stack direction='row' justifyContent='space-between' alignItems='center'> */}
             <Typography variant="h5">Total</Typography>
             <Typography variant="h5">£50</Typography>
