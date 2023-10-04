@@ -8,6 +8,8 @@ import Box from '@mui/material/Box';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import InputField from '@/components/InputField';
+import SearchableSelect from '@/components/SearchableSelect';
+import { candidatesArray } from '@/mock/modules/Settings/Jobs';
 import { AuthHeader, formStyling, loginDashboard } from './SignUp.style';
 import {
   EyeIcon,
@@ -36,6 +38,14 @@ const SignUp = () => {
   const isPasswordValid = (password: string) => {
     const regex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{8,}$/;
     return regex.test(password);
+  };
+
+  const renderCustomOption = (option: any) => {
+    return (
+      <Typography variant="h6" sx={{ color: theme?.palette.grey[600] }}>
+        {option.label} {option.name}
+      </Typography>
+    );
   };
 
   const onSubmit = (data: any) => {
@@ -484,6 +494,24 @@ const SignUp = () => {
                             {errors?.email?.message}
                           </Typography>
                         )}
+
+                        <SearchableSelect
+                          dropdownData={candidatesArray}
+                          renderOption={renderCustomOption}
+                          name="Enter CRN Number"
+                          label="Company Registration Number (CRN)"
+                          control={control}
+                          rules={{ required: 'required field' }}
+                          error={!!errors.message}
+                        />
+                        <Typography
+                          variant="body2"
+                          sx={{ marginBottom: '8px', marginTop: '20px' }}
+                        >
+                          Organization Name
+                        </Typography>
+
+                        <Typography variant="body2">--</Typography>
 
                         <Typography
                           variant="body2"
