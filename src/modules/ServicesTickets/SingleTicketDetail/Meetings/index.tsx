@@ -29,7 +29,7 @@ export const Meetings = () => {
               alignItems: 'center',
               gap: '20px',
               flexDirection: { sm: 'row', xs: 'column' },
-              mt: { sm: '', xs: '20px' },
+              mt: { sm: '0px', xs: '20px' },
             }}
             sm={6}
             xs={12}
