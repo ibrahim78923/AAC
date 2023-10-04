@@ -1,4 +1,4 @@
-export interface CounterProps {
+export interface CounterI {
   inputValue: number;
   fixedText?: string;
   inputWidth?: string;

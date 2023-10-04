@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { TabList, TabPanel, TabContext } from '@mui/lab';
 import { Tab, Box } from '@mui/material';
+import { TabList, TabPanel, TabContext } from '@mui/lab';
 import PaymentMethods from './PaymentMethods';
 import Subscriptions from './Subscriptions';
 import Invoices from './Invoices';

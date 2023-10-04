@@ -1,4 +1,4 @@
-export interface BillingDetailProps {
+export interface BillingDetailI {
   open: boolean;
   onClose: () => void;
 }

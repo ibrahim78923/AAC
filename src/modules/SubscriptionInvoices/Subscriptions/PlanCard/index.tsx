@@ -1,10 +1,10 @@
 import React, { FC } from 'react';
 import { useRouter } from 'next/router';
 import { Box, Button, Typography, Stack } from '@mui/material';
-import { PlanCardProps } from './PlanCard.interface';
-import { styles } from './PlanCard.styles';
+import { PlanCardI } from './PlanCard.interface';
+import { styles } from './PlanCard.style';
 
-const PlanCard: FC<PlanCardProps> = ({
+const PlanCard: FC<PlanCardI> = ({
   status,
   icon,
   title,

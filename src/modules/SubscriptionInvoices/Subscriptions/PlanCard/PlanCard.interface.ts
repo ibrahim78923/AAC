@@ -1,4 +1,4 @@
-export interface PlanCardProps {
+export interface PlanCardI {
   status?: string;
   icon: any;
   title: string;

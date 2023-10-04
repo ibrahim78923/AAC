@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
 import { Box, Typography } from '@mui/material';
 import CommonDrawer from '@/components/CommonDrawer';
-import { BillingDetailProps } from './BillingDetail.interface';
+import { BillingDetailI } from './BillingDetail.interface';
 
-const BillingDetail: FC<BillingDetailProps> = ({ open, onClose }) => {
+const BillingDetail: FC<BillingDetailI> = ({ open, onClose }) => {
   return (
     <CommonDrawer title="Billing Details" isDrawerOpen={open} onClose={onClose}>
       <Typography variant="h5" sx={{ fontWeight: '700', mb: '8px' }}>

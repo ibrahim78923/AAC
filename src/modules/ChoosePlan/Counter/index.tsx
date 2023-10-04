@@ -1,10 +1,10 @@
 import React, { useState, ChangeEvent, FC } from 'react';
 import { Box } from '@mui/material';
-import { styles } from './Counter.style';
-import { CounterProps } from './Counter.interface';
+import { CounterI } from './Counter.interface';
 import { IconAddCircle, IconMinusCircle } from '@/assets/icons';
+import { styles } from './Counter.style';
 
-const Counter: FC<CounterProps> = ({
+const Counter: FC<CounterI> = ({
   inputValue,
   fixedText,
   inputWidth = '58px',
