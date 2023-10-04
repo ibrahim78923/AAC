@@ -1,4 +1,4 @@
-import SuperAdminLayout from '@/layouts/SuperAdminLayout';
+import Layout from '@/layout';
 import SalesInvoices from '@/modules/SalesInvoices';
 import React from 'react';
 
@@ -9,5 +9,5 @@ const SalesInvoicesPage = () => {
 export default SalesInvoicesPage;
 
 SalesInvoicesPage.getLayout = function getLayout(page: any) {
-  return <SuperAdminLayout>{page}</SuperAdminLayout>;
+  return <Layout>{page}</Layout>;
 };

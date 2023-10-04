@@ -11,7 +11,7 @@ import {
 import { ArrowDropDown } from '@mui/icons-material';
 import InvoicesTable from './ViewTable';
 import FilterDrawer from './FilterDrawer';
-import { PlusSharedIcon, RefreshIcon } from '@/assets/icons';
+import { PlusSharedIcon } from '@/assets/icons';
 import Search from '@/components/Search';
 
 const InvoicvesListView = (props: any) => {
@@ -81,7 +81,7 @@ const InvoicvesListView = (props: any) => {
                 width: '50px',
               }}
             >
-              <RefreshIcon />
+              {/* <RefreshIcon /> */}
             </Box>
             <FilterDrawer />
           </Stack>

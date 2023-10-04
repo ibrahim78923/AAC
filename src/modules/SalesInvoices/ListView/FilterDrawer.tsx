@@ -38,7 +38,7 @@ const FilterDrawer = () => {
       <CommonDrawer
         okText="Apply"
         isDrawerOpen={isDrawerOpen}
-        setIsDrawerOpen={setIsDrawerOpen}
+        onClose={() => setIsDrawerOpen(false)}
         title="Filters"
         isOk={true}
         submitHandler={handleSubmit(onSubmit)}
