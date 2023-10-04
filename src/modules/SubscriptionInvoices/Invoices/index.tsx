@@ -1,19 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
-function Invoices() {
-  /* VARIABLE DECLARATION
-  -------------------------------------------------------------------------------------*/
-
-  /* EVENT FUNCTIONS
-  -------------------------------------------------------------------------------------*/
-
-  /* EVENT LISTENERS
-  -------------------------------------------------------------------------------------*/
-  useEffect(() => {}, []);
-
-  /* RENDER COMPONENT
-  -------------------------------------------------------------------------------------*/
+const Invoices = () => {
   return <>Invoices</>;
-}
+};
 
 export default Invoices;

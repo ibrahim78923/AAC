@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Grid } from '@mui/material';
 import PlanCard from './PlanCard';
 import BillingDetail from './BillingDetail';
@@ -11,7 +11,7 @@ import {
 } from '@/assets/icons';
 import { data } from './Subscription.data';
 
-function getProductIcon(product: any) {
+const getProductIcon = (product: any) => {
   let iconProduct;
   switch (product) {
     case 'Sales':
@@ -33,15 +33,11 @@ function getProductIcon(product: any) {
       iconProduct = <></>;
   }
   return iconProduct;
-}
+};
 
-function Subscriptions() {
-  /* VARIABLE DECLARATION
-  -------------------------------------------------------------------------------------*/
+const Subscriptions = () => {
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
 
-  /* EVENT FUNCTIONS
-  -------------------------------------------------------------------------------------*/
   const handleDrawerOpen = () => {
     setIsOpenDrawer(true);
   };
@@ -50,12 +46,6 @@ function Subscriptions() {
     setIsOpenDrawer(false);
   };
 
-  /* EVENT LISTENERS
-  -------------------------------------------------------------------------------------*/
-  useEffect(() => {}, []);
-
-  /* RENDER COMPONENT
-  -------------------------------------------------------------------------------------*/
   return (
     <>
       <Grid
@@ -86,6 +76,6 @@ function Subscriptions() {
       <BillingDetail open={isOpenDrawer} onClose={handleDrawerClose} />
     </>
   );
-}
+};
 
 export default Subscriptions;

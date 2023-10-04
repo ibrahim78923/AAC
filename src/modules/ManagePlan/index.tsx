@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import {
   Box,
@@ -18,23 +18,13 @@ import { IconPlane } from '@/assets/icons';
 import { styles } from './ManagePlan.style';
 
 const ManagePlan = () => {
-  /* VARIABLE DECLARATION
-  -------------------------------------------------------------------------------------*/
   const router = useRouter();
   const [value, setValue] = useState('');
 
-  /* EVENT FUNCTIONS
-  -------------------------------------------------------------------------------------*/
   const handleChange = (event: SelectChangeEvent) => {
     setValue(event.target.value as string);
   };
 
-  /* EVENT LISTENERS
-  -------------------------------------------------------------------------------------*/
-  useEffect(() => {}, []);
-
-  /* RENDER COMPONENT
-  -------------------------------------------------------------------------------------*/
   return (
     <>
       <Box sx={styles.card}>

@@ -1,21 +1,9 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC } from 'react';
 import { Box, Typography } from '@mui/material';
 import CommonDrawer from '@/components/CommonDrawer';
 import { BillingDetailProps } from './BillingDetail.interface';
 
 const BillingDetail: FC<BillingDetailProps> = ({ open, onClose }) => {
-  /* VARIABLE DECLARATION
-  -------------------------------------------------------------------------------------*/
-
-  /* EVENT FUNCTIONS
-  -------------------------------------------------------------------------------------*/
-
-  /* EVENT LISTENERS
-  -------------------------------------------------------------------------------------*/
-  useEffect(() => {}, []);
-
-  /* RENDER COMPONENT
-  -------------------------------------------------------------------------------------*/
   return (
     <CommonDrawer title="Billing Details" isDrawerOpen={open} onClose={onClose}>
       <Typography variant="h5" sx={{ fontWeight: '700', mb: '8px' }}>

@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC } from 'react';
 import { useRouter } from 'next/router';
 import { Box, Button, Typography, Stack } from '@mui/material';
 import { PlanCardProps } from './PlanCard.interface';
@@ -16,19 +16,8 @@ const PlanCard: FC<PlanCardProps> = ({
   type,
   handleBillingDetail,
 }) => {
-  /* VARIABLE DECLARATION
-  -------------------------------------------------------------------------------------*/
   const router = useRouter();
 
-  /* EVENT FUNCTIONS
-  -------------------------------------------------------------------------------------*/
-
-  /* EVENT LISTENERS
-  -------------------------------------------------------------------------------------*/
-  useEffect(() => {}, []);
-
-  /* RENDER COMPONENT
-  -------------------------------------------------------------------------------------*/
   return (
     <Box sx={styles.planCard}>
       <Box sx={styles.planStatus}>

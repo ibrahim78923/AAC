@@ -9,12 +9,8 @@ const Counter: FC<CounterProps> = ({
   fixedText,
   inputWidth = '58px',
 }) => {
-  /* VARIABLE DECLARATION
-  -------------------------------------------------------------------------------------*/
   const [value, setValue] = useState<number>(inputValue);
 
-  /* EVENT FUNCTIONS
-  -------------------------------------------------------------------------------------*/
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const newValue = parseInt(event.target.value);
     setValue(isNaN(newValue) ? 0 : newValue);
@@ -28,11 +24,6 @@ const Counter: FC<CounterProps> = ({
     setValue((prev) => prev - 1);
   };
 
-  /* EVENT LISTENERS
-  -------------------------------------------------------------------------------------*/
-
-  /* RENDER COMPONENT
-  -------------------------------------------------------------------------------------*/
   return (
     <Box sx={styles.counterHolder}>
       <Box sx={styles.decrementBtn} onClick={decrement}>

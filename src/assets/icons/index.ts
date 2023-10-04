@@ -11,7 +11,6 @@ export { default as IconMinusCircle } from './modules/OrganizationSubscription/i
 export { default as IconAddCircle } from './modules/OrganizationSubscription/icon-add-circle';
 export { default as IconTickCircle } from './modules/OrganizationSubscription/icon-tick-circle';
 
-// More exports from here
 export { default as ExampleSharedCase } from './shared/example-shared';
 export { default as SearchSharedIcon } from './shared/search-shared';
 export { default as PlusSharedIcon } from './shared/plus-shared';

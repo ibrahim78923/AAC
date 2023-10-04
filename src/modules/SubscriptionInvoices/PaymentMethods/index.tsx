@@ -1,19 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
-function PaymentMethods() {
-  /* VARIABLE DECLARATION
-  -------------------------------------------------------------------------------------*/
-
-  /* EVENT FUNCTIONS
-  -------------------------------------------------------------------------------------*/
-
-  /* EVENT LISTENERS
-  -------------------------------------------------------------------------------------*/
-  useEffect(() => {}, []);
-
-  /* RENDER COMPONENT
-  -------------------------------------------------------------------------------------*/
+const PaymentMethods = () => {
   return <>PaymentMethods</>;
-}
+};
 
 export default PaymentMethods;

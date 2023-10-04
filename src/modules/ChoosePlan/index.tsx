@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useRouter } from 'next/router';
 import {
   Box,
@@ -15,19 +15,8 @@ import Counter from './Counter';
 import { styles } from './ChoosePlan.style';
 
 const ChoosePlan = () => {
-  /* VARIABLE DECLARATION
-  -------------------------------------------------------------------------------------*/
   const router = useRouter();
 
-  /* EVENT FUNCTIONS
-  -------------------------------------------------------------------------------------*/
-
-  /* EVENT LISTENERS
-  -------------------------------------------------------------------------------------*/
-  useEffect(() => {}, []);
-
-  /* RENDER COMPONENT
-  -------------------------------------------------------------------------------------*/
   return (
     <>
       <Box sx={{ display: 'flex', alignItems: 'center', mb: '27px' }}>
