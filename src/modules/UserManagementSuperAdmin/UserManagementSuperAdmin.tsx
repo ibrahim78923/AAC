@@ -4,15 +4,17 @@ import { Box, Button, Menu, MenuItem, Stack, Typography } from '@mui/material';
 
 import CommonTabs from '@/components/Tabs';
 
-import { ArrowDropDown } from '@mui/icons-material';
-
-import { FilterSharedIcon, PlusSharedIcon } from '@/assets/icons';
-
 import UsersList from './Users/UsersList';
 
 import ProfileCard from '@/components/ProfileCard';
+
 import UsersFilters from './Users/UsersFilters/UsersFilters';
+
 import CommonDrawer from '@/components/CommonDrawer';
+
+import { ArrowDropDown } from '@mui/icons-material';
+
+import { FilterSharedIcon, PlusSharedIcon } from '@/assets/icons';
 
 const UserManagementSuperAdmin = () => {
   const [selected, setSelected] = React.useState<readonly string[]>([]);
@@ -36,6 +38,7 @@ const UserManagementSuperAdmin = () => {
     <Box>
       <Stack direction="row" justifyContent="space-between" alignItems="center">
         <Typography variant="h4">User Management</Typography>
+
         <Button
           onClick={() =>
             tabVal === 0 ? setOpenAddUserDrawer(true) : handleAddRole
