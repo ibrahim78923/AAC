@@ -9,6 +9,7 @@ import palette from './palette';
 import typography from './typography';
 import breakpoints from './breakpoints';
 import CustomShadows from './shadows';
+import ComponentsOverrides from './overrides';
 
 export default function ThemeProvider({ children }: { children: ReactNode }) {
   const themeOptions: any = {
@@ -21,7 +22,7 @@ export default function ThemeProvider({ children }: { children: ReactNode }) {
   };
 
   const theme = createTheme(themeOptions);
-
+  theme.components = ComponentsOverrides(theme);
   return (
     <MUIThemeProvider theme={theme}>
       <GlobalStyles

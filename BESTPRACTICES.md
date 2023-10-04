@@ -104,3 +104,11 @@ Rules for making pr
 (iii) Reply on comments from lead 
 
 (iv) Branch name should be  jira ticket number followed by brief description  e.g 1234-authentication-added
+
+
+* functions must be arrow functions
+* use "page" suffix for pages 
+* styles must be at the top of main component
+* use of ternary operator
+* mention module name / role name with pages > folders names
+* use of arrow functions
