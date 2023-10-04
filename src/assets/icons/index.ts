@@ -13,3 +13,4 @@ export { default as AttachFileIcon } from './shared/attach-file';
 export { default as ArrowDownIcon } from './shared/arrow-down';
 export { default as RefreshSharedIcon } from './shared/refresh-shared';
 export { default as FilterSharedIcon } from './shared/filter-shared';
+export { default as RecievedFileIcon } from './shared/recieved-file';

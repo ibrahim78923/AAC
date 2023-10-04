@@ -3,7 +3,7 @@ import { singleTicketDetailTabsData } from './SingleTicketDetailTabs.data';
 import { Tasks } from '../../Tasks';
 import { RelatedTickets } from '../../RelatedTickets';
 import { Assets } from '../../Assets';
-import { Associations } from '../../Associations';
+import { Approvals } from '../../Approvals';
 import { Details } from '../../Details';
 import { Meetings } from '../../Meetings';
 import { Activities } from '../../Activities';
@@ -16,7 +16,7 @@ export const SingleTicketDetailTabs = () => {
       <Tasks />
       <RelatedTickets />
       <Assets />
-      <Associations />
+      <Approvals />
       <Meetings />
       <Activities />
       <Conversations />
