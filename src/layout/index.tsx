@@ -16,6 +16,7 @@ import {
   useTheme,
   List,
   Collapse,
+  Typography,
 } from '@mui/material';
 
 import Header from './Header';
@@ -58,7 +59,21 @@ const Layout = (props: LayoutI) => {
   const drawer = (
     <>
       <Box sx={{ padding: '0px 0px 20px 10px' }}>
-        <Image src={LogoImage} alt="logo" />
+        <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1 }}>
+          <Image src={LogoImage} alt="logo" />
+          <Box>
+            <Typography variant="subtitle2">Air Applecart</Typography>
+            <Typography
+              sx={{
+                fontSize: '10px',
+                fontWeight: 800,
+                color: theme.palette.primary.main,
+              }}
+            >
+              {role.replaceAll('_', ' ')}
+            </Typography>
+          </Box>
+        </Box>
       </Box>
       <Box
         sx={{
@@ -123,15 +138,14 @@ const Layout = (props: LayoutI) => {
                       >
                         <List component="div" disablePadding>
                           {link.textNames.map((subItem: any) => (
-                            <ListItem
-                              key={uuidv4()}
-                              sx={{ padding: '2px 0px' }}
-                            >
+                            <ListItem key={uuidv4()} sx={{ padding: '0px' }}>
                               <ListItemButton
                                 sx={styles.collapseMenu(subItem, router, theme)}
                               >
                                 <Link href={`${subItem.key}`}>
-                                  {subItem.label}
+                                  <Box sx={styles.dropdownChildren(theme)}>
+                                    {subItem.label}
+                                  </Box>
                                 </Link>
                               </ListItemButton>
                             </ListItem>
@@ -140,7 +154,7 @@ const Layout = (props: LayoutI) => {
                       </Collapse>
                     </>
                   ) : (
-                    <Link key={link.key} href={`/${link.key}`}>
+                    <Link key={uuidv4()} href={`/${link.key}`}>
                       <ListItem sx={{ padding: '6px 0px 6px 0px' }}>
                         <ListItemButton
                           sx={styles.mainNavLink(link, router, theme)}
@@ -214,15 +228,14 @@ const Layout = (props: LayoutI) => {
                       >
                         <List component="div" disablePadding>
                           {link.textNames.map((subItem: any) => (
-                            <ListItem
-                              key={uuidv4()}
-                              sx={{ padding: '2px 0px' }}
-                            >
+                            <ListItem key={uuidv4()} sx={{ padding: '0px' }}>
                               <ListItemButton
                                 sx={styles.collapseMenu(subItem, router, theme)}
                               >
                                 <Link href={`${subItem.key}`}>
-                                  {subItem.label}
+                                  <Box sx={styles.dropdownChildren(theme)}>
+                                    {subItem.label}
+                                  </Box>
                                 </Link>
                               </ListItemButton>
                             </ListItem>
@@ -231,7 +244,7 @@ const Layout = (props: LayoutI) => {
                       </Collapse>
                     </>
                   ) : (
-                    <Link key={link.key} href={`${link.key}`}>
+                    <Link key={uuidv4()} href={`${link.key}`}>
                       <ListItem sx={{ padding: '6px 0px 6px 0px' }}>
                         <ListItemButton
                           sx={styles.mainNavLink(link, router, theme)}
