@@ -1,6 +1,6 @@
 // More exports from here
 export { default as AvatarImage } from './shared/avatar.png';
-export { default as LogoImage } from './shared/Logo.png';
+export { default as LogoImage } from './shared/app-logo.png';
 export { default as LinkImage } from './modules/HeaderAndSidebar/link.png';
 export { default as QuickLinkImage } from './modules/HeaderAndSidebar/quick-link.png';
 export { default as DeleteImage } from './modules/HeaderAndSidebar/delete.png';
@@ -36,6 +36,17 @@ export { default as IcLinkImage } from './modules/HeaderAndSidebar/ic-link.png';
 export { default as CrossImage } from './modules/HeaderAndSidebar/cross.png';
 export { default as NotificationAvatarImage } from './modules/HeaderAndSidebar/notification-avatar.png';
 export { default as ArrowSquareLeftImage } from './modules/HeaderAndSidebar/arrow-square-left.png';
+export { default as AssetsImage } from './modules/HeaderAndSidebar/assets.png';
+export { default as TicketDiscountImage } from './modules/HeaderAndSidebar/ticket-discount.png';
+export { default as WorkLoadImage } from './modules/HeaderAndSidebar/workload.png';
+export { default as ReleasesImage } from './modules/HeaderAndSidebar/releases.png';
+export { default as ReportingImage } from './modules/HeaderAndSidebar/reporting.png';
+export { default as ProjectImage } from './modules/HeaderAndSidebar/projects.png';
+export { default as CustomerPortalImage } from './modules/HeaderAndSidebar/customer-portal.png';
+export { default as ProblemImage } from './modules/HeaderAndSidebar/problems.png';
+export { default as ChangeCircleImage } from './modules/HeaderAndSidebar/change-circle.png';
+export { default as KnowledgeBaseImage } from './modules/HeaderAndSidebar/knowledge-base.png';
+export { default as LoginDashboardImage } from '../../assets/images/shared/login-dashboard.png';
 export { default as DiscussionImage } from '../../assets/images/modules/tickets/meetings/discussion.png';
 export { default as TeamsImage } from '../../assets/images/modules/tickets/meetings/teams.png';
 export { default as ZoomImage } from '../../assets/images/modules/tickets/meetings/zoom.png';

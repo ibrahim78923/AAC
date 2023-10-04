@@ -1,10 +1,10 @@
 import ForgetPassword from '@/modules/ForgetPassword';
 
-function ForgetPasswordPage() {
+const ForgetPasswordPage = () => {
   return (
     <>
       <ForgetPassword />
     </>
   );
-}
+};
 export default ForgetPasswordPage;

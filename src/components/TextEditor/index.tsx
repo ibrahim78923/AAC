@@ -24,6 +24,7 @@ const TextEditor = ({ value, onChange }: TextEditorPropsI) => {
   return (
     <Box
       sx={{
+        position: 'relative',
         border: `1.5px solid #9CA3AF`,
         borderRadius: '8px',
         overflow: 'hidden',
@@ -41,6 +42,7 @@ const TextEditor = ({ value, onChange }: TextEditorPropsI) => {
         value={value}
         onChange={(newValue) => onChange(newValue)}
         modules={modules}
+        style={{ position: 'relative' }}
       />
     </Box>
   );
