@@ -1,4 +1,4 @@
-export const WIDGETSDATA = [
+export const widgetsData = [
   {
     id: '0',
     name: 'All',

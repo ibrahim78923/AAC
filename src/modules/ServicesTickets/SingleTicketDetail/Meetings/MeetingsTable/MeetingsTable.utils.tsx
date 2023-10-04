@@ -1,5 +1,5 @@
 import { Box, Checkbox } from '@mui/material';
-export const MeetingsTableColumns = (
+export const meetingsTableColumns = (
   meetingsData: any,
   setMeetingsData: any,
   meetingsMainData: any,
@@ -90,7 +90,7 @@ export const MeetingsTableColumns = (
   },
 ];
 
-export const MeetingsTableData: any = [
+export const meetingsTableData: any = [
   {
     id: '1',
     title: 'Discuss related tickets',
