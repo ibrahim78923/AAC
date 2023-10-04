@@ -89,7 +89,13 @@ const UserManagement = () => {
           padding: '1rem',
         }}
       >
-        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+          }}
+        >
           <Typography variant="h4">User Manangement</Typography>
 
           <Button

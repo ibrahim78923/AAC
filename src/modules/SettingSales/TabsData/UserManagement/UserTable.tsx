@@ -4,7 +4,6 @@ import {
   Box,
   Button,
   FormControl,
-  InputAdornment,
   Menu,
   MenuItem,
   Table,
@@ -13,18 +12,16 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  TextField,
   Switch,
   Select,
 } from '@mui/material';
 
 import { SelectChangeEvent } from '@mui/material/Select';
 
-import SearchIcon from '@mui/icons-material/Search';
-
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 import CommonDrawer from '@/components/Drawer';
+import Search from '@/components/Search';
 
 function createData(
   name: string,
@@ -196,16 +193,11 @@ const UserTable = () => {
           marginBottom: '1rem',
         }}
       >
-        <TextField
-          placeholder="Search Here"
-          size="small"
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <SearchIcon />
-              </InputAdornment>
-            ),
-          }}
+        <Search
+          searchBy=""
+          width="100%"
+          label={'Search here'}
+          setSearchBy={() => {}}
         />
         <Button
           id="basic-button"
@@ -219,6 +211,7 @@ const UserTable = () => {
             color: '#6B7280',
             display: 'flex',
             alignItems: 'center',
+            padding: '0.7rem',
           }}
         >
           Actions <ArrowDropDownIcon />
@@ -242,16 +235,16 @@ const UserTable = () => {
           <TableHead sx={{ background: '#EAECF0' }}>
             <TableRow>
               <TableCell sx={{ color: '#1F305D' }}>Name</TableCell>
-              <TableCell sx={{ color: '#1F305D' }} align="right">
+              <TableCell sx={{ color: '#1F305D' }} align="center">
                 Email
               </TableCell>
-              <TableCell sx={{ color: '#1F305D' }} align="right">
+              <TableCell sx={{ color: '#1F305D' }} align="center">
                 Team
               </TableCell>
-              <TableCell sx={{ color: '#1F305D' }} align="right">
+              <TableCell sx={{ color: '#1F305D' }} align="center">
                 Role
               </TableCell>
-              <TableCell sx={{ color: '#1F305D' }} align="right">
+              <TableCell sx={{ color: '#1F305D' }} align="center">
                 Status
               </TableCell>
             </TableRow>
@@ -265,16 +258,16 @@ const UserTable = () => {
                 <TableCell sx={{ color: '#6B7280' }} component="th" scope="row">
                   {row.name}
                 </TableCell>
-                <TableCell sx={{ color: '#6B7280' }} align="right">
+                <TableCell sx={{ color: '#6B7280' }} align="center">
                   {row.email}
                 </TableCell>
-                <TableCell sx={{ color: '#6B7280' }} align="right">
+                <TableCell sx={{ color: '#6B7280' }} align="center">
                   {row.team}
                 </TableCell>
-                <TableCell sx={{ color: '#6B7280' }} align="right">
+                <TableCell sx={{ color: '#6B7280' }} align="center">
                   {row.role}
                 </TableCell>
-                <TableCell sx={{ color: '#6B7280' }} align="right">
+                <TableCell sx={{ color: '#6B7280' }} align="center">
                   {row.status}
                 </TableCell>
               </TableRow>

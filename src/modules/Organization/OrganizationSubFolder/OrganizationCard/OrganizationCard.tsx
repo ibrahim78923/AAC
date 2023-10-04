@@ -2,15 +2,18 @@ import React, { useState } from 'react';
 
 import Image from 'next/image';
 
-import { Grid, Box, Typography } from '@mui/material';
+import { Grid, Box, Typography, Checkbox } from '@mui/material';
 
 import CommonDrawer from '@/components/Drawer';
 
-import logo from '../../../../assets/images/modules/organization/orcalologo.png';
-import user from '../../../../assets/images/modules/organization/user.png';
-import sms from '../../../../assets/images/modules/organization/sms.png';
-import phone from '../../../../assets/images/modules/organization/phone.png';
-import edit from '../../../../assets/images/modules/organization/edit.png';
+import comLogo from '@/assets/images/modules/organization/intellogo.png';
+import featureIcon from '@/assets/images/modules/organization/Featuredicon.png';
+import { AddPenIcon } from '@/assets/images';
+import logo from '@/assets/images/modules/organization/orcalologo.png';
+import user from '@/assets/images/modules/organization/user.png';
+import sms from '@/assets/images/modules/organization/sms.png';
+import phone from '@/assets/images/modules/organization/phone.png';
+import edit from '@/assets/images/modules/organization/edit.png';
 
 import { productItem } from './MockData';
 
@@ -30,7 +33,142 @@ const OrganizationCard = () => {
         footer={true}
         // submitHandler={}
       >
-        edit information
+        <Typography variant="h5">Company Logo</Typography>
+        <center>
+          <Box sx={{ position: 'relative' }}>
+            <Box
+              sx={{
+                border: '1px solid #E5E7EB',
+                borderRadius: '100px',
+                width: '120px',
+                height: '120px',
+                boxShadow:
+                  '0px 2px 4px -2px #1018280F, 5px 5px 9px -2px #1018281A',
+              }}
+            >
+              <Image
+                src={comLogo}
+                alt="NO image"
+                style={{ borderRadius: '100px' }}
+              />
+            </Box>
+            <Box sx={{ position: 'absolute', right: '165px', bottom: 0 }}>
+              <AddPenIcon />
+            </Box>
+          </Box>
+        </center>
+        <Typography variant="h5">Products</Typography>
+        <Box
+          sx={{
+            display: 'flex',
+            columnGap: '1rem',
+            alignItems: 'center',
+            overflowY: 'scroll',
+            marginTop: '1rem',
+          }}
+        >
+          <Box
+            sx={{
+              border: '1px solid #E9EAEF',
+              borderRadius: '8px',
+              padding: '0.7rem',
+            }}
+          >
+            <Checkbox
+              defaultChecked
+              sx={{
+                marginLeft: '7rem',
+              }}
+            />
+            <Box
+              sx={{
+                display: 'grid',
+                justifyItems: 'center',
+                marginTop: '0.7rem',
+                paddingBottom: '2rem',
+                marginX: '2.5rem',
+              }}
+            >
+              <Image src={featureIcon} alt="1" />
+              <Typography>Sales</Typography>
+            </Box>
+          </Box>
+          <Box
+            sx={{
+              border: '1px solid #E9EAEF',
+              borderRadius: '8px',
+              padding: '0.7rem',
+            }}
+          >
+            <Checkbox
+              sx={{
+                marginLeft: '7rem',
+              }}
+            />
+            <Box
+              sx={{
+                display: 'grid',
+                justifyItems: 'center',
+                marginTop: '0.7rem',
+                paddingBottom: '2rem',
+                marginX: '2.5rem',
+              }}
+            >
+              <Image src={featureIcon} alt="1" />
+              <Typography>Marketing</Typography>
+            </Box>
+          </Box>
+          <Box
+            sx={{
+              border: '1px solid #E9EAEF',
+              borderRadius: '8px',
+              padding: '0.7rem',
+            }}
+          >
+            <Checkbox
+              sx={{
+                marginLeft: '7rem',
+              }}
+            />
+            <Box
+              sx={{
+                display: 'grid',
+                justifyItems: 'center',
+                marginTop: '0.7rem',
+                paddingBottom: '2rem',
+                marginX: '2.5rem',
+              }}
+            >
+              <Image src={featureIcon} alt="1" />
+              <Typography>Service</Typography>
+            </Box>
+          </Box>
+          <Box
+            sx={{
+              border: '1px solid #E9EAEF',
+              borderRadius: '8px',
+              padding: '0.7rem',
+            }}
+          >
+            <Checkbox
+              sx={{
+                marginLeft: '7rem',
+              }}
+            />
+            <Box
+              sx={{
+                display: 'grid',
+                justifyItems: 'center',
+                marginTop: '0.7rem',
+                paddingBottom: '2rem',
+                marginX: '2.5rem',
+              }}
+            >
+              <Image src={featureIcon} alt="1" />
+              <Typography>Operation</Typography>
+            </Box>
+          </Box>
+        </Box>
       </CommonDrawer>
       <Box sx={{ paddingTop: '5px' }}>
         <Grid container spacing={2}>

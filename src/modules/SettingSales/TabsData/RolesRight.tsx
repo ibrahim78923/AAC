@@ -101,7 +101,10 @@ const RolesRight = () => {
           <Typography variant="h4">Roles and Rights</Typography>
           <Button
             variant="contained"
-            sx={{ display: 'flex', columnGap: '10px' }}
+            sx={{
+              display: 'flex',
+              columnGap: '10px',
+            }}
             onClick={() => setdraweropen(true)}
           >
             <AddCircleIcon sx={{ color: '#ffff', fontSize: '16px' }} /> Add New

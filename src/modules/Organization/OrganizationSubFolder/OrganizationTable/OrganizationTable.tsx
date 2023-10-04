@@ -17,6 +17,7 @@ import {
   Avatar,
   AvatarGroup,
   Typography,
+  Checkbox,
 } from '@mui/material';
 
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
@@ -24,7 +25,9 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import Search from '@/components/Search';
 import CommonDrawer from '@/components/Drawer';
 
-import add from '../../../../assets/images/modules/organization/addcircle.png';
+import add from '@/assets/images/modules/organization/addcircle.png';
+import featureIcon from '@/assets/images/modules/organization/Featuredicon.png';
+import { AddPenIcon } from '@/assets/images';
 
 const OrganizationTable = () => {
   const [openDrawer, setOpenDrawer] = useState(false);
@@ -111,17 +114,137 @@ const OrganizationTable = () => {
       >
         <Typography variant="h5">Company Logo</Typography>
         <center>
+          <Box sx={{ position: 'relative' }}>
+            <Box
+              sx={{
+                border: '1px solid #E5E7EB',
+                borderRadius: '100px',
+                width: '120px',
+                height: '120px',
+                boxShadow:
+                  '0px 2px 4px -2px #1018280F, 5px 5px 9px -2px #1018281A',
+              }}
+            >
+              <Typography variant="h6" sx={{ paddingTop: '2rem' }}>
+                Upload Image
+              </Typography>
+            </Box>
+            <Box sx={{ position: 'absolute', right: '165px', bottom: 0 }}>
+              <AddPenIcon />
+            </Box>
+          </Box>
+        </center>
+        <Typography variant="h5">Products</Typography>
+        <Box
+          sx={{
+            display: 'flex',
+            columnGap: '1rem',
+            alignItems: 'center',
+            overflowY: 'scroll',
+            marginTop: '1rem',
+          }}
+        >
           <Box
             sx={{
-              border: '1px solid #E5E7EB',
-              borderRadius: '100px',
-              width: '120px',
-              height: '120px',
-              boxShadow:
-                '0px 2px 4px -2px #1018280F, 5px 5px 9px -2px #1018281A',
+              border: '1px solid #E9EAEF',
+              borderRadius: '8px',
+              padding: '0.7rem',
             }}
-          ></Box>
-        </center>
+          >
+            <Checkbox
+              sx={{
+                marginLeft: '7rem',
+              }}
+            />
+            <Box
+              sx={{
+                display: 'grid',
+                justifyItems: 'center',
+                marginTop: '0.7rem',
+                paddingBottom: '2rem',
+                marginX: '2.5rem',
+              }}
+            >
+              <Image src={featureIcon} alt="1" />
+              <Typography>Sales</Typography>
+            </Box>
+          </Box>
+          <Box
+            sx={{
+              border: '1px solid #E9EAEF',
+              borderRadius: '8px',
+              padding: '0.7rem',
+            }}
+          >
+            <Checkbox
+              sx={{
+                marginLeft: '7rem',
+              }}
+            />
+            <Box
+              sx={{
+                display: 'grid',
+                justifyItems: 'center',
+                marginTop: '0.7rem',
+                paddingBottom: '2rem',
+                marginX: '2.5rem',
+              }}
+            >
+              <Image src={featureIcon} alt="1" />
+              <Typography>Marketing</Typography>
+            </Box>
+          </Box>
+          <Box
+            sx={{
+              border: '1px solid #E9EAEF',
+              borderRadius: '8px',
+              padding: '0.7rem',
+            }}
+          >
+            <Checkbox
+              sx={{
+                marginLeft: '7rem',
+              }}
+            />
+            <Box
+              sx={{
+                display: 'grid',
+                justifyItems: 'center',
+                marginTop: '0.7rem',
+                paddingBottom: '2rem',
+                marginX: '2.5rem',
+              }}
+            >
+              <Image src={featureIcon} alt="1" />
+              <Typography>Service</Typography>
+            </Box>
+          </Box>
+          <Box
+            sx={{
+              border: '1px solid #E9EAEF',
+              borderRadius: '8px',
+              padding: '0.7rem',
+            }}
+          >
+            <Checkbox
+              sx={{
+                marginLeft: '7rem',
+              }}
+            />
+            <Box
+              sx={{
+                display: 'grid',
+                justifyItems: 'center',
+                marginTop: '0.7rem',
+                paddingBottom: '2rem',
+                marginX: '2.5rem',
+              }}
+            >
+              <Image src={featureIcon} alt="1" />
+              <Typography>Operation</Typography>
+            </Box>
+          </Box>
+        </Box>
       </CommonDrawer>
       <CommonDrawer
         isDrawerOpen={openEditDrawer}

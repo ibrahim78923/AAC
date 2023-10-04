@@ -33,7 +33,7 @@ function TabPanel(props: TabPanelProps) {
   );
 }
 const SettingSales = () => {
-  const [value, setValue] = React.useState<any>(2);
+  const [value, setValue] = React.useState<any>(3);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);

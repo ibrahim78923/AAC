@@ -2,19 +2,16 @@ import React from 'react';
 
 import {
   Box,
-  InputAdornment,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
-  TextField,
 } from '@mui/material';
 
-import SearchIcon from '@mui/icons-material/Search';
-
 import { DeleteCrossIcon, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
+import Search from '@/components/Search';
 
 function createData(name: string, teamMember: number, action: any) {
   return { name, teamMember, action };
@@ -76,16 +73,11 @@ const TeamsTable = () => {
   ];
   return (
     <Box>
-      <TextField
-        placeholder="Search Here"
-        size="small"
-        InputProps={{
-          endAdornment: (
-            <InputAdornment position="end">
-              <SearchIcon />
-            </InputAdornment>
-          ),
-        }}
+      <Search
+        searchBy=""
+        width="100%"
+        label={'Search here'}
+        setSearchBy={() => {}}
       />
       <TableContainer>
         <Table sx={{ marginTop: '1rem' }} aria-label="simple table">
