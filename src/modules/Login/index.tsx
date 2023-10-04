@@ -175,11 +175,7 @@ const Login = () => {
             },
           }}
         >
-          <Image
-            src={LoginDashboardImage}
-            alt="dashborad"
-            style={{ width: '100%' }}
-          />
+          <Image src={LoginDashboardImage} alt="dashborad" />
         </Grid>
       </Grid>
     </Box>
