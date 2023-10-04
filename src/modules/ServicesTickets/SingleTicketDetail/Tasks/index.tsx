@@ -3,11 +3,12 @@ import TanstackTable from '@/components/Tabel/TanstackTable';
 import { columns, data } from './TicketTasks.mock';
 import { Button, Typography } from '@mui/material';
 import { TicketTaskDrawer } from './TicketTaskDrawer';
-// import { ActionButtonIcon, PlusSharedIcon } from '@/assets/icons';
+import { ActionButtonIcon, CirclePlusIcon } from '@/assets/icons';
 import { taskStyles } from './TicketTasks.styles';
 
 export const Tasks = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
+  const [isUpdateDrawerOpen, setIsUpdateDrawerOpen] = useState<boolean>(false);
   const [active, setActive] = useState<boolean>(false);
   const handleCheckboxChange = (event: any) => {
     setActive(event.target.checked);
@@ -21,7 +22,7 @@ export const Tasks = () => {
         <div style={taskStyles?.btnContainer}>
           <Button
             sx={taskStyles?.actionBtn}
-            // endIcon={<ActionButtonIcon />}
+            endIcon={<ActionButtonIcon />}
             disabled={!active}
           >
             Action
@@ -29,16 +30,26 @@ export const Tasks = () => {
           <Button
             sx={taskStyles?.addTaskBtn}
             onClick={() => setIsDrawerOpen(true)}
-            // startIcon={<PlusSharedIcon />}
+            startIcon={<CirclePlusIcon />}
           >
             Add New Task
           </Button>
         </div>
       </div>
-      <TicketTaskDrawer isDrawerOpen={isDrawerOpen} onClose={setIsDrawerOpen} />
+      <TicketTaskDrawer
+        isDrawerOpen={isDrawerOpen}
+        onClose={setIsDrawerOpen}
+        id="create"
+      />
+      <TicketTaskDrawer
+        isDrawerOpen={isUpdateDrawerOpen}
+        onClose={setIsUpdateDrawerOpen}
+        id="details"
+        detailTitle={data[0].taskID}
+      />
       <br />
       <TanstackTable
-        columns={columns(setIsDrawerOpen, handleCheckboxChange)}
+        columns={columns(setIsUpdateDrawerOpen, handleCheckboxChange)}
         data={data}
       />
     </div>

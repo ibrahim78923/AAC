@@ -1,9 +1,9 @@
 import { Box, Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
-import { createTicketDataArray } from './CreateTicket.data';
+import { createTicketDataArray } from './TasksForm.data';
 import { v4 as uuidv4 } from 'uuid';
 
-function CreateTicket({ submitCreateNewTicket, methods, handleSubmit }: any) {
+function TasksForm({ submitCreateNewTicket, methods, handleSubmit }: any) {
   return (
     <Box mt={1}>
       <FormProvider
@@ -30,4 +30,4 @@ function CreateTicket({ submitCreateNewTicket, methods, handleSubmit }: any) {
   );
 }
 
-export default CreateTicket;
+export default TasksForm;
