@@ -24,7 +24,12 @@ export default function RHFSelect({ name, children, required, ...other }: any) {
             SelectProps={{ native: true }}
             error={!!error}
             helperText={
-              <Typography component={'span'} position={'absolute'}>
+              <Typography
+                component={'span'}
+                position={'absolute'}
+                bottom={-13}
+                left={0}
+              >
                 {error?.message}
               </Typography>
             }
