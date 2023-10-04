@@ -42,7 +42,7 @@ export const TicketsLists = () => {
       {isDrawerOpen && (
         <CommonDrawer
           isDrawerOpen={isDrawerOpen}
-          setIsDrawerOpen={setIsDrawerOpen}
+          onClose={() => setIsDrawerOpen}
           okText={
             drawerComponent?.[router?.query?.tableAction as string]?.okText
           }

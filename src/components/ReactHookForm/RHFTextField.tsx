@@ -32,6 +32,11 @@ export default function RHFTextField({ name, required, ...other }: any) {
             }
             {...other}
             label=""
+            inputProps={{
+              style: {
+                height: 27,
+              },
+            }}
           />
         </>
       )}
