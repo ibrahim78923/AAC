@@ -1,7 +1,7 @@
 export const styles = {
   collapseMenu: (subItem: any, router: any, theme: any) => {
     return {
-      padding: '8px 0px  8px 55px',
+      padding: '0px 0px  0px 30px',
       fontSize: '12px',
       '&:hover': {
         background: 'transparent',
@@ -35,6 +35,27 @@ export const styles = {
       color:
         router.pathname.includes(`${item.key}`) ||
         (isDropDownOpen && theme.palette.secondary.main),
+    };
+  },
+
+  dropdownChildren: (theme: any) => {
+    return {
+      position: 'relative',
+      borderLeft: `1px solid ${theme.palette.grey[900]}`,
+      padding: '8px 0px',
+      paddingLeft: '24px',
+      '&:before': {
+        position: 'absolute',
+        content: '""',
+        color: 'red',
+        width: '15px',
+        height: '15px',
+        left: -1,
+        borderLeft: `1px solid ${theme.palette.grey[900]}`,
+        borderBottom: `1px solid ${theme.palette.grey[900]}`,
+        borderRadius: '0px 0px 0px 7px',
+        top: 3,
+      },
     };
   },
 
