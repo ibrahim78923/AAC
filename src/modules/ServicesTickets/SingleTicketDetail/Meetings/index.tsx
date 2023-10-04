@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { DownIcon, PlusSharedIcon } from '@/assets/icons';
-import { WIDGETSDATA } from '@/mock/modules/Meetings';
 import { Box, Button, Grid, Typography, useMediaQuery } from '@mui/material';
 import { AddMeetingsDrawer } from './AddMeetingsDrawer';
 import { MeetingsTableData } from './MeetingsTable/MeetingsTable.utils';
 import { MeetingsTable } from './MeetingsTable';
 import { NoMeetings } from './NoMeetings';
+import { widgetsData } from './Meetings.data';
+import { uuid } from 'uuidv4';
 
 export const Meetings = () => {
   const [meetingsData, setMeetingsData] = useState([]);
@@ -75,8 +76,8 @@ export const Meetings = () => {
           </Grid>
         </Grid>
         <Grid mb="20px" container spacing={3}>
-          {WIDGETSDATA.map((item) => (
-            <Grid item key={item.id} sm={4} xs={12}>
+          {widgetsData.map((item) => (
+            <Grid item key={uuid()} sm={4} xs={12}>
               <Box
                 sx={{
                   bgcolor: 'common.white',
