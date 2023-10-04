@@ -1,16 +1,16 @@
 import TanstackTable from '@/components/Tabel/TanstackTable';
-import { MeetingsTableColumns, MeetingsTableData } from './MeetingsTable.utils';
+import { meetingsTableColumns, meetingsTableData } from './MeetingsTable.utils';
 
 export const MeetingsTable = ({ setMeetingsData, meetingsData }: any) => {
   return (
     <div>
       <TanstackTable
-        columns={MeetingsTableColumns(
+        columns={meetingsTableColumns(
           meetingsData,
           setMeetingsData,
-          MeetingsTableData,
+          meetingsTableData,
         )}
-        data={MeetingsTableData}
+        data={meetingsTableData}
       />
     </div>
   );
