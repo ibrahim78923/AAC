@@ -38,3 +38,7 @@ export { default as NotificationAvatarImage } from './modules/HeaderAndSidebar/n
 export { default as ArrowSquareLeftImage } from './modules/HeaderAndSidebar/arrow-square-left.png';
 // export { default as AvatarImage } from './shared/avatar.png';
 export { default as AddPenIcon } from './modules/organization/edit-blue-pen';
+export { default as LoginDashboardImage } from '../../assets/images/shared/login-dashboard.png';
+export { default as DiscussionImage } from '../../assets/images/modules/tickets/meetings/discussion.png';
+export { default as TeamsImage } from '../../assets/images/modules/tickets/meetings/teams.png';
+export { default as ZoomImage } from '../../assets/images/modules/tickets/meetings/zoom.png';
