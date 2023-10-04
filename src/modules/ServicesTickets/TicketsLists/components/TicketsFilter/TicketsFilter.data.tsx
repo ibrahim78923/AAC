@@ -1,4 +1,9 @@
-import { RHFSelect } from '@/components/ReactHookForm';
+import {
+  RHFDatePicker,
+  RHFSelect,
+  RHFTextField,
+  RHFTimePicker,
+} from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
 export const dropdownDummy = [
@@ -53,7 +58,7 @@ export const ticketsFilterFormFieldsDataFunction = (isFieldDisable = false) => [
   {
     id: 2,
     component: RHFSelect,
-    gridLength: 6,
+    gridLength: 12,
     componentProps: {
       fullWidth: true,
       name: 'ticketType',
@@ -73,7 +78,7 @@ export const ticketsFilterFormFieldsDataFunction = (isFieldDisable = false) => [
       options: dropdownDummy,
       disabled: isFieldDisable,
     },
-    gridLength: 6,
+    gridLength: 12,
     component: RHFSelect,
   },
   {
@@ -86,13 +91,13 @@ export const ticketsFilterFormFieldsDataFunction = (isFieldDisable = false) => [
       options: dropdownDummy,
       disabled: isFieldDisable,
     },
-    gridLength: 6,
+    gridLength: 12,
     component: RHFSelect,
   },
   {
     id: 200,
     component: RHFSelect,
-    gridLength: 6,
+    gridLength: 12,
     componentProps: {
       fullWidth: true,
       name: 'agents',
@@ -112,7 +117,7 @@ export const ticketsFilterFormFieldsDataFunction = (isFieldDisable = false) => [
       options: dropdownDummy,
       disabled: isFieldDisable,
     },
-    gridLength: 6,
+    gridLength: 12,
     component: RHFSelect,
   },
   {
@@ -125,13 +130,13 @@ export const ticketsFilterFormFieldsDataFunction = (isFieldDisable = false) => [
       options: dropdownDummy,
       disabled: isFieldDisable,
     },
-    gridLength: 6,
+    gridLength: 12,
     component: RHFSelect,
   },
   {
     id: 82,
     component: RHFSelect,
-    gridLength: 6,
+    gridLength: 12,
     componentProps: {
       fullWidth: true,
       name: 'impact',
@@ -151,7 +156,102 @@ export const ticketsFilterFormFieldsDataFunction = (isFieldDisable = false) => [
       options: dropdownDummy,
       disabled: isFieldDisable,
     },
-    gridLength: 6,
+    gridLength: 12,
     component: RHFSelect,
+  },
+  {
+    id: 95,
+    componentProps: {
+      fullWidth: true,
+      name: 'tag',
+      label: 'Tag',
+      select: true,
+      options: dropdownDummy,
+      disabled: isFieldDisable,
+    },
+    gridLength: 12,
+    component: RHFSelect,
+  },
+  {
+    id: 96,
+    componentProps: {
+      fullWidth: true,
+      name: 'category',
+      label: 'Category',
+      select: true,
+      options: dropdownDummy,
+      disabled: isFieldDisable,
+    },
+    gridLength: 12,
+    component: RHFSelect,
+  },
+  {
+    id: 97,
+    componentProps: {
+      fullWidth: true,
+      name: 'plannedStartDate',
+      label: 'Planned Start Date',
+    },
+    gridLength: 8,
+    component: RHFDatePicker,
+  },
+  {
+    id: 985,
+    componentProps: {
+      name: 'plannedStartTime',
+      sx: { mt: 2.3 },
+    },
+    gridLength: 4,
+    component: RHFTimePicker,
+  },
+  {
+    id: 974,
+    componentProps: {
+      fullWidth: true,
+      name: 'plannedEndDate',
+      label: 'Planned End Date',
+    },
+    gridLength: 8,
+    component: RHFDatePicker,
+  },
+  {
+    id: 958,
+    componentProps: {
+      name: 'plannedEndTime',
+      fullWidth: true,
+      sx: { mt: 2.3 },
+    },
+    gridLength: 4,
+    component: RHFTimePicker,
+  },
+  {
+    id: 9657,
+    componentProps: {
+      fullWidth: true,
+      name: 'dueByDate',
+      label: 'Due By',
+    },
+    gridLength: 8,
+    component: RHFDatePicker,
+  },
+  {
+    id: 98676,
+    componentProps: {
+      fullWidth: true,
+      name: 'dueByTime',
+      sx: { mt: 2.3 },
+    },
+    gridLength: 4,
+    component: RHFTimePicker,
+  },
+  {
+    id: 98268,
+    componentProps: {
+      fullWidth: true,
+      name: 'typeSource',
+      label: 'Type Source',
+    },
+    gridLength: 12,
+    component: RHFTextField,
   },
 ];

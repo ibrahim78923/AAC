@@ -96,7 +96,7 @@ export const useTicketsLists = () => {
     },
     'filter-data': {
       title: 'Filter',
-      okText: 'Submit',
+      okText: 'Apply',
       isOk: true,
       submitHandler: () => {
         methodsTicketFilterForm.handleSubmit(submitTicketFilterForm)();
