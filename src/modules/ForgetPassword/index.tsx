@@ -1,18 +1,14 @@
 import React, { useState } from 'react';
 import { useTheme } from '@emotion/react';
-import { Grid, Button, Typography } from '@mui/material';
 import { useForm, Controller, FormProvider } from 'react-hook-form';
 import Image from 'next/image';
 import Link from 'next/link';
+import { Grid, Button, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import InputField from '@/components/InputField';
-import {
-  AuthHeader,
-  formStyling,
-  loginDashboard,
-} from './ForgetPassword.style';
 import { CompanyLogoIcon } from '@/assets/icons';
 import { LoginDashboardImage } from '@/assets/images';
+import { styles } from './ForgetPassword.style';
 
 const ForgetPassword = () => {
   const [isEmailSuccess, setIsEmailSuccess] = useState<boolean>(false);
@@ -29,8 +25,8 @@ const ForgetPassword = () => {
   };
 
   return (
-    <Box sx={{ background: 'white', height: '100vh' }}>
-      <AuthHeader>
+    <Box sx={{ height: '100vh' }}>
+      <Box sx={styles.AuthHeader}>
         <Box>
           <CompanyLogoIcon />
         </Box>
@@ -39,7 +35,7 @@ const ForgetPassword = () => {
             Sign In
           </Link>
         </Box>
-      </AuthHeader>
+      </Box>
       <Grid
         container
         spacing={2}
@@ -70,7 +66,10 @@ const ForgetPassword = () => {
             )}
 
             <FormProvider>
-              <form onSubmit={handleSubmit(onSubmit)} style={formStyling}>
+              <form
+                onSubmit={handleSubmit(onSubmit)}
+                style={styles.formStyling}
+              >
                 {isEmailSuccess ? (
                   <>
                     <Typography variant="h3" sx={{ textAlign: 'center' }}>
@@ -132,7 +131,7 @@ const ForgetPassword = () => {
           xs={0}
           md={6}
           lg={6}
-          style={loginDashboard}
+          style={styles.loginDashboard}
           sx={{
             '@media (max-width: 900px)': {
               display: 'none !important', // Hide the element when the screen width is less than 900px

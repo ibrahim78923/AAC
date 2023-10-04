@@ -1,10 +1,10 @@
 import SignUp from '@/modules/SignUp';
 
-function SignUpPage() {
+const SignUpPage = () => {
   return (
     <>
       <SignUp />
     </>
   );
-}
+};
 export default SignUpPage;

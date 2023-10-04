@@ -8,7 +8,8 @@ import Box from '@mui/material/Box';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import InputField from '@/components/InputField';
-import { AuthHeader, formStyling, loginDashboard } from './SignUp.style';
+import SearchableSelect from '@/components/SearchableSelect';
+import { candidatesArray } from '@/mock/modules/Settings/Jobs';
 import {
   EyeIcon,
   EyeSlashIcon,
@@ -16,6 +17,7 @@ import {
   VerifiedIcon,
 } from '@/assets/icons';
 import { LoginDashboardImage } from '@/assets/images';
+import { styles } from './SignUp.style';
 
 const SignUp = () => {
   const [isShowError, setIsShowError] = useState<boolean>(false);
@@ -38,6 +40,14 @@ const SignUp = () => {
     return regex.test(password);
   };
 
+  const renderCustomOption = (option: any) => {
+    return (
+      <Typography variant="h6" sx={{ color: theme?.palette.grey[600] }}>
+        {option.label} {option.name}
+      </Typography>
+    );
+  };
+
   const onSubmit = (data: any) => {
     const { createPassword, confirmPassword } = data;
 
@@ -52,8 +62,8 @@ const SignUp = () => {
   };
 
   return (
-    <Box sx={{ background: 'white', height: '100vh' }}>
-      <AuthHeader>
+    <Box sx={{ height: '100vh' }}>
+      <Box sx={styles.AuthHeader}>
         <Box>
           <CompanyLogoIcon />
         </Box>
@@ -62,7 +72,7 @@ const SignUp = () => {
             SigIn
           </Link>
         </Box>
-      </AuthHeader>
+      </Box>
       <Grid
         container
         spacing={2}
@@ -118,7 +128,10 @@ const SignUp = () => {
                   Let’s Get Started!
                 </Typography>
                 <FormProvider>
-                  <form onSubmit={handleSubmit(onSubmit)} style={formStyling}>
+                  <form
+                    onSubmit={handleSubmit(onSubmit)}
+                    style={styles.formStyling}
+                  >
                     {isStepComplete ? (
                       <>
                         <Typography
@@ -450,6 +463,34 @@ const SignUp = () => {
                           )}
                         />
 
+                        {errors?.email && (
+                          <Typography
+                            variant="body1"
+                            sx={{ color: theme?.palette?.error?.main }}
+                          >
+                            {' '}
+                            {errors?.email?.message}
+                          </Typography>
+                        )}
+
+                        <SearchableSelect
+                          dropdownData={candidatesArray}
+                          renderOption={renderCustomOption}
+                          name="Enter CRN Number"
+                          label="Company Registration Number (CRN)"
+                          control={control}
+                          rules={{ required: 'required field' }}
+                          error={!!errors.message}
+                        />
+                        <Typography
+                          variant="body2"
+                          sx={{ marginBottom: '8px', marginTop: '20px' }}
+                        >
+                          Organization Name
+                        </Typography>
+
+                        <Typography variant="body2">--</Typography>
+
                         <Typography
                           variant="body2"
                           sx={{ marginBottom: '8px', marginTop: '20px' }}
@@ -494,7 +535,7 @@ const SignUp = () => {
               xs={0}
               md={6}
               lg={6}
-              style={loginDashboard}
+              style={styles.loginDashboard}
               sx={{
                 '@media (max-width: 900px)': {
                   display: 'none !important', // Hide the element when the screen width is less than 900px

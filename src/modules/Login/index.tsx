@@ -5,12 +5,10 @@ import Link from 'next/link';
 import { Grid, Button, InputAdornment, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import InputField from '@/components/InputField';
-import { AuthHeader, aTag, formStyling, loginDashboard } from './Login.style';
-import { CompanyLogoIcon } from '@/assets/icons';
+import { CompanyLogoIcon, EyeIcon, EyeSlashIcon } from '@/assets/icons';
 import { LoginDashboardImage } from '@/assets/images';
+import { styles } from './Login.style';
 
 const Login = () => {
   const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
@@ -24,8 +22,8 @@ const Login = () => {
   const onSubmit = () => {};
 
   return (
-    <Box sx={{ background: 'white', height: '100vh' }}>
-      <AuthHeader>
+    <Box sx={{ height: '100vh' }}>
+      <Box sx={styles.AuthHeader}>
         <Box>
           <CompanyLogoIcon />
         </Box>
@@ -34,7 +32,7 @@ const Login = () => {
             SignUp
           </Link>
         </Box>
-      </AuthHeader>
+      </Box>
       <Grid
         container
         spacing={2}
@@ -58,7 +56,10 @@ const Login = () => {
               Let’s Get Started
             </Typography>
             <FormProvider>
-              <form onSubmit={handleSubmit(onSubmit)} style={formStyling}>
+              <form
+                onSubmit={handleSubmit(onSubmit)}
+                style={styles.formStyling}
+              >
                 <label style={{ marginBottom: '8px', marginTop: '5px' }}>
                   Email <span style={{ color: 'red' }}>*</span>
                 </label>
@@ -114,17 +115,21 @@ const Login = () => {
                             sx={{ width: '30px', cursor: 'pointer' }}
                           >
                             {isShowPassword ? (
-                              <RemoveRedEyeIcon
+                              <Box
                                 onClick={() =>
                                   setIsShowPassword(!isShowPassword)
                                 }
-                              />
+                              >
+                                <EyeIcon />
+                              </Box>
                             ) : (
-                              <VisibilityOffIcon
+                              <Box
                                 onClick={() =>
                                   setIsShowPassword(!isShowPassword)
                                 }
-                              />
+                              >
+                                <EyeSlashIcon />
+                              </Box>
                             )}
                           </InputAdornment>
                         ),
@@ -140,7 +145,7 @@ const Login = () => {
                 >
                   Sign In
                 </Button>
-                <Link href="/forget-password" style={aTag}>
+                <Link href="/forget-password" style={styles.aTag}>
                   Forgot password?
                 </Link>
               </form>
@@ -152,18 +157,14 @@ const Login = () => {
           xs={0}
           md={6}
           lg={6}
-          style={loginDashboard}
+          style={styles.loginDashboard}
           sx={{
             '@media (max-width: 900px)': {
               display: 'none !important', // Hide the element when the screen width is less than 900px
             },
           }}
         >
-          <Image
-            src={LoginDashboardImage}
-            alt="dashborad"
-            style={{ width: '100%' }}
-          />
+          <Image src={LoginDashboardImage} alt="dashborad" />
         </Grid>
       </Grid>
     </Box>

@@ -1,10 +1,10 @@
 import ResetPassword from '@/modules/ResetPassword';
 
-function ResetPasswordPage() {
+const ResetPasswordPage = () => {
   return (
     <>
       <ResetPassword />
     </>
   );
-}
+};
 export default ResetPasswordPage;

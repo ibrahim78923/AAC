@@ -1,5 +1,5 @@
 import EditProfile from '@/modules/EditProfile';
-import SuperAdminLayout from '@/layouts/SuperAdminLayout/SuperAdminLayout';
+import Layout from '@/layout';
 
 function EditProfilePage() {
   return (
@@ -10,5 +10,5 @@ function EditProfilePage() {
 }
 export default EditProfilePage;
 EditProfilePage.getLayout = function getLayout(page: any) {
-  return <SuperAdminLayout>{page}</SuperAdminLayout>;
+  return <Layout>{page}</Layout>;
 };

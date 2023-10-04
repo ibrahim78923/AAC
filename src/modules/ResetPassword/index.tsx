@@ -7,10 +7,10 @@ import { Grid, Button, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import InputField from '@/components/InputField';
-import { AuthHeader, formStyling, loginDashboard } from './ResetPassword.style';
 import resetPasswordSuccess from '@/assets/icons/shared/onSuccess.gif';
 import { CompanyLogoIcon } from '@/assets/icons';
 import { LoginDashboardImage } from '@/assets/images';
+import { styles } from './ResetPassword.style';
 
 const ResetPassword = () => {
   const [isShowError, setIsShowError] = useState<boolean>(false);
@@ -47,8 +47,8 @@ const ResetPassword = () => {
   };
 
   return (
-    <Box sx={{ background: 'white', height: '100vh' }}>
-      <AuthHeader>
+    <Box sx={{ height: '100vh' }}>
+      <Box sx={styles.AuthHeader}>
         <Box>
           <CompanyLogoIcon />
         </Box>
@@ -57,7 +57,7 @@ const ResetPassword = () => {
             Sign In
           </Link>
         </Box>
-      </AuthHeader>
+      </Box>
       <Grid
         container
         spacing={2}
@@ -78,7 +78,10 @@ const ResetPassword = () => {
             )}
 
             <FormProvider>
-              <form onSubmit={handleSubmit(onSubmit)} style={formStyling}>
+              <form
+                onSubmit={handleSubmit(onSubmit)}
+                style={styles.formStyling}
+              >
                 {isSuccess ? (
                   <Box sx={{ textAlign: 'center' }}>
                     <Typography
@@ -200,7 +203,7 @@ const ResetPassword = () => {
           xs={0}
           md={6}
           lg={6}
-          style={loginDashboard}
+          style={styles.loginDashboard}
           sx={{
             '@media (max-width: 900px)': {
               display: 'none !important', // Hide the element when the screen width is less than 900px
