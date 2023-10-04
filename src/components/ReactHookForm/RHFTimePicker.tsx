@@ -1,7 +1,18 @@
+// form
 import { useFormContext, Controller } from 'react-hook-form';
-import { MobileTimePicker } from '@mui/x-date-pickers';
+// @mui
+import { LocalizationProvider, TimePicker } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { Typography } from '@mui/material';
+import CustomLabel from '../Label';
+// ----------------------------------------------------------------------
 
-export default function RHFTimePicker({ name, label, ...other }: any) {
+export default function RHFTimePicker({
+  name,
+  label,
+  required,
+  ...other
+}: any) {
   const { control } = useFormContext();
 
   return (
@@ -9,19 +20,30 @@ export default function RHFTimePicker({ name, label, ...other }: any) {
       name={name}
       control={control}
       render={({ field, fieldState: { error } }) => (
-        <MobileTimePicker
-          {...field}
-          {...other}
-          slotProps={{
-            textField: {
-              helperText: error ? error?.message : '',
-              error: error,
-              fullWidth: other?.fullWidth,
-              size: other?.size,
-            },
-          }}
-          label={label}
-        />
+        <>
+          {label && (
+            <CustomLabel label={label} error={error} required={required} />
+          )}
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <TimePicker
+              {...field}
+              {...other}
+              slotProps={{
+                textField: {
+                  helperText: (
+                    <Typography component={'span'} position={'absolute'}>
+                      {error?.message}
+                    </Typography>
+                  ),
+                  error: error,
+                  fullWidth: other.fullWidth,
+                  size: other.size,
+                },
+              }}
+              label={''}
+            />
+          </LocalizationProvider>
+        </>
       )}
     />
   );
