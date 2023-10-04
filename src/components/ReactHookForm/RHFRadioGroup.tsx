@@ -1,19 +1,21 @@
+// form
 import { useFormContext, Controller } from 'react-hook-form';
+// @mui
 import {
   Radio,
   RadioGroup,
   FormHelperText,
   FormControlLabel,
-  Stack,
-  FormLabel,
 } from '@mui/material';
+import CustomLabel from '../Label';
+
+// ----------------------------------------------------------------------
 
 export default function RHFRadioGroup({
   name,
   options,
-  label,
-  linebreak,
-  getOptionLabel,
+  required,
+  // getOptionLabel,
   ...other
 }: any) {
   const { control } = useFormContext();
@@ -23,35 +25,31 @@ export default function RHFRadioGroup({
       name={name}
       control={control}
       render={({ field, fieldState: { error } }) => (
-        <div>
-          <Stack
-            direction={linebreak ? 'column' : 'row'}
-            alignItems={linebreak ? 'left' : 'center'}
-            spacing={3}
-          >
-            <FormLabel>{label} </FormLabel>
-            <RadioGroup {...field} row {...other}>
-              {options?.map((option: any, index: number) => (
-                <FormControlLabel
-                  disabled={other?.disabled}
-                  key={option}
-                  style={{ display: 'flex' }}
-                  value={option}
-                  control={<Radio />}
-                  label={
-                    getOptionLabel?.length ? getOptionLabel[index] : option
-                  }
-                />
-              ))}
-            </RadioGroup>
-          </Stack>
+        <>
+          {other?.label && (
+            <CustomLabel
+              label={other?.label}
+              error={error}
+              required={required}
+            />
+          )}
+          <RadioGroup {...field} row {...other}>
+            {options.map((option: any) => (
+              <FormControlLabel
+                key={option?.value}
+                value={option?.value}
+                control={<Radio />}
+                label={option?.label}
+              />
+            ))}
+          </RadioGroup>
 
           {!!error && (
-            <FormHelperText error sx={{ px: 2 }}>
-              {error?.message}
+            <FormHelperText error sx={{ px: 2, position: 'absolute' }}>
+              {error.message}
             </FormHelperText>
           )}
-        </div>
+        </>
       )}
     />
   );

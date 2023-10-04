@@ -1,10 +1,12 @@
 import { Fragment, useState } from 'react';
 import { useFormContext, Controller } from 'react-hook-form';
-import { TextField, Autocomplete } from '@mui/material';
+import { TextField, Autocomplete, Typography } from '@mui/material';
+import CustomLabel from '../Label';
 
 export default function RHFAutocomplete({
   name,
   options,
+  required,
   noOptionsText = 'Nothing in the List',
   ...other
 }: any) {
@@ -40,18 +42,32 @@ export default function RHFAutocomplete({
             value={value}
             {...other}
             renderInput={(params) => (
-              <TextField
-                {...params}
-                placeholder={label}
-                error={!!error}
-                helperText={error?.message}
-                InputProps={{
-                  ...params?.InputProps,
-                  endAdornment: (
-                    <Fragment>{params?.InputProps?.endAdornment}</Fragment>
-                  ),
-                }}
-              />
+              <>
+                {other?.label && (
+                  <CustomLabel
+                    label={other?.label}
+                    error={error}
+                    required={required}
+                  />
+                )}
+                <TextField
+                  {...params}
+                  label=""
+                  placeholder={label}
+                  error={!!error}
+                  helperText={
+                    <Typography component={'span'} position={'absolute'}>
+                      {error?.message}
+                    </Typography>
+                  }
+                  InputProps={{
+                    ...params?.InputProps,
+                    endAdornment: (
+                      <Fragment>{params?.InputProps?.endAdornment}</Fragment>
+                    ),
+                  }}
+                />
+              </>
             )}
           />
         );
