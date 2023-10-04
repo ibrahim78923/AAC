@@ -1,8 +1,9 @@
 import '@/styles/globals.css';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import ThemeProvider from '../../theme';
 import ThemeLocalization from '../../theme/ThemeLocalization';
-import { LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { SnackbarProvider } from 'notistack';
 
 export default function App(props: any) {
   const { Component, pageProps } = props;
@@ -11,9 +12,11 @@ export default function App(props: any) {
 
   return (
     <ThemeProvider>
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
         <ThemeLocalization>
-          {getLayout(<Component {...pageProps} />)}
+          <SnackbarProvider>
+            {getLayout(<Component {...pageProps} />)}
+          </SnackbarProvider>
         </ThemeLocalization>
       </LocalizationProvider>
     </ThemeProvider>

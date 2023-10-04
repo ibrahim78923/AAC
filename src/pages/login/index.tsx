@@ -1,10 +1,10 @@
-import Login from '@/modules/Login';
+import Login from '@/modules/auth/Login';
 
-function LoginPage() {
+const LoginPage = () => {
   return (
     <>
       <Login />
     </>
   );
-}
+};
 export default LoginPage;
