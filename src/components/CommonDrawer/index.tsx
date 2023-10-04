@@ -1,12 +1,14 @@
 import React from 'react';
-import Drawer from '@mui/material/Drawer';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Container from '@mui/material/Container';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import { useTheme } from '@mui/material/styles';
+import {
+  Drawer,
+  Box,
+  Button,
+  Container,
+  AppBar,
+  Toolbar,
+  Typography,
+  useTheme,
+} from '@mui/material';
 import { CommonDrawerPropsI } from '@/types/shared/Drawer';
 import CloseIcon from '@/assets/icons/shared/close-icon';
 
@@ -23,17 +25,7 @@ const CommonDrawer = ({
 }: CommonDrawerPropsI) => {
   const theme = useTheme();
   return (
-    <Drawer
-      open={isDrawerOpen}
-      onClose={onClose}
-      anchor="right"
-      sx={{
-        '& .MuiDrawer-paperAnchorRight': {
-          borderRadius: '30px 0px 0px 30px !important',
-          color: 'black',
-        },
-      }}
-    >
+    <Drawer open={isDrawerOpen} onClose={onClose} anchor="right">
       <Box
         display="flex"
         flexDirection="column"
@@ -99,6 +91,7 @@ const CommonDrawer = ({
                     fontWeight: '500',
                   }}
                   onClick={submitHandler}
+                  type="submit"
                 >
                   {okText}
                 </Button>

@@ -1,5 +1,4 @@
-import React from 'react';
-import SuperAdminLayout from '@/layouts/SuperAdminLayout/SuperAdminLayout';
+import Layout from '@/layout';
 import ChoosePlan from '@/modules/ChoosePlan';
 
 const ChoosePlanPage = () => {
@@ -8,5 +7,5 @@ const ChoosePlanPage = () => {
 
 export default ChoosePlanPage;
 ChoosePlanPage.getLayout = function getLayout(page: any) {
-  return <SuperAdminLayout>{page}</SuperAdminLayout>;
+  return <Layout>{page}</Layout>;
 };

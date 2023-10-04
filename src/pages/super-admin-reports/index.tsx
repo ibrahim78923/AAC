@@ -1,9 +1,9 @@
-import SuperAdminLayout from '@/layouts/SuperAdminLayout/SuperAdminLayout';
+import Layout from '@/layout';
 
-function SuperAdminReportsPage() {
+const SuperAdminReportsPage = () => {
   return <div>Reports Page</div>;
-}
+};
 export default SuperAdminReportsPage;
 SuperAdminReportsPage.getLayout = function getLayout(page: any) {
-  return <SuperAdminLayout>{page}</SuperAdminLayout>;
+  return <Layout>{page}</Layout>;
 };

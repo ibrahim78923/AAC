@@ -9,70 +9,7 @@ import {
   IconProductOperation,
   IconProductLoyaltyProgram,
 } from '@/assets/icons';
-
-// Temporary data
-const data = [
-  {
-    id: '001',
-    status: 'active',
-    product: 'Sales',
-    price: '20',
-    numberOfUsers: '3',
-    planDuration: 'Paid Monthly',
-    planUsers: '2',
-    planData: '3GB',
-    billOn: '20th Feb 2024',
-    type: 'Growth Plan',
-  },
-  {
-    id: '002',
-    status: 'inactive',
-    product: 'Service',
-    price: '0',
-    numberOfUsers: '1',
-    planDuration: '',
-    planUsers: '1',
-    planData: '3GB',
-    billOn: '-',
-    type: 'Free Plan',
-  },
-  {
-    id: '003',
-    status: 'inactive',
-    product: 'Marketing',
-    price: '0',
-    numberOfUsers: '1',
-    planDuration: '',
-    planUsers: '1',
-    planData: '3GB',
-    billOn: '-',
-    type: 'Free Plan',
-  },
-  {
-    id: '004',
-    status: 'active',
-    product: 'Operation',
-    price: '20',
-    numberOfUsers: '1',
-    planDuration: 'Paid Monthly',
-    planUsers: '1',
-    planData: '5GB',
-    billOn: '20th Feb 2024',
-    type: 'Growth Plan',
-  },
-  {
-    id: '005',
-    status: 'inactive',
-    product: 'Loyalty Program',
-    price: '0',
-    numberOfUsers: '1',
-    planDuration: 'Paid Monthly',
-    planUsers: '1',
-    planData: '5GB',
-    billOn: '-',
-    type: 'Free Plan',
-  },
-];
+import { data } from './Subscription.data';
 
 function getProductIcon(product: any) {
   let iconProduct;
@@ -101,16 +38,16 @@ function getProductIcon(product: any) {
 function Subscriptions() {
   /* VARIABLE DECLARATION
   -------------------------------------------------------------------------------------*/
-  const [openDrawer, setOpenDrawer] = useState(false);
+  const [isOpenDrawer, setIsOpenDrawer] = useState(false);
 
   /* EVENT FUNCTIONS
   -------------------------------------------------------------------------------------*/
   const handleDrawerOpen = () => {
-    setOpenDrawer(true);
+    setIsOpenDrawer(true);
   };
 
   const handleDrawerClose = () => {
-    setOpenDrawer(false);
+    setIsOpenDrawer(false);
   };
 
   /* EVENT LISTENERS
@@ -146,7 +83,7 @@ function Subscriptions() {
         })}
       </Grid>
 
-      <BillingDetail open={openDrawer} onClose={handleDrawerClose} />
+      <BillingDetail open={isOpenDrawer} onClose={handleDrawerClose} />
     </>
   );
 }

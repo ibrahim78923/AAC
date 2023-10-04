@@ -1,4 +1,4 @@
-import SuperAdminLayout from '@/layouts/SuperAdminLayout/SuperAdminLayout';
+import Layout from '@/layout';
 import SubscriptionInvoices from '@/modules/SubscriptionInvoices';
 
 function SubscriptionInvoicesPage() {
@@ -11,5 +11,5 @@ function SubscriptionInvoicesPage() {
 
 export default SubscriptionInvoicesPage;
 SubscriptionInvoicesPage.getLayout = function getLayout(page: any) {
-  return <SuperAdminLayout>{page}</SuperAdminLayout>;
+  return <Layout>{page}</Layout>;
 };
