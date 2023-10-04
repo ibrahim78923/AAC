@@ -1,9 +1,8 @@
 import React from 'react';
-
-import SuperAdminLayout from '@/layouts/SuperAdminLayout/SuperAdminLayout';
 import { Box, Typography } from '@mui/material';
 import Link from 'next/link';
 import StepperModule from '@/modules/PlanManagement/Stepper';
+import Layout from '@/layout';
 
 // ====================================================================================================
 
@@ -43,5 +42,5 @@ const AddPlanPage = () => {
 export default AddPlanPage;
 
 AddPlanPage.getLayout = function getLayout(page: any) {
-  return <SuperAdminLayout>{page}</SuperAdminLayout>;
+  return <Layout>{page}</Layout>;
 };

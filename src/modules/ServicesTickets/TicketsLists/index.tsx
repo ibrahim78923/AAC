@@ -30,9 +30,7 @@ export const TicketsLists = () => {
       />
       <br />
       {router?.query?.viewType === 'board' ? (
-        <>
-          Board View <TableBoardView />
-        </>
+        <TableBoardView />
       ) : (
         <>
           Table View

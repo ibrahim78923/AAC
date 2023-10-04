@@ -26,12 +26,22 @@ export default function RHFTextField({ name, required, ...other }: any) {
             fullWidth
             error={!!error}
             helperText={
-              <Typography component={'span'} position={'absolute'}>
+              <Typography
+                component={'span'}
+                position={'absolute'}
+                bottom={-13}
+                left={0}
+              >
                 {error?.message}
               </Typography>
             }
             {...other}
             label=""
+            inputProps={{
+              style: {
+                height: 27,
+              },
+            }}
           />
         </>
       )}
