@@ -16,7 +16,7 @@ import {
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import InputField from '@/components/InputField';
 import { RQCodeImage } from '@/assets/images';
 import { CopyIcon, DownloadIcon } from '@/assets/icons';
@@ -62,13 +62,17 @@ const Security = () => {
 
   return (
     <Box>
-      <Accordion>
+      <Accordion sx={{ boxShadow: 'none' }}>
         <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
+          expandIcon={<ArrowDropDownIcon sx={{ fontSize: '40px' }} />}
           aria-controls="panel1a-content"
           id="panel1a-header"
+          sx={{
+            padding: '0px',
+            borderBottom: `1px solid  ${theme?.palette?.grey[700]}`,
+          }}
         >
-          <Typography>Change Password</Typography>
+          <Typography variant="h5">Change Password</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <FormProvider>
@@ -194,7 +198,7 @@ const Security = () => {
                 </Grid>
               </Grid>
 
-              <hr style={{ marginTop: '30px' }} />
+              <Divider sx={{ marginTop: '30px' }} />
               <Box
                 sx={{
                   display: 'flex',
@@ -221,11 +225,7 @@ const Security = () => {
         </AccordionDetails>
       </Accordion>
 
-      <Grid
-        container
-        spacing={2}
-        sx={{ justifyContent: 'space-between', marginY: '20px' }}
-      >
+      <Grid container sx={{ justifyContent: 'space-between', marginY: '20px' }}>
         <Typography variant="h5" sx={{ color: theme?.palette?.grey[800] }}>
           Two-Factor Authentication
         </Typography>

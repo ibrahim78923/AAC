@@ -1,6 +1,6 @@
 import React from 'react';
 import { useForm, Controller, FormProvider } from 'react-hook-form';
-import { Grid, Button, Typography } from '@mui/material';
+import { Grid, Button, Typography, Divider } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import InputField from '@/components/InputField';
@@ -26,7 +26,7 @@ const Profile = () => {
 
       <FormProvider>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <Grid container spacing={2}>
+          <Grid container spacing={4}>
             <Grid item xs={12} md={6} lg={6}>
               <Typography variant="body2" sx={{ marginBottom: '8px' }}>
                 First Name <span style={{ color: 'red' }}>*</span>
@@ -293,6 +293,9 @@ const Profile = () => {
               />
             </Grid>
           </Grid>
+
+          <Divider sx={{ marginTop: '25px' }} />
+
           <Box
             sx={{ display: 'flex', justifyContent: 'end', marginTop: '30px' }}
           >
