@@ -34,7 +34,7 @@ import { styles } from './Layout.style';
 import { v4 as uuidv4 } from 'uuid';
 
 const drawerWidth = 220;
-const role = 'SUPER_ADMIN';
+const role = 'AIR_SERVICES';
 
 const Layout = (props: LayoutI) => {
   const theme = useTheme();
