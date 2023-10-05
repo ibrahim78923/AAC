@@ -2,6 +2,7 @@
 import { useFormContext, Controller } from 'react-hook-form';
 // @mui
 import {
+  Box,
   Radio,
   RadioGroup,
   FormHelperText,
@@ -25,7 +26,7 @@ export default function RHFRadioGroup({
       name={name}
       control={control}
       render={({ field, fieldState: { error } }) => (
-        <>
+        <Box position="relative">
           {other?.label && (
             <CustomLabel
               label={other?.label}
@@ -45,11 +46,14 @@ export default function RHFRadioGroup({
           </RadioGroup>
 
           {!!error && (
-            <FormHelperText error sx={{ px: 2, position: 'absolute' }}>
+            <FormHelperText
+              error
+              sx={{ position: 'absolute', left: 0, bottom: -13 }}
+            >
               {error.message}
             </FormHelperText>
           )}
-        </>
+        </Box>
       )}
     />
   );

@@ -1,7 +1,7 @@
 // form
 import { useFormContext, Controller } from 'react-hook-form';
 // @mui
-import { FormHelperText } from '@mui/material';
+import { Box, FormHelperText } from '@mui/material';
 import TextEditor from '../TextEditor';
 import CustomLabel from '../Label';
 
@@ -15,7 +15,7 @@ export default function RHFEditor({ name, required, ...other }: any) {
       name={name}
       control={control}
       render={({ field, fieldState: { error } }) => (
-        <>
+        <Box position="relative">
           {other?.label && (
             <CustomLabel
               label={other?.label}
@@ -33,11 +33,16 @@ export default function RHFEditor({ name, required, ...other }: any) {
           />
           <FormHelperText
             error
-            sx={{ px: 2, position: 'absolute', textTransform: 'capitalize' }}
+            sx={{
+              position: 'absolute',
+              textTransform: 'capitalize',
+              left: 0,
+              bottom: -24,
+            }}
           >
             {error?.message}
           </FormHelperText>
-        </>
+        </Box>
       )}
     />
   );
