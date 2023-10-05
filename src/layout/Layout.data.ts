@@ -44,31 +44,31 @@ type MenuItemI = {
 
 export const SuperAdminRoutes: MenuItemI[] = [
   {
-    key: 'super-admin-dashboard',
+    key: 'super-admin',
     icon: DashboardImage,
     label: 'Dashboard',
     role: 'super-admin',
   },
   {
-    key: 'super-admin-user-management',
+    key: 'super-admin/user-management',
     icon: UserManagementImage,
     label: 'User Management',
     role: 'super-admin',
   },
   {
-    key: 'super-admin-plan-management',
+    key: 'super-admin/plan-management',
     icon: PlanManagementImage,
     label: 'Plan Management',
     role: 'super-admin',
   },
   {
-    key: 'super-admin-billing-invoices',
+    key: 'super-admin/billing-invoices',
     icon: BillingInvoiceImage,
     label: 'Billing & Invoices',
     role: 'super-admin',
   },
   {
-    key: 'super-admin-reports',
+    key: 'super-admin/reports',
     icon: ReportsImage,
     label: 'Reports',
     role: 'super-admin',
