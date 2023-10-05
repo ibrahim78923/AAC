@@ -10,15 +10,15 @@ import {
 } from '@mui/material';
 
 import {
-  Viewmaingridestyle,
-  CardStyling,
-  InergrideStyling,
-  FirstBoxStyle,
-  SecondGrideStyle,
-  SecondBoxStyle,
-  DividedeBgColour,
   marginTwo,
-  BoxStyleCenterText,
+  boxStyleCenterText,
+  dividerBgColour,
+  secondBoxStyle,
+  firstBoxStyle,
+  secondGrideStyle,
+  inerGrideStyling,
+  cardStyling,
+  viewMainGrideStyle,
 } from './ViewCardDetail.style';
 import BadgeImag from '../../../assets/images/modules/viewdetails/_Badge-base-image.png';
 import ViewDetailAvaterImage from '../../../assets/images/modules/viewdetails/view-avatar-image.png';
@@ -27,9 +27,9 @@ import ViewDetailDocumentTextIcon from '@/assets/icons/modules/view-detail-Icon/
 export default function DetailViewCard() {
   const theme: any = useTheme();
   return (
-    <Grid container sx={Viewmaingridestyle}>
+    <Grid container sx={viewMainGrideStyle}>
       <Grid item xs={11.9}>
-        <Card sx={CardStyling}>
+        <Card sx={cardStyling}>
           <CardContent>
             <Grid container sx={{ maxWidth: '100%' }}>
               <Grid
@@ -39,9 +39,9 @@ export default function DetailViewCard() {
                 xs={11}
                 lg={3.5}
                 md={3.3}
-                sx={InergrideStyling}
+                sx={inerGrideStyling}
               >
-                <Box sx={FirstBoxStyle}>
+                <Box sx={firstBoxStyle}>
                   <div>
                     <Image
                       src={ViewDetailAvaterImage}
@@ -55,13 +55,13 @@ export default function DetailViewCard() {
                     Sophie Baxter
                   </Typography>
                 </Box>
-                <Box sx={FirstBoxStyle}>
+                <Box sx={firstBoxStyle}>
                   <Typography variant="h6">Email:</Typography>
                   <Typography variant="h6" sx={marginTwo}>
                     sophiebaxterl@gmail.com
                   </Typography>
                 </Box>
-                <Box sx={FirstBoxStyle}>
+                <Box sx={firstBoxStyle}>
                   <Typography variant="h6">Created on:</Typography>
                   <Typography variant="h6" sx={marginTwo}>
                     Sun, 5 Mar 9:41 PM
@@ -69,7 +69,7 @@ export default function DetailViewCard() {
                 </Box>
               </Grid>
 
-              <Divider orientation="vertical" flexItem sx={DividedeBgColour} />
+              <Divider orientation="vertical" flexItem sx={dividerBgColour} />
               <Grid
                 item
                 xs={11}
@@ -77,9 +77,9 @@ export default function DetailViewCard() {
                 sm={5}
                 lg={4.2}
                 md={4}
-                sx={SecondGrideStyle}
+                sx={secondGrideStyle}
               >
-                <Box sx={FirstBoxStyle}>
+                <Box sx={firstBoxStyle}>
                   <Typography variant="h6">Description:</Typography>
                   <Typography
                     component="span"
@@ -95,7 +95,7 @@ export default function DetailViewCard() {
                     Regards, Andrea
                   </Typography>
                 </Box>
-                <Box sx={SecondBoxStyle}>
+                <Box sx={secondBoxStyle}>
                   <Typography variant="h6">Attachments:</Typography>
                   <Typography
                     component="span"
@@ -109,10 +109,10 @@ export default function DetailViewCard() {
                 </Box>
               </Grid>
 
-              <Divider orientation="vertical" flexItem sx={DividedeBgColour} />
+              <Divider orientation="vertical" flexItem sx={dividerBgColour} />
 
               <Grid item xs={11} xl={2.8} sm={3.5} lg={2.8} md={3}>
-                <Box sx={BoxStyleCenterText}>
+                <Box sx={boxStyleCenterText}>
                   <Box display={'flex'} justifyContent={'center'}>
                     <Typography variant="h6">
                       Status:&ensp;&ensp;&ensp;&ensp;

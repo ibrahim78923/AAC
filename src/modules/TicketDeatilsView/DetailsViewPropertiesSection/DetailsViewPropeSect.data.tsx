@@ -4,6 +4,42 @@ import {
   RHFTextField,
   RHFTimePicker,
 } from '@/components/ReactHookForm';
+import * as Yup from 'yup';
+export const validationSchema = Yup.object().shape({
+  status: Yup.string().required('Field is Required'),
+  priority: Yup.string().required('Field is Required'),
+  urgency: Yup.string(),
+  source: Yup.string(),
+  type: Yup.string(),
+  impact: Yup.string(),
+  agent: Yup.string(),
+  category: Yup.string(),
+  tags: Yup.string(),
+  plannedStartDate: Yup.date(),
+  plannedStartTime: Yup.date(''),
+  plannedEndDate: Yup.date(),
+  plannedEndTime: Yup.date(),
+  plannedEffort: Yup.string(),
+  // attachFile: Yup.mixed(),
+});
+
+export const defaultValues = {
+  status: '', //1
+  priority: '', //2
+  urgency: '', //3
+  source: '', //4
+  type: '', //5
+  impact: '', //6
+  agent: '', //7
+  category: '', //8
+  tags: '', //9
+  plannedStartDate: new Date(), //10
+  plannedStartTime: new Date(), //11
+  plannedEndDate: new Date(), //12
+  plannedEndTime: new Date(), //13
+  plannedEffort: '', //14
+  // attachFile: null, //15
+};
 export const dataArray = [
   {
     componentProps: {
@@ -175,8 +211,8 @@ export const dataArray = [
   },
   {
     componentProps: {
-      name: 'Type',
-      label: 'Type',
+      name: 'category',
+      label: 'Category',
       fullWidth: true,
       select: true,
     },
@@ -191,8 +227,8 @@ export const dataArray = [
   },
   {
     componentProps: {
-      name: 'Impact ',
-      label: 'Impact ',
+      name: 'tags',
+      label: 'Tags',
       fullWidth: true,
       select: true,
     },
@@ -212,19 +248,14 @@ export const dataArray = [
       fullWidth: true,
       select: true,
     },
-    options: [
-      {
-        value: '05/03/2023',
-        label: '05/03/2023',
-      },
-    ],
+
     component: RHFDatePicker,
     md: 4,
   },
   {
     componentProps: {
       name: 'plannedStartTime',
-      label: '',
+      label: '\u00a0\u00a0',
       fullWidth: true,
     },
     component: RHFTimePicker,
@@ -238,19 +269,14 @@ export const dataArray = [
       fullWidth: true,
       select: true,
     },
-    options: [
-      {
-        value: '05/03/2023',
-        label: '05/03/2023',
-      },
-    ],
+
     component: RHFDatePicker,
     md: 4,
   },
   {
     componentProps: {
-      name: 'plannedstartDate',
-      label: '',
+      name: 'plannedEndTime',
+      label: '\u00a0\u00a0',
       fullWidth: true,
     },
     component: RHFTimePicker,
@@ -261,6 +287,7 @@ export const dataArray = [
       name: 'plannedEffort',
       label: 'Planned Effort',
       fullWidth: true,
+      placeholder: 'Eg: 1h 10m',
     },
     component: RHFTextField,
     md: 4,

@@ -2,15 +2,18 @@ import { useTheme } from '@emotion/react';
 import Image from 'next/image';
 import { Grid, Typography, Box } from '@mui/material';
 import ViewDetailVuesaxIcon from '../../../assets/icons/modules/view-detail-Icon/view-details-vuesax-icon';
-import {
-  ViewDetailBackArrowIcon,
-  ViewDetailCallIcon,
-  ViewDetailKababMenuIcon,
-  ViewDetailMeetingIcon,
-} from '@/assets/icons';
 import SmsImage from '@/assets/images/modules/viewdetails/sms-image.png';
-import DetailViewTimePick from './DetailViewTimePicker';
-import { IconBoxStyling, IconKabaMenuStyle } from './TopOfPage.style';
+import ViewDetailBackArrowIcon from '@/assets/icons/modules/view-detail-Icon/view-detail-back-arrow-icon';
+import ViewDetailCallIcon from '@/assets/icons/modules/view-detail-Icon/view-details-call-icon';
+import ViewDetailKababMenuIcon from '@/assets/icons/modules/view-detail-Icon/view-details-kababmenu-icon';
+import ViewDetailMeetingIcon from '@/assets/icons/modules/view-detail-Icon/view-details-meeting-icon';
+
+import {
+  iconBoxStyling,
+  iconBoxTimerStyling,
+  iconKabaMenuStyle,
+} from './TopOfPage.style';
+import DetailTimePicker from './TimePicker';
 
 export default function ToofPage() {
   const theme: any = useTheme();
@@ -42,20 +45,23 @@ export default function ToofPage() {
           </Typography>
         </Grid>
         <Grid item sx={{ display: 'flex' }}>
-          <Box sx={IconBoxStyling}>
+          <Box sx={iconBoxStyling}>
             <ViewDetailVuesaxIcon />
           </Box>
-          <DetailViewTimePick />
-          <Box sx={IconBoxStyling}>
+          <Box sx={iconBoxTimerStyling}>
+            <DetailTimePicker />
+          </Box>
+          {/* <DetailViewTimePick /> */}
+          <Box sx={iconBoxStyling}>
             <ViewDetailMeetingIcon />
           </Box>
-          <Box sx={IconBoxStyling}>
+          <Box sx={iconBoxStyling}>
             <ViewDetailCallIcon />
           </Box>
-          <Box sx={IconBoxStyling}>
+          <Box sx={iconBoxStyling}>
             <Image src={SmsImage} width={24} height={24} alt="Badge" />
           </Box>
-          <Box sx={IconKabaMenuStyle}>
+          <Box sx={iconKabaMenuStyle}>
             <ViewDetailKababMenuIcon />
           </Box>
         </Grid>

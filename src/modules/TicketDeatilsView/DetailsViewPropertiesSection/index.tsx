@@ -1,30 +1,10 @@
 import { FormProvider } from '@/components/ReactHookForm';
 import { Grid, Typography } from '@mui/material';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as Yup from 'yup';
 import { uuid } from 'uuidv4';
 import { dataArray } from './DetailsViewPropeSect.data';
-
+import useDeatilViewPropertiesSection from './UseDetailViewPropertiesSection';
 function DetailsVeiwPropSect() {
-  const methods: any = useForm({
-    resolver: yupResolver(
-      Yup.object().shape({
-        status: Yup.string().required('Field is Required'),
-      }),
-    ),
-    defaultValues: { status: '' },
-  });
-
-  const {
-    handleSubmit,
-    // formState: { isSubmitting },
-  } = methods;
-
-  const onSubmit = async () => {
-    // console.log(data);
-  };
-
+  const { methods, handleSubmit, onSubmit } = useDeatilViewPropertiesSection();
   return (
     <>
       <Grid
