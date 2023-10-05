@@ -9,10 +9,12 @@ import {
   Typography,
 } from '@mui/material';
 import { ArrowDropDown } from '@mui/icons-material';
-import InvoicesTable from './ViewTable';
 import FilterDrawer from './FilterDrawer';
 import { PlusSharedIcon } from '@/assets/icons';
 import Search from '@/components/Search';
+import CustomPagination from '@/components/CustomPagination';
+import TanstackTable from '@/components/Tabel/TanstackTable';
+import { invoicesTableColumns, invoicesTableData } from '../SalesInvoices.data';
 
 const InvoicvesListView = (props: any) => {
   const { setIsListViewPgae } = props;
@@ -22,6 +24,7 @@ const InvoicvesListView = (props: any) => {
 
   const handleClick = (event: any) => {
     setSelectedValue(event.currentTarget);
+    setSelected([]);
   };
 
   const handleClose = () => {
@@ -88,7 +91,15 @@ const InvoicvesListView = (props: any) => {
         </Grid>
       </Grid>
       <Box sx={{ marginTop: '15px' }}>
-        <InvoicesTable selected={selected} setSelected={setSelected} />
+        <TanstackTable
+          columns={invoicesTableColumns}
+          data={invoicesTableData}
+        />
+        <CustomPagination
+          count={1}
+          rowsPerPageOptions={[1, 2]}
+          entriePages={1}
+        />
       </Box>
     </>
   );
