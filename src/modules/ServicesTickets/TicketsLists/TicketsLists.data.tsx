@@ -1,6 +1,7 @@
 import { AvatarImage } from '@/assets/images';
-import { Box, Checkbox } from '@mui/material';
+import { Box, Checkbox, Select, MenuItem } from '@mui/material';
 import Image from 'next/image';
+import { uuid } from 'uuidv4';
 
 export const TABLE_CONSTANTS = {
   CUSTOMIZE_COLUMN: 'customize-column',
@@ -8,6 +9,20 @@ export const TABLE_CONSTANTS = {
   BULK_UPDATE_DATA: 'bulk-update-data',
   CREATE_NEW_TICKET: 'create-new-ticket',
 };
+const options = [
+  {
+    value: 'test1',
+    label: 'Test1',
+  },
+  {
+    value: 'test2',
+    label: 'Test2',
+  },
+  {
+    value: 'test3',
+    label: 'Test3',
+  },
+];
 
 export const ticketsListsData: any = [
   {
@@ -15,33 +30,37 @@ export const ticketsListsData: any = [
     ticketId: ` #717`,
     ticketName: 'Drafts',
     requester: 'Sharemydine',
-    assignedTo: 'Alee',
+    assignedTo: 'test1',
+    status: 'test2',
     state: 'Tech Support',
-    status: 'Drafts',
-    priority: 'Sharemydine',
+    priority: 'test1',
   },
   {
     id: 2,
     ticketId: ` #787`,
     ticketName: 'rafts',
     requester: 'Sharemydine',
-    assignedTo: 'Alee',
+    assignedTo: 'test2',
     state: 'Tech Support',
-    status: 'Drafts',
-    priority: 'Sharemydine',
+    status: 'test3',
+    priority: 'test1',
   },
   {
     id: 3,
     ticketId: ` #917`,
     ticketName: 'fts',
     requester: 'Sharemydine',
-    assignedTo: 'Alee',
+    assignedTo: 'test3',
     state: 'Tech Support',
-    status: 'Drafts',
-    priority: 'Sharemydine',
+    status: 'test1',
+    priority: 'test3',
   },
 ];
-export const ticketsListsColumnFunction: any = (theme: any, router: any) => {
+export const ticketsListsColumnFunction: any = (
+  theme: any,
+  router: any,
+  handleChange: (value: any, event: any) => void,
+) => {
   return [
     {
       accessorFn: (row: any) => row.id,
@@ -75,7 +94,7 @@ export const ticketsListsColumnFunction: any = (theme: any, router: any) => {
         </Box>
       ),
       header: 'Ticket ID',
-      isSortable: false,
+      isSortable: true,
     },
     {
       accessorFn: (row: any) => row.ticketName,
@@ -103,7 +122,30 @@ export const ticketsListsColumnFunction: any = (theme: any, router: any) => {
       id: 'assignedTo',
       isSortable: true,
       header: 'Assigned To',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => (
+        <Select
+          name="assignedTo"
+          sx={{
+            minWidth: 80,
+            '&.Mui-focused, .MuiOutlinedInput-notchedOutline': {
+              border: 'none',
+            },
+            '.MuiSvgIcon-root': {
+              color: '#EAECF0',
+            },
+          }}
+          defaultValue="none"
+          value={info.getValue()}
+          onChange={(e) => handleChange(info?.row?._valuesCache, e?.target)}
+          inputProps={{ 'aria-label': 'Without label' }}
+        >
+          {options?.map(({ value, label }: { value: any; label: string }) => (
+            <MenuItem key={uuid()} value={value}>
+              {label}
+            </MenuItem>
+          ))}
+        </Select>
+      ),
     },
     {
       accessorFn: (row: any) => row.state,
@@ -113,11 +155,64 @@ export const ticketsListsColumnFunction: any = (theme: any, router: any) => {
       cell: (info: any) => info.getValue(),
     },
     {
+      accessorFn: (row: any) => row.status,
+      id: 'status',
+      isSortable: true,
+      header: 'Status',
+      cell: (info: any) => (
+        <Select
+          name="status"
+          sx={{
+            minWidth: 80,
+            '&.Mui-focused, .MuiOutlinedInput-notchedOutline': {
+              border: 'none',
+            },
+            '.MuiSvgIcon-root': {
+              color: '#EAECF0',
+            },
+          }}
+          defaultValue="none"
+          value={info.getValue()}
+          onChange={(e) => handleChange(info?.row?._valuesCache, e?.target)}
+          inputProps={{ 'aria-label': 'Without label' }}
+        >
+          {options?.map(({ value, label }: { value: any; label: string }) => (
+            <MenuItem key={uuid()} value={value}>
+              {label}
+            </MenuItem>
+          ))}
+        </Select>
+      ),
+    },
+    {
       accessorFn: (row: any) => row.priority,
       id: 'priority',
       isSortable: true,
       header: 'Priority',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => (
+        <Select
+          name="priority"
+          sx={{
+            minWidth: 80,
+            '&.Mui-focused, .MuiOutlinedInput-notchedOutline': {
+              border: 'none',
+            },
+            '.MuiSvgIcon-root': {
+              color: '#EAECF0',
+            },
+          }}
+          defaultValue="none"
+          value={info.getValue()}
+          onChange={(e) => handleChange(info?.row?._valuesCache, e?.target)}
+          inputProps={{ 'aria-label': 'Without label' }}
+        >
+          {options?.map(({ value, label }: { value: any; label: string }) => (
+            <MenuItem key={uuid()} value={value}>
+              {label}
+            </MenuItem>
+          ))}
+        </Select>
+      ),
     },
   ];
 };

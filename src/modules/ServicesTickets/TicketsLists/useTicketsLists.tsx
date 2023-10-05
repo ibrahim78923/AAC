@@ -2,6 +2,7 @@ import { useState } from 'react';
 import {
   TABLE_CONSTANTS,
   ticketsListsColumnFunction,
+  ticketsListsData,
 } from './TicketsLists.data';
 import { TicketsColumnDrag } from './components/TicketsColumnDrag';
 import { useRouter } from 'next/router';
@@ -23,6 +24,7 @@ import {
 
 export const useTicketsLists = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [ticketList, setTicketList] = useState(ticketsListsData);
 
   const [to, setTo] = useState(false);
   const theme = useTheme();
@@ -32,10 +34,25 @@ export const useTicketsLists = () => {
 
   const submitCreateNewTicket = async () => {};
 
+  const handleChange = (value: any, event: any) => {
+    setTicketList(
+      ticketList?.map((item: any) =>
+        value?.ticketId === item?.ticketId
+          ? { ...item, [event?.name]: [event?.value] }
+          : item,
+      ),
+    );
+  };
+
   const [ticketsListsColumn, seTTicketsListsColumn] = useState(
-    ticketsListsColumnFunction(theme, router),
+    ticketsListsColumnFunction(theme, router, handleChange),
   );
-  const ticketsListsColumnPersist = ticketsListsColumnFunction(theme, router);
+  const ticketsListsColumnPersist = ticketsListsColumnFunction(
+    theme,
+    router,
+    handleChange,
+  );
+
   const methodsBulkUpdateForm: any = useForm({
     resolver: yupResolver(ticketsBulkUpdateFormSchemaFunction?.(to)),
     defaultValues: ticketsBulkUpdateFormSchemaFunction?.(to),
@@ -165,5 +182,6 @@ export const useTicketsLists = () => {
     openDrawer,
     TABLE_CONSTANTS,
     drawerComponent,
+    ticketList,
   };
 };

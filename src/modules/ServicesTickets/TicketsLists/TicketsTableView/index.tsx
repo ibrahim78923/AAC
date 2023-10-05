@@ -1,13 +1,12 @@
 import CustomPagination from '@/components/CustomPagination';
 import TanstackTable from '@/components/Tabel/TanstackTable';
 import { useTicketsLists } from '../useTicketsLists';
-import { ticketsListsData } from '../TicketsLists.data';
 
 export const TicketsTableView = () => {
-  const { ticketsListsColumn } = useTicketsLists();
+  const { ticketsListsColumn, ticketList } = useTicketsLists();
   return (
     <>
-      <TanstackTable columns={ticketsListsColumn} data={ticketsListsData} />
+      <TanstackTable columns={ticketsListsColumn} data={ticketList} />
       <CustomPagination count={1} rowsPerPageOptions={[1, 2]} entriePages={1} />
     </>
   );

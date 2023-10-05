@@ -17,6 +17,53 @@ export const dropdownDummy = [
   },
 ];
 
+const ticketsTypeOptions = [
+  {
+    value: 'Search',
+    label: 'Search',
+  },
+  {
+    value: 'All Tickets',
+    label: 'All Tickets',
+  },
+  {
+    value: 'Urgent and High Priority',
+    label: 'Urgent and High Priority',
+  },
+  {
+    value: 'My Open and Pending Tickets',
+    label: 'My Open and Pending Tickets',
+  },
+  {
+    value: 'Spam',
+    label: 'Spam',
+  },
+  {
+    value: 'New & My Open Tickets',
+    label: 'New & My Open Tickets',
+  },
+  {
+    value: 'All Unresolved Tickets',
+    label: 'All Unresolved Tickets',
+  },
+  {
+    value: 'Incidents',
+    label: 'Incidents',
+  },
+  {
+    value: 'Service Requests',
+    label: 'Service Requests',
+  },
+  {
+    value: 'Tickets I Requested',
+    label: 'Tickets I Requested',
+  },
+  {
+    value: 'Shared with me',
+    label: 'Shared with me',
+  },
+];
+
 export const ticketsFilterDefaultFormValues = {
   ticketType: '',
   created: '',
@@ -64,7 +111,7 @@ export const ticketsFilterFormFieldsDataFunction = (isFieldDisable = false) => [
       name: 'ticketType',
       label: 'Ticket Type',
       select: true,
-      options: dropdownDummy,
+      options: ticketsTypeOptions,
       disabled: isFieldDisable,
     },
   },
@@ -192,7 +239,7 @@ export const ticketsFilterFormFieldsDataFunction = (isFieldDisable = false) => [
       name: 'plannedStartDate',
       label: 'Planned Start Date',
     },
-    gridLength: 8,
+    gridLength: 9,
     component: RHFDatePicker,
   },
   {
@@ -201,7 +248,7 @@ export const ticketsFilterFormFieldsDataFunction = (isFieldDisable = false) => [
       name: 'plannedStartTime',
       sx: { mt: 2.3 },
     },
-    gridLength: 4,
+    gridLength: 3,
     component: RHFTimePicker,
   },
   {
@@ -211,7 +258,7 @@ export const ticketsFilterFormFieldsDataFunction = (isFieldDisable = false) => [
       name: 'plannedEndDate',
       label: 'Planned End Date',
     },
-    gridLength: 8,
+    gridLength: 9,
     component: RHFDatePicker,
   },
   {
@@ -221,7 +268,7 @@ export const ticketsFilterFormFieldsDataFunction = (isFieldDisable = false) => [
       fullWidth: true,
       sx: { mt: 2.3 },
     },
-    gridLength: 4,
+    gridLength: 3,
     component: RHFTimePicker,
   },
   {
