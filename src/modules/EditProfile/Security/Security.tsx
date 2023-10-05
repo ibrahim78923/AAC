@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useForm, Controller, FormProvider } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import Link from 'next/link';
 import Image from 'next/image';
 import {
@@ -17,42 +17,46 @@ import {
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import InputField from '@/components/InputField';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { FormProvider } from '@/components/ReactHookForm';
+import {
+  profileSecurityDataArray,
+  profileSecurityDefaultValues,
+  profileSecurityValidationSchema,
+} from './Security.data';
+import { v4 as uuidv4 } from 'uuid';
 import { RQCodeImage } from '@/assets/images';
 import { CopyIcon, DownloadIcon } from '@/assets/icons';
 
 const Security = () => {
-  const [isMatchPassword, setIsMatchPassword] = useState<boolean>(false);
-  const [isShowError, setIsShowError] = useState<boolean>(false);
+  // const [isMatchPassword, setIsMatchPassword] = useState<boolean>(false);
   const [isChecked, setIsChecked] = useState<boolean>(false);
   const [isVerifyCode, setIsVerifyCode] = useState<boolean>(false);
 
-  const {
-    handleSubmit,
-    control,
-    formState: { errors },
-  } = useForm();
   const theme = useTheme();
 
-  const isPasswordValid = (password: string) => {
-    const regex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{8,}$/;
-    return regex.test(password);
-  };
-
-  const onSubmit = (data: any) => {
-    const { newPassword, confirmPassword } = data;
-
-    if (isPasswordValid(newPassword)) {
-      if (newPassword !== confirmPassword) {
-        setIsMatchPassword(true);
-      } else {
-        setIsMatchPassword(false);
-      }
-    }
-  };
+  // const isPasswordValid = (password: string) => {
+  //   const regex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{8,}$/;
+  //   return regex.test(password);
+  // };
 
   const SwitchhandleChange = (e: any) => {
     setIsChecked(e.target.checked);
+  };
+
+  const profileSecurityForm = useForm({
+    resolver: yupResolver(profileSecurityValidationSchema),
+    defaultValues: profileSecurityDefaultValues,
+  });
+
+  const onSubmit = () => {
+    // if (isPasswordValid(values.newPassword)) {
+    //   if (values.newPassword !== values.confirmPassword) {
+    //     setIsMatchPassword(true);
+    //   } else {
+    //     setIsMatchPassword(false);
+    //   }
+    // }
   };
 
   return (
@@ -70,152 +74,41 @@ const Security = () => {
           <Typography variant="h5">Change Password</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <FormProvider>
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <Grid container spacing={2}>
-                <Grid item xs={12} md={6} lg={6}>
-                  <Typography
-                    variant="body2"
-                    sx={{ marginBottom: '8px', marginTop: '20px' }}
-                  >
-                    Current Password <span style={{ color: 'red' }}>*</span>
-                  </Typography>
-                  <Controller
-                    name="CurrentPassword"
-                    control={control}
-                    defaultValue=""
-                    rules={{
-                      required: 'required field',
-                    }}
-                    render={({ field }) => (
-                      <InputField
-                        field={{ ...field }}
-                        name="CurrentPassword"
-                        placeholder="Enter password"
-                        width="100%"
-                        height="23px"
-                        autoComplete="off"
-                        hasError={!!errors?.CurrentPassword}
-                        type="text"
-                        error={errors?.CurrentPassword?.message}
-                      />
-                    )}
-                  />
+          <FormProvider methods={profileSecurityForm} onSubmit={onSubmit}>
+            <Grid container spacing={4}>
+              {profileSecurityDataArray?.map((item: any) => (
+                <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                  <item.component {...item.componentProps} size={'small'}>
+                    {item?.componentProps?.select
+                      ? item?.options?.map((option: any) => (
+                          <option key={option?.value} value={option?.value}>
+                            {option?.label}
+                          </option>
+                        ))
+                      : null}
+                  </item.component>
                 </Grid>
-              </Grid>
+              ))}
+            </Grid>
+            <Divider sx={{ marginTop: '30px' }} />
 
-              <Grid container spacing={2}>
-                <Grid item xs={12} md={6} lg={6}>
-                  <Typography
-                    variant="body2"
-                    sx={{ marginBottom: '8px', marginTop: '20px' }}
-                  >
-                    New password <span style={{ color: 'red' }}>*</span>
-                  </Typography>
-                  <Controller
-                    name="newPassword"
-                    control={control}
-                    defaultValue=""
-                    rules={{
-                      required: 'required field',
-                      validate: (value) =>
-                        isPasswordValid(value)
-                          ? setIsShowError(false)
-                          : setIsShowError(true),
-                    }}
-                    render={({ field }) => (
-                      <InputField
-                        field={{ ...field }}
-                        name="newPassword"
-                        placeholder="Enter password"
-                        width="100%"
-                        height="23px"
-                        autoComplete="off"
-                        hasError={!!errors?.newPassword}
-                        type="text"
-                        error={errors?.newPassword?.message}
-                      />
-                    )}
-                  />
-                  {!errors?.newPassword && (
-                    <Typography
-                      variant="body2"
-                      sx={{
-                        marginTop: '7px',
-                        color: isShowError && theme?.palette?.error?.main,
-                      }}
-                    >
-                      The Password must be at least 8 characters long having 1
-                      capital letter,1 small letter and 1 numeric digit
-                    </Typography>
-                  )}
-                </Grid>
-              </Grid>
-
-              <Grid container spacing={2}>
-                <Grid item xs={12} md={6} lg={6}>
-                  <Typography
-                    variant="body2"
-                    sx={{ marginBottom: '8px', marginTop: '20px' }}
-                  >
-                    Confirm Password <span style={{ color: 'red' }}>*</span>
-                  </Typography>
-                  <Controller
-                    name="confirmPassword"
-                    control={control}
-                    defaultValue=""
-                    rules={{
-                      required: 'Required field',
-                    }}
-                    render={({ field }) => (
-                      <InputField
-                        field={{ ...field }}
-                        name="confirmPassword"
-                        placeholder="Confirm Password"
-                        width="100%"
-                        height="23px"
-                        autoComplete="off"
-                        hasError={!!errors?.confirmPassword}
-                        type="text"
-                        error={errors?.confirmPassword?.message}
-                      />
-                    )}
-                  />
-
-                  {isMatchPassword && (
-                    <Typography
-                      variant="body2"
-                      sx={{ color: theme?.palette?.error?.main }}
-                    >
-                      password not match
-                    </Typography>
-                  )}
-                </Grid>
-              </Grid>
-
-              <Divider sx={{ marginTop: '30px' }} />
-              <Box
+            <Box
+              sx={{ display: 'flex', justifyContent: 'end', marginTop: '30px' }}
+            >
+              <Button
                 sx={{
-                  display: 'flex',
-                  justifyContent: 'end',
-                  marginTop: '30px',
+                  marginRight: '15px',
+                  backgroundColor: '#F3F4F6',
+                  color: '#6B7280',
+                  borderRadius: '4px',
                 }}
               >
-                <Button
-                  sx={{
-                    marginRight: '15px',
-                    backgroundColor: '#F3F4F6',
-                    color: '#6B7280',
-                    borderRadius: '4px',
-                  }}
-                >
-                  Cancel
-                </Button>
-                <Button type="submit" variant="contained">
-                  Save
-                </Button>
-              </Box>
-            </form>
+                Cancel
+              </Button>
+              <Button type="submit" variant="contained">
+                Save
+              </Button>
+            </Box>
           </FormProvider>
         </AccordionDetails>
       </Accordion>
