@@ -1,11 +1,11 @@
 export const styles = {
   tableContainer: (theme: any) => ({
-    border: `1px solid ${theme.palette.custom.off_white2}`,
+    border: `1px solid ${theme.palette.custom.off_white_two}`,
     borderRadius: '4px',
   }),
   table: (theme: any) => ({
     '& .MuiTableCell-root': {
-      border: `1px solid ${theme.palette.custom.off_white2}`,
+      border: `1px solid ${theme.palette.custom.off_white_two}`,
     },
   }),
   tableHead: (theme: any) => ({

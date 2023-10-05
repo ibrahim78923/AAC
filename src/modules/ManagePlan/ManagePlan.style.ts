@@ -26,7 +26,7 @@ export const styles = {
     ml: 'auto',
   },
   divider: (theme: any) => ({
-    borderTop: `1px solid ${theme.palette.custom.off_white1}`,
+    borderTop: `1px solid ${theme.palette.custom.off_white_one}`,
     margin: '24px 0',
   }),
   planSelectionRow: {
@@ -59,7 +59,7 @@ export const styles = {
     textAlign: 'right',
   }),
   updateSubscription: (theme: any) => ({
-    borderTop: `1px solid ${theme.palette.custom.off_white1}`,
+    borderTop: `1px solid ${theme.palette.custom.off_white_one}`,
     mt: '110px',
     pt: '24px',
     justifyContent: 'flex-end',
