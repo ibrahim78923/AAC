@@ -14,8 +14,6 @@ export const editProfileValidationSchema = Yup.object().shape({
   TwitterURL: Yup.string(),
   FacebookURL: Yup.string(),
   LinedInURL: Yup.string(),
-  status: Yup.string().required('Field is Required'),
-  priority: Yup.string().required('Field is Required'),
 });
 
 export const editProfileDefaultValues = {

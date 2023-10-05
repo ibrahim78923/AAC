@@ -59,6 +59,8 @@ const Security = () => {
     // }
   };
 
+  const { handleSubmit } = profileSecurityForm;
+
   return (
     <Box>
       <Accordion sx={{ boxShadow: 'none' }}>
@@ -74,7 +76,10 @@ const Security = () => {
           <Typography variant="h5">Change Password</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <FormProvider methods={profileSecurityForm} onSubmit={onSubmit}>
+          <FormProvider
+            methods={profileSecurityForm}
+            onSubmit={handleSubmit(onSubmit)}
+          >
             <Grid container spacing={4}>
               {profileSecurityDataArray?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>

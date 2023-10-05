@@ -1,8 +1,8 @@
 import React from 'react';
 import { Tabs, Tab } from '@mui/material';
 import Box from '@mui/material/Box';
-import Profile from './Profile/Profile';
-import Security from './Security/Security';
+import Profile from './Profile';
+import Security from './Security';
 
 const EditProfile = () => {
   interface TabPanelProps {

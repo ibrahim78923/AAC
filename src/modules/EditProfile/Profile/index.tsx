@@ -12,16 +12,21 @@ import {
 } from './Profile.data';
 
 const Profile = () => {
-  const onSubmit = () => {};
-
   const methodsCreateNewTicketForm = useForm({
     resolver: yupResolver(editProfileValidationSchema),
     defaultValues: editProfileDefaultValues,
   });
 
+  const onSubmit = () => {};
+
+  const { handleSubmit } = methodsCreateNewTicketForm;
+
   return (
     <Box>
-      <FormProvider methods={methodsCreateNewTicketForm} onSubmit={onSubmit}>
+      <FormProvider
+        methods={methodsCreateNewTicketForm}
+        onSubmit={handleSubmit(onSubmit)}
+      >
         <Grid container spacing={4}>
           {editProfileDataArray?.map((item: any) => (
             <Grid item xs={12} md={item?.md} key={uuidv4()}>
