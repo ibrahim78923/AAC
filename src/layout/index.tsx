@@ -188,38 +188,36 @@ const Layout = (props: LayoutI) => {
                   {link.textNames ? (
                     <>
                       <ListItem sx={{ padding: '6px 0px 6px 0px' }}>
-                        <Link href={`${link.key}`} style={{ width: '100%' }}>
-                          <ListItemButton
-                            sx={styles.mainNavLink(link, router, theme)}
-                            onClick={() => toggleDropDown(link.key)}
-                          >
-                            <ListItemIcon sx={{ minWidth: 20 }}>
-                              <Image
-                                src={link.icon}
-                                alt="icons"
-                                style={{
-                                  opacity:
-                                    router.pathname === link.key ||
-                                    dropDownOpen[link.key]
-                                      ? '1'
-                                      : '0.4',
-                                }}
-                              />
-                            </ListItemIcon>
-
-                            {link.label}
-                            <Box sx={{ paddingLeft: '20px' }}>
-                              <Image
-                                src={
+                        <ListItemButton
+                          sx={styles.mainNavLink(link, router, theme)}
+                          onClick={() => toggleDropDown(link.key)}
+                        >
+                          <ListItemIcon sx={{ minWidth: 20 }}>
+                            <Image
+                              src={link.icon}
+                              alt="icons"
+                              style={{
+                                opacity:
+                                  router.pathname === link.key ||
                                   dropDownOpen[link.key]
-                                    ? ArrowUpImage
-                                    : ArrowDownImage
-                                }
-                                alt="Avatar"
-                              />
-                            </Box>
-                          </ListItemButton>
-                        </Link>
+                                    ? '1'
+                                    : '0.4',
+                              }}
+                            />
+                          </ListItemIcon>
+
+                          {link.label}
+                          <Box sx={{ paddingLeft: '20px' }}>
+                            <Image
+                              src={
+                                dropDownOpen[link.key]
+                                  ? ArrowUpImage
+                                  : ArrowDownImage
+                              }
+                              alt="Avatar"
+                            />
+                          </Box>
+                        </ListItemButton>
                       </ListItem>
                       <Collapse
                         in={dropDownOpen[link.key]}
