@@ -7,14 +7,14 @@ import {
   Typography,
 } from '@mui/material';
 import Image from 'next/image';
-import { ApprovalData } from '../AllApprovals/AllApprovals.mock';
+import { ApprovalData } from '../AllApprovals.mock';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import SharedIcon from '@/assets/icons/shared/shared-icon';
-import { useRequestApprovalPageState } from '../useRequestApprovalPage.state';
+import { useRequestApprovalPage } from '../useRequestApprovalPage';
 
 const RequestApproval = () => {
   const { theme, open, handleClick, handleClose, styles, textColor, anchorEl } =
-    useRequestApprovalPageState();
+    useRequestApprovalPage();
   const Icons: any = {
     Request: <SharedIcon />,
   };

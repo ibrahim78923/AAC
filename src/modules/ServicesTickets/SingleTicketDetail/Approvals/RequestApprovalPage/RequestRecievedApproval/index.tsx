@@ -1,13 +1,13 @@
 import { Box, Button, Grid, Typography } from '@mui/material';
 import Image from 'next/image';
-import { ApprovalData } from '../AllApprovals/AllApprovals.mock';
+import { ApprovalData } from '../AllApprovals.mock';
 import CancelIcon from '@mui/icons-material/Cancel';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import SharedIcon from '@/assets/icons/shared/shared-icon';
-import { useRequestApprovalPageState } from '../useRequestApprovalPage.state';
+import { useRequestApprovalPage } from '../useRequestApprovalPage';
 
 const RequestRecievedApproval = () => {
-  const { theme, styles, textColor } = useRequestApprovalPageState();
+  const { theme, styles, textColor } = useRequestApprovalPage();
   const Icons: any = {
     Request: <SharedIcon />,
   };

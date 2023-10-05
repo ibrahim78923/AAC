@@ -1,12 +1,12 @@
 import CommonDrawer from '@/components/CommonDrawer';
 import { useAddRequestApprovalDrawer } from './useAddRequestApproval';
-import CreateTicket from '../../Tasks/CreateTicket';
+import DrawerForm from './DrawerForm';
 
 const AddRequestApprovalDrawer = (props: any) => {
   const { isDrawerOpen, setIsDrawerOpen } = props;
-  const { methodsCreateNewTicketForm } = useAddRequestApprovalDrawer();
+  const { methodsDrawerFormForm } = useAddRequestApprovalDrawer();
 
-  const submitCreateNewTicket = async () => {};
+  const submitDrawerForm = async () => {};
   return (
     <>
       <CommonDrawer
@@ -17,13 +17,13 @@ const AddRequestApprovalDrawer = (props: any) => {
         okText="Send"
         isOk={true}
         submitHandler={() => {
-          methodsCreateNewTicketForm.handleSubmit(submitCreateNewTicket)();
+          methodsDrawerFormForm.handleSubmit(submitDrawerForm)();
         }}
       >
-        <CreateTicket
-          submitCreateNewTicket={submitCreateNewTicket}
-          methods={methodsCreateNewTicketForm}
-          handleSubmit={methodsCreateNewTicketForm.handleSubmit}
+        <DrawerForm
+          submitDrawerForm={submitDrawerForm}
+          methods={methodsDrawerFormForm}
+          handleSubmit={methodsDrawerFormForm.handleSubmit}
         />
       </CommonDrawer>
     </>

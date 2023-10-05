@@ -2,7 +2,7 @@ import { useTheme } from '@mui/material';
 import { useState } from 'react';
 import RequestApprovalPageStyles from './RequestApprovalPage.style';
 
-export function useRequestApprovalPageState() {
+export function useRequestApprovalPage() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 

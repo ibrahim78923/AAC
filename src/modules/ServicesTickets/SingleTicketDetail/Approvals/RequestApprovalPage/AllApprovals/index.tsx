@@ -8,18 +8,18 @@ import {
   Typography,
 } from '@mui/material';
 import Image from 'next/image';
-import { ApprovalData } from './AllApprovals.mock';
+import { ApprovalData } from '../AllApprovals.mock';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import CancelIcon from '@mui/icons-material/Cancel';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import UnsubscribeIcon from '@mui/icons-material/Unsubscribe';
 import SharedIcon from '@/assets/icons/shared/shared-icon';
-import { useRequestApprovalPageState } from '../useRequestApprovalPage.state';
+import { useRequestApprovalPage } from '../useRequestApprovalPage';
 import { RecievedFileIcon } from '@/assets/icons';
 
 const AllApprovals = () => {
   const { theme, open, handleClick, handleClose, styles, textColor, anchorEl } =
-    useRequestApprovalPageState();
+    useRequestApprovalPage();
 
   const Icons: any = {
     Request: <SharedIcon />,
@@ -86,7 +86,7 @@ const AllApprovals = () => {
                     {item?.detail}
                   </Typography>
                 </Grid>
-                <Grid item>
+                <Grid item sx={{ mt: { md: '0', sm: '5px' } }}>
                   {item?.showButton === 'Recieved' ? (
                     <>
                       <IconButton

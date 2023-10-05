@@ -9,19 +9,24 @@ const AddRequestPage = () => {
   const theme = useTheme();
   return (
     <>
-      <Typography variant="h5">Approvals</Typography>
-      <Box sx={requestmainpagebox}>
-        <Typography variant="body2" sx={{ color: theme?.palette?.grey?.[900] }}>
-          No Approval Found
-        </Typography>
-        <Button
-          variant="contained"
-          onClick={() => setIsDrawerOpen(true)}
-          startIcon={<AddCircleIcon />}
-        >
-          Request Approval
-        </Button>
-      </Box>
+      <>
+        <Typography variant="h5">Approvals</Typography>
+        <Box sx={requestmainpagebox}>
+          <Typography
+            variant="body2"
+            sx={{ color: theme?.palette?.grey?.[900] }}
+          >
+            No Approval Found
+          </Typography>
+          <Button
+            variant="contained"
+            onClick={() => setIsDrawerOpen(true)}
+            startIcon={<AddCircleIcon />}
+          >
+            Request Approval
+          </Button>
+        </Box>{' '}
+      </>
       <AddRequestApprovalDrawer
         isDrawerOpen={isDrawerOpen}
         setIsDrawerOpen={setIsDrawerOpen}
