@@ -9,6 +9,7 @@ import GenerateInvoice from '../GenerateInvoice';
 import ViewBillingDetails from '../ViewBillingDetails';
 
 import PlusSharedIcon from '@/assets/icons/shared/plus-shared';
+// import { columns, data } from './BillingAndInvoices.data';
 
 const BillingAndInvoicesTable = () => {
   const [searchByClientName, setSearchByClientName] = useState('');
@@ -47,6 +48,7 @@ const BillingAndInvoicesTable = () => {
         isViewDetailOpen={isViewDetailOpen}
         setIsViewDeailOpen={setIsViewDeailOpen}
       />
+      {/* <TanstackTable columns={columns} data={data} /> */}
     </>
   );
 };
