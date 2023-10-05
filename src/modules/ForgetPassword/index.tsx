@@ -1,28 +1,44 @@
 import React, { useState } from 'react';
 import { useTheme } from '@emotion/react';
-import { useForm, Controller, FormProvider } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Grid, Button, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
-import InputField from '@/components/InputField';
 import { CompanyLogoIcon } from '@/assets/icons';
 import { LoginDashboardImage } from '@/assets/images';
 import { styles } from './ForgetPassword.style';
+import {
+  forgetPasswordDataArray,
+  forgetPasswordDefaultValues,
+  forgetPasswordValidationSchema,
+} from './ForgetPassword.data';
+import { FormProvider } from '@/components/ReactHookForm';
+import { v4 as uuidv4 } from 'uuid';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 const ForgetPassword = () => {
   const [isEmailSuccess, setIsEmailSuccess] = useState<boolean>(false);
   const theme = useTheme();
 
-  const {
-    handleSubmit,
-    control,
-    formState: { errors },
-  } = useForm();
+  const forgetPasswordForm = useForm({
+    resolver: yupResolver(forgetPasswordValidationSchema),
+    defaultValues: forgetPasswordDefaultValues,
+  });
 
   const onSubmit = () => {
     setIsEmailSuccess(true);
   };
+
+  const { handleSubmit } = forgetPasswordForm;
+
+  // rules={{
+  //   required: 'required field',
+  //   pattern: {
+  //     value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+  //     message: 'Invalid email address',
+  //   },
+  // }}
 
   return (
     <Box sx={{ height: '100vh' }}>
@@ -56,7 +72,7 @@ const ForgetPassword = () => {
               <Typography
                 variant="h6"
                 sx={{
-                  color: theme?.palette?.grey[500_12],
+                  color: theme?.palette?.grey[900],
                   textAlign: 'center',
                 }}
               >
@@ -65,65 +81,47 @@ const ForgetPassword = () => {
               </Typography>
             )}
 
-            <FormProvider>
-              <form
-                onSubmit={handleSubmit(onSubmit)}
-                style={styles.formStyling}
-              >
-                {isEmailSuccess ? (
-                  <>
-                    <Typography variant="h3" sx={{ textAlign: 'center' }}>
-                      Email Sent
-                    </Typography>
-                    <Typography
-                      variant="h6"
-                      sx={{ textAlign: 'center', marginTop: '20px' }}
-                    >
-                      Password reset email has been sent to registered email.
-                    </Typography>
-                  </>
-                ) : (
-                  <>
-                    <label style={{ marginBottom: '8px', marginTop: '5px' }}>
-                      Email <span style={{ color: 'red' }}>*</span>
-                    </label>
-                    <Controller
-                      name="email"
-                      control={control}
-                      defaultValue=""
-                      rules={{
-                        required: 'required field',
-                        pattern: {
-                          value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-                          message: 'Invalid email address',
-                        },
-                      }}
-                      render={({ field }) => (
-                        <InputField
-                          field={{ ...field }}
-                          name="email"
-                          placeholder="Enter email"
-                          width="100%"
-                          height="23px"
-                          autoComplete="off"
-                          type="text"
-                          hasError={!!errors?.email}
-                          error={errors?.email?.message}
-                        />
-                      )}
-                    />
+            <Box onSubmit={handleSubmit(onSubmit)} style={styles.formStyling}>
+              {isEmailSuccess ? (
+                <>
+                  <Typography variant="h3" sx={{ textAlign: 'center' }}>
+                    Email Sent
+                  </Typography>
+                  <Typography
+                    variant="h6"
+                    sx={{ textAlign: 'center', marginTop: '20px' }}
+                  >
+                    Password reset email has been sent to registered email.
+                  </Typography>
+                </>
+              ) : (
+                <>
+                  <FormProvider
+                    methods={forgetPasswordForm}
+                    onSubmit={handleSubmit(onSubmit)}
+                  >
+                    <Grid container spacing={4}>
+                      {forgetPasswordDataArray?.map((item: any) => (
+                        <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                          <item.component
+                            {...item.componentProps}
+                            size={'small'}
+                          ></item.component>
+                        </Grid>
+                      ))}
+                    </Grid>
 
                     <Button
                       type="submit"
                       variant="contained"
-                      sx={{ marginY: '30px' }}
+                      sx={{ marginY: '30px', width: '100%' }}
                     >
                       Continue
                     </Button>
-                  </>
-                )}
-              </form>
-            </FormProvider>
+                  </FormProvider>
+                </>
+              )}
+            </Box>
           </Box>
         </Grid>
         <Grid
