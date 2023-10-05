@@ -1,6 +1,5 @@
 import CloseIcon from '@/assets/icons/shared/AlertModels/close-icon';
 import { Box, Modal, Typography } from '@mui/material';
-import React from 'react';
 
 const ConversationModel = ({
   open,
