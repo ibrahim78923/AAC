@@ -1,12 +1,12 @@
 export const styles = {
-  GridItems: {
+  gridItems: {
     width: '100%',
     height: 'auto',
     borderRadius: '8px',
     border: '1px solid #EAECF0',
   },
 
-  HeadBox: {
+  headBox: {
     marginTop: '12px',
     marginBottom: '12px',
     display: 'flex',
@@ -18,7 +18,7 @@ export const styles = {
     },
   },
 
-  ButtonBox: {
+  buttonBox: {
     marginRight: '12px',
     '@media screen and (max-width: 640px)': {
       marginLeft: '24px',
@@ -26,7 +26,7 @@ export const styles = {
     },
   },
 
-  ButtonStyle: {
+  buttonStyle: {
     marginRight: '12px',
     border: '1px solid #D1D5DB',
     color: '#6B7280',

@@ -1,5 +1,5 @@
 import { Box, Grid } from '@mui/material';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { data, columns } from './Software.mock';
 import TanstackTable from '@/components/Tabel/TanstackTable';
 import Search from '@/components/Search';
@@ -12,17 +12,17 @@ function Software() {
 
   return (
     <Grid container>
-      <Grid item sx={styles.GridItems}>
-        <Box sx={styles.HeadBox}>
+      <Grid item sx={styles.gridItems}>
+        <Box sx={styles.headBox}>
           <Box sx={{ marginLeft: '24px' }}>
             <Search label="search" width="100%" />
           </Box>
-          <Box sx={styles.ButtonBox}>
-            <Button sx={styles.ButtonStyle} variant="outlined" disabled>
+          <Box sx={styles.buttonBox}>
+            <Button sx={styles.buttonStyle} variant="outlined" disabled>
               Assign Category
             </Button>
             <Button
-              sx={styles.ButtonStyle}
+              sx={styles.buttonStyle}
               variant="outlined"
               startIcon={<FilterSharedIcon />}
             >
