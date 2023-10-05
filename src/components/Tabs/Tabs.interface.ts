@@ -1,4 +1,4 @@
-import { SearchPropsI } from '../../types/shared/Search';
+import { SearchPropsI } from '../Search/Search.interface';
 
 export interface TabPanelProps {
   children?: React.ReactNode;

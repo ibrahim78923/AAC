@@ -1,5 +1,5 @@
 import Layout from '@/layout';
-import UserManagementSuperAdmin from '@/modules/UserManagementSuperAdmin/UserManagementSuperAdmin';
+import UserManagementSuperAdmin from '@/modules/UserManagementSuperAdmin';
 const UserManagementPage = () => {
   return (
     <div>

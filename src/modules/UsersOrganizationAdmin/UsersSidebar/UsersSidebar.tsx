@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 
 import { Avatar, Box, Button, Divider, Typography } from '@mui/material';
 
-import FilterUser from '../UsersDetails/Drawers/FilterUser/FilterUser';
+import FilterUser from '../Drawers/FilterUser';
 
-import AddUser from '../UsersDetails/Drawers/AddUser/AddUser';
-
-import { FilterSharedIcon, PlusSharedIcon } from '@/assets/icons';
+import AddUser from '../Drawers/AddUser';
 
 import CommonDrawer from '@/components/CommonDrawer';
+
+import { FilterSharedIcon, PlusSharedIcon } from '@/assets/icons';
 
 const UsersSidebar = () => {
   const [openFilterDrawer, setOpenFilterDrawer] = useState(false);

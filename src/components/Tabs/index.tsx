@@ -4,11 +4,11 @@ import { Tabs, Tab, Box } from '@mui/material';
 
 import Search from '../Search';
 
-import { CommonTabsProps, TabPanelProps } from './TabsInterface';
+import { CommonTabsProps, TabPanelProps } from './Tabs.interface';
 
 import { v4 as uuidv4 } from 'uuid';
 
-import { style } from './Tabs.style';
+import { styles } from './Tabs.style';
 
 const CustomTabPanel = (props: TabPanelProps) => {
   const { children, value, index, ...other } = props;
@@ -52,7 +52,7 @@ const CommonTabs = (props: CommonTabsProps) => {
   };
 
   return (
-    <Box sx={style.tabWrapper}>
+    <Box sx={styles.tabWrapper}>
       <Box sx={{ borderBottom: 1, borderColor: '#EAECF0' }}>
         <Tabs value={value} onChange={handleChange} aria-label="common tabs">
           {tabsArray?.map((tab: string, index: number) => (
@@ -67,9 +67,9 @@ const CommonTabs = (props: CommonTabsProps) => {
         </Tabs>
       </Box>
       {isHeader && (
-        <Box sx={style.headerWrapper}>
+        <Box sx={styles.headerWrapper}>
           <Search {...searchBarProps} />
-          <Box sx={style.headerChild}>{headerChildren}</Box>
+          <Box sx={styles.headerChild}>{headerChildren}</Box>
         </Box>
       )}
       {arrayChildren?.map((tab: React.ReactNode | string, index: number) => (

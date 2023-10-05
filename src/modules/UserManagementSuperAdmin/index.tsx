@@ -8,7 +8,7 @@ import UsersList from './Users/UsersList';
 
 import ProfileCard from '@/components/ProfileCard';
 
-import UsersFilters from './Users/UsersFilters/UsersFilters';
+import UsersFilters from './Users/UsersFilters';
 
 import CommonDrawer from '@/components/CommonDrawer';
 

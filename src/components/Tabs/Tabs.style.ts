@@ -1,4 +1,4 @@
-export const style = {
+export const styles = {
   tabWrapper: {
     '& .text-primary-my': { minWidth: 'auto', paddingBottom: '0px' },
   },

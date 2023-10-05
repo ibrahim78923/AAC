@@ -12,7 +12,7 @@ import Accounts from './Accounts/Accounts';
 
 import Profile from './Profile/Profile';
 
-import AddAccount from './Drawers/AddAccount/AddAccount';
+import AddAccount from '../Drawers/AddAccount';
 
 import PlusShared from '@/assets/icons/shared/plus-shared';
 

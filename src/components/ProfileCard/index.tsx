@@ -2,22 +2,23 @@ import React from 'react';
 
 import Image from 'next/image';
 
-import { Box, Typography, Button } from '@mui/material';
+import { Box, Typography, Button, useTheme } from '@mui/material';
 
-import cardProps from './ProfileCardInterface';
+import CardProps from './ProfileCard.interface';
 
 import {
   EmailIcon,
   PhoneIcon,
   EditIcon,
-  EditIconColored,
+  EditColoredIcon,
 } from '@/assets/icons';
 
 import { UserProfile } from '@/assets/images';
 
-import { style } from './ProfileCard.style';
+import { styles } from './ProfileCard.style';
 
-const ProfileCard = (props: cardProps) => {
+const ProfileCard = (props: CardProps) => {
+  const theme = useTheme();
   const {
     src = UserProfile,
     userName = 'John Doe',
@@ -31,12 +32,12 @@ const ProfileCard = (props: cardProps) => {
   } = props;
 
   return (
-    <Box sx={style.cardWrapper}>
-      <Box sx={style.profile}>
-        <Box sx={style.imgWrapper}>
+    <Box sx={styles.cardWrapper(theme)}>
+      <Box sx={styles.profile}>
+        <Box sx={styles.imgWrapper}>
           <Box
             className="edit-Icon"
-            sx={style.editIcon}
+            sx={styles.editIcon}
             onClick={handleEditImage}
           >
             <EditIcon />
@@ -46,21 +47,21 @@ const ProfileCard = (props: cardProps) => {
         <Box>
           <Typography variant="h3">{userName}</Typography>
           {isBadge && (
-            <Typography component={'span'} sx={style.badge}>
+            <Typography component={'span'} sx={styles.badge(theme)}>
               {role}
             </Typography>
           )}
           <Box
             sx={{ display: 'flex', gap: '20px', flexWrap: 'wrap', mt: '16px' }}
           >
-            <Box sx={style.icon}>
-              <Typography component="span" sx={style.iconWrapper}>
+            <Box sx={styles.icon}>
+              <Typography component="span" sx={styles.iconWrapper(theme)}>
                 <EmailIcon />
               </Typography>
               {email}
             </Box>
-            <Box sx={style.icon}>
-              <Typography component="span" sx={style.iconWrapper}>
+            <Box sx={styles.icon}>
+              <Typography component="span" sx={styles.iconWrapper}>
                 <PhoneIcon />
               </Typography>
               {phone}
@@ -71,7 +72,7 @@ const ProfileCard = (props: cardProps) => {
       {editBtn && (
         <Button onClick={handleEditProfile}>
           Edit Profile
-          <EditIconColored />
+          <EditColoredIcon />
         </Button>
       )}
     </Box>

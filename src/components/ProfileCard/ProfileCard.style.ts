@@ -1,12 +1,14 @@
-export const style = {
-  cardWrapper: {
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
-    backgroundColor: '#fff',
-    borderRadius: '8px',
-    flexWrap: 'wrap',
-    display: 'flex',
-    padding: '24px',
+export const styles = {
+  cardWrapper: (theme: any) => {
+    return {
+      justifyContent: 'space-between',
+      alignItems: 'flex-start',
+      backgroundColor: theme.palette.common.white,
+      borderRadius: '8px',
+      flexWrap: 'wrap',
+      display: 'flex',
+      padding: '24px',
+    };
   },
   profile: {
     gap: { md: '24px', xs: '12px' },
@@ -14,11 +16,13 @@ export const style = {
     flexWrap: 'wrap',
     display: 'flex',
   },
-  badge: {
-    backgroundColor: '#E6FAEB',
-    borderRadius: '30px',
-    padding: '2px 8px',
-    color: '#47B263',
+  badge: (theme: any) => {
+    return {
+      backgroundColor: '#E6FAEB',
+      borderRadius: '30px',
+      padding: '2px 8px',
+      color: theme.palette.success.main,
+    };
   },
   imgWrapper: {
     position: 'relative',
@@ -50,14 +54,16 @@ export const style = {
     left: 0,
     top: 0,
   },
-  iconWrapper: {
-    background: '#F9FAFB',
-    borderRadius: '4px',
-    height: '28px',
-    width: '28px',
-    alignItems: 'center',
-    display: 'flex',
-    justifyContent: 'center',
+  iconWrapper: (theme: any) => {
+    return {
+      background: theme.palette.grey[100],
+      borderRadius: '4px',
+      height: '28px',
+      width: '28px',
+      alignItems: 'center',
+      display: 'flex',
+      justifyContent: 'center',
+    };
   },
   icon: {
     display: 'flex',
