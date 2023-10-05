@@ -1,4 +1,4 @@
-export const margin_2 = {
+export const marginTwo = {
   marginLeft: '2rem',
 };
 
@@ -25,7 +25,6 @@ export const InergrideStyling = {
 export const FirstBoxStyle = {
   display: 'flex',
   flexDirection: 'row',
-  alignItems: 'center',
 };
 
 export const SecondGrideStyle = {

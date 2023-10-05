@@ -1,11 +1,9 @@
 import CustomNotistack from '@/components/CustomNotistack';
-
 import SkeletonFormExample from '@/components/Skeletons/SkeletonForm/SkeletonForm.example';
 import SkeletonTableExample from '@/components/Skeletons/SkeletonTable/SkeletonTable.example';
 import TanstackTable from '@/components/Tabel/TanstackTable';
 import HorizontalTabsExample from '@/components/Tabs/HorizontalTabs/HorizontalTabs.example';
-import SuperAdminLayout from '@/layouts/SuperAdminLayout';
-// import SuperAdminLayout from '@/layouts/SuperAdminLayout/SuperAdminLayout';
+import Layout from '@/layout';
 import { TicketsLists } from '@/modules/ServicesTickets/TicketsLists';
 import { Button, Checkbox } from '@mui/material';
 import { useSnackbar } from 'notistack';
@@ -90,6 +88,6 @@ export const TestComponentsNoumanPage = () => {
 };
 
 TestComponentsNoumanPage.getLayout = function getLayout(page: any) {
-  return <SuperAdminLayout>{page}</SuperAdminLayout>;
+  return <Layout>{page}</Layout>;
 };
 export default TestComponentsNoumanPage;

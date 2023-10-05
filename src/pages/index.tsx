@@ -1,7 +1,6 @@
 import { Button, ButtonGroup } from '@mui/material';
 
 import Layout from '@/layout';
-import TanstackTable from '@/components/Tabel/TanstackTable';
 
 export default function Home() {
   return (
@@ -21,7 +20,6 @@ export default function Home() {
       <ButtonGroup>
         <Button>Add Button</Button>
       </ButtonGroup>
-      <TanstackTable />
     </>
   );
 }

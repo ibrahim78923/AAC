@@ -8,7 +8,7 @@ import {
   Box,
   Divider,
 } from '@mui/material';
-import { ViewDetailDocumentTextIcon } from '@/assets/icons';
+
 import {
   Viewmaingridestyle,
   CardStyling,
@@ -17,11 +17,12 @@ import {
   SecondGrideStyle,
   SecondBoxStyle,
   DividedeBgColour,
-  margin_2,
+  marginTwo,
   BoxStyleCenterText,
 } from './ViewCardDetail.style';
 import BadgeImag from '../../../assets/images/modules/viewdetails/_Badge-base-image.png';
 import ViewDetailAvaterImage from '../../../assets/images/modules/viewdetails/view-avatar-image.png';
+import ViewDetailDocumentTextIcon from '@/assets/icons/modules/view-detail-Icon/view-detail-document-text-icon';
 
 export default function DetailViewCard() {
   const theme: any = useTheme();
@@ -50,19 +51,19 @@ export default function DetailViewCard() {
                     />
                   </div>
 
-                  <Typography variant="h5" sx={margin_2}>
+                  <Typography variant="h5" sx={marginTwo}>
                     Sophie Baxter
                   </Typography>
                 </Box>
                 <Box sx={FirstBoxStyle}>
                   <Typography variant="h6">Email:</Typography>
-                  <Typography variant="h6" sx={margin_2}>
+                  <Typography variant="h6" sx={marginTwo}>
                     sophiebaxterl@gmail.com
                   </Typography>
                 </Box>
                 <Box sx={FirstBoxStyle}>
                   <Typography variant="h6">Created on:</Typography>
-                  <Typography variant="h6" sx={margin_2}>
+                  <Typography variant="h6" sx={marginTwo}>
                     Sun, 5 Mar 9:41 PM
                   </Typography>
                 </Box>
@@ -84,7 +85,7 @@ export default function DetailViewCard() {
                     component="span"
                     variant="body1"
                     sx={{
-                      ...margin_2,
+                      ...marginTwo,
                       width: '80%',
                     }}
                   >

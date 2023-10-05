@@ -233,7 +233,7 @@ export const dataArray = [
 
   {
     componentProps: {
-      name: 'Planned End Date',
+      name: 'plannedEndDate',
       label: 'Planned End Date',
       fullWidth: true,
       select: true,
@@ -249,7 +249,7 @@ export const dataArray = [
   },
   {
     componentProps: {
-      name: 'Planned start Date',
+      name: 'plannedstartDate',
       label: '',
       fullWidth: true,
     },
@@ -258,7 +258,7 @@ export const dataArray = [
   },
   {
     componentProps: {
-      name: 'Planned Effort',
+      name: 'plannedEffort',
       label: 'Planned Effort',
       fullWidth: true,
     },

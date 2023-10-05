@@ -1,4 +1,4 @@
-export const TEST_COMPONENT_TABS = [
+export const testComponentTabs = [
   'Details',
   'Tasks',
   'Related  Tickets',

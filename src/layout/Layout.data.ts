@@ -1,5 +1,6 @@
 import {
   AddNewRoleSettingImage,
+  AssetsImage,
   AvailableImage,
   AwayImage,
   BillingInvoiceImage,
@@ -7,22 +8,31 @@ import {
   BuildingImage,
   BusyImage,
   CallImage,
+  ChangeCircleImage,
   ContactImage,
+  CustomerPortalImage,
   DashboardImage,
   DocumentImage,
   ForecastImage,
+  KnowledgeBaseImage,
   LogoutImage,
   MailImage,
   MeetingImage,
   MeetingTopImage,
   MessageImage,
   PlanManagementImage,
+  ProblemImage,
   ProfileUserImage,
+  ProjectImage,
   QuotesImage,
+  ReleasesImage,
+  ReportingImage,
   ReportsImage,
   SettingImage,
   SettingQuickImage,
+  TicketDiscountImage,
   UserManagementImage,
+  WorkLoadImage,
 } from '@/assets/images';
 
 type MenuItemI = {
@@ -34,34 +44,143 @@ type MenuItemI = {
 
 export const SuperAdminRoutes: MenuItemI[] = [
   {
-    key: 'super-admin-dashboard',
+    key: 'super-admin',
     icon: DashboardImage,
     label: 'Dashboard',
     role: 'super-admin',
   },
   {
-    key: 'super-admin-user-management',
+    key: 'super-admin/user-management',
     icon: UserManagementImage,
     label: 'User Management',
     role: 'super-admin',
   },
   {
-    key: 'super-admin-plan-management',
+    key: 'super-admin/plan-management',
     icon: PlanManagementImage,
     label: 'Plan Management',
     role: 'super-admin',
   },
   {
-    key: 'super-admin-billing-invoices',
+    key: 'super-admin/billing-invoices',
     icon: BillingInvoiceImage,
     label: 'Billing & Invoices',
     role: 'super-admin',
   },
   {
-    key: 'super-admin-reports',
+    key: 'super-admin/reports',
     icon: ReportsImage,
     label: 'Reports',
     role: 'super-admin',
+  },
+];
+
+export const ServicesRoutes: any = [
+  {
+    key: 'service-dashboard',
+    icon: DashboardImage,
+    label: 'Dashboard',
+    role: 'SERVICE',
+  },
+  {
+    key: 'tickets',
+    icon: TicketDiscountImage,
+    label: 'Tickets',
+    role: 'SERVICE',
+  },
+  {
+    key: 'problems',
+    icon: ProblemImage,
+    label: 'Problems',
+    role: 'SERVICE',
+  },
+  {
+    key: 'changes',
+    icon: ChangeCircleImage,
+    label: 'Changes',
+    role: 'SERVICE',
+  },
+  {
+    key: 'releases',
+    icon: ReleasesImage,
+    label: 'Releases',
+    role: 'SERVICE',
+  },
+  {
+    key: 'assets',
+    label: 'Assets',
+    icon: AssetsImage,
+    role: 'SERVICE',
+    textNames: [
+      {
+        key: 'inventory',
+        label: 'Inventory',
+      },
+      {
+        key: 'software',
+        label: 'Software',
+      },
+      {
+        key: 'contracts',
+        label: 'Contracts',
+      },
+      {
+        key: 'purchase-orders',
+        label: 'Purchase Orders',
+      },
+    ],
+  },
+
+  {
+    key: 'super-admin-dashboard',
+    label: 'Projects',
+    icon: ProjectImage,
+    role: 'SERVICE',
+    textNames: [
+      {
+        key: 'project-tasks',
+        label: 'Project Tasks',
+      },
+      {
+        key: 'project-template',
+        label: 'Project Template',
+      },
+    ],
+  },
+
+  {
+    key: 'knowledge-base',
+    icon: KnowledgeBaseImage,
+    label: 'Knowledge Base',
+    role: 'SERVICE',
+  },
+  {
+    key: 'workload',
+    icon: WorkLoadImage,
+    label: 'WorkLoad',
+    role: 'SERVICE',
+  },
+  {
+    key: 'reporting',
+    label: 'Reportings',
+    icon: ReportingImage,
+    role: 'SERVICE',
+    textNames: [
+      {
+        key: 'analytics',
+        label: 'Analytics',
+      },
+      {
+        key: 'project-analytics',
+        label: 'Project Analytics',
+      },
+    ],
+  },
+  {
+    key: 'control-panel',
+    icon: CustomerPortalImage,
+    label: 'Control Panel',
+    role: 'SERVICE',
   },
 ];
 
@@ -70,78 +189,45 @@ export const SalesRoutes: any = [
     key: 'sales-dashboard',
     icon: DashboardImage,
     label: 'Dashboard',
-    role: 'sales',
+    role: 'AIR_SALES',
   },
   {
     key: 'sales-deals',
     icon: UserManagementImage,
     label: 'Deals',
-    role: 'sales',
+    role: 'AIR_SALES',
   },
 
   {
     key: 'sales-forecast',
     icon: ForecastImage,
     label: 'Forecast',
-    role: 'sales',
+    role: 'AIR_SALES',
   },
-  {
-    key: 'super-admin',
-    label: 'Data Layout',
-    icon: SettingImage,
-    role: 'super-admin',
-    textNames: [
-      {
-        key: 'super-admin-reports',
-        label: 'Jo',
-      },
-      {
-        key: 'super-admin-reports',
-        label: 'FA',
-      },
-    ],
-  },
-
   {
     key: 'sales-quotes',
     icon: QuotesImage,
     label: 'Quotes',
-    role: 'sales',
+    role: 'AIR_SALES',
   },
   {
     key: 'sales-tasks',
     icon: PlanManagementImage,
     label: 'Tasks',
-    role: 'sales',
+    role: 'AIR_SALES',
   },
 
   {
     key: 'sales-invoices',
     icon: BillingInvoiceImage,
     label: 'Invoices',
-    role: 'sales',
+    role: 'AIR_SALES',
   },
   {
     key: 'sales-reports',
     icon: ReportsImage,
     label: 'Reports',
-    role: 'sales',
-  },
-  {
-    key: 'super-admin-user-management',
-    label: 'Setting',
-    icon: SettingImage,
-    role: 'super-admin',
-    textNames: [
-      {
-        key: 'super-admin-reports',
-        label: 'Jobs',
-      },
-      {
-        key: 'super-admin-reports',
-        label: 'FAQs',
-      },
-    ],
+    role: 'AIR_SALES',
   },
 ];
 
@@ -193,7 +279,7 @@ export const LowerSuperAdminRoutes = [
   {
     label: 'Logout',
     key: 'logout',
-    role: 'sales',
+    role: 'AIR_SALES',
     icon: LogoutImage,
   },
 ];
@@ -202,23 +288,53 @@ export const LowerSalesRoutes = [
   {
     label: 'Setting',
     icon: SettingImage,
-    role: 'super-admin',
+    role: 'AIR_SALES',
+    key: 'sales-settings',
+  },
+  {
+    label: 'Logout',
+    key: 'logout',
+    role: 'AIR_SALES',
+    icon: LogoutImage,
+  },
+];
+export const LowerServicesRoutes = [
+  {
+    label: 'Settings',
+    icon: SettingImage,
+    role: 'SERVICES',
     key: 'settings',
     textNames: [
       {
-        key: 'super-admin-reports',
-        label: 'Jobs',
+        key: 'account-settings',
+        label: 'Account Settings',
       },
       {
-        key: 'super-admin-reports',
-        label: 'FAQs',
+        key: 'project-workload',
+        label: 'Project&Workload',
+      },
+      {
+        key: 'user-management',
+        label: 'User Management',
+      },
+      {
+        key: 'asset-management',
+        label: 'Asset Management',
+      },
+      {
+        key: 'automation-productivity',
+        label: 'Automation & Productivity',
+      },
+      {
+        key: 'service-management',
+        label: 'Service Management',
       },
     ],
   },
   {
     label: 'Logout',
     key: 'logout',
-    role: 'sales',
+    role: 'AIR_SALES',
     icon: LogoutImage,
   },
 ];
@@ -314,6 +430,7 @@ export const QuickLinkData = [
 const ROLES_ROUTES: any = {
   SUPER_ADMIN: SuperAdminRoutes,
   AIR_SALES: SalesRoutes,
+  AIR_SERVICES: ServicesRoutes,
 };
 
 export const getRoutes = (role: any) => {
@@ -323,6 +440,7 @@ export const getRoutes = (role: any) => {
 const LOWER_ROLES_ROUTES: any = {
   SUPER_ADMIN: LowerSuperAdminRoutes,
   AIR_SALES: LowerSalesRoutes,
+  AIR_SERVICES: LowerServicesRoutes,
 };
 
 export const getLowerRoutes = (role: any) => {

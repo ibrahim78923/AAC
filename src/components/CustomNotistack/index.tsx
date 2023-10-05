@@ -6,13 +6,13 @@ import {
   AlertSuccessIcon,
   AlertWarninIcon,
 } from '@/assets/icons';
-import {
-  variantBackgroundColors,
-  variantColors,
-} from './CustomNotistack.style';
-import { CustomSnackbarProps } from './CustomNotistack.interface';
+// import {
+//   variantBackgroundColors,
+//   variantColors,
+// } from './CustomNotistack.style';
+import { CustomSnackbarPropsI } from './CustomNotistack.interfacei';
 
-const CustomSnackbar: React.FC<CustomSnackbarProps> = ({
+const CustomSnackbar: React.FC<CustomSnackbarPropsI> = ({
   message,
   variant,
 }) => {
