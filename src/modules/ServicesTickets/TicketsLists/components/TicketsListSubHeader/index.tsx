@@ -11,7 +11,12 @@ import { TicketsAction } from '../TicketsAction';
 // import { v4 as uuidv4 } from 'uuid';
 
 export const TicketsListSubHeader = (props: any) => {
-  const { onCustomizeClick, onFilterClick, onActionClick } = props;
+  const {
+    onCustomizeClick,
+    onFilterClick,
+    // onActionClick,
+    ticketsActionDropdown,
+  } = props;
   const { search, setSearch } = useTicketsListsSubHeader();
   const theme = useTheme();
   const router = useRouter();
@@ -51,7 +56,7 @@ export const TicketsListSubHeader = (props: any) => {
             // >
             //   Action
             // </Button>
-            <TicketsAction />
+            <TicketsAction ticketsActionDropdown={ticketsActionDropdown} />
           )}
           {router.query.viewType !== 'board' && (
             <Button
