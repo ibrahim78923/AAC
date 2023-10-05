@@ -1,5 +1,4 @@
 import { Button, ButtonGroup } from '@mui/material';
-
 import Layout from '@/layout';
 
 export default function Home() {
