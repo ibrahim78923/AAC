@@ -30,9 +30,7 @@ export const TicketsLists = () => {
       />
       <br />
       {router?.query?.viewType === 'board' ? (
-        <>
-          Board View <TableBoardView />
-        </>
+        <TableBoardView />
       ) : (
         <>
           Table View <TicketsTableView />
@@ -42,7 +40,7 @@ export const TicketsLists = () => {
       {isDrawerOpen && (
         <CommonDrawer
           isDrawerOpen={isDrawerOpen}
-          setIsDrawerOpen={setIsDrawerOpen}
+          onClose={() => setIsDrawerOpen}
           okText={
             drawerComponent?.[router?.query?.tableAction as string]?.okText
           }
