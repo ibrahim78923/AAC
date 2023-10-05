@@ -1,6 +1,6 @@
 import { useTheme } from '@emotion/react';
 import Image from 'next/image';
-import { Grid, Typography } from '@mui/material';
+import { Grid, Typography, Box } from '@mui/material';
 import ViewDetailVuesaxIcon from '../../../assets/icons/modules/view-detail-Icon/view-details-vuesax-icon';
 import {
   ViewDetailBackArrowIcon,
@@ -9,7 +9,8 @@ import {
   ViewDetailMeetingIcon,
 } from '@/assets/icons';
 import SmsImage from '@/assets/images/modules/viewdetails/sms-image.png';
-import DetailTimePicker from './TimePicker';
+import DetailViewTimePick from './DetailViewTimePicker';
+import { IconBoxStyling, IconKabaMenuStyle } from './TopOfPage.style';
 
 export default function ToofPage() {
   const theme: any = useTheme();
@@ -41,12 +42,22 @@ export default function ToofPage() {
           </Typography>
         </Grid>
         <Grid item sx={{ display: 'flex' }}>
-          <ViewDetailVuesaxIcon />
-          <DetailTimePicker />
-          <ViewDetailMeetingIcon />
-          <ViewDetailCallIcon />
-          <Image src={SmsImage} width={24} height={24} alt="Badge" />
-          <ViewDetailKababMenuIcon />
+          <Box sx={IconBoxStyling}>
+            <ViewDetailVuesaxIcon />
+          </Box>
+          <DetailViewTimePick />
+          <Box sx={IconBoxStyling}>
+            <ViewDetailMeetingIcon />
+          </Box>
+          <Box sx={IconBoxStyling}>
+            <ViewDetailCallIcon />
+          </Box>
+          <Box sx={IconBoxStyling}>
+            <Image src={SmsImage} width={24} height={24} alt="Badge" />
+          </Box>
+          <Box sx={IconKabaMenuStyle}>
+            <ViewDetailKababMenuIcon />
+          </Box>
         </Grid>
       </Grid>
     </>
