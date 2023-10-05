@@ -1,4 +1,4 @@
-const IconMinusCircle = () => (
+const MinusCircleIcon = () => (
   <svg
     width="32"
     height="32"
@@ -13,4 +13,4 @@ const IconMinusCircle = () => (
   </svg>
 );
 
-export default IconMinusCircle;
+export default MinusCircleIcon;

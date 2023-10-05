@@ -1,4 +1,4 @@
-const IconProductMarketing = () => {
+const ProductMarketingIcon = () => {
   return (
     <svg
       width="32"
@@ -14,4 +14,4 @@ const IconProductMarketing = () => {
     </svg>
   );
 };
-export default IconProductMarketing;
+export default ProductMarketingIcon;

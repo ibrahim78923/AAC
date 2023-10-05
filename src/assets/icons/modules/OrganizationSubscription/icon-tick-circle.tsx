@@ -1,4 +1,4 @@
-const IconTickCircle = () => (
+const TickCircleIcon = () => (
   <svg
     width="24"
     height="24"
@@ -13,4 +13,4 @@ const IconTickCircle = () => (
   </svg>
 );
 
-export default IconTickCircle;
+export default TickCircleIcon;

@@ -10,7 +10,7 @@ import {
   TableRow,
   Button,
 } from '@mui/material';
-import { IconArrowBack, IconTickCircle } from '@/assets/icons';
+import { ArrowBackIcon, TickCircleIcon } from '@/assets/icons';
 import Counter from './Counter';
 import { styles } from './ChoosePlan.style';
 
@@ -24,7 +24,7 @@ const ChoosePlan = () => {
           onClick={() => router.push('/subscription-invoices/manage-plan')}
           sx={{ cursor: 'pointer', lineHeight: '1', mr: '12px' }}
         >
-          <IconArrowBack />
+          <ArrowBackIcon />
         </Box>
         <Typography variant="h4">Choose a plan</Typography>
       </Box>
@@ -192,16 +192,16 @@ const ChoosePlan = () => {
                 Tasks, Appointments and Notes
               </TableCell>
               <TableCell align="center">
-                <IconTickCircle />
+                <TickCircleIcon />
               </TableCell>
               <TableCell align="center">
-                <IconTickCircle />
+                <TickCircleIcon />
               </TableCell>
               <TableCell align="center">
-                <IconTickCircle />
+                <TickCircleIcon />
               </TableCell>
               <TableCell align="center">
-                <IconTickCircle />
+                <TickCircleIcon />
               </TableCell>
             </TableRow>
 
@@ -211,16 +211,16 @@ const ChoosePlan = () => {
                 Custom Sales Activites
               </TableCell>
               <TableCell align="center">
-                <IconTickCircle />
+                <TickCircleIcon />
               </TableCell>
               <TableCell align="center">
-                <IconTickCircle />
+                <TickCircleIcon />
               </TableCell>
               <TableCell align="center">
-                <IconTickCircle />
+                <TickCircleIcon />
               </TableCell>
               <TableCell align="center">
-                <IconTickCircle />
+                <TickCircleIcon />
               </TableCell>
             </TableRow>
 

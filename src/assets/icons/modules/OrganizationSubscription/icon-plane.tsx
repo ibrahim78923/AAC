@@ -1,4 +1,4 @@
-const IconPlane = () => (
+const PlaneIcon = () => (
   <svg
     width="28"
     height="26"
@@ -13,4 +13,4 @@ const IconPlane = () => (
   </svg>
 );
 
-export default IconPlane;
+export default PlaneIcon;

@@ -1,7 +1,7 @@
 import React, { useState, ChangeEvent, FC } from 'react';
 import { Box } from '@mui/material';
 import { CounterI } from './Counter.interface';
-import { IconAddCircle, IconMinusCircle } from '@/assets/icons';
+import { AddCircleIcon, MinusCircleIcon } from '@/assets/icons';
 import { styles } from './Counter.style';
 
 const Counter: FC<CounterI> = ({
@@ -27,7 +27,7 @@ const Counter: FC<CounterI> = ({
   return (
     <Box sx={styles.counterHolder}>
       <Box sx={styles.decrementBtn} onClick={decrement}>
-        <IconMinusCircle />
+        <MinusCircleIcon />
       </Box>
 
       <Box sx={styles.textField}>
@@ -40,7 +40,7 @@ const Counter: FC<CounterI> = ({
       </Box>
 
       <Box sx={styles.incrementBtn} onClick={increment}>
-        <IconAddCircle />
+        <AddCircleIcon />
       </Box>
     </Box>
   );

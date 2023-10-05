@@ -1,4 +1,4 @@
-const IconProductLoyaltyProgram = () => {
+const ProductLoyaltyProgramIcon = () => {
   return (
     <svg
       width="25"
@@ -30,4 +30,4 @@ const IconProductLoyaltyProgram = () => {
     </svg>
   );
 };
-export default IconProductLoyaltyProgram;
+export default ProductLoyaltyProgramIcon;

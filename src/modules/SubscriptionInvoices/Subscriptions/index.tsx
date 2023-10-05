@@ -3,11 +3,11 @@ import { Grid } from '@mui/material';
 import PlanCard from './PlanCard';
 import BillingDetail from './BillingDetail';
 import {
-  IconProductSales,
-  IconProductService,
-  IconProductMarketing,
-  IconProductOperation,
-  IconProductLoyaltyProgram,
+  ProductSalesIcon,
+  ProductServiceIcon,
+  ProductMarketingIcon,
+  ProductOperationIcon,
+  ProductLoyaltyProgramIcon,
 } from '@/assets/icons';
 import { data } from './Subscription.data';
 
@@ -15,19 +15,19 @@ const getProductIcon = (product: any) => {
   let iconProduct;
   switch (product) {
     case 'Sales':
-      iconProduct = <IconProductSales />;
+      iconProduct = <ProductSalesIcon />;
       break;
     case 'Service':
-      iconProduct = <IconProductService />;
+      iconProduct = <ProductServiceIcon />;
       break;
     case 'Marketing':
-      iconProduct = <IconProductMarketing />;
+      iconProduct = <ProductMarketingIcon />;
       break;
     case 'Operation':
-      iconProduct = <IconProductOperation />;
+      iconProduct = <ProductOperationIcon />;
       break;
     case 'Loyalty Program':
-      iconProduct = <IconProductLoyaltyProgram />;
+      iconProduct = <ProductLoyaltyProgramIcon />;
       break;
     default:
       iconProduct = <></>;

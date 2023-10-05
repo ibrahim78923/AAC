@@ -1,4 +1,4 @@
-const IconCloseDrawer = () => {
+const CloseDrawerIcon = () => {
   return (
     <svg
       width="24"
@@ -17,4 +17,4 @@ const IconCloseDrawer = () => {
   );
 };
 
-export default IconCloseDrawer;
+export default CloseDrawerIcon;

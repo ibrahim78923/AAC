@@ -14,7 +14,7 @@ import {
   Chip,
   Stack,
 } from '@mui/material';
-import { IconPlane } from '@/assets/icons';
+import { PlaneIcon } from '@/assets/icons';
 import { styles } from './ManagePlan.style';
 
 const ManagePlan = () => {
@@ -30,7 +30,7 @@ const ManagePlan = () => {
       <Box sx={styles.card}>
         <Box sx={styles.cardHeader}>
           <Box sx={styles.cardHeaderIcon}>
-            <IconPlane />
+            <PlaneIcon />
           </Box>
           <Typography variant="h6" sx={{ fontWeight: '600' }}>
             Sales
@@ -96,7 +96,7 @@ const ManagePlan = () => {
         </Typography>
         <Box sx={styles.cardHeader}>
           <Box sx={styles.cardHeaderIcon}>
-            <IconPlane />
+            <PlaneIcon />
           </Box>
           <Typography variant="h6" sx={{ fontWeight: '600' }}>
             Sales
