@@ -1,8 +1,13 @@
 import CloseIcon from '@/assets/icons/shared/AlertModels/close-icon';
-import { Box, Button, Modal, Typography } from '@mui/material';
+import { Box, Modal, Typography } from '@mui/material';
 import React from 'react';
 
-const ConversationModel = ({ open = true, handleClose, children }: any) => {
+const ConversationModel = ({
+  open,
+  handleClose,
+  children,
+  selectedItem,
+}: any) => {
   return (
     <Modal
       open={open}
@@ -31,26 +36,10 @@ const ConversationModel = ({ open = true, handleClose, children }: any) => {
             mb: '16px',
           }}
         >
-          <Typography variant="h5">Add Notes</Typography>
-          <CloseIcon />
+          <Typography variant="h5">{selectedItem}</Typography>
+          <CloseIcon onClick={handleClose} style={{ cursor: 'pointer' }} />
         </Box>
         {children}
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'flex-end',
-            mb: '16px',
-            gap: '10px',
-          }}
-        >
-          <Button sx={{ maxWidth: '90px' }} variant="outlined">
-            Cancel
-          </Button>
-          <Button sx={{ maxWidth: '90px' }} variant="contained">
-            Add
-          </Button>
-        </Box>
       </Box>
     </Modal>
   );

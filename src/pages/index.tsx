@@ -1,7 +1,6 @@
 import { Button, ButtonGroup } from '@mui/material';
 
 import Layout from '@/layout';
-import Coversation from '@/modules/ServicesTicket/SingleTicketDetail/Coversation';
 
 export default function Home() {
   return (
@@ -21,7 +20,6 @@ export default function Home() {
       <ButtonGroup>
         <Button>Add Button</Button>
       </ButtonGroup>
-      <Coversation />
     </>
   );
 }

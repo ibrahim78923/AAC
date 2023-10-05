@@ -1,28 +1,33 @@
 import AddIconWithBg from '@/assets/icons/shared/add-icon-with-bg-white';
-import ConversationModel from '@/components/Model/CoversationModel';
 import { Box, Button, Menu, MenuItem, Typography } from '@mui/material';
-import { useState } from 'react';
+import { menuOptionsAddconversation } from './Conversation.data';
+import { v4 as uuidv4 } from 'uuid';
+import userCoversation from '../userCoversation';
+import ConversationModelSub from './Model';
+
 export default function Coversation() {
-  const [isConversation, setIsConversation] = useState<boolean>(false);
-
-  const [addCoversation, setAddCoversation] = useState<null | HTMLElement>(
-    null,
-  );
-  const open = Boolean(addCoversation);
-  const handleClickButtonMenu = (
-    event: React.MouseEvent<HTMLButtonElement>,
-  ) => {
-    setAddCoversation(event.currentTarget);
-  };
-  const handleCloseButtonMenu = () => {
-    setAddCoversation(null);
-    // just for desgin will remove
-    setIsConversation(!isConversation);
-  };
-
+  const {
+    isConversation,
+    open,
+    show,
+    setShow,
+    handleClickButtonMenu,
+    addCoversation,
+    handleCloseButtonMenu,
+    setSelectedItem,
+    addCoversationModel,
+    selectedItem,
+    onSubmit,
+  } = userCoversation();
   return (
     <Box sx={{ mt: '20px' }}>
-      <ConversationModel />
+      <ConversationModelSub
+        selectedItem={selectedItem}
+        show={show}
+        setShow={setShow}
+        addCoversationModel={addCoversationModel}
+        onSubmit={onSubmit}
+      />
       <Box
         sx={{
           display: 'flex',
@@ -59,10 +64,18 @@ export default function Coversation() {
                 'aria-labelledby': 'basic-button',
               }}
             >
-              <MenuItem onClick={handleCloseButtonMenu}>Note</MenuItem>
-              <MenuItem onClick={handleCloseButtonMenu}>Reply</MenuItem>
-              <MenuItem onClick={handleCloseButtonMenu}>Forward</MenuItem>
-              <MenuItem onClick={handleCloseButtonMenu}>Discuss</MenuItem>
+              {menuOptionsAddconversation.map((item: any) => (
+                <MenuItem
+                  onClick={(e) => {
+                    handleCloseButtonMenu(e);
+                    setSelectedItem(item.value);
+                  }}
+                  key={uuidv4()}
+                  value={item.value}
+                >
+                  {item.label}
+                </MenuItem>
+              ))}
             </Menu>
           </>
         )}
@@ -108,10 +121,18 @@ export default function Coversation() {
                   'aria-labelledby': 'basic-button',
                 }}
               >
-                <MenuItem onClick={handleCloseButtonMenu}>Note</MenuItem>
-                <MenuItem onClick={handleCloseButtonMenu}>Reply</MenuItem>
-                <MenuItem onClick={handleCloseButtonMenu}>Forward</MenuItem>
-                <MenuItem onClick={handleCloseButtonMenu}>Discuss</MenuItem>
+                {menuOptionsAddconversation.map((item: any) => (
+                  <MenuItem
+                    onClick={(e) => {
+                      handleCloseButtonMenu(e);
+                      setSelectedItem(item.value);
+                    }}
+                    key={uuidv4()}
+                    value={item.value}
+                  >
+                    {item.label}
+                  </MenuItem>
+                ))}
               </Menu>
             </Box>
           </Box>
