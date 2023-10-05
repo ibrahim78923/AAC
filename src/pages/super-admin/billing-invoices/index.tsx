@@ -1,5 +1,6 @@
 import Layout from '@/layout';
-import BillingAndInvoicesTable from '@/modules/BillingAndInvoices/BillingAndInvoicesTable';
+import BillingAndInvoicesTable from '@/modules/superAdmin/BillingAndInvoices/BillingAndInvoicesTable';
+
 const BillingInvoicesPage = () => {
   return <BillingAndInvoicesTable />;
 };
