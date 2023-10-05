@@ -41,6 +41,7 @@ export const createTicketDataArray = [
       name: 'title',
       label: 'Title',
       fullWidth: true,
+      required: true,
     },
     component: RHFTextField,
     md: 12,
@@ -60,6 +61,7 @@ export const createTicketDataArray = [
       label: 'Department',
       fullWidth: true,
       select: true,
+      required: true,
     },
     options: [
       { value: 'IT', label: 'IT' },
@@ -123,7 +125,7 @@ export const createTicketDataArray = [
       fullWidth: true,
     },
     component: RHFDatePicker,
-    md: 9,
+    md: 8,
   },
   {
     componentProps: {
@@ -132,7 +134,7 @@ export const createTicketDataArray = [
       fullWidth: true,
     },
     component: RHFTimePicker,
-    md: 3,
+    md: 4,
   },
   {
     componentProps: {
@@ -141,7 +143,7 @@ export const createTicketDataArray = [
       fullWidth: true,
     },
     component: RHFDatePicker,
-    md: 9,
+    md: 8,
   },
   {
     componentProps: {
@@ -150,7 +152,7 @@ export const createTicketDataArray = [
       fullWidth: true,
     },
     component: RHFTimePicker,
-    md: 3,
+    md: 4,
   },
   {
     componentProps: {

@@ -1,4 +1,4 @@
-import { AccordionItemI } from './AccordionItem.type';
+import { AccordionItemI } from './AccordionItem.interface';
 import { AccordionSummary, Collapse } from '@mui/material';
 import { ArrowUpIcon, ArrowDownIcon } from '@/assets/icons';
 import { UseAccordionItem } from './UseAccordionItem';
