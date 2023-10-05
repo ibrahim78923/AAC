@@ -1,9 +1,9 @@
-import SuperAdminLayout from '@/layouts/SuperAdminLayout/SuperAdminLayout';
+import Layout from '@/layout';
 import ProductFeature from '@/modules/settings/ProductFeature';
 const ProductFeaturesPage = () => {
   return <ProductFeature />;
 };
 export default ProductFeaturesPage;
 ProductFeaturesPage.getLayout = function getLayout(page: any) {
-  return <SuperAdminLayout>{page}</SuperAdminLayout>;
+  return <Layout>{page}</Layout>;
 };
