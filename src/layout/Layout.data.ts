@@ -77,7 +77,7 @@ export const SuperAdminRoutes: MenuItemI[] = [
 
 export const ServicesRoutes: any = [
   {
-    key: 'service-dashboard',
+    key: 'air-services',
     icon: DashboardImage,
     label: 'Dashboard',
     role: 'SERVICE',
@@ -107,25 +107,25 @@ export const ServicesRoutes: any = [
     role: 'SERVICE',
   },
   {
-    key: 'assets',
+    key: 'air-services/services-assets',
     label: 'Assets',
     icon: AssetsImage,
     role: 'SERVICE',
     textNames: [
       {
-        key: 'inventory',
+        key: 'air-services/assets/inventory',
         label: 'Inventory',
       },
       {
-        key: 'software',
+        key: 'air-services/assets/software',
         label: 'Software',
       },
       {
-        key: 'contracts',
+        key: 'air-services/assets/contracts',
         label: 'Contracts',
       },
       {
-        key: 'purchase-orders',
+        key: 'air-services/assets/purchase-orders',
         label: 'Purchase Orders',
       },
     ],
@@ -186,45 +186,45 @@ export const ServicesRoutes: any = [
 
 export const SalesRoutes: any = [
   {
-    key: 'sales-dashboard',
+    key: 'air-sales',
     icon: DashboardImage,
     label: 'Dashboard',
     role: 'AIR_SALES',
   },
   {
-    key: 'sales-deals',
+    key: 'air-sales/deals',
     icon: UserManagementImage,
     label: 'Deals',
     role: 'AIR_SALES',
   },
 
   {
-    key: 'sales-forecast',
+    key: 'air-sales/forecast',
     icon: ForecastImage,
     label: 'Forecast',
     role: 'AIR_SALES',
   },
   {
-    key: 'sales-quotes',
+    key: 'air-sales/quotes',
     icon: QuotesImage,
     label: 'Quotes',
     role: 'AIR_SALES',
   },
   {
-    key: 'sales-tasks',
+    key: 'air-sales/tasks',
     icon: PlanManagementImage,
     label: 'Tasks',
     role: 'AIR_SALES',
   },
 
   {
-    key: 'sales-invoices',
+    key: 'air-sales/invoices',
     icon: BillingInvoiceImage,
     label: 'Invoices',
     role: 'AIR_SALES',
   },
   {
-    key: 'sales-reports',
+    key: 'air-sales/reports',
     icon: ReportsImage,
     label: 'Reports',
     role: 'AIR_SALES',
@@ -236,42 +236,42 @@ export const LowerSuperAdminRoutes = [
     label: 'Setting',
     icon: SettingImage,
     role: 'super-admin',
-    key: 'super-admin-dashboard',
+    key: 'super-admin/settings',
     textNames: [
       {
-        key: 'super-admin-reports',
+        key: 'super-admin/settings/jobs',
         label: 'Jobs',
       },
       {
-        key: 'super-admin-reports',
+        key: 'super-admin/settings/faqs',
         label: 'FAQs',
       },
       {
-        key: 'super-admin-reports',
+        key: 'super-admin/settings/enquiries',
         label: 'Enquiries',
       },
       {
-        key: 'Tax Calculation',
+        key: 'super-admin/settings/tax-calculation',
         label: 'Tax Calculation',
       },
       {
-        key: 'quick-links',
+        key: 'super-admin/settings/quick-links',
         label: 'Quick Links',
       },
       {
-        key: 'News And Events',
+        key: 'super-admin/settings/news-Events',
         label: 'News And Events',
       },
       {
-        key: 'Module Creation',
+        key: 'super-admin/settings/module-creation',
         label: 'Module Creation',
       },
       {
-        key: 'Product List',
+        key: 'super-admin/settings/product-list',
         label: 'Product List',
       },
       {
-        key: 'Product Feature',
+        key: 'super-admin/settings/product-feature',
         label: 'Product Feature',
       },
     ],
@@ -286,10 +286,10 @@ export const LowerSuperAdminRoutes = [
 
 export const LowerSalesRoutes = [
   {
-    label: 'Setting',
+    label: 'Settings',
     icon: SettingImage,
     role: 'AIR_SALES',
-    key: 'sales-settings',
+    key: 'air-sales/settings',
   },
   {
     label: 'Logout',
@@ -303,10 +303,10 @@ export const LowerServicesRoutes = [
     label: 'Settings',
     icon: SettingImage,
     role: 'SERVICES',
-    key: 'settings',
+    key: 'air-sales/settings',
     textNames: [
       {
-        key: 'account-settings',
+        key: 'air-services/settings/account-settings',
         label: 'Account Settings',
       },
       {
