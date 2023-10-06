@@ -3,7 +3,6 @@ import {
   Box,
   Stack,
   Typography,
-  Button,
   TextareaAutosize,
   Card,
   CardActions,
@@ -13,9 +12,9 @@ import {
 } from '@mui/material';
 import { AddCircleRounded } from '@mui/icons-material';
 import { useTheme } from '@mui/material/styles';
-import { PlusSharedIcon } from '@/assets/icons';
 import { productTotalDetails } from './EditDetailsData';
 import { v4 as uuidv4 } from 'uuid';
+import AddProducts from './AddProducts';
 
 const ProductsTable = () => {
   const [isDiscount, setIsDiscount] = useState(false);
@@ -29,13 +28,7 @@ const ProductsTable = () => {
         my={2}
       >
         <Typography variant="h4">Products</Typography>
-        <Button
-          variant="contained"
-          sx={{ display: 'flex', gap: '10px' }}
-          startIcon={<PlusSharedIcon />}
-        >
-          Add Products
-        </Button>
+        <AddProducts />
       </Stack>
       <Stack direction={{ xs: 'column', lg: 'row' }} gap={3}>
         <TextareaAutosize minRows={15} cols={180} placeholder="Comments" />

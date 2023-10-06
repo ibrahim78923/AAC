@@ -20,11 +20,10 @@ const InvoicvesListView = (props: any) => {
   const { setIsListViewPgae } = props;
   const [selectedValue, setSelectedValue] = useState(null);
   const [searchBy, setSearchBy] = useState('');
-  const [selected, setSelected] = useState<readonly string[]>([]);
+  // const [selected, setSelected] = useState<readonly string[]>([]);
 
   const handleClick = (event: any) => {
     setSelectedValue(event.currentTarget);
-    setSelected([]);
   };
 
   const handleClose = () => {
@@ -57,7 +56,7 @@ const InvoicvesListView = (props: any) => {
           <Stack direction="row" justifyContent="end" gap={1}>
             <Box>
               <Button
-                disabled={selected.length > 0 ? false : true}
+                // disabled={selected.length > 0 ? false : true}
                 onClick={handleClick}
                 sx={{ border: '1px solid #D1D5DB', color: '#6B7280' }}
               >

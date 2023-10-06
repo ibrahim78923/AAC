@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Button, Stack, Typography } from '@mui/material';
 import ChooseQuotes from './ChooseQuotes/ChooseQuotes';
-import EditDetails from './EditDetails/EditDetails';
+import EditDetails from './EditDetails';
 
 const CreateInvoice = (props: any) => {
   const { setIsListViewPgae } = props;

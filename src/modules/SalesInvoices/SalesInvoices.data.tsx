@@ -174,6 +174,15 @@ export const invoiceFilterFields = [
   },
   {
     componentProps: {
+      name: 'plannedEndDate',
+      label: 'Planned End Date',
+      fullWidth: true,
+    },
+    component: RHFDatePicker,
+    md: 12,
+  },
+  {
+    componentProps: {
       name: 'impact',
       label: 'Impact',
       fullWidth: true,
@@ -186,14 +195,5 @@ export const invoiceFilterFields = [
     ],
     component: RHFSelect,
     md: 12,
-  },
-  {
-    componentProps: {
-      name: 'plannedEndDate',
-      label: 'Planned End Date',
-      fullWidth: true,
-    },
-    component: RHFDatePicker,
-    md: 8,
   },
 ];
