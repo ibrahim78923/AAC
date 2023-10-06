@@ -4,7 +4,7 @@ import DetailsVeiwPropSect from './DetailsViewPropertiesSection';
 import ToofPage from './TopOfPage';
 import DetailViewCard from './ViewCardDetail';
 
-export default function TicketDetaile() {
+export default function TicketDetail() {
   return (
     <>
       <ToofPage />
