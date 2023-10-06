@@ -28,13 +28,17 @@ export default function RHFTextField({ name, required, ...other }: any) {
             helperText={
               <Typography
                 component={'span'}
-                position={'absolute'}
-                bottom={-13}
-                left={0}
+                sx={{ display: 'block', mt: -1, ml: -1 }}
               >
                 {error?.message}
               </Typography>
             }
+            FormHelperTextProps={{
+              classes: {
+                root: '',
+                color: 'green',
+              },
+            }}
             {...other}
             label=""
             inputProps={{

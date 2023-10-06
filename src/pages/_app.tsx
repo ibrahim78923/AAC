@@ -1,8 +1,10 @@
 import '@/styles/globals.css';
 import { LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+
 import ThemeProvider from '../../theme';
 import ThemeLocalization from '../../theme/ThemeLocalization';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+
 import { SnackbarProvider } from 'notistack';
 
 export default function App(props: any) {

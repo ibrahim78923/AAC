@@ -34,10 +34,8 @@ export default function RHFEditor({ name, required, ...other }: any) {
           <FormHelperText
             error
             sx={{
-              position: 'absolute',
               textTransform: 'capitalize',
-              left: 0,
-              bottom: -24,
+              mt: 0,
             }}
           >
             {error?.message}

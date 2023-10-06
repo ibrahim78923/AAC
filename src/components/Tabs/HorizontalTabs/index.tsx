@@ -2,7 +2,7 @@ import { useState, Children, SyntheticEvent } from 'react';
 import { Tabs, Tab, Typography, useTheme, Box, Card } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { styles } from './HorizontalTabs.style';
-import { uuid } from 'uuidv4';
+import { v4 as uuidv4 } from 'uuid';
 
 const HorizontalTabs = (props: any) => {
   const {
@@ -46,7 +46,8 @@ const HorizontalTabs = (props: any) => {
             disabled={
               !Array.isArray(disabled) ? disabled : disabled?.includes(title)
             }
-            key={uuid()}
+            sx={styles?.tabsStyle?.(theme)}
+            key={uuidv4()}
             onClick={() => {
               setActiveTab ? setActiveTab(title) : null;
             }}
@@ -61,9 +62,9 @@ const HorizontalTabs = (props: any) => {
           <AddCircleIcon sx={styles?.circleIconStyle} onClick={handleAddTab} />
         )}
       </Tabs>
-      <Box sx={{ py: 2 }}>
+      <Box sx={{ py: { md: 2, xs: 0.5 } }}>
         {arrayChildren?.map((child, index) => (
-          <Box key={uuid()}>{value === index && child}</Box>
+          <Box key={uuidv4()}>{value === index && child}</Box>
         ))}
       </Box>
     </Card>

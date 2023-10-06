@@ -46,10 +46,7 @@ export default function RHFRadioGroup({
           </RadioGroup>
 
           {!!error && (
-            <FormHelperText
-              error
-              sx={{ position: 'absolute', left: 0, bottom: -13 }}
-            >
+            <FormHelperText error sx={{ display: 'block', mt: -0.5, ml: 0 }}>
               {error.message}
             </FormHelperText>
           )}
