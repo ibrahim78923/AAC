@@ -2,21 +2,20 @@ import { useState } from 'react';
 
 import { Grid, Typography, Button } from '@mui/material';
 
-import Search from '@/components/Search';
-
-import GenerateInvoice from '../GenerateInvoice';
-
-import ViewBillingDetails from '../ViewBillingDetails';
-
-import PlusSharedIcon from '@/assets/icons/shared/plus-shared';
-import { columns } from './BillingAndInvoices.data';
 import { BillingAndInvoicesTableData } from '@/mock/modules/BillingAndDetails';
+
+import Search from '@/components/Search';
+import GenerateInvoice from '../GenerateInvoice';
 import TanstackTable from '@/components/Tabel/TanstackTable';
+import ViewBillingDetails from '../ViewBillingDetails';
+import { columns } from './BillingAndInvoices.data';
 import EditForm from '../EditForm';
 import MenuItems from './MenuOptions';
 import useMenuOptions from './MenuOptions/useMenuOptions';
 import Filters from './Filters';
 import CustomPagination from '@/components/CustomPagination';
+
+import PlusSharedIcon from '@/assets/icons/shared/plus-shared';
 import { FilterSharedIcon } from '@/assets/icons';
 
 const BillingAndInvoicesTable = () => {
@@ -73,9 +72,7 @@ const BillingAndInvoicesTable = () => {
             </Button>
           </Grid>
         </Grid>
-        {isShowGenerateInvoice && (
-          <GenerateInvoice isShowGenerateInvoice={isShowGenerateInvoice} />
-        )}
+        {isShowGenerateInvoice && <GenerateInvoice />}
       </Grid>
       {isShowViewBillingDetails && (
         <ViewBillingDetails

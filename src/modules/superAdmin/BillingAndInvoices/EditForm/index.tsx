@@ -1,19 +1,14 @@
-import CommonDrawer from '@/components/CommonDrawer';
-
-// import { FormProvider } from '@/components/ReactHookForm';
-
 import { Grid, Box } from '@mui/material';
 
-import { useForm } from 'react-hook-form';
-
 import { dataArray, defaultValues, validationSchema } from './EditForm.data';
+import CommonDrawer from '@/components/CommonDrawer';
+import { FormProvider } from '@/components/ReactHookForm';
 
+import { useForm } from 'react-hook-form';
+import { enqueueSnackbar } from 'notistack';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { v4 as uuidv4 } from 'uuid';
-
-import { enqueueSnackbar } from 'notistack';
-import { FormProvider } from '@/components/ReactHookForm';
 
 export default function EditForm({
   isOpenDrawer,
@@ -31,23 +26,9 @@ export default function EditForm({
   const { handleSubmit } = methods;
 
   const onSubmit = async () => {
-    // console.log(data);
-
-    // try {
-
-    //   const res: any = await onSubmitHandler(data).unwrap();
-
     enqueueSnackbar('Ticket Updated Successfully', {
       variant: 'success',
     });
-
-    // } catch (error: any) {
-
-    //   const errMsg = error?.data?.message;
-
-    //   enqueueSnackbar(errMsg ?? "Something Went Wrong!", { variant: "error" });
-
-    // }
   };
 
   return (

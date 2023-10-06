@@ -11,10 +11,10 @@ import {
   Box,
 } from '@mui/material';
 
+import { styles } from './UserInfo.style';
+
 import { LogoSharedIcon } from '@/assets/icons';
 import { AvatarImage } from '@/assets/images';
-
-import { styles } from './UserInfo.style';
 
 const UserInfo = () => {
   const theme = useTheme<Theme>();
