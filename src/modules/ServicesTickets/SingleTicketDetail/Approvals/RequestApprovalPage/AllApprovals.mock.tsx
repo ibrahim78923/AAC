@@ -14,7 +14,7 @@ export const ApprovalData = [
     id: '2',
     img: AvatarImage,
     mainText: 'Sharemydine',
-    iconText: 'Request sent on Thu, 8 Mar 11:02 PM',
+    iconText: 'Received for approval  on  Thu, 8 Mar  11:02 PM',
     detail: `Hi Guys We have been facing issue when we try to reach email
       server 3 Hi Guys.`,
     status: 'Recieve',
@@ -24,7 +24,7 @@ export const ApprovalData = [
     id: '3',
     img: AvatarImage,
     mainText: 'Sharemydine',
-    iconText: 'Request sent on Thu, 8 Mar 11:02 PM',
+    iconText: 'Approved  on  Tues, 7 Mar  11:02 PM',
     detail: `Hi Guys We have been facing issue when we try to reach email
       server 3 Hi Guys.`,
     status: 'Approve',
@@ -33,7 +33,7 @@ export const ApprovalData = [
     id: '4',
     img: AvatarImage,
     mainText: 'Sharemydine',
-    iconText: 'Request sent on Thu, 8 Mar 11:02 PM',
+    iconText: 'Rejected on Thu, 5 Mar 11:02 PM',
     detail: `Hi Guys We have been facing issue when we try to reach email
       server 3 Hi Guys.`,
     status: 'Reject',
@@ -42,7 +42,7 @@ export const ApprovalData = [
     id: '5',
     img: AvatarImage,
     mainText: 'Sharemydine',
-    iconText: 'Request sent on Thu, 8 Mar 11:02 PM',
+    iconText: 'Cancel on Thu, 11 Mar 11:02 PM',
     detail: `Hi Guys We have been facing issue when we try to reach email
       server 3 Hi Guys.`,
     status: 'Cancel',
