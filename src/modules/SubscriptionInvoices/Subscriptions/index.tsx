@@ -9,7 +9,7 @@ import {
   ProductOperationIcon,
   ProductLoyaltyProgramIcon,
 } from '@/assets/icons';
-import { data } from './Subscription.data';
+import { data } from '@/mock/modules/SubscriptionAndInvoices';
 
 const getProductIcon = (product: any) => {
   let iconProduct;
