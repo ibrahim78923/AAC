@@ -1,21 +1,20 @@
 import React, { useState } from 'react';
 import { useTheme } from '@emotion/react';
 import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Grid, Button, Typography } from '@mui/material';
-import Box from '@mui/material/Box';
-import { CompanyLogoIcon } from '@/assets/icons';
-import { LoginDashboardImage } from '@/assets/images';
-import { styles } from './ForgetPassword.style';
+import { Grid, Button, Typography, Box } from '@mui/material';
+import { FormProvider } from '@/components/ReactHookForm';
+import { v4 as uuidv4 } from 'uuid';
 import {
   forgetPasswordDataArray,
   forgetPasswordDefaultValues,
   forgetPasswordValidationSchema,
 } from './ForgetPassword.data';
-import { FormProvider } from '@/components/ReactHookForm';
-import { v4 as uuidv4 } from 'uuid';
-import { yupResolver } from '@hookform/resolvers/yup';
+import { CompanyLogoIcon } from '@/assets/icons';
+import { LoginDashboardImage } from '@/assets/images';
+import { styles } from './ForgetPassword.style';
 
 const ForgetPassword = () => {
   const [isEmailSuccess, setIsEmailSuccess] = useState<boolean>(false);
@@ -31,14 +30,6 @@ const ForgetPassword = () => {
   };
 
   const { handleSubmit } = forgetPasswordForm;
-
-  // rules={{
-  //   required: 'required field',
-  //   pattern: {
-  //     value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-  //     message: 'Invalid email address',
-  //   },
-  // }}
 
   return (
     <Box sx={{ height: '100vh' }}>
