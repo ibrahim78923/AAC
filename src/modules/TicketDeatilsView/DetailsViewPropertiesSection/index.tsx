@@ -2,7 +2,7 @@ import { FormProvider } from '@/components/ReactHookForm';
 import { Grid, Typography } from '@mui/material';
 import { uuid } from 'uuidv4';
 import { dataArray } from './DetailsViewPropeSect.data';
-import useDeatilViewPropertiesSection from './UseDetailViewPropertiesSection';
+import useDeatilViewPropertiesSection from './useDetailViewPropertiesSection';
 
 function DetailsVeiwPropSect() {
   const { methods, handleSubmit, onSubmit } = useDeatilViewPropertiesSection();
