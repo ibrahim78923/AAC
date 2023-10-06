@@ -2,7 +2,7 @@ import AddIconWithBg from '@/assets/icons/shared/add-icon-with-bg-white';
 import { Box, Button, Menu, MenuItem, Typography } from '@mui/material';
 import { menuOptionsAddconversation } from './Conversation.data';
 import { v4 as uuidv4 } from 'uuid';
-import userCoversation from '../userCoversation';
+import userCoversation from './userCoversation';
 import ConversationModelSub from './Model';
 
 export default function Coversation() {

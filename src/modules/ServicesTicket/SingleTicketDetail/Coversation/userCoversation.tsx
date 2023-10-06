@@ -3,7 +3,7 @@ import {
   conversationModelsDefaultValues,
   conversationModelsValidation,
   menuOptionsAddconversation,
-} from './Coversation/Conversation.data';
+} from './Conversation.data';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
