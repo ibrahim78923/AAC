@@ -4,8 +4,6 @@ import { Box, Button, Menu, MenuItem, Stack, Typography } from '@mui/material';
 
 import CommonTabs from '@/components/Tabs';
 
-import CommonDrawer from '@/components/CommonDrawer';
-
 import Users from './Users';
 
 import UsersFilters from './Users/UsersFilters';
@@ -107,20 +105,10 @@ const UserManagement = () => {
       </Box>
 
       {isOpenFilterDrawer && (
-        <CommonDrawer
-          isDrawerOpen={isOpenFilterDrawer}
-          title="Filters"
-          okText="Apply"
-          submitHandler={() => {
-            setIsOpenFilterDrawer(false);
-          }}
-          onClose={() => {
-            setIsOpenFilterDrawer(false);
-          }}
-          isOk={true}
-        >
-          <UsersFilters />
-        </CommonDrawer>
+        <UsersFilters
+          isOpen={isOpenFilterDrawer}
+          setIsOpen={setIsOpenFilterDrawer}
+        />
       )}
 
       {isOpenAddUserDrawer && (

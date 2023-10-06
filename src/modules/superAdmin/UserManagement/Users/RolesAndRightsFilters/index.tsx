@@ -6,9 +6,9 @@ import CommonDrawer from '@/components/CommonDrawer';
 
 import {
   defaultValues,
-  filtersArray,
+  rolesFiltersArray,
   validationSchema,
-} from './UsersFilters.data';
+} from './RolesAndRightsFilters.data';
 
 import { FormProvider } from '@/components/ReactHookForm';
 
@@ -18,7 +18,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import { v4 as uuidv4 } from 'uuid';
 
-const UsersFilters = (props: any) => {
+const RolesAndRightsFilters = (props: any) => {
   const { isOpen, setIsOpen } = props;
   const methods: any = useForm({
     resolver: yupResolver(validationSchema),
@@ -44,7 +44,7 @@ const UsersFilters = (props: any) => {
     >
       <FormProvider methods={methods}>
         <Grid container spacing={4} sx={{ mt: '5px' }}>
-          {filtersArray?.map((item: any) => (
+          {rolesFiltersArray?.map((item: any) => (
             <Grid item xs={12} md={item?.md} key={uuidv4()}>
               <item.component {...item.componentProps} size={'small'}>
                 {item?.componentProps?.select &&
@@ -62,4 +62,4 @@ const UsersFilters = (props: any) => {
   );
 };
 
-export default UsersFilters;
+export default RolesAndRightsFilters;

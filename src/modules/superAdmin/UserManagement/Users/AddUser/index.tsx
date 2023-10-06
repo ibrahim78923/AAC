@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Grid } from '@mui/material';
 
-import { FormProvider } from '@/components/ReactHookForm';
+import { FormProvider, RHFSelect } from '@/components/ReactHookForm';
 
 import CommonDrawer from '@/components/CommonDrawer';
 
@@ -16,6 +16,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 const AddUser = (props: any) => {
   const { isOpenAddUserDrawer, setIsOpenAddUserDrawer } = props;
+  const [userType, setUserType] = useState();
 
   const methods: any = useForm({
     resolver: yupResolver(validationSchema),
@@ -27,7 +28,10 @@ const AddUser = (props: any) => {
   const onSubmit = async () => {
     setIsOpenAddUserDrawer(false);
   };
-
+  const options = [
+    { value: 'CompanyOwner', label: 'Company Owner' },
+    { value: 'SuperAdmin', label: 'Super Admin' },
+  ];
   return (
     <CommonDrawer
       isDrawerOpen={isOpenAddUserDrawer}
@@ -41,19 +45,40 @@ const AddUser = (props: any) => {
       footer
     >
       <FormProvider methods={methods}>
-        <Grid container spacing={4}>
-          {addUsersArray?.map((item: any) => (
-            <Grid item xs={12} md={item?.md} key={uuidv4()}>
-              <item.component {...item.componentProps} size={'small'}>
-                {item?.componentProps?.select &&
-                  item?.options?.map((option: any) => (
-                    <option key={option?.value} value={option?.value}>
-                      {option?.label}
-                    </option>
-                  ))}
-              </item.component>
-            </Grid>
-          ))}
+        <Grid container spacing={4} sx={{ mt: '5px' }}>
+          <Grid item xs={12}>
+            <RHFSelect
+              name="userType"
+              label="User Type"
+              size={'small'}
+              value={userType}
+              onChange={(e: any) => setUserType(e.target.value)}
+              fullWidth={true}
+              select={true}
+            >
+              {options?.map((option: any) => (
+                <option key={uuidv4()} value={option?.value}>
+                  {option?.label}
+                </option>
+              ))}
+            </RHFSelect>
+          </Grid>
+          {addUsersArray?.map((item: any) => {
+            return (
+              item.toShow.includes(userType) && (
+                <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                  <item.component {...item.componentProps} size={'small'}>
+                    {item?.componentProps?.select &&
+                      item?.options?.map((option: any) => (
+                        <option key={uuidv4()} value={option?.value}>
+                          {option?.label}
+                        </option>
+                      ))}
+                  </item.component>
+                </Grid>
+              )
+            );
+          })}
         </Grid>
       </FormProvider>
     </CommonDrawer>
