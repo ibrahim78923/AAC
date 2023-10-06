@@ -1,8 +1,6 @@
-import { MenuItem, Select } from '@mui/material';
+import { MenuItem, Select, useTheme } from '@mui/material';
 
 import { BadgeStatusI } from './StatusBadge.interface';
-
-import { useTheme } from '@mui/material/styles';
 
 import { styles } from './StatusBadge.style';
 

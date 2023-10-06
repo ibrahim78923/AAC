@@ -1,4 +1,4 @@
-const PhoneIconShared = () => {
+const PhoneShared = () => {
   return (
     <svg
       width="20"
@@ -19,4 +19,4 @@ const PhoneIconShared = () => {
   );
 };
 
-export default PhoneIconShared;
+export default PhoneShared;

@@ -1,4 +1,4 @@
-const EmailIconShared = () => {
+const EmailShared = () => {
   return (
     <svg
       width="24"
@@ -15,4 +15,4 @@ const EmailIconShared = () => {
   );
 };
 
-export default EmailIconShared;
+export default EmailShared;

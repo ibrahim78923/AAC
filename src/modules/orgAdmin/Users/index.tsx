@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Box, Grid } from '@mui/material';
 
-import UsersSidebar from './UsersSidebar/UsersSidebar';
+import UsersSidebar from './UsersSidebar';
 
 import UsersDetails from './UsersDetails/UsersDetails';
 

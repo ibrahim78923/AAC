@@ -26,7 +26,7 @@ const CustomTabPanel = (props: TabPanelPropsI) => {
   );
 };
 
-const a11yProps = (index: number) => {
+const tabsProps = (index: number) => {
   return {
     id: `simple-tab-${index}`,
     'aria-controls': `simple-tabpanel-${index}`,
@@ -64,7 +64,7 @@ const CommonTabs = (props: CommonTabsPropsI) => {
               disableRipple
               key={uuidv4()}
               label={tab}
-              {...a11yProps(index)}
+              {...tabsProps(index)}
             />
           ))}
         </Tabs>
