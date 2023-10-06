@@ -37,7 +37,7 @@ function createData(
 
 const UserTable = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const [editOpen, setEditOpen] = useState(false);
+  const [isEditOpen, setIsEditOpen] = useState(false);
   const theme = useTheme<Theme>();
   const [age, setAge] = React.useState('10');
   const [role, setRole] = React.useState('10');
@@ -54,11 +54,11 @@ const UserTable = () => {
   };
   const handleClose = () => {
     setAnchorEl(null);
-    setEditOpen(true);
+    setIsEditOpen(true);
   };
 
   const handleCloseDrawer = () => {
-    setEditOpen(false);
+    setIsEditOpen(false);
   };
 
   const rows = [
@@ -177,7 +177,7 @@ const UserTable = () => {
   return (
     <>
       <CommonDrawer
-        isDrawerOpen={editOpen}
+        isDrawerOpen={isEditOpen}
         onClose={handleCloseDrawer}
         title={'User View'}
         okText={'OK'}

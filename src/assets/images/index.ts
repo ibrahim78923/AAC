@@ -52,3 +52,11 @@ export { default as LoginDashboardImage } from '../../assets/images/shared/login
 export { default as DiscussionImage } from '../../assets/images/modules/tickets/meetings/discussion.png';
 export { default as TeamsImage } from '../../assets/images/modules/tickets/meetings/teams.png';
 export { default as ZoomImage } from '../../assets/images/modules/tickets/meetings/zoom.png';
+export { default as AddCircle } from '../images/modules/organization/addcircle.png';
+export { default as SmsImage } from '../../assets/images/modules/organization/sms.png';
+export { default as PhoneImage } from '../../assets/images/modules/organization/phone.png';
+export { default as UserImage } from '../../assets/images/modules/organization/user.png';
+export { default as EditImage } from '../../assets/images/modules/organization/edit.png';
+export { default as FeaturedImage } from '../../assets/images/modules/organization/Featuredicon.png';
+export { default as ComLogoImage } from '../../assets/images/modules/organization/intellogo.png';
+export { default as OrcaloLogoImage } from '../../assets/images/modules/organization/orcalologo.png';

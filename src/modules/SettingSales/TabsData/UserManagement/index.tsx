@@ -28,7 +28,7 @@ function CustomTabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
 
   return (
-    <div
+    <Box
       role="tabpanel"
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
@@ -40,7 +40,7 @@ function CustomTabPanel(props: TabPanelProps) {
           <Typography>{children}</Typography>
         </Box>
       )}
-    </div>
+    </Box>
   );
 }
 
@@ -53,8 +53,8 @@ function a11yProps(index: number) {
 
 const UserManagement = () => {
   const [value, setValue] = React.useState(0);
-  const [addUserOpen, setAddUserOpen] = useState(false);
-  const [createTeamOpen, setCreateTeamOpen] = useState(false);
+  const [isAddUserOpen, setIsAddUserOpen] = useState(false);
+  const [isCreateTeamOpen, setIsCreateTeamOpen] = useState(false);
   const theme = useTheme<Theme>();
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -62,14 +62,14 @@ const UserManagement = () => {
   };
 
   const handleCloseDrawer = () => {
-    setAddUserOpen(false);
-    setCreateTeamOpen(false);
+    setIsAddUserOpen(false);
+    setIsCreateTeamOpen(false);
   };
 
   return (
     <>
       <CommonDrawer
-        isDrawerOpen={addUserOpen}
+        isDrawerOpen={isAddUserOpen}
         onClose={handleCloseDrawer}
         title={'Add User'}
         okText={'OK'}
@@ -80,7 +80,7 @@ const UserManagement = () => {
         aDD USER form
       </CommonDrawer>
       <CommonDrawer
-        isDrawerOpen={createTeamOpen}
+        isDrawerOpen={isCreateTeamOpen}
         onClose={handleCloseDrawer}
         title={'Create Team'}
         okText={'OK'}
@@ -110,7 +110,9 @@ const UserManagement = () => {
           <Button
             onClick={() => {
               {
-                value === 0 ? setAddUserOpen(true) : setCreateTeamOpen(true);
+                value === 0
+                  ? setIsAddUserOpen(true)
+                  : setIsCreateTeamOpen(true);
               }
             }}
             variant="contained"

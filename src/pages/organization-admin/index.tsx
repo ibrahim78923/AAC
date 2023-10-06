@@ -8,13 +8,13 @@ import React from 'react';
 // export default OrganizationPage
 
 import SuperAdminLayout from '../../layout';
-function OrganizationPage() {
+const OrganizationPage = () => {
   return (
     <div>
       <Organization />
     </div>
   );
-}
+};
 export default OrganizationPage;
 OrganizationPage.getLayout = function getLayout(page: any) {
   return <SuperAdminLayout>{page}</SuperAdminLayout>;

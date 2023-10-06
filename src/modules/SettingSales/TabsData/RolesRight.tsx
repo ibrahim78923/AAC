@@ -14,6 +14,8 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Theme,
+  useTheme,
 } from '@mui/material';
 
 import SearchIcon from '@mui/icons-material/Search';
@@ -42,8 +44,9 @@ const rows = [
 ];
 
 const RolesRight = () => {
-  const [draweropen, setdraweropen] = useState(false);
-  const [editOpen, setEditOpen] = useState(false);
+  const [isDraweropen, setIsDraweropen] = useState(false);
+  const [isEditOpen, setIsEditOpen] = useState(false);
+  const theme = useTheme<Theme>();
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -51,18 +54,18 @@ const RolesRight = () => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
-    setEditOpen(true);
+    setIsEditOpen(true);
     setAnchorEl(null);
   };
   const handleCloseDrawer = () => {
-    setdraweropen(false);
-    setEditOpen(false);
+    setIsDraweropen(false);
+    setIsEditOpen(false);
   };
 
   return (
     <>
       <CommonDrawer
-        isDrawerOpen={draweropen}
+        isDrawerOpen={isDraweropen}
         onClose={handleCloseDrawer}
         title={'Add New Role'}
         okText={'OK'}
@@ -73,7 +76,7 @@ const RolesRight = () => {
         form
       </CommonDrawer>
       <CommonDrawer
-        isDrawerOpen={editOpen}
+        isDrawerOpen={isEditOpen}
         onClose={handleCloseDrawer}
         title={'User Role'}
         okText={'OK'}
@@ -85,7 +88,7 @@ const RolesRight = () => {
       </CommonDrawer>
       <Box
         sx={{
-          border: '1px solid #EAECF0',
+          border: `1px solid ${theme?.palette?.grey[700]}`,
           padding: '1rem',
           boxShadow: '0px 1px 2px 0px #1018280F',
           borderRadius: '8px',
@@ -105,10 +108,15 @@ const RolesRight = () => {
               display: 'flex',
               columnGap: '10px',
             }}
-            onClick={() => setdraweropen(true)}
+            onClick={() => setIsDraweropen(true)}
           >
-            <AddCircleIcon sx={{ color: '#ffff', fontSize: '16px' }} /> Add New
-            Role
+            <AddCircleIcon
+              sx={{
+                color: `${theme?.palette?.common.white}`,
+                fontSize: '16px',
+              }}
+            />{' '}
+            Add New Role
           </Button>
         </Box>
         <Box
@@ -138,9 +146,9 @@ const RolesRight = () => {
             aria-expanded={open ? 'true' : undefined}
             onClick={handleClick}
             sx={{
-              border: '1px solid #D1D5DB',
+              border: `1px solid ${theme?.palette?.custom.dark}`,
               borderRadius: '4px',
-              color: '#6B7280',
+              color: `${theme?.palette?.custom.main}`,
               display: 'flex',
               alignItems: 'center',
             }}

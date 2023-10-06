@@ -1,21 +1,27 @@
 import React from 'react';
 
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, Theme, useTheme } from '@mui/material';
 
 import OrganizationCard from './OrganizationSubFolder/OrganizationCard';
 import OrganizationTable from './OrganizationSubFolder/OrganizationTable';
 
 const Organization = () => {
+  const theme = useTheme<Theme>();
   return (
     <>
       <Box
         sx={{
-          background: '#FFFFFF',
+          background: `${theme?.palette?.common.white}`,
           borderRadius: '8px',
           border: '1px solid transparent',
         }}
       >
-        <Box sx={{ border: '1px solid #EAECF0', padding: '0.7rem' }}>
+        <Box
+          sx={{
+            border: `1px solid ${theme?.palette?.grey[700]}`,
+            padding: '0.7rem',
+          }}
+        >
           <Typography
             variant="h3"
             sx={{
