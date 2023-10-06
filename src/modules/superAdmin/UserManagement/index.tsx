@@ -4,13 +4,13 @@ import { Box, Button, Menu, MenuItem, Stack, Typography } from '@mui/material';
 
 import CommonTabs from '@/components/Tabs';
 
-import UsersList from './Users';
+import CommonDrawer from '@/components/CommonDrawer';
+
+import Users from './Users';
 
 import UsersFilters from './Users/UsersFilters';
 
 import RolesAndRights from './RolesAndRights';
-
-import CommonDrawer from '@/components/CommonDrawer';
 
 import AddUser from './Users/AddUser';
 
@@ -19,9 +19,8 @@ import { ArrowDropDown } from '@mui/icons-material';
 import { FilterSharedIcon, PlusSharedIcon } from '@/assets/icons';
 
 const UserManagement = () => {
-  // const [selected, setSelected] = React.useState<readonly string[]>([]);
-  const [openAddUserDrawer, setOpenAddUserDrawer] = useState(false);
-  const [openFilterDrawer, setOpenFilterDrawer] = useState(false);
+  const [isOpenAddUserDrawer, setIsOpenAddUserDrawer] = useState(false);
+  const [isOpenFilterDrawer, setIsOpenFilterDrawer] = useState(false);
   const [selectedValue, setSelectedValue] = useState(null);
   const [tabVal, setTabVal] = useState<number>(0);
   const [search, setSearch] = useState('');
@@ -49,7 +48,7 @@ const UserManagement = () => {
         <Typography variant="h4">User Management</Typography>
         <Button
           onClick={() =>
-            tabVal === 0 ? setOpenAddUserDrawer(true) : handleAddRole
+            tabVal === 0 ? setIsOpenAddUserDrawer(true) : handleAddRole
           }
           variant="contained"
           startIcon={<PlusSharedIcon />}
@@ -92,7 +91,7 @@ const UserManagement = () => {
               </Box>
               <Button
                 onClick={() => {
-                  setOpenFilterDrawer(true);
+                  setIsOpenFilterDrawer(true);
                 }}
                 startIcon={<FilterSharedIcon />}
                 sx={{ border: '1px solid #D1D5DB', color: '#6B7280' }}
@@ -102,21 +101,21 @@ const UserManagement = () => {
             </>
           }
         >
-          <UsersList />
+          <Users />
           <RolesAndRights />
         </CommonTabs>
       </Box>
 
-      {openFilterDrawer && (
+      {isOpenFilterDrawer && (
         <CommonDrawer
-          isDrawerOpen={openFilterDrawer}
+          isDrawerOpen={isOpenFilterDrawer}
           title="Filters"
           okText="Apply"
           submitHandler={() => {
-            setOpenFilterDrawer(false);
+            setIsOpenFilterDrawer(false);
           }}
           onClose={() => {
-            setOpenFilterDrawer(false);
+            setIsOpenFilterDrawer(false);
           }}
           isOk={true}
         >
@@ -124,10 +123,10 @@ const UserManagement = () => {
         </CommonDrawer>
       )}
 
-      {openAddUserDrawer && (
+      {isOpenAddUserDrawer && (
         <AddUser
-          openAddUserDrawer={openAddUserDrawer}
-          setOpenAddUserDrawer={setOpenAddUserDrawer}
+          openAddUserDrawer={isOpenAddUserDrawer}
+          setOpenAddUserDrawer={setIsOpenAddUserDrawer}
         />
       )}
     </Box>

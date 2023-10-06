@@ -1,4 +1,4 @@
-const EditColoredIconShared = () => {
+const EditColoredShared = () => {
   return (
     <svg
       width="24"
@@ -23,4 +23,4 @@ const EditColoredIconShared = () => {
   );
 };
 
-export default EditColoredIconShared;
+export default EditColoredShared;

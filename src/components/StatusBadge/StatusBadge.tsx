@@ -1,38 +1,29 @@
 import { MenuItem, Select } from '@mui/material';
 
-import { BadgeStatusInterface } from './StatusBadge.interface';
+import { BadgeStatusI } from './StatusBadge.interface';
 
 import { useTheme } from '@mui/material/styles';
 
+import { styles } from './StatusBadge.style';
+
 import { v4 as uuidv4 } from 'uuid';
 
-import { style } from './StatusBadge.style';
-
-const StatusBadge = (props: BadgeStatusInterface) => {
+const StatusBadge = (props: BadgeStatusI) => {
   const { options = undefined, onChange, value } = props;
   const theme = useTheme();
-  const colors: any = {
-    success: {
-      color: theme?.palette?.success?.main,
-      bgColor: theme?.palette?.success?.light,
-    },
-    danger: {
-      color: theme?.palette?.error?.main,
-      bgColor: theme?.palette?.error?.light,
-    },
-  };
+
   return (
     <Select
       sx={{
         backgroundColor:
           value === 'active' || value === 'open'
-            ? colors.success.bgColor
-            : colors.danger.bgColor,
+            ? theme?.palette?.success?.light
+            : theme?.palette?.error?.light,
         color:
           value === 'active' || value === 'open'
-            ? colors.success.color
-            : colors.danger.color,
-        ...style.select,
+            ? theme?.palette?.success?.main
+            : theme?.palette?.error?.main,
+        ...styles.select,
       }}
       id="demo-simple-select"
       value={value}
@@ -40,11 +31,7 @@ const StatusBadge = (props: BadgeStatusInterface) => {
     >
       {options?.map((item: any) => {
         return (
-          <MenuItem
-            key={uuidv4()}
-            sx={{ color: colors[item?.color].color }}
-            value={item.value}
-          >
+          <MenuItem key={uuidv4()} value={item.value}>
             {item.label}
           </MenuItem>
         );

@@ -1,18 +1,26 @@
 import React, { useState } from 'react';
 
-import { Avatar, Box, Button, Divider, Typography } from '@mui/material';
+import {
+  Avatar,
+  Box,
+  Button,
+  Divider,
+  Typography,
+  useTheme,
+} from '@mui/material';
+
+import CommonDrawer from '@/components/CommonDrawer';
 
 import FilterUser from '../Drawers/FilterUser';
 
 import AddUser from '../Drawers/AddUser';
 
-import CommonDrawer from '@/components/CommonDrawer';
-
 import { FilterSharedIcon, PlusSharedIcon } from '@/assets/icons';
 
 const UsersSidebar = () => {
-  const [openFilterDrawer, setOpenFilterDrawer] = useState(false);
-  const [openAdduserDrawer, setOpenAdduserDrawer] = useState(false);
+  const [isOpenFilterDrawer, setIsOpenFilterDrawer] = useState(false);
+  const [isOpenAdduserDrawer, setIsOpenAdduserDrawer] = useState(false);
+  const theme = useTheme();
 
   return (
     <Box p={'24px'}>
@@ -27,7 +35,7 @@ const UsersSidebar = () => {
         <Typography variant="h3">Users</Typography>
         <Button
           onClick={() => {
-            setOpenAdduserDrawer(true);
+            setIsOpenAdduserDrawer(true);
           }}
           variant="contained"
           startIcon={<PlusSharedIcon />}
@@ -43,7 +51,7 @@ const UsersSidebar = () => {
         {/* <Search label="Placeholder" /> */}
         <Button
           onClick={() => {
-            setOpenFilterDrawer(true);
+            setIsOpenFilterDrawer(true);
           }}
           sx={{
             border: '1px solid grey',
@@ -59,7 +67,7 @@ const UsersSidebar = () => {
       <Box
         className="users-wrapper"
         sx={{
-          backgroundColor: '#F3F4F6',
+          backgroundColor: theme.palette.grey[400],
           borderRadius: '4px',
           padding: '11px 8px',
         }}
@@ -76,14 +84,14 @@ const UsersSidebar = () => {
         </Box>
       </Box>
 
-      {openFilterDrawer && (
+      {isOpenFilterDrawer && (
         <CommonDrawer
-          isDrawerOpen={openFilterDrawer}
+          isDrawerOpen={isOpenFilterDrawer}
           submitHandler={() => {
-            setOpenFilterDrawer(false);
+            setIsOpenFilterDrawer(false);
           }}
           onClose={() => {
-            setOpenFilterDrawer(false);
+            setIsOpenFilterDrawer(false);
           }}
           title="Filters"
           okText="Apply"
@@ -93,14 +101,14 @@ const UsersSidebar = () => {
         </CommonDrawer>
       )}
 
-      {openAdduserDrawer && (
+      {isOpenAdduserDrawer && (
         <CommonDrawer
-          isDrawerOpen={openAdduserDrawer}
+          isDrawerOpen={isOpenAdduserDrawer}
           submitHandler={() => {
-            setOpenAdduserDrawer(false);
+            setIsOpenAdduserDrawer(false);
           }}
           onClose={() => {
-            setOpenAdduserDrawer(false);
+            setIsOpenAdduserDrawer(false);
           }}
           title="Add User"
           okText="Add"

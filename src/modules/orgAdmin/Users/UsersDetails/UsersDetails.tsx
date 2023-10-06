@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { Box, Button, Grid } from '@mui/material';
+import { Box, Button, Grid, useTheme } from '@mui/material';
 
 import ProfileCard from '@/components/ProfileCard';
 
@@ -18,7 +18,8 @@ import PlusShared from '@/assets/icons/shared/plus-shared';
 
 const UsersDetails = () => {
   const [tabValue, setTabVal] = useState<number>();
-  const [oepnAddAccountDrawer, setOpenAddAccountDrawer] = useState(false);
+  const [isOpenAddAccountDrawer, setIsOpenAddAccountDrawer] = useState(false);
+  const theme = useTheme();
 
   return (
     <Box>
@@ -37,8 +38,11 @@ const UsersDetails = () => {
             }}
             headerChildren={
               <Button
-                onClick={() => setOpenAddAccountDrawer(true)}
-                sx={{ border: '1px solid #D1D5DB', color: '#6B7280' }}
+                onClick={() => setIsOpenAddAccountDrawer(true)}
+                sx={{
+                  border: `1px solid ${theme?.palette?.custom?.dark}`,
+                  color: `${theme?.palette?.custom?.main}`,
+                }}
                 variant="outlined"
                 startIcon={<PlusShared />}
               >
@@ -51,17 +55,16 @@ const UsersDetails = () => {
           </CommonTabs>
         </Grid>
       </Grid>
-      {oepnAddAccountDrawer && (
+      {isOpenAddAccountDrawer && (
         <CommonDrawer
-          isDrawerOpen={oepnAddAccountDrawer}
-          // setIsDrawerOpen={()=>{setOpenAddAccountDrawer(false)}}
+          isDrawerOpen={isOpenAddAccountDrawer}
           title="Add Account"
           okText="Add"
           submitHandler={() => {
-            setOpenAddAccountDrawer(false);
+            setIsOpenAddAccountDrawer(false);
           }}
           onClose={() => {
-            setOpenAddAccountDrawer(false);
+            setIsOpenAddAccountDrawer(false);
           }}
           isOk={true}
         >

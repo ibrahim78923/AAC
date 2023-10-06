@@ -1,4 +1,4 @@
-export const style = {
+export const styles = {
   select: {
     padding: '2px 6px',
     borderRadius: '16px',

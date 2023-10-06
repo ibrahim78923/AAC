@@ -1,12 +1,12 @@
 import { SearchPropsI } from '../Search/Search.interface';
 
-export interface TabPanelProps {
+export interface TabPanelPropsI {
   children?: React.ReactNode;
   index: number;
   value: number;
 }
 
-export interface CommonTabsProps {
+export interface CommonTabsPropsI {
   tabsArray?: string[];
   children?: React.ReactNode;
   isHeader?: boolean;

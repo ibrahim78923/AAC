@@ -1,4 +1,4 @@
-export default interface CardProps {
+export default interface CardPropsI {
   src?: string;
   userName?: string;
   isBadge?: boolean;

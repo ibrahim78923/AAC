@@ -4,7 +4,9 @@ import Image from 'next/image';
 
 import { Box, Typography, Button, useTheme } from '@mui/material';
 
-import CardProps from './ProfileCard.interface';
+import CardPropsI from './ProfileCard.interface';
+
+import { styles } from './ProfileCard.style';
 
 import {
   EmailIcon,
@@ -13,14 +15,12 @@ import {
   EditColoredIcon,
 } from '@/assets/icons';
 
-import { UserProfile } from '@/assets/images';
+import { UserProfileImage } from '@/assets/images';
 
-import { styles } from './ProfileCard.style';
-
-const ProfileCard = (props: CardProps) => {
+const ProfileCard = (props: CardPropsI) => {
   const theme = useTheme();
   const {
-    src = UserProfile,
+    src = UserProfileImage,
     userName = 'John Doe',
     role = 'Org Admin',
     email = 'Johndoe@gmail.com',

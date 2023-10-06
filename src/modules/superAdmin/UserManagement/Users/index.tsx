@@ -4,9 +4,9 @@ import CustomPagination from '@/components/CustomPagination';
 
 import TanstackTable from '@/components/Tabel/TanstackTable';
 
-import { columns, data } from './UsersList.data';
+import { columns, data } from './Users.data';
 
-const UsersList = () => {
+const Users = () => {
   return (
     <>
       <TanstackTable columns={columns} data={data} />
@@ -15,4 +15,4 @@ const UsersList = () => {
   );
 };
 
-export default UsersList;
+export default Users;

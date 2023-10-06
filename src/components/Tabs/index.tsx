@@ -1,16 +1,16 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { Tabs, Tab, Box } from '@mui/material';
 
 import Search from '../Search';
 
-import { CommonTabsProps, TabPanelProps } from './Tabs.interface';
-
-import { v4 as uuidv4 } from 'uuid';
+import { CommonTabsPropsI, TabPanelPropsI } from './Tabs.interface';
 
 import { styles } from './Tabs.style';
 
-const CustomTabPanel = (props: TabPanelProps) => {
+import { v4 as uuidv4 } from 'uuid';
+
+const CustomTabPanel = (props: TabPanelPropsI) => {
   const { children, value, index, ...other } = props;
 
   return (
@@ -33,7 +33,7 @@ const a11yProps = (index: number) => {
   };
 };
 
-const CommonTabs = (props: CommonTabsProps) => {
+const CommonTabs = (props: CommonTabsPropsI) => {
   const {
     tabsArray,
     children,
@@ -44,8 +44,11 @@ const CommonTabs = (props: CommonTabsProps) => {
   } = props;
   const arrayChildren = React.Children.toArray(children);
 
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
 
+  useEffect(() => {
+    getTabVal(value);
+  }, []);
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
     getTabVal(newValue);
