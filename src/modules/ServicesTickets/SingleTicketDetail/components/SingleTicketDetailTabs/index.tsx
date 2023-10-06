@@ -1,7 +1,7 @@
 import HorizontalTabs from '@/components/Tabs/HorizontalTabs';
 import { singleTicketDetailTabsData } from './SingleTicketDetailTabs.data';
 import { Tasks } from '../../Tasks';
-import { RelatedTickets } from '../../RelatedTickets';
+import RelatedTickets from '@/modules/ServicesTickets/SingleTicketDetail/RelatedTickets';
 import { Assets } from '../../Assets';
 import { Associations } from '../../Associations';
 import { Details } from '../../Details';
