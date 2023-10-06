@@ -1,4 +1,4 @@
-const CloseIcon = () => {
+const CloseIcon = (props: any) => {
   return (
     <svg
       width="24"
@@ -6,6 +6,7 @@ const CloseIcon = () => {
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      {...props}
     >
       <path
         d="M18.75 5.25L5.25 18.75"
