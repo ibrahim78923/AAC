@@ -7,6 +7,8 @@ export const UseTasks = (): UseTasksI => {
   const [isDetailDrawerOpen, setIsDetailDrawerOpen] = useState<number>(0);
   const [activeCheck, setActiveCheck] = useState<any>([]);
   const [actionPop, setActionPop] = useState<HTMLButtonElement | null>(null);
+  const [actionExportPop, setActionExportPop] =
+    useState<HTMLButtonElement | null>(null);
   const handleActionClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setActionPop(event.currentTarget);
   };
@@ -15,8 +17,6 @@ export const UseTasks = (): UseTasksI => {
   };
   const openAction = Boolean(actionPop);
 
-  const [actionExportPop, setActionExportPop] =
-    useState<HTMLButtonElement | null>(null);
   const handleActionExportClick = (event: any) => {
     setActionExportPop(event.currentTarget);
   };
