@@ -19,7 +19,7 @@ export const iconKabaMenuStyle = {
 export const iconBoxTimerStyling = {
   width: '80px',
   height: '32px',
-  border: '1px solid #D1D5DB',
+  border: '0px solid #D1D5DB',
   borderRadius: '8px ',
   display: 'flex',
   justifyContent: 'center',

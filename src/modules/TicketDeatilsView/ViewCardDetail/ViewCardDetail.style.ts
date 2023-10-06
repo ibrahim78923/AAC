@@ -30,7 +30,7 @@ export const firstBoxStyle = {
 export const secondGrideStyle = {
   display: 'flex',
   flexDirection: 'column',
-  ml: '2rem',
+  m: 'auto',
 };
 
 export const secondBoxStyle = {
@@ -40,7 +40,10 @@ export const secondBoxStyle = {
 };
 
 export const dividerBgColour = {
-  background: '#EAECF0',
+  background: '#FFF',
+  // p: 'auto',
+  border: '1px solid #EAECF0',
+  borderRadius: '8px',
 };
 
 export const boxStyleCenterText = {

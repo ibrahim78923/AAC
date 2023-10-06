@@ -3,6 +3,7 @@ import { Grid, Typography } from '@mui/material';
 import { uuid } from 'uuidv4';
 import { dataArray } from './DetailsViewPropeSect.data';
 import useDeatilViewPropertiesSection from './UseDetailViewPropertiesSection';
+
 function DetailsVeiwPropSect() {
   const { methods, handleSubmit, onSubmit } = useDeatilViewPropertiesSection();
   return (

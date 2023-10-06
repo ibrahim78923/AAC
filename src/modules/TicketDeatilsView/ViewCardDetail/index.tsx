@@ -34,11 +34,11 @@ export default function DetailViewCard() {
             <Grid container sx={{ maxWidth: '100%' }}>
               <Grid
                 item
-                xl={2.8}
-                sm={5}
-                xs={11}
-                lg={3.5}
-                md={3.3}
+                xl={3.1}
+                sm={5.8}
+                xs={12}
+                lg={4.2}
+                md={5.5}
                 sx={inerGrideStyling}
               >
                 <Box sx={firstBoxStyle}>
@@ -57,13 +57,13 @@ export default function DetailViewCard() {
                 </Box>
                 <Box sx={firstBoxStyle}>
                   <Typography variant="h6">Email:</Typography>
-                  <Typography variant="h6" sx={marginTwo}>
+                  <Typography variant="body1" sx={marginTwo}>
                     sophiebaxterl@gmail.com
                   </Typography>
                 </Box>
                 <Box sx={firstBoxStyle}>
                   <Typography variant="h6">Created on:</Typography>
-                  <Typography variant="h6" sx={marginTwo}>
+                  <Typography variant="body1" sx={marginTwo}>
                     Sun, 5 Mar 9:41 PM
                   </Typography>
                 </Box>
@@ -72,11 +72,11 @@ export default function DetailViewCard() {
               <Divider orientation="vertical" flexItem sx={dividerBgColour} />
               <Grid
                 item
-                xs={11}
-                xl={6}
+                xs={12}
+                xl={5.5}
                 sm={5}
-                lg={4.2}
-                md={4}
+                lg={4}
+                md={5}
                 sx={secondGrideStyle}
               >
                 <Box sx={firstBoxStyle}>
@@ -111,7 +111,7 @@ export default function DetailViewCard() {
 
               <Divider orientation="vertical" flexItem sx={dividerBgColour} />
 
-              <Grid item xs={11} xl={2.8} sm={3.5} lg={2.8} md={3}>
+              <Grid item xs={12} xl={2.9} sm={4} lg={3.5} md={4}>
                 <Box sx={boxStyleCenterText}>
                   <Box display={'flex'} justifyContent={'center'}>
                     <Typography variant="h6">
@@ -127,9 +127,13 @@ export default function DetailViewCard() {
                     </Typography>
                   </Box>
                   <Box display={'flex'} justifyContent={'center'}>
-                    <Typography variant="h6" sx={{ ml: '2rem' }}>
-                      Due by:&ensp;&ensp;&ensp;&ensp;
-                      <Typography component="span">
+                    <Typography variant="h6">
+                      Due by
+                      <Typography
+                        component="span"
+                        variant="body1"
+                        sx={{ ml: '1rem', width: '100%' }}
+                      >
                         Tue, 14 Mar 10:00 AM
                       </Typography>
                     </Typography>

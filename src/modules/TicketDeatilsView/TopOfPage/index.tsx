@@ -51,7 +51,6 @@ export default function ToofPage() {
           <Box sx={iconBoxTimerStyling}>
             <DetailTimePicker />
           </Box>
-          {/* <DetailViewTimePick /> */}
           <Box sx={iconBoxStyling}>
             <ViewDetailMeetingIcon />
           </Box>

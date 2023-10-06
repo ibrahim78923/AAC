@@ -16,7 +16,7 @@ export const validationSchema = Yup.object().shape({
   category: Yup.string(),
   tags: Yup.string(),
   plannedStartDate: Yup.date(),
-  plannedStartTime: Yup.date(''),
+  plannedStartTime: Yup.date(),
   plannedEndDate: Yup.date(),
   plannedEndTime: Yup.date(),
   plannedEffort: Yup.string(),
@@ -195,15 +195,19 @@ export const dataArray = [
   },
   {
     componentProps: {
-      name: 'Agent',
+      name: 'agent',
       label: 'Agent',
       fullWidth: true,
       select: true,
     },
     options: [
       {
-        value: 'A',
-        label: 'A',
+        value: 'AndrewSchulz',
+        label: 'Andrew Schulz',
+      },
+      {
+        value: 'Ryan Miller',
+        label: 'Ryan Miller',
       },
     ],
     component: RHFSelect,
@@ -218,13 +222,30 @@ export const dataArray = [
     },
     options: [
       {
-        value: 'A',
-        label: 'A',
+        value: 'Hardware',
+        label: 'Hardware',
+      },
+      {
+        value: 'Software',
+        label: 'Software',
+      },
+      {
+        value: 'Network',
+        label: 'Network',
+      },
+      {
+        value: 'Office Application',
+        label: 'Office Application',
+      },
+      {
+        value: 'Office Furniture',
+        label: 'Office Furniture',
       },
     ],
     component: RHFSelect,
     md: 4,
   },
+
   {
     componentProps: {
       name: 'tags',
@@ -234,8 +255,12 @@ export const dataArray = [
     },
     options: [
       {
-        value: 'A',
-        label: 'A',
+        value: 'Not Working',
+        label: 'Not Working',
+      },
+      {
+        value: 'Email',
+        label: 'Email',
       },
     ],
     component: RHFSelect,

@@ -1,4 +1,3 @@
-import CustomNotistack from '@/components/CustomNotistack';
 import SkeletonFormExample from '@/components/Skeletons/SkeletonForm/SkeletonForm.example';
 import SkeletonTableExample from '@/components/Skeletons/SkeletonTable/SkeletonTable.example';
 import TanstackTable from '@/components/Tabel/TanstackTable';
@@ -66,7 +65,6 @@ export const TestComponentsNoumanPage = () => {
       <br />
       <SkeletonFormExample />
       <br />
-      <CustomNotistack />
       <br />
       <br />
       <Button
