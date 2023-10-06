@@ -2,11 +2,11 @@ import { Card, Grid, Typography } from '@mui/material';
 
 const AddDiscount = () => {
   return (
-    <Grid container mt={4}>
+    <Grid container>
       <Grid item xs={12}>
         <Typography variant="h4">Add Discount</Typography>
       </Grid>
-      <Card sx={{ width: '100%', marginTop: '20px' }}>
+      <Card sx={{ width: '100%' }}>
         <Grid container style={{ padding: '24px' }}>
           <Grid item xs={6}>
             <Typography variant="body1">

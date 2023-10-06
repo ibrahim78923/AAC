@@ -1,7 +1,7 @@
 import { Grid } from '@mui/material';
 
 import UserInfo from './UserInfo';
-import AddDiscount from '@/modules/BillingAndInvoices/GenerateInvoice/AddDiscount';
+import AddDiscount from './AddDiscount';
 
 const GenerateInvoice = () => {
   return (
