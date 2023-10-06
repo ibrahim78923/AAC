@@ -8,6 +8,63 @@ export const TABLE_CONSTANTS = {
   BULK_UPDATE_DATA: 'bulk-update-data',
   CREATE_NEW_TICKET: 'create-new-ticket',
 };
+export const ticketsActionDropdownFunction = () =>
+  // openDrawer: any,
+  // setDeleteModalOpen: any,
+  [
+    {
+      title: 'Edit',
+      handleClick: (x: any) => {
+        // openDrawer?.(TABLE_CONSTANTS.CREATE_NEW_TICKET);
+        x?.();
+      },
+    },
+    {
+      title: 'Assignee',
+      handleClick: (x: any) => {
+        x?.();
+      },
+    },
+    {
+      title: 'Bulk Update',
+      handleClick: (x: any) => {
+        // openDrawer?.(TABLE_CONSTANTS.BULK_UPDATE_DATA);
+        x?.();
+      },
+    },
+    {
+      title: 'Merge',
+      handleClick: (x: any) => {
+        x?.();
+      },
+    },
+    {
+      title: 'Move',
+      handleClick: (x: any) => {
+        x?.();
+      },
+    },
+    {
+      title: 'Mark as Close',
+      handleClick: (x: any) => {
+        x?.();
+      },
+    },
+    {
+      title: 'Mark as Spam',
+      handleClick: (x: any) => {
+        x?.();
+      },
+    },
+
+    {
+      title: 'Delete',
+      handleClick: (x: any) => {
+        // setDeleteModalOpen?.(true);
+        x?.();
+      },
+    },
+  ];
 
 export const ticketsListsData: any = [
   {

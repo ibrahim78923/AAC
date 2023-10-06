@@ -6,11 +6,17 @@ import DownloadIcon from '@mui/icons-material/Download';
 import DeleteIcon from '@mui/icons-material/Delete';
 // import { currencies } from './TicketsListSubHeader.data';
 import { useRouter } from 'next/router';
+import { TicketsAction } from '../TicketsAction';
 // import { uuid } from 'uuidv4';
 // import { v4 as uuidv4 } from 'uuid';
 
 export const TicketsListSubHeader = (props: any) => {
-  const { onCustomizeClick, onFilterClick, onActionClick } = props;
+  const {
+    onCustomizeClick,
+    onFilterClick,
+    // onActionClick,
+    ticketsActionDropdown,
+  } = props;
   const { search, setSearch } = useTicketsListsSubHeader();
   const theme = useTheme();
   const router = useRouter();
@@ -42,14 +48,15 @@ export const TicketsListSubHeader = (props: any) => {
             <AddIcCallOutlined fontSize="small" />
           </Button>
           {router.query.viewType !== 'board' && (
-            <Button
-              variant="outlined"
-              onClick={() => onActionClick?.()}
-              size="large"
-              startIcon={<DownloadIcon />}
-            >
-              Action
-            </Button>
+            // <Button
+            //   variant="outlined"
+            //   onClick={() => onActionClick?.()}
+            //   size="large"
+            //   startIcon={<DownloadIcon />}
+            // >
+            //   Action
+            // </Button>
+            <TicketsAction ticketsActionDropdown={ticketsActionDropdown} />
           )}
           {router.query.viewType !== 'board' && (
             <Button
