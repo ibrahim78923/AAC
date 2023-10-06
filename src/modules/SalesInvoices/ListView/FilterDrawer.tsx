@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Box, Button, Grid } from '@mui/material';
 import CommonDrawer from '@/components/CommonDrawer';
 import { FilterAlt } from '@mui/icons-material';
@@ -7,21 +7,15 @@ import {
   defaultValues,
   validationSchema,
 } from '../SalesInvoices.data';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { v4 as uuidv4 } from 'uuid';
 import { FormProvider } from '@/components/ReactHookForm';
 
-interface IFormInput {
-  status: string;
-  createdDate: string;
-  createdBy: number;
-}
-
 const FilterDrawer = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-  const onSubmit: SubmitHandler<IFormInput> = () => {
+  const onSubmit = () => {
     // console.log(data);
   };
 

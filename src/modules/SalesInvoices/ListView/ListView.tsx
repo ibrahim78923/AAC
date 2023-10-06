@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   Box,
   Button,
@@ -10,7 +10,7 @@ import {
 } from '@mui/material';
 import { ArrowDropDown } from '@mui/icons-material';
 import FilterDrawer from './FilterDrawer';
-import { PlusSharedIcon } from '@/assets/icons';
+import { PlusSharedIcon, RefreshSharedIcon } from '@/assets/icons';
 import Search from '@/components/Search';
 import CustomPagination from '@/components/CustomPagination';
 import TanstackTable from '@/components/Tabel/TanstackTable';
@@ -83,7 +83,7 @@ const InvoicvesListView = (props: any) => {
                 width: '50px',
               }}
             >
-              {/* <RefreshIcon /> */}
+              <RefreshSharedIcon />
             </Box>
             <FilterDrawer />
           </Stack>

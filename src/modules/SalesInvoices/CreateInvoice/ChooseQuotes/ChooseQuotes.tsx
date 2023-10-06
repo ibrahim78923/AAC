@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import {
   Box,
   FormControl,
@@ -10,7 +10,7 @@ import {
 import { v4 as uuidv4 } from 'uuid';
 
 const ChooseQuotes = () => {
-  const [age, setAge] = React.useState('');
+  const [age, setAge] = useState('');
 
   const handleChange = (event: SelectChangeEvent) => {
     setAge(event.target.value);
