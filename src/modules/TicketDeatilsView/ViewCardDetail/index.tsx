@@ -20,7 +20,7 @@ import {
   cardStyling,
   viewMainGrideStyle,
 } from './ViewCardDetail.style';
-import BadgeImag from '../../../assets/images/modules/viewdetails/_Badge-base-image.png';
+import BadgeImag from '../../../assets/images/modules/viewdetails/badge-base-image.png';
 import ViewDetailAvaterImage from '../../../assets/images/modules/viewdetails/view-avatar-image.png';
 import ViewDetailDocumentTextIcon from '@/assets/icons/modules/view-detail-Icon/view-detail-document-text-icon';
 
