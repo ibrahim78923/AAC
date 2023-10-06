@@ -83,6 +83,11 @@ const RequestApproval = () => {
                       MenuListProps={{
                         'aria-labelledby': 'basic-button',
                       }}
+                      anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'center',
+                      }}
+                      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
                     >
                       <MenuItem onClick={handleClose}>Send Reminder</MenuItem>
                       <MenuItem onClick={handleClose}>Cancel Approval</MenuItem>

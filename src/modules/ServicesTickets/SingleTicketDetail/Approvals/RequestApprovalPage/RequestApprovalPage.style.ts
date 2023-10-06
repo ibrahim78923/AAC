@@ -25,6 +25,24 @@ const RequestApprovalPageStyles = () => ({
     height: '40px',
     fontWeight: '500',
   },
+  buttonBox: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    gap: '16px',
+    marginTop: '10px',
+  },
+  textareaStyle: {
+    width: '100%',
+    height: '200px',
+    fontSize: '0.875rem',
+    fontWeight: 400,
+    lineHeight: 1.5,
+    padding: '12px',
+    borderRadius: '12px',
+    border: '2px solid #E5E7EB',
+  },
+  boxBorderStyle: { borderBottom: '1px solid #E5E7EB', py: '10px' },
 });
 
 export default RequestApprovalPageStyles;
