@@ -1,6 +1,6 @@
-import { Box, Grid } from '@mui/material';
+import { Box, Grid, useTheme } from '@mui/material';
 import { useState } from 'react';
-import { data, columns } from './Contracts.mock';
+import { data, columns } from './Contracts.data';
 import TanstackTable from '@/components/Tabel/TanstackTable';
 import Search from '@/components/Search';
 import { Button } from '@mui/material';
@@ -10,6 +10,7 @@ import { styles } from './Contracts.style';
 
 function Contaracts() {
   const [meetingsData, setMeetingsData] = useState([]);
+  const theme: any = useTheme();
 
   return (
     <Grid container>
@@ -19,18 +20,18 @@ function Contaracts() {
             <Search label="search" width="100%" />
           </Box>
           <Box sx={styles.buttonBox}>
-            <Button sx={styles.buttonStyle} variant="outlined" disabled>
+            <Button sx={styles.buttonStyle(theme)} variant="outlined" disabled>
               Delete
             </Button>
             <Button
-              sx={styles.exportButtonStyle}
+              sx={styles.exportButtonStyle(theme)}
               variant="outlined"
               startIcon={<ExportShared />}
             >
               Export
             </Button>
             <Button
-              sx={styles.buttonStyle}
+              sx={styles.buttonStyle(theme)}
               variant="outlined"
               startIcon={<FilterSharedIcon />}
             >

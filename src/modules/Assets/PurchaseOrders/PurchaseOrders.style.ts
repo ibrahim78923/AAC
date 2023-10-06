@@ -38,4 +38,18 @@ export const styles = {
       marginTop: '6px',
     },
   }),
+
+  exportButtonStyle: (theme: any) => ({
+    marginRight: '12px',
+    color: theme.palette.grey?.[500],
+    border: 'none',
+    '&:hover': {
+      border: 'none',
+      color: theme.palette.grey?.[500],
+      backgroundColor: '#EAECF0',
+    },
+    '@media screen and (max-width: 740px)': {
+      marginTop: '4px',
+    },
+  }),
 };

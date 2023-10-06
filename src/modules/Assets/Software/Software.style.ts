@@ -11,7 +11,7 @@ export const styles = {
     marginBottom: '12px',
     display: 'flex',
     justifyContent: 'space-between',
-    '@media screen and (max-width: 924px)': {
+    '@media screen and (max-width: 640px)': {
       flexWrap: 'wrap',
       marginLeft: '24px',
       marginTop: '12px',
@@ -20,7 +20,7 @@ export const styles = {
 
   buttonBox: {
     marginRight: '12px',
-    '@media screen and (max-width: 924px)': {
+    '@media screen and (max-width: 640px)': {
       marginLeft: '24px',
       marginTop: '12px',
     },
