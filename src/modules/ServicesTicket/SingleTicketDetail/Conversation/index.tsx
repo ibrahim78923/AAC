@@ -4,8 +4,9 @@ import { menuOptionsAddconversation } from './Conversation.data';
 import { v4 as uuidv4 } from 'uuid';
 import userCoversation from './userCoversation';
 import ConversationModelSub from './Model';
+import ViewConversation from './View';
 
-export default function Coversation() {
+export default function Conversation() {
   const {
     isConversation,
     open,
@@ -81,7 +82,7 @@ export default function Coversation() {
         )}
       </Box>
       {isConversation ? (
-        <></>
+        <ViewConversation />
       ) : (
         <>
           <Box

@@ -35,4 +35,7 @@ export { default as ViewDetailDocumentTextIcon } from './modules/view-detail-Ico
 export { default as ViewDetailCallIcon } from './modules/view-detail-Icon/view-details-call-icon';
 export { default as ViewDetailBackArrowIcon } from './modules/view-detail-Icon/view-detail-back-arrow-icon';
 export { default as RefreshIcon } from './shared/refresh-icon';
+export { default as LeftArrowConversatationIcon } from './shared/AddConversation/left-arrow-icon';
+export { default as RightArrowConversatationIcon } from './shared/AddConversation/right-arrow-icon';
+export { default as DeleteIconConversatationIcon } from './shared/AddConversation/delete-icon-add-coversation';
 // More exports from here
