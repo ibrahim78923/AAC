@@ -1,8 +1,4 @@
-import {
-  RHFDatePicker,
-  RHFSelect,
-  RHFTextField,
-} from '@/components/ReactHookForm';
+import { RHFDatePicker, RHFSelect } from '@/components/ReactHookForm';
 
 import * as Yup from 'yup';
 
@@ -79,7 +75,7 @@ export const dataArray = [
     componentProps: {
       name: 'requester',
 
-      label: 'Client Name & Organization',
+      label: 'Client & Organization',
 
       fullWidth: true,
 
@@ -87,10 +83,10 @@ export const dataArray = [
     },
 
     options: [
-      { value: 'andrew', label: 'Andrew Stuart,Acceron' },
-      { value: 'John', label: 'John Doe,Orcalo' },
-      { value: 'Olivia', label: 'Mall of wah' },
-      { value: 'John', label: 'John ,Signup' },
+      { value: 'AnglicLtd', label: 'Anglic Ltd' },
+      { value: 'Orcalo', label: 'Orcalo' },
+      { value: '10Pearls', label: '10 Pearls' },
+      { value: 'ExtremeCommerce', label: 'Extreme Commerce' },
     ],
 
     component: RHFSelect,
@@ -139,109 +135,6 @@ export const dataArray = [
       { value: 'Enterprise', label: 'Enterprise' },
 
       { value: 'Premiun', label: 'Premiun' },
-    ],
-
-    component: RHFSelect,
-
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'additionalUser',
-
-      label: 'Additional User',
-
-      fullWidth: true,
-    },
-
-    component: RHFTextField,
-
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'planPrice',
-
-      label: 'Plan Price',
-
-      fullWidth: true,
-    },
-
-    component: RHFTextField,
-
-    md: 4,
-  },
-  {
-    componentProps: {
-      name: 'defaultUser',
-
-      label: 'Default User',
-
-      fullWidth: true,
-    },
-
-    component: RHFTextField,
-
-    md: 4,
-  },
-  {
-    componentProps: {
-      name: 'defaultUser',
-
-      label: 'Default User',
-
-      fullWidth: true,
-    },
-
-    component: RHFTextField,
-
-    md: 4,
-  },
-  {
-    componentProps: {
-      name: 'additionalStorage',
-
-      label: 'Additional Storage',
-
-      fullWidth: true,
-    },
-
-    component: RHFTextField,
-
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'discount',
-
-      label: 'Discount(%)',
-
-      fullWidth: true,
-    },
-
-    component: RHFTextField,
-
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'billingCycle',
-
-      label: 'Billing Cycle',
-
-      fullWidth: true,
-
-      select: true,
-    },
-
-    options: [
-      { value: 'paidMonthly', label: 'Paid Monthly' },
-
-      { value: 'paidquarterly', label: 'Paid Quarterly' },
-
-      { value: 'paidHalfYearly', label: 'Paid Half-Yearly' },
-
-      { value: 'paidAnnually', label: 'Paid Annually' },
     ],
 
     component: RHFSelect,

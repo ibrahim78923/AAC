@@ -9,27 +9,23 @@ import MenuItem from '@mui/material/MenuItem';
 import Fade from '@mui/material/Fade';
 
 import useMenuOptions from './useMenuOptions';
+import { ArrowDropDown } from '@mui/icons-material';
 
-const MenuItems = () => {
-  const {
-    handleClickActions,
-    handleShowGenerateInvoive,
-    handleShowViewBillingDetails,
-    handleCloseMenuOptions,
-    anchorEl,
-    openDropDown,
-    handleShowEditDetails,
-  } = useMenuOptions();
+const MenuItems = ({
+  setIsOpenDrawer,
+  setIsShowViewBillingDetails,
+  setisShowGenerateInvoice,
+}: any) => {
+  const { handleClickActions, handleCloseMenuOptions, anchorEl, openDropDown } =
+    useMenuOptions();
 
   return (
     <div>
       <Button
-        id="fade-button"
-        aria-controls={openDropDown ? 'fade-menu' : undefined}
-        aria-haspopup="true"
-        aria-expanded={openDropDown ? 'true' : undefined}
         onClick={handleClickActions}
+        sx={{ border: '1px solid #D1D5DB', color: '#6B7280' }}
       >
+        <ArrowDropDown />
         Actions
       </Button>
 
@@ -43,15 +39,29 @@ const MenuItems = () => {
         onClose={handleCloseMenuOptions}
         TransitionComponent={Fade}
       >
-        <MenuItem onClick={handleShowGenerateInvoive}>
+        <MenuItem
+          onClick={() => {
+            setisShowGenerateInvoice(true);
+          }}
+        >
           Generate Invoice
         </MenuItem>
 
-        <MenuItem onClick={handleShowViewBillingDetails}>
+        <MenuItem
+          onClick={() => {
+            setIsShowViewBillingDetails(true);
+          }}
+        >
           View Billing Detail
         </MenuItem>
 
-        <MenuItem onClick={handleShowEditDetails}>Edit</MenuItem>
+        <MenuItem
+          onClick={() => {
+            setIsOpenDrawer(true);
+          }}
+        >
+          Edit
+        </MenuItem>
       </Menu>
     </div>
   );

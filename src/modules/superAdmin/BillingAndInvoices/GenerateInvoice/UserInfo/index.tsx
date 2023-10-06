@@ -8,6 +8,7 @@ import {
   Grid,
   useTheme,
   Theme,
+  Box,
 } from '@mui/material';
 
 import { LogoSharedIcon } from '@/assets/icons';
@@ -40,13 +41,15 @@ const UserInfo = () => {
             <br />
           </Grid>
           <Grid item sm={6}>
-            <Image src={AvatarImage} alt="avatar-image" />
-            <Typography
-              variant="subtitle2"
-              sx={styles?.airAppleCardHeading(theme?.palette)}
-            >
-              Olivia Rhye
-            </Typography>
+            <Box style={{ display: '' }}>
+              <Image src={AvatarImage} alt="avatar-image" />
+              <Typography
+                variant="subtitle2"
+                sx={styles?.airAppleCardHeading(theme?.palette)}
+              >
+                Olivia Rhye
+              </Typography>
+            </Box>
             <Typography variant="customStyle">Extreme Commerce</Typography>
             <br />
             <Typography variant="customStyle">123 Street Address</Typography>

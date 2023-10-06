@@ -45,6 +45,7 @@ const useMenuOptions = () => {
     handleShowEditDetails,
     isShowGenerateInvoice,
     isShowViewBillingDetails,
+    setIsShowViewBillingDetails,
     isShowEditDetails,
   };
 };

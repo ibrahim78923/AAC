@@ -5,7 +5,7 @@ import AddDiscount from '@/modules/BillingAndInvoices/GenerateInvoice/AddDiscoun
 
 const GenerateInvoice = () => {
   return (
-    <Grid container>
+    <Grid container mt={4}>
       <Grid item lg={12}>
         <UserInfo />
         <AddDiscount />

@@ -6,7 +6,7 @@ import { Grid, Box } from '@mui/material';
 
 import { useForm } from 'react-hook-form';
 
-import { dataArray, defaultValues, validationSchema } from './EditForm.data';
+import { dataArray, defaultValues, validationSchema } from './Filters.data';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 
@@ -15,7 +15,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { enqueueSnackbar } from 'notistack';
 import { FormProvider } from '@/components/ReactHookForm';
 
-export default function EditForm({
+export default function Filters({
   isOpenDrawer,
 
   onClose,
@@ -54,7 +54,7 @@ export default function EditForm({
     <CommonDrawer
       isDrawerOpen={isOpenDrawer}
       onClose={() => onClose(false)}
-      title={'Assign Plan'}
+      title={'Filter'}
       okText={'Apply'}
       isOk
       cancelText={'Cancel'}
