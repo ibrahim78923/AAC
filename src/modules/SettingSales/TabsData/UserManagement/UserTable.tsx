@@ -3,51 +3,41 @@ import React, { useState } from 'react';
 import {
   Box,
   Button,
-  FormControl,
   Menu,
   MenuItem,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Switch,
-  Select,
   Theme,
   useTheme,
+  Typography,
+  Grid,
 } from '@mui/material';
-
-import { SelectChangeEvent } from '@mui/material/Select';
 
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
+import { FormProvider } from '@/components/ReactHookForm';
+
+import { useForm } from 'react-hook-form';
+
+import { yupResolver } from '@hookform/resolvers/yup';
+
+import {
+  dataArray,
+  defaultValues,
+  userTableData,
+  validationSchema,
+  columns,
+} from './UserManagement.data';
+import { v4 as uuidv4 } from 'uuid';
+
 import CommonDrawer from '@/components/CommonDrawer';
 import Search from '@/components/Search';
+import TanstackTable from '@/components/Tabel/TanstackTable';
+import CustomPagination from '@/components/CustomPagination';
 
-function createData(
-  name: string,
-  email: string,
-  team: any,
-  role: any,
-  status: any,
-) {
-  return { name, email, team, role, status };
-}
-
-const UserTable = () => {
+const UserTable = ({ initialValueProps = defaultValues }: any) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const theme = useTheme<Theme>();
-  const [age, setAge] = React.useState('10');
-  const [role, setRole] = React.useState('10');
 
-  const handleChange = (event: SelectChangeEvent) => {
-    setAge(event.target.value);
-  };
-  const handleRole = (event: SelectChangeEvent) => {
-    setRole(event.target.value);
-  };
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -61,119 +51,11 @@ const UserTable = () => {
     setIsEditOpen(false);
   };
 
-  const rows = [
-    createData(
-      'Olivia Rhye',
-      'Orcalo@airapple.co.uk',
-      <Box>
-        <FormControl variant="standard">
-          <Select
-            labelId="demo-simple-select-standard-label"
-            id="demo-simple-select-standard"
-            size="small"
-            value={age}
-            onChange={handleChange}
-            displayEmpty
-          >
-            <MenuItem value={10}>Alfa</MenuItem>
-            <MenuItem value={20}>Orcalo</MenuItem>
-            <MenuItem value={30}>Test</MenuItem>
-          </Select>
-        </FormControl>
-      </Box>,
-      <Box>
-        <FormControl variant="standard">
-          <Select
-            labelId="demo-simple-select-standard-label"
-            id="demo-simple-select-standard"
-            size="small"
-            value={role}
-            onChange={handleRole}
-            displayEmpty
-          >
-            <MenuItem value={10}>Account Admin</MenuItem>
-            <MenuItem value={20}>Sale Manager</MenuItem>
-            <MenuItem value={30}>Sale Management</MenuItem>
-          </Select>
-        </FormControl>
-      </Box>,
-      <Switch defaultChecked />,
-    ),
-    createData(
-      'Olivia Rhye',
-      'Orcalo@airapple.co.uk',
-      <Box>
-        <FormControl variant="standard">
-          <Select
-            labelId="demo-simple-select-standard-label"
-            id="demo-simple-select-standard"
-            size="small"
-            value={age}
-            onChange={handleChange}
-            displayEmpty
-          >
-            <MenuItem value={10}>Alfa</MenuItem>
-            <MenuItem value={20}>Orcalo</MenuItem>
-            <MenuItem value={30}>Test</MenuItem>
-          </Select>
-        </FormControl>
-      </Box>,
-      <Box>
-        <FormControl variant="standard">
-          <Select
-            labelId="demo-simple-select-standard-label"
-            id="demo-simple-select-standard"
-            size="small"
-            value={role}
-            onChange={handleRole}
-            displayEmpty
-          >
-            <MenuItem value={10}>Account Admin</MenuItem>
-            <MenuItem value={20}>Sale Manager</MenuItem>
-            <MenuItem value={30}>Sale Management</MenuItem>
-          </Select>
-        </FormControl>
-      </Box>,
-      <Switch defaultChecked />,
-    ),
-    createData(
-      'Olivia Rhye',
-      'Orcalo@airapple.co.uk',
-      <Box>
-        <FormControl variant="standard">
-          <Select
-            labelId="demo-simple-select-standard-label"
-            id="demo-simple-select-standard"
-            size="small"
-            value={age}
-            onChange={handleChange}
-            displayEmpty
-          >
-            <MenuItem value={10}>Alfa</MenuItem>
-            <MenuItem value={20}>Orcalo</MenuItem>
-            <MenuItem value={30}>Test</MenuItem>
-          </Select>
-        </FormControl>
-      </Box>,
-      <Box>
-        <FormControl variant="standard">
-          <Select
-            labelId="demo-simple-select-standard-label"
-            id="demo-simple-select-standard"
-            size="small"
-            value={role}
-            onChange={handleRole}
-            displayEmpty
-          >
-            <MenuItem value={10}>Account Admin</MenuItem>
-            <MenuItem value={20}>Sale Manager</MenuItem>
-            <MenuItem value={30}>Sale Management</MenuItem>
-          </Select>
-        </FormControl>
-      </Box>,
-      <Switch defaultChecked />,
-    ),
-  ];
+  const methods: any = useForm({
+    resolver: yupResolver(validationSchema),
+    defaultValues: initialValueProps,
+  });
+
   return (
     <>
       <CommonDrawer
@@ -185,7 +67,33 @@ const UserTable = () => {
         isOk={true}
         // submitHandler={}
       >
-        form
+        <Typography
+          sx={{
+            fontWeight: 500,
+            fontSize: '12px',
+            color: `${theme.palette.custom.main}`,
+          }}
+        >
+          Add New User to Organization
+        </Typography>
+        <Box sx={{ paddingTop: '1rem' }}>
+          <FormProvider methods={methods}>
+            <Grid container spacing={4}>
+              {dataArray?.map((item: any) => (
+                <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                  <item.component {...item.componentProps} size={'small'}>
+                    {item?.componentProps?.select &&
+                      item?.options?.map((option: any) => (
+                        <option key={option?.value} value={option?.value}>
+                          {option?.label}
+                        </option>
+                      ))}
+                  </item.component>
+                </Grid>
+              ))}
+            </Grid>
+          </FormProvider>
+        </Box>
       </CommonDrawer>
       <Box
         sx={{
@@ -233,51 +141,14 @@ const UserTable = () => {
           <MenuItem onClick={handleClose}>Delete</MenuItem>
         </Menu>
       </Box>
-      <TableContainer>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead sx={{ background: '#EAECF0' }}>
-            <TableRow>
-              <TableCell sx={{ color: '#1F305D' }}>Name</TableCell>
-              <TableCell sx={{ color: '#1F305D' }} align="center">
-                Email
-              </TableCell>
-              <TableCell sx={{ color: '#1F305D' }} align="center">
-                Team
-              </TableCell>
-              <TableCell sx={{ color: '#1F305D' }} align="center">
-                Role
-              </TableCell>
-              <TableCell sx={{ color: '#1F305D' }} align="center">
-                Status
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows.map((row) => (
-              <TableRow
-                key={row.name}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-              >
-                <TableCell sx={{ color: '#6B7280' }} component="th" scope="row">
-                  {row.name}
-                </TableCell>
-                <TableCell sx={{ color: '#6B7280' }} align="center">
-                  {row.email}
-                </TableCell>
-                <TableCell sx={{ color: '#6B7280' }} align="center">
-                  {row.team}
-                </TableCell>
-                <TableCell sx={{ color: '#6B7280' }} align="center">
-                  {row.role}
-                </TableCell>
-                <TableCell sx={{ color: '#6B7280' }} align="center">
-                  {row.status}
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <Grid>
+        <TanstackTable columns={columns} data={userTableData} />
+        <CustomPagination
+          count={1}
+          rowsPerPageOptions={[1, 2]}
+          entriePages={1}
+        />
+      </Grid>
     </>
   );
 };
