@@ -5,6 +5,7 @@ import { TicketsColumnDrag } from './components/TicketsColumnDrag';
 import CommonDrawer from '@/components/CommonDrawer';
 import { TicketsTableView } from './TicketsTableView';
 import { TableBoardView } from './TicketsBoardView';
+import { AlertModals } from '@/components/AlertModals';
 
 export const TicketsLists = () => {
   const {
@@ -14,6 +15,9 @@ export const TicketsLists = () => {
     openDrawer,
     TABLE_CONSTANTS,
     drawerComponent,
+    ticketsActionDropdown,
+    deleteModalOpen,
+    setDeleteModalOpen,
   } = useTicketsLists();
   return (
     <>
@@ -25,7 +29,8 @@ export const TicketsLists = () => {
       <br />
       <TicketsListSubHeader
         onFilterClick={() => openDrawer?.(TABLE_CONSTANTS.FILTER_DATA)}
-        onActionClick={() => openDrawer?.(TABLE_CONSTANTS.BULK_UPDATE_DATA)}
+        // onActionClick={() => openDrawer?.(TABLE_CONSTANTS.BULK_UPDATE_DATA)}
+        ticketsActionDropdown={ticketsActionDropdown}
         onCustomizeClick={() => openDrawer?.(TABLE_CONSTANTS.CUSTOMIZE_COLUMN)}
       />
       <br />
@@ -40,7 +45,10 @@ export const TicketsLists = () => {
       {isDrawerOpen && (
         <CommonDrawer
           isDrawerOpen={isDrawerOpen}
-          onClose={() => setIsDrawerOpen}
+          onClose={() => {
+            router?.push({ pathname: router?.pathname });
+            setIsDrawerOpen?.(false);
+          }}
           okText={
             drawerComponent?.[router?.query?.tableAction as string]?.okText
           }
@@ -57,6 +65,15 @@ export const TicketsLists = () => {
             <>Loading</>
           )}
         </CommonDrawer>
+      )}
+      {deleteModalOpen && (
+        <AlertModals
+          type="delete"
+          open={deleteModalOpen}
+          handleClose={() => setDeleteModalOpen(false)}
+          handleSubmit={() => {}}
+          message=""
+        />
       )}
     </>
   );

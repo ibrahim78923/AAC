@@ -22,4 +22,5 @@ export { default as CustomizeSharedIcon } from './shared/customize-icon';
 export { default as DownIcon } from './shared/Tabel/down-icon';
 export { default as SharedIcon } from './shared/shared-icon';
 export { default as RecievedFileIcon } from './shared/recieved-file';
+export { default as ExportIcon } from './shared/export-icon';
 export { default as ExportShared } from './shared/export-icon';
