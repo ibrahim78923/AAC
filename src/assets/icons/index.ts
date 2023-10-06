@@ -18,6 +18,7 @@ export { default as ArrowDownIcon } from './shared/arrow-down-icon';
 export { default as RefreshSharedIcon } from './shared/refresh-shared';
 export { default as CirclePlusIcon } from './shared/circle-plus-icon';
 export { default as FilterSharedIcon } from './shared/filter-shared';
+export { default as CustomizeSharedIcon } from './shared/customize-icon';
 export { default as DownIcon } from './shared/Tabel/down-icon';
 export { default as SharedIcon } from './shared/shared-icon';
 export { default as RecievedFileIcon } from './shared/recieved-file';
