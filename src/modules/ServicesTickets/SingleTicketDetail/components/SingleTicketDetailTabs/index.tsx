@@ -8,6 +8,7 @@ import { Details } from '../../Details';
 import { Activities } from '../../Activities';
 import { Conversations } from '../../Conversations';
 import { Meetings } from '../../Meetings';
+import { Associations } from '../../Associations';
 
 export const SingleTicketDetailTabs = () => {
   return (
@@ -15,6 +16,7 @@ export const SingleTicketDetailTabs = () => {
       <Details />
       <Tasks />
       <RelatedTickets />
+      <Associations />
       <Assets />
       <Approvals />
       <Meetings />
