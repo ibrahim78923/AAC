@@ -1,7 +1,7 @@
 import TanstackTable from '@/components/Tabel/TanstackTable';
 import { tasksTableColumns, tasksTableData } from './Tasks.mock';
 import { TaskDrawer } from './TasksDrawers';
-import { UseTasks } from './UseTasks';
+import { useTasks } from './useTasks';
 import { TasksHeader } from './TasksHeader';
 
 export const Tasks = () => {
@@ -14,7 +14,7 @@ export const Tasks = () => {
     setActiveCheck,
     isEditDrawerOpen,
     setIsEditDrawerOpen,
-  } = UseTasks();
+  } = useTasks();
   return (
     <div>
       <TasksHeader

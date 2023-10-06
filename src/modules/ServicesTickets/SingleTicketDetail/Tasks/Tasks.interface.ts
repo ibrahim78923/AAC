@@ -1,4 +1,4 @@
-export interface UseTasksI {
+export interface useTasksI {
   isAddDrawerOpen: boolean;
   setIsAddDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>;
   isEditDrawerOpen: boolean;

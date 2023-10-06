@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { UseTasksI } from './Tasks.interface';
+import { useTasksI } from './Tasks.interface';
 
-export const UseTasks = (): UseTasksI => {
+export const useTasks = (): useTasksI => {
   const [isAddDrawerOpen, setIsAddDrawerOpen] = useState<boolean>(false);
   const [isEditDrawerOpen, setIsEditDrawerOpen] = useState<boolean>(false);
   const [isDetailDrawerOpen, setIsDetailDrawerOpen] = useState<number>(0);

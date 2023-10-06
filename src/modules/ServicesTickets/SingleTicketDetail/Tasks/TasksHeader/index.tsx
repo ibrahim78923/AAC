@@ -1,6 +1,6 @@
 import { Button, Grid, MenuItem, Popover, Typography } from '@mui/material';
 import { ActionButtonIcon, CirclePlusIcon } from '@/assets/icons';
-import { UseTasks } from '../UseTasks';
+import { useTasks } from '../useTasks';
 import { taskStyles } from '../TicketTasks.styles';
 import { TasksHeaderI } from '../Tasks.interface';
 
@@ -19,7 +19,7 @@ export const TasksHeader = ({
     openActionExport,
     handleActionExportClick,
     handleActionExportClose,
-  } = UseTasks();
+  } = useTasks();
   return (
     <Grid container spacing={{ sm: 0, xs: 2 }} sx={taskStyles?.headContainer}>
       <Grid
@@ -73,7 +73,7 @@ export const TasksHeader = ({
               transformOrigin={{ vertical: 'top', horizontal: 'right' }}
             >
               <MenuItem onClick={() => window.history.go(-1)}>CSV</MenuItem>
-              <MenuItem onClick={() => window.history.go(-1)}>PDF</MenuItem>
+              <MenuItem onClick={() => window.history.go(-1)}>Excel</MenuItem>
             </Popover>
           </MenuItem>
         </Popover>
