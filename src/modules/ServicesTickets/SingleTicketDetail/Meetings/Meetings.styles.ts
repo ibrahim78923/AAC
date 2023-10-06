@@ -49,4 +49,14 @@ export const meetingsStyles = {
     width: '100%',
     pl: 0,
   },
+  popOverStyles: {
+    mt: '10px',
+    '& .MuiPaper-root': {
+      borderRadius: '8px',
+      border: '1px solid #D1D5DB',
+      background: 'common.white',
+      boxShadow:
+        '0px 4px 6px -2px rgba(16, 24, 40, 0.03), 0px 12px 16px -4px rgba(16, 24, 40, 0.08)',
+    },
+  },
 };

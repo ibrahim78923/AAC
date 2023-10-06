@@ -1,5 +1,5 @@
 import CloseIcon from '@/assets/icons/shared/AlertModels/close-icon';
-import { Box, Modal, Typography } from '@mui/material';
+import { Box, Typography, Dialog } from '@mui/material';
 
 const ConversationModel = ({
   open,
@@ -8,7 +8,7 @@ const ConversationModel = ({
   selectedItem,
 }: any) => {
   return (
-    <Modal
+    <Dialog
       open={open}
       onClose={handleClose}
       aria-labelledby="modal-modal-title"
@@ -40,7 +40,7 @@ const ConversationModel = ({
         </Box>
         {children}
       </Box>
-    </Modal>
+    </Dialog>
   );
 };
 
