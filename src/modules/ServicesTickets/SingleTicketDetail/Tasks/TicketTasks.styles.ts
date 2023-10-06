@@ -20,5 +20,9 @@ export const taskStyles: any = {
     color: 'common.white',
     ':hover': { bgcolor: 'primary.main' },
   },
-  btnContainer: { display: 'flex', gap: '20px' },
+  btnContainer: {
+    display: 'flex',
+    gap: '20px',
+    justifyContent: { sm: 'flex-end', xs: 'center' },
+  },
 };

@@ -2,6 +2,7 @@ import Image from 'next/image';
 import { Grid, Typography } from '@mui/material';
 import CommonDrawer from '@/components/CommonDrawer';
 import { drawerDetail } from '../Tasks.mock';
+import { uuid } from 'uuidv4';
 
 export const DetailTaskDrawer = ({
   isDrawerOpen,
@@ -25,7 +26,7 @@ export const DetailTaskDrawer = ({
         <Grid container spacing={1.5} sx={{ mt: 2, flexDirection: 'column' }}>
           {drawerDetail(taskDetail)?.map((item: any) => (
             <Grid
-              key={item?.id}
+              key={uuid()}
               item
               sx={{ display: 'flex', justifyContent: 'space-between' }}
             >

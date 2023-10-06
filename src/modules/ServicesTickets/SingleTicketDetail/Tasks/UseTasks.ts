@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 export const UseTasks = () => {
   const [isAddDrawerOpen, setIsAddDrawerOpen] = useState<boolean>(false);
+  const [isEditDrawerOpen, setIsEditDrawerOpen] = useState<boolean>(false);
   const [isDetailDrawerOpen, setIsDetailDrawerOpen] = useState<number>(0);
   const [activeCheck, setActiveCheck] = useState<any>([]);
   return {
@@ -11,5 +12,7 @@ export const UseTasks = () => {
     setIsDetailDrawerOpen,
     activeCheck,
     setActiveCheck,
+    isEditDrawerOpen,
+    setIsEditDrawerOpen,
   };
 };

@@ -12,12 +12,15 @@ export const Tasks = () => {
     setIsDetailDrawerOpen,
     activeCheck,
     setActiveCheck,
+    isEditDrawerOpen,
+    setIsEditDrawerOpen,
   } = UseTasks();
   return (
     <div>
       <TasksHeader
         setIsAddDrawerOpen={setIsAddDrawerOpen}
         activeCheck={activeCheck}
+        setIsEditDrawerOpen={setIsEditDrawerOpen}
       />
       <br />
       <TanstackTable
@@ -34,12 +37,17 @@ export const Tasks = () => {
         type="add"
       />
       <TaskDrawer
+        isDrawerOpen={isEditDrawerOpen}
+        onClose={setIsEditDrawerOpen}
+        type="edit"
+      />
+      <TaskDrawer
         isDrawerOpen={isDetailDrawerOpen}
         onClose={setIsDetailDrawerOpen}
         taskDetail={
           tasksTableData[
             tasksTableData.findIndex(
-              (img: any) => img.taskID === isDetailDrawerOpen,
+              (e: any) => e.taskID === isDetailDrawerOpen,
             )
           ]
         }
