@@ -28,7 +28,12 @@ const CustomPagination: React.FC<CustomPaginationPropsI> = ({
 
   return (
     <>
-      <Grid container justifyContent={'space-between'} alignItems={'center'}>
+      <Grid
+        container
+        justifyContent={'space-between'}
+        alignItems={'center'}
+        px={2.4}
+      >
         <Grid
           item
           lg={2.5}
@@ -51,7 +56,14 @@ const CustomPagination: React.FC<CustomPaginationPropsI> = ({
             sx={tablePaginationStyle}
           />
         </Grid>
-        <Grid item lg={3.5} sm={5} xs={12} sx={{ display: 'flex' }}>
+        <Grid
+          item
+          lg={3.5}
+          sm={5}
+          xs={12}
+          sx={{ display: 'flex', justifyContent: 'flex-end' }}
+          // pr={2.4}
+        >
           <IconButton
             disabled={page === 1}
             onClick={() => handleChangePage(page - 1)}

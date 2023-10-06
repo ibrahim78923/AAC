@@ -32,16 +32,16 @@ export const TicketsLists = () => {
       {router?.query?.viewType === 'board' ? (
         <TableBoardView />
       ) : (
-        <>
-          Table View
-          <TicketsTableView />
-        </>
+        <TicketsTableView />
       )}
       <TicketsColumnDrag />
       {isDrawerOpen && (
         <CommonDrawer
           isDrawerOpen={isDrawerOpen}
-          onClose={() => setIsDrawerOpen(false)}
+          onClose={
+            drawerComponent?.[router?.query?.tableAction as string]
+              ?.resetHandler || (() => setIsDrawerOpen(false))
+          }
           okText={
             drawerComponent?.[router?.query?.tableAction as string]?.okText
           }
@@ -51,6 +51,9 @@ export const TicketsLists = () => {
               ?.submitHandler
           }
           isOk={drawerComponent?.[router?.query?.tableAction as string]?.isOk}
+          cancelText={
+            drawerComponent?.[router?.query?.tableAction as string]?.cancelText
+          }
           footer
         >
           {isDrawerOpen ? (

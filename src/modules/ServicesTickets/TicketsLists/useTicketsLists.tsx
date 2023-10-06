@@ -76,7 +76,14 @@ export const useTicketsLists = () => {
     {},
   );
   const [customizeColumn, setCustomizeColumn] = useState(customizeColumns);
+
   const submitTicketFilterForm = async () => {};
+
+  const resetTicketFilterForm = async () => {
+    methodsTicketFilterForm?.reset();
+    setIsDrawerOpen(false);
+  };
+
   const drawerComponent: any = {
     'customize-column': {
       title: 'Customize Column',
@@ -114,14 +121,16 @@ export const useTicketsLists = () => {
     'filter-data': {
       title: 'Filter',
       okText: 'Apply',
+      cancelText: 'Reset',
       isOk: true,
       submitHandler: () => {
         methodsTicketFilterForm.handleSubmit(submitTicketFilterForm)();
       },
+      resetHandler: resetTicketFilterForm,
       children: (
         <TicketsFilter
           methods={methodsTicketFilterForm}
-          reset={methodsTicketFilterForm?.reset}
+          reset={resetTicketFilterForm}
           submitTicketFilterForm={submitTicketFilterForm}
           handleSubmit={methodsTicketFilterForm.handleSubmit}
         />

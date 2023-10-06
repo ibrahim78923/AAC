@@ -1,7 +1,7 @@
 import {
+  RHFAutocomplete,
   RHFDatePicker,
   RHFSelect,
-  RHFTextField,
   RHFTimePicker,
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
@@ -19,7 +19,7 @@ export const dropdownDummy = [
 
 const ticketsTypeOptions = [
   {
-    value: 'Search',
+    value: 'search',
     label: 'Search',
   },
   {
@@ -104,7 +104,7 @@ export const ticketsFilterFormSchema: any = Yup.object().shape({
 export const ticketsFilterFormFieldsDataFunction = (isFieldDisable = false) => [
   {
     id: 2,
-    component: RHFSelect,
+    component: RHFAutocomplete,
     gridLength: 12,
     componentProps: {
       fullWidth: true,
@@ -119,8 +119,8 @@ export const ticketsFilterFormFieldsDataFunction = (isFieldDisable = false) => [
     id: 920,
     componentProps: {
       fullWidth: true,
-      name: 'created',
-      label: 'Created',
+      name: 'createdOn',
+      label: 'Created On',
       select: true,
       options: dropdownDummy,
       disabled: isFieldDisable,
@@ -168,6 +168,19 @@ export const ticketsFilterFormFieldsDataFunction = (isFieldDisable = false) => [
     component: RHFSelect,
   },
   {
+    id: 129,
+    componentProps: {
+      fullWidth: true,
+      name: 'department',
+      label: 'Department',
+      select: true,
+      options: dropdownDummy,
+      disabled: isFieldDisable,
+    },
+    gridLength: 12,
+    component: RHFSelect,
+  },
+  {
     id: 100,
     componentProps: {
       fullWidth: true,
@@ -192,32 +205,6 @@ export const ticketsFilterFormFieldsDataFunction = (isFieldDisable = false) => [
       options: dropdownDummy,
       disabled: isFieldDisable,
     },
-  },
-  {
-    id: 90,
-    componentProps: {
-      fullWidth: true,
-      name: 'urgency',
-      label: 'Urgency',
-      select: true,
-      options: dropdownDummy,
-      disabled: isFieldDisable,
-    },
-    gridLength: 12,
-    component: RHFSelect,
-  },
-  {
-    id: 95,
-    componentProps: {
-      fullWidth: true,
-      name: 'tag',
-      label: 'Tag',
-      select: true,
-      options: dropdownDummy,
-      disabled: isFieldDisable,
-    },
-    gridLength: 12,
-    component: RHFSelect,
   },
   {
     id: 96,
@@ -292,13 +279,16 @@ export const ticketsFilterFormFieldsDataFunction = (isFieldDisable = false) => [
     component: RHFTimePicker,
   },
   {
-    id: 98268,
+    id: 96215,
     componentProps: {
       fullWidth: true,
       name: 'typeSource',
       label: 'Type Source',
+      select: true,
+      options: dropdownDummy,
+      disabled: isFieldDisable,
     },
     gridLength: 12,
-    component: RHFTextField,
+    component: RHFSelect,
   },
 ];
