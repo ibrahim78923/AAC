@@ -3,10 +3,12 @@ import { Card, Grid, Typography } from '@mui/material';
 const AddDiscount = () => {
   return (
     <Grid container>
-      <Grid item xs={12}>
-        <Typography variant="h4">Add Discount</Typography>
+      <Grid item xs={12} mt={4}>
+        <Typography variant="h4">Add Discount </Typography>
+
+        <Typography variant="h6">Discount</Typography>
       </Grid>
-      <Card sx={{ width: '100%' }}>
+      <Card sx={{ width: '100%', marginTop: '20px' }}>
         <Grid container style={{ padding: '24px' }}>
           <Grid item xs={6}>
             <Typography variant="body1">
