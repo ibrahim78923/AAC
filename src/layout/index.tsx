@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { usePathname } from 'next/navigation';
 
 import {
   AppBar,
@@ -43,6 +44,9 @@ const Layout = (props: LayoutI) => {
 
   const routes = getRoutes(role);
   const lowerRoutes = getLowerRoutes(role);
+  const pathname = usePathname();
+  const routerPathName =
+    pathname.split('/').splice(2)[0] ?? pathname.split('/').splice(1)[0];
 
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [dropDownOpen, setDropDownOpen] = useState<any>({});
@@ -52,10 +56,10 @@ const Layout = (props: LayoutI) => {
   };
   const toggleDropDown = (linkKey: any) => {
     setDropDownOpen((prevState: any) => ({
-      ...prevState,
       [linkKey]: !prevState[linkKey],
     }));
   };
+
   const drawer = (
     <>
       <Box sx={{ padding: '0px 0px 20px 10px' }}>
@@ -86,111 +90,140 @@ const Layout = (props: LayoutI) => {
         <Box>
           <List>
             {!isNullOrEmpty(routes) &&
-              routes.map((link: any) => (
-                <div key={uuidv4()}>
-                  {link.textNames ? (
-                    <>
-                      <ListItem sx={{ padding: '6px 0px 6px 0px' }}>
-                        <Link
-                          href={`${link.key}`}
-                          style={{
-                            width: '100%',
-                            padding: '0px',
-                          }}
+              routes.map((link: any) => {
+                const pathNameKey =
+                  link.key.split('/')[1] ?? link.key.split('/')[0];
+                return (
+                  <div key={uuidv4()}>
+                    {link.textNames ? (
+                      <>
+                        <ListItem sx={{ padding: '6px 0px 6px 0px' }}>
+                          <Link
+                            href={`/${link.key}`}
+                            style={{
+                              width: '100%',
+                              padding: '0px',
+                            }}
+                          >
+                            <ListItemButton
+                              sx={styles.mainNavLink(
+                                pathNameKey,
+                                routerPathName,
+                                theme,
+                              )}
+                              onClick={() => toggleDropDown(link.key)}
+                            >
+                              <ListItemIcon sx={{ minWidth: 20 }}>
+                                <Image
+                                  src={link.icon}
+                                  alt="icons"
+                                  style={{
+                                    opacity:
+                                      routerPathName === pathNameKey
+                                        ? '1'
+                                        : '0.4',
+                                  }}
+                                />
+                              </ListItemIcon>
+
+                              {link.label}
+
+                              <Box sx={{ paddingLeft: '15px' }}>
+                                <Image
+                                  src={
+                                    routerPathName === pathNameKey
+                                      ? ArrowUpImage
+                                      : ArrowDownImage
+                                  }
+                                  alt="Avatar"
+                                />
+                              </Box>
+                            </ListItemButton>
+                          </Link>
+                        </ListItem>
+                        <Collapse
+                          in={routerPathName === pathNameKey}
+                          timeout="auto"
+                          unmountOnExit
+                        >
+                          <List component="div" disablePadding>
+                            {link.textNames.map((subItem: any) => (
+                              <Link href={`/${subItem.key}`} key={uuidv4()}>
+                                <ListItem sx={{ padding: '0px' }}>
+                                  <ListItemButton
+                                    sx={styles.collapseMenu(
+                                      subItem,
+                                      router,
+                                      theme,
+                                    )}
+                                  >
+                                    <Box sx={styles.dropdownChildren(theme)}>
+                                      {subItem.label}
+                                    </Box>
+                                  </ListItemButton>
+                                </ListItem>
+                              </Link>
+                            ))}
+                          </List>
+                        </Collapse>
+                      </>
+                    ) : (
+                      <Link key={uuidv4()} href={`/${link.key}`}>
+                        <ListItem
+                          sx={{ padding: '6px 0px 6px 0px' }}
+                          onClick={() => setDropDownOpen({})}
                         >
                           <ListItemButton
-                            sx={styles.mainNavLink(link, router, theme)}
-                            onClick={() => toggleDropDown(link.key)}
+                            sx={styles.mainNavLink(
+                              pathNameKey,
+                              routerPathName,
+                              theme,
+                            )}
                           >
                             <ListItemIcon sx={{ minWidth: 20 }}>
                               <Image
                                 src={link.icon}
-                                alt="icons"
+                                alt={link.icon}
                                 style={{
                                   opacity:
-                                    router.pathname === link.key ||
-                                    dropDownOpen[link.key]
+                                    routerPathName === pathNameKey
                                       ? '1'
                                       : '0.4',
                                 }}
                               />
                             </ListItemIcon>
-
                             {link.label}
-
-                            <Box sx={{ paddingLeft: '15px' }}>
-                              <Image
-                                src={
-                                  dropDownOpen[link.key]
-                                    ? ArrowUpImage
-                                    : ArrowDownImage
-                                }
-                                alt="Avatar"
-                              />
-                            </Box>
                           </ListItemButton>
-                        </Link>
-                      </ListItem>
-                      <Collapse
-                        in={dropDownOpen[link.key]}
-                        timeout="auto"
-                        unmountOnExit
-                      >
-                        <List component="div" disablePadding>
-                          {link.textNames.map((subItem: any) => (
-                            <ListItem key={uuidv4()} sx={{ padding: '0px' }}>
-                              <ListItemButton
-                                sx={styles.collapseMenu(subItem, router, theme)}
-                              >
-                                <Link href={`${subItem.key}`}>
-                                  <Box sx={styles.dropdownChildren(theme)}>
-                                    {subItem.label}
-                                  </Box>
-                                </Link>
-                              </ListItemButton>
-                            </ListItem>
-                          ))}
-                        </List>
-                      </Collapse>
-                    </>
-                  ) : (
-                    <Link key={uuidv4()} href={`/${link.key}`}>
-                      <ListItem sx={{ padding: '6px 0px 6px 0px' }}>
-                        <ListItemButton
-                          sx={styles.mainNavLink(link, router, theme)}
-                        >
-                          <ListItemIcon sx={{ minWidth: 20 }}>
-                            <Image
-                              src={link.icon}
-                              alt={link.icon}
-                              style={{
-                                opacity: router.pathname.includes(`${link.key}`)
-                                  ? '1'
-                                  : '0.4',
-                              }}
-                            />
-                          </ListItemIcon>
-                          {link.label}
-                        </ListItemButton>
-                      </ListItem>
-                    </Link>
-                  )}
-                </div>
-              ))}
+                        </ListItem>
+                      </Link>
+                    )}
+                  </div>
+                );
+              })}
           </List>
         </Box>
 
         <Box sx={{ paddingBottom: '20px' }}>
           <List>
             {!isNullOrEmpty(lowerRoutes) &&
-              lowerRoutes.map((link: any) => (
-                <div key={uuidv4()}>
-                  {link.textNames ? (
-                    <>
-                      <ListItem sx={{ padding: '6px 0px 6px 0px' }}>
-                        <Link href={`${link.key}`} style={{ width: '100%' }}>
+              lowerRoutes.map((link: any) => {
+                const lowerPathNameKey =
+                  link.key.split('/').splice(2)[0] ??
+                  link.key.split('/').splice(1)[0] ??
+                  link.key.split('/').splice(0)[0];
+
+                return (
+                  <div key={uuidv4()}>
+                    {link.textNames ? (
+                      <>
+                        <ListItem sx={{ padding: '6px 0px 6px 0px' }}>
                           <ListItemButton
-                            sx={styles.mainNavLink(link, router, theme)}
+                            sx={styles.LowerNavLink(
+                              lowerPathNameKey,
+                              routerPathName,
+                              dropDownOpen[link.key],
+                              theme,
+                            )}
                             onClick={() => toggleDropDown(link.key)}
                           >
                             <ListItemIcon sx={{ minWidth: 20 }}>
@@ -199,7 +232,7 @@ const Layout = (props: LayoutI) => {
                                 alt="icons"
                                 style={{
                                   opacity:
-                                    router.pathname === link.key ||
+                                    routerPathName === lowerPathNameKey ||
                                     dropDownOpen[link.key]
                                       ? '1'
                                       : '0.4',
@@ -211,6 +244,7 @@ const Layout = (props: LayoutI) => {
                             <Box sx={{ paddingLeft: '20px' }}>
                               <Image
                                 src={
+                                  routerPathName === lowerPathNameKey ||
                                   dropDownOpen[link.key]
                                     ? ArrowUpImage
                                     : ArrowDownImage
@@ -219,54 +253,63 @@ const Layout = (props: LayoutI) => {
                               />
                             </Box>
                           </ListItemButton>
-                        </Link>
-                      </ListItem>
-                      <Collapse
-                        in={dropDownOpen[link.key]}
-                        timeout="auto"
-                        unmountOnExit
-                      >
-                        <List component="div" disablePadding>
-                          {link.textNames.map((subItem: any) => (
-                            <ListItem key={uuidv4()} sx={{ padding: '0px' }}>
-                              <ListItemButton
-                                sx={styles.collapseMenu(subItem, router, theme)}
-                              >
-                                <Link href={`${subItem.key}`}>
-                                  <Box sx={styles.dropdownChildren(theme)}>
-                                    {subItem.label}
-                                  </Box>
-                                </Link>
-                              </ListItemButton>
-                            </ListItem>
-                          ))}
-                        </List>
-                      </Collapse>
-                    </>
-                  ) : (
-                    <Link key={uuidv4()} href={`${link.key}`}>
-                      <ListItem sx={{ padding: '6px 0px 6px 0px' }}>
-                        <ListItemButton
-                          sx={styles.mainNavLink(link, router, theme)}
+                        </ListItem>
+                        <Collapse
+                          in={
+                            dropDownOpen[link.key] ||
+                            routerPathName === lowerPathNameKey
+                          }
+                          timeout="auto"
+                          unmountOnExit
                         >
-                          <ListItemIcon sx={{ minWidth: 20 }}>
-                            <Image
-                              src={link.icon}
-                              alt={link.icon}
-                              style={{
-                                opacity: router.pathname.includes(`${link.key}`)
-                                  ? '1'
-                                  : '0.4',
-                              }}
-                            />
-                          </ListItemIcon>
-                          {link.label}
-                        </ListItemButton>
-                      </ListItem>
-                    </Link>
-                  )}
-                </div>
-              ))}
+                          <List component="div" disablePadding>
+                            {link.textNames.map((subItem: any) => (
+                              <Link href={`/${subItem.key}`} key={uuidv4()}>
+                                <ListItem sx={{ padding: '0px' }}>
+                                  <ListItemButton
+                                    sx={styles.collapseMenu(
+                                      subItem,
+                                      router,
+                                      theme,
+                                    )}
+                                  >
+                                    <Box sx={styles.dropdownChildren(theme)}>
+                                      {subItem.label}
+                                    </Box>
+                                  </ListItemButton>
+                                </ListItem>
+                              </Link>
+                            ))}
+                          </List>
+                        </Collapse>
+                      </>
+                    ) : (
+                      <Link key={uuidv4()} href={`${link.key}`}>
+                        <ListItem sx={{ padding: '6px 0px 6px 0px' }}>
+                          <ListItemButton
+                            sx={styles.mainNavLink(link, router, theme)}
+                          >
+                            <ListItemIcon sx={{ minWidth: 20 }}>
+                              <Image
+                                src={link.icon}
+                                alt={link.icon}
+                                style={{
+                                  opacity: router.pathname.includes(
+                                    `${link.key}`,
+                                  )
+                                    ? '1'
+                                    : '0.4',
+                                }}
+                              />
+                            </ListItemIcon>
+                            {link.label}
+                          </ListItemButton>
+                        </ListItem>
+                      </Link>
+                    )}
+                  </div>
+                );
+              })}
           </List>
         </Box>
       </Box>
