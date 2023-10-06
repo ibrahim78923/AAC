@@ -44,15 +44,22 @@ export const TicketsAction = (props: any) => {
           <MenuItem
             key={uuidv4()}
             onClick={() => x?.handleClick?.(handleClose)}
-            sx={{ padding: 1.5 }}
+            sx={{
+              '&.MuiMenuItem-root': {
+                marginBottom: { md: 0.5 },
+                marginX: { md: 0.5 },
+              },
+            }}
           >
-            <Typography variant="body2" color={theme.palette.grey?.[600]}>
+            <Typography
+              variant="body2"
+              color={theme.palette.grey?.[600]}
+              fontWeight={500}
+            >
               {x?.title}{' '}
             </Typography>
           </MenuItem>
         ))}
-        {/* <MenuItem onClick={handleClose}>My account</MenuItem> */}
-        {/* <MenuItem onClick={handleClose}>Logout</MenuItem> */}
       </Menu>
     </div>
   );

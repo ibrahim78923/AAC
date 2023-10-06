@@ -2,8 +2,6 @@ import * as React from 'react';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-// import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-// import { ticketsActionDropdown } from './TicketsAction.data';
 import { v4 as uuidv4 } from 'uuid';
 import { Typography, useTheme } from '@mui/material';
 import { ExportIcon } from '@/assets/icons';
@@ -29,7 +27,6 @@ export const TicketsExport = () => {
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
-        // endIcon={<ArrowDropDownIcon />}
         startIcon={<ExportIcon />}
       >
         Export
@@ -40,27 +37,30 @@ export const TicketsExport = () => {
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
-        sx={{
-          '.MuiMenu-paper': {
-            paddingX: 2,
-          },
-        }}
       >
-        <MenuItem
-          key={uuidv4()}
-          onClick={() => handleClose?.()}
-          //   sx={{ padding: 1.5 }}
-        >
-          <Typography variant="body2" color={theme.palette.grey?.[600]}>
+        <MenuItem key={uuidv4()} onClick={() => handleClose?.()}>
+          <Typography
+            variant="body2"
+            fontWeight={500}
+            color={theme.palette.grey?.[600]}
+          >
             CSV
           </Typography>
         </MenuItem>
         <MenuItem
           key={uuidv4()}
           onClick={() => handleClose?.()}
-          sx={{ padding: 1.5 }}
+          sx={{
+            '&.MuiMenuItem-root': {
+              paddingRight: 4,
+            },
+          }}
         >
-          <Typography variant="body2" color={theme.palette.grey?.[600]}>
+          <Typography
+            variant="body2"
+            fontWeight={500}
+            color={theme.palette.grey?.[600]}
+          >
             Excel
           </Typography>
         </MenuItem>
