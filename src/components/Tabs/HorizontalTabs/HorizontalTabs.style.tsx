@@ -14,4 +14,12 @@ export const styles = {
   tabIndicator: (theme: any) => ({
     sx: { background: theme.palette.primary.main },
   }),
+  tabsStyle: (theme: any) => ({
+    paddingX: 2,
+    borderRadius: '.5rem',
+    '&.Mui-selected ': {
+      color: theme.palette.primary.main,
+      backgroundColor: theme.palette.primary.lighter,
+    },
+  }),
 };

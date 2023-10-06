@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import {
   TABLE_CONSTANTS,
+  ticketsActionDropdownFunction,
   ticketsListsColumnFunction,
 } from './TicketsLists.data';
 import { TicketsColumnDrag } from './components/TicketsColumnDrag';
@@ -25,6 +26,8 @@ export const useTicketsLists = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const [to, setTo] = useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+
   const theme = useTheme();
   const router = useRouter();
 
@@ -54,11 +57,12 @@ export const useTicketsLists = () => {
   const customizeColumns: any = ticketsListsColumnPersist.reduce(
     (x: any, y: any) => {
       const { id } = y;
-      return { [id]: true, ...x };
+      return { ...x, [id]: true };
     },
     {},
   );
   const [customizeColumn, setCustomizeColumn] = useState(customizeColumns);
+
   const submitTicketFilterForm = async () => {};
   const drawerComponent: any = {
     'customize-column': {
@@ -156,7 +160,9 @@ export const useTicketsLists = () => {
       setIsDrawerOpen(true);
     }, 100);
   };
-
+  const ticketsActionDropdown = ticketsActionDropdownFunction?.();
+  // openDrawer,
+  // setDeleteModalOpen,
   return {
     ticketsListsColumn,
     isDrawerOpen,
@@ -165,5 +171,8 @@ export const useTicketsLists = () => {
     openDrawer,
     TABLE_CONSTANTS,
     drawerComponent,
+    ticketsActionDropdown,
+    deleteModalOpen,
+    setDeleteModalOpen,
   };
 };
