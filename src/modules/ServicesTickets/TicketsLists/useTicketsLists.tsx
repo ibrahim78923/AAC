@@ -3,6 +3,7 @@ import {
   TABLE_CONSTANTS,
   ticketsActionDropdownFunction,
   ticketsListsColumnFunction,
+  ticketsListsData,
 } from './TicketsLists.data';
 import { TicketsColumnDrag } from './components/TicketsColumnDrag';
 import { useRouter } from 'next/router';
@@ -24,6 +25,7 @@ import {
 
 export const useTicketsLists = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [ticketList, setTicketList] = useState(ticketsListsData);
 
   const [to, setTo] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
@@ -35,10 +37,25 @@ export const useTicketsLists = () => {
 
   const submitCreateNewTicket = async () => {};
 
+  const handleChange = (value: any, event: any) => {
+    setTicketList(
+      ticketList?.map((item: any) =>
+        value?.ticketId === item?.ticketId
+          ? { ...item, [event?.name]: [event?.value] }
+          : item,
+      ),
+    );
+  };
+
   const [ticketsListsColumn, seTTicketsListsColumn] = useState(
-    ticketsListsColumnFunction(theme, router),
+    ticketsListsColumnFunction(theme, router, handleChange),
   );
-  const ticketsListsColumnPersist = ticketsListsColumnFunction(theme, router);
+  const ticketsListsColumnPersist = ticketsListsColumnFunction(
+    theme,
+    router,
+    handleChange,
+  );
+
   const methodsBulkUpdateForm: any = useForm({
     resolver: yupResolver(ticketsBulkUpdateFormSchemaFunction?.(to)),
     defaultValues: ticketsBulkUpdateFormSchemaFunction?.(to),
@@ -64,6 +81,12 @@ export const useTicketsLists = () => {
   const [customizeColumn, setCustomizeColumn] = useState(customizeColumns);
 
   const submitTicketFilterForm = async () => {};
+
+  const resetTicketFilterForm = async () => {
+    methodsTicketFilterForm?.reset();
+    setIsDrawerOpen(false);
+  };
+
   const drawerComponent: any = {
     'customize-column': {
       title: 'Customize Column',
@@ -100,15 +123,17 @@ export const useTicketsLists = () => {
     },
     'filter-data': {
       title: 'Filter',
-      okText: 'Submit',
+      okText: 'Apply',
+      cancelText: 'Reset',
       isOk: true,
       submitHandler: () => {
         methodsTicketFilterForm.handleSubmit(submitTicketFilterForm)();
       },
+      resetHandler: resetTicketFilterForm,
       children: (
         <TicketsFilter
           methods={methodsTicketFilterForm}
-          reset={methodsTicketFilterForm?.reset}
+          reset={resetTicketFilterForm}
           submitTicketFilterForm={submitTicketFilterForm}
           handleSubmit={methodsTicketFilterForm.handleSubmit}
         />
@@ -171,6 +196,7 @@ export const useTicketsLists = () => {
     openDrawer,
     TABLE_CONSTANTS,
     drawerComponent,
+    ticketList,
     ticketsActionDropdown,
     deleteModalOpen,
     setDeleteModalOpen,
