@@ -1,8 +1,8 @@
 import Layout from '@/layout';
-import UsersOrganizationAdmin from '@/modules/UsersOrganizationAdmin/UsersOrganizationAdmin';
+import Users from '@/modules/orgAdmin/Users';
 
 const OrganizationAdminUsersPage = () => {
-  return <UsersOrganizationAdmin />;
+  return <Users />;
 };
 export default OrganizationAdminUsersPage;
 

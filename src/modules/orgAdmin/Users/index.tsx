@@ -6,7 +6,7 @@ import UsersSidebar from './UsersSidebar/UsersSidebar';
 
 import UsersDetails from './UsersDetails/UsersDetails';
 
-const UsersOrganizationAdmin = () => {
+const Users = () => {
   return (
     <Box>
       <Grid container>
@@ -21,4 +21,4 @@ const UsersOrganizationAdmin = () => {
   );
 };
 
-export default UsersOrganizationAdmin;
+export default Users;

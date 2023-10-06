@@ -4,20 +4,22 @@ import { Box, Button, Menu, MenuItem, Stack, Typography } from '@mui/material';
 
 import CommonTabs from '@/components/Tabs';
 
-import UsersList from './Users/UsersList';
-
-import ProfileCard from '@/components/ProfileCard';
+import UsersList from './Users';
 
 import UsersFilters from './Users/UsersFilters';
 
+import RolesAndRights from './RolesAndRights';
+
 import CommonDrawer from '@/components/CommonDrawer';
+
+import AddUser from './Users/AddUser';
 
 import { ArrowDropDown } from '@mui/icons-material';
 
 import { FilterSharedIcon, PlusSharedIcon } from '@/assets/icons';
 
-const UserManagementSuperAdmin = () => {
-  const [selected, setSelected] = React.useState<readonly string[]>([]);
+const UserManagement = () => {
+  // const [selected, setSelected] = React.useState<readonly string[]>([]);
   const [openAddUserDrawer, setOpenAddUserDrawer] = useState(false);
   const [openFilterDrawer, setOpenFilterDrawer] = useState(false);
   const [selectedValue, setSelectedValue] = useState(null);
@@ -35,10 +37,16 @@ const UserManagementSuperAdmin = () => {
   };
 
   return (
-    <Box>
-      <Stack direction="row" justifyContent="space-between" alignItems="center">
+    <Box
+      sx={{ border: '1px solid #EAECF0', p: '24px 0px', borderRadius: '8px' }}
+    >
+      <Stack
+        direction="row"
+        justifyContent="space-between"
+        alignItems="center"
+        sx={{ padding: '0px 24px' }}
+      >
         <Typography variant="h4">User Management</Typography>
-
         <Button
           onClick={() =>
             tabVal === 0 ? setOpenAddUserDrawer(true) : handleAddRole
@@ -49,7 +57,7 @@ const UserManagementSuperAdmin = () => {
           {tabVal === 0 ? 'Add User' : 'Add Role'}
         </Button>
       </Stack>
-      <Box>
+      <Box sx={{ padding: '0px 24px' }}>
         <CommonTabs
           getTabVal={(val: number) => setTabVal(val)}
           searchBarProps={{
@@ -64,7 +72,7 @@ const UserManagementSuperAdmin = () => {
             <>
               <Box>
                 <Button
-                  disabled={selected?.length > 0 ? false : true}
+                  // disabled={selected?.length > 0 ? false : true}
                   onClick={handleClick}
                   sx={{ border: '1px solid #D1D5DB', color: '#6B7280' }}
                 >
@@ -94,8 +102,8 @@ const UserManagementSuperAdmin = () => {
             </>
           }
         >
-          <UsersList selected={selected} setSelected={setSelected} />
-          <ProfileCard />
+          <UsersList />
+          <RolesAndRights />
         </CommonTabs>
       </Box>
 
@@ -117,23 +125,13 @@ const UserManagementSuperAdmin = () => {
       )}
 
       {openAddUserDrawer && (
-        <CommonDrawer
-          isDrawerOpen={openAddUserDrawer}
-          submitHandler={() => {
-            setOpenAddUserDrawer(false);
-          }}
-          onClose={() => {
-            setOpenAddUserDrawer(false);
-          }}
-          title="Add User"
-          okText="Add"
-          isOk={true}
-        >
-          <Typography>content here</Typography>
-        </CommonDrawer>
+        <AddUser
+          openAddUserDrawer={openAddUserDrawer}
+          setOpenAddUserDrawer={setOpenAddUserDrawer}
+        />
       )}
     </Box>
   );
 };
 
-export default UserManagementSuperAdmin;
+export default UserManagement;
