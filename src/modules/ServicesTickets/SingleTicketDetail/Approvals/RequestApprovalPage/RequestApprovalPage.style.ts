@@ -35,7 +35,7 @@ const RequestApprovalPageStyles = () => ({
   textareaStyle: {
     width: '100%',
     height: '200px',
-    fontSize: '0.875rem',
+    fontSize: '0.876rem',
     fontWeight: 400,
     lineHeight: 1.5,
     padding: '12px',
