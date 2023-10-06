@@ -3,7 +3,9 @@ import { useState } from 'react';
 import RequestApprovalPageStyles from './RequestApprovalPage.style';
 
 export function useRequestApprovalPage() {
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [anchorEl, setAnchorEl] = useState<any>(null);
+  const [openApprovalModal, setOpenApprovalModel] = useState<boolean>(false);
+  const [openRejectModal, setOpenRecjectModel] = useState<boolean>(false);
   const open = Boolean(anchorEl);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -12,6 +14,19 @@ export function useRequestApprovalPage() {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleApprovalModelOpen = () => {
+    setOpenApprovalModel(true);
+  };
+  const handleApprovalModelClose = () => {
+    setOpenApprovalModel(false);
+  };
+  const handleRecjectModelOpen = () => {
+    setOpenRecjectModel(true);
+  };
+  const handleRecjectModelClose = () => {
+    setOpenRecjectModel(false);
   };
 
   const theme = useTheme();
@@ -34,5 +49,11 @@ export function useRequestApprovalPage() {
     textColor,
     anchorEl,
     setAnchorEl,
+    openApprovalModal,
+    handleApprovalModelClose,
+    handleApprovalModelOpen,
+    handleRecjectModelClose,
+    handleRecjectModelOpen,
+    openRejectModal,
   };
 }

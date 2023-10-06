@@ -5,6 +5,7 @@ import {
   IconButton,
   Menu,
   MenuItem,
+  TextareaAutosize,
   Typography,
 } from '@mui/material';
 import Image from 'next/image';
@@ -16,10 +17,24 @@ import UnsubscribeIcon from '@mui/icons-material/Unsubscribe';
 import SharedIcon from '@/assets/icons/shared/shared-icon';
 import { useRequestApprovalPage } from '../useRequestApprovalPage';
 import { RecievedFileIcon } from '@/assets/icons';
+import ConversationModel from '@/components/Model/CoversationModel';
 
-const AllApprovals = () => {
-  const { theme, open, handleClick, handleClose, styles, textColor, anchorEl } =
-    useRequestApprovalPage();
+export const AllApprovals = () => {
+  const {
+    theme,
+    open,
+    handleClick,
+    handleClose,
+    styles,
+    textColor,
+    anchorEl,
+    handleApprovalModelOpen,
+    handleApprovalModelClose,
+    openApprovalModal,
+    handleRecjectModelClose,
+    handleRecjectModelOpen,
+    openRejectModal,
+  } = useRequestApprovalPage();
 
   const Icons: any = {
     Request: <SharedIcon />,
@@ -43,6 +58,7 @@ const AllApprovals = () => {
       />
     ),
   };
+
   return (
     <>
       <Box sx={styles.approvalsContainerBox}>
@@ -107,6 +123,14 @@ const AllApprovals = () => {
                         MenuListProps={{
                           'aria-labelledby': 'basic-button',
                         }}
+                        anchorOrigin={{
+                          vertical: 'bottom',
+                          horizontal: 'center',
+                        }}
+                        transformOrigin={{
+                          vertical: 'top',
+                          horizontal: 'right',
+                        }}
                       >
                         <MenuItem onClick={handleClose}>Send Reminder</MenuItem>
                         <MenuItem onClick={handleClose}>
@@ -117,6 +141,7 @@ const AllApprovals = () => {
                   ) : item?.showButton === 'Requested' ? (
                     <Box sx={styles.requestApprovalBoxFirst}>
                       <Button
+                        onClick={handleApprovalModelOpen}
                         sx={{
                           ...styles.requestApprovalButton,
                           color: theme?.palette?.success?.main,
@@ -131,6 +156,7 @@ const AllApprovals = () => {
                         Approve
                       </Button>
                       <Button
+                        onClick={handleRecjectModelOpen}
                         sx={{
                           ...styles.requestApprovalButton,
                           color: theme?.palette?.error?.main,
@@ -154,8 +180,48 @@ const AllApprovals = () => {
           );
         })}
       </Box>
+      <ConversationModel
+        open={openApprovalModal}
+        handleClose={handleApprovalModelClose}
+        selectedItem="Approval"
+      >
+        <Typography variant="body2">Remarks</Typography>
+        <Box>
+          <TextareaAutosize
+            placeholder="Add Your Remarks here"
+            style={styles.textareaStyle}
+          />
+        </Box>
+        <Box sx={styles.boxBorderStyle}></Box>
+        <Box sx={styles.buttonBox}>
+          <Button onClick={handleApprovalModelClose} variant="outlined">
+            Cancel
+          </Button>
+          <Button variant="contained">Approve</Button>
+        </Box>
+      </ConversationModel>
+      <ConversationModel
+        open={openRejectModal}
+        handleClose={handleRecjectModelClose}
+        selectedItem="Reject"
+      >
+        <Typography variant="body2">Remarks</Typography>
+        <Box>
+          <TextareaAutosize
+            placeholder="Add Your Remarks here"
+            style={styles.textareaStyle}
+          />
+        </Box>
+        <Box sx={styles.boxBorderStyle}></Box>
+        <Box sx={styles.buttonBox}>
+          <Button onClick={handleRecjectModelClose} variant="outlined">
+            Cancel
+          </Button>
+          <Button variant="contained" color="error">
+            Reject
+          </Button>
+        </Box>
+      </ConversationModel>
     </>
   );
 };
-
-export default AllApprovals;
