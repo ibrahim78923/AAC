@@ -25,4 +25,18 @@ export const taskStyles: any = {
     gap: '20px',
     justifyContent: { sm: 'flex-end', xs: 'center' },
   },
+  detailDrawerTitel: { color: 'grey.600', fontWeight: 600 },
+  detailDrawerWorspace: {
+    bgcolor: '#1d4289',
+    color: 'common.white',
+    borderRadius: '5px',
+    padding: '2px 8px',
+    marginRight: '8px',
+  },
+  detailDrawerImg: {
+    height: '16px',
+    width: '16px',
+    marginRight: '8px',
+  },
+  detailDrawerGridCenter: { display: 'flex', alignItems: 'center' },
 };

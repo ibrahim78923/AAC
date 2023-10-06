@@ -6,8 +6,12 @@ import {
   createTicketDefaultValues,
   createTicketValidationSchema,
 } from '../TasksForm/TasksForm.data';
+import { EditTaskDrawerI } from '../Tasks.interface';
 
-export const EditTaskDrawer = ({ isDrawerOpen, onClose }: any) => {
+export const EditTaskDrawer: React.FC<EditTaskDrawerI> = ({
+  isDrawerOpen,
+  onClose,
+}) => {
   const methodsCreateNewTicketForm = useForm({
     resolver: yupResolver(createTicketValidationSchema),
     defaultValues: createTicketDefaultValues,

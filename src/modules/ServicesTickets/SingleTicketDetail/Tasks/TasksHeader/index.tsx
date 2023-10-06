@@ -1,15 +1,25 @@
-import { useState } from 'react';
 import { Button, Grid, MenuItem, Popover, Typography } from '@mui/material';
 import { ActionButtonIcon, CirclePlusIcon } from '@/assets/icons';
+import { UseTasks } from '../UseTasks';
 import { taskStyles } from '../TicketTasks.styles';
+import { TasksHeaderI } from '../Tasks.interface';
 
 export const TasksHeader = ({
   setIsAddDrawerOpen,
   setIsEditDrawerOpen,
   activeCheck,
-}: any) => {
-  const [actionDropdown, setActionDropdown] = useState(false);
-  // const [exportVal, setExportVal] = useState(false);
+}: TasksHeaderI) => {
+  const {
+    actionPop,
+    setActionPop,
+    openAction,
+    handleActionClick,
+    handleActionClose,
+    actionExportPop,
+    openActionExport,
+    handleActionExportClick,
+    handleActionExportClose,
+  } = UseTasks();
   return (
     <Grid container spacing={{ sm: 0, xs: 2 }} sx={taskStyles?.headContainer}>
       <Grid
@@ -31,27 +41,40 @@ export const TasksHeader = ({
           endIcon={<ActionButtonIcon />}
           disableElevation
           disabled={!!!activeCheck.length}
-          onClick={() => setActionDropdown(true)}
+          onClick={handleActionClick}
         >
           Action
         </Button>
-        <Popover open={actionDropdown} onClose={() => setActionDropdown(false)}>
-          <MenuItem>Delete</MenuItem>
+        <Popover
+          open={openAction}
+          anchorEl={actionPop}
+          onClose={handleActionClose}
+          sx={{ mt: '8px' }}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left',
+          }}
+        >
           <MenuItem
             onClick={() => {
-              setIsEditDrawerOpen(true), setActionDropdown(false);
+              setIsEditDrawerOpen(true), setActionPop(null);
             }}
           >
             Edit
           </MenuItem>
-          <MenuItem>
-            Export
-            {/* {exportVal === true && (
-          <Popover open={exportVal} onClick={()=> setExportVal(false)}>
-        <MenuItem onClick={()=> setExportVal(false)}>CSV</MenuItem>
-        <MenuItem>PDF</MenuItem>
-        </Popover>
-        )} */}
+          <MenuItem sx={{ p: 1 }}>Delete</MenuItem>
+          <MenuItem sx={{ p: 1 }}>
+            <a onClick={handleActionExportClick}>Export Task</a>
+            <Popover
+              open={openActionExport}
+              anchorEl={actionExportPop}
+              onClose={handleActionExportClose}
+              sx={{ ml: '-12px' }}
+              transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+            >
+              <MenuItem onClick={() => window.history.go(-1)}>CSV</MenuItem>
+              <MenuItem onClick={() => window.history.go(-1)}>PDF</MenuItem>
+            </Popover>
           </MenuItem>
         </Popover>
         <Button

@@ -1,14 +1,19 @@
 import Image from 'next/image';
-import { Grid, Typography } from '@mui/material';
-import CommonDrawer from '@/components/CommonDrawer';
-import { drawerDetail } from '../Tasks.mock';
+import { Grid, Typography, TextField } from '@mui/material';
 import { uuid } from 'uuidv4';
+import { useForm } from 'react-hook-form';
+import CommonDrawer from '@/components/CommonDrawer';
+import { FormProvider } from '@/components/ReactHookForm';
+import { drawerDetail } from '../Tasks.mock';
+import { DetailTaskDrawerI } from '../Tasks.interface';
+import { taskStyles } from '../TicketTasks.styles';
 
-export const DetailTaskDrawer = ({
+export const DetailTaskDrawer: React.FC<DetailTaskDrawerI> = ({
   isDrawerOpen,
   onClose,
   taskDetail,
-}: any) => {
+}) => {
+  const handleSubmit = useForm();
   return (
     <>
       <CommonDrawer
@@ -30,22 +35,15 @@ export const DetailTaskDrawer = ({
               item
               sx={{ display: 'flex', justifyContent: 'space-between' }}
             >
-              <Grid xs={6} sx={{ display: 'flex', alignItems: 'center' }}>
-                <Typography
-                  variant="body2"
-                  sx={{ color: 'grey.600', fontWeight: 600 }}
-                >
+              <Grid xs={6} sx={taskStyles?.detailDrawerGridCenter}>
+                <Typography variant="body2" sx={taskStyles?.detailDrawerTitel}>
                   {item?.title}
                 </Typography>
               </Grid>
-              <Grid xs={6} sx={{ display: 'flex', alignItems: 'center' }}>
+              <Grid xs={6} sx={taskStyles?.detailDrawerGridCenter}>
                 {item?.profile && (
                   <Image
-                    style={{
-                      height: '16px',
-                      width: '16px',
-                      marginRight: '8px',
-                    }}
+                    style={taskStyles?.detailDrawerImg}
                     src={item?.profile}
                     alt=""
                   />
@@ -53,13 +51,7 @@ export const DetailTaskDrawer = ({
                 {item?.workspace && (
                   <Typography
                     variant="body2"
-                    sx={{
-                      bgcolor: '#1d4289',
-                      color: 'common.white',
-                      borderRadius: '5px',
-                      padding: '2px 8px',
-                      marginRight: '8px',
-                    }}
+                    sx={taskStyles?.detailDrawerWorspace}
                   >
                     {item?.workspace}
                   </Typography>
@@ -74,6 +66,20 @@ export const DetailTaskDrawer = ({
               </Grid>
             </Grid>
           ))}
+          <Grid item>
+            <FormProvider onSubmit={() => {}} methods={handleSubmit}>
+              <Typography variant="body2" sx={taskStyles?.detailDrawerTitel}>
+                Add Comment
+              </Typography>
+              <TextField
+                name="description"
+                multiline={true}
+                minRows={5}
+                fullWidth={true}
+                placeholder="Type here"
+              />
+            </FormProvider>
+          </Grid>
         </Grid>
       </CommonDrawer>
     </>
