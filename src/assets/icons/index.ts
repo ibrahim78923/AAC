@@ -1,5 +1,4 @@
 // More exports from here
-
 export { default as ExampleKababCase } from './modules/Login/example-kabab-case';
 export { default as ExampleSharedCase } from './shared/example-shared';
 export { default as ArrowUpIcon } from './shared/arrow-up';
@@ -23,3 +22,4 @@ export { default as DownIcon } from './shared/Tabel/down-icon';
 export { default as SharedIcon } from './shared/shared-icon';
 export { default as AttachFileIcon } from './shared/attach-file';
 export { default as RecievedFileIcon } from './shared/recieved-file';
+export { default as ExportShared } from './shared/export-icon';
