@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import {
   TABLE_CONSTANTS,
+  ticketsActionDropdownFunction,
   ticketsListsColumnFunction,
   ticketsListsData,
 } from './TicketsLists.data';
@@ -27,6 +28,8 @@ export const useTicketsLists = () => {
   const [ticketList, setTicketList] = useState(ticketsListsData);
 
   const [to, setTo] = useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+
   const theme = useTheme();
   const router = useRouter();
 
@@ -71,7 +74,7 @@ export const useTicketsLists = () => {
   const customizeColumns: any = ticketsListsColumnPersist.reduce(
     (x: any, y: any) => {
       const { id } = y;
-      return { [id]: true, ...x };
+      return { ...x, [id]: true };
     },
     {},
   );
@@ -182,7 +185,9 @@ export const useTicketsLists = () => {
       setIsDrawerOpen(true);
     }, 100);
   };
-
+  const ticketsActionDropdown = ticketsActionDropdownFunction?.();
+  // openDrawer,
+  // setDeleteModalOpen,
   return {
     ticketsListsColumn,
     isDrawerOpen,
@@ -192,5 +197,8 @@ export const useTicketsLists = () => {
     TABLE_CONSTANTS,
     drawerComponent,
     ticketList,
+    ticketsActionDropdown,
+    deleteModalOpen,
+    setDeleteModalOpen,
   };
 };

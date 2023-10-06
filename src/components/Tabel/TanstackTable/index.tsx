@@ -1,5 +1,4 @@
 import React from 'react';
-
 import {
   Table,
   TableBody,
@@ -33,7 +32,7 @@ const TanstackTable = ({
         <TableContainer>
           <Table>
             <TableHead>
-              {table.getHeaderGroups().map((headerGroup) => (
+              {table?.getHeaderGroups()?.map((headerGroup) => (
                 <TableRow key={headerGroup.id}>
                   {headerGroup.headers.map((header: any) => (
                     <StyledTableCell key={header.id}>
