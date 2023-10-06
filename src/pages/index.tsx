@@ -7,7 +7,6 @@ export default function Home() {
       <ButtonGroup variant="contained" color="primary">
         <Button>Add Button</Button>
       </ButtonGroup>
-
       <ButtonGroup variant="contained" color="error">
         <Button variant="contained" color="error">
           Add Button

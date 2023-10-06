@@ -1,14 +1,16 @@
 import { Box, Grid } from '@mui/material';
 import { useState } from 'react';
-import { data, columns } from './Software.mock';
+import { data, columns } from './Software.data';
 import TanstackTable from '@/components/Tabel/TanstackTable';
 import Search from '@/components/Search';
 import { Button } from '@mui/material';
 import { FilterSharedIcon } from '@/assets/icons';
 import { styles } from './Software.style';
+import { useTheme } from '@emotion/react';
 
 function Software() {
   const [meetingsData, setMeetingsData] = useState([]);
+  const theme: any = useTheme();
 
   return (
     <Grid container>
@@ -18,11 +20,11 @@ function Software() {
             <Search label="search" width="100%" />
           </Box>
           <Box sx={styles.buttonBox}>
-            <Button sx={styles.buttonStyle} variant="outlined" disabled>
+            <Button sx={styles.buttonStyle(theme)} variant="outlined" disabled>
               Assign Category
             </Button>
             <Button
-              sx={styles.buttonStyle}
+              sx={styles.buttonStyle(theme)}
               variant="outlined"
               startIcon={<FilterSharedIcon />}
             >

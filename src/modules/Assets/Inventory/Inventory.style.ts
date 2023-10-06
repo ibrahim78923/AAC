@@ -26,17 +26,19 @@ export const styles = {
     },
   },
 
-  buttonStyle: {
+  buttonStyle: (theme: any) => ({
     marginRight: '12px',
-    border: '1px solid #D1D5DB',
+    borderColor: theme.palette.GREY?.[0],
+    border: '1px solid',
     color: '#6B7280',
     '&:hover': {
-      border: '1px solid #D1D5DB',
+      border: '1px solid',
+      borderColor: theme.palette.GREY?.[0],
       color: '#6B7280',
       backgroundColor: '#EAECF0',
     },
-    '@media screen and (max-width: 740px)': {
-      marginTop: '4px',
+    '@media screen and (max-width: 640px)': {
+      marginTop: '6px',
     },
-  },
+  }),
 };
