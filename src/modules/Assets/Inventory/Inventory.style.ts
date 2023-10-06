@@ -28,13 +28,10 @@ export const styles = {
 
   buttonStyle: (theme: any) => ({
     marginRight: '12px',
-    borderColor: theme.palette.GREY?.[0],
-    border: '1px solid',
-    color: '#6B7280',
+    borderColor: theme.palette.grey?.[0],
+    color: theme.palette.grey?.[500],
     '&:hover': {
-      border: '1px solid',
-      borderColor: theme.palette.GREY?.[0],
-      color: '#6B7280',
+      borderColor: theme.palette.grey?.[0],
       backgroundColor: '#EAECF0',
     },
     '@media screen and (max-width: 640px)': {

@@ -28,13 +28,10 @@ export const styles = {
 
   buttonStyle: (theme: any) => ({
     marginRight: '12px',
-    borderColor: theme.palette.GREY?.[0],
-    border: '1px solid',
-    color: '#6B7280',
+    borderColor: theme.palette.grey?.[0],
+    color: theme.palette.grey?.[500],
     '&:hover': {
-      border: '1px solid',
-      borderColor: theme.palette.GREY?.[0],
-      color: '#6B7280',
+      borderColor: theme.palette.grey?.[0],
       backgroundColor: '#EAECF0',
     },
     '@media screen and (max-width: 640px)': {
@@ -42,17 +39,17 @@ export const styles = {
     },
   }),
 
-  exportButtonStyle: {
+  exportButtonStyle: (theme: any) => ({
     marginRight: '12px',
-    color: '#6B7280',
+    color: theme.palette.grey?.[500],
     border: 'none',
     '&:hover': {
       border: 'none',
-      color: '#6B7280',
+      color: theme.palette.grey?.[500],
       backgroundColor: '#EAECF0',
     },
     '@media screen and (max-width: 740px)': {
       marginTop: '4px',
     },
-  },
+  }),
 };

@@ -24,7 +24,7 @@ function Contaracts() {
               Delete
             </Button>
             <Button
-              sx={styles.exportButtonStyle}
+              sx={styles.exportButtonStyle(theme)}
               variant="outlined"
               startIcon={<ExportShared />}
             >

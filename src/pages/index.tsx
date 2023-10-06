@@ -1,4 +1,5 @@
 import { Button, ButtonGroup } from '@mui/material';
+
 import Layout from '@/layout';
 
 export default function Home() {
@@ -7,6 +8,7 @@ export default function Home() {
       <ButtonGroup variant="contained" color="primary">
         <Button>Add Button</Button>
       </ButtonGroup>
+
       <ButtonGroup variant="contained" color="error">
         <Button variant="contained" color="error">
           Add Button

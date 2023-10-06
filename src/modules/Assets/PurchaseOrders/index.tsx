@@ -20,7 +20,7 @@ function PurchaseOrder() {
           </Box>
           <Box sx={styles.buttonBox}>
             <Button
-              sx={styles.exportButtonStyle}
+              sx={styles.exportButtonStyle(theme)}
               variant="outlined"
               startIcon={<ExportShared />}
             >
