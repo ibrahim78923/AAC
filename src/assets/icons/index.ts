@@ -36,3 +36,7 @@ export { default as ViewDetailCallIcon } from './modules/view-detail-Icon/view-d
 export { default as ViewDetailBackArrowIcon } from './modules/view-detail-Icon/view-detail-back-arrow-icon';
 export { default as RefreshIcon } from './shared/refresh-icon';
 // More exports from here
+export { default as SubTabIcon } from './shared/sub-tab-icon';
+export { default as ListIcon } from './shared/list-icon';
+export { default as FilterIcon } from './shared/filter-icon';
+export { default as ResetIcon } from './shared/reset-icon';
