@@ -1,13 +1,14 @@
 import HorizontalTabs from '@/components/Tabs/HorizontalTabs';
 import { singleTicketDetailTabsData } from './SingleTicketDetailTabs.data';
 import { Tasks } from '../../Tasks';
-import { RelatedTickets } from '../../RelatedTickets';
+import RelatedTickets from '@/modules/ServicesTickets/SingleTicketDetail/RelatedTickets';
 import { Assets } from '../../Assets';
-import { Associations } from '../../Associations';
+import { Approvals } from '../../Approvals';
 import { Details } from '../../Details';
 import { Activities } from '../../Activities';
 import { Conversations } from '../../Conversations';
 import { Meetings } from '../../Meetings';
+import { Associations } from '../../Associations';
 
 export const SingleTicketDetailTabs = () => {
   return (
@@ -15,8 +16,9 @@ export const SingleTicketDetailTabs = () => {
       <Details />
       <Tasks />
       <RelatedTickets />
-      <Assets />
       <Associations />
+      <Assets />
+      <Approvals />
       <Meetings />
       <Activities />
       <Conversations />
