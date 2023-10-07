@@ -3,7 +3,7 @@ import * as Yup from 'yup';
 
 export const DrawerFormValidationSchema = Yup.object().shape({
   subject: Yup.string().trim().required('Field is Required'),
-  description: Yup.string(),
+  description: Yup.string().required('Field is Required'),
 });
 
 export const DrawerFormDefaultValues = {
@@ -17,7 +17,7 @@ export const DrawerFormDataArray = [
       name: 'subject',
       label: 'To',
       fullWidth: true,
-      require: true,
+      required: true,
     },
     component: RHFTextField,
     md: 12,
@@ -27,7 +27,7 @@ export const DrawerFormDataArray = [
       name: 'description',
       label: 'Description',
       fullWidth: true,
-      require: true,
+      required: true,
     },
     component: RHFEditor,
     md: 12,

@@ -1,5 +1,4 @@
 // More exports from here
-
 export { default as ExampleKababCase } from './modules/Login/example-kabab-case';
 export { default as ExampleSharedCase } from './shared/example-shared';
 export { default as ArrowUpIcon } from './shared/arrow-up-icon';
@@ -22,5 +21,23 @@ export { default as CustomizeSharedIcon } from './shared/customize-icon';
 export { default as DownIcon } from './shared/Tabel/down-icon';
 export { default as SharedIcon } from './shared/shared-icon';
 export { default as RecievedFileIcon } from './shared/recieved-file';
+export { default as CheckboxIcon } from './shared/checkbox-icon';
+export { default as CheckboxCheckedIcon } from './shared/checkbox-checked-icon';
 export { default as ExportIcon } from './shared/export-icon';
 export { default as ExportShared } from './shared/export-icon';
+export { default as AlertInfoIcon } from './modules/custom-notistack/alert-info-icon';
+export { default as AlertWarninIcon } from './modules/custom-notistack/alert-warning-icon';
+export { default as AlertErrorIcon } from './modules/custom-notistack/alert-error-icon';
+export { default as AlertSuccessIcon } from './modules/custom-notistack/alert-success-icon';
+export { default as ViewDetailAvaterIcon } from './modules/view-detail-Icon/view-detail-avatar-icon';
+export { default as ViewDetailVuesaxIcon } from './modules/view-detail-Icon/view-details-vuesax-icon';
+export { default as ViewDetailKababMenuIcon } from './modules/view-detail-Icon/view-details-kababmenu-icon';
+export { default as ViewDetailMeetingIcon } from './modules/view-detail-Icon/view-details-meeting-icon';
+export { default as ViewDetailDocumentTextIcon } from './modules/view-detail-Icon/view-detail-document-text-icon';
+export { default as ViewDetailCallIcon } from './modules/view-detail-Icon/view-details-call-icon';
+export { default as ViewDetailBackArrowIcon } from './modules/view-detail-Icon/view-detail-back-arrow-icon';
+export { default as RefreshIcon } from './shared/refresh-icon';
+export { default as LeftArrowConversatationIcon } from './shared/AddConversation/left-arrow-icon';
+export { default as RightArrowConversatationIcon } from './shared/AddConversation/right-arrow-icon';
+export { default as DeleteIconConversatationIcon } from './shared/AddConversation/delete-icon-add-coversation';
+// More exports from here

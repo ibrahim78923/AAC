@@ -96,7 +96,6 @@ export default function RHFMultiSelect({
             {...field}
             {...other}
             id={label}
-            labelId={label + name}
             MenuProps={MenuProps}
             multiple
             input={<OutlinedInput id={name} label={label} />}
@@ -116,11 +115,11 @@ export default function RHFMultiSelect({
               }, 0);
             }}
           >
-            {options.map(({ value, ...other }: any) => (
+            {options?.map(({ value, ...other }: any) => (
               <MenuItem
                 key={uuidv4()}
                 value={{ value, ...other }}
-                style={getStyles(value, field?.value, theme)}
+                style={getStyles(value, options, theme)}
               >
                 {value}
               </MenuItem>

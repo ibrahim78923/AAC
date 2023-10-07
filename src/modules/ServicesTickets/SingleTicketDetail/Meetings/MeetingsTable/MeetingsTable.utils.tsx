@@ -1,3 +1,4 @@
+import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { Box, Checkbox } from '@mui/material';
 export const meetingsTableColumns = (
   meetingsData: any,
@@ -9,6 +10,8 @@ export const meetingsTableColumns = (
     id: 'id',
     cell: (info: any) => (
       <Checkbox
+        icon={<CheckboxIcon />}
+        checkedIcon={<CheckboxCheckedIcon />}
         checked={
           !!meetingsData.find((item: any) => item.id === info.getValue())
         }
@@ -32,6 +35,8 @@ export const meetingsTableColumns = (
     ),
     header: (
       <Checkbox
+        icon={<CheckboxIcon />}
+        checkedIcon={<CheckboxCheckedIcon />}
         checked={meetingsData.length === meetingsMainData.length}
         onChange={(e: any) => {
           e.target.checked
