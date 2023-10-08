@@ -1,5 +1,6 @@
-import { Typography, Chip } from '@mui/material';
+import { Typography, Chip, Checkbox } from '@mui/material';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
+import DeleteIcon from '@mui/icons-material/Delete';
 export const associatesListsData: any = [
   {
     id: 1,
@@ -16,15 +17,64 @@ export const associatesListsData: any = [
     impact: 'Medium',
   },
 ];
-export const associatesListsColumnFunction: any = (theme: any, router: any) => {
+const styleFunction: any = {
+  Low: {
+    color: 'green',
+    bgColor: 'green',
+  },
+  Medium: {
+    color: 'green',
+    bgColor: 'green',
+  },
+};
+export const associatesListsColumnFunction: any = (
+  theme: any,
+  router: any,
+  associatesData: any,
+  setAssociatesData: any,
+  associatedAllData: any,
+) => {
   return [
-    // {
-    //   accessorFn: (row: any) => row.id,
-    //   id: 'id',
-    //   cell: (info: any) => <Checkbox color="primary" name={info.getValue()} />,
-    //   header: <Checkbox color="primary" name="id" />,
-    //   isSortable: false,
-    // },
+    {
+      accessorFn: (row: any) => row.id,
+      id: 'id',
+      cell: (info: any) => (
+        <Checkbox
+          checked={
+            !!associatesData.find((item: any) => item.id === info.getValue())
+          }
+          onChange={(e: any) => {
+            e.target.checked
+              ? setAssociatesData([
+                  ...associatesData,
+                  associatedAllData.find(
+                    (item: any) => item.id === info.getValue(),
+                  ),
+                ])
+              : setAssociatesData(
+                  associatesData.filter((item: any) => {
+                    return item.id !== info.getValue();
+                  }),
+                );
+          }}
+          color="primary"
+          name={info.getValue()}
+        />
+      ),
+      header: (
+        <Checkbox
+          checked={associatesData.length === associatedAllData.length}
+          onChange={(e: any) => {
+            e.target.checked
+              ? setAssociatesData([...associatedAllData])
+              : setAssociatesData([]);
+          }}
+          color="primary"
+          name="id"
+        />
+      ),
+      isSortable: false,
+    },
     {
       accessorFn: (row: any) => row.asset,
       id: 'asset',
@@ -68,17 +118,35 @@ export const associatesListsColumnFunction: any = (theme: any, router: any) => {
       id: 'impact',
       isSortable: true,
       header: 'Impact',
-      cell: (info: any) => (
-        <Chip
-          icon={<FiberManualRecordIcon />}
-          size="small"
-          label={info.getValue()}
-          sx={{
-            bgcolor: `${theme['palette']['primary']['main']}`,
-            color: theme.palette.common.white,
-          }}
-        />
-      ),
+      cell: (info: any) => {
+        return (
+          <Chip
+            icon={
+              <FiberManualRecordIcon
+                sx={{ color: styleFunction?.[info.getValue()]?.color }}
+              />
+            }
+            size="small"
+            label={info.getValue()}
+            sx={{
+              bgColor: styleFunction?.[info.getValue()]?.bgColor,
+              color: theme.palette.common.white,
+            }}
+          />
+        );
+      },
+    },
+    {
+      accessorFn: (row: any) => row?.id,
+      id: 'actions',
+      cell: () => {
+        return (
+          <DeleteIcon
+            // onClick={() => console.error(info.getValue())}
+            sx={{ cursor: 'pointer' }}
+          />
+        );
+      },
     },
   ];
 };
