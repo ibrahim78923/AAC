@@ -1,13 +1,24 @@
-import { Box, Button, Grid, Typography } from '@mui/material';
+import { Box, Button, Grid, TextareaAutosize, Typography } from '@mui/material';
 import Image from 'next/image';
 import { ApprovalData } from '../AllApprovals.mock';
 import CancelIcon from '@mui/icons-material/Cancel';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import SharedIcon from '@/assets/icons/shared/shared-icon';
 import { useRequestApprovalPage } from '../useRequestApprovalPage';
+import ConversationModel from '@/components/Model/CoversationModel';
 
 const RequestRecievedApproval = () => {
-  const { theme, styles, textColor } = useRequestApprovalPage();
+  const {
+    theme,
+    styles,
+    textColor,
+    handleApprovalModelClose,
+    openApprovalModal,
+    handleRecjectModelClose,
+    openRejectModal,
+    handleRecjectModelOpen,
+    handleApprovalModelOpen,
+  } = useRequestApprovalPage();
   const Icons: any = {
     Request: <SharedIcon />,
   };
@@ -60,6 +71,7 @@ const RequestRecievedApproval = () => {
                   <Grid item>
                     <Box sx={styles.requestApprovalBoxFirst}>
                       <Button
+                        onClick={handleApprovalModelOpen}
                         sx={{
                           ...styles.requestApprovalButton,
                           color: theme?.palette?.success?.main,
@@ -74,6 +86,7 @@ const RequestRecievedApproval = () => {
                         Approve
                       </Button>
                       <Button
+                        onClick={handleRecjectModelOpen}
                         sx={{
                           ...styles.requestApprovalButton,
                           color: theme?.palette?.error?.main,
@@ -95,6 +108,48 @@ const RequestRecievedApproval = () => {
           },
         )}
       </Box>
+      <ConversationModel
+        open={openApprovalModal}
+        handleClose={handleApprovalModelClose}
+        selectedItem="Approval"
+      >
+        <Typography variant="body2">Remarks</Typography>
+        <Box>
+          <TextareaAutosize
+            placeholder="Add Your Remarks here"
+            style={styles.textareaStyle}
+          />
+        </Box>
+        <Box sx={styles.boxBorderStyle}></Box>
+        <Box sx={styles.buttonBox}>
+          <Button onClick={handleApprovalModelClose} variant="outlined">
+            Cancel
+          </Button>
+          <Button variant="contained">Approve</Button>
+        </Box>
+      </ConversationModel>
+      <ConversationModel
+        open={openRejectModal}
+        handleClose={handleRecjectModelClose}
+        selectedItem="Reject"
+      >
+        <Typography variant="body2">Remarks</Typography>
+        <Box>
+          <TextareaAutosize
+            placeholder="Add Your Remarks here"
+            style={styles.textareaStyle}
+          />
+        </Box>
+        <Box sx={styles.boxBorderStyle}></Box>
+        <Box sx={styles.buttonBox}>
+          <Button onClick={handleRecjectModelClose} variant="outlined">
+            Cancel
+          </Button>
+          <Button variant="contained" color="error">
+            Reject
+          </Button>
+        </Box>
+      </ConversationModel>
     </>
   );
 };

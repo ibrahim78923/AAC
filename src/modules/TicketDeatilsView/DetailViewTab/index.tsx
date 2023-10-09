@@ -5,7 +5,7 @@ export const DetailTabs = () => {
   return (
     <>
       <Grid sx={{ mt: '2rem' }}>
-        <HorizontalTabs tabsDataArray={testComponentTabs} />;
+        <HorizontalTabs tabsDataArray={testComponentTabs} />
       </Grid>
     </>
   );

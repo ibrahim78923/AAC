@@ -233,7 +233,7 @@ export const columns = (
     ),
   },
   {
-    accessorFn: (row: any) => row.Impact,
+    accessorFn: (row: any) => row.Vendor,
     id: 'Vendor',
     isSortable: false,
     header: (

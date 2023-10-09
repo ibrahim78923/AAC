@@ -50,3 +50,6 @@ export { default as LoginDashboardImage } from '../../assets/images/shared/login
 export { default as DiscussionImage } from '../../assets/images/modules/tickets/meetings/discussion.png';
 export { default as TeamsImage } from '../../assets/images/modules/tickets/meetings/teams.png';
 export { default as ZoomImage } from '../../assets/images/modules/tickets/meetings/zoom.png';
+export { default as TeamsLogoImage } from '../../assets/images/modules/tickets/meetings/teams-logo.png';
+export { default as ZoomLogoImage } from '../../assets/images/modules/tickets/meetings/zoom-logo.png';
+export { default as AvatarImageCoversation } from '../../assets/images/shared/avatar-conversation.png';

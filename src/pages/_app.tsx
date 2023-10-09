@@ -16,7 +16,12 @@ export default function App(props: any) {
     <ThemeProvider>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <ThemeLocalization>
-          <SnackbarProvider>
+          <SnackbarProvider
+            anchorOrigin={{
+              horizontal: 'center',
+              vertical: 'top',
+            }}
+          >
             {getLayout(<Component {...pageProps} />)}
           </SnackbarProvider>
         </ThemeLocalization>

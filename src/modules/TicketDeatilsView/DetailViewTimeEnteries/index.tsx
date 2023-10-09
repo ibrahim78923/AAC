@@ -80,7 +80,7 @@ export default function DetialViewTimeEnterires() {
       <Grid container spacing={0} sx={timeEnterInnerLastGrid}>
         <Box sx={{ mr: '0.5rem' }}>
           <ButtonGroup>
-            <Button>Add Button</Button>
+            <Button>Cancel</Button>
           </ButtonGroup>
         </Box>
         <Box sx={{ ml: '0.5rem' }}>

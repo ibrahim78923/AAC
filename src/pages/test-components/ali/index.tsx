@@ -1,7 +1,7 @@
 import React from 'react';
 
-const TextComponentAli: React.FC = () => {
-  return <div></div>;
+const index = () => {
+  return <div>index</div>;
 };
 
-export default TextComponentAli;
+export default index;
