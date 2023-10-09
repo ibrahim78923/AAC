@@ -2,36 +2,41 @@ import DeleteIcon from '@/assets/icons/shared/AlertModels/delete-icon';
 import InfoIcon from '@/assets/icons/shared/AlertModels/info-icon';
 import WarnIcon from '@/assets/icons/shared/AlertModels/warn-icon';
 
+const deleteString: string = 'delete';
+const infoString: string = 'info';
+const successString: string = 'success';
+const warnString: string = 'warn';
+
 export const checkModelType = (type: string) =>
-  type.toLowerCase() === 'delete'
-    ? 'delete'
-    : type.toLowerCase() === 'info'
+  type.toLowerCase() === deleteString
+    ? deleteString
+    : type.toLowerCase() === infoString
     ? 'Informatation'
-    : type.toLowerCase() === 'success'
+    : type.toLowerCase() === successString
     ? 'Success'
-    : type.toLowerCase() === 'warn'
+    : type.toLowerCase() === warnString
     ? 'Warning'
     : null;
 
 export const checkModelTypeForImage = (type: string) =>
-  type.toLowerCase() === 'delete' ? (
+  type.toLowerCase() === deleteString ? (
     <DeleteIcon />
-  ) : type.toLowerCase() === 'info' ? (
+  ) : type.toLowerCase() === infoString ? (
     <InfoIcon />
-  ) : type.toLowerCase() === 'success' ? (
+  ) : type.toLowerCase() === successString ? (
     'Success'
-  ) : type.toLowerCase() === 'warn' ? (
+  ) : type.toLowerCase() === warnString ? (
     <WarnIcon />
   ) : null;
 
 export const checkModelTypeMessage = (type: string) => {
-  return type.toLowerCase() === 'delete'
+  return type.toLowerCase() === deleteString
     ? 'Are you sure you want to delete this item ?'
-    : type.toLowerCase() === 'info'
+    : type.toLowerCase() === infoString
     ? 'Information'
-    : type.toLowerCase() === 'success'
+    : type.toLowerCase() === successString
     ? 'Success'
-    : type.toLowerCase() === 'warn'
+    : type.toLowerCase() === warnString
     ? 'Are you sure you want to revert all changes?'
     : '';
 };
