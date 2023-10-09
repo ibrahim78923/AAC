@@ -3,8 +3,8 @@ import ViewDetailVuesaxIcon from '../../../assets/icons/modules/view-detail-Icon
 import {
   iconBoxStyling,
   iconBoxTimerStyling,
-} from '../TopOfPage/TopOfPage.style';
-import DetailTimePicker from '../TopOfPage/TimePicker';
+} from '../../ServicesTickets/SingleTicketDetail/components/TopOfPage/TopOfPage.style';
+import DetailTimePicker from '../../ServicesTickets/SingleTicketDetail/components/TopOfPage/TimePicker';
 import { Button, ButtonGroup } from '@mui/material';
 import { PlusSharedIcon } from '@/assets/icons';
 import {
