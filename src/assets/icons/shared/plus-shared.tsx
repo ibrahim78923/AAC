@@ -15,4 +15,5 @@ const PlusSharedIcon = () => {
     </svg>
   );
 };
+
 export default PlusSharedIcon;
