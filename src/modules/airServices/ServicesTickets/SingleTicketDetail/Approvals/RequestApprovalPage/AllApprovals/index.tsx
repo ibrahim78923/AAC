@@ -34,9 +34,9 @@ export const AllApprovals = () => {
     handleRecjectModelClose,
     handleRecjectModelOpen,
     openRejectModal,
+    REQUESTED_CONDITION,
+    RECIEVED_CONDITION,
   } = useRequestApprovalPage();
-  const recieved = 'Recieved';
-  const requested = 'Requested';
 
   const Icons: any = {
     Request: <SharedIcon />,
@@ -105,7 +105,7 @@ export const AllApprovals = () => {
                   </Typography>
                 </Grid>
                 <Grid item sx={{ mt: { md: '0', sm: '5px' } }}>
-                  {item?.showButton === recieved ? (
+                  {item?.showButton === RECIEVED_CONDITION ? (
                     <>
                       <IconButton
                         aria-label="more"
@@ -140,7 +140,7 @@ export const AllApprovals = () => {
                         </MenuItem>
                       </Menu>
                     </>
-                  ) : item?.showButton === requested ? (
+                  ) : item?.showButton === REQUESTED_CONDITION ? (
                     <Box sx={styles.requestApprovalBoxFirst}>
                       <Button
                         onClick={handleApprovalModelOpen}
