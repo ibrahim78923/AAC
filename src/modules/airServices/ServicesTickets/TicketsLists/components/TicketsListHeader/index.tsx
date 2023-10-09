@@ -1,8 +1,6 @@
 import { Box, Button, Typography } from '@mui/material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { useTheme } from '@mui/material/styles';
-// import PublishIcon from '@mui/icons-material/Publish';
-// import { ExportIcon } from '@/assets/icons';
 import { TicketsExport } from '../TicketsExport';
 export const TicketsListHeader = ({ setOpenCreateTicket }: any) => {
   const { palette }: any = useTheme();
@@ -25,9 +23,6 @@ export const TicketsListHeader = ({ setOpenCreateTicket }: any) => {
           alignItems={'center'}
           flexWrap={'wrap'}
         >
-          {/* <Button variant="outlined" size="large" startIcon={<ExportIcon />}>
-            Export
-          </Button> */}
           <TicketsExport />
           <Button
             variant="contained"
