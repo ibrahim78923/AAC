@@ -55,31 +55,27 @@ export const TicketsListSubHeader = (props: any) => {
             // </Button>
             <TicketsAction ticketsActionDropdown={ticketsActionDropdown} />
           )}
+          <Button
+            variant="outlined"
+            onClick={() => {}}
+            size="large"
+            startIcon={
+              <Box mt={0.5} width={5.4}>
+                <ResetIcon />
+              </Box>
+            }
+            sx={{ color: theme?.palette?.custom?.main || 'inherit' }}
+          />
           {router.query.viewType !== 'board' && (
-            <>
-              <Button
-                variant="outlined"
-                onClick={() => onCustomizeClick?.()}
-                size="large"
-                startIcon={
-                  <Box mt={0.5} width={5.4}>
-                    <ResetIcon />
-                  </Box>
-                }
-                sx={{ color: theme?.palette?.custom?.main || 'inherit' }}
-              />
-              {/* Customize
-            </Button> */}
-              <Button
-                variant="outlined"
-                onClick={() => onCustomizeClick?.()}
-                size="large"
-                startIcon={<CustomizeIcon />}
-                sx={{ color: theme?.palette?.custom?.main || 'inherit' }}
-              >
-                Customize
-              </Button>
-            </>
+            <Button
+              variant="outlined"
+              onClick={() => onCustomizeClick?.()}
+              size="large"
+              startIcon={<CustomizeIcon />}
+              sx={{ color: theme?.palette?.custom?.main || 'inherit' }}
+            >
+              Customize
+            </Button>
           )}
           <Button
             variant="outlined"
