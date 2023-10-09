@@ -3,6 +3,8 @@ export const ticketsStyles: any = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
+    flexWrap: 'wrap',
+    gap: '1rem',
   },
   headText: { color: 'slateBlue.main', fontWeight: 500 },
   actionBtn: {

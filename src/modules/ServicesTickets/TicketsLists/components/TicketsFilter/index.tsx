@@ -10,22 +10,15 @@ export const TicketsFilter = (props: any) => {
   // if ('isLoading') return <SkeletonForm />;
   return (
     <>
-      <br />
-      <br />
       <FormProvider
         methods={methods}
         onSubmit={handleSubmit(submitTicketFilterForm)}
       >
-        <Grid container spacing={5}>
+        <Grid container rowSpacing={2.6} columnSpacing={2} mt={-1}>
           {ticketsFilterFormFieldsData?.map((form: any) => {
             return (
-              <Grid
-                item
-                xs={12}
-                // md={form?.gridLength}
-                key={form.id}
-              >
-                <form.component {...form.componentProps} size="medium">
+              <Grid item xs={12} md={form?.gridLength} key={form.id}>
+                <form.component {...form.componentProps} size="small">
                   {form?.componentProps?.select
                     ? form.componentProps.options.map((option: any) => (
                         <option key={option?.id} value={option?.value}>

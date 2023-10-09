@@ -1,10 +1,10 @@
 import * as React from 'react';
 import Popover from '@mui/material/Popover';
-import { Box } from '@mui/material';
+import { Box, MenuItem } from '@mui/material';
 import Button from '@mui/material/Button';
 import { PopoverStyles } from './Popover.style';
 import { uuid } from 'uuidv4';
-export default function ActionPopover({ btnText, options }: any) {
+export default function ActionPopover({ btnText, options, endIcon }: any) {
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null,
   );
@@ -25,8 +25,8 @@ export default function ActionPopover({ btnText, options }: any) {
         aria-describedby={id}
         variant="outlined"
         sx={PopoverStyles?.actionBtn}
-        // color={theme?.palette?.custom?.main||""}
         onClick={handleClick}
+        endIcon={endIcon}
       >
         {btnText}
       </Button>
@@ -40,11 +40,13 @@ export default function ActionPopover({ btnText, options }: any) {
           horizontal: 'left',
         }}
       >
-        <Box sx={{ minWidth: 120 }}>
+        <Box>
           {options && options.length > 0 && (
             <ul>
               {options.map((option: any) => (
-                <li key={uuid()}>{option}</li>
+                <MenuItem key={uuid()} onClick={option?.handleClick}>
+                  {option?.label}
+                </MenuItem>
               ))}
             </ul>
           )}

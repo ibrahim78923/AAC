@@ -3,8 +3,8 @@ import ViewDetailVuesaxIcon from '../../../assets/icons/modules/view-detail-Icon
 import {
   iconBoxStyling,
   iconBoxTimerStyling,
-} from '../TopOfPage/TopOfPage.style';
-import DetailTimePicker from '../TopOfPage/TimePicker';
+} from '../../ServicesTickets/SingleTicketDetail/components/TopOfPage/TopOfPage.style';
+import DetailTimePicker from '../../ServicesTickets/SingleTicketDetail/components/TopOfPage/TimePicker';
 import { Button, ButtonGroup } from '@mui/material';
 import { PlusSharedIcon } from '@/assets/icons';
 import {
@@ -80,7 +80,7 @@ export default function DetialViewTimeEnterires() {
       <Grid container spacing={0} sx={timeEnterInnerLastGrid}>
         <Box sx={{ mr: '0.5rem' }}>
           <ButtonGroup>
-            <Button>Add Button</Button>
+            <Button>Cancel</Button>
           </ButtonGroup>
         </Box>
         <Box sx={{ ml: '0.5rem' }}>

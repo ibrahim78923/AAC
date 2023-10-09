@@ -4,6 +4,7 @@ export { default as ExampleSharedCase } from './shared/example-shared';
 export { default as ArrowUpIcon } from './shared/arrow-up-icon';
 export { default as SearchSharedIcon } from './shared/search-shared';
 export { default as PlusSharedIcon } from './shared/shared-icon';
+export { default as PlusSharedIconColor } from './shared/plus-shared-color';
 export { default as LogoSharedIcon } from './shared/logo-shared';
 export { default as EyeSlashIcon } from './shared/eye-slash';
 export { default as EyeIcon } from './shared/eye';
@@ -21,6 +22,9 @@ export { default as CustomizeSharedIcon } from './shared/customize-icon';
 export { default as DownIcon } from './shared/Tabel/down-icon';
 export { default as SharedIcon } from './shared/shared-icon';
 export { default as RecievedFileIcon } from './shared/recieved-file';
+export { default as ArrowLeftIcon } from './shared/arrow-left';
+export { default as CheckboxIcon } from './shared/checkbox-icon';
+export { default as CheckboxCheckedIcon } from './shared/checkbox-checked-icon';
 export { default as ExportIcon } from './shared/export-icon';
 export { default as ExportShared } from './shared/export-icon';
 export { default as AlertInfoIcon } from './modules/custom-notistack/alert-info-icon';
@@ -39,3 +43,7 @@ export { default as LeftArrowConversatationIcon } from './shared/AddConversation
 export { default as RightArrowConversatationIcon } from './shared/AddConversation/right-arrow-icon';
 export { default as DeleteIconConversatationIcon } from './shared/AddConversation/delete-icon-add-coversation';
 // More exports from here
+export { default as SubTabIcon } from './shared/sub-tab-icon';
+export { default as ListIcon } from './shared/list-icon';
+export { default as FilterIcon } from './shared/filter-icon';
+export { default as ResetIcon } from './shared/reset-icon';
