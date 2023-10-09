@@ -13,4 +13,5 @@ export interface PopoverPropsI {
   onClick: () => void;
   options?: string[];
   sx?: React.CSSProperties;
+  endIcon?: React.ReactNode;
 }

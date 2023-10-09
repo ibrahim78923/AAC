@@ -1,4 +1,4 @@
-const PlusShared = () => {
+const PlusSharedIcon = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -15,4 +15,5 @@ const PlusShared = () => {
     </svg>
   );
 };
-export default PlusShared;
+
+export default PlusSharedIcon;

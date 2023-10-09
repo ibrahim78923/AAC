@@ -37,18 +37,20 @@ export const TicketsLists = () => {
       {router?.query?.viewType === 'board' ? (
         <TableBoardView />
       ) : (
-        <>
-          Table View <TicketsTableView />
-        </>
+        <TicketsTableView />
       )}
       <TicketsColumnDrag />
       {isDrawerOpen && (
         <CommonDrawer
           isDrawerOpen={isDrawerOpen}
-          onClose={() => {
-            router?.push({ pathname: router?.pathname });
-            setIsDrawerOpen?.(false);
-          }}
+          onClose={
+            drawerComponent?.[router?.query?.tableAction as string]
+              ?.resetHandler ||
+            (() => {
+              router?.push({ pathname: router?.pathname });
+              setIsDrawerOpen?.(false);
+            })
+          }
           okText={
             drawerComponent?.[router?.query?.tableAction as string]?.okText
           }
@@ -58,6 +60,10 @@ export const TicketsLists = () => {
               ?.submitHandler
           }
           isOk={drawerComponent?.[router?.query?.tableAction as string]?.isOk}
+          cancelText={
+            drawerComponent?.[router?.query?.tableAction as string]?.cancelText
+          }
+          footer
         >
           {isDrawerOpen ? (
             drawerComponent?.[router?.query?.tableAction as string]?.children

@@ -24,7 +24,6 @@ export const createTicketValidationSchema = Yup.object().shape({
   plannedEndDate: Yup.date(),
   plannedEndTime: Yup.date(),
   plannedEffort: Yup.string(),
-  attachFile: Yup.mixed(),
 });
 
 export const createTicketDefaultValues = {
@@ -182,16 +181,16 @@ export const createTicketDataArray = [
       fullWidth: true,
     },
     component: RHFDatePicker,
-    md: 8,
+    md: 7.5,
   },
   {
     componentProps: {
       name: 'plannedStartTime',
-      label: '',
+      label: '\u00a0\u00a0',
       fullWidth: true,
     },
     component: RHFTimePicker,
-    md: 4,
+    md: 4.5,
   },
   {
     componentProps: {
@@ -200,16 +199,16 @@ export const createTicketDataArray = [
       fullWidth: true,
     },
     component: RHFDatePicker,
-    md: 8,
+    md: 7.5,
   },
   {
     componentProps: {
       name: 'plannedEndTime',
-      label: '',
+      label: '\u00a0\u00a0',
       fullWidth: true,
     },
     component: RHFTimePicker,
-    md: 4,
+    md: 4.5,
   },
   {
     componentProps: {

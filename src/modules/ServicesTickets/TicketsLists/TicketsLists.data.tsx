@@ -1,6 +1,7 @@
 import { AvatarImage } from '@/assets/images';
-import { Box, Checkbox } from '@mui/material';
+import { Box, Checkbox, Select, MenuItem } from '@mui/material';
 import Image from 'next/image';
+import { uuid } from 'uuidv4';
 
 export const TABLE_CONSTANTS = {
   CUSTOMIZE_COLUMN: 'customize-column',
@@ -8,6 +9,59 @@ export const TABLE_CONSTANTS = {
   BULK_UPDATE_DATA: 'bulk-update-data',
   CREATE_NEW_TICKET: 'create-new-ticket',
 };
+const options = [
+  {
+    value: 'user1',
+    label: 'user1',
+  },
+  {
+    value: 'user2',
+    label: 'user2',
+  },
+  {
+    value: 'user3',
+    label: 'user3',
+  },
+];
+
+const StatusOptions = [
+  {
+    value: 'open',
+    label: 'Open',
+  },
+  {
+    value: 'pending',
+    label: 'Pending',
+  },
+  {
+    value: 'resolved',
+    label: 'Resolved',
+  },
+  {
+    value: 'closed',
+    label: 'Closed',
+  },
+];
+
+const priorityOptions = [
+  {
+    value: 'high',
+    label: 'High',
+  },
+  {
+    value: 'low',
+    label: 'Low',
+  },
+  {
+    value: 'medium',
+    label: 'Medium',
+  },
+  {
+    value: 'urgent',
+    label: 'Urgent',
+  },
+];
+
 export const ticketsActionDropdownFunction = () =>
   // openDrawer: any,
   // setDeleteModalOpen: any,
@@ -72,33 +126,37 @@ export const ticketsListsData: any = [
     ticketId: ` #717`,
     ticketName: 'Drafts',
     requester: 'Sharemydine',
-    assignedTo: 'Alee',
+    assignedTo: 'user1',
+    status: 'open',
     state: 'Tech Support',
-    status: 'Drafts',
-    priority: 'Sharemydine',
+    priority: 'high',
   },
   {
     id: 2,
     ticketId: ` #787`,
     ticketName: 'rafts',
     requester: 'Sharemydine',
-    assignedTo: 'Alee',
+    assignedTo: 'user2',
     state: 'Tech Support',
-    status: 'Drafts',
-    priority: 'Sharemydine',
+    status: 'pending',
+    priority: 'low',
   },
   {
     id: 3,
     ticketId: ` #917`,
     ticketName: 'fts',
     requester: 'Sharemydine',
-    assignedTo: 'Alee',
+    assignedTo: 'user3',
     state: 'Tech Support',
-    status: 'Drafts',
-    priority: 'Sharemydine',
+    status: 'closed',
+    priority: 'medium',
   },
 ];
-export const ticketsListsColumnFunction: any = (theme: any, router: any) => {
+export const ticketsListsColumnFunction: any = (
+  theme: any,
+  router: any,
+  handleChange: (value: any, event: any) => void,
+) => {
   return [
     {
       accessorFn: (row: any) => row.id,
@@ -132,7 +190,7 @@ export const ticketsListsColumnFunction: any = (theme: any, router: any) => {
         </Box>
       ),
       header: 'Ticket ID',
-      isSortable: false,
+      isSortable: true,
     },
     {
       accessorFn: (row: any) => row.ticketName,
@@ -160,7 +218,30 @@ export const ticketsListsColumnFunction: any = (theme: any, router: any) => {
       id: 'assignedTo',
       isSortable: true,
       header: 'Assigned To',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => (
+        <Select
+          name="assignedTo"
+          sx={{
+            minWidth: 80,
+            '&.Mui-focused, .MuiOutlinedInput-notchedOutline': {
+              border: 'none',
+            },
+            '.MuiSvgIcon-root': {
+              color: '#EAECF0',
+            },
+          }}
+          defaultValue="none"
+          value={info.getValue()}
+          onChange={(e) => handleChange(info?.row?._valuesCache, e?.target)}
+          inputProps={{ 'aria-label': 'Without label' }}
+        >
+          {options?.map(({ value, label }: { value: any; label: string }) => (
+            <MenuItem key={uuid()} value={value}>
+              {label}
+            </MenuItem>
+          ))}
+        </Select>
+      ),
     },
     {
       accessorFn: (row: any) => row.state,
@@ -170,11 +251,68 @@ export const ticketsListsColumnFunction: any = (theme: any, router: any) => {
       cell: (info: any) => info.getValue(),
     },
     {
+      accessorFn: (row: any) => row.status,
+      id: 'status',
+      isSortable: true,
+      header: 'Status',
+      cell: (info: any) => (
+        <Select
+          name="status"
+          sx={{
+            minWidth: 80,
+            '&.Mui-focused, .MuiOutlinedInput-notchedOutline': {
+              border: 'none',
+            },
+            '.MuiSvgIcon-root': {
+              color: '#EAECF0',
+            },
+          }}
+          defaultValue="none"
+          value={info.getValue()}
+          onChange={(e) => handleChange(info?.row?._valuesCache, e?.target)}
+          inputProps={{ 'aria-label': 'Without label' }}
+        >
+          {StatusOptions?.map(
+            ({ value, label }: { value: any; label: string }) => (
+              <MenuItem key={uuid()} value={value}>
+                {label}
+              </MenuItem>
+            ),
+          )}
+        </Select>
+      ),
+    },
+    {
       accessorFn: (row: any) => row.priority,
       id: 'priority',
       isSortable: true,
       header: 'Priority',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => (
+        <Select
+          name="priority"
+          sx={{
+            minWidth: 80,
+            '&.Mui-focused, .MuiOutlinedInput-notchedOutline': {
+              border: 'none',
+            },
+            '.MuiSvgIcon-root': {
+              color: '#EAECF0',
+            },
+          }}
+          defaultValue="none"
+          value={info.getValue()}
+          onChange={(e) => handleChange(info?.row?._valuesCache, e?.target)}
+          inputProps={{ 'aria-label': 'Without label' }}
+        >
+          {priorityOptions?.map(
+            ({ value, label }: { value: any; label: string }) => (
+              <MenuItem key={uuid()} value={value}>
+                {label}
+              </MenuItem>
+            ),
+          )}
+        </Select>
+      ),
     },
   ];
 };

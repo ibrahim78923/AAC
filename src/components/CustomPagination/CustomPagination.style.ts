@@ -66,4 +66,7 @@ export const tablePaginationStyle = {
   '& .MuiTablePagination-selectIcon': {
     margin: '2.4px 5px 0 0',
   },
+  '.MuiToolbar-root': {
+    padding: 0,
+  },
 };

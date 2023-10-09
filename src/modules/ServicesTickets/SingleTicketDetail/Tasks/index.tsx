@@ -1,48 +1,56 @@
-import { useState } from 'react';
 import TanstackTable from '@/components/Tabel/TanstackTable';
-import { columns, data } from './TicketTasks.mock';
-import { Button, Typography } from '@mui/material';
-import { TicketTaskDrawer } from './TicketTaskDrawer';
-import { PlusSharedIcon, ActionButtonIcon } from '@/assets/icons';
-import { taskStyles } from './TicketTasks.styles';
+import { tasksTableColumns, tasksTableData } from './Tasks.mock';
+import { TaskDrawer } from './TasksDrawers';
+import { useTasks } from './useTasks';
+import { TasksHeader } from './TasksHeader';
 
 export const Tasks = () => {
-  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
-  const [active, setActive] = useState<boolean>(false);
-  const handleCheckboxChange = (event: any) => {
-    setActive(event.target.checked);
-  };
+  const {
+    isAddDrawerOpen,
+    setIsAddDrawerOpen,
+    isDetailDrawerOpen,
+    setIsDetailDrawerOpen,
+    activeCheck,
+    setActiveCheck,
+    isEditDrawerOpen,
+    setIsEditDrawerOpen,
+  } = useTasks();
   return (
     <div>
-      <div style={taskStyles?.headContainer}>
-        <Typography variant="h5" sx={taskStyles?.headText}>
-          Task
-        </Typography>
-        <div style={taskStyles?.btnContainer}>
-          <Button
-            sx={taskStyles?.actionBtn}
-            endIcon={<ActionButtonIcon />}
-            disabled={!active}
-          >
-            Action
-          </Button>
-          <Button
-            sx={taskStyles?.addTaskBtn}
-            onClick={() => setIsDrawerOpen(true)}
-            startIcon={<PlusSharedIcon />}
-          >
-            Add New Task
-          </Button>
-        </div>
-      </div>
-      <TicketTaskDrawer
-        isDrawerOpen={isDrawerOpen}
-        setIsDrawerOpen={setIsDrawerOpen}
+      <TasksHeader
+        setIsAddDrawerOpen={setIsAddDrawerOpen}
+        activeCheck={activeCheck}
+        setIsEditDrawerOpen={setIsEditDrawerOpen}
       />
       <br />
       <TanstackTable
-        columns={columns(setIsDrawerOpen, handleCheckboxChange)}
-        data={data}
+        columns={tasksTableColumns(
+          activeCheck,
+          setActiveCheck,
+          setIsDetailDrawerOpen,
+        )}
+        data={tasksTableData}
+      />
+      <TaskDrawer
+        isDrawerOpen={isAddDrawerOpen}
+        onClose={setIsAddDrawerOpen}
+        type="add"
+      />
+      <TaskDrawer
+        isDrawerOpen={isEditDrawerOpen}
+        onClose={setIsEditDrawerOpen}
+        type="edit"
+      />
+      <TaskDrawer
+        isDrawerOpen={isDetailDrawerOpen}
+        onClose={setIsDetailDrawerOpen}
+        taskDetail={
+          tasksTableData[
+            tasksTableData.findIndex(
+              (e: any) => e.taskID === isDetailDrawerOpen,
+            )
+          ]
+        }
       />
     </div>
   );
