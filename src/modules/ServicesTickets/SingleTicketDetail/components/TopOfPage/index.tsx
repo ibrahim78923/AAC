@@ -1,7 +1,7 @@
 import { useTheme } from '@emotion/react';
 import Image from 'next/image';
 import { Grid, Typography, Box } from '@mui/material';
-import ViewDetailVuesaxIcon from '../../../assets/icons/modules/view-detail-Icon/view-details-vuesax-icon';
+import ViewDetailVuesaxIcon from '../../../../../assets/icons/modules/view-detail-Icon/view-details-vuesax-icon';
 import SmsImage from '@/assets/images/modules/viewdetails/sms-image.png';
 import ViewDetailBackArrowIcon from '@/assets/icons/modules/view-detail-Icon/view-detail-back-arrow-icon';
 import ViewDetailCallIcon from '@/assets/icons/modules/view-detail-Icon/view-details-call-icon';

@@ -1,11 +1,11 @@
-export const testComponentTabs = [
+export const singleTicketDetailTabsData = [
   'Details',
   'Tasks',
-  'Related  Tickets',
+  'Related Tickets',
   'Associations',
   'Assets',
   'Approvals',
   'Meetings',
-  'Meetings',
+  'Activities',
   'Conversation',
 ];
