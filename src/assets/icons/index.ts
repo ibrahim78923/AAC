@@ -43,3 +43,7 @@ export { default as LeftArrowConversatationIcon } from './shared/AddConversation
 export { default as RightArrowConversatationIcon } from './shared/AddConversation/right-arrow-icon';
 export { default as DeleteIconConversatationIcon } from './shared/AddConversation/delete-icon-add-coversation';
 // More exports from here
+export { default as SubTabIcon } from './shared/sub-tab-icon';
+export { default as ListIcon } from './shared/list-icon';
+export { default as FilterIcon } from './shared/filter-icon';
+export { default as ResetIcon } from './shared/reset-icon';
