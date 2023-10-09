@@ -380,3 +380,31 @@ export const teamsTableData: any = [
     teamMember: 'Draftstrtr',
   },
 ];
+
+export const teamsDataArray = [
+  {
+    componentProps: {
+      name: 'teamName',
+      label: 'Team Name',
+      fullWidth: true,
+      select: false,
+    },
+    component: RHFTextField,
+    md: 12,
+  },
+  {
+    componentProps: {
+      name: 'teamMembers',
+      label: 'Team Members',
+      fullWidth: true,
+      select: true,
+    },
+    options: [
+      { value: 'United Kingdom', label: 'A' },
+      { value: 'United Kingdom', label: 'B' },
+      { value: 'United Kingdom', label: 'C' },
+    ],
+    component: RHFSelect,
+    md: 12,
+  },
+];

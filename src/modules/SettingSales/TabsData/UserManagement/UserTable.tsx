@@ -32,9 +32,11 @@ import CommonDrawer from '@/components/CommonDrawer';
 import Search from '@/components/Search';
 import TanstackTable from '@/components/Tabel/TanstackTable';
 import CustomPagination from '@/components/CustomPagination';
+import { AlertModals } from '@/components/AlertModals';
 
 const UserTable = ({ initialValueProps = defaultValues }: any) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [isOpenDelete, setIsOpenDelete] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const theme = useTheme<Theme>();
 
@@ -138,7 +140,7 @@ const UserTable = ({ initialValueProps = defaultValues }: any) => {
         >
           <MenuItem onClick={handleClose}>Edit</MenuItem>
           <MenuItem onClick={handleClose}>View</MenuItem>
-          <MenuItem onClick={handleClose}>Delete</MenuItem>
+          <MenuItem onClick={() => setIsOpenDelete(true)}>Delete</MenuItem>
         </Menu>
       </Box>
       <Grid>
@@ -149,6 +151,15 @@ const UserTable = ({ initialValueProps = defaultValues }: any) => {
           entriePages={1}
         />
       </Grid>
+      <AlertModals
+        message={'Are you sure you want to delete this role?'}
+        type={'delete'}
+        open={isOpenDelete}
+        handleClose={() => setIsOpenDelete(false)}
+        handleSubmit={function (): void {
+          throw new Error('Function not implemented.');
+        }}
+      />
     </>
   );
 };

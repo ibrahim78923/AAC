@@ -37,9 +37,11 @@ import {
   validationSchema,
 } from './RolesRight.data';
 import CustomPagination from '@/components/CustomPagination';
+import { AlertModals } from '@/components/AlertModals';
 
 const RolesRight = ({ initialValueProps = defaultValues }: any) => {
   const [isDraweropen, setIsDraweropen] = useState(false);
+  const [isOpenDelete, setIsOpenDelete] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const theme = useTheme<Theme>();
 
@@ -208,7 +210,7 @@ const RolesRight = ({ initialValueProps = defaultValues }: any) => {
           >
             <MenuItem onClick={handleClose}>Edit</MenuItem>
             <MenuItem onClick={handleClose}>View</MenuItem>
-            <MenuItem onClick={handleClose}>Delete</MenuItem>
+            <MenuItem onClick={() => setIsOpenDelete(true)}>Delete</MenuItem>
           </Menu>
         </Box>
         <Grid>
@@ -220,6 +222,15 @@ const RolesRight = ({ initialValueProps = defaultValues }: any) => {
           />
         </Grid>
       </Box>
+      <AlertModals
+        message={'Are you sure you want to delete this role?'}
+        type={'delete'}
+        open={isOpenDelete}
+        handleClose={() => setIsOpenDelete(false)}
+        handleSubmit={function (): void {
+          throw new Error('Function not implemented.');
+        }}
+      />
     </>
   );
 };

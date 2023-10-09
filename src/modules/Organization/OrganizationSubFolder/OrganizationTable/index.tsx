@@ -48,9 +48,11 @@ import {
 import { styles } from './OrganizationTable.style';
 import TanstackTable from '@/components/Tabel/TanstackTable';
 import CustomPagination from '@/components/CustomPagination';
+import { AlertModals } from '@/components/AlertModals';
 
 const OrganizationTable = ({ initialValueProps = defaultValues }: any) => {
   const [openDrawer, setOpenDrawer] = useState(false);
+  const [isOpenDelete, setIsOpenDelete] = useState(false);
   const [openEditDrawer, setOpenEditDrawer] = useState(false);
   const [value, setValue] = useState('search here');
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -341,7 +343,9 @@ const OrganizationTable = ({ initialValueProps = defaultValues }: any) => {
               >
                 <MenuItem onClick={handleClose}>Edit</MenuItem>
                 <MenuItem onClick={handleClose}>View</MenuItem>
-                <MenuItem>Delete</MenuItem>
+                <MenuItem onClick={() => setIsOpenDelete(true)}>
+                  Delete
+                </MenuItem>
               </Menu>
               <Button
                 onClick={() => {
@@ -368,6 +372,15 @@ const OrganizationTable = ({ initialValueProps = defaultValues }: any) => {
           entriePages={1}
         />
       </Grid>
+      <AlertModals
+        message={'Are you sure you want to delete this role?'}
+        type={'delete'}
+        open={isOpenDelete}
+        handleClose={() => setIsOpenDelete(false)}
+        handleSubmit={function (): void {
+          throw new Error('Function not implemented.');
+        }}
+      />
     </>
   );
 };
