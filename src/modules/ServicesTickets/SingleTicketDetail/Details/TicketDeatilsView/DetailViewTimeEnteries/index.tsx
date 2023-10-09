@@ -1,12 +1,12 @@
 import { Grid, Typography, Box } from '@mui/material';
-import ViewDetailVuesaxIcon from '../../../assets/icons/modules/view-detail-Icon/view-details-vuesax-icon';
+import ViewDetailVuesaxIcon from '../../../../../../assets/icons/modules/view-detail-Icon/view-details-vuesax-icon';
 import {
   iconBoxStyling,
   iconBoxTimerStyling,
-} from '../../ServicesTickets/SingleTicketDetail/components/TopOfPage/TopOfPage.style';
-import DetailTimePicker from '../../ServicesTickets/SingleTicketDetail/components/TopOfPage/TimePicker';
+} from '../../../components/TopOfPage/TopOfPage.style';
+import DetailTimePicker from '../../../components/TopOfPage/TimePicker';
 import { Button, ButtonGroup } from '@mui/material';
-import { PlusSharedIcon } from '@/assets/icons';
+import { CirclePlusIcon } from '@/assets/icons';
 import {
   buttonStyleOFTimeEntries,
   buttonHeigh,
@@ -40,7 +40,7 @@ export default function DetialViewTimeEnterires() {
           </Box>
           <Box sx={buttonStyleOFTimeEntries}>
             <ButtonGroup variant="contained" color="primary">
-              <Button startIcon={<PlusSharedIcon />} sx={buttonHeigh}>
+              <Button startIcon={<CirclePlusIcon />} sx={buttonHeigh}>
                 Time button
               </Button>
             </ButtonGroup>

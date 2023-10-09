@@ -1,8 +1,6 @@
 import Layout from '@/layout';
-import { SingleTicketDetail } from '@/modules/ServicesTickets/SingleTicketDetail';
-import TicketDetail from '@/modules/TicketDeatilsView';
+import TicketDetail from '@/modules/ServicesTickets/SingleTicketDetail/Details/TicketDeatilsView';
 const SingleTicketDetailPage = () => {
-  // return <SingleTicketDetail />;
   return <TicketDetail />;
 };
 

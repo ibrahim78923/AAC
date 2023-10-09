@@ -1,6 +1,6 @@
 import DetialViewTimeEnterires from './DetailViewTimeEnteries';
 import DetailsVeiwPropSect from './DetailsViewPropertiesSection';
-import ToofPage from '../ServicesTickets/SingleTicketDetail/components/TopOfPage';
+import ToofPage from '../../components/TopOfPage';
 
 export default function TicketDetail() {
   return (
