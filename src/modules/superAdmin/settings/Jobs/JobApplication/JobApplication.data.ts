@@ -1,8 +1,4 @@
-import {
-  RHFDatePicker,
-  RHFSearchableSelect,
-  RHFSelect,
-} from '@/components/ReactHookForm';
+import { RHFDatePicker, RHFSelect } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 export const jobApplicationValidationSchema = Yup.object().shape({
   candidates: Yup.string().trim().required('Field is Required'),
