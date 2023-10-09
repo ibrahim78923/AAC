@@ -1,26 +1,32 @@
-import React, { useState } from 'react';
-import { useForm, Controller, FormProvider } from 'react-hook-form';
+import React from 'react';
+import { useForm } from 'react-hook-form';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Grid, Button, InputAdornment, Typography } from '@mui/material';
+import { Grid, Button, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import InputField from '@/components/InputField';
-import { CompanyLogoIcon, EyeIcon, EyeSlashIcon } from '@/assets/icons';
+import { CompanyLogoIcon } from '@/assets/icons';
 import { LoginDashboardImage } from '@/assets/images';
 import { styles } from './Login.style';
+import {
+  loginDataArray,
+  loginDefaultValues,
+  loginValidationSchema,
+} from './Login.data';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { FormProvider } from '@/components/ReactHookForm';
+import { v4 as uuidv4 } from 'uuid';
 
 const Login = () => {
-  const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
   const theme = useTheme();
-  const {
-    handleSubmit,
-    control,
-    formState: { errors },
-  } = useForm();
+  const loginForm = useForm({
+    resolver: yupResolver(loginValidationSchema),
+    defaultValues: loginDefaultValues,
+  });
 
   const onSubmit = () => {};
 
+  const { handleSubmit } = loginForm;
   return (
     <Box sx={{ height: '100vh' }}>
       <Box sx={styles.AuthHeader}>
@@ -45,127 +51,42 @@ const Login = () => {
           >
             <Typography
               variant="h3"
-              sx={{ color: theme?.palette?.grey[500_8] }}
+              sx={{ color: theme?.palette?.grey[500_8], marginBottom: '10px' }}
             >
               Sign In to Air Applecart
             </Typography>
-            <Typography
-              variant="h6"
-              sx={{ color: theme?.palette?.grey[500_12] }}
-            >
+            <Typography variant="h6" sx={{ color: theme?.palette?.grey[900] }}>
               Let’s Get Started
             </Typography>
-            <FormProvider>
-              <form
+
+            <Box sx={styles.formStyling}>
+              <FormProvider
+                methods={loginForm}
                 onSubmit={handleSubmit(onSubmit)}
-                style={styles.formStyling}
               >
-                <label style={{ marginBottom: '8px', marginTop: '5px' }}>
-                  Email <span style={{ color: 'red' }}>*</span>
-                </label>
-                <Controller
-                  name="email"
-                  control={control}
-                  defaultValue=""
-                  rules={{
-                    required: 'required field',
-                    pattern: {
-                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-                      message: 'Invalid email address',
-                    },
-                  }}
-                  render={({ field }) => (
-                    <InputField
-                      field={{ ...field }}
-                      name="email"
-                      placeholder="Enter email"
-                      width="100%"
-                      height="23px"
-                      autoComplete="off"
-                      type="text"
-                      hasError={!!errors?.email}
-                    />
-                  )}
-                />
+                <Grid container spacing={4}>
+                  {loginDataArray?.map((item: any) => (
+                    <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                      <item.component
+                        {...item.componentProps}
+                        size={'small'}
+                      ></item.component>
+                    </Grid>
+                  ))}
+                </Grid>
 
-                {errors?.email && (
-                  <Typography
-                    variant="body1"
-                    sx={{ color: theme?.palette?.error?.main }}
-                  >
-                    {' '}
-                    {errors?.email?.message}
-                  </Typography>
-                )}
-
-                <label style={{ marginBottom: '8px', marginTop: '10px' }}>
-                  password <span style={{ color: 'red' }}>*</span>
-                </label>
-                <Controller
-                  name="passwords"
-                  control={control}
-                  defaultValue=""
-                  rules={{ required: 'required field' }}
-                  render={({ field }) => (
-                    <InputField
-                      field={{ ...field }}
-                      name="passwords"
-                      placeholder="Enter password"
-                      width="100%"
-                      height="23px"
-                      autoComplete="off"
-                      hasError={!!errors?.passwords}
-                      type={isShowPassword ? 'text' : 'password'}
-                      InputProps={{
-                        endAdornment: (
-                          <InputAdornment
-                            position="end"
-                            sx={{ width: '30px', cursor: 'pointer' }}
-                          >
-                            {isShowPassword ? (
-                              <Box
-                                onClick={() =>
-                                  setIsShowPassword(!isShowPassword)
-                                }
-                              >
-                                <EyeIcon />
-                              </Box>
-                            ) : (
-                              <Box
-                                onClick={() =>
-                                  setIsShowPassword(!isShowPassword)
-                                }
-                              >
-                                <EyeSlashIcon />
-                              </Box>
-                            )}
-                          </InputAdornment>
-                        ),
-                      }}
-                    />
-                  )}
-                />
-                {errors?.passwords && (
-                  <Typography
-                    variant="body1"
-                    sx={{ color: theme?.palette?.error?.main }}
-                  >
-                    {' '}
-                    {errors?.passwords?.message}
-                  </Typography>
-                )}
                 <Button
                   type="submit"
                   variant="contained"
-                  sx={{ marginY: '30px' }}
+                  sx={{ marginY: '30px', width: '100%' }}
                 >
                   Sign In
                 </Button>
-                <Link href="/forget-password" style={styles.aTag}>
-                  Forgot password?
-                </Link>
-              </form>
-            </FormProvider>
+              </FormProvider>
+              <Link href="/forget-password" style={styles.aTag}>
+                Forgot password?
+              </Link>
+            </Box>
           </Box>
         </Grid>
         <Grid

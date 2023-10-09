@@ -1,5 +1,4 @@
 import { TextField } from '@mui/material';
-import { useTheme } from '@emotion/react';
 import { InterfaceInputTextField } from '@/types/modules/InputField';
 
 export default function InputField({
@@ -11,10 +10,8 @@ export default function InputField({
   autoComplete,
   InputProps,
   type,
-  hasError,
+  error,
 }: InterfaceInputTextField) {
-  const theme = useTheme();
-
   const inputStyle = {
     '& div': {
       border: 'none',
@@ -32,11 +29,6 @@ export default function InputField({
       padding: '10px',
       color: 'black',
     },
-    '& fieldset': {
-      border: `1.5px solid ${
-        hasError ? theme?.palette?.error?.main : theme?.palette?.grey[700]
-      }`,
-    },
   };
 
   return (
@@ -50,6 +42,8 @@ export default function InputField({
       sx={inputStyle}
       InputProps={InputProps}
       type={type}
+      error={error}
+      helperText={error}
     />
   );
 }
