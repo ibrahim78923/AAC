@@ -1,16 +1,18 @@
 import { Grid, Box, useTheme } from '@mui/material';
 import TicketInfoBoardHeader from './TicketInfoBoardHeader';
-import { ticketViewBoardArray } from '@/mock/modules/ServicesTickets/TicketsLists/TicketsBoardView';
 import { TicketInfoCard } from './TicketInfoCard';
 import { Fragment } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import { ticketViewBoardArray } from './TicketsBoardView.data';
 
 export const TableBoardView = () => {
   const theme: any = useTheme();
 
+  const HeadStatus = ['Open', 'Resolved', 'Pending', 'Closed'];
+
   return (
     <Grid container spacing={2} overflow={'auto'} flexWrap={'nowrap'}>
-      {['Open', 'Resolved', 'Pending', 'Closed'].map((heading) => (
+      {HeadStatus.map((heading) => (
         <Grid item xs={3} sx={{ minWidth: '400px' }} key={heading}>
           <TicketInfoBoardHeader title={heading} total={2} />
           <Box

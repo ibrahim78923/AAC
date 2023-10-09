@@ -30,6 +30,7 @@ export default function TicketInfoEdit({
     enqueueSnackbar('Ticket Updated Successfully', {
       variant: 'success',
     });
+    onClose(false);
     // } catch (error: any) {
     //   const errMsg = error?.data?.message;
     //   enqueueSnackbar(errMsg ?? "Something Went Wrong!", { variant: "error" });

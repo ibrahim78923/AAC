@@ -22,6 +22,7 @@ import {
   createTicketDefaultValues,
   createTicketValidationSchema,
 } from '../CreateTicket/CreateTicket.data';
+import { enqueueSnackbar } from 'notistack';
 
 export const useTicketsLists = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -35,7 +36,13 @@ export const useTicketsLists = () => {
 
   const submitTicketBulkUpdateForm = async () => {};
 
-  const submitCreateNewTicket = async () => {};
+  const submitCreateNewTicket = async () => {
+    enqueueSnackbar('Ticket Added Successfully', {
+      variant: 'success',
+    });
+    methodsCreateNewTicketForm.reset(createTicketDefaultValues);
+    setIsDrawerOpen(false);
+  };
 
   const handleChange = (value: any, event: any) => {
     setTicketList(

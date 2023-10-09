@@ -4,63 +4,17 @@ import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import Image from 'next/image';
 import { AvatarImage } from '@/assets/images';
 import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
-import { useState } from 'react';
 import TicketInfoEdit from '../TicketInfoEdit';
 import { AlertModals } from '@/components/AlertModals';
-
-const appearanceStyle = (appearance: string) => {
-  let color;
-
-  switch (appearance) {
-    case 'New':
-      color = 'success';
-      break;
-
-    case 'Overdue':
-      color = 'info';
-      break;
-
-    default:
-      color = 'error';
-      break;
-  }
-  return color;
-};
-
-const priorityStyle = (priority: string) => {
-  let color;
-
-  switch (priority) {
-    case 'Low':
-      color = 'success';
-      break;
-
-    case 'Medium':
-      color = 'warning';
-      break;
-
-    default:
-      color = 'error';
-      break;
-  }
-  return color;
-};
+import { appearanceStyle, priorityStyle } from './TicketInfoCard.data';
+import { useState } from 'react';
 
 export const TicketInfoCard = ({ details }: any) => {
   const theme: any = useTheme();
 
   const [openDrawer, setOpenDrawer] = useState<HTMLButtonElement | null>(null);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
-
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
-
-  const handleClick = (event: any) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
 
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
@@ -101,13 +55,16 @@ export const TicketInfoCard = ({ details }: any) => {
               }}
             />
           )}
-          <MoreVertIcon onClick={handleClick} sx={{ cursor: 'pointer' }} />
+          <MoreVertIcon
+            onClick={(event: any) => setAnchorEl(event.currentTarget)}
+            sx={{ cursor: 'pointer' }}
+          />
 
           <Popover
             id={id}
             open={open}
             anchorEl={anchorEl}
-            onClose={handleClose}
+            onClose={() => setAnchorEl(null)}
             anchorOrigin={{
               vertical: 'bottom',
               horizontal: 'left',
@@ -129,7 +86,7 @@ export const TicketInfoCard = ({ details }: any) => {
               }}
               onClick={(event: any) => {
                 setOpenDrawer(event.target);
-                handleClose();
+                setAnchorEl(null);
               }}
             >
               Edit
@@ -145,7 +102,7 @@ export const TicketInfoCard = ({ details }: any) => {
               }}
               onClick={() => {
                 setOpenDeleteModal(true);
-                handleClose();
+                setAnchorEl(null);
               }}
             >
               Delete
