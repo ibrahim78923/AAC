@@ -21,7 +21,7 @@ export interface useTasksI {
   setActionExportPop: React.Dispatch<
     React.SetStateAction<HTMLButtonElement | null>
   >;
-  handleActionExportClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  handleActionExportClick: (event: any) => void;
   handleActionExportClose: () => void;
   openActionExport: boolean;
 

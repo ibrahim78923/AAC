@@ -72,8 +72,8 @@ export const TasksHeader = ({
               sx={{ ml: '-12px' }}
               transformOrigin={{ vertical: 'top', horizontal: 'right' }}
             >
-              <MenuItem onClick={() => window.history.go(-1)}>CSV</MenuItem>
-              <MenuItem onClick={() => window.history.go(-1)}>Excel</MenuItem>
+              <MenuItem onClick={() => {}}>CSV</MenuItem>
+              <MenuItem onClick={() => {}}>Excel</MenuItem>
             </Popover>
           </MenuItem>
         </Popover>
