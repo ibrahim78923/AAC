@@ -1,5 +1,5 @@
 import Layout from '@/layout';
-import TaxCalculation from '@/modules/settings/TaxCalculations';
+import TaxCalculation from '@/modules/superAdmin/settings/TaxCalculations';
 const TaxCalculationPage = () => {
   return <TaxCalculation />;
 };

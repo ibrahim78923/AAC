@@ -1,5 +1,5 @@
 import Layout from '@/layout';
-import PlanTypeCreation from '@/modules/settings/PlanTypeCreation';
+import PlanTypeCreation from '@/modules/superAdmin/settings/PlanTypeCreation';
 const PlanTypeCreationPage = () => {
   return <PlanTypeCreation />;
 };

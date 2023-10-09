@@ -1,35 +1,32 @@
 import React, { useState } from 'react';
 
-import Image from 'next/image';
-
 import { Box, Button, Typography, Checkbox, Grid } from '@mui/material';
+
+import { yupResolver } from '@hookform/resolvers/yup';
+import { FormProvider } from '@/components/ReactHookForm';
+import { useForm } from 'react-hook-form';
 
 import Search from '@/components/Search';
 import CommonDrawer from '@/components/CommonDrawer';
 import TanstackTable from '@/components/Tabel/TanstackTable';
 import CustomPagination from '@/components/CustomPagination';
 
-import { yupResolver } from '@hookform/resolvers/yup';
-import { FormProvider } from '@/components/ReactHookForm';
-import { useForm } from 'react-hook-form';
-
 import {
-  productFeaturesDefaultValues,
-  productFeaturesFiltersDataArray,
-  productFeaturesValidationSchema,
-} from './ProductFeatures.data';
+  planTypeCreationDefaultValues,
+  planTypeCreationFiltersDataArray,
+  planTypeCreationValidationSchema,
+} from './PlanTypeCreation.data';
 
-import { productFeatureTableData } from '@/mock/modules/Settings/ProductFeature';
+import { planTypeCreationTableData } from '@/mock/modules/Settings/PlanTypeCreation';
 
-import { SalesIcon } from '@/assets/images';
 import PlusShared from '@/assets/icons/shared/plus-shared';
 
 import { v4 as uuidv4 } from 'uuid';
 
-const ProductFeature = () => {
-  const [isAddProductFeatureDrawer, setIsAddProductFeatureDrawer] =
+const PlanTypeCreation = () => {
+  const [isPlanTypeCreationDrawer, setIsPlanTypeCreationDrawer] =
     useState(false);
-  const [productFeatureSearch, setProductFeatureSearch] = useState('');
+  const [planTypeCreationSearch, setPlanTypeCreationSearch] = useState('');
 
   const columns: any = [
     {
@@ -40,41 +37,17 @@ const ProductFeature = () => {
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row.productName,
-      id: 'productName',
-      cell: () => (
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            fontWeight: '500 !important',
-          }}
-        >
-          <Image src={SalesIcon} /> Sales
-        </Box>
-      ),
-      header: 'Product Name',
-      isSortable: false,
-    },
-    {
-      accessorFn: (row: any) => row.productFeatureName,
-      id: 'productFeatureName',
-      isSortable: true,
-      header: 'Project Feature Name',
+      accessorFn: (row: any) => row.planTypeName,
+      id: 'planTypeName',
       cell: (info: any) => info.getValue(),
+      header: 'Plan Type Name',
+      isSortable: false,
     },
     {
       accessorFn: (row: any) => row.description,
       id: 'description',
       isSortable: true,
-      header: 'Category',
-      cell: (info: any) => info.getValue(),
-    },
-    {
-      accessorFn: (row: any) => row.status,
-      id: 'status',
-      isSortable: true,
-      header: 'Status',
+      header: 'Discription',
       cell: (info: any) => info.getValue(),
     },
     {
@@ -91,16 +64,24 @@ const ProductFeature = () => {
       header: 'Created Date',
       cell: (info: any) => info.getValue(),
     },
+    {
+      accessorFn: (row: any) => row.status,
+      id: 'status',
+      isSortable: true,
+      header: 'Status',
+      cell: (info: any) => info.getValue(),
+    },
   ];
 
-  const methodsProductFeatures = useForm({
-    resolver: yupResolver(productFeaturesValidationSchema),
-    defaultValues: productFeaturesDefaultValues,
+  const methodsPlanTypeCreation = useForm({
+    resolver: yupResolver(planTypeCreationValidationSchema),
+    defaultValues: planTypeCreationDefaultValues,
   });
+
   const onSubmit = () => {
-    setIsAddProductFeatureDrawer(false);
+    setIsPlanTypeCreationDrawer(false);
   };
-  const { handleSubmit } = methodsProductFeatures;
+  const { handleSubmit } = methodsPlanTypeCreation;
 
   return (
     <Box
@@ -119,9 +100,9 @@ const ProductFeature = () => {
         }}
       >
         <Typography variant="h3" sx={{ fontWeight: '600' }}>
-          Product Features Setup
+          Plan Type Creation
         </Typography>
-        <Box>...</Box>
+        <Box>Filter here</Box>
       </Box>
       <Box
         mt={2}
@@ -134,8 +115,8 @@ const ProductFeature = () => {
       >
         <Search
           label={'Search here'}
-          searchBy={productFeatureSearch}
-          setSearchBy={setProductFeatureSearch}
+          searchBy={planTypeCreationSearch}
+          setSearchBy={setPlanTypeCreationSearch}
           width="100%"
         />
         <Box
@@ -148,25 +129,24 @@ const ProductFeature = () => {
           <Button
             variant="contained"
             sx={{ height: '36px', fontWeight: '500' }}
-            onClick={() => setIsAddProductFeatureDrawer(true)}
+            onClick={() => setIsPlanTypeCreationDrawer(true)}
           >
-            <PlusShared /> &nbsp; Add Feature
+            <PlusShared /> &nbsp; Add Plan Type
           </Button>
         </Box>
       </Box>
       <Box>
-        <TanstackTable columns={columns} data={productFeatureTableData} />
+        <TanstackTable columns={columns} data={planTypeCreationTableData} />
         <CustomPagination
           count={1}
           rowsPerPageOptions={[1, 2]}
           entriePages={1}
         />
       </Box>
-
       <CommonDrawer
-        isDrawerOpen={isAddProductFeatureDrawer}
-        onClose={() => setIsAddProductFeatureDrawer(false)}
-        title="Add Product Feature form"
+        isDrawerOpen={isPlanTypeCreationDrawer}
+        onClose={() => setIsPlanTypeCreationDrawer(false)}
+        title="Add Plan Type"
         okText="Apply"
         isOk={true}
         footer={true}
@@ -174,11 +154,11 @@ const ProductFeature = () => {
       >
         <>
           <FormProvider
-            methods={methodsProductFeatures}
+            methods={methodsPlanTypeCreation}
             onSubmit={handleSubmit(onSubmit)}
           >
             <Grid container spacing={4}>
-              {productFeaturesFiltersDataArray?.map((item: any) => (
+              {planTypeCreationFiltersDataArray?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
                   <item.component {...item.componentProps} size={'small'}>
                     {item?.componentProps?.select
@@ -199,4 +179,4 @@ const ProductFeature = () => {
   );
 };
 
-export default ProductFeature;
+export default PlanTypeCreation;

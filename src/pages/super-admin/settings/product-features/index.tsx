@@ -1,5 +1,5 @@
 import Layout from '@/layout';
-import ProductFeature from '@/modules/settings/ProductFeature';
+import ProductFeature from '@/modules/superAdmin/settings/ProductFeature';
 const ProductFeaturesPage = () => {
   return <ProductFeature />;
 };

@@ -1,5 +1,5 @@
 import Layout from '@/layout';
-import ProductList from '@/modules/settings/ProductList';
+import ProductList from '@/modules/superAdmin/settings/ProductList';
 const ProductListPage = () => {
   return <ProductList />;
 };

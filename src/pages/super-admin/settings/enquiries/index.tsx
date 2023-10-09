@@ -1,5 +1,5 @@
 import Layout from '@/layout';
-import Enquiries from '@/modules/settings/Enquiries';
+import Enquiries from '@/modules/superAdmin/settings/Enquiries';
 
 const EnquiriesPage = () => {
   return <Enquiries />;
