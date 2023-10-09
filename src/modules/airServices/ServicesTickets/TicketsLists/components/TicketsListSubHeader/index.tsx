@@ -1,28 +1,16 @@
 import Search from '@/components/Search';
-import { Box, Button, ButtonGroup, useTheme } from '@mui/material';
+import { Box, Button, ButtonGroup, Stack, useTheme } from '@mui/material';
 import { useTicketsListsSubHeader } from './useTicketsListSubHeader';
-// import { currencies } from './TicketsListSubHeader.data';
 import { useRouter } from 'next/router';
 import { TicketsAction } from '../TicketsAction';
 import { FilterIcon, ListIcon, ResetIcon, SubTabIcon } from '@/assets/icons';
 import CustomizeIcon from '@/assets/icons/shared/customize-icon';
-// import { uuid } from 'uuidv4';
-// import { v4 as uuidv4 } from 'uuid';
 
 export const TicketsListSubHeader = (props: any) => {
-  const {
-    onCustomizeClick,
-    onFilterClick,
-    // onActionClick,
-    ticketsActionDropdown,
-  } = props;
+  const { onCustomizeClick, onFilterClick, ticketsActionDropdown } = props;
   const { search, setSearch } = useTicketsListsSubHeader();
-  const theme = useTheme();
+  const theme: any = useTheme();
   const router = useRouter();
-  // const selectedView = (viewType: any) => {
-  //   if (viewType === 'board') return 'red';
-  //   return 'green';
-  // };
 
   return (
     <>
@@ -37,6 +25,7 @@ export const TicketsListSubHeader = (props: any) => {
           width="100%"
           searchBy={search}
           setSearchBy={setSearch}
+          sx={{ minWidth: '260px' }}
         />
         <Box
           display={'flex'}
@@ -45,34 +34,25 @@ export const TicketsListSubHeader = (props: any) => {
           gap={'.5rem'}
         >
           {router.query.viewType !== 'board' && (
-            // <Button
-            //   variant="outlined"
-            //   onClick={() => onActionClick?.()}
-            //   size="large"
-            //   startIcon={<DownloadIcon />}
-            // >
-            //   Action
-            // </Button>
             <TicketsAction ticketsActionDropdown={ticketsActionDropdown} />
           )}
           <Button
             variant="outlined"
             onClick={() => {}}
             size="large"
-            startIcon={
-              <Box mt={0.5} width={5.4}>
-                <ResetIcon />
-              </Box>
-            }
-            sx={{ color: theme?.palette?.custom?.main || 'inherit' }}
-          />
+            color="secondary"
+          >
+            <Stack>
+              <ResetIcon />
+            </Stack>
+          </Button>
           {router.query.viewType !== 'board' && (
             <Button
               variant="outlined"
               onClick={() => onCustomizeClick?.()}
               size="large"
               startIcon={<CustomizeIcon />}
-              sx={{ color: theme?.palette?.custom?.main || 'inherit' }}
+              color="secondary"
             >
               Customize
             </Button>
@@ -82,7 +62,7 @@ export const TicketsListSubHeader = (props: any) => {
             onClick={() => onFilterClick?.()}
             size="large"
             startIcon={<FilterIcon />}
-            sx={{ color: theme?.palette?.custom?.main || 'inherit' }}
+            color="secondary"
           >
             Filter
           </Button>
@@ -103,9 +83,10 @@ export const TicketsListSubHeader = (props: any) => {
                 style={{
                   backgroundColor:
                     router.query.viewType !== 'board'
-                      ? theme?.palette?.primary?.light
+                      ? theme?.palette?.grey['0']
                       : '',
                 }}
+                color="secondary"
               >
                 <ListIcon />
               </Button>,
@@ -114,7 +95,7 @@ export const TicketsListSubHeader = (props: any) => {
                 style={{
                   backgroundColor:
                     router.query.viewType === 'board'
-                      ? theme?.palette?.primary?.light
+                      ? theme?.palette?.grey['0']
                       : '',
                 }}
                 onClick={() => {
@@ -126,6 +107,7 @@ export const TicketsListSubHeader = (props: any) => {
                     },
                   });
                 }}
+                color="secondary"
               >
                 <SubTabIcon />
               </Button>,

@@ -2,41 +2,41 @@ import DeleteIcon from '@/assets/icons/shared/AlertModels/delete-icon';
 import InfoIcon from '@/assets/icons/shared/AlertModels/info-icon';
 import WarnIcon from '@/assets/icons/shared/AlertModels/warn-icon';
 
-const deleteString: string = 'delete';
-const infoString: string = 'info';
-const successString: string = 'success';
-const warnString: string = 'warn';
+const DELETE_STRING: string = 'delete';
+const INFO_STRING: string = 'info';
+const SUCCESS_STRING: string = 'success';
+const WARN_STRING: string = 'warn';
 
 export const checkModelType = (type: string) =>
-  type.toLowerCase() === deleteString
-    ? deleteString
-    : type.toLowerCase() === infoString
+  type.toLowerCase() === DELETE_STRING
+    ? DELETE_STRING
+    : type.toLowerCase() === INFO_STRING
     ? 'Informatation'
-    : type.toLowerCase() === successString
+    : type.toLowerCase() === SUCCESS_STRING
     ? 'Success'
-    : type.toLowerCase() === warnString
+    : type.toLowerCase() === WARN_STRING
     ? 'Warning'
     : null;
 
 export const checkModelTypeForImage = (type: string) =>
-  type.toLowerCase() === deleteString ? (
+  type.toLowerCase() === DELETE_STRING ? (
     <DeleteIcon />
-  ) : type.toLowerCase() === infoString ? (
+  ) : type.toLowerCase() === INFO_STRING ? (
     <InfoIcon />
-  ) : type.toLowerCase() === successString ? (
+  ) : type.toLowerCase() === SUCCESS_STRING ? (
     'Success'
-  ) : type.toLowerCase() === warnString ? (
+  ) : type.toLowerCase() === WARN_STRING ? (
     <WarnIcon />
   ) : null;
 
 export const checkModelTypeMessage = (type: string) => {
-  return type.toLowerCase() === deleteString
+  return type.toLowerCase() === DELETE_STRING
     ? 'Are you sure you want to delete this item ?'
-    : type.toLowerCase() === infoString
+    : type.toLowerCase() === INFO_STRING
     ? 'Information'
-    : type.toLowerCase() === successString
+    : type.toLowerCase() === SUCCESS_STRING
     ? 'Success'
-    : type.toLowerCase() === warnString
+    : type.toLowerCase() === WARN_STRING
     ? 'Are you sure you want to revert all changes?'
     : '';
 };
