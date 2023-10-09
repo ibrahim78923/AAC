@@ -26,6 +26,7 @@ export { default as ArrowLeftIcon } from './shared/arrow-left';
 export { default as CheckboxIcon } from './shared/checkbox-icon';
 export { default as CheckboxCheckedIcon } from './shared/checkbox-checked-icon';
 export { default as ExportIcon } from './shared/export-icon';
+export { default as ImportIcon } from './shared/import-icon';
 export { default as ExportShared } from './shared/export-icon';
 export { default as AlertInfoIcon } from './modules/custom-notistack/alert-info-icon';
 export { default as AlertWarninIcon } from './modules/custom-notistack/alert-warning-icon';

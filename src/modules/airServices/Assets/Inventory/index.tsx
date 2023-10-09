@@ -8,12 +8,15 @@ import { FilterSharedIcon, CustomizeSharedIcon } from '@/assets/icons';
 
 import { styles } from './Inventory.style';
 
+import AssetHead from '../AssetHead/index';
+
 function Inventory() {
   const [meetingsData, setMeetingsData] = useState([]);
   const theme: any = useTheme();
 
   return (
     <Grid container>
+      <AssetHead title={'Assets'} addTitle={'Add'} show={true} />
       <Grid item sx={styles.gridItems}>
         <Box sx={styles.headBox}>
           <Box sx={{ marginLeft: '24px' }}>
