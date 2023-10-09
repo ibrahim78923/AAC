@@ -3,8 +3,8 @@ import SkeletonTableExample from '@/components/Skeletons/SkeletonTable/SkeletonT
 import TanstackTable from '@/components/Tabel/TanstackTable';
 import HorizontalTabsExample from '@/components/Tabs/HorizontalTabs/HorizontalTabs.example';
 import Layout from '@/layout';
-import { AssociatesListsTableView } from '@/modules/ServicesTickets/SingleTicketDetail/Associations/AssociatesLists';
-import { TicketsLists } from '@/modules/ServicesTickets/TicketsLists';
+// import { AssociatesListsTableView } from '@/modules/ServicesTickets/SingleTicketDetail/Associations/AssociatesLists';
+// import { TicketsLists } from '@/modules/ServicesTickets/TicketsLists';
 import { Button, Checkbox } from '@mui/material';
 import { useSnackbar } from 'notistack';
 export const TestComponentsNoumanPage = () => {
@@ -81,8 +81,8 @@ export const TestComponentsNoumanPage = () => {
       <br />
       <>Table</>
       <TanstackTable columns={columns} data={data} />
-      <TicketsLists />
-      <AssociatesListsTableView />
+      {/* <TicketsLists />
+      <AssociatesListsTableView /> */}
     </>
   );
 };
