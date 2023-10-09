@@ -6,17 +6,13 @@ import ViewDetailBackArrowIcon from '@/assets/icons/modules/view-detail-Icon/vie
 import ViewDetailCallIcon from '@/assets/icons/modules/view-detail-Icon/view-details-call-icon';
 import ViewDetailKababMenuIcon from '@/assets/icons/modules/view-detail-Icon/view-details-kababmenu-icon';
 import ViewDetailMeetingIcon from '@/assets/icons/modules/view-detail-Icon/view-details-meeting-icon';
-
-import {
-  iconBoxStyling,
-  iconBoxTimerStyling,
-  iconKabaMenuStyle,
-} from './TopOfPage.style';
 import DetailTimePicker from './TimePicker';
+import { headerStyle } from './Header.styles';
 import { ViewDetailVuesaxIcon } from '@/assets/icons';
 
-export default function ToofPage() {
+export default function Header() {
   const theme: any = useTheme();
+
   return (
     <>
       <Grid
@@ -45,22 +41,22 @@ export default function ToofPage() {
           </Typography>
         </Grid>
         <Grid item sx={{ display: 'flex' }}>
-          <Box sx={iconBoxStyling}>
+          <Box sx={headerStyle?.iconBoxStyling}>
             <ViewDetailVuesaxIcon />
           </Box>
-          <Box sx={iconBoxTimerStyling}>
+          <Box sx={headerStyle?.iconBoxTimerStyling}>
             <DetailTimePicker />
           </Box>
-          <Box sx={iconBoxStyling}>
+          <Box sx={headerStyle?.iconBoxStyling}>
             <ViewDetailMeetingIcon />
           </Box>
-          <Box sx={iconBoxStyling}>
+          <Box sx={headerStyle?.iconBoxStyling}>
             <ViewDetailCallIcon />
           </Box>
-          <Box sx={iconBoxStyling}>
+          <Box sx={headerStyle?.iconBoxStyling}>
             <Image src={SmsImage} width={24} height={24} alt="Badge" />
           </Box>
-          <Box sx={iconKabaMenuStyle}>
+          <Box sx={headerStyle?.iconKabaMenuStyle}>
             <ViewDetailKababMenuIcon />
           </Box>
         </Grid>

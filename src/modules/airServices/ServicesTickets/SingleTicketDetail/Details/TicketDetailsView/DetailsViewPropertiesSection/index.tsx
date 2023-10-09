@@ -1,10 +1,10 @@
 import { FormProvider } from '@/components/ReactHookForm';
 import { Grid, Typography } from '@mui/material';
 import { uuid } from 'uuidv4';
-import { dataArray } from './DetailsViewPropeSect.data';
 import useDeatilViewPropertiesSection from './useDetailViewPropertiesSection';
+import { dataArray } from './DetailsViewPropertiesSection.data';
 
-function DetailsVeiwPropSect() {
+function DetailsViewPropertiesSection() {
   const { methods, handleSubmit, onSubmit } = useDeatilViewPropertiesSection();
   return (
     <>
@@ -42,4 +42,4 @@ function DetailsVeiwPropSect() {
   );
 }
 
-export default DetailsVeiwPropSect;
+export default DetailsViewPropertiesSection;
