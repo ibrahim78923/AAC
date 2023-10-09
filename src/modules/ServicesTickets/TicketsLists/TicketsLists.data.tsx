@@ -11,18 +11,57 @@ export const TABLE_CONSTANTS = {
 };
 const options = [
   {
-    value: 'test1',
-    label: 'Test1',
+    value: 'user1',
+    label: 'user1',
   },
   {
-    value: 'test2',
-    label: 'Test2',
+    value: 'user2',
+    label: 'user2',
   },
   {
-    value: 'test3',
-    label: 'Test3',
+    value: 'user3',
+    label: 'user3',
   },
 ];
+
+const StatusOptions = [
+  {
+    value: 'open',
+    label: 'Open',
+  },
+  {
+    value: 'pending',
+    label: 'Pending',
+  },
+  {
+    value: 'resolved',
+    label: 'Resolved',
+  },
+  {
+    value: 'closed',
+    label: 'Closed',
+  },
+];
+
+const priorityOptions = [
+  {
+    value: 'high',
+    label: 'High',
+  },
+  {
+    value: 'low',
+    label: 'Low',
+  },
+  {
+    value: 'medium',
+    label: 'Medium',
+  },
+  {
+    value: 'urgent',
+    label: 'Urgent',
+  },
+];
+
 export const ticketsActionDropdownFunction = () =>
   // openDrawer: any,
   // setDeleteModalOpen: any,
@@ -87,30 +126,30 @@ export const ticketsListsData: any = [
     ticketId: ` #717`,
     ticketName: 'Drafts',
     requester: 'Sharemydine',
-    assignedTo: 'test1',
-    status: 'test2',
+    assignedTo: 'user1',
+    status: 'open',
     state: 'Tech Support',
-    priority: 'test1',
+    priority: 'high',
   },
   {
     id: 2,
     ticketId: ` #787`,
     ticketName: 'rafts',
     requester: 'Sharemydine',
-    assignedTo: 'test2',
+    assignedTo: 'user2',
     state: 'Tech Support',
-    status: 'test3',
-    priority: 'test1',
+    status: 'pending',
+    priority: 'low',
   },
   {
     id: 3,
     ticketId: ` #917`,
     ticketName: 'fts',
     requester: 'Sharemydine',
-    assignedTo: 'test3',
+    assignedTo: 'user3',
     state: 'Tech Support',
-    status: 'test1',
-    priority: 'test3',
+    status: 'closed',
+    priority: 'medium',
   },
 ];
 export const ticketsListsColumnFunction: any = (
@@ -233,11 +272,13 @@ export const ticketsListsColumnFunction: any = (
           onChange={(e) => handleChange(info?.row?._valuesCache, e?.target)}
           inputProps={{ 'aria-label': 'Without label' }}
         >
-          {options?.map(({ value, label }: { value: any; label: string }) => (
-            <MenuItem key={uuid()} value={value}>
-              {label}
-            </MenuItem>
-          ))}
+          {StatusOptions?.map(
+            ({ value, label }: { value: any; label: string }) => (
+              <MenuItem key={uuid()} value={value}>
+                {label}
+              </MenuItem>
+            ),
+          )}
         </Select>
       ),
     },
@@ -263,11 +304,13 @@ export const ticketsListsColumnFunction: any = (
           onChange={(e) => handleChange(info?.row?._valuesCache, e?.target)}
           inputProps={{ 'aria-label': 'Without label' }}
         >
-          {options?.map(({ value, label }: { value: any; label: string }) => (
-            <MenuItem key={uuid()} value={value}>
-              {label}
-            </MenuItem>
-          ))}
+          {priorityOptions?.map(
+            ({ value, label }: { value: any; label: string }) => (
+              <MenuItem key={uuid()} value={value}>
+                {label}
+              </MenuItem>
+            ),
+          )}
         </Select>
       ),
     },
