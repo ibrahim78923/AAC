@@ -117,14 +117,17 @@ const RequestRecievedApproval = () => {
         <Box>
           <TextareaAutosize
             placeholder="Add Your Remarks here"
+            minRows={15}
+            cols={55}
             style={styles.textareaStyle}
           />
         </Box>
         <Box sx={styles.boxBorderStyle}></Box>
         <Box sx={styles.buttonBox}>
-          <Button onClick={handleApprovalModelClose} variant="outlined">
-            Cancel
-          </Button>
+          <Button
+            onClick={handleApprovalModelClose}
+            style={{ ...styles.cancelButton }}
+          ></Button>
           <Button variant="contained">Approve</Button>
         </Box>
       </ConversationModel>
@@ -137,14 +140,17 @@ const RequestRecievedApproval = () => {
         <Box>
           <TextareaAutosize
             placeholder="Add Your Remarks here"
+            minRows={15}
+            cols={55}
             style={styles.textareaStyle}
           />
         </Box>
         <Box sx={styles.boxBorderStyle}></Box>
         <Box sx={styles.buttonBox}>
-          <Button onClick={handleRecjectModelClose} variant="outlined">
-            Cancel
-          </Button>
+          <Button
+            onClick={handleApprovalModelClose}
+            style={{ ...styles.cancelButton }}
+          ></Button>
           <Button variant="contained" color="error">
             Reject
           </Button>
