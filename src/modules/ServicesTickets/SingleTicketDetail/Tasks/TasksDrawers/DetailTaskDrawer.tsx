@@ -9,32 +9,36 @@ import {
 } from '@mui/material';
 import { uuid } from 'uuidv4';
 import { useForm } from 'react-hook-form';
+import { ActionButtonIcon } from '@/assets/icons';
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
-import { drawerDetail, tasksTableData } from '../Tasks.mock';
+import { drawerDetail, tasksTableData } from '../Tasks.data';
 import { DetailTaskDrawerI } from '../Tasks.interface';
-import { taskStyles } from '../TicketTasks.styles';
-import { useState } from 'react';
+import {
+  taskStyles,
+  taskDetailStyle,
+  valStyle,
+  statusOptionStyle,
+} from '../TicketTasks.styles';
+import { useTasks } from '../useTasks';
 
 export const DetailTaskDrawer: React.FC<DetailTaskDrawerI> = ({
   isDrawerOpen,
   onClose,
   taskDetail,
 }) => {
-  const [val, setVal] = useState(null);
-  const [actionPop, setActionPop] = useState<HTMLButtonElement | null>(null);
-  const handleActionClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setActionPop(event.currentTarget);
-  };
-  const handleActionClose = () => {
-    setActionPop(null);
-  };
-  const openAction = Boolean(actionPop);
-  const handleMenuItemClick = (selectedStatus: any) => {
-    setVal(selectedStatus);
-    setActionPop(null);
-  };
+  const {
+    drawerStatusVal,
+    drawerStatusPop,
+    openDrawerStatus,
+    handleStatusClick,
+    handleStatusClose,
+    handleStatusItemClick,
+  } = useTasks();
   const handleSubmit = useForm();
+  const taskDetailStatus = taskDetail?.status;
+  const taskDetailBtn = taskDetailStyle(taskDetailStatus);
+  const taskDetailItem = valStyle(drawerStatusVal);
   return (
     <>
       <CommonDrawer
@@ -50,81 +54,36 @@ export const DetailTaskDrawer: React.FC<DetailTaskDrawerI> = ({
       >
         <Typography>{taskDetail?.taskName}</Typography>
         <Button
-          sx={{
-            position: 'absolute',
-            top: 7,
-            right: '4rem',
-            border: `1px solid ${
-              val === 'To do'
-                ? '#38CAB5'
-                : val === 'In-Progress'
-                ? '#0AADC7'
-                : '#FF4A4A'
-            }`,
-            bgcolor:
-              val === 'To do'
-                ? '#EBFAF8'
-                : val === 'In-Progress'
-                ? '#E6F7F9'
-                : '#FFEDED',
-            color:
-              val === 'To do'
-                ? '#38CAB5'
-                : val === 'In-Progress'
-                ? '#0AADC7'
-                : '#FF4A4A',
-            padding: '8px 18px',
-            width: '18%',
-          }}
-          onClick={handleActionClick}
+          sx={drawerStatusVal ? taskDetailItem[0] : taskDetailBtn[0]}
+          endIcon={<ActionButtonIcon />}
+          onClick={handleStatusClick}
         >
-          {!val ? taskDetail?.status : val}
+          {!drawerStatusVal ? taskDetail?.status : drawerStatusVal}
         </Button>
         <Popover
-          open={openAction}
-          anchorEl={actionPop}
-          onClose={handleActionClose}
+          open={openDrawerStatus}
+          anchorEl={drawerStatusPop}
+          onClose={handleStatusClose}
           sx={{ mt: '8px' }}
           anchorOrigin={{
             vertical: 'bottom',
             horizontal: 'left',
           }}
         >
-          {tasksTableData?.map((i: any) => (
-            <MenuItem
-              key={uuid()}
-              onClick={() => handleMenuItemClick(i.status)}
-              sx={{
-                border: `1px solid ${
-                  i?.status === 'To do'
-                    ? '#38CAB5'
-                    : i?.status === 'In-Progress'
-                    ? '#0AADC7'
-                    : '#FF4A4A'
-                }`,
-                bgcolor:
-                  i?.status === 'To do'
-                    ? '#EBFAF8'
-                    : i?.status === 'In-Progress'
-                    ? '#E6F7F9'
-                    : '#FFEDED',
-                color:
-                  i?.status === 'To do'
-                    ? '#38CAB5'
-                    : i?.status === 'In-Progress'
-                    ? '#0AADC7'
-                    : '#FF4A4A',
-                width: 'fit-content',
-                borderRadius: '4px',
-                m: '10px',
-                p: '2px 14px',
-              }}
-            >
-              {i?.status}
-            </MenuItem>
-          ))}
+          {tasksTableData?.map((i: any) => {
+            const statusOption = i?.status;
+            const optionStyle = statusOptionStyle(statusOption);
+            return (
+              <MenuItem
+                key={uuid()}
+                onClick={() => handleStatusItemClick(i.status)}
+                sx={optionStyle[0]}
+              >
+                {i?.status}
+              </MenuItem>
+            );
+          })}
         </Popover>
-        <Popover open={false}></Popover>
         <Grid container spacing={1.5} sx={{ mt: 2, flexDirection: 'column' }}>
           {drawerDetail(taskDetail)?.map((item: any) => (
             <Grid
@@ -171,7 +130,7 @@ export const DetailTaskDrawer: React.FC<DetailTaskDrawerI> = ({
               <TextField
                 name="description"
                 multiline={true}
-                minRows={5}
+                rows={5}
                 fullWidth={true}
                 placeholder="Type here"
               />

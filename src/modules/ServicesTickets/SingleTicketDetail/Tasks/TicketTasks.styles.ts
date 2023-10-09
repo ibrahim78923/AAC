@@ -40,3 +40,91 @@ export const taskStyles: any = {
   },
   detailDrawerGridCenter: { display: 'flex', alignItems: 'center' },
 };
+
+export const taskDetailStyle = (taskDetailStatus: any) => [
+  {
+    position: 'absolute',
+    top: 16,
+    right: '4.5rem',
+    border: `1px solid ${
+      taskDetailStatus === 'To do'
+        ? '#38CAB5'
+        : taskDetailStatus === 'In-Progress'
+        ? '#0AADC7'
+        : '#FF4A4A'
+    }`,
+    bgcolor:
+      taskDetailStatus === 'To do'
+        ? '#EBFAF8'
+        : taskDetailStatus === 'In-Progress'
+        ? '#E6F7F9'
+        : '#FFEDED',
+    color:
+      taskDetailStatus === 'To do'
+        ? '#38CAB5'
+        : taskDetailStatus === 'In-Progress'
+        ? '#0AADC7'
+        : '#FF4A4A',
+    padding: '0px 12px',
+    height: 'fit-content',
+    fontSize: '14px !important',
+    fontWeight: 500,
+  },
+];
+export const valStyle = (drawerStatusVal: any) => [
+  {
+    position: 'absolute',
+    top: 16,
+    right: '4.5rem',
+    border: `1px solid ${
+      drawerStatusVal === 'To do'
+        ? '#38CAB5'
+        : drawerStatusVal === 'In-Progress'
+        ? '#0AADC7'
+        : '#FF4A4A'
+    }`,
+    bgcolor:
+      drawerStatusVal === 'To do'
+        ? '#EBFAF8'
+        : drawerStatusVal === 'In-Progress'
+        ? '#E6F7F9'
+        : '#FFEDED',
+    color:
+      drawerStatusVal === 'To do'
+        ? '#38CAB5'
+        : drawerStatusVal === 'In-Progress'
+        ? '#0AADC7'
+        : '#FF4A4A',
+    padding: '0px 12px',
+    height: 'fit-content',
+    fontSize: '14px !important',
+    fontWeight: 500,
+  },
+];
+export const statusOptionStyle = (statusOption: any) => [
+  {
+    border: `1px solid ${
+      statusOption === 'To do'
+        ? '#38CAB5'
+        : statusOption === 'In-Progress'
+        ? '#0AADC7'
+        : '#FF4A4A'
+    }`,
+    bgcolor:
+      statusOption === 'To do'
+        ? '#EBFAF8'
+        : statusOption === 'In-Progress'
+        ? '#E6F7F9'
+        : '#FFEDED',
+    color:
+      statusOption === 'To do'
+        ? '#38CAB5'
+        : statusOption === 'In-Progress'
+        ? '#0AADC7'
+        : '#FF4A4A',
+    width: 'fit-content',
+    borderRadius: '4px',
+    m: '10px',
+    p: '2px 14px',
+  },
+];
