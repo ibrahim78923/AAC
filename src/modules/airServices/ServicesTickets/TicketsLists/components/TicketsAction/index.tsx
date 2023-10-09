@@ -29,7 +29,7 @@ export const TicketsAction = (props: any) => {
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
         endIcon={<ArrowDropDownIcon />}
-        sx={{ color: theme?.palette?.custom?.main || 'inherit' }}
+        color="secondary"
       >
         Action
       </Button>

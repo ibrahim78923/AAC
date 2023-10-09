@@ -17,14 +17,18 @@ export const associatesListsData: any = [
     impact: 'Medium',
   },
 ];
+export const ASSETS_IMPACTS = {
+  LOW: 'Low',
+  MEDIUM: 'Medium',
+};
 const styleFunction: any = {
-  Low: {
-    color: 'green',
-    bgColor: 'green',
+  [ASSETS_IMPACTS.LOW]: {
+    color: 'error.main',
+    bgColor: 'error.light',
   },
-  Medium: {
-    color: 'green',
-    bgColor: 'green',
+  [ASSETS_IMPACTS.MEDIUM]: {
+    color: 'primary.main',
+    bgColor: 'warning.light',
   },
 };
 export const associatesListsColumnFunction: any = (
@@ -123,13 +127,14 @@ export const associatesListsColumnFunction: any = (
           <Chip
             icon={
               <FiberManualRecordIcon
+                color={styleFunction?.[info.getValue()]?.color}
                 sx={{ color: styleFunction?.[info.getValue()]?.color }}
               />
             }
             size="small"
             label={info.getValue()}
             sx={{
-              bgColor: styleFunction?.[info.getValue()]?.bgColor,
+              backgroundColor: styleFunction?.[info.getValue()]?.bgColor,
               color: theme.palette.common.white,
             }}
           />
@@ -141,10 +146,12 @@ export const associatesListsColumnFunction: any = (
       id: 'actions',
       cell: () => {
         return (
-          <DeleteIcon
-            // onClick={() => console.error(info.getValue())}
-            sx={{ cursor: 'pointer' }}
-          />
+          <div style={{ textAlign: 'center' }}>
+            <DeleteIcon
+              // onClick={() => console.error(info.getValue())}
+              sx={{ cursor: 'pointer' }}
+            />
+          </div>
         );
       },
     },

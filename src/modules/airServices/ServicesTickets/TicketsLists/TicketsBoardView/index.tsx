@@ -12,7 +12,7 @@ export const TableBoardView = () => {
 
   return (
     <Grid container spacing={2} overflow={'auto'} flexWrap={'nowrap'}>
-      {HeadStatus.map((heading) => (
+      {HeadStatus?.map((heading) => (
         <Grid item xs={3} sx={{ minWidth: '400px' }} key={heading}>
           <TicketInfoBoardHeader title={heading} total={2} />
           <Box
@@ -21,9 +21,9 @@ export const TableBoardView = () => {
             bgcolor={theme.palette.grey[400]}
             p={2}
           >
-            {ticketViewBoardArray.map(
+            {ticketViewBoardArray?.map(
               (item) =>
-                heading === item.status && (
+                heading === item?.status && (
                   <Fragment key={uuidv4()}>
                     <TicketInfoCard details={item} />
                   </Fragment>

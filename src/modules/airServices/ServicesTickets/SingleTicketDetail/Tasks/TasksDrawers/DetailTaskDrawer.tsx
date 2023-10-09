@@ -1,19 +1,44 @@
 import Image from 'next/image';
-import { Grid, Typography, TextField } from '@mui/material';
+import {
+  Grid,
+  Typography,
+  TextField,
+  Popover,
+  MenuItem,
+  Button,
+} from '@mui/material';
 import { uuid } from 'uuidv4';
 import { useForm } from 'react-hook-form';
+import { ActionButtonIcon } from '@/assets/icons';
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
-import { drawerDetail } from '../Tasks.mock';
+import { drawerDetail, tasksTableData } from '../Tasks.data';
 import { DetailTaskDrawerI } from '../Tasks.interface';
-import { taskStyles } from '../TicketTasks.styles';
+import {
+  taskStyles,
+  taskDetailStyle,
+  valStyle,
+  statusOptionStyle,
+} from '../TicketTasks.styles';
+import { useTasks } from '../useTasks';
 
 export const DetailTaskDrawer: React.FC<DetailTaskDrawerI> = ({
   isDrawerOpen,
   onClose,
   taskDetail,
 }) => {
+  const {
+    drawerStatusVal,
+    drawerStatusPop,
+    openDrawerStatus,
+    handleStatusClick,
+    handleStatusClose,
+    handleStatusItemClick,
+  } = useTasks();
   const handleSubmit = useForm();
+  const taskDetailStatus = taskDetail?.status;
+  const taskDetailBtn = taskDetailStyle(taskDetailStatus);
+  const taskDetailItem = valStyle(drawerStatusVal);
   return (
     <>
       <CommonDrawer
@@ -28,6 +53,37 @@ export const DetailTaskDrawer: React.FC<DetailTaskDrawerI> = ({
         okText="Update"
       >
         <Typography>{taskDetail?.taskName}</Typography>
+        <Button
+          sx={drawerStatusVal ? taskDetailItem[0] : taskDetailBtn[0]}
+          endIcon={<ActionButtonIcon />}
+          onClick={handleStatusClick}
+        >
+          {!drawerStatusVal ? taskDetail?.status : drawerStatusVal}
+        </Button>
+        <Popover
+          open={openDrawerStatus}
+          anchorEl={drawerStatusPop}
+          onClose={handleStatusClose}
+          sx={{ mt: '8px' }}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left',
+          }}
+        >
+          {tasksTableData?.map((i: any) => {
+            const statusOption = i?.status;
+            const optionStyle = statusOptionStyle(statusOption);
+            return (
+              <MenuItem
+                key={uuid()}
+                onClick={() => handleStatusItemClick(i.status)}
+                sx={optionStyle[0]}
+              >
+                {i?.status}
+              </MenuItem>
+            );
+          })}
+        </Popover>
         <Grid container spacing={1.5} sx={{ mt: 2, flexDirection: 'column' }}>
           {drawerDetail(taskDetail)?.map((item: any) => (
             <Grid
@@ -74,7 +130,7 @@ export const DetailTaskDrawer: React.FC<DetailTaskDrawerI> = ({
               <TextField
                 name="description"
                 multiline={true}
-                minRows={5}
+                rows={5}
                 fullWidth={true}
                 placeholder="Type here"
               />

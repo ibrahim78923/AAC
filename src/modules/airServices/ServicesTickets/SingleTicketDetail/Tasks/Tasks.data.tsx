@@ -99,6 +99,12 @@ export const tasksTableColumns: any = (
               : info.getValue() === 'In-Progress'
               ? '#E6F7F9'
               : '#FFEDED',
+          color:
+            info.getValue() === 'To do'
+              ? '#38CAB5'
+              : info.getValue() === 'In-Progress'
+              ? '#0AADC7'
+              : '#FF4A4A',
           padding: '8px 18px',
           borderRadius: '4px',
         }}

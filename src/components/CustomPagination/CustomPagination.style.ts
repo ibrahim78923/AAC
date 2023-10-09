@@ -46,6 +46,7 @@ export const tablePaginationStyle = {
     alignItems: 'center',
     justifyContent: 'center',
     fontWeight: '500',
+    position: 'relative',
   },
   '.MuiTablePagination-select:focus': {
     border: '1px solid #D1D5DB',
@@ -64,7 +65,10 @@ export const tablePaginationStyle = {
     display: 'none',
   },
   '& .MuiTablePagination-selectIcon': {
-    margin: '2px 5px 0 0',
+    position: 'absolute',
+    top: '30%',
+    transorm: 'transitionY(-20%)',
+    right: '5px',
   },
   '.MuiToolbar-root': {
     padding: 0,

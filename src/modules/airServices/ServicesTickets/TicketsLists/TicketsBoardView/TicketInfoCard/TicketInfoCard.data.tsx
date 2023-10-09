@@ -1,12 +1,15 @@
-export const appearanceStyle = (appearance: string) => {
+export const ticketInfoCardAppearanceColor = (appearance: string) => {
+  const New = 'new';
+  const Overdue = 'Overdue';
+
   let color;
 
   switch (appearance) {
-    case 'New':
+    case New:
       color = 'success';
       break;
 
-    case 'Overdue':
+    case Overdue:
       color = 'info';
       break;
 
@@ -17,15 +20,18 @@ export const appearanceStyle = (appearance: string) => {
   return color;
 };
 
-export const priorityStyle = (priority: string) => {
+export const ticketInfoCardPriorityColor = (priority: string) => {
+  const Low = 'Low';
+  const Medium = 'Medium';
+
   let color;
 
   switch (priority) {
-    case 'Low':
+    case Low:
       color = 'success';
       break;
 
-    case 'Medium':
+    case Medium:
       color = 'warning';
       break;
 

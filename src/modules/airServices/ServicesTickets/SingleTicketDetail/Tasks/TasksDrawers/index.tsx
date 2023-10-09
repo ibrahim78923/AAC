@@ -8,13 +8,13 @@ export const TaskDrawer = ({
   onClose,
   taskDetail,
 }: any) => {
-  const typeAdd = 'add';
-  const typeEdit = 'edit';
+  const TYPE_ADD = 'add';
+  const TYPE_EDIT = 'edit';
   return (
     <>
-      {type === typeAdd ? (
+      {type === TYPE_ADD ? (
         <AddTaskDrawer isDrawerOpen={isDrawerOpen} onClose={onClose} />
-      ) : type === typeEdit ? (
+      ) : type === TYPE_EDIT ? (
         <EditTaskDrawer isDrawerOpen={isDrawerOpen} onClose={onClose} />
       ) : (
         <DetailTaskDrawer

@@ -34,6 +34,8 @@ export const AllApprovals = () => {
     handleRecjectModelClose,
     handleRecjectModelOpen,
     openRejectModal,
+    REQUESTED_CONDITION,
+    RECIEVED_CONDITION,
   } = useRequestApprovalPage();
 
   const Icons: any = {
@@ -103,7 +105,7 @@ export const AllApprovals = () => {
                   </Typography>
                 </Grid>
                 <Grid item sx={{ mt: { md: '0', sm: '5px' } }}>
-                  {item?.showButton === 'Recieved' ? (
+                  {item?.showButton === RECIEVED_CONDITION ? (
                     <>
                       <IconButton
                         aria-label="more"
@@ -138,7 +140,7 @@ export const AllApprovals = () => {
                         </MenuItem>
                       </Menu>
                     </>
-                  ) : item?.showButton === 'Requested' ? (
+                  ) : item?.showButton === REQUESTED_CONDITION ? (
                     <Box sx={styles.requestApprovalBoxFirst}>
                       <Button
                         onClick={handleApprovalModelOpen}
@@ -189,12 +191,17 @@ export const AllApprovals = () => {
         <Box>
           <TextareaAutosize
             placeholder="Add Your Remarks here"
+            minRows={15}
+            cols={55}
             style={styles.textareaStyle}
           />
         </Box>
         <Box sx={styles.boxBorderStyle}></Box>
         <Box sx={styles.buttonBox}>
-          <Button onClick={handleApprovalModelClose} variant="outlined">
+          <Button
+            onClick={handleApprovalModelClose}
+            style={{ ...styles.cancelButton }}
+          >
             Cancel
           </Button>
           <Button variant="contained">Approve</Button>
@@ -209,12 +216,17 @@ export const AllApprovals = () => {
         <Box>
           <TextareaAutosize
             placeholder="Add Your Remarks here"
+            minRows={15}
+            cols={55}
             style={styles.textareaStyle}
           />
         </Box>
         <Box sx={styles.boxBorderStyle}></Box>
         <Box sx={styles.buttonBox}>
-          <Button onClick={handleRecjectModelClose} variant="outlined">
+          <Button
+            onClick={handleRecjectModelClose}
+            style={{ ...styles.cancelButton }}
+          >
             Cancel
           </Button>
           <Button variant="contained" color="error">
