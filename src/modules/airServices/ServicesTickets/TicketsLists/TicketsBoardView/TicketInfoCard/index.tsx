@@ -6,8 +6,11 @@ import { AvatarImage } from '@/assets/images';
 import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
 import TicketInfoEdit from '../TicketInfoEdit';
 import { AlertModals } from '@/components/AlertModals';
-import { appearanceStyle, priorityStyle } from './TicketInfoCard.data';
 import { useState } from 'react';
+import {
+  ticketInfoCardAppearanceColor,
+  ticketInfoCardPriorityColor,
+} from './TicketInfoCard.data';
 
 export const TicketInfoCard = ({ details }: any) => {
   const theme: any = useTheme();
@@ -48,7 +51,9 @@ export const TicketInfoCard = ({ details }: any) => {
               sx={{
                 bgcolor: `${
                   theme['palette'][
-                    `${appearanceStyle(details?.ticketAppearance)}`
+                    `${ticketInfoCardAppearanceColor(
+                      details?.ticketAppearance,
+                    )}`
                   ]['main']
                 }`,
                 color: theme.palette.common.white,
@@ -126,9 +131,9 @@ export const TicketInfoCard = ({ details }: any) => {
                 fontSize={'medium'}
                 sx={{
                   fill: `${
-                    theme['palette'][`${priorityStyle(details?.priority)}`][
-                      'main'
-                    ]
+                    theme['palette'][
+                      `${ticketInfoCardPriorityColor(details?.priority)}`
+                    ]['main']
                   }`,
                 }}
               />
