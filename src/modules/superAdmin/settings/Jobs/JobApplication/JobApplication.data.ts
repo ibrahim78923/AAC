@@ -1,7 +1,11 @@
-import { RHFDatePicker, RHFSelect } from '@/components/ReactHookForm';
+import {
+  RHFDatePicker,
+  RHFMultiSearchableSelect,
+  RHFSelect,
+} from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 export const jobApplicationValidationSchema = Yup.object().shape({
-  candidates: Yup.string().trim().required('Field is Required'),
+  candidates: Yup.array().required('Field is Required'),
   applyDate: Yup.string().trim().required('Field is Required'),
   status: Yup.string().trim().required('Field is Required'),
 });
@@ -25,7 +29,7 @@ export const jobApplicationFiltersDataArray = [
       { value: 'RichardRobertson', label: 'Richard robertson' },
       { value: 'Franksten', label: 'Franksten' },
     ],
-    component: RHFSearchableSelect,
+    component: RHFMultiSearchableSelect,
     md: 12,
   },
   {

@@ -12,3 +12,4 @@ export { default as RHFTimePicker } from './RHFTimePicker';
 export { default as RHFUploadFile } from './RHFUploadFile';
 export { default as RHFEditor } from './RHFEditor';
 export { default as RHFSearchableSelect } from './RHFSearchableSelect';
+export { default as RHFMultiSearchableSelect } from './RHFMultiSearchableSelect';
