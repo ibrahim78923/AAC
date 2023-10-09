@@ -127,7 +127,9 @@ const RequestRecievedApproval = () => {
           <Button
             onClick={handleApprovalModelClose}
             style={{ ...styles.cancelButton }}
-          ></Button>
+          >
+            Cancel
+          </Button>
           <Button variant="contained">Approve</Button>
         </Box>
       </ConversationModel>
@@ -148,9 +150,11 @@ const RequestRecievedApproval = () => {
         <Box sx={styles.boxBorderStyle}></Box>
         <Box sx={styles.buttonBox}>
           <Button
-            onClick={handleApprovalModelClose}
+            onClick={handleRecjectModelClose}
             style={{ ...styles.cancelButton }}
-          ></Button>
+          >
+            Cancel
+          </Button>
           <Button variant="contained" color="error">
             Reject
           </Button>

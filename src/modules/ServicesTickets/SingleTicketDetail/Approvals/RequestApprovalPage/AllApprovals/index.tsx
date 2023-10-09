@@ -199,7 +199,9 @@ export const AllApprovals = () => {
           <Button
             onClick={handleApprovalModelClose}
             style={{ ...styles.cancelButton }}
-          ></Button>
+          >
+            Cancel
+          </Button>
           <Button variant="contained">Approve</Button>
         </Box>
       </ConversationModel>
@@ -220,7 +222,7 @@ export const AllApprovals = () => {
         <Box sx={styles.boxBorderStyle}></Box>
         <Box sx={styles.buttonBox}>
           <Button
-            onClick={handleApprovalModelClose}
+            onClick={handleRecjectModelClose}
             style={{ ...styles.cancelButton }}
           >
             Cancel
