@@ -1,19 +1,9 @@
 import Organization from '@/modules/Organization';
 import React from 'react';
 
-// const OrganizationPage = () => {
-//   return <Organization/>
-// }
-
-// export default OrganizationPage
-
 import SuperAdminLayout from '../../layout';
 const OrganizationPage = () => {
-  return (
-    <div>
-      <Organization />
-    </div>
-  );
+  return <Organization />;
 };
 export default OrganizationPage;
 OrganizationPage.getLayout = function getLayout(page: any) {
