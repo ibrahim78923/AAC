@@ -1,3 +1,6 @@
+const TO_DO = 'To do';
+const IN_PROGRESS = 'In-Progress';
+
 export const taskStyles: any = {
   headContainer: {
     display: 'flex',
@@ -47,22 +50,22 @@ export const taskDetailStyle = (taskDetailStatus: any) => [
     top: 16,
     right: '4.5rem',
     border: `1px solid ${
-      taskDetailStatus === 'To do'
+      taskDetailStatus === TO_DO
         ? '#38CAB5'
-        : taskDetailStatus === 'In-Progress'
+        : taskDetailStatus === IN_PROGRESS
         ? '#0AADC7'
         : '#FF4A4A'
     }`,
     bgcolor:
-      taskDetailStatus === 'To do'
+      taskDetailStatus === TO_DO
         ? '#EBFAF8'
-        : taskDetailStatus === 'In-Progress'
+        : taskDetailStatus === IN_PROGRESS
         ? '#E6F7F9'
         : '#FFEDED',
     color:
-      taskDetailStatus === 'To do'
+      taskDetailStatus === TO_DO
         ? '#38CAB5'
-        : taskDetailStatus === 'In-Progress'
+        : taskDetailStatus === IN_PROGRESS
         ? '#0AADC7'
         : '#FF4A4A',
     padding: '0px 12px',
@@ -77,22 +80,22 @@ export const valStyle = (drawerStatusVal: any) => [
     top: 16,
     right: '4.5rem',
     border: `1px solid ${
-      drawerStatusVal === 'To do'
+      drawerStatusVal === TO_DO
         ? '#38CAB5'
-        : drawerStatusVal === 'In-Progress'
+        : drawerStatusVal === IN_PROGRESS
         ? '#0AADC7'
         : '#FF4A4A'
     }`,
     bgcolor:
-      drawerStatusVal === 'To do'
+      drawerStatusVal === TO_DO
         ? '#EBFAF8'
-        : drawerStatusVal === 'In-Progress'
+        : drawerStatusVal === IN_PROGRESS
         ? '#E6F7F9'
         : '#FFEDED',
     color:
-      drawerStatusVal === 'To do'
+      drawerStatusVal === TO_DO
         ? '#38CAB5'
-        : drawerStatusVal === 'In-Progress'
+        : drawerStatusVal === IN_PROGRESS
         ? '#0AADC7'
         : '#FF4A4A',
     padding: '0px 12px',
@@ -104,22 +107,22 @@ export const valStyle = (drawerStatusVal: any) => [
 export const statusOptionStyle = (statusOption: any) => [
   {
     border: `1px solid ${
-      statusOption === 'To do'
+      statusOption === TO_DO
         ? '#38CAB5'
-        : statusOption === 'In-Progress'
+        : statusOption === IN_PROGRESS
         ? '#0AADC7'
         : '#FF4A4A'
     }`,
     bgcolor:
-      statusOption === 'To do'
+      statusOption === TO_DO
         ? '#EBFAF8'
-        : statusOption === 'In-Progress'
+        : statusOption === IN_PROGRESS
         ? '#E6F7F9'
         : '#FFEDED',
     color:
-      statusOption === 'To do'
+      statusOption === TO_DO
         ? '#38CAB5'
-        : statusOption === 'In-Progress'
+        : statusOption === IN_PROGRESS
         ? '#0AADC7'
         : '#FF4A4A',
     width: 'fit-content',
