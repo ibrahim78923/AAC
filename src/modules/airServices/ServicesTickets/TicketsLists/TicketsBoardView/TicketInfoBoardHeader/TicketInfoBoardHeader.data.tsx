@@ -1,16 +1,20 @@
-export const TicketInfoBoardHeaderStyle = (title: string) => {
+export const ticketInfoBoardHeaderColor = (title: string) => {
+  const Resolved = 'Resolved';
+  const Pending = 'Pending';
+  const Closed = 'Closed';
+
   let color;
 
   switch (title) {
-    case 'Resolved':
+    case Resolved:
       color = 'warning';
       break;
 
-    case 'Pending':
+    case Pending:
       color = 'error';
       break;
 
-    case 'Closed':
+    case Closed:
       color = 'success';
       break;
 
