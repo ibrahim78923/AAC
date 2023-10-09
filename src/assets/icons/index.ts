@@ -5,6 +5,7 @@ export { default as ExampleSharedCase } from './shared/example-shared';
 export { default as EmailIcon } from './shared/email-shared';
 export { default as PhoneIcon } from './shared/phone-shared';
 export { default as EditIcon } from './shared/edit-shared';
+export { default as EditYellowBgIcon } from './shared/edit-yellow-bg';
 export { default as EditColoredIcon } from './shared/edit-colored-shared';
 export { default as ExampleKababCase } from './modules/Login/example-kabab-case';
 export { default as ArrowUpIcon } from './shared/arrow-up';

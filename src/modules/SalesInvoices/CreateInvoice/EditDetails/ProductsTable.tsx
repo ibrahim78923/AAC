@@ -12,16 +12,21 @@ import {
 } from '@mui/material';
 import { AddCircleRounded } from '@mui/icons-material';
 import { useTheme } from '@mui/material/styles';
-import { productTotalDetails } from './EditDetailsData';
-import { v4 as uuidv4 } from 'uuid';
 import AddProducts from './AddProducts';
+import { productTotalDetails } from './EditDetailsData';
+import TanstackTable from '@/components/Tabel/TanstackTable';
+import {
+  productsTableColumns,
+  productsTableData,
+} from '../../SalesInvoices.data';
+import { v4 as uuidv4 } from 'uuid';
 
 const ProductsTable = () => {
   const [isDiscount, setIsDiscount] = useState(false);
   const theme = useTheme();
 
   return (
-    <Box mt={3}>
+    <Box my={3}>
       <Stack
         direction={{ xs: 'column', sm: 'row' }}
         justifyContent="space-between"
@@ -30,6 +35,12 @@ const ProductsTable = () => {
         <Typography variant="h4">Products</Typography>
         <AddProducts />
       </Stack>
+      <Box my={3}>
+        <TanstackTable
+          columns={productsTableColumns}
+          data={productsTableData}
+        />
+      </Box>
       <Stack direction={{ xs: 'column', lg: 'row' }} gap={3}>
         <TextareaAutosize minRows={15} cols={180} placeholder="Comments" />
         <Card sx={{ width: { xs: '100%', lg: '325px' }, p: '10px 15px' }}>

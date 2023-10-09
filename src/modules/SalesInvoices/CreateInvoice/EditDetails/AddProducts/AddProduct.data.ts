@@ -16,23 +16,12 @@ export const existingProductsDefaultValues = {
 };
 
 export const existingProductsFields = [
-  {
-    componentProps: {
-      name: 'searchProduct',
-      fullWidth: true,
-      select: true,
-    },
-    options: [
-      { value: 'BE', label: 'BE' },
-      { value: 'FE', label: 'FE' },
-      { value: 'BA', label: 'BA' },
-      { value: 'Annually', label: 'Desing' },
-      { value: 'every_two_years', label: 'Every Two Years' },
-      { value: 'every_three_years', label: 'Every Three Years' },
-    ],
-    component: RHFSelect,
-    md: 12,
-  },
+  { value: 'BE', label: 'BE' },
+  { value: 'FE', label: 'FE' },
+  { value: 'BA', label: 'BA' },
+  { value: 'Annually', label: 'Desing' },
+  { value: 'every_two_years', label: 'Every Two Years' },
+  { value: 'every_three_years', label: 'Every Three Years' },
 ];
 
 // custom products

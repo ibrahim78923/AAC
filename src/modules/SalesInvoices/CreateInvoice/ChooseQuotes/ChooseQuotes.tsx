@@ -1,19 +1,19 @@
-import { useState } from 'react';
-import {
-  Box,
-  FormControl,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
-  Typography,
-} from '@mui/material';
-import { v4 as uuidv4 } from 'uuid';
+import { Grid, Typography } from '@mui/material';
+import SearchableSelect from '@/components/SearchableSelect';
+import { useForm } from 'react-hook-form';
 
 const ChooseQuotes = () => {
-  const [age, setAge] = useState('');
+  const {
+    control,
+    formState: { errors },
+  } = useForm();
 
-  const handleChange = (event: SelectChangeEvent) => {
-    setAge(event.target.value);
+  const renderCustomOption = (option: any) => {
+    return (
+      <Typography variant="h6">
+        {option.label} {option.name}
+      </Typography>
+    );
   };
 
   const options = [
@@ -28,18 +28,19 @@ const ChooseQuotes = () => {
   ];
 
   return (
-    <Box>
-      <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-        <Typography>Select Quotes</Typography>
-        <Select value={age} onChange={handleChange}>
-          {options.map((item: any) => (
-            <MenuItem key={uuidv4()} value={item.value}>
-              {item.label}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-    </Box>
+    <Grid container>
+      <Grid xs={12} md={4}>
+        <SearchableSelect
+          dropdownData={options}
+          renderOption={renderCustomOption}
+          name="Search candidate"
+          label="Select Quotes"
+          control={control}
+          rules={{ required: 'required field' }}
+          error={!!errors.message}
+        />
+      </Grid>
+    </Grid>
   );
 };
 

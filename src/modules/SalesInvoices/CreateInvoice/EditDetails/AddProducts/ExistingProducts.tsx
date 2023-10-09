@@ -1,29 +1,32 @@
-import { Grid } from '@mui/material';
-import { FormProvider } from '@/components/ReactHookForm';
+import { Typography } from '@mui/material';
 import { existingProductsFields } from './AddProduct.data';
-import { v4 as uuidv4 } from 'uuid';
+import SearchableSelect from '@/components/SearchableSelect';
+import { useForm } from 'react-hook-form';
 
-const ExistingProducts = (props: any) => {
-  const { methods } = props;
+const ExistingProducts = () => {
+  const {
+    control,
+    formState: { errors },
+  } = useForm();
+
+  const renderCustomOption = (option: any) => {
+    return (
+      <Typography variant="h6">
+        {option.label} {option.name}
+      </Typography>
+    );
+  };
 
   return (
-    <FormProvider methods={methods}>
-      <Grid container spacing={4}>
-        {existingProductsFields?.map((item: any) => (
-          <Grid item xs={12} md={item?.md} key={uuidv4()}>
-            <label>Seach</label>
-            <item.component {...item.componentProps} size={'small'}>
-              {item?.componentProps?.select &&
-                item?.options?.map((option: any) => (
-                  <option key={option?.value} value={option?.value}>
-                    {option?.label}
-                  </option>
-                ))}
-            </item.component>
-          </Grid>
-        ))}
-      </Grid>
-    </FormProvider>
+    <SearchableSelect
+      dropdownData={existingProductsFields}
+      renderOption={renderCustomOption}
+      name="Search candidate"
+      label="Search"
+      control={control}
+      rules={{ required: 'required field' }}
+      error={!!errors.message}
+    />
   );
 };
 

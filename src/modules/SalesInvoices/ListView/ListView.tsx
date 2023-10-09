@@ -15,12 +15,12 @@ import Search from '@/components/Search';
 import CustomPagination from '@/components/CustomPagination';
 import TanstackTable from '@/components/Tabel/TanstackTable';
 import { invoicesTableColumns, invoicesTableData } from '../SalesInvoices.data';
+import { useRouter } from 'next/router';
 
-const InvoicvesListView = (props: any) => {
-  const { setIsListViewPgae } = props;
+const InvoicvesListView = () => {
   const [selectedValue, setSelectedValue] = useState(null);
   const [searchBy, setSearchBy] = useState('');
-  // const [selected, setSelected] = useState<readonly string[]>([]);
+  const router = useRouter();
 
   const handleClick = (event: any) => {
     setSelectedValue(event.currentTarget);
@@ -37,8 +37,8 @@ const InvoicvesListView = (props: any) => {
         <Button
           variant="contained"
           sx={{ display: 'flex', gap: '10px' }}
-          onClick={() => setIsListViewPgae(true)}
           startIcon={<PlusSharedIcon />}
+          onClick={() => router.push('/sales-invoices/create-invoice')}
         >
           Create Invoice
         </Button>

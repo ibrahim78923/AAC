@@ -1,15 +1,12 @@
 import React from 'react';
 import { Box, Button, Stack, Typography } from '@mui/material';
 import ChooseQuotes from './ChooseQuotes/ChooseQuotes';
-import EditDetails from './EditDetails/EditDetails';
+import EditDetails from './EditDetails';
+import { useRouter } from 'next/router';
+import ReviewInvoice from './ReviewInvoice';
 
-const CreateInvoice = (props: any) => {
-  const { setIsListViewPgae } = props;
-
-  //handle cancel btn function
-  const cancelBtnHandler = () => {
-    setIsListViewPgae(false);
-  };
+const CreateInvoice = () => {
+  const router = useRouter();
 
   return (
     <Box>
@@ -18,17 +15,26 @@ const CreateInvoice = (props: any) => {
       <Typography variant="h3">Step 2</Typography>
       <EditDetails />
       <Typography variant="h3">Step 3</Typography>
-      <ChooseQuotes />
+      <ReviewInvoice />
       <Stack justifyContent="space-between" alignItems="center" direction="row">
-        <Button onClick={cancelBtnHandler} variant="outlined">
+        <Button
+          variant="outlined"
+          onClick={() => router.push('/sales-invoices')}
+        >
           Back
         </Button>
         <Box>
           <Stack gap="10px" direction="row">
-            <Button onClick={cancelBtnHandler} variant="outlined">
+            <Button
+              variant="outlined"
+              onClick={() => router.push('/sales-invoices')}
+            >
               Cancel
             </Button>
-            <Button onClick={cancelBtnHandler} variant="outlined">
+            <Button
+              variant="outlined"
+              onClick={() => router.push('/sales-invoices')}
+            >
               Skip
             </Button>
             <Button variant="contained">Next</Button>

@@ -1,6 +1,9 @@
+import { Checkbox, Stack, TextField } from '@mui/material';
+import { RemoveRedEye, Delete } from '@mui/icons-material';
 import RHFDatePicker from '@/components/ReactHookForm/RHFDatePicker';
 import RHFSelect from '@/components/ReactHookForm/RHFSelect';
-import { Checkbox } from '@mui/material';
+import { QuantityNumber, SelectUnit, StatusDropdown } from './CommonComponents';
+import { EditYellowBgIcon } from '@/assets/icons';
 import * as Yup from 'yup';
 
 export const cardDetails = [
@@ -62,7 +65,9 @@ export const invoicesTableColumns: any = [
     id: 'status',
     isSortable: true,
     header: 'Status',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => {
+      return <StatusDropdown data={info} />;
+    },
   },
   {
     accessorFn: (row: any) => row.linkedQuote,
@@ -92,7 +97,7 @@ export const invoicesTableData: any = [
   {
     invoiceName: 'Iphone accessories',
     invoiceAmount: '£20',
-    status: 'paid',
+    status: 'Published',
     linkedQuote: 'Iphone import from Uk',
     createdBy: 'Azeem Aslam',
     createdDate: '23/09/2023',
@@ -195,5 +200,109 @@ export const invoiceFilterFields = [
     ],
     component: RHFSelect,
     md: 12,
+  },
+];
+
+// products table data
+export const productsTableColumns: any = [
+  {
+    accessorFn: (row: any) => row.Sr,
+    id: 'Sr',
+    cell: (info: any) => info.getValue(),
+    header: 'Sr#',
+    isSortable: false,
+  },
+  {
+    accessorFn: (row: any) => row.productName,
+    id: 'productName',
+    cell: (info: any) => info.getValue(),
+    header: 'Product Name',
+    isSortable: true,
+  },
+  {
+    accessorFn: (row: any) => row.unitPrice,
+    id: 'unitPrice',
+    isSortable: true,
+    header: 'Unit Price',
+    cell: (info: any) => info.getValue(),
+  },
+  {
+    accessorFn: (row: any) => row.quantity,
+    id: 'quantity',
+    isSortable: true,
+    header: 'Quantity',
+    cell: (info: any) => {
+      return <QuantityNumber data={info} />;
+    },
+  },
+  {
+    accessorFn: (row: any) => row.unitDiscount,
+    id: 'unitDiscount',
+    isSortable: true,
+    header: 'Unit Discount',
+    cell: (info: any) => {
+      return (
+        <Stack direction="row" gap={2}>
+          <SelectUnit data={info} />
+          <TextField
+            type="text"
+            size="small"
+            value={20}
+            sx={{ width: '100px' }}
+          />
+        </Stack>
+      );
+    },
+  },
+  {
+    accessorFn: (row: any) => row.totalPrice,
+    id: 'totalPrice',
+    isSortable: true,
+    header: 'Total Price',
+    cell: (info: any) => info.getValue(),
+  },
+  {
+    accessorFn: (row: any) => row.createdDate,
+    id: 'createdDate',
+    isSortable: true,
+    header: 'Created Date',
+    cell: (info: any) => info.getValue(),
+  },
+  {
+    accessorFn: (row: any) => row.action,
+    id: 'Actions',
+    isSortable: true,
+    header: 'Actions',
+    cell: () => {
+      return (
+        <Stack direction="row" alignItems="center" gap={1}>
+          <RemoveRedEye sx={{ cursor: 'pointer', color: '#1F305D' }} />
+          <EditYellowBgIcon />
+          <Delete sx={{ cursor: 'pointer', color: '#FF4A4A' }} />
+        </Stack>
+      );
+    },
+  },
+];
+
+// products table data
+export const productsTableData: any = [
+  {
+    Sr: '1',
+    productName: 'NADSSP - 16',
+    unitPrice: '£ 40',
+    quantity: '1',
+    unitDiscount: 'gbp',
+    totalPrice: '£ 40',
+    createdDate: '23/09/2023',
+  },
+  {
+    Sr: '2',
+    productName: 'NADSSP - 19',
+    unitPrice: '£ 61',
+    quantity: '1',
+    unitDiscount: '%',
+    totalPrice: '£ 60',
+    createdDate: '23/09/2023',
   },
 ];
