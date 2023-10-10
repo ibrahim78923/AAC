@@ -33,7 +33,7 @@ import {
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { v4 as uuidv4 } from 'uuid';
-import { RolesAndRightTableData } from '@/mock/modules/SettingSales';
+import { rolesAndRightTableData } from '@/mock/modules/SettingSales';
 
 const RolesRight = ({ initialValueProps = defaultValues }: any) => {
   const [isDraweropen, setIsDraweropen] = useState(false);
@@ -200,7 +200,7 @@ const RolesRight = ({ initialValueProps = defaultValues }: any) => {
           </Menu>
         </Box>
         <Grid>
-          <TanstackTable columns={columns} data={RolesAndRightTableData} />
+          <TanstackTable columns={columns} data={rolesAndRightTableData} />
           <CustomPagination
             count={1}
             rowsPerPageOptions={[1, 2]}

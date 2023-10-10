@@ -1,7 +1,7 @@
 import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
+import Search from '@/components/Search';
 
 import * as Yup from 'yup';
-import Search from '@/components/Search';
 
 export const validationSchema = Yup.object().shape({
   accountName: Yup.string().required('Field is Required'),
@@ -26,25 +26,16 @@ export const validationSchema = Yup.object().shape({
 });
 
 export const defaultValues = {
-  accountName: '', //1
-
-  phoneNumber: '', //2
-
-  postCode: '', //3
-
-  address: '', //4
-
-  unit: '', //5
-
-  buildingName: '', //6
-
-  buildingNumber: '', //7
-
-  streetName: '', //8
-
-  city: '', //9
-
-  country: '', //10
+  accountName: '',
+  phoneNumber: '',
+  postCode: '',
+  address: '',
+  unit: '',
+  buildingName: '',
+  buildingNumber: '',
+  streetName: '',
+  city: '',
+  country: '',
 };
 
 export const dataArray = [

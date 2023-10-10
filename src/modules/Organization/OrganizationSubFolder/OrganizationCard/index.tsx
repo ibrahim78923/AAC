@@ -23,7 +23,6 @@ import {
 import { productItem } from '@/mock/modules/OrganizationAdmin';
 
 import {
-  AddPenIcon,
   SmsImage,
   PhoneImage,
   UserImage,
@@ -38,6 +37,7 @@ import { styles } from './OrganizationCard.style';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { v4 as uuidv4 } from 'uuid';
+import { AddPenIcon } from '@/assets/icons';
 
 const OrganizationCard = ({ initialValueProps = defaultValues }: any) => {
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
@@ -345,7 +345,7 @@ const OrganizationCard = ({ initialValueProps = defaultValues }: any) => {
                 {productItem.map((item) => {
                   return (
                     <>
-                      <Grid item lg={4} md={4} sm={6} xs={12}>
+                      <Grid item lg={4} md={4} sm={6} xs={12} key={uuidv4()}>
                         <Box sx={{ display: 'grid', justifyItems: 'center' }}>
                           <Image src={item.img} alt="no image" />
                           <Typography

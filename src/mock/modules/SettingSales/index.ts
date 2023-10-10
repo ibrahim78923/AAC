@@ -41,7 +41,7 @@ export const userTableData: any = [
   },
 ];
 
-export const RolesAndRightTableData: any = [
+export const rolesAndRightTableData: any = [
   {
     Id: 1,
     roleId: `123`,

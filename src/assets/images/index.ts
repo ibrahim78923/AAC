@@ -60,3 +60,4 @@ export { default as EditImage } from '../../assets/images/modules/organization/e
 export { default as FeaturedImage } from '../../assets/images/modules/organization/Featuredicon.png';
 export { default as ComLogoImage } from '../../assets/images/modules/organization/intellogo.png';
 export { default as OrcaloLogoImage } from '../../assets/images/modules/organization/orcalologo.png';
+export { default as UnionBgImage } from '../../assets/images/modules/dashboard/Union.png';

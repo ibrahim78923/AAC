@@ -1,7 +1,9 @@
 import { Checkbox, Switch } from '@mui/material';
+
 import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
-import * as Yup from 'yup';
 import Search from '@/components/Search';
+
+import * as Yup from 'yup';
 
 export const columns: any = [
   {
@@ -51,46 +53,28 @@ export const columns: any = [
 
 export const validationSchema = Yup.object().shape({
   accountName: Yup.string().required('Field is Required'),
-
   phoneNumber: Yup.string().trim().required('Field is Required'),
-
   postCode: Yup.string().trim().required('Field is Required'),
-
   address: Yup.string(),
-
   buildingName: Yup.string().required('Field is Required'),
-
   unit: Yup.string().required('Field is Required'),
-
   buildingNumber: Yup.string(),
-
   streetName: Yup.string(),
-
   city: Yup.string(),
-
   country: Yup.string(),
 });
 
 export const defaultValues = {
-  accountName: '', //1
-
-  phoneNumber: '', //2
-
-  postCode: '', //3
-
-  address: '', //4
-
-  unit: '', //5
-
-  buildingName: '', //6
-
-  buildingNumber: '', //7
-
-  streetName: '', //8
-
-  city: '', //9
-
-  country: '', //10
+  accountName: '',
+  phoneNumber: '',
+  postCode: '',
+  address: '',
+  unit: '',
+  buildingName: '',
+  buildingNumber: '',
+  streetName: '',
+  city: '',
+  country: '',
 };
 
 export const dataArray = [
@@ -144,7 +128,6 @@ export const dataArray = [
     component: RHFTextField,
     md: 12,
   },
-
   {
     componentProps: {
       name: 'buildingName',
@@ -155,7 +138,6 @@ export const dataArray = [
     component: RHFTextField,
     md: 12,
   },
-
   {
     componentProps: {
       name: 'buildingNumber',
@@ -177,7 +159,6 @@ export const dataArray = [
     component: RHFTextField,
     md: 12,
   },
-
   {
     componentProps: {
       name: 'city',
@@ -189,7 +170,6 @@ export const dataArray = [
 
     md: 12,
   },
-
   {
     componentProps: {
       name: 'country',

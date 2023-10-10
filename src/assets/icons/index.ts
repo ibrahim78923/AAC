@@ -30,3 +30,6 @@ export { default as SharedIcon } from './shared/shared-icon';
 export { default as AttachFileIcon } from './shared/attach-file';
 export { default as RecievedFileIcon } from './shared/recieved-file';
 export { default as AddPenIcon } from '../../assets/images/modules/organization/edit-blue-pen';
+export { default as UserGroupFilledIcon } from '../../assets/icons/modules/dashboard/user-group';
+export { default as BlueDotIcon } from '../../assets/icons/modules/dashboard/blue-dot';
+export { default as RedDotIcon } from '../../assets/icons/modules/dashboard/red-dot';
