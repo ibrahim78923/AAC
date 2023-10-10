@@ -1,6 +1,6 @@
-import { grey } from '@mui/material/colors';
-
-const RequestApprovalPageStyles: any = () => {
+import { useTheme } from '@mui/material';
+const requestApprovalPageStyles: any = () => {
+  const theme = useTheme();
   const parentStyles = {
     approvalsContainerBox: {
       maxHeight: '370px',
@@ -37,7 +37,7 @@ const RequestApprovalPageStyles: any = () => {
     },
     boxBorderStyle: { borderBottom: '1px solid #E5E7EB', py: '10px' },
     cancelButton: {
-      color: grey[500],
+      color: theme.palette.grey[500],
       border: '1px solid #E5E7EB',
       padding: '0px 22px',
       height: '44px',
@@ -48,4 +48,4 @@ const RequestApprovalPageStyles: any = () => {
   return parentStyles;
 };
 
-export default RequestApprovalPageStyles;
+export default requestApprovalPageStyles;
