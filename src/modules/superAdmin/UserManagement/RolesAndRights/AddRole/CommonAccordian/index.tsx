@@ -8,7 +8,7 @@ import {
   Typography,
 } from '@mui/material';
 
-import AccordianInterfaceI from './Accordian.interface';
+import AccordianInterfaceI from './CommonAccordian.interface';
 
 import { v4 as uuidv4 } from 'uuid';
 

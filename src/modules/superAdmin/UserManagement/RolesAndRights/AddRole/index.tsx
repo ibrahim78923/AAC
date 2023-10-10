@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 
 import { Box, Typography, Grid, Divider, Button } from '@mui/material';
 
-import CommonAccordian from './Accordian';
+import CommonAccordian from './CommonAccordian';
 
 import { ArrowBack } from '@mui/icons-material';
 
