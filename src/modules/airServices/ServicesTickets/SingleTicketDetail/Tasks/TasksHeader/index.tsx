@@ -1,5 +1,6 @@
 import { Button, Grid, MenuItem, Popover, Typography } from '@mui/material';
 import { ActionButtonIcon, CirclePlusIcon } from '@/assets/icons';
+import { AlertModals } from '@/components/AlertModals';
 import { useTasks } from '../useTasks';
 import { taskStyles } from '../TicketTasks.styles';
 import { TasksHeaderI } from '../Tasks.interface';
@@ -19,6 +20,9 @@ export const TasksHeader = ({
     openActionExport,
     handleActionExportClick,
     handleActionExportClose,
+    deleteModal,
+    setDeleteModal,
+    submitDeleteModel,
   } = useTasks();
   return (
     <Grid container spacing={{ sm: 0, xs: 2 }} sx={taskStyles?.headContainer}>
@@ -62,7 +66,9 @@ export const TasksHeader = ({
           >
             Edit
           </MenuItem>
-          <MenuItem sx={{ p: 1 }}>Delete</MenuItem>
+          <MenuItem sx={{ p: 1 }} onClick={() => setDeleteModal(true)}>
+            Delete
+          </MenuItem>
           <MenuItem sx={{ p: 1 }}>
             <a onClick={handleActionExportClick}>Export Task</a>
             <Popover
@@ -85,6 +91,13 @@ export const TasksHeader = ({
           Add New Task
         </Button>
       </Grid>
+      <AlertModals
+        type="delete"
+        message="Are you sure you want to delete this Asset?"
+        open={deleteModal}
+        handleClose={() => setDeleteModal(false)}
+        handleSubmit={submitDeleteModel}
+      />
     </Grid>
   );
 };
