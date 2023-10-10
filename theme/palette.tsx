@@ -147,10 +147,12 @@ declare module '@mui/material/styles' {
   interface Palette {
     custom: any;
     blue: any;
+    slateBlue: any;
   }
 
   interface PaletteOptions {
     custom?: any;
     blue?: any;
+    slateBlue?: any;
   }
 }
