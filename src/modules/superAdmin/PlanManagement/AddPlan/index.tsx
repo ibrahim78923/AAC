@@ -2,9 +2,9 @@ import React from 'react';
 
 import { Box, Typography } from '@mui/material';
 
-import AppHorizontalStepper from '../../../../components/Stepper/ABA';
+import AppHorizontalStepper from '../../../../components/Stepper';
 
-import { UseAddPlan } from './UUUUUUUseAppPlan';
+import { UseAddPlan } from './UseAddPlan';
 
 import { ArrowLeft } from '@/assets/icons';
 

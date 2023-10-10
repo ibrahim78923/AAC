@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { useRouter } from 'next/router';
 
-import AddPlanForm from './Forms/AddPlanForm/ASDasd';
+import AddPlanForm from './Forms/AddPlanForm';
 import PlanFeaturesForm from './Forms/PlanFeatures';
 import ModulesForm from './Forms/ModulesForm';
 
