@@ -35,15 +35,6 @@ const RequestApprovalPageStyles: any = () => {
       gap: '16px',
       marginTop: '10px',
     },
-    textareaStyle: {
-      width: '100%',
-      height: '200px',
-      padding: '12px',
-      borderRadius: '12px',
-      border: '2px solid #E5E7EB',
-      margin: '2.4px 5px 0 0',
-      resize: 'none',
-    },
     boxBorderStyle: { borderBottom: '1px solid #E5E7EB', py: '10px' },
     cancelButton: {
       color: grey[500],
