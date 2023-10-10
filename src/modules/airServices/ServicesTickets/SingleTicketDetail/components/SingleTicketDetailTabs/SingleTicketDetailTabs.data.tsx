@@ -2,7 +2,7 @@ export const singleTicketDetailTabsData = [
   'Details',
   'Tasks',
   'Related Tickets',
-  // 'Assets',
+  // 'Associates Assets',
   'Approvals',
   'Meetings',
   // 'Activities',
