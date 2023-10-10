@@ -22,7 +22,7 @@ function DetailsViewPropertiesSection() {
           <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
             <Grid container spacing={4}>
               {dataArray?.map((item: any) => (
-                <Grid item xs={6} md={item?.md} key={uuid()}>
+                <Grid item xs={12} md={item?.md} key={uuid()}>
                   <item.component {...item.componentProps} size={'small'}>
                     {item?.componentProps?.select
                       ? item?.options?.map((option: any) => (
