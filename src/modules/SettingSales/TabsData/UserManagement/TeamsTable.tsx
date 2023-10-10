@@ -5,7 +5,10 @@ import { Box, Grid } from '@mui/material';
 import Search from '@/components/Search';
 import TanstackTable from '@/components/Tabel/TanstackTable';
 import CustomPagination from '@/components/CustomPagination';
-import { columnsTeams, teamsTableData } from './UserManagement.data';
+
+import { columnsTeams } from './UserManagement.data';
+
+import { teamsTableData } from '@/mock/modules/SettingSales';
 
 const TeamsTable = () => {
   return (

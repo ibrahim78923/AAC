@@ -14,41 +14,32 @@ import {
   useTheme,
 } from '@mui/material';
 
-// dummy
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 import { FormProvider } from '@/components/ReactHookForm';
-
-import { useForm } from 'react-hook-form';
+import Search from '@/components/Search';
+import CommonDrawer from '@/components/CommonDrawer';
+import TanstackTable from '@/components/Tabel/TanstackTable';
+import CustomPagination from '@/components/CustomPagination';
+import { AlertModals } from '@/components/AlertModals';
 
 import {
-  BillingAndInvoicesTableData,
   dataArray,
   defaultValues,
   validationSchema,
   columns,
 } from './OrganizationTable.data';
 
-import { yupResolver } from '@hookform/resolvers/yup';
+import { organizationTableData } from '@/mock/modules/OrganizationAdmin';
 
-import { v4 as uuidv4 } from 'uuid';
+import { FeaturedImage, AddCircleImage, ComLogoImage } from '@/assets/images';
 
-// dummy end
-
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-
-import Search from '@/components/Search';
-import CommonDrawer from '@/components/CommonDrawer';
-
-import {
-  AddPenIcon,
-  FeaturedImage,
-  AddCircle,
-  ComLogoImage,
-} from '@/assets/images';
 import { styles } from './OrganizationTable.style';
-import TanstackTable from '@/components/Tabel/TanstackTable';
-import CustomPagination from '@/components/CustomPagination';
-import { AlertModals } from '@/components/AlertModals';
+
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { v4 as uuidv4 } from 'uuid';
+import { AddPenIcon } from '@/assets/icons';
 
 const OrganizationTable = ({ initialValueProps = defaultValues }: any) => {
   const [openDrawer, setOpenDrawer] = useState(false);
@@ -74,12 +65,6 @@ const OrganizationTable = ({ initialValueProps = defaultValues }: any) => {
   });
 
   const { handleSubmit } = methods;
-  // const onSubmit = async (data: any) => {
-  //   console.log(data);
-  //   enqueueSnackbar('Ticket Updated Successfully', {
-  //     variant: 'success',
-  //   });
-  // };
 
   return (
     <>
@@ -190,7 +175,6 @@ const OrganizationTable = ({ initialValueProps = defaultValues }: any) => {
           </FormProvider>
         </Box>
       </CommonDrawer>
-      {/* edit */}
       <CommonDrawer
         isDrawerOpen={openEditDrawer}
         onClose={() => {
@@ -200,7 +184,6 @@ const OrganizationTable = ({ initialValueProps = defaultValues }: any) => {
         okText="ok"
         isOk={true}
         footer={true}
-        // submitHandler={}
       >
         <Box sx={{ paddingTop: '1rem' }}>
           <center>
@@ -358,14 +341,14 @@ const OrganizationTable = ({ initialValueProps = defaultValues }: any) => {
                   columnGap: '10px',
                 }}
               >
-                <Image src={AddCircle} alt="add" /> Add Company Account
+                <Image src={AddCircleImage} alt="add" /> Add Company Account
               </Button>
             </Box>
           </Grid>
         </Grid>
       </Box>
       <Grid>
-        <TanstackTable columns={columns} data={BillingAndInvoicesTableData} />
+        <TanstackTable columns={columns} data={organizationTableData} />
         <CustomPagination
           count={1}
           rowsPerPageOptions={[1, 2]}

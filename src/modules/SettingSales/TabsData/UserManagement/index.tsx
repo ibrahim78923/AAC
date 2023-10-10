@@ -13,15 +13,11 @@ import {
 
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
-import UserTable from './UserTable';
-
-import TeamsTable from './TeamsTable';
-
 import CommonDrawer from '@/components/CommonDrawer';
-
 import { FormProvider } from '@/components/ReactHookForm';
 
-import { useForm } from 'react-hook-form';
+import UserTable from './UserTable';
+import TeamsTable from './TeamsTable';
 
 import {
   dataArray,
@@ -30,15 +26,11 @@ import {
   validationSchema,
 } from './UserManagement.data';
 
+import { TabPanelProps } from './UserManagement.interface';
+
+import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-
 import { v4 as uuidv4 } from 'uuid';
-
-interface TabPanelProps {
-  children?: React.ReactNode;
-  index: number;
-  value: number;
-}
 
 function CustomTabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
@@ -87,14 +79,6 @@ const UserManagement = ({ initialValueProps = defaultValues }: any) => {
     defaultValues: initialValueProps,
   });
 
-  // const { handleSubmit } = methods;
-  // const onSubmit = async (data: any) => {
-  //   console.log(data);
-  //   enqueueSnackbar('Ticket Updated Successfully', {
-  //     variant: 'success',
-  //   });
-  // };
-
   return (
     <>
       <CommonDrawer
@@ -104,7 +88,6 @@ const UserManagement = ({ initialValueProps = defaultValues }: any) => {
         okText={'OK'}
         footer={true}
         isOk={true}
-        // submitHandler={}
       >
         <Typography
           sx={{
@@ -141,7 +124,6 @@ const UserManagement = ({ initialValueProps = defaultValues }: any) => {
         okText={'OK'}
         footer={true}
         isOk={true}
-        // submitHandler={}
       >
         <Box sx={{ paddingTop: '1rem' }}>
           <FormProvider methods={methods}>

@@ -14,30 +14,26 @@ import {
 } from '@mui/material';
 
 import SearchIcon from '@mui/icons-material/Search';
-
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 import { FormProvider } from '@/components/ReactHookForm';
-
-import { useForm } from 'react-hook-form';
-
-import { yupResolver } from '@hookform/resolvers/yup';
-
-import { v4 as uuidv4 } from 'uuid';
-
 import CommonDrawer from '@/components/CommonDrawer';
 import TanstackTable from '@/components/Tabel/TanstackTable';
+import CustomPagination from '@/components/CustomPagination';
+import { AlertModals } from '@/components/AlertModals';
+
 import {
-  RolesAndRightTableData,
   columns,
   dataArray,
   defaultValues,
   validationSchema,
 } from './RolesRight.data';
-import CustomPagination from '@/components/CustomPagination';
-import { AlertModals } from '@/components/AlertModals';
+
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { v4 as uuidv4 } from 'uuid';
+import { RolesAndRightTableData } from '@/mock/modules/SettingSales';
 
 const RolesRight = ({ initialValueProps = defaultValues }: any) => {
   const [isDraweropen, setIsDraweropen] = useState(false);
@@ -64,14 +60,6 @@ const RolesRight = ({ initialValueProps = defaultValues }: any) => {
     defaultValues: initialValueProps,
   });
 
-  // const { handleSubmit } = methods;
-  // const onSubmit = async (data: any) => {
-  //   console.log(data);
-  //   enqueueSnackbar('Ticket Updated Successfully', {
-  //     variant: 'success',
-  //   });
-  // };
-
   return (
     <>
       <CommonDrawer
@@ -81,7 +69,6 @@ const RolesRight = ({ initialValueProps = defaultValues }: any) => {
         okText={'OK'}
         footer={true}
         isOk={true}
-        // submitHandler={}
       >
         <Box sx={{ paddingTop: '1rem' }}>
           <FormProvider methods={methods}>
@@ -109,7 +96,6 @@ const RolesRight = ({ initialValueProps = defaultValues }: any) => {
         okText={'OK'}
         footer={true}
         isOk={true}
-        // submitHandler={}
       >
         <Box sx={{ paddingTop: '1rem' }}>
           <FormProvider methods={methods}>

@@ -29,21 +29,21 @@ export const defaultValues = {
 
   phoneNumber: '',
 
-  postCode: '', //3
+  postCode: '',
 
-  address: '', //4
+  address: '',
 
-  unit: '', //5
+  unit: '',
 
-  buildingName: '', //6
+  buildingName: '',
 
-  buildingNumber: '', //7
+  buildingNumber: '',
 
-  streetName: '', //8
+  streetName: '',
 
-  city: '', //9
+  city: '',
 
-  country: '', //10
+  country: '',
 };
 
 export const dataArray = [
@@ -220,34 +220,6 @@ export const dataArray = [
   },
 ];
 
-export const userTableData: any = [
-  {
-    Id: 1,
-    name: `Orcalo Holdings`,
-    email: 'Draftstrtr',
-    team: 'Sharemydine',
-    role: 'Alee',
-    status: 'Tech Support',
-  },
-  {
-    Id: 2,
-    name: ` Apple AirCart`,
-    email: 'Draftstrtr',
-    team: 'Sharemydine',
-    role: 'Alee',
-    status: 'Tech Support',
-  },
-
-  {
-    Id: 3,
-    name: `PPCN`,
-    email: 'Draftstrtr',
-    team: 'Sharemydine',
-    role: 'Alee',
-    status: 'Tech Support',
-  },
-];
-
 export const columns: any = [
   {
     accessorFn: (row: any) => row.Id,
@@ -364,21 +336,6 @@ export const columnsTeams: any = [
 
   //     </Box>,
   // },
-];
-
-export const teamsTableData: any = [
-  {
-    name: `Orcalo Holdings`,
-    teamMember: 'Draftstrtr',
-  },
-  {
-    name: `Orcalo Holdings`,
-    teamMember: 'Draftstrtr',
-  },
-  {
-    name: `Orcalo Holdings`,
-    teamMember: 'Draftstrtr',
-  },
 ];
 
 export const teamsDataArray = [

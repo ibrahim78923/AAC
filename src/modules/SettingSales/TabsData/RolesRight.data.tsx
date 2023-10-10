@@ -2,50 +2,32 @@ import { Checkbox } from '@mui/material';
 import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
-// form Arr
-
 export const validationSchema = Yup.object().shape({
   role: Yup.string().required('Field is Required'),
 
   desciption: Yup.string().trim().required('Field is Required'),
-
-  // postCode: Yup.string().trim().required('Field is Required'),
-
-  // address: Yup.string(),
-
-  // buildingName: Yup.string().required('Field is Required'),
-
-  // unit: Yup.string().required('Field is Required'),
-
-  // buildingNumber: Yup.string(),
-
-  // streetName: Yup.string(),
-
-  // city: Yup.string(),
-
-  // country: Yup.string(),
 });
 
 export const defaultValues = {
-  role: '', //1
+  role: '',
 
-  desciption: '', //2
+  desciption: '',
 
-  postCode: '', //3
+  postCode: '',
 
-  address: '', //4
+  address: '',
 
-  unit: '', //5
+  unit: '',
 
-  buildingName: '', //6
+  buildingName: '',
 
-  buildingNumber: '', //7
+  buildingNumber: '',
 
-  streetName: '', //8
+  streetName: '',
 
-  city: '', //9
+  city: '',
 
-  country: '', //10
+  country: '',
 };
 
 export const dataArray = [
@@ -140,32 +122,6 @@ export const dataArray = [
     ],
     component: RHFSelect,
     md: 12,
-  },
-];
-
-// table
-export const RolesAndRightTableData: any = [
-  {
-    Id: 1,
-    roleId: `123`,
-    roleName: 'User',
-    createdOn: '12/10/2023',
-    decription: 'This Role is of Xyz and will do this & that.',
-  },
-  {
-    Id: 2,
-    roleId: `456`,
-    roleName: 'Accountant Admin',
-    createdOn: '12/10/2023',
-    decription: 'This Role is of Xyz and will do this & that.',
-  },
-
-  {
-    Id: 3,
-    roleId: `7899`,
-    roleName: 'Admin',
-    createdOn: '12/10/2023',
-    decription: 'This Role is of Xyz and will do this & that.',
   },
 ];
 

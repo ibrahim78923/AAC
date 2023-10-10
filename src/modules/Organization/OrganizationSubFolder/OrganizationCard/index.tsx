@@ -12,6 +12,15 @@ import {
 } from '@mui/material';
 
 import CommonDrawer from '@/components/CommonDrawer';
+import { FormProvider } from '@/components/ReactHookForm';
+
+import {
+  dataArray,
+  defaultValues,
+  validationSchema,
+} from './OrganizationCard.data';
+
+import { productItem } from '@/mock/modules/OrganizationAdmin';
 
 import {
   AddPenIcon,
@@ -22,27 +31,13 @@ import {
   FeaturedImage,
   ComLogoImage,
   OrcaloLogoImage,
-} from '../../../../assets/images';
+} from '@/assets/images';
 
-// dummy
-
-import { FormProvider } from '@/components/ReactHookForm';
+import { styles } from './OrganizationCard.style';
 
 import { useForm } from 'react-hook-form';
-
 import { yupResolver } from '@hookform/resolvers/yup';
-
 import { v4 as uuidv4 } from 'uuid';
-
-// dummy end
-
-import {
-  productItem,
-  dataArray,
-  defaultValues,
-  validationSchema,
-} from './OrganizationCard.data';
-import { styles } from './OrganizationCard.style';
 
 const OrganizationCard = ({ initialValueProps = defaultValues }: any) => {
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
@@ -52,14 +47,6 @@ const OrganizationCard = ({ initialValueProps = defaultValues }: any) => {
     resolver: yupResolver(validationSchema),
     defaultValues: initialValueProps,
   });
-
-  // const { handleSubmit } = methods;
-  // const onSubmit = async (data: any) => {
-  //   console.log(data);
-  //   enqueueSnackbar('Ticket Updated Successfully', {
-  //     variant: 'success',
-  //   });
-  // };
 
   return (
     <>
@@ -72,7 +59,6 @@ const OrganizationCard = ({ initialValueProps = defaultValues }: any) => {
         okText="ok"
         isOk={true}
         footer={true}
-        // submitHandler={}
       >
         <Box sx={{ paddingTop: '1rem' }}>
           <center>

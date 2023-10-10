@@ -5,12 +5,7 @@ import { Box, Tabs, Tab, Typography } from '@mui/material';
 import RolesRight from './TabsData/RolesRight';
 
 import UserManagement from './TabsData/UserManagement';
-
-interface TabPanelProps {
-  children?: React.ReactNode;
-  index: any;
-  value: number;
-}
+import { TabPanelProps } from './SettingSales.interface';
 
 function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;

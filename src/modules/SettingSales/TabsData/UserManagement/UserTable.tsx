@@ -14,25 +14,23 @@ import {
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 import { FormProvider } from '@/components/ReactHookForm';
-
-import { useForm } from 'react-hook-form';
-
-import { yupResolver } from '@hookform/resolvers/yup';
-
-import {
-  dataArray,
-  defaultValues,
-  userTableData,
-  validationSchema,
-  columns,
-} from './UserManagement.data';
-import { v4 as uuidv4 } from 'uuid';
-
 import CommonDrawer from '@/components/CommonDrawer';
 import Search from '@/components/Search';
 import TanstackTable from '@/components/Tabel/TanstackTable';
 import CustomPagination from '@/components/CustomPagination';
 import { AlertModals } from '@/components/AlertModals';
+import { userTableData } from '@/mock/modules/SettingSales';
+
+import {
+  dataArray,
+  defaultValues,
+  validationSchema,
+  columns,
+} from './UserManagement.data';
+
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { v4 as uuidv4 } from 'uuid';
 
 const UserTable = ({ initialValueProps = defaultValues }: any) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -67,7 +65,6 @@ const UserTable = ({ initialValueProps = defaultValues }: any) => {
         okText={'OK'}
         footer={true}
         isOk={true}
-        // submitHandler={}
       >
         <Typography
           sx={{

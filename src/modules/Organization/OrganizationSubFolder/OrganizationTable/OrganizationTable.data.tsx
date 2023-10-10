@@ -1,36 +1,7 @@
 import { Checkbox, Switch } from '@mui/material';
 import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
-
 import * as Yup from 'yup';
 import Search from '@/components/Search';
-
-export const BillingAndInvoicesTableData: any = [
-  {
-    Id: 1,
-    companyAccount: `Orcalo Holdings`,
-    products: 'Draftstrtr',
-    phoneNo: 'Sharemydine',
-    address: 'Alee',
-    status: 'Tech Support',
-  },
-  {
-    Id: 2,
-    companyAccount: ` Apple AirCart`,
-    products: 'Draftstrtr',
-    phoneNo: 'Sharemydine',
-    address: 'Alee',
-    status: 'Tech Support',
-  },
-
-  {
-    Id: 3,
-    companyAccount: `PPCN`,
-    products: 'Draftstrtr',
-    phoneNo: 'Sharemydine',
-    address: 'Alee',
-    status: 'Tech Support',
-  },
-];
 
 export const columns: any = [
   {
