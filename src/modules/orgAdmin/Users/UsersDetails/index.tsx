@@ -8,7 +8,7 @@ import CommonTabs from '@/components/Tabs';
 
 import CommonDrawer from '@/components/CommonDrawer';
 
-import Accounts from './Accounts/Accounts';
+import Accounts from './Accounts';
 
 import Profile from './Profile';
 

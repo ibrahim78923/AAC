@@ -6,7 +6,7 @@ import TanstackTable from '@/components/Tabel/TanstackTable';
 
 import { superAdminColumns, superAdminUsersData } from '../Users.data';
 
-const SuperAdminUsers = () => {
+const Admin = () => {
   return (
     <>
       <TanstackTable columns={superAdminColumns} data={superAdminUsersData} />
@@ -15,4 +15,4 @@ const SuperAdminUsers = () => {
   );
 };
 
-export default SuperAdminUsers;
+export default Admin;

@@ -22,7 +22,7 @@ import {
   addUserSchema,
   addUsersArrayData,
 } from '../RoleAndRights.data';
-import { ROUTES_CONSTANTS } from '@/constants';
+import { SUPER_ADMIN } from '@/constants';
 
 const AddRole = () => {
   const [isSwitchVal, setIsSwitchVal] = useState(false);
@@ -48,7 +48,7 @@ const AddRole = () => {
       <Box sx={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
         <ArrowBack
           onClick={() => {
-            navigate.push(ROUTES_CONSTANTS.ADDROLE);
+            navigate.push(SUPER_ADMIN.ADDROLE);
           }}
           sx={{ cursor: 'pointer' }}
         />
@@ -89,7 +89,7 @@ const AddRole = () => {
             <Button
               variant="outlined"
               onClick={() => {
-                navigate.push(ROUTES_CONSTANTS.USERMANAGMENT);
+                navigate.push(SUPER_ADMIN.USERMANAGMENT);
               }}
             >
               Cancel

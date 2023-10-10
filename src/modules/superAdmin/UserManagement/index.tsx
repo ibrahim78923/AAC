@@ -21,12 +21,13 @@ import RolesAndRights from './RolesAndRights';
 
 import AddUser from './Users/AddUser';
 
-import SuperAdminUsers from './Users/SuperAdminUsers';
+import SuperAdminUsers from './Users/Admin';
 
 import { ArrowDropDown } from '@mui/icons-material';
 
 import { FilterSharedIcon, PlusSharedIcon } from '@/assets/icons';
-import { ROUTES_CONSTANTS } from '@/constants';
+
+import { SUPER_ADMIN } from '@/constants';
 
 const UserManagement = () => {
   const navigate = useRouter();
@@ -42,7 +43,7 @@ const UserManagement = () => {
   };
 
   const handleAddRole = () => {
-    navigate.push(ROUTES_CONSTANTS.ADDROLE);
+    navigate.push(SUPER_ADMIN.ADDROLE);
   };
 
   const handleClose = () => {
