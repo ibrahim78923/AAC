@@ -2,10 +2,10 @@ import Layout from '@/layout';
 
 import AddRole from '@/modules/superAdmin/UserManagement/RolesAndRights/AddRole';
 
-const UserManagementRolePage = () => {
+const AddRolePage = () => {
   return <AddRole />;
 };
-export default UserManagementRolePage;
-UserManagementRolePage.getLayout = function getLayout(page: any) {
+export default AddRolePage;
+AddRolePage.getLayout = function getLayout(page: any) {
   return <Layout>{page}</Layout>;
 };

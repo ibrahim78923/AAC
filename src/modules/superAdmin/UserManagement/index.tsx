@@ -21,7 +21,7 @@ import RolesAndRights from './RolesAndRights';
 
 import AddUser from './Users/AddUser';
 
-import SuperAdminUsers from './Users/SuperadminUsers';
+import SuperAdminUsers from './Users/SuperAdminUsers';
 
 import { ArrowDropDown } from '@mui/icons-material';
 

@@ -156,3 +156,8 @@ export const addUsersArray = [
     md: 12,
   },
 ];
+
+export const options = [
+  { value: 'CompanyOwner', label: 'Company Owner' },
+  { value: 'SuperAdmin', label: 'Super Admin' },
+];

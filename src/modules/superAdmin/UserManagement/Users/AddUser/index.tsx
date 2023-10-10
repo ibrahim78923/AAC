@@ -6,7 +6,12 @@ import { FormProvider, RHFSelect } from '@/components/ReactHookForm';
 
 import CommonDrawer from '@/components/CommonDrawer';
 
-import { addUsersArray, defaultValues, validationSchema } from './AddUser.data';
+import {
+  addUsersArray,
+  defaultValues,
+  options,
+  validationSchema,
+} from './AddUser.data';
 
 import { useForm } from 'react-hook-form';
 
@@ -28,10 +33,7 @@ const AddUser = (props: any) => {
   const onSubmit = async () => {
     setIsOpenAddUserDrawer(false);
   };
-  const options = [
-    { value: 'CompanyOwner', label: 'Company Owner' },
-    { value: 'SuperAdmin', label: 'Super Admin' },
-  ];
+
   return (
     <CommonDrawer
       isDrawerOpen={isOpenAddUserDrawer}
