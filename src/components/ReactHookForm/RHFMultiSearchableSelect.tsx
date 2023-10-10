@@ -20,11 +20,13 @@ export default function RHFSearchableSelect({ name, options, ...other }: any) {
     setSearchTerm('');
   };
 
-  const handleOptionSelect = (value: string) => {
+  const handleOptionSelect = (value: string, field: any) => {
     if (!selectedValues.includes(value)) {
       setSelectedValues([...selectedValues, value]);
+      field.onChange([...selectedValues, value]);
     } else {
       setSelectedValues(selectedValues.filter((val) => val !== value));
+      field.onChange(selectedValues.filter((val) => val !== value));
     }
   };
 
@@ -44,7 +46,7 @@ export default function RHFSearchableSelect({ name, options, ...other }: any) {
             error={!!error}
             helperText={error?.message}
             {...other}
-            value={selectedValues.join(', ')} // Display selected values as a comma-separated string
+            value={selectedValues}
             onClick={handleClick}
             InputProps={{
               endAdornment: (
@@ -79,8 +81,7 @@ export default function RHFSearchableSelect({ name, options, ...other }: any) {
                 <Box
                   key={option.value}
                   onClick={() => {
-                    handleOptionSelect(option.value),
-                      field.onChange(selectedValues);
+                    handleOptionSelect(option.value, field);
                   }}
                   sx={{
                     width: '100%',
