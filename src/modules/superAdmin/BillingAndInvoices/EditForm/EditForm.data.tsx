@@ -7,82 +7,38 @@ import {
 import * as Yup from 'yup';
 
 export const validationSchema = Yup.object().shape({
-  requester: Yup.string().required('Field is Required'),
-
-  subject: Yup.string().trim().required('Field is Required'),
-
-  description: Yup.string(),
-
-  category: Yup.string(),
-
-  status: Yup.string().required('Field is Required'),
-
-  priority: Yup.string().required('Field is Required'),
-
-  department: Yup.string(),
-
-  source: Yup.string(),
-
-  impact: Yup.string(),
-
-  agent: Yup.string(),
-
-  plannedStartDate: Yup.date(),
-
-  plannedStartTime: Yup.date(),
-
-  plannedEndDate: Yup.date(),
-
-  plannedEndTime: Yup.date(),
-
-  plannedEffort: Yup.string(),
-
-  attachFile: Yup.mixed(),
+  clientName: Yup.string().trim().required('Field is Required'),
+  product: Yup.string().trim().required('Field is Required'),
+  planType: Yup.string().trim().required('Field is Required'),
+  additionalUser: Yup.string().trim().required('Field is Required'),
+  planPrice: Yup.string().trim().required('Field is Required'),
+  defaultUser: Yup.string().trim().required('Field is Required'),
+  additionalStorage: Yup.string().trim().required('Field is Required'),
+  discount: Yup.string().trim().required('Field is Required'),
+  billingCycle: Yup.string().trim().required('Field is Required'),
+  date: Yup.date(),
 });
 
 export const defaultValues = {
-  requester: '', //1
-
-  subject: '', //2
-
-  description: '', //3
-
-  category: '', //4
-
-  status: '', //5
-
-  priority: '', //6
-
-  department: '', //7
-
-  source: '', //8
-
-  impact: '', //9
-
-  agent: '', //10
-
-  plannedStartDate: new Date(), //11
-
-  plannedStartTime: new Date(), //12
-
-  plannedEndDate: new Date(), //13
-
-  plannedEndTime: new Date(), //14
-
-  plannedEffort: '', //15
-
-  attachFile: null, //16
+  clientName: '',
+  product: '',
+  planType: '',
+  additionalUser: '',
+  planPrice: '',
+  defaultUser: '',
+  additionalStorage: '',
+  discount: '',
+  billingCycle: '',
+  agent: '',
+  date: new Date(),
 };
 
 export const dataArray = [
   {
     componentProps: {
-      name: 'requester',
-
+      name: 'clientName',
       label: 'Client Name & Organization',
-
       fullWidth: true,
-
       select: true,
     },
 
@@ -100,12 +56,9 @@ export const dataArray = [
 
   {
     componentProps: {
-      name: 'product/suite',
-
+      name: 'product',
       label: 'Product/Suite',
-
       fullWidth: true,
-
       select: true,
     },
 
@@ -125,19 +78,14 @@ export const dataArray = [
   {
     componentProps: {
       name: 'planType',
-
       label: 'Plan Type',
-
       fullWidth: true,
-
       select: true,
     },
 
     options: [
       { value: 'Growth', label: 'Growth' },
-
       { value: 'Enterprise', label: 'Enterprise' },
-
       { value: 'Premiun', label: 'Premiun' },
     ],
 
@@ -148,9 +96,7 @@ export const dataArray = [
   {
     componentProps: {
       name: 'additionalUser',
-
       label: 'Additional User',
-
       fullWidth: true,
     },
 
@@ -161,9 +107,7 @@ export const dataArray = [
   {
     componentProps: {
       name: 'planPrice',
-
       label: 'Plan Price',
-
       fullWidth: true,
     },
 
@@ -174,9 +118,7 @@ export const dataArray = [
   {
     componentProps: {
       name: 'defaultUser',
-
       label: 'Default User',
-
       fullWidth: true,
     },
 
@@ -187,9 +129,7 @@ export const dataArray = [
   {
     componentProps: {
       name: 'defaultUser',
-
       label: 'Default User',
-
       fullWidth: true,
     },
 
@@ -200,9 +140,7 @@ export const dataArray = [
   {
     componentProps: {
       name: 'additionalStorage',
-
       label: 'Additional Storage',
-
       fullWidth: true,
     },
 
@@ -213,9 +151,7 @@ export const dataArray = [
   {
     componentProps: {
       name: 'discount',
-
       label: 'Discount(%)',
-
       fullWidth: true,
     },
 
@@ -226,21 +162,15 @@ export const dataArray = [
   {
     componentProps: {
       name: 'billingCycle',
-
       label: 'Billing Cycle',
-
       fullWidth: true,
-
       select: true,
     },
 
     options: [
       { value: 'paidMonthly', label: 'Paid Monthly' },
-
       { value: 'paidquarterly', label: 'Paid Quarterly' },
-
       { value: 'paidHalfYearly', label: 'Paid Half-Yearly' },
-
       { value: 'paidAnnually', label: 'Paid Annually' },
     ],
 
@@ -251,10 +181,8 @@ export const dataArray = [
 
   {
     componentProps: {
-      name: 'plannedStartDate',
-
+      name: 'date',
       label: 'Planned Start Date',
-
       fullWidth: true,
     },
 
