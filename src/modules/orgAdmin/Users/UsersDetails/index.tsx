@@ -10,7 +10,7 @@ import CommonDrawer from '@/components/CommonDrawer';
 
 import Accounts from './Accounts/Accounts';
 
-import Profile from './Profile/Profile';
+import Profile from './Profile';
 
 import AddAccount from '../Drawers/AddAccount';
 

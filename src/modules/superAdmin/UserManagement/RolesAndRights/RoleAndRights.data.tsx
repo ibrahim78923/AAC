@@ -191,7 +191,7 @@ export const addUsersArrayData = [
 
   {
     componentProps: {
-      name: 'productTyoe',
+      name: 'productType',
       label: 'Select Product',
       fullWidth: true,
       select: true,

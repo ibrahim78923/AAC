@@ -4,7 +4,7 @@ import { Box, Grid } from '@mui/material';
 
 import UsersSidebar from './UsersSidebar';
 
-import UsersDetails from './UsersDetails/UsersDetails';
+import UsersDetails from './UsersDetails';
 
 const Users = () => {
   return (

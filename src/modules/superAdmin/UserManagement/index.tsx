@@ -26,6 +26,7 @@ import SuperAdminUsers from './Users/SuperAdminUsers';
 import { ArrowDropDown } from '@mui/icons-material';
 
 import { FilterSharedIcon, PlusSharedIcon } from '@/assets/icons';
+import { ROUTES_CONSTANTS } from '@/constants';
 
 const UserManagement = () => {
   const navigate = useRouter();
@@ -41,7 +42,7 @@ const UserManagement = () => {
   };
 
   const handleAddRole = () => {
-    navigate.push('/super-admin/user-management/add-role');
+    navigate.push(ROUTES_CONSTANTS.ADDROLE);
   };
 
   const handleClose = () => {

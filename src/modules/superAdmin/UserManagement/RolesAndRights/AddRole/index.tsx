@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 
 import { Box, Typography, Grid, Divider, Button } from '@mui/material';
 
-import CommonAccordian from './CommonAccordian';
+import PermissionsAccordion from './PermissionsAccordion';
 
 import { ArrowBack } from '@mui/icons-material';
 
@@ -22,6 +22,7 @@ import {
   addUserSchema,
   addUsersArrayData,
 } from '../RoleAndRights.data';
+import { ROUTES_CONSTANTS } from '@/constants';
 
 const AddRole = () => {
   const [isSwitchVal, setIsSwitchVal] = useState(false);
@@ -47,7 +48,7 @@ const AddRole = () => {
       <Box sx={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
         <ArrowBack
           onClick={() => {
-            navigate.push('/super-admin/user-management');
+            navigate.push(ROUTES_CONSTANTS.ADDROLE);
           }}
           sx={{ cursor: 'pointer' }}
         />
@@ -69,39 +70,39 @@ const AddRole = () => {
               </Grid>
             ))}
           </Grid>
+          <Grid container>
+            <Grid item xs={12} lg={10}>
+              <Typography variant="h5">Permissions</Typography>
+            </Grid>
+            <Grid item xs={12} lg={10}>
+              <PermissionsAccordion
+                data={accData}
+                handleSwitch={handleSwitch}
+                checked={isSwitchVal}
+              />
+            </Grid>
+          </Grid>
+          <Divider sx={{ my: 3 }} />
+          <Box
+            sx={{ display: 'flex', gap: '10px', justifyContent: 'end', my: 2 }}
+          >
+            <Button
+              variant="outlined"
+              onClick={() => {
+                navigate.push(ROUTES_CONSTANTS.USERMANAGMENT);
+              }}
+            >
+              Cancel
+            </Button>
+            <Button
+              type="submit"
+              variant="contained"
+              onClick={handleSubmit(onSubmit)}
+            >
+              Add
+            </Button>
+          </Box>
         </FormProvider>
-      </Box>
-      <Grid container>
-        <Grid item xs={12} lg={10}>
-          <Typography variant="h5">Permissions</Typography>
-        </Grid>
-        <Grid item xs={12} lg={10}>
-          <CommonAccordian
-            data={accData}
-            handleSwitch={handleSwitch}
-            checked={isSwitchVal}
-          />
-        </Grid>
-      </Grid>
-      <Divider sx={{ my: 3 }} />
-      <Box sx={{ display: 'flex', gap: '10px', justifyContent: 'end', my: 2 }}>
-        <Button
-          variant="outlined"
-          onClick={() => {
-            navigate.push('/super-admin/user-management');
-          }}
-        >
-          Cancel
-        </Button>
-        <Button
-          type="submit"
-          variant="contained"
-          onClick={() => {
-            handleSubmit(onSubmit);
-          }}
-        >
-          Add
-        </Button>
       </Box>
     </Box>
   );

@@ -8,11 +8,11 @@ import {
   Typography,
 } from '@mui/material';
 
-import AccordianInterfaceI from './CommonAccordian.interface';
+import AccordianInterfaceI from './PermissionsAccordion.interface';
 
 import { v4 as uuidv4 } from 'uuid';
 
-const CommonAccordian = (props: AccordianInterfaceI) => {
+const PermissionsAccordion = (props: AccordianInterfaceI) => {
   const { className, data, handleSwitch, checked } = props;
 
   const theme = useTheme();
@@ -46,4 +46,4 @@ const CommonAccordian = (props: AccordianInterfaceI) => {
   );
 };
 
-export default CommonAccordian;
+export default PermissionsAccordion;
