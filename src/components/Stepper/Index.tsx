@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import {
   Box,
@@ -27,7 +27,7 @@ const AppHorizontalStepper: React.FC<HorizontalStepperI> = ({
   stepperPadding = '4rem 0',
   stepperMargin = '2rem 0',
 }) => {
-  const [activeStep, setActiveStep] = React.useState(0);
+  const [activeStep, setActiveStep] = useState(0);
   const theme = useTheme();
 
   const handleNext = () => {
@@ -186,5 +186,3 @@ const CustomConnector = styled(StepConnector)(({ theme }) => ({
     },
   },
 }));
-
-// Test comment , file name capital to small
