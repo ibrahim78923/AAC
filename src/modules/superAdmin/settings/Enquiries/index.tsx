@@ -131,7 +131,7 @@ const Enquiries = () => {
               Delete
             </MenuItem>
           </Menu>
-          <Button sx={styles.refreshButton}>
+          <Button sx={styles.refreshButton(theme)}>
             <RefreshSharedIcon />
           </Button>
           <Button

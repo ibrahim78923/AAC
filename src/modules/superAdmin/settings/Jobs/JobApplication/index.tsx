@@ -66,7 +66,7 @@ const JobApplication = () => {
             gap: '10px',
           }}
         >
-          <Button sx={styles.refreshButton}>
+          <Button sx={styles.refreshButton(theme)}>
             <RefreshSharedIcon />
           </Button>
           <Button

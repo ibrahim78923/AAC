@@ -1,14 +1,16 @@
-import * as React from 'react';
-import Menu from '@mui/material/Menu';
+import React, { useState } from 'react';
+
+import { Box, InputAdornment, TextField, Menu } from '@mui/material';
+
 import { useFormContext, Controller } from 'react-hook-form';
-import { Box, InputAdornment, TextField } from '@mui/material';
+
 import { ArrowDownIcon } from '@/assets/icons';
 
 export default function RHFSearchableSelect({ name, options, ...other }: any) {
   const { control } = useFormContext();
-  const [searchTerm, setSearchTerm] = React.useState('');
-  const [selectedValue, setSelectedValue] = React.useState('');
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedValue, setSelectedValue] = useState('');
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {

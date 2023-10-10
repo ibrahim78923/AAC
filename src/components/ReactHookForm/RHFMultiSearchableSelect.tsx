@@ -1,14 +1,16 @@
-import * as React from 'react';
-import Menu from '@mui/material/Menu';
+import React, { useState } from 'react';
+
+import { Box, InputAdornment, TextField, Menu } from '@mui/material';
+
 import { useFormContext, Controller } from 'react-hook-form';
-import { Box, InputAdornment, TextField } from '@mui/material';
+
 import { ArrowDownIcon } from '@/assets/icons';
 
 export default function RHFSearchableSelect({ name, options, ...other }: any) {
   const { control } = useFormContext();
-  const [searchTerm, setSearchTerm] = React.useState('');
-  const [selectedValues, setSelectedValues] = React.useState<string[]>([]); // Use an array to store multiple selected values
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedValues, setSelectedValues] = useState<string[]>([]);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -89,7 +91,7 @@ export default function RHFSearchableSelect({ name, options, ...other }: any) {
                     padding: '5px 10px',
                     backgroundColor: selectedValues.includes(option.value)
                       ? '#e0e0e0'
-                      : 'transparent', // Highlight selected options
+                      : 'transparent',
                   }}
                 >
                   {option.label}
