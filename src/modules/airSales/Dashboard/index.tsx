@@ -1,5 +1,6 @@
 import { Grid, Typography } from '@mui/material';
 import Actions from './Actions';
+import Manage from './Manage';
 
 const Dashboard = () => {
   return (
@@ -10,6 +11,9 @@ const Dashboard = () => {
         </Grid>
         <Grid item xs={6} sm={6}>
           <Actions />
+        </Grid>
+        <Grid item xs={12} sm={12}>
+          <Manage />
         </Grid>
       </Grid>
     </Grid>

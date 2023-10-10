@@ -10,7 +10,7 @@ import Fade from '@mui/material/Fade';
 
 import { ArrowDropDown } from '@mui/icons-material';
 import useActions from './useActions';
-import EmailDashboard from '../EmailDashboard';
+import EmailDashboard from '../Email';
 
 const Actions = () => {
   const {
