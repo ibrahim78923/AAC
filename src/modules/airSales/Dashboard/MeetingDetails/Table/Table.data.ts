@@ -1,7 +1,7 @@
 export const columns: any = [
   {
     accessorFn: (row: any) => row.Id,
-    id: 'Id',
+    id: 'meetingName',
     cell: (info: any) => info.getValue(),
     header: 'Meeting Name',
     isSortable: false,
@@ -9,49 +9,56 @@ export const columns: any = [
 
   {
     accessorFn: (row: any) => row.clientName,
-    id: 'clientName',
+    id: 'organizer',
     cell: (info: any) => info.getValue(),
-    header: 'Client Name',
+    header: 'Organizer',
     isSortable: false,
   },
 
   {
     accessorFn: (row: any) => row.productsSuite,
-    id: 'productsSuite',
+    id: 'type',
     isSortable: true,
-    header: 'Products/Suite',
+    header: 'Type',
     cell: (info: any) => info.getValue(),
   },
 
   {
     accessorFn: (row: any) => row.planType,
-    id: 'planType',
+    id: 'duration',
     isSortable: true,
-    header: 'Plan Type',
+    header: 'Duration',
     cell: (info: any) => info.getValue(),
   },
 
   {
     accessorFn: (row: any) => row.discount,
-    id: 'discount',
+    id: 'businessUnit',
     isSortable: true,
-    header: 'Discount',
+    header: 'Business Unit',
     cell: (info: any) => info.getValue(),
   },
 
   {
     accessorFn: (row: any) => row.defaultUsers,
-    id: 'defaultUsers',
+    id: 'views',
     isSortable: true,
-    header: 'Default users',
+    header: 'Views',
     cell: (info: any) => info.getValue(),
   },
 
   {
     accessorFn: (row: any) => row.additionalUsers,
-    id: 'additionalUsers',
+    id: 'meetingBooked',
     isSortable: true,
-    header: 'Additional Users',
+    header: 'Meeting Booked',
+    cell: (info: any) => info.getValue(),
+  },
+  {
+    accessorFn: (row: any) => row.additionalUsers,
+    id: 'conversationRate',
+    isSortable: true,
+    header: 'Conversation Rate',
     cell: (info: any) => info.getValue(),
   },
 ];

@@ -6,7 +6,7 @@ import { ArrowDropDown } from '@mui/icons-material';
 import EmailDashboard from '../Email';
 import useActions from './useActions';
 
-const Actions = () => {
+const ActionsOptions = () => {
   const {
     handleClickActions,
     isShowDrawer,
@@ -68,4 +68,4 @@ const Actions = () => {
   );
 };
 
-export default Actions;
+export default ActionsOptions;

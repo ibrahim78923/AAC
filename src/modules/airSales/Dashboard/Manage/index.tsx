@@ -43,7 +43,7 @@ const Manage = () => {
           </Button>
         </Grid>
       </Grid>
-      <Grid item xs={6} sm={6}>
+      <Grid item xs={12} sm={12}>
         <Table />
       </Grid>
     </Grid>

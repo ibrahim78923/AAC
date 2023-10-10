@@ -1,6 +1,6 @@
 import { Grid, Typography } from '@mui/material';
 
-import Actions from './Actions';
+import Actions from './ActionsOptions';
 import Manage from './Manage';
 
 const Dashboard = () => {

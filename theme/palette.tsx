@@ -84,6 +84,8 @@ const CUSTOM_COLORS = {
   mint_green: '#E6FAEB',
   light_lavender_gray: '#EAECF0',
   steel_blue: '#79839E99',
+  light_grayish_blue: '#E9EAEF',
+  shade_grey: '#1018281A',
 };
 const GRADIENTS = {
   primary: createGradient(PRIMARY.light, PRIMARY.main),
