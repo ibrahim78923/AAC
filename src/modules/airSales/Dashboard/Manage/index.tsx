@@ -9,6 +9,7 @@ import { FilterSharedIcon, PlusSharedIcon } from '@/assets/icons';
 
 const Manage = () => {
   const { setIsOpenFilterDrawer, searchByName, setSearchByName } = useManage();
+
   return (
     <Grid container>
       <Grid item xs={6} sm={6}>
