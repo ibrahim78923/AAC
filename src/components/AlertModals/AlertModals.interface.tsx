@@ -1,7 +1,7 @@
 export interface ModelPropsI {
   message: string;
   type: string;
-  open: boolean;
-  handleClose: (value: boolean) => void;
+  open: boolean | string;
+  handleClose: (value: boolean | string) => void;
   handleSubmit: () => void;
 }

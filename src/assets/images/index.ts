@@ -51,3 +51,4 @@ export { default as RQCodeImage } from '../../assets/images/shared/qr-code.png';
 export { default as DiscussionImage } from '../../assets/images/modules/tickets/meetings/discussion.png';
 export { default as TeamsImage } from '../../assets/images/modules/tickets/meetings/teams.png';
 export { default as ZoomImage } from '../../assets/images/modules/tickets/meetings/zoom.png';
+export { default as ActivityLogImage } from './modules/Deals/activity-log.png';

@@ -1,0 +1,38 @@
+export const ActivityLogList = [
+  {
+    name: 'Deals was created By Olivia Rhye ',
+    message: '5 March, 2023 - 11:02 PM',
+  },
+  {
+    name: ' Olivia Rhye Attached a ticket What’s wrong with my Email?',
+    message: '5 March, 2023 - 11:02 PM',
+    activityList: [
+      'System Executed Default OLA',
+      'System applied Business hours Default',
+    ],
+  },
+];
+
+export const TasksTableData: any = [
+  {
+    Id: 1,
+    taskno: ` #TSK- 5`,
+    taskname: 'Business Platform debt, docs, refactors and stability',
+    duedate: 'Mar 3, - Mar 26, 2022',
+    assignedTo: 'Robert Fox',
+  },
+  {
+    Id: 2,
+    taskno: ` #TSK- 6`,
+    taskname: 'Search migration modelling',
+    duedate: '--',
+    assignedTo: 'Ralph Edwards',
+  },
+  {
+    Id: 3,
+    taskno: ` #TSK- 7`,
+    taskname: 'Draftstrtr',
+    duedate: 'Mar 3, - Mar 26, 2022',
+    assignedTo: 'Cameron Williamson',
+  },
+];
