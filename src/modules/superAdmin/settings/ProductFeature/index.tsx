@@ -2,7 +2,16 @@ import React, { useState } from 'react';
 
 import Image from 'next/image';
 
-import { Box, Button, Typography, Checkbox, Grid } from '@mui/material';
+import {
+  Box,
+  Button,
+  Typography,
+  Checkbox,
+  Grid,
+  Menu,
+  MenuItem,
+  useTheme,
+} from '@mui/material';
 
 import Search from '@/components/Search';
 import CommonDrawer from '@/components/CommonDrawer';
@@ -25,11 +34,22 @@ import { SalesIcon } from '@/assets/images';
 import PlusShared from '@/assets/icons/shared/plus-shared';
 
 import { v4 as uuidv4 } from 'uuid';
+import { DownIcon } from '@/assets/icons';
 
 const ProductFeature = () => {
+  const theme = useTheme();
   const [isAddProductFeatureDrawer, setIsAddProductFeatureDrawer] =
     useState(false);
   const [productFeatureSearch, setProductFeatureSearch] = useState('');
+
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const actionMenuOpen = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const columns: any = [
     {
@@ -50,7 +70,7 @@ const ProductFeature = () => {
             fontWeight: '500 !important',
           }}
         >
-          <Image src={SalesIcon} /> Sales
+          <Image src={SalesIcon} alt="sales-icon" /> Sales
         </Box>
       ),
       header: 'Product Name',
@@ -145,6 +165,31 @@ const ProductFeature = () => {
             gap: '10px',
           }}
         >
+          <Button
+            id="basic-button"
+            aria-controls={actionMenuOpen ? 'basic-menu' : undefined}
+            aria-haspopup="true"
+            aria-expanded={actionMenuOpen ? 'true' : undefined}
+            onClick={handleClick}
+            sx={{
+              color: theme.palette.grey[500],
+              height: '40px',
+              border: '1.5px solid #e7e7e9',
+            }}
+          >
+            Actions &nbsp; <DownIcon />
+          </Button>
+          <Menu
+            id="basic-menu"
+            anchorEl={anchorEl}
+            open={actionMenuOpen}
+            onClose={handleClose}
+            MenuListProps={{
+              'aria-labelledby': 'basic-button',
+            }}
+          >
+            <MenuItem>Edit</MenuItem>
+          </Menu>
           <Button
             variant="contained"
             sx={{ height: '36px', fontWeight: '500' }}

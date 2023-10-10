@@ -15,6 +15,7 @@ import Search from '@/components/Search';
 import CommonDrawer from '@/components/CommonDrawer';
 import TanstackTable from '@/components/Tabel/TanstackTable';
 import CustomPagination from '@/components/CustomPagination';
+import { AlertModals } from '@/components/AlertModals';
 
 import {
   faqsFilterDefaultValues,
@@ -38,6 +39,7 @@ const Faqs = () => {
   const theme = useTheme();
   const [isFaqsFilterDrawerOpen, setIsFaqsFilterDrawerOpen] = useState(false);
   const [faqsSearch, setFaqsSearch] = useState('');
+  const [isFaqsDeleteModal, setIsFaqsDeleteModal] = useState(false);
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const actionMenuOpen = Boolean(anchorEl);
@@ -173,7 +175,9 @@ const Faqs = () => {
           >
             <MenuItem>Edit</MenuItem>
             <MenuItem>View</MenuItem>
-            <MenuItem onClick={handleClose}>Delete</MenuItem>
+            <MenuItem onClick={() => setIsFaqsDeleteModal(true)}>
+              Delete
+            </MenuItem>
           </Menu>
           <Button sx={styles.refreshButton}>
             <RefreshSharedIcon />
@@ -226,6 +230,14 @@ const Faqs = () => {
           </FormProvider>
         </>
       </CommonDrawer>
+
+      <AlertModals
+        message={'Are you sure you want to delete this entry ?'}
+        type="delete"
+        open={isFaqsDeleteModal}
+        handleClose={() => setIsFaqsDeleteModal(false)}
+        handleSubmit={() => setIsFaqsDeleteModal(false)}
+      />
     </Box>
   );
 };

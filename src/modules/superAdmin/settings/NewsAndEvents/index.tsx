@@ -7,12 +7,16 @@ import {
   useTheme,
   Checkbox,
   Grid,
+  Menu,
+  MenuItem,
 } from '@mui/material';
 
 import Search from '@/components/Search';
 import CommonDrawer from '@/components/CommonDrawer';
 import TanstackTable from '@/components/Tabel/TanstackTable';
 import CustomPagination from '@/components/CustomPagination';
+import { AlertModals } from '@/components/AlertModals';
+
 import { FormProvider } from '@/components/ReactHookForm';
 
 import {
@@ -27,7 +31,7 @@ import { useForm } from 'react-hook-form';
 import { newsAndEventsTabledata } from '@/mock/modules/Settings/NewsAndEvents';
 
 import PlusShared from '@/assets/icons/shared/plus-shared';
-import { FilterSharedIcon, RefreshSharedIcon } from '@/assets/icons';
+import { DownIcon, FilterSharedIcon, RefreshSharedIcon } from '@/assets/icons';
 
 import { styles } from './NewsAndEvents.style';
 import { v4 as uuidv4 } from 'uuid';
@@ -37,6 +41,17 @@ const NewsAndEvents = () => {
   const [isNewsAndEventsFilterDrawerOpen, setIsNewsAndEventsFilterDrawerOpen] =
     useState(false);
   const [newsAndEventsSearch, setNewsAndEventsSearch] = useState('');
+  const [isNewsAndEventsDeleteModal, setisNewsAndEventsDeleteModal] =
+    useState(false);
+
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const actionMenuOpen = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const columns: any = [
     {
@@ -134,6 +149,36 @@ const NewsAndEvents = () => {
             gap: '10px',
           }}
         >
+          <Button
+            id="basic-button"
+            aria-controls={actionMenuOpen ? 'basic-menu' : undefined}
+            aria-haspopup="true"
+            aria-expanded={actionMenuOpen ? 'true' : undefined}
+            onClick={handleClick}
+            sx={{
+              color: theme.palette.grey[500],
+              height: '40px',
+              border: '1.5px solid #e7e7e9',
+            }}
+          >
+            Actions &nbsp; <DownIcon />
+          </Button>
+          <Menu
+            id="basic-menu"
+            anchorEl={anchorEl}
+            open={actionMenuOpen}
+            onClose={handleClose}
+            MenuListProps={{
+              'aria-labelledby': 'basic-button',
+            }}
+          >
+            <MenuItem>Edit</MenuItem>
+            <MenuItem>Active</MenuItem>
+            <MenuItem>Inactive</MenuItem>
+            <MenuItem onClick={() => setisNewsAndEventsDeleteModal(true)}>
+              Delete
+            </MenuItem>
+          </Menu>
           <Button sx={styles.refreshButton}>
             <RefreshSharedIcon />
           </Button>
@@ -191,6 +236,14 @@ const NewsAndEvents = () => {
           </FormProvider>
         </>
       </CommonDrawer>
+
+      <AlertModals
+        message={'Are you sure you want to delete this entry ?'}
+        type="delete"
+        open={isNewsAndEventsDeleteModal}
+        handleClose={() => setisNewsAndEventsDeleteModal(false)}
+        handleSubmit={() => setisNewsAndEventsDeleteModal(false)}
+      />
     </Box>
   );
 };

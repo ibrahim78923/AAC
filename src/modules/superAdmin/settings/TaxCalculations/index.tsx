@@ -7,12 +7,15 @@ import {
   Typography,
   useTheme,
   Grid,
+  Menu,
+  MenuItem,
 } from '@mui/material';
 
 import Search from '@/components/Search';
 import CommonDrawer from '@/components/CommonDrawer';
 import TanstackTable from '@/components/Tabel/TanstackTable';
 import CustomPagination from '@/components/CustomPagination';
+import { AlertModals } from '@/components/AlertModals';
 
 import { FormProvider } from '@/components/ReactHookForm';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -29,7 +32,7 @@ import {
 
 import { taxCalculationTableData } from '@/mock/modules/Settings/TaxCalculation';
 
-import { FilterSharedIcon, RefreshSharedIcon } from '@/assets/icons';
+import { DownIcon, FilterSharedIcon, RefreshSharedIcon } from '@/assets/icons';
 import PlusShared from '@/assets/icons/shared/plus-shared';
 
 import { styles } from './TaxCalculations.styles';
@@ -44,6 +47,16 @@ const TaxCalculation = () => {
   const [isTaxCalculationDrawerOpen, setIsTaxCalculationDrawerOpen] =
     useState(false);
   const [taxCalculationSearch, setTaxCalculationSearch] = useState('');
+  const [isTaxDeleteModal, setisTaxDeleteModal] = useState(false);
+
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const actionMenuOpen = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const columns: any = [
     {
@@ -162,6 +175,36 @@ const TaxCalculation = () => {
             gap: '10px',
           }}
         >
+          <Button
+            id="basic-button"
+            aria-controls={actionMenuOpen ? 'basic-menu' : undefined}
+            aria-haspopup="true"
+            aria-expanded={actionMenuOpen ? 'true' : undefined}
+            onClick={handleClick}
+            sx={{
+              color: theme.palette.grey[500],
+              height: '40px',
+              border: '1.5px solid #e7e7e9',
+            }}
+          >
+            Actions &nbsp; <DownIcon />
+          </Button>
+          <Menu
+            id="basic-menu"
+            anchorEl={anchorEl}
+            open={actionMenuOpen}
+            onClose={handleClose}
+            MenuListProps={{
+              'aria-labelledby': 'basic-button',
+            }}
+          >
+            <MenuItem>Edit</MenuItem>
+            <MenuItem>Active</MenuItem>
+            <MenuItem>Inactive</MenuItem>
+            <MenuItem onClick={() => setisTaxDeleteModal(true)}>
+              Delete
+            </MenuItem>
+          </Menu>
           <Button sx={styles.refreshButton}>
             <RefreshSharedIcon />
           </Button>
@@ -248,6 +291,13 @@ const TaxCalculation = () => {
           </FormProvider>
         </>
       </CommonDrawer>
+      <AlertModals
+        message={'Are you sure you want to delete this entry ?'}
+        type="delete"
+        open={isTaxDeleteModal}
+        handleClose={() => setisTaxDeleteModal(false)}
+        handleSubmit={() => setisTaxDeleteModal(false)}
+      />
     </Box>
   );
 };

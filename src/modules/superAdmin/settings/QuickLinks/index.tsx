@@ -8,6 +8,8 @@ import {
   Switch,
   Typography,
   useTheme,
+  Menu,
+  MenuItem,
 } from '@mui/material';
 
 import Search from '@/components/Search';
@@ -32,7 +34,8 @@ import {
 } from '../Jobs/JobApplication/JobApplication.data';
 
 import {
-  ArrowBackIcon,
+  ArrowLeftIcon,
+  DownIcon,
   FilterSharedIcon,
   RefreshSharedIcon,
 } from '@/assets/icons';
@@ -40,6 +43,7 @@ import PlusShared from '@/assets/icons/shared/plus-shared';
 
 import { styles } from './QuickLinks.style';
 import { v4 as uuidv4 } from 'uuid';
+import { AlertModals } from '@/components/AlertModals';
 
 const QuickLinks = () => {
   const theme = useTheme();
@@ -47,6 +51,16 @@ const QuickLinks = () => {
     useState(false);
   const [quickLinksSearch, setQuickLinksSearch] = useState('');
   const [isManageQuickLinks, setIsManageQuickLinks] = useState<boolean>(false);
+  const [isQuickLinksDeleteModal, setisQuickLinksDeleteModal] = useState(false);
+
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const actionMenuOpen = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
@@ -150,6 +164,33 @@ const QuickLinks = () => {
                 gap: '10px',
               }}
             >
+              <Button
+                id="basic-button"
+                aria-controls={actionMenuOpen ? 'basic-menu' : undefined}
+                aria-haspopup="true"
+                aria-expanded={actionMenuOpen ? 'true' : undefined}
+                onClick={handleClick}
+                sx={{
+                  color: theme.palette.grey[500],
+                  height: '40px',
+                  border: '1.5px solid #e7e7e9',
+                }}
+              >
+                Actions &nbsp; <DownIcon />
+              </Button>
+              <Menu
+                id="basic-menu"
+                anchorEl={anchorEl}
+                open={actionMenuOpen}
+                onClose={handleClose}
+                MenuListProps={{
+                  'aria-labelledby': 'basic-button',
+                }}
+              >
+                <MenuItem onClick={() => setisQuickLinksDeleteModal(true)}>
+                  Delete
+                </MenuItem>
+              </Menu>
               <Button sx={styles.refreshButton}>
                 <RefreshSharedIcon />
               </Button>
@@ -213,7 +254,7 @@ const QuickLinks = () => {
             }}
             onClick={() => setIsManageQuickLinks(false)}
           >
-            <ArrowBackIcon />
+            <ArrowLeftIcon />
             <Typography variant="h4" sx={{ fontWeight: '600' }}>
               Quick Links
             </Typography>
@@ -246,6 +287,13 @@ const QuickLinks = () => {
                 </Grid>
               ))}
           </Grid>
+          <AlertModals
+            message={'Are you sure you want to delete this entry ?'}
+            type="delete"
+            open={isQuickLinksDeleteModal}
+            handleClose={() => setisQuickLinksDeleteModal(false)}
+            handleSubmit={() => setisQuickLinksDeleteModal(false)}
+          />
         </Box>
       )}
     </>

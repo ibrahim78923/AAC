@@ -31,12 +31,14 @@ import { DownIcon, FilterSharedIcon, RefreshSharedIcon } from '@/assets/icons';
 
 import { styles } from './Enquiries.styles';
 import { v4 as uuidv4 } from 'uuid';
+import { AlertModals } from '@/components/AlertModals';
 
 const Enquiries = () => {
   const theme = useTheme();
   const [isEnquiriesFilterDrawerOpen, setIsEnquiriesFilterDrawerOpen] =
     useState(false);
   const [faqsSearch, setFaqsSearch] = useState('');
+  const [isEnquiriesDeleteModal, setisEnquiriesDeleteModal] = useState(false);
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const actionMenuOpen = Boolean(anchorEl);
@@ -177,7 +179,9 @@ const Enquiries = () => {
           >
             <MenuItem>Reply</MenuItem>
             <MenuItem>View</MenuItem>
-            <MenuItem>Delete</MenuItem>
+            <MenuItem onClick={() => setisEnquiriesDeleteModal(true)}>
+              Delete
+            </MenuItem>
           </Menu>
           <Button sx={styles.refreshButton}>
             <RefreshSharedIcon />
@@ -230,6 +234,14 @@ const Enquiries = () => {
           </FormProvider>
         </>
       </CommonDrawer>
+
+      <AlertModals
+        message={'Are you sure you want to delete this entry ?'}
+        type="delete"
+        open={isEnquiriesDeleteModal}
+        handleClose={() => setisEnquiriesDeleteModal(false)}
+        handleSubmit={() => setisEnquiriesDeleteModal(false)}
+      />
     </Box>
   );
 };

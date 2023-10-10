@@ -36,6 +36,7 @@ import { DownIcon, FilterSharedIcon, RefreshSharedIcon } from '@/assets/icons';
 
 import { styles } from './Jobs.styles';
 import { v4 as uuidv4 } from 'uuid';
+import { AlertModals } from '@/components/AlertModals';
 
 const JobPosting = ({
   isJobPostingDrawer,
@@ -103,6 +104,8 @@ const JobPosting = ({
   const theme = useTheme();
   const [jobPostingSearch, setJobPostingSearch] = useState<string>('');
   const [isJobPostingFilterDrawer, setIsJobPostingFilterDrawer] =
+    useState<boolean>(false);
+  const [isjobPostingDeleteModal, setIsJobPostingDeleteModal] =
     useState<boolean>(false);
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -184,7 +187,9 @@ const JobPosting = ({
             <MenuItem onClick={() => setIsJobPostingDrawer(true)}>
               View
             </MenuItem>
-            <MenuItem onClick={handleClose}>Delete</MenuItem>
+            <MenuItem onClick={() => setIsJobPostingDeleteModal(true)}>
+              Delete
+            </MenuItem>
           </Menu>
 
           <Button sx={styles.refreshButton}>
@@ -270,6 +275,14 @@ const JobPosting = ({
           </FormProvider>
         </>
       </CommonDrawer>
+
+      <AlertModals
+        message={'Are you sure you want to delete this entry ?'}
+        type="delete"
+        open={isjobPostingDeleteModal}
+        handleClose={() => setIsJobPostingDeleteModal(false)}
+        handleSubmit={() => setIsJobPostingDeleteModal(false)}
+      />
     </Box>
   );
 };
