@@ -13,7 +13,7 @@ import {
 } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
-import PlanDetails from './PlanDetails';
+import PlanDetails from './PlanDetails/ABA';
 import Search from '@/components/Search';
 import CommonDrawer from '@/components/CommonDrawer';
 import AppAvatarGroup from '@/components/AvatarGroup';
