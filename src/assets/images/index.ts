@@ -52,3 +52,4 @@ export { default as DiscussionImage } from '../../assets/images/modules/tickets/
 export { default as TeamsImage } from '../../assets/images/modules/tickets/meetings/teams.png';
 export { default as ZoomImage } from '../../assets/images/modules/tickets/meetings/zoom.png';
 export { default as ActivityLogImage } from './modules/Deals/activity-log.png';
+export { default as NotesAvatarImage } from './modules/Deals/mock/notes-avatar.png';

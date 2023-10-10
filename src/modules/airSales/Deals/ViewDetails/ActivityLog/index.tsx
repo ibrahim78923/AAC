@@ -4,16 +4,15 @@ import Image from 'next/image';
 
 import { Box, Grid, Typography } from '@mui/material';
 
-import useActivityLog from './ActivityLog.hook';
-
 import { ActivityLogList } from '@/mock/modules/Deals';
 
 import { ActivityLogImage } from '@/assets/images';
 
 import { v4 as uuidv4 } from 'uuid';
+import useNameWithStyledWords from '@/hooks/useNameStyledWords';
 
 const ActivityLog = () => {
-  const { NameWithStyledWords, theme } = useActivityLog();
+  const { NameWithStyledWords, theme } = useNameWithStyledWords();
 
   return (
     <div>

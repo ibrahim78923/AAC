@@ -1,3 +1,5 @@
+import { NotesAvatarImage } from '@/assets/images';
+
 export const ActivityLogList = [
   {
     name: 'Deals was created By Olivia Rhye ',
@@ -34,5 +36,16 @@ export const TasksTableData: any = [
     taskname: 'Draftstrtr',
     duedate: 'Mar 3, - Mar 26, 2022',
     assignedTo: 'Cameron Williamson',
+  },
+];
+
+export const NotesDataArray = [
+  {
+    id: '1',
+    title: 'Note Created by Olivia Rhye',
+    image: NotesAvatarImage,
+    date: '5 March, 2023 - 11:02 PM',
+    description:
+      'Lorem ipsum dolor sit amet consectetur. Sit facilisis pharetra vel vestibulum pulvinar eget malesuada nunc ridiculus. Curabitur ultrices tincidunt venenatis mattis fusce imperdiet blandit.',
   },
 ];

@@ -1,7 +1,6 @@
-import React from 'react';
-import { useTheme, Typography } from '@mui/material';
+import { Typography, useTheme } from '@mui/material';
 
-const useActivityLog = () => {
+const useNameWithStyledWords = () => {
   const theme = useTheme();
   const NameWithStyledWords = ({
     name,
@@ -37,7 +36,7 @@ const useActivityLog = () => {
                 : theme.palette.custom.main,
           }}
         >
-          {words[0]}
+          {words[0]} &nbsp;
         </span>
         <span
           style={{
@@ -47,7 +46,7 @@ const useActivityLog = () => {
                 : theme.palette.common.black,
           }}
         >
-          {words.slice(1, -2).join(' ')}{' '}
+          {words.slice(1, -2).join(' ')} &nbsp;
         </span>
         <span style={{ color: theme.palette.primary.main }}>
           {words[words.length - 2]} {words[words.length - 1]}
@@ -61,4 +60,4 @@ const useActivityLog = () => {
   return { NameWithStyledWords, theme };
 };
 
-export default useActivityLog;
+export default useNameWithStyledWords;
