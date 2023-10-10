@@ -1,6 +1,6 @@
 import { grey } from '@mui/material/colors';
 
-const RequestApprovalPageStyles = () => ({
+const RequestApprovalPageStyles: any = () => ({
   approvalsContainerBox: {
     maxHeight: '370px',
     overflow: 'auto',
