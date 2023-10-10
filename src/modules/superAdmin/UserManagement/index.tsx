@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+import { useRouter } from 'next/router';
+
 import { Box, Button, Menu, MenuItem, Typography } from '@mui/material';
 
 import CommonTabs from '@/components/Tabs';
@@ -17,7 +19,6 @@ import SuperAdminUsers from './Users/SuperadminUsers';
 import { ArrowDropDown } from '@mui/icons-material';
 
 import { FilterSharedIcon, PlusSharedIcon } from '@/assets/icons';
-import { useRouter } from 'next/router';
 
 const UserManagement = () => {
   const navigate = useRouter();

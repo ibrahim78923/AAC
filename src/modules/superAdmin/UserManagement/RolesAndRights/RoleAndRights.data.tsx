@@ -4,8 +4,9 @@ import RHFSelect from '@/components/ReactHookForm/RHFSelect';
 
 import RHFDatePicker from '@/components/ReactHookForm/RHFDatePicker';
 
-import * as Yup from 'yup';
 import { RHFTextField } from '@/components/ReactHookForm';
+
+import * as Yup from 'yup';
 
 const label = { inputProps: { 'aria-label': 'Switch demo' } };
 

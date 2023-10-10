@@ -11,23 +11,23 @@ import {
   useTheme,
 } from '@mui/material';
 
+import CommonAccordian from './Accordian';
+
+import { ArrowBack, ExpandMore } from '@mui/icons-material';
+
 import { FormProvider } from '@/components/ReactHookForm';
+
+import { useForm } from 'react-hook-form';
+
+import { yupResolver } from '@hookform/resolvers/yup';
+
+import { v4 as uuidv4 } from 'uuid';
 
 import {
   addUserDefault,
   addUserSchema,
   addUsersArrayData,
 } from '../RoleAndRights.data';
-
-import { v4 as uuidv4 } from 'uuid';
-
-import { useForm } from 'react-hook-form';
-
-import { yupResolver } from '@hookform/resolvers/yup';
-
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import CommonAccordian from './Accordian';
 
 const AddRole = () => {
   const [switchVal, setSwitchVal] = useState(false);
@@ -48,13 +48,13 @@ const AddRole = () => {
       title: 'Dashboard',
       hasSwitch: true,
       content: 'Dashboard content here',
-      endIcon: <ExpandMoreIcon sx={{ color: theme?.palette?.common?.white }} />,
+      endIcon: <ExpandMore sx={{ color: theme?.palette?.common?.white }} />,
     },
     {
       title: 'Deals',
       hasSwitch: true,
       content: 'Deals content here',
-      endIcon: <ExpandMoreIcon sx={{ color: theme?.palette?.common?.white }} />,
+      endIcon: <ExpandMore sx={{ color: theme?.palette?.common?.white }} />,
     },
   ];
 
@@ -65,7 +65,7 @@ const AddRole = () => {
   return (
     <Box>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-        <ArrowBackIcon
+        <ArrowBack
           onClick={() => {
             navigate.push('/super-admin/user-management');
           }}
