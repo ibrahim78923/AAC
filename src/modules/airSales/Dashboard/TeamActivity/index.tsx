@@ -1,4 +1,4 @@
 const TeamActivity = () => {
-  return <></>;
+  return <>Team Activity</>;
 };
 export default TeamActivity;

@@ -1,8 +1,11 @@
-import { FilterSharedIcon, PlusSharedIcon } from '@/assets/icons';
-import Search from '@/components/Search';
 import { Button, Grid, Typography } from '@mui/material';
+
+import Search from '@/components/Search';
+
 import useManage from './useManage';
 import Table from './Table';
+
+import { FilterSharedIcon, PlusSharedIcon } from '@/assets/icons';
 
 const Manage = () => {
   const { setIsOpenFilterDrawer, searchByName, setSearchByName } = useManage();

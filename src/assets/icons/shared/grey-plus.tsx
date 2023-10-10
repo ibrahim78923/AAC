@@ -1,4 +1,4 @@
-const GreyPlusShared = () => {
+const GreyPlus = () => {
   return (
     <svg
       width="24"
@@ -14,4 +14,4 @@ const GreyPlusShared = () => {
     </svg>
   );
 };
-export default GreyPlusShared;
+export default GreyPlus;

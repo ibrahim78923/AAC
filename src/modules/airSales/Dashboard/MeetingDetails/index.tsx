@@ -1,4 +1,4 @@
 const MeetingDetails = () => {
-  return <></>;
+  return <>Meeting Details</>;
 };
 export default MeetingDetails;

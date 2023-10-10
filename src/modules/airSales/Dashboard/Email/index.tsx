@@ -3,10 +3,11 @@ import { Grid, Box } from '@mui/material';
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
 
+import { dataArray, defaultValues, validationSchema } from './Email.data';
+
 import { useForm } from 'react-hook-form';
 import { enqueueSnackbar } from 'notistack';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { dataArray, defaultValues, validationSchema } from './Email.data';
 import { v4 as uuidv4 } from 'uuid';
 const EmailDashboard = ({ isOpenDrawer, onClose }: any) => {
   const methods: any = useForm({

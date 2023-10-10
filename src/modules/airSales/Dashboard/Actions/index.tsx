@@ -1,16 +1,10 @@
 import * as React from 'react';
 
-import Button from '@mui/material/Button';
-
-import Menu from '@mui/material/Menu';
-
-import MenuItem from '@mui/material/MenuItem';
-
-import Fade from '@mui/material/Fade';
-
+import { Button, Menu, MenuItem, Fade } from '@mui/material';
 import { ArrowDropDown } from '@mui/icons-material';
-import useActions from './useActions';
+
 import EmailDashboard from '../Email';
+import useActions from './useActions';
 
 const Actions = () => {
   const {
