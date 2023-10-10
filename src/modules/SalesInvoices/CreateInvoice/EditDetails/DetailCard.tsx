@@ -26,12 +26,12 @@ const DetailCard = () => {
               <LogoSharedIcon />
             </Box>
             {cardDetails.map((item: any) => (
-              <Box key={uuidv4()}>
+              <Stack spacing="5px" key={uuidv4()}>
                 <Typography variant="h5">{item.label}</Typography>
                 {item.details?.map((val: any) => (
                   <Typography key={uuidv4()}>{val.title}</Typography>
                 ))}
-              </Box>
+              </Stack>
             ))}
           </Stack>
           <Box>
