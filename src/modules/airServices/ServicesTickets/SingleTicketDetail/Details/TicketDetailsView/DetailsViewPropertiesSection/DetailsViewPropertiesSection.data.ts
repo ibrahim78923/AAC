@@ -47,6 +47,7 @@ export const dataArray = [
       label: 'Status',
       fullWidth: true,
       select: true,
+      required: true,
     },
     options: [
       {
@@ -75,6 +76,7 @@ export const dataArray = [
       label: 'Priority',
       fullWidth: true,
       select: true,
+      required: true,
     },
     options: [
       {
@@ -123,7 +125,7 @@ export const dataArray = [
   },
   {
     componentProps: {
-      name: 'Source',
+      name: 'source',
       label: 'Source',
       fullWidth: true,
       select: true,

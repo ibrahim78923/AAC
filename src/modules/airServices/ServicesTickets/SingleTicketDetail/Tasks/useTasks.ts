@@ -9,6 +9,9 @@ export const useTasks = (): useTasksI => {
   const [actionPop, setActionPop] = useState<HTMLButtonElement | null>(null);
   const [actionExportPop, setActionExportPop] =
     useState<HTMLButtonElement | null>(null);
+  const [drawerStatusVal, setDrawerStatusVal] = useState(null);
+  const [drawerStatusPop, setDrawerStatusPop] =
+    useState<HTMLButtonElement | null>(null);
   const handleActionClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setActionPop(event.currentTarget);
   };
@@ -24,6 +27,17 @@ export const useTasks = (): useTasksI => {
     setActionExportPop(null);
   };
   const openActionExport = Boolean(actionExportPop);
+  const handleStatusClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setDrawerStatusPop(event.currentTarget);
+  };
+  const handleStatusClose = () => {
+    setDrawerStatusPop(null);
+  };
+  const openDrawerStatus = Boolean(drawerStatusPop);
+  const handleStatusItemClick = (selectedStatus: any) => {
+    setDrawerStatusVal(selectedStatus);
+    setDrawerStatusPop(null);
+  };
   return {
     isAddDrawerOpen,
     setIsAddDrawerOpen,
@@ -43,5 +57,13 @@ export const useTasks = (): useTasksI => {
     handleActionExportClick,
     handleActionExportClose,
     openActionExport,
+    drawerStatusVal,
+    setDrawerStatusVal,
+    drawerStatusPop,
+    setDrawerStatusPop,
+    handleStatusClick,
+    handleStatusClose,
+    openDrawerStatus,
+    handleStatusItemClick,
   };
 };

@@ -1,5 +1,5 @@
 import TanstackTable from '@/components/Tabel/TanstackTable';
-import { tasksTableColumns, tasksTableData } from './Tasks.mock';
+import { tasksTableColumns, tasksTableData } from './Tasks.data';
 import { TaskDrawer } from './TasksDrawers';
 import { useTasks } from './useTasks';
 import { TasksHeader } from './TasksHeader';

@@ -1,11 +1,12 @@
-import DetialViewTimeEnterires from './DetailViewTimeEnteries';
+import Header from '../../components/Header';
+import React from 'react';
 import DetailsVeiwPropSect from './DetailsViewPropertiesSection';
-import ToofPage from '../../components/TopOfPage';
+import DetialViewTimeEnterires from './DetailViewTimeEnteries';
 
 export default function TicketDetail() {
   return (
     <>
-      <ToofPage />
+      <Header />
       <DetailsVeiwPropSect />
       <DetialViewTimeEnterires />
     </>

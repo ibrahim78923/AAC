@@ -1,24 +1,14 @@
 export const styles = {
-  gridItems: {
-    width: '100%',
-    height: 'auto',
-    borderRadius: '8px',
-    border: '1px solid #EAECF0',
-  },
-
-  headBox: {
-    marginTop: '12px',
-    marginBottom: '12px',
+  mainBox: {
     display: 'flex',
     justifyContent: 'space-between',
-    '@media screen and (max-width: 924px)': {
+    alignItems: 'center',
+    marginBottom: '32px',
+    width: '100%',
+    '@media screen and (max-width: 550px)': {
       flexWrap: 'wrap',
-      marginLeft: '24px',
-      marginTop: '12px',
-    },
-    '@media screen and (max-width: 450px)': {
-      paddingRight: '25px',
-      marginLeft: '0px',
+      justifyContent: 'start',
+      marginTop: '2px',
     },
   },
 
@@ -43,17 +33,15 @@ export const styles = {
     },
   }),
 
-  exportButtonStyle: (theme: any) => ({
+  addButtonStyle: (theme: any) => ({
     marginRight: '12px',
-    color: theme.palette.grey?.[500],
-    border: 'none',
+    backgroundColor: theme.palette.primary?.main,
+    color: '#FFFFFF',
     '&:hover': {
-      border: 'none',
-      color: theme.palette.grey?.[500],
-      backgroundColor: '#EAECF0',
+      backgroundColor: theme.palette.primary?.main,
     },
-    '@media screen and (max-width: 740px)': {
-      marginTop: '4px',
+    '@media screen and (max-width: 640px)': {
+      marginTop: '6px',
     },
   }),
 };

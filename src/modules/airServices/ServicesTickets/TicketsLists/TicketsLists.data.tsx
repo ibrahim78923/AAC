@@ -1,7 +1,14 @@
+import { v4 as uuid } from 'uuid';
 import { AvatarImage } from '@/assets/images';
-import { Box, Checkbox, Select, MenuItem } from '@mui/material';
-import Image from 'next/image';
-import { uuid } from 'uuidv4';
+import { useTheme } from '@mui/material/styles';
+import {
+  Box,
+  Checkbox,
+  Select,
+  MenuItem,
+  Avatar,
+  Typography,
+} from '@mui/material';
 
 export const TABLE_CONSTANTS = {
   CUSTOMIZE_COLUMN: 'customize-column',
@@ -9,6 +16,7 @@ export const TABLE_CONSTANTS = {
   BULK_UPDATE_DATA: 'bulk-update-data',
   CREATE_NEW_TICKET: 'create-new-ticket',
 };
+
 const options = [
   {
     value: 'user1',
@@ -125,19 +133,19 @@ export const ticketsListsData: any = [
     id: 1,
     ticketId: ` #717`,
     ticketName: 'Drafts',
-    requester: 'Sharemydine',
+    requester: { name: 'Sophie Baxter', profileImg: AvatarImage },
     assignedTo: 'user1',
     status: 'open',
-    state: 'Tech Support',
+    state: 'New',
     priority: 'high',
   },
   {
     id: 2,
     ticketId: ` #787`,
     ticketName: 'rafts',
-    requester: 'Sharemydine',
+    requester: { name: 'Cameron Williamson', profileImg: null },
     assignedTo: 'user2',
-    state: 'Tech Support',
+    state: 'Response Due',
     status: 'pending',
     priority: 'low',
   },
@@ -145,24 +153,92 @@ export const ticketsListsData: any = [
     id: 3,
     ticketId: ` #917`,
     ticketName: 'fts',
-    requester: 'Sharemydine',
+    requester: { name: 'Leslie Alexander', profileImg: '' },
     assignedTo: 'user3',
-    state: 'Tech Support',
+    state: 'Overdue',
     status: 'closed',
     priority: 'medium',
   },
 ];
+
 export const ticketsListsColumnFunction: any = (
   theme: any,
   router: any,
+  ticketList: any,
+  selectedTicketList: any,
+  setSelectedTicketList: any,
   handleChange: (value: any, event: any) => void,
 ) => {
+  const { palette } = useTheme();
   return [
+    // {
+    //   accessorFn: (row: any) => row.isSelected,
+    //   id: 'id',
+    //   cell: (info: any) => {
+    //     console.log(
+    //       ticketList?.every(({ isSelected }: any) => isSelected === true),
+    //     );
+    //     console.log('ticketList', ticketList);
+
+    //     return (
+    //       <Checkbox
+    //         color="primary"
+    //         name={info.getValue()}
+    //         checked={info.getValue()}
+    //         onClick={() =>
+    //           handleSelect(info?.row?._valuesCache?.ticketId, info.getValue())
+    //         }
+    //       />
+    //     );
+    //   },
+    //   header: (
+    //     <Checkbox
+    //       color="primary"
+    //       name="id"
+    //       checked={ticketList?.every(({ isSelected }: any) => isSelected)}
+    //       onClick={() => handleChange('', 'all')}
+    //     />
+    //   ),
+    //   isSortable: false,
+    // },
     {
       accessorFn: (row: any) => row.id,
       id: 'id',
-      cell: (info: any) => <Checkbox color="primary" name={info.getValue()} />,
-      header: <Checkbox color="primary" name="id" />,
+      cell: (info: any) => (
+        <Checkbox
+          checked={
+            !!selectedTicketList.find(
+              (item: any) => item.id === info.getValue(),
+            )
+          }
+          onChange={(e: any) => {
+            e.target.checked
+              ? setSelectedTicketList([
+                  ...selectedTicketList,
+                  ticketList.find((item: any) => item.id === info.getValue()),
+                ])
+              : setSelectedTicketList(
+                  selectedTicketList.filter((item: any) => {
+                    return item.id !== info.getValue();
+                  }),
+                );
+          }}
+          color="primary"
+          name={info.getValue()}
+        />
+      ),
+      header: (
+        <Checkbox
+          checked={selectedTicketList.length === ticketList.length}
+          onChange={(e: any) => {
+            e.target.checked
+              ? setSelectedTicketList([...ticketList])
+              : setSelectedTicketList([]);
+          }}
+          color="primary"
+          name="id"
+        />
+      ),
       isSortable: false,
     },
     {
@@ -170,7 +246,12 @@ export const ticketsListsColumnFunction: any = (
       id: 'ticketId',
       cell: (info: any) => (
         <Box display={'flex'} gap={1} flexWrap={'wrap'} alignItems={'center'}>
-          <Image src={AvatarImage} alt="Avatar" />
+          <Avatar
+            sx={{ bgcolor: palette?.blue?.main, borderRadius: 1.25 }}
+            style={{ width: 28, height: 28 }}
+          >
+            IT
+          </Avatar>
           <div
             style={{
               color: theme.palette.primary.main,
@@ -206,10 +287,17 @@ export const ticketsListsColumnFunction: any = (
       header: 'Requester',
       cell: (info: any) => (
         <Box display={'flex'} flexWrap={'wrap'} alignItems={'center'} gap={1}>
-          <Image src={AvatarImage} alt="Avatar" />
-          <div style={{ color: theme.palette.primary.main }}>
-            {info.getValue()}
-          </div>
+          <Avatar
+            sx={{ bgcolor: palette?.blue?.main }}
+            style={{ width: 24, height: 24 }}
+            src={info.getValue()?.profileImg?.src}
+          >
+            <Typography component="span" fontSize={10} fontWeight={500}>
+              {info.getValue()?.name?.split(' ')?.[0][0]}
+              {info.getValue()?.name?.split(' ')?.[1][0]}
+            </Typography>
+          </Avatar>
+          {info.getValue()?.name}
         </Box>
       ),
     },

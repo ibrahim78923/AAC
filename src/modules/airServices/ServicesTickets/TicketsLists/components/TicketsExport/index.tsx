@@ -28,7 +28,7 @@ export const TicketsExport = () => {
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
         startIcon={<ExportIcon />}
-        sx={{ color: theme?.palette?.custom?.main || 'inherit' }}
+        color="secondary"
       >
         Export
       </Button>

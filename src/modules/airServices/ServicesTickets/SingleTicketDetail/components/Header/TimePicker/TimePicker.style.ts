@@ -3,7 +3,7 @@ export const inputStyle: React.CSSProperties = {
   height: '28px',
   border: 'none',
   outline: 'none',
-  fontSize: '18px', // Set the font size
-  fontStyle: 'normal', // Set the font style (normal, italic, etc.)
+  fontSize: '18px',
+  fontStyle: 'normal',
   fontWeight: '400',
 };
