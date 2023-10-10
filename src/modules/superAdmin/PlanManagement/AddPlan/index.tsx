@@ -4,11 +4,11 @@ import Link from 'next/link';
 
 import { Box, Typography } from '@mui/material';
 
+import AppHorizontalStepper from '../../../../components/Stepper/Index';
+
 import { UseAddPlan } from './useAppPlan';
 
 import { ArrowLeft } from '@/assets/icons';
-
-import AppHorizontalStepper from '../Stepper/Index';
 
 const AddPlan = () => {
   const { addPlanFormValues, setAddPlanFormValues, AddPlanStepperData } =
