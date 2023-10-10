@@ -4,19 +4,19 @@ import {
   RHFSelect,
   RHFTextField,
 } from '@/components/ReactHookForm';
+import { Checkbox } from '@mui/material';
+
 import * as Yup from 'yup';
 export const addTaxFormValidationSchema = Yup.object().shape({
   taxName: Yup.string().trim().required('Field is Required'),
   taxPercentage: Yup.string().trim().required('Field is Required'),
   taxDescription: Yup.string().trim().required('Field is Required'),
 });
-
 export const addTaxFormDefaultValues = {
   taxName: '',
   taxPercentage: '',
   taxDescription: '',
 };
-
 export const addTaxFormFiltersDataArray = [
   {
     componentProps: {
@@ -34,21 +34,6 @@ export const addTaxFormFiltersDataArray = [
     component: RHFTextField,
     md: 12,
   },
-  // {
-  //     componentProps: {
-  //         name: 'selectForms',
-  //         label: 'Select Forms',
-  //         select: true,
-  //     },
-  //     options: [
-  //         { value: 'John Doe', option: 'John Doe' },
-  //         { value: 'Andrew', option: 'Andrew' },
-  //         { value: 'Richard robertson', option: 'Richard robertson' },
-  //         { value: 'Franksten', option: 'Franksten' },
-  //     ],
-  //     component: RHFMultiCheckbox,
-  //     md: 12,
-  // },
   {
     componentProps: {
       name: 'taxDescription',
@@ -110,5 +95,57 @@ export const taxFormFiltersFiltersDataArray = [
     ],
     component: RHFSelect,
     md: 12,
+  },
+];
+
+export const columns: any = [
+  {
+    accessorFn: (row: any) => row.id,
+    id: 'id',
+    cell: (info: any) => <Checkbox color="primary" name={info.getValue()} />,
+    header: <Checkbox color="primary" name="Id" />,
+    isSortable: false,
+  },
+  {
+    accessorFn: (row: any) => row.taxName,
+    id: 'taxName',
+    cell: (info: any) => info.getValue(),
+    header: 'Tax Name',
+    isSortable: false,
+  },
+  {
+    accessorFn: (row: any) => row.taxPercentage,
+    id: 'taxPercentage',
+    isSortable: true,
+    header: 'tax Percentage',
+    cell: (info: any) => info.getValue(),
+  },
+  {
+    accessorFn: (row: any) => row.description,
+    id: 'description',
+    isSortable: true,
+    header: 'Description',
+    cell: (info: any) => info.getValue(),
+  },
+  {
+    accessorFn: (row: any) => row.createDate,
+    id: 'createDate',
+    isSortable: true,
+    header: 'Create Date',
+    cell: (info: any) => info.getValue(),
+  },
+  {
+    accessorFn: (row: any) => row.activeModule,
+    id: 'activeModule',
+    isSortable: true,
+    header: 'Active Module',
+    cell: (info: any) => info.getValue(),
+  },
+  {
+    accessorFn: (row: any) => row.status,
+    id: 'status',
+    isSortable: true,
+    header: 'Status',
+    cell: (info: any) => info.getValue(),
   },
 ];

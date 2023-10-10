@@ -4,6 +4,7 @@ import {
   RHFSelect,
   RHFTextField,
 } from '@/components/ReactHookForm';
+import { Checkbox } from '@mui/material';
 import * as Yup from 'yup';
 export const jobPostingValidationSchema = Yup.object().shape({
   jobTitle: Yup.string().trim().required('Field is Required'),
@@ -178,5 +179,64 @@ export const jobPostingFiltersDataArray = [
     ],
     component: RHFSelect,
     md: 12,
+  },
+];
+
+export const columns: any = [
+  {
+    accessorFn: (row: any) => row.id,
+    id: 'id',
+    cell: (info: any) => <Checkbox color="primary" name={info.getValue()} />,
+    header: <Checkbox color="primary" name="Id" />,
+    isSortable: false,
+  },
+  {
+    accessorFn: (row: any) => row.jobTitle,
+    id: 'jobTitle',
+    cell: (info: any) => info.getValue(),
+    header: 'Job Title',
+    isSortable: false,
+  },
+  {
+    accessorFn: (row: any) => row.shortDescription,
+    id: 'shortDescription',
+    isSortable: true,
+    header: 'Short Discription',
+    cell: (info: any) => info.getValue(),
+  },
+  {
+    accessorFn: (row: any) => row.category,
+    id: 'category',
+    isSortable: true,
+    header: 'Category',
+    cell: (info: any) => info.getValue(),
+  },
+  {
+    accessorFn: (row: any) => row.noOfVacancy,
+    id: 'noOfVacancy',
+    isSortable: true,
+    header: 'No ofVacency',
+    cell: (info: any) => info.getValue(),
+  },
+  {
+    accessorFn: (row: any) => row.createdBy,
+    id: 'createdBy',
+    isSortable: true,
+    header: 'Created By',
+    cell: (info: any) => info.getValue(),
+  },
+  {
+    accessorFn: (row: any) => row.createdDate,
+    id: 'createdDate',
+    isSortable: true,
+    header: 'Created date',
+    cell: (info: any) => info.getValue(),
+  },
+  {
+    accessorFn: (row: any) => row.status,
+    id: 'status',
+    isSortable: true,
+    header: 'Status',
+    cell: (info: any) => info.getValue(),
   },
 ];

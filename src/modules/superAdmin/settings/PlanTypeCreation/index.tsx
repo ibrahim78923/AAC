@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { Box, Button, Typography, Checkbox, Grid } from '@mui/material';
+import { Box, Button, Typography, Grid } from '@mui/material';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FormProvider } from '@/components/ReactHookForm';
@@ -12,6 +12,7 @@ import TanstackTable from '@/components/Tabel/TanstackTable';
 import CustomPagination from '@/components/CustomPagination';
 
 import {
+  columns,
   planTypeCreationDefaultValues,
   planTypeCreationFiltersDataArray,
   planTypeCreationValidationSchema,
@@ -27,51 +28,6 @@ const PlanTypeCreation = () => {
   const [isPlanTypeCreationDrawer, setIsPlanTypeCreationDrawer] =
     useState(false);
   const [planTypeCreationSearch, setPlanTypeCreationSearch] = useState('');
-
-  const columns: any = [
-    {
-      accessorFn: (row: any) => row.id,
-      id: 'id',
-      cell: (info: any) => <Checkbox color="primary" name={info.getValue()} />,
-      header: <Checkbox color="primary" name="Id" />,
-      isSortable: false,
-    },
-    {
-      accessorFn: (row: any) => row.planTypeName,
-      id: 'planTypeName',
-      cell: (info: any) => info.getValue(),
-      header: 'Plan Type Name',
-      isSortable: false,
-    },
-    {
-      accessorFn: (row: any) => row.description,
-      id: 'description',
-      isSortable: true,
-      header: 'Discription',
-      cell: (info: any) => info.getValue(),
-    },
-    {
-      accessorFn: (row: any) => row.createdBy,
-      id: 'createdBy',
-      isSortable: true,
-      header: 'Created By',
-      cell: (info: any) => info.getValue(),
-    },
-    {
-      accessorFn: (row: any) => row.createdDate,
-      id: 'createdDate',
-      isSortable: true,
-      header: 'Created Date',
-      cell: (info: any) => info.getValue(),
-    },
-    {
-      accessorFn: (row: any) => row.status,
-      id: 'status',
-      isSortable: true,
-      header: 'Status',
-      cell: (info: any) => info.getValue(),
-    },
-  ];
 
   const methodsPlanTypeCreation = useForm({
     resolver: yupResolver(planTypeCreationValidationSchema),

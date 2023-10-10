@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import {
   Box,
   Button,
-  Checkbox,
   Grid,
   Switch,
   Typography,
@@ -29,7 +28,7 @@ import {
   quickLinksData,
   quickLinksTableData,
 } from '@/mock/modules/Settings/QuickLinks';
-import { quickLinksFilterFiltersDataArray } from './QuickLinks.data';
+import { columns, quickLinksFilterFiltersDataArray } from './QuickLinks.data';
 import {
   jobApplicationDefaultValues,
   jobApplicationValidationSchema,
@@ -65,44 +64,6 @@ const QuickLinks = () => {
   };
 
   const label = { inputProps: { 'aria-label': 'Switch demo' } };
-
-  const columns: any = [
-    {
-      accessorFn: (row: any) => row.id,
-      id: 'id',
-      cell: (info: any) => <Checkbox color="primary" name={info.getValue()} />,
-      header: <Checkbox color="primary" name="Id" />,
-      isSortable: false,
-    },
-    {
-      accessorFn: (row: any) => row.product,
-      id: 'product',
-      cell: (info: any) => info.getValue(),
-      header: 'Product',
-      isSortable: false,
-    },
-    {
-      accessorFn: (row: any) => row.moduleName,
-      id: 'moduleName',
-      isSortable: true,
-      header: 'Module/Sub Module Name',
-      cell: (info: any) => info.getValue(),
-    },
-    {
-      accessorFn: (row: any) => row.createdDate,
-      id: 'createdDate',
-      isSortable: true,
-      header: 'Created at',
-      cell: (info: any) => info.getValue(),
-    },
-    {
-      accessorFn: (row: any) => row.url,
-      id: 'url',
-      isSortable: true,
-      header: 'URL',
-      cell: (info: any) => info.getValue(),
-    },
-  ];
 
   const methodsJobApplication = useForm({
     resolver: yupResolver(jobApplicationValidationSchema),

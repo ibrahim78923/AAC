@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
 
-import Image from 'next/image';
-
 import {
   Box,
   Button,
   Typography,
-  Checkbox,
   Grid,
   Menu,
   MenuItem,
@@ -23,6 +20,7 @@ import { FormProvider } from '@/components/ReactHookForm';
 import { useForm } from 'react-hook-form';
 
 import {
+  columns,
   productFeaturesDefaultValues,
   productFeaturesFiltersDataArray,
   productFeaturesValidationSchema,
@@ -30,7 +28,6 @@ import {
 
 import { productFeatureTableData } from '@/mock/modules/Settings/ProductFeature';
 
-import { SalesIcon } from '@/assets/images';
 import PlusShared from '@/assets/icons/shared/plus-shared';
 import { DownIcon } from '@/assets/icons';
 
@@ -50,68 +47,6 @@ const ProductFeature = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
-  const columns: any = [
-    {
-      accessorFn: (row: any) => row.id,
-      id: 'id',
-      cell: (info: any) => <Checkbox color="primary" name={info.getValue()} />,
-      header: <Checkbox color="primary" name="Id" />,
-      isSortable: false,
-    },
-    {
-      accessorFn: (row: any) => row.productName,
-      id: 'productName',
-      cell: () => (
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            fontWeight: '500 !important',
-          }}
-        >
-          <Image src={SalesIcon} alt="sales-icon" /> Sales
-        </Box>
-      ),
-      header: 'Product Name',
-      isSortable: false,
-    },
-    {
-      accessorFn: (row: any) => row.productFeatureName,
-      id: 'productFeatureName',
-      isSortable: true,
-      header: 'Project Feature Name',
-      cell: (info: any) => info.getValue(),
-    },
-    {
-      accessorFn: (row: any) => row.description,
-      id: 'description',
-      isSortable: true,
-      header: 'Category',
-      cell: (info: any) => info.getValue(),
-    },
-    {
-      accessorFn: (row: any) => row.status,
-      id: 'status',
-      isSortable: true,
-      header: 'Status',
-      cell: (info: any) => info.getValue(),
-    },
-    {
-      accessorFn: (row: any) => row.createdBy,
-      id: 'createdBy',
-      isSortable: true,
-      header: 'Created By',
-      cell: (info: any) => info.getValue(),
-    },
-    {
-      accessorFn: (row: any) => row.createdDate,
-      id: 'createdDate',
-      isSortable: true,
-      header: 'Created Date',
-      cell: (info: any) => info.getValue(),
-    },
-  ];
 
   const methodsProductFeatures = useForm({
     resolver: yupResolver(productFeaturesValidationSchema),

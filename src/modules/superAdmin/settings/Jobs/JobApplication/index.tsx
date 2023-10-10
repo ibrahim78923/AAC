@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { Box, useTheme, Button, Checkbox, Grid } from '@mui/material';
+import { Box, useTheme, Button, Grid } from '@mui/material';
 
 import CommonDrawer from '@/components/CommonDrawer';
 import Search from '@/components/Search';
@@ -14,80 +14,18 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import {
+  columns,
   jobApplicationDefaultValues,
   jobApplicationFiltersDataArray,
   jobApplicationValidationSchema,
 } from './JobApplication.data';
 
-import {
-  DocumentIcon,
-  FilterSharedIcon,
-  RefreshSharedIcon,
-} from '@/assets/icons';
+import { FilterSharedIcon, RefreshSharedIcon } from '@/assets/icons';
 
 import { styles } from './JobsApplication.styles';
 import { v4 as uuidv4 } from 'uuid';
 
 const JobApplication = () => {
-  const columns: any = [
-    {
-      accessorFn: (row: any) => row.id,
-      id: 'id',
-      cell: (info: any) => <Checkbox color="primary" name={info.getValue()} />,
-      header: <Checkbox color="primary" name="Id" />,
-      isSortable: false,
-    },
-    {
-      accessorFn: (row: any) => row.jobTitle,
-      id: 'jobTitle',
-      cell: (info: any) => info.getValue(),
-      header: 'Job Title',
-      isSortable: false,
-    },
-    {
-      accessorFn: (row: any) => row.candidate,
-      id: 'candidate',
-      isSortable: true,
-      header: 'Candidate',
-      cell: (info: any) => info.getValue(),
-    },
-    {
-      accessorFn: (row: any) => row.applyDate,
-      id: 'applyDate',
-      isSortable: true,
-      header: 'Apply Date',
-      cell: (info: any) => info.getValue(),
-    },
-    {
-      accessorFn: (row: any) => row.jobPostedDate,
-      id: 'jobPostedDate',
-      isSortable: true,
-      header: 'Job Posted Date',
-      cell: (info: any) => info.getValue(),
-    },
-    {
-      accessorFn: (row: any) => row.resume,
-      id: 'resume',
-      isSortable: true,
-      header: 'Resume',
-      cell: () => <DocumentIcon />,
-    },
-    {
-      accessorFn: (row: any) => row.coverLetter,
-      id: 'coverLetter',
-      isSortable: true,
-      header: 'Cover Letter',
-      cell: () => <DocumentIcon />,
-    },
-    {
-      accessorFn: (row: any) => row.status,
-      id: 'status',
-      isSortable: true,
-      header: 'Status',
-      cell: (info: any) => info.getValue(),
-    },
-  ];
-
   const theme = useTheme();
   const [jobApplicationSearch, setJobApplicationSearch] = useState<string>('');
   const [isJobApplicationFilterDrawer, setIsJobApplicationFilterDrawer] =

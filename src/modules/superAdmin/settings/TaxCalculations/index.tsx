@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import {
   Box,
   Button,
-  Checkbox,
   Typography,
   useTheme,
   Grid,
@@ -25,6 +24,7 @@ import {
   addTaxFormDefaultValues,
   addTaxFormFiltersDataArray,
   addTaxFormValidationSchema,
+  columns,
   taxFormFiltersDefaultValues,
   taxFormFiltersFiltersDataArray,
   taxFormFiltersValidationSchema,
@@ -57,58 +57,6 @@ const TaxCalculation = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
-  const columns: any = [
-    {
-      accessorFn: (row: any) => row.id,
-      id: 'id',
-      cell: (info: any) => <Checkbox color="primary" name={info.getValue()} />,
-      header: <Checkbox color="primary" name="Id" />,
-      isSortable: false,
-    },
-    {
-      accessorFn: (row: any) => row.taxName,
-      id: 'taxName',
-      cell: (info: any) => info.getValue(),
-      header: 'Tax Name',
-      isSortable: false,
-    },
-    {
-      accessorFn: (row: any) => row.taxPercentage,
-      id: 'taxPercentage',
-      isSortable: true,
-      header: 'tax Percentage',
-      cell: (info: any) => info.getValue(),
-    },
-    {
-      accessorFn: (row: any) => row.description,
-      id: 'description',
-      isSortable: true,
-      header: 'Description',
-      cell: (info: any) => info.getValue(),
-    },
-    {
-      accessorFn: (row: any) => row.createDate,
-      id: 'createDate',
-      isSortable: true,
-      header: 'Create Date',
-      cell: (info: any) => info.getValue(),
-    },
-    {
-      accessorFn: (row: any) => row.activeModule,
-      id: 'activeModule',
-      isSortable: true,
-      header: 'Active Module',
-      cell: (info: any) => info.getValue(),
-    },
-    {
-      accessorFn: (row: any) => row.status,
-      id: 'status',
-      isSortable: true,
-      header: 'Status',
-      cell: (info: any) => info.getValue(),
-    },
-  ];
 
   const methodsAddTaxForm = useForm({
     resolver: yupResolver(addTaxFormValidationSchema),
