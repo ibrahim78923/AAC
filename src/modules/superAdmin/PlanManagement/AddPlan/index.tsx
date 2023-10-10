@@ -17,10 +17,14 @@ const AddPlan = () => {
   } = UseAddPlan();
   return (
     <div>
-      <Box display={'flex'} alignItems={'center'} gap={1}>
-        <div onClick={hanldeGoBack}>
-          <ArrowLeft />
-        </div>
+      <Box
+        display={'flex'}
+        alignItems={'center'}
+        gap={1}
+        onClick={hanldeGoBack}
+        sx={{ cursor: 'pointer', width: 'max-content' }}
+      >
+        <ArrowLeft />
         <Typography variant="h4">Add Plan</Typography>
       </Box>
       <AppHorizontalStepper

@@ -39,6 +39,7 @@ const BillingAndInvoicesTable = () => {
               onClick={() => setIsOpenDrawer(true)}
               startIcon={<PlusSharedIcon />}
               variant="contained"
+              className="medium"
             >
               Assign Plan
             </Button>
