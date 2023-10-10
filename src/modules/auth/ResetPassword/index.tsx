@@ -1,50 +1,51 @@
 import React, { useState } from 'react';
-import { useForm, Controller, FormProvider } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Grid, Button, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import InputField from '@/components/InputField';
+import { FormProvider } from '@/components/ReactHookForm';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { v4 as uuidv4 } from 'uuid';
+import {
+  resetPasswordDataArray,
+  resetPasswordDefaultValues,
+  resetPasswordValidationSchema,
+} from './ResetPassword.data';
 import resetPasswordSuccess from '@/assets/icons/shared/onSuccess.gif';
 import { CompanyLogoIcon } from '@/assets/icons';
 import { LoginDashboardImage } from '@/assets/images';
 import { styles } from './ResetPassword.style';
 
 const ResetPassword = () => {
-  const [isShowError, setIsShowError] = useState<boolean>(false);
   const [isMatchPassword, setIsMatchPassword] = useState<boolean>(false);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const router = useRouter();
   const theme = useTheme();
-  const {
-    handleSubmit,
-    control,
-    formState: { errors },
-  } = useForm();
 
-  const isPasswordValid = (password: string) => {
-    const regex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{8,}$/;
-    return regex.test(password);
-  };
+  const resetPasswordForm = useForm({
+    resolver: yupResolver(resetPasswordValidationSchema),
+    defaultValues: resetPasswordDefaultValues,
+  });
 
   const onSubmit = (data: any) => {
     const { newPassword, confirmPassword } = data;
 
-    if (isPasswordValid(newPassword)) {
-      if (newPassword !== confirmPassword) {
-        setIsMatchPassword(true);
-      } else {
-        setIsMatchPassword(false);
-        setIsSuccess(true);
+    if (newPassword !== confirmPassword) {
+      setIsMatchPassword(true);
+    } else {
+      setIsMatchPassword(false);
+      setIsSuccess(true);
 
-        setTimeout(() => {
-          router.push('/login');
-        }, 2000);
-      }
+      setTimeout(() => {
+        router.push('/login');
+      }, 2000);
     }
   };
+
+  const { handleSubmit } = resetPasswordForm;
 
   return (
     <Box sx={{ height: '100vh' }}>
@@ -77,113 +78,51 @@ const ResetPassword = () => {
               </Typography>
             )}
 
-            <FormProvider>
-              <form
-                onSubmit={handleSubmit(onSubmit)}
-                style={styles.formStyling}
-              >
-                {isSuccess ? (
-                  <Box sx={{ textAlign: 'center' }}>
-                    <Typography
-                      variant="h3"
-                      sx={{
-                        marginBottom: '15px',
-                        color: theme?.palette?.grey[500_8],
-                      }}
-                    >
-                      Reset Password
-                    </Typography>
-
+            <Box style={styles.formStyling}>
+              {isSuccess ? (
+                <Box sx={{ textAlign: 'center' }}>
+                  <Typography
+                    variant="h3"
+                    sx={{
+                      marginBottom: '15px',
+                      color: theme?.palette?.grey[500_8],
+                    }}
+                  >
+                    Reset Password
+                  </Typography>
+                  <Box sx={{ display: 'flex', justifyContent: 'center' }}>
                     <Image
                       src={resetPasswordSuccess}
                       alt="successIcon"
                       style={{ width: '170px', height: '170px' }}
                     />
-
-                    <Typography
-                      sx={{
-                        marginTop: '15px',
-                        color: theme?.palette?.grey[500_8],
-                      }}
-                    >
-                      {' '}
-                      Password reset email has been sent to registered email.{' '}
-                    </Typography>
                   </Box>
-                ) : (
-                  <>
-                    <label style={{ marginBottom: '8px', marginTop: '10px' }}>
-                      New password <span style={{ color: 'red' }}>*</span>
-                    </label>
-                    <Controller
-                      name="newPassword"
-                      control={control}
-                      defaultValue=""
-                      rules={{
-                        required: 'required field',
-                        validate: (value) =>
-                          isPasswordValid(value)
-                            ? setIsShowError(false)
-                            : setIsShowError(true),
-                      }}
-                      render={({ field }) => (
-                        <InputField
-                          field={{ ...field }}
-                          name="newPassword"
-                          placeholder="Enter password"
-                          width="100%"
-                          height="23px"
-                          autoComplete="off"
-                          hasError={!!errors?.newPassword}
-                          type="text"
-                        />
-                      )}
-                    />
-                    <Typography
-                      variant="body2"
-                      sx={{
-                        marginTop: '7px',
-                        color: isShowError && theme?.palette?.error?.main,
-                      }}
-                    >
-                      The Password must be at least 8 characters long having 1
-                      capital letter,1 small letter and 1 numeric digit
-                    </Typography>
-
-                    {errors?.newPassword && (
-                      <Typography
-                        variant="body1"
-                        sx={{ color: theme?.palette?.error?.main }}
-                      >
-                        {' '}
-                        {errors?.newPassword?.message}
-                      </Typography>
-                    )}
-
-                    <label style={{ marginBottom: '8px', marginTop: '10px' }}>
-                      Confirm Password <span style={{ color: 'red' }}>*</span>
-                    </label>
-                    <Controller
-                      name="confirmPassword"
-                      control={control}
-                      defaultValue=""
-                      rules={{
-                        required: 'Required field',
-                      }}
-                      render={({ field }) => (
-                        <InputField
-                          field={{ ...field }}
-                          name="confirmPassword"
-                          placeholder="Confirm Password"
-                          width="100%"
-                          height="23px"
-                          autoComplete="off"
-                          hasError={!!errors?.confirmPassword}
-                          type="text"
-                        />
-                      )}
-                    />
-
+                  <Typography
+                    sx={{
+                      marginTop: '15px',
+                      color: theme?.palette?.grey[500_8],
+                    }}
+                  >
+                    {' '}
+                    Password reset email has been sent to registered email.{' '}
+                  </Typography>
+                </Box>
+              ) : (
+                <>
+                  <FormProvider
+                    methods={resetPasswordForm}
+                    onSubmit={handleSubmit(onSubmit)}
+                  >
+                    <Grid container spacing={4}>
+                      {resetPasswordDataArray?.map((item: any) => (
+                        <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                          <item.component
+                            {...item.componentProps}
+                            size={'small'}
+                          ></item.component>
+                        </Grid>
+                      ))}
+                    </Grid>
                     {isMatchPassword && (
                       <Typography
                         variant="body2"
@@ -192,28 +131,17 @@ const ResetPassword = () => {
                         password not match
                       </Typography>
                     )}
-
-                    {errors?.confirmPassword && (
-                      <Typography
-                        variant="body1"
-                        sx={{ color: theme?.palette?.error?.main }}
-                      >
-                        {' '}
-                        {errors?.confirmPassword?.message}
-                      </Typography>
-                    )}
-
                     <Button
                       type="submit"
                       variant="contained"
-                      sx={{ marginY: '30px' }}
+                      sx={{ marginY: '30px', width: '100%' }}
                     >
                       Set Password
                     </Button>
-                  </>
-                )}
-              </form>
-            </FormProvider>
+                  </FormProvider>
+                </>
+              )}
+            </Box>
           </Box>
         </Grid>
         <Grid

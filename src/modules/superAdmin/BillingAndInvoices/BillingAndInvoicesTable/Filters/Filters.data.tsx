@@ -43,7 +43,7 @@ export const defaultValues = {
 export const dataArray = [
   {
     componentProps: {
-      name: 'client&organization',
+      name: 'requester',
       label: 'Client & Organization',
       fullWidth: true,
       select: true,
