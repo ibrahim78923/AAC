@@ -16,7 +16,7 @@ export const validationSchema = Yup.object().shape({
 
 export const defaultValues = {
   userType: '', //1
-  organizationName: '',
+  organiztaionName: '',
   product: '',
   createdDate: new Date(),
 };
@@ -38,7 +38,7 @@ export const filtersArray = [
   },
   {
     componentProps: {
-      name: 'organizationName',
+      name: 'organiztaionName',
       label: 'Organization Name',
       fullWidth: true,
     },

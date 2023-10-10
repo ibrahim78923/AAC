@@ -49,6 +49,7 @@ const CommonTabs = (props: CommonTabsPropsI) => {
   useEffect(() => {
     getTabVal(value);
   }, []);
+
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
     getTabVal(newValue);

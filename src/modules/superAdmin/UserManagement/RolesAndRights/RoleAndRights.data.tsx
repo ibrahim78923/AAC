@@ -1,5 +1,11 @@
-import { Checkbox } from '@mui/material';
-import { Switch } from '@mui/material';
+import { Checkbox, Switch } from '@mui/material';
+
+import RHFSelect from '@/components/ReactHookForm/RHFSelect';
+
+import RHFDatePicker from '@/components/ReactHookForm/RHFDatePicker';
+
+import * as Yup from 'yup';
+import { RHFTextField } from '@/components/ReactHookForm';
 
 const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
@@ -80,5 +86,145 @@ export const columns: any = [
     isSortable: true,
     header: 'CreatedOn',
     cell: (info: any) => info.getValue(),
+  },
+];
+
+//Filter Drawer Form
+
+export const rolesValidationSchema = Yup.object().shape({
+  roleName: Yup.string().required('Field is Required'),
+  product: Yup.string().required('Field is Required'),
+  status: Yup.string().required('Field is Required'),
+  createdDate: Yup.date().required('Field is Required'),
+});
+
+export const rolesDefaultValues = {
+  roleName: '', //1
+  product: '',
+  status: '',
+  createdDate: new Date(),
+};
+
+export const rolesFiltersArray = [
+  {
+    componentProps: {
+      name: 'roleName',
+      label: 'Role Name',
+      fullWidth: true,
+      select: true,
+    },
+    options: [
+      { value: 'CompanyOwner', label: 'Company Owner' },
+      { value: 'SuperAdmin', label: 'Super Admin' },
+    ],
+    component: RHFSelect,
+    md: 12,
+  },
+  {
+    componentProps: {
+      name: 'product',
+      label: 'Product',
+      fullWidth: true,
+      select: true,
+    },
+    options: [
+      { value: 'sales', label: 'Sales' },
+      { value: 'services', label: 'Services' },
+      { value: 'marketing', label: 'Marketing' },
+      { value: 'loyaltyProgram', label: 'Loyalty Progrma' },
+    ],
+    component: RHFSelect,
+    md: 12,
+  },
+
+  {
+    componentProps: {
+      name: 'status',
+      label: 'Status',
+      fullWidth: true,
+      select: true,
+    },
+    options: [
+      { value: 'active', label: 'Active' },
+      { value: 'inactive', label: 'Inactive' },
+    ],
+    component: RHFSelect,
+    md: 12,
+  },
+
+  {
+    componentProps: {
+      name: 'createdDate',
+      label: 'Created Date',
+      fullWidth: true,
+    },
+    component: RHFDatePicker,
+    md: 12,
+  },
+];
+
+// add new role form data
+
+export const addUserSchema = Yup.object().shape({
+  roleName: Yup.string().required('Field is Required'),
+  productType: Yup.string().required('Field is Required'),
+  defaultUser: Yup.string().required('Field is Required'),
+  desc: Yup.string().required('Field is Required'),
+});
+
+export const addUserDefault = {
+  roleName: '',
+  productType: '',
+  defaultUser: '',
+  desc: '',
+};
+
+export const addUsersArrayData = [
+  {
+    componentProps: {
+      name: 'roleName',
+      label: 'Role Name',
+      fullWidth: true,
+    },
+    component: RHFTextField,
+    md: 5,
+  },
+
+  {
+    componentProps: {
+      name: 'productTyoe',
+      label: 'Select Product',
+      fullWidth: true,
+      select: true,
+    },
+    options: [
+      { value: 'airSale', label: 'Air Sale' },
+      { value: 'airMarketer', label: 'Air Marketer' },
+      { value: 'airServices', label: 'Air Services' },
+      { value: 'orgAdmin', label: 'Org Admin' },
+      { value: 'loyalty', label: 'Loyalty' },
+    ],
+    component: RHFSelect,
+    md: 5,
+  },
+
+  {
+    componentProps: {
+      name: 'defaultUser',
+      label: 'Default User',
+      fullWidth: true,
+    },
+    component: RHFTextField,
+    md: 5,
+  },
+
+  {
+    componentProps: {
+      name: 'desc',
+      label: 'Description',
+      fullWidth: true,
+    },
+    component: RHFTextField,
+    md: 5,
   },
 ];

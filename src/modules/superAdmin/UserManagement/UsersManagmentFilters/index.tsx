@@ -5,10 +5,16 @@ import { Grid } from '@mui/material';
 import CommonDrawer from '@/components/CommonDrawer';
 
 import {
-  defaultValues,
+  usersDefaultValues,
+  usersFilterArray,
+  usersValidationSchema,
+} from '../Users/Users.data';
+
+import {
+  rolesDefaultValues,
   rolesFiltersArray,
-  validationSchema,
-} from './RolesAndRightsFilters.data';
+  rolesValidationSchema,
+} from '../RolesAndRights/RoleAndRights.data';
 
 import { FormProvider } from '@/components/ReactHookForm';
 
@@ -18,11 +24,30 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import { v4 as uuidv4 } from 'uuid';
 
-const RolesAndRightsFilters = (props: any) => {
-  const { isOpen, setIsOpen } = props;
+const UsersManagementFilters = (props: any) => {
+  const { isOpen, setIsOpen, tabVal } = props;
+
+  const tabsFilter: any = {
+    0: {
+      schema: usersValidationSchema,
+      array: usersFilterArray,
+      defaultVal: usersDefaultValues,
+    },
+    1: {
+      schema: usersValidationSchema,
+      array: usersFilterArray,
+      defaultVal: usersDefaultValues,
+    },
+    2: {
+      schema: rolesValidationSchema,
+      array: rolesFiltersArray,
+      defaultVal: rolesDefaultValues,
+    },
+  };
+
   const methods: any = useForm({
-    resolver: yupResolver(validationSchema),
-    defaultValues: defaultValues,
+    resolver: yupResolver(tabsFilter[tabVal]?.schema),
+    defaultValues: tabsFilter[tabVal]?.defaultVal,
   });
 
   const { handleSubmit } = methods;
@@ -44,7 +69,7 @@ const RolesAndRightsFilters = (props: any) => {
     >
       <FormProvider methods={methods}>
         <Grid container spacing={4} sx={{ mt: '5px' }}>
-          {rolesFiltersArray?.map((item: any) => (
+          {tabsFilter[tabVal]?.array?.map((item: any) => (
             <Grid item xs={12} md={item?.md} key={uuidv4()}>
               <item.component {...item.componentProps} size={'small'}>
                 {item?.componentProps?.select &&
@@ -62,4 +87,4 @@ const RolesAndRightsFilters = (props: any) => {
   );
 };
 
-export default RolesAndRightsFilters;
+export default UsersManagementFilters;

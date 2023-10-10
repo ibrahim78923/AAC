@@ -1,33 +1,40 @@
 import React, { useState } from 'react';
 
-import { Box, Button, Menu, MenuItem, Stack, Typography } from '@mui/material';
+import { Box, Button, Menu, MenuItem, Typography } from '@mui/material';
 
 import CommonTabs from '@/components/Tabs';
 
 import Users from './Users';
 
-import UsersFilters from './Users/UsersFilters';
+import UsersManagementFilters from './UsersManagmentFilters/index';
 
 import RolesAndRights from './RolesAndRights';
 
 import AddUser from './Users/AddUser';
 
+import SuperAdminUsers from './Users/SuperadminUsers';
+
 import { ArrowDropDown } from '@mui/icons-material';
 
 import { FilterSharedIcon, PlusSharedIcon } from '@/assets/icons';
+import { useRouter } from 'next/router';
 
 const UserManagement = () => {
+  const navigate = useRouter();
   const [isOpenAddUserDrawer, setIsOpenAddUserDrawer] = useState(false);
   const [isOpenFilterDrawer, setIsOpenFilterDrawer] = useState(false);
   const [selectedValue, setSelectedValue] = useState(null);
   const [tabVal, setTabVal] = useState<number>(0);
   const [search, setSearch] = useState('');
+  const tabsArray = ['Company Owners', 'Super Admin Users', 'Role and Rights'];
 
   const handleClick = (event: any) => {
     setSelectedValue(event.currentTarget);
   };
 
-  const handleAddRole = () => {};
+  const handleAddRole = () => {
+    navigate.push('/super-admin/user-management/add-role');
+  };
 
   const handleClose = () => {
     setSelectedValue(null);
@@ -37,23 +44,24 @@ const UserManagement = () => {
     <Box
       sx={{ border: '1px solid #EAECF0', p: '24px 0px', borderRadius: '8px' }}
     >
-      <Stack
-        direction="row"
+      <Box
+        // direction="row"
         justifyContent="space-between"
         alignItems="center"
-        sx={{ padding: '0px 24px' }}
+        sx={{ padding: '0px 24px', display: { md: 'flex' } }}
       >
         <Typography variant="h4">User Management</Typography>
         <Button
           onClick={() =>
-            tabVal === 0 ? setIsOpenAddUserDrawer(true) : handleAddRole
+            tabVal === 2 ? handleAddRole() : setIsOpenAddUserDrawer(true)
           }
           variant="contained"
           startIcon={<PlusSharedIcon />}
         >
-          {tabVal === 0 ? 'Add User' : 'Add Role'}
+          {tabVal === 2 ? 'Add Role' : 'Add User'}
         </Button>
-      </Stack>
+      </Box>
+
       <Box sx={{ padding: '0px 24px' }}>
         <CommonTabs
           getTabVal={(val: number) => setTabVal(val)}
@@ -64,7 +72,7 @@ const UserManagement = () => {
             width: '260px',
           }}
           isHeader={true}
-          tabsArray={['User', 'Role and Rights']}
+          tabsArray={tabsArray}
           headerChildren={
             <>
               <Box>
@@ -100,12 +108,14 @@ const UserManagement = () => {
           }
         >
           <Users />
+          <SuperAdminUsers />
           <RolesAndRights />
         </CommonTabs>
       </Box>
 
       {isOpenFilterDrawer && (
-        <UsersFilters
+        <UsersManagementFilters
+          tabVal={tabVal}
           isOpen={isOpenFilterDrawer}
           setIsOpen={setIsOpenFilterDrawer}
         />
