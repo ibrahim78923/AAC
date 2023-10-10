@@ -21,6 +21,7 @@ export { default as FilterSharedIcon } from './shared/filter-shared';
 
 export { default as ArrowUp } from './shared/arrow-up';
 export { default as ArrowDown } from './shared/arrow-down';
+export { default as ArrowLeft } from './shared/arrow-left';
 export { default as DownIcon } from './shared/Tabel/down-icon';
 export { default as SharedIcon } from './shared/shared-icon';
 export { default as AttachFileIcon } from './shared/attach-file';

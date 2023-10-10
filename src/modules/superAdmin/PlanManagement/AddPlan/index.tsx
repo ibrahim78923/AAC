@@ -6,7 +6,7 @@ import { Box, Typography } from '@mui/material';
 
 import { UseAddPlan } from './useAppPlan';
 
-import { ArrowLeftIcon } from '@/assets/icons';
+import { ArrowLeft } from '@/assets/icons';
 
 import AppHorizontalStepper from '../Stepper/Index';
 
@@ -17,7 +17,7 @@ const AddPlan = () => {
     <div>
       <Box display={'flex'} alignItems={'center'} gap={1}>
         <Link href={'/super-admin/plan-management'}>
-          <ArrowLeftIcon />
+          <ArrowLeft />
         </Link>
         <Typography variant="h4">Add Plan</Typography>
       </Box>
