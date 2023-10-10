@@ -3,11 +3,7 @@ import Layout from '@/layout';
 import AddRole from '@/modules/superAdmin/UserManagement/RolesAndRights/AddRole';
 
 const UserManagementRolePage = () => {
-  return (
-    <div>
-      <AddRole />
-    </div>
-  );
+  return <AddRole />;
 };
 export default UserManagementRolePage;
 UserManagementRolePage.getLayout = function getLayout(page: any) {

@@ -65,7 +65,7 @@ const AddUser = (props: any) => {
           </Grid>
           {addUsersArray?.map((item: any) => {
             return (
-              item.toShow.includes(userType) && (
+              item?.toShow?.includes(userType) && (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
                   <item.component {...item.componentProps} size={'small'}>
                     {item?.componentProps?.select &&

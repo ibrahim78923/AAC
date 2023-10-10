@@ -2,7 +2,14 @@ import React, { useState } from 'react';
 
 import { useRouter } from 'next/router';
 
-import { Box, Button, Menu, MenuItem, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Menu,
+  MenuItem,
+  Typography,
+  useTheme,
+} from '@mui/material';
 
 import CommonTabs from '@/components/Tabs';
 
@@ -22,12 +29,12 @@ import { FilterSharedIcon, PlusSharedIcon } from '@/assets/icons';
 
 const UserManagement = () => {
   const navigate = useRouter();
+  const theme = useTheme();
   const [isOpenAddUserDrawer, setIsOpenAddUserDrawer] = useState(false);
   const [isOpenFilterDrawer, setIsOpenFilterDrawer] = useState(false);
   const [selectedValue, setSelectedValue] = useState(null);
   const [tabVal, setTabVal] = useState<number>(0);
   const [search, setSearch] = useState('');
-  const tabsArray = ['Company Owners', 'Super Admin Users', 'Role and Rights'];
 
   const handleClick = (event: any) => {
     setSelectedValue(event.currentTarget);
@@ -46,7 +53,6 @@ const UserManagement = () => {
       sx={{ border: '1px solid #EAECF0', p: '24px 0px', borderRadius: '8px' }}
     >
       <Box
-        // direction="row"
         justifyContent="space-between"
         alignItems="center"
         sx={{ padding: '0px 24px', display: { md: 'flex' } }}
@@ -73,14 +79,18 @@ const UserManagement = () => {
             width: '260px',
           }}
           isHeader={true}
-          tabsArray={tabsArray}
+          tabsArray={['Company Owners', 'Super Admin Users', 'Role and Rights']}
           headerChildren={
             <>
               <Box>
                 <Button
-                  // disabled={selected?.length > 0 ? false : true}
                   onClick={handleClick}
-                  sx={{ border: '1px solid #D1D5DB', color: '#6B7280' }}
+                  sx={{
+                    border: `1px solid ${theme?.palette?.custom?.dark}`,
+                    color: theme?.palette?.custom?.main,
+                    width: '112px',
+                    height: '36px',
+                  }}
                 >
                   Actions
                   <ArrowDropDown />
@@ -101,7 +111,12 @@ const UserManagement = () => {
                   setIsOpenFilterDrawer(true);
                 }}
                 startIcon={<FilterSharedIcon />}
-                sx={{ border: '1px solid #D1D5DB', color: '#6B7280' }}
+                sx={{
+                  border: `1px solid ${theme?.palette?.custom?.dark}`,
+                  color: theme?.palette?.custom?.main,
+                  width: '95px',
+                  height: '36px',
+                }}
               >
                 Filter
               </Button>

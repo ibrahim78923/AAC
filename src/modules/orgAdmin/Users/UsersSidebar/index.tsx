@@ -48,7 +48,6 @@ const UsersSidebar = () => {
         py={1}
         sx={{ display: 'flex', justifyContent: 'space-between', gap: '10px' }}
       >
-        {/* <Search label="Placeholder" /> */}
         <Button
           onClick={() => {
             setIsOpenFilterDrawer(true);

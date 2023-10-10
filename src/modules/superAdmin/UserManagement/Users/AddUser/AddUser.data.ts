@@ -2,7 +2,6 @@ import RHFTextField from '@/components/ReactHookForm/RHFTextField';
 
 import * as Yup from 'yup';
 
-//filter drwaer form
 export const validationSchema = Yup.object().shape({
   userType: Yup.string().required('Field is Required'),
   firstName: Yup.string().required('Field is Required'),

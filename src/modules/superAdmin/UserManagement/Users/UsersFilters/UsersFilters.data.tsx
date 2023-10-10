@@ -6,7 +6,6 @@ import RHFTextField from '@/components/ReactHookForm/RHFTextField';
 
 import RHFDatePicker from '@/components/ReactHookForm/RHFDatePicker';
 
-//filter drwaer form
 export const validationSchema = Yup.object().shape({
   userType: Yup.string().required('Field is Required'),
   organiztaionName: Yup.string().required('Field is Required'),
@@ -15,7 +14,7 @@ export const validationSchema = Yup.object().shape({
 });
 
 export const defaultValues = {
-  userType: '', //1
+  userType: '',
   organiztaionName: '',
   product: '',
   createdDate: new Date(),

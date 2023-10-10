@@ -6,6 +6,8 @@ import RHFDatePicker from '@/components/ReactHookForm/RHFDatePicker';
 
 import { RHFTextField } from '@/components/ReactHookForm';
 
+import { ExpandMore } from '@mui/icons-material';
+
 import * as Yup from 'yup';
 
 const label = { inputProps: { 'aria-label': 'Switch demo' } };
@@ -90,8 +92,6 @@ export const columns: any = [
   },
 ];
 
-//Filter Drawer Form
-
 export const rolesValidationSchema = Yup.object().shape({
   roleName: Yup.string().required('Field is Required'),
   product: Yup.string().required('Field is Required'),
@@ -164,8 +164,6 @@ export const rolesFiltersArray = [
   },
 ];
 
-// add new role form data
-
 export const addUserSchema = Yup.object().shape({
   roleName: Yup.string().required('Field is Required'),
   productType: Yup.string().required('Field is Required'),
@@ -227,5 +225,20 @@ export const addUsersArrayData = [
     },
     component: RHFTextField,
     md: 5,
+  },
+];
+
+export const accData = [
+  {
+    title: 'Dashboard',
+    hasSwitch: true,
+    content: 'Dashboard content here',
+    endIcon: <ExpandMore />,
+  },
+  {
+    title: 'Deals',
+    hasSwitch: true,
+    content: 'Deals content here',
+    endIcon: <ExpandMore />,
   },
 ];

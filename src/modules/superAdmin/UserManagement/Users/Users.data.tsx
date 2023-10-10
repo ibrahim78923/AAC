@@ -14,8 +14,6 @@ import * as Yup from 'yup';
 
 const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
-// Company Owner users data
-
 export const data: any = [
   {
     Id: 1,
@@ -166,7 +164,6 @@ export const columns: any = [
   },
 ];
 
-// Super Amdin users data
 export const superAdminUsersData: any = [
   {
     Id: 1,
@@ -317,8 +314,6 @@ export const superAdminColumns: any = [
   },
 ];
 
-//Filter Drawer Form
-
 export const usersValidationSchema = Yup.object().shape({
   userType: Yup.string().required('Field is Required'),
   organiztaionName: Yup.string().required('Field is Required'),
@@ -327,7 +322,7 @@ export const usersValidationSchema = Yup.object().shape({
 });
 
 export const usersDefaultValues = {
-  userType: '', //1
+  userType: '',
   organizationName: '',
   product: '',
   createdDate: new Date(),

@@ -2,18 +2,11 @@ import React, { useState } from 'react';
 
 import { useRouter } from 'next/router';
 
-import {
-  Box,
-  Typography,
-  Grid,
-  Divider,
-  Button,
-  useTheme,
-} from '@mui/material';
+import { Box, Typography, Grid, Divider, Button } from '@mui/material';
 
 import CommonAccordian from './Accordian';
 
-import { ArrowBack, ExpandMore } from '@mui/icons-material';
+import { ArrowBack } from '@mui/icons-material';
 
 import { FormProvider } from '@/components/ReactHookForm';
 
@@ -24,15 +17,17 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { v4 as uuidv4 } from 'uuid';
 
 import {
+  accData,
   addUserDefault,
   addUserSchema,
   addUsersArrayData,
 } from '../RoleAndRights.data';
 
 const AddRole = () => {
-  const [switchVal, setSwitchVal] = useState(false);
+  const [isSwitchVal, setIsSwitchVal] = useState(false);
+
   const navigate = useRouter();
-  const theme = useTheme();
+
   const methods: any = useForm({
     resolver: yupResolver(addUserSchema),
     defaultValues: addUserDefault,
@@ -43,23 +38,8 @@ const AddRole = () => {
     alert(data);
   };
 
-  const accData = [
-    {
-      title: 'Dashboard',
-      hasSwitch: true,
-      content: 'Dashboard content here',
-      endIcon: <ExpandMore sx={{ color: theme?.palette?.common?.white }} />,
-    },
-    {
-      title: 'Deals',
-      hasSwitch: true,
-      content: 'Deals content here',
-      endIcon: <ExpandMore sx={{ color: theme?.palette?.common?.white }} />,
-    },
-  ];
-
   const handleSwitch = () => {
-    setSwitchVal(!switchVal);
+    setIsSwitchVal(!isSwitchVal);
   };
 
   return (
@@ -99,7 +79,7 @@ const AddRole = () => {
           <CommonAccordian
             data={accData}
             handleSwitch={handleSwitch}
-            checked={switchVal}
+            checked={isSwitchVal}
           />
         </Grid>
       </Grid>
