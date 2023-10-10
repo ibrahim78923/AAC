@@ -1,5 +1,9 @@
 import { IAVATARGROUPDATA } from '@/types/shared/AvatarGroup';
 
+import { RHFDatePicker, RHFSelect } from '@/components/ReactHookForm';
+
+import * as Yup from 'yup';
+
 export const avatarGroupMockData: IAVATARGROUPDATA[] = [
   {
     id: '01',
@@ -30,5 +34,59 @@ export const avatarGroupMockData: IAVATARGROUPDATA[] = [
     id: '06',
     name: 'Waseeem',
     img: 'https://media.istockphoto.com/id/1283599879/photo/happiness-and-wellbeing.jpg?s=612x612&w=0&k=20&c=3JSSHPtdhL0dtA1zcVu4mfNw6FVlskRC2kk_Rl9FKU8=',
+  },
+];
+
+export const planManagementFilterValidationSchema = Yup.object().shape({
+  products: Yup.string().trim().required('Field is Required'),
+  plan: Yup.string().trim().required('Field is Required'),
+  createdDate: Yup.string().trim().required('Field is Required'),
+});
+
+export const planManagementFilterDefaultValues = {
+  products: '',
+  plan: '',
+  createdDate: '',
+};
+
+export const planManagementFilterFiltersDataArray = [
+  {
+    componentProps: {
+      name: 'products',
+      label: 'Products',
+      select: true,
+    },
+    options: [
+      { value: 'Sales', label: 'Sales' },
+      { value: 'Marketing', label: 'Marketing' },
+      { value: 'Service', label: 'Service' },
+      { value: 'Operations', label: 'Operations' },
+      { value: 'Loyalty Program', label: 'Loyalty Program' },
+    ],
+    component: RHFSelect,
+    md: 12,
+  },
+  {
+    componentProps: {
+      name: 'plan',
+      label: 'Plan',
+      select: true,
+    },
+    options: [
+      { value: 'John Doe', label: 'John Doe' },
+      { value: 'William', label: 'William' },
+      { value: 'Andrew', label: 'Andrew' },
+    ],
+    component: RHFSelect,
+    md: 12,
+  },
+  {
+    componentProps: {
+      name: 'createdDate',
+      label: 'Created Date',
+      fullWidth: true,
+    },
+    component: RHFDatePicker,
+    md: 12,
   },
 ];

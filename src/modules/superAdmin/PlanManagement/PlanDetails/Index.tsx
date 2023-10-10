@@ -1,6 +1,7 @@
 import React from 'react';
 
 import TanstackTable from '@/components/Tabel/TanstackTable';
+import CustomPagination from '@/components/CustomPagination';
 
 import { UsePlanDetails } from './UsePlanDetails';
 
@@ -11,6 +12,7 @@ const PlanDetails = () => {
   return (
     <div>
       <TanstackTable columns={ticketsListsColumn} data={PlanDetailsData} />
+      <CustomPagination count={1} rowsPerPageOptions={[1, 2]} entriePages={1} />
     </div>
   );
 };

@@ -1,6 +1,8 @@
 import { useState } from 'react';
 
-import AddPlanForm from './Forms/AddPlanForm/Index';
+import { useRouter } from 'next/router';
+
+import AddPlanForm from './Forms/AddPlanForm';
 import PlanFeaturesForm from './Forms/PlanFeatures';
 import ModulesForm from './Forms/ModulesForm';
 
@@ -8,6 +10,12 @@ import { v4 as uuidv4 } from 'uuid';
 
 export const UseAddPlan = () => {
   const [addPlanFormValues, setAddPlanFormValues] = useState({});
+
+  const router = useRouter();
+
+  const hanldeGoBack = () => {
+    router.back();
+  };
 
   const AddPlanStepperData = [
     {
@@ -30,5 +38,10 @@ export const UseAddPlan = () => {
     },
   ];
 
-  return { addPlanFormValues, setAddPlanFormValues, AddPlanStepperData };
+  return {
+    addPlanFormValues,
+    setAddPlanFormValues,
+    AddPlanStepperData,
+    hanldeGoBack,
+  };
 };

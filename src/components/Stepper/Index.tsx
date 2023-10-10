@@ -16,7 +16,7 @@ import Check from '@mui/icons-material/Check';
 
 import { v4 as uuidv4 } from 'uuid';
 
-import { SingleStepI, HorizontalStepperI } from './stepper.interface';
+import { SingleStepI, HorizontalStepperI } from './Stepper.interface';
 
 const AppHorizontalStepper: React.FC<HorizontalStepperI> = ({
   stepsArray,
@@ -186,3 +186,5 @@ const CustomConnector = styled(StepConnector)(({ theme }) => ({
     },
   },
 }));
+
+// Test comment , file name capital to small
