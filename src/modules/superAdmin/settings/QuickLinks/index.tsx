@@ -21,6 +21,8 @@ import { isNullOrEmpty } from '@/utils';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FormProvider } from '@/components/ReactHookForm';
+import { AlertModals } from '@/components/AlertModals';
+
 import { useForm } from 'react-hook-form';
 
 import {
@@ -39,11 +41,11 @@ import {
   FilterSharedIcon,
   RefreshSharedIcon,
 } from '@/assets/icons';
+
 import PlusShared from '@/assets/icons/shared/plus-shared';
 
 import { styles } from './QuickLinks.style';
 import { v4 as uuidv4 } from 'uuid';
-import { AlertModals } from '@/components/AlertModals';
 
 const QuickLinks = () => {
   const theme = useTheme();

@@ -32,9 +32,9 @@ import { productFeatureTableData } from '@/mock/modules/Settings/ProductFeature'
 
 import { SalesIcon } from '@/assets/images';
 import PlusShared from '@/assets/icons/shared/plus-shared';
+import { DownIcon } from '@/assets/icons';
 
 import { v4 as uuidv4 } from 'uuid';
-import { DownIcon } from '@/assets/icons';
 
 const ProductFeature = () => {
   const theme = useTheme();

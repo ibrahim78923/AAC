@@ -16,6 +16,7 @@ import CommonDrawer from '@/components/CommonDrawer';
 import TanstackTable from '@/components/Tabel/TanstackTable';
 import CustomPagination from '@/components/CustomPagination';
 import { FormProvider } from '@/components/ReactHookForm';
+import { AlertModals } from '@/components/AlertModals';
 
 import {
   enquiriesFiltersDefaultValues,
@@ -31,7 +32,6 @@ import { DownIcon, FilterSharedIcon, RefreshSharedIcon } from '@/assets/icons';
 
 import { styles } from './Enquiries.styles';
 import { v4 as uuidv4 } from 'uuid';
-import { AlertModals } from '@/components/AlertModals';
 
 const Enquiries = () => {
   const theme = useTheme();
