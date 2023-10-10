@@ -1,4 +1,3 @@
-import React from 'react';
 import { Box, Button, Stack, Typography } from '@mui/material';
 import ChooseQuotes from './ChooseQuotes/ChooseQuotes';
 import EditDetails from './EditDetails';
@@ -7,6 +6,7 @@ import ReviewInvoice from './ReviewInvoice';
 
 const CreateInvoice = () => {
   const router = useRouter();
+  // const { setIsListView } = UseInvoices();
 
   return (
     <Box>
@@ -19,7 +19,7 @@ const CreateInvoice = () => {
       <Stack justifyContent="space-between" alignItems="center" direction="row">
         <Button
           variant="outlined"
-          onClick={() => router.push('/sales-invoices')}
+          // onClick={() => setIsListView(false)}
         >
           Back
         </Button>

@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import {
   Box,
   Button,
@@ -15,21 +14,22 @@ import Search from '@/components/Search';
 import CustomPagination from '@/components/CustomPagination';
 import TanstackTable from '@/components/Tabel/TanstackTable';
 import { invoicesTableColumns, invoicesTableData } from '../SalesInvoices.data';
-import { useRouter } from 'next/router';
+import UseListView from './UseListView';
+import { AlertModals } from '@/components/AlertModals';
 
-const InvoicvesListView = () => {
-  const [selectedValue, setSelectedValue] = useState(null);
-  const [searchBy, setSearchBy] = useState('');
-  const router = useRouter();
-
-  const handleClick = (event: any) => {
-    setSelectedValue(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setSelectedValue(null);
-  };
-
+const InvoicvesListView = (props: any) => {
+  const { setIsListView } = props;
+  const {
+    selectedValue,
+    handleClose,
+    isDeleteModal,
+    setIsDeleteModal,
+    searchBy,
+    setSearchBy,
+    handleIsViewPage,
+    handleDeleteModal,
+    handleClick,
+  } = UseListView();
   return (
     <>
       <Stack direction="row" justifyContent="space-between">
@@ -38,7 +38,7 @@ const InvoicvesListView = () => {
           variant="contained"
           sx={{ display: 'flex', gap: '10px' }}
           startIcon={<PlusSharedIcon />}
-          onClick={() => router.push('/sales-invoices/create-invoice')}
+          onClick={() => setIsListView(true)}
         >
           Create Invoice
         </Button>
@@ -69,9 +69,9 @@ const InvoicvesListView = () => {
                 open={Boolean(selectedValue)}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleClose}>View</MenuItem>
+                <MenuItem onClick={handleIsViewPage}>View</MenuItem>
                 <MenuItem onClick={handleClose}>Download</MenuItem>
-                <MenuItem onClick={handleClose}>Delete</MenuItem>
+                <MenuItem onClick={handleDeleteModal}>Delete</MenuItem>
               </Menu>
             </Box>
             <Box
@@ -100,6 +100,13 @@ const InvoicvesListView = () => {
           entriePages={1}
         />
       </Box>
+      <AlertModals
+        message="You're about to delete all record. Detailed records can't be restored after 90 days."
+        type="delete"
+        open={isDeleteModal}
+        handleClose={() => setIsDeleteModal(false)}
+        handleSubmit={() => setIsDeleteModal(false)}
+      />
     </>
   );
 };
