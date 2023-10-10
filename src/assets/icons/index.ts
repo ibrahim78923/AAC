@@ -25,5 +25,5 @@ export { default as DownIcon } from './shared/Tabel/down-icon';
 export { default as SharedIcon } from './shared/shared-icon';
 export { default as AttachFileIcon } from './shared/attach-file';
 export { default as RecievedFileIcon } from './shared/recieved-file';
-export { default as DocumentIcon } from './shared/document-icon';
+export { default as DocumentIcon } from './shared/document';
 export { default as ArrowLeftIcon } from './shared/arrow-left-icon';
