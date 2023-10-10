@@ -31,6 +31,8 @@ export function useRequestApprovalPage() {
 
   const theme = useTheme();
   const styles = RequestApprovalPageStyles();
+  const RECIEVED_CONDITION = 'Recieved';
+  const REQUESTED_CONDITION = 'Requested';
 
   const textColor: any = {
     Request: '#0AADC7',
@@ -55,5 +57,7 @@ export function useRequestApprovalPage() {
     handleRecjectModelClose,
     handleRecjectModelOpen,
     openRejectModal,
+    REQUESTED_CONDITION,
+    RECIEVED_CONDITION,
   };
 }

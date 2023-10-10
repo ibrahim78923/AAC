@@ -1,3 +1,5 @@
+import { grey } from '@mui/material/colors';
+
 const RequestApprovalPageStyles = () => ({
   approvalsContainerBox: {
     maxHeight: '370px',
@@ -35,14 +37,20 @@ const RequestApprovalPageStyles = () => ({
   textareaStyle: {
     width: '100%',
     height: '200px',
-    fontSize: '0.876rem',
-    fontWeight: 400,
-    lineHeight: 1.5,
     padding: '12px',
     borderRadius: '12px',
     border: '2px solid #E5E7EB',
+    margin: '2.4px 5px 0 0',
+    resize: 'none',
   },
   boxBorderStyle: { borderBottom: '1px solid #E5E7EB', py: '10px' },
+  cancelButton: {
+    color: grey[500],
+    border: '1px solid #E5E7EB',
+    padding: '0px 22px',
+    height: '44px',
+    fontWeight: '500',
+  },
 });
 
 export default RequestApprovalPageStyles;
