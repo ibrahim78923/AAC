@@ -50,6 +50,11 @@ const UserManagement = () => {
     setSelectedValue(null);
   };
 
+  const handleUsersList = () => {
+    navigate.push(SUPER_ADMIN.USERS_LIST);
+    setSelectedValue(null);
+  };
+
   return (
     <Box
       sx={{ border: '1px solid #EAECF0', p: '24px 0px', borderRadius: '8px' }}
@@ -103,7 +108,7 @@ const UserManagement = () => {
                   open={Boolean(selectedValue)}
                   onClose={handleClose}
                 >
-                  <MenuItem onClick={handleClose}>User List</MenuItem>
+                  <MenuItem onClick={handleUsersList}>User List</MenuItem>
                   <MenuItem onClick={handleClose}>View</MenuItem>
                   <MenuItem onClick={handleClose}>Edit</MenuItem>
                 </Menu>
