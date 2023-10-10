@@ -6,8 +6,18 @@ const Button = (theme: any) => {
           '&:hover': {
             boxShadow: 'none',
           },
-          height: 48,
+          height: 44,
           borderradius: '8px',
+          '&.small': {
+            height: '36px',
+          },
+          '&.medium': {
+            height: '44px',
+          },
+
+          '&.large': {
+            height: '54px',
+          },
         },
 
         // contained

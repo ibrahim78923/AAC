@@ -1,6 +1,20 @@
 // More exports from here
 
 // export { default as ExampleKababCase } from './sections/login/example-kabab-case';
+export { default as CloseDrawerIcon } from './shared/close-drawer-icon';
+export { default as CloseModalIcon } from './shared/close-modal-icon';
+export { default as ProductSalesIcon } from './modules/OrganizationSubscription/product-sales-icon';
+export { default as ProductServiceIcon } from './modules/OrganizationSubscription/product-service-icon';
+export { default as ProductMarketingIcon } from './modules/OrganizationSubscription/product-marketing-icon';
+export { default as ProductOperationIcon } from './modules/OrganizationSubscription/product-operation-icon';
+export { default as ProductLoyaltyProgramIcon } from './modules/OrganizationSubscription/product-loyalty-program-icon';
+export { default as PlaneIcon } from './modules/OrganizationSubscription/plane-icon';
+export { default as ArrowBackIcon } from './modules/OrganizationSubscription/arrow-back-icon';
+export { default as MinusCircleIcon } from './modules/OrganizationSubscription/minus-cirlce-icon';
+export { default as AddCircleIcon } from './modules/OrganizationSubscription/add-circle-icon';
+export { default as LogoIcon } from './modules/OrganizationSubscription/logo-icon';
+export { default as PaymentMethodIcon } from './modules/OrganizationSubscription/payment-method-icon';
+export { default as TickCircleIcon } from './modules/OrganizationSubscription/tick-circle-icon';
 export { default as ExampleSharedCase } from './shared/example-shared';
 export { default as EmailIcon } from './shared/email-shared';
 export { default as PhoneIcon } from './shared/phone-shared';
@@ -26,9 +40,14 @@ export { default as RefreshSharedIcon } from './shared/refresh-shared';
 
 export { default as ArrowUp } from './shared/arrow-up';
 export { default as ArrowDown } from './shared/arrow-down';
+export { default as ArrowLeft } from './shared/arrow-left';
 export { default as DownIcon } from './shared/Tabel/down-icon';
 export { default as SharedIcon } from './shared/shared-icon';
 export { default as AttachFileIcon } from './shared/attach-file';
 export { default as RecievedFileIcon } from './shared/recieved-file';
 export { default as AddShopIcon } from './shared/shop-add-icon';
 export { default as AddUserCircleIcon } from './shared/user-circle-add';
+export { default as DropdownIcon } from './shared/dropdown-icon';
+export { default as DocumentIcon } from './shared/document';
+export { default as ArrowLeftIcon } from './shared/arrow-left';
+export { default as GreyPlusSharedIcon } from './shared/grey-plus';

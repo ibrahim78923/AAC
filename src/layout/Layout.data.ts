@@ -259,7 +259,7 @@ export const LowerSuperAdminRoutes = [
         label: 'Quick Links',
       },
       {
-        key: 'super-admin/settings/news-Events',
+        key: 'super-admin/settings/news-and-events',
         label: 'News And Events',
       },
       {
@@ -271,7 +271,7 @@ export const LowerSuperAdminRoutes = [
         label: 'Product List',
       },
       {
-        key: 'super-admin/settings/product-feature',
+        key: 'super-admin/settings/product-features',
         label: 'Product Feature',
       },
     ],
