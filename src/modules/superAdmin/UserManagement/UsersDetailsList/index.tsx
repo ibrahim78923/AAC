@@ -23,6 +23,8 @@ import ProfileCard from '@/components/ProfileCard';
 
 import CommonTabs from '@/components/Tabs';
 
+import { SUPER_ADMIN } from '@/constants';
+
 import AddAccountDrawer from './AddAccountDrawer';
 
 import AddUser from '../Users/AddUser';
@@ -33,8 +35,6 @@ import UserDetailsProfile from './UserDetailsProfile';
 
 import Delegates from './UserDetailsTables/Delegates';
 
-import { SUPER_ADMIN } from '@/constants';
-
 import { ArrowBack, AddCircleOutlined } from '@mui/icons-material';
 
 import {
@@ -42,8 +42,6 @@ import {
   AddUserCircleIcon,
   FilterSharedIcon,
 } from '@/assets/icons';
-
-import { styles } from './UsersDetailsList.style';
 
 import { AvatarImage } from '@/assets/images';
 
@@ -56,10 +54,10 @@ const UsersDetailsList = () => {
   const navigate = useRouter();
 
   return (
-    <Box sx={styles.usersDetailsWrapper}>
+    <Box>
       <Grid container spacing={2}>
         <Grid item xs={12} lg={2.5}>
-          <Box sx={styles.sidebarWrapper}>
+          <Box>
             <Box
               py={1}
               sx={{ display: 'flex', justifyContent: 'space-between' }}

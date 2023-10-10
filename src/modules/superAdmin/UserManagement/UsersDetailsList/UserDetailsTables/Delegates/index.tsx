@@ -10,8 +10,9 @@ import TanstackTable from '@/components/Tabel/TanstackTable';
 
 import { delegatesColumns, delegatesData } from './Delegates.data';
 
-import { FilterSharedIcon } from '@/assets/icons';
 import DelegateFilterDrawer from '../../DelegateFilterDrawer';
+
+import { FilterSharedIcon } from '@/assets/icons';
 
 const Delegates = () => {
   const [isOpenFilterDrawer, setIsOpenFilterDrawer] = useState(false);
