@@ -2,8 +2,7 @@ import React from 'react';
 
 import { Box, Tabs, Tab, Typography } from '@mui/material';
 
-import RolesRight from './TabsData/RolesRight';
-
+import RolesRight from './TabsData/RolesAndRight';
 import UserManagement from './TabsData/UserManagement';
 import { TabPanelProps } from './SettingSales.interface';
 

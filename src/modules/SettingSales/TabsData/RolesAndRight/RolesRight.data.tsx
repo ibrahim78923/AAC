@@ -10,23 +10,14 @@ export const validationSchema = Yup.object().shape({
 
 export const defaultValues = {
   role: '',
-
   desciption: '',
-
   postCode: '',
-
   address: '',
-
   unit: '',
-
   buildingName: '',
-
   buildingNumber: '',
-
   streetName: '',
-
   city: '',
-
   country: '',
 };
 

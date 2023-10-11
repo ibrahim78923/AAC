@@ -78,7 +78,7 @@ const RolesRight = ({ initialValueProps = defaultValues }: any) => {
                   <item.component {...item.componentProps} size={'small'}>
                     {item?.componentProps?.select &&
                       item?.options?.map((option: any) => (
-                        <option key={option?.value} value={option?.value}>
+                        <option key={uuidv4()} value={option?.value}>
                           {option?.label}
                         </option>
                       ))}
@@ -105,7 +105,7 @@ const RolesRight = ({ initialValueProps = defaultValues }: any) => {
                   <item.component {...item.componentProps} size={'small'}>
                     {item?.componentProps?.select &&
                       item?.options?.map((option: any) => (
-                        <option key={option?.value} value={option?.value}>
+                        <option key={uuidv4()} value={option?.value}>
                           {option?.label}
                         </option>
                       ))}
@@ -145,7 +145,7 @@ const RolesRight = ({ initialValueProps = defaultValues }: any) => {
                 color: `${theme?.palette?.common.white}`,
                 fontSize: '16px',
               }}
-            />{' '}
+            />
             Add New Role
           </Button>
         </Box>

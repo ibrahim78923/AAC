@@ -22,7 +22,6 @@ import TeamsTable from './TeamsTable';
 import {
   dataArray,
   defaultValues,
-  teamsDataArray,
   validationSchema,
 } from './UserManagement.data';
 
@@ -31,6 +30,7 @@ import { TabPanelProps } from './UserManagement.interface';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { v4 as uuidv4 } from 'uuid';
+import { teamsDataArray } from './TeamsTable/TeamsTable.data';
 
 function CustomTabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
@@ -106,7 +106,7 @@ const UserManagement = ({ initialValueProps = defaultValues }: any) => {
                   <item.component {...item.componentProps} size={'small'}>
                     {item?.componentProps?.select &&
                       item?.options?.map((option: any) => (
-                        <option key={option?.value} value={option?.value}>
+                        <option key={uuidv4()} value={option?.value}>
                           {option?.label}
                         </option>
                       ))}
@@ -133,7 +133,7 @@ const UserManagement = ({ initialValueProps = defaultValues }: any) => {
                   <item.component {...item.componentProps} size={'small'}>
                     {item?.componentProps?.select &&
                       item?.options?.map((option: any) => (
-                        <option key={option?.value} value={option?.value}>
+                        <option key={uuidv4()} value={option?.value}>
                           {option?.label}
                         </option>
                       ))}

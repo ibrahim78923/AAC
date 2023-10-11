@@ -42,7 +42,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { AddPenIcon } from '@/assets/icons';
 
 const OrganizationTable = ({ initialValueProps = defaultValues }: any) => {
-  const [openDrawer, setOpenDrawer] = useState(false);
+  const [isOpenDrawer, setIsOpenDrawer] = useState(false);
   const [isOpenDelete, setIsOpenDelete] = useState(false);
   const [openEditDrawer, setOpenEditDrawer] = useState(false);
   const [value, setValue] = useState('search here');
@@ -69,9 +69,9 @@ const OrganizationTable = ({ initialValueProps = defaultValues }: any) => {
   return (
     <>
       <CommonDrawer
-        isDrawerOpen={openDrawer}
+        isDrawerOpen={isOpenDrawer}
         onClose={() => {
-          setOpenDrawer(false);
+          setIsOpenDrawer(false);
         }}
         title="Create Company"
         okText="ok"
@@ -164,7 +164,7 @@ const OrganizationTable = ({ initialValueProps = defaultValues }: any) => {
                   <item.component {...item.componentProps} size={'small'}>
                     {item?.componentProps?.select &&
                       item?.options?.map((option: any) => (
-                        <option key={option?.value} value={option?.value}>
+                        <option key={uuidv4()} value={option?.value}>
                           {option?.label}
                         </option>
                       ))}
@@ -271,7 +271,7 @@ const OrganizationTable = ({ initialValueProps = defaultValues }: any) => {
                   <item.component {...item.componentProps} size={'small'}>
                     {item?.componentProps?.select &&
                       item?.options?.map((option: any) => (
-                        <option key={option?.value} value={option?.value}>
+                        <option key={uuidv4()} value={option?.value}>
                           {option?.label}
                         </option>
                       ))}
@@ -332,7 +332,7 @@ const OrganizationTable = ({ initialValueProps = defaultValues }: any) => {
               </Menu>
               <Button
                 onClick={() => {
-                  setOpenDrawer(true);
+                  setIsOpenDrawer(true);
                 }}
                 variant="contained"
                 sx={{

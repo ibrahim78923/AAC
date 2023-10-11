@@ -1,30 +1,43 @@
 import React from 'react';
-import { Box, Divider, Grid, Typography } from '@mui/material';
-import { BlueDotIcon, RedDotIcon, UserGroupFilledIcon } from '@/assets/icons';
-import { UnionBgImage } from '@/assets/images';
+
+import { Box, Divider, Grid, Typography, Theme, useTheme } from '@mui/material';
+
+import {
+  BlueDotIcon,
+  EarningIcon,
+  RedDotIcon,
+  TwoUserIcon,
+  UserGroupFilledIcon,
+} from '@/assets/icons';
+import { style } from './StatusCard.style';
 
 const StatusCards = () => {
+  const theme = useTheme<Theme>();
   return (
     <>
-      <Grid container spacing={3}>
-        <Grid item lg={2.6} md={3.5} sm={6} xs={12}>
-          <Box
-            sx={{
-              border: '1px solid #E5E7EB',
-              borderRadius: '8px',
-              background: '#ffff',
-              padding: '1rem',
-              backgroundImage: `url(${UnionBgImage.src})`,
-              backgroundRepeat: 'no-repeat',
-              backgroundPosition: 'right',
-              display: 'flex',
-              justifyContent: 'space-between',
-            }}
-          >
-            <Box>
+      <Grid container spacing={2} sx={{ paddingBottom: '1rem' }}>
+        <Grid item xl={2.6} lg={3} md={6} sm={6} xs={12}>
+          <Box sx={style.TotalCardStyle(theme)}>
+            <Box sx={{ display: 'grid' }}>
               <UserGroupFilledIcon />
-              <Typography>Total Clients</Typography>
-              <Typography>95</Typography>
+              <Typography
+                variant="h6"
+                sx={{
+                  color: `${theme?.palette?.blue?.light}`,
+                  fontWeight: 400,
+                }}
+              >
+                Total Clients
+              </Typography>
+              <Typography
+                variant="h4"
+                sx={{
+                  color: `${theme?.palette?.custom.main}`,
+                  fontWeight: 500,
+                }}
+              >
+                95
+              </Typography>
             </Box>
             <Divider
               orientation="vertical"
@@ -35,7 +48,7 @@ const StatusCards = () => {
             <Box
               sx={{
                 paddingRight: {
-                  lg: '3.3rem',
+                  lg: '2.3rem',
                   md: '0rem',
                   sm: '3.3rem',
                   xs: '0rem',
@@ -43,42 +56,39 @@ const StatusCards = () => {
               }}
             >
               <Typography
+                variant="h6"
                 sx={{
-                  fontSize: '16px',
-                  fontWeight: 500,
-                  lineHeight: '24px',
-                  color: '#4C597D',
+                  color: `${theme?.palette?.blue?.light}`,
                 }}
               >
-                <BlueDotIcon /> Active
+                <BlueDotIcon />
+                &nbsp; Active
               </Typography>
               <Typography
+                variant="body2"
                 sx={{
-                  fontSize: '14px',
                   fontWeight: 400,
-                  lineHeight: '20px',
-                  color: '#374151',
+                  color: `${theme?.palette?.slateBlue?.main}`,
+                  marginLeft: '0.8rem',
                 }}
               >
-                {' '}
                 60
               </Typography>
               <Typography
+                variant="body1"
                 sx={{
-                  fontSize: '16px',
-                  fontWeight: 500,
-                  lineHeight: '24px',
-                  color: '#4C597D',
+                  color: `${theme?.palette?.blue?.light}`,
                 }}
               >
-                <RedDotIcon /> In Active
+                <RedDotIcon />
+                &nbsp; In Active
               </Typography>
               <Typography
+                variant="body2"
                 sx={{
-                  fontSize: '14px',
                   fontWeight: 400,
-                  lineHeight: '20px',
-                  color: '#374151',
+                  color: `${theme?.palette?.slateBlue?.main}`,
+                  marginLeft: '0.8rem',
                 }}
               >
                 20
@@ -86,14 +96,180 @@ const StatusCards = () => {
             </Box>
           </Box>
         </Grid>
-        <Grid item lg={3} md={3} sm={6} xs={12}>
-          2
+        <Grid item xl={2.6} lg={3} md={6} sm={6} xs={12}>
+          <Box sx={style.TotalCardStyle(theme)}>
+            <Box>
+              <TwoUserIcon />
+              <Typography
+                variant="h6"
+                sx={{
+                  color: `${theme?.palette?.blue?.light}`,
+                  fontWeight: 400,
+                }}
+              >
+                Total Users
+              </Typography>
+              <Typography
+                variant="h4"
+                sx={{
+                  color: `${theme?.palette?.custom.main}`,
+                  fontWeight: 500,
+                }}
+              >
+                95
+              </Typography>
+            </Box>
+            <Divider
+              orientation="vertical"
+              variant="middle"
+              flexItem
+              sx={{ border: '2px solid #4CCFBC', borderRadius: '20px' }}
+            />
+            <Box
+              sx={{
+                paddingRight: {
+                  lg: '2.3rem',
+                  md: '0rem',
+                  sm: '3.3rem',
+                  xs: '0rem',
+                },
+              }}
+            >
+              <Typography
+                variant="h6"
+                sx={{
+                  color: `${theme?.palette?.blue?.light}`,
+                }}
+              >
+                <BlueDotIcon />
+                &nbsp; Active
+              </Typography>
+              <Typography
+                variant="body2"
+                sx={{
+                  fontWeight: 400,
+                  color: `${theme?.palette?.slateBlue?.main}`,
+                  marginLeft: '0.8rem',
+                }}
+              >
+                60
+              </Typography>
+              <Typography
+                variant="h6"
+                sx={{
+                  color: `${theme?.palette?.blue?.light}`,
+                }}
+              >
+                <RedDotIcon />
+                &nbsp; In Active
+              </Typography>
+              <Typography
+                variant="body2"
+                sx={{
+                  fontWeight: 400,
+                  color: `${theme?.palette?.slateBlue?.main}`,
+                  marginLeft: '0.8rem',
+                }}
+              >
+                20
+              </Typography>
+            </Box>
+          </Box>
         </Grid>
-        <Grid item lg={3} md={3} sm={6} xs={12}>
-          3
+        <Grid item xl={6.8} lg={6} md={12} sm={6} xs={12}>
+          <Box sx={style.EarningCardStyle(theme)}>
+            <Box sx={{ marginTop: '1rem' }}>
+              <EarningIcon />
+              <Typography
+                variant="h6"
+                sx={{
+                  color: `${theme?.palette?.blue?.light}`,
+                  fontWeight: 400,
+                }}
+              >
+                Earnings
+              </Typography>
+            </Box>
+            <Divider
+              orientation="vertical"
+              variant="middle"
+              flexItem
+              sx={{
+                border: `2px solid ${theme?.palette?.success.main}`,
+                borderRadius: '20px',
+                marginRight: '12px',
+                marginLeft: '3rem',
+              }}
+            />
+            <Grid container spacing={1}>
+              <Grid item lg={6} md={6} sm={6} xs={12}>
+                <Box>
+                  <Typography variant="h6" sx={{ color: '#79839E' }}>
+                    Current Month
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      color: `${theme?.palette?.blue.dull_blue}`,
+                      fontWeight: 600,
+                    }}
+                  >
+                    £ 268
+                  </Typography>
+                </Box>
+              </Grid>
+              <Grid item lg={6} md={6} sm={6} xs={12}>
+                <Box>
+                  <Typography variant="h6" sx={{ color: '#79839E' }}>
+                    Last Month
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      color: `${theme?.palette?.blue.dull_blue}`,
+                      fontWeight: 600,
+                    }}
+                  >
+                    £ 450
+                  </Typography>
+                </Box>
+              </Grid>
+              <Grid item lg={6} md={6} sm={6} xs={12}>
+                <Box>
+                  <Typography variant="h6" sx={{ color: '#79839E' }}>
+                    Current Year
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      color: `${theme?.palette?.blue.dull_blue}`,
+                      fontWeight: 600,
+                    }}
+                  >
+                    £ 1280
+                  </Typography>
+                </Box>
+              </Grid>
+              <Grid item lg={6} md={6} sm={6} xs={12}>
+                <Box>
+                  <Typography variant="h6" sx={{ color: '#79839E' }}>
+                    Last Year
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      color: `${theme?.palette?.blue.dull_blue}`,
+                      fontWeight: 600,
+                    }}
+                  >
+                    £ 11,250
+                  </Typography>
+                </Box>
+              </Grid>
+            </Grid>
+          </Box>
         </Grid>
       </Grid>
-      <Box></Box>
     </>
   );
 };

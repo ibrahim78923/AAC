@@ -146,7 +146,7 @@ const OrganizationCard = ({ initialValueProps = defaultValues }: any) => {
                   <item.component {...item.componentProps} size={'small'}>
                     {item?.componentProps?.select &&
                       item?.options?.map((option: any) => (
-                        <option key={option?.value} value={option?.value}>
+                        <option key={uuidv4()} value={uuidv4()}>
                           {option?.label}
                         </option>
                       ))}
@@ -192,8 +192,8 @@ const OrganizationCard = ({ initialValueProps = defaultValues }: any) => {
                     }}
                   >
                     <Typography
+                      variant="h3"
                       sx={{
-                        fontSize: '24px',
                         fontWeight: 500,
                         lineHeight: '30px',
                         color: `${theme?.palette?.custom.main}`,
@@ -211,8 +211,8 @@ const OrganizationCard = ({ initialValueProps = defaultValues }: any) => {
                     >
                       <Image src={UserImage} alt="user" />
                       <Typography
+                        variant="body3"
                         sx={{
-                          fontSize: '12px',
                           fontWeight: 500,
                           lineHeight: '18px',
                           color: `${theme?.palette?.custom.main}`,
@@ -231,8 +231,8 @@ const OrganizationCard = ({ initialValueProps = defaultValues }: any) => {
                     >
                       <Image src={SmsImage} alt="sms" />
                       <Typography
+                        variant="body3"
                         sx={{
-                          fontSize: '12px',
                           fontWeight: 500,
                           lineHeight: '18px',
                           color: `${theme?.palette?.custom.main}`,
@@ -251,8 +251,8 @@ const OrganizationCard = ({ initialValueProps = defaultValues }: any) => {
                     >
                       <Image src={PhoneImage} alt="phone" />
                       <Typography
+                        variant="body3"
                         sx={{
-                          fontSize: '12px',
                           fontWeight: 500,
                           lineHeight: '18px',
                           color: `${theme?.palette?.custom.main}`,
@@ -272,8 +272,8 @@ const OrganizationCard = ({ initialValueProps = defaultValues }: any) => {
                   >
                     <Image src={EditImage} alt="edit" />
                     <Typography
+                      variant="body3"
                       sx={{
-                        fontSize: '12px',
                         fontWeight: 500,
                         lineHeight: '18px',
                         color: `${theme?.palette?.primary.main}`,
@@ -315,8 +315,8 @@ const OrganizationCard = ({ initialValueProps = defaultValues }: any) => {
                     <Box sx={styles.Active(theme)}>
                       Active&nbsp; (
                       <Typography
+                        variant="body3"
                         sx={{
-                          fontSize: '12px',
                           fontWeight: 700,
                           lineHeight: '18px',
                         }}
@@ -328,8 +328,8 @@ const OrganizationCard = ({ initialValueProps = defaultValues }: any) => {
                     <Box sx={styles.inActive(theme)}>
                       Inactive&nbsp; (
                       <Typography
+                        variant="body3"
                         sx={{
-                          fontSize: '12px',
                           fontWeight: 700,
                           lineHeight: '18px',
                         }}
@@ -349,9 +349,9 @@ const OrganizationCard = ({ initialValueProps = defaultValues }: any) => {
                         <Box sx={{ display: 'grid', justifyItems: 'center' }}>
                           <Image src={item.img} alt="no image" />
                           <Typography
+                            variant="body2"
                             sx={{
                               color: `${item.color}`,
-                              fontSize: '14px',
                               fontWeight: 600,
                               lineHeight: '20PX',
                               paddingTop: '10px',

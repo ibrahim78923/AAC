@@ -1,6 +1,8 @@
 import { Grid, Typography } from '@mui/material';
 import React from 'react';
+import GraphCard from './GraphCard';
 import StatusCards from './statusCard';
+import NotificationCards from './NotificationCard';
 
 const SuperAdminDashboard = () => {
   return (
@@ -11,6 +13,8 @@ const SuperAdminDashboard = () => {
         </Grid>
       </Grid>
       <StatusCards />
+      <GraphCard />
+      <NotificationCards />
     </>
   );
 };

@@ -37,3 +37,5 @@ export { default as RedDotIcon } from '../../assets/icons/modules/dashboard/red-
 export { default as DocumentIcon } from './shared/document';
 export { default as ArrowLeftIcon } from './shared/arrow-left';
 export { default as GreyPlusSharedIcon } from './shared/grey-plus';
+export { default as TwoUserIcon } from '../../assets/icons/modules/dashboard/two-user';
+export { default as EarningIcon } from '../../assets/icons/modules/dashboard/earnings-icon';
