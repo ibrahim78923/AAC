@@ -8,47 +8,62 @@ import { FilterSharedIcon, ExportShared } from '@/assets/icons';
 
 import { styles } from './Contracts.style';
 import AssetHead from '../AssetHead/index';
+import ContractsDrawerForm from './ContractsDrawerForm';
 
 function Contracts() {
   const [meetingsData, setMeetingsData] = useState([]);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const theme: any = useTheme();
 
   return (
-    <Grid container>
-      <AssetHead title={'Contracts'} addTitle={'Add New Contract'} />
-      <Grid item sx={styles.gridItems}>
-        <Box sx={styles.headBox}>
-          <Box sx={{ marginLeft: '24px' }}>
-            <Search label="search" width="100%" />
+    <>
+      <Grid container>
+        <AssetHead title={'Contracts'} addTitle={'Add New Contract'} />
+        <Grid item sx={styles.gridItems}>
+          <Box sx={styles.headBox}>
+            <Box sx={{ marginLeft: '24px' }}>
+              <Search label="search" width="100%" />
+            </Box>
+            <Box sx={styles.buttonBox}>
+              <Button
+                sx={styles.buttonStyle(theme)}
+                variant="outlined"
+                disabled
+              >
+                Delete
+              </Button>
+              <Button
+                sx={styles.exportButtonStyle(theme)}
+                variant="outlined"
+                startIcon={<ExportShared />}
+              >
+                Export
+              </Button>
+              <Button
+                sx={styles.buttonStyle(theme)}
+                variant="outlined"
+                startIcon={<FilterSharedIcon />}
+                onClick={() => setIsDrawerOpen(true)}
+              >
+                Filter
+              </Button>
+            </Box>
           </Box>
-          <Box sx={styles.buttonBox}>
-            <Button sx={styles.buttonStyle(theme)} variant="outlined" disabled>
-              Delete
-            </Button>
-            <Button
-              sx={styles.exportButtonStyle(theme)}
-              variant="outlined"
-              startIcon={<ExportShared />}
-            >
-              Export
-            </Button>
-            <Button
-              sx={styles.buttonStyle(theme)}
-              variant="outlined"
-              startIcon={<FilterSharedIcon />}
-            >
-              Filter
-            </Button>
+          <Box sx={{ marginBottom: '25px' }}>
+            <TanstackTable
+              data={data}
+              columns={columns(meetingsData, setMeetingsData, data, theme)}
+            />
           </Box>
-        </Box>
-        <Box sx={{ marginBottom: '25px' }}>
-          <TanstackTable
-            data={data}
-            columns={columns(meetingsData, setMeetingsData, data, theme)}
-          />
-        </Box>
+        </Grid>
       </Grid>
-    </Grid>
+      <Box>
+        <ContractsDrawerForm
+          isDrawerOpen={isDrawerOpen}
+          setIsDrawerOpen={setIsDrawerOpen}
+        />
+      </Box>
+    </>
   );
 }
 

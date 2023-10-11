@@ -6,14 +6,14 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 
 export function useAddRequestApprovalDrawer() {
-  const methodsDrawerFormForm = useForm({
+  const methodsDrawerForm = useForm({
     resolver: yupResolver(drawerFormValidationSchema),
     defaultValues,
   });
 
   const onSubmit = () => {};
   return {
-    methodsDrawerFormForm,
+    methodsDrawerForm,
     drawerFormValidationSchema,
     defaultValues,
     onSubmit,
