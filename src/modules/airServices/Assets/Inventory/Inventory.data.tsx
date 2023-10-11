@@ -1,5 +1,5 @@
-import React from 'react';
 import { Checkbox } from '@mui/material';
+import { styles } from '../AssetHead/AssetHead.style';
 
 export const data: any = [
   {
@@ -34,6 +34,7 @@ export const columns = (
   meetingsData: any,
   setMeetingsData: any,
   meetingsMainData: any,
+  theme: any,
 ): any => [
   {
     accessorFn: (row: any) => row.id,
@@ -79,174 +80,54 @@ export const columns = (
     accessorFn: (row: any) => row.Name,
     id: 'Name',
     isSortable: true,
-    header: (
-      <span
-        style={{
-          lineHeight: '18px',
-          fontWeight: 800,
-          fontSize: '14px',
-          color: '#1F305D',
-        }}
-      >
-        Name
-      </span>
-    ),
+    header: <span style={styles.headerStyle(theme)}>Name</span>,
     cell: (info: any) => (
-      <span
-        style={{
-          lineHeight: '18px',
-          fontWeight: 500,
-          fontSize: '14px',
-          color: '#0AADC7',
-        }}
-      >
-        {info.getValue()}
-      </span>
+      <span style={styles.firstCellStyle}>{info.getValue()}</span>
     ),
   },
   {
     accessorFn: (row: any) => row.AssetType,
     id: 'AssetType',
-    header: (
-      <span
-        style={{
-          lineHeight: '18px',
-          fontWeight: 800,
-          fontSize: '14px',
-          color: '#1F305D',
-        }}
-      >
-        Asset Type
-      </span>
-    ),
+    header: <span style={styles.headerStyle(theme)}>Asset Type</span>,
     isSortable: true,
     cell: (info: any) => (
-      <span
-        style={{
-          lineHeight: '18px',
-          fontWeight: 500,
-          fontSize: '14px',
-          color: '#6B7280',
-        }}
-      >
-        {info.getValue()}
-      </span>
+      <span style={styles.cellStyle(theme)}>{info.getValue()}</span>
     ),
   },
   {
     accessorFn: (row: any) => row.Location,
     id: 'Location',
     isSortable: true,
-    header: (
-      <span
-        style={{
-          lineHeight: '18px',
-          fontWeight: 800,
-          fontSize: '14px',
-          color: '#1F305D',
-        }}
-      >
-        Location
-      </span>
-    ),
+    header: <span style={styles.headerStyle(theme)}>Location</span>,
     cell: (info: any) => (
-      <span
-        style={{
-          lineHeight: '18px',
-          fontWeight: 500,
-          fontSize: '14px',
-          color: '#6B7280',
-        }}
-      >
-        {info.getValue()}
-      </span>
+      <span style={styles.cellStyle(theme)}>{info.getValue()}</span>
     ),
   },
   {
     accessorFn: (row: any) => row.UsedBy,
     id: 'UsedBy',
     isSortable: true,
-    header: (
-      <span
-        style={{
-          lineHeight: '18px',
-          fontWeight: 800,
-          fontSize: '14px',
-          color: '#1F305D',
-        }}
-      >
-        Used By
-      </span>
-    ),
+    header: <span style={styles.headerStyle(theme)}>Used By</span>,
     cell: (info: any) => (
-      <span
-        style={{
-          lineHeight: '18px',
-          fontWeight: 500,
-          fontSize: '14px',
-          color: '#6B7280',
-        }}
-      >
-        {info.getValue()}
-      </span>
+      <span style={styles.cellStyle(theme)}>{info.getValue()}</span>
     ),
   },
   {
     accessorFn: (row: any) => row.Department,
     id: 'Department',
     isSortable: true,
-    header: (
-      <span
-        style={{
-          lineHeight: '18px',
-          fontWeight: 800,
-          fontSize: '14px',
-          color: '#1F305D',
-        }}
-      >
-        Department
-      </span>
-    ),
+    header: <span style={styles.headerStyle(theme)}>Department</span>,
     cell: (info: any) => (
-      <span
-        style={{
-          lineHeight: '18px',
-          fontWeight: 500,
-          fontSize: '14px',
-          color: '#6B7280',
-        }}
-      >
-        {info.getValue()}
-      </span>
+      <span style={styles.cellStyle(theme)}>{info.getValue()}</span>
     ),
   },
   {
     accessorFn: (row: any) => row.Impact,
     id: 'Impact',
     isSortable: true,
-    header: (
-      <span
-        style={{
-          lineHeight: '18px',
-          fontWeight: 800,
-          fontSize: '14px',
-          color: '#1F305D',
-        }}
-      >
-        Impact
-      </span>
-    ),
+    header: <span style={styles.headerStyle(theme)}>Impact</span>,
     cell: (info: any) => (
-      <span
-        style={{
-          lineHeight: '18px',
-          fontWeight: 500,
-          fontSize: '14px',
-          color: '#6B7280',
-        }}
-      >
-        {info.getValue()}
-      </span>
+      <span style={styles.cellStyle(theme)}>{info.getValue()}</span>
     ),
   },
 ];

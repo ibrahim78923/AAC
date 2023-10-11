@@ -16,6 +16,10 @@ export const styles = {
       marginLeft: '24px',
       marginTop: '12px',
     },
+    '@media screen and (max-width: 450px)': {
+      paddingRight: '25px',
+      marginLeft: '0px',
+    },
   },
 
   buttonBox: {

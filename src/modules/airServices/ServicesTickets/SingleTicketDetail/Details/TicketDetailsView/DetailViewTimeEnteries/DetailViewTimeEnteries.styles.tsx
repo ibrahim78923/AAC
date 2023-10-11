@@ -1,10 +1,10 @@
 export const detailViewTimeEnteriesStyle: any = {
   buttonStyleOFTimeEntries: {
-    width: '170px',
+    maxWidth: '100%',
   },
   buttonHeigh: {
     width: '100%',
-    height: '38px',
+    height: '100%',
   },
   timeEnterMainGride: {
     justifyContent: 'space-between',
@@ -34,11 +34,13 @@ export const detailViewTimeEnteriesStyle: any = {
   },
   timeEnterInnerBox: {
     display: 'flex',
+    justifyContent: 'space-between',
     m: '4px',
     flexDirection: 'row',
   },
   timeEnterInnerSecBox: {
     display: 'flex',
+    justifyContent: 'space-between',
     m: '4px',
     flexDirection: 'row',
     mt: '2rem',

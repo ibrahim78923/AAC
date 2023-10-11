@@ -15,20 +15,16 @@ export const RelatedTicketsDrawer = ({
   setIsDrawerOpen,
 }: any) => {
   const methods: any = useForm({
-    resolver: yupResolver(createTicketValidationSchema), // validator
-    defaultValues: createTicketDefaultValues, // initial form data , Note if not use form will be uncontrolled initially
+    resolver: yupResolver(createTicketValidationSchema),
+    defaultValues: createTicketDefaultValues,
   });
 
   const {
-    handleSubmit, // submit form
+    handleSubmit,
     formState: {},
   } = methods;
 
-  const submit = () => {
-    // data.dob = dayjs(data.dob).format('YYYY-MM-DD');
-    // data.timeFrom = dayjs(data.timeFrom).format('HH:MM:ss');
-    // data.timeTo = dayjs(data.timeTo).format('HH:MM:ss');
-  };
+  const submit = () => {};
   return (
     <CommonDrawer
       isDrawerOpen={isDrawerOpen}

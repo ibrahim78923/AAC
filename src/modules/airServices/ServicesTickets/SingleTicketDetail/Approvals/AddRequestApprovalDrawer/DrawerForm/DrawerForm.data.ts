@@ -1,12 +1,15 @@
 import { RHFTextField, RHFEditor } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
-export const DrawerFormValidationSchema = Yup.object().shape({
-  subject: Yup.string().trim().required('Field is Required'),
+export const drawerFormValidationSchema = Yup.object().shape({
+  subject: Yup.string()
+    .trim()
+    .required('Field is Required')
+    .email('Invalid email address'),
   description: Yup.string().required('Field is Required'),
 });
 
-export const DrawerFormDefaultValues = {
+export const defaultValues = {
   subject: '',
   description: '',
 };

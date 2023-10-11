@@ -7,6 +7,7 @@ import { Button } from '@mui/material';
 import { FilterSharedIcon } from '@/assets/icons';
 import { styles } from './Software.style';
 import { useTheme } from '@emotion/react';
+import AssetHead from '../AssetHead/index';
 
 function Software() {
   const [meetingsData, setMeetingsData] = useState([]);
@@ -14,6 +15,7 @@ function Software() {
 
   return (
     <Grid container>
+      <AssetHead title={'Software'} addTitle={'New Software'} />
       <Grid item sx={styles.gridItems}>
         <Box sx={styles.headBox}>
           <Box sx={{ marginLeft: '24px' }}>
@@ -35,7 +37,7 @@ function Software() {
         <Box sx={{ marginBottom: '25px' }}>
           <TanstackTable
             data={data}
-            columns={columns(meetingsData, setMeetingsData, data)}
+            columns={columns(meetingsData, setMeetingsData, data, theme)}
           />
         </Box>
       </Grid>

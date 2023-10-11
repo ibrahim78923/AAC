@@ -20,6 +20,7 @@ export const SingleTicketDetailTabs = () => {
       <RelatedTickets />
       <AssociateAssets />
       {/* <Associations /> */}
+      {/* <Associations /> */}
       <Approvals />
       <Meetings />
       {/* <Activities /> */}
