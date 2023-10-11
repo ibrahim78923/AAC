@@ -13,6 +13,7 @@ import AssetHead from '../AssetHead/index';
 function PurchaseOrder() {
   const [meetingsData, setMeetingsData] = useState([]);
   const theme: any = useTheme();
+
   return (
     <Grid container>
       <AssetHead title={'Purchase Order'} addTitle={'New Purchase Order'} />
@@ -41,7 +42,7 @@ function PurchaseOrder() {
         <Box sx={{ marginBottom: '25px' }}>
           <TanstackTable
             data={data}
-            columns={columns(meetingsData, setMeetingsData, data)}
+            columns={columns(meetingsData, setMeetingsData, data, theme)}
           />
         </Box>
       </Grid>

@@ -3,8 +3,6 @@ export const ticketsStyles: any = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
-    flexWrap: 'wrap',
-    gap: '1rem',
   },
   headText: { color: 'slateBlue.main', fontWeight: 500 },
   actionBtn: {
@@ -22,5 +20,9 @@ export const ticketsStyles: any = {
     color: 'common.white',
     ':hover': { bgcolor: 'primary.main' },
   },
-  btnContainer: { display: 'flex', gap: '20px' },
+  btnContainer: {
+    display: 'flex',
+    gap: '20px',
+    justifyContent: { sm: 'flex-end', xs: 'center' },
+  },
 };

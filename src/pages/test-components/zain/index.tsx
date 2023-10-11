@@ -1,5 +1,5 @@
 import SuperAdminLayout from '@/layout/index';
-import RelatedTickets from '@/modules/ServicesTickets/SingleTicketDetail/RelatedTickets';
+import RelatedTickets from '@/modules/airServices/ServicesTickets/SingleTicketDetail/RelatedTickets';
 
 const TestComponentsZainPage = () => {
   return (

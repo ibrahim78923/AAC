@@ -5,7 +5,6 @@ import {
   IconButton,
   Menu,
   MenuItem,
-  TextareaAutosize,
   Typography,
 } from '@mui/material';
 import Image from 'next/image';
@@ -18,6 +17,8 @@ import SharedIcon from '@/assets/icons/shared/shared-icon';
 import { useRequestApprovalPage } from '../useRequestApprovalPage';
 import { RecievedFileIcon } from '@/assets/icons';
 import ConversationModel from '@/components/Model/CoversationModel';
+import { FormProvider, RHFTextField } from '@/components/ReactHookForm';
+import { useForm } from 'react-hook-form';
 
 export const AllApprovals = () => {
   const {
@@ -37,6 +38,12 @@ export const AllApprovals = () => {
     REQUESTED_CONDITION,
     RECIEVED_CONDITION,
   } = useRequestApprovalPage();
+
+  const methods: any = useForm({
+    defaultValues: {
+      description: '',
+    },
+  });
 
   const Icons: any = {
     Request: <SharedIcon />,
@@ -187,14 +194,17 @@ export const AllApprovals = () => {
         handleClose={handleApprovalModelClose}
         selectedItem="Approval"
       >
-        <Typography variant="body2">Remarks</Typography>
-        <Box>
-          <TextareaAutosize
-            placeholder="Add Your Remarks here"
-            minRows={15}
-            cols={55}
-            style={styles.textareaStyle}
-          />
+        <Box sx={{ width: { sm: '510px' } }}>
+          <FormProvider onSubmit={() => {}} methods={methods}>
+            <RHFTextField
+              name="description"
+              multiline
+              minRows={7}
+              fullWidth
+              placeholder="Add Your Remarks here"
+              label="remarks"
+            />
+          </FormProvider>
         </Box>
         <Box sx={styles.boxBorderStyle}></Box>
         <Box sx={styles.buttonBox}>
@@ -212,14 +222,17 @@ export const AllApprovals = () => {
         handleClose={handleRecjectModelClose}
         selectedItem="Reject"
       >
-        <Typography variant="body2">Remarks</Typography>
-        <Box>
-          <TextareaAutosize
-            placeholder="Add Your Remarks here"
-            minRows={15}
-            cols={55}
-            style={styles.textareaStyle}
-          />
+        <Box sx={{ width: { sm: '510px' } }}>
+          <FormProvider onSubmit={() => {}} methods={methods}>
+            <RHFTextField
+              name="description"
+              multiline
+              minRows={7}
+              fullWidth
+              placeholder="Add Your Remarks here"
+              label="remarks"
+            />
+          </FormProvider>
         </Box>
         <Box sx={styles.boxBorderStyle}></Box>
         <Box sx={styles.buttonBox}>

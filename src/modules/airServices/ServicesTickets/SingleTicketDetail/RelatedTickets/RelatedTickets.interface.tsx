@@ -1,4 +1,4 @@
-export interface TableData {
+export interface TableDataI {
   Id: number;
   ticketsid: string;
   taskname: string;

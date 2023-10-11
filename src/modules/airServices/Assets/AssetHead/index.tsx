@@ -6,20 +6,12 @@ import { styles } from './AssetHead.style';
 
 function AssetHead({ title, show, addTitle }: any) {
   const theme: any = useTheme();
+
   return (
     <>
       <Box sx={styles.mainBox}>
         <Box>
-          <Typography
-            sx={{
-              color: '#374151',
-              fontSize: '24px',
-              fontWeight: 600,
-              marginLeft: '24px',
-            }}
-          >
-            {title}
-          </Typography>
+          <Typography sx={styles.typographyStyle(theme)}>{title}</Typography>
         </Box>
 
         {show === true ? (

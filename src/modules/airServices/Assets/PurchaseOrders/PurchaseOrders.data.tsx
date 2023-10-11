@@ -1,4 +1,5 @@
 import { Checkbox } from '@mui/material';
+import { styles } from '../AssetHead/AssetHead.style';
 
 export const data: any = [
   {
@@ -24,6 +25,7 @@ export const columns = (
   meetingsData: any,
   setMeetingsData: any,
   meetingsMainData: any,
+  theme: any,
 ): any => [
   {
     accessorFn: (row: any) => row.id,
@@ -69,87 +71,27 @@ export const columns = (
     accessorFn: (row: any) => row.OrderNumber,
     id: 'Order Number',
     isSortable: true,
-    header: (
-      <span
-        style={{
-          lineHeight: '18px',
-          fontWeight: 800,
-          fontSize: '14px',
-          color: '#1F305D',
-        }}
-      >
-        Order Number
-      </span>
-    ),
+    header: <span style={styles.headerStyle(theme)}>Order Number</span>,
     cell: (info: any) => (
-      <span
-        style={{
-          lineHeight: '18px',
-          fontWeight: 500,
-          fontSize: '14px',
-          color: '#0AADC7',
-        }}
-      >
-        {info.getValue()}
-      </span>
+      <span style={styles.firstCellStyle}>{info.getValue()}</span>
     ),
   },
   {
     accessorFn: (row: any) => row.OrderName,
     id: 'Order Name',
-    header: (
-      <span
-        style={{
-          lineHeight: '18px',
-          fontWeight: 800,
-          fontSize: '14px',
-          color: '#1F305D',
-        }}
-      >
-        Order Name
-      </span>
-    ),
+    header: <span style={styles.headerStyle(theme)}>Order Name</span>,
     isSortable: true,
     cell: (info: any) => (
-      <span
-        style={{
-          lineHeight: '18px',
-          fontWeight: 500,
-          fontSize: '14px',
-          color: '#6B7280',
-        }}
-      >
-        {info.getValue()}
-      </span>
+      <span style={styles.cellStyle(theme)}>{info.getValue()}</span>
     ),
   },
   {
     accessorFn: (row: any) => row.Vendor,
     id: 'Vendor',
     isSortable: true,
-    header: (
-      <span
-        style={{
-          lineHeight: '18px',
-          fontWeight: 800,
-          fontSize: '14px',
-          color: '#1F305D',
-        }}
-      >
-        Vendor
-      </span>
-    ),
+    header: <span style={styles.headerStyle(theme)}>Vendor</span>,
     cell: (info: any) => (
-      <span
-        style={{
-          lineHeight: '18px',
-          fontWeight: 500,
-          fontSize: '14px',
-          color: '#6B7280',
-        }}
-      >
-        {info.getValue()}
-      </span>
+      <span style={styles.cellStyle(theme)}>{info.getValue()}</span>
     ),
   },
   {
@@ -157,86 +99,28 @@ export const columns = (
     id: 'Expected Delivery Date',
     isSortable: true,
     header: (
-      <span
-        style={{
-          lineHeight: '18px',
-          fontWeight: 800,
-          fontSize: '14px',
-          color: '#1F305D',
-        }}
-      >
-        Expected Delivery Date
-      </span>
+      <span style={styles.headerStyle(theme)}>Expected Delivery Date</span>
     ),
     cell: (info: any) => (
-      <span
-        style={{
-          lineHeight: '18px',
-          fontWeight: 500,
-          fontSize: '14px',
-          color: '#6B7280',
-        }}
-      >
-        {info.getValue()}
-      </span>
+      <span style={styles.cellStyle(theme)}>{info.getValue()}</span>
     ),
   },
   {
     accessorFn: (row: any) => row.Status,
     id: 'Status',
     isSortable: true,
-    header: (
-      <span
-        style={{
-          lineHeight: '18px',
-          fontWeight: 800,
-          fontSize: '14px',
-          color: '#1F305D',
-        }}
-      >
-        Status
-      </span>
-    ),
+    header: <span style={styles.headerStyle(theme)}>Status</span>,
     cell: (info: any) => (
-      <span
-        style={{
-          lineHeight: '18px',
-          fontWeight: 500,
-          fontSize: '14px',
-          color: '#6B7280',
-        }}
-      >
-        {info.getValue()}
-      </span>
+      <span style={styles.cellStyle(theme)}>{info.getValue()}</span>
     ),
   },
   {
     accessorFn: (row: any) => row.TotalCost,
     id: 'Total Cost (£)',
     isSortable: true,
-    header: (
-      <span
-        style={{
-          lineHeight: '18px',
-          fontWeight: 800,
-          fontSize: '14px',
-          color: '#1F305D',
-        }}
-      >
-        Total Cost (£)
-      </span>
-    ),
+    header: <span style={styles.headerStyle(theme)}>Total Cost (£)</span>,
     cell: (info: any) => (
-      <span
-        style={{
-          lineHeight: '18px',
-          fontWeight: 500,
-          fontSize: '14px',
-          color: '#6B7280',
-        }}
-      >
-        {info.getValue()}
-      </span>
+      <span style={styles.cellStyle(theme)}>{info.getValue()}</span>
     ),
   },
 ];

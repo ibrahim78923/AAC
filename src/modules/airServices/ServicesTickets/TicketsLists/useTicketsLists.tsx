@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   TABLE_CONSTANTS,
   ticketsActionDropdownFunction,
@@ -26,7 +26,13 @@ import { enqueueSnackbar } from 'notistack';
 
 export const useTicketsLists = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [ticketList, setTicketList] = useState(ticketsListsData);
+
+  const [ticketList, setTicketList] = useState([]);
+  const [selectedTicketList, setSelectedTicketList] = useState([]);
+
+  useEffect(() => {
+    setTicketList(ticketsListsData);
+  }, [ticketsListsData]);
 
   const [to, setTo] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
@@ -46,20 +52,31 @@ export const useTicketsLists = () => {
 
   const handleChange = (value: any, event: any) => {
     setTicketList(
-      ticketList?.map((item: any) =>
-        value?.ticketId === item?.ticketId
-          ? { ...item, [event?.name]: [event?.value] }
-          : item,
-      ),
+      (preVal: any) =>
+        preVal?.map((item: any) =>
+          value?.ticketId === item?.ticketId
+            ? { ...item, [event?.name]: [event?.value] }
+            : item,
+        ),
     );
   };
 
   const [ticketsListsColumn, seTTicketsListsColumn] = useState(
-    ticketsListsColumnFunction(theme, router, handleChange),
+    ticketsListsColumnFunction(
+      theme,
+      router,
+      ticketList,
+      setTicketList,
+      ticketsListsData,
+      handleChange,
+    ),
   );
   const ticketsListsColumnPersist = ticketsListsColumnFunction(
     theme,
     router,
+    ticketList,
+    setTicketList,
+    ticketsListsData,
     handleChange,
   );
 
@@ -110,7 +127,6 @@ export const useTicketsLists = () => {
           checkboxClick={(co: any) => {
             if (customizeColumn[co.id]) {
               delete customizeColumn[co.id];
-              // console.log(customizeColumn);
 
               // const { [keys], ...restCustomize } = customizeColumn;
               // setCustomizeColumn({
@@ -196,14 +212,18 @@ export const useTicketsLists = () => {
   // openDrawer,
   // setDeleteModalOpen,
   return {
+    theme,
+    router,
+    ticketList,
+    selectedTicketList,
+    setSelectedTicketList,
+    handleChange,
     ticketsListsColumn,
     isDrawerOpen,
     setIsDrawerOpen,
-    router,
     openDrawer,
     TABLE_CONSTANTS,
     drawerComponent,
-    ticketList,
     ticketsActionDropdown,
     deleteModalOpen,
     setDeleteModalOpen,

@@ -1,4 +1,11 @@
 export const styles = {
+  typographyStyle: (theme: any) => ({
+    color: theme.palette.slate_blue?.[0],
+    fontSize: '24px',
+    fontWeight: 600,
+    marginLeft: '24px',
+  }),
+
   mainBox: {
     display: 'flex',
     justifyContent: 'space-between',
@@ -43,5 +50,26 @@ export const styles = {
     '@media screen and (max-width: 640px)': {
       marginTop: '6px',
     },
+  }),
+
+  headerStyle: (theme: any) => ({
+    lineHeight: '18px',
+    fontWeight: 800,
+    fontSize: '14px',
+    color: theme.palette.blue?.main,
+  }),
+
+  firstCellStyle: {
+    lineHeight: '18px',
+    fontWeight: 500,
+    fontSize: '14px',
+    color: '#0AADC7',
+  },
+
+  cellStyle: (theme: any) => ({
+    lineHeight: '18px',
+    fontWeight: 500,
+    fontSize: '14px',
+    color: theme.palette.grey?.[500],
   }),
 };

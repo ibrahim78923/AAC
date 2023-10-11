@@ -164,15 +164,81 @@ export const ticketsListsData: any = [
 export const ticketsListsColumnFunction: any = (
   theme: any,
   router: any,
+  ticketList: any,
+  selectedTicketList: any,
+  setSelectedTicketList: any,
   handleChange: (value: any, event: any) => void,
 ) => {
   const { palette } = useTheme();
   return [
+    // {
+    //   accessorFn: (row: any) => row.isSelected,
+    //   id: 'id',
+    //   cell: (info: any) => {
+    //     console.log(
+    //       ticketList?.every(({ isSelected }: any) => isSelected === true),
+    //     );
+    //     console.log('ticketList', ticketList);
+
+    //     return (
+    //       <Checkbox
+    //         color="primary"
+    //         name={info.getValue()}
+    //         checked={info.getValue()}
+    //         onClick={() =>
+    //           handleSelect(info?.row?._valuesCache?.ticketId, info.getValue())
+    //         }
+    //       />
+    //     );
+    //   },
+    //   header: (
+    //     <Checkbox
+    //       color="primary"
+    //       name="id"
+    //       checked={ticketList?.every(({ isSelected }: any) => isSelected)}
+    //       onClick={() => handleChange('', 'all')}
+    //     />
+    //   ),
+    //   isSortable: false,
+    // },
     {
       accessorFn: (row: any) => row.id,
       id: 'id',
-      cell: (info: any) => <Checkbox color="primary" name={info.getValue()} />,
-      header: <Checkbox color="primary" name="id" />,
+      cell: (info: any) => (
+        <Checkbox
+          checked={
+            !!selectedTicketList.find(
+              (item: any) => item.id === info.getValue(),
+            )
+          }
+          onChange={(e: any) => {
+            e.target.checked
+              ? setSelectedTicketList([
+                  ...selectedTicketList,
+                  ticketList.find((item: any) => item.id === info.getValue()),
+                ])
+              : setSelectedTicketList(
+                  selectedTicketList.filter((item: any) => {
+                    return item.id !== info.getValue();
+                  }),
+                );
+          }}
+          color="primary"
+          name={info.getValue()}
+        />
+      ),
+      header: (
+        <Checkbox
+          checked={selectedTicketList.length === ticketList.length}
+          onChange={(e: any) => {
+            e.target.checked
+              ? setSelectedTicketList([...ticketList])
+              : setSelectedTicketList([]);
+          }}
+          color="primary"
+          name="id"
+        />
+      ),
       isSortable: false,
     },
     {

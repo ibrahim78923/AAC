@@ -1,6 +1,12 @@
 import { Fragment, useState } from 'react';
 import { useFormContext, Controller } from 'react-hook-form';
-import { TextField, Autocomplete, Typography } from '@mui/material';
+import {
+  TextField,
+  Autocomplete,
+  Typography,
+  Paper,
+  useTheme,
+} from '@mui/material';
 import CustomLabel from '../Label';
 
 export default function RHFAutocomplete({
@@ -8,16 +14,24 @@ export default function RHFAutocomplete({
   options,
   required,
   noOptionsText = 'Nothing in the List',
+  multiple = false,
   ...other
 }: any) {
   const { control } = useFormContext();
   const [open, setOpen] = useState(false);
 
+  const theme: any = useTheme();
+
   const label = other?.label;
 
   const onChanged = (e: any, newValue: any, onChange: any) => {
-    onChange(newValue);
+    if (multiple) {
+      onChange(newValue.map((item: any) => item));
+    } else {
+      onChange(newValue);
+    }
   };
+
   return (
     <Controller
       name={name}
@@ -27,6 +41,7 @@ export default function RHFAutocomplete({
           <Autocomplete
             id={name}
             open={open}
+            multiple={multiple}
             onOpen={() => {
               setOpen(true);
             }}
@@ -40,12 +55,24 @@ export default function RHFAutocomplete({
             autoComplete
             noOptionsText={noOptionsText}
             value={value}
+            PaperComponent={(props) =>
+              multiple ? (
+                <Fragment>{props.children}</Fragment>
+              ) : (
+                <Paper
+                  {...props}
+                  style={{ backgroundColor: theme.palette.grey[100] }}
+                >
+                  {props.children}
+                </Paper>
+              )
+            }
             {...other}
             renderInput={(params) => (
               <>
                 {other?.label && (
                   <CustomLabel
-                    label={other?.label}
+                    label={label}
                     error={error}
                     required={required}
                   />
@@ -53,7 +80,6 @@ export default function RHFAutocomplete({
                 <TextField
                   {...params}
                   label=""
-                  placeholder={label}
                   error={!!error}
                   helperText={
                     <Typography
