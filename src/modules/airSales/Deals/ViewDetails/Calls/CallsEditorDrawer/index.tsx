@@ -4,21 +4,19 @@ import { Box, Grid } from '@mui/material';
 
 import CommonDrawer from '@/components/CommonDrawer';
 
-import useNotesEditorDrawer from './useNotesEditorDrawer';
-
 import { FormProvider } from '@/components/ReactHookForm';
 
+import { v4 as uuidv4 } from 'uuid';
+import useCallsEditorDrawer from './useCallsEditorDrawer';
 import {
-  dealsNotesDataArray,
+  dealsCallsDataArray,
   drawerButtonTitle,
   drawerTitle,
-} from './NotesEditorDrawer.data';
+} from './CallsEditorDrawer.data';
 
-import { v4 as uuidv4 } from 'uuid';
-
-const NotesEditorDrawer = (props: any) => {
+const CallsEditorDrawer = (props: any) => {
   const { openDrawer, setOpenDrawer } = props;
-  const { handleSubmit, onSubmit, methodsdealsNotes } = useNotesEditorDrawer();
+  const { handleSubmit, onSubmit, methodsdealsCalls } = useCallsEditorDrawer();
 
   return (
     <div>
@@ -32,11 +30,11 @@ const NotesEditorDrawer = (props: any) => {
       >
         <Box sx={{ pt: 2 }}>
           <FormProvider
-            methods={methodsdealsNotes}
+            methods={methodsdealsCalls}
             onSubmit={handleSubmit(onSubmit)}
           >
-            <Grid container spacing={4}>
-              {dealsNotesDataArray?.map((item: any) => (
+            <Grid container spacing={5}>
+              {dealsCallsDataArray?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
                   <item.component {...item.componentProps} size={'small'}>
                     {item?.componentProps?.select
@@ -57,4 +55,4 @@ const NotesEditorDrawer = (props: any) => {
   );
 };
 
-export default NotesEditorDrawer;
+export default CallsEditorDrawer;

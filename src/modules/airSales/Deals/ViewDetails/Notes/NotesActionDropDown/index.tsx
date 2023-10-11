@@ -5,7 +5,7 @@ import { ArrowDropDown } from '@mui/icons-material';
 
 import { AlertModals } from '@/components/AlertModals';
 
-import useNotesActionDropdown from './NotesActionDropDown.hook';
+import useNotesActionDropdown from './useNotesActionDropDown';
 
 const NotesActionDropdown = (props: any) => {
   const { setOpenDrawer } = props;
@@ -15,7 +15,7 @@ const NotesActionDropdown = (props: any) => {
     anchorEl,
     handleOpenMenu,
     handleCloseMenu,
-    openAlertModal,
+    isOpenAlertModal,
     handleOpenEditDrawer,
     handleOpenViewDrawer,
     handleOpenDeleteAlert,
@@ -58,7 +58,7 @@ const NotesActionDropdown = (props: any) => {
           "You're about to delete a record. Deleted records can't be restored after 90 days."
         }
         type={'delete'}
-        open={openAlertModal}
+        open={isOpenAlertModal}
         handleClose={handleCloseAlert}
         handleSubmit={handleCloseAlert}
       />

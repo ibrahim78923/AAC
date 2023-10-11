@@ -13,9 +13,7 @@ const useDetails = () => {
     defaultValues: detailsDefaultValues,
   });
 
-  const onSubmit = () => {
-    // setIsJobApplicationFilterDrawer(false);
-  };
+  const onSubmit = () => {};
   const { handleSubmit } = methodsDetails;
   return {
     theme,

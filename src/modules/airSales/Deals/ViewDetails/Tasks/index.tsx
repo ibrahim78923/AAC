@@ -6,7 +6,7 @@ import TaskEditorDrawer from './TaskEditorDrawer';
 import ActionDropdown from './ActionDropdown';
 import TanstackTable from '@/components/Tabel/TanstackTable';
 
-import useTasks from './Tasks.hook';
+import useTasks from './useTasks';
 
 import { columns } from './Tasks.data';
 

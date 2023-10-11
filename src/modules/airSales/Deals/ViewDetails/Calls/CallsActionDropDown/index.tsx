@@ -1,18 +1,20 @@
 import * as React from 'react';
+
 import { Button, Grid, Menu, MenuItem } from '@mui/material';
 import { ArrowDropDown } from '@mui/icons-material';
 
 import { AlertModals } from '@/components/AlertModals';
+import useCallsActionDropdown from './useCallsActionDropDown';
 import { ScheduleModals } from '@/components/ScheduleModals';
-
-import useActionDropdown from './useActionDropdown';
-
-import { assigneeDataArray } from './ActionDropDown.data';
-
 import { FormProvider } from '@/components/ReactHookForm';
+import {
+  outcomesDataArray,
+  reAssignCallDataArray,
+} from './CallsActionDropDown.data';
+
 import { v4 as uuidv4 } from 'uuid';
 
-const ActionDropdown = (props: any) => {
+const CallsActionDropdown = (props: any) => {
   const { setOpenDrawer } = props;
   const {
     theme,
@@ -23,13 +25,19 @@ const ActionDropdown = (props: any) => {
     openAlertModal,
     handleOpenEditDrawer,
     handleOpenViewDrawer,
-    handleOpenReassignAlert,
     handleOpenDeleteAlert,
     handleCloseAlert,
-    handleSubmit,
-    onSubmit,
-    methodsAssignee,
-  } = useActionDropdown({ setOpenDrawer });
+
+    methodsReassignCall,
+    handleReAssignCall,
+    onSubmitReassignCall,
+    handleOpenReassignModal,
+
+    handleOutCome,
+    onSubmitOutCome,
+    methodsOutCome,
+    handleOpenOutcomeModal,
+  } = useCallsActionDropdown({ setOpenDrawer });
 
   return (
     <div>
@@ -59,26 +67,37 @@ const ActionDropdown = (props: any) => {
       >
         <MenuItem onClick={handleOpenViewDrawer}>View</MenuItem>
         <MenuItem onClick={handleOpenEditDrawer}>Edit</MenuItem>
-        <MenuItem onClick={handleOpenReassignAlert}>Re-assign</MenuItem>
+        <MenuItem onClick={handleOpenReassignModal}>Reschedule</MenuItem>
+        <MenuItem onClick={handleOpenOutcomeModal}>Add outcomes</MenuItem>
         <MenuItem onClick={handleOpenDeleteAlert}>Delete</MenuItem>
       </Menu>
+
+      <AlertModals
+        message={
+          "You're about to delete a record. Deleted records can't be restored after 90 days."
+        }
+        type={'delete'}
+        open={Boolean(openAlertModal)}
+        handleClose={handleCloseAlert}
+        handleSubmit={handleCloseAlert}
+      />
 
       <ScheduleModals
         message={
           "You're about to delete a record. Deleted records can't be restored after 90 days."
         }
         submitButonText="Update"
-        type={'assign'}
-        open={openAlertModal === 'Reassign'}
+        type={'outcome'}
+        open={openAlertModal === 'outcome'}
         handleClose={handleCloseAlert}
         handleSubmit={handleCloseAlert}
       >
         <FormProvider
-          methods={methodsAssignee}
-          onSubmit={handleSubmit(onSubmit)}
+          methods={methodsOutCome}
+          onSubmit={handleOutCome(onSubmitOutCome)}
         >
-          <Grid container>
-            {assigneeDataArray?.map((item: any) => (
+          <Grid container spacing={4}>
+            {outcomesDataArray?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={uuidv4()}>
                 <item.component {...item.componentProps} size={'small'}>
                   {item?.componentProps?.select
@@ -95,16 +114,38 @@ const ActionDropdown = (props: any) => {
         </FormProvider>
       </ScheduleModals>
 
-      <AlertModals
+      <ScheduleModals
         message={
           "You're about to delete a record. Deleted records can't be restored after 90 days."
         }
-        type={'delete'}
-        open={openAlertModal === 'Delete'}
+        submitButonText="Update"
+        type={'reschedule'}
+        open={openAlertModal === 'reschedule'}
         handleClose={handleCloseAlert}
         handleSubmit={handleCloseAlert}
-      />
+      >
+        <FormProvider
+          methods={methodsReassignCall}
+          onSubmit={handleReAssignCall(onSubmitReassignCall)}
+        >
+          <Grid container spacing={3}>
+            {reAssignCallDataArray?.map((item: any) => (
+              <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                <item.component {...item.componentProps} size={'small'}>
+                  {item?.componentProps?.select
+                    ? item?.options?.map((option: any) => (
+                        <option key={option?.value} value={option?.value}>
+                          {option?.label}
+                        </option>
+                      ))
+                    : null}
+                </item.component>
+              </Grid>
+            ))}
+          </Grid>
+        </FormProvider>
+      </ScheduleModals>
     </div>
   );
 };
-export default ActionDropdown;
+export default CallsActionDropdown;

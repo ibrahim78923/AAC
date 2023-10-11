@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { Box, Button, Checkbox, Grid, Typography } from '@mui/material';
 
 import NotesActionDropdown from './NotesActionDropDown';
-import useNotes from './Notes.hook';
+import useNotes from './useNotes';
 import NotesEditorDrawer from './NotesEditorDrawer';
 import { NotesDataArray } from '@/mock/modules/Deals';
 import { isNullOrEmpty } from '@/utils';

@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 const useNotesActionDropdown = ({ setOpenDrawer }: any) => {
   const theme = useTheme();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [openAlertModal, setOpenAlertModal] = useState('');
+  const [isOpenAlertModal, setIsOpenAlertModal] = useState(false);
   const isMenuOpen = Boolean(anchorEl);
   const handleOpenMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -23,10 +23,10 @@ const useNotesActionDropdown = ({ setOpenDrawer }: any) => {
   };
 
   const handleOpenDeleteAlert = () => {
-    setOpenAlertModal('Delete');
+    setIsOpenAlertModal(true);
   };
   const handleCloseAlert = () => {
-    setOpenAlertModal('');
+    setIsOpenAlertModal(false);
   };
 
   return {
@@ -35,7 +35,7 @@ const useNotesActionDropdown = ({ setOpenDrawer }: any) => {
     handleOpenMenu,
     handleCloseMenu,
     anchorEl,
-    openAlertModal,
+    isOpenAlertModal,
     handleOpenDeleteAlert,
     handleCloseAlert,
     handleOpenEditDrawer,

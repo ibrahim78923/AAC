@@ -1,7 +1,9 @@
 export interface ModelPropsI {
-  message: string;
+  message?: string;
   type: string;
   open: boolean;
   handleClose: (value: boolean) => void;
   handleSubmit: () => void;
+  children?: React.ReactNode;
+  submitButonText: string;
 }

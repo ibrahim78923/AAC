@@ -11,7 +11,7 @@ import {
 
 import { FormProvider } from '@/components/ReactHookForm';
 
-import useDetails from './Details.hook';
+import useDetails from './useDetails';
 
 import { detailsDataArray } from './Details.data';
 
