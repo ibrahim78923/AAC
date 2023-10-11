@@ -30,3 +30,6 @@ export { default as ArrowLeftIcon } from './shared/arrow-left';
 export { default as GreyPlusSharedIcon } from './shared/grey-plus';
 export { default as DeleteIcon } from './shared/delete';
 export { default as PinIcon } from './shared/pin';
+export { default as PhoneWhiteIcon } from './shared/phone-white';
+export { default as UserWhiteIcon } from './shared/user-white';
+export { default as ThreeDotsWhiteIcon } from './shared/three-dots';
