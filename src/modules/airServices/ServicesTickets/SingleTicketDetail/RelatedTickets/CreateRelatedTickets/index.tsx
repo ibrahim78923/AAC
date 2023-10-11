@@ -1,9 +1,9 @@
 import { Box, Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
-import { createTicketDataArray } from './CreateRelatedTicket.data';
+import { createTicketDataArray } from './CreateRelatedTickets.data';
 import { v4 as uuidv4 } from 'uuid';
 
-function CreateRelatedTicket({
+function CreateRelatedTickets({
   submitCreateNewTicket,
   methods,
   handleSubmit,
@@ -34,4 +34,4 @@ function CreateRelatedTicket({
   );
 }
 
-export default CreateRelatedTicket;
+export default CreateRelatedTickets;

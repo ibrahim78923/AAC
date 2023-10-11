@@ -8,7 +8,7 @@ import {
   createTicketValidationSchema,
   createTicketDefaultValues,
   createTicketDataArray,
-} from './CreateRelatedTicket/CreateRelatedTicket.data';
+} from './CreateRelatedTickets/CreateRelatedTickets.data';
 
 export const RelatedTicketsDrawer = ({
   isDrawerOpen,
@@ -32,7 +32,7 @@ export const RelatedTicketsDrawer = ({
         setIsDrawerOpen(false);
       }}
       title="Add child ticket"
-      submitHandler={() => {}}
+      submitHandler={methods.handleSubmit(submit)}
       footer={true}
       isOk={true}
       okText="Add child ticket"
