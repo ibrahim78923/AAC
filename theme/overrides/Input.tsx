@@ -23,7 +23,6 @@ const Input = (theme: any) => {
       styleOverrides: {
         '& input': {
           height: '400px',
-          border: `none`,
           borderRadius: '8px',
           fontSize: '16px',
           padding: '10px',

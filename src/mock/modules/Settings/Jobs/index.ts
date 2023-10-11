@@ -20,3 +20,29 @@ export const candidatesArray = [
     name: 'Value 4',
   },
 ];
+
+export const jobApplicationTabledata: any = [
+  {
+    id: 1,
+    jobTitle: 'React JS Developer',
+    candidate: 'John doe, andrew',
+    applyDate: 'Marketing',
+    jobPostedDate: '1',
+    resume: 'link',
+    coverLetter: 'link',
+    status: 'open',
+  },
+];
+
+export const jobPostingTabledata: any = [
+  {
+    id: 1,
+    jobTitle: 'React JS Developer',
+    shortDescription: 'We are looking for  a ...',
+    category: 'Marketing',
+    noOfVacancy: '1',
+    createdBy: 'Arlene McCoy',
+    createdDate: '10/04/2023',
+    status: 'open',
+  },
+];
