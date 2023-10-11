@@ -77,11 +77,16 @@ const CUSTOM_COLORS = {
   light: '#667085',
   main: '#6B7280',
   dark: '#D1D5DB',
-
   bluish_gray: '#BCC1CE',
   grayish_blue: '#6B7280',
   aqua_breeze: '#A0E5DB80',
   light_green: ' #88DFD3',
+  off_white_one: '#E9EAEF',
+  off_white_two: '#E6E9F5',
+  off_white_three: '#EAECF0',
+  mint_green: '#E6FAEB',
+  light_lavender_gray: '#EAECF0',
+  steel_blue: '#79839E99',
 };
 const GRADIENTS = {
   primary: createGradient(PRIMARY.light, PRIMARY.main),
@@ -142,10 +147,12 @@ declare module '@mui/material/styles' {
   interface Palette {
     custom: any;
     blue: any;
+    slateBlue: any;
   }
 
   interface PaletteOptions {
     custom?: any;
     blue?: any;
+    slateBlue?: any;
   }
 }

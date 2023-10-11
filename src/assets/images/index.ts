@@ -53,3 +53,16 @@ export { default as TeamsImage } from '../../assets/images/modules/tickets/meeti
 export { default as ZoomImage } from '../../assets/images/modules/tickets/meetings/zoom.png';
 export { default as ActivityLogImage } from './modules/Deals/activity-log.png';
 export { default as NotesAvatarImage } from './modules/Deals/mock/notes-avatar.png';
+export { default as AddCircleImage } from '../images/modules/organization/add-circle.png';
+export { default as SmsImage } from '../../assets/images/modules/organization/sms.png';
+export { default as PhoneImage } from '../../assets/images/modules/organization/phone.png';
+export { default as UserImage } from '../../assets/images/modules/organization/user.png';
+export { default as EditImage } from '../../assets/images/modules/organization/edit.png';
+export { default as FeaturedImage } from '../../assets/images/modules/organization/featured.png';
+export { default as SentImage } from '../../assets/images/modules/organization/sent.png';
+export { default as ServiceImage } from '../../assets/images/modules/organization/service.png';
+export { default as ComLogoImage } from '../../assets/images/modules/organization/intel-logo.png';
+export { default as OrcaloLogoImage } from '../../assets/images/modules/organization/orcalo-logo.png';
+export { default as UnionBgImage } from '../../assets/images/modules/dashboard/Union.png';
+export { default as SalesIcon } from '../../assets/images/modules/Settings/ProductFeatures/sales-icon.png';
+export { default as GreenBgImage } from '../../assets/images/modules/dashboard/green-bg-img.png';
