@@ -28,3 +28,5 @@ export { default as RecievedFileIcon } from './shared/recieved-file';
 export { default as DocumentIcon } from './shared/document';
 export { default as ArrowLeftIcon } from './shared/arrow-left';
 export { default as GreyPlusSharedIcon } from './shared/grey-plus';
+export { default as DeleteIcon } from './shared/delete';
+export { default as PinIcon } from './shared/pin';
