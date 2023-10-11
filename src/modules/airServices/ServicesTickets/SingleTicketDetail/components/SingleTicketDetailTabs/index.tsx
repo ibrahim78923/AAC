@@ -9,7 +9,7 @@ import { Approvals } from '../../Approvals';
 import RelatedTickets from '../../RelatedTickets';
 import Conversations from '../../Conversations';
 // import { Assets } from '../../Assets';
-// import { Associations } from '../../Associations';
+import { Associations } from '../../Associations';
 
 export const SingleTicketDetailTabs = () => {
   return (
