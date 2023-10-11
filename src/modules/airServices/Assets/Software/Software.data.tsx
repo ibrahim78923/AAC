@@ -1,4 +1,5 @@
 import { Checkbox } from '@mui/material';
+import { styles } from '../AssetHead/AssetHead.style';
 
 export const data: any = [
   {
@@ -28,6 +29,7 @@ export const columns = (
   meetingsData: any,
   setMeetingsData: any,
   meetingsMainData: any,
+  theme: any,
 ): any => [
   {
     accessorFn: (row: any) => row.id,
@@ -73,232 +75,72 @@ export const columns = (
     accessorFn: (row: any) => row.Software,
     id: 'Software',
     isSortable: true,
-    header: (
-      <span
-        style={{
-          lineHeight: '18px',
-          fontWeight: 800,
-          fontSize: '14px',
-          color: '#1F305D',
-        }}
-      >
-        Software
-      </span>
-    ),
+    header: <span style={styles.headerStyle(theme)}>Software</span>,
     cell: (info: any) => (
-      <span
-        style={{
-          lineHeight: '18px',
-          fontWeight: 500,
-          fontSize: '14px',
-          color: '#0AADC7',
-        }}
-      >
-        {info.getValue()}
-      </span>
+      <span style={styles.firstCellStyle}>{info.getValue()}</span>
     ),
   },
   {
     accessorFn: (row: any) => row.Status,
     id: 'Status',
-    header: (
-      <span
-        style={{
-          lineHeight: '18px',
-          fontWeight: 800,
-          fontSize: '14px',
-          color: '#1F305D',
-        }}
-      >
-        Status
-      </span>
-    ),
+    header: <span style={styles.headerStyle(theme)}>Status</span>,
     isSortable: true,
     cell: (info: any) => (
-      <span
-        style={{
-          lineHeight: '18px',
-          fontWeight: 500,
-          fontSize: '14px',
-          color: '#6B7280',
-        }}
-      >
-        {info.getValue()}
-      </span>
+      <span style={styles.cellStyle(theme)}>{info.getValue()}</span>
     ),
   },
   {
     accessorFn: (row: any) => row.Category,
     id: 'Category',
     isSortable: true,
-    header: (
-      <span
-        style={{
-          lineHeight: '18px',
-          fontWeight: 800,
-          fontSize: '14px',
-          color: '#1F305D',
-        }}
-      >
-        Category
-      </span>
-    ),
+    header: <span style={styles.headerStyle(theme)}>Category</span>,
     cell: (info: any) => (
-      <span
-        style={{
-          lineHeight: '18px',
-          fontWeight: 500,
-          fontSize: '14px',
-          color: '#6B7280',
-        }}
-      >
-        {info.getValue()}
-      </span>
+      <span style={styles.cellStyle(theme)}>{info.getValue()}</span>
     ),
   },
   {
     accessorFn: (row: any) => row.ContractValue,
     id: 'Contract Value',
     isSortable: true,
-    header: (
-      <span
-        style={{
-          lineHeight: '18px',
-          fontWeight: 800,
-          fontSize: '14px',
-          color: '#1F305D',
-        }}
-      >
-        Contract Value
-      </span>
-    ),
+    header: <span style={styles.headerStyle(theme)}>Contract Value</span>,
     cell: (info: any) => (
-      <span
-        style={{
-          lineHeight: '18px',
-          fontWeight: 500,
-          fontSize: '14px',
-          color: '#6B7280',
-        }}
-      >
-        {info.getValue()}
-      </span>
+      <span style={styles.cellStyle(theme)}>{info.getValue()}</span>
     ),
   },
   {
     accessorFn: (row: any) => row.ManagedBy,
     id: 'Managed By',
     isSortable: true,
-    header: (
-      <span
-        style={{
-          lineHeight: '18px',
-          fontWeight: 800,
-          fontSize: '14px',
-          color: '#1F305D',
-        }}
-      >
-        Managed By
-      </span>
-    ),
+    header: <span style={styles.headerStyle(theme)}>Managed By</span>,
     cell: (info: any) => (
-      <span
-        style={{
-          lineHeight: '18px',
-          fontWeight: 500,
-          fontSize: '14px',
-          color: '#6B7280',
-        }}
-      >
-        {info.getValue()}
-      </span>
+      <span style={styles.cellStyle(theme)}>{info.getValue()}</span>
     ),
   },
   {
     accessorFn: (row: any) => row.Users,
     id: 'Users',
     isSortable: true,
-    header: (
-      <span
-        style={{
-          lineHeight: '18px',
-          fontWeight: 800,
-          fontSize: '14px',
-          color: '#1F305D',
-        }}
-      >
-        Users
-      </span>
-    ),
+    header: <span style={styles.headerStyle(theme)}>Users</span>,
     cell: (info: any) => (
-      <span
-        style={{
-          lineHeight: '18px',
-          fontWeight: 500,
-          fontSize: '14px',
-          color: '#6B7280',
-        }}
-      >
-        {info.getValue()}
-      </span>
+      <span style={styles.cellStyle(theme)}>{info.getValue()}</span>
     ),
   },
   {
     accessorFn: (row: any) => row.Installs,
     id: 'Installs',
     isSortable: true,
-    header: (
-      <span
-        style={{
-          lineHeight: '18px',
-          fontWeight: 800,
-          fontSize: '14px',
-          color: '#1F305D',
-        }}
-      >
-        Installs
-      </span>
-    ),
+    header: <span style={styles.headerStyle(theme)}>Installs</span>,
     cell: (info: any) => (
-      <span
-        style={{
-          lineHeight: '18px',
-          fontWeight: 500,
-          fontSize: '14px',
-          color: '#6B7280',
-        }}
-      >
-        {info.getValue()}
-      </span>
+      <span style={styles.cellStyle(theme)}>{info.getValue()}</span>
     ),
   },
   {
     accessorFn: (row: any) => row.Type,
     id: 'Type',
     isSortable: true,
-    header: (
-      <span
-        style={{
-          lineHeight: '18px',
-          fontWeight: 800,
-          fontSize: '14px',
-          color: '#1F305D',
-        }}
-      >
-        Type
-      </span>
-    ),
+    header: <span style={styles.headerStyle(theme)}>Type</span>,
     cell: (info: any) => (
-      <span
-        style={{
-          lineHeight: '18px',
-          fontWeight: 500,
-          fontSize: '14px',
-          color: '#6B7280',
-        }}
-      >
-        {info.getValue()}
-      </span>
+      <span style={styles.cellStyle(theme)}>{info.getValue()}</span>
     ),
   },
 ];
