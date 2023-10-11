@@ -4,12 +4,12 @@ import DetailsView from './DetailsView';
 
 const CreateDashboard = () => {
   return (
-    <Grid container>
-      <Grid item sm={6}>
+    <Grid container spacing={4} mt={1}>
+      <Grid item sm={4}>
         <CreateForm />
       </Grid>
-      \
-      <Grid item sm={6}>
+
+      <Grid item sm={8}>
         <DetailsView />
       </Grid>
     </Grid>
