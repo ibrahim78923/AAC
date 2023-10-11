@@ -1,21 +1,21 @@
 import {
-  DrawerFormDefaultValues,
-  DrawerFormValidationSchema,
+  defaultValues,
+  drawerFormValidationSchema,
 } from '../AddRequestApprovalDrawer/DrawerForm/DrawerForm.data';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 
 export function useAddRequestApprovalDrawer() {
   const methodsDrawerFormForm = useForm({
-    resolver: yupResolver(DrawerFormValidationSchema),
-    defaultValues: DrawerFormDefaultValues,
+    resolver: yupResolver(drawerFormValidationSchema),
+    defaultValues,
   });
 
   const onSubmit = () => {};
   return {
     methodsDrawerFormForm,
-    DrawerFormValidationSchema,
-    DrawerFormDefaultValues,
+    drawerFormValidationSchema,
+    defaultValues,
     onSubmit,
   };
 }

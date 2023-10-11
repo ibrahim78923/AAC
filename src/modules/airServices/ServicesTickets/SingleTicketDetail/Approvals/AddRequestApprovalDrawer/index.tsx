@@ -1,17 +1,20 @@
 import CommonDrawer from '@/components/CommonDrawer';
 import { useAddRequestApprovalDrawer } from './useAddRequestApproval';
 import DrawerForm from './DrawerForm';
-// import { toast } from 'react-toastify';
+import { useSnackbar } from 'notistack';
 
 const AddRequestApprovalDrawer = (props: any) => {
   const { isDrawerOpen, setIsDrawerOpen } = props;
   const { methodsDrawerFormForm } = useAddRequestApprovalDrawer();
+  const { enqueueSnackbar } = useSnackbar();
 
   const submitDrawerForm = async () => {
-    // toast.success('Data submitted successfully!', {
-    //   position: 'top-right',
-    //   autoClose: 3000,
-    // });
+    enqueueSnackbar('Request for approval send successfully', {
+      variant: 'success',
+      autoHideDuration: 6000,
+    });
+    setIsDrawerOpen(false);
+    methodsDrawerFormForm.reset();
   };
   return (
     <>

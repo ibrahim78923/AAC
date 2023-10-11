@@ -7,6 +7,7 @@ import { Button } from '@mui/material';
 import { FilterSharedIcon, ExportShared } from '@/assets/icons';
 
 import { styles } from './Contracts.style';
+import AssetHead from '../AssetHead/index';
 
 function Contaracts() {
   const [meetingsData, setMeetingsData] = useState([]);
@@ -14,6 +15,7 @@ function Contaracts() {
 
   return (
     <Grid container>
+      <AssetHead title={'Contracts'} addTitle={'Add New Contract'} />
       <Grid item sx={styles.gridItems}>
         <Box sx={styles.headBox}>
           <Box sx={{ marginLeft: '24px' }}>

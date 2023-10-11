@@ -1,11 +1,12 @@
-import TicketDetaile from '@/modules/ServicesTickets/SingleTicketDetail/Details/TicketDeatilsView';
 import React from 'react';
 import Layout from '@/layout';
+
+import { SingleTicketDetail } from '@/modules/airServices/ServicesTickets/SingleTicketDetail';
 
 export const UseTicketViewDetailPage = () => {
   return (
     <>
-      <TicketDetaile />
+      <SingleTicketDetail />;
     </>
   );
 };

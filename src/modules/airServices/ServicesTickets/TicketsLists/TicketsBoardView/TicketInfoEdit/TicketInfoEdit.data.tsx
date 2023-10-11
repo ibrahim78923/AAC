@@ -1,4 +1,5 @@
 import {
+  RHFAutocomplete,
   RHFDatePicker,
   RHFDropZone,
   RHFEditor,
@@ -23,7 +24,8 @@ export const validationSchema = Yup.object().shape({
   plannedStartTime: Yup.date(),
   plannedEndDate: Yup.date(),
   plannedEndTime: Yup.date(),
-  plannedEffort: Yup.string(),
+  plannedEffort: Yup.mixed(),
+  attachFile: Yup.mixed().nullable(),
 });
 
 export const defaultValues = {
@@ -41,7 +43,7 @@ export const defaultValues = {
   plannedStartTime: new Date(), //12
   plannedEndDate: new Date(), //13
   plannedEndTime: new Date(), //14
-  plannedEffort: '', //15
+  plannedEffort: [], //15
   attachFile: null, //16
 };
 
@@ -51,10 +53,9 @@ export const dataArray = [
       name: 'requester',
       label: 'Requester',
       fullWidth: true,
-      select: true,
+      options: ['BE', 'BE1', 'BE2'],
     },
-    options: [{ value: 'BE', label: 'BE' }],
-    component: RHFSelect,
+    component: RHFAutocomplete,
     md: 12,
   },
   {
@@ -80,10 +81,9 @@ export const dataArray = [
       name: 'category',
       label: 'Category',
       fullWidth: true,
-      select: true,
+      options: ['BE', 'BE1', 'BE2'],
     },
-    options: [{ value: 'BE', label: 'BE' }],
-    component: RHFSelect,
+    component: RHFAutocomplete,
     md: 12,
   },
   {
@@ -123,10 +123,9 @@ export const dataArray = [
       name: 'department',
       label: 'Department',
       fullWidth: true,
-      select: true,
+      options: ['BE', 'BE1', 'BE2'],
     },
-    options: [{ value: 'BE', label: 'BE' }],
-    component: RHFSelect,
+    component: RHFAutocomplete,
     md: 12,
   },
   {
@@ -168,10 +167,9 @@ export const dataArray = [
       name: 'agent',
       label: 'Agent',
       fullWidth: true,
-      select: true,
+      options: ['BE', 'BE1', 'BE2'],
     },
-    options: [{ value: 'BE', label: 'BE' }],
-    component: RHFSelect,
+    component: RHFAutocomplete,
     md: 12,
   },
   {
@@ -215,8 +213,10 @@ export const dataArray = [
       name: 'plannedEffort',
       label: 'Planned Effort',
       fullWidth: true,
+      options: ['BE', 'BE1', 'BE2'],
+      multiple: true,
     },
-    component: RHFTextField,
+    component: RHFAutocomplete,
     md: 12,
   },
   {
