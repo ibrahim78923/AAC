@@ -1,5 +1,7 @@
 import { Card, CardContent, Typography, Grid } from '@mui/material';
+
 import { widgetData } from './Widget.data';
+
 import { v4 as uuidv4 } from 'uuid';
 
 const Widget = () => {
