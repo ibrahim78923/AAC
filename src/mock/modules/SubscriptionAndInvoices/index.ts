@@ -60,3 +60,40 @@ export const data = [
     type: 'Free Plan',
   },
 ];
+
+export const invoicesData: any = [
+  {
+    id: 1,
+    invoiceNumber: '12341234',
+    dueDate: 'mar 04, 2023',
+    product: 'Air Sales',
+    plan: 'Growth Plan',
+    dateIssued: 'Mar 04, 2023',
+    invoiceAmount: '1,234.11',
+    invoiceBalance: '1,234.11',
+    status: 'Overdue',
+  },
+];
+
+export const invoiceProducData: any = [
+  {
+    id: 1,
+    product: 'Air Sales',
+    planPrice: 40,
+    additionalUsers: 3,
+    additionalStorage: 3,
+    discount: 20,
+    subTotal: 40,
+  },
+];
+
+export const paymentData: any = [
+  {
+    id: 1,
+    name: 'Mastercard Ending in 1002',
+    billingAddress:
+      'Office 82, 4 Roundwood Avenue Stockley Park, Uxibridge, UB1111AF, United Kingdom',
+    expirationDate: '03/ 2024',
+    product: 'Air Sales',
+  },
+];
