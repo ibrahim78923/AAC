@@ -25,14 +25,15 @@ import {
   validationSchema,
 } from './UserManagement.data';
 
-import { TabPanelProps } from './UserManagement.interface';
+import { UserManagementProps } from './UserManagement.interface';
+
+import { teamsDataArray } from './TeamsTable/TeamsTable.data';
 
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { v4 as uuidv4 } from 'uuid';
-import { teamsDataArray } from './TeamsTable/TeamsTable.data';
 
-function CustomTabPanel(props: TabPanelProps) {
+function CustomTabPanel(props: UserManagementProps) {
   const { children, value, index, ...other } = props;
 
   return (
@@ -160,7 +161,6 @@ const UserManagement = ({ initialValueProps = defaultValues }: any) => {
           }}
         >
           <Typography variant="h4">User Manangement</Typography>
-
           <Button
             onClick={() => {
               {

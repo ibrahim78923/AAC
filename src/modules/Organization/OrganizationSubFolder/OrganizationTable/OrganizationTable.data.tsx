@@ -49,7 +49,6 @@ export const columns: any = [
     cell: (info: any) => <Switch color="primary" name={info.getValue()} />,
   },
 ];
-// form Arr
 
 export const validationSchema = Yup.object().shape({
   accountName: Yup.string().required('Field is Required'),

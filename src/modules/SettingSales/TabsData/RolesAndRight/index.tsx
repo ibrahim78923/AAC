@@ -30,10 +30,11 @@ import {
   validationSchema,
 } from './RolesRight.data';
 
+import { rolesAndRightTableData } from '@/mock/modules/SettingSales';
+
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { v4 as uuidv4 } from 'uuid';
-import { rolesAndRightTableData } from '@/mock/modules/SettingSales';
 
 const RolesRight = ({ initialValueProps = defaultValues }: any) => {
   const [isDraweropen, setIsDraweropen] = useState(false);

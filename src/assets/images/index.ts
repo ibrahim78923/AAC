@@ -63,4 +63,4 @@ export { default as ComLogoImage } from '../../assets/images/modules/organizatio
 export { default as OrcaloLogoImage } from '../../assets/images/modules/organization/orcalo-logo.png';
 export { default as UnionBgImage } from '../../assets/images/modules/dashboard/Union.png';
 export { default as SalesIcon } from '../../assets/images/modules/Settings/ProductFeatures/sales-icon.png';
-export { default as GreenBgImage } from '../../assets/images/modules/dashboard/greenBgImg.png';
+export { default as GreenBgImage } from '../../assets/images/modules/dashboard/green-bg-img.png';

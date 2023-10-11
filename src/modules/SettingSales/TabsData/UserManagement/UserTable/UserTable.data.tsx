@@ -1,6 +1,6 @@
-import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
-
 import { Checkbox, Select, Switch, MenuItem } from '@mui/material';
+
+import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
 
 import * as Yup from 'yup';
 

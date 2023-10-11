@@ -5,23 +5,14 @@ import * as Yup from 'yup';
 
 export const validationSchema = Yup.object().shape({
   accountName: Yup.string().required('Field is Required'),
-
   phoneNumber: Yup.string().trim().required('Field is Required'),
-
   postCode: Yup.string().trim().required('Field is Required'),
-
   address: Yup.string(),
-
   buildingName: Yup.string().required('Field is Required'),
-
   unit: Yup.string().required('Field is Required'),
-
   buildingNumber: Yup.string(),
-
   streetName: Yup.string(),
-
   city: Yup.string(),
-
   country: Yup.string(),
 });
 
@@ -78,7 +69,6 @@ export const dataArray = [
     component: RHFTextField,
     md: 12,
   },
-
   {
     componentProps: {
       name: 'unit',
@@ -89,7 +79,6 @@ export const dataArray = [
     component: RHFTextField,
     md: 12,
   },
-
   {
     componentProps: {
       name: 'buildingName',
@@ -100,7 +89,6 @@ export const dataArray = [
     component: RHFTextField,
     md: 12,
   },
-
   {
     componentProps: {
       name: 'buildingNumber',
@@ -122,7 +110,6 @@ export const dataArray = [
     component: RHFTextField,
     md: 12,
   },
-
   {
     componentProps: {
       name: 'city',

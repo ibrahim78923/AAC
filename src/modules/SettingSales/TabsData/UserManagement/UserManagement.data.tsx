@@ -229,7 +229,6 @@ export const columns: any = [
         labelId="demo-simple-select-standard-label"
         id="demo-simple-select-standard"
         value="Alfa"
-        // onChange={handleChange}
         label="Select"
         name={info.getValue()}
       >
@@ -253,7 +252,6 @@ export const columns: any = [
         labelId="demo-simple-select-standard-label"
         id="demo-simple-select-standard"
         value="Alfa"
-        // onChange={handleChange}
         label="Select"
         name={info.getValue()}
       >

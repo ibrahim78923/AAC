@@ -4,9 +4,10 @@ import { Box, Tabs, Tab, Typography } from '@mui/material';
 
 import RolesRight from './TabsData/RolesAndRight';
 import UserManagement from './TabsData/UserManagement';
-import { TabPanelProps } from './SettingSales.interface';
+import { SalesSettingProps } from './SettingSales.interface';
+import { styles } from './SettingSales.style';
 
-function TabPanel(props: TabPanelProps) {
+function TabPanel(props: SalesSettingProps) {
   const { children, value, index, ...other } = props;
 
   return (
@@ -42,26 +43,7 @@ const SettingSales = () => {
             value={value}
             onChange={handleChange}
             aria-label="Vertical tabs example"
-            sx={{
-              borderRight: 1,
-              borderColor: '#EDEDED',
-              paddingTop: '2rem',
-              width: '15%',
-              '& .MuiTabs-flexContainer': {
-                display: 'flex',
-                alignItems: 'flex-start',
-              },
-              '& .MuiTab-root': {
-                color: '#9CA3AF',
-                fontSize: '16px',
-                fontWeight: 400,
-                lineHeight: '24px',
-              },
-              '& .MuiTab-root.Mui-selected': {
-                color: '#35456D',
-                fontWeight: 600,
-              },
-            }}
+            sx={styles.tabsStyle}
           >
             <Tab label="Deals Pipelines" />
             <Tab label="Products" />
