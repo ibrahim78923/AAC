@@ -53,3 +53,8 @@ export { default as ArrowLeftIcon } from './shared/arrow-left';
 export { default as GreyPlusSharedIcon } from './shared/grey-plus';
 export { default as TwoUserIcon } from '../../assets/icons/modules/dashboard/two-user';
 export { default as EarningIcon } from './modules/dashboard/earnings';
+
+export { default as NotificationIcon } from './shared/notification';
+export { default as DealsIcon } from './shared/deals';
+export { default as QuotesIcon } from './shared/quotes';
+export { default as PercentageCircleIcon } from './shared/percentage-circle';
