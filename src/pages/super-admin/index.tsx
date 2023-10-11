@@ -1,8 +1,8 @@
 import Layout from '@/layout';
-import SuperAdminDashboard from '@/modules/superAdmin/Dashboard';
+import Dashboard from '@/modules/superAdmin/Dashboard';
 
 const SuperAdminPage = () => {
-  return <SuperAdminDashboard />;
+  return <Dashboard />;
 };
 export default SuperAdminPage;
 SuperAdminPage.getLayout = function getLayout(page: any) {

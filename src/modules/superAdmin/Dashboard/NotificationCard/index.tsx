@@ -1,9 +1,9 @@
 import React from 'react';
 import { Grid, Box } from '@mui/material';
 import PlanList from './PlanList';
-import EventAndNotification from './EventsCard';
+import EventCards from './EventsCard';
 
-const NotificationCards = () => {
+const NotificationCard = () => {
   return (
     <Box sx={{ paddingTop: '1rem' }}>
       <Grid container spacing={2}>
@@ -11,11 +11,11 @@ const NotificationCards = () => {
           <PlanList />
         </Grid>
         <Grid item lg={5}>
-          <EventAndNotification />
+          <EventCards />
         </Grid>
       </Grid>
     </Box>
   );
 };
 
-export default NotificationCards;
+export default NotificationCard;

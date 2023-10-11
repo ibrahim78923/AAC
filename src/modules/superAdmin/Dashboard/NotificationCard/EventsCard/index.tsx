@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Theme, Typography, useTheme } from '@mui/material';
 
-const EventAndNotification = () => {
+const EventCards = () => {
   const theme = useTheme<Theme>();
   return (
     <Box
@@ -23,4 +23,4 @@ const EventAndNotification = () => {
   );
 };
 
-export default EventAndNotification;
+export default EventCards;

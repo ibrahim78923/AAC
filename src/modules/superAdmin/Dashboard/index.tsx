@@ -1,10 +1,10 @@
 import { Grid, Typography } from '@mui/material';
 import React from 'react';
 import GraphCard from './GraphCard';
-import StatusCards from './statusCard';
-import NotificationCards from './NotificationCard';
+import StatusCards from './StatusCard';
+import NotificationCard from './NotificationCard';
 
-const SuperAdminDashboard = () => {
+const Dashboard = () => {
   return (
     <>
       <Grid container>
@@ -14,9 +14,9 @@ const SuperAdminDashboard = () => {
       </Grid>
       <StatusCards />
       <GraphCard />
-      <NotificationCards />
+      <NotificationCard />
     </>
   );
 };
 
-export default SuperAdminDashboard;
+export default Dashboard;
