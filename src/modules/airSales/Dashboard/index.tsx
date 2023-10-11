@@ -9,7 +9,7 @@ import CreateDashboard from './CreateDashboard';
 
 const Dashboard = () => {
   return (
-    <Grid container>
+    <Grid container spacing={2}>
       <Grid item xs={6} sm={6}>
         <Typography variant="h4">Sales Dashboard</Typography>
       </Grid>

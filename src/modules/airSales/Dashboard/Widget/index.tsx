@@ -6,7 +6,7 @@ const Widget = () => {
   return (
     <Grid container>
       {widgetData?.map((widgetData: any) => (
-        <Grid item sm={4} key={uuidv4()}>
+        <Grid item sm={3} key={uuidv4()} style={{ margin: '10px' }}>
           <Card sx={{ minWidth: 275 }}>
             <CardContent>
               <Typography
