@@ -251,7 +251,7 @@ export const createTicketDataArray = [
   {
     componentProps: {
       name: 'plannedStartTime',
-      label: '',
+      label: '\u00a0\u00a0',
       fullWidth: true,
     },
     component: RHFTimePicker,
@@ -269,7 +269,7 @@ export const createTicketDataArray = [
   {
     componentProps: {
       name: 'plannedEndTime',
-      label: '',
+      label: '\u00a0\u00a0',
       fullWidth: true,
     },
     component: RHFTimePicker,

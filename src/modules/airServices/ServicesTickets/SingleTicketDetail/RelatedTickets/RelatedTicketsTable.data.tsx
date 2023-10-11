@@ -1,7 +1,7 @@
 import { Checkbox } from '@mui/material';
-import { TableData } from './RelatedTickets.interface';
+import { TableDataI } from './RelatedTickets.interface';
 
-export const data: TableData[] = [
+export const data: TableDataI[] = [
   {
     Id: 1,
     ticketsid: `# SR - 5`,
@@ -29,19 +29,42 @@ export const data: TableData[] = [
 ];
 export const columns: any = (
   setIsDrawerOpen: any,
-  handleCheckboxChange: any,
+
+  isActive: any,
+  setActive: any,
 ) => [
   {
     accessorFn: (row: any) => row.Id,
     id: 'Id',
     cell: (info: any) => (
       <Checkbox
+        checked={!!isActive.find((item: any) => item.Id === info.getValue())}
+        onChange={(e: any) => {
+          e.target.checked
+            ? setActive([
+                ...isActive,
+                data.find((item: any) => item.Id === info.getValue()),
+              ])
+            : setActive(
+                isActive.filter((item: any) => {
+                  return item.Id !== info.getValue();
+                }),
+              );
+        }}
         color="primary"
         name={info.getValue()}
-        onChange={handleCheckboxChange}
       />
     ),
-    header: <Checkbox color="primary" name="Id" />,
+    header: (
+      <Checkbox
+        checked={isActive.length === data.length}
+        onChange={(e: any) => {
+          e.target.checked ? setActive([...data]) : setActive([]);
+        }}
+        color="primary"
+        name="Id"
+      />
+    ),
     isSortable: false,
   },
   {

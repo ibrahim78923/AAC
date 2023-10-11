@@ -45,7 +45,7 @@ function Inventory() {
         <Box sx={{ marginBottom: '25px' }}>
           <TanstackTable
             data={data}
-            columns={columns(meetingsData, setMeetingsData, data)}
+            columns={columns(meetingsData, setMeetingsData, data, theme)}
           />
         </Box>
       </Grid>
