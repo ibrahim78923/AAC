@@ -1,49 +1,20 @@
 import { useState } from 'react';
-import { Grid, InputAdornment, TextField, useTheme } from '@mui/material';
-import { SearchSharedIcon } from '@/assets/icons';
+import { Grid } from '@mui/material';
 import { DrawerTable } from './DrawerTable';
+import Search from '@/components/Search';
 
 const AssociationsDrawerData = () => {
   const [DrawerData, setDrawerData] = useState([]);
 
-  const theme = useTheme();
-
   return (
     <Grid container>
-      <Grid item xs={12}>
-        <TextField
-          sx={{
-            background: 'transparent',
-            '& .MuiOutlinedInput-root ': {
-              '& fieldset': {
-                textAlign: 'right',
-                borderColor: theme?.palette?.grey[700],
-                borderRadius: '8px',
-              },
-              '&:hover fieldset': {
-                borderColor: theme?.palette?.custom?.light_green,
-                boxShadow: `0px 0px 0px 3px ${theme?.palette?.custom?.aqua_breeze}`,
-              },
-              '& .MuiInputBase-input': {
-                color: theme?.palette?.common?.black,
-              },
-              '&.Mui-focused fieldset': {
-                borderColor: theme?.palette?.grey[700],
-              },
-            },
-          }}
-          id="outlined-basic"
-          placeholder="search"
-          variant="outlined"
-          autoComplete="off"
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <SearchSharedIcon />
-              </InputAdornment>
-            ),
-          }}
-          fullWidth
+      <Grid item xs={12} width={'100%'}>
+        <Search
+          label="Search"
+          width="100%"
+          searchBy=""
+          setSearchBy={() => {}}
+          sx={{ width: '100%' }}
         />
       </Grid>
       <Grid item xs={12} sx={{ mt: '16px' }}>
