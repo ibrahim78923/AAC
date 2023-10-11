@@ -81,6 +81,9 @@ const CUSTOM_COLORS = {
   grayish_blue: '#6B7280',
   aqua_breeze: '#A0E5DB80',
   light_green: ' #88DFD3',
+  off_white_one: '#E9EAEF',
+  off_white_two: '#E6E9F5',
+  off_white_three: '#EAECF0',
   mint_green: '#E6FAEB',
   light_lavender_gray: '#EAECF0',
   steel_blue: '#79839E99',
@@ -149,7 +152,7 @@ declare module '@mui/material/styles' {
   interface Palette {
     custom: any;
     blue: any;
-    slateBlue?: any;
+    slateBlue: any;
   }
 
   interface PaletteOptions {
