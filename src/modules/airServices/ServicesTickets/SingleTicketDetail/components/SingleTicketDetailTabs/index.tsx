@@ -17,7 +17,7 @@ export const SingleTicketDetailTabs = () => {
       <Details />
       <Tasks />
       <RelatedTickets />
-      {/* <Associations /> */}
+      <Associations />
       <Approvals />
       <Meetings />
       {/* <Activities /> */}
