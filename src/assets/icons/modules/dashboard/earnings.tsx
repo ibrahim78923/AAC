@@ -1,4 +1,4 @@
-const EarningsIcon = () => {
+const Earnings = () => {
   return (
     <svg
       width="42"
@@ -20,4 +20,4 @@ const EarningsIcon = () => {
   );
 };
 
-export default EarningsIcon;
+export default Earnings;
