@@ -9,6 +9,7 @@ import {
   TwoUserIcon,
   UserGroupFilledIcon,
 } from '@/assets/icons';
+
 import { style } from './StatusCard.style';
 
 const StatusCards = () => {

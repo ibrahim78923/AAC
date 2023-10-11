@@ -33,13 +33,13 @@ import {
 import { organizationTableData } from '@/mock/modules/OrganizationAdmin';
 
 import { FeaturedImage, AddCircleImage, ComLogoImage } from '@/assets/images';
+import { AddPenIcon } from '@/assets/icons';
 
 import { styles } from './OrganizationTable.style';
 
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { v4 as uuidv4 } from 'uuid';
-import { AddPenIcon } from '@/assets/icons';
 
 const OrganizationTable = ({ initialValueProps = defaultValues }: any) => {
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);

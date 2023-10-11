@@ -31,13 +31,13 @@ import {
   ComLogoImage,
   OrcaloLogoImage,
 } from '@/assets/images';
+import { AddPenIcon } from '@/assets/icons';
 
 import { styles } from './OrganizationCard.style';
 
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { v4 as uuidv4 } from 'uuid';
-import { AddPenIcon } from '@/assets/icons';
 
 const OrganizationCard = ({ initialValueProps = defaultValues }: any) => {
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
