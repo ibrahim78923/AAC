@@ -7,33 +7,38 @@ import CommonModal from '@/components/CommonModal';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useForm } from 'react-hook-form';
-import {
-  addFaqsDefaultValues,
-  addFaqsFiltersDataArray,
-  addFaqsValidationSchema,
-} from './AddFaq.data';
 
 import { v4 as uuidv4 } from 'uuid';
+import {
+  newsAndEventsFormDefaultValues,
+  newsAndEventsFormFiltersDataArray,
+  newsAndEventsFormValidationSchema,
+} from './NewsAndEventsModal.data';
+import { PostIcon } from '@/assets/icons';
 
-const AddFaq = ({ isAddModalOpen, setIsAddModalOpen }: any) => {
+const NewsAndEventsModal = ({
+  isNewsAndEventAddModal,
+  setIsNewsAndEventAddModal,
+}: any) => {
   const methodsAddFaqs = useForm({
-    resolver: yupResolver(addFaqsValidationSchema),
-    defaultValues: addFaqsDefaultValues,
+    resolver: yupResolver(newsAndEventsFormValidationSchema),
+    defaultValues: newsAndEventsFormDefaultValues,
   });
 
   const onSubmit = () => {
-    setIsAddModalOpen(false);
+    setIsNewsAndEventAddModal(false);
   };
   const { handleSubmit } = methodsAddFaqs;
 
   return (
     <CommonModal
-      open={isAddModalOpen}
-      handleClose={() => setIsAddModalOpen(false)}
-      handleSubmit={() => setIsAddModalOpen(false)}
-      title="Add a new feature"
+      open={isNewsAndEventAddModal}
+      handleClose={() => setIsNewsAndEventAddModal(false)}
+      handleSubmit={() => setIsNewsAndEventAddModal(false)}
+      title="Add News and Events"
       okText="add"
       footer={true}
+      submitIcon={<PostIcon color="white" />}
     >
       <>
         <FormProvider
@@ -41,7 +46,7 @@ const AddFaq = ({ isAddModalOpen, setIsAddModalOpen }: any) => {
           onSubmit={handleSubmit(onSubmit)}
         >
           <Grid container spacing={4}>
-            {addFaqsFiltersDataArray?.map((item: any) => (
+            {newsAndEventsFormFiltersDataArray?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={uuidv4()}>
                 <item.component {...item.componentProps} size={'small'}>
                   {item?.componentProps?.select
@@ -61,4 +66,4 @@ const AddFaq = ({ isAddModalOpen, setIsAddModalOpen }: any) => {
   );
 };
 
-export default AddFaq;
+export default NewsAndEventsModal;

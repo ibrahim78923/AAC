@@ -15,6 +15,7 @@ import CommonDrawer from '@/components/CommonDrawer';
 import TanstackTable from '@/components/Tabel/TanstackTable';
 import CustomPagination from '@/components/CustomPagination';
 import { AlertModals } from '@/components/AlertModals';
+import NewsAndEventsModal from './NewsAndEventsModal';
 
 import { FormProvider } from '@/components/ReactHookForm';
 
@@ -43,6 +44,8 @@ const NewsAndEvents = () => {
   const [newsAndEventsSearch, setNewsAndEventsSearch] = useState('');
   const [isNewsAndEventsDeleteModal, setisNewsAndEventsDeleteModal] =
     useState(false);
+
+  const [isNewsAndEventAddModal, setIsNewsAndEventAddModal] = useState(false);
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const actionMenuOpen = Boolean(anchorEl);
@@ -146,6 +149,7 @@ const NewsAndEvents = () => {
           <Button
             variant="contained"
             sx={{ height: '36px', fontWeight: '500' }}
+            onClick={() => setIsNewsAndEventAddModal(true)}
           >
             <PlusShared /> &nbsp; Add
           </Button>
@@ -191,6 +195,11 @@ const NewsAndEvents = () => {
           </FormProvider>
         </>
       </CommonDrawer>
+
+      <NewsAndEventsModal
+        isNewsAndEventAddModal={isNewsAndEventAddModal}
+        setIsNewsAndEventAddModal={setIsNewsAndEventAddModal}
+      />
 
       <AlertModals
         message={'Are you sure you want to delete this entry ?'}

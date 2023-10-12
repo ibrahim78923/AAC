@@ -2,15 +2,15 @@ import { RHFEditor, RHFSelect, RHFTextField } from '@/components/ReactHookForm';
 
 import * as Yup from 'yup';
 export const addFaqsValidationSchema = Yup.object().shape({
-  candidates: Yup.string().trim().required('Field is Required'),
-  applyDate: Yup.string().trim().required('Field is Required'),
-  status: Yup.string().trim().required('Field is Required'),
+  selectFaqCategory: Yup.string().trim().required('Field is Required'),
+  question: Yup.string().trim().required('Field is Required'),
+  answer: Yup.string().trim().required('Field is Required'),
 });
 
 export const addFaqsDefaultValues = {
-  candidates: '',
-  applyDate: '',
-  status: '',
+  selectFaqCategory: '',
+  question: '',
+  answer: '',
 };
 
 export const addFaqsFiltersDataArray = [

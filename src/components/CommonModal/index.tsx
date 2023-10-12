@@ -7,6 +7,10 @@ export interface ModelPropsI {
   handleClose: (value: boolean) => void;
   handleSubmit: () => void;
   children: any;
+  title: string;
+  okText: string;
+  submitIcon?: any;
+  footer?: boolean;
 }
 
 const CommonModal = ({
@@ -14,6 +18,10 @@ const CommonModal = ({
   handleClose,
   handleSubmit,
   children,
+  title,
+  okText,
+  submitIcon,
+  footer,
 }: ModelPropsI) => {
   return (
     <Modal
@@ -28,20 +36,27 @@ const CommonModal = ({
       <>
         <Box sx={styles.parentBox}>
           <Box sx={{ marginBottom: '20px' }}>
-            <Typography variant="h5">Add a new feature</Typography>
+            <Typography variant="h5">{title}</Typography>
           </Box>
           {children}
-          <Box
-            sx={{ display: 'flex', justifyContent: 'end', marginTop: '30px' }}
-          >
-            <Button
-              onClick={handleSubmit}
-              variant="contained"
-              sx={{ height: '36px' }}
+          {footer && (
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'end',
+                marginTop: '30px',
+              }}
             >
-              Add
-            </Button>
-          </Box>
+              <Button
+                onClick={handleSubmit}
+                variant="contained"
+                sx={{ height: '36px' }}
+                startIcon={submitIcon ? submitIcon : ''}
+              >
+                {okText}
+              </Button>
+            </Box>
+          )}
         </Box>
       </>
     </Modal>

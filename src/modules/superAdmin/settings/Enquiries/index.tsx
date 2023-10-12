@@ -16,6 +16,7 @@ import TanstackTable from '@/components/Tabel/TanstackTable';
 import CustomPagination from '@/components/CustomPagination';
 import { FormProvider } from '@/components/ReactHookForm';
 import { AlertModals } from '@/components/AlertModals';
+import QueryModal from './QueryModal';
 
 import {
   columns,
@@ -39,6 +40,7 @@ const Enquiries = () => {
     useState(false);
   const [faqsSearch, setFaqsSearch] = useState('');
   const [isEnquiriesDeleteModal, setisEnquiriesDeleteModal] = useState(false);
+  const [isQueryModalOpen, setIsQueryModalOpen] = useState(false);
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const actionMenuOpen = Boolean(anchorEl);
@@ -125,7 +127,7 @@ const Enquiries = () => {
               'aria-labelledby': 'basic-button',
             }}
           >
-            <MenuItem>Reply</MenuItem>
+            <MenuItem onClick={() => setIsQueryModalOpen(true)}>Reply</MenuItem>
             <MenuItem>View</MenuItem>
             <MenuItem onClick={() => setisEnquiriesDeleteModal(true)}>
               Delete
@@ -182,6 +184,11 @@ const Enquiries = () => {
           </FormProvider>
         </>
       </CommonDrawer>
+
+      <QueryModal
+        isQueryModalOpen={isQueryModalOpen}
+        setIsQueryModalOpen={setIsQueryModalOpen}
+      />
 
       <AlertModals
         message={'Are you sure you want to delete this entry ?'}
