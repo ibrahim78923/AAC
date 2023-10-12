@@ -222,7 +222,6 @@ export const createTicketDataArray = [
   {
     componentProps: {
       name: 'attachFile',
-      label: 'Attach a File',
       fullWidth: true,
     },
     component: RHFDropZone,
