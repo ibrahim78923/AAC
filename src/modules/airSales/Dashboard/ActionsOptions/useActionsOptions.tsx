@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const useActions = () => {
+const useActionsOptions = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [isShowDrawer, setIsShowDrawer] = useState(false);
   const handleCloseDrawer = () => {
@@ -56,4 +56,4 @@ const useActions = () => {
   };
 };
 
-export default useActions;
+export default useActionsOptions;
