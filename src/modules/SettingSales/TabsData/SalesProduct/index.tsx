@@ -151,6 +151,9 @@ const SalesProduct = () => {
               alignItems: 'center',
               padding: '6px 15px',
               height: '36px',
+              '&:disabled': {
+                color: theme?.palette?.grey[0],
+              },
             }}
             disabled={!isChecked}
           >

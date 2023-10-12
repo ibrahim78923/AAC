@@ -189,7 +189,7 @@ const DealPipelines = () => {
                 padding: '6px 15px',
                 height: '36px',
                 '&:disabled': {
-                  color: '#D1D5DB',
+                  color: theme?.palette?.grey[0],
                 },
               }}
               disabled={!isDisableButton}
