@@ -12,9 +12,7 @@ export const AttachmentForm = () => {
     resolver: yupResolver(attachmentFormSchemaFunction),
     defaultValues: attachmentFormDefaultFormValues,
   });
-  const submitAttachmentForm = (data: any) => {
-    console.log(data);
-  };
+  const submitAttachmentForm = () => {};
   return (
     <>
       <FormProvider
@@ -23,7 +21,7 @@ export const AttachmentForm = () => {
       >
         <RHFDropZone name="attachments" />
         <br />
-        <Button type="submit"  fullWidth size="small" variant="contained">
+        <Button type="submit" fullWidth size="small" variant="contained">
           Submit
         </Button>
       </FormProvider>

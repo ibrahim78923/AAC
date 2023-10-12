@@ -248,3 +248,62 @@ export const columns = (): any => [
     cell: (info: any) => <span>{info.getValue()}</span>,
   },
 ];
+
+export const itemsDetailsList = [
+  { label: 'item name', value: 'itemName' },
+  { label: 'description', value: 'description' },
+  { label: 'cost per item', value: 'costPerItem' },
+  { label: 'quantity', value: 'quantity' },
+  { label: 'tax rate(%)', value: 'taxRate' },
+  { label: 'total()', value: 'total' },
+];
+export const itemsDetailsSubList = ['itemName', 'description', 'total'];
+
+export const itemsNameList = [
+  {
+    title: 'dsfs',
+  },
+];
+
+export const itemsDetailsData = [
+  {
+    itemName: 'Dell ',
+    description: ' dell product',
+    costPerItem: 200,
+    quantity: 12,
+    taxRate: 17,
+    total: 2400,
+  },
+  {
+    itemName: 'Dell 2',
+    description: ' dell product',
+    costPerItem: 200,
+    quantity: 12,
+    taxRate: 17,
+    total: 2400,
+  },
+  {
+    itemName: 'Dell 3',
+    description: ' dell product',
+    costPerItem: 200,
+    quantity: 12,
+    taxRate: 17,
+    total: 2400,
+  },
+  {
+    itemName: 'Dell 4',
+    description: ' dell product',
+    costPerItem: 200,
+    quantity: 12,
+    taxRate: 17,
+    total: 2400,
+  },
+  {
+    itemName: 'Dell 5',
+    description: ' dell product',
+    costPerItem: 200,
+    quantity: 12,
+    taxRate: 17,
+    total: 2400,
+  },
+];

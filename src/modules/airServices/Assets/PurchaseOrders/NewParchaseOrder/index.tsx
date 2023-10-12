@@ -1,9 +1,9 @@
+import React from 'react';
 import { FormProvider } from '@/components/ReactHookForm';
 import { Box, Button, Grid, Typography } from '@mui/material';
-import React from 'react';
-import { columns, data, newPurchaseFields } from './NewPurchaseOrder.data';
+import { newPurchaseFields } from './NewPurchaseOrder.data';
 import useNewPurchaseOrder from './useNewPurchaseOrder';
-import TanstackTable from '@/components/Tabel/TanstackTable';
+import ItemsDetails from './ItemsDetails';
 const NewParchaseOrder = () => {
   const { methods, submit } = useNewPurchaseOrder();
   return (
@@ -16,8 +16,8 @@ const NewParchaseOrder = () => {
             xs={12}
             lg={9}
             container
-            rowSpacing={2.6}
-            columnSpacing={2}
+            rowSpacing={1.8}
+            columnSpacing={3}
             mt={-1}
           >
             {newPurchaseFields?.map((form: any) => {
@@ -47,8 +47,10 @@ const NewParchaseOrder = () => {
               columnSpacing={2}
               mt={-1}
             >
-              <Typography variant="h5">Items Details</Typography>
-              <TanstackTable data={data} columns={columns()} />
+              <Box sx={{ width: '100%' }}>
+                <Typography variant="h5">Items Details</Typography>
+                <ItemsDetails />
+              </Box>
             </Grid>
           }
         </Grid>
