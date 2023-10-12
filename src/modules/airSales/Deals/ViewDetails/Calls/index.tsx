@@ -56,8 +56,8 @@ const Calls = () => {
             )}
           </Box>
         </Grid>
-        <Grid item xs={12}>
-          {isNullOrEmpty(TasksTableData) && (
+        {isNullOrEmpty(TasksTableData) && (
+          <Grid item xs={12}>
             <Box sx={styles.noCallsBox}>
               <CallIcon />
               <Typography
@@ -74,13 +74,13 @@ const Calls = () => {
                 <PlusSharedIcon /> Add Calls
               </Button>
             </Box>
-          )}
-        </Grid>
-        <Grid item xs={12}>
-          {!isNullOrEmpty(TasksTableData) && (
+          </Grid>
+        )}
+        {!isNullOrEmpty(TasksTableData) && (
+          <Grid item xs={12} sx={{ height: '24vh', overflow: 'auto' }}>
             <TanstackTable columns={columns} data={TasksTableData} />
-          )}
-        </Grid>
+          </Grid>
+        )}
       </Grid>
 
       <CallsEditorDrawer

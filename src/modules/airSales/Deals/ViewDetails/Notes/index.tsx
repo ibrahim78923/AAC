@@ -16,19 +16,14 @@ import useNameWithStyledWords from '@/hooks/useNameStyledWords';
 import { MessageIcon, PlusSharedIcon } from '@/assets/icons';
 
 import { v4 as uuidv4 } from 'uuid';
+import { styles } from '../ViewDetails.style';
 
 const Notes = () => {
   const { openDrawer, setOpenDrawer } = useNotes();
   const { NameWithStyledWords, theme } = useNameWithStyledWords();
 
   return (
-    <Box
-      sx={{
-        boxShadow: '0px 0px 4px 0px rgba(0, 0, 0, 0.10)',
-        padding: '15px 15px 25px 15px',
-        borderRadius: '10px',
-      }}
-    >
+    <Box sx={styles.horizontalTabsBox}>
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <Box
@@ -74,7 +69,7 @@ const Notes = () => {
           )}
         </Grid>
 
-        <Grid item xs={12}>
+        <Grid item xs={12} sx={styles.horizontalTabsInnnerBox}>
           {!isNullOrEmpty(NotesDataArray) &&
             NotesDataArray.map((item) => (
               <Grid

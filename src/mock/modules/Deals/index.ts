@@ -48,4 +48,36 @@ export const NotesDataArray = [
     description:
       'Lorem ipsum dolor sit amet consectetur. Sit facilisis pharetra vel vestibulum pulvinar eget malesuada nunc ridiculus. Curabitur ultrices tincidunt venenatis mattis fusce imperdiet blandit.',
   },
+  {
+    id: '1',
+    title: 'Note Created by Olivia Rhye',
+    image: NotesAvatarImage,
+    date: '5 March, 2023 - 11:02 PM',
+    description:
+      'Lorem ipsum dolor sit amet consectetur. Sit facilisis pharetra vel vestibulum pulvinar eget malesuada nunc ridiculus. Curabitur ultrices tincidunt venenatis mattis fusce imperdiet blandit.',
+  },
+  {
+    id: '1',
+    title: 'Note Created by Olivia Rhye',
+    image: NotesAvatarImage,
+    date: '5 March, 2023 - 11:02 PM',
+    description:
+      'Lorem ipsum dolor sit amet consectetur. Sit facilisis pharetra vel vestibulum pulvinar eget malesuada nunc ridiculus. Curabitur ultrices tincidunt venenatis mattis fusce imperdiet blandit.',
+  },
+  {
+    id: '1',
+    title: 'Note Created by Olivia Rhye',
+    image: NotesAvatarImage,
+    date: '5 March, 2023 - 11:02 PM',
+    description:
+      'Lorem ipsum dolor sit amet consectetur. Sit facilisis pharetra vel vestibulum pulvinar eget malesuada nunc ridiculus. Curabitur ultrices tincidunt venenatis mattis fusce imperdiet blandit.',
+  },
+  {
+    id: '1',
+    title: 'Note Created by Olivia Rhye',
+    image: NotesAvatarImage,
+    date: '5 March, 2023 - 11:02 PM',
+    description:
+      'Lorem ipsum dolor sit amet consectetur. Sit facilisis pharetra vel vestibulum pulvinar eget malesuada nunc ridiculus. Curabitur ultrices tincidunt venenatis mattis fusce imperdiet blandit.',
+  },
 ];

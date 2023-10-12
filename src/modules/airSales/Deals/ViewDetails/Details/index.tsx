@@ -16,20 +16,15 @@ import useDetails from './useDetails';
 import { detailsDataArray } from './Details.data';
 
 import { v4 as uuidv4 } from 'uuid';
+import { styles } from '../ViewDetails.style';
 
 const Details = () => {
   const { theme, methodsDetails, onSubmit, handleSubmit } = useDetails();
 
   return (
-    <Box
-      sx={{
-        boxShadow: '0px 0px 4px 0px rgba(0, 0, 0, 0.10)',
-        padding: '15px 15px 25px 15px',
-        borderRadius: '10px',
-      }}
-    >
+    <Box sx={styles.horizontalTabsBox}>
       <Typography variant="h4">Details</Typography>
-      <Box sx={{ pt: 2 }}>
+      <Box sx={styles.horizontalTabsInnnerBox}>
         <FormProvider
           methods={methodsDetails}
           onSubmit={handleSubmit(onSubmit)}

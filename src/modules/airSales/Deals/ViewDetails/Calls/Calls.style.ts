@@ -24,10 +24,10 @@ export const styles = {
   },
   noCallsBox: {
     display: 'flex',
-    justifyContent: 'center',
     flexDirection: 'column',
     alignItems: 'center',
     gap: 1.5,
-    height: '30vh',
+    height: '24vh',
+    paddingTop: '15px',
   },
 };

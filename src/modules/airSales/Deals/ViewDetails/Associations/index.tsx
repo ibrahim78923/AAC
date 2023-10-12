@@ -1,16 +1,39 @@
-import { Box } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import React from 'react';
+import { styles } from '../ViewDetails.style';
+import Attachments from './Attachments';
+import Companies from './Companies';
+import Tickets from './Tickets';
+import Contacts from './Contacts';
+import Products from './Products';
+import Quotes from './Quotes';
 
 const Associations = () => {
   return (
-    <Box
-      sx={{
-        boxShadow: '0px 0px 4px 0px rgba(0, 0, 0, 0.10)',
-        padding: '15px 15px 25px 15px',
-        borderRadius: '10px',
-      }}
-    >
-      Associations
+    <Box sx={styles.horizontalTabsBox}>
+      <Typography variant="h4">Associations </Typography>
+      <Box sx={styles.horizontalTabsInnnerBox}>
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <Contacts />
+          </Grid>
+          <Grid item xs={12}>
+            <Tickets />
+          </Grid>
+          <Grid item xs={12}>
+            <Companies />
+          </Grid>
+          <Grid item xs={12}>
+            <Products />
+          </Grid>
+          <Grid item xs={12}>
+            <Quotes />
+          </Grid>
+          <Grid item xs={12}>
+            <Attachments />
+          </Grid>
+        </Grid>
+      </Box>
     </Box>
   );
 };
