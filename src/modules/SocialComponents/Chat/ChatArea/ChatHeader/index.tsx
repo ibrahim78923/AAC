@@ -4,11 +4,8 @@ import { Box, Button, Typography, useTheme } from '@mui/material';
 
 import { userAvatarImage } from '@/assets/images';
 
-import {
-  PhoneWhiteIcon,
-  ThreeDotsWhiteIcon,
-  UserWhiteIcon,
-} from '@/assets/icons';
+import { PhoneWhiteIcon, ThreeDotsIcon, UserWhiteIcon } from '@/assets/icons';
+
 import { styles } from './ChatHeader.style';
 
 const ChatHeader = () => {
@@ -44,7 +41,7 @@ const ChatHeader = () => {
             <UserWhiteIcon />
           </Button>
           <Button sx={styles.unStyledButton}>
-            <ThreeDotsWhiteIcon />
+            <ThreeDotsIcon color={'white'} />
           </Button>
         </Box>
       </Box>

@@ -32,4 +32,9 @@ export { default as DeleteIcon } from './shared/delete';
 export { default as PinIcon } from './shared/pin';
 export { default as PhoneWhiteIcon } from './shared/phone-white';
 export { default as UserWhiteIcon } from './shared/user-white';
-export { default as ThreeDotsWhiteIcon } from './shared/three-dots';
+export { default as ThreeDotsIcon } from './shared/three-dots';
+export { default as CharmTickIcon } from './shared/charm-tick';
+
+export { default as AttachmentIcon } from './modules/SocialComponents/Chat/attachment';
+export { default as StickerIcon } from './modules/SocialComponents/Chat/sticker';
+export { default as PostIcon } from './modules/SocialComponents/Chat/post';

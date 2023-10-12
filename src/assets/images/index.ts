@@ -52,4 +52,5 @@ export { default as DiscussionImage } from '../../assets/images/modules/tickets/
 export { default as TeamsImage } from '../../assets/images/modules/tickets/meetings/teams.png';
 export { default as ZoomImage } from '../../assets/images/modules/tickets/meetings/zoom.png';
 export { default as SalesIcon } from '../../assets/images/modules/Settings/ProductFeatures/sales-icon.png';
-export { default as userAvatarImage } from '../../assets/images/modules/socialComponents/chat/userIcon.png';
+export { default as userAvatarImage } from '../../assets/images/modules/socialComponents/chat/user.png';
+export { default as userSender } from '../../assets/images/modules/socialComponents/chat/senderUser.png';

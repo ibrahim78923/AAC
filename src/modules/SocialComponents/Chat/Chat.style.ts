@@ -9,7 +9,6 @@ export const styles = {
   },
   rightWrapper: () => {
     return {
-      height: '80vh',
       border: '1.5px solid #e7e7e9',
       borderRadius: '8px',
     };
