@@ -1,9 +1,9 @@
-import ActivityTimeline from "./ActivityTimeline";
+import ActivityTimeline from './ActivityTimeline';
 
 export const Activity = () => {
   return (
     <>
-    <ActivityTimeline/>
+      <ActivityTimeline />
     </>
   );
 };

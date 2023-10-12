@@ -1,4 +1,8 @@
-import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
+import {
+  RHFDropZone,
+  RHFSelect,
+  RHFTextField,
+} from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 export const validationSchema = Yup.object().shape({
   contactname: Yup.string().required('Field is Required'),
@@ -9,6 +13,7 @@ export const validationSchema = Yup.object().shape({
   status: Yup.string().required('Field is Required'),
   vendor: Yup.string(),
   approval: Yup.string(),
+  file: Yup.mixed(),
 });
 
 export const defaultValues = {
@@ -20,6 +25,7 @@ export const defaultValues = {
   status: '',
   vendor: '',
   approval: '',
+  file: '',
 };
 export const dataArray = [
   {
@@ -199,5 +205,14 @@ export const dataArray = [
     ],
     component: RHFSelect,
     md: 6,
+  },
+  {
+    componentProps: {
+      name: 'file',
+      label: 'Attach a File',
+      fullWidth: true,
+    },
+    component: RHFDropZone,
+    md: 12,
   },
 ];
