@@ -1,25 +1,38 @@
-import { Button, Grid, Typography } from '@mui/material';
+import { Box, Button, Grid, Typography } from '@mui/material';
 
 import Search from '@/components/Search';
 
 import useManage from './useManage';
 import Table from './Table';
 
-import { FilterSharedIcon, PlusSharedIcon } from '@/assets/icons';
-
-const Manage = () => {
-  const { setIsOpenFilterDrawer, searchByName, setSearchByName } = useManage();
+import { ArrowLeft, FilterSharedIcon, PlusSharedIcon } from '@/assets/icons';
+import Filters from './Filters';
+const Manage = ({ toggle, setIsShowCreateDashboardForm }: any) => {
+  const {
+    setIsOpenFilterDrawer,
+    searchByName,
+    setSearchByName,
+    isOpenFilterDrawer,
+  } = useManage();
 
   return (
     <Grid container>
       <Grid item xs={6} sm={6}>
-        <Typography variant="h4">Manage Dashboards</Typography>
+        <Box sx={{ display: 'flex' }}>
+          <Box mt={0.7} onClick={() => toggle()}>
+            <ArrowLeft />
+          </Box>
+          <Typography variant="h4" sx={{ marginLeft: '15px' }}>
+            Manage Dashboards
+          </Typography>
+        </Box>
       </Grid>
       <Grid item xs={6} sm={6} sx={{ textAlign: 'end' }}>
         <Button
           startIcon={<PlusSharedIcon />}
           variant="contained"
           className="medium"
+          onClick={() => setIsShowCreateDashboardForm(true)}
         >
           Create Dashboard
         </Button>
@@ -47,6 +60,12 @@ const Manage = () => {
       <Grid item xs={12} sm={12}>
         <Table />
       </Grid>
+      {isOpenFilterDrawer && (
+        <Filters
+          isOpenDrawer={isOpenFilterDrawer}
+          onClose={() => setIsOpenFilterDrawer(false)}
+        />
+      )}
     </Grid>
   );
 };

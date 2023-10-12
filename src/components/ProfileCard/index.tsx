@@ -33,7 +33,7 @@ const ProfileCard = (props: CardPropsI) => {
 
   return (
     <Box sx={styles.cardWrapper(theme)}>
-      <Box sx={styles.profile}>
+      <Box sx={{ color: theme.palette.primary.light }}>
         <Box sx={styles.imgWrapper}>
           <Box
             className="edit-Icon"

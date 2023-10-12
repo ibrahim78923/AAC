@@ -4,11 +4,26 @@ import { AlertModals } from '@/components/AlertModals';
 import useTable from './useTable';
 
 const Table = () => {
-  const { isDeleteModalOpen, handleCloseDeleteModal, handleDelete } =
-    useTable();
+  const {
+    isDeleteModalOpen,
+    handleCloseDeleteModal,
+    handleDelete,
+    setIsDeleteModalOpen,
+    isChecked,
+    setIsChecked,
+    isGetRowValues,
+    setIsGetRowValues,
+  } = useTable();
+  const getColumns = columns(
+    setIsDeleteModalOpen,
+    isChecked,
+    setIsChecked,
+    isGetRowValues,
+    setIsGetRowValues,
+  );
   return (
     <>
-      <TanstackTable columns={columns} data={ManageDashboardTableData} />
+      <TanstackTable columns={getColumns} data={ManageDashboardTableData} />
 
       <AlertModals
         message="Are you sure you want to delete dashboard"

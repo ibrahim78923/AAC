@@ -2,6 +2,8 @@ import { useState } from 'react';
 
 const useTable = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isChecked, setIsChecked] = useState(false);
+  const [isGetRowValues, setIsGetRowValues] = useState('');
   const handleCloseDeleteModal = () => {
     setIsDeleteModalOpen(false);
   };
@@ -13,6 +15,10 @@ const useTable = () => {
     setIsDeleteModalOpen,
     handleCloseDeleteModal,
     handleDelete,
+    isChecked,
+    setIsChecked,
+    isGetRowValues,
+    setIsGetRowValues,
   };
 };
 export default useTable;
