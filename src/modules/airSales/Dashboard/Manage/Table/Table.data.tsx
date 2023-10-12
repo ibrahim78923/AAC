@@ -82,6 +82,7 @@ export const columns = (
       header: 'Actions',
       cell: () => (
         <Box
+          sx={{ cursor: 'pointer' }}
           onClick={() => {
             setIsDeleteModalOpen(true);
           }}

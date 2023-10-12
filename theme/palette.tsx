@@ -95,6 +95,8 @@ const CUSTOM_COLORS = {
   shade_grey: '#1018281A',
   turquoise_Blue: '#4CCFBC',
   dark_blue: '#030229',
+  pale_grayish_blue: '#F7F9FB',
+  dark_shade_green: '# 1018280F',
 };
 const GRADIENTS = {
   primary: createGradient(PRIMARY.light, PRIMARY.main),

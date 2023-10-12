@@ -8,7 +8,7 @@ import { styles } from './DetailsView.style';
 
 const DetailsView = () => {
   return (
-    <Card sx={{ height: '100vh' }}>
+    <Card sx={{ height: '75vh' }}>
       <CardContent>
         <Typography variant="h5" sx={{ textAlign: 'center' }} gutterBottom>
           Details View
