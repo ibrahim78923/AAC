@@ -1,15 +1,19 @@
 import React, { useState } from 'react';
 
 import { useForm } from 'react-hook-form';
+
 import { Theme, useTheme } from '@mui/material';
 
 import { yupResolver } from '@hookform/resolvers/yup';
+
 import { v4 as uuidv4 } from 'uuid';
+
 import {
   dataArray,
   dealPipelinesDefaultValues,
   dealPipelinesvalidationSchema,
 } from './DealPipelines.data';
+
 import { RHFTextField } from '@/components/ReactHookForm';
 
 const useDealPipelines = () => {
@@ -22,7 +26,7 @@ const useDealPipelines = () => {
 
   const theme = useTheme<Theme>();
 
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);

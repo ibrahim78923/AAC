@@ -1,10 +1,12 @@
 import { Checkbox, Switch } from '@mui/material';
+
 import {
   RHFDropZone,
   RHFEditor,
   RHFSelect,
   RHFTextField,
 } from '@/components/ReactHookForm';
+
 import * as Yup from 'yup';
 
 export const salesProductvalidationSchema = Yup.object().shape({

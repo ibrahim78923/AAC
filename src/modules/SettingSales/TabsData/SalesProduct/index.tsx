@@ -1,27 +1,23 @@
 import React from 'react';
 
 import { Box, Typography, Button, MenuItem, Menu, Grid } from '@mui/material';
-
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
-import { v4 as uuidv4 } from 'uuid';
-
 import { FormProvider } from '@/components/ReactHookForm';
-
 import CommonDrawer from '@/components/CommonDrawer';
-
 import TanstackTable from '@/components/Tabel/TanstackTable';
-
 import CustomPagination from '@/components/CustomPagination';
-
 import Search from '@/components/Search';
-
 import { AlertModals } from '@/components/AlertModals';
 
-import { SalesProductTableData, dataArray } from './SalesProduct.data';
 import useSalesProduct from './useSalesProduct';
+
+import { SalesProductTableData, dataArray } from './SalesProduct.data';
+
+import { styles } from './SalesProduct.style';
+
+import { v4 as uuidv4 } from 'uuid';
 
 const SalesProduct = () => {
   const {
@@ -104,16 +100,7 @@ const SalesProduct = () => {
           <Typography variant="h4">Sales Product</Typography>
           <Button
             variant="contained"
-            sx={{
-              display: 'flex',
-              columnGap: '10px',
-              height: '38px',
-              fontWeight: '500',
-              '@media (max-width: 500px)': {
-                marginTop: '15px',
-                width: '100%',
-              },
-            }}
+            sx={styles.createBtn}
             onClick={() => (setIsDraweropen(true), setIsEditMode(false))}
           >
             <AddCircleIcon
@@ -125,18 +112,7 @@ const SalesProduct = () => {
             Create Product
           </Button>
         </Box>
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            flexWrap: 'wrap',
-            marginTop: '2rem',
-            marginBottom: '1rem',
-            '@media (max-width: 500px)': {
-              marginTop: '15px',
-            },
-          }}
-        >
+        <Box sx={styles.searchAction}>
           <Search
             label={'Search here'}
             searchBy={productSearch}
@@ -155,22 +131,7 @@ const SalesProduct = () => {
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
             onClick={handleClick}
-            sx={{
-              border: `1px solid ${theme?.palette?.custom.dark}`,
-              borderRadius: '4px',
-              color: `${theme?.palette?.custom.main}`,
-              display: 'flex',
-              alignItems: 'center',
-              padding: '6px 15px',
-              height: '36px',
-              '@media (max-width: 500px)': {
-                marginTop: '15px',
-                width: '100%',
-              },
-              '&:disabled': {
-                color: theme?.palette?.grey[0],
-              },
-            }}
+            sx={styles.actionBtn(theme)}
             disabled={!isChecked}
           >
             Actions <ArrowDropDownIcon />

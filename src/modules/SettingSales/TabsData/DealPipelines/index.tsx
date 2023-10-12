@@ -14,25 +14,20 @@ import {
 } from '@mui/material';
 
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
-
 import InfoIcon from '@mui/icons-material/Info';
 
-import { v4 as uuidv4 } from 'uuid';
-
 import { FormProvider } from '@/components/ReactHookForm';
-
 import CommonDrawer from '@/components/CommonDrawer';
-
 import Search from '@/components/Search';
-
 import { AlertModals } from '@/components/AlertModals';
 
 import useSalesProduct from './useDealPipelines';
 
 import { styles } from './DealPipelines.style';
+
+import { v4 as uuidv4 } from 'uuid';
 
 const DealPipelines = () => {
   const {

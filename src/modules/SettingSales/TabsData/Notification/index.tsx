@@ -1,9 +1,12 @@
 import React from 'react';
 
 import { Box, Typography, Switch } from '@mui/material';
-import { styles } from './Notification.style';
-import { DealsIcon, NotificationIcon, QuotesIcon } from '@/assets/icons';
+
 import useNotification from './useNotification';
+
+import { styles } from './Notification.style';
+
+import { DealsIcon, NotificationIcon, QuotesIcon } from '@/assets/icons';
 
 const Notification = () => {
   const { theme } = useNotification();
