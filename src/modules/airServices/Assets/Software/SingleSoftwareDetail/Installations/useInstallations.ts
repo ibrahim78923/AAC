@@ -7,21 +7,26 @@ export const useInstallation = (): useInstallationI => {
   const [isEditDrawerOpen, setIsEditDrawerOpen] = useState<boolean>(false);
   const [isDetailDrawerOpen, setIsDetailDrawerOpen] = useState<number>(0);
   const [activeCheck, setActiveCheck] = useState<any>([]);
-  const [actionPop, setActionPop] = useState<HTMLButtonElement | null>(null);
+  const [exportPop, setExportPop] = useState<HTMLButtonElement | null>(null);
   const [actionExportPop, setActionExportPop] =
     useState<HTMLButtonElement | null>(null);
   const [drawerStatusVal, setDrawerStatusVal] = useState(null);
   const [drawerStatusPop, setDrawerStatusPop] =
     useState<HTMLButtonElement | null>(null);
   const [deleteModal, setDeleteModal] = useState<boolean>(false);
-  const handleActionClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setActionPop(event.currentTarget);
+  const handleExportClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setExportPop(event.currentTarget);
   };
-  const handleActionClose = () => {
-    setActionPop(null);
+  const handleExportClose = () => {
+    setExportPop(null);
   };
-  const openAction = Boolean(actionPop);
-
+  const openExport = Boolean(exportPop);
+  const handleMenuExport = () => {
+    enqueueSnackbar('File export successfully', {
+      variant: 'success',
+    });
+    setExportPop(null);
+  };
   const handleActionExportClick = (event: any) => {
     setActionExportPop(event.currentTarget);
   };
@@ -41,11 +46,10 @@ export const useInstallation = (): useInstallationI => {
     setDrawerStatusPop(null);
   };
   const submitDeleteModel = async () => {
-    enqueueSnackbar('Task Delete Successfully', {
-      variant: 'error',
+    enqueueSnackbar('Device Removed Successfully', {
+      variant: 'success',
     });
     setDeleteModal(false);
-    setActionPop(null);
   };
   return {
     isAddDrawerOpen,
@@ -56,11 +60,12 @@ export const useInstallation = (): useInstallationI => {
     setActiveCheck,
     isEditDrawerOpen,
     setIsEditDrawerOpen,
-    actionPop,
-    setActionPop,
-    handleActionClick,
-    handleActionClose,
-    openAction,
+    exportPop,
+    setExportPop,
+    handleExportClick,
+    handleExportClose,
+    openExport,
+    handleMenuExport,
     actionExportPop,
     setActionExportPop,
     handleActionExportClick,

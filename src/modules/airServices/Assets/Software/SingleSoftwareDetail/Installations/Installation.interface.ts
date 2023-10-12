@@ -7,11 +7,12 @@ export interface useInstallationI {
   setActiveCheck: React.Dispatch<React.SetStateAction<any[]>>;
   isEditDrawerOpen: boolean;
   setIsEditDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  actionPop: HTMLButtonElement | null;
-  setActionPop: React.Dispatch<React.SetStateAction<HTMLButtonElement | null>>;
-  handleActionClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
-  handleActionClose: () => void;
-  openAction: boolean;
+  exportPop: HTMLButtonElement | null;
+  setExportPop: React.Dispatch<React.SetStateAction<HTMLButtonElement | null>>;
+  handleExportClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  handleExportClose: () => void;
+  openExport: boolean;
+  handleMenuExport: () => void;
   actionExportPop: HTMLButtonElement | null;
   setActionExportPop: React.Dispatch<
     React.SetStateAction<HTMLButtonElement | null>
