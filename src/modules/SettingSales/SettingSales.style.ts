@@ -5,6 +5,12 @@ export const styles = {
       borderColor: '#EDEDED',
       paddingTop: '2rem',
       width: '15%',
+      '@media (max-width: 1500px)': {
+        width: '30%',
+      },
+      '@media (max-width: 899px)': {
+        width: '100%',
+      },
       '& .MuiTabs-flexContainer': {
         display: 'flex',
         alignItems: 'flex-start',

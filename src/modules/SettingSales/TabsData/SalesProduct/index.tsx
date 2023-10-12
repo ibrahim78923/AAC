@@ -109,6 +109,10 @@ const SalesProduct = () => {
               columnGap: '10px',
               height: '38px',
               fontWeight: '500',
+              '@media (max-width: 500px)': {
+                marginTop: '15px',
+                width: '100%',
+              },
             }}
             onClick={() => (setIsDraweropen(true), setIsEditMode(false))}
           >
@@ -128,6 +132,9 @@ const SalesProduct = () => {
             flexWrap: 'wrap',
             marginTop: '2rem',
             marginBottom: '1rem',
+            '@media (max-width: 500px)': {
+              marginTop: '15px',
+            },
           }}
         >
           <Search
@@ -136,6 +143,11 @@ const SalesProduct = () => {
             setSearchBy={setproductSearch}
             width="100%"
             size="small"
+            sx={{
+              '@media (max-width: 500px)': {
+                width: '100%',
+              },
+            }}
           />
           <Button
             id="basic-button"
@@ -151,6 +163,10 @@ const SalesProduct = () => {
               alignItems: 'center',
               padding: '6px 15px',
               height: '36px',
+              '@media (max-width: 500px)': {
+                marginTop: '15px',
+                width: '100%',
+              },
               '&:disabled': {
                 color: theme?.palette?.grey[0],
               },

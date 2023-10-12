@@ -172,6 +172,10 @@ const DealPipelines = () => {
               display: 'flex',
               alignItems: 'center',
               flexWrap: 'wrap',
+              '@media (max-width: 500px)': {
+                justifyContent: 'end',
+                marginTop: '10px',
+              },
             }}
           >
             <Button
@@ -188,6 +192,9 @@ const DealPipelines = () => {
                 alignItems: 'center',
                 padding: '6px 15px',
                 height: '36px',
+                '@media (max-width: 500px)': {
+                  width: '100%',
+                },
                 '&:disabled': {
                   color: theme?.palette?.grey[0],
                 },
@@ -223,6 +230,11 @@ const DealPipelines = () => {
                 height: '38px',
                 fontWeight: '500',
                 marginLeft: '15px',
+                '@media (max-width: 500px)': {
+                  marginTop: '20px',
+                  width: '100%',
+                  marginLeft: '0px',
+                },
               }}
               onClick={() => (setIsDraweropen(true), setIsEditMode(false))}
             >
@@ -278,6 +290,7 @@ const DealPipelines = () => {
               sx={{
                 display: 'flex',
                 alignItems: 'center',
+                flexWrap: 'wrap',
                 justifyContent: 'space-between',
               }}
             >
@@ -373,6 +386,7 @@ const DealPipelines = () => {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
+                flexWrap: 'wrap',
               }}
             >
               <Box sx={{ display: 'flex', alignItems: 'center' }}>

@@ -7,5 +7,6 @@ export const styles = {
     padding: '10px',
     borderRadius: '5px',
     marginTop: '15px',
+    flexWrap: 'wrap',
   },
 };

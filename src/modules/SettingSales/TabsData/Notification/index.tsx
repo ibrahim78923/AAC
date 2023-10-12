@@ -32,7 +32,7 @@ const Notification = () => {
           Email Notification
         </Typography>
         <Box sx={styles.BoxStyling(theme)}>
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap' }}>
             <NotificationIcon />
             <Box sx={{ marginLeft: '15px' }}>
               <Typography
@@ -56,7 +56,7 @@ const Notification = () => {
           Notification List
         </Typography>
         <Box sx={styles.BoxStyling(theme)}>
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap' }}>
             <DealsIcon />
             <Box sx={{ marginLeft: '15px' }}>
               <Typography
@@ -78,7 +78,7 @@ const Notification = () => {
         </Box>
 
         <Box sx={styles.BoxStyling(theme)} style={{ marginTop: '25px' }}>
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap' }}>
             <QuotesIcon />
             <Box sx={{ marginLeft: '15px' }}>
               <Typography

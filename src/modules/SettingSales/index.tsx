@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Box, Tabs, Tab, Typography } from '@mui/material';
+import { Box, Tabs, Tab, Typography, useMediaQuery } from '@mui/material';
 
 import RolesRight from './TabsData/RolesAndRight';
 import UserManagement from './TabsData/UserManagement';
@@ -23,7 +23,7 @@ function TabPanel(props: SalesSettingProps) {
       sx={{ width: '100%' }}
     >
       {value === index && (
-        <Box sx={{ p: 3 }}>
+        <Box sx={{ p: { xs: 1, md: 3 } }}>
           <>{children}</>
         </Box>
       )}
@@ -32,7 +32,8 @@ function TabPanel(props: SalesSettingProps) {
 }
 const SettingSales = () => {
   const [value, setValue] = React.useState<any>(0);
-
+  const isMobile = useMediaQuery('(max-width: 899px)');
+  const tabsOrientation = isMobile ? 'horizontal' : 'vertical';
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
@@ -40,9 +41,14 @@ const SettingSales = () => {
     <Box>
       <Box>
         <Typography variant="h5">Settings</Typography>
-        <Box sx={{ bgcolor: 'background.paper', display: 'flex' }}>
+        <Box
+          sx={{
+            bgcolor: 'background.paper',
+            display: { xs: 'block', md: 'flex' },
+          }}
+        >
           <Tabs
-            orientation="vertical"
+            orientation={tabsOrientation}
             value={value}
             onChange={handleChange}
             aria-label="Vertical tabs example"
