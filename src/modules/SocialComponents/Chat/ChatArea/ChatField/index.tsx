@@ -67,6 +67,7 @@ const ChatField = () => {
                             }}
                           />
                         )}
+                        <Box sx={styles.sendReaction}></Box>
                       </Box>
                       <Box sx={{ textAlign: 'right' }}>
                         <Typography variant="body3" sx={{ color: '#6E7191' }}>

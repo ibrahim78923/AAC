@@ -69,4 +69,10 @@ export const styles = {
       justifyContent: 'center',
     };
   },
+  sendReaction: () => {
+    return {
+      background: '#F9F9F9',
+      boxShadow: '0px 0px 0px 0px rgb(0,0,0,0.3)',
+    };
+  },
 };
