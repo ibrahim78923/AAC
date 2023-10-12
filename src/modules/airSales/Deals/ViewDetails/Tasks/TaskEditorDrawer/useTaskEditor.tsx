@@ -13,9 +13,7 @@ const useTaskEditor = () => {
     defaultValues: dealsTasksDefaultValues,
   });
 
-  const onSubmit = () => {
-    // setIsdealsTasksFilterDrawer(false);
-  };
+  const onSubmit = () => {};
   const { handleSubmit } = methodsdealsTasks;
   return { handleSubmit, onSubmit, methodsdealsTasks };
 };

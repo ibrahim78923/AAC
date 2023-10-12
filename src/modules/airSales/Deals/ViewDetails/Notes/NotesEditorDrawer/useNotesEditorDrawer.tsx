@@ -12,9 +12,7 @@ const useNotesEditorDrawer = () => {
     defaultValues: dealsNotesDefaultValues,
   });
 
-  const onSubmit = () => {
-    // setIsdealsNotesFilterDrawer(false);
-  };
+  const onSubmit = () => {};
   const { handleSubmit } = methodsdealsNotes;
   return { handleSubmit, onSubmit, methodsdealsNotes };
 };

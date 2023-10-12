@@ -17,11 +17,17 @@ import { PlusSharedIcon } from '@/assets/icons';
 const Tasks = () => {
   const { openDrawer, setOpenDrawer } = useTasks();
   return (
-    <>
-      <Grid container spacing={2}>
+    <Box
+      sx={{
+        boxShadow: '0px 0px 4px 0px rgba(0, 0, 0, 0.10)',
+        padding: '15px 15px 25px 15px',
+        borderRadius: '10px',
+      }}
+    >
+      <Grid container spacing={3}>
         <Grid item xs={12}>
           <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-            <Typography variant="subtitle2"> Tasks</Typography>
+            <Typography variant="h4"> Tasks</Typography>
             <Box sx={{ gap: 1, display: 'flex' }}>
               <ActionDropdown setOpenDrawer={setOpenDrawer} />
               <Button
@@ -40,7 +46,7 @@ const Tasks = () => {
       </Grid>
 
       <TaskEditorDrawer openDrawer={openDrawer} setOpenDrawer={setOpenDrawer} />
-    </>
+    </Box>
   );
 };
 

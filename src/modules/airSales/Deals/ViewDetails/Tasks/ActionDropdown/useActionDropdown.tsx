@@ -21,9 +21,7 @@ const useActionDropdown = ({ setOpenDrawer }: any) => {
     defaultValues: assigneeDefaultValues,
   });
 
-  const onSubmit = () => {
-    // setIsassignFilterDrawer(false);
-  };
+  const onSubmit = () => {};
   const { handleSubmit } = methodsAssignee;
 
   const handleOpenMenu = (event: React.MouseEvent<HTMLButtonElement>) => {

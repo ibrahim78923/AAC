@@ -10,21 +10,23 @@ import ActivityLog from './ActivityLog';
 import Tasks from './Tasks';
 import Notes from './Notes';
 import Calls from './Calls';
+import Emails from './Emails';
+import Meetings from './Meetings';
+import Associations from './Associations';
 
 const DealsViewDetails = () => {
   return (
-    <Box sx={{ width: '100%' }}>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <HorizontalTabs tabsDataArray={singleTaskTabsData}>
-          <Details />
-          <ActivityLog />
-          Content
-          <Tasks />
-          <Notes />
-          <Calls />
-          Three
-        </HorizontalTabs>
-      </Box>
+    <Box>
+      <HorizontalTabs tabsDataArray={singleTaskTabsData}>
+        <Details />
+        <ActivityLog />
+        <Associations />
+        <Tasks />
+        <Notes />
+        <Calls />
+        <Meetings />
+        <Emails />
+      </HorizontalTabs>
     </Box>
   );
 };

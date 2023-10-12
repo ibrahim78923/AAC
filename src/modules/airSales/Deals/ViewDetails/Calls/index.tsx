@@ -21,7 +21,13 @@ const Calls = () => {
   const { openDrawer, setOpenDrawer, theme } = useCalls();
 
   return (
-    <div>
+    <Box
+      sx={{
+        boxShadow: '0px 0px 4px 0px rgba(0, 0, 0, 0.10)',
+        padding: '15px 15px 25px 15px',
+        borderRadius: '10px',
+      }}
+    >
       <Grid container spacing={3} sx={{ marginBottom: '25px' }}>
         {Object.entries(callsDetails).map(([key, value]) => (
           <Grid item md={4} xs={12} key={key}>
@@ -81,7 +87,7 @@ const Calls = () => {
         openDrawer={openDrawer}
         setOpenDrawer={setOpenDrawer}
       />
-    </div>
+    </Box>
   );
 };
 

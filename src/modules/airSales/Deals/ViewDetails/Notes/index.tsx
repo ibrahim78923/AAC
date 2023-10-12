@@ -4,23 +4,32 @@ import Image from 'next/image';
 
 import { Box, Button, Checkbox, Grid, Typography } from '@mui/material';
 
-import NotesActionDropdown from './NotesActionDropDown';
-import useNotes from './useNotes';
 import NotesEditorDrawer from './NotesEditorDrawer';
+import NotesActionDropdown from './NotesActionDropDown';
+
 import { NotesDataArray } from '@/mock/modules/Deals';
+
 import { isNullOrEmpty } from '@/utils';
+import useNotes from './useNotes';
+import useNameWithStyledWords from '@/hooks/useNameStyledWords';
+
 import { MessageIcon, PlusSharedIcon } from '@/assets/icons';
 
 import { v4 as uuidv4 } from 'uuid';
-import useNameWithStyledWords from '@/hooks/useNameStyledWords';
 
 const Notes = () => {
   const { openDrawer, setOpenDrawer } = useNotes();
   const { NameWithStyledWords, theme } = useNameWithStyledWords();
 
   return (
-    <div>
-      <Grid container spacing={4}>
+    <Box
+      sx={{
+        boxShadow: '0px 0px 4px 0px rgba(0, 0, 0, 0.10)',
+        padding: '15px 15px 25px 15px',
+        borderRadius: '10px',
+      }}
+    >
+      <Grid container spacing={3}>
         <Grid item xs={12}>
           <Box
             sx={{
@@ -76,10 +85,8 @@ const Notes = () => {
                   px: 1.5,
                   boxShadow: 'box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.10)',
                   borderRadius: '8px',
-                  background: '#FFF',
                   border: '1px solid #f2f2f2',
                 }}
-                spacing={1}
               >
                 <Grid
                   item
@@ -129,7 +136,7 @@ const Notes = () => {
         openDrawer={openDrawer}
         setOpenDrawer={setOpenDrawer}
       />
-    </div>
+    </Box>
   );
 };
 

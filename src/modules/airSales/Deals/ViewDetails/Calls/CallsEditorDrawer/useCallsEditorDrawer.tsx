@@ -12,9 +12,7 @@ const useCallsEditorDrawer = () => {
     defaultValues: dealsCallsDefaultValues,
   });
 
-  const onSubmit = () => {
-    // setIsdealsCallsFilterDrawer(false);
-  };
+  const onSubmit = () => {};
   const { handleSubmit } = methodsdealsCalls;
   return { handleSubmit, onSubmit, methodsdealsCalls };
 };

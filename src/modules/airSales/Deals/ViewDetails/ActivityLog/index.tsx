@@ -15,7 +15,13 @@ const ActivityLog = () => {
   const { NameWithStyledWords, theme } = useNameWithStyledWords();
 
   return (
-    <div>
+    <Box
+      sx={{
+        boxShadow: '0px 0px 4px 0px rgba(0, 0, 0, 0.10)',
+        padding: '15px 15px 25px 15px',
+        borderRadius: '10px',
+      }}
+    >
       <Typography variant="h4">Activity Log </Typography>
       <Grid container sx={{ pt: 2 }}>
         {ActivityLogList.map((item, index) => (
@@ -75,7 +81,7 @@ const ActivityLog = () => {
           </Grid>
         ))}
       </Grid>
-    </div>
+    </Box>
   );
 };
 

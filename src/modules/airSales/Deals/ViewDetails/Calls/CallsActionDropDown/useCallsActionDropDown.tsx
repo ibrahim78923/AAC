@@ -22,9 +22,7 @@ const useCallsActionDropdown = ({ setOpenDrawer }: any) => {
     defaultValues: reAssignCallDefaultValues,
   });
 
-  const onSubmitReassignCall = () => {
-    // setIsreassignCallFilterDrawer(false);
-  };
+  const onSubmitReassignCall = () => {};
   const { handleSubmit: handleReAssignCall } = methodsReassignCall;
 
   const methodsOutCome = useForm({
@@ -32,9 +30,7 @@ const useCallsActionDropdown = ({ setOpenDrawer }: any) => {
     defaultValues: outcomesDefaultValues,
   });
 
-  const onSubmitOutCome = () => {
-    // setIsreassignCallFilterDrawer(false);
-  };
+  const onSubmitOutCome = () => {};
   const { handleSubmit: handleOutCome } = methodsOutCome;
 
   const handleOpenMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
