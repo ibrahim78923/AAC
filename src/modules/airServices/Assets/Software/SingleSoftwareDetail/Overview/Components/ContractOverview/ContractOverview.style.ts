@@ -1,22 +1,12 @@
-import { styled } from '@mui/material';
-
-export const StyledText = styled('text')(({ theme }) => ({
-  fill: theme.palette.text.primary,
-  textAnchor: 'middle',
-  dominantBaseline: 'central',
-  fontSize: '14px',
-  fontWeight: 500,
-  lineHeight: '20px',
-}));
-
 export const styles = {
   mainBox: (theme: any) => ({
     border: '1.51px solid',
     borderColor: theme.palette.grey?.[700],
-    maxWidth: '452px',
+    maxWidth: '530px',
     width: '100%',
-    height: '310px',
+    height: '400px',
     radius: '8px',
+    padding: '10px',
   }),
 
   heading: {
@@ -41,10 +31,16 @@ export const styles = {
     borderRadius: '8px',
     display: 'flex',
     backgroundColor: theme.palette.grey?.[100],
-    maxWidth: '400px',
+    maxWidth: '480px',
     width: '100%',
     height: '52px',
     justifyContent: 'space-between',
     alignItems: 'center',
+    '@media screen and (max-width: 480px)': {
+      marginBottom: '20px',
+      flexDirection: 'column',
+      gap: '10px',
+      height: 'auto',
+    },
   }),
 };

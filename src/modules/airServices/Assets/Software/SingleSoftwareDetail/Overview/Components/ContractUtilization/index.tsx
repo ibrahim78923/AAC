@@ -10,7 +10,10 @@ import { Box, Typography, useTheme } from '@mui/material';
 function TextLabel({ children }: { children: React.ReactNode }) {
   const { width, height, left, top } = useDrawingArea();
   return (
-    <StyledText x={left + width / 1.4} y={top + height / 1.9}>
+    <StyledText
+      x={left + width / styles.alignGraph.textLabelX}
+      y={top + height / styles.alignGraph.textLabelY}
+    >
       {children}
     </StyledText>
   );
@@ -19,11 +22,19 @@ function TextLabel({ children }: { children: React.ReactNode }) {
 function NumberLabel({ children }: { children: React.ReactNode }) {
   const { width, height, left, top } = useDrawingArea();
   return (
-    <StyledText x={left + width / 1.4} y={top + height / 2.2}>
+    <StyledText
+      x={left + width / styles.alignGraph.numberLabelX}
+      y={top + height / styles.alignGraph.numberLabelY}
+    >
       {children}
     </StyledText>
   );
 }
+
+const size = {
+  width: 370,
+  height: 280,
+};
 
 function ContractUtilization() {
   const theme: any = useTheme();
@@ -37,18 +48,19 @@ function ContractUtilization() {
           series={[
             {
               data: contractUtilizationData,
-              cx: 140,
-              cy: 110,
-              innerRadius: 55,
-              outerRadius: 85,
-              paddingAngle: 5,
-              cornerRadius: 15,
-              startAngle: -250,
-              endAngle: 300,
+              cx: styles.alignGraph.cx,
+              cy: styles.alignGraph.cy,
+              innerRadius: styles.alignGraph.innerRadius,
+              outerRadius: styles.alignGraph.outerRadius,
+              paddingAngle: styles.alignGraph.paddingAngle,
+              cornerRadius: styles.alignGraph.cornerRadius,
+              startAngle: styles.alignGraph.startAngle,
+              endAngle: styles.alignGraph.endAngle,
             },
           ]}
-          height={220}
+          sx={styles.chart}
           legend={{ hidden: true }}
+          {...size}
         >
           <NumberLabel>{contractUtilizationLable.numLabel}</NumberLabel>
           <TextLabel>{contractUtilizationLable.textLabel} </TextLabel>

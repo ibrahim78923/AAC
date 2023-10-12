@@ -13,11 +13,42 @@ export const styles = {
   mainBox: (theme: any) => ({
     border: '1.51px solid',
     borderColor: theme.palette.grey?.[700],
-    maxWidth: '300px',
+    maxWidth: '380px',
     width: '100%',
-    height: '310',
+    height: '400px',
     radius: '8px',
+    '@media screen and (max-width: 480px)': {
+      maxWidth: '300px',
+    },
+    '@media screen and (max-width: 400px)': {
+      maxWidth: '250px',
+    },
   }),
+
+  alignGraph: {
+    cx: 175,
+    cy: 135,
+    height: 280,
+    innerRadius: 70,
+    outerRadius: 100,
+    paddingAngle: 5,
+    cornerRadius: 15,
+    startAngle: -250,
+    endAngle: 300,
+    textLabelX: 1.5,
+    numberLabelX: 1.5,
+    textLabelY: 1.9,
+    numberLabelY: 2.2,
+  },
+
+  chart: {
+    '@media screen and (max-width: 480px)': {
+      marginRight: '75px',
+    },
+    '@media screen and (max-width: 400px)': {
+      marginRight: '130px',
+    },
+  },
 
   heading: {
     marginTop: '20px',
