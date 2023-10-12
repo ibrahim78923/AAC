@@ -1,69 +1,63 @@
-import Timeline from '@mui/lab/Timeline';
-import TimelineItem from '@mui/lab/TimelineItem';
-import TimelineSeparator from '@mui/lab/TimelineSeparator';
-import TimelineConnector from '@mui/lab/TimelineConnector';
-import TimelineContent from '@mui/lab/TimelineContent';
-import TimelineOppositeContent, {
-  timelineOppositeContentClasses,
-} from '@mui/lab/TimelineOppositeContent';
-import TimelineDot from '@mui/lab/TimelineDot';
 import Typography from '@mui/material/Typography';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
-export default function ActivityTimeline() {
+import { Box, Divider, IconButton } from '@mui/material';
+import { useTheme } from '@mui/material';
+
+export const ActivityTimeline = ({ activityData }: any) => {
+  const theme = useTheme();
   return (
-    <Timeline
-      position="alternate"
-      sx={{
-        [`& .${timelineOppositeContentClasses.root}`]: {
-          flex: 0.2,
-        },
-      }}
-    >
-      <TimelineItem
-        sx={{
-          border: '1px solid red',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
+    <>
+      <Box
+        display={'flex'}
+        flexWrap={'wrap'}
+        alignItems={'center'}
+        gap={1.25}
+        marginBottom={1.5}
       >
-        <TimelineOppositeContent sx={{ border: '1px solid brown' }}>
+        <Typography variant="body3" sx={{ flex: 0.15 }}>
+          {' '}
+          {activityData?.left}
+        </Typography>
+        <IconButton
+          disabled
+          color="primary"
+          sx={{ border: `1px solid ${theme?.palette?.primary?.main}` }}
+        >
+          <BorderColorIcon color="primary" />
+        </IconButton>
+        <Typography variant="body2" sx={{ flex: 0.8 }}>
+          {' '}
           <Typography
-            sx={{ fontSize: '14px', border: '1px solid brown' }}
-            component="span"
+            variant="body2"
+            component={'span'}
+            color="primary"
+            marginRight={0.3}
           >
-            10:00 am
+            {activityData?.createdBy}
           </Typography>
-        </TimelineOppositeContent>
-        <TimelineSeparator sx={{ border: '1px solid orange' }}>
-          <TimelineDot color="primary" variant="outlined">
-            <BorderColorIcon sx={{ fontSize: '14px' }} />
-          </TimelineDot>
-          {/* <TimelineConnector sx={{ bgcolor: 'primary.main' , height:'2rem'}}/> */}
-        </TimelineSeparator>
-        <TimelineContent>
-          <Typography sx={{ fontSize: '14px', border: '1px solid purple' }}>
-            Code
-          </Typography>
-        </TimelineContent>
-      </TimelineItem>
-
-      <TimelineConnector sx={{ bgcolor: 'primary.main', height: '2rem' }} />
-
-      <TimelineItem sx={{ border: '1px solid blue' }}>
-        <TimelineOppositeContent>
-          <Typography>Sleep</Typography>
-        </TimelineOppositeContent>
-        <TimelineSeparator>
-          {/* <TimelineConnector sx={{ bgcolor: 'primary.main' , height:'2rem'}} /> */}
-          <TimelineDot color="primary" variant="outlined">
-            <BorderColorIcon />
-          </TimelineDot>
-        </TimelineSeparator>
-        <TimelineContent>
-          <Typography>Because you need rest</Typography>
-        </TimelineContent>
-      </TimelineItem>
-    </Timeline>
+          {activityData?.right}
+        </Typography>
+      </Box>
+      <Box
+        display={'flex'}
+        flexWrap={'wrap'}
+        alignItems={'center'}
+        gap={1.3}
+        marginBottom={1.5}
+      >
+        <Box flex={0.15}></Box>
+        <Box></Box>
+        <Divider
+          orientation="vertical"
+          sx={{
+            borderRadius: '20px',
+            background: theme?.palette?.primary?.light,
+            width: '4px',
+            height: '49px',
+          }}
+        />
+        <Box flex={0.8}></Box>
+      </Box>
+    </>
   );
-}
+};
