@@ -3,7 +3,7 @@ import { activityData } from './Activity.data';
 import NoData from '@/components/NoData';
 import NoAssociationFound from '@/assets/images/modules/LogitechMouse/association.png';
 import { ActivityTimeline } from './ActivityTimeline';
-import { ExportButton } from './ExportButton';
+import { ActivityExportButton } from './ActivityExportButton';
 import { v4 as uuidv4 } from 'uuid';
 export const Activity = () => {
   return (
@@ -18,7 +18,7 @@ export const Activity = () => {
         marginBottom={1.5}
       >
         <Box></Box>
-        <ExportButton />
+        <ActivityExportButton />
       </Box>
       <br />
       <Grid container>

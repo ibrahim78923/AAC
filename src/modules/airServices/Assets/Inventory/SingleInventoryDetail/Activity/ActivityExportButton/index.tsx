@@ -3,7 +3,7 @@ import { Typography, useTheme, Button, Menu, MenuItem } from '@mui/material';
 import { ExportIcon } from '@/assets/icons';
 import { useState } from 'react';
 
-export const ExportButton = () => {
+export const ActivityExportButton = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const theme = useTheme();
