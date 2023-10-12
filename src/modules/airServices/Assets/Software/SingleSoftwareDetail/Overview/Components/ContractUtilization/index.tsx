@@ -30,7 +30,9 @@ function ContractUtilization() {
   return (
     <>
       <Box sx={styles.mainBox(theme)}>
-        <Typography sx={styles.heading}>Contract Utilization</Typography>
+        <Typography sx={styles.heading}>
+          {contractUtilizationLable.heading}
+        </Typography>
         <PieChart
           series={[
             {
@@ -53,11 +55,15 @@ function ContractUtilization() {
         </PieChart>
         <Box sx={styles.footerBox}>
           <Typography sx={styles.footerTypography}>
-            <Box sx={styles.footerTypographyBox(theme)}>1</Box>
+            <Box sx={styles.footerTypographyBox(theme)}>
+              {contractUtilizationLable.inactive}
+            </Box>
             Inactive
           </Typography>
           <Typography sx={styles.footerTypography}>
-            <Box sx={styles.footerTypographyBox(theme)}>4</Box>
+            <Box sx={styles.footerTypographyBox(theme)}>
+              {contractUtilizationLable.users}
+            </Box>
             Users
           </Typography>
         </Box>

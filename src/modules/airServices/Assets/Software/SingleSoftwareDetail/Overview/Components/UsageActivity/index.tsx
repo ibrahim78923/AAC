@@ -27,7 +27,9 @@ function UsageActivity() {
   return (
     <>
       <Box sx={styles.mainBox(theme)}>
-        <Typography sx={styles.heading}>Usage Activity</Typography>
+        <Typography sx={styles.heading}>
+          {UsageActivityLable.heading}
+        </Typography>
         <PieChart
           series={[
             {
@@ -50,7 +52,9 @@ function UsageActivity() {
         </PieChart>
         <Box sx={styles.footerBox}>
           <Typography sx={styles.footerTypography}>
-            <Box sx={styles.footerTypographyBox(theme)}>2</Box>
+            <Box sx={styles.footerTypographyBox(theme)}>
+              {UsageActivityLable.inactive}
+            </Box>
             Inactive
           </Typography>
         </Box>
