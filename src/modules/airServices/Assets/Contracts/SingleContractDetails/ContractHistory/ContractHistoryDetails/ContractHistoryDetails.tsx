@@ -7,17 +7,16 @@ import {
   useTheme,
 } from '@mui/material';
 import Image from 'next/image';
-import { editImage } from '@/assets/images';
-import { activityStyles } from './Activity.style';
-import { activities } from './Activity.data';
+import { contracthistoryStyles } from './ContractHistoryDetails.style';
+import { contracthistorydetails } from './ContractHistoryDetails.data';
 import { v4 as uuidv4 } from 'uuid';
-import { ActivityDataI } from './Activity.interface';
+import { ContractHistoryDataI } from './ContractHistoryDetails.interface';
 
-const Activity = () => {
+const ContractHistoryDetails = () => {
   const theme = useTheme();
   return (
     <Grid container sx={{ pt: '40px' }}>
-      {activities.map((activity: ActivityDataI) => (
+      {contracthistorydetails.map((activity: ContractHistoryDataI) => (
         <Grid
           container
           key={uuidv4()}
@@ -31,29 +30,40 @@ const Activity = () => {
                 alignItems: 'center',
               }}
             >
-              <Typography sx={{ ...activityStyles.activityTimeDetails(theme) }}>
+              <Typography
+                sx={{ ...contracthistoryStyles.activityTimeDetails(theme) }}
+              >
                 {activity.timestamp}
               </Typography>
-              <Image src={editImage} alt="Edit" width="18px" height="18px" />
+              <Image src={activity?.image} alt="Edit" width={36} height={36} />
             </Box>
           </Grid>
 
           <Grid item lg={10} xs={12}>
             <Box sx={{ ml: '16px' }}>
-              <Typography sx={{ ...activityStyles.renewCreateText(theme) }}>
+              <Typography
+                sx={{ ...contracthistoryStyles.renewCreateText(theme) }}
+              >
                 {activity.Renewed ? 'Renewed' : 'Created'}
               </Typography>
             </Box>
             <Box sx={{ ml: '16px', mt: '4px' }}>
-              <Typography sx={{ ...activityStyles.datestamp(theme) }}>
+              <Typography sx={{ ...contracthistoryStyles.datestamp(theme) }}>
                 {activity.datestamp}
               </Typography>
             </Box>
             <Box sx={{ ml: '16px', mt: '8px' }}>
-              <Button sx={{ backgroundColor: '#EBFAF8' }}>
+              <Button
+                sx={{ ...contracthistoryStyles.activityDetailsButton(theme) }}
+              >
                 {activity.descriptionone}
               </Button>
-              <Button sx={{ backgroundColor: '#EBFAF8', ml: '12px' }}>
+              <Button
+                sx={{
+                  ...contracthistoryStyles.activityDetailsButton(theme),
+                  ml: '12px',
+                }}
+              >
                 {activity.descriptiontwo}
               </Button>
             </Box>
@@ -65,7 +75,6 @@ const Activity = () => {
             lg={2}
             alignItems="center"
             justifyContent="flex-end"
-            sx={{ mt: '16px' }}
           >
             <Box
               sx={{ display: { lg: 'flex', xs: 'none' }, alignItems: 'center' }}
@@ -91,4 +100,4 @@ const Activity = () => {
   );
 };
 
-export default Activity;
+export default ContractHistoryDetails;

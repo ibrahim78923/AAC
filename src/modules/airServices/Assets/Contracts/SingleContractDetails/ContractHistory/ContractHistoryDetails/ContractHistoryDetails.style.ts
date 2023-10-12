@@ -1,4 +1,4 @@
-export const activityStyles = {
+export const contracthistoryStyles = {
   activityTimeDetails: (theme: any) => {
     return {
       color: theme?.palette?.grey[600],
@@ -7,6 +7,7 @@ export const activityStyles = {
       fontStyle: 'normal',
       fontWeight: 500,
       marginRight: '22px',
+      letterSpacing: '-0.24px',
     };
   },
   renewCreateText: (theme: any) => {
@@ -32,6 +33,16 @@ export const activityStyles = {
       fontStyle: 'normal',
       fontWeight: 600,
       letterSpacing: '-0.28px',
+    };
+  },
+  activityDetailsButton: (theme: any) => {
+    return {
+      color: theme?.palette?.grey[600],
+      background: theme?.palette?.primary.lighter,
+      fontSize: '12px',
+      fontStyle: 'normal',
+      fontWeight: 400,
+      letterSpacing: '-0.24px',
     };
   },
 };

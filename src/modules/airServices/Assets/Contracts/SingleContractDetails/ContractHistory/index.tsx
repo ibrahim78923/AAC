@@ -1,9 +1,9 @@
-import Activity from '../ContractHistory/Activity';
+import ContractHistoryDetails from './ContractHistoryDetails/ContractHistoryDetails';
 
 export const ContractHistory = () => {
   return (
     <>
-      <Activity />
+      <ContractHistoryDetails />
     </>
   );
 };

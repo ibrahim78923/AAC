@@ -1,5 +1,3 @@
 export const PurchaseOrder = () => {
-    return (
-        <>Purchase Order</>
-    )
-}
+  return <>Purchase Order</>;
+};
