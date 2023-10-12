@@ -20,7 +20,7 @@ import Search from '@/components/Search';
 
 import { AlertModals } from '@/components/AlertModals';
 
-import { SalesProductTableData, columns, dataArray } from './SalesProduct.data';
+import { SalesProductTableData, dataArray } from './SalesProduct.data';
 import useSalesProduct from './useSalesProduct';
 
 const SalesProduct = () => {
@@ -44,6 +44,8 @@ const SalesProduct = () => {
     onSubmit,
     handleCloseDeleteModal,
     handleDelete,
+    isChecked,
+    getRowValues,
   } = useSalesProduct();
 
   return (
@@ -150,6 +152,7 @@ const SalesProduct = () => {
               padding: '6px 15px',
               height: '36px',
             }}
+            disabled={!isChecked}
           >
             Actions <ArrowDropDownIcon />
           </Button>
@@ -171,7 +174,7 @@ const SalesProduct = () => {
           </Menu>
         </Box>
         <Grid>
-          <TanstackTable columns={columns} data={SalesProductTableData} />
+          <TanstackTable columns={getRowValues} data={SalesProductTableData} />
           <CustomPagination
             count={1}
             rowsPerPageOptions={[1, 2]}

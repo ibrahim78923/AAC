@@ -6,6 +6,7 @@ import { Theme, useTheme } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import {
+  columns,
   salesProductDefaultValues,
   salesProductvalidationSchema,
 } from './SalesProduct.data';
@@ -15,6 +16,8 @@ const useSalesProduct = () => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
   const [productSearch, setproductSearch] = useState<string>('');
+  const [isChecked, setIsChecked] = useState(false);
+  const [isGetRowValues, setIsGetRowValues] = useState('');
   const theme = useTheme<Theme>();
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -44,6 +47,13 @@ const useSalesProduct = () => {
     setDeleteModalOpen(false);
   };
 
+  const getRowValues = columns(
+    setIsGetRowValues,
+    setIsChecked,
+    isChecked,
+    isGetRowValues,
+  );
+
   return {
     isDraweropen,
     setIsDraweropen,
@@ -64,6 +74,11 @@ const useSalesProduct = () => {
     onSubmit,
     handleCloseDeleteModal,
     handleDelete,
+    isChecked,
+    setIsChecked,
+    isGetRowValues,
+    setIsGetRowValues,
+    getRowValues,
   };
 };
 

@@ -7,8 +7,6 @@ import {
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
-// form Arr
-
 export const salesProductvalidationSchema = Yup.object().shape({
   productName: Yup.string().required('Field is Required'),
   SKU: Yup.string(),
@@ -158,61 +156,80 @@ export const SalesProductTableData: any = [
   },
 ];
 
-export const columns: any = [
-  {
-    accessorFn: (row: any) => row.Id,
-    id: 'Id',
-    cell: (info: any) => <Checkbox color="primary" name={info.getValue()} />,
-    header: <Checkbox color="primary" name="Id" />,
-    isSortable: false,
-  },
-  {
-    accessorFn: (row: any) => row.name,
-    id: 'name',
-    cell: (info: any) => info.getValue(),
-    header: 'Name',
-    isSortable: true,
-  },
-  {
-    accessorFn: (row: any) => row.sku,
-    id: 'sku',
-    isSortable: true,
-    header: 'SKU',
-    cell: (info: any) => info.getValue(),
-  },
-  {
-    accessorFn: (row: any) => row.unitPrice,
-    id: 'unitPrice',
-    isSortable: true,
-    header: 'Unit Price',
-    cell: (info: any) => info.getValue(),
-  },
-  {
-    accessorFn: (row: any) => row.purchasePrice,
-    id: 'purchasePrice',
-    isSortable: true,
-    header: 'Purchase Price',
-    cell: (info: any) => info.getValue(),
-  },
-  {
-    accessorFn: (row: any) => row.createdBy,
-    id: 'createdBy',
-    isSortable: true,
-    header: 'Created By',
-    cell: (info: any) => info.getValue(),
-  },
-  {
-    accessorFn: (row: any) => row.createdDate,
-    id: 'createdDate',
-    isSortable: true,
-    header: 'Created Date',
-    cell: (info: any) => info.getValue(),
-  },
-  {
-    accessorFn: (row: any) => row.action,
-    id: 'action',
-    isSortable: true,
-    header: 'Action',
-    cell: (info: any) => <Switch defaultChecked name={info.getValue()} />,
-  },
-];
+export const columns = (
+  setIsGetRowValues: any,
+  setIschecked: any,
+  ischecked: any,
+  isGetRowValues: any,
+) => {
+  return [
+    {
+      accessorFn: (row: any) => row.Id,
+      id: 'Id',
+      cell: (info: any) => (
+        <Checkbox
+          color="primary"
+          checked={
+            info.cell.row.original.Id ===
+              isGetRowValues?.cell?.row?.original?.Id && ischecked
+          }
+          name={info.getValue()}
+          onClick={() => {
+            setIsGetRowValues(info), setIschecked(!ischecked);
+          }}
+        />
+      ),
+      header: <Checkbox color="primary" name="Id" />,
+      isSortable: false,
+    },
+    {
+      accessorFn: (row: any) => row.name,
+      id: 'name',
+      cell: (info: any) => info.getValue(),
+      header: 'Name',
+      isSortable: true,
+    },
+    {
+      accessorFn: (row: any) => row.sku,
+      id: 'sku',
+      isSortable: true,
+      header: 'SKU',
+      cell: (info: any) => info.getValue(),
+    },
+    {
+      accessorFn: (row: any) => row.unitPrice,
+      id: 'unitPrice',
+      isSortable: true,
+      header: 'Unit Price',
+      cell: (info: any) => info.getValue(),
+    },
+    {
+      accessorFn: (row: any) => row.purchasePrice,
+      id: 'purchasePrice',
+      isSortable: true,
+      header: 'Purchase Price',
+      cell: (info: any) => info.getValue(),
+    },
+    {
+      accessorFn: (row: any) => row.createdBy,
+      id: 'createdBy',
+      isSortable: true,
+      header: 'Created By',
+      cell: (info: any) => info.getValue(),
+    },
+    {
+      accessorFn: (row: any) => row.createdDate,
+      id: 'createdDate',
+      isSortable: true,
+      header: 'Created Date',
+      cell: (info: any) => info.getValue(),
+    },
+    {
+      accessorFn: (row: any) => row.action,
+      id: 'action',
+      isSortable: true,
+      header: 'Action',
+      cell: (info: any) => <Switch defaultChecked name={info.getValue()} />,
+    },
+  ];
+};
