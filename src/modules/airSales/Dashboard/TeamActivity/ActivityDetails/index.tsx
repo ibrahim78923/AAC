@@ -1,8 +1,8 @@
-import { Grid, Typography } from '@mui/material';
-
 import Image from 'next/image';
 
-import { teamActivityData } from '@/mock/modules/airSales/Dashboard/TeamActivirt';
+import { Grid, Typography } from '@mui/material';
+
+import { teamActivityData } from '@/mock/modules/airSales/Dashboard/TeamActivity';
 
 import { v4 as uuidv4 } from 'uuid';
 

@@ -1,6 +1,7 @@
 import TanstackTable from '@/components/Tabel/TanstackTable';
-import { ManageDashboardTableData, columns } from './Table.data';
 import { AlertModals } from '@/components/AlertModals';
+
+import { ManageDashboardTableData, columns } from './Table.data';
 import useTable from './useTable';
 
 const Table = () => {
@@ -24,7 +25,6 @@ const Table = () => {
   return (
     <>
       <TanstackTable columns={getColumns} data={ManageDashboardTableData} />
-
       <AlertModals
         message="Are you sure you want to delete dashboard"
         type="delete"

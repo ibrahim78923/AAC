@@ -1,10 +1,10 @@
-import { Card, CardContent, Typography, Box, Grid } from '@mui/material';
-
 import Image from 'next/image';
 
-import { NotSelectedItemImage } from '@/assets/images';
+import { Card, CardContent, Typography, Box, Grid } from '@mui/material';
 
 import { styles } from './DetailsView.style';
+
+import { NotSelectedItemImage } from '@/assets/images';
 
 const DetailsView = () => {
   return (

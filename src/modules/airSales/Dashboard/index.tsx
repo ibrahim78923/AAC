@@ -7,8 +7,9 @@ import TeamActivity from './TeamActivity';
 import Widget from './Widget';
 import CreateDashboard from './CreateDashboard';
 import CreateDashboardOptions from './CreateDashboardOptions';
-import useToggle from '@/hooks/useToggle';
 import useDashboard from './useDashboard';
+
+import useToggle from '@/hooks/useToggle';
 
 const Dashboard = () => {
   const { isShowCreateDashboardForm, setIsShowCreateDashboardForm } =

@@ -1,5 +1,6 @@
-import useToggle from '@/hooks/useToggle';
 import React, { useState } from 'react';
+
+import useToggle from '@/hooks/useToggle';
 
 const useCreateDashboardOptions = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
