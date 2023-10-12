@@ -16,6 +16,7 @@ export const styles = {
     maxWidth: '300px',
     width: '100%',
     height: '310px',
+    radius: '8px',
   }),
 
   heading: {

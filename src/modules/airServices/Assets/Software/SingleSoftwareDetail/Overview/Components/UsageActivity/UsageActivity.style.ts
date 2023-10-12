@@ -15,7 +15,8 @@ export const styles = {
     borderColor: theme.palette.grey?.[700],
     maxWidth: '300px',
     width: '100%',
-    height: '310px',
+    height: '310',
+    radius: '8px',
   }),
 
   heading: {
