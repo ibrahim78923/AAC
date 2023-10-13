@@ -36,6 +36,7 @@ function AssetHead({ title, show, addTitle, onClick }: any) {
               sx={styles.addButtonStyle(theme)}
               variant="outlined"
               startIcon={<PlusSharedIconColor />}
+              onClick={onClick}
             >
               {addTitle}
             </Button>
