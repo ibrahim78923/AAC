@@ -59,23 +59,51 @@ export const styles = {
     };
   },
 
-  mainNavLink: (link: any, router: any, theme: any) => {
+  mainNavLink: (pathNameKey?: any, routerPathName?: any, theme?: any) => {
     return {
-      background:
-        router.pathname.includes(`${link.key}`) && theme.palette.grey[400],
+      background: routerPathName === pathNameKey && theme.palette.grey[400],
       '&:hover': {
-        background: router.pathname.includes(`${link.key}`)
-          ? theme.palette.grey[400]
-          : 'transparent',
+        background:
+          routerPathName === pathNameKey
+            ? theme.palette.grey[400]
+            : 'transparent',
       },
       padding: '7px 0px 7px 10px',
       borderRadius: '5px',
       fontSize: '14px',
-      color: router.pathname.includes(`${link.key}`)
-        ? theme.palette.secondary.main
-        : theme.palette.grey[900],
+      color:
+        routerPathName === pathNameKey
+          ? theme.palette.secondary.main
+          : theme.palette.grey[900],
     };
   },
+
+  LowerNavLink: (
+    lowerPathNameKey: any,
+    routerPathName: any,
+    dropdownKey: any,
+    theme: any,
+  ) => {
+    return {
+      background:
+        (routerPathName === lowerPathNameKey || dropdownKey) &&
+        theme.palette.grey[400],
+      '&:hover': {
+        background:
+          routerPathName === lowerPathNameKey || dropdownKey
+            ? theme.palette.grey[400]
+            : 'transparent',
+      },
+      padding: '7px 0px 7px 10px',
+      borderRadius: '5px',
+      fontSize: '14px',
+      color:
+        routerPathName === lowerPathNameKey || dropdownKey
+          ? theme.palette.secondary.main
+          : theme.palette.grey[900],
+    };
+  },
+
   appToolbar: (drawerWidth: number, theme: any) => {
     return {
       width: { md: `calc(100% - ${drawerWidth}px)` },
