@@ -1,4 +1,3 @@
-import React from 'react';
 import { InstallationHeader } from './InstallationHeader';
 import { InstallationTable } from './InstallationTable';
 import { useInstallation } from '../useInstallations';
