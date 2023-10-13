@@ -1,7 +1,6 @@
 import { useDrawingArea } from '@mui/x-charts';
 import { PieChart } from '@mui/x-charts/PieChart';
 import { StyledText, styles } from './UsageActivity.style';
-import { UsageActivityLable, UsageActivityData } from '../../Overview.data';
 import { Box, Typography, useTheme } from '@mui/material';
 
 function TextLabel({ children }: { children: React.ReactNode }) {
@@ -33,7 +32,7 @@ const size = {
   height: 280,
 };
 
-function UsageActivity() {
+function UsageActivity({ UsageActivityLable, UsageActivityData }: any) {
   const theme: any = useTheme();
   return (
     <>

@@ -1,10 +1,6 @@
 import { useDrawingArea } from '@mui/x-charts';
 import { PieChart } from '@mui/x-charts/PieChart';
 import { StyledText, styles } from './ContractUtilization.style';
-import {
-  contractUtilizationData,
-  contractUtilizationLable,
-} from '../../Overview.data';
 import { Box, Typography, useTheme } from '@mui/material';
 
 function TextLabel({ children }: { children: React.ReactNode }) {
@@ -36,7 +32,10 @@ const size = {
   height: 280,
 };
 
-function ContractUtilization() {
+function ContractUtilization({
+  contractUtilizationData,
+  contractUtilizationLable,
+}: any) {
   const theme: any = useTheme();
   return (
     <>

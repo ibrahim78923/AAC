@@ -1,8 +1,7 @@
 import { styles } from './ContractOverview.style';
 import { Box, Typography, useTheme } from '@mui/material';
-import { ContractOverviewLable } from '../../Overview.data';
 
-function ContractOverview() {
+function ContractOverview({ ContractOverviewLable }: any) {
   const theme: any = useTheme();
   return (
     <>

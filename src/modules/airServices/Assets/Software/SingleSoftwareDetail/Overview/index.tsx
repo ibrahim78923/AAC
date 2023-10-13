@@ -1,17 +1,5 @@
-import { Box } from '@mui/material';
-import ContractOverview from './Components/ContractOverview';
-import ContractUtilization from './Components/ContractUtilization';
-import UsageActivity from './Components/UsageActivity';
-import { styles } from './Overview.style';
+import OverviewHook from './Overview.hook';
 
 export const Overview = () => {
-  return (
-    <>
-      <Box sx={styles.boxStyle}>
-        <UsageActivity />
-        <ContractUtilization />
-        <ContractOverview />
-      </Box>
-    </>
-  );
+  return <OverviewHook />;
 };
