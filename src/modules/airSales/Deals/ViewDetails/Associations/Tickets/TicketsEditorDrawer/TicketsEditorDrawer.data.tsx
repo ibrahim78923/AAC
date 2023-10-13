@@ -7,7 +7,7 @@ import {
   RHFTimePicker,
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
-export const contactsValidationSchema = Yup.object().shape({
+export const ticketsValidationSchema = Yup.object().shape({
   email: Yup.string().trim().required('Field is Required'),
   tasktype: Yup.string().trim().required('Field is Required'),
   priority: Yup.string().trim().required('Field is Required'),
@@ -19,7 +19,7 @@ export const contactsValidationSchema = Yup.object().shape({
   note: Yup.string().trim().required('Field is Required'),
 });
 
-export const contactsDefaultValues = {
+export const ticketsDefaultValues = {
   email: '',
   tasktype: '',
   priority: '',
@@ -31,7 +31,7 @@ export const contactsDefaultValues = {
   note: '',
 };
 
-export const contactsDataArray = [
+export const ticketsDataArray = [
   {
     componentProps: {
       name: 'email',
@@ -152,9 +152,9 @@ export const contactsDataArray = [
 ];
 
 export const drawerTitle: any = {
-  Add: 'Add Contacts',
-  Edit: 'Edit Contacts',
-  View: 'View Contacts',
+  Add: 'Add Tickets',
+  Edit: 'Edit Tickets',
+  View: 'View Tickets',
 };
 export const drawerButtonTitle: any = {
   Add: 'Add',

@@ -1,18 +1,31 @@
-import { Box, Button, Grid, Typography, useTheme } from '@mui/material';
-import React, { useState } from 'react';
-import { styles } from '../Associations.style';
+import React from 'react';
+import { Box, Button, Grid, Typography } from '@mui/material';
+
 import Search from '@/components/Search';
-import { PlusSharedIcon } from '@/assets/icons';
+import { AlertModals } from '@/components/AlertModals';
+import ContactsEditorDrawer from './ContactsEditorDrawer';
 import TanstackTable from '@/components/Tabel/TanstackTable';
 
-import { TasksTableData } from '@/mock/modules/Deals';
+import useContacts from './useContacts';
+
 import { columns } from './Contacts.data';
-import ContactsEditorDrawer from './ContactsEditorDrawer';
+import { TasksTableData } from '@/mock/modules/Deals';
+
+import { PlusSharedIcon } from '@/assets/icons';
+
+import { styles } from '../Associations.style';
 
 const Contacts = () => {
-  const theme = useTheme();
-  const [searchName, setSearchName] = useState('');
-  const [openDrawer, setOpenDrawer] = useState('');
+  const {
+    theme,
+    isOpenAlert,
+    setIsOpenAlert,
+    searchName,
+    setSearchName,
+    openDrawer,
+    setOpenDrawer,
+    handleCloseAlert,
+  } = useContacts();
 
   return (
     <Box
@@ -40,16 +53,17 @@ const Contacts = () => {
             />
             <Button
               variant="contained"
-              sx={{ minWidth: '0px', height: '35px', gap: 0.5 }}
+              className="small"
+              sx={{ minWidth: '0px', gap: 0.5 }}
               onClick={() => setOpenDrawer('Add')}
             >
-              <PlusSharedIcon /> Add New Task
+              <PlusSharedIcon /> Add Contacts
             </Button>
           </Box>
         </Grid>
         <Grid item xs={12}>
           <TanstackTable
-            columns={columns({ setOpenDrawer })}
+            columns={columns({ setOpenDrawer, setIsOpenAlert })}
             data={TasksTableData}
           />
         </Grid>
@@ -57,6 +71,13 @@ const Contacts = () => {
       <ContactsEditorDrawer
         openDrawer={openDrawer}
         setOpenDrawer={setOpenDrawer}
+      />
+      <AlertModals
+        message={"You're about to remove a record. Are you Sure?"}
+        type={'info'}
+        open={isOpenAlert}
+        handleClose={handleCloseAlert}
+        handleSubmit={() => {}}
       />
     </Box>
   );
