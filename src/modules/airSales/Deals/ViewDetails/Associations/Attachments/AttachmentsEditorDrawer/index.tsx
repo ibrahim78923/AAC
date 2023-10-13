@@ -5,19 +5,20 @@ import { Box, Grid } from '@mui/material';
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
 
-import useTicketsEditorDrawer from './useTicketsEditorDrawer';
-
 import {
-  ticketsDataArray,
+  attachmentsDataArray,
   drawerButtonTitle,
   drawerTitle,
-} from './TicketsEditorDrawer.data';
+} from './AttachmentsEditorDrawer.data';
+
+import useAttachmentsEditorDrawer from './useAttachmentEditorDrawer';
 
 import { v4 as uuidv4 } from 'uuid';
 
-const TicketsEditorDrawer = (props: any) => {
+const AttachmentsEditorDrawer = (props: any) => {
   const { openDrawer, setOpenDrawer } = props;
-  const { handleSubmit, onSubmit, methodsTickets } = useTicketsEditorDrawer();
+  const { handleSubmit, onSubmit, methodsAttachments } =
+    useAttachmentsEditorDrawer();
 
   return (
     <div>
@@ -29,13 +30,20 @@ const TicketsEditorDrawer = (props: any) => {
         isOk={true}
         footer={openDrawer === 'View' ? false : true}
       >
-        <Box sx={{ pt: 2 }}>
+        <Box>
           <FormProvider
-            methods={methodsTickets}
+            methods={methodsAttachments}
             onSubmit={handleSubmit(onSubmit)}
           >
-            <Grid container spacing={4}>
-              {ticketsDataArray?.map((item: any) => (
+            <Grid
+              container
+              sx={{
+                height: '80vh',
+                display: 'flex',
+                alignItems: 'center',
+              }}
+            >
+              {attachmentsDataArray?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
                   <item.component {...item.componentProps} size={'small'}>
                     {item?.componentProps?.select
@@ -48,7 +56,6 @@ const TicketsEditorDrawer = (props: any) => {
                   </item.component>
                 </Grid>
               ))}
-              {/* {watchTicketStatus === 'New Ticket' ? '111111DDFD' : 'SDSFDG'} */}
             </Grid>
           </FormProvider>
         </Box>
@@ -57,4 +64,4 @@ const TicketsEditorDrawer = (props: any) => {
   );
 };
 
-export default TicketsEditorDrawer;
+export default AttachmentsEditorDrawer;

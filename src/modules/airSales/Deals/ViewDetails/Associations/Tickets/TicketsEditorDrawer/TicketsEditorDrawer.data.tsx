@@ -1,73 +1,48 @@
 import {
-  RHFCheckbox,
-  RHFDatePicker,
   RHFDropZone,
+  RHFEditor,
+  RHFRadioGroup,
   RHFSelect,
   RHFTextField,
-  RHFTimePicker,
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 export const ticketsValidationSchema = Yup.object().shape({
-  email: Yup.string().trim().required('Field is Required'),
-  tasktype: Yup.string().trim().required('Field is Required'),
-  priority: Yup.string().trim().required('Field is Required'),
-  taskstatus: Yup.string().trim().required('Field is Required'),
-  selectdeal: Yup.string().trim().required('Field is Required'),
-  assignedto: Yup.string().trim().required('Field is Required'),
-  associatewithrecords: Yup.string().trim().required('Field is Required'),
-  reminder: Yup.string().trim().required('Field is Required'),
-  note: Yup.string().trim().required('Field is Required'),
+  subject: Yup.string().trim().required('Field is Required'),
+  ticketStatus: Yup.string().trim().required('Field is Required'),
+  requester: Yup.string().trim().required('Field is Required'),
+  status: Yup.string().trim().required('Field is Required'),
 });
 
 export const ticketsDefaultValues = {
-  email: '',
-  tasktype: '',
+  ticketStatus: 'New Ticket',
+  subject: '',
+  requester: '',
+  description: '',
+  category: '',
+  status: '',
   priority: '',
-  taskstatus: '',
-  selectdeal: '',
-  assignedto: '',
-  associatewithrecords: '',
-  reminder: '',
-  note: '',
+  attachfile: '',
 };
 
 export const ticketsDataArray = [
   {
     componentProps: {
-      name: 'email',
-      label: 'Email',
-      fullWidth: true,
+      name: 'ticketStatus',
+      label: '',
+      fullWidth: false,
+      options: ['New Ticket', 'Existing Ticket'],
     },
-    component: RHFTextField,
+    component: RHFRadioGroup,
     md: 12,
   },
   {
     componentProps: {
-      name: 'profilephoto',
-      label: 'Profile Photo',
-      fullWidth: true,
-    },
-    component: RHFDropZone,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'name',
-      label: 'Name',
-      fullWidth: true,
-    },
-    component: RHFTextField,
-    md: 12,
-  },
-
-  {
-    componentProps: {
-      name: 'contactowner',
-      label: 'Contact Owner',
+      name: 'requester',
+      label: 'Requester',
       select: true,
     },
     options: [
-      { value: 'Guy   Hawkins', label: 'Guy  Hawkins' },
+      { value: 'Guy Hawkins', label: 'Guy Hawkins' },
       { value: 'Jacob Jones', label: 'Jacob Jones' },
       { value: 'Courtney Henry', label: 'Courtney Henry' },
     ],
@@ -76,17 +51,8 @@ export const ticketsDataArray = [
   },
   {
     componentProps: {
-      name: 'phoneNumber',
-      label: 'Phone Number',
-      fullWidth: true,
-    },
-    component: RHFTextField,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'jobtitle',
-      label: 'Job Title',
+      name: 'subject',
+      label: 'subject',
       fullWidth: true,
     },
     component: RHFTextField,
@@ -95,14 +61,23 @@ export const ticketsDataArray = [
 
   {
     componentProps: {
-      name: 'lifeCycleStage',
-      label: 'Life Cycle Stage',
+      name: 'description',
+      label: 'Description',
+      fullWidth: true,
+    },
+    component: RHFEditor,
+    md: 12,
+  },
+  {
+    componentProps: {
+      name: 'category',
+      label: 'Category',
       select: true,
     },
     options: [
-      { value: 'Lead', label: 'Lead' },
-      { value: 'Sale Qualified Lead', label: 'Sale Qualified Lead' },
-      { value: 'Customer', label: 'Customer' },
+      { value: '-', label: '-' },
+      { value: 'Products Issues', label: 'Products Issues' },
+      { value: 'Shipping Issues', label: 'Shipping Issues' },
     ],
     component: RHFSelect,
     md: 12,
@@ -115,38 +90,33 @@ export const ticketsDataArray = [
     },
     options: [
       { value: 'New', label: 'New' },
-      { value: 'Open', label: 'Open' },
-      { value: 'Inprogress', label: 'Inprogress' },
+      { value: 'Waiting', label: 'Waiting' },
+      { value: 'Closed', label: 'Closed' },
     ],
     component: RHFSelect,
     md: 12,
   },
-
   {
     componentProps: {
-      name: 'dateOfOpening',
-      label: 'Date of Opening',
-      fullWidth: true,
+      name: 'priority',
+      label: 'Priority',
+      select: true,
     },
-    component: RHFDatePicker,
-    md: 8,
+    options: [
+      { value: '-', label: '-' },
+      { value: 'Low', label: 'Low' },
+      { value: 'Medium', label: 'Medium' },
+    ],
+    component: RHFSelect,
+    md: 12,
   },
   {
     componentProps: {
-      name: 'joiningTime',
-      label: 'Joining Time ',
+      name: 'attachFile',
+      label: '',
       fullWidth: true,
     },
-    component: RHFTimePicker,
-    md: 4,
-  },
-  {
-    componentProps: {
-      name: 'addAnotherContact',
-      label: 'Add Another Contact',
-      fullWidth: true,
-    },
-    component: RHFCheckbox,
+    component: RHFDropZone,
     md: 12,
   },
 ];

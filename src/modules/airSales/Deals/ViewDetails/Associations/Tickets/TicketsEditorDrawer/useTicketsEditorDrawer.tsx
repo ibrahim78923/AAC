@@ -13,8 +13,9 @@ const useTicketsEditorDrawer = () => {
   });
 
   const onSubmit = () => {};
-  const { handleSubmit } = methodsTickets;
-  return { handleSubmit, onSubmit, methodsTickets };
+  const { handleSubmit, watch } = methodsTickets;
+  const watchTicketStatus = watch('ticketStatus');
+  return { handleSubmit, onSubmit, methodsTickets, watchTicketStatus };
 };
 
 export default useTicketsEditorDrawer;

@@ -3,21 +3,22 @@ import React from 'react';
 import { Box, Grid } from '@mui/material';
 
 import CommonDrawer from '@/components/CommonDrawer';
+
 import { FormProvider } from '@/components/ReactHookForm';
-
-import useTicketsEditorDrawer from './useTicketsEditorDrawer';
-
-import {
-  ticketsDataArray,
-  drawerButtonTitle,
-  drawerTitle,
-} from './TicketsEditorDrawer.data';
 
 import { v4 as uuidv4 } from 'uuid';
 
-const TicketsEditorDrawer = (props: any) => {
+import {
+  companiesDataArray,
+  drawerButtonTitle,
+  drawerTitle,
+} from './CompaniesEditorDrawer.data';
+import useCompaniesEditorDrawer from './useCompaniesEditorDrawer';
+
+const CompaniesEditorDrawer = (props: any) => {
   const { openDrawer, setOpenDrawer } = props;
-  const { handleSubmit, onSubmit, methodsTickets } = useTicketsEditorDrawer();
+  const { handleSubmit, onSubmit, methodsCompanies } =
+    useCompaniesEditorDrawer();
 
   return (
     <div>
@@ -31,11 +32,11 @@ const TicketsEditorDrawer = (props: any) => {
       >
         <Box sx={{ pt: 2 }}>
           <FormProvider
-            methods={methodsTickets}
+            methods={methodsCompanies}
             onSubmit={handleSubmit(onSubmit)}
           >
             <Grid container spacing={4}>
-              {ticketsDataArray?.map((item: any) => (
+              {companiesDataArray?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
                   <item.component {...item.componentProps} size={'small'}>
                     {item?.componentProps?.select
@@ -48,7 +49,6 @@ const TicketsEditorDrawer = (props: any) => {
                   </item.component>
                 </Grid>
               ))}
-              {/* {watchTicketStatus === 'New Ticket' ? '111111DDFD' : 'SDSFDG'} */}
             </Grid>
           </FormProvider>
         </Box>
@@ -57,4 +57,4 @@ const TicketsEditorDrawer = (props: any) => {
   );
 };
 
-export default TicketsEditorDrawer;
+export default CompaniesEditorDrawer;

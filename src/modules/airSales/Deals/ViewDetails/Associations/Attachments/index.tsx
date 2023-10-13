@@ -1,15 +1,32 @@
-import { Box, Button, Grid, Typography, useTheme } from '@mui/material';
-import React, { useState } from 'react';
-import { styles } from '../Associations.style';
+import React from 'react';
+import { Box, Button, Grid, Typography } from '@mui/material';
+
 import Search from '@/components/Search';
-import { PlusSharedIcon } from '@/assets/icons';
+import { AlertModals } from '@/components/AlertModals';
 import TanstackTable from '@/components/Tabel/TanstackTable';
-import { columns } from '../../Tasks/Tasks.data';
-import { TasksTableData } from '@/mock/modules/Deals';
+import AttachmentsEditorDrawer from './AttachmentsEditorDrawer';
+
+import useAttachments from './useAttachments';
+
+import { columns } from './Attachments.data';
+import { attachmentData } from '@/mock/modules/Deals';
+
+import { PlusSharedIcon } from '@/assets/icons';
+
+import { styles } from '../Associations.style';
 
 const Attachments = () => {
-  const theme = useTheme();
-  const [searchName, setSearchName] = useState('');
+  const {
+    theme,
+    isOpenAlert,
+    setIsOpenAlert,
+    searchName,
+    setSearchName,
+    openDrawer,
+    setOpenDrawer,
+    handleCloseAlert,
+  } = useAttachments();
+
   return (
     <Box
       sx={{
@@ -36,17 +53,32 @@ const Attachments = () => {
             />
             <Button
               variant="contained"
-              sx={{ minWidth: '0px', height: '35px', gap: 0.5 }}
-              // onClick={() => setOpenDrawer('Add')}
+              className="small"
+              sx={{ minWidth: '0px', gap: 0.5 }}
+              onClick={() => setOpenDrawer('Add')}
             >
-              <PlusSharedIcon /> Add New Task
+              <PlusSharedIcon /> Add Attachments
             </Button>
           </Box>
         </Grid>
         <Grid item xs={12}>
-          <TanstackTable columns={columns} data={TasksTableData} />
+          <TanstackTable
+            columns={columns({ setOpenDrawer, setIsOpenAlert })}
+            data={attachmentData}
+          />
         </Grid>
       </Grid>
+      <AttachmentsEditorDrawer
+        openDrawer={openDrawer}
+        setOpenDrawer={setOpenDrawer}
+      />
+      <AlertModals
+        message={"You're about to remove a record. Are you Sure?"}
+        type={'info'}
+        open={isOpenAlert}
+        handleClose={handleCloseAlert}
+        handleSubmit={() => {}}
+      />
     </Box>
   );
 };

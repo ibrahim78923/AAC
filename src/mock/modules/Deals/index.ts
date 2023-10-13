@@ -81,3 +81,62 @@ export const NotesDataArray = [
       'Lorem ipsum dolor sit amet consectetur. Sit facilisis pharetra vel vestibulum pulvinar eget malesuada nunc ridiculus. Curabitur ultrices tincidunt venenatis mattis fusce imperdiet blandit.',
   },
 ];
+
+export const companiesData: any = [
+  {
+    Id: 1,
+    name: `Help Squad`,
+    email: 'helpsquad.com',
+    phoneNumber: '+434343554445',
+    owner: 'Nick Olive',
+  },
+  {
+    Id: 2,
+    name: ` Help Squad2`,
+    email: 'helpsquad2.com',
+    phoneNumber: '+434343554445',
+    owner: '--',
+  },
+];
+
+export const qutoesData: any = [
+  {
+    Id: 1,
+    title: `# PBR - 5`,
+    createdDate: '24-Dec-2024',
+    status: 'Approval',
+  },
+  {
+    Id: 2,
+    title: ` # PBR - 52`,
+    createdDate: '24-Dec-2024',
+    status: 'Approval/Pending',
+  },
+];
+export const productsData: any = [
+  {
+    Id: 1,
+    name: `# PBR - 5`,
+    quantity: 1,
+    amount: '$42',
+  },
+  {
+    Id: 2,
+    name: ` # PBR - 52`,
+    quantity: 2,
+    amount: '$40',
+  },
+];
+
+export const attachmentData: any = [
+  {
+    Id: 1,
+    title: `Help Squad`,
+    createdDate: '24-Dec-2024',
+  },
+  {
+    Id: 2,
+    title: ` Help Squad2`,
+    createdDate: '24-Dec-2024',
+  },
+];

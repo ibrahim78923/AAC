@@ -1,5 +1,7 @@
 import { DeleteCrossIcon, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
-import { Box } from '@mui/material';
+import { NotesAvatarImage } from '@/assets/images';
+import { Box, Typography } from '@mui/material';
+import Image from 'next/image';
 export const columns: any = ({
   setOpenDrawer,
   setIsOpenAlert,
@@ -9,33 +11,37 @@ export const columns: any = ({
 }) => {
   return [
     {
-      accessorFn: (row: any) => row.taskno,
+      accessorFn: (row: any) => row.name,
       id: 'contact_id',
-      cell: (info: any) => info.getValue(),
-      header: 'Contact ID',
+      cell: (info: any) => (
+        <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+          <Image src={NotesAvatarImage} width={40} height={40} alt="avatar" />
+          <Box>
+            <Typography variant="body3" sx={{ color: '#111827' }}>
+              {info.row.original.name}
+            </Typography>
+            <br />
+            <Typography variant="body3">{info.row.original.email}</Typography>
+          </Box>
+        </Box>
+      ),
+      header: 'Company Name',
       isSortable: false,
     },
 
     {
-      accessorFn: (row: any) => row.taskname,
-      id: 'Name',
+      accessorFn: (row: any) => row.phoneNumber,
+      id: 'Phone Number',
       isSortable: true,
-      header: ' Name',
+      header: ' Phone Number',
       cell: (info: any) => info.getValue(),
     },
 
     {
-      accessorFn: (row: any) => row.duedate,
-      id: 'phonenumber',
+      accessorFn: (row: any) => row.owner,
+      id: 'owner',
       isSortable: true,
-      header: 'Phone Number',
-      cell: (info: any) => info.getValue(),
-    },
-    {
-      accessorFn: (row: any) => row.duedate,
-      id: 'jobtitle',
-      isSortable: true,
-      header: 'Job Title ',
+      header: 'Company Owner',
       cell: (info: any) => info.getValue(),
     },
 

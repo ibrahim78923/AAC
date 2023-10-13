@@ -9,33 +9,18 @@ export const columns: any = ({
 }) => {
   return [
     {
-      accessorFn: (row: any) => row.taskno,
+      accessorFn: (row: any) => row.title,
       id: 'contact_id',
       cell: (info: any) => info.getValue(),
-      header: 'Contact ID',
+      header: 'Title',
       isSortable: false,
     },
 
     {
-      accessorFn: (row: any) => row.taskname,
-      id: 'Name',
+      accessorFn: (row: any) => row.createdDate,
+      id: 'createdDate',
       isSortable: true,
-      header: ' Name',
-      cell: (info: any) => info.getValue(),
-    },
-
-    {
-      accessorFn: (row: any) => row.duedate,
-      id: 'phonenumber',
-      isSortable: true,
-      header: 'Phone Number',
-      cell: (info: any) => info.getValue(),
-    },
-    {
-      accessorFn: (row: any) => row.duedate,
-      id: 'jobtitle',
-      isSortable: true,
-      header: 'Job Title ',
+      header: 'Created Date',
       cell: (info: any) => info.getValue(),
     },
 

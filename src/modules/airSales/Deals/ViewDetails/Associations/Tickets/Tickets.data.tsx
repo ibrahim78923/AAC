@@ -1,6 +1,12 @@
 import { DeleteCrossIcon, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
 import { Box } from '@mui/material';
-export const columns: any = ({ setOpenDrawer, setIsOpenAlert }) => {
+export const columns: any = ({
+  setOpenDrawer,
+  setIsOpenAlert,
+}: {
+  setOpenDrawer: React.Dispatch<React.SetStateAction<string>>;
+  setIsOpenAlert: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   return [
     {
       accessorFn: (row: any) => row.taskno,
