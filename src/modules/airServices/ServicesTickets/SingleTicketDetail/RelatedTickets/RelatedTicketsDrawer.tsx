@@ -9,11 +9,13 @@ import {
   createTicketDefaultValues,
   createTicketDataArray,
 } from './CreateRelatedTickets/CreateRelatedTickets.data';
+import { useRelatedTickets } from './useRelatedTickets';
 
 export const RelatedTicketsDrawer = ({
   isDrawerOpen,
   setIsDrawerOpen,
 }: any) => {
+  const { enqueueSnackbar } = useRelatedTickets();
   const methods: any = useForm({
     resolver: yupResolver(createTicketValidationSchema),
     defaultValues: createTicketDefaultValues,
@@ -24,7 +26,11 @@ export const RelatedTicketsDrawer = ({
     formState: {},
   } = methods;
 
-  const submit = () => {};
+  const submit = () => {
+    enqueueSnackbar('child ticket added successfully', {
+      variant: 'success',
+    });
+  };
   return (
     <CommonDrawer
       isDrawerOpen={isDrawerOpen}

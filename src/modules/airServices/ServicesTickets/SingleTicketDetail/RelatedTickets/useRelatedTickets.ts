@@ -1,6 +1,8 @@
 import { useState } from 'react';
+import { useSnackbar } from 'notistack';
 
 export function useRelatedTickets() {
+  const { enqueueSnackbar } = useSnackbar();
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [isActive, setActive] = useState<any>([]);
   const handleCheckboxChange = (event: any) => {
@@ -26,6 +28,7 @@ export function useRelatedTickets() {
   const openActionExport = Boolean(actionExportPop);
 
   return {
+    enqueueSnackbar,
     setIsDrawerOpen,
     isDrawerOpen,
     handleCheckboxChange,

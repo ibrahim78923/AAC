@@ -5,6 +5,7 @@ import { useRelatedTickets } from '../useRelatedTickets';
 
 export const RelatedTicketsHeader = ({ isActive, setIsDrawerOpen }: any) => {
   const {
+    enqueueSnackbar,
     handleActionClick,
     actionExportPop,
     actionPop,
@@ -54,6 +55,16 @@ export const RelatedTicketsHeader = ({ isActive, setIsDrawerOpen }: any) => {
           }}
         >
           <MenuItem
+            sx={{ p: 1 }}
+            onClick={() => {
+              enqueueSnackbar('child ticket deleted successfully', {
+                variant: 'success',
+              });
+            }}
+          >
+            Delete
+          </MenuItem>
+          <MenuItem
             onClick={() => {
               setIsDrawerOpen(true), setActionPop(null);
             }}
@@ -61,7 +72,7 @@ export const RelatedTicketsHeader = ({ isActive, setIsDrawerOpen }: any) => {
           >
             Edit
           </MenuItem>
-          <MenuItem sx={{ p: 1 }}>Delete</MenuItem>
+
           <MenuItem sx={{ p: 1 }}>
             <a onClick={handleActionExportClick}>Export Ticket</a>
             <Popover
