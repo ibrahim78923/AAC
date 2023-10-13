@@ -7,6 +7,7 @@ import CommonModal from '@/components/CommonModal';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useForm } from 'react-hook-form';
+import { NewsAndEventsPropsI } from './NewsAndEventsModal.interface';
 
 import { v4 as uuidv4 } from 'uuid';
 import {
@@ -19,7 +20,7 @@ import { PostIcon } from '@/assets/icons';
 const NewsAndEventsModal = ({
   isNewsAndEventAddModal,
   setIsNewsAndEventAddModal,
-}: any) => {
+}: NewsAndEventsPropsI) => {
   const methodsAddFaqs = useForm({
     resolver: yupResolver(newsAndEventsFormValidationSchema),
     defaultValues: newsAndEventsFormDefaultValues,

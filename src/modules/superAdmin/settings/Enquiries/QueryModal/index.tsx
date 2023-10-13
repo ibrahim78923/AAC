@@ -6,6 +6,9 @@ import CommonModal from '@/components/CommonModal';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useForm } from 'react-hook-form';
+
+import { QueryModalPropsI } from './QueryModal.interface';
+
 import {
   replyQueryDefaultValues,
   replyQueryFiltersDataArray,
@@ -15,7 +18,10 @@ import {
 import { v4 as uuidv4 } from 'uuid';
 import { PostIcon } from '@/assets/icons';
 
-const QueryModal = ({ isQueryModalOpen, setIsQueryModalOpen }: any) => {
+const QueryModal = ({
+  isQueryModalOpen,
+  setIsQueryModalOpen,
+}: QueryModalPropsI) => {
   const methodsAddFaqs = useForm({
     resolver: yupResolver(replyQueryValidationSchema),
     defaultValues: replyQueryDefaultValues,

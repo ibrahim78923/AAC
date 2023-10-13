@@ -7,6 +7,9 @@ import CommonModal from '@/components/CommonModal';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useForm } from 'react-hook-form';
+
+import { AddFaqPropsI } from './AddFaq.interface';
+
 import {
   addFaqsDefaultValues,
   addFaqsFiltersDataArray,
@@ -15,7 +18,7 @@ import {
 
 import { v4 as uuidv4 } from 'uuid';
 
-const AddFaq = ({ isAddModalOpen, setIsAddModalOpen }: any) => {
+const AddFaq = ({ isAddModalOpen, setIsAddModalOpen }: AddFaqPropsI) => {
   const methodsAddFaqs = useForm({
     resolver: yupResolver(addFaqsValidationSchema),
     defaultValues: addFaqsDefaultValues,
