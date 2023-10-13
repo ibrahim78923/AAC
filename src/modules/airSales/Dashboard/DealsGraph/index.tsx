@@ -1,14 +1,15 @@
 import dynamic from 'next/dynamic';
 import { options, series } from './DealsGraph.data';
-import { Box, Card, Typography } from '@mui/material';
+import { Box, Card, Typography, useTheme } from '@mui/material';
 
 const DealsGraph = () => {
+  const theme = useTheme();
   const ReactApexChart = dynamic(() => import('react-apexcharts'), {
     ssr: false,
   });
   return (
     <Card>
-      <Box p={1}>
+      <Box p={1} sx={{ backgroundColor: theme.palette.grey[700] }}>
         <Typography variant="h6">Deals created vs Closed deals</Typography>
         <Typography variant="body3">Date range: 6 months</Typography>
       </Box>
@@ -17,7 +18,7 @@ const DealsGraph = () => {
           options={options}
           series={series}
           type="bar"
-          height={350}
+          height={300}
         />
       </Box>
     </Card>

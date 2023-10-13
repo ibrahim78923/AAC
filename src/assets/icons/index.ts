@@ -59,3 +59,4 @@ export { default as ArrowLeftIcon } from './shared/arrow-left';
 export { default as GreyPlusSharedIcon } from './shared/grey-plus';
 export { default as TwoUserIcon } from '../../assets/icons/modules/dashboard/two-user';
 export { default as EarningIcon } from './modules/dashboard/earnings';
+export { default as FilterLargeWidgetIcon } from './shared/filter-large-widget';

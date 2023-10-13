@@ -32,16 +32,17 @@ const Dashboard = () => {
             </Box>
           </Grid>
           <Grid item xs={6} sm={6}>
-            <MeetingDetails />
+            <DealsGraph />
           </Grid>
+
           <Grid item xs={6} sm={6}>
             <TeamActivity />
           </Grid>
           <Grid item xs={6} sm={6}>
-            <Widget />
+            <MeetingDetails />
           </Grid>
           <Grid item xs={6} sm={6}>
-            <DealsGraph />
+            <Widget />
           </Grid>
         </>
       )}
