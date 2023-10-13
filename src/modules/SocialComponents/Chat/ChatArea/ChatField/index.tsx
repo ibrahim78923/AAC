@@ -12,9 +12,21 @@ import { isNullOrEmpty } from '@/utils';
 
 import { styles } from './ChatField.style';
 import { v4 as uuidv4 } from 'uuid';
+import { useState } from 'react';
+
+const customEmojis = [
+  '&#128512;',
+  '&#128513;',
+  '&#128514;',
+  '&#128515;',
+  '&#128516;',
+  '&#128517;',
+  '&#128519;',
+];
 
 const ChatField = () => {
   const theme = useTheme();
+  const [activeChat, setActiveChat] = useState('');
   return (
     <>
       <Box sx={{ padding: '30px', height: '60vh' }}>
@@ -46,7 +58,11 @@ const ChatField = () => {
                         alt="avatar"
                       />
                     </Box>
-                    <Box sx={styles.chatMessageArea(item.role)}>
+                    <Box
+                      sx={styles.chatMessageArea(item.role)}
+                      onMouseOver={() => setActiveChat(item.chatID)}
+                      onMouseLeave={() => setActiveChat('')}
+                    >
                       <Box>
                         <Box sx={styles.chatBoxWrapperInset(theme, item.role)}>
                           <Typography
@@ -70,7 +86,18 @@ const ChatField = () => {
                               }}
                             />
                           )}
-                          <Box sx={styles.sendReaction}></Box>
+                          {item.chatID === activeChat && (
+                            <Box sx={styles.sendReaction(theme)}>
+                              {customEmojis.map((emoji: any) => (
+                                <Box
+                                  key={uuidv4()}
+                                  dangerouslySetInnerHTML={{
+                                    __html: emoji,
+                                  }}
+                                />
+                              ))}
+                            </Box>
+                          )}
                         </Box>
                         <Box sx={{ textAlign: 'right' }}>
                           <Typography variant="body3" sx={{ color: '#6E7191' }}>
