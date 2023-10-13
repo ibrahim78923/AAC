@@ -1,4 +1,4 @@
-import { userAvatarImage, userSender } from '@/assets/images';
+import { userAvatarImage, userSenderImage } from '@/assets/images';
 
 export const chatsData = [
   {
@@ -10,7 +10,7 @@ export const chatsData = [
   },
   {
     userId: '2',
-    userImage: userSender,
+    userImage: userSenderImage,
     message: 'Hi Janetta <br/> Rotolo I am Fine.',
     timeStamp: '10:40 AM',
     role: 'sender',

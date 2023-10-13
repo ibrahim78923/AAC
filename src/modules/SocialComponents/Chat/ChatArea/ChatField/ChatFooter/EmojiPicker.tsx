@@ -1,10 +1,9 @@
 // components/EmojiPicker.tsx
 import React from 'react';
+
 import EmojiPicker from 'emoji-picker-react';
 
-interface EmojiPickerProps {
-  onEmojiSelect: (emoji: string) => void;
-}
+import { EmojiPickerProps } from './ChatFooter.interface';
 
 const EmojiPickerComponent: React.FC<EmojiPickerProps> = ({
   onEmojiSelect,

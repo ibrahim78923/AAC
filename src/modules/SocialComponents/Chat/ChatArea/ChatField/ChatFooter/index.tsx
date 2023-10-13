@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 
 import { Box, Button, useTheme, TextField, Popover } from '@mui/material';
 
+import EmojiPickerComponent from './EmojiPicker';
+
 import { AttachmentIcon, PostIcon, StickerIcon } from '@/assets/icons';
 
 import { styles } from './ChatFooter.style';
-import EmojiPickerComponent from './EmojiPicker';
 
 const ChatFooter = () => {
   const theme = useTheme();

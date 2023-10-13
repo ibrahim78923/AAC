@@ -1,17 +1,10 @@
-import { Box, Button, Modal, Typography } from '@mui/material';
 import React from 'react';
-import { styles } from './CommonModal.styles';
 
-export interface ModelPropsI {
-  open: boolean;
-  handleClose: (value: boolean) => void;
-  handleSubmit: () => void;
-  children: any;
-  title: string;
-  okText: string;
-  submitIcon?: any;
-  footer?: boolean;
-}
+import { Box, Button, Modal, Typography } from '@mui/material';
+
+import { ModelPropsI } from './CommonModal.interface';
+
+import { styles } from './CommonModal.styles';
 
 const CommonModal = ({
   open,

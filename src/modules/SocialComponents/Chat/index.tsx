@@ -3,7 +3,6 @@ import React from 'react';
 import { Box, Grid } from '@mui/material';
 
 import Contacts from './Contacts';
-
 import ChatArea from './ChatArea';
 
 import { styles } from './Chat.style';
