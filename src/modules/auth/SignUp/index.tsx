@@ -2,14 +2,21 @@ import React, { useState } from 'react';
 import { useForm, Controller, FormProvider } from 'react-hook-form';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Grid, Button, InputAdornment, Typography } from '@mui/material';
+import {
+  Grid,
+  Button,
+  InputAdornment,
+  Typography,
+  Switch,
+  FormControl,
+  Select,
+  MenuItem,
+} from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import InputField from '@/components/InputField';
-import SearchableSelect from '@/components/SearchableSelect';
-import { candidatesArray } from '@/mock/modules/Settings/Jobs';
 import {
   EyeIcon,
   EyeSlashIcon,
@@ -24,6 +31,8 @@ const SignUp = () => {
   const [isMatchPassword, setIsMatchPassword] = useState<boolean>(false);
   const [isStepComplete, setIsStepComplete] = useState<boolean>(false);
   const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
+  const [employeesNumber, setEmployeesNumber] = React.useState('');
+
   const [isShowConfirmPassword, setIsShowConfirmPassword] =
     useState<boolean>(false);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
@@ -40,14 +49,6 @@ const SignUp = () => {
     return regex.test(password);
   };
 
-  const renderCustomOption = (option: any) => {
-    return (
-      <Typography variant="h6" sx={{ color: theme?.palette.grey[600] }}>
-        {option.label} {option.name}
-      </Typography>
-    );
-  };
-
   const onSubmit = (data: any) => {
     const { createPassword, confirmPassword } = data;
 
@@ -59,6 +60,10 @@ const SignUp = () => {
         setIsSuccess(true);
       }
     }
+  };
+
+  const handleChange = (event: SelectChangeEvent) => {
+    setEmployeesNumber(event.target.value as string);
   };
 
   return (
@@ -136,7 +141,7 @@ const SignUp = () => {
                       <>
                         <Typography
                           variant="body2"
-                          sx={{ marginBottom: '8px' }}
+                          sx={{ marginBottom: '4px' }}
                         >
                           Select Product(s){' '}
                           <span style={{ color: 'red' }}>*</span>
@@ -229,7 +234,7 @@ const SignUp = () => {
 
                         <Typography
                           variant="body2"
-                          sx={{ marginBottom: '8px', marginTop: '20px' }}
+                          sx={{ marginBottom: '4px', marginTop: '20px' }}
                         >
                           Delegate Reference Number (DRN) if applied
                         </Typography>
@@ -252,14 +257,14 @@ const SignUp = () => {
                         />
 
                         <Typography
-                          sx={{ marginBottom: '8px', fontSize: '12px' }}
+                          sx={{ marginBottom: '4px', fontSize: '12px' }}
                         >
                           Enter DRN Number
                         </Typography>
 
                         <Typography
                           variant="body2"
-                          style={{ marginBottom: '8px', marginTop: '10px' }}
+                          style={{ marginBottom: '4px', marginTop: '10px' }}
                         >
                           Create Password{' '}
                           <span style={{ color: 'red' }}>*</span>
@@ -328,7 +333,7 @@ const SignUp = () => {
 
                         <Typography
                           variant="body2"
-                          style={{ marginBottom: '8px', marginTop: '10px' }}
+                          style={{ marginBottom: '4px', marginTop: '10px' }}
                         >
                           Confirm Password{' '}
                           <span style={{ color: 'red' }}>*</span>
@@ -406,7 +411,7 @@ const SignUp = () => {
                       <>
                         <Typography
                           variant="body2"
-                          style={{ marginBottom: '8px' }}
+                          style={{ marginBottom: '4px' }}
                         >
                           Full Name <span style={{ color: 'red' }}>*</span>
                         </Typography>
@@ -432,7 +437,7 @@ const SignUp = () => {
 
                         <Typography
                           variant="body2"
-                          style={{ marginBottom: '8px', marginTop: '20px' }}
+                          style={{ marginBottom: '4px', marginTop: '20px' }}
                         >
                           Email <span style={{ color: 'red' }}>*</span>
                         </Typography>
@@ -473,27 +478,95 @@ const SignUp = () => {
                           </Typography>
                         )}
 
-                        <SearchableSelect
-                          dropdownData={candidatesArray}
-                          renderOption={renderCustomOption}
-                          name="Enter CRN Number"
-                          label="Company Registration Number (CRN)"
-                          control={control}
-                          rules={{ required: 'required field' }}
-                          error={!!errors.message}
-                        />
                         <Typography
                           variant="body2"
-                          sx={{ marginBottom: '8px', marginTop: '20px' }}
+                          style={{ marginBottom: '4px', marginTop: '20px' }}
+                        >
+                          Company Registration Number (CRN){' '}
+                          <span style={{ color: 'red' }}>*</span>
+                        </Typography>
+                        <Controller
+                          name="CRNNumber"
+                          control={control}
+                          defaultValue=""
+                          rules={{
+                            required: 'required field',
+                          }}
+                          render={({ field }) => (
+                            <InputField
+                              field={{ ...field }}
+                              name="CRNNumber"
+                              placeholder="Enter CRN Number"
+                              width="100%"
+                              height="23px"
+                              autoComplete="off"
+                              type="text"
+                              hasError={!!errors?.CRNNumber}
+                              error={errors?.CRNNumber?.message}
+                            />
+                          )}
+                        />
+
+                        <Typography
+                          variant="body2"
+                          sx={{ marginBottom: '4px', marginTop: '20px' }}
                         >
                           Organization Name
                         </Typography>
-
-                        <Typography variant="body2">--</Typography>
+                        <Controller
+                          name="OrganizationName"
+                          control={control}
+                          defaultValue=""
+                          rules={{
+                            required: 'required field',
+                          }}
+                          render={({ field }) => (
+                            <InputField
+                              field={{ ...field }}
+                              name="OrganizationName"
+                              placeholder="Enter Organization Name"
+                              width="100%"
+                              height="23px"
+                              autoComplete="off"
+                              type="text"
+                              hasError={!!errors?.OrganizationName}
+                              error={errors?.OrganizationName?.message}
+                            />
+                          )}
+                        />
 
                         <Typography
                           variant="body2"
-                          sx={{ marginBottom: '8px', marginTop: '20px' }}
+                          sx={{ marginBottom: '4px', marginTop: '20px' }}
+                        >
+                          No of Employees
+                        </Typography>
+                        <FormControl fullWidth>
+                          <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={employeesNumber}
+                            label="Age"
+                            onChange={handleChange}
+                            sx={{ height: '43px' }}
+                          >
+                            <MenuItem value={50}>10-50</MenuItem>
+                            <MenuItem value={100}>50-100</MenuItem>
+                            <MenuItem value={150}>100-150</MenuItem>
+                            <MenuItem value={200}>150-200</MenuItem>
+                            <MenuItem value={250}>200-250</MenuItem>
+                          </Select>
+                        </FormControl>
+
+                        <FormControlLabel
+                          sx={{ marginTop: '20px' }}
+                          control={<Switch defaultChecked />}
+                          label="Verify your employees through Identity Gram and Get 10% discount"
+                        />
+
+                        <Typography
+                          variant="body2"
+                          sx={{ marginBottom: '4px', marginTop: '20px' }}
                         >
                           Phone Number <span style={{ color: 'red' }}>*</span>
                         </Typography>

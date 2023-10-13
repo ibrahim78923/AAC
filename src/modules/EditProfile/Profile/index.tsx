@@ -1,6 +1,6 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { Grid, Button, Divider } from '@mui/material';
+import { Grid, Button, Divider, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import { FormProvider } from '@/components/ReactHookForm';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -30,6 +30,11 @@ const Profile = () => {
         <Grid container spacing={4}>
           {editProfileDataArray?.map((item: any) => (
             <Grid item xs={12} md={item?.md} key={uuidv4()}>
+              {item?.componentProps?.heading && (
+                <Typography variant="h5">
+                  {item?.componentProps?.heading}
+                </Typography>
+              )}
               <item.component {...item.componentProps} size={'small'}>
                 {item?.componentProps?.select
                   ? item?.options?.map((option: any) => (
