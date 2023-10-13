@@ -13,3 +13,5 @@ export { default as RHFUploadFile } from './RHFUploadFile';
 export { default as RHFEditor } from './RHFEditor';
 export { default as RHFSwitch } from './RHFSwitch';
 export { default as RHFButtonGroup } from './RHFButtonGroup';
+export { default as RHFSearchableSelect } from './RHFSearchableSelect';
+export { default as RHFMultiSearchableSelect } from './RHFMultiSearchableSelect';
