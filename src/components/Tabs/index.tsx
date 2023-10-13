@@ -35,6 +35,7 @@ const tabsProps = (index: number) => {
 
 const CommonTabs = (props: CommonTabsPropsI) => {
   const {
+    tabStyle = 'horizontal',
     tabsArray,
     children,
     isHeader,
@@ -49,6 +50,7 @@ const CommonTabs = (props: CommonTabsPropsI) => {
   useEffect(() => {
     getTabVal(value);
   }, []);
+
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
     getTabVal(newValue);
@@ -57,7 +59,12 @@ const CommonTabs = (props: CommonTabsPropsI) => {
   return (
     <Box sx={styles.tabWrapper}>
       <Box sx={{ borderBottom: 1, borderColor: '#EAECF0' }}>
-        <Tabs value={value} onChange={handleChange} aria-label="common tabs">
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          aria-label="common tabs"
+          orientation={tabStyle}
+        >
           {tabsArray?.map((tab: string, index: number) => (
             <Tab
               classes={{ textColorPrimary: 'text-primary-my' }}

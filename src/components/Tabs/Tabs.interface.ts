@@ -7,6 +7,7 @@ export interface TabPanelPropsI {
 }
 
 export interface CommonTabsPropsI {
+  tabStyle?: 'horizontal' | 'vertical';
   tabsArray?: string[];
   children?: React.ReactNode;
   isHeader?: boolean;

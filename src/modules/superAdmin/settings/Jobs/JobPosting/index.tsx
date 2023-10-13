@@ -1,19 +1,33 @@
 import React, { useState } from 'react';
 
-import { Box, TextField, useTheme, Typography, Button } from '@mui/material';
+import { Box, useTheme, Button, Grid, MenuItem, Menu } from '@mui/material';
 
 import CommonDrawer from '@/components/CommonDrawer';
-import SearchableSelect from '@/components/SearchableSelect';
-import TextEditor from '@/components/TextEditor';
 import Search from '@/components/Search';
+import TanstackTable from '@/components/Tabel/TanstackTable';
+import CustomPagination from '@/components/CustomPagination';
+import { FormProvider } from '@/components/ReactHookForm';
+import { AlertModals } from '@/components/AlertModals';
 
-import { candidatesArray } from '@/mock/modules/Settings/Jobs';
+import {
+  columns,
+  jobPostingDataArray,
+  jobPostingDefaultValues,
+  jobPostingFiltersDataArray,
+  jobPostingFiltersDefaultValues,
+  jobPostingFiltersValidationSchema,
+  jobPostingValidationSchema,
+} from './jobPosting.data';
 
 import { JobPostingPropsI } from './JobPostingProps.interface';
 
-import { Controller, useForm } from 'react-hook-form';
+import { jobPostingTabledata } from '@/mock/modules/Settings/Jobs';
 
-import { FilterSharedIcon, RefreshSharedIcon } from '@/assets/icons';
+import { DownIcon, FilterSharedIcon, RefreshSharedIcon } from '@/assets/icons';
+
+import { v4 as uuidv4 } from 'uuid';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 import { styles } from './Jobs.styles';
 
@@ -22,25 +36,36 @@ const JobPosting = ({
   setIsJobPostingDrawer,
 }: JobPostingPropsI) => {
   const theme = useTheme();
-  const [editorValue, setEditorValue] = useState<string>('');
   const [jobPostingSearch, setJobPostingSearch] = useState<string>('');
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+  const [isJobPostingFilterDrawer, setIsJobPostingFilterDrawer] =
+    useState<boolean>(false);
+  const [isjobPostingDeleteModal, setIsJobPostingDeleteModal] =
+    useState<boolean>(false);
+
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const actionMenuOpen = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const methodsAddJobPosting = useForm({
+    resolver: yupResolver(jobPostingValidationSchema),
+    defaultValues: jobPostingDefaultValues,
+  });
+  const methodsFilterJobPosting = useForm({
+    resolver: yupResolver(jobPostingFiltersValidationSchema),
+    defaultValues: jobPostingFiltersDefaultValues,
+  });
 
   const onSubmit = () => {
     setIsJobPostingDrawer(false);
   };
 
-  const renderCustomOption = (option: any) => {
-    return (
-      <Typography variant="h6" sx={{ color: theme?.palette.grey[600] }}>
-        {option.label} {option.name}
-      </Typography>
-    );
-  };
+  const { handleSubmit } = methodsAddJobPosting;
+  const { handleSubmit: filterSubmitHandler } = methodsFilterJobPosting;
 
   return (
     <Box>
@@ -58,6 +83,7 @@ const JobPosting = ({
           searchBy={jobPostingSearch}
           setSearchBy={setJobPostingSearch}
           width="100%"
+          size="small"
         />
         <Box
           sx={{
@@ -66,22 +92,58 @@ const JobPosting = ({
             gap: '10px',
           }}
         >
-          <Button sx={styles.refreshButton}>
+          <Button
+            id="basic-button"
+            aria-controls={actionMenuOpen ? 'basic-menu' : undefined}
+            aria-haspopup="true"
+            aria-expanded={actionMenuOpen ? 'true' : undefined}
+            onClick={handleClick}
+            sx={{
+              color: theme.palette.grey[500],
+              height: '40px',
+              border: '1.5px solid #e7e7e9',
+            }}
+          >
+            Actions &nbsp; <DownIcon />
+          </Button>
+          <Menu
+            id="basic-menu"
+            anchorEl={anchorEl}
+            open={actionMenuOpen}
+            onClose={handleClose}
+            MenuListProps={{
+              'aria-labelledby': 'basic-button',
+            }}
+          >
+            <MenuItem onClick={() => setIsJobPostingDrawer(true)}>
+              Edit
+            </MenuItem>
+            <MenuItem onClick={() => setIsJobPostingDrawer(true)}>
+              View
+            </MenuItem>
+            <MenuItem onClick={() => setIsJobPostingDeleteModal(true)}>
+              Delete
+            </MenuItem>
+          </Menu>
+
+          <Button sx={styles.refreshButton(theme)}>
             <RefreshSharedIcon />
           </Button>
-          <Button sx={styles.filterButton(theme)}>
+          <Button
+            sx={styles.filterButton(theme)}
+            onClick={() => setIsJobPostingFilterDrawer(true)}
+          >
             <FilterSharedIcon /> &nbsp; Filter
           </Button>
         </Box>
       </Box>
-      <Box
-        sx={{
-          backgroundColor: '#ececec73',
-          height: '300px',
-          borderRadius: '15px',
-        }}
-      >
-        Common table
+      <Box>
+        <TanstackTable columns={columns} data={jobPostingTabledata} />
+        <CustomPagination
+          count={1}
+          rowsPerPageOptions={[1, 2]}
+          entriePages={1}
+        />
       </Box>
       <CommonDrawer
         isDrawerOpen={isJobPostingDrawer}
@@ -93,46 +155,68 @@ const JobPosting = ({
         submitHandler={handleSubmit(onSubmit)}
       >
         <>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <Controller
-              name="name"
-              control={control}
-              rules={{ required: 'Name is required' }}
-              render={({ field }) => (
-                <>
-                  <Typography
-                    variant="h6"
-                    mt={1}
-                    style={{ color: theme?.palette.grey[600] }}
-                  >
-                    Job Post
-                  </Typography>
-                  <TextField
-                    label=""
-                    fullWidth
-                    placeholder="Type here"
-                    variant="outlined"
-                    error={!!errors.name}
-                    helperText={errors.name?.message}
-                    {...field}
-                  />
-                </>
-              )}
-            />
-
-            <SearchableSelect
-              dropdownData={candidatesArray}
-              renderOption={renderCustomOption}
-              name="Search candidate"
-              label="Candidate"
-              control={control}
-              rules={{ required: 'required field' }}
-              error={!!errors.message}
-            />
-            <TextEditor value={editorValue} onChange={setEditorValue} />
-          </form>
+          <FormProvider
+            methods={methodsAddJobPosting}
+            onSubmit={handleSubmit(onSubmit)}
+          >
+            <Grid container spacing={4}>
+              {jobPostingDataArray?.map((item: any) => (
+                <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                  <item.component {...item.componentProps} size={'small'}>
+                    {item?.componentProps?.select
+                      ? item?.options?.map((option: any) => (
+                          <option key={option?.value} value={option?.value}>
+                            {option?.label}
+                          </option>
+                        ))
+                      : null}
+                  </item.component>
+                </Grid>
+              ))}
+            </Grid>
+          </FormProvider>
         </>
       </CommonDrawer>
+      <CommonDrawer
+        isDrawerOpen={isJobPostingFilterDrawer}
+        onClose={() => setIsJobPostingFilterDrawer(false)}
+        title="Filters"
+        okText="Apply"
+        isOk={true}
+        footer={true}
+        submitHandler={filterSubmitHandler(onSubmit)}
+      >
+        <>
+          <FormProvider
+            methods={methodsFilterJobPosting}
+            onSubmit={filterSubmitHandler(onSubmit)}
+          >
+            <Grid container spacing={4}>
+              {jobPostingFiltersDataArray?.map((item: any) => (
+                <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                  <item.component {...item.componentProps} size={'small'}>
+                    {item?.componentProps?.select
+                      ? item?.options?.map((option: any) => (
+                          <option key={option?.value} value={option?.value}>
+                            {option?.label}
+                          </option>
+                        ))
+                      : null}
+                  </item.component>
+                </Grid>
+              ))}
+            </Grid>
+          </FormProvider>
+        </>
+      </CommonDrawer>
+
+      <AlertModals
+        message={'Are you sure you want to delete this entry ?'}
+        type="delete"
+        open={isjobPostingDeleteModal}
+        handleClose={() => setIsJobPostingDeleteModal(false)}
+        handleSubmit={() => setIsJobPostingDeleteModal(false)}
+      />
     </Box>
   );
 };

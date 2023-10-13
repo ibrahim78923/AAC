@@ -83,31 +83,31 @@ export const ServicesRoutes: any = [
     role: 'SERVICE',
   },
   {
-    key: 'tickets',
+    key: 'air-services/tickets',
     icon: TicketDiscountImage,
     label: 'Tickets',
     role: 'SERVICE',
   },
   {
-    key: 'problems',
+    key: 'air-services/problems',
     icon: ProblemImage,
     label: 'Problems',
     role: 'SERVICE',
   },
   {
-    key: 'changes',
+    key: 'air-services/changes',
     icon: ChangeCircleImage,
     label: 'Changes',
     role: 'SERVICE',
   },
   {
-    key: 'releases',
+    key: 'air-services/releases',
     icon: ReleasesImage,
     label: 'Releases',
     role: 'SERVICE',
   },
   {
-    key: 'air-services/services-assets',
+    key: 'air-services/assets',
     label: 'Assets',
     icon: AssetsImage,
     role: 'SERVICE',
@@ -132,52 +132,52 @@ export const ServicesRoutes: any = [
   },
 
   {
-    key: 'super-admin-dashboard',
+    key: 'air-services/projects',
     label: 'Projects',
     icon: ProjectImage,
     role: 'SERVICE',
     textNames: [
       {
-        key: 'project-tasks',
+        key: 'air-services/projects/project-tasks',
         label: 'Project Tasks',
       },
       {
-        key: 'project-template',
+        key: 'air-services/projects/project-template',
         label: 'Project Template',
       },
     ],
   },
 
   {
-    key: 'knowledge-base',
+    key: 'air-services/knowledge-base',
     icon: KnowledgeBaseImage,
     label: 'Knowledge Base',
     role: 'SERVICE',
   },
   {
-    key: 'workload',
+    key: 'air-services/workload',
     icon: WorkLoadImage,
     label: 'WorkLoad',
     role: 'SERVICE',
   },
   {
-    key: 'reporting',
+    key: 'air-services/reportings',
     label: 'Reportings',
     icon: ReportingImage,
     role: 'SERVICE',
     textNames: [
       {
-        key: 'analytics',
+        key: 'air-services/reportings/analytics',
         label: 'Analytics',
       },
       {
-        key: 'project-analytics',
+        key: 'air-services/reportings/project-analytics',
         label: 'Project Analytics',
       },
     ],
   },
   {
-    key: 'control-panel',
+    key: 'air-services/control-panel',
     icon: CustomerPortalImage,
     label: 'Control Panel',
     role: 'SERVICE',
@@ -259,7 +259,7 @@ export const LowerSuperAdminRoutes = [
         label: 'Quick Links',
       },
       {
-        key: 'super-admin/settings/news-Events',
+        key: 'super-admin/settings/news-and-events',
         label: 'News And Events',
       },
       {
@@ -271,7 +271,7 @@ export const LowerSuperAdminRoutes = [
         label: 'Product List',
       },
       {
-        key: 'super-admin/settings/product-feature',
+        key: 'super-admin/settings/product-features',
         label: 'Product Feature',
       },
     ],
@@ -310,23 +310,23 @@ export const LowerServicesRoutes = [
         label: 'Account Settings',
       },
       {
-        key: 'project-workload',
+        key: 'air-services/settings/project-workload',
         label: 'Project&Workload',
       },
       {
-        key: 'user-management',
+        key: 'air-services/settings/user-management',
         label: 'User Management',
       },
       {
-        key: 'asset-management',
+        key: 'air-services/settings/asset-management',
         label: 'Asset Management',
       },
       {
-        key: 'automation-productivity',
+        key: 'air-services/settings/automation-productivity',
         label: 'Automation & Productivity',
       },
       {
-        key: 'service-management',
+        key: 'air-services/settings/service-management',
         label: 'Service Management',
       },
     ],

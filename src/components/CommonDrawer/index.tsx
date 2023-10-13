@@ -36,7 +36,11 @@ const CommonDrawer = ({
         }}
       >
         <AppBar
-          sx={{ backgroundColor: '#fff', color: '#000', boxShadow: 'none' }}
+          sx={{
+            backgroundColor: theme?.palette?.common?.white,
+            color: theme?.palette?.common?.black,
+            boxShadow: 'none',
+          }}
           position="static"
         >
           <Toolbar
