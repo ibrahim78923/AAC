@@ -48,3 +48,4 @@ export { default as SubTabIcon } from './shared/sub-tab-icon';
 export { default as ListIcon } from './shared/list-icon';
 export { default as FilterIcon } from './shared/filter-icon';
 export { default as ResetIcon } from './shared/reset-icon';
+export { default as AddIconWithBgBlack } from './shared/add-icon-with-bg-black';

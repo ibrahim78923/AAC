@@ -1,18 +1,24 @@
 import { useState } from 'react';
-
 import UsersTable from './UsersTable';
 import { Box, Grid, InputAdornment, TextField, useTheme } from '@mui/material';
 import { SearchSharedIcon } from '@/assets/icons';
-import { TicketsExport } from '@/modules/airServices/ServicesTickets/TicketsLists/components/TicketsExport';
-// import { TicketsFilter } from '@/modules/airServices/ServicesTickets/TicketsLists/components/TicketsFilter';
-import { TicketsAction } from '@/modules/airServices/ServicesTickets/TicketsLists/components/TicketsAction';
+import CustomPagination from '@/components/CustomPagination';
+import { softwareUserData } from './Users.data';
+import { UsersAction } from './UsersAction';
+import { UsersExport } from './UsersExport';
+import { UsersAdd } from './UsersAdd';
+import { UsersFilter } from './UsersFilter';
 export const Users = () => {
   const [UsersData, setUsersData] = useState([]);
   const theme = useTheme();
   return (
     <>
       <Grid container>
-        <Grid item xs={12} sx={{}}>
+        <Grid
+          item
+          xs={12}
+          sx={{ display: 'flex', justifyContent: 'space-between' }}
+        >
           <TextField
             sx={{
               background: 'transparent',
@@ -47,14 +53,20 @@ export const Users = () => {
             }}
             // fullWidth
           />
-          <Box>
-            <TicketsExport />
-            {/* <TicketsFilter/> */}
-            <TicketsAction />
+          <Box sx={{ display: 'flex', gap: '18px' }}>
+            <UsersAction actionDropdownData={softwareUserData} />
+            <UsersAdd />
+            <UsersExport />
+            <UsersFilter />
           </Box>
         </Grid>
         <Grid item xs={12} sx={{ mt: 2 }}>
           <UsersTable usersData={UsersData} setUsersData={setUsersData} />
+          <CustomPagination
+            count={5}
+            rowsPerPageOptions={[1, 2, 3, 4, 5]}
+            entriePages={40}
+          />
         </Grid>
       </Grid>
     </>
