@@ -1,26 +1,20 @@
 import { useState } from 'react';
+import { singleItem } from '../NewPurchaseOrder.data';
 
 const useItemsDetails = () => {
-  const [itemsList, setItemsList] = useState([
-    {
-      itemName: '',
-      description: '',
-      costPerItem: null,
-      quantity: null,
-      taxRate: null,
-      total: null,
-    },
-  ]);
-  const [itemsRows, setItemsRows] = useState<any>([{}]);
-
+  const [itemsList, setItemsList] = useState([singleItem]);
+  const [detailItem, setDetailItem] = useState<any>({});
   const handleAddAdditionalItems = () => {
-    setItemsRows((prev: any) => [...prev, {}]);
+    setItemsList((prev: any) => {
+      return [...prev, singleItem];
+    });
   };
 
   return {
     itemsList,
-    itemsRows,
     setItemsList,
+    detailItem,
+    setDetailItem,
     handleAddAdditionalItems,
   };
 };

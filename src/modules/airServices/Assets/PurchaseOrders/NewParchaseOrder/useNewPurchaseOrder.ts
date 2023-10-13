@@ -1,7 +1,10 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { defaultValues } from './NewPurchaseOrder.data';
+import { useRouter } from 'next/router';
 const useNewPurchaseOrders = () => {
+  const { push } = useRouter();
+
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isNewPurchaseOrder, setIsNewPurchaseOrder] = useState(true);
 
@@ -9,6 +12,10 @@ const useNewPurchaseOrders = () => {
     defaultValues,
   });
   const submit = async () => {};
+
+  const handlePageBack = () => {
+    push('/air-services/assets/purchase-orders');
+  };
 
   const resetPurchaseOrderFilterForm = async () => {
     methods?.reset();
@@ -18,6 +25,7 @@ const useNewPurchaseOrders = () => {
   return {
     isDrawerOpen,
     setIsDrawerOpen,
+    handlePageBack,
     methods,
     submit,
     resetPurchaseOrderFilterForm,

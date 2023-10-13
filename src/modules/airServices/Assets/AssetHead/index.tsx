@@ -1,10 +1,9 @@
-import { Box, useTheme, Typography } from '@mui/material';
-import { Button } from '@mui/material';
+import { Box, Button, useTheme, Typography } from '@mui/material';
 import { PlusSharedIconColor, ExportShared, ImportIcon } from '@/assets/icons';
 
 import { styles } from './AssetHead.style';
 
-function AssetHead({ title, show, addTitle }: any) {
+function AssetHead({ title, show, addTitle, handleAction = () => {} }: any) {
   const theme: any = useTheme();
 
   return (
@@ -46,6 +45,7 @@ function AssetHead({ title, show, addTitle }: any) {
               sx={styles.addButtonStyle(theme)}
               variant="outlined"
               startIcon={<PlusSharedIconColor />}
+              onClick={handleAction}
             >
               {addTitle}
             </Button>

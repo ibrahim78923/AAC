@@ -12,7 +12,6 @@ import { PurchaseOrderFilter } from './components/PurchaseOrderFilter';
 
 import usePurchaseOrders from './usePurchaseOrders';
 import { filterFields } from './components/PurchaseOrderFilter/PurchaseOrderFilter.data';
-import NewParchaseOrder from './NewParchaseOrder';
 
 function PurchaseOrder() {
   const theme: any = useTheme();
@@ -22,43 +21,41 @@ function PurchaseOrder() {
   const {
     isDrawerOpen,
     setIsDrawerOpen,
+    handleNewPurchaseOrder,
     methodsPurchaseOrderFilterForm,
     submitPurchaseOrderFilterForm,
     resetPurchaseOrderFilterForm,
-    isNewPurchaseOrder,
   } = usePurchaseOrders();
 
   const { tableWrapperStyle, flexBetween } = styles;
 
   return (
     <>
-      {isNewPurchaseOrder ? (
-        <NewParchaseOrder />
-      ) : (
-        <>
-          <AssetHead title={'Purchase Order'} addTitle={'New Purchase Order'} />
-          <Box sx={{ ...tableWrapperStyle }}>
-            <Box sx={{ ...flexBetween, padding: '.75rem 1.5rem' }}>
-              <Search label="search" searchBy="" setSearchBy={''} />
-              <Box sx={{ display: 'flex', gap: 1 }}>
-                <PurchaseOrderExport />
-                <PurchaseOrderFilter
-                  isDrawerOpen={isDrawerOpen}
-                  setIsDrawerOpen={setIsDrawerOpen}
-                  filterFields={filterFields}
-                  methods={methodsPurchaseOrderFilterForm}
-                  handleSubmit={submitPurchaseOrderFilterForm}
-                  handleReset={resetPurchaseOrderFilterForm}
-                />
-              </Box>
-            </Box>
-            <TanstackTable
-              data={data}
-              columns={columns(meetingsData, setMeetingsData, data, theme)}
+      <AssetHead
+        title={'Purchase Order'}
+        addTitle={'New Purchase Order'}
+        handleAction={handleNewPurchaseOrder}
+      />
+      <Box sx={{ ...tableWrapperStyle }}>
+        <Box sx={{ ...flexBetween, padding: '.75rem 1.5rem' }}>
+          <Search label="search" searchBy="" setSearchBy={''} />
+          <Box sx={{ display: 'flex', gap: 1 }}>
+            <PurchaseOrderExport />
+            <PurchaseOrderFilter
+              isDrawerOpen={isDrawerOpen}
+              setIsDrawerOpen={setIsDrawerOpen}
+              filterFields={filterFields}
+              methods={methodsPurchaseOrderFilterForm}
+              handleSubmit={submitPurchaseOrderFilterForm}
+              handleReset={resetPurchaseOrderFilterForm}
             />
           </Box>
-        </>
-      )}
+        </Box>
+        <TanstackTable
+          data={data}
+          columns={columns(meetingsData, setMeetingsData, data, theme)}
+        />
+      </Box>
     </>
   );
 }

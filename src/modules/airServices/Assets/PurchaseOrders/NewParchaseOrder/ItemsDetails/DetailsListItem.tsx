@@ -5,17 +5,33 @@ import {
   itemsDetailsSubList,
 } from '../NewPurchaseOrder.data';
 import { styles } from '../NewPurchaseOrder.style';
+import useItemsDetails from './useItemsDetails';
 
 const DetailsListItem: FC<{
   data: any;
   values: any;
-  setItemsList: any;
   index: number;
 }> = (props) => {
-  const { data, values, setItemsList, index } = props;
+  const { data, index } = props;
+  const { setItemsList, detailItem, setDetailItem } = useItemsDetails();
   const { flexBetween } = styles();
 
-  const handleChange = () => {};
+  const handleChange = (e: any) => {
+    setDetailItem((prev: any) => ({
+      ...prev,
+      [e?.target?.name]: [e?.target?.value],
+    }));
+  };
+
+  const handleSelectItem = (e: any, v: any) => {
+    const item = data?.find((option: any) => option.itemName === v);
+    setDetailItem(item);
+    setItemsList((prev: any) => {
+      const data = prev;
+      data[index] = item;
+      return data;
+    });
+  };
 
   return (
     <Box sx={{ ...flexBetween }}>
@@ -24,12 +40,8 @@ const DetailsListItem: FC<{
         id="free-solo-2-demo"
         disableClearable
         options={data?.map((option: any) => option.itemName)}
-        onChange={(v) => {
-          setItemsList((prev: any) => [
-            ...prev,
-            (prev[index] = data?.find((option: any) => option.itemName === v)),
-          ]);
-        }}
+        onChange={handleSelectItem}
+        value={detailItem?.['itemName']}
         renderInput={(params) => (
           <TextField
             {...params}
@@ -37,6 +49,7 @@ const DetailsListItem: FC<{
               ...params.InputProps,
               type: 'search',
             }}
+            onChange={handleChange}
           />
         )}
         sx={{ flex: 3 }}
@@ -47,7 +60,7 @@ const DetailsListItem: FC<{
           <TextField
             key={item?.value}
             name={item?.value}
-            value={values[index][item?.value]}
+            value={detailItem?.[item?.value]}
             onChange={handleChange}
             type={item?.value === 'description' ? 'text' : 'number'}
             sx={{ flex: itemsDetailsSubList?.includes(item?.value) ? 3 : 1 }}

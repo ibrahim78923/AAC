@@ -1,9 +1,9 @@
+import * as yup from 'yup';
 import {
   RHFDatePicker,
   RHFSelect,
   RHFTextField,
 } from '@/components/ReactHookForm';
-import * as yup from 'yup';
 
 export const dropdownDummy = [
   {
@@ -265,6 +265,15 @@ export const itemsNameList = [
   },
 ];
 
+export const singleItem = {
+  itemName: '',
+  description: '',
+  costPerItem: null,
+  quantity: null,
+  taxRate: null,
+  total: null,
+};
+
 export const itemsDetailsData = [
   {
     itemName: 'Dell ',
@@ -306,4 +315,12 @@ export const itemsDetailsData = [
     taxRate: 17,
     total: 2400,
   },
+];
+
+export const billingData = [
+  { label: 'subTotal ($)', value: 144.0 },
+  { label: 'discount (%)', value: 0 },
+  { label: 'Tax rate (%)', value: 0 },
+  { label: 'shipping ($)', value: 0 },
+  { label: 'total ($)', value: 0 },
 ];

@@ -1,34 +1,40 @@
-import React from 'react';
-import { Button } from '@mui/material';
+import { uuid } from 'uuidv4';
+import { Button, Divider, Box } from '@mui/material';
+import { GrayPlusIcon } from '@/assets/icons';
 import ItemsDetailsHeader from './ItemsDetailsHeader';
 import DetailsListItem from './DetailsListItem';
-import { GrayPlusIcon } from '@/assets/icons';
 import useItemsDetails from './useItemsDetails';
+import ItemBilling from './ItemBilling';
+import { styles } from '../NewPurchaseOrder.style';
 import { itemsDetailsData } from '../NewPurchaseOrder.data';
-import { uuid } from 'uuidv4';
 const ItemsDetails = () => {
-  const { itemsRows, itemsList, setItemsList, handleAddAdditionalItems } =
-    useItemsDetails();
+  const { itemsList, handleAddAdditionalItems } = useItemsDetails();
+  const { itemsWrapper } = styles();
   return (
     <>
-      <ItemsDetailsHeader />
-      {itemsRows?.map((index: number) => (
-        <DetailsListItem
-          key={uuid()}
-          data={itemsDetailsData}
-          values={itemsList}
-          setItemsList={setItemsList}
-          index={index}
-        />
-      ))}
-      <Button
-        color="secondary"
-        onClick={handleAddAdditionalItems}
-        sx={{ px: 2 }}
-        startIcon={<GrayPlusIcon />}
-      >
-        Add Additional items
-      </Button>
+      <Box width="100%" overflow="scroll">
+        <Box sx={{ ...itemsWrapper }}>
+          <ItemsDetailsHeader />
+          {itemsList?.map((values: any, index: number) => (
+            <DetailsListItem
+              key={uuid()}
+              data={itemsDetailsData}
+              values={values}
+              index={index}
+            />
+          ))}
+          <Button
+            color="secondary"
+            onClick={handleAddAdditionalItems}
+            sx={{ px: 2 }}
+            startIcon={<GrayPlusIcon />}
+          >
+            Add Additional items
+          </Button>
+        </Box>
+      </Box>
+      <Divider />
+      <ItemBilling />
     </>
   );
 };
