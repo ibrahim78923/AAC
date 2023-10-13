@@ -17,7 +17,6 @@ import CustomPagination from '@/components/CustomPagination';
 import { AlertModals } from '@/components/AlertModals';
 
 import { FormProvider } from '@/components/ReactHookForm';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 
 import {
@@ -36,6 +35,8 @@ import { DownIcon, FilterSharedIcon, RefreshSharedIcon } from '@/assets/icons';
 import PlusShared from '@/assets/icons/shared/plus-shared';
 
 import { styles } from './TaxCalculations.styles';
+
+import { yupResolver } from '@hookform/resolvers/yup';
 import { v4 as uuidv4 } from 'uuid';
 
 const TaxCalculation = () => {

@@ -1,4 +1,4 @@
 export interface JobPostingPropsI {
   isJobPostingDrawer: boolean;
-  setIsJobPostingDrawer: () => void;
+  setIsJobPostingDrawer: React.Dispatch<React.SetStateAction<boolean>>;
 }

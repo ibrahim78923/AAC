@@ -10,9 +10,6 @@ import { FormProvider } from '@/components/ReactHookForm';
 
 import { jobApplicationTabledata } from '@/mock/modules/Settings/Jobs';
 
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-
 import {
   columns,
   jobApplicationDefaultValues,
@@ -23,6 +20,9 @@ import {
 import { FilterSharedIcon, RefreshSharedIcon } from '@/assets/icons';
 
 import { styles } from './JobsApplication.styles';
+
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useForm } from 'react-hook-form';
 import { v4 as uuidv4 } from 'uuid';
 
 const JobApplication = () => {
@@ -40,6 +40,10 @@ const JobApplication = () => {
     setIsJobApplicationFilterDrawer(false);
   };
   const { handleSubmit } = methodsJobApplication;
+
+  const handelStatusChange = () => {};
+
+  const getColumns = columns(handelStatusChange);
 
   return (
     <Box>
@@ -78,7 +82,7 @@ const JobApplication = () => {
         </Box>
       </Box>
       <Box>
-        <TanstackTable columns={columns} data={jobApplicationTabledata} />
+        <TanstackTable columns={getColumns} data={jobApplicationTabledata} />
         <CustomPagination
           count={1}
           rowsPerPageOptions={[1, 2]}

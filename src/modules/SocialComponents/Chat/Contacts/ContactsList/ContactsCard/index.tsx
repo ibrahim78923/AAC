@@ -4,7 +4,7 @@ import Image from 'next/image';
 
 import { Box, Checkbox, Typography, useTheme } from '@mui/material';
 
-import { userAvatarImage } from '@/assets/images';
+import { UserAvatarImage } from '@/assets/images';
 
 import { DeleteIcon, PinIcon } from '@/assets/icons';
 
@@ -27,7 +27,7 @@ const ContactsCard = () => {
               <Image
                 width={isCardHover ? 32 : 24}
                 height={isCardHover ? 32 : 24}
-                src={userAvatarImage}
+                src={UserAvatarImage}
                 alt="avatar"
               />
               <Box sx={{ width: '140px' }}>

@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import { Box, Button, useTheme, TextField, Popover } from '@mui/material';
 
 import EmojiPickerComponent from './EmojiPicker';
+
+import { useChatFooter } from './useChatFooter';
 
 import { AttachmentIcon, PostIcon, StickerIcon } from '@/assets/icons';
 
@@ -11,19 +13,16 @@ import { styles } from './ChatFooter.style';
 const ChatFooter = () => {
   const theme = useTheme();
 
-  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
-  const [messageText, setMessageText] = useState<string | null>('');
-
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleEmojiSelect = (emoji: string) => {
-    setMessageText((prevInput: any) => prevInput + emoji?.emoji);
-  };
-
-  const open = Boolean(anchorEl);
-  const id = open ? 'simple-popover' : undefined;
+  const {
+    anchorEl,
+    setAnchorEl,
+    messageText,
+    setMessageText,
+    handleClick,
+    handleEmojiSelect,
+    open,
+    id,
+  } = useChatFooter({});
 
   return (
     <Box sx={{ padding: '30px' }}>

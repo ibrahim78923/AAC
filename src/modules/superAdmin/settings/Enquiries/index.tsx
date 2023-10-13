@@ -18,6 +18,8 @@ import { FormProvider } from '@/components/ReactHookForm';
 import { AlertModals } from '@/components/AlertModals';
 import QueryModal from './QueryModal';
 
+import { enquiriesTabledata } from '@/mock/modules/Settings/Enquiries';
+
 import {
   columns,
   enquiriesFiltersDefaultValues,
@@ -25,25 +27,24 @@ import {
   enquiriesFiltersValidationSchema,
 } from './Enquiries.data';
 
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
-import { enquiriesTabledata } from '@/mock/modules/Settings/Enquiries';
-
 import { DownIcon, FilterSharedIcon, RefreshSharedIcon } from '@/assets/icons';
 
 import { styles } from './Enquiries.styles';
+
 import { v4 as uuidv4 } from 'uuid';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 const Enquiries = () => {
   const theme = useTheme();
   const [isEnquiriesFilterDrawerOpen, setIsEnquiriesFilterDrawerOpen] =
     useState(false);
   const [faqsSearch, setFaqsSearch] = useState('');
-  const [isEnquiriesDeleteModal, setisEnquiriesDeleteModal] = useState(false);
+  const [isEnquiriesDeleteModal, setIsEnquiriesDeleteModal] = useState(false);
   const [isQueryModalOpen, setIsQueryModalOpen] = useState(false);
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const actionMenuOpen = Boolean(anchorEl);
+  const isActionMenuOpen = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -106,9 +107,9 @@ const Enquiries = () => {
         >
           <Button
             id="basic-button"
-            aria-controls={actionMenuOpen ? 'basic-menu' : undefined}
+            aria-controls={isActionMenuOpen ? 'basic-menu' : undefined}
             aria-haspopup="true"
-            aria-expanded={actionMenuOpen ? 'true' : undefined}
+            aria-expanded={isActionMenuOpen ? 'true' : undefined}
             onClick={handleClick}
             sx={{
               color: theme.palette.grey[500],
@@ -121,7 +122,7 @@ const Enquiries = () => {
           <Menu
             id="basic-menu"
             anchorEl={anchorEl}
-            open={actionMenuOpen}
+            open={isActionMenuOpen}
             onClose={handleClose}
             MenuListProps={{
               'aria-labelledby': 'basic-button',
@@ -129,7 +130,7 @@ const Enquiries = () => {
           >
             <MenuItem onClick={() => setIsQueryModalOpen(true)}>Reply</MenuItem>
             <MenuItem>View</MenuItem>
-            <MenuItem onClick={() => setisEnquiriesDeleteModal(true)}>
+            <MenuItem onClick={() => setIsEnquiriesDeleteModal(true)}>
               Delete
             </MenuItem>
           </Menu>
@@ -194,8 +195,8 @@ const Enquiries = () => {
         message={'Are you sure you want to delete this entry ?'}
         type="delete"
         open={isEnquiriesDeleteModal}
-        handleClose={() => setisEnquiriesDeleteModal(false)}
-        handleSubmit={() => setisEnquiriesDeleteModal(false)}
+        handleClose={() => setIsEnquiriesDeleteModal(false)}
+        handleSubmit={() => setIsEnquiriesDeleteModal(false)}
       />
     </Box>
   );

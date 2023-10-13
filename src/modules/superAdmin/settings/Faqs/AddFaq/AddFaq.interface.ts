@@ -1,4 +1,4 @@
 export interface AddFaqPropsI {
   isAddModalOpen: boolean;
-  setIsAddModalOpen: () => void;
+  setIsAddModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }

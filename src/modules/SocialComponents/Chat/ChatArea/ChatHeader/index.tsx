@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 import { Box, Button, Typography, useTheme } from '@mui/material';
 
-import { userAvatarImage } from '@/assets/images';
+import { UserAvatarImage } from '@/assets/images';
 
 import { PhoneWhiteIcon, ThreeDotsIcon, UserWhiteIcon } from '@/assets/icons';
 
@@ -14,7 +14,7 @@ const ChatHeader = () => {
     <>
       <Box sx={styles.headerChat(theme)}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <Image width={55} height={55} src={userAvatarImage} alt="avatar" />
+          <Image width={55} height={55} src={UserAvatarImage} alt="avatar" />
           <Box>
             <Typography
               variant="h4"
@@ -41,7 +41,7 @@ const ChatHeader = () => {
             <UserWhiteIcon />
           </Button>
           <Button sx={styles.unStyledButton}>
-            <ThreeDotsIcon color={'white'} />
+            <ThreeDotsIcon color={theme.palette.common.white} />
           </Button>
         </Box>
       </Box>

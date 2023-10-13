@@ -1,26 +1,29 @@
 import React from 'react';
 
-import { Grid } from '@mui/material';
+import { Grid, useTheme } from '@mui/material';
 
 import CommonModal from '@/components/CommonModal';
 
-import { yupResolver } from '@hookform/resolvers/yup';
 import { FormProvider } from '@/components/ReactHookForm';
-import { useForm } from 'react-hook-form';
 import { NewsAndEventsPropsI } from './NewsAndEventsModal.interface';
 
-import { v4 as uuidv4 } from 'uuid';
 import {
   newsAndEventsFormDefaultValues,
   newsAndEventsFormFiltersDataArray,
   newsAndEventsFormValidationSchema,
 } from './NewsAndEventsModal.data';
+
 import { PostIcon } from '@/assets/icons';
+
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useForm } from 'react-hook-form';
+import { v4 as uuidv4 } from 'uuid';
 
 const NewsAndEventsModal = ({
   isNewsAndEventAddModal,
   setIsNewsAndEventAddModal,
 }: NewsAndEventsPropsI) => {
+  const theme = useTheme();
   const methodsAddFaqs = useForm({
     resolver: yupResolver(newsAndEventsFormValidationSchema),
     defaultValues: newsAndEventsFormDefaultValues,
@@ -39,7 +42,7 @@ const NewsAndEventsModal = ({
       title="Add News and Events"
       okText="add"
       footer={true}
-      submitIcon={<PostIcon color="white" />}
+      submitIcon={<PostIcon color={theme.palette.common.white} />}
     >
       <>
         <FormProvider

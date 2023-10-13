@@ -1,5 +1,6 @@
 import React from 'react';
-import { Box, Grid, Typography } from '@mui/material';
+
+import { Box, Grid, Typography, useTheme } from '@mui/material';
 
 import CommonModal from '@/components/CommonModal';
 
@@ -15,13 +16,15 @@ import {
   replyQueryValidationSchema,
 } from './Query.data';
 
-import { v4 as uuidv4 } from 'uuid';
 import { PostIcon } from '@/assets/icons';
+import { v4 as uuidv4 } from 'uuid';
 
 const QueryModal = ({
   isQueryModalOpen,
   setIsQueryModalOpen,
 }: QueryModalPropsI) => {
+  const theme = useTheme();
+
   const methodsAddFaqs = useForm({
     resolver: yupResolver(replyQueryValidationSchema),
     defaultValues: replyQueryDefaultValues,
@@ -38,7 +41,7 @@ const QueryModal = ({
       handleSubmit={() => setIsQueryModalOpen(false)}
       title="Query from User"
       okText="Submit"
-      submitIcon={<PostIcon color="white" />}
+      submitIcon={<PostIcon color={theme.palette.common.white} />}
       footer={true}
     >
       <>

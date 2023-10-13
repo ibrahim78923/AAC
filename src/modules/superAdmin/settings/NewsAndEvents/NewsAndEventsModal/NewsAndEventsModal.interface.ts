@@ -1,4 +1,4 @@
 export interface NewsAndEventsPropsI {
   isNewsAndEventAddModal: boolean;
-  setIsNewsAndEventAddModal: () => void;
+  setIsNewsAndEventAddModal: React.Dispatch<React.SetStateAction<boolean>>;
 }

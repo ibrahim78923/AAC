@@ -4,7 +4,6 @@ import { Grid } from '@mui/material';
 
 import CommonModal from '@/components/CommonModal';
 
-import { yupResolver } from '@hookform/resolvers/yup';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useForm } from 'react-hook-form';
 
@@ -15,6 +14,8 @@ import {
   addFaqsFiltersDataArray,
   addFaqsValidationSchema,
 } from './AddFaq.data';
+
+import { yupResolver } from '@hookform/resolvers/yup';
 
 import { v4 as uuidv4 } from 'uuid';
 

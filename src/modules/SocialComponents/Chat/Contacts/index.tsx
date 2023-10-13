@@ -3,6 +3,7 @@ import {
   ToggleButton,
   Typography,
   ToggleButtonGroup,
+  useTheme,
 } from '@mui/material';
 
 import ContactList from './ContactsList';
@@ -12,6 +13,7 @@ import { useContacts } from './Contacts.hook';
 import { styles } from './Contact.style';
 
 const Contacts = () => {
+  const theme = useTheme();
   const { chatMode, handleSelection } = useContacts({});
 
   return (
@@ -20,7 +22,7 @@ const Contacts = () => {
         sx={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}
       >
         <Typography variant="h4">Chats</Typography>
-        <Box sx={styles.wrapperButtons}>
+        <Box sx={styles.wrapperButtons(theme)}>
           <ToggleButtonGroup
             value={chatMode}
             exclusive
@@ -29,14 +31,14 @@ const Contacts = () => {
           >
             <ToggleButton
               value="personalChat"
-              sx={styles.toggleButtonLeft}
+              sx={styles.toggleButtonLeft(theme)}
               aria-label="left-aligned"
             >
               Personal Chat
             </ToggleButton>
             <ToggleButton
               value="groupChat"
-              sx={styles.toggleButtonRight}
+              sx={styles.toggleButtonRight(theme)}
               aria-label="right-aligned"
             >
               Group chat

@@ -25,16 +25,16 @@ import {
 } from './Faqs.data';
 
 import { faqsTableDate } from '@/mock/modules/Settings/Faqs';
-
-import { yupResolver } from '@hookform/resolvers/yup';
 import { FormProvider } from '@/components/ReactHookForm';
-import { useForm } from 'react-hook-form';
 
 import { DownIcon, FilterSharedIcon, RefreshSharedIcon } from '@/assets/icons';
 import PlusShared from '@/assets/icons/shared/plus-shared';
 
 import { styles } from './Faqs.styles';
+
 import { v4 as uuidv4 } from 'uuid';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useForm } from 'react-hook-form';
 
 const Faqs = () => {
   const theme = useTheme();
