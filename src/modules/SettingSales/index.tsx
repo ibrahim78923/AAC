@@ -1,9 +1,12 @@
 import React from 'react';
 
-import { Box, Tabs, Tab, Typography } from '@mui/material';
+import { Box, Tabs, Tab, Typography, useMediaQuery } from '@mui/material';
 
 import RolesRight from './TabsData/RolesAndRight';
 import UserManagement from './TabsData/UserManagement';
+import DealPipelines from './TabsData/DealPipelines';
+import SalesProduct from './TabsData/SalesProduct';
+import Notification from './TabsData/Notification';
 import { SalesSettingProps } from './SettingSales.interface';
 import { styles } from './SettingSales.style';
 
@@ -20,7 +23,7 @@ function TabPanel(props: SalesSettingProps) {
       sx={{ width: '100%' }}
     >
       {value === index && (
-        <Box sx={{ p: 3 }}>
+        <Box sx={{ p: { xs: 1, md: 3 } }}>
           <>{children}</>
         </Box>
       )}
@@ -29,7 +32,8 @@ function TabPanel(props: SalesSettingProps) {
 }
 const SettingSales = () => {
   const [value, setValue] = React.useState<any>(0);
-
+  const isMobile = useMediaQuery('(max-width: 899px)');
+  const tabsOrientation = isMobile ? 'horizontal' : 'vertical';
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
@@ -37,25 +41,30 @@ const SettingSales = () => {
     <Box>
       <Box>
         <Typography variant="h5">Settings</Typography>
-        <Box sx={{ bgcolor: 'background.paper', display: 'flex' }}>
+        <Box
+          sx={{
+            bgcolor: 'background.paper',
+            display: { xs: 'block', md: 'flex' },
+          }}
+        >
           <Tabs
-            orientation="vertical"
+            orientation={tabsOrientation}
             value={value}
             onChange={handleChange}
             aria-label="Vertical tabs example"
             sx={styles.tabsStyle}
           >
             <Tab label="Deals Pipelines" />
-            <Tab label="Products" />
+            <Tab label="Sales Product" />
             <Tab label="Roles and Rights" />
             <Tab label="User Management" />
             <Tab label="Notifications" />
           </Tabs>
           <TabPanel value={value} index={0}>
-            Item One
+            <DealPipelines />
           </TabPanel>
           <TabPanel value={value} index={1}>
-            Item Two
+            <SalesProduct />
           </TabPanel>
           <TabPanel value={value} index={2}>
             <RolesRight />
@@ -64,7 +73,7 @@ const SettingSales = () => {
             <UserManagement />
           </TabPanel>
           <TabPanel value={value} index={4}>
-            Item Five
+            <Notification />
           </TabPanel>
           <TabPanel value={value} index={5}>
             Item Six

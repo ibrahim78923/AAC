@@ -1,12 +1,10 @@
-import * as React from 'react';
-
-import { Button, Menu, MenuItem, Fade } from '@mui/material';
+import { Button, Menu, MenuItem, Fade, useTheme } from '@mui/material';
 import { ArrowDropDown } from '@mui/icons-material';
 
 import EmailDashboard from '../Email';
-import useActions from './useActions';
+import useActionsOptions from './useActionsOptions';
 
-const Actions = () => {
+const ActionsOptions = () => {
   const {
     handleClickActions,
     isShowDrawer,
@@ -17,13 +15,19 @@ const Actions = () => {
     openDropDown,
     setIsShowEmailDashboard,
     setIsShowEditDashboard,
-  } = useActions();
+  } = useActionsOptions();
+  const theme = useTheme();
   return (
     <>
       <div>
         <Button
           onClick={handleClickActions}
-          sx={{ border: '1px solid #D1D5DB', color: '#6B7280' }}
+          sx={{
+            border: `1px solid ${theme?.palette?.custom?.dark}`,
+            color: theme?.palette?.custom?.main,
+            width: '112px',
+            height: '36px',
+          }}
         >
           <ArrowDropDown />
           Actions
@@ -68,4 +72,4 @@ const Actions = () => {
   );
 };
 
-export default Actions;
+export default ActionsOptions;

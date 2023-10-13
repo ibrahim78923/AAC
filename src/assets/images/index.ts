@@ -36,6 +36,7 @@ export { default as IcLinkImage } from './modules/HeaderAndSidebar/ic-link.png';
 export { default as CrossImage } from './modules/HeaderAndSidebar/cross.png';
 export { default as NotificationAvatarImage } from './modules/HeaderAndSidebar/notification-avatar.png';
 export { default as ArrowSquareLeftImage } from './modules/HeaderAndSidebar/arrow-square-left.png';
+export { default as UserProfileImage } from './shared/user-profile.png';
 export { default as AssetsImage } from './modules/HeaderAndSidebar/assets.png';
 export { default as TicketDiscountImage } from './modules/HeaderAndSidebar/ticket-discount.png';
 export { default as WorkLoadImage } from './modules/HeaderAndSidebar/workload.png';
@@ -67,3 +68,4 @@ export { default as UnionBgImage } from '../../assets/images/modules/dashboard/U
 export { default as SalesIcon } from '../../assets/images/modules/Settings/ProductFeatures/sales-icon.png';
 export { default as GreenBgImage } from '../../assets/images/modules/dashboard/green-bg-img.png';
 export { default as YellowDotImage } from './shared/yellow-dot.png';
+export { default as NotSelectedItemImage } from './modules/airSales/Dashboard/not-selected-item.png';
