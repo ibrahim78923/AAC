@@ -1,21 +1,17 @@
-import { Box, Button, Stack, Typography } from '@mui/material';
-import ChooseQuotes from './ChooseQuotes/ChooseQuotes';
-import EditDetails from './EditDetails';
+import { Box, Button, Stack } from '@mui/material';
+
+import AppHorizontalStepper from '@/components/Stepper';
+import { CreateInvoicesStepperData } from './CreateInvoices.data';
+
 import { useRouter } from 'next/router';
-import ReviewInvoice from './ReviewInvoice';
 
 const CreateInvoice = () => {
   const router = useRouter();
-  // const { setIsListView } = UseInvoices();
+  const { invoicesStepperData } = CreateInvoicesStepperData();
 
   return (
     <Box>
-      <Typography variant="h3">Step 1</Typography>
-      <ChooseQuotes />
-      <Typography variant="h3">Step 2</Typography>
-      <EditDetails />
-      <Typography variant="h3">Step 3</Typography>
-      <ReviewInvoice />
+      <AppHorizontalStepper stepsArray={invoicesStepperData} />
       <Stack justifyContent="space-between" alignItems="center" direction="row">
         <Button
           variant="outlined"
