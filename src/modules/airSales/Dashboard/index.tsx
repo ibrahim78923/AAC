@@ -8,8 +8,8 @@ import Widget from './Widget';
 import CreateDashboard from './CreateDashboard';
 import CreateDashboardOptions from './CreateDashboardOptions';
 import useDashboard from './useDashboard';
-
 import useToggle from '@/hooks/useToggle';
+import DealsGraph from './DealsGraph';
 
 const Dashboard = () => {
   const { isShowCreateDashboardForm, setIsShowCreateDashboardForm } =
@@ -39,6 +39,9 @@ const Dashboard = () => {
           </Grid>
           <Grid item xs={6} sm={6}>
             <Widget />
+          </Grid>
+          <Grid item xs={6} sm={6}>
+            <DealsGraph />
           </Grid>
         </>
       )}
