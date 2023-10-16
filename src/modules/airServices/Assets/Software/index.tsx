@@ -9,7 +9,7 @@ import { styles } from './Software.style';
 import { useTheme } from '@emotion/react';
 import AssetHead from '../AssetHead/index';
 import useManage from '@/modules/airSales/Dashboard/Manage/useManage';
-import Filters from '@/modules/airSales/Dashboard/Manage/Filters';
+import SoftwareFilter from './SoftwareFilter';
 
 function Software() {
   const [meetingsData, setMeetingsData] = useState([]);
@@ -46,7 +46,7 @@ function Software() {
         </Box>
       </Grid>
       {isOpenFilterDrawer && (
-        <Filters
+        <SoftwareFilter
           isOpenDrawer={isOpenFilterDrawer}
           onClose={() => setIsOpenFilterDrawer(false)}
         />
