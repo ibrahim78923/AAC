@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { Grid, Box, Autocomplete, TextField } from '@mui/material';
 
 import { FormProvider, RHFRadioGroup } from '@/components/ReactHookForm';
@@ -10,10 +11,11 @@ import {
   validationSchema,
 } from './CreateForm.data';
 
-import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+
 import { enqueueSnackbar } from 'notistack';
 import { v4 as uuidv4 } from 'uuid';
+import { useForm } from 'react-hook-form';
 
 const CreateForm = () => {
   const methods = useForm({
@@ -38,7 +40,7 @@ const CreateForm = () => {
               item
               xs={12}
               md={item?.md}
-              key={item?.key || uuidv4()}
+              key={uuidv4()}
               style={{ paddingTop: '10px' }}
             >
               {item.componentProps.name === 'accessDashboard' ? (
@@ -46,10 +48,7 @@ const CreateForm = () => {
                   <item.component {...item.componentProps} size="small">
                     {item?.componentProps?.select &&
                       item?.options?.map((option: any) => (
-                        <option
-                          value={option.value}
-                          key={option.key || uuidv4()}
-                        >
+                        <option value={option.value} key={uuidv4()}>
                           {option.label}
                         </option>
                       ))}

@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+
 import {
   Box,
   Button,
@@ -8,12 +9,17 @@ import {
   Avatar,
   Dialog,
   DialogContent,
+  useTheme,
 } from '@mui/material';
-import { ViewInvoicesI } from './ViewInvoices.interface';
-import { CloseModalIcon, LogoIcon } from '@/assets/icons';
-import { styles } from './ViewInvoices.style';
+
 import TanstackTable from '@/components/Tabel/TanstackTable';
+
 import { invoiceProducData } from '@/mock/modules/SubscriptionAndInvoices';
+import { ViewInvoicesI } from './ViewInvoices.interface';
+
+import { styles } from './ViewInvoices.style';
+
+import { CloseModalIcon, LogoIcon } from '@/assets/icons';
 import { AvatarImage } from '@/assets/images';
 
 const DownloadInvoices: FC<ViewInvoicesI> = ({ open, onClose }) => {
@@ -87,7 +93,7 @@ const DownloadInvoices: FC<ViewInvoicesI> = ({ open, onClose }) => {
       ),
     },
   ];
-
+  const theme = useTheme();
   return (
     <Dialog
       open={open}
@@ -107,8 +113,6 @@ const DownloadInvoices: FC<ViewInvoicesI> = ({ open, onClose }) => {
               <CloseModalIcon />
             </Box>
           </Box>
-
-          {/* Blue Card */}
           <Box sx={styles.blueCard}>
             <Box sx={styles.cardLeft}>
               <Box sx={{ mr: '18px' }}>
@@ -126,16 +130,16 @@ const DownloadInvoices: FC<ViewInvoicesI> = ({ open, onClose }) => {
                 >
                   Air Applecart
                 </Typography>
-                <Typography variant="body3" sx={styles.cardLeftText}>
+                <Typography variant="body3" sx={styles.cardLeftText(theme)}>
                   123 Street Address
                 </Typography>
-                <Typography variant="body3" sx={styles.cardLeftText}>
+                <Typography variant="body3" sx={styles.cardLeftText(theme)}>
                   City | State | Zip Code
                 </Typography>
-                <Typography variant="body3" sx={styles.cardLeftText}>
+                <Typography variant="body3" sx={styles.cardLeftText(theme)}>
                   Phone No
                 </Typography>
-                <Typography variant="body3" sx={styles.cardLeftText}>
+                <Typography variant="body3" sx={styles.cardLeftText(theme)}>
                   Company Email
                 </Typography>
               </Box>
@@ -148,20 +152,20 @@ const DownloadInvoices: FC<ViewInvoicesI> = ({ open, onClose }) => {
                 </Avatar>
                 <Box>
                   <Typography sx={styles.userName}>Olivia Rhye</Typography>
-                  <Box sx={styles.orgName}>Extreme Commerce</Box>
+                  <Box sx={styles.orgName(theme)}>Extreme Commerce</Box>
                 </Box>
               </Box>
               <Box>
-                <Typography variant="body3" sx={styles.cardLeftText}>
+                <Typography variant="body3" sx={styles.cardLeftText(theme)}>
                   123 Street Address
                 </Typography>
-                <Typography variant="body3" sx={styles.cardLeftText}>
+                <Typography variant="body3" sx={styles.cardLeftText(theme)}>
                   City | State | Zip Code
                 </Typography>
-                <Typography variant="body3" sx={styles.cardLeftText}>
+                <Typography variant="body3" sx={styles.cardLeftText(theme)}>
                   Phone No
                 </Typography>
-                <Typography variant="body3" sx={styles.cardLeftText}>
+                <Typography variant="body3" sx={styles.cardLeftText(theme)}>
                   Company Email
                 </Typography>
               </Box>
@@ -193,13 +197,11 @@ const DownloadInvoices: FC<ViewInvoicesI> = ({ open, onClose }) => {
             </Grid>
           </Box>
 
-          {/* Product Table */}
           <Box sx={styles.productCont}>
             <Box sx={styles.productHeading}>Products</Box>
             <TanstackTable columns={columns} data={invoiceProducData} />
           </Box>
 
-          {/* Voucher Card*/}
           <Box sx={styles.voucher}>
             <Box sx={styles.vRow}>
               <Box sx={styles.vLabel}>

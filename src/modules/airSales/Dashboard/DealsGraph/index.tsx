@@ -1,6 +1,8 @@
 import dynamic from 'next/dynamic';
-import { options, series } from './DealsGraph.data';
+
 import { Box, Card, Typography, useTheme } from '@mui/material';
+
+import { options, series } from './DealsGraph.data';
 
 const DealsGraph = () => {
   const theme = useTheme();

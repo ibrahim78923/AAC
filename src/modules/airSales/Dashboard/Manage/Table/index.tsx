@@ -1,9 +1,9 @@
 import TanstackTable from '@/components/Tabel/TanstackTable';
 import { AlertModals } from '@/components/AlertModals';
+import CustomPagination from '@/components/CustomPagination';
 
 import { ManageDashboardTableData, columns } from './Table.data';
 import useTable from './useTable';
-import CustomPagination from '@/components/CustomPagination';
 
 const Table = () => {
   const {

@@ -1,13 +1,13 @@
 export const styles = {
-  card: {
-    backgroundColor: '#fff',
+  card: (theme: any) => ({
+    backgroundColor: theme.palette.common.white,
     boxShadow: '0 3px 6px 0 rgba(107, 114, 128, 0.1)',
     p: '20px',
     borderRadius: '8px',
     '&:not(:first-child)': {
       mt: '20px',
     },
-  },
+  }),
   cardHeader: {
     display: 'flex',
     alignItems: 'center',

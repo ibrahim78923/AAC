@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import {
   CardActions,
   Typography,
@@ -6,20 +7,25 @@ import {
   Button,
   Divider,
   Avatar,
+  useTheme,
 } from '@mui/material';
 
-import { styles } from './UserInfo.style';
+import TanstackTable from '@/components/Tabel/TanstackTable';
+
+import { columns } from './UserInfo.data';
+
+import { invoiceProducData } from '@/mock/modules/superAdmin/BillingAndDetails/GenerateInvoice';
 
 import { LogoIcon } from '@/assets/icons';
 import { AvatarImage } from '@/assets/images';
-import TanstackTable from '@/components/Tabel/TanstackTable';
-import { invoiceProducData } from '@/mock/modules/superAdmin/BillingAndDetails/GenerateInvoice';
-import { columns } from './UserInfo.data';
-import { useRouter } from 'next/router';
+
 import { SUPER_ADMIN } from '@/constants';
+
+import { styles } from './UserInfo.style';
 
 const UserInfo = () => {
   const router = useRouter();
+  const theme = useTheme();
   return (
     <Box>
       <Box sx={styles.blueCard}>
@@ -39,16 +45,16 @@ const UserInfo = () => {
             >
               Air Applecart
             </Typography>
-            <Typography variant="body3" sx={styles.cardLeftText}>
+            <Typography variant="body3" sx={styles.cardLeftText(theme)}>
               123 Street Address
             </Typography>
-            <Typography variant="body3" sx={styles.cardLeftText}>
+            <Typography variant="body3" sx={styles.cardLeftText(theme)}>
               City | State | Zip Code
             </Typography>
-            <Typography variant="body3" sx={styles.cardLeftText}>
+            <Typography variant="body3" sx={styles.cardLeftText(theme)}>
               Phone No
             </Typography>
-            <Typography variant="body3" sx={styles.cardLeftText}>
+            <Typography variant="body3" sx={styles.cardLeftText(theme)}>
               Company Email
             </Typography>
           </Box>
@@ -60,21 +66,21 @@ const UserInfo = () => {
               R
             </Avatar>
             <Box>
-              <Typography sx={styles.userName}>Olivia Rhye</Typography>
+              <Typography sx={styles.userName(theme)}>Olivia Rhye</Typography>
               <Box sx={styles.orgName}>Extreme Commerce</Box>
             </Box>
           </Box>
           <Box>
-            <Typography variant="body3" sx={styles.cardLeftText}>
+            <Typography variant="body3" sx={styles.cardLeftText(theme)}>
               123 Street Address
             </Typography>
-            <Typography variant="body3" sx={styles.cardLeftText}>
+            <Typography variant="body3" sx={styles.cardLeftText(theme)}>
               City | State | Zip Code
             </Typography>
-            <Typography variant="body3" sx={styles.cardLeftText}>
+            <Typography variant="body3" sx={styles.cardLeftText(theme)}>
               Phone No
             </Typography>
-            <Typography variant="body3" sx={styles.cardLeftText}>
+            <Typography variant="body3" sx={styles.cardLeftText(theme)}>
               Company Email
             </Typography>
           </Box>

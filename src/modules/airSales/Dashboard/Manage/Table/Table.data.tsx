@@ -1,6 +1,7 @@
+import { Box, Checkbox, Switch } from '@mui/material';
+
 import { DeleteCrossIcon } from '@/assets/icons';
 import EditShared from '@/assets/icons/shared/edit-shared';
-import { Box, Checkbox, Switch } from '@mui/material';
 
 export const columns = (
   setIsDeleteModalOpen: any,

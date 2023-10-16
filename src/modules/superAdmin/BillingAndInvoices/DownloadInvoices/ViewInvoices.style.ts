@@ -28,8 +28,8 @@ export const styles = {
   cardLeft: () => ({
     display: 'flex',
   }),
-  cardLeftText: () => ({
-    color: '#fff',
+  cardLeftText: (theme: any) => ({
+    color: theme.palette.common.white,
     mt: '8px',
     fontSize: '12px',
     display: 'block',
@@ -61,11 +61,11 @@ export const styles = {
     lineHeight: '1.5',
     color: '#fff',
   }),
-  orgName: () => ({
+  orgName: (theme: any) => ({
     fontSize: '12px',
     fontWeight: '400',
     lineHeight: '1.5',
-    color: '#fff',
+    color: theme.palette.common.white,
   }),
   invoiceInfo: (theme: any) => ({
     bgcolor: theme.palette.grey[100],

@@ -28,8 +28,8 @@ export const styles = {
   cardLeft: () => ({
     display: 'flex',
   }),
-  cardLeftText: () => ({
-    color: '#fff',
+  cardLeftText: (theme: any) => ({
+    color: theme.palette.common.white,
     mt: '8px',
     fontSize: '12px',
     display: 'block',
@@ -55,11 +55,11 @@ export const styles = {
     width: '40px',
     mr: '6px',
   }),
-  userName: () => ({
+  userName: (theme: any) => ({
     fontSize: '12px',
     fontWeight: '700',
     lineHeight: '1.5',
-    color: '#fff',
+    color: theme.palette.common.white,
   }),
   orgName: () => ({
     fontSize: '12px',

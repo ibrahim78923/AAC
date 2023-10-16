@@ -1,17 +1,28 @@
-import { Box, Button, Chip, Grid, Stack, Typography } from '@mui/material';
+import { useRouter } from 'next/router';
+import {
+  Box,
+  Button,
+  Chip,
+  Grid,
+  Stack,
+  Typography,
+  useTheme,
+} from '@mui/material';
 
-import { PlaneIcon } from '@/assets/icons';
 import { styles } from './InvoiceList.style';
 import DownloadInvoices from '../DownloadInvoices';
 import useInvoiceList from './useInvoiceList';
-import { useRouter } from 'next/router';
+
+import { PlaneIcon } from '@/assets/icons';
+
 const InvoiceList = () => {
   const { isOpenInvoiceList, setIsOpenInvoiceList, handleCloseInvoiceList } =
     useInvoiceList();
   const router = useRouter();
+  const theme = useTheme();
   return (
     <>
-      <Box sx={styles.card}>
+      <Box sx={styles.card(theme)}>
         <Typography variant="h5" sx={{ color: '#111827', mb: '28px' }}>
           Invoice Summary
         </Typography>
