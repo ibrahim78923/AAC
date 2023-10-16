@@ -5,7 +5,7 @@ import { Box, useTheme, Popover, Typography } from '@mui/material';
 
 import { isNullOrEmpty } from '@/utils';
 
-import { NotificationData } from '@/mock/modules/SuperAdminDashboard';
+import { NotificationData } from '@/mock/modules/superAdmin/SuperAdminDashboard';
 
 import { NotificationImage } from '@/assets/images';
 

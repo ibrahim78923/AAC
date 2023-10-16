@@ -20,7 +20,7 @@ import {
   validationSchema,
 } from './OrganizationCard.data';
 
-import { productItem } from '@/mock/modules/OrganizationAdmin';
+import { productItem } from '@/mock/modules/orgAdmin/OrganizationAdmin';
 
 import {
   SmsImage,
