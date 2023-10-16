@@ -1,45 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import dynamic from 'next/dynamic';
 
-import { Box, Typography, Theme, useTheme, Grid } from '@mui/material';
+import { Box, Typography, Grid } from '@mui/material';
+
+import useEnquiriesCards from './useEnquiriesCards';
 
 import { style } from './EnquiriesCard.style';
 
 const EnquiriesCard = () => {
-  const theme = useTheme<Theme>();
+  const { series, options, theme } = useEnquiriesCards();
   const ReactApexChart = dynamic(() => import('react-apexcharts'), {
     ssr: false,
-  });
-
-  const [series] = useState([65, 35]);
-  const [options] = useState<any>({
-    chart: {
-      width: 380,
-      type: 'donut',
-    },
-    dataLabels: {
-      enabled: true,
-    },
-    responsive: [
-      {
-        breakpoint: 480,
-        options: {
-          chart: {
-            width: 200,
-          },
-          legend: {
-            show: false,
-          },
-        },
-      },
-    ],
-    legend: {
-      position: 'right',
-      offsetY: 0,
-      height: 100,
-    },
-    colors: [`${theme.palette.primary.main}`, `${theme.palette.error.main}`],
   });
 
   return (
