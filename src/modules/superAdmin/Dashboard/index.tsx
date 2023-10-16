@@ -1,8 +1,8 @@
 import { Grid, Typography } from '@mui/material';
 import React from 'react';
 import GraphCard from './GraphCard';
-import StatusCards from './StatusCard';
 import NotificationCard from './NotificationCard';
+import StatusCards from './StatusCard';
 
 const Dashboard = () => {
   return (

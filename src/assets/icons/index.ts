@@ -53,3 +53,6 @@ export { default as ArrowLeftIcon } from './shared/arrow-left';
 export { default as GreyPlusSharedIcon } from './shared/grey-plus';
 export { default as TwoUserIcon } from '../../assets/icons/modules/dashboard/two-user';
 export { default as EarningIcon } from './modules/dashboard/earnings';
+export { default as DocumentBlueIcon } from '../icons/modules/dashboard/document';
+export { default as RedAlertIcon } from '../icons/modules/dashboard/red-alert';
+export { default as MessadeIcon } from '../icons/modules/dashboard/message';

@@ -9,7 +9,6 @@ import {
   TwoUserIcon,
   UserGroupFilledIcon,
 } from '@/assets/icons';
-
 import { style } from './StatusCard.style';
 
 const StatusCards = () => {
@@ -18,7 +17,7 @@ const StatusCards = () => {
     <>
       <Grid container spacing={2} sx={{ paddingBottom: '1rem' }}>
         <Grid item xl={2.6} lg={3} md={6} sm={6} xs={12}>
-          <Box sx={style.TotalCardStyle(theme)}>
+          <Box sx={style.TotalClientStyle(theme)}>
             <Box sx={{ display: 'grid' }}>
               <UserGroupFilledIcon />
               <Typography
@@ -98,7 +97,7 @@ const StatusCards = () => {
           </Box>
         </Grid>
         <Grid item xl={2.6} lg={3} md={6} sm={6} xs={12}>
-          <Box sx={style.TotalCardStyle(theme)}>
+          <Box sx={style.TotalUserStyle(theme)}>
             <Box>
               <TwoUserIcon />
               <Typography
