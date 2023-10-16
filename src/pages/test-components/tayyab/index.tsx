@@ -1,11 +1,11 @@
 import React from 'react';
 import Layout from '@/layout';
-import { SinglePurchaseOrderDetailTabs } from '@/modules/airServices/Assets/PurchaseOrders/SinglePurchaseOrderDetails/components/SinglePurchaseOrderDetailTabs';
+import { SinglePurchaseOrderDetail } from '@/modules/airServices/Assets/PurchaseOrders/SinglePurchaseOrderDetails';
 
 export const UseTicketViewDetailPage = () => {
   return (
     <>
-      <SinglePurchaseOrderDetailTabs />
+      <SinglePurchaseOrderDetail />
     </>
   );
 };

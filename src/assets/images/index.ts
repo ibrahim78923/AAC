@@ -66,3 +66,6 @@ export { default as plusImage } from '../../assets/images/modules/LogitechMouse/
 export { default as TeamsLogoImage } from '../../assets/images/modules/tickets/meetings/teams-logo.png';
 export { default as ZoomLogoImage } from '../../assets/images/modules/tickets/meetings/zoom-logo.png';
 export { default as AvatarImageCoversation } from '../../assets/images/shared/avatar-conversation.png';
+export { default as ItemStatusImage } from '../../assets/images/modules/purchaseOrder/money-tick.png';
+export { default as TotalItemImage } from '../../assets/images/modules/purchaseOrder/receipt-search.png';
+export { default as ItemToInventoryImage } from '../../assets/images/modules/purchaseOrder/info-circle.png';
