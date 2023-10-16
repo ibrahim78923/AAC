@@ -6,7 +6,11 @@ import { useFormContext, Controller } from 'react-hook-form';
 
 import { ArrowDownIcon } from '@/assets/icons';
 
-export default function RHFSearchableSelect({ name, options, ...other }: any) {
+export default function RHFMultiSearchableSelect({
+  name,
+  options,
+  ...other
+}: any) {
   const { control } = useFormContext();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
@@ -32,7 +36,7 @@ export default function RHFSearchableSelect({ name, options, ...other }: any) {
     }
   };
 
-  const filteredOptions = options.filter((option: any) =>
+  const filteredOptions = options?.filter((option: any) =>
     option.label.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 

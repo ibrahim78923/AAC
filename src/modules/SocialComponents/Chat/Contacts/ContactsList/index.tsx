@@ -15,9 +15,11 @@ import {
 import { styles } from './ContactsList.style';
 
 import { v4 as uuidv4 } from 'uuid';
+import AddGroupModal from './AddGroupModal';
 
 const ContactList = ({ chatMode }: any) => {
   const [searchContacts, setSearchContacts] = useState('');
+  const [isAddGroupModal, setIsAddGroupModal] = useState(false);
 
   const chatsTypeToShow =
     chatMode === 'groupChat' ? chatGroupsData : chatContactsData;
@@ -44,6 +46,7 @@ const ContactList = ({ chatMode }: any) => {
           <Button
             variant="contained"
             sx={{ width: '100%', marginTop: '15px', height: '36px' }}
+            onClick={() => setIsAddGroupModal(true)}
           >
             <PlusSharedIcon />
             &nbsp;&nbsp;Create New Group
@@ -55,6 +58,10 @@ const ContactList = ({ chatMode }: any) => {
           ))}
         </Box>
       </Box>
+      <AddGroupModal
+        setIsAddGroupModal={setIsAddGroupModal}
+        isAddGroupModal={isAddGroupModal}
+      />
     </>
   );
 };
