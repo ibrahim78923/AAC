@@ -20,7 +20,7 @@ function TabPanel(props: SalesSettingProps) {
       id={`vertical-tabpanel-${index}`}
       aria-labelledby={`vertical-tab-${index}`}
       {...other}
-      sx={{ width: '100%' }}
+      sx={styles.tabData}
     >
       {value === index && (
         <Box sx={{ p: { xs: 1, md: 3 } }}>
@@ -74,12 +74,6 @@ const SettingSales = () => {
           </TabPanel>
           <TabPanel value={value} index={4}>
             <Notification />
-          </TabPanel>
-          <TabPanel value={value} index={5}>
-            Item Six
-          </TabPanel>
-          <TabPanel value={value} index={6}>
-            Item Seven
           </TabPanel>
         </Box>
       </Box>
