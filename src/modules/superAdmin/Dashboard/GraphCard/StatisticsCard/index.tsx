@@ -1,7 +1,10 @@
 import React from 'react';
-import { Box, Typography } from '@mui/material';
-import { styles } from './StatisticsCard.style';
+
 import dynamic from 'next/dynamic';
+
+import { Box, Typography } from '@mui/material';
+
+import { styles } from './StatisticsCard.style';
 
 const StatisticsCard = () => {
   const ReactApexChart = dynamic(() => import('react-apexcharts'), {
@@ -84,7 +87,7 @@ const StatisticsCard = () => {
             options={options}
             series={series}
             type="bar"
-            height={350}
+            height={450}
           />
         </Box>
       </Box>

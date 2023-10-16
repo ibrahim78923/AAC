@@ -1,7 +1,7 @@
-import Organization from '@/modules/Organization';
 import React from 'react';
 
-import SuperAdminLayout from '../../layout';
+import Organization from '@/modules/orgAdmin/Organization';
+import SuperAdminLayout from '../../../layout';
 const OrganizationPage = () => {
   return <Organization />;
 };

@@ -12,51 +12,36 @@ const EnquiriesCard = () => {
     ssr: false,
   });
 
-  const options: any = {
+  const [series] = useState([65, 35]);
+  const [options] = useState<any>({
     chart: {
-      type: 'bar',
-      height: 350,
+      width: 380,
+      type: 'donut',
     },
-    plotOptions: {
-      bar: {
-        horizontal: false,
-        columnWidth: '30%',
-        endingShape: 'rounded',
-      },
-    },
-
     dataLabels: {
-      enabled: false,
+      enabled: true,
     },
-    stroke: {
-      show: true,
-      width: 2,
-      colors: ['transparent'],
-    },
-
-    xaxis: {
-      categories: [
-        'Air Sales',
-        'Air Marketer ',
-        'Air Services',
-        'Air Operations',
-        'Loyalty Program',
-      ],
-    },
-    fill: {
-      opacity: 1,
-    },
-
-    tooltip: {
-      y: {
-        formatter: function (val: any) {
-          return '$ ' + val + ' thousands';
+    responsive: [
+      {
+        breakpoint: 480,
+        options: {
+          chart: {
+            width: 200,
+          },
+          legend: {
+            show: false,
+          },
         },
       },
+    ],
+    legend: {
+      position: 'right',
+      offsetY: 0,
+      height: 100,
     },
-  };
+    colors: [`${theme.palette.primary.main}`, `${theme.palette.error.main}`],
+  });
 
-  const [chartSeries] = useState([75]);
   return (
     <>
       <Box sx={style.mainBox(theme)}>
@@ -109,9 +94,9 @@ const EnquiriesCard = () => {
           <Grid item lg={6} md={6} sm={12} xs={12}>
             <ReactApexChart
               options={options}
-              series={chartSeries}
-              type="radialBar"
-              height={350}
+              series={series}
+              type="donut"
+              height={210}
             />
           </Grid>
         </Grid>

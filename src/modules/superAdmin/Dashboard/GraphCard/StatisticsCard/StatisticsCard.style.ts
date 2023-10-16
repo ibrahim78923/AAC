@@ -4,7 +4,6 @@ export const styles = {
       border: `1px solid ${theme?.palette?.grey[700]}`,
       borderRadius: '8px',
       padding: '1rem',
-      height: '400px',
     };
   },
 };

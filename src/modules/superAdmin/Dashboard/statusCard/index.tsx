@@ -9,6 +9,7 @@ import {
   TwoUserIcon,
   UserGroupFilledIcon,
 } from '@/assets/icons';
+
 import { style } from './StatusCard.style';
 
 const StatusCards = () => {
@@ -43,7 +44,10 @@ const StatusCards = () => {
               orientation="vertical"
               variant="middle"
               flexItem
-              sx={{ border: '2px solid #4CCFBC', borderRadius: '20px' }}
+              sx={{
+                border: `2px solid ${theme.palette.primary.main}`,
+                borderRadius: '20px',
+              }}
             />
             <Box
               sx={{
@@ -123,7 +127,10 @@ const StatusCards = () => {
               orientation="vertical"
               variant="middle"
               flexItem
-              sx={{ border: '2px solid #4CCFBC', borderRadius: '20px' }}
+              sx={{
+                border: `2px solid ${theme?.palette?.custom.turquoise_Blue}`,
+                borderRadius: '20px',
+              }}
             />
             <Box
               sx={{
@@ -204,7 +211,10 @@ const StatusCards = () => {
             <Grid container spacing={1}>
               <Grid item lg={6} md={6} sm={6} xs={12}>
                 <Box>
-                  <Typography variant="h6" sx={{ color: '#79839E' }}>
+                  <Typography
+                    variant="h6"
+                    sx={{ color: `${theme?.palette?.custom.steel_blue_alpha}` }}
+                  >
                     Current Month
                   </Typography>
                   <Typography
@@ -220,7 +230,10 @@ const StatusCards = () => {
               </Grid>
               <Grid item lg={6} md={6} sm={6} xs={12}>
                 <Box>
-                  <Typography variant="h6" sx={{ color: '#79839E' }}>
+                  <Typography
+                    variant="h6"
+                    sx={{ color: `${theme?.palette?.custom.steel_blue_alpha}` }}
+                  >
                     Last Month
                   </Typography>
                   <Typography
@@ -236,7 +249,10 @@ const StatusCards = () => {
               </Grid>
               <Grid item lg={6} md={6} sm={6} xs={12}>
                 <Box>
-                  <Typography variant="h6" sx={{ color: '#79839E' }}>
+                  <Typography
+                    variant="h6"
+                    sx={{ color: `${theme?.palette?.custom.steel_blue_alpha}` }}
+                  >
                     Current Year
                   </Typography>
                   <Typography
@@ -252,7 +268,10 @@ const StatusCards = () => {
               </Grid>
               <Grid item lg={6} md={6} sm={6} xs={12}>
                 <Box>
-                  <Typography variant="h6" sx={{ color: '#79839E' }}>
+                  <Typography
+                    variant="h6"
+                    sx={{ color: `${theme?.palette?.custom.steel_blue_alpha}` }}
+                  >
                     Last Year
                   </Typography>
                   <Typography
