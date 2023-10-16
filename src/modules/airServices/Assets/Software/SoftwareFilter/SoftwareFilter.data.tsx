@@ -18,7 +18,6 @@ export const dataArray = [
     ],
 
     component: RHFSelect,
-
     md: 12,
   },
   {
@@ -36,7 +35,6 @@ export const dataArray = [
     ],
 
     component: RHFSelect,
-
     md: 12,
   },
 
@@ -80,6 +78,7 @@ export const dataArray = [
       { value: 'PreviousWeek', label: 'Previous Week' },
       { value: 'PreviousMonth', label: 'Previous Month' },
     ],
+
     component: RHFSelect,
     md: 12,
   },
@@ -100,6 +99,7 @@ export const dataArray = [
       { value: 'PreviousWeek', label: 'Previous Week' },
       { value: 'PreviousMonth', label: 'Previous Month' },
     ],
+
     component: RHFSelect,
     md: 12,
   },
