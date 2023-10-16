@@ -18,7 +18,6 @@ export default function Filters({
 }: any) {
   const methods: any = useForm({
     resolver: yupResolver(validationSchema),
-
     defaultValues: initialValueProps,
   });
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Tabs, Tab } from '@mui/material';
 import Box from '@mui/material/Box';
+import ProfileCard from '@/components/ProfileCard';
 import Profile from './Profile';
 import Security from './Security';
 
@@ -46,6 +47,7 @@ const EditProfile = () => {
 
   return (
     <Box sx={{ width: '100%' }}>
+      <ProfileCard />
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs
           value={value}

@@ -36,6 +36,7 @@ export { default as IcLinkImage } from './modules/HeaderAndSidebar/ic-link.png';
 export { default as CrossImage } from './modules/HeaderAndSidebar/cross.png';
 export { default as NotificationAvatarImage } from './modules/HeaderAndSidebar/notification-avatar.png';
 export { default as ArrowSquareLeftImage } from './modules/HeaderAndSidebar/arrow-square-left.png';
+export { default as UserProfileImage } from './shared/user-profile.png';
 export { default as AssetsImage } from './modules/HeaderAndSidebar/assets.png';
 export { default as TicketDiscountImage } from './modules/HeaderAndSidebar/ticket-discount.png';
 export { default as WorkLoadImage } from './modules/HeaderAndSidebar/workload.png';
@@ -63,4 +64,7 @@ export { default as ComLogoImage } from '../../assets/images/modules/organizatio
 export { default as OrcaloLogoImage } from '../../assets/images/modules/organization/orcalo-logo.png';
 export { default as UnionBgImage } from '../../assets/images/modules/dashboard/Union.png';
 export { default as SalesIcon } from '../../assets/images/modules/Settings/ProductFeatures/sales-icon.png';
+export { default as UserAvatarImage } from '../../assets/images/modules/socialComponents/chat/user.png';
+export { default as UserSenderImage } from '../../assets/images/modules/socialComponents/chat/sender-user.png';
 export { default as GreenBgImage } from '../../assets/images/modules/dashboard/green-bg-img.png';
+export { default as NotSelectedItemImage } from './modules/airSales/Dashboard/not-selected-item.png';
