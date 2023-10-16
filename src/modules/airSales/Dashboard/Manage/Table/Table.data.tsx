@@ -1,4 +1,5 @@
 import { DeleteCrossIcon } from '@/assets/icons';
+import EditShared from '@/assets/icons/shared/edit-shared';
 import { Box, Checkbox } from '@mui/material';
 
 export const columns = (
@@ -31,51 +32,44 @@ export const columns = (
 
     {
       accessorFn: (row: any) => row.clientName,
-      id: 'clientName',
+      id: 'default',
       cell: (info: any) => info.getValue(),
-      header: 'Client Name',
+      header: 'Default',
       isSortable: false,
     },
 
     {
       accessorFn: (row: any) => row.productsSuite,
-      id: 'productsSuite',
+      id: 'owner',
       isSortable: true,
-      header: 'Products/Suite',
+      header: 'Owner',
       cell: (info: any) => info.getValue(),
     },
 
     {
       accessorFn: (row: any) => row.planType,
-      id: 'planType',
+      id: 'accessRights',
       isSortable: true,
-      header: 'Plan Type',
+      header: 'Access Rights',
       cell: (info: any) => info.getValue(),
     },
 
     {
       accessorFn: (row: any) => row.discount,
-      id: 'discount',
+      id: 'lastViewed',
       isSortable: true,
-      header: 'Discount',
+      header: 'Last Viewed',
       cell: (info: any) => info.getValue(),
     },
 
     {
       accessorFn: (row: any) => row.defaultUsers,
-      id: 'defaultUsers',
+      id: 'lastUpdated',
       isSortable: true,
-      header: 'Default users',
+      header: 'Last Updated',
       cell: (info: any) => info.getValue(),
     },
 
-    {
-      accessorFn: (row: any) => row.additionalUsers,
-      id: 'additionalUsers',
-      isSortable: true,
-      header: 'Additional Users',
-      cell: (info: any) => info.getValue(),
-    },
     {
       id: 'actions',
       isSortable: true,
@@ -88,6 +82,7 @@ export const columns = (
           }}
         >
           <DeleteCrossIcon />
+          <EditShared />
         </Box>
       ),
     },

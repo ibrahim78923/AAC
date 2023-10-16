@@ -25,7 +25,7 @@ const TeamActivity = () => {
         </Box>
       </Box>
       <Grid item sm={12}>
-        <CardContent>
+        <CardContent style={{ height: '300px', overflow: 'auto' }}>
           <ActivityDetails />
         </CardContent>
       </Grid>

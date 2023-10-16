@@ -1,11 +1,4 @@
-import {
-  Card,
-  CardContent,
-  Typography,
-  Grid,
-  Box,
-  useTheme,
-} from '@mui/material';
+import { Card, Typography, Grid, Box, useTheme } from '@mui/material';
 
 import { widgetData } from './Widget.data';
 
@@ -33,19 +26,24 @@ const Widget = () => {
         {widgetData?.map((widgetData: any) => (
           <Grid item sm={4} key={uuidv4()} pl={3} mt={3}>
             <Card>
-              <CardContent>
-                <Typography
-                  sx={{ fontSize: 14 }}
-                  color="text.secondary"
-                  gutterBottom
-                >
-                  {widgetData?.dealName}
-                </Typography>
+              <Typography
+                sx={{ fontSize: 14, textAlign: 'center' }}
+                color="text.secondary"
+                gutterBottom
+              >
+                {widgetData?.dealName}
+              </Typography>
 
-                <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                  {widgetData?.totalDeals}
-                </Typography>
-              </CardContent>
+              <Typography
+                variant="h5"
+                sx={{
+                  mb: 1.5,
+                  color: theme?.palette?.primary?.main,
+                  textAlign: 'center',
+                }}
+              >
+                {widgetData?.totalDeals}
+              </Typography>
             </Card>
           </Grid>
         ))}
