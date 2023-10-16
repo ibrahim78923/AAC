@@ -1,4 +1,6 @@
+import Table from './Table';
+
 const MeetingDetails = () => {
-  return <>Meeting Details</>;
+  return <Table />;
 };
 export default MeetingDetails;

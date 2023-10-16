@@ -15,6 +15,7 @@ import CommonDrawer from '@/components/CommonDrawer';
 import TanstackTable from '@/components/Tabel/TanstackTable';
 import CustomPagination from '@/components/CustomPagination';
 import { AlertModals } from '@/components/AlertModals';
+import AddFaq from './AddFaq';
 
 import {
   columns,
@@ -24,22 +25,23 @@ import {
 } from './Faqs.data';
 
 import { faqsTableDate } from '@/mock/modules/Settings/Faqs';
-
-import { yupResolver } from '@hookform/resolvers/yup';
 import { FormProvider } from '@/components/ReactHookForm';
-import { useForm } from 'react-hook-form';
 
 import { DownIcon, FilterSharedIcon, RefreshSharedIcon } from '@/assets/icons';
 import PlusShared from '@/assets/icons/shared/plus-shared';
 
 import { styles } from './Faqs.styles';
+
 import { v4 as uuidv4 } from 'uuid';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useForm } from 'react-hook-form';
 
 const Faqs = () => {
   const theme = useTheme();
   const [isFaqsFilterDrawerOpen, setIsFaqsFilterDrawerOpen] = useState(false);
   const [faqsSearch, setFaqsSearch] = useState('');
   const [isFaqsDeleteModal, setIsFaqsDeleteModal] = useState(false);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const actionMenuOpen = Boolean(anchorEl);
@@ -79,7 +81,11 @@ const Faqs = () => {
         <Typography variant="h3" sx={{ fontWeight: '600' }}>
           FAQS
         </Typography>
-        <Button variant="contained" sx={{ height: '36px', fontWeight: '500' }}>
+        <Button
+          variant="contained"
+          sx={{ height: '36px', fontWeight: '500' }}
+          onClick={() => setIsAddModalOpen(true)}
+        >
           <PlusShared /> &nbsp; Add
         </Button>
       </Box>
@@ -192,6 +198,10 @@ const Faqs = () => {
         open={isFaqsDeleteModal}
         handleClose={() => setIsFaqsDeleteModal(false)}
         handleSubmit={() => setIsFaqsDeleteModal(false)}
+      />
+      <AddFaq
+        isAddModalOpen={isAddModalOpen}
+        setIsAddModalOpen={setIsAddModalOpen}
       />
     </Box>
   );

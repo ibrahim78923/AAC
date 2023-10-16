@@ -78,6 +78,9 @@ const CUSTOM_COLORS = {
   main: '#6B7280',
   dark: '#D1D5DB',
   bluish_gray: '#BCC1CE',
+  bright: '#0AADC7',
+  transparent_dark_blue: 'rgba(16, 24, 40, 0.1)',
+  off_white: 'rgba(234, 236, 240, 1)',
   grayish_blue: '#6B7280',
   aqua_breeze: '#A0E5DB80',
   light_green: ' #88DFD3',
@@ -87,6 +90,13 @@ const CUSTOM_COLORS = {
   mint_green: '#E6FAEB',
   light_lavender_gray: '#EAECF0',
   steel_blue: '#79839E99',
+  steel_blue_alpha: '#79839E',
+  light_grayish_blue: '#E9EAEF',
+  shade_grey: '#1018281A',
+  turquoise_Blue: '#4CCFBC',
+  dark_blue: '#030229',
+  pale_grayish_blue: '#F7F9FB',
+  dark_shade_green: '# 1018280F',
 };
 const GRADIENTS = {
   primary: createGradient(PRIMARY.light, PRIMARY.main),

@@ -57,6 +57,16 @@ export { default as DropdownIcon } from './shared/dropdown-icon';
 export { default as DocumentIcon } from './shared/document';
 export { default as ArrowLeftIcon } from './shared/arrow-left';
 export { default as GreyPlusSharedIcon } from './shared/grey-plus';
+export { default as DeleteIcon } from './shared/delete';
+export { default as PinIcon } from './shared/pin';
+export { default as PhoneWhiteIcon } from './shared/phone-white';
+export { default as UserWhiteIcon } from './shared/user-white';
+export { default as ThreeDotsIcon } from './shared/three-dots';
+export { default as CharmTickIcon } from './shared/charm-tick';
+
+export { default as AttachmentIcon } from './modules/SocialComponents/Chat/attachment';
+export { default as StickerIcon } from './modules/SocialComponents/Chat/sticker';
+export { default as PostIcon } from './modules/SocialComponents/Chat/post';
 export { default as TwoUserIcon } from '../../assets/icons/modules/dashboard/two-user';
 export { default as EarningIcon } from './modules/dashboard/earnings';
 
@@ -75,3 +85,7 @@ export { default as SaveIcon } from './modules/deals/save';
 export { default as UmbrellaIcon } from './modules/deals/umberalla';
 export { default as BackArrIcon } from './modules/deals/back-arrow';
 export { default as ArrowBgDownIcon } from './modules/deals/arrow-down';
+export { default as NotificationIcon } from './shared/notification';
+export { default as DealsIcon } from './shared/deals';
+export { default as QuotesIcon } from './shared/quotes';
+export { default as PercentageCircleIcon } from './shared/percentage-circle';
