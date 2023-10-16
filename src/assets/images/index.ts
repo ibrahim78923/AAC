@@ -63,7 +63,7 @@ export { default as ServiceImage } from '../../assets/images/modules/organizatio
 export { default as ComLogoImage } from '../../assets/images/modules/organization/intel-logo.png';
 export { default as OrcaloLogoImage } from '../../assets/images/modules/organization/orcalo-logo.png';
 export { default as UnionBgImage } from '../../assets/images/modules/dashboard/Union.png';
-export { default as SalesIcon } from '../../assets/images/modules/Settings/ProductFeatures/sales-icon.png';
+export { default as SalesIcon } from '../../assets/images/modules/superAdmin/Settings/ProductFeatures/sales-icon.png';
 export { default as UserAvatarImage } from '../../assets/images/modules/socialComponents/chat/user.png';
 export { default as UserSenderImage } from '../../assets/images/modules/socialComponents/chat/sender-user.png';
 export { default as UserProfileAvatarImage } from '../../assets/images/modules/socialComponents/chat/user-profile-avatar.png';
@@ -74,3 +74,4 @@ export { default as PreviewTwoImage } from '../../assets/images/modules/socialCo
 export { default as PreviewThreeImage } from '../../assets/images/modules/socialComponents/chat/preview-three.png';
 export { default as GroupAvatarImage } from '../../assets/images/modules/socialComponents/chat/group-avatar.png';
 export { default as GroupAvatarTwoImage } from '../../assets/images/modules/socialComponents/chat/group-avatar-two.png';
+export { default as AddRoundedImage } from '../../assets/images/modules/socialComponents/chat/add-image-rounded.png';
