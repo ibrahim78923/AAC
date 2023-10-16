@@ -64,5 +64,7 @@ export { default as ComLogoImage } from '../../assets/images/modules/organizatio
 export { default as OrcaloLogoImage } from '../../assets/images/modules/organization/orcalo-logo.png';
 export { default as UnionBgImage } from '../../assets/images/modules/dashboard/Union.png';
 export { default as SalesIcon } from '../../assets/images/modules/Settings/ProductFeatures/sales-icon.png';
+export { default as UserAvatarImage } from '../../assets/images/modules/socialComponents/chat/user.png';
+export { default as UserSenderImage } from '../../assets/images/modules/socialComponents/chat/sender-user.png';
 export { default as GreenBgImage } from '../../assets/images/modules/dashboard/green-bg-img.png';
 export { default as NotSelectedItemImage } from './modules/airSales/Dashboard/not-selected-item.png';

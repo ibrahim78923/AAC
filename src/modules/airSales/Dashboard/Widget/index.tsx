@@ -24,8 +24,8 @@ const Widget = () => {
       </Box>
       <Grid container>
         {widgetData?.map((widgetData: any) => (
-          <Grid item sm={4} key={uuidv4()} pl={3} mt={3}>
-            <Card>
+          <Grid item sm={3.4} key={uuidv4()} pl={3} mt={3}>
+            <Card sx={{ height: '84px', width: '131px' }}>
               <Typography
                 sx={{ fontSize: 14, textAlign: 'center' }}
                 color="text.secondary"

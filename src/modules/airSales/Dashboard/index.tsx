@@ -22,8 +22,8 @@ const Dashboard = () => {
         <>
           <Grid
             item
-            xs={12}
-            sm={12}
+            md={12}
+            lg={12}
             style={{ display: 'flex', justifyContent: 'space-between' }}
           >
             <Typography variant="h4">Sales Dashboard</Typography>
@@ -32,17 +32,17 @@ const Dashboard = () => {
               <CreateDashboardOptions toggle={toggle} />
             </Box>
           </Grid>
-          <Grid item xs={6} sm={6}>
+          <Grid item xs={12} lg={6}>
             <DealsGraph />
           </Grid>
 
-          <Grid item xs={6} sm={6}>
+          <Grid item xs={12} lg={6}>
             <TeamActivity />
           </Grid>
-          <Grid item xs={6} sm={6}>
+          <Grid item xs={12} lg={6}>
             <MeetingDetails />
           </Grid>
-          <Grid item xs={6} sm={6}>
+          <Grid item xs={12} lg={6}>
             <Widget />
           </Grid>
         </>

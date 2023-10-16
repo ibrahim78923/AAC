@@ -29,16 +29,11 @@ import { RQCodeImage } from '@/assets/images';
 import { CopyIcon, DownloadIcon } from '@/assets/icons';
 
 const Security = () => {
-  // const [isMatchPassword, setIsMatchPassword] = useState<boolean>(false);
+  const [isMatchPassword, setIsMatchPassword] = useState<boolean>(false);
   const [isChecked, setIsChecked] = useState<boolean>(false);
   const [isVerifyCode, setIsVerifyCode] = useState<boolean>(false);
 
   const theme = useTheme();
-
-  // const isPasswordValid = (password: string) => {
-  //   const regex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{8,}$/;
-  //   return regex.test(password);
-  // };
 
   const SwitchhandleChange = (e: any) => {
     setIsChecked(e.target.checked);
@@ -49,14 +44,12 @@ const Security = () => {
     defaultValues: profileSecurityDefaultValues,
   });
 
-  const onSubmit = () => {
-    // if (isPasswordValid(values.newPassword)) {
-    //   if (values.newPassword !== values.confirmPassword) {
-    //     setIsMatchPassword(true);
-    //   } else {
-    //     setIsMatchPassword(false);
-    //   }
-    // }
+  const onSubmit = (values: any) => {
+    if (values.newPassword !== values.confirmPassword) {
+      setIsMatchPassword(true);
+    } else {
+      setIsMatchPassword(false);
+    }
   };
 
   const { handleSubmit } = profileSecurityForm;
@@ -95,6 +88,14 @@ const Security = () => {
                 </Grid>
               ))}
             </Grid>
+            {isMatchPassword && (
+              <Typography
+                variant="body2"
+                sx={{ color: theme?.palette?.error?.main }}
+              >
+                password not match
+              </Typography>
+            )}
             <Divider sx={{ marginTop: '30px' }} />
 
             <Box

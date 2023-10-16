@@ -35,8 +35,8 @@ export const editProfileDataArray = [
     componentProps: {
       color: '#7a7a7b',
       varient: 'h4',
+      heading: 'Work Information',
     },
-    heading: 'Work Information',
     gridLength: 12,
     component: Typography,
   },
@@ -106,8 +106,8 @@ export const editProfileDataArray = [
     componentProps: {
       color: '#7a7a7b',
       varient: 'h4',
+      heading: 'Other Information',
     },
-    heading: 'Other Information',
     gridLength: 12,
     component: Typography,
   },

@@ -15,9 +15,7 @@ import CommonDrawer from '@/components/CommonDrawer';
 import TanstackTable from '@/components/Tabel/TanstackTable';
 import CustomPagination from '@/components/CustomPagination';
 
-import { yupResolver } from '@hookform/resolvers/yup';
 import { FormProvider } from '@/components/ReactHookForm';
-import { useForm } from 'react-hook-form';
 
 import {
   columns,
@@ -31,6 +29,8 @@ import { productFeatureTableData } from '@/mock/modules/Settings/ProductFeature'
 import PlusShared from '@/assets/icons/shared/plus-shared';
 import { DownIcon } from '@/assets/icons';
 
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useForm } from 'react-hook-form';
 import { v4 as uuidv4 } from 'uuid';
 
 const ProductFeature = () => {

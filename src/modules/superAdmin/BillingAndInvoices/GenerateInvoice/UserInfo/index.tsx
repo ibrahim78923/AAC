@@ -13,7 +13,7 @@ import { styles } from './UserInfo.style';
 import { LogoIcon } from '@/assets/icons';
 import { AvatarImage } from '@/assets/images';
 import TanstackTable from '@/components/Tabel/TanstackTable';
-import { invoiceProducData } from '@/mock/modules/BillingAndDetails/GenerateInvoice';
+import { invoiceProducData } from '@/mock/modules/superAdmin/BillingAndDetails/GenerateInvoice';
 import { columns } from './UserInfo.data';
 import { useRouter } from 'next/router';
 

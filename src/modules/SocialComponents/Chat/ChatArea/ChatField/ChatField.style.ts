@@ -1,0 +1,78 @@
+export const styles = {
+  timeSlot: (theme: any) => {
+    return {
+      background: theme.palette.common.white,
+      width: 'fit-content',
+      position: 'relative',
+      paddingRight: '20px',
+      '&:before': {
+        content: '""',
+        position: 'absolute',
+        right: '0',
+        top: '10px',
+        background: theme.palette.grey[700],
+        width: '9px',
+        height: '9px',
+        borderRadius: '50%',
+      },
+    };
+  },
+  chatBoxWrapperInset: (theme: any, role: any) => {
+    return {
+      position: 'relative',
+      background:
+        role === 'sender'
+          ? theme.palette.primary.main
+          : theme.palette.primary.lighter,
+      color:
+        role === 'sender'
+          ? theme.palette.common.white
+          : theme.palette.custom.grayish_blue,
+      padding: '10px 14px',
+      minWidth: '15vw',
+      maxWidth: '40vw',
+      borderRadius: `${
+        role === 'sender' ? '12px 12px 0px 12px' : '12px 12px 12px 0px'
+      }`,
+      border: `1px solid ${theme.palette.grey[700]}`,
+    };
+  },
+  chatMessageArea: (role: any) => {
+    return {
+      display: 'flex',
+      alignItems: 'center',
+      flexDirection: role === 'sender' ? 'row-reverse' : 'flex-start',
+      justifyContent: 'end',
+      gap: '10px',
+    };
+  },
+  mainChatArea: (role: any) => {
+    return {
+      display: 'flex',
+      flexDirection: role === 'sender' ? 'row-reverse' : 'flex-start',
+      gap: '10px',
+      alignItems: 'flex-end',
+    };
+  },
+  chatReaction: () => {
+    return {
+      background: '#F9F9F9',
+      width: '30px',
+      height: '30px',
+      borderRadius: '50%',
+      position: 'absolute',
+      right: '25px',
+      top: '-15px',
+      color: 'red',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    };
+  },
+  sendReaction: () => {
+    return {
+      background: '#F9F9F9',
+      boxShadow: '0px 0px 0px 0px rgb(0,0,0,0.3)',
+    };
+  },
+};
