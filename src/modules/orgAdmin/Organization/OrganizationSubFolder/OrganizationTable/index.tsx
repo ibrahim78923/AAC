@@ -30,7 +30,7 @@ import {
   columns,
 } from './OrganizationTable.data';
 
-import { organizationTableData } from '@/mock/modules/OrganizationAdmin';
+import { organizationTableData } from '@/mock/modules/orgAdmin/OrganizationAdmin';
 
 import { FeaturedImage, AddCircleImage, ComLogoImage } from '@/assets/images';
 import { AddPenIcon } from '@/assets/icons';

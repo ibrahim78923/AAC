@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Grid, Theme, Typography, useTheme } from '@mui/material';
 import TanstackTable from '@/components/Tabel/TanstackTable';
 import { columns } from './PlanList.data';
-import { planListData } from '@/mock/modules/SuperAdminDashboard';
+import { planListData } from '@/mock/modules/superAdmin/SuperAdminDashboard';
 
 const PlanList = () => {
   const theme = useTheme<Theme>();
