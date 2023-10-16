@@ -16,6 +16,7 @@ import TanstackTable from '@/components/Tabel/TanstackTable';
 import { invoiceProducData } from '@/mock/modules/superAdmin/BillingAndDetails/GenerateInvoice';
 import { columns } from './UserInfo.data';
 import { useRouter } from 'next/router';
+import { SUPER_ADMIN } from '@/constants';
 
 const UserInfo = () => {
   const router = useRouter();
@@ -144,7 +145,7 @@ const UserInfo = () => {
           variant="contained"
           color="primary"
           onClick={() =>
-            router.push('/super-admin/billing-invoices/invoice-list')
+            router.push(`${SUPER_ADMIN?.BILLING_INVOICES}/invoice-list`)
           }
         >
           Next

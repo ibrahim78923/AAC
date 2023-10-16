@@ -11,6 +11,7 @@ import Fade from '@mui/material/Fade';
 import useMenuOptions from './useMenuOptions';
 import { ArrowDropDown } from '@mui/icons-material';
 import { useRouter } from 'next/router';
+import { SUPER_ADMIN } from '@/constants';
 
 const MenuItems = ({ setIsOpenDrawer, setIsShowViewBillingDetails }: any) => {
   const { handleClickActions, handleCloseMenuOptions, anchorEl, openDropDown } =
@@ -38,7 +39,7 @@ const MenuItems = ({ setIsOpenDrawer, setIsShowViewBillingDetails }: any) => {
       >
         <MenuItem
           onClick={() =>
-            router.push('/super-admin/billing-invoices/generate-invoice')
+            router.push(`${SUPER_ADMIN?.BILLING_INVOICES}/generate-invoice`)
           }
         >
           Generate Invoice
