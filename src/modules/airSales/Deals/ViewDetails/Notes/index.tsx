@@ -50,7 +50,7 @@ const Notes = () => {
           {isNullOrEmpty(NotesDataArray) && (
             <Box
               sx={{
-                height: '100%',
+                height: '35vh',
                 display: 'flex',
                 justifyContent: 'center',
                 flexDirection: 'column',
@@ -69,9 +69,9 @@ const Notes = () => {
           )}
         </Grid>
 
-        <Grid item xs={12} sx={styles.horizontalTabsInnnerBox}>
-          {!isNullOrEmpty(NotesDataArray) &&
-            NotesDataArray.map((item) => (
+        {!isNullOrEmpty(NotesDataArray) && (
+          <Grid item xs={12} sx={styles.horizontalTabsInnnerBox}>
+            {NotesDataArray.map((item) => (
               <Grid
                 container
                 key={uuidv4()}
@@ -124,7 +124,8 @@ const Notes = () => {
                 </Grid>
               </Grid>
             ))}
-        </Grid>
+          </Grid>
+        )}
       </Grid>
 
       <NotesEditorDrawer

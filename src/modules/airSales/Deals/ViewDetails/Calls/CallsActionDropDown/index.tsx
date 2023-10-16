@@ -91,6 +91,7 @@ const CallsActionDropdown = (props: any) => {
         open={openAlertModal === 'outcome'}
         handleClose={handleCloseAlert}
         handleSubmit={handleCloseAlert}
+        isFooter={true}
       >
         <FormProvider
           methods={methodsOutCome}
@@ -123,6 +124,7 @@ const CallsActionDropdown = (props: any) => {
         open={openAlertModal === 'reschedule'}
         handleClose={handleCloseAlert}
         handleSubmit={handleCloseAlert}
+        isFooter={true}
       >
         <FormProvider
           methods={methodsReassignCall}

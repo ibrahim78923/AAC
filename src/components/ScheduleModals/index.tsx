@@ -13,6 +13,7 @@ export const ScheduleModals: React.FunctionComponent<ModelPropsI> = ({
   handleSubmit,
   children,
   submitButonText,
+  isFooter,
 }: ModelPropsI) => {
   const { checkModelTypeForImage, checkModelType } = useScheduleModals({
     type,
@@ -40,22 +41,24 @@ export const ScheduleModals: React.FunctionComponent<ModelPropsI> = ({
             </Box>
             <Box sx={{ margin: '20px 0' }}>{children}</Box>
 
-            <Box sx={styles.buttonBox}>
-              <Button
-                onClick={() => handleClose(open)}
-                variant="outlined"
-                sx={{ height: '35px' }}
-              >
-                Cancel
-              </Button>
-              <Button
-                variant="contained"
-                onClick={handleSubmit}
-                sx={{ height: '35px' }}
-              >
-                {submitButonText}
-              </Button>
-            </Box>
+            {isFooter && (
+              <Box sx={styles.buttonBox}>
+                <Button
+                  onClick={() => handleClose(open)}
+                  variant="outlined"
+                  sx={{ height: '35px' }}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  variant="contained"
+                  onClick={handleSubmit}
+                  sx={{ height: '35px' }}
+                >
+                  {submitButonText}
+                </Button>
+              </Box>
+            )}
           </Box>
         </Box>
       </Modal>

@@ -1,5 +1,7 @@
 import { DeleteCrossIcon, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
-import { Box } from '@mui/material';
+import { NotesAvatarImage } from '@/assets/images';
+import { Box, Typography } from '@mui/material';
+import Image from 'next/image';
 export const columns: any = ({
   setOpenDrawer,
   setIsOpenAlert,
@@ -11,7 +13,20 @@ export const columns: any = ({
     {
       accessorFn: (row: any) => row.taskno,
       id: 'contact_id',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => (
+        <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+          <Image src={NotesAvatarImage} width={40} height={40} alt="avatar" />
+          <Box>
+            <Typography variant="body3" sx={{ color: '#111827' }}>
+              {info.row.original.taskno}
+            </Typography>
+            <br />
+            <Typography variant="body3">
+              {info.row.original.taskname}
+            </Typography>
+          </Box>
+        </Box>
+      ),
       header: 'Contact ID',
       isSortable: false,
     },

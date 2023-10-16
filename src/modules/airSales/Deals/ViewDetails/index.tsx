@@ -164,14 +164,14 @@ const DealsViewDetails = () => {
         <Grid item xs={12}>
           <Box>
             <HorizontalTabs tabsDataArray={singleTaskTabsData}>
-              <Associations />
+              <Emails />
               <Details />
               <ActivityLog />
+              <Associations />
               <Tasks />
               <Notes />
               <Calls />
               <Meetings />
-              <Emails />
             </HorizontalTabs>
           </Box>
         </Grid>

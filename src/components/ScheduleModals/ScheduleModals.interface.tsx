@@ -6,4 +6,5 @@ export interface ModelPropsI {
   handleSubmit: () => void;
   children?: React.ReactNode;
   submitButonText: string;
+  isFooter?: boolean;
 }

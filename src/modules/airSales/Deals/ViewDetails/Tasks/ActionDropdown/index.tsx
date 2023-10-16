@@ -72,6 +72,7 @@ const ActionDropdown = (props: any) => {
         open={openAlertModal === 'Reassign'}
         handleClose={handleCloseAlert}
         handleSubmit={handleCloseAlert}
+        isFooter={true}
       >
         <FormProvider
           methods={methodsAssignee}

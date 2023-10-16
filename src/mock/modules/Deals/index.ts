@@ -99,7 +99,7 @@ export const companiesData: any = [
   },
 ];
 
-export const qutoesData: any = [
+export const quotesData: any = [
   {
     Id: 1,
     title: `# PBR - 5`,
@@ -138,5 +138,28 @@ export const attachmentData: any = [
     Id: 2,
     title: ` Help Squad2`,
     createdDate: '24-Dec-2024',
+  },
+];
+
+export const EmailTestingData: any = [
+  {
+    Id: 1,
+    avatar: NotesAvatarImage,
+    name: `De gea`,
+    createdDate: '24-Dec-2024',
+    emailTo: 'Adil Khan',
+    subjectHeading: 'Sending Reply from Hubspot',
+    subject: 'Testing Mail',
+    sendingReply:
+      'On Thu, Apr 6, 2023 at 12:40 AM, Adil Khan < et5160343@gmail.com> wrote:',
+  },
+  {
+    Id: 1,
+    avatar: NotesAvatarImage,
+    name: `De gea`,
+    createdDate: 'Apr 6, 2023 at 09:49 GMT +5',
+    emailTo: 'Adil Khan',
+    subjectHeading: 'Send',
+    subject: 'Testing Mail',
   },
 ];

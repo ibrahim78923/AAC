@@ -1,7 +1,6 @@
 import {
   RHFDatePicker,
   RHFEditor,
-  RHFRadioGroup,
   RHFSelect,
   RHFTextField,
   RHFTimePicker,
@@ -10,7 +9,7 @@ import * as Yup from 'yup';
 export const companiesValidationSchema = Yup.object().shape({});
 
 export const companiesDefaultValues = {
-  companiestatus: 'New Company',
+  companieStatus: 'New Company',
   companyName: '',
   companyOwner: '',
   description: '',
@@ -26,16 +25,6 @@ export const companiesDefaultValues = {
 };
 
 export const companiesDataArray = [
-  {
-    componentProps: {
-      name: 'companiestatus',
-      label: '',
-      fullWidth: false,
-      options: ['New Company', 'Existing Company'],
-    },
-    component: RHFRadioGroup,
-    md: 12,
-  },
   {
     componentProps: {
       name: 'companyDomainName',

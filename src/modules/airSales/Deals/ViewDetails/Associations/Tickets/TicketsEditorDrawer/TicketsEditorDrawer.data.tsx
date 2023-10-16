@@ -1,7 +1,6 @@
 import {
   RHFDropZone,
   RHFEditor,
-  RHFRadioGroup,
   RHFSelect,
   RHFTextField,
 } from '@/components/ReactHookForm';
@@ -25,16 +24,6 @@ export const ticketsDefaultValues = {
 };
 
 export const ticketsDataArray = [
-  {
-    componentProps: {
-      name: 'ticketStatus',
-      label: '',
-      fullWidth: false,
-      options: ['New Ticket', 'Existing Ticket'],
-    },
-    component: RHFRadioGroup,
-    md: 12,
-  },
   {
     componentProps: {
       name: 'requester',

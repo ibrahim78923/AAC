@@ -4,8 +4,9 @@ import { styles } from '../Associations.style';
 import Search from '@/components/Search';
 import { PlusSharedIcon } from '@/assets/icons';
 import TanstackTable from '@/components/Tabel/TanstackTable';
-import { columns } from '../../Tasks/Tasks.data';
-import { TasksTableData } from '@/mock/modules/Deals';
+
+import { quotesData } from '@/mock/modules/Deals';
+import { columns } from './Quotes.data';
 
 const Quotes = () => {
   const theme = useTheme();
@@ -39,12 +40,12 @@ const Quotes = () => {
               sx={{ minWidth: '0px', height: '35px', gap: 0.5 }}
               // onClick={() => setOpenDrawer('Add')}
             >
-              <PlusSharedIcon /> Add New Task
+              <PlusSharedIcon /> Add Quotes
             </Button>
           </Box>
         </Grid>
         <Grid item xs={12}>
-          <TanstackTable columns={columns} data={TasksTableData} />
+          <TanstackTable columns={columns()} data={quotesData} />
         </Grid>
       </Grid>
     </Box>

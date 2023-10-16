@@ -67,3 +67,8 @@ export { default as NotificationIcon } from './shared/notification';
 export { default as DealsIcon } from './shared/deals';
 export { default as QuotesIcon } from './shared/quotes';
 export { default as PercentageCircleIcon } from './shared/percentage-circle';
+export { default as SMSIcon } from './shared/sms';
+export { default as GmailIcon } from './shared/gmail';
+
+export { default as OutlookIcon } from './shared/outlook';
+export { default as SendArrowIcon } from './modules/Deals/send-arrow';

@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -7,6 +8,7 @@ import {
 } from './TicketsEditorDrawer.data';
 
 const useTicketsEditorDrawer = () => {
+  const [searchTicket, setSearchTicket] = useState('');
   const methodsTickets = useForm({
     resolver: yupResolver(ticketsValidationSchema),
     defaultValues: ticketsDefaultValues,
@@ -14,8 +16,15 @@ const useTicketsEditorDrawer = () => {
 
   const onSubmit = () => {};
   const { handleSubmit, watch } = methodsTickets;
-  const watchTicketStatus = watch('ticketStatus');
-  return { handleSubmit, onSubmit, methodsTickets, watchTicketStatus };
+  const watchTickets = watch(['ticketStatus']);
+  return {
+    handleSubmit,
+    onSubmit,
+    methodsTickets,
+    watchTickets,
+    setSearchTicket,
+    searchTicket,
+  };
 };
 
 export default useTicketsEditorDrawer;
