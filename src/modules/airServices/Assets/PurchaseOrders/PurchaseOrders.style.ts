@@ -1,14 +1,19 @@
-export const styles = {
-  flexBetween: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  tableWrapperStyle: {
-    boxShadow: '0px 1px 3px 0px rgba(16, 24, 40, 0.1)',
-    border: '1px solid rgba(234, 236, 240, 1)',
-    borderRadius: 2,
-    pb: 2.4,
-  },
+import { useTheme } from '@mui/material/styles';
+
+export const styles = () => {
+  const { palette }: any = useTheme();
+  return {
+    flexBetween: {
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+    },
+    tableWrapperStyle: {
+      boxShadow: `0px 1px 3px 0px ${palette?.custom?.transparent_dark_blue}`,
+      border: `1px solid ${palette?.custom?.off_white}`,
+      borderRadius: 2,
+      pb: 2.4,
+    },
+  };
 };

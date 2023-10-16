@@ -27,7 +27,7 @@ function PurchaseOrder() {
     resetPurchaseOrderFilterForm,
   } = usePurchaseOrders();
 
-  const { tableWrapperStyle, flexBetween } = styles;
+  const { tableWrapperStyle, flexBetween } = styles();
 
   return (
     <>

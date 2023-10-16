@@ -12,7 +12,7 @@ export const styles = () => {
     mainWrapper: {
       borderRadius: '12px',
       border: '1px solid rgba(98, 110, 142, 0.12)',
-      boxShadow: '0 1px 3px 0 rgba(16, 24, 40, 0.1)',
+      boxShadow: `0px 1px 3px 0px ${palette?.custom?.transparent_dark_blue}`,
       padding: 2.4,
       height: 780,
       overflow: 'scroll',

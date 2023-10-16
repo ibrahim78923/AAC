@@ -8,6 +8,7 @@ import { styles } from './NewPurchaseOrder.style';
 const NewParchaseOrder = () => {
   const { methods, submit, handlePageBack } = useNewPurchaseOrder();
   const { flexBetween, mainWrapper, mainHeading, subHeading } = styles();
+
   return (
     <Box>
       <Box sx={{ ...mainWrapper }}>
