@@ -7,10 +7,20 @@ import Search from '@/components/Search';
 
 import { FilterSharedIcon, PlusSharedIcon } from '@/assets/icons';
 
+import {
+  chatContactsData,
+  chatGroupsData,
+} from '@/mock/modules/SocialComponents/Chat';
+
 import { styles } from './ContactsList.style';
+
+import { v4 as uuidv4 } from 'uuid';
 
 const ContactList = ({ chatMode }: any) => {
   const [searchContacts, setSearchContacts] = useState('');
+
+  const chatsTypeToShow =
+    chatMode === 'groupChat' ? chatGroupsData : chatContactsData;
 
   return (
     <>
@@ -40,7 +50,9 @@ const ContactList = ({ chatMode }: any) => {
           </Button>
         )}
         <Box mt={2}>
-          <ContactsCard />
+          {chatsTypeToShow.map((item) => (
+            <ContactsCard key={uuidv4()} cardData={item} />
+          ))}
         </Box>
       </Box>
     </>

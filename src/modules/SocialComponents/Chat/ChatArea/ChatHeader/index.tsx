@@ -13,7 +13,7 @@ import ChatInfoModal from './ChatInfoModal';
 
 const ChatHeader = () => {
   const theme = useTheme();
-  const [isUserProfile, setIsUserProfile] = useState(true);
+  const [isUserProfile, setIsUserProfile] = useState(false);
   return (
     <>
       <Box sx={styles.headerChat(theme)}>

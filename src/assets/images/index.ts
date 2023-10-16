@@ -66,9 +66,11 @@ export { default as UnionBgImage } from '../../assets/images/modules/dashboard/U
 export { default as SalesIcon } from '../../assets/images/modules/Settings/ProductFeatures/sales-icon.png';
 export { default as UserAvatarImage } from '../../assets/images/modules/socialComponents/chat/user.png';
 export { default as UserSenderImage } from '../../assets/images/modules/socialComponents/chat/sender-user.png';
-export { default as UserProfileAvatarImage } from '../../assets/images/modules/socialComponents/chat/userProfileAvatar.png';
+export { default as UserProfileAvatarImage } from '../../assets/images/modules/socialComponents/chat/user-profile-avatar.png';
 export { default as GreenBgImage } from '../../assets/images/modules/dashboard/green-bg-img.png';
 export { default as NotSelectedItemImage } from './modules/airSales/Dashboard/not-selected-item.png';
-export { default as PreviewOneImage } from '../../assets/images/modules/socialComponents/chat/previewOne.png';
-export { default as PreviewTwoImage } from '../../assets/images/modules/socialComponents/chat/previewTwo.png';
-export { default as PreviewThreeImage } from '../../assets/images/modules/socialComponents/chat/previewThree.png';
+export { default as PreviewOneImage } from '../../assets/images/modules/socialComponents/chat/preview-one.png';
+export { default as PreviewTwoImage } from '../../assets/images/modules/socialComponents/chat/preview-two.png';
+export { default as PreviewThreeImage } from '../../assets/images/modules/socialComponents/chat/preview-three.png';
+export { default as GroupAvatarImage } from '../../assets/images/modules/socialComponents/chat/group-avatar.png';
+export { default as GroupAvatarTwoImage } from '../../assets/images/modules/socialComponents/chat/group-avatar-two.png';
