@@ -4,3 +4,18 @@ export const singleSoftwareDetailTabsData = [
   'Users',
   'Contracts',
 ];
+
+export const singleSoftwareDropdown = [
+  {
+    title: 'Edit',
+    handleClick: (x: any) => {
+      x?.();
+    },
+  },
+  {
+    title: 'Delete',
+    handleClick: (x: any) => {
+      x?.();
+    },
+  },
+];
