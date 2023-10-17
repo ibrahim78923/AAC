@@ -2,13 +2,11 @@ import { Box, Checkbox, Stack, TextField } from '@mui/material';
 import { RemoveRedEye, Delete } from '@mui/icons-material';
 import RHFDatePicker from '@/components/ReactHookForm/RHFDatePicker';
 import RHFSelect from '@/components/ReactHookForm/RHFSelect';
-import {
-  QuantityNumber,
-  SelectUnit,
-  StatusDropdown,
-} from './InvoicesCommonComponents';
 import { EditYellowBgIcon } from '@/assets/icons';
 import * as Yup from 'yup';
+import { StatusDropdown } from './InvoicesCommonComponents/StatusDropDown';
+import { QuantityNumber } from './InvoicesCommonComponents/QuantityNumber';
+import { SelectUnit } from './InvoicesCommonComponents/SelectUnit';
 
 export const cardDetails = [
   {

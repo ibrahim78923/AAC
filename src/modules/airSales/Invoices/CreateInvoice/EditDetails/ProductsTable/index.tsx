@@ -19,11 +19,11 @@ import {
   productsTableColumns,
   productsTableData,
 } from '../../../Invoices.data';
-import { v4 as uuidv4 } from 'uuid';
+import AddProducts from '../AddProducts';
 import { AlertModals } from '@/components/AlertModals';
 import useInvoices from '../../../useInvoices';
 import { PlusSharedIcon } from '@/assets/icons';
-import AddProducts from '../AddProducts';
+import { v4 as uuidv4 } from 'uuid';
 
 const ProductsTable = () => {
   const [isDiscount, setIsDiscount] = useState(false);

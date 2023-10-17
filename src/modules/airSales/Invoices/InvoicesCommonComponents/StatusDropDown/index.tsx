@@ -1,14 +1,6 @@
 import { useState } from 'react';
 import { ArrowDropDown } from '@mui/icons-material';
-import {
-  Box,
-  Button,
-  FormControl,
-  Menu,
-  MenuItem,
-  Select,
-  TextField,
-} from '@mui/material';
+import { Box, Button, Menu, MenuItem } from '@mui/material';
 
 export const StatusDropdown = (props: any) => {
   const { data } = props;
@@ -50,42 +42,5 @@ export const StatusDropdown = (props: any) => {
         <MenuItem onClick={handleClose}>Download</MenuItem>
       </Menu>
     </Box>
-  );
-};
-
-export const QuantityNumber = (props: any) => {
-  const { data } = props;
-  return (
-    <TextField
-      type="number"
-      inputProps={{
-        min: 0,
-        max: 100,
-        step: 1,
-      }}
-      value={data.getValue()}
-      size="small"
-    />
-  );
-};
-
-export const SelectUnit = (props: any) => {
-  const { data } = props;
-  const [selectValue, setSelectValue] = useState(data?.getValue());
-  return (
-    <FormControl size="small">
-      <Select
-        labelId="demo-simple-select-label"
-        id="demo-simple-select"
-        value={selectValue}
-        onChange={(event: any) => {
-          setSelectValue(event.target.value);
-        }}
-        sx={{ width: '100px' }}
-      >
-        <MenuItem value="gbp">GBP</MenuItem>
-        <MenuItem value="%">%</MenuItem>
-      </Select>
-    </FormControl>
   );
 };
