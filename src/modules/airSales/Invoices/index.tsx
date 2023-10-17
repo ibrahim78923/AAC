@@ -1,5 +1,5 @@
 import CreateInvoice from './CreateInvoice';
-import InvoicvesListView from './ListView';
+import ListView from './ListView';
 import useInvoices from './useInvoices';
 
 const Invoices = () => {
@@ -8,7 +8,7 @@ const Invoices = () => {
   return isListView ? (
     <CreateInvoice />
   ) : (
-    <InvoicvesListView setIsListView={setIsListView} />
+    <ListView setIsListView={setIsListView} />
   );
 };
 

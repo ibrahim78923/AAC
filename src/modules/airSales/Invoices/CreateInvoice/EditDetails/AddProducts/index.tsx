@@ -18,7 +18,7 @@ import {
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-const AddProductsDrawer = (props: any) => {
+const AddProducts = (props: any) => {
   const { isDrawerOpen, setIsDrawerOpen } = props;
   const [value, setValue] = useState('customLineItem');
 
@@ -88,4 +88,4 @@ const AddProductsDrawer = (props: any) => {
   );
 };
 
-export default AddProductsDrawer;
+export default AddProducts;

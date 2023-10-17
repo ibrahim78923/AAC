@@ -13,14 +13,17 @@ import {
 } from '@mui/material';
 import { AddCircleRounded } from '@mui/icons-material';
 import { useTheme } from '@mui/material/styles';
-import { productTotalDetails } from './EditDetails.data';
+import { productTotalDetails } from '../EditDetails.data';
 import TanstackTable from '@/components/Tabel/TanstackTable';
-import { productsTableColumns, productsTableData } from '../../Invoices.data';
+import {
+  productsTableColumns,
+  productsTableData,
+} from '../../../Invoices.data';
 import { v4 as uuidv4 } from 'uuid';
 import { AlertModals } from '@/components/AlertModals';
-import useInvoices from '../../useInvoices';
+import useInvoices from '../../../useInvoices';
 import { PlusSharedIcon } from '@/assets/icons';
-import AddProductsDrawer from './AddProducts';
+import AddProducts from '../AddProducts';
 
 const ProductsTable = () => {
   const [isDiscount, setIsDiscount] = useState(false);
@@ -141,7 +144,7 @@ const ProductsTable = () => {
         handleClose={() => setIsDeleteModal(false)}
         handleSubmit={() => setIsDeleteModal(false)}
       />
-      <AddProductsDrawer
+      <AddProducts
         isDrawerOpen={isDrawerOpen}
         setIsDrawerOpen={setIsDrawerOpen}
       />

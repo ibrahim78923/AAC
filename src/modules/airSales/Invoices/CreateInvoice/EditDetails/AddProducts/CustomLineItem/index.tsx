@@ -1,6 +1,6 @@
 import { Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
-import { customFields } from './AddProduct.data';
+import { customFields } from '../AddProduct.data';
 import { v4 as uuidv4 } from 'uuid';
 
 const CustomLineItem = (props: any) => {

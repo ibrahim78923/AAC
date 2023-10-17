@@ -17,7 +17,7 @@ import { invoicesTableColumns, invoicesTableData } from '../Invoices.data';
 import useListView from './useListView';
 import { AlertModals } from '@/components/AlertModals';
 
-const InvoicvesListView = (props: any) => {
+const ListView = (props: any) => {
   const { setIsListView } = props;
   const {
     selectedValue,
@@ -111,4 +111,4 @@ const InvoicvesListView = (props: any) => {
   );
 };
 
-export default InvoicvesListView;
+export default ListView;

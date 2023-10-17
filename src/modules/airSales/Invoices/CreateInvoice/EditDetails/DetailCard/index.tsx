@@ -7,7 +7,7 @@ import {
 } from '@/mock/modules/airSales/SalesInvoices';
 import { LogoSharedIcon } from '@/assets/icons';
 import { useTheme } from '@mui/material/styles';
-import { style } from './EditDetail.style';
+import { style } from '../EditDetail.style';
 import { v4 as uuidv4 } from 'uuid';
 
 const DetailCard = () => {

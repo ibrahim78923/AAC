@@ -1,5 +1,5 @@
 import { Typography } from '@mui/material';
-import { existingProductsFields } from './AddProduct.data';
+import { existingProductsFields } from '../AddProduct.data';
 import SearchableSelect from '@/components/SearchableSelect';
 import { useForm } from 'react-hook-form';
 
