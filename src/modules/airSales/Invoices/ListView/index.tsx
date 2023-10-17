@@ -14,7 +14,7 @@ import Search from '@/components/Search';
 import CustomPagination from '@/components/CustomPagination';
 import TanstackTable from '@/components/Tabel/TanstackTable';
 import { invoicesTableColumns, invoicesTableData } from '../Invoices.data';
-import UseListView from './useListView';
+import useListView from './useListView';
 import { AlertModals } from '@/components/AlertModals';
 
 const InvoicvesListView = (props: any) => {
@@ -29,7 +29,7 @@ const InvoicvesListView = (props: any) => {
     handleIsViewPage,
     handleDeleteModal,
     handleClick,
-  } = UseListView();
+  } = useListView();
   return (
     <>
       <Stack direction="row" justifyContent="space-between">

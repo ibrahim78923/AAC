@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 
-const UseListView = () => {
+const useListView = () => {
   const router = useRouter();
   const [selectedValue, setSelectedValue] = useState(null);
   const [searchBy, setSearchBy] = useState('');
@@ -39,4 +39,4 @@ const UseListView = () => {
   };
 };
 
-export default UseListView;
+export default useListView;

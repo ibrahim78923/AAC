@@ -1,7 +1,7 @@
-import ReportsInvoices from '@/modules/Reports/ReportsInvoices';
+import InvoicesReports from '@/modules/superAdmin/Reports/InvoicesReports';
 
 const InvoicesReportsPage = () => {
-  return <ReportsInvoices />;
+  return <InvoicesReports />;
 };
 
 export default InvoicesReportsPage;

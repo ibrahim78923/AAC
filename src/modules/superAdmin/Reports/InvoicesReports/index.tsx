@@ -1,5 +1,5 @@
-const ReportsInvoices = () => {
+const InvoicesReports = () => {
   return <div>Reports Invoices</div>;
 };
 
-export default ReportsInvoices;
+export default InvoicesReports;

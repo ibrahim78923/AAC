@@ -1,4 +1,4 @@
-import { Checkbox, Stack, TextField } from '@mui/material';
+import { Box, Checkbox, Stack, TextField } from '@mui/material';
 import { RemoveRedEye, Delete } from '@mui/icons-material';
 import RHFDatePicker from '@/components/ReactHookForm/RHFDatePicker';
 import RHFSelect from '@/components/ReactHookForm/RHFSelect';
@@ -208,7 +208,7 @@ export const invoiceFilterFields = [
 ];
 
 // products table data
-export const productsTableColumns: any = [
+export const productsTableColumns = (setIsDeleteModal: any) => [
   {
     accessorFn: (row: any) => row.Sr,
     id: 'Sr',
@@ -280,9 +280,16 @@ export const productsTableColumns: any = [
     cell: () => {
       return (
         <Stack direction="row" alignItems="center" gap={1}>
-          <RemoveRedEye sx={{ cursor: 'pointer', color: '#1F305D' }} />
-          <EditYellowBgIcon />
-          <Delete sx={{ cursor: 'pointer', color: '#FF4A4A' }} />
+          <RemoveRedEye />
+          <Box
+            sx={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}
+          >
+            <EditYellowBgIcon />
+          </Box>
+          <Delete
+            sx={{ cursor: 'pointer', color: '#FF4A4A' }}
+            onClick={() => setIsDeleteModal(true)}
+          />
         </Stack>
       );
     },

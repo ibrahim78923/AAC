@@ -1,13 +1,13 @@
 import ChooseQuotes from './ChooseQuotes';
 import EditDetails from './EditDetails';
 import ReviewInvoice from './ReviewInvoice';
-import UseCreateInvoices from './useCreateInvoices';
+import useCreateInvoices from './useCreateInvoices';
 
 import { v4 as uuidv4 } from 'uuid';
 
 export const CreateInvoicesStepperData = () => {
   const { hanldeGoBack, setAddPlanFormValues, addPlanFormValues } =
-    UseCreateInvoices();
+    useCreateInvoices();
 
   const invoicesStepperData = [
     {

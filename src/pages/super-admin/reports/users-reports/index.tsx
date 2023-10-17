@@ -1,7 +1,7 @@
-import ReportsUsers from '@/modules/Reports/ReportsUsers';
+import UsersReports from '@/modules/superAdmin/Reports/UsersReports';
 
 const UsersReportsPage = () => {
-  return <ReportsUsers />;
+  return <UsersReports />;
 };
 
 export default UsersReportsPage;

@@ -1,9 +1,9 @@
 import CreateInvoice from './CreateInvoice';
 import InvoicvesListView from './ListView';
-import UseInvoices from './useInvoices';
+import useInvoices from './useInvoices';
 
-const SalesInvoices = () => {
-  const { isListView, setIsListView } = UseInvoices();
+const Invoices = () => {
+  const { isListView, setIsListView } = useInvoices();
 
   return isListView ? (
     <CreateInvoice />
@@ -12,4 +12,4 @@ const SalesInvoices = () => {
   );
 };
 
-export default SalesInvoices;
+export default Invoices;

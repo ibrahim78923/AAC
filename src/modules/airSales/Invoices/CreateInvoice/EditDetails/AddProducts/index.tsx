@@ -1,13 +1,11 @@
 import { useState } from 'react';
 import {
   Box,
-  Button,
   FormControl,
   FormControlLabel,
   Radio,
   RadioGroup,
 } from '@mui/material';
-import { PlusSharedIcon } from '@/assets/icons';
 import CommonDrawer from '@/components/CommonDrawer';
 import CustomLineItem from './CustomLineItem';
 import ExistingProducts from './ExistingProducts';
@@ -20,8 +18,8 @@ import {
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-const AddProducts = () => {
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+const AddProductsDrawer = (props: any) => {
+  const { isDrawerOpen, setIsDrawerOpen } = props;
   const [value, setValue] = useState('customLineItem');
 
   // handle radio change value
@@ -48,15 +46,6 @@ const AddProducts = () => {
 
   return (
     <Box>
-      <Button
-        variant="contained"
-        sx={{ display: 'flex', gap: '10px' }}
-        startIcon={<PlusSharedIcon />}
-        onClick={() => setIsDrawerOpen(true)}
-      >
-        Add Products
-      </Button>
-
       <CommonDrawer
         isDrawerOpen={isDrawerOpen}
         onClose={() => setIsDrawerOpen(false)}
@@ -99,4 +88,4 @@ const AddProducts = () => {
   );
 };
 
-export default AddProducts;
+export default AddProductsDrawer;

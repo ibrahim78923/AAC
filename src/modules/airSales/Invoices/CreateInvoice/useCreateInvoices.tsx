@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 
-const UseCreateInvoices = () => {
+const useCreateInvoices = () => {
   const [addPlanFormValues, setAddPlanFormValues] = useState({});
   const router = useRouter();
 
@@ -16,4 +16,4 @@ const UseCreateInvoices = () => {
   };
 };
 
-export default UseCreateInvoices;
+export default useCreateInvoices;

@@ -9,18 +9,25 @@ import {
   CardContent,
   TextField,
   InputAdornment,
+  Button,
 } from '@mui/material';
 import { AddCircleRounded } from '@mui/icons-material';
 import { useTheme } from '@mui/material/styles';
-import AddProducts from './AddProducts';
 import { productTotalDetails } from './EditDetails.data';
 import TanstackTable from '@/components/Tabel/TanstackTable';
 import { productsTableColumns, productsTableData } from '../../Invoices.data';
 import { v4 as uuidv4 } from 'uuid';
+import { AlertModals } from '@/components/AlertModals';
+import useInvoices from '../../useInvoices';
+import { PlusSharedIcon } from '@/assets/icons';
+import AddProductsDrawer from './AddProducts';
 
 const ProductsTable = () => {
   const [isDiscount, setIsDiscount] = useState(false);
   const theme = useTheme();
+  const { isDeleteModal, setIsDeleteModal, isDrawerOpen, setIsDrawerOpen } =
+    useInvoices();
+  const getTableColumns = productsTableColumns(setIsDeleteModal);
 
   return (
     <Box my={3}>
@@ -30,13 +37,17 @@ const ProductsTable = () => {
         my={2}
       >
         <Typography variant="h4">Products</Typography>
-        <AddProducts />
+        <Button
+          variant="contained"
+          sx={{ display: 'flex', gap: '10px' }}
+          startIcon={<PlusSharedIcon />}
+          onClick={() => setIsDrawerOpen(true)}
+        >
+          Add Products
+        </Button>
       </Stack>
       <Box my={3}>
-        <TanstackTable
-          columns={productsTableColumns}
-          data={productsTableData}
-        />
+        <TanstackTable columns={getTableColumns} data={productsTableData} />
       </Box>
       <Stack direction={{ xs: 'column', lg: 'row' }} gap={3}>
         <TextareaAutosize minRows={15} cols={180} placeholder="Comments" />
@@ -121,6 +132,19 @@ const ProductsTable = () => {
           </CardActions>
         </Card>
       </Stack>
+
+      {/* delete modal */}
+      <AlertModals
+        message="You're about to delete all record. Detailed records can't be restored after 90 days."
+        type="delete"
+        open={isDeleteModal}
+        handleClose={() => setIsDeleteModal(false)}
+        handleSubmit={() => setIsDeleteModal(false)}
+      />
+      <AddProductsDrawer
+        isDrawerOpen={isDrawerOpen}
+        setIsDrawerOpen={setIsDrawerOpen}
+      />
     </Box>
   );
 };
