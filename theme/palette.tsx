@@ -80,6 +80,7 @@ const CUSTOM_COLORS = {
   bluish_gray: '#BCC1CE',
   bright: '#0AADC7',
   transparent_dark_blue: 'rgba(16, 24, 40, 0.1)',
+  transparent_bluish_gray: 'rgba(98, 110, 142, 0.12',
   off_white: 'rgba(234, 236, 240, 1)',
   grayish_blue: '#6B7280',
   aqua_breeze: '#A0E5DB80',

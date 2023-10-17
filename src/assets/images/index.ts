@@ -63,9 +63,16 @@ export { default as ServiceImage } from '../../assets/images/modules/orgAdmin/or
 export { default as ComLogoImage } from '../../assets/images/modules/orgAdmin/organization/intel-logo.png';
 export { default as OrcaloLogoImage } from '../../assets/images/modules/orgAdmin/organization/orcalo-logo.png';
 export { default as UnionBgImage } from '../../assets/images/modules/superAdmin/dashboard/Union.png';
-export { default as SalesIcon } from '../../assets/images/modules/Settings/ProductFeatures/sales-icon.png';
+export { default as SalesIcon } from '../../assets/images/modules/superAdmin/Settings/ProductFeatures/sales-icon.png';
 export { default as UserAvatarImage } from '../../assets/images/modules/socialComponents/chat/user.png';
 export { default as UserSenderImage } from '../../assets/images/modules/socialComponents/chat/sender-user.png';
 export { default as GreenBgImage } from '../../assets/images/modules/superAdmin/dashboard/green-bg-img.png';
 export { default as NotSelectedItemImage } from './modules/airSales/Dashboard/not-selected-item.png';
 export { default as UserRoundImage } from './shared/user-round.png';
+export { default as PreviewVegImage } from '../../assets/images/modules/socialComponents/chat/preview-veg.png';
+export { default as PreviewTrainImage } from '../../assets/images/modules/socialComponents/chat/preview-train.png';
+export { default as PreviewColorsImage } from '../../assets/images/modules/socialComponents/chat/preview-colors.png';
+export { default as GroupAvatarImage } from '../../assets/images/modules/socialComponents/chat/group-avatar.png';
+export { default as GroupAvatarAdidasImage } from '../../assets/images/modules/socialComponents/chat/group-avatar-adidas.png';
+export { default as AddRoundedImage } from '../../assets/images/modules/socialComponents/chat/add-image-rounded.png';
+export { default as UserProfileAvatarImage } from '../../assets/images/modules/socialComponents/chat/user-profile-avatar.png';

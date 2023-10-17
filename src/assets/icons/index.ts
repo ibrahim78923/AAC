@@ -63,16 +63,15 @@ export { default as PhoneWhiteIcon } from './shared/phone-white';
 export { default as UserWhiteIcon } from './shared/user-white';
 export { default as ThreeDotsIcon } from './shared/three-dots';
 export { default as CharmTickIcon } from './shared/charm-tick';
-
 export { default as AttachmentIcon } from './modules/SocialComponents/Chat/attachment';
 export { default as StickerIcon } from './modules/SocialComponents/Chat/sticker';
 export { default as PostIcon } from './modules/SocialComponents/Chat/post';
+export { default as FilterLargeWidgetIcon } from './shared/filter-large-widget';
 export { default as TwoUserIcon } from './modules/superAdmin/dashboard/two-user';
 export { default as EarningIcon } from './modules/superAdmin/dashboard/earnings';
 export { default as DocumentBlueIcon } from './modules/superAdmin/dashboard/document';
 export { default as RedAlertIcon } from './modules/superAdmin/dashboard/red-alert';
 export { default as MessadeIcon } from './modules/superAdmin/dashboard/message';
-
 export { default as NotificationIcon } from './shared/notification';
 export { default as DealsIcon } from './shared/deals';
 export { default as QuotesIcon } from './shared/quotes';
@@ -82,3 +81,5 @@ export { default as TwoUserBlackIcon } from '../icons/shared/two-user-black';
 export { default as SingleUserBlackIcon } from '../icons/shared/single-user-black';
 export { default as AnyRoundIcon } from '../icons/shared/any-round';
 export { default as TeamUserIcon } from '../icons/shared/team-user';
+export { default as FileJpgIcon } from './shared/file-jpg';
+export { default as LinkBoldIcon } from './shared/link-bold';

@@ -1,14 +1,21 @@
 import React from 'react';
-import { Grid, Box } from '@mui/material';
+
+import { Grid, Box, Autocomplete, TextField } from '@mui/material';
 
 import { FormProvider, RHFRadioGroup } from '@/components/ReactHookForm';
 
-import { dataArray, defaultValues, validationSchema } from './CreateForm.data';
+import {
+  dataArray,
+  defaultValues,
+  userAndTeams,
+  validationSchema,
+} from './CreateForm.data';
 
-import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+
 import { enqueueSnackbar } from 'notistack';
 import { v4 as uuidv4 } from 'uuid';
+import { useForm } from 'react-hook-form';
 
 const CreateForm = () => {
   const methods = useForm({
@@ -29,30 +36,44 @@ const CreateForm = () => {
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
         <Grid container spacing={4}>
           {dataArray?.map((item: any) => (
-            <Grid item xs={12} md={item?.md} key={uuidv4()}>
-              {item.componentProps.name === 'accessDashboard' &&
-              (watchFields[0] === 'Everyone' ||
-                watchFields[0] === 'Only special user and teams') ? (
+            <Grid
+              item
+              xs={12}
+              md={item?.md}
+              key={uuidv4()}
+              style={{ paddingTop: '10px' }}
+            >
+              {item.componentProps.name === 'accessDashboard' ? (
                 <Box>
-                  <item.component {...item.componentProps} size={'small'}>
+                  <item.component {...item.componentProps} size="small">
                     {item?.componentProps?.select &&
                       item?.options?.map((option: any) => (
-                        <option value={option?.value} key={uuidv4()}>
-                          {option?.label}
+                        <option value={option.value} key={uuidv4()}>
+                          {option.label}
                         </option>
                       ))}
                   </item.component>
-                  <RHFRadioGroup
-                    options={['View and edit', 'View Only']}
-                    name={'viewAndEdit'}
-                    label={''}
-                  />
+                  {watchFields[0] === 'Only special user and teams' && (
+                    <Autocomplete
+                      disablePortal
+                      id="combo-box-demo"
+                      options={userAndTeams}
+                      sx={{ width: 300 }}
+                      renderInput={(params) => (
+                        <TextField {...params} label="users" />
+                      )}
+                    />
+                  )}
+                  {watchFields[0] === 'Everyone' && (
+                    <RHFRadioGroup
+                      options={['View and edit', 'View Only']}
+                      name="viewAndEdit"
+                      label=""
+                    />
+                  )}
                 </Box>
               ) : (
-                <item.component
-                  {...item.componentProps}
-                  size={'small'}
-                ></item.component>
+                <item.component {...item.componentProps} size="small" />
               )}
             </Grid>
           ))}
