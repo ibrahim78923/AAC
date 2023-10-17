@@ -5,6 +5,24 @@ export const styles = {
     borderRadius: '8px',
     border: '1px solid #EAECF0',
   },
+  parentBoxAddContract: {
+    border: '2px solid #EAECF0',
+    p: '20px',
+    height: { lg: '75vh' },
+    mb: '10px',
+  },
+  childBoxAddContract: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    gap: '10px',
+    mr: '30px',
+  },
+  cancelButtonAddContract: (theme: any) => ({
+    color: theme.palette.grey[500],
+    border: '1px solid #E5E7EB',
+    padding: '25px',
+    fontWeight: '500',
+  }),
 
   headBox: {
     marginTop: '12px',

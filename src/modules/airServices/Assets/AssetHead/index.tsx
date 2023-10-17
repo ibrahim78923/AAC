@@ -4,7 +4,7 @@ import { PlusSharedIconColor, ExportShared, ImportIcon } from '@/assets/icons';
 
 import { styles } from './AssetHead.style';
 
-function AssetHead({ title, show, addTitle }: any) {
+function AssetHead({ title, show, addTitle, onClick }: any) {
   const theme: any = useTheme();
 
   return (
@@ -36,6 +36,7 @@ function AssetHead({ title, show, addTitle }: any) {
               sx={styles.addButtonStyle(theme)}
               variant="outlined"
               startIcon={<PlusSharedIconColor />}
+              onClick={onClick}
             >
               {addTitle}
             </Button>
@@ -46,6 +47,7 @@ function AssetHead({ title, show, addTitle }: any) {
               sx={styles.addButtonStyle(theme)}
               variant="outlined"
               startIcon={<PlusSharedIconColor />}
+              onClick={onClick}
             >
               {addTitle}
             </Button>

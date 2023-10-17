@@ -6,7 +6,6 @@ import { uuid } from 'uuidv4';
 const ContractDetails = ({ handleSubmitForm, methods, handleSubmit }: any) => {
   return (
     <div>
-      {' '}
       <Grid
         container
         justifyContent={'center'}
@@ -23,7 +22,7 @@ const ContractDetails = ({ handleSubmitForm, methods, handleSubmit }: any) => {
             onSubmit={handleSubmit(handleSubmitForm)}
           >
             <Grid container spacing={4}>
-              {dataArray?.map((item: any) => (
+              {dataArray.slice(0, dataArray?.length - 1)?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuid()}>
                   <item.component {...item.componentProps} size={'small'}>
                     {item?.componentProps?.select

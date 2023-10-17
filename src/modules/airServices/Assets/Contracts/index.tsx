@@ -1,24 +1,39 @@
-import { Box, Grid, useTheme } from '@mui/material';
-import { useState } from 'react';
+import { Box, Grid, MenuItem, Popover } from '@mui/material';
 import { data, columns } from './Contracts.data';
 import TanstackTable from '@/components/Tabel/TanstackTable';
 import Search from '@/components/Search';
 import { Button } from '@mui/material';
 import { FilterSharedIcon, ExportShared } from '@/assets/icons';
-
 import { styles } from './Contracts.style';
 import AssetHead from '../AssetHead/index';
 import ContractsDrawerForm from './ContractsDrawerForm';
+import { AlertModals } from '@/components/AlertModals';
+import { useContracts } from './useContracts';
 
 function Contracts() {
-  const [meetingsData, setMeetingsData] = useState([]);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const theme: any = useTheme();
-
+  const {
+    meetingsData,
+    setMeetingsData,
+    isDrawerOpen,
+    setIsDrawerOpen,
+    openModel,
+    setOpenModel,
+    actionPop,
+    theme,
+    handleAddNewContractClick,
+    handleActionClick,
+    handleActionClose,
+    openAction,
+    handleSubmitModel,
+  } = useContracts();
   return (
     <>
       <Grid container>
-        <AssetHead title={'Contracts'} addTitle={'Add New Contract'} />
+        <AssetHead
+          title={'Contracts'}
+          addTitle={'Add New Contract'}
+          onClick={handleAddNewContractClick}
+        />
         <Grid item sx={styles.gridItems}>
           <Box sx={styles.headBox}>
             <Box sx={{ marginLeft: '24px' }}>
@@ -28,7 +43,8 @@ function Contracts() {
               <Button
                 sx={styles.buttonStyle(theme)}
                 variant="outlined"
-                disabled
+                disabled={!!!meetingsData.length}
+                onClick={() => setOpenModel(true)}
               >
                 Delete
               </Button>
@@ -36,9 +52,26 @@ function Contracts() {
                 sx={styles.exportButtonStyle(theme)}
                 variant="outlined"
                 startIcon={<ExportShared />}
+                onClick={handleActionClick}
               >
                 Export
               </Button>
+              <Popover
+                open={openAction}
+                anchorEl={actionPop}
+                onClose={handleActionClose}
+                sx={{
+                  mt: '4px',
+                  '& .MuiPaper-root': { width: '5% !important' },
+                }}
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'left',
+                }}
+              >
+                <MenuItem sx={{ py: 1 }}>CSV</MenuItem>
+                <MenuItem sx={{ py: 1 }}>Excel</MenuItem>
+              </Popover>
               <Button
                 sx={styles.buttonStyle(theme)}
                 variant="outlined"
@@ -53,6 +86,15 @@ function Contracts() {
             <TanstackTable
               data={data}
               columns={columns(meetingsData, setMeetingsData, data, theme)}
+            />
+          </Box>
+          <Box>
+            <AlertModals
+              open={openModel}
+              type={'delete'}
+              message="Are you sure want to delete this Contract?"
+              handleClose={() => setOpenModel(false)}
+              handleSubmit={handleSubmitModel}
             />
           </Box>
         </Grid>
