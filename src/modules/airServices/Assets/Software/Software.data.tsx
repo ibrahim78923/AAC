@@ -26,9 +26,9 @@ export const data: any = [
   },
 ];
 export const columns = (
-  meetingsData: any,
-  setMeetingsData: any,
-  meetingsMainData: any,
+  softwareData: any,
+  setSoftwareData: any,
+  data: any,
   theme: any,
 ): any => [
   {
@@ -37,18 +37,16 @@ export const columns = (
     cell: (info: any) => (
       <Checkbox
         checked={
-          !!meetingsData.find((item: any) => item.id === info.getValue())
+          !!softwareData.find((item: any) => item.id === info.getValue())
         }
         onChange={(e: any) => {
           e.target.checked
-            ? setMeetingsData([
-                ...meetingsData,
-                meetingsMainData.find(
-                  (item: any) => item.id === info.getValue(),
-                ),
+            ? setSoftwareData([
+                ...softwareData,
+                data.find((item: any) => item.id === info.getValue()),
               ])
-            : setMeetingsData(
-                meetingsData.filter((item: any) => {
+            : setSoftwareData(
+                softwareData.filter((item: any) => {
                   return item.id !== info.getValue();
                 }),
               );
@@ -59,11 +57,9 @@ export const columns = (
     ),
     header: (
       <Checkbox
-        checked={meetingsData.length === meetingsMainData.length}
+        checked={softwareData.length === data.length}
         onChange={(e: any) => {
-          e.target.checked
-            ? setMeetingsData([...meetingsMainData])
-            : setMeetingsData([]);
+          e.target.checked ? setSoftwareData([...data]) : setSoftwareData([]);
         }}
         color="primary"
         name="id"
