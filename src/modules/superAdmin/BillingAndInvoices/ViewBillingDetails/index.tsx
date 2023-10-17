@@ -2,20 +2,20 @@ import { Grid, Typography } from '@mui/material';
 
 import CommonDrawer from '@/components/CommonDrawer';
 
-import { ViewBillingDetailsPropsI } from '@/types/modules/BillingAndDetails';
-
 const ViewBillingDetails = ({
-  isViewDetailOpen,
-  setIsViewDeailOpen,
-}: ViewBillingDetailsPropsI) => {
+  isOpenDrawer,
+
+  onClose,
+}: any) => {
   return (
     <CommonDrawer
-      isDrawerOpen={isViewDetailOpen}
-      setIsDrawerOpen={setIsViewDeailOpen}
-      title="Billing Details"
-      okText="Post"
-      isOk={false}
-      submitHandler={() => {}}
+      isDrawerOpen={isOpenDrawer}
+      onClose={() => onClose(false)}
+      title={'Assign Plan'}
+      okText={'Apply'}
+      isOk
+      cancelText={'Cancel'}
+      footer
     >
       <Grid container>
         <Grid item sm={12}>
