@@ -1,6 +1,6 @@
 import CreateInvoice from './CreateInvoice';
 import InvoicvesListView from './ListView';
-import UseInvoices from './UseInvoices';
+import UseInvoices from './useInvoices';
 
 const SalesInvoices = () => {
   const { isListView, setIsListView } = UseInvoices();

@@ -1,5 +1,5 @@
 import Layout from '@/layout';
-import { ViewInvoice } from '@/modules/airSales/SalesInvoices/ViewInvoice';
+import { ViewInvoice } from '@/modules/airSales/Invoices/ViewInvoice';
 
 const ViewInvoicesPage = () => {
   return <ViewInvoice />;

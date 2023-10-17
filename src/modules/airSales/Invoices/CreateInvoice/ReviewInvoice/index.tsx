@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import ChooseQuotes from '../ChooseQuotes/ChooseQuotes';
+import ChooseQuotes from '../ChooseQuotes';
 import EditDetails from '../EditDetails';
 
 const ReviewInvoice = () => {

@@ -13,12 +13,9 @@ import {
 import { AddCircleRounded } from '@mui/icons-material';
 import { useTheme } from '@mui/material/styles';
 import AddProducts from './AddProducts';
-import { productTotalDetails } from './EditDetailsData';
+import { productTotalDetails } from './EditDetails.data';
 import TanstackTable from '@/components/Tabel/TanstackTable';
-import {
-  productsTableColumns,
-  productsTableData,
-} from '../../SalesInvoices.data';
+import { productsTableColumns, productsTableData } from '../../Invoices.data';
 import { v4 as uuidv4 } from 'uuid';
 
 const ProductsTable = () => {

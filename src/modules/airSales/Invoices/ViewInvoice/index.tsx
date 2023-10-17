@@ -13,7 +13,7 @@ import { style } from './ViewInvoice.style';
 import { useTheme } from '@mui/material/styles';
 import TanstackTable from '@/components/Tabel/TanstackTable';
 import { productsTableColumns, productsTableData } from './ViewInvoice.data';
-import { productTotalDetails } from '../CreateInvoice/EditDetails/EditDetailsData';
+import { productTotalDetails } from '../CreateInvoice/EditDetails/EditDetails.data';
 import { v4 as uuidv4 } from 'uuid';
 import { useRouter } from 'next/router';
 

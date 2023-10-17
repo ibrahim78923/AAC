@@ -6,7 +6,7 @@ import {
   invoiceFilterFields,
   defaultValues,
   validationSchema,
-} from '../SalesInvoices.data';
+} from '../Invoices.data';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { v4 as uuidv4 } from 'uuid';

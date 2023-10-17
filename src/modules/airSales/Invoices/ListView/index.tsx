@@ -13,8 +13,8 @@ import { PlusSharedIcon, RefreshSharedIcon } from '@/assets/icons';
 import Search from '@/components/Search';
 import CustomPagination from '@/components/CustomPagination';
 import TanstackTable from '@/components/Tabel/TanstackTable';
-import { invoicesTableColumns, invoicesTableData } from '../SalesInvoices.data';
-import UseListView from './UseListView';
+import { invoicesTableColumns, invoicesTableData } from '../Invoices.data';
+import UseListView from './useListView';
 import { AlertModals } from '@/components/AlertModals';
 
 const InvoicvesListView = (props: any) => {

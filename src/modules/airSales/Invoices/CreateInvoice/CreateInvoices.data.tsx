@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { useRouter } from 'next/router';
 
-import ChooseQuotes from './ChooseQuotes/ChooseQuotes';
+import ChooseQuotes from './ChooseQuotes';
 import EditDetails from './EditDetails';
 import ReviewInvoice from './ReviewInvoice';
 
