@@ -27,6 +27,7 @@ const ActionsOptions = () => {
             color: theme?.palette?.custom?.main,
             width: '112px',
             height: '36px',
+            marginRight: '10px',
           }}
         >
           <ArrowDropDown />

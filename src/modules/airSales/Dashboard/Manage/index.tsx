@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Typography } from '@mui/material';
+import { Box, Button, Grid, Typography, useTheme } from '@mui/material';
 
 import Search from '@/components/Search';
 
@@ -14,7 +14,7 @@ const Manage = ({ toggle, setIsShowCreateDashboardForm }: any) => {
     setSearchByName,
     isOpenFilterDrawer,
   } = useManage();
-
+  const theme: any = useTheme();
   return (
     <Grid container>
       <Grid item xs={6} sm={6}>
@@ -47,13 +47,18 @@ const Manage = ({ toggle, setIsShowCreateDashboardForm }: any) => {
           />
         </Grid>
 
-        <Grid item xs={1} sm={1} mt={4}>
+        <Grid item xs={2} sm={2} mt={4} sx={{ textAlign: 'end' }}>
           <Button
             onClick={() => setIsOpenFilterDrawer(true)}
             startIcon={<FilterSharedIcon />}
-            sx={{ border: '1px solid #D1D5DB', color: '#6B7280' }}
+            sx={{
+              border: `1px solid ${theme?.palette?.grey[0]}`,
+              color: theme?.palette?.custom?.main,
+              height: '36px',
+              width: '100px',
+            }}
           >
-            Filters
+            Filter
           </Button>
         </Grid>
       </Grid>
