@@ -4,6 +4,7 @@ import { Box, Button, Checkbox } from '@mui/material';
 
 import ContactsCard from './ContactsCard';
 import Search from '@/components/Search';
+import AddGroupModal from './AddGroupModal';
 
 import { FilterSharedIcon, PlusSharedIcon } from '@/assets/icons';
 
@@ -15,7 +16,6 @@ import {
 import { styles } from './ContactsList.style';
 
 import { v4 as uuidv4 } from 'uuid';
-import AddGroupModal from './AddGroupModal';
 
 const ContactList = ({ chatMode }: any) => {
   const [searchContacts, setSearchContacts] = useState('');

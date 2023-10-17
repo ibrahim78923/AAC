@@ -2,7 +2,7 @@ import React from 'react';
 
 import Image from 'next/image';
 
-import { Box, Checkbox, Grid, Typography } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 
 import CommonModal from '@/components/CommonModal';
 import TanstackTable from '@/components/Tabel/TanstackTable';
@@ -11,14 +11,13 @@ import {
   RHFMultiSearchableSelect,
 } from '@/components/ReactHookForm';
 
-import { useForm } from 'react-hook-form';
-
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import {
   addGroupDefaultValues,
   addGroupFiltersDataArray,
   addGroupValidationSchema,
+  columns,
   participantsData,
 } from './AddGroupModal.data';
 import { AddGroupPropsI } from './AddGroup.interface';
@@ -26,6 +25,7 @@ import { AddGroupPropsI } from './AddGroup.interface';
 import { AddRoundedImage } from '@/assets/images';
 
 import { v4 as uuidv4 } from 'uuid';
+import { useForm } from 'react-hook-form';
 
 const AddGroupModal = ({
   isAddGroupModal,
@@ -42,32 +42,7 @@ const AddGroupModal = ({
 
   const { handleSubmit } = methodsAddGroup;
 
-  const columns = () => {
-    return [
-      {
-        accessorFn: (row: any) => row.id,
-        id: 'id',
-        cell: (info: any) => (
-          <Checkbox color="primary" name={info.getValue()} />
-        ),
-        header: 'Group Admin',
-        isSortable: false,
-      },
-      {
-        accessorFn: (row: any) => row.participant,
-        id: 'participant',
-        isSortable: false,
-        header: 'participant',
-        cell: (info: any) => info.getValue(),
-      },
-      {
-        id: 'Remove Participant',
-        isSortable: false,
-        header: 'Remove Participant',
-        cell: () => <Box>Remove</Box>,
-      },
-    ];
-  };
+  const getColumns = columns();
 
   return (
     <CommonModal
@@ -150,7 +125,7 @@ const AddGroupModal = ({
           </Grid>
         </FormProvider>
         <br />
-        <TanstackTable columns={columns()} data={participantsData} />
+        <TanstackTable columns={getColumns} data={participantsData} />
       </>
     </CommonModal>
   );

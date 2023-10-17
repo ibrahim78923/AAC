@@ -8,11 +8,11 @@ import ChatFooter from './ChatFooter';
 
 import { chatsData } from '@/mock/modules/SocialComponents/Chat';
 
+import { isNullOrEmpty } from '@/utils';
+
 import { customEmojis } from './ChatField.data';
 
 import { CharmTickIcon, ThreeDotsIcon } from '@/assets/icons';
-
-import { isNullOrEmpty } from '@/utils';
 
 import { styles } from './ChatField.style';
 

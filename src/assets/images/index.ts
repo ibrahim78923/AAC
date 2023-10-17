@@ -68,10 +68,10 @@ export { default as UserAvatarImage } from '../../assets/images/modules/socialCo
 export { default as UserSenderImage } from '../../assets/images/modules/socialComponents/chat/sender-user.png';
 export { default as GreenBgImage } from '../../assets/images/modules/superAdmin/dashboard/green-bg-img.png';
 export { default as NotSelectedItemImage } from './modules/airSales/Dashboard/not-selected-item.png';
-export { default as PreviewOneImage } from '../../assets/images/modules/socialComponents/chat/preview-one.png';
-export { default as PreviewTwoImage } from '../../assets/images/modules/socialComponents/chat/preview-two.png';
-export { default as PreviewThreeImage } from '../../assets/images/modules/socialComponents/chat/preview-three.png';
+export { default as PreviewVegImage } from '../../assets/images/modules/socialComponents/chat/preview-veg.png';
+export { default as PreviewTrainImage } from '../../assets/images/modules/socialComponents/chat/preview-train.png';
+export { default as PreviewColorsImage } from '../../assets/images/modules/socialComponents/chat/preview-colors.png';
 export { default as GroupAvatarImage } from '../../assets/images/modules/socialComponents/chat/group-avatar.png';
-export { default as GroupAvatarTwoImage } from '../../assets/images/modules/socialComponents/chat/group-avatar-two.png';
+export { default as GroupAvatarAdidasImage } from '../../assets/images/modules/socialComponents/chat/group-avatar-adidas.png';
 export { default as AddRoundedImage } from '../../assets/images/modules/socialComponents/chat/add-image-rounded.png';
 export { default as UserProfileAvatarImage } from '../../assets/images/modules/socialComponents/chat/user-profile-avatar.png';

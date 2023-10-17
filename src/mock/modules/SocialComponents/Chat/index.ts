@@ -1,11 +1,11 @@
 import {
-  PreviewOneImage,
-  PreviewThreeImage,
-  PreviewTwoImage,
+  PreviewVegImage,
+  PreviewColorsImage,
+  PreviewTrainImage,
   UserAvatarImage,
   UserSenderImage,
   GroupAvatarImage,
-  GroupAvatarTwoImage,
+  GroupAvatarAdidasImage,
 } from '@/assets/images';
 
 export const chatContactsData = [
@@ -45,7 +45,7 @@ export const chatGroupsData = [
   },
   {
     chatId: '01',
-    userAvatar: GroupAvatarTwoImage,
+    userAvatar: GroupAvatarAdidasImage,
     userName: 'Sport',
     lastMessage: "i'll be there in 2 minutes",
     notification: '2',
@@ -87,15 +87,15 @@ export const mediaAssetsData = [
     media: [
       {
         id: '1',
-        img: PreviewOneImage,
+        img: PreviewVegImage,
       },
       {
         id: '2',
-        img: PreviewTwoImage,
+        img: PreviewTrainImage,
       },
       {
         id: '13',
-        img: PreviewOneImage,
+        img: PreviewVegImage,
       },
     ],
   },
@@ -104,7 +104,7 @@ export const mediaAssetsData = [
     media: [
       {
         id: '2',
-        img: PreviewThreeImage,
+        img: PreviewColorsImage,
       },
     ],
   },
