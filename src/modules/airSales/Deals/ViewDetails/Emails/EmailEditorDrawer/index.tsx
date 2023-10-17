@@ -52,7 +52,7 @@ const EmailEditorDrawer = (props: any) => {
           >
             <Grid container spacing={3}>
               <Grid item xs={12}>
-                <RHFTextField name="fromEmail" label="From" />
+                <RHFTextField name="fromEmail" label="From" size="small" />
               </Grid>
               <Grid item xs={12}>
                 <RHFAutocomplete
@@ -61,6 +61,7 @@ const EmailEditorDrawer = (props: any) => {
                   options={options}
                   multiple
                   freeSolo
+                  size="small"
                 />
               </Grid>
               <Grid item xs={3}>
@@ -78,6 +79,7 @@ const EmailEditorDrawer = (props: any) => {
                     options={options}
                     multiple
                     freeSolo
+                    size="small"
                   />
                 </Grid>
               )}
@@ -89,6 +91,7 @@ const EmailEditorDrawer = (props: any) => {
                     options={options}
                     multiple
                     freeSolo
+                    size="small"
                   />
                 </Grid>
               )}
@@ -159,11 +162,11 @@ const EmailEditorDrawer = (props: any) => {
                 </Box>
               </Grid>
               <Grid item md={6}>
-                <RHFTextField name="subject" label="Subject" />
+                <RHFTextField name="subject" label="Subject" size="small" />
               </Grid>
 
               <Grid item md={6}>
-                <RHFSelect name="template" label="Template">
+                <RHFSelect name="template" label="Template" size="small">
                   {options?.map((option: any) => (
                     <option key={uuidv4()} value={option?.value}>
                       {option?.label}
