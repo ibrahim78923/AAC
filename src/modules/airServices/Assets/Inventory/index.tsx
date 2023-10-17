@@ -12,6 +12,7 @@ import AssetHead from '../AssetHead/index';
 
 function Inventory() {
   const [meetingsData, setMeetingsData] = useState([]);
+  const [searchValue, SetSearchValue] = useState<string>('');
   const theme: any = useTheme();
 
   return (
@@ -20,7 +21,12 @@ function Inventory() {
       <Grid item sx={styles.gridItems}>
         <Box sx={styles.headBox}>
           <Box sx={{ marginLeft: '24px' }}>
-            <Search label="search" width="100%" />
+            <Search
+              label="search"
+              width="100%"
+              searchBy={searchValue}
+              setSearchBy={SetSearchValue}
+            />
           </Box>
           <Box sx={styles.buttonBox}>
             <Button sx={styles.buttonStyle(theme)} variant="outlined" disabled>
