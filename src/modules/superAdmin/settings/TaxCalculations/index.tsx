@@ -29,7 +29,7 @@ import {
   taxFormFiltersValidationSchema,
 } from './TaxCalculations.data';
 
-import { taxCalculationTableData } from '@/mock/modules/Settings/TaxCalculation';
+import { taxCalculationTableData } from '@/mock/modules/superAdmin/Settings/TaxCalculation';
 
 import { DownIcon, FilterSharedIcon, RefreshSharedIcon } from '@/assets/icons';
 import PlusShared from '@/assets/icons/shared/plus-shared';

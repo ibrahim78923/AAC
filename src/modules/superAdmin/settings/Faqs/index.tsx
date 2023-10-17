@@ -24,7 +24,7 @@ import {
   faqsFilterValidationSchema,
 } from './Faqs.data';
 
-import { faqsTableDate } from '@/mock/modules/Settings/Faqs';
+import { faqsTableDate } from '@/mock/modules/superAdmin/Settings/Faqs';
 import { FormProvider } from '@/components/ReactHookForm';
 
 import { DownIcon, FilterSharedIcon, RefreshSharedIcon } from '@/assets/icons';
