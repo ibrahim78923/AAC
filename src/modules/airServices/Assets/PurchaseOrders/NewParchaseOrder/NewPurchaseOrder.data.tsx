@@ -16,6 +16,17 @@ export const dropdownDummy = [
   },
 ];
 
+export const dropdownDummy2 = [
+  {
+    value: 122,
+    label: 'Option 1',
+  },
+  {
+    value: 22,
+    label: 'Option 2',
+  },
+];
+
 const ticketsTypeOptions = [
   {
     value: 'search',
@@ -66,9 +77,15 @@ const ticketsTypeOptions = [
 // form validation schema
 export const validationSchema: any = yup.object().shape({
   orderName: yup.string().required('Required field!'),
-  orderNumber: yup.number().required('Required field!'),
+  orderNumber: yup
+    .number()
+    .typeError('Enter valid date format!')
+    .required('Required field!'),
   vendor: yup.string().required('Required field!'),
-  currency: yup.number().required('Required field!'),
+  currency: yup
+    .string()
+    .typeError('Enter valid date format!')
+    .required('Required field!'),
   department: yup.string(),
   deliverDate: yup
     .date()
@@ -115,7 +132,7 @@ export const newPurchaseFields = [
   },
   {
     id: 2,
-    component: RHFTextField,
+    component: RHFSelect,
     gridLength: 6,
     componentProps: {
       fullWidth: true,
@@ -128,7 +145,7 @@ export const newPurchaseFields = [
   },
   {
     id: 2,
-    component: RHFTextField,
+    component: RHFSelect,
     gridLength: 6,
     componentProps: {
       fullWidth: true,
