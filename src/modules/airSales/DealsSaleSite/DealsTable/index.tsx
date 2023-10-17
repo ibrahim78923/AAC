@@ -7,7 +7,7 @@ import TanstackTable from '@/components/Tabel/TanstackTable';
 import CustomPagination from '@/components/CustomPagination';
 
 import { dealsTableData } from '@/mock/modules/airSales/Deals/DealsTableData';
-import { dealsColumns } from './TableColumns.data';
+import { dealsColumns } from './DealsTable.data';
 
 export default function DelasTable() {
   return (

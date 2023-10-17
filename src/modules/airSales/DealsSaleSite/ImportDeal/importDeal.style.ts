@@ -18,7 +18,9 @@ export const styles = {
 
   selectColTypography: (theme: any) => ({
     color: theme.palette.slateBlue['main'],
-    margin: '20px 16px',
+    margin: '20px 0',
     marginBottom: '8px',
+    fontSize: '16px',
+    fontWeight: '600',
   }),
 };

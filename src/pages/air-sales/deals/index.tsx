@@ -2,11 +2,7 @@ import SalesDeals from '@/modules/airSales/DealsSaleSite';
 import React from 'react';
 
 const Deals = () => {
-  return (
-    <div>
-      <SalesDeals />
-    </div>
-  );
+  return <SalesDeals />;
 };
 
 export default Deals;

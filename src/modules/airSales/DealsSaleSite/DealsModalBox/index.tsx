@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { AlertModals } from '@/components/AlertModals';
-import UseDeleteModal from './useDeleteModal';
+import UseDeleteModal from './useDealsModalBox';
 
 const DeleteModal = () => {
   const { handleOpen, setHandleOpen } = UseDeleteModal();

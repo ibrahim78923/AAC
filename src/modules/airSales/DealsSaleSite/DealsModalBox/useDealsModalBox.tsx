@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const UseDeleteModal = () => {
+const useDeleteModal = () => {
   const [handleOpen, setHandleOpen] = useState(false);
 
   return {
@@ -8,4 +8,4 @@ const UseDeleteModal = () => {
     setHandleOpen,
   };
 };
-export default UseDeleteModal;
+export default useDeleteModal;

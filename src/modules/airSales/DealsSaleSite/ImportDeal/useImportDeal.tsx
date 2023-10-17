@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { SelectChangeEvent } from '@mui/material';
 
-const UseImportDeal = () => {
+const useImportDeal = () => {
   const [columnsSelect, setColumnsSelect] = useState(false);
   const [fieldsValue, setFieldsValue] = useState<any>({
     dealName: '',
@@ -31,4 +31,4 @@ const UseImportDeal = () => {
   };
 };
 
-export default UseImportDeal;
+export default useImportDeal;

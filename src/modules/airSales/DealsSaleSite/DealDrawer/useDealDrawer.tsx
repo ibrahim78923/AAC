@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const UseDealDrawer = (props: any) => {
+const useDealDrawer = (props: any) => {
   const { defaultOpen } = props;
   const [open, setOpen] = useState(defaultOpen ?? false);
   const handleTogle = () => setOpen(!open);
@@ -11,4 +11,4 @@ const UseDealDrawer = (props: any) => {
   };
 };
 
-export default UseDealDrawer;
+export default useDealDrawer;

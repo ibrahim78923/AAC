@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const UseViewAll = () => {
+const useViewAll = () => {
   const [search, setSearch] = useState('');
   return {
     search,
@@ -8,4 +8,4 @@ const UseViewAll = () => {
   };
 };
 
-export default UseViewAll;
+export default useViewAll;

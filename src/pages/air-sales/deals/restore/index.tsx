@@ -1,11 +1,7 @@
 import RestoreTable from '@/modules/airSales/DealsSaleSite/RestoreTable';
 
 const index = () => {
-  return (
-    <div>
-      <RestoreTable />
-    </div>
-  );
+  return <RestoreTable />;
 };
 
 export default index;

@@ -3,14 +3,14 @@ import React from 'react';
 import { Typography, Box, useTheme } from '@mui/material';
 
 import DealDrawer from '../DealDrawer';
-import ImportMapColumnsDeal from './ImportMapColumns';
+import ImportMapColumnsDeal from './ImportColumns';
 import UseImportDeal from './useImportDeal';
 
 import { ImportIcon } from '@/assets/icons';
-import { styles } from './importDeal.style';
+import { styles } from './ImportDeal.style';
 
 const ImportDeal = () => {
-  const theme = useTheme();
+  const theme: any = useTheme();
   const { handleSubmit, columnsSelect } = UseImportDeal();
 
   const okTitle = columnsSelect ? 'Import' : 'Next';
@@ -22,8 +22,11 @@ const ImportDeal = () => {
         sx: {
           width: '107px',
           height: '35px',
-          '&:hover': { background: '#D1D5DB', borderColor: '#D1D5DB' },
-          borderColor: '#D1D5DB',
+          '&:hover': {
+            background: theme.palette.grey[0],
+            borderColor: theme.palette.grey[0],
+          },
+          borderColor: theme.palette.grey[0],
         },
       }}
       drawerProps={{
@@ -37,14 +40,12 @@ const ImportDeal = () => {
           ? 'Map Columns from your file to the right CRM fields. Your 5 unmapped columns won’t be imported'
           : 'Uploaded file must have these columns'}
       </Typography>
+
       <Typography variant="h6" sx={styles.Typograpghy(theme)}>
         Step {columnsSelect ? '2' : '1'} of 2
       </Typography>
       {!columnsSelect ? (
-        <Box>
-          <Typography
-            sx={{ color: '#374151', marginTop: '16px', marginBottom: '8px' }}
-          ></Typography>
+        <Box sx={{ mt: '20px' }}>
           <ul
             style={{
               paddingLeft: '30px',
@@ -54,7 +55,10 @@ const ImportDeal = () => {
             <li>Name</li>
             <li>Deal Value</li>
           </ul>
-          <Typography sx={{ color: '#4B5563', marginY: '8px' }}>
+          <Typography
+            variant="h6"
+            sx={{ color: theme.palette.grey[600], my: '10px' }}
+          >
             Import Deals
           </Typography>
         </Box>

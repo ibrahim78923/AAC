@@ -1,11 +1,6 @@
 import Image from 'next/image';
 
 import {
-  FormControl,
-  InputLabel,
-  ListSubheader,
-  MenuItem,
-  Select,
   Table,
   TableCell,
   TableRow,
@@ -14,16 +9,15 @@ import {
 } from '@mui/material';
 
 import { ImportDealsData } from '@/mock/modules/airSales/Deals/ImportDeals';
-import UseImportDeal from './useImportDeal';
+import UseImportDeal from '../useImportDeal';
+import CustomSelect from './CustomSelect';
 
 import { AvailableImage } from '@/assets/images';
 
 import { v4 as uuidv4 } from 'uuid';
 
-import { styles } from './importDeal.style';
-
-const ImportMapColumns = () => {
-  const { handleChange, fieldsValue } = UseImportDeal();
+const ImportColumns = () => {
+  const { fieldsValue, handleChange } = UseImportDeal();
 
   return (
     <Table>
@@ -41,10 +35,10 @@ const ImportMapColumns = () => {
 
             <TableCell align="left" sx={{ width: '200px' }}>
               <CustomSelect
-                index={i}
+                id={i}
+                options={data.options}
                 handleChange={handleChange}
                 value={fieldsValue[data.selectProps.name]}
-                options={data.options}
                 {...data.selectProps}
               />
             </TableCell>
@@ -65,38 +59,4 @@ const ImportMapColumns = () => {
   );
 };
 
-export default ImportMapColumns;
-
-const CustomSelect = ({
-  handleChange,
-  value,
-  options,
-  index,
-  ...rest
-}: any) => {
-  return (
-    <FormControl fullWidth>
-      <InputLabel sx={styles.inputLabel} id={'select-label' + index}>
-        {rest.label}
-      </InputLabel>
-      <Select
-        size="small"
-        labelId={'select-label' + index}
-        id={'select' + index}
-        value={value}
-        onChange={handleChange}
-        {...rest}
-      >
-        {options.map((option: any) =>
-          option.head ? (
-            <ListSubheader key={option.head}>{option.head}</ListSubheader>
-          ) : (
-            <MenuItem value={option.value} key={option.value}>
-              {option.label}
-            </MenuItem>
-          ),
-        )}
-      </Select>
-    </FormControl>
-  );
-};
+export default ImportColumns;

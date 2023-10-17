@@ -12,7 +12,7 @@ import DealHeader from './DealHeader';
 import DealFilter from './DealFilter';
 import ShareMyDine from './ShareMyDine';
 import DeleteModal from './DealsModalBox';
-import { menuItem } from './DealsTable/TableColumns.data';
+import { menuItem } from './DealsTable/DealsTable.data';
 import CreateView from './CreateView';
 import useDealSaleSite from './useDealSaleSite';
 
