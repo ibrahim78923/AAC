@@ -7,7 +7,7 @@ const CreateDashboard = ({ setIsShowCreateDashboardForm }: any) => {
   return (
     <>
       <Typography variant="h4">Create Dashboard</Typography>
-      <Grid container spacing={4}>
+      <Grid container spacing={4} mt={2}>
         <Grid item sm={4}>
           <CreateForm />
         </Grid>
