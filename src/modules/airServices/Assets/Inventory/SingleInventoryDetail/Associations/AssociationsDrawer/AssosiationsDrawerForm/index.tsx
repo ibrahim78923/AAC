@@ -1,6 +1,6 @@
 import { Box, Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
-import { createTicketDataArray } from './TasksForm.data';
+import { createTicketDataArray } from './AssociationsDrawer.data';
 import { v4 as uuidv4 } from 'uuid';
 
 function TasksForm({ submitCreateNewTicket, methods, handleSubmit }: any) {

@@ -8,7 +8,7 @@ const AssociationsDrawerData = () => {
 
   return (
     <Grid container>
-      <Grid item xs={12} width={'100%'}>
+      <Grid item xs={12}>
         <Search
           label="Search"
           width="100%"
@@ -17,7 +17,7 @@ const AssociationsDrawerData = () => {
           sx={{ width: '100%' }}
         />
       </Grid>
-      <Grid item xs={12} sx={{ mt: '16px' }}>
+      <Grid item xs={12} mt={'16px'}>
         <DrawerTable DrawerData={DrawerData} setDrawerData={setDrawerData} />
       </Grid>
     </Grid>

@@ -24,8 +24,8 @@ export const ASSETS_IMPACTS = {
 };
 const styleFunction: any = {
   [ASSETS_IMPACTS.LOW]: {
-    color: 'error.main',
-    bgColor: 'error.light',
+    color: 'success.main',
+    bgColor: '#47B2631A',
   },
   [ASSETS_IMPACTS.MEDIUM]: {
     color: 'warning.light',

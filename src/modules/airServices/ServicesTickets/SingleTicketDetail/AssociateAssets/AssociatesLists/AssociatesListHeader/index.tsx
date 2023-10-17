@@ -7,33 +7,27 @@ export const AssociatesListHeader = () => {
   return (
     <>
       <Box
-        display={'flex'}
-        justifyContent={'space-between'}
-        alignItems={'center'}
-        flexWrap={'wrap'}
-        gap={'1rem'}
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          flexWrap: 'wrap',
+          gap: '1rem',
+        }}
       >
         <Typography variant="h6">Associations</Typography>
-        <Box
-          gap={'1rem'}
-          display={'flex'}
-          alignItems={'center'}
-          flexWrap={'wrap'}
+        <Button
+          variant="contained"
+          endIcon={<AddCircleOutlineIcon />}
+          onClick={() => setOpenDrawer(true)}
         >
-          <Button
-            variant="contained"
-            size="large"
-            endIcon={<AddCircleOutlineIcon />}
-            onClick={() => setOpenDrawer(true)}
-          >
-            Add Associations
-          </Button>
-          <AddAssociationsDrawer
-            open={openDrawer}
-            setDrawerOpen={() => setOpenDrawer(false)}
-          />
-        </Box>
+          Add Associations
+        </Button>
       </Box>
+      <AddAssociationsDrawer
+        open={openDrawer}
+        setDrawerOpen={() => setOpenDrawer(false)}
+      />
     </>
   );
 };
