@@ -26,7 +26,7 @@ const Reports = () => {
                     height: '30px',
                     display: 'flex',
                     alignItems: 'center',
-                    bgColor: '#AFEAE1',
+                    backgroundColor: '#AFEAE1',
                   }}
                 >
                   {item?.icon}
