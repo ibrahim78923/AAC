@@ -11,10 +11,16 @@ import ContactList from './ContactsList';
 import { useContacts } from './Contacts.hook';
 
 import { styles } from './Contact.style';
+import { useAppSelector } from '@/redux/store';
 
 const Contacts = () => {
   const theme = useTheme();
-  const { chatMode, handleSelection } = useContacts({});
+  const { handleSelection } = useContacts();
+
+  const chatModeState = useAppSelector(
+    (state: any) => state.chat.chatModeState,
+  );
+  const chatMode = chatModeState.chatModeState;
 
   return (
     <>

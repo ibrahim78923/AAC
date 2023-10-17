@@ -22,10 +22,13 @@ import CloseIcon from '@/assets/icons/shared/close-icon';
 import { UserProfileAvatarImage } from '@/assets/images';
 
 import { styles } from './ChatInfoModal.style';
+import Members from './Members';
+import { v4 as uuidv4 } from 'uuid';
 
 const ChatInfoModal = ({
   isUserProfile,
   setIsUserProfile,
+  chatMode,
 }: ChatInfoModalPropsI) => {
   const theme = useTheme();
   const [toggleSwitchActive, setToggleSwitchActive] = useState('media');
@@ -35,6 +38,41 @@ const ChatInfoModal = ({
       setToggleSwitchActive(newValue);
     }
   };
+
+  const viewUserProfileButtonData = [
+    {
+      label: 'Media',
+      value: 'media',
+      position: 'left-aligned',
+    },
+    {
+      label: 'Docs',
+      value: 'docs',
+      position: 'left-aligned',
+    },
+    {
+      label: 'Links',
+      value: 'link',
+      position: 'right-aligned',
+    },
+  ];
+  const viewGroupInfoButtonData = [
+    {
+      label: 'Members',
+      value: 'members',
+      position: 'left-aligned',
+    },
+    {
+      label: 'Shared Media',
+      value: 'media',
+      position: 'left-aligned',
+    },
+  ];
+
+  const buttonsToShow =
+    chatMode === 'groupChat'
+      ? viewGroupInfoButtonData
+      : viewUserProfileButtonData;
 
   return (
     <Modal
@@ -47,7 +85,7 @@ const ChatInfoModal = ({
       <Box sx={styles.infoModalWrapper}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
           <Typography variant="h6" sx={{ fontWeight: '500' }}>
-            Profile
+            {chatMode === 'groupChat' ? 'Group Info' : 'Profile'}
           </Typography>
           <Box onClick={() => setIsUserProfile(false)}>
             <CloseIcon />
@@ -61,12 +99,23 @@ const ChatInfoModal = ({
             alt="profile-image"
           />
           <br />
-          <Typography variant="body3" sx={{ fontWeight: '500' }}>
-            Phone: (+312) 123456789
-          </Typography>
-          <Typography variant="body3" sx={{ fontWeight: '500' }}>
-            Email: info@aritablecart.com
-          </Typography>
+          {chatMode === 'groupChat' ? (
+            <Typography
+              variant="h6"
+              sx={{ fontWeight: '600', color: theme.palette.common.black }}
+            >
+              Product Catalog
+            </Typography>
+          ) : (
+            <>
+              <Typography variant="body3" sx={{ fontWeight: '500' }}>
+                Phone: (+312) 123456789
+              </Typography>
+              <Typography variant="body3" sx={{ fontWeight: '500' }}>
+                Email: info@aritablecart.com
+              </Typography>
+            </>
+          )}
         </Box>
         <br />
         <Divider sx={{ border: `1px solid ${theme.palette.custom.dark}` }} />
@@ -79,21 +128,22 @@ const ChatInfoModal = ({
             onChange={handleSelection}
             aria-label="text alignment"
           >
-            <ToggleButton value="media" aria-label="left-aligned">
-              Media
-            </ToggleButton>
-            <ToggleButton value="docs" aria-label="right-aligned">
-              Docs
-            </ToggleButton>
-            <ToggleButton value="link" aria-label="right-aligned">
-              Link
-            </ToggleButton>
+            {buttonsToShow.map((item: any) => (
+              <ToggleButton
+                key={uuidv4()}
+                value={item.value}
+                aria-label={item.position}
+              >
+                {item.label}
+              </ToggleButton>
+            ))}
           </ToggleButtonGroup>
         </Box>
         <Box>
           {toggleSwitchActive === 'media' && <MediaAssets />}
           {toggleSwitchActive === 'docs' && <DocumentAssets />}
           {toggleSwitchActive === 'link' && <LinksAssets />}
+          {toggleSwitchActive === 'members' && <Members />}
         </Box>
       </Box>
     </Modal>

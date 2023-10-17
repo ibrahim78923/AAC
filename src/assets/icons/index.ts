@@ -78,3 +78,5 @@ export { default as QuotesIcon } from './shared/quotes';
 export { default as PercentageCircleIcon } from './shared/percentage-circle';
 export { default as FileJpgIcon } from './shared/file-jpg';
 export { default as LinkBoldIcon } from './shared/link-bold';
+export { default as InfoIcon } from './shared/info';
+export { default as ReplyIcon } from './shared/reply';

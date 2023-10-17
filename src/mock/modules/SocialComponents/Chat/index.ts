@@ -80,6 +80,39 @@ export const chatsData = [
     role: 'receiver',
   },
 ];
+export const groupChatsData = [
+  {
+    chatID: '1',
+    userId: '1',
+    userImage: UserAvatarImage,
+    userName: 'Anamiya',
+    message: 'Hi Michael <br/> Hope you are doing well.',
+    timeStamp: '10:39 AM',
+    role: 'receiver',
+  },
+  {
+    chatID: '2',
+    userId: '2',
+    userImage: UserSenderImage,
+    message: 'Hi Janetta <br/> Rotolo I am Fine.',
+    timeStamp: '10:40 AM',
+    role: 'sender',
+    chatReaction: '&#x2764;',
+  },
+  {
+    chatID: '3',
+    userId: '1',
+    userImage: UserAvatarImage,
+    userName: 'Anamiya',
+    message: 'So, What is your plan this Weekend?',
+    timeStamp: '10:39 AM',
+    role: 'receiver',
+    messageReplyContents: {
+      replyTo: 'You',
+      messageRefference: 'Hey Buddy, Yes i am Fine <br/> What About You?',
+    },
+  },
+];
 
 export const mediaAssetsData = [
   {

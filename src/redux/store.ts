@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { baseAPI } from '../services/base-api';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
+import chatSlice from './slices/chat/slice';
 
 // Define an action to set store initialization
 // export const setStoreInitialized = createAction("store/setInitialized");
@@ -8,6 +9,7 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 const store = configureStore({
   reducer: {
     [baseAPI.reducerPath]: baseAPI.reducer,
+    chat: chatSlice,
   },
   middleware: (defaultMiddleware) =>
     defaultMiddleware().concat(baseAPI.middleware),

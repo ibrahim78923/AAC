@@ -1,16 +1,19 @@
-import { useState } from 'react';
+import { setChatModes } from '@/redux/slices/chat/slice';
+import { useDispatch } from 'react-redux';
 
 export const useContacts = () => {
-  const [chatMode, setChatMode] = useState('personalChat');
+  const dispatch = useDispatch();
+  // const [chatMode, setChatMode] = useState('personalChat');
 
   const handleSelection = (_: any, newValue: any) => {
-    if (newValue !== null) {
-      setChatMode(newValue);
-    }
+    dispatch(setChatModes({ chatModeState: newValue }));
+    // if (newValue !== null) {
+    //   setChatMode(newValue);
+    // }
   };
 
   return {
-    chatMode,
+    // chatMode,
     handleSelection,
   };
 };

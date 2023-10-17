@@ -6,14 +6,20 @@ import { Box, Button, Typography, useTheme } from '@mui/material';
 
 import { UserAvatarImage } from '@/assets/images';
 
-import { PhoneWhiteIcon, ThreeDotsIcon, UserWhiteIcon } from '@/assets/icons';
+import {
+  InfoIcon,
+  PhoneWhiteIcon,
+  ThreeDotsIcon,
+  UserWhiteIcon,
+} from '@/assets/icons';
 
 import { styles } from './ChatHeader.style';
 import ChatInfoModal from './ChatInfoModal';
 
-const ChatHeader = () => {
+const ChatHeader = ({ chatMode }: any) => {
   const theme = useTheme();
   const [isUserProfile, setIsUserProfile] = useState(false);
+
   return (
     <>
       <Box sx={styles.headerChat(theme)}>
@@ -45,7 +51,7 @@ const ChatHeader = () => {
             sx={styles.unStyledButton}
             onClick={() => setIsUserProfile(true)}
           >
-            <UserWhiteIcon />
+            {chatMode === 'groupChat' ? <InfoIcon /> : <UserWhiteIcon />}
           </Button>
           <Button sx={styles.unStyledButton}>
             <ThreeDotsIcon color={theme.palette.common.white} />
@@ -55,6 +61,7 @@ const ChatHeader = () => {
       <ChatInfoModal
         isUserProfile={isUserProfile}
         setIsUserProfile={setIsUserProfile}
+        chatMode={chatMode}
       />
     </>
   );
