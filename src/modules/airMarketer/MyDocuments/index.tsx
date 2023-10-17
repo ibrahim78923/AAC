@@ -432,6 +432,7 @@ const MyDocuments = () => {
         }}
         title={'Create new folder'}
         okText={'Create Folder'}
+        footerFill={undefined}
       >
         <Typography
           variant="body2"
@@ -470,6 +471,7 @@ const MyDocuments = () => {
         }}
         title={'Edit Name'}
         okText={'Save'}
+        footerFill={undefined}
       >
         <TextField type="text" placeholder="Enter Name" fullWidth />
         <Box
