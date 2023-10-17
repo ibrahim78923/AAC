@@ -26,7 +26,7 @@ export const SingleSoftwareDetailTabs = () => {
       </Box>
       <HorizontalTabs
         tabsDataArray={singleSoftwareDetailTabsData}
-        disableBoxShadow={false}
+        border={'none'}
       >
         <Overview />
         <Installations />
