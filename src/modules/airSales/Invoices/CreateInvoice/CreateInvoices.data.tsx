@@ -1,21 +1,13 @@
-import { useState } from 'react';
-
-import { useRouter } from 'next/router';
-
 import ChooseQuotes from './ChooseQuotes';
 import EditDetails from './EditDetails';
 import ReviewInvoice from './ReviewInvoice';
+import UseCreateInvoices from './useCreateInvoices';
 
 import { v4 as uuidv4 } from 'uuid';
 
 export const CreateInvoicesStepperData = () => {
-  const [addPlanFormValues, setAddPlanFormValues] = useState({});
-
-  const router = useRouter();
-
-  const hanldeGoBack = () => {
-    router.back();
-  };
+  const { hanldeGoBack, setAddPlanFormValues, addPlanFormValues } =
+    UseCreateInvoices();
 
   const invoicesStepperData = [
     {
