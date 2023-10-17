@@ -18,7 +18,7 @@ import { FormProvider } from '@/components/ReactHookForm';
 import { AlertModals } from '@/components/AlertModals';
 import QueryModal from './QueryModal';
 
-import { enquiriesTabledata } from '@/mock/modules/Settings/Enquiries';
+import { enquiriesTabledata } from '@/mock/modules/superAdmin/Settings/Enquiries';
 
 import {
   columns,

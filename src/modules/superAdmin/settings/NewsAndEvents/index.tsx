@@ -29,7 +29,7 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 
-import { newsAndEventsTabledata } from '@/mock/modules/Settings/NewsAndEvents';
+import { newsAndEventsTabledata } from '@/mock/modules/superAdmin/Settings/NewsAndEvents';
 
 import PlusShared from '@/assets/icons/shared/plus-shared';
 import { DownIcon, FilterSharedIcon, RefreshSharedIcon } from '@/assets/icons';
