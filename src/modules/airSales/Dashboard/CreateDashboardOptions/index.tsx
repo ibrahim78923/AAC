@@ -31,7 +31,9 @@ const CreateDashboardOptions = ({ toggle }: any) => {
         onClose={handleCloseMenuOptions}
         TransitionComponent={Fade}
       >
-        <MenuItem onClick={() => toggle()}>Manage Dashboards</MenuItem>
+        <MenuItem onClick={() => toggle()}>
+          <Button variant="outlined">Manage Dashboards</Button>
+        </MenuItem>
       </Menu>
     </div>
   );
