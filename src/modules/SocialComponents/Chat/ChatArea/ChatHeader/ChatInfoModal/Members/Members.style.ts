@@ -1,12 +1,13 @@
 export const styles = {
-  headerChat: (theme: any) => {
+  boxMemberCard: () => {
     return {
-      background: theme?.palette?.primary.main,
-      padding: '0px 20px',
-      height: '74px',
-      borderRadius: '16px 16px 0px 0px',
+      border: `1px solid #E5E7EB`,
+      padding: '14px',
+      marginBottom: '12px',
       display: 'flex',
+      alignItems: 'center',
       justifyContent: 'space-between',
+      borderRadius: '8px',
     };
   },
 };

@@ -6,6 +6,7 @@ import {
   UserSenderImage,
   GroupAvatarImage,
   GroupAvatarAdidasImage,
+  UserProfileImage,
 } from '@/assets/images';
 
 export const chatContactsData = [
@@ -84,7 +85,7 @@ export const groupChatsData = [
   {
     chatID: '1',
     userId: '1',
-    userImage: UserAvatarImage,
+    userImage: UserProfileImage,
     userName: 'Anamiya',
     message: 'Hi Michael <br/> Hope you are doing well.',
     timeStamp: '10:39 AM',
@@ -140,5 +141,62 @@ export const mediaAssetsData = [
         img: PreviewColorsImage,
       },
     ],
+  },
+];
+
+export const groupMembers = [
+  {
+    id: '01',
+    name: 'Brooklyn Simmons',
+    image: UserAvatarImage,
+    role: 'admin',
+  },
+  {
+    id: '02',
+    name: 'Robert Fox',
+    image: UserSenderImage,
+    role: 'member',
+  },
+  {
+    id: '03',
+    name: 'Esther Howard',
+    image: UserAvatarImage,
+    role: 'admin',
+  },
+  {
+    id: '04',
+    name: 'Guy Hawkins',
+    image: UserSenderImage,
+    role: 'member',
+  },
+  {
+    id: '05',
+    name: 'Eleanor Pena',
+    image: UserAvatarImage,
+    role: 'member',
+  },
+  {
+    id: '06',
+    name: 'Robert Fox',
+    image: UserSenderImage,
+    role: 'member',
+  },
+  {
+    id: '07',
+    name: 'Esther Howard',
+    image: UserAvatarImage,
+    role: 'admin',
+  },
+  {
+    id: '08',
+    name: 'Guy Hawkins',
+    image: UserSenderImage,
+    role: 'member',
+  },
+  {
+    id: '09',
+    name: 'Eleanor Pena',
+    image: UserAvatarImage,
+    role: 'member',
   },
 ];
