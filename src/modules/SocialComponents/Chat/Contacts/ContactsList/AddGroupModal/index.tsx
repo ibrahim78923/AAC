@@ -1,12 +1,16 @@
 import React from 'react';
+
+import Image from 'next/image';
+
 import { Box, Checkbox, Grid, Typography } from '@mui/material';
 
 import CommonModal from '@/components/CommonModal';
-
+import TanstackTable from '@/components/Tabel/TanstackTable';
 import {
   FormProvider,
   RHFMultiSearchableSelect,
 } from '@/components/ReactHookForm';
+
 import { useForm } from 'react-hook-form';
 
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -18,10 +22,9 @@ import {
 } from './AddGroupModal.data';
 import { AddGroupPropsI } from './AddGroup.interface';
 
-import { v4 as uuidv4 } from 'uuid';
-import TanstackTable from '@/components/Tabel/TanstackTable';
 import { AddRoundedImage } from '@/assets/images';
-import Image from 'next/image';
+
+import { v4 as uuidv4 } from 'uuid';
 
 const AddGroupModal = ({
   isAddGroupModal,
