@@ -7,7 +7,8 @@ import ImportMapColumnsDeal from './ImportColumns';
 import UseImportDeal from './useImportDeal';
 
 import { ImportIcon } from '@/assets/icons';
-import { styles } from './ImportDeal.style';
+
+import { styles } from './importDeal.style';
 
 const ImportDeal = () => {
   const theme: any = useTheme();

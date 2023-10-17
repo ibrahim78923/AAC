@@ -9,9 +9,8 @@ import {
   Select,
 } from '@mui/material';
 
-import { styles } from '../../ImportDeal.style';
-
 import { v4 as uuidv4 } from 'uuid';
+import { styles } from '../../importDeal.style';
 
 const CustomSelect = ({ options, handleChange, value, id, ...rest }: any) => {
   return (
