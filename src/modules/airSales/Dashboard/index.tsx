@@ -60,9 +60,11 @@ const Dashboard = () => {
         </>
       )}
       {isShowCreateDashboardForm && (
-        <CreateDashboard
-          setIsShowCreateDashboardForm={setIsShowCreateDashboardForm}
-        />
+        <Grid item xs={12} sm={12}>
+          <CreateDashboard
+            setIsShowCreateDashboardForm={setIsShowCreateDashboardForm}
+          />
+        </Grid>
       )}
     </Grid>
   );

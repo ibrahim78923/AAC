@@ -7,6 +7,7 @@ import Table from './Table';
 
 import { ArrowLeft, FilterSharedIcon, PlusSharedIcon } from '@/assets/icons';
 import Filters from './Filters';
+
 const Manage = ({ toggle, setIsShowCreateDashboardForm }: any) => {
   const {
     setIsOpenFilterDrawer,
@@ -15,6 +16,7 @@ const Manage = ({ toggle, setIsShowCreateDashboardForm }: any) => {
     isOpenFilterDrawer,
   } = useManage();
   const theme: any = useTheme();
+
   return (
     <Grid container>
       <Grid item xs={6} sm={6}>
