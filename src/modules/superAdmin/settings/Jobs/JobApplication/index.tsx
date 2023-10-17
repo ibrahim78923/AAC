@@ -52,8 +52,9 @@ const JobApplication = () => {
         mb={3}
         sx={{
           display: 'flex',
-          alignItems: 'center',
+          flexWrap: 'wrap',
           justifyContent: 'space-between',
+          gap: '10px',
         }}
       >
         <Search

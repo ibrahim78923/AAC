@@ -74,6 +74,7 @@ const Faqs = () => {
         sx={{
           display: 'flex',
           justifyContent: 'space-between',
+          flexWrap: 'wrap',
           alignItems: 'center',
           marginBottom: '19px',
         }}
@@ -96,6 +97,7 @@ const Faqs = () => {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
+          flexWrap: 'wrap',
         }}
       >
         <Search
