@@ -72,3 +72,4 @@ export { default as GmailIcon } from './shared/gmail';
 
 export { default as OutlookIcon } from './shared/outlook';
 export { default as SendArrowIcon } from './modules/Deals/send-arrow';
+export { default as ExclamatoryCircleIcon } from './modules/Deals/exclamatory-circle';

@@ -1,23 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
+
+import Image from 'next/image';
+
 import { Box, Button, Checkbox, Grid, Typography } from '@mui/material';
+
+import EmailActionDropDown from './EmailActionDropDown';
+import EmailEditorDrawer from './EmailEditorDrawer';
+
+import useNameWithStyledWords from '@/hooks/useNameStyledWords';
+
 import { isNullOrEmpty } from '@/utils';
+
 import { NotesDataArray } from '@/mock/modules/Deals';
 
 import {
   GmailIcon,
   MessageIcon,
   OutlookIcon,
-  PlusSharedIcon,
   SMSIcon,
   SendArrowIcon,
 } from '@/assets/icons';
-import Image from 'next/image';
 import { styles } from '../ViewDetails.style';
-import useNameWithStyledWords from '@/hooks/useNameStyledWords';
 
 const Emails = () => {
   const { NameWithStyledWords, theme } = useNameWithStyledWords();
-  // const [openDrawer, setOpenDrawer] = useState('');
+  const [openDrawer, setOpenDrawer] = useState('');
   return (
     <Box
       sx={{
@@ -32,13 +39,15 @@ const Emails = () => {
             <Typography variant="h4"> Emails</Typography>
             {!isNullOrEmpty(NotesDataArray) && (
               <Box sx={{ gap: 1, display: 'flex' }}>
-                {/* <EmailActionDropDown setOpenDrawer={setOpenDrawer} /> */}
+                <EmailActionDropDown setOpenDrawer={setOpenDrawer} />
                 <Button
                   variant="contained"
-                  sx={{ minWidth: '0px', height: '35px', gap: 0.5 }}
-                  // onClick={() => setOpenDrawer('Add')}
+                  className="small"
+                  sx={{ gap: 0.5 }}
+                  onClick={() => setOpenDrawer('Add')}
                 >
-                  <PlusSharedIcon /> Add Calls
+                  <Typography variant="body2">Send Emails</Typography>
+                  <SendArrowIcon />
                 </Button>
               </Box>
             )}
@@ -61,7 +70,7 @@ const Emails = () => {
             Send Email right now from the CRM
           </Typography>
           <Button variant="contained" sx={{ height: '35px', gap: 0.5 }}>
-            <Typography variant="body2">Send Emails</Typography>{' '}
+            <Typography variant="body2">Send Emails</Typography>
             <SendArrowIcon />
           </Button>
           <Typography
@@ -82,7 +91,6 @@ const Emails = () => {
               sx={{ color: 'grey', gap: 0.5 }}
               className="small"
             >
-              {' '}
               <GmailIcon /> <Typography variant="body2">Gmail</Typography>
             </Button>
 
@@ -91,8 +99,7 @@ const Emails = () => {
               sx={{ color: 'grey', gap: 0.5 }}
               className="small"
             >
-              {' '}
-              <OutlookIcon />{' '}
+              <OutlookIcon />
               <Typography variant="body2">Microsoft Outlook</Typography>
             </Button>
 
@@ -101,7 +108,6 @@ const Emails = () => {
               sx={{ color: 'grey', gap: 0.5 }}
               className="small"
             >
-              {' '}
               <SMSIcon /> <Typography variant="body2">Others</Typography>
             </Button>
           </Box>
@@ -181,6 +187,10 @@ const Emails = () => {
           ))}
         </Grid>
       )}
+      <EmailEditorDrawer
+        openDrawer={openDrawer}
+        setOpenDrawer={setOpenDrawer}
+      />
     </Box>
   );
 };
