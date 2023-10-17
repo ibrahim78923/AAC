@@ -10,15 +10,13 @@ import Fade from '@mui/material/Fade';
 
 import useMenuOptions from './useMenuOptions';
 import { ArrowDropDown } from '@mui/icons-material';
+import { useRouter } from 'next/router';
+import { SUPER_ADMIN } from '@/constants';
 
-const MenuItems = ({
-  setIsOpenDrawer,
-  setIsShowViewBillingDetails,
-  setisShowGenerateInvoice,
-}: any) => {
+const MenuItems = ({ setIsOpenDrawer, setIsShowViewBillingDetails }: any) => {
   const { handleClickActions, handleCloseMenuOptions, anchorEl, openDropDown } =
     useMenuOptions();
-
+  const router = useRouter();
   return (
     <div>
       <Button
@@ -40,9 +38,9 @@ const MenuItems = ({
         TransitionComponent={Fade}
       >
         <MenuItem
-          onClick={() => {
-            setisShowGenerateInvoice(true);
-          }}
+          onClick={() =>
+            router.push(`${SUPER_ADMIN?.BILLING_INVOICES}/generate-invoice`)
+          }
         >
           Generate Invoice
         </MenuItem>

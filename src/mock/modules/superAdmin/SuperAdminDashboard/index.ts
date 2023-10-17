@@ -45,3 +45,34 @@ export const NotificationData = [
     icon: NotificationAvatarImage,
   },
 ];
+
+export const planListData = [
+  {
+    planId: '001',
+    description: `Air Sales`,
+    planName: 'Growth',
+    defaultUsers: '8',
+    planPrice: '£95',
+  },
+  {
+    planId: '002',
+    description: `Air Marketing`,
+    planName: 'Enterprise',
+    defaultUsers: '4',
+    planPrice: '£95',
+  },
+  {
+    planId: '003',
+    description: `Services`,
+    planName: 'Premium',
+    defaultUsers: '9',
+    planPrice: '£95',
+  },
+  {
+    planId: '004',
+    description: `Services`,
+    planName: 'Premium',
+    defaultUsers: '9',
+    planPrice: '£95',
+  },
+];

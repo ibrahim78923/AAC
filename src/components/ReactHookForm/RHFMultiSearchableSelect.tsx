@@ -1,12 +1,26 @@
 import React, { useState } from 'react';
 
-import { Box, InputAdornment, TextField, Menu } from '@mui/material';
+import {
+  Box,
+  InputAdornment,
+  TextField,
+  Menu,
+  Avatar,
+  Checkbox,
+  Typography,
+} from '@mui/material';
 
 import { useFormContext, Controller } from 'react-hook-form';
 
 import { ArrowDownIcon } from '@/assets/icons';
+import Search from '../Search';
 
-export default function RHFSearchableSelect({ name, options, ...other }: any) {
+export default function RHFMultiSearchableSelect({
+  name,
+  options,
+  isCheckBox,
+  ...other
+}: any) {
   const { control } = useFormContext();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
@@ -32,7 +46,7 @@ export default function RHFSearchableSelect({ name, options, ...other }: any) {
     }
   };
 
-  const filteredOptions = options.filter((option: any) =>
+  const filteredOptions = options?.filter((option: any) =>
     option.label.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
@@ -69,32 +83,61 @@ export default function RHFSearchableSelect({ name, options, ...other }: any) {
             PaperProps={{
               style: {
                 width: anchorEl ? anchorEl.clientWidth : 'auto',
+                padding: '10px',
               },
             }}
           >
             <>
-              <TextField
+              <Search
+                searchBy={searchTerm}
+                setSearchBy={setSearchTerm}
+                label="Search By Name"
                 fullWidth
-                placeholder="Search..."
-                onChange={(e) => setSearchTerm(e.target.value)}
-                style={{ height: '44px', marginBottom: '20px' }}
+                size="small"
+                sx={{ marginBottom: '15px' }}
               />
               {filteredOptions.map((option: any) => (
                 <Box
                   key={option.value}
                   onClick={() => {
-                    handleOptionSelect(option.value, field);
+                    {
+                      isCheckBox
+                        ? null
+                        : handleOptionSelect(option.value, field);
+                    }
                   }}
                   sx={{
                     width: '100%',
                     height: '30px',
                     padding: '5px 10px',
-                    backgroundColor: selectedValues.includes(option.value)
+                    display: 'flex',
+                    marginBottom: '10px',
+                    gap: '5px',
+                    backgroundColor: isCheckBox
+                      ? 'transparent'
+                      : selectedValues.includes(option.value)
                       ? '#e0e0e0'
                       : 'transparent',
                   }}
                 >
-                  {option.label}
+                  {option.image && (
+                    <Avatar
+                      sx={{ width: 24, height: 24 }}
+                      alt="user"
+                      src={option.image}
+                    />
+                  )}
+                  {isCheckBox && (
+                    <Checkbox
+                      onClick={() => {
+                        handleOptionSelect(option.value, field);
+                      }}
+                      checked={
+                        selectedValues.includes(option.value) ? true : false
+                      }
+                    />
+                  )}
+                  <Typography variant="body">{option.label}</Typography>
                 </Box>
               ))}
             </>

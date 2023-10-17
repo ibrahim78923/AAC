@@ -24,7 +24,7 @@ import {
   productFeaturesValidationSchema,
 } from './ProductFeatures.data';
 
-import { productFeatureTableData } from '@/mock/modules/Settings/ProductFeature';
+import { productFeatureTableData } from '@/mock/modules/superAdmin/Settings/ProductFeature';
 
 import PlusShared from '@/assets/icons/shared/plus-shared';
 import { DownIcon } from '@/assets/icons';
