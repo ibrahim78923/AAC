@@ -19,6 +19,7 @@ import {
   addGroupDefaultValues,
   addGroupFiltersDataArray,
   addGroupValidationSchema,
+  participantsData,
 } from './AddGroupModal.data';
 import { AddGroupPropsI } from './AddGroup.interface';
 
@@ -40,13 +41,6 @@ const AddGroupModal = ({
   };
 
   const { handleSubmit } = methodsAddGroup;
-
-  const participantsData = [
-    {
-      id: '01',
-      participant: 'jhon',
-    },
-  ];
 
   const columns = () => {
     return [

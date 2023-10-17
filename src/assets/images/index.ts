@@ -74,3 +74,4 @@ export { default as PreviewThreeImage } from '../../assets/images/modules/social
 export { default as GroupAvatarImage } from '../../assets/images/modules/socialComponents/chat/group-avatar.png';
 export { default as GroupAvatarTwoImage } from '../../assets/images/modules/socialComponents/chat/group-avatar-two.png';
 export { default as AddRoundedImage } from '../../assets/images/modules/socialComponents/chat/add-image-rounded.png';
+export { default as UserProfileAvatarImage } from '../../assets/images/modules/socialComponents/chat/user-profile-avatar.png';

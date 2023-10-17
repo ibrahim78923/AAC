@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import Image from 'next/image';
 
 import { Box, useTheme, Typography, Divider } from '@mui/material';
@@ -6,23 +8,15 @@ import ChatFooter from './ChatFooter';
 
 import { chatsData } from '@/mock/modules/SocialComponents/Chat';
 
+import { customEmojis } from './ChatField.data';
+
 import { CharmTickIcon, ThreeDotsIcon } from '@/assets/icons';
 
 import { isNullOrEmpty } from '@/utils';
 
 import { styles } from './ChatField.style';
-import { v4 as uuidv4 } from 'uuid';
-import { useState } from 'react';
 
-const customEmojis = [
-  '&#128512;',
-  '&#128513;',
-  '&#128514;',
-  '&#128515;',
-  '&#128516;',
-  '&#128517;',
-  '&#128519;',
-];
+import { v4 as uuidv4 } from 'uuid';
 
 const ChatField = () => {
   const theme = useTheme();

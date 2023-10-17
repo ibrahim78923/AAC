@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
+
 import Image from 'next/image';
+
 import {
   Box,
   Modal,
@@ -9,14 +11,22 @@ import {
   ToggleButtonGroup,
   ToggleButton,
 } from '@mui/material';
-import { styles } from './ChatInfoModal.style';
-import CloseIcon from '@/assets/icons/shared/close-icon';
-import { UserProfileAvatarImage } from '@/assets/images';
+
 import MediaAssets from './MediaAssets';
 import DocumentAssets from './DocumentAssets';
 import LinksAssets from './LinksAssets';
 
-const ChatInfoModal = ({ isUserProfile, setIsUserProfile }: any) => {
+import { ChatInfoModalPropsI } from './ChatInfoModal.interface';
+
+import CloseIcon from '@/assets/icons/shared/close-icon';
+import { UserProfileAvatarImage } from '@/assets/images';
+
+import { styles } from './ChatInfoModal.style';
+
+const ChatInfoModal = ({
+  isUserProfile,
+  setIsUserProfile,
+}: ChatInfoModalPropsI) => {
   const theme = useTheme();
   const [toggleSwitchActive, setToggleSwitchActive] = useState('media');
 
