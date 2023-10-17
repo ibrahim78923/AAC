@@ -78,3 +78,4 @@ export { default as QuotesIcon } from './shared/quotes';
 export { default as PercentageCircleIcon } from './shared/percentage-circle';
 export { default as FileJpgIcon } from './shared/file-jpg';
 export { default as LinkBoldIcon } from './shared/link-bold';
+export { default as PrimaryPreviewEyeIcon } from './shared/primary-preview-eye';

@@ -24,6 +24,7 @@ import { enqueueSnackbar } from 'notistack';
 import { v4 as uuidv4 } from 'uuid';
 import { useForm } from 'react-hook-form';
 import DetailsView from '../DetailsView';
+import { PrimaryPreviewEyeIcon } from '@/assets/icons';
 
 const CreateForm = ({ setIsShowCreateDashboardForm }: any) => {
   const [selectedDashoardWidget, setSelectedDashboardWidgets] = useState();
@@ -90,6 +91,9 @@ const CreateForm = ({ setIsShowCreateDashboardForm }: any) => {
                 )}
               </Grid>
             ))}
+            <Button variant="outlined" startIcon={<PrimaryPreviewEyeIcon />}>
+              Preview Dashboard
+            </Button>
           </Grid>
           <Grid sm={12} lg={6}>
             <DetailsView selectedDashoardWidget={selectedDashoardWidget} />
