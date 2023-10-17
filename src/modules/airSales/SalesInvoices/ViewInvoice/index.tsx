@@ -94,7 +94,7 @@ export const ViewInvoice = () => {
         >
           <Button
             sx={style.cancelButton(theme.palette)}
-            onClick={() => router.push('/sales-invoices')}
+            onClick={() => router.push('/air-sales/sales-invoices')}
           >
             Back
           </Button>

@@ -22,11 +22,11 @@ const Reports = () => {
                 <Box
                   sx={{
                     padding: '20px 12px',
-                    bgcolor: '#38CAB5',
                     borderRadius: '10px',
                     height: '30px',
                     display: 'flex',
                     alignItems: 'center',
+                    bgColor: '#AFEAE1',
                   }}
                 >
                   {item?.icon}

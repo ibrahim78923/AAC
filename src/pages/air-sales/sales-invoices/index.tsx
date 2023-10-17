@@ -1,5 +1,5 @@
 import Layout from '@/layout';
-import SalesInvoices from '@/modules/SalesInvoices';
+import SalesInvoices from '@/modules/airSales/SalesInvoices';
 import React from 'react';
 
 const SalesInvoicesPage = () => {

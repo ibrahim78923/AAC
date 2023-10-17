@@ -4,7 +4,7 @@ import {
   clientDetails,
   cardDetails,
   invoiceDetail,
-} from '@/mock/modules/SalesInvoices/index';
+} from '@/mock/modules/airSales/SalesInvoices';
 import { LogoSharedIcon } from '@/assets/icons';
 import { useTheme } from '@mui/material/styles';
 import { style } from './EditDetail.style';

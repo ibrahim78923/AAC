@@ -23,13 +23,13 @@ const CreateInvoice = () => {
           <Stack gap="10px" direction="row">
             <Button
               variant="outlined"
-              onClick={() => router.push('/sales-invoices')}
+              onClick={() => router.push('/air-sales/sales-invoices')}
             >
               Cancel
             </Button>
             <Button
               variant="outlined"
-              onClick={() => router.push('/sales-invoices')}
+              onClick={() => router.push('/air-sales/sales-invoices')}
             >
               Skip
             </Button>

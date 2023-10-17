@@ -1,5 +1,5 @@
 import Layout from '@/layout';
-import Reports from '@/modules/Reports';
+import Reports from '@/modules/superAdmin/Reports';
 
 const SuperAdminReportsPage = () => {
   return <Reports />;
