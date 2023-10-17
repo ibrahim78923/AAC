@@ -2,15 +2,15 @@ import { RHFDatePicker, RHFSelect } from '@/components/ReactHookForm';
 import { Checkbox } from '@mui/material';
 import * as Yup from 'yup';
 export const newsAndEventsDateValidationSchema = Yup.object().shape({
-  candidates: Yup.string().trim().required('Field is Required'),
-  applyDate: Yup.string().trim().required('Field is Required'),
+  createdDate: Yup.string().trim().required('Field is Required'),
   status: Yup.string().trim().required('Field is Required'),
+  type: Yup.string().trim().required('Field is Required'),
 });
 
 export const newsAndEventsDateDefaultValues = {
-  candidates: '',
-  applyDate: '',
+  createdDate: '',
   status: '',
+  type: '',
 };
 
 export const newsAndEventsDateFiltersDataArray = [

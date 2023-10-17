@@ -26,7 +26,10 @@ export const dataArray = [
       name: 'recurringEmail',
       label: 'Is this a recurring email ?',
       fullWidth: true,
-      options: ['Yes', 'No'],
+      options: [
+        'No, this email will only be sent once',
+        'Yes, this is recurring email',
+      ],
     },
     component: RHFRadioGroup,
     md: 12,
@@ -81,10 +84,10 @@ export const dataArray = [
 
   {
     componentProps: {
-      name: 'internalRecipients',
-      label: 'Is this a recurring email ?',
+      name: 'reportsInExport',
+      label: '',
       fullWidth: true,
-      options: ['Yes', 'No'],
+      options: ['Include all reports', 'Include selected reports'],
     },
     component: RHFRadioGroup,
     md: 12,

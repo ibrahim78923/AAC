@@ -7,6 +7,7 @@ import Search from '@/components/Search';
 import TanstackTable from '@/components/Tabel/TanstackTable';
 import CustomPagination from '@/components/CustomPagination';
 import { FormProvider } from '@/components/ReactHookForm';
+import { AlertModals } from '@/components/AlertModals';
 
 import {
   columns,
@@ -18,18 +19,17 @@ import {
   jobPostingValidationSchema,
 } from './jobPosting.data';
 
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
-
 import { JobPostingPropsI } from './JobPostingProps.interface';
 
-import { jobPostingTabledata } from '@/mock/modules/Settings/Jobs';
+import { jobPostingTabledata } from '@/mock/modules/superAdmin/Settings/Jobs';
 
 import { DownIcon, FilterSharedIcon, RefreshSharedIcon } from '@/assets/icons';
 
-import { styles } from './Jobs.styles';
 import { v4 as uuidv4 } from 'uuid';
-import { AlertModals } from '@/components/AlertModals';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+
+import { styles } from './Jobs.styles';
 
 const JobPosting = ({
   isJobPostingDrawer,
@@ -76,6 +76,8 @@ const JobPosting = ({
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
+          flexWrap: 'wrap',
+          gap: '10px',
         }}
       >
         <Search
@@ -88,7 +90,7 @@ const JobPosting = ({
         <Box
           sx={{
             display: 'flex',
-            alignItems: 'center',
+            flexWrap: 'wrap',
             gap: '10px',
           }}
         >

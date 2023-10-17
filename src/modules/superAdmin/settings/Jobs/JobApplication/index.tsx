@@ -8,10 +8,7 @@ import TanstackTable from '@/components/Tabel/TanstackTable';
 import CustomPagination from '@/components/CustomPagination';
 import { FormProvider } from '@/components/ReactHookForm';
 
-import { jobApplicationTabledata } from '@/mock/modules/Settings/Jobs';
-
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
+import { jobApplicationTabledata } from '@/mock/modules/superAdmin/Settings/Jobs';
 
 import {
   columns,
@@ -23,6 +20,9 @@ import {
 import { FilterSharedIcon, RefreshSharedIcon } from '@/assets/icons';
 
 import { styles } from './JobsApplication.styles';
+
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useForm } from 'react-hook-form';
 import { v4 as uuidv4 } from 'uuid';
 
 const JobApplication = () => {
@@ -41,6 +41,10 @@ const JobApplication = () => {
   };
   const { handleSubmit } = methodsJobApplication;
 
+  const handelStatusChange = () => {};
+
+  const getColumns = columns(handelStatusChange);
+
   return (
     <Box>
       <Box
@@ -48,8 +52,9 @@ const JobApplication = () => {
         mb={3}
         sx={{
           display: 'flex',
-          alignItems: 'center',
+          flexWrap: 'wrap',
           justifyContent: 'space-between',
+          gap: '10px',
         }}
       >
         <Search
@@ -78,7 +83,7 @@ const JobApplication = () => {
         </Box>
       </Box>
       <Box>
-        <TanstackTable columns={columns} data={jobApplicationTabledata} />
+        <TanstackTable columns={getColumns} data={jobApplicationTabledata} />
         <CustomPagination
           count={1}
           rowsPerPageOptions={[1, 2]}

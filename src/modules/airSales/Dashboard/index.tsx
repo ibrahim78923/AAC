@@ -8,6 +8,7 @@ import Widget from './Widget';
 import CreateDashboard from './CreateDashboard';
 import CreateDashboardOptions from './CreateDashboardOptions';
 import useDashboard from './useDashboard';
+import DealsGraph from './DealsGraph';
 
 import useToggle from '@/hooks/useToggle';
 
@@ -20,24 +21,29 @@ const Dashboard = () => {
     <Grid container spacing={2}>
       {!isToggled && (
         <>
-          <Grid item xs={6} sm={6}>
+          <Grid
+            item
+            md={12}
+            lg={12}
+            style={{ display: 'flex', justifyContent: 'space-between' }}
+          >
             <Typography variant="h4">Sales Dashboard</Typography>
-          </Grid>
-          <Grid item xs={6} sm={6}>
-            <Box sx={{ display: 'flex' }}>
+            <Box style={{ display: 'flex' }}>
               <Actions />
-              <Box sx={{ marginLeft: '12px' }}>
-                <CreateDashboardOptions toggle={toggle} />
-              </Box>
+              <CreateDashboardOptions toggle={toggle} />
             </Box>
           </Grid>
-          <Grid item xs={6} sm={6}>
-            <MeetingDetails />
+          <Grid item xs={12} lg={6}>
+            <DealsGraph />
           </Grid>
-          <Grid item xs={6} sm={6}>
+
+          <Grid item xs={12} lg={6}>
             <TeamActivity />
           </Grid>
-          <Grid item xs={6} sm={6}>
+          <Grid item xs={12} lg={6}>
+            <MeetingDetails />
+          </Grid>
+          <Grid item xs={12} lg={6}>
             <Widget />
           </Grid>
         </>
