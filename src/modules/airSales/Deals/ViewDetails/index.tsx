@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { Box, Grid, Typography, useTheme } from '@mui/material';
+import Image from 'next/image';
 
-import { singleTaskTabsData } from '../Deals.data';
+import { Box, Grid, Typography, useTheme } from '@mui/material';
 
 import HorizontalTabs from '@/components/Tabs/HorizontalTabs';
 import Details from './Details';
@@ -13,10 +13,13 @@ import Calls from './Calls';
 import Emails from './Emails';
 import Meetings from './Meetings';
 import Associations from './Associations';
-import { styles } from './ViewDetails.style';
+
+import { singleUserDealTabsData } from './ViewDetails.data';
+
 import { ArrowBackIcon } from '@/assets/icons';
 import { NotesAvatarImage, YellowDotImage } from '@/assets/images';
-import Image from 'next/image';
+
+import { styles } from './ViewDetails.style';
 
 const DealsViewDetails = () => {
   const theme = useTheme();
@@ -163,7 +166,7 @@ const DealsViewDetails = () => {
 
         <Grid item xs={12}>
           <Box>
-            <HorizontalTabs tabsDataArray={singleTaskTabsData}>
+            <HorizontalTabs tabsDataArray={singleUserDealTabsData}>
               <Details />
               <ActivityLog />
               <Associations />

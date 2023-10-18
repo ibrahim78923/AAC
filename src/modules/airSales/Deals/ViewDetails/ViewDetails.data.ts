@@ -1,4 +1,4 @@
-export const singleTaskTabsData = [
+export const singleUserDealTabsData = [
   'Details',
   'Activity Log',
   'Associations',
