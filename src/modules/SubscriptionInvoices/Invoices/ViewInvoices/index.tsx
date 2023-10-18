@@ -126,7 +126,7 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose }) => {
                 >
                   Air Applecart
                 </Typography>
-                <Typography variant="body3" sx={styles.cardLeftText}>
+                <Typography variant="body3" sx={styles.cardLeftText()}>
                   123 Street Address
                 </Typography>
                 <Typography variant="body3" sx={styles.cardLeftText}>

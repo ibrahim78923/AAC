@@ -27,7 +27,7 @@ import { AlertModals } from '@/components/AlertModals';
 import {
   quickLinksData,
   quickLinksTableData,
-} from '@/mock/modules/Settings/QuickLinks';
+} from '@/mock/modules/superAdmin/Settings/QuickLinks';
 import { columns, quickLinksFilterFiltersDataArray } from './QuickLinks.data';
 import {
   jobApplicationDefaultValues,

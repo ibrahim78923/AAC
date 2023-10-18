@@ -20,11 +20,11 @@ const useActionsOptions = () => {
 
   const handleShowCopyUrl = () => {
     setIsShowCopyUrl(true);
-    setIsShowDrawer(true);
   };
 
   const handleShowEmailDashboard = () => {
     setIsShowEmailDashboard(true);
+    setIsShowDrawer(true);
   };
 
   const handleShowEditDashboard = () => {
