@@ -8,4 +8,7 @@ export interface CommonDrawerPropsI {
   cancelText?: string;
   footer?: boolean;
   submitHandler?: () => void;
+  footerActionText?: string;
+  footerActionTextIcon?: any;
+  onFooterActionSubmit?: () => void;
 }

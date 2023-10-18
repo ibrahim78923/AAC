@@ -80,6 +80,7 @@ const CUSTOM_COLORS = {
   bluish_gray: '#BCC1CE',
   bright: '#0AADC7',
   transparent_dark_blue: 'rgba(16, 24, 40, 0.1)',
+  transparent_bluish_gray: 'rgba(98, 110, 142, 0.12',
   off_white: 'rgba(234, 236, 240, 1)',
   grayish_blue: '#6B7280',
   aqua_breeze: '#A0E5DB80',
@@ -97,6 +98,7 @@ const CUSTOM_COLORS = {
   dark_blue: '#030229',
   pale_grayish_blue: '#F7F9FB',
   dark_shade_green: '# 1018280F',
+  pale_gray: '#E9E9E9',
 };
 const GRADIENTS = {
   primary: createGradient(PRIMARY.light, PRIMARY.main),
