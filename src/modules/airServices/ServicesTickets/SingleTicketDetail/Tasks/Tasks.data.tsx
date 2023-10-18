@@ -1,4 +1,5 @@
 import { Checkbox } from '@mui/material';
+import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { AvatarImage } from '@/assets/images';
 
 export const tasksTableColumns: any = (
@@ -11,6 +12,8 @@ export const tasksTableColumns: any = (
     id: 'Id',
     cell: (info: any) => (
       <Checkbox
+        icon={<CheckboxIcon />}
+        checkedIcon={<CheckboxCheckedIcon />}
         checked={!!activeCheck.find((item: any) => item.Id === info.getValue())}
         onChange={(e: any) => {
           e.target.checked
@@ -30,6 +33,8 @@ export const tasksTableColumns: any = (
     ),
     header: (
       <Checkbox
+        icon={<CheckboxIcon />}
+        checkedIcon={<CheckboxCheckedIcon />}
         checked={activeCheck.length === tasksTableData.length}
         onChange={(e: any) => {
           e.target.checked

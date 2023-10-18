@@ -1,5 +1,5 @@
-import { Checkbox } from '@mui/material';
-import { useTheme } from '@mui/material';
+import { Checkbox, useTheme } from '@mui/material';
+import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 
 export const InstallationTableColumns: any = (
   activeCheck: any,
@@ -12,6 +12,8 @@ export const InstallationTableColumns: any = (
       id: 'Id',
       cell: (info: any) => (
         <Checkbox
+          icon={<CheckboxIcon />}
+          checkedIcon={<CheckboxCheckedIcon />}
           checked={
             !!activeCheck.find((item: any) => item.Id === info.getValue())
           }
@@ -35,6 +37,8 @@ export const InstallationTableColumns: any = (
       ),
       header: (
         <Checkbox
+          icon={<CheckboxIcon />}
+          checkedIcon={<CheckboxCheckedIcon />}
           checked={activeCheck.length === InstallationTableData.length}
           onChange={(e: any) => {
             e.target.checked

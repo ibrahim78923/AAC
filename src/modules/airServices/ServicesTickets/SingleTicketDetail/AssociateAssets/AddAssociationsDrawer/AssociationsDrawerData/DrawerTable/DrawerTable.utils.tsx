@@ -1,4 +1,5 @@
 import { Box, Checkbox } from '@mui/material';
+import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 export const DrawerTableColumns = (
   DrawerData: any,
   setDrawerData: any,
@@ -9,6 +10,8 @@ export const DrawerTableColumns = (
     id: 'id',
     cell: (info: any) => (
       <Checkbox
+        icon={<CheckboxIcon />}
+        checkedIcon={<CheckboxCheckedIcon />}
         checked={!!DrawerData.find((item: any) => item.id === info.getValue())}
         onChange={(e: any) => {
           e.target.checked
@@ -28,6 +31,8 @@ export const DrawerTableColumns = (
     ),
     header: (
       <Checkbox
+        icon={<CheckboxIcon />}
+        checkedIcon={<CheckboxCheckedIcon />}
         checked={DrawerData.length === DrawerMainData.length}
         onChange={(e: any) => {
           e.target.checked
