@@ -1,5 +1,7 @@
+import { Box, Checkbox, Switch } from '@mui/material';
+
 import { DeleteCrossIcon } from '@/assets/icons';
-import { Box, Checkbox } from '@mui/material';
+import EditShared from '@/assets/icons/shared/edit-shared';
 
 export const columns = (
   setIsDeleteModalOpen: any,
@@ -30,52 +32,45 @@ export const columns = (
     },
 
     {
-      accessorFn: (row: any) => row.clientName,
-      id: 'clientName',
-      cell: (info: any) => info.getValue(),
-      header: 'Client Name',
+      accessorFn: (row: any) => row.default,
+      id: 'default',
+      cell: () => <Switch defaultChecked />,
+      header: 'Default',
       isSortable: false,
     },
 
     {
-      accessorFn: (row: any) => row.productsSuite,
-      id: 'productsSuite',
+      accessorFn: (row: any) => row.owner,
+      id: 'owner',
       isSortable: true,
-      header: 'Products/Suite',
+      header: 'Owner',
       cell: (info: any) => info.getValue(),
     },
 
     {
-      accessorFn: (row: any) => row.planType,
-      id: 'planType',
+      accessorFn: (row: any) => row.accessRights,
+      id: 'accessRights',
       isSortable: true,
-      header: 'Plan Type',
+      header: 'Access Rights',
       cell: (info: any) => info.getValue(),
     },
 
     {
-      accessorFn: (row: any) => row.discount,
-      id: 'discount',
+      accessorFn: (row: any) => row.lastViewed,
+      id: 'lastViewed',
       isSortable: true,
-      header: 'Discount',
+      header: 'Last Viewed',
       cell: (info: any) => info.getValue(),
     },
 
     {
-      accessorFn: (row: any) => row.defaultUsers,
-      id: 'defaultUsers',
+      accessorFn: (row: any) => row.lastUpdated,
+      id: 'lastUpdated',
       isSortable: true,
-      header: 'Default users',
+      header: 'Last Updated',
       cell: (info: any) => info.getValue(),
     },
 
-    {
-      accessorFn: (row: any) => row.additionalUsers,
-      id: 'additionalUsers',
-      isSortable: true,
-      header: 'Additional Users',
-      cell: (info: any) => info.getValue(),
-    },
     {
       id: 'actions',
       isSortable: true,
@@ -88,6 +83,7 @@ export const columns = (
           }}
         >
           <DeleteCrossIcon />
+          <EditShared />
         </Box>
       ),
     },
@@ -95,78 +91,43 @@ export const columns = (
 };
 export const ManageDashboardTableData: any = [
   {
-    Id: 1,
-    clientName: ` @olivia`,
-    productsSuite: 'Draftstrtr',
-    planType: 'Sharemydine',
-    discount: 'Alee',
-    defaultUsers: 'Tech Support',
-    additionalUsers: 'Tech Support',
-  },
-
-  {
-    Id: 2,
-    clientName: ` @olivia`,
-    productsSuite: 'Draftstrtr',
-    planType: 'Sharemydine',
-    discount: 'Alee',
-    defaultUsers: 'Tech Support',
-    additionalUsers: 'Tech Support',
-  },
-
-  {
-    Id: 3,
-    clientName: ` @olivia`,
-    productsSuite: 'Draftstrtr',
-    planType: 'Sharemydine',
-    discount: 'Alee',
-    defaultUsers: 'Tech Support',
-    additionalUsers: 'Tech Support',
+    id: 1,
+    default: true,
+    owner: 'Olivia Rhye',
+    accessRights: 'Everyone',
+    lastViewed: '10/04/2023',
+    lastUpdated: '10/04/2023',
   },
   {
-    Id: 3,
-    clientName: ` @olivia`,
-    productsSuite: 'Draftstrtr',
-    planType: 'Sharemydine',
-    discount: 'Alee',
-    defaultUsers: 'Tech Support',
-    additionalUsers: 'Tech Support',
+    id: 2,
+    default: true,
+    owner: 'Olivia Rhye',
+    accessRights: 'Everyone',
+    lastViewed: '10/04/2023',
+    lastUpdated: '10/04/2023',
   },
   {
-    Id: 3,
-    clientName: ` @olivia`,
-    productsSuite: 'Draftstrtr',
-    planType: 'Sharemydine',
-    discount: 'Alee',
-    defaultUsers: 'Tech Support',
-    additionalUsers: 'Tech Support',
+    id: 3,
+    default: true,
+    owner: 'Olivia Rhye',
+    accessRights: 'Everyone',
+    lastViewed: '10/04/2023',
+    lastUpdated: '10/04/2023',
   },
   {
-    Id: 3,
-    clientName: ` @olivia`,
-    productsSuite: 'Draftstrtr',
-    planType: 'Sharemydine',
-    discount: 'Alee',
-    defaultUsers: 'Tech Support',
-    additionalUsers: 'Tech Support',
+    id: 4,
+    default: true,
+    owner: 'Olivia Rhye',
+    accessRights: 'Everyone',
+    lastViewed: '10/04/2023',
+    lastUpdated: '10/04/2023',
   },
   {
-    Id: 3,
-    clientName: ` @olivia`,
-    productsSuite: 'Draftstrtr',
-    planType: 'Sharemydine',
-    discount: 'Alee',
-    defaultUsers: 'Tech Support',
-    additionalUsers: 'Tech Support',
-  },
-
-  {
-    Id: 3,
-    clientName: ` @olivia`,
-    productsSuite: 'Draftstrtr',
-    planType: 'Sharemydine',
-    discount: 'Alee',
-    defaultUsers: 'Tech Support',
-    additionalUsers: 'Tech Support',
+    id: 5,
+    default: true,
+    owner: 'Olivia Rhye',
+    accessRights: 'Everyone',
+    lastViewed: '10/04/2023',
+    lastUpdated: '10/04/2023',
   },
 ];

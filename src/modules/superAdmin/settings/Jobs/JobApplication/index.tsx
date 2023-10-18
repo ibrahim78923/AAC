@@ -8,7 +8,7 @@ import TanstackTable from '@/components/Tabel/TanstackTable';
 import CustomPagination from '@/components/CustomPagination';
 import { FormProvider } from '@/components/ReactHookForm';
 
-import { jobApplicationTabledata } from '@/mock/modules/Settings/Jobs';
+import { jobApplicationTabledata } from '@/mock/modules/superAdmin/Settings/Jobs';
 
 import {
   columns,
@@ -52,8 +52,9 @@ const JobApplication = () => {
         mb={3}
         sx={{
           display: 'flex',
-          alignItems: 'center',
+          flexWrap: 'wrap',
           justifyContent: 'space-between',
+          gap: '10px',
         }}
       >
         <Search
