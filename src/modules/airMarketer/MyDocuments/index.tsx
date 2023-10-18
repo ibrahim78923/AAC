@@ -32,9 +32,9 @@ import {
 import { UserRoundImage } from '@/assets/images';
 
 import useMyDocuments from './useMyDocuments';
-import { style } from './MyDocuments.style';
 
-import { documentFolderArr } from '@/mock/modules/airMarketer/ExampleFolder';
+import { style } from './MyDocuments.style';
+import { documentFolderArr } from '@/mock/modules/SocialComponents/Chat';
 
 const MyDocuments = () => {
   const {
@@ -52,18 +52,11 @@ const MyDocuments = () => {
     isOpenDelete,
     setIsOpenDelete,
     anchorEl,
-    setAnchorEl,
+    open,
+    handleClick,
+    handleClose,
   } = useMyDocuments();
 
-  const open = Boolean(anchorEl);
-
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
   return (
     <>
       <CommonDrawer
