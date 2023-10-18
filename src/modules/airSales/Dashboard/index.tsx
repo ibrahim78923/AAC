@@ -8,36 +8,45 @@ import Widget from './Widget';
 import CreateDashboard from './CreateDashboard';
 import CreateDashboardOptions from './CreateDashboardOptions';
 import useDashboard from './useDashboard';
-
+import DealsGraph from './DealsGraph';
 import useToggle from '@/hooks/useToggle';
 
 const Dashboard = () => {
-  const { isShowCreateDashboardForm, setIsShowCreateDashboardForm } =
-    useDashboard();
+  const {
+    isShowCreateDashboardForm,
+    setIsShowCreateDashboardForm,
+    isShowEditDashboard,
+    setIsShowEditDashboard,
+  } = useDashboard();
   const [isToggled, toggle] = useToggle(false);
 
   return (
-    <Grid container spacing={2}>
-      {!isToggled && (
+    <Grid container spacing={2} pl={5}>
+      {!isToggled && !isShowEditDashboard && (
         <>
-          <Grid item xs={6} sm={6}>
+          <Grid
+            item
+            md={12}
+            lg={12}
+            style={{ display: 'flex', justifyContent: 'space-between' }}
+          >
             <Typography variant="h4">Sales Dashboard</Typography>
-          </Grid>
-          <Grid item xs={6} sm={6}>
-            <Box sx={{ display: 'flex' }}>
-              <Actions />
-              <Box sx={{ marginLeft: '12px' }}>
-                <CreateDashboardOptions toggle={toggle} />
-              </Box>
+            <Box style={{ display: 'flex' }}>
+              <Actions setIsShowEditDashboard={setIsShowEditDashboard} />
+              <CreateDashboardOptions toggle={toggle} />
             </Box>
           </Grid>
-          <Grid item xs={6} sm={6}>
-            <MeetingDetails />
+          <Grid item xs={12} lg={6}>
+            <DealsGraph />
           </Grid>
-          <Grid item xs={6} sm={6}>
+
+          <Grid item xs={12} lg={6}>
             <TeamActivity />
           </Grid>
-          <Grid item xs={6} sm={6}>
+          <Grid item xs={12} lg={6}>
+            <MeetingDetails />
+          </Grid>
+          <Grid item xs={12} lg={6}>
             <Widget />
           </Grid>
         </>
@@ -53,10 +62,13 @@ const Dashboard = () => {
           </Grid>
         </>
       )}
-      {isShowCreateDashboardForm && (
-        <CreateDashboard
-          setIsShowCreateDashboardForm={setIsShowCreateDashboardForm}
-        />
+      {(isShowCreateDashboardForm || isShowEditDashboard) && (
+        <Grid item xs={12} sm={12}>
+          <CreateDashboard
+            setIsShowCreateDashboardForm={setIsShowCreateDashboardForm}
+            isShowEditDashboard={isShowEditDashboard}
+          />
+        </Grid>
       )}
     </Grid>
   );

@@ -1,7 +1,7 @@
 import { GreenBgImage, UnionBgImage } from '@/assets/images';
 
 export const style = {
-  TotalCardStyle: (theme: any) => {
+  TotalClientStyle: (theme: any) => {
     return {
       border: `1px solid ${theme?.palette?.grey[700]}`,
       borderRadius: '8px',
@@ -11,6 +11,26 @@ export const style = {
       backgroundPosition: 'right',
       display: 'flex',
       justifyContent: 'space-between',
+      cursor: 'pointer',
+      '&:hover': {
+        backgroundColor: '#AFEAE140',
+      },
+    };
+  },
+  TotalUserStyle: (theme: any) => {
+    return {
+      border: `1px solid ${theme?.palette?.grey[700]}`,
+      borderRadius: '8px',
+      padding: '1rem',
+      backgroundImage: `url(${UnionBgImage.src})`,
+      backgroundRepeat: 'no-repeat',
+      backgroundPosition: 'right',
+      display: 'flex',
+      justifyContent: 'space-between',
+      cursor: 'pointer',
+      '&:hover': {
+        backgroundColor: '#0AADC780',
+      },
     };
   },
   EarningCardStyle: (theme: any) => {
@@ -23,6 +43,10 @@ export const style = {
       backgroundPosition: 'right',
       display: 'flex',
       justifyContent: 'space-between',
+      cursor: 'pointer',
+      '&:hover': {
+        backgroundColor: '#47B2631A',
+      },
     };
   },
 };

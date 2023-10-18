@@ -18,7 +18,7 @@ import {
   planTypeCreationValidationSchema,
 } from './PlanTypeCreation.data';
 
-import { planTypeCreationTableData } from '@/mock/modules/Settings/PlanTypeCreation';
+import { planTypeCreationTableData } from '@/mock/modules/superAdmin/Settings/PlanTypeCreation';
 
 import PlusShared from '@/assets/icons/shared/plus-shared';
 

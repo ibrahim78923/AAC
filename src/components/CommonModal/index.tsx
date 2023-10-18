@@ -15,6 +15,7 @@ const CommonModal = ({
   okText,
   submitIcon,
   footer,
+  footerFill,
 }: ModelPropsI) => {
   return (
     <Modal
@@ -43,7 +44,10 @@ const CommonModal = ({
               <Button
                 onClick={handleSubmit}
                 variant="contained"
-                sx={{ height: '36px' }}
+                sx={{
+                  height: '36px',
+                  width: `${footerFill ? '100%' : 'auto'}`,
+                }}
                 startIcon={submitIcon ? submitIcon : ''}
               >
                 {okText}
