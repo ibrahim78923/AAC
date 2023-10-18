@@ -9,7 +9,7 @@ import {
   MenuItem,
 } from '@mui/material';
 
-import { ImportDealsData } from '../importDeals.data';
+import { ImportDealsData } from '../ImportDealsDrawer.data';
 
 import { FormProvider } from '@/components/ReactHookForm';
 

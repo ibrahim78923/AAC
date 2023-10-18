@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Typography, Box } from '@mui/material';
 
-import ImportDeal from '../ImportDeal';
+import ImportDealsDrawer from '../ImportDealsDrawer';
 import CreateDeal from '../CreateDeal';
 import ViewAllDeals from '../ViewAllDeals';
 
@@ -15,7 +15,7 @@ const DealHeader = () => {
         <ViewAllDeals />
       </Typography>
       <Box sx={styles.HeaderChildStyle}>
-        <ImportDeal />
+        <ImportDealsDrawer />
         <CreateDeal />
       </Box>
     </Box>

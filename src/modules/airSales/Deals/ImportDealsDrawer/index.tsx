@@ -9,9 +9,9 @@ import useImportDeal from './useImportDeal';
 
 import { ImportIcon } from '@/assets/icons';
 
-import { styles } from './importDeal.style';
+import { styles } from './ImportDealsDrawer.style';
 
-const ImportDeal = () => {
+const ImportDealsDrawer = () => {
   const { handleSubmit, isColumnsSelect, theme } = useImportDeal();
   const okTitle = isColumnsSelect ? 'Import' : 'Next';
 
@@ -70,4 +70,4 @@ const ImportDeal = () => {
   );
 };
 
-export default ImportDeal;
+export default ImportDealsDrawer;
