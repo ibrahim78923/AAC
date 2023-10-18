@@ -66,8 +66,6 @@ export { default as CharmTickIcon } from './shared/charm-tick';
 export { default as AttachmentIcon } from './modules/SocialComponents/Chat/attachment';
 export { default as StickerIcon } from './modules/SocialComponents/Chat/sticker';
 export { default as PostIcon } from './modules/SocialComponents/Chat/post';
-
-// export { default as ExampleKababCase } from './deals';
 export { default as ActivitiesIcon } from './modules/airSales/deals/activities';
 export { default as CalendarIcon } from './modules/airSales/deals/calendar';
 export { default as CallIcon } from './modules/airSales/deals/call';

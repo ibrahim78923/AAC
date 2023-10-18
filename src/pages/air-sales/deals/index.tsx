@@ -1,8 +1,9 @@
-import SalesDeals from '@/modules/airSales/DealsSaleSite';
 import React from 'react';
 
-const Deals = () => {
-  return <SalesDeals />;
+import Deals from '@/modules/airSales/Deals';
+
+const DealsPage = () => {
+  return <Deals />;
 };
 
-export default Deals;
+export default DealsPage;

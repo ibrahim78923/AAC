@@ -17,7 +17,7 @@ export const ShareAccordianData = [
 
 export const AccordianDetailsData = [
   {
-    img: 'Avatar',
+    img: '',
     name: 'Olivia Rhye',
     email: 'Olivia@gmail.com',
     number: '+44 23669252',

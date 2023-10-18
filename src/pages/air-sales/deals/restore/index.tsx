@@ -1,7 +1,7 @@
-import RestoreTable from '@/modules/airSales/DealsSaleSite/RestoreTable';
+import RestoreTable from '@/modules/airSales/Deals/RestoreTable';
 
-const index = () => {
+const RestoreTablePage = () => {
   return <RestoreTable />;
 };
 
-export default index;
+export default RestoreTablePage;
