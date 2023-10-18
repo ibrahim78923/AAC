@@ -41,7 +41,7 @@ export const TasksTableData: any = [
 
 export const NotesDataArray = [
   {
-    id: '1',
+    id: 1,
     title: 'Note Created by Olivia Rhye',
     image: NotesAvatarImage,
     date: '5 March, 2023 - 11:02 PM',
@@ -49,7 +49,7 @@ export const NotesDataArray = [
       'Lorem ipsum dolor sit amet consectetur. Sit facilisis pharetra vel vestibulum pulvinar eget malesuada nunc ridiculus. Curabitur ultrices tincidunt venenatis mattis fusce imperdiet blandit.',
   },
   {
-    id: '1',
+    id: 2,
     title: 'Note Created by Olivia Rhye',
     image: NotesAvatarImage,
     date: '5 March, 2023 - 11:02 PM',
@@ -57,7 +57,7 @@ export const NotesDataArray = [
       'Lorem ipsum dolor sit amet consectetur. Sit facilisis pharetra vel vestibulum pulvinar eget malesuada nunc ridiculus. Curabitur ultrices tincidunt venenatis mattis fusce imperdiet blandit.',
   },
   {
-    id: '1',
+    id: 3,
     title: 'Note Created by Olivia Rhye',
     image: NotesAvatarImage,
     date: '5 March, 2023 - 11:02 PM',
@@ -65,7 +65,7 @@ export const NotesDataArray = [
       'Lorem ipsum dolor sit amet consectetur. Sit facilisis pharetra vel vestibulum pulvinar eget malesuada nunc ridiculus. Curabitur ultrices tincidunt venenatis mattis fusce imperdiet blandit.',
   },
   {
-    id: '1',
+    id: 4,
     title: 'Note Created by Olivia Rhye',
     image: NotesAvatarImage,
     date: '5 March, 2023 - 11:02 PM',
@@ -73,7 +73,7 @@ export const NotesDataArray = [
       'Lorem ipsum dolor sit amet consectetur. Sit facilisis pharetra vel vestibulum pulvinar eget malesuada nunc ridiculus. Curabitur ultrices tincidunt venenatis mattis fusce imperdiet blandit.',
   },
   {
-    id: '1',
+    id: 5,
     title: 'Note Created by Olivia Rhye',
     image: NotesAvatarImage,
     date: '5 March, 2023 - 11:02 PM',

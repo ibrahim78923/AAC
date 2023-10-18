@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import Image from 'next/image';
 
@@ -7,6 +7,7 @@ import { Box, Button, Checkbox, Grid, Typography } from '@mui/material';
 import EmailActionDropDown from './EmailActionDropDown';
 import EmailEditorDrawer from './EmailEditorDrawer';
 
+import useEmails from './useEmails';
 import useNameWithStyledWords from '@/hooks/useNameStyledWords';
 
 import { isNullOrEmpty } from '@/utils';
@@ -20,11 +21,21 @@ import {
   SMSIcon,
   SendArrowIcon,
 } from '@/assets/icons';
+
 import { styles } from '../ViewDetails.style';
+
+import { v4 as uuidv4 } from 'uuid';
 
 const Emails = () => {
   const { NameWithStyledWords, theme } = useNameWithStyledWords();
-  const [openDrawer, setOpenDrawer] = useState('');
+
+  const {
+    openDrawer,
+    setOpenDrawer,
+    handleCheckboxChange,
+    selectedCheckboxes,
+  } = useEmails();
+
   return (
     <Box
       sx={{
@@ -39,7 +50,10 @@ const Emails = () => {
             <Typography variant="h4"> Emails</Typography>
             {!isNullOrEmpty(NotesDataArray) && (
               <Box sx={{ gap: 1, display: 'flex' }}>
-                <EmailActionDropDown setOpenDrawer={setOpenDrawer} />
+                <EmailActionDropDown
+                  setOpenDrawer={setOpenDrawer}
+                  selectedCheckboxes={selectedCheckboxes}
+                />
                 <Button
                   variant="contained"
                   className="small"
@@ -54,7 +68,7 @@ const Emails = () => {
           </Box>
         </Grid>
       </Grid>
-      {!isNullOrEmpty(NotesDataArray) && (
+      {isNullOrEmpty(NotesDataArray) && (
         <Box
           sx={{
             height: '35vh',
@@ -114,12 +128,12 @@ const Emails = () => {
         </Box>
       )}
 
-      {isNullOrEmpty(NotesDataArray) && (
+      {!isNullOrEmpty(NotesDataArray) && (
         <Grid item xs={12} sx={styles.horizontalTabsInnnerBox}>
           {NotesDataArray.map((item) => (
             <Grid
               container
-              key={item.title}
+              key={uuidv4()}
               sx={{
                 py: 3,
                 px: 1.5,
@@ -139,7 +153,14 @@ const Emails = () => {
                   alignItems: 'center',
                 }}
               >
-                <Checkbox color="primary" name={'name'} />
+                <Checkbox
+                  color="primary"
+                  name={'name'}
+                  onChange={(event) => handleCheckboxChange(event, item.id)}
+                  checked={selectedCheckboxes.some(
+                    (selectedItem) => selectedItem.id === item.id,
+                  )}
+                />
               </Grid>
               <Grid
                 item

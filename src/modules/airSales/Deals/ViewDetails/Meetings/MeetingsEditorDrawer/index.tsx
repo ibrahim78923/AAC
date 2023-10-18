@@ -72,7 +72,7 @@ const MeetingsEditorDrawer = (props: any) => {
               <Grid item xs={12}>
                 <FormControlLabel
                   control={<Switch defaultChecked />}
-                  label="Label"
+                  label="All Day"
                 />
               </Grid>
 

@@ -18,7 +18,7 @@ import { EmailTestingData } from '@/mock/modules/Deals';
 import { styles } from './EmailActionDropDown.style';
 
 const EmailActionDropDown = (props: any) => {
-  const { setOpenDrawer } = props;
+  const { setOpenDrawer, selectedCheckboxes } = props;
 
   const {
     theme,
@@ -48,6 +48,9 @@ const EmailActionDropDown = (props: any) => {
         aria-expanded={isMenuOpen ? 'true' : undefined}
         onClick={handleOpenMenu}
         className="small"
+        disabled={
+          selectedCheckboxes.length === 0 || selectedCheckboxes.length > 1
+        }
       >
         Action
       </Button>

@@ -4,7 +4,12 @@ import { Box, Grid } from '@mui/material';
 
 import CommonDrawer from '@/components/CommonDrawer';
 
-import { FormProvider } from '@/components/ReactHookForm';
+import {
+  FormProvider,
+  RHFEditor,
+  RHFMultiSearchableSelect,
+  RHFSelect,
+} from '@/components/ReactHookForm';
 
 import { v4 as uuidv4 } from 'uuid';
 import useCallsEditorDrawer from './useCallsEditorDrawer';
@@ -13,6 +18,10 @@ import {
   drawerButtonTitle,
   drawerTitle,
 } from './CallsEditorDrawer.data';
+import { AttendeeAvatarImage } from '@/assets/images';
+import AppAvatarGroup from '@/components/AvatarGroup';
+import { avatarGroupMockData } from '@/modules/superAdmin/PlanManagement/PlanManagement.data';
+import { options } from '../../Emails/EmailEditorDrawer/EmailEditorDrawer.data';
 
 const CallsEditorDrawer = (props: any) => {
   const { openDrawer, setOpenDrawer } = props;
@@ -47,6 +56,46 @@ const CallsEditorDrawer = (props: any) => {
                   </item.component>
                 </Grid>
               ))}
+
+              <Grid item xs={12} md={8}>
+                <RHFMultiSearchableSelect
+                  size="small"
+                  label="Attendees"
+                  name="attendee"
+                  options={[
+                    {
+                      value: 'Guy Hawkins',
+                      label: 'Guy Hawkins',
+                      image: AttendeeAvatarImage,
+                    },
+                    {
+                      value: 'Jacob Jones',
+                      label: 'Jacob Jones',
+                      image: AttendeeAvatarImage,
+                    },
+                    {
+                      value: 'Courtney Henry',
+                      label: 'Courtney Henry',
+                      image: AttendeeAvatarImage,
+                    },
+                  ]}
+                />
+              </Grid>
+              <Grid item xs={12} md={3}>
+                <AppAvatarGroup data={avatarGroupMockData} />
+              </Grid>
+              <Grid item xs={12}>
+                <RHFSelect name="template" label="Template" size="small">
+                  {options?.map((option: any) => (
+                    <option key={uuidv4()} value={option?.value}>
+                      {option?.label}
+                    </option>
+                  ))}
+                </RHFSelect>
+              </Grid>
+              <Grid item xs={12}>
+                <RHFEditor label="Meeting Notes" name="meeeting_notes" />
+              </Grid>
             </Grid>
           </FormProvider>
         </Box>

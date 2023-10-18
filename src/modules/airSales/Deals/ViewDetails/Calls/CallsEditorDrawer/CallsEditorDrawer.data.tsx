@@ -1,6 +1,5 @@
 import {
   RHFDatePicker,
-  RHFEditor,
   RHFSelect,
   RHFTextField,
   RHFTimePicker,
@@ -16,6 +15,7 @@ export const dealsCallsDefaultValues = {
   title: '',
   description: '',
   attachfile: '',
+  owner: '',
 };
 
 export const dealsCallsDataArray = [
@@ -68,60 +68,26 @@ export const dealsCallsDataArray = [
     componentProps: {
       name: 'owner',
       label: 'Owner',
-      select: true,
-    },
-    options: [
-      { value: 'Guy Hawkins', label: 'Guy Hawkins' },
-      { value: 'Jacob Jones', label: 'Jacob Jones' },
-      { value: 'Courtney Henry', label: 'Courtney Henry' },
-    ],
-    component: RHFSelect,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'attendees',
-      label: 'Attendees',
-      select: true,
-    },
-    options: [
-      { value: 'Guy Hawkins', label: 'Guy Hawkins' },
-      { value: 'Jacob Jones', label: 'Jacob Jones' },
-      { value: 'Courtney Henry', label: 'Courtney Henry' },
-    ],
-    component: RHFSelect,
-    md: 8,
-  },
-  {
-    componentProps: {
-      name: 'outcome',
-      label: 'Outcome',
-      select: true,
-    },
-    options: [
-      { value: 'Interested', label: 'Interested' },
-      { value: 'Left Message', label: 'Left Message' },
-      { value: 'No Response', label: 'No Response' },
-    ],
-    component: RHFSelect,
-    md: 12,
-  },
-
-  {
-    componentProps: {
-      name: 'attachfile',
-      label: '',
       fullWidth: true,
+      select: true,
     },
-    component: RHFEditor,
+
+    options: [
+      { value: 'Guy Hawkins', label: 'Guy Hawkins' },
+      { value: 'Jacob Jones', label: 'Jacob Jones' },
+      { value: 'Courtney Henry', label: 'Courtney Henry' },
+    ],
+
+    component: RHFSelect,
+
     md: 12,
   },
 ];
 
 export const drawerTitle: any = {
-  Add: 'Add Notes',
-  Edit: 'Edit Notes',
-  View: 'View Notes',
+  Add: 'Add Calls',
+  Edit: 'Edit Calls',
+  View: 'View Calls',
 };
 export const drawerButtonTitle: any = {
   Add: 'Add',
