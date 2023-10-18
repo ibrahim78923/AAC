@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 import Image from 'next/image';
 
@@ -13,7 +13,7 @@ import useEmailActionDropdown from './useEmailActionDropDown';
 
 import { isNullOrEmpty } from '@/utils';
 
-import { EmailTestingData } from '@/mock/modules/Deals';
+import { EmailTestingData } from '@/mock/modules/airSales/Deals/ViewDetails';
 
 import { styles } from './EmailActionDropDown.style';
 
