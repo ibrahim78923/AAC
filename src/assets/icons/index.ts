@@ -94,9 +94,15 @@ export { default as QuotesIcon } from './shared/quotes';
 export { default as PercentageCircleIcon } from './shared/percentage-circle';
 export { default as SMSIcon } from './shared/sms';
 export { default as GmailIcon } from './shared/gmail';
-
 export { default as OutlookIcon } from './shared/outlook';
-
+export { default as UmbrellaaIcon } from './modules/airSales/Tasks/umbrella';
+export { default as RecycleIcon } from './modules/airSales/Tasks/recycle';
+export { default as RefreshIcon } from './modules/airSales/Tasks/refresh';
+export { default as EditColumnIcon } from './modules/airSales/Tasks/edit-column';
+export { default as FilterrIcon } from './modules/airSales/Tasks/filter';
+export { default as ListViewIcon } from './modules/airSales/Tasks/list-view';
+export { default as GridViewIcon } from './modules/airSales/Tasks/grid-view';
+export { default as DraggIcon } from './modules/airSales/Tasks/drag';
 export { default as FolderIcon } from '../icons/shared/document-main-blue';
 export { default as TwoUserBlackIcon } from '../icons/shared/two-user-black';
 export { default as SingleUserBlackIcon } from '../icons/shared/single-user-black';
@@ -110,3 +116,4 @@ export { default as MessageIcon } from './/modules/airSales/deals/message';
 export { default as SendArrowIcon } from './modules/airSales/deals/send-arrow';
 export { default as ViewCallIcon } from './/modules/airSales/deals/view-call';
 export { default as MircosoftTeamsIcon } from './shared/microsoft-teams';
+export { default as PrimaryPreviewEyeIcon } from './shared/primary-preview-eye';

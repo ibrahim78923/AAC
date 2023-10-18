@@ -1,4 +1,6 @@
 // More exports from here
+export { default as ExampleKababCaseImg } from './shared/example-shared-case.png';
+export { default as ExampleSharedCase } from './shared/example-shared-case.png';
 export { default as AvatarImage } from './shared/avatar.png';
 export { default as LogoImage } from './shared/app-logo.png';
 export { default as LinkImage } from './modules/HeaderAndSidebar/link.png';
