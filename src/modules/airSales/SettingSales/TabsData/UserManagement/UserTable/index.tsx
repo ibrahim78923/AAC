@@ -19,7 +19,7 @@ import Search from '@/components/Search';
 import TanstackTable from '@/components/Tabel/TanstackTable';
 import CustomPagination from '@/components/CustomPagination';
 import { AlertModals } from '@/components/AlertModals';
-import { userTableData } from '@/mock/modules/SettingSales';
+import { userTableData } from '@/mock/modules/airSales/SettingSales';
 
 import {
   dataArray,

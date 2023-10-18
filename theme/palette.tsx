@@ -98,6 +98,7 @@ const CUSTOM_COLORS = {
   dark_blue: '#030229',
   pale_grayish_blue: '#F7F9FB',
   dark_shade_green: '# 1018280F',
+  pale_gray: '#E9E9E9',
 };
 const GRADIENTS = {
   primary: createGradient(PRIMARY.light, PRIMARY.main),
