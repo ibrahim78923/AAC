@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import UsersTable from './UsersTable';
 import { Box, Grid, InputAdornment, TextField, useTheme } from '@mui/material';
 import { SearchSharedIcon } from '@/assets/icons';
@@ -8,9 +8,12 @@ import { UsersAction } from './UsersAction';
 import { UsersExport } from './UsersExport';
 import { UsersAdd } from './UsersAdd';
 import { UsersFilter } from './UsersFilter';
+
 export const Users = () => {
   const [UsersData, setUsersData] = useState([]);
+
   const theme = useTheme();
+
   return (
     <>
       <Grid container>
@@ -55,7 +58,7 @@ export const Users = () => {
           />
           <Box sx={{ display: 'flex', gap: '18px' }}>
             <UsersAction actionDropdownData={softwareUserData} />
-            <UsersAdd />
+            <UsersAdd /> {/* This will handle the modal internally */}
             <UsersExport />
             <UsersFilter />
           </Box>
