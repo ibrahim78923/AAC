@@ -1,4 +1,6 @@
 // More exports from here
+export { default as ExampleKababCaseImg } from './shared/example-shared-case.png';
+export { default as ExampleSharedCase } from './shared/example-shared-case.png';
 export { default as AvatarImage } from './shared/avatar.png';
 export { default as LogoImage } from './shared/app-logo.png';
 export { default as LinkImage } from './modules/HeaderAndSidebar/link.png';
@@ -68,6 +70,7 @@ export { default as UserAvatarImage } from '../../assets/images/modules/socialCo
 export { default as UserSenderImage } from '../../assets/images/modules/socialComponents/chat/sender-user.png';
 export { default as GreenBgImage } from '../../assets/images/modules/superAdmin/dashboard/green-bg-img.png';
 export { default as NotSelectedItemImage } from './modules/airSales/Dashboard/not-selected-item.png';
+export { default as UserRoundImage } from './shared/user-round.png';
 export { default as PreviewVegImage } from '../../assets/images/modules/socialComponents/chat/preview-veg.png';
 export { default as PreviewTrainImage } from '../../assets/images/modules/socialComponents/chat/preview-train.png';
 export { default as PreviewColorsImage } from '../../assets/images/modules/socialComponents/chat/preview-colors.png';
