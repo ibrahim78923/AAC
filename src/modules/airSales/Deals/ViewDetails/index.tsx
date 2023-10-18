@@ -29,7 +29,7 @@ const DealsViewDetails = () => {
     <Box>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <Box sx={{ display: 'flex', gap: 1, alignItems: 'baseline' }}>
+          <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
             <Link href="/air-sales/deals">
               <ArrowBackIcon />
             </Link>
