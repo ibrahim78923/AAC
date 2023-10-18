@@ -1,0 +1,58 @@
+export const documentFolderArr: any = [
+  {
+    id: '1',
+    parentId: null,
+    folderName: 'Default',
+    createdBy: 'Johan',
+    createdAt: '06/01/21',
+  },
+  {
+    id: '2',
+    parentId: null,
+    folderName: 'MyCv',
+    createdBy: 'Johan',
+    createdAt: '05/02/22',
+  },
+  {
+    id: '3',
+    parentId: null,
+    folderName: 'Recent Pic',
+    createdBy: 'Johan',
+    createdAt: '05/02/22',
+  },
+  {
+    id: '4',
+    parentId: null,
+    folderName: 'Fav Pic',
+    createdBy: 'Johan',
+    createdAt: '05/02/22',
+  },
+  {
+    id: '5',
+    parentId: null,
+    folderName: 'Fav Pic',
+    createdBy: 'Johan',
+    createdAt: '05/02/22',
+  },
+  {
+    id: '6',
+    parentId: null,
+    folderName: 'Fav Pic',
+    createdBy: 'Johan',
+    createdAt: '05/02/22',
+  },
+  {
+    id: '7',
+    parentId: null,
+    folderName: 'Fav Pic',
+    createdBy: 'Johan',
+    createdAt: '05/02/22',
+  },
+  {
+    id: '8',
+    parentId: null,
+    folderName: 'Fav Pic',
+    createdBy: 'Johan',
+    createdAt: '05/02/22',
+  },
+];

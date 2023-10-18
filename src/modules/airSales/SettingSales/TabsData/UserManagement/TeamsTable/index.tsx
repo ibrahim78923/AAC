@@ -6,7 +6,7 @@ import Search from '@/components/Search';
 import TanstackTable from '@/components/Tabel/TanstackTable';
 import CustomPagination from '@/components/CustomPagination';
 
-import { teamsTableData } from '@/mock/modules/SettingSales';
+import { teamsTableData } from '@/mock/modules/airSales/SettingSales';
 
 import { columnsTeams } from './TeamsTable.data';
 

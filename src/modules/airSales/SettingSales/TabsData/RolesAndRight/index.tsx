@@ -30,7 +30,7 @@ import {
   validationSchema,
 } from './RolesRight.data';
 
-import { rolesAndRightTableData } from '@/mock/modules/SettingSales';
+import { rolesAndRightTableData } from '@/mock/modules/airSales/SettingSales';
 
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
