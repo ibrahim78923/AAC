@@ -1,3 +1,5 @@
+import { PdfAvatarImage } from '@/assets/images';
+
 export const documentFolderArr: any = [
   {
     id: '1',
@@ -54,5 +56,80 @@ export const documentFolderArr: any = [
     folderName: 'Fav Pic',
     createdBy: 'Johan',
     createdAt: '05/02/22',
+  },
+];
+
+export const folderArr = [
+  {
+    name: 'My Cv',
+  },
+  {
+    name: 'Recent Pic',
+  },
+  {
+    name: 'Fav Pic',
+  },
+  {
+    name: 'My Doc',
+  },
+  {
+    name: 'Web Doc',
+  },
+  {
+    name: 'Landing Page Doc',
+  },
+  {
+    name: 'General',
+  },
+];
+
+export const documentTableData = [
+  {
+    Id: 1,
+    img: PdfAvatarImage,
+    name: 'My File.pdf',
+    sharedLinks: '10',
+    reads: '11',
+    createdBy: 'John Doe',
+  },
+  {
+    Id: 2,
+    img: PdfAvatarImage,
+    name: 'World file',
+    sharedLinks: '15',
+    reads: '12',
+    createdBy: 'John Doe',
+  },
+  {
+    Id: 3,
+    img: PdfAvatarImage,
+    name: 'File',
+    sharedLinks: '20',
+    reads: '12',
+    createdBy: 'John Doe',
+  },
+  {
+    Id: 4,
+    img: PdfAvatarImage,
+    name: 'My Apps',
+    sharedLinks: '22',
+    reads: '14',
+    createdBy: 'John Doe',
+  },
+  {
+    Id: 5,
+    img: PdfAvatarImage,
+    name: 'View',
+    sharedLinks: '09',
+    reads: '20',
+    createdBy: 'John Doe',
+  },
+  {
+    Id: 6,
+    img: PdfAvatarImage,
+    name: 'Document',
+    sharedLinks: '07',
+    reads: '25',
+    createdBy: 'John Doe',
   },
 ];
