@@ -111,3 +111,4 @@ export { default as ReplyIcon } from './shared/reply';
 export { default as PaperClipIcon } from './shared/paper-clip';
 export { default as DownloadRoundedIcon } from './shared/download-rounded';
 export { default as PrimaryPreviewEyeIcon } from './shared/primary-preview-eye';
+export { default as MobileIcon } from './shared/mobile';
