@@ -15,6 +15,8 @@ import SoftwareAssignCategory from './SoftwareAssignCategory';
 function Software() {
   const [softwareData, setSoftwareData] = useState([]);
   const [openAssignModal, setOpenAssignModal] = useState(false);
+  const [searchValue, SetSearchValue] = useState<string>('');
+
   const theme: any = useTheme();
   const { setIsOpenFilterDrawer, isOpenFilterDrawer } = useManage();
 
@@ -24,7 +26,12 @@ function Software() {
       <Grid item sx={styles.gridItems}>
         <Box sx={styles.headBox}>
           <Box sx={{ marginLeft: '24px' }}>
-            <Search label="search" width="100%" />
+            <Search
+              label="search"
+              width="100%"
+              searchBy={searchValue}
+              setSearchBy={SetSearchValue}
+            />
           </Box>
           <Box sx={styles.buttonBox}>
             <Button
