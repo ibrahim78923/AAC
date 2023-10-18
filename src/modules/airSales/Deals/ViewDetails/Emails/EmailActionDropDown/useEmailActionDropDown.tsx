@@ -15,12 +15,12 @@ const useEmailActionDropdown = ({ setOpenDrawer }: any) => {
     setAnchorEl(null);
   };
 
-  const handleOpenEditDrawer = () => {
-    setOpenDrawer('Edit');
+  const handleOpenForwardDrawer = () => {
+    setOpenDrawer('Forward');
     handleCloseMenu();
   };
-  const handleOpenViewDrawer = () => {
-    setOpenDrawer('View');
+  const handleOpenReplyDrawer = () => {
+    setOpenDrawer('Reply');
     handleCloseMenu();
   };
   const handleOpenReassignAlert = () => {
@@ -45,8 +45,8 @@ const useEmailActionDropdown = ({ setOpenDrawer }: any) => {
     handleOpenDeleteAlert,
     handleCloseAlert,
 
-    handleOpenEditDrawer,
-    handleOpenViewDrawer,
+    handleOpenForwardDrawer,
+    handleOpenReplyDrawer,
   };
 };
 

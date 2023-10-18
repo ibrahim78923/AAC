@@ -44,7 +44,7 @@ const Emails = () => {
                   variant="contained"
                   className="small"
                   sx={{ gap: 0.5 }}
-                  onClick={() => setOpenDrawer('Add')}
+                  onClick={() => setOpenDrawer('New')}
                 >
                   <Typography variant="body2">Send Emails</Typography>
                   <SendArrowIcon />
@@ -54,7 +54,7 @@ const Emails = () => {
           </Box>
         </Grid>
       </Grid>
-      {isNullOrEmpty(NotesDataArray) && (
+      {!isNullOrEmpty(NotesDataArray) && (
         <Box
           sx={{
             height: '35vh',
@@ -114,7 +114,7 @@ const Emails = () => {
         </Box>
       )}
 
-      {!isNullOrEmpty(NotesDataArray) && (
+      {isNullOrEmpty(NotesDataArray) && (
         <Grid item xs={12} sx={styles.horizontalTabsInnnerBox}>
           {NotesDataArray.map((item) => (
             <Grid

@@ -1,18 +1,25 @@
 import * as React from 'react';
+
+import Image from 'next/image';
+
 import { Box, Button, Grid, Menu, MenuItem, Typography } from '@mui/material';
+
 import { ArrowDropDown } from '@mui/icons-material';
 
 import { AlertModals } from '@/components/AlertModals';
 import { ScheduleModals } from '@/components/ScheduleModals';
 
 import useEmailActionDropdown from './useEmailActionDropDown';
+
 import { isNullOrEmpty } from '@/utils';
+
 import { EmailTestingData } from '@/mock/modules/Deals';
-import Image from 'next/image';
+
 import { styles } from './EmailActionDropDown.style';
 
 const EmailActionDropDown = (props: any) => {
   const { setOpenDrawer } = props;
+
   const {
     theme,
     isMenuOpen,
@@ -20,8 +27,8 @@ const EmailActionDropDown = (props: any) => {
     handleOpenMenu,
     handleCloseMenu,
     openAlertModal,
-    handleOpenEditDrawer,
-    handleOpenViewDrawer,
+    handleOpenReplyDrawer,
+    handleOpenForwardDrawer,
     handleOpenReassignAlert,
     handleOpenDeleteAlert,
     handleCloseAlert,
@@ -54,8 +61,8 @@ const EmailActionDropDown = (props: any) => {
         }}
       >
         <MenuItem onClick={handleOpenReassignAlert}>View Thread</MenuItem>
-        <MenuItem onClick={handleOpenViewDrawer}>Forward</MenuItem>
-        <MenuItem onClick={handleOpenEditDrawer}>Reply</MenuItem>
+        <MenuItem onClick={handleOpenForwardDrawer}>Forward</MenuItem>
+        <MenuItem onClick={handleOpenReplyDrawer}>Reply</MenuItem>
         <MenuItem onClick={handleOpenDeleteAlert}>Delete</MenuItem>
       </Menu>
 

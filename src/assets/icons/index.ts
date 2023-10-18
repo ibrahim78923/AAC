@@ -87,3 +87,5 @@ export { default as SendArrowIcon } from './modules/Deals/send-arrow';
 export { default as ExclamatoryCircleIcon } from './modules/Deals/exclamatory-circle';
 export { default as FileJpgIcon } from './shared/file-jpg';
 export { default as LinkBoldIcon } from './shared/link-bold';
+export { default as ZoomIcon } from './shared/zoom';
+export { default as MircosoftTeamsIcon } from './shared/microsoft-teams';
