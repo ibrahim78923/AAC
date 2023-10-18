@@ -22,7 +22,7 @@ import { NotesAvatarImage } from '@/assets/images';
 
 import { styles } from './ViewDetails.style';
 
-const DealsViewDetails = () => {
+const ViewDetails = () => {
   const theme = useTheme();
   return (
     <Box>
@@ -186,4 +186,4 @@ const DealsViewDetails = () => {
   );
 };
 
-export default DealsViewDetails;
+export default ViewDetails;

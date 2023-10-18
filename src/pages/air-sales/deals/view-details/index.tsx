@@ -1,9 +1,11 @@
-import Layout from '@/layout';
-import DealsViewDetails from '@/modules/airSales/Deals/ViewDetails';
 import React from 'react';
 
+import Layout from '@/layout';
+
+import ViewDetails from '@/modules/airSales/Deals/ViewDetails';
+
 const ViewDetailsPage = () => {
-  return <DealsViewDetails />;
+  return <ViewDetails />;
 };
 export default ViewDetailsPage;
 

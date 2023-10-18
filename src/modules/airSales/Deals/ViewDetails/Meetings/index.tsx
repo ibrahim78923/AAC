@@ -20,7 +20,7 @@ import { MircosoftTeamsIcon, PlusSharedIcon, ZoomIcon } from '@/assets/icons';
 
 import { styles } from './Meetings.style';
 
-const Calls = () => {
+const Meetings = () => {
   const { openDrawer, setOpenDrawer, theme } = useMeetings();
 
   return (
@@ -130,4 +130,4 @@ const Calls = () => {
   );
 };
 
-export default Calls;
+export default Meetings;
