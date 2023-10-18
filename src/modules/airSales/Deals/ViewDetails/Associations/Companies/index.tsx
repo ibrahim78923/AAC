@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { Box, Button, Grid, Typography } from '@mui/material';
 
 import Search from '@/components/Search';
@@ -9,7 +10,7 @@ import TanstackTable from '@/components/Tabel/TanstackTable';
 import useCompanies from './useCompanies';
 
 import { columns } from './Companies.data';
-import { companiesData } from '@/mock/modules/Deals';
+import { companiesData } from '@/mock/modules/airSales/Deals/ViewDetails';
 
 import { PlusSharedIcon } from '@/assets/icons';
 

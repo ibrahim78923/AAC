@@ -7,16 +7,18 @@ import { Box, Button, Checkbox, Grid, Typography } from '@mui/material';
 import NotesEditorDrawer from './NotesEditorDrawer';
 import NotesActionDropdown from './NotesActionDropDown';
 
-import { NotesDataArray } from '@/mock/modules/Deals';
-
-import { isNullOrEmpty } from '@/utils';
 import useNotes from './useNotes';
 import useNameWithStyledWords from '@/hooks/useNameStyledWords';
 
+import { isNullOrEmpty } from '@/utils';
+
+import { NotesDataArray } from '@/mock/modules/airSales/Deals/ViewDetails';
+
 import { MessageIcon, PlusSharedIcon } from '@/assets/icons';
 
-import { v4 as uuidv4 } from 'uuid';
 import { styles } from '../ViewDetails.style';
+
+import { v4 as uuidv4 } from 'uuid';
 
 const Notes = () => {
   const { openDrawer, setOpenDrawer } = useNotes();

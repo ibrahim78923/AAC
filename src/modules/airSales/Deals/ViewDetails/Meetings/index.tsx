@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { Box, Button, Grid, Typography } from '@mui/material';
-
 import Image from 'next/image';
+
+import { Box, Button, Grid, Typography } from '@mui/material';
 
 import TanstackTable from '@/components/Tabel/TanstackTable';
 import MeetingsDropDown from './MeetingsDropDown';
@@ -12,7 +12,7 @@ import useMeetings from './useMeetings';
 
 import { isNullOrEmpty } from '@/utils';
 
-import { TasksTableData } from '@/mock/modules/Deals';
+import { TasksTableData } from '@/mock/modules/airSales/Deals/ViewDetails';
 import { callsDetails, callsStatusColor, columns } from './Meetings.data';
 
 import { EmailMeetingImage } from '@/assets/images';

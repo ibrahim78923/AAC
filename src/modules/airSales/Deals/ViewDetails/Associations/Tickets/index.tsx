@@ -9,7 +9,8 @@ import TanstackTable from '@/components/Tabel/TanstackTable';
 import useTickets from './useTickets';
 
 import { columns } from './Tickets.data';
-import { TasksTableData } from '@/mock/modules/Deals';
+
+import { TasksTableData } from '@/mock/modules/airSales/Deals/ViewDetails';
 
 import { PlusSharedIcon } from '@/assets/icons';
 

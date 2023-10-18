@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { Box, Button, Grid, Typography } from '@mui/material';
 
 import Search from '@/components/Search';
@@ -9,7 +10,7 @@ import AttachmentsEditorDrawer from './AttachmentsEditorDrawer';
 import useAttachments from './useAttachments';
 
 import { columns } from './Attachments.data';
-import { attachmentData } from '@/mock/modules/Deals';
+import { attachmentData } from '@/mock/modules/airSales/Deals/ViewDetails';
 
 import { PlusSharedIcon } from '@/assets/icons';
 

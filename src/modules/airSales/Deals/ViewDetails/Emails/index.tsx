@@ -12,14 +12,14 @@ import useNameWithStyledWords from '@/hooks/useNameStyledWords';
 
 import { isNullOrEmpty } from '@/utils';
 
-import { NotesDataArray } from '@/mock/modules/Deals';
+import { NotesDataArray } from '@/mock/modules/airSales/Deals/ViewDetails';
 
 import {
   GmailIcon,
-  // MessageIcon,
+  MessageIcon,
   OutlookIcon,
   SMSIcon,
-  // SendArrowIcon,
+  SendArrowIcon,
 } from '@/assets/icons';
 
 import { styles } from '../ViewDetails.style';
@@ -61,7 +61,7 @@ const Emails = () => {
                   onClick={() => setOpenDrawer('New')}
                 >
                   <Typography variant="body2">Send Emails</Typography>
-                  {/* <SendArrowIcon /> */}
+                  <SendArrowIcon />
                 </Button>
               </Box>
             )}
@@ -79,13 +79,13 @@ const Emails = () => {
             gap: 1.5,
           }}
         >
-          {/* <MessageIcon /> */}
+          <MessageIcon />
           <Typography variant="body2" sx={{ color: theme.palette.grey[900] }}>
             Send Email right now from the CRM
           </Typography>
           <Button variant="contained" sx={{ height: '35px', gap: 0.5 }}>
             <Typography variant="body2">Send Emails</Typography>
-            {/* <SendArrowIcon /> */}
+            <SendArrowIcon />
           </Button>
           <Typography
             variant="body2"

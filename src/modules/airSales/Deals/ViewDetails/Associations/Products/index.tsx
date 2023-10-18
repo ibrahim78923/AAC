@@ -1,20 +1,21 @@
 import React from 'react';
 import { Box, Button, Grid, Typography } from '@mui/material';
 
-import Search from '@/components/Search';
 import { AlertModals } from '@/components/AlertModals';
 
+import Search from '@/components/Search';
+import ProductEditorDrawer from './ProductEditorDrawer';
 import TanstackTable from '@/components/Tabel/TanstackTable';
 
 import useProducts from './useProducts';
 
 import { columns } from './Products.data';
-import { productsData } from '@/mock/modules/Deals';
+
+import { productsData } from '@/mock/modules/airSales/Deals/ViewDetails';
 
 import { PlusSharedIcon } from '@/assets/icons';
 
 import { styles } from '../Associations.style';
-import ProductEditorDrawer from './ProductEditorDrawer';
 
 const Products = () => {
   const {

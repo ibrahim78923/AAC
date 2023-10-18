@@ -1,12 +1,15 @@
-import { Box, Button, Grid, Typography, useTheme } from '@mui/material';
 import React, { useState } from 'react';
-import { styles } from '../Associations.style';
+import { Box, Button, Grid, Typography, useTheme } from '@mui/material';
+
 import Search from '@/components/Search';
-import { PlusSharedIcon } from '@/assets/icons';
 import TanstackTable from '@/components/Tabel/TanstackTable';
 
-import { quotesData } from '@/mock/modules/Deals';
 import { columns } from './Quotes.data';
+import { quotesData } from '@/mock/modules/airSales/Deals/ViewDetails';
+
+import { PlusSharedIcon } from '@/assets/icons';
+
+import { styles } from '../Associations.style';
 
 const Quotes = () => {
   const theme = useTheme();
@@ -38,7 +41,6 @@ const Quotes = () => {
             <Button
               variant="contained"
               sx={{ minWidth: '0px', height: '35px', gap: 0.5 }}
-              // onClick={() => setOpenDrawer('Add')}
             >
               <PlusSharedIcon /> Add Quotes
             </Button>

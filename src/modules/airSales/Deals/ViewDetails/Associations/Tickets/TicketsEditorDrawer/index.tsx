@@ -2,7 +2,9 @@ import React from 'react';
 
 import { Box, Grid } from '@mui/material';
 
+import Search from '@/components/Search';
 import CommonDrawer from '@/components/CommonDrawer';
+
 import { FormProvider, RHFRadioGroup } from '@/components/ReactHookForm';
 
 import useTicketsEditorDrawer from './useTicketsEditorDrawer';
@@ -14,7 +16,6 @@ import {
 } from './TicketsEditorDrawer.data';
 
 import { v4 as uuidv4 } from 'uuid';
-import Search from '@/components/Search';
 
 const TicketsEditorDrawer = (props: any) => {
   const { openDrawer, setOpenDrawer } = props;
@@ -75,7 +76,6 @@ const TicketsEditorDrawer = (props: any) => {
                   />
                 </Grid>
               )}
-              {/* {watchTicketStatus === 'New Ticket' ? '111111DDFD' : 'SDSFDG'} */}
             </Grid>
           </FormProvider>
         </Box>

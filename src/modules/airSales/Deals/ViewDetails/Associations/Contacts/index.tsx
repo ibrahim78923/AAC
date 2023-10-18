@@ -9,7 +9,7 @@ import TanstackTable from '@/components/Tabel/TanstackTable';
 import useContacts from './useContacts';
 
 import { columns } from './Contacts.data';
-import { TasksTableData } from '@/mock/modules/Deals';
+import { TasksTableData } from '@/mock/modules/airSales/Deals/ViewDetails';
 
 import { PlusSharedIcon } from '@/assets/icons';
 

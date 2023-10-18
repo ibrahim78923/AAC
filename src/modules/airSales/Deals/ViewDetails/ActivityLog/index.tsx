@@ -4,13 +4,15 @@ import Image from 'next/image';
 
 import { Box, Grid, Typography } from '@mui/material';
 
-import { ActivityLogList } from '@/mock/modules/Deals';
+import { ActivityLogList } from '@/mock/modules/airSales/Deals/ViewDetails';
+
+import useNameWithStyledWords from '@/hooks/useNameStyledWords';
 
 import { ActivityLogImage } from '@/assets/images';
 
-import { v4 as uuidv4 } from 'uuid';
-import useNameWithStyledWords from '@/hooks/useNameStyledWords';
 import { styles } from '../ViewDetails.style';
+
+import { v4 as uuidv4 } from 'uuid';
 
 const ActivityLog = () => {
   const { NameWithStyledWords, theme } = useNameWithStyledWords();

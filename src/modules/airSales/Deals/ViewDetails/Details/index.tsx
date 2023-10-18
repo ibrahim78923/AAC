@@ -15,8 +15,9 @@ import useDetails from './useDetails';
 
 import { detailsDataArray } from './Details.data';
 
-import { v4 as uuidv4 } from 'uuid';
 import { styles } from '../ViewDetails.style';
+
+import { v4 as uuidv4 } from 'uuid';
 
 const Details = () => {
   const { theme, methodsDetails, onSubmit, handleSubmit } = useDetails();

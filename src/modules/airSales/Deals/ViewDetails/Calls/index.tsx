@@ -10,7 +10,7 @@ import useCalls from './useCalls';
 
 import { isNullOrEmpty } from '@/utils';
 
-import { TasksTableData } from '@/mock/modules/Deals';
+import { TasksTableData } from '@/mock/modules/airSales/Deals/ViewDetails';
 import { callsDetails, callsStatusColor, columns } from './Calls.data';
 
 import { PlusSharedIcon, ViewCallIcon } from '@/assets/icons';
