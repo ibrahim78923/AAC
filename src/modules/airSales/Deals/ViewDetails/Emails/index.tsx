@@ -191,7 +191,11 @@ const Emails = () => {
                   </Box>
                   <Typography
                     variant="subtitle2"
-                    sx={{ color: theme.palette.primary.main }}
+                    sx={{
+                      color: theme.palette.primary.main,
+                      display: 'flex',
+                      alignItems: 'center',
+                    }}
                   >
                     {item.title}
                   </Typography>
