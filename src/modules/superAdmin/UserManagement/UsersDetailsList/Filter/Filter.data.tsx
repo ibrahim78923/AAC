@@ -1,4 +1,4 @@
-import { RHFSearchableSelect, RHFSelect } from '@/components/ReactHookForm';
+import { RHFSelect } from '@/components/ReactHookForm';
 
 import * as Yup from 'yup';
 
@@ -23,22 +23,6 @@ export const defaultValues = {
 };
 
 export const dataArray = [
-  {
-    componentProps: {
-      name: 'user',
-      label: 'UserName',
-    },
-
-    options: [
-      { value: 'JohnDoe', label: 'John Doe' },
-      { value: 'Andrew', label: 'Andrew' },
-      { value: 'RichardRobertson', label: 'Richard robertson' },
-      { value: 'Franksten', label: 'Franksten' },
-    ],
-    component: RHFSearchableSelect,
-    md: 12,
-  },
-
   {
     componentProps: {
       name: 'status',

@@ -1,14 +1,19 @@
 import React from 'react';
+
 import { Box, Dialog, DialogContent, Grid } from '@mui/material';
-import { CloseModalIcon } from '@/assets/icons';
+
+import Image from 'next/image';
+
 import { styles } from './DialogCards.style';
 import DealsGraph from '../../DealsGraph';
 import MeetingDetails from '../../MeetingDetails';
 import TeamActivity from '../../TeamActivity';
 import Widget from '../../Widget';
-import Image from 'next/image';
-import { NotSelectedItemImage } from '@/assets/images';
+
 import { isNullOrEmpty } from '@/utils';
+
+import { CloseModalIcon } from '@/assets/icons';
+import { NotSelectedItemImage } from '@/assets/images';
 
 const DialogCards = ({ open, setOpen, selectedDashoardWidget }: any) => {
   const onClose = () => {
