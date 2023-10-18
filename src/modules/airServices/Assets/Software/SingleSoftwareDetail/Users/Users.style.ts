@@ -7,6 +7,7 @@ export const styles = {
   },
 
   dropdownBox: {
+    display: 'flex',
     marginRight: '10px',
   },
 
@@ -15,7 +16,7 @@ export const styles = {
     marginBottom: '12px',
     display: 'flex',
     justifyContent: 'space-between',
-    '@media screen and (max-width: 640px)': {
+    '@media screen and (max-width: 1080px)': {
       flexWrap: 'wrap',
       marginLeft: '24px',
       marginTop: '12px',
@@ -29,7 +30,8 @@ export const styles = {
   buttonBox: {
     display: 'flex',
     marginRight: '12px',
-    '@media screen and (max-width: 640px)': {
+    '@media screen and (max-width: 1080px)': {
+      flexWrap: 'wrap',
       marginLeft: '24px',
       marginTop: '12px',
     },

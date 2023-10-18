@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
 import ConversationModel from '@/components/Model/CoversationModel';
-import { FormProvider } from '@/components/ReactHookForm';
-import { Box, Button, Divider, Grid, MenuItem, Select } from '@mui/material';
+import { FormProvider, RHFSearchableSelect } from '@/components/ReactHookForm';
+import { Box, Button, Divider, Grid } from '@mui/material';
 import { enqueueSnackbar } from 'notistack';
 import { dataArray } from './SoftwareAssignCategory.data';
 import { style } from './SoftwareAssignCategory.style';
@@ -9,6 +9,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 function SoftwareAssignCategory({ openAssignModal, setOpenAssignModal }: any) {
   const methods: any = useForm({});
+
   return (
     <>
       <ConversationModel
@@ -24,13 +25,13 @@ function SoftwareAssignCategory({ openAssignModal, setOpenAssignModal }: any) {
               <Grid container spacing={4} sx={{}}>
                 {dataArray?.map((item: any) => (
                   <Grid item key={uuidv4()}>
-                    <Select sx={style.dropdownItems} size={'small'}>
-                      {item?.options?.map((option: any) => (
-                        <MenuItem key={uuidv4()} value={option?.value}>
-                          {option?.label}
-                        </MenuItem>
-                      ))}
-                    </Select>
+                    <Box sx={style.searchField}>
+                      <RHFSearchableSelect
+                        name="Search or add category"
+                        options={item.options}
+                        control={methods.control}
+                      />
+                    </Box>
                   </Grid>
                 ))}
               </Grid>

@@ -24,6 +24,7 @@ export const styles = {
 
   buttonBox: {
     marginRight: '12px',
+    marginLeft: '5px',
     '@media screen and (max-width: 640px)': {
       marginLeft: '24px',
       marginTop: '12px',

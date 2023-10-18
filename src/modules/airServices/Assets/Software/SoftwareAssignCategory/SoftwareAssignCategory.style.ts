@@ -4,8 +4,18 @@ export const style = {
   },
 
   dropdownBox: {
-    width: '300px',
+    width: '450px',
     height: 'auto',
+    '@media screen and (max-width: 530px)': {
+      width: '290px',
+    },
+  },
+
+  searchField: {
+    width: '450px',
+    '@media screen and (max-width: 530px)': {
+      width: '290px',
+    },
   },
 
   buttonBox: {
@@ -17,7 +27,7 @@ export const style = {
   },
 
   divider: {
-    height: '2px',
+    height: '1px',
     backgroundColor: '#E5E7EB',
     marginTop: '24px',
   },

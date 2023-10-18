@@ -9,6 +9,10 @@ export const styles = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
+    '@media screen and (max-width: 640px)': {
+      flexWrap: 'wrap',
+      marginLeft: '24px',
+    },
   },
 
   subHeadBoxBox: {
@@ -20,5 +24,9 @@ export const styles = {
 
   actionBox: {
     marginRight: '24px',
+    '@media screen and (max-width: 640px)': {
+      marginLeft: '60px',
+      marginTop: '12px',
+    },
   },
 };

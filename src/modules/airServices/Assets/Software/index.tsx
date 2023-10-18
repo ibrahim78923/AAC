@@ -72,6 +72,7 @@ function Software() {
       <SoftwareAssignCategory
         openAssignModal={openAssignModal}
         setOpenAssignModal={setOpenAssignModal}
+        title={'Assign Category'}
       />
     </Grid>
   );
