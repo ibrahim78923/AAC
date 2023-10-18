@@ -10,9 +10,11 @@ import { useTheme } from '@emotion/react';
 import AssetHead from '../AssetHead/index';
 import useManage from '@/modules/airSales/Dashboard/Manage/useManage';
 import SoftwareFilter from './SoftwareFilter';
+import SoftwareAssignCategory from './SoftwareAssignCategory';
 
 function Software() {
-  const [meetingsData, setMeetingsData] = useState([]);
+  const [softwareData, setSoftwareData] = useState([]);
+  const [openAssignModal, setOpenAssignModal] = useState(false);
   const theme: any = useTheme();
   const { setIsOpenFilterDrawer, isOpenFilterDrawer } = useManage();
 
@@ -25,7 +27,14 @@ function Software() {
             <Search label="search" width="100%" />
           </Box>
           <Box sx={styles.buttonBox}>
-            <Button sx={styles.buttonStyle(theme)} variant="outlined" disabled>
+            <Button
+              sx={styles.buttonStyle(theme)}
+              variant="outlined"
+              disabled={!!!softwareData.length}
+              onClick={() => {
+                setOpenAssignModal(true);
+              }}
+            >
               Assign Category
             </Button>
             <Button
@@ -41,16 +50,22 @@ function Software() {
         <Box sx={{ marginBottom: '25px' }}>
           <TanstackTable
             data={data}
-            columns={columns(meetingsData, setMeetingsData, data, theme)}
+            columns={columns(softwareData, setSoftwareData, data, theme)}
           />
         </Box>
       </Grid>
+
       {isOpenFilterDrawer && (
         <SoftwareFilter
           isOpenDrawer={isOpenFilterDrawer}
           onClose={() => setIsOpenFilterDrawer(false)}
         />
       )}
+
+      <SoftwareAssignCategory
+        openAssignModal={openAssignModal}
+        setOpenAssignModal={setOpenAssignModal}
+      />
     </Grid>
   );
 }
