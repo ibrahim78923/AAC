@@ -8,10 +8,13 @@ import { FilterSharedIcon } from '@/assets/icons';
 import { styles } from './Software.style';
 import { useTheme } from '@emotion/react';
 import AssetHead from '../AssetHead/index';
+import useManage from '@/modules/airSales/Dashboard/Manage/useManage';
+import SoftwareFilter from './SoftwareFilter';
 
 function Software() {
   const [meetingsData, setMeetingsData] = useState([]);
   const theme: any = useTheme();
+  const { setIsOpenFilterDrawer, isOpenFilterDrawer } = useManage();
 
   return (
     <Grid container>
@@ -29,6 +32,7 @@ function Software() {
               sx={styles.buttonStyle(theme)}
               variant="outlined"
               startIcon={<FilterSharedIcon />}
+              onClick={() => setIsOpenFilterDrawer(true)}
             >
               Filter
             </Button>
@@ -41,6 +45,12 @@ function Software() {
           />
         </Box>
       </Grid>
+      {isOpenFilterDrawer && (
+        <SoftwareFilter
+          isOpenDrawer={isOpenFilterDrawer}
+          onClose={() => setIsOpenFilterDrawer(false)}
+        />
+      )}
     </Grid>
   );
 }
