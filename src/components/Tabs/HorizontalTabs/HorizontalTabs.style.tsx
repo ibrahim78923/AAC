@@ -1,8 +1,9 @@
 export const styles = {
-  cardStyle: (spacing: any, disableBoxShadow: any) => {
+  cardStyle: (spacing: any, disableBoxShadow: any, border: any) => {
     return {
       px: spacing ?? 2,
       boxShadow: disableBoxShadow ? 'none' : undefined,
+      border: { border },
     };
   },
   circleIconStyle: { ml: 'auto', mt: 0.5, cursor: 'pointer' },
