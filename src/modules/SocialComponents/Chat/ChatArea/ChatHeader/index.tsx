@@ -15,10 +15,39 @@ import {
 
 import { styles } from './ChatHeader.style';
 import ChatInfoModal from './ChatInfoModal';
+import ChatDropdown from '../../ChatDropdown';
 
 const ChatHeader = ({ chatMode }: any) => {
   const theme = useTheme();
   const [isUserProfile, setIsUserProfile] = useState(false);
+
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const actionMenuOpen = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const menuItemsData = [
+    {
+      menuLabel: 'Mark as Unread',
+      handler: handleClose,
+    },
+    {
+      menuLabel: 'Mute',
+      handler: handleClose,
+    },
+    {
+      menuLabel: 'Archive',
+      handler: handleClose,
+    },
+    {
+      menuLabel: 'Delete Conversation',
+      handler: handleClose,
+    },
+  ];
 
   return (
     <>
@@ -53,9 +82,21 @@ const ChatHeader = ({ chatMode }: any) => {
           >
             {chatMode === 'groupChat' ? <InfoIcon /> : <UserWhiteIcon />}
           </Button>
-          <Button sx={styles.unStyledButton}>
+          <Button
+            sx={styles.unStyledButton}
+            aria-controls={actionMenuOpen ? 'basic-menu' : undefined}
+            aria-haspopup="true"
+            aria-expanded={actionMenuOpen ? 'true' : undefined}
+            onClick={handleClick}
+          >
             <ThreeDotsIcon color={theme.palette.common.white} />
           </Button>
+          <ChatDropdown
+            anchorEl={anchorEl}
+            actionMenuOpen={actionMenuOpen}
+            handleClose={handleClose}
+            menuData={menuItemsData}
+          />
         </Box>
       </Box>
       <ChatInfoModal

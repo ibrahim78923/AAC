@@ -1,40 +1,66 @@
-import { useState } from 'react';
-
 import Image from 'next/image';
 
-import { Box, useTheme, Typography, Divider } from '@mui/material';
+import { Box, Typography, Divider, Grid, Button } from '@mui/material';
 
 import ChatFooter from './ChatFooter';
+import ChatDropdown from '../../ChatDropdown';
+import { AlertModals } from '@/components/AlertModals';
 
-import {
-  chatsData,
-  groupChatsData,
-} from '@/mock/modules/SocialComponents/Chat';
+import { chatsData } from '@/mock/modules/SocialComponents/Chat';
 
 import { isNullOrEmpty } from '@/utils';
 
+import { useChatField } from './useChatField.hook';
+
 import { customEmojis } from './ChatField.data';
 
-import { CharmTickIcon, ReplyIcon, ThreeDotsIcon } from '@/assets/icons';
+import {
+  CharmTickIcon,
+  DownloadRoundedIcon,
+  PaperClipIcon,
+  ReplyIcon,
+  ThreeDotsIcon,
+} from '@/assets/icons';
 
 import { styles } from './ChatField.style';
 
 import { v4 as uuidv4 } from 'uuid';
-import { useAppSelector } from '@/redux/store';
 
 const ChatField = () => {
-  const theme = useTheme();
-  const chatModeState = useAppSelector(
-    (state: any) => state.chat.chatModeState,
-  );
-  const [activeChat, setActiveChat] = useState('');
-  const chatMode = chatModeState.chatModeState;
+  const {
+    theme,
+    chatMode,
+    activeChat,
+    setActiveChat,
+    isDeleteModal,
+    setIsDeleteModal,
+    chatDataToShow,
+    actionMenuOpen,
+    handleClick,
+    handleClose,
+    anchorEl,
+  } = useChatField();
 
-  const chatDataToShow = chatMode === 'groupChat' ? groupChatsData : chatsData;
+  const menuItemsData = [
+    {
+      menuLabel: 'Reply',
+      handler: handleClose,
+    },
+    {
+      menuLabel: 'Delete',
+      handler: () => {
+        setIsDeleteModal(true), handleClose;
+      },
+    },
+    {
+      menuLabel: 'Copy',
+      handler: handleClose,
+    },
+  ];
 
   return (
     <>
-      <Box sx={{ padding: '30px', height: '60vh' }}>
+      <Box sx={{ padding: '30px', height: '60vh', overflow: 'scroll' }}>
         <Box>
           <Box sx={styles.timeSlot(theme)}>
             <Typography
@@ -53,7 +79,7 @@ const ChatField = () => {
           {!isNullOrEmpty(chatsData) &&
             chatDataToShow.map((item: any) => (
               <>
-                <Box key={uuidv4()}>
+                <Box key={uuidv4()} sx={{ marginTop: '20px' }}>
                   <Box sx={styles.mainChatArea(item.role)}>
                     <Box sx={{ marginBottom: '25px' }}>
                       <Image
@@ -113,10 +139,65 @@ const ChatField = () => {
                           <Box
                             sx={styles.chatBoxWrapperInset(theme, item.role)}
                           >
-                            <Typography
-                              variant="body3"
-                              dangerouslySetInnerHTML={{ __html: item.message }}
-                            />
+                            {!item.attachment?.document && (
+                              <Typography
+                                variant="body3"
+                                dangerouslySetInnerHTML={{
+                                  __html: item.message,
+                                }}
+                              />
+                            )}
+                            {item.attachment?.images && (
+                              <Box key={uuidv4()} sx={{ width: '16vw' }}>
+                                <Grid
+                                  container
+                                  spacing={1}
+                                  sx={{
+                                    marginTop: '1px',
+                                    marginBottom: '2px',
+                                  }}
+                                >
+                                  {item.attachment.images.map((item: any) => (
+                                    <Grid item lg={4} key={uuidv4()}>
+                                      <Image
+                                        src={item?.img}
+                                        height={80}
+                                        alt="media"
+                                      />
+                                    </Grid>
+                                  ))}
+                                </Grid>
+                              </Box>
+                            )}
+                            {item.attachment?.document && (
+                              <Box
+                                sx={{
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'space-between',
+                                }}
+                              >
+                                <Box
+                                  sx={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '10px',
+                                  }}
+                                >
+                                  <PaperClipIcon />
+                                  <Typography
+                                    variant="body3"
+                                    sx={{
+                                      color: theme.palette.error.main,
+                                      fontWeight: '500',
+                                    }}
+                                  >
+                                    {item.attachment?.document}
+                                  </Typography>
+                                </Box>
+                                <DownloadRoundedIcon />
+                              </Box>
+                            )}
                             <Box
                               sx={{
                                 position: 'absolute',
@@ -163,9 +244,36 @@ const ChatField = () => {
                             marginBottom: '20px',
                           }}
                         >
-                          <ThreeDotsIcon
-                            color={theme.palette.custom.grayish_blue}
-                          />
+                          <>
+                            <Button
+                              sx={styles.unStyledButton}
+                              aria-controls={
+                                actionMenuOpen
+                                  ? `basic-menu${item.chatId}`
+                                  : undefined
+                              }
+                              aria-haspopup="true"
+                              aria-expanded={
+                                actionMenuOpen ? 'true' : undefined
+                              }
+                              onClick={handleClick}
+                            >
+                              <ThreeDotsIcon
+                                color={theme.palette.custom.grayish_blue}
+                              />
+                            </Button>
+                            <ChatDropdown
+                              anchorEl={anchorEl}
+                              actionMenuOpen={
+                                item.chatID === activeChat
+                                  ? actionMenuOpen
+                                  : false
+                              }
+                              handleClose={handleClose}
+                              menuData={menuItemsData}
+                              // menuId={`basic-menu${item.chatId}`}
+                            />
+                          </>
                         </Box>
                       </Box>
                     </Box>
@@ -176,6 +284,13 @@ const ChatField = () => {
         </Box>
       </Box>
       <ChatFooter />
+      <AlertModals
+        message={'Are you sure you want to delete this entry ?'}
+        type="delete"
+        open={isDeleteModal}
+        handleClose={() => setIsDeleteModal(false)}
+        handleSubmit={() => setIsDeleteModal(false)}
+      />
     </>
   );
 };

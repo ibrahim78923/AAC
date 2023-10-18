@@ -103,4 +103,14 @@ export const styles = {
       padding: '0px 15px',
     };
   },
+  unStyledButton: () => {
+    return {
+      borderRadius: '50%',
+      width: 'fit-content',
+      minWidth: 'fit-content',
+      height: 'fit-content',
+      margin: '0',
+      padding: '0',
+    };
+  },
 };

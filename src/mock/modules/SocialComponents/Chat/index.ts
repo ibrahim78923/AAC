@@ -79,6 +79,34 @@ export const chatsData = [
     message: 'So, What is your plan this Weekend?',
     timeStamp: '10:39 AM',
     role: 'receiver',
+    attachment: {
+      document: 'A_Project_guide.pdf',
+    },
+  },
+  {
+    chatID: '4',
+    userId: '1',
+    userImage: UserAvatarImage,
+    message: 'Have a look on these',
+    timeStamp: 'Just now',
+    role: 'receiver',
+    attachment: {
+      // document: 'A_Project_guide.tsx',
+      images: [
+        {
+          id: '1',
+          img: PreviewVegImage,
+        },
+        {
+          id: '2',
+          img: PreviewTrainImage,
+        },
+        {
+          id: '13',
+          img: PreviewVegImage,
+        },
+      ],
+    },
   },
 ];
 export const groupChatsData = [

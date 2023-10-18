@@ -15,6 +15,7 @@ import {
 import MediaAssets from './MediaAssets';
 import DocumentAssets from './DocumentAssets';
 import LinksAssets from './LinksAssets';
+import Members from './Members';
 
 import { ChatInfoModalPropsI } from './ChatInfoModal.interface';
 
@@ -22,7 +23,7 @@ import CloseIcon from '@/assets/icons/shared/close-icon';
 import { UserProfileAvatarImage } from '@/assets/images';
 
 import { styles } from './ChatInfoModal.style';
-import Members from './Members';
+
 import { v4 as uuidv4 } from 'uuid';
 
 const ChatInfoModal = ({

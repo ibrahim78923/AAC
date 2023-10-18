@@ -1,19 +1,24 @@
+import { useTheme } from '@mui/material';
+
 import { setChatModes } from '@/redux/slices/chat/slice';
+import { useAppSelector } from '@/redux/store';
 import { useDispatch } from 'react-redux';
 
 export const useContacts = () => {
   const dispatch = useDispatch();
-  // const [chatMode, setChatMode] = useState('personalChat');
-
   const handleSelection = (_: any, newValue: any) => {
     dispatch(setChatModes({ chatModeState: newValue }));
-    // if (newValue !== null) {
-    //   setChatMode(newValue);
-    // }
   };
+  const theme = useTheme();
+  const chatModeState = useAppSelector(
+    (state: any) => state.chat.chatModeState,
+  );
+  const chatMode = chatModeState.chatModeState;
 
   return {
-    // chatMode,
     handleSelection,
+    theme,
+    chatModeState,
+    chatMode,
   };
 };

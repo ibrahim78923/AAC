@@ -3,24 +3,16 @@ import {
   ToggleButton,
   Typography,
   ToggleButtonGroup,
-  useTheme,
 } from '@mui/material';
 
 import ContactList from './ContactsList';
 
-import { useContacts } from './Contacts.hook';
+import { useContacts } from './useContacts.hook';
 
 import { styles } from './Contact.style';
-import { useAppSelector } from '@/redux/store';
 
 const Contacts = () => {
-  const theme = useTheme();
-  const { handleSelection } = useContacts();
-
-  const chatModeState = useAppSelector(
-    (state: any) => state.chat.chatModeState,
-  );
-  const chatMode = chatModeState.chatModeState;
+  const { handleSelection, theme, chatMode } = useContacts();
 
   return (
     <>

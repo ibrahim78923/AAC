@@ -80,3 +80,5 @@ export { default as FileJpgIcon } from './shared/file-jpg';
 export { default as LinkBoldIcon } from './shared/link-bold';
 export { default as InfoIcon } from './shared/info';
 export { default as ReplyIcon } from './shared/reply';
+export { default as PaperClipIcon } from './shared/paper-clip';
+export { default as DownloadRoundedIcon } from './shared/download-rounded';
