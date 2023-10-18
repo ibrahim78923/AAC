@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import UsersTable from './UsersTable';
-import { Box, Grid, InputAdornment, TextField, useTheme } from '@mui/material';
+import { Box, Grid, InputAdornment, TextField } from '@mui/material';
 import { SearchSharedIcon } from '@/assets/icons';
 import CustomPagination from '@/components/CustomPagination';
 import { softwareUserData } from './Users.data';
@@ -11,8 +11,16 @@ import { UsersFilter } from './UsersFilter';
 
 export const Users = () => {
   const [UsersData, setUsersData] = useState([]);
+  const [setAddModalOpen] = useState(false);
 
-  const theme = useTheme();
+  const handleAddModalOpen = () => {
+    setAddModalOpen(true);
+  };
+
+  // Remove the unused handleAddModalClose function if it's not needed.
+  // const handleAddModalClose = () => {
+  //   setAddModalOpen(false);
+  // };
 
   return (
     <>
@@ -23,26 +31,11 @@ export const Users = () => {
           sx={{ display: 'flex', justifyContent: 'space-between' }}
         >
           <TextField
-            sx={{
-              background: 'transparent',
-              '& .MuiOutlinedInput-root ': {
-                '& fieldset': {
-                  textAlign: 'right',
-                  borderColor: theme?.palette?.grey[700],
-                  borderRadius: '8px',
-                },
-                '&:hover fieldset': {
-                  borderColor: theme?.palette?.custom?.light_green,
-                  boxShadow: `0px 0px 0px 3px ${theme?.palette?.custom?.aqua_breeze}`,
-                },
-                '& .MuiInputBase-input': {
-                  color: theme?.palette?.common?.black,
-                },
-                '&.Mui-focused fieldset': {
-                  borderColor: theme?.palette?.grey[700],
-                },
-              },
-            }}
+            sx={
+              {
+                // Your search input styles
+              }
+            }
             id="outlined-basic"
             placeholder="search"
             variant="outlined"
@@ -54,11 +47,11 @@ export const Users = () => {
                 </InputAdornment>
               ),
             }}
-            // fullWidth
           />
           <Box sx={{ display: 'flex', gap: '18px' }}>
             <UsersAction actionDropdownData={softwareUserData} />
-            <UsersAdd /> {/* This will handle the modal internally */}
+            <UsersAdd onClick={handleAddModalOpen} />{' '}
+            {/* Open the modal on button click */}
             <UsersExport />
             <UsersFilter />
           </Box>

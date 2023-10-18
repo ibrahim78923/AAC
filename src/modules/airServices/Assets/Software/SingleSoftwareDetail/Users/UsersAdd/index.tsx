@@ -1,101 +1,88 @@
 import React, { useState } from 'react';
 import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
-import DialogActions from '@mui/material/DialogActions';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
-import FormControl from '@mui/material/FormControl';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
 import { AddIconWithBgBlack } from '@/assets/icons';
-import CloseIcon from '@mui/icons-material/Close';
+import CommonModal from '@/components/CommonModal';
+import { FormProvider, useForm } from 'react-hook-form';
+import UserSearchableSelect from '../UserSearchableSelect';
+import { RHFSearchableSelect } from '@/components/ReactHookForm';
 
-import { v4 as uuidv4 } from 'uuid';
+const selectOptions1 = [
+  { id: 'Andrew', label: 'Andrew' },
+  { id: 'John', label: 'John' },
+  { id: 'Root', label: 'Root' },
+];
 
 const selectOptions = [
-  { id: 'option1', label: 'Option 1' },
-  { id: 'option2', label: 'Option 2' },
-  { id: 'option3', label: 'Option 3' },
-  { id: 'option4', label: 'Option 5' },
+  { value: 'option1', title: 'Aws', des: `Aws Available contract: 1` },
+  {
+    value: 'Microsoft services',
+    title: 'Option 2',
+    des: `Microsoft services Available contract: Unlimited`,
+  },
+  { value: 'Figma', title: 'Figma', des: ` Figma Available contract: 1` },
 ];
 
 export const UsersAdd = () => {
-  const [open, setOpen] = useState(false);
-  const [selectedValue, setSelectedValue] = useState('');
+  const [isModalOpen, setModalOpen] = useState(false);
 
-  const handleChange = (event) => {
-    setSelectedValue(event.target.value);
+  const openModal = () => {
+    setModalOpen(true);
   };
 
-  const handleClickOpen = () => {
-    setOpen(true);
+  const closeModal = () => {
+    setModalOpen(false);
   };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+  const methods = useForm();
 
   return (
-    <div>
-      <Button
-        variant="outlined"
-        onClick={handleClickOpen}
-        startIcon={<AddIconWithBgBlack />}
-        color="secondary"
-      >
-        Add User
-      </Button>
+    <FormProvider {...methods}>
+      <Box>
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <Button
+              onClick={openModal}
+              startIcon={<AddIconWithBgBlack />}
+              color="secondary"
+              sx={{
+                p: 2,
+                '&:hover': {
+                  backgroundColor: '#F3F4F6',
+                },
+              }}
+            >
+              Add User
+            </Button>
+          </Grid>
+        </Grid>
 
-      <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>
-          Add User
-          <CloseIcon
-            onClick={handleClose}
-            style={{
-              cursor: 'pointer',
-              position: 'absolute',
-              right: 10,
-              top: 10,
-            }}
-          />
-        </DialogTitle>
-        <DialogContent>
-          <FormControl fullWidth>
-            <Select
-              label="Select an option"
-              value={selectedValue}
-              onChange={handleChange}
-            >
-              {selectOptions.map((option) => (
-                <MenuItem key={uuidv4()} value={option.id}>
-                  {option.label}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-          <FormControl fullWidth sx={{ mt: 4 }}>
-            <Select
-              label="Select an option"
-              value={selectedValue}
-              onChange={handleChange}
-            >
-              {selectOptions.map((option) => (
-                <MenuItem key={option.id} value={option.id}>
-                  {option.label}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handleClose} color="primary">
-            Add
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </div>
+        <CommonModal
+          open={isModalOpen}
+          handleClose={closeModal}
+          handleSubmit={closeModal}
+          title="Add User"
+          okText="Add"
+          footer={true}
+        >
+          <Box>
+            <RHFSearchableSelect
+              name="selectName1"
+              options={selectOptions1}
+              control={methods.control}
+            />
+          </Box>
+          <Box sx={{ mt: 2 }}>
+            <UserSearchableSelect
+              name="selectedOption"
+              options={selectOptions}
+              placeholder="Search..."
+              label="Field Label"
+            />
+          </Box>
+        </CommonModal>
+      </Box>
+    </FormProvider>
   );
 };
