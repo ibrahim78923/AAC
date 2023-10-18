@@ -31,7 +31,7 @@ export const styles = () => {
       minWidth: { xs: 1200, md: 1100, lg: 1000 },
     },
     headItemWrapper: {
-      background: '#EAECF0',
+      background: palette?.custom?.off_white_three,
       py: 1.3,
       borderRadius: '8px 8px 0 0 ',
     },
