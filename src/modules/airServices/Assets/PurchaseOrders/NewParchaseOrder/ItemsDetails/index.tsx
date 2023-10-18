@@ -6,7 +6,7 @@ import DetailsListItem from './DetailsListItem';
 import useItemsDetails from './useItemsDetails';
 import ItemBilling from './ItemBilling';
 import { styles } from '../NewPurchaseOrder.style';
-import { itemsDetailsData } from '../NewPurchaseOrder.data';
+import { itemsDetailsData } from './itemsDetails.data';
 const ItemsDetails = () => {
   const { itemsList, handleAddAdditionalItems } = useItemsDetails();
   const { itemsWrapper } = styles();

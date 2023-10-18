@@ -1,6 +1,6 @@
 import { Box, Divider, Grid, Typography, TextField } from '@mui/material';
 import { styles } from '../NewPurchaseOrder.style';
-import { billingData } from '../NewPurchaseOrder.data';
+import { billingData } from './itemsDetails.data';
 
 const ItemBilling = () => {
   const { flexBetween, billingWrapper, billingLabel, billingValue } = styles();

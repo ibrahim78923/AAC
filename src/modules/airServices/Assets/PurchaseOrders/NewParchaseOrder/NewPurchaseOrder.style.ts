@@ -11,7 +11,7 @@ export const styles = () => {
     },
     mainWrapper: {
       borderRadius: '12px',
-      border: '1px solid rgba(98, 110, 142, 0.12)',
+      border: `1px solid ${palette?.blue?.lighter}`,
       boxShadow: `0px 1px 3px 0px ${palette?.custom?.transparent_dark_blue}`,
       padding: 2.4,
       height: 780,
