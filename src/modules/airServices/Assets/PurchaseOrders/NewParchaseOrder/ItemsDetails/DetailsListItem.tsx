@@ -1,11 +1,11 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { Autocomplete, Box, TextField } from '@mui/material';
 import {
   itemsDetailsList,
   itemsDetailsSubList,
 } from '../NewPurchaseOrder.data';
-import { styles } from '../NewPurchaseOrder.style';
 import useItemsDetails from './useItemsDetails';
+import { styles } from './ItemsDetails.style';
 
 const DetailsListItem: FC<{
   data: any;
@@ -13,37 +13,21 @@ const DetailsListItem: FC<{
   index: number;
 }> = (props) => {
   const { data, index } = props;
-  const { setItemsList, detailItem, setDetailItem } = useItemsDetails();
+  const { detailItem, handleChange, handleSelectItem } = useItemsDetails();
   const { flexBetween } = styles();
-
-  const handleChange = (e: any) => {
-    setDetailItem((prev: any) => ({
-      ...prev,
-      [e?.target?.name]: [e?.target?.value],
-    }));
-  };
-
-  const handleSelectItem = (e: any, v: any) => {
-    const item = data?.find((option: any) => option.itemName === v);
-    setDetailItem(item);
-    setItemsList((prev: any) => {
-      const data = prev;
-      data[index] = item;
-      return data;
-    });
-  };
 
   return (
     <Box sx={{ ...flexBetween }}>
       <Autocomplete
         freeSolo
-        id="free-solo-2-demo"
+        id="itemName"
         disableClearable
         options={data?.map((option: any) => option.itemName)}
-        onChange={handleSelectItem}
+        onChange={(_, v) => handleSelectItem(v, data, index)}
         value={detailItem?.['itemName']}
         renderInput={(params) => (
           <TextField
+            name="itemName"
             {...params}
             InputProps={{
               ...params.InputProps,

@@ -3,7 +3,7 @@ import {
   itemsDetailsSubList,
 } from '../NewPurchaseOrder.data';
 import { Box, Typography } from '@mui/material';
-import { styles } from '../NewPurchaseOrder.style';
+import { styles } from './ItemsDetails.style';
 
 const ItemsDetailsHeader = () => {
   const { flexBetween, headItemWrapper, headItem } = styles();

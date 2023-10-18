@@ -108,7 +108,7 @@ export const defaultValues = {
 
 export const newPurchaseFields = [
   {
-    id: 2,
+    id: 1,
     component: RHFTextField,
     gridLength: 6,
     componentProps: {
@@ -131,7 +131,7 @@ export const newPurchaseFields = [
     },
   },
   {
-    id: 2,
+    id: 3,
     component: RHFSelect,
     gridLength: 6,
     componentProps: {
@@ -144,7 +144,7 @@ export const newPurchaseFields = [
     },
   },
   {
-    id: 2,
+    id: 4,
     component: RHFSelect,
     gridLength: 6,
     componentProps: {
@@ -157,7 +157,7 @@ export const newPurchaseFields = [
     },
   },
   {
-    id: 920,
+    id: 5,
     componentProps: {
       fullWidth: true,
       name: 'department',
@@ -169,7 +169,7 @@ export const newPurchaseFields = [
     component: RHFSelect,
   },
   {
-    id: 200,
+    id: 6,
     component: RHFDatePicker,
     gridLength: 6,
     componentProps: {
@@ -181,7 +181,7 @@ export const newPurchaseFields = [
     },
   },
   {
-    id: 129,
+    id: 7,
     componentProps: {
       fullWidth: true,
       name: 'location',
@@ -193,7 +193,7 @@ export const newPurchaseFields = [
     component: RHFSelect,
   },
   {
-    id: 129,
+    id: 8,
     componentProps: {
       fullWidth: true,
       name: 'termsAndCondidtions',

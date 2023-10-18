@@ -1,12 +1,13 @@
-import { uuid } from 'uuidv4';
 import { Button, Divider, Box } from '@mui/material';
 import { GrayPlusIcon } from '@/assets/icons';
+import { v4 as uuidv4 } from 'uuid';
+import { itemsDetailsData } from './itemsDetails.data';
 import ItemsDetailsHeader from './ItemsDetailsHeader';
 import DetailsListItem from './DetailsListItem';
 import useItemsDetails from './useItemsDetails';
 import ItemBilling from './ItemBilling';
-import { styles } from '../NewPurchaseOrder.style';
-import { itemsDetailsData } from './itemsDetails.data';
+import { styles } from './ItemsDetails.style';
+
 const ItemsDetails = () => {
   const { itemsList, handleAddAdditionalItems } = useItemsDetails();
   const { itemsWrapper } = styles();
@@ -17,7 +18,7 @@ const ItemsDetails = () => {
           <ItemsDetailsHeader />
           {itemsList?.map((values: any, index: number) => (
             <DetailsListItem
-              key={uuid()}
+              key={uuidv4()}
               data={itemsDetailsData}
               values={values}
               index={index}
