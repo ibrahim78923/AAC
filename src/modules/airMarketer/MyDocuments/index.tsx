@@ -33,8 +33,9 @@ import { UserRoundImage } from '@/assets/images';
 
 import useMyDocuments from './useMyDocuments';
 
+import { documentFolderArr } from '@/mock/modules/SocialComponents/Documents';
+
 import { style } from './MyDocuments.style';
-import { documentFolderArr } from '@/mock/modules/SocialComponents/Chat';
 
 const MyDocuments = () => {
   const {
