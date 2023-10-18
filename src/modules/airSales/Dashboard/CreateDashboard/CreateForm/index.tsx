@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import {
   Grid,
@@ -25,9 +25,19 @@ import { v4 as uuidv4 } from 'uuid';
 import { useForm } from 'react-hook-form';
 import DetailsView from '../DetailsView';
 import { PrimaryPreviewEyeIcon } from '@/assets/icons';
+import DialogCards from '../../Preview/DialogCards';
+import useCreateForm from './useCreateForm';
 
-const CreateForm = ({ setIsShowCreateDashboardForm }: any) => {
-  const [selectedDashoardWidget, setSelectedDashboardWidgets] = useState();
+const CreateForm = ({
+  setIsShowCreateDashboardForm,
+  isShowEditDashboard,
+}: any) => {
+  const {
+    isOpenPreview,
+    setIsOpenPreview,
+    selectedDashoardWidget,
+    setSelectedDashboardWidgets,
+  } = useCreateForm();
   const methods = useForm({
     resolver: yupResolver(validationSchema),
     defaultValues: defaultValues,
@@ -45,97 +55,112 @@ const CreateForm = ({ setIsShowCreateDashboardForm }: any) => {
   const watchFields = watch(['accessDashboard']);
 
   return (
-    <Box mt={1}>
-      <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-        <Grid container spacing={4}>
-          <Grid sm={12} lg={6}>
-            {dataArray?.map((item: any) => (
-              <Grid
-                item
-                xs={12}
-                md={item?.md}
-                key={uuidv4()}
-                style={{ paddingTop: '10px' }}
+    <>
+      <Box mt={1}>
+        <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+          <Grid container spacing={4}>
+            <Grid sm={12} lg={6}>
+              {dataArray?.map((item: any) => (
+                <Grid
+                  item
+                  xs={12}
+                  md={item?.md}
+                  key={uuidv4()}
+                  style={{ paddingTop: '10px' }}
+                >
+                  {item.componentProps.name === 'accessDashboard' ? (
+                    <Box>
+                      <item.component {...item.componentProps} size="small">
+                        {item?.componentProps?.select &&
+                          item?.options?.map((option: any) => (
+                            <option value={option.value} key={uuidv4()}>
+                              {option.label}
+                            </option>
+                          ))}
+                      </item.component>
+                      {watchFields[0] === 'Only special user and teams' && (
+                        <Autocomplete
+                          disablePortal
+                          id="combo-box-demo"
+                          options={userAndTeams}
+                          sx={{ width: 300 }}
+                          renderInput={(params) => (
+                            <TextField {...params} label="users" />
+                          )}
+                        />
+                      )}
+                      {watchFields[0] === 'Everyone' && (
+                        <RHFRadioGroup
+                          options={['View and edit', 'View Only']}
+                          name="viewAndEdit"
+                          label=""
+                        />
+                      )}
+                    </Box>
+                  ) : (
+                    <item.component {...item.componentProps} size="small" />
+                  )}
+                </Grid>
+              ))}
+              {isShowEditDashboard && (
+                <Button
+                  variant="outlined"
+                  onClick={() => setIsOpenPreview(true)}
+                  startIcon={<PrimaryPreviewEyeIcon />}
+                >
+                  Preview Dashboard
+                </Button>
+              )}
+            </Grid>
+            <Grid sm={12} lg={6}>
+              <DetailsView selectedDashoardWidget={selectedDashoardWidget} />
+            </Grid>
+            <Grid item sm={4}>
+              <Button
+                className="small"
+                onClick={() => {
+                  setIsShowCreateDashboardForm(false);
+                }}
+                sx={{
+                  border: `1px solid ${theme?.palette?.custom?.dark}`,
+                  color: theme?.palette?.custom?.main,
+                  width: '112px',
+                }}
               >
-                {item.componentProps.name === 'accessDashboard' ? (
-                  <Box>
-                    <item.component {...item.componentProps} size="small">
-                      {item?.componentProps?.select &&
-                        item?.options?.map((option: any) => (
-                          <option value={option.value} key={uuidv4()}>
-                            {option.label}
-                          </option>
-                        ))}
-                    </item.component>
-                    {watchFields[0] === 'Only special user and teams' && (
-                      <Autocomplete
-                        disablePortal
-                        id="combo-box-demo"
-                        options={userAndTeams}
-                        sx={{ width: 300 }}
-                        renderInput={(params) => (
-                          <TextField {...params} label="users" />
-                        )}
-                      />
-                    )}
-                    {watchFields[0] === 'Everyone' && (
-                      <RHFRadioGroup
-                        options={['View and edit', 'View Only']}
-                        name="viewAndEdit"
-                        label=""
-                      />
-                    )}
-                  </Box>
-                ) : (
-                  <item.component {...item.componentProps} size="small" />
-                )}
-              </Grid>
-            ))}
-            <Button variant="outlined" startIcon={<PrimaryPreviewEyeIcon />}>
-              Preview Dashboard
-            </Button>
+                Back
+              </Button>
+            </Grid>
+            <Grid item sm={8} style={{ textAlign: 'end' }}>
+              <Button
+                className="small"
+                sx={{
+                  border: `1px solid ${theme?.palette?.custom?.dark}`,
+                  color: theme?.palette?.custom?.main,
+                  width: '112px',
+                }}
+              >
+                Cancel
+              </Button>
+              <Button
+                variant="contained"
+                className="small"
+                type="submit"
+                sx={{ marginLeft: '10px' }}
+              >
+                Save
+              </Button>
+            </Grid>
           </Grid>
-          <Grid sm={12} lg={6}>
-            <DetailsView selectedDashoardWidget={selectedDashoardWidget} />
-          </Grid>
-          <Grid item sm={4}>
-            <Button
-              className="small"
-              onClick={() => {
-                setIsShowCreateDashboardForm(false);
-              }}
-              sx={{
-                border: `1px solid ${theme?.palette?.custom?.dark}`,
-                color: theme?.palette?.custom?.main,
-                width: '112px',
-              }}
-            >
-              Back
-            </Button>
-          </Grid>
-          <Grid item sm={8} style={{ textAlign: 'end' }}>
-            <Button
-              className="small"
-              sx={{
-                border: `1px solid ${theme?.palette?.custom?.dark}`,
-                color: theme?.palette?.custom?.main,
-                width: '112px',
-              }}
-            >
-              Cancel
-            </Button>
-            <Button
-              variant="contained"
-              className="small"
-              type="submit"
-              sx={{ marginLeft: '10px' }}
-            >
-              Save
-            </Button>
-          </Grid>
-        </Grid>
-      </FormProvider>
-    </Box>
+        </FormProvider>
+      </Box>
+      {isOpenPreview && (
+        <DialogCards
+          open={isOpenPreview}
+          setOpen={setIsOpenPreview}
+          selectedDashoardWidget={selectedDashoardWidget}
+        />
+      )}
+    </>
   );
 };
 export default CreateForm;

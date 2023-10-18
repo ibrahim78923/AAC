@@ -9,17 +9,20 @@ import CreateDashboard from './CreateDashboard';
 import CreateDashboardOptions from './CreateDashboardOptions';
 import useDashboard from './useDashboard';
 import DealsGraph from './DealsGraph';
-
 import useToggle from '@/hooks/useToggle';
 
 const Dashboard = () => {
-  const { isShowCreateDashboardForm, setIsShowCreateDashboardForm } =
-    useDashboard();
+  const {
+    isShowCreateDashboardForm,
+    setIsShowCreateDashboardForm,
+    isShowEditDashboard,
+    setIsShowEditDashboard,
+  } = useDashboard();
   const [isToggled, toggle] = useToggle(false);
 
   return (
-    <Grid container spacing={2}>
-      {!isToggled && (
+    <Grid container spacing={2} pl={5}>
+      {!isToggled && !isShowEditDashboard && (
         <>
           <Grid
             item
@@ -29,7 +32,7 @@ const Dashboard = () => {
           >
             <Typography variant="h4">Sales Dashboard</Typography>
             <Box style={{ display: 'flex' }}>
-              <Actions />
+              <Actions setIsShowEditDashboard={setIsShowEditDashboard} />
               <CreateDashboardOptions toggle={toggle} />
             </Box>
           </Grid>
@@ -59,10 +62,11 @@ const Dashboard = () => {
           </Grid>
         </>
       )}
-      {isShowCreateDashboardForm && (
+      {(isShowCreateDashboardForm || isShowEditDashboard) && (
         <Grid item xs={12} sm={12}>
           <CreateDashboard
             setIsShowCreateDashboardForm={setIsShowCreateDashboardForm}
+            isShowEditDashboard={isShowEditDashboard}
           />
         </Grid>
       )}
