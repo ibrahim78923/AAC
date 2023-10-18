@@ -3,6 +3,7 @@ import React from 'react';
 import { Box, Grid } from '@mui/material';
 
 import CommonDrawer from '@/components/CommonDrawer';
+import AppAvatarGroup from '@/components/AvatarGroup';
 
 import {
   FormProvider,
@@ -11,17 +12,19 @@ import {
   RHFSelect,
 } from '@/components/ReactHookForm';
 
-import { v4 as uuidv4 } from 'uuid';
 import useCallsEditorDrawer from './useCallsEditorDrawer';
 import {
   dealsCallsDataArray,
   drawerButtonTitle,
   drawerTitle,
 } from './CallsEditorDrawer.data';
-import { AttendeeAvatarImage } from '@/assets/images';
-import AppAvatarGroup from '@/components/AvatarGroup';
+
 import { avatarGroupMockData } from '@/modules/superAdmin/PlanManagement/PlanManagement.data';
 import { options } from '../../Emails/EmailEditorDrawer/EmailEditorDrawer.data';
+
+import { AttendeeAvatarImage } from '@/assets/images';
+
+import { v4 as uuidv4 } from 'uuid';
 
 const CallsEditorDrawer = (props: any) => {
   const { openDrawer, setOpenDrawer } = props;

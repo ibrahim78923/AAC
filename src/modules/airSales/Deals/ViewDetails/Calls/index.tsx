@@ -13,7 +13,7 @@ import { isNullOrEmpty } from '@/utils';
 import { TasksTableData } from '@/mock/modules/Deals';
 import { callsDetails, callsStatusColor, columns } from './Calls.data';
 
-import { CallIcon, PlusSharedIcon } from '@/assets/icons';
+import { PlusSharedIcon, ViewCallIcon } from '@/assets/icons';
 
 import { styles } from './Calls.style';
 
@@ -59,7 +59,7 @@ const Calls = () => {
         {isNullOrEmpty(TasksTableData) && (
           <Grid item xs={12}>
             <Box sx={styles.noCallsBox}>
-              <CallIcon />
+              <ViewCallIcon />
               <Typography
                 variant="body3"
                 sx={{ color: theme.palette.grey[900] }}

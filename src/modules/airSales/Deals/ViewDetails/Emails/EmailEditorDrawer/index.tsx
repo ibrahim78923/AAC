@@ -3,6 +3,8 @@ import React from 'react';
 import { Box, Button, Grid, Typography } from '@mui/material';
 
 import CommonDrawer from '@/components/CommonDrawer';
+import { ScheduleModals } from '@/components/ScheduleModals';
+
 import {
   FormProvider,
   RHFAutocomplete,
@@ -23,14 +25,13 @@ import {
 } from './EmailEditorDrawer.data';
 
 import {
-  ExclamatoryCircleIcon,
+  ExclimatoryCircleIcon,
   GmailIcon,
   OutlookIcon,
   SMSIcon,
 } from '@/assets/icons';
 
 import { v4 as uuidv4 } from 'uuid';
-import { ScheduleModals } from '@/components/ScheduleModals';
 
 const EmailEditorDrawer = (props: any) => {
   const { openDrawer, setOpenDrawer } = props;
@@ -55,7 +56,7 @@ const EmailEditorDrawer = (props: any) => {
         isOk={true}
         footer={openDrawer}
         footerActionText="Send Later"
-        footerActionTextIcon={<ExclamatoryCircleIcon />}
+        footerActionTextIcon={<ExclimatoryCircleIcon />}
         onFooterActionSubmit={() => setOpenDrawer('outcome')}
       >
         <Box sx={{ pt: 2 }}>
@@ -126,7 +127,7 @@ const EmailEditorDrawer = (props: any) => {
                     }}
                   >
                     <Box>
-                      <ExclamatoryCircleIcon />
+                      <ExclimatoryCircleIcon />
                     </Box>
 
                     <Typography

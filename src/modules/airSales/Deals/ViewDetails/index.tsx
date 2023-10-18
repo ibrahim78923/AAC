@@ -1,5 +1,7 @@
 import React from 'react';
 
+import Link from 'next/link';
+
 import Image from 'next/image';
 
 import { Box, Grid, Typography, useTheme } from '@mui/material';
@@ -17,7 +19,7 @@ import Associations from './Associations';
 import { singleUserDealTabsData } from './ViewDetails.data';
 
 import { ArrowBackIcon } from '@/assets/icons';
-import { NotesAvatarImage, YellowDotImage } from '@/assets/images';
+import { NotesAvatarImage } from '@/assets/images';
 
 import { styles } from './ViewDetails.style';
 
@@ -28,7 +30,9 @@ const DealsViewDetails = () => {
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Box sx={{ display: 'flex', gap: 1, alignItems: 'baseline' }}>
-            <ArrowBackIcon />
+            <Link href="/air-sales/deals">
+              <ArrowBackIcon />
+            </Link>
             <Box>
               <Typography variant="h4">Share My Dine</Typography>
               <Typography
@@ -142,7 +146,7 @@ const DealsViewDetails = () => {
                 Priority
               </Typography>
               <Typography variant="body3" sx={styles.salesPriority(theme)}>
-                <Image src={YellowDotImage} alt="YellowDotImage" /> Low
+                Low
               </Typography>
             </Box>
             <Box sx={styles.salesBox}>

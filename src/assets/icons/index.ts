@@ -105,4 +105,8 @@ export { default as TeamUserIcon } from '../icons/shared/team-user';
 export { default as FileJpgIcon } from './shared/file-jpg';
 export { default as LinkBoldIcon } from './shared/link-bold';
 export { default as ZoomIcon } from './shared/zoom';
+export { default as ExclimatoryCircleIcon } from './modules/airSales/deals/exclamatory-circle';
+export { default as MessageIcon } from './/modules/airSales/deals/message';
+export { default as SendArrowIcon } from './modules/airSales/deals/send-arrow';
+export { default as ViewCallIcon } from './/modules/airSales/deals/view-call';
 export { default as MircosoftTeamsIcon } from './shared/microsoft-teams';
