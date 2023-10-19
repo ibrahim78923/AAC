@@ -32,7 +32,7 @@ function Contracts() {
         <AssetHead
           title={'Contracts'}
           addTitle={'Add New Contract'}
-          onClick={handleAddNewContractClick}
+          handleAction={handleAddNewContractClick}
         />
         <Grid item sx={styles.gridItems}>
           <Box sx={styles.headBox}>
@@ -62,7 +62,7 @@ function Contracts() {
                 onClose={handleActionClose}
                 sx={{
                   mt: '4px',
-                  '& .MuiPaper-root': { width: '5% !important' },
+                  '& .MuiPaper-root': { width: { md: '5%', xs: '25%' } },
                 }}
                 anchorOrigin={{
                   vertical: 'bottom',
