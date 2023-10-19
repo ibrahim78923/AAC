@@ -18,6 +18,11 @@ const Button = (theme: any) => {
           '&.large': {
             height: '54px',
           },
+          '&.Mui-disabled': {
+            fontWeight: 500,
+            color: '#D1D5DB',
+            fontSize: '14px',
+          },
         },
 
         // contained

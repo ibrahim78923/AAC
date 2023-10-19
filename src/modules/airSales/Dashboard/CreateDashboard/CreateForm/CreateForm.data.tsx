@@ -8,17 +8,11 @@ import * as Yup from 'yup';
 
 export const validationSchema = Yup.object().shape({
   dashboardName: Yup.string().trim().required('Field is Required'),
-  internalRecipients: Yup.string().trim().required('Field is Required'),
-  emailSubject: Yup.string().trim().required('Field is Required'),
-  message: Yup.string().trim().required('Field is Required'),
   accessDashboard: Yup.string().trim().required('Field is Required'),
 });
 
 export const defaultValues = {
   dashboardName: '',
-  internalRecipients: '',
-  emailSubject: '',
-  message: '',
   accessDashboard: '',
 };
 
