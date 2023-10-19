@@ -29,7 +29,6 @@ export const data: TableDataI[] = [
 ];
 export const columns: any = (
   setIsDrawerOpen: any,
-
   isActive: any,
   setActive: any,
 ) => [

@@ -66,7 +66,7 @@ const Layout = (props: LayoutI) => {
         <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1 }}>
           <Image src={LogoImage} alt="logo" />
           <Box>
-            <Typography variant="subtitle2">Air Applecart</Typography>
+            <Typography variant="h5">Air Applecart</Typography>
             <Typography
               sx={{
                 fontSize: '10px',

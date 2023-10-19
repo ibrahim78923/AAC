@@ -1,4 +1,4 @@
-export const ticketsStyles: any = {
+export const relatedticketsStyles: any = {
   headContainer: {
     display: 'flex',
     alignItems: 'center',

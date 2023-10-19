@@ -1,3 +1,9 @@
+import { InstallationDetails } from './InstallationDetails';
+
 export const Installations = () => {
-  return <>Installation</>;
+  return (
+    <>
+      <InstallationDetails />
+    </>
+  );
 };

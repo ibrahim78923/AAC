@@ -8,7 +8,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { Typography, useTheme } from '@mui/material';
 
 export const TicketsAction = (props: any) => {
-  const { ticketsActionDropdown } = props;
+  const { ticketsActionDropdown, disabled } = props;
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const theme = useTheme();
@@ -30,6 +30,7 @@ export const TicketsAction = (props: any) => {
         onClick={handleClick}
         endIcon={<ArrowDropDownIcon />}
         color="secondary"
+        disabled={disabled}
       >
         Action
       </Button>

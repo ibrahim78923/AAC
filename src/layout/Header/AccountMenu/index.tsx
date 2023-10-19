@@ -5,7 +5,7 @@ import { Box, useTheme, Popover, Typography } from '@mui/material';
 
 import { isNullOrEmpty } from '@/utils';
 
-import { MyAccountData } from '@/mock/modules/SuperAdminDashboard';
+import { MyAccountData } from '@/mock/modules/superAdmin/SuperAdminDashboard';
 
 import { CrossImage, HomeMenuImage } from '@/assets/images';
 

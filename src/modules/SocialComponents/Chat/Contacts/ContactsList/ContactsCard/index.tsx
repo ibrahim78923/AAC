@@ -4,13 +4,11 @@ import Image from 'next/image';
 
 import { Box, Checkbox, Typography, useTheme } from '@mui/material';
 
-import { UserAvatarImage } from '@/assets/images';
-
 import { DeleteIcon, PinIcon } from '@/assets/icons';
 
 import { styles } from './ContactsCard.style';
 
-const ContactsCard = () => {
+const ContactsCard = ({ cardData }: any) => {
   const theme = useTheme();
   const [isCardHover, setIsCardHover] = useState(false);
   return (
@@ -27,12 +25,15 @@ const ContactsCard = () => {
               <Image
                 width={isCardHover ? 32 : 24}
                 height={isCardHover ? 32 : 24}
-                src={UserAvatarImage}
+                src={cardData.userAvatar}
                 alt="avatar"
               />
-              <Box sx={{ width: '140px' }}>
-                <Typography variant="h6" sx={{ fontWeight: '600' }}>
-                  Paula Griffin
+              <Box sx={{ maxWidth: '210px' }}>
+                <Typography
+                  variant="h6"
+                  sx={{ fontWeight: '600', whiteSpace: 'nowrap' }}
+                >
+                  {cardData?.userName}
                 </Typography>
               </Box>
             </Box>
@@ -53,11 +54,11 @@ const ContactsCard = () => {
             </Box>
           </Box>
           <Typography variant="body3" sx={{ color: theme.palette.grey[600] }}>
-            How are you?
+            {cardData.lastMessage}
           </Typography>
           <br />
           <Typography variant="body3" sx={{ color: '#6E7191' }}>
-            12:48PM
+            {cardData.time}
           </Typography>
         </Box>
       </Box>

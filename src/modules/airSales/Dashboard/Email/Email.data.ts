@@ -2,6 +2,7 @@ import {
   RHFSelect,
   RHFTextField,
   RHFRadioGroup,
+  RHFCheckbox,
 } from '@/components/ReactHookForm';
 
 import * as Yup from 'yup';
@@ -11,6 +12,7 @@ export const validationSchema = Yup.object().shape({
   internalRecipients: Yup.string().trim().required('Field is Required'),
   emailSubject: Yup.string().trim().required('Field is Required'),
   message: Yup.string().trim().required('Field is Required'),
+  reportsInExport: Yup.string().trim().required('Field is Required'),
 });
 
 export const defaultValues = {
@@ -18,6 +20,7 @@ export const defaultValues = {
   internalRecipients: '',
   emailSubject: '',
   message: '',
+  reportsInExport: '',
 };
 
 export const dataArray = [
@@ -26,7 +29,10 @@ export const dataArray = [
       name: 'recurringEmail',
       label: 'Is this a recurring email ?',
       fullWidth: true,
-      options: ['Yes', 'No'],
+      options: [
+        'No, this email will only be sent once',
+        'Yes, this is recurring email',
+      ],
     },
     component: RHFRadioGroup,
     md: 12,
@@ -81,12 +87,60 @@ export const dataArray = [
 
   {
     componentProps: {
-      name: 'internalRecipients',
-      label: 'Is this a recurring email ?',
+      name: 'reportsInExport',
+      label: '',
       fullWidth: true,
-      options: ['Yes', 'No'],
+      options: ['Include all reports', 'Include selected reports'],
     },
     component: RHFRadioGroup,
+    md: 12,
+  },
+];
+export const dataArraySelectedReports = [
+  {
+    componentProps: {
+      name: 'closedAndCreatedDeals',
+      label: 'Deals created vs Closed Deals',
+      sx: { mb: 4 },
+    },
+    component: RHFCheckbox,
+    md: 12,
+  },
+  {
+    componentProps: {
+      name: 'mettingDetails',
+      label: 'Meeting Details',
+      sx: { mb: 4 },
+    },
+    component: RHFCheckbox,
+    md: 12,
+  },
+  {
+    componentProps: {
+      name: 'teamActivities',
+      label: 'Team activities by activity date',
+      sx: { mb: 4 },
+    },
+    component: RHFCheckbox,
+    md: 12,
+  },
+  {
+    componentProps: {
+      name: 'totalDeals',
+      label:
+        'Total Deals, Open Deals, Team Goals, Cloded Won, Published Quotes',
+      fullWidth: true,
+    },
+    component: RHFCheckbox,
+    md: 12,
+  },
+  {
+    componentProps: {
+      name: 'dealReports',
+      label: 'Deal reports',
+      fullWidth: true,
+    },
+    component: RHFCheckbox,
     md: 12,
   },
 ];

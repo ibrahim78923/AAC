@@ -16,6 +16,7 @@ const HorizontalTabs = (props: any) => {
     disabled = false,
     addIcon = false,
     handleAddTab,
+    border,
   } = props;
 
   const [value, setValue] = useState(defaultValue);
@@ -27,7 +28,7 @@ const HorizontalTabs = (props: any) => {
 
   const theme: any = useTheme();
   return (
-    <Card sx={styles?.cardStyle(spacing, disableBoxShadow)}>
+    <Card sx={styles?.cardStyle(spacing, disableBoxShadow, border)}>
       <Tabs
         selectionFollowsFocus
         orientation="horizontal"
