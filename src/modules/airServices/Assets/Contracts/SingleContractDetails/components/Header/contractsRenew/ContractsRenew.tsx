@@ -6,7 +6,8 @@ import UploadAttachments from './UploadAttachment';
 import { useRouter } from 'next/router';
 import { contractsRenewArray } from './ContractsRenew.data';
 import useContractsActionRenew from './useContractsActionRenew';
-import ItemsDetails from '../ItemsDetails';
+import ItemsDetails from '../ContractsEdit/ItemsDetails';
+
 export const ContractsRenew = () => {
   const { methods, handleSubmit, onSubmit } = useContractsActionRenew();
 

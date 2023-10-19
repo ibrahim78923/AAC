@@ -8,12 +8,14 @@ import {
   createTicketValidationSchema,
   createTicketDefaultValues,
   createTicketDataArray,
-} from './CreateRelatedTicket/CreateRelatedTicket.data';
+} from './CreateRelatedTickets/CreateRelatedTickets.data';
+import { useRelatedTickets } from './useRelatedTickets';
 
 export const RelatedTicketsDrawer = ({
   isDrawerOpen,
   setIsDrawerOpen,
 }: any) => {
+  const { enqueueSnackbar } = useRelatedTickets();
   const methods: any = useForm({
     resolver: yupResolver(createTicketValidationSchema),
     defaultValues: createTicketDefaultValues,
@@ -24,7 +26,11 @@ export const RelatedTicketsDrawer = ({
     formState: {},
   } = methods;
 
-  const submit = () => {};
+  const submit = () => {
+    enqueueSnackbar('child ticket added successfully', {
+      variant: 'success',
+    });
+  };
   return (
     <CommonDrawer
       isDrawerOpen={isDrawerOpen}
@@ -32,7 +38,7 @@ export const RelatedTicketsDrawer = ({
         setIsDrawerOpen(false);
       }}
       title="Add child ticket"
-      submitHandler={() => {}}
+      submitHandler={methods.handleSubmit(submit)}
       footer={true}
       isOk={true}
       okText="Add child ticket"

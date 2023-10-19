@@ -66,6 +66,7 @@ export { default as croosCircleImage } from '../../assets/images/modules/Logitec
 export { default as docImage } from '../../assets/images/modules/LogitechMouse/doc-file.png';
 export { default as exportImage } from '../../assets/images/modules/LogitechMouse/export-btn-img.png';
 export { default as editImage } from '../../assets/images/modules/LogitechMouse/edit-title.png';
+export { default as CreatedImage } from '../../assets/images/modules/LogitechMouse/clipboard-tick.png';
 export { default as plusImage } from '../../assets/images/modules/LogitechMouse/green-plus.png';
 export { default as TeamsLogoImage } from '../../assets/images/modules/tickets/meetings/teams-logo.png';
 export { default as ZoomLogoImage } from '../../assets/images/modules/tickets/meetings/zoom-logo.png';
