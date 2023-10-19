@@ -1,18 +1,15 @@
 import Layout from '@/layout';
-
-import { PurchaseOrderEdit } from '@/modules/airServices/Assets/PurchaseOrders/SinglePurchaseOrderDetails/components/Header/PurchaseOrderEdit/PurchaseOrderEdit';
-
+import NewParchaseOrder from '@/modules/airServices/Assets/PurchaseOrders/NewParchaseOrder';
 import React from 'react';
 
 const index = () => {
   return (
     <>
-      <PurchaseOrderEdit />
+      <NewParchaseOrder />
     </>
   );
 };
 
-// export default index;
 index.getLayout = function getLayout(page: any) {
   return <Layout>{page}</Layout>;
 };

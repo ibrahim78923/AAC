@@ -1,16 +1,15 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import {
-  validationSchema,
-  defaultValues,
-  validationSchema1,
-  defaultValues1,
+  addInventoryDefaultValuesOne,
+  addInventoryDefaultValuesTwo,
+  addInventoryValidationSchemaOne,
+  addInventoryValidationSchemaTwo,
 } from './AddToInventoryDrawer.data';
 export default function useAddToInventoryDrawer() {
   const methods1: any = useForm({
-    resolver: yupResolver(validationSchema),
-
-    defaultValues,
+    resolver: yupResolver(addInventoryValidationSchemaOne),
+    defaultValues: addInventoryDefaultValuesOne,
   });
   const {
     handleSubmit: handleSubmit1,
@@ -20,8 +19,8 @@ export default function useAddToInventoryDrawer() {
 
   const { addNew } = watch({ name: 'addNew' });
   const methods2: any = useForm({
-    resolver: yupResolver(validationSchema1),
-    defaultValues: defaultValues1,
+    resolver: yupResolver(addInventoryValidationSchemaTwo),
+    defaultValues: addInventoryDefaultValuesTwo,
   });
   const { handleSubmit: handleSubmit2 } = methods2;
 

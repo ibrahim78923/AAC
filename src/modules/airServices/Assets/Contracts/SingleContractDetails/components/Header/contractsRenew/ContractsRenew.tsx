@@ -1,14 +1,12 @@
 import { Grid, Typography, Box, Button } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
-
 import { v4 as uuidv4 } from 'uuid';
 import { enqueueSnackbar } from 'notistack';
 import UploadAttachments from './UploadAttachment';
-
-import { ContractItemTable } from './ContractItems/ContractItemTable ';
 import { useRouter } from 'next/router';
 import { contractsRenewArray } from './ContractsRenew.data';
 import useContractsActionRenew from './useContractsActionRenew';
+import ItemsDetails from '../ItemsDetails';
 export const ContractsRenew = () => {
   const { methods, handleSubmit, onSubmit } = useContractsActionRenew();
 
@@ -16,7 +14,6 @@ export const ContractsRenew = () => {
   const submitHandler = methods.handleSubmit(async () => {
     enqueueSnackbar('Contract Extended successfully', {
       variant: 'success',
-
       autoHideDuration: 3000,
     });
 
@@ -63,7 +60,8 @@ export const ContractsRenew = () => {
                       ) : item?.heading ? (
                         item?.heading
                       ) : (
-                        <ContractItemTable />
+                        // <ContractItemTable />
+                        <ItemsDetails />
                       )}
                     </item.component>
                   </Grid>

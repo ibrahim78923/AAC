@@ -1,6 +1,5 @@
 import React from 'react';
 import { useState } from 'react';
-
 export function useHeader() {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [actionPop, setActionPop] = useState<HTMLButtonElement | null>(null);
@@ -11,7 +10,7 @@ export function useHeader() {
   const handleActionClose = () => {
     setActionPop(null);
   };
-
+  const [isADrawerOpen, setIsADrawerOpen] = useState<boolean>(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [terminateModalOpen, setTerminateModalOpen] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -22,6 +21,7 @@ export function useHeader() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
   return {
     setIsDrawerOpen,
     isDrawerOpen,
@@ -37,5 +37,7 @@ export function useHeader() {
     handleClick,
     anchorEl,
     open,
+    isADrawerOpen,
+    setIsADrawerOpen,
   };
 }

@@ -1,15 +1,12 @@
 import { Grid, Typography, Box, Button } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
-
 import { v4 as uuidv4 } from 'uuid';
 import { enqueueSnackbar } from 'notistack';
 import UploadAttachments from './UploadAttachment';
-
-import { ContractItemTable } from './ContractItems/ContractItemTable ';
 import { useRouter } from 'next/router';
-
 import useContractsActionExtend from './useContractsActionExtend';
 import { contractsExtendArray } from './ContractsExtend.data';
+import ItemsDetails from '../ItemsDetails';
 export const ContractsExtend = () => {
   const { methods, handleSubmit, onSubmit } = useContractsActionExtend();
 
@@ -64,7 +61,7 @@ export const ContractsExtend = () => {
                       ) : item?.heading ? (
                         item?.heading
                       ) : (
-                        <ContractItemTable />
+                        <ItemsDetails />
                       )}
                     </item.component>
                   </Grid>

@@ -9,9 +9,7 @@ export default function useContractsActionExtend() {
   });
   const { handleSubmit } = methods;
 
-  const onSubmit = async () => {
-    // console.log(data);
-  };
+  const onSubmit = async () => {};
 
   return {
     methods,

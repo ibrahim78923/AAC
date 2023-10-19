@@ -9,23 +9,24 @@ import {
 } from '@mui/material';
 import ViewDetailBackArrowIcon from '@/assets/icons/modules/view-detail-Icon/view-detail-back-arrow-icon';
 import { headerStyle } from './Header.styles';
-import React, { useState } from 'react';
+import React from 'react';
 import { RecievedItemDrawer } from './RecievedItems/RecievedItemDrawer';
 import { AddToInventoryDrawer } from './AddToInventory/AddToInventoryDrawer';
 import { ActionButtonIcon } from '@/assets/icons';
 import Link from 'next/link';
+import { useHeader } from './useHeader';
 
 export default function Header() {
-  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
-  const [isADrawerOpen, setIsADrawerOpen] = useState<boolean>(false);
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  const {
+    handleClose,
+    handleClick,
+    anchorEl,
+    open,
+    isDrawerOpen,
+    setIsDrawerOpen,
+    isADrawerOpen,
+    setIsADrawerOpen,
+  } = useHeader();
   return (
     <>
       <Grid
@@ -87,7 +88,7 @@ export default function Header() {
               'aria-labelledby': 'basic-button',
             }}
           >
-            <Link href="/air-services/assets/purchase-orders/actionEdit">
+            <Link href="/air-services/assets/purchase-orders/new-purchase?type=edit">
               <MenuItem>Edit</MenuItem>
             </Link>
 

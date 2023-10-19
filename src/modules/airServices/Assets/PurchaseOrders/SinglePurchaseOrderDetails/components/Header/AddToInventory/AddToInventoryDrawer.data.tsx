@@ -4,7 +4,7 @@ import {
   RHFTextField,
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
-export const validationSchema = Yup.object().shape({
+export const addInventoryValidationSchemaOne = Yup.object().shape({
   assetnameprefix: Yup.string().required('Field is Required'),
   assetstate: Yup.string().required('Field is Required'),
   dellMonitor: Yup.string().required('Field is Required'),
@@ -12,19 +12,19 @@ export const validationSchema = Yup.object().shape({
   lCD: Yup.string().required('Field is Required'),
 });
 
-export const validationSchema1 = Yup.object().shape({
+export const addInventoryValidationSchemaTwo = Yup.object().shape({
   assetName: Yup.string().required('Field is Required'),
   serialNumber: Yup.string().required('Field is Required'),
   assetTag: Yup.string().required('Field is Required'),
 });
-export const defaultValues = {
+export const addInventoryDefaultValuesOne = {
   addNew: 'No',
   assetnameprefix: '',
   location: '',
   acquisitionDate: '',
   assetstate: '',
 };
-export const defaultValues1 = {
+export const addInventoryDefaultValuesTwo = {
   assetName: '',
   serialNumber: '',
   assetTag: '',

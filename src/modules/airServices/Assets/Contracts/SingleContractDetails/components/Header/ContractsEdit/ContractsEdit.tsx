@@ -7,8 +7,9 @@ import { contractsEditArray } from './ContractsEdit.data';
 import useContractsActionEdit from './useContractsActionEdit';
 import UploadAttachments from './UploadAttachment';
 
-import { ContractItemTable } from './ContractItems/ContractItemTable ';
 import { useRouter } from 'next/router';
+import ItemsDetails from './ItemsDetails';
+
 export const ContractsEdit = () => {
   const { methods, handleSubmit, onSubmit } = useContractsActionEdit();
 
@@ -63,8 +64,7 @@ export const ContractsEdit = () => {
                       ) : item?.heading ? (
                         item?.heading
                       ) : (
-                        <ContractItemTable />
-                        // <ItemsDetails />
+                        <ItemsDetails />
                       )}
                     </item.component>
                   </Grid>

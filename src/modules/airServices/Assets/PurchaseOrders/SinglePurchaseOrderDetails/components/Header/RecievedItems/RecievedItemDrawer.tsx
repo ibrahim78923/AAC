@@ -1,33 +1,13 @@
 import CommonDrawer from '@/components/CommonDrawer';
 import TanstackTable from '@/components/Tabel/TanstackTable';
-import React, { useState } from 'react';
+import React from 'react';
 import { columns, data } from './RecievdItemTable.data';
-import { enqueueSnackbar } from 'notistack';
+
 import { Alert } from '@mui/material';
+import useRecievedItem from './useRecievedItem';
 
 export const RecievedItemDrawer = ({ isDrawerOpen, setIsDrawerOpen }: any) => {
-  let booVariable: boolean;
-  const [errorOccurred, setErrorOccurred] = useState(false);
-  const showSnackbar = (boolValue: boolean) => {
-    if (boolValue) {
-      const message = 'Purchase Order items count update successfully';
-      const variant = 'success';
-      enqueueSnackbar(message, {
-        variant: variant,
-      });
-    }
-  };
-  const submitHandler = () => {
-    data.forEach((item) => {
-      if (item.Id === item.Id && item.received > item.pending) {
-        booVariable = true;
-      } else {
-        setErrorOccurred(true);
-      }
-    });
-    showSnackbar(booVariable);
-  };
-
+  const { errorOccurred, submitHandler } = useRecievedItem();
   return (
     <CommonDrawer
       isDrawerOpen={isDrawerOpen}
