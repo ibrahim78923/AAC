@@ -1,10 +1,9 @@
 import { Button, Menu, MenuItem, Fade, useTheme } from '@mui/material';
 import { ArrowDropDown } from '@mui/icons-material';
-
 import EmailDashboard from '../Email';
 import useActionsOptions from './useActionsOptions';
 
-const ActionsOptions = () => {
+const ActionsOptions = ({ setIsShowEditDashboard }: any) => {
   const {
     handleClickActions,
     isShowDrawer,
@@ -13,8 +12,7 @@ const ActionsOptions = () => {
     handleCloseMenuOptions,
     anchorEl,
     openDropDown,
-    setIsShowEmailDashboard,
-    setIsShowEditDashboard,
+    handleShowEmailDashboard,
   } = useActionsOptions();
   const theme = useTheme();
   return (
@@ -30,8 +28,8 @@ const ActionsOptions = () => {
             marginRight: '10px',
           }}
         >
-          <ArrowDropDown />
           Actions
+          <ArrowDropDown />
         </Button>
 
         <Menu
@@ -46,11 +44,7 @@ const ActionsOptions = () => {
         >
           <MenuItem onClick={handleShowCopyUrl}>Copy URL</MenuItem>
 
-          <MenuItem
-            onClick={() => {
-              setIsShowEmailDashboard(true);
-            }}
-          >
+          <MenuItem onClick={handleShowEmailDashboard}>
             Email this dashboard
           </MenuItem>
 
