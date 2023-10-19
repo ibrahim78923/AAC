@@ -1,59 +1,19 @@
-export const styles = {
-  gridItems: {
-    width: '100%',
-    height: 'auto',
-    borderRadius: '8px',
-    border: '1px solid #EAECF0',
-  },
+import { useTheme } from '@mui/material/styles';
 
-  headBox: {
-    marginTop: '12px',
-    marginBottom: '12px',
-    display: 'flex',
-    justifyContent: 'space-between',
-    '@media screen and (max-width: 924px)': {
-      flexWrap: 'wrap',
-      marginLeft: '24px',
-      marginTop: '12px',
+export const styles = () => {
+  const { palette }: any = useTheme();
+  return {
+    flexBetween: {
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
     },
-    '@media screen and (max-width: 450px)': {
-      paddingRight: '25px',
-      marginLeft: '0px',
+    tableWrapperStyle: {
+      boxShadow: `0px 1px 3px 0px ${palette?.custom?.transparent_dark_blue}`,
+      border: `1px solid ${palette?.custom?.off_white}`,
+      borderRadius: 2,
+      pb: 2.4,
     },
-  },
-
-  buttonBox: {
-    marginRight: '12px',
-    '@media screen and (max-width: 924px)': {
-      marginLeft: '24px',
-      marginTop: '12px',
-    },
-  },
-
-  buttonStyle: (theme: any) => ({
-    marginRight: '12px',
-    borderColor: theme.palette.grey?.[0],
-    color: theme.palette.grey?.[500],
-    '&:hover': {
-      borderColor: theme.palette.grey?.[0],
-      backgroundColor: '#EAECF0',
-    },
-    '@media screen and (max-width: 640px)': {
-      marginTop: '6px',
-    },
-  }),
-
-  exportButtonStyle: (theme: any) => ({
-    marginRight: '12px',
-    color: theme.palette.grey?.[500],
-    border: 'none',
-    '&:hover': {
-      border: 'none',
-      color: theme.palette.grey?.[500],
-      backgroundColor: '#EAECF0',
-    },
-    '@media screen and (max-width: 740px)': {
-      marginTop: '4px',
-    },
-  }),
+  };
 };
