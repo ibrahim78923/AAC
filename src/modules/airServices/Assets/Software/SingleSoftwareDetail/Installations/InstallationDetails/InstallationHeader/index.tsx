@@ -9,7 +9,6 @@ const DELETE_MESSAGE = 'Are you sure you want to delete this Associate Asset?';
 const MODAL_TYPE = 'delete';
 export const InstallationHeader = ({ activeCheck }: any) => {
   const theme = useTheme();
-  const styles = InstallationStyle(theme);
   const {
     handleExportClick,
     handleExportClose,
@@ -22,21 +21,21 @@ export const InstallationHeader = ({ activeCheck }: any) => {
   } = useInstallation();
   return (
     <>
-      <Grid container sx={styles[0].headerContainer} spacing={2}>
+      <Grid container sx={InstallationStyle.headerContainer} spacing={2}>
         <Grid item>
           <Search label="Search" searchBy="" setSearchBy="" />
         </Grid>
-        <Grid item sx={styles[0].headerItem}>
+        <Grid item sx={InstallationStyle.headerItem}>
           <Button
             disabled={!!!activeCheck.length}
-            sx={styles[0].headerRemoveBtn}
+            sx={InstallationStyle.headerRemoveBtn(theme)}
             onClick={() => setDeleteModal(true)}
           >
             Remove Device
           </Button>
           <Button
             startIcon={<ExportBlackIcon />}
-            sx={styles[0].headerEaBtn}
+            sx={InstallationStyle.headerEaBtn(theme)}
             onClick={handleExportClick}
           >
             Export
@@ -45,7 +44,7 @@ export const InstallationHeader = ({ activeCheck }: any) => {
             open={openExport}
             anchorEl={exportPop}
             onClose={handleExportClose}
-            sx={styles[0].headerPop}
+            sx={InstallationStyle.headerPop}
             anchorOrigin={{
               vertical: 'bottom',
               horizontal: 'left',
@@ -58,7 +57,10 @@ export const InstallationHeader = ({ activeCheck }: any) => {
               Excel
             </MenuItem>
           </Popover>
-          <Button startIcon={<AddCircleBlackIcon />} sx={styles[0].headerEaBtn}>
+          <Button
+            startIcon={<AddCircleBlackIcon />}
+            sx={InstallationStyle.headerEaBtn(theme)}
+          >
             Add Device
           </Button>
         </Grid>
