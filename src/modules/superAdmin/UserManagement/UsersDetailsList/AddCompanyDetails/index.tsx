@@ -1,22 +1,27 @@
+import Image from 'next/image';
+
 import { Grid, Box, Checkbox, Typography } from '@mui/material';
+
+import CommonDrawer from '@/components/CommonDrawer';
+import { FormProvider } from '@/components/ReactHookForm';
 
 import {
   dataArray,
   defaultValues,
   validationSchema,
 } from './AddCompanyDetails.data';
-import CommonDrawer from '@/components/CommonDrawer';
-import { FormProvider } from '@/components/ReactHookForm';
+import UploadLogo from './UploadLogo';
+
+import { styles } from './AddCompanyDetails.style';
+
+import { FeaturedImage } from '@/assets/images';
+
+import { enqueueSnackbar } from 'notistack';
 
 import { useForm } from 'react-hook-form';
-import { enqueueSnackbar } from 'notistack';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { v4 as uuidv4 } from 'uuid';
-import UploadLogo from './UploadLogo';
-import Image from 'next/image';
-import { FeaturedImage } from '@/assets/images';
-import { styles } from './AddCompanyDetails.style';
 
 export default function AddCompanyDetails({
   isOpenDrawer,
