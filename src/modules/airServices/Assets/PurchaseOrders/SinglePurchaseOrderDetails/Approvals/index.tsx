@@ -7,10 +7,14 @@ import SoftwareAssignCategory from '../../../Software/SoftwareAssignCategory';
 import { useState } from 'react';
 import { dataArray } from './Approvals.data';
 import RequestRecievedApproval from '@/modules/airServices/ServicesTickets/SingleTicketDetail/Approvals/RequestApprovalPage/RequestRecievedApproval';
+import ReminderRequestApproval from './components/PurchaseOrderApprovels/ReminderApprovels';
+import { RequestApprovals } from './components/PurchaseOrderApprovels/RequestApproval';
 export const Approvals = () => {
   const theme: any = useTheme();
   const [openAssignModal, setOpenAssignModal] = useState(false);
   const [showApproval, setshowApproval] = useState(false);
+
+  const { cancleApproval, receivedApproval } = RequestApprovals();
   return (
     <>
       <Box sx={styles.buttonContainer}>
@@ -36,7 +40,7 @@ export const Approvals = () => {
         successMessage={'Approved Request Send Successfully'}
         setData={setshowApproval}
       />
-      {showApproval ? (
+      {showApproval === false ? (
         <NoData
           image={NoAssociationFound}
           message={
@@ -46,7 +50,20 @@ export const Approvals = () => {
       ) : (
         <Box sx={styles.approvalBox}>
           <RequestRecievedApproval />
+          <ReminderRequestApproval status={'Request'} />
         </Box>
+      )}
+
+      {receivedApproval == true ? (
+        <ReminderRequestApproval status={'Recieve'} />
+      ) : (
+        ''
+      )}
+
+      {cancleApproval === true ? (
+        <ReminderRequestApproval status={'Cancel'} />
+      ) : (
+        ''
       )}
     </>
   );
