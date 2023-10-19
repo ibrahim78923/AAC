@@ -1,5 +1,7 @@
+import { Box } from '@mui/material';
+
 const UsersReports = () => {
-  return <div>Reports Users</div>;
+  return <Box></Box>;
 };
 
 export default UsersReports;
