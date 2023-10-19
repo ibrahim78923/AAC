@@ -1,3 +1,0 @@
-// table columns
-
-// table data
