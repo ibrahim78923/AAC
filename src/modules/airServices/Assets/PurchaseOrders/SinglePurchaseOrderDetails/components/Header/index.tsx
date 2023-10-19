@@ -16,7 +16,6 @@ import { ActionButtonIcon } from '@/assets/icons';
 import Link from 'next/link';
 
 export default function Header() {
-  // const [boolVariable, setBoolVariable] = useState<boolean>(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [isADrawerOpen, setIsADrawerOpen] = useState<boolean>(false);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);

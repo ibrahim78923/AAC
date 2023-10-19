@@ -64,6 +64,7 @@ export const ContractsEdit = () => {
                         item?.heading
                       ) : (
                         <ContractItemTable />
+                        // <ItemsDetails />
                       )}
                     </item.component>
                   </Grid>
