@@ -7,6 +7,7 @@ export const styles = {
       borderRadius: '8px',
       display: 'flex',
       alignItems: 'center',
+      marginBottom: '10px',
       boxShadow: `${
         isCardHover ? '0px 0px 4px 0px rgba(0, 0, 0, 0.10' : 'none'
       }`,
@@ -23,6 +24,7 @@ export const styles = {
       alignItems: 'center',
       justifyContent: 'center',
       fontSize: '10px',
+      marginLeft: '20px',
     };
   },
 };

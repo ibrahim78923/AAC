@@ -22,6 +22,9 @@ const CommonDrawer = ({
   isOk,
   cancelText,
   footer,
+  footerActionText,
+  footerActionTextIcon,
+  onFooterActionSubmit,
 }: CommonDrawerPropsI) => {
   const theme = useTheme();
   return (
@@ -58,51 +61,78 @@ const CommonDrawer = ({
         <Box flex="1" overflow="scroll">
           <Container>{children}</Container>
         </Box>
-        {footer && (
-          <Box
-            position="static"
-            sx={{ backgroundColor: '#fff', boxShadow: 'none' }}
+        <Box
+          position="static"
+          sx={{ backgroundColor: '#fff', boxShadow: 'none' }}
+        >
+          <Toolbar
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: `${
+                footerActionText ? 'space-between' : 'flex-end'
+              }`,
+              gap: '16px',
+              padding: '24px',
+              borderTop: '1px solid #E5E7EB',
+            }}
           >
-            <Toolbar
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'flex-end',
-                gap: '16px',
-                padding: '24px',
-                borderTop: '1px solid #E5E7EB',
-              }}
-            >
-              <Button
-                sx={{
-                  color: theme.palette?.grey[500],
-                  border: '1px solid #E5E7EB',
-                  padding: '0px 22px',
-                  height: '44px',
-                  fontWeight: '500',
-                  '&:hover': { bgcolor: theme.palette.grey[400] },
-                }}
-                onClick={onClose}
-              >
-                {cancelText ? cancelText : 'Cancel'}
-              </Button>
-              {isOk && (
-                <Button
-                  variant="contained"
-                  sx={{
-                    padding: '0px 22px',
-                    height: '44px',
-                    fontWeight: '500',
-                  }}
-                  onClick={submitHandler}
-                  type="submit"
-                >
-                  {okText}
-                </Button>
-              )}
-            </Toolbar>
-          </Box>
-        )}
+            {footer && (
+              <>
+                {footerActionText && (
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      cursor: 'pointer',
+                    }}
+                    onClick={onFooterActionSubmit}
+                  >
+                    {footerActionTextIcon}&nbsp;
+                    <Typography
+                      variant="body2"
+                      style={{
+                        color: theme.palette.slateBlue.main,
+                        fontWeight: '500',
+                      }}
+                    >
+                      {footerActionText}
+                    </Typography>
+                  </Box>
+                )}
+                <Box sx={{ display: 'flex', gap: '10px' }}>
+                  <Button
+                    sx={{
+                      color: theme.palette?.grey[500],
+                      border: '1px solid #E5E7EB',
+                      padding: '0px 22px',
+                      height: '44px',
+                      fontWeight: '500',
+                      '&:hover': { bgcolor: theme.palette.grey[400] },
+                    }}
+                    onClick={onClose}
+                  >
+                    {cancelText ? cancelText : 'Cancel'}
+                  </Button>
+                  {isOk && (
+                    <Button
+                      variant="contained"
+                      sx={{
+                        padding: '0px 22px',
+                        height: '44px',
+                        fontWeight: '500',
+                      }}
+                      onClick={submitHandler}
+                      type="submit"
+                    >
+                      {okText}
+                    </Button>
+                  )}
+                </Box>
+              </>
+            )}
+          </Toolbar>
+        </Box>
       </Box>
     </Drawer>
   );

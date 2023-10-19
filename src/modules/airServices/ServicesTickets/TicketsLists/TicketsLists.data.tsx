@@ -171,36 +171,6 @@ export const ticketsListsColumnFunction: any = (
 ) => {
   const { palette } = useTheme();
   return [
-    // {
-    //   accessorFn: (row: any) => row.isSelected,
-    //   id: 'id',
-    //   cell: (info: any) => {
-    //     console.log(
-    //       ticketList?.every(({ isSelected }: any) => isSelected === true),
-    //     );
-    //     console.log('ticketList', ticketList);
-
-    //     return (
-    //       <Checkbox
-    //         color="primary"
-    //         name={info.getValue()}
-    //         checked={info.getValue()}
-    //         onClick={() =>
-    //           handleSelect(info?.row?._valuesCache?.ticketId, info.getValue())
-    //         }
-    //       />
-    //     );
-    //   },
-    //   header: (
-    //     <Checkbox
-    //       color="primary"
-    //       name="id"
-    //       checked={ticketList?.every(({ isSelected }: any) => isSelected)}
-    //       onClick={() => handleChange('', 'all')}
-    //     />
-    //   ),
-    //   isSortable: false,
-    // },
     {
       accessorFn: (row: any) => row.id,
       id: 'id',
@@ -315,7 +285,7 @@ export const ticketsListsColumnFunction: any = (
               border: 'none',
             },
             '.MuiSvgIcon-root': {
-              color: '#EAECF0',
+              color: palette?.custom?.off_white_three,
             },
           }}
           defaultValue="none"
@@ -352,7 +322,7 @@ export const ticketsListsColumnFunction: any = (
               border: 'none',
             },
             '.MuiSvgIcon-root': {
-              color: '#EAECF0',
+              color: palette?.custom?.off_white_three,
             },
           }}
           defaultValue="none"
@@ -384,7 +354,7 @@ export const ticketsListsColumnFunction: any = (
               border: 'none',
             },
             '.MuiSvgIcon-root': {
-              color: '#EAECF0',
+              color: palette?.custom?.off_white_three,
             },
           }}
           defaultValue="none"

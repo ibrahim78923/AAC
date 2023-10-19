@@ -24,7 +24,7 @@ import {
   faqsFilterValidationSchema,
 } from './Faqs.data';
 
-import { faqsTableDate } from '@/mock/modules/Settings/Faqs';
+import { faqsTableDate } from '@/mock/modules/superAdmin/Settings/Faqs';
 import { FormProvider } from '@/components/ReactHookForm';
 
 import { DownIcon, FilterSharedIcon, RefreshSharedIcon } from '@/assets/icons';
@@ -74,6 +74,7 @@ const Faqs = () => {
         sx={{
           display: 'flex',
           justifyContent: 'space-between',
+          flexWrap: 'wrap',
           alignItems: 'center',
           marginBottom: '19px',
         }}
@@ -96,6 +97,7 @@ const Faqs = () => {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
+          flexWrap: 'wrap',
         }}
       >
         <Search

@@ -11,7 +11,6 @@ import {
 
 import useTanstackTable from './TanstackTable.hook';
 import { DownIcon, UpIcon } from '@/assets/icons';
-// import { columns, data } from './TanstackTable.mock';
 import {
   StyledTableCell,
   StyledTableRow,
