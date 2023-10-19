@@ -1,10 +1,10 @@
-import { SingleInventoryDetailsTabs } from "./components/SingleInventoryDetailTabs"
+import { SingleInventoryDetailsTabs } from './components/SingleInventoryDetailTabs';
 
-export const SingleInventoryDetail = () =>{
-    return (
-        <>
-        Header
-        <SingleInventoryDetailsTabs/>
-        </>
-    )
-}
+export const SingleInventoryDetail = () => {
+  return (
+    <>
+      Header
+      <SingleInventoryDetailsTabs />
+    </>
+  );
+};

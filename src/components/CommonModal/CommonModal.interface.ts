@@ -7,4 +7,5 @@ export interface ModelPropsI {
   okText: string;
   submitIcon?: any;
   footer?: boolean;
+  footerFill: any;
 }

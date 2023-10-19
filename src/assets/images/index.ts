@@ -1,4 +1,6 @@
 // More exports from here
+export { default as ExampleKababCaseImg } from './shared/example-shared-case.png';
+export { default as ExampleSharedCase } from './shared/example-shared-case.png';
 export { default as AvatarImage } from './shared/avatar.png';
 export { default as LogoImage } from './shared/app-logo.png';
 export { default as LinkImage } from './modules/HeaderAndSidebar/link.png';
@@ -85,5 +87,19 @@ export { default as UnionBgImage } from '../../assets/images/modules/dashboard/U
 export { default as SalesIcon } from '../../assets/images/modules/Settings/ProductFeatures/sales-icon.png';
 export { default as UserAvatarImage } from '../../assets/images/modules/socialComponents/chat/user.png';
 export { default as UserSenderImage } from '../../assets/images/modules/socialComponents/chat/sender-user.png';
-export { default as GreenBgImage } from '../../assets/images/modules/dashboard/green-bg-img.png';
+export { default as GreenBgImage } from '../../assets/images/modules/superAdmin/dashboard/green-bg-img.png';
 export { default as NotSelectedItemImage } from './modules/airSales/Dashboard/not-selected-item.png';
+export { default as UserRoundImage } from './shared/user-round.png';
+export { default as PreviewVegImage } from '../../assets/images/modules/socialComponents/chat/preview-veg.png';
+export { default as PreviewTrainImage } from '../../assets/images/modules/socialComponents/chat/preview-train.png';
+export { default as PreviewColorsImage } from '../../assets/images/modules/socialComponents/chat/preview-colors.png';
+export { default as GroupAvatarImage } from '../../assets/images/modules/socialComponents/chat/group-avatar.png';
+export { default as GroupAvatarAdidasImage } from '../../assets/images/modules/socialComponents/chat/group-avatar-adidas.png';
+export { default as AddRoundedImage } from '../../assets/images/modules/socialComponents/chat/add-image-rounded.png';
+export { default as UserProfileAvatarImage } from '../../assets/images/modules/socialComponents/chat/user-profile-avatar.png';
+
+export { default as ActivityLogImage } from './modules/airSales/Deals/activity-log.png';
+export { default as NotesAvatarImage } from './modules/airSales/Deals/notes-avatar.png';
+export { default as YellowDotImage } from './shared/yellow-dot.png';
+export { default as EmailMeetingImage } from './modules/airSales/Deals/email-meeting.png';
+export { default as AttendeeAvatarImage } from './modules/airSales/Deals/attendee-avatar.png';

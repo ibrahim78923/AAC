@@ -1,54 +1,111 @@
-import { Box, Grid, useTheme } from '@mui/material';
-import { useState } from 'react';
+import { Box, Grid, MenuItem, Popover } from '@mui/material';
 import { data, columns } from './Contracts.data';
 import TanstackTable from '@/components/Tabel/TanstackTable';
 import Search from '@/components/Search';
 import { Button } from '@mui/material';
 import { FilterSharedIcon, ExportShared } from '@/assets/icons';
-
 import { styles } from './Contracts.style';
 import AssetHead from '../AssetHead/index';
+import ContractsDrawerForm from './ContractsDrawerForm';
+import { AlertModals } from '@/components/AlertModals';
+import { useContracts } from './useContracts';
 
 function Contracts() {
-  const [meetingsData, setMeetingsData] = useState([]);
-  const theme: any = useTheme();
-
+  const {
+    meetingsData,
+    setMeetingsData,
+    isDrawerOpen,
+    setIsDrawerOpen,
+    openModel,
+    setOpenModel,
+    actionPop,
+    theme,
+    handleAddNewContractClick,
+    handleActionClick,
+    handleActionClose,
+    openAction,
+    handleSubmitModel,
+  } = useContracts();
   return (
-    <Grid container>
-      <AssetHead title={'Contracts'} addTitle={'Add New Contract'} />
-      <Grid item sx={styles.gridItems}>
-        <Box sx={styles.headBox}>
-          <Box sx={{ marginLeft: '24px' }}>
-            <Search label="search" width="100%" />
+    <>
+      <Grid container>
+        <AssetHead
+          title={'Contracts'}
+          addTitle={'Add New Contract'}
+          onClick={handleAddNewContractClick}
+        />
+        <Grid item sx={styles.gridItems}>
+          <Box sx={styles.headBox}>
+            <Box sx={{ marginLeft: '24px' }}>
+              <Search label="search" width="100%" />
+            </Box>
+            <Box sx={styles.buttonBox}>
+              <Button
+                sx={styles.buttonStyle(theme)}
+                variant="outlined"
+                disabled={!!!meetingsData.length}
+                onClick={() => setOpenModel(true)}
+              >
+                Delete
+              </Button>
+              <Button
+                sx={styles.exportButtonStyle(theme)}
+                variant="outlined"
+                startIcon={<ExportShared />}
+                onClick={handleActionClick}
+              >
+                Export
+              </Button>
+              <Popover
+                open={openAction}
+                anchorEl={actionPop}
+                onClose={handleActionClose}
+                sx={{
+                  mt: '4px',
+                  '& .MuiPaper-root': { width: '5% !important' },
+                }}
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'left',
+                }}
+              >
+                <MenuItem sx={{ py: 1 }}>CSV</MenuItem>
+                <MenuItem sx={{ py: 1 }}>Excel</MenuItem>
+              </Popover>
+              <Button
+                sx={styles.buttonStyle(theme)}
+                variant="outlined"
+                startIcon={<FilterSharedIcon />}
+                onClick={() => setIsDrawerOpen(true)}
+              >
+                Filter
+              </Button>
+            </Box>
           </Box>
-          <Box sx={styles.buttonBox}>
-            <Button sx={styles.buttonStyle(theme)} variant="outlined" disabled>
-              Delete
-            </Button>
-            <Button
-              sx={styles.exportButtonStyle(theme)}
-              variant="outlined"
-              startIcon={<ExportShared />}
-            >
-              Export
-            </Button>
-            <Button
-              sx={styles.buttonStyle(theme)}
-              variant="outlined"
-              startIcon={<FilterSharedIcon />}
-            >
-              Filter
-            </Button>
+          <Box sx={{ marginBottom: '25px' }}>
+            <TanstackTable
+              data={data}
+              columns={columns(meetingsData, setMeetingsData, data, theme)}
+            />
           </Box>
-        </Box>
-        <Box sx={{ marginBottom: '25px' }}>
-          <TanstackTable
-            data={data}
-            columns={columns(meetingsData, setMeetingsData, data, theme)}
-          />
-        </Box>
+          <Box>
+            <AlertModals
+              open={openModel}
+              type={'delete'}
+              message="Are you sure want to delete this Contract?"
+              handleClose={() => setOpenModel(false)}
+              handleSubmit={handleSubmitModel}
+            />
+          </Box>
+        </Grid>
       </Grid>
-    </Grid>
+      <Box>
+        <ContractsDrawerForm
+          isDrawerOpen={isDrawerOpen}
+          setIsDrawerOpen={setIsDrawerOpen}
+        />
+      </Box>
+    </>
   );
 }
 
