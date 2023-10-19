@@ -17,7 +17,6 @@ export const Users = () => {
     setAddModalOpen(true);
   };
 
-  // Remove the unused handleAddModalClose function if it's not needed.
   // const handleAddModalClose = () => {
   //   setAddModalOpen(false);
   // };
@@ -31,11 +30,6 @@ export const Users = () => {
           sx={{ display: 'flex', justifyContent: 'space-between' }}
         >
           <TextField
-            sx={
-              {
-                // Your search input styles
-              }
-            }
             id="outlined-basic"
             placeholder="search"
             variant="outlined"
@@ -50,9 +44,7 @@ export const Users = () => {
           />
           <Box sx={{ display: 'flex', gap: '18px' }}>
             <UsersAction actionDropdownData={softwareUserData} />
-            <UsersAdd onClick={handleAddModalOpen} />{' '}
-            {/* Open the modal on button click */}
-            <UsersExport />
+            <UsersAdd onClick={handleAddModalOpen} /> <UsersExport />
             <UsersFilter />
           </Box>
         </Grid>

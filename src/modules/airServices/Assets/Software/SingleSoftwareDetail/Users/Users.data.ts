@@ -5,21 +5,21 @@ export const softwareUserData: softwareUserDataI[] = [
     title: 'Allocate',
     handleClick: (handleClose) => {
       // console.log('Allocate clicked');
-      handleClose(); // Close the menu
+      handleClose();
     },
   },
   {
     title: 'Deallocate',
     handleClick: (handleClose) => {
       // console.log('Deallocate clicked');
-      handleClose(); // Close the menu
+      handleClose();
     },
   },
   {
     title: 'Remove',
     handleClick: (handleClose) => {
       // console.log('Remove clicked');
-      handleClose(); // Close the menu
+      handleClose();
     },
   },
 ];

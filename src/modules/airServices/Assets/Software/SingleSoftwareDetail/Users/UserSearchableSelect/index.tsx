@@ -8,6 +8,7 @@ import {
 } from '@mui/material';
 import { useFormContext, Controller } from 'react-hook-form';
 import { ArrowDownIcon } from '@/assets/icons';
+import { v4 as uuidv4 } from 'uuid';
 
 export default function UserSearchableSelect({
   name,
@@ -15,6 +16,8 @@ export default function UserSearchableSelect({
   placeholder,
   label,
   showAsterisk = false,
+  showSearchBar = false,
+  showDescription = true,
   ...other
 }) {
   const { control } = useFormContext();
@@ -32,12 +35,18 @@ export default function UserSearchableSelect({
     setSearchTerm('');
   };
 
-  const filteredOptions = options.filter(
-    (option) =>
-      option.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      (option.des &&
-        option.des.toLowerCase().includes(searchTerm.toLowerCase())),
-  );
+  const filteredOptions = options.filter((option) => {
+    const isTitleMatch = option.title
+      ? option.title.toLowerCase().includes(searchTerm.toLowerCase())
+      : false;
+
+    const isDescriptionMatch =
+      showDescription && option.des
+        ? option.des.toLowerCase().includes(searchTerm.toLowerCase())
+        : false;
+
+    return isTitleMatch || isDescriptionMatch;
+  });
 
   return (
     <Controller
@@ -52,10 +61,12 @@ export default function UserSearchableSelect({
               flexDirection: 'column',
             }}
           >
-            {label}
-            {showAsterisk && (
-              <Typography style={{ color: 'red' }}>*</Typography>
-            )}
+            <Typography>
+              {label}
+              {showAsterisk && (
+                <span style={{ color: 'red', marginLeft: '2px' }}>*</span>
+              )}
+            </Typography>
             <TextField
               sx={{ mt: 2 }}
               {...field}
@@ -89,20 +100,24 @@ export default function UserSearchableSelect({
             PaperProps={{
               style: {
                 width: anchorEl ? anchorEl.clientWidth : 'auto',
+                padding: '8px',
+                paddingBottom: '54px',
               },
             }}
           >
             <>
-              <Box sx={{ p: 2 }}>
-                <TextField
-                  fullWidth
-                  placeholder={placeholder || 'Search...'}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  style={{ height: '44px', marginBottom: '20px' }}
-                />
+              <Box>
+                {showSearchBar && (
+                  <TextField
+                    fullWidth
+                    placeholder={placeholder || 'Search...'}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    sx={{ height: '44px', mb: '40px' }}
+                  />
+                )}
                 {filteredOptions.map((option, index) => (
                   <Box
-                    key={option.value}
+                    key={uuidv4()}
                     onClick={() => {
                       handleClose();
                       field.onChange(option.value);
@@ -112,7 +127,7 @@ export default function UserSearchableSelect({
                       width: '100%',
                       height: '30px',
                       padding: '5px 10px',
-                      mt: index === 0 ? '2px' : '32px',
+                      mt: index === 0 ? '2px' : '42px',
                     }}
                   >
                     <Typography
@@ -126,16 +141,18 @@ export default function UserSearchableSelect({
                     >
                       {option.title}
                     </Typography>
-                    <Typography
-                      component="div"
-                      variant="body1"
-                      sx={{
-                        color: '#4B5563',
-                        fontWeight: 500,
-                      }}
-                    >
-                      {option.des}
-                    </Typography>
+                    {showDescription && (
+                      <Typography
+                        component="div"
+                        variant="body1"
+                        sx={{
+                          color: '#4B5563',
+                          fontWeight: 500,
+                        }}
+                      >
+                        {option.des}
+                      </Typography>
+                    )}
                   </Box>
                 ))}
               </Box>
