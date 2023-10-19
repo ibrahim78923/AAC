@@ -2,7 +2,7 @@ import { Button, Grid, MenuItem, Popover, Typography } from '@mui/material';
 import { ActionButtonIcon, CirclePlusIcon } from '@/assets/icons';
 import { AlertModals } from '@/components/AlertModals';
 import { useTasks } from '../useTasks';
-import { taskStyles } from '../TicketTasks.styles';
+import { styles } from '../TicketTasks.styles';
 import { TasksHeaderI } from '../Tasks.interface';
 
 export const TasksHeader = ({
@@ -23,9 +23,10 @@ export const TasksHeader = ({
     deleteModal,
     setDeleteModal,
     submitDeleteModel,
+    theme,
   } = useTasks();
   return (
-    <Grid container spacing={{ sm: 0, xs: 2 }} sx={taskStyles?.headContainer}>
+    <Grid container spacing={{ sm: 0, xs: 2 }} sx={styles?.headContainer}>
       <Grid
         item
         sm={6}
@@ -35,13 +36,13 @@ export const TasksHeader = ({
           justifyContent: { sm: 'flex-start', xs: 'center' },
         }}
       >
-        <Typography variant="h5" sx={taskStyles?.headText}>
+        <Typography variant="h5" sx={styles?.headText}>
           Task
         </Typography>
       </Grid>
-      <Grid sm={6} xs={12} item sx={taskStyles?.btnContainer}>
+      <Grid sm={6} xs={12} item sx={styles?.btnContainer}>
         <Button
-          sx={taskStyles?.actionBtn}
+          sx={styles?.actionBtn(theme)}
           endIcon={<ActionButtonIcon />}
           disableElevation
           disabled={!!!activeCheck.length}
@@ -84,7 +85,7 @@ export const TasksHeader = ({
           </MenuItem>
         </Popover>
         <Button
-          sx={taskStyles?.addTaskBtn}
+          sx={styles?.addTaskBtn}
           onClick={() => setIsAddDrawerOpen(true)}
           startIcon={<CirclePlusIcon />}
         >

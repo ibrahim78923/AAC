@@ -3,7 +3,7 @@ import { ExportBlackIcon, AddCircleBlackIcon } from '@/assets/icons';
 import Search from '@/components/Search';
 import { AlertModals } from '@/components/AlertModals';
 import { useInstallation } from '../../useInstallations';
-import { InstallationStyle } from '../../Installation.style';
+import { styles } from '../../Installation.style';
 
 const DELETE_MESSAGE = 'Are you sure you want to delete this Associate Asset?';
 const MODAL_TYPE = 'delete';
@@ -21,21 +21,21 @@ export const InstallationHeader = ({ activeCheck }: any) => {
   } = useInstallation();
   return (
     <>
-      <Grid container sx={InstallationStyle.headerContainer} spacing={2}>
+      <Grid container sx={styles.headerContainer} spacing={2}>
         <Grid item>
           <Search label="Search" searchBy="" setSearchBy="" />
         </Grid>
-        <Grid item sx={InstallationStyle.headerItem}>
+        <Grid item sx={styles.headerItem}>
           <Button
             disabled={!!!activeCheck.length}
-            sx={InstallationStyle.headerRemoveBtn(theme)}
+            sx={styles.headerRemoveBtn(theme)}
             onClick={() => setDeleteModal(true)}
           >
             Remove Device
           </Button>
           <Button
             startIcon={<ExportBlackIcon />}
-            sx={InstallationStyle.headerEaBtn(theme)}
+            sx={styles.headerEaBtn(theme)}
             onClick={handleExportClick}
           >
             Export
@@ -44,7 +44,7 @@ export const InstallationHeader = ({ activeCheck }: any) => {
             open={openExport}
             anchorEl={exportPop}
             onClose={handleExportClose}
-            sx={InstallationStyle.headerPop}
+            sx={styles.headerPop}
             anchorOrigin={{
               vertical: 'bottom',
               horizontal: 'left',
@@ -59,7 +59,7 @@ export const InstallationHeader = ({ activeCheck }: any) => {
           </Popover>
           <Button
             startIcon={<AddCircleBlackIcon />}
-            sx={InstallationStyle.headerEaBtn(theme)}
+            sx={styles.headerEaBtn(theme)}
           >
             Add Device
           </Button>

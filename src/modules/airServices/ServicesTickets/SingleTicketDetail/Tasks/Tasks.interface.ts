@@ -32,6 +32,7 @@ export interface useTasksI {
   deleteModal: boolean;
   setDeleteModal: React.Dispatch<React.SetStateAction<boolean>>;
   submitDeleteModel: () => Promise<void>;
+  theme: any;
 }
 
 export interface TasksHeaderI {

@@ -1,4 +1,4 @@
-export const InstallationStyle = {
+export const styles = {
   headerContainer: {
     alignItems: 'center',
     justifyContent: { md: 'space-between', xs: 'center' },

@@ -1,22 +1,22 @@
 const TO_DO = 'To do';
 const IN_PROGRESS = 'In-Progress';
 
-export const taskStyles: any = {
+export const styles: any = {
   headContainer: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
   },
   headText: { color: 'slateBlue.main', fontWeight: 500 },
-  actionBtn: {
+  actionBtn: (theme: any) => ({
     px: '18px',
     color: 'custom.main',
     ':hover': { bgcolor: 'common.white' },
-    border: '1px solid #D1D5DB',
+    border: `1px solid ${theme.palette.grey[0]}`,
     display: 'flex',
     alignItems: 'center',
     justifyContents: 'center',
-  },
+  }),
   addTaskBtn: {
     px: '18px',
     bgcolor: 'primary.main',
@@ -42,40 +42,35 @@ export const taskStyles: any = {
     marginRight: '8px',
   },
   detailDrawerGridCenter: { display: 'flex', alignItems: 'center' },
-};
-
-export const taskDetailStyle = (taskDetailStatus: any) => [
-  {
+  taskDetailStyle: (taskDetailStatus: any, theme: any) => ({
     position: 'absolute',
     top: 16,
     right: '4.5rem',
     border: `1px solid ${
       taskDetailStatus === TO_DO
-        ? '#38CAB5'
+        ? theme?.palette?.primary?.main
         : taskDetailStatus === IN_PROGRESS
-        ? '#0AADC7'
-        : '#FF4A4A'
+        ? theme?.palette?.primary?.main
+        : theme?.palette?.error?.main
     }`,
     bgcolor:
       taskDetailStatus === TO_DO
-        ? '#EBFAF8'
+        ? theme?.palette?.primary?.lighter
         : taskDetailStatus === IN_PROGRESS
         ? '#E6F7F9'
         : '#FFEDED',
     color:
       taskDetailStatus === TO_DO
-        ? '#38CAB5'
+        ? theme?.palette?.primary?.main
         : taskDetailStatus === IN_PROGRESS
-        ? '#0AADC7'
-        : '#FF4A4A',
+        ? theme?.palette?.primary?.main
+        : theme?.palette?.error?.main,
     padding: '0px 12px',
     height: 'fit-content',
     fontSize: '14px !important',
     fontWeight: 500,
-  },
-];
-export const valStyle = (drawerStatusVal: any) => [
-  {
+  }),
+  valStyle: (drawerStatusVal: any) => ({
     position: 'absolute',
     top: 16,
     right: '4.5rem',
@@ -102,10 +97,8 @@ export const valStyle = (drawerStatusVal: any) => [
     height: 'fit-content',
     fontSize: '14px !important',
     fontWeight: 500,
-  },
-];
-export const statusOptionStyle = (statusOption: any) => [
-  {
+  }),
+  statusOptionStyle: (statusOption: any) => ({
     border: `1px solid ${
       statusOption === TO_DO
         ? '#38CAB5'
@@ -129,5 +122,28 @@ export const statusOptionStyle = (statusOption: any) => [
     borderRadius: '4px',
     m: '10px',
     p: '2px 14px',
-  },
-];
+  }),
+  tableStatusStyle: (statusValue: any) => ({
+    border: `1px solid ${
+      statusValue === 'To do'
+        ? '#38CAB5'
+        : statusValue === 'In-Progress'
+        ? '#0AADC7'
+        : '#FF4A4A'
+    }`,
+    backgroundColor:
+      statusValue === 'To do'
+        ? '#EBFAF8'
+        : statusValue === 'In-Progress'
+        ? '#E6F7F9'
+        : '#FFEDED',
+    color:
+      statusValue === 'To do'
+        ? '#38CAB5'
+        : statusValue === 'In-Progress'
+        ? '#0AADC7'
+        : '#FF4A4A',
+    padding: '8px 18px',
+    borderRadius: '4px',
+  }),
+};

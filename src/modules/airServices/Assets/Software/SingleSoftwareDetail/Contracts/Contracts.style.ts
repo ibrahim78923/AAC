@@ -1,4 +1,4 @@
-export const contractsStyle = {
+export const styles = {
   headerContainer: {
     alignItems: 'center',
     justifyContent: { md: 'space-between', xs: 'center' },
