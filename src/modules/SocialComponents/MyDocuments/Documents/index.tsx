@@ -31,13 +31,16 @@ import {
 } from '@/assets/icons';
 import { UserRoundImage } from '@/assets/images';
 
-import useMyDocuments from './useMyDocuments';
-
 import { documentFolderArr } from '@/mock/modules/SocialComponents/Documents';
 
-import { style } from './MyDocuments.style';
+import useDocuments from './useDocuments';
 
-const MyDocuments = () => {
+import { v4 as uuidv4 } from 'uuid';
+
+import { style } from './Documents.style';
+
+const Documents = (props: any) => {
+  const { toggle } = props;
   const {
     value,
     setValue,
@@ -56,7 +59,7 @@ const MyDocuments = () => {
     open,
     handleClick,
     handleClose,
-  } = useMyDocuments();
+  } = useDocuments();
 
   return (
     <>
@@ -265,7 +268,6 @@ const MyDocuments = () => {
           </Box>
         </Box>
       </CommonDrawer>
-
       <Grid container spacing={2}>
         <Grid item lg={6} md={6} sm={6} xs={12}>
           <Typography variant="h5" sx={style.documentTitle(theme)}>
@@ -345,6 +347,10 @@ const MyDocuments = () => {
                     border: `1.16px solid ${theme?.palette?.custom.pale_gray}`,
                     borderRadius: '11.56px',
                     padding: '0.6rem',
+                  }}
+                  key={uuidv4()}
+                  onClick={() => {
+                    toggle();
                   }}
                 >
                   <Box
@@ -501,4 +507,4 @@ const MyDocuments = () => {
   );
 };
 
-export default MyDocuments;
+export default Documents;

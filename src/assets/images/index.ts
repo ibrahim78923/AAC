@@ -78,6 +78,7 @@ export { default as GroupAvatarImage } from '../../assets/images/modules/socialC
 export { default as GroupAvatarAdidasImage } from '../../assets/images/modules/socialComponents/chat/group-avatar-adidas.png';
 export { default as AddRoundedImage } from '../../assets/images/modules/socialComponents/chat/add-image-rounded.png';
 export { default as UserProfileAvatarImage } from '../../assets/images/modules/socialComponents/chat/user-profile-avatar.png';
+export { default as PdfAvatarImage } from '../../assets/images/modules/airMarketer/MyDocuments/pdf-avatar.png';
 
 export { default as ActivityLogImage } from './modules/airSales/Deals/activity-log.png';
 export { default as NotesAvatarImage } from './modules/airSales/Deals/notes-avatar.png';
