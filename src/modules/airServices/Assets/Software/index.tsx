@@ -8,10 +8,17 @@ import { FilterSharedIcon } from '@/assets/icons';
 import { styles } from './Software.style';
 import { useTheme } from '@emotion/react';
 import AssetHead from '../AssetHead/index';
+import useManage from '@/modules/airSales/Dashboard/Manage/useManage';
+import SoftwareFilter from './SoftwareFilter';
+import SoftwareAssignCategory from './SoftwareAssignCategory';
 
 function Software() {
-  const [meetingsData, setMeetingsData] = useState([]);
+  const [softwareData, setSoftwareData] = useState([]);
+  const [openAssignModal, setOpenAssignModal] = useState(false);
+  const [searchValue, SetSearchValue] = useState<string>('');
+
   const theme: any = useTheme();
+  const { setIsOpenFilterDrawer, isOpenFilterDrawer } = useManage();
 
   return (
     <Grid container>
@@ -19,16 +26,29 @@ function Software() {
       <Grid item sx={styles.gridItems}>
         <Box sx={styles.headBox}>
           <Box sx={{ marginLeft: '24px' }}>
-            <Search label="search" width="100%" />
+            <Search
+              label="search"
+              width="100%"
+              searchBy={searchValue}
+              setSearchBy={SetSearchValue}
+            />
           </Box>
           <Box sx={styles.buttonBox}>
-            <Button sx={styles.buttonStyle(theme)} variant="outlined" disabled>
+            <Button
+              sx={styles.buttonStyle(theme)}
+              variant="outlined"
+              disabled={!!!softwareData.length}
+              onClick={() => {
+                setOpenAssignModal(true);
+              }}
+            >
               Assign Category
             </Button>
             <Button
               sx={styles.buttonStyle(theme)}
               variant="outlined"
               startIcon={<FilterSharedIcon />}
+              onClick={() => setIsOpenFilterDrawer(true)}
             >
               Filter
             </Button>
@@ -37,10 +57,23 @@ function Software() {
         <Box sx={{ marginBottom: '25px' }}>
           <TanstackTable
             data={data}
-            columns={columns(meetingsData, setMeetingsData, data, theme)}
+            columns={columns(softwareData, setSoftwareData, data, theme)}
           />
         </Box>
       </Grid>
+
+      {isOpenFilterDrawer && (
+        <SoftwareFilter
+          isOpenDrawer={isOpenFilterDrawer}
+          onClose={() => setIsOpenFilterDrawer(false)}
+        />
+      )}
+
+      <SoftwareAssignCategory
+        openAssignModal={openAssignModal}
+        setOpenAssignModal={setOpenAssignModal}
+        title={'Assign Category'}
+      />
     </Grid>
   );
 }
