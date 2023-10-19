@@ -27,6 +27,7 @@ const CommonDrawer = ({
   onFooterActionSubmit,
 }: CommonDrawerPropsI) => {
   const theme = useTheme();
+
   return (
     <Drawer open={isDrawerOpen} onClose={onClose} anchor="right">
       <Box

@@ -54,6 +54,22 @@ export const styles = {
       alignItems: 'flex-end',
     };
   },
+  chatReplyReference: () => {
+    return {
+      width: '85%',
+      paddingLeft: '20px',
+      marginTop: '-60px',
+    };
+  },
+  chatReplyReferenceContent: () => {
+    return {
+      background: '#F9FAFB',
+      width: '100%',
+      borderRadius: '16px 16px 0px 0px',
+      padding: '20px',
+    };
+  },
+
   chatReaction: () => {
     return {
       background: '#F9F9F9',
@@ -83,7 +99,18 @@ export const styles = {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'space-between',
+      cursor: 'pointer',
       padding: '0px 15px',
+    };
+  },
+  unStyledButton: () => {
+    return {
+      borderRadius: '50%',
+      width: 'fit-content',
+      minWidth: 'fit-content',
+      height: 'fit-content',
+      margin: '0',
+      padding: '0',
     };
   },
 };

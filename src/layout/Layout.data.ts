@@ -404,26 +404,32 @@ export const QuickLinkData = [
   {
     key: '1',
     icon: CallImage,
+    path: '',
   },
   {
     key: '2',
     icon: ContactImage,
+    path: '',
   },
   {
     key: '3',
     icon: MeetingTopImage,
+    path: '',
   },
   {
     key: '4',
     icon: DocumentImage,
+    path: '',
   },
   {
     key: '5',
     icon: MailImage,
+    path: '/social-components/chat',
   },
   {
     key: '6',
     icon: MessageImage,
+    path: '',
   },
 ];
 
