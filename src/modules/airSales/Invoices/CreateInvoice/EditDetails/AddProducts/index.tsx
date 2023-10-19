@@ -28,9 +28,7 @@ const AddProducts = (props: any) => {
   };
 
   // handle submit values
-  const onSubmit = () => {
-    // console.log(data);
-  };
+  const onSubmit = () => {};
 
   const methods: any = useForm({
     resolver: yupResolver(existingProductsValidationSchema),

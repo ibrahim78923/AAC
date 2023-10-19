@@ -15,9 +15,7 @@ import { FormProvider } from '@/components/ReactHookForm';
 const FilterDrawer = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-  const onSubmit = () => {
-    // console.log(data);
-  };
+  const onSubmit = () => {};
 
   const methods: any = useForm({
     resolver: yupResolver(validationSchema),
