@@ -44,8 +44,12 @@ import {
 } from '@/assets/icons';
 
 import { AvatarImage } from '@/assets/images';
+import useUserDetailsList from './useUserDetailsList';
+import Filter from './Filter';
 
 const UsersDetailsList = () => {
+  const { isOpenDrawer, setIsOpenDrawer, handleCloseDrawer } =
+    useUserDetailsList();
   const [isOpenAdduserDrawer, setIsOpenAdduserDrawer] = useState(false);
   const [isOpenAddAccountDrawer, setIsOpenAddAccountDrawer] = useState(false);
   const [search, setSearch] = useState('');
@@ -114,6 +118,7 @@ const UsersDetailsList = () => {
                   alignItems: 'center',
                   height: '44px',
                 }}
+                onClick={() => setIsOpenDrawer(true)}
               >
                 <FilterSharedIcon />
               </Button>
@@ -202,6 +207,9 @@ const UsersDetailsList = () => {
           isOpen={isOpenAddAccountDrawer}
           setIsOpen={setIsOpenAddAccountDrawer}
         />
+      )}
+      {isOpenDrawer && (
+        <Filter isOpenDrawer={isOpenDrawer} onClose={handleCloseDrawer} />
       )}
     </Box>
   );

@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { Button, MenuItem, Select } from '@mui/material';
 
 import CommonTabs from '@/components/Tabs';
-import Layout from '@/layout';
 
 import DealCustomize from './DealCustomize';
 import DelasTable from './DealsTable';
@@ -42,7 +41,7 @@ const Deals = () => {
     HandleDeleteModal,
   } = useDealSaleSite();
   return (
-    <Layout>
+    <>
       <DealHeader />
       <CommonTabs
         tabsArray={DealsTabs}
@@ -75,6 +74,9 @@ const Deals = () => {
                   {item}
                 </MenuItem>
               ))}
+              <MenuItem value={'actions'}>
+                <Link href={'/air-sales/deals/view-details'}>View Details</Link>
+              </MenuItem>
             </Select>
             <Link href={'/air-sales/deals/restore'}>
               <Button
@@ -113,7 +115,7 @@ const Deals = () => {
       <DealFilterDrawer open={isFilter} onClose={handleFilter} />
       <ShareMyDine open={isShareDine} onClose={handleSMD} />
       <DeleteModal open={isDelete} onClose={HandleDeleteModal} />
-    </Layout>
+    </>
   );
 };
 

@@ -1,4 +1,6 @@
 // More exports from here
+export { default as ExampleKababCaseImg } from './shared/example-shared-case.png';
+export { default as ExampleSharedCase } from './shared/example-shared-case.png';
 export { default as AvatarImage } from './shared/avatar.png';
 export { default as LogoImage } from './shared/app-logo.png';
 export { default as LinkImage } from './modules/HeaderAndSidebar/link.png';
@@ -76,3 +78,9 @@ export { default as GroupAvatarImage } from '../../assets/images/modules/socialC
 export { default as GroupAvatarAdidasImage } from '../../assets/images/modules/socialComponents/chat/group-avatar-adidas.png';
 export { default as AddRoundedImage } from '../../assets/images/modules/socialComponents/chat/add-image-rounded.png';
 export { default as UserProfileAvatarImage } from '../../assets/images/modules/socialComponents/chat/user-profile-avatar.png';
+
+export { default as ActivityLogImage } from './modules/airSales/Deals/activity-log.png';
+export { default as NotesAvatarImage } from './modules/airSales/Deals/notes-avatar.png';
+export { default as YellowDotImage } from './shared/yellow-dot.png';
+export { default as EmailMeetingImage } from './modules/airSales/Deals/email-meeting.png';
+export { default as AttendeeAvatarImage } from './modules/airSales/Deals/attendee-avatar.png';

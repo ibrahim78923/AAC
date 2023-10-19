@@ -1,12 +1,6 @@
 import { Checkbox } from '@mui/material';
 
-export const menuItem = [
-  'Preview',
-  'Re-assign',
-  'Export',
-  'Delete',
-  'View Details',
-];
+export const menuItem = ['Preview', 'Re-assign', 'Export', 'Delete'];
 
 export const dealsColumns: any = [
   {
