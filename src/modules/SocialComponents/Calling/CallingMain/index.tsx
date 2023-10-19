@@ -1,10 +1,14 @@
-import { MobileIcon } from '@/assets/icons';
+import React, { useState } from 'react';
+
+import { Box, Button, Typography } from '@mui/material';
+
 import Search from '@/components/Search';
 import TanstackTable from '@/components/Tabel/TanstackTable';
+
 import { callingData } from '@/mock/modules/SocialComponents/Calling';
-import { Box, Button, Typography } from '@mui/material';
-import React, { useState } from 'react';
 import { columns } from './CallingMain.data';
+
+import { MobileIcon } from '@/assets/icons';
 
 const CallingMain = () => {
   const [callingSeatch, setCallingSeatch] = useState();
