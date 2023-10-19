@@ -21,7 +21,8 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "src/modules/ServicesTickets/SingleTicketDetail/RelatedTickets"
+    "src/modules/ServicesTickets/SingleTicketDetail/RelatedTickets",
+    "src/mock/modules/airSales/Deals/ImportDeals"
   ],
   "exclude": ["node_modules"]
 }

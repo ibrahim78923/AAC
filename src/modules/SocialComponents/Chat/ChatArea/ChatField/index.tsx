@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import Image from 'next/image';
 
 import { Box, useTheme, Typography, Divider } from '@mui/material';
@@ -6,15 +8,19 @@ import ChatFooter from './ChatFooter';
 
 import { chatsData } from '@/mock/modules/SocialComponents/Chat';
 
-import { CharmTickIcon, ThreeDotsIcon } from '@/assets/icons';
-
 import { isNullOrEmpty } from '@/utils';
 
+import { customEmojis } from './ChatField.data';
+
+import { CharmTickIcon, ThreeDotsIcon } from '@/assets/icons';
+
 import { styles } from './ChatField.style';
+
 import { v4 as uuidv4 } from 'uuid';
 
 const ChatField = () => {
   const theme = useTheme();
+  const [activeChat, setActiveChat] = useState('');
   return (
     <>
       <Box sx={{ padding: '30px', height: '60vh' }}>
@@ -46,7 +52,11 @@ const ChatField = () => {
                         alt="avatar"
                       />
                     </Box>
-                    <Box sx={styles.chatMessageArea(item.role)}>
+                    <Box
+                      sx={styles.chatMessageArea(item.role)}
+                      onMouseOver={() => setActiveChat(item.chatID)}
+                      onMouseLeave={() => setActiveChat('')}
+                    >
                       <Box>
                         <Box sx={styles.chatBoxWrapperInset(theme, item.role)}>
                           <Typography
@@ -70,7 +80,18 @@ const ChatField = () => {
                               }}
                             />
                           )}
-                          <Box sx={styles.sendReaction}></Box>
+                          {item.chatID === activeChat && (
+                            <Box sx={styles.sendReaction(theme)}>
+                              {customEmojis.map((emoji: any) => (
+                                <Box
+                                  key={uuidv4()}
+                                  dangerouslySetInnerHTML={{
+                                    __html: emoji,
+                                  }}
+                                />
+                              ))}
+                            </Box>
+                          )}
                         </Box>
                         <Box sx={{ textAlign: 'right' }}>
                           <Typography variant="body3" sx={{ color: '#6E7191' }}>

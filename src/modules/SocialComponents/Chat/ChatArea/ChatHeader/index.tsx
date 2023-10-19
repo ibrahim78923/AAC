@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import Image from 'next/image';
 
 import { Box, Button, Typography, useTheme } from '@mui/material';
@@ -7,9 +9,11 @@ import { UserAvatarImage } from '@/assets/images';
 import { PhoneWhiteIcon, ThreeDotsIcon, UserWhiteIcon } from '@/assets/icons';
 
 import { styles } from './ChatHeader.style';
+import ChatInfoModal from './ChatInfoModal';
 
 const ChatHeader = () => {
   const theme = useTheme();
+  const [isUserProfile, setIsUserProfile] = useState(false);
   return (
     <>
       <Box sx={styles.headerChat(theme)}>
@@ -37,7 +41,10 @@ const ChatHeader = () => {
           <Button sx={styles.unStyledButton}>
             <PhoneWhiteIcon />
           </Button>
-          <Button sx={styles.unStyledButton}>
+          <Button
+            sx={styles.unStyledButton}
+            onClick={() => setIsUserProfile(true)}
+          >
             <UserWhiteIcon />
           </Button>
           <Button sx={styles.unStyledButton}>
@@ -45,6 +52,10 @@ const ChatHeader = () => {
           </Button>
         </Box>
       </Box>
+      <ChatInfoModal
+        isUserProfile={isUserProfile}
+        setIsUserProfile={setIsUserProfile}
+      />
     </>
   );
 };
