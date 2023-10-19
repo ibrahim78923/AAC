@@ -11,33 +11,25 @@ import {
   useTheme,
 } from '@mui/material';
 
-import DealDrawer from '../DealDrawer';
-
 import { CreateViewData } from './CreateView.data';
 
 import { FormProvider } from '@/components/ReactHookForm';
 
-import { CutomizeIcon } from '@/assets/icons';
-
 import { v4 as uuidv4 } from 'uuid';
 import { useForm } from 'react-hook-form';
+import CommonDrawer from '@/components/CommonDrawer';
 
-const CreateView = () => {
+const CreateView = ({ open, onClose }: any) => {
   const methods = useForm({});
   const theme = useTheme();
   return (
     <>
-      <DealDrawer
-        btnProps={{
-          title: 'Add View',
-          startIcon: <CutomizeIcon />,
-          sx: { height: '30px' },
-        }}
-        drawerProps={{
-          title: 'Create View',
-          okText: 'Save',
-          submitHandler: () => {},
-        }}
+      <CommonDrawer
+        isDrawerOpen={open}
+        onClose={onClose}
+        isOk
+        okText="Submit"
+        title="Create View"
       >
         <FormProvider methods={methods}>
           <Grid container spacing={2}>
@@ -89,7 +81,7 @@ const CreateView = () => {
             label="Everyone"
           />
         </RadioGroup>
-      </DealDrawer>
+      </CommonDrawer>
     </>
   );
 };

@@ -1,34 +1,27 @@
 import React from 'react';
 
 import { Grid, MenuItem, Typography, useTheme } from '@mui/material';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-
-import DealDrawer from '../DealDrawer';
 
 import { createDealData } from './CreateDeal.data';
 
+import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
 
 import { useForm } from 'react-hook-form';
 import { v4 as uuidv4 } from 'uuid';
 
-const CreateDeal = () => {
+const CreateDeal = ({ open, onClose }: any) => {
   const methods = useForm({});
   const theme = useTheme();
 
   return (
-    <DealDrawer
-      btnProps={{
-        title: 'Creat Deal',
-        startIcon: <AddCircleIcon />,
-        variant: 'contained',
-        sx: { height: '35px' },
-      }}
-      drawerProps={{
-        title: 'Create Deal',
-        okText: 'Submit',
-        submitHandler: () => {},
-      }}
+    <CommonDrawer
+      isDrawerOpen={open}
+      onClose={onClose}
+      title="Create Deal"
+      footer
+      okText="Submit"
+      isOk
     >
       <FormProvider methods={methods}>
         <Grid container spacing={2}>
@@ -58,7 +51,7 @@ const CreateDeal = () => {
           ))}
         </Grid>
       </FormProvider>
-    </DealDrawer>
+    </CommonDrawer>
   );
 };
 

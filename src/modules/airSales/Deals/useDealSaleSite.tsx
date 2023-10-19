@@ -6,9 +6,37 @@ const useDealSaleSite = () => {
   const theme = useTheme();
   const [search, setSearch] = useState('');
   const [actions, setActions] = useState('actions');
+  const [isOpen, setIsOpen] = useState(false);
+  const [isDealCustomize, setIsDealCustomize] = useState(false);
+  const [isFilter, setIsFilter] = useState(false);
+  const [isShareDine, setIsShareDine] = useState(false);
+  const [isDelete, setIsDelete] = useState(false);
 
+  const handleChange = () => setIsOpen(!isOpen);
+  const handleDealCustomize = () => setIsDealCustomize(!isDealCustomize);
+
+  const handleSMD = () => {
+    setIsShareDine(!isShareDine);
+  };
+  const handleFilter = () => {
+    setIsFilter(!isFilter);
+  };
+  const HandleDeleteModal = () => {
+    setIsDelete(!isDelete);
+  };
   const handleActions = (e: any) => {
-    setActions(e.target.value);
+    const { value } = e.target;
+    switch (value) {
+      case 'Preview':
+        handleSMD();
+        break;
+      case 'Delete':
+        HandleDeleteModal();
+        break;
+
+      default:
+        break;
+    }
   };
 
   return {
@@ -16,8 +44,18 @@ const useDealSaleSite = () => {
     setSearch,
     actions,
     setActions,
-    handleActions,
     theme,
+    isOpen,
+    isDealCustomize,
+    isFilter,
+    isShareDine,
+    isDelete,
+    handleChange,
+    handleDealCustomize,
+    handleSMD,
+    handleFilter,
+    handleActions,
+    HandleDeleteModal,
   };
 };
 

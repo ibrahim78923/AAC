@@ -25,7 +25,7 @@ export const styles = {
       alignItems: 'center',
       width: '24px',
       borderRadius: '4px',
-      color: theme.palette.grey[800],
+      color: theme.palette.grey[400],
     };
   },
 };

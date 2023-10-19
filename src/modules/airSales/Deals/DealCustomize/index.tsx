@@ -2,25 +2,19 @@ import React from 'react';
 
 import { columnsData } from './DealCustomize.data';
 import ColumnsWrapper from './CoumnsWrapper';
-import DealDrawer from '../DealDrawer';
-
-import { CutomizeIcon } from '@/assets/icons';
 
 import { v4 as uuidv4 } from 'uuid';
+import CommonDrawer from '@/components/CommonDrawer';
 
-const DealCustomize = () => {
+const DealCustomize = ({ open, onClose }: any) => {
   return (
-    <DealDrawer
-      btnProps={{
-        title: 'Customize',
-        startIcon: <CutomizeIcon />,
-        sx: { height: '30px' },
-      }}
-      drawerProps={{
-        title: 'Customize Columns',
-        okText: 'Save',
-        submitHandler: () => {},
-      }}
+    <CommonDrawer
+      isDrawerOpen={open}
+      onClose={onClose}
+      footer
+      isOk
+      okText="Submit"
+      title="Customize"
     >
       {columnsData.map((column) => (
         <ColumnsWrapper
@@ -31,7 +25,7 @@ const DealCustomize = () => {
           }}
         />
       ))}
-    </DealDrawer>
+    </CommonDrawer>
   );
 };
 

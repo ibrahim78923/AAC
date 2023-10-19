@@ -1,17 +1,11 @@
 import React from 'react';
 
-import { Grid, MenuItem, Typography, useTheme } from '@mui/material';
-
-import { FilterData } from './DealFilterDrawer.data';
-
 import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
 
-import { v4 as uuidv4 } from 'uuid';
 import { useForm } from 'react-hook-form';
 
-const DealFilterDrawer = ({ open, onClose }: any) => {
-  const theme = useTheme();
+const RestoreFilterDrawer = ({ open, onClose }: any) => {
   const methods = useForm({});
 
   return (
@@ -24,7 +18,7 @@ const DealFilterDrawer = ({ open, onClose }: any) => {
       title="Filter"
     >
       <FormProvider methods={methods}>
-        <Grid container spacing={2}>
+        {/* <Grid container spacing={2}>
           {FilterData.map((obj) => (
             <Grid item xs={12} key={uuidv4()}>
               <Typography
@@ -41,18 +35,18 @@ const DealFilterDrawer = ({ open, onClose }: any) => {
               >
                 {obj.componentProps.select
                   ? obj.options?.map((option) => (
-                      <MenuItem key={uuidv4()} value={option.value}>
-                        {option.label}
-                      </MenuItem>
-                    ))
+                    <MenuItem key={uuidv4()} value={option.value}>
+                      {option.label}
+                    </MenuItem>
+                  ))
                   : null}
               </obj.component>
             </Grid>
-          ))}
-        </Grid>
+          ))} */}
+        {/* </Grid> */}
       </FormProvider>
     </CommonDrawer>
   );
 };
 
-export default DealFilterDrawer;
+export default RestoreFilterDrawer;

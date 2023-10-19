@@ -2,39 +2,26 @@ import React from 'react';
 
 import { Typography, Box } from '@mui/material';
 
-import DealDrawer from '../DealDrawer';
 import ImportMapColumnsDeal from './ImportColumns';
 
 import useImportDeal from './useImportDeal';
 
-import { ImportIcon } from '@/assets/icons';
-
 import { styles } from './ImportDealsDrawer.style';
+import CommonDrawer from '@/components/CommonDrawer';
 
-const ImportDealsDrawer = () => {
+const ImportDealsDrawer = ({ open, onClose }: any) => {
   const { handleSubmit, isColumnsSelect, theme } = useImportDeal();
   const okTitle = isColumnsSelect ? 'Import' : 'Next';
 
   return (
-    <DealDrawer
-      btnProps={{
-        title: 'Import',
-        startIcon: <ImportIcon />,
-        sx: {
-          width: '107px',
-          height: '35px',
-          '&:hover': {
-            background: theme.palette.grey[0],
-            borderColor: theme.palette.grey[0],
-          },
-          borderColor: theme.palette.grey[0],
-        },
-      }}
-      drawerProps={{
-        title: 'Import Deals',
-        okText: okTitle,
-        submitHandler: handleSubmit,
-      }}
+    <CommonDrawer
+      isDrawerOpen={open}
+      onClose={onClose}
+      submitHandler={handleSubmit}
+      footer
+      isOk
+      okText={okTitle}
+      title="Import"
     >
       <Typography sx={styles.selectColTypography(theme)}>
         {isColumnsSelect
@@ -66,7 +53,7 @@ const ImportDealsDrawer = () => {
       ) : (
         <ImportMapColumnsDeal />
       )}
-    </DealDrawer>
+    </CommonDrawer>
   );
 };
 

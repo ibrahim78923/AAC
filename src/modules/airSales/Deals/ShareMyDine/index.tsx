@@ -12,8 +12,6 @@ import {
   AccordionDetails,
 } from '@mui/material';
 
-import DealDrawer from '../DealDrawer';
-
 import {
   AccordianDetailsData,
   ShareAccordianData,
@@ -32,20 +30,19 @@ import {
 import { styles } from './ShareMyDine.style';
 
 import { v4 as uuidv4 } from 'uuid';
+import CommonDrawer from '@/components/CommonDrawer';
 
-const ShareMyDine = () => {
+const ShareMyDine = ({ open, onClose }: any) => {
   const theme = useTheme();
-
   return (
     <>
-      <DealDrawer
-        defaultOpen
-        hideBtn
-        drawerProps={{
-          title: 'Share my dine',
-          okText: 'Submit',
-          submitHandler: () => {},
-        }}
+      <CommonDrawer
+        isDrawerOpen={open}
+        onClose={onClose}
+        footer
+        isOk
+        okText="Submit"
+        title="ShareMyDine"
       >
         <Box sx={styles.iconWrap}>
           <MailIcon />
@@ -76,7 +73,9 @@ const ShareMyDine = () => {
                   <Typography sx={styles.accordianSummary(theme)}>
                     {item.number}
                   </Typography>
-                  <Typography sx={{ fontSize: '16px', fontWeight: '600' }}>
+                  <Typography
+                    sx={{ color: '', fontSize: '16px', fontWeight: '600' }}
+                  >
                     {item.heading}
                   </Typography>
                 </Box>
@@ -111,7 +110,7 @@ const ShareMyDine = () => {
             </Accordion>
           ))}
         </Box>
-      </DealDrawer>
+      </CommonDrawer>
     </>
   );
 };

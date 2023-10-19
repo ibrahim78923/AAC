@@ -2,23 +2,15 @@ import React from 'react';
 
 import { AlertModals } from '@/components/AlertModals';
 
-import useDealsModalBox from './useDealsModalBox';
-
-const DealsModalBox = () => {
-  const { handleOpen, setHandleOpen } = useDealsModalBox();
-
+const DealsModalBox = ({ open, onClose, handleSubmit }: any) => {
   return (
     <>
       <AlertModals
         message=""
         type="delete"
-        open={!handleOpen}
-        handleClose={() => {
-          setHandleOpen(false);
-        }}
-        handleSubmit={() => {
-          setHandleOpen(true);
-        }}
+        open={open}
+        handleClose={onClose}
+        handleSubmit={handleSubmit}
       />
     </>
   );

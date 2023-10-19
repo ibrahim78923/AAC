@@ -20,17 +20,34 @@ import useDealSaleSite from './useDealSaleSite';
 import { DealsTabs } from './DealsSaleSite.data';
 import { menuItem } from './DealsTable/DealsTable.data';
 
-import { RestoreIcon } from '@/assets/icons';
+import { FilterIcon, RestoreIcon } from '@/assets/icons';
+import { CutomizeIcon } from '@/assets/icons';
 
 const Deals = () => {
-  const { search, setSearch, actions, handleActions, theme } =
-    useDealSaleSite();
-
+  const {
+    search,
+    setSearch,
+    actions,
+    theme,
+    isOpen,
+    isDealCustomize,
+    isFilter,
+    isShareDine,
+    isDelete,
+    handleChange,
+    handleDealCustomize,
+    handleSMD,
+    handleFilter,
+    handleActions,
+    HandleDeleteModal,
+  } = useDealSaleSite();
   return (
     <Layout>
       <DealHeader />
       <CommonTabs
         tabsArray={DealsTabs}
+        addIcon
+        onAddClick={handleChange}
         isHeader={true}
         searchBarProps={{
           label: 'Search Here',
@@ -40,7 +57,6 @@ const Deals = () => {
         }}
         headerChildren={
           <>
-            <CreateView />
             <Select
               value={actions}
               onChange={handleActions}
@@ -60,8 +76,6 @@ const Deals = () => {
                 </MenuItem>
               ))}
             </Select>
-            {actions === 'Preview' && <ShareMyDine />}
-            {actions === 'Delete' && <DeleteModal />}
             <Link href={'/air-sales/deals/restore'}>
               <Button
                 variant="outlined"
@@ -70,13 +84,35 @@ const Deals = () => {
                 <RestoreIcon /> &nbsp; Restore
               </Button>
             </Link>
-            <DealCustomize />
-            <DealFilterDrawer />
+            <>
+              <Button
+                onClick={handleDealCustomize}
+                variant="outlined"
+                sx={{ height: '30px', color: theme.palette.custom['main'] }}
+              >
+                <CutomizeIcon /> &nbsp; Customize
+              </Button>
+            </>
+
+            <Button
+              variant="outlined"
+              sx={{ height: '30px', color: theme.palette.custom['main'] }}
+              onClick={handleFilter}
+            >
+              <FilterIcon />
+              &nbsp; Filter
+            </Button>
           </>
         }
       >
         <DelasTable />
       </CommonTabs>
+
+      <CreateView open={isOpen} onClose={handleChange} />
+      <DealCustomize open={isDealCustomize} onClose={handleDealCustomize} />
+      <DealFilterDrawer open={isFilter} onClose={handleFilter} />
+      <ShareMyDine open={isShareDine} onClose={handleSMD} />
+      <DeleteModal open={isDelete} onClose={HandleDeleteModal} />
     </Layout>
   );
 };

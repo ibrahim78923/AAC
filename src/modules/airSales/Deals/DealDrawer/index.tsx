@@ -1,31 +1,14 @@
 import React from 'react';
 
-import { Button } from '@mui/material';
-
 import CommonDrawer from '@/components/CommonDrawer';
 
 import useDealDrawer from './useDealDrawer';
 
-const DealDrawer = ({
-  btnProps,
-  children,
-  drawerProps,
-  defaultOpen,
-  hideBtn,
-}: any) => {
+const DealDrawer = ({ children, drawerProps, defaultOpen }: any) => {
   const { open, handleTogle } = useDealDrawer({ defaultOpen });
+
   return (
     <>
-      {!hideBtn && (
-        <Button
-          onClick={handleTogle}
-          variant={btnProps?.variant ?? 'outlined'}
-          {...btnProps}
-        >
-          {btnProps.title}
-        </Button>
-      )}
-
       <CommonDrawer
         isDrawerOpen={open}
         onClose={handleTogle}
