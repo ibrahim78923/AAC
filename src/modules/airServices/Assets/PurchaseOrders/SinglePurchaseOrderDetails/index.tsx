@@ -1,10 +1,12 @@
+import AssetHead from '../../PurchaseOrders/SinglePurchaseOrderDetails/AssetHead';
 import { SinglePurchaseOrderDetailTabs } from './components/SinglePurchaseOrderDetailTabs';
 
 export const SinglePurchaseOrderDetail = () => {
   return (
     <>
-      <>Header</>
-      <></>
+      <>
+        <AssetHead title=" Dell Purchase Order Details " />
+      </>
       <SinglePurchaseOrderDetailTabs />
     </>
   );

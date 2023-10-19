@@ -1,7 +1,6 @@
 import { Box, useTheme, Typography } from '@mui/material';
 import { Button } from '@mui/material';
 import { PlusSharedIconColor, ExportShared, ImportIcon } from '@/assets/icons';
-
 import { styles } from './AssetHead.style';
 
 function AssetHead({ title, show, addTitle }: any) {
