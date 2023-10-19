@@ -1,15 +1,20 @@
+import React, { useState } from 'react';
+
 import { Box } from '@mui/material';
-import React from 'react';
+
 import CallingMain from './CallingMain';
-import Call from './Call';
+import AddaNumber from './AddaNumber';
 
 const Calling = () => {
-  // const [isCall, setisCall] = useState()
+  const [addaNumber, setAddaNumber] = useState(false);
 
   return (
     <Box>
-      <CallingMain />
-      <Call />
+      {addaNumber ? (
+        <AddaNumber />
+      ) : (
+        <CallingMain setAddaNumber={setAddaNumber} />
+      )}
     </Box>
   );
 };

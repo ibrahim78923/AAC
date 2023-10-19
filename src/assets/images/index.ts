@@ -78,3 +78,4 @@ export { default as GroupAvatarImage } from '../../assets/images/modules/socialC
 export { default as GroupAvatarAdidasImage } from '../../assets/images/modules/socialComponents/chat/group-avatar-adidas.png';
 export { default as AddRoundedImage } from '../../assets/images/modules/socialComponents/chat/add-image-rounded.png';
 export { default as UserProfileAvatarImage } from '../../assets/images/modules/socialComponents/chat/user-profile-avatar.png';
+export { default as CallFilledImage } from '../../assets/images/modules/socialComponents/calling/call-filled.png';

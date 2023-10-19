@@ -10,8 +10,8 @@ import { columns } from './CallingMain.data';
 
 import { MobileIcon } from '@/assets/icons';
 
-const CallingMain = () => {
-  const [callingSeatch, setCallingSeatch] = useState();
+const CallingMain = ({ setAddaNumber }: any) => {
+  const [callingSearch, setCallingSearch] = useState();
   const getColumns = columns();
   return (
     <Box
@@ -32,7 +32,7 @@ const CallingMain = () => {
           <Typography variant="h3" sx={{ fontWeight: '600' }}>
             Calling
           </Typography>
-          <Button variant="contained">
+          <Button variant="contained" onClick={() => setAddaNumber(true)}>
             <MobileIcon /> &nbsp; Connect a Number
           </Button>
         </Box>
@@ -47,8 +47,8 @@ const CallingMain = () => {
         >
           <Search
             label={'Search here'}
-            searchBy={callingSeatch}
-            setSearchBy={setCallingSeatch}
+            searchBy={callingSearch}
+            setSearchBy={setCallingSearch}
             width="100%"
           />
           <Box
