@@ -120,6 +120,7 @@ export const editInventoryFields = [
       label: 'display Name',
       required: true,
     },
+    md: 6,
   },
   {
     id: 2,
@@ -130,6 +131,7 @@ export const editInventoryFields = [
       name: 'assetTag',
       label: 'asset Tag',
     },
+    md: 6,
   },
   {
     id: 3,
@@ -143,6 +145,7 @@ export const editInventoryFields = [
       options: ticketsTypeOptions,
       required: true,
     },
+    md: 6,
   },
   {
     id: 4,
@@ -156,6 +159,7 @@ export const editInventoryFields = [
       options: ticketsTypeOptions,
       required: true,
     },
+    md: 6,
   },
   {
     id: 5,
@@ -180,6 +184,7 @@ export const editInventoryFields = [
       select: true,
       options: dropdownDummy,
     },
+    md: 6,
   },
   {
     id: 7,
@@ -203,6 +208,7 @@ export const editInventoryFields = [
       options: dropdownDummy,
     },
     gridLength: 6,
+    md: 6,
     component: RHFSelect,
   },
   {
@@ -227,6 +233,7 @@ export const editInventoryFields = [
       options: dropdownDummy,
     },
     gridLength: 6,
+    md: 6,
     component: RHFSelect,
   },
   {
@@ -239,6 +246,7 @@ export const editInventoryFields = [
       options: dropdownDummy,
     },
     gridLength: 6,
+    md: 6,
     component: RHFSelect,
   },
   {
@@ -252,6 +260,7 @@ export const editInventoryFields = [
       select: true,
       options: dropdownDummy,
     },
+    md: 3,
   },
   {
     id: 6,
@@ -264,6 +273,7 @@ export const editInventoryFields = [
       select: true,
       options: dropdownDummy,
     },
+    md: 3,
   },
   {
     id: 7,
@@ -275,6 +285,7 @@ export const editInventoryFields = [
       options: dropdownDummy,
     },
     gridLength: 6,
+    md: 6,
     component: RHFSelect,
   },
 ];

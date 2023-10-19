@@ -22,6 +22,12 @@ const usePurchaseOrders = () => {
     setIsDrawerOpen(false);
   };
 
+  const handlePurchaseOrderDetail = (orderNumber: string) => {
+    push(
+      `/air-services/assets/purchase-orders/detail?orderNumber=${orderNumber}`,
+    );
+  };
+
   return {
     isDrawerOpen,
     setIsDrawerOpen,
@@ -29,6 +35,7 @@ const usePurchaseOrders = () => {
     methodsPurchaseOrderFilterForm,
     submitPurchaseOrderFilterForm,
     resetPurchaseOrderFilterForm,
+    handlePurchaseOrderDetail,
     // new purchase order
     isNewPurchaseOrder,
     setIsNewPurchaseOrder,
