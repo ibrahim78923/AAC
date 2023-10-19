@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useTasksI } from './Tasks.interface';
+import { enqueueSnackbar } from 'notistack';
 
 export const useTasks = (): useTasksI => {
   const [isAddDrawerOpen, setIsAddDrawerOpen] = useState<boolean>(false);
@@ -12,6 +13,7 @@ export const useTasks = (): useTasksI => {
   const [drawerStatusVal, setDrawerStatusVal] = useState(null);
   const [drawerStatusPop, setDrawerStatusPop] =
     useState<HTMLButtonElement | null>(null);
+  const [deleteModal, setDeleteModal] = useState<boolean>(false);
   const handleActionClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setActionPop(event.currentTarget);
   };
@@ -37,6 +39,13 @@ export const useTasks = (): useTasksI => {
   const handleStatusItemClick = (selectedStatus: any) => {
     setDrawerStatusVal(selectedStatus);
     setDrawerStatusPop(null);
+  };
+  const submitDeleteModel = async () => {
+    enqueueSnackbar('Task Delete Successfully', {
+      variant: 'error',
+    });
+    setDeleteModal(false);
+    setActionPop(null);
   };
   return {
     isAddDrawerOpen,
@@ -65,5 +74,8 @@ export const useTasks = (): useTasksI => {
     handleStatusClose,
     openDrawerStatus,
     handleStatusItemClick,
+    deleteModal,
+    setDeleteModal,
+    submitDeleteModel,
   };
 };

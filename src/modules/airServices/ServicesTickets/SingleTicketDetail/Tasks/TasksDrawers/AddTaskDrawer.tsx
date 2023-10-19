@@ -1,5 +1,5 @@
 import CommonDrawer from '@/components/CommonDrawer';
-import CreateTicket from '../TasksForm';
+import TasksForm from '../TasksForm';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
@@ -32,7 +32,7 @@ export const AddTaskDrawer: React.FC<AddTaskDrawerI> = ({
         isOk={true}
         okText="Add Task"
       >
-        <CreateTicket
+        <TasksForm
           submitCreateNewTicket={submitCreateNewTicket}
           methods={methodsCreateNewTicketForm}
           handleSubmit={methodsCreateNewTicketForm.handleSubmit}
