@@ -1,27 +1,29 @@
+import React from 'react';
+
 import { Grid, Box } from '@mui/material';
 
 import CommonDrawer from '@/components/CommonDrawer';
 
-import {
-  DelegateArray,
-  DelegateDefaultValues,
-  DelegateValidationSchema,
-} from './UsersDetailsList.data';
-
 import { FormProvider } from '@/components/ReactHookForm';
+
+import {
+  AddAccountArray,
+  AddAccountDefaultValues,
+  AddAccountValidationSchema,
+} from './AddAccountDrawer.data';
+
+import { v4 as uuidv4 } from 'uuid';
 
 import { useForm } from 'react-hook-form';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import { v4 as uuidv4 } from 'uuid';
-
-const DelegateFilterDrawer = (props: any) => {
+const AddAccountDrawer = (props: any) => {
   const { isOpen, setIsOpen } = props;
 
   const methods: any = useForm({
-    resolver: yupResolver(DelegateValidationSchema),
-    defaultValues: DelegateDefaultValues,
+    resolver: yupResolver(AddAccountValidationSchema),
+    defaultValues: AddAccountDefaultValues,
   });
 
   const { handleSubmit } = methods;
@@ -36,7 +38,7 @@ const DelegateFilterDrawer = (props: any) => {
       onClose={() => {
         setIsOpen(false);
       }}
-      title="Filters"
+      title="Add Account"
       okText="Add"
       isOk={true}
       footer
@@ -45,7 +47,7 @@ const DelegateFilterDrawer = (props: any) => {
       <Box mt={1}>
         <FormProvider methods={methods}>
           <Grid container spacing={4}>
-            {DelegateArray?.map((item: any) => (
+            {AddAccountArray?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={uuidv4()}>
                 <item.component {...item.componentProps} size={'small'}>
                   {item?.componentProps?.select &&
@@ -64,4 +66,4 @@ const DelegateFilterDrawer = (props: any) => {
   );
 };
 
-export default DelegateFilterDrawer;
+export default AddAccountDrawer;
