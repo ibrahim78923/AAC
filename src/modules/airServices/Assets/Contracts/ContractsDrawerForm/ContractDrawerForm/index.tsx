@@ -1,14 +1,14 @@
 import { Box, Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
-import { DrawerFormDataArray } from './DrawerForm.data';
+import { contractDrawerFormFields } from './ContractDrawerForm.data';
 import { v4 as uuidv4 } from 'uuid';
 
-function DrawerForm({ submitDrawerForm, methods, handleSubmit }: any) {
+function contractDrawerForm({ submitDrawerForm, methods, handleSubmit }: any) {
   return (
     <Box mt={1}>
       <FormProvider methods={methods} onSubmit={handleSubmit(submitDrawerForm)}>
         <Grid container spacing={4}>
-          {DrawerFormDataArray?.map((item: any) => (
+          {contractDrawerFormFields?.map((item: any) => (
             <Grid item xs={12} md={item?.md} key={uuidv4()}>
               <item.component {...item.componentProps} size={'small'}>
                 {item?.componentProps?.select
@@ -27,4 +27,4 @@ function DrawerForm({ submitDrawerForm, methods, handleSubmit }: any) {
   );
 }
 
-export default DrawerForm;
+export default contractDrawerForm;
