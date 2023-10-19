@@ -23,6 +23,7 @@ export function useRelatedTickets() {
   const handleActionExportClose = () => {
     setActionExportPop(null);
   };
+
   const openActionExport = Boolean(actionExportPop);
 
   return {
