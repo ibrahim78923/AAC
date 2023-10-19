@@ -4,9 +4,9 @@ import TanstackTable from '@/components/Tabel/TanstackTable';
 import { callingData } from '@/mock/modules/SocialComponents/Calling';
 import { Box, Button, Typography } from '@mui/material';
 import React, { useState } from 'react';
-import { columns } from './CallingMain/CallingMain.data';
+import { columns } from './CallingMain.data';
 
-const Calling = () => {
+const CallingMain = () => {
   const [callingSeatch, setCallingSeatch] = useState();
   const getColumns = columns();
   return (
@@ -62,4 +62,4 @@ const Calling = () => {
   );
 };
 
-export default Calling;
+export default CallingMain;
