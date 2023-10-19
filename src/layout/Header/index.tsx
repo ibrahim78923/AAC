@@ -137,17 +137,19 @@ const Header = (props: any) => {
             alignItems: 'center',
           }}
         >
-          {role === 'sales' && (
+          {role && (
             <Box sx={styles.quickLinkBox(theme)}>
               {!isNullOrEmpty(QuickLinkData) &&
                 QuickLinkData.map((image) => (
                   <Box key={uuidv4()} sx={styles.innerQuickLinkBox(theme)}>
-                    <Image
-                      src={image?.icon}
-                      alt="logo"
-                      width={18}
-                      height={18}
-                    />
+                    <Link href={image.path}>
+                      <Image
+                        src={image?.icon}
+                        alt="logo"
+                        width={18}
+                        height={18}
+                      />
+                    </Link>
                   </Box>
                 ))}
             </Box>
