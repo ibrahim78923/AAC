@@ -15,15 +15,26 @@ import useAddToInventoryDrawer from './useAddToInventoryDrawer';
 import { v4 as uuidv4 } from 'uuid';
 import { addToInventoryDrawerStyle } from './AddToInventoryDrawer.style';
 import { useState } from 'react';
+import { enqueueSnackbar } from 'notistack';
 export const AddToInventoryDrawer = ({
   isADrawerOpen,
   setIsADrawerOpen,
 }: any) => {
-  const { methods, handleSubmit, onSubmit, addNew } = useAddToInventoryDrawer();
+  const { methods1, methods2, addNew } = useAddToInventoryDrawer();
   const [boolVariable, setBoolVariable] = useState(true);
-  const submitHandler = () => {
+
+  const submitHandler1 = methods1.handleSubmit(() => {
     setBoolVariable(false);
-  };
+  });
+
+  const submitHandler2 = methods2.handleSubmit(() => {
+    enqueueSnackbar('item added to inventory Successfully', {
+      variant: 'success',
+    });
+    setIsADrawerOpen(false);
+    setBoolVariable(true);
+  });
+
   return (
     <CommonDrawer
       isDrawerOpen={isADrawerOpen}
@@ -31,12 +42,12 @@ export const AddToInventoryDrawer = ({
         setIsADrawerOpen(false);
       }}
       title="Dell Monitor"
-      submitHandler={submitHandler}
+      submitHandler={boolVariable ? submitHandler1 : submitHandler2}
       footer={true}
       isOk={true}
-      okText="Next"
+      okText={boolVariable ? 'Next' : 'Add to Inventory'}
     >
-      {boolVariable === true ? (
+      {boolVariable ? (
         <>
           <Divider />
           <Grid
@@ -102,15 +113,12 @@ export const AddToInventoryDrawer = ({
               sx={addToInventoryDrawerStyle?.secondGridStyling}
             >
               <Box sx={{ width: '180px' }}>
-                <FormProvider onSubmit={() => {}} methods={methods}>
+                <FormProvider onSubmit={() => {}} methods={methods1}>
                   <RHFTextField
                     name="description"
-                    multiline
-                    minRows={4}
                     fullWidth
                     placeholder="2"
                     label="Add"
-                    required={true}
                   />
                 </FormProvider>
               </Box>
@@ -128,7 +136,7 @@ export const AddToInventoryDrawer = ({
             </Grid>
           </Grid>
           <Grid>
-            <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+            <FormProvider methods={methods1}>
               <Grid container spacing={0.5}>
                 {addToInventoryDrawerArray?.map((item: any) => (
                   <Grid item xs={4} md={item?.md} key={uuidv4()}>
@@ -180,7 +188,7 @@ export const AddToInventoryDrawer = ({
               </Box>
             </Grid>
             <Grid item xs={12}>
-              <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+              <FormProvider methods={methods2}>
                 <Grid container spacing={2}>
                   {addToInventorySecondDrawerArray?.map((item: any) => (
                     <Grid item xs={12} md={item?.md} key={uuidv4()}>

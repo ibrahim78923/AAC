@@ -101,20 +101,12 @@ export default function Header() {
             >
               delete
             </MenuItem>
-            <MenuItem
-              onClick={() => {
-                handleClose();
-              }}
-            >
-              Renew
-            </MenuItem>
-            <MenuItem
-              onClick={() => {
-                handleClose();
-              }}
-            >
-              Extend
-            </MenuItem>
+            <Link href="/air-services/assets/contracts/renewContracts">
+              <MenuItem>Renew</MenuItem>
+            </Link>
+            <Link href="/air-services/assets/contracts/extendContracts">
+              <MenuItem>Extend</MenuItem>
+            </Link>
             <MenuItem
               onClick={() => {
                 setTerminateModalOpen(true), handleClose();

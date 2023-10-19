@@ -3,28 +3,27 @@ import { FormProvider } from '@/components/ReactHookForm';
 
 import { v4 as uuidv4 } from 'uuid';
 import { enqueueSnackbar } from 'notistack';
-import { contractsEditArray } from './ContractsEdit.data';
-import useContractsActionEdit from './useContractsActionEdit';
-import UploadAttachments from './UploadAttachment';
-
-import { ContractItemTable } from './ContractItems/ContractItemTable ';
 import { useRouter } from 'next/router';
-export const ContractsEdit = () => {
-  const { methods, handleSubmit, onSubmit } = useContractsActionEdit();
+
+import { purchaseOrderActionArray } from './PurchaseOrder.data';
+import usePurchaseOrderAction from './usePurchaseOrderAction';
+import { ViewDetailBackArrowIcon } from '@/assets/icons';
+export const PurchaseOrderEdit = () => {
+  const { methods, handleSubmit, onSubmit } = usePurchaseOrderAction();
 
   const Router = useRouter();
   const submitHandler = methods.handleSubmit(async () => {
-    enqueueSnackbar(' Contract Update successfully', {
+    enqueueSnackbar('New Purchase Order Updated successfully', {
       variant: 'success',
 
       autoHideDuration: 3000,
     });
 
-    Router.push('/air-services/assets/contracts');
+    Router.push('/air-services/assets/purchase-orders/detail');
   });
 
   const handleContractClick = () => {
-    Router.push('/air-services/assets/contracts');
+    Router.push('/air-services/assets/purchase-orders/detail');
   };
   return (
     <>
@@ -38,7 +37,7 @@ export const ContractsEdit = () => {
       >
         <Grid
           item
-          xs={9}
+          xs={12}
           sx={{
             border: '1px solid rgba(98, 110, 142, 0.12) ',
             borderRadius: '12px',
@@ -47,24 +46,32 @@ export const ContractsEdit = () => {
         >
           <div style={{ height: '700px', overflow: 'auto' }}>
             <Box sx={{ mb: '1rem' }}>
-              <Typography variant="h5"> General Details</Typography>
+              <ViewDetailBackArrowIcon />
+              <Typography variant="h5" component="span">
+                {'  '}
+                New Purchase Order
+              </Typography>
+            </Box>
+            <Box sx={{ mb: '1rem' }}>
+              <Typography variant="h6" component="span">
+                {'  '}
+                Purchase Details
+              </Typography>
             </Box>
             <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
               <Grid container spacing={4}>
-                {contractsEditArray?.map((item: any) => (
+                {purchaseOrderActionArray?.map((item: any) => (
                   <Grid item xs={12} md={item?.md} key={uuidv4()}>
                     <item.component {...item.componentProps} size={'small'}>
-                      {item?.componentProps?.select ? (
-                        item?.options?.map((option: any) => (
-                          <option key={option?.value} value={option?.value}>
-                            {option?.label}
-                          </option>
-                        ))
-                      ) : item?.heading ? (
-                        item?.heading
-                      ) : (
-                        <ContractItemTable />
-                      )}
+                      {item?.componentProps?.select
+                        ? item?.options?.map((option: any) => (
+                            <option key={option?.value} value={option?.value}>
+                              {option?.label}
+                            </option>
+                          ))
+                        : item?.heading
+                        ? item?.heading
+                        : null}
                     </item.component>
                   </Grid>
                 ))}
@@ -72,11 +79,7 @@ export const ContractsEdit = () => {
             </FormProvider>
           </div>
         </Grid>
-
-        <Grid item xs={3}>
-          <UploadAttachments />
-        </Grid>
-        <Grid item xs={9} sx={{ display: 'flex', justifyContent: 'end' }}>
+        <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'end' }}>
           <Box sx={{ mr: '1rem' }}>
             <Button type="submit" onClick={handleContractClick}>
               cancel

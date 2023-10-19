@@ -3,18 +3,19 @@ import { FormProvider } from '@/components/ReactHookForm';
 
 import { v4 as uuidv4 } from 'uuid';
 import { enqueueSnackbar } from 'notistack';
-import { contractsEditArray } from './ContractsEdit.data';
-import useContractsActionEdit from './useContractsActionEdit';
 import UploadAttachments from './UploadAttachment';
 
 import { ContractItemTable } from './ContractItems/ContractItemTable ';
 import { useRouter } from 'next/router';
-export const ContractsEdit = () => {
-  const { methods, handleSubmit, onSubmit } = useContractsActionEdit();
+
+import useContractsActionExtend from './useContractsActionExtend';
+import { contractsExtendArray } from './ContractsExtend.data';
+export const ContractsExtend = () => {
+  const { methods, handleSubmit, onSubmit } = useContractsActionExtend();
 
   const Router = useRouter();
   const submitHandler = methods.handleSubmit(async () => {
-    enqueueSnackbar(' Contract Update successfully', {
+    enqueueSnackbar('Contract Renew successfully', {
       variant: 'success',
 
       autoHideDuration: 3000,
@@ -47,11 +48,11 @@ export const ContractsEdit = () => {
         >
           <div style={{ height: '700px', overflow: 'auto' }}>
             <Box sx={{ mb: '1rem' }}>
-              <Typography variant="h5"> General Details</Typography>
+              <Typography variant="h5"> Renew Contract</Typography>
             </Box>
             <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
               <Grid container spacing={4}>
-                {contractsEditArray?.map((item: any) => (
+                {contractsExtendArray?.map((item: any) => (
                   <Grid item xs={12} md={item?.md} key={uuidv4()}>
                     <item.component {...item.componentProps} size={'small'}>
                       {item?.componentProps?.select ? (
@@ -89,7 +90,7 @@ export const ContractsEdit = () => {
               onClick={submitHandler}
               type="submit"
             >
-              Update
+              Renew
             </Button>
           </Box>
         </Grid>
