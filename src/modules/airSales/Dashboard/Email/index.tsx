@@ -3,7 +3,12 @@ import { Grid, Box } from '@mui/material';
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
 
-import { dataArray, defaultValues, validationSchema } from './Email.data';
+import {
+  dataArray,
+  dataArraySelectedReports,
+  defaultValues,
+  validationSchema,
+} from './Email.data';
 
 import { useForm } from 'react-hook-form';
 import { enqueueSnackbar } from 'notistack';
@@ -14,13 +19,14 @@ const EmailDashboard = ({ isOpenDrawer, onClose }: any) => {
     resolver: yupResolver(validationSchema),
     defaultValues: defaultValues,
   });
-  const { handleSubmit } = methods;
+  const { handleSubmit, watch } = methods;
 
   const onSubmit = async () => {
     enqueueSnackbar('Ticket Updated Successfully', {
       variant: 'success',
     });
   };
+  const watchFields = watch(['reportsInExport']);
 
   return (
     <CommonDrawer
@@ -38,14 +44,36 @@ const EmailDashboard = ({ isOpenDrawer, onClose }: any) => {
           <Grid container spacing={4}>
             {dataArray?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                <item.component {...item.componentProps} size={'small'}>
-                  {item?.componentProps?.select &&
-                    item?.options?.map((option: any) => (
-                      <option value={option?.value} key={uuidv4()}>
-                        {option?.label}
-                      </option>
+                {item?.componentProps?.name === 'reportsInExport' &&
+                watchFields[0] === 'Include selected reports' ? (
+                  <Grid item container>
+                    <item.component
+                      {...item.componentProps}
+                      size={'small'}
+                    ></item.component>
+                    {dataArraySelectedReports?.map((item: any) => (
+                      <Grid item xs={12} key={uuidv4()}>
+                        <item.component {...item.componentProps} size={'small'}>
+                          {item?.componentProps?.select &&
+                            item?.options?.map((option: any) => (
+                              <option value={option?.value} key={uuidv4()}>
+                                {option?.label}
+                              </option>
+                            ))}
+                        </item.component>
+                      </Grid>
                     ))}
-                </item.component>
+                  </Grid>
+                ) : (
+                  <item.component {...item.componentProps} size={'small'}>
+                    {item?.componentProps?.select &&
+                      item?.options?.map((option: any) => (
+                        <option value={option?.value} key={uuidv4()}>
+                          {option?.label}
+                        </option>
+                      ))}
+                  </item.component>
+                )}
               </Grid>
             ))}
           </Grid>

@@ -1,3 +1,4 @@
+import { InstallationDetails } from './InstallationDetails';
 import AddDevice from './addDevice';
 
 export const Installations = () => {
@@ -10,6 +11,7 @@ export const Installations = () => {
         onSubmit={() => {}}
         options={[]}
       />
+      <InstallationDetails />
     </>
   );
 };

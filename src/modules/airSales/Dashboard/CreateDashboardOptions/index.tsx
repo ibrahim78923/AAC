@@ -14,12 +14,12 @@ const CreateDashboardOptions = ({ toggle }: any) => {
         sx={{
           border: `1px solid ${theme?.palette?.custom?.dark}`,
           color: theme?.palette?.custom?.main,
-          width: '120px',
+          padding: '0px 18px 0px 18px',
         }}
         onClick={handleClickActions}
       >
-        <ArrowDropDown />
         Dashboards
+        <ArrowDropDown />
       </Button>
       <Menu
         id="fade-menu"
@@ -31,7 +31,9 @@ const CreateDashboardOptions = ({ toggle }: any) => {
         onClose={handleCloseMenuOptions}
         TransitionComponent={Fade}
       >
-        <MenuItem onClick={() => toggle()}>Manage Dashboards</MenuItem>
+        <MenuItem onClick={() => toggle()}>
+          <Button variant="outlined">Manage Dashboards</Button>
+        </MenuItem>
       </Menu>
     </div>
   );

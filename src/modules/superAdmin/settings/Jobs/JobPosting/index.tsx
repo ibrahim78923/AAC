@@ -21,7 +21,7 @@ import {
 
 import { JobPostingPropsI } from './JobPostingProps.interface';
 
-import { jobPostingTabledata } from '@/mock/modules/Settings/Jobs';
+import { jobPostingTabledata } from '@/mock/modules/superAdmin/Settings/Jobs';
 
 import { DownIcon, FilterSharedIcon, RefreshSharedIcon } from '@/assets/icons';
 
@@ -76,6 +76,8 @@ const JobPosting = ({
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
+          flexWrap: 'wrap',
+          gap: '10px',
         }}
       >
         <Search
@@ -88,7 +90,7 @@ const JobPosting = ({
         <Box
           sx={{
             display: 'flex',
-            alignItems: 'center',
+            flexWrap: 'wrap',
             gap: '10px',
           }}
         >

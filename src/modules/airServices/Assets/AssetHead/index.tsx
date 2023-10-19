@@ -35,6 +35,7 @@ function AssetHead({ title, show, addTitle, handleAction = () => {} }: any) {
               sx={styles.addButtonStyle(theme)}
               variant="outlined"
               startIcon={<PlusSharedIconColor />}
+              onClick={handleAction}
             >
               {addTitle}
             </Button>

@@ -33,4 +33,15 @@ export const MeetingDetailsTableData: any = [
     meetingBooked: 0,
     conversationRate: 'N/A',
   },
+  {
+    Id: 3,
+    meetingName: `60 min ,30 min`,
+    organizer: 'Arlo',
+    type: '1-to-1',
+    duration: 'Multiple',
+    businessUnit: 'Standard sandbook 1',
+    views: 0,
+    meetingBooked: 0,
+    conversationRate: 'N/A',
+  },
 ];
