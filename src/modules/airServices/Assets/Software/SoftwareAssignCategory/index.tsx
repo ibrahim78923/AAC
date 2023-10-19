@@ -5,6 +5,7 @@ import { Box, Button, Divider, Grid } from '@mui/material';
 import { enqueueSnackbar } from 'notistack';
 import { style } from './SoftwareAssignCategory.style';
 import { v4 as uuidv4 } from 'uuid';
+import { useState } from 'react';
 
 function SoftwareAssignCategory({
   openAssignModal,
@@ -16,6 +17,7 @@ function SoftwareAssignCategory({
   setData,
 }: any) {
   const methods: any = useForm({});
+  const [disable, setDisable] = useState(true);
 
   return (
     <>
@@ -32,7 +34,12 @@ function SoftwareAssignCategory({
               <Grid container spacing={4} sx={{}}>
                 {dataArray?.map((item: any) => (
                   <Grid item key={uuidv4()}>
-                    <Box sx={style.searchField}>
+                    <Box
+                      sx={style.searchField}
+                      onClick={() => {
+                        setDisable(false);
+                      }}
+                    >
                       <RHFSearchableSelect
                         name="Search or add category"
                         options={item.options}
@@ -50,6 +57,7 @@ function SoftwareAssignCategory({
               variant="outlined"
               onClick={() => {
                 setOpenAssignModal(false);
+                setDisable(true);
               }}
             >
               {cancelText}
@@ -64,6 +72,7 @@ function SoftwareAssignCategory({
                 setOpenAssignModal(false);
                 setData(true);
               }}
+              disabled={disable}
             >
               {okText}
             </Button>

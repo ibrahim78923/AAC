@@ -7,11 +7,14 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import UnsubscribeIcon from '@mui/icons-material/Unsubscribe';
 import { useRequestApprovalPage } from '../../../../../../ServicesTickets/SingleTicketDetail/Approvals/RequestApprovalPage/useRequestApprovalPage';
 import { RecievedFileIcon, ReminderBell } from '@/assets/icons';
-import { RequestApprovals } from './RequestApproval';
 
-const ReminderRequestApproval = ({ status }: any) => {
+const ReminderRequestApproval = ({
+  status,
+  setCancleData,
+  setReceivedData,
+}: any) => {
   const { theme, styles, textColor } = useRequestApprovalPage();
-  const { handleCancleApproval, handleReceivedApproval } = RequestApprovals();
+
   const Icons: any = {
     Request: <SharedIcon />,
     Recieve: <RecievedFileIcon />,
@@ -84,7 +87,9 @@ const ReminderRequestApproval = ({ status }: any) => {
                     {status === 'Request' ? (
                       <Box sx={styles.requestApprovalBoxFirst}>
                         <Button
-                          onClick={handleCancleApproval}
+                          onClick={() => {
+                            setCancleData(true);
+                          }}
                           sx={{
                             ...styles.requestApprovalButton,
                             color: theme?.palette?.grey[800],
@@ -94,7 +99,9 @@ const ReminderRequestApproval = ({ status }: any) => {
                           Cancel
                         </Button>
                         <Button
-                          onClick={handleReceivedApproval}
+                          onClick={() => {
+                            setReceivedData(true);
+                          }}
                           sx={{
                             ...styles.requestApprovalButton,
                             color: theme?.palette?.primary?.main,
