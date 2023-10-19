@@ -1,10 +1,11 @@
 import { Button, Grid, MenuItem, Popover, Typography } from '@mui/material';
 import { ActionButtonIcon, CirclePlusIcon } from '@/assets/icons';
-import { ticketsStyles } from '../RelatedTickets.styles';
+import { relatedticketsStyles } from '../RelatedTickets.styles';
 import { useRelatedTickets } from '../useRelatedTickets';
 
 export const RelatedTicketsHeader = ({ isActive, setIsDrawerOpen }: any) => {
   const {
+    enqueueSnackbar,
     handleActionClick,
     actionExportPop,
     actionPop,
@@ -19,7 +20,7 @@ export const RelatedTicketsHeader = ({ isActive, setIsDrawerOpen }: any) => {
     <Grid
       container
       spacing={{ sm: 0, xs: 2 }}
-      sx={ticketsStyles?.headContainer}
+      sx={relatedticketsStyles?.headContainer}
     >
       <Grid
         item
@@ -30,13 +31,13 @@ export const RelatedTicketsHeader = ({ isActive, setIsDrawerOpen }: any) => {
           justifyContent: { sm: 'flex-start', xs: 'center' },
         }}
       >
-        <Typography variant="h5" sx={ticketsStyles?.headtext}>
+        <Typography variant="h5" sx={relatedticketsStyles?.headtext}>
           Child Tickets
         </Typography>
       </Grid>
-      <Grid sm={6} xs={12} item sx={ticketsStyles?.btnContainer}>
+      <Grid sm={6} xs={12} item sx={relatedticketsStyles?.btnContainer}>
         <Button
-          sx={ticketsStyles?.actionBtn}
+          sx={relatedticketsStyles?.actionBtn}
           endIcon={<ActionButtonIcon />}
           onClick={handleActionClick}
           disabled={!!!isActive.length}
@@ -54,6 +55,16 @@ export const RelatedTicketsHeader = ({ isActive, setIsDrawerOpen }: any) => {
           }}
         >
           <MenuItem
+            sx={{ p: 1 }}
+            onClick={() => {
+              enqueueSnackbar('child ticket deleted successfully', {
+                variant: 'success',
+              });
+            }}
+          >
+            Delete
+          </MenuItem>
+          <MenuItem
             onClick={() => {
               setIsDrawerOpen(true), setActionPop(null);
             }}
@@ -61,7 +72,7 @@ export const RelatedTicketsHeader = ({ isActive, setIsDrawerOpen }: any) => {
           >
             Edit
           </MenuItem>
-          <MenuItem sx={{ p: 1 }}>Delete</MenuItem>
+
           <MenuItem sx={{ p: 1 }}>
             <a onClick={handleActionExportClick}>Export Ticket</a>
             <Popover
@@ -77,7 +88,7 @@ export const RelatedTicketsHeader = ({ isActive, setIsDrawerOpen }: any) => {
           </MenuItem>
         </Popover>
         <Button
-          sx={ticketsStyles?.addTicketBtn}
+          sx={relatedticketsStyles?.addTicketBtn}
           onClick={() => setIsDrawerOpen(true)}
           startIcon={<CirclePlusIcon />}
         >

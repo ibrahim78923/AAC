@@ -1,3 +1,9 @@
+import ContractHistoryDetails from './ContractHistoryDetails/ContractHistoryDetails';
+
 export const ContractHistory = () => {
-  return <>Contract History</>;
+  return (
+    <>
+      <ContractHistoryDetails />
+    </>
+  );
 };

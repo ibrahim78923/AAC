@@ -1,3 +1,9 @@
+import ActivityDetails from './ActivityDetails/ActivityDetails';
+
 export const Activity = () => {
-  return <>Activity</>;
+  return (
+    <>
+      <ActivityDetails />
+    </>
+  );
 };
