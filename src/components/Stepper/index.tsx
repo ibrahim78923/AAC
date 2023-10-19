@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-
 import {
   Box,
   Stepper,
@@ -16,7 +15,7 @@ import Check from '@mui/icons-material/Check';
 
 import { v4 as uuidv4 } from 'uuid';
 
-import { SingleStepI, HorizontalStepperI } from './Stepper.interface';
+import { SingleStepI, HorizontalStepperI } from './stepper.interface';
 
 const AppHorizontalStepper: React.FC<HorizontalStepperI> = ({
   stepsArray,
