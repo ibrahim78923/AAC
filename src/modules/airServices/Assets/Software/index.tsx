@@ -1,6 +1,6 @@
 import { Box, Grid } from '@mui/material';
 import { useState } from 'react';
-import { data, columns } from './Software.data';
+import { data, columns, dataArray } from './Software.data';
 import TanstackTable from '@/components/Tabel/TanstackTable';
 import Search from '@/components/Search';
 import { Button } from '@mui/material';
@@ -73,6 +73,10 @@ function Software() {
         openAssignModal={openAssignModal}
         setOpenAssignModal={setOpenAssignModal}
         title={'Assign Category'}
+        dataArray={dataArray}
+        cancelText={'Cancel'}
+        okText={'Assign'}
+        successMessage={'Assign Successfully'}
       />
     </Grid>
   );

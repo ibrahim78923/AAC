@@ -3,11 +3,18 @@ import ConversationModel from '@/components/Model/CoversationModel';
 import { FormProvider, RHFSearchableSelect } from '@/components/ReactHookForm';
 import { Box, Button, Divider, Grid } from '@mui/material';
 import { enqueueSnackbar } from 'notistack';
-import { dataArray } from './SoftwareAssignCategory.data';
 import { style } from './SoftwareAssignCategory.style';
 import { v4 as uuidv4 } from 'uuid';
 
-function SoftwareAssignCategory({ openAssignModal, setOpenAssignModal }: any) {
+function SoftwareAssignCategory({
+  openAssignModal,
+  setOpenAssignModal,
+  dataArray,
+  cancelText,
+  okText,
+  successMessage,
+  setData,
+}: any) {
   const methods: any = useForm({});
 
   return (
@@ -45,19 +52,20 @@ function SoftwareAssignCategory({ openAssignModal, setOpenAssignModal }: any) {
                 setOpenAssignModal(false);
               }}
             >
-              Cancel
+              {cancelText}
             </Button>
             <Button
               variant="contained"
               onClick={() => {
-                enqueueSnackbar('Assign successfully', {
+                enqueueSnackbar(successMessage, {
                   variant: 'success',
                   autoHideDuration: 2000,
                 });
                 setOpenAssignModal(false);
+                setData(true);
               }}
             >
-              Assign
+              {okText}
             </Button>
           </Box>
         </Box>
