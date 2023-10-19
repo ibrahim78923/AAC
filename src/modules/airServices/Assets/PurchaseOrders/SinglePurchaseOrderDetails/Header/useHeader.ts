@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useSnackbar } from 'notistack';
 
-export function useRelatedTickets() {
+export function useHeader() {
   const { enqueueSnackbar } = useSnackbar();
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [isActive, setActive] = useState<any>([]);
@@ -14,29 +14,17 @@ export function useRelatedTickets() {
   const [actionExportPop, setActionExportPop] =
     useState<HTMLButtonElement | null>(null);
   const handleActionClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    // console.log(event.currentTarget);
-
     setActionPop(event.currentTarget);
   };
-
   const handleActionClose = () => {
     setActionPop(null);
   };
   const openAction = Boolean(actionPop);
-
   const handleActionExportClick = (event: any) => {
     setActionExportPop(event.currentTarget);
   };
   const handleActionExportClose = () => {
     setActionExportPop(null);
-  };
-
-  const handleOrderItem = () => {
-    setReceivedItemsEnabled(true);
-  };
-
-  const handleCancelItem = () => {
-    setReceivedItemsEnabled(false);
   };
   const openActionExport = Boolean(actionExportPop);
 
@@ -58,7 +46,5 @@ export function useRelatedTickets() {
     openActionExport,
     receivedItemsEnabled,
     setReceivedItemsEnabled,
-    handleOrderItem,
-    handleCancelItem,
   };
 }

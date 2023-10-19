@@ -10,7 +10,7 @@ import {
 import Image from 'next/image';
 import { v4 as uuidv4 } from 'uuid';
 import { AttachmentDetailsData } from './AttachmentDetails.data';
-import { attachmentDetailsStyles } from './AttachmentDetails.style';
+import { styles } from './AttachmentDetails.style';
 
 const getImageByType = (type: 'PDF' | 'XLS' | 'DATEN' | 'PLACE' | 'DOC') => {
   const imageData = {
@@ -38,7 +38,7 @@ const AttachmentDetails = () => {
               justifyContent: { lg: 'flex-start', xs: 'center' },
             }}
           >
-            <Card sx={{ ...attachmentDetailsStyles.AttachmentDetailsCards }}>
+            <Card sx={{ ...styles.AttachmentDetailsCards }}>
               <Box sx={{ display: 'flex', alignItems: 'center' }}>
                 <Image
                   src={getImageByType(item.type)}
@@ -48,14 +48,12 @@ const AttachmentDetails = () => {
                   }}
                 />
                 <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                  <Typography
-                    sx={{ ...attachmentDetailsStyles.AttachmentDetailsTitle }}
-                  >
+                  <Typography sx={{ ...styles.AttachmentDetailsTitle }}>
                     {item.description}
                   </Typography>
                   <Typography
                     sx={{
-                      ...attachmentDetailsStyles.AttachmentDetailsTitleDescript,
+                      ...styles.AttachmentDetailsTitleDescript,
                     }}
                   >
                     {item.size}

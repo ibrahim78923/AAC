@@ -1,4 +1,4 @@
-export const contracthistoryStyles = {
+export const styles = {
   activityTimeDetails: (theme: any) => {
     return {
       color: theme?.palette?.grey[600],

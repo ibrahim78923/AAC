@@ -1,4 +1,4 @@
-export const attachmentDetailsStyles = {
+export const styles = {
   AttachmentDetailsTitle: {
     color: ' #1F2937',
     fontSize: { sm: '14px', xs: '10px' },

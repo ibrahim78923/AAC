@@ -12,19 +12,10 @@ export const styles = {
     alignItems: 'center',
     marginBottom: '32px',
     width: '100%',
-    '@media screen and (max-width: 550px)': {
-      flexWrap: 'wrap',
-      justifyContent: 'start',
-      marginTop: '2px',
-    },
   },
 
   buttonBox: {
     marginRight: '12px',
-    '@media screen and (max-width: 924px)': {
-      marginLeft: '24px',
-      marginTop: '12px',
-    },
   },
 
   buttonStyle: (theme: any) => ({
@@ -35,21 +26,12 @@ export const styles = {
       borderColor: theme.palette.grey?.[0],
       backgroundColor: '#EAECF0',
     },
-    '@media screen and (max-width: 640px)': {
-      marginTop: '6px',
-    },
   }),
   actionbuttonStyle: () => ({
     marginRight: '12px',
     border: '1px solid #D1D5DB',
     color: 'custom.main',
     ':hover': { bgcolor: 'common.white' },
-    '@media screen and (max-width: 640px)': {
-      marginTop: '6px',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContents: 'center',
-    },
   }),
 
   addButtonStyle: (theme: any) => ({
@@ -58,9 +40,6 @@ export const styles = {
     color: '#FFFFFF',
     '&:hover': {
       backgroundColor: theme.palette.primary?.main,
-    },
-    '@media screen and (max-width: 640px)': {
-      marginTop: '6px',
     },
   }),
 

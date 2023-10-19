@@ -7,7 +7,7 @@ import {
   useTheme,
 } from '@mui/material';
 import Image from 'next/image';
-import { contracthistoryStyles } from './ContractHistoryDetails.style';
+import { styles } from './ContractHistoryDetails.style';
 import { contracthistorydetails } from './ContractHistoryDetails.data';
 import { v4 as uuidv4 } from 'uuid';
 import { ContractHistoryDataI } from './ContractHistoryDetails.interface';
@@ -30,9 +30,7 @@ const ContractHistoryDetails = () => {
                 alignItems: 'center',
               }}
             >
-              <Typography
-                sx={{ ...contracthistoryStyles.activityTimeDetails(theme) }}
-              >
+              <Typography sx={{ ...styles.activityTimeDetails(theme) }}>
                 {activity.timestamp}
               </Typography>
               <Image src={activity?.image} alt="Edit" width={36} height={36} />
@@ -41,26 +39,22 @@ const ContractHistoryDetails = () => {
 
           <Grid item lg={10} xs={12}>
             <Box sx={{ ml: '16px' }}>
-              <Typography
-                sx={{ ...contracthistoryStyles.renewCreateText(theme) }}
-              >
+              <Typography sx={{ ...styles.renewCreateText(theme) }}>
                 {activity.Renewed ? 'Renewed' : 'Created'}
               </Typography>
             </Box>
             <Box sx={{ ml: '16px', mt: '4px' }}>
-              <Typography sx={{ ...contracthistoryStyles.datestamp(theme) }}>
+              <Typography sx={{ ...styles.datestamp(theme) }}>
                 {activity.datestamp}
               </Typography>
             </Box>
             <Box sx={{ ml: '16px', mt: '8px' }}>
-              <Button
-                sx={{ ...contracthistoryStyles.activityDetailsButton(theme) }}
-              >
+              <Button sx={{ ...styles.activityDetailsButton(theme) }}>
                 {activity.descriptionone}
               </Button>
               <Button
                 sx={{
-                  ...contracthistoryStyles.activityDetailsButton(theme),
+                  ...styles.activityDetailsButton(theme),
                   ml: '12px',
                 }}
               >
@@ -92,8 +86,6 @@ const ContractHistoryDetails = () => {
               />
             </Box>
           </Grid>
-
-          <Grid lg={10} sx={{ mt: '16px' }}></Grid>
         </Grid>
       ))}
     </Grid>
