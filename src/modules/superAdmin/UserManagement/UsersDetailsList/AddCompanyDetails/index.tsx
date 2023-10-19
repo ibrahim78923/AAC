@@ -1,4 +1,4 @@
-import { Grid, Box } from '@mui/material';
+import { Grid, Box, Checkbox, Typography } from '@mui/material';
 
 import {
   dataArray,
@@ -13,6 +13,10 @@ import { enqueueSnackbar } from 'notistack';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { v4 as uuidv4 } from 'uuid';
+import UploadLogo from './UploadLogo';
+import Image from 'next/image';
+import { FeaturedImage } from '@/assets/images';
+import { styles } from './AddCompany.style';
 
 export default function AddCompanyDetails({
   isOpenDrawer,
@@ -39,7 +43,7 @@ export default function AddCompanyDetails({
     <CommonDrawer
       isDrawerOpen={isOpenDrawer}
       onClose={() => onClose(false)}
-      title={'Assign Plan'}
+      title={'Add Company'}
       okText={'Apply'}
       isOk
       cancelText={'Cancel'}
@@ -49,6 +53,66 @@ export default function AddCompanyDetails({
       <Box mt={1}>
         <FormProvider methods={methods}>
           <Grid container spacing={4}>
+            <Grid item sm={12}>
+              <Box>
+                {' '}
+                <UploadLogo />
+              </Box>
+              <Box
+                sx={{
+                  display: 'flex',
+                  columnGap: '1rem',
+                  alignItems: 'center',
+                  overflowY: 'scroll',
+                  marginBottom: '1rem',
+                }}
+              >
+                <Box sx={styles.productCard}>
+                  <Checkbox
+                    sx={{
+                      marginLeft: '7rem',
+                    }}
+                  />
+                  <Box sx={styles.productItem}>
+                    <Image src={FeaturedImage} alt="sales-image" />
+                    <Typography>Sales</Typography>
+                  </Box>
+                </Box>
+                <Box sx={styles.productCard}>
+                  <Checkbox
+                    sx={{
+                      marginLeft: '7rem',
+                    }}
+                  />
+                  <Box sx={styles.productItem}>
+                    <Image src={FeaturedImage} alt="marketing-image" />
+                    <Typography>Marketing</Typography>
+                  </Box>
+                </Box>
+                <Box sx={styles.productCard}>
+                  <Checkbox
+                    sx={{
+                      marginLeft: '7rem',
+                    }}
+                  />
+                  <Box sx={styles.productItem}>
+                    <Image src={FeaturedImage} alt="service-image" />
+                    <Typography>Service</Typography>
+                  </Box>
+                </Box>
+                <Box sx={styles.productCard}>
+                  <Checkbox
+                    sx={{
+                      marginLeft: '7rem',
+                    }}
+                  />
+                  <Box sx={styles.productItem}>
+                    <Image src={FeaturedImage} alt="operation-image" />
+                    <Typography>Operation</Typography>
+                  </Box>
+                </Box>
+              </Box>
+            </Grid>
             {dataArray?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={uuidv4()}>
                 <item.component {...item.componentProps} size={'small'}>

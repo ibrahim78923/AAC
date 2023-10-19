@@ -15,8 +15,6 @@ import {
   Avatar,
 } from '@mui/material';
 
-import CommonDrawer from '@/components/CommonDrawer';
-
 import Search from '@/components/Search';
 
 import ProfileCard from '@/components/ProfileCard';
@@ -46,11 +44,21 @@ import {
 import { AvatarImage } from '@/assets/images';
 import useUserDetailsList from './useUserDetailsList';
 import Filter from './Filter';
+import AddCompanyDetails from './AddCompanyDetails';
 
 const UsersDetailsList = () => {
-  const { isOpenDrawer, setIsOpenDrawer, handleCloseDrawer } =
-    useUserDetailsList();
-  const [isOpenAdduserDrawer, setIsOpenAdduserDrawer] = useState(false);
+  const {
+    isOpenDrawer,
+    setIsOpenDrawer,
+    handleCloseDrawer,
+    isOpenAddCompanyDrawer,
+    setISOpenCompanyDrawer,
+    handleCloseAddCompanyDrawer,
+    handleAddUserDrawer,
+    isOpenAdduserDrawer,
+    setIsOpenAdduserDrawer,
+  } = useUserDetailsList();
+
   const [isOpenAddAccountDrawer, setIsOpenAddAccountDrawer] = useState(false);
   const [search, setSearch] = useState('');
   const [tabVal, setTabVal] = useState<number>();
@@ -83,6 +91,9 @@ const UsersDetailsList = () => {
                     width: '44px',
                   }}
                   variant="outlined"
+                  onClick={() => {
+                    setIsOpenAdduserDrawer(true);
+                  }}
                 >
                   <AddShopIcon />
                 </Button>
@@ -94,7 +105,7 @@ const UsersDetailsList = () => {
                   }}
                   variant="outlined"
                   onClick={() => {
-                    setIsOpenAdduserDrawer(true);
+                    setISOpenCompanyDrawer(true);
                   }}
                 >
                   <AddUserCircleIcon />
@@ -185,23 +196,6 @@ const UsersDetailsList = () => {
         </Grid>
       </Grid>
 
-      {isOpenAdduserDrawer && (
-        <CommonDrawer
-          isDrawerOpen={isOpenAdduserDrawer}
-          submitHandler={() => {
-            setIsOpenAdduserDrawer(false);
-          }}
-          onClose={() => {
-            setIsOpenAdduserDrawer(false);
-          }}
-          title="Add User"
-          okText="Add"
-          isOk={true}
-        >
-          <AddUser />
-        </CommonDrawer>
-      )}
-
       {isOpenAddAccountDrawer && (
         <AddAccountDrawer
           isOpen={isOpenAddAccountDrawer}
@@ -210,6 +204,18 @@ const UsersDetailsList = () => {
       )}
       {isOpenDrawer && (
         <Filter isOpenDrawer={isOpenDrawer} onClose={handleCloseDrawer} />
+      )}
+      {isOpenAddCompanyDrawer && (
+        <AddCompanyDetails
+          isOpenDrawer={isOpenAddCompanyDrawer}
+          onClose={handleCloseAddCompanyDrawer}
+        />
+      )}
+      {isOpenAdduserDrawer && (
+        <AddUser
+          isOpenDrawer={isOpenAdduserDrawer}
+          onClose={handleAddUserDrawer}
+        />
       )}
     </Box>
   );
