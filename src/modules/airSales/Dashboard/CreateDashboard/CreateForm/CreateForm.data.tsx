@@ -3,6 +3,7 @@ import {
   RHFRadioGroup,
   RHFCheckbox,
 } from '@/components/ReactHookForm';
+import { Typography } from '@mui/material';
 
 import * as Yup from 'yup';
 
@@ -26,17 +27,27 @@ export const dataArray = [
     component: RHFTextField,
     md: 12,
   },
+  {
+    componentProps: {
+      color: '#7a7a7b',
+      varient: 'h4',
+      heading: 'Who can access this dashboard?',
+    },
+    gridLength: 12,
+
+    component: Typography,
+  },
 
   {
     componentProps: {
       name: 'accessDashboard',
-      label: 'Who can access this dashboard?',
       fullWidth: true,
       options: [
         'Private to owner(me)',
         'Everyone',
         'Only special user and teams',
       ],
+      row: false,
     },
     component: RHFRadioGroup,
     md: 12,

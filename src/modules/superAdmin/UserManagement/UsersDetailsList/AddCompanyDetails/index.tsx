@@ -16,7 +16,7 @@ import { v4 as uuidv4 } from 'uuid';
 import UploadLogo from './UploadLogo';
 import Image from 'next/image';
 import { FeaturedImage } from '@/assets/images';
-import { styles } from './AddCompany.style';
+import { styles } from './AddCompanyDetails.style';
 
 export default function AddCompanyDetails({
   isOpenDrawer,
@@ -55,10 +55,13 @@ export default function AddCompanyDetails({
           <Grid container spacing={4}>
             <Grid item sm={12}>
               <Box>
-                {' '}
                 <UploadLogo />
               </Box>
+            </Grid>
+            <Grid item sm={12}>
+              <Typography variant="h4">Products</Typography>
               <Box
+                mt={2}
                 sx={{
                   display: 'flex',
                   columnGap: '1rem',

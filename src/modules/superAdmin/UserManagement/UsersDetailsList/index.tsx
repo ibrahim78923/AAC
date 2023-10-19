@@ -13,6 +13,7 @@ import {
   Typography,
   useTheme,
   Avatar,
+  Tooltip,
 } from '@mui/material';
 
 import Search from '@/components/Search';
@@ -84,32 +85,36 @@ const UsersDetailsList = () => {
                 <Typography variant="h3">Olivia</Typography>
               </Stack>
               <Stack direction={'row'} gap={1}>
-                <Button
-                  sx={{
-                    border: '1px solid grey',
-                    height: '44px',
-                    width: '44px',
-                  }}
-                  variant="outlined"
-                  onClick={() => {
-                    setIsOpenAdduserDrawer(true);
-                  }}
-                >
-                  <AddShopIcon />
-                </Button>
-                <Button
-                  sx={{
-                    border: '1px solid grey',
-                    height: '44px',
-                    width: '44px',
-                  }}
-                  variant="outlined"
-                  onClick={() => {
-                    setISOpenCompanyDrawer(true);
-                  }}
-                >
-                  <AddUserCircleIcon />
-                </Button>
+                <Tooltip title="Add User">
+                  <Button
+                    sx={{
+                      border: '1px solid grey',
+                      height: '44px',
+                      width: '44px',
+                    }}
+                    variant="outlined"
+                    onClick={() => {
+                      setIsOpenAdduserDrawer(true);
+                    }}
+                  >
+                    <AddShopIcon />
+                  </Button>
+                </Tooltip>
+                <Tooltip title="Add Company">
+                  <Button
+                    sx={{
+                      border: '1px solid grey',
+                      height: '44px',
+                      width: '44px',
+                    }}
+                    variant="outlined"
+                    onClick={() => {
+                      setISOpenCompanyDrawer(true);
+                    }}
+                  >
+                    <AddUserCircleIcon />
+                  </Button>
+                </Tooltip>
               </Stack>
             </Box>
           </Box>
@@ -121,6 +126,7 @@ const UsersDetailsList = () => {
               alignItems={'center'}
             >
               <Search placeholder="Search" />
+
               <Button
                 sx={{
                   border: '1px solid grey',

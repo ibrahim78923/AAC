@@ -7,6 +7,7 @@ import {
   TextField,
   Button,
   useTheme,
+  Typography,
 } from '@mui/material';
 
 import { FormProvider, RHFRadioGroup } from '@/components/ReactHookForm';
@@ -68,6 +69,12 @@ const CreateForm = ({
                   key={uuidv4()}
                   style={{ paddingTop: '10px' }}
                 >
+                  {item?.componentProps?.heading && (
+                    <Typography variant="h5">
+                      {item?.componentProps?.heading}
+                    </Typography>
+                  )}
+
                   {item.componentProps.name === 'accessDashboard' ? (
                     <Box>
                       <item.component {...item.componentProps} size="small">
@@ -78,6 +85,7 @@ const CreateForm = ({
                             </option>
                           ))}
                       </item.component>
+
                       {watchFields[0] === 'Only special user and teams' && (
                         <Autocomplete
                           disablePortal

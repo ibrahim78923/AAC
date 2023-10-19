@@ -22,7 +22,7 @@ const UploadLogo = () => {
   return (
     <Box
       className="my-account"
-      sx={{ justifyContent: 'center', display: 'flex', mb: 8, width: 'auto' }}
+      sx={{ justifyContent: 'center', display: 'flex', width: 'auto' }}
     >
       <Box position="relative" sx={{ mt: 4 }}>
         <Image
