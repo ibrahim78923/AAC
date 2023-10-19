@@ -54,6 +54,7 @@ export default function AddCompanyDetails({
         <FormProvider methods={methods}>
           <Grid container spacing={4}>
             <Grid item sm={12}>
+              <Typography variant="h4">Company Logo</Typography>
               <Box>
                 <UploadLogo />
               </Box>
