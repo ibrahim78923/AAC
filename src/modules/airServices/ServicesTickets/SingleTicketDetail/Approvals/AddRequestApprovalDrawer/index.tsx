@@ -5,7 +5,7 @@ import { useSnackbar } from 'notistack';
 
 const AddRequestApprovalDrawer = (props: any) => {
   const { isDrawerOpen, setIsDrawerOpen } = props;
-  const { methodsDrawerFormForm } = useAddRequestApprovalDrawer();
+  const { methodsDrawerForm } = useAddRequestApprovalDrawer();
   const { enqueueSnackbar } = useSnackbar();
 
   const submitDrawerForm = async () => {
@@ -14,7 +14,7 @@ const AddRequestApprovalDrawer = (props: any) => {
       autoHideDuration: 6000,
     });
     setIsDrawerOpen(false);
-    methodsDrawerFormForm.reset();
+    methodsDrawerForm.reset();
   };
   return (
     <>
@@ -26,13 +26,13 @@ const AddRequestApprovalDrawer = (props: any) => {
         okText="Send"
         isOk={true}
         submitHandler={() => {
-          methodsDrawerFormForm.handleSubmit(submitDrawerForm)();
+          methodsDrawerForm.handleSubmit(submitDrawerForm)();
         }}
       >
         <DrawerForm
           submitDrawerForm={submitDrawerForm}
-          methods={methodsDrawerFormForm}
-          handleSubmit={methodsDrawerFormForm.handleSubmit}
+          methods={methodsDrawerForm}
+          handleSubmit={methodsDrawerForm.handleSubmit}
         />
       </CommonDrawer>
     </>

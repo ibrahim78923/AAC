@@ -1,7 +1,3 @@
-export const Overview = ( ) => {
-    return (
-        <>
-        Overview
-        </>
-    )
-}
+export const Overview = () => {
+  return <>Overview</>;
+};

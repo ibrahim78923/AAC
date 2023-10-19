@@ -74,6 +74,9 @@ export { default as SubTabIcon } from './shared/sub-tab-icon';
 export { default as ListIcon } from './shared/list-icon';
 export { default as FilterIcon } from './shared/filter-icon';
 export { default as ResetIcon } from './shared/reset-icon';
+export { default as TrashIcon } from './shared/trash-icon';
+export { default as ExportBlackIcon } from './shared/export-black-icon';
+export { default as AddCircleBlackIcon } from './shared/add-circle-black-icon';
 
 export { default as AssignContactIcon } from './shared/assign-contact';
 export { default as AddShopIcon } from './shared/shop-add-icon';
