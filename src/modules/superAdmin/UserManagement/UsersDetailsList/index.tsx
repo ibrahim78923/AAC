@@ -13,9 +13,8 @@ import {
   Typography,
   useTheme,
   Avatar,
+  Tooltip,
 } from '@mui/material';
-
-import CommonDrawer from '@/components/CommonDrawer';
 
 import Search from '@/components/Search';
 
@@ -46,11 +45,21 @@ import {
 import { AvatarImage } from '@/assets/images';
 import useUserDetailsList from './useUserDetailsList';
 import Filter from './Filter';
+import AddCompanyDetails from './AddCompanyDetails';
 
 const UsersDetailsList = () => {
-  const { isOpenDrawer, setIsOpenDrawer, handleCloseDrawer } =
-    useUserDetailsList();
-  const [isOpenAdduserDrawer, setIsOpenAdduserDrawer] = useState(false);
+  const {
+    isOpenDrawer,
+    setIsOpenDrawer,
+    handleCloseDrawer,
+    isOpenAddCompanyDrawer,
+    setISOpenCompanyDrawer,
+    handleCloseAddCompanyDrawer,
+    handleAddUserDrawer,
+    isOpenAdduserDrawer,
+    setIsOpenAdduserDrawer,
+  } = useUserDetailsList();
+
   const [isOpenAddAccountDrawer, setIsOpenAddAccountDrawer] = useState(false);
   const [search, setSearch] = useState('');
   const [tabVal, setTabVal] = useState<number>();
@@ -76,29 +85,36 @@ const UsersDetailsList = () => {
                 <Typography variant="h3">Olivia</Typography>
               </Stack>
               <Stack direction={'row'} gap={1}>
-                <Button
-                  sx={{
-                    border: '1px solid grey',
-                    height: '44px',
-                    width: '44px',
-                  }}
-                  variant="outlined"
-                >
-                  <AddShopIcon />
-                </Button>
-                <Button
-                  sx={{
-                    border: '1px solid grey',
-                    height: '44px',
-                    width: '44px',
-                  }}
-                  variant="outlined"
-                  onClick={() => {
-                    setIsOpenAdduserDrawer(true);
-                  }}
-                >
-                  <AddUserCircleIcon />
-                </Button>
+                <Tooltip title="Add User">
+                  <Button
+                    sx={{
+                      border: '1px solid grey',
+                      height: '44px',
+                      width: '44px',
+                    }}
+                    variant="outlined"
+                    onClick={() => {
+                      setIsOpenAdduserDrawer(true);
+                    }}
+                  >
+                    <AddShopIcon />
+                  </Button>
+                </Tooltip>
+                <Tooltip title="Add Company">
+                  <Button
+                    sx={{
+                      border: '1px solid grey',
+                      height: '44px',
+                      width: '44px',
+                    }}
+                    variant="outlined"
+                    onClick={() => {
+                      setISOpenCompanyDrawer(true);
+                    }}
+                  >
+                    <AddUserCircleIcon />
+                  </Button>
+                </Tooltip>
               </Stack>
             </Box>
           </Box>
@@ -110,6 +126,7 @@ const UsersDetailsList = () => {
               alignItems={'center'}
             >
               <Search placeholder="Search" />
+
               <Button
                 sx={{
                   border: '1px solid grey',
@@ -185,23 +202,6 @@ const UsersDetailsList = () => {
         </Grid>
       </Grid>
 
-      {isOpenAdduserDrawer && (
-        <CommonDrawer
-          isDrawerOpen={isOpenAdduserDrawer}
-          submitHandler={() => {
-            setIsOpenAdduserDrawer(false);
-          }}
-          onClose={() => {
-            setIsOpenAdduserDrawer(false);
-          }}
-          title="Add User"
-          okText="Add"
-          isOk={true}
-        >
-          <AddUser />
-        </CommonDrawer>
-      )}
-
       {isOpenAddAccountDrawer && (
         <AddAccountDrawer
           isOpen={isOpenAddAccountDrawer}
@@ -210,6 +210,18 @@ const UsersDetailsList = () => {
       )}
       {isOpenDrawer && (
         <Filter isOpenDrawer={isOpenDrawer} onClose={handleCloseDrawer} />
+      )}
+      {isOpenAddCompanyDrawer && (
+        <AddCompanyDetails
+          isOpenDrawer={isOpenAddCompanyDrawer}
+          onClose={handleCloseAddCompanyDrawer}
+        />
+      )}
+      {isOpenAdduserDrawer && (
+        <AddUser
+          isOpenDrawer={isOpenAdduserDrawer}
+          onClose={handleAddUserDrawer}
+        />
       )}
     </Box>
   );

@@ -1,27 +1,9 @@
-import { Button, ButtonGroup } from '@mui/material';
+import { Typography } from '@mui/material';
 
 import Layout from '@/layout';
 
 export default function Home() {
-  return (
-    <>
-      <ButtonGroup variant="contained" color="primary">
-        <Button>Add Button</Button>
-      </ButtonGroup>
-
-      <ButtonGroup variant="contained" color="error">
-        <Button variant="contained" color="error">
-          Add Button
-        </Button>
-      </ButtonGroup>
-      <ButtonGroup variant="contained" color="success">
-        <Button>Add Button</Button>
-      </ButtonGroup>
-      <ButtonGroup>
-        <Button>Add Button</Button>
-      </ButtonGroup>
-    </>
-  );
+  return <Typography variant="h5">Air Apple Cart</Typography>;
 }
 Home.getLayout = function getLayout(page: any) {
   return <Layout>{page}</Layout>;

@@ -11,12 +11,12 @@ const Chat = () => {
   return (
     <Box>
       <Grid container spacing={2}>
-        <Grid item lg={3.5}>
+        <Grid item xs={12} sm={12} md={12} lg={3.5}>
           <Box sx={styles.leftWrapper}>
             <Contacts />
           </Box>
         </Grid>
-        <Grid item lg={8.5}>
+        <Grid item xs={12} sm={12} md={12} lg={8.5}>
           <Box sx={styles.rightWrapper}>
             <ChatArea />
           </Box>

@@ -5,6 +5,9 @@ import ThemeProvider from '../../theme';
 import ThemeLocalization from '../../theme/ThemeLocalization';
 import { SnackbarProvider } from 'notistack';
 
+import { Provider } from 'react-redux';
+import store from '@/redux/store';
+
 export default function App(props: any) {
   const { Component, pageProps } = props;
 
@@ -13,11 +16,13 @@ export default function App(props: any) {
   return (
     <ThemeProvider>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
-        <ThemeLocalization>
-          <SnackbarProvider>
-            {getLayout(<Component {...pageProps} />)}
-          </SnackbarProvider>
-        </ThemeLocalization>
+        <Provider store={store}>
+          <ThemeLocalization>
+            <SnackbarProvider>
+              {getLayout(<Component {...pageProps} />)}
+            </SnackbarProvider>
+          </ThemeLocalization>
+        </Provider>
       </LocalizationProvider>
     </ThemeProvider>
   );
