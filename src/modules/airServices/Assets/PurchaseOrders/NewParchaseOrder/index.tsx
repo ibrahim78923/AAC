@@ -62,7 +62,7 @@ const NewParchaseOrder = () => {
               Cancel
             </Button>
             <Button type="submit" variant="contained">
-              save
+              Add
             </Button>
           </Box>
         </FormProvider>
