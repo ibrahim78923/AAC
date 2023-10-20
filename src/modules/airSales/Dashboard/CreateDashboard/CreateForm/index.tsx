@@ -7,6 +7,8 @@ import {
   TextField,
   Button,
   useTheme,
+  Typography,
+  Switch,
 } from '@mui/material';
 
 import { FormProvider, RHFRadioGroup } from '@/components/ReactHookForm';
@@ -68,6 +70,22 @@ const CreateForm = ({
                   key={uuidv4()}
                   style={{ paddingTop: '10px' }}
                 >
+                  {item?.componentProps?.heading && (
+                    <Grid item container>
+                      <Grid item xs={6}>
+                        <Typography variant="h5">
+                          {item?.componentProps?.heading}
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <Typography variant="h6">
+                          Set as default
+                          <Switch />
+                        </Typography>
+                      </Grid>
+                    </Grid>
+                  )}
+
                   {item.componentProps.name === 'accessDashboard' ? (
                     <Box>
                       <item.component {...item.componentProps} size="small">
@@ -78,6 +96,7 @@ const CreateForm = ({
                             </option>
                           ))}
                       </item.component>
+
                       {watchFields[0] === 'Only special user and teams' && (
                         <Autocomplete
                           disablePortal
@@ -94,6 +113,7 @@ const CreateForm = ({
                           options={['View and edit', 'View Only']}
                           name="viewAndEdit"
                           label=""
+                          row={false}
                         />
                       )}
                     </Box>
@@ -103,13 +123,15 @@ const CreateForm = ({
                 </Grid>
               ))}
               {isShowEditDashboard && (
-                <Button
-                  variant="outlined"
-                  onClick={() => setIsOpenPreview(true)}
-                  startIcon={<PrimaryPreviewEyeIcon />}
-                >
-                  Preview Dashboard
-                </Button>
+                <Grid sm={12} sx={{ textAlign: 'end' }} mt={6} mr={3}>
+                  <Button
+                    variant="outlined"
+                    onClick={() => setIsOpenPreview(true)}
+                    startIcon={<PrimaryPreviewEyeIcon />}
+                  >
+                    Preview Dashboard
+                  </Button>
+                </Grid>
               )}
             </Grid>
             <Grid sm={12} lg={6}>

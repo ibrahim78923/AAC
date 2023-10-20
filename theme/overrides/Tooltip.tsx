@@ -1,14 +1,13 @@
 const Tooltip = (theme: any) => {
-  const isLight = theme.palette.mode === 'light';
-
   return {
     MuiTooltip: {
       styleOverrides: {
         tooltip: {
-          backgroundColor: theme.palette.grey[isLight ? 800 : 700],
+          backgroundColor: theme.palette.blue?.main,
+          padding: '8px',
         },
         arrow: {
-          color: theme.palette.grey[isLight ? 800 : 700],
+          color: theme.palette.common?.white,
         },
       },
     },
