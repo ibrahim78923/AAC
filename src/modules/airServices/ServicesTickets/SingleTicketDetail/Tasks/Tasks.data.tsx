@@ -1,124 +1,111 @@
-import { Checkbox } from '@mui/material';
+import { Checkbox, useTheme } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { AvatarImage } from '@/assets/images';
+import { styles } from './TicketTasks.styles';
 
 export const tasksTableColumns: any = (
   activeCheck: any,
   setActiveCheck: any,
   setIsDetailDrawerOpen: any,
-) => [
-  {
-    accessorFn: (row: any) => row.Id,
-    id: 'Id',
-    cell: (info: any) => (
-      <Checkbox
-        icon={<CheckboxIcon />}
-        checkedIcon={<CheckboxCheckedIcon />}
-        checked={!!activeCheck.find((item: any) => item.Id === info.getValue())}
-        onChange={(e: any) => {
-          e.target.checked
-            ? setActiveCheck([
-                ...activeCheck,
-                tasksTableData.find((item: any) => item.Id === info.getValue()),
-              ])
-            : setActiveCheck(
-                activeCheck.filter((item: any) => {
-                  return item.Id !== info.getValue();
-                }),
-              );
-        }}
-        color="primary"
-        name={info.getValue()}
-      />
-    ),
-    header: (
-      <Checkbox
-        icon={<CheckboxIcon />}
-        checkedIcon={<CheckboxCheckedIcon />}
-        checked={activeCheck.length === tasksTableData.length}
-        onChange={(e: any) => {
-          e.target.checked
-            ? setActiveCheck([...tasksTableData])
-            : setActiveCheck([]);
-        }}
-        color="primary"
-        name="Id"
-      />
-    ),
-  },
-  {
-    accessorFn: (row: any) => row.taskID,
-    id: 'TaskID',
-    cell: (info: any) => (
-      <span
-        style={{ color: '#0AADC7', cursor: 'pointer' }}
-        onClick={() => {
-          setIsDetailDrawerOpen(info.getValue(), true);
-        }}
-      >
-        {info.getValue()}
-      </span>
-    ),
-    header: 'Task ID',
-    isSortable: true,
-  },
-  {
-    accessorFn: (row: any) => row.taskName,
-    id: 'taskName',
-    isSortable: true,
-    header: 'Task Name',
-    cell: (info: any) => info.getValue(),
-  },
-  {
-    accessorFn: (row: any) => row.dueDate,
-    id: 'dueDate',
-    isSortable: true,
-    header: 'Due Date',
-    cell: (info: any) => info.getValue(),
-  },
-  {
-    accessorFn: (row: any) => row.assignedTo,
-    id: 'assignedTo',
-    isSortable: true,
-    header: 'Assigned To',
-    cell: (info: any) => info.getValue(),
-  },
-  {
-    accessorFn: (row: any) => row.status,
-    id: 'status',
-    isSortable: true,
-    header: 'Status',
-    cell: (info: any) => (
-      <span
-        style={{
-          border: `1px solid ${
-            info.getValue() === 'To do'
-              ? '#38CAB5'
-              : info.getValue() === 'In-Progress'
-              ? '#0AADC7'
-              : '#FF4A4A'
-          }`,
-          backgroundColor:
-            info.getValue() === 'To do'
-              ? '#EBFAF8'
-              : info.getValue() === 'In-Progress'
-              ? '#E6F7F9'
-              : '#FFEDED',
-          color:
-            info.getValue() === 'To do'
-              ? '#38CAB5'
-              : info.getValue() === 'In-Progress'
-              ? '#0AADC7'
-              : '#FF4A4A',
-          padding: '8px 18px',
-          borderRadius: '4px',
-        }}
-      >
-        {info.getValue()}
-      </span>
-    ),
-  },
-];
+) => {
+  const theme = useTheme();
+  return [
+    {
+      accessorFn: (row: any) => row.Id,
+      id: 'Id',
+      cell: (info: any) => (
+        <Checkbox
+          icon={<CheckboxIcon />}
+          checkedIcon={<CheckboxCheckedIcon />}
+          checked={
+            !!activeCheck.find((item: any) => item.Id === info.getValue())
+          }
+          onChange={(e: any) => {
+            e.target.checked
+              ? setActiveCheck([
+                  ...activeCheck,
+                  tasksTableData.find(
+                    (item: any) => item.Id === info.getValue(),
+                  ),
+                ])
+              : setActiveCheck(
+                  activeCheck.filter((item: any) => {
+                    return item.Id !== info.getValue();
+                  }),
+                );
+          }}
+          color="primary"
+          name={info.getValue()}
+        />
+      ),
+      header: (
+        <Checkbox
+          icon={<CheckboxIcon />}
+          checkedIcon={<CheckboxCheckedIcon />}
+          checked={activeCheck.length === tasksTableData.length}
+          onChange={(e: any) => {
+            e.target.checked
+              ? setActiveCheck([...tasksTableData])
+              : setActiveCheck([]);
+          }}
+          color="primary"
+          name="Id"
+        />
+      ),
+    },
+    {
+      accessorFn: (row: any) => row.taskID,
+      id: 'TaskID',
+      cell: (info: any) => (
+        <span
+          style={{ color: theme?.palette?.custom?.bright, cursor: 'pointer' }}
+          onClick={() => {
+            setIsDetailDrawerOpen(info.getValue(), true);
+          }}
+        >
+          {info.getValue()}
+        </span>
+      ),
+      header: 'Task ID',
+      isSortable: true,
+    },
+    {
+      accessorFn: (row: any) => row.taskName,
+      id: 'taskName',
+      isSortable: true,
+      header: 'Task Name',
+      cell: (info: any) => info.getValue(),
+    },
+    {
+      accessorFn: (row: any) => row.dueDate,
+      id: 'dueDate',
+      isSortable: true,
+      header: 'Due Date',
+      cell: (info: any) => info.getValue(),
+    },
+    {
+      accessorFn: (row: any) => row.assignedTo,
+      id: 'assignedTo',
+      isSortable: true,
+      header: 'Assigned To',
+      cell: (info: any) => info.getValue(),
+    },
+    {
+      accessorFn: (row: any) => row.status,
+      id: 'status',
+      isSortable: true,
+      header: 'Status',
+      cell: (info: any) => {
+        const statusValue = info.getValue();
+        return (
+          <span style={styles?.tableStatusStyle(statusValue, theme)}>
+            {info.getValue()}
+          </span>
+        );
+      },
+    },
+  ];
+};
 export const tasksTableData: any = [
   {
     Id: 1,
@@ -146,7 +133,7 @@ export const tasksTableData: any = [
   },
 ];
 
-export const drawerDetail: any = (taskDetail: any) => [
+export const drawerDetail: any = (taskDetail: any, theme: any) => [
   {
     id: 1,
     title: 'Workspace',
@@ -162,29 +149,14 @@ export const drawerDetail: any = (taskDetail: any) => [
   {
     id: 3,
     title: 'Status',
-    details: (
-      <span
-        style={{
-          border: `1px solid ${
-            taskDetail?.status === 'To do'
-              ? '#38CAB5'
-              : taskDetail?.status === 'In-Progress'
-              ? '#0AADC7'
-              : '#FF4A4A'
-          }`,
-          backgroundColor:
-            taskDetail?.status === 'To do'
-              ? '#EBFAF8'
-              : taskDetail?.status === 'In-Progress'
-              ? '#E6F7F9'
-              : '#FFEDED',
-          padding: '8px 18px',
-          borderRadius: '4px',
-        }}
-      >
-        {taskDetail?.status}
-      </span>
-    ),
+    details: (() => {
+      const statusValue = taskDetail?.status;
+      return (
+        <span style={styles?.tableStatusStyle(statusValue, theme)}>
+          {taskDetail?.status}
+        </span>
+      );
+    })(),
   },
   {
     id: 4,

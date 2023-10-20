@@ -1,60 +1,119 @@
 import { RHFSelect } from '@/components/ReactHookForm';
 
-export const dropdownDummy = [
+// filter options data
+export const venderOptions = [
   {
-    value: 'option1',
-    label: 'Option 1',
+    label: 'Dell',
+    value: 'Dell',
   },
   {
-    value: 'option2',
-    label: 'Option 2',
+    label: 'Apple',
+    value: 'Apple',
+  },
+  {
+    label: 'Microsoft',
+    value: 'Microsoft',
+  },
+  {
+    label: 'Huawei',
+    value: 'Huawei',
+  },
+  {
+    label: 'Hp',
+    value: 'Hp',
   },
 ];
 
-const ticketsTypeOptions = [
+export const statusOptions = [
   {
-    value: 'search',
-    label: 'Search',
+    label: 'Approved',
+    value: 'Approved',
   },
   {
-    value: 'All Tickets',
-    label: 'All Tickets',
+    label: 'Cancelled',
+    value: 'Cancelled',
   },
   {
-    value: 'Urgent and High Priority',
-    label: 'Urgent and High Priority',
+    label: 'Closed',
+    value: 'Closed',
   },
   {
-    value: 'My Open and Pending Tickets',
-    label: 'My Open and Pending Tickets',
+    label: 'Open',
+    value: 'Open',
   },
   {
-    value: 'Spam',
-    label: 'Spam',
+    label: 'Ordered',
+    value: 'Ordered',
   },
   {
-    value: 'New & My Open Tickets',
-    label: 'New & My Open Tickets',
+    label: 'Partly Received',
+    value: 'Partly Received',
   },
   {
-    value: 'All Unresolved Tickets',
-    label: 'All Unresolved Tickets',
+    label: 'Pending approval',
+    value: 'Pending approval',
   },
   {
-    value: 'Incidents',
-    label: 'Incidents',
+    label: 'Received',
+    value: 'Received',
   },
   {
-    value: 'Service Requests',
-    label: 'Service Requests',
+    label: 'Rejected',
+    value: 'Rejected',
+  },
+];
+
+export const createdDateOptions = [
+  {
+    label: 'None',
+    value: 'None',
   },
   {
-    value: 'Tickets I Requested',
-    label: 'Tickets I Requested',
+    label: 'AllTime',
+    value: 'AllTime',
   },
   {
-    value: 'Shared with me',
-    label: 'Shared with me',
+    label: 'Today',
+    value: 'Today',
+  },
+  {
+    label: 'Yesterday',
+    value: 'Yesterday',
+  },
+  {
+    label: 'Previous Week',
+    value: 'Previous Week',
+  },
+  {
+    label: 'Previous Month',
+    value: 'Previous Month',
+  },
+];
+
+export const deliveryDateOptions = [
+  ...createdDateOptions,
+  {
+    label: 'Next Month',
+    value: 'Next Month',
+  },
+  {
+    label: 'Next week',
+    value: 'Next week',
+  },
+];
+
+export const departmentOptions = [
+  {
+    label: 'IT',
+    value: 'IT',
+  },
+  {
+    label: 'Operations',
+    value: 'Operations',
+  },
+  {
+    label: 'Microsoft',
+    value: 'Microsoft',
   },
 ];
 
@@ -76,7 +135,7 @@ export const filterFields = [
       name: 'vendor',
       label: 'vendor',
       select: true,
-      options: ticketsTypeOptions,
+      options: venderOptions,
     },
   },
   {
@@ -86,7 +145,7 @@ export const filterFields = [
       name: 'status',
       label: 'status',
       select: true,
-      options: dropdownDummy,
+      options: statusOptions,
     },
     gridLength: 12,
     component: RHFSelect,
@@ -98,7 +157,7 @@ export const filterFields = [
       name: 'createdDate',
       label: 'created Date',
       select: true,
-      options: dropdownDummy,
+      options: createdDateOptions,
     },
     gridLength: 12,
     component: RHFSelect,
@@ -112,7 +171,7 @@ export const filterFields = [
       name: 'deliverDate',
       label: 'Deliver Date',
       select: true,
-      options: dropdownDummy,
+      options: deliveryDateOptions,
     },
   },
   {
@@ -122,7 +181,7 @@ export const filterFields = [
       name: 'department',
       label: 'department',
       select: true,
-      options: dropdownDummy,
+      options: departmentOptions,
     },
     gridLength: 12,
     component: RHFSelect,

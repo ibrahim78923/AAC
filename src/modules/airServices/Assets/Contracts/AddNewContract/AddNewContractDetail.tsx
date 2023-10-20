@@ -2,6 +2,7 @@ import { FormProvider } from '@/components/ReactHookForm';
 import { Grid, Typography } from '@mui/material';
 import { addNewContractData } from './AddNewContractDetailForm';
 import { v4 as uuidv4 } from 'uuid';
+import ItemsDetails from './ItemsDetails';
 
 const AddNewContractDetail = ({
   handleSubmitForm,
@@ -29,13 +30,17 @@ const AddNewContractDetail = ({
               {addNewContractData?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
                   <item.component {...item.componentProps} size={'small'}>
-                    {item?.componentProps?.select
-                      ? item?.options?.map((option: any) => (
-                          <option key={option?.value} value={option?.value}>
-                            {option?.label}
-                          </option>
-                        ))
-                      : item?.heading}
+                    {item?.componentProps?.select ? (
+                      item?.options?.map((option: any) => (
+                        <option key={option?.value} value={option?.value}>
+                          {option?.label}
+                        </option>
+                      ))
+                    ) : item?.heading ? (
+                      item?.heading
+                    ) : (
+                      <ItemsDetails />
+                    )}
                   </item.component>
                 </Grid>
               ))}

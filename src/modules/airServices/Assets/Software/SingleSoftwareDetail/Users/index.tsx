@@ -3,23 +3,16 @@ import UsersTable from './UsersTable';
 import { Box, Grid, InputAdornment, TextField } from '@mui/material';
 import { SearchSharedIcon } from '@/assets/icons';
 import CustomPagination from '@/components/CustomPagination';
-import { softwareUserData } from './Users.data';
 import { UsersAction } from './UsersAction';
 import { UsersExport } from './UsersExport';
 import { UsersAdd } from './UsersAdd';
 import { UsersFilter } from './UsersFilter';
+import { userDropdown } from './Users.data';
 
 export const Users = () => {
-  const [UsersData, setUsersData] = useState([]);
-  const [setAddModalOpen] = useState(false);
+  const [usersData, setUsersData] = useState([]);
 
-  const handleAddModalOpen = () => {
-    setAddModalOpen(true);
-  };
-
-  // const handleAddModalClose = () => {
-  //   setAddModalOpen(false);
-  // };
+  const handleAddModalOpen = () => {};
 
   return (
     <>
@@ -43,13 +36,18 @@ export const Users = () => {
             }}
           />
           <Box sx={{ display: 'flex', gap: '18px' }}>
-            <UsersAction actionDropdownData={softwareUserData} />
-            <UsersAdd onClick={handleAddModalOpen} /> <UsersExport />
+            <UsersAction
+              actionDropdownData={userDropdown}
+              usersData={usersData}
+              setUsersData={setUsersData}
+            />
+            <UsersAdd onClick={handleAddModalOpen} />
+            <UsersExport />
             <UsersFilter />
           </Box>
         </Grid>
         <Grid item xs={12} sx={{ mt: 2 }}>
-          <UsersTable usersData={UsersData} setUsersData={setUsersData} />
+          <UsersTable usersData={usersData} setUsersData={setUsersData} />
           <CustomPagination
             count={5}
             rowsPerPageOptions={[1, 2, 3, 4, 5]}

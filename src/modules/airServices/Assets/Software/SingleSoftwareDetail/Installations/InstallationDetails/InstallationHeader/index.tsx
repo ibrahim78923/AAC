@@ -3,14 +3,13 @@ import { ExportBlackIcon } from '@/assets/icons';
 import Search from '@/components/Search';
 import { AlertModals } from '@/components/AlertModals';
 import { useInstallation } from '../../useInstallations';
-import { InstallationStyle } from '../../Installation.style';
+import { styles } from '../../Installation.style';
 import AddDevice from '../../addDevice';
 
 const DELETE_MESSAGE = 'Are you sure you want to delete this Associate Asset?';
 const MODAL_TYPE = 'delete';
 export const InstallationHeader = ({ activeCheck }: any) => {
   const theme = useTheme();
-  const styles = InstallationStyle(theme);
   const {
     handleExportClick,
     handleExportClose,
@@ -23,21 +22,22 @@ export const InstallationHeader = ({ activeCheck }: any) => {
   } = useInstallation();
   return (
     <>
-      <Grid container sx={styles[0].headerContainer} spacing={2}>
+      <Grid container sx={styles.headerContainer} spacing={2}>
         <Grid item>
           <Search label="Search" searchBy="" setSearchBy="" />
         </Grid>
-        <Grid item sx={styles[0].headerItem}>
+        <Grid item sx={styles.headerItem}>
           <Button
             disabled={!!!activeCheck.length}
-            sx={styles[0].headerRemoveBtn}
+            sx={styles.headerRemoveBtn(theme)}
             onClick={() => setDeleteModal(true)}
           >
             Remove Device
           </Button>
           <Button
+            color="secondary"
+            sx={{ p: 2 }}
             startIcon={<ExportBlackIcon />}
-            sx={styles[0].headerEaBtn}
             onClick={handleExportClick}
           >
             Export
@@ -46,7 +46,7 @@ export const InstallationHeader = ({ activeCheck }: any) => {
             open={openExport}
             anchorEl={exportPop}
             onClose={handleExportClose}
-            sx={styles[0].headerPop}
+            sx={styles.headerPop}
             anchorOrigin={{
               vertical: 'bottom',
               horizontal: 'left',

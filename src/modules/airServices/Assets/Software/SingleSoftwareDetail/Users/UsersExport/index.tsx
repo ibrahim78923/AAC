@@ -5,7 +5,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { v4 as uuidv4 } from 'uuid';
 import { Typography, useTheme } from '@mui/material';
 import { ExportIcon } from '@/assets/icons';
-
+import { enqueueSnackbar } from 'notistack';
 export const UsersExport = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -43,6 +43,14 @@ export const UsersExport = () => {
             variant="body2"
             fontWeight={500}
             color={theme.palette.grey?.[600]}
+            onClick={() => {
+              enqueueSnackbar('File Export successfully', {
+                variant: 'success',
+                autoHideDuration: 2000,
+              });
+
+              setAnchorEl(null);
+            }}
           >
             CSV
           </Typography>
@@ -60,6 +68,15 @@ export const UsersExport = () => {
             variant="body2"
             fontWeight={500}
             color={theme.palette.grey?.[600]}
+            onClick={() => {
+              enqueueSnackbar('File Export successfully', {
+                variant: 'success',
+
+                autoHideDuration: 2000,
+              });
+
+              setAnchorEl(null);
+            }}
           >
             Excel
           </Typography>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Box, useTheme } from '@mui/material';
-import { data, columns } from './PurchaseOrders.data';
+import { Box } from '@mui/material';
+import { data, purchaseOrderColumnsFunction } from './PurchaseOrders.data';
 import TanstackTable from '@/components/Tabel/TanstackTable';
 import Search from '@/components/Search';
 
@@ -14,10 +14,7 @@ import usePurchaseOrders from './usePurchaseOrders';
 import { filterFields } from './components/PurchaseOrderFilter/PurchaseOrderFilter.data';
 
 function PurchaseOrder() {
-  const theme: any = useTheme();
-
-  const [meetingsData, setMeetingsData] = useState([]);
-
+  const [purchaseOrderData, setPurchaseOrderData] = useState([]);
   const {
     isDrawerOpen,
     setIsDrawerOpen,
@@ -25,10 +22,16 @@ function PurchaseOrder() {
     methodsPurchaseOrderFilterForm,
     submitPurchaseOrderFilterForm,
     resetPurchaseOrderFilterForm,
+    handlePurchaseOrderDetail,
   } = usePurchaseOrders();
 
   const { tableWrapperStyle, flexBetween } = styles();
-
+  const purchaseOrderColumns = purchaseOrderColumnsFunction(
+    purchaseOrderData,
+    setPurchaseOrderData,
+    data,
+    handlePurchaseOrderDetail,
+  );
   return (
     <>
       <AssetHead
@@ -51,10 +54,7 @@ function PurchaseOrder() {
             />
           </Box>
         </Box>
-        <TanstackTable
-          data={data}
-          columns={columns(meetingsData, setMeetingsData, data, theme)}
-        />
+        <TanstackTable data={data} columns={purchaseOrderColumns} />
       </Box>
     </>
   );

@@ -7,19 +7,14 @@ import {
   MenuItem,
   Button,
 } from '@mui/material';
-import { uuid } from 'uuidv4';
+import { v4 as uuidv4 } from 'uuid';
 import { useForm } from 'react-hook-form';
 import { ActionButtonIcon } from '@/assets/icons';
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
 import { drawerDetail, tasksTableData } from '../Tasks.data';
 import { DetailTaskDrawerI } from '../Tasks.interface';
-import {
-  taskStyles,
-  taskDetailStyle,
-  valStyle,
-  statusOptionStyle,
-} from '../TicketTasks.styles';
+import { styles } from '../TicketTasks.styles';
 import { useTasks } from '../useTasks';
 
 export const DetailTaskDrawer: React.FC<DetailTaskDrawerI> = ({
@@ -34,11 +29,10 @@ export const DetailTaskDrawer: React.FC<DetailTaskDrawerI> = ({
     handleStatusClick,
     handleStatusClose,
     handleStatusItemClick,
+    theme,
   } = useTasks();
   const handleSubmit = useForm();
   const taskDetailStatus = taskDetail?.status;
-  const taskDetailBtn = taskDetailStyle(taskDetailStatus);
-  const taskDetailItem = valStyle(drawerStatusVal);
   return (
     <>
       <CommonDrawer
@@ -54,7 +48,11 @@ export const DetailTaskDrawer: React.FC<DetailTaskDrawerI> = ({
       >
         <Typography>{taskDetail?.taskName}</Typography>
         <Button
-          sx={drawerStatusVal ? taskDetailItem[0] : taskDetailBtn[0]}
+          sx={
+            drawerStatusVal
+              ? styles.valStyle(drawerStatusVal, theme)
+              : styles.taskDetailStyle(taskDetailStatus, theme)
+          }
           endIcon={<ActionButtonIcon />}
           onClick={handleStatusClick}
         >
@@ -72,12 +70,11 @@ export const DetailTaskDrawer: React.FC<DetailTaskDrawerI> = ({
         >
           {tasksTableData?.map((i: any) => {
             const statusOption = i?.status;
-            const optionStyle = statusOptionStyle(statusOption);
             return (
               <MenuItem
-                key={uuid()}
+                key={uuidv4()}
                 onClick={() => handleStatusItemClick(i.status)}
-                sx={optionStyle[0]}
+                sx={styles?.statusOptionStyle(statusOption, theme)}
               >
                 {i?.status}
               </MenuItem>
@@ -85,21 +82,24 @@ export const DetailTaskDrawer: React.FC<DetailTaskDrawerI> = ({
           })}
         </Popover>
         <Grid container spacing={1.5} sx={{ mt: 2, flexDirection: 'column' }}>
-          {drawerDetail(taskDetail)?.map((item: any) => (
+          {drawerDetail(taskDetail, theme)?.map((item: any) => (
             <Grid
-              key={uuid()}
+              key={uuidv4()}
               item
               sx={{ display: 'flex', justifyContent: 'space-between' }}
             >
-              <Grid xs={6} sx={taskStyles?.detailDrawerGridCenter}>
-                <Typography variant="body2" sx={taskStyles?.detailDrawerTitel}>
+              <Grid xs={6} sx={styles?.detailDrawerGridCenter}>
+                <Typography
+                  variant="body2"
+                  sx={styles?.detailDrawerTitel(theme)}
+                >
                   {item?.title}
                 </Typography>
               </Grid>
-              <Grid xs={6} sx={taskStyles?.detailDrawerGridCenter}>
+              <Grid xs={6} sx={styles?.detailDrawerGridCenter}>
                 {item?.profile && (
                   <Image
-                    style={taskStyles?.detailDrawerImg}
+                    style={styles?.detailDrawerImg}
                     src={item?.profile}
                     alt=""
                   />
@@ -107,7 +107,7 @@ export const DetailTaskDrawer: React.FC<DetailTaskDrawerI> = ({
                 {item?.workspace && (
                   <Typography
                     variant="body2"
-                    sx={taskStyles?.detailDrawerWorspace}
+                    sx={styles?.detailDrawerWorspace(theme)}
                   >
                     {item?.workspace}
                   </Typography>
@@ -124,7 +124,7 @@ export const DetailTaskDrawer: React.FC<DetailTaskDrawerI> = ({
           ))}
           <Grid item>
             <FormProvider onSubmit={() => {}} methods={handleSubmit}>
-              <Typography variant="body2" sx={taskStyles?.detailDrawerTitel}>
+              <Typography variant="body2" sx={styles?.detailDrawerTitel(theme)}>
                 Add Comment
               </Typography>
               <TextField

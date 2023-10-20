@@ -30,83 +30,65 @@ export const dropdownDummy2 = [
   },
 ];
 
-const ticketsTypeOptions = [
+export const assetTypeOptions = [
   {
-    value: 'search',
-    label: 'Search',
+    value: 'Services',
+    label: 'Services',
   },
   {
-    value: 'All Tickets',
-    label: 'All Tickets',
+    value: 'Business Services',
+    label: 'Business Services',
   },
   {
-    value: 'Urgent and High Priority',
-    label: 'Urgent and High Priority',
+    value: 'Hardware',
+    label: 'Hardware',
   },
   {
-    value: 'My Open and Pending Tickets',
-    label: 'My Open and Pending Tickets',
+    value: 'Utilizable',
+    label: 'Utilizable',
   },
   {
-    value: 'Spam',
-    label: 'Spam',
+    value: 'IT Servies',
+    label: 'IT Servies',
   },
   {
-    value: 'New & My Open Tickets',
-    label: 'New & My Open Tickets',
+    value: 'Sales Services',
+    label: 'Sales Services',
   },
   {
-    value: 'All Unresolved Tickets',
-    label: 'All Unresolved Tickets',
+    value: 'Email Services',
+    label: 'Email Services',
   },
   {
-    value: 'Incidents',
-    label: 'Incidents',
+    value: 'Hosting Services',
+    label: 'Hosting Services',
   },
   {
-    value: 'Service Requests',
-    label: 'Service Requests',
-  },
-  {
-    value: 'Tickets I Requested',
-    label: 'Tickets I Requested',
-  },
-  {
-    value: 'Shared with me',
-    label: 'Shared with me',
+    value: 'Backup Services',
+    label: 'Backup Services',
   },
 ];
 
 // form validation schema
 export const validationSchema: any = yup.object().shape({
-  orderName: yup.string().required('Required field!'),
-  orderNumber: yup
-    .number()
-    .typeError('Enter valid date format!')
-    .required('Required field!'),
-  vendor: yup.string().required('Required field!'),
-  currency: yup
-    .string()
-    .typeError('Enter valid date format!')
-    .required('Required field!'),
-  department: yup.string(),
-  deliverDate: yup
-    .date()
-    .typeError('Enter valid date format!')
-    .required('Required field!'),
-  location: yup.string(),
-  termsAndCondidtions: yup.string(),
+  displayName: yup.string().required('Required field!'),
+  assetType: yup.string().required('Required field!'),
+  impact: yup.string().required('Required field!'),
 });
 
 export const defaultValues = {
-  orderName: '',
-  orderNumber: '',
-  vendor: '',
-  currency: '',
-  department: '',
-  deliverDate: null,
+  displayName: '',
+  assetId: '',
+  assetType: '',
+  impact: '',
+  description: '',
+  assetLifeExpireOn: null,
   location: '',
-  termsAndCondidtions: '',
+  department: '',
+  assignedOnDate: null,
+  assignedOnTime: null,
+  usedBy: '',
+  attachFile: '',
 };
 
 export const editInventoryFields = [
@@ -120,6 +102,7 @@ export const editInventoryFields = [
       label: 'display Name',
       required: true,
     },
+    md: 6,
   },
   {
     id: 2,
@@ -130,6 +113,7 @@ export const editInventoryFields = [
       name: 'assetTag',
       label: 'asset Tag',
     },
+    md: 6,
   },
   {
     id: 3,
@@ -140,9 +124,10 @@ export const editInventoryFields = [
       name: 'assetType',
       label: 'asset Type',
       select: true,
-      options: ticketsTypeOptions,
+      options: assetTypeOptions,
       required: true,
     },
+    md: 6,
   },
   {
     id: 4,
@@ -153,9 +138,10 @@ export const editInventoryFields = [
       name: 'impact',
       label: 'impact',
       select: true,
-      options: ticketsTypeOptions,
+      options: dropdownDummy,
       required: true,
     },
+    md: 6,
   },
   {
     id: 5,
@@ -180,6 +166,7 @@ export const editInventoryFields = [
       select: true,
       options: dropdownDummy,
     },
+    md: 6,
   },
   {
     id: 7,
@@ -203,6 +190,7 @@ export const editInventoryFields = [
       options: dropdownDummy,
     },
     gridLength: 6,
+    md: 6,
     component: RHFSelect,
   },
   {
@@ -227,6 +215,7 @@ export const editInventoryFields = [
       options: dropdownDummy,
     },
     gridLength: 6,
+    md: 6,
     component: RHFSelect,
   },
   {
@@ -239,6 +228,7 @@ export const editInventoryFields = [
       options: dropdownDummy,
     },
     gridLength: 6,
+    md: 6,
     component: RHFSelect,
   },
   {
@@ -248,10 +238,11 @@ export const editInventoryFields = [
     componentProps: {
       fullWidth: true,
       name: 'assignedOnDate',
-      label: 'assignedOn',
+      label: 'assigned On',
       select: true,
       options: dropdownDummy,
     },
+    md: 3,
   },
   {
     id: 6,
@@ -264,6 +255,7 @@ export const editInventoryFields = [
       select: true,
       options: dropdownDummy,
     },
+    md: 3,
   },
   {
     id: 7,
@@ -275,76 +267,7 @@ export const editInventoryFields = [
       options: dropdownDummy,
     },
     gridLength: 6,
+    md: 6,
     component: RHFSelect,
   },
 ];
-
-export const data: any = [
-  {
-    id: 1,
-    itemName: 'PO-1',
-    decription: 'Dell Laptop',
-    costPerItem: 'Dell',
-    quantity: '30 Mar, 2023',
-    taxRate: 'Received',
-    total: '1200',
-  },
-  {
-    id: 2,
-    itemName: 'PO-1',
-    decription: 'Dell Laptop',
-    costPerItem: 'Dell',
-    quantity: '30 Mar, 2023',
-    taxRate: 'Received',
-    total: '1200',
-  },
-];
-
-export const columns = (): any => [
-  {
-    accessorFn: (row: any) => row.itemName,
-    id: 'Order Number',
-    header: <span>Order Number</span>,
-    cell: (info: any) => <span>{info.getValue()}</span>,
-  },
-  {
-    accessorFn: (row: any) => row.decription,
-    id: 'Order Name',
-    header: <span>Order Name</span>,
-    cell: (info: any) => <span>{info.getValue()}</span>,
-  },
-  {
-    accessorFn: (row: any) => row.costPerItem,
-    id: 'Vendor',
-    header: <span>Vendor</span>,
-    cell: (info: any) => <span>{info.getValue()}</span>,
-  },
-  {
-    accessorFn: (row: any) => row.quantity,
-    id: 'Expected Delivery Date',
-    header: <span>Expected Delivery Date</span>,
-    cell: (info: any) => <span>{info.getValue()}</span>,
-  },
-  {
-    accessorFn: (row: any) => row.taxRate,
-    id: 'Status',
-    header: <span>Status</span>,
-    cell: (info: any) => <span>{info.getValue()}</span>,
-  },
-  {
-    accessorFn: (row: any) => row.total,
-    id: 'Total Cost (£)',
-    header: <span>Total Cost (£)</span>,
-    cell: (info: any) => <span>{info.getValue()}</span>,
-  },
-];
-
-export const itemsDetailsList = [
-  { label: 'item name', value: 'itemName' },
-  { label: 'description', value: 'description' },
-  { label: 'cost per item', value: 'costPerItem' },
-  { label: 'quantity', value: 'quantity' },
-  { label: 'tax rate(%)', value: 'taxRate' },
-  { label: 'total()', value: 'total' },
-];
-export const itemsDetailsSubList = ['itemName', 'description', 'total'];

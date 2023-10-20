@@ -1,6 +1,6 @@
 import { Box, Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
-import { createTicketDataArray } from './TasksForm.data';
+import { TaskTicketFormFields } from './TasksForm.data';
 import { v4 as uuidv4 } from 'uuid';
 
 function TasksForm({ submitCreateNewTicket, methods, handleSubmit }: any) {
@@ -11,7 +11,7 @@ function TasksForm({ submitCreateNewTicket, methods, handleSubmit }: any) {
         onSubmit={handleSubmit(submitCreateNewTicket)}
       >
         <Grid container spacing={1}>
-          {createTicketDataArray?.map((item: any) => (
+          {TaskTicketFormFields?.map((item: any) => (
             <Grid item xs={12} md={item?.md} key={uuidv4()}>
               <item.component {...item.componentProps} size={'small'}>
                 {item?.componentProps?.select

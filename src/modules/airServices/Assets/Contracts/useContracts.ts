@@ -11,7 +11,7 @@ export function useContracts() {
   const theme: any = useTheme();
   const router = useRouter();
   const handleAddNewContractClick = () => {
-    router.push('/air-services/assets/contracts/new-contract');
+    router.push('/air-services/assets/contracts');
   };
   const handleActionClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setActionPop(event.currentTarget);
