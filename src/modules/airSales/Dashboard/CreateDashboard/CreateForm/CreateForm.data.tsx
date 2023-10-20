@@ -1,9 +1,10 @@
+import { Typography } from '@mui/material';
+
 import {
   RHFTextField,
   RHFRadioGroup,
   RHFCheckbox,
 } from '@/components/ReactHookForm';
-import { Typography } from '@mui/material';
 
 import * as Yup from 'yup';
 
@@ -25,7 +26,7 @@ export const dataArray = [
       fullWidth: true,
     },
     component: RHFTextField,
-    md: 12,
+    md: 9,
   },
   {
     componentProps: {
@@ -33,7 +34,7 @@ export const dataArray = [
       varient: 'h4',
       heading: 'Who can access this dashboard?',
     },
-    gridLength: 12,
+    gridLength: 8,
 
     component: Typography,
   },
@@ -93,6 +94,24 @@ export const dataArray = [
     componentProps: {
       name: 'dealReports',
       label: 'Deal reports',
+      fullWidth: true,
+    },
+    component: RHFCheckbox,
+    md: 12,
+  },
+  {
+    componentProps: {
+      name: 'ForecastpipelineReport',
+      label: 'Forecast Pipeline report',
+      fullWidth: true,
+    },
+    component: RHFCheckbox,
+    md: 12,
+  },
+  {
+    componentProps: {
+      name: 'ForecastcategoryReport',
+      label: 'Forecast Category reports',
       fullWidth: true,
     },
     component: RHFCheckbox,

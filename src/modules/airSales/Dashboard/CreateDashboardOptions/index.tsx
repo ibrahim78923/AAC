@@ -31,6 +31,10 @@ const CreateDashboardOptions = ({ toggle }: any) => {
         onClose={handleCloseMenuOptions}
         TransitionComponent={Fade}
       >
+        <MenuItem>Sales 1 Dashboard</MenuItem>
+        <MenuItem>Sales 2 Dashboard</MenuItem>
+        <MenuItem>Sales 3 Dashboard</MenuItem>
+        <MenuItem>Sales 4 Dashboard</MenuItem>
         <MenuItem onClick={() => toggle()}>
           <Button variant="outlined">Manage Dashboards</Button>
         </MenuItem>
