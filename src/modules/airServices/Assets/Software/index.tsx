@@ -8,14 +8,20 @@ import { FilterSharedIcon } from '@/assets/icons';
 import { styles } from './Software.style';
 import { useTheme } from '@emotion/react';
 import AssetHead from '../AssetHead/index';
+import { AddSoftwareDrawer } from './AddSoftwareDrawer';
 
 function Software() {
   const [meetingsData, setMeetingsData] = useState([]);
+  const [isAddDrawerOpen, setIsAddDrawerOpen] = useState(false);
   const theme: any = useTheme();
 
   return (
     <Grid container>
-      <AssetHead title={'Software'} addTitle={'New Software'} />
+      <AssetHead
+        title={'Software'}
+        addTitle={'New Software'}
+        onClick={() => setIsAddDrawerOpen(true)}
+      />
       <Grid item sx={styles.gridItems}>
         <Box sx={styles.headBox}>
           <Box sx={{ marginLeft: '24px' }}>
@@ -41,6 +47,10 @@ function Software() {
           />
         </Box>
       </Grid>
+      <AddSoftwareDrawer
+        isDrawerOpen={isAddDrawerOpen}
+        onClose={setIsAddDrawerOpen}
+      />
     </Grid>
   );
 }

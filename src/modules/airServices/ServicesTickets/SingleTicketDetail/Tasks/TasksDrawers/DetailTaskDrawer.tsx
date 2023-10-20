@@ -7,7 +7,7 @@ import {
   MenuItem,
   Button,
 } from '@mui/material';
-import { uuid } from 'uuidv4';
+import { v4 as uuidv4 } from 'uuid';
 import { useForm } from 'react-hook-form';
 import { ActionButtonIcon } from '@/assets/icons';
 import CommonDrawer from '@/components/CommonDrawer';
@@ -72,7 +72,7 @@ export const DetailTaskDrawer: React.FC<DetailTaskDrawerI> = ({
             const statusOption = i?.status;
             return (
               <MenuItem
-                key={uuid()}
+                key={uuidv4()}
                 onClick={() => handleStatusItemClick(i.status)}
                 sx={styles?.statusOptionStyle(statusOption)}
               >
@@ -84,7 +84,7 @@ export const DetailTaskDrawer: React.FC<DetailTaskDrawerI> = ({
         <Grid container spacing={1.5} sx={{ mt: 2, flexDirection: 'column' }}>
           {drawerDetail(taskDetail)?.map((item: any) => (
             <Grid
-              key={uuid()}
+              key={uuidv4()}
               item
               sx={{ display: 'flex', justifyContent: 'space-between' }}
             >
