@@ -29,6 +29,7 @@ const CreateView = ({ open, onClose }: any) => {
         isDrawerOpen={open}
         onClose={onClose}
         isOk
+        submitHandler={onClose}
         okText="Submit"
         title="Create View"
       >

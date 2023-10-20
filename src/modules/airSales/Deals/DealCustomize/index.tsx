@@ -14,7 +14,8 @@ const DealCustomize = ({ open, onClose }: any) => {
       onClose={onClose}
       footer
       isOk
-      okText="Submit"
+      submitHandler={onClose}
+      okText="Save"
       title="Customize"
     >
       {columnsData.map((column) => (
