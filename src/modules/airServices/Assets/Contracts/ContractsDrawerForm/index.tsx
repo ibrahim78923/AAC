@@ -1,24 +1,37 @@
 import CommonDrawer from '@/components/CommonDrawer';
-import DrawerForm from './DrawerForm';
-import { useContractsForm } from './useContractsForm';
+import DrawerForm from './ContractDrawerForm';
+import { useContractsDrawerForm } from './useContractsDrawerForm';
+import { enqueueSnackbar } from 'notistack';
 
 const ContractsDrawerForm = (props: any) => {
   const { isDrawerOpen, setIsDrawerOpen } = props;
-  const { methodsDrawerFormForm } = useContractsForm();
+  const { methodsContractDrawerForm } = useContractsDrawerForm();
+
+  const handleContractDrawerForm = async () => {
+    enqueueSnackbar('Request for approval send successfully', {
+      variant: 'success',
+      autoHideDuration: 6000,
+    });
+    setIsDrawerOpen(false);
+    methodsContractDrawerForm.reset();
+  };
 
   return (
     <>
       <CommonDrawer
-        footer={false}
+        footer={true}
         isDrawerOpen={isDrawerOpen}
         onClose={() => setIsDrawerOpen(false)}
         title="Filters"
-        okText="Send"
-        isOk={false}
+        okText="Submit"
+        isOk={true}
+        submitHandler={() => {
+          methodsContractDrawerForm.handleSubmit(handleContractDrawerForm)();
+        }}
       >
         <DrawerForm
-          methods={methodsDrawerFormForm}
-          handleSubmit={methodsDrawerFormForm.handleSubmit}
+          methods={methodsContractDrawerForm}
+          handleSubmit={methodsContractDrawerForm.handleSubmit}
         />
       </CommonDrawer>
     </>

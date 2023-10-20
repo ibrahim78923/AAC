@@ -9,13 +9,14 @@ import { enqueueSnackbar } from 'notistack';
 import { styles } from './Inventory.style';
 import AssetHead from '../AssetHead/index';
 import { AlertModals } from '@/components/AlertModals';
+import { useRouter } from 'next/router';
 
 function Inventory() {
   const [inventoryData, setInventoryData] = useState([]);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [searchValue, SetSearchValue] = useState<string>('');
   const theme: any = useTheme();
-
+  const router = useRouter();
   return (
     <>
       <AlertModals
@@ -76,7 +77,13 @@ function Inventory() {
           <Box sx={{ marginBottom: '25px' }}>
             <TanstackTable
               data={data}
-              columns={columns(inventoryData, setInventoryData, data, theme)}
+              columns={columns(
+                inventoryData,
+                setInventoryData,
+                data,
+                theme,
+                router,
+              )}
             />
           </Box>
         </Grid>

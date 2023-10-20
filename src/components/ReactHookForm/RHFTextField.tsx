@@ -7,6 +7,7 @@ import CustomLabel from '../Label';
 
 export default function RHFTextField({ name, required, ...other }: any) {
   const { control } = useFormContext();
+  // console.log(other);
 
   return (
     <Controller
@@ -41,11 +42,6 @@ export default function RHFTextField({ name, required, ...other }: any) {
             }}
             {...other}
             label=""
-            inputProps={{
-              style: {
-                height: 27,
-              },
-            }}
           />
         </>
       )}
