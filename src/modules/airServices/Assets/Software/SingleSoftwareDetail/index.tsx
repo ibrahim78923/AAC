@@ -1,9 +1,12 @@
+import Header from './components/Header';
 import { SingleSoftwareDetailTabs } from './components/SingleSoftwareDetailTabs';
 
 export const SingleSoftwareDetail = () => {
   return (
     <>
-      <>Header</>
+      <>
+        <Header />
+      </>
       <SingleSoftwareDetailTabs />
     </>
   );

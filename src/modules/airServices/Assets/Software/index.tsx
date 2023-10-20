@@ -8,33 +8,52 @@ import { FilterSharedIcon } from '@/assets/icons';
 import { styles } from './Software.style';
 import { useTheme } from '@emotion/react';
 import AssetHead from '../AssetHead/index';
-import { AddSoftwareDrawer } from './AddSoftwareDrawer';
+import useManage from '@/modules/airSales/Dashboard/Manage/useManage';
+import SoftwareFilter from './SoftwareFilter';
+import SoftwareAssignCategory from './SoftwareAssignCategory';
+import { useRouter } from 'next/router';
 
 function Software() {
-  const [meetingsData, setMeetingsData] = useState([]);
-  const [isAddDrawerOpen, setIsAddDrawerOpen] = useState(false);
-  const theme: any = useTheme();
+  const [softwareData, setSoftwareData] = useState([]);
+  const [openAssignModal, setOpenAssignModal] = useState(false);
+  const [searchValue, SetSearchValue] = useState<string>('');
 
+  const theme: any = useTheme();
+  const { setIsOpenFilterDrawer, isOpenFilterDrawer } = useManage();
+  const router = useRouter();
   return (
     <Grid container>
       <AssetHead
         title={'Software'}
         addTitle={'New Software'}
-        onClick={() => setIsAddDrawerOpen(true)}
+        // onClick={() => setIsAddDrawerOpen(true)}
       />
       <Grid item sx={styles.gridItems}>
         <Box sx={styles.headBox}>
           <Box sx={{ marginLeft: '24px' }}>
-            <Search label="search" width="100%" />
+            <Search
+              label="search"
+              width="100%"
+              searchBy={searchValue}
+              setSearchBy={SetSearchValue}
+            />
           </Box>
           <Box sx={styles.buttonBox}>
-            <Button sx={styles.buttonStyle(theme)} variant="outlined" disabled>
+            <Button
+              sx={styles.buttonStyle(theme)}
+              variant="outlined"
+              disabled={!!!softwareData.length}
+              onClick={() => {
+                setOpenAssignModal(true);
+              }}
+            >
               Assign Category
             </Button>
             <Button
               sx={styles.buttonStyle(theme)}
               variant="outlined"
               startIcon={<FilterSharedIcon />}
+              onClick={() => setIsOpenFilterDrawer(true)}
             >
               Filter
             </Button>
@@ -43,13 +62,28 @@ function Software() {
         <Box sx={{ marginBottom: '25px' }}>
           <TanstackTable
             data={data}
-            columns={columns(meetingsData, setMeetingsData, data, theme)}
+            columns={columns(
+              softwareData,
+              setSoftwareData,
+              data,
+              theme,
+              router,
+            )}
           />
         </Box>
       </Grid>
-      <AddSoftwareDrawer
-        isDrawerOpen={isAddDrawerOpen}
-        onClose={setIsAddDrawerOpen}
+
+      {isOpenFilterDrawer && (
+        <SoftwareFilter
+          isOpenDrawer={isOpenFilterDrawer}
+          onClose={() => setIsOpenFilterDrawer(false)}
+        />
+      )}
+
+      <SoftwareAssignCategory
+        openAssignModal={openAssignModal}
+        setOpenAssignModal={setOpenAssignModal}
+        title={'Assign Category'}
       />
     </Grid>
   );

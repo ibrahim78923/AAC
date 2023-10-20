@@ -31,10 +31,11 @@ export const data: any = [
   },
 ];
 export const columns = (
-  meetingsData: any,
-  setMeetingsData: any,
-  meetingsMainData: any,
+  inventoryData: any,
+  setInventoryData: any,
+  data: any,
   theme: any,
+  router: any,
 ): any => [
   {
     accessorFn: (row: any) => row.id,
@@ -42,18 +43,16 @@ export const columns = (
     cell: (info: any) => (
       <Checkbox
         checked={
-          !!meetingsData.find((item: any) => item.id === info.getValue())
+          !!inventoryData.find((item: any) => item.id === info.getValue())
         }
         onChange={(e: any) => {
           e.target.checked
-            ? setMeetingsData([
-                ...meetingsData,
-                meetingsMainData.find(
-                  (item: any) => item.id === info.getValue(),
-                ),
+            ? setInventoryData([
+                ...inventoryData,
+                data.find((item: any) => item.id === info.getValue()),
               ])
-            : setMeetingsData(
-                meetingsData.filter((item: any) => {
+            : setInventoryData(
+                inventoryData.filter((item: any) => {
                   return item.id !== info.getValue();
                 }),
               );
@@ -64,11 +63,9 @@ export const columns = (
     ),
     header: (
       <Checkbox
-        checked={meetingsData.length === meetingsMainData.length}
+        checked={inventoryData.length === data.length}
         onChange={(e: any) => {
-          e.target.checked
-            ? setMeetingsData([...meetingsMainData])
-            : setMeetingsData([]);
+          e.target.checked ? setInventoryData([...data]) : setInventoryData([]);
         }}
         color="primary"
         name="id"
@@ -82,7 +79,20 @@ export const columns = (
     isSortable: true,
     header: <span style={styles.headerStyle(theme)}>Name</span>,
     cell: (info: any) => (
-      <span style={styles.firstCellStyle}>{info.getValue()}</span>
+      <span
+        onClick={() =>
+          router.push({
+            pathname:
+              'http://localhost:3000/air-services/assets/inventory/detail',
+            query: {
+              inventoryId: info?.row?.id,
+            },
+          })
+        }
+        style={{ ...styles.firstCellStyle, cursor: 'pointer' }}
+      >
+        {info.getValue()}
+      </span>
     ),
   },
   {

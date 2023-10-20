@@ -26,10 +26,11 @@ export const data: any = [
   },
 ];
 export const columns = (
-  meetingsData: any,
-  setMeetingsData: any,
-  meetingsMainData: any,
+  softwareData: any,
+  setSoftwareData: any,
+  data: any,
   theme: any,
+  router: any,
 ): any => [
   {
     accessorFn: (row: any) => row.id,
@@ -37,18 +38,16 @@ export const columns = (
     cell: (info: any) => (
       <Checkbox
         checked={
-          !!meetingsData.find((item: any) => item.id === info.getValue())
+          !!softwareData.find((item: any) => item.id === info.getValue())
         }
         onChange={(e: any) => {
           e.target.checked
-            ? setMeetingsData([
-                ...meetingsData,
-                meetingsMainData.find(
-                  (item: any) => item.id === info.getValue(),
-                ),
+            ? setSoftwareData([
+                ...softwareData,
+                data.find((item: any) => item.id === info.getValue()),
               ])
-            : setMeetingsData(
-                meetingsData.filter((item: any) => {
+            : setSoftwareData(
+                softwareData.filter((item: any) => {
                   return item.id !== info.getValue();
                 }),
               );
@@ -59,11 +58,9 @@ export const columns = (
     ),
     header: (
       <Checkbox
-        checked={meetingsData.length === meetingsMainData.length}
+        checked={softwareData.length === data.length}
         onChange={(e: any) => {
-          e.target.checked
-            ? setMeetingsData([...meetingsMainData])
-            : setMeetingsData([]);
+          e.target.checked ? setSoftwareData([...data]) : setSoftwareData([]);
         }}
         color="primary"
         name="id"
@@ -77,7 +74,20 @@ export const columns = (
     isSortable: true,
     header: <span style={styles.headerStyle(theme)}>Software</span>,
     cell: (info: any) => (
-      <span style={styles.firstCellStyle}>{info.getValue()}</span>
+      <span
+        onClick={() =>
+          router.push({
+            pathname:
+              'http://localhost:3000/air-services/assets/software/detail',
+            query: {
+              softwareId: info?.row?.id,
+            },
+          })
+        }
+        style={{ ...styles.firstCellStyle, cursor: 'pointer' }}
+      >
+        {info.getValue()}
+      </span>
     ),
   },
   {
