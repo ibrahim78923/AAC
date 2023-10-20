@@ -48,6 +48,7 @@ export const columns = (
   setMeetingsData: any,
   meetingsMainData: any,
   theme: any,
+  router: any,
 ): any => [
   {
     accessorFn: (row: any) => row.id,
@@ -91,12 +92,28 @@ export const columns = (
   },
   {
     accessorFn: (row: any) => row.ContractName,
-    id: 'Contract Name',
+    id: 'contractName',
     isSortable: false,
     header: <span style={styles.headerStyle(theme)}>Contract Name</span>,
-    cell: (info: any) => (
-      <span style={styles.firstCellStyle}>{info.getValue()}</span>
-    ),
+    cell: (info: any) => {
+      console.log(info?.row?.id);
+      return (
+        <span
+          onClick={() =>
+            router.push({
+              pathname:
+                'http://localhost:3000/air-services/assets/contracts/detail',
+              query: {
+                contractId: info?.row?.id,
+              },
+            })
+          }
+          style={{ ...styles.firstCellStyle, cursor: 'pointer' }}
+        >
+          {info.getValue()}
+        </span>
+      );
+    },
   },
   {
     accessorFn: (row: any) => row.Type,
