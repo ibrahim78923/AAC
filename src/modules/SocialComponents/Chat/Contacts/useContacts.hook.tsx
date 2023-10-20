@@ -13,7 +13,9 @@ export const useContacts = () => {
   const chatModeState = useAppSelector(
     (state: any) => state.chat.chatModeState,
   );
-  const chatMode = chatModeState.chatModeState;
+  const chatMode = chatModeState.chatModeState
+    ? chatModeState.chatModeState
+    : 'personalChat';
 
   return {
     handleSelection,
