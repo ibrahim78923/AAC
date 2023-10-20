@@ -1,4 +1,4 @@
-import { Typography, useTheme } from '@mui/material';
+import { Typography } from '@mui/material';
 
 import {
   RHFSelect,
@@ -26,11 +26,11 @@ export const defaultValues = {
   reportsInExport: '',
   downloadableFile: '',
 };
-const theme = useTheme();
+
 export const dataArray = [
   {
     componentProps: {
-      color: theme?.palette?.grey[500],
+      color: '#7a7a7b',
       varient: 'h4',
       heading: 'Is this a recurring email ?',
     },
@@ -101,7 +101,7 @@ export const dataArray = [
   },
   {
     componentProps: {
-      color: theme?.palette?.grey[500],
+      color: '#7a7a7b',
       varient: 'h4',
       heading: 'Reports in export',
     },
