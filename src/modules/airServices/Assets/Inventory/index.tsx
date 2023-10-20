@@ -9,6 +9,7 @@ import { enqueueSnackbar } from 'notistack';
 import { styles } from './Inventory.style';
 import AssetHead from '../Header/index';
 import { AlertModals } from '@/components/AlertModals';
+import useInventory from './useInventory';
 import { useRouter } from 'next/router';
 
 function Inventory() {
@@ -16,6 +17,8 @@ function Inventory() {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [searchValue, SetSearchValue] = useState<string>('');
   const theme: any = useTheme();
+
+  const { handleAddInventory } = useInventory();
   const router = useRouter();
   return (
     <>
@@ -36,7 +39,12 @@ function Inventory() {
       />
 
       <Grid container>
-        <AssetHead title={'Assets'} addTitle={'Add'} show={true} />
+        <AssetHead
+          title={'Assets'}
+          addTitle={'Add'}
+          show={true}
+          handleAction={handleAddInventory}
+        />
         <Grid item sx={styles.gridItems}>
           <Box sx={styles.headBox}>
             <Box sx={{ marginLeft: '24px' }}>

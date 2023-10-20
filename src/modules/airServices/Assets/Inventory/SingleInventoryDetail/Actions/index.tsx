@@ -1,21 +1,25 @@
-import * as React from 'react';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { v4 as uuidv4 } from 'uuid';
 import { Typography, useTheme } from '@mui/material';
-import { ExportIcon } from '@/assets/icons';
+import { DropdownIcon } from '@/assets/icons';
+import DeleteInventory from './DeleteInventory';
+import useSingleInventoryDetail from '../useSingleInventoryDetail';
 
 const Actions = () => {
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
   const theme = useTheme();
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  const {
+    anchorEl,
+    handleClose,
+    handleActionClick,
+    handleAction,
+    isDeleteModalOpen,
+    handleCloseDeleteModal,
+    handleDelete,
+  } = useSingleInventoryDetail();
+  const open = Boolean(anchorEl);
+
   return (
     <div>
       <Button
@@ -24,8 +28,8 @@ const Actions = () => {
         aria-controls={open ? 'demo-positioned-menu' : undefined}
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
-        onClick={handleClick}
-        endIcon={<ExportIcon />}
+        onClick={handleActionClick}
+        endIcon={<DropdownIcon />}
         color="secondary"
       >
         Actions
@@ -37,7 +41,7 @@ const Actions = () => {
         open={open}
         onClose={handleClose}
       >
-        <MenuItem key={uuidv4()} onClick={() => handleClose?.()}>
+        <MenuItem key={uuidv4()} onClick={() => handleAction('edit')}>
           <Typography
             variant="body2"
             fontWeight={500}
@@ -48,7 +52,7 @@ const Actions = () => {
         </MenuItem>
         <MenuItem
           key={uuidv4()}
-          onClick={() => handleClose?.()}
+          onClick={() => handleAction('delete')}
           sx={{
             '&.MuiMenuItem-root': {
               paddingRight: 4,
@@ -64,6 +68,13 @@ const Actions = () => {
           </Typography>
         </MenuItem>
       </Menu>
+      {
+        <DeleteInventory
+          isDeleteModalOpen={isDeleteModalOpen}
+          handleDelete={handleDelete}
+          handleCloseDeleteModal={handleCloseDeleteModal}
+        />
+      }
     </div>
   );
 };

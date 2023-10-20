@@ -1,9 +1,8 @@
-import { Box, Grid } from '@mui/material';
+import { Box, Grid, Button } from '@mui/material';
 import { useState } from 'react';
 import { data, columns, dataArray } from './Software.data';
 import TanstackTable from '@/components/Tabel/TanstackTable';
 import Search from '@/components/Search';
-import { Button } from '@mui/material';
 import { FilterSharedIcon } from '@/assets/icons';
 import { styles } from './Software.style';
 import { useTheme } from '@emotion/react';
@@ -12,8 +11,10 @@ import useManage from '@/modules/airSales/Dashboard/Manage/useManage';
 import SoftwareFilter from './SoftwareFilter';
 import SoftwareAssignCategory from './SoftwareAssignCategory';
 import { useRouter } from 'next/router';
+import { AddSoftwareDrawer } from './AddSoftwareDrawer';
 
 function Software() {
+  const [isAddDrawerOpen, setIsAddDrawerOpen] = useState<boolean>(false);
   const [softwareData, setSoftwareData] = useState([]);
   const [openAssignModal, setOpenAssignModal] = useState(false);
   const [searchValue, SetSearchValue] = useState<string>('');
@@ -23,7 +24,11 @@ function Software() {
   const router = useRouter();
   return (
     <Grid container>
-      <AssetHead title={'Software'} addTitle={'New Software'} />
+      <AssetHead
+        title={'Software'}
+        addTitle={'New Software'}
+        handleAction={() => setIsAddDrawerOpen(true)}
+      />
       <Grid item sx={styles.gridItems}>
         <Box sx={styles.headBox}>
           <Box sx={{ marginLeft: '24px' }}>
@@ -84,6 +89,10 @@ function Software() {
         cancelText={'Cancel'}
         okText={'Assign'}
         successMessage={'Assign Successfully'}
+      />
+      <AddSoftwareDrawer
+        isDrawerOpen={isAddDrawerOpen}
+        onClose={setIsAddDrawerOpen}
       />
     </Grid>
   );

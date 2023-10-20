@@ -1,73 +1,60 @@
-import { Box, Grid } from '@mui/material';
-import { useState } from 'react';
-import { data, columns, userDropdown } from './Users.data';
-import TanstackTable from '@/components/Tabel/TanstackTable';
-import Search from '@/components/Search';
-import { Button } from '@mui/material';
-import {
-  ExportShared,
-  FilterSharedIcon,
-  GreyPlusSharedIcon,
-} from '@/assets/icons';
-import { styles } from './Users.style';
-import { useTheme } from '@emotion/react';
-import { TicketsAction } from '@/modules/airServices/ServicesTickets/TicketsLists/components/TicketsAction';
+import React, { useState } from 'react';
+import UsersTable from './UsersTable';
+import { Box, Grid, InputAdornment, TextField } from '@mui/material';
+import { SearchSharedIcon } from '@/assets/icons';
+import CustomPagination from '@/components/CustomPagination';
+import { UsersAction } from './UsersAction';
+import { UsersExport } from './UsersExport';
+import { UsersAdd } from './UsersAdd';
+import { UsersFilter } from './UsersFilter';
+import { userDropdown } from './Users.data';
 
-function Installations() {
-  const [installationData, setInstallationData] = useState([]);
-  const theme: any = useTheme();
+export const Users = () => {
+  const [usersData, setUsersData] = useState([]);
+
+  const handleAddModalOpen = () => {};
 
   return (
-    <Grid container>
-      <Grid item sx={styles.gridItems}>
-        <Box sx={styles.headBox}>
-          <Box sx={{ marginLeft: '24px' }}>
-            <Search label="search" width="100%" />
-          </Box>
-          <Box sx={styles.buttonBox}>
-            <Box sx={styles.dropdownBox}>
-              <TicketsAction
-                ticketsActionDropdown={userDropdown}
-                disabled={true}
-              />
-            </Box>
-            <Button
-              sx={styles.exportButtonStyle(theme)}
-              variant="outlined"
-              startIcon={<GreyPlusSharedIcon />}
-            >
-              Add User
-            </Button>
-            <Button
-              sx={styles.buttonStyle(theme)}
-              variant="outlined"
-              startIcon={<ExportShared />}
-            >
-              Export
-            </Button>
-            <Button
-              sx={styles.buttonStyle(theme)}
-              variant="outlined"
-              startIcon={<FilterSharedIcon />}
-            >
-              Filter
-            </Button>
-          </Box>
-        </Box>
-        <Box sx={{ marginBottom: '25px' }}>
-          <TanstackTable
-            data={data}
-            columns={columns(
-              installationData,
-              setInstallationData,
-              data,
-              theme,
-            )}
+    <>
+      <Grid container>
+        <Grid
+          item
+          xs={12}
+          sx={{ display: 'flex', justifyContent: 'space-between' }}
+        >
+          <TextField
+            id="outlined-basic"
+            placeholder="search"
+            variant="outlined"
+            autoComplete="off"
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <SearchSharedIcon />
+                </InputAdornment>
+              ),
+            }}
           />
-        </Box>
+          <Box sx={{ display: 'flex', gap: '18px' }}>
+            <UsersAction
+              actionDropdownData={userDropdown}
+              usersData={usersData}
+              setUsersData={setUsersData}
+            />
+            <UsersAdd onClick={handleAddModalOpen} />
+            <UsersExport />
+            <UsersFilter />
+          </Box>
+        </Grid>
+        <Grid item xs={12} sx={{ mt: 2 }}>
+          <UsersTable usersData={usersData} setUsersData={setUsersData} />
+          <CustomPagination
+            count={5}
+            rowsPerPageOptions={[1, 2, 3, 4, 5]}
+            entriePages={40}
+          />
+        </Grid>
       </Grid>
-    </Grid>
+    </>
   );
-}
-
-export default Installations;
+};

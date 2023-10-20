@@ -1,9 +1,9 @@
 import HorizontalTabs from '@/components/Tabs/HorizontalTabs';
 import { singleSoftwareDetailTabsData } from './SingleSoftwareDetailTabs.data';
 import { Overview } from '../../Overview';
-import Users from '../../Users';
 import { Installations } from '../../Installations';
 import { Contracts } from '../../Contracts';
+import { Users } from '../../Users';
 
 export const SingleSoftwareDetailTabs = () => {
   return (

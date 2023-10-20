@@ -6,7 +6,7 @@ import UploadAttachments from './UploadAttachment';
 import { useRouter } from 'next/router';
 import useContractsActionExtend from './useContractsActionExtend';
 import { contractsExtendArray } from './ContractsExtend.data';
-import ItemsDetails from '../ItemsDetails';
+import ItemsDetails from '../ContractsEdit/ItemsDetails/index';
 export const ContractsExtend = () => {
   const { methods, handleSubmit, onSubmit } = useContractsActionExtend();
 
