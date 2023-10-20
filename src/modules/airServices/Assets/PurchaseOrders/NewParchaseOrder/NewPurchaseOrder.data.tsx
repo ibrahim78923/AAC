@@ -79,13 +79,10 @@ export const validationSchema: any = yup.object().shape({
   orderName: yup.string().required('Required field!'),
   orderNumber: yup
     .number()
-    .typeError('Enter valid date format!')
+    .typeError('Enter valid format!')
     .required('Required field!'),
   vendor: yup.string().required('Required field!'),
-  currency: yup
-    .string()
-    .typeError('Enter valid date format!')
-    .required('Required field!'),
+  currency: yup.string().required('Required field!'),
   department: yup.string(),
   deliverDate: yup
     .date()
@@ -106,7 +103,9 @@ export const defaultValues = {
   termsAndCondidtions: '',
 };
 
-export const newPurchaseFields = [
+export const newPurchaseFieldsFunction = (
+  handleVenderSelect?: (e: string) => void,
+) => [
   {
     id: 1,
     component: RHFTextField,
@@ -141,6 +140,7 @@ export const newPurchaseFields = [
       select: true,
       options: ticketsTypeOptions,
       required: true,
+      onChange: handleVenderSelect,
     },
   },
   {
