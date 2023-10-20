@@ -27,7 +27,7 @@ const useSingleInventoryDetail = () => {
 
   const handleAction = (action: string) => {
     if (action === 'edit') {
-      push('/air-services/assets/inventory/add-inventory?type=edit');
+      push('/air-services/assets/inventory/add-inventory?type=update');
       return;
     }
     setIsDeleteModalOpen(true);

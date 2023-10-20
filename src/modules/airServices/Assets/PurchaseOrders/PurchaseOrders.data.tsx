@@ -22,6 +22,7 @@ export const data: any = [
     TotalCost: '---',
   },
 ];
+
 export const purchaseOrderColumnsFunction = (
   purchaseOrderData: any,
   setPurchaseOrderData: any,

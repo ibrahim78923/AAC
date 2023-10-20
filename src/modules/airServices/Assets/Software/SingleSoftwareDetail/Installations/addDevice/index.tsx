@@ -1,40 +1,18 @@
 import CommonModal from '@/components/CommonModal';
-import React, { FC, useState } from 'react';
 import { FormProvider, RHFSelect } from '@/components/ReactHookForm';
-import { useForm } from 'react-hook-form';
 import { Button } from '@mui/material';
 import { GrayPlusIcon } from '@/assets/icons';
+import { useInstallation } from '../useInstallations';
 
-const options = [
-  {
-    label: '1',
-    value: '1',
-  },
-  {
-    label: '2',
-    value: '2',
-  },
-];
-
-const AddDevice: FC<{
-  isModalOpen: boolean;
-  setIsmodalOpen: any;
-  //   setIsmodalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  onSubmit: (data: any) => void;
-  options: any;
-}> = () => {
-  const [isModalOpen, setIsmodalOpen] = useState(false);
-  const methods: any = useForm({
-    defaultValues: { device: '' },
-  });
-
-  const onSubmit = (data: any) => {
-    alert(JSON?.stringify(data));
-    setIsmodalOpen(false);
-  };
-  const handleAddDevice = () => {
-    setIsmodalOpen(true);
-  };
+const AddDevice = () => {
+  const {
+    handleAddDevice,
+    addDeviceMethods: methods,
+    isAddDeviceModalOpen,
+    setIsAddDeviceModalOpen,
+    onAddDeviceSubmit,
+    addDeviceOptionsList: options,
+  } = useInstallation();
 
   return (
     <>
@@ -46,18 +24,19 @@ const AddDevice: FC<{
       >
         Add Device
       </Button>
-      {isModalOpen && (
+      {isAddDeviceModalOpen && (
         <CommonModal
-          open={isModalOpen}
-          handleClose={() => setIsmodalOpen(false)}
-          handleSubmit={methods?.handleSubmit(onSubmit)}
+          open={isAddDeviceModalOpen}
+          handleClose={() => setIsAddDeviceModalOpen(false)}
+          handleSubmit={methods?.handleSubmit(onAddDeviceSubmit)}
           title="Add Device"
           okText="add"
+          footerFill={'auto'}
           footer
         >
           <FormProvider
             methods={methods}
-            onSubmit={methods?.handleSubmit(onSubmit)}
+            onSubmit={methods?.handleSubmit(onAddDeviceSubmit)}
           >
             <RHFSelect
               name="device"
@@ -65,7 +44,7 @@ const AddDevice: FC<{
               size="small"
               label="Device"
             >
-              {options?.map(({ value, label }) => (
+              {options?.map(({ value, label }: any) => (
                 <option key={value} value={value}>
                   {label}
                 </option>

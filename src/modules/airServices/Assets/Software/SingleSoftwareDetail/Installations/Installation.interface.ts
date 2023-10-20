@@ -10,4 +10,10 @@ export interface useInstallationI {
   openExport: boolean;
   handleMenuExport: () => void;
   submitDeleteModel: () => Promise<void>;
+  isAddDeviceModalOpen: any;
+  setIsAddDeviceModalOpen: any;
+  addDeviceMethods: any;
+  handleAddDevice: any;
+  onAddDeviceSubmit: any;
+  addDeviceOptionsList: any;
 }

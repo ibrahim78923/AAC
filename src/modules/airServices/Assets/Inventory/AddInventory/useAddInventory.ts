@@ -3,46 +3,24 @@ import { useForm } from 'react-hook-form';
 import { defaultValues, validationSchema } from './AddInventory.data';
 import { useRouter } from 'next/router';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { enqueueSnackbar } from 'notistack';
 const useEditInventory = () => {
-  const { push } = useRouter();
+  const { query }: any = useRouter();
 
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [vendor, setVendor] = useState<string>('');
-  const [isNewPurchaseOrder, setIsNewPurchaseOrder] = useState(true);
+  const [formType, setFormType] = useState<string>('');
 
   const methods = useForm({
     resolver: yupResolver(validationSchema),
     defaultValues,
   });
-  const submit = async () => {
-    enqueueSnackbar({
-      message: 'New Purchase Order Created successfully',
-      variant: 'success',
-    });
-  };
 
-  const handlePageBack = () => {
-    push('/air-services/assets/purchase-orders');
-  };
-
-  const resetPurchaseOrderFilterForm = async () => {
-    methods?.reset();
-    setIsDrawerOpen(false);
-  };
+  const submit = async () => {};
 
   return {
-    isDrawerOpen,
-    setIsDrawerOpen,
-    handlePageBack,
     methods,
-    vendor,
-    setVendor,
     submit,
-    resetPurchaseOrderFilterForm,
-    // new purchase order
-    isNewPurchaseOrder,
-    setIsNewPurchaseOrder,
+    query,
+    formType,
+    setFormType,
   };
 };
 export default useEditInventory;
