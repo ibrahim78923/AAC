@@ -5,7 +5,7 @@ import {
 } from './SingleSoftwareDetailTabs.data';
 import { Overview } from '../../Overview';
 // import Installations from '../../Installations';
-import Users from '../../Users';
+// import Users from '../../Users';
 // import Contracts from '../../Contracts';
 import { Box, Typography } from '@mui/material';
 import { ArrowLeft } from '@/assets/icons';
@@ -13,6 +13,7 @@ import { TicketsAction } from '@/modules/airServices/ServicesTickets/TicketsList
 import { styles } from './SingleSoftwareDetailTabs.style';
 import { Installations } from '../../Installations';
 import { Contracts } from '../../Contracts';
+import { Users } from '../../Users';
 
 export const SingleSoftwareDetailTabs = () => {
   return (

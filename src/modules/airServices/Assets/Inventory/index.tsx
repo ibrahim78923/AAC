@@ -10,6 +10,7 @@ import { styles } from './Inventory.style';
 import AssetHead from '../AssetHead/index';
 import { AlertModals } from '@/components/AlertModals';
 import useInventory from './useInventory';
+import { useRouter } from 'next/router';
 
 function Inventory() {
   const [inventoryData, setInventoryData] = useState([]);
@@ -18,6 +19,7 @@ function Inventory() {
   const theme: any = useTheme();
 
   const { handleAddInventory } = useInventory();
+  const router = useRouter();
   return (
     <>
       <AlertModals
@@ -83,7 +85,13 @@ function Inventory() {
           <Box sx={{ marginBottom: '25px' }}>
             <TanstackTable
               data={data}
-              columns={columns(inventoryData, setInventoryData, data, theme)}
+              columns={columns(
+                inventoryData,
+                setInventoryData,
+                data,
+                theme,
+                router,
+              )}
             />
           </Box>
         </Grid>

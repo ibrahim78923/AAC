@@ -25,6 +25,7 @@ function Contracts() {
     handleActionClose,
     openAction,
     handleSubmitModel,
+    router,
   } = useContracts();
   return (
     <>
@@ -32,7 +33,7 @@ function Contracts() {
         <AssetHead
           title={'Contracts'}
           addTitle={'Add New Contract'}
-          onClick={handleAddNewContractClick}
+          handleAction={handleAddNewContractClick}
         />
         <Grid item sx={styles.gridItems}>
           <Box sx={styles.headBox}>
@@ -62,7 +63,7 @@ function Contracts() {
                 onClose={handleActionClose}
                 sx={{
                   mt: '4px',
-                  '& .MuiPaper-root': { width: '5% !important' },
+                  '& .MuiPaper-root': { width: { md: '5%', xs: '25%' } },
                 }}
                 anchorOrigin={{
                   vertical: 'bottom',
@@ -85,7 +86,13 @@ function Contracts() {
           <Box sx={{ marginBottom: '25px' }}>
             <TanstackTable
               data={data}
-              columns={columns(meetingsData, setMeetingsData, data, theme)}
+              columns={columns(
+                meetingsData,
+                setMeetingsData,
+                data,
+                theme,
+                router,
+              )}
             />
           </Box>
           <Box>

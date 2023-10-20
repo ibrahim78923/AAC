@@ -34,11 +34,6 @@ export default function RHFSelect({ name, children, required, ...other }: any) {
             {...other}
             label=""
             value={field.value ? field.value : ' '}
-            inputProps={{
-              style: {
-                height: 27,
-              },
-            }}
           >
             <option value=" ">Select Option</option>
             {children}

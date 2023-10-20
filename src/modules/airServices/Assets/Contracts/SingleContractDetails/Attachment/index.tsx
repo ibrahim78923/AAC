@@ -1,3 +1,9 @@
+import AttachmentDetails from './AttachmentDetails/AttachmentDetails';
+
 export const Attachment = () => {
-  return <>Attachment</>;
+  return (
+    <>
+      <AttachmentDetails />
+    </>
+  );
 };

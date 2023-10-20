@@ -3,7 +3,8 @@ import { useForm } from 'react-hook-form';
 import { defaultValues } from './components/PurchaseOrderFilter/PurchaseOrderFilter.data';
 import { useRouter } from 'next/router';
 const usePurchaseOrders = () => {
-  const { push } = useRouter();
+  const router = useRouter();
+  const { push } = router;
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isNewPurchaseOrder, setIsNewPurchaseOrder] = useState(true);
 
@@ -39,6 +40,7 @@ const usePurchaseOrders = () => {
     // new purchase order
     isNewPurchaseOrder,
     setIsNewPurchaseOrder,
+    router,
   };
 };
 export default usePurchaseOrders;
