@@ -1,5 +1,8 @@
 import React from 'react';
-import { Box, Theme, Typography, useTheme } from '@mui/material';
+import { Box, Grid, Theme, Typography, useTheme } from '@mui/material';
+import TanstackTable from '@/components/Tabel/TanstackTable';
+import { columns } from './PlanList.data';
+import { planListData } from '@/mock/modules/superAdmin/SuperAdminDashboard';
 
 const PlanList = () => {
   const theme = useTheme<Theme>();
@@ -9,11 +12,16 @@ const PlanList = () => {
         border: `1px solid ${theme?.palette?.grey[700]}`,
         borderRadius: '8px',
         padding: '1rem',
-        display: 'flex',
-        justifyContent: 'space-between',
       }}
     >
-      <Box sx={{ display: 'flex' }}>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          flexWrap: 'wrap',
+          flexDirection: { lg: 'row', md: 'row', sm: 'row', xs: 'column' },
+        }}
+      >
         <Typography variant="body2" sx={{ color: '#030229', fontWeight: 600 }}>
           Plan list
         </Typography>
@@ -27,6 +35,9 @@ const PlanList = () => {
           View All
         </Typography>
       </Box>
+      <Grid sx={{ paddingTop: '1rem' }}>
+        <TanstackTable columns={columns} data={planListData} />
+      </Grid>
     </Box>
   );
 };

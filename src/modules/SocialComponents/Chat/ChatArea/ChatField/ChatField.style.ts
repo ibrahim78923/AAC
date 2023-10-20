@@ -69,10 +69,21 @@ export const styles = {
       justifyContent: 'center',
     };
   },
-  sendReaction: () => {
+  sendReaction: (theme: any) => {
     return {
-      background: '#F9F9F9',
-      boxShadow: '0px 0px 0px 0px rgb(0,0,0,0.3)',
+      background: theme.palette.common.white,
+      boxShadow: '01px 4px 4px 0px rgb(194 194 194 / 16%)',
+      width: '100%',
+      height: '50px',
+      position: 'absolute',
+      bottom: '-59px',
+      left: '0px',
+      borderRadius: '8px',
+      border: `1px solid ${theme.palette.grey[400]}`,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      padding: '0px 15px',
     };
   },
 };

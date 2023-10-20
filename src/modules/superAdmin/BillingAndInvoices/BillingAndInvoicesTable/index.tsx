@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { Grid, Typography, Button } from '@mui/material';
 
-import { BillingAndInvoicesTableData } from '@/mock/modules/BillingAndDetails';
+import { BillingAndInvoicesTableData } from '@/mock/modules/superAdmin/BillingAndDetails';
 
 import Search from '@/components/Search';
 import GenerateInvoice from '../GenerateInvoice';

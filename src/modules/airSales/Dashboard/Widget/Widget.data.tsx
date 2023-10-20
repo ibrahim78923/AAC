@@ -4,15 +4,15 @@ export const widgetData = [
     totalDeals: 5,
   },
   {
-    dealName: 'TOpen Deals',
+    dealName: 'Open Deals',
     totalDeals: 5,
   },
   {
-    dealName: 'Team Deals',
+    dealName: 'Team Goals',
     totalDeals: 5,
   },
   {
-    dealName: 'Closed Deals',
+    dealName: 'Closed Won',
     totalDeals: 5,
   },
   {
