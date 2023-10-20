@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Image from 'next/image';
 
@@ -14,13 +14,21 @@ const ContactsCard = ({ cardData, setSelectedValues, selectedValues }: any) => {
   const [isCardHover, setIsCardHover] = useState(false);
   const [isDeleteModal, setIsDeleteModal] = useState(false);
 
-  const handleOptionSelect = (value: string) => {
-    if (selectedValues && selectedValues.includes(value)) {
-      setSelectedValues(selectedValues.filter((val: string) => val !== value));
+  const handleChatSelect = (chatId: string) => {
+    if (selectedValues.includes(chatId)) {
+      setSelectedValues(selectedValues.filter((id: string) => id !== chatId));
     } else {
-      setSelectedValues([...(selectedValues || []), value]);
+      setSelectedValues([...selectedValues, chatId]);
     }
   };
+
+  useEffect(() => {
+    if (selectedValues) {
+      if (selectedValues.includes(cardData.chatId)) {
+        setIsCardHover(true);
+      }
+    }
+  }, [isCardHover, selectedValues]);
 
   return (
     <>
@@ -32,10 +40,10 @@ const ContactsCard = ({ cardData, setSelectedValues, selectedValues }: any) => {
         {isCardHover && (
           <Checkbox
             onClick={() => {
-              handleOptionSelect(cardData.chatID);
+              handleChatSelect(cardData.chatId);
             }}
             checked={
-              selectedValues ? selectedValues.includes(cardData.chatID) : false
+              selectedValues ? selectedValues.includes(cardData.chatId) : false
             }
           />
         )}
