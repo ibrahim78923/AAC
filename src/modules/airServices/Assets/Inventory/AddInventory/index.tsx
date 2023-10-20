@@ -44,7 +44,7 @@ const AddInventory = () => {
               </Button>
               <Button
                 variant="contained"
-                onClick={submit}
+                type="submit"
                 sx={{ paddingX: '25px' }}
               >
                 {formType || 'save'}
@@ -52,9 +52,7 @@ const AddInventory = () => {
             </Box>
           </Grid>
           <Grid item lg={3} sx={{ display: { xs: 'none', lg: 'block' } }}>
-            <FormProvider methods={methods} onSubmit={submit}>
-              <RHFDropZone name="file" />
-            </FormProvider>
+            <RHFDropZone name="file" />
           </Grid>
         </Grid>
       </FormProvider>

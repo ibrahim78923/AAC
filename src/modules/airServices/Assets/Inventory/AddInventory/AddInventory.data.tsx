@@ -72,18 +72,8 @@ export const assetTypeOptions = [
 // form validation schema
 export const validationSchema: any = yup.object().shape({
   displayName: yup.string().required('Required field!'),
-  assetId: yup.string(),
   assetType: yup.string().required('Required field!'),
   impact: yup.string().required('Required field!'),
-  description: yup.string(),
-  assetLifeExpireOn: yup.date(),
-  services: yup.string(),
-  location: yup.string(),
-  department: yup.string(),
-  assignedOnDate: yup.date(),
-  assignedOnTime: yup.date(),
-  usedBy: yup.string(),
-  attachFile: yup.string(),
 });
 
 export const defaultValues = {
@@ -96,7 +86,7 @@ export const defaultValues = {
   location: '',
   department: '',
   assignedOnDate: null,
-  assignedOnTime: '',
+  assignedOnTime: null,
   usedBy: '',
   attachFile: '',
 };
