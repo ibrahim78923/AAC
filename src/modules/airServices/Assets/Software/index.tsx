@@ -11,6 +11,7 @@ import AssetHead from '../AssetHead/index';
 import useManage from '@/modules/airSales/Dashboard/Manage/useManage';
 import SoftwareFilter from './SoftwareFilter';
 import SoftwareAssignCategory from './SoftwareAssignCategory';
+import { useRouter } from 'next/router';
 
 function Software() {
   const [softwareData, setSoftwareData] = useState([]);
@@ -19,7 +20,7 @@ function Software() {
 
   const theme: any = useTheme();
   const { setIsOpenFilterDrawer, isOpenFilterDrawer } = useManage();
-
+  const router = useRouter();
   return (
     <Grid container>
       <AssetHead title={'Software'} addTitle={'New Software'} />
@@ -57,7 +58,13 @@ function Software() {
         <Box sx={{ marginBottom: '25px' }}>
           <TanstackTable
             data={data}
-            columns={columns(softwareData, setSoftwareData, data, theme)}
+            columns={columns(
+              softwareData,
+              setSoftwareData,
+              data,
+              theme,
+              router,
+            )}
           />
         </Box>
       </Grid>

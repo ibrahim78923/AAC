@@ -41,6 +41,7 @@ export const columns = (
   setSoftwareData: any,
   data: any,
   theme: any,
+  router: any,
 ): any => [
   {
     accessorFn: (row: any) => row.id,
@@ -84,7 +85,20 @@ export const columns = (
     isSortable: true,
     header: <span style={styles.headerStyle(theme)}>Software</span>,
     cell: (info: any) => (
-      <span style={styles.firstCellStyle}>{info.getValue()}</span>
+      <span
+        onClick={() =>
+          router.push({
+            pathname:
+              'http://localhost:3000/air-services/assets/software/detail',
+            query: {
+              softwareId: info?.row?.id,
+            },
+          })
+        }
+        style={{ ...styles.firstCellStyle, cursor: 'pointer' }}
+      >
+        {info.getValue()}
+      </span>
     ),
   },
   {

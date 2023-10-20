@@ -25,6 +25,7 @@ function PurchaseOrder() {
     methodsPurchaseOrderFilterForm,
     submitPurchaseOrderFilterForm,
     resetPurchaseOrderFilterForm,
+    router,
   } = usePurchaseOrders();
 
   const { tableWrapperStyle, flexBetween } = styles();
@@ -53,7 +54,7 @@ function PurchaseOrder() {
         </Box>
         <TanstackTable
           data={data}
-          columns={columns(meetingsData, setMeetingsData, data, theme)}
+          columns={columns(meetingsData, setMeetingsData, data, theme, router)}
         />
       </Box>
     </>
