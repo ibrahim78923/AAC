@@ -1,6 +1,6 @@
 import CommonModal from '@/components/CommonModal';
 import { FormProvider, RHFSelect } from '@/components/ReactHookForm';
-import { Button } from '@mui/material';
+import { Box, Button, Divider } from '@mui/material';
 import { GrayPlusIcon } from '@/assets/icons';
 import { useInstallation } from '../useInstallations';
 
@@ -32,7 +32,6 @@ const AddDevice = () => {
           title="Add Device"
           okText="add"
           footerFill={'auto'}
-          footer
         >
           <FormProvider
             methods={methods}
@@ -50,6 +49,25 @@ const AddDevice = () => {
                 </option>
               ))}
             </RHFSelect>
+            <Divider sx={{ mt: 2, mb: 3 }} />
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'flex-end',
+                gap: 2,
+              }}
+            >
+              <Button
+                onClick={() => methods.reset()}
+                variant="outlined"
+                color="secondary"
+              >
+                Cancel
+              </Button>
+              <Button type="submit" variant="contained">
+                save
+              </Button>
+            </Box>
           </FormProvider>
         </CommonModal>
       )}
