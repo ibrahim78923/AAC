@@ -1,9 +1,10 @@
 import { Button, Grid, useTheme, Popover, MenuItem } from '@mui/material';
-import { ExportBlackIcon, AddCircleBlackIcon } from '@/assets/icons';
+import { ExportBlackIcon } from '@/assets/icons';
 import Search from '@/components/Search';
 import { AlertModals } from '@/components/AlertModals';
 import { useInstallation } from '../../useInstallations';
 import { InstallationStyle } from '../../Installation.style';
+import AddDevice from '../../addDevice';
 
 const DELETE_MESSAGE = 'Are you sure you want to delete this Associate Asset?';
 const MODAL_TYPE = 'delete';
@@ -58,9 +59,12 @@ export const InstallationHeader = ({ activeCheck }: any) => {
               Excel
             </MenuItem>
           </Popover>
-          <Button startIcon={<AddCircleBlackIcon />} sx={styles[0].headerEaBtn}>
-            Add Device
-          </Button>
+          <AddDevice
+            isModalOpen={false}
+            setIsmodalOpen={{}}
+            onSubmit={() => {}}
+            options={[]}
+          />
         </Grid>
       </Grid>
       <AlertModals
