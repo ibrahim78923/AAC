@@ -29,9 +29,7 @@ const AddInventory = () => {
                 </Grid>
               </Grid>
               <Box sx={{ display: { lg: 'none', xs: 'block' } }}>
-                <FormProvider methods={methods} onSubmit={() => {}}>
-                  <RHFDropZone name="file" />
-                </FormProvider>
+                <RHFDropZone name="file" />
               </Box>
             </Box>
             <Box sx={buttonWrapper}>
