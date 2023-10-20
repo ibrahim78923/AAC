@@ -5,7 +5,7 @@ import Search from '@/components/Search';
 import { Button } from '@mui/material';
 import { FilterSharedIcon, ExportShared } from '@/assets/icons';
 import { styles } from './Contracts.style';
-import AssetHead from '../AssetHead/index';
+import AssetHead from '../Header/index';
 import ContractsDrawerForm from './ContractsDrawerForm';
 import { AlertModals } from '@/components/AlertModals';
 import { useContracts } from './useContracts';

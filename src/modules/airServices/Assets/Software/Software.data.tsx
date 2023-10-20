@@ -1,5 +1,16 @@
 import { Checkbox } from '@mui/material';
-import { styles } from '../AssetHead/AssetHead.style';
+import { styles } from '../Header/Header.style';
+import { RHFSelect } from '@/components/ReactHookForm';
+
+export const dataArray = [
+  {
+    options: [
+      { value: 'Add & Assign', label: 'Add & Assign' },
+      { value: 'Operation', label: 'Operation' },
+    ],
+    component: RHFSelect,
+  },
+];
 
 export const data: any = [
   {

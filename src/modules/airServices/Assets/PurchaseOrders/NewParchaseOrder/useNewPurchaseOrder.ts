@@ -26,6 +26,11 @@ const useNewPurchaseOrders = () => {
     push('/air-services/assets/purchase-orders');
   };
 
+  const handleVenderSelect = (e: any) => {
+    const { name, value } = e?.target;
+    methods?.setValue(name, value);
+    setVendor(value || '');
+  };
   const resetPurchaseOrderFilterForm = async () => {
     methods?.reset();
     setIsDrawerOpen(false);
@@ -37,12 +42,12 @@ const useNewPurchaseOrders = () => {
     handlePageBack,
     methods,
     vendor,
-    setVendor,
     submit,
     resetPurchaseOrderFilterForm,
     // new purchase order
     isNewPurchaseOrder,
     setIsNewPurchaseOrder,
+    handleVenderSelect,
   };
 };
 export default useNewPurchaseOrders;

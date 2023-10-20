@@ -6,7 +6,7 @@ import Search from '@/components/Search';
 
 import { styles } from './PurchaseOrders.style';
 
-import AssetHead from '../AssetHead/index';
+import AssetHead from '../Header/index';
 import { PurchaseOrderExport } from './components/PurchaseOrderExport';
 import { PurchaseOrderFilter } from './components/PurchaseOrderFilter';
 

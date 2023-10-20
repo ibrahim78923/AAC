@@ -2,14 +2,16 @@ import { Box, Button, Grid, Typography } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { ArrowLeftIcon } from '@/assets/icons';
 import FormBuilder from '@/utils/FormBuilder';
-import { newPurchaseFields } from './NewPurchaseOrder.data';
+import { newPurchaseFieldsFunction } from './NewPurchaseOrder.data';
 import useNewPurchaseOrder from './useNewPurchaseOrder';
 import ItemsDetails from './ItemsDetails';
 import { styles } from './NewPurchaseOrder.style';
 
 const NewParchaseOrder = () => {
-  const { methods, submit, handlePageBack } = useNewPurchaseOrder();
+  const { methods, submit, handlePageBack, vendor, handleVenderSelect } =
+    useNewPurchaseOrder();
   const { flexBetween, mainWrapper, mainHeading, subHeading } = styles();
+  const newPurchaseFields = newPurchaseFieldsFunction(handleVenderSelect);
 
   return (
     <Box>
@@ -44,14 +46,14 @@ const NewParchaseOrder = () => {
             >
               <FormBuilder formFields={newPurchaseFields} />
             </Grid>
-            {
+            {vendor && (
               <Grid item xs={12} rowSpacing={2.6} columnSpacing={2}>
                 <Box>
                   <Typography sx={{ ...subHeading }}>Items Details</Typography>
                   <ItemsDetails />
                 </Box>
               </Grid>
-            }
+            )}
           </Grid>
           <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2 }}>
             <Button

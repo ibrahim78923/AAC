@@ -1,6 +1,6 @@
 import { Checkbox } from '@mui/material';
+import { styles } from '../Header/Header.style';
 import { useTheme } from '@mui/material/styles';
-import { styles } from '../AssetHead/AssetHead.style';
 
 export const data: any = [
   {

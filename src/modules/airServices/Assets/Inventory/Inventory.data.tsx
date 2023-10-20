@@ -1,5 +1,5 @@
 import { Checkbox } from '@mui/material';
-import { styles } from '../AssetHead/AssetHead.style';
+import { styles } from '../Header/Header.style';
 
 export const data: any = [
   {

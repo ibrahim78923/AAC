@@ -3,17 +3,27 @@ import ConversationModel from '@/components/Model/CoversationModel';
 import { FormProvider, RHFSearchableSelect } from '@/components/ReactHookForm';
 import { Box, Button, Divider, Grid } from '@mui/material';
 import { enqueueSnackbar } from 'notistack';
-import { dataArray } from './SoftwareAssignCategory.data';
 import { style } from './SoftwareAssignCategory.style';
 import { v4 as uuidv4 } from 'uuid';
+import { useState } from 'react';
 
-function SoftwareAssignCategory({ openAssignModal, setOpenAssignModal }: any) {
+function SoftwareAssignCategory({
+  title,
+  openAssignModal,
+  setOpenAssignModal,
+  dataArray,
+  cancelText,
+  okText,
+  successMessage,
+  setData,
+}: any) {
   const methods: any = useForm({});
+  const [disable, setDisable] = useState(true);
 
   return (
     <>
       <ConversationModel
-        selectedItem={'Assign Category'}
+        selectedItem={title}
         open={openAssignModal}
         handleClose={() => {
           setOpenAssignModal(false);
@@ -25,7 +35,12 @@ function SoftwareAssignCategory({ openAssignModal, setOpenAssignModal }: any) {
               <Grid container spacing={4} sx={{}}>
                 {dataArray?.map((item: any) => (
                   <Grid item key={uuidv4()}>
-                    <Box sx={style.searchField}>
+                    <Box
+                      sx={style.searchField}
+                      onClick={() => {
+                        setDisable(false);
+                      }}
+                    >
                       <RHFSearchableSelect
                         name="Search or add category"
                         options={item.options}
@@ -43,21 +58,24 @@ function SoftwareAssignCategory({ openAssignModal, setOpenAssignModal }: any) {
               variant="outlined"
               onClick={() => {
                 setOpenAssignModal(false);
+                setDisable(true);
               }}
             >
-              Cancel
+              {cancelText}
             </Button>
             <Button
               variant="contained"
               onClick={() => {
-                enqueueSnackbar('Assign successfully', {
+                enqueueSnackbar(successMessage, {
                   variant: 'success',
                   autoHideDuration: 2000,
                 });
                 setOpenAssignModal(false);
+                setData(true);
               }}
+              disabled={disable}
             >
-              Assign
+              {okText}
             </Button>
           </Box>
         </Box>

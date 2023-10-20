@@ -1,12 +1,12 @@
 import { Box, Grid, Button } from '@mui/material';
 import { useState } from 'react';
-import { data, columns } from './Software.data';
+import { data, columns, dataArray } from './Software.data';
 import TanstackTable from '@/components/Tabel/TanstackTable';
 import Search from '@/components/Search';
 import { FilterSharedIcon } from '@/assets/icons';
 import { styles } from './Software.style';
 import { useTheme } from '@emotion/react';
-import AssetHead from '../AssetHead/index';
+import AssetHead from '../Header/index';
 import useManage from '@/modules/airSales/Dashboard/Manage/useManage';
 import SoftwareFilter from './SoftwareFilter';
 import SoftwareAssignCategory from './SoftwareAssignCategory';
@@ -78,6 +78,10 @@ function Software() {
         openAssignModal={openAssignModal}
         setOpenAssignModal={setOpenAssignModal}
         title={'Assign Category'}
+        dataArray={dataArray}
+        cancelText={'Cancel'}
+        okText={'Assign'}
+        successMessage={'Assign Successfully'}
       />
       <AddSoftwareDrawer
         isDrawerOpen={isAddDrawerOpen}

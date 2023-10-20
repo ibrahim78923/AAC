@@ -7,7 +7,7 @@ import { Button } from '@mui/material';
 import { FilterSharedIcon, CustomizeSharedIcon } from '@/assets/icons';
 import { enqueueSnackbar } from 'notistack';
 import { styles } from './Inventory.style';
-import AssetHead from '../AssetHead/index';
+import AssetHead from '../Header/index';
 import { AlertModals } from '@/components/AlertModals';
 import useInventory from './useInventory';
 
