@@ -404,7 +404,7 @@ export const QuickLinkData = [
   {
     key: '1',
     icon: CallImage,
-    path: '',
+    path: '/social-components/calling',
   },
   {
     key: '2',
