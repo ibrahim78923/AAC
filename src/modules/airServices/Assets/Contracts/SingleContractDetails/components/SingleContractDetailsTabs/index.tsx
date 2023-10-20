@@ -4,7 +4,7 @@ import { Overview } from '../../Overview';
 import { AssetsAssociate } from '../../AssetsAssociate';
 import { ContractHistory } from '../../ContractHistory';
 import { Activity } from '../../Activity';
-import { Attachment } from '../../Attachment';
+import { Attachment } from '../../../../Inventory/SingleInventoryDetail/Attachment';
 
 export const SingleContractDetailsTabs = () => {
   return (

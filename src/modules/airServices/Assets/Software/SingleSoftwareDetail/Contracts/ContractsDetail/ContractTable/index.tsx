@@ -1,15 +1,15 @@
 import TanstackTable from '@/components/Tabel/TanstackTable';
 import {
-  ContractsTableColumns,
-  ContractsTableData,
+  contractsTableColumns,
+  contractsTableData,
 } from './ContractsTable.utils';
 
 export const ContractsTable = () => {
   return (
     <>
       <TanstackTable
-        data={ContractsTableData}
-        columns={ContractsTableColumns()}
+        data={contractsTableData}
+        columns={contractsTableColumns()}
       />
     </>
   );

@@ -10,6 +10,7 @@ export const styles = {
     p: '20px',
     height: { lg: '75vh' },
     mb: '10px',
+    overflow: 'scroll',
   },
   childBoxAddContract: {
     display: 'flex',

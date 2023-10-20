@@ -2,19 +2,12 @@ import { useState } from 'react';
 import { Box, Button, Typography } from '@mui/material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { AddAssociationsDrawer } from '../../AddAssociationsDrawer';
+import { styles } from '../../Associations.styles';
 export const AssociatesListHeader = () => {
   const [openDrawer, setOpenDrawer] = useState<any>(false);
   return (
     <>
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          flexWrap: 'wrap',
-          gap: '1rem',
-        }}
-      >
+      <Box sx={styles?.headerContainer}>
         <Typography variant="h6">Associations</Typography>
         <Button
           variant="contained"

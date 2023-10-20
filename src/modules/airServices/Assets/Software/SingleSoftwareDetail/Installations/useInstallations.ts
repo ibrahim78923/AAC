@@ -1,10 +1,9 @@
 import { useState } from 'react';
-import { useInstallationI } from './Installation.interface';
 import { enqueueSnackbar } from 'notistack';
 import { useForm } from 'react-hook-form';
 import { addDeviceOptions } from './Installations.data';
 
-export const useInstallation = (): useInstallationI => {
+export const useInstallation = () => {
   const [activeCheck, setActiveCheck] = useState<any>([]);
   const [exportPop, setExportPop] = useState<HTMLButtonElement | null>(null);
   const [deleteModal, setDeleteModal] = useState<boolean>(false);
