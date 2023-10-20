@@ -39,6 +39,7 @@ export default function RHFTimePicker({
                 error: error,
                 fullWidth: other.fullWidth,
                 size: other.size,
+                inputProps: { style: { height: 27 } },
               },
             }}
             label={''}

@@ -1,4 +1,4 @@
-export const overViewData = [
+export const OVERVIEWDATA = [
   {
     id: '1',
     heading: 'General Details',

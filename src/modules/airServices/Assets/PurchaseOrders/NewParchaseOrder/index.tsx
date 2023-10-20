@@ -1,14 +1,17 @@
-import { FormProvider } from '@/components/ReactHookForm';
 import { Box, Button, Grid, Typography } from '@mui/material';
+import { FormProvider } from '@/components/ReactHookForm';
 import { ArrowLeftIcon } from '@/assets/icons';
-import { newPurchaseFields } from './NewPurchaseOrder.data';
+import FormBuilder from '@/utils/FormBuilder';
+import { newPurchaseFieldsFunction } from './NewPurchaseOrder.data';
 import useNewPurchaseOrder from './useNewPurchaseOrder';
 import ItemsDetails from './ItemsDetails';
 import { styles } from './NewPurchaseOrder.style';
-import { v4 as uuidv4 } from 'uuid';
+
 const NewParchaseOrder = () => {
-  const { methods, submit, handlePageBack } = useNewPurchaseOrder();
+  const { methods, submit, handlePageBack, vendor, handleVenderSelect } =
+    useNewPurchaseOrder();
   const { flexBetween, mainWrapper, mainHeading, subHeading } = styles();
+  const newPurchaseFields = newPurchaseFieldsFunction(handleVenderSelect);
 
   return (
     <Box>
@@ -41,32 +44,16 @@ const NewParchaseOrder = () => {
               columnSpacing={3}
               mt={-1}
             >
-              {newPurchaseFields?.map((form: any) => {
-                return (
-                  <Grid item xs={12} md={form?.gridLength} key={uuidv4()}>
-                    <form.component {...form.componentProps} size="small">
-                      {form?.componentProps?.select
-                        ? form.componentProps.options.map((option: any) => (
-                            <option key={uuidv4()} value={option?.value}>
-                              {option?.label}
-                            </option>
-                          ))
-                        : form?.heading
-                        ? form?.heading
-                        : null}
-                    </form.component>
-                  </Grid>
-                );
-              })}
+              <FormBuilder formFields={newPurchaseFields} />
             </Grid>
-            {
+            {vendor && (
               <Grid item xs={12} rowSpacing={2.6} columnSpacing={2}>
                 <Box>
                   <Typography sx={{ ...subHeading }}>Items Details</Typography>
                   <ItemsDetails />
                 </Box>
               </Grid>
-            }
+            )}
           </Grid>
           <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2 }}>
             <Button
@@ -77,7 +64,7 @@ const NewParchaseOrder = () => {
               Cancel
             </Button>
             <Button type="submit" variant="contained">
-              save
+              Add
             </Button>
           </Box>
         </FormProvider>

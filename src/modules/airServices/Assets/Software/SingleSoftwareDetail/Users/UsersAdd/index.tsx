@@ -3,9 +3,10 @@ import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import { AddIconWithBgBlack } from '@/assets/icons';
-import CommonModal from '@/components/CommonModal';
 import { FormProvider, useForm } from 'react-hook-form';
 import UserSearchableSelect from '../UserSearchableSelect';
+import ConversationModel from '@/components/Model/CoversationModel';
+import { enqueueSnackbar } from 'notistack';
 
 const selectOptionsUsers = [
   { title: 'Andrew', label: 'Andrew' },
@@ -22,7 +23,11 @@ const selectOptions = [
   },
   { value: 'Figma', title: 'Figma', des: ` Figma Available contract: 1` },
 ];
-
+const buttonContainerStyle = {
+  display: 'flex',
+  justifyContent: 'flex-end',
+  margin: 'auto',
+};
 export const UsersAdd = () => {
   const [isModalOpen, setModalOpen] = useState(false);
 
@@ -57,11 +62,11 @@ export const UsersAdd = () => {
           </Grid>
         </Grid>
 
-        <CommonModal
+        <ConversationModel
           open={isModalOpen}
           handleClose={closeModal}
-          handleSubmit={closeModal}
-          title="Add User"
+          // handleSubmit={closeModal}
+          selectedItem="Add User"
           okText="Add"
           footer={true}
         >
@@ -72,7 +77,7 @@ export const UsersAdd = () => {
               placeholder="Select Contract"
               label="User"
               showDescription={false}
-              showAsterisk={true}
+              showAsterisk={false}
               showSearchBar={true}
             />
           </Box>
@@ -85,7 +90,39 @@ export const UsersAdd = () => {
               label="Contract"
             />
           </Box>
-        </CommonModal>
+          <Box sx={{ ...buttonContainerStyle, mt: 2 }}>
+            <Button
+              variant="contained"
+              onClick={closeModal}
+              sx={{
+                mr: 2,
+                bgcolor: '#FFF',
+                color: '#6B7280',
+                '&:hover': {
+                  bgcolor: '#FFFFFF',
+                  color: '#6B7280',
+                },
+              }}
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => {
+                enqueueSnackbar('Add successfully', {
+                  variant: 'success',
+
+                  autoHideDuration: 2000,
+                });
+
+                setModalOpen(false);
+              }}
+            >
+              ADD
+            </Button>
+          </Box>
+        </ConversationModel>
       </Box>
     </FormProvider>
   );

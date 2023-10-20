@@ -1,10 +1,10 @@
-import CommonDrawer from '@/components/CommonDrawer';
-import TasksForm from '../TasksForm';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import CommonDrawer from '@/components/CommonDrawer';
+import TasksForm from '../TasksForm';
 import {
-  createTicketDefaultValues,
-  createTicketValidationSchema,
+  TaskTicketFormDefaultValues,
+  TaskTicketFormValidationSchema,
 } from '../TasksForm/TasksForm.data';
 import { EditTaskDrawerI } from '../Tasks.interface';
 
@@ -12,11 +12,11 @@ export const EditTaskDrawer: React.FC<EditTaskDrawerI> = ({
   isDrawerOpen,
   onClose,
 }) => {
-  const methodsCreateNewTicketForm = useForm({
-    resolver: yupResolver(createTicketValidationSchema),
-    defaultValues: createTicketDefaultValues,
+  const methodsEditTicketForm = useForm({
+    resolver: yupResolver(TaskTicketFormValidationSchema),
+    defaultValues: TaskTicketFormDefaultValues,
   });
-  const submitCreateNewTicket = async () => {};
+  const submitEditTicket = async () => {};
   return (
     <>
       <CommonDrawer
@@ -26,16 +26,16 @@ export const EditTaskDrawer: React.FC<EditTaskDrawerI> = ({
         }}
         title="Edit Task"
         submitHandler={() => {
-          methodsCreateNewTicketForm.handleSubmit(submitCreateNewTicket)();
+          methodsEditTicketForm.handleSubmit(submitEditTicket)();
         }}
         footer={true}
         isOk={true}
         okText="Update"
       >
         <TasksForm
-          submitCreateNewTicket={submitCreateNewTicket}
-          methods={methodsCreateNewTicketForm}
-          handleSubmit={methodsCreateNewTicketForm.handleSubmit}
+          submitCreateNewTicket={submitEditTicket}
+          methods={methodsEditTicketForm}
+          handleSubmit={methodsEditTicketForm.handleSubmit}
         />
       </CommonDrawer>
     </>

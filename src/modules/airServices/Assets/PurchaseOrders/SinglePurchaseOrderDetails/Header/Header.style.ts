@@ -10,12 +10,13 @@ export const styles = {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: '32px',
+    marginBottom: '28px',
     width: '100%',
   },
 
   buttonBox: {
-    marginRight: '12px',
+    display: 'flex',
+    alignItems: 'center',
   },
 
   buttonStyle: (theme: any) => ({
@@ -27,20 +28,12 @@ export const styles = {
       backgroundColor: '#EAECF0',
     },
   }),
+
   actionbuttonStyle: () => ({
     marginRight: '12px',
     border: '1px solid #D1D5DB',
     color: 'custom.main',
     ':hover': { bgcolor: 'common.white' },
-  }),
-
-  addButtonStyle: (theme: any) => ({
-    marginRight: '12px',
-    backgroundColor: theme.palette.primary?.main,
-    color: '#FFFFFF',
-    '&:hover': {
-      backgroundColor: theme.palette.primary?.main,
-    },
   }),
 
   headerStyle: (theme: any) => ({

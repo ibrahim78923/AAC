@@ -7,16 +7,17 @@ import { Button } from '@mui/material';
 import { FilterSharedIcon, CustomizeSharedIcon } from '@/assets/icons';
 import { enqueueSnackbar } from 'notistack';
 import { styles } from './Inventory.style';
-import AssetHead from '../AssetHead/index';
+import AssetHead from '../Header/index';
 import { AlertModals } from '@/components/AlertModals';
-import { useRouter } from 'next/router';
+import useInventory from './useInventory';
 
 function Inventory() {
   const [inventoryData, setInventoryData] = useState([]);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [searchValue, SetSearchValue] = useState<string>('');
   const theme: any = useTheme();
-  const router = useRouter();
+
+  const { handleAddInventory } = useInventory();
   return (
     <>
       <AlertModals
@@ -36,7 +37,12 @@ function Inventory() {
       />
 
       <Grid container>
-        <AssetHead title={'Assets'} addTitle={'Add'} show={true} />
+        <AssetHead
+          title={'Assets'}
+          addTitle={'Add'}
+          show={true}
+          handleAction={handleAddInventory}
+        />
         <Grid item sx={styles.gridItems}>
           <Box sx={styles.headBox}>
             <Box sx={{ marginLeft: '24px' }}>
@@ -77,13 +83,7 @@ function Inventory() {
           <Box sx={{ marginBottom: '25px' }}>
             <TanstackTable
               data={data}
-              columns={columns(
-                inventoryData,
-                setInventoryData,
-                data,
-                theme,
-                router,
-              )}
+              columns={columns(inventoryData, setInventoryData, data, theme)}
             />
           </Box>
         </Grid>

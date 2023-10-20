@@ -1,6 +1,6 @@
 import { useTheme } from '@mui/material';
 
-export const ContractsTableColumns: any = () => {
+export const contractsTableColumns: any = () => {
   const theme = useTheme();
   return [
     {
@@ -45,7 +45,7 @@ export const ContractsTableColumns: any = () => {
     },
   ];
 };
-export const ContractsTableData: any = [
+export const contractsTableData: any = [
   {
     Id: 1,
     contractName: `Microsoft license`,

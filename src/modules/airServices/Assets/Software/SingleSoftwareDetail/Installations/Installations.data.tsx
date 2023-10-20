@@ -1,5 +1,5 @@
 import { Checkbox } from '@mui/material';
-import { styles } from '../../../AssetHead/AssetHead.style';
+import { styles } from '../../../Header/Header.style';
 
 export const data: any = [
   {
@@ -101,5 +101,16 @@ export const columns = (
     cell: (info: any) => (
       <span style={styles.cellStyle(theme)}>{info.getValue()}</span>
     ),
+  },
+];
+
+export const addDeviceOptions = [
+  {
+    value: 'device_one',
+    label: 'Device One',
+  },
+  {
+    value: 'device_two',
+    label: 'Device Two',
   },
 ];

@@ -2,6 +2,7 @@ import { Button, Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
 import { FilterSharedIcon } from '@/assets/icons';
+import FormBuilder from '@/utils/FormBuilder';
 
 export const PurchaseOrderFilter = (props: any) => {
   const {
@@ -36,23 +37,7 @@ export const PurchaseOrderFilter = (props: any) => {
         >
           <FormProvider methods={methods}>
             <Grid container rowSpacing={2.6} columnSpacing={2} mt={-1}>
-              {filterFields?.map((form: any) => {
-                return (
-                  <Grid item xs={12} md={form?.gridLength} key={form.id}>
-                    <form.component {...form.componentProps} size="small">
-                      {form?.componentProps?.select
-                        ? form.componentProps.options.map((option: any) => (
-                            <option key={option?.id} value={option?.value}>
-                              {option?.label}
-                            </option>
-                          ))
-                        : form?.heading
-                        ? form?.heading
-                        : null}
-                    </form.component>
-                  </Grid>
-                );
-              })}
+              <FormBuilder formFields={filterFields} />
             </Grid>
           </FormProvider>
         </CommonDrawer>

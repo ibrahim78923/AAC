@@ -1,5 +1,25 @@
 import { RHFSelect } from '@/components/ReactHookForm';
 
+import * as Yup from 'yup';
+
+export const drawerFormValidationSchema = Yup.object().shape({
+  status: Yup.string(),
+  type: Yup.string(),
+  category: Yup.string(),
+  publisher: Yup.string(),
+  createdDate: Yup.date(),
+  updatedDate: Yup.date(),
+});
+
+export const defaultValues = {
+  type: '',
+  status: '',
+  category: '',
+  publisher: '',
+  createdDate: '',
+  updatedDate: '',
+};
+
 export const dataArray = [
   {
     componentProps: {

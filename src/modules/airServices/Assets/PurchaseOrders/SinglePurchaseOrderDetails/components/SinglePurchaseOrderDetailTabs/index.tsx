@@ -5,7 +5,7 @@ import { singlePurchaseOrderDetailTabsData } from './SinglePurchaseOrderDetailsT
 import { Approvals } from '../../Approvals';
 import { Associations } from '../../Associations';
 import { AssetsReceived } from '../../AssetsReceived';
-import Attachments from '../../Attachments';
+import { Attachments } from '../../Attachments';
 
 export const SinglePurchaseOrderDetailTabs = () => {
   return (

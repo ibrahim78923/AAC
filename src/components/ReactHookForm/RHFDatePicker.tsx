@@ -40,6 +40,7 @@ export default function RHFDatePicker({
                 fullWidth: other.fullWidth,
                 size: other.size,
                 label: '',
+                inputProps: { style: { height: 27 } },
               },
             }}
             label={label}
