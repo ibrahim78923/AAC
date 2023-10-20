@@ -19,6 +19,11 @@ import Members from './Members';
 
 import { ChatInfoModalPropsI } from './ChatInfoModal.interface';
 
+import {
+  viewGroupInfoButtonData,
+  viewUserProfileButtonData,
+} from './ChatInfoModal.data';
+
 import CloseIcon from '@/assets/icons/shared/close-icon';
 import { UserProfileAvatarImage } from '@/assets/images';
 
@@ -39,36 +44,6 @@ const ChatInfoModal = ({
       setToggleSwitchActive(newValue);
     }
   };
-
-  const viewUserProfileButtonData = [
-    {
-      label: 'Media',
-      value: 'media',
-      position: 'left-aligned',
-    },
-    {
-      label: 'Docs',
-      value: 'docs',
-      position: 'left-aligned',
-    },
-    {
-      label: 'Links',
-      value: 'link',
-      position: 'right-aligned',
-    },
-  ];
-  const viewGroupInfoButtonData = [
-    {
-      label: 'Members',
-      value: 'members',
-      position: 'left-aligned',
-    },
-    {
-      label: 'Shared Media',
-      value: 'media',
-      position: 'left-aligned',
-    },
-  ];
 
   const buttonsToShow =
     chatMode === 'groupChat'

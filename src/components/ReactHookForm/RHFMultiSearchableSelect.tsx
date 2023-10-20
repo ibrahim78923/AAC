@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
 
+import Image from 'next/image';
 import {
   Box,
   InputAdornment,
   TextField,
   Menu,
-  Avatar,
   Checkbox,
   Typography,
 } from '@mui/material';
-
-import { useFormContext, Controller } from 'react-hook-form';
+import Search from '../Search';
 
 import { ArrowDownIcon } from '@/assets/icons';
-import Search from '../Search';
+
+import { useFormContext, Controller } from 'react-hook-form';
 
 export default function RHFMultiSearchableSelect({
   name,
@@ -125,8 +125,9 @@ export default function RHFMultiSearchableSelect({
                   }}
                 >
                   {option.image && (
-                    <Avatar
-                      sx={{ width: 24, height: 24 }}
+                    <Image
+                      width={24}
+                      height={24}
                       alt="user"
                       src={option.image}
                     />

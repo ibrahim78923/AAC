@@ -3,9 +3,6 @@ import { baseAPI } from '../services/base-api';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import chatSlice from './slices/chat/slice';
 
-// Define an action to set store initialization
-// export const setStoreInitialized = createAction("store/setInitialized");
-
 const store = configureStore({
   reducer: {
     [baseAPI.reducerPath]: baseAPI.reducer,
@@ -14,8 +11,6 @@ const store = configureStore({
   middleware: (defaultMiddleware) =>
     defaultMiddleware().concat(baseAPI.middleware),
 });
-
-// store.dispatch(setStoreInitialized()); // Dispatch action to indicate store is initialized
 
 export type AppDispatch = typeof store.dispatch;
 export const useAppDispatch: () => AppDispatch = useDispatch;
