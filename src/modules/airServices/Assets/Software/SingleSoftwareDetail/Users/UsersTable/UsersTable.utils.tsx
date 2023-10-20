@@ -1,27 +1,24 @@
+import React from 'react';
 import { Box, Checkbox } from '@mui/material';
-export const usersTableColumns = (
-  usersData: any,
-  setusersData: any,
-  usersMainData: any,
-): any => [
+
+export const usersTableColumns = (usersData, setUsersData, usersMainData) => [
   {
-    accessorFn: (row: any) => row.id,
+    accessorFn: (row) => row.id,
     id: 'id',
-    cell: (info: any) => (
+    cell: (info) => (
       <Checkbox
-        checked={!!usersData.find((item: any) => item.id === info.getValue())}
-        // onChange={(e: any) => {
-        //   e.target.checked
-        //     ? setusersData([
-        //         ...usersData,
-        //         usersMainData.find((item: any) => item.id === info.getValue()),
-        //       ])
-        //     : setusersData(
-        //         usersData.filter((item: any) => {
-        //           return item.id !== info.getValue();
-        //         }),
-        //       );
-        // }}
+        checked={!!usersData.find((item) => item.id === info.getValue())}
+        onChange={(e) => {
+          const selectedId = info.getValue();
+          if (e.target.checked) {
+            setUsersData([
+              ...usersData,
+              usersMainData.find((item) => item.id === selectedId),
+            ]);
+          } else {
+            setUsersData(usersData.filter((item) => item.id !== selectedId));
+          }
+        }}
         color="primary"
         name={info.getValue()}
       />
@@ -29,11 +26,13 @@ export const usersTableColumns = (
     header: (
       <Checkbox
         checked={usersData.length === usersMainData.length}
-        // onChange={(e: any) => {
-        //   e.target.checked
-        //     ? setusersData([...usersMainData])
-        //     : setusersData([]);
-        // }}
+        onChange={(e) => {
+          if (e.target.checked) {
+            setUsersData([...usersMainData]);
+          } else {
+            setUsersData([]);
+          }
+        }}
         color="primary"
         name="id"
       />
@@ -133,28 +132,6 @@ export const usersTableColumns = (
 export const usersTableData: any = [
   {
     id: '1',
-    username: 'Andrea',
-    department: '-',
-    source: '-',
-    usage: '-',
-    firstseen: '22 Mar, 2023',
-    lastseen: '22 Mar, 2023',
-    assigneddate: '22 Mar, 2023',
-    contract: 'Freshservice Trial License',
-  },
-  {
-    id: '2',
-    username: 'Andrea',
-    department: '-',
-    source: '-',
-    usage: '-',
-    firstseen: '22 Mar, 2023',
-    lastseen: '22 Mar, 2023',
-    assigneddate: '22 Mar, 2023',
-    contract: 'Freshservice Trial License',
-  },
-  {
-    id: '3',
     username: 'Andrea',
     department: '-',
     source: '-',

@@ -7,15 +7,22 @@ import { v4 as uuidv4 } from 'uuid';
 import { Typography, useTheme } from '@mui/material';
 
 export const UsersAction = (props: any) => {
-  const { actionDropdownData } = props;
+  const { actionDropdownData, usersData } = props;
+
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const theme = useTheme();
+
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleDropdownItemClick = (item: any) => {
+    item.handleClick?.(handleClose);
   };
 
   return (
@@ -26,6 +33,7 @@ export const UsersAction = (props: any) => {
         aria-controls={open ? 'demo-positioned-menu' : undefined}
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
+        disabled={usersData.length === 0}
         onClick={handleClick}
         endIcon={<ArrowDropDownIcon />}
         color="secondary"
@@ -43,7 +51,7 @@ export const UsersAction = (props: any) => {
         {actionDropdownData?.map((x: any) => (
           <MenuItem
             key={uuidv4()}
-            onClick={() => x?.handleClick?.(handleClose)}
+            onClick={() => handleDropdownItemClick(x)}
             sx={{
               '&.MuiMenuItem-root': {
                 marginBottom: { md: 0.5 },
