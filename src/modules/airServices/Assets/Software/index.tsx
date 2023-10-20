@@ -7,7 +7,7 @@ import { Button } from '@mui/material';
 import { FilterSharedIcon } from '@/assets/icons';
 import { styles } from './Software.style';
 import { useTheme } from '@emotion/react';
-import AssetHead from '../AssetHead/index';
+import AssetHead from '../Header/index';
 import useManage from '@/modules/airSales/Dashboard/Manage/useManage';
 import SoftwareFilter from './SoftwareFilter';
 import SoftwareAssignCategory from './SoftwareAssignCategory';
