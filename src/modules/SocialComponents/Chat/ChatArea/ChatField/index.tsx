@@ -60,7 +60,16 @@ const ChatField = () => {
 
   return (
     <>
-      <Box sx={{ padding: '30px', height: '60vh', overflow: 'scroll' }}>
+      <Box
+        sx={{
+          padding: '30px',
+          height: '60vh',
+          overflow: 'scroll',
+          '@media (max-width: 600px)': {
+            padding: '10px',
+          },
+        }}
+      >
         <Box>
           <Box sx={styles.timeSlot(theme)}>
             <Typography
@@ -158,7 +167,14 @@ const ChatField = () => {
                                   }}
                                 >
                                   {item.attachment.images.map((item: any) => (
-                                    <Grid item lg={4} key={uuidv4()}>
+                                    <Grid
+                                      item
+                                      xs={9}
+                                      sm={4}
+                                      md={4}
+                                      lg={4}
+                                      key={uuidv4()}
+                                    >
                                       <Image
                                         src={item?.img}
                                         height={80}
