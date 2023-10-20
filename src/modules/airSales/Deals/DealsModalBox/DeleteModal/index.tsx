@@ -2,7 +2,7 @@ import React from 'react';
 
 import { AlertModals } from '@/components/AlertModals';
 
-const DealsModalBox = ({ open, onClose, handleSubmit }: any) => {
+const DeleteModal = ({ open, onClose, handleSubmit }: any) => {
   return (
     <>
       <AlertModals
@@ -16,4 +16,4 @@ const DealsModalBox = ({ open, onClose, handleSubmit }: any) => {
   );
 };
 
-export default DealsModalBox;
+export default DeleteModal;

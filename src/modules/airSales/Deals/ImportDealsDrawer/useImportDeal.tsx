@@ -5,6 +5,7 @@ import { useTheme } from '@mui/material';
 const useImportDeal = () => {
   const theme: any = useTheme();
   const [isColumnsSelect, setIsColumnsSelect] = useState(false);
+  const okTitle = isColumnsSelect ? 'Import' : 'Next';
   const handleSubmit = () => {
     if (!isColumnsSelect) {
       setIsColumnsSelect(true);
@@ -16,6 +17,7 @@ const useImportDeal = () => {
     isColumnsSelect,
     setIsColumnsSelect,
     theme,
+    okTitle,
   };
 };
 

@@ -5,12 +5,12 @@ export const styles = {
     return {
       color: theme.palette.slateBlue['main'],
       fontSize: '14px',
-      fontWeight: '600',
+      fontWeight: 600,
     };
   },
   accordianEmail: (theme: any) => {
     return {
-      color: theme.palette.custom['main'],
+      color: theme.palette.grey['900'],
       fontSize: '14px',
       fontWeight: '600',
     };

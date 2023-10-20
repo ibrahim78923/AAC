@@ -4,11 +4,14 @@ import { Typography, Box, Button, SvgIcon } from '@mui/material';
 import { AddCircle } from '@mui/icons-material';
 
 import ImportDealsDrawer from '../ImportDealsDrawer';
+
 import CreateDeal from '../CreateDeal';
 import ViewAllDeals from '../ViewAllDeals';
-import { ImportIcon, MenuIcon } from '@/assets/icons';
-import { styles } from './DealHeader.style';
 import useDealHeader from './useDealHeader';
+
+import { ImportIcon, MenuIcon } from '@/assets/icons';
+
+import { styles } from './DealHeader.style';
 
 const DealHeader = () => {
   const {
@@ -35,6 +38,7 @@ const DealHeader = () => {
           variant="outlined"
           onClick={handleImportDealOpen}
           startIcon={<ImportIcon />}
+          sx={{ height: '35px' }}
         >
           Import
         </Button>
@@ -43,6 +47,7 @@ const DealHeader = () => {
             variant="contained"
             onClick={handleCreateDealOpen}
             startIcon={<AddCircle />}
+            sx={{ height: '35px' }}
           >
             Create Deal
           </Button>

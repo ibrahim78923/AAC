@@ -1,10 +1,10 @@
 import Layout from '@/layout';
-import RestoreTable from '@/modules/airSales/Deals/RestoreTable';
+import Restore from '@/modules/airSales/Deals/Restore';
 
 const RestoreTablePage = () => {
   return (
     <Layout>
-      <RestoreTable />
+      <Restore />
     </Layout>
   );
 };

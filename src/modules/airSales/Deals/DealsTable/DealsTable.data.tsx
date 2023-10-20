@@ -1,7 +1,5 @@
 import { Checkbox } from '@mui/material';
 
-export const menuItem = ['Preview', 'Re-assign', 'Export', 'Delete'];
-
 export const dealsColumns: any = [
   {
     accessorFn: (row: any) => row.id,

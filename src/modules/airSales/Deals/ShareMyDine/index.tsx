@@ -12,6 +12,8 @@ import {
   AccordionDetails,
 } from '@mui/material';
 
+import CommonDrawer from '@/components/CommonDrawer';
+
 import {
   AccordianDetailsData,
   ShareAccordianData,
@@ -30,7 +32,6 @@ import {
 import { styles } from './ShareMyDine.style';
 
 import { v4 as uuidv4 } from 'uuid';
-import CommonDrawer from '@/components/CommonDrawer';
 
 const ShareMyDine = ({ open, onClose }: any) => {
   const theme = useTheme();
@@ -54,8 +55,24 @@ const ShareMyDine = ({ open, onClose }: any) => {
         <Box sx={{ marginTop: '40px' }}>
           {ShareData?.map((item: any) => (
             <Box key={uuidv4()} sx={styles.heading}>
-              <Typography>{item.heading}</Typography>
-              <Typography>{item.values}</Typography>
+              <Typography
+                sx={{
+                  fontSize: '14x',
+                  fontWeight: 400,
+                  color: theme.palette.custom['main'],
+                }}
+              >
+                {item.heading}
+              </Typography>
+              <Typography
+                sx={{
+                  fontSize: '14x',
+                  fontWeight: 600,
+                  color: theme.palette.slateBlue['main'],
+                }}
+              >
+                {item.values}
+              </Typography>
             </Box>
           ))}
         </Box>
@@ -74,7 +91,11 @@ const ShareMyDine = ({ open, onClose }: any) => {
                     {item.number}
                   </Typography>
                   <Typography
-                    sx={{ color: '', fontSize: '16px', fontWeight: '600' }}
+                    sx={{
+                      color: theme.palette.slateBlue['main'],
+                      fontSize: '16px',
+                      fontWeight: 600,
+                    }}
                   >
                     {item.heading}
                   </Typography>
@@ -99,7 +120,13 @@ const ShareMyDine = ({ open, onClose }: any) => {
                             {data.email}
                           </Typography>
                         </Stack>
-                        <Typography sx={styles.accordianText(theme)}>
+                        <Typography
+                          sx={{
+                            color: theme.palette.grey['900'],
+                            fontSize: '14px',
+                            fontWeight: 500,
+                          }}
+                        >
                           {data.number}
                         </Typography>
                       </Stack>

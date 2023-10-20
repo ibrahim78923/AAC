@@ -1,3 +1,5 @@
+import { UserAvatarImage } from '@/assets/images';
+
 export const ShareData = [
   { heading: 'Deal Owner', values: 'Savannah Shane' },
   { heading: 'Amount', values: '£20' },
@@ -17,7 +19,7 @@ export const ShareAccordianData = [
 
 export const AccordianDetailsData = [
   {
-    img: '',
+    img: UserAvatarImage,
     name: 'Olivia Rhye',
     email: 'Olivia@gmail.com',
     number: '+44 23669252',

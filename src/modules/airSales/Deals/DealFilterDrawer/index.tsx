@@ -1,11 +1,9 @@
-import React from 'react';
-
 import { Grid, MenuItem, Typography, useTheme } from '@mui/material';
-
-import { FilterData } from './DealFilterDrawer.data';
 
 import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
+
+import { FilterData } from './DealFilterDrawer.data';
 
 import { v4 as uuidv4 } from 'uuid';
 import { useForm } from 'react-hook-form';
@@ -29,7 +27,11 @@ const DealFilterDrawer = ({ open, onClose }: any) => {
             <Grid item xs={12} key={uuidv4()}>
               <Typography
                 variant="body4"
-                sx={{ colors: theme.palette.grey[600] }}
+                sx={{
+                  colors: theme.palette.grey[600],
+                  fontSize: '14px',
+                  fontWeight: 500,
+                }}
               >
                 {obj.title}
               </Typography>

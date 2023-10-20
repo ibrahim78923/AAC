@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Box, Checkbox, useTheme } from '@mui/material';
 
 import { DragIcon } from '@/assets/icons';

@@ -109,8 +109,8 @@ export const createDealData = [
       select: true,
     },
     options: [
-      { value: 'Monthly', label: 'Low' },
-      { value: 'Quarterly', label: 'Medium' },
+      { value: 'Monthly', label: 'Monthly' },
+      { value: 'Quarterly', label: 'Quarterly' },
     ],
     component: RHFTextField,
   },

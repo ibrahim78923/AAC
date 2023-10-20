@@ -1,7 +1,6 @@
 import React from 'react';
 
 import {
-  Box,
   FormControlLabel,
   Grid,
   MenuItem,
@@ -11,13 +10,15 @@ import {
   useTheme,
 } from '@mui/material';
 
+import CommonDrawer from '@/components/CommonDrawer';
+
 import { CreateViewData } from './CreateView.data';
+
+import { useForm } from 'react-hook-form';
 
 import { FormProvider } from '@/components/ReactHookForm';
 
 import { v4 as uuidv4 } from 'uuid';
-import { useForm } from 'react-hook-form';
-import CommonDrawer from '@/components/CommonDrawer';
 
 const CreateView = ({ open, onClose }: any) => {
   const methods = useForm({});
@@ -36,8 +37,11 @@ const CreateView = ({ open, onClose }: any) => {
             {CreateViewData.map((obj) => (
               <Grid item xs={12} key={uuidv4()}>
                 <Typography
-                  variant="body4"
-                  sx={{ colors: theme.palette.grey[600] }}
+                  sx={{
+                    colors: theme.palette.grey[600],
+                    fontWeight: '500',
+                    fontSize: '14px',
+                  }}
                 >
                   {obj.title}
                 </Typography>
@@ -59,7 +63,16 @@ const CreateView = ({ open, onClose }: any) => {
             ))}
           </Grid>
         </FormProvider>
-        <Box sx={{ mt: '20px' }}>Shared with</Box>
+        <Typography
+          sx={{
+            mt: '20px',
+            color: theme.palette.slateBlue['main'],
+            fontSize: '18px',
+            fontWeight: 600,
+          }}
+        >
+          Shared with
+        </Typography>
         <RadioGroup
           aria-labelledby="demo-radio-buttons-group-label"
           defaultValue="female"

@@ -1,5 +1,3 @@
-import React from 'react';
-
 import CommonDrawer from '@/components/CommonDrawer';
 
 import useDealDrawer from './useDealDrawer';

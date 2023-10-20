@@ -61,10 +61,16 @@ const CommonTabs = (props: CommonTabsPropsI) => {
 
   return (
     <Box sx={styles.tabWrapper}>
-      <Box sx={{ borderBottom: 1, borderColor: '#EAECF0' }}>
-        {addIcon && (
-          <AddCircleIcon sx={styles.addIcon(theme)} onClick={onAddClick} />
-        )}
+      <Box
+        sx={{
+          mt: '20px',
+          borderBottom: 1,
+          borderColor: '#EAECF0',
+          display: 'flex',
+          justifyContent: 'flex-start',
+          alignItems: 'center',
+        }}
+      >
         <Tabs
           value={value}
           onChange={handleChange}
@@ -81,6 +87,11 @@ const CommonTabs = (props: CommonTabsPropsI) => {
             />
           ))}
         </Tabs>
+        {addIcon && (
+          <Box sx={{ ml: '50px' }}>
+            <AddCircleIcon sx={styles.addIcon(theme)} onClick={onAddClick} />
+          </Box>
+        )}
       </Box>
       {isHeader && (
         <Box sx={styles.headerWrapper}>

@@ -2,10 +2,10 @@ import React from 'react';
 
 import { Grid, MenuItem, Typography, useTheme } from '@mui/material';
 
-import { createDealData } from './CreateDeal.data';
-
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
+
+import { createDealData } from './CreateDeal.data';
 
 import { useForm } from 'react-hook-form';
 import { v4 as uuidv4 } from 'uuid';
@@ -20,16 +20,19 @@ const CreateDeal = ({ open, onClose }: any) => {
       onClose={onClose}
       title="Create Deal"
       footer
-      okText="Submit"
+      okText="Create"
       isOk
     >
       <FormProvider methods={methods}>
-        <Grid container spacing={2}>
+        <Grid container spacing={2} gap={'7px'}>
           {createDealData.map((obj) => (
             <Grid item xs={12} key={uuidv4()}>
               <Typography
-                variant="body4"
-                sx={{ colors: theme.palette.grey[600] }}
+                sx={{
+                  colors: theme.palette.grey[600],
+                  fontWeight: 500,
+                  fontSize: '14px',
+                }}
               >
                 {obj.title}
               </Typography>

@@ -1,8 +1,11 @@
 import { useState } from 'react';
 
+import { useRouter } from 'next/router';
+
 import { useTheme } from '@mui/material';
 
 const useDealSaleSite = () => {
+  const router = useRouter();
   const theme = useTheme();
   const [search, setSearch] = useState('');
   const [actions, setActions] = useState('actions');
@@ -11,6 +14,15 @@ const useDealSaleSite = () => {
   const [isFilter, setIsFilter] = useState(false);
   const [isShareDine, setIsShareDine] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
+  const [isAssign, setIsAssign] = useState(false);
+  const [exportRecord, setExportRecord] = useState(false);
+
+  const HandleDeleteModal = () => {
+    setIsDelete(!isDelete);
+  };
+  const handleAssignModal = () => {
+    setIsAssign(!isAssign);
+  };
 
   const handleChange = () => setIsOpen(!isOpen);
   const handleDealCustomize = () => setIsDealCustomize(!isDealCustomize);
@@ -21,19 +33,27 @@ const useDealSaleSite = () => {
   const handleFilter = () => {
     setIsFilter(!isFilter);
   };
-  const HandleDeleteModal = () => {
-    setIsDelete(!isDelete);
+  const handleExportRecord = () => {
+    setExportRecord(!exportRecord);
   };
-  const handleActions = (e: any) => {
-    const { value } = e.target;
+
+  const handleActions = (value: string | any) => {
     switch (value) {
       case 'Preview':
         handleSMD();
         break;
+      case 'Re-assign':
+        handleAssignModal();
+        break;
       case 'Delete':
         HandleDeleteModal();
         break;
-
+      case 'Export':
+        handleExportRecord();
+        break;
+      case 'View Details':
+        router.push({ pathname: '/air-sales/deals/view-details' });
+        break;
       default:
         break;
     }
@@ -49,13 +69,17 @@ const useDealSaleSite = () => {
     isDealCustomize,
     isFilter,
     isShareDine,
-    isDelete,
     handleChange,
     handleDealCustomize,
     handleSMD,
     handleFilter,
     handleActions,
     HandleDeleteModal,
+    handleAssignModal,
+    isDelete,
+    isAssign,
+    exportRecord,
+    handleExportRecord,
   };
 };
 

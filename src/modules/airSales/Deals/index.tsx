@@ -1,8 +1,6 @@
-import React from 'react';
-
 import Link from 'next/link';
 
-import { Button, MenuItem, Select } from '@mui/material';
+import { Button } from '@mui/material';
 
 import CommonTabs from '@/components/Tabs';
 
@@ -11,34 +9,38 @@ import DelasTable from './DealsTable';
 import DealHeader from './DealHeader';
 import DealFilterDrawer from './DealFilterDrawer';
 import ShareMyDine from './ShareMyDine';
-import DeleteModal from './DealsModalBox';
 import CreateView from './CreateView';
 
 import useDealSaleSite from './useDealSaleSite';
+import DeleteModal from './DealsModalBox/DeleteModal';
+import ExportRecordModal from './DealsModalBox/ExportRecordModal';
+import AssignModalBox from './DealsModalBox/AssignModalBox';
 
 import { DealsTabs } from './DealsSaleSite.data';
-import { menuItem } from './DealsTable/DealsTable.data';
 
-import { FilterIcon, RestoreIcon } from '@/assets/icons';
-import { CutomizeIcon } from '@/assets/icons';
+import { FilterIcon, RestoreIcon, CutomizeIcon } from '@/assets/icons';
+import DealsActions from './DealsActions';
 
 const Deals = () => {
   const {
     search,
     setSearch,
-    actions,
     theme,
     isOpen,
     isDealCustomize,
     isFilter,
     isShareDine,
-    isDelete,
     handleChange,
     handleDealCustomize,
     handleSMD,
     handleFilter,
-    handleActions,
     HandleDeleteModal,
+    isDelete,
+    isAssign,
+    handleAssignModal,
+    handleExportRecord,
+    exportRecord,
+    handleActions,
   } = useDealSaleSite();
   return (
     <>
@@ -56,34 +58,25 @@ const Deals = () => {
         }}
         headerChildren={
           <>
-            <Select
-              value={actions}
+            <DealsActions
+              menuItem={[
+                'Preview',
+                'Re-assign',
+                'Export',
+                'Delete',
+                'View Details',
+              ]}
+              disableActionBtn={false}
               onChange={handleActions}
-              sx={{
-                width: '140px',
-                height: 30,
-                fontSize: 14,
-                color: theme.palette.custom['main'],
-              }}
-            >
-              <MenuItem value={'actions'} selected disabled>
-                Actions
-              </MenuItem>
-              {menuItem.map((item) => (
-                <MenuItem value={item} key={item}>
-                  {item}
-                </MenuItem>
-              ))}
-              <MenuItem value={'actions'}>
-                <Link href={'/air-sales/deals/view-details'}>View Details</Link>
-              </MenuItem>
-            </Select>
+            />
+
             <Link href={'/air-sales/deals/restore'}>
               <Button
                 variant="outlined"
                 sx={{ height: '30px', color: theme.palette.custom['main'] }}
+                startIcon={<RestoreIcon />}
               >
-                <RestoreIcon /> &nbsp; Restore
+                Restore
               </Button>
             </Link>
             <>
@@ -95,7 +88,6 @@ const Deals = () => {
                 <CutomizeIcon /> &nbsp; Customize
               </Button>
             </>
-
             <Button
               variant="outlined"
               sx={{ height: '30px', color: theme.palette.custom['main'] }}
@@ -109,12 +101,13 @@ const Deals = () => {
       >
         <DelasTable />
       </CommonTabs>
-
       <CreateView open={isOpen} onClose={handleChange} />
       <DealCustomize open={isDealCustomize} onClose={handleDealCustomize} />
       <DealFilterDrawer open={isFilter} onClose={handleFilter} />
       <ShareMyDine open={isShareDine} onClose={handleSMD} />
       <DeleteModal open={isDelete} onClose={HandleDeleteModal} />
+      <AssignModalBox open={isAssign} onClose={handleAssignModal} />
+      <ExportRecordModal open={exportRecord} onClose={handleExportRecord} />
     </>
   );
 };

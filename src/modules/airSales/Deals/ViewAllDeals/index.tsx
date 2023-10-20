@@ -1,5 +1,4 @@
-import React from 'react';
-
+import CommonDrawer from '@/components/CommonDrawer';
 import Search from '@/components/Search';
 
 import useViewAllDeals from './useViewAllDeals';
@@ -7,7 +6,6 @@ import useViewAllDeals from './useViewAllDeals';
 import { columnsData } from './ViewAllDeals.data';
 
 import { v4 as uuidv4 } from 'uuid';
-import CommonDrawer from '@/components/CommonDrawer';
 
 const ViewAllDeals = ({ open, onClose }: any) => {
   const { search, setSearch, ColumnsWrapper } = useViewAllDeals();
@@ -18,8 +16,8 @@ const ViewAllDeals = ({ open, onClose }: any) => {
       onClose={onClose}
       footer
       isOk
-      okText="Submit"
-      title="All View"
+      okText="Apply"
+      title="All Views"
     >
       <Search
         label="Search Here"
