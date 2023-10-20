@@ -3,23 +3,13 @@ import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
 export const validationSchema = Yup.object().shape({
-  clientName: Yup.string().trim().required('Field is Required'),
-  product: Yup.string().trim().required('Field is Required'),
-  planType: Yup.string().trim().required('Field is Required'),
-  additionalUser: Yup.string().trim().required('Field is Required'),
-  planPrice: Yup.string().trim().required('Field is Required'),
-  defaultUser: Yup.string().trim().required('Field is Required'),
-  additionalStorage: Yup.string().trim().required('Field is Required'),
-  discount: Yup.string().trim().required('Field is Required'),
-  billingCycle: Yup.string().trim().required('Field is Required'),
-  date: Yup.date(),
+  companyName: Yup.string().trim().required('Field is Required'),
+  phoneNo: Yup.string().trim().required('Field is Required'),
 });
 
 export const defaultValues = {
   companyName: '',
   phoneNo: '',
-  userName: '',
-  company: '',
 };
 
 export const dataArray = [
