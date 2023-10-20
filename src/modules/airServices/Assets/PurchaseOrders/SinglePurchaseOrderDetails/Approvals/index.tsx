@@ -6,14 +6,11 @@ import { styles } from './Approvals.style';
 import SoftwareAssignCategory from '../../../Software/SoftwareAssignCategory';
 import { useState } from 'react';
 import { dataArray } from './Approvals.data';
-import RequestRecievedApproval from '@/modules/airServices/ServicesTickets/SingleTicketDetail/Approvals/RequestApprovalPage/RequestRecievedApproval';
 import ReminderRequestApproval from './components/PurchaseOrderApprovels/ReminderApprovels';
 export const Approvals = () => {
   const theme: any = useTheme();
   const [openAssignModal, setOpenAssignModal] = useState(false);
   const [showApproval, setshowApproval] = useState(false);
-  const [cancleApproval, setCancleApproval] = useState(false);
-  const [receivedApproval, setReceivedApproval] = useState(false);
 
   return (
     <>
@@ -49,24 +46,8 @@ export const Approvals = () => {
         />
       ) : (
         <Box sx={styles.approvalBox}>
-          <RequestRecievedApproval />
-          <ReminderRequestApproval
-            status={'Request'}
-            setCancleData={setCancleApproval}
-            setReceivedData={setReceivedApproval}
-          />
+          <ReminderRequestApproval status={'Request'} />
         </Box>
-      )}
-
-      {receivedApproval === true ? (
-        <ReminderRequestApproval status={'Recieve'} />
-      ) : (
-        ''
-      )}
-      {cancleApproval === true ? (
-        <ReminderRequestApproval status={'Cancel'} />
-      ) : (
-        ''
       )}
     </>
   );

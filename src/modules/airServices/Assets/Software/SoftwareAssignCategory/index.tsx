@@ -8,6 +8,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { useState } from 'react';
 
 function SoftwareAssignCategory({
+  title,
   openAssignModal,
   setOpenAssignModal,
   dataArray,
@@ -22,7 +23,7 @@ function SoftwareAssignCategory({
   return (
     <>
       <ConversationModel
-        selectedItem={'Assign Category'}
+        selectedItem={title}
         open={openAssignModal}
         handleClose={() => {
           setOpenAssignModal(false);

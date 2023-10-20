@@ -8,11 +8,7 @@ import UnsubscribeIcon from '@mui/icons-material/Unsubscribe';
 import { useRequestApprovalPage } from '../../../../../../ServicesTickets/SingleTicketDetail/Approvals/RequestApprovalPage/useRequestApprovalPage';
 import { RecievedFileIcon, ReminderBell } from '@/assets/icons';
 
-const ReminderRequestApproval = ({
-  status,
-  setCancleData,
-  setReceivedData,
-}: any) => {
+const ReminderRequestApproval = ({ status }: any) => {
   const { theme, styles, textColor } = useRequestApprovalPage();
 
   const Icons: any = {
@@ -87,9 +83,7 @@ const ReminderRequestApproval = ({
                     {status === 'Request' ? (
                       <Box sx={styles.requestApprovalBoxFirst}>
                         <Button
-                          onClick={() => {
-                            setCancleData(true);
-                          }}
+                          onClick={() => {}}
                           sx={{
                             ...styles.requestApprovalButton,
                             color: theme?.palette?.grey[800],
@@ -99,9 +93,7 @@ const ReminderRequestApproval = ({
                           Cancel
                         </Button>
                         <Button
-                          onClick={() => {
-                            setReceivedData(true);
-                          }}
+                          onClick={() => {}}
                           sx={{
                             ...styles.requestApprovalButton,
                             color: theme?.palette?.primary?.main,
@@ -113,9 +105,7 @@ const ReminderRequestApproval = ({
                           Send Reminder
                         </Button>
                       </Box>
-                    ) : (
-                      ''
-                    )}
+                    ) : null}
                   </Grid>
                 </Grid>
               </div>

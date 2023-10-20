@@ -5,8 +5,6 @@ export const styles = {
     color: theme?.palette?.primary?.main,
     '&:hover': {
       bgcolor: theme?.palette?.grey[400],
-      border: 'none',
     },
-    border: 'none',
   }),
 };
