@@ -26,9 +26,7 @@ const DelegateFilterDrawer = (props: any) => {
 
   const { handleSubmit } = methods;
 
-  const onSubmit = async () => {
-    alert('values here');
-  };
+  const onSubmit = () => {};
 
   return (
     <CommonDrawer
@@ -50,7 +48,7 @@ const DelegateFilterDrawer = (props: any) => {
                 <item.component {...item.componentProps} size={'small'}>
                   {item?.componentProps?.select &&
                     item?.options?.map((option: any) => (
-                      <option key={option?.value} value={option?.value}>
+                      <option key={uuidv4()} value={option?.value}>
                         {option?.label}
                       </option>
                     ))}

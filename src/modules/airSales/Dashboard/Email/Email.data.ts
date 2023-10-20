@@ -1,10 +1,11 @@
+import { Typography, useTheme } from '@mui/material';
+
 import {
   RHFSelect,
   RHFTextField,
   RHFRadioGroup,
   RHFCheckbox,
 } from '@/components/ReactHookForm';
-import { Typography } from '@mui/material';
 
 import * as Yup from 'yup';
 
@@ -25,11 +26,11 @@ export const defaultValues = {
   reportsInExport: '',
   downloadableFile: '',
 };
-
+const theme = useTheme();
 export const dataArray = [
   {
     componentProps: {
-      color: '#7a7a7b',
+      color: theme?.palette?.grey[500],
       varient: 'h4',
       heading: 'Is this a recurring email ?',
     },
@@ -100,7 +101,7 @@ export const dataArray = [
   },
   {
     componentProps: {
-      color: '#7a7a7b',
+      color: theme?.palette?.grey[500],
       varient: 'h4',
       heading: 'Reports in export',
     },

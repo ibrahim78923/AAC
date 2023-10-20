@@ -19,6 +19,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import { v4 as uuidv4 } from 'uuid';
 
+import { enqueueSnackbar } from 'notistack';
+
 const AddUser = ({ isOpenDrawer, onClose }: any) => {
   const [userType, setUserType] = useState();
 
@@ -27,10 +29,13 @@ const AddUser = ({ isOpenDrawer, onClose }: any) => {
     defaultValues: defaultValues,
   });
 
-  const { handleSubmit } = methods;
+  const { handleSubmit, reset } = methods;
 
   const onSubmit = async () => {
-    alert('values here');
+    enqueueSnackbar('User Added Successfully', {
+      variant: 'success',
+    });
+    reset();
   };
 
   return (

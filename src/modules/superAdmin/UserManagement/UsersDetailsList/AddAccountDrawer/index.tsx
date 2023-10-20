@@ -18,6 +18,8 @@ import { useForm } from 'react-hook-form';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 
+import { enqueueSnackbar } from 'notistack';
+
 const AddAccountDrawer = (props: any) => {
   const { isOpen, setIsOpen } = props;
 
@@ -26,10 +28,13 @@ const AddAccountDrawer = (props: any) => {
     defaultValues: AddAccountDefaultValues,
   });
 
-  const { handleSubmit } = methods;
+  const { handleSubmit, reset } = methods;
 
   const onSubmit = async () => {
-    alert('values here');
+    enqueueSnackbar('User Added Successfully', {
+      variant: 'success',
+    });
+    reset();
   };
 
   return (
@@ -52,7 +57,7 @@ const AddAccountDrawer = (props: any) => {
                 <item.component {...item.componentProps} size={'small'}>
                   {item?.componentProps?.select &&
                     item?.options?.map((option: any) => (
-                      <option key={option?.value} value={option?.value}>
+                      <option key={uuidv4()} value={option?.value}>
                         {option?.label}
                       </option>
                     ))}

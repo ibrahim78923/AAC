@@ -1,13 +1,4 @@
 export const styles = {
-  actionButton: (theme: any) => {
-    return {
-      border: `1px solid ${theme?.palette?.custom.dark}`,
-      color: `${theme?.palette?.custom.main}`,
-      fontSize: '14px',
-      fontWeight: 500,
-      width: { lg: 'unset', md: 'unset', sm: 'unset', xs: '100%' },
-    };
-  },
   productItem: () => {
     return {
       display: 'grid',
@@ -17,9 +8,9 @@ export const styles = {
       marginX: '2.5rem',
     };
   },
-  productCard: () => {
+  productCard: (theme: any) => {
     return {
-      border: '1px solid #E9EAEF',
+      border: `1px solid ${theme?.palette?.custom.off_white_one}`,
       borderRadius: '8px',
       padding: '0.7rem',
     };

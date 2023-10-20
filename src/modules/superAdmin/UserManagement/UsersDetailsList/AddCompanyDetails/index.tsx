@@ -1,6 +1,6 @@
 import Image from 'next/image';
 
-import { Grid, Box, Checkbox, Typography } from '@mui/material';
+import { Grid, Box, Checkbox, Typography, useTheme } from '@mui/material';
 
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
@@ -11,7 +11,6 @@ import {
   validationSchema,
 } from './AddCompanyDetails.data';
 import UploadLogo from './UploadLogo';
-
 import { styles } from './AddCompanyDetails.style';
 
 import { FeaturedImage } from '@/assets/images';
@@ -43,7 +42,7 @@ export default function AddCompanyDetails({
       variant: 'success',
     });
   };
-
+  const theme = useTheme();
   return (
     <CommonDrawer
       isDrawerOpen={isOpenDrawer}
@@ -76,7 +75,7 @@ export default function AddCompanyDetails({
                   marginBottom: '1rem',
                 }}
               >
-                <Box sx={styles.productCard}>
+                <Box sx={styles.productCard(theme)}>
                   <Checkbox
                     sx={{
                       marginLeft: '7rem',
@@ -87,7 +86,7 @@ export default function AddCompanyDetails({
                     <Typography>Sales</Typography>
                   </Box>
                 </Box>
-                <Box sx={styles.productCard}>
+                <Box sx={styles.productCard(theme)}>
                   <Checkbox
                     sx={{
                       marginLeft: '7rem',
@@ -98,7 +97,7 @@ export default function AddCompanyDetails({
                     <Typography>Marketing</Typography>
                   </Box>
                 </Box>
-                <Box sx={styles.productCard}>
+                <Box sx={styles.productCard(theme)}>
                   <Checkbox
                     sx={{
                       marginLeft: '7rem',
@@ -109,7 +108,7 @@ export default function AddCompanyDetails({
                     <Typography>Service</Typography>
                   </Box>
                 </Box>
-                <Box sx={styles.productCard}>
+                <Box sx={styles.productCard(theme)}>
                   <Checkbox
                     sx={{
                       marginLeft: '7rem',
@@ -127,7 +126,7 @@ export default function AddCompanyDetails({
                 <item.component {...item.componentProps} size={'small'}>
                   {item?.componentProps?.select &&
                     item?.options?.map((option: any) => (
-                      <option key={option?.value} value={option?.value}>
+                      <option key={uuidv4()} value={option?.value}>
                         {option?.label}
                       </option>
                     ))}

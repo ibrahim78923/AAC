@@ -1,24 +1,14 @@
-import { useState } from 'react';
-
 import Image from 'next/image';
 
 import { Box } from '@mui/material';
+
+import useUploadLogo from './useUploadLogo';
 
 import { UserAvatarImage } from '@/assets/images';
 import { AddPenIcon } from '@/assets/icons';
 
 const UploadLogo = () => {
-  const [selectedFile, setSelectedFile] = useState<any>();
-  const handleChangeImg = (e: any) => {
-    if (e.target.files.length) {
-      setSelectedFile(e.target.files[0]);
-    }
-  };
-  const placeholderImage = UserAvatarImage;
-
-  const onImageError = (e: any) => {
-    e.target.src = selectedFile + placeholderImage;
-  };
+  const { handleChangeImg, onImageError } = useUploadLogo();
   return (
     <Box
       className="my-account"
