@@ -11,6 +11,7 @@ import useManage from '@/modules/airSales/Dashboard/Manage/useManage';
 import SoftwareFilter from './SoftwareFilter';
 import SoftwareAssignCategory from './SoftwareAssignCategory';
 import { AddSoftwareDrawer } from './AddSoftwareDrawer';
+import { useRouter } from 'next/router';
 
 function Software() {
   const [isAddDrawerOpen, setIsAddDrawerOpen] = useState<boolean>(false);
@@ -19,6 +20,7 @@ function Software() {
   const [searchValue, SetSearchValue] = useState<string>('');
 
   const theme: any = useTheme();
+  const router = useRouter();
   const { setIsOpenFilterDrawer, isOpenFilterDrawer } = useManage();
 
   return (
@@ -62,7 +64,13 @@ function Software() {
         <Box sx={{ marginBottom: '25px' }}>
           <TanstackTable
             data={data}
-            columns={columns(softwareData, setSoftwareData, data, theme)}
+            columns={columns(
+              softwareData,
+              setSoftwareData,
+              data,
+              theme,
+              router,
+            )}
           />
         </Box>
       </Grid>

@@ -17,7 +17,7 @@ function Inventory() {
   const [searchValue, SetSearchValue] = useState<string>('');
   const theme: any = useTheme();
 
-  const { handleAddInventory } = useInventory();
+  const { handleAddInventory, router } = useInventory();
   return (
     <>
       <AlertModals
@@ -83,7 +83,13 @@ function Inventory() {
           <Box sx={{ marginBottom: '25px' }}>
             <TanstackTable
               data={data}
-              columns={columns(inventoryData, setInventoryData, data, theme)}
+              columns={columns(
+                inventoryData,
+                setInventoryData,
+                data,
+                theme,
+                router,
+              )}
             />
           </Box>
         </Grid>

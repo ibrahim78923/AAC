@@ -23,6 +23,7 @@ function PurchaseOrder() {
     submitPurchaseOrderFilterForm,
     resetPurchaseOrderFilterForm,
     handlePurchaseOrderDetail,
+    router,
   } = usePurchaseOrders();
 
   const { tableWrapperStyle, flexBetween } = styles();
@@ -30,6 +31,7 @@ function PurchaseOrder() {
     purchaseOrderData,
     setPurchaseOrderData,
     data,
+    router,
     handlePurchaseOrderDetail,
   );
   return (

@@ -27,6 +27,7 @@ export const purchaseOrderColumnsFunction = (
   purchaseOrderData: any,
   setPurchaseOrderData: any,
   meetingsMainData: any,
+  router: any,
   handlePurchaseOrderDetail: (orderNumber: string) => void,
 ): any => {
   const theme = useTheme();
@@ -78,8 +79,16 @@ export const purchaseOrderColumnsFunction = (
       header: <span style={styles.headerStyle(theme)}>Order Number</span>,
       cell: (info: any) => (
         <span
+          onClick={() =>
+            router.push({
+              pathname:
+                'http://localhost:3000/air-services/assets/purchase-orders/detail',
+              query: {
+                purchaseOrderId: info?.row?.id,
+              },
+            })
+          }
           style={{ ...styles.firstCellStyle, cursor: 'pointer' }}
-          onClick={() => handlePurchaseOrderDetail(info.getValue())}
         >
           {info.getValue()}
         </span>

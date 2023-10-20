@@ -42,5 +42,6 @@ export function useContracts() {
     handleActionClose,
     openAction,
     handleSubmitModel,
+    router,
   };
 }

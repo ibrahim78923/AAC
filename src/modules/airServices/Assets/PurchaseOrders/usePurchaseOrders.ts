@@ -4,6 +4,7 @@ import { defaultValues } from './components/PurchaseOrderFilter/PurchaseOrderFil
 import { useRouter } from 'next/router';
 const usePurchaseOrders = () => {
   const { push } = useRouter();
+  const router = useRouter();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isNewPurchaseOrder, setIsNewPurchaseOrder] = useState(true);
 
@@ -39,6 +40,7 @@ const usePurchaseOrders = () => {
     // new purchase order
     isNewPurchaseOrder,
     setIsNewPurchaseOrder,
+    router,
   };
 };
 export default usePurchaseOrders;
