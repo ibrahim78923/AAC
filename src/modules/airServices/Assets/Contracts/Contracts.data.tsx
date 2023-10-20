@@ -96,7 +96,6 @@ export const columns = (
     isSortable: false,
     header: <span style={styles.headerStyle(theme)}>Contract Name</span>,
     cell: (info: any) => {
-      console.log(info?.row?.id);
       return (
         <span
           onClick={() =>
