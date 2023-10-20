@@ -50,7 +50,7 @@ export const DetailTaskDrawer: React.FC<DetailTaskDrawerI> = ({
         <Button
           sx={
             drawerStatusVal
-              ? styles.valStyle(drawerStatusVal)
+              ? styles.valStyle(drawerStatusVal, theme)
               : styles.taskDetailStyle(taskDetailStatus, theme)
           }
           endIcon={<ActionButtonIcon />}
@@ -74,7 +74,7 @@ export const DetailTaskDrawer: React.FC<DetailTaskDrawerI> = ({
               <MenuItem
                 key={uuidv4()}
                 onClick={() => handleStatusItemClick(i.status)}
-                sx={styles?.statusOptionStyle(statusOption)}
+                sx={styles?.statusOptionStyle(statusOption, theme)}
               >
                 {i?.status}
               </MenuItem>
@@ -82,14 +82,17 @@ export const DetailTaskDrawer: React.FC<DetailTaskDrawerI> = ({
           })}
         </Popover>
         <Grid container spacing={1.5} sx={{ mt: 2, flexDirection: 'column' }}>
-          {drawerDetail(taskDetail)?.map((item: any) => (
+          {drawerDetail(taskDetail, theme)?.map((item: any) => (
             <Grid
               key={uuidv4()}
               item
               sx={{ display: 'flex', justifyContent: 'space-between' }}
             >
               <Grid xs={6} sx={styles?.detailDrawerGridCenter}>
-                <Typography variant="body2" sx={styles?.detailDrawerTitel}>
+                <Typography
+                  variant="body2"
+                  sx={styles?.detailDrawerTitel(theme)}
+                >
                   {item?.title}
                 </Typography>
               </Grid>
@@ -102,7 +105,10 @@ export const DetailTaskDrawer: React.FC<DetailTaskDrawerI> = ({
                   />
                 )}
                 {item?.workspace && (
-                  <Typography variant="body2" sx={styles?.detailDrawerWorspace}>
+                  <Typography
+                    variant="body2"
+                    sx={styles?.detailDrawerWorspace(theme)}
+                  >
                     {item?.workspace}
                   </Typography>
                 )}
@@ -118,7 +124,7 @@ export const DetailTaskDrawer: React.FC<DetailTaskDrawerI> = ({
           ))}
           <Grid item>
             <FormProvider onSubmit={() => {}} methods={handleSubmit}>
-              <Typography variant="body2" sx={styles?.detailDrawerTitel}>
+              <Typography variant="body2" sx={styles?.detailDrawerTitel(theme)}>
                 Add Comment
               </Typography>
               <TextField

@@ -36,7 +36,7 @@ export const TasksHeader = ({
           justifyContent: { sm: 'flex-start', xs: 'center' },
         }}
       >
-        <Typography variant="h5" sx={styles?.headText}>
+        <Typography variant="h5" sx={styles?.headText(theme)}>
           Task
         </Typography>
       </Grid>
@@ -85,7 +85,7 @@ export const TasksHeader = ({
           </MenuItem>
         </Popover>
         <Button
-          sx={styles?.addTaskBtn}
+          sx={styles?.addTaskBtn(theme)}
           onClick={() => setIsAddDrawerOpen(true)}
           startIcon={<CirclePlusIcon />}
         >

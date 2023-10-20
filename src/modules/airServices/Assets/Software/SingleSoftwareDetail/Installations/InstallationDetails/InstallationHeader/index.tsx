@@ -1,5 +1,5 @@
 import { Button, Grid, useTheme, Popover, MenuItem } from '@mui/material';
-import { AddCircleBlackIcon, ExportBlackIcon } from '@/assets/icons';
+import { ExportBlackIcon } from '@/assets/icons';
 import Search from '@/components/Search';
 import { AlertModals } from '@/components/AlertModals';
 import { useInstallation } from '../../useInstallations';
@@ -35,8 +35,9 @@ export const InstallationHeader = ({ activeCheck }: any) => {
             Remove Device
           </Button>
           <Button
+            color="secondary"
+            sx={{ p: 2 }}
             startIcon={<ExportBlackIcon />}
-            sx={styles.headerEaBtn(theme)}
             onClick={handleExportClick}
           >
             Export
@@ -58,12 +59,6 @@ export const InstallationHeader = ({ activeCheck }: any) => {
               Excel
             </MenuItem>
           </Popover>
-          <Button
-            startIcon={<AddCircleBlackIcon />}
-            sx={styles.headerEaBtn(theme)}
-          >
-            Add Device
-          </Button>
           <AddDevice
             isModalOpen={false}
             setIsmodalOpen={{}}

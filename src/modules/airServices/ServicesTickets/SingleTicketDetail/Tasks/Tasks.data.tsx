@@ -98,7 +98,7 @@ export const tasksTableColumns: any = (
       cell: (info: any) => {
         const statusValue = info.getValue();
         return (
-          <span style={styles?.tableStatusStyle(statusValue)}>
+          <span style={styles?.tableStatusStyle(statusValue, theme)}>
             {info.getValue()}
           </span>
         );
@@ -133,7 +133,7 @@ export const tasksTableData: any = [
   },
 ];
 
-export const drawerDetail: any = (taskDetail: any) => [
+export const drawerDetail: any = (taskDetail: any, theme: any) => [
   {
     id: 1,
     title: 'Workspace',
@@ -152,7 +152,7 @@ export const drawerDetail: any = (taskDetail: any) => [
     details: (() => {
       const statusValue = taskDetail?.status;
       return (
-        <span style={styles?.tableStatusStyle(statusValue)}>
+        <span style={styles?.tableStatusStyle(statusValue, theme)}>
           {taskDetail?.status}
         </span>
       );

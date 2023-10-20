@@ -1,4 +1,4 @@
-import { RHFEditor, RHFSelect, RHFTextField } from '@/components/ReactHookForm';
+import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
 const statusOptions = [
@@ -9,11 +9,9 @@ const statusOptions = [
   { value: 'In Review', label: 'In Review' },
 ];
 const typeOptions = [
-  { value: 'Restricted', label: 'Restricted' },
-  { value: 'Ignored', label: 'Ignored' },
-  { value: 'Managed', label: 'Managed' },
-  { value: 'Disabled', label: 'Disabled' },
-  { value: 'In Review', label: 'In Review' },
+  { value: 'Desktop', label: 'Desktop' },
+  { value: 'SaaS', label: 'SaaS' },
+  { value: 'Mobile', label: 'Mobile' },
 ];
 
 export const AddSoftwareValidationSchema = Yup.object().shape({
@@ -29,11 +27,11 @@ export const AddSoftwareValidationSchema = Yup.object().shape({
 export const AddSoftwareDefaultValues = {
   name: '', //1
   description: '', //2
-  status: '', //5
-  type: '', //3
-  publisher: '', //4
+  status: '', //3
+  type: '', //4
+  publisher: '', //5
   category: '', //6
-  managedBy: '', //11
+  managedBy: '', //7
 };
 
 export const AddSoftwareFields = [
@@ -52,8 +50,10 @@ export const AddSoftwareFields = [
       name: 'description',
       label: 'Description',
       fullWidth: true,
+      multiline: true,
+      minRows: 3,
     },
-    component: RHFEditor,
+    component: RHFTextField,
     md: 12,
   },
   {
@@ -100,7 +100,7 @@ export const AddSoftwareFields = [
   {
     componentProps: {
       name: 'managedBy',
-      label: 'Managed by',
+      label: 'Managed By',
       fullWidth: true,
     },
     component: RHFTextField,

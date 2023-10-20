@@ -16,10 +16,5 @@ export const styles = {
     p: '18px',
     color: theme.palette.custom.main,
   }),
-  headerEaBtn: (theme: any) => ({
-    color: theme.palette.slateBlue.main,
-    p: '18px',
-    ':hover': { bgcolor: theme.palette.grey[0] },
-  }),
   headerPop: { mt: '4px', '& .MuiPaper-root': { width: '7% !important' } },
 };
