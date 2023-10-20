@@ -23,6 +23,7 @@ const ContactList = ({ chatMode }: any) => {
   const [searchContacts, setSearchContacts] = useState('');
   const [isAddGroupModal, setIsAddGroupModal] = useState(false);
   const [isDeleteModal, setIsDeleteModal] = useState(false);
+  const [selectedValues, setSelectedValues] = useState<any>();
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const actionMenuOpen = Boolean(anchorEl);
@@ -101,7 +102,12 @@ const ContactList = ({ chatMode }: any) => {
         )}
         <Box mt={2}>
           {chatsTypeToShow.map((item) => (
-            <ContactsCard key={uuidv4()} cardData={item} />
+            <ContactsCard
+              key={uuidv4()}
+              cardData={item}
+              selectedValues={selectedValues}
+              setSelectedValues={setSelectedValues}
+            />
           ))}
         </Box>
       </Box>
