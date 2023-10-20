@@ -16,14 +16,10 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import PlanDetails from './PlanDetails';
 import Search from '@/components/Search';
 import CommonDrawer from '@/components/CommonDrawer';
-import AppAvatarGroup from '@/components/AvatarGroup';
 import { FormProvider } from '@/components/ReactHookForm';
 import { UsePlanManagement } from './UsePlanManagement';
 
-import {
-  avatarGroupMockData,
-  planManagementFilterFiltersDataArray,
-} from './PlanManagement.data';
+import { planManagementFilterFiltersDataArray } from './PlanManagement.data';
 
 import { styles } from './PlanManagement.style';
 
@@ -123,7 +119,6 @@ const PlanManagement = () => {
       </Stack>
 
       <br />
-      <AppAvatarGroup data={avatarGroupMockData} />
       <CommonDrawer
         isDrawerOpen={isFaqsFilterDrawerOpen}
         onClose={() => setIsFaqsFilterDrawerOpen(false)}
@@ -163,5 +158,3 @@ const PlanManagement = () => {
 };
 
 export default PlanManagement;
-
-// test comment

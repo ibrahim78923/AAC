@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
+
 import {
   Box,
   Stepper,
   Step,
   StepLabel,
-  Button,
+  // Button,
   styled,
   useTheme,
   StepConnector,
@@ -22,27 +23,16 @@ const AppHorizontalStepper: React.FC<HorizontalStepperI> = ({
   // TODO: Handling form actions
   // addPlanFormValues,
   // setAddPlanFormValues
-  disableNextButton,
+  // disableNextButton,
+  activeStep = 0,
+  // handleBack,
+  // handleNext,
+  // handleReset,
+  stepperButtons,
   stepperPadding = '4rem 0',
   stepperMargin = '2rem 0',
 }) => {
-  const [activeStep, setActiveStep] = useState(0);
   const theme = useTheme();
-
-  const handleNext = () => {
-    if (disableNextButton) {
-      return;
-    }
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  };
-
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
-
-  const handleReset = () => {
-    setActiveStep(0);
-  };
 
   return (
     <Box sx={{ width: '100%', margin: stepperMargin }}>
@@ -78,25 +68,7 @@ const AppHorizontalStepper: React.FC<HorizontalStepperI> = ({
 
       <Box sx={{ width: '100%', padding: stepperPadding }}>
         {Boolean(stepsArray?.length) && stepsArray[activeStep]?.component}
-        <React.Fragment>
-          <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-            <Button
-              color="inherit"
-              disabled={activeStep === 0}
-              onClick={handleBack}
-              sx={{ mr: 1 }}
-            >
-              Back
-            </Button>
-            <Box sx={{ flex: '1 1 auto' }} />
-            <Button
-              onClick={activeStep === 2 ? handleReset : handleNext}
-              disabled={disableNextButton}
-            >
-              {activeStep === 2 ? 'Finish' : 'Next'}
-            </Button>
-          </Box>
-        </React.Fragment>
+        {stepperButtons}
       </Box>
     </Box>
   );

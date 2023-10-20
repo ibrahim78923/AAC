@@ -11,7 +11,7 @@ import {
   dataArray,
   defaultValues,
   defaultValuesFunction,
-} from './AddPlanForm.data';
+} from './PlanForm.data';
 
 export const useAddPlanForm = () => {
   const router = useRouter();
@@ -32,7 +32,6 @@ export const useAddPlanForm = () => {
     enqueueSnackbar('', {
       variant: 'success',
     });
-    // ahdsa;iljd sapjdsa;kd sa;kd
     // } catch (error: any) {
     //   const errMsg = error?.data?.message;
     //   enqueueSnackbar(errMsg ?? "Something Went Wrong!", { variant: "error" });

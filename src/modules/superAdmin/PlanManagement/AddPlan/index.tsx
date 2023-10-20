@@ -1,12 +1,14 @@
 import React from 'react';
 
-import { Box, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 
 import AppHorizontalStepper from '../../../../components/Stepper';
 
 import { UseAddPlan } from './UseAddPlan';
 
 import { ArrowLeft } from '@/assets/icons';
+import { useAddPlanForm } from './Forms/PlanForm/UsePlanForm';
+import { FormProvider } from '@/components/ReactHookForm';
 
 const AddPlan = () => {
   const {
@@ -14,7 +16,12 @@ const AddPlan = () => {
     setAddPlanFormValues,
     AddPlanStepperData,
     hanldeGoBack,
+    activeStep,
+    hanldeGoPreviousBack,
+    handleCompleteStep,
   } = UseAddPlan();
+
+  const { methods, handleSubmit, onSubmit } = useAddPlanForm();
   return (
     <div>
       <Box
@@ -27,11 +34,51 @@ const AddPlan = () => {
         <ArrowLeft />
         <Typography variant="h4">Add Plan</Typography>
       </Box>
-      <AppHorizontalStepper
-        stepsArray={AddPlanStepperData}
-        addPlanFormValues={addPlanFormValues}
-        setAddPlanFormValues={setAddPlanFormValues}
-      />
+      <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+        <AppHorizontalStepper
+          activeStep={activeStep}
+          stepsArray={AddPlanStepperData}
+          stepperButtons={
+            <>
+              <div
+                style={{
+                  border: '1px solid rgba(229, 231, 235, 1)',
+                  marginTop: '6.25rem',
+                  marginBottom: '1.5rem',
+                }}
+              ></div>
+
+              <Box
+                display={'flex'}
+                width={200}
+                gap={'0.8rem'}
+                marginLeft={'auto'}
+              >
+                <Button
+                  variant="outlined"
+                  fullWidth
+                  onClick={hanldeGoPreviousBack}
+                >
+                  Back
+                </Button>
+                <Button
+                  variant="contained"
+                  type="submit"
+                  fullWidth
+                  onClick={handleCompleteStep}
+                  disabled={activeStep === AddPlanStepperData?.length}
+                >
+                  {activeStep === AddPlanStepperData?.length - 1
+                    ? 'Finish'
+                    : 'Next'}
+                </Button>
+              </Box>
+            </>
+          }
+          addPlanFormValues={addPlanFormValues}
+          setAddPlanFormValues={setAddPlanFormValues}
+        />
+      </FormProvider>
     </div>
   );
 };

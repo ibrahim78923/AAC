@@ -25,6 +25,7 @@ const AppAvatarGroup = ({ data }: { data: SingleAvatarI[] }) => {
           border: `1px solid ${theme?.palette?.common?.white}`,
           marginLeft: '-10px',
         },
+        width: 'max-content',
       }}
     >
       {Boolean(data?.length) &&

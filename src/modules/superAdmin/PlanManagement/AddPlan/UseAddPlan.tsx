@@ -2,14 +2,15 @@ import { useState } from 'react';
 
 import { useRouter } from 'next/router';
 
-import AddPlanForm from './Forms/AddPlanForm';
+import AddPlanForm from './Forms/PlanForm';
 import PlanFeaturesForm from './Forms/PlanFeatures';
-import ModulesForm from './Forms/ModulesForm';
+import Modules from './Forms/Modules';
 
 import { v4 as uuidv4 } from 'uuid';
 
 export const UseAddPlan = () => {
   const [addPlanFormValues, setAddPlanFormValues] = useState({});
+  const [activeStep, setActiveStep] = useState(0);
 
   const router = useRouter();
 
@@ -33,15 +34,41 @@ export const UseAddPlan = () => {
     {
       key: uuidv4(),
       label: 'Modules',
-      component: <ModulesForm />,
+      component: <Modules />,
       componentProps: { addPlanFormValues, setAddPlanFormValues },
     },
   ];
+
+  const handleCompleteStep = () => {
+    // TODO: check for form error and return otherwise
+
+    // console.log("activeStep========> ", activeStep);
+    // console.log("AddPlanStepperData?.length ========> ", AddPlanStepperData?.length);
+
+    if (activeStep == AddPlanStepperData?.length - 1) {
+      // setActiveStep(0);
+      router.push('/super-admin/plan-management');
+      return;
+    }
+
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  };
+
+  const hanldeGoPreviousBack = () => {
+    if (activeStep === 0) {
+      router.push('/super-admin/plan-management');
+      return;
+    }
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  };
 
   return {
     addPlanFormValues,
     setAddPlanFormValues,
     AddPlanStepperData,
     hanldeGoBack,
+    activeStep,
+    hanldeGoPreviousBack,
+    handleCompleteStep,
   };
 };
