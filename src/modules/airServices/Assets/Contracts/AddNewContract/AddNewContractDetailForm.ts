@@ -1,73 +1,115 @@
-import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
+import {
+  RHFDatePicker,
+  RHFSelect,
+  RHFSwitch,
+  RHFTextField,
+} from '@/components/ReactHookForm';
 import * as Yup from 'yup';
+import { Typography } from '@mui/material';
 
-const contactTypeOptions = [
-  { value: 'Lease', label: 'Lease' },
-  { value: 'Maintenance', label: 'Maintenance' },
-  { value: 'Software License', label: 'Software License' },
-  { value: 'Warranty', label: 'Warranty' },
+const contractTypeOptions = [
+  { value: 'lease', label: 'Lease' },
+  { value: 'maintenance', label: 'Maintenance' },
+  { value: 'softwareLicense', label: 'Software License' },
+  { value: 'warranty', label: 'Warranty' },
 ];
 
-const assetsOptions = [
-  { value: 'Logitech Mouse', label: 'Logitech Mouse' },
-  { value: 'Dell Monitor', label: 'Dell Monitor' },
-  { value: 'Andrea’s Laptop', label: 'Andrea’s Laptop' },
+const associateAssetsOptions = [
+  { value: 'logitechMouse', label: 'Logitech Mouse' },
+  { value: 'dellMonitor', label: 'Dell Monitor' },
+  { value: 'andreasLaptop', label: 'Andreas Laptop' },
 ];
 
 const statusOptions = [
-  { value: 'Draft', label: 'Draft' },
-  { value: 'Pending Approval', label: 'Pending Approval' },
-  { value: 'Approved', label: 'Approved' },
-  { value: 'Expired', label: 'Expired' },
-  { value: 'Rejected', label: 'Rejected' },
-  { value: 'Terminated', label: 'Terminated' },
+  { value: 'managed', label: 'Managed' },
+  { value: 'desktop', label: 'Desktop' },
+  { value: 'saaS', label: 'SaaS' },
+  { value: 'mobile', label: 'Mobile' },
 ];
 
 const vendorOptions = [
-  { value: 'Microsoft', label: 'Microsoft' },
-  { value: 'Delll', label: 'Delll' },
-  { value: 'Apple', label: 'Apple' },
-  { value: 'Samsung', label: 'Samsung' },
+  { value: 'microsoft', label: 'Microsoft' },
+  { value: 'delll', label: 'Delll' },
+  { value: 'apple', label: 'Apple' },
+  { value: 'samsung', label: 'Samsung' },
 ];
 
-const approvalOptions = [
-  { value: 'Markwood', label: 'Markwood' },
-  { value: 'Randall', label: 'Randall' },
-  { value: 'Shane', label: 'Shane' },
-  { value: 'Floyd', label: 'Floyd' },
+const approverOptions = [
+  { value: 'markwood', label: 'Markwook' },
+  { value: 'randall', label: 'Randall' },
+  { value: 'shane', label: 'Shane' },
+  { value: 'floyd', label: 'Floyd' },
+];
+
+const softwareOptions = [
+  { value: 'microsoft', label: 'Microsoft' },
+  { value: 'figma', label: 'Figma' },
+  { value: 'freshServices', label: 'Freshservices' },
+  { value: 'miro', label: 'Miro' },
+];
+
+const billingCycleOptions = [
+  { value: 'monthly', label: 'Monthly' },
+  { value: 'quarterly', label: 'Quarterly' },
+  { value: 'halfYearly', label: 'Half Yearly' },
+  { value: 'annual', label: 'Annual' },
+  { value: 'oneTime', label: 'One Time' },
+];
+const licenseTypeOptions = [
+  { value: 'monthly', label: 'Monthly' },
+  { value: 'quarterly', label: 'Quarterly' },
+  { value: 'halfYearly', label: 'Half Yearly' },
+  { value: 'annual', label: 'Annual' },
+  { value: 'oneTime', label: 'One Time' },
 ];
 
 export const validationSchemaAddNewContract = Yup.object().shape({
-  contactname: Yup.string().required('Field is Required'),
-  contactnumber: Yup.string(),
+  contactName: Yup.string().required('Field is Required'),
+  contractNumber: Yup.string(),
   type: Yup.string().required('Field is Required'),
-  assets: Yup.string().required('Field is Required'),
-  cost: Yup.string(),
+  associateAssets: Yup.string().required('Field is Required'),
   status: Yup.string().required('Field is Required'),
   vendor: Yup.string(),
-  approval: Yup.string(),
-  file: Yup.mixed(),
+  managedBy: Yup.string(),
+  startDate: Yup.date(),
+  endDate: Yup.date(),
+  autoRenew: Yup.string(),
+  notifyExpiry: Yup.string(),
+  notifyBefore: Yup.string().required('Field is Required'),
+  notifyTo: Yup.string().required('Field is Required'),
+  software: Yup.string().required('Field is Required'),
+  billingCycle: Yup.string(),
+  licenseKey: Yup.string(),
+  licenseType: Yup.string(),
 });
 
 export const defaultValuesAddNewContract = {
-  contactname: '',
-  contactnumber: '',
+  contactName: '',
+  contractNumber: '',
   type: '',
-  assets: '',
-  cost: '',
+  associateAssets: '',
   status: '',
   vendor: '',
-  approval: '',
-  file: '',
+  managedBy: '',
+  startDate: new Date(),
+  endDate: new Date(),
+  autoRenew: '',
+  notifyExpiry: '',
+  notifyBefore: '',
+  notifyTo: '',
+  software: '',
+  billingCycle: '',
+  licenseKey: '',
+  licenseType: '',
 };
 
 export const addNewContractData = [
   {
     componentProps: {
-      name: 'contactname',
+      name: 'contactName',
       label: 'Contact Name',
       fullWidth: true,
-      placeholder: 'Contact Name',
+      select: false,
       required: true,
     },
     component: RHFTextField,
@@ -75,35 +117,36 @@ export const addNewContractData = [
   },
   {
     componentProps: {
-      name: 'contactnumber',
-      label: 'Contact Number',
+      name: 'contractNumber',
+      disabled: true,
       fullWidth: true,
-      placeholder: 'Contact Number',
+      placeholder: 'CNTW-6',
+      label: 'Contract Number',
     },
-    component: RHFTextField,
     md: 6,
+    component: RHFTextField,
   },
   {
     componentProps: {
       name: 'type',
-      label: 'Contact Type',
+      label: 'Type',
       fullWidth: true,
       select: true,
       required: true,
     },
-    options: contactTypeOptions,
+    options: contractTypeOptions,
     component: RHFSelect,
     md: 6,
   },
   {
     componentProps: {
-      name: 'assets',
+      name: 'associateAssets',
       label: 'Associate Assets',
       fullWidth: true,
       select: true,
       required: true,
     },
-    options: assetsOptions,
+    options: associateAssetsOptions,
     component: RHFSelect,
     md: 6,
   },
@@ -112,7 +155,7 @@ export const addNewContractData = [
       name: 'cost',
       label: 'Cost (£)',
       fullWidth: true,
-      placeholder: 'Cost (£)',
+      select: false,
     },
     component: RHFTextField,
     md: 6,
@@ -142,13 +185,162 @@ export const addNewContractData = [
   },
   {
     componentProps: {
-      name: 'approval',
-      label: 'Approval',
+      name: 'approver',
+      label: 'Approver',
       fullWidth: true,
       select: true,
     },
-    options: approvalOptions,
+    options: approverOptions,
     component: RHFSelect,
+    md: 6,
+  },
+  {
+    componentProps: {
+      variant: 'h5',
+    },
+    heading: 'Tenure of Contract',
+    gridLength: 12,
+    component: Typography,
+  },
+  {
+    componentProps: {
+      name: 'startDate',
+      label: 'Start Date',
+      fullWidth: true,
+    },
+    component: RHFDatePicker,
+    md: 6,
+  },
+  {
+    componentProps: {
+      name: 'endDate',
+      label: 'End Date',
+      fullWidth: true,
+    },
+    component: RHFDatePicker,
+    md: 6,
+  },
+  {
+    componentProps: {
+      name: 'autoRenew',
+      label: 'Auto Renew',
+    },
+    component: RHFSwitch,
+    md: 12,
+  },
+  {
+    componentProps: {
+      variant: 'body2',
+      sx: { marginTop: '-2rem', marginLeft: '3rem' },
+    },
+    heading: ' Contract will auto renew upon reaching contract expiry date',
+    md: 12,
+    component: Typography,
+  },
+  {
+    componentProps: {
+      name: 'notifyExpiry',
+      label: 'Notify Expiry',
+    },
+    component: RHFSwitch,
+    md: 12,
+  },
+  {
+    componentProps: {
+      variant: 'body2',
+      sx: { marginTop: '-2rem', marginLeft: '3.1rem' },
+    },
+    heading: ' Notify people upon expiry of contract',
+    md: 12,
+    component: Typography,
+  },
+  {
+    componentProps: {
+      name: 'notifyBefore',
+      label: 'Notify Before',
+      fullWidth: true,
+      select: false,
+      required: true,
+    },
+    component: RHFTextField,
+    md: 6,
+  },
+  {
+    componentProps: {
+      name: 'notifyTo',
+      label: 'Notify to',
+      fullWidth: true,
+      select: false,
+      required: true,
+    },
+    component: RHFTextField,
+    md: 6,
+  },
+  {
+    componentProps: {
+      variant: 'h5',
+    },
+    heading: 'Item & Cost Details',
+    gridLength: 12,
+    component: Typography,
+  },
+  {
+    componentProps: {
+      name: 'software',
+      label: 'Software',
+      fullWidth: true,
+      select: true,
+      required: true,
+    },
+    options: softwareOptions,
+    component: RHFSelect,
+    md: 6,
+  },
+  {
+    componentProps: {
+      variant: 'h5',
+    },
+    gridLength: 12,
+    component: Typography,
+  },
+  {
+    componentProps: {
+      name: 'billingCycle',
+      label: 'Billing Cycle',
+      fullWidth: true,
+      select: true,
+    },
+    options: billingCycleOptions,
+    component: RHFSelect,
+    md: 6,
+  },
+  {
+    componentProps: {
+      variant: 'h5',
+    },
+    heading: 'Software License Properties',
+    gridLength: 12,
+    component: Typography,
+  },
+  {
+    componentProps: {
+      name: 'licenseType',
+      label: 'License Type',
+      fullWidth: true,
+      select: true,
+    },
+    options: licenseTypeOptions,
+    component: RHFSelect,
+    md: 6,
+  },
+  {
+    componentProps: {
+      name: 'licenseKey',
+      label: 'License Key',
+      fullWidth: true,
+      select: false,
+    },
+    component: RHFTextField,
     md: 6,
   },
 ];
