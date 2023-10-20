@@ -30,7 +30,7 @@ export const styles = {
           : theme.palette.custom.grayish_blue,
       padding: '10px 14px',
       minWidth: '15vw',
-      maxWidth: '40vw',
+      maxWidth: '46vw',
       borderRadius: `${
         role === 'sender' ? '12px 12px 0px 12px' : '12px 12px 12px 0px'
       }`,

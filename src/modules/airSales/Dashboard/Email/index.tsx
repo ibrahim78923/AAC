@@ -1,4 +1,4 @@
-import { Grid, Box } from '@mui/material';
+import { Grid, Box, Typography } from '@mui/material';
 
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
@@ -44,6 +44,11 @@ const EmailDashboard = ({ isOpenDrawer, onClose }: any) => {
           <Grid container spacing={4}>
             {dataArray?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                {item?.componentProps?.heading && (
+                  <Typography variant="h5">
+                    {item?.componentProps?.heading}
+                  </Typography>
+                )}
                 {item?.componentProps?.name === 'reportsInExport' &&
                 watchFields[0] === 'Include selected reports' ? (
                   <Grid item container>

@@ -65,6 +65,7 @@ const UserManagement = () => {
         sx={{ padding: '0px 24px', display: { md: 'flex' } }}
       >
         <Typography variant="h4">User Management</Typography>
+
         <Button
           onClick={() =>
             tabVal === 2 ? handleAddRole() : setIsOpenAddUserDrawer(true)
