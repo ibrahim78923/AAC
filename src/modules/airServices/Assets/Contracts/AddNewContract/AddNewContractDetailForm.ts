@@ -1,10 +1,43 @@
-import {
-  RHFDropZone,
-  RHFSelect,
-  RHFTextField,
-} from '@/components/ReactHookForm';
+import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
-export const validationSchema = Yup.object().shape({
+
+const contactTypeOptions = [
+  { value: 'Lease', label: 'Lease' },
+  { value: 'Maintenance', label: 'Maintenance' },
+  { value: 'Software License', label: 'Software License' },
+  { value: 'Warranty', label: 'Warranty' },
+];
+
+const assetsOptions = [
+  { value: 'Logitech Mouse', label: 'Logitech Mouse' },
+  { value: 'Dell Monitor', label: 'Dell Monitor' },
+  { value: 'Andrea’s Laptop', label: 'Andrea’s Laptop' },
+];
+
+const statusOptions = [
+  { value: 'Draft', label: 'Draft' },
+  { value: 'Pending Approval', label: 'Pending Approval' },
+  { value: 'Approved', label: 'Approved' },
+  { value: 'Expired', label: 'Expired' },
+  { value: 'Rejected', label: 'Rejected' },
+  { value: 'Terminated', label: 'Terminated' },
+];
+
+const vendorOptions = [
+  { value: 'Microsoft', label: 'Microsoft' },
+  { value: 'Delll', label: 'Delll' },
+  { value: 'Apple', label: 'Apple' },
+  { value: 'Samsung', label: 'Samsung' },
+];
+
+const approvalOptions = [
+  { value: 'Markwood', label: 'Markwood' },
+  { value: 'Randall', label: 'Randall' },
+  { value: 'Shane', label: 'Shane' },
+  { value: 'Floyd', label: 'Floyd' },
+];
+
+export const validationSchemaAddNewContract = Yup.object().shape({
   contactname: Yup.string().required('Field is Required'),
   contactnumber: Yup.string(),
   type: Yup.string().required('Field is Required'),
@@ -16,7 +49,7 @@ export const validationSchema = Yup.object().shape({
   file: Yup.mixed(),
 });
 
-export const defaultValues = {
+export const defaultValuesAddNewContract = {
   contactname: '',
   contactnumber: '',
   type: '',
@@ -27,7 +60,8 @@ export const defaultValues = {
   approval: '',
   file: '',
 };
-export const dataArray = [
+
+export const addNewContractData = [
   {
     componentProps: {
       name: 'contactname',
@@ -57,24 +91,7 @@ export const dataArray = [
       select: true,
       required: true,
     },
-    options: [
-      {
-        value: 'Lease',
-        label: 'Lease',
-      },
-      {
-        value: 'Maintenance',
-        label: 'Maintenance',
-      },
-      {
-        value: 'Software License',
-        label: 'Software License',
-      },
-      {
-        value: 'Warranty',
-        label: 'Warranty',
-      },
-    ],
+    options: contactTypeOptions,
     component: RHFSelect,
     md: 6,
   },
@@ -86,20 +103,7 @@ export const dataArray = [
       select: true,
       required: true,
     },
-    options: [
-      {
-        value: 'Logitech Mouse',
-        label: 'Logitech Mouse',
-      },
-      {
-        value: 'Dell Monitor',
-        label: 'Dell Monitor',
-      },
-      {
-        value: 'Andrea’s Laptop',
-        label: 'Andrea’s Laptop',
-      },
-    ],
+    options: assetsOptions,
     component: RHFSelect,
     md: 6,
   },
@@ -121,32 +125,7 @@ export const dataArray = [
       select: true,
       required: true,
     },
-    options: [
-      {
-        value: 'Draft',
-        label: 'Draft',
-      },
-      {
-        value: 'Pending Approval',
-        label: 'Pending Approval',
-      },
-      {
-        value: 'Approved',
-        label: 'Approved',
-      },
-      {
-        value: 'Expired ',
-        label: 'Expired ',
-      },
-      {
-        value: 'Rejected',
-        label: 'Rejected',
-      },
-      {
-        value: 'Terminated',
-        label: 'Terminated',
-      },
-    ],
+    options: statusOptions,
     component: RHFSelect,
     md: 6,
   },
@@ -157,24 +136,7 @@ export const dataArray = [
       fullWidth: true,
       select: true,
     },
-    options: [
-      {
-        value: 'Microsoft',
-        label: 'Microsoft',
-      },
-      {
-        value: 'Delll',
-        label: 'Delll',
-      },
-      {
-        value: 'Apple',
-        label: 'Apple',
-      },
-      {
-        value: 'Samsung',
-        label: 'Samsung',
-      },
-    ],
+    options: vendorOptions,
     component: RHFSelect,
     md: 6,
   },
@@ -185,34 +147,8 @@ export const dataArray = [
       fullWidth: true,
       select: true,
     },
-    options: [
-      {
-        value: 'Markwood',
-        label: 'Markwood',
-      },
-      {
-        value: 'Randall',
-        label: 'Randall',
-      },
-      {
-        value: 'Shane',
-        label: 'Shane',
-      },
-      {
-        value: 'Floyd',
-        label: 'Floyd',
-      },
-    ],
+    options: approvalOptions,
     component: RHFSelect,
     md: 6,
-  },
-  {
-    componentProps: {
-      name: 'file',
-      label: 'Attach a File',
-      fullWidth: true,
-    },
-    component: RHFDropZone,
-    md: 12,
   },
 ];
