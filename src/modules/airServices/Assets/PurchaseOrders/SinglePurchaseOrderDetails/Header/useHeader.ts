@@ -4,6 +4,7 @@ import { useSnackbar } from 'notistack';
 export function useHeader() {
   const { enqueueSnackbar } = useSnackbar();
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
+  const [isADrawerOpen, setIsADrawerOpen] = useState<boolean>(false);
   const [isActive, setActive] = useState<any>([]);
   const [receivedItemsEnabled, setReceivedItemsEnabled] =
     useState<boolean>(false);
@@ -35,6 +36,27 @@ export function useHeader() {
   };
   const openActionExport = Boolean(actionExportPop);
 
+  const handleActionClicAction = (
+    event: React.MouseEvent<HTMLButtonElement>,
+  ) => {
+    setActionButtonPop(event.currentTarget);
+  };
+  const [selectedMenuItemAction, setSelectedMenuItemAction] =
+    useState<string>('Action');
+  const [actionButtonPop, setActionButtonPop] =
+    useState<HTMLButtonElement | null>(null);
+
+  const openActionButton = Boolean(actionButtonPop);
+
+  const handleActionCloseButton = () => {
+    setActionButtonPop(null);
+  };
+  const [receivedActionItemsEnabled, setReceivedActionItemsEnabled] =
+    useState<boolean>(false);
+
+  const [isPurchaseDeleteModal, setIsPurchaseDeleteModal] = useState(false);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+
   return {
     enqueueSnackbar,
     setIsDrawerOpen,
@@ -57,5 +79,20 @@ export function useHeader() {
     setReceivedInventoryEnabled,
     selectedMenuItemText,
     setSelectedMenuItemText,
+    handleActionClicAction,
+    selectedMenuItemAction,
+    setSelectedMenuItemAction,
+    actionButtonPop,
+    setActionButtonPop,
+    openActionButton,
+    handleActionCloseButton,
+    receivedActionItemsEnabled,
+    setReceivedActionItemsEnabled,
+    isPurchaseDeleteModal,
+    setIsPurchaseDeleteModal,
+    isAddModalOpen,
+    setIsAddModalOpen,
+    isADrawerOpen,
+    setIsADrawerOpen,
   };
 }

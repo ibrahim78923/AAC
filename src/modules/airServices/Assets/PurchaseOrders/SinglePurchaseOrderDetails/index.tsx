@@ -4,7 +4,7 @@ export const SinglePurchaseOrderDetail = () => {
   return (
     <>
       <>
-        <Header title="Dell Purchase Order Details" />
+        <Header />
       </>
       <SinglePurchaseOrderDetailTabs />
     </>
