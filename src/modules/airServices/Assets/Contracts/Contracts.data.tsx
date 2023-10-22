@@ -1,5 +1,4 @@
 import { Checkbox } from '@mui/material';
-import { styles } from '../Header/Header.style';
 
 export const data: any = [
   {
@@ -94,7 +93,7 @@ export const columns = (
     accessorFn: (row: any) => row.ContractName,
     id: 'Contract Name',
     isSortable: false,
-    header: <span style={styles.headerStyle(theme)}>Contract Name</span>,
+    header: <span>Contract Name</span>,
     cell: (info: any) => (
       <span
         onClick={() =>
@@ -106,7 +105,7 @@ export const columns = (
             },
           })
         }
-        style={{ ...styles.firstCellStyle, cursor: 'pointer' }}
+        style={{ color: '#0AADC7', cursor: 'pointer' }}
       >
         {info.getValue()}
       </span>
@@ -115,55 +114,43 @@ export const columns = (
   {
     accessorFn: (row: any) => row.Type,
     id: 'Type',
-    header: <span style={styles.headerStyle(theme)}>Type</span>,
+    header: <span>Type</span>,
     isSortable: false,
-    cell: (info: any) => (
-      <span style={styles.cellStyle(theme)}>{info.getValue()}</span>
-    ),
+    cell: (info: any) => info.getValue(),
   },
   {
     accessorFn: (row: any) => row.Status,
     id: 'Status',
     isSortable: false,
-    header: <span style={styles.headerStyle(theme)}>Status</span>,
-    cell: (info: any) => (
-      <span style={styles.cellStyle(theme)}>{info.getValue()}</span>
-    ),
+    header: <span>Status</span>,
+    cell: (info: any) => info.getValue(),
   },
   {
     accessorFn: (row: any) => row.RenewalStatus,
     id: 'Renewal Status',
     isSortable: false,
-    header: <span style={styles.headerStyle(theme)}>Renewal Status</span>,
-    cell: (info: any) => (
-      <span style={styles.cellStyle(theme)}>{info.getValue()}</span>
-    ),
+    header: <span>Renewal Status</span>,
+    cell: (info: any) => info.getValue(),
   },
   {
     accessorFn: (row: any) => row.ContractNumber,
     id: 'Contract Number',
     isSortable: false,
-    header: <span style={styles.headerStyle(theme)}>Contract Number</span>,
-    cell: (info: any) => (
-      <span style={styles.cellStyle(theme)}>{info.getValue()}</span>
-    ),
+    header: <span>Contract Number</span>,
+    cell: (info: any) => info.getValue(),
   },
   {
     accessorFn: (row: any) => row.Vendor,
     id: 'Vendor',
     isSortable: false,
-    header: <span style={styles.headerStyle(theme)}>Vendor</span>,
-    cell: (info: any) => (
-      <span style={styles.cellStyle(theme)}>{info.getValue()}</span>
-    ),
+    header: <span>Vendor</span>,
+    cell: (info: any) => info.getValue(),
   },
   {
     accessorFn: (row: any) => row.ExpiryDate,
     id: 'Expiry Date',
     isSortable: false,
-    header: <span style={styles.headerStyle(theme)}>Expiry Date</span>,
-    cell: (info: any) => (
-      <span style={styles.cellStyle(theme)}>{info.getValue()}</span>
-    ),
+    header: <span>Expiry Date</span>,
+    cell: (info: any) => info.getValue(),
   },
 ];

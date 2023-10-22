@@ -2,9 +2,9 @@ import HorizontalTabs from '@/components/Tabs/HorizontalTabs';
 import { singleContractDetailTabsData } from './SingleContractDetailsTabs.data';
 import { Overview } from '../../Overview';
 import { AssetsAssociate } from '../../AssetsAssociate';
-import { ContractHistory } from '../../ContractHistory';
 import { Activity } from '../../Activity';
 import { Attachment } from '../../../../Inventory/SingleInventoryDetail/Attachment';
+import { ContractHistory } from '../../ContractHistory';
 
 export const SingleContractDetailsTabs = () => {
   return (

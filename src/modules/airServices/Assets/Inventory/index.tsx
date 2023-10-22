@@ -7,7 +7,7 @@ import { Button } from '@mui/material';
 import { FilterSharedIcon, CustomizeSharedIcon } from '@/assets/icons';
 import { enqueueSnackbar } from 'notistack';
 import { styles } from './Inventory.style';
-import AssetHead from '../Header/index';
+import { PageTitledHeader } from '../../common/Headers/PageTitledHeader/index';
 import { AlertModals } from '@/components/AlertModals';
 import useInventory from './useInventory';
 
@@ -35,14 +35,14 @@ function Inventory() {
           setOpenDeleteModal(false);
         }}
       />
-
+      <PageTitledHeader
+        title={'Inventory'}
+        addTitle={'Add'}
+        hasImport
+        hasExport
+        handleAction={handleAddInventory}
+      />
       <Grid container>
-        <AssetHead
-          title={'Assets'}
-          addTitle={'Add'}
-          show={true}
-          handleAction={handleAddInventory}
-        />
         <Grid item sx={styles.gridItems}>
           <Box sx={styles.headBox}>
             <Box sx={{ marginLeft: '24px' }}>

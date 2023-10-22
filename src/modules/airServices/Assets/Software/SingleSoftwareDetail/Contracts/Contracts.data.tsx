@@ -1,5 +1,3 @@
-import { styles } from '../../../Header/Header.style';
-
 export const data: any = [
   {
     id: 1,
@@ -16,54 +14,42 @@ export const columns = (theme: any) => [
     accessorFn: (row: any) => row.ContractName,
     id: 'Contract Name',
     isSortable: true,
-    header: <span style={styles.headerStyle(theme)}>Contract Name</span>,
-    cell: (info: any) => (
-      <span style={styles.firstCellStyle}>{info.getValue()}</span>
-    ),
+    header: <span>Contract Name</span>,
+    cell: (info: any) => info.getValue(),
   },
   {
     accessorFn: (row: any) => row.LicenseType,
     id: 'License Type',
-    header: <span style={styles.headerStyle(theme)}>License Type</span>,
+    header: <span>License Type</span>,
     isSortable: true,
-    cell: (info: any) => (
-      <span style={styles.cellStyle(theme)}>{info.getValue()}</span>
-    ),
+    cell: (info: any) => info.getValue(),
   },
   {
     accessorFn: (row: any) => row.NoofLicenses,
     id: 'No of Licenses',
     isSortable: true,
-    header: <span style={styles.headerStyle(theme)}>No of Licenses</span>,
-    cell: (info: any) => (
-      <span style={styles.cellStyle(theme)}>{info.getValue()}</span>
-    ),
+    header: <span>No of Licenses</span>,
+    cell: (info: any) => info.getValue(),
   },
   {
     accessorFn: (row: any) => row.Status,
     id: 'Status',
     isSortable: true,
-    header: <span style={styles.headerStyle(theme)}>Status</span>,
-    cell: (info: any) => (
-      <span style={styles.cellStyle(theme)}>{info.getValue()}</span>
-    ),
+    header: <span>Status</span>,
+    cell: (info: any) => info.getValue(),
   },
   {
     accessorFn: (row: any) => row.CreatedDate,
     id: 'Created Date',
     isSortable: true,
-    header: <span style={styles.headerStyle(theme)}>Created Date</span>,
-    cell: (info: any) => (
-      <span style={styles.cellStyle(theme)}>{info.getValue()}</span>
-    ),
+    header: <span>Created Date</span>,
+    cell: (info: any) => info.getValue(),
   },
   {
     accessorFn: (row: any) => row.ExpiryDate,
     id: 'Expiry Date',
     isSortable: true,
-    header: <span style={styles.headerStyle(theme)}>Expiry Date</span>,
-    cell: (info: any) => (
-      <span style={styles.cellStyle(theme)}>{info.getValue()}</span>
-    ),
+    header: <span>Expiry Date</span>,
+    cell: (info: any) => info.getValue(),
   },
 ];

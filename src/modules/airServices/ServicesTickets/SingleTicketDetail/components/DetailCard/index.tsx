@@ -149,15 +149,6 @@ export const DetailCard = () => {
               Deals
             </Typography>
           </Box>
-          {/* <Box
-            display={'flex'}
-            flexWrap={'wrap'}
-            justifyContent={'space-between'}
-            marginBottom={1}
-          >
-            <Typography variant="body2">Email</Typography>
-            <Typography variant="body2">email@service.com</Typography>
-          </Box> */}
         </Grid>
       </Grid>
     </Box>

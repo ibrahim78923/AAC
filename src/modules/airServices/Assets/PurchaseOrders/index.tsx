@@ -6,7 +6,7 @@ import Search from '@/components/Search';
 
 import { styles } from './PurchaseOrders.style';
 
-import AssetHead from '../Header/index';
+import { PageTitledHeader } from '../../common/Headers/PageTitledHeader/index';
 import { PurchaseOrderExport } from './components/PurchaseOrderExport';
 import { PurchaseOrderFilter } from './components/PurchaseOrderFilter';
 
@@ -36,7 +36,7 @@ function PurchaseOrder() {
   );
   return (
     <>
-      <AssetHead
+      <PageTitledHeader
         title={'Purchase Order'}
         addTitle={'New Purchase Order'}
         handleAction={handleNewPurchaseOrder}

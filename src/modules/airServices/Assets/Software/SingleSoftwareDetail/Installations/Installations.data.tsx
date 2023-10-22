@@ -1,5 +1,4 @@
 import { Checkbox } from '@mui/material';
-import { styles } from '../../../Header/Header.style';
 
 export const data: any = [
   {
@@ -61,46 +60,36 @@ export const columns = (
     accessorFn: (row: any) => row.InstallationMacnine,
     id: 'Installation Macnine',
     isSortable: true,
-    header: <span style={styles.headerStyle(theme)}>Installation Macnine</span>,
-    cell: (info: any) => (
-      <span style={styles.firstCellStyle}>{info.getValue()}</span>
-    ),
+    header: <span>Installation Macnine</span>,
+    cell: (info: any) => info.getValue(),
   },
   {
     accessorFn: (row: any) => row.Version,
     id: 'Version',
-    header: <span style={styles.headerStyle(theme)}>Version</span>,
+    header: <span>Version</span>,
     isSortable: true,
-    cell: (info: any) => (
-      <span style={styles.cellStyle(theme)}>{info.getValue()}</span>
-    ),
+    cell: (info: any) => info.getValue(),
   },
   {
     accessorFn: (row: any) => row.User,
     id: 'User',
     isSortable: true,
-    header: <span style={styles.headerStyle(theme)}>User</span>,
-    cell: (info: any) => (
-      <span style={styles.cellStyle(theme)}>{info.getValue()}</span>
-    ),
+    header: <span>User</span>,
+    cell: (info: any) => info.getValue(),
   },
   {
     accessorFn: (row: any) => row.Department,
     id: 'Department',
     isSortable: true,
-    header: <span style={styles.headerStyle(theme)}>Department</span>,
-    cell: (info: any) => (
-      <span style={styles.cellStyle(theme)}>{info.getValue()}</span>
-    ),
+    header: <span>Department</span>,
+    cell: (info: any) => info.getValue(),
   },
   {
     accessorFn: (row: any) => row.InstallationDate,
     id: 'Installation Date',
     isSortable: true,
-    header: <span style={styles.headerStyle(theme)}>Installation Date</span>,
-    cell: (info: any) => (
-      <span style={styles.cellStyle(theme)}>{info.getValue()}</span>
-    ),
+    header: <span>Installation Date</span>,
+    cell: (info: any) => info.getValue(),
   },
 ];
 

@@ -1,6 +1,5 @@
-import Typography from '@mui/material/Typography';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
-import { Box, Divider, IconButton } from '@mui/material';
+import { Box, Button, Divider, IconButton, Typography } from '@mui/material';
 import { useTheme } from '@mui/material';
 
 export const ActivityTimeline = ({ activityData }: any) => {
@@ -25,18 +24,56 @@ export const ActivityTimeline = ({ activityData }: any) => {
         >
           <BorderColorIcon color="primary" />
         </IconButton>
-        <Typography variant="body2" sx={{ flex: 0.8 }}>
+        <Box sx={{ flex: 0.8 }}>
           {' '}
           <Typography
             variant="body2"
             // component={'span'}
+            fontWeight={600}
             color="primary"
             marginRight={0.3}
           >
-            {activityData?.createdBy}
+            {activityData?.status}
           </Typography>
-          {activityData?.description}
-        </Typography>
+          <Typography variant="body2" fontWeight={600}>
+            {activityData?.description}
+          </Typography>
+          <Box
+            display={'flex'}
+            marginY={'.4rem'}
+            alignItems={'center'}
+            gap={1.5}
+          >
+            <Button
+              size="small"
+              sx={{
+                color: theme?.palette?.grey[600],
+                background: theme?.palette?.primary?.light,
+                fontSize: '0.8rem',
+                fontWeight: 400,
+                ':hover': {
+                  background: theme?.palette?.primary?.light,
+                },
+              }}
+            >
+              Cost: {activityData?.cost}
+            </Button>
+            <Button
+              size="small"
+              sx={{
+                color: theme?.palette?.grey[600],
+                background: theme?.palette?.primary?.light,
+                fontSize: '0.8rem',
+                fontWeight: 400,
+                ':hover': {
+                  background: theme?.palette?.primary?.light,
+                },
+              }}
+            >
+              createdBy : {activityData?.createdBy}
+            </Button>
+          </Box>
+        </Box>
       </Box>
       <Box
         display={'flex'}

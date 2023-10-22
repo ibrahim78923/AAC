@@ -5,16 +5,29 @@ import {
   associatesListsColumnFunction,
 } from './AssociatesList.data';
 import { useAssociatesLists } from './useAssociatesList';
-import { AssociatesListHeader } from './AssociatesListHeader';
+import { AddAssociationsDrawer } from '../AddAssociationsDrawer';
+import { PageTitledHeader } from '@/modules/airServices/common/Headers/PageTitledHeader';
 
 const DELETE_MESSAGE = 'Are you sure you want to delete this Associate Asset?';
 const MODAL_TYPE = 'delete';
+
 export const AssociatesListsTableView = () => {
-  const { deleteModal, setDeleteModal, submitDeleteModel } =
-    useAssociatesLists();
+  const {
+    deleteModal,
+    setDeleteModal,
+    submitDeleteModel,
+    openDrawer,
+    setOpenDrawer,
+  } = useAssociatesLists();
   return (
     <>
-      <AssociatesListHeader />
+      <br />
+      <PageTitledHeader
+        title={'Associations'}
+        addTitle={'  Add Associations'}
+        handleAction={() => setOpenDrawer(true)}
+      />
+
       <br />
       <TanstackTable
         columns={associatesListsColumnFunction(setDeleteModal)}
@@ -26,6 +39,10 @@ export const AssociatesListsTableView = () => {
         handleClose={() => setDeleteModal(false)}
         handleSubmit={submitDeleteModel}
         type={MODAL_TYPE}
+      />
+      <AddAssociationsDrawer
+        open={openDrawer}
+        setDrawerOpen={() => setOpenDrawer(false)}
       />
     </>
   );

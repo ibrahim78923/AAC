@@ -1,11 +1,11 @@
 import { useTicketsLists } from './useTicketsLists';
-import { TicketsListHeader } from './components/TicketsListHeader';
 import { TicketsListSubHeader } from './components/TicketsListSubHeader';
 import { TicketsColumnDrag } from './components/TicketsColumnDrag';
 import CommonDrawer from '@/components/CommonDrawer';
 import { TicketsTableView } from './TicketsTableView';
 import { TableBoardView } from './TicketsBoardView';
 import { AlertModals } from '@/components/AlertModals';
+import { PageTitledHeader } from '../../common/Headers/PageTitledHeader';
 
 export const TicketsLists = () => {
   const {
@@ -21,10 +21,11 @@ export const TicketsLists = () => {
   } = useTicketsLists();
   return (
     <>
-      <TicketsListHeader
-        setOpenCreateTicket={() =>
-          openDrawer?.(TABLE_CONSTANTS.CREATE_NEW_TICKET)
-        }
+      <PageTitledHeader
+        title={'Ticket List - All Tickets'}
+        addTitle={'Create Ticket'}
+        hasExport
+        handleAction={() => openDrawer?.(TABLE_CONSTANTS.CREATE_NEW_TICKET)}
       />
       <br />
       <TicketsListSubHeader

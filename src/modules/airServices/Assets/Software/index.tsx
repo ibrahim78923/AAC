@@ -6,7 +6,7 @@ import Search from '@/components/Search';
 import { FilterSharedIcon } from '@/assets/icons';
 import { styles } from './Software.style';
 import { useTheme } from '@emotion/react';
-import AssetHead from '../Header/index';
+import { PageTitledHeader } from '../../common/Headers/PageTitledHeader/index';
 import useManage from '@/modules/airSales/Dashboard/Manage/useManage';
 import SoftwareFilter from './SoftwareFilter';
 import SoftwareAssignCategory from './SoftwareAssignCategory';
@@ -24,78 +24,80 @@ function Software() {
   const { setIsOpenFilterDrawer, isOpenFilterDrawer } = useManage();
 
   return (
-    <Grid container>
-      <AssetHead
+    <>
+      <PageTitledHeader
         title={'Software'}
         addTitle={'New Software'}
         handleAction={() => setIsAddDrawerOpen(true)}
       />
-      <Grid item sx={styles.gridItems}>
-        <Box sx={styles.headBox}>
-          <Box sx={{ marginLeft: '24px' }}>
-            <Search
-              label="search"
-              width="100%"
-              searchBy={searchValue}
-              setSearchBy={SetSearchValue}
+      <Grid container>
+        <Grid item sx={styles.gridItems}>
+          <Box sx={styles.headBox}>
+            <Box sx={{ marginLeft: '24px' }}>
+              <Search
+                label="search"
+                width="100%"
+                searchBy={searchValue}
+                setSearchBy={SetSearchValue}
+              />
+            </Box>
+            <Box sx={styles.buttonBox}>
+              <Button
+                sx={styles.buttonStyle(theme)}
+                variant="outlined"
+                disabled={!!!softwareData.length}
+                onClick={() => {
+                  setOpenAssignModal(true);
+                }}
+              >
+                Assign Category
+              </Button>
+              <Button
+                sx={styles.buttonStyle(theme)}
+                variant="outlined"
+                startIcon={<FilterSharedIcon />}
+                onClick={() => setIsOpenFilterDrawer(true)}
+              >
+                Filter
+              </Button>
+            </Box>
+          </Box>
+          <Box sx={{ marginBottom: '25px' }}>
+            <TanstackTable
+              data={data}
+              columns={columns(
+                softwareData,
+                setSoftwareData,
+                data,
+                theme,
+                router,
+              )}
             />
           </Box>
-          <Box sx={styles.buttonBox}>
-            <Button
-              sx={styles.buttonStyle(theme)}
-              variant="outlined"
-              disabled={!!!softwareData.length}
-              onClick={() => {
-                setOpenAssignModal(true);
-              }}
-            >
-              Assign Category
-            </Button>
-            <Button
-              sx={styles.buttonStyle(theme)}
-              variant="outlined"
-              startIcon={<FilterSharedIcon />}
-              onClick={() => setIsOpenFilterDrawer(true)}
-            >
-              Filter
-            </Button>
-          </Box>
-        </Box>
-        <Box sx={{ marginBottom: '25px' }}>
-          <TanstackTable
-            data={data}
-            columns={columns(
-              softwareData,
-              setSoftwareData,
-              data,
-              theme,
-              router,
-            )}
+        </Grid>
+
+        {isOpenFilterDrawer && (
+          <SoftwareFilter
+            isOpenDrawer={isOpenFilterDrawer}
+            onClose={() => setIsOpenFilterDrawer(false)}
           />
-        </Box>
-      </Grid>
+        )}
 
-      {isOpenFilterDrawer && (
-        <SoftwareFilter
-          isOpenDrawer={isOpenFilterDrawer}
-          onClose={() => setIsOpenFilterDrawer(false)}
+        <SoftwareAssignCategory
+          openAssignModal={openAssignModal}
+          setOpenAssignModal={setOpenAssignModal}
+          title={'Assign Category'}
+          dataArray={dataArray}
+          cancelText={'Cancel'}
+          okText={'Assign'}
+          successMessage={'Assign Successfully'}
         />
-      )}
-
-      <SoftwareAssignCategory
-        openAssignModal={openAssignModal}
-        setOpenAssignModal={setOpenAssignModal}
-        title={'Assign Category'}
-        dataArray={dataArray}
-        cancelText={'Cancel'}
-        okText={'Assign'}
-        successMessage={'Assign Successfully'}
-      />
-      <AddSoftwareDrawer
-        isDrawerOpen={isAddDrawerOpen}
-        onClose={setIsAddDrawerOpen}
-      />
-    </Grid>
+        <AddSoftwareDrawer
+          isDrawerOpen={isAddDrawerOpen}
+          onClose={setIsAddDrawerOpen}
+        />
+      </Grid>
+    </>
   );
 }
 

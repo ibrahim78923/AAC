@@ -1,5 +1,4 @@
 import { Checkbox } from '@mui/material';
-import { styles } from '../Header/Header.style';
 
 export const data: any = [
   {
@@ -77,7 +76,7 @@ export const columns = (
     accessorFn: (row: any) => row.Name,
     id: 'Name',
     isSortable: true,
-    header: <span style={styles.headerStyle(theme)}>Name</span>,
+    header: <span>Name</span>,
     cell: (info: any) => (
       <span
         onClick={() =>
@@ -89,7 +88,7 @@ export const columns = (
             },
           })
         }
-        style={{ ...styles.firstCellStyle, cursor: 'pointer' }}
+        style={{ color: '#0AADC7', cursor: 'pointer' }}
       >
         {info.getValue()}
       </span>
@@ -98,46 +97,36 @@ export const columns = (
   {
     accessorFn: (row: any) => row.AssetType,
     id: 'AssetType',
-    header: <span style={styles.headerStyle(theme)}>Asset Type</span>,
+    header: <span>Asset Type</span>,
     isSortable: true,
-    cell: (info: any) => (
-      <span style={styles.cellStyle(theme)}>{info.getValue()}</span>
-    ),
+    cell: (info: any) => info.getValue(),
   },
   {
     accessorFn: (row: any) => row.Location,
     id: 'Location',
     isSortable: true,
-    header: <span style={styles.headerStyle(theme)}>Location</span>,
-    cell: (info: any) => (
-      <span style={styles.cellStyle(theme)}>{info.getValue()}</span>
-    ),
+    header: <span>Location</span>,
+    cell: (info: any) => info.getValue(),
   },
   {
     accessorFn: (row: any) => row.UsedBy,
     id: 'UsedBy',
     isSortable: true,
-    header: <span style={styles.headerStyle(theme)}>Used By</span>,
-    cell: (info: any) => (
-      <span style={styles.cellStyle(theme)}>{info.getValue()}</span>
-    ),
+    header: <span>Used By</span>,
+    cell: (info: any) => info.getValue(),
   },
   {
     accessorFn: (row: any) => row.Department,
     id: 'Department',
     isSortable: true,
-    header: <span style={styles.headerStyle(theme)}>Department</span>,
-    cell: (info: any) => (
-      <span style={styles.cellStyle(theme)}>{info.getValue()}</span>
-    ),
+    header: <span>Department</span>,
+    cell: (info: any) => info.getValue(),
   },
   {
     accessorFn: (row: any) => row.Impact,
     id: 'Impact',
     isSortable: true,
-    header: <span style={styles.headerStyle(theme)}>Impact</span>,
-    cell: (info: any) => (
-      <span style={styles.cellStyle(theme)}>{info.getValue()}</span>
-    ),
+    header: <span>Impact</span>,
+    cell: (info: any) => info.getValue(),
   },
 ];
