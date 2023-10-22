@@ -1,10 +1,9 @@
-import { Box, Grid, Button } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { useState } from 'react';
 import { data, columns, dataArray } from './Software.data';
 import TanstackTable from '@/components/Tabel/TanstackTable';
 import Search from '@/components/Search';
 import { FilterSharedIcon } from '@/assets/icons';
-import { styles } from './Software.style';
 import { useTheme } from '@emotion/react';
 import { PageTitledHeader } from '../../common/Headers/PageTitledHeader/index';
 import useManage from '@/modules/airSales/Dashboard/Manage/useManage';
@@ -30,73 +29,70 @@ function Software() {
         addTitle={'New Software'}
         handleAction={() => setIsAddDrawerOpen(true)}
       />
-      <Grid container>
-        <Grid item sx={styles.gridItems}>
-          <Box sx={styles.headBox}>
-            <Box sx={{ marginLeft: '24px' }}>
-              <Search
-                label="search"
-                width="100%"
-                searchBy={searchValue}
-                setSearchBy={SetSearchValue}
-              />
-            </Box>
-            <Box sx={styles.buttonBox}>
-              <Button
-                sx={styles.buttonStyle(theme)}
-                variant="outlined"
-                disabled={!!!softwareData.length}
-                onClick={() => {
-                  setOpenAssignModal(true);
-                }}
-              >
-                Assign Category
-              </Button>
-              <Button
-                sx={styles.buttonStyle(theme)}
-                variant="outlined"
-                startIcon={<FilterSharedIcon />}
-                onClick={() => setIsOpenFilterDrawer(true)}
-              >
-                Filter
-              </Button>
-            </Box>
-          </Box>
-          <Box sx={{ marginBottom: '25px' }}>
-            <TanstackTable
-              data={data}
-              columns={columns(
-                softwareData,
-                setSoftwareData,
-                data,
-                theme,
-                router,
-              )}
-            />
-          </Box>
-        </Grid>
-
-        {isOpenFilterDrawer && (
-          <SoftwareFilter
-            isOpenDrawer={isOpenFilterDrawer}
-            onClose={() => setIsOpenFilterDrawer(false)}
+      <Box
+        display={'flex'}
+        alignItems={'center'}
+        justifyContent={'space-between'}
+        flexWrap={'wrap'}
+        gap={1.5}
+      >
+        <Box>
+          <Search
+            label="search"
+            width="100%"
+            searchBy={searchValue}
+            setSearchBy={SetSearchValue}
           />
-        )}
+        </Box>
+        <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={1.5}>
+          <Button
+            color="secondary"
+            variant="outlined"
+            disabled={!!!softwareData.length}
+            onClick={() => {
+              setOpenAssignModal(true);
+            }}
+          >
+            Assign Category
+          </Button>
+          <Button
+            color="secondary"
+            variant="outlined"
+            startIcon={<FilterSharedIcon />}
+            onClick={() => setIsOpenFilterDrawer(true)}
+          >
+            Filter
+          </Button>
+        </Box>
+      </Box>
+      <br />
+      <Box>
+        <TanstackTable
+          data={data}
+          columns={columns(softwareData, setSoftwareData, data, theme, router)}
+        />
+      </Box>
 
-        <SoftwareAssignCategory
-          openAssignModal={openAssignModal}
-          setOpenAssignModal={setOpenAssignModal}
-          title={'Assign Category'}
-          dataArray={dataArray}
-          cancelText={'Cancel'}
-          okText={'Assign'}
-          successMessage={'Assign Successfully'}
+      {isOpenFilterDrawer && (
+        <SoftwareFilter
+          isOpenDrawer={isOpenFilterDrawer}
+          onClose={() => setIsOpenFilterDrawer(false)}
         />
-        <AddSoftwareDrawer
-          isDrawerOpen={isAddDrawerOpen}
-          onClose={setIsAddDrawerOpen}
-        />
-      </Grid>
+      )}
+
+      <SoftwareAssignCategory
+        openAssignModal={openAssignModal}
+        setOpenAssignModal={setOpenAssignModal}
+        title={'Assign Category'}
+        dataArray={dataArray}
+        cancelText={'Cancel'}
+        okText={'Assign'}
+        successMessage={'Assign Successfully'}
+      />
+      <AddSoftwareDrawer
+        isDrawerOpen={isAddDrawerOpen}
+        onClose={setIsAddDrawerOpen}
+      />
     </>
   );
 }

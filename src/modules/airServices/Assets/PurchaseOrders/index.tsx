@@ -4,8 +4,6 @@ import { data, purchaseOrderColumnsFunction } from './PurchaseOrders.data';
 import TanstackTable from '@/components/Tabel/TanstackTable';
 import Search from '@/components/Search';
 
-import { styles } from './PurchaseOrders.style';
-
 import { PageTitledHeader } from '../../common/Headers/PageTitledHeader/index';
 import { PurchaseOrderExport } from './components/PurchaseOrderExport';
 import { PurchaseOrderFilter } from './components/PurchaseOrderFilter';
@@ -26,7 +24,6 @@ function PurchaseOrder() {
     router,
   } = usePurchaseOrders();
 
-  const { tableWrapperStyle, flexBetween } = styles();
   const purchaseOrderColumns = purchaseOrderColumnsFunction(
     purchaseOrderData,
     setPurchaseOrderData,
@@ -41,10 +38,21 @@ function PurchaseOrder() {
         addTitle={'New Purchase Order'}
         handleAction={handleNewPurchaseOrder}
       />
-      <Box sx={{ ...tableWrapperStyle }}>
-        <Box sx={{ ...flexBetween, padding: '.75rem 1.5rem' }}>
+      <Box>
+        <Box
+          display={'flex'}
+          alignItems={'center'}
+          justifyContent={'space-between'}
+          flexWrap={'wrap'}
+          gap={1.5}
+        >
           <Search label="search" searchBy="" setSearchBy={''} />
-          <Box sx={{ display: 'flex', gap: 1 }}>
+          <Box
+            display={'flex'}
+            alignItems={'center'}
+            flexWrap={'wrap'}
+            gap={1.5}
+          >
             <PurchaseOrderExport />
             <PurchaseOrderFilter
               isDrawerOpen={isDrawerOpen}
@@ -56,6 +64,7 @@ function PurchaseOrder() {
             />
           </Box>
         </Box>
+        <br />
         <TanstackTable data={data} columns={purchaseOrderColumns} />
       </Box>
     </>

@@ -1,6 +1,5 @@
-import { Grid, Typography, Button, MenuItem, Menu } from '@mui/material';
+import { Typography, Button, MenuItem, Menu, Box } from '@mui/material';
 import ViewDetailBackArrowIcon from '@/assets/icons/modules/view-detail-Icon/view-detail-back-arrow-icon';
-import { headerStyle } from './Header.styles';
 import { ActionButtonIcon } from '@/assets/icons';
 import { useHeader } from './useHeader';
 import React from 'react';
@@ -22,46 +21,23 @@ export default function Header() {
 
   return (
     <>
-      <Grid
-        container
-        spacing={2}
-        justifyContent={'space-between'}
+      <Box
         display={'flex'}
-        flexDirection={'row'}
-        maxWidth={'100%'}
+        justifyContent={'space-between'}
+        alignItems={'center'}
+        flexWrap={'wrap'}
+        gap={2}
       >
-        <Grid
-          item
-          sx={{
-            display: 'flex',
-          }}
-        >
+        <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={2}>
           <ViewDetailBackArrowIcon />
           <Typography variant="h5" component="span">
             Software
           </Typography>
-        </Grid>
-        <Grid item sx={{ display: 'flex' }}>
-          <SoftwareEdit
-            isDrawerOpen={isDrawerOpen}
-            setIsDrawerOpen={setIsDrawerOpen}
-          />
-          {deleteModalOpen && (
-            <AlertModals
-              type="delete"
-              open={deleteModalOpen}
-              handleClose={() => setDeleteModalOpen(false)}
-              handleSubmit={() => {
-                setDeleteModalOpen(false);
-                enqueueSnackbar('Software deleted Successfully', {
-                  variant: 'success',
-                });
-              }}
-              message="Are you sure  want to delete this Software ?"
-            />
-          )}
+        </Box>
+        <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={2}>
           <Button
-            sx={headerStyle?.actionBtn}
+            variant="outlined"
+            color="secondary"
             endIcon={<ActionButtonIcon />}
             onClick={handleClick}
           >
@@ -89,11 +65,29 @@ export default function Header() {
                 setDeleteModalOpen(true), handleClose();
               }}
             >
-              delete
+              Delete
             </MenuItem>
           </Menu>
-        </Grid>
-      </Grid>
+        </Box>
+      </Box>
+      {deleteModalOpen && (
+        <AlertModals
+          type="delete"
+          open={deleteModalOpen}
+          handleClose={() => setDeleteModalOpen(false)}
+          handleSubmit={() => {
+            setDeleteModalOpen(false);
+            enqueueSnackbar('Software deleted Successfully', {
+              variant: 'success',
+            });
+          }}
+          message="Are you sure  want to delete this Software ?"
+        />
+      )}
+      <SoftwareEdit
+        isDrawerOpen={isDrawerOpen}
+        setIsDrawerOpen={setIsDrawerOpen}
+      />
     </>
   );
 }

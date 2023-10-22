@@ -1,5 +1,5 @@
 import React from 'react';
-import { usersTableData, usersTableColumns } from './UsersTable.utils';
+import { usersTableData, usersTableColumns } from './UsersTable.data';
 import TanstackTable from '@/components/Tabel/TanstackTable';
 
 const UsersTable = ({ setUsersData, usersData }: any) => {

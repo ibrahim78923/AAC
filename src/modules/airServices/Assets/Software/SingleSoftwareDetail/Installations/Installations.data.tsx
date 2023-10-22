@@ -3,9 +3,9 @@ import { Checkbox } from '@mui/material';
 export const data: any = [
   {
     id: 1,
-    InstallationMacnine: 'Andrea',
+    InstallationMachine: 'Andrea',
     Version: '--',
-    User: 'Andera',
+    User: 'Andrea',
     Department: '--',
     InstallationDate: '--',
   },
@@ -57,10 +57,10 @@ export const columns = (
     isSortable: false,
   },
   {
-    accessorFn: (row: any) => row.InstallationMacnine,
-    id: 'Installation Macnine',
+    accessorFn: (row: any) => row.InstallationMachine,
+    id: 'Installation Machine',
     isSortable: true,
-    header: <span>Installation Macnine</span>,
+    header: <span>Installation Machine</span>,
     cell: (info: any) => info.getValue(),
   },
   {

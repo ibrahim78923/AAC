@@ -28,7 +28,7 @@ const buttonContainerStyle = {
   justifyContent: 'flex-end',
   margin: 'auto',
 };
-export const UsersAdd = () => {
+export const UsersAdd = (props: any) => {
   const [isModalOpen, setModalOpen] = useState(false);
 
   const openModal = () => {

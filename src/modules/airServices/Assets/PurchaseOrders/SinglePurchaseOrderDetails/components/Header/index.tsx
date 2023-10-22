@@ -1,107 +1,43 @@
-import {
-  Grid,
-  Typography,
-  Box,
-  ButtonGroup,
-  Button,
-  Menu,
-  MenuItem,
-} from '@mui/material';
+import { Typography, Box, Button } from '@mui/material';
 import ViewDetailBackArrowIcon from '@/assets/icons/modules/view-detail-Icon/view-detail-back-arrow-icon';
-import { headerStyle } from './Header.styles';
 import React from 'react';
-import { RecievedItemDrawer } from './RecievedItems/RecievedItemDrawer';
-import { AddToInventoryDrawer } from './AddToInventory/AddToInventoryDrawer';
-import { ActionButtonIcon } from '@/assets/icons';
-import Link from 'next/link';
-import { useHeader } from './useHeader';
+import { SingleDropdownButton } from '@/modules/airServices/common/Buttons/SingleDropdownButton';
 
-export default function Header() {
-  const {
-    handleClose,
-    handleClick,
-    anchorEl,
-    open,
-    isDrawerOpen,
-    setIsDrawerOpen,
-    isADrawerOpen,
-    setIsADrawerOpen,
-  } = useHeader();
+export const Header = (props: any) => {
+  const { dropdownOptions, handleAddToInventory, handleReceived } = props;
+
   return (
     <>
-      <Grid
-        container
-        spacing={2}
-        justifyContent={'space-between'}
+      <Box
         display={'flex'}
-        flexDirection={'row'}
-        maxWidth={'100%'}
+        alignItems={'center'}
+        justifyContent={'space-between'}
+        flexWrap={'wrap'}
+        gap={1.5}
       >
-        <Grid
-          item
-          sx={{
-            display: 'flex',
-          }}
-        >
+        <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={2}>
           <ViewDetailBackArrowIcon />
-          <Typography variant="h6" component="span">
-            Dell Purchase Order Details
-          </Typography>
-        </Grid>
-        <Grid item sx={{ display: 'flex' }}>
-          <Box sx={headerStyle?.iconBoxStyling}>
-            <ButtonGroup>
-              <Button onClick={() => setIsDrawerOpen(true)}>
-                Recieved item
-              </Button>
-            </ButtonGroup>
-          </Box>
-          <RecievedItemDrawer
-            isDrawerOpen={isDrawerOpen}
-            setIsDrawerOpen={setIsDrawerOpen}
-          />
-          <Box sx={headerStyle?.iconBoxStyling}>
-            <ButtonGroup>
-              <Button onClick={() => setIsADrawerOpen(true)}>
-                Add to Inventory
-              </Button>
-            </ButtonGroup>
-            <AddToInventoryDrawer
-              isADrawerOpen={isADrawerOpen}
-              setIsADrawerOpen={setIsADrawerOpen}
-            />
-          </Box>
+          <Typography variant="h5">Dell Purchase Order Details</Typography>
+        </Box>
+        <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={2}>
           <Button
-            sx={headerStyle?.actionBtn}
-            endIcon={<ActionButtonIcon />}
-            onClick={handleClick}
+            color="secondary"
+            variant="outlined"
+            onClick={() => handleReceived?.()}
           >
-            Action
+            Received item
           </Button>
-
-          <Menu
-            id="basic-menu"
-            anchorEl={anchorEl}
-            open={open}
-            onClose={handleClose}
-            MenuListProps={{
-              'aria-labelledby': 'basic-button',
-            }}
+          <Button
+            color="secondary"
+            variant="outlined"
+            onClick={() => handleAddToInventory?.()}
           >
-            <Link href="/air-services/assets/purchase-orders/new-purchase?type=edit">
-              <MenuItem>Edit</MenuItem>
-            </Link>
-
-            <MenuItem
-              onClick={() => {
-                handleClose();
-              }}
-            >
-              delete
-            </MenuItem>
-          </Menu>
-        </Grid>
-      </Grid>
+            Add to Inventory
+          </Button>
+          <SingleDropdownButton dropdownOptions={dropdownOptions} />
+        </Box>
+      </Box>
+      <br />
     </>
   );
-}
+};

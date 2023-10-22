@@ -1,44 +1,34 @@
-import { ViewDetailBackArrowIcon } from '@/assets/icons';
-import Actions from './Actions';
 import { SingleInventoryDetailsTabs } from './components/SingleInventoryDetailTabs';
-import { Box, Grid, Typography } from '@mui/material';
-import { useRouter } from 'next/router';
+import { Header } from './components/Header';
+import { useSingleInventoryDetail } from './useSingleInventoryDetail';
+import { enqueueSnackbar } from 'notistack';
+import { AlertModals } from '@/components/AlertModals';
 
 export const SingleInventoryDetail = () => {
-  const router = useRouter();
-  const handleClick = () => {
-    router.push('/air-services/assets/inventory');
-  };
+  const {
+    singleInventoryDetailActionDropdown,
+    isDeleteModalOpen,
+    setIsDeleteModalOpen,
+  }: any = useSingleInventoryDetail();
   return (
     <>
-      <Grid
-        container
-        spacing={2}
-        justifyContent={'space-between'}
-        mb={'0.625rem'}
-      >
-        <Grid
-          item
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-          }}
-        >
-          <Box
-            sx={{ cursor: 'pointer', mt: '0.3125rem' }}
-            onClick={handleClick}
-          >
-            <ViewDetailBackArrowIcon />
-          </Box>
-          <Typography variant="h5" component="span" sx={{ ml: '0.3125rem' }}>
-            Logitech Mouse
-          </Typography>
-        </Grid>
-        <Grid item>
-          <Actions />
-        </Grid>
-      </Grid>
+      <Header dropdownOptions={singleInventoryDetailActionDropdown} />
+      <br />
       <SingleInventoryDetailsTabs />
+      {isDeleteModalOpen && (
+        <AlertModals
+          type="delete"
+          open={isDeleteModalOpen}
+          handleClose={() => setIsDeleteModalOpen(false)}
+          handleSubmit={() => {
+            setIsDeleteModalOpen(false);
+            enqueueSnackbar('Contract deleted Successfully', {
+              variant: 'success',
+            });
+          }}
+          message="Are you sure  want to delete this Contract ?"
+        />
+      )}
     </>
   );
 };

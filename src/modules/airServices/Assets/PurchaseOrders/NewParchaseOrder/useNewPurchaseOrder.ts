@@ -15,7 +15,8 @@ const useNewPurchaseOrders = () => {
     resolver: yupResolver(validationSchema),
     defaultValues,
   });
-  const submit = async () => {
+  const submit = async (data: any) => {
+    console.log(data);
     enqueueSnackbar({
       message: 'New Purchase Order Created successfully',
       variant: 'success',

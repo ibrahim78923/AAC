@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import UsersTable from './UsersTable';
-import { Box, Grid, InputAdornment, TextField } from '@mui/material';
-import { SearchSharedIcon } from '@/assets/icons';
+import { Box } from '@mui/material';
 import CustomPagination from '@/components/CustomPagination';
-import { UsersAction } from './UsersAction';
-import { UsersExport } from './UsersExport';
 import { UsersAdd } from './UsersAdd';
 import { UsersFilter } from './UsersFilter';
 import { userDropdown } from './Users.data';
+import Search from '@/components/Search';
+import { ExportButton } from '@/modules/airServices/common/Buttons/ExportButton';
+import { SingleDropdownButton } from '@/modules/airServices/common/Buttons/SingleDropdownButton';
 
 export const Users = () => {
   const [usersData, setUsersData] = useState([]);
@@ -16,45 +16,34 @@ export const Users = () => {
 
   return (
     <>
-      <Grid container>
-        <Grid
-          item
-          xs={12}
-          sx={{ display: 'flex', justifyContent: 'space-between' }}
-        >
-          <TextField
-            id="outlined-basic"
-            placeholder="search"
-            variant="outlined"
-            autoComplete="off"
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <SearchSharedIcon />
-                </InputAdornment>
-              ),
-            }}
+      <Box
+        display={'flex'}
+        justifyContent={'space-between'}
+        alignItems={'center'}
+        flexWrap={'wrap'}
+        gap={2}
+      >
+        <Box>
+          <Search label="Search" searchBy="" setSearchBy="" />
+        </Box>
+        <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={2}>
+          <SingleDropdownButton
+            dropdownOptions={userDropdown}
+            disabled={usersData?.length === 0}
           />
-          <Box sx={{ display: 'flex', gap: '18px' }}>
-            <UsersAction
-              actionDropdownData={userDropdown}
-              usersData={usersData}
-              setUsersData={setUsersData}
-            />
-            <UsersAdd onClick={handleAddModalOpen} />
-            <UsersExport />
-            <UsersFilter />
-          </Box>
-        </Grid>
-        <Grid item xs={12} sx={{ mt: 2 }}>
-          <UsersTable usersData={usersData} setUsersData={setUsersData} />
-          <CustomPagination
-            count={5}
-            rowsPerPageOptions={[1, 2, 3, 4, 5]}
-            entriePages={40}
-          />
-        </Grid>
-      </Grid>
+          <UsersAdd onClick={handleAddModalOpen} />
+          <ExportButton />
+          <UsersFilter />
+        </Box>
+      </Box>
+      <br />
+      <UsersTable usersData={usersData} setUsersData={setUsersData} />
+      <br />
+      <CustomPagination
+        count={1}
+        rowsPerPageOptions={[1, 2]}
+        entriePages={10}
+      />
     </>
   );
 };

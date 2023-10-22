@@ -1,8 +1,7 @@
 import { Typography, Box } from '@mui/material';
 import ViewDetailBackArrowIcon from '@/assets/icons/modules/view-detail-Icon/view-detail-back-arrow-icon';
-import React from 'react';
-import { SingleDropdownButton } from '@/modules/airServices/common/Buttons/SingleDropdownButton';
 
+import { SingleDropdownButton } from '@/modules/airServices/common/Buttons/SingleDropdownButton';
 export const Header = (props: any) => {
   const { dropdownOptions } = props;
   return (
@@ -16,9 +15,11 @@ export const Header = (props: any) => {
       >
         <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={2}>
           <ViewDetailBackArrowIcon />
-          <Typography variant="h5">MicroSoft Office License</Typography>
+          <Typography variant="h5">Logitech Mouse</Typography>
         </Box>
-        <SingleDropdownButton dropdownOptions={dropdownOptions} />
+        <Box>
+          <SingleDropdownButton dropdownOptions={dropdownOptions} />
+        </Box>
       </Box>
     </>
   );

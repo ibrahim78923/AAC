@@ -1,4 +1,4 @@
-import { useState, Children, SyntheticEvent } from 'react';
+import { useState, Children, SyntheticEvent, cloneElement } from 'react';
 import { Tabs, Tab, Typography, useTheme, Box, Card } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { styles } from './HorizontalTabs.style';
@@ -63,9 +63,12 @@ const HorizontalTabs = (props: any) => {
           <AddCircleIcon sx={styles?.circleIconStyle} onClick={handleAddTab} />
         )}
       </Tabs>
+      <br />
       <Box sx={{ py: { md: 2, xs: 0.5 } }}>
-        {arrayChildren?.map((child, index) => (
-          <Box key={uuidv4()}>{value === index && child}</Box>
+        {arrayChildren?.map((child: any, index) => (
+          <Box key={uuidv4()}>
+            {value === index && cloneElement(child, { setValue })}
+          </Box>
         ))}
       </Box>
     </Card>

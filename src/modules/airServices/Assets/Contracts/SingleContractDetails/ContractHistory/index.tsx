@@ -8,8 +8,7 @@ import { ActivityTimeline } from './ActivityTimeline';
 export const ContractHistory = () => {
   return (
     <>
-      <br />
-      <Box
+      {/* <Box
         display={'flex'}
         flexWrap={'wrap'}
         alignItems={'center'}
@@ -18,8 +17,9 @@ export const ContractHistory = () => {
         marginBottom={1.5}
       >
         <Box></Box>
-        {/* <ExportButton /> */}
-      </Box>
+        <ExportButton />
+      </Box> */}
+      <Box></Box>
       <br />
       <Grid container>
         <Grid item xs={12} md={0.5}></Grid>

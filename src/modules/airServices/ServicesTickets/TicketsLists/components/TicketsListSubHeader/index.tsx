@@ -2,9 +2,9 @@ import Search from '@/components/Search';
 import { Box, Button, ButtonGroup, Stack, useTheme } from '@mui/material';
 import { useTicketsListsSubHeader } from './useTicketsListSubHeader';
 import { useRouter } from 'next/router';
-import { TicketsAction } from '../TicketsAction';
 import { FilterIcon, ListIcon, ResetIcon, SubTabIcon } from '@/assets/icons';
 import CustomizeIcon from '@/assets/icons/shared/customize-icon';
+import { SingleDropdownButton } from '@/modules/airServices/common/Buttons/SingleDropdownButton';
 
 export const TicketsListSubHeader = (props: any) => {
   const { onCustomizeClick, onFilterClick, ticketsActionDropdown } = props;
@@ -34,7 +34,7 @@ export const TicketsListSubHeader = (props: any) => {
           gap={'.5rem'}
         >
           {router.query.viewType !== 'board' && (
-            <TicketsAction ticketsActionDropdown={ticketsActionDropdown} />
+            <SingleDropdownButton dropdownOptions={ticketsActionDropdown} />
           )}
           <Button
             variant="outlined"

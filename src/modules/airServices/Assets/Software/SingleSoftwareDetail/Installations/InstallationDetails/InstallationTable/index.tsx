@@ -2,7 +2,7 @@ import TanstackTable from '@/components/Tabel/TanstackTable';
 import {
   InstallationTableColumns,
   InstallationTableData,
-} from './InstallationTable.utils';
+} from './InstallationTable.data';
 
 export const InstallationTable = ({ activeCheck, setActiveCheck }: any) => {
   return (

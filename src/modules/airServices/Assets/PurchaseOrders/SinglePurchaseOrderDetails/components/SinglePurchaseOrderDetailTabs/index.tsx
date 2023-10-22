@@ -5,7 +5,7 @@ import { singlePurchaseOrderDetailTabsData } from './SinglePurchaseOrderDetailsT
 import { Approvals } from '../../Approvals';
 import { Associations } from '../../Associations';
 import { AssetsReceived } from '../../AssetsReceived';
-import { Attachments } from '../../Attachments';
+import { Attachment } from '../../Attachments';
 
 export const SinglePurchaseOrderDetailTabs = () => {
   return (
@@ -14,7 +14,7 @@ export const SinglePurchaseOrderDetailTabs = () => {
       <Approvals />
       <Associations />
       <AssetsReceived />
-      <Attachments />
+      <Attachment/>
     </HorizontalTabs>
   );
 };
