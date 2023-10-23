@@ -1,5 +1,4 @@
 import { Checkbox } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
 
 export const data: any = [
   {
@@ -27,9 +26,8 @@ export const purchaseOrderColumnsFunction = (
   setPurchaseOrderData: any,
   meetingsMainData: any,
   router: any,
-  handlePurchaseOrderDetail: (orderNumber: string) => void,
+  // handlePurchaseOrderDetail: (orderNumber: string) => void,
 ): any => {
-  const theme = useTheme();
   return [
     {
       accessorFn: (row: any) => row.id,
@@ -80,8 +78,7 @@ export const purchaseOrderColumnsFunction = (
         <span
           onClick={() =>
             router.push({
-              pathname:
-                'http://localhost:3000/air-services/assets/purchase-orders/detail',
+              pathname: '/air-services/assets/purchase-orders/detail',
               query: {
                 purchaseOrderId: info?.row?.id,
               },

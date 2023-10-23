@@ -6,7 +6,7 @@ export const singlePurchaseDetailActionDropdownFunction = (
     title: 'Edit',
     handleClick: (x: any) => {
       router.push({
-        pathname: router.pathname,
+        pathname: `/air-services/assets/purchase-orders/new-purchase`,
         query: {
           ...router.query,
         },

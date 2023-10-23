@@ -87,8 +87,7 @@ export const columns = (
       <span
         onClick={() =>
           router.push({
-            pathname:
-              'http://localhost:3000/air-services/assets/software/detail',
+            pathname: '/air-services/assets/software/detail',
             query: {
               softwareId: info?.row?.id,
             },
