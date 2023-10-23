@@ -6,10 +6,9 @@ export const singlePurchaseDetailActionDropdownFunction = (
     title: 'Edit',
     handleClick: (x: any) => {
       router.push({
-        pathname: `/air-services/assets/contracts/detail/update-contract`,
+        pathname: router.pathname,
         query: {
           ...router.query,
-          action: 'renew',
         },
       });
       x?.();
