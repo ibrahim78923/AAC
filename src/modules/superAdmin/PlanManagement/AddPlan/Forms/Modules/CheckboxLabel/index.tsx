@@ -1,7 +1,8 @@
-import { Box, Typography } from '@mui/material';
 import React from 'react';
 
-const CheckboxLabel = ({ name, desc }: any) => {
+import { Box, Typography } from '@mui/material';
+
+const CheckboxLabel = ({ name, desc }: { name: string; desc: string }) => {
   return (
     <Box>
       <Typography>{name}</Typography>

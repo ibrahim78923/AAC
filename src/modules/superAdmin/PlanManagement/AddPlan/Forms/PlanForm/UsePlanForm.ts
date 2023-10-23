@@ -26,16 +26,9 @@ export const useAddPlanForm = () => {
   const { handleSubmit } = methods;
 
   const onSubmit = async () => {
-    // console.log(data);
-    // try {
-    //   const res: any = await onSubmitHandler(data).unwrap();
     enqueueSnackbar('', {
       variant: 'success',
     });
-    // } catch (error: any) {
-    //   const errMsg = error?.data?.message;
-    //   enqueueSnackbar(errMsg ?? "Something Went Wrong!", { variant: "error" });
-    // }
   };
 
   return {

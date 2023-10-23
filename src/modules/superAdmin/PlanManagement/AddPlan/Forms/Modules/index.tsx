@@ -12,21 +12,25 @@ import {
   Grid,
   Box,
 } from '@mui/material';
+
 import CheckboxLabel from './CheckboxLabel';
+import ListAccordion from './ListAccordion';
+
+import { useModules } from './UseModules';
+
 import { AirSalesCategories } from './PlanFeatures.data';
 
 import { v4 as uuidv4 } from 'uuid';
-import ListAccordion from './ListAccordion';
-import { useModules } from './UseModules';
 
 const Modules = () => {
-  const { expanded, handleChange } = useModules();
+  const { theme, accordionExpanded, handleExpandAccordionChange } =
+    useModules();
 
   return (
     <div>
       <Accordion
-        expanded={expanded === 'plan-air-sales-accordion'}
-        onChange={handleChange('plan-air-sales-accordion')}
+        expanded={accordionExpanded === 'plan-air-sales-accordion'}
+        onChange={handleExpandAccordionChange('plan-air-sales-accordion')}
         disableGutters
         sx={{
           '&.MuiAccordion': {
@@ -39,8 +43,8 @@ const Modules = () => {
             },
           },
           '& .MuiAccordionSummary-root': {
-            backgroundColor: '#1F305D',
-            color: '#fff',
+            backgroundColor: theme?.palette?.blue?.main,
+            color: theme.palette.common.white,
             borderRadius: '8px',
           },
         }}
@@ -57,14 +61,14 @@ const Modules = () => {
         </AccordionDetails>
       </Accordion>
       <Accordion
-        expanded={expanded === 'plan-marketing-accordion'}
-        onChange={handleChange('plan-marketing-accordion')}
+        expanded={accordionExpanded === 'plan-marketing-accordion'}
+        onChange={handleExpandAccordionChange('plan-marketing-accordion')}
         disableGutters
         sx={{
           marginTop: '2rem',
           '& .MuiAccordionSummary-root': {
-            backgroundColor: '#1F305D',
-            color: '#fff',
+            backgroundColor: theme?.palette?.blue?.main,
+            color: theme.palette.common.white,
             borderRadius: '8px',
           },
         }}

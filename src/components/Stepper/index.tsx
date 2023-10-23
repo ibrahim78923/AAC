@@ -5,15 +5,15 @@ import {
   Stepper,
   Step,
   StepLabel,
-  // Button,
   styled,
   useTheme,
   StepConnector,
-  // Stack,
+  stepConnectorClasses,
 } from '@mui/material';
-import { stepConnectorClasses } from '@mui/material/StepConnector';
 
 import Check from '@mui/icons-material/Check';
+
+import { isNullOrEmpty } from '@/utils';
 
 import { v4 as uuidv4 } from 'uuid';
 
@@ -21,20 +21,10 @@ import { SingleStepI, HorizontalStepperI } from './stepper.interface';
 
 const AppHorizontalStepper: React.FC<HorizontalStepperI> = ({
   stepsArray,
-  // TODO: Handling form actions
-  // addPlanFormValues,
-  // setAddPlanFormValues
-  // disableNextButton,
   activeStep = 0,
-  // handleBack,
-  // handleNext,
-  // handleReset,
   stepperButtons,
   stepperPadding = '4rem 0',
   stepperMargin = '2rem 0',
-  // cancelButton,
-  // handleCancel,
-  // variantNextButton = 'text',
 }) => {
   const theme = useTheme();
 
@@ -45,7 +35,7 @@ const AppHorizontalStepper: React.FC<HorizontalStepperI> = ({
         activeStep={activeStep}
         connector={<CustomConnector />}
       >
-        {Boolean(stepsArray?.length) &&
+        {!isNullOrEmpty(stepsArray) &&
           stepsArray?.map((singleStem: SingleStepI, index: any) => (
             <Step key={uuidv4()} className={index === 0 ? 'first-step' : ''}>
               <StepLabel
@@ -71,7 +61,7 @@ const AppHorizontalStepper: React.FC<HorizontalStepperI> = ({
       </Stepper>
 
       <Box sx={{ width: '100%', padding: stepperPadding }}>
-        {Boolean(stepsArray?.length) && stepsArray[activeStep]?.component}
+        {!isNullOrEmpty(stepsArray) && stepsArray[activeStep]?.component}
         {stepperButtons}
       </Box>
     </Box>

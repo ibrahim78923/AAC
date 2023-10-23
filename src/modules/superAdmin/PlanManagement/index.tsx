@@ -23,6 +23,8 @@ import { planManagementFilterFiltersDataArray } from './PlanManagement.data';
 
 import { styles } from './PlanManagement.style';
 
+import { isNullOrEmpty } from '@/utils';
+
 import { FilterSharedIcon } from '@/assets/icons';
 
 import { v4 as uuidv4 } from 'uuid';
@@ -137,9 +139,9 @@ const PlanManagement = () => {
               {planManagementFilterFiltersDataArray?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
                   <item.component {...item.componentProps} size={'small'}>
-                    {item?.componentProps?.select
+                    {!isNullOrEmpty(item?.componentProps?.select)
                       ? item?.options?.map((option: any) => (
-                          <option key={option?.value} value={option?.value}>
+                          <option key={uuidv4()} value={option?.value}>
                             {option?.label}
                           </option>
                         ))

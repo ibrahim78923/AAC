@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {
@@ -12,26 +12,24 @@ import {
   Grid,
   Box,
 } from '@mui/material';
+
 import CheckboxLabel from './CheckboxLabel';
+
+import { UsePlanFeatures } from './UsePlanFeatures';
+
 import { AirSalesCategories } from './PlanFeatures.data';
 
 import { v4 as uuidv4 } from 'uuid';
 
 const PlanFeatures = () => {
-  const [expanded, setExpanded] = useState<string | false>(
-    'plan-features-sales-accordion',
-  );
-
-  const handleChange =
-    (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
-      setExpanded(isExpanded ? panel : false);
-    };
+  const { theme, expandedAccordion, handleExpandAccordionChange } =
+    UsePlanFeatures();
 
   return (
     <div>
       <Accordion
-        expanded={expanded === 'plan-features-sales-accordion'}
-        onChange={handleChange('plan-features-sales-accordion')}
+        expanded={expandedAccordion === 'plan-features-sales-accordion'}
+        onChange={handleExpandAccordionChange('plan-features-sales-accordion')}
         disableGutters
         sx={{
           '&.MuiAccordion': {
@@ -44,8 +42,8 @@ const PlanFeatures = () => {
             },
           },
           '& .MuiAccordionSummary-root': {
-            backgroundColor: '#1F305D',
-            color: '#fff',
+            backgroundColor: theme?.palette?.blue?.main,
+            color: theme.palette.common.white,
             borderRadius: '8px',
           },
         }}
@@ -77,14 +75,16 @@ const PlanFeatures = () => {
         </AccordionDetails>
       </Accordion>
       <Accordion
-        expanded={expanded === 'plan-features-marketing-accordion'}
-        onChange={handleChange('plan-features-marketing-accordion')}
+        expanded={expandedAccordion === 'plan-features-marketing-accordion'}
+        onChange={handleExpandAccordionChange(
+          'plan-features-marketing-accordion',
+        )}
         disableGutters
         sx={{
           marginTop: '2rem',
           '& .MuiAccordionSummary-root': {
-            backgroundColor: '#1F305D',
-            color: '#fff',
+            backgroundColor: theme.palette.blue?.main,
+            color: theme.palette.common.white,
             borderRadius: '8px',
           },
         }}

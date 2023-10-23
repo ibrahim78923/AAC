@@ -6,6 +6,8 @@ import { FormProvider } from '@/components/ReactHookForm';
 
 import { useAddPlanForm } from './UsePlanForm';
 
+import { isNullOrEmpty } from '@/utils';
+
 import { v4 as uuidv4 } from 'uuid';
 
 const AddPlanForm = () => {
@@ -18,9 +20,9 @@ const AddPlanForm = () => {
         {formDefaultValuesFunction?.map((item: any) => (
           <Grid item xs={12} md={item?.md} key={uuidv4()}>
             <item.component {...item.componentProps} size={'small'}>
-              {item?.componentProps?.select &&
+              {!isNullOrEmpty(item?.componentProps?.select) &&
                 item?.options?.map((option: any) => (
-                  <option key={option?.value} value={option?.value}>
+                  <option key={uuidv4()} value={option?.value}>
                     {option?.label}
                   </option>
                 ))}
@@ -28,9 +30,6 @@ const AddPlanForm = () => {
           </Grid>
         ))}
       </Grid>
-      {/* <Button type="submit" variant="contained" sx={{ marginY: '30px' }}>
-        Submit
-      </Button> */}
     </FormProvider>
   );
 };

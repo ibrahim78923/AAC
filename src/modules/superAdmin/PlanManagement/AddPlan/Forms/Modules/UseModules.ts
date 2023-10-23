@@ -3,21 +3,21 @@ import { useState } from 'react';
 import { useTheme } from '@mui/material';
 
 export const useModules = () => {
-  const [expanded, setExpanded] = useState<string | false>(
+  const theme = useTheme();
+
+  const [accordionExpanded, setAccordionExpanded] = useState<string | false>(
     'plan-air-sales-accordion',
   );
 
-  const handleChange =
+  const handleExpandAccordionChange =
     (panel: string) => (event: React.SyntheticEvent, newExpanded: boolean) => {
-      setExpanded(newExpanded ? panel : false);
+      setAccordionExpanded(newExpanded ? panel : false);
     };
-
-  const theme = useTheme();
 
   return {
     theme,
-    expanded,
-    setExpanded,
-    handleChange,
+    accordionExpanded,
+    setAccordionExpanded,
+    handleExpandAccordionChange,
   };
 };

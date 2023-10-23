@@ -2,13 +2,13 @@ import React from 'react';
 
 import { Box, Button, Typography } from '@mui/material';
 
-import AppHorizontalStepper from '../../../../components/Stepper';
+import AppHorizontalStepper from '@/components/Stepper';
+import { FormProvider } from '@/components/ReactHookForm';
 
 import { UseAddPlan } from './UseAddPlan';
+import { useAddPlanForm } from './Forms/PlanForm/UsePlanForm';
 
 import { ArrowLeft } from '@/assets/icons';
-import { useAddPlanForm } from './Forms/PlanForm/UsePlanForm';
-import { FormProvider } from '@/components/ReactHookForm';
 
 const AddPlan = () => {
   const {

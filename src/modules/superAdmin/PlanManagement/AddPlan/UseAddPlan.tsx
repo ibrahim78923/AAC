@@ -2,9 +2,9 @@ import { useState } from 'react';
 
 import { useRouter } from 'next/router';
 
+import Modules from './Forms/Modules';
 import AddPlanForm from './Forms/PlanForm';
 import PlanFeaturesForm from './Forms/PlanFeatures';
-import Modules from './Forms/Modules';
 
 import { v4 as uuidv4 } from 'uuid';
 
@@ -40,13 +40,7 @@ export const UseAddPlan = () => {
   ];
 
   const handleCompleteStep = () => {
-    // TODO: check for form error and return otherwise
-
-    // console.log("activeStep========> ", activeStep);
-    // console.log("AddPlanStepperData?.length ========> ", AddPlanStepperData?.length);
-
     if (activeStep == AddPlanStepperData?.length - 1) {
-      // setActiveStep(0);
       router.push('/super-admin/plan-management');
       return;
     }
