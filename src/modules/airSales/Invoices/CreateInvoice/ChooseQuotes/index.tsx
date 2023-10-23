@@ -1,5 +1,6 @@
 import { Box, Button, Divider, Grid, Stack, Typography } from '@mui/material';
 import SearchableSelect from '@/components/SearchableSelect';
+import { quotesOptions } from './ChooseQuotes.data';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
 
@@ -18,23 +19,12 @@ const ChooseQuotes = () => {
     );
   };
 
-  const options = [
-    { label: 'Opton 1', value: 'Opton 1' },
-    { label: 'Opton 2', value: 'Opton 2' },
-    { label: 'Opton 3', value: 'Opton 3' },
-    { label: 'Opton 4', value: 'Opton 4' },
-    { label: 'Opton 5', value: 'Opton 5' },
-    { label: 'Opton 6', value: 'Opton 6' },
-    { label: 'Opton 7', value: 'Opton 7' },
-    { label: 'Opton 8', value: 'Opton 8' },
-  ];
-
   return (
     <Box>
       <Grid container height="55vh">
         <Grid xs={12} md={4}>
           <SearchableSelect
-            dropdownData={options}
+            dropdownData={quotesOptions}
             renderOption={renderCustomOption}
             name="Search candidate"
             label="Select Quotes"
