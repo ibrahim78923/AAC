@@ -1,20 +1,16 @@
-export const userDropdown = [
-  {
-    title: 'Allocate',
-    handleClick: (x: any) => {
-      x?.();
+export const userDropdown = (setActionModalOpen: any) => {
+  return [
+    {
+      title: 'Allocate',
+      handleClick: () => setActionModalOpen(true),
     },
-  },
-  {
-    title: 'Deallocate',
-    handleClick: (x: any) => {
-      x?.();
+    {
+      title: 'Deallocate',
+      handleClick: () => setActionModalOpen(true),
     },
-  },
-  {
-    title: 'Remove',
-    handleClick: (x: any) => {
-      x?.();
+    {
+      title: 'Remove',
+      handleClick: () => setActionModalOpen(true),
     },
-  },
-];
+  ];
+};
