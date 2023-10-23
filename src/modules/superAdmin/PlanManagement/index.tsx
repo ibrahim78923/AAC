@@ -67,27 +67,31 @@ const PlanManagement = () => {
 
       <Stack
         direction="row"
-        spacing={2}
         useFlexGap
+        spacing={2}
         flexWrap="wrap"
         justifyContent="space-between"
         alignItems="center"
         mt="0.8rem"
       >
-        <Search
-          label="Search here"
-          width={'260px'}
-          searchBy={searchBy}
-          setSearchBy={setSearchBy}
-        />
+        <Box width={{ xs: '100%', sm: 'auto' }}>
+          <Search
+            label="Search here"
+            width={'260px'}
+            searchBy={searchBy}
+            fullWidth
+            setSearchBy={setSearchBy}
+          />
+        </Box>
 
         <Stack
-          direction="row"
+          direction={{ xs: 'row' }}
           spacing={1}
           useFlexGap
           flexWrap="wrap"
           justifyContent="space-between"
           alignItems="center"
+          width={{ xs: '100%', sm: 'auto' }}
         >
           <Button
             id="basic-button"
@@ -99,6 +103,7 @@ const PlanManagement = () => {
           >
             Actions <ArrowDropDownIcon />
           </Button>
+
           <Menu
             id="basic-menu"
             anchorEl={anchorEl}
