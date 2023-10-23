@@ -15,7 +15,7 @@ import {
 
 import CheckboxLabel from './CheckboxLabel';
 
-import { UsePlanFeatures } from './usePlanFeatures';
+import { usePlanFeatures } from './usePlanFeatures';
 
 import { AirSalesCategories } from './PlanFeatures.data';
 
@@ -23,7 +23,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 const PlanFeatures = () => {
   const { theme, expandedAccordion, handleExpandAccordionChange } =
-    UsePlanFeatures();
+    usePlanFeatures();
 
   return (
     <div>

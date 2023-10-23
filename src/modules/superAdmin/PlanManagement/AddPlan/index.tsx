@@ -5,7 +5,7 @@ import { Box, Button, Typography } from '@mui/material';
 import AppHorizontalStepper from '@/components/Stepper';
 import { FormProvider } from '@/components/ReactHookForm';
 
-import { UseAddPlan } from './useAddPlan';
+import { useAddPlan } from './useAddPlan';
 import { useAddPlanForm } from './Forms/PlanForm/useAddPlanForm';
 
 import { ArrowLeft } from '@/assets/icons';
@@ -19,7 +19,7 @@ const AddPlan = () => {
     activeStep,
     hanldeGoPreviousBack,
     handleCompleteStep,
-  } = UseAddPlan();
+  } = useAddPlan();
 
   const { methods, handleSubmit, onSubmit } = useAddPlanForm();
   return (

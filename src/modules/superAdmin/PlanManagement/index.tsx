@@ -17,7 +17,7 @@ import PlanDetails from './PlanDetails';
 import Search from '@/components/Search';
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
-import { UsePlanManagement } from './usePlanManagement';
+import { usePlanManagement } from './usePlanManagement';
 
 import { planManagementFilterFiltersDataArray } from './PlanManagement.data';
 
@@ -43,7 +43,7 @@ const PlanManagement = () => {
     onSubmit,
     methodsFaqsFilters,
     handleSubmit,
-  } = UsePlanManagement();
+  } = usePlanManagement();
   return (
     <Box sx={styles.main}>
       <Box
