@@ -6,15 +6,13 @@ import ProfileCard from '@/components/ProfileCard';
 
 import CommonTabs from '@/components/Tabs';
 
-import CommonDrawer from '@/components/CommonDrawer';
-
 import Accounts from './Accounts';
 
 import Profile from './Profile';
 
-import AddAccount from '../Drawers/AddAccount';
+import ControlPointIcon from '@mui/icons-material/ControlPoint';
 
-import PlusShared from '@/assets/icons/shared/plus-shared';
+import AddAccount from '../Drawers/AddAccount';
 
 const UsersDetails = () => {
   const [tabValue, setTabVal] = useState<number>();
@@ -23,53 +21,47 @@ const UsersDetails = () => {
 
   return (
     <Box>
-      <Grid container>
-        <Grid lg={12}>
-          <ProfileCard />
+      <Grid container spacing={2}>
+        <Grid item lg={12}>
+          <ProfileCard isBadge={false} />
         </Grid>
-        <Grid lg={12}>
-          <CommonTabs
-            isHeader={tabValue === 0 ? true : false}
-            getTabVal={(val: number) => setTabVal(val)}
-            tabsArray={['Accounts', 'Profile']}
-            searchBarProps={{
-              label: 'Search Here',
-              width: '260px',
-            }}
-            headerChildren={
-              <Button
-                onClick={() => setIsOpenAddAccountDrawer(true)}
-                sx={{
-                  border: `1px solid ${theme?.palette?.custom?.dark}`,
-                  color: `${theme?.palette?.custom?.main}`,
-                }}
-                variant="outlined"
-                startIcon={<PlusShared />}
-              >
-                Add account
-              </Button>
-            }
-          >
-            <Accounts />
-            <Profile />
-          </CommonTabs>
+        <Grid item lg={12}>
+          <Box p="24px" sx={{ borderRadius: '8px 0px 0px 8px' }}>
+            <CommonTabs
+              isHeader={tabValue === 0 ? true : false}
+              getTabVal={(val: number) => setTabVal(val)}
+              tabsArray={['Accounts', 'Profile']}
+              searchBarProps={{
+                label: 'Search Here',
+                width: '260px',
+              }}
+              headerChildren={
+                <Button
+                  onClick={() => setIsOpenAddAccountDrawer(true)}
+                  sx={{
+                    border: `1px solid ${theme?.palette?.custom?.dark}`,
+                    color: `${theme?.palette?.custom?.main}`,
+                  }}
+                  variant="outlined"
+                  startIcon={<ControlPointIcon />}
+                >
+                  Add account
+                </Button>
+              }
+            >
+              <Accounts />
+              <Profile />
+            </CommonTabs>
+          </Box>
         </Grid>
       </Grid>
       {isOpenAddAccountDrawer && (
-        <CommonDrawer
-          isDrawerOpen={isOpenAddAccountDrawer}
-          title="Add Account"
-          okText="Add"
-          submitHandler={() => {
+        <AddAccount
+          isOpen={isOpenAddAccountDrawer}
+          setIsOpen={() => {
             setIsOpenAddAccountDrawer(false);
           }}
-          onClose={() => {
-            setIsOpenAddAccountDrawer(false);
-          }}
-          isOk={true}
-        >
-          <AddAccount />
-        </CommonDrawer>
+        />
       )}
     </Box>
   );

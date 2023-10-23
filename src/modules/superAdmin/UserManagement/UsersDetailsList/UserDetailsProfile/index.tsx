@@ -11,6 +11,7 @@ import {
 } from './UserDetailsProfile.data';
 
 import { useForm } from 'react-hook-form';
+
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { v4 as uuidv4 } from 'uuid';
@@ -29,7 +30,7 @@ const UserDetailsProfile = () => {
 
   return (
     <FormProvider methods={methods}>
-      <Typography variant="h4">Personal Details</Typography>
+      <Typography variant="h5">Personal Details</Typography>
       <Grid container spacing={2} sx={{ mt: '5px' }}>
         {profileFields?.map((item: any) => {
           return (
