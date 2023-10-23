@@ -45,7 +45,7 @@ const Meetings = () => {
         <Grid item xs={12}>
           <Box sx={styles.callsSpacingBetween}>
             <Typography variant="h4"> Meetings</Typography>
-            {!isNullOrEmpty(TasksTableData) && (
+            {isNullOrEmpty(TasksTableData) && (
               <Box
                 sx={{
                   gap: 1,
