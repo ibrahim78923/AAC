@@ -31,7 +31,7 @@ const Notes = () => {
 
   return (
     <Box sx={styles.horizontalTabsBox}>
-      <Grid container spacing={3}>
+      <Grid container spacing={2}>
         <Grid item xs={12}>
           <Box sx={styles.headingSpacingBetween}>
             <Typography variant="h4"> Notes</Typography>
@@ -89,7 +89,8 @@ const Notes = () => {
                 sx={{
                   py: 3,
                   px: 1.5,
-                  boxShadow: 'box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.10)',
+                  mb: 1,
+                  boxShadow: '0px 0px 4px 0px rgba(0, 0, 0, 0.10)',
                   borderRadius: '8px',
                   border: '1px solid #f2f2f2',
                 }}

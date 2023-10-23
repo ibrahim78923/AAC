@@ -144,7 +144,8 @@ const Emails = () => {
               sx={{
                 py: 3,
                 px: 1.5,
-                boxShadow: 'box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.10)',
+                mb: 1,
+                boxShadow: '0px 0px 4px 0px rgba(0, 0, 0, 0.10)',
                 borderRadius: '8px',
                 border: '1px solid #f2f2f2',
               }}
