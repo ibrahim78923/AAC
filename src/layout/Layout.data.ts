@@ -323,6 +323,34 @@ export const LowerSuperAdminRoutes = [
   },
 ];
 
+export const LowerOrgAdminRoutes = [
+  {
+    label: 'Setting',
+    icon: SettingImage,
+    role: 'org-admin',
+    key: 'org-admin/settings',
+    textNames: [
+      {
+        key: 'org-admin/settings/sales-product-categories',
+        label: 'Sales Product categories',
+      },
+      {
+        key: 'org-admin/settings/life-cycle-stage',
+        label: 'Life Cycle Stage',
+      },
+      {
+        key: 'org-admin/settings/contact-status',
+        label: 'Contact Status',
+      },
+    ],
+  },
+  {
+    label: 'Logout',
+    key: 'logout',
+    role: 'AIR_SALES',
+    icon: LogoutImage,
+  },
+];
 export const LowerSalesRoutes = [
   {
     label: 'Settings',
@@ -487,6 +515,7 @@ const LOWER_ROLES_ROUTES: any = {
   SUPER_ADMIN: LowerSuperAdminRoutes,
   AIR_SALES: LowerSalesRoutes,
   AIR_SERVICES: LowerServicesRoutes,
+  ORG_ADMIN: LowerOrgAdminRoutes,
 };
 
 export const getLowerRoutes = (role: any) => {
