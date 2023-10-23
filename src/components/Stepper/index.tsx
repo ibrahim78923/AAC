@@ -1,17 +1,19 @@
-import React, { useState } from 'react';
+import React from 'react';
+
 import {
   Box,
   Stepper,
   Step,
   StepLabel,
-  Button,
   styled,
   useTheme,
   StepConnector,
+  stepConnectorClasses,
 } from '@mui/material';
-import { stepConnectorClasses } from '@mui/material/StepConnector';
 
 import Check from '@mui/icons-material/Check';
+
+import { isNullOrEmpty } from '@/utils';
 
 import { v4 as uuidv4 } from 'uuid';
 
@@ -19,30 +21,12 @@ import { SingleStepI, HorizontalStepperI } from './stepper.interface';
 
 const AppHorizontalStepper: React.FC<HorizontalStepperI> = ({
   stepsArray,
-  // TODO: Handling form actions
-  // addPlanFormValues,
-  // setAddPlanFormValues
-  disableNextButton,
+  activeStep = 0,
+  stepperButtons,
   stepperPadding = '4rem 0',
   stepperMargin = '2rem 0',
 }) => {
-  const [activeStep, setActiveStep] = useState(0);
   const theme = useTheme();
-
-  const handleNext = () => {
-    if (disableNextButton) {
-      return;
-    }
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  };
-
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
-
-  const handleReset = () => {
-    setActiveStep(0);
-  };
 
   return (
     <Box sx={{ width: '100%', margin: stepperMargin }}>
@@ -51,7 +35,7 @@ const AppHorizontalStepper: React.FC<HorizontalStepperI> = ({
         activeStep={activeStep}
         connector={<CustomConnector />}
       >
-        {Boolean(stepsArray?.length) &&
+        {!isNullOrEmpty(stepsArray) &&
           stepsArray?.map((singleStem: SingleStepI, index: any) => (
             <Step key={uuidv4()} className={index === 0 ? 'first-step' : ''}>
               <StepLabel
@@ -77,26 +61,8 @@ const AppHorizontalStepper: React.FC<HorizontalStepperI> = ({
       </Stepper>
 
       <Box sx={{ width: '100%', padding: stepperPadding }}>
-        {Boolean(stepsArray?.length) && stepsArray[activeStep]?.component}
-        <React.Fragment>
-          <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-            <Button
-              color="inherit"
-              disabled={activeStep === 0}
-              onClick={handleBack}
-              sx={{ mr: 1 }}
-            >
-              Back
-            </Button>
-            <Box sx={{ flex: '1 1 auto' }} />
-            <Button
-              onClick={activeStep === 2 ? handleReset : handleNext}
-              disabled={disableNextButton}
-            >
-              {activeStep === 2 ? 'Finish' : 'Next'}
-            </Button>
-          </Box>
-        </React.Fragment>
+        {!isNullOrEmpty(stepsArray) && stepsArray[activeStep]?.component}
+        {stepperButtons}
       </Box>
     </Box>
   );
