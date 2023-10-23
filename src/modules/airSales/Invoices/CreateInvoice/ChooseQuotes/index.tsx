@@ -1,11 +1,9 @@
-import { Box, Button, Divider, Grid, Stack, Typography } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import SearchableSelect from '@/components/SearchableSelect';
 import { quotesOptions } from './ChooseQuotes.data';
 import { useForm } from 'react-hook-form';
-import { useRouter } from 'next/router';
 
 const ChooseQuotes = () => {
-  const router = useRouter();
   const {
     control,
     formState: { errors },
@@ -34,37 +32,6 @@ const ChooseQuotes = () => {
           />
         </Grid>
       </Grid>
-      <Divider sx={{ backgroundColor: '#E5E7EB' }} />
-      <Stack
-        justifyContent="space-between"
-        alignItems="center"
-        direction="row"
-        mt={2}
-      >
-        <Button
-          variant="outlined"
-          // onClick={() => setIsListView(false)}
-        >
-          Back
-        </Button>
-        <Box>
-          <Stack gap="10px" direction="row">
-            <Button
-              variant="outlined"
-              onClick={() => router.push('/air-sales/sales-invoices')}
-            >
-              Cancel
-            </Button>
-            <Button
-              variant="outlined"
-              onClick={() => router.push('/air-sales/sales-invoices')}
-            >
-              Skip
-            </Button>
-            <Button variant="contained">Next</Button>
-          </Stack>
-        </Box>
-      </Stack>
     </Box>
   );
 };
