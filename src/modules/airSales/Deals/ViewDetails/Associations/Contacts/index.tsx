@@ -74,7 +74,7 @@ const Contacts = () => {
       />
       <AlertModals
         message={"You're about to remove a record. Are you Sure?"}
-        type={'info'}
+        type={'delete'}
         open={isOpenAlert}
         handleClose={handleCloseAlert}
         handleSubmit={() => {}}

@@ -21,27 +21,36 @@ import { styles } from '../ViewDetails.style';
 import { v4 as uuidv4 } from 'uuid';
 
 const Notes = () => {
-  const { openDrawer, setOpenDrawer } = useNotes();
+  const {
+    openDrawer,
+    setOpenDrawer,
+    selectedCheckboxes,
+    handleCheckboxChange,
+  } = useNotes();
   const { NameWithStyledWords, theme } = useNameWithStyledWords();
 
   return (
     <Box sx={styles.horizontalTabsBox}>
       <Grid container spacing={3}>
         <Grid item xs={12}>
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}
-          >
+          <Box sx={styles.headingSpacingBetween}>
             <Typography variant="h4"> Notes</Typography>
             {!isNullOrEmpty(NotesDataArray) && (
-              <Box sx={{ gap: 1, display: 'flex' }}>
-                <NotesActionDropdown setOpenDrawer={setOpenDrawer} />
+              <Box
+                sx={{
+                  gap: 1,
+                  display: 'flex',
+                  flexDirection: { xs: 'column', sm: 'row' },
+                  alignItems: 'center',
+                }}
+              >
+                <NotesActionDropdown
+                  setOpenDrawer={setOpenDrawer}
+                  selectedCheckboxes={selectedCheckboxes}
+                />
                 <Button
                   variant="contained"
-                  sx={{ minWidth: '0px', height: '35px', gap: 0.5 }}
+                  className="small"
                   onClick={() => setOpenDrawer('Add')}
                 >
                   <PlusSharedIcon /> Add Notes
@@ -96,7 +105,14 @@ const Notes = () => {
                     alignItems: 'center',
                   }}
                 >
-                  <Checkbox color="primary" name={'name'} />
+                  <Checkbox
+                    color="primary"
+                    name={'name'}
+                    onChange={(event) => handleCheckboxChange(event, item.id)}
+                    checked={selectedCheckboxes.some(
+                      (selectedItem) => selectedItem.id === item.id,
+                    )}
+                  />
                 </Grid>
                 <Grid
                   item

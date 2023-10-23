@@ -6,7 +6,7 @@ export const styles = {
   },
   horizontalTabsInnnerBox: {
     pt: 2,
-    height: '35vh',
+    height: '33vh',
     overflow: 'scroll',
     width: '100%',
   },
@@ -41,6 +41,15 @@ export const styles = {
       color: theme.palette.blue.dull_blue,
       fontWeight: 600,
     };
+  },
+  headingSpacingBetween: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    gap: 0.7,
+
+    padding: '12px',
+    flexDirection: { xs: 'column', sm: 'row' },
   },
   salesPriority: (theme: any) => {
     return {

@@ -45,7 +45,7 @@ const Details = () => {
               </Grid>
             ))}
             <Grid item xs={12}>
-              <Divider sx={{ borderColor: theme.palette.grey[500] }} />
+              <Divider sx={{ borderColor: theme.palette.grey[700] }} />
             </Grid>
             <Grid item xs={12}>
               <Box

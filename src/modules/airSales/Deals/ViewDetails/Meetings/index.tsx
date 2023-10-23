@@ -46,14 +46,23 @@ const Meetings = () => {
           <Box sx={styles.callsSpacingBetween}>
             <Typography variant="h4"> Meetings</Typography>
             {!isNullOrEmpty(TasksTableData) && (
-              <Box sx={{ gap: 1, display: 'flex' }}>
+              <Box
+                sx={{
+                  gap: 1,
+                  display: 'flex',
+                  flexDirection: { xs: 'column', sm: 'row' },
+                  alignItems: 'center',
+                }}
+              >
                 <MeetingsDropDown setOpenDrawer={setOpenDrawer} />
                 <Button
                   variant="contained"
-                  sx={{ minWidth: '0px', height: '35px', gap: 0.5 }}
+                  sx={{ gap: 0.5 }}
                   onClick={() => setOpenDrawer('Add')}
+                  className="small"
                 >
-                  <PlusSharedIcon /> Create Meeting
+                  <PlusSharedIcon />
+                  <Typography variant="body2">Create Meetings</Typography>
                 </Button>
               </Box>
             )}
@@ -78,7 +87,12 @@ const Meetings = () => {
               >
                 Schedule virtual and in-person meetings right from the CRM.
               </Typography>
-              <Button variant="contained" sx={{ gap: 0.5 }} className="small">
+              <Button
+                variant="contained"
+                sx={{ gap: 0.5 }}
+                onClick={() => setOpenDrawer('Add')}
+                className="small"
+              >
                 <PlusSharedIcon />
                 <Typography variant="body2">Create Meetings</Typography>
               </Button>
