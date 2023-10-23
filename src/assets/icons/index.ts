@@ -132,3 +132,7 @@ export { default as MircosoftTeamsIcon } from './shared/microsoft-teams';
 export { default as PrimaryPreviewEyeIcon } from './shared/primary-preview-eye';
 export { default as MobileIcon } from './shared/mobile';
 export { default as CheckMarkIcon } from './modules/airSales/Dashboard/check-mark';
+export { default as CallContainedIcon } from './modules/SocialComponents/Calling/call-contained';
+export { default as MessageContainedIcon } from './modules/SocialComponents/Calling/message-contained';
+export { default as OutgoingIcon } from './modules/SocialComponents/Calling/outgoing';
+export { default as InComingIcon } from './modules/SocialComponents/Calling/incoming';

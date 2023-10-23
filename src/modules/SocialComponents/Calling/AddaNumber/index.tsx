@@ -31,6 +31,7 @@ import { styles } from './AddaNumber.style';
 
 import { useForm } from 'react-hook-form';
 import { v4 as uuidv4 } from 'uuid';
+import CodeVerification from './CodeVerification';
 
 const AddaNumber = () => {
   const theme = useTheme();
@@ -40,6 +41,7 @@ const AddaNumber = () => {
   const [isAreaCodeSelected, setIsAreaCodeSelected] = useState(false);
   const [isVerificationNumberModal, setIsVerificationNumberModal] =
     useState(false);
+  const [isCodeVerificationModal, setIsCodeVerificationModal] = useState(false);
 
   const [selectedCity, setSelectedCity] = useState<any>(null);
   const [selectedAreaCode, setSelectedAreaCode] = useState<any>(null);
@@ -50,7 +52,8 @@ const AddaNumber = () => {
   });
 
   const onSubmit = () => {
-    setSelectedAreaCode(false);
+    setIsVerificationNumberModal(false);
+    setIsCodeVerificationModal(true);
   };
   const { handleSubmit } = methodsFaqsFilters;
 
@@ -237,6 +240,10 @@ const AddaNumber = () => {
           </Box>
         </>
       </CommonModal>
+      <CodeVerification
+        isCodeVerificationModal={isCodeVerificationModal}
+        setIsCodeVerificationModal={setIsCodeVerificationModal}
+      />
     </Box>
   );
 };
