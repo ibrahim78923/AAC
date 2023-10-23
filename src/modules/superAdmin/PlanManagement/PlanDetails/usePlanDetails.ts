@@ -9,7 +9,7 @@ import {
   PlanDetailsDataColumnFunction,
 } from './PlanDetails.data';
 
-export const UsePlanDetails = () => {
+export const usePlanDetails = () => {
   const theme = useTheme();
   const router = useRouter();
 

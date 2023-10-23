@@ -11,7 +11,7 @@ import {
   dataArray,
   defaultValues,
   defaultValuesFunction,
-} from './AddPlanForm.data';
+} from './PlanForm.data';
 
 export const useAddPlanForm = () => {
   const router = useRouter();
@@ -26,17 +26,9 @@ export const useAddPlanForm = () => {
   const { handleSubmit } = methods;
 
   const onSubmit = async () => {
-    // console.log(data);
-    // try {
-    //   const res: any = await onSubmitHandler(data).unwrap();
     enqueueSnackbar('', {
       variant: 'success',
     });
-    // ahdsa;iljd sapjdsa;kd sa;kd
-    // } catch (error: any) {
-    //   const errMsg = error?.data?.message;
-    //   enqueueSnackbar(errMsg ?? "Something Went Wrong!", { variant: "error" });
-    // }
   };
 
   return {

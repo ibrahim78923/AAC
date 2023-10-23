@@ -7,6 +7,11 @@ export interface HorizontalStepperI {
   stepsArray: SingleStepI[];
   addPlanFormValues?: any;
   setAddPlanFormValues?: React.Dispatch<React.SetStateAction<any>>;
+  activeStep?: number;
+  handleBack?: any;
+  handleNext?: any;
+  handleReset?: any;
+  stepperButtons: any;
   disableNextButton?: boolean;
   variantNextButton?: 'text' | 'contained' | 'outlined';
   stepperPadding?: string;
@@ -14,4 +19,3 @@ export interface HorizontalStepperI {
   cancelButton?: boolean;
   handleCancel?: () => void;
 }
-// Test comment: file name samll to capital

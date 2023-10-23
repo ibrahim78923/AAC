@@ -134,3 +134,4 @@ export { default as EraserIcon } from './shared/eraser';
 export { default as DownloadLargeIcon } from './shared/download-large';
 export { default as MobileIcon } from './shared/mobile';
 export { default as CheckMarkIcon } from './modules/airSales/Dashboard/check-mark';
+export { default as TimeClockIcon } from './modules/airSales/deals/time-clock';

@@ -20,7 +20,9 @@ export const styles = {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
+
     padding: '12px',
+    flexDirection: { xs: 'column', sm: 'row' },
   },
   noCallsBox: {
     display: 'flex',

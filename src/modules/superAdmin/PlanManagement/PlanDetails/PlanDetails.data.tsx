@@ -1,6 +1,11 @@
-import { AvatarImage } from '@/assets/images';
-import { Box, Checkbox } from '@mui/material';
 import Image from 'next/image';
+
+import { Box, Checkbox } from '@mui/material';
+
+import { avatarGroupMockData } from '../PlanManagement.data';
+
+import { AvatarImage } from '@/assets/images';
+import AppAvatarGroup from '@/components/AvatarGroup';
 
 export const TABLE_CONSTANTS = {
   CUSTOMIZE_COLUMN: 'customize-column',
@@ -13,36 +18,36 @@ export const PlanDetailsData: any = [
   {
     id: 1,
     planId: ` #123`,
-    ticketName: 'Drafts',
+    product: avatarGroupMockData,
     planType: 'Growth',
     description: 'Sales files',
     createdOn: '12/10/2023',
     defaultUsers: '08',
-    planPrice: 'Sharemydine',
+    planPrice: '£48',
     status: 'Active',
     defaultStorage: '1 GB',
   },
   {
     id: 2,
     planId: ` #456`,
-    ticketName: 'rafts',
+    product: avatarGroupMockData,
     planType: 'Enterprise',
     description: 'Marketing files',
     createdOn: '12/10/2023',
     defaultUsers: '06',
-    planPrice: 'Sharemydine',
+    planPrice: '£91',
     status: 'Inactive',
     defaultStorage: '4 GB',
   },
   {
     id: 3,
     planId: ` #7899`,
-    ticketName: 'fts',
+    product: avatarGroupMockData,
     planType: 'Premium',
     description: 'Services files',
     createdOn: '12/10/2023',
     defaultUsers: '09',
-    planPrice: 'Sharemydine',
+    planPrice: '£95',
     status: 'Active',
     defaultStorage: '2 GB',
   },
@@ -86,11 +91,15 @@ export const PlanDetailsDataColumnFunction: any = (theme: any, router: any) => {
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row.ticketName,
-      id: 'ticketName',
+      accessorFn: (row: any) => row.product,
+      id: 'product',
       isSortable: true,
       header: 'Product/Suite',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => (
+        <Box margin={'auto'}>
+          <AppAvatarGroup data={info.getValue()} />
+        </Box>
+      ),
     },
     {
       accessorFn: (row: any) => row.planType,

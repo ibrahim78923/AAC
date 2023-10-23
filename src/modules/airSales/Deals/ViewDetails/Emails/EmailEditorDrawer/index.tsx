@@ -29,6 +29,7 @@ import {
   GmailIcon,
   OutlookIcon,
   SMSIcon,
+  TimeClockIcon,
 } from '@/assets/icons';
 
 import { v4 as uuidv4 } from 'uuid';
@@ -56,7 +57,7 @@ const EmailEditorDrawer = (props: any) => {
         isOk={true}
         footer={openDrawer}
         footerActionText="Send Later"
-        footerActionTextIcon={<ExclimatoryCircleIcon />}
+        footerActionTextIcon={<TimeClockIcon />}
         onFooterActionSubmit={() => setOpenDrawer('outcome')}
       >
         <Box sx={{ pt: 2 }}>
@@ -219,7 +220,7 @@ const EmailEditorDrawer = (props: any) => {
         submitButonText="Schedule"
         type={'outcome'}
         open={openDrawer === 'outcome'}
-        handleClose={() => {}}
+        handleClose={() => setOpenDrawer('')}
         handleSubmit={() => {}}
         isFooter={true}
       >
