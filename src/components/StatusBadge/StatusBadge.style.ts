@@ -1,7 +1,6 @@
 export const styles = {
   select: (value: any, theme: any) => {
     return {
-      padding: '2px 6px',
       borderRadius: '16px',
       height: '22px',
       '.MuiOutlinedInput-notchedOutline': {

@@ -1,5 +1,7 @@
 import { RHFTextField } from '@/components/ReactHookForm';
 
+import { Typography } from '@mui/material';
+
 import * as Yup from 'yup';
 
 export const profileValidationSchema = Yup.object().shape({
@@ -166,11 +168,21 @@ export const profileFields = [
     component: RHFTextField,
     md: 6,
   },
+  {
+    componentProps: {
+      color: '#7a7a7b',
+      varient: 'h4',
+      heading: 'Other',
+    },
+
+    gridLength: 12,
+    component: Typography,
+  },
 
   {
     componentProps: {
       name: 'fbUrl',
-      label: 'FaceBook URL',
+      label: 'Facebook URL',
       fullWidth: true,
     },
     component: RHFTextField,
@@ -180,7 +192,7 @@ export const profileFields = [
   {
     componentProps: {
       name: 'twitterUrl',
-      label: 'Twitter Url',
+      label: 'Twitter URL',
       fullWidth: true,
     },
     component: RHFTextField,

@@ -14,6 +14,7 @@ import {
   useTheme,
   Avatar,
   Tooltip,
+  Card,
 } from '@mui/material';
 
 import Search from '@/components/Search';
@@ -46,6 +47,7 @@ import { AvatarImage } from '@/assets/images';
 import useUserDetailsList from './useUserDetailsList';
 import Filter from './Filter';
 import AddCompanyDetails from './AddCompanyDetails';
+import StatusBadge from '@/components/StatusBadge';
 
 const UsersDetailsList = () => {
   const {
@@ -58,6 +60,8 @@ const UsersDetailsList = () => {
     handleAddUserDrawer,
     isOpenAdduserDrawer,
     setIsOpenAdduserDrawer,
+    userStatus,
+    setUserStatus,
   } = useUserDetailsList();
 
   const [isOpenAddAccountDrawer, setIsOpenAddAccountDrawer] = useState(false);
@@ -69,8 +73,15 @@ const UsersDetailsList = () => {
   return (
     <Box>
       <Grid container spacing={2}>
-        <Grid item xs={12} lg={2.5}>
-          <Box>
+        <Grid item xl={3} lg={4} xs={12}>
+          <Box
+            sx={{
+              padding: '24px 16px',
+              borderRadius: '8px 0px 0px 8px',
+              background: '#ffff',
+              minHeight: `calc(100% - ${0}px)`,
+            }}
+          >
             <Box
               py={1}
               sx={{ display: 'flex', justifyContent: 'space-between' }}
@@ -117,88 +128,114 @@ const UsersDetailsList = () => {
                 </Tooltip>
               </Stack>
             </Box>
-          </Box>
-          <Divider />
-          <Box sx={{ mt: 2 }}>
-            <Stack
-              direction={'row'}
-              justifyContent={'space-between'}
-              alignItems={'center'}
-            >
-              <Search placeholder="Search" />
-
-              <Button
-                sx={{
-                  border: '1px solid grey',
-                  justifyContent: 'center',
-                  display: 'flex',
-                  alignItems: 'center',
-                  height: '44px',
-                }}
-                onClick={() => setIsOpenDrawer(true)}
+            <Divider />
+            <Box sx={{ mt: 2 }}>
+              <Stack
+                direction={'row'}
+                justifyContent={'space-between'}
+                alignItems={'center'}
               >
-                <FilterSharedIcon />
-              </Button>
-            </Stack>
-          </Box>
-          <Box
-            className="users-wrapper"
-            sx={{
-              my: 2,
-              backgroundColor: theme.palette.grey[400],
-              borderRadius: '4px',
-              padding: '11px 8px',
-            }}
-          >
-            <Box sx={{ display: 'flex', gap: '10px' }}>
-              <Avatar>
-                <Image src={AvatarImage} alt="Avatar" width={40} height={40} />
-              </Avatar>
-              <Box>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <Typography>Roberts Rohan</Typography>
-                  <Typography>active</Typography>
+                <Search placeholder="Search" size="small" />
+
+                <Button
+                  sx={{
+                    border: '1px solid grey',
+                    justifyContent: 'center',
+                    display: 'flex',
+                    alignItems: 'center',
+                    height: '44px',
+                  }}
+                  onClick={() => setIsOpenDrawer(true)}
+                >
+                  <FilterSharedIcon />
+                </Button>
+              </Stack>
+            </Box>
+            <Box
+              className="users-wrapper"
+              sx={{
+                my: 2,
+                backgroundColor: theme.palette.grey[400],
+                borderRadius: '4px',
+                padding: '11px 8px',
+              }}
+            >
+              <Box sx={{ display: 'flex', gap: '10px' }}>
+                <Avatar>
+                  <Image
+                    src={AvatarImage}
+                    alt="Avatar"
+                    width={40}
+                    height={40}
+                  />
+                </Avatar>
+                <Box>
+                  <Box
+                    sx={{ display: 'flex', justifyContent: 'space-between' }}
+                  >
+                    <Typography>Roberts Rohan</Typography>
+                    <StatusBadge
+                      value={userStatus}
+                      onChange={(e: any) => setUserStatus(e.target.value)}
+                      options={[
+                        {
+                          label: 'Active',
+                          value: 'active',
+                          color: theme?.palette?.success?.main,
+                        },
+                        {
+                          label: 'Inactive',
+                          value: 'inactive',
+                          color: theme?.palette?.error?.main,
+                        },
+                      ]}
+                    />
+                  </Box>
+                  <Typography>Robert@airapplecart.co.uk</Typography>
                 </Box>
-                <Typography>Robert@airapplecart.co.uk</Typography>
               </Box>
             </Box>
           </Box>
         </Grid>
-        <Grid item xs={12} lg={9.5}>
+        <Grid item xl={9} lg={8} xs={12}>
           <ProfileCard />
-          <CommonTabs
-            getTabVal={(val: number) => setTabVal(val)}
-            searchBarProps={{
-              label: 'Search Here',
-              setSearchBy: setSearch,
-              searchBy: search,
-              width: '260px',
-            }}
-            isHeader={tabVal === 0 ? true : false}
-            tabsArray={['Company Accounts', 'Profile', 'Delegates']}
-            headerChildren={
-              <>
-                <Button
-                  onClick={() => {
-                    setIsOpenAddAccountDrawer(true);
-                  }}
-                  sx={{
-                    border: `1px solid ${theme?.palette?.custom?.dark}`,
-                    color: theme?.palette?.custom?.main,
-                    width: '146px',
-                    height: '36px',
-                  }}
-                  startIcon={<AddCircleOutlined />}
-                >
-                  Add Account
-                </Button>
-              </>
-            }
-          >
-            <CompanyAccounts />
-            <UserDetailsProfile />
-            <Delegates />
-          </CommonTabs>
+          <Box p="10px" sx={{ borderRadius: '8px', background: '#ffff' }}>
+            <Card sx={{ padding: '0px 24px' }}>
+              <CommonTabs
+                getTabVal={(val: number) => setTabVal(val)}
+                searchBarProps={{
+                  label: 'Search Here',
+                  setSearchBy: setSearch,
+                  searchBy: search,
+                  width: '260px',
+                }}
+                isHeader={tabVal === 0 ? true : false}
+                tabsArray={['Company Accounts', 'Profile', 'Delegates']}
+                headerChildren={
+                  <>
+                    <Button
+                      onClick={() => {
+                        setIsOpenAddAccountDrawer(true);
+                      }}
+                      sx={{
+                        border: `1px solid ${theme?.palette?.custom?.dark}`,
+                        color: theme?.palette?.custom?.main,
+                        width: '146px',
+                        height: '36px',
+                      }}
+                      startIcon={<AddCircleOutlined />}
+                    >
+                      Add Account
+                    </Button>
+                  </>
+                }
+              >
+                <CompanyAccounts />
+                <UserDetailsProfile />
+                <Delegates />
+              </CommonTabs>
+            </Card>
+          </Box>
         </Grid>
       </Grid>
 

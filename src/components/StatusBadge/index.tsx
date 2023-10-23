@@ -12,18 +12,12 @@ const StatusBadge = (props: BadgeStatusI) => {
   const { options = undefined, onChange, value } = props;
 
   const theme = useTheme();
-  // const customIcon = () => {
-  //   return <KeyboardArrowDown sx={{
-  //     color: value === 'active' || value === 'open'
-  //       ? theme?.palette?.success?.main
-  //       : theme?.palette?.error?.main,
-  //   }} />
-  // }
 
   return (
     <Select
       IconComponent={KeyboardArrowDown}
       sx={{
+        fontSize: '14px',
         backgroundColor:
           value === 'active' || value === 'open'
             ? 'rgba(71, 178, 99, 0.2)'

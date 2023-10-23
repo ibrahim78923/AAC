@@ -32,7 +32,14 @@ const UsersSidebar = () => {
   const theme = useTheme();
 
   return (
-    <Box p="24px 16px" sx={{ borderRadius: '8px 0px 0px 8px' }}>
+    <Box
+      sx={{
+        padding: '24px 16px',
+        borderRadius: '8px 0px 0px 8px',
+        background: '#ffff',
+        minHeight: `calc(100% - ${0}px)`,
+      }}
+    >
       <Box
         py={1}
         sx={{
@@ -79,9 +86,17 @@ const UsersSidebar = () => {
           backgroundColor: theme.palette.grey[400],
           borderRadius: '4px',
           padding: '11px 8px',
+          width: '100%',
         }}
       >
-        <Box sx={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+        <Box
+          sx={{
+            display: 'flex',
+            gap: '10px',
+            alignItems: 'center',
+            flexWrap: { xs: 'wrap', sm: 'nowrap', lg: 'wrap', xl: 'nowrap' },
+          }}
+        >
           <Avatar>
             <Image src={AvatarImage} alt="Avatar" width={40} height={40} />
           </Avatar>
