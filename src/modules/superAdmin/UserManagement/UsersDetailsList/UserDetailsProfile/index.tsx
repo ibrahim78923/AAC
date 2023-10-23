@@ -1,14 +1,19 @@
-import { useForm } from 'react-hook-form';
 import React from 'react';
-import { yupResolver } from '@hookform/resolvers/yup';
+
+import { Button, Grid, Typography } from '@mui/material';
+
+import { FormProvider } from '@/components/ReactHookForm';
+
 import {
   profileDefaultValues,
   profileFields,
   profileValidationSchema,
 } from './UserDetailsProfile.data';
-import { Button, Grid, Typography } from '@mui/material';
+
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+
 import { v4 as uuidv4 } from 'uuid';
-import { FormProvider } from '@/components/ReactHookForm';
 
 const UserDetailsProfile = () => {
   const methods: any = useForm({

@@ -12,8 +12,8 @@ export const useChatFooter = () => {
     setMessageText((prevInput: any) => prevInput + emoji?.emoji);
   };
 
-  const open = Boolean(anchorEl);
-  const id = open ? 'simple-popover' : undefined;
+  const isOpen = Boolean(anchorEl);
+  const id = isOpen ? 'simple-popover' : undefined;
 
   return {
     anchorEl,
@@ -22,7 +22,7 @@ export const useChatFooter = () => {
     setMessageText,
     handleClick,
     handleEmojiSelect,
-    open,
+    isOpen,
     id,
   };
 };

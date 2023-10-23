@@ -40,7 +40,7 @@ const Manage = ({ toggle, setIsShowCreateDashboardForm }: any) => {
         </Button>
       </Grid>
       <Grid container mt={2}>
-        <Grid item xs={10} sm={10} mt={4}>
+        <Grid item xs={10} sm={10} mt={4} mb={3}>
           <Search
             searchBy={searchByName}
             setSearchBy={setSearchByName}

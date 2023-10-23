@@ -2,9 +2,27 @@ import { useState } from 'react';
 
 const useUserDetailsList = () => {
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
+  const [isOpenAddCompanyDrawer, setISOpenCompanyDrawer] = useState(false);
+  const [isOpenAdduserDrawer, setIsOpenAdduserDrawer] = useState(false);
   const handleCloseDrawer = () => {
     setIsOpenDrawer(false);
   };
-  return { handleCloseDrawer, isOpenDrawer, setIsOpenDrawer };
+  const handleCloseAddCompanyDrawer = () => {
+    setISOpenCompanyDrawer(false);
+  };
+  const handleAddUserDrawer = () => {
+    setIsOpenAdduserDrawer(false);
+  };
+  return {
+    handleCloseDrawer,
+    isOpenDrawer,
+    setIsOpenDrawer,
+    isOpenAddCompanyDrawer,
+    setISOpenCompanyDrawer,
+    handleCloseAddCompanyDrawer,
+    handleAddUserDrawer,
+    isOpenAdduserDrawer,
+    setIsOpenAdduserDrawer,
+  };
 };
 export default useUserDetailsList;

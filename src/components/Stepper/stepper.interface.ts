@@ -13,6 +13,9 @@ export interface HorizontalStepperI {
   handleReset?: any;
   stepperButtons: any;
   disableNextButton?: boolean;
+  variantNextButton?: 'text' | 'contained' | 'outlined';
   stepperPadding?: string;
   stepperMargin?: string;
+  cancelButton?: boolean;
+  handleCancel?: () => void;
 }

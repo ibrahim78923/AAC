@@ -9,6 +9,7 @@ import {
   styled,
   useTheme,
   StepConnector,
+  // Stack,
 } from '@mui/material';
 import { stepConnectorClasses } from '@mui/material/StepConnector';
 
@@ -31,6 +32,9 @@ const AppHorizontalStepper: React.FC<HorizontalStepperI> = ({
   stepperButtons,
   stepperPadding = '4rem 0',
   stepperMargin = '2rem 0',
+  // cancelButton,
+  // handleCancel,
+  // variantNextButton = 'text',
 }) => {
   const theme = useTheme();
 

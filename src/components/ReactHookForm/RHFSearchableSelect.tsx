@@ -1,12 +1,28 @@
 import React, { useState } from 'react';
 
-import { Box, InputAdornment, TextField, Menu } from '@mui/material';
+import {
+  Box,
+  InputAdornment,
+  TextField,
+  Menu,
+  useTheme,
+  Typography,
+} from '@mui/material';
 
 import { useFormContext, Controller } from 'react-hook-form';
 
 import { ArrowDownIcon } from '@/assets/icons';
+import Search from '../Search';
 
-export default function RHFSearchableSelect({ name, options, ...other }: any) {
+export default function RHFSearchableSelect({
+  name,
+  options,
+  isFooter,
+  footerText,
+  footerActionHandler,
+  ...other
+}: any) {
+  const theme = useTheme();
   const { control } = useFormContext();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedValue, setSelectedValue] = useState('');
@@ -61,15 +77,24 @@ export default function RHFSearchableSelect({ name, options, ...other }: any) {
             PaperProps={{
               style: {
                 width: anchorEl ? anchorEl.clientWidth : 'auto',
+                padding: '10px',
               },
             }}
           >
             <>
-              <TextField
+              {/* <TextField
                 fullWidth
                 placeholder="Search..."
                 onChange={(e) => setSearchTerm(e.target.value)}
                 style={{ height: '44px', marginBottom: '20px' }}
+              /> */}
+              <Search
+                searchBy={searchTerm}
+                setSearchBy={setSearchTerm}
+                label="Search By Name"
+                fullWidth
+                size="small"
+                sx={{ marginBottom: '15px' }}
               />
               {filteredOptions.map((option: any) => (
                 <Box
@@ -79,11 +104,37 @@ export default function RHFSearchableSelect({ name, options, ...other }: any) {
                       field.onChange(option.value),
                       setSelectedValue(option.label);
                   }}
-                  sx={{ width: '100%', height: '30px', padding: '5px 10px' }}
+                  sx={{
+                    width: '100%',
+                    height: '30px',
+                    padding: '5px 10px',
+                    display: 'flex',
+                    marginBottom: '10px',
+                    gap: '5px',
+                    borderRadius: '5px',
+                    cursor: 'pointer',
+                    backgroundColor: selectedValue.includes(option.value)
+                      ? '#e0e0e0'
+                      : 'transparent',
+                    '&:hover': {
+                      backgroundColor: '#e0e0e0',
+                    },
+                  }}
                 >
                   {option.label}
                 </Box>
               ))}
+              {isFooter && (
+                <Box
+                  color={theme.palette.primary.main}
+                  sx={{ marginLeft: '10px', cursor: 'pointer' }}
+                  onClick={footerActionHandler}
+                >
+                  <Typography variant="body1" fontWeight={500}>
+                    {footerText}
+                  </Typography>
+                </Box>
+              )}
             </>
           </Menu>
         </>
