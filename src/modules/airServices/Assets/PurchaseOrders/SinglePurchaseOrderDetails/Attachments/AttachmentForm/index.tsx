@@ -13,7 +13,7 @@ export const AttachmentForm = () => {
     defaultValues: attachmentFormDefaultFormValues,
   });
   const submitAttachmentForm = (data: any) => {
-    console.log(data);
+    // console.log(data);
   };
   return (
     <>

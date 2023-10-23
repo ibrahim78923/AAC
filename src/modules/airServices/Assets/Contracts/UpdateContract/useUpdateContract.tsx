@@ -23,7 +23,7 @@ export const useUpdateContract = () => {
     router.push('/air-services/assets/contracts');
   };
   const submitUpdateContractForm = async (data: any) => {
-    console.log(data);
+    // console.log(data);
     enqueueSnackbar('Contract Extended successfully', {
       variant: 'success',
       autoHideDuration: 3000,
