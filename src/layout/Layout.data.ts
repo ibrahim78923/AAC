@@ -75,6 +75,45 @@ export const SuperAdminRoutes: MenuItemI[] = [
   },
 ];
 
+export const OrgAdminRoutes: MenuItemI[] = [
+  {
+    key: 'org-admin',
+    icon: DashboardImage,
+    label: 'Dashboard',
+    role: 'org-admin',
+  },
+  {
+    key: 'org-admin/user-management',
+    icon: UserManagementImage,
+    label: 'Users',
+    role: 'org-admin',
+  },
+  {
+    key: 'org-admin/plan-management',
+    icon: QuotesImage,
+    label: 'Organization',
+    role: 'org-admin',
+  },
+  {
+    key: 'org-admin/subscription-and-invoices',
+    icon: BillingInvoiceImage,
+    label: 'Subsciption & Invoices',
+    role: 'org-admin',
+  },
+  {
+    key: 'org-admin/properties',
+    icon: ReportsImage,
+    label: 'Properties',
+    role: 'org-admin',
+  },
+  {
+    key: 'org-admin/role-and-rights',
+    icon: ForecastImage,
+    label: 'Role and Rights',
+    role: 'org-admin',
+  },
+];
+
 export const ServicesRoutes: any = [
   {
     key: 'air-services',
@@ -437,6 +476,7 @@ const ROLES_ROUTES: any = {
   SUPER_ADMIN: SuperAdminRoutes,
   AIR_SALES: SalesRoutes,
   AIR_SERVICES: ServicesRoutes,
+  ORG_ADMIN: OrgAdminRoutes,
 };
 
 export const getRoutes = (role: any) => {
