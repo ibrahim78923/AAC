@@ -32,11 +32,16 @@ export const useUpdateContract = () => {
     // router.push('/air-services/assets/contracts');
   };
 
+  const convertToTitleCase = (textToConvert: any) => {
+    return `${textToConvert?.[0]?.toUpperCase()}${textToConvert?.slice(1)}`;
+  };
   return {
     methods,
     handleSubmit,
     submitUpdateContractForm,
     handleContractClick,
     submitHandlerUpdateContractForm,
+    router,
+    convertToTitleCase,
   };
 };

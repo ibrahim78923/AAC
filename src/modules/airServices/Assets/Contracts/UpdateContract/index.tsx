@@ -12,6 +12,8 @@ export const UpdateContract = () => {
     submitUpdateContractForm,
     handleContractClick,
     submitHandlerUpdateContractForm,
+    router,
+    convertToTitleCase,
   } = useUpdateContract();
 
   return (
@@ -35,7 +37,9 @@ export const UpdateContract = () => {
         >
           <div style={{ height: '700px', overflow: 'auto' }}>
             <Box sx={{ mb: '1rem' }}>
-              <Typography variant="h5"> Extend Contract</Typography>
+              <Typography variant="h5">
+                {`${convertToTitleCase(router?.query?.action)} Contract`}
+              </Typography>
             </Box>
             <FormProvider
               methods={methods}
@@ -86,7 +90,7 @@ export const UpdateContract = () => {
               onClick={submitHandlerUpdateContractForm}
               type="submit"
             >
-              Extend
+              {`${convertToTitleCase(router?.query?.action)}`}
             </Button>
           </Box>
         </Grid>
