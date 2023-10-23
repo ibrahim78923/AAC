@@ -1,27 +1,28 @@
 import * as React from 'react';
 
-import Button from '@mui/material/Button';
-
-import Menu from '@mui/material/Menu';
-
-import MenuItem from '@mui/material/MenuItem';
-
-import Fade from '@mui/material/Fade';
+import { Button, Menu, MenuItem, Fade, useTheme } from '@mui/material';
+import { ArrowDropDown } from '@mui/icons-material';
 
 import useMenuOptions from './useMenuOptions';
-import { ArrowDropDown } from '@mui/icons-material';
+
 import { useRouter } from 'next/router';
+
 import { SUPER_ADMIN } from '@/constants';
 
 const MenuItems = ({ setIsOpenDrawer, setIsShowViewBillingDetails }: any) => {
   const { handleClickActions, handleCloseMenuOptions, anchorEl, openDropDown } =
     useMenuOptions();
   const router = useRouter();
+  const theme = useTheme();
   return (
     <div>
       <Button
         onClick={handleClickActions}
-        sx={{ border: '1px solid #D1D5DB', color: '#6B7280' }}
+        sx={{
+          border: `1px solid ${theme.palette.custom.dark}`,
+          color: theme.palette.custom.main,
+          width: '105px',
+        }}
       >
         <ArrowDropDown />
         Actions
