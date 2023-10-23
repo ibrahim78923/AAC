@@ -147,7 +147,7 @@ const UserManagement = () => {
 
       {isOpenAddUserDrawer && (
         <AddUser
-          isOpenAddUserDrawer={isOpenAddUserDrawer}
+          isOpenDrawer={isOpenAddUserDrawer}
           setIsOpenAddUserDrawer={setIsOpenAddUserDrawer}
         />
       )}

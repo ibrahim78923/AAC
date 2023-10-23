@@ -8,7 +8,7 @@ import { AlertModals } from '@/components/AlertModals';
 import useNotesActionDropdown from './useNotesActionDropDown';
 
 const NotesActionDropdown = (props: any) => {
-  const { setOpenDrawer } = props;
+  const { setOpenDrawer, selectedCheckboxes } = props;
   const {
     theme,
     isMenuOpen,
@@ -36,6 +36,9 @@ const NotesActionDropdown = (props: any) => {
         aria-haspopup="true"
         aria-expanded={isMenuOpen ? 'true' : undefined}
         onClick={handleOpenMenu}
+        disabled={
+          selectedCheckboxes.length === 0 || selectedCheckboxes.length > 1
+        }
       >
         Action
       </Button>

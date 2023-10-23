@@ -1,11 +1,6 @@
-import { TAGS, baseAPI } from './base-api';
-
+import { TAGS, baseAPI } from '../base-api';
 export const authAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
-    logout: builder.mutation<null, void>({
-      queryFn: () => ({ data: null }),
-      invalidatesTags: TAGS,
-    }),
     login: builder.mutation({
       query: (credentials: string) => ({
         url: 'auth/signin',
@@ -13,9 +8,9 @@ export const authAPI = baseAPI.injectEndpoints({
         body: credentials,
       }),
     }),
-    register: builder.mutation({
+    signUp: builder.mutation({
       query: (user: string) => ({
-        url: 'register',
+        url: 'auth/sign-up',
         method: 'POST',
         body: user,
       }),
@@ -34,29 +29,18 @@ export const authAPI = baseAPI.injectEndpoints({
         body: user,
       }),
     }),
-    passCode: builder.mutation({
-      query: (user: string) => ({
-        url: 'register',
-        method: 'POST',
-        body: user,
-      }),
-    }),
-    resendCode: builder.mutation({
-      query: (user: string) => ({
-        url: 'register',
-        method: 'POST',
-        body: user,
-      }),
+
+    logout: builder.mutation<null, void>({
+      queryFn: () => ({ data: null }),
+      invalidatesTags: TAGS,
     }),
   }),
 });
 
 export const {
   useLoginMutation,
-  useRegisterMutation,
   useResetPasswordMutation,
-  usePassCodeMutation,
-  useResendCodeMutation,
   useForgotPasswordMutation,
+  useSignUpMutation,
   useLogoutMutation,
 } = authAPI;

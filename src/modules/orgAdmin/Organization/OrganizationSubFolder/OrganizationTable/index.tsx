@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import Image from 'next/image';
 
@@ -10,11 +10,11 @@ import {
   MenuItem,
   Typography,
   Checkbox,
-  Theme,
-  useTheme,
+  InputAdornment,
 } from '@mui/material';
 
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import BorderColorIcon from '@mui/icons-material/BorderColor';
 
 import { FormProvider } from '@/components/ReactHookForm';
 import Search from '@/components/Search';
@@ -31,33 +31,34 @@ import {
 } from './OrganizationTable.data';
 
 import { organizationTableData } from '@/mock/modules/orgAdmin/OrganizationAdmin';
+import useOrganizationTable from './useOrganizationTable';
 
 import { FeaturedImage, AddCircleImage, ComLogoImage } from '@/assets/images';
-import { AddPenIcon } from '@/assets/icons';
-
-import { styles } from './OrganizationTable.style';
+import { AddPenIcon, EraserIcon } from '@/assets/icons';
 
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { v4 as uuidv4 } from 'uuid';
 
+import { styles } from './OrganizationTable.style';
+
 const OrganizationTable = ({ initialValueProps = defaultValues }: any) => {
-  const [isOpenDrawer, setIsOpenDrawer] = useState(false);
-  const [isOpenDelete, setIsOpenDelete] = useState(false);
-  const [openEditDrawer, setOpenEditDrawer] = useState(false);
-  const [value, setValue] = useState('search here');
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
-  const theme = useTheme<Theme>();
-
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-    setOpenEditDrawer(true);
-  };
+  const {
+    isOpenDrawer,
+    setIsOpenDrawer,
+    isOpenDelete,
+    setIsOpenDelete,
+    openEditDrawer,
+    setOpenEditDrawer,
+    value,
+    setValue,
+    anchorEl,
+    open,
+    theme,
+    toggle,
+    handleClick,
+    handleClose,
+  } = useOrganizationTable();
 
   const methods: any = useForm({
     resolver: yupResolver(validationSchema),
@@ -65,6 +66,8 @@ const OrganizationTable = ({ initialValueProps = defaultValues }: any) => {
   });
 
   const { handleSubmit } = methods;
+
+  const onSubmit = async () => {};
 
   return (
     <>
@@ -74,10 +77,10 @@ const OrganizationTable = ({ initialValueProps = defaultValues }: any) => {
           setIsOpenDrawer(false);
         }}
         title="Create Company"
-        okText="ok"
-        isOk={true}
+        okText="Add"
+        isOk
         footer={true}
-        submitHandler={handleSubmit}
+        submitHandler={handleSubmit(onSubmit)}
       >
         <Typography variant="h5">Company Logo</Typography>
         <center>
@@ -91,11 +94,7 @@ const OrganizationTable = ({ initialValueProps = defaultValues }: any) => {
                 boxShadow:
                   '0px 2px 4px -2px #1018280F, 5px 5px 9px -2px #1018281A',
               }}
-            >
-              <Typography variant="h6" sx={{ paddingTop: '2rem' }}>
-                Upload Image
-              </Typography>
-            </Box>
+            ></Box>
             <Box sx={{ position: 'absolute', right: '165px', bottom: 0 }}>
               <AddPenIcon />
             </Box>
@@ -161,6 +160,34 @@ const OrganizationTable = ({ initialValueProps = defaultValues }: any) => {
             <Grid container spacing={4}>
               {dataArray?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                  {item?.componentProps?.name === 'address' && (
+                    <Box
+                      sx={{
+                        backgroundColor: '',
+                        position: 'relative',
+                        right: 0,
+                      }}
+                    >
+                      <InputAdornment
+                        sx={{ position: 'absolute', top: 20, right: 15 }}
+                        position="end"
+                      >
+                        <Box
+                          sx={{
+                            display: 'flex',
+                            gap: '10px',
+                            alignItems: 'center',
+                          }}
+                        >
+                          <EraserIcon />
+                          <BorderColorIcon
+                            onClick={() => toggle(true)}
+                            sx={{ cursor: 'pointer', fontSize: '18px' }}
+                          />
+                        </Box>
+                      </InputAdornment>
+                    </Box>
+                  )}
                   <item.component {...item.componentProps} size={'small'}>
                     {item?.componentProps?.select &&
                       item?.options?.map((option: any) => (
@@ -181,9 +208,10 @@ const OrganizationTable = ({ initialValueProps = defaultValues }: any) => {
           setOpenEditDrawer(false);
         }}
         title="Edit Company"
-        okText="ok"
+        okText="Update"
         isOk={true}
         footer={true}
+        submitHandler={handleSubmit(onSubmit)}
       >
         <Box sx={{ paddingTop: '1rem' }}>
           <center>
