@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { styles } from './Card.style';
 import { MinusCircleBlackIcon } from '@/assets/icons';
 
-function Card({ heading, status, body, show }: any) {
+export const Card = ({ heading, status, body, show }: any) => {
   const theme: any = useTheme();
   const [showIcon, setShowIcon] = useState(false);
   return (
@@ -41,6 +41,4 @@ function Card({ heading, status, body, show }: any) {
       </Box>
     </>
   );
-}
-
-export default Card;
+};
