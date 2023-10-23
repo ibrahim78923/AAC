@@ -16,7 +16,7 @@ import {
 import CheckboxLabel from './CheckboxLabel';
 import ListAccordion from './ListAccordion';
 
-import { useModules } from './fgfdgd';
+import { useModules } from './useModules';
 
 import { AirSalesCategories } from './PlanFeatures.data';
 

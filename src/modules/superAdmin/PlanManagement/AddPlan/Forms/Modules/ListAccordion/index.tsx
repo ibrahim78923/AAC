@@ -8,7 +8,7 @@ import MuiAccordionSummary, {
 } from '@mui/material/AccordionSummary';
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
 
-import { useListAccordion } from './dfgdfg';
+import { useListAccordion } from './useListAccordion';
 
 import {
   Box,

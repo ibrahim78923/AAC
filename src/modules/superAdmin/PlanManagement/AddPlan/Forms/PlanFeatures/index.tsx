@@ -15,7 +15,7 @@ import {
 
 import CheckboxLabel from './CheckboxLabel';
 
-import { UsePlanFeatures } from './sdfsdf';
+import { UsePlanFeatures } from './usePlanFeatures';
 
 import { AirSalesCategories } from './PlanFeatures.data';
 

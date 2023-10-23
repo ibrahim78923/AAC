@@ -5,8 +5,8 @@ import { Box, Button, Typography } from '@mui/material';
 import AppHorizontalStepper from '@/components/Stepper';
 import { FormProvider } from '@/components/ReactHookForm';
 
-import { UseAddPlan } from './asdasd';
-import { useAddPlanForm } from './Forms/PlanForm/asd';
+import { UseAddPlan } from './useAddPlan';
+import { useAddPlanForm } from './Forms/PlanForm/useAddPlanForm';
 
 import { ArrowLeft } from '@/assets/icons';
 
