@@ -36,15 +36,22 @@ const Contacts = () => {
       }}
     >
       <Grid container spacing={2}>
-        <Grid item md={6} sx={styles.countBox}>
+        <Grid item md={4} xs={12} sx={styles.countBox}>
           <Typography sx={styles.associationCount(theme)} variant="body3">
             02
           </Typography>
 
           <Typography variant="subtitle2">Contacts</Typography>
         </Grid>
-        <Grid item md={6}>
-          <Box sx={{ display: 'flex', justifyContent: 'end', gap: 2 }}>
+        <Grid item md={8} xs={12}>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'end',
+              gap: 2,
+              flexDirection: { xs: 'column', sm: 'row' },
+            }}
+          >
             <Search
               searchBy={searchName}
               setSearchBy={setSearchName}
