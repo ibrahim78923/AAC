@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { useTheme } from '@mui/material';
 
-export const UsePlanFeatures = () => {
+export const usePlanFeatures = () => {
   const theme = useTheme();
 
   const [expandedAccordion, setExpandAccordion] = useState<string | false>(

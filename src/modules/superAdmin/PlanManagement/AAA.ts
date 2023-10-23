@@ -10,7 +10,7 @@ import {
   planManagementFilterValidationSchema,
 } from './PlanManagement.data';
 
-export const UsePlanManagement = () => {
+export const usePlanManagement = () => {
   const [searchBy, setSearchBy] = useState('');
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [isFaqsFilterDrawerOpen, setIsFaqsFilterDrawerOpen] = useState(false);

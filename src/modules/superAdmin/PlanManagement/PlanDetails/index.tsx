@@ -3,7 +3,7 @@ import React from 'react';
 import TanstackTable from '@/components/Tabel/TanstackTable';
 import CustomPagination from '@/components/CustomPagination';
 
-import { UsePlanDetails } from './UsePlanDetails';
+import { UsePlanDetails } from './asdadas';
 
 import { PlanDetailsData } from './PlanDetails.data';
 

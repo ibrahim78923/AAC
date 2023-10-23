@@ -8,7 +8,7 @@ import PlanFeaturesForm from './Forms/PlanFeatures';
 
 import { v4 as uuidv4 } from 'uuid';
 
-export const UseAddPlan = () => {
+export const useAddPlan = () => {
   const [addPlanFormValues, setAddPlanFormValues] = useState({});
   const [activeStep, setActiveStep] = useState(0);
 
