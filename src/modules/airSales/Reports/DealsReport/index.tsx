@@ -53,10 +53,16 @@ const DealsReport = (props: any) => {
         <Grid item lg={8} md={7} sm={6} xs={12}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <ArrowBackIcon
-              sx={{ cursor: 'pointer', color: '#667085' }}
+              sx={{
+                cursor: 'pointer',
+                color: `${theme?.palette?.custom.light}`,
+              }}
               onClick={() => toggle(true)}
             />
-            <Typography variant="h3" sx={{ color: '#1F2937' }}>
+            <Typography
+              variant="h3"
+              sx={{ color: `${theme.palette.grey[800]}` }}
+            >
               Deals Report
             </Typography>
           </Box>
@@ -75,7 +81,11 @@ const DealsReport = (props: any) => {
               <FormControl sx={{ width: '100%' }}>
                 <InputLabel
                   id="demo-multiple-checkbox-label"
-                  sx={{ color: '#6B7280', fontWeight: 500, fontSize: '16px' }}
+                  sx={{
+                    color: `${theme?.palette?.custom.main}`,
+                    fontWeight: 500,
+                    fontSize: '16px',
+                  }}
                 >
                   Owner
                 </InputLabel>
@@ -104,7 +114,11 @@ const DealsReport = (props: any) => {
               <FormControl sx={{ width: '100%' }}>
                 <InputLabel
                   id="demo-multiple-checkbox-label"
-                  sx={{ color: '#6B7280', fontWeight: 500, fontSize: '16px' }}
+                  sx={{
+                    color: `${theme?.palette?.custom.main}`,
+                    fontWeight: 500,
+                    fontSize: '16px',
+                  }}
                 >
                   Pipelines
                 </InputLabel>

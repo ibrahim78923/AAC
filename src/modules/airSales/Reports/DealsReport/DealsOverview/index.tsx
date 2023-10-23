@@ -1,24 +1,23 @@
 import React from 'react';
+
+import { Box, Grid, Theme, Typography, useTheme } from '@mui/material';
+
 import Search from '@/components/Search';
-import { Box, Grid, Typography } from '@mui/material';
 import TanstackTable from '@/components/Tabel/TanstackTable';
 import CustomPagination from '@/components/CustomPagination';
+
 import { columns } from './DealsOverview.data';
+
 import { DealOverviewTableData } from '@/mock/modules/airSales/Reports/DealsReport';
 
+import { styles } from './DealsOverview.style';
+
 const DealsOverview = () => {
+  const theme = useTheme<Theme>();
   return (
     <>
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          border: '1px solid #EAECF0',
-          padding: '24px',
-        }}
-      >
-        <Typography variant="h5" sx={{ color: '#1F2937' }}>
+      <Box sx={styles.dealBox(theme)}>
+        <Typography variant="h5" sx={{ color: `${theme.palette.grey[800]}` }}>
           Deals Overview
         </Typography>
         <Search label="Search here" />

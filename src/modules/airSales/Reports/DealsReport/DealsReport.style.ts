@@ -1,7 +1,7 @@
 export const styles = {
-  downloadIcon: () => {
+  downloadIcon: (theme: any) => {
     return {
-      border: '1px solid #E5E7EB',
+      border: `1px solid ${theme.palette.grey[700]}`,
       width: '52px',
       height: '52px',
       display: 'flex',

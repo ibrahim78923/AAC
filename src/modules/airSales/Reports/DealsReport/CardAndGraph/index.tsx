@@ -2,171 +2,66 @@ import React from 'react';
 
 import dynamic from 'next/dynamic';
 
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Grid, Theme, Typography, useTheme } from '@mui/material';
+
+import { options, optionsBar, series, seriesBar } from './CardAndGraph.data';
+
+import { styles } from './CardAndGraph.style';
 
 const CardAndGraphs = () => {
   const ReactApexChart = dynamic(() => import('react-apexcharts'), {
     ssr: false,
   });
 
-  const series = [28, 18, 54];
-  const colors = ['#FF4A4A', '#47B263', '#0AADC7'];
-  const options: any = {
-    chart: {
-      width: 380,
-      type: 'pie',
-    },
-    labels: ['Loss', 'Win', 'Open'],
-    colors: colors,
-
-    responsive: [
-      {
-        breakpoint: 480,
-        options: {
-          chart: {
-            width: 200,
-          },
-          legend: {
-            position: 'bottom',
-          },
-        },
-      },
-    ],
-  };
-
-  const seriesBar = [
-    {
-      data: [21],
-    },
-    {
-      data: [76],
-    },
-    {
-      data: [81],
-    },
-    {
-      data: [30, 25],
-    },
-    {
-      name: 'May',
-      data: [22, 21, 32, 21, 21],
-    },
-  ];
-
-  const optionsBar: any = {
-    chart: {
-      type: 'bar',
-      height: 30,
-    },
-    plotOptions: {
-      bar: {
-        horizontal: false,
-        columnWidth: '40%',
-        endingShape: 'rounded',
-      },
-    },
-
-    dataLabels: {
-      enabled: false,
-    },
-    stroke: {
-      show: true,
-      width: 2,
-      colors: ['transparent'],
-    },
-
-    xaxis: {
-      categories: [
-        'Jan',
-        'Feb ',
-        'Mar',
-        'Apr',
-        'May',
-        'Jun',
-        'July',
-        'Aug',
-        'Sep',
-        'Oct',
-        'Nov',
-        'Dec',
-      ],
-    },
-
-    fill: {
-      opacity: 1,
-    },
-
-    tooltip: {
-      y: {
-        formatter: function (val: any) {
-          return '$ ' + val + ' thousands';
-        },
-      },
-    },
-  };
+  const theme = useTheme<Theme>();
 
   return (
     <>
       <Grid container spacing={2}>
         <Grid item lg={4} md={6} sm={12} xs={12}>
-          <Box
-            sx={{
-              border: '1px solid #FF4A4A',
-              background: '#FFE8E8',
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              padding: '1.2rem',
-              borderRadius: '8px',
-              cursor: 'pointer',
-            }}
-          >
-            <Typography variant="h6" sx={{ color: '#374151' }}>
+          <Box sx={styles.totalDeals(theme)}>
+            <Typography
+              variant="h6"
+              sx={{ color: `${theme?.palette?.slateBlue.main}` }}
+            >
               Total Deals
             </Typography>
-            <Typography variant="h3" sx={{ color: '#000000', fontWeight: 500 }}>
+            <Typography
+              variant="h3"
+              sx={{ color: `${theme?.palette?.common.black}`, fontWeight: 500 }}
+            >
               6
             </Typography>
           </Box>
         </Grid>
         <Grid item lg={4} md={6} sm={6} xs={12}>
-          <Box
-            sx={{
-              border: '1px solid #47B263',
-              background: '#ECFFF1',
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              padding: '1.2rem',
-              borderRadius: '8px',
-              cursor: 'pointer',
-            }}
-          >
-            <Typography variant="h6" sx={{ color: '#374151' }}>
+          <Box sx={styles.openDeals(theme)}>
+            <Typography
+              variant="h6"
+              sx={{ color: `${theme?.palette?.slateBlue.main}` }}
+            >
               Open Deals
             </Typography>
-            <Typography variant="h3" sx={{ color: '#000000', fontWeight: 500 }}>
+            <Typography
+              variant="h3"
+              sx={{ color: `${theme?.palette?.common.black}`, fontWeight: 500 }}
+            >
               3
             </Typography>
           </Box>
         </Grid>
         <Grid item lg={4} md={6} sm={6} xs={12}>
-          <Box
-            sx={{
-              border: '1px solid #0AADC7',
-              background: '#ECFCFF',
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              padding: '1.2rem',
-              borderRadius: '8px',
-              cursor: 'pointer',
-            }}
-          >
-            <Typography variant="h6" sx={{ color: '#374151' }}>
+          <Box sx={styles.closeDeals(theme)}>
+            <Typography
+              variant="h6"
+              sx={{ color: `${theme?.palette?.slateBlue.main}` }}
+            >
               Close Deals
             </Typography>
-            <Typography variant="h3" sx={{ color: '#000000', fontWeight: 500 }}>
+            <Typography
+              variant="h3"
+              sx={{ color: `${theme?.palette?.common.black}`, fontWeight: 500 }}
+            >
               3
             </Typography>
           </Box>
@@ -176,7 +71,7 @@ const CardAndGraphs = () => {
         <Grid item lg={6}>
           <Box
             sx={{
-              border: '1px solid #EAECF0',
+              border: `1px solid ${theme?.palette?.custom.off_white_three}`,
               padding: '2rem',
               borderRadius: '8px',
             }}
@@ -185,26 +80,17 @@ const CardAndGraphs = () => {
               options={optionsBar}
               series={seriesBar}
               type="bar"
-              height={350}
+              height={320}
             />
           </Box>
         </Grid>
         <Grid item lg={6}>
-          <Box
-            sx={{
-              border: '1px solid #EAECF0',
-              padding: '2rem',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              borderRadius: '8px',
-            }}
-          >
+          <Box sx={styles.pieChart(theme)}>
             <ReactApexChart
               options={options}
               series={series}
               type="pie"
-              width={380}
+              width={450}
             />
           </Box>
         </Grid>
