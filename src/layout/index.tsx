@@ -34,7 +34,7 @@ import { styles } from './Layout.style';
 
 import { v4 as uuidv4 } from 'uuid';
 
-const drawerWidth = 220;
+const drawerWidth = 236;
 const role = 'SUPER_ADMIN';
 
 const Layout = (props: LayoutI) => {
@@ -113,7 +113,9 @@ const Layout = (props: LayoutI) => {
                               )}
                               onClick={() => toggleDropDown(link.key)}
                             >
-                              <ListItemIcon sx={{ minWidth: 20 }}>
+                              <ListItemIcon
+                                sx={{ minWidth: 20, marginRight: '10px' }}
+                              >
                                 <Image
                                   src={link.icon}
                                   alt="icons"
@@ -180,7 +182,9 @@ const Layout = (props: LayoutI) => {
                               theme,
                             )}
                           >
-                            <ListItemIcon sx={{ minWidth: 20 }}>
+                            <ListItemIcon
+                              sx={{ minWidth: 20, marginRight: '10px' }}
+                            >
                               <Image
                                 src={link.icon}
                                 alt={link.icon}

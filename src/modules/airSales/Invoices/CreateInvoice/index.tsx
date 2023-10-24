@@ -6,13 +6,14 @@ import useReviewInvoice from './ReviewInvoice/useReviewInvoice';
 import { ScheduleModals } from '@/components/ScheduleModals';
 
 const CreateInvoice = () => {
-  const router = useRouter();
+  // const { invoicesStepperData } = CreateInvoicesStepperData();
   const {
     activeStep,
     invoicesStepperData,
     handleCompleteStep,
     hanldeGoPreviousBack,
   } = useCreateInvoices();
+  const router = useRouter();
   const { isEmailModal, setIsEmailModal } = useReviewInvoice();
 
   return (
