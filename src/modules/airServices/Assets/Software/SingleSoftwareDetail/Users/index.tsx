@@ -63,8 +63,6 @@ export const Users = () => {
     userActionDropdownCloseHandler();
   };
 
-  const handleAddModalOpen = () => {};
-
   return (
     <>
       <Box
@@ -86,7 +84,7 @@ export const Users = () => {
             disabled={usersData?.length === 0}
           />
 
-          <UsersAdd onClick={handleAddModalOpen} />
+          <UsersAdd />
           <ExportButton
             handleCsvExport={csvExportHandler}
             handleExcelExport={excelExportHandler}
