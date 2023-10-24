@@ -30,7 +30,7 @@ export const Header = (props: any) => {
           <Button
             color="secondary"
             variant="outlined"
-            // onClick={() => handleAddToInventory?.()}
+            onClick={() => handleAddToInventory?.()}
           >
             Add to Inventory
           </Button>

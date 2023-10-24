@@ -8,9 +8,17 @@ import { FormProvider, RHFTextField } from '@/components/ReactHookForm';
 import { Box, Divider, Grid, Typography } from '@mui/material';
 import Image from 'next/image';
 import {
+  addInventoryDefaultValuesOne,
+  addInventoryDefaultValuesOneUpdate,
+  addInventoryDefaultValuesTwo,
   addToInventoryDrawerArray,
   addToInventorySecondDrawerArray,
 } from './AddToInventoryDrawer.data';
+import * as React from 'react';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+
 import useAddToInventoryDrawer from './useAddToInventoryDrawer';
 import { v4 as uuidv4 } from 'uuid';
 import { addToInventoryDrawerStyle } from './AddToInventoryDrawer.style';
@@ -20,19 +28,44 @@ export const AddToInventoryDrawer = ({
   isADrawerOpen,
   setIsADrawerOpen,
 }: any) => {
-  const { methods1, methods2, addNew } = useAddToInventoryDrawer();
+  const {
+    methodsTwo,
+    handleSubmit2,
+    handleSubmitYes,
+    methodsNo,
+    methodsYes,
+    handleSubmitNo,
+  } = useAddToInventoryDrawer();
   const [boolVariable, setBoolVariable] = useState(true);
+  const [toShow, setToShow] = React.useState(true);
 
-  const submitHandler1 = methods1.handleSubmit(() => {
+  const handleRadioChange = (event) => {
+    setToShow(event.target.value === 'Add New');
+  };
+
+  const submitHandlerYes = handleSubmitYes(() => {
     setBoolVariable(false);
+    methodsYes.reset(addInventoryDefaultValuesOne);
   });
 
-  const submitHandler2 = methods2.handleSubmit(() => {
+  const submitHandlerNo = handleSubmitNo(() => {
+    setBoolVariable(false);
+    methodsNo.reset(addInventoryDefaultValuesOneUpdate);
+  });
+  const submitHandler2 = handleSubmit2(() => {
     enqueueSnackbar('item added to inventory Successfully', {
       variant: 'success',
     });
     setIsADrawerOpen(false);
     setBoolVariable(true);
+    methodsTwo.reset(addInventoryDefaultValuesTwo);
+  });
+
+  const filteredYes = addToInventoryDrawerArray.filter((item: any) => {
+    return item.toShow === 'Yes';
+  });
+  const filteredNo = addToInventoryDrawerArray.filter((item: any) => {
+    return item.toShow === 'No';
   });
 
   return (
@@ -42,7 +75,13 @@ export const AddToInventoryDrawer = ({
         setIsADrawerOpen(false);
       }}
       title="Dell Monitor"
-      submitHandler={boolVariable ? submitHandler1 : submitHandler2}
+      submitHandler={
+        boolVariable
+          ? toShow === true
+            ? submitHandlerYes
+            : submitHandlerNo
+          : submitHandler2
+      }
       footer={true}
       isOk={true}
       okText={boolVariable ? 'Next' : 'Add to Inventory'}
@@ -65,7 +104,7 @@ export const AddToInventoryDrawer = ({
               />
               <Box sx={addToInventoryDrawerStyle?.firstMainGridBoxStyling}>
                 <Typography variant="h6">Total items received:</Typography>
-                <Typography variant="h6" component="span" sx={{ mt: '0.5rem' }}>
+                <Typography variant="h6" component="span" sx={{ ml: '0.5rem' }}>
                   5/5
                 </Typography>
               </Box>
@@ -113,7 +152,7 @@ export const AddToInventoryDrawer = ({
               sx={addToInventoryDrawerStyle?.secondGridStyling}
             >
               <Box sx={{ width: '180px' }}>
-                <FormProvider onSubmit={() => {}} methods={methods1}>
+                <FormProvider onSubmit={() => {}} methods={methodsTwo}>
                   <RHFTextField
                     name="description"
                     fullWidth
@@ -136,23 +175,78 @@ export const AddToInventoryDrawer = ({
             </Grid>
           </Grid>
           <Grid>
-            <FormProvider methods={methods1}>
-              <Grid container spacing={0.5}>
-                {addToInventoryDrawerArray?.map((item: any) => (
-                  <Grid item xs={4} md={item?.md} key={uuidv4()}>
-                    {addNew !== item?.toShow && item?.component && (
-                      <item.component {...item.componentProps} size={'small'}>
-                        {item?.componentProps?.select
-                          ? item?.options?.map((option: any) => (
-                              <option key={option?.value} value={option?.value}>
-                                {option?.label}
-                              </option>
-                            ))
-                          : null}
-                      </item.component>
-                    )}
-                  </Grid>
-                ))}
+            <RadioGroup
+              row
+              aria-labelledby="demo-row-radio-buttons-group-label"
+              name="row-radio-buttons-group"
+              value={toShow ? 'Add New' : 'Update Existing'}
+              onChange={handleRadioChange}
+            >
+              <FormControlLabel
+                onClick={() => {
+                  setToShow(true);
+                }}
+                control={<Radio />}
+                label="Add New"
+                value="Add New"
+              />
+              <FormControlLabel
+                onClick={() => {
+                  setToShow(false);
+                }}
+                control={<Radio />}
+                label="Update Existing"
+                value="Update Existing"
+              />
+            </RadioGroup>
+            <FormProvider
+              methods={toShow === true ? methodsYes : methodsNo}
+              onSubmit={toShow === true ? submitHandlerYes : submitHandlerNo}
+            >
+              <Grid container spacing={2}>
+                {toShow === true
+                  ? filteredYes?.map((item: any) => (
+                      <Grid item xs={4} md={item?.md} key={uuidv4()}>
+                        {item?.component && (
+                          <item.component
+                            {...item.componentProps}
+                            size={'small'}
+                          >
+                            {item?.componentProps?.select
+                              ? item?.options?.map((option: any) => (
+                                  <option
+                                    key={option?.value}
+                                    value={option?.value}
+                                  >
+                                    {option?.label}
+                                  </option>
+                                ))
+                              : null}
+                          </item.component>
+                        )}
+                      </Grid>
+                    ))
+                  : filteredNo?.map((item: any) => (
+                      <Grid item xs={4} md={item?.md} key={uuidv4()}>
+                        {item?.component && (
+                          <item.component
+                            {...item.componentProps}
+                            size={'small'}
+                          >
+                            {item?.componentProps?.select
+                              ? item?.options?.map((option: any) => (
+                                  <option
+                                    key={option?.value}
+                                    value={option?.value}
+                                  >
+                                    {option?.label}
+                                  </option>
+                                ))
+                              : null}
+                          </item.component>
+                        )}
+                      </Grid>
+                    ))}
               </Grid>
             </FormProvider>
           </Grid>
@@ -188,7 +282,7 @@ export const AddToInventoryDrawer = ({
               </Box>
             </Grid>
             <Grid item xs={12}>
-              <FormProvider methods={methods2}>
+              <FormProvider methods={methodsTwo} onSubmit={submitHandler2}>
                 <Grid container spacing={2}>
                   {addToInventorySecondDrawerArray?.map((item: any) => (
                     <Grid item xs={12} md={item?.md} key={uuidv4()}>

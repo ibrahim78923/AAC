@@ -1,28 +1,33 @@
-import {
-  RHFRadioGroup,
-  RHFSelect,
-  RHFTextField,
-} from '@/components/ReactHookForm';
+import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 export const addInventoryValidationSchemaOne = Yup.object().shape({
   assetnameprefix: Yup.string().required('Field is Required'),
+  location: Yup.string(),
+  acquisitionDate: Yup.string(),
   assetstate: Yup.string().required('Field is Required'),
+});
+export const addInventoryValidationSchemaUpdate = Yup.object().shape({
   dellMonitor: Yup.string().required('Field is Required'),
   mouse: Yup.string().required('Field is Required'),
-  lCD: Yup.string().required('Field is Required'),
+  lcd: Yup.string().required('Field is Required'),
 });
-
 export const addInventoryValidationSchemaTwo = Yup.object().shape({
   assetName: Yup.string().required('Field is Required'),
   serialNumber: Yup.string().required('Field is Required'),
   assetTag: Yup.string().required('Field is Required'),
 });
+
 export const addInventoryDefaultValuesOne = {
-  addNew: 'No',
   assetnameprefix: '',
   location: '',
   acquisitionDate: '',
   assetstate: '',
+};
+
+export const addInventoryDefaultValuesOneUpdate = {
+  dellMonitor: '',
+  mouse: '',
+  lcd: '',
 };
 export const addInventoryDefaultValuesTwo = {
   assetName: '',
@@ -32,23 +37,9 @@ export const addInventoryDefaultValuesTwo = {
 export const addToInventoryDrawerArray = [
   {
     componentProps: {
-      name: 'addNew',
-      fullWidth: true,
-      options: [
-        { label: 'Add New', value: 'No' },
-        { label: 'Update Existing', value: 'Yes' },
-      ],
-    },
-    component: RHFRadioGroup,
-    md: 12,
-  },
-  {
-    componentProps: {
       name: 'assetnameprefix',
       label: 'Asset Name Prefix',
       fullWidth: true,
-      select: false,
-      required: true,
     },
     toShow: 'Yes',
     component: RHFTextField,
@@ -59,7 +50,6 @@ export const addToInventoryDrawerArray = [
       name: 'location',
       label: 'Location',
       fullWidth: true,
-      select: true,
     },
     options: [
       {
@@ -88,8 +78,6 @@ export const addToInventoryDrawerArray = [
     componentProps: {
       name: 'acquisitionDate',
       label: 'Acquisition Date',
-      fullWidth: true,
-      select: false,
     },
     toShow: 'Yes',
     component: RHFTextField,
@@ -100,9 +88,6 @@ export const addToInventoryDrawerArray = [
       name: 'assetstate',
       label: 'Asset state',
       fullWidth: true,
-      select: false,
-      required: true,
-      // value: 'In stock',
     },
     toShow: 'Yes',
     component: RHFTextField,
@@ -113,8 +98,6 @@ export const addToInventoryDrawerArray = [
       name: 'dellMonitor',
       label: 'Dell Monitor',
       fullWidth: true,
-      select: false,
-      required: true,
     },
     toShow: 'No',
     component: RHFTextField,
@@ -125,8 +108,6 @@ export const addToInventoryDrawerArray = [
       name: 'mouse',
       label: 'Mouse',
       fullWidth: true,
-      select: false,
-      required: true,
     },
     toShow: 'No',
     component: RHFTextField,
@@ -134,17 +115,16 @@ export const addToInventoryDrawerArray = [
   },
   {
     componentProps: {
-      name: 'lCD',
+      name: 'lcd',
       label: 'LCD',
       fullWidth: true,
-      select: false,
-      required: true,
     },
     toShow: 'No',
     component: RHFTextField,
     md: 12,
   },
 ];
+
 export const addToInventorySecondDrawerArray = [
   {
     componentProps: {
@@ -154,7 +134,7 @@ export const addToInventorySecondDrawerArray = [
       select: false,
       required: true,
     },
-    // inventry: 'hi',
+
     component: RHFTextField,
     md: 12,
   },
@@ -166,7 +146,7 @@ export const addToInventorySecondDrawerArray = [
       select: false,
       required: true,
     },
-    // inventry: 'hi',
+
     component: RHFTextField,
     md: 12,
   },
@@ -178,7 +158,7 @@ export const addToInventorySecondDrawerArray = [
       select: false,
       required: true,
     },
-    // inventry: 'hi',
+
     component: RHFTextField,
     md: 12,
   },

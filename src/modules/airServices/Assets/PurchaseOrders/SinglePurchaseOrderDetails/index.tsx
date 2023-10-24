@@ -3,8 +3,9 @@ import { Header } from './components/Header';
 import { SinglePurchaseOrderDetailTabs } from './components/SinglePurchaseOrderDetailTabs';
 import { useSinglePurchaseDetail } from './useSinglePurchaseDetail';
 import { AlertModals } from '@/components/AlertModals';
-import { AddToInventoryDrawer } from './components/Header/AddToInventory/AddToInventoryDrawer';
+
 import { ReceivedItems } from './components/Header/ReceivedItems';
+import { AddToInventoryDrawer } from './components/Header/AddToInventory';
 export const SinglePurchaseOrderDetail = () => {
   const {
     singlePurchaseDetailActionDropdown,
