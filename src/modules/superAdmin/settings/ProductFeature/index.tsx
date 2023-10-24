@@ -19,6 +19,7 @@ import { FormProvider } from '@/components/ReactHookForm';
 
 import {
   columns,
+  editProductFeaturesDefaultValues,
   productFeaturesDefaultValues,
   productFeaturesFiltersDataArray,
   productFeaturesValidationSchema,
@@ -42,8 +43,14 @@ const ProductFeature = () => {
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const actionMenuOpen = Boolean(anchorEl);
-  const { isDisabled, setIsDisabled, tableRowValues, setTableRowValues } =
-    useProductFeature();
+  const {
+    isDisabled,
+    setIsDisabled,
+    tableRowValues,
+    setTableRowValues,
+    isOpenEditDrawer,
+    setIsOpenEditDrawer,
+  } = useProductFeature();
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -54,6 +61,10 @@ const ProductFeature = () => {
   const methodsProductFeatures = useForm({
     resolver: yupResolver(productFeaturesValidationSchema),
     defaultValues: productFeaturesDefaultValues,
+  });
+  const editmethodsProductFeatures = useForm({
+    resolver: yupResolver(productFeaturesValidationSchema),
+    defaultValues: editProductFeaturesDefaultValues,
   });
   const onSubmit = () => {
     setIsAddProductFeatureDrawer(false);
@@ -134,7 +145,7 @@ const ProductFeature = () => {
               'aria-labelledby': 'basic-button',
             }}
           >
-            <MenuItem>Edit</MenuItem>
+            <MenuItem onClick={() => setIsOpenEditDrawer(true)}>Edit</MenuItem>
           </Menu>
           <Button
             variant="contained"
@@ -158,9 +169,15 @@ const ProductFeature = () => {
       </Box>
 
       <CommonDrawer
-        isDrawerOpen={isAddProductFeatureDrawer}
-        onClose={() => setIsAddProductFeatureDrawer(false)}
-        title="Add Product Feature form"
+        isDrawerOpen={isAddProductFeatureDrawer || isOpenEditDrawer}
+        onClose={() => {
+          setIsAddProductFeatureDrawer(false), setIsOpenEditDrawer(false);
+        }}
+        title={
+          isOpenEditDrawer
+            ? 'Edit Product Feature form'
+            : 'Add Product Feature form'
+        }
         okText="Apply"
         isOk={true}
         footer={true}
@@ -168,7 +185,11 @@ const ProductFeature = () => {
       >
         <>
           <FormProvider
-            methods={methodsProductFeatures}
+            methods={
+              isOpenEditDrawer
+                ? editmethodsProductFeatures
+                : methodsProductFeatures
+            }
             onSubmit={handleSubmit(onSubmit)}
           >
             <Grid container spacing={4}>

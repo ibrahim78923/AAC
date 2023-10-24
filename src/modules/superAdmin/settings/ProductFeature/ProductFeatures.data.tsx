@@ -24,6 +24,11 @@ export const productFeaturesDefaultValues = {
   productFeatureName: '',
   description: '',
 };
+export const editProductFeaturesDefaultValues = {
+  product: [],
+  productFeatureName: 'asfasf',
+  description: 'asfasf',
+};
 
 export const productFeaturesFiltersDataArray = [
   {
