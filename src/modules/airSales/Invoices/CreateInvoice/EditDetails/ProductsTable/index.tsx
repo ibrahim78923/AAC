@@ -30,7 +30,10 @@ const ProductsTable = () => {
   const theme = useTheme();
   const { isDeleteModal, setIsDeleteModal, isDrawerOpen, setIsDrawerOpen } =
     useInvoices();
-  const getTableColumns = productsTableColumns(setIsDeleteModal);
+  const getTableColumns = productsTableColumns(
+    setIsDeleteModal,
+    setIsDrawerOpen,
+  );
 
   return (
     <Box my={3}>
