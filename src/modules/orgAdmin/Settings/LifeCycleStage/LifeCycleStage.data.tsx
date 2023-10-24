@@ -3,8 +3,9 @@ import { Box } from '@mui/material';
 import { RHFEditor, RHFTextField } from '@/components/ReactHookForm';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 
-import * as Yup from 'yup';
 import { DeleteCrossIcon, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
+
+import * as Yup from 'yup';
 
 export const LifeCycleStagevalidationSchema = Yup.object().shape({
   AddStageName: Yup.string().required('Field is Required'),
