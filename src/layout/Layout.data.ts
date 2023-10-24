@@ -452,3 +452,10 @@ const LOWER_ROLES_ROUTES: any = {
 export const getLowerRoutes = (role: any) => {
   return LOWER_ROLES_ROUTES[role];
 };
+
+export const zeroPaddingRoutes = [
+  '/social-components/chat',
+  '/social-components/calling/call',
+  '/org-admin/users',
+  '/super-admin/user-management/users-list',
+];

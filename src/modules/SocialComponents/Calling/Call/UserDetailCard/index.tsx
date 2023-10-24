@@ -2,10 +2,9 @@ import { Box, Typography, useTheme } from '@mui/material';
 import React from 'react';
 import { styles } from './UserDetailCard.style';
 import Image from 'next/image';
-import { UsersAvatarRoundedImage } from '@/assets/images';
 import { CallsDullIcon, MessageDullIcon } from '@/assets/icons';
 
-const UserDetailCard = () => {
+const UserDetailCard = ({ image, name, phone }: any) => {
   const theme = useTheme();
   return (
     <Box sx={styles.userDetailCard}>
@@ -19,7 +18,7 @@ const UserDetailCard = () => {
           }}
         >
           <Image
-            src={UsersAvatarRoundedImage}
+            src={image}
             width={127}
             height={127}
             style={{ borderRadius: '20px' }}
@@ -27,14 +26,14 @@ const UserDetailCard = () => {
           />
           <Box>
             <Typography variant="h2" fontWeight={600}>
-              John Doe
+              {name}
             </Typography>
             <Typography
               variant="h4"
               fontWeight={500}
               color={theme.palette.custom.grayish_blue}
             >
-              (319) 555-0115
+              {phone}
             </Typography>
           </Box>
         </Box>

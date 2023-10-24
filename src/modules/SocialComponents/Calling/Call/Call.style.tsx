@@ -3,7 +3,7 @@ export const styles = {
     return {
       height: '80vh',
       borderRadius: '8px',
-      padding: '10px',
+      // padding: '10px',
     };
   },
   rightWrapper: () => {

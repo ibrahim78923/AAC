@@ -7,6 +7,7 @@ export const callsContactsData = [
     userName: 'John Doe',
     callType: 'inComing',
     callTime: '4:35',
+    phone: '(319) 555-0115',
     callingDetails: [
       {
         type: 'Incoming',
@@ -28,6 +29,7 @@ export const callsContactsData = [
     userName: 'William marks',
     callType: 'inComing',
     callTime: '4:35',
+    phone: '(319) 555-0115',
     callingDetails: [
       {
         type: 'Outgoing',
@@ -49,6 +51,7 @@ export const callsContactsData = [
     userName: 'Sara Andrew',
     callType: 'inComing',
     callTime: '4:35',
+    phone: '(319) 555-0115',
     callingDetails: [
       {
         type: 'Outgoing',

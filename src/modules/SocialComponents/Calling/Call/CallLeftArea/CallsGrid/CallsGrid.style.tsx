@@ -1,5 +1,15 @@
 export const styles = {
-  callsCardWrapper: () => {
+  callsCardWrapper: (activeCheck: any) => {
+    return {
+      display: 'flex',
+      padding: '0px 10px',
+      cursor: 'pointer',
+      borderLeft: `${
+        activeCheck ? '3px solid #38CAB5' : '3px solid transparent'
+      }`,
+    };
+  },
+  callsCardInner: () => {
     return {
       display: 'flex',
       alignItems: 'center',
@@ -7,8 +17,7 @@ export const styles = {
       borderBottom: '1px solid #E9EAEF',
       padding: '8px 0px 7px 0px',
       cursor: 'pointer',
-      borderLeft: '3px solid #38CAB5',
-      color: '#38CAB5',
+      width: '100%',
     };
   },
 };

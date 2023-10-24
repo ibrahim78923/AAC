@@ -22,50 +22,52 @@ const CallLeftArea = ({
 
   return (
     <Box>
-      <Typography variant="h3">Call</Typography>
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          gap: '32px',
-          mt: 2,
-        }}
-      >
+      <Box sx={{ padding: '15px 15px 0px 15px ' }}>
+        <Typography variant="h3">Call</Typography>
         <Box
-          sx={styles.tabsWrapperCalls(toggleCall)}
-          onClick={() => setToggleCall('calls')}
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            gap: '32px',
+            mt: 2,
+          }}
         >
-          <CallContainedIcon />
-          <Typography
-            variant="body2"
-            color={theme.palette.primary.main}
-            fontWeight="500"
+          <Box
+            sx={styles.tabsWrapperCalls(toggleCall)}
+            onClick={() => setToggleCall('calls')}
           >
-            Call
-          </Typography>
-        </Box>
-        <Box
-          sx={styles.tabsWrapperMessage(toggleCall)}
-          onClick={() => setToggleCall('messages')}
-        >
-          <MessageContainedIcon />
-          <Typography
-            variant="body2"
-            color={theme.palette.primary.main}
-            fontWeight="500"
+            <CallContainedIcon />
+            <Typography
+              variant="body2"
+              color={theme.palette.primary.main}
+              fontWeight="500"
+            >
+              Call
+            </Typography>
+          </Box>
+          <Box
+            sx={styles.tabsWrapperMessage(toggleCall)}
+            onClick={() => setToggleCall('messages')}
           >
-            Message
-          </Typography>
+            <MessageContainedIcon />
+            <Typography
+              variant="body2"
+              color={theme.palette.primary.main}
+              fontWeight="500"
+            >
+              Message
+            </Typography>
+          </Box>
         </Box>
+        <br />
+        <Search
+          searchBy={callSearch}
+          setSearchBy={setCallSearch}
+          label="Search"
+          size="small"
+          fullWidth
+        />
       </Box>
-      <br />
-      <Search
-        searchBy={callSearch}
-        setSearchBy={setCallSearch}
-        label="Search"
-        size="small"
-        fullWidth
-      />
       {toggleCall === 'calls' && (
         <CallsGrid
           setActiveCallsSelectedData={setActiveCallsSelectedData}

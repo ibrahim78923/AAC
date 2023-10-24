@@ -7,6 +7,7 @@ import Image from 'next/image';
 import UserDetailCard from '../UserDetailCard';
 import TanstackTable from '@/components/Tabel/TanstackTable';
 import { columns } from './CallRightArea.data';
+import DialingPad from './DialingPad';
 
 const CallRightArea = ({ callsMode, activeCallsSelectedData }: any) => {
   const theme = useTheme();
@@ -18,7 +19,11 @@ const CallRightArea = ({ callsMode, activeCallsSelectedData }: any) => {
       {callsMode === 'calls' &&
         (activeCallsSelectedData ? (
           <Box>
-            <UserDetailCard />
+            <UserDetailCard
+              image={activeCallsSelectedData?.userImage}
+              name={activeCallsSelectedData?.userName}
+              phone={activeCallsSelectedData?.phone}
+            />
             <Box sx={{ padding: '20px' }}>
               <TanstackTable
                 columns={getColumns}
@@ -53,7 +58,9 @@ const CallRightArea = ({ callsMode, activeCallsSelectedData }: any) => {
             </Grid>
             <Grid item xs={12} sm={12} md={12} lg={4}>
               <Box sx={styles.rightWrapper}>
-                <Box sx={styles.callingWrapper}>calls</Box>
+                <Box sx={styles.callingWrapper}>
+                  <DialingPad />
+                </Box>
               </Box>
             </Grid>
           </Grid>

@@ -8,7 +8,7 @@ const Call = () => {
   const [callsMode, setCallsMode] = useState('calls');
   const [activeCallsSelectedData, setActiveCallsSelectedData] = useState();
   return (
-    <Box>
+    <Box sx={{ background: '#fff' }}>
       <Grid container>
         <Grid item xs={12} sm={12} md={12} lg={3}>
           <Box sx={styles.leftWrapper}>
