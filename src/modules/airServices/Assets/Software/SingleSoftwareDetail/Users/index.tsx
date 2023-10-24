@@ -47,7 +47,7 @@ export const Users = () => {
         });
         break;
       case 'Deallocate':
-        enqueueSnackbar('Contract Deallocated Successfully', {
+        enqueueSnackbar('Contract Deallocated Successfullyy', {
           variant: 'success',
         });
         break;
