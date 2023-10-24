@@ -32,6 +32,7 @@ import { DownIcon } from '@/assets/icons';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { v4 as uuidv4 } from 'uuid';
+import useProductFeature from './useProductFeature';
 
 const ProductFeature = () => {
   const theme = useTheme();
@@ -41,6 +42,8 @@ const ProductFeature = () => {
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const actionMenuOpen = Boolean(anchorEl);
+  const { isDisabled, setIsDisabled, tableRowValues, setTableRowValues } =
+    useProductFeature();
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -56,6 +59,13 @@ const ProductFeature = () => {
     setIsAddProductFeatureDrawer(false);
   };
   const { handleSubmit } = methodsProductFeatures;
+
+  const getProductFeatureRowData = columns(
+    isDisabled,
+    setIsDisabled,
+    tableRowValues,
+    setTableRowValues,
+  );
 
   return (
     <Box
@@ -106,6 +116,7 @@ const ProductFeature = () => {
             aria-haspopup="true"
             aria-expanded={actionMenuOpen ? 'true' : undefined}
             onClick={handleClick}
+            disabled={!isDisabled}
             sx={{
               color: theme.palette.grey[500],
               height: '40px',
@@ -135,7 +146,10 @@ const ProductFeature = () => {
         </Box>
       </Box>
       <Box>
-        <TanstackTable columns={columns} data={productFeatureTableData} />
+        <TanstackTable
+          columns={getProductFeatureRowData}
+          data={productFeatureTableData}
+        />
         <CustomPagination
           count={1}
           rowsPerPageOptions={[1, 2]}
