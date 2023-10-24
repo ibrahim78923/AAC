@@ -35,7 +35,7 @@ import { styles } from './Layout.style';
 import { v4 as uuidv4 } from 'uuid';
 
 const drawerWidth = 236;
-const role = 'SUPER_ADMIN';
+const role = 'AIR_SALES';
 
 const Layout = (props: LayoutI) => {
   const theme = useTheme();
@@ -288,7 +288,7 @@ const Layout = (props: LayoutI) => {
                         </Collapse>
                       </>
                     ) : (
-                      <Link key={uuidv4()} href={`${link.key}`}>
+                      <Link key={uuidv4()} href={`/${link.key}`}>
                         <ListItem sx={{ padding: '6px 0px 6px 0px' }}>
                           <ListItemButton
                             sx={styles.mainNavLink(link, router, theme)}
