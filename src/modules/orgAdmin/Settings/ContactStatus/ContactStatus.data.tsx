@@ -6,22 +6,23 @@ import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import * as Yup from 'yup';
 import { DeleteCrossIcon, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
 
-export const LifeCycleStagevalidationSchema = Yup.object().shape({
-  AddStageName: Yup.string().required('Field is Required'),
+export const ContactStatusvalidationSchema = Yup.object().shape({
+  StatusName: Yup.string().required('Field is Required'),
   description: Yup.string().required('Field is Required'),
 });
 
-export const LifeCycleStageDefaultValues = {
-  AddStageName: '',
+export const ContactStatusDefaultValues = {
+  StatusName: '',
   description: '',
 };
 
 export const dataArray = [
   {
     componentProps: {
-      name: 'AddStageName',
-      label: 'Add stage name',
+      name: 'StatusName',
+      label: 'Add Status Name',
       fullWidth: true,
+      disable: true,
     },
     component: RHFTextField,
     md: 12,
@@ -38,32 +39,26 @@ export const dataArray = [
 ];
 
 // table
-export const LifeCycleStageTableData: any = [
+export const ContactStatusTableData: any = [
   {
     Id: 1,
-    name: `Subscriber`,
-    Description: 'Subscriber',
-    CompaniesUsage: '8',
-    ContactUsage: '8',
+    name: `New`,
+    Description: 'new stage',
     createdDate: '12/01/2023',
     action: 'action',
   },
   {
     Id: 2,
-    name: `Lead`,
-    Description: 'Lead',
-    CompaniesUsage: '0',
-    ContactUsage: '0',
+    name: `Open `,
+    Description: 'open stage',
     createdDate: '12/02/2023',
     action: 'action',
   },
 
   {
     Id: 3,
-    name: `Customer`,
-    Description: 'Customer',
-    CompaniesUsage: '3',
-    ContactUsage: '3',
+    name: `Inprogress`,
+    Description: 'in progress stage',
     createdDate: '23/12/2022',
     action: 'action',
   },
@@ -86,7 +81,7 @@ export const columns = (
       accessorFn: (row: any) => row.name,
       id: 'name',
       cell: (info: any) => info.getValue(),
-      header: 'Stage Name',
+      header: 'Status Name',
       isSortable: true,
     },
     {
@@ -94,20 +89,6 @@ export const columns = (
       id: 'Description',
       isSortable: true,
       header: 'Description',
-      cell: (info: any) => info.getValue(),
-    },
-    {
-      accessorFn: (row: any) => row.CompaniesUsage,
-      id: 'CompaniesUsage ',
-      isSortable: true,
-      header: 'Companies Usage',
-      cell: (info: any) => info.getValue(),
-    },
-    {
-      accessorFn: (row: any) => row.ContactUsage,
-      id: 'ContactUsage',
-      isSortable: true,
-      header: 'Contact Usage',
       cell: (info: any) => info.getValue(),
     },
     {

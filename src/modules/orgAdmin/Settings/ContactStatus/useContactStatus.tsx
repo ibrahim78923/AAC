@@ -8,11 +8,11 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import {
   columns,
-  LifeCycleStageDefaultValues,
-  LifeCycleStagevalidationSchema,
-} from './LifeCycleStage.data';
+  ContactStatusDefaultValues,
+  ContactStatusvalidationSchema,
+} from './ContactStatus.data';
 
-const useLifeCycleStage = () => {
+const useContactStatus = () => {
   const [isDraweropen, setIsDraweropen] = useState(false);
   const [productSearch, setproductSearch] = useState<string>('');
   const [isOpenAlert, setIsOpenAlert] = useState(false);
@@ -24,11 +24,11 @@ const useLifeCycleStage = () => {
     setIsDraweropen(false);
   };
 
-  const LifeCycleStage = useForm({
-    resolver: yupResolver(LifeCycleStagevalidationSchema),
-    defaultValues: LifeCycleStageDefaultValues,
+  const ContactStatus = useForm({
+    resolver: yupResolver(ContactStatusvalidationSchema),
+    defaultValues: ContactStatusDefaultValues,
   });
-  const { handleSubmit } = LifeCycleStage;
+  const { handleSubmit } = ContactStatus;
   const onSubmit = () => {};
 
   const handleCloseAlert = () => {
@@ -48,7 +48,7 @@ const useLifeCycleStage = () => {
     setproductSearch,
     theme,
     handleCloseDrawer,
-    LifeCycleStage,
+    ContactStatus,
     handleSubmit,
     onSubmit,
     getRowValues,
@@ -59,4 +59,4 @@ const useLifeCycleStage = () => {
   };
 };
 
-export default useLifeCycleStage;
+export default useContactStatus;
