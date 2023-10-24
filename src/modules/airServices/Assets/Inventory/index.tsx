@@ -1,6 +1,4 @@
-import { Box, useTheme } from '@mui/material';
-import { useState } from 'react';
-import { data, columns } from './Inventory.data';
+import { Box } from '@mui/material';
 import TanstackTable from '@/components/Tabel/TanstackTable';
 import Search from '@/components/Search';
 import { Button } from '@mui/material';
@@ -8,15 +6,25 @@ import { FilterSharedIcon, CustomizeSharedIcon } from '@/assets/icons';
 import { enqueueSnackbar } from 'notistack';
 import { PageTitledHeader } from '../../common/Headers/PageTitledHeader/index';
 import { AlertModals } from '@/components/AlertModals';
-import useInventory from './useInventory';
+import { useInventory } from './useInventory';
+// import { FilterInventory } from './FilterInventory';
+// import { CustomizeInventory } from './CustomizeInventory';
 
 function Inventory() {
-  const [inventoryData, setInventoryData] = useState([]);
-  const [openDeleteModal, setOpenDeleteModal] = useState(false);
-  const [searchValue, SetSearchValue] = useState<string>('');
-  const theme: any = useTheme();
-
-  const { handleAddInventory, router } = useInventory();
+  const {
+    handleAddInventory,
+    router,
+    isDrawerOpen,
+    renderComponent,
+    openDrawer,
+    openDeleteModal,
+    setOpenDeleteModal,
+    searchValue,
+    SetSearchValue,
+    inventoryListsColumns,
+    data,
+    inventoryData,
+  } = useInventory();
   return (
     <>
       <AlertModals
@@ -60,7 +68,7 @@ function Inventory() {
           <Button
             color="secondary"
             variant="outlined"
-            disabled={!!!inventoryData.length}
+            disabled={!!!inventoryData?.length}
             onClick={() => {
               setOpenDeleteModal(true);
             }}
@@ -71,6 +79,7 @@ function Inventory() {
             color="secondary"
             variant="outlined"
             startIcon={<CustomizeSharedIcon />}
+            onClick={() => openDrawer('customize')}
           >
             Customize
           </Button>
@@ -78,24 +87,23 @@ function Inventory() {
             color="secondary"
             variant="outlined"
             startIcon={<FilterSharedIcon />}
+            onClick={() => openDrawer('filter')}
           >
             Filter
           </Button>
         </Box>
       </Box>
       <br />
-      <Box sx={{ marginBottom: '25px' }}>
-        <TanstackTable
-          data={data}
-          columns={columns(
-            inventoryData,
-            setInventoryData,
-            data,
-            theme,
-            router,
-          )}
-        />
-      </Box>
+      <TanstackTable data={data} columns={inventoryListsColumns} />
+      {isDrawerOpen && renderComponent?.[router?.query?.tableAction as string]}
+      {/* <FilterInventory
+        isDrawerOpen={isDrawerOpen}
+        setIsDrawerOpen={setIsDrawerOpen}
+      />
+      <CustomizeInventory
+        isCustomizeModalOpen={isDrawerOpen}
+        handleClose={() => setIsDrawerOpen(false)}
+      /> */}
     </>
   );
 }
