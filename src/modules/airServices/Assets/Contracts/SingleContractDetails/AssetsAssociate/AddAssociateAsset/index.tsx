@@ -1,27 +1,15 @@
-import { useState } from 'react';
-import { useRouter } from 'next/router';
-import { Box, Button, Typography, useTheme } from '@mui/material';
-import { enqueueSnackbar } from 'notistack';
+import { Box, Button, Typography } from '@mui/material';
 import Search from '@/components/Search';
 import TanstackTable from '@/components/Tabel/TanstackTable';
 import {
   AddAssociateTableAssetsData,
   AddAssociateAssetsTableColumns,
 } from './AddAssociteAsset.data';
+import { useAssetAssociate } from '../useAssetAssociate';
 
 export const AddAssociateAsset = () => {
-  const [activeCheck, setActiveCheck] = useState<string[]>([]);
-  const router = useRouter();
-  const handleAllocate = () => {
-    enqueueSnackbar('Asset Associated Successfully', {
-      variant: 'success',
-      autoHideDuration: 2000,
-    });
-    router.push({
-      pathname: '/air-services/assets/contracts/detail',
-    });
-  };
-  const theme = useTheme();
+  const { activeCheck, setActiveCheck, handleAllocateClick, router, theme } =
+    useAssetAssociate();
   return (
     <>
       <Typography variant="h3">Associated Assets</Typography>
@@ -65,7 +53,7 @@ export const AddAssociateAsset = () => {
           variant="outlined"
           color="primary"
           disabled={!activeCheck.length}
-          onClick={handleAllocate}
+          onClick={handleAllocateClick}
         >
           Allocate
         </Button>

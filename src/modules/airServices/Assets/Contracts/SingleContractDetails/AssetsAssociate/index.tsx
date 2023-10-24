@@ -5,10 +5,10 @@ import { associationsImage } from '@/assets/images';
 import NoData from '@/components/NoData';
 import { AssetsAssociateTableData } from './AssetsAssociateDetail/AssetsAssociateTable/AssetsAssociate.data';
 import { AssetsAssociateDetail } from './AssetsAssociateDetail';
-import { useRouter } from 'next/router';
+import { useAssetAssociate } from './useAssetAssociate';
 
 export const AssetsAssociate = () => {
-  const router = useRouter();
+  const { handleAddAssociateAsset } = useAssetAssociate();
   return (
     <Fragment>
       {!!AssetsAssociateTableData?.length ? (
@@ -21,12 +21,7 @@ export const AssetsAssociate = () => {
           <Button
             variant="outlined"
             startIcon={<AddCircleIcon />}
-            onClick={() =>
-              router.push({
-                pathname:
-                  '/air-services/assets/contracts/detail/add-associate-asset',
-              })
-            }
+            onClick={handleAddAssociateAsset}
           >
             Associate Asset
           </Button>
