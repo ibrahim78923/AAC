@@ -1,17 +1,20 @@
-import { Box, Button, Divider, Stack } from '@mui/material';
+import { Box, Button, Divider, Stack, TextField } from '@mui/material';
 import AppHorizontalStepper from '@/components/Stepper';
 import useCreateInvoices from './useCreateInvoices';
 import { useRouter } from 'next/router';
+import useReviewInvoice from './ReviewInvoice/useReviewInvoice';
+import { ScheduleModals } from '@/components/ScheduleModals';
 
 const CreateInvoice = () => {
-  // const { invoicesStepperData } = CreateInvoicesStepperData();
+  const router = useRouter();
   const {
     activeStep,
     invoicesStepperData,
     handleCompleteStep,
     hanldeGoPreviousBack,
   } = useCreateInvoices();
-  const router = useRouter();
+  const { isEmailModal, setIsEmailModal } = useReviewInvoice();
+
   return (
     <Box>
       <AppHorizontalStepper
@@ -26,32 +29,69 @@ const CreateInvoice = () => {
               direction="row"
               mt={2}
             >
-              <Button variant="outlined" onClick={hanldeGoPreviousBack}>
+              <Button variant="text" onClick={hanldeGoPreviousBack}>
                 Back
               </Button>
               <Box>
                 <Stack gap="10px" direction="row">
-                  <Button
-                    variant="outlined"
-                    onClick={() => router.push('/air-sales/sales-invoices')}
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    variant="outlined"
-                    onClick={() => router.push('/air-sales/sales-invoices')}
-                  >
-                    Skip
-                  </Button>
-                  <Button variant="contained" onClick={handleCompleteStep}>
-                    Next
-                  </Button>
+                  {activeStep === 0 || activeStep === 1 ? (
+                    <Button
+                      variant="outlined"
+                      onClick={() => router.push('/air-sales/sales-invoices')}
+                    >
+                      Cancel
+                    </Button>
+                  ) : (
+                    <Button>Save as Draft</Button>
+                  )}
+                  {activeStep == 0 && (
+                    <Button
+                      variant="outlined"
+                      onClick={() => router.push('/air-sales/sales-invoices')}
+                    >
+                      Skip
+                    </Button>
+                  )}
+                  {activeStep === 0 || activeStep === 1 ? (
+                    <Button variant="contained" onClick={handleCompleteStep}>
+                      Next
+                    </Button>
+                  ) : (
+                    <Button
+                      variant="contained"
+                      onClick={() => setIsEmailModal(true)}
+                    >
+                      Send To Customer
+                    </Button>
+                  )}
                 </Stack>
               </Box>
             </Stack>
           </>
         }
       />
+      <ScheduleModals
+        type="assign"
+        open={isEmailModal}
+        handleClose={() => {
+          setIsEmailModal(false);
+        }}
+        handleSubmit={() => {
+          setIsEmailModal(false);
+        }}
+        submitButonText="Send"
+        isFooter
+      >
+        <Box my={3}>
+          <label>Email</label>
+          <TextField
+            fullWidth
+            type="email"
+            placeholder="abc@ceative.co.uk"
+            size="small"
+          />
+        </Box>
+      </ScheduleModals>
     </Box>
   );
 };
