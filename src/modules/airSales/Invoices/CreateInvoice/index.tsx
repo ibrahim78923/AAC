@@ -4,9 +4,9 @@ import useCreateInvoices from './useCreateInvoices';
 import { useRouter } from 'next/router';
 import useReviewInvoice from './ReviewInvoice/useReviewInvoice';
 import { ScheduleModals } from '@/components/ScheduleModals';
+import { style } from './CreateInvoice.style';
 
 const CreateInvoice = () => {
-  // const { invoicesStepperData } = CreateInvoicesStepperData();
   const {
     activeStep,
     invoicesStepperData,
@@ -30,7 +30,11 @@ const CreateInvoice = () => {
               direction="row"
               mt={2}
             >
-              <Button variant="text" onClick={hanldeGoPreviousBack}>
+              <Button
+                variant="outlined"
+                sx={style.greyButton}
+                onClick={hanldeGoPreviousBack}
+              >
                 Back
               </Button>
               <Box>
@@ -38,16 +42,20 @@ const CreateInvoice = () => {
                   {activeStep === 0 || activeStep === 1 ? (
                     <Button
                       variant="outlined"
+                      sx={style.greyButton}
                       onClick={() => router.push('/air-sales/sales-invoices')}
                     >
                       Cancel
                     </Button>
                   ) : (
-                    <Button>Save as Draft</Button>
+                    <Button variant="outlined" sx={style.greyButton}>
+                      Save as Draft
+                    </Button>
                   )}
                   {activeStep == 0 && (
                     <Button
                       variant="outlined"
+                      sx={style.greyButton}
                       onClick={() => router.push('/air-sales/sales-invoices')}
                     >
                       Skip
