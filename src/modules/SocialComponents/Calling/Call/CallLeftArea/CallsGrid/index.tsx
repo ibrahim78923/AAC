@@ -10,7 +10,7 @@ import { callsContactsData } from '@/mock/modules/SocialComponents/Calling';
 
 import { v4 as uuidv4 } from 'uuid';
 
-const CallsGrid = () => {
+const CallsGrid = ({ setActiveCallsSelectedData }: any) => {
   return (
     <Box
       sx={{
@@ -27,7 +27,11 @@ const CallsGrid = () => {
         }}
       >
         {callsContactsData.map((item: any) => (
-          <Box key={uuidv4()} sx={styles.callsCardWrapper}>
+          <Box
+            key={uuidv4()}
+            sx={styles.callsCardWrapper}
+            onClick={() => setActiveCallsSelectedData(item)}
+          >
             <Box
               sx={{
                 display: 'flex',
@@ -36,7 +40,13 @@ const CallsGrid = () => {
               }}
             >
               <Box>
-                <Image src={item.userImage} alt="user" />
+                <Image
+                  src={item.userImage}
+                  width={40}
+                  height={40}
+                  style={{ borderRadius: '50%' }}
+                  alt="user"
+                />
               </Box>
               <Box
                 sx={{

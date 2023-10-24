@@ -7,6 +7,20 @@ export const callsContactsData = [
     userName: 'John Doe',
     callType: 'inComing',
     callTime: '4:35',
+    callingDetails: [
+      {
+        type: 'Incoming',
+        time: '4:36 PM',
+        date: 'Sun Mar 21, 2023',
+        duration: '1 min',
+      },
+      {
+        type: 'Outgoing',
+        time: '4:36 PM',
+        date: 'Sun Mar 21, 2023',
+        duration: '1 min',
+      },
+    ],
   },
   {
     id: '2',
@@ -14,6 +28,20 @@ export const callsContactsData = [
     userName: 'William marks',
     callType: 'inComing',
     callTime: '4:35',
+    callingDetails: [
+      {
+        type: 'Outgoing',
+        time: '4:36 PM',
+        date: 'Sun Mar 21, 2023',
+        duration: '1 min',
+      },
+      {
+        type: 'Incoming',
+        time: '4:36 PM',
+        date: 'Sun Mar 21, 2023',
+        duration: '1 min',
+      },
+    ],
   },
   {
     id: '3',
@@ -21,5 +49,25 @@ export const callsContactsData = [
     userName: 'Sara Andrew',
     callType: 'inComing',
     callTime: '4:35',
+    callingDetails: [
+      {
+        type: 'Outgoing',
+        time: '4:36 PM',
+        date: 'Sun Mar 21, 2023',
+        duration: '1 min',
+      },
+      {
+        type: 'Outgoing',
+        time: '4:36 PM',
+        date: 'Sun Mar 21, 2023',
+        duration: '1 min',
+      },
+      {
+        type: 'Incoming',
+        time: '4:36 PM',
+        date: 'Sun Mar 21, 2023',
+        duration: '1 min',
+      },
+    ],
   },
 ];

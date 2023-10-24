@@ -136,3 +136,5 @@ export { default as CallContainedIcon } from './modules/SocialComponents/Calling
 export { default as MessageContainedIcon } from './modules/SocialComponents/Calling/message-contained';
 export { default as OutgoingIcon } from './modules/SocialComponents/Calling/outgoing';
 export { default as InComingIcon } from './modules/SocialComponents/Calling/incoming';
+export { default as CallsDullIcon } from './modules/SocialComponents/Calling/calls-dull';
+export { default as MessageDullIcon } from './modules/SocialComponents/Calling/message-dull';

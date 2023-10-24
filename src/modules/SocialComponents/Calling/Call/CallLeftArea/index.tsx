@@ -9,7 +9,11 @@ import Search from '@/components/Search';
 import CallsGrid from './CallsGrid';
 import MessagesGrid from './MessagesGrid';
 
-const CallLeftArea = ({ toggleCall, setToggleCall }: any) => {
+const CallLeftArea = ({
+  toggleCall,
+  setToggleCall,
+  setActiveCallsSelectedData,
+}: any) => {
   const theme = useTheme();
 
   // const [toggleCall, setToggleCall] = useState('calls')
@@ -61,7 +65,9 @@ const CallLeftArea = ({ toggleCall, setToggleCall }: any) => {
         size="small"
         fullWidth
       />
-      {toggleCall === 'calls' && <CallsGrid />}
+      {toggleCall === 'calls' && (
+        <CallsGrid setActiveCallsSelectedData={setActiveCallsSelectedData} />
+      )}
       {toggleCall === 'messages' && <MessagesGrid />}
     </Box>
   );
