@@ -1,42 +1,57 @@
-import { Box, Button, Stack } from '@mui/material';
-
+import { Box, Button, Divider, Stack } from '@mui/material';
 import AppHorizontalStepper from '@/components/Stepper';
-import { CreateInvoicesStepperData } from './CreateInvoices.data';
-
+import useCreateInvoices from './useCreateInvoices';
 import { useRouter } from 'next/router';
 
 const CreateInvoice = () => {
+  // const { invoicesStepperData } = CreateInvoicesStepperData();
+  const {
+    activeStep,
+    invoicesStepperData,
+    handleCompleteStep,
+    hanldeGoPreviousBack,
+  } = useCreateInvoices();
   const router = useRouter();
-  const { invoicesStepperData } = CreateInvoicesStepperData();
-
   return (
     <Box>
-      <AppHorizontalStepper stepsArray={invoicesStepperData} />
-      <Stack justifyContent="space-between" alignItems="center" direction="row">
-        <Button
-          variant="outlined"
-          // onClick={() => setIsListView(false)}
-        >
-          Back
-        </Button>
-        <Box>
-          <Stack gap="10px" direction="row">
-            <Button
-              variant="outlined"
-              onClick={() => router.push('/air-sales/sales-invoices')}
+      <AppHorizontalStepper
+        activeStep={activeStep}
+        stepsArray={invoicesStepperData}
+        stepperButtons={
+          <>
+            <Divider sx={{ backgroundColor: '#E5E7EB' }} />
+            <Stack
+              justifyContent="space-between"
+              alignItems="center"
+              direction="row"
+              mt={2}
             >
-              Cancel
-            </Button>
-            <Button
-              variant="outlined"
-              onClick={() => router.push('/air-sales/sales-invoices')}
-            >
-              Skip
-            </Button>
-            <Button variant="contained">Next</Button>
-          </Stack>
-        </Box>
-      </Stack>
+              <Button variant="outlined" onClick={hanldeGoPreviousBack}>
+                Back
+              </Button>
+              <Box>
+                <Stack gap="10px" direction="row">
+                  <Button
+                    variant="outlined"
+                    onClick={() => router.push('/air-sales/sales-invoices')}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    onClick={() => router.push('/air-sales/sales-invoices')}
+                  >
+                    Skip
+                  </Button>
+                  <Button variant="contained" onClick={handleCompleteStep}>
+                    Next
+                  </Button>
+                </Stack>
+              </Box>
+            </Stack>
+          </>
+        }
+      />
     </Box>
   );
 };

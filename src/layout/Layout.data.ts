@@ -75,6 +75,45 @@ export const SuperAdminRoutes: MenuItemI[] = [
   },
 ];
 
+export const OrgAdminRoutes: MenuItemI[] = [
+  {
+    key: 'org-admin',
+    icon: DashboardImage,
+    label: 'Dashboard',
+    role: 'org-admin',
+  },
+  {
+    key: 'org-admin/user-management',
+    icon: UserManagementImage,
+    label: 'Users',
+    role: 'org-admin',
+  },
+  {
+    key: 'org-admin/plan-management',
+    icon: QuotesImage,
+    label: 'Organization',
+    role: 'org-admin',
+  },
+  {
+    key: 'org-admin/subscription-and-invoices',
+    icon: BillingInvoiceImage,
+    label: 'Subsciption & Invoices',
+    role: 'org-admin',
+  },
+  {
+    key: 'org-admin/properties',
+    icon: ReportsImage,
+    label: 'Properties',
+    role: 'org-admin',
+  },
+  {
+    key: 'org-admin/role-and-rights',
+    icon: ForecastImage,
+    label: 'Role and Rights',
+    role: 'org-admin',
+  },
+];
+
 export const ServicesRoutes: any = [
   {
     key: 'air-services',
@@ -284,6 +323,34 @@ export const LowerSuperAdminRoutes = [
   },
 ];
 
+export const LowerOrgAdminRoutes = [
+  {
+    label: 'Setting',
+    icon: SettingImage,
+    role: 'org-admin',
+    key: 'org-admin/settings',
+    textNames: [
+      {
+        key: 'org-admin/settings/sales-product-categories',
+        label: 'Sales Product categories',
+      },
+      {
+        key: 'org-admin/settings/life-cycle-stage',
+        label: 'Life Cycle Stage',
+      },
+      {
+        key: 'org-admin/settings/contact-status',
+        label: 'Contact Status',
+      },
+    ],
+  },
+  {
+    label: 'Logout',
+    key: 'logout',
+    role: 'AIR_SALES',
+    icon: LogoutImage,
+  },
+];
 export const LowerSalesRoutes = [
   {
     label: 'Settings',
@@ -437,6 +504,7 @@ const ROLES_ROUTES: any = {
   SUPER_ADMIN: SuperAdminRoutes,
   AIR_SALES: SalesRoutes,
   AIR_SERVICES: ServicesRoutes,
+  ORG_ADMIN: OrgAdminRoutes,
 };
 
 export const getRoutes = (role: any) => {
@@ -447,6 +515,7 @@ const LOWER_ROLES_ROUTES: any = {
   SUPER_ADMIN: LowerSuperAdminRoutes,
   AIR_SALES: LowerSalesRoutes,
   AIR_SERVICES: LowerServicesRoutes,
+  ORG_ADMIN: LowerOrgAdminRoutes,
 };
 
 export const getLowerRoutes = (role: any) => {

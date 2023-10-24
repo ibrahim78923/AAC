@@ -130,5 +130,8 @@ export { default as SendArrowIcon } from './modules/airSales/deals/send-arrow';
 export { default as ViewCallIcon } from './/modules/airSales/deals/view-call';
 export { default as MircosoftTeamsIcon } from './shared/microsoft-teams';
 export { default as PrimaryPreviewEyeIcon } from './shared/primary-preview-eye';
+export { default as EraserIcon } from './shared/eraser';
+export { default as DownloadLargeIcon } from './shared/download-large';
 export { default as MobileIcon } from './shared/mobile';
 export { default as CheckMarkIcon } from './modules/airSales/Dashboard/check-mark';
+export { default as TimeClockIcon } from './modules/airSales/deals/time-clock';
