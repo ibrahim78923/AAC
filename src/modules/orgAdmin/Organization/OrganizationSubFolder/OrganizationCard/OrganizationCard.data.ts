@@ -6,14 +6,13 @@ import * as Yup from 'yup';
 export const validationSchema = Yup.object().shape({
   accountName: Yup.string().required('Field is Required'),
   phoneNumber: Yup.string().trim().required('Field is Required'),
-  postCode: Yup.string().trim().required('Field is Required'),
-  address: Yup.string(),
+  address: Yup.string().required('Field is Required'),
   buildingName: Yup.string().required('Field is Required'),
   unit: Yup.string().required('Field is Required'),
-  buildingNumber: Yup.string(),
-  streetName: Yup.string(),
-  city: Yup.string(),
-  country: Yup.string(),
+  buildingNumber: Yup.string().required('Field is Required'),
+  streetName: Yup.string().required('Field is Required'),
+  city: Yup.string().required('Field is Required'),
+  country: Yup.string().required('Field is Required'),
 });
 
 export const defaultValues = {
@@ -30,6 +29,16 @@ export const defaultValues = {
 };
 
 export const dataArray = [
+  {
+    componentProps: {
+      name: 'sale',
+      label: 'Company Account Name',
+      fullWidth: true,
+      select: false,
+    },
+    component: RHFTextField,
+    md: 12,
+  },
   {
     componentProps: {
       name: 'accountName',
