@@ -8,6 +8,7 @@ import CommonDrawer from '@/components/CommonDrawer';
 import TanstackTable from '@/components/Tabel/TanstackTable';
 import CustomPagination from '@/components/CustomPagination';
 import Search from '@/components/Search';
+import { AlertModals } from '@/components/AlertModals';
 
 import useContactStatus from './useContactStatus';
 
@@ -16,7 +17,6 @@ import { ContactStatusTableData, dataArray } from './ContactStatus.data';
 import { styles } from './ContactStatus.style';
 
 import { v4 as uuidv4 } from 'uuid';
-import { AlertModals } from '@/components/AlertModals';
 
 const ContactStatus = () => {
   const {

@@ -8,6 +8,7 @@ import CommonDrawer from '@/components/CommonDrawer';
 import TanstackTable from '@/components/Tabel/TanstackTable';
 import CustomPagination from '@/components/CustomPagination';
 import Search from '@/components/Search';
+import { AlertModals } from '@/components/AlertModals';
 
 import useLifeCycleStage from './useLifeCycleStage';
 
@@ -16,7 +17,6 @@ import { LifeCycleStageTableData, dataArray } from './LifeCycleStage.data';
 import { styles } from './LifeCycleStage.style';
 
 import { v4 as uuidv4 } from 'uuid';
-import { AlertModals } from '@/components/AlertModals';
 
 const LifeCycleStage = () => {
   const {
