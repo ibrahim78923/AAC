@@ -13,6 +13,7 @@ const CallLeftArea = ({
   toggleCall,
   setToggleCall,
   setActiveCallsSelectedData,
+  activeCallsSelectedData,
 }: any) => {
   const theme = useTheme();
 
@@ -66,7 +67,10 @@ const CallLeftArea = ({
         fullWidth
       />
       {toggleCall === 'calls' && (
-        <CallsGrid setActiveCallsSelectedData={setActiveCallsSelectedData} />
+        <CallsGrid
+          setActiveCallsSelectedData={setActiveCallsSelectedData}
+          activeCallsSelectedData={activeCallsSelectedData}
+        />
       )}
       {toggleCall === 'messages' && <MessagesGrid />}
     </Box>

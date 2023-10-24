@@ -16,6 +16,7 @@ const Call = () => {
               toggleCall={callsMode}
               setToggleCall={setCallsMode}
               setActiveCallsSelectedData={setActiveCallsSelectedData}
+              activeCallsSelectedData={activeCallsSelectedData}
             />
           </Box>
         </Grid>
