@@ -12,6 +12,104 @@ export const dropdownDummy = [
   },
 ];
 
+export const assetTypeDropdownData = [
+  {
+    value: 'services',
+    label: 'Services',
+  },
+  {
+    value: 'Business Services',
+    label: 'Business Services',
+  },
+  {
+    value: 'Hardware',
+    label: 'Hardware',
+  },
+  {
+    value: 'Utilizable',
+    label: 'Utilizable',
+  },
+  {
+    value: 'IT Services',
+    label: 'IT Services',
+  },
+  {
+    value: 'Sales Services',
+    label: 'Sales Services',
+  },
+  {
+    value: 'Email Services',
+    label: 'Email Services',
+  },
+  {
+    value: 'Hosting Services',
+    label: 'Hosting Services',
+  },
+  {
+    value: 'Backup Services',
+    label: 'Backup Services',
+  },
+];
+export const dateDropdownData = [
+  {
+    value: 'None',
+    label: 'None',
+  },
+  {
+    value: 'All Time',
+    label: 'All Time',
+  },
+  {
+    value: 'Today',
+    label: 'Today',
+  },
+  {
+    value: 'Yesterday',
+    label: 'Yesterday',
+  },
+  {
+    value: 'Previous Week',
+    label: 'Previous Week',
+  },
+  {
+    value: 'Previous Month',
+    label: 'Previous Month',
+  },
+];
+export const assetLifeExpiryDropdownData = [
+  {
+    value: 'None',
+    label: 'None',
+  },
+  {
+    value: 'All Time',
+    label: 'All Time',
+  },
+  {
+    value: 'Today',
+    label: 'Today',
+  },
+  {
+    value: 'Yesterday',
+    label: 'Yesterday',
+  },
+  {
+    value: 'Previous Week',
+    label: 'Previous Week',
+  },
+  {
+    value: 'Previous Month',
+    label: 'Previous Month',
+  },
+  {
+    value: 'Next Week',
+    label: 'Next Week',
+  },
+  {
+    value: 'Next Month',
+    label: 'Next Month',
+  },
+];
 export const inventoryFilterFormDefaultValues = {
   assetType: '',
   usedBy: '',

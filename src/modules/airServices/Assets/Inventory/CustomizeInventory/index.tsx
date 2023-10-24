@@ -32,10 +32,14 @@ export const CustomizeInventory = (props: any) => {
           gap={1}
           flexWrap={'wrap'}
         >
-          <Typography>Select Fields</Typography>
+          <Typography variant="formTopHeading" color="secondary">
+            Select Fields
+          </Typography>
           <Box display={'flex'} alignItems={'center'} gap={1} flexWrap={'wrap'}>
             <Checkbox></Checkbox>
-            <Typography>Apply All</Typography>
+            <Typography variant="h6" color="secondary">
+              Apply All
+            </Typography>
           </Box>
         </Box>
       </DialogTitle>
@@ -51,7 +55,9 @@ export const CustomizeInventory = (props: any) => {
                 flexWrap={'wrap'}
               >
                 <Checkbox></Checkbox>
-                <Typography>{column?.id ?? 'new'}</Typography>
+                <Typography variant="h5" fontWeight={500} color="secondary">
+                  {column?.id}
+                </Typography>
               </Box>
             </Grid>
           ))}
