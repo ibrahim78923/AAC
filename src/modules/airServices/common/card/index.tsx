@@ -16,9 +16,7 @@ export const Card = ({ heading, status, children, show }: CardPropsI) => {
           onMouseLeave={() => setShowIcon(false)}
         >
           {showIcon && <MinusCircleBlackIcon />}
-          <Typography sx={styles.headingTypography(theme)}>
-            {heading}
-          </Typography>
+          <Typography sx={styles.headingStyle(theme)}>{heading}</Typography>
         </Box>
         <Divider
           orientation="vertical"

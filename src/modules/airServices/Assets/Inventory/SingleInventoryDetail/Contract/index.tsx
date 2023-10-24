@@ -2,7 +2,7 @@ import NoData from '@/components/NoData';
 import { Grid, Typography, useTheme } from '@mui/material';
 import NoContractFound from '@/assets/images/modules/LogitechMouse/Contract.png';
 import { contractData } from './Contract.data';
-import { Card } from '@/modules/airServices/common/card';
+import { Card } from '@/modules/airServices/common/Card';
 import { v4 as uuidv4 } from 'uuid';
 import { styles } from './Contract.style';
 

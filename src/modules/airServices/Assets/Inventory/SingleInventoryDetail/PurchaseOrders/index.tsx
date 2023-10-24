@@ -1,8 +1,8 @@
 import NoData from '@/components/NoData';
 import { Grid, Typography, useTheme } from '@mui/material';
-import NoPurchaseOrderFound from '@/assets/images/modules/LogitechMouse/Contract.png';
+import NoPurchaseOrderFound from '@/assets/images/modules/LogitechMouse/purchase-orders.png';
 import { purchaseOrderData } from './PurchaseOrder.data';
-import { Card } from '@/modules/airServices/common/card';
+import { Card } from '@/modules/airServices/common/Card';
 import { v4 as uuidv4 } from 'uuid';
 import { styles } from './PurchaseOrder.style';
 

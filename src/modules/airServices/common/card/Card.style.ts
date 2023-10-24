@@ -11,7 +11,7 @@ export const styles = {
     flexWrap: 'wrap',
   }),
 
-  headingTypography: (theme: any) => ({
+  headingStyle: (theme: any) => ({
     color: theme?.palette?.primary?.main,
     fontSize: '.9rem',
     fontWeight: '30rem',
@@ -27,7 +27,7 @@ export const styles = {
   dividerStyle: (theme: any) => ({
     marginRight: '2rem',
     marginLeft: '2rem',
-    border: '1px solid' + theme?.palette?.grey[700],
+    border: '.1rem solid' + theme?.palette?.grey[700],
     backgroundColor: 'transparent',
   }),
   spanStyle: (theme: any) => ({

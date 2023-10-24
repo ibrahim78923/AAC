@@ -2,7 +2,7 @@ import NoData from '@/components/NoData';
 import { Grid } from '@mui/material';
 import NoSoftwareFound from '@/assets/images/modules/LogitechMouse/Expense.png';
 import { softwareData } from './software.data';
-import { Card } from '@/modules/airServices/common/card';
+import { Card } from '@/modules/airServices/common/Card';
 import { v4 as uuidv4 } from 'uuid';
 
 export const Software = () => {
