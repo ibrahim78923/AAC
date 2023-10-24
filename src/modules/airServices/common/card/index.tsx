@@ -2,8 +2,9 @@ import { Box, Divider, Typography, useTheme } from '@mui/material';
 import { useState } from 'react';
 import { styles } from './Card.style';
 import { MinusCircleBlackIcon } from '@/assets/icons';
+import { CardPropsI } from './Card.interface';
 
-export const Card = ({ heading, status, body, show }: any) => {
+export const Card = ({ heading, status, children, show }: CardPropsI) => {
   const theme: any = useTheme();
   const [showIcon, setShowIcon] = useState(false);
   return (
@@ -35,7 +36,7 @@ export const Card = ({ heading, status, body, show }: any) => {
               flexItem
               sx={styles.dividerStyle(theme)}
             />
-            <Typography>{body}</Typography>
+            <Typography>{children}</Typography>
           </>
         ) : null}
       </Box>

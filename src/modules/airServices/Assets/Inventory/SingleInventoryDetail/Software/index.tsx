@@ -15,6 +15,7 @@ export const Software = () => {
               heading={singleSoftware.heading}
               status={singleSoftware.status}
               key={uuidv4()}
+              show={false}
             />
           ))
         ) : (
