@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import UsersTable from './components/UsersTable';
-import { Box } from '@mui/material';
+import { Box, Button, Divider } from '@mui/material';
 import CustomPagination from '@/components/CustomPagination';
 import { UsersAdd } from './components/UsersAdd';
 import { UsersFilter } from './components/UsersFilter';
@@ -10,18 +10,19 @@ import { enqueueSnackbar } from 'notistack';
 import { ExportButton } from '@/modules/airServices/common/Buttons/ExportButton';
 import { SingleDropdownButton } from '@/modules/airServices/common/Buttons/SingleDropdownButton';
 import ConversationModel from '@/components/Model/CoversationModel';
+import UserAllocate from './components/UserAllocate';
+import UserDeallocate from './components/UserDeallocate';
+import UserRemove from './components/UserRemove';
 
 export const Users = () => {
   const [usersData, setUsersData] = useState([]);
-  // const [userSelectOption, setUserSelectOption] = useState(null);
   const [actionModalOpen, setActionModalOpen] = useState(false);
+  const [selectedActionTitle, setSelectedActionTitle] = useState(null);
 
-  //   const userActionDropdownClickHandler = (option) => {
-  //   console.log('userActionDropdownClickHandler called');
-  //   setUserSelectOption(option.title);
-  //   setActionModalOpen(true);
-  //   console.log('click');
-  // };
+  const userActionClickHandler = (title: string) => {
+    setSelectedActionTitle(title);
+    setActionModalOpen(true);
+  };
 
   const userActionDropdownCloseHandler = () => {
     setActionModalOpen(false);
@@ -38,6 +39,30 @@ export const Users = () => {
       variant: 'success',
     });
   };
+  const actionClickHandler = (selectedActionTitle) => {
+    switch (selectedActionTitle) {
+      case 'Allocate':
+        enqueueSnackbar('Contract Allocated Successfully', {
+          variant: 'success',
+        });
+        break;
+      case 'Deallocate':
+        enqueueSnackbar('Contract Deallocated Successfully', {
+          variant: 'success',
+        });
+        break;
+      case 'Remove':
+        enqueueSnackbar('User Removed Successfully', {
+          variant: 'success',
+        });
+        break;
+      default:
+        '';
+    }
+
+    userActionDropdownCloseHandler();
+  };
+
   const handleAddModalOpen = () => {};
 
   return (
@@ -54,9 +79,13 @@ export const Users = () => {
         </Box>
         <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={2}>
           <SingleDropdownButton
-            dropdownOptions={userDropdown(setActionModalOpen)}
+            dropdownOptions={userDropdown(
+              setActionModalOpen,
+              userActionClickHandler,
+            )}
             disabled={usersData?.length === 0}
           />
+
           <UsersAdd onClick={handleAddModalOpen} />
           <ExportButton
             handleCsvExport={csvExportHandler}
@@ -69,8 +98,43 @@ export const Users = () => {
         <ConversationModel
           handleClose={userActionDropdownCloseHandler}
           open={actionModalOpen}
+          selectedItem={
+            selectedActionTitle === 'Allocate'
+              ? 'Add Device'
+              : selectedActionTitle === 'Deallocate'
+              ? 'Deallocate Contract'
+              : selectedActionTitle === 'Remove'
+              ? 'Remove Contract'
+              : 'Add Device'
+          }
         >
-          sadfggf
+          {selectedActionTitle === 'Allocate' && <UserAllocate />}
+          {selectedActionTitle === 'Deallocate' && <UserDeallocate />}
+          {selectedActionTitle === 'Remove' && <UserRemove />}
+          {selectedActionTitle === 'Allocate' && (
+            <Box sx={{ mt: 2 }}>
+              <Divider />
+            </Box>
+          )}
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'flex-end',
+              gap: '16px',
+              mt: 2,
+            }}
+          >
+            <Button onClick={userActionDropdownCloseHandler} variant="outlined">
+              No
+            </Button>
+            <Button
+              variant="contained"
+              onClick={() => actionClickHandler(selectedActionTitle)}
+            >
+              Yes
+            </Button>
+          </Box>
         </ConversationModel>
       )}
 
