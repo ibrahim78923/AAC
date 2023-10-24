@@ -61,6 +61,7 @@ export default function ExistingIncident({ openDrawer, onClose }: any) {
           label={'Search'}
           searchBy={searchBy}
           setSearchBy={setSearchBy}
+          fullWidth
         />
       </Box>
 
