@@ -135,3 +135,5 @@ export { default as DownloadLargeIcon } from './shared/download-large';
 export { default as MobileIcon } from './shared/mobile';
 export { default as CheckMarkIcon } from './modules/airSales/Dashboard/check-mark';
 export { default as TimeClockIcon } from './modules/airSales/deals/time-clock';
+export { default as EmailInfoIcon } from './modules/superAdmin/email/Alert';
+export { default as SettingsIcon } from './modules/superAdmin/email/Settings';

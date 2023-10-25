@@ -1,11 +1,15 @@
-import { Box, Button, Typography, useTheme } from '@mui/material';
+import { Box, Typography, useTheme } from '@mui/material';
 import React from 'react';
 import { styles } from './Email.styles';
+import { EmailInfoIcon } from '@/assets/icons';
+import { EmailArray } from '@/mock/modules/superAdmin/Email';
+import Settings from '@/assets/icons/modules/superAdmin/email/Settings';
+import { v4 as uuidv4 } from 'uuid';
 
 const Email = () => {
   const theme = useTheme();
   return (
-    <Box>
+    <>
       <Box sx={styles.emailWrapper}>
         <Box>
           <Typography variant="h3" sx={styles.heading(theme)}>
@@ -16,18 +20,30 @@ const Email = () => {
             your email provider.
           </Typography>
         </Box>
-        <Button>Email Settings</Button>
+        <Box sx={styles.settingIcon}>
+          <Settings />
+          <Typography variant="body2" sx={{ fontWeight: 500 }}>
+            Email Settings
+          </Typography>
+        </Box>
       </Box>
       <Typography variant="h4" sx={{ color: '#374151' }}>
         Select Your Email Provider:
       </Typography>
-      <Box sx={{ ...styles.emailWrapper, gap: '20px' }}>
-        <Typography variant="button" sx={styles.heading}>
-          Dummy@gmail.com is Hosted by Gmail. We recommend you select this
-          provider
-        </Typography>
+      <Typography variant="body2" sx={styles.emailAlert}>
+        <EmailInfoIcon />
+        Dummy@gmail.com is Hosted by Gmail. We recommend you select this
+        provider
+      </Typography>
+      <Box display="flex" alignItems="center" gap="24px" flexWrap="wrap">
+        {EmailArray.map((item) => (
+          <Box key={uuidv4()} sx={styles.socialMedia}>
+            {item.Icon}
+            <Typography variant="h6">{item.Text}</Typography>
+          </Box>
+        ))}
       </Box>
-    </Box>
+    </>
   );
 };
 export default Email;

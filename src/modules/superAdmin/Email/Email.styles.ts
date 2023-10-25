@@ -2,12 +2,43 @@ export const styles = {
   emailWrapper: {
     display: 'flex',
     justifyContent: 'space-between',
+    alignItems: 'center',
   },
   heading: (theme: any) => ({
     color: theme.palette.grey[800],
+    m: 0,
   }),
+  emailAlert: {
+    color: '#374151',
+    background: 'rgba(55, 65, 81, 0.1)',
+    padding: '14px 16px ',
+    borderRadius: '6px',
+    my: '24px',
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: '10px',
+  },
   paragraph: (theme: any) => ({
     color: theme.palette.custom.main,
     paddingBottom: '20px',
   }),
+  socialMedia: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '12px',
+    borderRadius: '8px',
+    border: '1px solid #E5E7EB',
+    width: '256px',
+    height: '80px',
+    paddingLeft: '20px',
+  },
+  settingIcon: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '8px',
+    border: '1px solid #D1D5DB',
+    borderRadius: '8px',
+    px: '18px',
+    py: '12px',
+  },
 };
