@@ -25,7 +25,7 @@ import { styles } from './PlanManagement.style';
 
 import { isNullOrEmpty } from '@/utils';
 
-import { FilterSharedIcon } from '@/assets/icons';
+import { FilterSharedIcon, PlusSharedIcon } from '@/assets/icons';
 
 import { v4 as uuidv4 } from 'uuid';
 
@@ -58,7 +58,11 @@ const PlanManagement = () => {
 
         <Box sx={styles.linkStyle}>
           <Link href={'/super-admin/plan-management/add-plan'}>
-            <Button variant="contained" fullWidth>
+            <Button
+              variant="contained"
+              fullWidth
+              startIcon={<PlusSharedIcon />}
+            >
               Add Plan
             </Button>
           </Link>
