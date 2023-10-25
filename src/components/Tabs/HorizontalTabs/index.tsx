@@ -16,7 +16,7 @@ const HorizontalTabs = (props: any) => {
     disabled = false,
     addIcon = false,
     handleAddTab,
-    border,
+    border = 'none',
   } = props;
 
   const [value, setValue] = useState(defaultValue);
