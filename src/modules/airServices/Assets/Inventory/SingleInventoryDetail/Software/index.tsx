@@ -2,7 +2,7 @@ import NoData from '@/components/NoData';
 import { Grid } from '@mui/material';
 import NoSoftwareFound from '@/assets/images/modules/LogitechMouse/Expense.png';
 import { softwareData } from './software.data';
-import { Card } from '@/modules/airServices/common/Card';
+import { InventoryCard } from '@/components/InventoryCard/index';
 import { v4 as uuidv4 } from 'uuid';
 
 export const Software = () => {
@@ -11,7 +11,7 @@ export const Software = () => {
       <Grid item xs={12} md={12} xl={12}>
         {!!softwareData?.length ? (
           softwareData?.map((singleSoftware: any) => (
-            <Card
+            <InventoryCard
               heading={singleSoftware.heading}
               status={singleSoftware.status}
               key={uuidv4()}
