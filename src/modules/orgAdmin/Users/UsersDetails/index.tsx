@@ -1,6 +1,4 @@
-import React, { useState } from 'react';
-
-import { Box, Button, Card, Grid, useTheme } from '@mui/material';
+import { Box, Button, Card, Grid } from '@mui/material';
 
 import ProfileCard from '@/components/ProfileCard';
 
@@ -13,11 +11,16 @@ import Profile from './Profile';
 import ControlPointIcon from '@mui/icons-material/ControlPoint';
 
 import AddAccount from '../Drawers/AddAccount';
+import useUsersDetails from './useUsersDetails';
 
 const UsersDetails = () => {
-  const [tabValue, setTabVal] = useState<number>();
-  const [isOpenAddAccountDrawer, setIsOpenAddAccountDrawer] = useState(false);
-  const theme = useTheme();
+  const {
+    tabValue,
+    setTabVal,
+    isOpenAddAccountDrawer,
+    setIsOpenAddAccountDrawer,
+    theme,
+  } = useUsersDetails();
 
   return (
     <Box>

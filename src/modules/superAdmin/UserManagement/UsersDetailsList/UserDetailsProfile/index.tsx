@@ -35,6 +35,11 @@ const UserDetailsProfile = () => {
         {profileFields?.map((item: any) => {
           return (
             <Grid item xs={12} md={item?.md} key={uuidv4()}>
+              {item?.componentProps?.heading && (
+                <Typography variant="h5">
+                  {item?.componentProps?.heading}
+                </Typography>
+              )}
               <item.component {...item.componentProps} size={'small'}>
                 {item?.componentProps?.select &&
                   item?.options?.map((option: any) => (

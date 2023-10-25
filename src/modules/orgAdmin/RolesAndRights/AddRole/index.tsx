@@ -2,34 +2,33 @@ import { Box, Typography, Grid, Divider, Button, Stack } from '@mui/material';
 
 import PermissionsAccordion from './PermissionsAccordion';
 
-import { ArrowBack } from '@mui/icons-material';
-
 import { FormProvider } from '@/components/ReactHookForm';
 
 import { v4 as uuidv4 } from 'uuid';
 
-import { accData, addUsersArrayData } from '../RoleAndRights.data';
+import { ORG_ADMIN } from '@/constants';
 
-import { SUPER_ADMIN } from '@/constants';
+import { addUsersArrayData } from '../RoleAndRights.data';
 
-import useRolesAndRights from './useRolesAndRights';
+import useAddRole from './useAddRole';
+
+import { ArrowBack } from '@mui/icons-material';
 
 const AddRole = () => {
-  const { navigate, methods, onSubmit, handleSwitch, isSwitchVal, theme } =
-    useRolesAndRights();
+  const { navigate, onSubmit, methods, theme } = useAddRole();
 
   const { handleSubmit } = methods;
 
   return (
-    <Box>
+    <>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
         <ArrowBack
           onClick={() => {
-            navigate.push(SUPER_ADMIN.USERMANAGMENT);
+            navigate.push(ORG_ADMIN.ROLES_AND_RIGHTS);
           }}
           sx={{ cursor: 'pointer' }}
         />
-        <Typography variant="h5">Add New Role</Typography>
+        <Typography variant="h4">Add New Role</Typography>
       </Box>
       <Box sx={{ my: 3 }}>
         <FormProvider methods={methods}>
@@ -48,7 +47,7 @@ const AddRole = () => {
             ))}
           </Grid>
           <Grid container>
-            <Grid item xs={12} lg={10} mt={2}>
+            <Grid item xs={12} lg={10} mt={3}>
               <Stack direction="row">
                 <Typography variant="h4">Permissions</Typography>
                 <Typography style={{ color: theme?.palette?.error?.main }}>
@@ -56,12 +55,8 @@ const AddRole = () => {
                 </Typography>
               </Stack>
             </Grid>
-            <Grid item xs={12} lg={10}>
-              <PermissionsAccordion
-                data={accData}
-                handleSwitch={handleSwitch}
-                checked={isSwitchVal}
-              />
+            <Grid item xs={12} lg={10} mt={2}>
+              <PermissionsAccordion />
             </Grid>
           </Grid>
           <Divider sx={{ my: 3 }} />
@@ -71,7 +66,7 @@ const AddRole = () => {
             <Button
               variant="outlined"
               onClick={() => {
-                navigate.push(SUPER_ADMIN.USERMANAGMENT);
+                navigate.push(ORG_ADMIN.ROLES_AND_RIGHTS);
               }}
             >
               Cancel
@@ -86,7 +81,7 @@ const AddRole = () => {
           </Box>
         </FormProvider>
       </Box>
-    </Box>
+    </>
   );
 };
 

@@ -151,6 +151,7 @@ const UsersDetailsList = () => {
                 </Button>
               </Stack>
             </Box>
+
             <Box
               className="users-wrapper"
               sx={{
@@ -158,9 +159,22 @@ const UsersDetailsList = () => {
                 backgroundColor: theme.palette.grey[400],
                 borderRadius: '4px',
                 padding: '11px 8px',
+                width: '100%',
               }}
             >
-              <Box sx={{ display: 'flex', gap: '10px' }}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  gap: '10px',
+                  alignItems: 'center',
+                  flexWrap: {
+                    xs: 'wrap',
+                    sm: 'nowrap',
+                    lg: 'wrap',
+                    xl: 'nowrap',
+                  },
+                }}
+              >
                 <Avatar>
                   <Image
                     src={AvatarImage}
@@ -169,7 +183,7 @@ const UsersDetailsList = () => {
                     height={40}
                   />
                 </Avatar>
-                <Box>
+                <Box sx={{ width: '100%' }}>
                   <Box
                     sx={{ display: 'flex', justifyContent: 'space-between' }}
                   >

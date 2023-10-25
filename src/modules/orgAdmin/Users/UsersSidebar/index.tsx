@@ -1,15 +1,6 @@
-import React, { useState } from 'react';
-
 import Image from 'next/image';
 
-import {
-  Avatar,
-  Box,
-  Button,
-  Divider,
-  Typography,
-  useTheme,
-} from '@mui/material';
+import { Avatar, Box, Button, Divider, Typography } from '@mui/material';
 
 import FilterUser from '../Drawers/FilterUser';
 
@@ -26,11 +17,15 @@ import useUsersSidebar from './useUsersSidebar';
 import { AvatarImage } from '@/assets/images';
 
 const UsersSidebar = () => {
-  const [isOpenFilterDrawer, setIsOpenFilterDrawer] = useState(false);
-  const [isOpenAdduserDrawer, setIsOpenAdduserDrawer] = useState(false);
-  const { userStatus, setUserStatus } = useUsersSidebar();
-  const theme = useTheme();
-
+  const {
+    userStatus,
+    setUserStatus,
+    isOpenFilterDrawer,
+    setIsOpenFilterDrawer,
+    isOpenAdduserDrawer,
+    setIsOpenAdduserDrawer,
+    theme,
+  } = useUsersSidebar();
   return (
     <Box
       sx={{

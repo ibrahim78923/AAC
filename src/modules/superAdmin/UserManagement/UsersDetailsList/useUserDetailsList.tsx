@@ -4,7 +4,7 @@ const useUserDetailsList = () => {
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
   const [isOpenAddCompanyDrawer, setISOpenCompanyDrawer] = useState(false);
   const [isOpenAdduserDrawer, setIsOpenAdduserDrawer] = useState(false);
-  const [userStatus, setUserStatus] = useState('Active');
+  const [userStatus, setUserStatus] = useState('active');
   const handleCloseDrawer = () => {
     setIsOpenDrawer(false);
   };

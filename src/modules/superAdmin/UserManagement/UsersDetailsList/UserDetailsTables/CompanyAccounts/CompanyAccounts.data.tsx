@@ -1,10 +1,18 @@
-import { Checkbox, Switch } from '@mui/material';
+import { Box, Checkbox, Switch, Typography } from '@mui/material';
+
+import { LogoIcon } from '@/assets/icons';
+
 const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
 export const companyData: any = [
   {
     Id: 1,
-    Product: `Air Sales`,
+    Product: (
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+        <LogoIcon />
+        <Typography sx={{ fontSize: '12px' }}>Air Sales</Typography>
+      </Box>
+    ),
     Company: 'Orcalo Holding',
     Email: 'orcalo@airapple.co.uk',
     ManageRole: 'user select here',
@@ -12,7 +20,12 @@ export const companyData: any = [
   },
   {
     Id: 2,
-    Product: `Air Sales`,
+    Product: (
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+        <LogoIcon />
+        <Typography sx={{ fontSize: '12px' }}>Air Sales</Typography>
+      </Box>
+    ),
     Company: 'Orcalo Holding',
     Email: 'orcalo@airapple.co.uk',
     ManageRole: 'user select here',
@@ -20,7 +33,12 @@ export const companyData: any = [
   },
   {
     Id: 3,
-    Product: `Air Sales`,
+    Product: (
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+        <LogoIcon />
+        <Typography sx={{ fontSize: '12px' }}>Air Sales</Typography>
+      </Box>
+    ),
     Company: 'Orcalo Holding',
     Email: 'orcalo@airapple.co.uk',
     ManageRole: 'user select here',
@@ -28,7 +46,12 @@ export const companyData: any = [
   },
   {
     Id: 4,
-    Product: `Air Sales`,
+    Product: (
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+        <LogoIcon />
+        <Typography sx={{ fontSize: '12px' }}>Air Sales</Typography>
+      </Box>
+    ),
     Company: 'Orcalo Holding',
     Email: 'orcalo@airapple.co.uk',
     ManageRole: 'user select here',
@@ -36,7 +59,12 @@ export const companyData: any = [
   },
   {
     Id: 5,
-    Product: `Air Sales`,
+    Product: (
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+        <LogoIcon />
+        <Typography sx={{ fontSize: '12px' }}>Air Sales</Typography>
+      </Box>
+    ),
     Company: 'Orcalo Holding',
     Email: 'orcalo@airapple.co.uk',
     ManageRole: 'user select here',
@@ -44,7 +72,12 @@ export const companyData: any = [
   },
   {
     Id: 6,
-    Product: `Air Sales`,
+    Product: (
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+        <LogoIcon />
+        <Typography sx={{ fontSize: '12px' }}>Air Sales</Typography>
+      </Box>
+    ),
     Company: 'Orcalo Holding',
     Email: 'orcalo@airapple.co.uk',
     ManageRole: 'user',
