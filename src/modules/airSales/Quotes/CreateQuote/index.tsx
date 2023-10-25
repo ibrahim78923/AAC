@@ -6,26 +6,38 @@ import StepDeal from './StepDeal';
 import StepDetails from './StepDetails';
 import StepBuyerInfo from './StepBuyerInfo';
 import StepYourInfo from './StepYourInfo';
-import { defaultValues } from './CreateQuote.data';
+import { initValues } from './CreateQuote.data';
 import StepSignature from './StepSignature';
 import StepLineItems from './StepLineItems';
 import StepReview from './StepReview';
+import FormCreateDeal from './FormCreateDeal';
+import useCreateQuote from './useCreateQuote';
 
 const CreateQuote = () => {
+  const {
+    isOpenFormCreateDeal,
+    handleOpenFormCreateDeal,
+    handleCloseFormCreateDeal,
+  } = useCreateQuote();
+
   const router = useRouter();
   const methods: any = useForm({
-    defaultValues: defaultValues,
+    defaultValues: initValues,
   });
+
+  const { watch } = methods;
+  const watchFields = watch();
+
   const createQuoteSteps = [
     {
       key: 'deal',
       label: 'Deal',
-      component: <StepDeal />,
+      component: <StepDeal openCreateDeal={handleOpenFormCreateDeal} />,
     },
     {
       key: 'details',
       label: 'Details',
-      component: <StepDetails />,
+      component: <StepDetails values={watchFields} />,
     },
     {
       key: 'buyerInfo',
@@ -54,14 +66,21 @@ const CreateQuote = () => {
     },
   ];
   return (
-    <FormProvider methods={methods}>
-      <AppHorizontalStepper
-        cancelButton
-        handleCancel={() => router.push('/air-sales/quotes')}
-        stepsArray={createQuoteSteps}
-        variantNextButton="contained"
+    <>
+      <FormProvider methods={methods}>
+        <AppHorizontalStepper
+          cancelButton
+          handleCancel={() => router.push('/air-sales/quotes')}
+          stepsArray={createQuoteSteps}
+          variantNextButton="contained"
+        />
+      </FormProvider>
+
+      <FormCreateDeal
+        open={isOpenFormCreateDeal}
+        onClose={handleCloseFormCreateDeal}
       />
-    </FormProvider>
+    </>
   );
 };
 

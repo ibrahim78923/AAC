@@ -18,7 +18,7 @@ export default function RHFSelect({ name, children, ...other }: any) {
           {...other}
           value={field.value ? field.value : ' '}
         >
-          <option value=" ">Select Option</option>
+          <option value="">Select Option</option>
           {children}
         </TextField>
       )}
