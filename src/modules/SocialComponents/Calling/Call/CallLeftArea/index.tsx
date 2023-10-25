@@ -2,22 +2,24 @@ import React, { useState } from 'react';
 
 import { Box, Typography, useTheme } from '@mui/material';
 
-import { CallContainedIcon, MessageContainedIcon } from '@/assets/icons';
-
-import { styles } from './CallLeftArea.style';
 import Search from '@/components/Search';
 import CallsGrid from './CallsGrid';
 import MessagesGrid from './MessagesGrid';
+
+import { CallContainedIcon, MessageContainedIcon } from '@/assets/icons';
+
+import { styles } from './CallLeftArea.style';
 
 const CallLeftArea = ({
   toggleCall,
   setToggleCall,
   setActiveCallsSelectedData,
   activeCallsSelectedData,
+  isActiveCalling,
+  setIsActiveCalling,
 }: any) => {
   const theme = useTheme();
 
-  // const [toggleCall, setToggleCall] = useState('calls')
   const [callSearch, setCallSearch] = useState('');
 
   return (
@@ -72,6 +74,8 @@ const CallLeftArea = ({
         <CallsGrid
           setActiveCallsSelectedData={setActiveCallsSelectedData}
           activeCallsSelectedData={activeCallsSelectedData}
+          isActiveCalling={isActiveCalling}
+          setIsActiveCalling={setIsActiveCalling}
         />
       )}
       {toggleCall === 'messages' && <MessagesGrid />}

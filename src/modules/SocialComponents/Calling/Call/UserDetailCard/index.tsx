@@ -1,8 +1,12 @@
-import { Box, Typography, useTheme } from '@mui/material';
 import React from 'react';
-import { styles } from './UserDetailCard.style';
+
 import Image from 'next/image';
+
+import { Box, Typography, useTheme } from '@mui/material';
+
 import { CallsDullIcon, MessageDullIcon } from '@/assets/icons';
+
+import { styles } from './UserDetailCard.style';
 
 const UserDetailCard = ({ image, name, phone }: any) => {
   const theme = useTheme();

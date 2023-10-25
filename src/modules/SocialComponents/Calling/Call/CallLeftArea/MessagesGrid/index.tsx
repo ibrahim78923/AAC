@@ -1,7 +1,7 @@
 import React from 'react';
 
 const MessagesGrid = () => {
-  return <div>MessagesGrid</div>;
+  return <div>-</div>;
 };
 
 export default MessagesGrid;

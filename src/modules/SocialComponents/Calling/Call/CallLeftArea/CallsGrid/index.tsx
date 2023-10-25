@@ -5,14 +5,17 @@ import Image from 'next/image';
 import { Box, Typography, useTheme } from '@mui/material';
 
 import { CallContainedIcon, InComingIcon, OutgoingIcon } from '@/assets/icons';
-import { styles } from './CallsGrid.style';
+
 import { callsContactsData } from '@/mock/modules/SocialComponents/Calling';
+
+import { styles } from './CallsGrid.style';
 
 import { v4 as uuidv4 } from 'uuid';
 
 const CallsGrid = ({
   setActiveCallsSelectedData,
   activeCallsSelectedData,
+  setIsActiveCalling,
 }: any) => {
   const theme = useTheme();
   return (
@@ -39,17 +42,17 @@ const CallsGrid = ({
         {callsContactsData.map((item: any) => {
           const activeCheck = activeCallsSelectedData?.id === item.id;
           return (
-            <Box
-              key={uuidv4()}
-              sx={styles.callsCardWrapper(activeCheck)}
-              onClick={() => setActiveCallsSelectedData(item)}
-            >
+            <Box key={uuidv4()} sx={styles.callsCardWrapper(activeCheck)}>
               <Box sx={styles.callsCardInner}>
                 <Box
                   sx={{
                     display: 'flex',
                     alignItems: 'center',
                     gap: '10px',
+                    cursor: 'pointer',
+                  }}
+                  onClick={() => {
+                    setActiveCallsSelectedData(item), setIsActiveCalling(false);
                   }}
                 >
                   <Box>
@@ -97,6 +100,9 @@ const CallsGrid = ({
                 <Box
                   sx={{
                     filter: 'brightness(1) grayscale(1)',
+                  }}
+                  onClick={() => {
+                    setIsActiveCalling(true), setActiveCallsSelectedData(item);
                   }}
                 >
                   <CallContainedIcon />

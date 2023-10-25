@@ -18,22 +18,31 @@ export const styles = {
       width: '21vw',
     };
   },
-  rightWrapper: () => {
+  rightWrapper: (theme: any) => {
     return {
       height: '80vh',
       display: 'flex',
-      borderLeft: '1px solid #E5E7EB',
+      borderLeft: `1px solid ${theme.palette.grey[700]}`,
       flexDirection: 'column',
       justifyContent: 'center',
       padding: '20px',
     };
   },
-  callingWrapper: () => {
+  callingWrapper: (theme: any) => {
     return {
-      border: '1px solid #E5E7EB',
+      border: `1px solid ${theme.palette.grey[700]}`,
       borderRadius: '8px',
       width: '100%',
-      height: '50vh',
+      height: '65vh',
+    };
+  },
+  callingAreaBx: (theme: any) => {
+    return {
+      border: `1px solid ${theme.palette.grey[700]}`,
+      borderRadius: '8px',
+      width: '20vw',
+      height: '65vh',
+      padding: '20px 0px',
     };
   },
 };

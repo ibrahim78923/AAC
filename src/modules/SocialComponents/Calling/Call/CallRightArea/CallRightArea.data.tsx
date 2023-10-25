@@ -1,5 +1,5 @@
-import { InComingIcon, OutgoingIcon } from '@/assets/icons';
 import { Box } from '@mui/material';
+import { InComingIcon, OutgoingIcon } from '@/assets/icons';
 
 export const columns = () => {
   return [

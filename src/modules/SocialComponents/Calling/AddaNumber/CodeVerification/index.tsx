@@ -1,8 +1,9 @@
 import React, { useState, useRef } from 'react';
 
+import { useRouter } from 'next/router';
+
 import CommonModal from '@/components/CommonModal';
 import { Box, Button, TextField, Typography } from '@mui/material';
-import { useRouter } from 'next/router';
 
 const CodeVerification = ({
   setIsCodeVerificationModal,
@@ -37,7 +38,6 @@ const CodeVerification = ({
   };
   /* eslint-disable */
 
-  // const isCodeValid = code.join('').length === 6;
   const isCodeIncomplete = code.some((value) => value === '');
 
   const handelVerifyCode = () => {

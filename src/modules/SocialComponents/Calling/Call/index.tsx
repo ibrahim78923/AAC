@@ -1,12 +1,16 @@
-import { Box, Grid } from '@mui/material';
 import React, { useState } from 'react';
-import { styles } from './Call.style';
+
+import { Box, Grid } from '@mui/material';
+
 import CallLeftArea from './CallLeftArea';
 import CallRightArea from './CallRightArea';
+
+import { styles } from './Call.style';
 
 const Call = () => {
   const [callsMode, setCallsMode] = useState('calls');
   const [activeCallsSelectedData, setActiveCallsSelectedData] = useState();
+  const [isActiveCalling, setIsActiveCalling] = useState();
   return (
     <Box sx={{ background: '#fff' }}>
       <Grid container>
@@ -17,6 +21,8 @@ const Call = () => {
               setToggleCall={setCallsMode}
               setActiveCallsSelectedData={setActiveCallsSelectedData}
               activeCallsSelectedData={activeCallsSelectedData}
+              setIsActiveCalling={setIsActiveCalling}
+              isActiveCalling={isActiveCalling}
             />
           </Box>
         </Grid>
@@ -25,6 +31,9 @@ const Call = () => {
             <CallRightArea
               callsMode={callsMode}
               activeCallsSelectedData={activeCallsSelectedData}
+              setActiveCallsSelectedData={setActiveCallsSelectedData}
+              setIsActiveCalling={setIsActiveCalling}
+              isActiveCalling={isActiveCalling}
             />
           </Box>
         </Grid>

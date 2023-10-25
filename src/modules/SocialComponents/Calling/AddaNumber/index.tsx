@@ -14,6 +14,8 @@ import {
 
 import CommonModal from '@/components/CommonModal';
 import Search from '@/components/Search';
+import CodeVerification from './CodeVerification';
+import { FormProvider } from '@/components/ReactHookForm';
 
 import {
   addaNumberDefaultValues,
@@ -22,7 +24,6 @@ import {
   citiesData,
 } from './AddaNumber.data';
 
-import { FormProvider } from '@/components/ReactHookForm';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { CallFilledImage } from '@/assets/images';
@@ -31,7 +32,6 @@ import { styles } from './AddaNumber.style';
 
 import { useForm } from 'react-hook-form';
 import { v4 as uuidv4 } from 'uuid';
-import CodeVerification from './CodeVerification';
 
 const AddaNumber = () => {
   const theme = useTheme();
