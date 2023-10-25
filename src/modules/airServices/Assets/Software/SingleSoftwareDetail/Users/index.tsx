@@ -118,10 +118,8 @@ export const Users = () => {
             display={'flex'}
             justifyContent={'flex-end'}
             alignItems={'center'}
-            sx={{
-              gap: '16px',
-              mt: 2,
-            }}
+            gap={2}
+            marginTop={2}
           >
             <Button onClick={userActionDropdownCloseHandler} variant="outlined">
               No
