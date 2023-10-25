@@ -1,12 +1,12 @@
 import { Box, Button, Grid } from '@mui/material';
-import AddNewContractDetail from './AddNewContractDetail';
-import { useAddNewContractDetailForm } from './useAddNewContractDetailForm';
+import AddNewContractDetail from './AddNewContract';
+import { useAddNewContractForm } from './useAddNewContractForm';
 import { FormProvider, RHFDropZone } from '@/components/ReactHookForm';
 import { styles } from '../Contracts.style';
 
 const AddNewContract = () => {
   const { methodsAddNewContract, handleSubmitForm, handleContractClick }: any =
-    useAddNewContractDetailForm();
+    useAddNewContractForm();
 
   return (
     <>

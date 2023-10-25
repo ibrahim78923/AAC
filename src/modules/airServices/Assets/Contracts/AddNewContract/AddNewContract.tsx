@@ -1,9 +1,9 @@
 import { Grid, Typography } from '@mui/material';
-import { addNewContractData } from './AddNewContractDetailForm';
+import { addNewContractData } from './AddNewContractDetailForm.data';
 import { v4 as uuidv4 } from 'uuid';
 import ItemsDetails from './ItemsDetails';
 
-const AddNewContractDetail = () => {
+const AddNewContract = () => {
   return (
     <div>
       <Grid container justifyContent={'center'} alignItems={'center'}>
@@ -36,4 +36,4 @@ const AddNewContractDetail = () => {
   );
 };
 
-export default AddNewContractDetail;
+export default AddNewContract;

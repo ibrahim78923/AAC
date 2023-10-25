@@ -8,7 +8,7 @@ import {
   Typography,
 } from '@mui/material';
 import Image from 'next/image';
-import { ApprovalData } from '../AllApprovals.mock';
+import { ApprovalData } from '../AllApprovals.data';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import CancelIcon from '@mui/icons-material/Cancel';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';

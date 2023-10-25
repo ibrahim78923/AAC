@@ -1,28 +1,28 @@
 import { Box, Typography, useTheme } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
-import { overViewData } from './Overview.data';
+import { overviewData } from './Overview.data';
 import { styles } from './Overview.style';
 import TanstackTable from '@/components/Tabel/TanstackTable';
-import { overViewTableColumns, overViewTableData } from './Overview.data';
+import { overviewTableColumns, overviewListData } from './Overview.data';
 import OverviewModel from './OverviewModel';
 import { useState } from 'react';
 import OverviewBilling from './OverviewBilling';
 export const Overview = () => {
   const theme = useTheme();
-  const { mainContainerBox, chlidContainerBox } = styles();
+  const { mainContainerBox, childContainerBox } = styles();
   const [openOverviewModel, setOpenOverviewModel] = useState(false);
 
   return (
-    <div>
-      {overViewData?.map((item) => (
-        <div key={uuidv4()}>
+    <Box>
+      {overviewData?.map((item) => (
+        <Box key={uuidv4()}>
           <Typography variant="h5" sx={{ py: '10px' }}>
             {item?.heading}
           </Typography>
           <Box sx={mainContainerBox}>
             {item?.DetailsData?.map((detail) => (
-              <div key={uuidv4()}>
-                <Box sx={chlidContainerBox}>
+              <Box key={uuidv4()}>
+                <Box sx={childContainerBox}>
                   <Box sx={{ width: { sm: '20%', xs: '8.75rem' } }}>
                     <Typography variant="body2" fontWeight={500}>
                       {detail?.name}
@@ -37,18 +37,18 @@ export const Overview = () => {
                     </Typography>
                   </Box>
                 </Box>
-              </div>
+              </Box>
             ))}
           </Box>
-        </div>
+        </Box>
       ))}
       <Box sx={{ mt: '1rem' }}>
         <Typography variant="h5" sx={{ py: '10px' }}>
           Items Details
         </Typography>
         <TanstackTable
-          data={overViewTableData}
-          columns={overViewTableColumns(setOpenOverviewModel)}
+          data={overviewListData}
+          columns={overviewTableColumns(setOpenOverviewModel)}
         />
       </Box>
       <Box sx={{ m: '1rem 3rem 0 0' }}>
@@ -60,6 +60,6 @@ export const Overview = () => {
           setOpenOverviewModel={setOpenOverviewModel}
         />
       </Box>
-    </div>
+    </Box>
   );
 };

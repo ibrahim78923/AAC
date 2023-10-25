@@ -3,30 +3,27 @@ import { Box, Dialog, IconButton, Typography } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
 import Image from 'next/image';
 import TanstackTable from '@/components/Tabel/TanstackTable';
-import {
-  overViewTablePdfColumns,
-  overViewTablePdfData,
-} from '../Overview.data';
+import { overviewTablePdfColumns, overviewListPdfData } from '../Overview.data';
 import OverviewBilling from '../OverviewBilling';
 import { styles } from '../Overview.style';
 import { DownloadFileIcon, PrinterIcon } from '@/assets/icons';
 
 const OverviewModel = ({ openOverviewModel, setOpenOverviewModel }: any) => {
+  const handleClose = () => {
+    setOpenOverviewModel(false);
+  };
   const {
     modelSizing,
     logoBox,
     logoHeading,
     iconsStyle,
     textColorCommon,
-    textColorCommontwo,
+    textColorCommonTwo,
     logoImage,
     textBoxStyle,
   } = styles();
-  const handleClose = () => {
-    setOpenOverviewModel(false);
-  };
   return (
-    <div>
+    <Box>
       <Dialog
         fullWidth
         open={openOverviewModel}
@@ -60,7 +57,7 @@ const OverviewModel = ({ openOverviewModel, setOpenOverviewModel }: any) => {
               Albert Torento
             </Typography>
             <Typography variant="h6" sx={textColorCommon}>
-              Hight&apos;s St Covendis
+              Hights St Covendis
             </Typography>
             <Typography variant="h6" sx={textColorCommon}>
               Sudbury
@@ -79,10 +76,10 @@ const OverviewModel = ({ openOverviewModel, setOpenOverviewModel }: any) => {
               </Typography>
             </Box>
             <Box>
-              <Typography variant="h6" sx={textColorCommontwo}>
+              <Typography variant="h6" sx={textColorCommonTwo}>
                 1203
               </Typography>
-              <Typography variant="h6" sx={textColorCommontwo}>
+              <Typography variant="h6" sx={textColorCommonTwo}>
                 19/01/2022
               </Typography>
             </Box>
@@ -90,15 +87,15 @@ const OverviewModel = ({ openOverviewModel, setOpenOverviewModel }: any) => {
         </Box>
         <Box sx={{ px: { md: '3rem', xs: '1rem' } }}>
           <TanstackTable
-            data={overViewTablePdfData}
-            columns={overViewTablePdfColumns()}
+            data={overviewListPdfData}
+            columns={overviewTablePdfColumns()}
           />
         </Box>
         <Box sx={{ m: { md: '1rem 3rem 5rem 0' }, px: { xs: '1rem' } }}>
           <OverviewBilling />
         </Box>
       </Dialog>
-    </div>
+    </Box>
   );
 };
 

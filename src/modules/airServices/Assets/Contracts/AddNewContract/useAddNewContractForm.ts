@@ -3,12 +3,10 @@ import {
   validationSchemaAddNewContract,
 } from './AddNewContractDetailForm';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useRouter } from 'next/router';
 import { enqueueSnackbar } from 'notistack';
 import { useForm } from 'react-hook-form';
 
-export function useAddNewContractDetailForm() {
-  const router = useRouter();
+export function useAddNewContractForm(): any {
   const methodsAddNewContract = useForm({
     resolver: yupResolver(validationSchemaAddNewContract),
     defaultValuesAddNewContract,
@@ -20,12 +18,9 @@ export function useAddNewContractDetailForm() {
       autoHideDuration: 3000,
     });
     methodsAddNewContract.reset();
-    router.push('/air-services/assets/contracts');
   };
 
-  const handleContractClick = () => {
-    router.push('/air-services/assets/contracts');
-  };
+  const handleContractClick = () => {};
   const handleSubmitForm =
     methodsAddNewContract.handleSubmit(handleContractSubmit);
 

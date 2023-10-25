@@ -1,6 +1,6 @@
 import { useTheme } from '@mui/material/styles';
+const { palette }: any = useTheme();
 export const styles = () => {
-  const { palette }: any = useTheme();
   return {
     flexBetween: {
       display: 'flex',
@@ -40,7 +40,7 @@ export const styles = () => {
       width: '100%',
       borderRadius: '0.375rem',
     },
-    chlidContainerBox: {
+    childContainerBox: {
       display: 'flex',
       alignItems: 'center',
       padding: '1.25rem',
@@ -71,7 +71,7 @@ export const styles = () => {
       marginRight: '1.25rem',
     },
     textColorCommon: { color: palette?.blue?.lighter, mb: '0.3125rem' },
-    textColorCommontwo: {
+    textColorCommonTwo: {
       color: palette?.slateBlue?.main,
       mb: '0.3125rem',
       fontWeight: '600',

@@ -1,6 +1,6 @@
 import { useTheme } from '@mui/material';
 
-export const overViewData = [
+export const overviewData = [
   {
     id: '1',
     heading: 'Purchase Details',
@@ -12,14 +12,14 @@ export const overViewData = [
       { name: 'Expected delivery date', detail: '28 Mar, 2023' },
       { name: 'Location', detail: 'Street no 22' },
       {
-        name: 'Terms and conditins',
+        name: 'Terms and conditions',
         detail: 'I agree all the terms and conditions',
       },
     ],
   },
 ];
 
-export const overViewTableColumns: any = (setOpenOverviewModel: any) => {
+export const overviewTableColumns: any = (setOpenOverviewModel: any) => {
   const theme = useTheme();
   const handleOpen = () => {
     setOpenOverviewModel(true);
@@ -80,7 +80,7 @@ export const overViewTableColumns: any = (setOpenOverviewModel: any) => {
     },
   ];
 };
-export const overViewTableData: any = [
+export const overviewListData: any = [
   {
     Id: 1,
     itemName: `Andrea`,
@@ -93,7 +93,7 @@ export const overViewTableData: any = [
   },
 ];
 
-export const overViewTablePdfColumns: any = () => {
+export const overviewTablePdfColumns: any = () => {
   const theme = useTheme();
   return [
     {
@@ -145,7 +145,7 @@ export const overViewTablePdfColumns: any = () => {
   ];
 };
 
-export const overViewTablePdfData: any = [
+export const overviewListPdfData: any = [
   {
     Id: 1,
     itemName: `Andrea`,

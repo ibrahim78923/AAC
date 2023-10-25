@@ -1,6 +1,6 @@
 import AddRequestPage from './AddRequestPage';
 import RequestApprovalPage from './RequestApprovalPage';
-import { ApprovalData } from './RequestApprovalPage/AllApprovals.mock';
+import { ApprovalData } from './RequestApprovalPage/AllApprovals.data';
 
 export const Approvals = () => {
   return (

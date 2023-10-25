@@ -7,7 +7,7 @@ import {
   Typography,
 } from '@mui/material';
 import Image from 'next/image';
-import { ApprovalData } from '../AllApprovals.mock';
+import { ApprovalData } from '../AllApprovals.data';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import SharedIcon from '@/assets/icons/shared/shared-icon';
 import { useRequestApprovalPage } from '../useRequestApprovalPage';
