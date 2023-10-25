@@ -14,7 +14,7 @@ export const SinglePurchaseOrderDetailTabs = () => {
       <Approvals />
       <Associations />
       <AssetsReceived />
-      <Attachment/>
+      <Attachment />
     </HorizontalTabs>
   );
 };
