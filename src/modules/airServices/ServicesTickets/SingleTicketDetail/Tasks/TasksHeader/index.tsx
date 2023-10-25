@@ -2,7 +2,7 @@ import { Button, Grid, MenuItem, Popover, Typography } from '@mui/material';
 import { ActionButtonIcon, CirclePlusIcon } from '@/assets/icons';
 import { AlertModals } from '@/components/AlertModals';
 import { useTasks } from '../useTasks';
-import { styles } from '../TicketTasks.styles';
+import { styles } from '../Tasks.styles';
 import { TasksHeaderI } from '../Tasks.interface';
 
 export const TasksHeader = ({

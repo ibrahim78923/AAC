@@ -1,10 +1,10 @@
 import { AccordionItemI } from './AccordionItem.interface';
 import { AccordionSummary, Collapse } from '@mui/material';
 import { ArrowUpIcon, ArrowDownIcon } from '@/assets/icons';
-import { useAccordionItem } from './useAccordionItem';
 import { styles } from './AccordionItem.style';
+import { useAccordionItem } from './useAccordionItem';
 
-const AccordionItem: React.FC<AccordionItemI> = ({
+export const AccordionItem: React.FC<AccordionItemI> = ({
   sectionTitle,
   children,
 }) => {
@@ -25,5 +25,3 @@ const AccordionItem: React.FC<AccordionItemI> = ({
     </div>
   );
 };
-
-export default AccordionItem;

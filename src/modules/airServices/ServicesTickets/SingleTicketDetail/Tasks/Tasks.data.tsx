@@ -1,7 +1,7 @@
 import { Checkbox, useTheme } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { AvatarImage } from '@/assets/images';
-import { styles } from './TicketTasks.styles';
+import { styles } from './Tasks.styles';
 
 export const tasksTableColumns: any = (
   activeCheck: any,

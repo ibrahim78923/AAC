@@ -14,7 +14,7 @@ import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
 import { drawerDetail, tasksTableData } from '../Tasks.data';
 import { DetailTaskDrawerI } from '../Tasks.interface';
-import { styles } from '../TicketTasks.styles';
+import { styles } from '../Tasks.styles';
 import { useTasks } from '../useTasks';
 
 export const DetailTaskDrawer: React.FC<DetailTaskDrawerI> = ({

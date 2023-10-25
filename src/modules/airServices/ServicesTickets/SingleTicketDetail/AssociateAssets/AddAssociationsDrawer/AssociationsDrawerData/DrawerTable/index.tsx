@@ -1,5 +1,5 @@
 import TanstackTable from '@/components/Tabel/TanstackTable';
-import { DrawerTableColumns, DrawerTableData } from './DrawerTable.utils';
+import { DrawerTableColumns, DrawerTableData } from './DrawerTable.data';
 
 export const DrawerTable = ({ setDrawerData, DrawerData }: any) => {
   return (
