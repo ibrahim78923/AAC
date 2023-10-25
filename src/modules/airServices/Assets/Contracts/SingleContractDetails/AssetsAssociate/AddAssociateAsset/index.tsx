@@ -50,8 +50,7 @@ export const AddAssociateAsset = () => {
           Cancel
         </Button>
         <Button
-          variant="outlined"
-          color="primary"
+          variant="contained"
           disabled={!activeCheck.length}
           onClick={handleAllocateClick}
         >
