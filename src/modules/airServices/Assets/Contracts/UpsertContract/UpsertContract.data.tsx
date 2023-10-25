@@ -3,6 +3,7 @@ import {
   RHFSelect,
   RHFTextField,
 } from '@/components/ReactHookForm';
+import { ItemDetail } from './ItemDetail';
 
 export const dropdownDummy = [
   {
@@ -31,6 +32,7 @@ export const upsertContractFormDefaultValues = () => {
     notifyExpiry: '',
     notifyBefore: '',
     notifyTo: '',
+    itemDetail: [{ firstName: '', lastName: '' }],
   };
 };
 
@@ -38,24 +40,25 @@ export const upsertContractFormDefaultValuesFunction = (
   data: any = upsertContractFormDefaultValues?.(),
 ) => {
   return {
-    contractName: data.contractName,
-    contractNumber: data.contractNumber,
-    type: data.type,
-    associateAssets: data.associateAssets,
-    cost: data.cost,
-    status: data.status,
-    vendor: data.vendor,
-    approver: data.approver,
-    startDate: data.startDate,
-    endDate: data.endDate,
-    autoRenew: data.autoRenew,
-    notifyExpiry: data.notifyExpiry,
-    notifyBefore: data.notifyBefore,
-    notifyTo: data.notifyTo,
+    contractName: data?.contractName,
+    contractNumber: data?.contractNumber,
+    type: data?.type,
+    associateAssets: data?.associateAssets,
+    cost: data?.cost,
+    status: data?.status,
+    vendor: data?.vendor,
+    approver: data?.approver,
+    startDate: data?.startDate,
+    endDate: data?.endDate,
+    autoRenew: data?.autoRenew,
+    notifyExpiry: data?.notifyExpiry,
+    notifyBefore: data?.notifyBefore,
+    notifyTo: data?.notifyTo,
+    itemDetail: data?.itemDetail,
   };
 };
 
-export const ticketsBulkUpdateFormFieldsDataFunction = (
+export const upsertContractFormFieldsDataFunction = (
   isFieldDisable = false,
 ) => [
   {
@@ -175,5 +178,12 @@ export const ticketsBulkUpdateFormFieldsDataFunction = (
     },
     component: RHFDatePicker,
     md: 7.5,
+  },
+  {
+    componentProps: {
+      name: 'itemDetail',
+    },
+    component: ItemDetail,
+    md: 10,
   },
 ];
