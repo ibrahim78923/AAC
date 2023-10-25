@@ -115,10 +115,10 @@ export const Users = () => {
             </Box>
           )}
           <Box
+            display={'flex'}
+            justifyContent={'flex-end'}
+            alignItems={'center'}
             sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'flex-end',
               gap: '16px',
               mt: 2,
             }}
