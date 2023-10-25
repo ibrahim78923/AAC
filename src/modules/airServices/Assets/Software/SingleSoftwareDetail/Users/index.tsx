@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
-import UsersTable from './components/UsersTable';
+import UsersTable from './UsersTable';
 import { Box, Button, Divider } from '@mui/material';
 import CustomPagination from '@/components/CustomPagination';
-import { UsersAdd } from './components/UsersAdd';
-import { UsersFilter } from './components/UsersFilter';
+import { UsersAdd } from './UsersAdd';
+import { UsersFilter } from './UsersFilter';
 import { userDropdown } from './Users.data';
 import Search from '@/components/Search';
 import { enqueueSnackbar } from 'notistack';
 import { ExportButton } from '@/modules/airServices/common/Buttons/ExportButton';
 import { SingleDropdownButton } from '@/modules/airServices/common/Buttons/SingleDropdownButton';
 import ConversationModel from '@/components/Model/CoversationModel';
-import UserAllocate from './components/UserAllocate';
-import UserDeallocate from './components/UserDeallocate';
-import UserRemove from './components/UserRemove';
+import UserAllocate from './UserAllocate';
+import UserDeallocate from './UserDeallocate';
+import UserRemove from './UserRemove';
 
 export const Users = () => {
   const [usersData, setUsersData] = useState([]);
