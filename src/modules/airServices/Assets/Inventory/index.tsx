@@ -29,7 +29,8 @@ function Inventory() {
     <>
       <AlertModals
         message={'Are you sure you want to delete this record?'}
-        type={'delete'}
+        type={'Delete'}
+        typeImage={<CustomizeSharedIcon />}
         open={openDeleteModal}
         handleClose={() => {
           setOpenDeleteModal(false);
