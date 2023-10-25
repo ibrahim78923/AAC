@@ -8,15 +8,14 @@ import { FormProvider } from '@/components/ReactHookForm';
 
 import { v4 as uuidv4 } from 'uuid';
 
-import { accData, addUsersArrayData } from '../RoleAndRights.data';
+import { addUsersArrayData } from '../RoleAndRights.data';
 
 import { SUPER_ADMIN } from '@/constants';
 
 import useRolesAndRights from './useRolesAndRights';
 
 const AddRole = () => {
-  const { navigate, methods, onSubmit, handleSwitch, isSwitchVal, theme } =
-    useRolesAndRights();
+  const { navigate, methods, onSubmit, theme } = useRolesAndRights();
 
   const { handleSubmit } = methods;
 
@@ -56,12 +55,8 @@ const AddRole = () => {
                 </Typography>
               </Stack>
             </Grid>
-            <Grid item xs={12} lg={10}>
-              <PermissionsAccordion
-                data={accData}
-                handleSwitch={handleSwitch}
-                checked={isSwitchVal}
-              />
+            <Grid item xs={12} lg={10} mt={2}>
+              <PermissionsAccordion />
             </Grid>
           </Grid>
           <Divider sx={{ my: 3 }} />

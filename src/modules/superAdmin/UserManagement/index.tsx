@@ -148,7 +148,7 @@ const UserManagement = () => {
       {isOpenAddUserDrawer && (
         <AddUser
           isOpenDrawer={isOpenAddUserDrawer}
-          setIsOpenAddUserDrawer={setIsOpenAddUserDrawer}
+          onClose={() => setIsOpenAddUserDrawer(false)}
         />
       )}
     </Box>
