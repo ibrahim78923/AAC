@@ -1,23 +1,30 @@
-import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
+import {
+  RHFRadioGroup,
+  RHFSelect,
+  RHFTextField,
+} from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 export const addInventoryValidationSchemaOne = Yup.object().shape({
+  description: Yup.string().required('Field is Required'),
   assetnameprefix: Yup.string().required('Field is Required'),
   location: Yup.string(),
   acquisitionDate: Yup.string(),
   assetstate: Yup.string().required('Field is Required'),
 });
 export const addInventoryValidationSchemaUpdate = Yup.object().shape({
-  dellMonitor: Yup.string().required('Field is Required'),
-  mouse: Yup.string().required('Field is Required'),
-  lcd: Yup.string().required('Field is Required'),
+  updateExisting: Yup.string().required('Field is Required'),
+  dellMonitor: Yup.boolean(),
+  mouse: Yup.boolean(),
+  lcd: Yup.boolean(),
 });
 export const addInventoryValidationSchemaTwo = Yup.object().shape({
   assetName: Yup.string().required('Field is Required'),
-  serialNumber: Yup.string().required('Field is Required'),
-  assetTag: Yup.string().required('Field is Required'),
+  serialNumber: Yup.string(),
+  assetTag: Yup.string(),
 });
 
 export const addInventoryDefaultValuesOne = {
+  description: '',
   assetnameprefix: '',
   location: '',
   acquisitionDate: '',
@@ -25,9 +32,10 @@ export const addInventoryDefaultValuesOne = {
 };
 
 export const addInventoryDefaultValuesOneUpdate = {
-  dellMonitor: '',
-  mouse: '',
-  lcd: '',
+  updateExisting: '',
+  dellMonitor: false,
+  mouse: false,
+  lcd: false,
 };
 export const addInventoryDefaultValuesTwo = {
   assetName: '',
@@ -95,32 +103,17 @@ export const addToInventoryDrawerArray = [
   },
   {
     componentProps: {
-      name: 'dellMonitor',
-      label: 'Dell Monitor',
+      name: 'updateExisting',
       fullWidth: true,
+      row: false,
+      options: [
+        { label: 'LCD', value: 'lcd' },
+        { label: 'Dell Monitor', value: 'dellMonitor' },
+        { label: 'Mouse', value: 'mouse' },
+      ],
     },
     toShow: 'No',
-    component: RHFTextField,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'mouse',
-      label: 'Mouse',
-      fullWidth: true,
-    },
-    toShow: 'No',
-    component: RHFTextField,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'lcd',
-      label: 'LCD',
-      fullWidth: true,
-    },
-    toShow: 'No',
-    component: RHFTextField,
+    component: RHFRadioGroup,
     md: 12,
   },
 ];
@@ -132,7 +125,6 @@ export const addToInventorySecondDrawerArray = [
       label: 'Asset_Name',
       fullWidth: true,
       select: false,
-      required: true,
     },
 
     component: RHFTextField,
@@ -144,7 +136,6 @@ export const addToInventorySecondDrawerArray = [
       label: 'Serial Number',
       fullWidth: true,
       select: false,
-      required: true,
     },
 
     component: RHFTextField,
@@ -156,7 +147,6 @@ export const addToInventorySecondDrawerArray = [
       label: 'Asset Tag',
       fullWidth: true,
       select: false,
-      required: true,
     },
 
     component: RHFTextField,
