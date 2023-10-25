@@ -2,6 +2,7 @@ import { Box, Button } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { AlertModals } from '@/components/AlertModals';
 import { useAssetAssociate } from '../../useAssetAssociate';
+import { styles } from '../../AssetAssociate.style';
 
 export const AssetsAssociateHeader = ({ activeCheck }: any) => {
   const {
@@ -11,8 +12,8 @@ export const AssetsAssociateHeader = ({ activeCheck }: any) => {
     handleAddAssociateAsset,
   } = useAssetAssociate();
   return (
-    <Box display={'flex'} justifyContent={'flex-end'}>
-      <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={2}>
+    <>
+      <Box sx={styles.assetsAssociateHead}>
         <Button
           color="secondary"
           variant="outlined"
@@ -36,6 +37,6 @@ export const AssetsAssociateHeader = ({ activeCheck }: any) => {
         handleSubmit={handleDeleteSubmit}
         message="Are you sure want to delete Asset?"
       />
-    </Box>
+    </>
   );
 };

@@ -1,4 +1,4 @@
-import { assetsReceivedImage } from '@/assets/images';
+import { AssetsReceivedImage } from '@/assets/images';
 import NoData from '@/components/NoData';
 import { assetsReceiveData } from './AssetsReceivedDetail/AssetsReceived.data';
 import { AssetsReceivedDetail } from './AssetsReceivedDetail';
@@ -10,7 +10,7 @@ export const AssetsReceived = () => {
         <AssetsReceivedDetail />
       ) : (
         <NoData
-          image={assetsReceivedImage}
+          image={AssetsReceivedImage}
           message="Received items have not been added to inventory yet"
         />
       )}

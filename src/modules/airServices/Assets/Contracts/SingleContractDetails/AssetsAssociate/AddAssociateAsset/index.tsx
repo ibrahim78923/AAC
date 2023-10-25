@@ -4,25 +4,24 @@ import TanstackTable from '@/components/Tabel/TanstackTable';
 import {
   AddAssociateTableAssetsData,
   AddAssociateAssetsTableColumns,
-} from './AddAssociteAsset.data';
+} from './AddAssociateAsset.data';
 import { useAssetAssociate } from '../useAssetAssociate';
+import { styles } from '../AssetAssociate.style';
 
 export const AddAssociateAsset = () => {
-  const { activeCheck, setActiveCheck, handleAllocateClick, router, theme } =
-    useAssetAssociate();
+  const {
+    activeCheck,
+    setActiveCheck,
+    handleAllocateClick,
+    handleCancelBtn,
+    theme,
+  } = useAssetAssociate();
   return (
     <>
       <Typography variant="h3">Associated Assets</Typography>
       <br />
       <br />
-      <Box
-        sx={{
-          boxShadow:
-            '0px 1px 2px 0px rgba(16, 24, 40, 0.06), 0px 1px 3px 0px rgba(16, 24, 40, 0.10)',
-          border: `1px solid ${theme.palette.custom.off_white_three}`,
-          borderRadius: '8px',
-        }}
-      >
+      <Box sx={styles.addAssetContainer(theme)}>
         <Box p={'12px 24px'}>
           <Search placeholder="Search Here" />
         </Box>
@@ -32,21 +31,8 @@ export const AddAssociateAsset = () => {
         />
       </Box>
       <br />
-      <Box
-        display={'flex'}
-        gap={1}
-        flexWrap={'wrap'}
-        justifyContent={'flex-end'}
-      >
-        <Button
-          variant="outlined"
-          color="secondary"
-          onClick={() =>
-            router.push({
-              pathname: '/air-services/assets/contracts/detail',
-            })
-          }
-        >
+      <Box sx={styles.addAssetBtn}>
+        <Button variant="outlined" color="secondary" onClick={handleCancelBtn}>
           Cancel
         </Button>
         <Button

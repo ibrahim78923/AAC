@@ -29,6 +29,11 @@ export const useAssetAssociate = () => {
       pathname: '/air-services/assets/contracts/detail',
     });
   };
+  const handleCancelBtn = () => {
+    router.push({
+      pathname: '/air-services/assets/contracts/detail',
+    });
+  };
   return {
     router,
     theme,
@@ -39,5 +44,6 @@ export const useAssetAssociate = () => {
     activeCheck,
     setActiveCheck,
     handleAllocateClick,
+    handleCancelBtn,
   };
 };
