@@ -4,13 +4,11 @@ import * as Yup from 'yup';
 export const newsAndEventsFormValidationSchema = Yup.object().shape({
   type: Yup.string().trim().required('Field is Required'),
   question: Yup.string().trim().required('Field is Required'),
-  answer: Yup.string().trim().required('Field is Required'),
 });
 
 export const newsAndEventsFormDefaultValues = {
   type: '',
   question: '',
-  answer: '',
 };
 
 export const newsAndEventsFormFiltersDataArray = [

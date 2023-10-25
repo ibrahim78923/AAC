@@ -68,6 +68,7 @@ const NewsAndEventsModal = ({
             <Button
               variant="contained"
               className="medium"
+              type="submit"
               startIcon={<PostIcon color={theme.palette.common.white} />}
             >
               Add
