@@ -125,9 +125,17 @@ const DealPipelines = () => {
                   {index === 1 ||
                     (index % 2 === 1 && (
                       <Grid item md={2}>
-                        <Button onClick={() => deleteField(index - 1)}>
+                        <Button
+                          onClick={() => deleteField(index - 1)}
+                          disabled={index === 3}
+                        >
                           <CancelIcon
-                            sx={{ color: theme?.palette?.error?.main }}
+                            sx={{
+                              color:
+                                index === 3
+                                  ? theme?.palette?.custom?.main
+                                  : theme?.palette?.error?.main,
+                            }}
                           />
                         </Button>
                       </Grid>

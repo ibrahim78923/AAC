@@ -13,6 +13,7 @@ const CommonModal = ({
   children,
   title,
   okText,
+  cancelText,
   submitIcon,
   footer,
   footerFill,
@@ -37,10 +38,25 @@ const CommonModal = ({
             <Box
               sx={{
                 display: 'flex',
+                alignItems: 'center',
                 justifyContent: 'end',
                 marginTop: '30px',
+                gap: '10px',
               }}
             >
+              {!footerFill && cancelText && (
+                <Button
+                  // onClick={handleCancel}
+                  variant="outlined"
+                  sx={{
+                    height: '36px',
+                    width: 'auto',
+                  }}
+                  startIcon={submitIcon ? submitIcon : ''}
+                >
+                  {cancelText}
+                </Button>
+              )}
               <Button
                 onClick={handleSubmit}
                 variant="contained"
