@@ -17,7 +17,7 @@ const CreateInvoice = () => {
   const { isEmailModal, setIsEmailModal } = useReviewInvoice();
 
   return (
-    <Box>
+    <Box sx={style.stepperPages}>
       <AppHorizontalStepper
         activeStep={activeStep}
         stepsArray={invoicesStepperData}
@@ -32,6 +32,7 @@ const CreateInvoice = () => {
             >
               <Button
                 variant="outlined"
+                disabled={activeStep === 0 ? true : false}
                 sx={style.greyButton}
                 onClick={hanldeGoPreviousBack}
               >
@@ -43,7 +44,7 @@ const CreateInvoice = () => {
                     <Button
                       variant="outlined"
                       sx={style.greyButton}
-                      onClick={() => router.push('/air-sales/sales-invoices')}
+                      onClick={() => router.push('/air-sales/invoices')}
                     >
                       Cancel
                     </Button>
@@ -56,7 +57,7 @@ const CreateInvoice = () => {
                     <Button
                       variant="outlined"
                       sx={style.greyButton}
-                      onClick={() => router.push('/air-sales/sales-invoices')}
+                      onClick={() => router.push('/air-sales/invoices')}
                     >
                       Skip
                     </Button>

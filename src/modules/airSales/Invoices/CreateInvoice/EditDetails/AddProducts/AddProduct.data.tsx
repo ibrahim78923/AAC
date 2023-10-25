@@ -47,7 +47,7 @@ export const customDefaultValues = {
   unitPrice: '',
   billingFrequency: '',
   createdDate: '',
-  createTime: '',
+  createdTime: '',
 };
 
 export const customFields = [

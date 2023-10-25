@@ -164,7 +164,7 @@ export const validationSchema = Yup.object().shape({
 export const defaultValues = {
   requester: '',
   impact: '',
-  plannedEndDate: new Date(),
+  plannedEndDate: '',
 };
 
 export const invoiceFilterFields = [
@@ -181,7 +181,7 @@ export const invoiceFilterFields = [
   },
   {
     componentProps: {
-      name: 'plannedEndDate',
+      name: 'plannedEndDat e',
       label: 'Planned End Date',
       fullWidth: true,
     },

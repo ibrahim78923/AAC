@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import {
   Box,
   Button,
@@ -17,8 +18,8 @@ import { invoicesTableColumns, invoicesTableData } from '../Invoices.data';
 import useListView from './useListView';
 import { AlertModals } from '@/components/AlertModals';
 
-const ListView = (props: any) => {
-  const { setIsListView } = props;
+const ListView = () => {
+  const navigate = useRouter();
   const {
     selectedValue,
     handleClose,
@@ -38,7 +39,7 @@ const ListView = (props: any) => {
           variant="contained"
           sx={{ display: 'flex', gap: '10px' }}
           startIcon={<PlusSharedIcon />}
-          onClick={() => setIsListView(true)}
+          onClick={() => navigate.push('/air-sales/invoices/create-invoices')}
         >
           Create Invoice
         </Button>

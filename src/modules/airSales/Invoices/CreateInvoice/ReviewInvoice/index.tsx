@@ -1,10 +1,10 @@
 import { Box } from '@mui/material';
-import ChooseQuotes from '../ChooseQuotes';
 import EditDetails from '../EditDetails';
+import ChooseQuotes from '../ChooseQuotes';
 
 const ReviewInvoice = () => {
   return (
-    <Box>
+    <Box className="stepper-content">
       <ChooseQuotes />
       <EditDetails />
     </Box>

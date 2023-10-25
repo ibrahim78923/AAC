@@ -1,12 +1,9 @@
 import { Box, Grid, Typography } from '@mui/material';
 import { quotesOptions } from './ChooseQuotes.data';
-import useCreateInvoices from '../useCreateInvoices';
 import SearchableSelect from '@/components/SearchableSelect';
 import { useForm } from 'react-hook-form';
 
 const ChooseQuotes = () => {
-  const { activeStep } = useCreateInvoices();
-
   const {
     control,
     formState: { errors },
@@ -21,8 +18,8 @@ const ChooseQuotes = () => {
   };
 
   return (
-    <Box>
-      <Grid container height={activeStep === 0 ? '55vh' : '10vh'}>
+    <Box my={2} className="stepper-content">
+      <Grid container>
         <Grid xs={12} md={4}>
           <SearchableSelect
             dropdownData={quotesOptions}

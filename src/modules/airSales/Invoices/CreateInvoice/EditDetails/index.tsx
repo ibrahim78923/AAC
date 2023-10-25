@@ -5,7 +5,7 @@ import ProductsTable from './ProductsTable';
 
 const EditDetails = () => {
   return (
-    <Box>
+    <Box className="stepper-content">
       <DetailCard />
       <ProductsTable />
     </Box>
