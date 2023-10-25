@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Typography, Grid, Divider } from '@mui/material';
-import { templateField } from '../StepDetails/StepDetails.data';
+import { createQuoteFormFields } from '../CreateQuote.data';
 import { styles } from './TemplateBasic.style';
 
 const TemplateBasic = () => {
@@ -62,18 +62,24 @@ const TemplateBasic = () => {
 
       <Box sx={{ mt: '16px' }}>
         <Grid container spacing={4}>
-          {templateField?.map((item: any) => (
-            <Grid item xs={12} md={item?.md} key={item.id}>
-              <item.component {...item.componentProps} size={'small'}>
-                {item?.componentProps?.select &&
-                  item?.options?.map((option: any) => (
-                    <option key={option?.value} value={option?.value}>
-                      {option?.label}
-                    </option>
-                  ))}
-              </item.component>
-            </Grid>
-          ))}
+          {createQuoteFormFields?.map((item: any, index) => {
+            if (index === 6) {
+              return (
+                <Grid item xs={12} key={item.id}>
+                  <item.component {...item.componentProps} size={'small'}>
+                    {item?.componentProps?.select &&
+                      item?.options?.map((option: any) => (
+                        <option key={option?.value} value={option?.value}>
+                          {option?.label}
+                        </option>
+                      ))}
+                  </item.component>
+                </Grid>
+              );
+            } else {
+              return null;
+            }
+          })}
         </Grid>
       </Box>
 

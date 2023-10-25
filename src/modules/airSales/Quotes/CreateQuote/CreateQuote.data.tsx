@@ -96,4 +96,15 @@ export const createQuoteFormFields = [
       placeholder: 'Enter details',
     },
   },
+  {
+    id: 'templateComment',
+    component: RHFTextField,
+    componentProps: {
+      name: 'templateComment',
+      fullWidth: true,
+      placeholder: 'Write comment here...',
+      multiline: true,
+      rows: 3,
+    },
+  },
 ];
