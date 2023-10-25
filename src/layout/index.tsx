@@ -26,7 +26,7 @@ import { isNullOrEmpty } from '@/utils';
 
 import { LayoutI } from './Layout.interface';
 
-import { getLowerRoutes, getRoutes } from './Layout.data';
+import { getLowerRoutes, getRoutes, zeroPaddingRoutes } from './Layout.data';
 
 import { ArrowDownImage, ArrowUpImage, LogoImage } from '@/assets/images';
 
@@ -59,6 +59,8 @@ const Layout = (props: LayoutI) => {
       [linkKey]: !prevState[linkKey],
     }));
   };
+
+  const isZeroPaddingRoutes = zeroPaddingRoutes.includes(pathname);
 
   const drawer = (
     <>
@@ -352,7 +354,9 @@ const Layout = (props: LayoutI) => {
       </Box>
       <Box component="main" sx={styles.layoutBox(drawerWidth)}>
         <Toolbar />
-        <Box sx={styles.layoutInnerBox(theme)}>{children}</Box>
+        <Box sx={styles.layoutInnerBox(theme, isZeroPaddingRoutes)}>
+          {children}
+        </Box>
       </Box>
     </Box>
   );

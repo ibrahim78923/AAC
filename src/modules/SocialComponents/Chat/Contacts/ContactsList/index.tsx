@@ -23,7 +23,7 @@ const ContactList = ({ chatMode }: any) => {
   const [searchContacts, setSearchContacts] = useState('');
   const [isAddGroupModal, setIsAddGroupModal] = useState(false);
   const [isDeleteModal, setIsDeleteModal] = useState(false);
-  const [selectedValues, setSelectedValues] = useState<any>();
+  const [selectedValues, setSelectedValues] = useState<any>([]);
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const actionMenuOpen = Boolean(anchorEl);
