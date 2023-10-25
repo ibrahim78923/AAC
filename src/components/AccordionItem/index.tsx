@@ -8,18 +8,17 @@ export const AccordionItem: React.FC<AccordionItemI> = ({
   sectionTitle,
   children,
 }) => {
-  const { handleAccordionClick, isActive } = useAccordionItem();
-  const styleArr = styles(isActive);
+  const { handleAccordionClick, isActive, theme } = useAccordionItem();
   return (
     <div>
       <AccordionSummary
-        style={styleArr[0].accordionStyle}
+        style={styles.accordionStyle(theme)}
         onClick={handleAccordionClick}
         expandIcon={isActive ? <ArrowUpIcon /> : <ArrowDownIcon />}
       >
         {sectionTitle}
       </AccordionSummary>
-      <Collapse in={isActive} sx={styleArr[0].panelStyle}>
+      <Collapse in={isActive} sx={styles.panelStyle(isActive, theme)}>
         {children}
       </Collapse>
     </div>
