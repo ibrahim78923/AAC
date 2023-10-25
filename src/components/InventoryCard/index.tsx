@@ -7,7 +7,7 @@ export const InventoryCard = ({
   heading,
   status,
   children,
-  show,
+  showChild,
 }: CardPropsI) => {
   const theme: any = useTheme();
   const [showIcon, setShowIcon] = useState(false);
@@ -55,7 +55,7 @@ export const InventoryCard = ({
           <Typography color={theme?.palette?.grey[900]}>Status:</Typography>
           <Typography>{status}</Typography>
         </Box>
-        {show ? (
+        {showChild && (
           <>
             <Divider
               orientation="vertical"
@@ -68,7 +68,7 @@ export const InventoryCard = ({
             />
             <Typography>{children}</Typography>
           </>
-        ) : null}
+        )}
       </Box>
     </>
   );
