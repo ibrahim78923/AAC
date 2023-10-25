@@ -19,5 +19,5 @@ export const styles = {
     color: theme.palette.custom.main,
     fontWeight: 400,
   }),
-  cardText: { pl: '1rem', width: '8vw' },
+  cardText: { pl: '1rem', pr: '3rem' },
 };

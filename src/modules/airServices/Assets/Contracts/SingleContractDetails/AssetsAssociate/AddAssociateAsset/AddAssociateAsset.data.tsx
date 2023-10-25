@@ -1,11 +1,10 @@
-import { Checkbox, useTheme } from '@mui/material';
+import { Checkbox } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 
-export const AddAssociateAssetsTableColumns: any = (
+export const addAssociateAssetColumns: any = (
   activeCheck: any,
   setActiveCheck: any,
 ) => {
-  const theme = useTheme();
   return [
     {
       accessorFn: (row: any) => row.Id,
@@ -21,7 +20,7 @@ export const AddAssociateAssetsTableColumns: any = (
             e.target.checked
               ? setActiveCheck([
                   ...activeCheck,
-                  AddAssociateTableAssetsData.find(
+                  addAssociateAssetData.find(
                     (item: any) => item.Id === info.getValue(),
                   ),
                 ])
@@ -39,10 +38,10 @@ export const AddAssociateAssetsTableColumns: any = (
         <Checkbox
           icon={<CheckboxIcon />}
           checkedIcon={<CheckboxCheckedIcon />}
-          checked={activeCheck.length === AddAssociateTableAssetsData.length}
+          checked={activeCheck.length === addAssociateAssetData.length}
           onChange={(e: any) => {
             e.target.checked
-              ? setActiveCheck([...AddAssociateTableAssetsData])
+              ? setActiveCheck([...addAssociateAssetData])
               : setActiveCheck([]);
           }}
           color="primary"
@@ -53,11 +52,7 @@ export const AddAssociateAssetsTableColumns: any = (
     {
       accessorFn: (row: any) => row.software,
       id: 'software',
-      cell: (info: any) => (
-        <span style={{ color: theme?.palette?.blue?.dull_blue }}>
-          {info.getValue()}
-        </span>
-      ),
+      cell: (info: any) => info.getValue(),
       isSortable: true,
       header: 'Software',
     },
@@ -119,7 +114,7 @@ export const AddAssociateAssetsTableColumns: any = (
     },
   ];
 };
-export const AddAssociateTableAssetsData: any = [
+export const addAssociateAssetData: any = [
   {
     Id: 1,
     software: `Fresh service`,

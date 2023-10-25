@@ -1,7 +1,7 @@
 import { Box, Typography, useTheme } from '@mui/material';
 import { assetsReceiveData } from './AssetsReceived.data';
 import { v4 as uuidv4 } from 'uuid';
-import { styles } from '../AssetsReceived.style';
+import { styles } from './AssetsReceivedDetail.style';
 
 export const AssetsReceivedDetail = () => {
   const theme = useTheme();

@@ -2,11 +2,11 @@ import { Box, Button, Typography } from '@mui/material';
 import Search from '@/components/Search';
 import TanstackTable from '@/components/Tabel/TanstackTable';
 import {
-  AddAssociateTableAssetsData,
-  AddAssociateAssetsTableColumns,
+  addAssociateAssetData,
+  addAssociateAssetColumns,
 } from './AddAssociateAsset.data';
-import { useAssetAssociate } from '../useAssetAssociate';
-import { styles } from '../AssetAssociate.style';
+import { useAddAssetAssociate } from './useAddAssetAssociate';
+import { styles } from './AddAssociateAsset.style';
 
 export const AddAssociateAsset = () => {
   const {
@@ -15,7 +15,7 @@ export const AddAssociateAsset = () => {
     handleAllocateClick,
     handleCancelBtn,
     theme,
-  } = useAssetAssociate();
+  } = useAddAssetAssociate();
   return (
     <>
       <Typography variant="h3">Associated Assets</Typography>
@@ -26,12 +26,17 @@ export const AddAssociateAsset = () => {
           <Search placeholder="Search Here" />
         </Box>
         <TanstackTable
-          data={AddAssociateTableAssetsData}
-          columns={AddAssociateAssetsTableColumns(activeCheck, setActiveCheck)}
+          data={addAssociateAssetData}
+          columns={addAssociateAssetColumns(activeCheck, setActiveCheck)}
         />
       </Box>
       <br />
-      <Box sx={styles.addAssetBtn}>
+      <Box
+        display={'flex'}
+        flexWrap={'wrap'}
+        justifyContent={'flex-end'}
+        gap={1}
+      >
         <Button variant="outlined" color="secondary" onClick={handleCancelBtn}>
           Cancel
         </Button>

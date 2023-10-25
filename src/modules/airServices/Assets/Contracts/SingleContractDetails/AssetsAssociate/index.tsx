@@ -1,4 +1,3 @@
-import { Fragment } from 'react';
 import { Button } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { associationsImage } from '@/assets/images';
@@ -10,7 +9,7 @@ import { useAssetAssociate } from './useAssetAssociate';
 export const AssetsAssociate = () => {
   const { handleAddAssociateAsset } = useAssetAssociate();
   return (
-    <Fragment>
+    <>
       {!!AssetsAssociateTableData?.length ? (
         <AssetsAssociateDetail />
       ) : (
@@ -27,6 +26,6 @@ export const AssetsAssociate = () => {
           </Button>
         </NoData>
       )}
-    </Fragment>
+    </>
   );
 };
