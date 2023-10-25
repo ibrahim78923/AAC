@@ -1,4 +1,4 @@
-import { Grid, Box } from '@mui/material';
+import { Grid, Box, Typography } from '@mui/material';
 
 import { dataArray, defaultValues, validationSchema } from './AddCard.data';
 import CommonDrawer from '@/components/CommonDrawer';
@@ -10,15 +10,40 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import { v4 as uuidv4 } from 'uuid';
 
-const AddCard = ({ open, onClose, initialValueProps = defaultValues }: any) => {
+const AddCard = ({
+  open,
+  onClose,
+  openEditCard,
+  setOpenAddCard,
+  isGetRowValues,
+}: any) => {
+  const rowApiValues = {
+    cardNumber: isGetRowValues?.cell?.row?.original?.name,
+    expirationDate: isGetRowValues?.cell?.row?.original?.expirationDate,
+    nameOnCard: '',
+    CVVCode: '',
+    companyAccount: '',
+    seePaymentMethod: '',
+    sirSales: '',
+    airService: '',
+    airOperations: '',
+  };
+
   const methods: any = useForm({
     resolver: yupResolver(validationSchema),
-    defaultValues: initialValueProps,
+    defaultValues: defaultValues,
   });
 
-  const { handleSubmit } = methods;
+  const apiMethods: any = useForm({
+    resolver: yupResolver(validationSchema),
+    defaultValues: rowApiValues,
+  });
+
+  const { handleSubmit, reset } = openEditCard === 'Add' ? methods : apiMethods;
 
   const onSubmit = async () => {
+    reset();
+    setOpenAddCard(false);
     enqueueSnackbar('Ticket Updated Successfully', {
       variant: 'success',
     });
@@ -28,7 +53,11 @@ const AddCard = ({ open, onClose, initialValueProps = defaultValues }: any) => {
     <CommonDrawer
       isDrawerOpen={open}
       onClose={onClose}
-      title={'Add a new card'}
+      title={`${
+        openEditCard === 'Add'
+          ? `${openEditCard} a new card`
+          : `${openEditCard} Card `
+      }`}
       okText={'Save'}
       isOk
       cancelText={'Cancel'}
@@ -36,10 +65,29 @@ const AddCard = ({ open, onClose, initialValueProps = defaultValues }: any) => {
       submitHandler={handleSubmit(onSubmit)}
     >
       <Box mt={1}>
-        <FormProvider methods={methods}>
+        <FormProvider methods={openEditCard === 'Add' ? methods : apiMethods}>
           <Grid container spacing={4}>
-            {dataArray?.map((item: any) => (
-              <Grid item xs={12} md={item?.md} key={uuidv4()}>
+            <Typography variant="h5" sx={{ padding: '35px 0px 0px 35px' }}>
+              {openEditCard} a debit or credit card
+            </Typography>
+            {dataArray?.map((item: any, index: any) => (
+              <Grid
+                item
+                xs={12}
+                md={item?.md}
+                key={uuidv4()}
+                sx={{ paddingTop: index === 0 ? undefined : '20px !important' }}
+              >
+                {item?.componentProps?.heading && (
+                  <Typography variant="h5">
+                    {item?.componentProps?.heading}
+                  </Typography>
+                )}
+                {item?.componentProps?.paragraph && (
+                  <Typography variant="body2">
+                    {item?.componentProps?.paragraph}
+                  </Typography>
+                )}
                 <item.component {...item.componentProps} size={'small'}>
                   {item?.componentProps?.select &&
                     item?.options?.map((option: any) => (

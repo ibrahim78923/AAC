@@ -2,13 +2,11 @@ import { Box, Button, Menu, MenuItem, Typography } from '@mui/material';
 import TanstackTable from '@/components/Tabel/TanstackTable';
 import Search from '@/components/Search';
 import AddCard from './AddCard';
-import EditCard from './EditCard';
 import usePaymentMethods from './usePaymentMethods';
 import CustomPagination from '@/components/CustomPagination';
 import { DropdownIcon } from '@/assets/icons';
 import { paymentData } from '@/mock/modules/SubscriptionAndInvoices';
 import { AlertModals } from '@/components/AlertModals';
-import { columns } from './PaymentMethods.data';
 import { styles } from './PaymentMethod.style';
 
 const PaymentMethods = () => {
@@ -18,14 +16,17 @@ const PaymentMethods = () => {
     handleActionsClick,
     handleClose,
     openAddCard,
+    setOpenEditCard,
     handleOpenAddCard,
     handleCloseAddCard,
     openEditCard,
-    handleOpenEditCard,
-    handleCloseEditCard,
     openDeleteModal,
     handleOpenDeleteModal,
     handleCloseDeleteModal,
+    getRowValues,
+    isChecked,
+    setOpenAddCard,
+    isGetRowValues,
   } = usePaymentMethods();
 
   return (
@@ -55,6 +56,7 @@ const PaymentMethods = () => {
                 onClick={handleActionsClick}
                 sx={styles.actionButton}
                 endIcon={<DropdownIcon />}
+                disabled={!isChecked}
               >
                 Actions
               </Button>
@@ -76,14 +78,21 @@ const PaymentMethods = () => {
                   },
                 }}
               >
-                <MenuItem onClick={handleOpenEditCard}>Edit</MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    setOpenAddCard(true);
+                    setOpenEditCard('Edit');
+                  }}
+                >
+                  Edit
+                </MenuItem>
                 <MenuItem onClick={handleOpenDeleteModal}>Delete</MenuItem>
               </Menu>
             </Box>
           </Box>
         </Box>
 
-        <TanstackTable columns={columns} data={paymentData} />
+        <TanstackTable columns={getRowValues} data={paymentData} />
 
         <CustomPagination
           count={3}
@@ -92,8 +101,13 @@ const PaymentMethods = () => {
         />
       </Box>
 
-      <AddCard open={openAddCard} onClose={handleCloseAddCard} />
-      <EditCard open={openEditCard} onClose={handleCloseEditCard} />
+      <AddCard
+        open={openAddCard}
+        onClose={handleCloseAddCard}
+        openEditCard={openEditCard}
+        setOpenAddCard={setOpenAddCard}
+        isGetRowValues={isGetRowValues}
+      />
       <AlertModals
         message="Are you sure you want to delete this payment method?"
         type="delete"

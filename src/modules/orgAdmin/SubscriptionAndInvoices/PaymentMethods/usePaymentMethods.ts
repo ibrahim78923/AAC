@@ -1,10 +1,14 @@
 import { useState } from 'react';
+import { columns } from './PaymentMethods.data';
 
 const usePaymentMethods = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [openAddCard, setOpenAddCard] = useState(false);
-  const [openEditCard, setOpenEditCard] = useState(false);
+  const [openEditCard, setOpenEditCard] = useState('');
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [isChecked, setIsChecked] = useState(false);
+  const [isGetRowValues, setIsGetRowValues] = useState('');
+
   const open = Boolean(anchorEl);
   const handleActionsClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -14,6 +18,7 @@ const usePaymentMethods = () => {
   };
   const handleOpenAddCard = () => {
     setOpenAddCard(true);
+    setOpenEditCard('Add');
   };
   const handleCloseAddCard = () => {
     setOpenAddCard(false);
@@ -25,13 +30,13 @@ const usePaymentMethods = () => {
   const handleCloseDeleteModal = () => {
     setOpenDeleteModal(false);
   };
-  const handleOpenEditCard = () => {
-    setOpenEditCard(true);
-    handleClose();
-  };
-  const handleCloseEditCard = () => {
-    setOpenEditCard(false);
-  };
+
+  const getRowValues = columns(
+    setIsGetRowValues,
+    setIsChecked,
+    isChecked,
+    isGetRowValues,
+  );
 
   return {
     open,
@@ -42,11 +47,16 @@ const usePaymentMethods = () => {
     handleOpenAddCard,
     handleCloseAddCard,
     openEditCard,
-    handleOpenEditCard,
-    handleCloseEditCard,
+    setOpenEditCard,
     openDeleteModal,
     handleOpenDeleteModal,
     handleCloseDeleteModal,
+    getRowValues,
+    setIsGetRowValues,
+    isGetRowValues,
+    setIsChecked,
+    isChecked,
+    setOpenAddCard,
   };
 };
 
