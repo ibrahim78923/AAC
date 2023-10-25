@@ -1,8 +1,8 @@
 import { baseAPI } from '@/services/base-api';
 
-export const planManagementAPI = baseAPI.injectEndpoints({
+export const planManagementAddPlanAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
-    getPlanMangement: builder.query({
+    getAddPlanById: builder.query({
       query: () => ({
         url: `/plan-management`,
         method: 'GET',
@@ -10,15 +10,7 @@ export const planManagementAPI = baseAPI.injectEndpoints({
       providesTags: ['PLAN_MANAGEMENT'],
     }),
 
-    getPlanMangementById: builder.query({
-      query: ({ id }: any) => ({
-        url: `/plan-management/${id}`,
-        method: 'GET',
-      }),
-      providesTags: ['PLAN_MANAGEMENT'],
-    }),
-
-    postPlanMangement: builder.mutation({
+    postAddPlan: builder.mutation({
       query: ({ id, body }: any) => ({
         url: `/plan-management/${id}`,
         method: 'POST',
@@ -27,7 +19,7 @@ export const planManagementAPI = baseAPI.injectEndpoints({
       invalidatesTags: ['PLAN_MANAGEMENT'],
     }),
 
-    updatePlanMangement: builder.mutation({
+    updateAddPlan: builder.mutation({
       query: ({ id, body }: any) => ({
         url: `/plan-management/${id}`,
         method: 'PUT',
@@ -36,7 +28,7 @@ export const planManagementAPI = baseAPI.injectEndpoints({
       invalidatesTags: ['PLAN_MANAGEMENT'],
     }),
 
-    deletePlanMangement: builder.mutation({
+    deleteAddPlan: builder.mutation({
       query: ({ id }: any) => ({
         url: `/plan-management/${id}`,
         method: 'DELETE',
@@ -47,9 +39,8 @@ export const planManagementAPI = baseAPI.injectEndpoints({
 });
 
 export const {
-  useUpdatePlanMangementMutation,
-  usePostPlanMangementMutation,
-  useGetPlanMangementQuery,
-  useDeletePlanMangementMutation,
-  useGetPlanMangementByIdQuery,
-} = planManagementAPI;
+  useGetAddPlanByIdQuery,
+  usePostAddPlanMutation,
+  useUpdateAddPlanMutation,
+  useDeleteAddPlanMutation,
+} = planManagementAddPlanAPI;

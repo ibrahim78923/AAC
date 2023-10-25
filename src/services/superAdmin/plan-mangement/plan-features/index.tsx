@@ -1,6 +1,6 @@
 import { baseAPI } from '@/services/base-api';
 
-export const planManagementAPI = baseAPI.injectEndpoints({
+export const planManagementPlanFeaturesAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getPlanMangement: builder.query({
       query: () => ({
@@ -52,4 +52,4 @@ export const {
   useGetPlanMangementQuery,
   useDeletePlanMangementMutation,
   useGetPlanMangementByIdQuery,
-} = planManagementAPI;
+} = planManagementPlanFeaturesAPI;
