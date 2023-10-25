@@ -1,3 +1,10 @@
 export const UpsertContract = () => {
-  return <></>;
+  return (
+    <>
+      {/* <FormProvider
+        methods={methodsAddNewContract}
+        onSubmit={methodsAddNewContract.handleSubmit(handleSubmitForm)}
+      ></FormProvider> */}
+    </>
+  );
 };
