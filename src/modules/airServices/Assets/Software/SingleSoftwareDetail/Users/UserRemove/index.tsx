@@ -5,7 +5,7 @@ const UserRemove = () => {
   return (
     <Box sx={{ width: { sm: '484px', xs: '100%' } }}>
       <Typography sx={{ mt: 2 }}>
-        Are you sure want to Deallocate Contract for this user?
+        Are you sure want to Remove Contract for this user?
       </Typography>
     </Box>
   );
