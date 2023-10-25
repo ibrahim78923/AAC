@@ -1,4 +1,4 @@
-import { Box, Button, Grid, useTheme } from '@mui/material';
+import { Box, Button, useTheme } from '@mui/material';
 import { AddCircleBlackIcon } from '@/assets/icons';
 import Search from '@/components/Search';
 import { styles } from '../../Contracts.style';

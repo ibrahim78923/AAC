@@ -1,4 +1,4 @@
-import { Button, useTheme, Box } from '@mui/material';
+import { Button, Box } from '@mui/material';
 import Search from '@/components/Search';
 import { AlertModals } from '@/components/AlertModals';
 import { useInstallation } from '../../useInstallations';
@@ -8,17 +8,8 @@ import { ExportButton } from '@/modules/airServices/common/Buttons/ExportButton'
 const DELETE_MESSAGE = 'Are you sure you want to delete this Associate Asset?';
 const MODAL_TYPE = 'delete';
 export const InstallationHeader = ({ activeCheck }: any) => {
-  const theme = useTheme();
-  const {
-    handleExportClick,
-    handleExportClose,
-    openExport,
-    exportPop,
-    deleteModal,
-    setDeleteModal,
-    submitDeleteModel,
-    handleMenuExport,
-  } = useInstallation();
+  const { deleteModal, setDeleteModal, submitDeleteModel, handleMenuExport } =
+    useInstallation();
   return (
     <>
       <Box
