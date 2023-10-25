@@ -1,15 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  addPlanForm: {
-    // Initial data for form 1
-  },
-  planFeaturesForm: {
-    // Initial data for form 2
-  },
-  modulesForm: {
-    // Initial data for form 3
-  },
+  addPlanForm: {},
+  planFeaturesForm: {},
+  modulesForm: {},
 };
 
 const planManagementSlice = createSlice({
@@ -31,4 +25,4 @@ const planManagementSlice = createSlice({
 export const { addPlanFormData, planFeaturesFormData, modulesFormData } =
   planManagementSlice.actions;
 
-export default planManagementSlice.reducer;
+export default planManagementSlice;
