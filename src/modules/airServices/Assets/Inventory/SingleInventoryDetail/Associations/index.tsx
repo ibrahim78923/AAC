@@ -3,11 +3,11 @@ import { Fragment, useState } from 'react';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import NoAssociationFound from '@/assets/images/modules/LogitechMouse/association.png';
 import NoData from '@/components/NoData';
-import NewIncident from './NewIncident';
-import ExistingIncident from './ExistingIncident';
-import DialogBox from './DialogBox';
 import { associationsDataArray, chipColor } from './Associations.data';
 import { v4 as uuidv4 } from 'uuid';
+import { ExistingIncident } from './ExistingIncident';
+import { DialogBox } from './DialogBox';
+import { NewIncident } from './NewIncident';
 
 export const Associations = () => {
   const theme: any = useTheme();

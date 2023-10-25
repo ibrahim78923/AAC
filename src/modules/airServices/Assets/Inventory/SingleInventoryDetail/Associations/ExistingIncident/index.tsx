@@ -5,45 +5,21 @@ import {
   FormGroup,
   FormControlLabel,
   Checkbox,
-  useTheme,
   Chip,
 } from '@mui/material';
-import { useState } from 'react';
 import { checkboxes, chipColor } from './ExistingIncident.data';
 import { v4 as uuidv4 } from 'uuid';
-import { enqueueSnackbar } from 'notistack';
+import { useExistingIncident } from './useExistingIncident';
 
-export default function ExistingIncident({ openDrawer, onClose }: any) {
-  const [searchBy, setSearchBy] = useState<any>();
-
-  const [checkboxValues, setCheckboxValues] = useState<any>({});
-
-  const theme: any = useTheme();
-
-  // Function to handle checkbox change
-  const handleCheckboxChange = (event: any) => {
-    const { id, checked } = event.target;
-    setCheckboxValues((prevValues: any) => ({
-      ...prevValues,
-      [id]: checked,
-    }));
-  };
-
-  const handleSubmit: any = (event: any) => {
-    event.preventDefault();
-    // Filter out checkboxes with values set to false
-    Object.keys(checkboxValues).filter((id) => checkboxValues[id]);
-    // const selectedCheckboxes = Object.keys(checkboxValues).filter(
-    //   (id) => checkboxValues[id],
-    // );
-
-    enqueueSnackbar('Incident Associated Successfully!', {
-      variant: 'success',
-    });
-    onClose(false);
-
-    // console.log('Selected checkboxes on submit:', selectedCheckboxes);
-  };
+export const ExistingIncident = ({ openDrawer, onClose }: any) => {
+  const {
+    handleSubmit,
+    searchBy,
+    setSearchBy,
+    theme,
+    checkboxValues,
+    handleCheckboxChange,
+  } = useExistingIncident({ onClose });
 
   return (
     <CommonDrawer
@@ -99,4 +75,4 @@ export default function ExistingIncident({ openDrawer, onClose }: any) {
       ))}
     </CommonDrawer>
   );
-}
+};

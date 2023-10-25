@@ -1,33 +1,13 @@
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
 import { Grid, Box } from '@mui/material';
-import { useForm } from 'react-hook-form';
-import { dataArray, defaultValues, validationSchema } from './NewIncident.data';
-import { yupResolver } from '@hookform/resolvers/yup';
+import { dataArray } from './NewIncident.data';
 import { v4 as uuidv4 } from 'uuid';
-import { enqueueSnackbar } from 'notistack';
+import { useNewIncident } from './useNewIncident';
 
-export default function NewIncident({ openDrawer, onClose }: any) {
-  const methods: any = useForm({
-    resolver: yupResolver(validationSchema),
-    defaultValues,
-  });
+export const NewIncident = ({ openDrawer, onClose }: any) => {
+  const { handleSubmit, onSubmit, methods } = useNewIncident({ onClose });
 
-  const { handleSubmit } = methods;
-
-  const onSubmit = async () => {
-    // console.log(data);
-    // try {
-    //   const res: any = await onSubmitHandler(data).unwrap();
-    enqueueSnackbar('Incident Associated Successfully!', {
-      variant: 'success',
-    });
-    onClose(false);
-    // } catch (error: any) {
-    //   const errMsg = error?.data?.message;
-    //   enqueueSnackbar(errMsg ?? "Something Went Wrong!", { variant: "error" });
-    // }
-  };
   return (
     <CommonDrawer
       isDrawerOpen={openDrawer}
@@ -59,4 +39,4 @@ export default function NewIncident({ openDrawer, onClose }: any) {
       </Box>
     </CommonDrawer>
   );
-}
+};

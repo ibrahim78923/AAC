@@ -1,12 +1,12 @@
 import { Box, Dialog, Typography, useTheme } from '@mui/material';
 import React from 'react';
 
-export default function DialogBox({
+export const DialogBox = ({
   openDialog,
   setOpenDialog,
   setNewIncident,
   setExistingIncident,
-}: any) {
+}: any) => {
   const theme: any = useTheme();
   return (
     <Dialog
@@ -47,4 +47,4 @@ export default function DialogBox({
       </Box>
     </Dialog>
   );
-}
+};
