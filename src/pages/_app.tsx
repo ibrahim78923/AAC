@@ -7,21 +7,25 @@ import { SnackbarProvider } from 'notistack';
 
 import { Provider } from 'react-redux';
 import store from '@/redux/store';
+import { persistStore } from 'redux-persist';
+import { PersistGate } from 'redux-persist/integration/react';
 
 export default function App(props: any) {
   const { Component, pageProps } = props;
 
   const getLayout = Component.getLayout ?? ((page: any) => page);
-
+  const persistor = persistStore(store);
   return (
     <ThemeProvider>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <Provider store={store}>
-          <ThemeLocalization>
-            <SnackbarProvider>
-              {getLayout(<Component {...pageProps} />)}
-            </SnackbarProvider>
-          </ThemeLocalization>
+          <PersistGate loading={null} persistor={persistor}>
+            <ThemeLocalization>
+              <SnackbarProvider>
+                {getLayout(<Component {...pageProps} />)}
+              </SnackbarProvider>
+            </ThemeLocalization>
+          </PersistGate>
         </Provider>
       </LocalizationProvider>
     </ThemeProvider>
