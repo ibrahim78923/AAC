@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Grid, useTheme } from '@mui/material';
+import { Button, Grid, useTheme } from '@mui/material';
 
 import CommonModal from '@/components/CommonModal';
 
@@ -41,7 +41,7 @@ const NewsAndEventsModal = ({
       handleSubmit={() => setIsNewsAndEventAddModal(false)}
       title="Add News and Events"
       okText="add"
-      footer={true}
+      footer={false}
       submitIcon={<PostIcon color={theme.palette.common.white} />}
     >
       <>
@@ -63,6 +63,15 @@ const NewsAndEventsModal = ({
                 </item.component>
               </Grid>
             ))}
+          </Grid>
+          <Grid sm={12} mt={3} sx={{ textAlign: 'end' }}>
+            <Button
+              variant="contained"
+              className="medium"
+              startIcon={<PostIcon color={theme.palette.common.white} />}
+            >
+              Add
+            </Button>
           </Grid>
         </FormProvider>
       </>
