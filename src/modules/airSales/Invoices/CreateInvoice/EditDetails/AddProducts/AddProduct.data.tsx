@@ -1,5 +1,8 @@
 import {
+  RHFCheckbox,
   RHFDatePicker,
+  RHFDropZone,
+  RHFEditor,
   RHFSelect,
   RHFTextField,
   RHFTimePicker,
@@ -33,7 +36,7 @@ export const customValidationSchema = Yup.object().shape({
   unitPrice: Yup.string().required('Field is Required'),
   billingFrequency: Yup.string().required('Field is Required'),
   createdDate: Yup.string().required('Field is Required'),
-  createTime: Yup.string().required('Field is Required'),
+  createdTime: Yup.string().required('Field is Required'),
 });
 
 export const customDefaultValues = {
@@ -83,6 +86,24 @@ export const customFields = [
   },
   {
     componentProps: {
+      name: 'description',
+      label: 'Description',
+      fullWidth: true,
+    },
+    component: RHFEditor,
+    md: 12,
+  },
+  {
+    componentProps: {
+      name: 'isActiveProduct',
+      label: 'Active Product',
+      fullWidth: true,
+    },
+    component: RHFCheckbox,
+    md: 12,
+  },
+  {
+    componentProps: {
       name: 'unitPrice',
       label: 'Unit Price',
       fullWidth: true,
@@ -123,5 +144,14 @@ export const customFields = [
     },
     component: RHFTimePicker,
     md: 6,
+  },
+  {
+    componentProps: {
+      name: 'file',
+      label: 'Created Time',
+      fullWidth: true,
+    },
+    component: RHFDropZone,
+    md: 12,
   },
 ];

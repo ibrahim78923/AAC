@@ -83,7 +83,7 @@ const Modules = () => {
         <AccordionDetails>
           <Grid container>
             {AirSalesCategories?.map((item: any) => (
-              <Grid item xs={3} key={uuidv4()}>
+              <Grid item xs={12} sm={6} lg={4} xl={3} key={uuidv4()}>
                 <Box sx={{ width: 'max-content' }}>
                   <FormGroup>
                     <FormControlLabel

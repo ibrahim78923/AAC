@@ -116,6 +116,8 @@ export const dataArray = (isFieldDisable = false) => [
       name: 'description',
       label: 'Description',
       fullWidth: true,
+      multiline: true,
+      rows: 4,
     },
     component: RHFTextField,
     gridLength: 6,
