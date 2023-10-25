@@ -1,3 +1,24 @@
+import { RHFTextField } from '@/components/ReactHookForm';
+import * as Yup from 'yup';
+export const addaNumberValidationSchema = Yup.object().shape({
+  number: Yup.string().trim().required('Field is Required'),
+});
+
+export const addaNumberDefaultValues = {
+  number: '',
+};
+
+export const addaNumberFiltersDataArray = [
+  {
+    componentProps: {
+      name: 'number',
+      label: 'Enter Number',
+    },
+    component: RHFTextField,
+    md: 12,
+  },
+];
+
 export const citiesData = [
   {
     label: 'Bristol',
