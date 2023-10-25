@@ -54,7 +54,7 @@ const CommonDrawer = ({
             }}
           >
             <Typography variant="h5">{title}</Typography>
-            <Box onClick={onClose}>
+            <Box onClick={onClose} sx={{ cursor: 'pointer' }}>
               <CloseIcon />
             </Box>
           </Toolbar>
@@ -124,7 +124,7 @@ const CommonDrawer = ({
                         fontWeight: '500',
                       }}
                       onClick={submitHandler}
-                      type="submit"
+                      // type="submit"
                     >
                       {okText}
                     </Button>

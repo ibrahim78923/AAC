@@ -19,7 +19,7 @@ export const chatContactsData = [
     time: '12:48PM',
   },
   {
-    chatId: '01',
+    chatId: '02',
     userAvatar: UserAvatarImage,
     userName: 'Bessie Cooper',
     lastMessage: 'How are you?',
@@ -27,7 +27,7 @@ export const chatContactsData = [
     time: '12:48PM',
   },
   {
-    chatId: '01',
+    chatId: '03',
     userAvatar: UserAvatarImage,
     userName: 'Brooklyn Simmons',
     lastMessage: 'How are you?',
@@ -45,7 +45,7 @@ export const chatGroupsData = [
     time: '12:48PM',
   },
   {
-    chatId: '01',
+    chatId: '02',
     userAvatar: GroupAvatarAdidasImage,
     userName: 'Sport',
     lastMessage: "i'll be there in 2 minutes",

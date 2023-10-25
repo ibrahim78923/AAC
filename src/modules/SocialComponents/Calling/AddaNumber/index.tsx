@@ -1,17 +1,36 @@
 import React, { useEffect, useState } from 'react';
 
 import Image from 'next/image';
+import Link from 'next/link';
 
-import { Box, Button, MenuItem, Typography, useTheme } from '@mui/material';
+import {
+  Box,
+  Button,
+  MenuItem,
+  Typography,
+  useTheme,
+  Grid,
+} from '@mui/material';
 
+import CommonModal from '@/components/CommonModal';
 import Search from '@/components/Search';
+import CodeVerification from './CodeVerification';
+import { FormProvider } from '@/components/ReactHookForm';
 
-import { citiesData } from './AddaNumber.data';
+import {
+  addaNumberDefaultValues,
+  addaNumberFiltersDataArray,
+  addaNumberValidationSchema,
+  citiesData,
+} from './AddaNumber.data';
+
+import { yupResolver } from '@hookform/resolvers/yup';
 
 import { CallFilledImage } from '@/assets/images';
 
 import { styles } from './AddaNumber.style';
 
+import { useForm } from 'react-hook-form';
 import { v4 as uuidv4 } from 'uuid';
 
 const AddaNumber = () => {
@@ -20,9 +39,23 @@ const AddaNumber = () => {
   const [callingSearch, setCallingSearch] = useState('');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isAreaCodeSelected, setIsAreaCodeSelected] = useState(false);
+  const [isVerificationNumberModal, setIsVerificationNumberModal] =
+    useState(false);
+  const [isCodeVerificationModal, setIsCodeVerificationModal] = useState(false);
 
   const [selectedCity, setSelectedCity] = useState<any>(null);
   const [selectedAreaCode, setSelectedAreaCode] = useState<any>(null);
+
+  const methodsFaqsFilters = useForm({
+    resolver: yupResolver(addaNumberValidationSchema),
+    defaultValues: addaNumberDefaultValues,
+  });
+
+  const onSubmit = () => {
+    setIsVerificationNumberModal(false);
+    setIsCodeVerificationModal(true);
+  };
+  const { handleSubmit } = methodsFaqsFilters;
 
   const dataToRender = selectedCity?.areaCodes
     ? selectedCity?.areaCodes
@@ -74,6 +107,7 @@ const AddaNumber = () => {
               variant="contained"
               className="large"
               sx={{ width: '145px', fontSize: '18px', mt: '2' }}
+              onClick={() => setIsVerificationNumberModal(true)}
             >
               Verify
             </Button>
@@ -151,10 +185,65 @@ const AddaNumber = () => {
                 </>
               </Box>
             )}
-            <Box></Box>
           </Box>
         )}
       </Box>
+      <CommonModal
+        open={isVerificationNumberModal}
+        handleClose={() => setIsVerificationNumberModal(false)}
+        handleSubmit={handleSubmit(onSubmit)}
+        title="Enter a number to link"
+        okText="Send Code"
+        cancelText="Cancel"
+        footer={true}
+        // footerFill
+      >
+        <>
+          <Typography variant="body2" mb={1}>
+            Inbound calls to your Air Apple voice number will be forwareded to
+            this number
+          </Typography>
+          <FormProvider
+            methods={methodsFaqsFilters}
+            onSubmit={handleSubmit(onSubmit)}
+          >
+            <Grid container spacing={4}>
+              {addaNumberFiltersDataArray?.map((item: any) => (
+                <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                  <item.component {...item.componentProps} size={'small'}>
+                    {item?.componentProps?.select
+                      ? item?.options?.map((option: any) => (
+                          <option key={option?.value} value={option?.value}>
+                            {option?.label}
+                          </option>
+                        ))
+                      : null}
+                  </item.component>
+                </Grid>
+              ))}
+            </Grid>
+          </FormProvider>
+          <Box>
+            <Typography variant="body2" mt={1}>
+              Air AppleCart Voice will send you a text message containing a
+              6-digit code. You can also&nbsp;
+              <Link
+                href=""
+                style={{
+                  color: theme.palette.primary.main,
+                  textDecoration: 'underline',
+                }}
+              >
+                verify by phone.
+              </Link>
+            </Typography>
+          </Box>
+        </>
+      </CommonModal>
+      <CodeVerification
+        isCodeVerificationModal={isCodeVerificationModal}
+        setIsCodeVerificationModal={setIsCodeVerificationModal}
+      />
     </Box>
   );
 };
