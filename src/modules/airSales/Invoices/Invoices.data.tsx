@@ -206,7 +206,10 @@ export const invoiceFilterFields = [
 ];
 
 // products table data
-export const productsTableColumns = (setIsDeleteModal: any) => [
+export const productsTableColumns = (
+  setIsDeleteModal: any,
+  setIsDrawerOpen: any,
+) => [
   {
     accessorFn: (row: any) => row.Sr,
     id: 'Sr',
@@ -278,9 +281,13 @@ export const productsTableColumns = (setIsDeleteModal: any) => [
     cell: () => {
       return (
         <Stack direction="row" alignItems="center" gap={1}>
-          <RemoveRedEye />
+          <RemoveRedEye
+            sx={{ cursor: 'pointer' }}
+            onClick={() => setIsDrawerOpen(true)}
+          />
           <Box
             sx={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}
+            onClick={() => setIsDrawerOpen(true)}
           >
             <EditYellowBgIcon />
           </Box>

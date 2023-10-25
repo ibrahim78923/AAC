@@ -21,12 +21,12 @@ export const styles = {
       display: 'flex',
       alignItems: 'center',
       padding: '18px',
-      width: '112px',
+      width: { xs: '100%', sm: '112px' },
     };
   },
   filterButton: (theme: any) => {
     return {
-      width: '96px',
+      width: { xs: '100%', sm: '96px' },
       padding: '18px',
       border: '1.5px solid #e7e7e9',
       fontWeight: 500,
