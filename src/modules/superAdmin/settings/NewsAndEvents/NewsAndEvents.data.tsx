@@ -52,8 +52,8 @@ export const newsAndEventsDateFiltersDataArray = [
 ];
 
 export const columns = (
-  isDisabled: any,
-  setIsDisabled: any,
+  isDisabled: boolean,
+  setIsDisabled: (value: boolean) => void,
   tableRowValues: any,
   setTableRowValues: any,
 ) => {

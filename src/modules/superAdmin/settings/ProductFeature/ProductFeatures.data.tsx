@@ -72,7 +72,7 @@ export const productFeaturesFiltersDataArray = [
 
 export const columns = (
   isDisabled: boolean,
-  setIsDisabled: any,
+  setIsDisabled: (value: boolean) => void,
   tableRowValues: any,
   setTableRowValues: any,
 ) => {
