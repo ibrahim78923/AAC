@@ -27,7 +27,6 @@ export const jobApplicationFiltersDataArray = [
     componentProps: {
       name: 'candidates',
       label: 'Candidates',
-      // select: true,
     },
     options: [
       { value: 'JohnDoe', label: 'John Doe' },

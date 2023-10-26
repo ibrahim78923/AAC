@@ -13,6 +13,15 @@ export const styles = {
       display: 'flex',
       alignItems: 'center',
       padding: '0px 20px',
+      justifyContent: 'space-between',
+    };
+  },
+  tableLink: (theme: any) => {
+    return {
+      cursor: 'pointer',
+      '&:hover': {
+        color: theme.palette.primary.main,
+      },
     };
   },
 };
