@@ -1,10 +1,14 @@
 import { Typography, Box, Button } from '@mui/material';
 import ViewDetailBackArrowIcon from '@/assets/icons/modules/view-detail-Icon/view-detail-back-arrow-icon';
 import React from 'react';
-import { SingleDropdownButton } from '@/components/SingleDropdownButton';
+import { SingleDropdownButton } from '@/modules/airServices/common/Buttons/SingleDropdownButton';
 
 export const Header = (props: any) => {
-  const { dropdownOptions, handleReceived, handleAddToInventory } = props;
+  const {
+    dropdownOptions,
+    // handleAddToInventory,
+    handleReceived,
+  } = props;
 
   return (
     <>
@@ -30,7 +34,7 @@ export const Header = (props: any) => {
           <Button
             color="secondary"
             variant="outlined"
-            onClick={() => handleAddToInventory?.()}
+            // onClick={() => handleAddToInventory?.()}
           >
             Add to Inventory
           </Button>

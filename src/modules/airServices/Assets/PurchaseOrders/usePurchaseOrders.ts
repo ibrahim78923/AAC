@@ -1,9 +1,12 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { defaultValues } from './PurchaseOrderFilter/PurchaseOrderFilter.data';
+import { defaultValues } from './PurchaseOrderComponents/PurchaseOrderFilter/PurchaseOrderFilter.data';
 import { useRouter } from 'next/router';
+import { AIR_SERVICES } from '@/constants';
+
+const { NEW_PURCHASE_ORDER } = AIR_SERVICES;
+
 const usePurchaseOrders = () => {
-  const { push } = useRouter();
   const router = useRouter();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isNewPurchaseOrder, setIsNewPurchaseOrder] = useState(true);
@@ -13,7 +16,7 @@ const usePurchaseOrders = () => {
   });
 
   const handleNewPurchaseOrder = () => {
-    push('/air-services/assets/purchase-orders/new-purchase');
+    router.push(NEW_PURCHASE_ORDER);
   };
 
   const submitPurchaseOrderFilterForm = async () => {};
@@ -23,12 +26,6 @@ const usePurchaseOrders = () => {
     setIsDrawerOpen(false);
   };
 
-  const handlePurchaseOrderDetail = (orderNumber: string) => {
-    push(
-      `/air-services/assets/purchase-orders/detail?orderNumber=${orderNumber}`,
-    );
-  };
-
   return {
     isDrawerOpen,
     setIsDrawerOpen,
@@ -36,7 +33,6 @@ const usePurchaseOrders = () => {
     methodsPurchaseOrderFilterForm,
     submitPurchaseOrderFilterForm,
     resetPurchaseOrderFilterForm,
-    handlePurchaseOrderDetail,
     // new purchase order
     isNewPurchaseOrder,
     setIsNewPurchaseOrder,

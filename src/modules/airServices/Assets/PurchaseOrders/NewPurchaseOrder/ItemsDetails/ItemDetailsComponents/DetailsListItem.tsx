@@ -3,9 +3,9 @@ import { Autocomplete, Box, TextField } from '@mui/material';
 import {
   itemsDetailsList,
   itemsDetailsSubList,
-} from '../NewPurchaseOrder.data';
-import useItemsDetails from './useItemsDetails';
-import { styles } from './ItemsDetails.style';
+} from '../../NewPurchaseOrder.data';
+import useItemsDetails from '../useItemsDetails';
+import { styles } from '../ItemsDetails.style';
 
 const DetailsListItem: FC<{
   data: any;

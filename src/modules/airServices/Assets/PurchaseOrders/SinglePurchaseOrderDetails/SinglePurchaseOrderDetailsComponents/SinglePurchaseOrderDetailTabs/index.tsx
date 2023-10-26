@@ -1,11 +1,11 @@
-import { Overview } from '../Overview';
+import { Overview } from '../../Overview';
 
 import HorizontalTabs from '@/components/Tabs/HorizontalTabs';
 import { singlePurchaseOrderDetailTabsData } from './SinglePurchaseOrderDetailsTabs.data';
-import { Approvals } from '../Approvals';
-import { Associations } from '../Associations';
-import { AssetsReceived } from '../AssetsReceived';
-import { Attachment } from '../Attachments';
+import { Approvals } from '../../Approvals';
+import { Associations } from '../../Associations';
+import { AssetsReceived } from '../../AssetsReceived';
+import { Attachment } from '../../Attachments';
 
 export const SinglePurchaseOrderDetailTabs = () => {
   return (

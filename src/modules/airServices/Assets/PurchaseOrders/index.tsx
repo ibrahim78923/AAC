@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { Box } from '@mui/material';
 import { data, purchaseOrderColumnsFunction } from './PurchaseOrders.data';
-import TanstackTable from '@/components/Table/TanstackTable';
+import TanstackTable from '@/components/Tabel/TanstackTable';
 import Search from '@/components/Search';
 
-import { PageTitledHeader } from '../../../../components/PageTitledHeader/index';
-import { PurchaseOrderExport } from './PurchaseOrderExport';
-import { PurchaseOrderFilter } from './PurchaseOrderFilter';
+import { PageTitledHeader } from '../../common/Headers/PageTitledHeader/index';
+import { PurchaseOrderExport } from './PurchaseOrderComponents/PurchaseOrderExport';
+import { PurchaseOrderFilter } from './PurchaseOrderComponents/PurchaseOrderFilter';
 
 import usePurchaseOrders from './usePurchaseOrders';
-import { filterFields } from './PurchaseOrderFilter/PurchaseOrderFilter.data';
+import { filterFields } from './PurchaseOrderComponents/PurchaseOrderFilter/PurchaseOrderFilter.data';
 
 function PurchaseOrder() {
   const [purchaseOrderData, setPurchaseOrderData] = useState([]);
@@ -20,7 +20,7 @@ function PurchaseOrder() {
     methodsPurchaseOrderFilterForm,
     submitPurchaseOrderFilterForm,
     resetPurchaseOrderFilterForm,
-    handlePurchaseOrderDetail,
+    // handlePurchaseOrderDetail,
     router,
   } = usePurchaseOrders();
 
@@ -29,7 +29,7 @@ function PurchaseOrder() {
     setPurchaseOrderData,
     data,
     router,
-    handlePurchaseOrderDetail,
+    // handlePurchaseOrderDetail,
   );
   return (
     <>
