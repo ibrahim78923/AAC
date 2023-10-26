@@ -4,7 +4,7 @@ import { Box, Grid, Typography, Button } from '@mui/material';
 
 import TaskEditorDrawer from './TaskEditorDrawer';
 import ActionDropdown from './ActionDropdown';
-import TanstackTable from '@/components/Tabel/TanstackTable';
+import TanstackTable from '@/components/Table/TanstackTable';
 
 import useTasks from './useTasks';
 

@@ -4,7 +4,7 @@ import { Box, useTheme, Button, Grid } from '@mui/material';
 
 import CommonDrawer from '@/components/CommonDrawer';
 import Search from '@/components/Search';
-import TanstackTable from '@/components/Tabel/TanstackTable';
+import TanstackTable from '@/components/Table/TanstackTable';
 import CustomPagination from '@/components/CustomPagination';
 import { FormProvider } from '@/components/ReactHookForm';
 
