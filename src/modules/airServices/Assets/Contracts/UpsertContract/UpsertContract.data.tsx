@@ -32,7 +32,7 @@ export const upsertContractFormDefaultValues = () => {
     notifyExpiry: '',
     notifyBefore: '',
     notifyTo: '',
-    itemDetail: [{ firstName: '', lastName: '' }],
+    itemDetail: [{ serviceName: '', priceModel: '', cost:0 , count:'', comments:'' }],
   };
 };
 

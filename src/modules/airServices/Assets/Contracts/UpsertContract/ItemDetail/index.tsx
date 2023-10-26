@@ -16,18 +16,24 @@ export const dropdownDummy = [
 const columns = [
   'Service Name',
   'Price Model',
-  // 'Cost', 'Count',
+  'Cost',
+  'Count',
   'Comments',
+  'Action',
 ];
 const tableData = (name: any, index: any, remove: any) => [
   {
     id: 1,
-    data: <RHFTextField name={`${name}.${index}.firstName`} />,
+    data: <RHFTextField name={`${name}.${index}.serviceName`} size="small" />,
   },
   {
     id: 2,
     data: (
-      <RHFSelect name={`${name}.${index}.lastName`} options={dropdownDummy}>
+      <RHFSelect
+        name={`${name}.${index}.priceModel`}
+        options={dropdownDummy}
+        size="small"
+      >
         {dropdownDummy?.map((option: any) => (
           <option key={option?.value} value={option?.value}>
             {option?.label}
@@ -36,16 +42,20 @@ const tableData = (name: any, index: any, remove: any) => [
       </RHFSelect>
     ),
   },
-  // {
-  //   id: 3,
-  //   data: <RHFTextField name={`${name}.${index}.firstName`} />,
-  // },
-  // {
-  //   id: 4,
-  //   data: <RHFTextField name={`${name}.${index}.firstName`} />,
-  // },
+  {
+    id: 3,
+    data: <RHFTextField name={`${name}.${index}.cost`} size="small" />,
+  },
+  {
+    id: 4,
+    data: <RHFTextField name={`${name}.${index}.count`} size="small" />,
+  },
   {
     id: 5,
+    data: <RHFTextField name={`${name}.${index}.comments`} size="small" />,
+  },
+  {
+    id: 6,
     data: (
       <Button type="button" onClick={() => remove(index)}>
         Delete
@@ -53,7 +63,7 @@ const tableData = (name: any, index: any, remove: any) => [
     ),
   },
 ];
-export const ItemDetail = (props: any) => {
+export const ItemDetail: any = (props: any) => {
   const { name } = props;
   const { control } = useFormContext();
   const { fields, append, remove } = useFieldArray({
@@ -63,7 +73,7 @@ export const ItemDetail = (props: any) => {
   console.log({ fields });
   return (
     <>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+      <Table>
         <TableHead>
           <TableRow>
             {columns?.map((x: any) => <TableCell>{x}</TableCell>)}
