@@ -27,55 +27,66 @@ const CreateInvoice = () => {
             <Stack
               justifyContent="space-between"
               alignItems="center"
-              direction="row"
+              direction={{ xs: 'column', sm: 'row' }}
+              gap={1}
               mt={2}
             >
-              <Button
-                variant="outlined"
-                disabled={activeStep === 0 ? true : false}
-                sx={style.greyButton}
-                onClick={hanldeGoPreviousBack}
-              >
-                Back
-              </Button>
-              <Box>
-                <Stack gap="10px" direction="row">
-                  {activeStep === 0 || activeStep === 1 ? (
-                    <Button
-                      variant="outlined"
-                      sx={style.greyButton}
-                      onClick={() => router.push('/air-sales/invoices')}
-                    >
-                      Cancel
-                    </Button>
-                  ) : (
-                    <Button variant="outlined" sx={style.greyButton}>
-                      Save as Draft
-                    </Button>
-                  )}
-                  {activeStep == 0 && (
-                    <Button
-                      variant="outlined"
-                      sx={style.greyButton}
-                      onClick={() => router.push('/air-sales/invoices')}
-                    >
-                      Skip
-                    </Button>
-                  )}
-                  {activeStep === 0 || activeStep === 1 ? (
-                    <Button variant="contained" onClick={handleCompleteStep}>
-                      Next
-                    </Button>
-                  ) : (
-                    <Button
-                      variant="contained"
-                      onClick={() => setIsEmailModal(true)}
-                    >
-                      Send To Customer
-                    </Button>
-                  )}
-                </Stack>
+              <Box width={{ xs: '100%', sm: '' }}>
+                <Button
+                  variant="outlined"
+                  disabled={activeStep === 0 ? true : false}
+                  sx={style.outlinedButton}
+                  onClick={hanldeGoPreviousBack}
+                  fullWidth
+                >
+                  Back
+                </Button>
               </Box>
+              <Stack
+                gap="10px"
+                direction={{ xs: 'column', sm: 'row' }}
+                sx={{ width: { xs: '100%', sm: 'auto' } }}
+              >
+                {activeStep === 0 || activeStep === 1 ? (
+                  <Button
+                    variant="outlined"
+                    sx={style.outlinedButton}
+                    onClick={() => router.push('/air-sales/invoices')}
+                  >
+                    Cancel
+                  </Button>
+                ) : (
+                  <Button variant="outlined" sx={style.outlinedButton}>
+                    Save as Draft
+                  </Button>
+                )}
+                {activeStep == 0 && (
+                  <Button
+                    variant="outlined"
+                    sx={style.outlinedButton}
+                    onClick={() => router.push('/air-sales/invoices')}
+                  >
+                    Skip
+                  </Button>
+                )}
+                {activeStep === 0 || activeStep === 1 ? (
+                  <Button
+                    variant="contained"
+                    sx={style.containedButton}
+                    onClick={handleCompleteStep}
+                  >
+                    Next
+                  </Button>
+                ) : (
+                  <Button
+                    variant="contained"
+                    sx={style.containedButton}
+                    onClick={() => setIsEmailModal(true)}
+                  >
+                    Send To Customer
+                  </Button>
+                )}
+              </Stack>
             </Stack>
           </>
         }
@@ -88,6 +99,7 @@ const CreateInvoice = () => {
         }}
         handleSubmit={() => {
           setIsEmailModal(false);
+          router.push('/air-sales/invoices');
         }}
         submitButonText="Send"
         isFooter

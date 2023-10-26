@@ -37,7 +37,7 @@ const ListView = () => {
         <Typography variant="h3">Invoice</Typography>
         <Button
           variant="contained"
-          sx={{ display: 'flex', gap: '10px' }}
+          sx={{ display: 'flex', gap: '10px', fontWeight: '500' }}
           startIcon={<PlusSharedIcon />}
           onClick={() => navigate.push('/air-sales/invoices/create-invoices')}
         >

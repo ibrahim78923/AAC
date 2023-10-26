@@ -17,7 +17,7 @@ const useListView = () => {
 
   const handleIsViewPage = () => {
     handleClose;
-    router.push('sales-invoices/view-invoices');
+    router.push('/air-sales/invoices/view-invoices');
   };
 
   const handleDeleteModal = () => {
