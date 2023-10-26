@@ -3,9 +3,9 @@ import { Autocomplete, Box, TextField } from '@mui/material';
 import {
   itemsDetailsList,
   itemsDetailsSubList,
-} from '../../NewPurchaseOrder.data';
-import useItemsDetails from '../useItemsDetails';
-import { styles } from '../ItemsDetails.style';
+} from '../../../NewPurchaseOrder.data';
+import useItemsDetails from '../../useItemsDetails';
+import { styles } from '../../ItemsDetails.style';
 import { v4 as uuidv4 } from 'uuid';
 
 const DetailsListItem: FC<{

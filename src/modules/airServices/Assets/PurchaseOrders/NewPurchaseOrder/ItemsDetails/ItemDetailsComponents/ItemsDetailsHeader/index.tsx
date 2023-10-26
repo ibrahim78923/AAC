@@ -1,9 +1,9 @@
 import {
   itemsDetailsList,
   itemsDetailsSubList,
-} from '../../NewPurchaseOrder.data';
+} from '../../../NewPurchaseOrder.data';
 import { Box, Typography } from '@mui/material';
-import { styles } from '../ItemsDetails.style';
+import { styles } from '../../ItemsDetails.style';
 import { v4 as uuidv4 } from 'uuid';
 
 const ItemsDetailsHeader = () => {
