@@ -2,7 +2,7 @@ import CommonModal from '@/components/CommonModal';
 import { FormProvider, RHFSelect } from '@/components/ReactHookForm';
 import { Box, Button, Divider } from '@mui/material';
 import { GrayPlusIcon } from '@/assets/icons';
-import { useInstallation } from '../useInstallations';
+import { useAddDevice } from './useAddDevice';
 
 const AddDevice = () => {
   const {
@@ -12,7 +12,7 @@ const AddDevice = () => {
     setIsAddDeviceModalOpen,
     onAddDeviceSubmit,
     addDeviceOptionsList: options,
-  } = useInstallation();
+  } = useAddDevice();
 
   return (
     <>

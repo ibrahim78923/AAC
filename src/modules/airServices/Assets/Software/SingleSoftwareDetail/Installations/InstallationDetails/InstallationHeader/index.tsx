@@ -1,15 +1,15 @@
 import { Button, Box } from '@mui/material';
 import Search from '@/components/Search';
 import { AlertModals } from '@/components/AlertModals';
-import { useInstallation } from '../../useInstallations';
-import AddDevice from '../../addDevice';
 import { ExportButton } from '@/components/ExportButton';
+import AddDevice from '../../AddDevice';
+import { useInstallationHeader } from './useInstallationHeader';
 
 const DELETE_MESSAGE = 'Are you sure you want to delete this Associate Asset?';
 const MODAL_TYPE = 'delete';
 export const InstallationHeader = ({ activeCheck }: any) => {
   const { deleteModal, setDeleteModal, submitDeleteModel, handleMenuExport } =
-    useInstallation();
+    useInstallationHeader();
   return (
     <>
       <Box
