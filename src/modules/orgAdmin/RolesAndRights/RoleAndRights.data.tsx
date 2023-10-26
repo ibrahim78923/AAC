@@ -19,7 +19,6 @@ export const data: any = [
     RoleName: 'Company Owner',
     Products: 'Sales',
     CompanyAccount: 'Orcalo LTD',
-    Status: <SwitchBtn defaultChecked />,
   },
   {
     Id: 2,
@@ -27,7 +26,6 @@ export const data: any = [
     RoleName: 'Company Owner',
     Products: 'Services',
     CompanyAccount: 'Orcalo LTD',
-    Status: <SwitchBtn defaultChecked />,
   },
   {
     Id: 3,
@@ -35,7 +33,6 @@ export const data: any = [
     RoleName: 'Admin',
     Products: 'Marketing',
     CompanyAccount: 'Orcalo LTD',
-    Status: <SwitchBtn defaultChecked />,
   },
   {
     Id: 4,
@@ -43,7 +40,6 @@ export const data: any = [
     RoleName: 'Admin',
     Products: 'Loyalty Program',
     CompanyAccount: 'Orcalo LTD',
-    Status: <SwitchBtn defaultChecked />,
   },
 ];
 
@@ -88,7 +84,7 @@ export const columns: any = [
     id: 'status',
     isSortable: true,
     header: 'Status',
-    cell: (info: any) => info.getValue(),
+    cell: <SwitchBtn defaultChecked />,
   },
 ];
 

@@ -11,6 +11,7 @@ import Profile from './Profile';
 import ControlPointIcon from '@mui/icons-material/ControlPoint';
 
 import AddAccount from '../Drawers/AddAccount';
+
 import useUsersDetails from './useUsersDetails';
 
 const UsersDetails = () => {
@@ -29,7 +30,13 @@ const UsersDetails = () => {
           <ProfileCard isBadge={false} />
         </Grid>
         <Grid item xs={12}>
-          <Box p="10px" sx={{ borderRadius: '8px', background: '#ffff' }}>
+          <Box
+            p="10px"
+            sx={{
+              borderRadius: '8px',
+              background: theme?.palette?.common?.white,
+            }}
+          >
             <Card sx={{ padding: '0px 24px' }}>
               <CommonTabs
                 isHeader={tabValue === 0 ? true : false}

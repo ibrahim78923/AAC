@@ -1,87 +1,45 @@
-import { Box, Checkbox, Switch, Typography } from '@mui/material';
+import { Box, Checkbox, Typography } from '@mui/material';
+
+import { SwitchBtn } from '../../SwitchButton';
 
 import { LogoIcon } from '@/assets/icons';
-
-const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
 export const companyData: any = [
   {
     Id: 1,
-    Product: (
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-        <LogoIcon />
-        <Typography sx={{ fontSize: '12px' }}>Air Sales</Typography>
-      </Box>
-    ),
     Company: 'Orcalo Holding',
     Email: 'orcalo@airapple.co.uk',
     ManageRole: 'user select here',
-    Status: <Switch {...label} defaultChecked />,
   },
   {
     Id: 2,
-    Product: (
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-        <LogoIcon />
-        <Typography sx={{ fontSize: '12px' }}>Air Sales</Typography>
-      </Box>
-    ),
     Company: 'Orcalo Holding',
     Email: 'orcalo@airapple.co.uk',
     ManageRole: 'user select here',
-    Status: <Switch {...label} defaultChecked />,
   },
   {
     Id: 3,
-    Product: (
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-        <LogoIcon />
-        <Typography sx={{ fontSize: '12px' }}>Air Sales</Typography>
-      </Box>
-    ),
     Company: 'Orcalo Holding',
     Email: 'orcalo@airapple.co.uk',
     ManageRole: 'user select here',
-    Status: <Switch {...label} defaultChecked />,
   },
   {
     Id: 4,
-    Product: (
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-        <LogoIcon />
-        <Typography sx={{ fontSize: '12px' }}>Air Sales</Typography>
-      </Box>
-    ),
     Company: 'Orcalo Holding',
     Email: 'orcalo@airapple.co.uk',
     ManageRole: 'user select here',
-    Status: <Switch {...label} defaultChecked />,
   },
   {
     Id: 5,
-    Product: (
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-        <LogoIcon />
-        <Typography sx={{ fontSize: '12px' }}>Air Sales</Typography>
-      </Box>
-    ),
     Company: 'Orcalo Holding',
     Email: 'orcalo@airapple.co.uk',
     ManageRole: 'user select here',
-    Status: <Switch {...label} defaultChecked />,
   },
   {
     Id: 6,
-    Product: (
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-        <LogoIcon />
-        <Typography sx={{ fontSize: '12px' }}>Air Sales</Typography>
-      </Box>
-    ),
     Company: 'Orcalo Holding',
     Email: 'orcalo@airapple.co.uk',
     ManageRole: 'user',
-    Status: <Switch {...label} defaultChecked />,
   },
 ];
 
@@ -96,9 +54,14 @@ export const companyColumns: any = [
   {
     accessorFn: (row: any) => row.Product,
     id: 'product',
-    cell: (info: any) => info.getValue(),
-    header: 'Product',
     isSortable: false,
+    header: 'Product',
+    cell: (
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+        <LogoIcon />
+        <Typography sx={{ fontSize: '12px' }}>Air Sales</Typography>
+      </Box>
+    ),
   },
   {
     accessorFn: (row: any) => row.Company,
@@ -126,6 +89,6 @@ export const companyColumns: any = [
     id: 'status',
     isSortable: true,
     header: 'Status',
-    cell: (info: any) => info.getValue(),
+    cell: <SwitchBtn defaultChecked />,
   },
 ];

@@ -75,7 +75,7 @@ const UsersDetailsList = () => {
             sx={{
               padding: '24px 16px',
               borderRadius: '8px 0px 0px 8px',
-              background: '#ffff',
+              background: theme?.palette?.common?.white,
               minHeight: `calc(100% - ${0}px)`,
             }}
           >
@@ -209,44 +209,56 @@ const UsersDetailsList = () => {
           </Box>
         </Grid>
         <Grid item xl={9} lg={8} xs={12}>
-          <ProfileCard />
-          <Box p="10px" sx={{ borderRadius: '8px', background: '#ffff' }}>
-            <Card sx={{ padding: '0px 24px' }}>
-              <CommonTabs
-                getTabVal={(val: number) => setTabVal(val)}
-                searchBarProps={{
-                  label: 'Search Here',
-                  setSearchBy: setSearch,
-                  searchBy: search,
-                  width: '260px',
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <ProfileCard />
+            </Grid>
+            <Grid item xs={12}>
+              <Box
+                p="10px"
+                sx={{
+                  borderRadius: '8px',
+                  background: theme?.palette?.common?.white,
                 }}
-                isHeader={tabVal === 0 ? true : false}
-                tabsArray={['Company Accounts', 'Profile', 'Delegates']}
-                headerChildren={
-                  <>
-                    <Button
-                      onClick={() => {
-                        setIsOpenAddAccountDrawer(true);
-                      }}
-                      sx={{
-                        border: `1px solid ${theme?.palette?.custom?.dark}`,
-                        color: theme?.palette?.custom?.main,
-                        width: '146px',
-                        height: '36px',
-                      }}
-                      startIcon={<AddCircleOutlined />}
-                    >
-                      Add Account
-                    </Button>
-                  </>
-                }
               >
-                <CompanyAccounts />
-                <UserDetailsProfile />
-                <Delegates />
-              </CommonTabs>
-            </Card>
-          </Box>
+                <Card sx={{ padding: '0px 24px' }}>
+                  <CommonTabs
+                    getTabVal={(val: number) => setTabVal(val)}
+                    searchBarProps={{
+                      label: 'Search Here',
+                      setSearchBy: setSearch,
+                      searchBy: search,
+                      width: '260px',
+                    }}
+                    isHeader={tabVal === 0 ? true : false}
+                    tabsArray={['Company Accounts', 'Profile', 'Delegates']}
+                    headerChildren={
+                      <>
+                        <Button
+                          onClick={() => {
+                            setIsOpenAddAccountDrawer(true);
+                          }}
+                          sx={{
+                            border: `1px solid ${theme?.palette?.custom?.dark}`,
+                            color: theme?.palette?.custom?.main,
+                            width: '146px',
+                            height: '36px',
+                          }}
+                          startIcon={<AddCircleOutlined />}
+                        >
+                          Add Account
+                        </Button>
+                      </>
+                    }
+                  >
+                    <CompanyAccounts />
+                    <UserDetailsProfile />
+                    <Delegates />
+                  </CommonTabs>
+                </Card>
+              </Box>
+            </Grid>
+          </Grid>
         </Grid>
       </Grid>
 

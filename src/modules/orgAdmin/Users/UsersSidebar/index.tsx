@@ -31,7 +31,7 @@ const UsersSidebar = () => {
       sx={{
         padding: '24px 16px',
         borderRadius: '8px 0px 0px 8px',
-        background: '#ffff',
+        background: theme?.palette?.common?.white,
         minHeight: `calc(100% - ${0}px)`,
       }}
     >
