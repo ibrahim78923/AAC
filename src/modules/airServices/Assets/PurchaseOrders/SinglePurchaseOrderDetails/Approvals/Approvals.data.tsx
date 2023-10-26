@@ -8,90 +8,73 @@ import {
   PrimaryRequestIcon,
 } from '@/assets/icons';
 
-export const approvalsStatusColor = (status: any) => {
+export const approvalsStatusObj = (status: any) => {
   const Received = 'Received';
   const RequestSent = 'RequestSent';
   const Approved = 'Approved';
   const Rejected = 'Rejected';
 
-  let color;
+  let statusObj: any;
 
   switch (status) {
     case Received:
-      color = 'primary';
+      statusObj = {
+        color: 'primary',
+        message: (
+          <Fragment>
+            <PrimaryReceivedIcon /> Received for approval on{' '}
+          </Fragment>
+        ),
+      };
       break;
 
     case RequestSent:
-      color = 'primary';
+      statusObj = {
+        color: 'primary',
+        message: (
+          <Fragment>
+            <PrimaryRequestIcon /> Request sent on{' '}
+          </Fragment>
+        ),
+      };
       break;
 
     case Approved:
-      color = 'success';
+      statusObj = {
+        color: 'success',
+        message: (
+          <Fragment>
+            <CheckCircleIcon sx={{ fontSize: '18px' }} /> Approved on{' '}
+          </Fragment>
+        ),
+      };
       break;
 
     case Rejected:
-      color = 'error';
+      statusObj = {
+        color: 'error',
+        message: (
+          <Fragment>
+            <CancelIcon sx={{ fontSize: '18px' }} />
+            Rejected on{' '}
+          </Fragment>
+        ),
+      };
       break;
 
     default:
-      color = 'secondary';
+      statusObj = {
+        color: 'secondary',
+        message: (
+          <Fragment>
+            <PrimaryCancelIcon />
+            Cancelled on{' '}
+          </Fragment>
+        ),
+      };
       break;
   }
-  return color;
-};
-
-export const approvalsStatusMessage = (status: any) => {
-  const Received = 'Received';
-  const RequestSent = 'RequestSent';
-  const Approved = 'Approved';
-  const Rejected = 'Rejected';
-
-  let message: any;
-
-  switch (status) {
-    case Received:
-      message = (
-        <Fragment>
-          <PrimaryReceivedIcon /> Received for approval on{' '}
-        </Fragment>
-      );
-      break;
-
-    case RequestSent:
-      message = (
-        <Fragment>
-          <PrimaryRequestIcon /> Request sent on{' '}
-        </Fragment>
-      );
-      break;
-
-    case Approved:
-      message = (
-        <Fragment>
-          <CheckCircleIcon /> Approved on{' '}
-        </Fragment>
-      );
-      break;
-
-    case Rejected:
-      message = (
-        <Fragment>
-          <CancelIcon />
-          Rejected on{' '}
-        </Fragment>
-      );
-      break;
-
-    default:
-      message = (
-        <Fragment>
-          <PrimaryCancelIcon />
-          Cancelled on{' '}
-        </Fragment>
-      );
-      break;
-  }
-  return message;
+  return statusObj;
 };
 
 export const approvalsDataArray = [

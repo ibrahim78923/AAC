@@ -27,16 +27,19 @@ export const Associations = () => {
             variant="outlined"
             sx={{ backgroundColor: theme.palette.grey[400] }}
             onClick={() => setOpenDialog(true)}
+            startIcon={<AddCircleIcon />}
           >
-            <AddCircleIcon sx={{ mr: 1 }} />
             Associate
           </Button>
         </NoData>
       ) : (
         <Fragment>
           <Box textAlign={'end'}>
-            <Button variant="contained" onClick={() => setOpenDialog(true)}>
-              <AddCircleIcon sx={{ mr: 1 }} />
+            <Button
+              variant="contained"
+              onClick={() => setOpenDialog(true)}
+              startIcon={<AddCircleIcon />}
+            >
               Associate
             </Button>
           </Box>

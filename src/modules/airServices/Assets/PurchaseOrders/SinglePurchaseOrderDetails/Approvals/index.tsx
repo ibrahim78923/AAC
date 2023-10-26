@@ -1,11 +1,7 @@
 import NoData from '@/components/NoData';
 import NoAssociationFound from '@/assets/images/modules/LogitechMouse/association.png';
 import { Fragment, useState } from 'react';
-import {
-  approvalsDataArray,
-  approvalsStatusColor,
-  approvalsStatusMessage,
-} from './Approvals.data';
+import { approvalsDataArray, approvalsStatusObj } from './Approvals.data';
 import { Avatar, Box, Button, Grid, Typography, useTheme } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { v4 as uuidv4 } from 'uuid';
@@ -14,10 +10,18 @@ import { RequestApprovalForm } from './RequestApprovalForm';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
 import NotificationsIcon from '@mui/icons-material/Notifications';
+import { ApproveForm } from './ApproveForm';
+import { RejectForm } from './RejectForm';
+import { enqueueSnackbar } from 'notistack';
 
 export const Approvals = () => {
   const theme: any = useTheme();
   const [openDialog, setOpenDialog] = useState(false);
+  const [approveDialog, setApproveDialog] = useState(false);
+  const [rejectDialog, setRejectDialog] = useState(false);
+
+  const Received = 'Received';
+  const RequestSent = 'RequestSent';
 
   return (
     <Fragment>
@@ -31,17 +35,20 @@ export const Approvals = () => {
           <Button
             variant="outlined"
             sx={{ backgroundColor: theme.palette.grey[400] }}
+            startIcon={<AddCircleIcon />}
             onClick={() => setOpenDialog(true)}
           >
-            <AddCircleIcon sx={{ mr: 1 }} />
             Request Approval
           </Button>
         </NoData>
       ) : (
         <Fragment>
           <Box textAlign={'end'}>
-            <Button variant="contained" onClick={() => setOpenDialog(true)}>
-              <AddCircleIcon sx={{ mr: 1 }} />
+            <Button
+              variant="contained"
+              onClick={() => setOpenDialog(true)}
+              startIcon={<AddCircleIcon />}
+            >
               Request Approval
             </Button>
           </Box>
@@ -82,36 +89,63 @@ export const Approvals = () => {
                     gap={0.5}
                     my={1}
                     color={
-                      theme['palette'][`${approvalsStatusColor(item?.status)}`][
-                        'main'
-                      ]
+                      theme['palette'][
+                        `${approvalsStatusObj?.(item?.status)?.color}`
+                      ]['main']
                     }
                   >
-                    {approvalsStatusMessage(item?.status)}
+                    {approvalsStatusObj?.(item?.status)?.message}
                     {dayjs(item?.time).format('ddd, D MMM h:mm A')}
                   </Typography>
                   <Typography variant="body2">{item?.message}</Typography>
                 </Box>
               </Grid>
               <Grid item xs={12} md={4} textAlign={'end'}>
-                {item?.status === 'Received' && (
+                {item?.status === Received && (
                   <Fragment>
-                    <Button variant="outlined" sx={{ mx: 2 }} color="success">
-                      <CheckCircleIcon sx={{ mr: 0.5 }} />
+                    <Button
+                      variant="outlined"
+                      sx={{ mx: 2 }}
+                      color="success"
+                      onClick={() => setApproveDialog(true)}
+                      startIcon={<CheckCircleIcon />}
+                    >
                       Approve
                     </Button>
-                    <Button variant="outlined" color="error">
-                      <CancelIcon sx={{ mr: 0.5 }} /> Reject
+                    <Button
+                      variant="outlined"
+                      color="error"
+                      onClick={() => setRejectDialog(true)}
+                      startIcon={<CancelIcon />}
+                    >
+                      Reject
                     </Button>
                   </Fragment>
                 )}
-                {item?.status === 'RequestSent' && (
+                {item?.status === RequestSent && (
                   <Fragment>
-                    <Button variant="outlined" sx={{ mx: 2 }} color="secondary">
+                    <Button
+                      variant="outlined"
+                      sx={{ mx: 2 }}
+                      color="secondary"
+                      onClick={() =>
+                        enqueueSnackbar('Cancelled Successfully!', {
+                          variant: 'success',
+                        })
+                      }
+                    >
                       Cancel
                     </Button>
-                    <Button variant="outlined">
-                      <NotificationsIcon sx={{ mr: 0.5 }} /> Send Reminder
+                    <Button
+                      variant="outlined"
+                      startIcon={<NotificationsIcon />}
+                      onClick={() =>
+                        enqueueSnackbar('Reminder Sent!', {
+                          variant: 'success',
+                        })
+                      }
+                    >
+                      Send Reminder
                     </Button>
                   </Fragment>
                 )}
@@ -123,6 +157,16 @@ export const Approvals = () => {
       <RequestApprovalForm
         openDialog={openDialog}
         setOpenDialog={setOpenDialog}
+      />
+
+      <ApproveForm
+        approveDialog={approveDialog}
+        setApproveDialog={setApproveDialog}
+      />
+
+      <RejectForm
+        rejectDialog={rejectDialog}
+        setRejectDialog={setRejectDialog}
       />
     </Fragment>
   );

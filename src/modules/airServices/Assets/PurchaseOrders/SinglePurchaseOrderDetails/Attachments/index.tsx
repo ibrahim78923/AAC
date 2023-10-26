@@ -22,8 +22,8 @@ export const Attachment = () => {
               onClick={() => {
                 setAddAttachment(true);
               }}
+              startIcon={<AddCircleIcon />}
             >
-              <AddCircleIcon sx={{ mr: '5px' }} />
               Attach Files
             </Button>
           </Box>
