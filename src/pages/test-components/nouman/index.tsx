@@ -1,6 +1,6 @@
 import SkeletonFormExample from '@/components/Skeletons/SkeletonForm/SkeletonForm.example';
 import SkeletonTableExample from '@/components/Skeletons/SkeletonTable/SkeletonTable.example';
-import TanstackTable from '@/components/Tabel/TanstackTable';
+import TanstackTable from '@/components/Table/TanstackTable';
 import HorizontalTabsExample from '@/components/Tabs/HorizontalTabs/HorizontalTabs.example';
 import Layout from '@/layout';
 // import { AssociatesListsTableView } from '@/modules/ServicesTickets/SingleTicketDetail/Associations/AssociatesLists';

@@ -3,7 +3,7 @@ import Search from '@/components/Search';
 import { AlertModals } from '@/components/AlertModals';
 import { useInstallation } from '../../useInstallations';
 import AddDevice from '../../addDevice';
-import { ExportButton } from '@/modules/airServices/common/Buttons/ExportButton';
+import { ExportButton } from '@/components/ExportButton';
 
 const DELETE_MESSAGE = 'Are you sure you want to delete this Associate Asset?';
 const MODAL_TYPE = 'delete';

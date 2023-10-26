@@ -6,7 +6,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
-import TanstackTable from '@/components/Tabel/TanstackTable';
+import TanstackTable from '@/components/Table/TanstackTable';
 import CustomPagination from '@/components/CustomPagination';
 import Search from '@/components/Search';
 import { AlertModals } from '@/components/AlertModals';
