@@ -4,7 +4,7 @@ import { Box, Button, Grid, Typography } from '@mui/material';
 import Search from '@/components/Search';
 import { AlertModals } from '@/components/AlertModals';
 import ContactsEditorDrawer from './ContactsEditorDrawer';
-import TanstackTable from '@/components/Tabel/TanstackTable';
+import TanstackTable from '@/components/Table/TanstackTable';
 
 import useContacts from './useContacts';
 

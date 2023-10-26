@@ -1,10 +1,10 @@
 import { Box } from '@mui/material';
-import TanstackTable from '@/components/Tabel/TanstackTable';
+import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
 import { Button } from '@mui/material';
 import { FilterSharedIcon, CustomizeSharedIcon } from '@/assets/icons';
 import { enqueueSnackbar } from 'notistack';
-import { PageTitledHeader } from '../../common/Headers/PageTitledHeader/index';
+import { PageTitledHeader } from '../../../../components/PageTitledHeader/index';
 import { AlertModals } from '@/components/AlertModals';
 import { useInventory } from './useInventory';
 // import { FilterInventory } from './FilterInventory';

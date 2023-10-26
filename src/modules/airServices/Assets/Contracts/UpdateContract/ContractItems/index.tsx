@@ -1,4 +1,4 @@
-import TanstackTable from '@/components/Tabel/TanstackTable';
+import TanstackTable from '@/components/Table/TanstackTable';
 import React from 'react';
 import { columns, data } from './ContractItemTable.data';
 
