@@ -1,36 +1,41 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import {
-  addInventoryDefaultValuesOne,
   addInventoryDefaultValuesTwo,
-  addInventoryValidationSchemaOne,
   addInventoryValidationSchemaTwo,
+  addInventoryDefaultValuesOne,
+  addInventoryDefaultValuesOneUpdate,
+  addInventoryValidationSchemaOne,
+  addInventoryValidationSchemaUpdate,
 } from './AddToInventoryDrawer.data';
 export default function useAddToInventoryDrawer() {
-  const methods1: any = useForm({
-    resolver: yupResolver(addInventoryValidationSchemaOne),
-    defaultValues: addInventoryDefaultValuesOne,
-  });
-  const {
-    handleSubmit: handleSubmit1,
-
-    watch,
-  } = methods1;
-
-  const { addNew } = watch({ name: 'addNew' });
-  const methods2: any = useForm({
+  const methodsTwo: any = useForm({
     resolver: yupResolver(addInventoryValidationSchemaTwo),
     defaultValues: addInventoryDefaultValuesTwo,
   });
-  const { handleSubmit: handleSubmit2 } = methods2;
 
+  const { handleSubmit: handleSubmit2 } = methodsTwo;
+  const methodsYes: any = useForm({
+    resolver: yupResolver(addInventoryValidationSchemaOne),
+    defaultValues: addInventoryDefaultValuesOne,
+  });
+
+  const { handleSubmit: handleSubmitYes } = methodsYes;
+
+  const methodsNo: any = useForm({
+    resolver: yupResolver(addInventoryValidationSchemaUpdate),
+    defaultValues: addInventoryDefaultValuesOneUpdate,
+  });
+  const { handleSubmit: handleSubmitNo } = methodsNo;
   const onSubmit = async () => {};
+
   return {
-    methods1,
-    handleSubmit1,
-    methods2,
+    methodsTwo,
     handleSubmit2,
     onSubmit,
-    addNew,
+    handleSubmitYes,
+    methodsNo,
+    methodsYes,
+    handleSubmitNo,
   };
 }
