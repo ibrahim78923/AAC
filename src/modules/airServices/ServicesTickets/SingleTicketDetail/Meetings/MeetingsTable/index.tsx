@@ -1,5 +1,5 @@
 import TanstackTable from '@/components/Table/TanstackTable';
-import { meetingsTableColumns, meetingsTableData } from './MeetingsTable.utils';
+import { meetingsTableColumns, meetingsTableData } from './MeetingsTable.data';
 
 export const MeetingsTable = ({ setMeetingsData, meetingsData }: any) => {
   return (
