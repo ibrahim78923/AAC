@@ -1,16 +1,9 @@
-import { useTheme } from '@mui/material';
-
 export const contractsTableColumns: any = () => {
-  const theme = useTheme();
   return [
     {
       accessorFn: (row: any) => row.contractName,
       id: 'contractName',
-      cell: (info: any) => (
-        <span style={{ color: theme?.palette?.blue?.dull_blue }}>
-          {info.getValue()}
-        </span>
-      ),
+      cell: (info: any) => info.getValue(),
       header: 'Contract Name',
     },
     {

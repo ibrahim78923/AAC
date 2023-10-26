@@ -1,4 +1,4 @@
-import { Checkbox, useTheme } from '@mui/material';
+import { Checkbox, Typography, useTheme } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { styles } from './Tasks.styles';
 
@@ -56,14 +56,15 @@ export const tasksTableColumns: any = (
       accessorFn: (row: any) => row.taskID,
       id: 'TaskID',
       cell: (info: any) => (
-        <span
-          style={{ color: theme?.palette?.custom?.bright, cursor: 'pointer' }}
+        <Typography
+          variant="body4"
+          sx={{ color: theme?.palette?.custom?.bright, cursor: 'pointer' }}
           onClick={() => {
             setIsDetailDrawerOpen(info.getValue(), true);
           }}
         >
           {info.getValue()}
-        </span>
+        </Typography>
       ),
       header: 'Task ID',
       isSortable: true,
@@ -97,9 +98,12 @@ export const tasksTableColumns: any = (
       cell: (info: any) => {
         const statusValue = info.getValue();
         return (
-          <span style={styles?.tableStatusStyle(statusValue, theme)}>
+          <Typography
+            variant="body2"
+            sx={styles?.tableStatusStyle(statusValue, theme)}
+          >
             {info.getValue()}
-          </span>
+          </Typography>
         );
       },
     },

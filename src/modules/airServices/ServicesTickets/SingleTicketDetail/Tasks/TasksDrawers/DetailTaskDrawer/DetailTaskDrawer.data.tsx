@@ -1,5 +1,6 @@
 import { AvatarImage } from '@/assets/images';
 import { styles } from './DetailTaskDrawer.styles';
+import { Typography } from '@mui/material';
 
 export const drawerDetail: any = (taskDetail: any, theme: any) => [
   {
@@ -20,9 +21,12 @@ export const drawerDetail: any = (taskDetail: any, theme: any) => [
     details: (() => {
       const statusValue = taskDetail?.status;
       return (
-        <span style={styles?.tableStatusStyle(statusValue, theme)}>
+        <Typography
+          variant="body2"
+          sx={styles?.tableStatusStyle(statusValue, theme)}
+        >
           {taskDetail?.status}
-        </span>
+        </Typography>
       );
     })(),
   },

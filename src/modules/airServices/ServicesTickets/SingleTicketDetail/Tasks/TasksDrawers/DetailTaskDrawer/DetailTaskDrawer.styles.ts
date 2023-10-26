@@ -122,5 +122,6 @@ export const styles: any = {
         : theme.palette.error.main,
     padding: '8px 18px',
     borderRadius: '4px',
+    fontWeight: 500,
   }),
 };
