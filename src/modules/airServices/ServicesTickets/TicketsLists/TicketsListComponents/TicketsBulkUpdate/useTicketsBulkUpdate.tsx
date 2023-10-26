@@ -1,13 +1,11 @@
 import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
-// import { enqueueSnackbar } from 'notistack';
 import {
   ticketsBulkUpdateDefaultFormValuesFunction,
   ticketsBulkUpdateFormFieldsDataFunction,
   ticketsBulkUpdateToFormFieldsDataFunction,
 } from './TicketsBulkUpdate.data';
 import { useEffect } from 'react';
-// import { useEffect } from 'react';
 
 export const useTicketBulkUpdate = (props: any) => {
   const router = useRouter();

@@ -4,8 +4,12 @@ import { defaultValues, validationSchema } from './NewPurchaseOrder.data';
 import { useRouter } from 'next/router';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { enqueueSnackbar } from 'notistack';
+import { AIR_SERVICES } from '@/constants';
+
+const { PURCHASE_ORDER } = AIR_SERVICES;
+
 const useNewPurchaseOrders = () => {
-  const { push } = useRouter();
+  const router = useRouter();
 
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [vendor, setVendor] = useState<string>('');
@@ -15,8 +19,8 @@ const useNewPurchaseOrders = () => {
     resolver: yupResolver(validationSchema),
     defaultValues,
   });
-  const submit = async (data: any) => {
-    // console.log(data);
+
+  const submit = async () => {
     enqueueSnackbar({
       message: 'New Purchase Order Created successfully',
       variant: 'success',
@@ -24,7 +28,7 @@ const useNewPurchaseOrders = () => {
   };
 
   const handlePageBack = () => {
-    push('/air-services/assets/purchase-orders');
+    router.push(PURCHASE_ORDER);
   };
 
   const handleVenderSelect = (e: any) => {

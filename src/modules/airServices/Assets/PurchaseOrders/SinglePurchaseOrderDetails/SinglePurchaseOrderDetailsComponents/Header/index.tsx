@@ -4,7 +4,11 @@ import React from 'react';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 
 export const Header = (props: any) => {
-  const { dropdownOptions, handleReceived, handleAddToInventory } = props;
+  const {
+    dropdownOptions,
+    // handleAddToInventory,
+    handleReceived,
+  } = props;
 
   return (
     <>
@@ -30,7 +34,7 @@ export const Header = (props: any) => {
           <Button
             color="secondary"
             variant="outlined"
-            onClick={() => handleAddToInventory?.()}
+            // onClick={() => handleAddToInventory?.()}
           >
             Add to Inventory
           </Button>

@@ -1,11 +1,11 @@
 import { Grid, Typography, Box } from '@mui/material';
 
 import { useState } from 'react';
-import DetailTimePicker from '../../../Header/TimePicker';
+import DetailTimePicker from '../../../SingleTicketDetailsComponents/Header/TimePicker';
 import { Button, ButtonGroup } from '@mui/material';
 import { CirclePlusIcon, ViewDetailVuesaxIcon } from '@/assets/icons';
 import { DetailTicketsDrawer } from './DetailTicketsDrawer';
-import { headerStyle } from '../../../Header/Header.styles';
+import { headerStyle } from '../../../SingleTicketDetailsComponents/Header/Header.styles';
 import { detailViewTimeEnteriesStyle } from './DetailViewTimeEnteries.styles';
 export default function DetialViewTimeEnterires() {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);

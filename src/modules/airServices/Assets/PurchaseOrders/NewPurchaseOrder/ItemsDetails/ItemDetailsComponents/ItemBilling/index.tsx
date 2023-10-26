@@ -1,6 +1,7 @@
 import { Box, Divider, Grid, Typography, TextField } from '@mui/material';
-import { billingData } from './itemsDetails.data';
-import { styles } from './ItemsDetails.style';
+import { billingData } from '../../ItemsDetails.data';
+import { styles } from '../../ItemsDetails.style';
+import { v4 as uuidv4 } from 'uuid';
 
 const ItemBilling = () => {
   const { flexBetween, billingWrapper, billingLabel, billingValue } = styles();
@@ -19,7 +20,7 @@ const ItemBilling = () => {
         ];
         return (
           <Grid
-            key={item?.label}
+            key={uuidv4()}
             container
             xs={12}
             sm={6}

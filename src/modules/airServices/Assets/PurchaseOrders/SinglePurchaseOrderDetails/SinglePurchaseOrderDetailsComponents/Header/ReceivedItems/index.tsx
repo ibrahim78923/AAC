@@ -1,14 +1,12 @@
 import CommonDrawer from '@/components/CommonDrawer';
-import TanstackTable from '@/components/Table/TanstackTable';
-import React from 'react';
 import { columns, data } from './ReceivedItemsTable.data';
 
 import { Alert } from '@mui/material';
 import { useReceivedItems } from './useReceivedItems';
+import TanstackTable from '@/components/Table/TanstackTable';
 
-export const ReceivedItems = (props) => {
-  const { isDrawerOpen, setIsDrawerOpen } = props;
-  const { errorOccurred, submitHandler } = useReceivedItems(props);
+export const ReceivedItems = ({ isDrawerOpen, setIsDrawerOpen }: any) => {
+  const { errorOccurred, submitHandler } = useReceivedItems();
   return (
     <CommonDrawer
       isDrawerOpen={isDrawerOpen}
