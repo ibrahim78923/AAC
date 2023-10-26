@@ -8,10 +8,10 @@ import {
   createTicketValidationSchema,
   createTicketDefaultValues,
   createTicketDataArray,
-} from './CreateRelatedTickets/CreateRelatedTickets.data';
-import { useRelatedTickets } from './useRelatedTickets';
+} from './CreateRelatedTickets.data';
+import { useRelatedTickets } from '../useRelatedTickets';
 
-export const RelatedTicketsDrawer = ({
+export const CreateRelatedTicketsDrawer = ({
   isDrawerOpen,
   setIsDrawerOpen,
 }: any) => {
