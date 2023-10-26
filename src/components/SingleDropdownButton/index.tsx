@@ -12,7 +12,7 @@ export const SingleDropdownButton = (props: any) => {
     useSingleDropdownButton();
 
   return (
-    <div>
+    <>
       <Button
         variant="outlined"
         id="demo-positioned-button"
@@ -47,7 +47,7 @@ export const SingleDropdownButton = (props: any) => {
           >
             <Typography
               variant="body2"
-              color={theme.palette.grey?.[600]}
+              color={theme?.palette?.grey?.[600]}
               fontWeight={500}
             >
               {x?.title}{' '}
@@ -55,6 +55,6 @@ export const SingleDropdownButton = (props: any) => {
           </MenuItem>
         ))}
       </Menu>
-    </div>
+    </>
   );
 };

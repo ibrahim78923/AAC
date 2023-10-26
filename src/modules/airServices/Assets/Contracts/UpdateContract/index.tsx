@@ -1,7 +1,6 @@
 import { Grid, Typography, Box, Button } from '@mui/material';
 import { FormProvider, RHFDropZone } from '@/components/ReactHookForm';
 import { v4 as uuidv4 } from 'uuid';
-// import ItemsDetails from '../AddNewContract/ItemsDetails';
 import { useUpdateContract } from './useUpdateContract';
 import { updateContractFormFields } from './UpdateContract.data';
 
@@ -23,8 +22,8 @@ export const UpdateContract = () => {
         spacing={2}
         justifyContent={'space-between'}
         display={'flex'}
-        alignItems={'center'}
         flexDirection={'row'}
+        padding={2}
       >
         <Grid
           item
@@ -58,7 +57,6 @@ export const UpdateContract = () => {
                       ) : item?.heading ? (
                         item?.heading
                       ) : (
-                        // <ItemsDetails />
                         <></>
                       )}
                     </item.component>

@@ -13,28 +13,27 @@ import {
   addInventoryDefaultValuesTwo,
   addToInventoryDrawerArray,
   addToInventorySecondDrawerArray,
-} from './AddToInventoryDrawer.data';
+} from './AddToInventory.data';
 import * as React from 'react';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import useAddToInventoryDrawer from './useAddToInventoryDrawer';
+import useAddToInventoryDrawer from './useAddToInventory';
 import { v4 as uuidv4 } from 'uuid';
-import { styles } from './AddToInventoryDrawer.style';
+import { styles } from './AddToInventory.style';
 import { useState } from 'react';
 import { enqueueSnackbar } from 'notistack';
-export const AddToInventoryDrawer = ({
-  isADrawerOpen,
-  setIsADrawerOpen,
-}: any) => {
+
+export const AddToInventory = ({ isADrawerOpen, setIsADrawerOpen }: any) => {
   const {
     methodsTwo,
-    handleSubmit2,
+    handleSubmitTwo,
     handleSubmitYes,
     methodsNo,
     methodsYes,
     handleSubmitNo,
   } = useAddToInventoryDrawer();
+
   const [boolVariable, setBoolVariable] = useState(true);
   const [toShow, setToShow] = React.useState(true);
   const handleRadioChange = (event: { target: { value: string } }) => {
@@ -50,7 +49,7 @@ export const AddToInventoryDrawer = ({
     });
     methodsNo.reset(addInventoryDefaultValuesOneUpdate);
   });
-  const submitHandler2 = handleSubmit2(() => {
+  const submitHandler2 = handleSubmitTwo(() => {
     enqueueSnackbar('item added to inventory Successfully', {
       variant: 'success',
     });

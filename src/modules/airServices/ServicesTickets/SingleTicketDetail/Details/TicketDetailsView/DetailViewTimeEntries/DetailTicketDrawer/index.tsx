@@ -3,11 +3,11 @@ import { FormProvider } from '@/components/ReactHookForm';
 import { Grid } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
 import React from 'react';
-import { detailDrawerArray } from './DetailsTicketDrawer.data';
-import useDeatilViewDrawerSection from './useDetailViewDrawerSection';
+import { detailDrawerArray } from './DetailTicketDrawer.data';
+import { useDetailTicketDrawer } from './useDetailTicketDrawer';
 
-export const DetailTicketsDrawer = ({ isDrawerOpen, setIsDrawerOpen }: any) => {
-  const { methods, handleSubmit, onSubmit } = useDeatilViewDrawerSection();
+export const DetailTicketDrawer = ({ isDrawerOpen, setIsDrawerOpen }: any) => {
+  const { methods, handleSubmit, onSubmit } = useDetailTicketDrawer();
   return (
     <CommonDrawer
       isDrawerOpen={isDrawerOpen}

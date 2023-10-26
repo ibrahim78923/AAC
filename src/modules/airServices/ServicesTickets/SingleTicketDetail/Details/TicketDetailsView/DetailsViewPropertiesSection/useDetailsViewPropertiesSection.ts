@@ -4,7 +4,8 @@ import {
   validationSchema,
   defaultValues,
 } from './DetailsViewPropertiesSection.data';
-export default function useDeatilViewPropertiesSection() {
+
+export const useDetailsViewPropertiesSection = () => {
   const methods: any = useForm({
     resolver: yupResolver(validationSchema),
 
@@ -23,4 +24,4 @@ export default function useDeatilViewPropertiesSection() {
     handleSubmit,
     onSubmit,
   };
-}
+};

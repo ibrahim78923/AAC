@@ -7,14 +7,15 @@ import {
   addInventoryDefaultValuesOneUpdate,
   addInventoryValidationSchemaOne,
   addInventoryValidationSchemaUpdate,
-} from './AddToInventoryDrawer.data';
+} from './AddToInventory.data';
+
 export default function useAddToInventoryDrawer() {
   const methodsTwo: any = useForm({
     resolver: yupResolver(addInventoryValidationSchemaTwo),
     defaultValues: addInventoryDefaultValuesTwo,
   });
 
-  const { handleSubmit: handleSubmit2 } = methodsTwo;
+  const { handleSubmit: handleSubmitTwo } = methodsTwo;
   const methodsYes: any = useForm({
     resolver: yupResolver(addInventoryValidationSchemaOne),
     defaultValues: addInventoryDefaultValuesOne,
@@ -31,7 +32,7 @@ export default function useAddToInventoryDrawer() {
 
   return {
     methodsTwo,
-    handleSubmit2,
+    handleSubmitTwo,
     onSubmit,
     handleSubmitYes,
     methodsNo,

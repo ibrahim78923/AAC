@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-export default function useTimePickerState() {
+export default function useTimePicker() {
   const [time, setTime] = useState<string>('');
 
   const handleTimeChange = (event: React.ChangeEvent<HTMLInputElement>) => {

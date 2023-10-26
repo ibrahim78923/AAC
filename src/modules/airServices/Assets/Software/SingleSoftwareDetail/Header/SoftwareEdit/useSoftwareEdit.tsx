@@ -1,8 +1,10 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { validationSchema, defaultValues } from './SoftwareEdit.data';
+import { enqueueSnackbar } from 'notistack';
 
-export default function useSoftwareActionEdit() {
+export default function useSoftwareEdit(props: any) {
+  const { setIsDrawerOpen } = props;
   const methods: any = useForm({
     resolver: yupResolver(validationSchema),
 
@@ -10,6 +12,13 @@ export default function useSoftwareActionEdit() {
   });
   const { handleSubmit } = methods;
 
+  const submitHandler = methods.handleSubmit(() => {
+    enqueueSnackbar('Software Updated Successfully', {
+      variant: 'success',
+    });
+    setIsDrawerOpen(false);
+    methods.reset(defaultValues);
+  });
   const onSubmit = async () => {
     // console.log(data);
   };
@@ -17,5 +26,6 @@ export default function useSoftwareActionEdit() {
     methods,
     handleSubmit,
     onSubmit,
+    submitHandler,
   };
 }

@@ -1,16 +1,16 @@
-import { ReceivedItemTableDataI } from './ReceivedItems.interface';
+import { ReceivedItemsDataI } from './ReceivedItems.interface';
 
-export const data: ReceivedItemTableDataI[] = [
+export const data: ReceivedItemsDataI[] = [
   {
     Id: 1,
-    itemname: 'Andrea',
+    itemName: 'Andrea',
     received: 0,
     ordered: 3,
     pending: 3,
   },
   {
     Id: 2,
-    itemname: 'Andrea ',
+    itemName: 'Andrea ',
     received: 0,
     ordered: 3,
     pending: 3,
@@ -18,8 +18,8 @@ export const data: ReceivedItemTableDataI[] = [
 ];
 export const columns: any = () => [
   {
-    accessorFn: (row: any) => row.itemname,
-    id: 'itemname',
+    accessorFn: (row: any) => row.itemName,
+    id: 'itemName',
 
     header: 'Item Name',
     cell: (info: any) => info.getValue(),

@@ -1,4 +1,4 @@
-export const headerStyle: any = {
+export const styles: any = {
   iconBoxStyling: {
     width: '32px',
     height: '32px',

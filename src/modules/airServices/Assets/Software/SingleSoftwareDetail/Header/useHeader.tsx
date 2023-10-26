@@ -1,25 +1,27 @@
-import { useState } from 'react';
+import { MouseEvent, useState } from 'react';
 
 export function useHeader() {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
-  const [actionPop, setActionPop] = useState<HTMLButtonElement | null>(null);
 
-  const handleActionClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setActionPop(event.currentTarget);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
   };
-  const handleActionClose = () => {
-    setActionPop(null);
+  const handleClose = () => {
+    setAnchorEl(null);
   };
 
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+
   return {
-    setIsDrawerOpen,
     isDrawerOpen,
-    handleActionClick,
-    actionPop,
-    setActionPop,
-    handleActionClose,
+    setIsDrawerOpen,
     deleteModalOpen,
     setDeleteModalOpen,
+    handleClick,
+    handleClose,
+    open,
+    anchorEl,
   };
 }

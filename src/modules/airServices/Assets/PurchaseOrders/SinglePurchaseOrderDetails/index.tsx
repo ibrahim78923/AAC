@@ -4,8 +4,8 @@ import { useSinglePurchaseDetail } from './useSinglePurchaseDetail';
 import { AlertModals } from '@/components/AlertModals';
 
 import { SinglePurchaseOrderDetailTabs } from './SinglePurchaseOrderDetailTabs';
-import { ReceivedItems } from './Header/ReceivedItems';
-import { AddToInventoryDrawer } from './Header/AddToInventory';
+import { ReceivedItems } from './ReceivedItems';
+import { AddToInventory } from './AddToInventory';
 export const SinglePurchaseOrderDetail = () => {
   const {
     singlePurchaseDetailActionDropdown,
@@ -31,16 +31,17 @@ export const SinglePurchaseOrderDetail = () => {
           type="delete"
           open={isDeleteModalOpen}
           handleClose={() => setIsDeleteModalOpen(false)}
-          handleSubmit={() => {
+          handleSubmitBtn={() => {
             setIsDeleteModalOpen(false);
             enqueueSnackbar('Contract deleted Successfully', {
               variant: 'success',
             });
           }}
-          message="Are you sure  want to delete this Contract ?"
+          message="Are you sure  want to delete this purchase order ?"
         />
       )}
-      <AddToInventoryDrawer
+
+      <AddToInventory
         isADrawerOpen={isDrawerOpen}
         setIsADrawerOpen={setIsDrawerOpen}
       />

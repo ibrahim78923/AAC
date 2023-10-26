@@ -1,6 +1,6 @@
-export interface ReceivedItemTableDataI {
+export interface ReceivedItemsDataI {
   Id: number;
-  itemname: string;
+  itemName: string;
   received: number;
   ordered: number;
   pending: number;

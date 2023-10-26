@@ -1,7 +1,8 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { defaultValues, validationSchema } from './DetailsTicketDrawer.data';
+import { defaultValues, validationSchema } from './DetailTicketDrawer.data';
 import { useForm } from 'react-hook-form';
-export default function useDeatilViewDrawerSection() {
+
+export const useDetailTicketDrawer = () => {
   const methods: any = useForm({
     resolver: yupResolver(validationSchema),
 
@@ -20,4 +21,4 @@ export default function useDeatilViewDrawerSection() {
     handleSubmit,
     onSubmit,
   };
-}
+};

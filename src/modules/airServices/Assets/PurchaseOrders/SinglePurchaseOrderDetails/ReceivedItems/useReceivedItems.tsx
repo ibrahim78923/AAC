@@ -1,6 +1,6 @@
 import { enqueueSnackbar } from 'notistack';
 import { useState } from 'react';
-import { data } from './ReceivedItemsTable.data';
+import { data } from './ReceivedItems.data';
 
 export const useReceivedItems = (props: any) => {
   let booVariable: boolean;

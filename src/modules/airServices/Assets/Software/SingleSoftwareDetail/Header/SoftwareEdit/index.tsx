@@ -1,20 +1,15 @@
 import CommonDrawer from '@/components/CommonDrawer';
-
 import { Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
-import useSoftwareActionEdit from './useSoftwareActionEdit';
-import { defaultValues, softwareEditDrawerArray } from './SoftwareEdit.data';
+import { softwareEditDrawerArray } from './SoftwareEdit.data';
 import { v4 as uuidv4 } from 'uuid';
-import { enqueueSnackbar } from 'notistack';
-export const SoftwareEdit = ({ isDrawerOpen, setIsDrawerOpen }: any) => {
-  const { methods, handleSubmit, onSubmit } = useSoftwareActionEdit();
-  const submitHandler = methods.handleSubmit(() => {
-    enqueueSnackbar('Software Updated Successfully', {
-      variant: 'success',
-    });
-    setIsDrawerOpen(false);
-    methods.reset(defaultValues);
-  });
+import useSoftwareEdit from './useSoftwareEdit';
+
+export const SoftwareEdit = (props: any) => {
+  const { isDrawerOpen, setIsDrawerOpen } = props;
+  const { methods, handleSubmit, onSubmit, submitHandler } =
+    useSoftwareEdit(props);
+
   return (
     <CommonDrawer
       isDrawerOpen={isDrawerOpen}
