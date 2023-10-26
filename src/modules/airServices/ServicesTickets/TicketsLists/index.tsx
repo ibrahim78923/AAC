@@ -1,11 +1,11 @@
 import { useTicketsLists } from './useTicketsLists';
-import { TicketsListSubHeader } from './components/TicketsListSubHeader';
-import { TicketsColumnDrag } from './components/TicketsColumnDrag';
+import { TicketsListSubHeader } from './TicketsListSubHeader';
+import { TicketsColumnDrag } from './TicketsColumnDrag';
 import CommonDrawer from '@/components/CommonDrawer';
 import { TicketsTableView } from './TicketsTableView';
 import { TableBoardView } from './TicketsBoardView';
 import { AlertModals } from '@/components/AlertModals';
-import { PageTitledHeader } from '../../common/Headers/PageTitledHeader';
+import { PageTitledHeader } from '../../../../components/PageTitledHeader';
 
 export const TicketsLists = () => {
   const {

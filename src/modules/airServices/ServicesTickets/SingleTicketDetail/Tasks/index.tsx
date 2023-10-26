@@ -1,4 +1,4 @@
-import TanstackTable from '@/components/Tabel/TanstackTable';
+import TanstackTable from '@/components/Table/TanstackTable';
 import { tasksTableColumns, tasksTableData } from './Tasks.data';
 import { TaskDrawer } from './TasksDrawers';
 import { useTasks } from './useTasks';

@@ -1,11 +1,11 @@
 import { enqueueSnackbar } from 'notistack';
-import { Header } from './components/Header';
-import { SinglePurchaseOrderDetailTabs } from './components/SinglePurchaseOrderDetailTabs';
+import { Header } from './Header';
 import { useSinglePurchaseDetail } from './useSinglePurchaseDetail';
 import { AlertModals } from '@/components/AlertModals';
 
-import { ReceivedItems } from './components/Header/ReceivedItems';
-import { AddToInventoryDrawer } from './components/Header/AddToInventory';
+import { SinglePurchaseOrderDetailTabs } from './SinglePurchaseOrderDetailTabs';
+import { ReceivedItems } from './Header/ReceivedItems';
+import { AddToInventoryDrawer } from './Header/AddToInventory';
 export const SinglePurchaseOrderDetail = () => {
   const {
     singlePurchaseDetailActionDropdown,

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { defaultValues } from './components/PurchaseOrderFilter/PurchaseOrderFilter.data';
+import { defaultValues } from './PurchaseOrderFilter/PurchaseOrderFilter.data';
 import { useRouter } from 'next/router';
 const usePurchaseOrders = () => {
   const { push } = useRouter();

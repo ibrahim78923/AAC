@@ -7,7 +7,7 @@ import {
   MenuItem,
   Typography,
 } from '@mui/material';
-import TanstackTable from '@/components/Tabel/TanstackTable';
+import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
 import AddCard from './AddCard';
 import { DropdownIcon } from '@/assets/icons';

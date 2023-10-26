@@ -1,4 +1,4 @@
-import TanstackTable from '@/components/Tabel/TanstackTable';
+import TanstackTable from '@/components/Table/TanstackTable';
 import { data, columns } from './RelatedTicketsTable.data';
 import { RelatedTicketsDrawer } from './RelatedTicketsDrawer';
 import { useRelatedTickets } from './useRelatedTickets';
