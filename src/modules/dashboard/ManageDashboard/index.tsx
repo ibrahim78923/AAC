@@ -1,7 +1,6 @@
 import { FilterSharedIcon, ViewDetailBackArrowIcon } from '@/assets/icons';
 import AddIconWithBg from '@/assets/icons/shared/add-icon-with-bg-white';
 import Search from '@/components/Search';
-import TanstackTable from '@/components/Tabel/TanstackTable';
 import { Box, Button, Grid, Typography } from '@mui/material';
 import {
   dashboardsData,
@@ -12,6 +11,7 @@ import { ManageDashboardFilter } from './ManageDashboardFilter';
 import { filterFieldsManageDashboard } from './ManageDashboardFilter/ManageDashboardFilter.data';
 import { useManageDashboard } from './useManageDashboard';
 import { styles } from './ManageDashboard.styles';
+import TanstackTable from '@/components/Table/TanstackTable';
 
 export const ManageDashboard = () => {
   const {
