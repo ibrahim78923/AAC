@@ -10,11 +10,10 @@ import { useFormContext, Controller } from 'react-hook-form';
 import { ArrowDownIcon } from '@/assets/icons';
 import { v4 as uuidv4 } from 'uuid';
 
-export default function UserSearchableSelect({
+export default function UsersSearchableSelect({
   name,
   options,
   placeholder,
-
   label,
   showAsterisk = false,
   showSearchBar = false,
@@ -56,13 +55,7 @@ export default function UserSearchableSelect({
       render={({ field, fieldState: { error } }) => (
         <>
           <Box sx={{ width: { sm: '484px', xs: '100%' } }}>
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'start',
-                flexDirection: 'column',
-              }}
-            >
+            <Box display={'flex'} flexDirection={'column'} alignItems={'start'}>
               <Typography>
                 {label}
                 {showAsterisk && (

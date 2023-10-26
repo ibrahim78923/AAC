@@ -90,3 +90,6 @@ export { default as YellowDotImage } from './shared/yellow-dot.png';
 export { default as EmailMeetingImage } from './modules/airSales/Deals/email-meeting.png';
 export { default as AttendeeAvatarImage } from './modules/airSales/Deals/attendee-avatar.png';
 export { default as ExampleDashboard } from './modules/airServices/dashboard/example-dashboard.png';
+export { default as ItemStatusImage } from './modules/purchaseOrder/receipt-search.png';
+export { default as TotalItemImage } from './modules/purchaseOrder/money-tick.png';
+export { default as ItemToInventoryImage } from './modules/purchaseOrder/info-circle.png';

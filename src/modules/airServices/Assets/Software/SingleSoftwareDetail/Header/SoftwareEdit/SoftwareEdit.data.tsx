@@ -4,7 +4,7 @@ export const validationSchema = Yup.object().shape({
   name: Yup.string().required('Field is Required'),
   description: Yup.string(),
   status: Yup.string(),
-  type: Yup.string(),
+  type: Yup.string().required('Field is Required'),
   publisher: Yup.string(),
   managedBy: Yup.string(),
 });
@@ -24,9 +24,8 @@ export const softwareEditDrawerArray = [
       fullWidth: true,
       select: false,
       required: true,
-      value: 'Figma',
     },
-    // inventry: 'hi',
+
     component: RHFTextField,
     md: 12,
   },

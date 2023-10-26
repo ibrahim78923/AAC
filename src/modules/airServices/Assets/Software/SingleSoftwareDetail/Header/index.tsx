@@ -3,9 +3,10 @@ import ViewDetailBackArrowIcon from '@/assets/icons/modules/view-detail-Icon/vie
 import { ActionButtonIcon } from '@/assets/icons';
 import { useHeader } from './useHeader';
 import React from 'react';
-import { SoftwareEdit } from './SoftwareEdit/SoftwareEdit';
+
 import { AlertModals } from '@/components/AlertModals';
 import { enqueueSnackbar } from 'notistack';
+import { SoftwareEdit } from './SoftwareEdit';
 
 export default function Header() {
   const { isDrawerOpen, setIsDrawerOpen, deleteModalOpen, setDeleteModalOpen } =
