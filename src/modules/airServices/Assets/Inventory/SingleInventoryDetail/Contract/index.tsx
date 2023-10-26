@@ -1,9 +1,9 @@
 import NoData from '@/components/NoData';
 import { Typography, useTheme } from '@mui/material';
-import NoContractFound from '@/assets/images/modules/LogitechMouse/Contract.png';
 import { contractData } from './Contract.data';
 import { InventoryCard } from '@/components/InventoryCard/index';
 import { v4 as uuidv4 } from 'uuid';
+import { contractImage } from '@/assets/images';
 
 export const Contract = () => {
   const theme: any = useTheme();
@@ -24,7 +24,7 @@ export const Contract = () => {
         ))
       ) : (
         <NoData
-          image={NoContractFound}
+          image={contractImage}
           message={'There are no active contract available'}
         />
       )}
