@@ -30,7 +30,7 @@ export const UsersFilter = () => {
   };
 
   return (
-    <div>
+    <Box>
       <Button
         variant="outlined"
         id="demo-positioned-button"
@@ -68,6 +68,6 @@ export const UsersFilter = () => {
           </FormProvider>
         </Box>
       </CommonDrawer>
-    </div>
+    </Box>
   );
 };
