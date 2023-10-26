@@ -1,8 +1,4 @@
-import React, { useState } from 'react';
-
 import Image from 'next/image';
-
-import { useRouter } from 'next/router';
 
 import {
   Box,
@@ -11,7 +7,6 @@ import {
   Grid,
   Stack,
   Typography,
-  useTheme,
   Avatar,
   Tooltip,
   Card,
@@ -51,9 +46,9 @@ import StatusBadge from '@/components/StatusBadge';
 
 const UsersDetailsList = () => {
   const {
+    handleCloseDrawer,
     isOpenDrawer,
     setIsOpenDrawer,
-    handleCloseDrawer,
     isOpenAddCompanyDrawer,
     setISOpenCompanyDrawer,
     handleCloseAddCompanyDrawer,
@@ -62,13 +57,15 @@ const UsersDetailsList = () => {
     setIsOpenAdduserDrawer,
     userStatus,
     setUserStatus,
+    isOpenAddAccountDrawer,
+    setIsOpenAddAccountDrawer,
+    search,
+    setSearch,
+    tabVal,
+    setTabVal,
+    theme,
+    navigate,
   } = useUserDetailsList();
-
-  const [isOpenAddAccountDrawer, setIsOpenAddAccountDrawer] = useState(false);
-  const [search, setSearch] = useState('');
-  const [tabVal, setTabVal] = useState<number>();
-  const theme = useTheme();
-  const navigate = useRouter();
 
   return (
     <Box>

@@ -1,10 +1,20 @@
 import { useState } from 'react';
 
+import { useRouter } from 'next/router';
+
+import { useTheme } from '@mui/material';
+
 const useUserDetailsList = () => {
+  const theme = useTheme();
+  const navigate = useRouter();
+  const [search, setSearch] = useState('');
+  const [tabVal, setTabVal] = useState<number>();
+  const [userStatus, setUserStatus] = useState('active');
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
+  const [isOpenAddAccountDrawer, setIsOpenAddAccountDrawer] = useState(false);
   const [isOpenAddCompanyDrawer, setISOpenCompanyDrawer] = useState(false);
   const [isOpenAdduserDrawer, setIsOpenAdduserDrawer] = useState(false);
-  const [userStatus, setUserStatus] = useState('active');
+
   const handleCloseDrawer = () => {
     setIsOpenDrawer(false);
   };
@@ -26,6 +36,14 @@ const useUserDetailsList = () => {
     setIsOpenAdduserDrawer,
     userStatus,
     setUserStatus,
+    isOpenAddAccountDrawer,
+    setIsOpenAddAccountDrawer,
+    search,
+    setSearch,
+    tabVal,
+    setTabVal,
+    theme,
+    navigate,
   };
 };
 export default useUserDetailsList;
