@@ -1,5 +1,5 @@
-import Header from './components/Header';
-import { SingleSoftwareDetailTabs } from './components/SingleSoftwareDetailTabs';
+import Header from './Header';
+import { SingleSoftwareDetailTabs } from './SingleSoftwareDetailTabs';
 
 export const SingleSoftwareDetail = () => {
   return (

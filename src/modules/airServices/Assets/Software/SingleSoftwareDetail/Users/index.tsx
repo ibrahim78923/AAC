@@ -7,12 +7,12 @@ import { UsersFilter } from './UsersFilter';
 import { userDropdown } from './Users.data';
 import Search from '@/components/Search';
 import { enqueueSnackbar } from 'notistack';
-import { ExportButton } from '@/modules/airServices/common/Buttons/ExportButton';
-import { SingleDropdownButton } from '@/modules/airServices/common/Buttons/SingleDropdownButton';
 import ConversationModel from '@/components/Model/CoversationModel';
 import UserAllocate from './UsersAllocate';
 import UserDeallocate from './UsersDeallocate';
 import UserRemove from './UsersRemove';
+import { ExportButton } from '@/components/ExportButton';
+import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 
 export const Users = () => {
   const [usersData, setUsersData] = useState([]);

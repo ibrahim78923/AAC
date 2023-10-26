@@ -29,7 +29,7 @@ export const data: any = [
     Impact: 'Medium',
   },
 ];
-export const columns = (
+export const inventoryListsColumnsFunction = (
   inventoryData: any,
   setInventoryData: any,
   data: any,
@@ -76,7 +76,7 @@ export const columns = (
     accessorFn: (row: any) => row.Name,
     id: 'Name',
     isSortable: true,
-    header: <span>Name</span>,
+    header: 'Name',
     cell: (info: any) => (
       <span
         onClick={() =>
@@ -96,7 +96,7 @@ export const columns = (
   {
     accessorFn: (row: any) => row.AssetType,
     id: 'AssetType',
-    header: <span>Asset Type</span>,
+    header: 'Asset Type',
     isSortable: true,
     cell: (info: any) => info.getValue(),
   },
@@ -104,28 +104,28 @@ export const columns = (
     accessorFn: (row: any) => row.Location,
     id: 'Location',
     isSortable: true,
-    header: <span>Location</span>,
+    header: 'Location',
     cell: (info: any) => info.getValue(),
   },
   {
     accessorFn: (row: any) => row.UsedBy,
     id: 'UsedBy',
     isSortable: true,
-    header: <span>Used By</span>,
+    header: 'Used By',
     cell: (info: any) => info.getValue(),
   },
   {
     accessorFn: (row: any) => row.Department,
     id: 'Department',
     isSortable: true,
-    header: <span>Department</span>,
+    header: 'Department',
     cell: (info: any) => info.getValue(),
   },
   {
     accessorFn: (row: any) => row.Impact,
     id: 'Impact',
     isSortable: true,
-    header: <span>Impact</span>,
+    header: 'Impact',
     cell: (info: any) => info.getValue(),
   },
 ];
