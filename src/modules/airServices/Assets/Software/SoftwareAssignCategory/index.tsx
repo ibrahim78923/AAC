@@ -5,6 +5,7 @@ import { Box, Button, Divider, useTheme } from '@mui/material';
 import { enqueueSnackbar } from 'notistack';
 import { v4 as uuidv4 } from 'uuid';
 import { useState } from 'react';
+import { SoftwareAssignCategoryPropsI } from './SoftwareAssignCategory.interface';
 
 function SoftwareAssignCategory({
   title,
@@ -15,7 +16,7 @@ function SoftwareAssignCategory({
   okText,
   successMessage,
   setData,
-}: any) {
+}: SoftwareAssignCategoryPropsI) {
   const methods: any = useForm({});
   const theme: any = useTheme();
   const [disable, setDisable] = useState(true);

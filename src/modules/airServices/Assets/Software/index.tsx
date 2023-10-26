@@ -16,6 +16,7 @@ function Software() {
   const [isAddDrawerOpen, setIsAddDrawerOpen] = useState<boolean>(false);
   const [softwareData, setSoftwareData] = useState([]);
   const [openAssignModal, setOpenAssignModal] = useState(false);
+  const [assignCategory, setAssignCategory] = useState(false);
   const [searchValue, SetSearchValue] = useState<string>('');
 
   const theme: any = useTheme();
@@ -88,11 +89,14 @@ function Software() {
         cancelText={'Cancel'}
         okText={'Assign'}
         successMessage={'Assign Successfully'}
+        setData={setAssignCategory}
       />
+
       <AddSoftwareDrawer
         isDrawerOpen={isAddDrawerOpen}
         onClose={setIsAddDrawerOpen}
       />
+      {assignCategory && null}
     </>
   );
 }
