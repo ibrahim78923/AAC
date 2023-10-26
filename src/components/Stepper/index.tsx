@@ -9,6 +9,7 @@ import {
   useTheme,
   StepConnector,
   Stack,
+  Divider,
 } from '@mui/material';
 import { stepConnectorClasses } from '@mui/material/StepConnector';
 
@@ -29,6 +30,9 @@ const AppHorizontalStepper: React.FC<HorizontalStepperI> = ({
   cancelButton,
   handleCancel,
   variantNextButton = 'text',
+  nextButtonText = 'Next',
+  nextButtonFinishText = 'Finish',
+  divider,
 }) => {
   const [activeStep, setActiveStep] = useState(0);
   const theme = useTheme();
@@ -83,7 +87,8 @@ const AppHorizontalStepper: React.FC<HorizontalStepperI> = ({
       <Box sx={{ width: '100%', padding: stepperPadding }}>
         {Boolean(stepsArray?.length) && stepsArray[activeStep]?.component}
         <React.Fragment>
-          <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+          {divider && <Divider sx={{ borderColor: '#E5E7EB', mt: '24px' }} />}
+          <Box sx={{ display: 'flex', flexDirection: 'row', pt: '24px' }}>
             <Button
               color="inherit"
               disabled={activeStep === 0}
@@ -113,7 +118,9 @@ const AppHorizontalStepper: React.FC<HorizontalStepperI> = ({
                 }
                 disabled={disableNextButton}
               >
-                {activeStep === stepsArray?.length - 1 ? 'Finish' : 'Next'}
+                {activeStep === stepsArray?.length - 1
+                  ? nextButtonFinishText
+                  : nextButtonText}
               </Button>
             </Stack>
           </Box>

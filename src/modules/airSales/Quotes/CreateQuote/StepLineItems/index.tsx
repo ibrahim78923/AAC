@@ -7,7 +7,7 @@ import { lineItemsData } from '@/mock/modules/Quotes';
 import Search from '@/components/Search';
 import { AddCircleSmallIcon } from '@/assets/icons';
 
-const StepLineItems = () => {
+const StepLineItems = ({ openCreateProduct }: any) => {
   return (
     <>
       <Box sx={styles.TableWrapper}>
@@ -21,6 +21,7 @@ const StepLineItems = () => {
               variant="contained"
               color="primary"
               startIcon={<AddCircleSmallIcon />}
+              onClick={openCreateProduct}
             >
               Add Products
             </Button>

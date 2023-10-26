@@ -3,7 +3,7 @@ import { Box, Typography, Grid, Divider } from '@mui/material';
 import { createQuoteFormFields } from '../CreateQuote.data';
 import { styles } from './TemplateBasic.style';
 
-const TemplateBasic = () => {
+const TemplateBasic = ({ values }: any) => {
   return (
     <Box sx={styles.container}>
       <Box sx={styles.header}>
@@ -106,17 +106,18 @@ const TemplateBasic = () => {
           <Box sx={styles.total}>£0.00</Box>
         </Box>
       </Box>
-
-      <Box sx={styles.signatureCard}>
-        <Box sx={styles.signatureBox}>
-          <Box sx={styles.signatureSpace}>signature here...</Box>
-          <Box sx={styles.boxLabel}>Signature</Box>
+      {values?.signature === 'Include Space for a written signature' && (
+        <Box sx={styles.signatureCard}>
+          <Box sx={styles.signatureBox}>
+            <Box sx={styles.signatureSpace}>signature here...</Box>
+            <Box sx={styles.boxLabel}>Signature</Box>
+          </Box>
+          <Box sx={styles.dateBox}>
+            <Box sx={styles.dateSpace}>date...</Box>
+            <Box sx={styles.boxLabel}>Date</Box>
+          </Box>
         </Box>
-        <Box sx={styles.dateBox}>
-          <Box sx={styles.dateSpace}>date...</Box>
-          <Box sx={styles.boxLabel}>Date</Box>
-        </Box>
-      </Box>
+      )}
     </Box>
   );
 };

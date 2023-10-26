@@ -3,6 +3,7 @@ import {
   RHFTextField,
   RHFSelect,
   RHFSearchableSelect,
+  RHFRadioGroup,
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
@@ -16,9 +17,12 @@ export const validationSchema = Yup.object().shape({
 export const initValues = {
   selectDeal: '',
   quoteTemplate: '',
+  quoteName: '',
   quoteExpiration: '',
   quoteNotes: '',
   quoteTerms: '',
+  templateComment: '',
+  signature: 'No Signature',
 };
 
 export const createQuoteFormFields = [
@@ -105,6 +109,16 @@ export const createQuoteFormFields = [
       placeholder: 'Write comment here...',
       multiline: true,
       rows: 3,
+    },
+  },
+  {
+    id: 'signature',
+    component: RHFRadioGroup,
+    componentProps: {
+      name: 'signature',
+      fullWidth: true,
+      options: ['No Signature', 'Include Space for a written signature'],
+      row: false,
     },
   },
 ];

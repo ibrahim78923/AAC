@@ -12,12 +12,24 @@ import StepLineItems from './StepLineItems';
 import StepReview from './StepReview';
 import FormCreateDeal from './FormCreateDeal';
 import useCreateQuote from './useCreateQuote';
+import FormAddContact from './FormAddContact';
+import FormAddCompany from './FormAddCompany';
+import FormCreateProduct from './FormCreateProduct';
 
 const CreateQuote = () => {
   const {
     isOpenFormCreateDeal,
     handleOpenFormCreateDeal,
     handleCloseFormCreateDeal,
+    isOpenFormAddContact,
+    handleOpenFormAddContact,
+    handleCloseFormAddContact,
+    isOpenFormAddCompany,
+    handleOpenFormAddCompany,
+    handleCloseFormAddCompany,
+    isOpenFormCreateProduct,
+    handleOpenFormCreateProduct,
+    handleCloseFormCreateProduct,
   } = useCreateQuote();
 
   const router = useRouter();
@@ -42,7 +54,12 @@ const CreateQuote = () => {
     {
       key: 'buyerInfo',
       label: 'Buyer Info',
-      component: <StepBuyerInfo />,
+      component: (
+        <StepBuyerInfo
+          openAddContact={handleOpenFormAddContact}
+          openAddCompany={handleOpenFormAddCompany}
+        />
+      ),
     },
     {
       key: 'yourInfo',
@@ -52,12 +69,14 @@ const CreateQuote = () => {
     {
       key: 'lineItems',
       label: 'Line Items',
-      component: <StepLineItems />,
+      component: (
+        <StepLineItems openCreateProduct={handleOpenFormCreateProduct} />
+      ),
     },
     {
       key: 'signature',
       label: 'Signature',
-      component: <StepSignature />,
+      component: <StepSignature values={watchFields} />,
     },
     {
       key: 'review',
@@ -69,16 +88,36 @@ const CreateQuote = () => {
     <>
       <FormProvider methods={methods}>
         <AppHorizontalStepper
+          stepperPadding="4rem 0 0"
+          stepperMargin="2rem 0 0"
           cancelButton
           handleCancel={() => router.push('/air-sales/quotes')}
           stepsArray={createQuoteSteps}
           variantNextButton="contained"
+          nextButtonText="Save & Continue"
+          nextButtonFinishText="Submit"
+          divider
         />
       </FormProvider>
 
       <FormCreateDeal
         open={isOpenFormCreateDeal}
         onClose={handleCloseFormCreateDeal}
+      />
+
+      <FormAddContact
+        open={isOpenFormAddContact}
+        onClose={handleCloseFormAddContact}
+      />
+
+      <FormAddCompany
+        open={isOpenFormAddCompany}
+        onClose={handleCloseFormAddCompany}
+      />
+
+      <FormCreateProduct
+        open={isOpenFormCreateProduct}
+        onClose={handleCloseFormCreateProduct}
       />
     </>
   );
