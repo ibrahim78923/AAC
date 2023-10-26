@@ -2,7 +2,6 @@ import { Box, Button } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { AlertModals } from '@/components/AlertModals';
 import { useAssetAssociate } from '../../useAssetAssociate';
-import { styles } from '../../AssetAssociate.style';
 
 export const AssetsAssociateHeader = ({ activeCheck }: any) => {
   const {
@@ -13,7 +12,13 @@ export const AssetsAssociateHeader = ({ activeCheck }: any) => {
   } = useAssetAssociate();
   return (
     <>
-      <Box sx={styles.assetsAssociateHead}>
+      <Box
+        display={'flex'}
+        alignItems={'center'}
+        justifyContent={'flex-end'}
+        flexWrap={'wrap'}
+        gap={2}
+      >
         <Button
           color="secondary"
           variant="outlined"

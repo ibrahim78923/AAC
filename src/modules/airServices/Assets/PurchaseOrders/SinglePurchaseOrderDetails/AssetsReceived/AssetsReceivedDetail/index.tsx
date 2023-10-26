@@ -11,13 +11,14 @@ export const AssetsReceivedDetail = () => {
         <Typography variant="h4">Logitech M705 Wireless Mouse</Typography>
         <Typography
           variant="body2"
-          sx={{ color: theme.palette.custom.main, fontWeight: 500 }}
+          color={theme.palette.custom.main}
+          fontWeight={500}
         >
           Assets which are received and added to inventory are shown here
         </Typography>
       </Box>
       {assetsReceiveData.map((item) => (
-        <Box key={uuidv4()} sx={styles.assetsCard}>
+        <Box key={uuidv4()} sx={styles.assetsCard(theme)}>
           <Box sx={styles.cardDetail}>
             <Typography variant="body2" fontWeight={600} sx={styles.cardText}>
               {item?.asset}

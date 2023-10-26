@@ -1,6 +1,6 @@
 import { Box, Button, Typography } from '@mui/material';
 import Search from '@/components/Search';
-import TanstackTable from '@/components/Tabel/TanstackTable';
+import TanstackTable from '@/components/Table/TanstackTable';
 import {
   addAssociateAssetData,
   addAssociateAssetColumns,

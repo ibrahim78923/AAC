@@ -1,15 +1,15 @@
 export const styles = {
-  assetsCard: {
+  assetsCard: (theme: any) => ({
     display: 'flex',
     alignItems: 'center',
     my: 2,
     py: '1.5rem',
     borderRadius: '4px',
-    borderBottom: '4px solid #A0E5DB80',
+    borderBottom: `4px solid ${theme.palette.custom.aqua_breeze}`,
     boxShadow:
       '0px 1px 2px 0px rgba(16, 24, 40, 0.06), 0px 1px 3px 0px rgba(16, 24, 40, 0.10)',
     flexWrap: 'wrap',
-  },
+  }),
   cardDetail: { display: 'flex', alignItems: 'center' },
   cardLine: (theme: any) => ({
     my: { sm: 0, xs: 1 },
