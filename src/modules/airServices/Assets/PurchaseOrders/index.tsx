@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { Box } from '@mui/material';
 import { data, purchaseOrderColumnsFunction } from './PurchaseOrders.data';
-import TanstackTable from '@/components/Tabel/TanstackTable';
+import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
 
-import { PageTitledHeader } from '../../common/Headers/PageTitledHeader/index';
 import { PurchaseOrderExport } from './PurchaseOrderComponents/PurchaseOrderExport';
 import { PurchaseOrderFilter } from './PurchaseOrderComponents/PurchaseOrderFilter';
 
 import usePurchaseOrders from './usePurchaseOrders';
 import { filterFields } from './PurchaseOrderComponents/PurchaseOrderFilter/PurchaseOrderFilter.data';
+import { PageTitledHeader } from '@/components/PageTitledHeader';
 
 function PurchaseOrder() {
   const [purchaseOrderData, setPurchaseOrderData] = useState([]);

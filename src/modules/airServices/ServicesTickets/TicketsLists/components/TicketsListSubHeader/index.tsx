@@ -4,7 +4,7 @@ import { useTicketsListsSubHeader } from './useTicketsListSubHeader';
 import { useRouter } from 'next/router';
 import { FilterIcon, ListIcon, ResetIcon, SubTabIcon } from '@/assets/icons';
 import CustomizeIcon from '@/assets/icons/shared/customize-icon';
-import { SingleDropdownButton } from '@/modules/airServices/common/Buttons/SingleDropdownButton';
+import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 
 export const TicketsListSubHeader = (props: any) => {
   const { onCustomizeClick, onFilterClick, ticketsActionDropdown } = props;

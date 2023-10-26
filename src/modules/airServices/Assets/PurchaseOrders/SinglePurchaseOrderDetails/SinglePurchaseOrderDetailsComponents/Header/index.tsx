@@ -1,7 +1,7 @@
 import { Typography, Box, Button } from '@mui/material';
 import ViewDetailBackArrowIcon from '@/assets/icons/modules/view-detail-Icon/view-detail-back-arrow-icon';
 import React from 'react';
-import { SingleDropdownButton } from '@/modules/airServices/common/Buttons/SingleDropdownButton';
+import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 
 export const Header = (props: any) => {
   const {
