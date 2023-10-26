@@ -4,11 +4,11 @@ import { data, purchaseOrderColumnsFunction } from './PurchaseOrders.data';
 import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
 
-import { PurchaseOrderExport } from './PurchaseOrderComponents/PurchaseOrderExport';
-import { PurchaseOrderFilter } from './PurchaseOrderComponents/PurchaseOrderFilter';
+import { PurchaseOrderExport } from './PurchaseOrderExport';
+import { PurchaseOrderFilter } from './PurchaseOrderFilter';
 
 import usePurchaseOrders from './usePurchaseOrders';
-import { filterFields } from './PurchaseOrderComponents/PurchaseOrderFilter/PurchaseOrderFilter.data';
+import { filterFields } from './PurchaseOrderFilter/PurchaseOrderFilter.data';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 
 function PurchaseOrder() {

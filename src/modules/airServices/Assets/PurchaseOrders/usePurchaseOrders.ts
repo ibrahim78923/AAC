@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { defaultValues } from './PurchaseOrderComponents/PurchaseOrderFilter/PurchaseOrderFilter.data';
+import { defaultValues } from './PurchaseOrderFilter/PurchaseOrderFilter.data';
 import { useRouter } from 'next/router';
 import { AIR_SERVICES } from '@/constants';
 

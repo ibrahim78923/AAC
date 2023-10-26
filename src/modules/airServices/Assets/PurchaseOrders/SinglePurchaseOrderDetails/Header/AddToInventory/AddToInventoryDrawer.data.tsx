@@ -17,6 +17,7 @@ export const addInventoryValidationSchemaTwo = Yup.object().shape({
   serialNumber: Yup.string().required('Field is Required'),
   assetTag: Yup.string().required('Field is Required'),
 });
+
 export const addInventoryDefaultValuesOne = {
   addNew: 'No',
   assetnameprefix: '',
