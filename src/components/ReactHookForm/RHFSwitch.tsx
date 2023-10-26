@@ -6,7 +6,7 @@ import { styled } from '@mui/material/styles';
 import CustomLabel from '../Label';
 
 // ----------------------------------------------------------------------
-const AntSwitch = styled(Switch)(({ theme }) => ({
+export const AntSwitch = styled(Switch)(({ theme }) => ({
   width: 36,
   height: 20,
   padding: 0,

@@ -1,0 +1,95 @@
+import { FilterSharedIcon, ViewDetailBackArrowIcon } from '@/assets/icons';
+import AddIconWithBg from '@/assets/icons/shared/add-icon-with-bg-white';
+import Search from '@/components/Search';
+import TanstackTable from '@/components/Tabel/TanstackTable';
+import { Box, Button, Grid, Typography } from '@mui/material';
+import {
+  dashboardsData,
+  manageDashboardsDataColumns,
+} from './ManageDashboard.data';
+import CustomPagination from '@/components/CustomPagination';
+import { ManageDashboardFilter } from './ManageDashboardFilter';
+import { filterFieldsManageDashboard } from './ManageDashboardFilter/ManageDashboardFilter.data';
+import { useManageDashboard } from './useManageDashboard';
+import { styles } from './ManageDashboard.styles';
+
+export const ManageDashboard = () => {
+  const {
+    matches,
+    searchValue,
+    SetSearchValue,
+    isDrawerOpen,
+    setIsDrawerOpen,
+    resetManageDashboardFilterForm,
+    submitManageDashboardFilterForm,
+    methodsManageDashboardFilterForm,
+  } = useManageDashboard();
+  return (
+    <>
+      <Grid container>
+        <Grid item xs={12}>
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="space-between"
+            flexWrap="wrap"
+            gap={1.5}
+          >
+            <Box display="flex" alignItems="center" flexWrap="wrap" gap={2}>
+              <ViewDetailBackArrowIcon />
+              <Typography variant="h3" color="grey.800">
+                Manage Dashboards
+              </Typography>
+            </Box>
+            <Button
+              startIcon={<AddIconWithBg />}
+              variant="contained"
+              disableElevation
+              sx={styles(matches).createDashboardButton}
+            >
+              Create Dashboard
+            </Button>
+          </Box>
+        </Grid>
+        <Grid item xs={12}>
+          <Box sx={styles(matches).tableBox}>
+            <Box sx={styles(matches).tableHeaderBox}>
+              <Search
+                label="search"
+                width="100%"
+                searchBy={searchValue}
+                setSearchBy={SetSearchValue}
+              />
+              <Button
+                variant="outlined"
+                color="secondary"
+                startIcon={<FilterSharedIcon />}
+                onClick={() => setIsDrawerOpen(true)}
+                sx={styles(matches).filterButton}
+              >
+                Filter
+              </Button>
+            </Box>
+            <TanstackTable
+              data={dashboardsData}
+              columns={manageDashboardsDataColumns()}
+            />
+            <CustomPagination
+              count={1}
+              rowsPerPageOptions={[10, 20, 30]}
+              entriePages={10}
+            />
+          </Box>
+        </Grid>
+      </Grid>
+      <ManageDashboardFilter
+        isDrawerOpen={isDrawerOpen}
+        setIsDrawerOpen={setIsDrawerOpen}
+        filterFields={filterFieldsManageDashboard}
+        methods={methodsManageDashboardFilterForm}
+        handleSubmit={submitManageDashboardFilterForm}
+        handleReset={resetManageDashboardFilterForm}
+      />
+    </>
+  );
+};
