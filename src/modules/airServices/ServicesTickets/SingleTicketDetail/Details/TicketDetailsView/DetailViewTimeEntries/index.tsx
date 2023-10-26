@@ -1,7 +1,7 @@
 import { Grid, Typography, Box } from '@mui/material';
 
 import { useState } from 'react';
-import DetailTimePicker from '../../../Header/TimePicker';
+import DetailTimePicker from '../../../SingleTicketDetailsComponents/Header/TimePicker';
 import { Button, ButtonGroup } from '@mui/material';
 import { CirclePlusIcon, ViewDetailVuesaxIcon } from '@/assets/icons';
 import { styles } from './DetailViewTimeEntries.style';

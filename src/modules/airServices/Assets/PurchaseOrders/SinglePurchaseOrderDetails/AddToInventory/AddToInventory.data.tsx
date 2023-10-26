@@ -5,37 +5,25 @@ import {
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 export const addInventoryValidationSchemaOne = Yup.object().shape({
-  description: Yup.string().required('Field is Required'),
   assetnameprefix: Yup.string().required('Field is Required'),
-  location: Yup.string(),
-  acquisitionDate: Yup.string(),
   assetstate: Yup.string().required('Field is Required'),
+  dellMonitor: Yup.string().required('Field is Required'),
+  mouse: Yup.string().required('Field is Required'),
+  lCD: Yup.string().required('Field is Required'),
 });
-export const addInventoryValidationSchemaUpdate = Yup.object().shape({
-  updateExisting: Yup.string().required('Field is Required'),
-  dellMonitor: Yup.boolean(),
-  mouse: Yup.boolean(),
-  lcd: Yup.boolean(),
-});
+
 export const addInventoryValidationSchemaTwo = Yup.object().shape({
   assetName: Yup.string().required('Field is Required'),
-  serialNumber: Yup.string(),
-  assetTag: Yup.string(),
+  serialNumber: Yup.string().required('Field is Required'),
+  assetTag: Yup.string().required('Field is Required'),
 });
 
 export const addInventoryDefaultValuesOne = {
-  description: '',
+  addNew: 'No',
   assetnameprefix: '',
   location: '',
   acquisitionDate: '',
   assetstate: '',
-};
-
-export const addInventoryDefaultValuesOneUpdate = {
-  updateExisting: '',
-  dellMonitor: false,
-  mouse: false,
-  lcd: false,
 };
 export const addInventoryDefaultValuesTwo = {
   assetName: '',
@@ -45,9 +33,23 @@ export const addInventoryDefaultValuesTwo = {
 export const addToInventoryDrawerArray = [
   {
     componentProps: {
+      name: 'addNew',
+      fullWidth: true,
+      options: [
+        { label: 'Add New', value: 'No' },
+        { label: 'Update Existing', value: 'Yes' },
+      ],
+    },
+    component: RHFRadioGroup,
+    md: 12,
+  },
+  {
+    componentProps: {
       name: 'assetnameprefix',
       label: 'Asset Name Prefix',
       fullWidth: true,
+      select: false,
+      required: true,
     },
     toShow: 'Yes',
     component: RHFTextField,
@@ -58,6 +60,7 @@ export const addToInventoryDrawerArray = [
       name: 'location',
       label: 'Location',
       fullWidth: true,
+      select: true,
     },
     options: [
       {
@@ -86,6 +89,8 @@ export const addToInventoryDrawerArray = [
     componentProps: {
       name: 'acquisitionDate',
       label: 'Acquisition Date',
+      fullWidth: true,
+      select: false,
     },
     toShow: 'Yes',
     component: RHFTextField,
@@ -96,6 +101,9 @@ export const addToInventoryDrawerArray = [
       name: 'assetstate',
       label: 'Asset state',
       fullWidth: true,
+      select: false,
+      required: true,
+      // value: 'In stock',
     },
     toShow: 'Yes',
     component: RHFTextField,
@@ -103,21 +111,41 @@ export const addToInventoryDrawerArray = [
   },
   {
     componentProps: {
-      name: 'updateExisting',
+      name: 'dellMonitor',
+      label: 'Dell Monitor',
       fullWidth: true,
-      row: false,
-      options: [
-        { label: 'LCD', value: 'lcd' },
-        { label: 'Dell Monitor', value: 'dellMonitor' },
-        { label: 'Mouse', value: 'mouse' },
-      ],
+      select: false,
+      required: true,
     },
     toShow: 'No',
-    component: RHFRadioGroup,
+    component: RHFTextField,
+    md: 12,
+  },
+  {
+    componentProps: {
+      name: 'mouse',
+      label: 'Mouse',
+      fullWidth: true,
+      select: false,
+      required: true,
+    },
+    toShow: 'No',
+    component: RHFTextField,
+    md: 12,
+  },
+  {
+    componentProps: {
+      name: 'lCD',
+      label: 'LCD',
+      fullWidth: true,
+      select: false,
+      required: true,
+    },
+    toShow: 'No',
+    component: RHFTextField,
     md: 12,
   },
 ];
-
 export const addToInventorySecondDrawerArray = [
   {
     componentProps: {
@@ -125,8 +153,9 @@ export const addToInventorySecondDrawerArray = [
       label: 'Asset_Name',
       fullWidth: true,
       select: false,
+      required: true,
     },
-
+    // inventry: 'hi',
     component: RHFTextField,
     md: 12,
   },
@@ -136,8 +165,9 @@ export const addToInventorySecondDrawerArray = [
       label: 'Serial Number',
       fullWidth: true,
       select: false,
+      required: true,
     },
-
+    // inventry: 'hi',
     component: RHFTextField,
     md: 12,
   },
@@ -147,8 +177,9 @@ export const addToInventorySecondDrawerArray = [
       label: 'Asset Tag',
       fullWidth: true,
       select: false,
+      required: true,
     },
-
+    // inventry: 'hi',
     component: RHFTextField,
     md: 12,
   },

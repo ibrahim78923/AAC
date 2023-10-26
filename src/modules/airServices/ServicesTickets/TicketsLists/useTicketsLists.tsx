@@ -5,18 +5,18 @@ import {
   ticketsListsColumnFunction,
   ticketsListsData,
 } from './TicketsLists.data';
-import { TicketsColumnDrag } from './TicketsColumnDrag';
+import { TicketsColumnDrag } from './TicketsListComponents/TicketsColumnDrag';
 import { useRouter } from 'next/router';
-import { TicketsBulkUpdate } from './TicketsBulkUpdate';
+import { TicketsBulkUpdate } from './TicketsListComponents/TicketsBulkUpdate';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
-import { ticketsBulkUpdateFormSchemaFunction } from './TicketsBulkUpdate/TicketsBulkUpdate.data';
+import { ticketsBulkUpdateFormSchemaFunction } from './TicketsListComponents/TicketsBulkUpdate/TicketsBulkUpdate.data';
 import { useTheme } from '@mui/material';
 import {
   ticketsFilterDefaultFormValuesFunction,
   ticketsFilterFormSchema,
-} from './TicketsFilter/TicketsFilter.data';
-import { TicketsFilter } from './TicketsFilter';
+} from './TicketsListComponents/TicketsFilter/TicketsFilter.data';
+import { TicketsFilter } from './TicketsListComponents/TicketsFilter';
 import CreateTicket from '../CreateTicket';
 import {
   createTicketDefaultValues,

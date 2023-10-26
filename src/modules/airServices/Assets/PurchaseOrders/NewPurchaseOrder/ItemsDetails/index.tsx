@@ -1,12 +1,12 @@
 import { Button, Divider, Box } from '@mui/material';
 import { GrayPlusIcon } from '@/assets/icons';
 import { v4 as uuidv4 } from 'uuid';
-import { itemsDetailsData } from './itemsDetails.data';
-import ItemsDetailsHeader from './ItemsDetailsHeader';
-import DetailsListItem from './DetailsListItem';
+import ItemsDetailsHeader from './ItemDetailsComponents/ItemsDetailsHeader';
+import DetailsListItem from './ItemDetailsComponents/DetailsListItem';
 import useItemsDetails from './useItemsDetails';
-import ItemBilling from './ItemBilling';
+import ItemBilling from './ItemDetailsComponents/ItemBilling';
 import { styles } from './ItemsDetails.style';
+import { itemsDetailsData } from './ItemsDetails.data';
 
 const ItemsDetails = () => {
   const { itemsList, handleAddAdditionalItems } = useItemsDetails();

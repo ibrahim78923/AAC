@@ -3,9 +3,10 @@ import { Autocomplete, Box, TextField } from '@mui/material';
 import {
   itemsDetailsList,
   itemsDetailsSubList,
-} from '../NewPurchaseOrder.data';
-import useItemsDetails from './useItemsDetails';
-import { styles } from './ItemsDetails.style';
+} from '../../../NewPurchaseOrder.data';
+import useItemsDetails from '../../useItemsDetails';
+import { styles } from '../../ItemsDetails.style';
+import { v4 as uuidv4 } from 'uuid';
 
 const DetailsListItem: FC<{
   data: any;
@@ -42,7 +43,7 @@ const DetailsListItem: FC<{
         ?.slice(1)
         ?.map((item) => (
           <TextField
-            key={item?.value}
+            key={uuidv4()}
             name={item?.value}
             value={detailItem?.[item?.value]}
             onChange={handleChange}

@@ -1,9 +1,9 @@
-export const styles: any = {
+export const addToInventoryDrawerStyle: any = {
   recievedBoxStyling: {
     fontWeight: '500',
     backgroundColor: '#EBFAF8',
     padding: '2px 8px !important',
-    height: '22px !important',
+    height: '22px !imporatnt',
     color: '#47B263',
     borderRadius: '16px ',
     mt: '0.5rem',
@@ -12,6 +12,7 @@ export const styles: any = {
       color: '#38CAB5',
     },
   },
+
   mainGridStyling: {
     mb: '1rem',
     borderRadius: '8px',
@@ -47,7 +48,7 @@ export const styles: any = {
   },
   firstMainGridBoxStyling: {
     display: 'flex',
-    flexDirection: 'column',
+    flexDirection: 'row',
   },
   firstGridStyling: {
     display: 'flex',
@@ -57,10 +58,5 @@ export const styles: any = {
     display: 'flex',
     flexDirection: 'row',
     mb: '2rem',
-  },
-  firstGridMainStyling: {
-    flexDirection: 'column',
-    mb: '0rem',
-    p: '1rem',
   },
 };
