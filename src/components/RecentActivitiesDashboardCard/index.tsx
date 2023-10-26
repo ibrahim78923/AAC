@@ -1,6 +1,6 @@
 import { Box, Card, Typography } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
-import { styles } from './RecentActivitiesDashboardCard';
+import { styles } from './RecentActivitiesDashboardCard.styles';
 
 export const RecentActivitiesDashboardCard = ({
   icon,
@@ -9,20 +9,24 @@ export const RecentActivitiesDashboardCard = ({
   recentactivitytexttwo,
 }: any) => {
   return (
-    <Card sx={styles?.CardMain}>
+    <Card sx={styles?.cardMain}>
       <Box sx={{ marginLeft: 2 }}>
-        <Avatar alt="" src={icon?.src} sx={{ width: '33px', height: '32px' }} />
+        <Avatar
+          alt=""
+          src={icon?.src}
+          sx={{ width: '2.063rem', height: '2rem' }}
+        />
       </Box>
       <Box>
-        <Typography sx={styles?.RecentActivityText}>
-          <b style={styles?.RecentActivityTextBoldWord}>John Doe</b>
+        <Typography sx={styles?.recentActivitiesText}>
+          <span style={styles?.recentActivitiesTextBoldWord}>John Doe</span>
           {recentactivitytext}
-          <b style={styles?.RecentActivityTextBoldWord}> Mark dyson</b>
+          <span style={styles?.recentActivitiesTextBoldWord}> Mark dyson</span>
         </Typography>
-        <Typography sx={styles?.RecentActivityTextPassword}>
+        <Typography sx={styles?.recentActivitiesTextPassword}>
           {recentactivitytextone}
         </Typography>
-        <Typography sx={styles?.RecentActivityTextDateTimeDetail}>
+        <Typography sx={styles?.recentActivitiesTextDateTimeDetail}>
           {recentactivitytexttwo}
         </Typography>
       </Box>

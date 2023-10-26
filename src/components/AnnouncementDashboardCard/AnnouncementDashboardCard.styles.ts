@@ -1,41 +1,41 @@
 export const styles: any = {
-  CardMain: {
+  cardMain: {
     display: 'flex',
     alignItems: 'center',
     flex: 1,
     gap: 2,
     background: '#FFF',
-    borderRadius: '8px',
-    border: '1px solid #E5E7EB',
+    borderRadius: '0.5rem',
+    border: '0.063rem solid #E5E7EB',
     flexShrink: 0,
   },
 
-  Announcementtext: {
-    fontSize: '12px',
+  announcementText: {
+    fontSize: '0.75rem',
     fontStyle: 'normal',
     fontWeight: 700,
-    lineHeight: '18px',
-    letterSpacing: '-0.24px',
+    lineHeight: '1.125rem',
+    letterSpacing: '-0.015rem',
     color: '#1F2937',
     mt: 1,
   },
 
-  Announcementtextone: {
-    fontSize: '12px',
+  announcementTextOne: {
+    fontSize: '0.75rem',
     fontStyle: 'normal',
     fontWeight: 400,
-    lineHeight: '18px',
-    letterSpacing: '-0.24px',
+    lineHeight: '1.125rem',
+    letterSpacing: '-0.015rem',
     color: '##A0A3BD',
     mt: 1,
   },
 
-  Announcementtexttwo: {
-    fontSize: '12px',
+  announcementTextTwo: {
+    fontSize: '0.75rem',
     fontStyle: 'normal',
     fontWeight: 600,
-    lineHeight: '18px',
-    letterSpacing: '-0.24px',
+    lineHeight: '1.125rem',
+    letterSpacing: '-0.015rem',
     color: '#6B7280',
     display: 'flex',
   },

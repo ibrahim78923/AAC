@@ -1,6 +1,6 @@
 import { Box, Card, Typography } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
-import { styles } from './AnnouncementDashboardCardstyles';
+import { styles } from './AnnouncementDashboardCard.styles';
 
 export const AnnouncementDashboardCard = ({
   icon,
@@ -9,12 +9,12 @@ export const AnnouncementDashboardCard = ({
   Announcementtexttwo,
 }: any) => {
   return (
-    <Card sx={styles?.CardMain}>
+    <Card sx={styles?.cardMain}>
       <Box sx={{ marginLeft: 3, marginTop: 1 }}>
-        <Typography sx={styles?.Announcementtext}>
+        <Typography sx={styles?.announcementText}>
           {Announcementtext}
         </Typography>
-        <Typography sx={styles?.Announcementtextone}>
+        <Typography sx={styles?.announcementTextOne}>
           {Announcementtextone}
         </Typography>
       </Box>
@@ -22,9 +22,13 @@ export const AnnouncementDashboardCard = ({
         <Avatar
           alt=""
           src={icon?.src}
-          sx={{ width: '18px', height: '18px', marginRight: '10px' }}
+          sx={{
+            width: '1.125rem',
+            height: '1.125rem',
+            marginRight: '0.625rem',
+          }}
         />
-        <Typography sx={styles?.Announcementtexttwo}>
+        <Typography sx={styles?.announcementTextTwo}>
           {Announcementtexttwo}
         </Typography>
       </Box>

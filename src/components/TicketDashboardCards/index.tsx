@@ -4,12 +4,12 @@ import { styles } from './TicketDashboardCards.styles';
 
 export const TicketDashboardCards = ({ icon, count, label }: any) => {
   return (
-    <Card sx={styles?.CardMain}>
+    <Card sx={styles?.cardMain}>
       <Box sx={{ marginLeft: 3 }}>
         <Avatar
           alt=""
           src={icon?.src}
-          sx={{ width: '58.264px', height: '58px' }}
+          sx={{ width: '3.642rem', height: '3.625rem' }}
         />
       </Box>
       <Box>

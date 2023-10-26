@@ -1,13 +1,13 @@
 export const styles: any = {
-  CardMain: {
+  cardMain: {
     display: 'flex',
     alignItems: 'center',
     flex: 1,
     gap: 4,
     background: '#FFF',
-    borderRadius: '8px',
-    border: '1px solid #E5E7EB',
+    borderRadius: '0.5rem',
+    border: '0.063rem solid #E5E7EB',
     flexShrink: 0,
-    height: '94px',
+    height: '5.875rem',
   },
 };
