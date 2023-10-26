@@ -1,6 +1,6 @@
 import { Button, Grid, MenuItem, Popover, Typography } from '@mui/material';
 import { ActionButtonIcon, CirclePlusIcon } from '@/assets/icons';
-import { relatedticketsStyles } from '../RelatedTickets.styles';
+import { styles } from '../RelatedTickets.styles';
 import { useRelatedTickets } from '../useRelatedTickets';
 
 export const RelatedTicketsHeader = ({ isActive, setIsDrawerOpen }: any) => {
@@ -17,11 +17,7 @@ export const RelatedTicketsHeader = ({ isActive, setIsDrawerOpen }: any) => {
     openActionExport,
   } = useRelatedTickets();
   return (
-    <Grid
-      container
-      spacing={{ sm: 0, xs: 2 }}
-      sx={relatedticketsStyles?.headContainer}
-    >
+    <Grid container spacing={{ sm: 0, xs: 2 }} sx={styles?.headContainer}>
       <Grid
         item
         sm={6}
@@ -31,13 +27,13 @@ export const RelatedTicketsHeader = ({ isActive, setIsDrawerOpen }: any) => {
           justifyContent: { sm: 'flex-start', xs: 'center' },
         }}
       >
-        <Typography variant="h5" sx={relatedticketsStyles?.headtext}>
+        <Typography variant="h5" sx={styles?.headtext}>
           Child Tickets
         </Typography>
       </Grid>
-      <Grid sm={6} xs={12} item sx={relatedticketsStyles?.btnContainer}>
+      <Grid sm={6} xs={12} item sx={styles?.btnContainer}>
         <Button
-          sx={relatedticketsStyles?.actionBtn}
+          sx={styles?.actionBtn}
           endIcon={<ActionButtonIcon />}
           onClick={handleActionClick}
           disabled={!!!isActive.length}
@@ -88,7 +84,7 @@ export const RelatedTicketsHeader = ({ isActive, setIsDrawerOpen }: any) => {
           </MenuItem>
         </Popover>
         <Button
-          sx={relatedticketsStyles?.addTicketBtn}
+          sx={styles?.addTicketBtn}
           onClick={() => setIsDrawerOpen(true)}
           startIcon={<CirclePlusIcon />}
         >
