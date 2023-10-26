@@ -1,55 +1,36 @@
-import { useState } from 'react';
-
 import { Grid, Box, Button, Typography } from '@mui/material';
 
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
 
-import {
-  assignPlanData,
-  defaultValues,
-  validationSchema,
-} from './EditForm.data';
+import { assignPlanData } from './EditForm.data';
 
-import { useForm } from 'react-hook-form';
-import { enqueueSnackbar } from 'notistack';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { v4 as uuidv4 } from 'uuid';
+import useEditForm from './useEditForm';
 
-export default function EditForm({
-  isOpenDrawer,
-  onClose,
-  initialValueProps = defaultValues,
-}: any) {
-  const methods: any = useForm({
-    resolver: yupResolver(validationSchema),
-
-    defaultValues: initialValueProps,
-  });
-
-  const [selectProductSuite, setSelectProductSuite] = useState('product');
-
-  const { handleSubmit } = methods;
-
-  const onSubmit = async () => {
-    enqueueSnackbar('Ticket Updated Successfully', {
-      variant: 'success',
-    });
-  };
+export default function EditForm({ isOpenDrawer, onClose, isEditModal }: any) {
+  const {
+    selectProductSuite,
+    setSelectProductSuite,
+    methods,
+    apiMethods,
+    handleSubmit,
+    onSubmit,
+  } = useEditForm(isEditModal);
 
   return (
     <CommonDrawer
       isDrawerOpen={isOpenDrawer}
       onClose={() => onClose(false)}
-      title={'Assign Plan'}
-      okText={'Apply'}
+      title={`${isEditModal ? 'Update' : 'Assign'}  Plan`}
+      okText={`${isEditModal ? 'Update' : 'Assign'}`}
       isOk
       cancelText={'Cancel'}
       footer
       submitHandler={handleSubmit(onSubmit)}
     >
       <Box mt={1}>
-        <FormProvider methods={methods}>
+        <FormProvider methods={isEditModal ? apiMethods : methods}>
           <Grid container spacing={4} sx={{ position: 'relative' }}>
             {assignPlanData(selectProductSuite)?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={uuidv4()}>

@@ -15,7 +15,7 @@ import useInvoiceList from './useInvoiceList';
 
 import { PlaneIcon } from '@/assets/icons';
 
-const InvoiceList = () => {
+const InvoiceList = ({ setOpenViewInvoice }: any) => {
   const { isOpenInvoiceList, setIsOpenInvoiceList, handleCloseInvoiceList } =
     useInvoiceList();
   const router = useRouter();
@@ -94,9 +94,17 @@ const InvoiceList = () => {
       </Box>
       <Grid container>
         <Grid item sm={3}>
-          <Stack useFlexGap direction={'row'} sx={styles.updateSubscription}>
-            <Button sx={styles.cancelButton} onClick={() => router.back()}>
-              Cancle
+          <Stack
+            useFlexGap
+            direction={'row'}
+            sx={styles.updateSubscription}
+            style={{ justifyContent: 'flex-start' }}
+          >
+            <Button
+              sx={styles.cancelButton}
+              onClick={() => setOpenViewInvoice(false)}
+            >
+              Back
             </Button>
           </Stack>
         </Grid>
@@ -113,7 +121,11 @@ const InvoiceList = () => {
             >
               Download
             </Button>
-            <Button variant="contained" color="primary">
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => router.back()}
+            >
               Generate Invoice
             </Button>
           </Stack>

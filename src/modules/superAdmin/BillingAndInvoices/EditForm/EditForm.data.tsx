@@ -13,6 +13,7 @@ export const validationSchema = Yup.object().shape({
   additionalUser: Yup.string().trim().required('Field is Required'),
   planPrice: Yup.string().trim().required('Field is Required'),
   defaultUser: Yup.string().trim().required('Field is Required'),
+  defaultUserTwo: Yup.string().trim().required('Field is Required'),
   additionalStorage: Yup.string().trim().required('Field is Required'),
   discount: Yup.string().trim().required('Field is Required'),
   billingCycle: Yup.string().trim().required('Field is Required'),
@@ -26,10 +27,10 @@ export const defaultValues = {
   additionalUser: '',
   planPrice: '',
   defaultUser: '',
+  defaultUserTwo: '',
   additionalStorage: '',
   discount: '',
   billingCycle: '',
-  agent: '',
   date: new Date(),
 };
 
@@ -102,6 +103,43 @@ export const assignPlanData = (selectProductSuite: string) => {
 
       md: 12,
     },
+
+    {
+      componentProps: {
+        name: 'planPrice',
+        label: 'Plan Price',
+        fullWidth: true,
+        disable: true,
+      },
+
+      component: RHFTextField,
+
+      md: 4,
+    },
+    {
+      componentProps: {
+        name: 'defaultUser',
+        label: 'Default User',
+        fullWidth: true,
+        disable: true,
+      },
+
+      component: RHFTextField,
+
+      md: 4,
+    },
+    {
+      componentProps: {
+        name: 'defaultUserTwo',
+        label: 'Default User',
+        fullWidth: true,
+        disable: true,
+      },
+
+      component: RHFTextField,
+
+      md: 4,
+    },
     {
       componentProps: {
         name: 'additionalUser',
@@ -112,39 +150,6 @@ export const assignPlanData = (selectProductSuite: string) => {
       component: RHFTextField,
 
       md: 12,
-    },
-    {
-      componentProps: {
-        name: 'planPrice',
-        label: 'Plan Price',
-        fullWidth: true,
-      },
-
-      component: RHFTextField,
-
-      md: 4,
-    },
-    {
-      componentProps: {
-        name: 'defaultUser',
-        label: 'Default User',
-        fullWidth: true,
-      },
-
-      component: RHFTextField,
-
-      md: 4,
-    },
-    {
-      componentProps: {
-        name: 'defaultUser',
-        label: 'Default User',
-        fullWidth: true,
-      },
-
-      component: RHFTextField,
-
-      md: 4,
     },
     {
       componentProps: {
@@ -191,7 +196,7 @@ export const assignPlanData = (selectProductSuite: string) => {
     {
       componentProps: {
         name: 'date',
-        label: 'Planned Start Date',
+        label: 'Billing Date',
         fullWidth: true,
       },
 

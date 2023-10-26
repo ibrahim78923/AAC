@@ -1,6 +1,4 @@
-import { useState } from 'react';
-
-import { Grid, Typography, Button, useTheme } from '@mui/material';
+import { Grid, Typography, Button } from '@mui/material';
 
 import Search from '@/components/Search';
 import TanstackTable from '@/components/Tabel/TanstackTable';
@@ -8,40 +6,51 @@ import CustomPagination from '@/components/CustomPagination';
 
 import GenerateInvoice from '../GenerateInvoice';
 import ViewBillingDetails from '../ViewBillingDetails';
-import { columns } from './BillingAndInvoices.data';
 import EditForm from '../EditForm';
 import MenuItems from './MenuOptions';
-import useMenuOptions from './MenuOptions/useMenuOptions';
 import Filters from './Filters';
 
 import { BillingAndInvoicesTableData } from '@/mock/modules/superAdmin/BillingAndDetails';
 
-import PlusSharedIcon from '@/assets/icons/shared/plus-shared';
 import { FilterSharedIcon } from '@/assets/icons';
+import useBillingAndInvoices from './useBillingAndInvoices';
 
 const BillingAndInvoicesTable = () => {
-  const [searchByClientName, setSearchByClientName] = useState('');
-  const [isViewDetailOpen, setIsViewDeailOpen] = useState<boolean>(false);
-  const [isOpenDrawer, setIsOpenDrawer] = useState(false);
-  const [isOpenFilter, setIsOpenFilter] = useState(false);
-  const [isShowGenerateInvoice, setisShowGenerateInvoice] = useState(false);
-  const theme = useTheme();
-  const { isShowViewBillingDetails, setIsShowViewBillingDetails } =
-    useMenuOptions();
+  const {
+    getRowValues,
+    isChecked,
+    searchByClientName,
+    setSearchByClientName,
+    isViewDetailOpen,
+    setIsViewDeailOpen,
+    isOpenDrawer,
+    setIsOpenDrawer,
+    isOpenFilter,
+    setIsOpenFilter,
+    isShowGenerateInvoice,
+    setisShowGenerateInvoice,
+    theme,
+    isShowViewBillingDetails,
+    setIsShowViewBillingDetails,
+    setIsEditModal,
+    isEditModal,
+  } = useBillingAndInvoices();
 
   return (
     <>
       <Grid>
         <Grid container>
           <Grid item xs={6} sm={6}>
-            <Typography variant="h4">Billing & Invoices</Typography>
+            <Typography variant="h4">Plan Assignment</Typography>
           </Grid>
           <Grid item xs={6} sm={6} sx={{ textAlign: 'end' }}>
             <Button
-              onClick={() => setIsOpenDrawer(true)}
-              startIcon={<PlusSharedIcon />}
+              onClick={() => {
+                setIsOpenDrawer(true);
+                setIsEditModal(false);
+              }}
               variant="contained"
-              className="medium"
+              className="small"
             >
               Assign Plan
             </Button>
@@ -52,8 +61,8 @@ const BillingAndInvoicesTable = () => {
             <Search
               searchBy={searchByClientName}
               setSearchBy={setSearchByClientName}
-              label="Search By Name"
-              size="medium"
+              label="Search Here"
+              size="small"
             />
           </Grid>
           <Grid item xs={12} sm={12} xl={2} mt={4} style={{ display: 'flex' }}>
@@ -63,6 +72,8 @@ const BillingAndInvoicesTable = () => {
               setIsOpenDrawer={setIsOpenDrawer}
               setIsShowViewBillingDetails={setIsShowViewBillingDetails}
               setisShowGenerateInvoice={setisShowGenerateInvoice}
+              isChecked={isChecked}
+              setIsEditModal={setIsEditModal}
             />
             <Button
               onClick={() => setIsOpenFilter(true)}
@@ -71,7 +82,7 @@ const BillingAndInvoicesTable = () => {
                 border: `1px solid ${theme.palette.custom.dark}`,
                 color: theme.palette.custom.main,
                 width: '105px',
-                marginLeft: '20px',
+                marginLeft: '10px',
               }}
             >
               Filters
@@ -90,11 +101,18 @@ const BillingAndInvoicesTable = () => {
         />
       )}
       <Grid item xs={12} sm={12} mt={3}>
-        <TanstackTable columns={columns} data={BillingAndInvoicesTableData} />
+        <TanstackTable
+          columns={getRowValues}
+          data={BillingAndInvoicesTableData}
+        />
       </Grid>
       <CustomPagination count={1} rowsPerPageOptions={[1, 2]} entriePages={1} />
       {isOpenDrawer && (
-        <EditForm isOpenDrawer={isOpenDrawer} onClose={setIsOpenDrawer} />
+        <EditForm
+          isOpenDrawer={isOpenDrawer}
+          onClose={setIsOpenDrawer}
+          isEditModal={isEditModal}
+        />
       )}
       {isOpenFilter && (
         <Filters isOpenDrawer={isOpenFilter} onClose={setIsOpenFilter} />
