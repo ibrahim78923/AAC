@@ -2,11 +2,11 @@ import NoData from '@/components/NoData';
 import NoAssociationFound from '@/assets/images/modules/LogitechMouse/association.png';
 import { Box, Button, useTheme } from '@mui/material';
 import { PlusSharedIconColor } from '@/assets/icons';
-import { styles } from './Approvals.style';
 import SoftwareAssignCategory from '../../../Software/SoftwareAssignCategory';
 import { useState } from 'react';
-import { dataArray } from './Approvals.data';
+import { approvalsDataArray } from './Approvals.data';
 import ReminderRequestApproval from './components/PurchaseOrderApprovels/ReminderApprovels';
+
 export const Approvals = () => {
   const theme: any = useTheme();
   const [openAssignModal, setOpenAssignModal] = useState(false);
@@ -14,9 +14,16 @@ export const Approvals = () => {
 
   return (
     <>
-      <Box sx={styles.buttonContainer}>
+      <Box display={'flex'} justifyContent={'end'}>
         <Button
-          sx={styles.addButtonStyle(theme)}
+          sx={{
+            marginRight: '12px',
+            backgroundColor: theme.palette.primary?.main,
+            color: '#FFFFFF',
+            '&:hover': {
+              backgroundColor: theme.palette.primary?.main,
+            },
+          }}
           variant="outlined"
           startIcon={<PlusSharedIconColor />}
           onClick={() => {
@@ -31,7 +38,7 @@ export const Approvals = () => {
         openAssignModal={openAssignModal}
         setOpenAssignModal={setOpenAssignModal}
         title={'Request Approval'}
-        dataArray={dataArray}
+        dataArray={approvalsDataArray}
         cancelText={'Cancel'}
         okText={'Request'}
         successMessage={'Approved Request Send Successfully'}
@@ -45,7 +52,7 @@ export const Approvals = () => {
           }
         />
       ) : (
-        <Box sx={styles.approvalBox}>
+        <Box marginTop={'2rem'}>
           <ReminderRequestApproval status={'Request'} />
         </Box>
       )}

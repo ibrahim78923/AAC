@@ -32,18 +32,18 @@ const size = {
   height: 280,
 };
 
-function UsageActivity({ UsageActivityLable, UsageActivityData }: any) {
+function UsageActivity({ usageActivityLable, usageActivityData }: any) {
   const theme: any = useTheme();
   return (
     <>
       <Box sx={styles.mainBox(theme)}>
         <Typography sx={styles.heading}>
-          {UsageActivityLable.heading}
+          {usageActivityLable.heading}
         </Typography>
         <PieChart
           series={[
             {
-              data: UsageActivityData,
+              data: usageActivityData,
               cx: styles.alignGraph.cx,
               cy: styles.alignGraph.cy,
               innerRadius: styles.alignGraph.innerRadius,
@@ -58,13 +58,13 @@ function UsageActivity({ UsageActivityLable, UsageActivityData }: any) {
           legend={{ hidden: true }}
           {...size}
         >
-          <NumberLabel>{UsageActivityLable.numLabel}</NumberLabel>
-          <TextLabel>{UsageActivityLable.textLabel} </TextLabel>
+          <NumberLabel>{usageActivityLable.numLabel}</NumberLabel>
+          <TextLabel>{usageActivityLable.textLabel} </TextLabel>
         </PieChart>
         <Box sx={styles.footerBox}>
           <Typography sx={styles.footerTypography}>
             <Box sx={styles.footerTypographyBox(theme)}>
-              {UsageActivityLable.inactive}
+              {usageActivityLable.inactive}
             </Box>
             Inactive
           </Typography>

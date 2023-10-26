@@ -1,5 +1,5 @@
 import { AvatarImage } from '@/assets/images';
-export const ApprovalsData = [
+export const approvalsData = [
   {
     id: '1',
     img: AvatarImage,

@@ -2,10 +2,9 @@ import NoData from '@/components/NoData';
 import NoAssociationFound from '@/assets/images/modules/LogitechMouse/association.png';
 import { Button, useTheme } from '@mui/material';
 import { AddCircleIcon } from '@/assets/icons';
-import { styles } from './Associations.style';
 import { useState } from 'react';
-import { AddAssociationsDrawer } from './AssociationsDrawer';
-import AssociationTicket from './AssociationsTicket';
+import { AssociationsDrawer } from './AssociationsDrawer';
+import { AssociationsTicket } from './AssociationsTicket';
 
 export const Associations = () => {
   const theme: any = useTheme();
@@ -22,7 +21,14 @@ export const Associations = () => {
           }
         >
           <Button
-            sx={styles.addButtonStyle(theme)}
+            sx={{
+              marginRight: '12px',
+              backgroundColor: theme?.palette?.primary?.light,
+              color: theme?.palette?.primary?.main,
+              '&:hover': {
+                bgcolor: theme?.palette?.grey[400],
+              },
+            }}
             variant="outlined"
             startIcon={<AddCircleIcon />}
             onClick={() => setOpenDrawer(true)}
@@ -31,10 +37,10 @@ export const Associations = () => {
           </Button>
         </NoData>
       ) : (
-        <AssociationTicket />
+        <AssociationsTicket />
       )}
 
-      <AddAssociationsDrawer
+      <AssociationsDrawer
         open={openDrawer}
         setDrawerOpen={() => setOpenDrawer(false)}
         setOpenTicket={setOpenTicket}

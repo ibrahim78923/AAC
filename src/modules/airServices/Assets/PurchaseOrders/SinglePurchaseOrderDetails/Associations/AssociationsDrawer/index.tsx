@@ -1,13 +1,13 @@
 import CommonDrawer from '@/components/CommonDrawer';
-import { AssociationDrawerPropsI } from './AssociationDrawer.interface';
-import AssociationsDrawerData from './AssociationDrawerData';
+import { AssociationsDrawerPropsI } from './AssociationsDrawer.interface';
+import { AssociationsDrawerData } from './AssociationsDrawerData';
 import { useState } from 'react';
 
-export const AddAssociationsDrawer = ({
+export const AssociationsDrawer = ({
   open,
   setDrawerOpen,
   setOpenTicket,
-}: AssociationDrawerPropsI) => {
+}: AssociationsDrawerPropsI) => {
   const [associateRequest, setAssociateRequest] = useState<any>(false);
   return (
     <div>

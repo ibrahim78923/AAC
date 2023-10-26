@@ -1,8 +1,8 @@
 import { Grid } from '@mui/material';
-import { DrawerTable } from './AssocitionDrawerTable';
+import { AssocitionsDrawerTable } from './AssocitionsDrawerTable';
 import Search from '@/components/Search';
 
-const AssociationsDrawerData = ({ setAssociateRequest }: any) => {
+export const AssociationsDrawerData = ({ setAssociateRequest }: any) => {
   return (
     <Grid container>
       <Grid item xs={12}>
@@ -15,10 +15,8 @@ const AssociationsDrawerData = ({ setAssociateRequest }: any) => {
         />
       </Grid>
       <Grid item xs={12} mt={'16px'}>
-        <DrawerTable setAssociateRequest={setAssociateRequest} />
+        <AssocitionsDrawerTable setAssociateRequest={setAssociateRequest} />
       </Grid>
     </Grid>
   );
 };
-
-export default AssociationsDrawerData;

@@ -1,6 +1,6 @@
 import { Box, Button, Grid, Typography } from '@mui/material';
 import Image from 'next/image';
-import { ApprovalsData } from './PurchaseOrderApprovels.data';
+import { approvalsData } from './PurchaseOrderApprovels.data';
 import SharedIcon from '@/assets/icons/shared/shared-icon';
 import CancelIcon from '@mui/icons-material/Cancel';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -36,8 +36,9 @@ const ReminderRequestApproval = ({ status }: any) => {
   return (
     <>
       <Box sx={styles.approvalsContainerBox}>
-        {ApprovalsData?.filter((item) => item.status === status).map(
-          (filteredItem) => {
+        {approvalsData
+          ?.filter((item) => item.status === status)
+          .map((filteredItem) => {
             return (
               <div key={filteredItem?.id} style={styles.approvalsContainer}>
                 <Grid
@@ -83,7 +84,6 @@ const ReminderRequestApproval = ({ status }: any) => {
                     {status === 'Request' ? (
                       <Box sx={styles.requestApprovalBoxFirst}>
                         <Button
-                          onClick={() => {}}
                           sx={{
                             ...styles.requestApprovalButton,
                             color: theme?.palette?.grey[800],
@@ -93,7 +93,6 @@ const ReminderRequestApproval = ({ status }: any) => {
                           Cancel
                         </Button>
                         <Button
-                          onClick={() => {}}
                           sx={{
                             ...styles.requestApprovalButton,
                             color: theme?.palette?.primary?.main,
@@ -110,8 +109,7 @@ const ReminderRequestApproval = ({ status }: any) => {
                 </Grid>
               </div>
             );
-          },
-        )}
+          })}
       </Box>
     </>
   );
