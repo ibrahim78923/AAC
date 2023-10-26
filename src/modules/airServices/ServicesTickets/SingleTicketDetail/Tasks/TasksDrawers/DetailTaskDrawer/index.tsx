@@ -12,10 +12,11 @@ import { useForm } from 'react-hook-form';
 import { ActionButtonIcon } from '@/assets/icons';
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
-import { drawerDetail, tasksTableData } from '../Tasks.data';
-import { DetailTaskDrawerI } from '../Tasks.interface';
-import { styles } from '../Tasks.styles';
-import { useTasks } from '../useTasks';
+import { tasksTableData } from '../../Tasks.data';
+import { styles } from './DetailTaskDrawer.styles';
+import { DetailTaskDrawerI } from './DetailTaskDrawer.interface';
+import { useDetailTaskDrawer } from './useDetailTaskDrawer';
+import { drawerDetail } from './DetailTaskDrawer.data';
 
 export const DetailTaskDrawer: React.FC<DetailTaskDrawerI> = ({
   isDrawerOpen,
@@ -30,7 +31,7 @@ export const DetailTaskDrawer: React.FC<DetailTaskDrawerI> = ({
     handleStatusClose,
     handleStatusItemClick,
     theme,
-  } = useTasks();
+  } = useDetailTaskDrawer();
   const handleSubmit = useForm();
   const taskDetailStatus = taskDetail?.status;
   return (

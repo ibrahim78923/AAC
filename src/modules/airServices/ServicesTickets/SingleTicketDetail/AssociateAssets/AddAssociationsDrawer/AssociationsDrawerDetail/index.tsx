@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { Grid } from '@mui/material';
-import { DrawerTable } from './DrawerTable';
 import Search from '@/components/Search';
+import { DrawerTable } from './DrawerTable';
 
-const AssociationsDrawerData = () => {
+export const AssociationsDrawerDetail = () => {
   const [DrawerData, setDrawerData] = useState([]);
 
   return (
@@ -23,5 +23,3 @@ const AssociationsDrawerData = () => {
     </Grid>
   );
 };
-
-export default AssociationsDrawerData;

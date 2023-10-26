@@ -3,13 +3,14 @@ import { FormProvider } from '@/components/ReactHookForm';
 import { TaskTicketFormFields } from './TasksForm.data';
 import { v4 as uuidv4 } from 'uuid';
 
-function TasksForm({ submitCreateNewTicket, methods, handleSubmit }: any) {
+export const TasksDrawersForm = ({
+  submitTicket,
+  methods,
+  handleSubmit,
+}: any) => {
   return (
     <Box mt={1}>
-      <FormProvider
-        methods={methods}
-        onSubmit={handleSubmit(submitCreateNewTicket)}
-      >
+      <FormProvider methods={methods} onSubmit={handleSubmit(submitTicket)}>
         <Grid container spacing={1}>
           {TaskTicketFormFields?.map((item: any) => (
             <Grid item xs={12} md={item?.md} key={uuidv4()}>
@@ -28,6 +29,4 @@ function TasksForm({ submitCreateNewTicket, methods, handleSubmit }: any) {
       </FormProvider>
     </Box>
   );
-}
-
-export default TasksForm;
+};

@@ -1,9 +1,9 @@
 import { Button, Grid, MenuItem, Popover, Typography } from '@mui/material';
 import { ActionButtonIcon, CirclePlusIcon } from '@/assets/icons';
 import { AlertModals } from '@/components/AlertModals';
-import { useTasks } from '../useTasks';
-import { styles } from '../Tasks.styles';
-import { TasksHeaderI } from '../Tasks.interface';
+import { styles } from './TasksHeader.styles';
+import { useTasksHeader } from './useTasksHeader';
+import { TasksHeaderI } from './TasksHeader.interface';
 
 export const TasksHeader = ({
   setIsAddDrawerOpen,
@@ -24,7 +24,7 @@ export const TasksHeader = ({
     setDeleteModal,
     submitDeleteModel,
     theme,
-  } = useTasks();
+  } = useTasksHeader();
   return (
     <Grid container spacing={{ sm: 0, xs: 2 }} sx={styles?.headContainer}>
       <Grid
