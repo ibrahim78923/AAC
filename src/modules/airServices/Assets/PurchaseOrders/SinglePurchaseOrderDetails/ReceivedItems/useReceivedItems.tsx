@@ -2,10 +2,10 @@ import { enqueueSnackbar } from 'notistack';
 import { useState } from 'react';
 import { data } from './ReceivedItems.data';
 
-export const useReceivedItems = () => {
+export const useReceivedItems = (props: any) => {
   let booVariable: boolean;
   const [errorOccurred, setErrorOccurred] = useState(false);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const { isDrawerOpen, setIsDrawerOpen } = props;
   const showSnackbar = (boolValue: boolean) => {
     if (boolValue) {
       const message = 'Purchase Order items count update successfully';
@@ -24,6 +24,7 @@ export const useReceivedItems = () => {
         setErrorOccurred(true);
       }
     });
+    setIsDrawerOpen(false);
     showSnackbar(booVariable);
   };
 
