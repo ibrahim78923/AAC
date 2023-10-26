@@ -10,7 +10,7 @@ import {
   userDataArray,
   userDefaultValues,
   userValidationSchema,
-} from './UserFilter.data';
+} from './UsersFilter.data';
 import { Box, Grid } from '@mui/material';
 
 export const UsersFilter = () => {

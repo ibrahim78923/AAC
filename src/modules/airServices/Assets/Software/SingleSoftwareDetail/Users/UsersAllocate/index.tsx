@@ -13,7 +13,7 @@ const userAllocateSelectOptions = [
   { value: 'Figma', title: 'Figma', des: ` Figma Available contract: 1` },
 ];
 
-const UserAllocate = () => {
+const UsersAllocate = () => {
   const methods = useForm();
   return (
     <FormProvider {...methods}>
@@ -30,4 +30,4 @@ const UserAllocate = () => {
   );
 };
 
-export default UserAllocate;
+export default UsersAllocate;

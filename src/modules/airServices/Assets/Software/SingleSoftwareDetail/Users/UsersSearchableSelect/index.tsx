@@ -10,7 +10,7 @@ import { useFormContext, Controller } from 'react-hook-form';
 import { ArrowDownIcon } from '@/assets/icons';
 import { v4 as uuidv4 } from 'uuid';
 
-export default function UserSearchableSelect({
+export default function UsersSearchableSelect({
   name,
   options,
   placeholder,

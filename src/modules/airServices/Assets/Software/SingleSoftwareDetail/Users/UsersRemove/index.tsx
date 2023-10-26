@@ -1,7 +1,7 @@
 import { Box, Typography } from '@mui/material';
 import React from 'react';
 
-const UserRemove = () => {
+const UsersRemove = () => {
   return (
     <Box sx={{ width: { sm: '484px', xs: '100%' } }}>
       <Typography sx={{ mt: 2 }}>
@@ -11,4 +11,4 @@ const UserRemove = () => {
   );
 };
 
-export default UserRemove;
+export default UsersRemove;

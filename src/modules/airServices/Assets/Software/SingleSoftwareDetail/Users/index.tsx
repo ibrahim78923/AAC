@@ -8,11 +8,12 @@ import { userDropdown } from './Users.data';
 import Search from '@/components/Search';
 import { enqueueSnackbar } from 'notistack';
 import ConversationModel from '@/components/Model/CoversationModel';
-import UserAllocate from './UsersAllocate';
-import UserDeallocate from './UsersDeallocate';
-import UserRemove from './UsersRemove';
+
 import { ExportButton } from '@/components/ExportButton';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
+import UsersRemove from './UsersRemove';
+import UsersAllocate from './UsersAllocate';
+import UsersDeallocate from './UsersDeallocate';
 
 export const Users = () => {
   const [usersData, setUsersData] = useState([]);
@@ -106,9 +107,9 @@ export const Users = () => {
               : 'Add Device'
           }
         >
-          {selectedActionTitle === 'Allocate' && <UserAllocate />}
-          {selectedActionTitle === 'Deallocate' && <UserDeallocate />}
-          {selectedActionTitle === 'Remove' && <UserRemove />}
+          {selectedActionTitle === 'Allocate' && <UsersAllocate />}
+          {selectedActionTitle === 'Deallocate' && <UsersDeallocate />}
+          {selectedActionTitle === 'Remove' && <UsersRemove />}
           {selectedActionTitle === 'Allocate' && (
             <Box sx={{ mt: 2 }}>
               <Divider />
