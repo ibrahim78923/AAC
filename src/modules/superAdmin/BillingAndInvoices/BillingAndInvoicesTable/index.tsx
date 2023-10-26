@@ -14,6 +14,7 @@ import { BillingAndInvoicesTableData } from '@/mock/modules/superAdmin/BillingAn
 
 import { FilterSharedIcon } from '@/assets/icons';
 import useBillingAndInvoices from './useBillingAndInvoices';
+import { styles } from '../Invoices/Invoices.style';
 
 const BillingAndInvoicesTable = () => {
   const {
@@ -37,8 +38,8 @@ const BillingAndInvoicesTable = () => {
   } = useBillingAndInvoices();
 
   return (
-    <>
-      <Grid>
+    <Grid sx={styles.invoicesTableWrapper}>
+      <Grid sx={{ padding: '15px 15px 0 15px' }}>
         <Grid container>
           <Grid item xs={6} sm={6}>
             <Typography variant="h4">Plan Assignment</Typography>
@@ -56,8 +57,8 @@ const BillingAndInvoicesTable = () => {
             </Button>
           </Grid>
         </Grid>
-        <Grid container mt={2}>
-          <Grid item xs={12} xl={10} mt={4}>
+        <Grid container>
+          <Grid item xs={12} xl={10} mt={2}>
             <Search
               searchBy={searchByClientName}
               setSearchBy={setSearchByClientName}
@@ -65,7 +66,7 @@ const BillingAndInvoicesTable = () => {
               size="small"
             />
           </Grid>
-          <Grid item xs={12} sm={12} xl={2} mt={4} style={{ display: 'flex' }}>
+          <Grid item xs={12} sm={12} xl={2} mt={2} style={{ display: 'flex' }}>
             <MenuItems
               isViewDetailOpen={isViewDetailOpen}
               setIsViewDeailOpen={setIsViewDeailOpen}
@@ -100,7 +101,7 @@ const BillingAndInvoicesTable = () => {
           onClose={setIsShowViewBillingDetails}
         />
       )}
-      <Grid item xs={12} sm={12} mt={3}>
+      <Grid item xs={12} sm={12} mt={1}>
         <TanstackTable
           columns={getRowValues}
           data={BillingAndInvoicesTableData}
@@ -117,7 +118,7 @@ const BillingAndInvoicesTable = () => {
       {isOpenFilter && (
         <Filters isOpenDrawer={isOpenFilter} onClose={setIsOpenFilter} />
       )}
-    </>
+    </Grid>
   );
 };
 
