@@ -1,6 +1,6 @@
 import { Checkbox } from '@mui/material';
 
-import { Avatar, AvatarGroup, Switch, Box, Typography } from '@mui/material';
+import { Avatar, AvatarGroup, Box, Typography } from '@mui/material';
 
 import RHFSelect from '@/components/ReactHookForm/RHFSelect';
 
@@ -10,9 +10,9 @@ import RHFDatePicker from '@/components/ReactHookForm/RHFDatePicker';
 
 import { AvatarImage } from '@/assets/images';
 
-import * as Yup from 'yup';
+import { SwitchBtn } from '../SwitchButton';
 
-const label = { inputProps: { 'aria-label': 'Switch demo' } };
+import * as Yup from 'yup';
 
 export const data: any = [
   {
@@ -38,7 +38,7 @@ export const data: any = [
         <Avatar alt="Trevor Henderson" src={AvatarImage.src} />
       </AvatarGroup>
     ),
-    Status: <Switch {...label} defaultChecked />,
+    Status: <SwitchBtn defaultChecked />,
     CreatedOn: '12/10/2023',
   },
   {
@@ -56,7 +56,7 @@ export const data: any = [
     UserType: 'Company Owner',
     OrganizationName: '-',
     Products: '-',
-    Status: <Switch {...label} defaultChecked />,
+    Status: <SwitchBtn defaultChecked />,
     CreatedOn: '12/10/2023',
   },
   {
@@ -74,7 +74,7 @@ export const data: any = [
     UserType: 'Company Owner',
     OrganizationName: '-',
     Products: '-',
-    Status: <Switch {...label} defaultChecked />,
+    Status: <SwitchBtn defaultChecked />,
     CreatedOn: '12/10/2023',
   },
   {
@@ -100,7 +100,7 @@ export const data: any = [
         <Avatar alt="Trevor Henderson" src={AvatarImage.src} />
       </AvatarGroup>
     ),
-    Status: <Switch {...label} defaultChecked />,
+    Status: <SwitchBtn defaultChecked />,
     CreatedOn: '12/10/2023',
   },
 ];
@@ -188,7 +188,7 @@ export const superAdminUsersData: any = [
         <Avatar alt="Trevor Henderson" src={AvatarImage.src} />
       </AvatarGroup>
     ),
-    Status: <Switch {...label} defaultChecked />,
+    Status: <SwitchBtn defaultChecked />,
     CreatedOn: '12/10/2023',
   },
   {
@@ -206,7 +206,7 @@ export const superAdminUsersData: any = [
     UserType: 'Super Admin',
     OrganizationName: '-',
     Products: '-',
-    Status: <Switch {...label} defaultChecked />,
+    Status: <SwitchBtn defaultChecked />,
     CreatedOn: '12/10/2023',
   },
   {
@@ -224,7 +224,7 @@ export const superAdminUsersData: any = [
     UserType: 'Super Admin',
     OrganizationName: '-',
     Products: '-',
-    Status: <Switch {...label} defaultChecked />,
+    Status: <SwitchBtn defaultChecked />,
     CreatedOn: '12/10/2023',
   },
   {
@@ -250,7 +250,7 @@ export const superAdminUsersData: any = [
         <Avatar alt="Trevor Henderson" src={AvatarImage.src} />
       </AvatarGroup>
     ),
-    Status: <Switch {...label} defaultChecked />,
+    Status: <SwitchBtn defaultChecked />,
     CreatedOn: '12/10/2023',
   },
 ];

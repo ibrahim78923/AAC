@@ -1,8 +1,8 @@
+import { Avatar, Box, Checkbox, Typography } from '@mui/material';
+
+import { SwitchBtn } from '../../../SwitchButton';
+
 import { AvatarImage } from '@/assets/images';
-
-import { Avatar, Box, Checkbox, Switch, Typography } from '@mui/material';
-
-const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
 export const delegatesData: any = [
   {
@@ -19,7 +19,7 @@ export const delegatesData: any = [
     PhoneNumber: 'Orcalo Holding',
     SignUpDate: 'orcalo@airapple.co.uk',
     EarnedAmmount: 'user select here',
-    Status: <Switch {...label} defaultChecked />,
+    Status: <SwitchBtn defaultChecked />,
     Actions: 'visibilty icon',
   },
   {
@@ -36,7 +36,7 @@ export const delegatesData: any = [
     PhoneNumber: 'Orcalo Holding',
     SignUpDate: 'orcalo@airapple.co.uk',
     EarnedAmmount: 'user select here',
-    Status: <Switch {...label} defaultChecked />,
+    Status: <SwitchBtn defaultChecked />,
     Actions: 'visibilty icon',
   },
   {
@@ -53,7 +53,7 @@ export const delegatesData: any = [
     PhoneNumber: 'Orcalo Holding',
     SignUpDate: 'orcalo@airapple.co.uk',
     EarnedAmmount: 'user select here',
-    Status: <Switch {...label} defaultChecked />,
+    Status: <SwitchBtn defaultChecked />,
     Actions: 'visibilty icon',
   },
   {
@@ -70,7 +70,7 @@ export const delegatesData: any = [
     PhoneNumber: 'Orcalo Holding',
     SignUpDate: 'orcalo@airapple.co.uk',
     EarnedAmmount: 'user select here',
-    Status: <Switch {...label} defaultChecked />,
+    Status: <SwitchBtn defaultChecked />,
     Actions: 'visibilty icon',
   },
   {
@@ -87,7 +87,7 @@ export const delegatesData: any = [
     PhoneNumber: 'Orcalo Holding',
     SignUpDate: 'orcalo@airapple.co.uk',
     EarnedAmmount: 'user select here',
-    Status: <Switch {...label} defaultChecked />,
+    Status: <SwitchBtn defaultChecked />,
     Actions: 'visibilty icon',
   },
   {
@@ -104,7 +104,7 @@ export const delegatesData: any = [
     PhoneNumber: 'Orcalo Holding',
     SignUpDate: 'orcalo@airapple.co.uk',
     EarnedAmmount: 'user',
-    Status: <Switch {...label} defaultChecked />,
+    Status: <SwitchBtn defaultChecked />,
     Actions: 'visibilty icon',
   },
 ];

@@ -1,8 +1,8 @@
-import { Box, Checkbox, Switch, Typography } from '@mui/material';
+import { Box, Checkbox, Typography } from '@mui/material';
+
+import { SwitchBtn } from '../../../SwitchButton';
 
 import { LogoIcon } from '@/assets/icons';
-
-const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
 export const companyData: any = [
   {
@@ -16,7 +16,7 @@ export const companyData: any = [
     Company: 'Orcalo Holding',
     Email: 'orcalo@airapple.co.uk',
     ManageRole: 'user select here',
-    Status: <Switch {...label} defaultChecked />,
+    Status: <SwitchBtn defaultChecked />,
   },
   {
     Id: 2,
@@ -29,7 +29,7 @@ export const companyData: any = [
     Company: 'Orcalo Holding',
     Email: 'orcalo@airapple.co.uk',
     ManageRole: 'user select here',
-    Status: <Switch {...label} defaultChecked />,
+    Status: <SwitchBtn defaultChecked />,
   },
   {
     Id: 3,
@@ -42,7 +42,7 @@ export const companyData: any = [
     Company: 'Orcalo Holding',
     Email: 'orcalo@airapple.co.uk',
     ManageRole: 'user select here',
-    Status: <Switch {...label} defaultChecked />,
+    Status: <SwitchBtn defaultChecked />,
   },
   {
     Id: 4,
@@ -55,7 +55,7 @@ export const companyData: any = [
     Company: 'Orcalo Holding',
     Email: 'orcalo@airapple.co.uk',
     ManageRole: 'user select here',
-    Status: <Switch {...label} defaultChecked />,
+    Status: <SwitchBtn defaultChecked />,
   },
   {
     Id: 5,
@@ -68,7 +68,7 @@ export const companyData: any = [
     Company: 'Orcalo Holding',
     Email: 'orcalo@airapple.co.uk',
     ManageRole: 'user select here',
-    Status: <Switch {...label} defaultChecked />,
+    Status: <SwitchBtn defaultChecked />,
   },
   {
     Id: 6,
@@ -81,7 +81,7 @@ export const companyData: any = [
     Company: 'Orcalo Holding',
     Email: 'orcalo@airapple.co.uk',
     ManageRole: 'user',
-    Status: <Switch {...label} defaultChecked />,
+    Status: <SwitchBtn defaultChecked />,
   },
 ];
 
