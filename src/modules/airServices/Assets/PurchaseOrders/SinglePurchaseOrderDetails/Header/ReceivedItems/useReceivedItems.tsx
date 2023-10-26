@@ -3,10 +3,9 @@ import { useState } from 'react';
 import { data } from './ReceivedItemsTable.data';
 
 export const useReceivedItems = (props: any) => {
-  const { isDrawerOpen, setIsDrawerOpen } = props;
   let booVariable: boolean;
   const [errorOccurred, setErrorOccurred] = useState(false);
-  // const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const { isDrawerOpen, setIsDrawerOpen } = props;
   const showSnackbar = (boolValue: boolean) => {
     if (boolValue) {
       const message = 'Purchase Order items count update successfully';
