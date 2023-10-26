@@ -1,6 +1,6 @@
 import { Avatar, Box, Checkbox, Typography } from '@mui/material';
 
-import { SwitchBtn } from '../../../SwitchButton';
+import { SwitchBtn } from '@/components/SwitchButton';
 
 import { AvatarImage } from '@/assets/images';
 

@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Box, Typography } from '@mui/material';
 
 const CheckboxLabel = ({ name, desc }: { name: string; desc: string }) => {

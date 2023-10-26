@@ -1,9 +1,7 @@
 import { MenuItem, Select, useTheme } from '@mui/material';
-
-import { BadgeStatusI } from './StatusBadge.interface';
-
 import { KeyboardArrowDown } from '@mui/icons-material';
 
+import { BadgeStatusI } from './StatusBadge.interface';
 import { styles } from './StatusBadge.style';
 
 import { v4 as uuidv4 } from 'uuid';

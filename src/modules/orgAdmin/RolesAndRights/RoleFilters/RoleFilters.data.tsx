@@ -12,7 +12,7 @@ export const rolesValidationSchema = Yup.object().shape({
 });
 
 export const rolesDefaultValues = {
-  roleName: '', //1
+  roleName: '',
   product: '',
   status: '',
   createdDate: new Date(),

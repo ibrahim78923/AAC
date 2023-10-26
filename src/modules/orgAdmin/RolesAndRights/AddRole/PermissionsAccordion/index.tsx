@@ -7,20 +7,22 @@ import {
   Box,
   FormControlLabel,
 } from '@mui/material';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+
+import { SwitchBtn } from '@/components/SwitchButton';
 
 import usePermissionAccordion from './usePermissionAccordion';
 import DashboardAccordion from './DashboardAccordion';
 import DealsAccordion from './DealsAccordion';
-import { SwitchBtn } from '../../SwitchButton';
+
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 const PermissionsAccordion = () => {
-  const { theme, accordionExpanded, handleExpandAccordionChange } =
+  const { theme, isAccordionExpanded, handleExpandAccordionChange } =
     usePermissionAccordion();
   return (
     <Stack gap={3}>
       <Accordion
-        expanded={accordionExpanded === 'dashboard'}
+        expanded={isAccordionExpanded === 'dashboard'}
         onChange={handleExpandAccordionChange('dashboard')}
         disableGutters
         sx={{
@@ -55,7 +57,7 @@ const PermissionsAccordion = () => {
         </AccordionDetails>
       </Accordion>
       <Accordion
-        expanded={accordionExpanded === 'deals'}
+        expanded={isAccordionExpanded === 'deals'}
         onChange={handleExpandAccordionChange('deals')}
         disableGutters
         sx={{

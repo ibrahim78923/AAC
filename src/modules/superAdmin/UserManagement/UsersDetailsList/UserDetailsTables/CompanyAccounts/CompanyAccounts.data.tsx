@@ -1,6 +1,6 @@
 import { Box, Checkbox, Typography } from '@mui/material';
 
-import { SwitchBtn } from '../../../SwitchButton';
+import { SwitchBtn } from '@/components/SwitchButton';
 
 import { LogoIcon } from '@/assets/icons';
 

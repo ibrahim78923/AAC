@@ -8,7 +8,7 @@ import { RHFTextField } from '@/components/ReactHookForm';
 
 import { ExpandMore } from '@mui/icons-material';
 
-import { SwitchBtn } from '../SwitchButton';
+import { SwitchBtn } from '@/components/SwitchButton';
 
 import * as Yup from 'yup';
 

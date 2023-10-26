@@ -8,9 +8,9 @@ import RHFTextField from '@/components/ReactHookForm/RHFTextField';
 
 import RHFDatePicker from '@/components/ReactHookForm/RHFDatePicker';
 
-import { AvatarImage } from '@/assets/images';
+import { SwitchBtn } from '@/components/SwitchButton';
 
-import { SwitchBtn } from '../SwitchButton';
+import { AvatarImage } from '@/assets/images';
 
 import * as Yup from 'yup';
 

@@ -6,9 +6,9 @@ import RHFDatePicker from '@/components/ReactHookForm/RHFDatePicker';
 
 import { RHFTextField } from '@/components/ReactHookForm';
 
-import { ExpandMore } from '@mui/icons-material';
+import { SwitchBtn } from '@/components/SwitchButton';
 
-import { SwitchBtn } from './SwitchButton';
+import { ExpandMore } from '@mui/icons-material';
 
 import * as Yup from 'yup';
 
@@ -96,7 +96,7 @@ export const rolesValidationSchema = Yup.object().shape({
 });
 
 export const rolesDefaultValues = {
-  roleName: '', //1
+  roleName: '',
   product: '',
   status: '',
   createdDate: new Date(),

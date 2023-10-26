@@ -1,15 +1,3 @@
-import { styled } from '@mui/material/styles';
-
-import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
-
-import MuiAccordion, { AccordionProps } from '@mui/material/Accordion';
-import MuiAccordionSummary, {
-  AccordionSummaryProps,
-} from '@mui/material/AccordionSummary';
-import MuiAccordionDetails from '@mui/material/AccordionDetails';
-
-import { useDealsAccordion } from './useDealsAccordion';
-
 import {
   Box,
   Checkbox,
@@ -18,7 +6,15 @@ import {
   Grid,
   Typography,
 } from '@mui/material';
+import MuiAccordion, { AccordionProps } from '@mui/material/Accordion';
+import MuiAccordionSummary, {
+  AccordionSummaryProps,
+} from '@mui/material/AccordionSummary';
+import MuiAccordionDetails from '@mui/material/AccordionDetails';
+import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
+import { styled } from '@mui/material/styles';
 
+import { useDealsAccordion } from './useDealsAccordion';
 import CheckboxLabel from '../CheckboxLabel';
 
 import { v4 as uuidv4 } from 'uuid';
