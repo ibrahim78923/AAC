@@ -370,7 +370,7 @@ export const LowerServicesRoutes = [
     label: 'Settings',
     icon: SettingImage,
     role: 'SERVICES',
-    key: 'air-sales/settings',
+    key: 'air-services/settings',
     textNames: [
       {
         key: 'air-services/settings/account-settings',
