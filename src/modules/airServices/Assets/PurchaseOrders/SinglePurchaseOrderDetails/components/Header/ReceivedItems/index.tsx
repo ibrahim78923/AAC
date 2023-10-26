@@ -6,8 +6,9 @@ import { columns, data } from './ReceivedItemsTable.data';
 import { Alert } from '@mui/material';
 import { useReceivedItems } from './useReceivedItems';
 
-export const ReceivedItems = ({ isDrawerOpen, setIsDrawerOpen }: any) => {
-  const { errorOccurred, submitHandler } = useReceivedItems();
+export const ReceivedItems = (props) => {
+  const { isDrawerOpen, setIsDrawerOpen } = props;
+  const { errorOccurred, submitHandler } = useReceivedItems(props);
   return (
     <CommonDrawer
       isDrawerOpen={isDrawerOpen}
