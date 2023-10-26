@@ -1,4 +1,4 @@
-import { UserActionI } from './User.interface';
+import { UserActionI } from './Users.interface';
 
 export const userDropdown = (
   setActionModalOpen: any,
