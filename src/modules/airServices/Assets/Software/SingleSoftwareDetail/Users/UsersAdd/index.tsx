@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import { AddIconWithBgBlack } from '@/assets/icons';
 import { FormProvider, useForm } from 'react-hook-form';
-import UserSearchableSelect from '../UserSearchableSelect';
+import UserSearchableSelect from '../UsersSearchableSelect';
 import ConversationModel from '@/components/Model/CoversationModel';
 import { enqueueSnackbar } from 'notistack';
 

@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import UserSearchableSelect from '../UserSearchableSelect';
+import UserSearchableSelect from '../UsersSearchableSelect';
 
 const userAllocateSelectOptions = [
   { value: 'option1', title: 'Aws', des: `Aws Available contract: 1` },

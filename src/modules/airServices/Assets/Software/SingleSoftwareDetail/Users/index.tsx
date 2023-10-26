@@ -10,9 +10,9 @@ import { enqueueSnackbar } from 'notistack';
 import { ExportButton } from '@/modules/airServices/common/Buttons/ExportButton';
 import { SingleDropdownButton } from '@/modules/airServices/common/Buttons/SingleDropdownButton';
 import ConversationModel from '@/components/Model/CoversationModel';
-import UserAllocate from './UserAllocate';
-import UserDeallocate from './UserDeallocate';
-import UserRemove from './UserRemove';
+import UserAllocate from './UsersAllocate';
+import UserDeallocate from './UsersDeallocate';
+import UserRemove from './UsersRemove';
 
 export const Users = () => {
   const [usersData, setUsersData] = useState([]);
