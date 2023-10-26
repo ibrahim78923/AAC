@@ -1,8 +1,8 @@
-import { SingleInventoryDetailsTabs } from './components/SingleInventoryDetailTabs';
-import { Header } from './components/Header';
+import { Header } from './Header';
 import { useSingleInventoryDetail } from './useSingleInventoryDetail';
 import { enqueueSnackbar } from 'notistack';
 import { AlertModals } from '@/components/AlertModals';
+import { SingleInventoryDetailsTabs } from './SingleInventoryDetailTabs';
 
 export const SingleInventoryDetail = () => {
   const {

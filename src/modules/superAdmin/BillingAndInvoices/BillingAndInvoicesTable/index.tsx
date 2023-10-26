@@ -6,7 +6,7 @@ import { BillingAndInvoicesTableData } from '@/mock/modules/superAdmin/BillingAn
 
 import Search from '@/components/Search';
 import GenerateInvoice from '../GenerateInvoice';
-import TanstackTable from '@/components/Tabel/TanstackTable';
+import TanstackTable from '@/components/Table/TanstackTable';
 import ViewBillingDetails from '../ViewBillingDetails';
 import { columns } from './BillingAndInvoices.data';
 import EditForm from '../EditForm';

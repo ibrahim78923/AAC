@@ -1,8 +1,8 @@
 import { AlertModals } from '@/components/AlertModals';
-import { Header } from './components/Header';
-import { SingleContractDetailsTabs } from './components/SingleContractDetailsTabs';
+import { Header } from './Header';
 import { useSingleContractDetails } from './useSingleContractDetails';
 import { enqueueSnackbar } from 'notistack';
+import { SingleContractDetailsTabs } from './SingleContractDetailsTabs';
 
 export const SingleContractDetails = () => {
   const {
