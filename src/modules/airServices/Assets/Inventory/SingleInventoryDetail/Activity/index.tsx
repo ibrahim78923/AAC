@@ -4,7 +4,7 @@ import NoData from '@/components/NoData';
 import NoAssociationFound from '@/assets/images/modules/LogitechMouse/association.png';
 import { ActivityTimeline } from './ActivityTimeline';
 import { v4 as uuidv4 } from 'uuid';
-import { ExportButton } from '@/modules/airServices/common/Buttons/ExportButton';
+import { ExportButton } from '@/components/ExportButton';
 export const Activity = () => {
   return (
     <>
