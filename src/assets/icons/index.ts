@@ -32,6 +32,7 @@ export { default as FilterSharedIcon } from './shared/filter-shared';
 export { default as LogoSharedIcon } from './shared/logo-shared';
 export { default as EyeSlashIcon } from './shared/eye-slash';
 export { default as EyeIcon } from './shared/eye';
+export { default as EyeRedIcon } from './shared/eye-red';
 export { default as verifiedIcon } from './shared/verified';
 export { default as CompanyLogoIcon } from './shared/company-logo';
 export { default as VerifiedIcon } from './shared/verified';

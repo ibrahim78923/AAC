@@ -75,10 +75,10 @@ export const manageDashboardsDataColumns = (): any => [
     cell: (info: any) => (
       <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
         <Box sx={{ cursor: 'pointer' }} onClick={() => info.getValue()}>
-          <EyeIcon color="#1F305D" />
+          <EyeIcon />
         </Box>
         <Box sx={{ cursor: 'pointer' }}>
-          <EditBluePen color="#FFC20E" />
+          <EditBluePen />
         </Box>
         <DeleteDashboardModal />
       </Box>
