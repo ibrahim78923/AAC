@@ -1,4 +1,4 @@
-import TanstackTable from '@/components/Tabel/TanstackTable';
+import TanstackTable from '@/components/Table/TanstackTable';
 import { AlertModals } from '@/components/AlertModals';
 import {
   associatesListsData,
@@ -6,7 +6,7 @@ import {
 } from './AssociatesList.data';
 import { useAssociatesLists } from './useAssociatesList';
 import { AddAssociationsDrawer } from '../AddAssociationsDrawer';
-import { PageTitledHeader } from '@/modules/airServices/common/Headers/PageTitledHeader';
+import { PageTitledHeader } from '@/components/PageTitledHeader';
 
 const DELETE_MESSAGE = 'Are you sure you want to delete this Associate Asset?';
 const MODAL_TYPE = 'delete';

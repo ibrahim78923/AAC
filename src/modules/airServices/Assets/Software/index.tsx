@@ -1,11 +1,11 @@
 import { Box, Button } from '@mui/material';
 import { useState } from 'react';
 import { data, columns, dataArray } from './Software.data';
-import TanstackTable from '@/components/Tabel/TanstackTable';
+import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
 import { FilterSharedIcon } from '@/assets/icons';
 import { useTheme } from '@emotion/react';
-import { PageTitledHeader } from '../../common/Headers/PageTitledHeader/index';
+import { PageTitledHeader } from '../../../../components/PageTitledHeader/index';
 import useManage from '@/modules/airSales/Dashboard/Manage/useManage';
 import SoftwareFilter from './SoftwareFilter';
 import SoftwareAssignCategory from './SoftwareAssignCategory';

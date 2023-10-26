@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Box, Button, Grid, Typography, useTheme } from '@mui/material';
 
 import Search from '@/components/Search';
-import TanstackTable from '@/components/Tabel/TanstackTable';
+import TanstackTable from '@/components/Table/TanstackTable';
 
 import { columns } from './Quotes.data';
 import { quotesData } from '@/mock/modules/airSales/Deals/ViewDetails';

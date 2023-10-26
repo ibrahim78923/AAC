@@ -1,10 +1,11 @@
 import { enqueueSnackbar } from 'notistack';
-import { Header } from './components/Header';
-import { SinglePurchaseOrderDetailTabs } from './components/SinglePurchaseOrderDetailTabs';
+import { Header } from './Header';
 import { useSinglePurchaseDetail } from './useSinglePurchaseDetail';
 import { AlertModals } from '@/components/AlertModals';
-import { AddToInventoryDrawer } from './components/Header/AddToInventory/AddToInventoryDrawer';
-import { ReceivedItems } from './components/Header/ReceivedItems';
+
+import { ReceivedItems } from './ReceivedItems';
+import { AddToInventory } from './AddToInventory';
+import { SinglePurchaseOrderDetailTabs } from './SinglePurchaseOrderDetailTabs';
 export const SinglePurchaseOrderDetail = () => {
   const {
     singlePurchaseDetailActionDropdown,
@@ -30,16 +31,17 @@ export const SinglePurchaseOrderDetail = () => {
           type="delete"
           open={isDeleteModalOpen}
           handleClose={() => setIsDeleteModalOpen(false)}
-          handleSubmit={() => {
+          handleSubmitBtn={() => {
             setIsDeleteModalOpen(false);
             enqueueSnackbar('Contract deleted Successfully', {
               variant: 'success',
             });
           }}
-          message="Are you sure  want to delete this Contract ?"
+          message="Are you sure  want to delete this purchase order ?"
         />
       )}
-      <AddToInventoryDrawer
+
+      <AddToInventory
         isADrawerOpen={isDrawerOpen}
         setIsADrawerOpen={setIsDrawerOpen}
       />

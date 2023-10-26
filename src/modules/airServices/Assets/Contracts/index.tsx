@@ -1,14 +1,14 @@
 import { Box } from '@mui/material';
 import { data, columns } from './Contracts.data';
-import TanstackTable from '@/components/Tabel/TanstackTable';
+import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
 import { Button } from '@mui/material';
 import { FilterSharedIcon } from '@/assets/icons';
 import ContractsDrawerForm from './ContractsDrawerForm';
 import { AlertModals } from '@/components/AlertModals';
 import { useContracts } from './useContracts';
-import { ExportButton } from '../../common/Buttons/ExportButton';
-import { PageTitledHeader } from '../../common/Headers/PageTitledHeader';
+import { ExportButton } from '../../../../components/ExportButton';
+import { PageTitledHeader } from '../../../../components/PageTitledHeader';
 
 function Contracts() {
   const {
