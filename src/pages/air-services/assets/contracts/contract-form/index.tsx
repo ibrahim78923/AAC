@@ -1,9 +1,11 @@
 import Layout from '@/layout';
+import { UpsertContract } from '@/modules/airServices/Assets/Contracts/UpsertContract';
 
 const ContractFormPage = () => {
   return (
     <>
       <>Form</>
+      <UpsertContract/>
     </>
   );
 };

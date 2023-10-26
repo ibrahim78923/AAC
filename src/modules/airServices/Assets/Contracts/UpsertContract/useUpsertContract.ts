@@ -9,7 +9,9 @@ export const useUpsertContract = () => {
     defaultValues: upsertContractFormDefaultValuesFunction(),
   });
   const { handleSubmit } = methods;
-  const submitUpsertContractForm = () => {};
+  const submitUpsertContractForm = (data: any) => {
+    console.log(data);
+  };
   const upsertContractFormFieldsData = upsertContractFormFieldsDataFunction();
   return {
     methods,
