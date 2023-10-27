@@ -5,7 +5,7 @@ import {
   defaultValues,
 } from './DrawerForm/DrawerForm.data';
 
-export function useContractsForm() {
+export function useContractsDrawerForm() {
   const methodsDrawerFormForm = useForm({
     resolver: yupResolver(drawerFormValidationSchema),
     defaultValues,

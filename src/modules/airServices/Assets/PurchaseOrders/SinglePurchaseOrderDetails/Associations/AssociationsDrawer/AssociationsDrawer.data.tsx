@@ -1,4 +1,4 @@
-export const DrawerTableData: any = [
+export const drawerTableData: any = [
   {
     id: '1',
     title: '#SR3-3 Request for Andrea',
