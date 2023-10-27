@@ -1,6 +1,6 @@
-import { AccordionItemI } from './AccordionItem.interface';
-import { AccordionSummary, Collapse } from '@mui/material';
+import { AccordionSummary, Box, Collapse } from '@mui/material';
 import { ArrowUpIcon, ArrowDownIcon } from '@/assets/icons';
+import { AccordionItemI } from './AccordionItem.interface';
 import { styles } from './AccordionItem.style';
 import { useAccordionItem } from './useAccordionItem';
 
@@ -10,7 +10,7 @@ export const AccordionItem: React.FC<AccordionItemI> = ({
 }) => {
   const { handleAccordionClick, isActive, theme } = useAccordionItem();
   return (
-    <div>
+    <Box>
       <AccordionSummary
         style={styles.accordionStyle(theme)}
         onClick={handleAccordionClick}
@@ -21,6 +21,6 @@ export const AccordionItem: React.FC<AccordionItemI> = ({
       <Collapse in={isActive} sx={styles.panelStyle(isActive, theme)}>
         {children}
       </Collapse>
-    </div>
+    </Box>
   );
 };
