@@ -2,7 +2,7 @@ import { Button, Box } from '@mui/material';
 import Search from '@/components/Search';
 import { AlertModals } from '@/components/AlertModals';
 import { ExportButton } from '@/components/ExportButton';
-import AddDevice from '../../AddDevices';
+import AddDevice from '../../AddDevice';
 import { useInstallationHeader } from './useInstallationHeader';
 
 const DELETE_MESSAGE = 'Are you sure you want to delete this Associate Asset?';
