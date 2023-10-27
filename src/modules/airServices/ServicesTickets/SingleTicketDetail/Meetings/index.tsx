@@ -8,7 +8,7 @@ import {
   Typography,
 } from '@mui/material';
 import { AddMeetingsDrawer } from './AddMeetingsDrawer';
-import { meetingsTableColumns } from './MeetingsTable/MeetingsTable.utils';
+import { meetingsTableColumns } from './MeetingsTable/MeetingsTable.data';
 import { MeetingsTable } from './MeetingsTable';
 import { NoMeetings } from './NoMeetings';
 import { widgetsData } from './Meetings.data';
