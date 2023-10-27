@@ -23,7 +23,7 @@ export const SingleContractDetails = () => {
           type="delete"
           open={terminateModalOpen}
           handleClose={() => setTerminateModalOpen(false)}
-          handleSubmit={() => {
+          handleSubmitBtn={() => {
             setTerminateModalOpen(false);
             enqueueSnackbar('Contract Terminate Successfully', {
               variant: 'success',
@@ -37,7 +37,7 @@ export const SingleContractDetails = () => {
           type="delete"
           open={deleteModalOpen}
           handleClose={() => setDeleteModalOpen(false)}
-          handleSubmit={() => {
+          handleSubmitBtn={() => {
             setDeleteModalOpen(false);
             enqueueSnackbar('Contract deleted Successfully', {
               variant: 'success',

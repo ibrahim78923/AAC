@@ -1,8 +1,8 @@
 import Layout from '@/layout';
-import NewParchaseOrder from '@/modules/airServices/Assets/PurchaseOrders/NewParchaseOrder';
+import NewPurchaseOrder from '@/modules/airServices/Assets/PurchaseOrders/NewPurchaseOrder';
 
 const ServicesNewPurchasePage = () => {
-  return <NewParchaseOrder />;
+  return <NewPurchaseOrder />;
 };
 
 ServicesNewPurchasePage.getLayout = function getLayout(page: any) {

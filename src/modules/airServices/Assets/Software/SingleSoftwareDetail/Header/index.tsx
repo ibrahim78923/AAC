@@ -3,21 +3,22 @@ import ViewDetailBackArrowIcon from '@/assets/icons/modules/view-detail-Icon/vie
 import { ActionButtonIcon } from '@/assets/icons';
 import { useHeader } from './useHeader';
 import React from 'react';
-import { SoftwareEdit } from './SoftwareEdit/SoftwareEdit';
+
 import { AlertModals } from '@/components/AlertModals';
 import { enqueueSnackbar } from 'notistack';
+import { UpsertSoftware } from '../../UpsertSoftware';
 
 export default function Header() {
-  const { isDrawerOpen, setIsDrawerOpen, deleteModalOpen, setDeleteModalOpen } =
-    useHeader();
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  const {
+    isDrawerOpen,
+    setIsDrawerOpen,
+    deleteModalOpen,
+    setDeleteModalOpen,
+    handleClick,
+    handleClose,
+    open,
+    anchorEl,
+  } = useHeader();
 
   return (
     <>
@@ -75,7 +76,7 @@ export default function Header() {
           type="delete"
           open={deleteModalOpen}
           handleClose={() => setDeleteModalOpen(false)}
-          handleSubmit={() => {
+          handleSubmitBtn={() => {
             setDeleteModalOpen(false);
             enqueueSnackbar('Software deleted Successfully', {
               variant: 'success',
@@ -84,10 +85,7 @@ export default function Header() {
           message="Are you sure  want to delete this Software ?"
         />
       )}
-      <SoftwareEdit
-        isDrawerOpen={isDrawerOpen}
-        setIsDrawerOpen={setIsDrawerOpen}
-      />
+      <UpsertSoftware isDrawerOpen={isDrawerOpen} onClose={setIsDrawerOpen} />
     </>
   );
 }

@@ -1,11 +1,11 @@
 import { FormProvider } from '@/components/ReactHookForm';
 import { Grid, Typography } from '@mui/material';
 import { uuid } from 'uuidv4';
-import useDeatilViewPropertiesSection from './useDetailViewPropertiesSection';
 import { dataArray } from './DetailsViewPropertiesSection.data';
+import { useDetailsViewPropertiesSection } from './useDetailsViewPropertiesSection';
 
 function DetailsViewPropertiesSection() {
-  const { methods, handleSubmit, onSubmit } = useDeatilViewPropertiesSection();
+  const { methods, handleSubmit, onSubmit } = useDetailsViewPropertiesSection();
   return (
     <>
       <Grid

@@ -1,14 +1,14 @@
 import { Box } from '@mui/material';
-import ContractOverview from './Components/ContractOverview';
-import ContractUtilization from './Components/ContractUtilization';
-import UsageActivity from './Components/UsageActivity';
+import ContractOverview from './ContractOverview';
+import ContractUtilization from './ContractUtilization';
+import UsageActivity from './UsageActivity';
 import { styles } from './Overview.style';
 import {
   contractUtilizationData,
-  contractUtilizationLable,
-  UsageActivityData,
-  UsageActivityLable,
-  ContractOverviewLable,
+  contractUtilizationLabel,
+  usageActivityData,
+  usageActivityLabel,
+  contractOverviewLabel,
 } from './Overview.data';
 
 export const Overview = () => {
@@ -16,14 +16,14 @@ export const Overview = () => {
     <>
       <Box sx={styles.boxStyle}>
         <UsageActivity
-          UsageActivityData={UsageActivityData}
-          UsageActivityLable={UsageActivityLable}
+          usageActivityData={usageActivityData}
+          usageActivityLabel={usageActivityLabel}
         />
         <ContractUtilization
           contractUtilizationData={contractUtilizationData}
-          contractUtilizationLable={contractUtilizationLable}
+          contractUtilizationLabel={contractUtilizationLabel}
         />
-        <ContractOverview ContractOverviewLable={ContractOverviewLable} />
+        <ContractOverview contractOverviewLabel={contractOverviewLabel} />
       </Box>
     </>
   );
