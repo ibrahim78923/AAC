@@ -7,9 +7,13 @@ import {
   addInventoryDefaultValuesOneUpdate,
   addInventoryValidationSchemaOne,
   addInventoryValidationSchemaUpdate,
+  addToInventoryDrawerArray,
 } from './AddToInventory.data';
+import { useState } from 'react';
+import { enqueueSnackbar } from 'notistack';
 
-export default function useAddToInventoryDrawer() {
+export default function useAddToInventoryDrawer(props: any) {
+  const { setIsADrawerOpen } = props;
   const methodsTwo: any = useForm({
     resolver: yupResolver(addInventoryValidationSchemaTwo),
     defaultValues: addInventoryDefaultValuesTwo,
@@ -29,7 +33,35 @@ export default function useAddToInventoryDrawer() {
   });
   const { handleSubmit: handleSubmitNo } = methodsNo;
   const onSubmit = async () => {};
-
+  const [boolVariable, setBoolVariable] = useState(true);
+  const [toShow, setToShow] = useState(true);
+  const handleRadioChange = (event: { target: { value: string } }) => {
+    setToShow(event.target.value === 'Add New');
+  };
+  const submitHandlerYes = handleSubmitYes(() => {
+    setBoolVariable(false);
+    methodsYes.reset(addInventoryDefaultValuesOne);
+  });
+  const submitHandlerNo = handleSubmitNo(() => {
+    enqueueSnackbar('item added to inventory Successfully', {
+      variant: 'success',
+    });
+    methodsNo.reset(addInventoryDefaultValuesOneUpdate);
+  });
+  const submitHandlerTwo = handleSubmitTwo(() => {
+    enqueueSnackbar('item added to inventory Successfully', {
+      variant: 'success',
+    });
+    setIsADrawerOpen(false);
+    setBoolVariable(true);
+    methodsTwo.reset(addInventoryDefaultValuesTwo);
+  });
+  const filteredYes = addToInventoryDrawerArray.filter((item: any) => {
+    return item.toShow === 'Yes';
+  });
+  const filteredNo = addToInventoryDrawerArray.filter((item: any) => {
+    return item.toShow === 'No';
+  });
   return {
     methodsTwo,
     handleSubmitTwo,
@@ -38,5 +70,14 @@ export default function useAddToInventoryDrawer() {
     methodsNo,
     methodsYes,
     handleSubmitNo,
+    boolVariable,
+    filteredYes,
+    filteredNo,
+    submitHandlerTwo,
+    submitHandlerNo,
+    submitHandlerYes,
+    handleRadioChange,
+    toShow,
+    setToShow,
   };
 }

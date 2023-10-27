@@ -48,7 +48,7 @@ export const styles: any = {
   },
   firstMainGridBoxStyling: {
     display: 'flex',
-    flexDirection: 'row',
+    flexDirection: 'column',
   },
   firstGridStyling: {
     display: 'flex',

@@ -7,13 +7,7 @@ import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider, RHFTextField } from '@/components/ReactHookForm';
 import { Box, Divider, Grid, Typography } from '@mui/material';
 import Image from 'next/image';
-import {
-  addInventoryDefaultValuesOne,
-  addInventoryDefaultValuesOneUpdate,
-  addInventoryDefaultValuesTwo,
-  addToInventoryDrawerArray,
-  addToInventorySecondDrawerArray,
-} from './AddToInventory.data';
+import { addToInventorySecondDrawerArray } from './AddToInventory.data';
 import * as React from 'react';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
@@ -21,48 +15,24 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import useAddToInventoryDrawer from './useAddToInventory';
 import { v4 as uuidv4 } from 'uuid';
 import { styles } from './AddToInventory.style';
-import { useState } from 'react';
-import { enqueueSnackbar } from 'notistack';
 
-export const AddToInventory = ({ isADrawerOpen, setIsADrawerOpen }: any) => {
+export const AddToInventory = (props: any) => {
+  const { isADrawerOpen, setIsADrawerOpen } = props;
   const {
     methodsTwo,
-    handleSubmitTwo,
-    handleSubmitYes,
     methodsNo,
     methodsYes,
-    handleSubmitNo,
-  } = useAddToInventoryDrawer();
+    boolVariable,
+    filteredYes,
+    filteredNo,
+    submitHandlerTwo,
+    submitHandlerNo,
+    submitHandlerYes,
+    handleRadioChange,
+    toShow,
+    setToShow,
+  } = useAddToInventoryDrawer(props);
 
-  const [boolVariable, setBoolVariable] = useState(true);
-  const [toShow, setToShow] = React.useState(true);
-  const handleRadioChange = (event: { target: { value: string } }) => {
-    setToShow(event.target.value === 'Add New');
-  };
-  const submitHandlerYes = handleSubmitYes(() => {
-    setBoolVariable(false);
-    methodsYes.reset(addInventoryDefaultValuesOne);
-  });
-  const submitHandlerNo = handleSubmitNo(() => {
-    enqueueSnackbar('item added to inventory Successfully', {
-      variant: 'success',
-    });
-    methodsNo.reset(addInventoryDefaultValuesOneUpdate);
-  });
-  const submitHandler2 = handleSubmitTwo(() => {
-    enqueueSnackbar('item added to inventory Successfully', {
-      variant: 'success',
-    });
-    setIsADrawerOpen(false);
-    setBoolVariable(true);
-    methodsTwo.reset(addInventoryDefaultValuesTwo);
-  });
-  const filteredYes = addToInventoryDrawerArray.filter((item: any) => {
-    return item.toShow === 'Yes';
-  });
-  const filteredNo = addToInventoryDrawerArray.filter((item: any) => {
-    return item.toShow === 'No';
-  });
   return (
     <CommonDrawer
       isDrawerOpen={isADrawerOpen}
@@ -75,7 +45,7 @@ export const AddToInventory = ({ isADrawerOpen, setIsADrawerOpen }: any) => {
           ? toShow === true
             ? submitHandlerYes
             : submitHandlerNo
-          : submitHandler2
+          : submitHandlerTwo
       }
       footer={true}
       isOk={true}
@@ -268,7 +238,7 @@ export const AddToInventory = ({ isADrawerOpen, setIsADrawerOpen }: any) => {
               </Box>
             </Grid>
             <Grid item xs={12}>
-              <FormProvider methods={methodsTwo} onSubmit={submitHandler2}>
+              <FormProvider methods={methodsTwo} onSubmit={submitHandlerTwo}>
                 <Grid container spacing={2}>
                   {addToInventorySecondDrawerArray?.map((item: any) => (
                     <Grid item xs={12} md={item?.md} key={uuidv4()}>
