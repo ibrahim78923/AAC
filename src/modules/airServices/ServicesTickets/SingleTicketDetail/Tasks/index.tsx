@@ -46,8 +46,8 @@ export const Tasks = () => {
         onClose={setIsDetailDrawerOpen}
         taskDetail={
           tasksTableData[
-            tasksTableData.findIndex(
-              (e: any) => e.taskID === isDetailDrawerOpen,
+            tasksTableData?.findIndex(
+              (e: any) => e?.taskID === isDetailDrawerOpen,
             )
           ]
         }

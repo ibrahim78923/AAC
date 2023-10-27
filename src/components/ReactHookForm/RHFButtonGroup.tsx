@@ -1,6 +1,6 @@
 import { useFormContext, Controller } from 'react-hook-form';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import CustomLabel from '../Label';
+import CustomLabel from '../CustomLabel';
 
 export default function RHFButtonGroup({
   name,

@@ -1,13 +1,13 @@
 import { Box, Button, Grid, Typography } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { ArrowLeftIcon } from '@/assets/icons';
-import FormBuilder from '@/utils/FormBuilder';
 import { newPurchaseFieldsFunction } from './NewPurchaseOrder.data';
 import useNewPurchaseOrder from './useNewPurchaseOrder';
 import ItemsDetails from './ItemsDetails';
 import { styles } from './NewPurchaseOrder.style';
+import { v4 as uuidv4 } from 'uuid';
 
-const NewParchaseOrder = () => {
+const NewPurchaseOrder = () => {
   const { methods, submit, handlePageBack, vendor, handleVenderSelect } =
     useNewPurchaseOrder();
   const { flexBetween, mainWrapper, mainHeading, subHeading } = styles();
@@ -44,7 +44,19 @@ const NewParchaseOrder = () => {
               columnSpacing={3}
               mt={-1}
             >
-              <FormBuilder formFields={newPurchaseFields} />
+              {newPurchaseFields?.map((form: any) => (
+                <Grid item xs={12} md={form?.gridLength} key={uuidv4()}>
+                  <form.component {...form.componentProps} size="small">
+                    {form?.componentProps?.select
+                      ? form?.componentProps?.options.map((option: any) => (
+                          <option key={uuidv4()} value={option?.value}>
+                            {option?.label}
+                          </option>
+                        ))
+                      : null}
+                  </form.component>
+                </Grid>
+              ))}
             </Grid>
             {vendor && (
               <Grid item xs={12} rowSpacing={2.6} columnSpacing={2}>
@@ -73,4 +85,4 @@ const NewParchaseOrder = () => {
   );
 };
 
-export default NewParchaseOrder;
+export default NewPurchaseOrder;

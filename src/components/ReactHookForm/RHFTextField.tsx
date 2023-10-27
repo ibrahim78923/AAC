@@ -2,7 +2,7 @@
 import { useFormContext, Controller } from 'react-hook-form';
 // @mui
 import { TextField, Typography } from '@mui/material';
-import CustomLabel from '../Label';
+import CustomLabel from '../CustomLabel';
 // ----------------------------------------------------------------------
 
 export default function RHFTextField({ name, required, ...other }: any) {
