@@ -1,5 +1,4 @@
 import { Box, Button, MenuItem, TextField, Typography } from '@mui/material';
-import { useState } from 'react';
 import { FormProvider } from '@/components/ReactHookForm';
 import { v4 as uuidv4 } from 'uuid';
 import { useForm } from 'react-hook-form';
@@ -12,8 +11,7 @@ import {
 } from './UpsertFolder.data';
 import ConversationModel from '@/components/Model/CoversationModel';
 
-export const UpsertFolder = () => {
-  const [handleOpen, setHandleOpen] = useState(true);
+export const UpsertFolder = ({ openDialog, setOpenDialog }: any) => {
   const methods: any = useForm({
     resolver: yupResolver(validationSchema),
     defaultValues,
@@ -26,19 +24,19 @@ export const UpsertFolder = () => {
       variant: 'success',
       autoHideDuration: 3000,
     });
-    setHandleOpen(false);
+    setOpenDialog(false);
     reset(defaultValues);
   };
 
   const closeModal = () => {
-    setHandleOpen(false);
+    setOpenDialog(false);
   };
 
   return (
     <ConversationModel
-      open={handleOpen}
+      open={openDialog}
       handleClose={closeModal}
-      selectedItem="Create new folder"
+      selectedItem="Create Folder"
     >
       <Box width={{ xs: '18rem', sm: '25rem', lg: '30rem' }}>
         <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
@@ -67,7 +65,13 @@ export const UpsertFolder = () => {
           <Typography variant="body2" padding={'.6rem 0 .2rem'}>
             Visible to
           </Typography>
-          <TextField id="visible" select defaultValue="All" fullWidth>
+          <TextField
+            size="small"
+            id="visible"
+            select
+            defaultValue="All"
+            fullWidth
+          >
             {visibleToDataArray.map((item) => (
               <MenuItem key={uuidv4()} value={item?.value}>
                 {item?.label}
@@ -81,7 +85,7 @@ export const UpsertFolder = () => {
             paddingTop={'2rem'}
             gap={'1rem'}
           >
-            <Button variant="outlined" onClick={() => setHandleOpen(false)}>
+            <Button variant="outlined" onClick={() => setOpenDialog(false)}>
               Cancel
             </Button>
             <Button variant="contained" onClick={onSubmit}>
