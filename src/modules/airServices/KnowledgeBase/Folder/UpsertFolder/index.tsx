@@ -1,13 +1,16 @@
-import { Box, Button, TextField, Typography } from '@mui/material';
+import { Box, Button, MenuItem, TextField, Typography } from '@mui/material';
 import { useState } from 'react';
 import CommonModal from '@/components/CommonModal';
-
 import { FormProvider } from '@/components/ReactHookForm';
 import { v4 as uuidv4 } from 'uuid';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { enqueueSnackbar } from 'notistack';
-import { validationSchema, defaultValues } from './UpsertFolder.data';
+import {
+  validationSchema,
+  defaultValues,
+  visibleToDataArray,
+} from './UpsertFolder.data';
 
 export const UpsertFolder = () => {
   const [handleOpen, setHandleOpen] = useState(true);
@@ -19,8 +22,9 @@ export const UpsertFolder = () => {
   const { handleSubmit, reset } = methods;
 
   const onSubmit = async () => {
-    enqueueSnackbar('Create Successfully!', {
+    enqueueSnackbar('Create Folder Successfully!', {
       variant: 'success',
+      autoHideDuration: 3000,
     });
     setHandleOpen(false);
     reset(defaultValues);
@@ -30,18 +34,12 @@ export const UpsertFolder = () => {
     <CommonModal
       open={handleOpen}
       handleClose={() => setHandleOpen(false)}
-      handleSubmit={function (): void {
-        throw new Error('Function not implemented.');
-      }}
+      handleSubmit={handleSubmit(onSubmit)}
       title={'Create new folder'}
-      okText={'Create Folder'}
+      okText={'Create'}
       footerFill={undefined}
     >
-      <FormProvider
-        methods={methods}
-        onSubmit={handleSubmit(onSubmit)}
-        key={uuidv4()}
-      >
+      <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
         <Typography variant="body2" padding={'.2rem'}>
           Name
         </Typography>
@@ -51,7 +49,8 @@ export const UpsertFolder = () => {
           placeholder="Enter Folder Name"
           fullWidth
         />
-        <Typography variant="body2" padding={'.2rem'}>
+
+        <Typography variant="body2" padding={'1rem 0 .2rem'}>
           Description
         </Typography>
         <TextField
@@ -63,18 +62,29 @@ export const UpsertFolder = () => {
           fullWidth
         />
 
+        <Typography variant="body2" padding={'1rem 0 .2rem'}>
+          Visible to
+        </Typography>
+        <TextField id="visible" select defaultValue="All" fullWidth>
+          {visibleToDataArray.map((item) => (
+            <MenuItem key={uuidv4()} value={item?.value}>
+              {item?.label}
+            </MenuItem>
+          ))}
+        </TextField>
+
         <Box
-          sx={{
-            paddingTop: '10px',
-            display: 'flex',
-            justifyContent: 'flex-end',
-            gap: '1rem',
-          }}
+          display={'flex'}
+          justifyContent={'flex-end'}
+          paddingTop={'2rem'}
+          gap={'1rem'}
         >
           <Button variant="outlined" onClick={() => setHandleOpen(false)}>
             Cancel
           </Button>
-          <Button variant="contained">Create</Button>
+          <Button variant="contained" onClick={onSubmit}>
+            Create
+          </Button>
         </Box>
       </FormProvider>
     </CommonModal>
