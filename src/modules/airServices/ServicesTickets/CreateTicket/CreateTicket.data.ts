@@ -1,4 +1,5 @@
 import {
+  RHFAutocomplete,
   RHFDatePicker,
   RHFDropZone,
   RHFEditor,
@@ -8,26 +9,27 @@ import {
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
-export const createTicketValidationSchema = Yup.object().shape({
-  requester: Yup.string().required('Field is Required'),
-  subject: Yup.string().trim().required('Field is Required'),
-  description: Yup.string(),
-  category: Yup.string(),
-  status: Yup.string().required('Field is Required'),
-  priority: Yup.string().required('Field is Required'),
-  department: Yup.string(),
-  source: Yup.string(),
-  impact: Yup.string(),
-  agent: Yup.string(),
-  plannedStartDate: Yup.date(),
-  plannedStartTime: Yup.date(),
-  plannedEndDate: Yup.date(),
-  plannedEndTime: Yup.date(),
-  plannedEffort: Yup.string(),
+export const createTicketValidationSchema = Yup?.object()?.shape({
+  requester: Yup?.string()?.required('Field is Required'),
+  subject: Yup?.string()?.trim()?.required('Field is Required'),
+  description: Yup?.string(),
+  category: Yup?.string(),
+  status: Yup?.string()?.required('Field is Required'),
+  priority: Yup?.string()?.required('Field is Required'),
+  department: Yup?.string(),
+  source: Yup?.string(),
+  impact: Yup?.string(),
+  agent: Yup?.string(),
+  plannedStartDate: Yup?.date(),
+  plannedStartTime: Yup?.date(),
+  plannedEndDate: Yup?.date(),
+  plannedEndTime: Yup?.date(),
+  plannedEffort: Yup?.mixed(),
+  attachFile: Yup?.mixed()?.nullable(),
 });
 
 export const createTicketDefaultValues = {
-  requester: '', //01
+  requester: '', //1
   subject: '', //2
   description: '', //3
   category: '', //4
@@ -41,7 +43,7 @@ export const createTicketDefaultValues = {
   plannedStartTime: new Date(), //12
   plannedEndDate: new Date(), //13
   plannedEndTime: new Date(), //14
-  plannedEffort: '', //15
+  plannedEffort: [], //15
   attachFile: null, //16
 };
 
@@ -51,10 +53,9 @@ export const createTicketDataArray = [
       name: 'requester',
       label: 'Requester',
       fullWidth: true,
-      select: true,
+      options: ['BE', 'BE1', 'BE2'],
     },
-    options: [{ value: 'BE', label: 'BE' }],
-    component: RHFSelect,
+    component: RHFAutocomplete,
     md: 12,
   },
   {
@@ -80,10 +81,9 @@ export const createTicketDataArray = [
       name: 'category',
       label: 'Category',
       fullWidth: true,
-      select: true,
+      options: ['BE', 'BE1', 'BE2'],
     },
-    options: [{ value: 'BE', label: 'BE' }],
-    component: RHFSelect,
+    component: RHFAutocomplete,
     md: 12,
   },
   {
@@ -123,10 +123,9 @@ export const createTicketDataArray = [
       name: 'department',
       label: 'Department',
       fullWidth: true,
-      select: true,
+      options: ['BE', 'BE1', 'BE2'],
     },
-    options: [{ value: 'BE', label: 'BE' }],
-    component: RHFSelect,
+    component: RHFAutocomplete,
     md: 12,
   },
   {
@@ -168,10 +167,9 @@ export const createTicketDataArray = [
       name: 'agent',
       label: 'Agent',
       fullWidth: true,
-      select: true,
+      options: ['BE', 'BE1', 'BE2'],
     },
-    options: [{ value: 'BE', label: 'BE' }],
-    component: RHFSelect,
+    component: RHFAutocomplete,
     md: 12,
   },
   {
@@ -215,8 +213,10 @@ export const createTicketDataArray = [
       name: 'plannedEffort',
       label: 'Planned Effort',
       fullWidth: true,
+      options: ['BE', 'BE1', 'BE2'],
+      multiple: true,
     },
-    component: RHFTextField,
+    component: RHFAutocomplete,
     md: 12,
   },
   {
