@@ -27,15 +27,15 @@ export const TicketInfoCard = ({ details }: any) => {
       mb={2}
       boxShadow={2}
       borderRadius={2}
-      bgcolor={theme.palette.common.white}
+      bgcolor={theme?.palette?.common?.white}
       p={1}
     >
       <Box display={'flex'} justifyContent={'space-between'} mb={1.5}>
         <Box display={'flex'} marginBottom={0.5} alignItems={'center'} gap={1}>
           <Typography
             variant="body2"
-            bgcolor={theme.palette.secondary.main}
-            color={theme.palette.common.white}
+            bgcolor={theme?.palette?.secondary?.main}
+            color={theme?.palette?.common?.white}
             borderRadius={1}
             px={0.5}
           >
@@ -49,19 +49,15 @@ export const TicketInfoCard = ({ details }: any) => {
               size="small"
               label={details?.ticketAppearance}
               sx={{
-                bgcolor: `${
-                  theme['palette'][
-                    `${ticketInfoCardAppearanceColor(
-                      details?.ticketAppearance,
-                    )}`
-                  ]['main']
-                }`,
-                color: theme.palette.common.white,
+                bgcolor: `${theme?.['palette']?.[
+                  `${ticketInfoCardAppearanceColor(details?.ticketAppearance)}`
+                ]?.['main']}`,
+                color: theme?.palette?.common?.white,
               }}
             />
           )}
           <MoreVertIcon
-            onClick={(event: any) => setAnchorEl(event.currentTarget)}
+            onClick={(event: any) => setAnchorEl(event?.currentTarget)}
             sx={{ cursor: 'pointer' }}
           />
 
@@ -86,11 +82,11 @@ export const TicketInfoCard = ({ details }: any) => {
                 py: 1,
                 cursor: 'pointer',
                 '&:hover': {
-                  bgcolor: theme.palette.grey[700],
+                  bgcolor: theme?.palette?.grey?.[700],
                 },
               }}
               onClick={(event: any) => {
-                setOpenDrawer(event.target);
+                setOpenDrawer(event?.target);
                 setAnchorEl(null);
               }}
             >
@@ -102,7 +98,7 @@ export const TicketInfoCard = ({ details }: any) => {
                 py: 1,
                 cursor: 'pointer',
                 '&:hover': {
-                  bgcolor: theme.palette.grey[700],
+                  bgcolor: theme?.palette?.grey?.[700],
                 },
               }}
               onClick={() => {
@@ -130,18 +126,18 @@ export const TicketInfoCard = ({ details }: any) => {
               <FiberManualRecordIcon
                 fontSize={'medium'}
                 sx={{
-                  fill: `${
-                    theme['palette'][
-                      `${ticketInfoCardPriorityColor(details?.priority)}`
-                    ]['main']
-                  }`,
+                  fill: `${theme?.['palette']?.[
+                    `${ticketInfoCardPriorityColor(details?.priority)}`
+                  ]?.['main']}`,
                 }}
               />
             }
           />
           <Box display={'flex'} alignItems={'center'} gap={0.2}>
-            <AccessTimeFilledIcon sx={{ fill: theme.palette.warning.main }} />
-            <Typography variant="body1" color={theme.palette.grey[900]}>
+            <AccessTimeFilledIcon
+              sx={{ fill: theme?.palette?.warning?.main }}
+            />
+            <Typography variant="body1" color={theme?.palette?.grey?.[900]}>
               Due in 1 day
             </Typography>
           </Box>

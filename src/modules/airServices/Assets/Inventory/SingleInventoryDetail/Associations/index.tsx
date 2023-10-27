@@ -25,7 +25,7 @@ export const Associations = () => {
         >
           <Button
             variant="outlined"
-            sx={{ backgroundColor: theme.palette.grey[400] }}
+            sx={{ backgroundColor: theme?.palette?.grey?.[400] }}
             onClick={() => setOpenDialog(true)}
             startIcon={<AddCircleIcon />}
           >
@@ -45,10 +45,10 @@ export const Associations = () => {
           </Box>
           {associationsDataArray?.map((item: any) => (
             <Box
-              border={`1px solid ${theme.palette.grey[400]}`}
-              borderLeft={`8px solid ${
-                theme['palette'][`${chipColor(item?.status)}`]['main']
-              }`}
+              border={`1px solid ${theme?.palette?.grey?.[400]}`}
+              borderLeft={`8px solid ${theme?.['palette']?.[
+                `${chipColor(item?.status)}`
+              ]?.['main']}`}
               boxShadow={4}
               borderRadius={2}
               p={1}
@@ -65,8 +65,10 @@ export const Associations = () => {
                 label={item?.status}
                 sx={{
                   bgcolor:
-                    theme['palette'][`${chipColor(item?.status)}`]['main'],
-                  color: theme.palette.common.white,
+                    theme?.['palette']?.[`${chipColor(item?.status)}`]?.[
+                      'main'
+                    ],
+                  color: theme?.palette?.common?.white,
                 }}
               />
             </Box>
