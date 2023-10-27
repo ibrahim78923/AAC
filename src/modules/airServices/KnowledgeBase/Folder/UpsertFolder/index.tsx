@@ -1,36 +1,47 @@
-import { FormProvider } from '@/components/ReactHookForm';
-import { Box, TextField } from '@mui/material';
-import { upsertFolderDataArray } from './UpsertFolder.data';
-import { v4 as uuidv4 } from 'uuid';
-import ConversationModel from '@/components/Model/CoversationModel';
+import { Box, Button, TextField, Typography } from '@mui/material';
+import { useState } from 'react';
+import CommonModal from '@/components/CommonModal';
 
-export const UpsertFolder = ({ methods }: any) => {
+export const UpsertFolder = () => {
+  const [handleOpen, setHandleOpen] = useState(true);
   return (
-    <ConversationModel
-      open={true}
-      selectedItem={'Create Folder'}
-      okText={'Create'}
+    <CommonModal
+      open={handleOpen}
+      handleClose={() => setHandleOpen(false)}
+      handleSubmit={function (): void {
+        throw new Error('Function not implemented.');
+      }}
+      title={'Create new folder'}
+      okText={'Create Folder'}
+      footerFill={undefined}
     >
-      <>
-        <Box mt={1}>
-          <FormProvider methods={methods} key={uuidv4()}>
-            {upsertFolderDataArray?.map((item: any) => (
-              <>
-                <label>{item.label}</label>
-                <TextField {...item?.componentProps} size="small">
-                  {item?.componentProps?.select
-                    ? item?.options?.map((option: any) => (
-                        <option key={option?.value} value={option?.value}>
-                          {option?.label}
-                        </option>
-                      ))
-                    : null}
-                </TextField>
-              </>
-            ))}
-          </FormProvider>
-        </Box>
-      </>
-    </ConversationModel>
+      <Typography variant="body2" padding={'.2rem'}>
+        Name
+      </Typography>
+      <TextField
+        type="text"
+        size="small"
+        placeholder="Enter Folder Name"
+        fullWidth
+      />
+      <Typography variant="body2" padding={'.2rem'}>
+        Description
+      </Typography>
+      <TextField type="text" size="small" placeholder="#example" fullWidth />
+
+      <Box
+        sx={{
+          paddingTop: '10px',
+          display: 'flex',
+          justifyContent: 'flex-end',
+          gap: '1rem',
+        }}
+      >
+        <Button variant="outlined" onClick={() => setHandleOpen(false)}>
+          Cancel
+        </Button>
+        <Button variant="contained">Create</Button>
+      </Box>
+    </CommonModal>
   );
 };
