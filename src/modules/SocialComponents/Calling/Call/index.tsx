@@ -11,6 +11,10 @@ const Call = () => {
   const [callsMode, setCallsMode] = useState('calls');
   const [activeCallsSelectedData, setActiveCallsSelectedData] = useState();
   const [isActiveCalling, setIsActiveCalling] = useState();
+
+  const [activeMessageData, setActiveMessageData] = useState();
+  const [isActiveMessage, setIsActiveMessage] = useState();
+
   return (
     <Box sx={{ background: '#fff' }}>
       <Grid container>
@@ -23,6 +27,10 @@ const Call = () => {
               activeCallsSelectedData={activeCallsSelectedData}
               setIsActiveCalling={setIsActiveCalling}
               isActiveCalling={isActiveCalling}
+              activeMessageData={activeMessageData}
+              setActiveMessageData={setActiveMessageData}
+              isActiveMessage={isActiveMessage}
+              setIsActiveMessage={setIsActiveMessage}
             />
           </Box>
         </Grid>
@@ -34,6 +42,10 @@ const Call = () => {
               setActiveCallsSelectedData={setActiveCallsSelectedData}
               setIsActiveCalling={setIsActiveCalling}
               isActiveCalling={isActiveCalling}
+              activeMessageData={activeMessageData}
+              setActiveMessageData={setActiveMessageData}
+              isActiveMessage={isActiveMessage}
+              setIsActiveMessage={setIsActiveMessage}
             />
           </Box>
         </Grid>

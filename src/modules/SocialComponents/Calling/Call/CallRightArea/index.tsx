@@ -14,11 +14,14 @@ import { CallFilledImage, UsersAvatarRoundedImage } from '@/assets/images';
 import { ArrowBackIcon } from '@/assets/icons';
 
 import { styles } from './CallRightArea.style';
+import ChatCalling from './ChatCalling';
 
 const CallRightArea = ({
   callsMode,
   activeCallsSelectedData,
   isActiveCalling,
+
+  activeMessageData,
 }: any) => {
   const theme = useTheme();
 
@@ -133,6 +136,10 @@ const CallRightArea = ({
             </Grid>
           </Grid>
         ))}
+
+      {callsMode === 'messages' && activeMessageData && (
+        <ChatCalling activeMessageData={activeMessageData} />
+      )}
     </Box>
   );
 };
