@@ -1,11 +1,11 @@
 import NoData from '@/components/NoData';
-import NoAssociationFound from '@/assets/images/modules/LogitechMouse/association.png';
 import { Button, useTheme } from '@mui/material';
 import { AddCircleIcon } from '@/assets/icons';
 import { styles } from './Associations.style';
 import { useState } from 'react';
 import { AddAssociationsDrawer } from './AssociationsDrawer';
 import AssociationTicket from './AssociationsTicket';
+import { NoAssociationFound } from '@/assets/images';
 
 export const Associations = () => {
   const theme: any = useTheme();

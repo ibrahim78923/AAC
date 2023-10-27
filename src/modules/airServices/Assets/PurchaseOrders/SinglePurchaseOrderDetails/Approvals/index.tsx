@@ -1,5 +1,4 @@
 import NoData from '@/components/NoData';
-import NoAssociationFound from '@/assets/images/modules/LogitechMouse/association.png';
 import { Fragment, useState } from 'react';
 import { approvalsDataArray, approvalsStatusObj } from './Approvals.data';
 import { Avatar, Box, Button, Grid, Typography, useTheme } from '@mui/material';
@@ -13,6 +12,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import { ApproveForm } from './ApproveForm';
 import { RejectForm } from './RejectForm';
 import { enqueueSnackbar } from 'notistack';
+import { NoAssociationFound } from '@/assets/images';
 
 export const Approvals = () => {
   const theme: any = useTheme();
