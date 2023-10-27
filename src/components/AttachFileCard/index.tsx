@@ -1,22 +1,23 @@
 import { Box, IconButton, Typography } from '@mui/material';
-import { v4 as uuidv4 } from 'uuid';
 import CloseIcon from '@mui/icons-material/Close';
 import Image from 'next/image';
 import { useAttachFileCard } from './useAttachFileCard';
 
-export const AttachFileCard = ({ data }: any) => {
-  const { getImageByType, theme } = useAttachFileCard();
+export const AttachFileCard = ({ data, onDelete }: any) => {
+  const { getImageByType, theme, cross, setCross } = useAttachFileCard();
+
   return (
     <Box
-      key={uuidv4()}
       display={'flex'}
       alignItems={'center'}
       flexWrap={'wrap'}
-      border={`0.06rem solid ${theme?.palette?.grey?.[700]}`}
-      borderRadius={'.5rem'}
-      gap={'.5rem'}
-      marginTop={1.5}
+      border={`1px solid ${theme?.palette?.grey?.[700]}`}
+      borderRadius={2}
+      gap={1}
       padding={1}
+      sx={{ ':hover': { cursor: 'pointer', boxShadow: 1 } }}
+      onMouseEnter={() => setCross(true)}
+      onMouseLeave={() => setCross(false)}
     >
       <Image
         src={getImageByType(data)}
@@ -31,29 +32,36 @@ export const AttachFileCard = ({ data }: any) => {
         alignItems={'center'}
         justifyContent={'space-between'}
       >
-        <div>
+        <Box>
           <Typography variant="h6" whiteSpace={'nowrap'}>
             {data?.name}
           </Typography>
-          <Typography variant="body3" color="#8F98AE" whiteSpace={'nowrap'}>
+          <Typography
+            variant="body3"
+            color={theme?.palette?.grey?.[900]}
+            whiteSpace={'nowrap'}
+          >
             {data?.size}
           </Typography>
-        </div>
-        <IconButton
-          disableFocusRipple
-          disableRipple
-          size="small"
-          sx={{
-            backgroundColor: 'custom.dark',
-            ':hover': {
-              backgroundColor: 'custom.dark ',
-            },
-          }}
-        >
-          <CloseIcon
-            sx={{ color: theme?.palette?.common?.white, fontSize: '.8rem' }}
-          />
-        </IconButton>
+        </Box>
+        {cross && (
+          <IconButton
+            disableFocusRipple
+            disableRipple
+            size="small"
+            sx={{
+              backgroundColor: 'custom.dark',
+              ':hover': {
+                backgroundColor: 'custom.dark ',
+              },
+            }}
+            onClick={onDelete}
+          >
+            <CloseIcon
+              sx={{ color: theme?.palette?.common?.white, fontSize: '14px' }}
+            />
+          </IconButton>
+        )}
       </Box>
     </Box>
   );
