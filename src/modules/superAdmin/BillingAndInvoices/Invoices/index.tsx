@@ -53,11 +53,11 @@ const Invoices = () => {
           </Grid>
         </Box>
 
-        <Box sx={styles.tableToolbar}>
-          <Box sx={styles.tableSearch}>
+        <Grid sx={styles.tableToolbar}>
+          <Grid item xs={12} md={6} xl={6} sx={styles.tableSearch}>
             <Search size="small" label="Search Here" />
-          </Box>
-          <Box sx={styles.tableToolbarActions}>
+          </Grid>
+          <Grid item xs={12} md={6} xl={6} sx={styles.tableToolbarActions}>
             <Box>
               <Button
                 size="small"
@@ -111,8 +111,8 @@ const Invoices = () => {
                 <FilterSharedIcon /> Filter
               </Button>
             </Box>
-          </Box>
-        </Box>
+          </Grid>
+        </Grid>
 
         <TanstackTable columns={getRowValues} data={invoicesData} />
 

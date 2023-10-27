@@ -1,7 +1,8 @@
-import { Box, Checkbox } from '@mui/material';
+import { Avatar, Box, Checkbox, Typography } from '@mui/material';
 import { styles } from './Invoices.style';
 import { RHFDatePicker, RHFSelect } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
+import { AvatarImage } from '@/assets/images';
 
 export const columns = (
   setIsGetRowValues: any,
@@ -34,10 +35,13 @@ export const columns = (
       id: 'ClientName',
       cell: (info: any) => (
         <>
-          <Box sx={{ fontWeight: '500', color: 'blue.dull_blue' }}>
-            {info.getValue()}
+          <Box sx={{ display: 'flex', gap: '5px' }}>
+            <Avatar alt="Remy Sharp" src={AvatarImage.src} />
+            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+              <Typography variant="subtitle2"> {info.getValue()}</Typography>
+              <Typography variant="body3">{info.row.original.plan}</Typography>
+            </Box>
           </Box>
-          <Box>{info.row.original.plan}</Box>
         </>
       ),
       header: 'Client Name',
@@ -48,26 +52,31 @@ export const columns = (
       id: 'Products/Suite',
       isSortable: true,
       header: 'Products/Suite',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => (
+        <>
+          <Typography variant="subtitle2">{info.getValue()}</Typography>
+          <Typography variant="body3">{info.row.original.planType}</Typography>
+        </>
+      ),
     },
     {
-      accessorFn: (row: any) => row.InvoiceDate,
+      accessorFn: (row: any) => row.dueDate,
       id: 'InvoiceDate',
       isSortable: true,
       header: 'Invoice Date',
-      cell: (info: any) => (
-        <>
-          <Box>Invoice # {info.getValue()}</Box>
-          <Box>Due date: {info.row.original.dueDate}</Box>
-        </>
-      ),
+      cell: (info: any) => <>{info.getValue()}</>,
     },
     {
       accessorFn: (row: any) => row.Details,
       id: 'Details',
       isSortable: true,
       header: 'Details',
-      cell: (info: any) => <>£ {info.getValue()}</>,
+      cell: (info: any) => (
+        <>
+          <Box>Invoice # {info.getValue()}</Box>
+          <Box>Due date: {info.row.original.dueDate}</Box>
+        </>
+      ),
     },
     {
       accessorFn: (row: any) => row.InvoiceAmount,
@@ -81,7 +90,7 @@ export const columns = (
       id: 'PaymentDate',
       isSortable: true,
       header: 'Payment Date',
-      cell: (info: any) => <>£ {info.getValue()}</>,
+      cell: (info: any) => <> {info.getValue()}</>,
     },
     {
       accessorFn: (row: any) => row.status,

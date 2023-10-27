@@ -1,4 +1,5 @@
-import { Checkbox } from '@mui/material';
+import { AvatarImage } from '@/assets/images';
+import { Avatar, Box, Checkbox, Typography } from '@mui/material';
 
 export const columns = (
   setIsGetRowValues: any,
@@ -29,24 +30,47 @@ export const columns = (
     {
       accessorFn: (row: any) => row.clientName,
       id: 'clientName',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => (
+        <Box sx={{ display: 'flex', gap: '5px' }}>
+          <Avatar alt="Remy Sharp" src={AvatarImage.src} />
+          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+            <Typography variant="subtitle2"> {info.getValue()}</Typography>
+            <Typography variant="body3">
+              {info.row.original.clientSub}
+            </Typography>
+          </Box>
+        </Box>
+      ),
       header: 'Client Name',
       isSortable: false,
     },
-
     {
       accessorFn: (row: any) => row.productsSuite,
       id: 'productsSuite',
       isSortable: true,
       header: 'Products/Suite',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => (
+        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+          <Typography variant="body3"> {info.getValue()}</Typography>
+          <Typography variant="body3">
+            {info.row.original.productSub}
+          </Typography>
+        </Box>
+      ),
     },
-
     {
       accessorFn: (row: any) => row.planType,
       id: 'planType',
       isSortable: true,
       header: 'Plan Type',
+      cell: (info: any) => info.getValue(),
+    },
+
+    {
+      accessorFn: (row: any) => row.PlanPricee,
+      id: 'PlanPricee',
+      isSortable: true,
+      header: 'Plan Price',
       cell: (info: any) => info.getValue(),
     },
 

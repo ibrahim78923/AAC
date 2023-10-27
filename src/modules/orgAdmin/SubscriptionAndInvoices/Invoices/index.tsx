@@ -54,7 +54,7 @@ const Invoices = () => {
 
         <Box sx={styles.tableToolbar}>
           <Box sx={styles.tableSearch}>
-            <Search size="small" />
+            <Search size="small" placeholder="search here" />
           </Box>
           <Box sx={styles.tableToolbarActions}>
             <Box>

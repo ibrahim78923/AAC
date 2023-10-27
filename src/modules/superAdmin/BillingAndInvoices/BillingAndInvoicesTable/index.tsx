@@ -1,4 +1,4 @@
-import { Grid, Typography, Button } from '@mui/material';
+import { Grid, Typography, Button, Box } from '@mui/material';
 
 import Search from '@/components/Search';
 import TanstackTable from '@/components/Tabel/TanstackTable';
@@ -41,10 +41,10 @@ const BillingAndInvoicesTable = () => {
     <Grid sx={styles.invoicesTableWrapper}>
       <Grid sx={{ padding: '15px 15px 0 15px' }}>
         <Grid container>
-          <Grid item xs={6} sm={6}>
+          <Grid item xs={12} sm={6}>
             <Typography variant="h4">Plan Assignment</Typography>
           </Grid>
-          <Grid item xs={6} sm={6} sx={{ textAlign: 'end' }}>
+          <Grid item xs={12} sm={6} sx={{ textAlign: 'end' }}>
             <Button
               onClick={() => {
                 setIsOpenDrawer(true);
@@ -57,8 +57,15 @@ const BillingAndInvoicesTable = () => {
             </Button>
           </Grid>
         </Grid>
-        <Grid container>
-          <Grid item xs={12} xl={10} mt={2}>
+
+        <Grid
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+          }}
+        >
+          <Grid item xs={12} md={6} xl={6} mt={2}>
             <Search
               searchBy={searchByClientName}
               setSearchBy={setSearchByClientName}
@@ -66,32 +73,36 @@ const BillingAndInvoicesTable = () => {
               size="small"
             />
           </Grid>
-          <Grid item xs={12} sm={12} xl={2} mt={2} style={{ display: 'flex' }}>
-            <MenuItems
-              isViewDetailOpen={isViewDetailOpen}
-              setIsViewDeailOpen={setIsViewDeailOpen}
-              setIsOpenDrawer={setIsOpenDrawer}
-              setIsShowViewBillingDetails={setIsShowViewBillingDetails}
-              setisShowGenerateInvoice={setisShowGenerateInvoice}
-              isChecked={isChecked}
-              setIsEditModal={setIsEditModal}
-            />
-            <Button
-              onClick={() => setIsOpenFilter(true)}
-              startIcon={<FilterSharedIcon />}
-              sx={{
-                border: `1px solid ${theme.palette.custom.dark}`,
-                color: theme.palette.custom.main,
-                width: '105px',
-                marginLeft: '10px',
-              }}
-            >
-              Filters
-            </Button>
+          <Grid item xs={12} md={6} xl={6} mt={2}>
+            <Box style={{ display: 'flex', flexWrap: 'wrap' }}>
+              <MenuItems
+                isViewDetailOpen={isViewDetailOpen}
+                setIsViewDeailOpen={setIsViewDeailOpen}
+                setIsOpenDrawer={setIsOpenDrawer}
+                setIsShowViewBillingDetails={setIsShowViewBillingDetails}
+                setisShowGenerateInvoice={setisShowGenerateInvoice}
+                isChecked={isChecked}
+                setIsEditModal={setIsEditModal}
+              />
+              <Button
+                onClick={() => setIsOpenFilter(true)}
+                startIcon={<FilterSharedIcon />}
+                sx={{
+                  border: `1px solid ${theme.palette.custom.dark}`,
+                  color: theme.palette.custom.main,
+                  width: '105px',
+                  marginLeft: '10px',
+                  '@media (max-width:400px)': {
+                    width: '100% !important',
+                    marginTop: '10px',
+                    marginLeft: '0px !important',
+                  },
+                }}
+              >
+                Filters
+              </Button>
+            </Box>
           </Grid>
-          {/* <Grid item xs={12} sm={6}  xl={1}  mt={4}>
-         
-          </Grid> */}
         </Grid>
         {isShowGenerateInvoice && <GenerateInvoice />}
       </Grid>

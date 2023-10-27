@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, Input } from '@mui/material';
 
 export const columns: any = [
   {
@@ -57,7 +57,19 @@ export const columns: any = [
     isSortable: true,
     header: 'Discount(%)',
     cell: (info: any) => (
-      <Box sx={{ fontWeight: '800' }}>{info.getValue()} %</Box>
+      <Box sx={{ fontWeight: '800' }}>
+        {info.getValue()}
+        <Input
+          placeholder="20"
+          type="number"
+          sx={{
+            border: '1px solid #E5E7EB',
+            borderRadius: '8px',
+            padding: '5px 10px',
+            '&.MuiInput-root::before': { borderBottom: '0' },
+          }}
+        />
+      </Box>
     ),
   },
   {

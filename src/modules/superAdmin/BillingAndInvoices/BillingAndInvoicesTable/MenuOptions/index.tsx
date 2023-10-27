@@ -15,13 +15,16 @@ const MenuItems = ({
     useMenuOptions();
   const theme = useTheme();
   return (
-    <div>
+    <>
       <Button
         onClick={handleClickActions}
         sx={{
           border: `1px solid ${theme.palette.custom.dark}`,
           color: theme.palette.custom.main,
           width: '105px',
+          '@media (max-width:400px)': {
+            width: '100% !important',
+          },
         }}
         disabled={!isChecked}
       >
@@ -56,7 +59,7 @@ const MenuItems = ({
           View Billing History
         </MenuItem>
       </Menu>
-    </div>
+    </>
   );
 };
 

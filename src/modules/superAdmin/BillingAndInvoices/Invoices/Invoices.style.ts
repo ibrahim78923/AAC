@@ -25,6 +25,7 @@ export const styles = {
     display: 'flex',
     alignItems: 'center',
     p: '12px 24px',
+    flexWrap: 'wrap',
   }),
   tableSearch: () => ({}),
   tableToolbarActions: () => ({
@@ -37,6 +38,11 @@ export const styles = {
     fontWeight: '500',
     p: '6px 18px',
     height: '36px',
+    '@media (max-width:580px)': {
+      width: '100% !important',
+      marginTop: '10px',
+      marginLeft: '0px !important',
+    },
   }),
   chip: (theme: any) => ({
     backgroundColor: theme.palette.grey[400],
