@@ -46,8 +46,6 @@ export const PurchaseOrderFilter = (props: any) => {
                             {option?.label}
                           </option>
                         ))
-                      : form?.heading
-                      ? form?.heading
                       : null}
                   </form.component>
                 </Grid>
