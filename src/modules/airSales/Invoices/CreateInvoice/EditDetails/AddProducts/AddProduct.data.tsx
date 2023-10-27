@@ -30,13 +30,13 @@ export const existingProductsFields = [
 // custom products
 export const customValidationSchema = Yup.object().shape({
   name: Yup.string().required('Field is Required'),
-  sku: Yup.string().required('Field is Required'),
-  category: Yup.string().required('Field is Required'),
-  description: Yup.string().required('Field is Required'),
+  // sku: Yup.string().required('Field is Required'),
+  // category: Yup.string().required('Field is Required'),
+  // description: Yup.string().required('Field is Required'),
   unitPrice: Yup.string().required('Field is Required'),
-  billingFrequency: Yup.string().required('Field is Required'),
-  createdDate: Yup.string().required('Field is Required'),
-  createdTime: Yup.string().required('Field is Required'),
+  // billingFrequency: Yup.string().required('Field is Required'),
+  // createdDate: Yup.string().required('Field is Required'),
+  // createdTime: Yup.string().required('Field is Required'),
 });
 
 export const customDefaultValues = {
@@ -52,27 +52,29 @@ export const customDefaultValues = {
 
 export const customFields = [
   {
+    title: 'Product Name',
     componentProps: {
       name: 'name',
-      label: 'Name',
       fullWidth: true,
+      placeholder: 'Enter here',
     },
     component: RHFTextField,
     md: 12,
   },
   {
+    title: 'SKU',
     componentProps: {
       name: 'sku',
-      label: 'SKU',
+      placeholder: 'Enter here',
       fullWidth: true,
     },
     component: RHFTextField,
     md: 12,
   },
   {
+    title: 'Category',
     componentProps: {
       name: 'category',
-      label: 'Category',
       fullWidth: true,
       select: true,
     },
@@ -85,9 +87,9 @@ export const customFields = [
     md: 12,
   },
   {
+    title: 'Description',
     componentProps: {
       name: 'description',
-      label: 'Description',
       fullWidth: true,
     },
     component: RHFEditor,
@@ -103,18 +105,20 @@ export const customFields = [
     md: 12,
   },
   {
+    title: 'Unit Price',
     componentProps: {
       name: 'unitPrice',
-      label: 'Unit Price',
+      placeholder: 'Enter here',
       fullWidth: true,
     },
     component: RHFTextField,
     md: 12,
   },
   {
+    title: 'Billing Frequency',
     componentProps: {
       name: 'billingFrequency',
-      label: 'Blling Frequency',
+      placeholder: 'Blling Frequency',
       fullWidth: true,
       select: true,
     },
@@ -128,18 +132,20 @@ export const customFields = [
     md: 12,
   },
   {
+    title: 'Created Date',
     componentProps: {
       name: 'createdDate',
-      label: 'Created Date',
+      placeholder: '01/01/2023',
       fullWidth: true,
     },
     component: RHFDatePicker,
     md: 6,
   },
   {
+    title: 'Created Time',
     componentProps: {
       name: 'createdTime',
-      label: 'Created Time',
+      placeholder: 'HH:MM',
       fullWidth: true,
     },
     component: RHFTimePicker,
@@ -148,7 +154,6 @@ export const customFields = [
   {
     componentProps: {
       name: 'file',
-      label: 'Created Time',
       fullWidth: true,
     },
     component: RHFDropZone,
