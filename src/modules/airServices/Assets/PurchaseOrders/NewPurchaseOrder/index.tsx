@@ -7,7 +7,7 @@ import ItemsDetails from './ItemsDetails';
 import { styles } from './NewPurchaseOrder.style';
 import { v4 as uuidv4 } from 'uuid';
 
-const NewParchaseOrder = () => {
+const NewPurchaseOrder = () => {
   const { methods, submit, handlePageBack, vendor, handleVenderSelect } =
     useNewPurchaseOrder();
   const { flexBetween, mainWrapper, mainHeading, subHeading } = styles();
@@ -48,13 +48,11 @@ const NewParchaseOrder = () => {
                 <Grid item xs={12} md={form?.gridLength} key={uuidv4()}>
                   <form.component {...form.componentProps} size="small">
                     {form?.componentProps?.select
-                      ? form.componentProps.options.map((option: any) => (
+                      ? form?.componentProps?.options.map((option: any) => (
                           <option key={uuidv4()} value={option?.value}>
                             {option?.label}
                           </option>
                         ))
-                      : form?.heading
-                      ? form?.heading
                       : null}
                   </form.component>
                 </Grid>
@@ -87,4 +85,4 @@ const NewParchaseOrder = () => {
   );
 };
 
-export default NewParchaseOrder;
+export default NewPurchaseOrder;
