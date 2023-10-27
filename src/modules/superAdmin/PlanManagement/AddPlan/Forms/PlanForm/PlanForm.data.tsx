@@ -6,7 +6,7 @@ import {
 } from '@/components/ReactHookForm';
 
 export const defaultValues = {
-  product: '',
+  product: [],
   planType: '',
   description: '',
   defaultUsers: '',
@@ -19,7 +19,10 @@ export const defaultValues = {
 };
 
 export const gpDetailsInfoFormSchema: any = Yup.object().shape({
-  product: Yup.string().required('Required field'),
+  product: Yup.array()
+    .min(1, 'Field is Required')
+    .max(10, 'Field is Required')
+    .required('Field is Required'),
   planType: Yup.string().required('Required field'),
   description: Yup.string()
     .trim()

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Box, Button, Switch, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 
 import AppHorizontalStepper from '@/components/Stepper';
 import { FormProvider } from '@/components/ReactHookForm';
@@ -31,7 +31,6 @@ const AddPlan = () => {
   });
   return (
     <div>
-      <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple />
       <Box
         display={'flex'}
         alignItems={'center'}
@@ -70,10 +69,10 @@ const AddPlan = () => {
                   Back
                 </Button>
                 <Button
-                  type="button" // Use type="button" to prevent automatic form submission
+                  type="button"
                   variant="contained"
                   fullWidth
-                  onClick={handleCompleteStep} // Call your form submission handler
+                  onClick={handleCompleteStep}
                   disabled={activeStep === AddPlanStepperData?.length}
                 >
                   {activeStep === AddPlanStepperData?.length - 1

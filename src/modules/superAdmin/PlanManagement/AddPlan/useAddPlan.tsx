@@ -45,6 +45,8 @@ export const useAddPlan = () => {
       reset();
     })();
     if (activeStep == AddPlanStepperData?.length - 1) {
+      alert('Safasf');
+      localStorage.removeItem('persist');
       router.push('/super-admin/plan-management');
       return;
     }

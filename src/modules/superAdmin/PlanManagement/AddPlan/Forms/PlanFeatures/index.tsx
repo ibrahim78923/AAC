@@ -118,52 +118,5 @@ const PlanFeatures: React.FC = () => {
     </div>
   );
 };
-{
-  /* <Accordion
-        expanded={expandedAccordion === 'plan-features-marketing-accordion'}
-        onChange={handleExpandAccordionChange('plan-features-marketing-accordion')}
-        disableGutters
-        sx={{
-          marginTop: '2rem',
-          '& .MuiAccordionSummary-root': {
-            backgroundColor: theme.palette.blue?.main,
-            color: theme.palette.common.white,
-            borderRadius: '8px',
-          },
-        }}
-      >
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="plan-features-marketing-accordion-content"
-          id="plan-features-marketing-accordion-header"
-        >
-          <Typography variant="h4">Marketing</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Grid container>
-            {AirMarketingCategories?.map((item: CheckboxItem) => (
-              <Grid item xs={12} sm={6} lg={4} xl={3} key={uuidv4()}>
-                <Box sx={{ width: 'max-content',display:"flex" }}>
-                  <FormGroup>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={marketingChecked[item.name] || false}
-                          onChange={() => handleMarketingCheckboxChange(item.name)}
-                        />
-                      }
-                      label={
-                        <CheckboxLabel name={item.name} desc={item.desc} />
-                      }
-                    />
-                  </FormGroup>
-                  <AddPlusPrimaryIcon/>
-                </Box>
-              </Grid>
-            ))}
-          </Grid>
-        </AccordionDetails>
-      </Accordion> */
-}
 
 export default PlanFeatures;
