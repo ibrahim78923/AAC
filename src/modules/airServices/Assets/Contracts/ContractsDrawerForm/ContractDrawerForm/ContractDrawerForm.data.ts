@@ -43,7 +43,7 @@ export const contractDrawerFormValidationSchema = Yup.object().shape({
   expiry: Yup.string(),
 });
 
-export const contractDrawerFormDeaultValues = {
+export const contractDrawerFormDefaultValues = {
   type: '',
   status: '',
   vender: '',
