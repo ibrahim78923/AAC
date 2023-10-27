@@ -29,7 +29,7 @@ export const PurchaseOrderFilter = (props: any) => {
           isDrawerOpen={isDrawerOpen}
           onClose={handleReset}
           okText={'filter'}
-          title={'filter'}
+          title={'Filter'}
           submitHandler={handleSubmit}
           isOk={true}
           cancelText={'Reset'}

@@ -1,4 +1,4 @@
-import { Box, Card, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import { styles } from './RecentActivitiesDashboardCard.styles';
 
@@ -9,7 +9,7 @@ export const RecentActivitiesDashboardCard = ({
   recentactivitytexttwo,
 }: any) => {
   return (
-    <Card sx={styles?.cardMain}>
+    <Box sx={styles?.cardMain}>
       <Box sx={{ marginLeft: 2 }}>
         <Avatar
           alt=""
@@ -30,6 +30,6 @@ export const RecentActivitiesDashboardCard = ({
           {recentactivitytexttwo}
         </Typography>
       </Box>
-    </Card>
+    </Box>
   );
 };

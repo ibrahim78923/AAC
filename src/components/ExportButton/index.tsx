@@ -39,7 +39,7 @@ export const ExportButton = (props: any) => {
           <Typography
             variant="body2"
             fontWeight={500}
-            color={theme.palette.grey?.[600]}
+            color={theme?.palette?.grey?.[600]}
           >
             CSV
           </Typography>
@@ -59,7 +59,7 @@ export const ExportButton = (props: any) => {
           <Typography
             variant="body2"
             fontWeight={500}
-            color={theme.palette.grey?.[600]}
+            color={theme?.palette.grey?.[600]}
           >
             Excel
           </Typography>

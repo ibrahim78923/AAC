@@ -5,8 +5,7 @@ export const styles: any = {
     flex: 1,
     gap: 2,
     background: '#FFF',
-    borderRadius: '0.5rem',
-    border: '0.063rem solid #E5E7EB',
+    borderBottom: '0.063rem solid #E5E7EB',
     flexShrink: 0,
   },
 
