@@ -147,3 +147,6 @@ export { default as MircosoftTeamsIcon } from './shared/microsoft-teams';
 export { default as PrimaryPreviewEyeIcon } from './shared/primary-preview-eye';
 export { default as ReminderBell } from './shared/bell-icon';
 export { default as MinusCircleBlackIcon } from './shared/minus-circle-black-icon';
+export { default as PrimaryReceivedIcon } from './shared/primary-received';
+export { default as PrimaryRequestIcon } from './shared/primary-request';
+export { default as PrimaryCancelIcon } from './shared/primary-cancel';
