@@ -26,9 +26,10 @@ export const profileDefaultValues = {
 
 export const profileFields = [
   {
+    title: 'First Name',
     componentProps: {
       name: 'firstName',
-      label: 'First Name',
+      placeholder: 'Enter First Name',
       fullWidth: true,
     },
     component: RHFTextField,
@@ -36,45 +37,50 @@ export const profileFields = [
   },
 
   {
+    title: 'Middle Name',
     componentProps: {
       name: 'middleName',
-      label: 'Middle Name',
+      placeholder: 'Enter Middle Name',
       fullWidth: true,
     },
     component: RHFTextField,
     md: 6,
   },
   {
+    title: 'Last Name',
     componentProps: {
       name: 'lastName',
-      label: 'Last Name',
+      placeholder: 'Enter Last Name',
       fullWidth: true,
     },
     component: RHFTextField,
     md: 6,
   },
   {
+    title: 'Phone Number',
     componentProps: {
       name: 'phoneNo',
-      label: 'Phone Number',
+      label: 'Enter Phone',
       fullWidth: true,
     },
     component: RHFTextField,
     md: 6,
   },
   {
+    title: 'Email',
     componentProps: {
       name: 'email',
-      label: 'Email',
+      placeholder: 'Enter Email',
       fullWidth: true,
     },
     component: RHFTextField,
     md: 6,
   },
   {
+    title: 'Job Title',
     componentProps: {
       name: 'jobTitle',
-      label: 'Job Title',
+      placeholder: 'Enter Job Title',
       fullWidth: true,
     },
     component: RHFTextField,
@@ -82,9 +88,10 @@ export const profileFields = [
   },
 
   {
+    title: 'Post Code',
     componentProps: {
       name: 'postCode',
-      label: 'Post Code',
+      placeholder: 'Enter Post Code',
       fullWidth: true,
     },
     component: RHFTextField,
@@ -92,9 +99,10 @@ export const profileFields = [
   },
 
   {
+    title: 'Address',
     componentProps: {
       name: 'address',
-      label: 'Address',
+      placeholder: 'Enter Address',
       fullWidth: true,
     },
     component: RHFTextField,
@@ -105,7 +113,7 @@ export const profileFields = [
     componentProps: {
       color: '#7a7a7b',
       varient: 'h4',
-      heading: 'Links',
+      heading: 'Other',
     },
 
     gridLength: 12,
@@ -113,9 +121,10 @@ export const profileFields = [
   },
 
   {
+    title: 'Facebook URL',
     componentProps: {
       name: 'fbUrl',
-      label: 'FaceBook URL',
+      placeholder: 'Enter FaceBook URL',
       fullWidth: true,
     },
     component: RHFTextField,
@@ -123,9 +132,10 @@ export const profileFields = [
   },
 
   {
+    title: 'Twitter URL',
     componentProps: {
       name: 'twitterUrl',
-      label: 'Twitter Url',
+      placeholder: 'Enter Twitter Url',
       fullWidth: true,
     },
     component: RHFTextField,

@@ -4,8 +4,6 @@ import { Avatar, AvatarGroup, Box, Typography } from '@mui/material';
 
 import RHFSelect from '@/components/ReactHookForm/RHFSelect';
 
-import RHFTextField from '@/components/ReactHookForm/RHFTextField';
-
 import RHFDatePicker from '@/components/ReactHookForm/RHFDatePicker';
 
 import { SwitchBtn } from '@/components/SwitchButton';
@@ -236,7 +234,7 @@ export const superAdminColumns: any = [
 
 export const usersValidationSchema = Yup.object().shape({
   userType: Yup.string().required('Field is Required'),
-  organiztaionName: Yup.string().required('Field is Required'),
+  organizationName: Yup.string().required('Field is Required'),
   product: Yup.string().required('Field is Required'),
   createdDate: Yup.date().required('Field is Required'),
 });
@@ -245,14 +243,14 @@ export const usersDefaultValues = {
   userType: '',
   organizationName: '',
   product: '',
-  createdDate: new Date(),
+  createdDate: null,
 };
 
 export const usersFilterArray = [
   {
+    title: 'User Type',
     componentProps: {
       name: 'userType',
-      label: 'User Type',
       fullWidth: true,
       select: true,
     },
@@ -264,27 +262,37 @@ export const usersFilterArray = [
     md: 12,
   },
   {
+    title: 'Organization Name',
     componentProps: {
       name: 'organizationName',
-      label: 'Organization Name',
       fullWidth: true,
+      select: true,
     },
-    component: RHFTextField,
+    options: [
+      { value: 'CompanyOwner', label: 'Company Owner' },
+      { value: 'SuperAdmin', label: 'Super Admin' },
+    ],
+    component: RHFSelect,
     md: 12,
   },
   {
+    title: 'Product',
     componentProps: {
       name: 'product',
-      label: 'Product',
       fullWidth: true,
+      select: true,
     },
-    component: RHFTextField,
+    options: [
+      { value: 'CompanyOwner', label: 'Company Owner' },
+      { value: 'SuperAdmin', label: 'Super Admin' },
+    ],
+    component: RHFSelect,
     md: 12,
   },
   {
+    title: 'Created Date',
     componentProps: {
       name: 'createdDate',
-      label: 'Created Date',
       fullWidth: true,
     },
     component: RHFDatePicker,

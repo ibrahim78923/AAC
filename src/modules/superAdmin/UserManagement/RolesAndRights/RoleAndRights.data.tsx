@@ -96,17 +96,17 @@ export const rolesValidationSchema = Yup.object().shape({
 });
 
 export const rolesDefaultValues = {
-  roleName: '', //1
+  roleName: '',
   product: '',
   status: '',
-  createdDate: new Date(),
+  createdDate: null,
 };
 
 export const rolesFiltersArray = [
   {
+    title: 'Role Name',
     componentProps: {
       name: 'roleName',
-      label: 'Role Name',
       fullWidth: true,
       select: true,
     },
@@ -118,9 +118,9 @@ export const rolesFiltersArray = [
     md: 12,
   },
   {
+    title: 'Product',
     componentProps: {
       name: 'product',
-      label: 'Product',
       fullWidth: true,
       select: true,
     },
@@ -128,16 +128,16 @@ export const rolesFiltersArray = [
       { value: 'sales', label: 'Sales' },
       { value: 'services', label: 'Services' },
       { value: 'marketing', label: 'Marketing' },
-      { value: 'loyaltyProgram', label: 'Loyalty Progrma' },
+      { value: 'loyaltyProgram', label: 'Loyalty Program' },
     ],
     component: RHFSelect,
     md: 12,
   },
 
   {
+    title: 'Status',
     componentProps: {
       name: 'status',
-      label: 'Status',
       fullWidth: true,
       select: true,
     },
@@ -150,9 +150,9 @@ export const rolesFiltersArray = [
   },
 
   {
+    title: 'Created Date',
     componentProps: {
       name: 'createdDate',
-      label: 'Created Date',
       fullWidth: true,
     },
     component: RHFDatePicker,
@@ -176,9 +176,10 @@ export const addUserDefault = {
 
 export const addUsersArrayData = [
   {
+    title: 'Role Name',
     componentProps: {
       name: 'roleName',
-      label: 'Role Name',
+      placeholder: 'Enter Role Name',
       fullWidth: true,
     },
     component: RHFTextField,
@@ -186,9 +187,9 @@ export const addUsersArrayData = [
   },
 
   {
+    title: 'Select Product',
     componentProps: {
       name: 'productType',
-      label: 'Select Product',
       fullWidth: true,
       select: true,
     },
@@ -209,14 +210,15 @@ export const addUsersArrayData = [
       label: 'Default User',
       fullWidth: true,
     },
-    component: RHFTextField,
+    component: SwitchBtn,
     md: 5,
   },
 
   {
+    title: 'Description',
     componentProps: {
       name: 'desc',
-      label: 'Description',
+      placeholder: 'Description',
       fullWidth: true,
     },
     component: RHFTextField,

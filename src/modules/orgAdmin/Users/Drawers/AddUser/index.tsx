@@ -43,10 +43,13 @@ const AddUser = ({ isOpenDrawer, onClose }: any) => {
         <Typography variant={'subtitle2'}>
           Add a new user to this organization.
         </Typography>
-        <Grid container spacing={4} sx={{ my: '5px' }}>
+        <Grid container spacing={2}>
           {addUsersArray?.map((item: any) => {
             return (
               <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                <Typography variant="body2" fontWeight={500}>
+                  {item?.title}
+                </Typography>
                 <item.component {...item.componentProps} size={'small'}>
                   {item?.componentProps?.select &&
                     item?.options?.map((option: any) => (

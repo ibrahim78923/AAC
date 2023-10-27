@@ -35,6 +35,9 @@ const UserDetailsProfile = () => {
         {profileFields?.map((item: any) => {
           return (
             <Grid item xs={12} md={item?.md} key={uuidv4()}>
+              <Typography variant="body2" fontWeight={500}>
+                {item?.title}
+              </Typography>
               {item?.componentProps?.heading && (
                 <Typography variant="h5">
                   {item?.componentProps?.heading}

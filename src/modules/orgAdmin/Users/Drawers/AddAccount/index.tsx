@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Grid, Box } from '@mui/material';
+import { Grid, Box, Typography } from '@mui/material';
 
 import CommonDrawer from '@/components/CommonDrawer';
 
@@ -51,9 +51,12 @@ const AddAccount = (props: any) => {
     >
       <Box mt={1}>
         <FormProvider methods={methods}>
-          <Grid container spacing={4}>
+          <Grid container spacing={2}>
             {AddAccountArray?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                <Typography variant="body2" fontWeight={500}>
+                  {item?.title}
+                </Typography>
                 <item.component {...item.componentProps} size={'small'}>
                   {item?.componentProps?.select &&
                     item?.options?.map((option: any) => (

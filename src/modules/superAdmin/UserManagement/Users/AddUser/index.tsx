@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { Grid } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 
 import { FormProvider, RHFSelect } from '@/components/ReactHookForm';
 
@@ -8,9 +8,11 @@ import CommonDrawer from '@/components/CommonDrawer';
 
 import {
   addUsersArray,
-  defaultValues,
+  superAdminDefaultValues,
+  companyOwnerDefaultValues,
   options,
-  validationSchema,
+  superAdminValidationSchema,
+  CompanyOwnerValidationSchema,
 } from './AddUser.data';
 
 import { useForm } from 'react-hook-form';
@@ -23,11 +25,16 @@ import { enqueueSnackbar } from 'notistack';
 
 const AddUser = ({ isOpenDrawer, onClose }: any) => {
   const [userType, setUserType] = useState();
-  const methods: any = useForm({
-    resolver: yupResolver(validationSchema),
-    defaultValues: defaultValues,
+  const superAdminMethods: any = useForm({
+    resolver: yupResolver(superAdminValidationSchema),
+    defaultValues: superAdminDefaultValues,
   });
-
+  const companyOwnerMethods: any = useForm({
+    resolver: yupResolver(CompanyOwnerValidationSchema),
+    defaultValues: companyOwnerDefaultValues,
+  });
+  const methods =
+    userType === 'SuperAdmin' ? superAdminMethods : companyOwnerMethods;
   const { handleSubmit, reset } = methods;
 
   const onSubmit = async () => {
@@ -48,11 +55,13 @@ const AddUser = ({ isOpenDrawer, onClose }: any) => {
       footer
     >
       <FormProvider methods={methods}>
-        <Grid container spacing={4} sx={{ mt: '5px' }}>
+        <Grid container spacing={2} mt={1}>
           <Grid item xs={12}>
+            <Typography variant="body2" fontWeight={500}>
+              User Type
+            </Typography>
             <RHFSelect
               name="userType"
-              label="User Type"
               size={'small'}
               value={userType}
               onChange={(e: any) => setUserType(e.target.value)}
@@ -70,6 +79,14 @@ const AddUser = ({ isOpenDrawer, onClose }: any) => {
             return (
               item?.toShow?.includes(userType) && (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                  <Typography variant="body2" fontWeight={500}>
+                    {item?.title}
+                  </Typography>
+                  {item?.componentProps?.heading && (
+                    <Typography variant="h5">
+                      {item?.componentProps?.heading}
+                    </Typography>
+                  )}
                   <item.component {...item.componentProps} size={'small'}>
                     {item?.componentProps?.select &&
                       item?.options?.map((option: any) => (

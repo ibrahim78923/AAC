@@ -178,9 +178,9 @@ export const addUserDefault = {
 
 export const addUsersArrayData = [
   {
+    title: 'Select Product',
     componentProps: {
       name: 'productType',
-      label: 'Select Product',
       fullWidth: true,
       select: true,
     },
@@ -195,9 +195,9 @@ export const addUsersArrayData = [
     md: 5,
   },
   {
+    title: 'Select Company Account',
     componentProps: {
       name: 'companyAccount',
-      label: 'Select Company Account',
       fullWidth: true,
       select: true,
     },
@@ -209,27 +209,30 @@ export const addUsersArrayData = [
     md: 5,
   },
   {
+    title: 'Role Name',
     componentProps: {
       name: 'roleName',
-      label: 'Role Name',
+      placeholder: 'Role Name',
       fullWidth: true,
     },
     component: RHFTextField,
     md: 5,
   },
   {
+    title: 'Description',
     componentProps: {
       name: 'desc',
-      label: 'Description',
+      placeholder: 'Description',
       fullWidth: true,
     },
     component: RHFTextField,
     md: 5,
   },
   {
+    title: 'Default User',
     componentProps: {
       name: 'defaultUser',
-      label: 'Default User',
+      placeholder: 'Default User',
       fullWidth: true,
     },
     component: RHFTextField,
