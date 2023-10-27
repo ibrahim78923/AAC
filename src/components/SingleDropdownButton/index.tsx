@@ -34,10 +34,10 @@ export const SingleDropdownButton = (props: any) => {
         onClose={handleClose}
         sx={{ padding: 2 }}
       >
-        {dropdownOptions?.map((x: any) => (
+        {dropdownOptions?.map((singleOption: any) => (
           <MenuItem
             key={uuidv4()}
-            onClick={() => x?.handleClick?.(handleClose)}
+            onClick={() => singleOption?.handleClick?.(handleClose)}
             sx={{
               '&.MuiMenuItem-root': {
                 marginBottom: { md: 0.5 },
@@ -50,7 +50,7 @@ export const SingleDropdownButton = (props: any) => {
               color={theme?.palette?.grey?.[600]}
               fontWeight={500}
             >
-              {x?.title}{' '}
+              {singleOption?.title}{' '}
             </Typography>
           </MenuItem>
         ))}

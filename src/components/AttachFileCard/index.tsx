@@ -51,7 +51,7 @@ export const AttachFileCard = ({ data }: any) => {
           }}
         >
           <CloseIcon
-            sx={{ color: theme?.palette?.common?.white, fontSize: '14px' }}
+            sx={{ color: theme?.palette?.common?.white, fontSize: '.8rem' }}
           />
         </IconButton>
       </Box>

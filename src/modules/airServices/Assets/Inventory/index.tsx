@@ -16,7 +16,7 @@ function Inventory() {
     router,
     isDrawerOpen,
     renderComponent,
-    openDrawer,
+    // openDrawer,
     openDeleteModal,
     setOpenDeleteModal,
     searchValue,
@@ -80,7 +80,7 @@ function Inventory() {
             color="secondary"
             variant="outlined"
             startIcon={<CustomizeSharedIcon />}
-            onClick={() => openDrawer('customize')}
+            // onClick={() => openDrawer('customize')}
           >
             Customize
           </Button>
@@ -88,7 +88,7 @@ function Inventory() {
             color="secondary"
             variant="outlined"
             startIcon={<FilterSharedIcon />}
-            onClick={() => openDrawer('filter')}
+            // onClick={() => openDrawer('filter')}
           >
             Filter
           </Button>

@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
-import ContractOverview from './Components/ContractOverview';
-import ContractUtilization from './Components/ContractUtilization';
-import UsageActivity from './Components/UsageActivity';
+import ContractOverview from './ContractOverview';
+import ContractUtilization from './ContractUtilization';
+import UsageActivity from './UsageActivity';
 import { styles } from './Overview.style';
 import {
   contractUtilizationData,

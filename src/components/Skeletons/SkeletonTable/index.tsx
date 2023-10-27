@@ -3,7 +3,7 @@ import { Box, Skeleton, useTheme } from '@mui/material';
 import { styles } from './SkeletonTable.style';
 
 const SkeletonTable = () => {
-  const theme: any = useTheme(); // for too small logic we do not make hooks.
+  const theme: any = useTheme();
 
   return (
     <Box>

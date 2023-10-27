@@ -6,7 +6,7 @@ import React from 'react';
 
 import { AlertModals } from '@/components/AlertModals';
 import { enqueueSnackbar } from 'notistack';
-import { SoftwareEdit } from './SoftwareEdit';
+import { UpsertSoftware } from '../../UpsertSoftware';
 
 export default function Header() {
   const {
@@ -85,10 +85,7 @@ export default function Header() {
           message="Are you sure  want to delete this Software ?"
         />
       )}
-      <SoftwareEdit
-        isDrawerOpen={isDrawerOpen}
-        setIsDrawerOpen={setIsDrawerOpen}
-      />
+      <UpsertSoftware isDrawerOpen={isDrawerOpen} onClose={setIsDrawerOpen} />
     </>
   );
 }
