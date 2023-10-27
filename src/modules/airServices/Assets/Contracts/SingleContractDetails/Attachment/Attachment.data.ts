@@ -1,3 +1,5 @@
+import { placeImage } from '@/assets/images';
+
 export const attachmentFileData = [
   {
     name: 'Picture.pdf',
@@ -14,6 +16,7 @@ export const attachmentFileData = [
     name: 'Picture.png',
     size: '12KB',
     type: 'png',
+    image: placeImage,
   },
   {
     name: 'Picture.xls',

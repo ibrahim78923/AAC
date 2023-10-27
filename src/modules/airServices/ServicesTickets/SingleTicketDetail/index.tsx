@@ -1,6 +1,6 @@
-import { SingleTicketDetailTabs } from './SingleTicketDetailTabs';
-import { DetailCard } from './DetailCard';
-import Header from './Header';
+import { DetailCard } from './SingleTicketDetailsComponents/DetailCard';
+import Header from './SingleTicketDetailsComponents/Header';
+import { SingleTicketDetailTabs } from './SingleTicketDetailsComponents/SingleTicketDetailTabs';
 
 export const SingleTicketDetail = () => {
   return (
