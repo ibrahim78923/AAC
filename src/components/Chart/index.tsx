@@ -1,7 +1,7 @@
 import dynamic from 'next/dynamic';
 import { ChartStyle } from '.';
 import { CustomChartPropsI } from './Chart.interface';
-import { baroptions } from './Chart.utils';
+import { baroptions } from './Chart.data';
 
 const ReactApexChart = dynamic(() => import('react-apexcharts'), {
   ssr: false,

@@ -1,5 +1,4 @@
 import NoData from '@/components/NoData';
-import NoAssociationFound from '@/assets/images/modules/LogitechMouse/association.png';
 import { Fragment, useState } from 'react';
 import { approvalsDataArray, approvalsStatusObj } from './Approvals.data';
 import { Avatar, Box, Button, Grid, Typography, useTheme } from '@mui/material';
@@ -13,6 +12,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import { ApproveForm } from './ApproveForm';
 import { RejectForm } from './RejectForm';
 import { enqueueSnackbar } from 'notistack';
+import { NoAssociationFound } from '@/assets/images';
 
 export const Approvals = () => {
   const theme: any = useTheme();
@@ -20,12 +20,12 @@ export const Approvals = () => {
   const [approveDialog, setApproveDialog] = useState(false);
   const [rejectDialog, setRejectDialog] = useState(false);
 
-  const Received = 'Received';
-  const RequestSent = 'RequestSent';
+  const RECEIVED = 'Received';
+  const REQUEST_SENT = 'RequestSent';
 
   return (
     <Fragment>
-      {approvalsDataArray.length <= 0 ? (
+      {approvalsDataArray?.length <= 0 ? (
         <NoData
           image={NoAssociationFound}
           message={
@@ -34,7 +34,7 @@ export const Approvals = () => {
         >
           <Button
             variant="outlined"
-            sx={{ backgroundColor: theme.palette.grey[400] }}
+            sx={{ backgroundColor: theme?.palette?.grey?.[400] }}
             startIcon={<AddCircleIcon />}
             onClick={() => setOpenDialog(true)}
           >
@@ -61,7 +61,7 @@ export const Approvals = () => {
               alignItems={'center'}
               mt={2}
               p={2}
-              border={`1px solid ${theme?.palette?.grey[200]}`}
+              border={`1px solid ${theme?.palette?.grey?.[200]}`}
               boxShadow={2}
               borderRadius={2}
             >
@@ -89,9 +89,9 @@ export const Approvals = () => {
                     gap={0.5}
                     my={1}
                     color={
-                      theme['palette'][
+                      theme?.['palette']?.[
                         `${approvalsStatusObj?.(item?.status)?.color}`
-                      ]['main']
+                      ]?.['main']
                     }
                   >
                     {approvalsStatusObj?.(item?.status)?.message}
@@ -101,7 +101,7 @@ export const Approvals = () => {
                 </Box>
               </Grid>
               <Grid item xs={12} md={4} textAlign={'end'}>
-                {item?.status === Received && (
+                {item?.status === RECEIVED && (
                   <Fragment>
                     <Button
                       variant="outlined"
@@ -122,7 +122,7 @@ export const Approvals = () => {
                     </Button>
                   </Fragment>
                 )}
-                {item?.status === RequestSent && (
+                {item?.status === REQUEST_SENT && (
                   <Fragment>
                     <Button
                       variant="outlined"
