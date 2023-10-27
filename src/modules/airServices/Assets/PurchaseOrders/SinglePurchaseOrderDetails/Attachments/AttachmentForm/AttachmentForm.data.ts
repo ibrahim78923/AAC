@@ -1,8 +1,9 @@
 import * as Yup from 'yup';
 
-export const attachmentFormDefaultFormValues = {
+export const defaultValues = {
   attachments: null,
 };
-export const attachmentFormSchemaFunction: any = Yup.object().shape({
-  attachments: Yup.mixed().nullable(),
+
+export const validationSchema: any = Yup?.object()?.shape({
+  attachments: Yup?.mixed()?.nullable()?.required('Select a File!'),
 });

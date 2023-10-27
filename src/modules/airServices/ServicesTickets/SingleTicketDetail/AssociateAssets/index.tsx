@@ -1,9 +1,9 @@
-import { AssociatesListsTableView } from './AssociatesLists';
+import { AssociatesLists } from './AssociatesLists';
 
 export const AssociateAssets = () => {
   return (
     <>
-      <AssociatesListsTableView />
+      <AssociatesLists />
     </>
   );
 };

@@ -1,4 +1,4 @@
-import { v4 as uuid } from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 import { AvatarImage } from '@/assets/images';
 import { useTheme } from '@mui/material/styles';
 import {
@@ -294,7 +294,7 @@ export const ticketsListsColumnFunction: any = (
           inputProps={{ 'aria-label': 'Without label' }}
         >
           {options?.map(({ value, label }: { value: any; label: string }) => (
-            <MenuItem key={uuid()} value={value}>
+            <MenuItem key={uuidv4()} value={value}>
               {label}
             </MenuItem>
           ))}
@@ -332,7 +332,7 @@ export const ticketsListsColumnFunction: any = (
         >
           {StatusOptions?.map(
             ({ value, label }: { value: any; label: string }) => (
-              <MenuItem key={uuid()} value={value}>
+              <MenuItem key={uuidv4()} value={value}>
                 {label}
               </MenuItem>
             ),
@@ -364,7 +364,7 @@ export const ticketsListsColumnFunction: any = (
         >
           {priorityOptions?.map(
             ({ value, label }: { value: any; label: string }) => (
-              <MenuItem key={uuid()} value={value}>
+              <MenuItem key={uuidv4()} value={value}>
                 {label}
               </MenuItem>
             ),

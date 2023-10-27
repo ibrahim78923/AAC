@@ -1,10 +1,10 @@
 import { Box } from '@mui/material';
-import TanstackTable from '@/components/Tabel/TanstackTable';
+import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
 import { Button } from '@mui/material';
 import { FilterSharedIcon, CustomizeSharedIcon } from '@/assets/icons';
 import { enqueueSnackbar } from 'notistack';
-import { PageTitledHeader } from '../../common/Headers/PageTitledHeader/index';
+import { PageTitledHeader } from '../../../../components/PageTitledHeader/index';
 import { AlertModals } from '@/components/AlertModals';
 import { useInventory } from './useInventory';
 // import { FilterInventory } from './FilterInventory';
@@ -16,7 +16,7 @@ function Inventory() {
     router,
     isDrawerOpen,
     renderComponent,
-    openDrawer,
+    // openDrawer,
     openDeleteModal,
     setOpenDeleteModal,
     searchValue,
@@ -80,7 +80,7 @@ function Inventory() {
             color="secondary"
             variant="outlined"
             startIcon={<CustomizeSharedIcon />}
-            onClick={() => openDrawer('customize')}
+            // onClick={() => openDrawer('customize')}
           >
             Customize
           </Button>
@@ -88,7 +88,7 @@ function Inventory() {
             color="secondary"
             variant="outlined"
             startIcon={<FilterSharedIcon />}
-            onClick={() => openDrawer('filter')}
+            // onClick={() => openDrawer('filter')}
           >
             Filter
           </Button>

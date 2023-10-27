@@ -1,4 +1,4 @@
-import TanstackTable from '@/components/Tabel/TanstackTable';
+import TanstackTable from '@/components/Table/TanstackTable';
 import { tasksTableColumns, tasksTableData } from './Tasks.data';
 import { TaskDrawer } from './TasksDrawers';
 import { useTasks } from './useTasks';
@@ -46,8 +46,8 @@ export const Tasks = () => {
         onClose={setIsDetailDrawerOpen}
         taskDetail={
           tasksTableData[
-            tasksTableData.findIndex(
-              (e: any) => e.taskID === isDetailDrawerOpen,
+            tasksTableData?.findIndex(
+              (e: any) => e?.taskID === isDetailDrawerOpen,
             )
           ]
         }

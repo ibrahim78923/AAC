@@ -7,7 +7,7 @@ import {
   DialogTitle,
   Typography,
 } from '@mui/material';
-import { checkModalTypeForImage } from './AlertModals.utils';
+import { checkModalTypeForImage } from './AlertModals.data';
 import CloseIcon from '@/assets/icons/shared/AlertModels/close-icon';
 
 export const AlertModals = ({
