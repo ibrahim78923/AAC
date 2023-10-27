@@ -15,6 +15,8 @@ import { filterFieldsManageDashboard } from './ManageDashboardFilter/ManageDashb
 import { useManageDashboard } from './useManageDashboard';
 import { styles } from './ManageDashboard.styles';
 import TanstackTable from '@/components/Table/TanstackTable';
+import Link from 'next/link';
+import { AIR_SERVICES } from '@/constants';
 
 export const ManageDashboard = () => {
   const {
@@ -44,14 +46,16 @@ export const ManageDashboard = () => {
                 Manage Dashboards
               </Typography>
             </Box>
-            <Button
-              startIcon={<AddIconWithBgWhiteIcon />}
-              variant="contained"
-              disableElevation
-              sx={styles(matches).createDashboardButton}
-            >
-              Create Dashboard
-            </Button>
+            <Link href={AIR_SERVICES.CREATE_DASHBOARD}>
+              <Button
+                startIcon={<AddIconWithBgWhiteIcon />}
+                variant="contained"
+                disableElevation
+                sx={styles(matches).createDashboardButton}
+              >
+                Create Dashboard
+              </Button>
+            </Link>
           </Box>
         </Grid>
         <Grid item xs={12}>

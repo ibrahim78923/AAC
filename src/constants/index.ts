@@ -8,4 +8,6 @@ export const SUPER_ADMIN: any = {
 export const AIR_SERVICES = {
   PURCHASE_ORDER: '/air-services/assets/purchase-orders',
   NEW_PURCHASE_ORDER: '/air-services/assets/purchase-orders/new-purchase',
+  CREATE_DASHBOARD: '/air-services/dashboard/create-dashboard',
+  MANAGE_DASHBOARD: '/air-services/dashboard/manage-dashboard',
 };
