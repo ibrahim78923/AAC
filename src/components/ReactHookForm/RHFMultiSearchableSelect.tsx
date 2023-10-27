@@ -96,7 +96,7 @@ export default function RHFMultiSearchableSelect({
                 size="small"
                 sx={{ marginBottom: '15px' }}
               />
-              {filteredOptions.map((option: any) => (
+              {filteredOptions?.map((option: any) => (
                 <Box
                   key={option.value}
                   onClick={() => {

@@ -3,8 +3,16 @@ import { useState } from 'react';
 import { useTheme } from '@mui/material';
 
 export const usePlanFeatures = () => {
+  const [openFeaturesModal, setOpenFeaturesModal] = useState(false);
+  const [featureName, setFeatureName] = useState('');
   const theme = useTheme();
 
+  const handleOpenFeaturesModal = () => {
+    setOpenFeaturesModal(true);
+  };
+  const handleCloseFeaturesModal = () => {
+    setOpenFeaturesModal(false);
+  };
   const [expandedAccordion, setExpandAccordion] = useState<string | false>(
     'plan-features-sales-accordion',
   );
@@ -18,5 +26,11 @@ export const usePlanFeatures = () => {
     theme,
     expandedAccordion,
     handleExpandAccordionChange,
+    openFeaturesModal,
+    setOpenFeaturesModal,
+    handleCloseFeaturesModal,
+    handleOpenFeaturesModal,
+    setFeatureName,
+    featureName,
   };
 };

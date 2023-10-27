@@ -21,7 +21,8 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "src/mock/modules/airSales/Deals/ImportDeals"
+    "src/mock/modules/airSales/Deals/ImportDeals",
+    "src/modules/superAdmin/PlanManagement/AddPlan/Forms/PlanFeatures/FeaturesModal/FeaturesModal.data.tsx"
   ],
   "exclude": ["node_modules"]
 }

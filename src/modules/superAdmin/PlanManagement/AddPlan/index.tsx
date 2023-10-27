@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, Switch, Typography } from '@mui/material';
 
 import AppHorizontalStepper from '@/components/Stepper';
 import { FormProvider } from '@/components/ReactHookForm';
@@ -8,21 +8,30 @@ import { FormProvider } from '@/components/ReactHookForm';
 import { useAddPlan } from './useAddPlan';
 
 import { ArrowLeft } from '@/assets/icons';
+import { enqueueSnackbar } from 'notistack';
 
 const AddPlan = () => {
   const {
     methods,
     activeStep,
     hanldeGoBack,
-    handleFormSubmit,
     addPlanFormValues,
+    handleCompleteStep,
     AddPlanStepperData,
     setAddPlanFormValues,
     hanldeGoPreviousBack,
   } = useAddPlan();
+  const { handleSubmit, reset } = methods;
 
+  const onSubmit = handleSubmit(async () => {
+    enqueueSnackbar('Dashboard Created Successfully', {
+      variant: 'success',
+    });
+    reset();
+  });
   return (
     <div>
+      <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple />
       <Box
         display={'flex'}
         alignItems={'center'}
@@ -33,7 +42,7 @@ const AddPlan = () => {
         <ArrowLeft />
         <Typography variant="h4">Add Plan</Typography>
       </Box>
-      <FormProvider methods={methods}>
+      <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
         <AppHorizontalStepper
           activeStep={activeStep}
           stepsArray={AddPlanStepperData}
@@ -61,10 +70,10 @@ const AddPlan = () => {
                   Back
                 </Button>
                 <Button
-                  // type="submit"
+                  type="button" // Use type="button" to prevent automatic form submission
                   variant="contained"
                   fullWidth
-                  onClick={handleFormSubmit}
+                  onClick={handleCompleteStep} // Call your form submission handler
                   disabled={activeStep === AddPlanStepperData?.length}
                 >
                   {activeStep === AddPlanStepperData?.length - 1

@@ -12,47 +12,50 @@ import { v4 as uuidv4 } from 'uuid';
 import { enqueueSnackbar } from 'notistack';
 import {
   defaultValues,
-  defaultValuesFunction,
   gpDetailsInfoFormSchema,
 } from './Forms/PlanForm/PlanForm.data';
+import { addPlanFormData } from '@/redux/slices/planManagement/planManagementSlice';
+import { useDispatch } from 'react-redux';
 
 export const useAddPlan = () => {
   const [addPlanFormValues, setAddPlanFormValues] = useState({});
   const [activeStep, setActiveStep] = useState(0);
 
   const router = useRouter();
-
+  const dispatch = useDispatch();
   const hanldeGoBack = () => {
     router.back();
   };
 
-  // Add Plan Form Method
   const methods: any = useForm({
     resolver: yupResolver(gpDetailsInfoFormSchema),
-    defaultValues: defaultValuesFunction(defaultValues),
+    defaultValues: defaultValues,
   });
 
-  const { handleSubmit } = methods;
+  const { handleSubmit, reset } = methods;
 
-  const onSubmit = async (values?: any) => {
-    setAddPlanFormValues(values);
-    // localStorage.setItem('addPlanFormsData', JSON.stringify(values));
-
-    // Add query parameter to URL
-    // router.push({ pathname: router.pathname, query: { submitted: true } });
-    enqueueSnackbar('Form Submitted', {
-      variant: 'success',
-    });
+  const handleCompleteStep = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    handleSubmit(async (values: any) => {
+      dispatch(addPlanFormData(values));
+      enqueueSnackbar('Plan Added Successfully', {
+        variant: 'success',
+      });
+      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      reset();
+    })();
+    if (activeStep == AddPlanStepperData?.length - 1) {
+      router.push('/super-admin/plan-management');
+      return;
+    }
   };
-
-  const handleFormSubmit = handleSubmit(onSubmit);
 
   const AddPlanStepperData = [
     {
       key: uuidv4(),
       label: 'Plan Form',
       component: <AddPlanForm />,
-      submit: true,
+
       componentProps: { addPlanFormValues, setAddPlanFormValues },
     },
     {
@@ -69,18 +72,6 @@ export const useAddPlan = () => {
     },
   ];
 
-  const handleCompleteStep = () => {
-    if (activeStep == AddPlanStepperData?.length - 1) {
-      router.push('/super-admin/plan-management');
-      return;
-    }
-    if (AddPlanStepperData[activeStep]?.submit) {
-      handleFormSubmit();
-    } else {
-      setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    }
-  };
-
   const hanldeGoPreviousBack = () => {
     if (activeStep === 0) {
       router.push('/super-admin/plan-management');
@@ -91,11 +82,11 @@ export const useAddPlan = () => {
 
   return {
     methods,
-    onSubmit,
+
     activeStep,
     handleSubmit,
     hanldeGoBack,
-    handleFormSubmit,
+
     addPlanFormValues,
     AddPlanStepperData,
     handleCompleteStep,

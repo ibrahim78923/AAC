@@ -1,22 +1,24 @@
 import * as Yup from 'yup';
-import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
+import {
+  RHFMultiSearchableSelect,
+  RHFSelect,
+  RHFTextField,
+} from '@/components/ReactHookForm';
 
 export const defaultValues = {
-  category: 'Category',
-  product: 'Products',
-  planType: 'Plan Type',
-  description: 'Description',
-  defaultUsers: 'User',
-  defaultStorage: '100',
-  planPrice: '55',
-  allowAdditionalUsers: 'User',
-  additionalPricePerUser: '20',
-  allowAdditionalStorage: 'Storage',
+  product: '',
+  planType: '',
+  description: '',
+  defaultUsers: '',
+  defaultStorage: '',
+  planPrice: '',
+  allowAdditionalUsers: '',
+  additionalPricePerUser: '',
+  allowAdditionalStorage: '',
   additionalStoragePrice: '',
 };
 
 export const gpDetailsInfoFormSchema: any = Yup.object().shape({
-  category: Yup.string().required('Required field'),
   product: Yup.string().required('Required field'),
   planType: Yup.string().required('Required field'),
   description: Yup.string()
@@ -56,7 +58,6 @@ export const gpDetailsInfoFormSchema: any = Yup.object().shape({
 
 export const defaultValuesFunction = (data: any = defaultValues) => {
   const {
-    category,
     product,
     planType,
     description,
@@ -69,7 +70,6 @@ export const defaultValuesFunction = (data: any = defaultValues) => {
     additionalStoragePrice,
   } = data;
   return {
-    category,
     product,
     planType,
     description,
@@ -83,19 +83,22 @@ export const defaultValuesFunction = (data: any = defaultValues) => {
   };
 };
 
-export const dataArray = (isFieldDisable = false) => [
+export const dataArray = () => [
   {
-    id: 1,
     componentProps: {
-      fullWidth: true,
       name: 'product',
       label: 'Product',
-      select: true,
-      disabled: isFieldDisable,
+      isCheckBox: true,
+      options: [
+        { value: 'airSales', label: 'Air Sales' },
+        { value: 'airMarketer', label: 'Air Marketer' },
+        { value: 'airOperations', label: 'Air Operations' },
+        { value: 'airServices', label: 'Air Services' },
+        { value: 'loyaltyProgram', label: 'Loyalty Program' },
+      ],
     },
-    options: [{ value: 'Products', label: 'Products' }],
-    gridLength: 6,
-    component: RHFSelect,
+
+    component: RHFMultiSearchableSelect,
     md: 6,
   },
   {
@@ -106,7 +109,7 @@ export const dataArray = (isFieldDisable = false) => [
       label: 'Plan Type',
       select: true,
     },
-    options: [{ value: 'Plan Type', label: 'Plan Type' }],
+    options: [{ image: '', value: 'Plan Type', label: 'Plan Type' }],
     component: RHFSelect,
     md: 6,
   },
