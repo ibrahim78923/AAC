@@ -3,7 +3,7 @@ import { useFormContext, Controller } from 'react-hook-form';
 // @mui
 import { Switch, FormControlLabel } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import CustomLabel from '../Label';
+import CustomLabel from '../CustomLabel';
 
 // ----------------------------------------------------------------------
 const AntSwitch = styled(Switch)(({ theme }) => ({

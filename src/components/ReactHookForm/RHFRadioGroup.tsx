@@ -8,7 +8,7 @@ import {
   FormHelperText,
   FormControlLabel,
 } from '@mui/material';
-import CustomLabel from '../Label';
+import CustomLabel from '../CustomLabel';
 
 // ----------------------------------------------------------------------
 
