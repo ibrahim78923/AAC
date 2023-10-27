@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { enqueueSnackbar } from 'notistack';
+import { AIR_SERVICES } from '@/constants';
 
 export const useAssetAssociateHeader = () => {
   const router = useRouter();
@@ -14,7 +15,7 @@ export const useAssetAssociateHeader = () => {
   };
   const handleAddAssociateAsset = () => {
     router.push({
-      pathname: '/air-services/assets/contracts/detail/add-associate-asset',
+      pathname: AIR_SERVICES?.ADD_ASSOCIATE_ASSET,
     });
   };
   return {

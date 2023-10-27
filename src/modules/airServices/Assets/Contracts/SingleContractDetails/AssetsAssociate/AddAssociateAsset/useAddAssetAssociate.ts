@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-import { enqueueSnackbar } from 'notistack';
 import { useTheme } from '@mui/material';
+import { enqueueSnackbar } from 'notistack';
+import { AIR_SERVICES } from '@/constants';
 
 export const useAddAssetAssociate = () => {
   const router = useRouter();
@@ -13,12 +14,12 @@ export const useAddAssetAssociate = () => {
       autoHideDuration: 2000,
     });
     router.push({
-      pathname: '/air-services/assets/contracts/detail',
+      pathname: AIR_SERVICES?.ASSETS_CONTRACTS_DETAIL,
     });
   };
   const handleCancelBtn = () => {
     router.push({
-      pathname: '/air-services/assets/contracts/detail',
+      pathname: AIR_SERVICES?.ASSETS_CONTRACTS_DETAIL,
     });
   };
   return {
