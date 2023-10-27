@@ -1,32 +1,28 @@
-import { Typography } from '@mui/material';
-import { existingProductsFields } from '../AddProduct.data';
-import SearchableSelect from '@/components/SearchableSelect';
-import { useForm } from 'react-hook-form';
+import { Grid } from '@mui/material';
+import { customFields } from './ExistingProducts.data';
+import { FormProvider } from '@/components/ReactHookForm';
+import { v4 as uuidv4 } from 'uuid';
 
-const ExistingProducts = () => {
-  const {
-    control,
-    formState: { errors },
-  } = useForm();
-
-  const renderCustomOption = (option: any) => {
-    return (
-      <Typography variant="h6">
-        {option.label} {option.name}
-      </Typography>
-    );
-  };
+const ExistingProducts = (props: any) => {
+  const { methods } = props;
 
   return (
-    <SearchableSelect
-      dropdownData={existingProductsFields}
-      renderOption={renderCustomOption}
-      name="Search candidate"
-      label="Search"
-      control={control}
-      rules={{ required: 'required field' }}
-      error={!!errors.message}
-    />
+    <FormProvider methods={methods}>
+      <Grid container spacing={4}>
+        {customFields?.map((item: any) => (
+          <Grid item xs={12} md={item?.md} key={uuidv4()}>
+            <item.component {...item.componentProps} size={'small'}>
+              {item?.componentProps?.select &&
+                item?.options?.map((option: any) => (
+                  <option key={option?.value} value={option?.value}>
+                    {option?.label}
+                  </option>
+                ))}
+            </item.component>
+          </Grid>
+        ))}
+      </Grid>
+    </FormProvider>
   );
 };
 

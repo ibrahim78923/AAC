@@ -1,3 +1,4 @@
+import React from 'react';
 export interface SingleStepI {
   key: string;
   label: string;
@@ -7,14 +8,14 @@ export interface HorizontalStepperI {
   stepsArray: SingleStepI[];
   addPlanFormValues?: any;
   setAddPlanFormValues?: React.Dispatch<React.SetStateAction<any>>;
+  activeStep?: number;
+  handleBack?: any;
+  handleNext?: any;
+  handleReset?: any;
+  stepperButtons: any;
   disableNextButton?: boolean;
-  variantNextButton?: 'text' | 'contained' | 'outlined';
-  nextButtonText?: string;
-  nextButtonFinishText?: string;
   stepperPadding?: string;
   stepperMargin?: string;
   cancelButton?: boolean;
   handleCancel?: () => void;
-  divider?: boolean;
 }
-// Test comment: file name samll to capital

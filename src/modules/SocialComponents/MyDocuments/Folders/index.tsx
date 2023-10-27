@@ -552,7 +552,7 @@ const Folders = (props: any) => {
           variant="body2"
           sx={{
             fontWeight: 500,
-            color: `${theme?.palette?.grey[400]}`,
+            color: `${theme?.palette?.grey[600]}`,
             paddingBottom: '5px',
           }}
         >

@@ -26,7 +26,7 @@ import { isNullOrEmpty } from '@/utils';
 
 import { LayoutI } from './Layout.interface';
 
-import { getLowerRoutes, getRoutes } from './Layout.data';
+import { getLowerRoutes, getRoutes, zeroPaddingRoutes } from './Layout.data';
 
 import { ArrowDownImage, ArrowUpImage, LogoImage } from '@/assets/images';
 
@@ -34,7 +34,7 @@ import { styles } from './Layout.style';
 
 import { v4 as uuidv4 } from 'uuid';
 
-const drawerWidth = 220;
+const drawerWidth = 236;
 const role = 'SUPER_ADMIN';
 
 const Layout = (props: LayoutI) => {
@@ -59,6 +59,8 @@ const Layout = (props: LayoutI) => {
       [linkKey]: !prevState[linkKey],
     }));
   };
+
+  const isZeroPaddingRoutes = zeroPaddingRoutes.includes(pathname);
 
   const drawer = (
     <>
@@ -113,7 +115,9 @@ const Layout = (props: LayoutI) => {
                               )}
                               onClick={() => toggleDropDown(link.key)}
                             >
-                              <ListItemIcon sx={{ minWidth: 20 }}>
+                              <ListItemIcon
+                                sx={{ minWidth: 20, marginRight: '10px' }}
+                              >
                                 <Image
                                   src={link.icon}
                                   alt="icons"
@@ -180,7 +184,9 @@ const Layout = (props: LayoutI) => {
                               theme,
                             )}
                           >
-                            <ListItemIcon sx={{ minWidth: 20 }}>
+                            <ListItemIcon
+                              sx={{ minWidth: 20, marginRight: '10px' }}
+                            >
                               <Image
                                 src={link.icon}
                                 alt={link.icon}
@@ -284,7 +290,7 @@ const Layout = (props: LayoutI) => {
                         </Collapse>
                       </>
                     ) : (
-                      <Link key={uuidv4()} href={`${link.key}`}>
+                      <Link key={uuidv4()} href={`/${link.key}`}>
                         <ListItem sx={{ padding: '6px 0px 6px 0px' }}>
                           <ListItemButton
                             sx={styles.mainNavLink(link, router, theme)}
@@ -348,7 +354,9 @@ const Layout = (props: LayoutI) => {
       </Box>
       <Box component="main" sx={styles.layoutBox(drawerWidth)}>
         <Toolbar />
-        <Box sx={styles.layoutInnerBox(theme)}>{children}</Box>
+        <Box sx={styles.layoutInnerBox(theme, isZeroPaddingRoutes)}>
+          {children}
+        </Box>
       </Box>
     </Box>
   );
