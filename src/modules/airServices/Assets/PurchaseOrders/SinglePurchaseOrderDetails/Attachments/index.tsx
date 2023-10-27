@@ -2,6 +2,7 @@ import { Grid } from '@mui/material';
 import { attachmentFileData } from './Attachment.data';
 import { AttachmentForm } from './AttachmentForm';
 import { AttachFileCard } from '@/components/AttachFileCard';
+import { v4 as uuidv4 } from 'uuid';
 
 export const Attachment = () => {
   return (
@@ -9,7 +10,7 @@ export const Attachment = () => {
       {!!attachmentFileData.length ? (
         <Grid container spacing={2}>
           {attachmentFileData.map((singleAttachment: any) => (
-            <Grid item xs={12} sm={6} lg={4}>
+            <Grid key={uuidv4()} item xs={12} sm={6} lg={4}>
               <AttachFileCard data={singleAttachment} />
             </Grid>
           ))}
