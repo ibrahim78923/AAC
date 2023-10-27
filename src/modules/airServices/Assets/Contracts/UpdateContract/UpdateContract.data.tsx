@@ -88,23 +88,4 @@ export const updateContractFormFields = [
     component: RHFSelect,
     md: 6,
   },
-
-  ,
-  // {
-  //   componentProps: {
-  //     variant: 'h5',
-  //   },
-  //   heading: 'Tenure of Contract',
-  //   gridLength: 12,
-  //   component: Typography,
-  // },
-
-  {
-    componentProps: {
-      variant: 'h5',
-    },
-
-    gridLength: 12,
-    component: Typography,
-  },
 ];

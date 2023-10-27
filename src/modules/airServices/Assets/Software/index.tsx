@@ -9,7 +9,7 @@ import { PageTitledHeader } from '../../../../components/PageTitledHeader/index'
 import useManage from '@/modules/airSales/Dashboard/Manage/useManage';
 import SoftwareFilter from './SoftwareFilter';
 import SoftwareAssignCategory from './SoftwareAssignCategory';
-import { AddSoftwareDrawer } from './AddSoftwareDrawer';
+import { UpsertSoftware } from './UpsertSoftware';
 import { useRouter } from 'next/router';
 
 function Software() {
@@ -91,8 +91,7 @@ function Software() {
         successMessage={'Assign Successfully'}
         setData={setAssignCategory}
       />
-
-      <AddSoftwareDrawer
+      <UpsertSoftware
         isDrawerOpen={isAddDrawerOpen}
         onClose={setIsAddDrawerOpen}
       />

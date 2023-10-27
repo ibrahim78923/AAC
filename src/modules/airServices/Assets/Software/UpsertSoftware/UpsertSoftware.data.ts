@@ -14,7 +14,7 @@ const typeOptions = [
   { value: 'Mobile', label: 'Mobile' },
 ];
 
-export const AddSoftwareValidationSchema = Yup.object().shape({
+export const upsertSoftwareFormValidationSchema = Yup.object().shape({
   name: Yup.string().required('Field is Required'),
   description: Yup.string(),
   status: Yup.string(),
@@ -24,7 +24,7 @@ export const AddSoftwareValidationSchema = Yup.object().shape({
   managedBy: Yup.string(),
 });
 
-export const AddSoftwareDefaultValues = {
+export const upsertSoftwareFormDefaultValues = {
   name: '', //1
   description: '', //2
   status: '', //3
@@ -34,7 +34,7 @@ export const AddSoftwareDefaultValues = {
   managedBy: '', //7
 };
 
-export const AddSoftwareFields = [
+export const upsertSoftwareFormFields = [
   {
     componentProps: {
       name: 'name',

@@ -8,6 +8,8 @@ export const PageTitledHeader = ({
   hasExport = false,
   addTitle,
   handleAction = () => {},
+  handleExcelExport,
+  handleCsvExport,
 }: any) => {
   const theme: any = useTheme();
 
@@ -32,7 +34,16 @@ export const PageTitledHeader = ({
               Import
             </Button>
           )}
-          {hasExport && <ExportButton />}
+          {hasExport && (
+            <ExportButton
+              handleExcelExport={() => {
+                handleExcelExport?.();
+              }}
+              handleCsvExport={() => {
+                handleCsvExport?.();
+              }}
+            />
+          )}
 
           <Button
             variant="contained"

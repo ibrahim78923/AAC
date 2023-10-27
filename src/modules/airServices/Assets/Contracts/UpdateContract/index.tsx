@@ -3,7 +3,7 @@ import { FormProvider, RHFDropZone } from '@/components/ReactHookForm';
 import { v4 as uuidv4 } from 'uuid';
 import { useUpdateContract } from './useUpdateContract';
 import { updateContractFormFields } from './UpdateContract.data';
-
+//TODO: the color used is not in theme yet.
 export const UpdateContract = () => {
   const {
     methods,

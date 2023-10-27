@@ -1,6 +1,6 @@
 import { useDrawingArea } from '@mui/x-charts';
 import { PieChart } from '@mui/x-charts/PieChart';
-import { StyledText, styles } from './UsageActivity.style';
+import { StyledText, styles } from './ContractUtilization.style';
 import { Box, Typography, useTheme } from '@mui/material';
 
 function TextLabel({ children }: { children: React.ReactNode }) {
@@ -32,18 +32,21 @@ const size = {
   height: 280,
 };
 
-function UsageActivity({ usageActivityLable, usageActivityData }: any) {
+function ContractUtilization({
+  contractUtilizationData,
+  contractUtilizationLabel,
+}: any) {
   const theme: any = useTheme();
   return (
     <>
       <Box sx={styles.mainBox(theme)}>
         <Typography sx={styles.heading}>
-          {usageActivityLable.heading}
+          {contractUtilizationLabel.heading}
         </Typography>
         <PieChart
           series={[
             {
-              data: usageActivityData,
+              data: contractUtilizationData,
               cx: styles.alignGraph.cx,
               cy: styles.alignGraph.cy,
               innerRadius: styles.alignGraph.innerRadius,
@@ -58,15 +61,21 @@ function UsageActivity({ usageActivityLable, usageActivityData }: any) {
           legend={{ hidden: true }}
           {...size}
         >
-          <NumberLabel>{usageActivityLable.numLabel}</NumberLabel>
-          <TextLabel>{usageActivityLable.textLabel} </TextLabel>
+          <NumberLabel>{contractUtilizationLabel.numLabel}</NumberLabel>
+          <TextLabel>{contractUtilizationLabel.textLabel} </TextLabel>
         </PieChart>
         <Box sx={styles.footerBox}>
           <Typography sx={styles.footerTypography}>
             <Box sx={styles.footerTypographyBox(theme)}>
-              {usageActivityLable.inactive}
+              {contractUtilizationLabel.inactive}
             </Box>
             Inactive
+          </Typography>
+          <Typography sx={styles.footerTypography}>
+            <Box sx={styles.footerTypographyBox(theme)}>
+              {contractUtilizationLabel.users}
+            </Box>
+            Users
           </Typography>
         </Box>
       </Box>
@@ -74,4 +83,4 @@ function UsageActivity({ usageActivityLable, usageActivityData }: any) {
   );
 }
 
-export default UsageActivity;
+export default ContractUtilization;

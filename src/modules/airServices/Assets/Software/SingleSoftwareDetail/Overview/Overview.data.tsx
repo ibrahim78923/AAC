@@ -1,4 +1,4 @@
-export const contractUtilizationLable = {
+export const contractUtilizationLabel = {
   numLabel: '3',
   textLabel: 'Purchased',
   heading: 'Contract Utilization',
@@ -11,7 +11,7 @@ export const contractUtilizationData = [
   { label: 'Status', value: 60, color: '#35456D' },
 ];
 
-export const usageActivityLable = {
+export const usageActivityLabel = {
   numLabel: '1',
   textLabel: 'Total Users',
   heading: 'Usage Activity',
@@ -22,7 +22,7 @@ export const usageActivityData = [
   { label: 'Users', value: 150, color: '#13F0D0' },
 ];
 
-export const contractOverviewLable = {
+export const contractOverviewLabel = {
   heading: 'Contract Overview',
   subHeading1: 'Total Contract Value',
   subHeading2: 'Upcoming Expiry',

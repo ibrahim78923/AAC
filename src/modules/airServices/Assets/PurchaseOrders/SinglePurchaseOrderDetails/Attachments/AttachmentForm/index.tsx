@@ -1,32 +1,35 @@
 import { FormProvider, RHFDropZone } from '@/components/ReactHookForm';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
-import {
-  attachmentFormDefaultFormValues,
-  attachmentFormSchemaFunction,
-} from './AttachmentForm.data';
+import { defaultValues, validationSchema } from './AttachmentForm.data';
 import { Button } from '@mui/material';
+import { enqueueSnackbar } from 'notistack';
 
-export const AttachmentForm = () => {
+export const AttachmentForm = ({ setAddAttachment }: any) => {
   const methods = useForm({
-    resolver: yupResolver(attachmentFormSchemaFunction),
-    defaultValues: attachmentFormDefaultFormValues,
+    resolver: yupResolver(validationSchema),
+    defaultValues,
   });
-  const submitAttachmentForm = () => {
-    // console.log(data);
+
+  const onSubmit = () => {
+    enqueueSnackbar('Attachment Added Successfully!', {
+      variant: 'success',
+    });
+    setAddAttachment(false);
   };
+
   return (
-    <>
-      <FormProvider
-        methods={methods}
-        onSubmit={methods.handleSubmit(submitAttachmentForm)}
+    <FormProvider methods={methods} onSubmit={methods.handleSubmit(onSubmit)}>
+      <RHFDropZone name="attachments" />
+      <Button
+        type="submit"
+        fullWidth
+        size="small"
+        variant="contained"
+        sx={{ mt: 2 }}
       >
-        <RHFDropZone name="attachments" />
-        <br />
-        <Button type="submit" fullWidth size="small" variant="contained">
-          Submit
-        </Button>
-      </FormProvider>
-    </>
+        Submit
+      </Button>
+    </FormProvider>
   );
 };
