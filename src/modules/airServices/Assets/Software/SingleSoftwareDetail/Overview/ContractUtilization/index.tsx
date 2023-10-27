@@ -34,14 +34,14 @@ const size = {
 
 function ContractUtilization({
   contractUtilizationData,
-  contractUtilizationLable,
+  contractUtilizationLabel,
 }: any) {
   const theme: any = useTheme();
   return (
     <>
       <Box sx={styles.mainBox(theme)}>
         <Typography sx={styles.heading}>
-          {contractUtilizationLable.heading}
+          {contractUtilizationLabel.heading}
         </Typography>
         <PieChart
           series={[
@@ -61,19 +61,19 @@ function ContractUtilization({
           legend={{ hidden: true }}
           {...size}
         >
-          <NumberLabel>{contractUtilizationLable.numLabel}</NumberLabel>
-          <TextLabel>{contractUtilizationLable.textLabel} </TextLabel>
+          <NumberLabel>{contractUtilizationLabel.numLabel}</NumberLabel>
+          <TextLabel>{contractUtilizationLabel.textLabel} </TextLabel>
         </PieChart>
         <Box sx={styles.footerBox}>
           <Typography sx={styles.footerTypography}>
             <Box sx={styles.footerTypographyBox(theme)}>
-              {contractUtilizationLable.inactive}
+              {contractUtilizationLabel.inactive}
             </Box>
             Inactive
           </Typography>
           <Typography sx={styles.footerTypography}>
             <Box sx={styles.footerTypographyBox(theme)}>
-              {contractUtilizationLable.users}
+              {contractUtilizationLabel.users}
             </Box>
             Users
           </Typography>
