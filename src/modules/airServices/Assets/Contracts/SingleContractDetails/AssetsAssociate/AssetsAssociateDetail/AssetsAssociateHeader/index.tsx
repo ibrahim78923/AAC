@@ -1,7 +1,7 @@
 import { Box, Button } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { AlertModals } from '@/components/AlertModals';
-import { useAssetAssociate } from '../../useAssetAssociate';
+import { useAssetAssociateHeader } from './useAssetAssociateHeader';
 
 export const AssetsAssociateHeader = ({ activeCheck }: any) => {
   const {
@@ -9,7 +9,7 @@ export const AssetsAssociateHeader = ({ activeCheck }: any) => {
     setOpenDeleteModal,
     handleDeleteSubmit,
     handleAddAssociateAsset,
-  } = useAssetAssociate();
+  } = useAssetAssociateHeader();
   return (
     <>
       <Box

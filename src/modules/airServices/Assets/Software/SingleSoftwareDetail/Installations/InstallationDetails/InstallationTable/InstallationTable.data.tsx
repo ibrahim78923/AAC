@@ -1,11 +1,10 @@
-import { Checkbox, useTheme } from '@mui/material';
+import { Checkbox } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 
 export const InstallationTableColumns: any = (
   activeCheck: any,
   setActiveCheck: any,
 ) => {
-  const theme = useTheme();
   return [
     {
       accessorFn: (row: any) => row.Id,
@@ -53,11 +52,7 @@ export const InstallationTableColumns: any = (
     {
       accessorFn: (row: any) => row.installationMachine,
       id: 'installationMachine',
-      cell: (info: any) => (
-        <span style={{ color: theme?.palette?.blue?.dull_blue }}>
-          {info.getValue()}
-        </span>
-      ),
+      cell: (info: any) => info.getValue(),
       header: 'Installation Machine',
     },
     {

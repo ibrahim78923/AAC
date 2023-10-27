@@ -1,9 +1,9 @@
 import { AssetsAssociateTable } from './AssetsAssociateTable';
 import { AssetsAssociateHeader } from './AssetsAssociateHeader';
-import { useAssetAssociate } from '../useAssetAssociate';
+import { useAssetsAssociateDetail } from './useAssetsAssociateDetail';
 
 export const AssetsAssociateDetail = () => {
-  const { activeCheck, setActiveCheck } = useAssetAssociate();
+  const { activeCheck, setActiveCheck } = useAssetsAssociateDetail();
   return (
     <>
       <AssetsAssociateHeader activeCheck={activeCheck} />
