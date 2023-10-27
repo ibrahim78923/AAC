@@ -12,6 +12,7 @@ import {
 } from './FeaturesModal.data';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { v4 as uuidv4 } from 'uuid';
+import { usePlanFeatures } from '../usePlanFeatures';
 
 const style = {
   position: 'absolute' as const,
@@ -31,6 +32,7 @@ export default function FeaturesModal({
   featureName,
 }: any) {
   const theme = useTheme();
+  const { setFeatureDetail } = usePlanFeatures();
   const methods: any = useForm({
     resolver: yupResolver(validationSchemaFeatures),
 
@@ -39,11 +41,13 @@ export default function FeaturesModal({
 
   const { handleSubmit } = methods;
 
-  const onSubmit = async () => {
-    enqueueSnackbar('Ticket Updated Successfully', {
+  const onSubmit = async (values: any) => {
+    setFeatureDetail(values);
+    enqueueSnackbar('Details Added Successfully', {
       variant: 'success',
     });
   };
+
   return (
     <div>
       <Modal
@@ -82,6 +86,7 @@ export default function FeaturesModal({
               <Button
                 className="small"
                 variant="outlined"
+                onClick={handleCloseFeaturesModal}
                 sx={{
                   border: `1px solid ${theme?.palette?.custom?.dark}`,
                   color: theme?.palette?.custom?.main,

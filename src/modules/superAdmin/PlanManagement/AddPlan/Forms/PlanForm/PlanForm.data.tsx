@@ -13,7 +13,7 @@ export const defaultValues = {
   defaultStorage: '',
   planPrice: '',
   allowAdditionalUsers: '',
-  additionalPricePerUser: '',
+  additionalPerUserPrice: '',
   allowAdditionalStorage: '',
   additionalStoragePrice: '',
 };
@@ -46,7 +46,7 @@ export const gpDetailsInfoFormSchema: any = Yup.object().shape({
     .min(1, 'Mininum 1 characters')
     .max(12, 'max is 12'),
   allowAdditionalUsers: Yup.string().required('Required field'),
-  additionalPricePerUser: Yup.string()
+  additionalPerUserPrice: Yup.string()
     .matches(/^[0-9]*$/, 'must be a number')
     .required('Required field')
     .min(1, 'Mininum 1 characters')
@@ -68,7 +68,7 @@ export const defaultValuesFunction = (data: any = defaultValues) => {
     defaultStorage,
     planPrice,
     allowAdditionalUsers,
-    additionalPricePerUser,
+    additionalPerUserPrice,
     allowAdditionalStorage,
     additionalStoragePrice,
   } = data;
@@ -80,7 +80,7 @@ export const defaultValuesFunction = (data: any = defaultValues) => {
     defaultStorage,
     planPrice,
     allowAdditionalUsers,
-    additionalPricePerUser,
+    additionalPerUserPrice,
     allowAdditionalStorage,
     additionalStoragePrice,
   };
@@ -174,7 +174,7 @@ export const dataArray = () => [
   {
     id: 8,
     componentProps: {
-      name: 'additionalPricePerUser',
+      name: 'additionalPerUserPrice',
       label: 'Additional Per User Price',
       fullWidth: true,
     },

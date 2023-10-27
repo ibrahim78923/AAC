@@ -16,6 +16,8 @@ import {
 } from './Forms/PlanForm/PlanForm.data';
 import { addPlanFormData } from '@/redux/slices/planManagement/planManagementSlice';
 import { useDispatch } from 'react-redux';
+import { persistStore } from 'redux-persist';
+import store from '@/redux/store';
 
 export const useAddPlan = () => {
   const [addPlanFormValues, setAddPlanFormValues] = useState({});
@@ -32,21 +34,36 @@ export const useAddPlan = () => {
     defaultValues: defaultValues,
   });
 
-  const { handleSubmit, reset } = methods;
+  // const handlePlanSubmit = handleSubmit(onSubmit);
+
+  const persistor = persistStore(store);
+
+  const methodsPlan: any = useForm({
+    resolver: yupResolver(gpDetailsInfoFormSchema),
+    defaultValues: defaultValues,
+  });
+  const { handleSubmit, onSubmit, reset } = methodsPlan;
+
+  // console.log("addPlanFormValues-----------> ", addPlanFormValues);
+
+  const onSubmitPlan = async (values: any) => {
+    // console.log("addPlanFormValues=======> ", addPlanFormValues);
+    dispatch(addPlanFormData(values));
+    // console.log(values)
+    enqueueSnackbar('Dashboard Created Successfully', {
+      variant: 'success',
+    });
+    reset();
+  };
+
+  const handlePlanForm = handleSubmit(onSubmitPlan);
 
   const handleCompleteStep = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    handleSubmit(async (values: any) => {
-      dispatch(addPlanFormData(values));
-      enqueueSnackbar('Plan Added Successfully', {
-        variant: 'success',
-      });
-      setActiveStep((prevActiveStep) => prevActiveStep + 1);
-      reset();
-    })();
+    handlePlanForm();
+
     if (activeStep == AddPlanStepperData?.length - 1) {
-      alert('Safasf');
-      localStorage.removeItem('persist');
+      reset();
+      persistor.purge();
       router.push('/super-admin/plan-management');
       return;
     }
@@ -56,7 +73,14 @@ export const useAddPlan = () => {
     {
       key: uuidv4(),
       label: 'Plan Form',
-      component: <AddPlanForm />,
+      component: (
+        <AddPlanForm
+          addPlanFormValues={addPlanFormValues}
+          setAddPlanFormValues={setAddPlanFormValues}
+          methods={methodsPlan}
+          handleSubmit={handlePlanForm}
+        />
+      ),
 
       componentProps: { addPlanFormValues, setAddPlanFormValues },
     },
@@ -88,7 +112,7 @@ export const useAddPlan = () => {
     activeStep,
     handleSubmit,
     hanldeGoBack,
-
+    onSubmit,
     addPlanFormValues,
     AddPlanStepperData,
     handleCompleteStep,

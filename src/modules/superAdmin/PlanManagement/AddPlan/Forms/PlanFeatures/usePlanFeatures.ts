@@ -4,6 +4,7 @@ import { useTheme } from '@mui/material';
 
 export const usePlanFeatures = () => {
   const [openFeaturesModal, setOpenFeaturesModal] = useState(false);
+  const [featureDetail, setFeatureDetail] = useState('');
   const [featureName, setFeatureName] = useState('');
   const theme = useTheme();
 
@@ -32,5 +33,7 @@ export const usePlanFeatures = () => {
     handleOpenFeaturesModal,
     setFeatureName,
     featureName,
+    featureDetail,
+    setFeatureDetail,
   };
 };
