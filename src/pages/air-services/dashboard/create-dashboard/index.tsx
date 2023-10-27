@@ -1,6 +1,5 @@
 import Layout from '@/layout';
-import CreateDashboard from '@/modules/airSales/Dashboard/CreateDashboard';
-import React from 'react';
+import { CreateDashboard } from '@/modules/airServices/Dashboard/CreateDashboard';
 
 const AirServicesCreateDashboard = () => {
   return <CreateDashboard />;

@@ -10,7 +10,6 @@ import {
   Button,
   FormControl,
   FormControlLabel,
-  FormLabel,
   Grid,
   Radio,
   RadioGroup,
@@ -20,6 +19,7 @@ import {
 import Image from 'next/image';
 import { useForm } from 'react-hook-form';
 import { dashboardCheckboxData } from './CreateDashboard.data';
+import GitHubLabel from './SearchableMultiSelect';
 
 export const CreateDashboard = () => {
   const theme = useTheme();
@@ -30,10 +30,10 @@ export const CreateDashboard = () => {
       dashboardItems: [],
     },
   });
-  // const submitCreateDashboardFilterForm = async () => {};
-  // const resetCreateDashboardFilterForm = async () => {
-  //   methodsCreateDashboardFilterForm?.reset();
-  // };
+  const submitCreateDashboardFilterForm = async () => {};
+  const resetCreateDashboardFilterForm = async () => {
+    methodsCreateDashboardFilterForm?.reset();
+  };
   return (
     <>
       <FormProvider methods={methodsCreateDashboardFilterForm}>
@@ -63,26 +63,45 @@ export const CreateDashboard = () => {
             <Box display="flex" justifyContent="space-between">
               <div>
                 <FormControl>
-                  <FormLabel id="demo-radio-buttons-group-label">
-                    Gender
-                  </FormLabel>
+                  <Typography
+                    variant="h6"
+                    fontWeight={600}
+                    color="slateblue.main"
+                  >
+                    Who can access this dashboard?
+                  </Typography>
                   <RadioGroup
                     aria-labelledby="demo-radio-buttons-group-label"
-                    defaultValue=""
-                    name="radio-buttons-group"
+                    name="access"
                   >
                     <FormControlLabel
-                      value="female"
+                      value="Private to owner (me)"
                       control={<Radio />}
                       label="Private to owner (me)"
                     />
                     <FormControlLabel
-                      value="male"
+                      value="Everyone"
                       control={<Radio />}
                       label="Everyone"
                     />
+                    <Box sx={{ ml: '15px' }}>
+                      <Box>
+                        <FormControlLabel
+                          value="View and edit"
+                          control={<Radio />}
+                          label="View and edit"
+                        />
+                      </Box>
+                      <Box>
+                        <FormControlLabel
+                          value="View only"
+                          control={<Radio />}
+                          label="View only"
+                        />
+                      </Box>
+                    </Box>
                     <FormControlLabel
-                      value="other"
+                      value="Only specific user and teams"
                       control={<Radio />}
                       label="Only specific user and teams"
                     />
@@ -97,6 +116,7 @@ export const CreateDashboard = () => {
                 />
               </div>
             </Box>
+            <GitHubLabel />
             <Typography variant="h6" fontWeight={600} color="slateblue.main">
               Use the checkboxes to remove/add any report you want
             </Typography>
@@ -146,7 +166,7 @@ export const CreateDashboard = () => {
               fontWeight: '500',
               '&:hover': { bgcolor: theme.palette.grey[400] },
             }}
-            onClick={() => {}}
+            onClick={resetCreateDashboardFilterForm}
           >
             Cancel
           </Button>
@@ -157,7 +177,7 @@ export const CreateDashboard = () => {
               height: '44px',
               fontWeight: '500',
             }}
-            onClick={() => {}}
+            onClick={submitCreateDashboardFilterForm}
             type="submit"
           >
             Create

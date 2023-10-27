@@ -27,10 +27,7 @@ export const manageDashboardsDataColumns = (): any => [
     isSortable: true,
     cell: (info: any) => (
       <Box sx={{ display: 'flex', gap: '8px' }}>
-        <Avatar
-          alt={info?.getValue()?.name}
-          src={'/static/images/avatar/1.jpg'}
-        >
+        <Avatar alt={info?.getValue()?.name}>
           <Image
             src={info?.getValue()?.src || info?.getValue()?.name}
             alt={info?.getValue()?.name}
