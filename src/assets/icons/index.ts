@@ -143,3 +143,4 @@ export { default as MessageDullIcon } from './modules/SocialComponents/Calling/m
 export { default as ClearIcon } from './modules/SocialComponents/Calling/clear';
 export { default as PhoneGreenIcon } from './modules/SocialComponents/Calling/phone-green';
 export { default as TimeClockIcon } from './modules/airSales/deals/time-clock';
+export { default as AirPlaneIcon } from './shared/airplane';
