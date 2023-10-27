@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 
-import { Grid, Typography } from '@mui/material';
+import { Box, Grid, InputAdornment, Typography } from '@mui/material';
 
-import { FormProvider, RHFSelect } from '@/components/ReactHookForm';
+import {
+  FormProvider,
+  RHFSelect,
+  RHFTextField,
+} from '@/components/ReactHookForm';
 
 import CommonDrawer from '@/components/CommonDrawer';
 
@@ -22,9 +26,13 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { v4 as uuidv4 } from 'uuid';
 
 import { enqueueSnackbar } from 'notistack';
+import { EraserIcon } from '@/assets/icons';
+import BorderColorIcon from '@mui/icons-material/BorderColor';
+import useToggle from '@/hooks/useToggle';
 
 const AddUser = ({ isOpenDrawer, onClose }: any) => {
   const [userType, setUserType] = useState();
+  const [isToggled, toggle] = useToggle(false);
   const superAdminMethods: any = useForm({
     resolver: yupResolver(superAdminValidationSchema),
     defaultValues: superAdminDefaultValues,
@@ -87,6 +95,42 @@ const AddUser = ({ isOpenDrawer, onClose }: any) => {
                       {item?.componentProps?.heading}
                     </Typography>
                   )}
+                  {item?.componentProps?.name === 'address' && (
+                    <Box
+                      sx={{
+                        backgroundColor: '',
+                        position: 'relative',
+                        right: 0,
+                      }}
+                    >
+                      <InputAdornment
+                        sx={{
+                          position: 'absolute',
+                          top: 20,
+                          right: 15,
+                          zIndex: 9999,
+                        }}
+                        position="end"
+                      >
+                        <Box
+                          sx={{
+                            display: 'flex',
+                            gap: '10px',
+                            alignItems: 'center',
+                          }}
+                        >
+                          <EraserIcon />
+                          <BorderColorIcon
+                            onClick={() => {
+                              toggle(true);
+                            }}
+                            sx={{ cursor: 'pointer', fontSize: '20px' }}
+                          />
+                        </Box>
+                      </InputAdornment>
+                    </Box>
+                  )}
+
                   <item.component {...item.componentProps} size={'small'}>
                     {item?.componentProps?.select &&
                       item?.options?.map((option: any) => (
@@ -100,6 +144,63 @@ const AddUser = ({ isOpenDrawer, onClose }: any) => {
             );
           })}
         </Grid>
+
+        {isToggled && (
+          <Grid container spacing={2} sx={{ paddingTop: '1rem' }}>
+            <Grid item xs={12}>
+              <RHFTextField
+                name="unit"
+                label="Flat/Unit"
+                fullWidth={true}
+                select={false}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <RHFTextField
+                name="buildingName"
+                label="Building Name"
+                fullWidth={true}
+                select={false}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <RHFTextField
+                name="buildingNumber"
+                label="Building Number"
+                fullWidth={true}
+                select={false}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <RHFTextField
+                name="streetName"
+                label="Street Name"
+                fullWidth={true}
+                select={false}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <RHFTextField
+                name="city"
+                label="Town/City"
+                fullWidth={true}
+                select={false}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <RHFSelect
+                name="country"
+                label="Country"
+                fullWidth={true}
+                select={true}
+                options={[
+                  { value: 'United Kingdom', label: 'United Kingdom' },
+                  { value: 'United Kingdom', label: 'United Kingdom' },
+                ]}
+              />
+            </Grid>
+          </Grid>
+        )}
       </FormProvider>
     </CommonDrawer>
   );
