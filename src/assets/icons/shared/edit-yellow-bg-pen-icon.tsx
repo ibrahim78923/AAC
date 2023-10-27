@@ -1,4 +1,4 @@
-const EditBluePen = () => {
+const EditYellowPenIcon = () => {
   return (
     <svg
       width="24"
@@ -15,4 +15,4 @@ const EditBluePen = () => {
   );
 };
 
-export default EditBluePen;
+export default EditYellowPenIcon;

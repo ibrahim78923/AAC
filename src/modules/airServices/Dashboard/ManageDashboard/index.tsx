@@ -1,5 +1,8 @@
-import { FilterSharedIcon, ViewDetailBackArrowIcon } from '@/assets/icons';
-import AddIconWithBg from '@/assets/icons/shared/add-icon-with-bg-white';
+import {
+  FilterSharedIcon,
+  ViewDetailBackArrowIcon,
+  AddIconWithBgWhiteIcon,
+} from '@/assets/icons';
 import Search from '@/components/Search';
 import { Box, Button, Grid, Typography } from '@mui/material';
 import {
@@ -42,7 +45,7 @@ export const ManageDashboard = () => {
               </Typography>
             </Box>
             <Button
-              startIcon={<AddIconWithBg />}
+              startIcon={<AddIconWithBgWhiteIcon />}
               variant="contained"
               disableElevation
               sx={styles(matches).createDashboardButton}

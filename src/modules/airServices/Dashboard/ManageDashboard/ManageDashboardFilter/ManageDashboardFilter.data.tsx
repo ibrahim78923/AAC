@@ -3,13 +3,13 @@ import { dashboardsData } from '../ManageDashboard.data';
 
 // filter options data
 const dashboardNameOptions = dashboardsData.map((item: any) => ({
-  label: item.dashboardName,
-  value: item.dashboardName,
+  label: item?.dashboardName,
+  value: item?.dashboardName,
 }));
 
 const ownerOptions = dashboardsData.map((item: any) => ({
-  label: item.owner.name,
-  value: item.owner.name,
+  label: item?.owner?.name,
+  value: item?.owner?.name,
 }));
 
 const accessRightsOptions = [

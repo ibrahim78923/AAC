@@ -1,84 +1,86 @@
-import { EyeIcon } from '@/assets/icons';
+import { EyeRedIcon, EditYellowPenIcon } from '@/assets/icons';
 import { UserAvatarImage } from '@/assets/images';
 import { AntSwitch } from '@/components/ReactHookForm/RHFSwitch';
 import { Avatar, Box, Typography } from '@mui/material';
 import Image from 'next/image';
-import EditBluePen from '@/assets/images/modules/orgAdmin/organization/edit-blue-pen';
 import { DeleteDashboardModal } from './DeleteDashboardModal';
 
 export const manageDashboardsDataColumns = (): any => [
   {
-    accessorFn: (row: any) => row.dashboardName,
+    accessorFn: (row: any) => row?.dashboardName,
     id: 'dashboardName',
-    cell: (info: any) => <span>{info?.getValue()}</span>,
-    header: <span>Dashboard Name</span>,
+    cell: (info: any) => info?.getValue(),
+    header: <Typography>Dashboard Name</Typography>,
     isSortable: true,
   },
   {
-    accessorFn: (row: any) => row.default,
+    accessorFn: (row: any) => row?.default,
     id: 'default',
     isSortable: true,
-    header: <span>Default</span>,
+    header: <Typography>Default</Typography>,
     cell: (info: any) => <AntSwitch checked={info?.getValue()} />,
   },
   {
-    accessorFn: (row: any) => row.owner,
+    accessorFn: (row: any) => row?.owner,
     id: 'owner',
-    header: <span>Owner</span>,
+    header: <Typography>Owner</Typography>,
     isSortable: true,
     cell: (info: any) => (
       <Box sx={{ display: 'flex', gap: '8px' }}>
-        <Avatar alt={info.getValue().name} src={'/static/images/avatar/1.jpg'}>
+        <Avatar
+          alt={info?.getValue()?.name}
+          src={'/static/images/avatar/1.jpg'}
+        >
           <Image
-            src={info.getValue().src || info.getValue().name}
-            alt={info.getValue().name}
+            src={info?.getValue()?.src || info?.getValue()?.name}
+            alt={info?.getValue()?.name}
             layout="fill"
           />
         </Avatar>
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
           <Typography variant="body4" color="blue.dull_blue">
-            {info.getValue().name}
+            {info?.getValue()?.name}
           </Typography>
           <Typography variant="body3" color="custom.light">
-            {info.getValue().email}
+            {info?.getValue()?.email}
           </Typography>
         </Box>
       </Box>
     ),
   },
   {
-    accessorFn: (row: any) => row.accessRights,
+    accessorFn: (row: any) => row?.accessRights,
     id: 'accessRights',
     isSortable: true,
-    header: <span>Access Rights</span>,
-    cell: (info: any) => info.getValue(),
+    header: <Typography>Access Rights</Typography>,
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.lastViewed,
+    accessorFn: (row: any) => row?.lastViewed,
     id: 'lastViewed',
     isSortable: true,
-    header: <span>Last Viewed</span>,
-    cell: (info: any) => info.getValue(),
+    header: <Typography>Last Viewed</Typography>,
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.lastUpdated,
+    accessorFn: (row: any) => row?.lastUpdated,
     id: 'lastUpdated',
     isSortable: true,
-    header: <span>Last Updated</span>,
-    cell: (info: any) => info.getValue(),
+    header: <Typography>Last Updated</Typography>,
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.actions,
+    accessorFn: (row: any) => row?.actions,
     id: 'actions',
     isSortable: true,
-    header: <span>Actions</span>,
+    header: <Typography>Actions</Typography>,
     cell: (info: any) => (
       <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-        <Box sx={{ cursor: 'pointer' }} onClick={() => info.getValue()}>
-          <EyeIcon />
+        <Box sx={{ cursor: 'pointer' }} onClick={() => info?.getValue()}>
+          <EyeRedIcon />
         </Box>
         <Box sx={{ cursor: 'pointer' }}>
-          <EditBluePen />
+          <EditYellowPenIcon />
         </Box>
         <DeleteDashboardModal />
       </Box>

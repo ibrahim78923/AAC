@@ -1,4 +1,4 @@
-import { ExampleDashboard } from '@/assets/images';
+import { ExampleDashboardImage } from '@/assets/images';
 import {
   FormProvider,
   RHFMultiCheckbox,
@@ -126,9 +126,9 @@ export const CreateDashboard = () => {
               </Typography>
               <Box sx={{ pointerEvents: 'none', userSelect: 'none' }}>
                 <Image
-                  src={ExampleDashboard}
+                  src={ExampleDashboardImage}
                   style={{ pointerEvents: 'none', userSelect: 'none' }}
-                  alt={'ExampleDashboard'}
+                  alt={'ExampleDashboardImage'}
                 />
               </Box>
               <div></div>
