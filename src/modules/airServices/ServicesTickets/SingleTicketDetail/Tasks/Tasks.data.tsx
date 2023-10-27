@@ -122,7 +122,7 @@ export const tasksTableData: any = [
     Id: 2,
     taskID: `# TSK - 6`,
     taskName: 'Search migration modelling',
-    dueDate: '?.?.?.?.?.?.?.',
+    dueDate: '.......',
     assignedTo: 'Esther Howard',
     status: 'In-Progress',
   },
