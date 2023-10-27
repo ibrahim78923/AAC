@@ -1,20 +1,21 @@
 import CommonDrawer from '@/components/CommonDrawer';
 import DrawerForm from './DrawerForm';
-import { useContractsForm } from './useContractsForm';
+import { useContractsDrawerForm } from './useContractsDrawerForm';
 
 const ContractsDrawerForm = (props: any) => {
   const { isDrawerOpen, setIsDrawerOpen } = props;
-  const { methodsDrawerFormForm } = useContractsForm();
+  const { methodsDrawerFormForm } = useContractsDrawerForm();
 
   return (
     <>
       <CommonDrawer
-        footer={false}
+        // footer={false}
         isDrawerOpen={isDrawerOpen}
         onClose={() => setIsDrawerOpen(false)}
         title="Filters"
         okText="Send"
-        isOk={false}
+        isOk
+        // isOk={true}
       >
         <DrawerForm
           methods={methodsDrawerFormForm}

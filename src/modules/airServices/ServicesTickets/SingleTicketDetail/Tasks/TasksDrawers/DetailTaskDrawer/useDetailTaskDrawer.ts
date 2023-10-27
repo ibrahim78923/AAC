@@ -6,7 +6,7 @@ export const useDetailTaskDrawer = () => {
   const [drawerStatusPop, setDrawerStatusPop] =
     useState<HTMLButtonElement | null>(null);
   const handleStatusClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setDrawerStatusPop(event.currentTarget);
+    setDrawerStatusPop(event?.currentTarget);
   };
   const handleStatusClose = () => {
     setDrawerStatusPop(null);

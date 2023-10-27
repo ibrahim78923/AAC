@@ -24,7 +24,7 @@ export const EditTaskDrawer: React.FC<EditTaskDrawerI> = ({
         <TasksDrawersForm
           submitTicket={submitEditTicket}
           methods={methodsEditTicketForm}
-          handleSubmit={methodsEditTicketForm.handleSubmit}
+          handleSubmit={methodsEditTicketForm?.handleSubmit}
         />
       </CommonDrawer>
     </>

@@ -58,7 +58,7 @@ const AddDevice = () => {
               }}
             >
               <Button
-                onClick={() => methods.reset()}
+                onClick={() => methods?.reset()}
                 variant="outlined"
                 color="secondary"
               >

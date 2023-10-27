@@ -8,7 +8,7 @@ export const useTasksHeader = () => {
     useState<HTMLButtonElement | null>(null);
   const [deleteModal, setDeleteModal] = useState<boolean>(false);
   const handleActionClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setActionPop(event.currentTarget);
+    setActionPop(event?.currentTarget);
   };
   const handleActionClose = () => {
     setActionPop(null);
@@ -16,7 +16,7 @@ export const useTasksHeader = () => {
   const openAction = Boolean(actionPop);
 
   const handleActionExportClick = (event: any) => {
-    setActionExportPop(event.currentTarget);
+    setActionExportPop(event?.currentTarget);
   };
   const handleActionExportClose = () => {
     setActionExportPop(null);

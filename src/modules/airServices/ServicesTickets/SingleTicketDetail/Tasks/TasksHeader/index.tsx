@@ -45,7 +45,7 @@ export const TasksHeader = ({
           sx={styles?.actionBtn(theme)}
           endIcon={<ActionButtonIcon />}
           disableElevation
-          disabled={!!!activeCheck.length}
+          disabled={!!!activeCheck?.length}
           onClick={handleActionClick}
         >
           Action

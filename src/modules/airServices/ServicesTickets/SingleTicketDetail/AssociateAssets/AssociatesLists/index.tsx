@@ -18,19 +18,20 @@ export const AssociatesLists = () => {
     submitDeleteModel,
     openDrawer,
     setOpenDrawer,
+    theme,
   } = useAssociatesLists();
   return (
     <>
       <br />
       <PageTitledHeader
         title={'Associations'}
-        addTitle={'  Add Associations'}
+        addTitle={'Add Associations'}
         handleAction={() => setOpenDrawer(true)}
       />
 
       <br />
       <TanstackTable
-        columns={associatesListsColumnFunction(setDeleteModal)}
+        columns={associatesListsColumnFunction(setDeleteModal, theme)}
         data={associatesListsData}
       />
       <AlertModals

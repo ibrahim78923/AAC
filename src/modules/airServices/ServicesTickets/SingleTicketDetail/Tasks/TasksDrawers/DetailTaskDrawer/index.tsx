@@ -51,8 +51,8 @@ export const DetailTaskDrawer: React.FC<DetailTaskDrawerI> = ({
         <Button
           sx={
             drawerStatusVal
-              ? styles.valStyle(drawerStatusVal, theme)
-              : styles.taskDetailStyle(taskDetailStatus, theme)
+              ? styles?.valStyle(drawerStatusVal, theme)
+              : styles?.taskDetailStyle(taskDetailStatus, theme)
           }
           endIcon={<ActionButtonIcon />}
           onClick={handleStatusClick}
@@ -74,7 +74,7 @@ export const DetailTaskDrawer: React.FC<DetailTaskDrawerI> = ({
             return (
               <MenuItem
                 key={uuidv4()}
-                onClick={() => handleStatusItemClick(i.status)}
+                onClick={() => handleStatusItemClick(i?.status)}
                 sx={styles?.statusOptionStyle(statusOption, theme)}
               >
                 {i?.status}

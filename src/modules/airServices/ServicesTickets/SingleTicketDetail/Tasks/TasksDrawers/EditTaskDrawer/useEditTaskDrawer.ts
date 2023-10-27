@@ -12,7 +12,7 @@ export const useEditTaskDrawer = () => {
   });
   const submitEditTicket = async () => {};
   const drawerSubmitHandler = () => {
-    methodsEditTicketForm.handleSubmit(submitEditTicket)();
+    methodsEditTicketForm?.handleSubmit(submitEditTicket)();
   };
   return {
     methodsEditTicketForm,

@@ -5,23 +5,23 @@ export const styles: any = {
   tableStatusStyle: (statusValue: any, theme: any) => ({
     border: `1px solid ${
       statusValue === TO_DO
-        ? theme.palette.primary.main
+        ? theme?.palette?.primary?.main
         : statusValue === IN_PROGRESS
-        ? theme.palette.custom.bright
-        : theme.palette.error.main
+        ? theme?.palette?.custom?.bright
+        : theme?.palette?.error?.dark
     }`,
     backgroundColor:
       statusValue === TO_DO
-        ? theme.palette.primary.lighter
+        ? theme?.palette?.primary?.lighter
         : statusValue === IN_PROGRESS
-        ? '#E6F7F9'
-        : '#FFEDED',
+        ? theme?.palette?.custom?.aqua_breeze
+        : theme?.palette?.error?.lighter,
     color:
       statusValue === TO_DO
-        ? theme.palette.primary.main
+        ? theme?.palette?.primary?.main
         : statusValue === IN_PROGRESS
-        ? theme.palette.custom.bright
-        : theme.palette.error.main,
+        ? theme?.palette?.custom?.bright
+        : theme?.palette?.error?.dark,
     padding: '8px 18px',
     borderRadius: '4px',
     fontWeight: 500,

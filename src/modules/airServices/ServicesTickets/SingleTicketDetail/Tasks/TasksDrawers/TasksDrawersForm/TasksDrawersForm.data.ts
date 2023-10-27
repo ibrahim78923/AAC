@@ -7,18 +7,18 @@ import {
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
-export const TaskTicketFormValidationSchema = Yup.object().shape({
-  title: Yup.string().required('Field is Required'),
-  description: Yup.string(),
-  department: Yup.string().required('Field is Required'),
-  assignTo: Yup.string(),
-  status: Yup.string(),
-  notifyBefore: Yup.string(),
-  plannedStartDate: Yup.date(),
-  plannedStartTime: Yup.date(),
-  plannedEndDate: Yup.date(),
-  plannedEndTime: Yup.date(),
-  plannedEffort: Yup.string(),
+export const TaskTicketFormValidationSchema = Yup?.object()?.shape({
+  title: Yup?.string()?.required('Field is Required'),
+  description: Yup?.string(),
+  department: Yup?.string()?.required('Field is Required'),
+  assignTo: Yup?.string(),
+  status: Yup?.string(),
+  notifyBefore: Yup?.string(),
+  plannedStartDate: Yup?.date(),
+  plannedStartTime: Yup?.date(),
+  plannedEndDate: Yup?.date(),
+  plannedEndTime: Yup?.date(),
+  plannedEffort: Yup?.string(),
 });
 
 export const TaskTicketFormDefaultValues = {

@@ -1,10 +1,10 @@
-import { useState } from 'react';
 import { Grid } from '@mui/material';
 import Search from '@/components/Search';
 import { DrawerTable } from './DrawerTable';
+import { useAssociationsDrawerDetail } from './useAssociationsDrawerDetail';
 
 export const AssociationsDrawerDetail = () => {
-  const [DrawerData, setDrawerData] = useState([]);
+  const { DrawerData, setDrawerData, theme } = useAssociationsDrawerDetail();
 
   return (
     <Grid container>
@@ -18,7 +18,11 @@ export const AssociationsDrawerDetail = () => {
         />
       </Grid>
       <Grid item xs={12} mt={'16px'}>
-        <DrawerTable DrawerData={DrawerData} setDrawerData={setDrawerData} />
+        <DrawerTable
+          DrawerData={DrawerData}
+          setDrawerData={setDrawerData}
+          theme={theme}
+        />
       </Grid>
     </Grid>
   );

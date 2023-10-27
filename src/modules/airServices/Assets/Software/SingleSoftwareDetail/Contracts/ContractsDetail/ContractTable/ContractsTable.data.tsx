@@ -1,40 +1,40 @@
 export const contractsTableColumns: any = () => {
   return [
     {
-      accessorFn: (row: any) => row.contractName,
+      accessorFn: (row: any) => row?.contractName,
       id: 'contractName',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
       header: 'Contract Name',
     },
     {
-      accessorFn: (row: any) => row.licenseType,
+      accessorFn: (row: any) => row?.licenseType,
       id: 'licenseType',
       header: 'License Type',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row.noOfLicenses,
+      accessorFn: (row: any) => row?.noOfLicenses,
       id: 'noOfLicenses',
       header: 'No of Licenses',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row.status,
+      accessorFn: (row: any) => row?.status,
       id: 'status',
       header: 'Status',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row.createdDate,
+      accessorFn: (row: any) => row?.createdDate,
       id: 'createdDate',
       header: 'Created Date',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row.expiryDate,
+      accessorFn: (row: any) => row?.expiryDate,
       id: 'expiryDate',
       header: 'Expiry Date',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
   ];
 };

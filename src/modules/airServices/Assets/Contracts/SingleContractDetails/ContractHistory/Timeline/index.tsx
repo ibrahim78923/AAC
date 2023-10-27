@@ -2,7 +2,7 @@ import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { Box, Button, Divider, IconButton, Typography } from '@mui/material';
 import { useTheme } from '@mui/material';
 
-export const ActivityTimeline = ({ activityData }: any) => {
+export const Timeline = ({ data }: any) => {
   const theme = useTheme();
   return (
     <>
@@ -15,7 +15,7 @@ export const ActivityTimeline = ({ activityData }: any) => {
       >
         <Typography variant="body3" sx={{ flex: 0.15 }}>
           {' '}
-          {activityData?.date}
+          {data?.date}
         </Typography>
         <IconButton
           disabled
@@ -33,10 +33,10 @@ export const ActivityTimeline = ({ activityData }: any) => {
             color="primary"
             marginRight={0.3}
           >
-            {activityData?.status}
+            {data?.status}
           </Typography>
           <Typography variant="body2" fontWeight={600}>
-            {activityData?.description}
+            {data?.description}
           </Typography>
           <Box
             display={'flex'}
@@ -56,7 +56,7 @@ export const ActivityTimeline = ({ activityData }: any) => {
                 },
               }}
             >
-              Cost: {activityData?.cost}
+              Cost: {data?.cost}
             </Button>
             <Button
               size="small"
@@ -70,7 +70,7 @@ export const ActivityTimeline = ({ activityData }: any) => {
                 },
               }}
             >
-              createdBy : {activityData?.createdBy}
+              createdBy : {data?.createdBy}
             </Button>
           </Box>
         </Box>

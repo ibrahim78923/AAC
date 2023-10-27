@@ -11,7 +11,7 @@ export const useAddTaskDrawer = () => {
   });
   const submitCreateNewTicket = async () => {};
   const drawerSubmitHandler = () => {
-    methodsCreateNewTicketForm.handleSubmit(submitCreateNewTicket)();
+    methodsCreateNewTicketForm?.handleSubmit(submitCreateNewTicket)();
   };
   return {
     methodsCreateNewTicketForm,

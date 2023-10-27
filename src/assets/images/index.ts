@@ -93,3 +93,4 @@ export { default as AssetsReceivedImage } from '../../assets/images/modules/Logi
 export { default as ItemStatusImage } from './modules/purchaseOrder/receipt-search.png';
 export { default as TotalItemImage } from './modules/purchaseOrder/money-tick.png';
 export { default as ItemToInventoryImage } from './modules/purchaseOrder/info-circle.png';
+export { default as NoAssociationFound } from '@/assets/images/modules/LogitechMouse/association.png';

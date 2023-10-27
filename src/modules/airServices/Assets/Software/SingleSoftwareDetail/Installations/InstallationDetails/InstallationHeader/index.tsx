@@ -26,7 +26,7 @@ export const InstallationHeader = ({ activeCheck }: any) => {
           <Button
             color="secondary"
             variant="outlined"
-            disabled={!!!activeCheck.length}
+            disabled={!!!activeCheck?.length}
             onClick={() => setDeleteModal(true)}
           >
             Remove Device

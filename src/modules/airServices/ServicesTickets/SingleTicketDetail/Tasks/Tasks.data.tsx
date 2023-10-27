@@ -10,40 +10,40 @@ export const tasksTableColumns: any = (
   const theme = useTheme();
   return [
     {
-      accessorFn: (row: any) => row.Id,
+      accessorFn: (row: any) => row?.Id,
       id: 'Id',
       cell: (info: any) => (
         <Checkbox
           icon={<CheckboxIcon />}
           checkedIcon={<CheckboxCheckedIcon />}
           checked={
-            !!activeCheck.find((item: any) => item.Id === info.getValue())
+            !!activeCheck?.find((item: any) => item?.Id === info?.getValue())
           }
           onChange={(e: any) => {
-            e.target.checked
+            e?.target?.checked
               ? setActiveCheck([
                   ...activeCheck,
-                  tasksTableData.find(
-                    (item: any) => item.Id === info.getValue(),
+                  tasksTableData?.find(
+                    (item: any) => item?.Id === info?.getValue(),
                   ),
                 ])
               : setActiveCheck(
-                  activeCheck.filter((item: any) => {
-                    return item.Id !== info.getValue();
+                  activeCheck?.filter((item: any) => {
+                    return item?.Id !== info?.getValue();
                   }),
                 );
           }}
           color="primary"
-          name={info.getValue()}
+          name={info?.getValue()}
         />
       ),
       header: (
         <Checkbox
           icon={<CheckboxIcon />}
           checkedIcon={<CheckboxCheckedIcon />}
-          checked={activeCheck.length === tasksTableData.length}
+          checked={activeCheck?.length === tasksTableData?.length}
           onChange={(e: any) => {
-            e.target.checked
+            e?.target?.checked
               ? setActiveCheck([...tasksTableData])
               : setActiveCheck([]);
           }}
@@ -53,56 +53,56 @@ export const tasksTableColumns: any = (
       ),
     },
     {
-      accessorFn: (row: any) => row.taskID,
+      accessorFn: (row: any) => row?.taskID,
       id: 'TaskID',
       cell: (info: any) => (
         <Typography
           variant="body4"
           sx={{ color: theme?.palette?.custom?.bright, cursor: 'pointer' }}
           onClick={() => {
-            setIsDetailDrawerOpen(info.getValue(), true);
+            setIsDetailDrawerOpen(info?.getValue(), true);
           }}
         >
-          {info.getValue()}
+          {info?.getValue()}
         </Typography>
       ),
       header: 'Task ID',
       isSortable: true,
     },
     {
-      accessorFn: (row: any) => row.taskName,
+      accessorFn: (row: any) => row?.taskName,
       id: 'taskName',
       isSortable: true,
       header: 'Task Name',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row.dueDate,
+      accessorFn: (row: any) => row?.dueDate,
       id: 'dueDate',
       isSortable: true,
       header: 'Due Date',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row.assignedTo,
+      accessorFn: (row: any) => row?.assignedTo,
       id: 'assignedTo',
       isSortable: true,
       header: 'Assigned To',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row.status,
+      accessorFn: (row: any) => row?.status,
       id: 'status',
       isSortable: true,
       header: 'Status',
       cell: (info: any) => {
-        const statusValue = info.getValue();
+        const statusValue = info?.getValue();
         return (
           <Typography
             variant="body2"
             sx={styles?.tableStatusStyle(statusValue, theme)}
           >
-            {info.getValue()}
+            {info?.getValue()}
           </Typography>
         );
       },

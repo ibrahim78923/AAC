@@ -9,23 +9,23 @@ import {
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
-export const validationSchema = Yup.object().shape({
-  requester: Yup.string().required('Field is Required'),
-  subject: Yup.string().trim().required('Field is Required'),
-  description: Yup.string(),
-  category: Yup.string(),
-  status: Yup.string().required('Field is Required'),
-  priority: Yup.string().required('Field is Required'),
-  department: Yup.string(),
-  source: Yup.string(),
-  impact: Yup.string(),
-  agent: Yup.string(),
-  plannedStartDate: Yup.date(),
-  plannedStartTime: Yup.date(),
-  plannedEndDate: Yup.date(),
-  plannedEndTime: Yup.date(),
-  plannedEffort: Yup.mixed(),
-  attachFile: Yup.mixed().nullable(),
+export const validationSchema = Yup?.object()?.shape({
+  requester: Yup?.string()?.required('Field is Required'),
+  subject: Yup?.string()?.trim()?.required('Field is Required'),
+  description: Yup?.string(),
+  category: Yup?.string(),
+  status: Yup?.string()?.required('Field is Required'),
+  priority: Yup?.string()?.required('Field is Required'),
+  department: Yup?.string(),
+  source: Yup?.string(),
+  impact: Yup?.string(),
+  agent: Yup?.string(),
+  plannedStartDate: Yup?.date(),
+  plannedStartTime: Yup?.date(),
+  plannedEndDate: Yup?.date(),
+  plannedEndTime: Yup?.date(),
+  plannedEffort: Yup?.mixed(),
+  attachFile: Yup?.mixed()?.nullable(),
 });
 
 export const defaultValues = {
