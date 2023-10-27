@@ -18,14 +18,14 @@ import { AirSalesCategories } from './PlanFeatures.data';
 import FeaturesModal from './FeaturesModal';
 import { AddPlusPrimaryIcon } from '@/assets/icons';
 import { useAppSelector } from '@/redux/store';
-
+import { FormProvider } from '@/components/ReactHookForm';
 interface CheckboxItem {
   name: string;
   desc: string;
   checked: boolean;
 }
 
-const PlanFeatures: React.FC = () => {
+const PlanFeatures = ({ methods, handleSubmit }: any) => {
   const {
     theme,
     openFeaturesModal,
@@ -49,6 +49,7 @@ const PlanFeatures: React.FC = () => {
 
   return (
     <div>
+      <FormProvider methods={methods} onSubmit={handleSubmit}></FormProvider>
       {planManagement?.addPlanForm?.product?.map((feature: string) => (
         <Accordion
           expanded={expandedAccordion === feature}
