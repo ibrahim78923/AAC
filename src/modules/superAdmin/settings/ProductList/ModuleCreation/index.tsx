@@ -55,6 +55,7 @@ const ModuleCreation = () => {
     setSubModuleData,
     setIsShowSubModule,
     handelModalProperties,
+    setIsShowRights,
   );
   const getSubModuleColumns = subModuleColumns(
     setRightsData,

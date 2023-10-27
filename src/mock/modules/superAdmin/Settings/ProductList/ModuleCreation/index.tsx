@@ -31,13 +31,13 @@ export const moduleCreationData = [
     moduleName: 'General',
     createdDate: '12-July-2023',
     createdBy: 'John',
-    status: 'active',
+    status: 'inactive',
     subModule: [
       {
         subModuleId: '8514785',
         subModuleName: 'General',
         createdDate: '12-july-2023',
-        createdBy: 'Jhon',
+        createdBy: 'Mark',
         status: 'active',
         rights: [
           {
@@ -46,7 +46,7 @@ export const moduleCreationData = [
             rightId: '4582',
             rightName: 'General',
             createdDate: '12-july-2023',
-            createdBy: 'Jhon',
+            createdBy: 'Sara',
             status: 'active',
           },
         ],

@@ -1,5 +1,5 @@
 import { EditPenBorderedIcon } from '@/assets/icons';
-import { Box, useTheme } from '@mui/material';
+import { Box, Switch, useTheme } from '@mui/material';
 import { styles } from './ModuleCreation.style';
 
 import { RHFTextField } from '@/components/ReactHookForm';
@@ -73,8 +73,10 @@ export const moduleCreationColumns = (
   setSubModuleData: any,
   setIsShowSubModule: any,
   handelModalProperties: any,
+  setIsShowRights: any,
 ) => {
   const theme = useTheme();
+  const label = { inputProps: { 'aria-label': 'Switch demo' } };
   return [
     {
       accessorFn: (row: any) => row.moduleID,
@@ -84,6 +86,7 @@ export const moduleCreationColumns = (
           sx={styles.tableLink(theme)}
           onClick={() => {
             setSubModuleData(info.row.original.subModule);
+            setIsShowRights('');
             setIsShowSubModule(true);
           }}
         >
@@ -119,7 +122,17 @@ export const moduleCreationColumns = (
       id: 'status',
       isSortable: true,
       header: 'Status',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => (
+        // console.log("info.getValue()",info.row.original.status)
+        <Box>
+          <Switch
+            {...label}
+            defaultChecked={
+              info.row.original.status === 'active' ? true : false
+            }
+          />
+        </Box>
+      ),
     },
     {
       id: 'status',
@@ -146,6 +159,7 @@ export const subModuleColumns = (
   handelModalProperties: any,
 ) => {
   const theme = useTheme();
+  const label = { inputProps: { 'aria-label': 'Switch demo' } };
   return [
     {
       accessorFn: (row: any) => row.subModuleId,
@@ -190,10 +204,19 @@ export const subModuleColumns = (
       id: 'status',
       isSortable: true,
       header: 'Status',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => (
+        <Box>
+          <Switch
+            {...label}
+            defaultChecked={
+              info.row.original.status === 'active' ? true : false
+            }
+          />
+        </Box>
+      ),
     },
     {
-      id: 'status',
+      id: 'actions',
       isSortable: true,
       header: 'Actions',
       cell: (info: any) => (
@@ -212,6 +235,7 @@ export const subModuleColumns = (
   ];
 };
 export const rightsColumns = (handelModalProperties: any) => {
+  const label = { inputProps: { 'aria-label': 'Switch demo' } };
   return [
     {
       accessorFn: (row: any) => row.moduleName,
@@ -260,7 +284,16 @@ export const rightsColumns = (handelModalProperties: any) => {
       id: 'status',
       isSortable: true,
       header: 'Status',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => (
+        <Box>
+          <Switch
+            {...label}
+            defaultChecked={
+              info.row.original.status === 'active' ? true : false
+            }
+          />
+        </Box>
+      ),
     },
     {
       accessorFn: (row: any) => row.status,
