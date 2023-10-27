@@ -1,13 +1,13 @@
 import { RHFEditor, RHFSelect, RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
-export const upsertFolderValidationSchema = Yup.object().shape({
+export const validationSchema = Yup.object().shape({
   name: Yup.string().required('Field is Required'),
   description: Yup.string(),
   visible: Yup.string().trim().required('Field is Required'),
 });
 
-export const upsertFolderDefaultValues = {
+export const defaultValues = {
   name: '',
   description: '',
   visible: '',
