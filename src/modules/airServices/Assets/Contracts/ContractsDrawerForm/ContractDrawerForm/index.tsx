@@ -3,7 +3,7 @@ import { FormProvider } from '@/components/ReactHookForm';
 import { contractDrawerFormFields } from './ContractDrawerForm.data';
 import { v4 as uuidv4 } from 'uuid';
 
-function contractDrawerForm({ submitDrawerForm, methods, handleSubmit }: any) {
+function ContractDrawerForm({ submitDrawerForm, methods, handleSubmit }: any) {
   return (
     <Box mt={1}>
       <FormProvider methods={methods} onSubmit={handleSubmit(submitDrawerForm)}>
@@ -27,4 +27,4 @@ function contractDrawerForm({ submitDrawerForm, methods, handleSubmit }: any) {
   );
 }
 
-export default contractDrawerForm;
+export default ContractDrawerForm;
