@@ -1,4 +1,6 @@
-export const data: any = [
+import { conversationViewDataItemI } from './ConversationView.interface';
+
+export const data: conversationViewDataItemI[] = [
   {
     image: 'image1',
     sender: 'John',

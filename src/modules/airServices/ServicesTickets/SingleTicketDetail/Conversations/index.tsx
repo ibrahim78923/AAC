@@ -4,7 +4,7 @@ import { menuOptionsAddconversation } from './Conversation.data';
 import { v4 as uuidv4 } from 'uuid';
 import userCoversation from './userCoversation';
 import ConversationModelSub from './Model';
-import ViewConversation from './View';
+import ViewConversation from './ConversationView';
 
 export default function Conversations() {
   const {

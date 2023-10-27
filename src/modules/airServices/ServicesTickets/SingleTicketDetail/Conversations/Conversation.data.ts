@@ -12,9 +12,9 @@ export const conversationModelsValidation = Yup.object().shape({
 });
 
 export const conversationModelsDefaultValues = {
-  title: '', //01
-  description: '', //2
-  file: '', //3
+  title: '',
+  description: '',
+  file: '',
 };
 
 export const conversationModelsArray = [
