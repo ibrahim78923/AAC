@@ -1,6 +1,6 @@
 import { InstallationHeader } from './InstallationHeader';
 import { InstallationTable } from './InstallationTable';
-import { useInstallationDetail } from './useInstallations';
+import { useInstallationDetail } from './useInstallationsDetail';
 
 export const InstallationDetails = () => {
   const { activeCheck, setActiveCheck } = useInstallationDetail();
