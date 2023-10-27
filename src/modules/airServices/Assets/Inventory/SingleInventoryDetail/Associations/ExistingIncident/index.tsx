@@ -43,7 +43,7 @@ export const ExistingIncident = ({ openDrawer, onClose }: any) => {
 
       {checkboxes?.map((item) => (
         <Box
-          border={`1px solid ${theme.palette.grey[400]}`}
+          border={`1px solid ${theme?.palette?.grey?.[400]}`}
           borderRadius={2}
           p={1}
           mt={2}
@@ -56,7 +56,7 @@ export const ExistingIncident = ({ openDrawer, onClose }: any) => {
             <FormControlLabel
               control={
                 <Checkbox
-                  checked={checkboxValues[item?.id] || false}
+                  checked={checkboxValues?.[item?.id] || false}
                   onChange={handleCheckboxChange}
                   id={item?.id}
                 />
@@ -67,8 +67,9 @@ export const ExistingIncident = ({ openDrawer, onClose }: any) => {
           <Chip
             label={item?.status}
             sx={{
-              bgcolor: theme['palette'][`${chipColor(item?.status)}`]['main'],
-              color: theme.palette.common.white,
+              bgcolor:
+                theme?.['palette']?.[`${chipColor(item?.status)}`]?.['main'],
+              color: theme?.palette?.common?.white,
             }}
           />
         </Box>

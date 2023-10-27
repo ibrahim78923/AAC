@@ -1,9 +1,9 @@
 import { Grid, Box } from '@mui/material';
 import { activityData } from './Activity.data';
 import NoData from '@/components/NoData';
-import NoAssociationFound from '@/assets/images/modules/LogitechMouse/association.png';
 import { v4 as uuidv4 } from 'uuid';
 import { ActivityTimeline } from './ActivityTimeline';
+import { NoAssociationFound } from '@/assets/images';
 // import { ExportButton } from '@/modules/airServices/common/Buttons/ExportButton';
 export const ContractHistory = () => {
   return (
