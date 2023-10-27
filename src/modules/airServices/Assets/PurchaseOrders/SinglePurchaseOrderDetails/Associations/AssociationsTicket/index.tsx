@@ -1,32 +1,32 @@
-import { Box, Button, useTheme } from '@mui/material';
-import { AddCircleIcon } from '@/assets/icons';
-import { SingleAssociationsTicket } from './SingleAssociationsTicket';
-import { associationsTicketData } from './AssociationsTicket.data';
+import { Box, Button, Typography, useTheme } from '@mui/material';
+import { v4 as uuidv4 } from 'uuid';
 
-export const AssociationsTicket = () => {
+export const AssociationsTicket = ({ associationsTicketData }: any) => {
   const theme: any = useTheme();
   return (
     <>
-      <Box display={'flex'} justifyContent={'end'} marginBottom={'1rem'}>
-        <Button
-          sx={{
-            marginRight: '12px',
-            backgroundColor: theme?.palette?.primary?.light,
-            color: theme?.palette?.primary?.main,
-            '&:hover': {
-              bgcolor: theme?.palette?.grey[400],
-            },
-          }}
-          variant="outlined"
-          startIcon={<AddCircleIcon />}
-          onClick={() => ''}
+      {associationsTicketData.map((item: any) => (
+        <Box
+          display={'flex'}
+          justifyContent={'space-between'}
+          alignItems={'center'}
+          boxShadow={'4px 4px 4px rgba(0, 0, 0, 0.1)'}
+          borderLeft={`.5rem solid ${theme?.palette?.primary?.main}`}
+          borderRadius={'.6rem'}
+          padding={'.7rem'}
+          key={uuidv4()}
         >
-          Associate
-        </Button>
-      </Box>
-      <SingleAssociationsTicket
-        associationsTicketData={associationsTicketData}
-      />
+          <Typography>{item.title}</Typography>
+          <Button
+            sx={{
+              backgroundColor: theme?.palette?.primary?.light,
+              borderRadius: '1rem',
+            }}
+          >
+            {item.buttonText}
+          </Button>
+        </Box>
+      ))}
     </>
   );
 };
