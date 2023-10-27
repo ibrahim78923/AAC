@@ -11,17 +11,17 @@ import {
 import * as Yup from 'yup';
 import { ZoomLogoImage, TeamsLogoImage } from '@/assets/images';
 
-export const addMeetingValidationSchema = Yup.object().shape({
-  title: Yup.string().required('Field is Required'),
-  startDate: Yup.date().required('Field is Required'),
-  startTime: Yup.date().required('Field is Required'),
-  endDate: Yup.date().required('Field is Required'),
-  endTime: Yup.date().required('Field is Required'),
-  meetingNotes: Yup.string(),
-  timeZone: Yup.string(),
-  outcome: Yup.string(),
-  attendees: Yup.string(),
-  addVideoConferencing: Yup.string(),
+export const addMeetingValidationSchema = Yup?.object()?.shape({
+  title: Yup?.string()?.required('Field is Required'),
+  startDate: Yup?.date()?.required('Field is Required'),
+  startTime: Yup?.date()?.required('Field is Required'),
+  endDate: Yup?.date()?.required('Field is Required'),
+  endTime: Yup?.date()?.required('Field is Required'),
+  meetingNotes: Yup?.string(),
+  timeZone: Yup?.string(),
+  outcome: Yup?.string(),
+  attendees: Yup?.string(),
+  addVideoConferencing: Yup?.string(),
 });
 
 export const addMeetingDefaultValues = {
@@ -607,7 +607,7 @@ export const addMeetingDataArray = [
       fullWidth: true,
       select: true,
     },
-    options: timeZoneData.map((item: any) => ({
+    options: timeZoneData?.map((item: any) => ({
       label: item?.label,
       value: item?.label,
     })),
