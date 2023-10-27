@@ -1,7 +1,7 @@
 version: '3'
 services:
-  AAC-FE:
-    container_name: AAC-FE
+  aac-fe:
+    container_name: aac-fe
     build:
       dockerfile: Dockerfile
       context: .
