@@ -1,12 +1,12 @@
 import { AssetsReceivedImage } from '@/assets/images';
 import NoData from '@/components/NoData';
-import { assetsReceiveData } from './AssetsReceivedDetail/AssetsReceived.data';
+import { assetsReceiveDetailData } from './AssetsReceivedDetail/AssetsReceivedDetail.data';
 import { AssetsReceivedDetail } from './AssetsReceivedDetail';
 
 export const AssetsReceived = () => {
   return (
     <>
-      {assetsReceiveData?.length ? (
+      {assetsReceiveDetailData?.length ? (
         <AssetsReceivedDetail />
       ) : (
         <NoData
