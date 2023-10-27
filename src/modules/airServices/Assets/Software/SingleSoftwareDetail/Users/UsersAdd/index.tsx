@@ -51,7 +51,6 @@ export const UsersAdd = () => {
         <ConversationModel
           open={isModalOpen}
           handleClose={closeModal}
-          // handleSubmit={closeModal}
           selectedItem="Add User"
           okText="Add"
           footer={true}
