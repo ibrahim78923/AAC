@@ -1,5 +1,5 @@
 import { Box, Typography, useTheme } from '@mui/material';
-import { assetsReceiveData } from './AssetsReceived.data';
+import { assetsReceiveDetailData } from './AssetsReceivedDetail.data';
 import { v4 as uuidv4 } from 'uuid';
 import { styles } from './AssetsReceivedDetail.style';
 
@@ -17,7 +17,7 @@ export const AssetsReceivedDetail = () => {
           Assets which are received and added to inventory are shown here
         </Typography>
       </Box>
-      {assetsReceiveData.map((item) => (
+      {assetsReceiveDetailData.map((item) => (
         <Box key={uuidv4()} sx={styles.assetsCard(theme)}>
           <Box sx={styles.cardDetail}>
             <Typography variant="body2" fontWeight={600} sx={styles.cardText}>

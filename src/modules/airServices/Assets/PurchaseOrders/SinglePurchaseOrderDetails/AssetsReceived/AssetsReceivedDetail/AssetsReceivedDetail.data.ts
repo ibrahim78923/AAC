@@ -1,4 +1,4 @@
-export const assetsReceiveData = [
+export const assetsReceiveDetailData = [
   {
     asset: '#ASSET-28 ',
     type: 'HDMI Cables',
