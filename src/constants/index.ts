@@ -4,3 +4,8 @@ export const SUPER_ADMIN: any = {
   USERS_LIST: '/super-admin/user-management/users-list',
   BILLING_INVOICES: '/super-admin/billing-invoices',
 };
+
+export const AIR_SERVICES = {
+  PURCHASE_ORDER: '/air-services/assets/purchase-orders',
+  NEW_PURCHASE_ORDER: '/air-services/assets/purchase-orders/new-purchase',
+};
