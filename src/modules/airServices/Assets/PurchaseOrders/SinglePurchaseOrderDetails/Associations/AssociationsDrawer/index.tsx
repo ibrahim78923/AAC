@@ -17,7 +17,6 @@ export const AssociationsDrawer = ({
         isDrawerOpen={open}
         onClose={() => setDrawerOpen(false)}
         title="Associate Service Requests"
-        submitHandler={() => {}}
         isOk={true}
         footer={true}
         okText="Associate"
@@ -50,7 +49,6 @@ export const AssociationsDrawer = ({
                 <Checkbox
                   icon={<CheckboxIcon />}
                   checkedIcon={<CheckboxCheckedIcon />}
-                  onChange={() => {}}
                   color="primary"
                 />
                 <Typography>{item?.title}</Typography>

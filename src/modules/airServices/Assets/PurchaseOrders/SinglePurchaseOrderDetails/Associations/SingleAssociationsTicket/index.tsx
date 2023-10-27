@@ -1,11 +1,11 @@
 import { Box, Button, Typography, useTheme } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
 
-export const AssociationsTicket = ({ associationsTicketData }: any) => {
+export const SingleAssociationsTicket = ({ associationsTicketData }: any) => {
   const theme: any = useTheme();
   return (
     <>
-      {associationsTicketData.map((item: any) => (
+      {associationsTicketData?.map((item: any) => (
         <Box
           display={'flex'}
           justifyContent={'space-between'}
@@ -16,14 +16,14 @@ export const AssociationsTicket = ({ associationsTicketData }: any) => {
           padding={'.7rem'}
           key={uuidv4()}
         >
-          <Typography>{item.title}</Typography>
+          <Typography>{item?.title}</Typography>
           <Button
             sx={{
               backgroundColor: theme?.palette?.primary?.light,
               borderRadius: '1rem',
             }}
           >
-            {item.buttonText}
+            {item?.buttonText}
           </Button>
         </Box>
       ))}

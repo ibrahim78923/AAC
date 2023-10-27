@@ -4,7 +4,7 @@ import { Box, Button, useTheme } from '@mui/material';
 import { AddCircleIcon } from '@/assets/icons';
 import { useState } from 'react';
 import { AssociationsDrawer } from './AssociationsDrawer';
-import { AssociationsTicket } from './AssociationsTicket';
+import { SingleAssociationsTicket } from './SingleAssociationsTicket';
 import { associationsTicketData } from './Associations.data';
 
 export const Associations = () => {
@@ -13,7 +13,7 @@ export const Associations = () => {
 
   return (
     <>
-      {associationsTicketData.length === 0 ? (
+      {associationsTicketData?.length === 0 ? (
         <>
           <NoData
             image={NoAssociationFound}
@@ -26,9 +26,6 @@ export const Associations = () => {
                 marginRight: '12px',
                 backgroundColor: theme?.palette?.primary?.light,
                 color: theme?.palette?.primary?.main,
-                '&:hover': {
-                  bgcolor: theme?.palette?.grey[400],
-                },
               }}
               variant="outlined"
               startIcon={<AddCircleIcon />}
@@ -46,18 +43,16 @@ export const Associations = () => {
                 marginRight: '12px',
                 backgroundColor: theme?.palette?.primary?.light,
                 color: theme?.palette?.primary?.main,
-                '&:hover': {
-                  bgcolor: theme?.palette?.grey[400],
-                },
               }}
               variant="outlined"
               startIcon={<AddCircleIcon />}
-              onClick={() => ''}
             >
               Associate
             </Button>
           </Box>
-          <AssociationsTicket associationsTicketData={associationsTicketData} />
+          <SingleAssociationsTicket
+            associationsTicketData={associationsTicketData}
+          />
         </>
       )}
 
