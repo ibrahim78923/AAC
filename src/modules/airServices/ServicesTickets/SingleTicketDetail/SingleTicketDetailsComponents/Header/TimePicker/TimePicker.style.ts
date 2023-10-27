@@ -1,4 +1,4 @@
-export const inputStyle: React.CSSProperties = {
+export const styles = {
   width: '60px',
   height: '28px',
   border: 'none',
