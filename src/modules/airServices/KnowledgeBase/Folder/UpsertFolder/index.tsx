@@ -1,6 +1,5 @@
 import { Box, Button, MenuItem, TextField, Typography } from '@mui/material';
 import { useState } from 'react';
-import CommonModal from '@/components/CommonModal';
 import { FormProvider } from '@/components/ReactHookForm';
 import { v4 as uuidv4 } from 'uuid';
 import { useForm } from 'react-hook-form';
@@ -11,6 +10,7 @@ import {
   defaultValues,
   visibleToDataArray,
 } from './UpsertFolder.data';
+import ConversationModel from '@/components/Model/CoversationModel';
 
 export const UpsertFolder = () => {
   const [handleOpen, setHandleOpen] = useState(true);
@@ -30,63 +30,66 @@ export const UpsertFolder = () => {
     reset(defaultValues);
   };
 
+  const closeModal = () => {
+    setHandleOpen(false);
+  };
+
   return (
-    <CommonModal
+    <ConversationModel
       open={handleOpen}
-      handleClose={() => setHandleOpen(false)}
-      handleSubmit={handleSubmit(onSubmit)}
-      title={'Create new folder'}
-      okText={'Create'}
-      footerFill={undefined}
+      handleClose={closeModal}
+      selectedItem="Create new folder"
     >
-      <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-        <Typography variant="body2" padding={'.2rem'}>
-          Name
-        </Typography>
-        <TextField
-          type="text"
-          size="small"
-          placeholder="Enter Folder Name"
-          fullWidth
-        />
+      <Box width={{ xs: '18rem', sm: '25rem', lg: '30rem' }}>
+        <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+          <Typography variant="body2" padding={'.2rem'}>
+            Name
+          </Typography>
+          <TextField
+            type="text"
+            size="small"
+            placeholder="Enter Folder Name"
+            fullWidth
+          />
 
-        <Typography variant="body2" padding={'1rem 0 .2rem'}>
-          Description
-        </Typography>
-        <TextField
-          multiline
-          rows={3}
-          type="text"
-          size="small"
-          placeholder="#example"
-          fullWidth
-        />
+          <Typography variant="body2" padding={'.6rem 0 .2rem'}>
+            Description
+          </Typography>
+          <TextField
+            multiline
+            rows={3}
+            type="text"
+            size="small"
+            placeholder="#example"
+            fullWidth
+          />
 
-        <Typography variant="body2" padding={'1rem 0 .2rem'}>
-          Visible to
-        </Typography>
-        <TextField id="visible" select defaultValue="All" fullWidth>
-          {visibleToDataArray.map((item) => (
-            <MenuItem key={uuidv4()} value={item?.value}>
-              {item?.label}
-            </MenuItem>
-          ))}
-        </TextField>
+          <Typography variant="body2" padding={'.6rem 0 .2rem'}>
+            Visible to
+          </Typography>
+          <TextField id="visible" select defaultValue="All" fullWidth>
+            {visibleToDataArray.map((item) => (
+              <MenuItem key={uuidv4()} value={item?.value}>
+                {item?.label}
+              </MenuItem>
+            ))}
+          </TextField>
 
-        <Box
-          display={'flex'}
-          justifyContent={'flex-end'}
-          paddingTop={'2rem'}
-          gap={'1rem'}
-        >
-          <Button variant="outlined" onClick={() => setHandleOpen(false)}>
-            Cancel
-          </Button>
-          <Button variant="contained" onClick={onSubmit}>
-            Create
-          </Button>
-        </Box>
-      </FormProvider>
-    </CommonModal>
+          <Box
+            display={'flex'}
+            justifyContent={'flex-end'}
+            paddingTop={'2rem'}
+            gap={'1rem'}
+          >
+            <Button variant="outlined" onClick={() => setHandleOpen(false)}>
+              Cancel
+            </Button>
+            <Button variant="contained" onClick={onSubmit}>
+              Create
+            </Button>
+          </Box>
+        </FormProvider>
+      </Box>
+    </ConversationModel>
   );
 };
