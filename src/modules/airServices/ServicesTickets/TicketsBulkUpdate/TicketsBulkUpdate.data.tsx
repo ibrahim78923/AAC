@@ -76,6 +76,7 @@ export const ticketsBulkUpdateToFormFieldsDataFunction = (
     component: RHFDropZone,
   },
 ];
+
 export const ticketsBulkUpdateDefaultFormValues = (expandForm?: boolean) => {
   return {
     ticketType: '',
@@ -86,36 +87,25 @@ export const ticketsBulkUpdateDefaultFormValues = (expandForm?: boolean) => {
     priority: '',
     impact: '',
     urgency: '',
-    // ...ticketsBulkUpdateToDefaultFormValues,
-    ...(expandForm && {
-      to: '',
-      description: '',
-      file: '',
-    }),
+    to: '',
+    description: '',
+    file: '',
   };
 };
 
-export const ticketsBulkUpdateDefaultFormValuesFunction = (
-  expandForm?: boolean,
-  data: any = ticketsBulkUpdateDefaultFormValues?.(expandForm),
-) => {
+export const ticketsBulkUpdateDefaultFormValuesFunction = (data?: any) => {
   return {
-    ticketType: data?.ticketType,
-    created: data?.created,
-    status: data?.status,
-    agents: data?.agents,
-    requester: data?.requester,
-    priority: data?.priority,
-    impact: data?.impact,
-    urgency: data?.urgency,
-    // to: data?.to,
-    // description: data?.description,
-    // file: data?.file,
-    ...(expandForm && {
-      to: data?.to,
-      description: data?.description,
-      file: data?.file,
-    }),
+    ticketType: data?.ticketType ?? '',
+    created: data?.created ?? '',
+    status: data?.status ?? '',
+    agents: data?.agents ?? '',
+    requester: data?.requester ?? '',
+    priority: data?.priority ?? '',
+    impact: data?.impact ?? '',
+    urgency: data?.urgency ?? '',
+    to: data?.to ?? '',
+    description: data?.description ?? '',
+    file: data?.file ?? '',
   };
 };
 

@@ -1,118 +1,72 @@
-import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
-import { Button, Table, TableCell, TableHead, TableRow } from '@mui/material';
+import {
+  Box,
+  Button,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  useTheme,
+} from '@mui/material';
 import { useFormContext, useFieldArray } from 'react-hook-form';
-
-export const dropdownDummy = [
-  {
-    value: 'option1',
-    label: 'Option 1',
-  },
-  {
-    value: 'option2',
-    label: 'Option 2',
-  },
-];
-
-const columns = [
-  'Service Name',
-  'Price Model',
-  'Cost',
-  'Count',
-  'Comments',
-  'Action',
-];
-const tableData = (name: any, index: any, remove: any) => [
-  {
-    id: 1,
-    data: <RHFTextField name={`${name}.${index}.serviceName`} size="small" />,
-  },
-  {
-    id: 2,
-    data: (
-      <RHFSelect
-        name={`${name}.${index}.priceModel`}
-        options={dropdownDummy}
-        size="small"
-      >
-        {dropdownDummy?.map((option: any) => (
-          <option key={option?.value} value={option?.value}>
-            {option?.label}
-          </option>
-        ))}
-      </RHFSelect>
-    ),
-  },
-  {
-    id: 3,
-    data: <RHFTextField name={`${name}.${index}.cost`} size="small" />,
-  },
-  {
-    id: 4,
-    data: <RHFTextField name={`${name}.${index}.count`} size="small" />,
-  },
-  {
-    id: 5,
-    data: <RHFTextField name={`${name}.${index}.comments`} size="small" />,
-  },
-  {
-    id: 6,
-    data: (
-      <Button type="button" onClick={() => remove(index)}>
-        Delete
-      </Button>
-    ),
-  },
-];
+import { columns, tableData } from './ItemDetail.data';
+import { v4 as uuidv4 } from 'uuid';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 export const ItemDetail: any = (props: any) => {
   const { name } = props;
-  const { control } = useFormContext();
+  const met = useFormContext();
   const { fields, append, remove } = useFieldArray({
-    control,
+    control: met?.control,
     name,
   });
-  console.log({ fields });
+  // console.log({ met });
+  const theme = useTheme();
   return (
-    <>
-      <Table>
-        <TableHead>
-          <TableRow>
-            {columns?.map((x: any) => <TableCell>{x}</TableCell>)}
-          </TableRow>
-        </TableHead>
-        <TableHead>
-          {fields?.map((item: any, index: any) => {
-            return (
-              <TableRow key={item.id}>
-                {tableData?.(name, index, remove).map((x: any) => (
-                  <TableCell key={x?.id}>
-                    {x?.data}
-                    {/* <RHFTextField name={`${name}.${index}.firstName`} /> */}
-                  </TableCell>
-                ))}
-                {/* <TableCell>
-                  <RHFTextField name={`${name}.${index}.firstName`} />
-                </TableCell>
-                <TableCell>
-                  <RHFTextField name={`${name}.${index}.lastName`} />
-                </TableCell>
-                <TableCell>
-                  <Button type="button" onClick={() => remove(index)}>
-                    Delete
-                  </Button>
-                </TableCell> */}
-              </TableRow>
-            );
-          })}
-        </TableHead>
-      </Table>
+    <Box boxShadow={1} border={`1px solid ${theme?.palette?.grey?.[700]}`}>
+      <TableContainer>
+        <Table sx={{ minWidth: '1200px' }}>
+          <TableHead>
+            <TableRow>
+              {columns?.map((x: any) => (
+                <TableCell key={uuidv4()}>{x}</TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {fields?.map((item: any, index: any) => {
+              return (
+                <TableRow key={item.id}>
+                  {tableData?.(name, index, remove).map((x: any) => (
+                    <TableCell key={x?.id}>
+                      {x?.data}
+                      {/* <RHFTextField name={`${name}.${index}.firstName`} /> */}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      {/* <br /> */}
       <Button
         type="button"
+        color="secondary"
         onClick={() => {
-          append({ firstName: '', lastName: '' });
+          append({
+            serviceName: '',
+            priceModel: '',
+            cost: '',
+            count: '',
+            comments: '',
+          });
         }}
+        startIcon={<AddCircleIcon />}
+        sx={{ padding: 2 }}
       >
-        append
+        Add Additional Items
       </Button>
-    </>
+    </Box>
   );
 };

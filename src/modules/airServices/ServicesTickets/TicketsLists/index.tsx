@@ -4,8 +4,8 @@ import { TicketsTableView } from './TicketsTableView';
 import { TableBoardView } from './TicketsBoardView';
 import { AlertModals } from '@/components/AlertModals';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import { TicketsListSubHeader } from './TicketsListComponents/TicketsListSubHeader';
-import { TicketsColumnDrag } from './TicketsListComponents/TicketsColumnDrag';
+import { TicketsListSubHeader } from './TicketsListSubHeader';
+import { TicketsBulkUpdate } from '../TicketsBulkUpdate';
 
 export const TicketsLists = () => {
   const {
@@ -40,8 +40,7 @@ export const TicketsLists = () => {
       ) : (
         <TicketsTableView />
       )}
-      <TicketsColumnDrag />
-      {isDrawerOpen && (
+      {/* {isDrawerOpen && (
         <CommonDrawer
           isDrawerOpen={isDrawerOpen}
           onClose={
@@ -72,7 +71,7 @@ export const TicketsLists = () => {
             <>Loading</>
           )}
         </CommonDrawer>
-      )}
+      )} */}
       {deleteModalOpen && (
         <AlertModals
           type="delete"
@@ -82,6 +81,7 @@ export const TicketsLists = () => {
           message=""
         />
       )}
+      {isDrawerOpen && drawerComponent?.[router?.query?.tableAction as string]}
     </>
   );
 };

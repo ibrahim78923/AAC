@@ -5,28 +5,16 @@ import {
   ticketsListsColumnFunction,
   ticketsListsData,
 } from './TicketsLists.data';
-import { TicketsColumnDrag } from './TicketsListComponents/TicketsColumnDrag';
+import { CustomizeTicketsColumn } from '../CustomizeTicketsColumn';
 import { useRouter } from 'next/router';
-import { TicketsBulkUpdate } from './TicketsListComponents/TicketsBulkUpdate';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
-import { ticketsBulkUpdateFormSchemaFunction } from './TicketsListComponents/TicketsBulkUpdate/TicketsBulkUpdate.data';
+import { TicketsBulkUpdate } from '../TicketsBulkUpdate';
 import { useTheme } from '@mui/material';
-import {
-  ticketsFilterDefaultFormValuesFunction,
-  ticketsFilterFormSchema,
-} from './TicketsListComponents/TicketsFilter/TicketsFilter.data';
-import { TicketsFilter } from './TicketsListComponents/TicketsFilter';
+import { TicketsFilter } from '../TicketsFilter';
 import CreateTicket from '../CreateTicket';
-import {
-  createTicketDefaultValues,
-  createTicketValidationSchema,
-} from '../CreateTicket/CreateTicket.data';
 import { enqueueSnackbar } from 'notistack';
 
 export const useTicketsLists = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-
   const [ticketList, setTicketList] = useState([]);
   const [selectedTicketList, setSelectedTicketList] = useState([]);
 
@@ -34,21 +22,10 @@ export const useTicketsLists = () => {
     setTicketList(ticketsListsData);
   }, [ticketsListsData]);
 
-  const [to, setTo] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 
   const theme = useTheme();
   const router = useRouter();
-
-  const submitTicketBulkUpdateForm = async () => {};
-
-  const submitCreateNewTicket = async () => {
-    enqueueSnackbar('Ticket Added Successfully', {
-      variant: 'success',
-    });
-    methodsCreateNewTicketForm.reset(createTicketDefaultValues);
-    setIsDrawerOpen(false);
-  };
 
   const handleChange = (value: any, event: any) => {
     setTicketList(
@@ -80,21 +57,6 @@ export const useTicketsLists = () => {
     handleChange,
   );
 
-  const methodsBulkUpdateForm: any = useForm({
-    resolver: yupResolver(ticketsBulkUpdateFormSchemaFunction?.(to)),
-    defaultValues: ticketsBulkUpdateFormSchemaFunction?.(to),
-  });
-
-  const methodsTicketFilterForm = useForm({
-    resolver: yupResolver(ticketsFilterFormSchema),
-    defaultValues: ticketsFilterDefaultFormValuesFunction?.(),
-  });
-
-  const methodsCreateNewTicketForm = useForm({
-    resolver: yupResolver(createTicketValidationSchema),
-    defaultValues: createTicketDefaultValues,
-  });
-
   const customizeColumns: any = ticketsListsColumnPersist.reduce(
     (x: any, y: any) => {
       const { id } = y;
@@ -104,97 +66,37 @@ export const useTicketsLists = () => {
   );
   const [customizeColumn, setCustomizeColumn] = useState(customizeColumns);
 
-  const submitTicketFilterForm = async () => {};
-
-  const resetTicketFilterForm = async () => {
-    methodsTicketFilterForm?.reset();
-    setIsDrawerOpen(false);
-  };
-
   const drawerComponent: any = {
-    'customize-column': {
-      title: 'Customize Column',
-      okText: 'Submit',
-      isOk: true,
-      submitHandler: () => {
-        const newTableColumns = ticketsListsColumnPersist.filter(
-          (x: any) => customizeColumn[x.id],
-        );
-        seTTicketsListsColumn(newTableColumns);
-      },
-      children: (
-        <TicketsColumnDrag
-          checkboxClick={(co: any) => {
-            if (customizeColumn[co.id]) {
-              delete customizeColumn[co.id];
+    'customize-column': (
+      <CustomizeTicketsColumn
+        isDrawerOpen={isDrawerOpen}
+        setIsDrawerOpen={setIsDrawerOpen}
+        tableColumns={ticketsListsColumnPersist?.slice(1)}
+        customizeColumn={customizeColumn}
+        setCustomizeColumn={setCustomizeColumn}
+      />
+    ),
 
-              // const { [keys], ...restCustomize } = customizeColumn;
-              // setCustomizeColumn({
-              //   // ...restCustomize,
-              // });
-              return;
-            }
-            setCustomizeColumn({
-              ...customizeColumn,
-              [co.id]: true,
-            });
-          }}
-          tableColumns={ticketsListsColumnPersist?.slice(1)}
-          customizeColumn={customizeColumn}
-        />
-      ),
-    },
-    'filter-data': {
-      title: 'Filter',
-      okText: 'Apply',
-      cancelText: 'Reset',
-      isOk: true,
-      submitHandler: () => {
-        methodsTicketFilterForm.handleSubmit(submitTicketFilterForm)();
-      },
-      resetHandler: resetTicketFilterForm,
-      children: (
-        <TicketsFilter
-          methods={methodsTicketFilterForm}
-          reset={resetTicketFilterForm}
-          submitTicketFilterForm={submitTicketFilterForm}
-          handleSubmit={methodsTicketFilterForm.handleSubmit}
-        />
-      ),
-    },
-    'bulk-update-data': {
-      title: 'Bulk Update',
-      okText: 'Submit',
-      isOk: true,
-      submitHandler: () => {
-        methodsBulkUpdateForm.handleSubmit(submitTicketBulkUpdateForm)();
-      },
-      children: (
-        <TicketsBulkUpdate
-          submitTicketBulkUpdateForm={submitTicketBulkUpdateForm}
-          to={to}
-          setTo={setTo}
-          methods={methodsBulkUpdateForm}
-          reset={methodsBulkUpdateForm?.reset}
-          handleSubmit={methodsBulkUpdateForm.handleSubmit}
-        />
-      ),
-    },
-    'create-new-ticket': {
-      title: 'Create Ticket',
-      okText: 'Submit',
-      isOk: true,
-      submitHandler: () => {
-        methodsCreateNewTicketForm.handleSubmit(submitCreateNewTicket)();
-      },
-      children: (
-        <CreateTicket
-          submitCreateNewTicket={submitCreateNewTicket}
-          methods={methodsCreateNewTicketForm}
-          handleSubmit={methodsCreateNewTicketForm.handleSubmit}
-        />
-      ),
-    },
+    'filter-data': (
+      <TicketsFilter
+        setIsDrawerOpen={setIsDrawerOpen}
+        isDrawerOpen={isDrawerOpen}
+      />
+    ),
+    'bulk-update-data': (
+      <TicketsBulkUpdate
+        setIsDrawerOpen={setIsDrawerOpen}
+        isDrawerOpen={isDrawerOpen}
+        // to={to}
+        // setTo={setTo}
+      />
+    ),
+    'create-new-ticket': (
+      <CreateTicket
+        setIsDrawerOpen={setIsDrawerOpen}
+        isDrawerOpen={isDrawerOpen}
+      />
+    ),
   };
 
   const openDrawer = (tableActionQuery: any) => {
@@ -208,9 +110,20 @@ export const useTicketsLists = () => {
       setIsDrawerOpen(true);
     }, 100);
   };
-  const ticketsActionDropdown = ticketsActionDropdownFunction?.();
-  // openDrawer,
-  // setDeleteModalOpen,
+  const markAsClose = () => {
+    enqueueSnackbar('Ticket marked as close', { variant: 'success' });
+  };
+  const markAsSpam = () => {
+    enqueueSnackbar('Ticket marked as spam', { variant: 'success' });
+  };
+  const ticketsActionDropdown = ticketsActionDropdownFunction?.(
+    openDrawer,
+    setDeleteModalOpen,
+    setIsDrawerOpen,
+    markAsClose,
+    markAsSpam,
+  );
+
   return {
     theme,
     router,

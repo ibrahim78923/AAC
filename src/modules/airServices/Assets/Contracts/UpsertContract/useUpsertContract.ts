@@ -1,18 +1,34 @@
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import {
   upsertContractFormDefaultValuesFunction,
   upsertContractFormFieldsDataFunction,
+  upsertContractFormSchemaFunction,
 } from './UpsertContract.data';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 export const useUpsertContract = () => {
-  const methods = useForm({
+  const methods = useForm<any>({
+    resolver: yupResolver<any>(upsertContractFormSchemaFunction),
     defaultValues: upsertContractFormDefaultValuesFunction(),
   });
-  const { handleSubmit } = methods;
-  const submitUpsertContractForm = (data: any) => {
-    console.log(data);
+  const { handleSubmit, control } = methods;
+  const watchForNotifyExpiry = useWatch({
+    control,
+    name: 'notifyExpiry',
+  });
+  const watchForType = useWatch({
+    control,
+    name: 'type',
+  });
+
+  const submitUpsertContractForm = () => {
+    // console.log(data);
   };
-  const upsertContractFormFieldsData = upsertContractFormFieldsDataFunction();
+
+  const upsertContractFormFieldsData = upsertContractFormFieldsDataFunction(
+    watchForType,
+    watchForNotifyExpiry,
+  );
   return {
     methods,
     handleSubmit,

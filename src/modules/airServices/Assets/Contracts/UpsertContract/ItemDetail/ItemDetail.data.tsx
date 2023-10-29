@@ -1,23 +1,64 @@
 import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
-import { dropdownDummy } from '.';
-import { createColumnHelper } from '@tanstack/react-table';
+import { Button } from '@mui/material';
 
-// export const itemDetailColumn = (name: any, index: any) => [
-//   createColumnHelper().accessor("studentId", {
-//     header: "Student ID",
-//     cell: <RHFTextField />,
-//   }),
-//   createColumnHelper().accessor("name", {
-//     header: "Full Name",
-//     cell: TableCell,
-//   }),
-//   createColumnHelper().accessor("dateOfBirth", {
-//     header: "Date Of Birth",
-//     cell: TableCell,
-//   }),
-//   createColumnHelper().accessor("major", {
-//     header: "Major",
-//     cell: TableCell,
-//   }),
-// ]
-// ];
+export const dropdownDummy = [
+  {
+    value: 'option1',
+    label: 'Option 1',
+  },
+  {
+    value: 'option2',
+    label: 'Option 2',
+  },
+];
+
+export const columns = [
+  'Service Name',
+  'Price Model',
+  'Cost',
+  'Count',
+  'Comments',
+  'Action',
+];
+export const tableData = (name: any, index: any, remove: any) => [
+  {
+    id: 1,
+    data: <RHFTextField name={`${name}.${index}.serviceName`} size="small" />,
+  },
+  {
+    id: 2,
+    data: (
+      <RHFSelect
+        name={`${name}.${index}.priceModel`}
+        options={dropdownDummy}
+        size="small"
+      >
+        {dropdownDummy?.map((option: any) => (
+          <option key={option?.value} value={option?.value}>
+            {option?.label}
+          </option>
+        ))}
+      </RHFSelect>
+    ),
+  },
+  {
+    id: 3,
+    data: <RHFTextField name={`${name}.${index}.cost`} size="small" />,
+  },
+  {
+    id: 4,
+    data: <RHFTextField name={`${name}.${index}.count`} size="small" />,
+  },
+  {
+    id: 5,
+    data: <RHFTextField name={`${name}.${index}.comments`} size="small" />,
+  },
+  {
+    id: 6,
+    data: (
+      <Button type="button" onClick={() => remove(index)}>
+        Delete
+      </Button>
+    ),
+  },
+];
