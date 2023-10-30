@@ -1,6 +1,6 @@
 import { useFormContext, Controller } from 'react-hook-form';
 import { TextField, Typography } from '@mui/material';
-import CustomLabel from '../Label';
+import CustomLabel from '../CustomLabel';
 
 export default function RHFSelect({ name, children, required, ...other }: any) {
   const { control } = useFormContext();

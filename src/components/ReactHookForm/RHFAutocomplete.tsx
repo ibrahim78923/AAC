@@ -7,7 +7,7 @@ import {
   Paper,
   useTheme,
 } from '@mui/material';
-import CustomLabel from '../Label';
+import CustomLabel from '../CustomLabel';
 
 export default function RHFAutocomplete({
   name,

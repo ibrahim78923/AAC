@@ -2,7 +2,7 @@
 import { useFormContext, Controller } from 'react-hook-form';
 // @mui
 import { Checkbox, FormGroup, FormControlLabel } from '@mui/material';
-import CustomLabel from '../Label';
+import CustomLabel from '../CustomLabel';
 
 // ----------------------------------------------------------------------
 

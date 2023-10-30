@@ -18,10 +18,9 @@ export const useExistingIncident = ({ onClose }: any) => {
     }));
   };
 
-  const handleSubmit: any = (event: any) => {
-    event.preventDefault();
+  const handleSubmit: any = () => {
     // Filter out checkboxes with values set to false
-    Object.keys(checkboxValues).filter((id) => checkboxValues[id]);
+    Object.keys(checkboxValues).filter((id) => checkboxValues?.[id]);
     // const selectedCheckboxes = Object.keys(checkboxValues).filter(
     //   (id) => checkboxValues[id],
     // );

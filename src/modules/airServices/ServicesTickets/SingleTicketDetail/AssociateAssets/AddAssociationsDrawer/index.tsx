@@ -1,6 +1,6 @@
 import CommonDrawer from '@/components/CommonDrawer';
 import { AddAssociateAssetDrawerPropsI } from './AddAssociationsDrawer.interface';
-import AssociationsDrawerData from './AssociationsDrawerData';
+import { AssociationsDrawerDetail } from './AssociationsDrawerDetail';
 
 export const AddAssociationsDrawer = ({
   open,
@@ -17,7 +17,7 @@ export const AddAssociationsDrawer = ({
         footer={true}
         okText="Associate"
       >
-        <AssociationsDrawerData />
+        <AssociationsDrawerDetail />
       </CommonDrawer>
     </div>
   );

@@ -4,7 +4,6 @@ import { ContractsTable } from './ContractTable';
 export const ContractsDetails = () => {
   return (
     <>
-      <br />
       <ContractsHeader />
       <br />
       <ContractsTable />

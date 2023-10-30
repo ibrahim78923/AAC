@@ -1,13 +1,13 @@
 import { Button, useTheme, Box, Typography, Chip } from '@mui/material';
 import { Fragment, useState } from 'react';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import NoAssociationFound from '@/assets/images/modules/LogitechMouse/association.png';
 import NoData from '@/components/NoData';
 import { associationsDataArray, chipColor } from './Associations.data';
 import { v4 as uuidv4 } from 'uuid';
 import { ExistingIncident } from './ExistingIncident';
 import { DialogBox } from './DialogBox';
 import { NewIncident } from './NewIncident';
+import { NoAssociationFound } from '@/assets/images';
 
 export const Associations = () => {
   const theme: any = useTheme();
@@ -25,7 +25,7 @@ export const Associations = () => {
         >
           <Button
             variant="outlined"
-            sx={{ backgroundColor: theme.palette.grey[400] }}
+            sx={{ backgroundColor: theme?.palette?.grey?.[400] }}
             onClick={() => setOpenDialog(true)}
             startIcon={<AddCircleIcon />}
           >
@@ -45,10 +45,10 @@ export const Associations = () => {
           </Box>
           {associationsDataArray?.map((item: any) => (
             <Box
-              border={`1px solid ${theme.palette.grey[400]}`}
-              borderLeft={`8px solid ${
-                theme['palette'][`${chipColor(item?.status)}`]['main']
-              }`}
+              border={`1px solid ${theme?.palette?.grey?.[400]}`}
+              borderLeft={`8px solid ${theme?.['palette']?.[
+                `${chipColor(item?.status)}`
+              ]?.['main']}`}
               boxShadow={4}
               borderRadius={2}
               p={1}
@@ -65,8 +65,10 @@ export const Associations = () => {
                 label={item?.status}
                 sx={{
                   bgcolor:
-                    theme['palette'][`${chipColor(item?.status)}`]['main'],
-                  color: theme.palette.common.white,
+                    theme?.['palette']?.[`${chipColor(item?.status)}`]?.[
+                      'main'
+                    ],
+                  color: theme?.palette?.common?.white,
                 }}
               />
             </Box>
