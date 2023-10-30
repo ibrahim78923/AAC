@@ -4,24 +4,24 @@ export const StyledText = styled('text')(({ theme }) => ({
   fill: theme.palette.text.primary,
   textAnchor: 'middle',
   dominantBaseline: 'central',
-  fontSize: '14px',
+  fontSize: '.8rem',
   fontWeight: 500,
-  lineHeight: '20px',
+  lineHeight: '1.2rem',
 }));
 
 export const styles = {
   mainBox: (theme: any) => ({
-    border: '1.51px solid',
+    border: '.1rem solid',
     borderColor: theme.palette.grey?.[700],
-    maxWidth: '400px',
+    maxWidth: '25rem',
     width: '100%',
-    height: '400px',
-    radius: '8px',
-    '@media screen and (max-width: 480px)': {
-      maxWidth: '300px',
+    height: '25rem',
+    radius: '.5rem',
+    '@media screen and (max-width: 30rem)': {
+      maxWidth: '18.7rem',
     },
-    '@media screen and (max-width: 400px)': {
-      maxWidth: '250px',
+    '@media screen and (max-width: 25rem)': {
+      maxWidth: '17.5rem',
     },
   }),
 
@@ -42,33 +42,33 @@ export const styles = {
   },
 
   chart: {
-    '@media screen and (max-width: 480px)': {
-      marginRight: '75px',
+    '@media screen and (max-width: 30rem)': {
+      marginRight: '4.6rem',
     },
-    '@media screen and (max-width: 400px)': {
-      marginRight: '130px',
+    '@media screen and (max-width: 25rem)': {
+      marginRight: '8.1rem',
     },
   },
 
   heading: {
-    marginTop: '20px',
-    marginLeft: '23px',
+    marginTop: '1.2rem',
+    marginLeft: '1.4rem',
     fontWeight: 600,
-    fontSize: '18px',
-    lineHeight: '28px',
+    fontSize: '1.1rem',
+    lineHeight: '1.7rem',
   },
 
   footerBox: {
     display: 'flex',
     justifyContent: 'center',
-    gap: '10px',
+    gap: '.6rem',
   },
 
   footerTypographyBox: (theme: any) => ({
     textAlign: 'center',
-    width: '25px',
-    height: '25px',
+    width: '1.5rem',
+    height: '1.5rem',
     backgroundColor: theme.palette.primary?.light,
-    borderRadius: '4px',
+    borderRadius: '.2rem',
   }),
 };
