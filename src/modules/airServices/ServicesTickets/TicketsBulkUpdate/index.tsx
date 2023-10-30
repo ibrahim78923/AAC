@@ -4,8 +4,10 @@ import { useTicketBulkUpdate } from './useTicketsBulkUpdate';
 import CloseIcon from '@mui/icons-material/Close';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import CommonDrawer from '@/components/CommonDrawer';
+import { v4 as uuidv4 } from 'uuid';
+
 export const TicketsBulkUpdate = (props: any) => {
-  const { isDrawerOpen, setIsDrawerOpen } = props;
+  const { isDrawerOpen } = props;
   const {
     ticketsBulkUpdateFormFieldsData,
     // router,
@@ -22,14 +24,6 @@ export const TicketsBulkUpdate = (props: any) => {
     <>
       <CommonDrawer
         isDrawerOpen={isDrawerOpen}
-        // onClose={
-        //   drawerComponent?.[router?.query?.tableAction as string]
-        //     ?.resetHandler ||
-        //   (() => {
-        //     router?.push({ pathname: router?.pathname });
-        //     setIsDrawerOpen?.(false);
-        //   })
-        // }
         onClose={() => onClose?.()}
         okText={'Submit'}
         title={'Tickets Bulk Update'}
@@ -71,11 +65,11 @@ export const TicketsBulkUpdate = (props: any) => {
                         item
                         xs={12}
                         // md={12}
-                        key={form.id}
+                        key={uuidv4()}
                       >
-                        <form.component {...form.componentProps} size="medium">
+                        <form.component {...form?.componentProps} size="medium">
                           {form?.componentProps?.select
-                            ? form?.componentProps?.options?.map(
+                            ? form?.componentProps?.options?.map?.(
                                 (option: any) => (
                                   <option
                                     key={option?.id}
@@ -102,11 +96,11 @@ export const TicketsBulkUpdate = (props: any) => {
                   item
                   xs={12}
                   //   md={form?.gridLength}
-                  key={form.id}
+                  key={uuidv4()}
                 >
-                  <form.component {...form.componentProps} size="medium">
+                  <form.component {...form?.componentProps} size="medium">
                     {form?.componentProps?.select
-                      ? form.componentProps.options.map((option: any) => (
+                      ? form?.componentProps?.options?.map?.((option: any) => (
                           <option key={option?.id} value={option?.value}>
                             {option?.label}
                           </option>

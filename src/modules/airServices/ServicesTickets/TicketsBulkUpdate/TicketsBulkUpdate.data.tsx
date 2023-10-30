@@ -17,12 +17,12 @@ export const dropdownDummy = [
   },
 ];
 
-export const ticketsBulkUpdateToDefaultFormValues = {
+const ticketsBulkUpdateToDefaultFormValues = {
   to: '',
   description: '',
   file: '',
 };
-export const ticketsBulkUpdateToDefaultFormValuesFunction = (
+const ticketsBulkUpdateToDefaultFormValuesFunction = (
   data: any = ticketsBulkUpdateToDefaultFormValues,
 ) => {
   return {
@@ -110,19 +110,19 @@ export const ticketsBulkUpdateDefaultFormValuesFunction = (data?: any) => {
 };
 
 export const ticketsBulkUpdateFormSchemaFunction: any = (expandForm: boolean) =>
-  Yup.object().shape({
-    ticketType: Yup.string(),
-    created: Yup.string(),
-    status: Yup.string(),
-    agents: Yup.string(),
-    requester: Yup.string(),
-    priority: Yup.string(),
-    impact: Yup.string(),
-    urgency: Yup.string(),
+  Yup?.object()?.shape({
+    ticketType: Yup?.string(),
+    created: Yup?.string(),
+    status: Yup?.string(),
+    agents: Yup?.string(),
+    requester: Yup?.string(),
+    priority: Yup?.string(),
+    impact: Yup?.string(),
+    urgency: Yup?.string(),
     ...(expandForm && {
-      to: Yup.string().required(),
-      description: Yup.mixed(),
-      file: Yup.mixed(),
+      to: Yup?.string().required(),
+      description: Yup?.mixed(),
+      file: Yup?.mixed(),
     }),
   });
 

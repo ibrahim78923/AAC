@@ -1,4 +1,4 @@
-import { Box, Checkbox, Typography, useTheme } from '@mui/material';
+import { Box, Checkbox, Typography } from '@mui/material';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import { v4 as uuidv4 } from 'uuid';
 import CommonDrawer from '@/components/CommonDrawer';
@@ -12,20 +12,12 @@ export const CustomizeTicketsColumn = (props: any) => {
     // onClose,
     // setIsDrawerOpen,
   } = props;
-  const { submit, onClose } = useCustomizeTicketColumn(props);
-  const theme = useTheme();
+  const { submit, onClose, theme } = useCustomizeTicketColumn(props);
+
   return (
     <>
       <CommonDrawer
         isDrawerOpen={isDrawerOpen}
-        // onClose={
-        //   drawerComponent?.[router?.query?.tableAction as string]
-        //     ?.resetHandler ||
-        //   (() => {
-        //     router?.push({ pathname: router?.pathname });
-        //     setIsDrawerOpen?.(false);
-        //   })
-        // }
         onClose={() => onClose?.()}
         okText={'Submit'}
         title={'Customize Column'}

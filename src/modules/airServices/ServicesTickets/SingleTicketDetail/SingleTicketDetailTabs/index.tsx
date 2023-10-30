@@ -1,13 +1,13 @@
 import HorizontalTabs from '@/components/Tabs/HorizontalTabs';
 import { singleTicketDetailTabsData } from './SingleTicketDetailTabs.data';
-import { Tasks } from '../../Tasks';
-import { Details } from '../../Details';
+import { Tasks } from '../Tasks';
 // import { Activities } from '../../Activities';
-import { Meetings } from '../../Meetings';
-import { Approvals } from '../../Approvals';
-import RelatedTickets from '../../RelatedTickets';
-import Conversations from '../../Conversations';
-import { AssociateAssets } from '../../AssociateAssets';
+import { Meetings } from '../Meetings';
+import { Approvals } from '../Approvals';
+import RelatedTickets from '../RelatedTickets';
+import Conversations from '../Conversations';
+import { AssociateAssets } from '../AssociateAssets';
+import { Details } from '../Details';
 
 export const SingleTicketDetailTabs = () => {
   return (

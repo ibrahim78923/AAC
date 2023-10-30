@@ -28,6 +28,7 @@ export default function Header() {
           item
           sx={{
             display: 'flex',
+            gap: 1,
           }}
         >
           <ViewDetailBackArrowIcon />

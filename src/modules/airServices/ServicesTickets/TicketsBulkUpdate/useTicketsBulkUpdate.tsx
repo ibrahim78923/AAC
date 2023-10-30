@@ -37,7 +37,7 @@ export const useTicketBulkUpdate = (props: any) => {
       variant: 'success',
     });
     reset(ticketsBulkUpdateDefaultFormValuesFunction?.());
-    setIsDrawerOpen(false);
+    setIsDrawerOpen?.(false);
   };
 
   const onClose = () => {

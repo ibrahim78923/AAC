@@ -7,8 +7,9 @@ import {
 } from './TicketsFilter.data';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
+import { enqueueSnackbar } from 'notistack';
 
-export const useTicketFilter = (props: any) => {
+export const useTicketsFilter = (props: any) => {
   const { setIsDrawerOpen } = props;
   const router = useRouter();
   const theme: any = useTheme();
@@ -26,11 +27,17 @@ export const useTicketFilter = (props: any) => {
   //     reset(() => ticketsFilterDefaultFormValuesFunction(data?.data));
   //   }, [data, reset]);
 
-  const submitTicketFilterForm = async () => {};
+  const submitTicketFilterForm = async () => {
+    enqueueSnackbar(`Ticket Filtered Successfully`, {
+      variant: 'success',
+    });
+    reset(ticketsFilterDefaultFormValuesFunction?.());
+    setIsDrawerOpen?.(false);
+  };
 
   const resetTicketFilterForm = async () => {
     reset();
-    setIsDrawerOpen(false);
+    setIsDrawerOpen?.(false);
   };
   const onClose = () => {
     const { tableAction, ...restQueries } = router?.query;
@@ -41,7 +48,7 @@ export const useTicketFilter = (props: any) => {
       },
     });
     reset?.();
-    setIsDrawerOpen(false);
+    setIsDrawerOpen?.(false);
   };
   return {
     ticketsFilterFormFieldsData,

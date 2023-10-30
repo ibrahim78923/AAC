@@ -1,3 +1,4 @@
+import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
 
 export const useCustomizeTicketColumn = (props: any) => {
@@ -9,7 +10,7 @@ export const useCustomizeTicketColumn = (props: any) => {
     // onClose,
     setIsDrawerOpen,
   } = props;
-
+  const theme = useTheme();
   const router = useRouter();
   const submit = () => {
     // const newTableColumns = tableColumns.filter(
@@ -44,6 +45,7 @@ export const useCustomizeTicketColumn = (props: any) => {
   };
   return {
     submit,
-    onClose
+    onClose,
+    theme,
   };
 };
