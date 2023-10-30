@@ -1,5 +1,9 @@
-import { Box, Button, MenuItem, TextField, Typography } from '@mui/material';
-import { FormProvider } from '@/components/ReactHookForm';
+import { Box, Button } from '@mui/material';
+import {
+  FormProvider,
+  RHFSelect,
+  RHFTextField,
+} from '@/components/ReactHookForm';
 import { v4 as uuidv4 } from 'uuid';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -14,7 +18,7 @@ import ConversationModel from '@/components/Model/CoversationModel';
 export const UpSertFolder = ({ openDialog, setOpenDialog }: any) => {
   const methods: any = useForm({
     resolver: yupResolver(validationSchema),
-    defaultValues,
+    defaultValues: defaultValues,
   });
 
   const { handleSubmit, reset } = methods;
@@ -40,44 +44,37 @@ export const UpSertFolder = ({ openDialog, setOpenDialog }: any) => {
     >
       <Box width={{ xs: '18rem', sm: '25rem', lg: '30rem' }}>
         <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-          <Typography variant="body2" padding={'.2rem'}>
-            Name
-          </Typography>
-          <TextField
-            type="text"
-            size="small"
-            placeholder="Enter Folder Name"
-            fullWidth
+          <RHFTextField
+            name={'name'}
+            label={'Name'}
+            placeholder={'Enter Folder Name'}
+            type={'text'}
+            size={'small'}
           />
 
-          <Typography variant="body2" padding={'.6rem 0 .2rem'}>
-            Description
-          </Typography>
-          <TextField
+          <RHFTextField
             multiline
             rows={3}
-            type="text"
-            size="small"
-            placeholder="#example"
-            fullWidth
+            name={'description'}
+            label={'Description'}
+            placeholder={'#example'}
+            type={'text'}
+            size={'small'}
           />
 
-          <Typography variant="body2" padding={'.6rem 0 .2rem'}>
-            Visible to
-          </Typography>
-          <TextField
-            size="small"
-            id="visible"
-            select
-            defaultValue="All"
-            fullWidth
+          <RHFSelect
+            name={'visible'}
+            label={'Visible to'}
+            placeholder={'Enter Folder Name'}
+            type={'text'}
+            size={'small'}
           >
             {visibleToDataArray.map((item) => (
-              <MenuItem key={uuidv4()} value={item?.value}>
+              <option key={uuidv4()} value={item?.value}>
                 {item?.label}
-              </MenuItem>
+              </option>
             ))}
-          </TextField>
+          </RHFSelect>
 
           <Box
             display={'flex'}
