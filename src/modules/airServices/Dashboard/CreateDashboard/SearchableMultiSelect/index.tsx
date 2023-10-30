@@ -53,9 +53,7 @@ function PopperComponent(props: PopperComponentProps) {
 
 const StyledPopper = styled(Popper)(({ theme }) => ({
   border: `1px solid ${theme.palette.mode === 'light' ? '#e1e4e8' : '#30363d'}`,
-  boxShadow: `0 8px 24px ${
-    theme.palette.mode === 'light' ? 'rgba(149, 157, 165, 0.2)' : 'rgb(1, 4, 9)'
-  }`,
+  boxShadow: `0 8px 24px 0px 4px 6px -2px rgba(16, 24, 40, 0.03), 0px 12px 16px -4px rgba(16, 24, 40, 0.08)`,
   borderRadius: 6,
   width: 420,
   padding: '10px',
@@ -97,12 +95,9 @@ const Button = styled(ButtonBase)(({ theme }) => ({
   },
 }));
 
-export default function GitHubLabel() {
+export const SearchableMultiSelect = ({ labels }: any) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const [value, setValue] = React.useState<LabelType[]>([
-    labels[1],
-    labels[11],
-  ]);
+  const [value, setValue] = React.useState<LabelType[]>([]);
   const [pendingValue, setPendingValue] = React.useState<LabelType[]>([]);
   const theme = useTheme();
 
@@ -129,25 +124,6 @@ export default function GitHubLabel() {
           <span>Labels</span>
           <SettingsIcon />
         </Button>
-        {value.map((label) => (
-          <Box
-            key={label.name}
-            sx={{
-              mt: '3px',
-              height: 20,
-              padding: '.15em 4px',
-              fontWeight: 600,
-              lineHeight: '15px',
-              borderRadius: '2px',
-            }}
-            style={{
-              backgroundColor: label.color,
-              color: theme.palette.getContrastText(label.color),
-            }}
-          >
-            {label.name}
-          </Box>
-        ))}
       </Box>
       <StyledPopper
         id={id}
@@ -201,8 +177,12 @@ export default function GitHubLabel() {
                         gap: '10px',
                       }}
                     >
-                      <Avatar alt={option.name}>
-                        <Image src={''} alt={option.name} layout="fill" />
+                      <Avatar alt={option?.name}>
+                        <Image
+                          src={option?.src}
+                          alt={option?.name}
+                          layout="fill"
+                        />
                       </Avatar>
                       <Box
                         sx={{
@@ -215,7 +195,7 @@ export default function GitHubLabel() {
                           },
                         }}
                       >
-                        {option.name}
+                        {option?.name}
                       </Box>
                     </Box>
                     <DoneIcon
@@ -261,104 +241,10 @@ export default function GitHubLabel() {
       </StyledPopper>
     </React.Fragment>
   );
-}
+};
 
 interface LabelType {
   name: string;
   color: string;
   description?: string;
 }
-
-// From https://github.com/abdonrd/github-labels
-const labels = [
-  {
-    name: 'good first issue',
-    color: '#7057ff',
-    description: 'Good for newcomers',
-  },
-  {
-    name: 'help wanted',
-    color: '#008672',
-    description: 'Extra attention is needed',
-  },
-  {
-    name: 'priority: critical',
-    color: '#b60205',
-    description: '',
-  },
-  {
-    name: 'priority: high',
-    color: '#d93f0b',
-    description: '',
-  },
-  {
-    name: 'priority: low',
-    color: '#0e8a16',
-    description: '',
-  },
-  {
-    name: 'priority: medium',
-    color: '#fbca04',
-    description: '',
-  },
-  {
-    name: "status: can't reproduce",
-    color: '#fec1c1',
-    description: '',
-  },
-  {
-    name: 'status: confirmed',
-    color: '#215cea',
-    description: '',
-  },
-  {
-    name: 'status: duplicate',
-    color: '#cfd3d7',
-    description: 'This issue or pull request already exists',
-  },
-  {
-    name: 'status: needs information',
-    color: '#fef2c0',
-    description: '',
-  },
-  {
-    name: 'status: wont do/fix',
-    color: '#eeeeee',
-    description: 'This will not be worked on',
-  },
-  {
-    name: 'type: bug',
-    color: '#d73a4a',
-    description: "Something isn't working",
-  },
-  {
-    name: 'type: discussion',
-    color: '#d4c5f9',
-    description: '',
-  },
-  {
-    name: 'type: documentation',
-    color: '#006b75',
-    description: '',
-  },
-  {
-    name: 'type: enhancement',
-    color: '#84b6eb',
-    description: '',
-  },
-  {
-    name: 'type: epic',
-    color: '#3e4b9e',
-    description: 'A theme of work that contain sub-tasks',
-  },
-  {
-    name: 'type: feature request',
-    color: '#fbca04',
-    description: 'New feature or request',
-  },
-  {
-    name: 'type: question',
-    color: '#d876e3',
-    description: 'Further information is requested',
-  },
-];

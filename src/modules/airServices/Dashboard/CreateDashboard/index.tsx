@@ -18,8 +18,8 @@ import {
 } from '@mui/material';
 import Image from 'next/image';
 import { useForm } from 'react-hook-form';
-import { dashboardCheckboxData } from './CreateDashboard.data';
-import GitHubLabel from './SearchableMultiSelect';
+import { dashboardCheckboxData, userData } from './CreateDashboard.data';
+import { SearchableMultiSelect } from './SearchableMultiSelect';
 
 export const CreateDashboard = () => {
   const theme = useTheme();
@@ -116,7 +116,7 @@ export const CreateDashboard = () => {
                 />
               </div>
             </Box>
-            <GitHubLabel />
+            <SearchableMultiSelect labels={userData} />
             <Typography variant="h6" fontWeight={600} color="slateblue.main">
               Use the checkboxes to remove/add any report you want
             </Typography>

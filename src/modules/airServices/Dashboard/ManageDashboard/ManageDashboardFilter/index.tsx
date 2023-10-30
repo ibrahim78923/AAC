@@ -31,7 +31,7 @@ export const ManageDashboardFilter = (props: any) => {
                 <Grid item xs={12} key={uuidv4()}>
                   <item.component {...item.componentProps} size={'small'}>
                     {item?.componentProps?.select &&
-                      item?.options?.map((option: any) => (
+                      item?.componentProps?.options?.map((option: any) => (
                         <option value={option?.value} key={uuidv4()}>
                           {option?.label}
                         </option>
