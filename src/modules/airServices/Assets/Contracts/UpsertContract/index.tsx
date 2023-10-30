@@ -11,15 +11,11 @@ export const UpsertContract = () => {
     theme,
     upsertContractFormFieldsData,
   } = useUpsertContract();
+
   return (
     <>
       <Grid
         container
-        // sx={{
-        //   border:  '1px solid rgba(98, 110, 142, 0.12) ',
-        //   borderRadius: '12px',
-        //   padding: '20px',
-        // }}
         border={{
           xs: `2px solid ${theme?.palette?.custom?.off_white_three}`,
           md: 'none',
@@ -40,7 +36,7 @@ export const UpsertContract = () => {
         >
           <FormProvider
             methods={methods}
-            onSubmit={handleSubmit(submitUpsertContractForm)}
+            onSubmit={handleSubmit?.(submitUpsertContractForm)}
           >
             <Grid container spacing={4}>
               {upsertContractFormFieldsData?.map((item: any) => (
@@ -65,25 +61,29 @@ export const UpsertContract = () => {
         <Grid item xs={12} md={4} mt={1} mb={1}>
           <FormProvider
             methods={methods}
-            onSubmit={handleSubmit(submitUpsertContractForm)}
+            onSubmit={handleSubmit?.(submitUpsertContractForm)}
           >
             <RHFDropZone name="attachment" />
           </FormProvider>
         </Grid>
-        <br />
-        <Box
-          display={'flex'}
-          alignItems={'center'}
-          justifyContent={'space-between'}
-        >
-          <Box></Box>
-          <Box display={'flex'} gap={2} alignItems={'center'}>
-            <Button variant="outlined" color="secondary">
-              Cancel
-            </Button>
-            <Button variant="contained">Save</Button>
+      </Grid>
+      <br />
+      <Grid container>
+        <Grid item xs={12} md={7.5}>
+          <Box
+            display={'flex'}
+            alignItems={'center'}
+            justifyContent={'space-between'}
+          >
+            <Box></Box>
+            <Box display={'flex'} gap={2} alignItems={'center'}>
+              <Button variant="outlined" color="secondary">
+                Cancel
+              </Button>
+              <Button variant="contained">Save</Button>
+            </Box>
           </Box>
-        </Box>
+        </Grid>
       </Grid>
     </>
   );

@@ -396,8 +396,11 @@ export const upsertContractFormFieldsDataFunction = (
       name: 'autoRenew',
       label: (
         <Box marginLeft={1}>
-          <Typography variant="h6"> Auto Renew </Typography>
-          <Typography>
+          <Typography variant="body1" fontWeight={600}>
+            {' '}
+            Auto Renew{' '}
+          </Typography>
+          <Typography variant="body1">
             {' '}
             Contract will auto renew upon reaching contract expiry date
           </Typography>
@@ -413,8 +416,14 @@ export const upsertContractFormFieldsDataFunction = (
       name: 'notifyExpiry',
       label: (
         <Box marginLeft={1}>
-          <Typography> Notify Expiry</Typography>
-          <Typography> Notify people upon expiry of contract</Typography>
+          <Typography variant="body1" fontWeight={600}>
+            {' '}
+            Notify Expiry
+          </Typography>
+          <Typography variant="body1">
+            {' '}
+            Notify people upon expiry of contract
+          </Typography>
         </Box>
       ),
     },

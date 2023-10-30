@@ -7,7 +7,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  useTheme,
+  // useTheme,
 } from '@mui/material';
 import { useFormContext, useFieldArray } from 'react-hook-form';
 import { columns, tableData } from './ItemDetail.data';
@@ -23,12 +23,12 @@ export const ItemDetail: any = (props: any) => {
     control,
     name,
   });
-  const theme = useTheme();
+  // const theme = useTheme();
 
   //TODO: use item.id as a key because RHF fieldArray is using and it recommends that.
 
   return (
-    <Box boxShadow={1} border={`1px solid ${theme?.palette?.grey?.[700]}`}>
+    <Box boxShadow={1} border={`1px solid gre`}>
       <TableContainer>
         <Table sx={{ minWidth: '1200px' }}>
           <TableHead>
