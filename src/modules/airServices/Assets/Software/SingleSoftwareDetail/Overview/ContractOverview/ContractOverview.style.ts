@@ -2,7 +2,7 @@ export const styles = {
   mainBox: (theme: any) => ({
     border: '1.51px solid',
     borderColor: theme.palette.grey?.[700],
-    maxWidth: '530px',
+    maxWidth: '540px',
     width: '100%',
     height: '400px',
     radius: '8px',

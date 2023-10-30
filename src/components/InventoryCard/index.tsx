@@ -12,7 +12,7 @@ export const InventoryCard = ({
   const theme: any = useTheme();
   const [showIcon, setShowIcon] = useState(false);
   return (
-    <>
+    <Box>
       <Box
         display={'flex'}
         alignItems={'center'}
@@ -66,10 +66,10 @@ export const InventoryCard = ({
                 backgroundColor: 'transparent',
               }}
             />
-            <Typography>{children}</Typography>
+            {children}
           </>
         )}
       </Box>
-    </>
+    </Box>
   );
 };

@@ -11,22 +11,24 @@ export const PurchaseOrder = () => {
     <>
       {!!purchaseOrderData?.length ? (
         purchaseOrderData?.map((singlePurchaseOrder: any) => (
-          <InventoryCard
-            heading={singlePurchaseOrder.heading}
-            status={singlePurchaseOrder.status}
-            key={uuidv4()}
-            showChild
-          >
-            <Box
-              display={'flex'}
-              alignItems={'center'}
-              justifyItems={'center'}
-              gap={'.3rem'}
+          <div key={uuidv4()}>
+            <InventoryCard
+              heading={singlePurchaseOrder?.heading}
+              status={singlePurchaseOrder?.status}
+              key={uuidv4()}
+              showChild
             >
-              <Typography color={theme?.palette?.grey[900]}>Cost:</Typography>
-              <Typography>{singlePurchaseOrder.cost}</Typography>
-            </Box>
-          </InventoryCard>
+              <Box
+                display={'flex'}
+                alignItems={'center'}
+                justifyItems={'center'}
+                gap={'.3rem'}
+              >
+                <Typography color={theme?.palette?.grey[900]}>Cost:</Typography>
+                <Typography>{singlePurchaseOrder?.cost}</Typography>
+              </Box>
+            </InventoryCard>
+          </div>
         ))
       ) : (
         <NoData

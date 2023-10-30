@@ -12,7 +12,7 @@ export const styles = {
   mainBox: (theme: any) => ({
     border: '1.51px solid',
     borderColor: theme.palette.grey?.[700],
-    maxWidth: '380px',
+    maxWidth: '400px',
     width: '100%',
     height: '400px',
     radius: '8px',
@@ -25,7 +25,7 @@ export const styles = {
   }),
 
   alignGraph: {
-    cx: 175,
+    cx: 189,
     cy: 135,
     height: 280,
     innerRadius: 70,
@@ -34,10 +34,10 @@ export const styles = {
     cornerRadius: 15,
     startAngle: -250,
     endAngle: 300,
-    textLabelX: 1.5,
-    numberLabelX: 1.5,
-    textLabelY: 1.9,
-    numberLabelY: 2.2,
+    textLabelX: 2.1,
+    numberLabelX: 2.1,
+    textLabelY: 2,
+    numberLabelY: 2.3,
   },
 
   chart: {
@@ -60,12 +60,7 @@ export const styles = {
   footerBox: {
     display: 'flex',
     justifyContent: 'center',
-    gap: '16px',
-  },
-
-  footerTypography: {
-    display: 'flex',
-    alignItems: 'center',
+    gap: '10px',
   },
 
   footerTypographyBox: (theme: any) => ({
@@ -74,6 +69,5 @@ export const styles = {
     height: '25px',
     backgroundColor: theme.palette.primary?.light,
     borderRadius: '4px',
-    marginRight: '6px',
   }),
 };
