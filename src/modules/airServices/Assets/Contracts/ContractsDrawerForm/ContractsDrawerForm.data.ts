@@ -1,21 +1,21 @@
 import { RHFSelect } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
-export const drawerFormValidationSchema = Yup.object().shape({
+export const ContractsDrawerFormValidationSchema = Yup.object().shape({
   type: Yup.string(),
   status: Yup.string(),
   vender: Yup.string(),
   expiry: Yup.string(),
 });
 
-export const defaultValues = {
+export const ContractsDrawerFormDefaultValues = {
   type: '',
   status: '',
   vender: '',
   expiry: '',
 };
 
-export const DrawerFormDataArray = [
+export const ContractsDrawerFormDataArray = [
   {
     componentProps: {
       name: 'type',
