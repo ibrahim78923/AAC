@@ -5,22 +5,22 @@ import {
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 export const addInventoryValidationSchemaOne = Yup?.object()?.shape({
-  description: Yup.string().required('Field is Required'),
-  assetnameprefix: Yup.string().required('Field is Required'),
-  location: Yup.string(),
-  acquisitionDate: Yup.string(),
-  assetstate: Yup.string().required('Field is Required'),
+  description: Yup?.string()?.required('Field is Required'),
+  assetnameprefix: Yup?.string()?.required('Field is Required'),
+  location: Yup?.string(),
+  acquisitionDate: Yup?.string(),
+  assetstate: Yup?.string()?.required('Field is Required'),
 });
 export const addInventoryValidationSchemaUpdate = Yup?.object()?.shape({
-  updateExisting: Yup.string().required('Field is Required'),
-  dellMonitor: Yup.boolean(),
-  mouse: Yup.boolean(),
-  lcd: Yup.boolean(),
+  updateExisting: Yup?.string()?.required('Field is Required'),
+  dellMonitor: Yup?.boolean(),
+  mouse: Yup?.boolean(),
+  lcd: Yup?.boolean(),
 });
 export const addToInventoryItemStatusValidationSchema = Yup?.object()?.shape({
-  assetName: Yup.string().required('Field is Required'),
-  serialNumber: Yup.string(),
-  assetTag: Yup.string(),
+  assetName: Yup?.string()?.required('Field is Required'),
+  serialNumber: Yup?.string(),
+  assetTag: Yup?.string(),
 });
 
 export const addInventoryDefaultValuesOne = {

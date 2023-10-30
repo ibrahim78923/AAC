@@ -14,7 +14,6 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import useAddToInventoryDrawer from './useAddToInventory';
 import { v4 as uuidv4 } from 'uuid';
-import { styles } from './AddToInventory.style';
 
 export const AddToInventory = (props: any) => {
   const { isADrawerOpen, setIsADrawerOpen } = props;
@@ -66,34 +65,44 @@ export const AddToInventory = (props: any) => {
             display={'flex'}
             flexDirection={'row'}
           >
-            <Grid item xs={6} sx={styles?.firstGridStyling}>
+            <Grid item xs={6} display={'flex'} flexDirection={'row'}>
               <Image
                 src={TotalItemImage}
                 height={24}
                 width={24}
                 alt="item Status"
               />
-              <Box sx={styles?.firstMainGridBoxStyling}>
-                <Typography variant="h6">Total items received:</Typography>
-                <Typography variant="h6" component="span" sx={{ mt: '0.5rem' }}>
+              <Box display={'flex'} flexDirection={'column'}>
+                <Typography variant="h6" sx={{ ml: '0.5rem' }}>
+                  Total items received:
+                </Typography>
+                <Typography
+                  variant="h6"
+                  component="span"
+                  sx={{ mt: '0.5rem', ml: '0.5rem' }}
+                >
                   5/5
                 </Typography>
               </Box>
             </Grid>
-            <Grid item xs={5} sx={styles?.secondMainGridStyling}>
+            <Grid item xs={5} display={'flex'} flexDirection={'row'}>
               <Image
                 src={ItemStatusImage}
                 height={24}
                 width={24}
                 alt="item Status"
               />
-              <Box sx={styles?.fourthBoxStyling}>
+              <Box
+                display={'flex'}
+                flexDirection={'column'}
+                marginLeft={'0.5rem'}
+              >
                 <Typography variant="h6">Item Status</Typography>
                 <Chip
                   label="Received"
                   color="primary"
                   variant="outlined"
-                  sx={styles?.receivedBoxStyling}
+                  sx={{ mt: '0.5rem' }}
                 />
               </Box>
             </Grid>
@@ -102,14 +111,26 @@ export const AddToInventory = (props: any) => {
             container
             display={'Flex'}
             flexDirection={'column'}
-            sx={styles?.mainGridStyling}
+            borderRadius="8px"
+            border="2px solid #EBFAF8"
+            marginTop="1rem"
+            marginBottom="1rem"
           >
-            <Grid item xs={12} sx={styles?.firstGridMainStyling}>
+            <Grid item xs={12} display={'flex'} flexDirection={'column'}>
               <Typography variant="h5">Items added to inventory</Typography>
-              <Typography variant="body1">2</Typography>
+              <Typography variant="body1" sx={{ mt: '0.5rem', ml: '0.5rem' }}>
+                2
+              </Typography>
             </Grid>
             <Divider />
-            <Grid item xs={12} sx={styles?.secondGridStyling}>
+            <Grid
+              item
+              xs={12}
+              display={'flex'}
+              flexDirection={'row'}
+              marginTop={'0.5rem'}
+              padding={'1rem'}
+            >
               <Box sx={{ width: '180px' }}>
                 <FormProvider onSubmit={() => {}} methods={methodsYes}>
                   <RHFTextField
@@ -121,9 +142,14 @@ export const AddToInventory = (props: any) => {
                   />
                 </FormProvider>
               </Box>
-              <Box sx={styles?.secondBoxStyling}>
+              <Box
+                display={'flex'}
+                flexDirection={'row'}
+                marginLeft={'1rem'}
+                marginTop={'2.5rem'}
+              >
                 <Typography variant="h6">Items to inventory</Typography>
-                <Box sx={styles?.thirdBoxStyling}>
+                <Box marginLeft={'0.5rem'} marginTop={'0.1rem'}>
                   <Image
                     src={ItemToInventoryImage}
                     height={24}
@@ -226,18 +252,27 @@ export const AddToInventory = (props: any) => {
             display={'flex'}
             flexDirection={'row'}
           >
-            <Grid item xs={6} sx={styles?.secondMainsGridStyling}>
+            <Grid
+              item
+              xs={6}
+              display={'flex'}
+              flexDirection={'row'}
+              marginBottom={'2rem'}
+            >
               <Image
                 src={ItemStatusImage}
                 height={24}
                 width={24}
                 alt="item Status"
               />
-              <Box sx={styles?.fourthBoxStyling}>
+              <Box>
                 <Typography variant="h6">Item Status</Typography>
-                <Typography component="span" sx={styles?.recievedBoxStyling}>
-                  Received
-                </Typography>
+                <Chip
+                  label="Received"
+                  color="primary"
+                  variant="outlined"
+                  sx={{ mt: '0.5rem' }}
+                />
               </Box>
             </Grid>
             <Grid item xs={12}>
