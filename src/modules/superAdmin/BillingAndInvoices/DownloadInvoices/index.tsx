@@ -12,7 +12,7 @@ import {
   useTheme,
 } from '@mui/material';
 
-import TanstackTable from '@/components/Tabel/TanstackTable';
+import TanstackTable from '@/components/Table/TanstackTable';
 
 import { invoiceProducData } from '@/mock/modules/SubscriptionAndInvoices';
 import { ViewInvoicesI } from './ViewInvoices.interface';

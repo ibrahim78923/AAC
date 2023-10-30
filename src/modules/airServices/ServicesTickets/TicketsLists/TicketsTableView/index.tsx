@@ -1,8 +1,8 @@
 // import CustomPagination from '@/components/CustomPagination';
-import TanstackTable from '@/components/Tabel/TanstackTable';
 import { useTicketsLists } from '../useTicketsLists';
 import CustomPagination from '@/components/CustomPagination';
 import { ticketsListsColumnFunction } from '../TicketsLists.data';
+import TanstackTable from '@/components/Table/TanstackTable';
 
 export const TicketsTableView = () => {
   const {

@@ -3,7 +3,7 @@ import useEditInventory from './useAddInventory';
 import { Box, Button, Grid, Typography } from '@mui/material';
 import { FormProvider, RHFDropZone } from '@/components/ReactHookForm';
 import { editInventoryFields } from './AddInventory.data';
-import FormBuilder from '@/utils/FormBuilder';
+import { v4 as uuidv4 } from 'uuid';
 import { useEffect } from 'react';
 
 const AddInventory = () => {
@@ -25,7 +25,21 @@ const AddInventory = () => {
               </Typography>
               <Grid item container xs={12} overflow="scroll">
                 <Grid container rowSpacing={1.8} columnSpacing={3}>
-                  <FormBuilder formFields={editInventoryFields} />
+                  {editInventoryFields?.map((form: any) => (
+                    <Grid item xs={12} md={form?.gridLength} key={uuidv4()}>
+                      <form.component {...form.componentProps} size="small">
+                        {form?.componentProps?.select
+                          ? form?.componentProps?.options.map((option: any) => (
+                              <option key={uuidv4()} value={option?.value}>
+                                {option?.label}
+                              </option>
+                            ))
+                          : form?.heading
+                          ? form?.heading
+                          : null}
+                      </form.component>
+                    </Grid>
+                  ))}
                 </Grid>
               </Grid>
               <Box sx={{ display: { lg: 'none', xs: 'block' } }}>

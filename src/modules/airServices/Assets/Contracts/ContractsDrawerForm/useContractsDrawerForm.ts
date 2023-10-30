@@ -1,19 +1,19 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import {
-  contractDrawerFormValidationSchema,
-  contractDrawerFormDeaultValues,
-} from './ContractDrawerForm/ContractDrawerForm.data';
+  drawerFormValidationSchema,
+  defaultValues,
+} from './DrawerForm/DrawerForm.data';
 
 export function useContractsDrawerForm() {
-  const methodsContractDrawerForm = useForm({
-    resolver: yupResolver(contractDrawerFormValidationSchema),
-    contractDrawerFormDeaultValues,
+  const methodsDrawerFormForm = useForm({
+    resolver: yupResolver(drawerFormValidationSchema),
+    defaultValues,
   });
 
   return {
-    methodsContractDrawerForm,
-    contractDrawerFormValidationSchema,
-    contractDrawerFormDeaultValues,
+    methodsDrawerFormForm,
+    drawerFormValidationSchema,
+    defaultValues,
   };
 }

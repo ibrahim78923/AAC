@@ -19,7 +19,7 @@ export const AddOutcomeModal = ({
       >
         <FormProvider
           methods={addCoversationModel}
-          onSubmit={addCoversationModel.handleSubmit(onSubmit)}
+          onSubmit={addCoversationModel?.handleSubmit(onSubmit)}
         >
           <Grid container spacing={2}>
             {addOutcomeArray?.map((item: any) => (
@@ -28,9 +28,9 @@ export const AddOutcomeModal = ({
                 xs={12}
                 md={item?.md}
                 key={uuidv4()}
-                mb={item.mb ? item.mb : ''}
+                mb={item?.mb ? item?.mb : ''}
               >
-                <item.component {...item.componentProps}>
+                <item.component {...item?.componentProps}>
                   {item?.componentProps?.select
                     ? item?.options?.map((option: any) => (
                         <option key={option?.value} value={option?.value}>

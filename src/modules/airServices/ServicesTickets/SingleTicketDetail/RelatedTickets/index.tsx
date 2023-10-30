@@ -1,6 +1,6 @@
-import TanstackTable from '@/components/Tabel/TanstackTable';
+import TanstackTable from '@/components/Table/TanstackTable';
 import { data, columns } from './RelatedTicketsTable.data';
-import { RelatedTicketsDrawer } from './RelatedTicketsDrawer';
+import { CreateRelatedTicketsDrawer } from './CreateRelatedTickets/CreateRelatedTicketsDrawer';
 import { useRelatedTickets } from './useRelatedTickets';
 import { RelatedTicketsHeader } from './RelatedTicketsHeader';
 
@@ -14,7 +14,7 @@ const RelatedTickets = () => {
         isActive={isActive}
         setIsDrawerOpen={setIsDrawerOpen}
       />
-      <RelatedTicketsDrawer
+      <CreateRelatedTicketsDrawer
         isDrawerOpen={isDrawerOpen}
         setIsDrawerOpen={setIsDrawerOpen}
       />

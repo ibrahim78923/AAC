@@ -1,29 +1,33 @@
 import { Box } from '@mui/material';
-import ContractOverview from './Components/ContractOverview';
-import ContractUtilization from './Components/ContractUtilization';
-import UsageActivity from './Components/UsageActivity';
-import { styles } from './Overview.style';
+import ContractOverview from './ContractOverview';
+import ContractUtilization from './ContractUtilization';
+import UsageActivity from './UsageActivity';
 import {
   contractUtilizationData,
-  contractUtilizationLable,
-  UsageActivityData,
-  UsageActivityLable,
-  ContractOverviewLable,
+  contractUtilizationLabel,
+  usageActivityData,
+  usageActivityLabel,
+  contractOverviewLabel,
 } from './Overview.data';
 
 export const Overview = () => {
   return (
     <>
-      <Box sx={styles.boxStyle}>
+      <Box
+        display={'flex'}
+        justifyContent={'center'}
+        gap={'1.5rem'}
+        flexWrap={'wrap'}
+      >
         <UsageActivity
-          UsageActivityData={UsageActivityData}
-          UsageActivityLable={UsageActivityLable}
+          usageActivityData={usageActivityData}
+          usageActivityLabel={usageActivityLabel}
         />
         <ContractUtilization
           contractUtilizationData={contractUtilizationData}
-          contractUtilizationLable={contractUtilizationLable}
+          contractUtilizationLabel={contractUtilizationLabel}
         />
-        <ContractOverview ContractOverviewLable={ContractOverviewLable} />
+        <ContractOverview contractOverviewLabel={contractOverviewLabel} />
       </Box>
     </>
   );

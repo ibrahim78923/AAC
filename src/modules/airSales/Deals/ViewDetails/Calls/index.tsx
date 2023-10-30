@@ -4,7 +4,7 @@ import { Box, Button, Grid, Typography } from '@mui/material';
 
 import CallsEditorDrawer from './CallsEditorDrawer';
 import CallsActionDropdown from './CallsActionDropDown';
-import TanstackTable from '@/components/Tabel/TanstackTable';
+import TanstackTable from '@/components/Table/TanstackTable';
 
 import useCalls from './useCalls';
 

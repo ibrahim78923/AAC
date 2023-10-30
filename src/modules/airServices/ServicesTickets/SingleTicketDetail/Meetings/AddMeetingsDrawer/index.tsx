@@ -24,7 +24,7 @@ export const AddMeetingsDrawer = ({
         onClose={() => setDrawerOpen(false)}
         title="Add Meeting"
         submitHandler={() => {
-          methodsCreateNewTicketForm.handleSubmit(submitCreateNewTicket)();
+          methodsCreateNewTicketForm?.handleSubmit(submitCreateNewTicket)();
         }}
         isOk={true}
         footer={true}
@@ -33,7 +33,7 @@ export const AddMeetingsDrawer = ({
         <AddMeetingForm
           submitCreateNewTicket={submitCreateNewTicket}
           methods={methodsCreateNewTicketForm}
-          handleSubmit={methodsCreateNewTicketForm.handleSubmit}
+          handleSubmit={methodsCreateNewTicketForm?.handleSubmit}
         />
       </CommonDrawer>
     </div>
