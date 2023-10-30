@@ -1,36 +1,99 @@
+import { Box, Button, MenuItem, TextField, Typography } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
-import { Box, TextField } from '@mui/material';
-import { upsertFolderDataArray } from './UpsertFolder.data';
 import { v4 as uuidv4 } from 'uuid';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { enqueueSnackbar } from 'notistack';
+import {
+  validationSchema,
+  defaultValues,
+  visibleToDataArray,
+} from './UpsertFolder.data';
 import ConversationModel from '@/components/Model/CoversationModel';
 
-export const UpsertFolder = ({ methods }: any) => {
+export const UpsertFolder = ({ openDialog, setOpenDialog }: any) => {
+  const methods: any = useForm({
+    resolver: yupResolver(validationSchema),
+    defaultValues,
+  });
+
+  const { handleSubmit, reset } = methods;
+
+  const onSubmit = async () => {
+    enqueueSnackbar('Create Folder Successfully!', {
+      variant: 'success',
+      autoHideDuration: 3000,
+    });
+    setOpenDialog(false);
+    reset(defaultValues);
+  };
+
+  const closeModal = () => {
+    setOpenDialog(false);
+  };
+
   return (
     <ConversationModel
-      open={true}
-      selectedItem={'Create Folder'}
-      okText={'Create'}
+      open={openDialog}
+      handleClose={closeModal}
+      selectedItem="Create Folder"
     >
-      <>
-        <Box mt={1}>
-          <FormProvider methods={methods} key={uuidv4()}>
-            {upsertFolderDataArray?.map((item: any) => (
-              <>
-                <label>{item.label}</label>
-                <TextField {...item?.componentProps} size="small">
-                  {item?.componentProps?.select
-                    ? item?.options?.map((option: any) => (
-                        <option key={option?.value} value={option?.value}>
-                          {option?.label}
-                        </option>
-                      ))
-                    : null}
-                </TextField>
-              </>
+      <Box width={{ xs: '18rem', sm: '25rem', lg: '30rem' }}>
+        <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+          <Typography variant="body2" padding={'.2rem'}>
+            Name
+          </Typography>
+          <TextField
+            type="text"
+            size="small"
+            placeholder="Enter Folder Name"
+            fullWidth
+          />
+
+          <Typography variant="body2" padding={'.6rem 0 .2rem'}>
+            Description
+          </Typography>
+          <TextField
+            multiline
+            rows={3}
+            type="text"
+            size="small"
+            placeholder="#example"
+            fullWidth
+          />
+
+          <Typography variant="body2" padding={'.6rem 0 .2rem'}>
+            Visible to
+          </Typography>
+          <TextField
+            size="small"
+            id="visible"
+            select
+            defaultValue="All"
+            fullWidth
+          >
+            {visibleToDataArray.map((item) => (
+              <MenuItem key={uuidv4()} value={item?.value}>
+                {item?.label}
+              </MenuItem>
             ))}
-          </FormProvider>
-        </Box>
-      </>
+          </TextField>
+
+          <Box
+            display={'flex'}
+            justifyContent={'flex-end'}
+            paddingTop={'2rem'}
+            gap={'1rem'}
+          >
+            <Button variant="outlined" onClick={() => setOpenDialog(false)}>
+              Cancel
+            </Button>
+            <Button variant="contained" onClick={onSubmit}>
+              Create
+            </Button>
+          </Box>
+        </FormProvider>
+      </Box>
     </ConversationModel>
   );
 };
