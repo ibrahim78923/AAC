@@ -2,33 +2,37 @@ import CommonDrawer from '@/components/CommonDrawer';
 import { useContractsDrawerForm } from './useContractsDrawerForm';
 import { Box, Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
-import { ContractsDrawerFormDataArray } from './ContractsDrawerForm.data';
+import { contractsDrawerFormDataArray } from './ContractsDrawerForm.data';
 import { v4 as uuidv4 } from 'uuid';
+import { enqueueSnackbar } from 'notistack';
 
 const ContractsDrawerForm = (props: any) => {
   const { isDrawerOpen, setIsDrawerOpen } = props;
   const { methodsDrawerFormForm } = useContractsDrawerForm();
-
+  const { handleSubmit } = methodsDrawerFormForm;
+  const onSubmit = async () => {
+    enqueueSnackbar('Save Successfully', {
+      variant: 'success',
+    });
+    setIsDrawerOpen(false);
+  };
   return (
     <>
       <CommonDrawer
-        // footer={true}
+        footer={true}
         isDrawerOpen={isDrawerOpen}
         onClose={() => setIsDrawerOpen(false)}
         title="Filters"
         okText="Send"
         isOk
-        // isOk={true}
+        submitHandler={handleSubmit(onSubmit)}
       >
         <Box mt={1}>
-          <FormProvider
-            methods={methodsDrawerFormForm}
-            onSubmit={methodsDrawerFormForm.handleSubmit}
-          >
+          <FormProvider methods={methodsDrawerFormForm}>
             <Grid container spacing={4}>
-              {ContractsDrawerFormDataArray?.map((item: any) => (
+              {contractsDrawerFormDataArray?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                  <item.component {...item.componentProps} size={'small'}>
+                  <item.component {...item?.componentProps} size={'small'}>
                     {item?.componentProps?.select
                       ? item?.options?.map((option: any) => (
                           <option key={option?.value} value={option?.value}>

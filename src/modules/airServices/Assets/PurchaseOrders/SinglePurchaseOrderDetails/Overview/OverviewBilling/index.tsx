@@ -1,5 +1,5 @@
 import { Box, Divider, Grid, Typography, TextField } from '@mui/material';
-import { ModelBillingData } from './OverviewBilling.data';
+import { modelBillingData } from './OverviewBilling.data';
 import { styles } from './OverviewBilling.style';
 
 const OverviewBilling = () => {
@@ -11,10 +11,10 @@ const OverviewBilling = () => {
         flexDirection: 'column',
       }}
     >
-      {ModelBillingData?.map((item: any) => {
+      {modelBillingData?.map((item: any) => {
         const totalItem = [
-          ModelBillingData[0]?.label,
-          ModelBillingData[ModelBillingData?.length - 1]?.label,
+          modelBillingData[0]?.label,
+          modelBillingData[modelBillingData?.length - 1]?.label,
         ];
         return (
           <Grid

@@ -4,50 +4,50 @@ export const overviewTablePdfColumns: any = () => {
   const theme = useTheme();
   return [
     {
-      accessorFn: (row: any) => row.itemName,
+      accessorFn: (row: any) => row?.itemName,
       id: 'itemName',
       cell: (info: any) => (
         <span style={{ color: theme?.palette?.blue?.dull_blue }}>
-          {info.getValue()}
+          {info?.getValue()}
         </span>
       ),
       header: 'Item Name',
     },
     {
-      accessorFn: (row: any) => row.description,
+      accessorFn: (row: any) => row?.description,
       id: 'description',
       header: 'Description',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row.costPerItem,
+      accessorFn: (row: any) => row?.costPerItem,
       id: 'costPerItem',
       header: 'Cost Per Item',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row.receivedVsOrdered,
+      accessorFn: (row: any) => row?.receivedVsOrdered,
       id: 'receivedVsOrdered',
       header: 'Received Vs Ordered',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row.pending,
+      accessorFn: (row: any) => row?.pending,
       id: 'pending',
       header: 'Pending',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row.taxRate,
+      accessorFn: (row: any) => row?.taxRate,
       id: 'taxRate',
       header: 'Tax Rate (%)',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row.total,
+      accessorFn: (row: any) => row?.total,
       id: 'total',
       header: 'Total ()',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
   ];
 };

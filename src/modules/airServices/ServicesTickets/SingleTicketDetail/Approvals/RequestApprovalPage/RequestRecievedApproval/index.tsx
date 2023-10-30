@@ -1,6 +1,6 @@
 import { Box, Button, Grid, Typography } from '@mui/material';
 import Image from 'next/image';
-import { ApprovalData } from '../AllApprovals.data';
+import { approvalData } from '../AllApprovals.data';
 import CancelIcon from '@mui/icons-material/Cancel';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import SharedIcon from '@/assets/icons/shared/shared-icon';
@@ -34,8 +34,9 @@ const RequestRecievedApproval = () => {
   return (
     <>
       <Box sx={styles.approvalsContainerBox}>
-        {ApprovalData?.filter((item) => item.status === 'Request')?.map(
-          (filteredItem) => {
+        {approvalData
+          ?.filter((item) => item.status === 'Request')
+          ?.map((filteredItem) => {
             return (
               <div key={filteredItem?.id} style={styles.approvalsContainer}>
                 <Grid
@@ -114,8 +115,7 @@ const RequestRecievedApproval = () => {
                 </Grid>
               </div>
             );
-          },
-        )}
+          })}
       </Box>
       <ConversationModel
         open={openApprovalModal}

@@ -19,14 +19,11 @@ export const overviewData = [
   },
 ];
 
-export const overviewTableColumns: any = (setOpenOverviewModel: any) => {
+export const overviewTableColumns: any = (setOpenOverviewModal: any) => {
   const theme = useTheme();
-  const handleOpen = () => {
-    setOpenOverviewModel(true);
-  };
   return [
     {
-      accessorFn: (row: any) => row.itemName,
+      accessorFn: (row: any) => row?.itemName,
       id: 'itemName',
       cell: (info: any) => (
         <span style={{ color: theme?.palette?.blue?.dull_blue }}>
@@ -36,43 +33,43 @@ export const overviewTableColumns: any = (setOpenOverviewModel: any) => {
       header: 'Item Name',
     },
     {
-      accessorFn: (row: any) => row.description,
+      accessorFn: (row: any) => row?.description,
       id: 'description',
       header: 'Description',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row.costPerItem,
+      accessorFn: (row: any) => row?.costPerItem,
       id: 'costPerItem',
       header: 'Cost Per Item',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row.quantity,
+      accessorFn: (row: any) => row?.quantity,
       id: 'quantity',
       header: 'Quantity',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row.taxRate,
+      accessorFn: (row: any) => row?.taxRate,
       id: 'taxRate',
       header: 'Tax Rate (%)',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row.total,
+      accessorFn: (row: any) => row?.total,
       id: 'total',
       header: 'Total ()',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row.invoice,
+      accessorFn: (row: any) => row?.invoice,
       id: 'invoice',
       header: 'Invoice',
       cell: (info: any) => (
         <span
           style={{ cursor: 'pointer', color: theme?.palette?.primary?.main }}
-          onClick={handleOpen}
+          onClick={() => setOpenOverviewModal(true)}
         >
           {info.getValue()}
         </span>

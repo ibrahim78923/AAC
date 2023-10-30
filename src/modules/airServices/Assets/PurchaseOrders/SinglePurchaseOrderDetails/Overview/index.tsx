@@ -9,20 +9,20 @@ import OverviewBilling from './OverviewBilling';
 import TanstackTable from '@/components/Table/TanstackTable';
 export const Overview = () => {
   const theme = useTheme();
-  const [openOverviewModel, setOpenOverviewModel] = useState(false);
+  const [openOverviewModal, setOpenOverviewModal] = useState(false);
 
   return (
     <Box>
       {overviewData?.map((item) => (
         <Box key={uuidv4()}>
-          <Typography variant="h5" sx={{ py: '10px' }}>
+          <Typography variant="h5" py={'10px'}>
             {item?.heading}
           </Typography>
           <Box sx={styles?.mainContainerBox}>
             {item?.DetailsData?.map((detail) => (
               <Box key={uuidv4()}>
                 <Box sx={styles?.childContainerBox}>
-                  <Box sx={{ width: { sm: '20%', xs: '8.75rem' } }}>
+                  <Box width={{ sm: '20%', xs: '8.75rem' }}>
                     <Typography variant="body2" fontWeight={500}>
                       {detail?.name}
                     </Typography>
@@ -30,7 +30,7 @@ export const Overview = () => {
                   <Box>
                     <Typography
                       variant="body2"
-                      sx={{ color: theme.palette.grey[900] }}
+                      sx={{ color: theme?.palette?.grey[900] }}
                     >
                       {detail?.detail}
                     </Typography>
@@ -41,22 +41,22 @@ export const Overview = () => {
           </Box>
         </Box>
       ))}
-      <Box sx={{ mt: '1rem' }}>
-        <Typography variant="h5" sx={{ py: '10px' }}>
+      <Box mt={'1rem'}>
+        <Typography variant="h5" py={'10px'}>
           Items Details
         </Typography>
         <TanstackTable
           data={overviewListData}
-          columns={overviewTableColumns(setOpenOverviewModel)}
+          columns={overviewTableColumns(setOpenOverviewModal)}
         />
       </Box>
-      <Box sx={{ m: '1rem 3rem 0 0' }}>
+      <Box m={'1rem 3rem 0 0'}>
         <OverviewBilling />
       </Box>
       <Box>
         <OverviewModel
-          openOverviewModel={openOverviewModel}
-          setOpenOverviewModel={setOpenOverviewModel}
+          openOverviewModal={openOverviewModal}
+          setOpenOverviewModal={setOpenOverviewModal}
         />
       </Box>
     </Box>

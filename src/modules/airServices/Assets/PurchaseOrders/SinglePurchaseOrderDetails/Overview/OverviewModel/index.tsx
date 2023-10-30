@@ -11,20 +11,20 @@ import { DownloadFileIcon, PrinterIcon } from '@/assets/icons';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { styles } from './OverviewModel.style';
 
-const OverviewModel = ({ openOverviewModel, setOpenOverviewModel }: any) => {
+const OverviewModel = ({ openOverviewModal, setOpenOverviewModal }: any) => {
   const handleClose = () => {
-    setOpenOverviewModel(false);
+    setOpenOverviewModal(false);
   };
   return (
     <Box>
       <Dialog
         fullWidth
-        open={openOverviewModel}
+        open={openOverviewModal}
         onClose={handleClose}
         sx={styles?.modelSizing}
       >
         <Box sx={styles?.logoBox}>
-          <Box sx={{ display: 'flex', gap: 1 }}>
+          <Box display={'flex'} gap={1}>
             <Image src={LogoImage} alt="logo" style={styles?.logoImage} />
             <Box>
               <Typography variant="h2">Air Applecart</Typography>
@@ -46,7 +46,7 @@ const OverviewModel = ({ openOverviewModel, setOpenOverviewModel }: any) => {
             <Typography variant="body2" sx={styles?.textColorCommon}>
               Invoice To
             </Typography>
-            <Typography variant="h3" sx={{ mb: '0.3125rem' }}>
+            <Typography variant="h3" mb={'0.3125rem'}>
               Albert Torento
             </Typography>
             <Typography variant="h6" sx={styles?.textColorCommon}>
@@ -59,7 +59,7 @@ const OverviewModel = ({ openOverviewModel, setOpenOverviewModel }: any) => {
               CO I8 BAX
             </Typography>
           </Box>
-          <Box sx={{ display: 'flex', gap: '3rem' }}>
+          <Box display={'flex'} gap={'3rem'}>
             <Box>
               <Typography variant="h6" sx={styles?.textColorCommon}>
                 Invoice
@@ -78,13 +78,13 @@ const OverviewModel = ({ openOverviewModel, setOpenOverviewModel }: any) => {
             </Box>
           </Box>
         </Box>
-        <Box sx={{ px: { md: '3rem', xs: '1rem' } }}>
+        <Box px={{ md: '3rem', xs: '1rem' }}>
           <TanstackTable
             data={overviewListPdfData}
             columns={overviewTablePdfColumns()}
           />
         </Box>
-        <Box sx={{ m: { md: '1rem 3rem 5rem 0' }, px: { xs: '1rem' } }}>
+        <Box m={{ md: '1rem 3rem 5rem 0' }} px={{ xs: '1rem' }}>
           <OverviewBilling />
         </Box>
       </Dialog>
