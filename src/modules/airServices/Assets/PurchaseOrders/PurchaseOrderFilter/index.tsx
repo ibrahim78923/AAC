@@ -2,7 +2,7 @@ import { Button, Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
 import { FilterSharedIcon } from '@/assets/icons';
-import FormBuilder from '@/utils/FormBuilder';
+import { v4 as uuidv4 } from 'uuid';
 
 export const PurchaseOrderFilter = (props: any) => {
   const {
@@ -29,7 +29,7 @@ export const PurchaseOrderFilter = (props: any) => {
           isDrawerOpen={isDrawerOpen}
           onClose={handleReset}
           okText={'filter'}
-          title={'filter'}
+          title={'Filter'}
           submitHandler={handleSubmit}
           isOk={true}
           cancelText={'Reset'}
@@ -37,7 +37,19 @@ export const PurchaseOrderFilter = (props: any) => {
         >
           <FormProvider methods={methods}>
             <Grid container rowSpacing={2.6} columnSpacing={2} mt={-1}>
-              <FormBuilder formFields={filterFields} />
+              {filterFields?.map((form: any) => (
+                <Grid item xs={12} md={form?.gridLength} key={uuidv4()}>
+                  <form.component {...form.componentProps} size="small">
+                    {form?.componentProps?.select
+                      ? form?.componentProps?.options.map((option: any) => (
+                          <option key={uuidv4()} value={option?.value}>
+                            {option?.label}
+                          </option>
+                        ))
+                      : null}
+                  </form.component>
+                </Grid>
+              ))}
             </Grid>
           </FormProvider>
         </CommonDrawer>

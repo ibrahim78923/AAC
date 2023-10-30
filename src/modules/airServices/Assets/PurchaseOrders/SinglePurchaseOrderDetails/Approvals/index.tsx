@@ -1,54 +1,173 @@
 import NoData from '@/components/NoData';
-import NoAssociationFound from '@/assets/images/modules/LogitechMouse/association.png';
-import { Box, Button, useTheme } from '@mui/material';
-import { PlusSharedIconColor } from '@/assets/icons';
-import { styles } from './Approvals.style';
-import SoftwareAssignCategory from '../../../Software/SoftwareAssignCategory';
-import { useState } from 'react';
-import { dataArray } from './Approvals.data';
-import ReminderRequestApproval from './components/PurchaseOrderApprovels/ReminderApprovels';
+import { Fragment, useState } from 'react';
+import { approvalsDataArray, approvalsStatusObj } from './Approvals.data';
+import { Avatar, Box, Button, Grid, Typography, useTheme } from '@mui/material';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import { v4 as uuidv4 } from 'uuid';
+import dayjs from 'dayjs';
+import { RequestApprovalForm } from './RequestApprovalForm';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CancelIcon from '@mui/icons-material/Cancel';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import { ApproveForm } from './ApproveForm';
+import { RejectForm } from './RejectForm';
+import { enqueueSnackbar } from 'notistack';
+import { NoAssociationFound } from '@/assets/images';
+
 export const Approvals = () => {
   const theme: any = useTheme();
-  const [openAssignModal, setOpenAssignModal] = useState(false);
-  const [showApproval, setshowApproval] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
+  const [approveDialog, setApproveDialog] = useState(false);
+  const [rejectDialog, setRejectDialog] = useState(false);
+
+  const RECEIVED = 'Received';
+  const REQUEST_SENT = 'RequestSent';
 
   return (
-    <>
-      <Box sx={styles.buttonContainer}>
-        <Button
-          sx={styles.addButtonStyle(theme)}
-          variant="outlined"
-          startIcon={<PlusSharedIconColor />}
-          onClick={() => {
-            setOpenAssignModal(true);
-          }}
-        >
-          Request Approval
-        </Button>
-      </Box>
-
-      <SoftwareAssignCategory
-        openAssignModal={openAssignModal}
-        setOpenAssignModal={setOpenAssignModal}
-        title={'Request Approval'}
-        dataArray={dataArray}
-        cancelText={'Cancel'}
-        okText={'Request'}
-        successMessage={'Approved Request Send Successfully'}
-        setData={setshowApproval}
-      />
-      {showApproval === false ? (
+    <Fragment>
+      {approvalsDataArray?.length <= 0 ? (
         <NoData
           image={NoAssociationFound}
           message={
-            'Make approved purchases by sending the order to your stakeholders for approval'
+            'Make Approved Purchases by sending the order to your stakeholders for approval'
           }
-        />
+        >
+          <Button
+            variant="outlined"
+            sx={{ backgroundColor: theme?.palette?.grey?.[400] }}
+            startIcon={<AddCircleIcon />}
+            onClick={() => setOpenDialog(true)}
+          >
+            Request Approval
+          </Button>
+        </NoData>
       ) : (
-        <Box sx={styles.approvalBox}>
-          <ReminderRequestApproval status={'Request'} />
-        </Box>
+        <Fragment>
+          <Box textAlign={'end'}>
+            <Button
+              variant="contained"
+              onClick={() => setOpenDialog(true)}
+              startIcon={<AddCircleIcon />}
+            >
+              Request Approval
+            </Button>
+          </Box>
+
+          {approvalsDataArray?.map((item: any) => (
+            <Grid
+              container
+              key={uuidv4()}
+              justifyContent={'space-between'}
+              alignItems={'center'}
+              mt={2}
+              p={2}
+              border={`1px solid ${theme?.palette?.grey?.[200]}`}
+              boxShadow={2}
+              borderRadius={2}
+            >
+              <Grid
+                item
+                xs={12}
+                md={8}
+                display={'flex'}
+                gap={2}
+                mb={{ xs: 2, md: 'unset' }}
+              >
+                <Avatar
+                  alt={item?.title}
+                  src={item?.src?.src}
+                  variant={'circular'}
+                />
+                <Box>
+                  <Typography variant="body1" fontWeight={500}>
+                    {item?.title}
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    display={'flex'}
+                    alignItems={'center'}
+                    gap={0.5}
+                    my={1}
+                    color={
+                      theme?.['palette']?.[
+                        `${approvalsStatusObj?.(item?.status)?.color}`
+                      ]?.['main']
+                    }
+                  >
+                    {approvalsStatusObj?.(item?.status)?.message}
+                    {dayjs(item?.time).format('ddd, D MMM h:mm A')}
+                  </Typography>
+                  <Typography variant="body2">{item?.message}</Typography>
+                </Box>
+              </Grid>
+              <Grid item xs={12} md={4} textAlign={'end'}>
+                {item?.status === RECEIVED && (
+                  <Fragment>
+                    <Button
+                      variant="outlined"
+                      sx={{ mx: 2 }}
+                      color="success"
+                      onClick={() => setApproveDialog(true)}
+                      startIcon={<CheckCircleIcon />}
+                    >
+                      Approve
+                    </Button>
+                    <Button
+                      variant="outlined"
+                      color="error"
+                      onClick={() => setRejectDialog(true)}
+                      startIcon={<CancelIcon />}
+                    >
+                      Reject
+                    </Button>
+                  </Fragment>
+                )}
+                {item?.status === REQUEST_SENT && (
+                  <Fragment>
+                    <Button
+                      variant="outlined"
+                      sx={{ mx: 2 }}
+                      color="secondary"
+                      onClick={() =>
+                        enqueueSnackbar('Cancelled Successfully!', {
+                          variant: 'success',
+                        })
+                      }
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      variant="outlined"
+                      startIcon={<NotificationsIcon />}
+                      onClick={() =>
+                        enqueueSnackbar('Reminder Sent!', {
+                          variant: 'success',
+                        })
+                      }
+                    >
+                      Send Reminder
+                    </Button>
+                  </Fragment>
+                )}
+              </Grid>
+            </Grid>
+          ))}
+        </Fragment>
       )}
-    </>
+      <RequestApprovalForm
+        openDialog={openDialog}
+        setOpenDialog={setOpenDialog}
+      />
+
+      <ApproveForm
+        approveDialog={approveDialog}
+        setApproveDialog={setApproveDialog}
+      />
+
+      <RejectForm
+        rejectDialog={rejectDialog}
+        setRejectDialog={setRejectDialog}
+      />
+    </Fragment>
   );
 };

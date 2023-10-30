@@ -9,13 +9,14 @@ import { PageTitledHeader } from '../../../../components/PageTitledHeader/index'
 import useManage from '@/modules/airSales/Dashboard/Manage/useManage';
 import SoftwareFilter from './SoftwareFilter';
 import SoftwareAssignCategory from './SoftwareAssignCategory';
-import { AddSoftwareDrawer } from './AddSoftwareDrawer';
+import { UpsertSoftware } from './UpsertSoftware';
 import { useRouter } from 'next/router';
 
 function Software() {
   const [isAddDrawerOpen, setIsAddDrawerOpen] = useState<boolean>(false);
   const [softwareData, setSoftwareData] = useState([]);
   const [openAssignModal, setOpenAssignModal] = useState(false);
+  const [assignCategory, setAssignCategory] = useState(false);
   const [searchValue, SetSearchValue] = useState<string>('');
 
   const theme: any = useTheme();
@@ -88,11 +89,13 @@ function Software() {
         cancelText={'Cancel'}
         okText={'Assign'}
         successMessage={'Assign Successfully'}
+        setData={setAssignCategory}
       />
-      <AddSoftwareDrawer
+      <UpsertSoftware
         isDrawerOpen={isAddDrawerOpen}
         onClose={setIsAddDrawerOpen}
       />
+      {assignCategory && null}
     </>
   );
 }
