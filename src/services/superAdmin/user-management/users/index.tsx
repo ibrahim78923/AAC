@@ -4,11 +4,12 @@ export const usersApi = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getUsers: builder.query({
       query: () => ({
-        url: `/users}`,
+        url: `/super-admin/user-list`,
         method: 'GET',
       }),
       providesTags: ['USERS'],
     }),
+
     getUsersById: builder.query({
       query: ({ id }: any) => ({
         url: `/users/${id}`,
@@ -16,9 +17,10 @@ export const usersApi = baseAPI.injectEndpoints({
       }),
       providesTags: ['USERS'],
     }),
+
     postUsers: builder.mutation({
-      query: ({ id, body }: any) => ({
-        url: `/users/${id}`,
+      query: ({ body }: any) => ({
+        url: `super-admin/add-user`,
         method: 'POST',
         body: body,
       }),

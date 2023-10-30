@@ -12,43 +12,6 @@ import { AvatarImage } from '@/assets/images';
 
 import * as Yup from 'yup';
 
-export const data: any = [
-  {
-    Id: 1,
-    UserId: `123`,
-
-    UserType: 'Company Owner',
-    OrganizationName: 'Extreme Commerce',
-    CreatedOn: '12/10/2023',
-  },
-  {
-    Id: 2,
-    UserId: `456`,
-
-    UserType: 'Company Owner',
-    OrganizationName: '-',
-    Products: '-',
-    CreatedOn: '12/10/2023',
-  },
-  {
-    Id: 3,
-    UserId: `789`,
-
-    UserType: 'Company Owner',
-    OrganizationName: '-',
-    Products: '-',
-    CreatedOn: '12/10/2023',
-  },
-  {
-    Id: 4,
-    UserId: `752`,
-
-    UserType: 'Company Owner',
-    OrganizationName: '10 Pearls',
-    CreatedOn: '12/10/2023',
-  },
-];
-
 export const columns: any = [
   {
     accessorFn: (row: any) => row.Id,
@@ -60,21 +23,23 @@ export const columns: any = [
   {
     accessorFn: (row: any) => row.UserId,
     id: 'userId',
-    cell: (info: any) => info.getValue(),
     header: 'UserID',
     isSortable: false,
+    cell: (info: any) => info.getValue() ?? 'N/A',
   },
   {
     accessorFn: (row: any) => row.Name,
     id: 'name',
     isSortable: true,
     header: 'Name',
-    cell: (
+    cell: (info: any) => (
       <Box sx={{ display: 'flex', gap: '5px' }}>
         <Avatar alt="Remy Sharp" src={AvatarImage.src} />
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-          <Typography component={'span'}>Olivia Rhyeh</Typography>
-          <Typography component={'span'}>@Olivia</Typography>
+          <Typography component={'span'}>
+            {info.row.original.firstName} {info.row.original.lastName}
+          </Typography>
+          <Typography component={'span'}>{info.row.original.email}</Typography>
         </Box>
       </Box>
     ),
@@ -84,14 +49,14 @@ export const columns: any = [
     id: 'userType',
     isSortable: true,
     header: 'UserType',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info.getValue() ?? 'N/A',
   },
   {
     accessorFn: (row: any) => row.OrganizationName,
     id: 'organizationName',
     isSortable: true,
     header: 'OrganizationName',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info.getValue() ?? 'N/A',
   },
   {
     accessorFn: (row: any) => row.Products,
@@ -116,7 +81,7 @@ export const columns: any = [
     cell: <SwitchBtn defaultChecked />,
   },
   {
-    accessorFn: (row: any) => row.CreatedOn,
+    accessorFn: (row: any) => row.createdAt,
     id: 'createdOn',
     isSortable: true,
     header: 'CreatedOn',

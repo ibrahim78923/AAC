@@ -1,6 +1,6 @@
 import { Typography } from '@mui/material';
 
-import { RHFMultiCheckbox } from '@/components/ReactHookForm';
+import { RHFMultiCheckbox, RHFSelect } from '@/components/ReactHookForm';
 
 import RHFTextField from '@/components/ReactHookForm/RHFTextField';
 
@@ -125,7 +125,7 @@ export const addUsersArray = [
   {
     title: 'Phone Number',
     componentProps: {
-      name: 'phoneNo',
+      name: 'phoneNumber',
       placeholder: 'Enter Number',
       fullWidth: true,
     },
@@ -177,6 +177,79 @@ export const addUsersArray = [
     toShow: ['SuperAdmin'],
     component: RHFTextField,
     md: 12,
+    subData: [
+      {
+        title: 'Flat/Unit',
+        componentProps: {
+          name: 'flat',
+          placeholder: 'Enter Flat/Unit',
+          fullWidth: true,
+        },
+        toShow: ['SuperAdmin'],
+        component: RHFTextField,
+        md: 12,
+      },
+      {
+        title: 'Building Name',
+        componentProps: {
+          name: 'buildingName',
+          placeholder: 'Enter Building Name',
+          fullWidth: true,
+        },
+        toShow: ['SuperAdmin'],
+        component: RHFTextField,
+        md: 12,
+      },
+      {
+        title: 'Building Number',
+        componentProps: {
+          name: 'buildingNumber',
+          placeholder: 'Enter Building Number',
+          fullWidth: true,
+        },
+        toShow: ['SuperAdmin'],
+        component: RHFTextField,
+        md: 12,
+      },
+      {
+        title: 'Street Name',
+        componentProps: {
+          name: 'streetName',
+          placeholder: 'Enter Street Name',
+          fullWidth: true,
+        },
+        toShow: ['SuperAdmin'],
+        component: RHFTextField,
+        md: 12,
+      },
+      {
+        title: 'Town/CIty',
+        componentProps: {
+          name: 'city',
+          placeholder: 'Enter Town/City',
+          fullWidth: true,
+        },
+        toShow: ['SuperAdmin'],
+        component: RHFTextField,
+        md: 12,
+      },
+      {
+        title: 'Country',
+        componentProps: {
+          name: 'country',
+          fullWidth: true,
+          select: true,
+        },
+        options: [
+          { value: 'pakistan', label: 'Pakistan' },
+          { value: 'India', label: 'India' },
+          { value: 'uk', label: 'UK' },
+          { value: 'us', label: 'US' },
+        ],
+        component: RHFSelect,
+        md: 12,
+      },
+    ],
   },
   {
     title: 'Job Title',

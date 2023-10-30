@@ -1,6 +1,6 @@
 import { Typography } from '@mui/material';
 
-import { RHFTextField } from '@/components/ReactHookForm';
+import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
 
 import * as Yup from 'yup';
 
@@ -107,8 +107,153 @@ export const profileFields = [
     },
     component: RHFTextField,
     md: 6,
-  },
+    // subData: [
+    //   {
+    //     title: 'Flat/Unit',
+    //     componentProps: {
+    //       name: 'flat',
+    //       placeholder: 'Enter Flat/Unit',
+    //       fullWidth: true,
+    //     },
+    //     toShow: ['SuperAdmin'],
+    //     component: RHFTextField,
+    //     md: 6,
+    //   },
+    //   {
+    //     title: 'Building Name',
+    //     componentProps: {
+    //       name: 'buildingName',
+    //       placeholder: 'Enter Building Name',
+    //       fullWidth: true,
+    //     },
+    //     toShow: ['SuperAdmin'],
+    //     component: RHFTextField,
+    //     md: 6,
+    //   },
+    //   {
+    //     title: 'Building Number',
+    //     componentProps: {
+    //       name: 'buildingNumber',
+    //       placeholder: 'Enter Building Number',
+    //       fullWidth: true,
+    //     },
+    //     toShow: ['SuperAdmin'],
+    //     component: RHFTextField,
+    //     md: 6,
+    //   },
+    //   {
+    //     title: 'Street Name',
+    //     componentProps: {
+    //       name: 'streetName',
+    //       placeholder: 'Enter Street Name',
+    //       fullWidth: true,
+    //     },
+    //     toShow: ['SuperAdmin'],
+    //     component: RHFTextField,
+    //     md: 6,
+    //   },
+    //   {
+    //     title: 'Town/CIty',
+    //     componentProps: {
+    //       name: 'city',
+    //       placeholder: 'Enter Town/City',
+    //       fullWidth: true,
+    //     },
+    //     toShow: ['SuperAdmin'],
+    //     component: RHFTextField,
+    //     md: 6,
+    //   },
+    //   {
+    //     title: 'Country',
+    //     componentProps: {
+    //       name: 'country',
+    //       fullWidth: true,
+    //       select: true,
+    //     },
+    //     options: [
+    //       { value: 'pakistan', label: 'Pakistan' },
+    //       { value: 'India', label: 'India' },
+    //       { value: 'uk', label: 'UK' },
+    //       { value: 'us', label: 'US' }
 
+    //     ],
+    //     component: RHFSelect,
+    //     md: 6,
+    //   },
+    // ]
+  },
+  {
+    title: 'Flat/Unit',
+    componentProps: {
+      name: 'flat',
+      placeholder: 'Enter Flat/Unit',
+      fullWidth: true,
+    },
+    toShow: ['address'],
+    component: RHFTextField,
+    md: 6,
+  },
+  {
+    title: 'Building Name',
+    componentProps: {
+      name: 'buildingName',
+      placeholder: 'Enter Building Name',
+      fullWidth: true,
+    },
+    toShow: ['address'],
+    component: RHFTextField,
+    md: 6,
+  },
+  {
+    title: 'Building Number',
+    componentProps: {
+      name: 'buildingNumber',
+      placeholder: 'Enter Building Number',
+      fullWidth: true,
+    },
+    toShow: ['address'],
+    component: RHFTextField,
+    md: 6,
+  },
+  {
+    title: 'Street Name',
+    componentProps: {
+      name: 'streetName',
+      placeholder: 'Enter Street Name',
+      fullWidth: true,
+    },
+    toShow: ['address'],
+    component: RHFTextField,
+    md: 6,
+  },
+  {
+    title: 'Town/CIty',
+    componentProps: {
+      name: 'city',
+      placeholder: 'Enter Town/City',
+      fullWidth: true,
+    },
+    toShow: ['address'],
+    component: RHFTextField,
+    md: 6,
+  },
+  {
+    title: 'Country',
+    componentProps: {
+      name: 'country',
+      fullWidth: true,
+      select: true,
+    },
+    options: [
+      { value: 'pakistan', label: 'Pakistan' },
+      { value: 'India', label: 'India' },
+      { value: 'uk', label: 'UK' },
+      { value: 'us', label: 'US' },
+    ],
+    component: RHFSelect,
+    toShow: ['address'],
+    md: 6,
+  },
   {
     componentProps: {
       color: '#7a7a7b',

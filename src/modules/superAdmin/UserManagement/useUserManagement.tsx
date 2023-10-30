@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import { useTheme } from '@mui/material';
 
 import { SUPER_ADMIN } from '@/constants';
+import { usersApi } from '@/services/superAdmin/user-management/users';
 
 const useUserManagement = () => {
   const navigate = useRouter();
@@ -14,6 +15,8 @@ const useUserManagement = () => {
   const [selectedValue, setSelectedValue] = useState(null);
   const [tabVal, setTabVal] = useState<number>(0);
   const [search, setSearch] = useState('');
+
+  const { useGetUsersQuery }: any = usersApi;
 
   const handleClick = (event: any) => {
     setSelectedValue(event.currentTarget);
@@ -48,6 +51,7 @@ const useUserManagement = () => {
     handleAddRole,
     handleClose,
     handleUsersList,
+    useGetUsersQuery,
   };
 };
 
