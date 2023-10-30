@@ -3,7 +3,7 @@ import { useFormContext, Controller } from 'react-hook-form';
 // @mui
 import { Box, FormHelperText } from '@mui/material';
 import TextEditor from '../TextEditor';
-import CustomLabel from '../Label';
+import CustomLabel from '../CustomLabel';
 
 // ----------------------------------------------------------------------
 

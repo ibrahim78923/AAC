@@ -1,4 +1,11 @@
-import { Box, Button, Dialog, Grid, Typography } from '@mui/material';
+import {
+  Button,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  Grid,
+  Typography,
+} from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { FormProvider, RHFAutocomplete } from '@/components/ReactHookForm';
 import { v4 as uuidv4 } from 'uuid';
@@ -36,7 +43,7 @@ export const RequestApprovalForm = ({ openDialog, setOpenDialog }: any) => {
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
-      <Box width={{ xs: '300px', md: '600px' }} p={2}>
+      <DialogTitle>
         <Grid container justifyContent={'space-between'}>
           <Typography variant="h4">Request Approval</Typography>
           <CloseIcon
@@ -44,34 +51,34 @@ export const RequestApprovalForm = ({ openDialog, setOpenDialog }: any) => {
             onClick={() => setOpenDialog(false)}
           />
         </Grid>
+      </DialogTitle>
 
-        <Box mt={1}>
-          <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-            <Grid container spacing={4}>
-              <Grid item xs={12} key={uuidv4()}>
-                <RHFAutocomplete
-                  name="approvers"
-                  label="Approvers"
-                  options={['BE', 'BE1', 'BE2']}
-                />
-              </Grid>
-
-              <Grid item xs={12} textAlign={'end'}>
-                <Button
-                  variant="outlined"
-                  sx={{ mx: 2 }}
-                  onClick={() => setOpenDialog(false)}
-                >
-                  Cancel
-                </Button>
-                <Button variant="contained" type="submit">
-                  Request
-                </Button>
-              </Grid>
+      <DialogContent sx={{ mt: 1 }}>
+        <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+          <Grid container spacing={4}>
+            <Grid item xs={12} key={uuidv4()}>
+              <RHFAutocomplete
+                name="approvers"
+                label="Approvers"
+                options={['BE', 'BE1', 'BE2']}
+              />
             </Grid>
-          </FormProvider>
-        </Box>
-      </Box>
+
+            <Grid item xs={12} textAlign={'end'}>
+              <Button
+                variant="outlined"
+                sx={{ mx: 2 }}
+                onClick={() => setOpenDialog(false)}
+              >
+                Cancel
+              </Button>
+              <Button variant="contained" type="submit">
+                Request
+              </Button>
+            </Grid>
+          </Grid>
+        </FormProvider>
+      </DialogContent>
     </Dialog>
   );
 };
