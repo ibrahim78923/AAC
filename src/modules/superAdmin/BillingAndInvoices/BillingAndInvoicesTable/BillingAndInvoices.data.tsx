@@ -15,8 +15,8 @@ export const columns = (
         <Checkbox
           color="primary"
           checked={
-            info.cell.row.original.Id ===
-              isGetRowValues?.cell?.row?.original?.Id && ischecked
+            info.cell.row.original._id ===
+              isGetRowValues?.cell?.row?.original?._id && ischecked
           }
           name={info.getValue()}
           onClick={() => {

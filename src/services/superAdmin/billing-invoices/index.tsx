@@ -2,15 +2,15 @@ import { baseAPI } from '@/services/base-api';
 
 export const bilingInvoicesAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
-    getPlanMangement: builder.query({
-      query: () => ({
-        url: `/biling-invoices`,
+    getBilingInvoices: builder.query({
+      query: ({ query, pagination }: any) => ({
+        url: `/super-admin/get-all-orgplans?${pagination}${query}`,
         method: 'GET',
       }),
       providesTags: ['bilingInvoices'],
     }),
 
-    getPlanMangementById: builder.query({
+    getBilingInvoicesById: builder.query({
       query: ({ id }: any) => ({
         url: `/biling-invoices/${id}`,
         method: 'GET',
@@ -18,16 +18,16 @@ export const bilingInvoicesAPI = baseAPI.injectEndpoints({
       providesTags: ['bilingInvoices'],
     }),
 
-    postPlanMangement: builder.mutation({
-      query: ({ id, body }: any) => ({
-        url: `/biling-invoices/${id}`,
+    postBilingInvoices: builder.mutation({
+      query: ({ body }: any) => ({
+        url: `/super-admin/assign-plan`,
         method: 'POST',
         body: body,
       }),
       invalidatesTags: ['bilingInvoices'],
     }),
 
-    updatePlanMangement: builder.mutation({
+    updateBilingInvoices: builder.mutation({
       query: ({ id, body }: any) => ({
         url: `/biling-invoices/${id}`,
         method: 'PUT',
@@ -36,7 +36,7 @@ export const bilingInvoicesAPI = baseAPI.injectEndpoints({
       invalidatesTags: ['bilingInvoices'],
     }),
 
-    deletePlanMangement: builder.mutation({
+    deleteBilingInvoices: builder.mutation({
       query: ({ id }: any) => ({
         url: `/biling-invoices/${id}`,
         method: 'DELETE',
@@ -47,9 +47,9 @@ export const bilingInvoicesAPI = baseAPI.injectEndpoints({
 });
 
 export const {
-  useUpdatePlanMangementMutation,
-  usePostPlanMangementMutation,
-  useGetPlanMangementQuery,
-  useDeletePlanMangementMutation,
-  useGetPlanMangementByIdQuery,
+  useUpdateBilingInvoicesMutation,
+  usePostBilingInvoicesMutation,
+  useGetBilingInvoicesQuery,
+  useDeleteBilingInvoicesMutation,
+  useGetBilingInvoicesByIdQuery,
 } = bilingInvoicesAPI;

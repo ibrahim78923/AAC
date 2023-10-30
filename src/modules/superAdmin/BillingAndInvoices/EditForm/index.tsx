@@ -8,7 +8,12 @@ import { assignPlanData } from './EditForm.data';
 import { v4 as uuidv4 } from 'uuid';
 import useEditForm from './useEditForm';
 
-export default function EditForm({ isOpenDrawer, onClose, isEditModal }: any) {
+export default function EditForm({
+  isOpenDrawer,
+  onClose,
+  isEditModal,
+  isGetRowValues,
+}: any) {
   const {
     selectProductSuite,
     setSelectProductSuite,
@@ -16,7 +21,7 @@ export default function EditForm({ isOpenDrawer, onClose, isEditModal }: any) {
     apiMethods,
     handleSubmit,
     onSubmit,
-  } = useEditForm(isEditModal);
+  } = useEditForm(isEditModal, isGetRowValues, onClose);
 
   return (
     <CommonDrawer

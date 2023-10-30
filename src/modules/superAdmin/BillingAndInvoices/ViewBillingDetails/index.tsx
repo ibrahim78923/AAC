@@ -8,6 +8,7 @@ const ViewBillingDetails = ({
   isOpenDrawer,
 
   onClose,
+  isGetRowValues,
 }: any) => {
   const theme: any = useTheme();
   const DataArr = [
@@ -78,7 +79,9 @@ const ViewBillingDetails = ({
               >
                 Air Sales ( {data.bilingType})
               </Typography>
-              <Typography variant="body1">{data.paymentType}</Typography>
+              <Typography variant="body1" sx={{ textTransform: 'lowercase' }}>
+                paid {isGetRowValues?.cell?.row?.original?.billingCycle}
+              </Typography>
             </Box>
 
             <Box sx={{ ml: 'auto' }}>
@@ -121,11 +124,12 @@ const ViewBillingDetails = ({
           </Box>
           <Box sx={{ display: 'flex', alignItems: 'center', mt: '15px' }}>
             <Typography variant="caption">
-              3 Additional Users (£ 15/user)
+              {isGetRowValues?.cell?.row?.original?.additionalUsers} Additional
+              Users (£ 15/user)
             </Typography>
             <Box sx={{ ml: 'auto' }}>
               <Typography variant="overline">
-                {data.paymentDetailes.additionalUser}
+                £ {isGetRowValues?.cell?.row?.original?.additionalUsers * 15}
               </Typography>
             </Box>
           </Box>
@@ -135,7 +139,7 @@ const ViewBillingDetails = ({
             </Typography>
             <Box sx={{ ml: 'auto' }}>
               <Typography variant="overline">
-                {data.paymentDetailes.AdditionalStorage}
+                £ {isGetRowValues?.cell?.row?.original?.additionalStorage}
               </Typography>
             </Box>
           </Box>
@@ -148,11 +152,11 @@ const ViewBillingDetails = ({
               >
                 Discount{' '}
               </Typography>{' '}
-              (10%)
+              ({isGetRowValues?.cell?.row?.original?.planDiscount}%)
             </Typography>
             <Box sx={{ ml: 'auto' }}>
               <Typography variant="overline">
-                {data.paymentDetailes.Discount}
+                £ {isGetRowValues?.cell?.row?.original?.planDiscount}
               </Typography>
             </Box>
           </Box>

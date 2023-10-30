@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { columns } from './BillingAndInvoices.data';
 import useMenuOptions from './MenuOptions/useMenuOptions';
 import { useTheme } from '@mui/material';
+import { useGetBilingInvoicesQuery } from '@/services/superAdmin/billing-invoices';
+import { isNullOrEmpty } from '@/utils';
 
 const useBillingAndInvoices = () => {
   const [searchByClientName, setSearchByClientName] = useState('');
@@ -14,7 +16,22 @@ const useBillingAndInvoices = () => {
   const { isShowViewBillingDetails, setIsShowViewBillingDetails } =
     useMenuOptions();
   const [isChecked, setIsChecked] = useState(false);
+
+  const paramsObj: any = {};
+  // const paramsObj: ParamsObject = {}
+  if (!isNullOrEmpty(searchByClientName))
+    paramsObj['search'] = searchByClientName;
+  const queryParams = Object.entries(paramsObj)
+    .map(([key, value]) => `${key}=${encodeURIComponent(value)}`)
+    .join('&');
+  const query = `&${queryParams}`;
   const [isGetRowValues, setIsGetRowValues] = useState('');
+
+  const { data: assignPlanTableData } = useGetBilingInvoicesQuery<any>({
+    query,
+    refetchOnMountOrArgChange: true,
+    pagination: `page=1&limit=10`,
+  });
 
   const getRowValues = columns(
     setIsGetRowValues,
@@ -44,6 +61,7 @@ const useBillingAndInvoices = () => {
     setIsShowViewBillingDetails,
     setIsEditModal,
     isEditModal,
+    assignPlanTableData,
   };
 };
 

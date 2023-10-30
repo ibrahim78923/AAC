@@ -10,7 +10,7 @@ import EditForm from '../EditForm';
 import MenuItems from './MenuOptions';
 import Filters from './Filters';
 
-import { BillingAndInvoicesTableData } from '@/mock/modules/superAdmin/BillingAndDetails';
+// import { BillingAndInvoicesTableData } from '@/mock/modules/superAdmin/BillingAndDetails';
 
 import { FilterSharedIcon } from '@/assets/icons';
 import useBillingAndInvoices from './useBillingAndInvoices';
@@ -35,6 +35,8 @@ const BillingAndInvoicesTable = () => {
     setIsShowViewBillingDetails,
     setIsEditModal,
     isEditModal,
+    assignPlanTableData,
+    isGetRowValues,
   } = useBillingAndInvoices();
 
   return (
@@ -110,12 +112,13 @@ const BillingAndInvoicesTable = () => {
         <ViewBillingDetails
           isOpenDrawer={isShowViewBillingDetails}
           onClose={setIsShowViewBillingDetails}
+          isGetRowValues={isGetRowValues}
         />
       )}
       <Grid item xs={12} sm={12} mt={1}>
         <TanstackTable
           columns={getRowValues}
-          data={BillingAndInvoicesTableData}
+          data={assignPlanTableData?.data}
         />
       </Grid>
       <CustomPagination count={1} rowsPerPageOptions={[1, 2]} entriePages={1} />
@@ -124,6 +127,7 @@ const BillingAndInvoicesTable = () => {
           isOpenDrawer={isOpenDrawer}
           onClose={setIsOpenDrawer}
           isEditModal={isEditModal}
+          isGetRowValues={isGetRowValues}
         />
       )}
       {isOpenFilter && (
