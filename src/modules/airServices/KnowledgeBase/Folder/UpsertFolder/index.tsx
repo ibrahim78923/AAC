@@ -8,10 +8,10 @@ import {
   validationSchema,
   defaultValues,
   visibleToDataArray,
-} from './UpsertFolder.data';
+} from './UpsSertFolder.data';
 import ConversationModel from '@/components/Model/CoversationModel';
 
-export const UpsertFolder = ({ openDialog, setOpenDialog }: any) => {
+export const UpSertFolder = ({ openDialog, setOpenDialog }: any) => {
   const methods: any = useForm({
     resolver: yupResolver(validationSchema),
     defaultValues,
