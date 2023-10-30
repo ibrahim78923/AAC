@@ -1,7 +1,6 @@
 import { Typography, Chip, IconButton } from '@mui/material';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import { TrashIcon } from '@/assets/icons';
-import { useTheme } from '@mui/material';
 export const associatesListsData: any = [
   {
     id: 1,
@@ -32,40 +31,38 @@ const styleFunction: any = {
     bgColor: '#FFC20E1A',
   },
 };
-export const associatesListsColumnFunction: any = (setDeleteModal: any) => {
-  const theme = useTheme();
+export const associatesListsColumnFunction: any = (
+  setDeleteModal: any,
+  theme: any,
+) => {
   return [
     {
-      accessorFn: (row: any) => row.asset,
+      accessorFn: (row: any) => row?.asset,
       id: 'asset',
       cell: (info: any) => (
-        <Typography
-          style={{
-            color: '#0AADC7',
-          }}
-        >
-          {info.getValue()}
+        <Typography variant="body4" color={theme?.palette?.custom?.bright}>
+          {info?.getValue()}
         </Typography>
       ),
       header: 'Asset',
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row.assetType,
+      accessorFn: (row: any) => row?.assetType,
       id: 'assetType',
       isSortable: true,
       header: 'Asset Type',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row.usedBy,
+      accessorFn: (row: any) => row?.usedBy,
       id: 'usedBy',
       isSortable: true,
       header: 'Used By',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row.impact,
+      accessorFn: (row: any) => row?.impact,
       id: 'impact',
       isSortable: true,
       header: 'Impact',
@@ -74,15 +71,15 @@ export const associatesListsColumnFunction: any = (setDeleteModal: any) => {
           <Chip
             icon={
               <FiberManualRecordIcon
-                color={styleFunction?.[info.getValue()]?.color}
-                sx={{ color: styleFunction?.[info.getValue()]?.color }}
+                color={styleFunction?.[info?.getValue()]?.color}
+                sx={{ color: styleFunction?.[info?.getValue()]?.color }}
               />
             }
             size="small"
             label={info.getValue()}
             sx={{
-              backgroundColor: styleFunction?.[info.getValue()]?.bgColor,
-              color: theme.palette.common.black,
+              backgroundColor: styleFunction?.[info?.getValue()]?.bgColor,
+              color: theme?.palette?.common?.black,
             }}
           />
         );

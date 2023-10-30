@@ -8,7 +8,7 @@ import {
   Typography,
 } from '@mui/material';
 import { AddMeetingsDrawer } from './AddMeetingsDrawer';
-import { meetingsTableColumns } from './MeetingsTable/MeetingsTable.utils';
+import { meetingsTableColumns } from './MeetingsTable/MeetingsTable.data';
 import { MeetingsTable } from './MeetingsTable';
 import { NoMeetings } from './NoMeetings';
 import { widgetsData } from './Meetings.data';
@@ -47,21 +47,21 @@ export const Meetings = () => {
           addCoversationModel={addCoversationModel}
           onSubmit={onSubmitAddOutcome}
         />
-        <Grid container sx={meetingsStyles.headingContainer}>
+        <Grid container sx={meetingsStyles?.headingContainer}>
           <Grid item sm={6} xs={12}>
             <Typography variant="h5" fontWeight={500} color="#374151">
               Meetings
             </Typography>
           </Grid>
-          <Grid item sx={meetingsStyles.buttonsBox} sm={6} xs={12}>
+          <Grid item sx={meetingsStyles?.buttonsBox} sm={6} xs={12}>
             <Button
               endIcon={<DownIcon />}
               disableElevation
-              disabled={!!!meetingsData.length}
+              disabled={!!!meetingsData?.length}
               variant="contained"
               fullWidth={matches}
               onClick={handleActionsClick}
-              sx={meetingsStyles.actionButton}
+              sx={meetingsStyles?.actionButton}
             >
               Actions
             </Button>
@@ -73,7 +73,7 @@ export const Meetings = () => {
                 vertical: 'bottom',
                 horizontal: 'left',
               }}
-              sx={meetingsStyles.popOverStyles}
+              sx={meetingsStyles?.popOverStyles}
             >
               <MenuItem
                 onClick={() => {
@@ -99,7 +99,7 @@ export const Meetings = () => {
                     vertical: 'center',
                     horizontal: 'right',
                   }}
-                  sx={meetingsStyles.popOverStyles}
+                  sx={meetingsStyles?.popOverStyles}
                 >
                   <MenuItem sx={{ p: 1 }}>Later Today</MenuItem>
                   <MenuItem sx={{ p: 1 }}>Tomorrow</MenuItem>
@@ -129,7 +129,7 @@ export const Meetings = () => {
               </MenuItem>
             </Popover>
             <Button
-              sx={meetingsStyles.addMeetingButton}
+              sx={meetingsStyles?.addMeetingButton}
               fullWidth={matches}
               startIcon={<PlusSharedIcon />}
               disableElevation
@@ -143,21 +143,21 @@ export const Meetings = () => {
         <Grid mb="20px" container spacing={3}>
           {widgetsData.map((item) => (
             <Grid item key={uuidv4()} sm={4} xs={12}>
-              <Box sx={meetingsStyles.widgetsBox}>
-                <Box sx={meetingsStyles.coloredWidgetsDiv(item.color)}></Box>
-                <Box sx={meetingsStyles.widgetsInnerBox}>
+              <Box sx={meetingsStyles?.widgetsBox}>
+                <Box sx={meetingsStyles?.coloredWidgetsDiv(item?.color)}></Box>
+                <Box sx={meetingsStyles?.widgetsInnerBox}>
                   <Typography variant="body2" color="#6B7280">
-                    {item.name}
+                    {item?.name}
                   </Typography>
                   <Typography variant="h5" fontWeight={700} color="#111827">
-                    {item.count}
+                    {item?.count}
                   </Typography>
                 </Box>
               </Box>
             </Grid>
           ))}
         </Grid>
-        {!!meetingsTableColumns.length ? (
+        {!!meetingsTableColumns?.length ? (
           <MeetingsTable
             meetingsData={meetingsData}
             setMeetingsData={setMeetingsData}

@@ -1,7 +1,7 @@
 // @mui
 import { alpha, useTheme } from '@mui/material/styles';
 import { GlobalStyles } from '@mui/material';
-import { cssStyles } from './Chart.utils';
+import { cssStyles } from './Chart.data';
 
 export default function ChartStyle() {
   const theme: any = useTheme();

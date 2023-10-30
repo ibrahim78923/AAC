@@ -8,11 +8,11 @@ import { ticketViewBoardArray } from './TicketsBoardView.data';
 export const TableBoardView = () => {
   const theme: any = useTheme();
 
-  const HeadStatus = ['Open', 'Resolved', 'Pending', 'Closed'];
+  const HEAD_STATUS = ['Open', 'Resolved', 'Pending', 'Closed'];
 
   return (
     <Grid container spacing={2} overflow={'auto'} flexWrap={'nowrap'}>
-      {HeadStatus?.map((heading) => (
+      {HEAD_STATUS?.map((heading: any) => (
         <Grid item xs={3} sx={{ minWidth: '400px' }} key={heading}>
           <TicketInfoBoardHeader title={heading} total={2} />
           <Box
@@ -22,7 +22,7 @@ export const TableBoardView = () => {
             p={2}
           >
             {ticketViewBoardArray?.map(
-              (item) =>
+              (item: any) =>
                 heading === item?.status && (
                   <Fragment key={uuidv4()}>
                     <TicketInfoCard details={item} />

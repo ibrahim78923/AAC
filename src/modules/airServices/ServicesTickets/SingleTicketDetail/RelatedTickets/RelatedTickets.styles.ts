@@ -1,4 +1,4 @@
-export const relatedticketsStyles: any = {
+export const styles: any = {
   headContainer: {
     display: 'flex',
     alignItems: 'center',
@@ -6,23 +6,23 @@ export const relatedticketsStyles: any = {
   },
   headText: { color: 'slateBlue.main', fontWeight: 500 },
   actionBtn: {
-    px: '18px',
+    px: '1.125rem',
     color: 'custom.main',
     ':hover': { bgcolor: 'common.white' },
-    border: '1px solid #D1D5DB',
+    border: '0.063rem solid #D1D5DB',
     display: 'flex',
     alignItems: 'center',
     justifyContents: 'center',
   },
   addTicketBtn: {
-    px: '18px',
+    px: '1.125rem',
     bgcolor: 'primary.main',
     color: 'common.white',
     ':hover': { bgcolor: 'primary.main' },
   },
   btnContainer: {
     display: 'flex',
-    gap: '20px',
+    gap: '1.25rem',
     justifyContent: { sm: 'flex-end', xs: 'center' },
   },
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 import { usersTableData, usersTableColumns } from './UsersTable.data';
-import TanstackTable from '@/components/Tabel/TanstackTable';
+import TanstackTable from '@/components/Table/TanstackTable';
 
 const UsersTable = ({ setUsersData, usersData }: any) => {
   return (
