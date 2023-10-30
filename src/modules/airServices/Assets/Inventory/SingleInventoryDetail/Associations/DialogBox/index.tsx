@@ -8,6 +8,7 @@ export const DialogBox = ({
   setExistingIncident,
 }: any) => {
   const theme: any = useTheme();
+
   return (
     <Dialog
       open={openDialog}
@@ -15,13 +16,13 @@ export const DialogBox = ({
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
-      <Box width="350px">
+      <Box width={'350px'}>
         <Typography
           variant="body1"
           p={2}
           sx={{
             cursor: 'pointer',
-            '&:hover': { backgroundColor: theme.palette.grey[400] },
+            '&:hover': { backgroundColor: theme?.palette?.grey?.[400] },
           }}
           onClick={() => {
             setNewIncident(true);
@@ -35,7 +36,7 @@ export const DialogBox = ({
           p={2}
           sx={{
             cursor: 'pointer',
-            '&:hover': { backgroundColor: theme.palette.grey[400] },
+            '&:hover': { backgroundColor: theme?.palette?.grey?.[400] },
           }}
           onClick={() => {
             setExistingIncident(true);

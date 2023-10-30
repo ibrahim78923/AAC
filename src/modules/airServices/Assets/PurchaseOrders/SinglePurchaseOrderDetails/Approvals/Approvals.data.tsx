@@ -9,15 +9,15 @@ import {
 } from '@/assets/icons';
 
 export const approvalsStatusObj = (status: any) => {
-  const Received = 'Received';
-  const RequestSent = 'RequestSent';
-  const Approved = 'Approved';
-  const Rejected = 'Rejected';
+  const RECEIVED = 'Received';
+  const REQUEST_SENT = 'RequestSent';
+  const APPROVED = 'Approved';
+  const REJECTED = 'Rejected';
 
   let statusObj: any;
 
   switch (status) {
-    case Received:
+    case RECEIVED:
       statusObj = {
         color: 'primary',
         message: (
@@ -28,7 +28,7 @@ export const approvalsStatusObj = (status: any) => {
       };
       break;
 
-    case RequestSent:
+    case REQUEST_SENT:
       statusObj = {
         color: 'primary',
         message: (
@@ -39,7 +39,7 @@ export const approvalsStatusObj = (status: any) => {
       };
       break;
 
-    case Approved:
+    case APPROVED:
       statusObj = {
         color: 'success',
         message: (
@@ -50,7 +50,7 @@ export const approvalsStatusObj = (status: any) => {
       };
       break;
 
-    case Rejected:
+    case REJECTED:
       statusObj = {
         color: 'error',
         message: (

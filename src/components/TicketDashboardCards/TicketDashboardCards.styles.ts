@@ -1,5 +1,5 @@
 export const styles: any = {
-  cardMain: {
+  boxMain: {
     display: 'flex',
     alignItems: 'center',
     flex: 1,

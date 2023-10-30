@@ -1,4 +1,4 @@
-import { Box, Card, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import { styles } from './AnnouncementDashboardCard.styles';
 
@@ -7,9 +7,10 @@ export const AnnouncementDashboardCard = ({
   Announcementtext,
   Announcementtextone,
   Announcementtexttwo,
+  isborderbottom,
 }: any) => {
   return (
-    <Card sx={styles?.cardMain}>
+    <Box sx={styles?.boxMain(isborderbottom)}>
       <Box sx={{ marginLeft: 3, marginTop: 1 }}>
         <Typography sx={styles?.announcementText}>
           {Announcementtext}
@@ -32,6 +33,6 @@ export const AnnouncementDashboardCard = ({
           {Announcementtexttwo}
         </Typography>
       </Box>
-    </Card>
+    </Box>
   );
 };

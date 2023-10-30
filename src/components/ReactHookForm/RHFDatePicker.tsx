@@ -3,7 +3,7 @@ import { useFormContext, Controller } from 'react-hook-form';
 // @mui
 import { DatePicker } from '@mui/x-date-pickers';
 import { Typography } from '@mui/material';
-import CustomLabel from '../Label';
+import CustomLabel from '../CustomLabel';
 
 // ----------------------------------------------------------------------
 

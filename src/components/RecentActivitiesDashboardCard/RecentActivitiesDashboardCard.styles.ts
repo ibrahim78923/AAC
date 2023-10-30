@@ -1,13 +1,13 @@
 export const styles: any = {
-  cardMain: {
+  boxMain: (isborderbottom: boolean) => ({
     display: 'flex',
     alignItems: 'center',
     flex: 1,
     gap: 2,
     background: '#FFF',
-    borderBottom: '0.063rem solid #E5E7EB',
+    borderBottom: isborderbottom ? '0.063rem solid #E5E7EB' : '',
     flexShrink: 0,
-  },
+  }),
 
   recentActivitiesTextBoldWord: {
     fontSize: '0.75rem',

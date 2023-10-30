@@ -1,14 +1,13 @@
 export const styles: any = {
-  cardMain: {
+  boxMain: (isborderbottom: boolean) => ({
     display: 'flex',
     alignItems: 'center',
     flex: 1,
     gap: 2,
     background: '#FFF',
-    borderRadius: '0.5rem',
-    border: '0.063rem solid #E5E7EB',
+    borderBottom: isborderbottom ? '0.063rem solid #E5E7EB' : '',
     flexShrink: 0,
-  },
+  }),
 
   announcementText: {
     fontSize: '0.75rem',

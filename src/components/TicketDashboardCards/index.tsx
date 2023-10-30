@@ -4,7 +4,7 @@ import { styles } from './TicketDashboardCards.styles';
 
 export const TicketDashboardCards = ({ icon, count, label }: any) => {
   return (
-    <Card sx={styles?.cardMain}>
+    <Card sx={styles?.boxMain}>
       <Box sx={{ marginLeft: 3 }}>
         <Avatar
           alt=""

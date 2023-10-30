@@ -1,5 +1,5 @@
 export const styles: any = {
-  cardMain: {
+  boxMain: {
     background: '#FFF',
     borderRadius: '0.5rem',
     border: '0.063rem solid #E5E7EB',

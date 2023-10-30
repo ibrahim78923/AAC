@@ -19,7 +19,7 @@ export const TopPerformerDashboardCard = ({
 
   return (
     <>
-      <Box sx={styles?.cardMain}>
+      <Box sx={styles?.boxMain}>
         <Box sx={{ display: 'flex', gap: 2, marginLeft: 2, marginTop: 2 }}>
           <Avatar
             alt=""

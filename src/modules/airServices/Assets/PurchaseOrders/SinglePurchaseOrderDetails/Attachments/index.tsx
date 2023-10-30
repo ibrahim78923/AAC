@@ -14,7 +14,7 @@ export const Attachment = () => {
 
   return (
     <Fragment>
-      {!!attachmentFileData.length ? (
+      {!!attachmentFileData?.length ? (
         <Fragment>
           <Box mb={2} textAlign={'end'}>
             <Button
@@ -28,7 +28,7 @@ export const Attachment = () => {
             </Button>
           </Box>
           <Grid container spacing={2}>
-            {attachmentFileData.map((singleAttachment: any) => (
+            {attachmentFileData?.map((singleAttachment: any) => (
               <Grid item xs={12} sm={6} lg={4} key={uuidv4()}>
                 <AttachFileCard
                   data={singleAttachment}

@@ -1,12 +1,13 @@
 import { Box, Typography } from '@mui/material';
 import { SingleDropdownButton } from '../SingleDropdownButton';
 import { ActionsFunction, DashboardFunction } from './HeaderDashboard.data';
+import { styles } from './HeaderDashboard.styles';
 
 export const HeaderDashboard = ({}: any) => {
   return (
     <>
       <Box>
-        <Typography variant="h3">Service</Typography>
+        <Typography sx={styles?.serviceText}>Service</Typography>
       </Box>
       <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
         <Typography variant="h4" sx={{ marginTop: 2 }}>

@@ -7,9 +7,10 @@ export const RecentActivitiesDashboardCard = ({
   recentactivitytext,
   recentactivitytextone,
   recentactivitytexttwo,
+  isborderbottom,
 }: any) => {
   return (
-    <Box sx={styles?.cardMain}>
+    <Box sx={styles?.boxMain(isborderbottom)}>
       <Box sx={{ marginLeft: 2 }}>
         <Avatar
           alt=""
