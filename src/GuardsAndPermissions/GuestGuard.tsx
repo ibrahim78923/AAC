@@ -1,12 +1,10 @@
 import { useEffect, useState } from 'react';
-// next
-import { useRouter } from 'next/router';
-// hooks
-import useAuth from '../hooks/useAuth';
-import { Box } from '@mui/material';
-// routes
 
-// ----------------------------------------------------------------------
+import { useRouter } from 'next/router';
+
+import { Box } from '@mui/material';
+
+import useAuth from '../hooks/useAuth';
 
 export default function GuestGuard({ children }: any) {
   const { push } = useRouter();

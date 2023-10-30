@@ -25,8 +25,10 @@ const store = configureStore({
     planManagementForms: persistedReducer,
   },
 
-  middleware: (defaultMiddleware: any) =>
-    defaultMiddleware().concat(baseAPI.middleware),
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }).concat(baseAPI.middleware),
 });
 
 export type AppDispatch = typeof store.dispatch;

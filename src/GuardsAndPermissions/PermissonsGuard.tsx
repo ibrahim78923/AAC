@@ -1,25 +1,21 @@
 import { ReactNode } from 'react';
-import useAuth from '../hooks/useAuth';
 
-// ----------------------------------------------------------------------
+import useAuth from '../hooks/useAuth';
 
 const useCurrentPermissions = () => {
   const { permissions: currentPermissions }: any = useAuth();
-  // const role = user?.role;
-
-  //get form useAuth , call api there
 
   return currentPermissions;
 };
 
 function checkPermissions(permissions: any, modulePermissions: any) {
-  const userManagementDictionary: any = {};
+  const componentPermissionsDictionary: any = {};
   modulePermissions.forEach((value: any) => {
-    userManagementDictionary[value] = true;
+    componentPermissionsDictionary[value] = true;
   });
 
   for (const permission of permissions) {
-    if (userManagementDictionary[permission]) {
+    if (componentPermissionsDictionary[permission]) {
       return true; // At least one permission is available in user_management
     }
   }
@@ -30,7 +26,6 @@ export default function PermissionsGuard({
   children,
   permissions,
 }: {
-  accessibleRoles: string[];
   children: ReactNode;
   permissions: any;
 }) {

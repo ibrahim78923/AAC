@@ -10,12 +10,5 @@ const SuperAdminPlanManagementPage = () => {
 export default SuperAdminPlanManagementPage;
 
 SuperAdminPlanManagementPage.getLayout = function getLayout(page: any) {
-  return (
-    <Layout
-      accessibleRoles={['super_admin']}
-      permissions={Permissions.PLAN_MANAGMENT}
-    >
-      {page}
-    </Layout>
-  );
+  return <Layout permissions={Permissions.PLAN_MANAGEMENT}>{page}</Layout>;
 };

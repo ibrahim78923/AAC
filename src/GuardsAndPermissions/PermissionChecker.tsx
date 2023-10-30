@@ -1,5 +1,6 @@
-import useAuth from '@/hooks/useAuth';
 import { ReactNode } from 'react';
+
+import useAuth from '@/hooks/useAuth';
 
 export function PermissionChecker({
   children,

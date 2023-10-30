@@ -18,7 +18,7 @@ import { FilterSharedIcon, PlusSharedIcon } from '@/assets/icons';
 
 import useUserManagement from './useUserManagement';
 
-import { USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
+import { SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 import { PermissionChecker } from '@/GuardsAndPermissions/PermissionChecker';
 
 const UserManagement = () => {
@@ -49,7 +49,9 @@ const UserManagement = () => {
         sx={{ padding: '0px 24px', display: { md: 'flex' } }}
       >
         <Typography variant="h4">User Management</Typography>
-        <PermissionChecker permissionKey={USER_MANAGEMENT_PERMISSIONS.ADD_USER}>
+        <PermissionChecker
+          permissionKey={SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS.ADD_USER}
+        >
           <Button
             onClick={() =>
               tabVal === 2 ? handleAddRole() : setIsOpenAddUserDrawer(true)
@@ -62,7 +64,9 @@ const UserManagement = () => {
         </PermissionChecker>
       </Box>
       <PermissionChecker
-        permissionKey={USER_MANAGEMENT_PERMISSIONS.USER_SEARCH_AND_FILTER}
+        permissionKey={
+          SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS.USER_SEARCH_AND_FILTER
+        }
       >
         <Box sx={{ padding: '0px 24px' }}>
           <CommonTabs

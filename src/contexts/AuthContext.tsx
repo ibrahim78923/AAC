@@ -1,3 +1,8 @@
+import {
+  SUPER_ADMIN_DASHBOARD_PERMISSIONS,
+  SUPER_ADMIN_PLAN_MANAGEMENT_PERMISSIONS,
+  SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS,
+} from '@/constants/permission-keys';
 import { setAuthTokens } from '@/redux/slices/auth/slice';
 import { useAppDispatch } from '@/redux/store';
 import { getSession, setSession } from '@/utils';
@@ -136,14 +141,14 @@ function AuthProvider({ children }: { children: ReactNode }) {
   const permissions = () => {
     // const { data:permissions } = useGetPermissionsQuery({})
 
+    //dummy data will be replaced in future with above api
     const permissions = [
-      'add-user',
-      'user-search-and-filter',
-      'plan_management',
-      'add',
-      'user',
-      'user_box',
-      'view-dashboard',
+      SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS.USER_LIST,
+      SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS.ADD_USER,
+      SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS.USER_SEARCH_AND_FILTER,
+      SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS.PLAN_MANAGEMENT,
+      SUPER_ADMIN_PLAN_MANAGEMENT_PERMISSIONS.PLAN_LIST,
+      SUPER_ADMIN_DASHBOARD_PERMISSIONS.VIEW_DASHBOARD,
     ];
 
     dispatch({

@@ -1,13 +1,10 @@
 import { useState, useEffect } from 'react';
-// next
+
 import { useRouter } from 'next/router';
-// hooks
+
 import useAuth from '../hooks/useAuth';
+
 import Login from '@/modules/auth/Login';
-
-// components
-
-// ----------------------------------------------------------------------
 
 export default function AuthGuard({ children }: any) {
   const { isAuthenticated, isInitialized } = useAuth();

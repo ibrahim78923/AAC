@@ -6,19 +6,13 @@ export default function Layout({
   variant = 'dashboard',
   guardRoute = false,
   children,
-  accessibleRoles = [],
   permissions,
 }: any) {
   let childrenEl: any = children;
 
-  if (accessibleRoles.length && permissions)
+  if (permissions)
     childrenEl = (
-      <PermissionsGuard
-        accessibleRoles={accessibleRoles}
-        permissions={permissions}
-      >
-        {children}
-      </PermissionsGuard>
+      <PermissionsGuard permissions={permissions}>{children}</PermissionsGuard>
     );
   let layout = null;
 
