@@ -18,13 +18,11 @@ export const AddAssociateAsset = () => {
       <br />
       <br />
       <Box
-        boxShadow={
-          '0px 1px 2px 0px rgba(16, 24, 40, 0.06), 0px 1px 3px 0px rgba(16, 24, 40, 0.10)'
-        }
-        border={`1px solid ${theme?.palette?.custom?.off_white_three}`}
-        borderRadius={'8px'}
+        boxShadow={1}
+        border={`0.063rem solid ${theme?.palette?.custom?.off_white_three}`}
+        borderRadius={2}
       >
-        <Box p={'12px 24px'}>
+        <Box p={'0.75rem 1.5rem'}>
           <Search placeholder="Search Here" />
         </Box>
         <TanstackTable data={addAssociateAssetData} columns={tableColumns} />
