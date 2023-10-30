@@ -5,64 +5,33 @@ import {
 } from '@/assets/images';
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider, RHFTextField } from '@/components/ReactHookForm';
-import { Box, Divider, Grid, Typography } from '@mui/material';
+import { Box, Chip, Divider, Grid, Typography } from '@mui/material';
 import Image from 'next/image';
-import {
-  addInventoryDefaultValuesOne,
-  addInventoryDefaultValuesOneUpdate,
-  addInventoryDefaultValuesTwo,
-  addToInventoryDrawerArray,
-  addToInventorySecondDrawerArray,
-} from './AddToInventory.data';
+import { addToInventoryItemStatus } from './AddToInventory.data';
 import * as React from 'react';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import useAddToInventoryDrawer from './useAddToInventory';
 import { v4 as uuidv4 } from 'uuid';
-import { styles } from './AddToInventory.style';
-import { useState } from 'react';
-import { enqueueSnackbar } from 'notistack';
 
-export const AddToInventory = ({ isADrawerOpen, setIsADrawerOpen }: any) => {
+export const AddToInventory = (props: any) => {
+  const { isADrawerOpen, setIsADrawerOpen } = props;
   const {
     methodsTwo,
-    handleSubmitTwo,
-    handleSubmitYes,
     methodsNo,
     methodsYes,
-    handleSubmitNo,
-  } = useAddToInventoryDrawer();
+    boolVariable,
+    filteredYes,
+    filteredNo,
+    submitHandlerTwo,
+    submitHandlerNo,
+    submitHandlerYes,
+    handleRadioChange,
+    toShow,
+    setToShow,
+  } = useAddToInventoryDrawer(props);
 
-  const [boolVariable, setBoolVariable] = useState(true);
-  const [toShow, setToShow] = React.useState(true);
-  const handleRadioChange = (event: { target: { value: string } }) => {
-    setToShow(event.target.value === 'Add New');
-  };
-  const submitHandlerYes = handleSubmitYes(() => {
-    setBoolVariable(false);
-    methodsYes.reset(addInventoryDefaultValuesOne);
-  });
-  const submitHandlerNo = handleSubmitNo(() => {
-    enqueueSnackbar('item added to inventory Successfully', {
-      variant: 'success',
-    });
-    methodsNo.reset(addInventoryDefaultValuesOneUpdate);
-  });
-  const submitHandler2 = handleSubmitTwo(() => {
-    enqueueSnackbar('item added to inventory Successfully', {
-      variant: 'success',
-    });
-    setIsADrawerOpen(false);
-    setBoolVariable(true);
-    methodsTwo.reset(addInventoryDefaultValuesTwo);
-  });
-  const filteredYes = addToInventoryDrawerArray.filter((item: any) => {
-    return item.toShow === 'Yes';
-  });
-  const filteredNo = addToInventoryDrawerArray.filter((item: any) => {
-    return item.toShow === 'No';
-  });
   return (
     <CommonDrawer
       isDrawerOpen={isADrawerOpen}
@@ -75,7 +44,7 @@ export const AddToInventory = ({ isADrawerOpen, setIsADrawerOpen }: any) => {
           ? toShow === true
             ? submitHandlerYes
             : submitHandlerNo
-          : submitHandler2
+          : submitHandlerTwo
       }
       footer={true}
       isOk={true}
@@ -96,32 +65,37 @@ export const AddToInventory = ({ isADrawerOpen, setIsADrawerOpen }: any) => {
             display={'flex'}
             flexDirection={'row'}
           >
-            <Grid item xs={6} sx={styles?.firstGridStyling}>
+            <Grid item xs={6} display={'flex'} flexDirection={'row'}>
               <Image
                 src={TotalItemImage}
                 height={24}
                 width={24}
                 alt="item Status"
               />
-              <Box sx={styles?.firstMainGridBoxStyling}>
-                <Typography variant="h6">Total items received:</Typography>
-                <Typography variant="h6" component="span" sx={{ mt: '0.5rem' }}>
+              <Box display={'flex'} flexDirection={'column'}>
+                <Typography variant="h6" ml={1}>
+                  Total items received:
+                </Typography>
+                <Typography variant="h6" component="span" mt={1} ml={1}>
                   5/5
                 </Typography>
               </Box>
             </Grid>
-            <Grid item xs={5} sx={styles?.secondMainGridStyling}>
+            <Grid item xs={5} display={'flex'} flexDirection={'row'}>
               <Image
                 src={ItemStatusImage}
                 height={24}
                 width={24}
                 alt="item Status"
               />
-              <Box sx={styles?.fourthBoxStyling}>
+              <Box display={'flex'} flexDirection={'column'} marginLeft={0.5}>
                 <Typography variant="h6">Item Status</Typography>
-                <Typography component="span" sx={styles?.recievedBoxStyling}>
-                  Received
-                </Typography>
+                <Chip
+                  label="Received"
+                  color="primary"
+                  variant="outlined"
+                  sx={{ mt: '0.5rem' }}
+                />
               </Box>
             </Grid>
           </Grid>
@@ -129,15 +103,34 @@ export const AddToInventory = ({ isADrawerOpen, setIsADrawerOpen }: any) => {
             container
             display={'Flex'}
             flexDirection={'column'}
-            sx={styles?.mainGridStyling}
+            borderRadius={2}
+            border={'0.2rem solid'}
+            borderColor={'primary.lighter'}
+            marginTop={2}
+            marginBottom={1}
           >
-            <Grid item xs={12} sx={styles?.firstGridMainStyling}>
+            <Grid
+              item
+              xs={12}
+              display={'flex'}
+              flexDirection={'column'}
+              padding={1}
+            >
               <Typography variant="h5">Items added to inventory</Typography>
-              <Typography variant="body1">2</Typography>
+              <Typography variant="body1" mt={1} ml={1}>
+                2
+              </Typography>
             </Grid>
             <Divider />
-            <Grid item xs={12} sx={styles?.secondGridStyling}>
-              <Box sx={{ width: '180px' }}>
+            <Grid
+              item
+              xs={12}
+              display={'flex'}
+              flexDirection={'row'}
+              marginTop={1}
+              padding={2}
+            >
+              <Box width={180}>
                 <FormProvider onSubmit={() => {}} methods={methodsYes}>
                   <RHFTextField
                     name="description"
@@ -148,9 +141,14 @@ export const AddToInventory = ({ isADrawerOpen, setIsADrawerOpen }: any) => {
                   />
                 </FormProvider>
               </Box>
-              <Box sx={styles?.secondBoxStyling}>
+              <Box
+                display={'flex'}
+                flexDirection={'row'}
+                marginLeft={3}
+                marginTop={4}
+              >
                 <Typography variant="h6">Items to inventory</Typography>
-                <Box sx={styles?.thirdBoxStyling}>
+                <Box marginLeft={1} marginTop={0.2}>
                   <Image
                     src={ItemToInventoryImage}
                     height={24}
@@ -253,34 +251,38 @@ export const AddToInventory = ({ isADrawerOpen, setIsADrawerOpen }: any) => {
             display={'flex'}
             flexDirection={'row'}
           >
-            <Grid item xs={6} sx={styles?.secondMainsGridStyling}>
+            <Grid
+              item
+              xs={6}
+              display={'flex'}
+              flexDirection={'row'}
+              marginBottom={2}
+            >
               <Image
                 src={ItemStatusImage}
                 height={24}
                 width={24}
                 alt="item Status"
               />
-              <Box sx={styles?.fourthBoxStyling}>
+              <Box>
                 <Typography variant="h6">Item Status</Typography>
-                <Typography component="span" sx={styles?.recievedBoxStyling}>
-                  Received
-                </Typography>
+                <Chip
+                  label="Received"
+                  color="primary"
+                  variant="outlined"
+                  sx={{ mt: '0.5rem' }}
+                />
               </Box>
             </Grid>
             <Grid item xs={12}>
-              <FormProvider methods={methodsTwo} onSubmit={submitHandler2}>
+              <FormProvider methods={methodsTwo} onSubmit={submitHandlerTwo}>
                 <Grid container spacing={2}>
-                  {addToInventorySecondDrawerArray?.map((item: any) => (
+                  {addToInventoryItemStatus?.map((item: any) => (
                     <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                      <item.component {...item.componentProps} size={'small'}>
-                        {item?.componentProps?.select
-                          ? item?.options?.map((option: any) => (
-                              <option key={option?.value} value={option?.value}>
-                                {option?.label}
-                              </option>
-                            ))
-                          : null}
-                      </item.component>
+                      <item.component
+                        {...item.componentProps}
+                        size={'small'}
+                      ></item.component>
                     </Grid>
                   ))}
                 </Grid>

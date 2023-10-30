@@ -4,23 +4,23 @@ import {
   RHFTextField,
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
-export const addInventoryValidationSchemaOne = Yup.object().shape({
-  description: Yup.string().required('Field is Required'),
-  assetnameprefix: Yup.string().required('Field is Required'),
-  location: Yup.string(),
-  acquisitionDate: Yup.string(),
-  assetstate: Yup.string().required('Field is Required'),
+export const addInventoryValidationSchemaOne = Yup?.object()?.shape({
+  description: Yup?.string()?.required('Field is Required'),
+  assetnameprefix: Yup?.string()?.required('Field is Required'),
+  location: Yup?.string(),
+  acquisitionDate: Yup?.string(),
+  assetstate: Yup?.string()?.required('Field is Required'),
 });
-export const addInventoryValidationSchemaUpdate = Yup.object().shape({
-  updateExisting: Yup.string().required('Field is Required'),
-  dellMonitor: Yup.boolean(),
-  mouse: Yup.boolean(),
-  lcd: Yup.boolean(),
+export const addInventoryValidationSchemaUpdate = Yup?.object()?.shape({
+  updateExisting: Yup?.string()?.required('Field is Required'),
+  dellMonitor: Yup?.boolean(),
+  mouse: Yup?.boolean(),
+  lcd: Yup?.boolean(),
 });
-export const addInventoryValidationSchemaTwo = Yup.object().shape({
-  assetName: Yup.string().required('Field is Required'),
-  serialNumber: Yup.string(),
-  assetTag: Yup.string(),
+export const addToInventoryItemStatusValidationSchema = Yup?.object()?.shape({
+  assetName: Yup?.string()?.required('Field is Required'),
+  serialNumber: Yup?.string(),
+  assetTag: Yup?.string(),
 });
 
 export const addInventoryDefaultValuesOne = {
@@ -37,12 +37,36 @@ export const addInventoryDefaultValuesOneUpdate = {
   mouse: false,
   lcd: false,
 };
-export const addInventoryDefaultValuesTwo = {
+export const addToInventoryItemStatusDefaultValues = {
   assetName: '',
   serialNumber: '',
   assetTag: '',
 };
-export const addToInventoryDrawerArray = [
+
+const locationOptions = [
+  {
+    value: 'afghanistan',
+    label: 'Afghanistan',
+  },
+  {
+    value: 'alandIslands',
+    label: 'Aland Islands',
+  },
+  {
+    value: 'albania',
+    label: 'Albania',
+  },
+  {
+    value: 'American Samoa',
+    label: 'American Samoa',
+  },
+];
+const updatingOptions = [
+  { label: 'LCD', value: 'lcd' },
+  { label: 'Dell Monitor', value: 'dellMonitor' },
+  { label: 'Mouse', value: 'mouse' },
+];
+export const addToInventoryItemAdded = [
   {
     componentProps: {
       name: 'assetnameprefix',
@@ -58,25 +82,9 @@ export const addToInventoryDrawerArray = [
       name: 'location',
       label: 'Location',
       fullWidth: true,
+      select: true,
     },
-    options: [
-      {
-        value: 'afghanistan',
-        label: 'Afghanistan',
-      },
-      {
-        value: 'alandIslands',
-        label: 'Aland Islands',
-      },
-      {
-        value: 'albania',
-        label: 'Albania',
-      },
-      {
-        value: 'American Samoa',
-        label: 'American Samoa',
-      },
-    ],
+    options: locationOptions,
     toShow: 'Yes',
     component: RHFSelect,
     md: 12,
@@ -106,11 +114,7 @@ export const addToInventoryDrawerArray = [
       name: 'updateExisting',
       fullWidth: true,
       row: false,
-      options: [
-        { label: 'LCD', value: 'lcd' },
-        { label: 'Dell Monitor', value: 'dellMonitor' },
-        { label: 'Mouse', value: 'mouse' },
-      ],
+      options: updatingOptions,
     },
     toShow: 'No',
     component: RHFRadioGroup,
@@ -118,7 +122,7 @@ export const addToInventoryDrawerArray = [
   },
 ];
 
-export const addToInventorySecondDrawerArray = [
+export const addToInventoryItemStatus = [
   {
     componentProps: {
       name: 'assetName',
