@@ -2,16 +2,19 @@ import {
   RHFDropZone,
   RHFEditor,
   RHFTextField,
+  RHFSelect,
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
 export const conversationModelsValidation = Yup.object().shape({
+  note: Yup.string().required('Field is Required'),
   title: Yup.string().required('Field is Required'),
   description: Yup.string().trim().required('Field is Required'),
   file: Yup.mixed().required('Field is Required'),
 });
 
 export const conversationModelsDefaultValues = {
+  note: '',
   title: '',
   description: '',
   file: '',
@@ -20,8 +23,26 @@ export const conversationModelsDefaultValues = {
 export const conversationModelsArray = [
   {
     componentProps: {
+      name: 'note',
+      label: 'Note',
+      fullWidth: true,
+      select: true,
+    },
+
+    options: [
+      { value: 'Note', label: 'Note' },
+      { value: 'Reply', label: 'Reply' },
+      { value: 'Forward', label: 'Forward' },
+    ],
+
+    component: RHFSelect,
+
+    md: 12,
+  },
+  {
+    componentProps: {
       name: 'title',
-      label: 'To',
+      label: 'Notify to',
       fullWidth: true,
     },
     options: [{ value: 'BE', label: 'BE' }],

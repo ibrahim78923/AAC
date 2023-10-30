@@ -3,7 +3,7 @@ import { Box, Button, Menu, MenuItem, Typography } from '@mui/material';
 import { menuOptionsAddconversation } from './Conversation.data';
 import { v4 as uuidv4 } from 'uuid';
 import userCoversation from './userCoversation';
-import ConversationModelSub from './Model';
+import ConversationModelSub from './ConversationAddModel';
 import ViewConversation from './ConversationView';
 
 export default function Conversations() {
@@ -31,7 +31,6 @@ export default function Conversations() {
       />
       <Box
         sx={{
-          display: 'flex',
           alignContent: 'center',
           justifyContent: 'space-between',
         }}
@@ -39,18 +38,28 @@ export default function Conversations() {
         <Typography variant="h4">Conversation</Typography>
         {isConversation && (
           <>
-            <Button
-              variant="contained"
-              startIcon={<AddIconWithBg />}
-              id="basic-button"
-              aria-controls={open ? 'basic-menu' : undefined}
-              aria-haspopup="true"
-              aria-expanded={open ? 'true' : undefined}
-              onClick={handleClickButtonMenu}
+            <Box
+              display={'flex'}
+              marginTop={'190px'}
+              flexDirection={'column'}
+              justifyContent={'center'}
+              alignItems={'center'}
             >
-              {' '}
-              Add Conversation
-            </Button>
+              <Typography>There are no conversation available</Typography>
+              <br />
+              <Button
+                variant="contained"
+                startIcon={<AddIconWithBg />}
+                id="basic-button"
+                aria-controls={open ? 'basic-menu' : undefined}
+                aria-haspopup="true"
+                aria-expanded={open ? 'true' : undefined}
+                onClick={handleClickButtonMenu}
+              >
+                {' '}
+                Add
+              </Button>
+            </Box>
             <Menu
               id="basic-menu"
               anchorEl={addCoversation}

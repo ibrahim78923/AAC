@@ -65,6 +65,8 @@ export { default as ViewDetailMeetingIcon } from './modules/view-detail-Icon/vie
 export { default as ViewDetailDocumentTextIcon } from './modules/view-detail-Icon/view-detail-document-text-icon';
 export { default as ViewDetailCallIcon } from './modules/view-detail-Icon/view-details-call-icon';
 export { default as ViewDetailBackArrowIcon } from './modules/view-detail-Icon/view-detail-back-arrow-icon';
+export { default as CannedResponseModalIcon } from './modules/view-detail-Icon/canned-response-modal-icon';
+
 export { default as RefreshIcon } from './shared/refresh-icon';
 export { default as LeftArrowConversatationIcon } from './shared/AddConversation/left-arrow-icon';
 export { default as RightArrowConversatationIcon } from './shared/AddConversation/right-arrow-icon';

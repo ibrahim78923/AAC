@@ -1,10 +1,10 @@
 import { FormProvider } from '@/components/ReactHookForm';
 import { Box, Button, Grid } from '@mui/material';
-import ConversationModel from '@/components/Model/CoversationModel';
 import { v4 as uuidv4 } from 'uuid';
 import { conversationModelsArray } from '../Conversation.data';
+import CommonDrawer from '@/components/CommonDrawer';
 
-const ConversationModelSub = ({
+const ConversationAddModel = ({
   selectedItem,
   show,
   setShow,
@@ -12,10 +12,14 @@ const ConversationModelSub = ({
   onSubmit,
 }: any) => {
   return (
-    <ConversationModel
+    <CommonDrawer
+      isDrawerOpen={show}
+      // onClose={() => {
+      //   setIsOpenDrawer(false);
+      // }}
       selectedItem={selectedItem}
       open={show}
-      handleClose={() => setShow(false)}
+      onClose={() => setShow(false)}
     >
       <FormProvider
         methods={addCoversationModel}
@@ -56,8 +60,8 @@ const ConversationModelSub = ({
           </Button>
         </Box>
       </FormProvider>
-    </ConversationModel>
+    </CommonDrawer>
   );
 };
 
-export default ConversationModelSub;
+export default ConversationAddModel;
