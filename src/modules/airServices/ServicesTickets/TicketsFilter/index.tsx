@@ -11,7 +11,8 @@ export const TicketsFilter = (props: any) => {
     methods,
     handleSubmit,
     submitTicketFilterForm,
-    resetTicketFilterForm,
+    // resetTicketFilterForm,
+    onClose,
   } = useTicketFilter(props);
 
   // if ('isLoading') return <SkeletonForm />;
@@ -19,7 +20,7 @@ export const TicketsFilter = (props: any) => {
     <>
       <CommonDrawer
         isDrawerOpen={isDrawerOpen}
-        onClose={() => {}}
+        onClose={() => onClose?.()}
         okText={'Submit'}
         title={'Tickets Bulk Update'}
         submitHandler={() => handleSubmit(submitTicketFilterForm)()}

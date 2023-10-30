@@ -5,7 +5,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import CommonDrawer from '@/components/CommonDrawer';
 export const TicketsBulkUpdate = (props: any) => {
-  const { isDrawerOpen } = props;
+  const { isDrawerOpen, setIsDrawerOpen } = props;
   const {
     ticketsBulkUpdateFormFieldsData,
     // router,
@@ -15,6 +15,7 @@ export const TicketsBulkUpdate = (props: any) => {
     handleSubmit,
     to,
     setTo,
+    onClose,
     submitTicketBulkUpdateForm,
   } = useTicketBulkUpdate(props);
   return (
@@ -29,7 +30,7 @@ export const TicketsBulkUpdate = (props: any) => {
         //     setIsDrawerOpen?.(false);
         //   })
         // }
-        onClose={() => {}}
+        onClose={() => onClose?.()}
         okText={'Submit'}
         title={'Tickets Bulk Update'}
         submitHandler={() => handleSubmit(submitTicketBulkUpdateForm)()}
@@ -57,7 +58,7 @@ export const TicketsBulkUpdate = (props: any) => {
               <Box
                 padding={1.5}
                 borderRadius={'.5rem'}
-                style={{ backgroundColor: theme.palette.primary.light }}
+                style={{ backgroundColor: theme?.palette?.primary?.light }}
               >
                 <Box display={'flex'} justifyContent={'space-between'}>
                   <div style={{ flex: 1 }}></div>
@@ -74,11 +75,16 @@ export const TicketsBulkUpdate = (props: any) => {
                       >
                         <form.component {...form.componentProps} size="medium">
                           {form?.componentProps?.select
-                            ? form.componentProps.options.map((option: any) => (
-                                <option key={option?.id} value={option?.value}>
-                                  {option?.label}
-                                </option>
-                              ))
+                            ? form?.componentProps?.options?.map(
+                                (option: any) => (
+                                  <option
+                                    key={option?.id}
+                                    value={option?.value}
+                                  >
+                                    {option?.label}
+                                  </option>
+                                ),
+                              )
                             : null}
                         </form.component>
                       </Grid>

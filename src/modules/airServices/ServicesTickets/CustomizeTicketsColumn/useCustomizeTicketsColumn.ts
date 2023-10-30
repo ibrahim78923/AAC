@@ -1,3 +1,5 @@
+import { useRouter } from 'next/router';
+
 export const useCustomizeTicketColumn = (props: any) => {
   const {
     // tableColumns = [],
@@ -5,8 +7,10 @@ export const useCustomizeTicketColumn = (props: any) => {
     // customizeColumn,
     // isDrawerOpen,
     // onClose,
-    // setIsDrawerOpen,
+    setIsDrawerOpen,
   } = props;
+
+  const router = useRouter();
   const submit = () => {
     // const newTableColumns = tableColumns.filter(
     //   (x: any) => customizeColumn[x.id],
@@ -28,7 +32,18 @@ export const useCustomizeTicketColumn = (props: any) => {
   //   //   [co.id]: true,
   //   // });
   // };
+  const onClose = () => {
+    const { tableAction, ...restQueries } = router?.query;
+    router.push({
+      pathname: router?.pathname,
+      query: {
+        ...restQueries,
+      },
+    });
+    setIsDrawerOpen(false);
+  };
   return {
     submit,
+    onClose
   };
 };

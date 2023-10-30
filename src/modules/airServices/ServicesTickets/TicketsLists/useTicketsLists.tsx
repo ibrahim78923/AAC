@@ -38,7 +38,7 @@ export const useTicketsLists = () => {
     );
   };
 
-  const [ticketsListsColumn, seTTicketsListsColumn] = useState(
+  const [ticketsListsColumn] = useState(
     ticketsListsColumnFunction(
       theme,
       router,
@@ -67,31 +67,35 @@ export const useTicketsLists = () => {
   const [customizeColumn, setCustomizeColumn] = useState(customizeColumns);
 
   const drawerComponent: any = {
-    'customize-column': (
+    [TABLE_CONSTANTS?.CUSTOMIZE_COLUMN]: (
       <CustomizeTicketsColumn
         isDrawerOpen={isDrawerOpen}
         setIsDrawerOpen={setIsDrawerOpen}
-        tableColumns={ticketsListsColumnPersist?.slice(1)}
+        tableColumns={ticketsListsColumnPersist?.slice?.(1)}
         customizeColumn={customizeColumn}
         setCustomizeColumn={setCustomizeColumn}
       />
     ),
 
-    'filter-data': (
+    [TABLE_CONSTANTS?.FILTER_DATA]: (
       <TicketsFilter
         setIsDrawerOpen={setIsDrawerOpen}
         isDrawerOpen={isDrawerOpen}
       />
     ),
-    'bulk-update-data': (
+    [TABLE_CONSTANTS?.BULK_UPDATE_DATA]: (
       <TicketsBulkUpdate
         setIsDrawerOpen={setIsDrawerOpen}
         isDrawerOpen={isDrawerOpen}
-        // to={to}
-        // setTo={setTo}
       />
     ),
-    'create-new-ticket': (
+    [TABLE_CONSTANTS?.CREATE_NEW_TICKET]: (
+      <CreateTicket
+        setIsDrawerOpen={setIsDrawerOpen}
+        isDrawerOpen={isDrawerOpen}
+      />
+    ),
+    [TABLE_CONSTANTS?.EDIT_TICKET]: (
       <CreateTicket
         setIsDrawerOpen={setIsDrawerOpen}
         isDrawerOpen={isDrawerOpen}
@@ -101,8 +105,9 @@ export const useTicketsLists = () => {
 
   const openDrawer = (tableActionQuery: any) => {
     router.push({
-      pathname: router.pathname,
+      pathname: router?.pathname,
       query: {
+        ...router?.query,
         tableAction: tableActionQuery,
       },
     });
@@ -110,18 +115,25 @@ export const useTicketsLists = () => {
       setIsDrawerOpen(true);
     }, 100);
   };
-  const markAsClose = () => {
+
+  const markTicketAsClose = () => {
     enqueueSnackbar('Ticket marked as close', { variant: 'success' });
   };
-  const markAsSpam = () => {
+
+  const markTicketAsSpam = () => {
     enqueueSnackbar('Ticket marked as spam', { variant: 'success' });
   };
+
+  const deleteTicket = () => {
+    enqueueSnackbar('Ticket deleted successfully', { variant: 'success' });
+    setDeleteModalOpen(false);
+  };
+  
   const ticketsActionDropdown = ticketsActionDropdownFunction?.(
     openDrawer,
     setDeleteModalOpen,
-    setIsDrawerOpen,
-    markAsClose,
-    markAsSpam,
+    markTicketAsClose,
+    markTicketAsSpam,
   );
 
   return {
@@ -140,5 +152,6 @@ export const useTicketsLists = () => {
     ticketsActionDropdown,
     deleteModalOpen,
     setDeleteModalOpen,
+    deleteTicket,
   };
 };

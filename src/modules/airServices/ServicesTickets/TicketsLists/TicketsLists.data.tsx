@@ -15,6 +15,7 @@ export const TABLE_CONSTANTS = {
   FILTER_DATA: 'filter-data',
   BULK_UPDATE_DATA: 'bulk-update-data',
   CREATE_NEW_TICKET: 'create-new-ticket',
+  EDIT_TICKET: 'edit-ticket',
 };
 
 const options = [
@@ -73,14 +74,13 @@ const priorityOptions = [
 export const ticketsActionDropdownFunction = (
   openDrawer: any,
   setDeleteModalOpen: any,
-  setIsDrawerOpen: any,
-  markAsClose: any,
-  markAsSpam: any,
+  markTicketAsClose: any,
+  markTicketAsSpam: any,
 ) => [
   {
     title: 'Edit',
     handleClick: (x: any) => {
-      // openDrawer?.(TABLE_CONSTANTS.CREATE_NEW_TICKET);
+      openDrawer?.(TABLE_CONSTANTS?.EDIT_TICKET);
       x?.();
     },
   },
@@ -93,7 +93,7 @@ export const ticketsActionDropdownFunction = (
   {
     title: 'Bulk Update',
     handleClick: (x: any) => {
-      openDrawer?.(TABLE_CONSTANTS.BULK_UPDATE_DATA);
+      openDrawer?.(TABLE_CONSTANTS?.BULK_UPDATE_DATA);
       x?.();
     },
   },
@@ -112,14 +112,14 @@ export const ticketsActionDropdownFunction = (
   {
     title: 'Mark as Close',
     handleClick: (x: any) => {
-      markAsClose?.();
+      markTicketAsClose?.();
       x?.();
     },
   },
   {
     title: 'Mark as Spam',
     handleClick: (x: any) => {
-      markAsSpam?.();
+      markTicketAsSpam?.();
       x?.();
     },
   },
@@ -127,7 +127,7 @@ export const ticketsActionDropdownFunction = (
   {
     title: 'Delete',
     handleClick: (x: any) => {
-      // setDeleteModalOpen?.(true);
+      setDeleteModalOpen?.(true);
       x?.();
     },
   },
@@ -174,7 +174,7 @@ export const ticketsListsColumnFunction: any = (
   setSelectedTicketList: any,
   handleChange: (value: any, event: any) => void,
 ) => {
-  const { palette } = useTheme();
+  const { palette } = theme;
   return [
     {
       accessorFn: (row: any) => row.id,
@@ -183,28 +183,28 @@ export const ticketsListsColumnFunction: any = (
         <Checkbox
           checked={
             !!selectedTicketList.find(
-              (item: any) => item.id === info.getValue(),
+              (item: any) => item?.id === info?.getValue(),
             )
           }
           onChange={(e: any) => {
             e.target.checked
               ? setSelectedTicketList([
                   ...selectedTicketList,
-                  ticketList.find((item: any) => item.id === info.getValue()),
+                  ticketList.find((item: any) => item?.id === info?.getValue()),
                 ])
               : setSelectedTicketList(
                   selectedTicketList.filter((item: any) => {
-                    return item.id !== info.getValue();
+                    return item?.id !== info?.getValue();
                   }),
                 );
           }}
           color="primary"
-          name={info.getValue()}
+          name={info?.getValue()}
         />
       ),
       header: (
         <Checkbox
-          checked={selectedTicketList.length === ticketList.length}
+          checked={selectedTicketList?.length === ticketList?.length}
           onChange={(e: any) => {
             e.target.checked
               ? setSelectedTicketList([...ticketList])

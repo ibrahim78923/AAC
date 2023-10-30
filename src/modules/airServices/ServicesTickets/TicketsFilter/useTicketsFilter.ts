@@ -32,6 +32,17 @@ export const useTicketFilter = (props: any) => {
     reset();
     setIsDrawerOpen(false);
   };
+  const onClose = () => {
+    const { tableAction, ...restQueries } = router?.query;
+    router.push({
+      pathname: router?.pathname,
+      query: {
+        ...restQueries,
+      },
+    });
+    reset?.();
+    setIsDrawerOpen(false);
+  };
   return {
     ticketsFilterFormFieldsData,
     router,
@@ -40,5 +51,6 @@ export const useTicketFilter = (props: any) => {
     handleSubmit,
     submitTicketFilterForm,
     resetTicketFilterForm,
+    onClose,
   };
 };

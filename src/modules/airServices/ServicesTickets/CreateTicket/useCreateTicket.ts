@@ -20,13 +20,23 @@ export const useCreateTicket = (props: any) => {
 
   const { handleSubmit, reset } = methods;
 
-  const submitCreateNewTicket = async (data: any) => {
+  const submitCreateNewTicket = async () => {
     enqueueSnackbar('Ticket Added Successfully', {
       variant: 'success',
     });
     reset(createTicketDefaultValues);
     setIsDrawerOpen(false);
-    console.log(data);
+  };
+  const onClose = () => {
+    const { tableAction, ...restQueries } = router?.query;
+    router.push({
+      pathname: router?.pathname,
+      query: {
+        ...restQueries,
+      },
+    });
+    reset?.();
+    setIsDrawerOpen(false);
   };
   return {
     router,
@@ -34,5 +44,6 @@ export const useCreateTicket = (props: any) => {
     handleSubmit,
     submitCreateNewTicket,
     methods,
+    onClose,
   };
 };

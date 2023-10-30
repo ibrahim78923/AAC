@@ -9,10 +9,10 @@ export const CustomizeTicketsColumn = (props: any) => {
     checkboxClick,
     customizeColumn,
     isDrawerOpen,
-    onClose,
+    // onClose,
     // setIsDrawerOpen,
   } = props;
-  const { submit } = useCustomizeTicketColumn(props);
+  const { submit, onClose } = useCustomizeTicketColumn(props);
   const theme = useTheme();
   return (
     <>
