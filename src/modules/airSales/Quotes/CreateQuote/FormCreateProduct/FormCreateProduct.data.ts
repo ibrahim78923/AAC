@@ -1,113 +1,104 @@
 import {
   RHFTextField,
   RHFSelect,
-  RHFDropZone,
+  RHFRadioGroup,
+  RHFEditor,
+  RHFCheckbox,
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
 export const validationSchema = Yup.object().shape({
-  email: Yup.string().required('Field is Required'),
-  name: Yup.string().required('Field is Required'),
-  contactOwner: Yup.string().required('Field is Required'),
-  jobTitle: Yup.string().required('Field is Required'),
+  productName: Yup.string().required('Field is Required'),
+  unitPrice: Yup.string().required('Field is Required'),
 });
 
 export const initValues = {
-  email: '',
-  profilePicture: '',
-  name: '',
-  contactOwner: '',
-  phoneNumber: '',
-  jobTitle: '',
-  lifecycleStage: '',
-  status: '',
+  productType: 'Custom Line Item',
+  productName: '',
+  SKU: '',
+  category: '',
+  description: '',
+  isActiveProduct: true,
+  unitPrice: '',
+  createdDate: '',
 };
 
 export const addContactFields = [
   {
-    id: 'email',
+    id: 'productType',
+    component: RHFRadioGroup,
+    componentProps: {
+      name: 'productType',
+      fullWidth: true,
+      options: ['Custom Line Item', 'Existing Products'],
+    },
+  },
+  {
+    id: 'productName',
     component: RHFTextField,
     componentProps: {
-      name: 'email',
-      label: 'Email*',
-      placeholder: 'Search or Enter Email',
+      name: 'productName',
+      label: 'Product Name',
+      placeholder: 'Enter here',
     },
   },
   {
-    id: 'profilePicture',
-    component: RHFDropZone,
-    componentProps: {
-      name: 'profilePicture',
-    },
-  },
-  {
-    id: 'name',
+    id: 'SKU',
     component: RHFTextField,
     componentProps: {
-      name: 'name',
-      label: 'Name*',
-      placeholder: 'John Doe',
+      name: 'SKU',
+      label: 'SKU',
+      placeholder: 'Enter here',
     },
   },
+
   {
-    id: 'contactOwner',
+    id: 'category',
     component: RHFSelect,
     componentProps: {
-      name: 'contactOwner',
-      label: 'Contact Owner*',
+      name: 'category',
+      label: 'Category',
       select: true,
+      placeholder: 'Select',
     },
     options: [
-      { value: 'Guy Hawkins', label: 'Guy Hawkins' },
-      { value: 'Jacob Jones', label: 'Jacob Jones' },
-      { value: 'Courtney Henry', label: 'Courtney Henry' },
+      { value: 'Inventory', label: 'Inventory' },
+      { value: 'Non-Inventory', label: 'Non-Inventory' },
+      { value: 'Service', label: 'Service' },
     ],
   },
   {
-    id: 'phoneNumber',
+    id: 'description',
+    component: RHFEditor,
+    componentProps: {
+      name: 'description',
+      label: 'Description',
+    },
+  },
+  {
+    id: 'isActiveProduct',
+    component: RHFCheckbox,
+    componentProps: {
+      name: 'isActiveProduct',
+      label: 'Active Product',
+    },
+  },
+  {
+    id: 'unitPrice',
     component: RHFTextField,
     componentProps: {
-      name: 'phoneNumber',
-      label: 'Phone Number',
-      placeholder: '+44 2556465064',
+      name: 'unitPrice',
+      label: 'Unit Price (£)',
+      placeholder: 'Enter here',
     },
   },
   {
-    id: 'jobTitle',
+    id: 'createdDate',
     component: RHFTextField,
     componentProps: {
-      name: 'jobTitle',
-      label: 'Job Title*',
-      placeholder: 'Sales Manager',
+      name: 'createdDate',
+      label: 'Created Date',
+      placeholder: '01/01/2022',
     },
-  },
-  {
-    id: 'lifecycleStage',
-    component: RHFSelect,
-    componentProps: {
-      name: 'lifecycleStage',
-      label: 'Lifecycle Stage',
-      select: true,
-    },
-    options: [
-      { value: 'Lead', label: 'Lead' },
-      { value: 'Sales Qualified lead', label: 'Sales Qualified lead' },
-      { value: 'Lesile Alexander', label: 'Lesile Alexander' },
-      { value: 'Customer', label: 'Customer' },
-    ],
-  },
-  {
-    id: 'status',
-    component: RHFSelect,
-    componentProps: {
-      name: 'status',
-      label: 'Status',
-      select: true,
-    },
-    options: [
-      { value: 'New', label: 'New' },
-      { value: 'Open', label: 'Open' },
-      { value: 'In Progress', label: 'In Progress' },
-    ],
   },
 ];

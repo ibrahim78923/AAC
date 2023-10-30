@@ -6,6 +6,7 @@ import useCreateQuote from './useCreateQuote';
 import FormAddContact from './FormAddContact';
 import FormAddCompany from './FormAddCompany';
 import FormCreateProduct from './FormCreateProduct';
+import DialogSendToCustomer from './DialogSendToCustomer';
 import { styles } from './CreateQuote.style';
 
 const CreateQuote = () => {
@@ -25,6 +26,9 @@ const CreateQuote = () => {
     handleCloseFormAddCompany,
     isOpenFormCreateProduct,
     handleCloseFormCreateProduct,
+    handleOpenDialog,
+    handleCloseDialog,
+    isOpenDialog,
   } = useCreateQuote();
 
   return (
@@ -65,7 +69,7 @@ const CreateQuote = () => {
 
                 {activeStep === createQuoteSteps.length - 1 && (
                   <>
-                    <Button onClick={handleStepNext} variant="contained">
+                    <Button onClick={handleFormSubmit} variant="contained">
                       Save & Submit Later
                     </Button>
                     <Button
@@ -75,7 +79,7 @@ const CreateQuote = () => {
                     >
                       Preview
                     </Button>
-                    <Button onClick={handleFormSubmit} variant="contained">
+                    <Button onClick={handleOpenDialog} variant="contained">
                       Submit
                     </Button>
                   </>
@@ -85,6 +89,8 @@ const CreateQuote = () => {
           }
         />
       </FormProvider>
+
+      <DialogSendToCustomer open={isOpenDialog} onClose={handleCloseDialog} />
 
       <FormCreateDeal
         open={isOpenFormCreateDeal}

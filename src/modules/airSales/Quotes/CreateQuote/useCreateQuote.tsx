@@ -33,6 +33,7 @@ const useCreateQuote = () => {
   const [isOpenFormAddContact, setIsOpenFormAddContact] = useState(false);
   const [isOpenFormAddCompany, setIsOpenFormAddCompany] = useState(false);
   const [isOpenFormCreateProduct, setIsOpenFormCreateProduct] = useState(false);
+  const [isOpenDialog, setIsOpenDialog] = useState(false);
 
   const handleStepNext = async () => {
     let isValid = false;
@@ -84,6 +85,13 @@ const useCreateQuote = () => {
   };
   const handleCloseFormCreateProduct = () => {
     setIsOpenFormCreateProduct(false);
+  };
+
+  const handleOpenDialog = () => {
+    setIsOpenDialog(true);
+  };
+  const handleCloseDialog = () => {
+    setIsOpenDialog(false);
   };
 
   const createQuoteSteps = [
@@ -152,6 +160,9 @@ const useCreateQuote = () => {
     isOpenFormCreateProduct,
     handleOpenFormCreateProduct,
     handleCloseFormCreateProduct,
+    handleOpenDialog,
+    handleCloseDialog,
+    isOpenDialog,
   };
 };
 
