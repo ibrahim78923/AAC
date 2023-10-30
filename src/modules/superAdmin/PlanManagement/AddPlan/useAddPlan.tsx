@@ -14,19 +14,26 @@ import {
   defaultValues,
   gpDetailsInfoFormSchema,
 } from './Forms/PlanForm/PlanForm.data';
-import { addPlanFormData } from '@/redux/slices/planManagement/planManagementSlice';
+import {
+  addPlanFormData,
+  planFeaturesFormData,
+  modulesFormData,
+} from '@/redux/slices/planManagement/planManagementSlice';
 import { useDispatch } from 'react-redux';
 import { persistStore } from 'redux-persist';
-import store from '@/redux/store';
+import store, { useAppSelector } from '@/redux/store';
 import {
   defaultValuesFeatures,
   validationSchemaFeatures,
 } from './Forms/PlanFeatures/FeaturesModal/FeaturesModal.data';
+import { usePostPlanMangementMutation } from '@/services/superAdmin/plan-mangement';
 
 export const useAddPlan = () => {
   const [addPlanFormValues, setAddPlanFormValues] = useState({});
+
   const [activeStep, setActiveStep] = useState(0);
 
+  const [postPlanMangement] = usePostPlanMangementMutation();
   const router = useRouter();
   const dispatch = useDispatch();
   const hanldeGoBack = () => {
@@ -37,8 +44,6 @@ export const useAddPlan = () => {
     resolver: yupResolver(gpDetailsInfoFormSchema),
     defaultValues: defaultValues,
   });
-
-  // const handlePlanSubmit = handleSubmit(onSubmit);
 
   const persistor = persistStore(store);
 
@@ -52,25 +57,64 @@ export const useAddPlan = () => {
   });
   const { handleSubmit, reset } = methodsPlan;
   const { handleSubmit: handleSubmitPlanFeatures } = methodsPlanFeatures;
+  const { handleSubmit: handleSubmitPlanModules } = methodsPlanFeatures;
 
-  // console.log("addPlanFormValues-----------> ", addPlanFormValues);
-
+  const planForm: any = useAppSelector(
+    (state) => state?.planManagementForms?.planManagement?.addPlanForm,
+  );
+  const featureDetails: any = useAppSelector(
+    (state) => state?.planManagementForms?.planManagement?.featureDetails,
+  );
+  const featursFormData: any = useAppSelector(
+    (state) => state?.planManagementForms?.planManagement?.planFeaturesForm,
+  );
   const onSubmitPlan = async (values: any) => {
     // console.log("addPlanFormValues=======> ", addPlanFormValues);
     dispatch(addPlanFormData(values));
     setActiveStep((previous) => previous + 1);
     // console.log(values)
-    enqueueSnackbar('Dashboard Created Successfully', {
+    enqueueSnackbar('Plan Details Added Successfully', {
       variant: 'success',
     });
     reset();
   };
   const onSubmitPlanFeaturesHandler = async (values: any) => {
     // console.log("addPlanFormValues=======> ", addPlanFormValues);
-    dispatch(addPlanFormData(values));
+
+    dispatch(planFeaturesFormData(values));
     setActiveStep((previous) => previous + 1);
     // console.log(values)
-    enqueueSnackbar('Dashboard Created Successfully', {
+    enqueueSnackbar('Plan Features Details Added Successfully', {
+      variant: 'success',
+    });
+    reset();
+  };
+
+  const onSubmitPlanModulesHandler = async (values: any) => {
+    dispatch(modulesFormData(values));
+    if (activeStep == AddPlanStepperData?.length - 1) {
+      const featuresData = [featureDetails];
+      const planManagementPayload = {
+        ...planForm,
+        ...featursFormData,
+        featuresData,
+      };
+      try {
+        postPlanMangement({ body: planManagementPayload }).unwrap();
+        enqueueSnackbar('Plan Modules Details Added Successfully', {
+          variant: 'success',
+        });
+        persistor.purge();
+        reset();
+      } catch (error: any) {
+        enqueueSnackbar('An error occured', {
+          variant: 'error',
+        });
+      }
+    }
+
+    // console.log(values)
+    enqueueSnackbar('Plan Modules Details Added Successfully', {
       variant: 'success',
     });
     reset();
@@ -80,10 +124,14 @@ export const useAddPlan = () => {
   const handlePlanFeatures = handleSubmitPlanFeatures(
     onSubmitPlanFeaturesHandler,
   );
+  const handlePlanModules = handleSubmitPlanModules(onSubmitPlanModulesHandler);
+
   const handleCompleteStep = () => {
     handlePlanForm();
+    handlePlanFeatures();
 
     if (activeStep == AddPlanStepperData?.length - 1) {
+      handlePlanModules();
       reset();
       persistor.purge();
       router.push('/super-admin/plan-management');

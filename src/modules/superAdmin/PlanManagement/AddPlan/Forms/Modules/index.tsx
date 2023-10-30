@@ -31,7 +31,6 @@ const Modules = () => {
   const [expandedAccordion, setExpandedAccordion] = useState<string | false>(
     '',
   );
-
   const handleExpandAccordionChange =
     (accordionId: string) => (_: any, isExpanded: boolean) => {
       setExpandedAccordion(isExpanded ? accordionId : '');

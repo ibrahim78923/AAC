@@ -4,7 +4,7 @@ export const planManagementAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getPlanMangement: builder.query({
       query: () => ({
-        url: `/plan-management`,
+        url: `/plan`,
         method: 'GET',
       }),
       providesTags: ['PLAN_MANAGEMENT'],
@@ -19,8 +19,8 @@ export const planManagementAPI = baseAPI.injectEndpoints({
     }),
 
     postPlanMangement: builder.mutation({
-      query: ({ id, body }: any) => ({
-        url: `/plan-management/${id}`,
+      query: ({ body }: any) => ({
+        url: `/plan`,
         method: 'POST',
         body: body,
       }),

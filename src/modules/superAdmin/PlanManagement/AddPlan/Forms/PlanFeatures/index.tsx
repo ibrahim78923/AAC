@@ -19,6 +19,9 @@ import FeaturesModal from './FeaturesModal';
 import { AddPlusPrimaryIcon } from '@/assets/icons';
 import { useAppSelector } from '@/redux/store';
 import { FormProvider } from '@/components/ReactHookForm';
+import { dataArrayFeatures } from './FeaturesModal/FeaturesModal.data';
+import { isNullOrEmpty } from '@/utils';
+import { v4 as uuidv4 } from 'uuid';
 interface CheckboxItem {
   name: string;
   desc: string;
@@ -49,7 +52,23 @@ const PlanFeatures = ({ methods, handleSubmit }: any) => {
 
   return (
     <div>
-      <FormProvider methods={methods} onSubmit={handleSubmit}></FormProvider>
+      <FormProvider methods={methods} onSubmit={handleSubmit}>
+        <Grid container spacing={5}>
+          {dataArrayFeatures?.map((item: any) => (
+            <Grid item xs={12} md={item?.md} key={uuidv4()}>
+              <item.component {...item.componentProps} size={'small'}>
+                {!isNullOrEmpty(item?.componentProps?.select) &&
+                  item?.options?.map((option: any) => (
+                    <option key={uuidv4()} value={option?.value}>
+                      {option?.label}
+                    </option>
+                  ))}
+              </item.component>
+            </Grid>
+          ))}
+        </Grid>
+      </FormProvider>
+
       {planManagement?.addPlanForm?.product?.map((feature: string) => (
         <Accordion
           expanded={expandedAccordion === feature}
@@ -109,6 +128,7 @@ const PlanFeatures = ({ methods, handleSubmit }: any) => {
           </AccordionDetails>
         </Accordion>
       ))}
+
       {openFeaturesModal && (
         <FeaturesModal
           openFeaturesModal={openFeaturesModal}

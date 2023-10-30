@@ -12,7 +12,8 @@ import {
 } from './FeaturesModal.data';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { v4 as uuidv4 } from 'uuid';
-import { usePlanFeatures } from '../usePlanFeatures';
+import { useDispatch } from 'react-redux';
+import { setFeatureDetails } from '@/redux/slices/planManagement/planManagementSlice';
 
 const style = {
   position: 'absolute' as const,
@@ -32,7 +33,8 @@ export default function FeaturesModal({
   featureName,
 }: any) {
   const theme = useTheme();
-  const { setFeatureDetail } = usePlanFeatures();
+  const dispatch = useDispatch();
+
   const methods: any = useForm({
     resolver: yupResolver(validationSchemaFeatures),
 
@@ -42,7 +44,8 @@ export default function FeaturesModal({
   const { handleSubmit } = methods;
 
   const onSubmit = async (values: any) => {
-    setFeatureDetail(values);
+    dispatch(setFeatureDetails(values));
+
     enqueueSnackbar('Details Added Successfully', {
       variant: 'success',
     });
