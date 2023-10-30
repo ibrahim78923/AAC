@@ -19,7 +19,7 @@ import { FilterSharedIcon, PlusSharedIcon } from '@/assets/icons';
 import useUserManagement from './useUserManagement';
 
 import { SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
-import { PermissionChecker } from '@/GuardsAndPermissions/PermissionChecker';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
 const UserManagement = () => {
   const {
@@ -49,8 +49,8 @@ const UserManagement = () => {
         sx={{ padding: '0px 24px', display: { md: 'flex' } }}
       >
         <Typography variant="h4">User Management</Typography>
-        <PermissionChecker
-          permissionKey={SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS.ADD_USER}
+        <PermissionsGuard
+          permissions={[SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS.ADD_USER]}
         >
           <Button
             onClick={() =>
@@ -61,12 +61,12 @@ const UserManagement = () => {
           >
             {tabVal === 2 ? 'Add Role' : 'Add User'}
           </Button>
-        </PermissionChecker>
+        </PermissionsGuard>
       </Box>
-      <PermissionChecker
-        permissionKey={
-          SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS.USER_SEARCH_AND_FILTER
-        }
+      <PermissionsGuard
+        permissions={[
+          SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS.USER_SEARCH_AND_FILTER,
+        ]}
       >
         <Box sx={{ padding: '0px 24px' }}>
           <CommonTabs
@@ -131,7 +131,7 @@ const UserManagement = () => {
             <RolesAndRights />
           </CommonTabs>
         </Box>
-      </PermissionChecker>
+      </PermissionsGuard>
 
       {isOpenFilterDrawer && (
         <UsersManagementFilters
