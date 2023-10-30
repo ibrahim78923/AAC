@@ -1,13 +1,14 @@
 import { ViewDetailDocumentTextIcon } from '@/assets/icons';
 import { AvatarImage } from '@/assets/images';
-import { Box, Chip, Grid, Typography } from '@mui/material';
+import { Box, Chip, Grid, Typography, useTheme } from '@mui/material';
 import Image from 'next/image';
 
 export const DetailCard = () => {
+  const theme = useTheme();
   return (
     <Box
       sx={{
-        border: '2px solid #EAECF0',
+        border: `2px solid ${theme?.palette?.custom?.off_white_three}`,
         borderRadius: '.5rem',
         paddingY: '1rem',
       }}
@@ -18,8 +19,13 @@ export const DetailCard = () => {
           xs={12}
           md={3.9}
           padding={1.5}
-          borderRight={{ md: '1px solid #EAECF0' }}
-          borderBottom={{ xs: '1px solid #EAECF0', md: 'none' }}
+          borderRight={{
+            md: `1px solid ${theme?.palette?.custom?.off_white_three}`,
+          }}
+          borderBottom={{
+            xs: `1px solid ${theme?.palette?.custom?.off_white_three}`,
+            md: 'none',
+          }}
         >
           <Box>
             <Box
@@ -69,8 +75,13 @@ export const DetailCard = () => {
           xs={12}
           md={3.9}
           padding={1.5}
-          borderRight={{ md: '1px solid #EAECF0' }}
-          borderBottom={{ xs: '1px solid #EAECF0', md: 'none' }}
+          borderRight={{
+            md: `1px solid ${theme?.palette?.custom?.off_white_three}`,
+          }}
+          borderBottom={{
+            xs: `1px solid ${theme?.palette?.custom?.off_white_three}`,
+            md: 'none',
+          }}
         >
           {/* <CloseOutlined style={{ float: 'right' }} /> */}
           <Box

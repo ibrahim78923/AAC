@@ -5,8 +5,10 @@ import {
   upsertContractFormSchemaFunction,
 } from './UpsertContract.data';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useTheme } from '@mui/material';
 
 export const useUpsertContract = () => {
+  const theme = useTheme();
   const methods = useForm<any>({
     resolver: yupResolver<any>(upsertContractFormSchemaFunction),
     defaultValues: upsertContractFormDefaultValuesFunction(),
@@ -34,5 +36,6 @@ export const useUpsertContract = () => {
     handleSubmit,
     submitUpsertContractForm,
     upsertContractFormFieldsData,
+    theme
   };
 };
