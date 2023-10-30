@@ -1,5 +1,3 @@
-import React from 'react';
-
 import CustomPagination from '@/components/CustomPagination';
 
 import TanstackTable from '@/components/Tabel/TanstackTable';

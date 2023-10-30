@@ -1,15 +1,4 @@
-import React, { useState } from 'react';
-
-import { useRouter } from 'next/router';
-
-import {
-  Box,
-  Button,
-  Menu,
-  MenuItem,
-  Typography,
-  useTheme,
-} from '@mui/material';
+import { Box, Button, Menu, MenuItem, Typography } from '@mui/material';
 
 import CommonTabs from '@/components/Tabs';
 
@@ -27,36 +16,28 @@ import { ArrowDropDown } from '@mui/icons-material';
 
 import { FilterSharedIcon, PlusSharedIcon } from '@/assets/icons';
 
-import { SUPER_ADMIN } from '@/constants';
+import useUserManagement from './useUserManagement';
 
 import { USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 import { PermissionChecker } from '@/GuardsAndPermissions/PermissionChecker';
 
 const UserManagement = () => {
-  const navigate = useRouter();
-  const theme = useTheme();
-  const [isOpenAddUserDrawer, setIsOpenAddUserDrawer] = useState(false);
-  const [isOpenFilterDrawer, setIsOpenFilterDrawer] = useState(false);
-  const [selectedValue, setSelectedValue] = useState(null);
-  const [tabVal, setTabVal] = useState<number>(0);
-  const [search, setSearch] = useState('');
-
-  const handleClick = (event: any) => {
-    setSelectedValue(event.currentTarget);
-  };
-
-  const handleAddRole = () => {
-    navigate.push(SUPER_ADMIN.ADDROLE);
-  };
-
-  const handleClose = () => {
-    setSelectedValue(null);
-  };
-
-  const handleUsersList = () => {
-    navigate.push(SUPER_ADMIN.USERS_LIST);
-    setSelectedValue(null);
-  };
+  const {
+    theme,
+    isOpenAddUserDrawer,
+    setIsOpenAddUserDrawer,
+    isOpenFilterDrawer,
+    setIsOpenFilterDrawer,
+    selectedValue,
+    tabVal,
+    setTabVal,
+    search,
+    setSearch,
+    handleClick,
+    handleAddRole,
+    handleClose,
+    handleUsersList,
+  } = useUserManagement();
 
   return (
     <Box
@@ -159,7 +140,7 @@ const UserManagement = () => {
       {isOpenAddUserDrawer && (
         <AddUser
           isOpenDrawer={isOpenAddUserDrawer}
-          setIsOpenAddUserDrawer={setIsOpenAddUserDrawer}
+          onClose={() => setIsOpenAddUserDrawer(false)}
         />
       )}
     </Box>

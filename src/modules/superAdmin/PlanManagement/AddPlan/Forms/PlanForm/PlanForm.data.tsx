@@ -2,16 +2,16 @@ import * as Yup from 'yup';
 import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
 
 export const defaultValues = {
-  category: '',
-  product: '',
-  planType: '',
-  description: '',
-  defaultUsers: '',
-  defaultStorage: '',
-  planPrice: '',
-  allowAdditionalUsers: '',
-  additionalPricePerUser: '',
-  allowAdditionalStorage: '',
+  category: 'Category',
+  product: 'Products',
+  planType: 'Plan Type',
+  description: 'Description',
+  defaultUsers: 'User',
+  defaultStorage: '100',
+  planPrice: '55',
+  allowAdditionalUsers: 'User',
+  additionalPricePerUser: '20',
+  allowAdditionalStorage: 'Storage',
   additionalStoragePrice: '',
 };
 
@@ -38,19 +38,19 @@ export const gpDetailsInfoFormSchema: any = Yup.object().shape({
   planPrice: Yup.string()
     .matches(/^[0-9]*$/, 'must be a number')
     .required('Required field')
-    .min(12, 'Mininum 1 characters')
+    .min(1, 'Mininum 1 characters')
     .max(12, 'max is 12'),
   allowAdditionalUsers: Yup.string().required('Required field'),
   additionalPricePerUser: Yup.string()
     .matches(/^[0-9]*$/, 'must be a number')
     .required('Required field')
-    .min(12, 'Mininum 1 characters')
+    .min(1, 'Mininum 1 characters')
     .max(12, 'max is 12'),
   allowAdditionalStorage: Yup.string().required('Required field'),
   additionalStoragePrice: Yup.string()
     .matches(/^[0-9]*$/, 'must be a number')
     .required('Required field')
-    .min(12, 'Mininum 1 characters')
+    .min(1, 'Mininum 1 characters')
     .max(12, 'max is 12'),
 });
 
@@ -116,6 +116,8 @@ export const dataArray = (isFieldDisable = false) => [
       name: 'description',
       label: 'Description',
       fullWidth: true,
+      multiline: true,
+      rows: 4,
     },
     component: RHFTextField,
     gridLength: 6,
