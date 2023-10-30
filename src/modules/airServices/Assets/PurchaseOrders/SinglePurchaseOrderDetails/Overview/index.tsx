@@ -2,14 +2,13 @@ import { Box, Typography, useTheme } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
 import { overviewData } from './Overview.data';
 import { styles } from './Overview.style';
-import TanstackTable from '@/components/Tabel/TanstackTable';
 import { overviewTableColumns, overviewListData } from './Overview.data';
 import OverviewModel from './OverviewModel';
 import { useState } from 'react';
 import OverviewBilling from './OverviewBilling';
+import TanstackTable from '@/components/Table/TanstackTable';
 export const Overview = () => {
   const theme = useTheme();
-  const { mainContainerBox, childContainerBox } = styles();
   const [openOverviewModel, setOpenOverviewModel] = useState(false);
 
   return (
@@ -19,10 +18,10 @@ export const Overview = () => {
           <Typography variant="h5" sx={{ py: '10px' }}>
             {item?.heading}
           </Typography>
-          <Box sx={mainContainerBox}>
+          <Box sx={styles?.mainContainerBox}>
             {item?.DetailsData?.map((detail) => (
               <Box key={uuidv4()}>
-                <Box sx={childContainerBox}>
+                <Box sx={styles?.childContainerBox}>
                   <Box sx={{ width: { sm: '20%', xs: '8.75rem' } }}>
                     <Typography variant="body2" fontWeight={500}>
                       {detail?.name}

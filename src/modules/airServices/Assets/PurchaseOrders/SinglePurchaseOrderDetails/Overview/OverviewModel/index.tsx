@@ -2,40 +2,33 @@ import { LogoImage } from '@/assets/images';
 import { Box, Dialog, IconButton, Typography } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
 import Image from 'next/image';
-import TanstackTable from '@/components/Tabel/TanstackTable';
-import { overviewTablePdfColumns, overviewListPdfData } from '../Overview.data';
+import {
+  overviewTablePdfColumns,
+  overviewListPdfData,
+} from './OverviewModel.data';
 import OverviewBilling from '../OverviewBilling';
-import { styles } from '../Overview.style';
 import { DownloadFileIcon, PrinterIcon } from '@/assets/icons';
+import TanstackTable from '@/components/Table/TanstackTable';
+import { styles } from './OverviewModel.style';
 
 const OverviewModel = ({ openOverviewModel, setOpenOverviewModel }: any) => {
   const handleClose = () => {
     setOpenOverviewModel(false);
   };
-  const {
-    modelSizing,
-    logoBox,
-    logoHeading,
-    iconsStyle,
-    textColorCommon,
-    textColorCommonTwo,
-    logoImage,
-    textBoxStyle,
-  } = styles();
   return (
     <Box>
       <Dialog
         fullWidth
         open={openOverviewModel}
         onClose={handleClose}
-        sx={modelSizing}
+        sx={styles?.modelSizing}
       >
-        <Box sx={logoBox}>
+        <Box sx={styles?.logoBox}>
           <Box sx={{ display: 'flex', gap: 1 }}>
-            <Image src={LogoImage} alt="logo" style={logoImage} />
+            <Image src={LogoImage} alt="logo" style={styles?.logoImage} />
             <Box>
               <Typography variant="h2">Air Applecart</Typography>
-              <Typography variant="h5" sx={logoHeading}>
+              <Typography variant="h5" sx={styles?.logoHeading}>
                 Air Services
               </Typography>
             </Box>
@@ -44,42 +37,42 @@ const OverviewModel = ({ openOverviewModel, setOpenOverviewModel }: any) => {
             <CancelIcon fontSize="large" onClick={handleClose} />
           </IconButton>
         </Box>
-        <Box sx={iconsStyle}>
+        <Box sx={styles?.iconsStyle}>
           <PrinterIcon />
           <DownloadFileIcon />
         </Box>
-        <Box sx={textBoxStyle}>
+        <Box sx={styles?.textBoxStyle}>
           <Box>
-            <Typography variant="body2" sx={textColorCommon}>
+            <Typography variant="body2" sx={styles?.textColorCommon}>
               Invoice To
             </Typography>
             <Typography variant="h3" sx={{ mb: '0.3125rem' }}>
               Albert Torento
             </Typography>
-            <Typography variant="h6" sx={textColorCommon}>
+            <Typography variant="h6" sx={styles?.textColorCommon}>
               Hights St Covendis
             </Typography>
-            <Typography variant="h6" sx={textColorCommon}>
+            <Typography variant="h6" sx={styles?.textColorCommon}>
               Sudbury
             </Typography>
-            <Typography variant="h6" sx={textColorCommon}>
+            <Typography variant="h6" sx={styles?.textColorCommon}>
               CO I8 BAX
             </Typography>
           </Box>
           <Box sx={{ display: 'flex', gap: '3rem' }}>
             <Box>
-              <Typography variant="h6" sx={textColorCommon}>
+              <Typography variant="h6" sx={styles?.textColorCommon}>
                 Invoice
               </Typography>
-              <Typography variant="h6" sx={textColorCommon}>
+              <Typography variant="h6" sx={styles?.textColorCommon}>
                 Date
               </Typography>
             </Box>
             <Box>
-              <Typography variant="h6" sx={textColorCommonTwo}>
+              <Typography variant="h6" sx={styles?.textColorCommonTwo}>
                 1203
               </Typography>
-              <Typography variant="h6" sx={textColorCommonTwo}>
+              <Typography variant="h6" sx={styles?.textColorCommonTwo}>
                 19/01/2022
               </Typography>
             </Box>

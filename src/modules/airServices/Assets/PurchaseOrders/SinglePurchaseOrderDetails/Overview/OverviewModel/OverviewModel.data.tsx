@@ -1,29 +1,7 @@
 import { useTheme } from '@mui/material';
 
-export const overviewData = [
-  {
-    id: '1',
-    heading: 'Purchase Details',
-    DetailsData: [
-      { name: 'Vendor', detail: 'Dell' },
-      { name: 'Details', detail: 'Dell monitor' },
-      { name: 'Currency', detail: 'Pound' },
-      { name: 'Department', detail: '--' },
-      { name: 'Expected delivery date', detail: '28 Mar, 2023' },
-      { name: 'Location', detail: 'Street no 22' },
-      {
-        name: 'Terms and conditions',
-        detail: 'I agree all the terms and conditions',
-      },
-    ],
-  },
-];
-
-export const overviewTableColumns: any = (setOpenOverviewModel: any) => {
+export const overviewTablePdfColumns: any = () => {
   const theme = useTheme();
-  const handleOpen = () => {
-    setOpenOverviewModel(true);
-  };
   return [
     {
       accessorFn: (row: any) => row.itemName,
@@ -48,9 +26,15 @@ export const overviewTableColumns: any = (setOpenOverviewModel: any) => {
       cell: (info: any) => info.getValue(),
     },
     {
-      accessorFn: (row: any) => row.quantity,
-      id: 'quantity',
-      header: 'Quantity',
+      accessorFn: (row: any) => row.receivedVsOrdered,
+      id: 'receivedVsOrdered',
+      header: 'Received Vs Ordered',
+      cell: (info: any) => info.getValue(),
+    },
+    {
+      accessorFn: (row: any) => row.pending,
+      id: 'pending',
+      header: 'Pending',
       cell: (info: any) => info.getValue(),
     },
     {
@@ -65,30 +49,18 @@ export const overviewTableColumns: any = (setOpenOverviewModel: any) => {
       header: 'Total ()',
       cell: (info: any) => info.getValue(),
     },
-    {
-      accessorFn: (row: any) => row.invoice,
-      id: 'invoice',
-      header: 'Invoice',
-      cell: (info: any) => (
-        <span
-          style={{ cursor: 'pointer', color: theme?.palette?.primary?.main }}
-          onClick={handleOpen}
-        >
-          {info.getValue()}
-        </span>
-      ),
-    },
   ];
 };
-export const overviewListData: any = [
+
+export const overviewListPdfData: any = [
   {
     Id: 1,
     itemName: `Andrea`,
     description: 'Per Unit',
     costPerItem: '30',
-    quantity: '2',
+    receivedVsOrdered: '2/2',
+    pending: '2',
     taxRate: '0',
     total: '60',
-    invoice: 'pdf',
   },
 ];
