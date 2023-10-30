@@ -11,27 +11,27 @@ export const AssetsReceivedDetail = () => {
         <Typography variant="h4">Logitech M705 Wireless Mouse</Typography>
         <Typography
           variant="body2"
-          color={theme.palette.custom.main}
+          color={theme?.palette?.custom?.main}
           fontWeight={500}
         >
           Assets which are received and added to inventory are shown here
         </Typography>
       </Box>
-      {assetsReceiveDetailData.map((item) => (
-        <Box key={uuidv4()} sx={styles.assetsCard(theme)}>
-          <Box sx={styles.cardDetail}>
-            <Typography variant="body2" fontWeight={600} sx={styles.cardText}>
+      {assetsReceiveDetailData?.map((item) => (
+        <Box key={uuidv4()} sx={styles?.assetsCard(theme)}>
+          <Box sx={styles?.cardDetail}>
+            <Typography variant="body2" fontWeight={600} sx={styles?.cardText}>
               {item?.asset}
             </Typography>
-            <Box sx={styles.cardLine(theme)}></Box>
+            <Box sx={styles?.cardLine(theme)}></Box>
           </Box>
-          <Box sx={styles.cardDetail}>
-            <Typography variant="body3" sx={styles.cardText}>
+          <Box sx={styles?.cardDetail}>
+            <Typography variant="body3" sx={styles?.cardText}>
               {item?.type}
             </Typography>
-            <Box sx={styles.cardLine(theme)}></Box>
+            <Box sx={styles?.cardLine(theme)}></Box>
           </Box>
-          <Typography variant="body3" sx={styles.cardText}>
+          <Typography variant="body3" sx={styles?.cardText}>
             Location:- {item?.location}
           </Typography>
         </Box>

@@ -22,7 +22,7 @@ export const AssetsAssociateHeader = ({ activeCheck }: any) => {
         <Button
           color="secondary"
           variant="outlined"
-          disabled={!!!activeCheck.length}
+          disabled={!!!activeCheck?.length}
           onClick={() => setOpenDeleteModal(true)}
         >
           Delete

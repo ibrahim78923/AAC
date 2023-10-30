@@ -2,7 +2,7 @@ import { Button } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { associationsImage } from '@/assets/images';
 import NoData from '@/components/NoData';
-import { AssetsAssociateTableData } from './AssetsAssociateDetail/AssetsAssociateTable/AssetsAssociate.data';
+import { AssetsAssociateTableData } from './AssetsAssociateDetail/AssetsAssociateTable/AssetsAssociateTable.data';
 import { AssetsAssociateDetail } from './AssetsAssociateDetail';
 import { useAssetAssociate } from './useAssetAssociate';
 

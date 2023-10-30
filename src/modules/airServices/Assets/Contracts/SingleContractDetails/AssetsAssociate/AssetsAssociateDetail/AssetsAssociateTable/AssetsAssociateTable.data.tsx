@@ -7,40 +7,40 @@ export const AssetsAssociateTableColumns: any = (
 ) => {
   return [
     {
-      accessorFn: (row: any) => row.Id,
+      accessorFn: (row: any) => row?.Id,
       id: 'Id',
       cell: (info: any) => (
         <Checkbox
           icon={<CheckboxIcon />}
           checkedIcon={<CheckboxCheckedIcon />}
           checked={
-            !!activeCheck.find((item: any) => item.Id === info.getValue())
+            !!activeCheck?.find((item: any) => item?.Id === info?.getValue())
           }
           onChange={(e: any) => {
-            e.target.checked
+            e?.target?.checked
               ? setActiveCheck([
                   ...activeCheck,
-                  AssetsAssociateTableData.find(
-                    (item: any) => item.Id === info.getValue(),
+                  AssetsAssociateTableData?.find(
+                    (item: any) => item?.Id === info?.getValue(),
                   ),
                 ])
               : setActiveCheck(
-                  activeCheck.filter((item: any) => {
-                    return item.Id !== info.getValue();
+                  activeCheck?.filter((item: any) => {
+                    return item?.Id !== info?.getValue();
                   }),
                 );
           }}
           color="primary"
-          name={info.getValue()}
+          name={info?.getValue()}
         />
       ),
       header: (
         <Checkbox
           icon={<CheckboxIcon />}
           checkedIcon={<CheckboxCheckedIcon />}
-          checked={activeCheck.length === AssetsAssociateTableData.length}
+          checked={activeCheck?.length === AssetsAssociateTableData?.length}
           onChange={(e: any) => {
-            e.target.checked
+            e?.target?.checked
               ? setActiveCheck([...AssetsAssociateTableData])
               : setActiveCheck([]);
           }}
@@ -50,67 +50,67 @@ export const AssetsAssociateTableColumns: any = (
       ),
     },
     {
-      accessorFn: (row: any) => row.software,
+      accessorFn: (row: any) => row?.software,
       id: 'software',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
       isSortable: true,
       header: 'Software',
     },
     {
-      accessorFn: (row: any) => row.status,
+      accessorFn: (row: any) => row?.status,
       id: 'status',
       header: 'Status',
       isSortable: true,
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row.category,
+      accessorFn: (row: any) => row?.category,
       id: 'category',
       header: 'Category',
       isSortable: true,
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row.contractValue,
+      accessorFn: (row: any) => row?.contractValue,
       id: 'contractValue',
       header: 'Contract Value',
       isSortable: true,
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row.managedBy,
+      accessorFn: (row: any) => row?.managedBy,
       id: 'managedBy',
       header: 'Managed By',
       isSortable: true,
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row.users,
+      accessorFn: (row: any) => row?.users,
       id: 'users',
       header: 'Users',
       isSortable: true,
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row.installs,
+      accessorFn: (row: any) => row?.installs,
       id: 'installs',
       header: 'Installs',
       isSortable: true,
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row.type,
+      accessorFn: (row: any) => row?.type,
       id: 'type',
       header: 'Type',
       isSortable: true,
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row.publisher,
+      accessorFn: (row: any) => row?.publisher,
       id: 'publisher',
       header: 'Publisher',
       isSortable: true,
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
   ];
 };
