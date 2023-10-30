@@ -22,8 +22,8 @@ const RequestApproval = () => {
     <>
       <Box sx={styles.approvalsContainerBox}>
         {approvalData
-          ?.filter((item) => item.status === 'Request')
-          .map((filteredItem) => {
+          ?.filter((item) => item?.status === 'Request')
+          ?.map((filteredItem) => {
             return (
               <div key={filteredItem?.id} style={styles.approvalsContainer}>
                 <Grid
@@ -32,7 +32,7 @@ const RequestApproval = () => {
                   alignItems={'center'}
                 >
                   <Grid item>
-                    <Box sx={styles.requestApprovalBoxFirst}>
+                    <Box sx={styles?.requestApprovalBoxFirst}>
                       <Box>
                         <Image src={filteredItem?.img} alt="Avatar" />
                       </Box>
@@ -45,7 +45,7 @@ const RequestApproval = () => {
                         >
                           {filteredItem?.mainText}
                         </Typography>
-                        <Box sx={styles.requestApprovalBoxSecond}>
+                        <Box sx={styles?.requestApprovalBoxSecond}>
                           {Icons[filteredItem?.status]}
                           <span>
                             <Typography
