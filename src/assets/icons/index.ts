@@ -146,3 +146,6 @@ export { default as ViewCallIcon } from './/modules/airSales/deals/view-call';
 export { default as MircosoftTeamsIcon } from './shared/microsoft-teams';
 export { default as PrimaryPreviewEyeIcon } from './shared/primary-preview-eye';
 export { default as ReminderBell } from './shared/bell-icon';
+export { default as PrinterIcon } from './shared/printer-icon';
+export { default as DownloadFileIcon } from './shared/download-file-icon';
+export { default as MinusCircleBlackIcon } from './shared/minus-circle-black-icon';
