@@ -6,11 +6,7 @@ export default function Home() {
 }
 Home.getLayout = function getLayout(page: any) {
   return (
-    <Layout
-      guardRoute
-      accessibleRoles={['super_aadmin']}
-      permissions={Permissions.view_dashoard}
-    >
+    <Layout guardRoute permissions={Permissions.view_dashoard}>
       {page}
     </Layout>
   );
