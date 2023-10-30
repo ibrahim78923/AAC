@@ -6,5 +6,9 @@ const SuperAdminPage = () => {
 };
 export default SuperAdminPage;
 SuperAdminPage.getLayout = function getLayout(page: any) {
-  return <Layout>{page}</Layout>;
+  return (
+    <Layout guardRoute accessibleRoles={['super-admin']}>
+      {page}
+    </Layout>
+  );
 };

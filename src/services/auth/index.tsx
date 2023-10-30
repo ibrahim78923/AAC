@@ -34,6 +34,13 @@ export const authAPI = baseAPI.injectEndpoints({
       queryFn: () => ({ data: null }),
       invalidatesTags: TAGS,
     }),
+    getPermissions: builder.query({
+      query: () => ({
+        url: `/user_permissions`,
+        method: 'GET',
+      }),
+      providesTags: ['permissions'],
+    }),
   }),
 });
 
@@ -43,4 +50,5 @@ export const {
   useForgotPasswordMutation,
   useSignUpMutation,
   useLogoutMutation,
+  useGetPermissionsQuery,
 } = authAPI;

@@ -1,4 +1,3 @@
-import '@/styles/globals.css';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import ThemeProvider from '../../theme';
@@ -7,6 +6,9 @@ import { SnackbarProvider } from 'notistack';
 
 import { Provider } from 'react-redux';
 import store from '@/redux/store';
+
+import '@/styles/globals.css';
+import { AuthProvider } from '@/contexts/AuthContext';
 
 export default function App(props: any) {
   const { Component, pageProps } = props;
@@ -17,11 +19,13 @@ export default function App(props: any) {
     <ThemeProvider>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <Provider store={store}>
-          <ThemeLocalization>
-            <SnackbarProvider>
-              {getLayout(<Component {...pageProps} />)}
-            </SnackbarProvider>
-          </ThemeLocalization>
+          <AuthProvider>
+            <ThemeLocalization>
+              <SnackbarProvider>
+                {getLayout(<Component {...pageProps} />)}
+              </SnackbarProvider>
+            </ThemeLocalization>
+          </AuthProvider>
         </Provider>
       </LocalizationProvider>
     </ThemeProvider>

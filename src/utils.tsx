@@ -1,7 +1,5 @@
 import debounce from 'lodash.debounce';
 
-import { AES, enc } from 'crypto-js';
-
 export function isNullOrEmpty(
   value: string | null | undefined | unknown[] | Record<string, unknown>,
 ): boolean {
@@ -31,28 +29,23 @@ export const debouncedSearch = debounce((value: any, setSearchBy: any) => {
   setSearchBy(value);
 }, DEBOUNCE_DELAY);
 
-const setEncryptObject = (key: string, userData: any, secretKey: string) => {
-  const ciphertext = AES.encrypt(
-    JSON.stringify(userData),
-    secretKey,
-  ).toString();
-  localStorage.setItem(key, ciphertext);
+const getSession = () => {
+  const sessionJSON = window.localStorage.getItem('session');
+  if (sessionJSON) return JSON.parse(sessionJSON);
+  return {};
 };
 
-const getDecryptedObject = (key: string, secretKey: string) => {
-  const ciphertext = localStorage.getItem(key);
-  if (ciphertext) {
-    const bytes = AES.decrypt(ciphertext, secretKey);
-    const decryptedData = bytes.toString(enc.Utf8);
-    const jsonData = JSON.parse(decryptedData);
-
-    try {
-      return jsonData;
-    } catch (error) {
-      return error;
-    }
+const setSession = (userData: any) => {
+  if (userData) {
+    localStorage.setItem('session', JSON.stringify(userData));
+    // axios.defaults.headers.common.Authorization = `Bearer ${authToken}`;
+    // This function below will handle when token is expired
+    // const { exp } = jwtDecode(authToken);
+    // handleTokenExpired(exp);
+  } else {
+    localStorage.removeItem('session');
+    // delete axios.defaults.headers.common.Authorization;
   }
-  return null;
 };
 
-export { setEncryptObject, getDecryptedObject };
+export { getSession, setSession };

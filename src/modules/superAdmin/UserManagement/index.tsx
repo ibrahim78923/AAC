@@ -29,6 +29,9 @@ import { FilterSharedIcon, PlusSharedIcon } from '@/assets/icons';
 
 import { SUPER_ADMIN } from '@/constants';
 
+import { USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
+import { PermissionChecker } from '@/GuardsAndPermissions/PermissionChecker';
+
 const UserManagement = () => {
   const navigate = useRouter();
   const theme = useTheme();
@@ -65,77 +68,85 @@ const UserManagement = () => {
         sx={{ padding: '0px 24px', display: { md: 'flex' } }}
       >
         <Typography variant="h4">User Management</Typography>
-
-        <Button
-          onClick={() =>
-            tabVal === 2 ? handleAddRole() : setIsOpenAddUserDrawer(true)
-          }
-          variant="contained"
-          startIcon={<PlusSharedIcon />}
-        >
-          {tabVal === 2 ? 'Add Role' : 'Add User'}
-        </Button>
+        <PermissionChecker permissionKey={USER_MANAGEMENT_PERMISSIONS.ADD_USER}>
+          <Button
+            onClick={() =>
+              tabVal === 2 ? handleAddRole() : setIsOpenAddUserDrawer(true)
+            }
+            variant="contained"
+            startIcon={<PlusSharedIcon />}
+          >
+            {tabVal === 2 ? 'Add Role' : 'Add User'}
+          </Button>
+        </PermissionChecker>
       </Box>
-
-      <Box sx={{ padding: '0px 24px' }}>
-        <CommonTabs
-          getTabVal={(val: number) => setTabVal(val)}
-          searchBarProps={{
-            label: 'Search Here',
-            setSearchBy: setSearch,
-            searchBy: search,
-            width: '260px',
-          }}
-          isHeader={true}
-          tabsArray={['Company Owners', 'Super Admin Users', 'Role and Rights']}
-          headerChildren={
-            <>
-              <Box>
+      <PermissionChecker
+        permissionKey={USER_MANAGEMENT_PERMISSIONS.USER_SEARCH_AND_FILTER}
+      >
+        <Box sx={{ padding: '0px 24px' }}>
+          <CommonTabs
+            getTabVal={(val: number) => setTabVal(val)}
+            searchBarProps={{
+              label: 'Search Here',
+              setSearchBy: setSearch,
+              searchBy: search,
+              width: '260px',
+            }}
+            isHeader={true}
+            tabsArray={[
+              'Company Owners',
+              'Super Admin Users',
+              'Role and Rights',
+            ]}
+            headerChildren={
+              <>
+                <Box>
+                  <Button
+                    onClick={handleClick}
+                    sx={{
+                      border: `1px solid ${theme?.palette?.custom?.dark}`,
+                      color: theme?.palette?.custom?.main,
+                      width: '112px',
+                      height: '36px',
+                    }}
+                  >
+                    Actions
+                    <ArrowDropDown />
+                  </Button>
+                  <Menu
+                    id="simple-menu"
+                    anchorEl={selectedValue}
+                    open={Boolean(selectedValue)}
+                    onClose={handleClose}
+                  >
+                    <MenuItem onClick={handleUsersList}>User List</MenuItem>
+                    <MenuItem onClick={handleClose}>View</MenuItem>
+                    <MenuItem onClick={handleClose}>Edit</MenuItem>
+                  </Menu>
+                </Box>
                 <Button
-                  onClick={handleClick}
+                  onClick={() => {
+                    setIsOpenFilterDrawer(true);
+                  }}
+                  startIcon={<FilterSharedIcon />}
                   sx={{
                     border: `1px solid ${theme?.palette?.custom?.dark}`,
                     color: theme?.palette?.custom?.main,
-                    width: '112px',
+                    width: '95px',
                     height: '36px',
                   }}
                 >
-                  Actions
-                  <ArrowDropDown />
+                  Filter
                 </Button>
-                <Menu
-                  id="simple-menu"
-                  anchorEl={selectedValue}
-                  open={Boolean(selectedValue)}
-                  onClose={handleClose}
-                >
-                  <MenuItem onClick={handleUsersList}>User List</MenuItem>
-                  <MenuItem onClick={handleClose}>View</MenuItem>
-                  <MenuItem onClick={handleClose}>Edit</MenuItem>
-                </Menu>
-              </Box>
-              <Button
-                onClick={() => {
-                  setIsOpenFilterDrawer(true);
-                }}
-                startIcon={<FilterSharedIcon />}
-                sx={{
-                  border: `1px solid ${theme?.palette?.custom?.dark}`,
-                  color: theme?.palette?.custom?.main,
-                  width: '95px',
-                  height: '36px',
-                }}
-              >
-                Filter
-              </Button>
-            </>
-          }
-        >
-          <Users />
-          <SuperAdminUsers />
-          <RolesAndRights />
-        </CommonTabs>
-      </Box>
+              </>
+            }
+          >
+            <Users />
+            <SuperAdminUsers />
+            <RolesAndRights />
+          </CommonTabs>
+        </Box>
+      </PermissionChecker>
 
       {isOpenFilterDrawer && (
         <UsersManagementFilters
