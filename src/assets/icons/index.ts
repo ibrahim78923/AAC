@@ -150,3 +150,4 @@ export { default as MinusCircleBlackIcon } from './shared/minus-circle-black-ico
 export { default as PrimaryReceivedIcon } from './shared/primary-received';
 export { default as PrimaryRequestIcon } from './shared/primary-request';
 export { default as PrimaryCancelIcon } from './shared/primary-cancel';
+export { default as PrimaryCalendarIcon } from './shared/primary-calendar';
