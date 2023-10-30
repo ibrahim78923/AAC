@@ -19,10 +19,10 @@ export const InventoryCard = ({
         justifyContent={'start'}
         flexWrap={'wrap'}
         borderLeft={`.5rem solid ${theme?.palette?.primary?.main}`}
-        boxShadow={'.1rem .1rem .1rem .2rem rgba(0, 0, 0, 0.1)'}
-        padding={'1.2rem'}
-        borderRadius={'.6rem'}
-        marginBottom={'1rem'}
+        boxShadow={2}
+        padding={1.5}
+        borderRadius={2}
+        marginBottom={2}
       >
         <Box
           display={'flex'}
