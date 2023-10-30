@@ -1,5 +1,3 @@
-import React from 'react';
-
 import {
   FormControlLabel,
   Grid,
@@ -29,9 +27,11 @@ const CreateView = ({ open, onClose }: any) => {
         isDrawerOpen={open}
         onClose={onClose}
         isOk
+        okText="Save"
+        cancelText={'Cancel'}
         submitHandler={onClose}
-        okText="Submit"
         title="Create View"
+        footer
       >
         <FormProvider methods={methods}>
           <Grid container spacing={2}>

@@ -1,6 +1,6 @@
 import { RHFTextField } from '@/components/ReactHookForm';
 
-export const ImportDealsData = [
+export const ImportContactsData = [
   {
     fileColumn: 'Deal Name',
     subTitle: 'sample deal 1',

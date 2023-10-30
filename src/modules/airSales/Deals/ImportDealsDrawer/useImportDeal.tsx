@@ -9,7 +9,6 @@ const useImportDeal = () => {
   const handleSubmit = () => {
     if (!isColumnsSelect) {
       setIsColumnsSelect(true);
-    } else {
     }
   };
   return {

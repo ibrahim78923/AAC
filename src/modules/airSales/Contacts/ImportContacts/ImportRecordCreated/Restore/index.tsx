@@ -6,18 +6,18 @@ import TanstackTable from '@/components/Tabel/TanstackTable';
 import CustomPagination from '@/components/CustomPagination';
 import Search from '@/components/Search';
 
-import { RestoreTableData } from '@/mock/modules/airSales/Deals/Restore';
-
 import RestoreFilterDrawer from './RestoreFilterDrawer';
 import RestoreDeleteModal from './RestoreDeleteModal';
 
 import useRestore from './useRestore';
 
-import { RestoreTableColumns } from './RestoreTable.data';
+import { CreatedRestoreTableColumns } from './RestoreTable.data';
 
 import { BackArrIcon, FilterIcon } from '@/assets/icons';
-import DealsActions from '../../Deals/DealsActions';
 import RestoreAssignModalBox from './RestoreAssignModalBox';
+import ContactsActions from '../CreatedActions';
+import { CreatedRestoreTableData } from '@/mock/modules/airSales/Contacts/ImportHistoryData/ImportRecordTableCreated/CreatedRestoreData';
+import { SUPER_ADMIN } from '@/constants';
 
 const Restore = () => {
   const {
@@ -45,7 +45,7 @@ const Restore = () => {
         }}
       >
         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
-          <Link href={'/air-sales/contacts'}>
+          <Link href={SUPER_ADMIN.IMPORT_RECORD}>
             <BackArrIcon />
           </Link>
           <Box>
@@ -104,7 +104,7 @@ const Restore = () => {
             gap: '10px',
           }}
         >
-          <DealsActions
+          <ContactsActions
             menuItem={['Restore', 'Delete']}
             disableActionBtn={false}
             onChange={handleActions}
@@ -115,13 +115,15 @@ const Restore = () => {
             sx={{ height: '30px', color: theme.palette.custom['main'] }}
             onClick={handleRestoreFilter}
           >
-            {' '}
             Filter
           </Button>
         </Box>
       </Box>
       <Paper sx={{ mb: 2 }}>
-        <TanstackTable columns={RestoreTableColumns} data={RestoreTableData} />
+        <TanstackTable
+          columns={CreatedRestoreTableColumns}
+          data={CreatedRestoreTableData}
+        />
         <CustomPagination
           count={1}
           rowsPerPageOptions={[1, 2]}

@@ -1,24 +1,20 @@
-import React from 'react';
+import { useRouter } from 'next/router';
 
 import { Typography, Box, Button } from '@mui/material';
 import { AddCircle } from '@mui/icons-material';
 
-import ImportContactsDrawer from '../ImportContactsDrawer';
+import { SUPER_ADMIN } from '@/constants';
 
 import useContactsHeader from './useContactsHeader';
+import CreateContacts from '../CreateContacts';
 
 import { ImportIcon } from '@/assets/icons';
 
 import { styles } from './ContractsHeader.style';
-import CreateContacts from '../CreateContacts';
 
 const ContactsHeader = () => {
-  const {
-    isImportDeal,
-    isCreateDeal,
-    handleCreateDealOpen,
-    handleImportDealOpen,
-  } = useContactsHeader();
+  const route = useRouter();
+  const { isCreateDeal, handleCreateDealOpen } = useContactsHeader();
 
   return (
     <Box sx={styles.HeaderStyle}>
@@ -30,7 +26,7 @@ const ContactsHeader = () => {
       <Box sx={styles.HeaderChildStyle}>
         <Button
           variant="outlined"
-          onClick={handleImportDealOpen}
+          onClick={() => route.push(SUPER_ADMIN.CONTACT_IMPORT)}
           startIcon={<ImportIcon />}
           sx={{ height: '35px' }}
         >
@@ -43,16 +39,11 @@ const ContactsHeader = () => {
             startIcon={<AddCircle />}
             sx={{ height: '35px' }}
           >
-            Create Deal
+            Create Contact
           </Button>
         </Box>
       </Box>
-      <ImportContactsDrawer
-        open={isImportDeal}
-        onClose={handleImportDealOpen}
-      />
       <CreateContacts open={isCreateDeal} onClose={handleCreateDealOpen} />
-      {/* <ViewAllDeals open={IsViewAll} onClose={handleViewAll} /> */}
     </Box>
   );
 };

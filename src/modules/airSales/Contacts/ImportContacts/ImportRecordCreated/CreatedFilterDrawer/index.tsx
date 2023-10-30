@@ -1,36 +1,36 @@
-import React from 'react';
-
 import { Grid, MenuItem, Typography, useTheme } from '@mui/material';
 
-import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
+import CommonDrawer from '@/components/CommonDrawer';
 
-import { useForm } from 'react-hook-form';
+import { FilterData } from './ContactsFilterDrawer.data';
+
 import { v4 as uuidv4 } from 'uuid';
-import { createContactsData } from './CreateContactsdata';
+import { useForm } from 'react-hook-form';
 
-const CreateContacts = ({ open, onClose }: any) => {
-  const methods = useForm({});
+const CreatedFilterDrawer = ({ open, onClose }: any) => {
   const theme = useTheme();
+  const methods = useForm({});
 
   return (
     <CommonDrawer
       isDrawerOpen={open}
       onClose={onClose}
-      title="Create Contact"
       footer
-      okText="Create"
       isOk
+      okText="Apply"
+      title="Filter"
     >
       <FormProvider methods={methods}>
-        <Grid container spacing={2} gap={'7px'}>
-          {createContactsData.map((obj) => (
+        <Grid container spacing={2}>
+          {FilterData.map((obj) => (
             <Grid item xs={12} key={uuidv4()}>
               <Typography
+                variant="body4"
                 sx={{
                   colors: theme.palette.grey[600],
-                  fontWeight: 500,
                   fontSize: '14px',
+                  fontWeight: 500,
                 }}
               >
                 {obj.title}
@@ -57,4 +57,4 @@ const CreateContacts = ({ open, onClose }: any) => {
   );
 };
 
-export default CreateContacts;
+export default CreatedFilterDrawer;

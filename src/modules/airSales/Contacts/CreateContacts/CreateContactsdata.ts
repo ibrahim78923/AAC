@@ -1,4 +1,8 @@
-import { RHFDatePicker, RHFTextField } from '@/components/ReactHookForm';
+import {
+  RHFDatePicker,
+  RHFDropZone,
+  RHFTextField,
+} from '@/components/ReactHookForm';
 
 export const createContactsData = [
   {
@@ -9,21 +13,7 @@ export const createContactsData = [
     },
     component: RHFTextField,
   },
-  {
-    title: 'Deal Pipeline',
-    componentProps: {
-      name: 'DealPipline',
-      label: 'Select',
-      select: true,
-    },
-    options: [
-      { value: 'Registering Pipeline', label: 'Registering Pipeline' },
-      { value: 'Sales Pipeline', label: 'Sales Pipeline' },
-      { value: 'Recruitment Pipeline', label: 'Recruitment Pipeline' },
-      { value: 'Test Pipeline', label: 'Test Pipeline' },
-    ],
-    component: RHFTextField,
-  },
+
   {
     title: 'Profile Pictures',
     componentProps: {
@@ -31,7 +21,7 @@ export const createContactsData = [
       label: 'First Name',
       select: false,
     },
-    component: RHFTextField,
+    component: RHFDropZone,
   },
   {
     title: 'Last Name',

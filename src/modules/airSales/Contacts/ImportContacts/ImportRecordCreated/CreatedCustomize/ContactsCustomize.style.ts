@@ -3,7 +3,7 @@ export const styles = {
     padding: '0px 16px',
     borderRadius: '8px',
     border: `1.5px solid ${theme.palette.grey[700]}`,
-    color: theme.palette.slateBlue['main'],
+    color: theme.palette.grey[900],
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -13,6 +13,6 @@ export const styles = {
     alignItems: 'center',
     gap: '8px',
     fontSize: '14px',
-    fontWeight: 600,
+    fontWeight: 400,
   },
 };

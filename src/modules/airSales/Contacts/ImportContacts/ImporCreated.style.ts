@@ -1,11 +1,11 @@
 export const styles = {
-  inputLabel: {
-    transform: 'translate(14px, 8px) scale(1) !important',
-    '&.MuiInputLabel-shrink': {
-      transform: 'translate(14px, -8px) scale(1) !important',
-      fontSize: '12px',
-    },
-  },
+  // inputLabel: {
+  //   transform: 'translate(14px, 8px) scale(1) !important',
+  //   '&.MuiInputLabel-shrink': {
+  //     transform: 'translate(14px, -8px) scale(1) !important',
+  //     fontSize: '12px',
+  //   },
+  // },
   Typograpghy: (theme: any) => ({
     background: theme.palette.slateBlue['main'],
     borderRadius: '30px',
