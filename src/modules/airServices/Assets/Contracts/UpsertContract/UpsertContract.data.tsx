@@ -8,7 +8,9 @@ import { ItemDetail } from './ItemDetail';
 import dayjs from 'dayjs';
 import * as Yup from 'yup';
 import { Box, Typography } from '@mui/material';
+
 const todayDate = dayjs().format('MM/DD/YYYY');
+
 export const dropdownDummy = [
   {
     value: 'option1',
@@ -155,89 +157,89 @@ export const upsertContractFormDefaultValuesFunction = (data?: any) => {
   };
 };
 
-export const upsertContractFormSchemaFunction = Yup.object().shape({
-  contractName: Yup.string().required('Contract Name is required'),
-  contractNumber: Yup.string().required('Contract Number is required'),
-  type: Yup.string().required('Type is required'),
-  associateAssets: Yup.string()
-    .ensure()
-    .when('type', {
+export const upsertContractFormSchemaFunction = Yup?.object()?.shape({
+  contractName: Yup?.string()?.required('Contract Name is required'),
+  contractNumber: Yup?.string()?.required('Contract Number is required'),
+  type: Yup?.string()?.required('Type is required'),
+  associateAssets: Yup?.string()
+    ?.ensure()
+    ?.when('type', {
       is: (y: any) => y !== 'Software License',
-      then: (schema: any) => schema.required(),
-      otherwise: (schema) => schema.notRequired(),
+      then: (schema: any) => schema?.required(),
+      otherwise: (schema) => schema?.notRequired(),
     }),
-  cost: Yup.string().required('Cost is required'),
-  status: Yup.string().required('Status is required'),
-  vendor: Yup.string().required('Vendor is required'),
-  approver: Yup.string().required('approver is required'),
-  startDate: Yup.date().required('Start date is required'),
-  endDate: Yup.date().required('End date is required'),
-  autoRenew: Yup.boolean().required('auto renew is required'),
-  notifyExpiry: Yup.boolean(),
-  notifyBefore: Yup.string()
-    .trim()
-    .ensure()
-    .when('notifyExpiry', {
+  cost: Yup?.string()?.required('Cost is required'),
+  status: Yup?.string()?.required('Status is required'),
+  vendor: Yup?.string()?.required('Vendor is required'),
+  approver: Yup?.string()?.required('approver is required'),
+  startDate: Yup?.date()?.required('Start date is required'),
+  endDate: Yup?.date()?.required('End date is required'),
+  autoRenew: Yup?.boolean()?.required('auto renew is required'),
+  notifyExpiry: Yup?.boolean(),
+  notifyBefore: Yup?.string()
+    ?.trim()
+    ?.ensure()
+    ?.when('notifyExpiry', {
       is: (y: any) => y,
       then: (schema: any) => schema?.required(),
       otherwise: (schema) => schema,
     }),
-  notifyTo: Yup.string()
-    .trim()
-    .ensure()
-    .when('notifyExpiry', {
+  notifyTo: Yup?.string()
+    ?.trim()
+    ?.ensure()
+    ?.when('notifyExpiry', {
       is: (y: any) => y,
       then: (schema: any) => schema?.required(),
       otherwise: (schema) => schema,
     }),
-  software: Yup.string()
-    .ensure()
-    .when('type', {
+  software: Yup?.string()
+    ?.ensure()
+    ?.when('type', {
       is: (y: any) => y === 'Software License',
       then: (schema: any) => schema?.required(),
       otherwise: (schema) => schema?.notRequired(),
     }),
-  billingCycle: Yup.string()
-    .ensure()
-    .when('type', {
+  billingCycle: Yup?.string()
+    ?.ensure()
+    ?.when('type', {
       is: (y: any) => y === 'Software License',
       then: (schema: any) => schema?.required(),
       otherwise: (schema) => schema?.notRequired(),
     }),
-  licenseType: Yup.string()
-    .ensure()
-    .when('type', {
+  licenseType: Yup?.string()
+    ?.ensure()
+    ?.when('type', {
       is: (y: any) => y === 'Software License',
       then: (schema: any) => schema?.required(),
       otherwise: (schema) => schema?.notRequired(),
     }),
-  licenseKey: Yup.string()
-    .ensure()
-    .when('type', {
+  licenseKey: Yup?.string()
+    ?.ensure()
+    ?.when('type', {
       is: (y: any) => y === 'Software License',
       then: (schema: any) => schema?.required(),
       otherwise: (schema) => schema?.notRequired(),
     }),
-  itemDetail: Yup.array()
-    .of(
-      Yup.object().shape({
-        serviceName: Yup.string(),
-        priceModel: Yup.string(),
-        cost: Yup.number(),
-        count: Yup.number(),
-        comments: Yup.string(),
+  itemDetail: Yup?.array()
+    ?.of(
+      Yup?.object()?.shape({
+        serviceName: Yup?.string(),
+        priceModel: Yup?.string(),
+        cost: Yup?.number(),
+        count: Yup?.number(),
+        comments: Yup?.string(),
       }),
     )
-    .when('type', {
+    ?.when('type', {
       is: (val: any) => val === 'Software License',
       then: () => {
         return Yup?.array()?.of(
           Yup?.object()?.shape({
-            serviceName: Yup.string().required('service name is required'),
-            priceModel: Yup.string().required('Price model is required'),
-            cost: Yup.number().positive().typeError('Not a number'),
-            count: Yup.number().positive().typeError('Not a number'),
-            comments: Yup.string(),
+            serviceName: Yup?.string()?.required('service name is required'),
+            priceModel: Yup?.string()?.required('Price model is required'),
+            cost: Yup?.number()?.positive()?.typeError('Not a number'),
+            count: Yup?.number()?.positive()?.typeError('Not a number'),
+            comments: Yup?.string(),
           }),
         );
       },
@@ -250,6 +252,16 @@ export const upsertContractFormFieldsDataFunction = (
   watchForNotifyExpiry = false,
   isFieldDisable = false,
 ) => [
+  {
+    id: 3092,
+    componentProps: {
+      color: 'slateBlue.main',
+      variant: 'h4',
+    },
+    heading: 'General Details',
+    md: 12,
+    component: Typography,
+  },
   {
     id: 2,
     component: RHFTextField,
@@ -349,6 +361,16 @@ export const upsertContractFormFieldsDataFunction = (
     component: RHFSelect,
   },
   {
+    id: 36677,
+    componentProps: {
+      color: 'slateBlue.main',
+      variant: 'h4',
+    },
+    heading: 'Tenure of contract',
+    md: 12,
+    component: Typography,
+  },
+  {
     id: 4246,
     componentProps: {
       name: 'startDate',
@@ -374,7 +396,7 @@ export const upsertContractFormFieldsDataFunction = (
       name: 'autoRenew',
       label: (
         <Box marginLeft={1}>
-          <Typography> Auto Renew </Typography>
+          <Typography variant="h6"> Auto Renew </Typography>
           <Typography>
             {' '}
             Contract will auto renew upon reaching contract expiry date
@@ -443,14 +465,15 @@ export const upsertContractFormFieldsDataFunction = (
         {
           id: 3,
           componentProps: {
-            color: (theme: any) => theme.palette.primary.main,
-            variant: 'h6',
+            color: 'slateBlue.main',
+            variant: 'h4',
           },
           heading: 'Item & Cost Details',
           md: 12,
           component: Typography,
         },
         {
+          id: 54383,
           componentProps: {
             name: 'itemDetail',
           },
@@ -460,8 +483,8 @@ export const upsertContractFormFieldsDataFunction = (
         {
           id: 3,
           componentProps: {
-            color: (theme: any) => theme.palette.primary.main,
-            variant: 'h6',
+            color: 'slateBlue.main',
+            variant: 'h4',
           },
           heading: 'Software License Properties',
           md: 12,

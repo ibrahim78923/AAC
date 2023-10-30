@@ -20,10 +20,11 @@ export const columns = [
   'Comments',
   'Action',
 ];
+
 export const tableData = (name: any, index: any, remove: any) => [
   {
     id: 1,
-    data: <RHFTextField name={`${name}.${index}.serviceName`} size="small" />,
+    data: <RHFTextField name={`${name}.${index}.serviceName`} size="small" />, //TODO: exceptional case for RHF FieldArray
   },
   {
     id: 2,

@@ -14,10 +14,12 @@ export const useUpsertContract = () => {
     defaultValues: upsertContractFormDefaultValuesFunction(),
   });
   const { handleSubmit, control } = methods;
+
   const watchForNotifyExpiry = useWatch({
     control,
     name: 'notifyExpiry',
   });
+
   const watchForType = useWatch({
     control,
     name: 'type',
@@ -36,6 +38,6 @@ export const useUpsertContract = () => {
     handleSubmit,
     submitUpsertContractForm,
     upsertContractFormFieldsData,
-    theme
+    theme,
   };
 };

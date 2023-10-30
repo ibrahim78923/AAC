@@ -13,34 +13,38 @@ import { useFormContext, useFieldArray } from 'react-hook-form';
 import { columns, tableData } from './ItemDetail.data';
 import { v4 as uuidv4 } from 'uuid';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+
 export const ItemDetail: any = (props: any) => {
+  //TODO: as far as know no need to make hook file as it is small logics at the moment
+
   const { name } = props;
-  const met = useFormContext();
+  const { control } = useFormContext();
   const { fields, append, remove } = useFieldArray({
-    control: met?.control,
+    control,
     name,
   });
-  // console.log({ met });
   const theme = useTheme();
+
+  //TODO: use item.id as a key because RHF fieldArray is using and it recommends that.
+
   return (
     <Box boxShadow={1} border={`1px solid ${theme?.palette?.grey?.[700]}`}>
       <TableContainer>
         <Table sx={{ minWidth: '1200px' }}>
           <TableHead>
             <TableRow>
-              {columns?.map((x: any) => (
-                <TableCell key={uuidv4()}>{x}</TableCell>
+              {columns?.map((column: any) => (
+                <TableCell key={uuidv4()}>{column}</TableCell>
               ))}
             </TableRow>
           </TableHead>
           <TableBody>
             {fields?.map((item: any, index: any) => {
               return (
-                <TableRow key={item.id}>
-                  {tableData?.(name, index, remove).map((x: any) => (
-                    <TableCell key={x?.id}>
-                      {x?.data}
-                      {/* <RHFTextField name={`${name}.${index}.firstName`} /> */}
+                <TableRow key={item?.id}>
+                  {tableData?.(name, index, remove)?.map((singleField: any) => (
+                    <TableCell key={singleField?.id}>
+                      {singleField?.data}
                     </TableCell>
                   ))}
                 </TableRow>
@@ -49,7 +53,6 @@ export const ItemDetail: any = (props: any) => {
           </TableBody>
         </Table>
       </TableContainer>
-      {/* <br /> */}
       <Button
         type="button"
         color="secondary"
