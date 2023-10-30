@@ -4,7 +4,8 @@ import { Box } from '@mui/material';
 
 import useUploadLogo from './useUploadLogo';
 
-import { AvatarImage } from '@/assets/images';
+import { UserProfileImage } from '@/assets/images';
+
 import { AddPenIcon } from '@/assets/icons';
 
 const UploadLogo = () => {
@@ -16,7 +17,7 @@ const UploadLogo = () => {
     >
       <Box position="relative" sx={{ mt: 4 }}>
         <Image
-          src={AvatarImage}
+          src={UserProfileImage}
           alt="user-avatar-image"
           style={{
             position: 'relative',
