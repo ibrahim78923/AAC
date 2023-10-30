@@ -2,7 +2,7 @@ import CommonDrawer from '@/components/CommonDrawer';
 import { useContractsDrawerForm } from './useContractsDrawerForm';
 import { Box, Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
-import { contractsDrawerFormDataArray } from './ContractsDrawerForm.data';
+import { filterContractsFormDataArray } from './filterContractsForm.data';
 import { v4 as uuidv4 } from 'uuid';
 import { enqueueSnackbar } from 'notistack';
 
@@ -30,7 +30,7 @@ const ContractsDrawerForm = (props: any) => {
         <Box mt={1}>
           <FormProvider methods={methodsDrawerFormForm}>
             <Grid container spacing={4}>
-              {contractsDrawerFormDataArray?.map((item: any) => (
+              {filterContractsFormDataArray?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
                   <item.component {...item?.componentProps} size={'small'}>
                     {item?.componentProps?.select

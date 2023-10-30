@@ -105,11 +105,11 @@ const expiryOptions = [
   },
 ];
 
-export const contractsDrawerFormValidationSchema = Yup.object().shape({
-  type: Yup.string(),
-  status: Yup.string(),
-  vender: Yup.string(),
-  expiry: Yup.string(),
+export const contractsDrawerFormValidationSchema = Yup?.object()?.shape({
+  type: Yup?.string(),
+  status: Yup?.string(),
+  vender: Yup?.string(),
+  expiry: Yup?.string(),
 });
 
 export const defaultValues = {
@@ -119,7 +119,7 @@ export const defaultValues = {
   expiry: '',
 };
 
-export const contractsDrawerFormDataArray = [
+export const filterContractsFormDataArray = [
   {
     componentProps: {
       name: 'type',

@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { overviewData } from './Overview.data';
 import { styles } from './Overview.style';
 import { overviewTableColumns, overviewListData } from './Overview.data';
-import OverviewModel from './OverviewModel';
+import OverviewModel from './OverviewModal';
 import { useState } from 'react';
 import OverviewBilling from './OverviewBilling';
 import TanstackTable from '@/components/Table/TanstackTable';
