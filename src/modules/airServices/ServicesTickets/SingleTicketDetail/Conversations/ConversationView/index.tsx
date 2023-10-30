@@ -5,12 +5,12 @@ import LeftArrowConversatationIcon from '@/assets/icons/shared/AddConversation/l
 import RightArrowConversatationIcon from '@/assets/icons/shared/AddConversation/right-arrow-icon';
 import DeleteIconConversatationIcon from '@/assets/icons/shared/AddConversation/delete-icon-add-coversation';
 import { AvatarImageCoversation } from '@/assets/images';
-import { styles } from './View.styles';
-import { data } from './View.data';
+import { styles } from './ConversationView.styles';
+import { data } from './ConversationView.data';
 import { v4 as uuidv4 } from 'uuid';
 import Image from 'next/image';
 
-const ViewConversation = () => {
+const ConversationView = () => {
   const theme: any = useTheme();
   return (
     <Box sx={{ mt: '50px' }}>
@@ -72,4 +72,4 @@ const ViewConversation = () => {
   );
 };
 
-export default ViewConversation;
+export default ConversationView;

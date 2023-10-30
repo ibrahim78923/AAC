@@ -7,22 +7,8 @@ import { FormProvider, useForm } from 'react-hook-form';
 import UserSearchableSelect from '../UsersSearchableSelect';
 import ConversationModel from '@/components/Model/CoversationModel';
 import { enqueueSnackbar } from 'notistack';
+import { UserSelectOption, UserSelectData } from './UsersAdd.data';
 
-const selectOptionsUsers = [
-  { title: 'Andrew', label: 'Andrew' },
-  { title: 'John', label: 'John' },
-  { title: 'Root', label: 'Root' },
-];
-
-const selectOptions = [
-  { value: 'option1', title: 'Aws', des: `Aws Available contract: 1` },
-  {
-    value: 'Microsoft services',
-    title: 'Microsoft services',
-    des: `Microsoft services Available contract: Unlimited`,
-  },
-  { value: 'Figma', title: 'Figma', des: ` Figma Available contract: 1` },
-];
 const buttonContainerStyle = {
   display: 'flex',
   justifyContent: 'flex-end',
@@ -65,7 +51,6 @@ export const UsersAdd = () => {
         <ConversationModel
           open={isModalOpen}
           handleClose={closeModal}
-          // handleSubmit={closeModal}
           selectedItem="Add User"
           okText="Add"
           footer={true}
@@ -73,7 +58,7 @@ export const UsersAdd = () => {
           <Box>
             <UserSearchableSelect
               name="selectedOption"
-              options={selectOptionsUsers}
+              options={UserSelectOption}
               placeholder="Select Contract"
               label="User"
               showDescription={false}
@@ -84,7 +69,7 @@ export const UsersAdd = () => {
           <Box sx={{ mt: 2 }}>
             <UserSearchableSelect
               name="selectedOption"
-              options={selectOptions}
+              options={UserSelectData}
               placeholder="Select Contract"
               showSearchBar={false}
               label="Contract"
