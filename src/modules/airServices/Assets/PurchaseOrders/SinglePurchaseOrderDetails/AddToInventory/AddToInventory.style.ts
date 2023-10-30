@@ -1,16 +1,6 @@
 export const styles: any = {
-  recievedBoxStyling: {
-    fontWeight: '500',
-    backgroundColor: '#EBFAF8',
-    padding: '2px 8px !important',
-    height: '22px !important',
-    color: '#47B263',
-    borderRadius: '16px ',
+  receivedBoxStyling: {
     mt: '0.5rem',
-    '&:hover': {
-      backgroundColor: '#EBFAF8',
-      color: '#38CAB5',
-    },
   },
 
   mainGridStyling: {

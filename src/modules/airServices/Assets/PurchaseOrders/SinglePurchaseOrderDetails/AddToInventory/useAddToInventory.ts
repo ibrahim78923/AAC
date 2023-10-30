@@ -1,13 +1,13 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import {
-  addInventoryDefaultValuesTwo,
-  addInventoryValidationSchemaTwo,
+  addToInventoryItemStatusDefaultValues,
+  addToInventoryItemStatusValidationSchema,
   addInventoryDefaultValuesOne,
   addInventoryDefaultValuesOneUpdate,
   addInventoryValidationSchemaOne,
   addInventoryValidationSchemaUpdate,
-  addToInventoryDrawerArray,
+  addToInventoryItemAdded,
 } from './AddToInventory.data';
 import { useState } from 'react';
 import { enqueueSnackbar } from 'notistack';
@@ -15,8 +15,8 @@ import { enqueueSnackbar } from 'notistack';
 export default function useAddToInventoryDrawer(props: any) {
   const { setIsADrawerOpen } = props;
   const methodsTwo: any = useForm({
-    resolver: yupResolver(addInventoryValidationSchemaTwo),
-    defaultValues: addInventoryDefaultValuesTwo,
+    resolver: yupResolver(addToInventoryItemStatusValidationSchema),
+    defaultValues: addToInventoryItemStatusDefaultValues,
   });
 
   const { handleSubmit: handleSubmitTwo } = methodsTwo;
@@ -54,12 +54,12 @@ export default function useAddToInventoryDrawer(props: any) {
     });
     setIsADrawerOpen(false);
     setBoolVariable(true);
-    methodsTwo.reset(addInventoryDefaultValuesTwo);
+    methodsTwo.reset(addToInventoryItemStatusDefaultValues);
   });
-  const filteredYes = addToInventoryDrawerArray.filter((item: any) => {
+  const filteredYes = addToInventoryItemAdded.filter((item: any) => {
     return item.toShow === 'Yes';
   });
-  const filteredNo = addToInventoryDrawerArray.filter((item: any) => {
+  const filteredNo = addToInventoryItemAdded.filter((item: any) => {
     return item.toShow === 'No';
   });
   return {

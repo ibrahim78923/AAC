@@ -5,9 +5,9 @@ import {
 } from '@/assets/images';
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider, RHFTextField } from '@/components/ReactHookForm';
-import { Box, Divider, Grid, Typography } from '@mui/material';
+import { Box, Chip, Divider, Grid, Typography } from '@mui/material';
 import Image from 'next/image';
-import { addToInventorySecondDrawerArray } from './AddToInventory.data';
+import { addToInventoryItemStatus } from './AddToInventory.data';
 import * as React from 'react';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
@@ -89,9 +89,12 @@ export const AddToInventory = (props: any) => {
               />
               <Box sx={styles?.fourthBoxStyling}>
                 <Typography variant="h6">Item Status</Typography>
-                <Typography component="span" sx={styles?.recievedBoxStyling}>
-                  Received
-                </Typography>
+                <Chip
+                  label="Received"
+                  color="primary"
+                  variant="outlined"
+                  sx={styles?.receivedBoxStyling}
+                />
               </Box>
             </Grid>
           </Grid>
@@ -240,7 +243,7 @@ export const AddToInventory = (props: any) => {
             <Grid item xs={12}>
               <FormProvider methods={methodsTwo} onSubmit={submitHandlerTwo}>
                 <Grid container spacing={2}>
-                  {addToInventorySecondDrawerArray?.map((item: any) => (
+                  {addToInventoryItemStatus?.map((item: any) => (
                     <Grid item xs={12} md={item?.md} key={uuidv4()}>
                       <item.component {...item.componentProps} size={'small'}>
                         {item?.componentProps?.select

@@ -1,9 +1,9 @@
 import { RHFSelect } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
-export const filterArticlesValidationSchema = Yup.object().shape({
-  status: Yup.string(),
-  author: Yup.string(),
+export const filterArticlesValidationSchema = Yup?.object()?.shape({
+  status: Yup?.string(),
+  author: Yup?.string(),
 });
 
 export const filterArticlesDataDefaultValues = {

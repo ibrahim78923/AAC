@@ -4,20 +4,20 @@ import {
   RHFTextField,
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
-export const addInventoryValidationSchemaOne = Yup.object().shape({
+export const addInventoryValidationSchemaOne = Yup?.object()?.shape({
   description: Yup.string().required('Field is Required'),
   assetnameprefix: Yup.string().required('Field is Required'),
   location: Yup.string(),
   acquisitionDate: Yup.string(),
   assetstate: Yup.string().required('Field is Required'),
 });
-export const addInventoryValidationSchemaUpdate = Yup.object().shape({
+export const addInventoryValidationSchemaUpdate = Yup?.object()?.shape({
   updateExisting: Yup.string().required('Field is Required'),
   dellMonitor: Yup.boolean(),
   mouse: Yup.boolean(),
   lcd: Yup.boolean(),
 });
-export const addInventoryValidationSchemaTwo = Yup.object().shape({
+export const addToInventoryItemStatusValidationSchema = Yup?.object()?.shape({
   assetName: Yup.string().required('Field is Required'),
   serialNumber: Yup.string(),
   assetTag: Yup.string(),
@@ -37,12 +37,12 @@ export const addInventoryDefaultValuesOneUpdate = {
   mouse: false,
   lcd: false,
 };
-export const addInventoryDefaultValuesTwo = {
+export const addToInventoryItemStatusDefaultValues = {
   assetName: '',
   serialNumber: '',
   assetTag: '',
 };
-export const addToInventoryDrawerArray = [
+export const addToInventoryItemAdded = [
   {
     componentProps: {
       name: 'assetnameprefix',
@@ -118,7 +118,7 @@ export const addToInventoryDrawerArray = [
   },
 ];
 
-export const addToInventorySecondDrawerArray = [
+export const addToInventoryItemStatus = [
   {
     componentProps: {
       name: 'assetName',
