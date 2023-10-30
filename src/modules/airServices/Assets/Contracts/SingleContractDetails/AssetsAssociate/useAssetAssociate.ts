@@ -4,7 +4,7 @@ import { AIR_SERVICES } from '@/constants';
 export const useAssetAssociate = () => {
   const router = useRouter();
   const handleAddAssociateAsset = () => {
-    router.push({
+    router?.push({
       pathname: AIR_SERVICES?.ADD_ASSOCIATE_ASSET,
     });
   };

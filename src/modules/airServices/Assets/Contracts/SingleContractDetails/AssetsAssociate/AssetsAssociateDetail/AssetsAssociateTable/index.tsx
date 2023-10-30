@@ -1,14 +1,14 @@
 import TanstackTable from '@/components/Table/TanstackTable';
 import {
-  AssetsAssociateTableColumns,
-  AssetsAssociateTableData,
+  assetsAssociateTableColumns,
+  assetsAssociateTableData,
 } from './AssetsAssociateTable.data';
 
 export const AssetsAssociateTable = ({ activeCheck, setActiveCheck }: any) => {
   return (
     <TanstackTable
-      data={AssetsAssociateTableData}
-      columns={AssetsAssociateTableColumns(activeCheck, setActiveCheck)}
+      data={assetsAssociateTableData}
+      columns={assetsAssociateTableColumns(activeCheck, setActiveCheck)}
     />
   );
 };

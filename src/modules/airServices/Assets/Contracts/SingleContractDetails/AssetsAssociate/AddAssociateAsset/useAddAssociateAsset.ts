@@ -3,8 +3,9 @@ import { useRouter } from 'next/router';
 import { useTheme } from '@mui/material';
 import { enqueueSnackbar } from 'notistack';
 import { AIR_SERVICES } from '@/constants';
+import { addAssociateAssetColumns } from './AddAssociateAsset.data';
 
-export const useAddAssetAssociate = () => {
+export const useAddAssociateAsset = () => {
   const router = useRouter();
   const theme = useTheme();
   const [activeCheck, setActiveCheck] = useState([]);
@@ -13,20 +14,22 @@ export const useAddAssetAssociate = () => {
       variant: 'success',
       autoHideDuration: 2000,
     });
-    router.push({
+    router?.push({
       pathname: AIR_SERVICES?.ASSETS_CONTRACTS_DETAIL,
     });
   };
   const handleCancelBtn = () => {
-    router.push({
+    router?.push({
       pathname: AIR_SERVICES?.ASSETS_CONTRACTS_DETAIL,
     });
   };
+  const tableColumns = addAssociateAssetColumns(activeCheck, setActiveCheck);
   return {
     theme,
     activeCheck,
     setActiveCheck,
     handleAllocateClick,
     handleCancelBtn,
+    tableColumns,
   };
 };

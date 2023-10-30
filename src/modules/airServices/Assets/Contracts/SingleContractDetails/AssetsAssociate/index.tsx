@@ -2,7 +2,7 @@ import { Button } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { associationsImage } from '@/assets/images';
 import NoData from '@/components/NoData';
-import { AssetsAssociateTableData } from './AssetsAssociateDetail/AssetsAssociateTable/AssetsAssociateTable.data';
+import { assetsAssociateTableData } from './AssetsAssociateDetail/AssetsAssociateTable/AssetsAssociateTable.data';
 import { AssetsAssociateDetail } from './AssetsAssociateDetail';
 import { useAssetAssociate } from './useAssetAssociate';
 
@@ -10,11 +10,11 @@ export const AssetsAssociate = () => {
   const { handleAddAssociateAsset } = useAssetAssociate();
   return (
     <>
-      {!!AssetsAssociateTableData?.length ? (
+      {!!assetsAssociateTableData?.length ? (
         <AssetsAssociateDetail />
       ) : (
         <NoData
-          message="There are no Asset associations"
+          message="There are no Asset Associations"
           image={associationsImage}
         >
           <Button
