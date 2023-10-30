@@ -73,14 +73,10 @@ export const AddToInventory = (props: any) => {
                 alt="item Status"
               />
               <Box display={'flex'} flexDirection={'column'}>
-                <Typography variant="h6" sx={{ ml: '0.5rem' }}>
+                <Typography variant="h6" ml={1}>
                   Total items received:
                 </Typography>
-                <Typography
-                  variant="h6"
-                  component="span"
-                  sx={{ mt: '0.5rem', ml: '0.5rem' }}
-                >
+                <Typography variant="h6" component="span" mt={1} ml={1}>
                   5/5
                 </Typography>
               </Box>
@@ -92,11 +88,7 @@ export const AddToInventory = (props: any) => {
                 width={24}
                 alt="item Status"
               />
-              <Box
-                display={'flex'}
-                flexDirection={'column'}
-                marginLeft={'0.5rem'}
-              >
+              <Box display={'flex'} flexDirection={'column'} marginLeft={0.5}>
                 <Typography variant="h6">Item Status</Typography>
                 <Chip
                   label="Received"
@@ -111,14 +103,21 @@ export const AddToInventory = (props: any) => {
             container
             display={'Flex'}
             flexDirection={'column'}
-            borderRadius="8px"
-            border="2px solid #EBFAF8"
-            marginTop="1rem"
-            marginBottom="1rem"
+            borderRadius={2}
+            border={'0.2rem solid'}
+            borderColor={'primary.lighter'}
+            marginTop={2}
+            marginBottom={1}
           >
-            <Grid item xs={12} display={'flex'} flexDirection={'column'}>
+            <Grid
+              item
+              xs={12}
+              display={'flex'}
+              flexDirection={'column'}
+              padding={1}
+            >
               <Typography variant="h5">Items added to inventory</Typography>
-              <Typography variant="body1" sx={{ mt: '0.5rem', ml: '0.5rem' }}>
+              <Typography variant="body1" mt={1} ml={1}>
                 2
               </Typography>
             </Grid>
@@ -128,10 +127,10 @@ export const AddToInventory = (props: any) => {
               xs={12}
               display={'flex'}
               flexDirection={'row'}
-              marginTop={'0.5rem'}
-              padding={'1rem'}
+              marginTop={1}
+              padding={2}
             >
-              <Box sx={{ width: '180px' }}>
+              <Box width={180}>
                 <FormProvider onSubmit={() => {}} methods={methodsYes}>
                   <RHFTextField
                     name="description"
@@ -145,11 +144,11 @@ export const AddToInventory = (props: any) => {
               <Box
                 display={'flex'}
                 flexDirection={'row'}
-                marginLeft={'1rem'}
-                marginTop={'2.5rem'}
+                marginLeft={3}
+                marginTop={4}
               >
                 <Typography variant="h6">Items to inventory</Typography>
-                <Box marginLeft={'0.5rem'} marginTop={'0.1rem'}>
+                <Box marginLeft={1} marginTop={0.2}>
                   <Image
                     src={ItemToInventoryImage}
                     height={24}
@@ -257,7 +256,7 @@ export const AddToInventory = (props: any) => {
               xs={6}
               display={'flex'}
               flexDirection={'row'}
-              marginBottom={'2rem'}
+              marginBottom={2}
             >
               <Image
                 src={ItemStatusImage}
@@ -280,15 +279,10 @@ export const AddToInventory = (props: any) => {
                 <Grid container spacing={2}>
                   {addToInventoryItemStatus?.map((item: any) => (
                     <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                      <item.component {...item.componentProps} size={'small'}>
-                        {item?.componentProps?.select
-                          ? item?.options?.map((option: any) => (
-                              <option key={option?.value} value={option?.value}>
-                                {option?.label}
-                              </option>
-                            ))
-                          : null}
-                      </item.component>
+                      <item.component
+                        {...item.componentProps}
+                        size={'small'}
+                      ></item.component>
                     </Grid>
                   ))}
                 </Grid>

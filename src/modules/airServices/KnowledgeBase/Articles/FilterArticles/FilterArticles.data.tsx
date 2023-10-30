@@ -10,7 +10,19 @@ export const filterArticlesDataDefaultValues = {
   status: '',
   author: '',
 };
-
+const statusOption = [
+  { value: 'Drafts', label: 'Drafts' },
+  { value: 'Published', label: 'Published' },
+];
+const authorOption = [
+  { value: 'Alee', label: 'Alee' },
+  { value: 'David', label: 'David' },
+  { value: 'Raza', label: 'Raza' },
+  { value: 'Sam', label: 'Sam' },
+  { value: 'Martiz', label: 'Martiz' },
+  { value: 'Luke', label: 'Luke' },
+  { value: 'Manpreet', label: 'Manpreet' },
+];
 export const FilterArticlesData = [
   {
     componentProps: {
@@ -20,10 +32,7 @@ export const FilterArticlesData = [
       select: true,
     },
 
-    options: [
-      { value: 'Drafts', label: 'Drafts' },
-      { value: 'Published', label: 'Published' },
-    ],
+    options: statusOption,
 
     component: RHFSelect,
     md: 12,
@@ -36,15 +45,7 @@ export const FilterArticlesData = [
       select: true,
     },
 
-    options: [
-      { value: 'Alee', label: 'Alee' },
-      { value: 'David', label: 'David' },
-      { value: 'Raza', label: 'Raza' },
-      { value: 'Sam', label: 'Sam' },
-      { value: 'Martiz', label: 'Martiz' },
-      { value: 'Luke', label: 'Luke' },
-      { value: 'Manpreet', label: 'Manpreet' },
-    ],
+    options: authorOption,
 
     component: RHFSelect,
     md: 12,

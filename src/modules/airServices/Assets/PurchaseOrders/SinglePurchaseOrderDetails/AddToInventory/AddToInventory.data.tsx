@@ -42,6 +42,30 @@ export const addToInventoryItemStatusDefaultValues = {
   serialNumber: '',
   assetTag: '',
 };
+
+const locationOptions = [
+  {
+    value: 'afghanistan',
+    label: 'Afghanistan',
+  },
+  {
+    value: 'alandIslands',
+    label: 'Aland Islands',
+  },
+  {
+    value: 'albania',
+    label: 'Albania',
+  },
+  {
+    value: 'American Samoa',
+    label: 'American Samoa',
+  },
+];
+const updatingOptions = [
+  { label: 'LCD', value: 'lcd' },
+  { label: 'Dell Monitor', value: 'dellMonitor' },
+  { label: 'Mouse', value: 'mouse' },
+];
 export const addToInventoryItemAdded = [
   {
     componentProps: {
@@ -58,25 +82,9 @@ export const addToInventoryItemAdded = [
       name: 'location',
       label: 'Location',
       fullWidth: true,
+      select: true,
     },
-    options: [
-      {
-        value: 'afghanistan',
-        label: 'Afghanistan',
-      },
-      {
-        value: 'alandIslands',
-        label: 'Aland Islands',
-      },
-      {
-        value: 'albania',
-        label: 'Albania',
-      },
-      {
-        value: 'American Samoa',
-        label: 'American Samoa',
-      },
-    ],
+    options: locationOptions,
     toShow: 'Yes',
     component: RHFSelect,
     md: 12,
@@ -106,11 +114,7 @@ export const addToInventoryItemAdded = [
       name: 'updateExisting',
       fullWidth: true,
       row: false,
-      options: [
-        { label: 'LCD', value: 'lcd' },
-        { label: 'Dell Monitor', value: 'dellMonitor' },
-        { label: 'Mouse', value: 'mouse' },
-      ],
+      options: updatingOptions,
     },
     toShow: 'No',
     component: RHFRadioGroup,
