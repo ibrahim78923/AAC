@@ -1,17 +1,6 @@
 import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
 import { Button } from '@mui/material';
 
-export const dropdownDummy = [
-  {
-    value: 'option1',
-    label: 'Option 1',
-  },
-  {
-    value: 'option2',
-    label: 'Option 2',
-  },
-];
-
 export const columns = [
   'Service Name',
   'Price Model',
@@ -20,7 +9,20 @@ export const columns = [
   'Comments',
   'Action',
 ];
-
+export const priceModelOptions = [
+  {
+    label: 'one time',
+    value: 'one time',
+  },
+  {
+    label: 'fixed',
+    value: 'fixed',
+  },
+  {
+    label: 'per unit',
+    value: 'per unit',
+  },
+];
 export const tableData = (name: any, index: any, remove: any) => [
   {
     id: 1,
@@ -31,10 +33,10 @@ export const tableData = (name: any, index: any, remove: any) => [
     data: (
       <RHFSelect
         name={`${name}.${index}.priceModel`}
-        options={dropdownDummy}
+        // options={dropdownDummy}
         size="small"
       >
-        {dropdownDummy?.map((option: any) => (
+        {priceModelOptions?.map((option: any) => (
           <option key={option?.value} value={option?.value}>
             {option?.label}
           </option>

@@ -9,7 +9,7 @@ import dayjs from 'dayjs';
 import * as Yup from 'yup';
 import { Box, Typography } from '@mui/material';
 
-const todayDate = dayjs().format('MM/DD/YYYY');
+const todayDate = dayjs()?.format('MM/DD/YYYY');
 
 export const dropdownDummy = [
   {
@@ -40,7 +40,7 @@ export const contractTypeOptions = [
     label: 'Warranty',
   },
 ];
-export const contractStatus = [
+export const contractStatusOptions = [
   {
     value: 'Approved',
     label: 'Approved',
@@ -363,7 +363,7 @@ export const upsertContractFormFieldsDataFunction = (
       name: 'status',
       label: 'Status',
       select: true,
-      options: contractStatus,
+      options: contractStatusOptions,
       disabled: isFieldDisable,
     },
     md: 6,
