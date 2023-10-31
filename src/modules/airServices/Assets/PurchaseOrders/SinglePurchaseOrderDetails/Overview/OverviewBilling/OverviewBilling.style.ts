@@ -1,4 +1,5 @@
 export const styles = {
+  // this style use on multiple places
   flexBetween: {
     display: 'flex',
     flexDirection: 'row',
@@ -9,7 +10,6 @@ export const styles = {
     minWidth: {
       xs: 1200,
       md: 1100,
-      lg: 1000,
     },
   },
   headItemWrapper: (theme: any) => ({
@@ -49,13 +49,5 @@ export const styles = {
     fontSize: 12,
     fontWeight: 600,
     pt: 1,
-  },
-  modelSizing: {
-    '& .MuiDialog-container': {
-      '& .MuiPaper-root': {
-        width: '100%',
-        maxWidth: '1309px',
-      },
-    },
   },
 };

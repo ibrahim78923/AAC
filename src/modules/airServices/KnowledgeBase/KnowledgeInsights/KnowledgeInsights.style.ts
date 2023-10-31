@@ -1,22 +1,22 @@
 export const styles = {
   insightsStyles: (theme: any) => ({
     background: theme?.palette?.grey[100],
-    borderBottom: '1px solid var(--gray-200, #EAECF0)',
-    p: '12px 16px',
+    borderBottom: `0.0625rem solid ${theme?.palette?.light_lavender_gray}`,
+    padding: '0.75rem 1rem',
   }),
-  insightsItemsStyles: {
-    borderBottom: '1px solid var(--gray-200, #EAECF0)',
-    p: '16px 20px',
-  },
+  insightsItemsStyles: (theme: any) => ({
+    borderBottom: `0.0625rem solid ${theme?.palette?.light_lavender_gray}`,
+    padding: '1rem 1.25rem',
+  }),
   mentionsStyles: (theme: any) => ({
     background: theme?.palette?.grey[100],
-    borderBottom: '1px solid var(--gray-200, #EAECF0)',
-    borderLeft: '1px solid var(--gray-200, #EAECF0)',
-    p: '12px 16px',
+    borderBottom: `0.0625rem solid ${theme?.palette?.light_lavender_gray}`,
+    borderLeft: `0.0625rem solid ${theme?.palette?.light_lavender_gray}`,
+    padding: '0.75rem 1rem',
   }),
-  mentionsItemsStyles: {
-    borderBottom: '1px solid var(--gray-200, #EAECF0)',
-    borderLeft: '1px solid var(--gray-200, #EAECF0)',
-    p: '16px 20px',
-  },
+  mentionsItemsStyles: (theme: any) => ({
+    borderBottom: `0.0625rem solid ${theme?.palette?.light_lavender_gray}`,
+    borderLeft: `0.0625rem solid ${theme?.palette?.light_lavender_gray}`,
+    padding: '1rem 1.25rem',
+  }),
 };
