@@ -14,7 +14,7 @@ export const overviewData = [
   {
     id: '2',
     heading: 'Utilizable',
-    DetailsData: [
+    detailsData: [
       { name: 'Product', detail: 'Logitech M705 Wirelesss Mouse' },
       { name: 'Vendor', detail: 'Logitech' },
       { name: 'State', detail: '--' },

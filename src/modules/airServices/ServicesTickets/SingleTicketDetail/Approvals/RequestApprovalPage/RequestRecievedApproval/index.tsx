@@ -1,6 +1,6 @@
 import { Box, Button, Grid, Typography } from '@mui/material';
 import Image from 'next/image';
-import { ApprovalData } from '../AllApprovals.data';
+import { approvalData } from '../AllApprovals.data';
 import CancelIcon from '@mui/icons-material/Cancel';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import SharedIcon from '@/assets/icons/shared/shared-icon';
@@ -34,8 +34,9 @@ const RequestRecievedApproval = () => {
   return (
     <>
       <Box sx={styles.approvalsContainerBox}>
-        {ApprovalData?.filter((item) => item.status === 'Request')?.map(
-          (filteredItem) => {
+        {approvalData
+          ?.filter((item) => item?.status === 'Request')
+          ?.map((filteredItem) => {
             return (
               <div key={filteredItem?.id} style={styles.approvalsContainer}>
                 <Grid
@@ -44,7 +45,7 @@ const RequestRecievedApproval = () => {
                   alignItems={'center'}
                 >
                   <Grid item>
-                    <Box sx={styles.requestApprovalBoxFirst}>
+                    <Box sx={styles?.requestApprovalBoxFirst}>
                       <Box>
                         <Image src={filteredItem?.img} alt="Avatar" />
                       </Box>
@@ -57,7 +58,7 @@ const RequestRecievedApproval = () => {
                         >
                           {filteredItem?.mainText}
                         </Typography>
-                        <Box sx={styles.requestApprovalBoxSecond}>
+                        <Box sx={styles?.requestApprovalBoxSecond}>
                           {Icons[filteredItem?.status]}
                           <span>
                             <Typography
@@ -78,11 +79,11 @@ const RequestRecievedApproval = () => {
                     </Typography>
                   </Grid>
                   <Grid item>
-                    <Box sx={styles.requestApprovalBoxFirst}>
+                    <Box sx={styles?.requestApprovalBoxFirst}>
                       <Button
                         onClick={handleApprovalModelOpen}
                         sx={{
-                          ...styles.requestApprovalButton,
+                          ...styles?.requestApprovalButton,
                           color: theme?.palette?.success?.main,
                           '&:hover': { bgcolor: theme?.palette?.grey[400] },
                         }}
@@ -97,7 +98,7 @@ const RequestRecievedApproval = () => {
                       <Button
                         onClick={handleRecjectModelOpen}
                         sx={{
-                          ...styles.requestApprovalButton,
+                          ...styles?.requestApprovalButton,
                           color: theme?.palette?.error?.main,
                           '&:hover': { bgcolor: theme?.palette?.grey[400] },
                         }}
@@ -114,15 +115,14 @@ const RequestRecievedApproval = () => {
                 </Grid>
               </div>
             );
-          },
-        )}
+          })}
       </Box>
       <ConversationModel
         open={openApprovalModal}
         handleClose={handleApprovalModelClose}
         selectedItem="Approval"
       >
-        <Box sx={{ width: { sm: '510px' } }}>
+        <Box width={{ sm: '510px' }}>
           <FormProvider onSubmit={() => {}} methods={methods}>
             <RHFTextField
               name="description"
@@ -134,11 +134,11 @@ const RequestRecievedApproval = () => {
             />
           </FormProvider>
         </Box>
-        <Box sx={styles.boxBorderStyle}></Box>
-        <Box sx={styles.buttonBox}>
+        <Box sx={styles?.boxBorderStyle}></Box>
+        <Box sx={styles?.buttonBox}>
           <Button
             onClick={handleApprovalModelClose}
-            style={{ ...styles.cancelButton }}
+            style={{ ...styles?.cancelButton }}
           >
             Cancel
           </Button>
@@ -150,7 +150,7 @@ const RequestRecievedApproval = () => {
         handleClose={handleRecjectModelClose}
         selectedItem="Reject"
       >
-        <Box sx={{ width: { sm: '510px' } }}>
+        <Box width={{ sm: '510px' }}>
           <FormProvider onSubmit={() => {}} methods={methods}>
             <RHFTextField
               name="description"
@@ -162,11 +162,11 @@ const RequestRecievedApproval = () => {
             />
           </FormProvider>
         </Box>
-        <Box sx={styles.boxBorderStyle}></Box>
-        <Box sx={styles.buttonBox}>
+        <Box sx={styles?.boxBorderStyle}></Box>
+        <Box sx={styles?.buttonBox}>
           <Button
             onClick={handleRecjectModelClose}
-            style={{ ...styles.cancelButton }}
+            style={{ ...styles?.cancelButton }}
           >
             Cancel
           </Button>

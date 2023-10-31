@@ -1,26 +1,51 @@
 import CommonDrawer from '@/components/CommonDrawer';
-import DrawerForm from './DrawerForm';
 import { useContractsDrawerForm } from './useContractsDrawerForm';
+import { Box, Grid } from '@mui/material';
+import { FormProvider } from '@/components/ReactHookForm';
+import { filterContractsFormDataArray } from './filterContractsForm.data';
+import { v4 as uuidv4 } from 'uuid';
+import { enqueueSnackbar } from 'notistack';
 
 const ContractsDrawerForm = (props: any) => {
   const { isDrawerOpen, setIsDrawerOpen } = props;
   const { methodsDrawerFormForm } = useContractsDrawerForm();
-
+  const { handleSubmit } = methodsDrawerFormForm;
+  const onSubmit = async () => {
+    enqueueSnackbar('Save Successfully', {
+      variant: 'success',
+    });
+    setIsDrawerOpen(false);
+  };
   return (
     <>
       <CommonDrawer
-        // footer={false}
+        footer={true}
         isDrawerOpen={isDrawerOpen}
         onClose={() => setIsDrawerOpen(false)}
         title="Filters"
         okText="Send"
         isOk
-        // isOk={true}
+        submitHandler={handleSubmit(onSubmit)}
       >
-        <DrawerForm
-          methods={methodsDrawerFormForm}
-          handleSubmit={methodsDrawerFormForm.handleSubmit}
-        />
+        <Box mt={1}>
+          <FormProvider methods={methodsDrawerFormForm}>
+            <Grid container spacing={4}>
+              {filterContractsFormDataArray?.map((item: any) => (
+                <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                  <item.component {...item?.componentProps} size={'small'}>
+                    {item?.componentProps?.select
+                      ? item?.options?.map((option: any) => (
+                          <option key={option?.value} value={option?.value}>
+                            {option?.label}
+                          </option>
+                        ))
+                      : null}
+                  </item.component>
+                </Grid>
+              ))}
+            </Grid>
+          </FormProvider>
+        </Box>
       </CommonDrawer>
     </>
   );

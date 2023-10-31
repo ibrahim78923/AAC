@@ -1,21 +1,20 @@
 import { Box, Divider, Grid, Typography, TextField } from '@mui/material';
-import { ModelBillingData } from './Overview.data';
-import { styles } from './Overview.style';
+import { modelBillingData } from './OverviewBilling.data';
+import { styles } from './OverviewBilling.style';
 
 const OverviewBilling = () => {
-  const { flexBetween, billingWrapper, billingLabel, billingValue } = styles();
   return (
     <Box
       sx={{
-        ...flexBetween,
+        ...styles?.flexBetween,
         alignItems: 'flex-end',
         flexDirection: 'column',
       }}
     >
-      {ModelBillingData?.map((item: any) => {
+      {modelBillingData?.map((item: any) => {
         const totalItem = [
-          ModelBillingData[0]?.label,
-          ModelBillingData[ModelBillingData?.length - 1]?.label,
+          modelBillingData[0]?.label,
+          modelBillingData[modelBillingData?.length - 1]?.label,
         ];
         return (
           <Grid
@@ -27,8 +26,8 @@ const OverviewBilling = () => {
             lg={4}
             xl={2.5}
             sx={{
-              ...flexBetween,
-              ...billingWrapper,
+              ...styles?.flexBetween,
+              ...styles?.billingWrapper,
             }}
           >
             {totalItem?.includes(item?.label) && (
@@ -37,7 +36,7 @@ const OverviewBilling = () => {
             <Grid item>
               <Typography
                 sx={{
-                  ...billingLabel,
+                  ...styles?.billingLabel,
                   fontWeight: totalItem?.includes(item?.label) ? 600 : 400,
                   pt: totalItem?.includes(item?.label) ? 1 : 0,
                 }}
@@ -47,7 +46,7 @@ const OverviewBilling = () => {
             </Grid>
             <Grid item>
               {totalItem?.includes(item?.label) ? (
-                <Typography sx={billingValue}>{item?.value}</Typography>
+                <Typography sx={styles?.billingValue}>{item?.value}</Typography>
               ) : (
                 <TextField
                   key={item?.value}

@@ -19,14 +19,11 @@ export const overviewData = [
   },
 ];
 
-export const overviewTableColumns: any = (setOpenOverviewModel: any) => {
+export const overviewTableColumns: any = (setOpenOverviewModal: any) => {
   const theme = useTheme();
-  const handleOpen = () => {
-    setOpenOverviewModel(true);
-  };
   return [
     {
-      accessorFn: (row: any) => row.itemName,
+      accessorFn: (row: any) => row?.itemName,
       id: 'itemName',
       cell: (info: any) => (
         <span style={{ color: theme?.palette?.blue?.dull_blue }}>
@@ -36,43 +33,43 @@ export const overviewTableColumns: any = (setOpenOverviewModel: any) => {
       header: 'Item Name',
     },
     {
-      accessorFn: (row: any) => row.description,
+      accessorFn: (row: any) => row?.description,
       id: 'description',
       header: 'Description',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row.costPerItem,
+      accessorFn: (row: any) => row?.costPerItem,
       id: 'costPerItem',
       header: 'Cost Per Item',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row.quantity,
+      accessorFn: (row: any) => row?.quantity,
       id: 'quantity',
       header: 'Quantity',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row.taxRate,
+      accessorFn: (row: any) => row?.taxRate,
       id: 'taxRate',
       header: 'Tax Rate (%)',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row.total,
+      accessorFn: (row: any) => row?.total,
       id: 'total',
       header: 'Total ()',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row.invoice,
+      accessorFn: (row: any) => row?.invoice,
       id: 'invoice',
       header: 'Invoice',
       cell: (info: any) => (
         <span
           style={{ cursor: 'pointer', color: theme?.palette?.primary?.main }}
-          onClick={handleOpen}
+          onClick={() => setOpenOverviewModal(true)}
         >
           {info.getValue()}
         </span>
@@ -91,77 +88,4 @@ export const overviewListData: any = [
     total: '60',
     invoice: 'pdf',
   },
-];
-
-export const overviewTablePdfColumns: any = () => {
-  const theme = useTheme();
-  return [
-    {
-      accessorFn: (row: any) => row.itemName,
-      id: 'itemName',
-      cell: (info: any) => (
-        <span style={{ color: theme?.palette?.blue?.dull_blue }}>
-          {info.getValue()}
-        </span>
-      ),
-      header: 'Item Name',
-    },
-    {
-      accessorFn: (row: any) => row.description,
-      id: 'description',
-      header: 'Description',
-      cell: (info: any) => info.getValue(),
-    },
-    {
-      accessorFn: (row: any) => row.costPerItem,
-      id: 'costPerItem',
-      header: 'Cost Per Item',
-      cell: (info: any) => info.getValue(),
-    },
-    {
-      accessorFn: (row: any) => row.receivedVsOrdered,
-      id: 'receivedVsOrdered',
-      header: 'Received Vs Ordered',
-      cell: (info: any) => info.getValue(),
-    },
-    {
-      accessorFn: (row: any) => row.pending,
-      id: 'pending',
-      header: 'Pending',
-      cell: (info: any) => info.getValue(),
-    },
-    {
-      accessorFn: (row: any) => row.taxRate,
-      id: 'taxRate',
-      header: 'Tax Rate (%)',
-      cell: (info: any) => info.getValue(),
-    },
-    {
-      accessorFn: (row: any) => row.total,
-      id: 'total',
-      header: 'Total ()',
-      cell: (info: any) => info.getValue(),
-    },
-  ];
-};
-
-export const overviewListPdfData: any = [
-  {
-    Id: 1,
-    itemName: `Andrea`,
-    description: 'Per Unit',
-    costPerItem: '30',
-    receivedVsOrdered: '2/2',
-    pending: '2',
-    taxRate: '0',
-    total: '60',
-  },
-];
-
-export const ModelBillingData = [
-  { label: 'subTotal ($)', value: 144.0 },
-  { label: 'discount (%)', value: 0 },
-  { label: 'Tax rate (%)', value: 0 },
-  { label: 'shipping ($)', value: 0 },
-  { label: 'total ($)', value: 0 },
 ];
