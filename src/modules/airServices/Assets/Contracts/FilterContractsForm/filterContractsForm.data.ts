@@ -1,7 +1,7 @@
 import { RHFSelect } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
-const contactTypeOptions = [
+const contractTypeOptions = [
   {
     value: 'All',
     label: 'All',
@@ -24,7 +24,7 @@ const contactTypeOptions = [
   },
 ];
 
-const contactStatusOptions = [
+const contractStatusOptions = [
   {
     value: 'Draft',
     label: 'Draft',
@@ -105,7 +105,7 @@ const expiryOptions = [
   },
 ];
 
-export const contractsDrawerFormValidationSchema = Yup?.object()?.shape({
+export const filterContractsFormValidationSchema = Yup?.object()?.shape({
   type: Yup?.string(),
   status: Yup?.string(),
   vender: Yup?.string(),
@@ -127,7 +127,7 @@ export const filterContractsFormDataArray = [
       fullWidth: true,
       select: true,
     },
-    options: contactTypeOptions,
+    options: contractTypeOptions,
     component: RHFSelect,
   },
   {
@@ -137,7 +137,7 @@ export const filterContractsFormDataArray = [
       fullWidth: true,
       select: true,
     },
-    options: contactStatusOptions,
+    options: contractStatusOptions,
     component: RHFSelect,
   },
   {

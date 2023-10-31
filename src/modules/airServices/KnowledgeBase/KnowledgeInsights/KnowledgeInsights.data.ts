@@ -20,17 +20,17 @@ export const trendingInsightsData = [
     mentions: 454,
   },
   {
-    id: '4',
+    id: '5',
     insights: 'saved files',
     mentions: 124,
   },
   {
-    id: '4',
+    id: '6',
     insights: 'directory',
     mentions: 214,
   },
   {
-    id: '4',
+    id: '7',
     insights: 'salary',
     mentions: 123,
   },

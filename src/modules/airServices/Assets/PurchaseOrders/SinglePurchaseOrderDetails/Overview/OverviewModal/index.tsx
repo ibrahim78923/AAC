@@ -19,15 +19,12 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import { styles } from './OverviewModal.style';
 
 const OverviewModel = ({ openOverviewModal, setOpenOverviewModal }: any) => {
-  const handleClose = () => {
-    setOpenOverviewModal(false);
-  };
   return (
     <Box>
       <Dialog
         fullWidth
         open={openOverviewModal}
-        onClose={handleClose}
+        onClose={() => setOpenOverviewModal(false)}
         sx={styles?.modelSizing}
       >
         <DialogTitle mt={'-1.5rem'}>
@@ -42,7 +39,10 @@ const OverviewModel = ({ openOverviewModal, setOpenOverviewModal }: any) => {
               </Box>
             </Box>
             <IconButton sx={{ mr: '-1.5rem', mb: '2rem' }}>
-              <CancelIcon fontSize="large" onClick={handleClose} />
+              <CancelIcon
+                fontSize="large"
+                onClick={() => setOpenOverviewModal(false)}
+              />
             </IconButton>
           </Box>
         </DialogTitle>

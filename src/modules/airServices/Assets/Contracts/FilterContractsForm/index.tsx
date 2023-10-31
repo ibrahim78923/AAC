@@ -1,15 +1,15 @@
 import CommonDrawer from '@/components/CommonDrawer';
-import { useContractsDrawerForm } from './useContractsDrawerForm';
+import { useFilterContractsForm } from './useFilterContractsForm';
 import { Box, Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { filterContractsFormDataArray } from './filterContractsForm.data';
 import { v4 as uuidv4 } from 'uuid';
 import { enqueueSnackbar } from 'notistack';
 
-const ContractsDrawerForm = (props: any) => {
+const FilterContractsForm = (props: any) => {
   const { isDrawerOpen, setIsDrawerOpen } = props;
-  const { methodsDrawerFormForm } = useContractsDrawerForm();
-  const { handleSubmit } = methodsDrawerFormForm;
+  const { methods } = useFilterContractsForm();
+  const { handleSubmit } = methods;
   const onSubmit = async () => {
     enqueueSnackbar('Save Successfully', {
       variant: 'success',
@@ -28,7 +28,7 @@ const ContractsDrawerForm = (props: any) => {
         submitHandler={handleSubmit(onSubmit)}
       >
         <Box mt={1}>
-          <FormProvider methods={methodsDrawerFormForm}>
+          <FormProvider methods={methods}>
             <Grid container spacing={4}>
               {filterContractsFormDataArray?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
@@ -51,4 +51,4 @@ const ContractsDrawerForm = (props: any) => {
   );
 };
 
-export default ContractsDrawerForm;
+export default FilterContractsForm;
