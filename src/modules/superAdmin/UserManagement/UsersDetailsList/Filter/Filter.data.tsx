@@ -12,6 +12,8 @@ export const validationSchema = Yup.object().shape({
   additionalStorage: Yup.string().trim().required('Field is Required'),
   discount: Yup.string().trim().required('Field is Required'),
   billingCycle: Yup.string().trim().required('Field is Required'),
+  company: Yup.string().trim().required('Field is Required'),
+  status: Yup.string().trim().required('Field is Required'),
   date: Yup.date(),
 });
 
@@ -43,7 +45,7 @@ export const dataArray = [
 
   {
     componentProps: {
-      name: 'producct',
+      name: 'product',
       label: 'Product',
       fullWidth: true,
       select: true,

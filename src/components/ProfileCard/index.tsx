@@ -33,7 +33,13 @@ const ProfileCard = (props: CardPropsI) => {
 
   return (
     <Box sx={styles.cardWrapper(theme)}>
-      <Box sx={{ color: theme.palette.primary.light, display: 'flex' }}>
+      <Box
+        sx={{
+          color: theme.palette.primary.light,
+          display: 'flex',
+          flexDirection: { xs: 'column', sm: 'row' },
+        }}
+      >
         <Box sx={styles.imgWrapper}>
           <Box
             className="edit-Icon"
@@ -44,7 +50,7 @@ const ProfileCard = (props: CardPropsI) => {
           </Box>
           <Image className="user_profile" alt="user_profile" src={src} />
         </Box>
-        <Box pl={2}>
+        <Box pl={{ xs: 0, sm: 2 }}>
           <Typography
             variant="h2"
             sx={{ color: `${theme?.palette?.grey[800]}` }}

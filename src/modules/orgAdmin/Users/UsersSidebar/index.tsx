@@ -1,29 +1,40 @@
-import React, { useState } from 'react';
+import Image from 'next/image';
 
-import {
-  Avatar,
-  Box,
-  Button,
-  Divider,
-  Typography,
-  useTheme,
-} from '@mui/material';
-
-import CommonDrawer from '@/components/CommonDrawer';
+import { Avatar, Box, Button, Divider, Typography } from '@mui/material';
 
 import FilterUser from '../Drawers/FilterUser';
 
-import AddUser from '../Drawers/AddUser';
-
 import { FilterSharedIcon, PlusSharedIcon } from '@/assets/icons';
 
-const UsersSidebar = () => {
-  const [isOpenFilterDrawer, setIsOpenFilterDrawer] = useState(false);
-  const [isOpenAdduserDrawer, setIsOpenAdduserDrawer] = useState(false);
-  const theme = useTheme();
+import Search from '@/components/Search';
 
+import StatusBadge from '@/components/StatusBadge';
+
+import AddUser from '../Drawers/AddUser';
+
+import useUsersSidebar from './useUsersSidebar';
+
+import { AvatarImage } from '@/assets/images';
+
+const UsersSidebar = () => {
+  const {
+    userStatus,
+    setUserStatus,
+    isOpenFilterDrawer,
+    setIsOpenFilterDrawer,
+    isOpenAdduserDrawer,
+    setIsOpenAdduserDrawer,
+    theme,
+  } = useUsersSidebar();
   return (
-    <Box p={'24px'}>
+    <Box
+      sx={{
+        padding: '24px 16px',
+        borderRadius: '8px 0px 0px 8px',
+        background: theme?.palette?.common?.white,
+        minHeight: `calc(100% - ${0}px)`,
+      }}
+    >
       <Box
         py={1}
         sx={{
@@ -48,6 +59,7 @@ const UsersSidebar = () => {
         py={1}
         sx={{ display: 'flex', justifyContent: 'space-between', gap: '10px' }}
       >
+        <Search placeholder="Placeholder" size="small" />
         <Button
           onClick={() => {
             setIsOpenFilterDrawer(true);
@@ -69,14 +81,39 @@ const UsersSidebar = () => {
           backgroundColor: theme.palette.grey[400],
           borderRadius: '4px',
           padding: '11px 8px',
+          width: '100%',
         }}
       >
-        <Box sx={{ display: 'flex', gap: '10px' }}>
-          <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-          <Box>
+        <Box
+          sx={{
+            display: 'flex',
+            gap: '10px',
+            alignItems: 'center',
+            flexWrap: { xs: 'wrap', sm: 'nowrap', lg: 'wrap', xl: 'nowrap' },
+          }}
+        >
+          <Avatar>
+            <Image src={AvatarImage} alt="Avatar" width={40} height={40} />
+          </Avatar>
+          <Box sx={{ width: '100%' }}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
               <Typography>Roberts Rohan</Typography>
-              <Typography>active</Typography>
+              <StatusBadge
+                value={userStatus}
+                onChange={(e: any) => setUserStatus(e.target.value)}
+                options={[
+                  {
+                    label: 'Active',
+                    value: 'active',
+                    color: theme?.palette?.success?.main,
+                  },
+                  {
+                    label: 'Inactive',
+                    value: 'inactive',
+                    color: theme?.palette?.error?.main,
+                  },
+                ]}
+              />
             </Box>
             <Typography>Robert@airapplecart.co.uk</Typography>
           </Box>
@@ -84,37 +121,21 @@ const UsersSidebar = () => {
       </Box>
 
       {isOpenFilterDrawer && (
-        <CommonDrawer
-          isDrawerOpen={isOpenFilterDrawer}
-          submitHandler={() => {
-            setIsOpenFilterDrawer(false);
-          }}
+        <FilterUser
+          isOpenDrawer={isOpenFilterDrawer}
           onClose={() => {
             setIsOpenFilterDrawer(false);
           }}
-          title="Filters"
-          okText="Apply"
-          isOk={true}
-        >
-          <FilterUser />
-        </CommonDrawer>
+        />
       )}
 
       {isOpenAdduserDrawer && (
-        <CommonDrawer
-          isDrawerOpen={isOpenAdduserDrawer}
-          submitHandler={() => {
-            setIsOpenAdduserDrawer(false);
-          }}
+        <AddUser
+          isOpenDrawer={isOpenAdduserDrawer}
           onClose={() => {
             setIsOpenAdduserDrawer(false);
           }}
-          title="Add User"
-          okText="Add"
-          isOk={true}
-        >
-          <AddUser />
-        </CommonDrawer>
+        />
       )}
     </Box>
   );
