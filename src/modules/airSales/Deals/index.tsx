@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import { Button } from '@mui/material';
+import { Button, ButtonGroup } from '@mui/material';
 
 import CommonTabs from '@/components/Tabs';
 
@@ -18,7 +18,13 @@ import AssignModalBox from './DealsModalBox/AssignModalBox';
 
 import { DealsTabs } from './DealsSaleSite.data';
 
-import { FilterIcon, RestoreIcon, CutomizeIcon } from '@/assets/icons';
+import {
+  FilterIcon,
+  RestoreIcon,
+  CutomizeIcon,
+  ListViewIcon,
+  GridViewIcon,
+} from '@/assets/icons';
 import DealsActions from './DealsActions';
 
 const Deals = () => {
@@ -96,6 +102,31 @@ const Deals = () => {
               <FilterIcon />
               &nbsp; Filter
             </Button>
+
+            <ButtonGroup
+              variant="outlined"
+              aria-label="outlined button group"
+              sx={{ minHeight: '36px' }}
+            >
+              <Button
+                // onClick={() => handleClick('listView')}
+                sx={{
+                  '&:hover': { backgroundColor: '#F3F4F6' },
+                  // backgroundColor: activeColor === 'listView' ? '#F3F4F6' : '',
+                }}
+              >
+                <ListViewIcon />
+              </Button>
+              <Button
+                // onClick={() => handleClick('gridView')}
+                sx={{
+                  '&:hover': { backgroundColor: '#F3F4F6' },
+                  // backgroundColor: activeColor === 'gridView' ? '#F3F4F6' : '',
+                }}
+              >
+                <GridViewIcon />
+              </Button>
+            </ButtonGroup>
           </>
         }
       >
