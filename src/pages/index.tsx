@@ -1,28 +1,13 @@
-import { Button, ButtonGroup } from '@mui/material';
-
+import { Permissions } from '@/constants/permissions';
 import Layout from '@/layout';
 
 export default function Home() {
-  return (
-    <>
-      <ButtonGroup variant="contained" color="primary">
-        <Button>Add Button</Button>
-      </ButtonGroup>
-
-      <ButtonGroup variant="contained" color="error">
-        <Button variant="contained" color="error">
-          Add Button
-        </Button>
-      </ButtonGroup>
-      <ButtonGroup variant="contained" color="success">
-        <Button>Add Button</Button>
-      </ButtonGroup>
-      <ButtonGroup>
-        <Button>Add Button</Button>
-      </ButtonGroup>
-    </>
-  );
+  return <div>fdfdff</div>;
 }
 Home.getLayout = function getLayout(page: any) {
-  return <Layout>{page}</Layout>;
+  return (
+    <Layout guardRoute permissions={Permissions.view_dashoard}>
+      {page}
+    </Layout>
+  );
 };

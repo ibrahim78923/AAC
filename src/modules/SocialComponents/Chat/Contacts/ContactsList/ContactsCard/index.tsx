@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Image from 'next/image';
 
@@ -7,10 +7,29 @@ import { Box, Checkbox, Typography, useTheme } from '@mui/material';
 import { DeleteIcon, PinIcon } from '@/assets/icons';
 
 import { styles } from './ContactsCard.style';
+import { AlertModals } from '@/components/AlertModals';
 
-const ContactsCard = ({ cardData }: any) => {
+const ContactsCard = ({ cardData, setSelectedValues, selectedValues }: any) => {
   const theme = useTheme();
   const [isCardHover, setIsCardHover] = useState(false);
+  const [isDeleteModal, setIsDeleteModal] = useState(false);
+
+  const handleChatSelect = (chatId: string) => {
+    if (selectedValues.includes(chatId)) {
+      setSelectedValues(selectedValues.filter((id: string) => id !== chatId));
+    } else {
+      setSelectedValues([...selectedValues, chatId]);
+    }
+  };
+
+  useEffect(() => {
+    if (selectedValues) {
+      if (selectedValues.includes(cardData.chatId)) {
+        setIsCardHover(true);
+      }
+    }
+  }, [isCardHover, selectedValues]);
+
   return (
     <>
       <Box
@@ -18,7 +37,16 @@ const ContactsCard = ({ cardData }: any) => {
         onMouseOver={() => setIsCardHover(true)}
         onMouseLeave={() => setIsCardHover(false)}
       >
-        {isCardHover && <Checkbox checked={false} />}
+        {isCardHover && (
+          <Checkbox
+            onClick={() => {
+              handleChatSelect(cardData.chatId);
+            }}
+            checked={
+              selectedValues ? selectedValues.includes(cardData.chatId) : false
+            }
+          />
+        )}
         <Box sx={{ width: '100%' }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -47,7 +75,9 @@ const ContactsCard = ({ cardData }: any) => {
               <Box sx={styles.chatNotification}>12</Box>
               {isCardHover && (
                 <Box sx={{ display: 'flex', gap: '10px' }}>
-                  <DeleteIcon />
+                  <Box onClick={() => setIsDeleteModal(true)}>
+                    <DeleteIcon />
+                  </Box>
                   <PinIcon />
                 </Box>
               )}
@@ -62,6 +92,14 @@ const ContactsCard = ({ cardData }: any) => {
           </Typography>
         </Box>
       </Box>
+
+      <AlertModals
+        message={'Are you sure you want to delete this entry ?'}
+        type="delete"
+        open={isDeleteModal}
+        handleClose={() => setIsDeleteModal(false)}
+        handleSubmit={() => setIsDeleteModal(false)}
+      />
     </>
   );
 };

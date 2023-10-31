@@ -17,7 +17,7 @@ const StatusCards = () => {
   return (
     <>
       <Grid container spacing={2} sx={{ paddingBottom: '1rem' }}>
-        <Grid item xl={2.6} lg={3} md={6} sm={6} xs={12}>
+        <Grid item xl={3.5} lg={3} md={6} sm={6} xs={12}>
           <Box sx={style.TotalClientStyle(theme)}>
             <Box sx={{ display: 'grid' }}>
               <UserGroupFilledIcon />
@@ -100,7 +100,7 @@ const StatusCards = () => {
             </Box>
           </Box>
         </Grid>
-        <Grid item xl={2.6} lg={3} md={6} sm={6} xs={12}>
+        <Grid item xl={3.5} lg={3} md={6} sm={6} xs={12}>
           <Box sx={style.TotalUserStyle(theme)}>
             <Box>
               <TwoUserIcon />
@@ -183,7 +183,7 @@ const StatusCards = () => {
             </Box>
           </Box>
         </Grid>
-        <Grid item xl={6.8} lg={6} md={12} sm={6} xs={12}>
+        <Grid item xl={5} lg={6} md={12} sm={6} xs={12}>
           <Box sx={style.EarningCardStyle(theme)}>
             <Box sx={{ marginTop: '1rem' }}>
               <EarningIcon />

@@ -46,10 +46,17 @@ const Emails = () => {
     >
       <Grid container>
         <Grid item xs={12}>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+          <Box sx={styles.headingSpacingBetween}>
             <Typography variant="h4"> Emails</Typography>
             {!isNullOrEmpty(NotesDataArray) && (
-              <Box sx={{ gap: 1, display: 'flex' }}>
+              <Box
+                sx={{
+                  gap: 1,
+                  display: 'flex',
+                  flexDirection: { xs: 'column', sm: 'row' },
+                  alignItems: 'center',
+                }}
+              >
                 <EmailActionDropDown
                   setOpenDrawer={setOpenDrawer}
                   selectedCheckboxes={selectedCheckboxes}
@@ -130,14 +137,15 @@ const Emails = () => {
 
       {!isNullOrEmpty(NotesDataArray) && (
         <Grid item xs={12} sx={styles.horizontalTabsInnnerBox}>
-          {NotesDataArray.map((item) => (
+          {NotesDataArray?.map((item) => (
             <Grid
               container
               key={uuidv4()}
               sx={{
                 py: 3,
                 px: 1.5,
-                boxShadow: 'box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.10)',
+                mb: 1,
+                boxShadow: '0px 0px 4px 0px rgba(0, 0, 0, 0.10)',
                 borderRadius: '8px',
                 border: '1px solid #f2f2f2',
               }}
@@ -184,7 +192,7 @@ const Emails = () => {
                 >
                   <Box sx={{ display: 'flex', flexDirection: 'row' }}>
                     <NameWithStyledWords
-                      name={item.title}
+                      name={item?.title}
                       customKey="ActivityHead"
                     />
                     &nbsp; : &nbsp;

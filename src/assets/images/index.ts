@@ -75,6 +75,8 @@ export { default as UserAvatarImage } from '../../assets/images/modules/socialCo
 export { default as UserSenderImage } from '../../assets/images/modules/socialComponents/chat/sender-user.png';
 export { default as GreenBgImage } from '../../assets/images/modules/superAdmin/dashboard/green-bg-img.png';
 export { default as NotSelectedItemImage } from './modules/airSales/Dashboard/not-selected-item.png';
+export { default as AvatarCompanyImage } from './modules/airSales/Quotes/avatar-company.png';
+export { default as AvatarContactImage } from './modules/airSales/Quotes/contact-avatar.png';
 export { default as UserRoundImage } from './shared/user-round.png';
 export { default as PreviewVegImage } from '../../assets/images/modules/socialComponents/chat/preview-veg.png';
 export { default as PreviewTrainImage } from '../../assets/images/modules/socialComponents/chat/preview-train.png';
@@ -83,13 +85,19 @@ export { default as GroupAvatarImage } from '../../assets/images/modules/socialC
 export { default as GroupAvatarAdidasImage } from '../../assets/images/modules/socialComponents/chat/group-avatar-adidas.png';
 export { default as AddRoundedImage } from '../../assets/images/modules/socialComponents/chat/add-image-rounded.png';
 export { default as UserProfileAvatarImage } from '../../assets/images/modules/socialComponents/chat/user-profile-avatar.png';
+export { default as CallFilledImage } from '../../assets/images/modules/socialComponents/calling/call-filled.png';
+export { default as PdfAvatarImage } from '../../assets/images/modules/airMarketer/MyDocuments/pdf-avatar.png';
+export { default as UnionBgImage } from '../../assets/images/modules/superAdmin/dashboard/Union.png';
 
 export { default as ActivityLogImage } from './modules/airSales/Deals/activity-log.png';
 export { default as NotesAvatarImage } from './modules/airSales/Deals/notes-avatar.png';
 export { default as YellowDotImage } from './shared/yellow-dot.png';
 export { default as EmailMeetingImage } from './modules/airSales/Deals/email-meeting.png';
 export { default as AttendeeAvatarImage } from './modules/airSales/Deals/attendee-avatar.png';
+export { default as AssetsReceivedImage } from '../../assets/images/modules/LogitechMouse/assets-received.png';
 export { default as ItemStatusImage } from './modules/purchaseOrder/receipt-search.png';
 export { default as TotalItemImage } from './modules/purchaseOrder/money-tick.png';
 export { default as ItemToInventoryImage } from './modules/purchaseOrder/info-circle.png';
 export { default as NoAssociationFound } from '@/assets/images/modules/LogitechMouse/association.png';
+export { default as UsersAvatarRoundedImage } from './modules/socialComponents/calling/user-avatar-rounded.png';
+export { default as DealReportImage } from './modules/airSales/Reports/reports.png';

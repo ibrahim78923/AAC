@@ -1,3 +1,5 @@
+import { Typography } from '@mui/material';
+
 import {
   RHFSelect,
   RHFTextField,
@@ -13,6 +15,7 @@ export const validationSchema = Yup.object().shape({
   emailSubject: Yup.string().trim().required('Field is Required'),
   message: Yup.string().trim().required('Field is Required'),
   reportsInExport: Yup.string().trim().required('Field is Required'),
+  downloadableFile: Yup.string().trim().required('Field is Required'),
 });
 
 export const defaultValues = {
@@ -21,14 +24,26 @@ export const defaultValues = {
   emailSubject: '',
   message: '',
   reportsInExport: '',
+  downloadableFile: '',
 };
 
 export const dataArray = [
   {
     componentProps: {
+      color: '#7a7a7b',
+      varient: 'h4',
+      heading: 'Is this a recurring email ?',
+    },
+    gridLength: 12,
+
+    component: Typography,
+  },
+
+  {
+    componentProps: {
       name: 'recurringEmail',
-      label: 'Is this a recurring email ?',
       fullWidth: true,
+      row: false,
       options: [
         'No, this email will only be sent once',
         'Yes, this is recurring email',
@@ -56,40 +71,50 @@ export const dataArray = [
     md: 12,
   },
   {
+    md: 12,
+    component: RHFTextField,
     componentProps: {
       name: 'message',
-      label: 'Message',
       fullWidth: true,
+      placeholder: 'Message',
+      multiline: true,
+      rows: 3,
     },
-    component: RHFTextField,
-    md: 12,
   },
   {
     componentProps: {
-      name: 'product',
-      label: 'Product/Suite',
+      name: 'downloadableFile',
+      label: 'Attach downloadable file',
       fullWidth: true,
       select: true,
     },
 
     options: [
-      { value: 'airSales', label: 'Air Sales' },
-      { value: 'airMarketer', label: 'Air Marketer' },
-      { value: 'airOperations', label: 'Air Operations' },
-      { value: 'airServices', label: 'Air Services' },
-      { value: 'loyaltyProgram', label: 'Loyalty Program' },
+      { value: 'pdf', label: 'Pdf' },
+      { value: 'excel', label: 'Excel' },
+      { value: 'xls', label: 'XLS' },
     ],
 
     component: RHFSelect,
 
     md: 12,
   },
+  {
+    componentProps: {
+      color: '#7a7a7b',
+      varient: 'h4',
+      heading: 'Reports in export',
+    },
+    gridLength: 12,
 
+    component: Typography,
+  },
   {
     componentProps: {
       name: 'reportsInExport',
       label: '',
       fullWidth: true,
+      row: false,
       options: ['Include all reports', 'Include selected reports'],
     },
     component: RHFRadioGroup,

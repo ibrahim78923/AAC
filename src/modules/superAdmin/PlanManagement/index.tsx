@@ -16,18 +16,16 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import PlanDetails from './PlanDetails';
 import Search from '@/components/Search';
 import CommonDrawer from '@/components/CommonDrawer';
-import AppAvatarGroup from '@/components/AvatarGroup';
 import { FormProvider } from '@/components/ReactHookForm';
-import { UsePlanManagement } from './UsePlanManagement';
+import { usePlanManagement } from './usePlanManagement';
 
-import {
-  avatarGroupMockData,
-  planManagementFilterFiltersDataArray,
-} from './PlanManagement.data';
+import { planManagementFilterFiltersDataArray } from './PlanManagement.data';
 
 import { styles } from './PlanManagement.style';
 
-import { FilterSharedIcon } from '@/assets/icons';
+import { isNullOrEmpty } from '@/utils';
+
+import { FilterSharedIcon, PlusSharedIcon } from '@/assets/icons';
 
 import { v4 as uuidv4 } from 'uuid';
 
@@ -45,7 +43,7 @@ const PlanManagement = () => {
     onSubmit,
     methodsFaqsFilters,
     handleSubmit,
-  } = UsePlanManagement();
+  } = usePlanManagement();
   return (
     <Box sx={styles.main}>
       <Box
@@ -60,7 +58,11 @@ const PlanManagement = () => {
 
         <Box sx={styles.linkStyle}>
           <Link href={'/super-admin/plan-management/add-plan'}>
-            <Button variant="contained" fullWidth>
+            <Button
+              variant="contained"
+              fullWidth
+              startIcon={<PlusSharedIcon />}
+            >
               Add Plan
             </Button>
           </Link>
@@ -69,27 +71,31 @@ const PlanManagement = () => {
 
       <Stack
         direction="row"
-        spacing={2}
         useFlexGap
+        spacing={2}
         flexWrap="wrap"
         justifyContent="space-between"
         alignItems="center"
         mt="0.8rem"
       >
-        <Search
-          label="Search here"
-          width={'260px'}
-          searchBy={searchBy}
-          setSearchBy={setSearchBy}
-        />
+        <Box width={{ xs: '100%', sm: 'auto' }}>
+          <Search
+            label="Search here"
+            width={'260px'}
+            searchBy={searchBy}
+            fullWidth
+            setSearchBy={setSearchBy}
+          />
+        </Box>
 
         <Stack
-          direction="row"
+          direction={{ xs: 'row' }}
           spacing={1}
           useFlexGap
           flexWrap="wrap"
           justifyContent="space-between"
           alignItems="center"
+          width={{ xs: '100%', sm: 'auto' }}
         >
           <Button
             id="basic-button"
@@ -101,6 +107,7 @@ const PlanManagement = () => {
           >
             Actions <ArrowDropDownIcon />
           </Button>
+
           <Menu
             id="basic-menu"
             anchorEl={anchorEl}
@@ -123,7 +130,6 @@ const PlanManagement = () => {
       </Stack>
 
       <br />
-      <AppAvatarGroup data={avatarGroupMockData} />
       <CommonDrawer
         isDrawerOpen={isFaqsFilterDrawerOpen}
         onClose={() => setIsFaqsFilterDrawerOpen(false)}
@@ -142,9 +148,9 @@ const PlanManagement = () => {
               {planManagementFilterFiltersDataArray?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
                   <item.component {...item.componentProps} size={'small'}>
-                    {item?.componentProps?.select
+                    {!isNullOrEmpty(item?.componentProps?.select)
                       ? item?.options?.map((option: any) => (
-                          <option key={option?.value} value={option?.value}>
+                          <option key={uuidv4()} value={option?.value}>
                             {option?.label}
                           </option>
                         ))
@@ -163,5 +169,3 @@ const PlanManagement = () => {
 };
 
 export default PlanManagement;
-
-// test comment

@@ -1,7 +1,6 @@
 import { Box, Checkbox, Switch } from '@mui/material';
 
-import { DeleteCrossIcon } from '@/assets/icons';
-import EditShared from '@/assets/icons/shared/edit-shared';
+import { DeleteCrossIcon, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
 
 export const columns = (
   setIsDeleteModalOpen: any,
@@ -76,14 +75,22 @@ export const columns = (
       isSortable: true,
       header: 'Actions',
       cell: () => (
-        <Box
-          sx={{ cursor: 'pointer' }}
-          onClick={() => {
-            setIsDeleteModalOpen(true);
-          }}
-        >
-          <DeleteCrossIcon />
-          <EditShared />
+        <Box sx={{ display: 'flex' }}>
+          <Box sx={{ cursor: 'pointer' }} mr={1}>
+            <ViewEyeIcon />
+          </Box>
+          <Box sx={{ cursor: 'pointer' }} mr={1}>
+            <EditPenIcon />
+          </Box>
+
+          <Box
+            sx={{ cursor: 'pointer' }}
+            onClick={() => {
+              setIsDeleteModalOpen(true);
+            }}
+          >
+            <DeleteCrossIcon />
+          </Box>
         </Box>
       ),
     },
