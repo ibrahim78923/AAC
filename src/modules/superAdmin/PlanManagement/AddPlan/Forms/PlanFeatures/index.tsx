@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {
   Accordion,
@@ -12,21 +13,22 @@ import {
   Box,
 } from '@mui/material';
 
+import { FormProvider } from '@/components/ReactHookForm';
+
 import CheckboxLabel from './CheckboxLabel';
 import { usePlanFeatures } from './usePlanFeatures';
 import { AirSalesCategories } from './PlanFeatures.data';
-import FeaturesModal from './FeaturesModal';
-import { AddPlusPrimaryIcon } from '@/assets/icons';
-import { useAppSelector } from '@/redux/store';
-import { FormProvider } from '@/components/ReactHookForm';
 import { dataArrayFeatures } from './FeaturesModal/FeaturesModal.data';
+import FeaturesModal from './FeaturesModal';
+
+import { CheckboxItem } from './PlanFeatures.interface';
+
 import { isNullOrEmpty } from '@/utils';
+
+import { AddPlusPrimaryIcon } from '@/assets/icons';
+
+import { useAppSelector } from '@/redux/store';
 import { v4 as uuidv4 } from 'uuid';
-interface CheckboxItem {
-  name: string;
-  desc: string;
-  checked: boolean;
-}
 
 const PlanFeatures = ({ methods, handleSubmit }: any) => {
   const {

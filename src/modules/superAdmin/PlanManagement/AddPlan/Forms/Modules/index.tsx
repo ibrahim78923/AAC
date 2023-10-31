@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {
   Accordion,
   AccordionSummary,
@@ -12,6 +11,7 @@ import {
   Grid,
   Box,
 } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import CheckboxLabel from './CheckboxLabel';
 

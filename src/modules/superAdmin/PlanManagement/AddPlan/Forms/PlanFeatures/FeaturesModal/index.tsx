@@ -1,27 +1,31 @@
 import * as React from 'react';
-import { Grid, Box, Button } from '@mui/material';
+
+import { Grid, Box, Button, Typography, Modal } from '@mui/material';
+
 import { FormProvider } from '@/components/ReactHookForm';
-import Typography from '@mui/material/Typography';
-import Modal from '@mui/material/Modal';
-import { useForm } from 'react-hook-form';
+
 import { enqueueSnackbar } from 'notistack';
 import {
   dataArrayFeatures,
   defaultValuesFeatures,
   validationSchemaFeatures,
 } from './FeaturesModal.data';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { v4 as uuidv4 } from 'uuid';
-import { useDispatch } from 'react-redux';
-import { setFeatureDetails } from '@/redux/slices/planManagement/planManagementSlice';
 import { styles } from './FeaturesModal.style';
+
+import { yupResolver } from '@hookform/resolvers/yup';
+
 import CloseIcon from '@/assets/icons/shared/close-icon';
 
-export default function FeaturesModal({
+import { useDispatch } from 'react-redux';
+import { useForm } from 'react-hook-form';
+import { setFeatureDetails } from '@/redux/slices/planManagement/planManagementSlice';
+import { v4 as uuidv4 } from 'uuid';
+
+const FeaturesModal = ({
   openFeaturesModal,
   handleCloseFeaturesModal,
   featureName,
-}: any) {
+}: any) => {
   const dispatch = useDispatch();
 
   const methods: any = useForm({
@@ -94,4 +98,5 @@ export default function FeaturesModal({
       </Modal>
     </div>
   );
-}
+};
+export default FeaturesModal;
