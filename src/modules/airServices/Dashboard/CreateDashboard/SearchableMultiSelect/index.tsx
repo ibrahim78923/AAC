@@ -2,13 +2,11 @@ import * as React from 'react';
 import { useTheme, styled } from '@mui/material/styles';
 import Popper from '@mui/material/Popper';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
-import SettingsIcon from '@mui/icons-material/Settings';
 import DoneIcon from '@mui/icons-material/Done';
 import Autocomplete, {
   AutocompleteCloseReason,
   autocompleteClasses,
 } from '@mui/material/Autocomplete';
-import ButtonBase from '@mui/material/ButtonBase';
 import InputBase from '@mui/material/InputBase';
 import Box from '@mui/material/Box';
 import { Avatar, InputAdornment } from '@mui/material';
@@ -21,7 +19,7 @@ interface PopperComponentProps {
   open: boolean;
 }
 
-const StyledAutocompletePopper = styled('div')(({ theme }) => ({
+const StyledAutocompletePopper: any = styled('div')(({ theme }) => ({
   [`& .${autocompleteClasses.paper}`]: {
     boxShadow: 'none',
     margin: 0,
@@ -76,55 +74,20 @@ const StyledInput = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-const Button = styled(ButtonBase)(({ theme }) => ({
-  fontSize: 13,
-  width: '100%',
-  textAlign: 'left',
-  paddingBottom: 8,
-  color: theme.palette.mode === 'light' ? '#586069' : '#8b949e',
-  fontWeight: 600,
-  '&:hover,&:focus': {
-    color: theme.palette.mode === 'light' ? '#0366d6' : '#58a6ff',
-  },
-  '& span': {
-    width: '100%',
-  },
-  '& svg': {
-    width: 16,
-    height: 16,
-  },
-}));
-
-export const SearchableMultiSelect = ({ labels }: any) => {
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const [value, setValue] = React.useState<LabelType[]>([]);
-  const [pendingValue, setPendingValue] = React.useState<LabelType[]>([]);
+export const SearchableMultiSelect = ({
+  labels,
+  anchorEl,
+  handleClose,
+  pendingValue,
+  setPendingValue,
+  value,
+}: any) => {
   const theme = useTheme();
-
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    setPendingValue(value);
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setValue(pendingValue);
-    if (anchorEl) {
-      anchorEl.focus();
-    }
-    setAnchorEl(null);
-  };
-
   const open = Boolean(anchorEl);
   const id = open ? 'github-label' : undefined;
 
   return (
     <React.Fragment>
-      <Box sx={{ width: 221, fontSize: 13 }}>
-        <Button disableRipple aria-describedby={id} onClick={handleClick}>
-          <span>Labels</span>
-          <SettingsIcon />
-        </Button>
-      </Box>
       <StyledPopper
         id={id}
         open={open}
@@ -215,10 +178,10 @@ export const SearchableMultiSelect = ({ labels }: any) => {
               )}
               options={[...labels].sort((a, b) => {
                 // Display the selected labels first.
-                let ai = value.indexOf(a);
-                ai = ai === -1 ? value.length + labels.indexOf(a) : ai;
-                let bi = value.indexOf(b);
-                bi = bi === -1 ? value.length + labels.indexOf(b) : bi;
+                let ai = value?.indexOf(a);
+                ai = ai === -1 ? value?.length + labels?.indexOf(a) : ai;
+                let bi = value?.indexOf(b);
+                bi = bi === -1 ? value?.length + labels?.indexOf(b) : bi;
                 return ai - bi;
               })}
               getOptionLabel={(option) => option.name}
@@ -242,9 +205,3 @@ export const SearchableMultiSelect = ({ labels }: any) => {
     </React.Fragment>
   );
 };
-
-interface LabelType {
-  name: string;
-  color: string;
-  description?: string;
-}
