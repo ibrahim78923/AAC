@@ -16,10 +16,10 @@ function checkPermissions(permissions: any, modulePermissions: any) {
 
   for (const permission of permissions) {
     if (componentPermissionsDictionary[permission]) {
-      return true; // At least one permission is available in user_management
+      return true; // At least one permission is available
     }
   }
-  return false; // None of the permissions are available in user_management
+  return false; // None of the permissions are available
 }
 
 export default function PermissionsGuard({

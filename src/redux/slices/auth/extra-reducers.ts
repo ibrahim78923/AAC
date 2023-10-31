@@ -15,7 +15,10 @@ export const registerSuccess = (state: TAuthSlice, action: any) => {
   state.refreshToken = data.refreshToken;
 };
 
+//whenever permissions api will updated this will run and update the global permissions state
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const permissionsUpdate = (state: any, action: any) => {
-  const data = action.payload.data.permissions;
-  state.permissions = data.permissions;
+  // const data = action.payload.data;
+  // state.permissions = data.permissions;
 };

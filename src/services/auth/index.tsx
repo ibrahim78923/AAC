@@ -1,30 +1,31 @@
+import { endpoints } from '@/routesConstants/endpoints';
 import { TAGS, baseAPI } from '../base-api';
 export const authAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     login: builder.mutation({
       query: (credentials: string) => ({
-        url: 'auth/signin',
+        url: endpoints.login,
         method: 'PUT',
         body: credentials,
       }),
     }),
     signUp: builder.mutation({
       query: (user: string) => ({
-        url: 'auth/sign-up',
+        url: endpoints.signup,
         method: 'POST',
         body: user,
       }),
     }),
     forgotPassword: builder.mutation({
       query: (user: string) => ({
-        url: 'auth/forgot-password',
+        url: endpoints.forgot_password,
         method: 'POST',
         body: user,
       }),
     }),
     resetPassword: builder.mutation({
       query: (user: string) => ({
-        url: 'auth/confirm-forgot-password',
+        url: endpoints.reset_password,
         method: 'POST',
         body: user,
       }),
@@ -36,7 +37,7 @@ export const authAPI = baseAPI.injectEndpoints({
     }),
     getPermissions: builder.query({
       query: () => ({
-        url: `/user_permissions`,
+        url: endpoints.get_permissions,
         method: 'GET',
       }),
       providesTags: ['permissions'],

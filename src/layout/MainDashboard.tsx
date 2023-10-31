@@ -24,7 +24,7 @@ import Header from './Header';
 
 import { isNullOrEmpty } from '@/utils';
 
-import { getLowerRoutes, getRoutes } from './Layout.data';
+import { getLowerRoutes, getRoutes, zeroPaddingRoutes } from './Layout.data';
 
 import { ArrowDownImage, ArrowUpImage, LogoImage } from '@/assets/images';
 
@@ -32,7 +32,7 @@ import { styles } from './Layout.style';
 
 import { v4 as uuidv4 } from 'uuid';
 
-const drawerWidth = 236;
+const drawerWidth = 230;
 const role = 'SUPER_ADMIN';
 
 const DashboardLayout = ({ children, window }: any) => {
@@ -57,6 +57,7 @@ const DashboardLayout = ({ children, window }: any) => {
       [linkKey]: !prevState[linkKey],
     }));
   };
+  const isZeroPaddingRoutes = zeroPaddingRoutes.includes(pathname);
 
   const drawer = (
     <>
@@ -95,6 +96,8 @@ const DashboardLayout = ({ children, window }: any) => {
                   <div key={uuidv4()}>
                     {link.textNames ? (
                       <>
+                        {/* <PermissionsGuard permissions={link.permissions}> */}
+
                         <ListItem sx={{ padding: '6px 0px 6px 0px' }}>
                           <Link
                             href={`/${link.key}`}
@@ -141,6 +144,7 @@ const DashboardLayout = ({ children, window }: any) => {
                             </ListItemButton>
                           </Link>
                         </ListItem>
+                        {/* </PermissionsGuard> */}
                         <Collapse
                           in={routerPathName === pathNameKey}
                           timeout="auto"
@@ -168,6 +172,7 @@ const DashboardLayout = ({ children, window }: any) => {
                         </Collapse>
                       </>
                     ) : (
+                      // <PermissionsGuard permissions={link.permissions}>
                       <Link key={uuidv4()} href={`/${link.key}`}>
                         <ListItem
                           sx={{ padding: '6px 0px 6px 0px' }}
@@ -198,6 +203,7 @@ const DashboardLayout = ({ children, window }: any) => {
                           </ListItemButton>
                         </ListItem>
                       </Link>
+                      // </PermissionsGuard>
                     )}
                   </div>
                 );
@@ -350,7 +356,9 @@ const DashboardLayout = ({ children, window }: any) => {
       </Box>
       <Box component="main" sx={styles.layoutBox(drawerWidth)}>
         <Toolbar />
-        <Box sx={styles.layoutInnerBox(theme)}>{children}</Box>
+        <Box sx={styles.layoutInnerBox(theme, isZeroPaddingRoutes)}>
+          {children}
+        </Box>
       </Box>
     </Box>
   );
