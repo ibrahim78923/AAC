@@ -15,7 +15,7 @@ export const DeleteDashboardModal = () => {
         type={'delete'}
         open={openDeleteModal}
         handleClose={() => setOpenDeleteModal(false)}
-        handleSubmit={() => {
+        handleSubmitBtn={() => {
           enqueueSnackbar('Dashboard deleted successfully', {
             variant: 'error',
           });

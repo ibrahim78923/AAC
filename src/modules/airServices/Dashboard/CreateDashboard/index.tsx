@@ -45,9 +45,16 @@ export const CreateDashboard = () => {
     if (anchorElUserList) {
       anchorElUserList.focus();
     }
-    setUsersPermissions(
-      pendingValue.map((user) => ({ ...user, permission: '', id: uuidv4() })),
+    const uniqueNewPermissions = pendingValue?.filter(
+      (newItem) => !usersPermissions?.some((item) => item?.id === newItem?.id),
     );
+    const updatedPermissions = usersPermissions?.filter(
+      (item) => pendingValue?.some((newItem) => newItem?.id === item?.id),
+    );
+    const combinedPermissions = updatedPermissions?.concat(
+      uniqueNewPermissions?.map((newItem) => ({ ...newItem, permission: '' })),
+    );
+    setUsersPermissions(combinedPermissions);
     setAnchorElUserList(null);
   };
   const handleChange = (event: any) => {

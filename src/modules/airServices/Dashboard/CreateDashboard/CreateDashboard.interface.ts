@@ -1,5 +1,5 @@
 export interface LabelType {
   name: string;
-  color: string;
+  id: string;
   description?: string;
 }

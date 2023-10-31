@@ -2,17 +2,18 @@ export const styles = (matches: boolean) => ({
   createDashboardButton: {
     fontWeight: 500,
     fontSize: '1rem',
-    p: '18px',
+    p: '1.125rem',
     width: matches ? '100%' : '202px',
+    display: 'flex',
   },
   tableBox: {
     border: '1px solid',
     borderColor: 'custom.off_white_three',
-    borderRadius: '8px',
-    mt: '24px',
+    borderRadius: 2,
+    mt: 3,
   },
   tableHeaderBox: {
-    p: '12px 24px',
+    p: '0.75rem 1.5rem',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -21,7 +22,7 @@ export const styles = (matches: boolean) => ({
   },
   filterButton: {
     fontWeight: 500,
-    p: '12px',
+    p: '0.75rem',
     height: '36px',
     width: matches ? '100%' : '95px',
     color: 'custom.main',

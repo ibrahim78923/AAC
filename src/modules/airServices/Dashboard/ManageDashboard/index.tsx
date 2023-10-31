@@ -46,21 +46,21 @@ export const ManageDashboard = () => {
                 Manage Dashboards
               </Typography>
             </Box>
-            <Link href={AIR_SERVICES.CREATE_DASHBOARD}>
-              <Button
-                startIcon={<AddIconWithBgWhiteIcon />}
-                variant="contained"
-                disableElevation
-                sx={styles(matches).createDashboardButton}
-              >
-                Create Dashboard
-              </Button>
-            </Link>
+            <Button
+              LinkComponent={Link}
+              href={AIR_SERVICES?.CREATE_DASHBOARD}
+              startIcon={<AddIconWithBgWhiteIcon />}
+              variant="contained"
+              disableElevation
+              sx={styles(matches)?.createDashboardButton}
+            >
+              Create Dashboard
+            </Button>
           </Box>
         </Grid>
         <Grid item xs={12}>
-          <Box sx={styles(matches).tableBox}>
-            <Box sx={styles(matches).tableHeaderBox}>
+          <Box sx={styles(matches)?.tableBox}>
+            <Box sx={styles(matches)?.tableHeaderBox}>
               <Search
                 label="search"
                 width="100%"
@@ -72,7 +72,7 @@ export const ManageDashboard = () => {
                 color="secondary"
                 startIcon={<FilterSharedIcon />}
                 onClick={() => setIsDrawerOpen(true)}
-                sx={styles(matches).filterButton}
+                sx={styles(matches)?.filterButton}
               >
                 Filter
               </Button>

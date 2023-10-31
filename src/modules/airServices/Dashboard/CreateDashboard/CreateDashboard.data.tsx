@@ -1,4 +1,5 @@
 import { UserAvatarImage } from '@/assets/images';
+import { v4 as uuidv4 } from 'uuid';
 
 export const dashboardCheckboxData = [
   'Graphical Representation of Tickets by Statuses',
@@ -13,8 +14,8 @@ export const dashboardCheckboxData = [
   'Agent Availability',
 ];
 export const userData = [
-  { name: 'Alee Javed', src: UserAvatarImage },
-  { name: 'Rajvir Hundal', src: UserAvatarImage },
+  { name: 'Alee Javed', src: UserAvatarImage, id: uuidv4() },
+  { name: 'Rajvir Hundal', src: UserAvatarImage, id: uuidv4() },
   { name: 'Ben Stock', src: UserAvatarImage },
-  { name: 'Aleesha Kong', src: UserAvatarImage },
+  { name: 'Aleesha Kong', src: UserAvatarImage, id: uuidv4() },
 ];
