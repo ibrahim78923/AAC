@@ -6,9 +6,9 @@ import ThirdAidKit from '@/assets/images/modules/superAdmin/dashboard/ThirdAidKi
 import FourAidKit from '@/assets/images/modules/superAdmin/dashboard/FourAidKit.png';
 import FifthAidKit from '@/assets/images/modules/superAdmin/dashboard/FiveAidKit.png';
 import Clipboard from '@/assets/images/modules/LogitechMouse/clipboard-tick-dashboard.png';
-import { TicketDashboardCards } from '@/components/TicketDashboardCards';
-import { RecentActivitiesDashboardCard } from '@/components/RecentActivitiesDashboardCard';
-import { AnnouncementDashboardCard } from '@/components/AnnouncementDashboardCard';
+import { TicketDashboardCards } from '@/modules/airServices/ServicesDashboard/TicketDashboardCards';
+import { RecentActivitiesDashboardCard } from '@/modules/airServices/ServicesDashboard/RecentActivitiesDashboardCard';
+import { AnnouncementDashboardCard } from '@/modules/airServices/ServicesDashboard/AnnouncementDashboardCard';
 import AnnouncementAvatar from '@/assets/images/modules/LogitechMouse/AnnouncementAvatar.png';
 import { v4 as uuidv4 } from 'uuid';
 

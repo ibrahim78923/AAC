@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material';
-import { SingleDropdownButton } from '../SingleDropdownButton';
+import { SingleDropdownButton } from '../../../../components/SingleDropdownButton';
 import { ActionsFunction, DashboardFunction } from './HeaderDashboard.data';
 import { styles } from './HeaderDashboard.styles';
 
@@ -11,7 +11,8 @@ export const HeaderDashboard = ({}: any) => {
       </Box>
       <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
         <Typography variant="h4" sx={{ marginTop: 2 }}>
-          Hi Sam ! Happy to See You again
+          <span style={{ color: '#1F305D' }}>Hi Sam !</span> Happy to See You
+          again
         </Typography>
         <Box sx={{ display: 'flex', gap: 1 }}>
           <SingleDropdownButton

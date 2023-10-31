@@ -1,10 +1,10 @@
-import { Box, Card, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import { styles } from './TicketDashboardCards.styles';
 
 export const TicketDashboardCards = ({ icon, count, label }: any) => {
   return (
-    <Card sx={styles?.boxMain}>
+    <Box sx={styles?.boxMain}>
       <Box sx={{ marginLeft: 3 }}>
         <Avatar
           alt=""
@@ -16,6 +16,6 @@ export const TicketDashboardCards = ({ icon, count, label }: any) => {
         <Typography variant="h3">{count}</Typography>
         <Typography variant="body1">{label}</Typography>
       </Box>
-    </Card>
+    </Box>
   );
 };

@@ -45,7 +45,12 @@ export const DashboardFunction = [
     title: 'Services_4',
     key: uuidv4(),
   },
-  <Button key={uuidv4()} variant="contained">
-    Manage Dashboards
-  </Button>,
+  {
+    title: (
+      <Button sx={{ border: '1px solid #4B5563', color: '#4B5563' }}>
+        Manage Dashboards
+      </Button>
+    ),
+    key: uuidv4(),
+  },
 ];

@@ -38,7 +38,7 @@ export const TopPerformerDashboardCard = ({
             </Typography>
           </Box>
         </Box>
-        <Box sx={{ display: 'flex', gap: 2, marginLeft: 2, marginTop: 2 }}>
+        <Box sx={{ display: 'flex', gap: 2, marginLeft: 2, marginTop: 3 }}>
           <Typography sx={styles?.topPerformaceTextTwo}>
             {topperformancetexttwo}
           </Typography>
@@ -48,7 +48,7 @@ export const TopPerformerDashboardCard = ({
             {topperformancetextthree}
           </Typography>
         </Box>
-        <Box sx={{ display: 'flex', gap: 2, marginLeft: 4, marginTop: 1 }}>
+        <Box sx={{ display: 'flex', gap: 2, marginLeft: 4, marginTop: 2 }}>
           <Typography sx={styles?.topPerformaceProgressBar}>
             {progress}%
           </Typography>
@@ -60,7 +60,15 @@ export const TopPerformerDashboardCard = ({
             sx={{ width: '35%' }}
           />
         </Box>
-        <Box sx={{ display: 'flex', gap: 2, marginLeft: 2, marginTop: 3 }}>
+        <Box
+          sx={{
+            display: 'flex',
+            gap: 2,
+            marginLeft: 2,
+            marginTop: 3,
+            marginBottom: 4,
+          }}
+        >
           <Avatar
             alt=""
             src={iconone?.src}
