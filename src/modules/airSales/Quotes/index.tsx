@@ -1,0 +1,73 @@
+import { Box } from '@mui/material';
+import { AlertModals } from '@/components/AlertModals';
+import { quotesListData } from '@/mock/modules/Quotes';
+import TanstackTable from '@/components/Tabel/TanstackTable';
+import TableToolbar from './TableToolbar';
+import PageHeader from './PageHeader';
+import CustomPagination from '@/components/CustomPagination';
+import FilterQuotes from './FilterQuotes';
+import useQuotes from './useQuotes';
+import CustomizeColumns from './CustomizeColumns';
+import { initColumns } from './Quotes.data';
+import { styles } from './Quotes.style';
+
+const Quotes = () => {
+  const {
+    openFilter,
+    handleCloseFilter,
+    handleOpenFilter,
+    openCustomizeColumns,
+    handleOpenCustomizeColumns,
+    handleCloseCustomizeColumns,
+    customizedColumns,
+    handleApplyColumns,
+    handleEditQuote,
+    handleViewQuote,
+    openDeleteQuote,
+    handleOpenDeleteQuote,
+    handleCloseDeleteQuote,
+  } = useQuotes();
+
+  return (
+    <>
+      <Box sx={styles.TableWrapper}>
+        <PageHeader />
+
+        <TableToolbar
+          handleFilters={handleOpenFilter}
+          handleCustomizeColumns={handleOpenCustomizeColumns}
+          handleResetFilters={() => alert('Refresh')}
+          handleEditQuote={handleEditQuote}
+          handleViewQuote={handleViewQuote}
+          handleOpenDeleteQuote={handleOpenDeleteQuote}
+        />
+
+        <TanstackTable columns={customizedColumns} data={quotesListData} />
+
+        <CustomPagination
+          count={3}
+          rowsPerPageOptions={[6, 10, 25, 50, 100]}
+          entriePages={quotesListData.length}
+        />
+      </Box>
+
+      <FilterQuotes open={openFilter} onClose={handleCloseFilter} />
+
+      <CustomizeColumns
+        open={openCustomizeColumns}
+        onClose={handleCloseCustomizeColumns}
+        columns={initColumns}
+        onSubmit={handleApplyColumns}
+      />
+
+      <AlertModals
+        message="You're about to delete a record. Are you sure?"
+        type="delete"
+        open={openDeleteQuote}
+        handleClose={handleCloseDeleteQuote}
+        handleSubmit={handleCloseDeleteQuote}
+      />
+    </>
+  );
+};
+export default Quotes;

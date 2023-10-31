@@ -1,4 +1,5 @@
 import {
+  RHFCheckbox,
   RHFDatePicker,
   RHFEditor,
   RHFSelect,
@@ -33,6 +34,39 @@ export const addTaxFormFiltersDataArray = [
     },
     component: RHFTextField,
     md: 12,
+  },
+
+  {
+    componentProps: {
+      name: 'Invoices',
+      label: 'Invoices',
+    },
+    component: RHFCheckbox,
+    md: 6,
+  },
+  {
+    componentProps: {
+      name: 'subscription',
+      label: 'Subscription',
+    },
+    component: RHFCheckbox,
+    md: 6,
+  },
+  {
+    componentProps: {
+      name: 'qoutes',
+      label: 'Quotes',
+    },
+    component: RHFCheckbox,
+    md: 6,
+  },
+  {
+    componentProps: {
+      name: 'products',
+      label: 'Products',
+    },
+    component: RHFCheckbox,
+    md: 6,
   },
   {
     componentProps: {

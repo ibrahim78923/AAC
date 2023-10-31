@@ -1,7 +1,7 @@
 import { Checkbox, Switch } from '@mui/material';
 
-import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
 import Search from '@/components/Search';
+import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
 
 import * as Yup from 'yup';
 
@@ -53,14 +53,13 @@ export const columns: any = [
 export const validationSchema = Yup.object().shape({
   accountName: Yup.string().required('Field is Required'),
   phoneNumber: Yup.string().trim().required('Field is Required'),
-  postCode: Yup.string().trim().required('Field is Required'),
-  address: Yup.string(),
+  address: Yup.string().trim().required('Field is Required'),
   buildingName: Yup.string().required('Field is Required'),
   unit: Yup.string().required('Field is Required'),
-  buildingNumber: Yup.string(),
-  streetName: Yup.string(),
-  city: Yup.string(),
-  country: Yup.string(),
+  buildingNumber: Yup.string().required('Field is Required'),
+  streetName: Yup.string().required('Field is Required'),
+  city: Yup.string().required('Field is Required'),
+  country: Yup.string().required('Field is Required'),
 });
 
 export const defaultValues = {
@@ -107,14 +106,15 @@ export const dataArray = [
     md: 12,
   },
   {
+    md: 12,
+    component: RHFTextField,
     componentProps: {
       name: 'address',
-      label: 'Address',
       fullWidth: true,
-      select: false,
+      label: 'Address',
+      multiline: true,
+      rows: 3,
     },
-    component: RHFTextField,
-    md: 12,
   },
 
   {
@@ -145,7 +145,6 @@ export const dataArray = [
       select: false,
     },
     component: RHFTextField,
-
     md: 12,
   },
   {
