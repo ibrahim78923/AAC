@@ -1,21 +1,20 @@
 import { Grid, Box } from '@mui/material';
-
-import { dataArray, defaultValues, validationSchema } from './AddCard.data';
-import CommonDrawer from '@/components/CommonDrawer';
-import { FormProvider } from '@/components/ReactHookForm';
-
 import { useForm } from 'react-hook-form';
 import { enqueueSnackbar } from 'notistack';
+import { FormProvider } from '@/components/ReactHookForm';
 import { yupResolver } from '@hookform/resolvers/yup';
+import CommonDrawer from '@/components/CommonDrawer';
+import {
+  addContactFields,
+  validationSchema,
+  initValues,
+} from './FormCreateProduct.data';
 
-import { v4 as uuidv4 } from 'uuid';
-
-const AddCard = ({ open, onClose, initialValueProps = defaultValues }: any) => {
+const FormCreateProduct = ({ open, onClose }: any) => {
   const methods: any = useForm({
     resolver: yupResolver(validationSchema),
-    defaultValues: initialValueProps,
+    defaultValues: initValues,
   });
-
   const { handleSubmit } = methods;
 
   const onSubmit = async () => {
@@ -26,20 +25,20 @@ const AddCard = ({ open, onClose, initialValueProps = defaultValues }: any) => {
 
   return (
     <CommonDrawer
+      title="Create Product"
+      okText="Save"
       isDrawerOpen={open}
       onClose={onClose}
-      title={'Add a new card'}
-      okText={'Save'}
-      isOk
+      isOk={true}
       cancelText={'Cancel'}
-      footer
+      footer={true}
       submitHandler={handleSubmit(onSubmit)}
     >
-      <Box mt={1}>
+      <Box sx={{ pt: '27px' }}>
         <FormProvider methods={methods}>
-          <Grid container spacing={4}>
-            {dataArray?.map((item: any) => (
-              <Grid item xs={12} key={uuidv4()}>
+          <Grid container spacing={'32px'}>
+            {addContactFields.map((item) => (
+              <Grid item xs={12} key={item.id}>
                 <item.component {...item.componentProps} size={'small'}>
                   {item?.componentProps?.select &&
                     item?.options?.map((option: any) => (
@@ -57,4 +56,4 @@ const AddCard = ({ open, onClose, initialValueProps = defaultValues }: any) => {
   );
 };
 
-export default AddCard;
+export default FormCreateProduct;
