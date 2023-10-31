@@ -38,3 +38,8 @@ export const PATH_DASHBOARD = {
     account: path(DASHBOARD_ROOT_PAGE, '/user/account'),
   },
 };
+
+export const SUPER_ADMIN: any = {
+  PLAN_MANAGEMENT: '/plan',
+  PLAN_TYPE_LIST: 'plan/plan-type-list',
+};

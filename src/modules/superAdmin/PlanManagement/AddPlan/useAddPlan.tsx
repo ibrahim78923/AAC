@@ -69,7 +69,6 @@ export const useAddPlan = () => {
     (state) => state?.planManagementForms?.planManagement?.planFeaturesForm,
   );
   const onSubmitPlan = async (values: any) => {
-    // console.log("addPlanFormValues=======> ", addPlanFormValues);
     dispatch(addPlanFormData(values));
     setActiveStep((previous) => previous + 1);
     // console.log(values)
@@ -79,11 +78,8 @@ export const useAddPlan = () => {
     reset();
   };
   const onSubmitPlanFeaturesHandler = async (values: any) => {
-    // console.log("addPlanFormValues=======> ", addPlanFormValues);
-
     dispatch(planFeaturesFormData(values));
     setActiveStep((previous) => previous + 1);
-    // console.log(values)
     enqueueSnackbar('Plan Features Details Added Successfully', {
       variant: 'success',
     });
@@ -113,7 +109,6 @@ export const useAddPlan = () => {
       }
     }
 
-    // console.log(values)
     enqueueSnackbar('Plan Modules Details Added Successfully', {
       variant: 'success',
     });
