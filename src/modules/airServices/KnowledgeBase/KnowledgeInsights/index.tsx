@@ -42,6 +42,9 @@ const trendingInsightsData = [
 export const KnowledgeInsights = () => {
   return (
     <>
+      <Typography variant="h5" py={'0.625rem'}>
+        Trending insights
+      </Typography>
       <Grid container alignItems={'center'}>
         <Grid item xs={10} sx={styles?.insightsStyles}>
           <Typography variant="body4">Insights</Typography>
