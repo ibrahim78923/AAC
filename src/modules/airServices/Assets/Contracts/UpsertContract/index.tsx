@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 export const UpsertContract = () => {
   const {
-    methods,
+    upsertContractFormMethods,
     handleSubmit,
     submitUpsertContractForm,
     theme,
@@ -15,7 +15,7 @@ export const UpsertContract = () => {
   return (
     <>
       <FormProvider
-        methods={methods}
+        methods={upsertContractFormMethods}
         onSubmit={handleSubmit?.(submitUpsertContractForm)}
       >
         <Grid
@@ -38,10 +38,6 @@ export const UpsertContract = () => {
             borderRadius={{ md: 2, xs: 0 }}
             padding={{ md: 1.5, xs: 0 }}
           >
-            {/* <FormProvider
-              methods={methods}
-              onSubmit={handleSubmit?.(submitUpsertContractForm)}
-            > */}
             <Grid container spacing={4}>
               {upsertContractFormFieldsData?.map((item: any) => (
                 <Grid item xs={12} lg={item?.md} key={uuidv4()}>
@@ -59,16 +55,10 @@ export const UpsertContract = () => {
                 </Grid>
               ))}
             </Grid>
-            {/* </FormProvider> */}
           </Grid>
           <Grid item xs={12} md={0.5}></Grid>
-          <Grid item xs={12} md={4} mt={1} mb={1}>
-            {/* <FormProvider
-              methods={methods}
-              onSubmit={handleSubmit?.(submitUpsertContractForm)}
-            > */}
+          <Grid item xs={12} md={4} mt={{ xs: 1, md: 0 }} mb={1}>
             <RHFDropZone name="attachment" />
-            {/* </FormProvider> */}
           </Grid>
         </Grid>
         <br />

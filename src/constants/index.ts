@@ -11,6 +11,8 @@ export const AIR_SERVICES = {
   ADD_ASSOCIATE_ASSET:
     '/air-services/assets/contracts/detail/add-associate-asset',
   ASSETS_CONTRACTS_DETAIL: '/air-services/assets/contracts/detail',
+  ASSETS_CONTRACTS: '/air-services/assets/contracts',
+  CONTRACT_FORM: `/air-services/assets/contracts/contract-form`,
 };
 
 export const ORG_ADMIN: any = {

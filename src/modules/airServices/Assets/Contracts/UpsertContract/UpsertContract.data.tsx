@@ -22,7 +22,7 @@ export const dropdownDummy = [
   },
 ];
 
-export const contractType = [
+export const contractTypeOptions = [
   {
     value: 'Lease',
     label: 'Lease',
@@ -131,14 +131,34 @@ const softwareLicense = {
   licenseKey: '',
 };
 
+export const upsertContractFormExampleValues = {
+  contractName: '123213123',
+  contractNumber: '321312',
+  type: 'Lease',
+  associateAssets: 'option1',
+  cost: '4444',
+  approver: '',
+  startDate: new Date(todayDate),
+  endDate: new Date(todayDate),
+  autoRenew: false,
+  notifyExpiry: false,
+  notifyBefore: '7',
+  notifyTo: 'ali',
+  itemDetail: [],
+  billingCycle: '77777',
+  licenseType: '88888',
+  licenseKey: '88888',
+  software: '5t5t',
+};
+
 export const upsertContractFormDefaultValuesFunction = (
-  router: any,
+  contractType: string,
   data?: any,
 ) => {
   return {
     contractName: data?.contractName ?? '',
     contractNumber: data?.contractNumber ?? '',
-    type: data?.type ?? router?.query?.contractType ?? '',
+    type: contractType ? (contractType as string) : data?.type,
     associateAssets: data?.associateAssets ?? '',
     cost: data?.cost ?? '',
     status: data?.status ?? '',
@@ -251,19 +271,19 @@ export const upsertContractFormSchemaFunction: any = Yup?.object()?.shape({
 });
 
 export const upsertContractFormFieldsDataFunction = (
-  // watchForType: any,
   watchForNotifyExpiry = false,
   setValue: any,
   getValues: any,
-  router: any,
-  control: any,
+  clearError: any,
   setError: any,
+  contractType: any,
+  setContractType: any,
   isFieldDisable = false,
 ) => [
   {
     id: 3092,
     componentProps: {
-      color: 'slateBlue.main',
+      color: 'slateBlue?.main',
       variant: 'h4',
     },
     heading: 'General Details',
@@ -292,37 +312,6 @@ export const upsertContractFormFieldsDataFunction = (
       disabled: isFieldDisable,
     },
   },
-  // {
-  //   id: 920,
-  //   componentProps: {
-  //     fullWidth: true,
-  //     name: 'type',
-  //     label: 'Type',
-  //     select: true,
-  //     options: contractType,
-  //     disabled: isFieldDisable,
-  //     onChange: (e: any) => {
-  //       setValue('type', e?.target?.value);
-  //       router?.push({
-  //         pathname: router?.pathname,
-  //         query: {
-  //           ...router?.query,
-  //           contractType: getValues?.('type'),
-  //         },
-  //       });
-  //       if (getValues('type') === 'Software License') {
-  //         setValue('associateAssets', '');
-  //         return;
-  //       }
-  //       setValue('associateAssets', getValues('associateAssets'));
-  //     },
-  //     onBlur: () => {
-  //       console.log('onBlur');
-  //     },
-  //   },
-  //   md: 6,
-  //   component: RHFSelect,
-  // },
   {
     id: 129091,
     componentProps: {
@@ -330,23 +319,25 @@ export const upsertContractFormFieldsDataFunction = (
       name: 'type',
       label: 'Type',
       select: true,
-      options: contractType,
+      options: contractTypeOptions,
       disabled: isFieldDisable,
       onChange: (e: any) => {
-        // console.log(setError('contractNumber'));
         setValue('type', e?.target?.value);
-        router?.push({
-          pathname: router?.pathname,
-          query: {
-            ...router?.query,
-            contractType: getValues?.('type'),
-          },
-        });
+        setContractType(getValues?.('type'));
+        if (getValues('type') !== ' ') {
+          clearError('type');
+        }
         if (getValues('type') === 'Software License') {
           setValue('associateAssets', '');
+          clearError('associateAssets');
           return;
         }
         setValue('associateAssets', getValues('associateAssets'));
+        getValues('associateAssets') !== ' '
+          ? clearError('associateAssets')
+          : setError('associateAssets', {
+              message: 'Associate Asset is Required',
+            });
       },
     },
     md: 6,
@@ -360,7 +351,7 @@ export const upsertContractFormFieldsDataFunction = (
       label: 'Associate Assets',
       select: true,
       options: dropdownDummy,
-      disabled: router?.query?.contractType === 'Software License',
+      disabled: contractType === 'Software License',
     },
     md: 6,
     component: RHFSelect,
@@ -512,7 +503,7 @@ export const upsertContractFormFieldsDataFunction = (
       ]
     : []),
   // ...(watchForType === 'Software License'
-  ...(router?.query?.contractType === 'Software License'
+  ...(contractType === 'Software License'
     ? [
         {
           id: 82,
@@ -530,7 +521,7 @@ export const upsertContractFormFieldsDataFunction = (
         {
           id: 3,
           componentProps: {
-            color: 'slateBlue.main',
+            color: 'slateBlue?.main',
             variant: 'h4',
           },
           heading: 'Item & Cost Details',
@@ -545,6 +536,20 @@ export const upsertContractFormFieldsDataFunction = (
           component: ItemDetail,
           md: 12,
         },
+
+        {
+          id: 82,
+          component: RHFSelect,
+          md: 12,
+          componentProps: {
+            fullWidth: true,
+            name: 'billingCycle',
+            label: 'Billing Cycle',
+            select: true,
+            options: billingCycleOptions,
+            disabled: isFieldDisable,
+          },
+        },
         {
           id: 3,
           componentProps: {
@@ -554,19 +559,6 @@ export const upsertContractFormFieldsDataFunction = (
           heading: 'Software License Properties',
           md: 12,
           component: Typography,
-        },
-        {
-          id: 82,
-          component: RHFSelect,
-          md: 6,
-          componentProps: {
-            fullWidth: true,
-            name: 'billingCycle',
-            label: 'Billing Cycle',
-            select: true,
-            options: billingCycleOptions,
-            disabled: isFieldDisable,
-          },
         },
         {
           id: 82,

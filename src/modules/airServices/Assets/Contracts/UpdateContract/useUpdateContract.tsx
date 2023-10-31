@@ -6,6 +6,7 @@ import {
 } from './UpdateContract.data';
 import { useRouter } from 'next/router';
 import { enqueueSnackbar } from 'notistack';
+import { AIR_SERVICES } from '@/constants';
 
 export const useUpdateContract = () => {
   const methods: any = useForm({
@@ -20,16 +21,14 @@ export const useUpdateContract = () => {
   };
 
   const handleContractClick = () => {
-    router.push('/air-services/assets/contracts');
+    router.push({ pathname: AIR_SERVICES?.ASSETS_CONTRACTS });
   };
-  const submitUpdateContractForm = async (data: any) => {
+  const submitUpdateContractForm = async () => {
     // console.log(data);
     enqueueSnackbar('Contract Extended successfully', {
       variant: 'success',
       autoHideDuration: 3000,
     });
-
-    // router.push('/air-services/assets/contracts');
   };
 
   const convertToTitleCase = (textToConvert: any) => {

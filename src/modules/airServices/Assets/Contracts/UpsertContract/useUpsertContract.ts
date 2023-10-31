@@ -7,47 +7,64 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
+import { enqueueSnackbar } from 'notistack';
 
 export const useUpsertContract = () => {
   const theme = useTheme();
   const router = useRouter();
-  const methods = useForm<any>({
+  const [contractType, setContractType] = useState(
+    (router.query.contractType ?? '') as string,
+  );
+
+  const upsertContractFormMethods = useForm<any>({
     resolver: yupResolver<any>(upsertContractFormSchemaFunction),
-    defaultValues: upsertContractFormDefaultValuesFunction(router),
-    // shouldFocusError: false,
+    defaultValues: upsertContractFormDefaultValuesFunction(contractType),
     reValidateMode: 'onBlur',
   });
-  const { handleSubmit, control, setValue, getValues, setError, clearErrors } =
-    methods;
-  // console.log(control.register('type'));
-  // console.log('hi');
+  const {
+    handleSubmit,
+    control,
+    setValue,
+    getValues,
+    setError,
+    clearErrors,
+    reset,
+  } = upsertContractFormMethods;
+
   const watchForNotifyExpiry = useWatch({
     control,
     name: 'notifyExpiry',
     defaultValue: false,
   });
 
-  // const watchForType = useWatch({
-  //   control,
-  //   name: '',
-  //   defaultValue: '',
-  // });
+  // TODO: we will use it after BR integration
+  // useEffect(() => {
+  //   reset(() =>
+  //     upsertContractFormDefaultValuesFunction(contractType),
+  //   );
+  // }, [contractType,  reset]);
 
   const submitUpsertContractForm = () => {
     // console.log(data);
+    enqueueSnackbar('Contract Created Successfully', {
+      variant: 'success',
+    });
+    reset(upsertContractFormDefaultValuesFunction(contractType));
   };
 
   const upsertContractFormFieldsData = upsertContractFormFieldsDataFunction(
-    // watchForType,
     watchForNotifyExpiry,
     setValue,
     getValues,
-    router,
-    control,
     clearErrors,
+    setError,
+    contractType,
+    setContractType,
   );
+
   return {
-    methods,
+    upsertContractFormMethods,
     handleSubmit,
     submitUpsertContractForm,
     upsertContractFormFieldsData,
