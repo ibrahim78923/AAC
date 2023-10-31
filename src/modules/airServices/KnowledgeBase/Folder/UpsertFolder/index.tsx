@@ -1,20 +1,28 @@
-import { Box, Button, MenuItem, TextField, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Typography,
+} from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { v4 as uuidv4 } from 'uuid';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { enqueueSnackbar } from 'notistack';
 import {
-  validationSchema,
-  defaultValues,
-  visibleToDataArray,
-} from './UpsSertFolder.data';
-import ConversationModel from '@/components/Model/CoversationModel';
+  upsertValidationSchema,
+  upsertDefaultValues,
+  upsertDataArray,
+} from './UpsertFolder.data';
+import CloseIcon from '@/assets/icons/shared/AlertModels/close-icon';
 
-export const UpSertFolder = ({ openDialog, setOpenDialog }: any) => {
+export const UpsertFolder = ({ openDialog, setOpenDialog }: any) => {
   const methods: any = useForm({
-    resolver: yupResolver(validationSchema),
-    defaultValues,
+    resolver: yupResolver(upsertValidationSchema),
+    defaultValues: upsertDefaultValues,
   });
 
   const { handleSubmit, reset } = methods;
@@ -25,75 +33,56 @@ export const UpSertFolder = ({ openDialog, setOpenDialog }: any) => {
       autoHideDuration: 3000,
     });
     setOpenDialog(false);
-    reset(defaultValues);
-  };
-
-  const closeModal = () => {
-    setOpenDialog(false);
+    reset(upsertDefaultValues);
   };
 
   return (
-    <ConversationModel
-      open={openDialog}
-      handleClose={closeModal}
-      selectedItem="Create Folder"
-    >
-      <Box width={{ xs: '18rem', sm: '25rem', lg: '30rem' }}>
+    <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
+      <DialogTitle>
+        <Box
+          display={'flex'}
+          justifyContent={'space-between'}
+          alignItems={'center'}
+          paddingBottom={'1rem'}
+        >
+          <Typography variant="h5">Create Folder</Typography>
+          <CloseIcon
+            onClick={() => {
+              setOpenDialog(false);
+            }}
+            style={{ cursor: 'pointer' }}
+          />
+        </Box>
+      </DialogTitle>
+      <DialogContent>
         <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-          <Typography variant="body2" padding={'.2rem'}>
-            Name
-          </Typography>
-          <TextField
-            type="text"
-            size="small"
-            placeholder="Enter Folder Name"
-            fullWidth
-          />
-
-          <Typography variant="body2" padding={'.6rem 0 .2rem'}>
-            Description
-          </Typography>
-          <TextField
-            multiline
-            rows={3}
-            type="text"
-            size="small"
-            placeholder="#example"
-            fullWidth
-          />
-
-          <Typography variant="body2" padding={'.6rem 0 .2rem'}>
-            Visible to
-          </Typography>
-          <TextField
-            size="small"
-            id="visible"
-            select
-            defaultValue="All"
-            fullWidth
-          >
-            {visibleToDataArray.map((item) => (
-              <MenuItem key={uuidv4()} value={item?.value}>
-                {item?.label}
-              </MenuItem>
-            ))}
-          </TextField>
-
-          <Box
-            display={'flex'}
-            justifyContent={'flex-end'}
-            paddingTop={'2rem'}
-            gap={'1rem'}
-          >
-            <Button variant="outlined" onClick={() => setOpenDialog(false)}>
-              Cancel
-            </Button>
-            <Button variant="contained" onClick={onSubmit}>
-              Create
-            </Button>
-          </Box>
+          {upsertDataArray?.map((item: any) => (
+            <item.component {...item?.componentProps} key={uuidv4()}>
+              {item?.componentProps?.select &&
+                item?.options?.map((option: any) => (
+                  <option key={option?.value} value={option?.value}>
+                    {option?.label}
+                  </option>
+                ))}
+            </item.component>
+          ))}
         </FormProvider>
-      </Box>
-    </ConversationModel>
+      </DialogContent>
+      <DialogActions sx={{ height: '2rem' }}>
+        <Box
+          display={'flex'}
+          justifyContent={'flex-end'}
+          marginBottom={'2rem'}
+          gap={'1rem'}
+        >
+          <Button variant="outlined" onClick={() => setOpenDialog(false)}>
+            Cancel
+          </Button>
+          <Button variant="contained" onClick={onSubmit}>
+            Create
+          </Button>
+        </Box>
+      </DialogActions>
+    </Dialog>
   );
 };

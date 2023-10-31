@@ -12,13 +12,13 @@ export const Contract = () => {
       {!!contractData?.length ? (
         contractData?.map((singleContract: any) => (
           <InventoryCard
-            heading={singleContract.heading}
-            status={singleContract.status}
+            heading={singleContract?.heading}
+            status={singleContract?.status}
             key={uuidv4()}
             showChild
           >
             <Typography color={theme?.palette?.grey[900]}>
-              {singleContract.body}
+              {singleContract?.body}
             </Typography>
           </InventoryCard>
         ))
