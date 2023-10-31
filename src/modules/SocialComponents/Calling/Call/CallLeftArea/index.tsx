@@ -89,6 +89,8 @@ const CallLeftArea = ({
           setActiveMessageData={setActiveMessageData}
           isActiveMessage={isActiveMessage}
           setIsActiveMessage={setIsActiveMessage}
+          setActiveCallsSelectedData={setActiveCallsSelectedData}
+          setIsActiveCalling={setIsActiveCalling}
         />
       )}
     </Box>

@@ -10,7 +10,11 @@ import { styles } from './MessagesGrid.style';
 
 import { v4 as uuidv4 } from 'uuid';
 
-const MessagesGrid = ({ activeMessageData, setActiveMessageData }: any) => {
+const MessagesGrid = ({
+  activeMessageData,
+  setActiveMessageData,
+  setIsActiveCalling,
+}: any) => {
   return (
     <Box
       sx={{
@@ -40,7 +44,7 @@ const MessagesGrid = ({ activeMessageData, setActiveMessageData }: any) => {
                 key={uuidv4()}
                 sx={styles.chatsCardWrapper(activeCheck)}
                 onClick={() => {
-                  setActiveMessageData(item);
+                  setActiveMessageData(item), setIsActiveCalling(false);
                 }}
               >
                 <Box sx={styles.chatsCardInner}>

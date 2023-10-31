@@ -126,34 +126,44 @@ export const callingChats = [
     messages: [
       {
         ownerName: 'Michael Miller',
-        message: 'Do you have any task today?',
+        message: "Good morning, Hope you're doing well today.",
         time: '04:32 PM',
         type: 'receiver',
       },
       {
         ownerName: 'John Doe',
-        message: 'Yes',
+        message:
+          "I've been working on a project, and I've hit a roadblock. I'm not sure how to proceed",
         time: '04:33 PM',
         type: 'sender',
       },
       {
         ownerName: 'Michael Miller',
-        message: 'Great',
+        message:
+          "I'm here to help. Could you please describe the issue you're facing?",
         time: '04:35 PM',
         type: 'receiver',
       },
       {
         ownerName: 'Michael Miller',
-        message: 'Then how long will it take to complete ?',
+        message:
+          "Sure. I'm trying to implement a new feature, but I'm having difficulty with the authentication process. It's a bit tricky.",
         time: '04:35 PM',
         type: 'receiver',
       },
-      {
-        ownerName: 'John Doe',
-        message: 'Not more than a day',
-        time: '04:36 PM',
-        type: 'sender',
-      },
     ],
+  },
+];
+
+export const callingData = [
+  {
+    id: '1',
+    name: 'Call With AA Traders',
+    status: 'Missed',
+    outcome: 'Interested',
+    date: 'Interested',
+    linkedDeal: 'deal',
+    scheduledBy: 'Alex Shaw',
+    callType: 'Conference Call',
   },
 ];
