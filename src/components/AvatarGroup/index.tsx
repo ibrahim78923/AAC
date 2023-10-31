@@ -4,6 +4,8 @@ import { AvatarGroup, Avatar, useTheme } from '@mui/material';
 
 import { v4 as uuidv4 } from 'uuid';
 
+import { isNullOrEmpty } from '@/utils';
+
 import { SingleAvatarI } from '@/types/shared/AvatarGroup';
 
 const AppAvatarGroup = ({ data }: { data: SingleAvatarI[] }) => {
@@ -16,7 +18,7 @@ const AppAvatarGroup = ({ data }: { data: SingleAvatarI[] }) => {
         color: theme?.palette?.blue?.light,
         '&  .MuiAvatar-root': {
           color: theme?.palette?.blue?.light,
-          background: '#EBFAF8', // this color needs to be defined in theme
+          background: theme?.palette?.primary?.lighter,
         },
         '& .MuiAvatar-root:not(:last-child)': {
           marginLeft: '-20px',
@@ -25,16 +27,17 @@ const AppAvatarGroup = ({ data }: { data: SingleAvatarI[] }) => {
           border: `1px solid ${theme?.palette?.common?.white}`,
           marginLeft: '-10px',
         },
+        width: 'max-content',
       }}
     >
-      {Boolean(data?.length) &&
+      {!isNullOrEmpty(data) &&
         data?.map((singleItem: SingleAvatarI) => (
           <Avatar
             key={uuidv4()}
             alt={singleItem?.name}
             src={singleItem?.img}
             sx={{
-              background: '#EBFAF8', // this color needs to be defined in theme
+              background: theme?.palette?.primary?.lighter,
               color: theme?.palette?.blue?.light,
               borderRadius: '15px',
               border: `1px solid ${theme?.palette?.common?.white}`,

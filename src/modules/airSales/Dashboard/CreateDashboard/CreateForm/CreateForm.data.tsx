@@ -1,3 +1,5 @@
+import { Typography } from '@mui/material';
+
 import {
   RHFTextField,
   RHFRadioGroup,
@@ -24,19 +26,29 @@ export const dataArray = [
       fullWidth: true,
     },
     component: RHFTextField,
-    md: 12,
+    md: 9,
+  },
+  {
+    componentProps: {
+      color: '#7a7a7b',
+      varient: 'h4',
+      heading: 'Who can access this dashboard?',
+    },
+    gridLength: 8,
+
+    component: Typography,
   },
 
   {
     componentProps: {
       name: 'accessDashboard',
-      label: 'Who can access this dashboard?',
       fullWidth: true,
       options: [
         'Private to owner(me)',
         'Everyone',
         'Only special user and teams',
       ],
+      row: false,
     },
     component: RHFRadioGroup,
     md: 12,
@@ -82,6 +94,24 @@ export const dataArray = [
     componentProps: {
       name: 'dealReports',
       label: 'Deal reports',
+      fullWidth: true,
+    },
+    component: RHFCheckbox,
+    md: 12,
+  },
+  {
+    componentProps: {
+      name: 'ForecastpipelineReport',
+      label: 'Forecast Pipeline report',
+      fullWidth: true,
+    },
+    component: RHFCheckbox,
+    md: 12,
+  },
+  {
+    componentProps: {
+      name: 'ForecastcategoryReport',
+      label: 'Forecast Category reports',
       fullWidth: true,
     },
     component: RHFCheckbox,

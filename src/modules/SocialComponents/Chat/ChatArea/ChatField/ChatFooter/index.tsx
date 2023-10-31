@@ -20,7 +20,7 @@ const ChatFooter = () => {
     setMessageText,
     handleClick,
     handleEmojiSelect,
-    open,
+    isOpen,
     id,
   } = useChatFooter({});
 
@@ -49,7 +49,7 @@ const ChatFooter = () => {
       </Box>
       <Popover
         id={id}
-        open={open}
+        open={isOpen}
         anchorEl={anchorEl}
         onClose={() => setAnchorEl(null)}
         anchorOrigin={{

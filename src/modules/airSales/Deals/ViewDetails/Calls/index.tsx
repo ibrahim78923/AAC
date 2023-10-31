@@ -43,7 +43,14 @@ const Calls = () => {
           <Box sx={styles.callsSpacingBetween}>
             <Typography variant="h4"> Calls</Typography>
             {!isNullOrEmpty(TasksTableData) && (
-              <Box sx={{ gap: 1, display: 'flex' }}>
+              <Box
+                sx={{
+                  gap: 1,
+                  display: 'flex',
+                  flexDirection: { xs: 'column', sm: 'row' },
+                  alignItems: 'center',
+                }}
+              >
                 <CallsActionDropdown setOpenDrawer={setOpenDrawer} />
                 <Button
                   variant="contained"

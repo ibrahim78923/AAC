@@ -1,0 +1,10 @@
+version: '3'
+services:
+  aac-fe:
+    container_name: aac-fe
+    build:
+      dockerfile: Dockerfile
+      context: .
+      target: runner
+    ports:
+      - "3000:3000"
