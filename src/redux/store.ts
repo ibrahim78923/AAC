@@ -1,19 +1,37 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { baseAPI } from '../services/base-api';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
+import storage from 'redux-persist/lib/storage';
+import chatSlice from './slices/chat/slice';
+import authSlice from './slices/auth/slice';
+import { persistReducer } from 'redux-persist';
+import planManagementSlice from './slices/planManagement/planManagementSlice';
 
-// Define an action to set store initialization
-// export const setStoreInitialized = createAction("store/setInitialized");
+const persistConfig = {
+  key: 'role',
+  timeout: 1000,
+  storage,
+  whitelist: ['planManagement'],
+};
 
+const reducer = combineReducers({
+  planManagement: planManagementSlice?.reducer,
+});
+
+const persistedReducer = persistReducer(persistConfig, reducer);
 const store = configureStore({
   reducer: {
     [baseAPI.reducerPath]: baseAPI.reducer,
+    chat: chatSlice,
+    auth: authSlice,
+    planManagementForms: persistedReducer,
   },
-  middleware: (defaultMiddleware) =>
-    defaultMiddleware().concat(baseAPI.middleware),
-});
 
-// store.dispatch(setStoreInitialized()); // Dispatch action to indicate store is initialized
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }).concat(baseAPI.middleware),
+});
 
 export type AppDispatch = typeof store.dispatch;
 export const useAppDispatch: () => AppDispatch = useDispatch;

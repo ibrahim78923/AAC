@@ -4,16 +4,54 @@ import Image from 'next/image';
 
 import { Box, Button, Typography, useTheme } from '@mui/material';
 
+import { AlertModals } from '@/components/AlertModals';
+
 import { UserAvatarImage } from '@/assets/images';
 
-import { PhoneWhiteIcon, ThreeDotsIcon, UserWhiteIcon } from '@/assets/icons';
+import {
+  InfoIcon,
+  PhoneWhiteIcon,
+  ThreeDotsIcon,
+  UserWhiteIcon,
+} from '@/assets/icons';
 
 import { styles } from './ChatHeader.style';
 import ChatInfoModal from './ChatInfoModal';
+import ChatDropdown from '../../ChatDropdown';
 
-const ChatHeader = () => {
+const ChatHeader = ({ chatMode }: any) => {
   const theme = useTheme();
   const [isUserProfile, setIsUserProfile] = useState(false);
+  const [isDeleteModal, setIsDeleteModal] = useState(false);
+
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const actionMenuOpen = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const menuItemsData = [
+    {
+      menuLabel: 'Mark as Unread',
+      handler: handleClose,
+    },
+    {
+      menuLabel: 'Mute',
+      handler: handleClose,
+    },
+    {
+      menuLabel: 'Archive',
+      handler: handleClose,
+    },
+    {
+      menuLabel: 'Delete Conversation',
+      handler: () => setIsDeleteModal(true),
+    },
+  ];
+
   return (
     <>
       <Box sx={styles.headerChat(theme)}>
@@ -45,16 +83,36 @@ const ChatHeader = () => {
             sx={styles.unStyledButton}
             onClick={() => setIsUserProfile(true)}
           >
-            <UserWhiteIcon />
+            {chatMode === 'groupChat' ? <InfoIcon /> : <UserWhiteIcon />}
           </Button>
-          <Button sx={styles.unStyledButton}>
+          <Button
+            sx={styles.unStyledButton}
+            aria-controls={actionMenuOpen ? 'basic-menu' : undefined}
+            aria-haspopup="true"
+            aria-expanded={actionMenuOpen ? 'true' : undefined}
+            onClick={handleClick}
+          >
             <ThreeDotsIcon color={theme.palette.common.white} />
           </Button>
+          <ChatDropdown
+            anchorEl={anchorEl}
+            actionMenuOpen={actionMenuOpen}
+            handleClose={handleClose}
+            menuData={menuItemsData}
+          />
         </Box>
       </Box>
       <ChatInfoModal
         isUserProfile={isUserProfile}
         setIsUserProfile={setIsUserProfile}
+        chatMode={chatMode}
+      />
+      <AlertModals
+        message={'Are you sure you want to delete this Conversation ?'}
+        type="delete"
+        open={isDeleteModal}
+        handleClose={() => setIsDeleteModal(false)}
+        handleSubmit={() => setIsDeleteModal(false)}
       />
     </>
   );

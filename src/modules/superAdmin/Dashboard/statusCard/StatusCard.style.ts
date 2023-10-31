@@ -6,7 +6,7 @@ export const style = {
       border: `1px solid ${theme?.palette?.grey[700]}`,
       borderRadius: '8px',
       padding: '1rem',
-      backgroundImage: `url(${UnionBgImage.src})`,
+      backgroundImage: `url(${UnionBgImage?.src})`,
       backgroundRepeat: 'no-repeat',
       backgroundPosition: 'right',
       display: 'flex',

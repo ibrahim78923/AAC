@@ -14,7 +14,9 @@ const Dashboard = () => {
       </Grid>
       <StatusCards />
       <GraphCard />
-      <NotificationCard />
+      <Grid item lg={12} md={12} sm={12} xs={12}>
+        <NotificationCard />
+      </Grid>
     </>
   );
 };

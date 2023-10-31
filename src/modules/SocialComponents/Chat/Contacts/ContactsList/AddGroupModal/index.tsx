@@ -22,7 +22,11 @@ import {
 } from './AddGroupModal.data';
 import { AddGroupPropsI } from './AddGroup.interface';
 
-import { AddRoundedImage } from '@/assets/images';
+import {
+  AddRoundedImage,
+  UserProfileAvatarImage,
+  UserSenderImage,
+} from '@/assets/images';
 
 import { v4 as uuidv4 } from 'uuid';
 import { useForm } from 'react-hook-form';
@@ -96,26 +100,22 @@ const AddGroupModal = ({
                 label="Candidates"
                 options={[
                   {
-                    image:
-                      'https://cdn-icons-png.flaticon.com/512/236/236831.png',
+                    image: UserProfileAvatarImage,
                     value: 'JohnDoe',
                     label: 'John Doe',
                   },
                   {
-                    image:
-                      'https://cdn-icons-png.flaticon.com/512/219/219956.png',
+                    image: UserSenderImage,
                     value: 'Andrew',
                     label: 'Andrew',
                   },
                   {
-                    image:
-                      'https://cdn-icons-png.flaticon.com/512/236/236831.png',
+                    image: UserProfileAvatarImage,
                     value: 'RichardRobertson',
                     label: 'Richard robertson',
                   },
                   {
-                    image:
-                      'https://cdn-icons-png.flaticon.com/512/219/219956.png',
+                    image: UserSenderImage,
                     value: 'Franksten',
                     label: 'Franksten',
                   },
