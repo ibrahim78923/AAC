@@ -11,8 +11,8 @@ export const Software = () => {
       {!!softwareData?.length ? (
         softwareData?.map((singleSoftware: any) => (
           <InventoryCard
-            heading={singleSoftware.heading}
-            status={singleSoftware.status}
+            heading={singleSoftware?.heading}
+            status={singleSoftware?.status}
             key={uuidv4()}
           />
         ))
