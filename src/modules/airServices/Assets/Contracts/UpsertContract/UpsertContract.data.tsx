@@ -131,11 +131,14 @@ const softwareLicense = {
   licenseKey: '',
 };
 
-export const upsertContractFormDefaultValuesFunction = (data?: any) => {
+export const upsertContractFormDefaultValuesFunction = (
+  router: any,
+  data?: any,
+) => {
   return {
     contractName: data?.contractName ?? '',
     contractNumber: data?.contractNumber ?? '',
-    type: data?.type ?? '',
+    type: data?.type ?? router?.query?.contractType ?? '',
     associateAssets: data?.associateAssets ?? '',
     cost: data?.cost ?? '',
     status: data?.status ?? '',
@@ -157,7 +160,7 @@ export const upsertContractFormDefaultValuesFunction = (data?: any) => {
   };
 };
 
-export const upsertContractFormSchemaFunction = Yup?.object()?.shape({
+export const upsertContractFormSchemaFunction: any = Yup?.object()?.shape({
   contractName: Yup?.string()?.required('Contract Name is required'),
   contractNumber: Yup?.string()?.required('Contract Number is required'),
   type: Yup?.string()?.required('Type is required'),
@@ -248,8 +251,13 @@ export const upsertContractFormSchemaFunction = Yup?.object()?.shape({
 });
 
 export const upsertContractFormFieldsDataFunction = (
-  watchForType: any,
+  // watchForType: any,
   watchForNotifyExpiry = false,
+  setValue: any,
+  getValues: any,
+  router: any,
+  control: any,
+  setError: any,
   isFieldDisable = false,
 ) => [
   {
@@ -284,8 +292,39 @@ export const upsertContractFormFieldsDataFunction = (
       disabled: isFieldDisable,
     },
   },
+  // {
+  //   id: 920,
+  //   componentProps: {
+  //     fullWidth: true,
+  //     name: 'type',
+  //     label: 'Type',
+  //     select: true,
+  //     options: contractType,
+  //     disabled: isFieldDisable,
+  //     onChange: (e: any) => {
+  //       setValue('type', e?.target?.value);
+  //       router?.push({
+  //         pathname: router?.pathname,
+  //         query: {
+  //           ...router?.query,
+  //           contractType: getValues?.('type'),
+  //         },
+  //       });
+  //       if (getValues('type') === 'Software License') {
+  //         setValue('associateAssets', '');
+  //         return;
+  //       }
+  //       setValue('associateAssets', getValues('associateAssets'));
+  //     },
+  //     onBlur: () => {
+  //       console.log('onBlur');
+  //     },
+  //   },
+  //   md: 6,
+  //   component: RHFSelect,
+  // },
   {
-    id: 920,
+    id: 129091,
     componentProps: {
       fullWidth: true,
       name: 'type',
@@ -293,6 +332,22 @@ export const upsertContractFormFieldsDataFunction = (
       select: true,
       options: contractType,
       disabled: isFieldDisable,
+      onChange: (e: any) => {
+        // console.log(setError('contractNumber'));
+        setValue('type', e?.target?.value);
+        router?.push({
+          pathname: router?.pathname,
+          query: {
+            ...router?.query,
+            contractType: getValues?.('type'),
+          },
+        });
+        if (getValues('type') === 'Software License') {
+          setValue('associateAssets', '');
+          return;
+        }
+        setValue('associateAssets', getValues('associateAssets'));
+      },
     },
     md: 6,
     component: RHFSelect,
@@ -305,7 +360,7 @@ export const upsertContractFormFieldsDataFunction = (
       label: 'Associate Assets',
       select: true,
       options: dropdownDummy,
-      disabled: watchForType === 'Software License',
+      disabled: router?.query?.contractType === 'Software License',
     },
     md: 6,
     component: RHFSelect,
@@ -456,7 +511,8 @@ export const upsertContractFormFieldsDataFunction = (
         },
       ]
     : []),
-  ...(watchForType === 'Software License'
+  // ...(watchForType === 'Software License'
+  ...(router?.query?.contractType === 'Software License'
     ? [
         {
           id: 82,
