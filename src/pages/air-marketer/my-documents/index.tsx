@@ -1,13 +1,13 @@
-import Layout from '@/layout';
-import MyDocuments from '@/modules/airMarketer/MyDocuments';
 import React from 'react';
+import Layout from '@/layout';
+import MyDocuments from '@/modules/SocialComponents/MyDocuments';
 
-const AirMarketerDashboard = () => {
+const AirMarketerDocumentPage = () => {
   return <MyDocuments />;
 };
 
-export default AirMarketerDashboard;
+export default AirMarketerDocumentPage;
 
-AirMarketerDashboard.getLayout = function getLayout(page: any) {
+AirMarketerDocumentPage.getLayout = function getLayout(page: any) {
   return <Layout>{page}</Layout>;
 };

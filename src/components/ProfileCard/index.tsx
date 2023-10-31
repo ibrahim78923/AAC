@@ -33,7 +33,13 @@ const ProfileCard = (props: CardPropsI) => {
 
   return (
     <Box sx={styles.cardWrapper(theme)}>
-      <Box sx={{ color: theme.palette.primary.light }}>
+      <Box
+        sx={{
+          color: theme.palette.primary.light,
+          display: 'flex',
+          flexDirection: { xs: 'column', sm: 'row' },
+        }}
+      >
         <Box sx={styles.imgWrapper}>
           <Box
             className="edit-Icon"
@@ -44,8 +50,13 @@ const ProfileCard = (props: CardPropsI) => {
           </Box>
           <Image className="user_profile" alt="user_profile" src={src} />
         </Box>
-        <Box>
-          <Typography variant="h3">{userName}</Typography>
+        <Box pl={{ xs: 0, sm: 2 }}>
+          <Typography
+            variant="h2"
+            sx={{ color: `${theme?.palette?.grey[800]}` }}
+          >
+            {userName}
+          </Typography>
           {isBadge && (
             <Typography component={'span'} sx={styles.badge(theme)}>
               {role}
@@ -58,13 +69,25 @@ const ProfileCard = (props: CardPropsI) => {
               <Typography component="span" sx={styles.iconWrapper(theme)}>
                 <EmailIcon />
               </Typography>
-              {email}
+              <Typography
+                variant="body4"
+                sx={{ color: `${theme?.palette?.custom.main}` }}
+              >
+                {' '}
+                {email}
+              </Typography>
             </Box>
             <Box sx={styles.icon}>
               <Typography component="span" sx={styles.iconWrapper}>
                 <PhoneIcon />
               </Typography>
-              {phone}
+
+              <Typography
+                variant="body4"
+                sx={{ color: `${theme?.palette?.custom.main}` }}
+              >
+                {phone}
+              </Typography>
             </Box>
           </Box>
         </Box>

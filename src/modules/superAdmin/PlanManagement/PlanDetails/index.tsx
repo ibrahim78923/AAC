@@ -3,12 +3,12 @@ import React from 'react';
 import TanstackTable from '@/components/Table/TanstackTable';
 import CustomPagination from '@/components/CustomPagination';
 
-import { UsePlanDetails } from './UsePlanDetails';
+import { usePlanDetails } from './usePlanDetails';
 
 import { PlanDetailsData } from './PlanDetails.data';
 
 const PlanDetails = () => {
-  const { ticketsListsColumn } = UsePlanDetails();
+  const { ticketsListsColumn } = usePlanDetails();
   return (
     <div>
       <TanstackTable columns={ticketsListsColumn} data={PlanDetailsData} />

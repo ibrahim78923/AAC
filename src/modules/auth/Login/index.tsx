@@ -1,20 +1,27 @@
 import React from 'react';
-import { useForm } from 'react-hook-form';
+
 import Image from 'next/image';
 import Link from 'next/link';
-import { Grid, Button, Typography } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import { CompanyLogoIcon } from '@/assets/icons';
-import { LoginDashboardImage } from '@/assets/images';
-import { styles } from './Login.style';
+
+import { Grid, Button, Typography, Box, useTheme } from '@mui/material';
+
 import {
   loginDataArray,
   loginDefaultValues,
   loginValidationSchema,
 } from './Login.data';
-import { yupResolver } from '@hookform/resolvers/yup';
+
 import { FormProvider } from '@/components/ReactHookForm';
+
+import useAuth from '@/hooks/useAuth';
+
+import { CompanyLogoIcon } from '@/assets/icons';
+import { LoginDashboardImage } from '@/assets/images';
+
+import { styles } from './Login.style';
+
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useForm } from 'react-hook-form';
 import { v4 as uuidv4 } from 'uuid';
 
 const Login = () => {
@@ -24,7 +31,25 @@ const Login = () => {
     defaultValues: loginDefaultValues,
   });
 
-  const onSubmit = () => {};
+  const { login } = useAuth();
+
+  const onSubmit = async (credentials: any) => {
+    const response = {
+      user: {
+        credentials,
+      },
+      authToken: 'DKLFJDFKLJSLKFJDKLDJDSKJDSJ',
+    };
+    login(response);
+
+    // try {
+    //   const res: any = await loginTrigger(credentials).unwrap();
+
+    // } catch (error: any) {
+    //   const errMsg = error?.data?.message;
+
+    // }
+  };
 
   const { handleSubmit } = loginForm;
   return (
@@ -34,9 +59,7 @@ const Login = () => {
           <CompanyLogoIcon />
         </Box>
         <Box>
-          <Link href="/sign-up" variant="contained">
-            SignUp
-          </Link>
+          <Link href="/sign-up">SignUp</Link>
         </Box>
       </Box>
       <Grid

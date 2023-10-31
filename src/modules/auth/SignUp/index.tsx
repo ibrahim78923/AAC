@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useForm, Controller, FormProvider } from 'react-hook-form';
+
 import Image from 'next/image';
 import Link from 'next/link';
 import {
@@ -11,20 +11,26 @@ import {
   FormControl,
   Select,
   MenuItem,
+  useTheme,
+  Box,
+  FormControlLabel,
+  Checkbox,
 } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
+
 import InputField from '@/components/InputField';
+
 import {
   EyeIcon,
   EyeSlashIcon,
   CompanyLogoIcon,
   VerifiedIcon,
 } from '@/assets/icons';
+
 import { LoginDashboardImage } from '@/assets/images';
+
 import { styles } from './SignUp.style';
+
+import { useForm, Controller, FormProvider } from 'react-hook-form';
 
 const SignUp = () => {
   const [isShowError, setIsShowError] = useState<boolean>(false);
