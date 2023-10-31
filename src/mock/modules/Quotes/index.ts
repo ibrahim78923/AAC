@@ -97,3 +97,23 @@ export const productServicesData: any = [
     totalPrice: '40',
   },
 ];
+
+export const buyerContactList = [
+  {
+    id: 1,
+    owner: 'Deb at Zapier',
+    title: 'No Title',
+    email: 'blog@send.zapier.com',
+    phoneNumber: 'No phone no',
+  },
+];
+
+export const buyerCompanyList = [
+  {
+    id: 1,
+    owner: 'One Care Media',
+    title: 'No Title',
+    email: 'blog@send.zapier.com',
+    phoneNumber: 'No phone no',
+  },
+];

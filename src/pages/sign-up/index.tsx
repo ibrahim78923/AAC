@@ -1,9 +1,12 @@
+import GuestGuard from '@/GuardsAndPermissions/GuestGuard';
 import SignUp from '@/modules/auth/SignUp';
 
 const SignUpPage = () => {
   return (
     <>
-      <SignUp />
+      <GuestGuard>
+        <SignUp />
+      </GuestGuard>
     </>
   );
 };

@@ -77,7 +77,7 @@ const CommonTabs = (props: CommonTabsPropsI) => {
       </Box>
       {isHeader && (
         <Box sx={styles.headerWrapper}>
-          <Search {...searchBarProps} />
+          <Search size="small" {...searchBarProps} />
           <Box sx={styles.headerChild}>{headerChildren}</Box>
         </Box>
       )}
