@@ -13,6 +13,7 @@ export const AIR_SERVICES = {
   ASSETS_CONTRACTS_DETAIL: '/air-services/assets/contracts/detail',
   ASSETS_CONTRACTS: '/air-services/assets/contracts',
   CONTRACT_FORM: `/air-services/assets/contracts/contract-form`,
+  UPDATE_CONTRACT: `/air-services/assets/contracts/detail/update-contract`,
 };
 
 export const ORG_ADMIN: any = {

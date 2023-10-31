@@ -1,3 +1,5 @@
+import { AIR_SERVICES } from '@/constants';
+
 export const singleContractDetailsActionDropdownFunction = (
   setDeleteModalOpen: any,
   setTerminateModalOpen: any,
@@ -20,9 +22,9 @@ export const singleContractDetailsActionDropdownFunction = (
     title: 'Renew',
     handleClick: (x: any) => {
       router.push({
-        pathname: `/air-services/assets/contracts/detail/update-contract`,
+        pathname: AIR_SERVICES?.UPDATE_CONTRACT,
         query: {
-          ...router.query,
+          ...router?.query,
           action: 'renew',
         },
       });
@@ -33,9 +35,9 @@ export const singleContractDetailsActionDropdownFunction = (
     title: 'Extend',
     handleClick: (x: any) => {
       router.push({
-        pathname: `/air-services/assets/contracts/detail/update-contract`,
+        pathname: AIR_SERVICES?.UPDATE_CONTRACT,
         query: {
-          ...router.query,
+          ...router?.query,
           action: 'extend',
         },
       });
