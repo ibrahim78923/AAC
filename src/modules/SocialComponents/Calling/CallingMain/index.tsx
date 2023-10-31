@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import Link from 'next/link';
 
@@ -17,32 +17,27 @@ import TanstackTable from '@/components/Tabel/TanstackTable';
 import { callingData } from '@/mock/modules/SocialComponents/Calling';
 import { columns } from './CallingMain.data';
 
+import useCallingMain from './useCallingMain';
+
 import { DownIcon, MobileIcon, PlusSharedIcon } from '@/assets/icons';
 import ScheduleCallDrawer from './ScheduleCallDrawer';
 
 const CallingMain = ({ setAddaNumber }: any) => {
-  const [callingSearch, setCallingSearch] = useState();
-  const [openDrawer, setOpenDrawer] = useState<any>();
+  const {
+    callingSearch,
+    setCallingSearch,
+    openDrawer,
+    setOpenDrawer,
+    anchorElCallNow,
 
-  const [anchorElCallNow, setAnchorElCallNow] =
-    React.useState<null | HTMLElement>(null);
-  const handleClickCallNow = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorElCallNow(event.currentTarget);
-  };
-  const handleCloseCallNow = () => {
-    setAnchorElCallNow(null);
-  };
+    handleClickCallNow,
+    handleCloseCallNow,
 
-  const [anchorElScheduleCall, setAnchorElScheduleCall] =
-    React.useState<null | HTMLElement>(null);
-  const handleClickScheduleCall = (
-    event: React.MouseEvent<HTMLButtonElement>,
-  ) => {
-    setAnchorElScheduleCall(event.currentTarget);
-  };
-  const handleCloseScheduleCall = () => {
-    setAnchorElScheduleCall(null);
-  };
+    anchorElScheduleCall,
+    handleClickScheduleCall,
+    handleCloseScheduleCall,
+    setAnchorElScheduleCall,
+  } = useCallingMain();
 
   const getColumns = columns();
   const theme = useTheme();
@@ -60,6 +55,8 @@ const CallingMain = ({ setAddaNumber }: any) => {
             justifyContent: 'space-between',
             alignItems: 'center',
             marginBottom: '19px',
+            flexWrap: 'wrap',
+            gap: '10px',
           }}
         >
           <Typography variant="h3" sx={{ fontWeight: '600' }}>

@@ -91,3 +91,4 @@ export { default as AttendeeAvatarImage } from './modules/airSales/Deals/attende
 export { default as UsersAvatarRoundedImage } from './modules/socialComponents/calling/user-avatar-rounded.png';
 export { default as DealReportImage } from './modules/airSales/Reports/reports.png';
 export { default as documentContained } from './modules/superAdmin/Settings/ModuleCreation/document-contained.png';
+export { default as ApplePhoneImage } from './modules/socialComponents/calling/apple-phone.png';
