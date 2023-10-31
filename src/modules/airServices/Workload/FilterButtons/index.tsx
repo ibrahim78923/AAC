@@ -1,9 +1,16 @@
 import { Box, Button, Chip, Menu, MenuItem, Typography } from '@mui/material';
 import { Fragment, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
-export const FilterButtons = ({ buttonText, dropdown, dropdownArray }: any) => {
+export const FilterButtons = ({
+  buttonText,
+  variant = 'outlined',
+  color = 'secondary',
+  dropdownMain,
+  dropdownMainArray,
+  startIcon,
+  endIcon,
+}: any) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
@@ -14,17 +21,19 @@ export const FilterButtons = ({ buttonText, dropdown, dropdownArray }: any) => {
   return (
     <Fragment>
       <Button
-        variant="outlined"
-        color="secondary"
+        variant={variant}
+        color={color}
         aria-controls={open ? 'workload' : undefined}
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
-        endIcon={<ArrowDropDownIcon />}
+        endIcon={endIcon}
+        startIcon={startIcon}
       >
         {buttonText}
       </Button>
-      {dropdown && (
+
+      {dropdownMain && (
         <Menu
           id="workload"
           aria-labelledby="workload"
@@ -33,7 +42,7 @@ export const FilterButtons = ({ buttonText, dropdown, dropdownArray }: any) => {
           onClose={() => setAnchorEl(null)}
           sx={{ padding: 2 }}
         >
-          {dropdownArray?.map((item: any) => (
+          {dropdownMainArray?.map((item: any) => (
             <MenuItem
               key={uuidv4()}
               onClick={() => item?.handleClick?.(setAnchorEl(null))}

@@ -5,7 +5,9 @@ import { Box, Grid, Typography } from '@mui/material';
 import dayjs from 'dayjs';
 import { DateCalendar } from '@mui/x-date-pickers';
 import { DateFilter } from './DateFilter';
-import { ButtonFilter } from './ButtonFilter';
+import { FilterButtons } from './FilterButtons';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import { ManageWorkLoadOptions } from './Workload.data';
 
 export const Workload = () => {
   return (
@@ -22,7 +24,12 @@ export const Workload = () => {
           profile
         </Grid>
         <Grid item xs={12} md={4} textAlign={'end'}>
-          <ButtonFilter />
+          <FilterButtons
+            buttonText={'Manage Workload'}
+            endIcon={<ArrowDropDownIcon />}
+            dropdownMain
+            dropdownMainArray={ManageWorkLoadOptions}
+          />
         </Grid>
       </Grid>
 
