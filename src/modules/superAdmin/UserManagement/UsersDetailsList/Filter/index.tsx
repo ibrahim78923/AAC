@@ -12,14 +12,11 @@ import { v4 as uuidv4 } from 'uuid';
 
 export default function Filter({
   isOpenDrawer,
-
   onClose,
-
   initialValueProps = defaultValues,
 }: any) {
   const methods: any = useForm({
     resolver: yupResolver(validationSchema),
-
     defaultValues: initialValueProps,
   });
 

@@ -1,48 +1,96 @@
 import {
   Accordion,
-  Switch,
-  Box,
-  useTheme,
   AccordionSummary,
   AccordionDetails,
   Typography,
+  Stack,
+  Box,
+  FormControlLabel,
 } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-import AccordianInterfaceI from './PermissionsAccordion.interface';
+import { SwitchBtn } from '@/components/SwitchButton';
 
-import { v4 as uuidv4 } from 'uuid';
+import usePermissionAccordion from './usePermissionAccordion';
+import DashboardAccordion from './DashboardAccordion';
+import DealsAccordion from './DealsAccordion';
 
-const PermissionsAccordion = (props: AccordianInterfaceI) => {
-  const { className, data, handleSwitch, checked } = props;
-
-  const theme = useTheme();
+const PermissionsAccordion = () => {
+  const { theme, isAccordionExpanded, handleExpandAccordionChange } =
+    usePermissionAccordion();
   return (
-    <>
-      {data?.map((item: any) => (
-        <Accordion className={className} sx={{ my: 2 }} key={uuidv4()}>
-          <AccordionSummary
-            expandIcon={item?.endIcon}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
-            sx={{ background: theme?.palette?.blue?.main, borderRadius: '8px' }}
-          >
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                color: theme?.palette?.common?.white,
-              }}
-            >
-              {item?.hasSwitch && (
-                <Switch checked={checked} onChange={handleSwitch} />
-              )}
-              <Typography>{item?.title}</Typography>
-            </Box>
-          </AccordionSummary>
-          <AccordionDetails>{item.content}</AccordionDetails>
-        </Accordion>
-      ))}
-    </>
+    <Stack gap={3}>
+      <Accordion
+        expanded={isAccordionExpanded === 'dashboard'}
+        onChange={handleExpandAccordionChange('dashboard')}
+        disableGutters
+        sx={{
+          '&.MuiAccordion': {
+            '&.Mui-expanded': {
+              boxShadow: 'theme.customShadows.z8',
+              borderRadius: '8px',
+            },
+            '&.Mui-disabled': {
+              backgroundColor: 'transparent',
+            },
+          },
+          '& .MuiAccordionSummary-root': {
+            backgroundColor: theme?.palette?.blue?.main,
+            color: theme.palette.common.white,
+            borderRadius: '8px',
+          },
+        }}
+      >
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="dashboard"
+          id="dashboard"
+        >
+          <Box display="flex" alignItems="center">
+            <FormControlLabel control={<SwitchBtn />} label="" />
+            <Typography variant="h4">Dashboard</Typography>
+          </Box>
+        </AccordionSummary>
+        <AccordionDetails>
+          <DashboardAccordion />
+        </AccordionDetails>
+      </Accordion>
+      <Accordion
+        expanded={isAccordionExpanded === 'deals'}
+        onChange={handleExpandAccordionChange('deals')}
+        disableGutters
+        sx={{
+          '&.MuiAccordion': {
+            '&.Mui-expanded': {
+              boxShadow: 'theme.customShadows.z8',
+              borderRadius: '8px',
+            },
+            '&.Mui-disabled': {
+              backgroundColor: 'transparent',
+            },
+          },
+          '& .MuiAccordionSummary-root': {
+            backgroundColor: theme?.palette?.blue?.main,
+            color: theme.palette.common.white,
+            borderRadius: '8px',
+          },
+        }}
+      >
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="deals"
+          id="deals"
+        >
+          <Box display="flex" alignItems="center">
+            <FormControlLabel control={<SwitchBtn />} label="" />
+            <Typography variant="h4">Deals</Typography>
+          </Box>
+        </AccordionSummary>
+        <AccordionDetails>
+          <DealsAccordion />
+        </AccordionDetails>
+      </Accordion>
+    </Stack>
   );
 };
 

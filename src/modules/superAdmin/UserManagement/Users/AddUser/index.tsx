@@ -19,27 +19,28 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import { v4 as uuidv4 } from 'uuid';
 
-const AddUser = (props: any) => {
-  const { isOpenAddUserDrawer, setIsOpenAddUserDrawer } = props;
-  const [userType, setUserType] = useState();
+import { enqueueSnackbar } from 'notistack';
 
+const AddUser = ({ isOpenDrawer, onClose }: any) => {
+  const [userType, setUserType] = useState();
   const methods: any = useForm({
     resolver: yupResolver(validationSchema),
     defaultValues: defaultValues,
   });
 
-  const { handleSubmit } = methods;
+  const { handleSubmit, reset } = methods;
 
   const onSubmit = async () => {
-    setIsOpenAddUserDrawer(false);
+    enqueueSnackbar('User Added Successfully', {
+      variant: 'success',
+    });
+    reset();
   };
 
   return (
     <CommonDrawer
-      isDrawerOpen={isOpenAddUserDrawer}
-      onClose={() => {
-        setIsOpenAddUserDrawer(false);
-      }}
+      isDrawerOpen={isOpenDrawer}
+      onClose={onClose}
       title="Add User"
       okText="Add"
       isOk={true}

@@ -48,6 +48,10 @@ const OrganizationCard = ({ initialValueProps = defaultValues }: any) => {
     defaultValues: initialValueProps,
   });
 
+  const { handleSubmit } = methods;
+
+  const onSubmit = async () => {};
+
   return (
     <>
       <CommonDrawer
@@ -59,6 +63,7 @@ const OrganizationCard = ({ initialValueProps = defaultValues }: any) => {
         okText="ok"
         isOk={true}
         footer={true}
+        submitHandler={handleSubmit(onSubmit)}
       >
         <Box sx={{ paddingTop: '1rem' }}>
           <center>

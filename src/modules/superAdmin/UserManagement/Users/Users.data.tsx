@@ -1,6 +1,6 @@
 import { Checkbox } from '@mui/material';
 
-import { Avatar, AvatarGroup, Switch, Box, Typography } from '@mui/material';
+import { Avatar, AvatarGroup, Box, Typography } from '@mui/material';
 
 import RHFSelect from '@/components/ReactHookForm/RHFSelect';
 
@@ -8,99 +8,45 @@ import RHFTextField from '@/components/ReactHookForm/RHFTextField';
 
 import RHFDatePicker from '@/components/ReactHookForm/RHFDatePicker';
 
+import { SwitchBtn } from '@/components/SwitchButton';
+
 import { AvatarImage } from '@/assets/images';
 
 import * as Yup from 'yup';
-
-const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
 export const data: any = [
   {
     Id: 1,
     UserId: `123`,
-    Name: (
-      <Box sx={{ display: 'flex', gap: '5px' }}>
-        <Avatar alt="Remy Sharp" src={AvatarImage.src} />
-        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-          <Typography component={'span'}>Olivia Rhyeh</Typography>
-          <Typography component={'span'}>@Olivia</Typography>
-        </Box>
-      </Box>
-    ),
+
     UserType: 'Company Owner',
     OrganizationName: 'Extreme Commerce',
-    Products: (
-      <AvatarGroup max={4} sx={{ display: 'flex', justifyContent: 'start' }}>
-        <Avatar alt="Remy Sharp" src={AvatarImage.src} />
-        <Avatar alt="Travis Howard" src={AvatarImage.src} />
-        <Avatar alt="Cindy Baker" src={AvatarImage.src} />
-        <Avatar alt="Agnes Walker" src={AvatarImage.src} />
-        <Avatar alt="Trevor Henderson" src={AvatarImage.src} />
-      </AvatarGroup>
-    ),
-    Status: <Switch {...label} defaultChecked />,
     CreatedOn: '12/10/2023',
   },
   {
     Id: 2,
     UserId: `456`,
-    Name: (
-      <Box sx={{ display: 'flex', gap: '5px' }}>
-        <Avatar alt="Remy Sharp" src={AvatarImage.src} />
-        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-          <Typography component={'span'}>Olivia Rhyeh</Typography>
-          <Typography component={'span'}>@Olivia</Typography>
-        </Box>
-      </Box>
-    ),
+
     UserType: 'Company Owner',
     OrganizationName: '-',
     Products: '-',
-    Status: <Switch {...label} defaultChecked />,
     CreatedOn: '12/10/2023',
   },
   {
     Id: 3,
     UserId: `789`,
-    Name: (
-      <Box sx={{ display: 'flex', gap: '5px' }}>
-        <Avatar alt="Remy Sharp" src={AvatarImage.src} />
-        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-          <Typography component={'span'}>Olivia Rhyeh</Typography>
-          <Typography component={'span'}>@Olivia</Typography>
-        </Box>
-      </Box>
-    ),
+
     UserType: 'Company Owner',
     OrganizationName: '-',
     Products: '-',
-    Status: <Switch {...label} defaultChecked />,
     CreatedOn: '12/10/2023',
   },
   {
     Id: 4,
     UserId: `752`,
-    Name: (
-      <Box sx={{ display: 'flex', gap: '5px' }}>
-        <Avatar alt="Remy Sharp" src={AvatarImage.src} />
-        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-          <Typography component={'span'}>Olivia Rhyeh</Typography>
-          <Typography component={'span'}>@Olivia</Typography>
-        </Box>
-      </Box>
-    ),
+
     UserType: 'Company Owner',
     OrganizationName: '10 Pearls',
-    Products: (
-      <AvatarGroup max={4} sx={{ display: 'flex', justifyContent: 'start' }}>
-        <Avatar alt="Remy Sharp" src={AvatarImage.src} />
-        <Avatar alt="Travis Howard" src={AvatarImage.src} />
-        <Avatar alt="Cindy Baker" src={AvatarImage.src} />
-        <Avatar alt="Agnes Walker" src={AvatarImage.src} />
-        <Avatar alt="Trevor Henderson" src={AvatarImage.src} />
-      </AvatarGroup>
-    ),
-    Status: <Switch {...label} defaultChecked />,
     CreatedOn: '12/10/2023',
   },
 ];
@@ -125,7 +71,15 @@ export const columns: any = [
     id: 'name',
     isSortable: true,
     header: 'Name',
-    cell: (info: any) => info.getValue(),
+    cell: (
+      <Box sx={{ display: 'flex', gap: '5px' }}>
+        <Avatar alt="Remy Sharp" src={AvatarImage.src} />
+        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+          <Typography component={'span'}>Olivia Rhyeh</Typography>
+          <Typography component={'span'}>@Olivia</Typography>
+        </Box>
+      </Box>
+    ),
   },
   {
     accessorFn: (row: any) => row.UserType,
@@ -146,14 +100,22 @@ export const columns: any = [
     id: 'products',
     isSortable: true,
     header: 'Products',
-    cell: (info: any) => info.getValue(),
+    cell: (
+      <AvatarGroup max={4} sx={{ display: 'flex', justifyContent: 'start' }}>
+        <Avatar alt="Remy Sharp" src={AvatarImage.src} />
+        <Avatar alt="Travis Howard" src={AvatarImage.src} />
+        <Avatar alt="Cindy Baker" src={AvatarImage.src} />
+        <Avatar alt="Agnes Walker" src={AvatarImage.src} />
+        <Avatar alt="Trevor Henderson" src={AvatarImage.src} />
+      </AvatarGroup>
+    ),
   },
   {
     accessorFn: (row: any) => row.Status,
     id: 'status',
     isSortable: true,
     header: 'Status',
-    cell: (info: any) => info.getValue(),
+    cell: <SwitchBtn defaultChecked />,
   },
   {
     accessorFn: (row: any) => row.CreatedOn,
@@ -168,89 +130,31 @@ export const superAdminUsersData: any = [
   {
     Id: 1,
     UserId: `123`,
-    Name: (
-      <Box sx={{ display: 'flex', gap: '5px' }}>
-        <Avatar alt="Remy Sharp" src={AvatarImage.src} />
-        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-          <Typography component={'span'}>Olivia Rhyeh</Typography>
-          <Typography component={'span'}>@Olivia</Typography>
-        </Box>
-      </Box>
-    ),
     UserType: 'Super Admin',
     OrganizationName: 'Extreme Commerce',
-    Products: (
-      <AvatarGroup max={4} sx={{ display: 'flex', justifyContent: 'start' }}>
-        <Avatar alt="Remy Sharp" src={AvatarImage.src} />
-        <Avatar alt="Travis Howard" src={AvatarImage.src} />
-        <Avatar alt="Cindy Baker" src={AvatarImage.src} />
-        <Avatar alt="Agnes Walker" src={AvatarImage.src} />
-        <Avatar alt="Trevor Henderson" src={AvatarImage.src} />
-      </AvatarGroup>
-    ),
-    Status: <Switch {...label} defaultChecked />,
     CreatedOn: '12/10/2023',
   },
   {
     Id: 2,
     UserId: `456`,
-    Name: (
-      <Box sx={{ display: 'flex', gap: '5px' }}>
-        <Avatar alt="Remy Sharp" src={AvatarImage.src} />
-        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-          <Typography component={'span'}>Olivia Rhyeh</Typography>
-          <Typography component={'span'}>@Olivia</Typography>
-        </Box>
-      </Box>
-    ),
     UserType: 'Super Admin',
     OrganizationName: '-',
     Products: '-',
-    Status: <Switch {...label} defaultChecked />,
     CreatedOn: '12/10/2023',
   },
   {
     Id: 3,
     UserId: `789`,
-    Name: (
-      <Box sx={{ display: 'flex', gap: '5px' }}>
-        <Avatar alt="Remy Sharp" src={AvatarImage.src} />
-        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-          <Typography component={'span'}>Olivia Rhyeh</Typography>
-          <Typography component={'span'}>@Olivia</Typography>
-        </Box>
-      </Box>
-    ),
     UserType: 'Super Admin',
     OrganizationName: '-',
     Products: '-',
-    Status: <Switch {...label} defaultChecked />,
     CreatedOn: '12/10/2023',
   },
   {
     Id: 4,
     UserId: `752`,
-    Name: (
-      <Box sx={{ display: 'flex', gap: '5px' }}>
-        <Avatar alt="Remy Sharp" src={AvatarImage.src} />
-        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-          <Typography component={'span'}>Olivia Rhyeh</Typography>
-          <Typography component={'span'}>@Olivia</Typography>
-        </Box>
-      </Box>
-    ),
     UserType: 'Super Admin',
     OrganizationName: '10 Pearls',
-    Products: (
-      <AvatarGroup max={4} sx={{ display: 'flex', justifyContent: 'start' }}>
-        <Avatar alt="Remy Sharp" src={AvatarImage.src} />
-        <Avatar alt="Travis Howard" src={AvatarImage.src} />
-        <Avatar alt="Cindy Baker" src={AvatarImage.src} />
-        <Avatar alt="Agnes Walker" src={AvatarImage.src} />
-        <Avatar alt="Trevor Henderson" src={AvatarImage.src} />
-      </AvatarGroup>
-    ),
-    Status: <Switch {...label} defaultChecked />,
     CreatedOn: '12/10/2023',
   },
 ];
@@ -275,7 +179,15 @@ export const superAdminColumns: any = [
     id: 'name',
     isSortable: true,
     header: 'Name',
-    cell: (info: any) => info.getValue(),
+    cell: (
+      <Box sx={{ display: 'flex', gap: '5px' }}>
+        <Avatar alt="Remy Sharp" src={AvatarImage.src} />
+        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+          <Typography component={'span'}>Olivia Rhyeh</Typography>
+          <Typography component={'span'}>@Olivia</Typography>
+        </Box>
+      </Box>
+    ),
   },
   {
     accessorFn: (row: any) => row.UserType,
@@ -296,14 +208,22 @@ export const superAdminColumns: any = [
     id: 'products',
     isSortable: true,
     header: 'Products',
-    cell: (info: any) => info.getValue(),
+    cell: (
+      <AvatarGroup max={4} sx={{ display: 'flex', justifyContent: 'start' }}>
+        <Avatar alt="Remy Sharp" src={AvatarImage.src} />
+        <Avatar alt="Travis Howard" src={AvatarImage.src} />
+        <Avatar alt="Cindy Baker" src={AvatarImage.src} />
+        <Avatar alt="Agnes Walker" src={AvatarImage.src} />
+        <Avatar alt="Trevor Henderson" src={AvatarImage.src} />
+      </AvatarGroup>
+    ),
   },
   {
     accessorFn: (row: any) => row.Status,
     id: 'status',
     isSortable: true,
     header: 'Status',
-    cell: (info: any) => info.getValue(),
+    cell: <SwitchBtn defaultChecked />,
   },
   {
     accessorFn: (row: any) => row.CreatedOn,

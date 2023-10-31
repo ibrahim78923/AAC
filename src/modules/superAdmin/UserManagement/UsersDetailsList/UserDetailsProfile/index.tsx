@@ -1,14 +1,20 @@
-import { useForm } from 'react-hook-form';
 import React from 'react';
-import { yupResolver } from '@hookform/resolvers/yup';
+
+import { Button, Grid, Typography } from '@mui/material';
+
+import { FormProvider } from '@/components/ReactHookForm';
+
 import {
   profileDefaultValues,
   profileFields,
   profileValidationSchema,
 } from './UserDetailsProfile.data';
-import { Button, Grid, Typography } from '@mui/material';
+
+import { useForm } from 'react-hook-form';
+
+import { yupResolver } from '@hookform/resolvers/yup';
+
 import { v4 as uuidv4 } from 'uuid';
-import { FormProvider } from '@/components/ReactHookForm';
 
 const UserDetailsProfile = () => {
   const methods: any = useForm({
@@ -24,11 +30,16 @@ const UserDetailsProfile = () => {
 
   return (
     <FormProvider methods={methods}>
-      <Typography variant="h4">Personal Details</Typography>
+      <Typography variant="h5">Personal Details</Typography>
       <Grid container spacing={2} sx={{ mt: '5px' }}>
         {profileFields?.map((item: any) => {
           return (
             <Grid item xs={12} md={item?.md} key={uuidv4()}>
+              {item?.componentProps?.heading && (
+                <Typography variant="h5">
+                  {item?.componentProps?.heading}
+                </Typography>
+              )}
               <item.component {...item.componentProps} size={'small'}>
                 {item?.componentProps?.select &&
                   item?.options?.map((option: any) => (

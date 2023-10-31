@@ -73,6 +73,28 @@ export const invoicesData: any = [
     invoiceBalance: '1,234.11',
     status: 'Overdue',
   },
+  {
+    id: 2,
+    invoiceNumber: '12341234',
+    dueDate: 'mar 04, 2023',
+    product: 'Air Sales',
+    plan: 'Growth Plan',
+    dateIssued: 'Mar 04, 2023',
+    invoiceAmount: '1,234.11',
+    invoiceBalance: '1,234.11',
+    status: 'Overdue',
+  },
+  {
+    id: 3,
+    invoiceNumber: '12341234',
+    dueDate: 'mar 04, 2023',
+    product: 'Air Sales',
+    plan: 'Growth Plan',
+    dateIssued: 'Mar 04, 2023',
+    invoiceAmount: '1,234.11',
+    invoiceBalance: '1,234.11',
+    status: 'Overdue',
+  },
 ];
 
 export const invoiceProducData: any = [
@@ -90,6 +112,22 @@ export const invoiceProducData: any = [
 export const paymentData: any = [
   {
     id: 1,
+    name: 'Mastercard Ending in 1002',
+    billingAddress:
+      'Office 82, 4 Roundwood Avenue Stockley Park, Uxibridge, UB1111AF, United Kingdom',
+    expirationDate: '03/ 2024',
+    product: 'Air Sales',
+  },
+  {
+    id: 2,
+    name: 'Mastercard Ending in 1002',
+    billingAddress:
+      'Office 82, 4 Roundwood Avenue Stockley Park, Uxibridge, UB1111AF, United Kingdom',
+    expirationDate: '03/ 2024',
+    product: 'Air Sales',
+  },
+  {
+    id: 3,
     name: 'Mastercard Ending in 1002',
     billingAddress:
       'Office 82, 4 Roundwood Avenue Stockley Park, Uxibridge, UB1111AF, United Kingdom',
