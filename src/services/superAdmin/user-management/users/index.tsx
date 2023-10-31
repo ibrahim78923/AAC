@@ -1,10 +1,11 @@
 import { baseAPI } from '@/services/base-api';
+import { SUPER_ADMIN } from '@/constants/index';
 
 export const usersApi = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getUsers: builder.query({
       query: () => ({
-        url: `/super-admin/user-list`,
+        url: SUPER_ADMIN.SUPER_ADMIN_USER_LIST,
         method: 'GET',
       }),
       providesTags: ['USERS'],
@@ -19,11 +20,13 @@ export const usersApi = baseAPI.injectEndpoints({
     }),
 
     postUsers: builder.mutation({
-      query: ({ body }: any) => ({
-        url: `super-admin/add-user`,
-        method: 'POST',
-        body: body,
-      }),
+      query: ({ body }: any) => {
+        return {
+          url: SUPER_ADMIN.SUPER_ADMIN_ADD_USER,
+          method: 'POST',
+          body: body,
+        };
+      },
       invalidatesTags: ['USERS'],
     }),
     updateUsers: builder.mutation({

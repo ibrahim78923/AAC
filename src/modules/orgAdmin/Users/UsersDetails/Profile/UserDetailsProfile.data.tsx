@@ -1,4 +1,4 @@
-import { RHFTextField } from '@/components/ReactHookForm';
+import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
 
 import { Typography } from '@mui/material';
 
@@ -9,12 +9,6 @@ export const profileValidationSchema = Yup.object().shape({
   lastName: Yup.string().required('Field is Required'),
   postCode: Yup.string().required('Field is Required'),
   address: Yup.string().required('Field is Required'),
-  flatUnit: Yup.string().required('Field is Required'),
-  buildingName: Yup.string().required('Field is Required'),
-  buildingNum: Yup.string().required('Field is Required'),
-  streetName: Yup.string().required('Field is Required'),
-  townCity: Yup.string().required('Field is Required'),
-  country: Yup.string().required('Field is Required'),
 });
 
 export const profileDefaultValues = {
@@ -123,30 +117,33 @@ export const profileFields = [
   {
     title: 'Flat/Unit',
     componentProps: {
-      name: 'flatUnit',
+      name: 'flat',
       placeholder: 'Enter Flat/Unit',
       fullWidth: true,
     },
+    toShow: ['address'],
     component: RHFTextField,
     md: 6,
   },
   {
-    title: 'BuildingName',
+    title: 'Building Name',
     componentProps: {
       name: 'buildingName',
       placeholder: 'Enter Building Name',
       fullWidth: true,
     },
+    toShow: ['address'],
     component: RHFTextField,
     md: 6,
   },
   {
     title: 'Building Number',
     componentProps: {
-      name: 'buildingNum',
+      name: 'buildingNumber',
       placeholder: 'Enter Building Number',
       fullWidth: true,
     },
+    toShow: ['address'],
     component: RHFTextField,
     md: 6,
   },
@@ -157,29 +154,36 @@ export const profileFields = [
       placeholder: 'Enter Street Name',
       fullWidth: true,
     },
+    toShow: ['address'],
     component: RHFTextField,
     md: 6,
   },
-
   {
-    title: 'Town/City',
+    title: 'Town/CIty',
     componentProps: {
-      name: 'townCity',
+      name: 'city',
       placeholder: 'Enter Town/City',
       fullWidth: true,
     },
+    toShow: ['address'],
     component: RHFTextField,
     md: 6,
   },
-
   {
     title: 'Country',
     componentProps: {
       name: 'country',
-      placeholder: 'Enter Country',
       fullWidth: true,
+      select: true,
     },
-    component: RHFTextField,
+    options: [
+      { value: 'pakistan', label: 'Pakistan' },
+      { value: 'India', label: 'India' },
+      { value: 'uk', label: 'UK' },
+      { value: 'us', label: 'US' },
+    ],
+    component: RHFSelect,
+    toShow: ['address'],
     md: 6,
   },
   {

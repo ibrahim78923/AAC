@@ -25,10 +25,13 @@ import { enqueueSnackbar } from 'notistack';
 import { EraserIcon } from '@/assets/icons';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import useToggle from '@/hooks/useToggle';
+import { usersApi } from '@/services/superAdmin/user-management/users';
 
 const AddUser = ({ isOpenDrawer, onClose }: any) => {
   const [userType, setUserType] = useState();
   const [isToggled, setIsToggled] = useToggle(false);
+  const { usePostUsersMutation } = usersApi;
+  const [postUsers] = usePostUsersMutation();
 
   const superAdminMethods: any = useForm({
     resolver: yupResolver(superAdminValidationSchema),
@@ -42,12 +45,18 @@ const AddUser = ({ isOpenDrawer, onClose }: any) => {
     userType === 'SuperAdmin' ? superAdminMethods : companyOwnerMethods;
   const { handleSubmit, reset } = methods;
 
-  const onSubmit = async () => {
-    // usePostUsersMutation(values)
-    enqueueSnackbar('User Added Successfully', {
-      variant: 'success',
-    });
-    reset();
+  const onSubmit = async (values: any) => {
+    try {
+      postUsers({ body: values }).unwrap();
+      enqueueSnackbar('User Added Successfully', {
+        variant: 'success',
+      });
+      reset();
+    } catch (error: any) {
+      enqueueSnackbar(error, {
+        variant: 'error',
+      });
+    }
   };
 
   return (

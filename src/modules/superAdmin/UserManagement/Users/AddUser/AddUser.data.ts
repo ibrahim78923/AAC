@@ -14,7 +14,7 @@ export const CompanyOwnerValidationSchema = Yup.object().shape({
   email: Yup.string().required('Field is Required'),
   crnNumber: Yup.string().required('Field is Required'),
   companyName: Yup.string().required('Field is Required'),
-  phoneNo: Yup.string().required('Field is Required'),
+  phoneNumber: Yup.string().required('Field is Required'),
 });
 
 export const superAdminValidationSchema = Yup.object().shape({
@@ -23,7 +23,7 @@ export const superAdminValidationSchema = Yup.object().shape({
   middleName: Yup.string().required('Field is Required'),
   lastName: Yup.string().required('Field is Required'),
   email: Yup.string().required('Field is Required'),
-  phoneNo: Yup.string().required('Field is Required'),
+  phoneNumber: Yup.string().required('Field is Required'),
   postCode: Yup.string().required('Field is Required'),
   address: Yup.string().required('Field is Required'),
   jobTitle: Yup.string().required('Field is Required'),
@@ -39,7 +39,7 @@ export const companyOwnerDefaultValues = {
   email: '',
   crnNumber: '',
   companyName: '',
-  phoneNo: '',
+  phoneNumber: '',
 };
 export const superAdminDefaultValues = {
   // userType: '',
@@ -47,7 +47,7 @@ export const superAdminDefaultValues = {
   middleName: '',
   lastName: '',
   email: '',
-  phoneNo: '',
+  phoneNumber: '',
   postCode: '',
   address: '',
   jobTitle: '',

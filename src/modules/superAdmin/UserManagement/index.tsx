@@ -1,4 +1,4 @@
-import { Box, Button, Menu, MenuItem, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 
 import CommonTabs from '@/components/Tabs';
 
@@ -12,11 +12,10 @@ import AddUser from './Users/AddUser';
 
 import SuperAdminUsers from './Users/Admin';
 
-import { ArrowDropDown } from '@mui/icons-material';
-
 import { FilterSharedIcon, PlusSharedIcon } from '@/assets/icons';
 
 import useUserManagement from './useUserManagement';
+import ActionButton from './ActionButton';
 
 const UserManagement = () => {
   const {
@@ -25,15 +24,11 @@ const UserManagement = () => {
     setIsOpenAddUserDrawer,
     isOpenFilterDrawer,
     setIsOpenFilterDrawer,
-    selectedValue,
     tabVal,
     setTabVal,
     search,
     setSearch,
-    handleClick,
     handleAddRole,
-    handleClose,
-    handleUsersList,
   } = useUserManagement();
 
   return (
@@ -71,30 +66,7 @@ const UserManagement = () => {
           tabsArray={['Company Owners', 'Super Admin Users', 'Role and Rights']}
           headerChildren={
             <>
-              <Box>
-                <Button
-                  onClick={handleClick}
-                  sx={{
-                    border: `1px solid ${theme?.palette?.custom?.dark}`,
-                    color: theme?.palette?.custom?.main,
-                    width: '112px',
-                    height: '36px',
-                  }}
-                >
-                  Actions
-                  <ArrowDropDown />
-                </Button>
-                <Menu
-                  id="simple-menu"
-                  anchorEl={selectedValue}
-                  open={Boolean(selectedValue)}
-                  onClose={handleClose}
-                >
-                  <MenuItem onClick={handleUsersList}>User List</MenuItem>
-                  <MenuItem onClick={handleClose}>View</MenuItem>
-                  <MenuItem onClick={handleClose}>Edit</MenuItem>
-                </Menu>
-              </Box>
+              <ActionButton />
               <Button
                 onClick={() => {
                   setIsOpenFilterDrawer(true);
