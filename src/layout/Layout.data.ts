@@ -34,12 +34,14 @@ import {
   UserManagementImage,
   WorkLoadImage,
 } from '@/assets/images';
+import { Permissions } from '@/constants/permissions';
 
 type MenuItemI = {
   key: React.Key;
   icon?: any;
   label: React.ReactNode;
   role: string;
+  permissions?: string[];
 };
 
 export const SuperAdminRoutes: MenuItemI[] = [
@@ -48,30 +50,35 @@ export const SuperAdminRoutes: MenuItemI[] = [
     icon: DashboardImage,
     label: 'Dashboard',
     role: 'super-admin',
+    permissions: Permissions.view_dashoard,
   },
   {
     key: 'super-admin/user-management',
     icon: UserManagementImage,
     label: 'User Management',
     role: 'super-admin',
+    permissions: Permissions.user_management,
   },
   {
     key: 'super-admin/plan-management',
     icon: PlanManagementImage,
     label: 'Plan Management',
     role: 'super-admin',
+    permissions: Permissions.PLAN_MANAGEMENT,
   },
   {
     key: 'super-admin/billing-invoices',
     icon: BillingInvoiceImage,
     label: 'Billing & Invoices',
     role: 'super-admin',
+    permissions: [],
   },
   {
     key: 'super-admin/reports',
     icon: ReportsImage,
     label: 'Reports',
     role: 'super-admin',
+    permissions: [],
   },
 ];
 
@@ -81,36 +88,42 @@ export const OrgAdminRoutes: MenuItemI[] = [
     icon: DashboardImage,
     label: 'Dashboard',
     role: 'org-admin',
+    permissions: [],
   },
   {
     key: 'org-admin/user-management',
     icon: UserManagementImage,
     label: 'Users',
     role: 'org-admin',
+    permissions: [],
   },
   {
     key: 'org-admin/plan-management',
     icon: QuotesImage,
     label: 'Organization',
     role: 'org-admin',
+    permissions: [],
   },
   {
     key: 'org-admin/subscription-and-invoices',
     icon: BillingInvoiceImage,
     label: 'Subsciption & Invoices',
     role: 'org-admin',
+    permissions: [],
   },
   {
     key: 'org-admin/properties',
     icon: ReportsImage,
     label: 'Properties',
     role: 'org-admin',
+    permissions: [],
   },
   {
     key: 'org-admin/role-and-rights',
     icon: ForecastImage,
     label: 'Role and Rights',
     role: 'org-admin',
+    permissions: [],
   },
 ];
 
@@ -120,52 +133,62 @@ export const ServicesRoutes: any = [
     icon: DashboardImage,
     label: 'Dashboard',
     role: 'SERVICE',
+    permissions: [],
   },
   {
     key: 'air-services/tickets',
     icon: TicketDiscountImage,
     label: 'Tickets',
     role: 'SERVICE',
+    permissions: [],
   },
   {
     key: 'air-services/problems',
     icon: ProblemImage,
     label: 'Problems',
     role: 'SERVICE',
+    permissions: [],
   },
   {
     key: 'air-services/changes',
     icon: ChangeCircleImage,
     label: 'Changes',
     role: 'SERVICE',
+    permissions: [],
   },
   {
     key: 'air-services/releases',
     icon: ReleasesImage,
     label: 'Releases',
     role: 'SERVICE',
+    permissions: [],
   },
   {
     key: 'air-services/assets',
     label: 'Assets',
     icon: AssetsImage,
     role: 'SERVICE',
+    permissions: [],
     textNames: [
       {
         key: 'air-services/assets/inventory',
         label: 'Inventory',
+        permissions: [],
       },
       {
         key: 'air-services/assets/software',
         label: 'Software',
+        permissions: [],
       },
       {
         key: 'air-services/assets/contracts',
         label: 'Contracts',
+        permissions: [],
       },
       {
         key: 'air-services/assets/purchase-orders',
         label: 'Purchase Orders',
+        permissions: [],
       },
     ],
   },
@@ -175,14 +198,17 @@ export const ServicesRoutes: any = [
     label: 'Projects',
     icon: ProjectImage,
     role: 'SERVICE',
+    permissions: [],
     textNames: [
       {
         key: 'air-services/projects/project-tasks',
         label: 'Project Tasks',
+        permissions: [],
       },
       {
         key: 'air-services/projects/project-template',
         label: 'Project Template',
+        permissions: [],
       },
     ],
   },
@@ -192,26 +218,31 @@ export const ServicesRoutes: any = [
     icon: KnowledgeBaseImage,
     label: 'Knowledge Base',
     role: 'SERVICE',
+    permissions: [],
   },
   {
     key: 'air-services/workload',
     icon: WorkLoadImage,
     label: 'WorkLoad',
     role: 'SERVICE',
+    permissions: [],
   },
   {
     key: 'air-services/reportings',
     label: 'Reportings',
     icon: ReportingImage,
     role: 'SERVICE',
+    permissions: [],
     textNames: [
       {
         key: 'air-services/reportings/analytics',
         label: 'Analytics',
+        permissions: [],
       },
       {
         key: 'air-services/reportings/project-analytics',
         label: 'Project Analytics',
+        permissions: [],
       },
     ],
   },
@@ -220,6 +251,7 @@ export const ServicesRoutes: any = [
     icon: CustomerPortalImage,
     label: 'Control Panel',
     role: 'SERVICE',
+    permissions: [],
   },
 ];
 
@@ -229,12 +261,14 @@ export const SalesRoutes: any = [
     icon: DashboardImage,
     label: 'Dashboard',
     role: 'AIR_SALES',
+    permissions: [],
   },
   {
     key: 'air-sales/deals',
     icon: UserManagementImage,
     label: 'Deals',
     role: 'AIR_SALES',
+    permissions: [],
   },
 
   {
@@ -242,18 +276,21 @@ export const SalesRoutes: any = [
     icon: ForecastImage,
     label: 'Forecast',
     role: 'AIR_SALES',
+    permissions: [],
   },
   {
     key: 'air-sales/quotes',
     icon: QuotesImage,
     label: 'Quotes',
     role: 'AIR_SALES',
+    permissions: [],
   },
   {
     key: 'air-sales/tasks',
     icon: PlanManagementImage,
     label: 'Tasks',
     role: 'AIR_SALES',
+    permissions: [],
   },
 
   {
@@ -261,12 +298,14 @@ export const SalesRoutes: any = [
     icon: BillingInvoiceImage,
     label: 'Invoices',
     role: 'AIR_SALES',
+    permissions: [],
   },
   {
     key: 'air-sales/reports',
     icon: ReportsImage,
     label: 'Reports',
     role: 'AIR_SALES',
+    permissions: [],
   },
 ];
 
@@ -276,47 +315,58 @@ export const LowerSuperAdminRoutes = [
     icon: SettingImage,
     role: 'super-admin',
     key: 'super-admin/settings',
+    permissions: [],
     textNames: [
       {
         key: 'super-admin/settings/jobs',
         label: 'Jobs',
+        permissions: [],
       },
       {
         key: 'super-admin/settings/faqs',
         label: 'FAQs',
+        permissions: [],
       },
       {
         key: 'super-admin/settings/enquiries',
         label: 'Enquiries',
+        permissions: [],
       },
       {
         key: 'super-admin/settings/tax-calculation',
         label: 'Tax Calculation',
+        permissions: [],
       },
       {
         key: 'super-admin/settings/quick-links',
         label: 'Quick Links',
+        permissions: [],
       },
       {
         key: 'super-admin/settings/news-and-events',
         label: 'News And Events',
+        permissions: [],
       },
       {
         key: 'super-admin/settings/module-creation',
         label: 'Module Creation',
+        permissions: [],
       },
       {
         key: 'super-admin/settings/product-list',
         label: 'Product List',
+        permissions: [],
       },
       {
         key: 'super-admin/settings/product-features',
         label: 'Product Feature',
+        permissions: [],
       },
     ],
   },
   {
     label: 'Logout',
+    permissions: [],
     key: 'logout',
     role: 'AIR_SALES',
     icon: LogoutImage,
@@ -329,24 +379,29 @@ export const LowerOrgAdminRoutes = [
     icon: SettingImage,
     role: 'org-admin',
     key: 'org-admin/settings',
+    permissions: [],
     textNames: [
       {
         key: 'org-admin/settings/sales-product-categories',
         label: 'Sales Product categories',
+        permissions: [],
       },
       {
         key: 'org-admin/settings/life-cycle-stage',
         label: 'Life Cycle Stage',
+        permissions: [],
       },
       {
         key: 'org-admin/settings/contact-status',
         label: 'Contact Status',
+        permissions: [],
       },
     ],
   },
   {
     label: 'Logout',
     key: 'logout',
+    permissions: [],
     role: 'AIR_SALES',
     icon: LogoutImage,
   },
@@ -357,11 +412,14 @@ export const LowerSalesRoutes = [
     icon: SettingImage,
     role: 'AIR_SALES',
     key: 'air-sales/settings',
+    permissions: [],
   },
+
   {
     label: 'Logout',
     key: 'logout',
     role: 'AIR_SALES',
+    permissions: [],
     icon: LogoutImage,
   },
 ];
@@ -371,30 +429,37 @@ export const LowerServicesRoutes = [
     icon: SettingImage,
     role: 'SERVICES',
     key: 'air-services/settings',
+    permissions: [],
     textNames: [
       {
         key: 'air-services/settings/account-settings',
         label: 'Account Settings',
+        permissions: [],
       },
       {
         key: 'air-services/settings/project-workload',
         label: 'Project&Workload',
+        permissions: [],
       },
       {
         key: 'air-services/settings/user-management',
         label: 'User Management',
+        permissions: [],
       },
       {
         key: 'air-services/settings/asset-management',
         label: 'Asset Management',
+        permissions: [],
       },
       {
         key: 'air-services/settings/automation-productivity',
         label: 'Automation & Productivity',
+        permissions: [],
       },
       {
         key: 'air-services/settings/service-management',
         label: 'Service Management',
+        permissions: [],
       },
     ],
   },
