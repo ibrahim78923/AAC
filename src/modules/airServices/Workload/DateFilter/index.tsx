@@ -1,4 +1,11 @@
-import { Box, Button, IconButton, Popover, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Divider,
+  IconButton,
+  Popover,
+  Typography,
+} from '@mui/material';
 import dayjs from 'dayjs';
 import { DateCalendar } from '@mui/x-date-pickers';
 import { PrimaryCalendarIcon } from '@/assets/icons';
@@ -88,7 +95,7 @@ export const DateFilter = () => {
         }}
       >
         <DateCalendar onChange={(date: any) => setSelectedDate(date)} />
-        <hr />
+        <Divider />
         <Box textAlign={'end'} p={1}>
           <Button variant="outlined" type="button" sx={{ mx: 2 }}>
             Cancel

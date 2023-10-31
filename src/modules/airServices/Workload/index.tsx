@@ -5,9 +5,10 @@ import { Box, Grid, Typography } from '@mui/material';
 import dayjs from 'dayjs';
 import { DateCalendar } from '@mui/x-date-pickers';
 import { DateFilter } from './DateFilter';
-import { FilterButtons } from './FilterButtons';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import { ManageWorkLoadOptions } from './Workload.data';
+import { ManageWorkload } from './ManageWorkload';
+import { UnassignedWork } from './UnassignedWork';
+import { Filters } from './Filters';
+import { Profile } from './Profile';
 
 export const Workload = () => {
   return (
@@ -17,19 +18,18 @@ export const Workload = () => {
       </Typography>
 
       <Grid container spacing={4} mb={2}>
-        <Grid item xs={12} md={4}>
+        <Grid item xs={12} md={3}>
           <DateFilter />
         </Grid>
-        <Grid item xs={12} md={4} textAlign={'center'}>
-          profile
+        <Grid item xs={12} md={4} display={'flex'} justifyContent={'center'}>
+          <Profile />
         </Grid>
-        <Grid item xs={12} md={4} textAlign={'end'}>
-          <FilterButtons
-            buttonText={'Manage Workload'}
-            endIcon={<ArrowDropDownIcon />}
-            dropdownMain
-            dropdownMainArray={ManageWorkLoadOptions}
-          />
+        <Grid item xs={12} md={5} textAlign={'end'}>
+          <ManageWorkload />
+
+          <UnassignedWork />
+
+          <Filters />
         </Grid>
       </Grid>
 
