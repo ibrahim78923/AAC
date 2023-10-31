@@ -1,11 +1,12 @@
 import SuperAdminLayout from '@/layout/index';
-import RelatedTickets from '@/modules/airServices/ServicesTickets/SingleTicketDetail/RelatedTickets';
+import { Activities } from '@/modules/airServices/ServicesTickets/SingleTicketDetail/Activities';
+import { Box } from '@mui/material';
 
 const TestComponentsZainPage = () => {
   return (
-    <>
-      <RelatedTickets />
-    </>
+    <Box>
+      <Activities />
+    </Box>
   );
 };
 
