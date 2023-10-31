@@ -28,7 +28,7 @@ export const columns = (
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row.clientName,
+      accessorFn: (row: any) => row?.clientName,
       id: 'clientName',
       cell: (info: any) => (
         <Box sx={{ display: 'flex', gap: '5px' }}>
@@ -45,7 +45,7 @@ export const columns = (
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row.productsSuite,
+      accessorFn: (row: any) => row?.plans?.description,
       id: 'productsSuite',
       isSortable: true,
       header: 'Products/Suite',
@@ -53,37 +53,37 @@ export const columns = (
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
           <Typography variant="body3"> {info.getValue()}</Typography>
           <Typography variant="body3">
-            {info.row.original.productSub}
+            {info?.row?.original?.planProduct?.name}
           </Typography>
         </Box>
       ),
     },
     {
-      accessorFn: (row: any) => row.planType,
-      id: 'planType',
+      accessorFn: (row: any) => row?.plantypes,
+      id: 'plantypes',
       isSortable: true,
       header: 'Plan Type',
       cell: (info: any) => info.getValue(),
     },
 
     {
-      accessorFn: (row: any) => row.PlanPricee,
-      id: 'PlanPricee',
+      accessorFn: (row: any) => row?.plans?.planPrice,
+      id: 'planPrice',
       isSortable: true,
       header: 'Plan Price',
       cell: (info: any) => info.getValue(),
     },
 
     {
-      accessorFn: (row: any) => row.discount,
-      id: 'discount',
+      accessorFn: (row: any) => row?.planDiscount,
+      id: 'planDiscount',
       isSortable: true,
       header: 'Discount',
       cell: (info: any) => info.getValue(),
     },
 
     {
-      accessorFn: (row: any) => row.defaultUsers,
+      accessorFn: (row: any) => row?.plans?.defaultUsers,
       id: 'defaultUsers',
       isSortable: true,
       header: 'Default users',
@@ -91,10 +91,31 @@ export const columns = (
     },
 
     {
-      accessorFn: (row: any) => row.additionalUsers,
+      accessorFn: (row: any) => row?.additionalUsers,
       id: 'additionalUsers',
       isSortable: true,
       header: 'Additional Users',
+      cell: (info: any) => info.getValue(),
+    },
+    {
+      accessorFn: (row: any) => row?.defaultStorage,
+      id: 'DefaultStorage',
+      isSortable: true,
+      header: 'Default storage',
+      cell: (info: any) => info.getValue(),
+    },
+    {
+      accessorFn: (row: any) => row?.additionalStorage,
+      id: 'additionalStorage',
+      isSortable: true,
+      header: 'Additional storage',
+      cell: (info: any) => info.getValue(),
+    },
+    {
+      accessorFn: (row: any) => row?.billingDate.substring(0, 10),
+      id: 'billingDate',
+      isSortable: true,
+      header: 'Billing Date',
       cell: (info: any) => info.getValue(),
     },
   ];

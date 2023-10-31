@@ -16,6 +16,7 @@ const useBillingAndInvoices = () => {
   const { isShowViewBillingDetails, setIsShowViewBillingDetails } =
     useMenuOptions();
   const [isChecked, setIsChecked] = useState(false);
+  const [isGetRowValues, setIsGetRowValues] = useState('');
 
   const paramsObj: any = {};
   // const paramsObj: ParamsObject = {}
@@ -25,7 +26,6 @@ const useBillingAndInvoices = () => {
     .map(([key, value]) => `${key}=${encodeURIComponent(value)}`)
     .join('&');
   const query = `&${queryParams}`;
-  const [isGetRowValues, setIsGetRowValues] = useState('');
 
   const { data: assignPlanTableData } = useGetBilingInvoicesQuery<any>({
     query,

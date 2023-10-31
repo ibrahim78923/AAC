@@ -3,47 +3,23 @@ import { RHFDatePicker, RHFSelect } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
 export const validationSchema = Yup.object().shape({
-  requester: Yup.string().required('Field is Required'),
-  subject: Yup.string().trim().required('Field is Required'),
-  description: Yup.string(),
-  category: Yup.string(),
-  status: Yup.string().required('Field is Required'),
-  priority: Yup.string().required('Field is Required'),
-  department: Yup.string(),
-  source: Yup.string(),
-  impact: Yup.string(),
-  agent: Yup.string(),
+  ClientOrganization: Yup.string(),
+  productSuite: Yup.string().trim(),
+  planType: Yup.string().trim(),
   plannedStartDate: Yup.date(),
-  plannedStartTime: Yup.date(),
-  plannedEndDate: Yup.date(),
-  plannedEndTime: Yup.date(),
-  plannedEffort: Yup.string(),
-  attachFile: Yup.mixed(),
 });
 
 export const defaultValues = {
-  requester: '',
-  subject: '',
-  description: '',
-  category: '',
-  status: '',
-  priority: '',
-  department: '',
-  source: '',
-  impact: '',
-  agent: '',
+  ClientOrganization: '',
+  productSuite: '',
+  planType: '',
   plannedStartDate: new Date(),
-  plannedStartTime: new Date(),
-  plannedEndDate: new Date(),
-  plannedEndTime: new Date(),
-  plannedEffort: '',
-  attachFile: null,
 };
 
 export const dataArray = [
   {
     componentProps: {
-      name: 'requester',
+      name: 'ClientOrganization',
       label: 'Client & Organization',
       fullWidth: true,
       select: true,
@@ -62,7 +38,7 @@ export const dataArray = [
   },
   {
     componentProps: {
-      name: 'product/suite',
+      name: 'productSuite',
       label: 'Product/Suite',
       fullWidth: true,
       select: true,

@@ -3,33 +3,20 @@ import { Grid, Box } from '@mui/material';
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
 
-import { dataArray, defaultValues, validationSchema } from './Filters.data';
+import { dataArray, defaultValues } from './Filters.data';
 
-import { yupResolver } from '@hookform/resolvers/yup';
-
-import { useForm } from 'react-hook-form';
-import { enqueueSnackbar } from 'notistack';
 import { v4 as uuidv4 } from 'uuid';
+import useFilter from './useFilter';
 
 export default function Filters({
   isOpenDrawer,
   onClose,
   initialValueProps = defaultValues,
 }: any) {
-  const methods: any = useForm({
-    resolver: yupResolver(validationSchema),
-
-    defaultValues: initialValueProps,
-  });
-
-  const { handleSubmit } = methods;
-
-  const onSubmit = async () => {
-    enqueueSnackbar('Ticket Updated Successfully', {
-      variant: 'success',
-    });
-  };
-
+  const { handleSubmit, onSubmit, methods } = useFilter(
+    onClose,
+    initialValueProps,
+  );
   return (
     <CommonDrawer
       isDrawerOpen={isOpenDrawer}
