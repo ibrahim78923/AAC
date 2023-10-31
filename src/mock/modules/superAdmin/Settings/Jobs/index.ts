@@ -49,16 +49,3 @@ export const jobApplicationTabledata: any = [
     status: 'pending',
   },
 ];
-
-export const jobPostingTabledata: any = [
-  {
-    id: 1,
-    jobTitle: 'React JS Developer',
-    shortDescription: 'We are looking for  a ...',
-    category: 'Marketing',
-    noOfVacancy: '1',
-    createdBy: 'Arlene McCoy',
-    createdDate: '10/04/2023',
-    status: 'open',
-  },
-];

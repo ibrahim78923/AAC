@@ -1,3 +1,7 @@
+export const SETTINGS_API = {
+  jobs: '/jobs',
+  faqs: '/faqs',
+};
 // ======================================================================
 
 function path(root: string, sublink: string) {

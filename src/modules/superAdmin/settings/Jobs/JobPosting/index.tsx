@@ -13,37 +13,46 @@ import {
   columns,
   jobPostingDataArray,
   jobPostingDefaultValues,
-  jobPostingFiltersDataArray,
-  jobPostingFiltersDefaultValues,
-  jobPostingFiltersValidationSchema,
+  jobPostingFiltersFields,
   jobPostingValidationSchema,
 } from './jobPosting.data';
-
 import { JobPostingPropsI } from './JobPostingProps.interface';
-
-import { jobPostingTabledata } from '@/mock/modules/superAdmin/Settings/Jobs';
-
 import { DownIcon, FilterSharedIcon, RefreshSharedIcon } from '@/assets/icons';
-
 import { v4 as uuidv4 } from 'uuid';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { styles } from './Jobs.styles';
+import { useGetJobsQuery } from '@/services/superAdmin/settings/jobs';
+import useJobPosting from './useJobPosting';
 
 const JobPosting = ({
   isJobPostingDrawer,
   setIsJobPostingDrawer,
 }: JobPostingPropsI) => {
   const theme = useTheme();
-  const [jobPostingSearch, setJobPostingSearch] = useState<string>('');
-  const [isJobPostingFilterDrawer, setIsJobPostingFilterDrawer] =
-    useState<boolean>(false);
   const [isjobPostingDeleteModal, setIsJobPostingDeleteModal] =
     useState<boolean>(false);
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const actionMenuOpen = Boolean(anchorEl);
+  const {
+    jobsParams,
+    searchValue,
+    handleSearch,
+    handleRefresh,
+    openJobPostingFilter,
+    handleOpenJobPostingFilters,
+    handleCloseJobPostingFilters,
+    handleFiltersSubmit,
+    methodsFilterJobPosting,
+    handleChangeRowsPerPage,
+    rowsPerPage,
+    handleChangePage,
+    page,
+  } = useJobPosting();
+  const { data } = useGetJobsQuery(jobsParams);
+  // isLoading, isFetching, isSuccess, isError
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -55,17 +64,12 @@ const JobPosting = ({
     resolver: yupResolver(jobPostingValidationSchema),
     defaultValues: jobPostingDefaultValues,
   });
-  const methodsFilterJobPosting = useForm({
-    resolver: yupResolver(jobPostingFiltersValidationSchema),
-    defaultValues: jobPostingFiltersDefaultValues,
-  });
 
   const onSubmit = () => {
     setIsJobPostingDrawer(false);
   };
 
   const { handleSubmit } = methodsAddJobPosting;
-  const { handleSubmit: filterSubmitHandler } = methodsFilterJobPosting;
 
   return (
     <Box>
@@ -82,10 +86,10 @@ const JobPosting = ({
       >
         <Search
           label={'Search here'}
-          searchBy={jobPostingSearch}
-          setSearchBy={setJobPostingSearch}
           width="100%"
           size="small"
+          onChange={handleSearch}
+          value={searchValue}
         />
         <Box
           sx={{
@@ -128,23 +132,27 @@ const JobPosting = ({
             </MenuItem>
           </Menu>
 
-          <Button sx={styles.refreshButton(theme)}>
+          <Button sx={styles.refreshButton(theme)} onClick={handleRefresh}>
             <RefreshSharedIcon />
           </Button>
           <Button
             sx={styles.filterButton(theme)}
-            onClick={() => setIsJobPostingFilterDrawer(true)}
+            onClick={handleOpenJobPostingFilters}
           >
             <FilterSharedIcon /> &nbsp; Filter
           </Button>
         </Box>
       </Box>
       <Box>
-        <TanstackTable columns={columns} data={jobPostingTabledata} />
+        <TanstackTable columns={columns} data={data?.data?.jobs} />
         <CustomPagination
-          count={1}
-          rowsPerPageOptions={[1, 2]}
-          entriePages={1}
+          page={page}
+          count={data?.data?.meta?.total / rowsPerPage}
+          rowsPerPage={rowsPerPage}
+          rowsPerPageOptions={[2, 10, 25, 50, 100]}
+          entriePages={data?.data?.meta?.total}
+          handleChangeRowsPerPage={handleChangeRowsPerPage}
+          handleChangePage={handleChangePage}
         />
       </Box>
       <CommonDrawer
@@ -179,22 +187,20 @@ const JobPosting = ({
           </FormProvider>
         </>
       </CommonDrawer>
+
       <CommonDrawer
-        isDrawerOpen={isJobPostingFilterDrawer}
-        onClose={() => setIsJobPostingFilterDrawer(false)}
+        isDrawerOpen={openJobPostingFilter}
+        onClose={handleCloseJobPostingFilters}
         title="Filters"
         okText="Apply"
         isOk={true}
         footer={true}
-        submitHandler={filterSubmitHandler(onSubmit)}
+        submitHandler={handleFiltersSubmit}
       >
         <>
-          <FormProvider
-            methods={methodsFilterJobPosting}
-            onSubmit={filterSubmitHandler(onSubmit)}
-          >
+          <FormProvider methods={methodsFilterJobPosting}>
             <Grid container spacing={4}>
-              {jobPostingFiltersDataArray?.map((item: any) => (
+              {jobPostingFiltersFields?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
                   <item.component {...item.componentProps} size={'small'}>
                     {item?.componentProps?.select

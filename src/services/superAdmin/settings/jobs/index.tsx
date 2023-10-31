@@ -1,18 +1,20 @@
 import { baseAPI } from '@/services/base-api';
+import { SETTINGS_API } from '@/routesConstants/paths';
 
 export const settingsJobsAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getJobs: builder.query({
-      query: () => ({
-        url: `/jobs`,
+      query: (params) => ({
+        url: SETTINGS_API.jobs,
         method: 'GET',
+        params: params,
       }),
       providesTags: ['SETTINGS_JOBS'],
     }),
 
     getJobById: builder.query({
       query: ({ id }: any) => ({
-        url: `/jobs/${id}`,
+        url: `${SETTINGS_API.jobs}/${id}`,
         method: 'GET',
       }),
       providesTags: ['SETTINGS_JOBS'],
@@ -20,7 +22,7 @@ export const settingsJobsAPI = baseAPI.injectEndpoints({
 
     postJob: builder.mutation({
       query: ({ id, body }: any) => ({
-        url: `/jobs/${id}`,
+        url: `${SETTINGS_API.jobs}/${id}`,
         method: 'POST',
         body: body,
       }),
@@ -29,7 +31,7 @@ export const settingsJobsAPI = baseAPI.injectEndpoints({
 
     updateJob: builder.mutation({
       query: ({ id, body }: any) => ({
-        url: `/JOBS/${id}`,
+        url: `${SETTINGS_API.jobs}/${id}`,
         method: 'PATCH',
         body: body,
       }),
@@ -38,7 +40,7 @@ export const settingsJobsAPI = baseAPI.injectEndpoints({
 
     deleteJob: builder.mutation({
       query: ({ id }: any) => ({
-        url: `/JOBS/${id}`,
+        url: `${SETTINGS_API.jobs}/${id}`,
         method: 'DELETE',
       }),
       invalidatesTags: ['SETTINGS_JOBS'],

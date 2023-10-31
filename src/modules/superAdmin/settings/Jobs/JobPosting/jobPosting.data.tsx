@@ -118,36 +118,33 @@ export const jobPostingFiltersValidationSchema = Yup.object().shape({
 });
 
 export const jobPostingFiltersDefaultValues = {
-  jobTitle: '',
-  JobType: '',
-  dummy: '',
-  experienceLevel: '',
-  numberOfVacency: '',
-  applicationDedlineDates: '',
-  jobDiscription: '',
+  jobCategory: '',
+  createdById: '',
+  createdAt: '',
+  status: '',
 };
 
-export const jobPostingFiltersDataArray = [
+export const jobPostingFiltersFields = [
   {
     componentProps: {
-      name: 'category',
+      name: 'jobCategory',
       label: 'Category',
       select: true,
     },
     options: [
-      { value: 'Sales', label: 'Sales' },
-      { value: 'Marketing', label: 'Marketing' },
-      { value: 'Service', label: 'Service' },
-      { value: 'Operations', label: 'Operations' },
-      { value: 'Loyalty Program', label: 'Loyalty Program' },
+      { value: 'SALES', label: 'Sales' },
+      { value: 'MARKETING', label: 'Marketing' },
+      { value: 'SERVICES', label: 'Service' },
+      { value: 'OPERATIONS', label: 'Operations' },
+      { value: 'LOYALTY_PROGRAM', label: 'Loyalty Program' },
     ],
     component: RHFSelect,
     md: 12,
   },
   {
     componentProps: {
-      name: 'createdBy',
-      label: 'createdBy',
+      name: 'createdById',
+      label: 'Created By',
       select: true,
     },
     options: [
@@ -160,7 +157,7 @@ export const jobPostingFiltersDataArray = [
   },
   {
     componentProps: {
-      name: 'createdDate',
+      name: 'createdAt',
       label: 'Created Date',
       fullWidth: true,
     },
@@ -191,31 +188,46 @@ export const columns: any = [
     isSortable: false,
   },
   {
-    accessorFn: (row: any) => row.jobTitle,
-    id: 'jobTitle',
+    accessorFn: (row: any) => row.title,
+    id: 'title',
     cell: (info: any) => info.getValue(),
     header: 'Job Title',
     isSortable: false,
   },
   {
-    accessorFn: (row: any) => row.shortDescription,
-    id: 'shortDescription',
+    accessorFn: (row: any) => row.description,
+    id: 'description',
     isSortable: true,
     header: 'Short Discription',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => {
+      const response = info.getValue().replace(/<[^>]*>/g, '');
+      return <>{response}</>;
+    },
   },
   {
-    accessorFn: (row: any) => row.category,
-    id: 'category',
+    accessorFn: (row: any) => row.jobCategory,
+    id: 'jobCategory',
     isSortable: true,
     header: 'Category',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => {
+      const category =
+        info.getValue() === 'SALES'
+          ? 'Sales'
+          : info.getValue() === 'MARKETING'
+          ? 'Marketing'
+          : info.getValue() === 'SERVICES'
+          ? 'Services'
+          : info.getValue() === 'OPERATIONS'
+          ? 'Operations'
+          : 'Loyalty Program';
+      return <>{category}</>;
+    },
   },
   {
-    accessorFn: (row: any) => row.noOfVacancy,
-    id: 'noOfVacancy',
+    accessorFn: (row: any) => row.numberOfVacancy,
+    id: 'numberOfVacancy',
     isSortable: true,
-    header: 'No ofVacency',
+    header: 'No of Vacency',
     cell: (info: any) => info.getValue(),
   },
   {
@@ -237,6 +249,6 @@ export const columns: any = [
     id: 'status',
     isSortable: true,
     header: 'Status',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => (info.getValue() === 'OPEN' ? 'Open' : 'Close'),
   },
 ];

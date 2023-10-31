@@ -2,7 +2,7 @@ import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import { Grid, IconButton, Pagination, TablePagination } from '@mui/material';
 import { CustomPaginationPropsI } from './CustomPagination.interface';
-import { useCustomPaginationState } from './useCustomPagination';
+// import { useCustomPaginationState } from './useCustomPagination';
 
 import {
   paddingStyle,
@@ -15,10 +15,11 @@ const CustomPagination: React.FC<CustomPaginationPropsI> = ({
   count,
   rowsPerPageOptions,
   entriePages,
+  rowsPerPage,
+  handleChangeRowsPerPage,
+  handleChangePage,
+  page,
 }) => {
-  const { rowsPerPage, page, handleChangePage, handleChangeRowsPerPage } =
-    useCustomPaginationState();
-
   const handlePageChange = (
     event: React.ChangeEvent<unknown>,
     value: number,
@@ -42,9 +43,7 @@ const CustomPagination: React.FC<CustomPaginationPropsI> = ({
             page={page}
             onPageChange={handleChangePage}
             rowsPerPage={rowsPerPage}
-            onRowsPerPageChange={(e) =>
-              handleChangeRowsPerPage(parseInt(e.target.value, 10))
-            }
+            onRowsPerPageChange={handleChangeRowsPerPage}
             labelRowsPerPage="Show"
             labelDisplayedRows={() => `of ${entriePages} entries`}
             rowsPerPageOptions={rowsPerPageOptions}
