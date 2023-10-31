@@ -36,6 +36,7 @@ import { DownIcon, FilterSharedIcon, RefreshSharedIcon } from '@/assets/icons';
 
 import { styles } from './NewsAndEvents.style';
 import { v4 as uuidv4 } from 'uuid';
+import useNewsAndEvents from './useNewsAndEvents';
 
 const NewsAndEvents = () => {
   const theme = useTheme();
@@ -44,11 +45,17 @@ const NewsAndEvents = () => {
   const [newsAndEventsSearch, setNewsAndEventsSearch] = useState('');
   const [isNewsAndEventsDeleteModal, setisNewsAndEventsDeleteModal] =
     useState(false);
-
   const [isNewsAndEventAddModal, setIsNewsAndEventAddModal] = useState(false);
-
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const actionMenuOpen = Boolean(anchorEl);
+  const {
+    isDisabled,
+    setIsDisabled,
+    tableRowValues,
+    setTableRowValues,
+    isOpenEditDrawer,
+    setIsOpenEditDrawer,
+  } = useNewsAndEvents();
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -113,6 +120,7 @@ const NewsAndEvents = () => {
             aria-haspopup="true"
             aria-expanded={actionMenuOpen ? 'true' : undefined}
             onClick={handleClick}
+            disabled={!isDisabled}
             sx={{
               color: theme.palette.grey[500],
               height: '40px',
@@ -130,7 +138,7 @@ const NewsAndEvents = () => {
               'aria-labelledby': 'basic-button',
             }}
           >
-            <MenuItem>Edit</MenuItem>
+            <MenuItem onClick={() => setIsOpenEditDrawer(true)}>Edit</MenuItem>
             <MenuItem>Active</MenuItem>
             <MenuItem>Inactive</MenuItem>
             <MenuItem onClick={() => setisNewsAndEventsDeleteModal(true)}>
@@ -156,7 +164,15 @@ const NewsAndEvents = () => {
         </Box>
       </Box>
       <Box>
-        <TanstackTable columns={columns} data={newsAndEventsTabledata} />
+        <TanstackTable
+          columns={columns(
+            isDisabled,
+            setIsDisabled,
+            tableRowValues,
+            setTableRowValues,
+          )}
+          data={newsAndEventsTabledata}
+        />
         <CustomPagination
           count={1}
           rowsPerPageOptions={[1, 2]}
@@ -164,8 +180,11 @@ const NewsAndEvents = () => {
         />
       </Box>
       <CommonDrawer
-        isDrawerOpen={isNewsAndEventsFilterDrawerOpen}
-        onClose={() => setIsNewsAndEventsFilterDrawerOpen(false)}
+        isDrawerOpen={isNewsAndEventsFilterDrawerOpen || isOpenEditDrawer}
+        onClose={() => {
+          setIsNewsAndEventsFilterDrawerOpen(false);
+          setIsOpenEditDrawer(false);
+        }}
         title="Filters"
         okText="Apply"
         isOk={true}

@@ -149,12 +149,14 @@ export const styles = {
       overflow: 'auto',
     };
   },
-  layoutInnerBox: (theme: any) => {
+  layoutInnerBox: (theme: any, isZeroPaddingRoutes: any) => {
     return {
-      background: theme.palette.common.white,
+      background: isZeroPaddingRoutes
+        ? 'transparent'
+        : theme.palette.common.white,
       minHeight: `calc(100% - ${70}px)`,
       height: 'auto',
-      padding: '24px',
+      padding: `${isZeroPaddingRoutes ? '1px' : '24px'}`,
       borderRadius: '8px',
     };
   },
