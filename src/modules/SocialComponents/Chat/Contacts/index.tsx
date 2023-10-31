@@ -3,18 +3,16 @@ import {
   ToggleButton,
   Typography,
   ToggleButtonGroup,
-  useTheme,
 } from '@mui/material';
 
 import ContactList from './ContactsList';
 
-import { useContacts } from './Contacts.hook';
+import { useContacts } from './useContacts.hook';
 
 import { styles } from './Contact.style';
 
 const Contacts = () => {
-  const theme = useTheme();
-  const { chatMode, handleSelection } = useContacts({});
+  const { handleSelection, theme, chatMode } = useContacts();
 
   return (
     <>

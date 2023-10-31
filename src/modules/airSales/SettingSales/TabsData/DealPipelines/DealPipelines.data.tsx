@@ -30,4 +30,22 @@ export const dataArray = [
     component: RHFCheckbox,
     md: 12,
   },
+  {
+    componentProps: {
+      name: 'new(default)',
+      label: 'new(default)',
+      fullWidth: true,
+    },
+    component: RHFTextField,
+    md: 5,
+  },
+  {
+    componentProps: {
+      name: 'new(default)',
+      label: '',
+      fullWidth: true,
+    },
+    component: RHFTextField,
+    md: 5,
+  },
 ];

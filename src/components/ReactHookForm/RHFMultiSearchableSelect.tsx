@@ -113,11 +113,15 @@ export default function RHFMultiSearchableSelect({
                     display: 'flex',
                     marginBottom: '10px',
                     gap: '5px',
+                    borderRadius: '5px',
                     backgroundColor: isCheckBox
                       ? 'transparent'
                       : selectedValues.includes(option.value)
                       ? '#e0e0e0'
                       : 'transparent',
+                    '&:hover': {
+                      backgroundColor: '#e0e0e0',
+                    },
                   }}
                 >
                   {option.image && (
@@ -138,7 +142,7 @@ export default function RHFMultiSearchableSelect({
                       }
                     />
                   )}
-                  <Typography variant="body2">{option.label}</Typography>
+                  <Typography variant="body1">{option.label}</Typography>
                 </Box>
               ))}
             </>
