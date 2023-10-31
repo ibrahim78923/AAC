@@ -1,20 +1,24 @@
-import { Grid, Box } from '@mui/material';
+import { useState } from 'react';
 
-import { dataArray, defaultValues, validationSchema } from './EditForm.data';
+import { Grid, Box, Button, Typography } from '@mui/material';
+
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
+
+import {
+  assignPlanData,
+  defaultValues,
+  validationSchema,
+} from './EditForm.data';
 
 import { useForm } from 'react-hook-form';
 import { enqueueSnackbar } from 'notistack';
 import { yupResolver } from '@hookform/resolvers/yup';
-
 import { v4 as uuidv4 } from 'uuid';
 
 export default function EditForm({
   isOpenDrawer,
-
   onClose,
-
   initialValueProps = defaultValues,
 }: any) {
   const methods: any = useForm({
@@ -22,6 +26,8 @@ export default function EditForm({
 
     defaultValues: initialValueProps,
   });
+
+  const [selectProductSuite, setSelectProductSuite] = useState('product');
 
   const { handleSubmit } = methods;
 
@@ -44,8 +50,8 @@ export default function EditForm({
     >
       <Box mt={1}>
         <FormProvider methods={methods}>
-          <Grid container spacing={4}>
-            {dataArray?.map((item: any) => (
+          <Grid container spacing={4} sx={{ position: 'relative' }}>
+            {assignPlanData(selectProductSuite)?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={uuidv4()}>
                 <item.component {...item.componentProps} size={'small'}>
                   {item?.componentProps?.select &&
@@ -57,6 +63,34 @@ export default function EditForm({
                 </item.component>
               </Grid>
             ))}
+            <Box
+              sx={{
+                position: 'absolute',
+                top: 90,
+                right: 0,
+                background: '#E5E7EB',
+                borderRadius: '10px',
+              }}
+            >
+              <Button
+                onClick={() => setSelectProductSuite('product')}
+                variant={`${
+                  selectProductSuite === 'product' ? 'contained' : 'text'
+                }`}
+                sx={{ height: '25px', borderRadius: '10px' }}
+              >
+                <Typography>Product</Typography>{' '}
+              </Button>
+              <Button
+                onClick={() => setSelectProductSuite('CRM')}
+                variant={`${
+                  selectProductSuite === 'CRM' ? 'contained' : 'text'
+                }`}
+                sx={{ height: '25px', borderRadius: '10px' }}
+              >
+                <Typography>CRM Suite</Typography>
+              </Button>
+            </Box>
           </Grid>
         </FormProvider>
       </Box>

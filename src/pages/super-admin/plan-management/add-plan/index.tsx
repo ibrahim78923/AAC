@@ -2,10 +2,20 @@ import React from 'react';
 // ====================================================================================================
 import Layout from '@/layout';
 
-import AddPlan from '@/modules/superAdmin/PlanManagement/AddPlan';
+// un-comment this if want to use direct import
+// import AddPlan from '@/modules/superAdmin/PlanManagement/AddPlan';
+import dynamic from 'next/dynamic';
+
+// Giving hydration error for wrapping the stepper with form provider
+const AddPlanDynamic = dynamic(
+  () => import('@/modules/superAdmin/PlanManagement/AddPlan'),
+  {
+    ssr: false,
+  },
+);
 
 const AddPlanPage = () => {
-  return <AddPlan />;
+  return <AddPlanDynamic />;
 };
 
 export default AddPlanPage;

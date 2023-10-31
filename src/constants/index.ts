@@ -12,3 +12,8 @@ export const AIR_SERVICES = {
     '/air-services/assets/contracts/detail/add-associate-asset',
   ASSETS_CONTRACTS_DETAIL: '/air-services/assets/contracts/detail',
 };
+
+export const ORG_ADMIN: any = {
+  ROLES_AND_RIGHTS: '/org-admin/roles-and-rights',
+  ADD_ROLE: '/org-admin/roles-and-rights/add-role',
+};
