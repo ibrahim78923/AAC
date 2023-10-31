@@ -87,6 +87,7 @@ export { default as AddRoundedImage } from '../../assets/images/modules/socialCo
 export { default as UserProfileAvatarImage } from '../../assets/images/modules/socialComponents/chat/user-profile-avatar.png';
 export { default as CallFilledImage } from '../../assets/images/modules/socialComponents/calling/call-filled.png';
 export { default as PdfAvatarImage } from '../../assets/images/modules/airMarketer/MyDocuments/pdf-avatar.png';
+export { default as UnionBgImage } from '../../assets/images/modules/superAdmin/dashboard/Union.png';
 
 export { default as ActivityLogImage } from './modules/airSales/Deals/activity-log.png';
 export { default as NotesAvatarImage } from './modules/airSales/Deals/notes-avatar.png';
