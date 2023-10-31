@@ -26,7 +26,7 @@ const UserDetailCard = ({ image, name, phone, handelCall, isMessage }: any) => {
             width={127}
             height={127}
             style={{ borderRadius: '20px' }}
-            alt="user-profile"
+            alt="user-avatar"
           />
           <Box>
             <Typography variant="h2" fontWeight={600}>
