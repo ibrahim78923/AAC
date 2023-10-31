@@ -1,67 +1,117 @@
-import { useForm } from 'react-hook-form';
-import { useRouter } from 'next/router';
+import { Box, Button, Stack } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import AppHorizontalStepper from '@/components/Stepper';
-import StepDeal from './StepDeal';
-import StepDetails from './StepDetails';
-import StepBuyerInfo from './StepBuyerInfo';
-import StepYourInfo from './StepYourInfo';
-import { defaultValues } from './CreateQuote.data';
-import StepSignature from './StepSignature';
-import StepLineItems from './StepLineItems';
-import StepReview from './StepReview';
+import FormCreateDeal from './FormCreateDeal';
+import useCreateQuote from './useCreateQuote';
+import FormAddContact from './FormAddContact';
+import FormAddCompany from './FormAddCompany';
+import FormCreateProduct from './FormCreateProduct';
+import DialogSendToCustomer from './DialogSendToCustomer';
+import { styles } from './CreateQuote.style';
 
 const CreateQuote = () => {
-  const router = useRouter();
-  const methods: any = useForm({
-    defaultValues: defaultValues,
-  });
-  const createQuoteSteps = [
-    {
-      key: 'deal',
-      label: 'Deal',
-      component: <StepDeal />,
-    },
-    {
-      key: 'details',
-      label: 'Details',
-      component: <StepDetails />,
-    },
-    {
-      key: 'buyerInfo',
-      label: 'Buyer Info',
-      component: <StepBuyerInfo />,
-    },
-    {
-      key: 'yourInfo',
-      label: 'Your Info',
-      component: <StepYourInfo />,
-    },
-    {
-      key: 'lineItems',
-      label: 'Line Items',
-      component: <StepLineItems />,
-    },
-    {
-      key: 'signature',
-      label: 'Signature',
-      component: <StepSignature />,
-    },
-    {
-      key: 'review',
-      label: 'Review',
-      component: <StepReview />,
-    },
-  ];
+  const {
+    methods,
+    createQuoteSteps,
+    activeStep,
+    handleStepNext,
+    handleStepBack,
+    handleStepperCancel,
+    handleFormSubmit,
+    isOpenFormCreateDeal,
+    handleCloseFormCreateDeal,
+    isOpenFormAddContact,
+    handleCloseFormAddContact,
+    isOpenFormAddCompany,
+    handleCloseFormAddCompany,
+    isOpenFormCreateProduct,
+    handleCloseFormCreateProduct,
+    handleOpenDialog,
+    handleCloseDialog,
+    isOpenDialog,
+  } = useCreateQuote();
+
   return (
-    <FormProvider methods={methods}>
-      <AppHorizontalStepper
-        cancelButton
-        handleCancel={() => router.push('/air-sales/quotes')}
-        stepsArray={createQuoteSteps}
-        variantNextButton="contained"
+    <>
+      <FormProvider methods={methods}>
+        <AppHorizontalStepper
+          activeStep={activeStep}
+          stepperPadding="4rem 0 0"
+          stepperMargin="2rem 0 0"
+          stepsArray={createQuoteSteps}
+          stepperButtons={
+            <Box sx={styles.stepperButtons}>
+              {activeStep !== createQuoteSteps.length - 1 && (
+                <Button
+                  onClick={handleStepBack}
+                  variant="outlined"
+                  sx={styles.btnBack}
+                >
+                  Back
+                </Button>
+              )}
+              <Box sx={{ flex: '1' }}></Box>
+              <Stack direction={'row'} spacing={'12px'}>
+                {activeStep !== createQuoteSteps.length - 1 && (
+                  <>
+                    <Button
+                      onClick={handleStepperCancel}
+                      variant="outlined"
+                      sx={styles.btnBack}
+                    >
+                      Cancel
+                    </Button>
+                    <Button onClick={handleStepNext} variant="contained">
+                      Save & Continue
+                    </Button>
+                  </>
+                )}
+
+                {activeStep === createQuoteSteps.length - 1 && (
+                  <>
+                    <Button onClick={handleFormSubmit} variant="contained">
+                      Save & Submit Later
+                    </Button>
+                    <Button
+                      onClick={handleStepBack}
+                      variant="outlined"
+                      sx={styles.btnBack}
+                    >
+                      Preview
+                    </Button>
+                    <Button onClick={handleOpenDialog} variant="contained">
+                      Submit
+                    </Button>
+                  </>
+                )}
+              </Stack>
+            </Box>
+          }
+        />
+      </FormProvider>
+
+      <DialogSendToCustomer open={isOpenDialog} onClose={handleCloseDialog} />
+
+      <FormCreateDeal
+        open={isOpenFormCreateDeal}
+        onClose={handleCloseFormCreateDeal}
       />
-    </FormProvider>
+
+      <FormAddContact
+        open={isOpenFormAddContact}
+        onClose={handleCloseFormAddContact}
+      />
+
+      <FormAddCompany
+        open={isOpenFormAddCompany}
+        onClose={handleCloseFormAddCompany}
+      />
+
+      <FormCreateProduct
+        open={isOpenFormCreateProduct}
+        onClose={handleCloseFormCreateProduct}
+      />
+    </>
   );
 };
 

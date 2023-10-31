@@ -71,6 +71,7 @@ export { default as UserSenderImage } from '../../assets/images/modules/socialCo
 export { default as GreenBgImage } from '../../assets/images/modules/superAdmin/dashboard/green-bg-img.png';
 export { default as NotSelectedItemImage } from './modules/airSales/Dashboard/not-selected-item.png';
 export { default as AvatarCompanyImage } from './modules/airSales/Quotes/avatar-company.png';
+export { default as AvatarContactImage } from './modules/airSales/Quotes/contact-avatar.png';
 export { default as UserRoundImage } from './shared/user-round.png';
 export { default as PreviewVegImage } from '../../assets/images/modules/socialComponents/chat/preview-veg.png';
 export { default as PreviewTrainImage } from '../../assets/images/modules/socialComponents/chat/preview-train.png';

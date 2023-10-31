@@ -1,9 +1,10 @@
 import BuyerCompany from './BuyerCompany';
 import QuoteInfo from './QuoteInfo';
 import QuoteCreatedFor from './QuoteCreatedFor';
-import ProductsAndServices from './ProductsAndServices';
+import ProductsAndServices from './ProductsAndServices/index';
+import Quotation from './Quotation';
 
-const StepReview = () => {
+const ViewQuote = () => {
   return (
     <>
       <BuyerCompany />
@@ -13,8 +14,10 @@ const StepReview = () => {
       <QuoteCreatedFor />
 
       <ProductsAndServices />
+
+      <Quotation />
     </>
   );
 };
 
-export default StepReview;
+export default ViewQuote;

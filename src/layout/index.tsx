@@ -290,7 +290,7 @@ const Layout = (props: LayoutI) => {
                         </Collapse>
                       </>
                     ) : (
-                      <Link key={uuidv4()} href={`${link.key}`}>
+                      <Link key={uuidv4()} href={`/${link.key}`}>
                         <ListItem sx={{ padding: '6px 0px 6px 0px' }}>
                           <ListItemButton
                             sx={styles.mainNavLink(link, router, theme)}
