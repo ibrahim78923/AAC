@@ -9,32 +9,13 @@ import {
 } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { v4 as uuidv4 } from 'uuid';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { enqueueSnackbar } from 'notistack';
-import {
-  upsertValidationSchema,
-  upsertDefaultValues,
-  upsertDataArray,
-} from './UpsertFolder.data';
-import CloseIcon from '@/assets/icons/shared/AlertModels/close-icon';
+import { upsertDataArray } from './UpsertFolder.data';
+import { AlertModalCloseIcon } from '@/assets/icons';
+import { useUpsertFolder } from './useUpsertFolder';
 
-export const UpsertFolder = ({ openDialog, setOpenDialog }: any) => {
-  const methods: any = useForm({
-    resolver: yupResolver(upsertValidationSchema),
-    defaultValues: upsertDefaultValues,
-  });
-
-  const { handleSubmit, reset } = methods;
-
-  const onSubmit = async () => {
-    enqueueSnackbar('Create Folder Successfully!', {
-      variant: 'success',
-      autoHideDuration: 3000,
-    });
-    setOpenDialog(false);
-    reset(upsertDefaultValues);
-  };
+export const UpsertFolder = (props: any) => {
+  const { openDialog, setOpenDialog } = props;
+  const { methods, handleSubmit, onSubmit } = useUpsertFolder(props);
 
   return (
     <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
@@ -46,11 +27,11 @@ export const UpsertFolder = ({ openDialog, setOpenDialog }: any) => {
           paddingBottom={'1rem'}
         >
           <Typography variant="h5">Create Folder</Typography>
-          <CloseIcon
+          <AlertModalCloseIcon
             onClick={() => {
               setOpenDialog(false);
             }}
-            style={{ cursor: 'pointer' }}
+            sx={{ cursor: 'pointer' }}
           />
         </Box>
       </DialogTitle>

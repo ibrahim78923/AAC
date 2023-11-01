@@ -1,14 +1,15 @@
 import Image from 'next/image';
 import { Grid, Typography, Box, useTheme } from '@mui/material';
-import SmsImage from '@/assets/images/modules/viewdetails/sms-image.png';
-import ViewDetailBackArrowIcon from '@/assets/icons/modules/view-detail-Icon/view-detail-back-arrow-icon';
-import ViewDetailCallIcon from '@/assets/icons/modules/view-detail-Icon/view-details-call-icon';
-import ViewDetailKababMenuIcon from '@/assets/icons/modules/view-detail-Icon/view-details-kababmenu-icon';
-import ViewDetailMeetingIcon from '@/assets/icons/modules/view-detail-Icon/view-details-meeting-icon';
 import DetailTimePicker from './TimePicker';
-
-import { ViewDetailVuesaxIcon } from '@/assets/icons';
+import {
+  ViewDetailBackArrowIcon,
+  ViewDetailCallIcon,
+  ViewDetailKababMenuIcon,
+  ViewDetailMeetingIcon,
+  ViewDetailVuesaxIcon,
+} from '@/assets/icons';
 import { styles } from './Header.style';
+import { SmsImage } from '@/assets/images';
 
 export default function Header() {
   const theme: any = useTheme();
@@ -27,6 +28,7 @@ export default function Header() {
           item
           sx={{
             display: 'flex',
+            gap: 1,
           }}
         >
           <ViewDetailBackArrowIcon />

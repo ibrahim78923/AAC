@@ -1,5 +1,6 @@
-import { Checkbox } from '@mui/material';
+import { Checkbox, Typography } from '@mui/material';
 import { RHFSelect } from '@/components/ReactHookForm';
+import { AIR_SERVICES } from '@/constants';
 
 export const dataArray = [
   {
@@ -82,27 +83,29 @@ export const columns = (
     accessorFn: (row: any) => row.Software,
     id: 'Software',
     isSortable: true,
-    header: <span>Software</span>,
+    header: 'Software',
     cell: (info: any) => (
-      <span
+      <Typography
+        component="span"
         onClick={() =>
           router.push({
-            pathname: '/air-services/assets/software/detail',
+            pathname: AIR_SERVICES?.ASSETS_SOFTWARE_DETAIL,
             query: {
               softwareId: info?.row?.id,
             },
           })
         }
-        style={{ color: '#0AADC7', cursor: 'pointer' }}
+        color="custom.bright"
+        sx={{ cursor: 'pointer' }}
       >
         {info.getValue()}
-      </span>
+      </Typography>
     ),
   },
   {
     accessorFn: (row: any) => row.Status,
     id: 'Status',
-    header: <span>Status</span>,
+    header: 'Status',
     isSortable: true,
     cell: (info: any) => info.getValue(),
   },
@@ -110,21 +113,21 @@ export const columns = (
     accessorFn: (row: any) => row.Category,
     id: 'Category',
     isSortable: true,
-    header: <span>Category</span>,
+    header: 'Category',
     cell: (info: any) => info.getValue(),
   },
   {
     accessorFn: (row: any) => row.ContractValue,
     id: 'Contract Value',
     isSortable: true,
-    header: <span>Contract Value</span>,
+    header: 'Contract Value',
     cell: (info: any) => info.getValue(),
   },
   {
     accessorFn: (row: any) => row.ManagedBy,
     id: 'Managed By',
     isSortable: true,
-    header: <span>Managed By</span>,
+    header: 'Managed By',
     cell: (info: any) => info.getValue(),
   },
   {

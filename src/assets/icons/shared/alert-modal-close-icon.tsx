@@ -1,4 +1,4 @@
-const CloseIcon = (props: any) => {
+const AlertModalCloseIcon = (props: any) => {
   return (
     <svg
       width="24"
@@ -26,4 +26,4 @@ const CloseIcon = (props: any) => {
   );
 };
 
-export default CloseIcon;
+export default AlertModalCloseIcon;

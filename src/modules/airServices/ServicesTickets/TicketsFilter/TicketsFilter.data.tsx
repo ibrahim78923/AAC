@@ -90,15 +90,15 @@ export const ticketsFilterDefaultFormValuesFunction = (
   };
 };
 
-export const ticketsFilterFormSchema: any = Yup.object().shape({
-  ticketType: Yup.string(),
-  created: Yup.string(),
-  status: Yup.string(),
-  agents: Yup.string(),
-  requester: Yup.string(),
-  priority: Yup.string(),
-  impact: Yup.string(),
-  urgency: Yup.string(),
+export const ticketsFilterFormSchema: any = Yup?.object()?.shape({
+  ticketType: Yup?.string(),
+  created: Yup?.string(),
+  status: Yup?.string(),
+  agents: Yup?.string(),
+  requester: Yup?.string(),
+  priority: Yup?.string(),
+  impact: Yup?.string(),
+  urgency: Yup?.string(),
 });
 
 export const ticketsFilterFormFieldsDataFunction = (isFieldDisable = false) => [
