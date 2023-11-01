@@ -3,7 +3,7 @@ export const styles = (matches: boolean) => ({
     fontWeight: 500,
     fontSize: '1rem',
     p: '1.125rem',
-    width: matches ? '100%' : '202px',
+    width: matches ? '100%' : 202,
     display: 'flex',
   },
   tableBox: {
@@ -23,8 +23,8 @@ export const styles = (matches: boolean) => ({
   filterButton: {
     fontWeight: 500,
     p: '0.75rem',
-    height: '36px',
-    width: matches ? '100%' : '95px',
+    height: 36,
+    width: matches ? '100%' : 95,
     color: 'custom.main',
     borderColor: '#D1D5DB !important',
   },
