@@ -13,8 +13,8 @@ const OverviewBilling = () => {
     >
       {modelBillingData?.map((item: any) => {
         const totalItem = [
-          modelBillingData[0]?.label,
-          modelBillingData[modelBillingData?.length - 1]?.label,
+          modelBillingData?.[0]?.label,
+          modelBillingData?.[modelBillingData?.length - 1]?.label,
         ];
         return (
           <Grid

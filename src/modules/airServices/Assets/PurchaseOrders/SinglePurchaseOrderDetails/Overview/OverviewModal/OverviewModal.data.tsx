@@ -1,15 +1,14 @@
-import { useTheme } from '@mui/material';
+import { Typography } from '@mui/material';
 
-export const overviewTablePdfColumns: any = () => {
-  const theme = useTheme();
+export const overviewTablePdfColumns: any = (theme: any) => {
   return [
     {
       accessorFn: (row: any) => row?.itemName,
       id: 'itemName',
       cell: (info: any) => (
-        <span style={{ color: theme?.palette?.blue?.dull_blue }}>
+        <Typography color={theme?.palette?.blue?.dull_blue}>
           {info?.getValue()}
-        </span>
+        </Typography>
       ),
       header: 'Item Name',
     },

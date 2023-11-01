@@ -1,4 +1,4 @@
-import { useTheme } from '@mui/material';
+import { Typography } from '@mui/material';
 
 export const overviewData = [
   {
@@ -19,16 +19,18 @@ export const overviewData = [
   },
 ];
 
-export const overviewTableColumns: any = (setOpenOverviewModal: any) => {
-  const theme = useTheme();
+export const overviewTableColumns: any = (
+  setOpenOverviewModal: any,
+  theme: any,
+) => {
   return [
     {
       accessorFn: (row: any) => row?.itemName,
       id: 'itemName',
       cell: (info: any) => (
-        <span style={{ color: theme?.palette?.blue?.dull_blue }}>
+        <Typography color={theme?.palette?.blue?.dull_blue}>
           {info.getValue()}
-        </span>
+        </Typography>
       ),
       header: 'Item Name',
     },
@@ -67,12 +69,12 @@ export const overviewTableColumns: any = (setOpenOverviewModal: any) => {
       id: 'invoice',
       header: 'Invoice',
       cell: (info: any) => (
-        <span
-          style={{ cursor: 'pointer', color: theme?.palette?.primary?.main }}
+        <Typography
+          sx={{ cursor: 'pointer', color: theme?.palette?.primary?.main }}
           onClick={() => setOpenOverviewModal(true)}
         >
           {info.getValue()}
-        </span>
+        </Typography>
       ),
     },
   ];
