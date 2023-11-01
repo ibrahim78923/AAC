@@ -34,7 +34,10 @@ export const useCustomizeTicketColumn = (props: any) => {
   //   // });
   // };
   const onClose = () => {
-    const { tableAction, ...restQueries } = router?.query;
+    const {
+      // tableAction,
+      ...restQueries
+    } = router?.query;
     router.push({
       pathname: router?.pathname,
       query: {
