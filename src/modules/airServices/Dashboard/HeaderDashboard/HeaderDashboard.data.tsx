@@ -1,5 +1,4 @@
 import { Button } from '@mui/material';
-import { v4 as uuidv4 } from 'uuid';
 
 export const ActionsFunction = [
   {
@@ -12,38 +11,35 @@ export const ActionsFunction = [
 
 export const DashboardFunction = [
   {
-    title: 'Services',
-    key: uuidv4(),
-    rightSide: (
-      <div
-        style={{
-          color: 'red',
-          border: '1px solid',
-          padding: '3px 10px',
-          borderRadius: '16px',
-          cursor: 'pointer',
-          width: 'fit-content',
-        }}
-      >
-        open
+    title: (
+      <div style={{ display: 'flex', gap: '3rem' }}>
+        Services
+        <div
+          style={{
+            color: '#47B263',
+            border: '1px solid',
+            padding: '0 10px',
+            borderRadius: '16px',
+            cursor: 'pointer',
+            width: 'fit-content',
+          }}
+        >
+          open
+        </div>
       </div>
     ),
   },
   {
     title: 'Services_1',
-    key: uuidv4(),
   },
   {
     title: 'Services_2',
-    key: uuidv4(),
   },
   {
     title: 'Services_3',
-    key: uuidv4(),
   },
   {
     title: 'Services_4',
-    key: uuidv4(),
   },
   {
     title: (
@@ -51,6 +47,5 @@ export const DashboardFunction = [
         Manage Dashboards
       </Button>
     ),
-    key: uuidv4(),
   },
 ];

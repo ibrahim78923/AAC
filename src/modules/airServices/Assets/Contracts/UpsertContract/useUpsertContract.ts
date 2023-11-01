@@ -48,8 +48,7 @@ export const useUpsertContract = () => {
   //   );
   // }, [contractType,  reset]);
 
-  const submitUpsertContractForm = (data:any) => {
-    console.log(data);
+  const submitUpsertContractForm = ({}: any) => {
     enqueueSnackbar('Contract Created Successfully', {
       variant: 'success',
     });

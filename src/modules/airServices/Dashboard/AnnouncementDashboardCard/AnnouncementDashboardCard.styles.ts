@@ -3,7 +3,7 @@ export const styles: any = {
     display: 'flex',
     alignItems: 'center',
     flex: 1,
-    gap: 2,
+    gap: 18,
     background: '#FFF',
     borderBottom: isborderbottom ? '0.063rem solid #E5E7EB' : '',
     flexShrink: 0,

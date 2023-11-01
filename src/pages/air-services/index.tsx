@@ -1,11 +1,11 @@
 import Layout from '@/layout';
 import React from 'react';
-import ServicesDashboard from '@/modules/airServices/ServicesDashboard';
+import Dashboard from '@/modules/airServices/Dashboard';
 
 const AirServicesDashboard = () => {
   return (
     <>
-      <ServicesDashboard />
+      <Dashboard />
     </>
   );
 };

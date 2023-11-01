@@ -14,9 +14,10 @@ export const TopPerformerDashboardCard = ({
   topperformancetextthree,
   topperformancetextfour,
   topperformancetextfive,
+  topperformancetextsix,
+  topperformancetextseven,
 }: any) => {
   const [progress] = useState(10);
-
   return (
     <>
       <Box sx={styles?.boxMain}>
@@ -48,7 +49,7 @@ export const TopPerformerDashboardCard = ({
             {topperformancetextthree}
           </Typography>
         </Box>
-        <Box sx={{ display: 'flex', gap: 2, marginLeft: 4, marginTop: 2 }}>
+        <Box sx={{ display: 'flex', gap: 2, marginLeft: 4, marginTop: 1 }}>
           <Typography sx={styles?.topPerformaceProgressBar}>
             {progress}%
           </Typography>
@@ -57,7 +58,7 @@ export const TopPerformerDashboardCard = ({
           <LinearProgress
             value={progress}
             variant="determinate"
-            sx={{ width: '35%' }}
+            sx={{ width: '62%' }}
           />
         </Box>
         <Box
@@ -74,17 +75,28 @@ export const TopPerformerDashboardCard = ({
             src={iconone?.src}
             sx={{ width: '2.375rem', height: '2.721rem' }}
           />
-          <Typography sx={styles?.topPerformaceTextFour}>
-            {topperformancetextfour}
-          </Typography>
+          <Box>
+            <Typography sx={styles?.topPerformaceTextFour}>
+              {topperformancetextfour}
+            </Typography>
+            <Typography sx={styles?.topPerformaceTextFour}>
+              {topperformancetextfive}
+            </Typography>
+          </Box>
+
           <Avatar
             alt=""
             src={icontwo?.src}
             sx={{ width: '2.375rem', height: '2.721rem' }}
           />
-          <Typography sx={styles?.topPerformaceTextFour}>
-            {topperformancetextfive}
-          </Typography>
+          <Box>
+            <Typography sx={styles?.topPerformaceTextFour}>
+              {topperformancetextsix}
+            </Typography>
+            <Typography sx={styles?.topPerformaceTextFour}>
+              {topperformancetextseven}
+            </Typography>
+          </Box>
         </Box>
       </Box>
     </>
