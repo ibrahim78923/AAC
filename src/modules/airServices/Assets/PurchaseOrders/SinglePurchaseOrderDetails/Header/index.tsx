@@ -1,7 +1,7 @@
 import { Typography, Box, Button } from '@mui/material';
-import ViewDetailBackArrowIcon from '@/assets/icons/modules/view-detail-Icon/view-detail-back-arrow-icon';
 import React from 'react';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
+import { ViewDetailBackArrowIcon } from '@/assets/icons';
 
 export const Header = (props: any) => {
   const { dropdownOptions, handleAddToInventory, handleReceived } = props;
