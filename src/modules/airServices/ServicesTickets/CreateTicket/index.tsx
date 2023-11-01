@@ -6,8 +6,11 @@ import { useCreateTicket } from './useCreateTicket';
 import CommonDrawer from '@/components/CommonDrawer';
 
 function CreateTicket(props: any) {
-  const { isDrawerOpen,  setIsDrawerOpen} = props;
-  const { handleSubmit, submitCreateNewTicket, methods , onClose} =
+  const {
+    isDrawerOpen,
+    // setIsDrawerOpen
+  } = props;
+  const { handleSubmit, submitCreateNewTicket, methods, onClose } =
     useCreateTicket(props);
   return (
     <CommonDrawer
