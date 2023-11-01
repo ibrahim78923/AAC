@@ -4,7 +4,7 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
 import { Button } from '@mui/material';
 import { FilterSharedIcon } from '@/assets/icons';
-import ContractsDrawerForm from './ContractsDrawerForm';
+import ContractsDrawerForm from './FilterContractsForm';
 import { AlertModals } from '@/components/AlertModals';
 import { useContracts } from './useContracts';
 import { ExportButton } from '../../../../components/ExportButton';
