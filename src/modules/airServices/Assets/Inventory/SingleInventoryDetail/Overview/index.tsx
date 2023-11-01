@@ -9,11 +9,11 @@ export const Overview = () => {
     <Box>
       {overviewData?.map((item) => (
         <Box key={uuidv4()}>
-          <Typography variant="h5" py={'10px'}>
+          <Typography variant="h5" py={'.5rem'}>
             {item?.heading}
           </Typography>
           <Box sx={styles?.mainContainerBox}>
-            {item?.DetailsData?.map((detail) => (
+            {item?.detailsData?.map((detail) => (
               <Box key={uuidv4()}>
                 <Box sx={styles?.childContainerBox}>
                   <Box width={{ sm: '20%', xs: '8.75rem' }}>

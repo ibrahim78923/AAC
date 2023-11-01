@@ -10,7 +10,7 @@ export const styles = {
     padding: '1.25rem',
   },
   borderBox: (theme: any) => ({
-    borderBottom: `1px solid ${theme?.palette?.grey[700]}`,
+    borderBottom: `0.0625rem solid ${theme?.palette?.divider}`,
     height: '2vh',
   }),
 };

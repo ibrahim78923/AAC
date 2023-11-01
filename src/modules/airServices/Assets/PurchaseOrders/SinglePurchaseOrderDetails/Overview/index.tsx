@@ -6,14 +6,14 @@ import { overviewTableColumns, overviewListData } from './Overview.data';
 import OverviewModel from './OverviewModal';
 import OverviewBilling from './OverviewBilling';
 import TanstackTable from '@/components/Table/TanstackTable';
-import { useOverview } from './useOverView';
+import { useOverview } from './useOverview';
 export const Overview = () => {
   const { openOverviewModal, setOpenOverviewModal, theme } = useOverview();
   return (
     <Box>
       {overviewData?.map((item) => (
         <Box key={uuidv4()}>
-          <Typography variant="h5" py={'10px'}>
+          <Typography variant="h5" py={'0.625rem'}>
             {item?.heading}
           </Typography>
           <Box sx={styles?.mainContainerBox}>
@@ -28,7 +28,7 @@ export const Overview = () => {
                   <Box>
                     <Typography
                       variant="body2"
-                      sx={{ color: theme?.palette?.grey[900] }}
+                      color={theme?.palette?.grey[900]}
                     >
                       {detail?.detail}
                     </Typography>
@@ -40,7 +40,7 @@ export const Overview = () => {
         </Box>
       ))}
       <Box mt={'1rem'}>
-        <Typography variant="h5" py={'10px'}>
+        <Typography variant="h5" py={'0.625rem'}>
           Items Details
         </Typography>
         <TanstackTable
