@@ -31,7 +31,7 @@ export default function Filters({
       <Box mt={1}>
         <FormProvider methods={methods}>
           <Grid container spacing={4}>
-            {dataArray?.map((item: any) => (
+            {dataArray()?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={uuidv4()}>
                 <item.component {...item.componentProps} size={'small'}>
                   {item?.componentProps?.select &&

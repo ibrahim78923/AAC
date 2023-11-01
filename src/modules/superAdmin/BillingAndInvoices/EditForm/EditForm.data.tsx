@@ -3,6 +3,7 @@ import {
   RHFSelect,
   RHFTextField,
 } from '@/components/ReactHookForm';
+import { useGetProductsQuery } from '@/services/superAdmin/billing-invoices';
 
 import * as Yup from 'yup';
 
@@ -34,21 +35,24 @@ export const defaultValues = {
   date: new Date(),
 };
 
-const productSuite = [
-  { value: 'airSales', label: 'Air Sales' },
-  { value: 'airMarketer', label: 'Air Marketer' },
-  { value: 'airOperations', label: 'Air Operations' },
-  { value: 'airServices', label: 'Air Services' },
-  { value: 'loyaltyProgram', label: 'Loyalty Program' },
-];
-
 const CRMSuite = [
   { value: 'CRM1', label: 'CRM1' },
   { value: 'CRM2', label: 'CRM2' },
   { value: 'CRM3', label: 'CRM3' },
 ];
 export const assignPlanData = (selectProductSuite: string) => {
+  const { data: productData } = useGetProductsQuery<any>({
+    refetchOnMountOrArgChange: true,
+    pagination: `page=1&limit=10`,
+  });
+
+  const productSuite = productData?.data.map((product: any) => ({
+    value: product._id,
+    label: product.name,
+  }));
+
   const options = selectProductSuite === 'product' ? productSuite : CRMSuite;
+
   return [
     {
       componentProps: {

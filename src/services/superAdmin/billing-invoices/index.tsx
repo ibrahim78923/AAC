@@ -10,6 +10,13 @@ export const bilingInvoicesAPI = baseAPI.injectEndpoints({
       }),
       providesTags: ['bilingInvoices'],
     }),
+    getProducts: builder.query({
+      query: () => ({
+        url: `/products?status=inactive`,
+        method: 'GET',
+      }),
+      providesTags: ['bilingInvoices'],
+    }),
 
     getBilingInvoicesById: builder.query({
       query: ({ id }: any) => ({
@@ -51,6 +58,7 @@ export const {
   useUpdateBilingInvoicesMutation,
   usePostBilingInvoicesMutation,
   useGetBilingInvoicesQuery,
+  useGetProductsQuery,
   useDeleteBilingInvoicesMutation,
   useGetBilingInvoicesByIdQuery,
 } = bilingInvoicesAPI;
