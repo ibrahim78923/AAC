@@ -1,16 +1,14 @@
-import { Box, Typography, useTheme } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
 import { overviewData } from './Overview.data';
 import { styles } from './Overview.style';
 import { overviewTableColumns, overviewListData } from './Overview.data';
 import OverviewModel from './OverviewModal';
-import { useState } from 'react';
 import OverviewBilling from './OverviewBilling';
 import TanstackTable from '@/components/Table/TanstackTable';
+import { useOverview } from './useOverView';
 export const Overview = () => {
-  const theme = useTheme();
-  const [openOverviewModal, setOpenOverviewModal] = useState(false);
-
+  const { openOverviewModal, setOpenOverviewModal, theme } = useOverview();
   return (
     <Box>
       {overviewData?.map((item) => (
@@ -57,6 +55,7 @@ export const Overview = () => {
         <OverviewModel
           openOverviewModal={openOverviewModal}
           setOpenOverviewModal={setOpenOverviewModal}
+          theme={theme}
         />
       </Box>
     </Box>

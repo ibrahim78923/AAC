@@ -18,7 +18,11 @@ import { DownloadFileIcon, PrinterIcon } from '@/assets/icons';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { styles } from './OverviewModal.style';
 
-const OverviewModel = ({ openOverviewModal, setOpenOverviewModal }: any) => {
+const OverviewModel = ({
+  openOverviewModal,
+  setOpenOverviewModal,
+  theme,
+}: any) => {
   return (
     <Box>
       <Dialog
@@ -92,7 +96,7 @@ const OverviewModel = ({ openOverviewModal, setOpenOverviewModal }: any) => {
           <Box px={{ md: '3rem', xs: '1rem' }}>
             <TanstackTable
               data={overviewListPdfData}
-              columns={overviewTablePdfColumns()}
+              columns={overviewTablePdfColumns(theme)}
             />
           </Box>
           <Box m={{ md: '1rem 3rem 5rem 0' }} px={{ xs: '1rem' }}>
