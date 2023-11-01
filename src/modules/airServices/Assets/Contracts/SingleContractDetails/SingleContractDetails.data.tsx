@@ -7,48 +7,55 @@ export const singleContractDetailsActionDropdownFunction = (
 ) => [
   {
     title: 'Edit',
-    handleClick: (x: any) => {
-      x?.();
+    handleClick: (closeMenu: any) => {
+      router?.push({
+        pathname: AIR_SERVICES?.CONTRACT_FORM,
+        query: {
+          ...router?.query,
+          action: 'edit',
+        },
+      });
+      closeMenu?.();
     },
   },
   {
     title: 'Delete',
-    handleClick: (x: any) => {
+    handleClick: (closeMenu: any) => {
       setDeleteModalOpen?.(true);
-      x?.();
+      closeMenu?.();
     },
   },
   {
     title: 'Renew',
-    handleClick: (x: any) => {
-      router.push({
+    handleClick: (closeMenu: any) => {
+      router?.push({
         pathname: AIR_SERVICES?.UPDATE_CONTRACT,
         query: {
           ...router?.query,
           action: 'renew',
         },
       });
-      x?.();
+      closeMenu?.();
     },
   },
   {
     title: 'Extend',
-    handleClick: (x: any) => {
-      router.push({
+    handleClick: (closeMenu: any) => {
+      router?.push({
         pathname: AIR_SERVICES?.UPDATE_CONTRACT,
         query: {
           ...router?.query,
           action: 'extend',
         },
       });
-      x?.();
+      closeMenu?.();
     },
   },
   {
     title: 'Terminate',
-    handleClick: (x: any) => {
+    handleClick: (closeMenu: any) => {
       setTerminateModalOpen?.(true);
-      x?.();
+      closeMenu?.();
     },
   },
 ];

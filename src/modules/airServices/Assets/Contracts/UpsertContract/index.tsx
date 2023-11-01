@@ -1,7 +1,8 @@
 import { FormProvider, RHFDropZone } from '@/components/ReactHookForm';
 import { useUpsertContract } from './useUpsertContract';
-import { Box, Button, Grid } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
+import { LoadingButton } from '@mui/lab';
 
 export const UpsertContract = () => {
   const {
@@ -10,6 +11,7 @@ export const UpsertContract = () => {
     submitUpsertContractForm,
     theme,
     upsertContractFormFieldsData,
+    handleCancelBtn,
   } = useUpsertContract();
 
   return (
@@ -71,12 +73,17 @@ export const UpsertContract = () => {
             >
               <Box></Box>
               <Box display={'flex'} gap={2} alignItems={'center'}>
-                <Button variant="outlined" type="button" color="secondary">
+                <LoadingButton
+                  variant="outlined"
+                  type="button"
+                  color="secondary"
+                  onClick={() => handleCancelBtn?.()}
+                >
                   Cancel
-                </Button>
-                <Button variant="contained" type="submit">
+                </LoadingButton>
+                <LoadingButton variant="contained" type="submit">
                   Save
-                </Button>
+                </LoadingButton>
               </Box>
             </Box>
           </Grid>

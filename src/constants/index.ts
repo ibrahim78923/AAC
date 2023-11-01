@@ -6,14 +6,21 @@ export const SUPER_ADMIN: any = {
 };
 
 export const AIR_SERVICES = {
+  TICKETS: `/air-services/tickets`,
+  TICKETS_LIST: `/air-services/tickets/details`,
   PURCHASE_ORDER: '/air-services/assets/purchase-orders',
+  ASSETS_PURCHASE_ORDER_DETAIL: '/air-services/assets/purchase-orders/detail',
   NEW_PURCHASE_ORDER: '/air-services/assets/purchase-orders/new-purchase',
   ADD_ASSOCIATE_ASSET:
     '/air-services/assets/contracts/detail/add-associate-asset',
-  ASSETS_CONTRACTS_DETAIL: '/air-services/assets/contracts/detail',
   ASSETS_CONTRACTS: '/air-services/assets/contracts',
+  ASSETS_CONTRACTS_DETAIL: '/air-services/assets/contracts/detail',
   CONTRACT_FORM: `/air-services/assets/contracts/contract-form`,
   UPDATE_CONTRACT: `/air-services/assets/contracts/detail/update-contract`,
+  ASSETS_INVENTORY: `/air-services/assets/inventory`,
+  ASSETS_INVENTORY_DETAIL: `/air-services/assets/inventory/detail`,
+  ASSETS_SOFTWARE: `/air-services/assets/software`,
+  ASSETS_SOFTWARE_DETAIL: `/air-services/assets/software/detail`,
 };
 
 export const ORG_ADMIN: any = {

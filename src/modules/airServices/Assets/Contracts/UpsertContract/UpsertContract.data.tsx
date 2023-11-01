@@ -11,6 +11,13 @@ import { Box, Typography } from '@mui/material';
 
 const todayDate = dayjs()?.format('MM/DD/YYYY');
 
+export const CONTRACT_TYPES = {
+  LEASE: 'Lease',
+  MAINTENANCE: 'Maintenance',
+  SOFTWARE_LICENSE: 'Software License',
+  WARRANTY: 'Warranty',
+};
+
 export const dropdownDummy = [
   {
     value: 'option1',
@@ -187,7 +194,7 @@ export const upsertContractFormSchemaFunction: any = Yup?.object()?.shape({
   associateAssets: Yup?.string()
     ?.ensure()
     ?.when('type', {
-      is: (y: any) => y !== 'Software License',
+      is: (y: any) => y !== CONTRACT_TYPES?.SOFTWARE_LICENSE,
       then: (schema: any) => schema?.required(),
       otherwise: (schema) => schema?.notRequired(),
     }),
@@ -218,28 +225,28 @@ export const upsertContractFormSchemaFunction: any = Yup?.object()?.shape({
   software: Yup?.string()
     ?.ensure()
     ?.when('type', {
-      is: (y: any) => y === 'Software License',
+      is: (y: any) => y === CONTRACT_TYPES?.SOFTWARE_LICENSE,
       then: (schema: any) => schema?.required(),
       otherwise: (schema) => schema?.notRequired(),
     }),
   billingCycle: Yup?.string()
     ?.ensure()
     ?.when('type', {
-      is: (y: any) => y === 'Software License',
+      is: (y: any) => y === CONTRACT_TYPES?.SOFTWARE_LICENSE,
       then: (schema: any) => schema?.required(),
       otherwise: (schema) => schema?.notRequired(),
     }),
   licenseType: Yup?.string()
     ?.ensure()
     ?.when('type', {
-      is: (y: any) => y === 'Software License',
+      is: (y: any) => y === CONTRACT_TYPES?.SOFTWARE_LICENSE,
       then: (schema: any) => schema?.required(),
       otherwise: (schema) => schema?.notRequired(),
     }),
   licenseKey: Yup?.string()
     ?.ensure()
     ?.when('type', {
-      is: (y: any) => y === 'Software License',
+      is: (y: any) => y === CONTRACT_TYPES?.SOFTWARE_LICENSE,
       then: (schema: any) => schema?.required(),
       otherwise: (schema) => schema?.notRequired(),
     }),
@@ -254,17 +261,19 @@ export const upsertContractFormSchemaFunction: any = Yup?.object()?.shape({
       }),
     )
     ?.when('type', {
-      is: (val: any) => val === 'Software License',
+      is: (val: any) => val === CONTRACT_TYPES?.SOFTWARE_LICENSE,
       then: () => {
-        return Yup?.array()?.of(
-          Yup?.object()?.shape({
-            serviceName: Yup?.string()?.required('service name is required'),
-            priceModel: Yup?.string()?.required('Price model is required'),
-            cost: Yup?.number()?.positive()?.typeError('Not a number'),
-            count: Yup?.number()?.positive()?.typeError('Not a number'),
-            comments: Yup?.string(),
-          }),
-        );
+        return Yup?.array()
+          ?.of(
+            Yup?.object()?.shape({
+              serviceName: Yup?.string()?.required('service name is required'),
+              priceModel: Yup?.string()?.required('Price model is required'),
+              cost: Yup?.number()?.positive()?.typeError('Not a number'),
+              count: Yup?.number()?.positive()?.typeError('Not a number'),
+              comments: Yup?.string(),
+            }),
+          )
+          .min(1, 'At least one item is required');
       },
       otherwise: (schema: any) => schema?.notRequired(),
     }),
@@ -283,7 +292,7 @@ export const upsertContractFormFieldsDataFunction = (
   {
     id: 3092,
     componentProps: {
-      color: 'slateBlue?.main',
+      color: 'slateBlue.main',
       variant: 'h4',
     },
     heading: 'General Details',
@@ -322,20 +331,20 @@ export const upsertContractFormFieldsDataFunction = (
       options: contractTypeOptions,
       disabled: isFieldDisable,
       onChange: (e: any) => {
-        setValue('type', e?.target?.value);
-        setContractType(getValues?.('type'));
-        if (getValues('type') !== ' ') {
-          clearError('type');
+        setValue?.('type', e?.target?.value);
+        setContractType?.(getValues?.('type'));
+        if (getValues?.('type') !== ' ') {
+          clearError?.('type');
         }
-        if (getValues('type') === 'Software License') {
-          setValue('associateAssets', '');
-          clearError('associateAssets');
+        if (getValues?.('type') === CONTRACT_TYPES?.SOFTWARE_LICENSE) {
+          setValue?.('associateAssets', '');
+          clearError?.('associateAssets');
           return;
         }
-        setValue('associateAssets', getValues('associateAssets'));
-        getValues('associateAssets') !== ' '
-          ? clearError('associateAssets')
-          : setError('associateAssets', {
+        setValue?.('associateAssets', getValues?.('associateAssets'));
+        getValues?.('associateAssets') !== ''
+          ? clearError?.('associateAssets')
+          : setError?.('associateAssets', {
               message: 'Associate Asset is Required',
             });
       },
@@ -351,7 +360,7 @@ export const upsertContractFormFieldsDataFunction = (
       label: 'Associate Assets',
       select: true,
       options: dropdownDummy,
-      disabled: contractType === 'Software License',
+      disabled: contractType === CONTRACT_TYPES?.SOFTWARE_LICENSE,
     },
     md: 6,
     component: RHFSelect,
@@ -502,9 +511,18 @@ export const upsertContractFormFieldsDataFunction = (
         },
       ]
     : []),
-  // ...(watchForType === 'Software License'
-  ...(contractType === 'Software License'
+  ...(contractType === CONTRACT_TYPES?.SOFTWARE_LICENSE
     ? [
+        {
+          id: 3,
+          componentProps: {
+            color: 'slateBlue.main',
+            variant: 'h4',
+          },
+          heading: 'Item & Cost Details',
+          md: 12,
+          component: Typography,
+        },
         {
           id: 82,
           component: RHFSelect,
@@ -517,16 +535,6 @@ export const upsertContractFormFieldsDataFunction = (
             options: dropdownDummy,
             disabled: isFieldDisable,
           },
-        },
-        {
-          id: 3,
-          componentProps: {
-            color: 'slateBlue?.main',
-            variant: 'h4',
-          },
-          heading: 'Item & Cost Details',
-          md: 12,
-          component: Typography,
         },
         {
           id: 54383,

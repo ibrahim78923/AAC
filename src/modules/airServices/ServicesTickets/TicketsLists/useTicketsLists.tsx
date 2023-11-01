@@ -7,7 +7,6 @@ import {
 } from './TicketsLists.data';
 import { CustomizeTicketsColumn } from '../CustomizeTicketsColumn';
 import { useRouter } from 'next/router';
-import { TicketsBulkUpdate } from '../TicketsBulkUpdate';
 import { useTheme } from '@mui/material';
 import { TicketsFilter } from '../TicketsFilter';
 import CreateTicket from '../CreateTicket';
@@ -83,12 +82,6 @@ export const useTicketsLists = () => {
         isDrawerOpen={isDrawerOpen}
       />
     ),
-    [TABLE_CONSTANTS?.BULK_UPDATE_DATA]: (
-      <TicketsBulkUpdate
-        setIsDrawerOpen={setIsDrawerOpen}
-        isDrawerOpen={isDrawerOpen}
-      />
-    ),
     [TABLE_CONSTANTS?.CREATE_NEW_TICKET]: (
       <CreateTicket
         setIsDrawerOpen={setIsDrawerOpen}
@@ -128,7 +121,7 @@ export const useTicketsLists = () => {
     enqueueSnackbar('Ticket deleted successfully', { variant: 'success' });
     setDeleteModalOpen(false);
   };
-  
+
   const ticketsActionDropdown = ticketsActionDropdownFunction?.(
     openDrawer,
     setDeleteModalOpen,

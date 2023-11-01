@@ -4,8 +4,7 @@ import { UpsertContract } from '@/modules/airServices/Assets/Contracts/UpsertCon
 const ContractFormPage = () => {
   return (
     <>
-      <>Form</>
-      <UpsertContract/>
+      <UpsertContract />
     </>
   );
 };

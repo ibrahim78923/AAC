@@ -1,6 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
 import { AvatarImage } from '@/assets/images';
-import { useTheme } from '@mui/material/styles';
 import {
   Box,
   Checkbox,
@@ -9,6 +8,7 @@ import {
   Avatar,
   Typography,
 } from '@mui/material';
+import { AIR_SERVICES } from '@/constants';
 
 export const TABLE_CONSTANTS = {
   CUSTOMIZE_COLUMN: 'customize-column',
@@ -79,56 +79,56 @@ export const ticketsActionDropdownFunction = (
 ) => [
   {
     title: 'Edit',
-    handleClick: (x: any) => {
+    handleClick: (closeMenu: any) => {
       openDrawer?.(TABLE_CONSTANTS?.EDIT_TICKET);
-      x?.();
+      closeMenu?.();
     },
   },
   {
     title: 'Assignee',
-    handleClick: (x: any) => {
-      x?.();
+    handleClick: (closeMenu: any) => {
+      closeMenu?.();
     },
   },
   {
     title: 'Bulk Update',
-    handleClick: (x: any) => {
-      openDrawer?.(TABLE_CONSTANTS?.BULK_UPDATE_DATA);
-      x?.();
+    handleClick: (closeMenu: any) => {
+      // openDrawer?.(TABLE_CONSTANTS?.BULK_UPDATE_DATA);
+      closeMenu?.();
     },
   },
   {
     title: 'Merge',
-    handleClick: (x: any) => {
-      x?.();
+    handleClick: (closeMenu: any) => {
+      closeMenu?.();
     },
   },
   {
     title: 'Move',
-    handleClick: (x: any) => {
-      x?.();
+    handleClick: (closeMenu: any) => {
+      closeMenu?.();
     },
   },
   {
     title: 'Mark as Close',
-    handleClick: (x: any) => {
+    handleClick: (closeMenu: any) => {
       markTicketAsClose?.();
-      x?.();
+      closeMenu?.();
     },
   },
   {
     title: 'Mark as Spam',
-    handleClick: (x: any) => {
+    handleClick: (closeMenu: any) => {
       markTicketAsSpam?.();
-      x?.();
+      closeMenu?.();
     },
   },
 
   {
     title: 'Delete',
-    handleClick: (x: any) => {
+    handleClick: (closeMenu: any) => {
       setDeleteModalOpen?.(true);
-      x?.();
+      closeMenu?.();
     },
   },
 ];
@@ -234,14 +234,14 @@ export const ticketsListsColumnFunction: any = (
             }}
             onClick={() => {
               router.push({
-                pathname: `${router.pathname}/detail`,
+                pathname: AIR_SERVICES?.TICKETS_LIST,
                 query: {
-                  id: info.getValue(),
+                  id: info?.getValue(),
                 },
               });
             }}
           >
-            {info.getValue()}
+            {info?.getValue()}
           </div>
         </Box>
       ),

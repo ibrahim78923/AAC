@@ -9,12 +9,13 @@ import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { enqueueSnackbar } from 'notistack';
+import { AIR_SERVICES } from '@/constants';
 
 export const useUpsertContract = () => {
   const theme = useTheme();
   const router = useRouter();
   const [contractType, setContractType] = useState(
-    (router.query.contractType ?? '') as string,
+    (router?.query?.contractType ?? '') as string,
   );
 
   const upsertContractFormMethods = useForm<any>({
@@ -37,16 +38,18 @@ export const useUpsertContract = () => {
     name: 'notifyExpiry',
     defaultValue: false,
   });
-
-  // TODO: we will use it after BR integration
+  const handleCancelBtn = () => {
+    router.push({ pathname: AIR_SERVICES?.ASSETS_CONTRACTS });
+  };
+  // TODO: we will use it after BE integration
   // useEffect(() => {
   //   reset(() =>
   //     upsertContractFormDefaultValuesFunction(contractType),
   //   );
   // }, [contractType,  reset]);
 
-  const submitUpsertContractForm = () => {
-    // console.log(data);
+  const submitUpsertContractForm = (data:any) => {
+    console.log(data);
     enqueueSnackbar('Contract Created Successfully', {
       variant: 'success',
     });
@@ -69,5 +72,6 @@ export const useUpsertContract = () => {
     submitUpsertContractForm,
     upsertContractFormFieldsData,
     theme,
+    handleCancelBtn,
   };
 };

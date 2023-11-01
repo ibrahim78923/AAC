@@ -9,17 +9,18 @@ export const columns = [
   'Comments',
   'Action',
 ];
+
 export const priceModelOptions = [
   {
     label: 'one time',
-    value: 'one time',
+    value: 'One time',
   },
   {
-    label: 'fixed',
+    label: 'Fixed',
     value: 'fixed',
   },
   {
-    label: 'per unit',
+    label: 'Per unit',
     value: 'per unit',
   },
 ];
@@ -31,11 +32,7 @@ export const tableData = (name: any, index: any, remove: any) => [
   {
     id: 2,
     data: (
-      <RHFSelect
-        name={`${name}.${index}.priceModel`}
-        // options={dropdownDummy}
-        size="small"
-      >
+      <RHFSelect name={`${name}.${index}.priceModel`} size="small">
         {priceModelOptions?.map((option: any) => (
           <option key={option?.value} value={option?.value}>
             {option?.label}

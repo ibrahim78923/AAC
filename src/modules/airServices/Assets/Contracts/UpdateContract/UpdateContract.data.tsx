@@ -26,7 +26,7 @@ export const updateContractFormFields = [
       variant: 'h5',
     },
     heading: 'Contract Details',
-    gridLength: 12,
+    md: 12,
     component: Typography,
   },
   {

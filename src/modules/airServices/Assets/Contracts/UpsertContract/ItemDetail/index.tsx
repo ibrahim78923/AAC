@@ -7,6 +7,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Typography,
   // useTheme,
 } from '@mui/material';
 import { useFormContext, useFieldArray } from 'react-hook-form';
@@ -24,52 +25,58 @@ export const ItemDetail: any = (props: any) => {
     name,
   });
   // const theme = useTheme();
-
   //TODO: use item.id as a key because RHF fieldArray is using and it recommends that.
 
   return (
-    <Box boxShadow={1} border={`1px solid gre`}>
-      <TableContainer>
-        <Table sx={{ minWidth: '1200px' }}>
-          <TableHead>
-            <TableRow>
-              {columns?.map((column: any) => (
-                <TableCell key={uuidv4()}>{column}</TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {fields?.map((item: any, index: any) => {
-              return (
-                <TableRow key={item?.id}>
-                  {tableData?.(name, index, remove)?.map((singleField: any) => (
-                    <TableCell key={singleField?.id}>
-                      {singleField?.data}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <Button
-        type="button"
-        color="secondary"
-        onClick={() => {
-          append({
-            serviceName: '',
-            priceModel: '',
-            cost: '',
-            count: '',
-            comments: '',
-          });
-        }}
-        startIcon={<AddCircleIcon />}
-        sx={{ padding: 2 }}
-      >
-        Add Additional Items
-      </Button>
-    </Box>
+    <>
+      <Box boxShadow={1}>
+        <TableContainer>
+          <Table sx={{ minWidth: '1200px' }}>
+            <TableHead>
+              <TableRow>
+                {columns?.map((column: any) => (
+                  <TableCell key={uuidv4()}>{column}</TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {fields?.map((item: any, index: any) => {
+                return (
+                  <TableRow key={item?.id}>
+                    {tableData?.(name, index, remove)?.map(
+                      (singleField: any) => (
+                        <TableCell key={uuidv4()}>
+                          {singleField?.data}
+                        </TableCell>
+                      ),
+                    )}
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <Button
+          type="button"
+          color="secondary"
+          onClick={() => {
+            append({
+              serviceName: '',
+              priceModel: '',
+              cost: '',
+              count: '',
+              comments: '',
+            });
+          }}
+          startIcon={<AddCircleIcon />}
+          sx={{ marginY: 2, marginLeft: 2 }}
+        >
+          Add Additional Items
+        </Button>
+      </Box>
+      <Typography variant="body1" color="error">
+        {control?.getFieldState?.(name)?.error?.root?.message}
+      </Typography>
+    </>
   );
 };
