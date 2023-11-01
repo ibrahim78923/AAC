@@ -1,7 +1,8 @@
 import { FolderIcon } from '@/assets/icons';
 import { Box, Typography, useTheme } from '@mui/material';
 
-export const KnowledgeBaseCard = ({ name, createdBy, createdDate }: any) => {
+export const KnowledgeBaseCard = (props: any) => {
+  const { name, createdBy, createdDate } = props;
   const theme = useTheme();
   return (
     <Box
