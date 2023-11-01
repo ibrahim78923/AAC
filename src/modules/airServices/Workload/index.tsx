@@ -1,9 +1,9 @@
-import FullCalendar from '@fullcalendar/react';
-import dayGridPlugin from '@fullcalendar/daygrid';
-import interactionPlugin from '@fullcalendar/interaction';
+// import FullCalendar from '@fullcalendar/react';
+// import dayGridPlugin from '@fullcalendar/daygrid';
+// import interactionPlugin from '@fullcalendar/interaction';
 import { Box, Grid, Typography } from '@mui/material';
-import dayjs from 'dayjs';
-import { DateCalendar } from '@mui/x-date-pickers';
+// import dayjs from 'dayjs';
+// import { DateCalendar } from '@mui/x-date-pickers';
 import { DateFilter } from './DateFilter';
 import { ManageWorkload } from './ManageWorkload';
 import { UnassignedWork } from './UnassignedWork';
@@ -33,7 +33,7 @@ export const Workload = () => {
         </Grid>
       </Grid>
 
-      <FullCalendar
+      {/* <FullCalendar
         dayHeaderFormat={(date: {
           start: {
             marker: string | number | Date | dayjs.Dayjs | null | undefined;
@@ -90,7 +90,7 @@ export const Workload = () => {
           hour: 'numeric',
           meridiem: true,
         }}
-      />
+      /> */}
     </Box>
   );
 };
