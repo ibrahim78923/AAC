@@ -8,7 +8,7 @@ import {
   Typography,
 } from '@mui/material';
 import Image from 'next/image';
-import { ApprovalData } from '../AllApprovals.mock';
+import { approvalData } from '../AllApprovals.data';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import CancelIcon from '@mui/icons-material/Cancel';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -71,7 +71,7 @@ export const AllApprovals = () => {
   return (
     <>
       <Box sx={styles.approvalsContainerBox}>
-        {ApprovalData?.map((item) => {
+        {approvalData?.map((item) => {
           return (
             <div key={item?.id} style={styles.approvalsContainer}>
               <Grid

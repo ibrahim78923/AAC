@@ -1,7 +1,8 @@
+import { AIR_SERVICES } from '@/constants';
 import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
 import { enqueueSnackbar } from 'notistack';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export function useContracts() {
   const [meetingsData, setMeetingsData] = useState([]);
@@ -11,8 +12,11 @@ export function useContracts() {
   const theme: any = useTheme();
   const router = useRouter();
   const handleAddNewContractClick = () => {
-    router.push('/air-services/assets/contracts');
+    router.push({
+      pathname: AIR_SERVICES?.CONTRACT_FORM,
+    });
   };
+  useEffect(() => {}, []);
   const handleActionClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setActionPop(event.currentTarget);
   };
