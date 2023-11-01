@@ -1,8 +1,8 @@
 import { Typography, Box } from '@mui/material';
-import ViewDetailBackArrowIcon from '@/assets/icons/modules/view-detail-Icon/view-detail-back-arrow-icon';
 
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { useRouter } from 'next/router';
+import { ViewDetailBackArrowIcon } from '@/assets/icons';
 export const Header = (props: any) => {
   const { dropdownOptions } = props;
   const router = useRouter();

@@ -1,6 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
 import { AvatarImage } from '@/assets/images';
-import { useTheme } from '@mui/material/styles';
 import {
   Box,
   Checkbox,
@@ -9,12 +8,14 @@ import {
   Avatar,
   Typography,
 } from '@mui/material';
+import { AIR_SERVICES } from '@/constants';
 
 export const TABLE_CONSTANTS = {
   CUSTOMIZE_COLUMN: 'customize-column',
   FILTER_DATA: 'filter-data',
   BULK_UPDATE_DATA: 'bulk-update-data',
   CREATE_NEW_TICKET: 'create-new-ticket',
+  EDIT_TICKET: 'edit-ticket',
 };
 
 const options = [
@@ -70,63 +71,67 @@ const priorityOptions = [
   },
 ];
 
-export const ticketsActionDropdownFunction = () =>
-  // openDrawer: any,
-  // setDeleteModalOpen: any,
-  [
-    {
-      title: 'Edit',
-      handleClick: (x: any) => {
-        // openDrawer?.(TABLE_CONSTANTS.CREATE_NEW_TICKET);
-        x?.();
-      },
+export const ticketsActionDropdownFunction = (
+  openDrawer: any,
+  setDeleteModalOpen: any,
+  markTicketAsClose: any,
+  markTicketAsSpam: any,
+) => [
+  {
+    title: 'Edit',
+    handleClick: (closeMenu: any) => {
+      openDrawer?.(TABLE_CONSTANTS?.EDIT_TICKET);
+      closeMenu?.();
     },
-    {
-      title: 'Assignee',
-      handleClick: (x: any) => {
-        x?.();
-      },
+  },
+  {
+    title: 'Assignee',
+    handleClick: (closeMenu: any) => {
+      closeMenu?.();
     },
-    {
-      title: 'Bulk Update',
-      handleClick: (x: any) => {
-        // openDrawer?.(TABLE_CONSTANTS.BULK_UPDATE_DATA);
-        x?.();
-      },
+  },
+  {
+    title: 'Bulk Update',
+    handleClick: (closeMenu: any) => {
+      // openDrawer?.(TABLE_CONSTANTS?.BULK_UPDATE_DATA);
+      closeMenu?.();
     },
-    {
-      title: 'Merge',
-      handleClick: (x: any) => {
-        x?.();
-      },
+  },
+  {
+    title: 'Merge',
+    handleClick: (closeMenu: any) => {
+      closeMenu?.();
     },
-    {
-      title: 'Move',
-      handleClick: (x: any) => {
-        x?.();
-      },
+  },
+  {
+    title: 'Move',
+    handleClick: (closeMenu: any) => {
+      closeMenu?.();
     },
-    {
-      title: 'Mark as Close',
-      handleClick: (x: any) => {
-        x?.();
-      },
+  },
+  {
+    title: 'Mark as Close',
+    handleClick: (closeMenu: any) => {
+      markTicketAsClose?.();
+      closeMenu?.();
     },
-    {
-      title: 'Mark as Spam',
-      handleClick: (x: any) => {
-        x?.();
-      },
+  },
+  {
+    title: 'Mark as Spam',
+    handleClick: (closeMenu: any) => {
+      markTicketAsSpam?.();
+      closeMenu?.();
     },
+  },
 
-    {
-      title: 'Delete',
-      handleClick: (x: any) => {
-        // setDeleteModalOpen?.(true);
-        x?.();
-      },
+  {
+    title: 'Delete',
+    handleClick: (closeMenu: any) => {
+      setDeleteModalOpen?.(true);
+      closeMenu?.();
     },
-  ];
+  },
+];
 
 export const ticketsListsData: any = [
   {
@@ -169,7 +174,7 @@ export const ticketsListsColumnFunction: any = (
   setSelectedTicketList: any,
   handleChange: (value: any, event: any) => void,
 ) => {
-  const { palette } = useTheme();
+  const { palette } = theme;
   return [
     {
       accessorFn: (row: any) => row.id,
@@ -178,28 +183,28 @@ export const ticketsListsColumnFunction: any = (
         <Checkbox
           checked={
             !!selectedTicketList.find(
-              (item: any) => item.id === info.getValue(),
+              (item: any) => item?.id === info?.getValue(),
             )
           }
           onChange={(e: any) => {
             e.target.checked
               ? setSelectedTicketList([
                   ...selectedTicketList,
-                  ticketList.find((item: any) => item.id === info.getValue()),
+                  ticketList.find((item: any) => item?.id === info?.getValue()),
                 ])
               : setSelectedTicketList(
                   selectedTicketList.filter((item: any) => {
-                    return item.id !== info.getValue();
+                    return item?.id !== info?.getValue();
                   }),
                 );
           }}
           color="primary"
-          name={info.getValue()}
+          name={info?.getValue()}
         />
       ),
       header: (
         <Checkbox
-          checked={selectedTicketList.length === ticketList.length}
+          checked={selectedTicketList?.length === ticketList?.length}
           onChange={(e: any) => {
             e.target.checked
               ? setSelectedTicketList([...ticketList])
@@ -229,14 +234,14 @@ export const ticketsListsColumnFunction: any = (
             }}
             onClick={() => {
               router.push({
-                pathname: `${router.pathname}/detail`,
+                pathname: AIR_SERVICES?.TICKETS_LIST,
                 query: {
-                  id: info.getValue(),
+                  id: info?.getValue(),
                 },
               });
             }}
           >
-            {info.getValue()}
+            {info?.getValue()}
           </div>
         </Box>
       ),
