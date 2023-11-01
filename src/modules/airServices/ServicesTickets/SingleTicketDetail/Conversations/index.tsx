@@ -4,7 +4,7 @@ import { menuOptionsAddconversation } from './Conversation.data';
 import { v4 as uuidv4 } from 'uuid';
 import userCoversation from './userCoversation';
 import ConversationModelSub from './ConversationAddModel';
-import ViewConversation from './ConversationView';
+// import ViewConversation from './ConversationView';
 
 export default function Conversations() {
   const {
@@ -90,7 +90,7 @@ export default function Conversations() {
           </>
         )}
       </Box>
-      {isConversation ? (
+      {/* {isConversation ? (
         <ViewConversation />
       ) : (
         <>
@@ -147,7 +147,7 @@ export default function Conversations() {
             </Box>
           </Box>
         </>
-      )}
+      )} */}
     </Box>
   );
 }

@@ -18,8 +18,6 @@ const TextEditor = ({ value, onChange }: ConversationTextEditorPropsI) => {
         [{ list: 'bullet' }, { list: 'ordered' }],
         [{ color: [] }],
         ['image'],
-        ['link'],
-        ['arrow-right'],
         ['capitalize'],
       ],
     },
