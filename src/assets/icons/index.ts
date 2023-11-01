@@ -174,3 +174,5 @@ export { default as PhoneGreenIcon } from './modules/SocialComponents/Calling/ph
 export { default as TimeClockIcon } from './modules/airSales/deals/time-clock';
 export { default as AlertModalDeleteIcon } from './shared/alert-modal-delete-icon';
 export { default as AlertModalCloseIcon } from './shared/alert-modal-close-icon';
+export { default as AdobePhotoshop } from './shared/adobe-photoshop-icon';
+export { default as AdobeXD } from './shared/adobe-xd-icon';

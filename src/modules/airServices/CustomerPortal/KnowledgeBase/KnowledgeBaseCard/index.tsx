@@ -23,7 +23,7 @@ export const KnowledgeBaseCard = (props: any) => {
         display={'flex'}
         justifyContent={'center'}
         padding={2}
-        sx={{ backgroundColor: theme?.palette?.grey?.[400] }}
+        bgcolor={theme?.palette?.grey?.[400]}
       >
         <FolderIcon />
       </Box>
