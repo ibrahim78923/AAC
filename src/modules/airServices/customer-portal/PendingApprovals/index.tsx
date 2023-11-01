@@ -1,5 +1,10 @@
 import React from 'react';
+import { CardLayout } from '../CardLayout';
 
 export const PendingApprovals = () => {
-  return <div>PendingApprovals</div>;
+  return (
+    <CardLayout title={'Pending for Approval'} btnClick={() => {}}>
+      Pending for Approval
+    </CardLayout>
+  );
 };

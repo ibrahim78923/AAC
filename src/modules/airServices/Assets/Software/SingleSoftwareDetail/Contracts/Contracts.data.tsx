@@ -9,7 +9,7 @@ export const data: any = [
     ExpiryDate: '26 Oct, 2023',
   },
 ];
-export const columns = (theme: any) => [
+export const columns = () => [
   {
     accessorFn: (row: any) => row.ContractName,
     id: 'Contract Name',

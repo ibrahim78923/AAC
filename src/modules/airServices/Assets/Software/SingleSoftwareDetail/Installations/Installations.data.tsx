@@ -14,7 +14,7 @@ export const columns = (
   installationData: any,
   setInstallationData: any,
   meetingsMainData: any,
-  theme: any,
+  // theme: any,
 ): any => [
   {
     accessorFn: (row: any) => row.id,

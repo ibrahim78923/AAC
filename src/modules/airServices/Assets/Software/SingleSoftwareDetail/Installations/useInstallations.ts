@@ -15,7 +15,7 @@ export const useInstallation = () => {
     defaultValues: { device: '' },
   });
 
-  const onAddDeviceSubmit = (data: any) => {
+  const onAddDeviceSubmit = () => {
     // alert(data);
     setIsAddDeviceModalOpen(false);
   };
