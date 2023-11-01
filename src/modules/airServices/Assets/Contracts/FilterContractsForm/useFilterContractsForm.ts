@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import {
   filterContractsFormValidationSchema,
   defaultValues,
-} from './filterContractsForm.data';
+} from './FilterContractsForm.data';
 
 export function useFilterContractsForm() {
   const methods = useForm({

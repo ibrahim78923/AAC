@@ -18,7 +18,7 @@ import { DownloadFileIcon, PrinterIcon } from '@/assets/icons';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { styles } from './OverviewModal.style';
 
-const OverviewModel = ({
+const OverviewModal = ({
   openOverviewModal,
   setOpenOverviewModal,
   theme,
@@ -108,4 +108,4 @@ const OverviewModel = ({
   );
 };
 
-export default OverviewModel;
+export default OverviewModal;

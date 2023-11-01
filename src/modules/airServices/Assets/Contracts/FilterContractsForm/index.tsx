@@ -2,7 +2,7 @@ import CommonDrawer from '@/components/CommonDrawer';
 import { useFilterContractsForm } from './useFilterContractsForm';
 import { Box, Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
-import { filterContractsFormDataArray } from './filterContractsForm.data';
+import { filterContractsFormDataArray } from './FilterContractsForm.data';
 import { v4 as uuidv4 } from 'uuid';
 import { enqueueSnackbar } from 'notistack';
 

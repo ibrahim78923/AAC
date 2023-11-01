@@ -1,4 +1,4 @@
-export const modelBillingData = [
+export const modalBillingData = [
   { label: 'subTotal ($)', value: 144.0 },
   { label: 'discount (%)', value: 0 },
   { label: 'Tax rate (%)', value: 0 },
