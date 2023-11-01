@@ -11,7 +11,13 @@ export const planManagementAPI = baseAPI.injectEndpoints({
       }),
       providesTags: TAG,
     }),
-
+    getProducts: builder.query({
+      query: () => ({
+        url: `products`,
+        method: 'GET',
+      }),
+      providesTags: TAG,
+    }),
     getPlanMangementById: builder.query({
       query: ({ id }: any) => ({
         url: `${SUPER_ADMIN?.PLAN_MANAGEMENT}/${id}`,
@@ -62,4 +68,5 @@ export const {
   useDeletePlanMangementMutation,
   useGetPlanMangementByIdQuery,
   useGetPlanTypeListQuery,
+  useGetProductsQuery,
 } = planManagementAPI;
