@@ -6,7 +6,7 @@ import {
   addOutcomeDefaultValues,
   addOutcomeValidation,
 } from './AddOutcome/AddOutcome.data';
-import { useMediaQuery } from '@mui/material';
+import { useMediaQuery, useTheme } from '@mui/material';
 
 export const useMeetings = () => {
   const { enqueueSnackbar } = useSnackbar();
@@ -14,6 +14,9 @@ export const useMeetings = () => {
   const [showAddOutcome, setShowAddOutcome] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const matches = useMediaQuery('(max-width:600px)');
+
+  const theme: any = useTheme();
+
   const [actionsPopover, setActionsPopover] =
     useState<HTMLButtonElement | null>(null);
   const [reschedulePopover, setReschedulePopover] =
@@ -36,6 +39,7 @@ export const useMeetings = () => {
   });
   const onSubmitAddOutcome = (data: any) => data;
   return {
+    theme,
     enqueueSnackbar,
     meetingsData,
     onSubmitAddOutcome,
