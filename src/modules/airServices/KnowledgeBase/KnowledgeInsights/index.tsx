@@ -6,8 +6,12 @@ import { v4 as uuidv4 } from 'uuid';
 import { useKnowledgeInsights } from './useKnowledgeInsights';
 
 export const KnowledgeInsights = () => {
-  const { getRelatedDataArray, ticketRelatedToggler, getIdHandler } =
-    useKnowledgeInsights();
+  const {
+    getRelatedDataArray,
+    ticketRelatedToggler,
+    getIdHandler,
+    setTicketRelatedToggler,
+  } = useKnowledgeInsights();
   return (
     <>
       {ticketRelatedToggler ? (
@@ -41,7 +45,10 @@ export const KnowledgeInsights = () => {
         </Box>
       ) : (
         <>
-          <TicketRelated getRelatedDataArray={getRelatedDataArray} />
+          <TicketRelated
+            getRelatedDataArray={getRelatedDataArray}
+            setTicketRelatedToggler={setTicketRelatedToggler}
+          />
         </>
       )}
     </>

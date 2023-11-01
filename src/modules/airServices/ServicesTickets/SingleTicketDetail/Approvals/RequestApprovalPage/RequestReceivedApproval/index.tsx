@@ -1,44 +1,38 @@
-import { Box, Button, Grid, Typography } from '@mui/material';
+import { Box, Button, Dialog, Grid, Typography } from '@mui/material';
 import Image from 'next/image';
-import { approvalData } from '../AllApprovals.data';
+import { requestApprovalPageData } from '../RequestApprovalPage.data';
 import CancelIcon from '@mui/icons-material/Cancel';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import SharedIcon from '@/assets/icons/shared/shared-icon';
 import { useRequestApprovalPage } from '../useRequestApprovalPage';
-import ConversationModel from '@/components/Model/CoversationModel';
 import { FormProvider, RHFTextField } from '@/components/ReactHookForm';
-import { useForm } from 'react-hook-form';
+import { AlertModalCloseIcon } from '@/assets/icons';
+import { styles } from '../RequestApprovalPage.style';
 
-const RequestRecievedApproval = () => {
+const RequestReceivedApproval = () => {
   const {
     theme,
-    styles,
     textColor,
     handleApprovalModelClose,
     openApprovalModal,
-    handleRecjectModelClose,
+    handleRejectModelClose,
     openRejectModal,
-    handleRecjectModelOpen,
+    handleRejectModelOpen,
     handleApprovalModelOpen,
+    methods,
   } = useRequestApprovalPage();
-
-  const methods: any = useForm({
-    defaultValues: {
-      description: '',
-    },
-  });
 
   const Icons: any = {
     Request: <SharedIcon />,
   };
   return (
     <>
-      <Box sx={styles.approvalsContainerBox}>
-        {approvalData
+      <Box sx={styles?.approvalsContainerBox}>
+        {requestApprovalPageData
           ?.filter((item) => item?.status === 'Request')
           ?.map((filteredItem) => {
             return (
-              <div key={filteredItem?.id} style={styles.approvalsContainer}>
+              <Box key={filteredItem?.id} sx={styles?.approvalsContainer}>
                 <Grid
                   container
                   justifyContent={'space-between'}
@@ -52,9 +46,7 @@ const RequestRecievedApproval = () => {
                       <Box>
                         <Typography
                           variant="body2"
-                          sx={{
-                            fontWeight: theme?.typography?.fontWeightMedium,
-                          }}
+                          fontWeight={theme?.typography?.fontWeightMedium}
                         >
                           {filteredItem?.mainText}
                         </Typography>
@@ -63,7 +55,7 @@ const RequestRecievedApproval = () => {
                           <span>
                             <Typography
                               variant="customStyle"
-                              sx={{ color: textColor[filteredItem?.status] }}
+                              color={textColor[filteredItem?.status]}
                             >
                               {filteredItem?.iconText}
                             </Typography>
@@ -73,7 +65,7 @@ const RequestRecievedApproval = () => {
                     </Box>
                     <Typography
                       variant="customStyle"
-                      sx={{ color: theme?.palette?.common?.black }}
+                      color={theme?.palette?.common?.black}
                     >
                       {filteredItem?.detail}
                     </Typography>
@@ -81,12 +73,8 @@ const RequestRecievedApproval = () => {
                   <Grid item>
                     <Box sx={styles?.requestApprovalBoxFirst}>
                       <Button
+                        variant="outlined"
                         onClick={handleApprovalModelOpen}
-                        sx={{
-                          ...styles?.requestApprovalButton,
-                          color: theme?.palette?.success?.main,
-                          '&:hover': { bgcolor: theme?.palette?.grey[400] },
-                        }}
                         startIcon={
                           <CheckCircleIcon
                             sx={{ color: theme?.palette?.success?.main }}
@@ -96,12 +84,9 @@ const RequestRecievedApproval = () => {
                         Approve
                       </Button>
                       <Button
-                        onClick={handleRecjectModelOpen}
-                        sx={{
-                          ...styles?.requestApprovalButton,
-                          color: theme?.palette?.error?.main,
-                          '&:hover': { bgcolor: theme?.palette?.grey[400] },
-                        }}
+                        onClick={handleRejectModelOpen}
+                        variant="outlined"
+                        color="error"
                         startIcon={
                           <CancelIcon
                             sx={{ color: theme?.palette?.error?.main }}
@@ -113,17 +98,24 @@ const RequestRecievedApproval = () => {
                     </Box>
                   </Grid>
                 </Grid>
-              </div>
+              </Box>
             );
           })}
       </Box>
-      <ConversationModel
+      <Dialog
+        fullWidth
         open={openApprovalModal}
-        handleClose={handleApprovalModelClose}
-        selectedItem="Approval"
+        onClose={handleApprovalModelClose}
       >
-        <Box width={{ sm: '510px' }}>
-          <FormProvider onSubmit={() => {}} methods={methods}>
+        <Box width={'100%'} p={'1rem'}>
+          <Box sx={styles?.dialogBoxStyle}>
+            <Typography variant="h5">Approval</Typography>
+            <AlertModalCloseIcon
+              onClick={handleApprovalModelClose}
+              style={{ cursor: 'pointer' }}
+            />
+          </Box>
+          <FormProvider methods={methods}>
             <RHFTextField
               name="description"
               multiline
@@ -133,25 +125,25 @@ const RequestRecievedApproval = () => {
               label="remarks"
             />
           </FormProvider>
+          <Box sx={styles?.boxBorderStyle}></Box>
+          <Box sx={styles?.buttonBox}>
+            <Button variant="outlined" onClick={handleApprovalModelClose}>
+              Cancel
+            </Button>
+            <Button variant="contained">Approve</Button>
+          </Box>
         </Box>
-        <Box sx={styles?.boxBorderStyle}></Box>
-        <Box sx={styles?.buttonBox}>
-          <Button
-            onClick={handleApprovalModelClose}
-            style={{ ...styles?.cancelButton }}
-          >
-            Cancel
-          </Button>
-          <Button variant="contained">Approve</Button>
-        </Box>
-      </ConversationModel>
-      <ConversationModel
-        open={openRejectModal}
-        handleClose={handleRecjectModelClose}
-        selectedItem="Reject"
-      >
-        <Box width={{ sm: '510px' }}>
-          <FormProvider onSubmit={() => {}} methods={methods}>
+      </Dialog>
+      <Dialog fullWidth open={openRejectModal} onClose={handleRejectModelClose}>
+        <Box width={'100%'} p={'1rem'}>
+          <Box sx={styles?.dialogBoxStyle}>
+            <Typography variant="h5">Approval</Typography>
+            <AlertModalCloseIcon
+              onClick={handleRejectModelClose}
+              style={{ cursor: 'pointer' }}
+            />
+          </Box>
+          <FormProvider methods={methods}>
             <RHFTextField
               name="description"
               multiline
@@ -161,22 +153,19 @@ const RequestRecievedApproval = () => {
               label="remarks"
             />
           </FormProvider>
+          <Box sx={styles?.boxBorderStyle}></Box>
+          <Box sx={styles?.buttonBox}>
+            <Button variant="outlined" onClick={handleRejectModelClose}>
+              Cancel
+            </Button>
+            <Button variant="contained" color="error">
+              Reject
+            </Button>
+          </Box>
         </Box>
-        <Box sx={styles?.boxBorderStyle}></Box>
-        <Box sx={styles?.buttonBox}>
-          <Button
-            onClick={handleRecjectModelClose}
-            style={{ ...styles?.cancelButton }}
-          >
-            Cancel
-          </Button>
-          <Button variant="contained" color="error">
-            Reject
-          </Button>
-        </Box>
-      </ConversationModel>
+      </Dialog>
     </>
   );
 };
 
-export default RequestRecievedApproval;
+export default RequestReceivedApproval;

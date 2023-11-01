@@ -7,13 +7,14 @@ import {
   Typography,
 } from '@mui/material';
 import Image from 'next/image';
-import { approvalData } from '../AllApprovals.data';
+import { requestApprovalPageData } from '../RequestApprovalPage.data';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import SharedIcon from '@/assets/icons/shared/shared-icon';
 import { useRequestApprovalPage } from '../useRequestApprovalPage';
+import { styles } from '../RequestApprovalPage.style';
 
 const RequestApproval = () => {
-  const { theme, open, handleClick, handleClose, styles, textColor, anchorEl } =
+  const { theme, open, handleClick, handleClose, textColor, anchorEl } =
     useRequestApprovalPage();
   const Icons: any = {
     Request: <SharedIcon />,
@@ -21,11 +22,11 @@ const RequestApproval = () => {
   return (
     <>
       <Box sx={styles.approvalsContainerBox}>
-        {approvalData
+        {requestApprovalPageData
           ?.filter((item) => item?.status === 'Request')
           ?.map((filteredItem) => {
             return (
-              <div key={filteredItem?.id} style={styles.approvalsContainer}>
+              <Box key={filteredItem?.id} sx={styles?.approvalsContainer}>
                 <Grid
                   container
                   justifyContent={'space-between'}
@@ -50,7 +51,7 @@ const RequestApproval = () => {
                           <span>
                             <Typography
                               variant="customStyle"
-                              sx={{ color: textColor[filteredItem?.status] }}
+                              color={textColor[filteredItem?.status]}
                             >
                               {filteredItem?.iconText}
                             </Typography>
@@ -60,20 +61,13 @@ const RequestApproval = () => {
                     </Box>
                     <Typography
                       variant="customStyle"
-                      sx={{ color: theme?.palette?.common?.black }}
+                      color={theme?.palette?.common?.black}
                     >
                       {filteredItem?.detail}
                     </Typography>
                   </Grid>
                   <Grid item>
-                    <IconButton
-                      aria-label="more"
-                      id="long-button"
-                      aria-controls={open ? 'long-menu' : undefined}
-                      aria-expanded={open ? 'true' : undefined}
-                      aria-haspopup="true"
-                      onClick={handleClick}
-                    >
+                    <IconButton onClick={handleClick}>
                       <MoreVertIcon fontSize="large" />
                     </IconButton>
                     <Menu
@@ -88,14 +82,17 @@ const RequestApproval = () => {
                         vertical: 'bottom',
                         horizontal: 'center',
                       }}
-                      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+                      transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right',
+                      }}
                     >
                       <MenuItem onClick={handleClose}>Send Reminder</MenuItem>
                       <MenuItem onClick={handleClose}>Cancel Approval</MenuItem>
                     </Menu>
                   </Grid>
                 </Grid>
-              </div>
+              </Box>
             );
           })}
       </Box>
