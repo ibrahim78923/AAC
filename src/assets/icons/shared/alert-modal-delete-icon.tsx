@@ -1,4 +1,4 @@
-const DeleteIcon = () => {
+const AlertModalDeleteIcon = () => {
   return (
     <svg
       width="48"
@@ -30,4 +30,4 @@ const DeleteIcon = () => {
   );
 };
 
-export default DeleteIcon;
+export default AlertModalDeleteIcon;

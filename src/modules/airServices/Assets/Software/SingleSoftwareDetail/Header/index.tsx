@@ -1,6 +1,5 @@
 import { Typography, Button, MenuItem, Menu, Box } from '@mui/material';
-import ViewDetailBackArrowIcon from '@/assets/icons/modules/view-detail-Icon/view-detail-back-arrow-icon';
-import { ActionButtonIcon } from '@/assets/icons';
+import { ActionButtonIcon, ViewDetailBackArrowIcon } from '@/assets/icons';
 import { useHeader } from './useHeader';
 import React from 'react';
 
