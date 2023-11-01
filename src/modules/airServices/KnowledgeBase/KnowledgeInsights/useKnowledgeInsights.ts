@@ -7,7 +7,7 @@ export const useKnowledgeInsights = () => {
   const [ticketRelatedToggler, setTicketRelatedToggler] = useState<any>(true);
   const getIdHandler = (_id: any) => {
     const filteredData = getTicketRelatedData?.filter(
-      (ele: any) => ele.id === _id,
+      (ele: any) => ele?.id === _id,
     );
     setRelatedDataArray(filteredData);
     setTicketRelatedToggler(false);
