@@ -1,11 +1,11 @@
 import { FormProvider } from '@/components/ReactHookForm';
-import { Box, Button, Grid } from '@mui/material';
+import { Grid } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
 import { conversationModelsArray } from '../Conversation.data';
 import CommonDrawer from '@/components/CommonDrawer';
 
-const ConversationAddModel = ({
-  selectedItem,
+const ConversationNote = ({
+  // selectedItem,
   show,
   setShow,
   addCoversationModel,
@@ -14,12 +14,10 @@ const ConversationAddModel = ({
   return (
     <CommonDrawer
       isDrawerOpen={show}
-      // onClose={() => {
-      //   setIsOpenDrawer(false);
-      // }}
-      selectedItem={selectedItem}
-      open={show}
       onClose={() => setShow(false)}
+      okText={'Add Note'}
+      footer={true}
+      isOk={true}
     >
       <FormProvider
         methods={addCoversationModel}
@@ -34,11 +32,25 @@ const ConversationAddModel = ({
               key={uuidv4()}
               mb={item.mb ? item.mb : ''}
             >
-              <item.component {...item.componentProps} />
+              <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                <item.component
+                  {...item.componentProps}
+                  size={'small'}
+                  options={item.options}
+                >
+                  {item?.componentProps?.select
+                    ? item?.options?.map((option: any) => (
+                        <option key={option?.value} value={option?.value}>
+                          {option?.label}
+                        </option>
+                      ))
+                    : null}
+                </item.component>
+              </Grid>
             </Grid>
           ))}
         </Grid>
-        <Box
+        {/* <Box
           sx={{
             display: 'flex',
             alignItems: 'center',
@@ -58,10 +70,10 @@ const ConversationAddModel = ({
           <Button sx={{ maxWidth: '90px' }} variant="contained" type={'submit'}>
             Add
           </Button>
-        </Box>
+        </Box> */}
       </FormProvider>
     </CommonDrawer>
   );
 };
 
-export default ConversationAddModel;
+export default ConversationNote;

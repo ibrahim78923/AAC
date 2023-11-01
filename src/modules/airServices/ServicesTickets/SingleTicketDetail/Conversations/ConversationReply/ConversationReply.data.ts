@@ -4,31 +4,33 @@ import {
   RHFDropZone,
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
-import ConversationEditor from './ConversationEditor';
+import ConversationEditor from '../ConversationEditor';
 
 export const conversationModelsValidation = Yup.object().shape({
   note: Yup.string().required('Field is Required'),
-  title: Yup.string().required('Field is Required'),
+  from: Yup.string().required('Field is Required'),
+  reply: Yup.string().required('Field is Required'),
   description: Yup.string().trim().required('Field is Required'),
   file: Yup.mixed().required('Field is Required'),
 });
 
 export const conversationModelsDefaultValues = {
   note: '',
-  title: '',
+  from: '',
+  reply: '',
   description: '',
   file: '',
 };
 
-export const conversationModelsArray = [
+export const conversationreplyArray = [
   {
     componentProps: {
       name: 'note',
-      label: 'Note',
+      label: 'Reply',
       fullWidth: true,
       select: true,
     },
-    defaultValue: 'Reply',
+
     options: [
       { value: 'Note', label: 'Note' },
       { value: 'Reply', label: 'Reply' },
@@ -41,11 +43,21 @@ export const conversationModelsArray = [
   },
   {
     componentProps: {
-      name: 'title',
-      label: 'Notify to',
+      name: 'from',
+      label: 'From',
       fullWidth: true,
     },
-    options: [{ value: 'BE', label: 'BE' }],
+    // options: [{ value: 'BE', label: 'BE' }],
+    component: RHFTextField,
+    md: 12,
+  },
+  {
+    componentProps: {
+      name: 'reply',
+      label: 'Reply to',
+      fullWidth: true,
+    },
+    // options: [{ value: 'BE', label: 'BE' }],
     component: RHFTextField,
     md: 12,
   },
@@ -70,15 +82,3 @@ export const conversationModelsArray = [
     md: 12,
   },
 ];
-
-export const menuOptionsAddconversation = [
-  { value: 'Note', label: 'Note' },
-  { value: 'Reply', label: 'Reply' },
-  { value: 'Forward', label: 'Forward' },
-  { value: 'Discuss', label: 'Discuss' },
-];
-export const ConversationDrawerTitle: any = {
-  Add: 'Add Tickets',
-  Edit: 'Edit Tickets',
-  View: 'View Tickets',
-};

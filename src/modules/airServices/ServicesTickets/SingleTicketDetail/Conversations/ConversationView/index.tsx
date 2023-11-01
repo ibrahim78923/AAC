@@ -1,9 +1,12 @@
 import { Box, Grid, Typography } from '@mui/material';
 import React from 'react';
 import { useTheme } from '@emotion/react';
-import LeftArrowConversatationIcon from '@/assets/icons/shared/AddConversation/left-arrow-icon';
-import RightArrowConversatationIcon from '@/assets/icons/shared/AddConversation/right-arrow-icon';
-import DeleteIconConversatationIcon from '@/assets/icons/shared/AddConversation/delete-icon-add-coversation';
+
+import {
+  DeleteIcon,
+  ShortcutSharpLeftIcon,
+  ShortcutSharpRightIcon,
+} from '@/assets/icons';
 import { AvatarImageCoversation } from '@/assets/images';
 import { styles } from './ConversationView.styles';
 import { data } from './ConversationView.data';
@@ -61,9 +64,9 @@ const ConversationView = () => {
           </Grid>
           <Grid item xs={12} md={3} lg={4} paddingTop={`0 !important`}>
             <Box sx={styles.buttonBox}>
-              <LeftArrowConversatationIcon />
-              <RightArrowConversatationIcon />
-              <DeleteIconConversatationIcon />
+              <ShortcutSharpLeftIcon />
+              <ShortcutSharpRightIcon />
+              <DeleteIcon />
             </Box>
           </Grid>
         </Grid>

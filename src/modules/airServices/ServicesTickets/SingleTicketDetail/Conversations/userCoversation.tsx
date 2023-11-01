@@ -16,21 +16,30 @@ const userCoversation = () => {
   const [selectedItem, setSelectedItem] = useState(
     menuOptionsAddconversation[0].value,
   );
+
+  // Add state for title
+  const [title, setTitle] = useState('');
+
   const addCoversationModel: any = useForm({
     resolver: yupResolver(conversationModelsValidation),
     defaultValues: conversationModelsDefaultValues,
   });
   const onSubmit = (data: any) => data;
   const open = Boolean(addCoversation);
+
   const handleClickButtonMenu = (
     event: React.MouseEvent<HTMLButtonElement>,
   ) => {
     setAddCoversation(event.currentTarget);
   };
+
   const handleCloseButtonMenu = (e: any) => {
     setSelectedItem(e.target.value);
     setShow(true);
     setAddCoversation(null);
+
+    // Set the title based on the selected item
+    setTitle(e.target.value);
     // just for desgin will remove
     // setIsConversation(!isConversation);
   };
@@ -47,6 +56,7 @@ const userCoversation = () => {
     addCoversationModel,
     selectedItem,
     onSubmit,
+    title, // Include title in the returned object
   };
 };
 

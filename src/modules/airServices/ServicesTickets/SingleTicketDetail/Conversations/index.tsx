@@ -3,8 +3,11 @@ import { Box, Button, Menu, MenuItem, Typography } from '@mui/material';
 import { menuOptionsAddconversation } from './Conversation.data';
 import { v4 as uuidv4 } from 'uuid';
 import userCoversation from './userCoversation';
-import ConversationModelSub from './ConversationAddModel';
 import ViewConversation from './ConversationView';
+import ConversationNote from './ConversationNote';
+import ConversationReply from './ConversationReply';
+import ConversationForward from './ConversationForward';
+import ConversationDiscuss from './ConversationDiscuss';
 
 export default function Conversations() {
   const {
@@ -20,15 +23,50 @@ export default function Conversations() {
     selectedItem,
     onSubmit,
   } = userCoversation();
+
+  // Define a function to render the selected component based on the selectedItem
+  const renderSelectedComponent = () => {
+    switch (selectedItem) {
+      case 'Note':
+        return (
+          <ConversationNote
+            selectedItem={selectedItem}
+            show={show}
+            setShow={setShow}
+            addCoversationModel={addCoversationModel}
+            onSubmit={onSubmit}
+          />
+        );
+      case 'Reply':
+        return (
+          <ConversationReply
+            selectedItem={selectedItem}
+            show={show}
+            setShow={setShow}
+            addCoversationModel={addCoversationModel}
+            onSubmit={onSubmit}
+          />
+        );
+      case 'Forward':
+        return (
+          <ConversationForward
+            selectedItem={selectedItem}
+            show={show}
+            setShow={setShow}
+            addCoversationModel={addCoversationModel}
+            onSubmit={onSubmit}
+          />
+        );
+      case 'Discuss':
+        return <ConversationDiscuss />;
+      default:
+        return null;
+    }
+  };
+
   return (
     <Box sx={{ mt: '20px' }}>
-      <ConversationModelSub
-        selectedItem={selectedItem}
-        show={show}
-        setShow={setShow}
-        addCoversationModel={addCoversationModel}
-        onSubmit={onSubmit}
-      />
+      {renderSelectedComponent()} {/* Render the selected component */}
       <Box
         sx={{
           alignContent: 'center',
@@ -45,7 +83,7 @@ export default function Conversations() {
               justifyContent={'center'}
               alignItems={'center'}
             >
-              <Typography>There are no conversation available</Typography>
+              <Typography>There are no conversations available</Typography>
               <br />
               <Button
                 variant="contained"
@@ -74,7 +112,7 @@ export default function Conversations() {
                 'aria-labelledby': 'basic-button',
               }}
             >
-              {menuOptionsAddconversation.map((item: any) => (
+              {menuOptionsAddconversation.map((item) => (
                 <MenuItem
                   onClick={(e) => {
                     handleCloseButtonMenu(e);
@@ -103,7 +141,7 @@ export default function Conversations() {
           >
             <Box sx={{ textAlign: 'center' }}>
               <Typography fontSize={'13px'} mb={'10px'}>
-                There are no conversation available{' '}
+                There are no conversations available{' '}
               </Typography>
               <Button
                 variant="contained"
@@ -131,7 +169,7 @@ export default function Conversations() {
                   'aria-labelledby': 'basic-button',
                 }}
               >
-                {menuOptionsAddconversation.map((item: any) => (
+                {menuOptionsAddconversation.map((item) => (
                   <MenuItem
                     onClick={(e) => {
                       handleCloseButtonMenu(e);

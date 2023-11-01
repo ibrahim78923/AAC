@@ -97,6 +97,8 @@ export { default as GreyPlusSharedIcon } from './shared/grey-plus';
 export { default as AddCircleSmallIcon } from './shared/add-circle-sm-icon';
 export { default as DragSharedIcon } from './shared/drag-shared-icon';
 export { default as DeleteIcon } from './shared/delete';
+export { default as ShortcutSharpRightIcon } from './shared/short-cut-sharp-right-icon';
+export { default as ShortcutSharpLeftIcon } from './shared/short-cut-sharp-left-icon';
 export { default as PinIcon } from './shared/pin';
 export { default as PhoneWhiteIcon } from './shared/phone-white';
 export { default as UserWhiteIcon } from './shared/user-white';
