@@ -1,4 +1,5 @@
-import { Checkbox } from '@mui/material';
+import { AIR_SERVICES } from '@/constants';
+import { Checkbox, Typography } from '@mui/material';
 
 export const data: any = [
   {
@@ -75,19 +76,21 @@ export const purchaseOrderColumnsFunction = (
       isSortable: true,
       header: <span>Order Number</span>,
       cell: (info: any) => (
-        <span
+        <Typography
+          component="span"
           onClick={() =>
             router.push({
-              pathname: '/air-services/assets/purchase-orders/detail',
+              pathname: AIR_SERVICES.ASSETS_PURCHASE_ORDER_DETAIL,
               query: {
                 purchaseOrderId: info?.row?.id,
               },
             })
           }
-          style={{ color: '#0AADC7', cursor: 'pointer' }}
+          color="custom.bright"
+          sx={{ cursor: 'pointer' }}
         >
           {info.getValue()}
-        </span>
+        </Typography>
       ),
     },
     {

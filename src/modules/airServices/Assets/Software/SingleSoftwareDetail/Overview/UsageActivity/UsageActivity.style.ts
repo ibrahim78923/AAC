@@ -4,29 +4,29 @@ export const StyledText = styled('text')(({ theme }) => ({
   fill: theme.palette.text.primary,
   textAnchor: 'middle',
   dominantBaseline: 'central',
-  fontSize: '14px',
+  fontSize: '.8rem',
   fontWeight: 500,
-  lineHeight: '20px',
+  lineHeight: '1.2rem',
 }));
 
 export const styles = {
   mainBox: (theme: any) => ({
-    border: '1.51px solid',
+    border: '.1rem solid',
     borderColor: theme.palette.grey?.[700],
-    maxWidth: '380px',
+    maxWidth: '25rem',
     width: '100%',
-    height: '400px',
-    radius: '8px',
-    '@media screen and (max-width: 480px)': {
-      maxWidth: '300px',
+    height: '25rem',
+    radius: '.5rem',
+    '@media screen and (max-width: 30rem)': {
+      maxWidth: '18.7rem',
     },
-    '@media screen and (max-width: 400px)': {
-      maxWidth: '250px',
+    '@media screen and (max-width: 25rem)': {
+      maxWidth: '17.5rem',
     },
   }),
 
   alignGraph: {
-    cx: 175,
+    cx: 189,
     cy: 135,
     height: 280,
     innerRadius: 70,
@@ -35,46 +35,40 @@ export const styles = {
     cornerRadius: 15,
     startAngle: -250,
     endAngle: 300,
-    textLabelX: 1.5,
-    numberLabelX: 1.5,
-    textLabelY: 1.9,
-    numberLabelY: 2.2,
+    textLabelX: 2.1,
+    numberLabelX: 2.1,
+    textLabelY: 2.1,
+    numberLabelY: 2.4,
   },
 
   chart: {
-    '@media screen and (max-width: 480px)': {
-      marginRight: '75px',
+    '@media screen and (max-width: 30rem)': {
+      marginRight: '4.6rem',
     },
-    '@media screen and (max-width: 400px)': {
-      marginRight: '130px',
+    '@media screen and (max-width: 25rem)': {
+      marginRight: '8.1rem',
     },
   },
 
   heading: {
-    marginTop: '20px',
-    marginLeft: '23px',
+    marginTop: '1.2rem',
+    marginLeft: '1.4rem',
     fontWeight: 600,
-    fontSize: '18px',
-    lineHeight: '28px',
+    fontSize: '1.1rem',
+    lineHeight: '1.7rem',
   },
 
   footerBox: {
     display: 'flex',
     justifyContent: 'center',
-    gap: '16px',
-  },
-
-  footerTypography: {
-    display: 'flex',
-    alignItems: 'center',
+    gap: '.6rem',
   },
 
   footerTypographyBox: (theme: any) => ({
     textAlign: 'center',
-    width: '25px',
-    height: '25px',
+    width: '1.5rem',
+    height: '1.5rem',
     backgroundColor: theme.palette.primary?.light,
-    borderRadius: '4px',
-    marginRight: '6px',
+    borderRadius: '.2rem',
   }),
 };

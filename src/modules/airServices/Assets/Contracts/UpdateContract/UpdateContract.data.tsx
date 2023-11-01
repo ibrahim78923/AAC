@@ -6,11 +6,11 @@ import {
 import * as Yup from 'yup';
 import { Typography } from '@mui/material';
 
-export const updateContractFormValidationSchema = Yup.object().shape({
-  startDate: Yup.date(),
-  endDate: Yup.date(),
-  cost: Yup.string(),
-  approver: Yup.string(),
+export const updateContractFormValidationSchema = Yup?.object()?.shape({
+  startDate: Yup?.date(),
+  endDate: Yup?.date(),
+  cost: Yup?.string(),
+  approver: Yup?.string(),
 });
 
 export const updateContractFormDefaultValues = {
@@ -18,7 +18,6 @@ export const updateContractFormDefaultValues = {
   endDate: new Date(),
   cost: '',
   approver: '',
-  attachments: null,
 };
 
 export const updateContractFormFields = [
@@ -27,7 +26,7 @@ export const updateContractFormFields = [
       variant: 'h5',
     },
     heading: 'Contract Details',
-    gridLength: 12,
+    md: 12,
     component: Typography,
   },
   {

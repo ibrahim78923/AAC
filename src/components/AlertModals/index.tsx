@@ -8,7 +8,7 @@ import {
   Typography,
 } from '@mui/material';
 import { checkModalTypeForImage } from './AlertModals.data';
-import CloseIcon from '@/assets/icons/shared/AlertModels/close-icon';
+import { AlertModalCloseIcon } from '@/assets/icons';
 
 export const AlertModals = ({
   message,
@@ -43,7 +43,7 @@ export const AlertModals = ({
             </Typography>
           </Box>
           <Box sx={{ cursor: 'pointer' }} onClick={() => handleClose?.()}>
-            <CloseIcon />
+            <AlertModalCloseIcon />
           </Box>
         </Box>
       </DialogTitle>
