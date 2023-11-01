@@ -1,6 +1,7 @@
 import { Typography, Chip, IconButton } from '@mui/material';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import { TrashIcon } from '@/assets/icons';
+
 export const associatesListsData: any = [
   {
     id: 1,
@@ -17,18 +18,20 @@ export const associatesListsData: any = [
     impact: 'Medium',
   },
 ];
+
 export const ASSETS_IMPACTS = {
   LOW: 'Low',
   MEDIUM: 'Medium',
 };
+
 const styleFunction: any = {
   [ASSETS_IMPACTS.LOW]: {
     color: 'success.main',
-    bgColor: '#47B2631A',
+    bgColor: 'primary.light',
   },
   [ASSETS_IMPACTS.MEDIUM]: {
-    color: 'warning.light',
-    bgColor: '#FFC20E1A',
+    color: 'warning.main',
+    bgColor: 'primary.light',
   },
 };
 export const associatesListsColumnFunction: any = (

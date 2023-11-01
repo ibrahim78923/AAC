@@ -7,10 +7,11 @@ export const SUPER_ADMIN: any = {
 
 export const AIR_SERVICES = {
   TICKETS: `/air-services/tickets`,
-  TICKETS_LIST: `/air-services/tickets/details`,
+  TICKETS_LIST: `/air-services/tickets/detail`,
   PURCHASE_ORDER: '/air-services/assets/purchase-orders',
   ASSETS_PURCHASE_ORDER_DETAIL: '/air-services/assets/purchase-orders/detail',
   NEW_PURCHASE_ORDER: '/air-services/assets/purchase-orders/new-purchase',
+  KNOWLEDGE_BASE: '/air-services/knowledge-base',
   ADD_ASSOCIATE_ASSET:
     '/air-services/assets/contracts/detail/add-associate-asset',
   ASSETS_CONTRACTS: '/air-services/assets/contracts',
@@ -21,6 +22,7 @@ export const AIR_SERVICES = {
   ASSETS_INVENTORY_DETAIL: `/air-services/assets/inventory/detail`,
   ASSETS_SOFTWARE: `/air-services/assets/software`,
   ASSETS_SOFTWARE_DETAIL: `/air-services/assets/software/detail`,
+  ADD_INVENTORY: `/air-services/assets/inventory/add-inventory`,
 };
 
 export const ORG_ADMIN: any = {
