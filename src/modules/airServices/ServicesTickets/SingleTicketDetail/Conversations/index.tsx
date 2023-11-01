@@ -3,7 +3,7 @@ import { Box, Button, Menu, MenuItem, Typography } from '@mui/material';
 import { menuOptionsAddconversation } from './Conversation.data';
 import { v4 as uuidv4 } from 'uuid';
 import userCoversation from './userCoversation';
-import ViewConversation from './ConversationView';
+// import ViewConversation from './ConversationView';
 import ConversationNote from './ConversationNote';
 import ConversationReply from './ConversationReply';
 import ConversationForward from './ConversationForward';
@@ -128,7 +128,7 @@ export default function Conversations() {
           </>
         )}
       </Box>
-      {isConversation ? (
+      {/* {isConversation ? (
         <ViewConversation />
       ) : (
         <>
@@ -185,7 +185,7 @@ export default function Conversations() {
             </Box>
           </Box>
         </>
-      )}
+      )} */}
     </Box>
   );
 }
