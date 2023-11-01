@@ -37,7 +37,7 @@ export const TicketRelated = ({ getRelatedDataArray }: any) => {
                 <TableBody>
                   {item?.relatedData?.map((relatedData: any) => (
                     <TableRow key={uuidv4()}>
-                      <TableCell sx={styles.insightsItemsStyles}>
+                      <TableCell sx={styles?.insightsItemsStyles}>
                         <Box display={'flex'}>
                           <Typography
                             variant="body4"

@@ -47,7 +47,7 @@ export const Overview = () => {
         </Typography>
         <TanstackTable
           data={overviewListData}
-          columns={overviewTableColumns(setOpenOverviewModal)}
+          columns={overviewTableColumns(setOpenOverviewModal, theme)}
         />
       </Box>
       <Box m={'1rem 3rem 0 0'}>
