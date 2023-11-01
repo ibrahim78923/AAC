@@ -72,7 +72,7 @@ const priorityOptions = [
 ];
 
 export const ticketsActionDropdownFunction = (
-  openDrawer: any,
+  // openDrawer: any,
   setDeleteModalOpen: any,
   markTicketAsClose: any,
   markTicketAsSpam: any,
@@ -80,7 +80,7 @@ export const ticketsActionDropdownFunction = (
   {
     title: 'Edit',
     handleClick: (closeMenu: any) => {
-      openDrawer?.(TABLE_CONSTANTS?.EDIT_TICKET);
+      // openDrawer?.(TABLE_CONSTANTS?.EDIT_TICKET);
       closeMenu?.();
     },
   },

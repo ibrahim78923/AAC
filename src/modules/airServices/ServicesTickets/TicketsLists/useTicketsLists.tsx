@@ -88,12 +88,12 @@ export const useTicketsLists = () => {
         isDrawerOpen={isDrawerOpen}
       />
     ),
-    [TABLE_CONSTANTS?.EDIT_TICKET]: (
-      <CreateTicket
-        setIsDrawerOpen={setIsDrawerOpen}
-        isDrawerOpen={isDrawerOpen}
-      />
-    ),
+    // [TABLE_CONSTANTS?.EDIT_TICKET]: (
+    //   <CreateTicket
+    //     setIsDrawerOpen={setIsDrawerOpen}
+    //     isDrawerOpen={isDrawerOpen}
+    //   />
+    // ),
   };
 
   const openDrawer = (tableActionQuery: any) => {
@@ -123,7 +123,7 @@ export const useTicketsLists = () => {
   };
 
   const ticketsActionDropdown = ticketsActionDropdownFunction?.(
-    openDrawer,
+    // openDrawer,
     setDeleteModalOpen,
     markTicketAsClose,
     markTicketAsSpam,
