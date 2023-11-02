@@ -1,9 +1,9 @@
 import { UserAvatarImage } from '@/assets/images';
 import { v4 as uuidv4 } from 'uuid';
-import { RecentActivitiesDashboardCard } from './PreviewDahboardItems/RecentActivitiesDashboardCard';
-import { AnnouncementDashboardCard } from './PreviewDahboardItems/AnnouncementDashboardCard';
-import { TicketDashboardCards } from './PreviewDahboardItems/TicketDashboardCards';
-import { TopPerformerDashboardCard } from './PreviewDahboardItems/TopPerformerDashboardCard';
+import { RecentActivitiesDashboardCard } from './PreviewDashboardItems/RecentActivitiesDashboardCard';
+import { AnnouncementDashboardCard } from './PreviewDashboardItems/AnnouncementDashboardCard';
+import { TicketDashboardCards } from './PreviewDashboardItems/TicketDashboardCards';
+import { TopPerformerDashboardCard } from './PreviewDashboardItems/TopPerformerDashboardCard';
 export const dashboardCheckboxData = [
   'Graphical Representation of Tickets by Statuses',
   'Recent Activities',

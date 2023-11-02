@@ -1,11 +1,11 @@
 export const styles: any = {
-  boxMain: (isborderbottom: boolean) => ({
+  boxMain: (isBorderBottom: boolean) => ({
     display: 'flex',
     alignItems: 'center',
     flex: 1,
     gap: 2,
     background: '#FFF',
-    borderBottom: isborderbottom ? '0.063rem solid #E5E7EB' : '',
+    borderBottom: isBorderBottom ? '0.063rem solid #E5E7EB' : '',
     flexShrink: 0,
   }),
 

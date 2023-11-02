@@ -7,10 +7,10 @@ export const AnnouncementDashboardCard = ({
   Announcementtext,
   Announcementtextone,
   Announcementtexttwo,
-  isborderbottom,
+  isBorderBottom,
 }: any) => {
   return (
-    <Box sx={styles?.boxMain(isborderbottom)}>
+    <Box sx={styles?.boxMain(isBorderBottom)}>
       <Box sx={{ marginLeft: 3, marginTop: 1 }}>
         <Typography sx={styles?.announcementText}>
           {Announcementtext}

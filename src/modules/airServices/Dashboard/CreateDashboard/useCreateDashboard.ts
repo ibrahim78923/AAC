@@ -11,12 +11,12 @@ export const useCreateDashboard = () => {
   const [pendingValue, setPendingValue] = useState<AutoCompleteLabelI[]>([]);
   const [specificUsers, setSpecificUser] = useState<AutoCompleteLabelI[]>([]);
   const [usersPermissions, setUsersPermissions] = useState<any[]>([]);
-  const handleOpenUserslist = (event: React.MouseEvent<HTMLElement>) => {
+  const handleOpenUsersList = (event: React.MouseEvent<HTMLElement>) => {
     setPendingValue(specificUsers);
     setAnchorElUserList(event?.currentTarget);
   };
 
-  const handleCloseUserslist = () => {
+  const handleCloseUsersList = () => {
     setSpecificUser(pendingValue);
     if (anchorElUserList) {
       anchorElUserList?.focus();
@@ -64,8 +64,8 @@ export const useCreateDashboard = () => {
     setPendingValue,
     pendingValue,
     anchorElUserList,
-    handleOpenUserslist,
-    handleCloseUserslist,
+    handleOpenUsersList,
+    handleCloseUsersList,
     usersPermissions,
     setSpecificUserPermissions,
     theme,

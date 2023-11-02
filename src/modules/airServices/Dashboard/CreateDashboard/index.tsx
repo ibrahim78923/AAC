@@ -39,8 +39,8 @@ export const CreateDashboard = () => {
     setPendingValue,
     pendingValue,
     anchorElUserList,
-    handleOpenUserslist,
-    handleCloseUserslist,
+    handleOpenUsersList,
+    handleCloseUsersList,
     usersPermissions,
     setSpecificUserPermissions,
     theme,
@@ -110,7 +110,7 @@ export const CreateDashboard = () => {
                       </FormControl>
                     )}
                     <FormControlLabel
-                      onClick={handleOpenUserslist}
+                      onClick={handleOpenUsersList}
                       value="Only specific user and teams"
                       control={<Radio />}
                       label="Only specific user and teams"
@@ -118,7 +118,7 @@ export const CreateDashboard = () => {
                     <SearchableMultiSelect
                       labels={userData}
                       anchorEl={anchorElUserList}
-                      handleClose={handleCloseUserslist}
+                      handleClose={handleCloseUsersList}
                       pendingValue={pendingValue}
                       setPendingValue={setPendingValue}
                       value={specificUsers}
