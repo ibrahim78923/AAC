@@ -21,7 +21,7 @@ const RequestApproval = () => {
   };
   return (
     <>
-      <Box sx={styles.approvalsContainerBox}>
+      <Box sx={styles?.approvalsContainerBox}>
         {requestApprovalPageData
           ?.filter((item) => item?.status === 'Request')
           ?.map((filteredItem) => {

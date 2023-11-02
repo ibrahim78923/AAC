@@ -16,7 +16,7 @@ export const KnowledgeInsights = () => {
   } = useKnowledgeInsights();
   return (
     <>
-      {trendingInsightsData.length < 1 ? (
+      {trendingInsightsData?.length < 1 ? (
         <NoData
           image={NoSearchResultFoundImage}
           message={'No approval found'}
