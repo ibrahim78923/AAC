@@ -16,6 +16,7 @@ function Software() {
   const [isAddDrawerOpen, setIsAddDrawerOpen] = useState<boolean>(false);
   const [softwareData, setSoftwareData] = useState([]);
   const [openAssignModal, setOpenAssignModal] = useState(false);
+  const [assignCategory, setAssignCategory] = useState(false);
   const [searchValue, SetSearchValue] = useState<string>('');
 
   const theme: any = useTheme();
@@ -48,7 +49,7 @@ function Software() {
           <Button
             color="secondary"
             variant="outlined"
-            disabled={!!!softwareData.length}
+            disabled={!!!softwareData?.length}
             onClick={() => {
               setOpenAssignModal(true);
             }}
@@ -88,11 +89,13 @@ function Software() {
         cancelText={'Cancel'}
         okText={'Assign'}
         successMessage={'Assign Successfully'}
+        setData={setAssignCategory}
       />
       <UpsertSoftware
         isDrawerOpen={isAddDrawerOpen}
         onClose={setIsAddDrawerOpen}
       />
+      {assignCategory && null}
     </>
   );
 }

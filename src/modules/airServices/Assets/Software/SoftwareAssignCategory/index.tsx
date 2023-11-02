@@ -1,11 +1,11 @@
 import { useForm } from 'react-hook-form';
 import ConversationModel from '@/components/Model/CoversationModel';
 import { FormProvider, RHFSearchableSelect } from '@/components/ReactHookForm';
-import { Box, Button, Divider, Grid } from '@mui/material';
+import { Box, Button, Divider, useTheme } from '@mui/material';
 import { enqueueSnackbar } from 'notistack';
-import { style } from './SoftwareAssignCategory.style';
 import { v4 as uuidv4 } from 'uuid';
 import { useState } from 'react';
+import { SoftwareAssignCategoryPropsI } from './SoftwareAssignCategory.interface';
 
 function SoftwareAssignCategory({
   title,
@@ -16,8 +16,9 @@ function SoftwareAssignCategory({
   okText,
   successMessage,
   setData,
-}: any) {
+}: SoftwareAssignCategoryPropsI) {
   const methods: any = useForm({});
+  const theme: any = useTheme();
   const [disable, setDisable] = useState(true);
 
   return (
@@ -30,30 +31,39 @@ function SoftwareAssignCategory({
         }}
       >
         <Box>
-          <Box mt={1} sx={style.dropdownBox}>
+          <Box width={{ xs: '18rem', sm: '24rem', lg: '28rem' }} mt={1}>
             <FormProvider methods={methods}>
-              <Grid container spacing={4} sx={{}}>
-                {dataArray?.map((item: any) => (
-                  <Grid item key={uuidv4()}>
-                    <Box
-                      sx={style.searchField}
-                      onClick={() => {
-                        setDisable(false);
-                      }}
-                    >
-                      <RHFSearchableSelect
-                        name="Search or add category"
-                        options={item.options}
-                        control={methods.control}
-                      />
-                    </Box>
-                  </Grid>
-                ))}
-              </Grid>
+              {dataArray?.map((item: any) => (
+                <Box
+                  width={{ xs: '18rem', sm: '24rem', lg: '28rem' }}
+                  onClick={() => {
+                    setDisable(false);
+                  }}
+                  key={uuidv4()}
+                >
+                  <RHFSearchableSelect
+                    name="Search or add category"
+                    options={item?.options}
+                    control={methods?.control}
+                  />
+                </Box>
+              ))}
             </FormProvider>
           </Box>
-          <Divider sx={style.divider} />
-          <Box sx={style.buttonBox}>
+          <Divider
+            sx={{
+              height: '.1rem',
+              backgroundColor: theme?.palette?.grey?.[700],
+              marginTop: '1.5rem',
+            }}
+          />
+          <Box
+            marginTop={'1.5rem'}
+            display={'flex'}
+            alignItems={'center'}
+            justifyContent={'flex-end'}
+            gap={'1rem'}
+          >
             <Button
               variant="outlined"
               onClick={() => {

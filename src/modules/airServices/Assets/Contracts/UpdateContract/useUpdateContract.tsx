@@ -6,8 +6,11 @@ import {
 } from './UpdateContract.data';
 import { useRouter } from 'next/router';
 import { enqueueSnackbar } from 'notistack';
+import { AIR_SERVICES } from '@/constants';
+import { useTheme } from '@mui/material';
 
 export const useUpdateContract = () => {
+  const theme = useTheme();
   const methods: any = useForm({
     resolver: yupResolver(updateContractFormValidationSchema),
     defaultValues: updateContractFormDefaultValues,
@@ -15,33 +18,23 @@ export const useUpdateContract = () => {
   const { handleSubmit } = methods;
   const router = useRouter();
 
-  const submitHandlerUpdateContractForm = () => {
-    handleSubmit(submitUpdateContractForm)();
+  const handleCancelBtn = () => {
+    router.push({ pathname: AIR_SERVICES?.ASSETS_CONTRACTS });
   };
 
-  const handleContractClick = () => {
-    router.push('/air-services/assets/contracts');
-  };
   const submitUpdateContractForm = async () => {
-    // console.log(data);
     enqueueSnackbar('Contract Extended successfully', {
       variant: 'success',
       autoHideDuration: 3000,
     });
-
-    // router.push('/air-services/assets/contracts');
   };
 
-  const convertToTitleCase = (textToConvert: any) => {
-    return `${textToConvert?.[0]?.toUpperCase()}${textToConvert?.slice(1)}`;
-  };
   return {
     methods,
     handleSubmit,
     submitUpdateContractForm,
-    handleContractClick,
-    submitHandlerUpdateContractForm,
     router,
-    convertToTitleCase,
+    theme,
+    handleCancelBtn,
   };
 };

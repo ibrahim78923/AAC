@@ -1,37 +1,38 @@
 import TanstackTable from '@/components/Table/TanstackTable';
 import { AlertModals } from '@/components/AlertModals';
+import { PageTitledHeader } from '@/components/PageTitledHeader';
 import {
-  associatesListsData,
-  associatesListsColumnFunction,
+  AssociatesListsData,
+  AssociatesListsColumnFunction,
 } from './AssociatesList.data';
 import { useAssociatesLists } from './useAssociatesList';
 import { AddAssociationsDrawer } from '../AddAssociationsDrawer';
-import { PageTitledHeader } from '@/components/PageTitledHeader';
 
 const DELETE_MESSAGE = 'Are you sure you want to delete this Associate Asset?';
 const MODAL_TYPE = 'delete';
 
-export const AssociatesListsTableView = () => {
+export const AssociatesLists = () => {
   const {
     deleteModal,
     setDeleteModal,
     submitDeleteModel,
     openDrawer,
     setOpenDrawer,
+    theme,
   } = useAssociatesLists();
   return (
     <>
       <br />
       <PageTitledHeader
         title={'Associations'}
-        addTitle={'  Add Associations'}
+        addTitle={'Add Associations'}
         handleAction={() => setOpenDrawer(true)}
       />
 
       <br />
       <TanstackTable
-        columns={associatesListsColumnFunction(setDeleteModal)}
-        data={associatesListsData}
+        columns={AssociatesListsColumnFunction(setDeleteModal, theme)}
+        data={AssociatesListsData}
       />
       <AlertModals
         open={deleteModal}

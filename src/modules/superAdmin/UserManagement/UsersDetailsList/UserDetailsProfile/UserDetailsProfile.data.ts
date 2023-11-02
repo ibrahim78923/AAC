@@ -1,3 +1,5 @@
+import { Typography } from '@mui/material';
+
 import { RHFTextField } from '@/components/ReactHookForm';
 
 import * as Yup from 'yup';
@@ -97,6 +99,17 @@ export const profileFields = [
     },
     component: RHFTextField,
     md: 6,
+  },
+
+  {
+    componentProps: {
+      color: '#7a7a7b',
+      varient: 'h4',
+      heading: 'Links',
+    },
+
+    gridLength: 12,
+    component: Typography,
   },
 
   {

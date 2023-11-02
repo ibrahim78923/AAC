@@ -1,43 +1,64 @@
 import NoData from '@/components/NoData';
-import { Button, useTheme } from '@mui/material';
+import { Box, Button, useTheme } from '@mui/material';
 import { AddCircleIcon } from '@/assets/icons';
-import { styles } from './Associations.style';
 import { useState } from 'react';
-import { AddAssociationsDrawer } from './AssociationsDrawer';
-import AssociationTicket from './AssociationsTicket';
+import { AssociationsDrawer } from './AssociationsDrawer';
+import { SingleAssociationsTicket } from './SingleAssociationsTicket';
+import { associationsTicketData } from './Associations.data';
 import { NoAssociationFound } from '@/assets/images';
 
 export const Associations = () => {
   const theme: any = useTheme();
   const [openDrawer, setOpenDrawer] = useState<any>(false);
-  const [openTicket, setOpenTicket] = useState<any>(false);
 
   return (
     <>
-      {openTicket === false ? (
-        <NoData
-          image={NoAssociationFound}
-          message={
-            'Make approved purchases by sending the order to your stakeholders for approval'
-          }
-        >
-          <Button
-            sx={styles.addButtonStyle(theme)}
-            variant="outlined"
-            startIcon={<AddCircleIcon />}
-            onClick={() => setOpenDrawer(true)}
+      {associationsTicketData?.length === 0 ? (
+        <>
+          <NoData
+            image={NoAssociationFound}
+            message={
+              'Make approved purchases by sending the order to your stakeholders for approval'
+            }
           >
-            Associate
-          </Button>
-        </NoData>
+            <Button
+              sx={{
+                marginRight: '12px',
+                backgroundColor: theme?.palette?.primary?.light,
+                color: theme?.palette?.primary?.main,
+              }}
+              variant="outlined"
+              startIcon={<AddCircleIcon />}
+              onClick={() => setOpenDrawer(true)}
+            >
+              Associate
+            </Button>
+          </NoData>
+        </>
       ) : (
-        <AssociationTicket />
+        <>
+          <Box display={'flex'} justifyContent={'end'} marginBottom={'1rem'}>
+            <Button
+              sx={{
+                marginRight: '12px',
+                backgroundColor: theme?.palette?.primary?.light,
+                color: theme?.palette?.primary?.main,
+              }}
+              variant="outlined"
+              startIcon={<AddCircleIcon />}
+            >
+              Associate
+            </Button>
+          </Box>
+          <SingleAssociationsTicket
+            associationsTicketData={associationsTicketData}
+          />
+        </>
       )}
 
-      <AddAssociationsDrawer
+      <AssociationsDrawer
         open={openDrawer}
         setDrawerOpen={() => setOpenDrawer(false)}
-        setOpenTicket={setOpenTicket}
       />
     </>
   );

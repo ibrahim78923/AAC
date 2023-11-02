@@ -4,7 +4,7 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
 import { Button } from '@mui/material';
 import { FilterSharedIcon } from '@/assets/icons';
-import ContractsDrawerForm from './ContractsDrawerForm';
+import ContractsDrawerForm from './FilterContractsForm';
 import { AlertModals } from '@/components/AlertModals';
 import { useContracts } from './useContracts';
 import { ExportButton } from '../../../../components/ExportButton';
@@ -18,7 +18,6 @@ function Contracts() {
     setIsDrawerOpen,
     openModel,
     setOpenModel,
-    theme,
     handleAddNewContractClick,
     handleSubmitModel,
     router,
@@ -65,7 +64,7 @@ function Contracts() {
       <Box sx={{ marginBottom: '25px' }}>
         <TanstackTable
           data={data}
-          columns={columns(meetingsData, setMeetingsData, data, theme, router)}
+          columns={columns(meetingsData, setMeetingsData, data, router)}
         />
       </Box>
       <Box>
