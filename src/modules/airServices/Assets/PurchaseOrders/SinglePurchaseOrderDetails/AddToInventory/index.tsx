@@ -279,10 +279,7 @@ export const AddToInventory = (props: any) => {
                 <Grid container spacing={2}>
                   {addToInventoryItemStatus?.map((item: any) => (
                     <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                      <item.component
-                        {...item.componentProps}
-                        size={'small'}
-                      ></item.component>
+                      <item.component {...item.componentProps} size={'small'} />
                     </Grid>
                   ))}
                 </Grid>

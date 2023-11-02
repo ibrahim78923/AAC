@@ -101,3 +101,8 @@ export { default as ItemToInventoryImage } from './modules/purchaseOrder/info-ci
 export { default as NoAssociationFound } from '@/assets/images/modules/LogitechMouse/association.png';
 export { default as UsersAvatarRoundedImage } from './modules/socialComponents/calling/user-avatar-rounded.png';
 export { default as DealReportImage } from './modules/airSales/Reports/reports.png';
+export { default as ServiceFeaturedImage } from './modules/catalog/services-featured.png';
+export { default as SoftwareFeaturedImage } from './modules/catalog/software-featured.png';
+export { default as PmFeaturedImage } from './modules/catalog/pm-featured.png';
+export { default as HardwareFeaturedImage } from './modules/catalog/Hardware-featured.png';
+export { default as CatalogLogosAdobePhotoshop } from './modules/catalog/catalog-logos-adobe-photoshop.png';
