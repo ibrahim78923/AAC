@@ -14,7 +14,7 @@ export const useSingleTicketForm = ({
   const { handleSubmit, reset } = methods;
 
   const onSubmit = async () => {
-    enqueueSnackbar('send Successfully!', {
+    enqueueSnackbar('Your reply has been sent!', {
       variant: 'success',
       autoHideDuration: 3000,
     });

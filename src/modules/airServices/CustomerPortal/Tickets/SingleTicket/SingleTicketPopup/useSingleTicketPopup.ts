@@ -16,7 +16,7 @@ export const useSingleTicketPopup = (props: any) => {
   const { handleSubmit, reset } = methods;
 
   const onSubmit = async () => {
-    enqueueSnackbar('Added 1 email (s) to ticked!', {
+    enqueueSnackbar('Added 1 email(s) to the ticket', {
       variant: 'success',
       autoHideDuration: 3000,
     });
