@@ -1,12 +1,7 @@
-import ApprovalPage from '@/modules/ApprovalTickets/components/RequestApprovalPage';
 import React from 'react';
 
-const TextComponentAli: React.FC = () => {
-  return (
-    <div>
-      <ApprovalPage />
-    </div>
-  );
+const index = () => {
+  return <div>index</div>;
 };
 
-export default TextComponentAli;
+export default index;

@@ -19,7 +19,7 @@ import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { FormProvider } from '@/components/ReactHookForm';
 import Search from '@/components/Search';
 import CommonDrawer from '@/components/CommonDrawer';
-import TanstackTable from '@/components/Tabel/TanstackTable';
+import TanstackTable from '@/components/Table/TanstackTable';
 import CustomPagination from '@/components/CustomPagination';
 import { AlertModals } from '@/components/AlertModals';
 

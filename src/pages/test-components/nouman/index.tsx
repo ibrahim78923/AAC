@@ -1,11 +1,13 @@
 import SkeletonFormExample from '@/components/Skeletons/SkeletonForm/SkeletonForm.example';
 import SkeletonTableExample from '@/components/Skeletons/SkeletonTable/SkeletonTable.example';
-import TanstackTable from '@/components/Tabel/TanstackTable';
+import TanstackTable from '@/components/Table/TanstackTable';
 import HorizontalTabsExample from '@/components/Tabs/HorizontalTabs/HorizontalTabs.example';
 import Layout from '@/layout';
+// import { AssociatesListsTableView } from '@/modules/ServicesTickets/SingleTicketDetail/Associations/AssociatesLists';
+// import { TicketsLists } from '@/modules/ServicesTickets/TicketsLists';
 
 // import SuperAdminLayout from '@/layouts/SuperAdminLayout/SuperAdminLayout';
-import { TicketsLists } from '@/modules/ServicesTickets/TicketsLists';
+// import { TicketsLists } from '@/modules/ServicesTickets/TicketsLists';
 import { Button, Checkbox } from '@mui/material';
 import { useSnackbar } from 'notistack';
 export const TestComponentsNoumanPage = () => {
@@ -68,6 +70,7 @@ export const TestComponentsNoumanPage = () => {
       <SkeletonFormExample />
       <br />
       <br />
+      <br />
       <Button
         variant="contained"
         onClick={() =>
@@ -81,7 +84,8 @@ export const TestComponentsNoumanPage = () => {
       <br />
       <>Table</>
       <TanstackTable columns={columns} data={data} />
-      <TicketsLists />
+      {/* <TicketsLists />
+      <AssociatesListsTableView /> */}
     </>
   );
 };

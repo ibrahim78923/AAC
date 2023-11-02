@@ -4,7 +4,7 @@ import Image from 'next/image';
 
 import { Box, Button, Grid, Typography } from '@mui/material';
 
-import TanstackTable from '@/components/Tabel/TanstackTable';
+import TanstackTable from '@/components/Table/TanstackTable';
 import MeetingsDropDown from './MeetingsDropDown';
 import MeetingsEditorDrawer from './MeetingsEditorDrawer';
 

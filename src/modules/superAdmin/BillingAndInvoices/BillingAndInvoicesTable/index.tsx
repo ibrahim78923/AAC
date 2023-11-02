@@ -3,10 +3,9 @@ import { useState } from 'react';
 import { Grid, Typography, Button, useTheme } from '@mui/material';
 
 import Search from '@/components/Search';
-import TanstackTable from '@/components/Tabel/TanstackTable';
-import CustomPagination from '@/components/CustomPagination';
-
 import GenerateInvoice from '../GenerateInvoice';
+import TanstackTable from '@/components/Table/TanstackTable';
+import CustomPagination from '@/components/CustomPagination';
 import ViewBillingDetails from '../ViewBillingDetails';
 import { columns } from './BillingAndInvoices.data';
 import EditForm from '../EditForm';
