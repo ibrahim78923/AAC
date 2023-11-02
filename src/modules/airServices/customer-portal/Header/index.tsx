@@ -8,8 +8,7 @@ export const Header = () => {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          px: 2.4,
-          py: 1.3,
+          p: '0.75rem 1.5rem',
           borderRadius: '0.75rem',
           background: 'white',
         }}
