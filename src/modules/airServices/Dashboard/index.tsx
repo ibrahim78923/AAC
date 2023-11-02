@@ -5,24 +5,29 @@ import { Box, Button, Grid, Typography } from '@mui/material';
 import { AnnouncementDashboardCard } from '@/modules/airServices/Dashboard/AnnouncementDashboardCard';
 import { TopPerformerDashboardCard } from '@/modules/airServices/Dashboard/TopPerformerDashboardCard';
 import { v4 as uuidv4 } from 'uuid';
-import TicketDashboardCardsData from './TicketDashboardCards/TicketDashboardCards.data';
-import RecentActivitiesDashboardCardData from './RecentActivitiesDashboardCard/RecentActivitiesDashboardCard.data';
+import ticketDashboardCardsData from './TicketDashboardCards/TicketDashboardCards.data';
+import recentActivitiesDashboardCardData from './RecentActivitiesDashboardCard/RecentActivitiesDashboardCard.data';
 import AnnouncementDashboardCardData from './AnnouncementDashboardCard/AnnouncementDashboardCard.data';
-import TopPerformerDashboardCardData from './TopPerformerDashboardCard/TopPerformerDashboardCard.data';
+import topPerformerDashboardCardData from './TopPerformerDashboardCard/TopPerformerDashboardCard.data';
 import { BarChart } from './Chart/BarChart';
 import { PieChart } from './Chart/PieChart';
 import { HeaderBarChart } from './Chart/HeaderBarChart';
 import { HeaderPieChart } from './Chart/HeaderPieChart';
+import { AnnouncementHeader } from './AnnouncementHeader';
 
 const Dashboard = () => {
   return (
     <div>
       <HeaderDashboard />
       <br />
-      <Box sx={{ display: 'flex', gap: 1 }}>
-        {TicketDashboardCardsData?.map(({ icon, count, label }) => (
+      <Box sx={{ display: { xs: 'flex' }, gap: 1 }}>
+        {ticketDashboardCardsData?.map((item) => (
           <Box key={uuidv4()} flex={1}>
-            <TicketDashboardCards icon={icon} count={count} label={label} />
+            <TicketDashboardCards
+              icon={item.icon}
+              count={item.count}
+              label={item.label}
+            />
           </Box>
         ))}
       </Box>
@@ -59,30 +64,20 @@ const Dashboard = () => {
                   <Typography variant="h5">Recent Activities</Typography>
                 </Box>
                 <Box sx={{ marginTop: 2 }} key={uuidv4()}>
-                  {RecentActivitiesDashboardCardData?.map(
-                    (
-                      {
-                        recentactivitytext,
-                        recentactivitytextone,
-                        recentactivitytexttwo,
-                        icon,
-                      },
-                      index,
-                    ) => (
-                      <Box key={uuidv4()}>
-                        <RecentActivitiesDashboardCard
-                          icon={icon}
-                          recentactivitytext={recentactivitytext}
-                          recentactivitytextone={recentactivitytextone}
-                          recentactivitytexttwo={recentactivitytexttwo}
-                          isborderbottom={
-                            RecentActivitiesDashboardCardData?.length - 1 !==
-                            index
-                          }
-                        />
-                      </Box>
-                    ),
-                  )}
+                  {recentActivitiesDashboardCardData?.map((item, index) => (
+                    <Box key={uuidv4()}>
+                      <RecentActivitiesDashboardCard
+                        icon={item.icon}
+                        recentActivityText={item.recentActivityText}
+                        recentActivityTextOne={item.recentActivityTextOne}
+                        recentactivitytextTwo={item.recentactivitytextTwo}
+                        isborderbottom={
+                          recentActivitiesDashboardCardData?.length - 1 !==
+                          index
+                        }
+                      />
+                    </Box>
+                  ))}
                 </Box>
                 <Box sx={{ display: 'flex', justifyContent: 'center' }}>
                   <Button variant="text">View All</Button>
@@ -112,38 +107,23 @@ const Dashboard = () => {
             </Grid>
             <Grid item xs={12} lg={4}>
               <Box>
-                {TopPerformerDashboardCardData?.map(
-                  ({
-                    topperformancetext,
-                    topperformancetextone,
-                    topperformancetexttwo,
-                    topperformancetextthree,
-                    topperformancetextfour,
-                    topperformancetextfive,
-                    topperformancetextsix,
-                    topperformancetextseven,
-
-                    icon,
-                    iconone,
-                    icontwo,
-                  }) => (
-                    <Box key={uuidv4()}>
-                      <TopPerformerDashboardCard
-                        icon={icon}
-                        iconone={iconone}
-                        icontwo={icontwo}
-                        topperformancetext={topperformancetext}
-                        topperformancetextone={topperformancetextone}
-                        topperformancetexttwo={topperformancetexttwo}
-                        topperformancetextthree={topperformancetextthree}
-                        topperformancetextfour={topperformancetextfour}
-                        topperformancetextfive={topperformancetextfive}
-                        topperformancetextsix={topperformancetextsix}
-                        topperformancetextseven={topperformancetextseven}
-                      />
-                    </Box>
-                  ),
-                )}
+                {topPerformerDashboardCardData?.map((item) => (
+                  <Box key={uuidv4()}>
+                    <TopPerformerDashboardCard
+                      icon={item.icon}
+                      iconOne={item.iconOne}
+                      iconTwo={item.iconTwo}
+                      topPerformanceText={item.topPerformanceText}
+                      topPerformanceTextOne={item.topPerformanceTextOne}
+                      topPerformanceTextTwo={item.topPerformanceTextTwo}
+                      topPerformanceTextThree={item.topPerformanceTextThree}
+                      topPerformanceTextFour={item.topPerformanceTextFour}
+                      topPerformanceTextFive={item.topPerformanceTextFive}
+                      topPerformanceTextSix={item.topPerformanceTextSix}
+                      topPerformanceTextSeven={item.topPerformanceTextSeven}
+                    />
+                  </Box>
+                ))}
               </Box>
             </Grid>
             <Grid item xs={12} lg={4}>
@@ -156,32 +136,22 @@ const Dashboard = () => {
               >
                 <br />
                 <Box sx={{ marginLeft: 2 }}>
-                  <Typography variant="h5">Announcements</Typography>
+                  <AnnouncementHeader />
                 </Box>
                 <Box>
-                  {AnnouncementDashboardCardData?.map(
-                    (
-                      {
-                        icon,
-                        Announcementtext,
-                        Announcementtextone,
-                        Announcementtexttwo,
-                      },
-                      index,
-                    ) => (
-                      <Box key={uuidv4()}>
-                        <AnnouncementDashboardCard
-                          icon={icon}
-                          Announcementtext={Announcementtext}
-                          Announcementtextone={Announcementtextone}
-                          Announcementtexttwo={Announcementtexttwo}
-                          isborderbottom={
-                            AnnouncementDashboardCardData?.length - 1 !== index
-                          }
-                        />
-                      </Box>
-                    ),
-                  )}
+                  {AnnouncementDashboardCardData?.map((item, index) => (
+                    <Box key={uuidv4()}>
+                      <AnnouncementDashboardCard
+                        icon={item.icon}
+                        announcementText={item.announcementText}
+                        announcementTextOne={item.announcementTextOne}
+                        announcementTextTwo={item.announcementTextTwo}
+                        isborderbottom={
+                          AnnouncementDashboardCardData?.length - 1 !== index
+                        }
+                      />
+                    </Box>
+                  ))}
                 </Box>
                 <Box sx={{ display: 'flex', justifyContent: 'center' }}>
                   <Button>View All</Button>

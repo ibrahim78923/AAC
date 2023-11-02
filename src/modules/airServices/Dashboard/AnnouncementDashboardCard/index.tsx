@@ -1,22 +1,23 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, useTheme } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import { styles } from './AnnouncementDashboardCard.styles';
 
 export const AnnouncementDashboardCard = ({
   icon,
-  Announcementtext,
-  Announcementtextone,
-  Announcementtexttwo,
+  announcementText,
+  announcementTextOne,
+  announcementTextTwo,
   isborderbottom,
 }: any) => {
+  const theme = useTheme();
   return (
-    <Box sx={styles?.boxMain(isborderbottom)}>
-      <Box sx={{ marginLeft: 3, marginTop: 1 }}>
+    <Box sx={styles?.boxMain(isborderbottom, theme)}>
+      <Box sx={{ marginTop: 1 }}>
         <Typography sx={styles?.announcementText}>
-          {Announcementtext}
+          {announcementText}
         </Typography>
         <Typography sx={styles?.announcementTextOne}>
-          {Announcementtextone}
+          {announcementTextOne}
         </Typography>
       </Box>
       <Box sx={{ display: 'flex', justifyContent: 'center' }}>
@@ -30,7 +31,7 @@ export const AnnouncementDashboardCard = ({
           }}
         />
         <Typography sx={styles?.announcementTextTwo}>
-          {Announcementtexttwo}
+          {announcementTextTwo}
         </Typography>
       </Box>
     </Box>

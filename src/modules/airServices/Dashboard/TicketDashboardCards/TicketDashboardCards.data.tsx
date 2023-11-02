@@ -1,10 +1,10 @@
-import FirstAidKit from '@/assets/images/modules/superAdmin/dashboard/FirstAidKit.png';
-import SecondAidKit from '@/assets/images/modules/superAdmin/dashboard/SecondAidKit.png';
-import ThirdAidKit from '@/assets/images/modules/superAdmin/dashboard/ThirdAidKit.png';
-import FourAidKit from '@/assets/images/modules/superAdmin/dashboard/FourAidKit.png';
-import FifthAidKit from '@/assets/images/modules/superAdmin/dashboard/FiveAidKit.png';
+import FirstAidKit from '@/assets/images/modules/airServices/Tickets/FirstAidKit.png';
+import SecondAidKit from '@/assets/images/modules/airServices/Tickets/SecondAidKit.png';
+import ThirdAidKit from '@/assets/images/modules/airServices/Tickets/ThirdAidKit.png';
+import FourAidKit from '@/assets/images/modules/airServices/Tickets/FourAidKit.png';
+import FifthAidKit from '@/assets/images/modules/airServices/Tickets/FiveAidKit.png';
 
-const TicketDashboardCardsData = [
+const ticketDashboardCardsData = [
   { icon: FirstAidKit, count: '15', label: 'Overdue' },
   { icon: SecondAidKit, count: '06', label: 'Due Today' },
   { icon: ThirdAidKit, count: '13', label: 'Unresolved' },
@@ -12,4 +12,4 @@ const TicketDashboardCardsData = [
   { icon: FifthAidKit, count: '24', label: 'Open Tickets' },
 ];
 
-export default TicketDashboardCardsData;
+export default ticketDashboardCardsData;

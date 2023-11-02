@@ -1,14 +1,16 @@
 import { CustomChart } from '@/components/Chart';
 import { v4 as uuidv4 } from 'uuid';
-import { RadialBarChartData } from './RadialBarChart.data';
-import { RadialBarChartDataOptions } from './RadialBarChart.interface';
+import {
+  radialBarChartData,
+  radialBarChartDataOptions,
+} from './RadialBarChart.data';
 
 export const RadialBarChart = () => {
   return (
     <CustomChart
       key={uuidv4()}
-      options={RadialBarChartDataOptions}
-      series={RadialBarChartData}
+      options={radialBarChartDataOptions}
+      series={radialBarChartData}
       type="radialBar"
       height={280}
     />

@@ -2,20 +2,20 @@ import TopPerformanceImage from '@/assets/images/modules/LogitechMouse/CustomerW
 import TopPerformanceImageTwo from '@/assets/images/modules/LogitechMouse/MostValuablePlayer.png';
 import TopPerformaceAvatar from '@/assets/images/modules/LogitechMouse/Avatar.png';
 
-const TopPerformerDashboardCardData = [
+const topPerformerDashboardCardData = [
   {
     icon: TopPerformaceAvatar,
-    topperformancetext: ' Alesha Rai',
-    topperformancetextone: 'IT Department',
-    topperformancetexttwo: 'Beginner',
-    topperformancetextthree: 'Score + 2400 points to intermediate',
-    topperformancetextfour: 'Customer Wow',
-    topperformancetextfive: 'Champion',
-    topperformancetextsix: 'Most Valuable',
-    topperformancetextseven: 'Player',
-    iconone: TopPerformanceImage,
-    icontwo: TopPerformanceImageTwo,
+    topPerformanceText: ' Alesha Rai',
+    topPerformanceTextOne: 'IT Department',
+    topPerformanceTextTwo: 'Beginner',
+    topPerformanceTextThree: 'Score + 2400 points to intermediate',
+    topPerformanceTextFour: 'Customer Wow',
+    topPerformanceTextFive: 'Champion',
+    topPerformanceTextSix: 'Most Valuable',
+    topPerformanceTextSeven: 'Player',
+    iconOne: TopPerformanceImage,
+    iconTwo: TopPerformanceImageTwo,
   },
 ];
 
-export default TopPerformerDashboardCardData;
+export default topPerformerDashboardCardData;

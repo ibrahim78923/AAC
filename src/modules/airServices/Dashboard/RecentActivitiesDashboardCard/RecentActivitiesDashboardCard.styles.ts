@@ -7,6 +7,7 @@ export const styles: any = {
     background: '#FFF',
     borderBottom: isborderbottom ? '0.063rem solid #E5E7EB' : '',
     flexShrink: 0,
+    marginTop: 1,
   }),
 
   recentActivitiesTextBoldWord: {
@@ -43,5 +44,6 @@ export const styles: any = {
     lineHeight: '1.125rem',
     letterSpacing: '-0.015rem',
     color: '#4B5563',
+    marginBottom: 1,
   },
 };

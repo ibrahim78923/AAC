@@ -4,9 +4,9 @@ import { styles } from './RecentActivitiesDashboardCard.styles';
 
 export const RecentActivitiesDashboardCard = ({
   icon,
-  recentactivitytext,
-  recentactivitytextone,
-  recentactivitytexttwo,
+  recentActivityText,
+  recentActivityTextOne,
+  recentactivitytextTwo,
   isborderbottom,
 }: any) => {
   return (
@@ -21,14 +21,14 @@ export const RecentActivitiesDashboardCard = ({
       <Box>
         <Typography sx={styles?.recentActivitiesText}>
           <span style={styles?.recentActivitiesTextBoldWord}>John Doe</span>
-          {recentactivitytext}
+          {recentActivityText}
           <span style={styles?.recentActivitiesTextBoldWord}> Mark dyson</span>
         </Typography>
         <Typography sx={styles?.recentActivitiesTextPassword}>
-          {recentactivitytextone}
+          {recentActivityTextOne}
         </Typography>
         <Typography sx={styles?.recentActivitiesTextDateTimeDetail}>
-          {recentactivitytexttwo}
+          {recentactivitytextTwo}
         </Typography>
       </Box>
     </Box>

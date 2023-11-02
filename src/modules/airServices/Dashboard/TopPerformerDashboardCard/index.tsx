@@ -6,21 +6,24 @@ import LinearProgress from '@mui/material/LinearProgress';
 
 export const TopPerformerDashboardCard = ({
   icon,
-  iconone,
-  icontwo,
-  topperformancetext,
-  topperformancetextone,
-  topperformancetexttwo,
-  topperformancetextthree,
-  topperformancetextfour,
-  topperformancetextfive,
-  topperformancetextsix,
-  topperformancetextseven,
+  iconOne,
+  iconTwo,
+  topPerformanceText,
+  topPerformanceTextOne,
+  topPerformanceTextTwo,
+  topPerformanceTextThree,
+  topPerformanceTextFour,
+  topPerformanceTextFive,
+  topPerformanceTextSix,
+  topPerformanceTextSeven,
 }: any) => {
   const [progress] = useState(10);
   return (
     <>
       <Box sx={styles?.boxMain}>
+        <Box sx={{ marginLeft: 2, marginTop: 2 }}>
+          <Typography variant="h5">Top Performer</Typography>
+        </Box>
         <Box sx={{ display: 'flex', gap: 2, marginLeft: 2, marginTop: 2 }}>
           <Avatar
             alt=""
@@ -32,21 +35,21 @@ export const TopPerformerDashboardCard = ({
           />
           <Box>
             <Typography sx={styles?.topPerformaceText}>
-              {topperformancetext}
+              {topPerformanceText}
             </Typography>
             <Typography sx={styles?.topPerformaceTextOne}>
-              {topperformancetextone}
+              {topPerformanceTextOne}
             </Typography>
           </Box>
         </Box>
         <Box sx={{ display: 'flex', gap: 2, marginLeft: 2, marginTop: 3 }}>
           <Typography sx={styles?.topPerformaceTextTwo}>
-            {topperformancetexttwo}
+            {topPerformanceTextTwo}
           </Typography>
         </Box>
         <Box sx={{ display: 'flex', gap: 2, marginLeft: 2 }}>
           <Typography sx={styles?.topPerformaceTextThree}>
-            {topperformancetextthree}
+            {topPerformanceTextThree}
           </Typography>
         </Box>
         <Box sx={{ display: 'flex', gap: 2, marginLeft: 4, marginTop: 1 }}>
@@ -65,36 +68,36 @@ export const TopPerformerDashboardCard = ({
           sx={{
             display: 'flex',
             gap: 2,
-            marginLeft: 2,
+            px: 2,
             marginTop: 3,
             marginBottom: 4,
           }}
         >
           <Avatar
             alt=""
-            src={iconone?.src}
+            src={iconOne?.src}
             sx={{ width: '2.375rem', height: '2.721rem' }}
           />
           <Box>
             <Typography sx={styles?.topPerformaceTextFour}>
-              {topperformancetextfour}
+              {topPerformanceTextFour}
             </Typography>
             <Typography sx={styles?.topPerformaceTextFour}>
-              {topperformancetextfive}
+              {topPerformanceTextFive}
             </Typography>
           </Box>
 
           <Avatar
             alt=""
-            src={icontwo?.src}
+            src={iconTwo?.src}
             sx={{ width: '2.375rem', height: '2.721rem' }}
           />
           <Box>
             <Typography sx={styles?.topPerformaceTextFour}>
-              {topperformancetextsix}
+              {topPerformanceTextSix}
             </Typography>
             <Typography sx={styles?.topPerformaceTextFour}>
-              {topperformancetextseven}
+              {topPerformanceTextSeven}
             </Typography>
           </Box>
         </Box>

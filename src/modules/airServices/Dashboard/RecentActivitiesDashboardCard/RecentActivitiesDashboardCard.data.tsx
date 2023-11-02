@@ -1,30 +1,30 @@
-import Clipboard from '@/assets/images/modules/LogitechMouse/clipboard-tick-dashboard.png';
+import Clipboard from '@/assets/images/modules/airServices/Tickets/clipboard-tick-dashboard.png';
 
-const RecentActivitiesDashboardCardData = [
+const recentActivitiesDashboardCardData = [
   {
     icon: Clipboard,
-    recentactivitytext: ' Updated ticket Request for',
-    recentactivitytextone: 'Password Reset (#SR-24) to Service Request',
-    recentactivitytexttwo: 'Tue, 7 Mar, 2023 10:31 PM',
+    recentActivityText: ' Updated ticket Request for',
+    recentActivityTextOne: 'Password Reset (#SR-24) to Service Request',
+    recentactivitytextTwo: 'Tue, 7 Mar, 2023 10:31 PM',
   },
   {
     icon: Clipboard,
-    recentactivitytext: ' Updated ticket Request for',
-    recentactivitytextone: 'Password Reset (#SR-24) to Service Request',
-    recentactivitytexttwo: 'Tue, 7 Mar, 2023 10:31 PM',
+    recentActivityText: ' Updated ticket Request for',
+    recentActivityTextOne: 'Password Reset (#SR-24) to Service Request',
+    recentactivitytextTwo: 'Tue, 7 Mar, 2023 10:31 PM',
   },
   {
     icon: Clipboard,
-    recentactivitytext: ' Updated ticket Request for',
-    recentactivitytextone: 'Password Reset (#SR-24) to Service Request',
-    recentactivitytexttwo: 'Tue, 7 Mar, 2023 10:31 PM',
+    recentActivityText: ' Updated ticket Request for',
+    recentActivityTextOne: 'Password Reset (#SR-24) to Service Request',
+    recentactivitytextTwo: 'Tue, 7 Mar, 2023 10:31 PM',
   },
   {
     icon: Clipboard,
-    recentactivitytext: ' Updated ticket Request for',
-    recentactivitytextone: 'Password Reset (#SR-24) to Service Request',
-    recentactivitytexttwo: 'Tue, 7 Mar, 2023 10:31 PM',
+    recentActivityText: ' Updated ticket Request for',
+    recentActivityTextOne: 'Password Reset (#SR-24) to Service Request',
+    recentactivitytextTwo: 'Tue, 7 Mar, 2023 10:31 PM',
   },
 ];
 
-export default RecentActivitiesDashboardCardData;
+export default recentActivitiesDashboardCardData;

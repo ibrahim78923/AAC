@@ -1,16 +1,15 @@
 import { CustomChart } from '@/components/Chart';
 import { v4 as uuidv4 } from 'uuid';
-import { PieChartData } from './PieChart.data';
-import { PieChartDataOptions } from './PieChart.interface';
+import { pieChartData, pieChartDataOptions } from './PieChart.data';
 
 export const PieChart = () => {
   return (
     <CustomChart
       key={uuidv4()}
-      options={{ ...PieChartDataOptions, legend: { show: false } }}
-      series={PieChartData?.data}
+      options={{ ...pieChartDataOptions, legend: { show: false } }}
+      series={pieChartData?.data}
       type="pie"
-      height={200}
+      height={180}
     />
   );
 };
