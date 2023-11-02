@@ -6,10 +6,15 @@ export const TicketsCard = (props: any) => {
   return (
     <Box
       gap={2}
-      padding={{ sm: 1, lg: 1.5 }}
+      padding={1.4}
       borderRadius={3}
       display={'flex'}
-      justifyContent={'space-between'}
+      flexDirection={{ xs: 'column', sm: 'row', lg: 'row' }}
+      justifyContent={{
+        xs: 'center',
+        sm: 'space-between',
+        lg: 'space-between',
+      }}
       alignItems={'center'}
       width={'100%'}
       height={'auto'}

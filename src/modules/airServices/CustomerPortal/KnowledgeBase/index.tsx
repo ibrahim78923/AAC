@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 export const KnowledgeBase = () => {
   return (
-    <Grid container gap={2} justifyContent={'center'}>
+    <Grid container gap={1} justifyContent={'center'}>
       {knowledgeBaseDataArray?.map((option: any) => (
         <KnowledgeBaseCard
           key={uuidv4()}

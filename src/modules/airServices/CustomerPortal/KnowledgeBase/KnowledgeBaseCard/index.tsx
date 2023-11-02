@@ -6,14 +6,14 @@ export const KnowledgeBaseCard = (props: any) => {
   const theme = useTheme();
   return (
     <Box
-      gap={2}
-      padding={4}
+      gap={1}
+      padding={3}
       borderRadius={3}
       display={'flex'}
       justifyContent={'center'}
       flexDirection={'column'}
       alignItems={'center'}
-      maxWidth={'21rem'}
+      maxWidth={'18rem'}
       width={'100%'}
       height={'auto'}
       border={`.1rem solid ${theme?.palette?.grey?.[700]}`}

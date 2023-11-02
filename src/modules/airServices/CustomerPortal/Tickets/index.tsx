@@ -5,7 +5,13 @@ import { v4 as uuidv4 } from 'uuid';
 
 export const Tickets = () => {
   return (
-    <Grid container gap={2} justifyContent={'center'} overflow="scroll">
+    <Grid
+      container
+      gap={2}
+      justifyContent={'center'}
+      overflow="scroll"
+      height={'36rem'}
+    >
       {ticketsDataArray?.map((option: any) => (
         <TicketsCard
           key={uuidv4()}
