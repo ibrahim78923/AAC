@@ -36,7 +36,7 @@ export const SingleTicketForm = (props: any) => {
       >
         <Box display={'flex'} alignItems={'center'} gap={1}>
           <LoadingButton>Attach file</LoadingButton>
-          <Typography>(File Size is less then 40MB)</Typography>
+          <Typography variant="body2">(File Size is less then 40MB)</Typography>
         </Box>
         <LoadingButton variant="contained" onClick={onSubmit}>
           Send

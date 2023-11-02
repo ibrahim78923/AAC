@@ -1,7 +1,9 @@
 import { ArrowLeftIcon } from '@/assets/icons';
 import { Box, Button, Typography } from '@mui/material';
+import { useTicket } from '../../useTicket';
 
 export const SingleTicketHeader = () => {
+  const { setStatus } = useTicket();
   return (
     <Box
       display={'flex'}
@@ -30,7 +32,9 @@ export const SingleTicketHeader = () => {
         margin={{ xs: 1, sm: 1 }}
       >
         <Button variant="outlined">Share</Button>
-        <Button variant="contained">Mark ticket as closed</Button>
+        <Button variant="contained" onClick={() => setStatus(true)}>
+          Mark ticket as closed
+        </Button>
       </Box>
     </Box>
   );

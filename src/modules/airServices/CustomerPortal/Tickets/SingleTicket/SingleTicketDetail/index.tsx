@@ -1,8 +1,10 @@
 import { Box, Typography, useTheme } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
+import { useTicket } from '../../useTicket';
 
 export const SingleTicketDetail = ({ singleTicketDetailData }: any) => {
   const theme = useTheme();
+  const { status } = useTicket();
   return (
     <Box display={'flex'}>
       <Box width={'70%'} height={'20rem'} overflow={'scroll'}>
@@ -21,7 +23,7 @@ export const SingleTicketDetail = ({ singleTicketDetailData }: any) => {
           {singleTicketDetailData.description}
         </Typography>
         <Typography variant="body2" mt={1}>
-          Features :<br />
+          Features :
           {singleTicketDetailData?.features?.map((option: any) => (
             <option key={uuidv4()}>{option?.feature}</option>
           ))}
@@ -29,21 +31,17 @@ export const SingleTicketDetail = ({ singleTicketDetailData }: any) => {
         <Typography variant="body2" mt={1}>
           System Requirements
           <br />
-          Windows :<br />
-          <ul style={{ listStyleType: 'disc' }}>
-            {singleTicketDetailData?.windows?.map((option: any) => (
-              <li key={uuidv4()}>{option?.window}</li>
-            ))}
-          </ul>
+          Windows :
+          {singleTicketDetailData?.windows?.map((option: any) => (
+            <li key={uuidv4()}>{option?.window}</li>
+          ))}
         </Typography>
 
         <Typography variant="body2" mt={1}>
-          Mac OS :<br />
-          <ul style={{ listStyleType: 'disc' }}>
-            {singleTicketDetailData?.macOS?.map((option: any) => (
-              <li key={uuidv4()}>{option?.mac}</li>
-            ))}
-          </ul>
+          Mac OS :
+          {singleTicketDetailData?.macOS?.map((option: any) => (
+            <li key={uuidv4()}>{option?.mac}</li>
+          ))}
         </Typography>
       </Box>
       <Box
@@ -65,12 +63,13 @@ export const SingleTicketDetail = ({ singleTicketDetailData }: any) => {
           variant="body1"
           borderRadius={3}
           bgcolor={theme?.palette?.primary?.main}
-          width={'5rem'}
+          maxWidth={'7rem'}
+          width={'100%'}
           display={'flex'}
           alignItems={'center'}
           justifyContent={'center'}
         >
-          Closed
+          {status === true ? 'Closed' : 'Processing'}
         </Typography>
       </Box>
     </Box>
