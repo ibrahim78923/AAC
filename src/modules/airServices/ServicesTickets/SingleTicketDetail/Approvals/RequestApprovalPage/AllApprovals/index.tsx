@@ -20,6 +20,7 @@ import { ReceivedFileIcon } from '@/assets/icons';
 import { AlertModalCloseIcon } from '@/assets/icons';
 import { FormProvider, RHFTextField } from '@/components/ReactHookForm';
 import { styles } from '../RequestApprovalPage.style';
+import { v4 as uuidv4 } from 'uuid';
 
 export const AllApprovals = () => {
   const {
@@ -68,7 +69,7 @@ export const AllApprovals = () => {
       <Box sx={styles?.approvalsContainerBox}>
         {requestApprovalPageData?.map((item) => {
           return (
-            <Box key={item?.id} sx={styles?.approvalsContainer}>
+            <Box key={uuidv4()} sx={styles?.approvalsContainer}>
               <Grid
                 container
                 justifyContent={'space-between'}

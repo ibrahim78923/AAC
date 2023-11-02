@@ -33,32 +33,32 @@ export const columns: any = (
   setActive: any,
 ) => [
   {
-    accessorFn: (row: any) => row.Id,
+    accessorFn: (row: any) => row?.Id,
     id: 'Id',
     cell: (info: any) => (
       <Checkbox
-        checked={!!isActive.find((item: any) => item.Id === info.getValue())}
+        checked={!!isActive?.find((item: any) => item?.Id === info?.getValue())}
         onChange={(e: any) => {
-          e.target.checked
+          e?.target?.checked
             ? setActive([
                 ...isActive,
-                data.find((item: any) => item.Id === info.getValue()),
+                data?.find((item: any) => item?.Id === info?.getValue()),
               ])
             : setActive(
-                isActive.filter((item: any) => {
-                  return item.Id !== info.getValue();
+                isActive?.filter((item: any) => {
+                  return item?.Id !== info?.getValue();
                 }),
               );
         }}
         color="primary"
-        name={info.getValue()}
+        name={info?.getValue()}
       />
     ),
     header: (
       <Checkbox
-        checked={isActive.length === data.length}
+        checked={isActive?.length === data?.length}
         onChange={(e: any) => {
-          e.target.checked ? setActive([...data]) : setActive([]);
+          e?.target?.checked ? setActive([...data]) : setActive([]);
         }}
         color="primary"
         name="Id"
@@ -67,7 +67,7 @@ export const columns: any = (
     isSortable: false,
   },
   {
-    accessorFn: (row: any) => row.ticketsid,
+    accessorFn: (row: any) => row?.ticketsid,
     id: 'ticketsid',
     header: 'Tickets ID',
     isSortable: true,
@@ -81,38 +81,38 @@ export const columns: any = (
           setIsDrawerOpen(true);
         }}
       >
-        {info.getValue()}
+        {info?.getValue()}
       </div>
     ),
   },
   {
-    accessorFn: (row: any) => row.taskname,
+    accessorFn: (row: any) => row?.taskname,
     id: 'taskname',
     isSortable: true,
     header: 'Task Name',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.duedate,
+    accessorFn: (row: any) => row?.duedate,
     id: 'duedate',
     isSortable: true,
     header: 'Due Date',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.assignedto,
+    accessorFn: (row: any) => row?.assignedto,
     id: 'assignedto',
     isSortable: true,
     header: 'Assigned To',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.status,
+    accessorFn: (row: any) => row?.status,
     id: 'status',
     isSortable: true,
     header: 'Status',
     cell: (info: any) => {
-      const status = info.getValue();
+      const status = info?.getValue();
       const color =
         status === 'Open'
           ? '#0AADC7'
@@ -142,7 +142,7 @@ export const columns: any = (
         Pending: 2,
         Resolved: 3,
       };
-      return statusOrder[a.status] - statusOrder[b.status];
+      return statusOrder[a?.status] - statusOrder[b?.status];
     },
   },
 ];

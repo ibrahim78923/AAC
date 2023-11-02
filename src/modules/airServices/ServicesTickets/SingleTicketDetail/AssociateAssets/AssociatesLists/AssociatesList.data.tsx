@@ -2,7 +2,7 @@ import { Typography, Chip, IconButton } from '@mui/material';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import { TrashIcon } from '@/assets/icons';
 
-export const associatesListsData: any = [
+export const AssociatesListsData: any = [
   {
     id: 1,
     asset: ` Dell Laptop`,
@@ -34,7 +34,7 @@ const styleFunction: any = {
     bgColor: 'primary.light',
   },
 };
-export const associatesListsColumnFunction: any = (
+export const AssociatesListsColumnFunction: any = (
   setDeleteModal: any,
   theme: any,
 ) => {

@@ -23,17 +23,11 @@ export const ApproveForm = ({ approveDialog, setApproveDialog }: any) => {
   const { handleSubmit, reset } = methods;
 
   const onSubmit = async () => {
-    // console.log(data);
-    // try {
-    //   const res: any = await onSubmitHandler(data).unwrap();
     enqueueSnackbar('Approved Successfully!', {
       variant: 'success',
     });
     setApproveDialog(false);
     reset(defaultValues);
-    // } catch (error: any) {
-    //   const errMsg = error?.data?.message;
-    //   enqueueSnackbar(errMsg ?? "Something Went Wrong!", { variant: "error" });
   };
 
   return (

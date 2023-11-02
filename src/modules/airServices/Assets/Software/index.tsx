@@ -49,7 +49,7 @@ function Software() {
           <Button
             color="secondary"
             variant="outlined"
-            disabled={!!!softwareData.length}
+            disabled={!!!softwareData?.length}
             onClick={() => {
               setOpenAssignModal(true);
             }}
