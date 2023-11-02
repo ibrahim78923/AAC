@@ -24,17 +24,10 @@ export default function TicketInfoEdit({
   const { handleSubmit } = methods;
 
   const onSubmit = async () => {
-    // console.log(data);
-    // try {
-    //   const res: any = await onSubmitHandler(data).unwrap();
     enqueueSnackbar('Ticket Updated Successfully', {
       variant: 'success',
     });
     onClose(false);
-    // } catch (error: any) {
-    //   const errMsg = error?.data?.message;
-    //   enqueueSnackbar(errMsg ?? "Something Went Wrong!", { variant: "error" });
-    // }
   };
 
   return (
