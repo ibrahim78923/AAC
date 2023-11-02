@@ -1,4 +1,4 @@
-export const styles = (theme: any) => ({
+export const styles = (theme: any, dashboardItems?: string[]) => ({
   createDashboardContainer: {
     borderBottom: '1px solid',
     borderColor: 'grey.700',
@@ -33,7 +33,7 @@ export const styles = (theme: any) => ({
     display: 'flex',
     alignItems: 'center',
     flexDirection: 'column',
-    justifyContent: 'space-between',
+    justifyContent: !!dashboardItems?.length ? 'flex-start' : 'space-between',
     height: '100%',
     borderRadius: 2,
     border: '1px solid',

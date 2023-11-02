@@ -17,7 +17,11 @@ import {
   Typography,
 } from '@mui/material';
 import Image from 'next/image';
-import { dashboardCheckboxData, userData } from './CreateDashboard.data';
+import {
+  dashboardCheckboxData,
+  previewDashboard,
+  userData,
+} from './CreateDashboard.data';
 import { SearchableMultiSelect } from './SearchableMultiSelect';
 import { EyeIcon } from '@/assets/icons';
 import { v4 as uuidv4 } from 'uuid';
@@ -42,6 +46,7 @@ export const CreateDashboard = () => {
     theme,
     submitCreateDashboardFilterForm,
     resetCreateDashboardFilterForm,
+    dashboardItems,
   } = useCreateDashboard();
   return (
     <>
@@ -203,18 +208,30 @@ export const CreateDashboard = () => {
             </Box>
           </Grid>
           <Grid item xs={6}>
-            <Box sx={styles(theme)?.detailsViewBox}>
-              <Typography variant="subtitle1" color="slateBlue.main">
+            <Box sx={styles(theme, dashboardItems)?.detailsViewBox}>
+              <Typography variant="subtitle1" color="slateBlue.main" mb={2}>
                 Details view
               </Typography>
-              <Box sx={styles(theme)?.bgImageBox}>
-                <Image
-                  src={ExampleDashboardImage}
-                  style={{ pointerEvents: 'none', userSelect: 'none' }}
-                  alt={'ExampleDashboardImage'}
-                />
-              </Box>
-              <div></div>
+              {!!!dashboardItems?.length ? (
+                <>
+                  <Box sx={styles(theme)?.bgImageBox}>
+                    <Image
+                      src={ExampleDashboardImage}
+                      style={{ pointerEvents: 'none', userSelect: 'none' }}
+                      alt={'ExampleDashboardImage'}
+                    />
+                  </Box>
+                  <div></div>
+                </>
+              ) : (
+                <Grid container spacing={3} height={680} overflow="scroll">
+                  {dashboardItems?.map((item) => (
+                    <Grid item xs={12} key={uuidv4()}>
+                      {previewDashboard?.[item as string]}
+                    </Grid>
+                  ))}
+                </Grid>
+              )}
             </Box>
           </Grid>
         </Grid>

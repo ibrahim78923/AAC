@@ -54,6 +54,8 @@ export const useCreateDashboard = () => {
   const resetCreateDashboardFilterForm = async () => {
     methodsCreateDashboardFilterForm?.reset();
   };
+  const dashboardItems: any[] =
+    methodsCreateDashboardFilterForm?.watch('dashboardItems');
   return {
     methodsCreateDashboardFilterForm,
     accessValue,
@@ -69,5 +71,6 @@ export const useCreateDashboard = () => {
     theme,
     submitCreateDashboardFilterForm,
     resetCreateDashboardFilterForm,
+    dashboardItems,
   };
 };
