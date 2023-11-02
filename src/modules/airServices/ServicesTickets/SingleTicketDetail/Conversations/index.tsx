@@ -10,6 +10,12 @@ import ConversationForward from './ConversationForward';
 import ConversationDiscuss from './ConversationDiscuss';
 
 export default function Conversations() {
+  // const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // const openModal = () => {
+  //   setIsModalOpen(true);
+  // };
+
   const {
     isConversation,
     open,
@@ -24,7 +30,6 @@ export default function Conversations() {
     onSubmit,
   } = userCoversation();
 
-  // Define a function to render the selected component based on the selectedItem
   const renderSelectedComponent = () => {
     switch (selectedItem) {
       case 'Note':
@@ -66,7 +71,7 @@ export default function Conversations() {
 
   return (
     <Box sx={{ mt: '20px' }}>
-      {renderSelectedComponent()} {/* Render the selected component */}
+      {renderSelectedComponent()}
       <Box
         sx={{
           alignContent: 'center',
@@ -128,6 +133,7 @@ export default function Conversations() {
           </>
         )}
       </Box>
+      {/* <ConversationArtical openModal={openModal}/> */}
       {/* {isConversation ? (
         <ViewConversation />
       ) : (

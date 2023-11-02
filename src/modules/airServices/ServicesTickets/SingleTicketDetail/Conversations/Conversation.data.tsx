@@ -4,19 +4,23 @@ import {
   RHFDropZone,
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
+import { InputAdornment } from '@mui/material';
+import { PlusSharedIconColor } from '@/assets/icons';
 import ConversationEditor from './ConversationEditor';
 
-export const conversationModelsValidation = Yup.object().shape({
+export const conversationModelsValidation: any = Yup.object().shape({
   note: Yup.string().required('Field is Required'),
   title: Yup.string().required('Field is Required'),
+  conversationartical: Yup.string().required('Field is Required'),
   description: Yup.string().trim().required('Field is Required'),
   file: Yup.mixed().required('Field is Required'),
 });
 
-export const conversationModelsDefaultValues = {
+export const conversationModelsDefaultValues: any = {
   note: '',
   title: '',
   description: '',
+  conversationartical: '',
   file: '',
 };
 
@@ -59,7 +63,25 @@ export const conversationModelsArray = [
     md: 12,
     mb: '12px',
   },
-
+  {
+    componentProps: {
+      name: 'conversationartical',
+      label: 'Artical',
+      fullWidth: true,
+      select: false,
+      required: true,
+      InputProps: {
+        endAdornment: (
+          <InputAdornment position="end" style={{ cursor: 'pointer' }}>
+            <PlusSharedIconColor color={'#6B7280'} />
+          </InputAdornment>
+        ),
+      },
+    },
+    options: [{ value: 'BE', label: 'BE' }],
+    component: RHFTextField,
+    md: 12,
+  },
   {
     componentProps: {
       name: 'attachFile',
