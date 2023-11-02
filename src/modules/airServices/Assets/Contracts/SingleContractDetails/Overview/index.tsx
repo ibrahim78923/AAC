@@ -24,7 +24,7 @@ export const Overview = () => {
                   <Box>
                     <Typography
                       variant="body2"
-                      sx={{ color: theme.palette.grey[900] }}
+                      sx={{ color: theme?.palette?.grey?.[900] }}
                     >
                       {detail?.detail}
                     </Typography>
