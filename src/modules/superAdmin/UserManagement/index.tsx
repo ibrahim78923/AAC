@@ -17,6 +17,9 @@ import { FilterSharedIcon, PlusSharedIcon } from '@/assets/icons';
 import useUserManagement from './useUserManagement';
 import ActionButton from './ActionButton';
 
+import { SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+
 const UserManagement = () => {
   const {
     theme,
@@ -41,54 +44,66 @@ const UserManagement = () => {
         sx={{ padding: '0px 24px', display: { md: 'flex' } }}
       >
         <Typography variant="h4">User Management</Typography>
-
-        <Button
-          onClick={() =>
-            tabVal === 2 ? handleAddRole() : setIsOpenAddUserDrawer(true)
-          }
-          variant="contained"
-          startIcon={<PlusSharedIcon />}
+        <PermissionsGuard
+          permissions={[SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS.ADD_USER]}
         >
-          {tabVal === 2 ? 'Add Role' : 'Add User'}
-        </Button>
+          <Button
+            onClick={() =>
+              tabVal === 2 ? handleAddRole() : setIsOpenAddUserDrawer(true)
+            }
+            variant="contained"
+            startIcon={<PlusSharedIcon />}
+          >
+            {tabVal === 2 ? 'Add Role' : 'Add User'}
+          </Button>
+        </PermissionsGuard>
       </Box>
-
-      <Box sx={{ padding: '0px 24px' }}>
-        <CommonTabs
-          getTabVal={(val: number) => setTabVal(val)}
-          searchBarProps={{
-            label: 'Search Here',
-            setSearchBy: setSearch,
-            searchBy: search,
-            width: '260px',
-          }}
-          isHeader={true}
-          tabsArray={['Company Owners', 'Super Admin Users', 'Role and Rights']}
-          headerChildren={
-            <>
-              <ActionButton />
-              <Button
-                onClick={() => {
-                  setIsOpenFilterDrawer(true);
-                }}
-                startIcon={<FilterSharedIcon />}
-                sx={{
-                  border: `1px solid ${theme?.palette?.custom?.dark}`,
-                  color: theme?.palette?.custom?.main,
-                  width: '95px',
-                  height: '36px',
-                }}
-              >
-                Filter
-              </Button>
-            </>
-          }
-        >
-          <Users />
-          <SuperAdminUsers />
-          <RolesAndRights />
-        </CommonTabs>
-      </Box>
+      <PermissionsGuard
+        permissions={[
+          SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS.USER_SEARCH_AND_FILTER,
+        ]}
+      >
+        <Box sx={{ padding: '0px 24px' }}>
+          <CommonTabs
+            getTabVal={(val: number) => setTabVal(val)}
+            searchBarProps={{
+              label: 'Search Here',
+              setSearchBy: setSearch,
+              searchBy: search,
+              width: '260px',
+            }}
+            isHeader={true}
+            tabsArray={[
+              'Company Owners',
+              'Super Admin Users',
+              'Role and Rights',
+            ]}
+            headerChildren={
+              <>
+                <ActionButton />
+                <Button
+                  onClick={() => {
+                    setIsOpenFilterDrawer(true);
+                  }}
+                  startIcon={<FilterSharedIcon />}
+                  sx={{
+                    border: `1px solid ${theme?.palette?.custom?.dark}`,
+                    color: theme?.palette?.custom?.main,
+                    width: '95px',
+                    height: '36px',
+                  }}
+                >
+                  Filter
+                </Button>
+              </>
+            }
+          >
+            <Users />
+            <SuperAdminUsers />
+            <RolesAndRights />
+          </CommonTabs>
+        </Box>
+      </PermissionsGuard>
 
       {isOpenFilterDrawer && (
         <UsersManagementFilters

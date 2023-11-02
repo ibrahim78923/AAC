@@ -1,12 +1,11 @@
 import React from 'react';
 import { Box, Grid, Typography } from '@mui/material';
 import TemplateFrame from '../TemplateFrame';
-// import TemplatePlaceholder from '../TemplatePlaceholder';
 import TemplateBasic from '../TemplateBasic';
-import { signatureFields } from './StepSignature.data';
 import { styles } from './StepSignature.style';
+import { createQuoteFormFields } from '../CreateQuote.data';
 
-const StepSignature = () => {
+const StepSignature = ({ values }: any) => {
   return (
     <Grid container spacing={'40px'}>
       <Grid item xs={5}>
@@ -19,25 +18,30 @@ const StepSignature = () => {
         </Typography>
         <Box>
           <Grid container spacing={4}>
-            {signatureFields?.map((item: any) => (
-              <Grid item xs={12} md={item?.md} key={item.id}>
-                <item.component {...item.componentProps} size={'small'}>
-                  {item?.componentProps?.select &&
-                    item?.options?.map((option: any) => (
-                      <option key={option?.value} value={option?.value}>
-                        {option?.label}
-                      </option>
-                    ))}
-                </item.component>
-              </Grid>
-            ))}
+            {createQuoteFormFields?.map((item: any, index) => {
+              if (index === 7) {
+                return (
+                  <Grid item xs={12} key={item.id}>
+                    <item.component {...item.componentProps} size={'small'}>
+                      {item?.componentProps?.select &&
+                        item?.options?.map((option: any) => (
+                          <option key={option?.value} value={option?.value}>
+                            {option?.label}
+                          </option>
+                        ))}
+                    </item.component>
+                  </Grid>
+                );
+              } else {
+                return null;
+              }
+            })}
           </Grid>
         </Box>
       </Grid>
       <Grid item xs={7}>
         <TemplateFrame>
-          <TemplateBasic />
-          {/* <TemplatePlaceholder /> */}
+          <TemplateBasic values={values} />
         </TemplateFrame>
       </Grid>
     </Grid>

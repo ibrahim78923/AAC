@@ -1,3 +1,4 @@
+import React from 'react';
 export interface SingleStepI {
   key: string;
   label: string;
@@ -13,7 +14,6 @@ export interface HorizontalStepperI {
   handleReset?: any;
   stepperButtons: any;
   disableNextButton?: boolean;
-  variantNextButton?: 'text' | 'contained' | 'outlined';
   stepperPadding?: string;
   stepperMargin?: string;
   cancelButton?: boolean;

@@ -28,3 +28,24 @@ const DEBOUNCE_DELAY = 1000;
 export const debouncedSearch = debounce((value: any, setSearchBy: any) => {
   setSearchBy(value);
 }, DEBOUNCE_DELAY);
+
+const getSession = () => {
+  const sessionJSON = window.localStorage.getItem('session');
+  if (sessionJSON) return JSON.parse(sessionJSON);
+  return {};
+};
+
+const setSession = (userData: any) => {
+  if (userData) {
+    localStorage.setItem('session', JSON.stringify(userData));
+    // axios.defaults.headers.common.Authorization = `Bearer ${authToken}`;
+    // This function below will handle when token is expired
+    // const { exp } = jwtDecode(authToken);
+    // handleTokenExpired(exp);
+  } else {
+    localStorage.removeItem('session');
+    // delete axios.defaults.headers.common.Authorization;
+  }
+};
+
+export { getSession, setSession };
