@@ -1,6 +1,7 @@
 import { Box, Grid, Typography } from '@mui/material';
 import { SingleDropdownButton } from '../../../../../components/SingleDropdownButton';
 import { ActionsFunction, availabilityHeader } from './HeaderPieChart.data';
+import { v4 as uuidv4 } from 'uuid';
 
 export const HeaderPieChart = ({}: any) => {
   return (
@@ -20,7 +21,7 @@ export const HeaderPieChart = ({}: any) => {
       </Box>
       <Grid container spacing={5}>
         {availabilityHeader.map((department) => (
-          <Grid item key={index} sx={{ mt: 2 }}>
+          <Grid item sx={{ mt: 2 }} key={uuidv4()}>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
               {department.icon}
               <Typography>{department.title}</Typography>
