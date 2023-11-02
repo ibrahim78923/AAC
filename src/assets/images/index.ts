@@ -92,3 +92,5 @@ export { default as EmailMeetingImage } from './modules/airSales/Deals/email-mee
 export { default as AttendeeAvatarImage } from './modules/airSales/Deals/attendee-avatar.png';
 export { default as UsersAvatarRoundedImage } from './modules/socialComponents/calling/user-avatar-rounded.png';
 export { default as DealReportImage } from './modules/airSales/Reports/reports.png';
+export { default as documentContained } from './modules/superAdmin/Settings/ModuleCreation/document-contained.png';
+export { default as ApplePhoneImage } from './modules/socialComponents/calling/apple-phone.png';
