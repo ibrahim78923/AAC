@@ -1,0 +1,16 @@
+.calendarWrapper {
+  th {
+    font-size: 14px !important;
+  }
+  .completed {
+    background-color: #38cab5;
+  }
+
+  .inProgress {
+    background-color: #ffc20e;
+  }
+
+  .toDo {
+    background-color: #1f305d;
+  }
+}

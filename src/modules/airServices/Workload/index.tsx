@@ -1,25 +1,33 @@
-// import FullCalendar from '@fullcalendar/react';
-// import dayGridPlugin from '@fullcalendar/daygrid';
-// import interactionPlugin from '@fullcalendar/interaction';
+import FullCalendar from '@fullcalendar/react';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import interactionPlugin from '@fullcalendar/interaction';
 import { Box, Grid, Typography } from '@mui/material';
-// import dayjs from 'dayjs';
-// import { DateCalendar } from '@mui/x-date-pickers';
+import dayjs from 'dayjs';
+import { DateCalendar } from '@mui/x-date-pickers';
 import { DateFilter } from './DateFilter';
 import { ManageWorkload } from './ManageWorkload';
 import { UnassignedWork } from './UnassignedWork';
 import { Filters } from './Filters';
 import { Profile } from './Profile';
+import { useRef, useState } from 'react';
+import styles from './Workload.module.scss';
 
 export const Workload = () => {
+  const calendarRef: any = useRef();
+
+  const todayDate: string = dayjs().format('YYYY-MM-DD');
+  const [dateCalendar, setDateCalendar] = useState(todayDate);
+  calendarRef?.current?.getApi()?.gotoDate(dateCalendar);
+
   return (
-    <Box>
+    <Box className={styles.calendarWrapper}>
       <Typography variant="h3" mb={3}>
         Workload
       </Typography>
 
-      <Grid container spacing={4} mb={2}>
+      <Grid container spacing={4} mb={4}>
         <Grid item xs={12} md={3}>
-          <DateFilter />
+          <DateFilter setDateCalendar={setDateCalendar} />
         </Grid>
         <Grid item xs={12} md={4} display={'flex'} justifyContent={'center'}>
           <Profile />
@@ -33,13 +41,10 @@ export const Workload = () => {
         </Grid>
       </Grid>
 
-      {/* <FullCalendar
-        dayHeaderFormat={(date: {
-          start: {
-            marker: string | number | Date | dayjs.Dayjs | null | undefined;
-          };
-        }) => {
-          return dayjs(date.start.marker).format('dddd');
+      <FullCalendar
+        ref={calendarRef}
+        dayHeaderFormat={(date: any) => {
+          return dayjs(date?.start?.marker).format('ddd - DD');
         }}
         customButtons={{
           datePicker: {
@@ -51,46 +56,40 @@ export const Workload = () => {
         }}
         headerToolbar={false}
         plugins={[dayGridPlugin, interactionPlugin]}
-        // eventMouseEnter={(e: any) => {
-        //   //   setTooltip(() => ({
-        //   //     title: e.event.title,
-        //   //     start: dayjs(e.event.start).format('MMMM DD,YYYY'),
-        //   //     end: dayjs(e.event.end).format('MMMM DD,YYYY'),
-        //   //     open: true,
-        //   //     anchor: e.el,
-        //   //     id: 'calendar-popover',
-        //   //   }));
-        // }}
         initialView="dayGridWeek"
+        // eventMouseEnter={(e: any) => {
+        // setTooltip(() => ({
+        //   title: e.event.title,
+        //   start: dayjs(e.event.start).format('MMMM DD,YYYY'),
+        //   end: dayjs(e.event.end).format('MMMM DD,YYYY'),
+        //   open: true,
+        //   anchor: e.el,
+        //   id: 'calendar-popover',
+        // }));
+        // }}
         events={[
           {
-            id: '1',
-            title: 'The Demo',
-            start: '2023-10-30',
-            end: '2023-10-30',
-            className: 'demo-event',
-          },
-          {
-            id: '2',
-            title: 'The Reminder',
-            start: '2023-10-30',
-            end: '2023-10-31',
-            className: 'reminder-event',
-          },
-          {
-            id: '3',
-            title: 'The Meeting',
-            start: '2023-10-31',
-            end: '2023-11-01',
-            className: 'meeting-event',
+            title: 'ANC',
+            start: '2023-11-02T15:30:00',
+            className: styles.completed,
           },
         ]}
-        eventClassNames="events-style font-family-roboto"
         eventTimeFormat={{
           hour: 'numeric',
           meridiem: true,
         }}
-      /> */}
+        // eventContent={ function(arg, createElement) {
+        //   var innerText
+
+        //   if (arg.event.extendedProps.isUrgent) {
+        //     innerText = 'urgent event'
+        //   } else {
+        //     innerText = 'normal event'
+        //   }
+
+        //   return createElement('img', {}, arg.event.img.src)
+        // }}
+      />
     </Box>
   );
 };

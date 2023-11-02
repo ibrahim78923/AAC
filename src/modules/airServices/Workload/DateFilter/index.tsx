@@ -1,11 +1,4 @@
-import {
-  Box,
-  Button,
-  Divider,
-  IconButton,
-  Popover,
-  Typography,
-} from '@mui/material';
+import { Box, IconButton, Popover, Typography } from '@mui/material';
 import dayjs from 'dayjs';
 import { DateCalendar } from '@mui/x-date-pickers';
 import { PrimaryCalendarIcon } from '@/assets/icons';
@@ -13,27 +6,34 @@ import { Fragment, useState } from 'react';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
-export const DateFilter = () => {
+export const DateFilter = ({ setDateCalendar }: any) => {
   //Date Popover
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleOpen = (event: any) => {
-    setAnchorEl(event.currentTarget);
+    setAnchorEl(event?.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
   };
   // Date Filter Handler
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const formattedWeekSpan = `${dayjs(selectedDate).format('MMMM DD')} - ${dayjs(
-    selectedDate,
-  )
-    .add(6, 'day')
-    .format('DD')}`;
 
-  const handleDateSubmit = () => {
-    // Filter Functionality Here
-    handleClose();
+  // Date to be displayed
+  const formattedWeekSpan = `${dayjs(selectedDate)?.format(
+    'MMMM DD',
+  )} - ${dayjs(selectedDate)?.add(6, 'day')?.format('DD')}`;
+
+  const handlePrevClick = () => {
+    const newDate = dayjs(selectedDate)?.subtract(1, 'week')?.toDate();
+    setSelectedDate(newDate);
+    setDateCalendar(newDate);
+  };
+
+  const handleNextClick = () => {
+    const newDate = dayjs(selectedDate)?.add(1, 'week')?.toDate();
+    setSelectedDate(newDate);
+    setDateCalendar(newDate);
   };
 
   return (
@@ -60,6 +60,7 @@ export const DateFilter = () => {
             pl: 1,
             ':hover': { bgcolor: 'primary.main' },
           }}
+          onClick={handlePrevClick}
         >
           <ArrowBackIosIcon
             sx={{ color: 'common.white', fontSize: '0.8rem' }}
@@ -75,6 +76,7 @@ export const DateFilter = () => {
             pr: 0.7,
             ':hover': { bgcolor: 'primary.main' },
           }}
+          onClick={handleNextClick}
         >
           <ArrowForwardIosIcon
             sx={{ color: 'common.white', fontSize: '0.8rem' }}
@@ -94,16 +96,12 @@ export const DateFilter = () => {
           horizontal: 'left',
         }}
       >
-        <DateCalendar onChange={(date: any) => setSelectedDate(date)} />
-        <Divider />
-        <Box textAlign={'end'} p={1}>
-          <Button variant="outlined" type="button" sx={{ mx: 2 }}>
-            Cancel
-          </Button>
-          <Button variant="contained" type="submit" onClick={handleDateSubmit}>
-            Apply
-          </Button>
-        </Box>
+        <DateCalendar
+          onChange={(date: any) => {
+            setDateCalendar(date);
+            setSelectedDate(date);
+          }}
+        />
       </Popover>
     </Fragment>
   );
