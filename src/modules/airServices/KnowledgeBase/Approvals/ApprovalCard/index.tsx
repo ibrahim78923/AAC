@@ -1,32 +1,31 @@
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { useApprovalCard } from './useApprovalCard';
 import { styles } from './ApprovalCard.style';
 
 const ApprovalCard = ({ title, folder, author, approvalStatus }: any) => {
-  const { cardWrapper, label, approvalStatusBtn } = styles();
   const { handleApproval } = useApprovalCard();
   return (
-    <Box sx={{ ...cardWrapper }}>
+    <Box sx={styles?.cardWrapper}>
       <Box>
         <Typography color={'primary.main'} fontWeight={500} variant="h5">
           {title}
         </Typography>
-        <Typography sx={{ ...label, fontWeight: 500 }} component={'span'}>
+        <Typography sx={styles?.label} fontWeight={500} component={'span'}>
           folder:
         </Typography>
-        <Typography sx={{ ...label }} component={'span'}>
+        <Typography sx={styles?.label} component={'span'}>
           {` ${folder}`}
         </Typography>
       </Box>
       <Box>
-        <Typography sx={{ ...label, fontWeight: 500, pb: 0.4 }}>
+        <Typography sx={styles?.label} fontWeight={500} pb={0.4}>
           author
         </Typography>
-        <Typography sx={{ ...label }}>{author}</Typography>
+        <Typography sx={styles?.label}>{author}</Typography>
       </Box>
-      <Button sx={{ ...approvalStatusBtn }} onClick={handleApproval}>
+      <Typography sx={styles?.approvalStatusBtn} onClick={handleApproval}>
         {approvalStatus}
-      </Button>
+      </Typography>
     </Box>
   );
 };
