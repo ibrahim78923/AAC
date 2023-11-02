@@ -1,16 +1,14 @@
 import { useTicketsLists } from './useTicketsLists';
-import CommonDrawer from '@/components/CommonDrawer';
 import { TicketsTableView } from './TicketsTableView';
 import { TableBoardView } from './TicketsBoardView';
 import { AlertModals } from '@/components/AlertModals';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import { TicketsListSubHeader } from './TicketsListComponents/TicketsListSubHeader';
-import { TicketsColumnDrag } from './TicketsListComponents/TicketsColumnDrag';
+import { TicketsListSubHeader } from './TicketsListSubHeader';
 
 export const TicketsLists = () => {
   const {
     isDrawerOpen,
-    setIsDrawerOpen,
+    // setIsDrawerOpen,
     router,
     openDrawer,
     TABLE_CONSTANTS,
@@ -18,6 +16,7 @@ export const TicketsLists = () => {
     ticketsActionDropdown,
     deleteModalOpen,
     setDeleteModalOpen,
+    deleteTicket,
   } = useTicketsLists();
   return (
     <>
@@ -25,14 +24,13 @@ export const TicketsLists = () => {
         title={'Ticket List - All Tickets'}
         addTitle={'Create Ticket'}
         hasExport
-        handleAction={() => openDrawer?.(TABLE_CONSTANTS.CREATE_NEW_TICKET)}
+        handleAction={() => openDrawer?.(TABLE_CONSTANTS?.CREATE_NEW_TICKET)}
       />
       <br />
       <TicketsListSubHeader
-        onFilterClick={() => openDrawer?.(TABLE_CONSTANTS.FILTER_DATA)}
-        // onActionClick={() => openDrawer?.(TABLE_CONSTANTS.BULK_UPDATE_DATA)}
+        onFilterClick={() => openDrawer?.(TABLE_CONSTANTS?.FILTER_DATA)}
         ticketsActionDropdown={ticketsActionDropdown}
-        onCustomizeClick={() => openDrawer?.(TABLE_CONSTANTS.CUSTOMIZE_COLUMN)}
+        onCustomizeClick={() => openDrawer?.(TABLE_CONSTANTS?.CUSTOMIZE_COLUMN)}
       />
       <br />
       {router?.query?.viewType === 'board' ? (
@@ -40,48 +38,16 @@ export const TicketsLists = () => {
       ) : (
         <TicketsTableView />
       )}
-      <TicketsColumnDrag />
-      {isDrawerOpen && (
-        <CommonDrawer
-          isDrawerOpen={isDrawerOpen}
-          onClose={
-            drawerComponent?.[router?.query?.tableAction as string]
-              ?.resetHandler ||
-            (() => {
-              router?.push({ pathname: router?.pathname });
-              setIsDrawerOpen?.(false);
-            })
-          }
-          okText={
-            drawerComponent?.[router?.query?.tableAction as string]?.okText
-          }
-          title={drawerComponent?.[router?.query?.tableAction as string]?.title}
-          submitHandler={
-            drawerComponent?.[router?.query?.tableAction as string]
-              ?.submitHandler
-          }
-          isOk={drawerComponent?.[router?.query?.tableAction as string]?.isOk}
-          cancelText={
-            drawerComponent?.[router?.query?.tableAction as string]?.cancelText
-          }
-          footer
-        >
-          {isDrawerOpen ? (
-            drawerComponent?.[router?.query?.tableAction as string]?.children
-          ) : (
-            <>Loading</>
-          )}
-        </CommonDrawer>
-      )}
       {deleteModalOpen && (
         <AlertModals
           type="delete"
+          message="Are you sure you want to delete the selected ticket"
           open={deleteModalOpen}
           handleClose={() => setDeleteModalOpen(false)}
-          handleSubmit={() => {}}
-          message=""
+          handleSubmitBtn={() => deleteTicket?.()}
         />
       )}
+      {isDrawerOpen && drawerComponent?.[router?.query?.tableAction as string]}
     </>
   );
 };

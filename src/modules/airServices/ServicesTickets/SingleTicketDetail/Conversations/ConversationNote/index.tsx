@@ -30,7 +30,7 @@ const ConversationNote = ({
               xs={12}
               md={item?.md}
               key={uuidv4()}
-              mb={item.mb ? item.mb : ''}
+              mb={item?.mb ? item?.mb : ''}
             >
               <Grid item xs={12} md={item?.md} key={uuidv4()}>
                 <item.component

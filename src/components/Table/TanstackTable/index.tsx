@@ -8,6 +8,7 @@ import {
   Box,
   Grid,
 } from '@mui/material';
+import { v4 as uuidv4 } from 'uuid';
 
 import useTanstackTable from './useTanstackTable';
 import { DownIcon, UpIcon } from '@/assets/icons';
@@ -32,15 +33,15 @@ const TanstackTable = ({
           <Table>
             <TableHead>
               {table?.getHeaderGroups()?.map((headerGroup) => (
-                <TableRow key={headerGroup.id}>
-                  {headerGroup.headers.map((header: any) => (
-                    <StyledTableCell key={header.id}>
-                      <Box sx={styles.cell}>
-                        {header.isPlaceholder
+                <TableRow key={uuidv4()}>
+                  {headerGroup?.headers?.map((header: any) => (
+                    <StyledTableCell key={uuidv4()}>
+                      <Box sx={styles?.cell}>
+                        {header?.isPlaceholder
                           ? null
                           : flexRender(
-                              header.column.columnDef.header,
-                              header.getContext(),
+                              header?.column?.columnDef?.header,
+                              header?.getContext(),
                             )}
 
                         {header?.column?.columnDef?.isSortable && (
@@ -50,12 +51,13 @@ const TanstackTable = ({
                             marginLeft={'4px'}
                             gap={'2px'}
                             {...{
-                              onClick: header.column.getToggleSortingHandler(),
+                              onClick:
+                                header?.column?.getToggleSortingHandler(),
                             }}
                           >
                             <UpIcon
                               color={
-                                (header.column.getIsSorted() as string) ===
+                                (header?.column?.getIsSorted() as string) ===
                                 'desc'
                                   ? 'black'
                                   : ''
@@ -63,7 +65,7 @@ const TanstackTable = ({
                             />
                             <DownIcon
                               color={
-                                (header.column.getIsSorted() as string) ===
+                                (header?.column?.getIsSorted() as string) ===
                                 'asc'
                                   ? 'black'
                                   : ''
@@ -78,18 +80,22 @@ const TanstackTable = ({
               ))}
             </TableHead>
             <TableBody>
-              {table.getRowModel().rows.map((row) => (
-                <StyledTableRow key={row.id}>
-                  {row.getVisibleCells().map((cell) => (
-                    <StyledTableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext(),
-                      )}
-                    </StyledTableCell>
-                  ))}
-                </StyledTableRow>
-              ))}
+              {table
+                ?.getRowModel()
+                ?.rows?.map((row) => (
+                  <StyledTableRow key={uuidv4()}>
+                    {row
+                      ?.getVisibleCells()
+                      ?.map((cell) => (
+                        <StyledTableCell key={uuidv4()}>
+                          {flexRender(
+                            cell?.column?.columnDef?.cell,
+                            cell?.getContext(),
+                          )}
+                        </StyledTableCell>
+                      ))}
+                  </StyledTableRow>
+                ))}
             </TableBody>
           </Table>
         </TableContainer>

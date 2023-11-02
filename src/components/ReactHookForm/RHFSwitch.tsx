@@ -35,7 +35,7 @@ const AntSwitch = styled(Switch)(({ theme }) => ({
     width: 16,
     height: 16,
     borderRadius: '50%',
-    transition: theme.transitions.create(['width'], {
+    transition: theme?.transitions?.create(['width'], {
       duration: 200,
     }),
   },
@@ -43,7 +43,7 @@ const AntSwitch = styled(Switch)(({ theme }) => ({
     borderRadius: 12,
     opacity: 1,
     backgroundColor:
-      theme.palette.mode === 'dark'
+      theme?.palette?.mode === 'dark'
         ? 'rgba(255,255,255,.35)'
         : 'rgba(0,0,0,.25)',
     boxSizing: 'border-box',
@@ -70,7 +70,11 @@ export default function RHFSwitch({ name, disabled, required, ...other }: any) {
           control={control}
           render={({ field, fieldState: { error } }) => (
             <>
-              <AntSwitch disabled={disabled} {...field} checked={field.value} />
+              <AntSwitch
+                disabled={disabled}
+                {...field}
+                checked={field?.value}
+              />
               {other?.label && (
                 <CustomLabel
                   label={other?.label}

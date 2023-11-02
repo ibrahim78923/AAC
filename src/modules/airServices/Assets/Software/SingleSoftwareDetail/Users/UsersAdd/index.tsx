@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import { AddIconWithBgBlack } from '@/assets/icons';
 import { FormProvider, useForm } from 'react-hook-form';
 import UserSearchableSelect from '../UsersSearchableSelect';
 import ConversationModel from '@/components/Model/CoversationModel';
 import { enqueueSnackbar } from 'notistack';
 import { UserSelectOption, UserSelectData } from './UsersAdd.data';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 const buttonContainerStyle = {
   display: 'flex',
@@ -34,7 +34,7 @@ export const UsersAdd = () => {
           <Grid item xs={12}>
             <Button
               onClick={openModal}
-              startIcon={<AddIconWithBgBlack />}
+              startIcon={<AddCircleIcon />}
               color="secondary"
               sx={{
                 p: 2,

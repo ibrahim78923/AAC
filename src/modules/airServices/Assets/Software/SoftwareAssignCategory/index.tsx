@@ -43,8 +43,8 @@ function SoftwareAssignCategory({
                 >
                   <RHFSearchableSelect
                     name="Search or add category"
-                    options={item.options}
-                    control={methods.control}
+                    options={item?.options}
+                    control={methods?.control}
                   />
                 </Box>
               ))}
@@ -53,7 +53,7 @@ function SoftwareAssignCategory({
           <Divider
             sx={{
               height: '.1rem',
-              backgroundColor: theme.palette?.grey[700],
+              backgroundColor: theme?.palette?.grey?.[700],
               marginTop: '1.5rem',
             }}
           />

@@ -161,16 +161,14 @@ export const addExpenseColumnsFunction = (
 export const expenseActionsDropdownFunction = (handleActionClick: any) => [
   {
     title: 'Edit',
-    handleClick: (x: any) => {
+    handleClick: () => {
       handleActionClick('edit');
-      x?.();
     },
   },
   {
     title: 'Delete',
-    handleClick: (x: any) => {
+    handleClick: () => {
       handleActionClick?.('delete');
-      x?.();
     },
   },
 ];

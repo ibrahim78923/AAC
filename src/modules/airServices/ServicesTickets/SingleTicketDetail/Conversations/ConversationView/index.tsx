@@ -1,6 +1,5 @@
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Grid, Typography, useTheme } from '@mui/material';
 import React from 'react';
-import { useTheme } from '@emotion/react';
 
 import {
   DeleteIcon,
@@ -17,25 +16,25 @@ const ConversationView = () => {
   const theme: any = useTheme();
   return (
     <Box sx={{ mt: '50px' }}>
-      {data.map((e: any) => (
+      {data?.map((e: any) => (
         <Grid
           container
           justifyContent={'space-between'}
-          sx={styles.parent}
+          sx={styles?.parent}
           mb={'20px'}
           key={uuidv4()}
         >
           <Grid item xs={12} md={7} lg={5} paddingTop={`0 !important`}>
-            <Box sx={styles.leftSideParent}>
-              <Box sx={styles.imageBox}>
+            <Box sx={styles?.leftSideParent}>
+              <Box sx={styles?.imageBox}>
                 <Image
-                  src={AvatarImageCoversation.src}
+                  src={AvatarImageCoversation?.src}
                   alt="logo"
                   width={32}
                   height={32}
                 />
                 <Box>
-                  <Typography sx={styles.imageHeading(theme)}>
+                  <Typography sx={styles?.imageHeading(theme)}>
                     <Typography
                       component="span"
                       color={theme?.palette?.primary?.main}
@@ -54,16 +53,18 @@ const ConversationView = () => {
                       {e?.action === 'note' ? null : e?.to}
                     </Typography>
                   </Typography>
-                  <Typography sx={styles.date}>{e?.time}</Typography>
+                  <Typography sx={styles?.date}>{e?.time}</Typography>
                 </Box>
               </Box>
               <Box>
-                <Typography sx={styles.message(theme)}>{e?.message}</Typography>
+                <Typography sx={styles?.message(theme)}>
+                  {e?.message}
+                </Typography>
               </Box>
             </Box>
           </Grid>
           <Grid item xs={12} md={3} lg={4} paddingTop={`0 !important`}>
-            <Box sx={styles.buttonBox}>
+            <Box sx={styles?.buttonBox}>
               <ShortcutSharpLeftIcon />
               <ShortcutSharpRightIcon />
               <DeleteIcon />

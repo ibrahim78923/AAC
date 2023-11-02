@@ -117,16 +117,16 @@ export default function Conversations() {
                 'aria-labelledby': 'basic-button',
               }}
             >
-              {menuOptionsAddconversation.map((item) => (
+              {menuOptionsAddconversation?.map((item: any) => (
                 <MenuItem
                   onClick={(e) => {
                     handleCloseButtonMenu(e);
-                    setSelectedItem(item.value);
+                    setSelectedItem(item?.value);
                   }}
                   key={uuidv4()}
-                  value={item.value}
+                  value={item?.value}
                 >
-                  {item.label}
+                  {item?.label}
                 </MenuItem>
               ))}
             </Menu>
@@ -158,7 +158,6 @@ export default function Conversations() {
                 aria-expanded={open ? 'true' : undefined}
                 onClick={handleClickButtonMenu}
               >
-                {' '}
                 Add
               </Button>
               <Menu
@@ -179,12 +178,12 @@ export default function Conversations() {
                   <MenuItem
                     onClick={(e) => {
                       handleCloseButtonMenu(e);
-                      setSelectedItem(item.value);
+                      setSelectedItem(item?.value);
                     }}
                     key={uuidv4()}
-                    value={item.value}
+                    value={item?.value}
                   >
-                    {item.label}
+                    {item?.label}
                   </MenuItem>
                 ))}
               </Menu>

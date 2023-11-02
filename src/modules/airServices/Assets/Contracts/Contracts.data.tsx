@@ -1,4 +1,5 @@
-import { Checkbox } from '@mui/material';
+import { AIR_SERVICES } from '@/constants';
+import { Checkbox, Typography } from '@mui/material';
 
 export const data: any = [
   {
@@ -46,28 +47,27 @@ export const columns = (
   meetingsData: any,
   setMeetingsData: any,
   meetingsMainData: any,
-  theme: any,
   router: any,
 ): any => [
   {
-    accessorFn: (row: any) => row.id,
+    accessorFn: (row: any) => row?.id,
     id: 'id',
     cell: (info: any) => (
       <Checkbox
         checked={
-          !!meetingsData.find((item: any) => item.id === info.getValue())
+          !!meetingsData?.find((item: any) => item?.id === info?.getValue())
         }
         onChange={(e: any) => {
-          e.target.checked
+          e?.target?.checked
             ? setMeetingsData([
                 ...meetingsData,
-                meetingsMainData.find(
-                  (item: any) => item.id === info.getValue(),
+                meetingsMainData?.find(
+                  (item: any) => item?.id === info?.getValue(),
                 ),
               ])
             : setMeetingsData(
-                meetingsData.filter((item: any) => {
-                  return item.id !== info.getValue();
+                meetingsData?.filter((item: any) => {
+                  return item?.id !== info?.getValue();
                 }),
               );
         }}
@@ -77,9 +77,9 @@ export const columns = (
     ),
     header: (
       <Checkbox
-        checked={meetingsData.length === meetingsMainData.length}
+        checked={meetingsData?.length === meetingsMainData?.length}
         onChange={(e: any) => {
-          e.target.checked
+          e?.target?.checked
             ? setMeetingsData([...meetingsMainData])
             : setMeetingsData([]);
         }}
@@ -90,66 +90,68 @@ export const columns = (
     isSortable: false,
   },
   {
-    accessorFn: (row: any) => row.ContractName,
-    id: 'Contract Name',
+    accessorFn: (row: any) => row?.ContractName,
+    id: 'ContractName',
     isSortable: false,
-    header: <span>Contract Name</span>,
+    header: 'Contract Name',
     cell: (info: any) => (
-      <span
+      <Typography
+        component="span"
         onClick={() =>
           router.push({
-            pathname: '/air-services/assets/contracts/detail',
+            pathname: AIR_SERVICES?.ASSETS_CONTRACTS_DETAIL,
             query: {
               contractId: info?.row?.id,
             },
           })
         }
-        style={{ color: '#0AADC7', cursor: 'pointer' }}
+        color="custom.bright"
+        sx={{ cursor: 'pointer' }}
       >
-        {info.getValue()}
-      </span>
+        {info?.getValue()}
+      </Typography>
     ),
   },
   {
-    accessorFn: (row: any) => row.Type,
+    accessorFn: (row: any) => row?.Type,
     id: 'Type',
-    header: <span>Type</span>,
+    header: 'Type',
     isSortable: false,
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.Status,
+    accessorFn: (row: any) => row?.Status,
     id: 'Status',
     isSortable: false,
-    header: <span>Status</span>,
-    cell: (info: any) => info.getValue(),
+    header: 'Status',
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.RenewalStatus,
-    id: 'Renewal Status',
+    accessorFn: (row: any) => row?.RenewalStatus,
+    id: 'RenewalStatus',
     isSortable: false,
-    header: <span>Renewal Status</span>,
-    cell: (info: any) => info.getValue(),
+    header: 'Renewal Status',
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.ContractNumber,
-    id: 'Contract Number',
+    accessorFn: (row: any) => row?.ContractNumber,
+    id: 'ContractNumber',
     isSortable: false,
-    header: <span>Contract Number</span>,
-    cell: (info: any) => info.getValue(),
+    header: 'Contract Number',
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.Vendor,
+    accessorFn: (row: any) => row?.Vendor,
     id: 'Vendor',
     isSortable: false,
-    header: <span>Vendor</span>,
-    cell: (info: any) => info.getValue(),
+    header: 'Vendor',
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.ExpiryDate,
-    id: 'Expiry Date',
+    accessorFn: (row: any) => row?.ExpiryDate,
+    id: 'ExpiryDate',
     isSortable: false,
-    header: <span>Expiry Date</span>,
-    cell: (info: any) => info.getValue(),
+    header: 'Expiry Date',
+    cell: (info: any) => info?.getValue(),
   },
 ];

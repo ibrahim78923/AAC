@@ -4,6 +4,7 @@ import { useTheme } from '@mui/material';
 import { data, inventoryListsColumnsFunction } from './Inventory.data';
 import { CustomizeInventory } from './CustomizeInventory';
 import { FilterInventory } from './FilterInventory';
+import { AIR_SERVICES } from '@/constants';
 
 export const useInventory = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -14,7 +15,7 @@ export const useInventory = () => {
   const router = useRouter();
   const { push } = useRouter();
   const handleAddInventory = () => {
-    push('/air-services/assets/inventory/add-inventory');
+    push(AIR_SERVICES?.ADD_INVENTORY);
   };
   const inventoryListsColumns = inventoryListsColumnsFunction(
     inventoryData,

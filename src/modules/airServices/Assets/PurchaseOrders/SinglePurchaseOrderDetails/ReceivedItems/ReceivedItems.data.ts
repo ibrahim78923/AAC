@@ -18,31 +18,31 @@ export const data: ReceivedItemsDataI[] = [
 ];
 export const columns: any = () => [
   {
-    accessorFn: (row: any) => row.itemName,
+    accessorFn: (row: any) => row?.itemName,
     id: 'itemName',
 
     header: 'Item Name',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.received,
+    accessorFn: (row: any) => row?.received,
     id: 'received',
 
     header: 'Received',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.ordered,
+    accessorFn: (row: any) => row?.ordered,
     id: ' ordered',
 
     header: ' Ordered',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.pending,
+    accessorFn: (row: any) => row?.pending,
     id: ' pending',
 
     header: ' Pending',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
 ];

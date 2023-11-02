@@ -1,4 +1,5 @@
-import { Checkbox } from '@mui/material';
+import { AIR_SERVICES } from '@/constants';
+import { Checkbox, Typography } from '@mui/material';
 
 export const data: any = [
   {
@@ -37,34 +38,36 @@ export const inventoryListsColumnsFunction = (
   router: any,
 ): any => [
   {
-    accessorFn: (row: any) => row.id,
+    accessorFn: (row: any) => row?.id,
     id: 'id',
     cell: (info: any) => (
       <Checkbox
         checked={
-          !!inventoryData.find((item: any) => item.id === info.getValue())
+          !!inventoryData?.find((item: any) => item?.id === info?.getValue())
         }
         onChange={(e: any) => {
-          e.target.checked
+          e?.target?.checked
             ? setInventoryData([
                 ...inventoryData,
-                data.find((item: any) => item.id === info.getValue()),
+                data?.find((item: any) => item?.id === info?.getValue()),
               ])
             : setInventoryData(
-                inventoryData.filter((item: any) => {
-                  return item.id !== info.getValue();
+                inventoryData?.filter((item: any) => {
+                  return item?.id !== info?.getValue();
                 }),
               );
         }}
         color="primary"
-        name={info.getValue()}
+        name={info?.getValue()}
       />
     ),
     header: (
       <Checkbox
-        checked={inventoryData.length === data.length}
+        checked={inventoryData?.length === data?.length}
         onChange={(e: any) => {
-          e.target.checked ? setInventoryData([...data]) : setInventoryData([]);
+          e?.target?.checked
+            ? setInventoryData([...data])
+            : setInventoryData([]);
         }}
         color="primary"
         name="id"
@@ -73,59 +76,61 @@ export const inventoryListsColumnsFunction = (
     isSortable: false,
   },
   {
-    accessorFn: (row: any) => row.Name,
+    accessorFn: (row: any) => row?.Name,
     id: 'Name',
     isSortable: true,
     header: 'Name',
     cell: (info: any) => (
-      <span
+      <Typography
+        component={'span'}
         onClick={() =>
-          router.push({
-            pathname: '/air-services/assets/inventory/detail',
+          router?.push({
+            pathname: AIR_SERVICES?.ASSETS_INVENTORY_DETAIL,
             query: {
               inventoryId: info?.row?.id,
             },
           })
         }
-        style={{ color: '#0AADC7', cursor: 'pointer' }}
+        color="custom.bright"
+        sx={{ cursor: 'pointer' }}
       >
-        {info.getValue()}
-      </span>
+        {info?.getValue()}
+      </Typography>
     ),
   },
   {
-    accessorFn: (row: any) => row.AssetType,
+    accessorFn: (row: any) => row?.AssetType,
     id: 'AssetType',
     header: 'Asset Type',
     isSortable: true,
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.Location,
+    accessorFn: (row: any) => row?.Location,
     id: 'Location',
     isSortable: true,
     header: 'Location',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.UsedBy,
+    accessorFn: (row: any) => row?.UsedBy,
     id: 'UsedBy',
     isSortable: true,
     header: 'Used By',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.Department,
+    accessorFn: (row: any) => row?.Department,
     id: 'Department',
     isSortable: true,
     header: 'Department',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.Impact,
+    accessorFn: (row: any) => row?.Impact,
     id: 'Impact',
     isSortable: true,
     header: 'Impact',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
 ];
