@@ -4,9 +4,8 @@ import {
   RHFDropZone,
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
-import { InputAdornment } from '@mui/material';
-import { PlusSharedIconColor } from '@/assets/icons';
 import ConversationEditor from './ConversationEditor';
+import ConversationArticalselect from './ConversationArticalselect';
 
 export const conversationModelsValidation: any = Yup.object().shape({
   note: Yup.string().required('Field is Required'),
@@ -72,16 +71,9 @@ export const conversationModelsArray = [
       fullWidth: true,
       select: false,
       // required: true,
-      InputProps: {
-        endAdornment: (
-          <InputAdornment position="end" style={{ cursor: 'pointer' }}>
-            <PlusSharedIconColor color={'#6B7280'} />
-          </InputAdornment>
-        ),
-      },
     },
     options: [{ value: 'BE', label: 'BE' }],
-    component: RHFTextField,
+    component: ConversationArticalselect,
     md: 12,
   },
   {
@@ -91,16 +83,9 @@ export const conversationModelsArray = [
       fullWidth: true,
       select: false,
       // required: true,
-      InputProps: {
-        endAdornment: (
-          <InputAdornment position="end" style={{ cursor: 'pointer' }}>
-            <PlusSharedIconColor color={'#6B7280'} />
-          </InputAdornment>
-        ),
-      },
     },
     options: [{ value: 'BE', label: 'BE' }],
-    component: RHFTextField,
+    component: ConversationArticalselect,
     md: 12,
   },
   {
@@ -125,3 +110,18 @@ export const ConversationDrawerTitle: any = {
   Edit: 'Edit Tickets',
   View: 'View Tickets',
 };
+
+export const ConversationAddArticalData = [
+  {
+    title: 'Guide to how to design your site footer like we did...',
+    link: 'Add link',
+  },
+  {
+    title: 'Another article title',
+    link: 'Another link',
+  },
+  {
+    title: 'Yet another article title',
+    link: 'Yet another link',
+  },
+];

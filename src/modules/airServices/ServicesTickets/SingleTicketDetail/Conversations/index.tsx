@@ -10,12 +10,6 @@ import ConversationForward from './ConversationForward';
 import ConversationDiscuss from './ConversationDiscuss';
 
 export default function Conversations() {
-  // const [isModalOpen, setIsModalOpen] = useState(false);
-
-  // const openModal = () => {
-  //   setIsModalOpen(true);
-  // };
-
   const {
     isConversation,
     open,
@@ -133,6 +127,7 @@ export default function Conversations() {
           </>
         )}
       </Box>
+
       {/* <ConversationArtical openModal={openModal}/> */}
       {/* {isConversation ? (
         <ViewConversation />

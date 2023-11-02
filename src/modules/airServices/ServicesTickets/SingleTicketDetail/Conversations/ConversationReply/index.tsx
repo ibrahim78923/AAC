@@ -3,7 +3,7 @@ import { Grid } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
 // import { ConversationDrawerTitle } from '../Conversation.data';
 import CommonDrawer from '@/components/CommonDrawer';
-import { conversationreplyArray } from './ConversationReply.data';
+import { conversationReplyArray } from './ConversationReply.data';
 
 const ConversationReply = ({
   // selectedItem,
@@ -25,7 +25,7 @@ const ConversationReply = ({
         onSubmit={addCoversationModel.handleSubmit(onSubmit)}
       >
         <Grid container spacing={2}>
-          {conversationreplyArray?.map((item: any) => (
+          {conversationReplyArray?.map((item: any) => (
             <Grid
               item
               xs={12}

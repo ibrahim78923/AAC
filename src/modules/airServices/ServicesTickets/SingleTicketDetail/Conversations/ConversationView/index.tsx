@@ -77,3 +77,5 @@ const ConversationView = () => {
 };
 
 export default ConversationView;
+
+<Box sx={{ mt: { xl: 2, md: 3, xs: 5 } }}></Box>;

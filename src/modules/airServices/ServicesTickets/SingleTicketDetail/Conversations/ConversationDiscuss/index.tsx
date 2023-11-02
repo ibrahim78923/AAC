@@ -9,7 +9,7 @@ const theme = {
   background: '#f5f8fb',
   headerBgColor: '#38CAB5',
   headerFontColor: '#fff',
-  headerFontSize: '15px',
+  headerFontSize: '20px',
   botBubbleColor: '#38CAB5',
   botFontColor: '#fff',
   userBubbleColor: '#fff',

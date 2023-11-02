@@ -17,10 +17,6 @@ const TextEditor = ({ value, onChange }: ConversationTextEditorPropsI) => {
         [{ align: 'center' }, { align: 'right' }, { align: 'justify' }],
         [{ list: 'bullet' }, { list: 'ordered' }],
         [{ color: [] }],
-        ['image'],
-        ['imageBlot'],
-        // ['link'],
-
         ['capitalize'],
       ],
     },
