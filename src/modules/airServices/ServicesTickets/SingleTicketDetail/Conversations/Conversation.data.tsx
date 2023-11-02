@@ -13,6 +13,7 @@ export const conversationModelsValidation: any = Yup.object().shape({
   title: Yup.string().required('Field is Required'),
   conversationartical: Yup.string().required('Field is Required'),
   description: Yup.string().trim().required('Field is Required'),
+  response: Yup.string().trim().required('Field is Required'),
   file: Yup.mixed().required('Field is Required'),
 });
 
@@ -21,6 +22,7 @@ export const conversationModelsDefaultValues: any = {
   title: '',
   description: '',
   conversationartical: '',
+  response: '',
   file: '',
 };
 
@@ -69,7 +71,26 @@ export const conversationModelsArray = [
       label: 'Artical',
       fullWidth: true,
       select: false,
-      required: true,
+      // required: true,
+      InputProps: {
+        endAdornment: (
+          <InputAdornment position="end" style={{ cursor: 'pointer' }}>
+            <PlusSharedIconColor color={'#6B7280'} />
+          </InputAdornment>
+        ),
+      },
+    },
+    options: [{ value: 'BE', label: 'BE' }],
+    component: RHFTextField,
+    md: 12,
+  },
+  {
+    componentProps: {
+      name: 'response',
+      label: 'Canned response',
+      fullWidth: true,
+      select: false,
+      // required: true,
       InputProps: {
         endAdornment: (
           <InputAdornment position="end" style={{ cursor: 'pointer' }}>
