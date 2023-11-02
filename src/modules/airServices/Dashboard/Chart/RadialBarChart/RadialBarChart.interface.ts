@@ -4,7 +4,7 @@ export interface ApexOptionsI {
 }
 
 export const RadialBarChartDataOptions: any = {
-  labels: ['Low', 'Medium', 'High', 'Low'],
+  labels: ['Apples', 'Oranges', 'Bananas', 'Berries'],
   colors: ['#FFC20E', '#FF4A4A', '#35A275', '#0AADC7'],
   plotOptions: {
     radialBar: {

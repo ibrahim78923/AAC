@@ -11,19 +11,22 @@ export default function ChartStyle() {
         '&.apexcharts-canvas': {
           // Tooltip
           '.apexcharts-xaxistooltip': {
-            ...cssStyles(theme).bgBlur(),
+            ...cssStyles(theme)?.bgBlur(),
             border: 0,
-            color: theme.palette.text.primary,
-            borderRadius: Number(theme.shape.borderRadius) * 1.5,
+            color: theme?.palette?.text?.primary,
+            borderRadius: Number(theme?.shape?.borderRadius) * 1.5,
             '&:before': { borderBottomColor: 'transparent' },
             '&:after': {
-              borderBottomColor: alpha(theme.palette.background.default, 0.8),
+              borderBottomColor: alpha(
+                theme?.palette?.background?.default,
+                0.8,
+              ),
             },
           },
           '.apexcharts-tooltip.apexcharts-theme-light': {
             ...cssStyles(theme).bgBlur(),
             border: 0,
-            borderRadius: Number(theme.shape.borderRadius) * 1.5,
+            borderRadius: Number(theme?.shape?.borderRadius) * 1.5,
             '& .apexcharts-tooltip-title': {
               display: 'none',
             },

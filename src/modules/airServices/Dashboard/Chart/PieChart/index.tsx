@@ -7,10 +7,10 @@ export const PieChart = () => {
   return (
     <CustomChart
       key={uuidv4()}
-      options={{ ...PieChartDataOptions, legend: { position: 'top' } }}
+      options={{ ...PieChartDataOptions, legend: { show: false } }}
       series={PieChartData?.data}
       type="pie"
-      height={205}
+      height={200}
     />
   );
 };

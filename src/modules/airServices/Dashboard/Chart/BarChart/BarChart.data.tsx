@@ -4,11 +4,11 @@ const BarChartData = [
     name: 'Pending',
   },
   {
-    data: [44, 55, 41, 64, 22, 43, 21],
+    data: [44, 55, 41, 64, 22, 43],
     name: 'Closed',
   },
   {
-    data: [53, 32, 33, 52, 13, 44, 32],
+    data: [53, 32, 33, 52, 13, 44],
     name: 'Open',
   },
   {

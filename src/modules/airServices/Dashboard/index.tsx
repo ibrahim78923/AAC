@@ -11,6 +11,8 @@ import AnnouncementDashboardCardData from './AnnouncementDashboardCard/Announcem
 import TopPerformerDashboardCardData from './TopPerformerDashboardCard/TopPerformerDashboardCard.data';
 import { BarChart } from './Chart/BarChart';
 import { PieChart } from './Chart/PieChart';
+import { HeaderBarChart } from './Chart/HeaderBarChart';
+import { HeaderPieChart } from './Chart/HeaderPieChart';
 
 const Dashboard = () => {
   return (
@@ -37,7 +39,7 @@ const Dashboard = () => {
               >
                 <br />
                 <Box sx={{ marginLeft: 2 }}>
-                  <Typography variant="h5">Tickets based on Status</Typography>
+                  <HeaderBarChart />
                 </Box>
                 <Box sx={{ marginTop: 2 }}>
                   <BarChart />
@@ -101,7 +103,7 @@ const Dashboard = () => {
               >
                 <br />
                 <Box sx={{ marginLeft: 2 }}>
-                  <Typography variant="h5">Agent Availability</Typography>
+                  <HeaderPieChart />
                 </Box>
                 <Box sx={{ marginTop: 2 }}>
                   <PieChart />

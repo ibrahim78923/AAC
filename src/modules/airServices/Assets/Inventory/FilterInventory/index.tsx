@@ -2,20 +2,16 @@ import { Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useFilterInventory } from './useFilterInventory';
 import CommonDrawer from '@/components/CommonDrawer';
-// import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 
 export const FilterInventory = (props: any) => {
   const { isDrawerOpen, setIsDrawerOpen } = props;
   const {
     inventoryFilterFormFieldsData,
-    // router,
-    // theme,
     methods,
     submitInventoryFilterForm,
     handleSubmit,
   } = useFilterInventory();
 
-  // if ('isLoading') return <SkeletonForm />;
   return (
     <>
       <CommonDrawer
@@ -39,7 +35,7 @@ export const FilterInventory = (props: any) => {
                 <Grid item xs={12} md={form?.gridLength} key={form.id}>
                   <form.component {...form.componentProps} size="small">
                     {form?.componentProps?.select
-                      ? form.componentProps.options.map((option: any) => (
+                      ? form?.componentProps?.options?.map((option: any) => (
                           <option key={option?.id} value={option?.value}>
                             {option?.label}
                           </option>

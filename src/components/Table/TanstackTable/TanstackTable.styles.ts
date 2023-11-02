@@ -9,7 +9,7 @@ export const StyledTableCell = styled(TableCell)(({ theme }) => ({
     lineHeight: '18px',
     borderBottom: `1px solid  ${theme?.palette?.custom?.off_white_three}`,
     background: '#F9FAFB',
-    fontWeight: theme.typography.fontWeightMedium,
+    fontWeight: theme?.typography?.fontWeightMedium,
     backgroundImage: 'unset',
     textTransform: 'capitalize',
     whiteSpace: 'nowrap',
@@ -22,18 +22,18 @@ export const StyledTableCell = styled(TableCell)(({ theme }) => ({
       borderRight: `1px solid  ${theme?.palette?.custom?.off_white_three}`,
     },
   },
-  [`&.${tableCellClasses.root}`]: {
+  [`&.${tableCellClasses?.root}`]: {
     boxShadow: 'unset !important',
   },
 
-  [`&.${tableCellClasses.body}`]: {
+  [`&.${tableCellClasses?.body}`]: {
     fontSize: '14px',
     fontStyle: 'initial',
     color: '#6B7280',
     textTransform: 'capitalize',
     lineHeight: '18px',
-    fontFamily: theme.typography.fontFamily,
-    fontWeight: theme.typography.fontWeightRegular,
+    fontFamily: theme?.typography?.fontFamily,
+    fontWeight: theme?.typography?.fontWeightRegular,
     borderBottom: 'none',
     whiteSpace: 'pre-wrap',
     '&:first-child': {

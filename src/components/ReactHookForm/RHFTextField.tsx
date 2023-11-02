@@ -7,7 +7,6 @@ import CustomLabel from '../CustomLabel';
 
 export default function RHFTextField({ name, required, ...other }: any) {
   const { control } = useFormContext();
-  // console.log(name);
   return (
     <Controller
       name={name}

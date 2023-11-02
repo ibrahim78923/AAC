@@ -10,7 +10,7 @@ export const BarChart = () => {
       options={BarChartDataOptions}
       series={BarChartData}
       type="bar"
-      height={250}
+      height={230}
     />
   );
 };

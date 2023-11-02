@@ -21,7 +21,7 @@ export const useExistingIncident = ({ onClose }: any) => {
   const handleSubmit: any = () => {
     // Filter out checkboxes with values set to false
     Object.keys(checkboxValues).filter((id) => checkboxValues?.[id]);
-    // const selectedCheckboxes = Object.keys(checkboxValues).filter(
+    // TODO: const selectedCheckboxes = Object.keys(checkboxValues).filter(
     //   (id) => checkboxValues[id],
     // );
 
@@ -29,8 +29,6 @@ export const useExistingIncident = ({ onClose }: any) => {
       variant: 'success',
     });
     onClose(false);
-
-    // console.log('Selected checkboxes on submit:', selectedCheckboxes);
   };
 
   return {
