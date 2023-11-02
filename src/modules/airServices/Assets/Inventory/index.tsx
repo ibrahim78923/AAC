@@ -7,8 +7,6 @@ import { enqueueSnackbar } from 'notistack';
 import { PageTitledHeader } from '../../../../components/PageTitledHeader/index';
 import { AlertModals } from '@/components/AlertModals';
 import { useInventory } from './useInventory';
-// import { FilterInventory } from './FilterInventory';
-// import { CustomizeInventory } from './CustomizeInventory';
 
 function Inventory() {
   const {
@@ -16,7 +14,6 @@ function Inventory() {
     router,
     isDrawerOpen,
     renderComponent,
-    // openDrawer,
     openDeleteModal,
     setOpenDeleteModal,
     searchValue,
@@ -97,14 +94,6 @@ function Inventory() {
       <br />
       <TanstackTable data={data} columns={inventoryListsColumns} />
       {isDrawerOpen && renderComponent?.[router?.query?.tableAction as string]}
-      {/* <FilterInventory
-        isDrawerOpen={isDrawerOpen}
-        setIsDrawerOpen={setIsDrawerOpen}
-      />
-      <CustomizeInventory
-        isCustomizeModalOpen={isDrawerOpen}
-        handleClose={() => setIsDrawerOpen(false)}
-      /> */}
     </>
   );
 }

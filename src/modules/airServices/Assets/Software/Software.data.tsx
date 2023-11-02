@@ -49,17 +49,17 @@ export const columns = (
     cell: (info: any) => (
       <Checkbox
         checked={
-          !!softwareData.find((item: any) => item.id === info.getValue())
+          !!softwareData?.find((item: any) => item?.id === info?.getValue())
         }
         onChange={(e: any) => {
-          e.target.checked
+          e?.target?.checked
             ? setSoftwareData([
                 ...softwareData,
-                data.find((item: any) => item.id === info.getValue()),
+                data?.find((item: any) => item?.id === info?.getValue()),
               ])
             : setSoftwareData(
-                softwareData.filter((item: any) => {
-                  return item.id !== info.getValue();
+                softwareData?.filter((item: any) => {
+                  return item?.id !== info?.getValue();
                 }),
               );
         }}
@@ -69,9 +69,9 @@ export const columns = (
     ),
     header: (
       <Checkbox
-        checked={softwareData.length === data.length}
+        checked={softwareData?.length === data?.length}
         onChange={(e: any) => {
-          e.target.checked ? setSoftwareData([...data]) : setSoftwareData([]);
+          e?.target?.checked ? setSoftwareData([...data]) : setSoftwareData([]);
         }}
         color="primary"
         name="id"
@@ -80,7 +80,7 @@ export const columns = (
     isSortable: false,
   },
   {
-    accessorFn: (row: any) => row.Software,
+    accessorFn: (row: any) => row?.Software,
     id: 'Software',
     isSortable: true,
     header: 'Software',
@@ -103,52 +103,52 @@ export const columns = (
     ),
   },
   {
-    accessorFn: (row: any) => row.Status,
+    accessorFn: (row: any) => row?.Status,
     id: 'Status',
     header: 'Status',
     isSortable: true,
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.Category,
+    accessorFn: (row: any) => row?.Category,
     id: 'Category',
     isSortable: true,
     header: 'Category',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.ContractValue,
+    accessorFn: (row: any) => row?.ContractValue,
     id: 'Contract Value',
     isSortable: true,
     header: 'Contract Value',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.ManagedBy,
+    accessorFn: (row: any) => row?.ManagedBy,
     id: 'Managed By',
     isSortable: true,
     header: 'Managed By',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.Users,
+    accessorFn: (row: any) => row?.Users,
     id: 'Users',
     isSortable: true,
     header: <span>Users</span>,
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.Installs,
+    accessorFn: (row: any) => row?.Installs,
     id: 'Installs',
     isSortable: true,
     header: <span>Installs</span>,
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.Type,
+    accessorFn: (row: any) => row?.Type,
     id: 'Type',
     isSortable: true,
     header: <span>Type</span>,
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
 ];

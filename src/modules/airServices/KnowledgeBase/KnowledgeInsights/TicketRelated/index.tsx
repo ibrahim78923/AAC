@@ -12,17 +12,29 @@ import {
 } from '@mui/material';
 import { styles } from '../KnowledgeInsights.style';
 import { v4 as uuidv4 } from 'uuid';
+import { ViewDetailBackArrowIcon } from '@/assets/icons';
 
-export const TicketRelated = ({ getRelatedDataArray }: any) => {
+export const TicketRelated = ({
+  getRelatedDataArray,
+  setTicketRelatedToggler,
+}: any) => {
   const theme = useTheme();
 
   return (
     <>
       {getRelatedDataArray?.map((item: any) => (
         <React.Fragment key={uuidv4()}>
-          <Typography variant="h5" py={'0.625rem'}>
-            {item?.mainTitle}
-          </Typography>
+          <Box display={'flex'} gap={1} alignItems={'center'}>
+            <Box
+              sx={{ cursor: 'pointer' }}
+              onClick={() => setTicketRelatedToggler(true)}
+            >
+              <ViewDetailBackArrowIcon />
+            </Box>
+            <Typography variant="h5" py={'1rem'}>
+              {item?.mainTitle}
+            </Typography>
+          </Box>
           <Grid container position={'relative'} overflow={'scroll'}>
             <Grid item xs={12}>
               <Table>

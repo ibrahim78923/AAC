@@ -6,33 +6,35 @@ export const usersTableColumns = (
   usersMainData: any,
 ) => [
   {
-    accessorFn: (row: any) => row.id,
+    accessorFn: (row: any) => row?.id,
     id: 'id',
     cell: (info: any) => (
       <Checkbox
-        checked={!!usersData.find((item: any) => item.id === info.getValue())}
+        checked={
+          !!usersData?.find((item: any) => item?.id === info?.getValue())
+        }
         onChange={(e) => {
-          const selectedId = info.getValue();
-          if (e.target.checked) {
+          const selectedId = info?.getValue();
+          if (e?.target?.checked) {
             setUsersData([
               ...usersData,
-              usersMainData.find((item: any) => item.id === selectedId),
+              usersMainData?.find((item: any) => item?.id === selectedId),
             ]);
           } else {
             setUsersData(
-              usersData.filter((item: any) => item.id !== selectedId),
+              usersData?.filter((item: any) => item?.id !== selectedId),
             );
           }
         }}
         color="primary"
-        name={info.getValue()}
+        name={info?.getValue()}
       />
     ),
     header: (
       <Checkbox
-        checked={usersData.length === usersMainData.length}
+        checked={usersData?.length === usersMainData?.length}
         onChange={(e) => {
-          if (e.target.checked) {
+          if (e?.target?.checked) {
             setUsersData([...usersMainData]);
           } else {
             setUsersData([]);
@@ -45,60 +47,60 @@ export const usersTableColumns = (
     isSortable: false,
   },
   {
-    accessorFn: (row: any) => row.username,
+    accessorFn: (row: any) => row?.username,
     id: 'Name',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
     header: 'Name',
     isSortable: true,
   },
   {
-    accessorFn: (row: any) => row.department,
+    accessorFn: (row: any) => row?.department,
     id: 'Department',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
     header: 'Department',
     isSortable: true,
   },
   {
-    accessorFn: (row: any) => row.source,
+    accessorFn: (row: any) => row?.source,
     id: 'Source',
     isSortable: true,
     header: 'Source',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.usage,
+    accessorFn: (row: any) => row?.usage,
     id: 'Usage',
     isSortable: true,
     header: 'Usage',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.firstseen,
+    accessorFn: (row: any) => row?.firstseen,
     id: 'First Seen',
     isSortable: true,
     header: 'First Seen',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.lastseen,
+    accessorFn: (row: any) => row?.lastseen,
     id: 'Last Seen',
     isSortable: true,
     header: 'Last Seen',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.assigneddate,
+    accessorFn: (row: any) => row?.assigneddate,
     id: 'Assigned Date',
     isSortable: true,
     header: 'Assigned Date',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.contract,
+    accessorFn: (row: any) => row?.contract,
     id: 'Contract',
     isSortable: true,
     header: 'Contract',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
 ];
 
