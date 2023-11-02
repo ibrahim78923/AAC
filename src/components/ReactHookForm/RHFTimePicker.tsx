@@ -37,8 +37,8 @@ export default function RHFTimePicker({
                   </Typography>
                 ),
                 error: error,
-                fullWidth: other.fullWidth,
-                size: other.size,
+                fullWidth: other?.fullWidth,
+                size: other?.size,
               },
             }}
             label={''}
