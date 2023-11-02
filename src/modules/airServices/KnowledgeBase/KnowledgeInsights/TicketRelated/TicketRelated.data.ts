@@ -57,6 +57,27 @@ export const ticketRelatedData = [
         groupDetail: 'incident team',
         createdOnDetail: 'incident team',
       },
+      {
+        subjectDetail: 'Security firewall app corrupted',
+        subjectDetailNumber: '#INC-73',
+        agentDetail: 'None',
+        groupDetail: 'None',
+        createdOnDetail: '3 days ago',
+      },
+      {
+        subjectDetail: 'Software  security firewall install',
+        subjectDetailNumber: '#INC-06',
+        agentDetail: 'Annette Black',
+        groupDetail: 'incident team',
+        createdOnDetail: '5 days ago',
+      },
+      {
+        subjectDetail: 'System has security firewall issue',
+        subjectDetailNumber: '#INC-57',
+        agentDetail: 'Theresa Webb',
+        groupDetail: 'incident team',
+        createdOnDetail: '10  days ago',
+      },
     ],
   },
 ];
