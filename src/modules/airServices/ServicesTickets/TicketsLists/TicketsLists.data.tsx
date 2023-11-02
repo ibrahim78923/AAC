@@ -72,7 +72,7 @@ const priorityOptions = [
 ];
 
 export const ticketsActionDropdownFunction = (
-  openDrawer: any,
+  // TODO: openDrawer: any,
   setDeleteModalOpen: any,
   markTicketAsClose: any,
   markTicketAsSpam: any,
@@ -80,7 +80,7 @@ export const ticketsActionDropdownFunction = (
   {
     title: 'Edit',
     handleClick: (closeMenu: any) => {
-      openDrawer?.(TABLE_CONSTANTS?.EDIT_TICKET);
+      // TODO: openDrawer?.(TABLE_CONSTANTS?.EDIT_TICKET);
       closeMenu?.();
     },
   },
@@ -93,7 +93,7 @@ export const ticketsActionDropdownFunction = (
   {
     title: 'Bulk Update',
     handleClick: (closeMenu: any) => {
-      // openDrawer?.(TABLE_CONSTANTS?.BULK_UPDATE_DATA);
+      // TODO: openDrawer?.(TABLE_CONSTANTS?.BULK_UPDATE_DATA);
       closeMenu?.();
     },
   },
@@ -177,23 +177,23 @@ export const ticketsListsColumnFunction: any = (
   const { palette } = theme;
   return [
     {
-      accessorFn: (row: any) => row.id,
+      accessorFn: (row: any) => row?.id,
       id: 'id',
       cell: (info: any) => (
         <Checkbox
           checked={
-            !!selectedTicketList.find(
+            !!selectedTicketList?.find(
               (item: any) => item?.id === info?.getValue(),
             )
           }
           onChange={(e: any) => {
-            e.target.checked
+            e?.target?.checked
               ? setSelectedTicketList([
                   ...selectedTicketList,
                   ticketList.find((item: any) => item?.id === info?.getValue()),
                 ])
               : setSelectedTicketList(
-                  selectedTicketList.filter((item: any) => {
+                  selectedTicketList?.filter((item: any) => {
                     return item?.id !== info?.getValue();
                   }),
                 );
@@ -217,7 +217,7 @@ export const ticketsListsColumnFunction: any = (
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row.ticketId,
+      accessorFn: (row: any) => row?.ticketId,
       id: 'ticketId',
       cell: (info: any) => (
         <Box display={'flex'} gap={1} flexWrap={'wrap'} alignItems={'center'}>
@@ -229,11 +229,11 @@ export const ticketsListsColumnFunction: any = (
           </Avatar>
           <div
             style={{
-              color: theme.palette.primary.main,
+              color: theme?.palette?.primary?.main,
               cursor: 'pointer',
             }}
             onClick={() => {
-              router.push({
+              router?.push({
                 pathname: AIR_SERVICES?.TICKETS_LIST,
                 query: {
                   id: info?.getValue(),
@@ -249,14 +249,14 @@ export const ticketsListsColumnFunction: any = (
       isSortable: true,
     },
     {
-      accessorFn: (row: any) => row.ticketName,
+      accessorFn: (row: any) => row?.ticketName,
       id: 'ticketName',
       isSortable: true,
       header: 'Ticket Name',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row.requester,
+      accessorFn: (row: any) => row?.requester,
       id: 'requester',
       isSortable: true,
       header: 'Requester',
@@ -277,7 +277,7 @@ export const ticketsListsColumnFunction: any = (
       ),
     },
     {
-      accessorFn: (row: any) => row.assignedTo,
+      accessorFn: (row: any) => row?.assignedTo,
       id: 'assignedTo',
       isSortable: true,
       header: 'Assigned To',
@@ -307,14 +307,14 @@ export const ticketsListsColumnFunction: any = (
       ),
     },
     {
-      accessorFn: (row: any) => row.state,
+      accessorFn: (row: any) => row?.state,
       id: 'state',
       isSortable: true,
       header: 'State',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row.status,
+      accessorFn: (row: any) => row?.status,
       id: 'status',
       isSortable: true,
       header: 'Status',
@@ -346,7 +346,7 @@ export const ticketsListsColumnFunction: any = (
       ),
     },
     {
-      accessorFn: (row: any) => row.priority,
+      accessorFn: (row: any) => row?.priority,
       id: 'priority',
       isSortable: true,
       header: 'Priority',

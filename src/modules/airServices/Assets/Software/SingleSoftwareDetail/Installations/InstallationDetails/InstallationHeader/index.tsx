@@ -35,12 +35,7 @@ export const InstallationHeader = ({ activeCheck }: any) => {
             handleCsvExport={handleMenuExport}
             handleExcelExport={handleMenuExport}
           />
-          <AddDevice
-          // // isModalOpen={false}
-          // setIsmodalOpen={{}}
-          // onSubmit={() => {}}
-          // options={[]}
-          />
+          <AddDevice />
         </Box>
       </Box>
       <AlertModals

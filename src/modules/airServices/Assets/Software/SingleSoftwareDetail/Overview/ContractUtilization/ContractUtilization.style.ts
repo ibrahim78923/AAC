@@ -11,7 +11,7 @@ export const StyledText = styled('text')(({ theme }) => ({
 export const styles = {
   mainBox: (theme: any) => ({
     border: '.1rem solid',
-    borderColor: theme.palette.grey?.[700],
+    borderColor: theme?.palette?.grey?.[700],
     maxWidth: '25rem',
     width: '100%',
     height: '25rem',
@@ -67,7 +67,7 @@ export const styles = {
     textAlign: 'center',
     width: '1.5rem',
     height: '1.5rem',
-    backgroundColor: theme.palette.primary?.light,
+    backgroundColor: theme?.palette?.primary?.light,
     borderRadius: '.2rem',
   }),
 };

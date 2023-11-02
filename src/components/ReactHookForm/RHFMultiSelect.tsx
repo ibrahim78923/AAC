@@ -9,7 +9,6 @@ import {
   Select,
   SelectChangeEvent,
 } from '@mui/material';
-import { Theme, useTheme } from '@mui/material/styles';
 import { v4 as uuidv4 } from 'uuid';
 
 const ITEM_HEIGHT = 48;
@@ -22,15 +21,6 @@ const MenuProps = {
     },
   },
 };
-
-function getStyles(option: string, options: any[], theme: Theme) {
-  return {
-    fontWeight:
-      options.findIndex(({ value }: any) => value === option) > -1
-        ? theme?.typography?.fontWeightMedium
-        : theme?.typography?.fontWeightRegular,
-  };
-}
 
 function ChipWrapper({ selected }: any) {
   return (
@@ -63,7 +53,6 @@ export default function RHFMultiSelect({
   ...other
 }: any) {
   const { control, setValue } = useFormContext();
-  const theme = useTheme();
 
   const handleChange = (event: SelectChangeEvent<any[]>) => {
     const {
@@ -116,11 +105,7 @@ export default function RHFMultiSelect({
             }}
           >
             {options?.map(({ value, ...other }: any) => (
-              <MenuItem
-                key={uuidv4()}
-                value={{ value, ...other }}
-                style={getStyles(value, options, theme)}
-              >
+              <MenuItem key={uuidv4()} value={{ value, ...other }}>
                 {value}
               </MenuItem>
             ))}

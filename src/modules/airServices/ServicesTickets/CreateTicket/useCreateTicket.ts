@@ -28,7 +28,10 @@ export const useCreateTicket = (props: any) => {
     setIsDrawerOpen(false);
   };
   const onClose = () => {
-    const { tableAction, ...restQueries } = router?.query;
+    const {
+      //  tableAction,
+      ...restQueries
+    } = router?.query;
     router.push({
       pathname: router?.pathname,
       query: {

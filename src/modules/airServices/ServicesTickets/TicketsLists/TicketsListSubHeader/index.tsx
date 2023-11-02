@@ -33,7 +33,7 @@ export const TicketsListSubHeader = (props: any) => {
           flexWrap={'wrap'}
           gap={'.5rem'}
         >
-          {router.query.viewType !== 'board' && (
+          {router?.query?.viewType !== 'board' && (
             <SingleDropdownButton dropdownOptions={ticketsActionDropdown} />
           )}
           <Button
@@ -72,9 +72,9 @@ export const TicketsListSubHeader = (props: any) => {
                 key={1}
                 onClick={() => {
                   /* eslint-disable @typescript-eslint/no-unused-vars */
-                  const { viewType, ...routerQueries } = router.query;
-                  router.push({
-                    pathname: router.pathname,
+                  const { viewType, ...routerQueries } = router?.query;
+                  router?.push({
+                    pathname: router?.pathname,
                     query: {
                       ...routerQueries,
                     },
@@ -82,7 +82,7 @@ export const TicketsListSubHeader = (props: any) => {
                 }}
                 style={{
                   backgroundColor:
-                    router.query.viewType !== 'board'
+                    router?.query?.viewType !== 'board'
                       ? theme?.palette?.grey['0']
                       : '',
                 }}
@@ -94,15 +94,15 @@ export const TicketsListSubHeader = (props: any) => {
                 key={1}
                 style={{
                   backgroundColor:
-                    router.query.viewType === 'board'
+                    router?.query?.viewType === 'board'
                       ? theme?.palette?.grey['0']
                       : '',
                 }}
                 onClick={() => {
-                  router.push({
-                    pathname: router.pathname,
+                  router?.push({
+                    pathname: router?.pathname,
                     query: {
-                      ...router.query,
+                      ...router?.query,
                       viewType: 'board',
                     },
                   });

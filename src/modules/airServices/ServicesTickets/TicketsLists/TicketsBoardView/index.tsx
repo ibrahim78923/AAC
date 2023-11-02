@@ -13,7 +13,7 @@ export const TableBoardView = () => {
   return (
     <Grid container spacing={2} overflow={'auto'} flexWrap={'nowrap'}>
       {HEAD_STATUS?.map((heading: any) => (
-        <Grid item xs={3} sx={{ minWidth: '400px' }} key={heading}>
+        <Grid item xs={3} sx={{ minWidth: '400px' }} key={uuidv4()}>
           <TicketInfoBoardHeader title={heading} total={2} />
           <Box
             height={'100%'}

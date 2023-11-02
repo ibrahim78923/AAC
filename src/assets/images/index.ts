@@ -103,3 +103,4 @@ export { default as NoAssociationFound } from '@/assets/images/modules/LogitechM
 export { default as SmsImage } from '@/assets/images/modules/airServices/Tickets/sms-image.png';
 export { default as UsersAvatarRoundedImage } from './modules/socialComponents/calling/user-avatar-rounded.png';
 export { default as DealReportImage } from './modules/airSales/Reports/reports.png';
+export { default as NoSearchResultFoundImage } from './shared/no-search-result.png';
