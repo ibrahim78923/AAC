@@ -8,13 +8,14 @@ import GenerateInvoice from '../GenerateInvoice';
 import ViewBillingDetails from '../ViewBillingDetails';
 import EditForm from '../EditForm';
 import MenuItems from './MenuOptions';
-import Filters from './Filters';
 
-// import { BillingAndInvoicesTableData } from '@/mock/modules/superAdmin/BillingAndDetails';
-
-import { FilterSharedIcon } from '@/assets/icons';
 import useBillingAndInvoices from './useBillingAndInvoices';
+import CommonDrawer from '@/components/CommonDrawer';
+import { FormProvider } from '@/components/ReactHookForm';
 import { styles } from '../Invoices/Invoices.style';
+import { FilterSharedIcon } from '@/assets/icons';
+import { dataArray, defaultValues } from './BillingAndInvoices.data';
+import { v4 as uuidv4 } from 'uuid';
 
 const BillingAndInvoicesTable = () => {
   const {
@@ -37,7 +38,10 @@ const BillingAndInvoicesTable = () => {
     isEditModal,
     assignPlanTableData,
     isGetRowValues,
-  } = useBillingAndInvoices();
+    handleSubmit,
+    onSubmit,
+    methods,
+  } = useBillingAndInvoices(defaultValues);
 
   return (
     <Grid sx={styles.invoicesTableWrapper}>
@@ -130,9 +134,36 @@ const BillingAndInvoicesTable = () => {
           isGetRowValues={isGetRowValues}
         />
       )}
-      {isOpenFilter && (
-        <Filters isOpenDrawer={isOpenFilter} onClose={setIsOpenFilter} />
-      )}
+
+      <CommonDrawer
+        isDrawerOpen={isOpenFilter}
+        onClose={() => setIsOpenFilter(false)}
+        title={'Filter'}
+        okText={'Apply'}
+        isOk
+        cancelText={'Cancel'}
+        footer
+        submitHandler={handleSubmit(onSubmit)}
+      >
+        <Box mt={1}>
+          <FormProvider methods={methods}>
+            <Grid container spacing={4}>
+              {dataArray()?.map((item: any) => (
+                <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                  <item.component {...item.componentProps} size={'small'}>
+                    {item?.componentProps?.select &&
+                      item?.options?.map((option: any) => (
+                        <option key={option?.value} value={option?.value}>
+                          {option?.label}
+                        </option>
+                      ))}
+                  </item.component>
+                </Grid>
+              ))}
+            </Grid>
+          </FormProvider>
+        </Box>
+      </CommonDrawer>
     </Grid>
   );
 };
