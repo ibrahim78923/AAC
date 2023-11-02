@@ -19,6 +19,7 @@ import { RecievedFileIcon } from '@/assets/icons';
 import ConversationModel from '@/components/Model/CoversationModel';
 import { FormProvider, RHFTextField } from '@/components/ReactHookForm';
 import { useForm } from 'react-hook-form';
+import { v4 as uuidv4 } from 'uuid';
 
 export const AllApprovals = () => {
   const {
@@ -70,17 +71,17 @@ export const AllApprovals = () => {
 
   return (
     <>
-      <Box sx={styles.approvalsContainerBox}>
+      <Box sx={styles?.approvalsContainerBox}>
         {approvalData?.map((item) => {
           return (
-            <div key={item?.id} style={styles.approvalsContainer}>
+            <div key={uuidv4()} style={styles?.approvalsContainer}>
               <Grid
                 container
                 justifyContent={'space-between'}
                 alignItems={'center'}
               >
                 <Grid item>
-                  <Box sx={styles.requestApprovalBoxFirst}>
+                  <Box sx={styles?.requestApprovalBoxFirst}>
                     <Box>
                       <Image src={item?.img} alt="Avatar" />
                     </Box>
@@ -91,7 +92,7 @@ export const AllApprovals = () => {
                       >
                         {item?.mainText}
                       </Typography>
-                      <Box sx={styles.requestApprovalBoxSecond}>
+                      <Box sx={styles?.requestApprovalBoxSecond}>
                         {Icons[item?.status]}
                         <span>
                           <Typography
@@ -148,13 +149,13 @@ export const AllApprovals = () => {
                       </Menu>
                     </>
                   ) : item?.showButton === REQUESTED_CONDITION ? (
-                    <Box sx={styles.requestApprovalBoxFirst}>
+                    <Box sx={styles?.requestApprovalBoxFirst}>
                       <Button
                         onClick={handleApprovalModelOpen}
                         sx={{
                           ...styles.requestApprovalButton,
                           color: theme?.palette?.success?.main,
-                          '&:hover': { bgcolor: theme?.palette?.grey[400] },
+                          '&:hover': { bgcolor: theme?.palette?.grey?.[400] },
                         }}
                         startIcon={
                           <CheckCircleIcon
@@ -167,9 +168,9 @@ export const AllApprovals = () => {
                       <Button
                         onClick={handleRecjectModelOpen}
                         sx={{
-                          ...styles.requestApprovalButton,
+                          ...styles?.requestApprovalButton,
                           color: theme?.palette?.error?.main,
-                          '&:hover': { bgcolor: theme?.palette?.grey[400] },
+                          '&:hover': { bgcolor: theme?.palette?.grey?.[400] },
                         }}
                         startIcon={
                           <CancelIcon
@@ -206,11 +207,11 @@ export const AllApprovals = () => {
             />
           </FormProvider>
         </Box>
-        <Box sx={styles.boxBorderStyle}></Box>
-        <Box sx={styles.buttonBox}>
+        <Box sx={styles?.boxBorderStyle}></Box>
+        <Box sx={styles?.buttonBox}>
           <Button
             onClick={handleApprovalModelClose}
-            style={{ ...styles.cancelButton }}
+            style={{ ...styles?.cancelButton }}
           >
             Cancel
           </Button>
@@ -238,7 +239,7 @@ export const AllApprovals = () => {
         <Box sx={styles.buttonBox}>
           <Button
             onClick={handleRecjectModelClose}
-            style={{ ...styles.cancelButton }}
+            style={{ ...styles?.cancelButton }}
           >
             Cancel
           </Button>
