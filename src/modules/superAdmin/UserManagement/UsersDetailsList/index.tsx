@@ -8,7 +8,6 @@ import {
   Stack,
   Typography,
   Avatar,
-  Tooltip,
   Card,
 } from '@mui/material';
 
@@ -93,36 +92,36 @@ const UsersDetailsList = () => {
                 <Typography variant="h3">Olivia</Typography>
               </Stack>
               <Stack direction={'row'} gap={1}>
-                <Tooltip title="Add User">
-                  <Button
-                    sx={{
-                      border: '1px solid grey',
-                      height: '44px',
-                      width: '44px',
-                    }}
-                    variant="outlined"
-                    onClick={() => {
-                      setIsOpenAdduserDrawer(true);
-                    }}
-                  >
-                    <AddShopIcon />
-                  </Button>
-                </Tooltip>
-                <Tooltip title="Add Company">
-                  <Button
-                    sx={{
-                      border: '1px solid grey',
-                      height: '44px',
-                      width: '44px',
-                    }}
-                    variant="outlined"
-                    onClick={() => {
-                      setISOpenCompanyDrawer(true);
-                    }}
-                  >
-                    <AddUserCircleIcon />
-                  </Button>
-                </Tooltip>
+                {/* <Tooltip title="Add User"> */}
+                <Button
+                  sx={{
+                    border: '1px solid grey',
+                    height: '44px',
+                    width: '44px',
+                  }}
+                  variant="outlined"
+                  onClick={() => {
+                    setIsOpenAdduserDrawer(true);
+                  }}
+                >
+                  <AddUserCircleIcon />
+                </Button>
+                {/* </Tooltip> */}
+                {/* <Tooltip title="Add Company"> */}
+                <Button
+                  sx={{
+                    border: '1px solid grey',
+                    height: '44px',
+                    width: '44px',
+                  }}
+                  variant="outlined"
+                  onClick={() => {
+                    setISOpenCompanyDrawer(true);
+                  }}
+                >
+                  <AddShopIcon />
+                </Button>
+                {/* </Tooltip> */}
               </Stack>
             </Box>
             <Divider />

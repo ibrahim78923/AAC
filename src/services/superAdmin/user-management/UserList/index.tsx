@@ -1,17 +1,17 @@
 import { baseAPI } from '@/services/base-api';
 import { endpoints } from '@/routesConstants/endpoints';
 
-export const usersApi = baseAPI.injectEndpoints({
+export const userListApi = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
-    getUsers: builder.query({
+    getUsersAccounts: builder.query({
       query: () => ({
-        url: endpoints.SUPER_ADMIN_USER_LIST,
+        url: endpoints.USER_ACCOUNTS_LIST,
         method: 'GET',
       }),
       providesTags: ['USERS'],
     }),
 
-    getUsersById: builder.query({
+    getUserAccountsById: builder.query({
       query: ({ id }: any) => ({
         url: `/users/${id}`,
         method: 'GET',
@@ -19,17 +19,17 @@ export const usersApi = baseAPI.injectEndpoints({
       providesTags: ['USERS'],
     }),
 
-    postUsers: builder.mutation({
+    postUsersAccount: builder.mutation({
       query: ({ body }: any) => {
         return {
-          url: endpoints.SUPER_ADMIN_ADD_USER,
+          url: endpoints?.ADD_USER_ACCOUNT,
           method: 'POST',
           body: body,
         };
       },
       invalidatesTags: ['USERS'],
     }),
-    updateUsers: builder.mutation({
+    updateUsersAccount: builder.mutation({
       query: ({ id, body }: any) => ({
         url: `/users/${id}`,
         method: 'PUT',
@@ -48,9 +48,9 @@ export const usersApi = baseAPI.injectEndpoints({
 });
 
 export const {
-  useUpdateUsersMutation,
-  usePostUsersMutation,
-  useGetUsersQuery,
+  useGetUsersAccountsQuery,
+  useGetUserAccountsByIdQuery,
+  usePostUsersAccountMutation,
+  useUpdateUsersAccountMutation,
   useDeleteUsersMutation,
-  useGetUsersByIdQuery,
-} = usersApi;
+} = userListApi;

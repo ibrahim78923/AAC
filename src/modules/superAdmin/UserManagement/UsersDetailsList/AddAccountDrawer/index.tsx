@@ -19,9 +19,11 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { enqueueSnackbar } from 'notistack';
+import { usePostUsersAccountMutation } from '@/services/superAdmin/user-management/UserList';
 
 const AddAccountDrawer = (props: any) => {
   const { isOpen, setIsOpen } = props;
+  const [postUsersAccount] = usePostUsersAccountMutation();
 
   const methods: any = useForm({
     resolver: yupResolver(AddAccountValidationSchema),
@@ -30,11 +32,18 @@ const AddAccountDrawer = (props: any) => {
 
   const { handleSubmit, reset } = methods;
 
-  const onSubmit = async () => {
-    enqueueSnackbar('User Added Successfully', {
-      variant: 'success',
-    });
-    reset();
+  const onSubmit = async (values: any) => {
+    try {
+      postUsersAccount({ body: values });
+      enqueueSnackbar('User Added Successfully', {
+        variant: 'success',
+      });
+      reset();
+    } catch (error: any) {
+      enqueueSnackbar(error?.message, {
+        variant: 'error',
+      });
+    }
   };
 
   return (
