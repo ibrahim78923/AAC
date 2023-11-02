@@ -155,7 +155,7 @@ export const upsertContractFormExampleValues = {
   billingCycle: '77777',
   licenseType: '88888',
   licenseKey: '88888',
-  software: '5t5t',
+  software: 'option1',
 };
 
 export const upsertContractFormDefaultValuesFunction = (
@@ -210,7 +210,7 @@ export const upsertContractFormSchemaFunction: any = Yup?.object()?.shape({
     ?.trim()
     ?.ensure()
     ?.when('notifyExpiry', {
-      is: (y: any) => y,
+      is: (value: any) => value,
       then: (schema: any) => schema?.required(),
       otherwise: (schema) => schema,
     }),
@@ -218,35 +218,35 @@ export const upsertContractFormSchemaFunction: any = Yup?.object()?.shape({
     ?.trim()
     ?.ensure()
     ?.when('notifyExpiry', {
-      is: (y: any) => y,
+      is: (value: any) => value,
       then: (schema: any) => schema?.required(),
       otherwise: (schema) => schema,
     }),
   software: Yup?.string()
     ?.ensure()
     ?.when('type', {
-      is: (y: any) => y === CONTRACT_TYPES?.SOFTWARE_LICENSE,
+      is: (value: any) => value === CONTRACT_TYPES?.SOFTWARE_LICENSE,
       then: (schema: any) => schema?.required(),
       otherwise: (schema) => schema?.notRequired(),
     }),
   billingCycle: Yup?.string()
     ?.ensure()
     ?.when('type', {
-      is: (y: any) => y === CONTRACT_TYPES?.SOFTWARE_LICENSE,
+      is: (value: any) => value === CONTRACT_TYPES?.SOFTWARE_LICENSE,
       then: (schema: any) => schema?.required(),
       otherwise: (schema) => schema?.notRequired(),
     }),
   licenseType: Yup?.string()
     ?.ensure()
     ?.when('type', {
-      is: (y: any) => y === CONTRACT_TYPES?.SOFTWARE_LICENSE,
+      is: (value: any) => value === CONTRACT_TYPES?.SOFTWARE_LICENSE,
       then: (schema: any) => schema?.required(),
       otherwise: (schema) => schema?.notRequired(),
     }),
   licenseKey: Yup?.string()
     ?.ensure()
     ?.when('type', {
-      is: (y: any) => y === CONTRACT_TYPES?.SOFTWARE_LICENSE,
+      is: (value: any) => value === CONTRACT_TYPES?.SOFTWARE_LICENSE,
       then: (schema: any) => schema?.required(),
       otherwise: (schema) => schema?.notRequired(),
     }),
@@ -261,7 +261,7 @@ export const upsertContractFormSchemaFunction: any = Yup?.object()?.shape({
       }),
     )
     ?.when('type', {
-      is: (val: any) => val === CONTRACT_TYPES?.SOFTWARE_LICENSE,
+      is: (value: any) => value === CONTRACT_TYPES?.SOFTWARE_LICENSE,
       then: () => {
         return Yup?.array()
           ?.of(

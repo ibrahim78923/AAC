@@ -19,15 +19,21 @@ export const Header = (props: any) => {
           <Typography variant="h5">Microsoft Office License</Typography>
         </Box>
         <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={2}>
-          <Button variant="outlined" color="secondary">
-            Submit For Approval
-          </Button>
-          <Button variant="outlined" color="secondary">
-            approve
-          </Button>
-          <Button variant="outlined" color="secondary">
-            Reject
-          </Button>
+          {
+            <Button variant="outlined" color="secondary">
+              Submit For Approval
+            </Button>
+          }
+          {false && (
+            <>
+              <Button variant="outlined" color="secondary">
+                approve
+              </Button>
+              <Button variant="outlined" color="secondary">
+                Reject
+              </Button>
+            </>
+          )}
 
           <SingleDropdownButton dropdownOptions={dropdownOptions} />
         </Box>

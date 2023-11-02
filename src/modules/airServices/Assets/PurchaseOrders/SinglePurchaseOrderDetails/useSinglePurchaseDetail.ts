@@ -1,6 +1,9 @@
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { singlePurchaseDetailActionDropdownFunction } from './SinglePurchaseDetail.data';
+import {
+  singlePurchaseDetailActionDropdownFunction,
+  singlePurchaseDetailStatusDropdownFunction,
+} from './SinglePurchaseDetail.data';
 
 export const useSinglePurchaseDetail = () => {
   const router = useRouter();
@@ -12,7 +15,8 @@ export const useSinglePurchaseDetail = () => {
 
   const singlePurchaseDetailActionDropdown =
     singlePurchaseDetailActionDropdownFunction(setIsDeleteModalOpen, router);
-
+  const singlePurchaseDetailStatusDropdown =
+    singlePurchaseDetailStatusDropdownFunction();
   return {
     singlePurchaseDetailActionDropdown,
     isDeleteModalOpen,
@@ -21,5 +25,6 @@ export const useSinglePurchaseDetail = () => {
     setIsDrawerOpen,
     isADrawerOpen,
     setIsADrawerOpen,
+    singlePurchaseDetailStatusDropdown,
   };
 };

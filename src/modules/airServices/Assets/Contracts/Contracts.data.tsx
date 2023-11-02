@@ -43,11 +43,10 @@ export const data: any = [
     ExpiryDate: '26 Oct, 2023',
   },
 ];
-export const columns = (
+export const softwareListsColumnsFunction = (
   meetingsData: any,
   setMeetingsData: any,
   meetingsMainData: any,
-  theme: any,
   router: any,
 ): any => [
   {

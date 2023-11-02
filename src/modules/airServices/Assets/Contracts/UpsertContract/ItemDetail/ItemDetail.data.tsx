@@ -1,7 +1,7 @@
 import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
 import { Button } from '@mui/material';
 
-export const columns = [
+export const itemDetailColumns = [
   'Service Name',
   'Price Model',
   'Cost',
@@ -12,7 +12,7 @@ export const columns = [
 
 export const priceModelOptions = [
   {
-    label: 'one time',
+    label: 'One time',
     value: 'One time',
   },
   {
@@ -24,7 +24,11 @@ export const priceModelOptions = [
     value: 'per unit',
   },
 ];
-export const tableData = (name: any, index: any, remove: any) => [
+export const itemDetailFormFieldsFunction = (
+  name: any,
+  index: any,
+  remove: any,
+) => [
   {
     id: 1,
     data: <RHFTextField name={`${name}.${index}.serviceName`} size="small" />, //TODO: exceptional case for RHF FieldArray

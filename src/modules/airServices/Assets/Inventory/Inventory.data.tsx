@@ -30,11 +30,16 @@ export const data: any = [
     Impact: 'Medium',
   },
 ];
+
+export const INVENTORY_LIST_ACTIONS = {
+  FILTER: 'filter',
+  CUSTOMIZE_COLUMN: 'customize-column',
+};
+
 export const inventoryListsColumnsFunction = (
   inventoryData: any,
   setInventoryData: any,
   data: any,
-  theme: any,
   router: any,
 ): any => [
   {
@@ -63,9 +68,9 @@ export const inventoryListsColumnsFunction = (
     ),
     header: (
       <Checkbox
-        checked={inventoryData.length === data.length}
+        checked={inventoryData?.length === data?.length}
         onChange={(e: any) => {
-          e.target.checked ? setInventoryData([...data]) : setInventoryData([]);
+          e?.target?.checked ? setInventoryData([...data]) : setInventoryData([]);
         }}
         color="primary"
         name="id"

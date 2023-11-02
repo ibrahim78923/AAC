@@ -1,20 +1,17 @@
-import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 
-export const useCustomizeTicketColumn = (props: any) => {
+export const useCustomizeInventoryColumn = (props: any) => {
   const {
-    ticketsListsColumnPersist,
-    setTicketsListsColumn,
+    inventoryListsColumnsPersist,
+    setInventoryListsColumns,
     setIsDrawerOpen,
-    ticketsListsColumn,
+    inventoryListsColumns,
   } = props;
-
-  const theme = useTheme();
   const router = useRouter();
 
   const [customizeColumn, setCustomizeColumn]: any = useState<any>(
-    ticketsListsColumn?.reduce((x: any, y: any) => {
+    inventoryListsColumns?.reduce((x: any, y: any) => {
       const { id } = y;
       return { ...x, [id]: true };
     }, {}),
@@ -24,11 +21,11 @@ export const useCustomizeTicketColumn = (props: any) => {
     if (customizeColumn[col?.id]) {
       delete customizeColumn[col?.id];
 
-      const newTableColumns = ticketsListsColumnPersist?.filter(
+      const newTableColumns = inventoryListsColumnsPersist?.filter(
         (x: any) => customizeColumn?.[x?.id],
       );
 
-      setTicketsListsColumn(newTableColumns);
+      setInventoryListsColumns(newTableColumns);
       return;
     }
     setCustomizeColumn({
@@ -36,16 +33,16 @@ export const useCustomizeTicketColumn = (props: any) => {
       id: true,
       [col?.id]: true,
     });
-    const newTableColumns = ticketsListsColumnPersist?.filter(
+    const newTableColumns = inventoryListsColumnsPersist?.filter(
       (x: any) => customizeColumn?.[x?.id],
     );
-    setTicketsListsColumn(newTableColumns);
+    setInventoryListsColumns(newTableColumns);
   };
   const submit = () => {
-    const newTableColumns = ticketsListsColumnPersist?.filter(
+    const newTableColumns = inventoryListsColumnsPersist?.filter(
       (x: any) => customizeColumn?.[x?.id],
     );
-    setTicketsListsColumn(newTableColumns);
+    setInventoryListsColumns(newTableColumns);
 
     const { tableAction, ...restQueries } = router?.query;
     router.push({
@@ -69,7 +66,7 @@ export const useCustomizeTicketColumn = (props: any) => {
 
   const applyAllCheckboxHandler = (e: any) => {
     if (e?.target?.checked) {
-      const inventory: any = ticketsListsColumnPersist?.reduce(
+      const inventory: any = inventoryListsColumnsPersist?.reduce(
         (x: any, y: any) => {
           const { id } = y;
           return { ...x, [id]: true };
@@ -77,25 +74,22 @@ export const useCustomizeTicketColumn = (props: any) => {
         {},
       );
       setCustomizeColumn(inventory);
-      setTicketsListsColumn(ticketsListsColumnPersist);
+      setInventoryListsColumns(inventoryListsColumnsPersist);
       return;
     }
     setCustomizeColumn({
       //   id: true,
     });
-    setTicketsListsColumn([]);
+    setInventoryListsColumns([]);
   };
 
   return {
     submit,
     onClose,
     checkboxHandler,
+    inventoryListsColumnsPersist,
     customizeColumn,
     applyAllCheckboxHandler,
-    ticketsListsColumnPersist,
-    setTicketsListsColumn,
-    setIsDrawerOpen,
-    ticketsListsColumn,
-    theme,
+    inventoryListsColumns,
   };
 };

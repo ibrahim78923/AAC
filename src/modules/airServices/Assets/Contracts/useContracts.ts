@@ -3,6 +3,7 @@ import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
 import { enqueueSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
+import { data, softwareListsColumnsFunction } from './Contracts.data';
 
 export function useContracts() {
   const [meetingsData, setMeetingsData] = useState([]);
@@ -20,6 +21,12 @@ export function useContracts() {
   const handleActionClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setActionPop(event.currentTarget);
   };
+  const softwareListsColumns = softwareListsColumnsFunction(
+    meetingsData,
+    setMeetingsData,
+    data,
+    router,
+  );
   const handleActionClose = () => {
     setActionPop(null);
   };
@@ -47,5 +54,6 @@ export function useContracts() {
     openAction,
     handleSubmitModel,
     router,
+    softwareListsColumns,
   };
 }

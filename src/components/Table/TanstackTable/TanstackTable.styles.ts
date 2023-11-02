@@ -15,10 +15,10 @@ export const StyledTableCell = styled(TableCell)(({ theme }) => ({
     whiteSpace: 'nowrap',
     cursor: 'pointer',
     zIndex: '1',
-    '&:first-child': {
+    '&:first-of-type': {
       borderLeft: `1px solid  ${theme?.palette?.custom?.off_white_three}`,
     },
-    '&:last-child': {
+    '&:last-of-type': {
       borderRight: `1px solid  ${theme?.palette?.custom?.off_white_three}`,
     },
   },
@@ -36,10 +36,10 @@ export const StyledTableCell = styled(TableCell)(({ theme }) => ({
     fontWeight: theme.typography.fontWeightRegular,
     borderBottom: 'none',
     whiteSpace: 'pre-wrap',
-    '&:first-child': {
+    '&:first-of-type': {
       borderLeft: `1px solid  ${theme?.palette?.custom?.off_white_three}`,
     },
-    '&:last-child': {
+    '&:last-of-type': {
       borderRight: `1px solid  ${theme?.palette?.custom?.off_white_three}`,
     },
   },

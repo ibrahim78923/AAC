@@ -26,7 +26,9 @@ export const useFilterInventory = () => {
     reset(() => inventoryFilterFormDefaultValuesFunction());
   }, [reset]);
 
-  const submitInventoryFilterForm = async () => {};
+  const submitInventoryFilterForm = async () => {
+    
+  };
 
   return {
     inventoryFilterFormFieldsData,

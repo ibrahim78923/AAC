@@ -11,7 +11,10 @@ import {
   // useTheme,
 } from '@mui/material';
 import { useFormContext, useFieldArray } from 'react-hook-form';
-import { columns, tableData } from './ItemDetail.data';
+import {
+  itemDetailColumns,
+  itemDetailFormFieldsFunction,
+} from './ItemDetail.data';
 import { v4 as uuidv4 } from 'uuid';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
@@ -34,7 +37,7 @@ export const ItemDetail: any = (props: any) => {
           <Table sx={{ minWidth: '1200px' }}>
             <TableHead>
               <TableRow>
-                {columns?.map((column: any) => (
+                {itemDetailColumns?.map((column: any) => (
                   <TableCell key={uuidv4()}>{column}</TableCell>
                 ))}
               </TableRow>
@@ -43,7 +46,7 @@ export const ItemDetail: any = (props: any) => {
               {fields?.map((item: any, index: any) => {
                 return (
                   <TableRow key={item?.id}>
-                    {tableData?.(name, index, remove)?.map(
+                    {itemDetailFormFieldsFunction?.(name, index, remove)?.map(
                       (singleField: any) => (
                         <TableCell key={uuidv4()}>
                           {singleField?.data}
@@ -63,8 +66,8 @@ export const ItemDetail: any = (props: any) => {
             append({
               serviceName: '',
               priceModel: '',
-              cost: '',
-              count: '',
+              cost: 0,
+              count: 0,
               comments: '',
             });
           }}

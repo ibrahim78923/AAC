@@ -2,8 +2,8 @@ import { Grid, Typography, Box } from '@mui/material';
 import { FormProvider, RHFDropZone } from '@/components/ReactHookForm';
 import { v4 as uuidv4 } from 'uuid';
 import { useUpdateContract } from './useUpdateContract';
-import { updateContractFormFields } from './UpdateContract.data';
 import { LoadingButton } from '@mui/lab';
+// import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 
 export const UpdateContract = () => {
   const {
@@ -13,7 +13,10 @@ export const UpdateContract = () => {
     router,
     theme,
     handleCancelBtn,
+    updateContractFormFields,
   } = useUpdateContract();
+
+  // if ('isLoading') return <SkeletonForm />;
 
   return (
     <>

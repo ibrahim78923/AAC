@@ -8,7 +8,7 @@ export const FilterInventory = (props: any) => {
   const { isDrawerOpen, setIsDrawerOpen } = props;
   const {
     inventoryFilterFormFieldsData,
-    // router,
+    router,
     // theme,
     methods,
     submitInventoryFilterForm,
@@ -16,6 +16,7 @@ export const FilterInventory = (props: any) => {
   } = useFilterInventory();
 
   // if ('isLoading') return <SkeletonForm />;
+
   return (
     <>
       <CommonDrawer
@@ -26,9 +27,21 @@ export const FilterInventory = (props: any) => {
         }}
         cancelText="Reset"
         isOk
+        footer
         okText="Submit"
-        onClose={() => setIsDrawerOpen?.(false)}
+        onClose={() => {
+          const { tableAction, ...restQueries } = router?.query;
+          router?.push({
+            pathname: router?.pathname,
+            query: {
+              ...restQueries,
+            },
+          });
+          setIsDrawerOpen?.(false);
+        }}
+        // onClose={() => setIsDrawerOpen?.(false)}
       >
+        <br />
         <FormProvider
           methods={methods}
           onSubmit={handleSubmit?.(submitInventoryFilterForm)}
@@ -37,9 +50,9 @@ export const FilterInventory = (props: any) => {
             {inventoryFilterFormFieldsData?.map((form: any) => {
               return (
                 <Grid item xs={12} md={form?.gridLength} key={form.id}>
-                  <form.component {...form.componentProps} size="small">
+                  <form.component {...form?.componentProps} size="small">
                     {form?.componentProps?.select
-                      ? form.componentProps.options.map((option: any) => (
+                      ? form?.componentProps?.options?.map?.((option: any) => (
                           <option key={option?.id} value={option?.value}>
                             {option?.label}
                           </option>

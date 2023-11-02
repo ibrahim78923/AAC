@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import { data, columns } from './Contracts.data';
+import { data } from './Contracts.data';
 import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
 import { Button } from '@mui/material';
@@ -13,15 +13,13 @@ import { PageTitledHeader } from '../../../../components/PageTitledHeader';
 function Contracts() {
   const {
     meetingsData,
-    setMeetingsData,
     isDrawerOpen,
     setIsDrawerOpen,
     openModel,
     setOpenModel,
-    theme,
     handleAddNewContractClick,
     handleSubmitModel,
-    router,
+    softwareListsColumns,
   } = useContracts();
   return (
     <>
@@ -63,10 +61,7 @@ function Contracts() {
       </Box>
       <br />
       <Box sx={{ marginBottom: '25px' }}>
-        <TanstackTable
-          data={data}
-          columns={columns(meetingsData, setMeetingsData, data, theme, router)}
-        />
+        <TanstackTable data={data} columns={softwareListsColumns} />
       </Box>
       <Box>
         <AlertModals

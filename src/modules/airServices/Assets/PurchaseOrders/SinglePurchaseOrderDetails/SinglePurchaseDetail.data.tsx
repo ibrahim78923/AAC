@@ -24,3 +24,18 @@ export const singlePurchaseDetailActionDropdownFunction = (
     },
   },
 ];
+
+export const singlePurchaseDetailStatusDropdownFunction = () => [
+  {
+    title: 'Close',
+    handleClick: (x: any) => {
+      x?.();
+    },
+  },
+  {
+    title: 'Submit',
+    handleClick: (x: any) => {
+      x?.();
+    },
+  },
+];

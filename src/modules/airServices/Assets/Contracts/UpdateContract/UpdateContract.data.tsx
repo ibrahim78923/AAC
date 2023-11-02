@@ -5,6 +5,8 @@ import {
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 import { Typography } from '@mui/material';
+import { ItemDetail } from '../UpsertContract/ItemDetail';
+import { CONTRACT_TYPES } from '../UpsertContract/UpsertContract.data';
 
 export const updateContractFormValidationSchema = Yup?.object()?.shape({
   startDate: Yup?.date(),
@@ -20,7 +22,7 @@ export const updateContractFormDefaultValues = {
   approver: '',
 };
 
-export const updateContractFormFields = [
+export const updateContractFormFieldsFunction = (router: any) => [
   {
     componentProps: {
       variant: 'h5',
@@ -87,4 +89,26 @@ export const updateContractFormFields = [
     component: RHFSelect,
     md: 6,
   },
+  ...(router?.query?.contractType === CONTRACT_TYPES?.SOFTWARE_LICENSE
+    ? [
+        {
+          id: 3,
+          componentProps: {
+            color: 'slateBlue.main',
+            variant: 'h4',
+          },
+          heading: 'Item & Cost Details',
+          md: 12,
+          component: Typography,
+        },
+        {
+          id: 54383,
+          componentProps: {
+            name: 'itemDetail',
+          },
+          component: ItemDetail,
+          md: 12,
+        },
+      ]
+    : []),
 ];

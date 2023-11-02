@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import {
   updateContractFormValidationSchema,
   updateContractFormDefaultValues,
+  updateContractFormFieldsFunction,
 } from './UpdateContract.data';
 import { useRouter } from 'next/router';
 import { enqueueSnackbar } from 'notistack';
@@ -29,6 +30,7 @@ export const useUpdateContract = () => {
     });
   };
 
+  const updateContractFormFields = updateContractFormFieldsFunction(router);
   return {
     methods,
     handleSubmit,
@@ -36,5 +38,6 @@ export const useUpdateContract = () => {
     router,
     theme,
     handleCancelBtn,
+    updateContractFormFields,
   };
 };
