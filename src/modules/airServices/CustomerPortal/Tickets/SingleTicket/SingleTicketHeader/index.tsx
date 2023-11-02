@@ -1,9 +1,7 @@
 import { ArrowLeftIcon } from '@/assets/icons';
 import { Box, Button, Typography } from '@mui/material';
-import { useTicket } from '../../useTicket';
 
-export const SingleTicketHeader = () => {
-  const { setStatus } = useTicket();
+export const SingleTicketHeader = ({ setStatus }: any) => {
   return (
     <Box
       display={'flex'}

@@ -1,10 +1,8 @@
 import { Box, Typography, useTheme } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
-import { useTicket } from '../../useTicket';
 
-export const SingleTicketDetail = ({ singleTicketDetailData }: any) => {
+export const SingleTicketDetail = ({ singleTicketDetailData, status }: any) => {
   const theme = useTheme();
-  const { status } = useTicket();
   return (
     <Box display={'flex'}>
       <Box width={'70%'} height={'20rem'} overflow={'scroll'}>
