@@ -40,11 +40,11 @@ export const columns = (
       id: 'clientName',
       cell: (info: any) => (
         <Box sx={{ display: 'flex', gap: '5px' }}>
-          <Avatar alt="Remy Sharp" src={AvatarImage.src} />
+          <Avatar alt="Remy Sharp" src={AvatarImage?.src} />
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             <Typography variant="subtitle2"> {info.getValue()}</Typography>
             <Typography variant="body3">
-              {info.row.original.clientSub}
+              {info?.row?.original?.clientSub}
             </Typography>
           </Box>
         </Box>
@@ -120,7 +120,7 @@ export const columns = (
       cell: (info: any) => info.getValue(),
     },
     {
-      accessorFn: (row: any) => row?.billingDate.substring(0, 10),
+      accessorFn: (row: any) => row?.billingDate?.substring(0, 10),
       id: 'billingDate',
       isSortable: true,
       header: 'Billing Date',
@@ -147,9 +147,9 @@ export const dataArray = () => {
     pagination: `page=1&limit=10`,
   });
 
-  const productSuite = productData?.data.map((product: any) => ({
-    value: product._id,
-    label: product.name,
+  const productSuite = productData?.data?.map((product: any) => ({
+    value: product?._id,
+    label: product?.name,
   }));
 
   const { data: planTypeData } = useGetPlanTypeQuery<any>({
@@ -157,9 +157,9 @@ export const dataArray = () => {
     pagination: `page=1&limit=10`,
   });
 
-  const planType = planTypeData?.data.map((planType: any) => ({
-    value: planType._id,
-    label: planType.name,
+  const planType = planTypeData?.data?.map((planType: any) => ({
+    value: planType?._id,
+    label: planType?.name,
   }));
 
   const { data: OrganizationsData } = useGetOrganizationsQuery<any>({
@@ -167,9 +167,9 @@ export const dataArray = () => {
     pagination: `page=1&limit=10`,
   });
 
-  const Organizations = OrganizationsData?.data.map((Organizations: any) => ({
-    value: Organizations._id,
-    label: Organizations.name,
+  const Organizations = OrganizationsData?.data?.map((Organizations: any) => ({
+    value: Organizations?._id,
+    label: Organizations?.name,
   }));
 
   return [

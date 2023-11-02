@@ -3,7 +3,7 @@ export const styles = {
     fontSize: '20px',
     fontWeight: '700',
     lineHeight: '1.5',
-    color: theme.palette.slateBlue.main,
+    color: theme?.palette?.slateBlue?.main,
     mb: '40px',
   }),
   iRow: () => ({
@@ -12,12 +12,12 @@ export const styles = {
     alignItems: 'center',
   }),
   iCell: (theme: any) => ({
-    color: theme.palette.slateBlue.main,
+    color: theme?.palette?.slateBlue?.main,
     fontSize: '16px',
     lineHeight: '1.5',
   }),
   iCellHead: (theme: any) => ({
-    color: theme.palette.slateBlue.main,
+    color: theme?.palette?.slateBlue?.main,
     fontSize: '16px',
     fontWeight: '700',
     lineHeight: '1.5',
@@ -27,7 +27,7 @@ export const styles = {
       mt: '8px',
 
       '& .MuiListItemButton-root': {
-        bgcolor: theme.palette.primary.lighter,
+        bgcolor: theme?.palette?.primary?.lighter,
         borderRadius: '6px',
         p: '14px 16px',
 
@@ -42,7 +42,7 @@ export const styles = {
 
       '& .MuiListItemText-root': {
         '& .MuiListItemText-primary': {
-          color: theme.palette.blue.light,
+          color: theme?.palette?.blue?.light,
         },
       },
     },

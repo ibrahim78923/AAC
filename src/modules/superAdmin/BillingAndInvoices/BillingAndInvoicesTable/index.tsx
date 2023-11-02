@@ -94,8 +94,8 @@ const BillingAndInvoicesTable = () => {
                 onClick={() => setIsOpenFilter(true)}
                 startIcon={<FilterSharedIcon />}
                 sx={{
-                  border: `1px solid ${theme.palette.custom.dark}`,
-                  color: theme.palette.custom.main,
+                  border: `1px solid ${theme?.palette?.custom?.dark}`,
+                  color: theme?.palette?.custom?.main,
                   width: '105px',
                   marginLeft: '10px',
                   '@media (max-width:400px)': {

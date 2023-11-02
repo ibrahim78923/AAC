@@ -12,13 +12,13 @@ export const columns = (
 ) => {
   return [
     {
-      accessorFn: (row: any) => row.Id,
+      accessorFn: (row: any) => row?.Id,
       id: 'Id',
       cell: (info: any) => (
         <Checkbox
           color="primary"
           checked={
-            info.cell.row.original.id ===
+            info?.cell?.row?.original?.id ===
               isGetRowValues?.cell?.row?.original?.id && ischecked
           }
           name={info.getValue()}
@@ -31,15 +31,17 @@ export const columns = (
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row.ClientName,
+      accessorFn: (row: any) => row?.ClientName,
       id: 'ClientName',
       cell: (info: any) => (
         <>
           <Box sx={{ display: 'flex', gap: '5px' }}>
-            <Avatar alt="Remy Sharp" src={AvatarImage.src} />
+            <Avatar alt="Remy Sharp" src={AvatarImage?.src} />
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
               <Typography variant="subtitle2"> {info.getValue()}</Typography>
-              <Typography variant="body3">{info.row.original.plan}</Typography>
+              <Typography variant="body3">
+                {info?.row?.original?.plan}
+              </Typography>
             </Box>
           </Box>
         </>
@@ -48,56 +50,58 @@ export const columns = (
       isSortable: true,
     },
     {
-      accessorFn: (row: any) => row.ProductSuite,
+      accessorFn: (row: any) => row?.ProductSuite,
       id: 'Products/Suite',
       isSortable: true,
       header: 'Products/Suite',
       cell: (info: any) => (
         <>
           <Typography variant="subtitle2">{info.getValue()}</Typography>
-          <Typography variant="body3">{info.row.original.planType}</Typography>
+          <Typography variant="body3">
+            {info?.row?.original?.planType}
+          </Typography>
         </>
       ),
     },
     {
-      accessorFn: (row: any) => row.dueDate,
+      accessorFn: (row: any) => row?.dueDate,
       id: 'InvoiceDate',
       isSortable: true,
       header: 'Invoice Date',
       cell: (info: any) => <>{info.getValue()}</>,
     },
     {
-      accessorFn: (row: any) => row.Details,
+      accessorFn: (row: any) => row?.Details,
       id: 'Details',
       isSortable: true,
       header: 'Details',
       cell: (info: any) => (
         <>
           <Box>Invoice # {info.getValue()}</Box>
-          <Box>Due date: {info.row.original.dueDate}</Box>
+          <Box>Due date: {info?.row?.original?.dueDate}</Box>
         </>
       ),
     },
     {
-      accessorFn: (row: any) => row.InvoiceAmount,
+      accessorFn: (row: any) => row?.InvoiceAmount,
       id: 'InvoiceAmount',
       isSortable: true,
       header: 'Invoice amount',
       cell: (info: any) => <>£ {info.getValue()}</>,
     },
     {
-      accessorFn: (row: any) => row.PaymentDate,
+      accessorFn: (row: any) => row?.PaymentDate,
       id: 'PaymentDate',
       isSortable: true,
       header: 'Payment Date',
       cell: (info: any) => <> {info.getValue()}</>,
     },
     {
-      accessorFn: (row: any) => row.status,
+      accessorFn: (row: any) => row?.status,
       id: 'status',
       isSortable: true,
       header: 'Status',
-      cell: (info: any) => <Box sx={styles.chip}>{info.getValue()}</Box>,
+      cell: (info: any) => <Box sx={styles?.chip}>{info.getValue()}</Box>,
     },
   ];
 };

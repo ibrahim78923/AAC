@@ -53,9 +53,9 @@ const useBillingAndInvoices = (defaultValues: any) => {
   const { handleSubmit } = methods;
 
   const onSubmit = async (values: any) => {
-    setOrginzationId(values.ClientOrganization);
-    setProductId(values.productSuite);
-    setPlanTypeId(values.planType);
+    setOrginzationId(values?.ClientOrganization);
+    setProductId(values?.productSuite);
+    setPlanTypeId(values?.planType);
 
     setIsOpenFilter(false);
   };

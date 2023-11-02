@@ -36,13 +36,13 @@ export const styles = {
   }),
   cardRight: () => ({}),
   cardRightText: (theme: any) => ({
-    color: theme.palette.grey[100],
+    color: theme?.palette?.grey[100],
     fontSize: '14px',
     fontWeight: '400',
     lineHeight: '1.42857',
     '& > span': {
       fontWeight: '700',
-      color: theme.palette.grey[400],
+      color: theme?.palette?.grey[400],
     },
   }),
   userInfo: () => ({
@@ -68,22 +68,22 @@ export const styles = {
     color: '#fff',
   }),
   invoiceInfo: (theme: any) => ({
-    bgcolor: theme.palette.grey[100],
+    bgcolor: theme?.palette?.grey[100],
     padding: '8px 24px',
     mt: '16px',
   }),
   invoiceInfoTitle: (theme: any) => ({
     fontSize: '14px',
     fontWeight: '500',
-    color: theme.palette.blue.dull_blue,
+    color: theme?.palette?.blue?.dull_blue,
     lineHeight: '1.42857',
     '& > span': {
-      color: theme.palette.custom.main,
+      color: theme?.palette?.custom?.main,
       fontWeight: '400',
     },
   }),
   productCont: (theme: any) => ({
-    border: `1px solid ${theme.palette.custom.off_white_three}`,
+    border: `1px solid ${theme?.palette?.custom?.off_white_three}`,
     mt: '16px',
     borderRadius: '8px',
   }),
@@ -91,12 +91,12 @@ export const styles = {
     fontSize: '18px',
     fontWeight: '600',
     lineHeight: '1.55556',
-    color: theme.palette.grey[800],
+    color: theme?.palette?.grey[800],
     p: '16px 20px',
   }),
 
   voucher: (theme: any) => ({
-    border: `1px solid ${theme.palette.grey[700]}`,
+    border: `1px solid ${theme?.palette?.grey[700]}`,
     mt: '24px',
     borderRadius: '8px',
     p: '12px 24px',

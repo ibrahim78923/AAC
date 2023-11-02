@@ -50,9 +50,9 @@ export const assignPlanData = (selectProductSuite: string) => {
     pagination: `page=1&limit=10`,
   });
 
-  const productSuite = productData?.data.map((product: any) => ({
-    value: product._id,
-    label: product.name,
+  const productSuite = productData?.data?.map((product: any) => ({
+    value: product?._id,
+    label: product?.name,
   }));
 
   const { data: planTypeData } = useGetPlanTypeQuery<any>({
@@ -61,8 +61,8 @@ export const assignPlanData = (selectProductSuite: string) => {
   });
 
   const planType = planTypeData?.data.map((planType: any) => ({
-    value: planType._id,
-    label: planType.name,
+    value: planType?._id,
+    label: planType?.name,
   }));
 
   const { data: OrganizationsData } = useGetOrganizationsQuery<any>({
@@ -71,8 +71,8 @@ export const assignPlanData = (selectProductSuite: string) => {
   });
 
   const Organizations = OrganizationsData?.data.map((Organizations: any) => ({
-    value: Organizations._id,
-    label: Organizations.name,
+    value: Organizations?._id,
+    label: Organizations?.name,
   }));
 
   const options = selectProductSuite === 'product' ? productSuite : CRMSuite;

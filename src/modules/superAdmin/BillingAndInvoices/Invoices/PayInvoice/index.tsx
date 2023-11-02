@@ -31,56 +31,56 @@ const PayInvoice: FC<PayInvoiceI> = ({ open, onClose }) => {
       isOk={true}
       cancelText={'Canel'}
     >
-      <Typography sx={styles.invoiceDetailsTitle} variant="h5">
+      <Typography sx={styles?.invoiceDetailsTitle} variant="h5">
         Invoice Details
       </Typography>
-      <Box sx={styles.iRow}>
-        <Box sx={styles.iCellHead}>Air Sales Growth Plan</Box>
-        <Box sx={styles.iCellHead}>£ 20.00</Box>
+      <Box sx={styles?.iRow}>
+        <Box sx={styles?.iCellHead}>Air Sales Growth Plan</Box>
+        <Box sx={styles?.iCellHead}>£ 20.00</Box>
       </Box>
 
       <Box sx={{ mt: '8px' }}>
-        <Box sx={styles.iCell}>Feb 02, 2023 to 02Feb, 2024</Box>
+        <Box sx={styles?.iCell}>Feb 02, 2023 to 02Feb, 2024</Box>
       </Box>
 
       <Box sx={{ mt: '24px' }}>
-        <Box sx={styles.iRow}>
-          <Box sx={styles.iCell}>Per User Cost</Box>
-          <Box sx={styles.iCellHead}>£ 45.00</Box>
+        <Box sx={styles?.iRow}>
+          <Box sx={styles?.iCell}>Per User Cost</Box>
+          <Box sx={styles?.iCellHead}>£ 45.00</Box>
         </Box>
       </Box>
 
       <Box sx={{ mt: '24px' }}>
-        <Box sx={styles.iRow}>
-          <Box sx={styles.iCell}>Sub total</Box>
-          <Box sx={styles.iCellHead}>£ 480.00</Box>
+        <Box sx={styles?.iRow}>
+          <Box sx={styles?.iCell}>Sub total</Box>
+          <Box sx={styles?.iCellHead}>£ 480.00</Box>
         </Box>
       </Box>
 
       <Box sx={{ mt: '12px' }}>
-        <Box sx={styles.iRow}>
-          <Box sx={styles.iCell}>Vat. (20%)</Box>
-          <Box sx={styles.iCellHead}>£ 28.00</Box>
+        <Box sx={styles?.iRow}>
+          <Box sx={styles?.iCell}>Vat. (20%)</Box>
+          <Box sx={styles?.iCellHead}>£ 28.00</Box>
         </Box>
       </Box>
 
       <Box sx={{ mt: '12px' }}>
-        <Box sx={styles.iRow}>
-          <Box sx={styles.iCell}>Discount (10%)</Box>
-          <Box sx={styles.iCellHead}>-£ 10.00</Box>
+        <Box sx={styles?.iRow}>
+          <Box sx={styles?.iCell}>Discount (10%)</Box>
+          <Box sx={styles?.iCellHead}>-£ 10.00</Box>
         </Box>
       </Box>
 
       <Divider sx={{ my: '16px', borderColor: '#D1D5DB' }} />
 
-      <Box sx={styles.iRow}>
-        <Box sx={styles.iCell}>Total</Box>
-        <Box sx={styles.iCellHead}>£ 498.00</Box>
+      <Box sx={styles?.iRow}>
+        <Box sx={styles?.iCell}>Total</Box>
+        <Box sx={styles?.iCellHead}>£ 498.00</Box>
       </Box>
 
       <Divider sx={{ mt: '24px', mb: '20px', borderColor: '#D1D5DB' }} />
 
-      <Box sx={styles.iCellHead}>Primary company address</Box>
+      <Box sx={styles?.iCellHead}>Primary company address</Box>
       <Box sx={{ mt: '8px' }}>
         123 Lewis st,
         <br />
@@ -89,9 +89,9 @@ const PayInvoice: FC<PayInvoiceI> = ({ open, onClose }) => {
       </Box>
 
       <Box sx={{ mt: '40px' }}>
-        <Box sx={styles.iCellHead}>Payment Methods</Box>
+        <Box sx={styles?.iCellHead}>Payment Methods</Box>
 
-        <List sx={styles.paymentMethods}>
+        <List sx={styles?.paymentMethods}>
           {['a'].map((value) => {
             return (
               <ListItem
