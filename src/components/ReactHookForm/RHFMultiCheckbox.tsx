@@ -11,9 +11,9 @@ export default function RHFMultiCheckbox({ name, options, ...other }: any) {
       control={control}
       render={({ field }) => {
         const onSelected = (option: any) =>
-          field.value.includes(option)
-            ? field.value.filter((value: any) => value !== option)
-            : [...field.value, option];
+          field?.value?.includes(option)
+            ? field?.value?.filter((value: any) => value !== option)
+            : [...field?.value, option];
 
         return (
           <FormGroup>
@@ -22,8 +22,8 @@ export default function RHFMultiCheckbox({ name, options, ...other }: any) {
                 key={option}
                 control={
                   <Checkbox
-                    checked={field.value.includes(option)}
-                    onChange={() => field.onChange(onSelected(option))}
+                    checked={field?.value?.includes(option)}
+                    onChange={() => field?.onChange(onSelected(option))}
                     icon={<CheckboxIcon />}
                     checkedIcon={<CheckboxCheckedIcon />}
                     color="primary"

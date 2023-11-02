@@ -225,7 +225,7 @@ export const CreateDashboard = () => {
                 </>
               ) : (
                 <Grid container spacing={3} height={680} overflow="scroll">
-                  {dashboardItems?.map((item) => (
+                  {dashboardItems?.map((item: any) => (
                     <Grid item xs={12} key={uuidv4()}>
                       {previewDashboard?.[item as string]}
                     </Grid>

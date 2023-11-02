@@ -26,6 +26,5 @@ export const styles = (matches: boolean) => ({
     height: 36,
     width: matches ? '100%' : 95,
     color: 'custom.main',
-    borderColor: '#D1D5DB !important',
   },
 });

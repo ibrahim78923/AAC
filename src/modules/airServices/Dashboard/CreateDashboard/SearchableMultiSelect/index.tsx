@@ -5,30 +5,34 @@ import Box from '@mui/material/Box';
 import { Avatar, InputAdornment } from '@mui/material';
 import Image from 'next/image';
 import { SearchSharedIcon } from '@/assets/icons';
-import {
-  PopperComponent,
-  StyledInput,
-  StyledPopper,
-  styles,
-} from './SearchableMultiSelect.styles';
+import { styles } from './SearchableMultiSelect.styles';
 import { useSearchableMultiSelect } from './useSearchableMultiSelect';
 
-export const SearchableMultiSelect = ({
-  labels,
-  anchorEl,
-  handleClose,
-  pendingValue,
-  setPendingValue,
-  value,
-}: any) => {
-  const { id, open, onCloseAutocomplete, onChangeAutocomplete, renderOptions } =
-    useSearchableMultiSelect(
-      labels,
-      anchorEl,
-      handleClose,
-      setPendingValue,
-      value,
-    );
+export const SearchableMultiSelect = (props: any) => {
+  const {
+    labels,
+    anchorEl,
+    handleClose,
+    pendingValue,
+    setPendingValue,
+    value,
+  } = props;
+  const {
+    id,
+    open,
+    onCloseAutocomplete,
+    onChangeAutocomplete,
+    renderOptions,
+    PopperComponent,
+    StyledInput,
+    StyledPopper,
+  } = useSearchableMultiSelect(
+    labels,
+    anchorEl,
+    handleClose,
+    setPendingValue,
+    value,
+  );
   return (
     <>
       <StyledPopper
