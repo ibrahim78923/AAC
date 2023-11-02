@@ -2,14 +2,14 @@ import { useForm } from 'react-hook-form';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
-  dealsCallsDefaultValues,
+  ContactCallsDefaultValues,
   dealsCallsValidationSchema,
 } from './MeetingsEditorDrawer.data';
 
 const useMeetingsEditorDrawer = () => {
   const methodsdealsCalls = useForm({
     resolver: yupResolver(dealsCallsValidationSchema),
-    defaultValues: dealsCallsDefaultValues,
+    defaultValues: ContactCallsDefaultValues,
   });
 
   const onSubmit = () => {};

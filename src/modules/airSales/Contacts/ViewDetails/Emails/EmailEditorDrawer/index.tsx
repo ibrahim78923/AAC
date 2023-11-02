@@ -1,6 +1,14 @@
 import React from 'react';
 
-import { Box, Button, Grid, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Card,
+  Divider,
+  Grid,
+  Stack,
+  Typography,
+} from '@mui/material';
 
 import CommonDrawer from '@/components/CommonDrawer';
 import { ScheduleModals } from '@/components/ScheduleModals';
@@ -22,6 +30,7 @@ import {
   drawerTitle,
   options,
   scheduleEmailDataArray,
+  emailsData,
 } from './EmailEditorDrawer.data';
 
 import {
@@ -36,6 +45,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 const EmailEditorDrawer = (props: any) => {
   const { openDrawer, setOpenDrawer } = props;
+
   const {
     handleSubmit,
     onSubmit,
@@ -66,9 +76,9 @@ const EmailEditorDrawer = (props: any) => {
             onSubmit={handleSubmit(onSubmit)}
           >
             <Grid container spacing={3}>
-              <Grid item xs={12}>
+              {/* <Grid item xs={12}>
                 <RHFTextField name="fromEmail" label="From" size="small" />
-              </Grid>
+              </Grid> */}
               <Grid item xs={12}>
                 <RHFAutocomplete
                   name="toEmail"
@@ -79,10 +89,13 @@ const EmailEditorDrawer = (props: any) => {
                   size="small"
                 />
               </Grid>
-              <Grid item xs={3}>
+              <Grid item xs={4}>
+                <RHFCheckbox name="from" label="From" />
+              </Grid>
+              <Grid item xs={4}>
                 <RHFCheckbox name="cc" label="CC" />
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={4}>
                 <RHFCheckbox name="bcc" label="BCC" />
               </Grid>
 
@@ -110,86 +123,12 @@ const EmailEditorDrawer = (props: any) => {
                   />
                 </Grid>
               )}
-              <Grid item xs={12}>
-                <Box
-                  sx={{
-                    background: '#FFF6D9',
-                    borderRadius: '6px',
-                    padding: '12px',
-                  }}
-                >
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      gap: 1,
-                      marginBottom: '5px',
-                    }}
-                  >
-                    <Box>
-                      <ExclimatoryCircleIcon />
-                    </Box>
-
-                    <Typography
-                      variant="body2"
-                      sx={{ color: theme.palette.slateBlue.main }}
-                    >
-                      You haven’t connected your email to the CRM. Connect it
-                      now to keep your conversations synced.
-                    </Typography>
-                  </Box>
-
-                  <Box
-                    sx={{
-                      gap: 1,
-                      display: 'flex',
-                      flexDirection: { xs: 'column', sm: 'row' },
-                    }}
-                  >
-                    <Button
-                      variant="outlined"
-                      sx={{
-                        color: 'grey',
-                        gap: 0.5,
-                        background: theme.palette.common.white,
-                      }}
-                      className="small"
-                    >
-                      <GmailIcon />{' '}
-                      <Typography variant="body2">Gmail</Typography>
-                    </Button>
-
-                    <Button
-                      variant="outlined"
-                      sx={{
-                        color: 'grey',
-                        gap: 0.5,
-                        background: theme.palette.common.white,
-                      }}
-                      className="small"
-                    >
-                      <OutlookIcon />
-                      <Typography variant="body2">Microsoft Outlook</Typography>
-                    </Button>
-
-                    <Button
-                      variant="outlined"
-                      sx={{
-                        color: 'grey',
-                        gap: 0.5,
-                        background: theme.palette.common.white,
-                      }}
-                      className="small"
-                    >
-                      <SMSIcon />{' '}
-                      <Typography variant="body2">Others</Typography>
-                    </Button>
-                  </Box>
-                </Box>
-              </Grid>
               <Grid item md={6}>
-                <RHFTextField name="subject" label="Subject" size="small" />
+                {openDrawer !== 'New' ? (
+                  <RHFTextField name="re" label="Re:" size="small" />
+                ) : (
+                  <RHFTextField name="subject" label="Subject" size="small" />
+                )}
               </Grid>
 
               <Grid item md={6}>
@@ -201,7 +140,88 @@ const EmailEditorDrawer = (props: any) => {
                   ))}
                 </RHFSelect>
               </Grid>
+              {openDrawer === 'New' && (
+                <Grid item xs={12}>
+                  <Box
+                    sx={{
+                      background: '#FFF6D9',
+                      borderRadius: '6px',
+                      padding: '12px',
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        gap: 1,
+                        marginBottom: '5px',
+                      }}
+                    >
+                      <Box>
+                        <ExclimatoryCircleIcon />
+                      </Box>
 
+                      <Typography
+                        variant="body2"
+                        sx={{ color: theme.palette.slateBlue.main }}
+                      >
+                        You haven’t connected your email to the CRM. Connect it
+                        now to keep your conversations synced.
+                      </Typography>
+                    </Box>
+
+                    <Box
+                      sx={{
+                        gap: 1,
+                        display: 'flex',
+                        flexDirection: { xs: 'column', sm: 'row' },
+                      }}
+                    >
+                      <Button
+                        variant="outlined"
+                        sx={{
+                          color: 'grey',
+                          gap: 0.5,
+                          background: theme.palette.common.white,
+                        }}
+                        className="small"
+                      >
+                        <GmailIcon />{' '}
+                        <Typography variant="body2">Gmail</Typography>
+                      </Button>
+
+                      <Button
+                        variant="outlined"
+                        sx={{
+                          color: 'grey',
+                          gap: 0.5,
+                          background: theme.palette.common.white,
+                        }}
+                        className="small"
+                      >
+                        <OutlookIcon />
+                        <Typography variant="body2">
+                          Microsoft Outlook
+                        </Typography>
+                      </Button>
+
+                      <Button
+                        variant="outlined"
+                        sx={{
+                          color: 'grey',
+                          gap: 0.5,
+                          background: theme.palette.common.white,
+                        }}
+                        className="small"
+                      >
+                        <SMSIcon />{' '}
+                        <Typography variant="body2">Others</Typography>
+                      </Button>
+                    </Box>
+                  </Box>
+                </Grid>
+              )}
               <Grid item xs={12}>
                 <RHFEditor name="description" label="To" />
               </Grid>
@@ -210,9 +230,27 @@ const EmailEditorDrawer = (props: any) => {
               </Grid>
             </Grid>
           </FormProvider>
+          {openDrawer !== 'New' && (
+            <Box>
+              <Card sx={{ padding: '8px 12px', mt: 3 }}>
+                <Stack>
+                  {emailsData?.map((item: any) => (
+                    <Box key={uuidv4()}>
+                      <Stack gap={0.5}>
+                        <Typography>From: {item?.from}</Typography>
+                        <Typography>Sent: {item?.sent}</Typography>
+                        <Typography>To: {item?.to}</Typography>
+                        <Typography>Subject: {item?.subject}</Typography>
+                      </Stack>
+                      <Divider sx={{ my: 1 }} />
+                    </Box>
+                  ))}
+                </Stack>
+              </Card>
+            </Box>
+          )}
         </Box>
       </CommonDrawer>
-
       <ScheduleModals
         message={
           "You're about to delete a record. Deleted records can't be restored after 90 days."
@@ -234,7 +272,7 @@ const EmailEditorDrawer = (props: any) => {
                 <item.component {...item.componentProps} size={'small'}>
                   {item?.componentProps?.select
                     ? item?.options?.map((option: any) => (
-                        <option key={option?.value} value={option?.value}>
+                        <option key={uuidv4()} value={option?.value}>
                           {option?.label}
                         </option>
                       ))

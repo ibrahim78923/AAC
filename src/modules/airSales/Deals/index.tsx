@@ -26,6 +26,7 @@ import {
   GridViewIcon,
 } from '@/assets/icons';
 import DealsActions from './DealsActions';
+import BoardView from './BoardView/BoardView';
 
 const Deals = () => {
   const {
@@ -47,6 +48,8 @@ const Deals = () => {
     handleExportRecord,
     exportRecord,
     handleActions,
+    listView,
+    handleListViewClick,
   } = useDealSaleSite();
   return (
     <>
@@ -103,24 +106,22 @@ const Deals = () => {
               &nbsp; Filter
             </Button>
 
-            <ButtonGroup
-              variant="outlined"
-              aria-label="outlined button group"
-              sx={{ minHeight: '36px' }}
-            >
+            <ButtonGroup variant="outlined" aria-label="outlined button group">
               <Button
-                // onClick={() => handleClick('listView')}
+                onClick={() => handleListViewClick('listView')}
                 sx={{
                   '&:hover': { backgroundColor: '#F3F4F6' },
                   // backgroundColor: activeColor === 'listView' ? '#F3F4F6' : '',
+                  height: '30px',
                 }}
               >
                 <ListViewIcon />
               </Button>
               <Button
-                // onClick={() => handleClick('gridView')}
+                onClick={() => handleListViewClick('gridView')}
                 sx={{
                   '&:hover': { backgroundColor: '#F3F4F6' },
+                  height: '30px',
                   // backgroundColor: activeColor === 'gridView' ? '#F3F4F6' : '',
                 }}
               >
@@ -130,7 +131,7 @@ const Deals = () => {
           </>
         }
       >
-        <DelasTable />
+        {listView === 'listView' ? <DelasTable /> : <BoardView />}
       </CommonTabs>
       <CreateView open={isOpen} onClose={handleChange} />
       <DealCustomize open={isDealCustomize} onClose={handleDealCustomize} />

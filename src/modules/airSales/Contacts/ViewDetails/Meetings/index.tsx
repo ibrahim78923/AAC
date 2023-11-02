@@ -68,7 +68,7 @@ const Meetings = () => {
             )}
           </Box>
         </Grid>
-        {!isNullOrEmpty(TasksTableData) && (
+        {isNullOrEmpty(TasksTableData) && (
           <Grid item xs={12}>
             <Box
               sx={{
@@ -129,7 +129,7 @@ const Meetings = () => {
             </Box>
           </Grid>
         )}
-        {isNullOrEmpty(TasksTableData) && (
+        {!isNullOrEmpty(TasksTableData) && (
           <Grid item xs={12} sx={{ height: '24vh', overflow: 'auto' }}>
             <TanstackTable columns={columns} data={TasksTableData} />
           </Grid>

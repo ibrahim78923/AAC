@@ -20,7 +20,7 @@ import {
 } from '@/components/ReactHookForm';
 
 import {
-  dealsCallsDataArray,
+  ContactCallsDataArray,
   drawerButtonTitle,
   drawerTitle,
 } from './MeetingsEditorDrawer.data';
@@ -56,7 +56,7 @@ const MeetingsEditorDrawer = (props: any) => {
             onSubmit={handleSubmit(onSubmit)}
           >
             <Grid container spacing={4}>
-              {dealsCallsDataArray?.map((item: any) => (
+              {ContactCallsDataArray?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
                   <item.component {...item.componentProps} size={'small'}>
                     {item?.componentProps?.select
@@ -148,7 +148,7 @@ const MeetingsEditorDrawer = (props: any) => {
                 <AppAvatarGroup data={avatarGroupMockData} />
               </Grid>
               <Grid item xs={12}>
-                <RHFSelect name="template" label="Template" size="small">
+                <RHFSelect name="Outcome" label="Outcome" size="small">
                   {options?.map((option: any) => (
                     <option key={uuidv4()} value={option?.value}>
                       {option?.label}

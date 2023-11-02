@@ -6,7 +6,7 @@ export const styles = {
   },
   horizontalTabsInnnerBox: {
     pt: 1,
-    height: '33vh',
+    height: '70vh',
     overflow: 'scroll',
     width: '100%',
   },

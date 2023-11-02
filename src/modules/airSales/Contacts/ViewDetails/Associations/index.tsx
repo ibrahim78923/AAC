@@ -15,22 +15,27 @@ const Associations = () => {
       <Box sx={styles.horizontalTabsInnnerBox}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <Contacts />
-          </Grid>
-          <Grid item xs={12}>
             <Tickets />
           </Grid>
+
           <Grid item xs={12}>
             <Companies />
           </Grid>
+
+          <Grid item xs={12}>
+            <Attachments />
+          </Grid>
+
           <Grid item xs={12}>
             <Products />
           </Grid>
+
           <Grid item xs={12}>
             <Quotes />
           </Grid>
+
           <Grid item xs={12}>
-            <Attachments />
+            <Contacts />
           </Grid>
         </Grid>
       </Box>

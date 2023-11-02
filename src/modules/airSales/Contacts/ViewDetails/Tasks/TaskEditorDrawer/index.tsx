@@ -7,7 +7,7 @@ import CommonDrawer from '@/components/CommonDrawer';
 import useTaskEditor from './useTaskEditor';
 
 import {
-  dealsTasksDataArray,
+  ContactsTasksDataArray,
   drawerButtonTitle,
   drawerTitle,
 } from './TaskEditor.data';
@@ -36,7 +36,7 @@ const TaskEditorDrawer = (props: any) => {
             onSubmit={handleSubmit(onSubmit)}
           >
             <Grid container spacing={4}>
-              {dealsTasksDataArray?.map((item: any) => (
+              {ContactsTasksDataArray?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
                   <item.component {...item.componentProps} size={'small'}>
                     {item?.componentProps?.select

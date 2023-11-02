@@ -10,10 +10,9 @@ export const emailValidationsSchema = Yup.object().shape({});
 export const emailDefaultValues = {};
 
 export const options = [
-  { value: 'To-do', label: 'To-do' },
-  { value: 'Follow-up', label: 'Follow-up' },
-  { value: 'Call reminder', label: 'Call reminder' },
-  { value: 'Call ', label: 'Call ' },
+  { value: 'Interested', label: 'Interested' },
+  { value: 'Left message', label: 'Left message' },
+  { value: 'No response', label: 'No response' },
 ];
 
 export const scheduleEmailValidationSchema = Yup.object().shape({});
@@ -71,3 +70,18 @@ export const drawerButtonTitle: any = {
   Forward: 'Send',
   Reply: 'Send',
 };
+
+export const emailsData = [
+  {
+    from: 'shayan@ceative.co.uk',
+    to: 'azeem@ceative.co.uk',
+    sent: 'Wednesday, April 19,2023 - 11:14AM',
+    subject: 'Test Mail',
+  },
+  {
+    from: 'shayan@ceative.co.uk',
+    to: 'azeem@ceative.co.uk',
+    sent: 'Wednesday, April 19,2023 - 11:14AM',
+    subject: 'Test Mail',
+  },
+];

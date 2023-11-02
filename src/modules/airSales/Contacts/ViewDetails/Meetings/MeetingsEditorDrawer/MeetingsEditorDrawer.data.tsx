@@ -10,13 +10,13 @@ export const dealsCallsValidationSchema = Yup.object().shape({
   attachfile: Yup.string().trim().required('Field is Required'),
 });
 
-export const dealsCallsDefaultValues = {
+export const ContactCallsDefaultValues = {
   title: '',
   description: '',
   attachfile: '',
 };
 
-export const dealsCallsDataArray = [
+export const ContactCallsDataArray = [
   {
     componentProps: {
       name: 'title',

@@ -88,3 +88,7 @@ export { default as YellowDotImage } from './shared/yellow-dot.png';
 export { default as EmailMeetingImage } from './modules/airSales/Deals/email-meeting.png';
 export { default as AttendeeAvatarImage } from './modules/airSales/Deals/attendee-avatar.png';
 export { default as DealReportImage } from './modules/airSales/Reports/reports.png';
+export { default as ElipseImage } from './modules/airSales/contacts/elipseAvatar.png';
+export { default as MessageActiveImage } from './modules/airSales/contacts/messageActivity.png';
+export { default as CallActiveImage } from './modules/airSales/contacts/callAcivity.png';
+export { default as CalendarActiveImage } from './modules/airSales/contacts/calendarActivity.png';

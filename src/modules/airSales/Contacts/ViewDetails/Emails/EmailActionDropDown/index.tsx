@@ -11,9 +11,9 @@ import { ScheduleModals } from '@/components/ScheduleModals';
 
 import useEmailActionDropdown from './useEmailActionDropDown';
 
-import { isNullOrEmpty } from '@/utils';
+import { ContactEmailTestingData } from '@/mock/modules/airSales/Contacts/ContactViewDetails';
 
-import { EmailTestingData } from '@/mock/modules/airSales/Deals/ViewDetails';
+import { isNullOrEmpty } from '@/utils';
 
 import { styles } from './EmailActionDropDown.style';
 
@@ -80,8 +80,8 @@ const EmailActionDropDown = (props: any) => {
         handleSubmit={handleCloseAlert}
       >
         <Grid container>
-          {!isNullOrEmpty(EmailTestingData) &&
-            EmailTestingData.map((item: any) => (
+          {!isNullOrEmpty(ContactEmailTestingData) &&
+            ContactEmailTestingData.map((item: any) => (
               <Grid item xs={12} sx={styles.emailBox} key={item.name}>
                 <Grid container spacing={1}>
                   <Grid item sm={1.6} xs={12}>

@@ -16,7 +16,11 @@ const useDealSaleSite = () => {
   const [isDelete, setIsDelete] = useState(false);
   const [isAssign, setIsAssign] = useState(false);
   const [exportRecord, setExportRecord] = useState(false);
+  const [listView, SetListView] = useState('listView');
 
+  const handleListViewClick = (val: string) => {
+    SetListView(val);
+  };
   const HandleDeleteModal = () => {
     setIsDelete(!isDelete);
   };
@@ -80,6 +84,8 @@ const useDealSaleSite = () => {
     isAssign,
     exportRecord,
     handleExportRecord,
+    listView,
+    handleListViewClick,
   };
 };
 
