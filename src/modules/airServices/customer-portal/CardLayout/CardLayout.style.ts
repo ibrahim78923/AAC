@@ -19,6 +19,6 @@ export const styles = {
   viewMoreBtn: (btnPosition: string) => ({
     cursor: 'pointer',
     position: 'absolute',
-    ...(btnPosition === 'center' ? styles.bottomCenter : styles.topRight),
+    ...(btnPosition === 'center' ? styles?.bottomCenter : styles?.topRight),
   }),
 };

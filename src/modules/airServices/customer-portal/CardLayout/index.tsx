@@ -6,7 +6,7 @@ export const CardLayout = ({ title, btnClick, btnPosition, children }: any) => {
 
   return (
     <Box sx={cardWrapper}>
-      <Typography fontWeight={600} color="grey.800">
+      <Typography fontWeight={600} color="grey?.800">
         {title}
       </Typography>
       {children}
