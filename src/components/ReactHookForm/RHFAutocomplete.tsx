@@ -26,7 +26,7 @@ export default function RHFAutocomplete({
 
   const onChanged = (e: any, newValue: any, onChange: any) => {
     if (multiple) {
-      onChange(newValue.map((item: any) => item));
+      onChange(newValue?.map((item: any) => item));
     } else {
       onChange(newValue);
     }
@@ -57,13 +57,13 @@ export default function RHFAutocomplete({
             value={value}
             PaperComponent={(props) =>
               multiple ? (
-                <Fragment>{props.children}</Fragment>
+                <Fragment>{props?.children}</Fragment>
               ) : (
                 <Paper
                   {...props}
-                  style={{ backgroundColor: theme.palette.grey[100] }}
+                  style={{ backgroundColor: theme?.palette?.grey?.[100] }}
                 >
-                  {props.children}
+                  {props?.children}
                 </Paper>
               )
             }

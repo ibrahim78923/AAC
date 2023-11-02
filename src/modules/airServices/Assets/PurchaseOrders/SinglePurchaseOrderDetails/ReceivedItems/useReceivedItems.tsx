@@ -17,8 +17,8 @@ export const useReceivedItems = (props: any) => {
     }
   };
   const submitHandler = () => {
-    data.forEach((item) => {
-      if (item.Id === item.Id && item.received < item.pending) {
+    data?.forEach((item) => {
+      if (item?.Id === item?.Id && item?.received < item?.pending) {
         booVariable = true;
       } else {
         setErrorOccurred(true);

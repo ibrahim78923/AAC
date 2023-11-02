@@ -6,20 +6,12 @@ import { useCreateTicket } from './useCreateTicket';
 import CommonDrawer from '@/components/CommonDrawer';
 
 function CreateTicket(props: any) {
-  const { isDrawerOpen,  setIsDrawerOpen} = props;
-  const { handleSubmit, submitCreateNewTicket, methods , onClose} =
+  const { isDrawerOpen } = props;
+  const { handleSubmit, submitCreateNewTicket, methods, onClose } =
     useCreateTicket(props);
   return (
     <CommonDrawer
       isDrawerOpen={isDrawerOpen}
-      // onClose={
-      //   drawerComponent?.[router?.query?.tableAction as string]
-      //     ?.resetHandler ||
-      //   (() => {
-      //     router?.push({ pathname: router?.pathname });
-      //     setIsDrawerOpen?.(false);
-      //   })
-      // }
       onClose={() => onClose?.()}
       okText={'Submit'}
       title={'Create New Ticket'}

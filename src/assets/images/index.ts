@@ -104,3 +104,4 @@ export { default as UsersAvatarRoundedImage } from './modules/socialComponents/c
 export { default as DealReportImage } from './modules/airSales/Reports/reports.png';
 export { default as documentContained } from './modules/superAdmin/Settings/ModuleCreation/document-contained.png';
 export { default as ApplePhoneImage } from './modules/socialComponents/calling/apple-phone.png';
+export { default as NoSearchResultFoundImage } from './shared/no-search-result.png';

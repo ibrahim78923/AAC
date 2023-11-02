@@ -11,6 +11,7 @@ export const AIR_SERVICES = {
   PURCHASE_ORDER: '/air-services/assets/purchase-orders',
   ASSETS_PURCHASE_ORDER_DETAIL: '/air-services/assets/purchase-orders/detail',
   NEW_PURCHASE_ORDER: '/air-services/assets/purchase-orders/new-purchase',
+  KNOWLEDGE_BASE: '/air-services/knowledge-base',
   ADD_ASSOCIATE_ASSET:
     '/air-services/assets/contracts/detail/add-associate-asset',
   ASSETS_CONTRACTS: '/air-services/assets/contracts',
@@ -22,6 +23,7 @@ export const AIR_SERVICES = {
   ASSETS_SOFTWARE: `/air-services/assets/software`,
   ASSETS_SOFTWARE_DETAIL: `/air-services/assets/software/detail`,
   ADD_INVENTORY: `/air-services/assets/inventory/add-inventory`,
+  UPSERT_ARTICLE: `/air-services/knowledge-base/article/upsert-article`,
 };
 
 export const ORG_ADMIN: any = {

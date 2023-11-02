@@ -190,6 +190,6 @@ export { default as PhoneGreenIcon } from './modules/SocialComponents/Calling/ph
 export { default as TimeClockIcon } from './modules/airSales/deals/time-clock';
 export { default as EditPenBorderedIcon } from './shared/edit-pen-bordered';
 export { default as SendIconLifted } from './modules/SocialComponents/Calling/send';
+export { default as FolderGreyIcon } from './shared/folder-grey';
 export { default as AlertModalDeleteIcon } from './shared/alert-modal-delete-icon';
 export { default as AlertModalCloseIcon } from './shared/alert-modal-close-icon';
-

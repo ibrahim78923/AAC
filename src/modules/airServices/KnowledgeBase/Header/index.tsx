@@ -1,6 +1,7 @@
 import { PlusSharedIconColor } from '@/assets/icons';
 import { Box, Button, Menu, MenuItem, Typography } from '@mui/material';
 import { useHeader } from './useHeader';
+import { AIR_SERVICES } from '@/constants';
 
 export const Header = () => {
   const { anchorEl, open, theme, handleClick, handleClose, router } =
@@ -43,10 +44,8 @@ export const Header = () => {
           <Typography
             variant="body2"
             fontWeight={500}
-            color={theme.palette.grey?.[600]}
-            onClick={() =>
-              router.push(`/air-services/knowledge-base/article/upsert-article`)
-            }
+            color={theme?.palette?.grey?.[600]}
+            onClick={() => router?.push(AIR_SERVICES?.UPSERT_ARTICLE)}
           >
             Article
           </Typography>
@@ -65,7 +64,7 @@ export const Header = () => {
           <Typography
             variant="body2"
             fontWeight={500}
-            color={theme.palette.grey?.[600]}
+            color={theme?.palette?.grey?.[600]}
           >
             Folder
           </Typography>
