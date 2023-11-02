@@ -7,8 +7,10 @@ export const styles = {
     px: 2.4,
     py: 0.9,
     borderRadius: '0.75rem',
-    background: 'red',
+    backgroundColor: 'blue.main',
     gap: 1.6,
+    backgroundRepeat: `no-repeat`,
+    backgroundSize: '100% 110%',
   },
   ticketCardWrapper: {
     flexBasis: { xs: '100%', xl: '50%' },

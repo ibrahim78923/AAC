@@ -1,7 +1,13 @@
 import { Box, Button, Typography } from '@mui/material';
 import { styles } from './CardLayout.style';
 
-export const CardLayout = ({ title, btnClick, btnPosition, children }: any) => {
+export const CardLayout = ({
+  title,
+  btnClick,
+  btnPosition,
+  maxHeight = 222,
+  children,
+}: any) => {
   const { cardWrapper, viewMoreBtn } = styles;
 
   return (
@@ -9,7 +15,7 @@ export const CardLayout = ({ title, btnClick, btnPosition, children }: any) => {
       <Typography fontWeight={600} color="grey?.800">
         {title}
       </Typography>
-      {children}
+      <Box sx={{ height: maxHeight, overflowY: 'scroll' }}>{children}</Box>
       <Box height={20}>
         <Button variant="text" sx={viewMoreBtn(btnPosition)} onClick={btnClick}>
           View More

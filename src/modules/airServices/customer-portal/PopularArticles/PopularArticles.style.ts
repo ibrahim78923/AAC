@@ -15,6 +15,6 @@ export const styles = {
     gap: 0.6,
     borderRadius: 1,
     background: palette?.grey?.[100],
-    flexBasis: { xs: '100%', lg: '49%' },
+    flexBasis: { xs: '100%', lg: '48%' },
   }),
 };

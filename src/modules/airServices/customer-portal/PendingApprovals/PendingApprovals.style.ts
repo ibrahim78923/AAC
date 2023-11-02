@@ -4,11 +4,13 @@ export const styles = {
     background: palette?.grey?.[0],
     borderRadius: '0.75rem',
     border: `1px solid ${palette?.grey?.[700]}`,
-    my: '0.75rem',
+    mb: 1,
   }),
   approvalWrapper: {
     display: 'flex',
-    alignItems: 'center',
+    flexDirection: { xs: 'column', lg: 'row' },
+    alignItems: { xs: 'start', lg: 'center' },
+    justifyContent: 'space-between',
     gap: '0.75rem',
     pt: '0.5rem',
   },
@@ -16,5 +18,10 @@ export const styles = {
     fontSize: 12,
     pl: '0.5rem',
     color: palette?.blue?.main,
+  }),
+  divider: (palette: any) => ({
+    background: palette?.grey?.[700],
+    width: { xs: '100%', lg: '1.5px' },
+    height: { xs: '2px', lg: '1.5rem' },
   }),
 };

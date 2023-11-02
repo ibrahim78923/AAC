@@ -103,3 +103,4 @@ export { default as SmsImage } from '@/assets/images/modules/airServices/Tickets
 export { default as UsersAvatarRoundedImage } from './modules/socialComponents/calling/user-avatar-rounded.png';
 export { default as DealReportImage } from './modules/airSales/Reports/reports.png';
 export { default as NoSearchResultFoundImage } from './shared/no-search-result.png';
+export { default as WelcomeCardImage } from './modules/airServices/dashboard/WelcomeCardImage.png';

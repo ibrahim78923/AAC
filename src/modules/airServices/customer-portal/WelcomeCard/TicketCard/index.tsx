@@ -1,11 +1,11 @@
 import { Avatar, Box, Typography } from '@mui/material';
 import React, { FC } from 'react';
-import { styled, useTheme } from '@mui/material/styles';
-import LinearProgress, {
-  linearProgressClasses,
-} from '@mui/material/LinearProgress';
+import { useTheme } from '@mui/material/styles';
+import LinearProgress from '@mui/material/LinearProgress';
 import { FirstAidKitIcon } from '@/assets/icons';
 import { TicketCardI } from './TicketCard.interface';
+import { styles } from './TicketCard.style';
+import { ticketLabels } from './TicketCard.data';
 
 export const TicketCard: FC<TicketCardI> = (props) => {
   const {
@@ -15,67 +15,34 @@ export const TicketCard: FC<TicketCardI> = (props) => {
     totalTickets,
     doneTickets,
   } = props;
+
   const { palette }: any = useTheme();
+  const { mainWrapper, contentWrapper, ticketColors, progressBar }: any =
+    styles;
 
-  const ticketColors: any = {
-    newTickets: palette?.primary?.main,
-    pendingTickets: palette?.warning?.main,
-    completedTickets: palette?.success?.main,
-  };
-
-  const ticketLabels: any = {
-    newTickets: 'New Tickets',
-    pendingTickets: 'Pending Tickets',
-    completedTickets: 'Completed Tickets',
-  };
-
-  const ticketTypeColor = ticketColors?.[ticketsType];
-
-  const BorderLinearProgress = styled(LinearProgress)(() => ({
-    height: 6,
-    borderRadius: 5,
-    [`&.${linearProgressClasses.colorPrimary}`]: {
-      backgroundColor: palette?.grey?.[0],
-    },
-    [`& .${linearProgressClasses.bar}`]: {
-      borderRadius: 5,
-      backgroundColor: ticketTypeColor,
-    },
-  }));
+  const ticketTypeColor = ticketColors?.(palette)?.[ticketsType];
 
   return (
-    <Box
-      sx={{
-        p: 1.2,
-        borderRadius: '0.5rem',
-        background: 'white',
-        flex: 1,
-        minWidth: 180,
-      }}
-    >
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'flex-start',
-          gap: 0.6,
-          pb: 1.2,
-        }}
-      >
+    <Box sx={mainWrapper}>
+      <Box sx={contentWrapper}>
         <Avatar sx={{ width: 36, height: 36, background: ticketTypeColor }}>
           <FirstAidKitIcon />
         </Avatar>
         <Box>
-          <Typography variant="h3" fontWeight={700} color="blue.main">
+          <Typography variant="h3" fontWeight={700} color="blue?.main">
             {ticketsCount}
           </Typography>
-          <Typography fontSize={'0.75rem'} color="blue.light">
+          <Typography fontSize={'0.75rem'} color="blue?.light">
             {ticketLabels?.[ticketsType]}
           </Typography>
         </Box>
       </Box>
-      <BorderLinearProgress variant="determinate" value={ticketsProgress} />
-      <Typography variant="body2" pt={1} color="blue.main">
+      <LinearProgress
+        value={ticketsProgress}
+        variant="determinate"
+        sx={progressBar(palette, ticketTypeColor)}
+      />
+      <Typography variant="body2" pt={1} color="blue?.main">
         Tickets Done: {`${doneTickets}/${totalTickets}`}
       </Typography>
     </Box>

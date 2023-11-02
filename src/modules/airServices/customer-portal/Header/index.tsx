@@ -11,7 +11,7 @@ export const Header = () => {
           px: 2.4,
           py: 1.3,
           borderRadius: '0.75rem',
-          background: 'red',
+          background: 'white',
         }}
       >
         <Typography

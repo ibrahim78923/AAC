@@ -11,6 +11,7 @@ export const PopularArticles = ({ articles = [] }: any) => {
     <CardLayout
       title={'Popular Articles'}
       btnClick={() => {}}
+      maxHeight={260}
       btnPosition={'center'}
     >
       <Box sx={mainWrapper}>

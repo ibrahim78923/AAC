@@ -3,7 +3,7 @@ export const styles = {
     p: 2.4,
     position: 'relative',
     borderRadius: '0.75rem',
-    background: 'red',
+    background: 'white',
   },
   topRight: {
     top: '0.6rem',
