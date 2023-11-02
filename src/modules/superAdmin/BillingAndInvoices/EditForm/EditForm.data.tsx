@@ -3,7 +3,11 @@ import {
   RHFSelect,
   RHFTextField,
 } from '@/components/ReactHookForm';
-import { useGetProductsQuery } from '@/services/superAdmin/billing-invoices';
+import {
+  useGetOrganizationsQuery,
+  useGetPlanTypeQuery,
+  useGetProductsQuery,
+} from '@/services/superAdmin/billing-invoices';
 
 import * as Yup from 'yup';
 
@@ -51,6 +55,26 @@ export const assignPlanData = (selectProductSuite: string) => {
     label: product.name,
   }));
 
+  const { data: planTypeData } = useGetPlanTypeQuery<any>({
+    refetchOnMountOrArgChange: true,
+    pagination: `page=1&limit=10`,
+  });
+
+  const planType = planTypeData?.data.map((planType: any) => ({
+    value: planType._id,
+    label: planType.name,
+  }));
+
+  const { data: OrganizationsData } = useGetOrganizationsQuery<any>({
+    refetchOnMountOrArgChange: true,
+    pagination: `page=1&limit=10`,
+  });
+
+  const Organizations = OrganizationsData?.data.map((Organizations: any) => ({
+    value: Organizations._id,
+    label: Organizations.name,
+  }));
+
   const options = selectProductSuite === 'product' ? productSuite : CRMSuite;
 
   return [
@@ -62,12 +86,7 @@ export const assignPlanData = (selectProductSuite: string) => {
         select: true,
       },
 
-      options: [
-        { value: 'andrew', label: 'Andrew Stuart,Acceron' },
-        { value: 'John', label: 'John Doe,Orcalo' },
-        { value: 'Olivia', label: 'Mall of wah' },
-        { value: 'John', label: 'John ,Signup' },
-      ],
+      options: Organizations,
 
       component: RHFSelect,
 
@@ -97,11 +116,7 @@ export const assignPlanData = (selectProductSuite: string) => {
         select: true,
       },
 
-      options: [
-        { value: 'Growth', label: 'Growth' },
-        { value: 'Enterprise', label: 'Enterprise' },
-        { value: 'Premiun', label: 'Premiun' },
-      ],
+      options: planType,
 
       component: RHFSelect,
 

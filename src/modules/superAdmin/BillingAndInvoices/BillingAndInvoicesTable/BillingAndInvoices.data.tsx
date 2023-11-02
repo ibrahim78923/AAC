@@ -1,7 +1,11 @@
 import { AvatarImage } from '@/assets/images';
 import { Avatar, Box, Checkbox, Typography } from '@mui/material';
 import { RHFSelect } from '@/components/ReactHookForm';
-import { useGetProductsQuery } from '@/services/superAdmin/billing-invoices';
+import {
+  useGetOrganizationsQuery,
+  useGetPlanTypeQuery,
+  useGetProductsQuery,
+} from '@/services/superAdmin/billing-invoices';
 
 import * as Yup from 'yup';
 
@@ -148,6 +152,26 @@ export const dataArray = () => {
     label: product.name,
   }));
 
+  const { data: planTypeData } = useGetPlanTypeQuery<any>({
+    refetchOnMountOrArgChange: true,
+    pagination: `page=1&limit=10`,
+  });
+
+  const planType = planTypeData?.data.map((planType: any) => ({
+    value: planType._id,
+    label: planType.name,
+  }));
+
+  const { data: OrganizationsData } = useGetOrganizationsQuery<any>({
+    refetchOnMountOrArgChange: true,
+    pagination: `page=1&limit=10`,
+  });
+
+  const Organizations = OrganizationsData?.data.map((Organizations: any) => ({
+    value: Organizations._id,
+    label: Organizations.name,
+  }));
+
   return [
     {
       componentProps: {
@@ -157,12 +181,7 @@ export const dataArray = () => {
         select: true,
       },
 
-      options: [
-        { value: 'AnglicLtd', label: 'Anglic Ltd' },
-        { value: 'Orcalo', label: 'Orcalo' },
-        { value: '10Pearls', label: '10 Pearls' },
-        { value: 'ExtremeCommerce', label: 'Extreme Commerce' },
-      ],
+      options: Organizations,
 
       component: RHFSelect,
 
@@ -191,11 +210,7 @@ export const dataArray = () => {
         select: true,
       },
 
-      options: [
-        { value: 'Growth', label: 'Growth' },
-        { value: 'Enterprise', label: 'Enterprise' },
-        { value: 'Premiun', label: 'Premiun' },
-      ],
+      options: planType,
       component: RHFSelect,
       md: 12,
     },

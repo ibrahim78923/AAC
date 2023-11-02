@@ -54,7 +54,7 @@ const useEditForm = (isEditModal: any, isGetRowValues: any, onClose: any) => {
     const formattedDate = `${year}-${month}-${day}`;
 
     const assignPlanPayload = {
-      organizationId: '6541e4dedb8057f8990e7ec3',
+      organizationId: values.clientName,
       planId: '652677e726623bafa178e6a1',
       additionalUsers: parseInt(values.additionalUser),
       additionalStorage: parseInt(values.additionalStorage),

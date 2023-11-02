@@ -15,7 +15,23 @@ export const bilingInvoicesAPI = baseAPI.injectEndpoints({
         url: `/products?status=inactive`,
         method: 'GET',
       }),
-      providesTags: ['bilingInvoices'],
+      providesTags: ['getProducts'],
+    }),
+
+    getPlanType: builder.query({
+      query: () => ({
+        url: `/plan/plan-type-list`,
+        method: 'GET',
+      }),
+      providesTags: ['getPlanType'],
+    }),
+
+    getOrganizations: builder.query({
+      query: () => ({
+        url: `/organization/get-organizations`,
+        method: 'GET',
+      }),
+      providesTags: ['organizations'],
     }),
 
     getBilingInvoicesById: builder.query({
@@ -59,6 +75,8 @@ export const {
   usePostBilingInvoicesMutation,
   useGetBilingInvoicesQuery,
   useGetProductsQuery,
+  useGetPlanTypeQuery,
+  useGetOrganizationsQuery,
   useDeleteBilingInvoicesMutation,
   useGetBilingInvoicesByIdQuery,
 } = bilingInvoicesAPI;
