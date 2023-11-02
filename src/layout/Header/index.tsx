@@ -32,6 +32,7 @@ import { styles } from './Header.style';
 
 import { v4 as uuidv4 } from 'uuid';
 import { SearchSharedIcon } from '@/assets/icons';
+import SocialIconsDropdown from './SocialIconsDropdown';
 
 const role = 'super-admin';
 
@@ -96,7 +97,7 @@ const Header = (props: any) => {
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { md: 'none' }, padding: 0 }}
+            sx={{ mr: { sm: 2, xs: 1.2 }, display: { md: 'none' }, padding: 0 }}
           >
             <MenuIcon />
           </IconButton>
@@ -133,7 +134,7 @@ const Header = (props: any) => {
           sx={{
             display: 'flex',
             justifyContent: 'end',
-            gap: 2,
+            gap: { sm: 2, xs: 1.5 },
             alignItems: 'center',
           }}
         >
@@ -154,6 +155,7 @@ const Header = (props: any) => {
                 ))}
             </Box>
           )}
+          {role && <SocialIconsDropdown />}
           {role && <AccountMenu />}
 
           <LinkDropdown />

@@ -9,6 +9,7 @@ import {
   BusyImage,
   CallImage,
   ChangeCircleImage,
+  CompaniesImage,
   ContactImage,
   CustomerPortalImage,
   DashboardImage,
@@ -561,6 +562,11 @@ export const QuickLinkData = [
   {
     key: '6',
     icon: MessageImage,
+    path: '',
+  },
+  {
+    key: '7',
+    icon: CompaniesImage,
     path: '',
   },
 ];

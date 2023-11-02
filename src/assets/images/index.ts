@@ -49,6 +49,8 @@ export { default as CustomerPortalImage } from './modules/HeaderAndSidebar/custo
 export { default as ProblemImage } from './modules/HeaderAndSidebar/problems.png';
 export { default as ChangeCircleImage } from './modules/HeaderAndSidebar/change-circle.png';
 export { default as KnowledgeBaseImage } from './modules/HeaderAndSidebar/knowledge-base.png';
+export { default as CompaniesImage } from './modules/HeaderAndSidebar/companies.png';
+
 export { default as LoginDashboardImage } from '../../assets/images/shared/login-dashboard.png';
 export { default as RQCodeImage } from '../../assets/images/shared/qr-code.png';
 export { default as DiscussionImage } from '../../assets/images/modules/tickets/meetings/discussion.png';
