@@ -1,51 +1,45 @@
-import { useTheme } from '@mui/material';
-const RequestApprovalPageStyles: any = () => {
-  const theme = useTheme();
-  const parentStyles = {
-    approvalsContainerBox: {
-      maxHeight: '370px',
-      overflow: 'auto',
-    },
-    approvalsContainer: {
-      border: '1px solid grey',
-      borderRadius: '.5rem',
-      padding: '1rem',
-      marginBottom: '10px',
-    },
-    requestApprovalBoxFirst: {
-      display: 'flex',
-      alignItems: 'center',
-      gap: '10px',
-    },
-    requestApprovalBoxSecond: {
-      display: 'flex',
-      alignItems: 'center',
-      gap: '5px',
-    },
-    requestApprovalButton: {
-      border: '1px solid #E5E7EB',
-      padding: '0px 15px',
-      height: '40px',
-      fontWeight: '500',
-    },
-    buttonBox: {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'flex-end',
-      gap: '16px',
-      marginTop: '10px',
-    },
-    boxBorderStyle: { borderBottom: '1px solid #E5E7EB', py: '10px' },
-    cancelButton: {
-      color: theme.palette.grey[500],
-      border: '1px solid #E5E7EB',
-      padding: '0px 22px',
-      height: '44px',
-      fontWeight: '500',
-    },
-  };
-
-  return parentStyles;
+export const styles = {
+  approvalsContainerBox: {
+    maxHeight: '23.125rem',
+    overflow: 'auto',
+  },
+  approvalsContainer: (theme: any) => ({
+    border: `0.0625rem solid ${theme?.palette?.grey[900]}`,
+    borderRadius: '0.5rem',
+    padding: '1rem',
+    marginBottom: '0.625rem',
+  }),
+  requestApprovalBoxFirst: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.625rem',
+  },
+  requestApprovalBoxSecond: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.3125rem',
+  },
+  requestApprovalButton: (theme: any) => ({
+    border: `0.0625rem solid ${theme?.palette?.grey[700]}`,
+    padding: '0rem 0.9375rem',
+    height: '2.5rem',
+    fontWeight: '500',
+  }),
+  buttonBox: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    gap: '1rem',
+    marginTop: '0.625rem',
+  },
+  boxBorderStyle: (theme: any) => ({
+    borderBottom: `0.0625rem solid ${theme?.palette?.divider}`,
+    paddingTop: '0.625rem',
+  }),
+  dialogBoxStyle: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: '1rem',
+  },
 };
-
-export default RequestApprovalPageStyles;
