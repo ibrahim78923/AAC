@@ -1,8 +1,9 @@
-import { Checkbox, MenuItem, Select } from '@mui/material';
+import { Checkbox } from '@mui/material';
 
 import { RHFEditor, RHFTextField } from '@/components/ReactHookForm';
 
 import * as Yup from 'yup';
+import StatusBadge from '@/components/StatusBadge';
 
 export const ProductCategoryvalidationSchema = Yup.object().shape({
   ProductCategoryName: Yup.string().required('Field is Required'),
@@ -66,6 +67,9 @@ export const columns = (
   setIschecked: any,
   ischecked: any,
   isGetRowValues: any,
+  userStatus: any,
+  setUserStatus: any,
+  theme: any,
 ) => {
   return [
     {
@@ -114,15 +118,22 @@ export const columns = (
       isSortable: true,
       header: 'Action',
       cell: () => (
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={'age'}
-          label="Age"
-        >
-          <MenuItem value={10}>Active</MenuItem>
-          <MenuItem value={20}>Inactive</MenuItem>
-        </Select>
+        <StatusBadge
+          value={userStatus}
+          onChange={(e: any) => setUserStatus(e.target.value)}
+          options={[
+            {
+              label: 'Active',
+              value: 'active',
+              color: theme?.palette?.success?.main,
+            },
+            {
+              label: 'Inactive',
+              value: 'inactive',
+              color: theme?.palette?.error?.main,
+            },
+          ]}
+        />
       ),
     },
   ];
