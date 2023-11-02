@@ -37,8 +37,8 @@ export default function RHFDatePicker({
                   </Typography>
                 ),
                 error: error,
-                fullWidth: other.fullWidth,
-                size: other.size,
+                fullWidth: other?.fullWidth,
+                size: other?.size,
                 label: '',
                 inputProps: { style: { height: 27 } },
               },

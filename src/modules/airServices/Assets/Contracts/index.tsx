@@ -18,7 +18,6 @@ function Contracts() {
     setIsDrawerOpen,
     openModel,
     setOpenModel,
-    theme,
     handleAddNewContractClick,
     handleSubmitModel,
     router,
@@ -65,7 +64,7 @@ function Contracts() {
       <Box sx={{ marginBottom: '25px' }}>
         <TanstackTable
           data={data}
-          columns={columns(meetingsData, setMeetingsData, data, theme, router)}
+          columns={columns(meetingsData, setMeetingsData, data, router)}
         />
       </Box>
       <Box>
