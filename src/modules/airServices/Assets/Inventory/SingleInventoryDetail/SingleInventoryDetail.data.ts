@@ -1,3 +1,5 @@
+import { AIR_SERVICES } from '@/constants';
+
 export const singleInventoryDetailActionDropdownFunction = (
   setDeleteModalOpen: any,
   router: any,
@@ -6,7 +8,7 @@ export const singleInventoryDetailActionDropdownFunction = (
     title: 'Edit',
     handleClick: (x: any) => {
       router.push({
-        pathname: `/air-services/assets/inventory/add-inventory`,
+        pathname: AIR_SERVICES?.ADD_INVENTORY,
         query: {
           ...router.query,
         },

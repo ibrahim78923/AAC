@@ -3,6 +3,7 @@ import { Typography, Box } from '@mui/material';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { useRouter } from 'next/router';
 import { ViewDetailBackArrowIcon } from '@/assets/icons';
+import { AIR_SERVICES } from '@/constants';
 export const Header = (props: any) => {
   const { dropdownOptions } = props;
   const router = useRouter();
@@ -22,7 +23,7 @@ export const Header = (props: any) => {
             sx={{ cursor: 'pointer' }}
             onClick={() =>
               router.push({
-                pathname: `/air-services/assets/inventory`,
+                pathname: AIR_SERVICES?.ASSETS_INVENTORY,
               })
             }
           >
