@@ -1,5 +1,6 @@
 import { Checkbox } from '@mui/material';
 import { styles } from './Articles.style';
+import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 
 export const data: any = [
   {
@@ -22,8 +23,8 @@ export const data: any = [
 
 export const articlesColumnsFunction = (
   articlesList: any,
-  selectedArticlesList: any,
-  setSelectedArticlesList: any,
+  selectedArticlesData: any,
+  setSelectedArticlesData: any,
   handleSingleArticleNavigation: any,
 ) => {
   const { articleStatus }: any = styles();
@@ -33,21 +34,23 @@ export const articlesColumnsFunction = (
       id: 'id',
       cell: (info: any) => (
         <Checkbox
+          icon={<CheckboxIcon />}
+          checkedIcon={<CheckboxCheckedIcon />}
           checked={
-            !!selectedArticlesList?.find(
+            !!selectedArticlesData?.find(
               (item: any) => item?.id === info?.getValue(),
             )
           }
           onChange={(e: any) => {
             e?.target?.checked
-              ? setSelectedArticlesList([
-                  ...selectedArticlesList,
+              ? setSelectedArticlesData([
+                  ...selectedArticlesData,
                   articlesList?.find(
                     (item: any) => item?.id === info?.getValue(),
                   ),
                 ])
-              : setSelectedArticlesList(
-                  selectedArticlesList?.filter((item: any) => {
+              : setSelectedArticlesData(
+                  selectedArticlesData?.filter((item: any) => {
                     return item?.id !== info?.getValue();
                   }),
                 );
@@ -58,17 +61,18 @@ export const articlesColumnsFunction = (
       ),
       header: (
         <Checkbox
-          checked={selectedArticlesList?.length === articlesList?.length}
+          icon={<CheckboxIcon />}
+          checkedIcon={<CheckboxCheckedIcon />}
+          checked={selectedArticlesData?.length === articlesList?.length}
           onChange={(e: any) => {
             e?.target?.checked
-              ? setSelectedArticlesList([...articlesList])
-              : setSelectedArticlesList([]);
+              ? setSelectedArticlesData([...articlesList])
+              : setSelectedArticlesData([]);
           }}
           color="primary"
           name="id"
         />
       ),
-      isSortable: false,
     },
     {
       accessorFn: (row: any) => row?.article,
@@ -126,4 +130,16 @@ export const articlesTabs = [
   'hardware',
   'software',
   'payments',
+];
+
+export const actionBtnData = [
+  {
+    title: 'Edit',
+  },
+  {
+    title: 'Delete',
+  },
+  {
+    title: 'Move Folder',
+  },
 ];

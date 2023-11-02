@@ -26,5 +26,6 @@ export const useArticles = () => {
     articlesColumns,
     selectedArticlesTab,
     handleSelectedArticlesTab,
+    selectedArticlesData,
   };
 };

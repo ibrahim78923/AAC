@@ -5,13 +5,19 @@ import { FolderGreyIcon } from '@/assets/icons';
 import TanstackTable from '@/components/Table/TanstackTable';
 import CustomPagination from '@/components/CustomPagination';
 
-import { articlesTabs, data } from './Articles.data';
+import { actionBtnData, articlesTabs, data } from './Articles.data';
 import { useArticles } from './useArticles';
 import { styles } from './Articles.style';
+import Search from '@/components/Search';
+import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 
 export const Articles = () => {
-  const { articlesColumns, selectedArticlesTab, handleSelectedArticlesTab } =
-    useArticles();
+  const {
+    articlesColumns,
+    selectedArticlesTab,
+    handleSelectedArticlesTab,
+    selectedArticlesData,
+  } = useArticles();
 
   const { tabWrapper, selectedTabColor } = styles();
 
@@ -40,6 +46,18 @@ export const Articles = () => {
           </Box>
         </Grid>
         <Grid item xs={12} sm={8} md={7.25} lg={9} xl={10.25}>
+          <Grid
+            container
+            alignItems={'flex-end'}
+            justifyContent={'space-between'}
+          >
+            <Search />
+            <SingleDropdownButton
+              disabled={!!!selectedArticlesData.length}
+              dropdownOptions={actionBtnData}
+            />
+          </Grid>
+          <br />
           <TanstackTable data={data} columns={articlesColumns} />
           <CustomPagination
             count={1}
