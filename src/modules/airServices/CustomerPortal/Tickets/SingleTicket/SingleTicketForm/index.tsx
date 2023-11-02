@@ -21,9 +21,7 @@ export const SingleTicketForm = (props: any) => {
           <item.component {...item?.componentProps} key={uuidv4()}>
             {item?.componentProps?.select &&
               item?.options?.map((option: any) => (
-                <option key={uuidv4()} value={option?.value}>
-                  {option?.label}
-                </option>
+                <option key={uuidv4()}>{option?.label}</option>
               ))}
           </item.component>
         ))}
