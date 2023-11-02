@@ -79,7 +79,7 @@ const AddUser = ({ isOpenDrawer, onClose }: any) => {
               name="userType"
               size={'small'}
               value={userType}
-              onChange={(e: any) => setUserType(e.target.value)}
+              onChange={(e: any) => setUserType(e?.target?.value)}
               fullWidth={true}
               select={true}
             >
@@ -154,9 +154,9 @@ const AddUser = ({ isOpenDrawer, onClose }: any) => {
                   </item.component>
                   {isToggled && (
                     <Grid item container spacing={2} mt={1}>
-                      {item.title === 'Address' &&
+                      {item?.title === 'Address' &&
                         isToggled &&
-                        item?.subData.map((data: any) => (
+                        item?.subData?.map((data: any) => (
                           <Grid item xs={12} md={item?.md} key={uuidv4()}>
                             <Typography variant="body2" fontWeight={500}>
                               {data?.title}

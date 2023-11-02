@@ -21,71 +21,73 @@ export const columns: any = [
     isSortable: false,
   },
   {
-    accessorFn: (row: any) => row.UserId,
+    accessorFn: (row: any) => row?.UserId,
     id: 'userId',
     header: 'UserID',
     isSortable: false,
     cell: (info: any) => info.getValue() ?? 'N/A',
   },
   {
-    accessorFn: (row: any) => row.Name,
+    accessorFn: (row: any) => row?.Name,
     id: 'name',
     isSortable: true,
     header: 'Name',
     cell: (info: any) => (
       <Box sx={{ display: 'flex', gap: '5px' }}>
-        <Avatar alt="Remy Sharp" src={AvatarImage.src} />
+        <Avatar alt="Remy Sharp" src={AvatarImage?.src} />
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
           <Typography component={'span'}>
-            {info.row.original.firstName} {info.row.original.lastName}
+            {info?.row?.original?.firstName} {info?.row?.original?.lastName}
           </Typography>
-          <Typography component={'span'}>{info.row.original.email}</Typography>
+          <Typography component={'span'}>
+            {info?.row?.original?.email}
+          </Typography>
         </Box>
       </Box>
     ),
   },
   {
-    accessorFn: (row: any) => row.UserType,
+    accessorFn: (row: any) => row?.UserType,
     id: 'userType',
     isSortable: true,
     header: 'UserType',
     cell: (info: any) => info.getValue() ?? 'N/A',
   },
   {
-    accessorFn: (row: any) => row.OrganizationName,
+    accessorFn: (row: any) => row?.OrganizationName,
     id: 'organizationName',
     isSortable: true,
     header: 'OrganizationName',
-    cell: (info: any) => info.getValue() ?? 'N/A',
+    cell: (info: any) => info?.getValue() ?? 'N/A',
   },
   {
-    accessorFn: (row: any) => row.Products,
+    accessorFn: (row: any) => row?.Products,
     id: 'products',
     isSortable: true,
     header: 'Products',
     cell: (
       <AvatarGroup max={4} sx={{ display: 'flex', justifyContent: 'start' }}>
-        <Avatar alt="Remy Sharp" src={AvatarImage.src} />
-        <Avatar alt="Travis Howard" src={AvatarImage.src} />
-        <Avatar alt="Cindy Baker" src={AvatarImage.src} />
-        <Avatar alt="Agnes Walker" src={AvatarImage.src} />
-        <Avatar alt="Trevor Henderson" src={AvatarImage.src} />
+        <Avatar alt="Remy Sharp" src={AvatarImage?.src} />
+        <Avatar alt="Travis Howard" src={AvatarImage?.src} />
+        <Avatar alt="Cindy Baker" src={AvatarImage?.src} />
+        <Avatar alt="Agnes Walker" src={AvatarImage?.src} />
+        <Avatar alt="Trevor Henderson" src={AvatarImage?.src} />
       </AvatarGroup>
     ),
   },
   {
-    accessorFn: (row: any) => row.Status,
+    accessorFn: (row: any) => row?.Status,
     id: 'status',
     isSortable: true,
     header: 'Status',
     cell: <SwitchBtn defaultChecked />,
   },
   {
-    accessorFn: (row: any) => row.createdAt,
+    accessorFn: (row: any) => row?.createdAt,
     id: 'createdOn',
     isSortable: true,
     header: 'CreatedOn',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
 ];
 
@@ -144,7 +146,7 @@ export const superAdminColumns: any = [
     header: 'Name',
     cell: (
       <Box sx={{ display: 'flex', gap: '5px' }}>
-        <Avatar alt="Remy Sharp" src={AvatarImage.src} />
+        <Avatar alt="Remy Sharp" src={AvatarImage?.src} />
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
           <Typography component={'span'}>Olivia Rhyeh</Typography>
           <Typography component={'span'}>@Olivia</Typography>
@@ -173,11 +175,11 @@ export const superAdminColumns: any = [
     header: 'Products',
     cell: (
       <AvatarGroup max={4} sx={{ display: 'flex', justifyContent: 'start' }}>
-        <Avatar alt="Remy Sharp" src={AvatarImage.src} />
-        <Avatar alt="Travis Howard" src={AvatarImage.src} />
-        <Avatar alt="Cindy Baker" src={AvatarImage.src} />
-        <Avatar alt="Agnes Walker" src={AvatarImage.src} />
-        <Avatar alt="Trevor Henderson" src={AvatarImage.src} />
+        <Avatar alt="Remy Sharp" src={AvatarImage?.src} />
+        <Avatar alt="Travis Howard" src={AvatarImage?.src} />
+        <Avatar alt="Cindy Baker" src={AvatarImage?.src} />
+        <Avatar alt="Agnes Walker" src={AvatarImage?.src} />
+        <Avatar alt="Trevor Henderson" src={AvatarImage?.src} />
       </AvatarGroup>
     ),
   },

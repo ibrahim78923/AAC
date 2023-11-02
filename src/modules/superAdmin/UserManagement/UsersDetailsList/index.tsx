@@ -92,7 +92,6 @@ const UsersDetailsList = () => {
                 <Typography variant="h3">Olivia</Typography>
               </Stack>
               <Stack direction={'row'} gap={1}>
-                {/* <Tooltip title="Add User"> */}
                 <Button
                   sx={{
                     border: '1px solid grey',
@@ -106,8 +105,6 @@ const UsersDetailsList = () => {
                 >
                   <AddUserCircleIcon />
                 </Button>
-                {/* </Tooltip> */}
-                {/* <Tooltip title="Add Company"> */}
                 <Button
                   sx={{
                     border: '1px solid grey',
@@ -121,7 +118,6 @@ const UsersDetailsList = () => {
                 >
                   <AddShopIcon />
                 </Button>
-                {/* </Tooltip> */}
               </Stack>
             </Box>
             <Divider />

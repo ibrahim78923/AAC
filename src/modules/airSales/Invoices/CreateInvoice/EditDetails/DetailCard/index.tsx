@@ -27,22 +27,22 @@ const DetailCard = () => {
             </Box>
             {cardDetails.map((item: any) => (
               <Stack spacing="5px" key={uuidv4()}>
-                <Typography variant="h5">{item.label}</Typography>
+                <Typography variant="h5">{item?.label}</Typography>
                 {item.details?.map((val: any) => (
                   <Typography key={uuidv4()} variant="body1">
-                    {val.title}
+                    {val?.title}
                   </Typography>
                 ))}
               </Stack>
             ))}
           </Stack>
           <Box>
-            {clientDetails.map((item: any) => (
+            {clientDetails?.map((item: any) => (
               <Stack gap="5px" key={uuidv4()}>
-                <Typography variant="h5">{item.label}</Typography>
+                <Typography variant="h5">{item?.label}</Typography>
                 {item.details?.map((val: any) => (
                   <Typography key={uuidv4()} variant="body1">
-                    {val.title}
+                    {val?.title}
                   </Typography>
                 ))}
               </Stack>
@@ -61,9 +61,9 @@ const DetailCard = () => {
           {invoiceDetail?.map((item) => (
             <Stack direction="row" gap="3px" key={uuidv4()}>
               <Typography variant="body2" fontWeight={500}>
-                {item.title}:
+                {item?.title}:
               </Typography>
-              <Typography variant="body2">{item.value}</Typography>
+              <Typography variant="body2">{item?.value}</Typography>
             </Stack>
           ))}
         </Stack>

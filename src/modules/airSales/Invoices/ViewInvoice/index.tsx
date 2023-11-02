@@ -12,13 +12,13 @@ import {
   Typography,
 } from '@mui/material';
 
-import DetailCard from '../CreateInvoice/EditDetails/DetailCard';
-import { style } from './ViewInvoice.style';
+import { AIR_SALES } from '@/routesConstants/paths';
 import { useTheme } from '@mui/material/styles';
 import TanstackTable from '@/components/Tabel/TanstackTable';
-import { productsTableColumns, productsTableData } from './ViewInvoice.data';
+import DetailCard from '../CreateInvoice/EditDetails/DetailCard';
 import { productTotalDetails } from '../CreateInvoice/EditDetails/EditDetails.data';
-
+import { productsTableColumns, productsTableData } from './ViewInvoice.data';
+import { style } from './ViewInvoice.style';
 import { v4 as uuidv4 } from 'uuid';
 
 export const ViewInvoice = (props?: any) => {
@@ -68,10 +68,10 @@ export const ViewInvoice = (props?: any) => {
                     gap={1}
                   >
                     <Typography variant="h5" fontWeight={500}>
-                      {item.title}
+                      {item?.title}
                     </Typography>
                     <Typography variant="h5" fontWeight={500}>
-                      {item.value}
+                      {item?.value}
                     </Typography>
                   </Stack>
                   <Stack my={1} gap={1}>
@@ -83,9 +83,9 @@ export const ViewInvoice = (props?: any) => {
                         alignItems="center"
                         gap={2}
                       >
-                        <Typography variant="body2">{val.title}</Typography>
+                        <Typography variant="body2">{val?.title}</Typography>
                         <Typography variant="body2" fontWeight={500}>
-                          {val.value}
+                          {val?.value}
                         </Typography>
                       </Stack>
                     ))}
@@ -147,8 +147,8 @@ export const ViewInvoice = (props?: any) => {
             mt={2}
           >
             <Button
-              sx={style.cancelButton(theme.palette)}
-              onClick={() => router.push('/air-sales/sales-invoices')}
+              sx={style.cancelButton(theme?.palette)}
+              onClick={() => router?.push(AIR_SALES?.SALES_INVOICES)}
             >
               Back
             </Button>

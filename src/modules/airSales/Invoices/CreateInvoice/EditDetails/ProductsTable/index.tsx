@@ -48,7 +48,7 @@ const ProductsTable = () => {
         <Typography variant="h5">Products</Typography>
         <Button
           variant="contained"
-          sx={style.containedButton}
+          sx={style?.containedButton}
           startIcon={<PlusSharedIcon />}
           onClick={() => setIsDrawerOpen(true)}
         >
@@ -84,10 +84,10 @@ const ProductsTable = () => {
                     gap={1}
                   >
                     <Typography variant="h5" fontWeight={500}>
-                      {item.title}
+                      {item?.title}
                     </Typography>
                     <Typography variant="h5" fontWeight={500}>
-                      {item.value}
+                      {item?.value}
                     </Typography>
                   </Stack>
                   <Stack my={1} gap={1}>
@@ -99,9 +99,9 @@ const ProductsTable = () => {
                         alignItems="center"
                         gap={2}
                       >
-                        <Typography variant="body2">{val.title}</Typography>
+                        <Typography variant="body2">{val?.title}</Typography>
                         <Typography variant="body2" fontWeight={500}>
-                          {val.value}
+                          {val?.value}
                         </Typography>
                       </Stack>
                     ))}

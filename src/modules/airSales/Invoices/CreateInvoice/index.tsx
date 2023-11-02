@@ -1,7 +1,6 @@
 import { Box, Button, Divider, Stack, TextField } from '@mui/material';
 import AppHorizontalStepper from '@/components/Stepper';
 import useCreateInvoices from './useCreateInvoices';
-import { useRouter } from 'next/router';
 import useReviewInvoice from './ReviewInvoice/useReviewInvoice';
 import { ScheduleModals } from '@/components/ScheduleModals';
 import { style } from './CreateInvoice.style';
@@ -12,12 +11,13 @@ const CreateInvoice = () => {
     invoicesStepperData,
     handleCompleteStep,
     hanldeGoPreviousBack,
+    handlerCancelButton,
   } = useCreateInvoices();
-  const router = useRouter();
+
   const { isEmailModal, setIsEmailModal } = useReviewInvoice();
 
   return (
-    <Box sx={style.stepperPages}>
+    <Box sx={style?.stepperPages}>
       <AppHorizontalStepper
         activeStep={activeStep}
         stepsArray={invoicesStepperData}
@@ -35,7 +35,7 @@ const CreateInvoice = () => {
                 <Button
                   variant="outlined"
                   disabled={activeStep === 0 ? true : false}
-                  sx={style.outlinedButton}
+                  sx={style?.outlinedButton}
                   onClick={hanldeGoPreviousBack}
                   fullWidth
                 >
@@ -50,21 +50,21 @@ const CreateInvoice = () => {
                 {activeStep === 0 || activeStep === 1 ? (
                   <Button
                     variant="outlined"
-                    sx={style.outlinedButton}
-                    onClick={() => router.push('/air-sales/invoices')}
+                    sx={style?.outlinedButton}
+                    onClick={handlerCancelButton}
                   >
                     Cancel
                   </Button>
                 ) : (
-                  <Button variant="outlined" sx={style.outlinedButton}>
+                  <Button variant="outlined" sx={style?.outlinedButton}>
                     Save as Draft
                   </Button>
                 )}
                 {activeStep == 0 && (
                   <Button
                     variant="outlined"
-                    sx={style.outlinedButton}
-                    onClick={() => router.push('/air-sales/invoices')}
+                    sx={style?.outlinedButton}
+                    onClick={handlerCancelButton}
                   >
                     Skip
                   </Button>
@@ -72,7 +72,7 @@ const CreateInvoice = () => {
                 {activeStep === 0 || activeStep === 1 ? (
                   <Button
                     variant="contained"
-                    sx={style.containedButton}
+                    sx={style?.containedButton}
                     onClick={handleCompleteStep}
                   >
                     Next
@@ -80,7 +80,7 @@ const CreateInvoice = () => {
                 ) : (
                   <Button
                     variant="contained"
-                    sx={style.containedButton}
+                    sx={style?.containedButton}
                     onClick={() => setIsEmailModal(true)}
                   >
                     Send To Customer
@@ -97,10 +97,7 @@ const CreateInvoice = () => {
         handleClose={() => {
           setIsEmailModal(false);
         }}
-        handleSubmit={() => {
-          setIsEmailModal(false);
-          router.push('/air-sales/invoices');
-        }}
+        handleSubmit={() => {}}
         submitButonText="Send"
         isFooter
       >

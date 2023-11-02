@@ -13,7 +13,7 @@ export const userListApi = baseAPI.injectEndpoints({
 
     getUserAccountsById: builder.query({
       query: ({ id }: any) => ({
-        url: `/users/${id}`,
+        url: `/${id}`,
         method: 'GET',
       }),
       providesTags: ['USERS'],
@@ -31,7 +31,7 @@ export const userListApi = baseAPI.injectEndpoints({
     }),
     updateUsersAccount: builder.mutation({
       query: ({ id, body }: any) => ({
-        url: `/users/${id}`,
+        url: `/${id}`,
         method: 'PUT',
         body: body,
       }),
@@ -39,7 +39,7 @@ export const userListApi = baseAPI.injectEndpoints({
     }),
     deleteUsers: builder.mutation({
       query: ({ id }: any) => ({
-        url: `/users/${id}`,
+        url: `/${id}`,
         method: 'GET',
       }),
       invalidatesTags: ['USERS'],

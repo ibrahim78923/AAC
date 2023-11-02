@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
+import { AIR_SALES } from '@/routesConstants/paths';
 
 const useListView = () => {
   const router = useRouter();
@@ -17,7 +18,7 @@ const useListView = () => {
 
   const handleIsViewPage = () => {
     handleClose;
-    router.push('/air-sales/invoices/view-invoices');
+    router.push(AIR_SALES?.SALES_VIEW_INVOICES);
   };
 
   const handleDeleteModal = () => {

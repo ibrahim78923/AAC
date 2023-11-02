@@ -17,6 +17,7 @@ import TanstackTable from '@/components/Tabel/TanstackTable';
 import { invoicesTableColumns, invoicesTableData } from '../Invoices.data';
 import useListView from './useListView';
 import { AlertModals } from '@/components/AlertModals';
+import { AIR_SALES } from '@/routesConstants/paths';
 
 const ListView = () => {
   const navigate = useRouter();
@@ -39,7 +40,7 @@ const ListView = () => {
           variant="contained"
           sx={{ display: 'flex', gap: '10px', fontWeight: '500' }}
           startIcon={<PlusSharedIcon />}
-          onClick={() => navigate.push('/air-sales/invoices/create-invoices')}
+          onClick={() => navigate.push(AIR_SALES?.SALES_CREATE_INVOICES)}
         >
           Create Invoice
         </Button>
