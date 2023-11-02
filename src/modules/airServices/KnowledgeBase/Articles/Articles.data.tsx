@@ -132,14 +132,28 @@ export const articlesTabs = [
   'payments',
 ];
 
-export const actionBtnData = [
+export const actionBtnData = (
+  setOpenDeleteModal: any,
+  setMoveFolderModal: any,
+) => [
   {
     title: 'Edit',
+    handleClick: (close: any) => {
+      close();
+    },
   },
   {
     title: 'Delete',
+    handleClick: (close: any) => {
+      setOpenDeleteModal(true);
+      close();
+    },
   },
   {
     title: 'Move Folder',
+    handleClick: (close: any) => {
+      setMoveFolderModal(true);
+      close();
+    },
   },
 ];

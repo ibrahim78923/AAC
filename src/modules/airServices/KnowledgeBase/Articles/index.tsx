@@ -10,6 +10,8 @@ import { useArticles } from './useArticles';
 import { styles } from './Articles.style';
 import Search from '@/components/Search';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
+import { AlertModals } from '@/components/AlertModals';
+import { MoveFolderModal } from './MoveFolderModal';
 
 export const Articles = () => {
   const {
@@ -17,6 +19,11 @@ export const Articles = () => {
     selectedArticlesTab,
     handleSelectedArticlesTab,
     selectedArticlesData,
+    openDeleteModal,
+    setOpenDeleteModal,
+    handleDeleteSubmit,
+    moveFolderModal,
+    setMoveFolderModal,
   } = useArticles();
 
   const { tabWrapper, selectedTabColor } = styles();
@@ -51,10 +58,13 @@ export const Articles = () => {
             alignItems={'flex-end'}
             justifyContent={'space-between'}
           >
-            <Search />
+            <Search placeholder="Search Here" />
             <SingleDropdownButton
-              disabled={!!!selectedArticlesData.length}
-              dropdownOptions={actionBtnData}
+              disabled={!!!selectedArticlesData?.length}
+              dropdownOptions={actionBtnData(
+                setOpenDeleteModal,
+                setMoveFolderModal,
+              )}
             />
           </Grid>
           <br />
@@ -66,6 +76,17 @@ export const Articles = () => {
           />
         </Grid>
       </Grid>
+      <AlertModals
+        type="delete"
+        message="Do you want to delete?"
+        open={openDeleteModal}
+        handleClose={() => setOpenDeleteModal(false)}
+        handleSubmitBtn={handleDeleteSubmit}
+      />
+      <MoveFolderModal
+        moveFolderModal={moveFolderModal}
+        setMoveFolderModal={setMoveFolderModal}
+      />
     </>
   );
 };
