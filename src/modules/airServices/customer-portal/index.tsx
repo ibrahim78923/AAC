@@ -25,16 +25,16 @@ const CustomerPortal = () => {
       />
       <br />
       <Grid container rowSpacing={1.6} columnSpacing={2.4}>
-        <Grid item xs={12} lg={7}>
+        <Grid item xs={12} lg={6.5}>
           <PopularArticles articles={articlesData} />
         </Grid>
-        <Grid item xs={12} lg={5}>
+        <Grid item xs={12} lg={5.5}>
           <PendingApprovals pendingApprovalData={pendingApprovalData} />
         </Grid>
-        <Grid item xs={12} lg={7}>
+        <Grid item xs={12} lg={6.5}>
           <RecentTickets recentTicketsData={recentTicketsData} />
         </Grid>
-        <Grid item xs={12} lg={5}>
+        <Grid item xs={12} lg={5.5}>
           <Announcements announcementsData={announcementsData} />
         </Grid>
       </Grid>

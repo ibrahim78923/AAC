@@ -22,5 +22,6 @@ export const styles = {
     borderRadius: 216,
     backgroundColor: 'grey.400',
     cursor: 'pointer',
+    fontSize: '0.875rem',
   },
 };
