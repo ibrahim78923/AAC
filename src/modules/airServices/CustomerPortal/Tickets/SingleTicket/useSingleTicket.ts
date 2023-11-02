@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 
 export const useSingleTicket = () => {
   const [status, setStatus] = useState(false);
+  const [openPopup, setOpenPopup] = useState(false);
 
   useEffect(() => {
     status &&
@@ -15,5 +16,7 @@ export const useSingleTicket = () => {
   return {
     status,
     setStatus,
+    openPopup,
+    setOpenPopup,
   };
 };

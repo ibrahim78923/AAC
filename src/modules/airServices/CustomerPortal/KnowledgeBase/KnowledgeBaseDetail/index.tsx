@@ -15,12 +15,30 @@ export const KnowledgeBaseDetail = () => {
         <Typography variant="h6">Expense Reimbursement Policy</Typography>
       </Box>
       <Box mt={3}>
-        <Typography variant="h3">{knowledgeBaseDetailData.heading}</Typography>
+        <Typography variant="h3">{knowledgeBaseDetailData?.heading}</Typography>
         <Typography variant="body2" mt={1}>
-          {knowledgeBaseDetailData.description}
+          {knowledgeBaseDetailData?.description}
         </Typography>
         <Typography variant="h4" mt={1}>
-          {knowledgeBaseDetailData.subHeading}
+          {knowledgeBaseDetailData?.subHeading}
+        </Typography>
+        <Typography variant="h5" mt={1}>
+          {knowledgeBaseDetailData?.firstPoint}
+        </Typography>
+        <Typography variant="body2" mt={1}>
+          {knowledgeBaseDetailData?.firstPointDescription}
+        </Typography>
+        <Typography variant="h5" mt={1}>
+          {knowledgeBaseDetailData?.secondPoint}
+        </Typography>
+        <Typography variant="body2" mt={1}>
+          {knowledgeBaseDetailData?.secondPointDescription}
+        </Typography>
+        <Typography variant="h5" mt={1}>
+          {knowledgeBaseDetailData?.thirdPoint}
+        </Typography>
+        <Typography variant="body2" mt={1}>
+          {knowledgeBaseDetailData?.thirdPointDescription}
         </Typography>
       </Box>
     </>

@@ -4,12 +4,19 @@ import { v4 as uuidv4 } from 'uuid';
 export const SingleTicketDetail = ({ singleTicketDetailData, status }: any) => {
   const theme = useTheme();
   return (
-    <Box display={'flex'}>
-      <Box width={'70%'} height={'20rem'} overflow={'scroll'}>
-        <Typography variant="h4">{singleTicketDetailData.heading}</Typography>
+    <Box
+      display={'flex'}
+      flexDirection={{ xs: 'column', sm: 'row', lg: 'row' }}
+    >
+      <Box
+        width={{ xs: '100%', sm: '70%', lg: '70%' }}
+        height={'20rem'}
+        overflow={'scroll'}
+      >
+        <Typography variant="h4">{singleTicketDetailData?.heading}</Typography>
         <Box display={'flex'} alignItems={'center'} mt={1}>
           <Typography variant="body3">
-            Created on {singleTicketDetailData.createdOn} -
+            Created on {singleTicketDetailData?.createdOn} -
           </Typography>
           <Typography variant="body3" color="primary">
             Via Portal
@@ -18,7 +25,7 @@ export const SingleTicketDetail = ({ singleTicketDetailData, status }: any) => {
         <Typography variant="body2" mt={1}>
           Description:
           <br />
-          {singleTicketDetailData.description}
+          {singleTicketDetailData?.description}
         </Typography>
         <Typography variant="body2" mt={1}>
           Features :
@@ -46,7 +53,7 @@ export const SingleTicketDetail = ({ singleTicketDetailData, status }: any) => {
         gap={1}
         display={'flex'}
         flexDirection={'column'}
-        width={'30%'}
+        width={{ xs: '100%', sm: '30%', lg: '30%' }}
         padding={2}
       >
         <Typography variant="h4">AGENT WORKING ON</Typography>
@@ -54,7 +61,7 @@ export const SingleTicketDetail = ({ singleTicketDetailData, status }: any) => {
           No Agent
         </Typography>
 
-        <Typography variant="h4" mt={3}>
+        <Typography variant="h4" mt={2}>
           Status
         </Typography>
         <Typography

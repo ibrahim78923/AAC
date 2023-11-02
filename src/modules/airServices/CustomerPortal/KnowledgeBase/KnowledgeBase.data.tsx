@@ -57,32 +57,28 @@ export const knowledgeBaseDetailData = {
   prevails. But amid the rubble lie opportunities to make money for those 
   who know how to use the right tools. Here are some ways to profit in bear markets`,
   subHeading: 'Ways to Profit in Bear Markets',
-  features: [
-    { feature: 'Touch Type Tool' },
-    { feature: 'Images in brushes' },
-    { feature: 'Font search' },
-    { feature: 'Multiple-file place' },
-    { feature: 'CSS extraction' },
-    { feature: 'Sync Colors' },
-    { feature: 'File Packaging' },
-    {
-      feature:
-        'Platform :Windows 8, Windows 7, Mac OS X 10.7 Lion, Mac OS X 10.6 Snow Leopard',
-    },
-  ],
-  windows: [
-    { window: 'Pentium 4 or AMD Athlon 64 processor (2GHz or faster)' },
-    { window: 'Microsoft Windows 7 with Service Pack 1 or Windows 8' },
-    {
-      window:
-        '1GB of RAM (3GB recommended) for 32 bit; 2GB of RAM (8GB recommended) for 64 bit',
-    },
-    { window: '2GB of available hard-disk space for installation' },
-  ],
-  macOS: [
-    { mac: 'Multicore Intel processor with 64-bit support' },
-    { mac: 'Mac OS X v10.6.8, v10.7, or v10.8' },
-    { mac: '2GB of RAM (8GB recommended)' },
-    { mac: '2GB of available hard-disk space for installation' },
-  ],
+  firstPoint: '1. Short Positions ',
+  firstPointDescription: `Taking a short position, also called short selling, 
+  occurs when you borrow shares and sell them in anticipation the stock will 
+  fall in the future. If it works as planned and the share price drops, you 
+  buy those shares at the lower price to cover the short position and make a 
+  profit on the difference. For example, if you short ABC stock at $35 per 
+  share and the stock falls to $20, you can buy the shares back at $20 to 
+  close out the short position. Your overall profit, therefore, 
+  would be $15 per share.`,
+  secondPoint: '2. Put Options ',
+  secondPointDescription: `A put option is the right to sell a stock at a 
+  particular strike price until a certain date in the future, called the 
+  expiration date. The money you pay for the option is called a premium. 
+  A put option increases in value as the underlying stock falls. If the stock 
+  moves below the put's strike price, you can either exercise the right to 
+  sell the stock at the higher strike price or sell the put option for a profit.`,
+  thirdPoint: '3. Short ETFs ',
+  thirdPointDescription: `A short exchange-traded fund (ETF), also called an inverse 
+  ETF, produces returns that are the inverse of a particular index. For example, 
+  an ETF that performs inversely to the Nasdaq-100 will drop about 25% if that index 
+  rises by 25%. But if the index falls 25%, the ETF will rise proportionally. 
+  This inverse relationship makes short/inverse ETFs appropriate for 
+  investors who want to profit from a downturn in the markets, or who 
+  wish to hedge long positions against such a downturn.`,
 };
