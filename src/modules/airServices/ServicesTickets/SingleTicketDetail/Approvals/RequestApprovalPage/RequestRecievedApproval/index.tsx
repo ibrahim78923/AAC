@@ -9,7 +9,7 @@ import ConversationModel from '@/components/Model/CoversationModel';
 import { FormProvider, RHFTextField } from '@/components/ReactHookForm';
 import { useForm } from 'react-hook-form';
 
-const RequestRecievedApproval = () => {
+const RequestReceivedApproval = () => {
   const {
     theme,
     styles,
@@ -33,12 +33,12 @@ const RequestRecievedApproval = () => {
   };
   return (
     <>
-      <Box sx={styles.approvalsContainerBox}>
+      <Box sx={styles?.approvalsContainerBox}>
         {approvalData
           ?.filter((item) => item?.status === 'Request')
           ?.map((filteredItem) => {
             return (
-              <div key={filteredItem?.id} style={styles.approvalsContainer}>
+              <div key={filteredItem?.id} style={styles?.approvalsContainer}>
                 <Grid
                   container
                   justifyContent={'space-between'}
@@ -179,4 +179,4 @@ const RequestRecievedApproval = () => {
   );
 };
 
-export default RequestRecievedApproval;
+export default RequestReceivedApproval;

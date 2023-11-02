@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { singleItem } from './ItemsDetails.data';
+import { singleItem } from './idfsdfsdtemsDetails.data';
 
 const useItemsDetails = () => {
   const [itemsList, setItemsList] = useState([singleItem]);
@@ -17,7 +17,7 @@ const useItemsDetails = () => {
   };
 
   const handleSelectItem = (v: any, data: any, index: number) => {
-    const item = data?.find((option: any) => option.itemName === v);
+    const item = data?.find((option: any) => option?.itemName === v);
     setDetailItem(item);
     setItemsList((prev: any) => {
       const data = prev;

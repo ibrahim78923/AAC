@@ -12,14 +12,6 @@ function CreateTicket(props: any) {
   return (
     <CommonDrawer
       isDrawerOpen={isDrawerOpen}
-      // onClose={
-      //   drawerComponent?.[router?.query?.tableAction as string]
-      //     ?.resetHandler ||
-      //   (() => {
-      //     router?.push({ pathname: router?.pathname });
-      //     setIsDrawerOpen?.(false);
-      //   })
-      // }
       onClose={() => onClose?.()}
       okText={'Submit'}
       title={'Create New Ticket'}

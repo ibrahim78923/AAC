@@ -28,7 +28,7 @@ const ConversationModelSub = ({
               xs={12}
               md={item?.md}
               key={uuidv4()}
-              mb={item.mb ? item.mb : ''}
+              mb={item?.mb ? item?.mb : ''}
             >
               <item.component {...item.componentProps} />
             </Grid>
