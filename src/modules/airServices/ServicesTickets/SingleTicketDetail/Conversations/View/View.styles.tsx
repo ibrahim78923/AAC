@@ -21,7 +21,7 @@ export const styles = {
   },
   imageHeading(styles: any) {
     return {
-      color: styles.palette.blue.dull_blue,
+      color: styles?.palette?.blue?.dull_blue,
       fontSize: '14px',
       fontStyle: 'normal',
       fontWeight: '500',
@@ -37,7 +37,7 @@ export const styles = {
   },
   message(styles: any) {
     return {
-      color: styles.palette.blue.dull_blue,
+      color: styles?.palette?.blue?.dull_blue,
       fontSize: '14px',
       fontStyle: 'normal',
       fontWeight: '400',

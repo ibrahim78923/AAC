@@ -1,5 +1,4 @@
 import { AIR_SERVICES } from '@/constants';
-import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
 import { enqueueSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
@@ -10,7 +9,6 @@ export function useContracts() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [openModel, setOpenModel] = useState<boolean>(false);
   const [actionPop, setActionPop] = useState<HTMLButtonElement | null>(null);
-  const theme: any = useTheme();
   const router = useRouter();
   const handleAddNewContractClick = () => {
     router.push({
@@ -47,7 +45,6 @@ export function useContracts() {
     setOpenModel,
     actionPop,
     setActionPop,
-    theme,
     handleAddNewContractClick,
     handleActionClick,
     handleActionClose,

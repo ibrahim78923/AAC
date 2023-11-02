@@ -13,13 +13,13 @@ export const meetingsTableColumns = (
         icon={<CheckboxIcon />}
         checkedIcon={<CheckboxCheckedIcon />}
         checked={
-          !!meetingsData.find((item: any) => item.id === info?.getValue())
+          !!meetingsData?.find((item: any) => item?.id === info?.getValue())
         }
         onChange={(e: any) => {
           e.target.checked
             ? setMeetingsData([
                 ...meetingsData,
-                meetingsMainData.find(
+                meetingsMainData?.find(
                   (item: any) => item?.id === info?.getValue(),
                 ),
               ])
@@ -37,9 +37,9 @@ export const meetingsTableColumns = (
       <Checkbox
         icon={<CheckboxIcon />}
         checkedIcon={<CheckboxCheckedIcon />}
-        checked={meetingsData.length === meetingsMainData.length}
+        checked={meetingsData?.length === meetingsMainData?.length}
         onChange={(e: any) => {
-          e.target.checked
+          e?.target?.checked
             ? setMeetingsData([...meetingsMainData])
             : setMeetingsData([]);
         }}

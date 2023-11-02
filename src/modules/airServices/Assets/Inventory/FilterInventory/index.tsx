@@ -2,7 +2,6 @@ import { Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useFilterInventory } from './useFilterInventory';
 import CommonDrawer from '@/components/CommonDrawer';
-// import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 
 export const FilterInventory = (props: any) => {
   const { isDrawerOpen, setIsDrawerOpen } = props;
@@ -14,8 +13,6 @@ export const FilterInventory = (props: any) => {
     submitInventoryFilterForm,
     handleSubmit,
   } = useFilterInventory();
-
-  // if ('isLoading') return <SkeletonForm />;
 
   return (
     <>
@@ -30,6 +27,8 @@ export const FilterInventory = (props: any) => {
         footer
         okText="Submit"
         onClose={() => {
+          //TODO: destructing as i do not need that in rest queries.
+          /* eslint-disable @typescript-eslint/no-unused-vars */
           const { tableAction, ...restQueries } = router?.query;
           router?.push({
             pathname: router?.pathname,
@@ -39,7 +38,6 @@ export const FilterInventory = (props: any) => {
           });
           setIsDrawerOpen?.(false);
         }}
-        // onClose={() => setIsDrawerOpen?.(false)}
       >
         <br />
         <FormProvider
