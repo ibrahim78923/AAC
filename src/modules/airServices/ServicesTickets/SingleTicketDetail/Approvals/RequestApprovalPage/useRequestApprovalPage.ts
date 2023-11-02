@@ -1,11 +1,11 @@
-import { useTheme } from '@mui/material';
 import { useState } from 'react';
-import RequestApprovalPageStyles from './RequestApprovalPage.style';
+import { useTheme } from '@mui/material';
+import { useForm } from 'react-hook-form';
 
 export function useRequestApprovalPage() {
   const [anchorEl, setAnchorEl] = useState<any>(null);
   const [openApprovalModal, setOpenApprovalModel] = useState<boolean>(false);
-  const [openRejectModal, setOpenRecjectModel] = useState<boolean>(false);
+  const [openRejectModal, setOpenRejectModel] = useState<boolean>(false);
   const open = Boolean(anchorEl);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -22,42 +22,47 @@ export function useRequestApprovalPage() {
   const handleApprovalModelClose = () => {
     setOpenApprovalModel(false);
   };
-  const handleRecjectModelOpen = () => {
-    setOpenRecjectModel(true);
+  const handleRejectModelOpen = () => {
+    setOpenRejectModel(true);
   };
-  const handleRecjectModelClose = () => {
-    setOpenRecjectModel(false);
+  const handleRejectModelClose = () => {
+    setOpenRejectModel(false);
   };
 
   const theme = useTheme();
-  const styles = RequestApprovalPageStyles();
-  const RECIEVED_CONDITION = 'Recieved';
+  const RECEIVED_CONDITION = 'Received';
   const REQUESTED_CONDITION = 'Requested';
 
   const textColor: any = {
     Request: '#0AADC7',
-    Recieve: theme?.palette?.primary?.main,
+    Receive: theme?.palette?.primary?.main,
     Approve: theme?.palette?.success?.main,
     Reject: theme?.palette?.error?.main,
     Cancel: theme?.palette?.grey?.[900],
   };
+
+  const methods: any = useForm({
+    defaultValues: {
+      description: '',
+    },
+  });
 
   return {
     theme,
     open,
     handleClick,
     handleClose,
-    styles,
     textColor,
     anchorEl,
     setAnchorEl,
     openApprovalModal,
     handleApprovalModelClose,
     handleApprovalModelOpen,
-    handleRecjectModelClose,
-    handleRecjectModelOpen,
+    handleRejectModelClose,
+    handleRejectModelOpen,
     openRejectModal,
     REQUESTED_CONDITION,
-    RECIEVED_CONDITION,
+    RECEIVED_CONDITION: RECEIVED_CONDITION,
+    methods,
   };
 }
