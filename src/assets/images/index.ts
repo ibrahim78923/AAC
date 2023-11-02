@@ -99,6 +99,7 @@ export { default as ItemStatusImage } from './modules/purchaseOrder/receipt-sear
 export { default as TotalItemImage } from './modules/purchaseOrder/money-tick.png';
 export { default as ItemToInventoryImage } from './modules/purchaseOrder/info-circle.png';
 export { default as NoAssociationFound } from '@/assets/images/modules/LogitechMouse/association.png';
+export { default as SmsImage } from '@/assets/images/modules/airServices/Tickets/sms-image.png';
 export { default as UsersAvatarRoundedImage } from './modules/socialComponents/calling/user-avatar-rounded.png';
 export { default as DealReportImage } from './modules/airSales/Reports/reports.png';
 export { default as ServiceFeaturedImage } from './modules/catalog/services-featured.png';
@@ -106,3 +107,4 @@ export { default as SoftwareFeaturedImage } from './modules/catalog/software-fea
 export { default as PmFeaturedImage } from './modules/catalog/pm-featured.png';
 export { default as HardwareFeaturedImage } from './modules/catalog/Hardware-featured.png';
 export { default as CatalogLogosAdobePhotoshop } from './modules/catalog/catalog-logos-adobe-photoshop.png';
+export { default as NoSearchResultFoundImage } from './shared/no-search-result.png';

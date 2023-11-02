@@ -1,5 +1,5 @@
 import { useTheme } from '@mui/material';
-const requestApprovalPageStyles: any = () => {
+const RequestApprovalPageStyles: any = () => {
   const theme = useTheme();
   const parentStyles = {
     approvalsContainerBox: {
@@ -48,4 +48,4 @@ const requestApprovalPageStyles: any = () => {
   return parentStyles;
 };
 
-export default requestApprovalPageStyles;
+export default RequestApprovalPageStyles;

@@ -110,13 +110,13 @@ export default function UsersSearchableSelect({
                       sx={{ height: '44px', mb: '40px' }}
                     />
                   )}
-                  {filteredOptions.map((option, index) => (
+                  {filteredOptions?.map((option, index) => (
                     <Box
                       key={uuidv4()}
                       onClick={() => {
                         handleClose();
-                        field.onChange(option.value);
-                        setSelectedValue(option.title);
+                        field?.onChange(option?.value);
+                        setSelectedValue(option?.title);
                       }}
                       sx={{
                         width: '100%',
@@ -145,7 +145,7 @@ export default function UsersSearchableSelect({
                             fontWeight: 500,
                           }}
                         >
-                          {option.des}
+                          {option?.des}
                         </Typography>
                       )}
                     </Box>

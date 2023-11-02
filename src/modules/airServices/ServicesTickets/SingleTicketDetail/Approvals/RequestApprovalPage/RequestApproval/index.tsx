@@ -7,7 +7,7 @@ import {
   Typography,
 } from '@mui/material';
 import Image from 'next/image';
-import { ApprovalData } from '../AllApprovals.mock';
+import { approvalData } from '../AllApprovals.data';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import SharedIcon from '@/assets/icons/shared/shared-icon';
 import { useRequestApprovalPage } from '../useRequestApprovalPage';
@@ -21,8 +21,9 @@ const RequestApproval = () => {
   return (
     <>
       <Box sx={styles.approvalsContainerBox}>
-        {ApprovalData?.filter((item) => item.status === 'Request').map(
-          (filteredItem) => {
+        {approvalData
+          ?.filter((item) => item?.status === 'Request')
+          ?.map((filteredItem) => {
             return (
               <div key={filteredItem?.id} style={styles.approvalsContainer}>
                 <Grid
@@ -31,7 +32,7 @@ const RequestApproval = () => {
                   alignItems={'center'}
                 >
                   <Grid item>
-                    <Box sx={styles.requestApprovalBoxFirst}>
+                    <Box sx={styles?.requestApprovalBoxFirst}>
                       <Box>
                         <Image src={filteredItem?.img} alt="Avatar" />
                       </Box>
@@ -44,7 +45,7 @@ const RequestApproval = () => {
                         >
                           {filteredItem?.mainText}
                         </Typography>
-                        <Box sx={styles.requestApprovalBoxSecond}>
+                        <Box sx={styles?.requestApprovalBoxSecond}>
                           {Icons[filteredItem?.status]}
                           <span>
                             <Typography
@@ -96,8 +97,7 @@ const RequestApproval = () => {
                 </Grid>
               </div>
             );
-          },
-        )}
+          })}
       </Box>
     </>
   );

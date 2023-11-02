@@ -1,3 +1,5 @@
+import { AIR_SERVICES } from '@/constants';
+
 export const singlePurchaseDetailActionDropdownFunction = (
   setDeleteModalOpen: any,
   router: any,
@@ -6,7 +8,7 @@ export const singlePurchaseDetailActionDropdownFunction = (
     title: 'Edit',
     handleClick: (x: any) => {
       router.push({
-        pathname: `/air-services/assets/purchase-orders/new-purchase`,
+        pathname: AIR_SERVICES?.NEW_PURCHASE_ORDER,
         query: {
           ...router.query,
         },
