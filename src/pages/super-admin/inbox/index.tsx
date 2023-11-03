@@ -1,7 +1,7 @@
 import Layout from '@/layout';
-import Email from '@/modules/Email';
+import EmailChat from '@/modules/Email/Chat';
 function EmailPage() {
-  return <Email />;
+  return <EmailChat />;
 }
 export default EmailPage;
 EmailPage.getLayout = function getLayout(page: any) {

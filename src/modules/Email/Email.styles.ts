@@ -40,5 +40,16 @@ export const styles = {
     borderRadius: '8px',
     px: '18px',
     py: '12px',
+    cursor: 'pointer',
+  },
+  emailArray: {
+    flexBasis: '256px',
+    borderRadius: '8px',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '24px',
+    mb: '24px',
+    border: '1px solid #E5E7EB',
+    p: '16px',
   },
 };

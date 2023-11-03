@@ -38,3 +38,6 @@ export const PATH_DASHBOARD = {
     account: path(DASHBOARD_ROOT_PAGE, '/user/account'),
   },
 };
+
+// ======================================================================
+export const AIR_SALES = {};
