@@ -9,15 +9,15 @@ import {
 
 import * as Yup from 'yup';
 
-export const salesProductvalidationSchema = Yup.object().shape({
-  productName: Yup.string().required('Field is Required'),
-  SKU: Yup.string(),
-  purchasePrice: Yup.string().required('Field is Required'),
-  category: Yup.string(),
-  description: Yup.string(),
-  activeProduct: Yup.string(),
-  unitPrice: Yup.string().required('Field is Required'),
-  upload: Yup.string(),
+export const salesProductvalidationSchema = Yup?.object()?.shape({
+  productName: Yup?.string()?.required('Field is Required'),
+  SKU: Yup?.string(),
+  purchasePrice: Yup?.string()?.required('Field is Required'),
+  category: Yup?.string(),
+  description: Yup?.string(),
+  activeProduct: Yup?.string(),
+  unitPrice: Yup?.string()?.required('Field is Required'),
+  upload: Yup?.string(),
 });
 
 export const salesProductDefaultValues = {
@@ -172,10 +172,10 @@ export const columns = (
         <Checkbox
           color="primary"
           checked={
-            info.cell.row.original.Id ===
+            info?.cell?.row?.original?.Id ===
               isGetRowValues?.cell?.row?.original?.Id && ischecked
           }
-          name={info.getValue()}
+          name={info?.getValue()}
           onClick={() => {
             setIsGetRowValues(info), setIschecked(!ischecked);
           }}
@@ -185,53 +185,53 @@ export const columns = (
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row.name,
+      accessorFn: (row: any) => row?.name,
       id: 'name',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
       header: 'Name',
       isSortable: true,
     },
     {
-      accessorFn: (row: any) => row.sku,
+      accessorFn: (row: any) => row?.sku,
       id: 'sku',
       isSortable: true,
       header: 'SKU',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row.unitPrice,
+      accessorFn: (row: any) => row?.unitPrice,
       id: 'unitPrice',
       isSortable: true,
       header: 'Unit Price',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row.purchasePrice,
+      accessorFn: (row: any) => row?.purchasePrice,
       id: 'purchasePrice',
       isSortable: true,
       header: 'Purchase Price',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
     {
       accessorFn: (row: any) => row.createdBy,
       id: 'createdBy',
       isSortable: true,
       header: 'Created By',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row.createdDate,
+      accessorFn: (row: any) => row?.createdDate,
       id: 'createdDate',
       isSortable: true,
       header: 'Created Date',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row.action,
+      accessorFn: (row: any) => row?.action,
       id: 'action',
       isSortable: true,
       header: 'Action',
-      cell: (info: any) => <Switch defaultChecked name={info.getValue()} />,
+      cell: (info: any) => <Switch defaultChecked name={info?.getValue()} />,
     },
   ];
 };
