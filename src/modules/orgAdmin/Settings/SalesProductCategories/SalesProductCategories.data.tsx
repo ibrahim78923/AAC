@@ -73,13 +73,13 @@ export const columns = (
 ) => {
   return [
     {
-      accessorFn: (row: any) => row.Id,
+      accessorFn: (row: any) => row?.Id,
       id: 'Id',
       cell: (info: any) => (
         <Checkbox
           color="primary"
           checked={
-            info.cell.row.original.Id ===
+            info?.cell?.row?.original?.Id ===
               isGetRowValues?.cell?.row?.original?.Id && ischecked
           }
           name={info.getValue()}
@@ -92,28 +92,28 @@ export const columns = (
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row.name,
+      accessorFn: (row: any) => row?.name,
       id: 'name',
       cell: (info: any) => info.getValue(),
       header: 'Name',
       isSortable: true,
     },
     {
-      accessorFn: (row: any) => row.Description,
+      accessorFn: (row: any) => row?.Description,
       id: 'Description',
       isSortable: true,
       header: 'Created By',
       cell: (info: any) => info.getValue(),
     },
     {
-      accessorFn: (row: any) => row.createdDate,
+      accessorFn: (row: any) => row?.createdDate,
       id: 'createdDate',
       isSortable: true,
       header: 'Created Date',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row.action,
+      accessorFn: (row: any) => row?.action,
       id: 'action',
       isSortable: true,
       header: 'Action',
