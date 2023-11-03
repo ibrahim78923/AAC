@@ -72,7 +72,7 @@ const DialingPad = () => {
               {dailPadKeys.map((key: any) => (
                 <Grid
                   item
-                  xs={8}
+                  xs={4}
                   lg={4}
                   key={uuidv4()}
                   onClick={() => handelInputButtons(key.value)}

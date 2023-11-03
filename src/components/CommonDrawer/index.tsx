@@ -22,11 +22,21 @@ const CommonDrawer = ({
   isOk,
   cancelText,
   footer,
+
   footerActionText,
   footerActionTextIcon,
   onFooterActionSubmit,
+
+  isCancel,
+
+  isFooterFeature,
+  isFooterFeatureText,
+  isFooterFeatureHandler,
 }: CommonDrawerPropsI) => {
   const theme = useTheme();
+
+  const cancelHandler = isCancel === false ? false : true;
+  const handlerIsFooterFeature = isFooterFeature === true ? true : false;
 
   return (
     <Drawer open={isDrawerOpen} onClose={onClose} anchor="right">
@@ -102,19 +112,26 @@ const CommonDrawer = ({
                   </Box>
                 )}
                 <Box sx={{ display: 'flex', gap: '10px' }}>
-                  <Button
-                    sx={{
-                      color: theme.palette?.grey[500],
-                      border: '1px solid #E5E7EB',
-                      padding: '0px 22px',
-                      height: '44px',
-                      fontWeight: '500',
-                      '&:hover': { bgcolor: theme.palette.grey[400] },
-                    }}
-                    onClick={onClose}
-                  >
-                    {cancelText ? cancelText : 'Cancel'}
-                  </Button>
+                  {cancelHandler && (
+                    <Button
+                      sx={{
+                        color: theme.palette?.grey[500],
+                        border: '1px solid #E5E7EB',
+                        padding: '0px 22px',
+                        height: '44px',
+                        fontWeight: '500',
+                        '&:hover': { bgcolor: theme.palette.grey[400] },
+                      }}
+                      onClick={onClose}
+                    >
+                      {cancelText ? cancelText : 'Cancel'}
+                    </Button>
+                  )}
+                  {handlerIsFooterFeature && (
+                    <Button onClick={isFooterFeatureHandler}>
+                      {isFooterFeatureText}
+                    </Button>
+                  )}
                   {isOk && (
                     <Button
                       variant="contained"
