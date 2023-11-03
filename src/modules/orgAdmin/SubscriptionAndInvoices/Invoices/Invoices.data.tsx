@@ -20,7 +20,7 @@ export const columns = (
             info?.cell?.row?.original?.id ===
               isGetRowValues?.cell?.row?.original?.id && ischecked
           }
-          name={info.getValue()}
+          name={info?.getValue()}
           onClick={() => {
             setIsGetRowValues(info), setIschecked(!ischecked);
           }}
@@ -35,7 +35,7 @@ export const columns = (
       cell: (info: any) => (
         <>
           <Box sx={{ fontWeight: '500', color: 'blue.dull_blue' }}>
-            {info.getValue()}
+            {info?.getValue()}
           </Box>
           <Box>{info?.row?.original?.plan}</Box>
         </>
@@ -48,7 +48,7 @@ export const columns = (
       id: 'dateIssued',
       isSortable: true,
       header: 'Date Issued',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
     {
       accessorFn: (row: any) => row?.invoiceNumber,
@@ -57,7 +57,7 @@ export const columns = (
       header: 'Details',
       cell: (info: any) => (
         <>
-          <Box>Invoice # {info.getValue()}</Box>
+          <Box>Invoice # {info?.getValue()}</Box>
           <Box>Due date: {info?.row?.original?.dueDate}</Box>
         </>
       ),
@@ -67,31 +67,31 @@ export const columns = (
       id: 'invoiceAmount',
       isSortable: true,
       header: 'Invoice amount',
-      cell: (info: any) => <>£ {info.getValue()}</>,
+      cell: (info: any) => <>£ {info?.getValue()}</>,
     },
     {
       accessorFn: (row: any) => row?.invoiceBalance,
       id: 'invoiceBalance',
       isSortable: true,
       header: 'Invoice balance',
-      cell: (info: any) => <>£ {info.getValue()}</>,
+      cell: (info: any) => <>£ {info?.getValue()}</>,
     },
     {
       accessorFn: (row: any) => row?.status,
       id: 'status',
       isSortable: true,
       header: 'Status',
-      cell: (info: any) => <Box sx={styles?.chip}>{info.getValue()}</Box>,
+      cell: (info: any) => <Box sx={styles?.chip}>{info?.getValue()}</Box>,
     },
   ];
 };
 
-export const FilterInvoiceValidationSchema = Yup.object().shape({
-  products: Yup.string().trim().required('Field is Required'),
-  plan: Yup.string().trim().required('Field is Required'),
-  status: Yup.string().trim().required('Field is Required'),
-  InvoiceDate: Yup.string().trim().required('Field is Required'),
-  PaymentDate: Yup.string().trim().required('Field is Required'),
+export const FilterInvoiceValidationSchema = Yup?.object()?.shape({
+  products: Yup?.string()?.trim()?.required('Field is Required'),
+  plan: Yup?.string()?.trim()?.required('Field is Required'),
+  status: Yup?.string()?.trim()?.required('Field is Required'),
+  InvoiceDate: Yup?.string()?.trim()?.required('Field is Required'),
+  PaymentDate: Yup?.string()?.trim()?.required('Field is Required'),
 });
 
 export const FilterInvoiceDefaultValues = {

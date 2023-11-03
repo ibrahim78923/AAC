@@ -97,7 +97,7 @@ const PaymentMethods = () => {
         <CustomPagination
           count={3}
           rowsPerPageOptions={[6, 10, 25, 50, 100]}
-          entriePages={paymentData.length}
+          entriePages={paymentData?.length}
         />
       </Box>
 

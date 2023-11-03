@@ -21,7 +21,7 @@ export const columns = (
             info?.cell?.row?.original?.id ===
               isGetRowValues?.cell?.row?.original?.id && ischecked
           }
-          name={info.getValue()}
+          name={info?.getValue()}
           onClick={() => {
             setIsGetRowValues(info), setIschecked(!ischecked);
           }}
@@ -38,7 +38,7 @@ export const columns = (
           <Box sx={{ display: 'flex', gap: '5px' }}>
             <Avatar alt="Remy Sharp" src={AvatarImage?.src} />
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-              <Typography variant="subtitle2"> {info.getValue()}</Typography>
+              <Typography variant="subtitle2"> {info?.getValue()}</Typography>
               <Typography variant="body3">
                 {info?.row?.original?.plan}
               </Typography>
@@ -56,7 +56,7 @@ export const columns = (
       header: 'Products/Suite',
       cell: (info: any) => (
         <>
-          <Typography variant="subtitle2">{info.getValue()}</Typography>
+          <Typography variant="subtitle2">{info?.getValue()}</Typography>
           <Typography variant="body3">
             {info?.row?.original?.planType}
           </Typography>
@@ -68,7 +68,7 @@ export const columns = (
       id: 'InvoiceDate',
       isSortable: true,
       header: 'Invoice Date',
-      cell: (info: any) => <>{info.getValue()}</>,
+      cell: (info: any) => <>{info?.getValue()}</>,
     },
     {
       accessorFn: (row: any) => row?.Details,
@@ -77,7 +77,7 @@ export const columns = (
       header: 'Details',
       cell: (info: any) => (
         <>
-          <Box>Invoice # {info.getValue()}</Box>
+          <Box>Invoice # {info?.getValue()}</Box>
           <Box>Due date: {info?.row?.original?.dueDate}</Box>
         </>
       ),
@@ -87,31 +87,31 @@ export const columns = (
       id: 'InvoiceAmount',
       isSortable: true,
       header: 'Invoice amount',
-      cell: (info: any) => <>£ {info.getValue()}</>,
+      cell: (info: any) => <>£ {info?.getValue()}</>,
     },
     {
       accessorFn: (row: any) => row?.PaymentDate,
       id: 'PaymentDate',
       isSortable: true,
       header: 'Payment Date',
-      cell: (info: any) => <> {info.getValue()}</>,
+      cell: (info: any) => <> {info?.getValue()}</>,
     },
     {
       accessorFn: (row: any) => row?.status,
       id: 'status',
       isSortable: true,
       header: 'Status',
-      cell: (info: any) => <Box sx={styles?.chip}>{info.getValue()}</Box>,
+      cell: (info: any) => <Box sx={styles?.chip}>{info?.getValue()}</Box>,
     },
   ];
 };
 
-export const FilterInvoiceValidationSchema = Yup.object().shape({
-  products: Yup.string().trim().required('Field is Required'),
-  plan: Yup.string().trim().required('Field is Required'),
-  status: Yup.string().trim().required('Field is Required'),
-  InvoiceDate: Yup.string().trim().required('Field is Required'),
-  PaymentDate: Yup.string().trim().required('Field is Required'),
+export const FilterInvoiceValidationSchema = Yup?.object()?.shape({
+  products: Yup?.string()?.trim()?.required('Field is Required'),
+  plan: Yup?.string()?.trim()?.required('Field is Required'),
+  status: Yup?.string()?.trim()?.required('Field is Required'),
+  InvoiceDate: Yup?.string()?.trim()?.required('Field is Required'),
+  PaymentDate: Yup?.string()?.trim()?.required('Field is Required'),
 });
 
 export const FilterInvoiceDefaultValues = {

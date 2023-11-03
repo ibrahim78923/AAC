@@ -11,18 +11,18 @@ import {
 
 import * as Yup from 'yup';
 
-export const validationSchema = Yup.object().shape({
-  clientName: Yup.string().trim().required('Field is Required'),
-  product: Yup.string().trim().required('Field is Required'),
-  planType: Yup.string().trim().required('Field is Required'),
-  additionalUser: Yup.string().trim().required('Field is Required'),
-  planPrice: Yup.string().trim().required('Field is Required'),
-  defaultUser: Yup.string().trim().required('Field is Required'),
-  defaultUserTwo: Yup.string().trim().required('Field is Required'),
-  additionalStorage: Yup.string().trim().required('Field is Required'),
-  discount: Yup.string().trim().required('Field is Required'),
-  billingCycle: Yup.string().trim().required('Field is Required'),
-  date: Yup.date(),
+export const validationSchema = Yup?.object()?.shape({
+  clientName: Yup?.string()?.trim()?.required('Field is Required'),
+  product: Yup?.string()?.trim()?.required('Field is Required'),
+  planType: Yup?.string()?.trim()?.required('Field is Required'),
+  additionalUser: Yup?.string()?.trim()?.required('Field is Required'),
+  planPrice: Yup?.string()?.trim()?.required('Field is Required'),
+  defaultUser: Yup?.string()?.trim()?.required('Field is Required'),
+  defaultUserTwo: Yup?.string()?.trim()?.required('Field is Required'),
+  additionalStorage: Yup?.string()?.trim()?.required('Field is Required'),
+  discount: Yup?.string()?.trim()?.required('Field is Required'),
+  billingCycle: Yup?.string()?.trim()?.required('Field is Required'),
+  date: Yup?.date(),
 });
 
 export const defaultValues = {
@@ -60,7 +60,7 @@ export const assignPlanData = (selectProductSuite: string) => {
     pagination: `page=1&limit=10`,
   });
 
-  const planType = planTypeData?.data.map((planType: any) => ({
+  const planType = planTypeData?.data?.map((planType: any) => ({
     value: planType?._id,
     label: planType?.name,
   }));
@@ -70,7 +70,7 @@ export const assignPlanData = (selectProductSuite: string) => {
     pagination: `page=1&limit=10`,
   });
 
-  const Organizations = OrganizationsData?.data.map((Organizations: any) => ({
+  const Organizations = OrganizationsData?.data?.map((Organizations: any) => ({
     value: Organizations?._id,
     label: Organizations?.name,
   }));

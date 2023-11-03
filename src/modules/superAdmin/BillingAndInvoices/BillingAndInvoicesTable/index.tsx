@@ -44,7 +44,7 @@ const BillingAndInvoicesTable = () => {
   } = useBillingAndInvoices(defaultValues);
 
   return (
-    <Grid sx={styles.invoicesTableWrapper}>
+    <Grid sx={styles?.invoicesTableWrapper}>
       <Grid sx={{ padding: '15px 15px 0 15px' }}>
         <Grid container>
           <Grid item xs={12} sm={6}>

@@ -106,7 +106,7 @@ const Invoices = () => {
         <CustomPagination
           count={3}
           rowsPerPageOptions={[6, 10, 25, 50, 100]}
-          entriePages={invoicesData.length}
+          entriePages={invoicesData?.length}
         />
       </Box>
 

@@ -11,7 +11,7 @@ const usePaymentMethods = () => {
 
   const open = Boolean(anchorEl);
   const handleActionsClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
+    setAnchorEl(event?.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);

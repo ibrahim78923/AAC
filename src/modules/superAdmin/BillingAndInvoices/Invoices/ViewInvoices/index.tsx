@@ -31,7 +31,7 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose }) => {
       cell: (info: any) => (
         <>
           <Box sx={{ fontWeight: '500', color: 'blue.dull_blue' }}>
-            {info.getValue()}
+            {info?.getValue()}
           </Box>
           <Box>{info?.row?.original?.plan}</Box>
         </>
@@ -44,7 +44,7 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose }) => {
       id: 'planPrice',
       isSortable: true,
       header: 'Plan Price',
-      cell: (info: any) => <>£ {info.getValue()}</>,
+      cell: (info: any) => <>£ {info?.getValue()}</>,
     },
     {
       accessorFn: (row: any) => row?.additionalUsers,
@@ -53,7 +53,7 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose }) => {
       header: 'Additional Users',
       cell: (info: any) => (
         <>
-          {info.getValue()} (*£15) = £{info.getValue() * 15}
+          {info?.getValue()} (*£15) = £{info?.getValue() * 15}
         </>
       ),
     },
@@ -64,7 +64,7 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose }) => {
       header: 'Additional Storage',
       cell: (info: any) => (
         <>
-          {info.getValue()} (*£15) = £{info.getValue() * 15}
+          {info?.getValue()} (*£15) = £{info.getValue() * 15}
         </>
       ),
     },
@@ -74,7 +74,7 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose }) => {
       isSortable: true,
       header: 'Discount(%)',
       cell: (info: any) => (
-        <Box sx={{ fontWeight: '800' }}>{info.getValue()} %</Box>
+        <Box sx={{ fontWeight: '800' }}>{info?.getValue()} %</Box>
       ),
     },
     {
@@ -83,7 +83,7 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose }) => {
       isSortable: true,
       header: 'Subtotal',
       cell: (info: any) => (
-        <Box sx={{ fontWeight: '800' }}>£ {info.getValue()}</Box>
+        <Box sx={{ fontWeight: '800' }}>£ {info?.getValue()}</Box>
       ),
     },
   ];
@@ -143,7 +143,7 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose }) => {
 
             <Box sx={styles?.cardRight}>
               <Box sx={styles?.userInfo}>
-                <Avatar sx={styles?.avatar} alt="" src={AvatarImage.src}>
+                <Avatar sx={styles?.avatar} alt="" src={AvatarImage?.src}>
                   R
                 </Avatar>
                 <Box>

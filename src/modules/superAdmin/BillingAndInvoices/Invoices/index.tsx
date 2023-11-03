@@ -13,6 +13,7 @@ import { styles } from './Invoices.style';
 import { FilterInvoiceFiltersDataArray } from './Invoices.data';
 import { isNullOrEmpty } from '@/utils';
 import { v4 as uuidv4 } from 'uuid';
+import { superAdminBillingInvoicesPath } from '@/routesConstants/paths';
 
 const Invoices = () => {
   const {
@@ -33,36 +34,35 @@ const Invoices = () => {
     handleSubmit,
     getRowValues,
     isChecked,
-    SUPER_ADMIN,
     router,
   } = useInvoices();
 
   return (
     <>
-      <Box sx={styles.invoicesTableWrapper}>
-        <Box sx={styles.invoicesHeader}>
+      <Box sx={styles?.invoicesTableWrapper}>
+        <Box sx={styles?.invoicesHeader}>
           <Grid container>
             <Grid item xs={3}>
-              <Box sx={styles.invoicesHeaderLabel}>Invoices Due</Box>
-              <Box sx={styles.invoicesHeaderValue}>1</Box>
+              <Box sx={styles?.invoicesHeaderLabel}>Invoices Due</Box>
+              <Box sx={styles?.invoicesHeaderValue}>1</Box>
             </Grid>
             <Grid item xs={9}>
-              <Box sx={styles.invoicesHeaderLabel}>Total Balance Due</Box>
-              <Box sx={styles.invoicesHeaderValue}>£ 1,234.11</Box>
+              <Box sx={styles?.invoicesHeaderLabel}>Total Balance Due</Box>
+              <Box sx={styles?.invoicesHeaderValue}>£ 1,234.11</Box>
             </Grid>
           </Grid>
         </Box>
 
-        <Grid sx={styles.tableToolbar}>
-          <Grid item xs={12} md={6} xl={6} sx={styles.tableSearch}>
+        <Grid sx={styles?.tableToolbar}>
+          <Grid item xs={12} md={6} xl={6} sx={styles?.tableSearch}>
             <Search size="small" label="Search Here" />
           </Grid>
-          <Grid item xs={12} md={6} xl={6} sx={styles.tableToolbarActions}>
+          <Grid item xs={12} md={6} xl={6} sx={styles?.tableToolbarActions}>
             <Box>
               <Button
                 size="small"
                 onClick={handleActionsClick}
-                sx={styles.actionButton}
+                sx={styles?.actionButton}
                 endIcon={<DropdownIcon />}
                 disabled={!isChecked}
               >
@@ -90,8 +90,8 @@ const Invoices = () => {
 
                 <MenuItem
                   onClick={() =>
-                    router.push(
-                      `${SUPER_ADMIN?.BILLING_INVOICES}/generate-invoice`,
+                    router?.push(
+                      `${superAdminBillingInvoicesPath?.generate_invoice}`,
                     )
                   }
                 >
@@ -104,7 +104,7 @@ const Invoices = () => {
 
               <Button
                 size="small"
-                sx={styles.actionButton}
+                sx={styles?.actionButton}
                 style={{ marginLeft: '10px' }}
                 onClick={() => setIsOpenFilter(true)}
               >
@@ -119,7 +119,7 @@ const Invoices = () => {
         <CustomPagination
           count={3}
           rowsPerPageOptions={[6, 10, 25, 50, 100]}
-          entriePages={invoicesData.length}
+          entriePages={invoicesData?.length}
         />
       </Box>
 

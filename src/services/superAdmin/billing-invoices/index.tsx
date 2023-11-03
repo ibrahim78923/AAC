@@ -1,10 +1,11 @@
+import { superAdminBillingInvoices } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
 export const bilingInvoicesAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getBilingInvoices: builder.query({
       query: ({ param, query, pagination }: any) => ({
-        url: `/super-admin/get-all-orgplans?${pagination}${query}`,
+        url: `${superAdminBillingInvoices.get_org_plan}${pagination}${query}`,
         method: 'GET',
         param: param,
       }),
@@ -12,7 +13,7 @@ export const bilingInvoicesAPI = baseAPI.injectEndpoints({
     }),
     getProducts: builder.query({
       query: () => ({
-        url: `/products?status=inactive`,
+        url: `${superAdminBillingInvoices.get_Products}`,
         method: 'GET',
       }),
       providesTags: ['getProducts'],
@@ -20,7 +21,7 @@ export const bilingInvoicesAPI = baseAPI.injectEndpoints({
 
     getPlanType: builder.query({
       query: () => ({
-        url: `/plan/plan-type-list`,
+        url: `${superAdminBillingInvoices.get_plan_type}`,
         method: 'GET',
       }),
       providesTags: ['getPlanType'],
@@ -28,42 +29,17 @@ export const bilingInvoicesAPI = baseAPI.injectEndpoints({
 
     getOrganizations: builder.query({
       query: () => ({
-        url: `/organization/get-organizations`,
+        url: `${superAdminBillingInvoices.get_organizations}`,
         method: 'GET',
       }),
       providesTags: ['organizations'],
     }),
 
-    getBilingInvoicesById: builder.query({
-      query: ({ id }: any) => ({
-        url: `/biling-invoices/${id}`,
-        method: 'GET',
-      }),
-      providesTags: ['bilingInvoices'],
-    }),
-
     postBilingInvoices: builder.mutation({
       query: ({ body }: any) => ({
-        url: `/super-admin/assign-plan`,
+        url: `${superAdminBillingInvoices.post_biling_invoices}`,
         method: 'POST',
         body: body,
-      }),
-      invalidatesTags: ['bilingInvoices'],
-    }),
-
-    updateBilingInvoices: builder.mutation({
-      query: ({ id, body }: any) => ({
-        url: `/biling-invoices/${id}`,
-        method: 'PUT',
-        body: body,
-      }),
-      invalidatesTags: ['bilingInvoices'],
-    }),
-
-    deleteBilingInvoices: builder.mutation({
-      query: ({ id }: any) => ({
-        url: `/biling-invoices/${id}`,
-        method: 'DELETE',
       }),
       invalidatesTags: ['bilingInvoices'],
     }),
@@ -71,12 +47,9 @@ export const bilingInvoicesAPI = baseAPI.injectEndpoints({
 });
 
 export const {
-  useUpdateBilingInvoicesMutation,
   usePostBilingInvoicesMutation,
   useGetBilingInvoicesQuery,
   useGetProductsQuery,
   useGetPlanTypeQuery,
   useGetOrganizationsQuery,
-  useDeleteBilingInvoicesMutation,
-  useGetBilingInvoicesByIdQuery,
 } = bilingInvoicesAPI;

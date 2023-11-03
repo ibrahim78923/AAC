@@ -26,7 +26,7 @@ export const Columns = (
             info?.cell?.row?.original?._id ===
               isGetRowValues?.cell?.row?.original?._id && ischecked
           }
-          name={info.getValue()}
+          name={info?.getValue()}
           onClick={() => {
             setIsGetRowValues(info), setIschecked(!ischecked);
           }}
@@ -42,7 +42,7 @@ export const Columns = (
         <Box sx={{ display: 'flex', gap: '5px' }}>
           <Avatar alt="Remy Sharp" src={AvatarImage?.src} />
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-            <Typography variant="subtitle2"> {info.getValue()}</Typography>
+            <Typography variant="subtitle2"> {info?.getValue()}</Typography>
             <Typography variant="body3">
               {info?.row?.original?.clientSub}
             </Typography>
@@ -59,7 +59,7 @@ export const Columns = (
       header: 'Products/Suite',
       cell: (info: any) => (
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-          <Typography variant="body3"> {info.getValue()}</Typography>
+          <Typography variant="body3"> {info?.getValue()}</Typography>
           <Typography variant="body3">
             {info?.row?.original?.planProduct?.name}
           </Typography>
@@ -71,7 +71,7 @@ export const Columns = (
       id: 'plantypes',
       isSortable: true,
       header: 'Plan Type',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
 
     {
@@ -79,7 +79,7 @@ export const Columns = (
       id: 'planPrice',
       isSortable: true,
       header: 'Plan Price',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
 
     {
@@ -87,7 +87,7 @@ export const Columns = (
       id: 'planDiscount',
       isSortable: true,
       header: 'Discount',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
 
     {
@@ -95,7 +95,7 @@ export const Columns = (
       id: 'defaultUsers',
       isSortable: true,
       header: 'Default users',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
 
     {
@@ -103,36 +103,36 @@ export const Columns = (
       id: 'additionalUsers',
       isSortable: true,
       header: 'Additional Users',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
     {
       accessorFn: (row: any) => row?.defaultStorage,
       id: 'DefaultStorage',
       isSortable: true,
       header: 'Default storage',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
     {
       accessorFn: (row: any) => row?.additionalStorage,
       id: 'additionalStorage',
       isSortable: true,
       header: 'Additional storage',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
     {
       accessorFn: (row: any) => row?.billingDate?.substring(0, 10),
       id: 'billingDate',
       isSortable: true,
       header: 'Billing Date',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
   ];
 };
 
-export const validationSchema = Yup.object().shape({
-  ClientOrganization: Yup.string(),
-  productSuite: Yup.string().trim(),
-  planType: Yup.string().trim(),
+export const validationSchema = Yup?.object()?.shape({
+  ClientOrganization: Yup?.string(),
+  productSuite: Yup?.string()?.trim(),
+  planType: Yup?.string()?.trim(),
 });
 
 export const defaultValues = {

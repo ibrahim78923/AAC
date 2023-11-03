@@ -13,6 +13,7 @@ import {
 import { ArrowBackIcon, TickCircleIcon } from '@/assets/icons';
 import Counter from './Counter';
 import { styles } from './ChoosePlan.style';
+import { orgAdminSubcriptionInvoices } from '@/routesConstants/paths';
 
 const ChoosePlan = () => {
   const router = useRouter();
@@ -22,7 +23,7 @@ const ChoosePlan = () => {
       <Box sx={{ display: 'flex', alignItems: 'center', mb: '27px' }}>
         <Box
           onClick={() =>
-            router.push('/org-admin/subscription-and-invoices/manage-plan')
+            router.push(`${orgAdminSubcriptionInvoices?.manage_plan}`)
           }
           sx={{ cursor: 'pointer', lineHeight: '1', mr: '12px' }}
         >
@@ -31,19 +32,19 @@ const ChoosePlan = () => {
         <Typography variant="h4">Choose a plan</Typography>
       </Box>
 
-      <TableContainer sx={styles.tableContainer}>
-        <Table sx={styles.table}>
+      <TableContainer sx={styles?.tableContainer}>
+        <Table sx={styles?.table}>
           <TableBody>
             {/* Table Head Row */}
-            <TableRow sx={styles.tableHead}>
+            <TableRow sx={styles?.tableHead}>
               <TableCell
                 rowSpan={3}
                 sx={{ width: '228px', pl: '32px', pr: '32px' }}
               >
-                <Typography variant="h3" sx={styles.productBoxTitle}>
+                <Typography variant="h3" sx={styles?.productBoxTitle}>
                   Sales
                 </Typography>
-                <Typography variant="body1" sx={styles.productBoxText}>
+                <Typography variant="body1" sx={styles?.productBoxText}>
                   Everything your sales team need to work better and together.
                 </Typography>
               </TableCell>
@@ -55,11 +56,11 @@ const ChoosePlan = () => {
 
             {/* Plan Price Row */}
             <TableRow>
-              <TableCell sx={styles.freeTrialBox}>
+              <TableCell sx={styles?.freeTrialBox}>
                 <Typography variant="h4">Free Trial</Typography>
                 <Typography variant="body1">1 Month</Typography>
               </TableCell>
-              <TableCell sx={styles.planBox}>
+              <TableCell sx={styles?.planBox}>
                 <Typography variant="h3">
                   £20<Box component={'span'}>/Month</Box>
                 </Typography>
@@ -67,7 +68,7 @@ const ChoosePlan = () => {
                   Buy Plan
                 </Button>
               </TableCell>
-              <TableCell sx={styles.planBox}>
+              <TableCell sx={styles?.planBox}>
                 <Typography variant="h3">
                   £300<Box component={'span'}>/Month</Box>
                 </Typography>
@@ -75,7 +76,7 @@ const ChoosePlan = () => {
                   Buy Plan
                 </Button>
               </TableCell>
-              <TableCell sx={styles.planBox}>
+              <TableCell sx={styles?.planBox}>
                 <Typography variant="h3">
                   £450<Box component={'span'}>/Month</Box>
                 </Typography>
@@ -85,7 +86,7 @@ const ChoosePlan = () => {
               </TableCell>
             </TableRow>
 
-            <TableRow sx={styles.planDetailText}>
+            <TableRow sx={styles?.planDetailText}>
               <TableCell>
                 <Typography variant="body2">
                   Essential tools to put your customers first and deliver
@@ -114,25 +115,25 @@ const ChoosePlan = () => {
 
             {/* Users Row */}
             <TableRow>
-              <TableCell sx={styles.sideHeader}>Users</TableCell>
-              <TableCell sx={styles.userIncludes}>
+              <TableCell sx={styles?.sideHeader}>Users</TableCell>
+              <TableCell sx={styles?.userIncludes}>
                 <Typography variant="h6">Includes 1 users</Typography>
               </TableCell>
-              <TableCell sx={styles.userIncludes}>
+              <TableCell sx={styles?.userIncludes}>
                 <Typography variant="h6">Includes 2 paid users</Typography>
                 <Typography variant="body2">
                   £ 10/ Month per additional user
                 </Typography>
                 <Typography variant="body2">Allow 3 GB storage</Typography>
               </TableCell>
-              <TableCell sx={styles.userIncludes}>
+              <TableCell sx={styles?.userIncludes}>
                 <Typography variant="h6">Include 5 paid users</Typography>
                 <Typography variant="body2">
                   £100/ Month per additional user
                 </Typography>
                 <Typography variant="body2">Allow 5 GB storage</Typography>
               </TableCell>
-              <TableCell sx={styles.userIncludes}>
+              <TableCell sx={styles?.userIncludes}>
                 <Typography variant="h6">Include 10 paid users</Typography>
                 <Typography variant="body2">
                   £120/ Month per additional user
@@ -143,43 +144,45 @@ const ChoosePlan = () => {
 
             {/* Max Additional Users Row */}
             <TableRow>
-              <TableCell sx={styles.sideHeader}>Max Additional Users</TableCell>
-              <TableCell sx={styles.userIncludes}>
+              <TableCell sx={styles?.sideHeader}>
+                Max Additional Users
+              </TableCell>
+              <TableCell sx={styles?.userIncludes}>
                 <Typography variant="h6">-</Typography>
               </TableCell>
-              <TableCell sx={styles.userIncludes}>
+              <TableCell sx={styles?.userIncludes}>
                 <Counter inputValue={0} />
               </TableCell>
-              <TableCell sx={styles.userIncludes}>
+              <TableCell sx={styles?.userIncludes}>
                 <Counter inputValue={0} />
               </TableCell>
-              <TableCell sx={styles.userIncludes}>
+              <TableCell sx={styles?.userIncludes}>
                 <Counter inputValue={0} />
               </TableCell>
             </TableRow>
 
             {/* Max Additional Storage Row */}
             <TableRow>
-              <TableCell sx={styles.sideHeader}>
+              <TableCell sx={styles?.sideHeader}>
                 Max Additional Srorage
               </TableCell>
-              <TableCell sx={styles.userIncludes}>
+              <TableCell sx={styles?.userIncludes}>
                 <Typography variant="h6">-</Typography>
               </TableCell>
-              <TableCell sx={styles.userIncludes}>
+              <TableCell sx={styles?.userIncludes}>
                 <Counter inputValue={0} fixedText="GB" inputWidth="74px" />
               </TableCell>
-              <TableCell sx={styles.userIncludes}>
+              <TableCell sx={styles?.userIncludes}>
                 <Counter inputValue={0} fixedText="GB" inputWidth="74px" />
               </TableCell>
-              <TableCell sx={styles.userIncludes}>
+              <TableCell sx={styles?.userIncludes}>
                 <Counter inputValue={0} fixedText="GB" inputWidth="74px" />
               </TableCell>
             </TableRow>
 
             {/* Sales Activities Row */}
             <TableRow>
-              <TableCell sx={styles.salesActivities}>
+              <TableCell sx={styles?.salesActivities}>
                 <Typography variant="h6">Sales Activities</Typography>
               </TableCell>
               <TableCell></TableCell>
@@ -190,7 +193,7 @@ const ChoosePlan = () => {
 
             {/* Tasks, Appointments and Notes Row */}
             <TableRow>
-              <TableCell sx={styles.sideHeader}>
+              <TableCell sx={styles?.sideHeader}>
                 Tasks, Appointments and Notes
               </TableCell>
               <TableCell align="center">
@@ -209,7 +212,7 @@ const ChoosePlan = () => {
 
             {/* Custom Sales Activites Row */}
             <TableRow>
-              <TableCell sx={styles.sideHeader}>
+              <TableCell sx={styles?.sideHeader}>
                 Custom Sales Activites
               </TableCell>
               <TableCell align="center">
@@ -228,7 +231,7 @@ const ChoosePlan = () => {
 
             {/* CRM Customization Row */}
             <TableRow>
-              <TableCell sx={styles.salesActivities}>
+              <TableCell sx={styles?.salesActivities}>
                 <Typography variant="h6">CRM Customization</Typography>
               </TableCell>
               <TableCell></TableCell>
@@ -239,11 +242,11 @@ const ChoosePlan = () => {
 
             {/* Workflows Row */}
             <TableRow>
-              <TableCell sx={styles.sideHeader}>Workflows</TableCell>
-              <TableCell sx={styles.workflowCell}>20</TableCell>
-              <TableCell sx={styles.workflowCell}>20</TableCell>
-              <TableCell sx={styles.workflowCell}>50</TableCell>
-              <TableCell sx={styles.workflowCell}>100</TableCell>
+              <TableCell sx={styles?.sideHeader}>Workflows</TableCell>
+              <TableCell sx={styles?.workflowCell}>20</TableCell>
+              <TableCell sx={styles?.workflowCell}>20</TableCell>
+              <TableCell sx={styles?.workflowCell}>50</TableCell>
+              <TableCell sx={styles?.workflowCell}>100</TableCell>
             </TableRow>
           </TableBody>
         </Table>

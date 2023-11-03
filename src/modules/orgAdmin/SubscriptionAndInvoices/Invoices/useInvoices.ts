@@ -17,7 +17,7 @@ const useInvoices = () => {
   const [isGetRowValues, setIsGetRowValues] = useState('');
 
   const handleActionsClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
+    setAnchorEl(event?.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);

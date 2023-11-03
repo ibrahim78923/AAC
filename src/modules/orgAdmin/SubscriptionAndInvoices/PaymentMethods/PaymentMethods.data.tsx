@@ -17,7 +17,7 @@ export const columns = (
             info?.cell?.row?.original?.id ===
               isGetRowValues?.cell?.row?.original?.id && ischecked
           }
-          name={info.getValue()}
+          name={info?.getValue()}
           onClick={() => {
             setIsGetRowValues(info), setIschecked(!ischecked);
           }}
@@ -32,7 +32,7 @@ export const columns = (
       cell: (info: any) => (
         <>
           <Box sx={{ fontWeight: '500', color: 'blue.dull_blue' }}>
-            {info.getValue()}
+            {info?.getValue()}
           </Box>
           <Box>{info?.row?.original?.plan}</Box>
         </>
@@ -52,14 +52,14 @@ export const columns = (
       id: 'expirationDate',
       isSortable: true,
       header: 'expirationDate',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
     {
       accessorFn: (row: any) => row?.product,
       id: 'product',
       isSortable: true,
       header: 'Product',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
   ];
 };

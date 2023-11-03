@@ -25,7 +25,7 @@ const useEditForm = (isEditModal: any, isGetRowValues: any, onClose: any) => {
         .toLowerCase()
         .charAt(0)
         .toUpperCase() +
-      isGetRowValues?.cell?.row?.original?.billingCycle.toLowerCase().slice(1)
+      isGetRowValues?.cell?.row?.original?.billingCycle?.toLowerCase()?.slice(1)
     }`,
     // billingCycle: 'paidMonthly',
     date: new Date(),
@@ -45,21 +45,21 @@ const useEditForm = (isEditModal: any, isGetRowValues: any, onClose: any) => {
   const { handleSubmit, reset } = isEditModal ? apiMethods : methods;
 
   const onSubmit = async (values: any) => {
-    const originalDate = values.date;
+    const originalDate = values?.date;
     const date = new Date(originalDate);
-    const year = date.getUTCFullYear();
-    const month = (date.getUTCMonth() + 1).toString().padStart(2, '0');
-    const day = date.getUTCDate().toString().padStart(2, '0');
+    const year = date?.getUTCFullYear();
+    const month = (date?.getUTCMonth() + 1)?.toString()?.padStart(2, '0');
+    const day = date?.getUTCDate()?.toString()?.padStart(2, '0');
 
     const formattedDate = `${year}-${month}-${day}`;
 
     const assignPlanPayload = {
-      organizationId: values.clientName,
+      organizationId: values?.clientName,
       planId: '652677e726623bafa178e6a1',
-      additionalUsers: parseInt(values.additionalUser),
-      additionalStorage: parseInt(values.additionalStorage),
-      planDiscount: parseInt(values.discount),
-      billingCycle: values.billingCycle,
+      additionalUsers: parseInt(values?.additionalUser),
+      additionalStorage: parseInt(values?.additionalStorage),
+      planDiscount: parseInt(values?.discount),
+      billingCycle: values?.billingCycle,
       billingDate: formattedDate,
     };
 

@@ -8,8 +8,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
 
-import { SUPER_ADMIN } from '@/constants';
-
 const useInvoices = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -21,7 +19,7 @@ const useInvoices = () => {
   const router = useRouter();
 
   const handleActionsClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
+    setAnchorEl(event?.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
@@ -87,7 +85,6 @@ const useInvoices = () => {
     setIsGetRowValues,
     setIsChecked,
     isChecked,
-    SUPER_ADMIN,
     router,
   };
 };

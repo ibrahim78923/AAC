@@ -7,19 +7,19 @@ import { Typography } from '@mui/material';
 
 import * as Yup from 'yup';
 
-export const validationSchema = Yup.object().shape({
-  cardNumber: Yup.string().required('Field is Required'),
+export const validationSchema = Yup?.object()?.shape({
+  cardNumber: Yup?.string()?.required('Field is Required'),
 
-  expirationDate: Yup.date(),
+  expirationDate: Yup?.date(),
 
-  nameOnCard: Yup.string().required('Field is Required'),
+  nameOnCard: Yup?.string()?.required('Field is Required'),
 
-  CVVCode: Yup.string().required('Field is Required'),
-  companyAccount: Yup.string(),
-  seePaymentMethod: Yup.string(),
-  sirSales: Yup.string(),
-  airService: Yup.string(),
-  airOperations: Yup.string(),
+  CVVCode: Yup?.string()?.required('Field is Required'),
+  companyAccount: Yup?.string(),
+  seePaymentMethod: Yup?.string(),
+  sirSales: Yup?.string(),
+  airService: Yup?.string(),
+  airOperations: Yup?.string(),
 });
 
 export const defaultValues = {
