@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { columns, validationSchema } from './BillingAndInvoices.data';
+import { Columns, validationSchema } from './BillingAndInvoices.data';
 import useMenuOptions from './MenuOptions/useMenuOptions';
 import { useTheme } from '@mui/material';
 import { useGetBilingInvoicesQuery } from '@/services/superAdmin/billing-invoices';
@@ -60,7 +60,7 @@ const useBillingAndInvoices = (defaultValues: any) => {
     setIsOpenFilter(false);
   };
 
-  const getRowValues = columns(
+  const getRowValues = Columns(
     setIsGetRowValues,
     setIsChecked,
     isChecked,

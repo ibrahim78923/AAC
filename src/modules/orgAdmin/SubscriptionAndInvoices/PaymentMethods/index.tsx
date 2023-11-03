@@ -31,9 +31,9 @@ const PaymentMethods = () => {
 
   return (
     <>
-      <Box sx={styles.paymentsTableWrapper}>
-        <Box sx={styles.paymentsHeader}>
-          <Typography variant="h4" sx={styles.paymentTitle}>
+      <Box sx={styles?.paymentsTableWrapper}>
+        <Box sx={styles?.paymentsHeader}>
+          <Typography variant="h4" sx={styles?.paymentTitle}>
             Payment Methods
           </Typography>
           <Button
@@ -45,16 +45,16 @@ const PaymentMethods = () => {
           </Button>
         </Box>
 
-        <Box sx={styles.tableToolbar}>
-          <Box sx={styles.tableSearch}>
+        <Box sx={styles?.tableToolbar}>
+          <Box sx={styles?.tableSearch}>
             <Search size="small" placeholder="search here" />
           </Box>
-          <Box sx={styles.tableToolbarActions}>
+          <Box sx={styles?.tableToolbarActions}>
             <Box>
               <Button
                 size="small"
                 onClick={handleActionsClick}
-                sx={styles.actionButton}
+                sx={styles?.actionButton}
                 endIcon={<DropdownIcon />}
                 disabled={!isChecked}
               >

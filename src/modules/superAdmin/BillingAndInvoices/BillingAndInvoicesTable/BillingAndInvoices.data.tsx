@@ -9,7 +9,7 @@ import {
 
 import * as Yup from 'yup';
 
-export const columns = (
+export const Columns = (
   setIsGetRowValues: any,
   setIschecked: any,
   ischecked: any,
@@ -17,13 +17,13 @@ export const columns = (
 ) => {
   return [
     {
-      accessorFn: (row: any) => row.Id,
+      accessorFn: (row: any) => row?.Id,
       id: 'Id',
       cell: (info: any) => (
         <Checkbox
           color="primary"
           checked={
-            info.cell.row.original._id ===
+            info?.cell?.row?.original?._id ===
               isGetRowValues?.cell?.row?.original?._id && ischecked
           }
           name={info.getValue()}

@@ -38,30 +38,30 @@ const Invoices = () => {
 
   return (
     <>
-      <Box sx={styles.invoicesTableWrapper}>
-        <Box sx={styles.invoicesHeader}>
+      <Box sx={styles?.invoicesTableWrapper}>
+        <Box sx={styles?.invoicesHeader}>
           <Grid container>
             <Grid item xs={3}>
-              <Box sx={styles.invoicesHeaderLabel}>Invoices Due</Box>
-              <Box sx={styles.invoicesHeaderValue}>1</Box>
+              <Box sx={styles?.invoicesHeaderLabel}>Invoices Due</Box>
+              <Box sx={styles?.invoicesHeaderValue}>1</Box>
             </Grid>
             <Grid item xs={9}>
-              <Box sx={styles.invoicesHeaderLabel}>Total Balance Due</Box>
-              <Box sx={styles.invoicesHeaderValue}>£ 1,234.11</Box>
+              <Box sx={styles?.invoicesHeaderLabel}>Total Balance Due</Box>
+              <Box sx={styles?.invoicesHeaderValue}>£ 1,234.11</Box>
             </Grid>
           </Grid>
         </Box>
 
-        <Box sx={styles.tableToolbar}>
-          <Box sx={styles.tableSearch}>
+        <Box sx={styles?.tableToolbar}>
+          <Box sx={styles?.tableSearch}>
             <Search size="small" placeholder="search here" />
           </Box>
-          <Box sx={styles.tableToolbarActions}>
+          <Box sx={styles?.tableToolbarActions}>
             <Box>
               <Button
                 size="small"
                 onClick={handleActionsClick}
-                sx={styles.actionButton}
+                sx={styles?.actionButton}
                 endIcon={<DropdownIcon />}
                 disabled={!isChecked}
               >
@@ -91,7 +91,7 @@ const Invoices = () => {
 
               <Button
                 size="small"
-                sx={styles.actionButton}
+                sx={styles?.actionButton}
                 style={{ marginLeft: '10px' }}
                 onClick={() => setIsOpenFilter(true)}
               >

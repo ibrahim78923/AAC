@@ -42,7 +42,7 @@ const BillingDetail: FC<BillingDetailI> = ({ open, onClose }) => {
 
   return (
     <CommonDrawer title="Billing Details" isDrawerOpen={open} onClose={onClose}>
-      {DataArr.map((data: any) => (
+      {DataArr?.map((data: any) => (
         <Box
           key={uuidv4()}
           sx={{
@@ -67,9 +67,9 @@ const BillingDetail: FC<BillingDetailI> = ({ open, onClose }) => {
                 variant="overline"
                 sx={{ textTransform: 'capitalize' }}
               >
-                Air Sales ( {data.bilingType})
+                Air Sales ( {data?.bilingType})
               </Typography>
-              <Typography variant="body1">{data.paymentType}</Typography>
+              <Typography variant="body1">{data?.paymentType}</Typography>
             </Box>
 
             <Box sx={{ ml: 'auto' }}>
@@ -77,7 +77,7 @@ const BillingDetail: FC<BillingDetailI> = ({ open, onClose }) => {
                 variant="body3"
                 sx={{
                   background:
-                    data.payment === 'pending'
+                    data?.payment === 'pending'
                       ? theme?.palette?.warning?.main
                       : theme?.palette?.primary?.main,
                   borderRadius: '15px',
@@ -85,7 +85,7 @@ const BillingDetail: FC<BillingDetailI> = ({ open, onClose }) => {
                   color: 'white',
                 }}
               >
-                {data.payment}
+                {data?.payment}
               </Typography>
             </Box>
           </Box>
@@ -93,11 +93,11 @@ const BillingDetail: FC<BillingDetailI> = ({ open, onClose }) => {
 
           <Box sx={{ display: 'flex', alignItems: 'center', mt: '15px' }}>
             <Typography variant="caption">
-              Invoice Date: {data.paymentDetailes.invoiceDate}
+              Invoice Date: {data?.paymentDetailes?.invoiceDate}
             </Typography>
             <Box sx={{ ml: 'auto' }}>
               <Typography variant="caption">
-                Due Date: {data.paymentDetailes.dueDate}
+                Due Date: {data?.paymentDetailes?.dueDate}
               </Typography>
             </Box>
           </Box>
@@ -106,7 +106,7 @@ const BillingDetail: FC<BillingDetailI> = ({ open, onClose }) => {
             <Typography variant="caption">Plan Price</Typography>
             <Box sx={{ ml: 'auto' }}>
               <Typography variant="overline">
-                {data.paymentDetailes.planPrice}
+                {data?.paymentDetailes?.planPrice}
               </Typography>
             </Box>
           </Box>
@@ -116,7 +116,7 @@ const BillingDetail: FC<BillingDetailI> = ({ open, onClose }) => {
             </Typography>
             <Box sx={{ ml: 'auto' }}>
               <Typography variant="overline">
-                {data.paymentDetailes.additionalUser}
+                {data?.paymentDetailes?.additionalUser}
               </Typography>
             </Box>
           </Box>
@@ -126,7 +126,7 @@ const BillingDetail: FC<BillingDetailI> = ({ open, onClose }) => {
             </Typography>
             <Box sx={{ ml: 'auto' }}>
               <Typography variant="overline">
-                {data.paymentDetailes.AdditionalStorage}
+                {data?.paymentDetailes?.AdditionalStorage}
               </Typography>
             </Box>
           </Box>
@@ -143,7 +143,7 @@ const BillingDetail: FC<BillingDetailI> = ({ open, onClose }) => {
             </Typography>
             <Box sx={{ ml: 'auto' }}>
               <Typography variant="overline">
-                {data.paymentDetailes.Discount}
+                {data?.paymentDetailes?.Discount}
               </Typography>
             </Box>
           </Box>
@@ -159,7 +159,7 @@ const BillingDetail: FC<BillingDetailI> = ({ open, onClose }) => {
             </Typography>
             <Box sx={{ ml: 'auto' }}>
               <Typography variant="overline">
-                {data.paymentDetailes.Tax}
+                {data?.paymentDetailes?.Tax}
               </Typography>
             </Box>
           </Box>
@@ -170,7 +170,7 @@ const BillingDetail: FC<BillingDetailI> = ({ open, onClose }) => {
             </Typography>
 
             <Box sx={{ ml: 'auto' }}>
-              <Typography variant="overline">{data.totalCost}</Typography>
+              <Typography variant="overline">{data?.totalCost}</Typography>
             </Box>
           </Box>
         </Box>
