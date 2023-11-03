@@ -10,7 +10,6 @@ export const styles = {
     display: 'flex',
     flexDirection: { xs: 'column', lg: 'row' },
     alignItems: { xs: 'start', lg: 'center' },
-    justifyContent: 'space-between',
     gap: '0.75rem',
     pt: '0.5rem',
   },

@@ -17,7 +17,11 @@ export const CardLayout = ({
       </Typography>
       <Box sx={{ height: maxHeight, overflowY: 'scroll' }}>{children}</Box>
       <Box height={20}>
-        <Button variant="text" sx={viewMoreBtn(btnPosition)} onClick={btnClick}>
+        <Button
+          variant="text"
+          sx={viewMoreBtn(btnPosition)}
+          onClick={() => btnClick(title)}
+        >
           View More
         </Button>
       </Box>

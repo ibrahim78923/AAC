@@ -4,15 +4,15 @@ import { useTheme } from '@mui/material/styles';
 import { styles } from './PendingApprovals.style';
 import { v4 as uuidv4 } from 'uuid';
 
-export const PendingApprovals = ({ pendingApprovalData }: any) => {
+export const PendingApprovals = ({
+  title,
+  data: pendingApprovalData,
+  handleViewMore,
+}: any) => {
   const { palette }: any = useTheme();
   const { mainWrapper, approvalWrapper, approvalTicket, divider } = styles;
   return (
-    <CardLayout
-      title={'Pending for Approval'}
-      btnClick={() => {}}
-      maxHeight={260}
-    >
+    <CardLayout title={title} btnClick={handleViewMore} maxHeight={260}>
       <Box my="0.75rem">
         {pendingApprovalData?.map(({ user, ...approval }: any) => (
           <Box key={uuidv4()} sx={mainWrapper(palette)}>

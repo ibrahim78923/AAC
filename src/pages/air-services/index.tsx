@@ -1,13 +1,8 @@
 import Layout from '@/layout';
-import CustomerPortal from '@/modules/airServices/customer-portal';
 import React from 'react';
 
 const AirServicesDashboard = () => {
-  return (
-    <div>
-      <CustomerPortal />
-    </div>
-  );
+  return <div>AirServicesDashboard</div>;
 };
 
 export default AirServicesDashboard;

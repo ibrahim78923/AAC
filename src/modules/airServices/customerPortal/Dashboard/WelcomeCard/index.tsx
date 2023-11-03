@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
-import { TicketCard } from './TicketCard';
+import { TicketCard } from '../TicketCard';
 import { v4 as uuidv4 } from 'uuid';
 import { styles } from './WelcomeCard.style';
 import { WelcomeCardImage } from '@/assets/images';

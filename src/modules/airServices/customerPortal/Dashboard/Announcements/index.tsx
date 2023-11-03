@@ -4,15 +4,15 @@ import { styles } from './Announcements.style';
 import { CardLayout } from '../CardLayout';
 import { v4 as uuidv4 } from 'uuid';
 
-export const Announcements = ({ announcementsData }: any) => {
+export const Announcements = ({
+  title,
+  data: announcementsData,
+  handleViewMore,
+}: any) => {
   const { palette }: any = useTheme();
   const { mainWrapper, announcementsWrapper, avatarWrapper } = styles;
   return (
-    <CardLayout
-      title={'Announcements'}
-      btnPosition="center"
-      btnClick={() => {}}
-    >
+    <CardLayout title={title} btnPosition="center" btnClick={handleViewMore}>
       <Box my="0.75rem">
         {announcementsData?.map(({ user, ...announcement }: any) => (
           <Box key={uuidv4()} sx={mainWrapper}>

@@ -4,13 +4,18 @@ import { useTheme } from '@mui/material/styles';
 import { DocumentTextIcon } from '@/assets/icons';
 import { v4 as uuidv4 } from 'uuid';
 import { styles } from './PopularArticles.style';
-export const PopularArticles = ({ articles = [] }: any) => {
+
+export const PopularArticles = ({
+  title,
+  data: articles = [],
+  handleViewMore,
+}: any) => {
   const { palette }: any = useTheme();
   const { mainWrapper, articleWrapper } = styles;
   return (
     <CardLayout
-      title={'Popular Articles'}
-      btnClick={() => {}}
+      title={title}
+      btnClick={handleViewMore}
       maxHeight={260}
       btnPosition={'center'}
     >

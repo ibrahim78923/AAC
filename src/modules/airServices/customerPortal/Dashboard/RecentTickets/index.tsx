@@ -4,11 +4,15 @@ import { useTheme } from '@mui/material/styles';
 import { styles } from './RecentTickets.style';
 import { v4 as uuidv4 } from 'uuid';
 
-export const RecentTickets = ({ recentTicketsData }: any) => {
+export const RecentTickets = ({
+  title,
+  data: recentTicketsData,
+  handleViewMore,
+}: any) => {
   const { palette }: any = useTheme();
   const { mainWrapper, approvalWrapper, processingBtn } = styles;
   return (
-    <CardLayout title={'Recent Tickets'} btnClick={() => {}}>
+    <CardLayout title={title} btnClick={handleViewMore}>
       <Box my="0.75rem">
         {recentTicketsData?.map((ticket: any) => (
           <Box key={uuidv4()} sx={mainWrapper(palette)}>
