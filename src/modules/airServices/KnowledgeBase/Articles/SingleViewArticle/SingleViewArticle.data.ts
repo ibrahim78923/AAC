@@ -9,7 +9,7 @@ export const singleViewArticleData = [
       `Taking a short position, also called short selling, occurs when you borrow shares and sell them in anticipation the stock will fall in the future. If it works as planned  the share price drops, you buy those shares at the lower price to cover the short position and make a profit on the difference. For example, if you short ABC stock at $35 per share and the stock falls to $20, you can buy
        the shares back at $20 to close out the short position. Your overall profit, therefore, would be $15 per share. `,
       `A put option is the right to sell a stock at a particular strike price until a certain date in the future, called the expiration date. The money you pay for the option is called a premium. A put option increases in value as the underlying stock falls. If the stock moves below the put's strike price, you can either
-       exercise the right to sell the stock at the higher strike price or sell the put option for a profit. `,
+       exercise the right to sell the stock at the higher strike price or sell the put option for profit. `,
     ],
   },
 ];
