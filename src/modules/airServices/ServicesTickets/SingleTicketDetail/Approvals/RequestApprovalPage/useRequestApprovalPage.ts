@@ -4,8 +4,8 @@ import { useForm } from 'react-hook-form';
 
 export function useRequestApprovalPage() {
   const [anchorEl, setAnchorEl] = useState<any>(null);
-  const [openApprovalModal, setOpenApprovalModel] = useState<boolean>(false);
-  const [openRejectModal, setOpenRejectModel] = useState<boolean>(false);
+  const [openApprovalModal, setOpenApprovalModal] = useState<boolean>(false);
+  const [openRejectModal, setOpenRejectModal] = useState<boolean>(false);
   const open = Boolean(anchorEl);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -16,17 +16,17 @@ export function useRequestApprovalPage() {
     setAnchorEl(null);
   };
 
-  const handleApprovalModelOpen = () => {
-    setOpenApprovalModel(true);
+  const handleApprovalModalOpen = () => {
+    setOpenApprovalModal(true);
   };
-  const handleApprovalModelClose = () => {
-    setOpenApprovalModel(false);
+  const handleApprovalModalClose = () => {
+    setOpenApprovalModal(false);
   };
-  const handleRejectModelOpen = () => {
-    setOpenRejectModel(true);
+  const handleRejectModalOpen = () => {
+    setOpenRejectModal(true);
   };
-  const handleRejectModelClose = () => {
-    setOpenRejectModel(false);
+  const handleRejectModalClose = () => {
+    setOpenRejectModal(false);
   };
 
   const theme = useTheme();
@@ -56,10 +56,10 @@ export function useRequestApprovalPage() {
     anchorEl,
     setAnchorEl,
     openApprovalModal,
-    handleApprovalModelClose,
-    handleApprovalModelOpen,
-    handleRejectModelClose,
-    handleRejectModelOpen,
+    handleApprovalModalClose,
+    handleApprovalModalOpen,
+    handleRejectModalClose,
+    handleRejectModalOpen,
     openRejectModal,
     REQUESTED_CONDITION,
     RECEIVED_CONDITION: RECEIVED_CONDITION,
