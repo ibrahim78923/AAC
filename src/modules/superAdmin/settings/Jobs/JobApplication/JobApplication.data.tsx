@@ -11,13 +11,13 @@ import { Checkbox } from '@mui/material';
 import * as Yup from 'yup';
 import StatusBadge from '@/components/StatusBadge';
 export const jobApplicationValidationSchema = Yup.object().shape({
-  candidates: Yup.array().required('Field is Required'),
+  candidates: Yup.array().min(1).required('Field is Required'),
   applyDate: Yup.string().trim().required('Field is Required'),
   status: Yup.string().trim().required('Field is Required'),
 });
 
 export const jobApplicationDefaultValues = {
-  candidates: '',
+  candidates: [],
   applyDate: '',
   status: '',
 };
@@ -27,7 +27,7 @@ export const jobApplicationFiltersDataArray = [
     componentProps: {
       name: 'candidates',
       label: 'Candidates',
-      // select: true,
+      isCheckBox: true,
     },
     options: [
       { value: 'JohnDoe', label: 'John Doe' },
