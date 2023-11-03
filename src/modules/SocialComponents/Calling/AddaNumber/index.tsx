@@ -26,7 +26,7 @@ import {
 
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import { CallFilledImage } from '@/assets/images';
+import { ApplePhoneImage, CallFilledImage } from '@/assets/images';
 
 import { styles } from './AddaNumber.style';
 
@@ -75,9 +75,15 @@ const AddaNumber = () => {
     <Box>
       <Typography variant="h3">Call</Typography>
       <Box sx={styles.wrapperContainer}>
+        {isAreaCodeSelected ? (
+          <Box sx={{ position: 'absolute', bottom: '0', right: '0' }}>
+            <Image src={ApplePhoneImage} alt="phone" />
+          </Box>
+        ) : null}
+
         <Box sx={styles.insetWrapper}>
           <Image src={CallFilledImage} alt="call" />
-          <Typography variant="h2">
+          <Typography variant="h2" textAlign={'center'}>
             {isAreaCodeSelected
               ? `You Selected ${selectedAreaCode.label}`
               : 'Select Air Apple Voice Number'}
@@ -114,7 +120,14 @@ const AddaNumber = () => {
           )}
         </Box>
         {!isAreaCodeSelected && (
-          <Box sx={{ width: '440px' }}>
+          <Box
+            sx={{
+              width: '440px',
+              '@media (max-width:600px)': {
+                width: '80% !important',
+              },
+            }}
+          >
             <Typography
               variant="body2"
               fontWeight={500}

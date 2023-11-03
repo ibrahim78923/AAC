@@ -15,6 +15,7 @@ export const useKnowledgeInsights = () => {
   return {
     getRelatedDataArray,
     ticketRelatedToggler,
+    setTicketRelatedToggler,
     getIdHandler,
   };
 };

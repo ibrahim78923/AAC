@@ -1,12 +1,12 @@
 import { RHFTextField, RHFEditor } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
-export const drawerFormValidationSchema = Yup.object().shape({
-  subject: Yup.string()
-    .trim()
-    .required('Field is Required')
-    .email('Invalid email address'),
-  description: Yup.string().required('Field is Required'),
+export const addRequestApprovalValidationSchema = Yup?.object()?.shape({
+  subject: Yup?.string()
+    ?.trim()
+    ?.required('Field is Required')
+    ?.email('Invalid email address'),
+  description: Yup?.string()?.required('Field is Required'),
 });
 
 export const defaultValues = {
@@ -14,7 +14,7 @@ export const defaultValues = {
   description: '',
 };
 
-export const DrawerFormDataArray = [
+export const addRequestApprovalDataArray = [
   {
     componentProps: {
       name: 'subject',
