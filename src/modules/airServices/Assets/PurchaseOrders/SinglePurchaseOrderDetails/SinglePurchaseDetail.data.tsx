@@ -6,21 +6,21 @@ export const singlePurchaseDetailActionDropdownFunction = (
 ) => [
   {
     title: 'Edit',
-    handleClick: (x: any) => {
+    handleClick: (closeMenu: any) => {
       router.push({
         pathname: AIR_SERVICES?.NEW_PURCHASE_ORDER,
         query: {
-          ...router.query,
+          ...router?.query,
         },
       });
-      x?.();
+      closeMenu?.();
     },
   },
   {
     title: 'Delete',
-    handleClick: (x: any) => {
+    handleClick: (closeMenu: any) => {
       setDeleteModalOpen?.(true);
-      x?.();
+      closeMenu?.();
     },
   },
 ];
@@ -28,14 +28,14 @@ export const singlePurchaseDetailActionDropdownFunction = (
 export const singlePurchaseDetailStatusDropdownFunction = () => [
   {
     title: 'Close',
-    handleClick: (x: any) => {
-      x?.();
+    handleClick: (closeMenu: any) => {
+      closeMenu?.();
     },
   },
   {
     title: 'Submit',
-    handleClick: (x: any) => {
-      x?.();
+    handleClick: (closeMenu: any) => {
+      closeMenu?.();
     },
   },
 ];

@@ -46,7 +46,8 @@ export const useCustomizeTicketColumn = (props: any) => {
       (x: any) => customizeColumn?.[x?.id],
     );
     setTicketsListsColumn(newTableColumns);
-
+    //TODO: destructing as i do not need that in rest queries.
+    /* eslint-disable @typescript-eslint/no-unused-vars */
     const { tableAction, ...restQueries } = router?.query;
     router.push({
       pathname: router?.pathname,
@@ -58,7 +59,7 @@ export const useCustomizeTicketColumn = (props: any) => {
   };
   const onClose = () => {
     const { tableAction, ...restQueries } = router?.query;
-    router.push({
+    router?.push({
       pathname: router?.pathname,
       query: {
         ...restQueries,
@@ -67,35 +68,12 @@ export const useCustomizeTicketColumn = (props: any) => {
     setIsDrawerOpen?.(false);
   };
 
-  const applyAllCheckboxHandler = (e: any) => {
-    if (e?.target?.checked) {
-      const inventory: any = ticketsListsColumnPersist?.reduce(
-        (x: any, y: any) => {
-          const { id } = y;
-          return { ...x, [id]: true };
-        },
-        {},
-      );
-      setCustomizeColumn(inventory);
-      setTicketsListsColumn(ticketsListsColumnPersist);
-      return;
-    }
-    setCustomizeColumn({
-      //   id: true,
-    });
-    setTicketsListsColumn([]);
-  };
-
   return {
     submit,
     onClose,
     checkboxHandler,
     customizeColumn,
-    applyAllCheckboxHandler,
     ticketsListsColumnPersist,
-    setTicketsListsColumn,
-    setIsDrawerOpen,
-    ticketsListsColumn,
     theme,
   };
 };

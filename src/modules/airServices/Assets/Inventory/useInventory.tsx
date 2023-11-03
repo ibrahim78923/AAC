@@ -1,6 +1,5 @@
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-// import { useTheme } from '@mui/material';
 import {
   INVENTORY_LIST_ACTIONS,
   data,
@@ -42,6 +41,8 @@ export const useInventory = () => {
         isDrawerOpen={isDrawerOpen}
         setIsDrawerOpen={setIsDrawerOpen}
         onClose={() => {
+          //TODO: destructing as i do not need that in rest queries.
+          /* eslint-disable @typescript-eslint/no-unused-vars */
           const { tableAction, ...restQueries } = router?.query;
           router.push({
             pathname: router?.pathname,
@@ -58,6 +59,8 @@ export const useInventory = () => {
         isCustomizeModalOpen={isDrawerOpen}
         setIsDrawerOpen={setIsDrawerOpen}
         handleClose={() => {
+          //TODO: destructing as i do not need that in rest queries.
+          /* eslint-disable @typescript-eslint/no-unused-vars */
           const { tableAction, ...restQueries } = router?.query;
           router?.push({
             pathname: router?.pathname,

@@ -10,11 +10,7 @@ export const CustomizeTicketsColumn = (props: any) => {
     onClose,
     checkboxHandler,
     customizeColumn,
-    applyAllCheckboxHandler,
     ticketsListsColumnPersist,
-    setTicketsListsColumn,
-    setIsDrawerOpen,
-    ticketsListsColumn,
     theme,
   } = useCustomizeTicketColumn(props);
 

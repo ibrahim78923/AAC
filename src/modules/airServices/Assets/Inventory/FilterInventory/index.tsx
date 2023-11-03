@@ -8,7 +8,6 @@ export const FilterInventory = (props: any) => {
   const {
     inventoryFilterFormFieldsData,
     router,
-    // theme,
     methods,
     submitInventoryFilterForm,
     handleSubmit,

@@ -3,7 +3,6 @@ import { useUpsertContract } from './useUpsertContract';
 import { Box, Grid } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
 import { LoadingButton } from '@mui/lab';
-// import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 
 export const UpsertContract = () => {
   const {
@@ -14,8 +13,6 @@ export const UpsertContract = () => {
     upsertContractFormFieldsData,
     handleCancelBtn,
   } = useUpsertContract();
-
-  // if ('isLoading') return <SkeletonForm />;
 
   return (
     <>

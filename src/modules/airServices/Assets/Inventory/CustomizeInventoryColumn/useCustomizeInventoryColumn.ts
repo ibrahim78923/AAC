@@ -43,7 +43,8 @@ export const useCustomizeInventoryColumn = (props: any) => {
       (x: any) => customizeColumn?.[x?.id],
     );
     setInventoryListsColumns(newTableColumns);
-
+    //TODO: destructing as i do not need that in rest queries.
+    /* eslint-disable @typescript-eslint/no-unused-vars */
     const { tableAction, ...restQueries } = router?.query;
     router.push({
       pathname: router?.pathname,
@@ -54,6 +55,8 @@ export const useCustomizeInventoryColumn = (props: any) => {
     setIsDrawerOpen(false);
   };
   const onClose = () => {
+    //TODO: destructing as i do not need that in rest queries.
+    /* eslint-disable @typescript-eslint/no-unused-vars */
     const { tableAction, ...restQueries } = router?.query;
     router.push({
       pathname: router?.pathname,
@@ -77,9 +80,7 @@ export const useCustomizeInventoryColumn = (props: any) => {
       setInventoryListsColumns(inventoryListsColumnsPersist);
       return;
     }
-    setCustomizeColumn({
-      //   id: true,
-    });
+    setCustomizeColumn({});
     setInventoryListsColumns([]);
   };
 
