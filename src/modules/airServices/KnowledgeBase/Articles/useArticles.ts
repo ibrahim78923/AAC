@@ -4,7 +4,7 @@ import { AIR_SERVICES } from '@/constants';
 import { articlesColumnsFunction, data } from './Articles.data';
 
 export const useArticles = () => {
-  const { VIEW_ARTICLE } = AIR_SERVICES;
+  const { KNOWLEDGE_BASE } = AIR_SERVICES;
 
   const { push } = useRouter();
   const [selectedArticlesData, setSelectedArticlesData] = useState([]);
@@ -14,7 +14,7 @@ export const useArticles = () => {
     setSelectedArticlesTab(tab);
   };
   const handleSingleArticleNavigation = (id: string) => {
-    push(`${VIEW_ARTICLE}?id=${id}`);
+    push(`${KNOWLEDGE_BASE}?id=${id}`);
   };
   const articlesColumns = articlesColumnsFunction(
     data,

@@ -24,7 +24,6 @@ export const AIR_SERVICES = {
   ASSETS_SOFTWARE_DETAIL: `/air-services/assets/software/detail`,
   ADD_INVENTORY: `/air-services/assets/inventory/add-inventory`,
   UPSERT_ARTICLE: `/air-services/knowledge-base/article/upsert-article`,
-  VIEW_ARTICLE: `/air-services/knowledge-base/article/view-article`,
 };
 
 export const ORG_ADMIN: any = {
