@@ -32,6 +32,7 @@ const ListView = () => {
     handleDeleteModal,
     handleClick,
   } = useListView();
+
   return (
     <>
       <Stack direction="row" justifyContent="space-between">
@@ -40,7 +41,7 @@ const ListView = () => {
           variant="contained"
           sx={{ display: 'flex', gap: '10px', fontWeight: '500' }}
           startIcon={<PlusSharedIcon />}
-          onClick={() => navigate.push(AIR_SALES?.SALES_CREATE_INVOICES)}
+          onClick={() => navigate?.push(AIR_SALES?.SALES_CREATE_INVOICES)}
         >
           Create Invoice
         </Button>

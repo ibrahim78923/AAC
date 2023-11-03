@@ -12,7 +12,7 @@ const ChooseQuotes = () => {
   const renderCustomOption = (option: any) => {
     return (
       <Typography variant="h6">
-        {option.label} {option.name}
+        {option?.label} {option?.name}
       </Typography>
     );
   };

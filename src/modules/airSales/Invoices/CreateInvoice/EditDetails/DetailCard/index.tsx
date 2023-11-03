@@ -25,10 +25,10 @@ const DetailCard = () => {
             <Box sx={{ mt: '5px' }}>
               <LogoSharedIcon />
             </Box>
-            {cardDetails.map((item: any) => (
+            {cardDetails?.map((item: any) => (
               <Stack spacing="5px" key={uuidv4()}>
                 <Typography variant="h5">{item?.label}</Typography>
-                {item.details?.map((val: any) => (
+                {item?.details?.map((val: any) => (
                   <Typography key={uuidv4()} variant="body1">
                     {val?.title}
                   </Typography>
@@ -40,7 +40,7 @@ const DetailCard = () => {
             {clientDetails?.map((item: any) => (
               <Stack gap="5px" key={uuidv4()}>
                 <Typography variant="h5">{item?.label}</Typography>
-                {item.details?.map((val: any) => (
+                {item?.details?.map((val: any) => (
                   <Typography key={uuidv4()} variant="body1">
                     {val?.title}
                   </Typography>
@@ -52,7 +52,11 @@ const DetailCard = () => {
       </Box>
       <Box
         className="invoice-detail"
-        sx={{ marginTop: '20px', p: '10px', bgcolor: theme.palette?.grey[100] }}
+        sx={{
+          marginTop: '20px',
+          p: '10px',
+          bgcolor: theme?.palette?.grey[100],
+        }}
       >
         <Stack
           direction={{ xs: 'column', md: 'row' }}

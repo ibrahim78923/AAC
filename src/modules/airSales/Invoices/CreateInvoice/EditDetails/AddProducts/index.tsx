@@ -24,7 +24,7 @@ const AddProducts = (props: any) => {
 
   // handle radio change value
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setValue((event.target as HTMLInputElement).value);
+    setValue((event?.target as HTMLInputElement)?.value);
   };
 
   // handle submit values

@@ -13,7 +13,7 @@ const useListView = () => {
   };
 
   const handleClick = (event: any) => {
-    setSelectedValue(event.currentTarget);
+    setSelectedValue(event?.currentTarget);
   };
 
   const handleIsViewPage = () => {

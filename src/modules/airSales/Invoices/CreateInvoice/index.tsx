@@ -31,7 +31,7 @@ const CreateInvoice = () => {
               gap={1}
               mt={2}
             >
-              <Box width={{ xs: '100%', sm: '' }}>
+              <Box width={{ xs: '100%', sm: 'auto' }}>
                 <Button
                   variant="outlined"
                   disabled={activeStep === 0 ? true : false}

@@ -8,7 +8,7 @@ export const StatusDropdown = (props: any) => {
   const [selectedValue, setSelectedValue] = useState(null);
 
   const handleStatusClick = (event: any) => {
-    setSelectedValue(event.currentTarget);
+    setSelectedValue(event?.currentTarget);
   };
 
   const handleClose = () => {
@@ -29,7 +29,7 @@ export const StatusDropdown = (props: any) => {
           fontSize: '12px',
         }}
       >
-        {data.getValue()}
+        {data?.getValue()}
         <ArrowDropDown />
       </Button>
       <Menu
