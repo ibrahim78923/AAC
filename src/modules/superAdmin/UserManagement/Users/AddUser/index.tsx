@@ -42,10 +42,11 @@ const AddUser = ({ isOpenDrawer, onClose }: any) => {
     defaultValues: companyOwnerDefaultValues,
   });
   const methods =
-    userType === 'SuperAdmin' ? superAdminMethods : companyOwnerMethods;
+    userType === 'SUPER_ADMIN' ? superAdminMethods : companyOwnerMethods;
   const { handleSubmit, reset } = methods;
 
   const onSubmit = async (values: any) => {
+    values.userType = userType;
     try {
       postUsers({ body: values }).unwrap();
       enqueueSnackbar('User Added Successfully', {

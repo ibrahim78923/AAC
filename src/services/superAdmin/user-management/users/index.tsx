@@ -4,8 +4,8 @@ import { endpoints } from '@/routesConstants/endpoints';
 export const usersApi = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getUsers: builder.query({
-      query: () => ({
-        url: endpoints.SUPER_ADMIN_USER_LIST,
+      query: ({ role }) => ({
+        url: `${endpoints?.USER_LIST}?role=${role}`,
         method: 'GET',
       }),
       providesTags: ['USERS'],
@@ -22,7 +22,7 @@ export const usersApi = baseAPI.injectEndpoints({
     postUsers: builder.mutation({
       query: ({ body }: any) => {
         return {
-          url: endpoints.SUPER_ADMIN_ADD_USER,
+          url: endpoints?.ADD_USER,
           method: 'POST',
           body: body,
         };

@@ -7,11 +7,14 @@ import useUserManagement from '../useUserManagement';
 
 const Users = () => {
   const { useGetUsersQuery } = useUserManagement();
-  const { data } = useGetUsersQuery();
+  const params = {
+    role: 'ORG_ADMIN',
+  };
+  const { data } = useGetUsersQuery(params);
 
   return (
     <>
-      <TanstackTable columns={columns} data={data?.data?.useros} />
+      <TanstackTable columns={columns} data={data?.data?.users} />
       <CustomPagination count={1} rowsPerPageOptions={[1, 2]} entriePages={1} />
     </>
   );

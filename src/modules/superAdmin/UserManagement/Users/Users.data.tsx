@@ -21,7 +21,7 @@ export const columns: any = [
     isSortable: false,
   },
   {
-    accessorFn: (row: any) => row?.UserId,
+    accessorFn: (row: any) => row?._id,
     id: 'userId',
     header: 'UserID',
     isSortable: false,
@@ -47,7 +47,7 @@ export const columns: any = [
     ),
   },
   {
-    accessorFn: (row: any) => row?.UserType,
+    accessorFn: (row: any) => row?.role,
     id: 'userType',
     isSortable: true,
     header: 'UserType',
@@ -80,7 +80,11 @@ export const columns: any = [
     id: 'status',
     isSortable: true,
     header: 'Status',
-    cell: <SwitchBtn defaultChecked />,
+    cell: (info: any) => (
+      <SwitchBtn
+        checked={info?.row?.original?.status === 'ACTIVE' ? true : false}
+      />
+    ),
   },
   {
     accessorFn: (row: any) => row?.createdAt,
@@ -133,43 +137,47 @@ export const superAdminColumns: any = [
     isSortable: false,
   },
   {
-    accessorFn: (row: any) => row.UserId,
+    accessorFn: (row: any) => row?._id,
     id: 'userId',
-    cell: (info: any) => info.getValue(),
     header: 'UserID',
     isSortable: false,
+    cell: (info: any) => info.getValue() ?? 'N/A',
   },
   {
-    accessorFn: (row: any) => row.Name,
+    accessorFn: (row: any) => row?.Name,
     id: 'name',
     isSortable: true,
     header: 'Name',
-    cell: (
+    cell: (info: any) => (
       <Box sx={{ display: 'flex', gap: '5px' }}>
         <Avatar alt="Remy Sharp" src={AvatarImage?.src} />
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-          <Typography component={'span'}>Olivia Rhyeh</Typography>
-          <Typography component={'span'}>@Olivia</Typography>
+          <Typography component={'span'}>
+            {info?.row?.original?.firstName} {info?.row?.original?.lastName}
+          </Typography>
+          <Typography component={'span'}>
+            {info?.row?.original?.email}
+          </Typography>
         </Box>
       </Box>
     ),
   },
   {
-    accessorFn: (row: any) => row.UserType,
+    accessorFn: (row: any) => row?.role,
     id: 'userType',
     isSortable: true,
     header: 'UserType',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info.getValue() ?? 'N/A',
   },
   {
-    accessorFn: (row: any) => row.OrganizationName,
+    accessorFn: (row: any) => row?.OrganizationName,
     id: 'organizationName',
     isSortable: true,
     header: 'OrganizationName',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue() ?? 'N/A',
   },
   {
-    accessorFn: (row: any) => row.Products,
+    accessorFn: (row: any) => row?.Products,
     id: 'products',
     isSortable: true,
     header: 'Products',
@@ -184,18 +192,22 @@ export const superAdminColumns: any = [
     ),
   },
   {
-    accessorFn: (row: any) => row.Status,
+    accessorFn: (row: any) => row?.Status,
     id: 'status',
     isSortable: true,
     header: 'Status',
-    cell: <SwitchBtn defaultChecked />,
+    cell: (info: any) => (
+      <SwitchBtn
+        checked={info?.row?.original?.status === 'ACTIVE' ? true : false}
+      />
+    ),
   },
   {
-    accessorFn: (row: any) => row.CreatedOn,
+    accessorFn: (row: any) => row?.createdAt,
     id: 'createdOn',
     isSortable: true,
     header: 'CreatedOn',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
 ];
 

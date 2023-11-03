@@ -6,8 +6,8 @@ export const endpoints = {
   get_permissions: '/premissions',
   reset_password: 'auth/resetPassword',
   forgot_password: 'auth/forgot-password',
-  SUPER_ADMIN_USER_LIST: '/super-admin/user-list',
-  SUPER_ADMIN_ADD_USER: '/super-admin/add-user',
+  USER_LIST: '/users',
+  ADD_USER: '/users',
   ADD_USER_ACCOUNT: '/super-admin/add-accounts',
   USER_ACCOUNTS_LIST: '/super-admin/accounts-list',
 };
