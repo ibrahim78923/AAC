@@ -18,17 +18,17 @@ export const ActionsFunction = [
 export const availabilityHeader = [
   {
     title: 'Total Agents',
-    icon: <PersonIcon />,
+    icon: <PersonIcon style={{ color: '#6B7280' }} />,
     titlenumber: '15',
   },
   {
     title: 'Available',
-    icon: <CheckCircleRoundedIcon />,
+    icon: <CheckCircleRoundedIcon style={{ color: '#47B263' }} />,
     titlenumber: '12',
   },
   {
     title: 'Not Available',
-    icon: <QueryBuilderRoundedIcon />,
+    icon: <QueryBuilderRoundedIcon style={{ color: '#FFC20E' }} />,
     titlenumber: '3',
   },
 ];
