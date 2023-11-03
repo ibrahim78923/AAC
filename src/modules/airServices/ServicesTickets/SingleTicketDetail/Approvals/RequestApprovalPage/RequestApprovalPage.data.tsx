@@ -1,5 +1,5 @@
 import { AvatarImage } from '@/assets/images';
-export const approvalData = [
+export const requestApprovalPageData = [
   {
     id: '1',
     img: AvatarImage,
@@ -8,7 +8,7 @@ export const approvalData = [
     detail: `Hi Guys We have been facing issue when we try to reach email
       server 3 Hi Guys.`,
     status: 'Request',
-    showButton: 'Recieved',
+    showButton: 'Received',
   },
   {
     id: '2',
@@ -17,7 +17,7 @@ export const approvalData = [
     iconText: 'Received for approval  on  Thu, 8 Mar  11:02 PM',
     detail: `Hi Guys We have been facing issue when we try to reach email
       server 3 Hi Guys.`,
-    status: 'Recieve',
+    status: 'Receive',
     showButton: 'Requested',
   },
   {

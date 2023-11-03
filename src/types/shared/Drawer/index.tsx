@@ -11,4 +11,8 @@ export interface CommonDrawerPropsI {
   footerActionText?: string;
   footerActionTextIcon?: any;
   onFooterActionSubmit?: () => void;
+  isCancel?: boolean;
+  isFooterFeature?: boolean;
+  isFooterFeatureText?: string;
+  isFooterFeatureHandler?: () => void;
 }
