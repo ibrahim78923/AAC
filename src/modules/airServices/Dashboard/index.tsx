@@ -5,10 +5,10 @@ import { Box, Button, Grid, Typography } from '@mui/material';
 import { AnnouncementDashboardCard } from '@/modules/airServices/Dashboard/AnnouncementDashboardCard';
 import { TopPerformerDashboardCard } from '@/modules/airServices/Dashboard/TopPerformerDashboardCard';
 import { v4 as uuidv4 } from 'uuid';
-import ticketDashboardCardsData from './TicketDashboardCards/TicketDashboardCards.data';
-import recentActivitiesDashboardCardData from './RecentActivitiesDashboardCard/RecentActivitiesDashboardCard.data';
-import AnnouncementDashboardCardData from './AnnouncementDashboardCard/AnnouncementDashboardCard.data';
-import topPerformerDashboardCardData from './TopPerformerDashboardCard/TopPerformerDashboardCard.data';
+import { ticketDashboardCardsData } from './TicketDashboardCards/TicketDashboardCards.data';
+import { recentActivitiesDashboardCardData } from './RecentActivitiesDashboardCard/RecentActivitiesDashboardCard.data';
+import { announcementDashboardCardData } from './AnnouncementDashboardCard/AnnouncementDashboardCard.data';
+import { topPerformerDashboardCardData } from './TopPerformerDashboardCard/TopPerformerDashboardCard.data';
 import { BarChart } from './Chart/BarChart';
 import { PieChart } from './Chart/PieChart';
 import { HeaderBarChart } from './Chart/HeaderBarChart';
@@ -17,16 +17,16 @@ import { AnnouncementHeader } from './AnnouncementHeader';
 
 const Dashboard = () => {
   return (
-    <div>
+    <Box>
       <HeaderDashboard />
       <br />
-      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+      <Box display={'flex'} flexWrap={'wrap'} gap={1}>
         {ticketDashboardCardsData?.map((item) => (
           <Box key={uuidv4()} flex={1}>
             <TicketDashboardCards
-              icon={item.icon}
-              count={item.count}
-              label={item.label}
+              icon={item?.icon}
+              count={item?.count}
+              label={item?.label}
             />
           </Box>
         ))}
@@ -43,10 +43,10 @@ const Dashboard = () => {
                 }}
               >
                 <br />
-                <Box sx={{ marginLeft: 2 }}>
+                <Box marginLeft={2}>
                   <HeaderBarChart />
                 </Box>
-                <Box sx={{ marginTop: 2, marginBottom: 2 }}>
+                <Box marginTop={2} marginBottom={2}>
                   <BarChart />
                 </Box>
               </Box>
@@ -60,17 +60,17 @@ const Dashboard = () => {
                 }}
               >
                 <br />
-                <Box sx={{ marginLeft: 2 }}>
+                <Box marginLeft={2}>
                   <Typography variant="h5">Recent Activities</Typography>
                 </Box>
-                <Box sx={{ marginTop: 2 }} key={uuidv4()}>
+                <Box marginTop={2} key={uuidv4()}>
                   {recentActivitiesDashboardCardData?.map((item, index) => (
                     <Box key={uuidv4()}>
                       <RecentActivitiesDashboardCard
-                        icon={item.icon}
-                        recentActivityText={item.recentActivityText}
-                        recentActivityTextOne={item.recentActivityTextOne}
-                        recentactivitytextTwo={item.recentactivitytextTwo}
+                        icon={item?.icon}
+                        recentActivityText={item?.recentActivityText}
+                        recentActivityTextOne={item?.recentActivityTextOne}
+                        recentactivitytextTwo={item?.recentactivitytextTwo}
                         isborderbottom={
                           recentActivitiesDashboardCardData?.length - 1 !==
                           index
@@ -79,7 +79,11 @@ const Dashboard = () => {
                     </Box>
                   ))}
                 </Box>
-                <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                <Box
+                  display={'flex'}
+                  justifyContent={'center'}
+                  marginBottom={1}
+                >
                   <Button variant="text">View All</Button>
                 </Box>
               </Box>
@@ -110,17 +114,17 @@ const Dashboard = () => {
                 {topPerformerDashboardCardData?.map((item) => (
                   <Box key={uuidv4()}>
                     <TopPerformerDashboardCard
-                      icon={item.icon}
-                      iconOne={item.iconOne}
-                      iconTwo={item.iconTwo}
-                      topPerformanceText={item.topPerformanceText}
-                      topPerformanceTextOne={item.topPerformanceTextOne}
-                      topPerformanceTextTwo={item.topPerformanceTextTwo}
-                      topPerformanceTextThree={item.topPerformanceTextThree}
-                      topPerformanceTextFour={item.topPerformanceTextFour}
-                      topPerformanceTextFive={item.topPerformanceTextFive}
-                      topPerformanceTextSix={item.topPerformanceTextSix}
-                      topPerformanceTextSeven={item.topPerformanceTextSeven}
+                      icon={item?.icon}
+                      iconOne={item?.iconOne}
+                      iconTwo={item?.iconTwo}
+                      topPerformanceText={item?.topPerformanceText}
+                      topPerformanceTextOne={item?.topPerformanceTextOne}
+                      topPerformanceTextTwo={item?.topPerformanceTextTwo}
+                      topPerformanceTextThree={item?.topPerformanceTextThree}
+                      topPerformanceTextFour={item?.topPerformanceTextFour}
+                      topPerformanceTextFive={item?.topPerformanceTextFive}
+                      topPerformanceTextSix={item?.topPerformanceTextSix}
+                      topPerformanceTextSeven={item?.topPerformanceTextSeven}
                     />
                   </Box>
                 ))}
@@ -135,25 +139,25 @@ const Dashboard = () => {
                 }}
               >
                 <br />
-                <Box sx={{ marginLeft: 2 }}>
+                <Box marginLeft={2}>
                   <AnnouncementHeader />
                 </Box>
                 <Box>
-                  {AnnouncementDashboardCardData?.map((item, index) => (
+                  {announcementDashboardCardData?.map((item, index) => (
                     <Box key={uuidv4()}>
                       <AnnouncementDashboardCard
-                        icon={item.icon}
-                        announcementText={item.announcementText}
-                        announcementTextOne={item.announcementTextOne}
-                        announcementTextTwo={item.announcementTextTwo}
+                        icon={item?.icon}
+                        announcementText={item?.announcementText}
+                        announcementTextOne={item?.announcementTextOne}
+                        announcementTextTwo={item?.announcementTextTwo}
                         isborderbottom={
-                          AnnouncementDashboardCardData?.length - 1 !== index
+                          announcementDashboardCardData?.length - 1 !== index
                         }
                       />
                     </Box>
                   ))}
                 </Box>
-                <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                <Box display={'flex'} justifyContent={'center'}>
                   <Button>View All</Button>
                 </Box>
               </Box>
@@ -161,7 +165,7 @@ const Dashboard = () => {
           </Grid>
         </Grid>
       </Grid>
-    </div>
+    </Box>
   );
 };
 

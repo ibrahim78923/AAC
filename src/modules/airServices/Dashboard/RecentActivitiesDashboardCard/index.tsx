@@ -12,7 +12,7 @@ export const RecentActivitiesDashboardCard = ({
   const theme = useTheme();
   return (
     <Box sx={styles?.boxMain(isborderbottom, theme)}>
-      <Box sx={{ marginLeft: 2 }}>
+      <Box marginLeft={2}>
         <Avatar
           alt=""
           src={icon?.src}

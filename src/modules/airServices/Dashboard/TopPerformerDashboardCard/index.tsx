@@ -22,10 +22,10 @@ export const TopPerformerDashboardCard = ({
   return (
     <>
       <Box sx={styles?.boxMain(theme)}>
-        <Box sx={{ marginLeft: 2, marginTop: 2 }}>
+        <Box marginLeft={2} marginTop={2}>
           <Typography variant="h5">Top Performer</Typography>
         </Box>
-        <Box sx={{ display: 'flex', gap: 2, marginLeft: 2, marginTop: 2 }}>
+        <Box display={'flex'} gap={2} marginLeft={2} marginTop={2}>
           <Avatar
             alt=""
             src={icon?.src}
@@ -43,47 +43,39 @@ export const TopPerformerDashboardCard = ({
             </Typography>
           </Box>
         </Box>
-        <Box sx={{ display: 'flex', gap: 2, marginLeft: 2, marginTop: 3 }}>
+        <Box display={'flex'} gap={2} marginLeft={2} marginTop={3}>
           <Typography sx={styles?.topPerformaceTextTwo(theme)}>
             {topPerformanceTextTwo}
           </Typography>
         </Box>
-        <Box sx={{ display: 'flex', gap: 2, marginLeft: 2 }}>
-          <Typography sx={styles?.topPerformaceTextThree}>
+        <Box display={'flex'} gap={2} marginLeft={2}>
+          <Typography sx={styles?.topPerformaceTextThree(theme)}>
             {topPerformanceTextThree}
           </Typography>
         </Box>
-        <Box sx={{ display: 'flex', gap: 2, marginLeft: 4, marginTop: 1 }}>
+        <Box display={'flex'} gap={2} marginLeft={4} marginTop={1}>
           <Typography sx={styles?.topPerformaceProgressBar(theme)}>
             {progress}%
           </Typography>
         </Box>
-        <Box sx={{ display: 'flex', gap: 2, marginLeft: 2, marginTop: 1 }}>
+        <Box display={'flex'} gap={2} marginLeft={2} marginTop={1}>
           <LinearProgress
             value={progress}
             variant="determinate"
             sx={{ width: '62%' }}
           />
         </Box>
-        <Box
-          sx={{
-            display: 'flex',
-            gap: 2,
-            px: 2,
-            marginTop: 3,
-            marginBottom: 4,
-          }}
-        >
+        <Box display={'flex'} gap={2} px={2} marginTop={3} marginBottom={4}>
           <Avatar
             alt=""
             src={iconOne?.src}
             sx={{ width: '2.375rem', height: '2.721rem' }}
           />
           <Box>
-            <Typography sx={styles?.topPerformaceTextFour}>
+            <Typography sx={styles?.topPerformaceTextFour(theme)}>
               {topPerformanceTextFour}
             </Typography>
-            <Typography sx={styles?.topPerformaceTextFour}>
+            <Typography sx={styles?.topPerformaceTextFour(theme)}>
               {topPerformanceTextFive}
             </Typography>
           </Box>
@@ -94,10 +86,10 @@ export const TopPerformerDashboardCard = ({
             sx={{ width: '2.375rem', height: '2.721rem' }}
           />
           <Box>
-            <Typography sx={styles?.topPerformaceTextFour}>
+            <Typography sx={styles?.topPerformaceTextFour(theme)}>
               {topPerformanceTextSix}
             </Typography>
-            <Typography sx={styles?.topPerformaceTextFour}>
+            <Typography sx={styles?.topPerformaceTextFour(theme)}>
               {topPerformanceTextSeven}
             </Typography>
           </Box>

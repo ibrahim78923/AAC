@@ -1,4 +1,4 @@
-import { Button } from '@mui/material';
+import { Box, Button } from '@mui/material';
 
 export const actionsFunction = [
   {
@@ -9,14 +9,14 @@ export const actionsFunction = [
   },
 ];
 
-export const dashboardFunction = [
+export const dashboardFunction = (theme: any) => [
   {
     title: (
-      <div style={{ display: 'flex', gap: '3rem' }}>
+      <Box display={'flex'} gap={'3rem'}>
         Services
-        <div
-          style={{
-            color: '#47B263',
+        <Box
+          sx={{
+            color: theme?.palette?.success?.main,
             border: '1px solid',
             padding: '0 10px',
             borderRadius: '16px',
@@ -25,8 +25,8 @@ export const dashboardFunction = [
           }}
         >
           open
-        </div>
-      </div>
+        </Box>
+      </Box>
     ),
   },
   {
@@ -43,7 +43,12 @@ export const dashboardFunction = [
   },
   {
     title: (
-      <Button sx={{ border: '1px solid #4B5563', color: '#4B5563' }}>
+      <Button
+        sx={{
+          border: `0.063rem solid ${theme?.palette?.grey?.[600]}`,
+          color: theme?.palette?.grey?.[600],
+        }}
+      >
         Manage Dashboards
       </Button>
     ),

@@ -15,30 +15,20 @@ export const styles: any = {
 
   announcementText: (theme: any) => ({
     fontSize: '0.75rem',
-    fontStyle: 'normal',
     fontWeight: 700,
-    lineHeight: '1.125rem',
-    letterSpacing: '-0.015rem',
     color: theme?.palette?.common?.[800],
     mt: 1,
   }),
 
   announcementTextOne: {
     fontSize: '0.75rem',
-    fontStyle: 'normal',
-    fontWeight: 400,
-    lineHeight: '1.125rem',
-    letterSpacing: '-0.015rem',
     color: '#A0A3BD',
     mt: 1,
   },
 
   announcementTextTwo: (theme: any) => ({
     fontSize: '0.75rem',
-    fontStyle: 'normal',
     fontWeight: 600,
-    lineHeight: '1.125rem',
-    letterSpacing: '-0.015rem',
     color: theme?.palette?.custom?.main,
     display: 'flex',
   }),

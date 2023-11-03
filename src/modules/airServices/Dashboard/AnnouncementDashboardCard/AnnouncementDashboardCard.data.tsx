@@ -1,6 +1,6 @@
-import AnnouncementAvatar from '@/assets/images/modules/airServices/Tickets/AnnouncementAvatar.png';
+import AnnouncementAvatar from '@/assets/images/modules/airServices/Dashboard/announcement-avatar.png';
 
-const announcementDashboardCardData = [
+export const announcementDashboardCardData = [
   {
     icon: AnnouncementAvatar,
     announcementText: ' We are excited to announce that..',
@@ -20,5 +20,3 @@ const announcementDashboardCardData = [
     announcementTextTwo: 'Kyle Jenner',
   },
 ];
-
-export default announcementDashboardCardData;

@@ -6,7 +6,7 @@ export const TicketDashboardCards = ({ icon, count, label }: any) => {
   const theme = useTheme();
   return (
     <Box sx={styles?.boxMain(theme)}>
-      <Box sx={{ marginLeft: 3 }}>
+      <Box marginLeft={3}>
         <Avatar
           alt=""
           src={icon?.src}

@@ -12,7 +12,7 @@ export const AnnouncementDashboardCard = ({
   const theme = useTheme();
   return (
     <Box sx={styles?.boxMain(isborderbottom, theme)}>
-      <Box sx={{ marginTop: 1 }}>
+      <Box marginTop={1}>
         <Typography sx={styles?.announcementText}>
           {announcementText}
         </Typography>
@@ -20,7 +20,7 @@ export const AnnouncementDashboardCard = ({
           {announcementTextOne}
         </Typography>
       </Box>
-      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+      <Box display={'flex'} justifyContent={'center'}>
         <Avatar
           alt=""
           src={icon?.src}

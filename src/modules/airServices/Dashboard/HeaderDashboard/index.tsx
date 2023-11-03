@@ -28,7 +28,7 @@ export const HeaderDashboard = ({}: any) => {
               </Grid>
               <Grid item>
                 <SingleDropdownButton
-                  dropdownOptions={dashboardFunction}
+                  dropdownOptions={dashboardFunction(theme)}
                   dropdownName="Dashboards"
                 />
               </Grid>

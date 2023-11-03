@@ -2,8 +2,8 @@ const pieChartData: any = {
   data: [44, 55],
 };
 
-const pieChartDataOptions: any = {
-  colors: ['#47B263', '#FFC20E'],
-};
+const pieChartDataOptions = (theme: any) => ({
+  colors: [theme?.palette?.success?.main, theme?.palette?.warning?.main],
+});
 
 export { pieChartData, pieChartDataOptions };

@@ -2,7 +2,7 @@ import TopPerformanceImage from '@/assets/images/modules/LogitechMouse/CustomerW
 import TopPerformanceImageTwo from '@/assets/images/modules/LogitechMouse/MostValuablePlayer.png';
 import TopPerformaceAvatar from '@/assets/images/modules/LogitechMouse/Avatar.png';
 
-const topPerformerDashboardCardData = [
+export const topPerformerDashboardCardData = [
   {
     icon: TopPerformaceAvatar,
     topPerformanceText: ' Alesha Rai',
@@ -17,5 +17,3 @@ const topPerformerDashboardCardData = [
     iconTwo: TopPerformanceImageTwo,
   },
 ];
-
-export default topPerformerDashboardCardData;

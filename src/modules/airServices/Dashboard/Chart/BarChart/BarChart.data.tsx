@@ -17,14 +17,18 @@ const barChartData = [
   },
 ];
 
-const barChartDataOptions: any = {
+const barChartDataOptions = (theme: any) => ({
   labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-  colors: ['#0AADC7', '#FF4A4A', '#FFC20E', '#35A275'],
+  colors: [
+    theme?.palette?.custom?.bright,
+    theme?.palette?.error?.main,
+    theme?.palette?.warning?.main,
+    '#35A275',
+  ],
   plotOptions: {
     bar: {
       columnWidth: '30%',
     },
   },
-};
-
+});
 export { barChartData, barChartDataOptions };

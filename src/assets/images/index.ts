@@ -105,3 +105,10 @@ export { default as DealReportImage } from './modules/airSales/Reports/reports.p
 export { default as documentContained } from './modules/superAdmin/Settings/ModuleCreation/document-contained.png';
 export { default as ApplePhoneImage } from './modules/socialComponents/calling/apple-phone.png';
 export { default as NoSearchResultFoundImage } from './shared/no-search-result.png';
+export { default as AnnouncementAvatar } from './modules/airServices/Dashboard/announcement-avatar.png';
+export { default as ClipboardTick } from './modules/airServices/Dashboard/clipboard-tick-dashboard.png';
+export { default as FirstAidKit } from './modules/airServices/Dashboard/first-aid-kit.png';
+export { default as SecondAidKit } from './modules/airServices/Dashboard/second-aid-kit.png';
+export { default as ThirdAidKit } from './modules/airServices/Dashboard/third-aid-kit.png';
+export { default as FourAidKit } from './modules/airServices/Dashboard/four-aid-kit.png';
+export { default as FiveAidKit } from './modules/airServices/Dashboard/five-aid-kit.png';

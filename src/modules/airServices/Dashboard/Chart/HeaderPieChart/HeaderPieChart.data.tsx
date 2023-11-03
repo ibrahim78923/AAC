@@ -15,20 +15,28 @@ export const actionsFunction = [
     title: 'Finance',
   },
 ];
-export const availabilityHeader = [
+export const availabilityHeader = (theme: any) => [
   {
     title: 'Total Agents',
-    icon: <PersonIcon style={{ color: '#6B7280' }} />,
+    icon: <PersonIcon style={{ color: theme?.palette?.custom?.main }} />,
     titlenumber: '15',
   },
   {
     title: 'Available',
-    icon: <CheckCircleRoundedIcon style={{ color: '#47B263' }} />,
+    icon: (
+      <CheckCircleRoundedIcon
+        style={{ color: theme?.palette?.success?.main }}
+      />
+    ),
     titlenumber: '12',
   },
   {
     title: 'Not Available',
-    icon: <QueryBuilderRoundedIcon style={{ color: '#FFC20E' }} />,
+    icon: (
+      <QueryBuilderRoundedIcon
+        style={{ color: theme?.palette?.warning?.main }}
+      />
+    ),
     titlenumber: '3',
   },
 ];
