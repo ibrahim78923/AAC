@@ -5,7 +5,8 @@ import { AIR_SERVICES } from '@/constants';
 import { actionBtnData, articlesColumnsFunction, data } from './Articles.data';
 
 export const useArticles = () => {
-  const { KNOWLEDGE_BASE } = AIR_SERVICES;
+  const { KNOWLEDGE_BASE_VIEW_ARTICLE, KNOWLEDGE_BASE_EDIT_ARTICLE } =
+    AIR_SERVICES;
   const { push } = useRouter();
   const [selectedArticlesData, setSelectedArticlesData] = useState([]);
   const [selectedArticlesTab, setSelectedArticlesTab] = useState('all');
@@ -16,7 +17,10 @@ export const useArticles = () => {
     setSelectedArticlesTab(tab);
   };
   const handleSingleArticleNavigation = (id: string) => {
-    push(`${KNOWLEDGE_BASE}?id=${id}`);
+    push(`${KNOWLEDGE_BASE_VIEW_ARTICLE}?id=${id}`);
+  };
+  const handleEditNavigation = (id: string) => {
+    push(`${KNOWLEDGE_BASE_EDIT_ARTICLE}?id=${id}`);
   };
   const articlesColumns = articlesColumnsFunction(
     data,
@@ -31,7 +35,11 @@ export const useArticles = () => {
       autoHideDuration: 2000,
     });
   };
-  const dropdownOptions = actionBtnData(setOpenDeleteModal, setMoveFolderModal);
+  const dropdownOptions = actionBtnData(
+    setOpenDeleteModal,
+    setMoveFolderModal,
+    handleEditNavigation,
+  );
 
   return {
     articlesColumns,

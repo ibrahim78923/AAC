@@ -135,10 +135,12 @@ export const articlesTabs = [
 export const actionBtnData = (
   setOpenDeleteModal: any,
   setMoveFolderModal: any,
+  handleEditNavigation: any,
 ) => [
   {
     title: 'Edit',
     handleClick: (popClose: any) => {
+      handleEditNavigation();
       popClose();
     },
   },
