@@ -1,7 +1,7 @@
 import { ArrowLeftIcon } from '@/assets/icons';
 import { Box, Button, Typography } from '@mui/material';
 
-export const SingleTicketHeader = ({ setStatus, setOpenPopup }: any) => {
+export const SingleTicketHeader = ({ onSubmit, setOpenPopup }: any) => {
   return (
     <Box
       display={'flex'}
@@ -32,7 +32,7 @@ export const SingleTicketHeader = ({ setStatus, setOpenPopup }: any) => {
         <Button variant="outlined" onClick={() => setOpenPopup(true)}>
           Share
         </Button>
-        <Button variant="contained" onClick={() => setStatus(true)}>
+        <Button variant="contained" onClick={onSubmit}>
           Mark ticket as closed
         </Button>
       </Box>

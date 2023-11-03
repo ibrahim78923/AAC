@@ -1,8 +1,10 @@
-import { Box, Typography, useTheme } from '@mui/material';
-import { v4 as uuidv4 } from 'uuid';
+import HTMLRenderer from '@/components/HTMLRenderer';
+import { Box, Typography } from '@mui/material';
 
-export const SingleTicketDetail = ({ singleTicketDetailData, status }: any) => {
-  const theme = useTheme();
+export const SingleTicketDetail = ({
+  status,
+  singleTicketDetailContent,
+}: any) => {
   return (
     <Box
       display={'flex'}
@@ -13,42 +15,9 @@ export const SingleTicketDetail = ({ singleTicketDetailData, status }: any) => {
         height={'20rem'}
         overflow={'scroll'}
       >
-        <Typography variant="h4">{singleTicketDetailData?.heading}</Typography>
-        <Box display={'flex'} alignItems={'center'} mt={1}>
-          <Typography variant="body3">
-            Created on {singleTicketDetailData?.createdOn} -
-          </Typography>
-          <Typography variant="body3" color="primary">
-            Via Portal
-          </Typography>
-        </Box>
-        <Typography variant="body2" mt={1}>
-          Description:
-          <br />
-          {singleTicketDetailData?.description}
-        </Typography>
-        <Typography variant="body2" mt={1}>
-          Features :
-          {singleTicketDetailData?.features?.map((option: any) => (
-            <option key={uuidv4()}>{option?.feature}</option>
-          ))}
-        </Typography>
-        <Typography variant="body2" mt={1}>
-          System Requirements
-          <br />
-          Windows :
-          {singleTicketDetailData?.windows?.map((option: any) => (
-            <li key={uuidv4()}>{option?.window}</li>
-          ))}
-        </Typography>
-
-        <Typography variant="body2" mt={1}>
-          Mac OS :
-          {singleTicketDetailData?.macOS?.map((option: any) => (
-            <li key={uuidv4()}>{option?.mac}</li>
-          ))}
-        </Typography>
+        <HTMLRenderer content={singleTicketDetailContent} />
       </Box>
+
       <Box
         gap={1}
         display={'flex'}
@@ -57,7 +26,7 @@ export const SingleTicketDetail = ({ singleTicketDetailData, status }: any) => {
         padding={2}
       >
         <Typography variant="h4">AGENT WORKING ON</Typography>
-        <Typography variant="h6" color={theme?.palette?.error?.main}>
+        <Typography variant="h6" color="error.main">
           No Agent
         </Typography>
 
@@ -67,14 +36,14 @@ export const SingleTicketDetail = ({ singleTicketDetailData, status }: any) => {
         <Typography
           variant="body1"
           borderRadius={3}
-          bgcolor={theme?.palette?.primary?.main}
+          bgcolor="primary.main"
           maxWidth={'7rem'}
           width={'100%'}
           display={'flex'}
           alignItems={'center'}
           justifyContent={'center'}
         >
-          {status === true ? 'Closed' : 'Processing'}
+          {status ? 'Closed' : 'Processing'}
         </Typography>
       </Box>
     </Box>

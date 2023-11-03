@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   Dialog,
   DialogActions,
   DialogContent,
@@ -12,6 +11,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { singleTicketPopupDataArray } from './SingleTicketPopup.data';
 import { AlertModalCloseIcon } from '@/assets/icons';
 import { useSingleTicketPopup } from './useSingleTicketPopup';
+import { LoadingButton } from '@mui/lab';
 
 export const SingleTicketPopup = (props: any) => {
   const { openPopup, setOpenPopup } = props;
@@ -56,12 +56,12 @@ export const SingleTicketPopup = (props: any) => {
           marginBottom={'2rem'}
           gap={'1rem'}
         >
-          <Button variant="outlined" onClick={() => setOpenPopup(false)}>
+          <LoadingButton variant="outlined" onClick={() => setOpenPopup(false)}>
             Cancel
-          </Button>
-          <Button variant="contained" onClick={onSubmit}>
+          </LoadingButton>
+          <LoadingButton variant="contained" onClick={onSubmit}>
             OK
-          </Button>
+          </LoadingButton>
         </Box>
       </DialogActions>
     </Dialog>

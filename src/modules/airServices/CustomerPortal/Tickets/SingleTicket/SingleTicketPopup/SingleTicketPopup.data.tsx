@@ -1,9 +1,9 @@
 import { RHFCheckbox, RHFSelect } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
-export const singleTicketPopupValidationSchema = Yup.object().shape({
-  addPeople: Yup.string().required('Field is Required'),
-  emailNotification: Yup.string().required('Field is Required'),
+export const singleTicketPopupValidationSchema = Yup?.object()?.shape({
+  addPeople: Yup?.string()?.required('Field is Required'),
+  emailNotification: Yup?.string()?.required('Field is Required'),
 });
 
 export const singleTicketPopupDefaultValues = {

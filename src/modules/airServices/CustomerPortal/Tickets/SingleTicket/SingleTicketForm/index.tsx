@@ -1,7 +1,7 @@
 import { FormProvider } from '@/components/ReactHookForm';
 import { v4 as uuidv4 } from 'uuid';
 import { useSingleTicketForm } from './useSingleTicketForm';
-import { Box, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 
 export const SingleTicketForm = (props: any) => {
@@ -14,16 +14,15 @@ export const SingleTicketForm = (props: any) => {
     singleTicketFormDefaultValues,
     singleTicketFormValidationSchema,
   });
+
   return (
     <>
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
         {singleTicketFormDataArray?.map((item: any) => (
-          <item.component {...item?.componentProps} key={uuidv4()}>
-            {item?.componentProps?.select &&
-              item?.options?.map((option: any) => (
-                <option key={uuidv4()}>{option?.label}</option>
-              ))}
-          </item.component>
+          <item.component
+            {...item?.componentProps}
+            key={uuidv4()}
+          ></item.component>
         ))}
       </FormProvider>
       <Box
@@ -33,7 +32,7 @@ export const SingleTicketForm = (props: any) => {
         gap={'1rem'}
       >
         <Box display={'flex'} alignItems={'center'} gap={1}>
-          <LoadingButton>Attach file</LoadingButton>
+          <Button>Attach file</Button>
           <Typography variant="body2">(File Size is less then 40MB)</Typography>
         </Box>
         <LoadingButton variant="contained" onClick={onSubmit}>

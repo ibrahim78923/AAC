@@ -1,22 +1,22 @@
 import { enqueueSnackbar } from 'notistack';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 export const useSingleTicket = () => {
   const [status, setStatus] = useState(false);
   const [openPopup, setOpenPopup] = useState(false);
 
-  useEffect(() => {
-    status &&
-      enqueueSnackbar('Your ticket has been close', {
-        variant: 'success',
-        autoHideDuration: 3000,
-      });
-  }, [status]);
+  const onSubmit = async () => {
+    enqueueSnackbar('Added 1 email(s) to the ticket', {
+      variant: 'success',
+      autoHideDuration: 3000,
+    });
+    setStatus(true);
+  };
 
   return {
     status,
-    setStatus,
     openPopup,
     setOpenPopup,
+    onSubmit,
   };
 };
