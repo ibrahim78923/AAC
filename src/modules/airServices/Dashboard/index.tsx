@@ -46,7 +46,7 @@ const Dashboard = () => {
                 <Box sx={{ marginLeft: 2 }}>
                   <HeaderBarChart />
                 </Box>
-                <Box sx={{ marginTop: 2 }}>
+                <Box sx={{ marginTop: 2, marginBottom: 2 }}>
                   <BarChart />
                 </Box>
               </Box>

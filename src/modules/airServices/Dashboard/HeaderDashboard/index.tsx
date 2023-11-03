@@ -1,6 +1,6 @@
 import { Grid, Typography, useTheme } from '@mui/material';
 import { SingleDropdownButton } from '../../../../components/SingleDropdownButton';
-import { ActionsFunction, DashboardFunction } from './HeaderDashboard.data';
+import { actionsFunction, dashboardFunction } from './HeaderDashboard.data';
 import { styles } from './HeaderDashboard.styles';
 
 export const HeaderDashboard = ({}: any) => {
@@ -22,13 +22,13 @@ export const HeaderDashboard = ({}: any) => {
             <Grid container spacing={1}>
               <Grid item>
                 <SingleDropdownButton
-                  dropdownOptions={ActionsFunction}
+                  dropdownOptions={actionsFunction}
                   dropdownName="Action"
                 />
               </Grid>
               <Grid item>
                 <SingleDropdownButton
-                  dropdownOptions={DashboardFunction}
+                  dropdownOptions={dashboardFunction}
                   dropdownName="Dashboards"
                 />
               </Grid>

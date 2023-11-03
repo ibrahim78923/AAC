@@ -1,4 +1,5 @@
-import { Box, Typography } from '@mui/material';
+import { ViewDetailSharedIcon } from '@/assets/icons';
+import { Box, Button, Typography } from '@mui/material';
 
 export const AnnouncementHeader = ({}: any) => {
   return (
@@ -11,6 +12,7 @@ export const AnnouncementHeader = ({}: any) => {
         }}
       >
         <Typography variant="h4">Announcements</Typography>
+        <Button variant="text" startIcon={<ViewDetailSharedIcon />}></Button>
       </Box>
     </>
   );

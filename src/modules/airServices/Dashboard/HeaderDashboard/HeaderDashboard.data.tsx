@@ -1,6 +1,6 @@
 import { Button } from '@mui/material';
 
-export const ActionsFunction = [
+export const actionsFunction = [
   {
     title: 'Copy URL',
   },
@@ -9,7 +9,7 @@ export const ActionsFunction = [
   },
 ];
 
-export const DashboardFunction = [
+export const dashboardFunction = [
   {
     title: (
       <div style={{ display: 'flex', gap: '3rem' }}>

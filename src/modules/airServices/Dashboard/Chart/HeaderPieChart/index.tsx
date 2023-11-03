@@ -1,6 +1,6 @@
 import { Box, Grid, Typography } from '@mui/material';
 import { SingleDropdownButton } from '../../../../../components/SingleDropdownButton';
-import { ActionsFunction, availabilityHeader } from './HeaderPieChart.data';
+import { actionsFunction, availabilityHeader } from './HeaderPieChart.data';
 import { v4 as uuidv4 } from 'uuid';
 
 export const HeaderPieChart = ({}: any) => {
@@ -15,7 +15,7 @@ export const HeaderPieChart = ({}: any) => {
       >
         <Typography variant="h4">Agent Availability</Typography>
         <SingleDropdownButton
-          dropdownOptions={ActionsFunction}
+          dropdownOptions={actionsFunction}
           dropdownName="All Dept."
         />
       </Box>

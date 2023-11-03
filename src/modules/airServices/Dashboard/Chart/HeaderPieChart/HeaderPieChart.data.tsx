@@ -1,7 +1,7 @@
 import PersonIcon from '@mui/icons-material/Person';
 import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
 import QueryBuilderRoundedIcon from '@mui/icons-material/QueryBuilderRounded';
-export const ActionsFunction = [
+export const actionsFunction = [
   {
     title: 'AllDepartments',
   },

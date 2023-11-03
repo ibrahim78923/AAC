@@ -1,7 +1,7 @@
-const radialBarChartData = [12, 3, 40, 30, 5, 30];
+const radialBarChartData = [100, 55, 67, 83];
 const radialBarChartDataOptions: any = {
-  labels: ['Apples', 'Oranges', 'Bananas', 'Berries'],
-  colors: ['#FFC20E', '#FF4A4A', '#35A275', '#0AADC7'],
+  labels: ['Low', 'Medium', 'High', 'Urgent'],
+  colors: ['#FFC20E', '#0AADC7', '#35A275', '#FF4A4A'],
   plotOptions: {
     radialBar: {
       dataLabels: {

@@ -1,6 +1,6 @@
 import { Box, Typography } from '@mui/material';
 import { SingleDropdownButton } from '../../../../../components/SingleDropdownButton';
-import { ActionsFunction } from './HeaderBarChart.data';
+import { actionsFunction } from './HeaderBarChart.data';
 
 export const HeaderBarChart = ({}: any) => {
   return (
@@ -14,7 +14,7 @@ export const HeaderBarChart = ({}: any) => {
       >
         <Typography variant="h4">Tickets based on Status</Typography>
         <SingleDropdownButton
-          dropdownOptions={ActionsFunction}
+          dropdownOptions={actionsFunction}
           dropdownName="Status"
         />
       </Box>

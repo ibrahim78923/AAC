@@ -1,4 +1,4 @@
-export const ActionsFunction = [
+export const actionsFunction = [
   {
     title: 'Priority',
   },

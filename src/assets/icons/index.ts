@@ -54,6 +54,7 @@ export { default as CheckboxCheckedIcon } from './shared/checkbox-checked-icon';
 export { default as ExportIcon } from './shared/export-icon';
 export { default as ExportShared } from './shared/export-icon';
 export { default as ViewDetailAvaterIcon } from './modules/airServices/Tickets/view-detail-avatar-icon';
+export { default as ViewDetailSharedIcon } from './modules/airServices/Tickets/view-detail-shared-icon';
 export { default as ViewDetailVuesaxIcon } from './modules/airServices/Tickets/view-details-vuesax-icon';
 export { default as ViewDetailKababMenuIcon } from './modules/airServices/Tickets/view-details-kababmenu-icon';
 export { default as ViewDetailMeetingIcon } from './modules/airServices/Tickets/view-details-meeting-icon';
