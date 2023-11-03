@@ -44,9 +44,9 @@ export const data: any = [
   },
 ];
 export const softwareListsColumnsFunction = (
-  meetingsData: any,
-  setMeetingsData: any,
-  meetingsMainData: any,
+  contractsData: any,
+  setContractsData: any,
+  mainContractsData: any,
   router: any,
 ): any => [
   {
@@ -55,18 +55,18 @@ export const softwareListsColumnsFunction = (
     cell: (info: any) => (
       <Checkbox
         checked={
-          !!meetingsData?.find((item: any) => item?.id === info?.getValue())
+          !!contractsData?.find((item: any) => item?.id === info?.getValue())
         }
         onChange={(e: any) => {
           e?.target?.checked
-            ? setMeetingsData([
-                ...meetingsData,
-                meetingsMainData?.find(
+            ? setContractsData([
+                ...contractsData,
+                mainContractsData?.find(
                   (item: any) => item?.id === info?.getValue(),
                 ),
               ])
-            : setMeetingsData(
-                meetingsData?.filter((item: any) => {
+            : setContractsData(
+                contractsData?.filter((item: any) => {
                   return item?.id !== info?.getValue();
                 }),
               );
@@ -77,11 +77,11 @@ export const softwareListsColumnsFunction = (
     ),
     header: (
       <Checkbox
-        checked={meetingsData?.length === meetingsMainData?.length}
+        checked={contractsData?.length === mainContractsData?.length}
         onChange={(e: any) => {
           e?.target?.checked
-            ? setMeetingsData([...meetingsMainData])
-            : setMeetingsData([]);
+            ? setContractsData([...mainContractsData])
+            : setContractsData([]);
         }}
         color="primary"
         name="id"
