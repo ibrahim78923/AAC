@@ -2,9 +2,10 @@ import { AIR_SERVICES } from '@/constants';
 import { useRouter } from 'next/router';
 import { enqueueSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
+import { data, softwareListsColumnsFunction } from './Contracts.data';
 
 export function useContracts() {
-  const [meetingsData, setMeetingsData] = useState([]);
+  const [contractsData, setContractsData] = useState([]);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [openModel, setOpenModel] = useState<boolean>(false);
   const [actionPop, setActionPop] = useState<HTMLButtonElement | null>(null);
@@ -18,6 +19,12 @@ export function useContracts() {
   const handleActionClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setActionPop(event.currentTarget);
   };
+  const softwareListsColumns = softwareListsColumnsFunction(
+    contractsData,
+    setContractsData,
+    data,
+    router,
+  );
   const handleActionClose = () => {
     setActionPop(null);
   };
@@ -30,8 +37,8 @@ export function useContracts() {
     setOpenModel(false);
   };
   return {
-    meetingsData,
-    setMeetingsData,
+    contractsData,
+    setContractsData,
     isDrawerOpen,
     setIsDrawerOpen,
     openModel,
@@ -44,5 +51,6 @@ export function useContracts() {
     openAction,
     handleSubmitModel,
     router,
+    softwareListsColumns,
   };
 }

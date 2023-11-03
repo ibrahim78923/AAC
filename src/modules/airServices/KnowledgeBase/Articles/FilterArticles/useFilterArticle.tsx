@@ -6,7 +6,7 @@ import {
 } from './FilterArticles.data';
 
 export const useFilterArticles = (props: any) => {
-  const { IsOpenFilterDrawer, SetIsOpenFilterDrawer } = props;
+  const { isOpenFilterDrawer, SetIsOpenFilterDrawer } = props;
   const methods: any = useForm({
     resolver: yupResolver(filterArticlesValidationSchema),
     defaultValues: filterArticlesDataDefaultValues,
@@ -18,7 +18,7 @@ export const useFilterArticles = (props: any) => {
   });
   return {
     submitHandler,
-    IsOpenFilterDrawer,
+    isOpenFilterDrawer,
     SetIsOpenFilterDrawer,
     methods,
   };

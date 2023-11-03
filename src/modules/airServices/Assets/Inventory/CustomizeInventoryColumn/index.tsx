@@ -10,17 +10,23 @@ import {
   Typography,
 } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
-export const CustomizeInventory = (props: any) => {
+import { useCustomizeInventoryColumn } from './useCustomizeInventoryColumn';
+
+export const CustomizeInventoryColumn = (props: any) => {
+  const { isCustomizeModalOpen } = props;
   const {
-    isCustomizeModalOpen,
-    // setIsCustomizeModalOpen,
-    columns,
-    handleClose,
-  } = props;
+    submit,
+    onClose,
+    checkboxHandler,
+    inventoryListsColumnsPersist,
+    customizeColumn,
+    applyAllCheckboxHandler,
+    inventoryListsColumns,
+  } = useCustomizeInventoryColumn(props);
   return (
     <Dialog
       open={isCustomizeModalOpen}
-      onClose={() => handleClose?.()}
+      onClose={() => onClose?.()}
       fullWidth
       maxWidth={'sm'}
     >
@@ -36,7 +42,15 @@ export const CustomizeInventory = (props: any) => {
             Select Fields
           </Typography>
           <Box display={'flex'} alignItems={'center'} gap={1} flexWrap={'wrap'}>
-            <Checkbox></Checkbox>
+            <Checkbox
+              color="primary"
+              name={'apply all'}
+              checked={
+                inventoryListsColumnsPersist?.length ===
+                inventoryListsColumns?.length
+              }
+              onChange={(e: any): any => applyAllCheckboxHandler?.(e)}
+            ></Checkbox>
             <Typography variant="h6" color="secondary">
               Apply All
             </Typography>
@@ -46,7 +60,7 @@ export const CustomizeInventory = (props: any) => {
       <hr style={{ marginTop: '1rem' }} />
       <DialogContent>
         <Grid container>
-          {columns?.map((column: any) => (
+          {inventoryListsColumnsPersist?.slice?.(1)?.map((column: any) => (
             <Grid item xs={12} sm={6} key={uuidv4()}>
               <Box
                 display={'flex'}
@@ -54,7 +68,12 @@ export const CustomizeInventory = (props: any) => {
                 gap={1}
                 flexWrap={'wrap'}
               >
-                <Checkbox></Checkbox>
+                <Checkbox
+                  color="primary"
+                  name={column?.id}
+                  defaultChecked={customizeColumn?.[column?.id]}
+                  onChange={(): any => checkboxHandler?.(column)}
+                ></Checkbox>
                 <Typography variant="h5" fontWeight={500} color="secondary">
                   {column?.id}
                 </Typography>
@@ -65,10 +84,14 @@ export const CustomizeInventory = (props: any) => {
       </DialogContent>
       <hr />
       <DialogActions>
-        <Button variant="outlined" color="secondary" onClick={handleClose}>
+        <Button
+          variant="outlined"
+          color="secondary"
+          onClick={() => onClose?.()}
+        >
           Cancel
         </Button>
-        <Button variant="contained" onClick={handleClose}>
+        <Button variant="contained" onClick={() => submit?.()}>
           Apply
         </Button>
       </DialogActions>

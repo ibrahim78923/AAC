@@ -7,6 +7,7 @@ import { enqueueSnackbar } from 'notistack';
 import { PageTitledHeader } from '../../../../components/PageTitledHeader/index';
 import { AlertModals } from '@/components/AlertModals';
 import { useInventory } from './useInventory';
+import { INVENTORY_LIST_ACTIONS } from './Inventory.data';
 
 function Inventory() {
   const {
@@ -14,6 +15,7 @@ function Inventory() {
     router,
     isDrawerOpen,
     renderComponent,
+    openDrawer,
     openDeleteModal,
     setOpenDeleteModal,
     searchValue,
@@ -77,7 +79,7 @@ function Inventory() {
             color="secondary"
             variant="outlined"
             startIcon={<CustomizeSharedIcon />}
-            // onClick={() => openDrawer('customize')}
+            onClick={() => openDrawer(INVENTORY_LIST_ACTIONS?.CUSTOMIZE_COLUMN)}
           >
             Customize
           </Button>
@@ -85,7 +87,7 @@ function Inventory() {
             color="secondary"
             variant="outlined"
             startIcon={<FilterSharedIcon />}
-            // onClick={() => openDrawer('filter')}
+            onClick={() => openDrawer(INVENTORY_LIST_ACTIONS?.FILTER)}
           >
             Filter
           </Button>

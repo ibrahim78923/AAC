@@ -30,11 +30,16 @@ export const data: any = [
     Impact: 'Medium',
   },
 ];
+
+export const INVENTORY_LIST_ACTIONS = {
+  FILTER: 'filter',
+  CUSTOMIZE_COLUMN: 'customize-column',
+};
+
 export const inventoryListsColumnsFunction = (
   inventoryData: any,
   setInventoryData: any,
   data: any,
-  theme: any,
   router: any,
 ): any => [
   {
