@@ -155,7 +155,11 @@ const RequestReceivedApproval = () => {
           </FormProvider>
           <Box sx={styles?.boxBorderStyle}></Box>
           <Box sx={styles?.buttonBox}>
-            <Button variant="outlined" onClick={handleRejectModelClose}>
+            <Button
+              variant="outlined"
+              color="inherit"
+              onClick={handleRejectModelClose}
+            >
               Cancel
             </Button>
             <Button variant="contained" color="error">
