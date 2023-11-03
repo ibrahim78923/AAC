@@ -60,7 +60,7 @@ const UserManagement = () => {
       </Box>
       <PermissionsGuard
         permissions={[
-          SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS.USER_SEARCH_AND_FILTER,
+          SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS?.USER_SEARCH_AND_FILTER,
         ]}
       >
         <Box sx={{ padding: '0px 24px' }}>

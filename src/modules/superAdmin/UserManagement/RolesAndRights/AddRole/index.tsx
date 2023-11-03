@@ -24,7 +24,7 @@ const AddRole = () => {
       <Box sx={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
         <ArrowBack
           onClick={() => {
-            navigate.push(SUPER_ADMIN.USERMANAGMENT);
+            navigate.push(SUPER_ADMIN?.USERMANAGMENT);
           }}
           sx={{ cursor: 'pointer' }}
         />

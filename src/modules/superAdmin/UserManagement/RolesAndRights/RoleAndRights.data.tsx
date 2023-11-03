@@ -45,46 +45,46 @@ export const data: any = [
 
 export const columns: any = [
   {
-    accessorFn: (row: any) => row.Id,
+    accessorFn: (row: any) => row?.Id,
     id: 'Id',
     cell: (info: any) => <Checkbox color="primary" name={info.getValue()} />,
     header: <Checkbox color="primary" name="Id" />,
     isSortable: false,
   },
   {
-    accessorFn: (row: any) => row.RoleId,
+    accessorFn: (row: any) => row?.RoleId,
     id: 'roleId',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
     header: 'Role ID',
     isSortable: false,
   },
   {
-    accessorFn: (row: any) => row.RoleName,
+    accessorFn: (row: any) => row?.RoleName,
     id: 'roleName',
     isSortable: true,
     header: 'Role Name',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.Products,
+    accessorFn: (row: any) => row?.Products,
     id: 'products',
     isSortable: true,
     header: 'Products',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.Status,
+    accessorFn: (row: any) => row?.Status,
     id: 'status',
     isSortable: true,
     header: 'Status',
     cell: <SwitchBtn defaultChecked />,
   },
   {
-    accessorFn: (row: any) => row.CreatedOn,
+    accessorFn: (row: any) => row?.CreatedOn,
     id: 'createdOn',
     isSortable: true,
     header: 'CreatedOn',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
 ];
 

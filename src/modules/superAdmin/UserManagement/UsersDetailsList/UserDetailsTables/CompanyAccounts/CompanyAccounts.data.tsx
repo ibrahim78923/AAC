@@ -45,7 +45,7 @@ export const companyData: any = [
 
 export const companyColumns: any = [
   {
-    accessorFn: (row: any) => row.Product,
+    accessorFn: (row: any) => row?.Product,
     id: 'product',
     isSortable: false,
     header: 'Product',
@@ -53,34 +53,34 @@ export const companyColumns: any = [
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
         <LogoIcon />
         <Typography sx={{ fontSize: '12px' }}>
-          {info?.row?.original.products}
+          {info?.row?.original?.products}
         </Typography>
       </Box>
     ),
   },
   {
-    accessorFn: (row: any) => row.Company,
+    accessorFn: (row: any) => row?.Company,
     id: 'company',
     isSortable: true,
     header: 'Company',
-    cell: (info: any) => info.getValue() ?? 'N/A',
+    cell: (info: any) => info?.getValue() ?? 'N/A',
   },
   {
-    accessorFn: (row: any) => row.email,
+    accessorFn: (row: any) => row?.email,
     id: 'email',
     isSortable: true,
     header: 'Email',
-    cell: (info: any) => info.getValue() ?? 'N/A',
+    cell: (info: any) => info?.getValue() ?? 'N/A',
   },
   {
-    accessorFn: (row: any) => row.manageRole,
+    accessorFn: (row: any) => row?.manageRole,
     id: 'manageRole',
     isSortable: true,
     header: 'Manage Roles',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.Status,
+    accessorFn: (row: any) => row?.Status,
     id: 'status',
     isSortable: true,
     header: 'Status',

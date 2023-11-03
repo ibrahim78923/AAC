@@ -57,7 +57,7 @@ const AddAccount = (props: any) => {
                 <Typography variant="body2" fontWeight={500}>
                   {item?.title}
                 </Typography>
-                <item.component {...item.componentProps} size={'small'}>
+                <item.component {...item?.componentProps} size={'small'}>
                   {item?.componentProps?.select &&
                     item?.options?.map((option: any) => (
                       <option key={uuidv4()} value={option?.value}>

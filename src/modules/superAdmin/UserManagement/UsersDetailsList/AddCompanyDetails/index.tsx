@@ -75,18 +75,18 @@ export default function AddCompanyDetails({
                   marginBottom: '1rem',
                 }}
               >
-                <Box sx={styles.productCard(theme)}>
+                <Box sx={styles?.productCard(theme)}>
                   <Checkbox
                     sx={{
                       marginLeft: '7rem',
                     }}
                   />
-                  <Box sx={styles.productItem}>
+                  <Box sx={styles?.productItem}>
                     <Image src={FeaturedImage} alt="sales-image" />
                     <Typography>Sales</Typography>
                   </Box>
                 </Box>
-                <Box sx={styles.productCard(theme)}>
+                <Box sx={styles?.productCard(theme)}>
                   <Checkbox
                     sx={{
                       marginLeft: '7rem',
@@ -97,13 +97,13 @@ export default function AddCompanyDetails({
                     <Typography>Marketing</Typography>
                   </Box>
                 </Box>
-                <Box sx={styles.productCard(theme)}>
+                <Box sx={styles?.productCard(theme)}>
                   <Checkbox
                     sx={{
                       marginLeft: '7rem',
                     }}
                   />
-                  <Box sx={styles.productItem}>
+                  <Box sx={styles?.productItem}>
                     <Image src={FeaturedImage} alt="service-image" />
                     <Typography>Service</Typography>
                   </Box>
@@ -114,7 +114,7 @@ export default function AddCompanyDetails({
                       marginLeft: '7rem',
                     }}
                   />
-                  <Box sx={styles.productItem}>
+                  <Box sx={styles?.productItem}>
                     <Image src={FeaturedImage} alt="operation-image" />
                     <Typography>Operation</Typography>
                   </Box>

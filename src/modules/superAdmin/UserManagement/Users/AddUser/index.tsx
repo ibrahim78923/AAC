@@ -32,6 +32,7 @@ const AddUser = ({ isOpenDrawer, onClose }: any) => {
   const [isToggled, setIsToggled] = useToggle(false);
   const { usePostUsersMutation } = usersApi;
   const [postUsers] = usePostUsersMutation();
+  const pathName = window.location.pathname;
 
   const superAdminMethods: any = useForm({
     resolver: yupResolver(superAdminValidationSchema),
@@ -72,28 +73,34 @@ const AddUser = ({ isOpenDrawer, onClose }: any) => {
     >
       <FormProvider methods={methods}>
         <Grid container spacing={2} mt={1}>
-          <Grid item xs={12}>
-            <Typography variant="body2" fontWeight={500}>
-              User Type
-            </Typography>
-            <RHFSelect
-              name="userType"
-              size={'small'}
-              value={userType}
-              onChange={(e: any) => setUserType(e?.target?.value)}
-              fullWidth={true}
-              select={true}
-            >
-              {options?.map((option: any) => (
-                <option key={uuidv4()} value={option?.value}>
-                  {option?.label}
-                </option>
-              ))}
-            </RHFSelect>
-          </Grid>
+          {pathName === '/super-admin/user-management' && (
+            <Grid item xs={12}>
+              <Typography variant="body2" fontWeight={500}>
+                User Type
+              </Typography>
+              <RHFSelect
+                name="userType"
+                size={'small'}
+                value={userType}
+                onChange={(e: any) => setUserType(e?.target?.value)}
+                fullWidth={true}
+                select={true}
+              >
+                {options?.map((option: any) => (
+                  <option key={uuidv4()} value={option?.value}>
+                    {option?.label}
+                  </option>
+                ))}
+              </RHFSelect>
+            </Grid>
+          )}
           {addUsersArray?.map((item: any) => {
             return (
-              item?.toShow?.includes(userType) && (
+              item?.toShow?.includes(
+                pathName === '/super-admin/user-management'
+                  ? userType
+                  : 'ORG_ADMIN',
+              ) && (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
                   <Typography variant="body2" fontWeight={500}>
                     {item?.title}

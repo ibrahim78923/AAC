@@ -19,11 +19,11 @@ const useUserManagement = () => {
   const { useGetUsersQuery }: any = usersApi;
 
   const handleClick = (event: any) => {
-    setSelectedValue(event.currentTarget);
+    setSelectedValue(event?.currentTarget);
   };
 
   const handleAddRole = () => {
-    navigate.push(SUPER_ADMIN.ADDROLE);
+    navigate.push(SUPER_ADMIN?.ADDROLE);
   };
 
   const handleClose = () => {
@@ -31,7 +31,7 @@ const useUserManagement = () => {
   };
 
   const handleUsersList = () => {
-    navigate.push(SUPER_ADMIN.USERS_LIST);
+    navigate.push(SUPER_ADMIN?.USERS_LIST);
     setSelectedValue(null);
   };
 

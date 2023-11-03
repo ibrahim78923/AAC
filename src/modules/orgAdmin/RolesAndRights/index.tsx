@@ -33,7 +33,7 @@ const RolesAndRights = () => {
         <Typography variant="h3">Roles and Rights</Typography>
         <Button
           onClick={() => {
-            navigate.push(ORG_ADMIN.ADD_ROLE);
+            navigate.push(ORG_ADMIN?.ADD_ROLE);
           }}
           variant="contained"
           startIcon={<PlusSharedIcon />}
@@ -70,7 +70,7 @@ const RolesAndRights = () => {
               <MenuItem
                 onClick={() => {
                   handleClose;
-                  navigate.push(ORG_ADMIN.ADD_ROLE);
+                  navigate.push(ORG_ADMIN?.ADD_ROLE);
                 }}
               >
                 Edit
@@ -78,7 +78,7 @@ const RolesAndRights = () => {
               <MenuItem
                 onClick={() => {
                   handleClose;
-                  navigate.push(ORG_ADMIN.ADD_ROLE);
+                  navigate.push(ORG_ADMIN?.ADD_ROLE);
                 }}
               >
                 View

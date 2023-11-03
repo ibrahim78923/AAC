@@ -24,7 +24,7 @@ const AddRole = () => {
       <Box sx={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
         <ArrowBack
           onClick={() => {
-            navigate.push(ORG_ADMIN.ROLES_AND_RIGHTS);
+            navigate.push(ORG_ADMIN?.ROLES_AND_RIGHTS);
           }}
           sx={{ cursor: 'pointer' }}
         />
