@@ -5,18 +5,15 @@ import Box from '@mui/material/Box';
 import { Avatar, InputAdornment } from '@mui/material';
 import Image from 'next/image';
 import { SearchSharedIcon } from '@/assets/icons';
-import { styles } from './SearchableMultiSelect.styles';
+import {
+  StyledInput,
+  StyledPopper,
+  styles,
+} from './SearchableMultiSelect.styles';
 import { useSearchableMultiSelect } from './useSearchableMultiSelect';
 
 export const SearchableMultiSelect = (props: any) => {
-  const {
-    labels,
-    anchorEl,
-    handleClose,
-    pendingValue,
-    setPendingValue,
-    value,
-  } = props;
+  const { anchorEl, handleClose, pendingValue } = props;
   const {
     id,
     open,
@@ -24,15 +21,7 @@ export const SearchableMultiSelect = (props: any) => {
     onChangeAutocomplete,
     renderOptions,
     PopperComponent,
-    StyledInput,
-    StyledPopper,
-  } = useSearchableMultiSelect(
-    labels,
-    anchorEl,
-    handleClose,
-    setPendingValue,
-    value,
-  );
+  } = useSearchableMultiSelect(props);
   return (
     <>
       <StyledPopper
@@ -47,6 +36,7 @@ export const SearchableMultiSelect = (props: any) => {
               open
               multiple
               onClose={onCloseAutocomplete}
+              id="autocomplete"
               value={pendingValue}
               onChange={onChangeAutocomplete}
               disableCloseOnSelect
@@ -85,6 +75,7 @@ export const SearchableMultiSelect = (props: any) => {
                 <StyledInput
                   ref={params?.InputProps?.ref}
                   inputProps={params?.inputProps}
+                  name={id}
                   endAdornment={
                     <InputAdornment position="end">
                       <SearchSharedIcon />

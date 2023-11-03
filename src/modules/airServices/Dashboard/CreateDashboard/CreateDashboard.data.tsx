@@ -9,10 +9,11 @@ export const dashboardCheckboxData = [
   'Achievements',
   'Agent Availability',
 ];
+//using uuid here for testing purposes not for putting in map key
 export const userData = [
   { name: 'Alee Javed', src: UserAvatarImage, id: uuidv4() },
   { name: 'Rajvir Hundal', src: UserAvatarImage, id: uuidv4() },
-  { name: 'Ben Stock', src: UserAvatarImage },
+  { name: 'Ben Stock', src: UserAvatarImage, id: uuidv4() },
   { name: 'Aleesha Kong', src: UserAvatarImage, id: uuidv4() },
 ];
 export const previewDashboard: { [index: string]: any } = {
@@ -24,4 +25,10 @@ export const previewDashboard: { [index: string]: any } = {
   'Tickets by Priority': 'Tickets by Priority',
   Achievements: 'Achievements',
   'Agent Availability': 'Agent Availability',
+};
+
+export const createDashboardDefaultValue = {
+  dashboardName: '',
+  default: false,
+  dashboardItems: [],
 };

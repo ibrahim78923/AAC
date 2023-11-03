@@ -1,4 +1,4 @@
-import { EditYellowPenIcon } from '@/assets/icons';
+import { EditYellowBGPenIcon } from '@/assets/icons';
 import { UserAvatarImage } from '@/assets/images';
 import { AntSwitch } from '@/components/ReactHookForm/RHFSwitch';
 import { Avatar, Box, Typography } from '@mui/material';
@@ -13,20 +13,20 @@ export const manageDashboardsDataColumns = [
     accessorFn: (row: any) => row?.dashboardName,
     id: 'dashboardName',
     cell: (info: any) => info?.getValue(),
-    header: <Typography>Dashboard Name</Typography>,
+    header: 'Dashboard Name',
     isSortable: true,
   },
   {
     accessorFn: (row: any) => row?.default,
     id: 'default',
     isSortable: true,
-    header: <Typography>Default</Typography>,
+    header: 'Default',
     cell: (info: any) => <AntSwitch checked={info?.getValue()} />,
   },
   {
     accessorFn: (row: any) => row?.owner,
     id: 'owner',
-    header: <Typography>Owner</Typography>,
+    header: 'Owner',
     isSortable: true,
     cell: (info: any) => (
       <Box sx={{ display: 'flex', gap: '8px' }}>
@@ -52,35 +52,35 @@ export const manageDashboardsDataColumns = [
     accessorFn: (row: any) => row?.accessRights,
     id: 'accessRights',
     isSortable: true,
-    header: <Typography>Access Rights</Typography>,
+    header: 'Access Rights',
     cell: (info: any) => info?.getValue(),
   },
   {
     accessorFn: (row: any) => row?.lastViewed,
     id: 'lastViewed',
     isSortable: true,
-    header: <Typography>Last Viewed</Typography>,
+    header: 'Last Viewed',
     cell: (info: any) => info?.getValue(),
   },
   {
     accessorFn: (row: any) => row?.lastUpdated,
     id: 'lastUpdated',
     isSortable: true,
-    header: <Typography>Last Updated</Typography>,
+    header: 'Last Updated',
     cell: (info: any) => info?.getValue(),
   },
   {
     accessorFn: (row: any) => row?.actions,
     id: 'actions',
     isSortable: true,
-    header: <Typography>Actions</Typography>,
+    header: 'Actions',
     cell: () => (
       <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
         <PreviewDashboardModal
           dashboardItems={['Graphical Representation of Tickets by Statuses']}
         />
-        <Link href={`${AIR_SERVICES.CREATE_DASHBOARD}?action="edit"`}>
-          <EditYellowPenIcon />
+        <Link href={`${AIR_SERVICES?.CREATE_DASHBOARD}?action="edit"`}>
+          <EditYellowBGPenIcon />
         </Link>
         <DeleteDashboardModal />
       </Box>

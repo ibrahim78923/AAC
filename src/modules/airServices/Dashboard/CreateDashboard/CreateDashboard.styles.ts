@@ -1,4 +1,4 @@
-export const styles = (theme: any, dashboardItems?: string[]) => ({
+export const styles = (dashboardItems?: string[]) => ({
   createDashboardContainer: {
     borderBottom: '1px solid',
     borderColor: 'grey.700',
@@ -20,7 +20,7 @@ export const styles = (theme: any, dashboardItems?: string[]) => ({
     width: '100%',
   },
   userAvatar: { width: 24, height: 24 },
-  multiCheckboxContainer: { overflowY: 'scroll', pl: '1.25rem' },
+  multiCheckboxContainer: { pl: '1.25rem', height: 384, scrollY: 'scroll' },
   detailsViewBox: {
     display: 'flex',
     alignItems: 'center',

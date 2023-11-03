@@ -2,15 +2,29 @@ import { useTheme } from '@mui/material';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { AutoCompleteLabelI } from './CreateDashboard.interface';
+import { DropResult } from 'react-beautiful-dnd';
+import {
+  createDashboardDefaultValue,
+  dashboardCheckboxData,
+} from './CreateDashboard.data';
 export const useCreateDashboard = () => {
   const theme = useTheme();
+  const methodsCreateDashboardFilterForm = useForm({
+    defaultValues: createDashboardDefaultValue,
+  });
   const [accessValue, setAccessValue] = useState('');
   const [anchorElUserList, setAnchorElUserList] = useState<null | HTMLElement>(
     null,
   );
+  const [dashboardCheckboxItems, setDashboardCheckboxItems] = useState(
+    dashboardCheckboxData,
+  );
   const [pendingValue, setPendingValue] = useState<AutoCompleteLabelI[]>([]);
   const [specificUsers, setSpecificUser] = useState<AutoCompleteLabelI[]>([]);
   const [usersPermissions, setUsersPermissions] = useState<any[]>([]);
+  const dashboardItems: any[] =
+    methodsCreateDashboardFilterForm?.watch('dashboardItems');
+  //optional chaining does not work on interfaces
   const handleOpenUsersList = (event: React.MouseEvent<HTMLElement>) => {
     setPendingValue(specificUsers);
     setAnchorElUserList(event?.currentTarget);
@@ -43,19 +57,43 @@ export const useCreateDashboard = () => {
     );
     setUsersPermissions([...tempUsersList]);
   };
-  const methodsCreateDashboardFilterForm = useForm({
-    defaultValues: {
-      dashboardName: '',
-      default: false,
-      dashboardItems: [],
-    },
-  });
+
   const submitCreateDashboardFilterForm = async () => {};
   const resetCreateDashboardFilterForm = async () => {
     methodsCreateDashboardFilterForm?.reset();
   };
-  const dashboardItems: any[] =
-    methodsCreateDashboardFilterForm?.watch('dashboardItems');
+  const alignArrays = (firstArray: string[], secondArray: any[]) => {
+    const alignedFirstArray = secondArray?.reduce((acc, item) => {
+      if (firstArray?.includes(item)) {
+        acc?.push(item);
+      }
+      return acc;
+    }, []);
+    return alignedFirstArray;
+  };
+  const reorder = <T>(list: T[], startIndex: number, endIndex: number): T[] => {
+    const result = Array?.from(list);
+    const [removed] = result?.splice(startIndex, 1);
+    result?.splice(endIndex, 0, removed);
+    return result;
+  };
+  const onDragEnd = ({ destination, source }: DropResult) => {
+    // dropped outside the list
+    if (!destination) return;
+
+    const newItems = reorder(
+      dashboardCheckboxItems,
+      source?.index,
+      destination?.index,
+    );
+    const alignedFirstArray = alignArrays(dashboardItems, newItems);
+    methodsCreateDashboardFilterForm?.setValue(
+      'dashboardItems',
+      alignedFirstArray,
+    );
+    setDashboardCheckboxItems(newItems);
+  };
+
   return {
     methodsCreateDashboardFilterForm,
     accessValue,
@@ -72,5 +110,7 @@ export const useCreateDashboard = () => {
     submitCreateDashboardFilterForm,
     resetCreateDashboardFilterForm,
     dashboardItems,
+    onDragEnd,
+    dashboardCheckboxItems,
   };
 };

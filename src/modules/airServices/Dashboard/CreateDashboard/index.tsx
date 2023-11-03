@@ -1,14 +1,12 @@
 import { ExampleDashboardImage } from '@/assets/images';
 import {
   FormProvider,
-  RHFMultiCheckbox,
   RHFSwitch,
   RHFTextField,
 } from '@/components/ReactHookForm';
 import {
   Avatar,
   Box,
-  Button,
   FormControl,
   FormControlLabel,
   Grid,
@@ -17,16 +15,19 @@ import {
   Typography,
 } from '@mui/material';
 import Image from 'next/image';
-import {
-  dashboardCheckboxData,
-  previewDashboard,
-  userData,
-} from './CreateDashboard.data';
+import { previewDashboard, userData } from './CreateDashboard.data';
 import { SearchableMultiSelect } from './SearchableMultiSelect';
 import { v4 as uuidv4 } from 'uuid';
 import { useCreateDashboard } from './useCreateDashboard';
 import { styles } from './CreateDashboard.styles';
 import { PreviewDashboardModal } from '../PreviewDashboardItems/PreviewDashboardModal';
+import { DragDropContext } from 'react-beautiful-dnd';
+import dynamic from 'next/dynamic';
+import { LoadingButton } from '@mui/lab';
+const RHFMultiCheckboxDraggable = dynamic(
+  () => import('@/components/ReactHookForm/RHFMultiCheckboxDraggable'),
+  { ssr: false },
+);
 
 const EVERYONE = 'Everyone';
 
@@ -43,10 +44,11 @@ export const CreateDashboard = () => {
     handleCloseUsersList,
     usersPermissions,
     setSpecificUserPermissions,
-    theme,
     submitCreateDashboardFilterForm,
     resetCreateDashboardFilterForm,
     dashboardItems,
+    onDragEnd,
+    dashboardCheckboxItems,
   } = useCreateDashboard();
   return (
     <>
@@ -60,15 +62,11 @@ export const CreateDashboard = () => {
           <Typography variant="h3" color="grey.800">
             Create dashboard
           </Typography>
-          <Box sx={styles(theme)?.rhfSwitchBox}>
-            <RHFSwitch fullWidth={true} name="default" label="Set as default" />
+          <Box sx={styles()?.rhfSwitchBox}>
+            <RHFSwitch name="default" label="Set as default" />
           </Box>
         </Box>
-        <Grid
-          container
-          spacing={3}
-          sx={styles(theme)?.createDashboardContainer}
-        >
+        <Grid container spacing={3} sx={styles()?.createDashboardContainer}>
           <Grid item xl={6} xs={12}>
             <Box>
               <RHFTextField
@@ -137,20 +135,16 @@ export const CreateDashboard = () => {
                 </FormControl>
               </Box>
               <Box display={{ xl: 'block', xs: 'none' }}>
-                <RHFSwitch
-                  fullWidth={true}
-                  name="default"
-                  label="Set as default"
-                />
+                <RHFSwitch name="default" label="Set as default" />
               </Box>
             </Box>
             <Box ml="2rem" mb="2rem">
               {usersPermissions?.map((user: any) => (
                 <Box key={uuidv4()}>
-                  <Box sx={styles(theme)?.userCardOuter}>
-                    <Box sx={styles(theme)?.userCardInner}>
+                  <Box sx={styles()?.userCardOuter}>
+                    <Box sx={styles()?.userCardInner}>
                       <Box display="flex" alignItems="center" gap="10px">
-                        <Avatar sx={styles(theme)?.userAvatar} alt={user?.name}>
+                        <Avatar sx={styles()?.userAvatar} alt={user?.name}>
                           <Image
                             src={user?.src}
                             alt={user?.name}
@@ -201,11 +195,13 @@ export const CreateDashboard = () => {
             <Typography variant="h6" fontWeight={600} color="slateblue.main">
               Use the checkboxes to remove/add any report you want
             </Typography>
-            <Box sx={styles(theme)?.multiCheckboxContainer}>
-              <RHFMultiCheckbox
-                name="dashboardItems"
-                options={dashboardCheckboxData}
-              />
+            <Box sx={styles()?.multiCheckboxContainer}>
+              <DragDropContext onDragEnd={onDragEnd}>
+                <RHFMultiCheckboxDraggable
+                  name="dashboardItems"
+                  options={dashboardCheckboxItems}
+                />
+              </DragDropContext>
             </Box>
             <Box display="flex" justifyContent="flex-end">
               <PreviewDashboardModal
@@ -215,13 +211,13 @@ export const CreateDashboard = () => {
             </Box>
           </Grid>
           <Grid item xl={6} xs={12}>
-            <Box sx={styles(theme, dashboardItems)?.detailsViewBox}>
+            <Box sx={styles(dashboardItems)?.detailsViewBox}>
               <Typography variant="subtitle1" color="slateBlue.main" mb={2}>
                 Details view
               </Typography>
               {!!!dashboardItems?.length ? (
                 <>
-                  <Box sx={styles(theme)?.bgImageBox}>
+                  <Box sx={styles()?.bgImageBox}>
                     <Image
                       src={ExampleDashboardImage}
                       style={{ pointerEvents: 'none', userSelect: 'none' }}
@@ -242,25 +238,25 @@ export const CreateDashboard = () => {
             </Box>
           </Grid>
         </Grid>
-        <Box display="flex" gap="0.6rem" justifyContent="flex-end">
-          <Button
-            sx={styles(theme)?.buttonStyles}
-            variant="outlined"
-            color="secondary"
-            onClick={resetCreateDashboardFilterForm}
-          >
-            Cancel
-          </Button>
-          <Button
-            variant="contained"
-            sx={styles(theme)?.buttonStyles}
-            onClick={submitCreateDashboardFilterForm}
-            type="submit"
-          >
-            Create
-          </Button>
-        </Box>
       </FormProvider>
+      <Box display="flex" gap="0.6rem" justifyContent="flex-end">
+        <LoadingButton
+          sx={styles()?.buttonStyles}
+          variant="outlined"
+          color="secondary"
+          onClick={resetCreateDashboardFilterForm}
+        >
+          Cancel
+        </LoadingButton>
+        <LoadingButton
+          variant="contained"
+          sx={styles()?.buttonStyles}
+          onSubmit={submitCreateDashboardFilterForm}
+          type="submit"
+        >
+          Create
+        </LoadingButton>
+      </Box>
     </>
   );
 };
