@@ -87,7 +87,7 @@ const MeetingsEditorDrawer = (props: any) => {
                 >
                   <Typography
                     variant="body2"
-                    sx={{ color: theme.palette.grey[600] }}
+                    sx={{ color: theme?.palette?.grey[600] }}
                   >
                     Add Video Conferencing
                   </Typography>

@@ -58,8 +58,8 @@ const LinkDropdown = () => {
     (name: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
       setCheckedItems((prevCheckedItems) => {
         const updatedCheckedItems = { ...prevCheckedItems };
-        updatedCheckedItems[name] = event.target.checked;
-        if (!event.target.checked) {
+        updatedCheckedItems[name] = event?.target?.checked;
+        if (!event?.target?.checked) {
           delete updatedCheckedItems[name];
         }
         return updatedCheckedItems;
@@ -172,7 +172,7 @@ const LinkDropdown = () => {
                       <Box
                         sx={{ display: 'flex', gap: 1, alignItems: 'center' }}
                       >
-                        <Image src={item.logo} alt="logo" />
+                        <Image src={item?.logo} alt="logo" />
                         <ListItemText
                           primary={item?.name}
                           primaryTypographyProps={{ variant: 'body2' }}

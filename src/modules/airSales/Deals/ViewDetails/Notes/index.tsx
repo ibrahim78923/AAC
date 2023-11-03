@@ -33,7 +33,7 @@ const Notes = () => {
     <Box sx={styles.horizontalTabsBox}>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <Box sx={styles.headingSpacingBetween}>
+          <Box sx={styles?.headingSpacingBetween}>
             <Typography variant="h4"> Notes</Typography>
             {!isNullOrEmpty(NotesDataArray) && (
               <Box
@@ -81,8 +81,8 @@ const Notes = () => {
         </Grid>
 
         {!isNullOrEmpty(NotesDataArray) && (
-          <Grid item xs={12} sx={styles.horizontalTabsInnnerBox}>
-            {NotesDataArray.map((item) => (
+          <Grid item xs={12} sx={styles?.horizontalTabsInnnerBox}>
+            {NotesDataArray?.map((item) => (
               <Grid
                 container
                 key={uuidv4()}
@@ -109,9 +109,9 @@ const Notes = () => {
                   <Checkbox
                     color="primary"
                     name={'name'}
-                    onChange={(event) => handleCheckboxChange(event, item.id)}
-                    checked={selectedCheckboxes.some(
-                      (selectedItem) => selectedItem.id === item.id,
+                    onChange={(event) => handleCheckboxChange(event, item?.id)}
+                    checked={selectedCheckboxes?.some(
+                      (selectedItem) => selectedItem?.id === item?.id,
                     )}
                   />
                 </Grid>
@@ -126,20 +126,20 @@ const Notes = () => {
                     alignItems: 'center',
                   }}
                 >
-                  <Image src={item.image} alt="Avatar" />
+                  <Image src={item?.image} alt="Avatar" />
                 </Grid>
                 <Grid item xs={12} lg={10} sm={9} sx={{ gap: 1 }}>
                   <NameWithStyledWords
-                    name={item.title}
+                    name={item?.title}
                     customKey="ActivityHead"
                   />
                   <Typography
                     variant="body3"
-                    sx={{ color: theme.palette.custom.main }}
+                    sx={{ color: theme?.palette?.custom?.main }}
                   >
-                    {item.date}
+                    {item?.date}
                   </Typography>
-                  <Typography variant="body2">{item.description}</Typography>
+                  <Typography variant="body2">{item?.description}</Typography>
                 </Grid>
               </Grid>
             ))}

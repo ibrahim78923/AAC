@@ -9,23 +9,23 @@ export const columns: any = ({
 }) => {
   return [
     {
-      accessorFn: (row: any) => row.title,
+      accessorFn: (row: any) => row?.title,
       id: 'contact_id',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
       header: 'Title',
       isSortable: false,
     },
 
     {
-      accessorFn: (row: any) => row.createdDate,
+      accessorFn: (row: any) => row?.createdDate,
       id: 'createdDate',
       isSortable: true,
       header: 'Created Date',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
 
     {
-      accessorFn: (row: any) => row.assignedTo,
+      accessorFn: (row: any) => row?.assignedTo,
       id: 'assignedTo',
       isSortable: false,
       header: 'Actions',

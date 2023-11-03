@@ -12,13 +12,13 @@ const useNotes = () => {
     event: React.ChangeEvent<HTMLInputElement>,
     id: number,
   ) => {
-    const isChecked = event.target.checked;
+    const isChecked = event?.target?.checked;
 
     if (isChecked) {
       setSelectedCheckboxes((prevSelected) => [...prevSelected, { id: id }]);
     } else {
       setSelectedCheckboxes((prevSelected) =>
-        prevSelected.filter((item) => item.id !== id),
+        prevSelected.filter((item) => item?.id !== id),
       );
     }
   };

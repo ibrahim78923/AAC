@@ -34,7 +34,7 @@ const useCallsActionDropdown = ({ setOpenDrawer }: any) => {
   const { handleSubmit: handleOutCome } = methodsOutCome;
 
   const handleOpenMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
+    setAnchorEl(event?.currentTarget);
   };
   const handleCloseMenu = () => {
     setAnchorEl(null);

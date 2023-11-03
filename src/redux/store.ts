@@ -10,6 +10,7 @@ import planManagementSlice from './slices/planManagement/planManagementSlice';
 const persistConfig = {
   key: 'role',
   storage,
+  timeout: 1000,
 };
 
 const reducer = combineReducers({

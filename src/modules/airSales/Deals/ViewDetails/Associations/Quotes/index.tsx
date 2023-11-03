@@ -23,8 +23,8 @@ const Quotes = () => {
       }}
     >
       <Grid container spacing={2}>
-        <Grid item md={4} sx={styles.countBox}>
-          <Typography sx={styles.associationCount(theme)} variant="body3">
+        <Grid item md={4} sx={styles?.countBox}>
+          <Typography sx={styles?.associationCount(theme)} variant="body3">
             02
           </Typography>
 

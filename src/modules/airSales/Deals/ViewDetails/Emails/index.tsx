@@ -46,7 +46,7 @@ const Emails = () => {
     >
       <Grid container>
         <Grid item xs={12}>
-          <Box sx={styles.headingSpacingBetween}>
+          <Box sx={styles?.headingSpacingBetween}>
             <Typography variant="h4"> Emails</Typography>
             {!isNullOrEmpty(NotesDataArray) && (
               <Box
@@ -87,7 +87,7 @@ const Emails = () => {
           }}
         >
           <MessageIcon />
-          <Typography variant="body2" sx={{ color: theme.palette.grey[900] }}>
+          <Typography variant="body2" sx={{ color: theme?.palette?.grey[900] }}>
             Send Email right now from the CRM
           </Typography>
           <Button variant="contained" sx={{ height: '35px', gap: 0.5 }}>
@@ -96,7 +96,7 @@ const Emails = () => {
           </Button>
           <Typography
             variant="body2"
-            sx={{ color: theme.palette.slateBlue.main }}
+            sx={{ color: theme?.palette?.slateBlue?.main }}
           >
             Bring Your emails into the CRM
           </Typography>
@@ -136,7 +136,7 @@ const Emails = () => {
       )}
 
       {!isNullOrEmpty(NotesDataArray) && (
-        <Grid item xs={12} sx={styles.horizontalTabsInnnerBox}>
+        <Grid item xs={12} sx={styles?.horizontalTabsInnnerBox}>
           {NotesDataArray?.map((item) => (
             <Grid
               container
@@ -164,9 +164,9 @@ const Emails = () => {
                 <Checkbox
                   color="primary"
                   name={'name'}
-                  onChange={(event) => handleCheckboxChange(event, item.id)}
-                  checked={selectedCheckboxes.some(
-                    (selectedItem) => selectedItem.id === item.id,
+                  onChange={(event) => handleCheckboxChange(event, item?.id)}
+                  checked={selectedCheckboxes?.some(
+                    (selectedItem) => selectedItem?.id === item?.id,
                   )}
                 />
               </Grid>
@@ -181,7 +181,7 @@ const Emails = () => {
                   alignItems: 'center',
                 }}
               >
-                <Image src={item.image} alt="Avatar" />
+                <Image src={item?.image} alt="Avatar" />
               </Grid>
               <Grid item xs={12} lg={10} sm={9} sx={{ gap: 1 }}>
                 <Box
@@ -200,21 +200,21 @@ const Emails = () => {
                   <Typography
                     variant="subtitle2"
                     sx={{
-                      color: theme.palette.primary.main,
+                      color: theme?.palette?.primary?.main,
                       display: 'flex',
                       alignItems: 'center',
                     }}
                   >
-                    {item.title}
+                    {item?.title}
                   </Typography>
                 </Box>
                 <Typography
                   variant="body3"
-                  sx={{ color: theme.palette.custom.main }}
+                  sx={{ color: theme?.palette?.custom?.main }}
                 >
-                  {item.date}
+                  {item?.date}
                 </Typography>
-                <Typography variant="body2">{item.description}</Typography>
+                <Typography variant="body2">{item?.description}</Typography>
               </Grid>
             </Grid>
           ))}

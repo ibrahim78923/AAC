@@ -10,7 +10,7 @@ export const authAPI = baseAPI.injectEndpoints({
       }),
     }),
     signUp: builder.mutation({
-      query: (user: string) => ({
+      query: ({ user }: any) => ({
         url: endpoints.signup,
         method: 'POST',
         body: user,
@@ -42,6 +42,14 @@ export const authAPI = baseAPI.injectEndpoints({
       }),
       providesTags: ['permissions'],
     }),
+
+    getAuthCompanies: builder.query({
+      query: () => ({
+        url: endpoints.auth_search_company,
+        method: 'GET',
+      }),
+      providesTags: ['companies'],
+    }),
   }),
 });
 
@@ -52,4 +60,5 @@ export const {
   useSignUpMutation,
   useLogoutMutation,
   useGetPermissionsQuery,
+  useGetAuthCompaniesQuery,
 } = authAPI;

@@ -23,9 +23,9 @@ const Details = () => {
   const { theme, methodsDetails, onSubmit, handleSubmit } = useDetails();
 
   return (
-    <Box sx={styles.horizontalTabsBox}>
+    <Box sx={styles?.horizontalTabsBox}>
       <Typography variant="h4">Details</Typography>
-      <Box sx={styles.horizontalTabsInnnerBox}>
+      <Box sx={styles?.horizontalTabsInnnerBox}>
         <FormProvider
           methods={methodsDetails}
           onSubmit={handleSubmit(onSubmit)}

@@ -44,8 +44,8 @@ const CallsActionDropdown = (props: any) => {
       <Button
         endIcon={<ArrowDropDown />}
         sx={{
-          border: `1px solid ${theme.palette.custom.dark}`,
-          color: `${theme.palette.custom.main}`,
+          border: `1px solid ${theme?.palette?.custom?.dark}`,
+          color: `${theme?.palette?.custom?.main}`,
           minWidth: '0px',
           height: '35px',
         }}

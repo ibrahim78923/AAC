@@ -31,6 +31,7 @@ import { LoginDashboardImage } from '@/assets/images';
 import { styles } from './SignUp.style';
 
 import { useForm, Controller, FormProvider } from 'react-hook-form';
+import { useSignUpMutation } from '@/services/auth';
 
 const SignUp = () => {
   const [isShowError, setIsShowError] = useState<boolean>(false);
@@ -49,13 +50,14 @@ const SignUp = () => {
     control,
     formState: { errors },
   } = useForm();
+  const [SignUpHandler] = useSignUpMutation();
 
   const isPasswordValid = (password: string) => {
     const regex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{8,}$/;
     return regex.test(password);
   };
 
-  const onSubmit = (data: any) => {
+  const onSubmit = async (data: any) => {
     const { createPassword, confirmPassword } = data;
 
     if (isPasswordValid(createPassword)) {
@@ -63,18 +65,20 @@ const SignUp = () => {
         setIsMatchPassword(true);
       } else {
         setIsMatchPassword(false);
+
         setIsSuccess(true);
+        await SignUpHandler({ user: data });
       }
     }
   };
 
   const handleChange = (event: SelectChangeEvent) => {
-    setEmployeesNumber(event.target.value as string);
+    setEmployeesNumber(event?.target?.value as string);
   };
 
   return (
     <Box sx={{ height: '100vh' }}>
-      <Box sx={styles.AuthHeader}>
+      <Box sx={styles?.AuthHeader}>
         <Box>
           <CompanyLogoIcon />
         </Box>
@@ -479,7 +483,6 @@ const SignUp = () => {
                             variant="body1"
                             sx={{ color: theme?.palette?.error?.main }}
                           >
-                            {' '}
                             {errors?.email?.message}
                           </Typography>
                         )}
@@ -488,7 +491,7 @@ const SignUp = () => {
                           variant="body2"
                           style={{ marginBottom: '4px', marginTop: '20px' }}
                         >
-                          Company Registration Number (CRN){' '}
+                          Company Registration Number (CRN)
                           <span style={{ color: 'red' }}>*</span>
                         </Typography>
                         <Controller
@@ -614,14 +617,14 @@ const SignUp = () => {
               xs={0}
               md={6}
               lg={6}
-              style={styles.loginDashboard}
+              style={styles?.loginDashboard}
               sx={{
                 '@media (max-width: 900px)': {
                   display: 'none !important', // Hide the element when the screen width is less than 900px
                 },
               }}
             >
-              <Image src={LoginDashboardImage} alt="dashborad" />
+              <Image src={LoginDashboardImage} alt="dashboard" />
             </Grid>
           </>
         )}

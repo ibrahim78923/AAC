@@ -6,4 +6,5 @@ export const endpoints = {
   get_permissions: '/premissions',
   reset_password: 'auth/resetPassword',
   forgot_password: 'auth/forgot-password',
+  auth_search_company: 'auth/search-company',
 };

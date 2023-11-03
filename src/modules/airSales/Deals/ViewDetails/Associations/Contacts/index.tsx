@@ -36,8 +36,8 @@ const Contacts = () => {
       }}
     >
       <Grid container spacing={2}>
-        <Grid item md={4} xs={12} sx={styles.countBox}>
-          <Typography sx={styles.associationCount(theme)} variant="body3">
+        <Grid item md={4} xs={12} sx={styles?.countBox}>
+          <Typography sx={styles?.associationCount(theme)} variant="body3">
             02
           </Typography>
 
