@@ -26,3 +26,11 @@ export const data: conversationViewDataItemI[] = [
     time: '11:02 PM-5 March,  2023',
   },
 ];
+
+export const conversationAttachmentFileData = [
+  {
+    name: 'Picture.pdf',
+    size: '12KB',
+    type: 'pdf',
+  },
+];

@@ -25,6 +25,7 @@ export { default as PhoneIcon } from './shared/phone-shared';
 export { default as EditIcon } from './shared/edit-shared';
 export { default as EditYellowBgIcon } from './shared/edit-yellow-bg';
 export { default as EditColoredIcon } from './shared/edit-colored-shared';
+export { default as EditBlackIcon } from './shared/edit-black-icon';
 export { default as FilterSharedIcon } from './shared/filter-shared';
 export { default as ExampleKababCase } from './modules/Login/example-kabab-case';
 export { default as ViewEyeIcon } from './modules/airSales/SettingsUserManagement/view-eye';
@@ -66,9 +67,7 @@ export { default as ViewDetailDocumentTextIcon } from './modules/airServices/Tic
 export { default as ViewDetailCallIcon } from './modules/airServices/Tickets/view-details-call-icon';
 export { default as ViewDetailBackArrowIcon } from './shared/view-detail-back-arrow-icon';
 export { default as RefreshIcon } from './shared/refresh-icon';
-export { default as LeftArrowConversatationIcon } from './shared/AddConversation/left-arrow-icon';
-export { default as RightArrowConversatationIcon } from './shared/AddConversation/right-arrow-icon';
-export { default as DeleteIconConversatationIcon } from './shared/AddConversation/delete-icon-add-coversation';
+
 // More exports from here
 export { default as SubTabIcon } from './shared/sub-tab-icon';
 export { default as ListIcon } from './shared/list-icon';
