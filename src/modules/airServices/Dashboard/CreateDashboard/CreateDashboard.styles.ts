@@ -21,14 +21,6 @@ export const styles = (theme: any, dashboardItems?: string[]) => ({
   },
   userAvatar: { width: 24, height: 24 },
   multiCheckboxContainer: { overflowY: 'scroll', pl: '1.25rem' },
-  previewDashboardButton: {
-    padding: '0px 1.4rem',
-    fontWeight: '500',
-    color: 'primary.main',
-    '& path': {
-      fill: theme?.palette?.primary?.main,
-    },
-  },
   detailsViewBox: {
     display: 'flex',
     alignItems: 'center',
@@ -44,5 +36,12 @@ export const styles = (theme: any, dashboardItems?: string[]) => ({
   buttonStyles: {
     padding: '0px 1.4rem',
     fontWeight: '500',
+  },
+  rhfSwitchBox: {
+    position: { sm: 'unset', xs: 'absolute' },
+    display: { xl: 'none', xs: 'flex' },
+    justifyContent: 'flex-end',
+    right: '-0.5rem',
+    top: '3.1rem',
   },
 });

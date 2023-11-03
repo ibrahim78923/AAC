@@ -1,9 +1,12 @@
-import { EyeRedIcon, EditYellowPenIcon } from '@/assets/icons';
+import { EditYellowPenIcon } from '@/assets/icons';
 import { UserAvatarImage } from '@/assets/images';
 import { AntSwitch } from '@/components/ReactHookForm/RHFSwitch';
 import { Avatar, Box, Typography } from '@mui/material';
 import Image from 'next/image';
 import { DeleteDashboardModal } from './DeleteDashboardModal';
+import { PreviewDashboardModal } from '../PreviewDashboardItems/PreviewDashboardModal';
+import Link from 'next/link';
+import { AIR_SERVICES } from '@/constants';
 
 export const manageDashboardsDataColumns = [
   {
@@ -71,14 +74,14 @@ export const manageDashboardsDataColumns = [
     id: 'actions',
     isSortable: true,
     header: <Typography>Actions</Typography>,
-    cell: (info: any) => (
+    cell: () => (
       <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-        <Box sx={{ cursor: 'pointer' }} onClick={() => info?.getValue()}>
-          <EyeRedIcon />
-        </Box>
-        <Box sx={{ cursor: 'pointer' }}>
+        <PreviewDashboardModal
+          dashboardItems={['Graphical Representation of Tickets by Statuses']}
+        />
+        <Link href={`${AIR_SERVICES.CREATE_DASHBOARD}?action="edit"`}>
           <EditYellowPenIcon />
-        </Box>
+        </Link>
         <DeleteDashboardModal />
       </Box>
     ),

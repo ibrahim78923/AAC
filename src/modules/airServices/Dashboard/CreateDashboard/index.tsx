@@ -23,10 +23,10 @@ import {
   userData,
 } from './CreateDashboard.data';
 import { SearchableMultiSelect } from './SearchableMultiSelect';
-import { EyeIcon } from '@/assets/icons';
 import { v4 as uuidv4 } from 'uuid';
 import { useCreateDashboard } from './useCreateDashboard';
 import { styles } from './CreateDashboard.styles';
+import { PreviewDashboardModal } from '../PreviewDashboardItems/PreviewDashboardModal';
 
 const EVERYONE = 'Everyone';
 
@@ -51,25 +51,35 @@ export const CreateDashboard = () => {
   return (
     <>
       <FormProvider methods={methodsCreateDashboardFilterForm}>
-        <Typography variant="h3" color="grey.800">
-          Create dashboard
-        </Typography>
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+          position="relative"
+        >
+          <Typography variant="h3" color="grey.800">
+            Create dashboard
+          </Typography>
+          <Box sx={styles(theme)?.rhfSwitchBox}>
+            <RHFSwitch fullWidth={true} name="default" label="Set as default" />
+          </Box>
+        </Box>
         <Grid
           container
           spacing={3}
           sx={styles(theme)?.createDashboardContainer}
         >
-          <Grid item xs={6}>
-            <div>
+          <Grid item xl={6} xs={12}>
+            <Box>
               <RHFTextField
                 fullWidth={true}
                 name="dashboardName"
                 label="Dashboard Name"
                 required={true}
               />
-            </div>
+            </Box>
             <Box display="flex" justifyContent="space-between">
-              <div>
+              <Box>
                 <FormControl>
                   <Typography
                     variant="h6"
@@ -125,14 +135,14 @@ export const CreateDashboard = () => {
                     />
                   </RadioGroup>
                 </FormControl>
-              </div>
-              <div>
+              </Box>
+              <Box display={{ xl: 'block', xs: 'none' }}>
                 <RHFSwitch
                   fullWidth={true}
                   name="default"
                   label="Set as default"
                 />
-              </div>
+              </Box>
             </Box>
             <Box ml="2rem" mb="2rem">
               {usersPermissions?.map((user: any) => (
@@ -198,16 +208,13 @@ export const CreateDashboard = () => {
               />
             </Box>
             <Box display="flex" justifyContent="flex-end">
-              <Button
-                variant="text"
-                sx={styles(theme)?.previewDashboardButton}
-                startIcon={<EyeIcon />}
-              >
-                Preview Dashboard
-              </Button>
+              <PreviewDashboardModal
+                dashboardItems={dashboardItems}
+                type="Manage"
+              />
             </Box>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xl={6} xs={12}>
             <Box sx={styles(theme, dashboardItems)?.detailsViewBox}>
               <Typography variant="subtitle1" color="slateBlue.main" mb={2}>
                 Details view
@@ -221,7 +228,7 @@ export const CreateDashboard = () => {
                       alt={'ExampleDashboardImage'}
                     />
                   </Box>
-                  <div></div>
+                  <Box></Box>
                 </>
               ) : (
                 <Grid container spacing={3} height={680} overflow="scroll">

@@ -1,9 +1,5 @@
 import { UserAvatarImage } from '@/assets/images';
 import { v4 as uuidv4 } from 'uuid';
-import { RecentActivitiesDashboardCard } from './PreviewDashboardItems/RecentActivitiesDashboardCard';
-import { AnnouncementDashboardCard } from './PreviewDashboardItems/AnnouncementDashboardCard';
-import { TicketDashboardCards } from './PreviewDashboardItems/TicketDashboardCards';
-import { TopPerformerDashboardCard } from './PreviewDashboardItems/TopPerformerDashboardCard';
 export const dashboardCheckboxData = [
   'Graphical Representation of Tickets by Statuses',
   'Recent Activities',
@@ -22,10 +18,10 @@ export const userData = [
 export const previewDashboard: { [index: string]: any } = {
   'Graphical Representation of Tickets by Statuses':
     'Graphical Representation of Tickets by Statuses',
-  'Recent Activities': <RecentActivitiesDashboardCard />,
-  Announcements: <AnnouncementDashboardCard />,
-  'Tickets Overview by Status': <TicketDashboardCards />,
+  'Recent Activities': 'Recent Activities',
+  Announcements: 'Announcements',
+  'Tickets Overview by Status': 'Tickets Overview by Status',
   'Tickets by Priority': 'Tickets by Priority',
-  Achievements: <TopPerformerDashboardCard />,
+  Achievements: 'Achievements',
   'Agent Availability': 'Agent Availability',
 };
