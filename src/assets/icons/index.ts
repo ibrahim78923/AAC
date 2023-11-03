@@ -154,7 +154,7 @@ export { default as MinusCircleBlackIcon } from './shared/minus-circle-black-ico
 export { default as PrimaryReceivedIcon } from './shared/primary-received';
 export { default as PrimaryRequestIcon } from './shared/primary-request';
 export { default as PrimaryCancelIcon } from './shared/primary-cancel';
-export { default as FirstAidKitIcon } from './shared/first-aid-kit';
+export { default as FirstAidKitIcon } from './shared/first-aid-kit-icon';
 export { default as DocumentTextIcon } from './shared/document-text';
 export { default as EraserIcon } from './shared/eraser';
 export { default as DownloadLargeIcon } from './shared/download-large';

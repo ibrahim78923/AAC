@@ -1,4 +1,4 @@
-const FirstAidKit = () => {
+const FirstAidKitIcon = () => {
   return (
     <svg
       width="18"
@@ -35,4 +35,4 @@ const FirstAidKit = () => {
   );
 };
 
-export default FirstAidKit;
+export default FirstAidKitIcon;
