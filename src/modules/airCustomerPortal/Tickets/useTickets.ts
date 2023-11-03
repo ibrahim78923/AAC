@@ -5,10 +5,16 @@ export const useTickets = () => {
   const router = useRouter();
   const handleTickets = () => {
     router?.push({
+      pathname: AIR_CUSTOMER_PORTAL?.TICKETS,
+    });
+  };
+  const handleSingleTickets = () => {
+    router?.push({
       pathname: AIR_CUSTOMER_PORTAL?.SINGLE_TICKETS,
     });
   };
   return {
     handleTickets,
+    handleSingleTickets,
   };
 };

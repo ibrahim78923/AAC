@@ -1,7 +1,10 @@
 import { ArrowLeftIcon } from '@/assets/icons';
 import { Box, Button, Typography } from '@mui/material';
+import { useTickets } from '../../useTickets';
 
-export const SingleTicketHeader = ({ onSubmit, setOpenPopup }: any) => {
+export const SingleTicketHeader = (props: any) => {
+  const { onSubmit, setOpenPopup } = props;
+  const { handleTickets } = useTickets();
   return (
     <Box
       display={'flex'}
@@ -16,7 +19,9 @@ export const SingleTicketHeader = ({ onSubmit, setOpenPopup }: any) => {
         alignItems={'center'}
         gap={1}
       >
-        <ArrowLeftIcon />
+        <Box onClick={() => handleTickets()} sx={{ cursor: 'pointer' }}>
+          <ArrowLeftIcon />
+        </Box>
         <Typography variant="h6" color="primary">
           Tickets
         </Typography>

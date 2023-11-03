@@ -1,8 +1,10 @@
 import { FolderIcon } from '@/assets/icons';
 import { Box, Typography, useTheme } from '@mui/material';
+import { useKnowledgeBase } from '../useKnowledgeBase';
 
 export const KnowledgeBaseCard = (props: any) => {
   const { name, createdBy, createdDate } = props;
+  const { handleKnowledgeBaseDetail } = useKnowledgeBase();
   const theme = useTheme();
   return (
     <Box
@@ -18,6 +20,7 @@ export const KnowledgeBaseCard = (props: any) => {
       height={'auto'}
       border={`.1rem solid ${theme?.palette?.grey?.[700]}`}
       sx={{ cursor: 'pointer' }}
+      onClick={() => handleKnowledgeBaseDetail()}
     >
       <Box
         display={'flex'}
