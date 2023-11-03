@@ -52,11 +52,11 @@ const SocialIconsDropdown = () => {
         }}
       >
         {!isNullOrEmpty(QuickLinkData) &&
-          QuickLinkData.map((image) => (
+          QuickLinkData?.map((image) => (
             <Box
               key={uuidv4()}
               sx={{
-                borderRight: `1px solid ${theme.palette.custom.dark}`,
+                borderRight: `1px solid ${theme?.palette?.custom?.dark}`,
 
                 '&:last-child': {
                   borderRight: 'none',
@@ -66,7 +66,7 @@ const SocialIconsDropdown = () => {
                 padding: '10px',
               }}
             >
-              <Link href={image.path}>
+              <Link href={image?.path}>
                 <Image src={image?.icon} alt="logo" width={18} height={18} />
               </Link>
             </Box>
