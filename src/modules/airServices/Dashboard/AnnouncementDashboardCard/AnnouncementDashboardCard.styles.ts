@@ -10,7 +10,7 @@ export const styles: any = {
       : '',
     flexShrink: 0,
     px: 2,
-    height: 81,
+    height: 76,
   }),
 
   announcementText: (theme: any) => ({

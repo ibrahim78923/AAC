@@ -12,7 +12,9 @@ export const AnnouncementHeader = ({}: any) => {
         }}
       >
         <Typography variant="h4">Announcements</Typography>
-        <Button variant="text" startIcon={<ViewDetailSharedIcon />}></Button>
+        <Box>
+          <Button variant="text" startIcon={<ViewDetailSharedIcon />}></Button>
+        </Box>
       </Box>
     </>
   );
