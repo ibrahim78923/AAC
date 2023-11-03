@@ -5,6 +5,7 @@ import { articlesColumnsFunction, data } from './Articles.data';
 
 export const useArticles = () => {
   const { KNOWLEDGE_BASE } = AIR_SERVICES;
+
   const { push } = useRouter();
   const [selectedArticlesData, setSelectedArticlesData] = useState([]);
   const [selectedArticlesTab, setSelectedArticlesTab] = useState('all');
