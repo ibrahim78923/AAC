@@ -1,4 +1,14 @@
-import { Box, Button, Drawer } from '@mui/material';
+import { FilterIcon } from '@/assets/icons';
+import {
+  Avatar,
+  Box,
+  Button,
+  Chip,
+  Divider,
+  Drawer,
+  IconButton,
+  Typography,
+} from '@mui/material';
 import { Fragment, useState } from 'react';
 
 export const UnassignedWork = () => {
@@ -11,7 +21,7 @@ export const UnassignedWork = () => {
         sx={{ mx: 2 }}
         onClick={() => setOpenDrawer(true)}
       >
-        Manage Workload
+        Unassigned Work
       </Button>
 
       <Drawer
@@ -20,12 +30,51 @@ export const UnassignedWork = () => {
         anchor="right"
       >
         <Box
-          p={2}
           sx={{
             width: { xs: '100vw', md: '40vw' },
           }}
         >
-          Unassigned Work
+          <Box display={'flex'} justifyContent={'space-between'} p={4}>
+            <Box display={'flex'} gap={1}>
+              <Avatar
+                sx={{
+                  bgcolor: 'primary.lighter',
+                  color: 'primary.main',
+                }}
+              >
+                A
+              </Avatar>
+              <Box>
+                <Typography color={'custom.main'} variant="body2">
+                  Alex Lexes Workload
+                </Typography>
+                <Typography variant="body2">5 June 2023</Typography>
+                <Typography variant="body2">
+                  3 in Total
+                  <Chip
+                    label="Unplanned"
+                    sx={{
+                      bgcolor: 'custom.pale_gray',
+                      color: 'success.main',
+                      ml: 2,
+                    }}
+                  />
+                </Typography>
+              </Box>
+            </Box>
+            <IconButton
+              aria-label="filter"
+              sx={{
+                height: '50px',
+                width: '50px',
+                borderRadius: 2,
+                boxShadow: 2,
+              }}
+            >
+              <FilterIcon />
+            </IconButton>
+          </Box>
+          <Divider />
         </Box>
       </Drawer>
     </Fragment>
