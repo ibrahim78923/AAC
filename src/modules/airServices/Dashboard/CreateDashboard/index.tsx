@@ -15,69 +15,39 @@ import {
   Radio,
   RadioGroup,
   Typography,
-  useTheme,
 } from '@mui/material';
 import Image from 'next/image';
-import { useForm } from 'react-hook-form';
-import { dashboardCheckboxData, userData } from './CreateDashboard.data';
+import {
+  dashboardCheckboxData,
+  previewDashboard,
+  userData,
+} from './CreateDashboard.data';
 import { SearchableMultiSelect } from './SearchableMultiSelect';
 import { EyeIcon } from '@/assets/icons';
-import { useState } from 'react';
-import { LabelType } from './CreateDashboard.interface';
 import { v4 as uuidv4 } from 'uuid';
+import { useCreateDashboard } from './useCreateDashboard';
+import { styles } from './CreateDashboard.styles';
+
+const EVERYONE = 'Everyone';
 
 export const CreateDashboard = () => {
-  const theme = useTheme();
-  const [value, setValue] = useState('');
-  const [anchorElUserList, setAnchorElUserList] = useState<null | HTMLElement>(
-    null,
-  );
-  const [pendingValue, setPendingValue] = useState<LabelType[]>([]);
-  const [specificUsers, setSpecificUser] = useState<LabelType[]>([]);
-  const [usersPermissions, setUsersPermissions] = useState<any[]>([]);
-  const handleOpenUserslist = (event: React.MouseEvent<HTMLElement>) => {
-    setPendingValue(specificUsers);
-    setAnchorElUserList(event?.currentTarget);
-  };
-
-  const handleCloseUserslist = () => {
-    setSpecificUser(pendingValue);
-    if (anchorElUserList) {
-      anchorElUserList.focus();
-    }
-    const uniqueNewPermissions = pendingValue?.filter(
-      (newItem) => !usersPermissions?.some((item) => item?.id === newItem?.id),
-    );
-    const updatedPermissions = usersPermissions?.filter(
-      (item) => pendingValue?.some((newItem) => newItem?.id === item?.id),
-    );
-    const combinedPermissions = updatedPermissions?.concat(
-      uniqueNewPermissions?.map((newItem) => ({ ...newItem, permission: '' })),
-    );
-    setUsersPermissions(combinedPermissions);
-    setAnchorElUserList(null);
-  };
-  const handleChange = (event: any) => {
-    setValue(event.target.value);
-    setUsersPermissions([]);
-  };
-  const setSpecificUserPermissions = (id: string, event: any) => {
-    const tempUsersList = usersPermissions.map((user) =>
-      user.id === id ? { ...user, permission: event?.target?.value } : user,
-    );
-    setUsersPermissions([...tempUsersList]);
-  };
-  const methodsCreateDashboardFilterForm = useForm({
-    defaultValues: {
-      dashboardName: '',
-      default: false,
-      dashboardItems: [],
-    },
-  });
-  const submitCreateDashboardFilterForm = async () => {};
-  const resetCreateDashboardFilterForm = async () => {
-    methodsCreateDashboardFilterForm?.reset();
-  };
+  const {
+    methodsCreateDashboardFilterForm,
+    accessValue,
+    handleChangeAccessValue,
+    specificUsers,
+    setPendingValue,
+    pendingValue,
+    anchorElUserList,
+    handleOpenUsersList,
+    handleCloseUsersList,
+    usersPermissions,
+    setSpecificUserPermissions,
+    theme,
+    submitCreateDashboardFilterForm,
+    resetCreateDashboardFilterForm,
+    dashboardItems,
+  } = useCreateDashboard();
   return (
     <>
       <FormProvider methods={methodsCreateDashboardFilterForm}>
@@ -87,13 +57,7 @@ export const CreateDashboard = () => {
         <Grid
           container
           spacing={3}
-          sx={{
-            borderBottom: '1px solid',
-            borderColor: 'grey.700',
-            mt: '16px',
-            mb: '24px',
-            pb: '24px',
-          }}
+          sx={styles(theme)?.createDashboardContainer}
         >
           <Grid item xs={6}>
             <div>
@@ -115,8 +79,8 @@ export const CreateDashboard = () => {
                     Who can access this dashboard?
                   </Typography>
                   <RadioGroup
-                    value={value}
-                    onChange={handleChange}
+                    value={accessValue}
+                    onChange={handleChangeAccessValue}
                     name="access"
                   >
                     <FormControlLabel
@@ -129,8 +93,8 @@ export const CreateDashboard = () => {
                       control={<Radio />}
                       label="Everyone"
                     />
-                    {value === 'Everyone' && (
-                      <FormControl sx={{ ml: '15px' }} component="fieldset">
+                    {accessValue === EVERYONE && (
+                      <FormControl sx={{ ml: 2 }} component="fieldset">
                         <RadioGroup aria-label="child" name="child">
                           <FormControlLabel
                             value="View and edit"
@@ -146,7 +110,7 @@ export const CreateDashboard = () => {
                       </FormControl>
                     )}
                     <FormControlLabel
-                      onClick={handleOpenUserslist}
+                      onClick={handleOpenUsersList}
                       value="Only specific user and teams"
                       control={<Radio />}
                       label="Only specific user and teams"
@@ -154,7 +118,7 @@ export const CreateDashboard = () => {
                     <SearchableMultiSelect
                       labels={userData}
                       anchorEl={anchorElUserList}
-                      handleClose={handleCloseUserslist}
+                      handleClose={handleCloseUsersList}
                       pendingValue={pendingValue}
                       setPendingValue={setPendingValue}
                       value={specificUsers}
@@ -171,36 +135,12 @@ export const CreateDashboard = () => {
               </div>
             </Box>
             <Box ml="2rem" mb="2rem">
-              {usersPermissions.map((user) => (
+              {usersPermissions?.map((user: any) => (
                 <Box key={uuidv4()}>
-                  <Box
-                    sx={{
-                      bgcolor: 'common.white',
-                      p: '1rem',
-                      borderRadius: '4px',
-                      border: '1px solid',
-                      borderColor: 'grey.700',
-                    }}
-                  >
-                    <Box
-                      sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                        width: '100%',
-                      }}
-                    >
-                      <Box
-                        sx={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '10px',
-                        }}
-                      >
-                        <Avatar
-                          sx={{ width: '24px', height: '24px' }}
-                          alt={user?.name}
-                        >
+                  <Box sx={styles(theme)?.userCardOuter}>
+                    <Box sx={styles(theme)?.userCardInner}>
+                      <Box display="flex" alignItems="center" gap="10px">
+                        <Avatar sx={styles(theme)?.userAvatar} alt={user?.name}>
                           <Image
                             src={user?.src}
                             alt={user?.name}
@@ -251,7 +191,7 @@ export const CreateDashboard = () => {
             <Typography variant="h6" fontWeight={600} color="slateblue.main">
               Use the checkboxes to remove/add any report you want
             </Typography>
-            <Box sx={{ overflowY: 'scroll', height: '384px', pl: '20px' }}>
+            <Box sx={styles(theme)?.multiCheckboxContainer}>
               <RHFMultiCheckbox
                 name="dashboardItems"
                 options={dashboardCheckboxData}
@@ -260,15 +200,7 @@ export const CreateDashboard = () => {
             <Box display="flex" justifyContent="flex-end">
               <Button
                 variant="text"
-                sx={{
-                  padding: '0px 22px',
-                  height: '44px',
-                  fontWeight: '500',
-                  color: 'primary.main',
-                  '& path': {
-                    fill: theme?.palette?.primary?.main,
-                  },
-                }}
+                sx={styles(theme)?.previewDashboardButton}
                 startIcon={<EyeIcon />}
               >
                 Preview Dashboard
@@ -276,55 +208,45 @@ export const CreateDashboard = () => {
             </Box>
           </Grid>
           <Grid item xs={6}>
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-                height: '100%',
-                borderRadius: '8px',
-                border: '1px solid',
-                borderColor: 'grey.700',
-                p: '20px',
-              }}
-            >
-              <Typography variant="subtitle1" color="slateBlue.main">
+            <Box sx={styles(theme, dashboardItems)?.detailsViewBox}>
+              <Typography variant="subtitle1" color="slateBlue.main" mb={2}>
                 Details view
               </Typography>
-              <Box sx={{ pointerEvents: 'none', userSelect: 'none' }}>
-                <Image
-                  src={ExampleDashboardImage}
-                  style={{ pointerEvents: 'none', userSelect: 'none' }}
-                  alt={'ExampleDashboardImage'}
-                />
-              </Box>
-              <div></div>
+              {!!!dashboardItems?.length ? (
+                <>
+                  <Box sx={styles(theme)?.bgImageBox}>
+                    <Image
+                      src={ExampleDashboardImage}
+                      style={{ pointerEvents: 'none', userSelect: 'none' }}
+                      alt={'ExampleDashboardImage'}
+                    />
+                  </Box>
+                  <div></div>
+                </>
+              ) : (
+                <Grid container spacing={3} height={680} overflow="scroll">
+                  {dashboardItems?.map((item: any) => (
+                    <Grid item xs={12} key={uuidv4()}>
+                      {previewDashboard?.[item as string]}
+                    </Grid>
+                  ))}
+                </Grid>
+              )}
             </Box>
           </Grid>
         </Grid>
-        <Box sx={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
+        <Box display="flex" gap="0.6rem" justifyContent="flex-end">
           <Button
-            sx={{
-              color: theme.palette?.grey[500],
-              border: '1px solid',
-              borderColor: 'grey.700',
-              padding: '0px 22px',
-              height: '44px',
-              fontWeight: '500',
-              '&:hover': { bgcolor: theme.palette.grey[400] },
-            }}
+            sx={styles(theme)?.buttonStyles}
+            variant="outlined"
+            color="secondary"
             onClick={resetCreateDashboardFilterForm}
           >
             Cancel
           </Button>
           <Button
             variant="contained"
-            sx={{
-              padding: '0px 22px',
-              height: '44px',
-              fontWeight: '500',
-            }}
+            sx={styles(theme)?.buttonStyles}
             onClick={submitCreateDashboardFilterForm}
             type="submit"
           >

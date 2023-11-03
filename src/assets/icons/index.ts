@@ -67,7 +67,7 @@ export { default as DeleteIconConversatationIcon } from './shared/AddConversatio
 export { default as SubTabIcon } from './shared/sub-tab-icon';
 export { default as ListIcon } from './shared/list-icon';
 export { default as ResetIcon } from './shared/reset-icon';
-export { default as AddIconWithBgWhiteIcon } from './shared/add-icon-with-bg-white';
+export { default as AddIconWithBgWhiteIcon } from './shared/add-icon-with-bg-white-icon';
 export { default as GrayPlusIcon } from './shared/gray-plus-icon';
 export { default as ExportBlackIcon } from './shared/export-black-icon';
 export { default as AddCircleBlackIcon } from './shared/add-circle-black-icon';
@@ -153,6 +153,7 @@ export { default as PrimaryPreviewEyeIcon } from './shared/primary-preview-eye';
 export { default as PrinterIcon } from './shared/printer-icon';
 export { default as DownloadFileIcon } from './shared/download-file-icon';
 export { default as MinusCircleBlackIcon } from './shared/minus-circle-black-icon';
+export { default as MinusSquareBlackIcon } from './shared/minus-square-black-icon';
 export { default as PrimaryReceivedIcon } from './shared/primary-received';
 export { default as PrimaryRequestIcon } from './shared/primary-request';
 export { default as PrimaryCancelIcon } from './shared/primary-cancel';

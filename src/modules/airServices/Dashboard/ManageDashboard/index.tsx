@@ -79,7 +79,7 @@ export const ManageDashboard = () => {
             </Box>
             <TanstackTable
               data={dashboardsData}
-              columns={manageDashboardsDataColumns()}
+              columns={manageDashboardsDataColumns}
             />
             <CustomPagination
               count={1}

@@ -5,7 +5,7 @@ import { Avatar, Box, Typography } from '@mui/material';
 import Image from 'next/image';
 import { DeleteDashboardModal } from './DeleteDashboardModal';
 
-export const manageDashboardsDataColumns = (): any => [
+export const manageDashboardsDataColumns = [
   {
     accessorFn: (row: any) => row?.dashboardName,
     id: 'dashboardName',
@@ -90,84 +90,6 @@ export const dashboardsData: any = [
     actions: 1,
     dashboardName: 'Service_1',
     default: true,
-    owner: {
-      name: 'Olivia Rhye',
-      email: 'olivia@gmail.com',
-      src: UserAvatarImage,
-    },
-    accessRights: 'Everyone',
-    lastViewed: '10/04/2023',
-    lastUpdated: '10/04/2023',
-  },
-  {
-    actions: 2,
-    dashboardName: 'Service_1',
-    default: false,
-    owner: {
-      name: 'Olivia Rhye',
-      email: 'olivia@gmail.com',
-      src: UserAvatarImage,
-    },
-    accessRights: 'Everyone',
-    lastViewed: '10/04/2023',
-    lastUpdated: '10/04/2023',
-  },
-  {
-    actions: 1,
-    dashboardName: 'Service_1',
-    default: false,
-    owner: {
-      name: 'Olivia Rhye',
-      email: 'olivia@gmail.com',
-      src: UserAvatarImage,
-    },
-    accessRights: 'Everyone',
-    lastViewed: '10/04/2023',
-    lastUpdated: '10/04/2023',
-  },
-  {
-    actions: 2,
-    dashboardName: 'Service_1',
-    default: false,
-    owner: {
-      name: 'Olivia Rhye',
-      email: 'olivia@gmail.com',
-      src: UserAvatarImage,
-    },
-    accessRights: 'Everyone',
-    lastViewed: '10/04/2023',
-    lastUpdated: '10/04/2023',
-  },
-  {
-    actions: 1,
-    dashboardName: 'Service_1',
-    default: false,
-    owner: {
-      name: 'Olivia Rhye',
-      email: 'olivia@gmail.com',
-      src: UserAvatarImage,
-    },
-    accessRights: 'Everyone',
-    lastViewed: '10/04/2023',
-    lastUpdated: '10/04/2023',
-  },
-  {
-    actions: 2,
-    dashboardName: 'Service_1',
-    default: false,
-    owner: {
-      name: 'Olivia Rhye',
-      email: 'olivia@gmail.com',
-      src: UserAvatarImage,
-    },
-    accessRights: 'Everyone',
-    lastViewed: '10/04/2023',
-    lastUpdated: '10/04/2023',
-  },
-  {
-    actions: 1,
-    dashboardName: 'Service_1',
-    default: false,
     owner: {
       name: 'Olivia Rhye',
       email: 'olivia@gmail.com',

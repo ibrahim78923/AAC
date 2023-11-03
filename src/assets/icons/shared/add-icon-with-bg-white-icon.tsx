@@ -1,4 +1,4 @@
-const AddIconWithBg = () => {
+const AddIconWithBgWhiteIcon = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -21,4 +21,4 @@ const AddIconWithBg = () => {
   );
 };
 
-export default AddIconWithBg;
+export default AddIconWithBgWhiteIcon;
