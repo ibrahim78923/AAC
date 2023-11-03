@@ -2,8 +2,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import {
   updateContractFormValidationSchema,
-  updateContractFormDefaultValues,
   updateContractFormFieldsFunction,
+  updateContractFormDefaultValuesFunction,
 } from './UpdateContract.data';
 import { useRouter } from 'next/router';
 import { enqueueSnackbar } from 'notistack';
@@ -12,12 +12,15 @@ import { useTheme } from '@mui/material';
 
 export const useUpdateContract = () => {
   const theme = useTheme();
-  const methods: any = useForm({
-    resolver: yupResolver(updateContractFormValidationSchema),
-    defaultValues: updateContractFormDefaultValues,
-  });
-  const { handleSubmit } = methods;
   const router = useRouter();
+
+  const methods: any = useForm({
+    resolver: yupResolver<any>(updateContractFormValidationSchema),
+    defaultValues: updateContractFormDefaultValuesFunction(router),
+    reValidateMode: 'onBlur',
+  });
+
+  const { handleSubmit } = methods;
 
   const handleCancelBtn = () => {
     router.push({ pathname: AIR_SERVICES?.ASSETS_CONTRACTS });

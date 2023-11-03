@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { data, softwareListsColumnsFunction } from './Contracts.data';
 
 export function useContracts() {
-  const [meetingsData, setMeetingsData] = useState([]);
+  const [contractsData, setContractsData] = useState([]);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [openModel, setOpenModel] = useState<boolean>(false);
   const [actionPop, setActionPop] = useState<HTMLButtonElement | null>(null);
@@ -20,8 +20,8 @@ export function useContracts() {
     setActionPop(event.currentTarget);
   };
   const softwareListsColumns = softwareListsColumnsFunction(
-    meetingsData,
-    setMeetingsData,
+    contractsData,
+    setContractsData,
     data,
     router,
   );
@@ -37,8 +37,8 @@ export function useContracts() {
     setOpenModel(false);
   };
   return {
-    meetingsData,
-    setMeetingsData,
+    contractsData,
+    setContractsData,
     isDrawerOpen,
     setIsDrawerOpen,
     openModel,

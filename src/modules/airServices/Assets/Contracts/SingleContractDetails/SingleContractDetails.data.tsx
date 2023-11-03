@@ -33,6 +33,7 @@ export const singleContractDetailsActionDropdownFunction = (
         query: {
           ...router?.query,
           action: 'renew',
+          contractType: 'Lease',
         },
       });
       closeMenu?.();
@@ -46,6 +47,7 @@ export const singleContractDetailsActionDropdownFunction = (
         query: {
           ...router?.query,
           action: 'extend',
+          contractType: 'Software License',
         },
       });
       closeMenu?.();

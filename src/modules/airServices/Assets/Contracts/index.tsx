@@ -12,7 +12,7 @@ import { PageTitledHeader } from '../../../../components/PageTitledHeader';
 
 function Contracts() {
   const {
-    meetingsData,
+    contractsData,
     isDrawerOpen,
     setIsDrawerOpen,
     openModel,
@@ -43,7 +43,7 @@ function Contracts() {
           <Button
             variant="outlined"
             color="secondary"
-            disabled={!!!meetingsData.length}
+            disabled={!!!contractsData.length}
             onClick={() => setOpenModel(true)}
           >
             Delete
