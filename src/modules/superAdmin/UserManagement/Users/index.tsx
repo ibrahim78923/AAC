@@ -6,9 +6,10 @@ import { columns } from './Users.data';
 import useUserManagement from '../useUserManagement';
 
 const Users = () => {
-  const { useGetUsersQuery } = useUserManagement();
+  const { useGetUsersQuery, search } = useUserManagement();
   const params = {
     role: 'ORG_ADMIN',
+    search: search,
   };
   const { data } = useGetUsersQuery(params);
 

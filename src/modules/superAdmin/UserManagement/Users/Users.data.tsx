@@ -11,6 +11,7 @@ import { SwitchBtn } from '@/components/SwitchButton';
 import { AvatarImage } from '@/assets/images';
 
 import * as Yup from 'yup';
+import dayjs from 'dayjs';
 
 export const columns: any = [
   {
@@ -91,7 +92,8 @@ export const columns: any = [
     id: 'createdOn',
     isSortable: true,
     header: 'CreatedOn',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) =>
+      dayjs(info?.row?.original?.createdAt).format('DD/MM/YYYY'),
   },
 ];
 
@@ -203,11 +205,12 @@ export const superAdminColumns: any = [
     ),
   },
   {
-    accessorFn: (row: any) => row?.createdAt,
+    accessorFn: (row: any) => row?.createdOn,
     id: 'createdOn',
     isSortable: true,
     header: 'CreatedOn',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) =>
+      dayjs(info?.row?.original?.createdAt).format('DD/MM/YYYY'),
   },
 ];
 

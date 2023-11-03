@@ -8,8 +8,12 @@ import { superAdminColumns } from '../Users.data';
 import useUserManagement from '../../useUserManagement';
 
 const Admin = () => {
-  const { useGetUsersQuery } = useUserManagement();
-  const { data } = useGetUsersQuery({ role: 'SUPER_ADMIN' });
+  const { useGetUsersQuery, search } = useUserManagement();
+  const params = {
+    role: 'SUPER_ADMIN',
+    search: search,
+  };
+  const { data } = useGetUsersQuery(params);
 
   return (
     <>

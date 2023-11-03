@@ -4,8 +4,8 @@ import { endpoints } from '@/routesConstants/endpoints';
 export const usersApi = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getUsers: builder.query({
-      query: ({ role }) => ({
-        url: `${endpoints?.USER_LIST}?role=${role}`,
+      query: ({ role, search }) => ({
+        url: `${endpoints?.USER_LIST}?role=${role}&search=${search}`,
         method: 'GET',
       }),
       providesTags: ['USERS'],

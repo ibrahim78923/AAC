@@ -206,7 +206,7 @@ const UsersDetailsList = () => {
         <Grid item xl={9} lg={8} xs={12}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <ProfileCard />
+              <ProfileCard handleEditProfile={() => setTabVal(1)} />
             </Grid>
             <Grid item xs={12}>
               <Box

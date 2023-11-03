@@ -3,8 +3,12 @@ import { useState } from 'react';
 import { Box, Grid, InputAdornment, Typography } from '@mui/material';
 
 import { FormProvider, RHFSelect } from '@/components/ReactHookForm';
-
 import CommonDrawer from '@/components/CommonDrawer';
+import { EraserIcon } from '@/assets/icons';
+import BorderColorIcon from '@mui/icons-material/BorderColor';
+import useToggle from '@/hooks/useToggle';
+import { usersApi } from '@/services/superAdmin/user-management/users';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 import {
   addUsersArray,
@@ -16,16 +20,8 @@ import {
 } from './AddUser.data';
 
 import { useForm } from 'react-hook-form';
-
-import { yupResolver } from '@hookform/resolvers/yup';
-
-import { v4 as uuidv4 } from 'uuid';
-
 import { enqueueSnackbar } from 'notistack';
-import { EraserIcon } from '@/assets/icons';
-import BorderColorIcon from '@mui/icons-material/BorderColor';
-import useToggle from '@/hooks/useToggle';
-import { usersApi } from '@/services/superAdmin/user-management/users';
+import { v4 as uuidv4 } from 'uuid';
 
 const AddUser = ({ isOpenDrawer, onClose }: any) => {
   const [userType, setUserType] = useState();
@@ -47,7 +43,7 @@ const AddUser = ({ isOpenDrawer, onClose }: any) => {
   const { handleSubmit, reset } = methods;
 
   const onSubmit = async (values: any) => {
-    values.userType = userType;
+    values.role = userType;
     try {
       postUsers({ body: values }).unwrap();
       enqueueSnackbar('User Added Successfully', {
@@ -79,7 +75,7 @@ const AddUser = ({ isOpenDrawer, onClose }: any) => {
                 User Type
               </Typography>
               <RHFSelect
-                name="userType"
+                name="role"
                 size={'small'}
                 value={userType}
                 onChange={(e: any) => setUserType(e?.target?.value)}
