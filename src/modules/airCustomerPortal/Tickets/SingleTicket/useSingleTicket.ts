@@ -6,7 +6,7 @@ export const useSingleTicket = () => {
   const [openPopup, setOpenPopup] = useState(false);
 
   const onSubmit = async () => {
-    enqueueSnackbar('Added 1 email(s) to the ticket', {
+    enqueueSnackbar('The ticket has been closed', {
       variant: 'success',
       autoHideDuration: 3000,
     });
