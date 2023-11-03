@@ -10,26 +10,36 @@ export const DateFilter = ({ setDateCalendar }: any) => {
   //Date Popover
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+
   const handleOpen = (event: any) => {
     setAnchorEl(event?.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
+
   // Date Filter Handler
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState<any>(
+    dayjs(new Date()).startOf('week'),
+  );
 
   // Date to be displayed
-  const formattedWeekSpan = `${dayjs(selectedDate)?.format(
-    'MMMM DD',
-  )} - ${dayjs(selectedDate)?.add(6, 'day')?.format('DD')}`;
+  const formattedWeekSpan = `${dayjs(selectedDate)?.format('MMM DD')} - ${dayjs(
+    selectedDate,
+  )
+    ?.add(6, 'day')
+    ?.format('MMM DD')}`;
 
+  // Previous Click
   const handlePrevClick = () => {
     const newDate = dayjs(selectedDate)?.subtract(1, 'week')?.toDate();
-    setSelectedDate(newDate);
+    const startOfWeek = dayjs(newDate).startOf('week').format('YYYY-MM-DD');
+    setSelectedDate(startOfWeek);
     setDateCalendar(newDate);
   };
 
+  // Next Click
   const handleNextClick = () => {
     const newDate = dayjs(selectedDate)?.add(1, 'week')?.toDate();
     setSelectedDate(newDate);

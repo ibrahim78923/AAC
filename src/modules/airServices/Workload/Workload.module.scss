@@ -1,7 +1,15 @@
 .calendarWrapper {
   th {
-    font-size: 14px !important;
+    font-size: 0.9rem !important;
   }
+
+  .eventClassNames {
+    margin: 0.6rem;
+    padding: 0.5rem 1rem;
+    border-radius: 1.5rem;
+    border: none;
+  }
+
   .completed {
     background-color: #38cab5;
   }
