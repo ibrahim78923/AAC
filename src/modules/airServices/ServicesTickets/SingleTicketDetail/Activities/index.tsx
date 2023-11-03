@@ -10,7 +10,7 @@ export const Activities = () => {
   const theme = useTheme();
   return (
     <>
-      {activitiesData.map((activity: ActivitiesDataI, index: number) => (
+      {activitiesData?.map((activity: ActivitiesDataI, index: number) => (
         <Box key={uuidv4()}>
           <Box display={'flex'}>
             <IconButton
@@ -30,7 +30,7 @@ export const Activities = () => {
                 marginRight={0.3}
                 component={'span'}
               >
-                {activity.createdBy}
+                {activity?.createdBy}
               </Typography>
               <Typography
                 variant="body2"
@@ -38,7 +38,7 @@ export const Activities = () => {
                 marginRight={0.3}
                 component={'span'}
               >
-                {activity.createdByOne}
+                {activity?.createdByOne}
               </Typography>
               <Typography
                 variant="body2"
@@ -46,7 +46,7 @@ export const Activities = () => {
                 marginRight={0.3}
                 component={'span'}
               >
-                {activity.createdByTwo}
+                {activity?.createdByTwo}
               </Typography>
 
               <Box>
@@ -56,14 +56,14 @@ export const Activities = () => {
                   component={'span'}
                   mr="0.625rem"
                 >
-                  {activity.timeOne}
+                  {activity?.timeOne}
                 </Typography>
                 <Typography
                   variant="body2"
                   color="textPrimary"
                   component={'span'}
                 >
-                  {activity.timeTwo}
+                  {activity?.timeTwo}
                 </Typography>
               </Box>
               <Box sx={{ marginLeft: 2 }} key={uuidv4()}>
@@ -75,14 +75,14 @@ export const Activities = () => {
                         color="textPrimary"
                         component={'span'}
                       >
-                        {activity.attachedTicketPoint}
+                        {activity?.attachedTicketPoint}
                       </Typography>
                       <Typography
                         variant="body2"
                         color="primary"
                         component={'span'}
                       >
-                        {activity.attachedTicketPointOne}
+                        {activity?.attachedTicketPointOne}
                       </Typography>
                     </li>
                     <li>
@@ -91,14 +91,14 @@ export const Activities = () => {
                         color="textPrimary"
                         component={'span'}
                       >
-                        {activity.attachedTicketThree}
+                        {activity?.attachedTicketThree}
                       </Typography>
                       <Typography
                         variant="body2"
                         color="primary"
                         component={'span'}
                       >
-                        {activity.attachedTicketPointFour}
+                        {activity?.attachedTicketPointFour}
                       </Typography>
                     </li>
                   </ul>

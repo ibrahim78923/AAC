@@ -42,7 +42,7 @@ export const PurchaseOrderExport = () => {
           <Typography
             variant="body2"
             fontWeight={500}
-            color={theme.palette.grey?.[600]}
+            color={theme?.palette?.grey?.[600]}
           >
             CSV
           </Typography>

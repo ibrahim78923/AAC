@@ -1,4 +1,4 @@
-import CloseIcon from '@/assets/icons/shared/AlertModels/close-icon';
+import { AlertModalCloseIcon } from '@/assets/icons';
 import { Box, Typography, Dialog } from '@mui/material';
 
 const ConversationModel = ({
@@ -36,7 +36,10 @@ const ConversationModel = ({
           }}
         >
           <Typography variant="h5">{selectedItem}</Typography>
-          <CloseIcon onClick={handleClose} style={{ cursor: 'pointer' }} />
+          <AlertModalCloseIcon
+            onClick={handleClose}
+            style={{ cursor: 'pointer' }}
+          />
         </Box>
         {children}
       </Box>

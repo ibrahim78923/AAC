@@ -210,7 +210,7 @@ export const data: any = [
   {
     id: 1,
     itemName: 'PO-1',
-    decription: 'Dell Laptop',
+    description: 'Dell Laptop',
     costPerItem: 'Dell',
     quantity: '30 Mar, 2023',
     taxRate: 'Received',
@@ -219,7 +219,7 @@ export const data: any = [
   {
     id: 2,
     itemName: 'PO-1',
-    decription: 'Dell Laptop',
+    description: 'Dell Laptop',
     costPerItem: 'Dell',
     quantity: '30 Mar, 2023',
     taxRate: 'Received',
@@ -229,40 +229,42 @@ export const data: any = [
 
 export const columns = (): any => [
   {
-    accessorFn: (row: any) => row.itemName,
-    id: 'Order Number',
-    header: <span>Order Number</span>,
-    cell: (info: any) => <span>{info.getValue()}</span>,
+    accessorFn: (row: any) => row?.itemName,
+    id: 'OrderNumber',
+    header: 'Order Number',
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.decription,
-    id: 'Order Name',
-    header: <span>Order Name</span>,
-    cell: (info: any) => <span>{info.getValue()}</span>,
+    accessorFn: (row: any) => row?.description,
+    id: 'description',
+    header: 'Order Name',
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.costPerItem,
+    accessorFn: (row: any) => row?.costPerItem,
     id: 'Vendor',
-    header: <span>Vendor</span>,
-    cell: (info: any) => <span>{info.getValue()}</span>,
+    header: 'Vendor',
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.quantity,
-    id: 'Expected Delivery Date',
-    header: <span>Expected Delivery Date</span>,
-    cell: (info: any) => <span>{info.getValue()}</span>,
+    accessorFn: (row: any) => row?.quantity,
+    id: 'quantity',
+    header: 'Expected Delivery Date',
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.taxRate,
-    id: 'Status',
-    header: <span>Status</span>,
-    cell: (info: any) => <span>{info.getValue()}</span>,
+    accessorFn: (row: any) => row?.taxRate,
+    id: 'taxRate',
+    header: 'Status',
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.total,
+    accessorFn: (row: any) => row?.total,
     id: 'Total Cost (£)',
-    header: <span>Total Cost (£)</span>,
-    cell: (info: any) => <span>{info.getValue()}</span>,
+    header: 'Total Cost (£)',
+    cell: (info: any) => {
+      info?.getValue();
+    },
   },
 ];
 
