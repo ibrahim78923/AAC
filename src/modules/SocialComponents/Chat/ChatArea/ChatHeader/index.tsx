@@ -4,6 +4,8 @@ import Image from 'next/image';
 
 import { Box, Button, Typography, useTheme } from '@mui/material';
 
+import { AlertModals } from '@/components/AlertModals';
+
 import { UserAvatarImage } from '@/assets/images';
 
 import {
@@ -20,6 +22,7 @@ import ChatDropdown from '../../ChatDropdown';
 const ChatHeader = ({ chatMode }: any) => {
   const theme = useTheme();
   const [isUserProfile, setIsUserProfile] = useState(false);
+  const [isDeleteModal, setIsDeleteModal] = useState(false);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const actionMenuOpen = Boolean(anchorEl);
@@ -45,7 +48,7 @@ const ChatHeader = ({ chatMode }: any) => {
     },
     {
       menuLabel: 'Delete Conversation',
-      handler: handleClose,
+      handler: () => setIsDeleteModal(true),
     },
   ];
 
@@ -103,6 +106,13 @@ const ChatHeader = ({ chatMode }: any) => {
         isUserProfile={isUserProfile}
         setIsUserProfile={setIsUserProfile}
         chatMode={chatMode}
+      />
+      <AlertModals
+        message={'Are you sure you want to delete this Conversation ?'}
+        type="delete"
+        open={isDeleteModal}
+        handleClose={() => setIsDeleteModal(false)}
+        handleSubmit={() => setIsDeleteModal(false)}
       />
     </>
   );

@@ -1,4 +1,5 @@
 import Layout from '@/layout';
+
 import Users from '@/modules/orgAdmin/Users';
 
 const OrganizationAdminUsersPage = () => {

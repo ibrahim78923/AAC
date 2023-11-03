@@ -1,10 +1,13 @@
-import { Typography } from '@mui/material';
-
+import { Permissions } from '@/constants/permissions';
 import Layout from '@/layout';
 
 export default function Home() {
-  return <Typography variant="h5">Air Apple Cart</Typography>;
+  return <div>fdfdff</div>;
 }
 Home.getLayout = function getLayout(page: any) {
-  return <Layout>{page}</Layout>;
+  return (
+    <Layout guardRoute permissions={Permissions.view_dashoard}>
+      {page}
+    </Layout>
+  );
 };

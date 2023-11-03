@@ -1,4 +1,4 @@
-import { Checkbox, Switch } from '@mui/material';
+import { Checkbox } from '@mui/material';
 
 import RHFSelect from '@/components/ReactHookForm/RHFSelect';
 
@@ -8,9 +8,9 @@ import { RHFTextField } from '@/components/ReactHookForm';
 
 import { ExpandMore } from '@mui/icons-material';
 
-import * as Yup from 'yup';
+import { SwitchBtn } from '@/components/SwitchButton';
 
-const label = { inputProps: { 'aria-label': 'Switch demo' } };
+import * as Yup from 'yup';
 
 export const data: any = [
   {
@@ -18,7 +18,6 @@ export const data: any = [
     RoleId: `123`,
     RoleName: 'Company Owner',
     Products: 'Sales',
-    Status: <Switch {...label} defaultChecked />,
     CreatedOn: '12/10/2023',
   },
   {
@@ -26,7 +25,6 @@ export const data: any = [
     RoleId: `456`,
     RoleName: 'Company Owner',
     Products: 'Services',
-    Status: <Switch {...label} defaultChecked />,
     CreatedOn: '12/10/2023',
   },
   {
@@ -34,7 +32,6 @@ export const data: any = [
     RoleId: `789`,
     RoleName: 'Admin',
     Products: 'Marketing',
-    Status: <Switch {...label} defaultChecked />,
     CreatedOn: '12/10/2023',
   },
   {
@@ -42,7 +39,6 @@ export const data: any = [
     RoleId: `752`,
     RoleName: 'Admin',
     Products: 'Loyalty Program',
-    Status: <Switch {...label} defaultChecked />,
     CreatedOn: '12/10/2023',
   },
 ];
@@ -81,7 +77,7 @@ export const columns: any = [
     id: 'status',
     isSortable: true,
     header: 'Status',
-    cell: (info: any) => info.getValue(),
+    cell: <SwitchBtn defaultChecked />,
   },
   {
     accessorFn: (row: any) => row.CreatedOn,

@@ -71,6 +71,7 @@ export { default as UserSenderImage } from '../../assets/images/modules/socialCo
 export { default as GreenBgImage } from '../../assets/images/modules/superAdmin/dashboard/green-bg-img.png';
 export { default as NotSelectedItemImage } from './modules/airSales/Dashboard/not-selected-item.png';
 export { default as AvatarCompanyImage } from './modules/airSales/Quotes/avatar-company.png';
+export { default as AvatarContactImage } from './modules/airSales/Quotes/contact-avatar.png';
 export { default as UserRoundImage } from './shared/user-round.png';
 export { default as PreviewVegImage } from '../../assets/images/modules/socialComponents/chat/preview-veg.png';
 export { default as PreviewTrainImage } from '../../assets/images/modules/socialComponents/chat/preview-train.png';
@@ -87,4 +88,7 @@ export { default as NotesAvatarImage } from './modules/airSales/Deals/notes-avat
 export { default as YellowDotImage } from './shared/yellow-dot.png';
 export { default as EmailMeetingImage } from './modules/airSales/Deals/email-meeting.png';
 export { default as AttendeeAvatarImage } from './modules/airSales/Deals/attendee-avatar.png';
+export { default as UsersAvatarRoundedImage } from './modules/socialComponents/calling/user-avatar-rounded.png';
 export { default as DealReportImage } from './modules/airSales/Reports/reports.png';
+export { default as documentContained } from './modules/superAdmin/Settings/ModuleCreation/document-contained.png';
+export { default as ApplePhoneImage } from './modules/socialComponents/calling/apple-phone.png';
