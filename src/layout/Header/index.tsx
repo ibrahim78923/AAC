@@ -141,8 +141,8 @@ const Header = (props: any) => {
           {role && (
             <Box sx={styles?.quickLinkBox(theme)}>
               {!isNullOrEmpty(QuickLinkData) &&
-                QuickLinkData.map((image) => (
-                  <Box key={uuidv4()} sx={styles.innerQuickLinkBox(theme)}>
+                QuickLinkData?.map((image) => (
+                  <Box key={uuidv4()} sx={styles?.innerQuickLinkBox(theme)}>
                     <Link href={image?.path}>
                       <Image
                         src={image?.icon}

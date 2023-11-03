@@ -33,7 +33,7 @@ const AccountMenu = () => {
 
   return (
     <div>
-      <Box onClick={(e) => handleClick(e)}>
+      <Box onClick={handleClick}>
         <Image
           src={HomeMenuImage}
           alt="dropdown"

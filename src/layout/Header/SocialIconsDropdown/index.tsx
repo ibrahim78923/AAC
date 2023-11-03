@@ -22,7 +22,7 @@ const SocialIconsDropdown = () => {
   const dropDownOpenHandler = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
   ) => {
-    setSocialIconsDropdown(event.currentTarget);
+    setSocialIconsDropdown(event?.currentTarget);
   };
 
   const dropDownClosehandler = () => {
