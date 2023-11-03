@@ -62,13 +62,13 @@ const Header = (props: any) => {
   const isStatusOpen = Boolean(statusDropDown);
 
   const statusDropdownHandler = (
-    event: React.MouseEvent<HTMLButtonElement>,
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>,
   ) => {
     setStatusDropDown(event.currentTarget);
   };
 
   const profileDropdownHandler = (
-    event: React.MouseEvent<HTMLButtonElement>,
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>,
   ) => {
     setProfileDropDown(event.currentTarget);
   };
@@ -104,7 +104,7 @@ const Header = (props: any) => {
           <Box sx={{ display: { xs: 'none', lg: 'block' } }}>
             <Box
               component="form"
-              sx={styles.searchAnimation(isExpanded, theme)}
+              sx={styles?.searchAnimation(isExpanded, theme)}
             >
               <InputBase
                 fullWidth
@@ -121,7 +121,7 @@ const Header = (props: any) => {
           <Box sx={{ display: { md: 'block', lg: 'none' } }}>
             <Box
               component="form"
-              sx={styles.searchIcon(theme)}
+              sx={styles?.searchIcon(theme)}
               onClick={handleClickOpen}
             >
               <IconButton>
@@ -139,11 +139,11 @@ const Header = (props: any) => {
           }}
         >
           {role && (
-            <Box sx={styles.quickLinkBox(theme)}>
+            <Box sx={styles?.quickLinkBox(theme)}>
               {!isNullOrEmpty(QuickLinkData) &&
                 QuickLinkData.map((image) => (
                   <Box key={uuidv4()} sx={styles.innerQuickLinkBox(theme)}>
-                    <Link href={image.path}>
+                    <Link href={image?.path}>
                       <Image
                         src={image?.icon}
                         alt="logo"
@@ -164,7 +164,7 @@ const Header = (props: any) => {
           {role === 'sales' && (
             <Typography
               variant="subtitle1"
-              sx={{ color: theme.palette.primary.main }}
+              sx={{ color: theme?.palette?.primary?.main }}
             >
               Orcalo Limited
             </Typography>
@@ -204,13 +204,13 @@ const Header = (props: any) => {
                 <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                   <Typography
                     variant="subtitle2"
-                    sx={{ color: theme.palette.grey[600] }}
+                    sx={{ color: theme?.palette?.grey[600] }}
                   >
                     Sophie Turner
                   </Typography>
                   <Typography
                     variant="body2"
-                    sx={{ color: theme.palette.grey[600] }}
+                    sx={{ color: theme?.palette?.grey[600] }}
                   >
                     Sales Manager
                   </Typography>
@@ -219,7 +219,7 @@ const Header = (props: any) => {
             </MenuItem>
             <Divider />
             {!isNullOrEmpty(ProfileDropDown) &&
-              ProfileDropDown.map((item) => (
+              ProfileDropDown?.map((item) => (
                 <MenuItem
                   key={uuidv4()}
                   onClick={closeStatusDropDown}
@@ -227,7 +227,7 @@ const Header = (props: any) => {
                     gap: 1,
                     padding: '12px',
                     fontSize: '16px',
-                    color: theme.palette.grey[600],
+                    color: theme?.palette?.grey[600],
                   }}
                 >
                   <Link href={`${item?.key}`}>{item?.label}</Link>
@@ -245,14 +245,14 @@ const Header = (props: any) => {
             }}
           >
             {!isNullOrEmpty(StatusDropDown) &&
-              StatusDropDown.map((statusItem) => (
+              StatusDropDown?.map((statusItem) => (
                 <MenuItem
                   key={uuidv4()}
                   onClick={closeStatusDropDown}
                   sx={{
                     gap: 1,
                     fontSize: '16px',
-                    color: theme.palette.grey[600],
+                    color: theme?.palette?.grey[600],
                   }}
                 >
                   <Image src={statusItem?.icon} alt="icon" />{' '}

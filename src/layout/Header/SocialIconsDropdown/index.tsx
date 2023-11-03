@@ -31,7 +31,7 @@ const SocialIconsDropdown = () => {
 
   return (
     <>
-      <Box onClick={dropDownOpenHandler} sx={styles.xsQuickLinkBox(theme)}>
+      <Box onClick={dropDownOpenHandler} sx={styles?.xsQuickLinkBox(theme)}>
         Social
       </Box>
       <Popover

@@ -44,7 +44,9 @@ const LinkDropdown = () => {
     'View Products': true,
   });
 
-  const dropDownOpenHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const dropDownOpenHandler = (
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>,
+  ) => {
     setLinkDropdown(event.currentTarget);
   };
 
@@ -67,7 +69,7 @@ const LinkDropdown = () => {
   return (
     <div>
       <Box
-        sx={styles.quickLinkButtonStyle(isLinkDropDownOpen, theme)}
+        sx={styles?.quickLinkButtonStyle(isLinkDropDownOpen, theme)}
         onClick={dropDownOpenHandler}
       >
         <Image src={LinkImage} alt="link" />
@@ -100,7 +102,7 @@ const LinkDropdown = () => {
           }}
         >
           <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1 }}>
-            <Box sx={styles.menuDropDownLink(isEditLink, theme)}>
+            <Box sx={styles?.menuDropDownLink(isEditLink, theme)}>
               <Image
                 src={isEditLink ? QuickLinkImage : ArrowSquareLeftImage}
                 alt="GreenLink"
@@ -120,7 +122,7 @@ const LinkDropdown = () => {
               {isEditLink && (
                 <Typography
                   variant="subtitle1"
-                  sx={{ color: theme.palette.grey[900] }}
+                  sx={{ color: theme?.palette?.grey[900] }}
                 >
                   (4/10)
                 </Typography>
@@ -155,15 +157,15 @@ const LinkDropdown = () => {
             sx={{ padding: '0px 10px 10px 22px', maxWidth: '480px' }}
           >
             {!isNullOrEmpty(QuickLinksData) &&
-              QuickLinksData.map((item) => (
+              QuickLinksData?.map((item) => (
                 <Grid item xs={6} key={uuidv4()}>
                   <FormControlLabel
                     control={
                       <Checkbox
-                        checked={checkedItems[`${item.name}`] || false}
-                        onChange={checkBoxChangeHandler(`${item.name}`)}
-                        name={`${item.name}`}
-                        inputProps={{ 'aria-label': `checkbox-${item.name}` }}
+                        checked={checkedItems[`${item?.name}`] || false}
+                        onChange={checkBoxChangeHandler(`${item?.name}`)}
+                        name={`${item?.name}`}
+                        inputProps={{ 'aria-label': `checkbox-${item?.name}` }}
                       />
                     }
                     label={
@@ -172,9 +174,9 @@ const LinkDropdown = () => {
                       >
                         <Image src={item.logo} alt="logo" />
                         <ListItemText
-                          primary={item.name}
+                          primary={item?.name}
                           primaryTypographyProps={{ variant: 'body2' }}
-                          sx={{ color: theme.palette.grey[600] }}
+                          sx={{ color: theme?.palette?.grey[600] }}
                         />
                       </Box>
                     }
@@ -190,15 +192,15 @@ const LinkDropdown = () => {
         >
           {isEditLink &&
             !isNullOrEmpty(QuickLinksData) &&
-            QuickLinksData.map((item) => (
+            QuickLinksData?.map((item) => (
               <Grid item xs={6} key={uuidv4()}>
-                {checkedItems.hasOwnProperty(item.name) && (
+                {checkedItems?.hasOwnProperty(item?.name) && (
                   <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-                    <Image src={item.logo} alt="link" />
+                    <Image src={item?.logo} alt="link" />
                     <ListItemText
-                      primary={item.name}
+                      primary={item?.name}
                       primaryTypographyProps={{ variant: 'body2' }}
-                      sx={{ color: theme.palette.grey[600] }}
+                      sx={{ color: theme?.palette?.grey[600] }}
                     />
                   </Box>
                 )}

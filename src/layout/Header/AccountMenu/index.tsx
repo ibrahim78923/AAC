@@ -16,9 +16,11 @@ import { styles } from './AccountMenu.style';
 const role = 'sales';
 const AccountMenu = () => {
   const theme = useTheme();
-  const [openPopver, setOpenPopover] = useState<HTMLButtonElement | null>(null);
+  const [openPopver, setOpenPopover] = useState<
+    (EventTarget & HTMLDivElement) | null
+  >(null);
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     setOpenPopover(event.currentTarget);
   };
 
@@ -31,7 +33,7 @@ const AccountMenu = () => {
 
   return (
     <div>
-      <Box onClick={handleClick}>
+      <Box onClick={(e) => handleClick(e)}>
         <Image
           src={HomeMenuImage}
           alt="dropdown"
