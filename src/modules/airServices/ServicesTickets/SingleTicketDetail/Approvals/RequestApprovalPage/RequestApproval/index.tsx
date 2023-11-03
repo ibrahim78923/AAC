@@ -23,7 +23,7 @@ const RequestApproval = () => {
     <>
       <Box sx={styles?.approvalsContainerBox}>
         {requestApprovalPageData
-          ?.filter((item) => item?.status === 'Request')
+          ?.filter((item: any) => item?.status === 'Request')
           ?.map((filteredItem) => {
             return (
               <Box key={filteredItem?.id} sx={styles?.approvalsContainer}>

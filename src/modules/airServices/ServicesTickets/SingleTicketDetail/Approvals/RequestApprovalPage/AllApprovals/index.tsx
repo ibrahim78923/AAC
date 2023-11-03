@@ -30,11 +30,11 @@ export const AllApprovals = () => {
     handleClose,
     textColor,
     anchorEl,
-    handleApprovalModelOpen,
-    handleApprovalModelClose,
+    handleApprovalModalOpen,
+    handleApprovalModalClose,
     openApprovalModal,
-    handleRejectModelClose,
-    handleRejectModelOpen,
+    handleRejectModalClose,
+    handleRejectModalOpen,
     openRejectModal,
     REQUESTED_CONDITION,
     RECEIVED_CONDITION: RECEIVED_CONDITION,
@@ -67,7 +67,7 @@ export const AllApprovals = () => {
   return (
     <>
       <Box sx={styles?.approvalsContainerBox}>
-        {requestApprovalPageData?.map((item) => {
+        {requestApprovalPageData?.map((item: any) => {
           return (
             <Box sx={styles?.approvalsContainer} key={uuidv4()}>
               <Grid
@@ -140,7 +140,7 @@ export const AllApprovals = () => {
                     <Box sx={styles?.requestApprovalBoxFirst}>
                       <Button
                         variant="outlined"
-                        onClick={handleApprovalModelOpen}
+                        onClick={handleApprovalModalOpen}
                         startIcon={
                           <CheckCircleIcon
                             sx={{ color: theme?.palette?.success?.main }}
@@ -150,7 +150,7 @@ export const AllApprovals = () => {
                         Approve
                       </Button>
                       <Button
-                        onClick={handleRejectModelOpen}
+                        onClick={handleRejectModalOpen}
                         variant="outlined"
                         color="error"
                         startIcon={
@@ -175,13 +175,13 @@ export const AllApprovals = () => {
         <Dialog
           fullWidth
           open={openApprovalModal}
-          onClose={handleApprovalModelClose}
+          onClose={handleApprovalModalClose}
         >
           <Box width={'100%'} p={'1rem'}>
             <Box sx={styles?.dialogBoxStyle}>
               <Typography variant="h5">Approval</Typography>
               <AlertModalCloseIcon
-                onClick={handleApprovalModelClose}
+                onClick={handleApprovalModalClose}
                 style={{ cursor: 'pointer' }}
               />
             </Box>
@@ -195,7 +195,7 @@ export const AllApprovals = () => {
             />
             <Box sx={styles?.boxBorderStyle}></Box>
             <Box sx={styles?.buttonBox}>
-              <Button variant="outlined" onClick={handleApprovalModelClose}>
+              <Button variant="outlined" onClick={handleApprovalModalClose}>
                 Cancel
               </Button>
               <Button variant="contained">Approve</Button>
@@ -205,13 +205,13 @@ export const AllApprovals = () => {
         <Dialog
           fullWidth
           open={openRejectModal}
-          onClose={handleRejectModelClose}
+          onClose={handleRejectModalClose}
         >
           <Box width={'100%'} p={'1rem'}>
             <Box sx={styles?.dialogBoxStyle}>
               <Typography variant="h5">Approval</Typography>
               <AlertModalCloseIcon
-                onClick={handleRejectModelClose}
+                onClick={handleRejectModalClose}
                 style={{ cursor: 'pointer' }}
               />
             </Box>
@@ -228,7 +228,7 @@ export const AllApprovals = () => {
               <Button
                 variant="outlined"
                 color="inherit"
-                onClick={handleRejectModelClose}
+                onClick={handleRejectModalClose}
               >
                 Cancel
               </Button>
