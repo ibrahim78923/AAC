@@ -6,7 +6,7 @@ import {
 } from './MoveFolderModal.data';
 import { enqueueSnackbar } from 'notistack';
 
-export const useMoveFolderModal = () => {
+export const useMoveFolderModal = (setMoveFolderModal: any) => {
   const methodMoveFolderForm = useForm({
     resolver: yupResolver(moveFolderValidationSchema),
     defaultValues: moveFolderDefaultValues,
@@ -16,6 +16,7 @@ export const useMoveFolderModal = () => {
       variant: 'success',
       autoHideDuration: 2000,
     });
+    setMoveFolderModal(false);
   };
   const modalSubmitHandler = () => {
     methodMoveFolderForm?.handleSubmit(submitMoveFolder)();

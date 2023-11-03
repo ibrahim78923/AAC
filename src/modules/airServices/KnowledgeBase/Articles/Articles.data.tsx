@@ -138,22 +138,22 @@ export const actionBtnData = (
 ) => [
   {
     title: 'Edit',
-    handleClick: (close: any) => {
-      close();
+    handleClick: (popClose: any) => {
+      popClose();
     },
   },
   {
     title: 'Delete',
-    handleClick: (close: any) => {
+    handleClick: (popClose: any) => {
       setOpenDeleteModal(true);
-      close();
+      popClose();
     },
   },
   {
     title: 'Move Folder',
-    handleClick: (close: any) => {
+    handleClick: (popClose: any) => {
       setMoveFolderModal(true);
-      close();
+      popClose();
     },
   },
 ];

@@ -5,7 +5,7 @@ import { FolderGreyIcon } from '@/assets/icons';
 import TanstackTable from '@/components/Table/TanstackTable';
 import CustomPagination from '@/components/CustomPagination';
 
-import { actionBtnData, articlesTabs, data } from './Articles.data';
+import { articlesTabs, data } from './Articles.data';
 import { useArticles } from './useArticles';
 import { styles } from './Articles.style';
 import Search from '@/components/Search';
@@ -24,6 +24,7 @@ export const Articles = () => {
     handleDeleteSubmit,
     moveFolderModal,
     setMoveFolderModal,
+    dropdownOptions,
   } = useArticles();
 
   const { tabWrapper, selectedTabColor } = styles();
@@ -61,10 +62,7 @@ export const Articles = () => {
             <Search placeholder="Search Here" />
             <SingleDropdownButton
               disabled={!!!selectedArticlesData?.length}
-              dropdownOptions={actionBtnData(
-                setOpenDeleteModal,
-                setMoveFolderModal,
-              )}
+              dropdownOptions={dropdownOptions}
             />
           </Grid>
           <br />

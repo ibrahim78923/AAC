@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { enqueueSnackbar } from 'notistack';
 import { AIR_SERVICES } from '@/constants';
-import { articlesColumnsFunction, data } from './Articles.data';
+import { actionBtnData, articlesColumnsFunction, data } from './Articles.data';
 
 export const useArticles = () => {
   const { KNOWLEDGE_BASE } = AIR_SERVICES;
@@ -31,6 +31,7 @@ export const useArticles = () => {
       autoHideDuration: 2000,
     });
   };
+  const dropdownOptions = actionBtnData(setOpenDeleteModal, setMoveFolderModal);
 
   return {
     articlesColumns,
@@ -42,5 +43,6 @@ export const useArticles = () => {
     handleDeleteSubmit,
     moveFolderModal,
     setMoveFolderModal,
+    dropdownOptions,
   };
 };

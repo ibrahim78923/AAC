@@ -11,13 +11,11 @@ export const MoveFolderModal = ({
   setMoveFolderModal,
 }: any) => {
   const { modalSubmitHandler, methodMoveFolderForm, submitMoveFolder } =
-    useMoveFolderModal();
+    useMoveFolderModal(setMoveFolderModal);
   return (
     <Dialog
       open={moveFolderModal}
       onClose={() => setMoveFolderModal(false)}
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
       sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
     >
       <Box maxWidth={580} width="100%" padding="24px">
