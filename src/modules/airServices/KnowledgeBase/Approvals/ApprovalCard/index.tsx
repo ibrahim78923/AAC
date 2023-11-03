@@ -1,9 +1,7 @@
 import { Box, Typography } from '@mui/material';
-import { useApprovalCard } from './useApprovalCard';
 import { styles } from './ApprovalCard.style';
 
 const ApprovalCard = ({ title, folder, author, approvalStatus }: any) => {
-  const { handleApproval } = useApprovalCard();
   return (
     <Box sx={styles?.cardWrapper}>
       <Box>
@@ -23,9 +21,7 @@ const ApprovalCard = ({ title, folder, author, approvalStatus }: any) => {
         </Typography>
         <Typography sx={styles?.label}>{author}</Typography>
       </Box>
-      <Typography sx={styles?.approvalStatusBtn} onClick={handleApproval}>
-        {approvalStatus}
-      </Typography>
+      <Typography sx={styles?.approvalStatusBtn}>{approvalStatus}</Typography>
     </Box>
   );
 };
