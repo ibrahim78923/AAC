@@ -1,10 +1,5 @@
-// More exports from here
 export { default as ArrowUpIcon } from './shared/arrow-up-icon';
-export { default as SearchSharedIcon } from './shared/search-shared';
-export { default as PlusSharedIcon } from './shared/shared-icon';
 export { default as PlusSharedIconColor } from './shared/plus-shared-color';
-
-// export { default as ExampleKababCase } from './sections/login/example-kabab-case';
 export { default as CloseDrawerIcon } from './shared/close-drawer-icon';
 export { default as CloseModalIcon } from './shared/close-modal-icon';
 export { default as ProductSalesIcon } from './modules/orgAdmin/SubscriptionAndInvoices/product-sales-icon';
@@ -25,12 +20,10 @@ export { default as PhoneIcon } from './shared/phone-shared';
 export { default as EditIcon } from './shared/edit-shared';
 export { default as EditYellowBgIcon } from './shared/edit-yellow-bg';
 export { default as EditColoredIcon } from './shared/edit-colored-shared';
-export { default as FilterSharedIcon } from './shared/filter-shared';
 export { default as ExampleKababCase } from './modules/Login/example-kabab-case';
 export { default as ViewEyeIcon } from './modules/airSales/SettingsUserManagement/view-eye';
 export { default as DeleteCrossIcon } from './modules/airSales/SettingsUserManagement/delete-cross';
 export { default as EditPenIcon } from './modules/airSales/SettingsUserManagement/edit-pen';
-export { default as ArrowUpIcon } from './shared/arrow-up';
 export { default as SearchSharedIcon } from './shared/search-shared';
 export { default as PlusSharedIcon } from './shared/plus-shared';
 export { default as LogoSharedIcon } from './shared/logo-shared';
@@ -44,15 +37,7 @@ export { default as DownloadIcon } from './shared/download';
 export { default as CopyIcon } from './shared/copy';
 export { default as UpIcon } from './shared/up-icon';
 export { default as ActionButtonIcon } from './shared/action-button-icon';
-export { default as ArrowDownIcon } from './shared/arrow-down';
-export { default as RefreshSharedIcon } from './shared/refresh-shared';
 export { default as FilterSharedIcon } from './shared/filter-shared';
-export { default as CustomizeIcon } from './shared/customize-icon';
-export { default as ArrowUp } from './shared/arrow-up';
-export { default as ArrowDown } from './shared/arrow-down';
-export { default as ArrowLeft } from './shared/arrow-left';
-export { default as DownIcon } from './shared/Tabel/down-icon';
-export { default as SharedIcon } from './shared/shared-icon';
 export { default as AttachFileIcon } from './shared/attach-file';
 export { default as ArrowDownIcon } from './shared/arrow-down-icon';
 export { default as RefreshSharedIcon } from './shared/refresh-shared';
@@ -67,7 +52,6 @@ export { default as ArrowLeftIcon } from './shared/arrow-left-icon';
 export { default as CheckboxIcon } from './shared/checkbox-icon';
 export { default as CheckboxCheckedIcon } from './shared/checkbox-checked-icon';
 export { default as ExportIcon } from './shared/export-icon';
-export { default as ImportIcon } from './shared/import-icon';
 export { default as ExportShared } from './shared/export-icon';
 export { default as ViewDetailAvaterIcon } from './modules/airServices/Tickets/view-detail-avatar-icon';
 export { default as ViewDetailVuesaxIcon } from './modules/airServices/Tickets/view-details-vuesax-icon';
@@ -76,19 +60,15 @@ export { default as ViewDetailMeetingIcon } from './modules/airServices/Tickets/
 export { default as ViewDetailDocumentTextIcon } from './modules/airServices/Tickets/view-detail-document-text-icon';
 export { default as ViewDetailCallIcon } from './modules/airServices/Tickets/view-details-call-icon';
 export { default as ViewDetailBackArrowIcon } from './shared/view-detail-back-arrow-icon';
-export { default as RefreshIcon } from './shared/refresh-icon';
 export { default as LeftArrowConversatationIcon } from './shared/AddConversation/left-arrow-icon';
 export { default as RightArrowConversatationIcon } from './shared/AddConversation/right-arrow-icon';
 export { default as DeleteIconConversatationIcon } from './shared/AddConversation/delete-icon-add-coversation';
-// More exports from here
 export { default as SubTabIcon } from './shared/sub-tab-icon';
 export { default as ListIcon } from './shared/list-icon';
-export { default as FilterIcon } from './shared/filter-icon';
 export { default as ResetIcon } from './shared/reset-icon';
 export { default as GrayPlusIcon } from './shared/gray-plus-icon';
 export { default as ExportBlackIcon } from './shared/export-black-icon';
 export { default as AddCircleBlackIcon } from './shared/add-circle-black-icon';
-
 export { default as AssignContactIcon } from './shared/assign-contact';
 export { default as AddShopIcon } from './shared/shop-add-icon';
 export { default as AddUserCircleIcon } from './shared/user-circle-add';
@@ -98,7 +78,6 @@ export { default as BlueDotIcon } from './modules/superAdmin/dashboard/blue-dot'
 export { default as RedDotIcon } from './modules/superAdmin/dashboard/red-dot';
 export { default as DropdownIcon } from './shared/dropdown-icon';
 export { default as DocumentIcon } from './shared/document';
-export { default as ArrowLeftIcon } from './shared/arrow-left';
 export { default as GreyPlusSharedIcon } from './shared/grey-plus';
 export { default as AddCircleSmallIcon } from './shared/add-circle-sm-icon';
 export { default as DragSharedIcon } from './shared/drag-shared-icon';
