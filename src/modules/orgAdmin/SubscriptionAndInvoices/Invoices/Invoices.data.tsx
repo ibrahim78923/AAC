@@ -30,8 +30,8 @@ export const columns = (
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row?.product,
-      id: 'products',
+      accessorFn: (row: any) => row?.ProductSuite,
+      id: 'ProductSuite',
       cell: (info: any) => (
         <>
           <Box sx={{ fontWeight: '500', color: 'blue.dull_blue' }}>
@@ -44,34 +44,34 @@ export const columns = (
       isSortable: true,
     },
     {
-      accessorFn: (row: any) => row?.dateIssued,
-      id: 'dateIssued',
+      accessorFn: (row: any) => row?.dueDate,
+      id: 'dueDate',
       isSortable: true,
       header: 'Date Issued',
       cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row?.invoiceNumber,
-      id: 'invoiceNumber',
+      accessorFn: (row: any) => row?.Details,
+      id: 'Details',
       isSortable: true,
       header: 'Details',
       cell: (info: any) => (
         <>
-          <Box>Invoice # {info?.getValue()}</Box>
+          <Box>{info?.getValue()}</Box>
           <Box>Due date: {info?.row?.original?.dueDate}</Box>
         </>
       ),
     },
     {
-      accessorFn: (row: any) => row?.invoiceAmount,
-      id: 'invoiceAmount',
+      accessorFn: (row: any) => row?.InvoiceAmount,
+      id: 'InvoiceAmount',
       isSortable: true,
       header: 'Invoice amount',
       cell: (info: any) => <>£ {info?.getValue()}</>,
     },
     {
-      accessorFn: (row: any) => row?.invoiceBalance,
-      id: 'invoiceBalance',
+      accessorFn: (row: any) => row?.InvoiceAmount,
+      id: 'InvoiceAmount',
       isSortable: true,
       header: 'Invoice balance',
       cell: (info: any) => <>£ {info?.getValue()}</>,
