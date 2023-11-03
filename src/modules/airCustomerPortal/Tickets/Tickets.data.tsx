@@ -4,6 +4,7 @@ import * as Yup from 'yup';
 
 export const ticketsDataArray = [
   {
+    id: 1,
     heading: 'Request for John Doe:',
     subHeading: 'Adobe Illustrator',
     created: '12/08/23',
@@ -11,6 +12,7 @@ export const ticketsDataArray = [
     icon: <AdobePhotoShop />,
   },
   {
+    id: 2,
     heading: 'Request for John Doe:',
     subHeading: 'Adobe XD',
     created: '12/08/23',
@@ -18,6 +20,7 @@ export const ticketsDataArray = [
     icon: <AdobeXd />,
   },
   {
+    id: 3,
     heading: 'Request for John Doe:',
     subHeading: 'Adobe PhotoShop',
     created: '12/08/23',
@@ -25,6 +28,7 @@ export const ticketsDataArray = [
     icon: <AdobePhotoShop />,
   },
   {
+    id: 4,
     heading: 'Request for John Doe:',
     subHeading: 'Adobe Illustrator',
     created: '12/08/23',
@@ -32,6 +36,7 @@ export const ticketsDataArray = [
     icon: <AdobeXd />,
   },
   {
+    id: 5,
     heading: 'Request for John Doe:',
     subHeading: 'Adobe XD',
     created: '12/08/23',
@@ -39,6 +44,7 @@ export const ticketsDataArray = [
     icon: <AdobeXd />,
   },
   {
+    id: 6,
     heading: 'Request for John Doe:',
     subHeading: 'Adobe PhotoShop',
     created: '12/08/23',

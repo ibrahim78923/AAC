@@ -1,40 +1,48 @@
 export const knowledgeBaseDataArray = [
   {
+    id: 1,
     name: 'Training',
     createdBy: 'Johan',
     createdDate: '05/02/22',
   },
   {
+    id: 2,
     name: 'Compliance',
     createdBy: 'Johan',
     createdDate: '05/02/22',
   },
   {
+    id: 3,
     name: 'Hardware',
     createdBy: 'Johan',
     createdDate: '05/02/22',
   },
   {
+    id: 4,
     name: 'Software Use',
     createdBy: 'Johan',
     createdDate: '05/02/22',
   },
   {
+    id: 5,
     name: 'Payments',
     createdBy: 'Johan',
     createdDate: '05/02/22',
   },
   {
+    id: 6,
     name: 'Leaves',
     createdBy: 'Johan',
     createdDate: '05/02/22',
   },
   {
+    id: 7,
     name: 'Subscription',
     createdBy: 'Johan',
     createdDate: '05/02/22',
   },
   {
+    id: 8,
     name: 'Delivery',
     createdBy: 'Johan',
     createdDate: '05/02/22',
