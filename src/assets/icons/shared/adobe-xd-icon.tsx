@@ -1,4 +1,4 @@
-const AdobeXd = () => {
+const AdobeXdIcon = () => {
   return (
     <svg
       width="21"
@@ -26,4 +26,4 @@ const AdobeXd = () => {
   );
 };
 
-export default AdobeXd;
+export default AdobeXdIcon;

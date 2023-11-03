@@ -1,5 +1,5 @@
 import { RHFEditor, RHFTextField } from '@/components/ReactHookForm';
-import { AdobePhotoShop, AdobeXd } from '@/assets/icons';
+import { AdobePhotoShopIcon, AdobeXdIcon } from '@/assets/icons';
 import * as Yup from 'yup';
 
 export const ticketsDataArray = [
@@ -9,7 +9,7 @@ export const ticketsDataArray = [
     subHeading: 'Adobe Illustrator',
     created: '12/08/23',
     status: 'Processing',
-    icon: <AdobePhotoShop />,
+    icon: <AdobePhotoShopIcon />,
   },
   {
     id: 2,
@@ -17,7 +17,7 @@ export const ticketsDataArray = [
     subHeading: 'Adobe XD',
     created: '12/08/23',
     status: 'Processing',
-    icon: <AdobeXd />,
+    icon: <AdobeXdIcon />,
   },
   {
     id: 3,
@@ -25,7 +25,7 @@ export const ticketsDataArray = [
     subHeading: 'Adobe PhotoShop',
     created: '12/08/23',
     status: 'Processing',
-    icon: <AdobePhotoShop />,
+    icon: <AdobePhotoShopIcon />,
   },
   {
     id: 4,
@@ -33,7 +33,7 @@ export const ticketsDataArray = [
     subHeading: 'Adobe Illustrator',
     created: '12/08/23',
     status: 'Processing',
-    icon: <AdobeXd />,
+    icon: <AdobeXdIcon />,
   },
   {
     id: 5,
@@ -41,7 +41,7 @@ export const ticketsDataArray = [
     subHeading: 'Adobe XD',
     created: '12/08/23',
     status: 'Processing',
-    icon: <AdobeXd />,
+    icon: <AdobeXdIcon />,
   },
   {
     id: 6,
@@ -49,7 +49,7 @@ export const ticketsDataArray = [
     subHeading: 'Adobe PhotoShop',
     created: '12/08/23',
     status: 'Processing',
-    icon: <AdobePhotoShop />,
+    icon: <AdobePhotoShopIcon />,
   },
 ];
 

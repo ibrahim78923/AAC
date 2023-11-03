@@ -1,4 +1,4 @@
-const AdobePhotoShop = () => {
+const AdobePhotoShopIcon = () => {
   return (
     <svg
       width="21"
@@ -26,4 +26,4 @@ const AdobePhotoShop = () => {
   );
 };
 
-export default AdobePhotoShop;
+export default AdobePhotoShopIcon;
