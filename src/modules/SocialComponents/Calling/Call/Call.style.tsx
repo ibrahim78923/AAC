@@ -3,7 +3,9 @@ export const styles = {
     return {
       height: '80vh',
       borderRadius: '8px',
-      // padding: '10px',
+      '@media (max-width:1200px)': {
+        height: 'auto !important',
+      },
     };
   },
   rightWrapper: () => {
