@@ -20,7 +20,7 @@ const Dashboard = () => {
     <div>
       <HeaderDashboard />
       <br />
-      <Box sx={{ display: { xs: 'flex' }, gap: 1 }}>
+      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
         {ticketDashboardCardsData?.map((item) => (
           <Box key={uuidv4()} flex={1}>
             <TicketDashboardCards

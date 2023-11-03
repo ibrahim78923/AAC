@@ -1,13 +1,13 @@
 export const styles: any = {
-  boxMain: {
+  boxMain: (theme: any) => ({
     display: 'flex',
     alignItems: 'center',
     flex: 1,
     gap: 4,
-    background: '#FFF',
+    background: theme?.palette?.common?.white,
     borderRadius: '0.5rem',
-    border: '0.063rem solid #E5E7EB',
+    border: `0.063rem solid ${theme?.palette?.grey?.[700]}`,
     flexShrink: 0,
     height: '5.875rem',
-  },
+  }),
 };

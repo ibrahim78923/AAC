@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, useTheme } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import { styles } from './RecentActivitiesDashboardCard.styles';
 
@@ -9,8 +9,9 @@ export const RecentActivitiesDashboardCard = ({
   recentactivitytextTwo,
   isborderbottom,
 }: any) => {
+  const theme = useTheme();
   return (
-    <Box sx={styles?.boxMain(isborderbottom)}>
+    <Box sx={styles?.boxMain(isborderbottom, theme)}>
       <Box sx={{ marginLeft: 2 }}>
         <Avatar
           alt=""
@@ -19,15 +20,20 @@ export const RecentActivitiesDashboardCard = ({
         />
       </Box>
       <Box>
-        <Typography sx={styles?.recentActivitiesText}>
-          <span style={styles?.recentActivitiesTextBoldWord}>John Doe</span>
+        <Typography sx={styles?.recentActivitiesText(theme)}>
+          <span style={styles?.recentActivitiesTextBoldWord(theme)}>
+            John Doe
+          </span>
           {recentActivityText}
-          <span style={styles?.recentActivitiesTextBoldWord}> Mark dyson</span>
+          <span style={styles?.recentActivitiesTextBoldWord(theme)}>
+            {' '}
+            Mark dyson
+          </span>
         </Typography>
-        <Typography sx={styles?.recentActivitiesTextPassword}>
+        <Typography sx={styles?.recentActivitiesTextPassword(theme)}>
           {recentActivityTextOne}
         </Typography>
-        <Typography sx={styles?.recentActivitiesTextDateTimeDetail}>
+        <Typography sx={styles?.recentActivitiesTextDateTimeDetail(theme)}>
           {recentactivitytextTwo}
         </Typography>
       </Box>

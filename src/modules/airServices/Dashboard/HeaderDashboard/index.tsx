@@ -1,9 +1,10 @@
-import { Grid, Typography } from '@mui/material';
+import { Grid, Typography, useTheme } from '@mui/material';
 import { SingleDropdownButton } from '../../../../components/SingleDropdownButton';
 import { ActionsFunction, DashboardFunction } from './HeaderDashboard.data';
 import { styles } from './HeaderDashboard.styles';
 
 export const HeaderDashboard = ({}: any) => {
+  const theme = useTheme();
   return (
     <Grid container>
       <Grid item xs={12}>
@@ -13,8 +14,8 @@ export const HeaderDashboard = ({}: any) => {
         <Grid container justifyContent="space-between">
           <Grid item lg={10}>
             <Typography variant="h4" sx={{ marginTop: 2 }}>
-              <span style={{ color: '#1F305D' }}>Hi Sam!</span> Happy to See You
-              again
+              <span style={{ color: theme?.palette?.blue?.main }}>Hi Sam!</span>{' '}
+              Happy to See You again
             </Typography>
           </Grid>
           <Grid item lg={2}>

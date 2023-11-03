@@ -1,36 +1,36 @@
 export const styles: any = {
-  boxMain: {
+  boxMain: (theme: any) => ({
     background: '#FFF',
     borderRadius: '0.5rem',
-    border: '0.063rem solid #E5E7EB',
+    border: `0.063rem solid ${theme?.palette?.grey?.[700]}`,
     flexShrink: 0,
-  },
+  }),
 
-  topPerformaceText: {
+  topPerformaceText: (theme: any) => ({
     fontSize: '0.875rem',
     fontStyle: 'normal',
     fontWeight: 600,
     lineHeight: '1.25rem',
     letterSpacing: '-0.018rem',
-    color: '#4B5563',
-  },
+    color: theme?.palette?.grey?.[600],
+  }),
 
-  topPerformaceTextOne: {
+  topPerformaceTextOne: (theme: any) => ({
     fontSize: '0.75rem',
     fontStyle: 'normal',
     fontWeight: 400,
     lineHeight: '1.25rem',
     letterSpacing: '-0.015rem',
-    color: '#4B5563',
-  },
-  topPerformaceTextTwo: {
+    color: theme?.palette?.grey?.[600],
+  }),
+  topPerformaceTextTwo: (theme: any) => ({
     fontSize: '0.75rem',
     fontStyle: 'normal',
     fontWeight: 600,
     lineHeight: '1.055rem',
     letterSpacing: '-0.017rem',
-    color: '#4B5563',
-  },
+    color: theme?.palette?.grey?.[600],
+  }),
   topPerformaceTextThree: {
     fontSize: '0.663rem',
     fontStyle: 'normal',
@@ -48,12 +48,12 @@ export const styles: any = {
     color: '#4E4B66',
     marginTop: 1,
   },
-  topPerformaceProgressBar: {
+  topPerformaceProgressBar: (theme: any) => ({
     fontSize: '0.875rem',
     fontStyle: 'normal',
     fontWeight: 600,
     lineHeight: '1.266rem',
     letterSpacing: '0.018rem',
-    color: '#38CAB5',
-  },
+    color: theme?.palette?.custom?.main,
+  }),
 };

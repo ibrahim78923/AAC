@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, useTheme } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import { styles } from './TopPerformerDashboardCard.styles';
 import LinearProgress from '@mui/material/LinearProgress';
@@ -18,9 +18,10 @@ export const TopPerformerDashboardCard = ({
   topPerformanceTextSeven,
 }: any) => {
   const [progress] = useState(10);
+  const theme = useTheme();
   return (
     <>
-      <Box sx={styles?.boxMain}>
+      <Box sx={styles?.boxMain(theme)}>
         <Box sx={{ marginLeft: 2, marginTop: 2 }}>
           <Typography variant="h5">Top Performer</Typography>
         </Box>
@@ -34,16 +35,16 @@ export const TopPerformerDashboardCard = ({
             }}
           />
           <Box>
-            <Typography sx={styles?.topPerformaceText}>
+            <Typography sx={styles?.topPerformaceText(theme)}>
               {topPerformanceText}
             </Typography>
-            <Typography sx={styles?.topPerformaceTextOne}>
+            <Typography sx={styles?.topPerformaceTextOne(theme)}>
               {topPerformanceTextOne}
             </Typography>
           </Box>
         </Box>
         <Box sx={{ display: 'flex', gap: 2, marginLeft: 2, marginTop: 3 }}>
-          <Typography sx={styles?.topPerformaceTextTwo}>
+          <Typography sx={styles?.topPerformaceTextTwo(theme)}>
             {topPerformanceTextTwo}
           </Typography>
         </Box>
@@ -53,7 +54,7 @@ export const TopPerformerDashboardCard = ({
           </Typography>
         </Box>
         <Box sx={{ display: 'flex', gap: 2, marginLeft: 4, marginTop: 1 }}>
-          <Typography sx={styles?.topPerformaceProgressBar}>
+          <Typography sx={styles?.topPerformaceProgressBar(theme)}>
             {progress}%
           </Typography>
         </Box>

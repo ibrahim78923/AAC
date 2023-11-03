@@ -1,10 +1,11 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, useTheme } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import { styles } from './TicketDashboardCards.styles';
 
 export const TicketDashboardCards = ({ icon, count, label }: any) => {
+  const theme = useTheme();
   return (
-    <Box sx={styles?.boxMain}>
+    <Box sx={styles?.boxMain(theme)}>
       <Box sx={{ marginLeft: 3 }}>
         <Avatar
           alt=""
