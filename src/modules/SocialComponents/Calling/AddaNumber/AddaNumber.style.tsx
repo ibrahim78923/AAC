@@ -1,22 +1,30 @@
 export const styles = {
   wrapperContainer: () => {
     return {
+      position: 'relative',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
       flexDirection: 'column',
       height: '70vh',
       gap: '32px',
+      '@media (max-width:600px)': {
+        height: 'auto !important',
+      },
     };
   },
   insetWrapper: () => {
     return {
+      position: 'relative',
       width: '480px',
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'center',
       alignItems: 'center',
       gap: '16px',
+      '@media (max-width:600px)': {
+        width: '80% !important',
+      },
     };
   },
   dropDown: () => {

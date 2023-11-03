@@ -8,7 +8,7 @@ import { CallsDullIcon, MessageDullIcon } from '@/assets/icons';
 
 import { styles } from './UserDetailCard.style';
 
-const UserDetailCard = ({ image, name, phone }: any) => {
+const UserDetailCard = ({ image, name, phone, handelCall, isMessage }: any) => {
   const theme = useTheme();
   return (
     <Box sx={styles.userDetailCard}>
@@ -26,7 +26,7 @@ const UserDetailCard = ({ image, name, phone }: any) => {
             width={127}
             height={127}
             style={{ borderRadius: '20px' }}
-            alt="user-profile"
+            alt="user-avatar"
           />
           <Box>
             <Typography variant="h2" fontWeight={600}>
@@ -41,9 +41,11 @@ const UserDetailCard = ({ image, name, phone }: any) => {
             </Typography>
           </Box>
         </Box>
-        <Box sx={{ display: 'flex', gap: '12px' }}>
-          <CallsDullIcon />
-          <MessageDullIcon />
+        <Box sx={styles.cardFeatures}>
+          <Box onClick={handelCall}>
+            <CallsDullIcon />
+          </Box>
+          {isMessage && <MessageDullIcon />}
         </Box>
       </Box>
     </Box>
