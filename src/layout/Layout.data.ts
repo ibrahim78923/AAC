@@ -592,4 +592,5 @@ export const zeroPaddingRoutes = [
   '/social-components/calling/call',
   '/org-admin/users',
   '/super-admin/user-management/users-list',
+  '/air-customer-portal',
 ];
