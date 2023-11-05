@@ -27,6 +27,7 @@ export const useCreateTicket = (props: any) => {
     reset(createTicketDefaultValues);
     setIsDrawerOpen(false);
   };
+
   const onClose = () => {
     const {
       //  tableAction,
