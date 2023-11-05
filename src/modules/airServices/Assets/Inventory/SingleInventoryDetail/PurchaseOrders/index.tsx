@@ -24,7 +24,9 @@ export const PurchaseOrder = () => {
                 justifyItems={'center'}
                 gap={'.3rem'}
               >
-                <Typography color={theme?.palette?.grey[900]}>Cost:</Typography>
+                <Typography color={theme?.palette?.grey?.[900]}>
+                  Cost:
+                </Typography>
                 <Typography>{singlePurchaseOrder?.cost}</Typography>
               </Box>
             </InventoryCard>

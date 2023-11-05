@@ -49,7 +49,7 @@ export const useCustomizeTicketColumn = (props: any) => {
     //TODO: destructing as i do not need that in rest queries.
     /* eslint-disable @typescript-eslint/no-unused-vars */
     const { tableAction, ...restQueries } = router?.query;
-    router.push({
+    router?.push({
       pathname: router?.pathname,
       query: {
         ...restQueries,
@@ -58,6 +58,8 @@ export const useCustomizeTicketColumn = (props: any) => {
     setIsDrawerOpen(false);
   };
   const onClose = () => {
+    //TODO: destructing as i do not need that in rest queries.
+    /* eslint-disable @typescript-eslint/no-unused-vars */
     const { tableAction, ...restQueries } = router?.query;
     router?.push({
       pathname: router?.pathname,

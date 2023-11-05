@@ -1,8 +1,8 @@
 import { Box, Button, Typography } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { styles } from './AddRequestPage.style';
-import AddRequestApproval from './AddRequestApproval';
 import { useAddRequestPage } from './useAddRequestPage';
+import { AddRequestApproval } from './AddRequestApproval';
 
 const AddRequestPage = () => {
   const { isDrawerOpen, setIsDrawerOpen, theme } = useAddRequestPage();

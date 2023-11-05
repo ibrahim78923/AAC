@@ -8,7 +8,6 @@ import { TicketsListSubHeader } from './TicketsListSubHeader';
 export const TicketsLists = () => {
   const {
     isDrawerOpen,
-    // setIsDrawerOpen,
     router,
     openDrawer,
     TABLE_CONSTANTS,

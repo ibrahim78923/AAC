@@ -3,7 +3,6 @@ import { FormProvider, RHFDropZone } from '@/components/ReactHookForm';
 import { v4 as uuidv4 } from 'uuid';
 import { useUpdateContract } from './useUpdateContract';
 import { LoadingButton } from '@mui/lab';
-//TODO: import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 
 export const UpdateContract = () => {
   const {
@@ -15,8 +14,6 @@ export const UpdateContract = () => {
     handleCancelBtn,
     updateContractFormFields,
   } = useUpdateContract();
-//TODO: will use on BE integration
-  //TODO: if ('isLoading') return <SkeletonForm />;
 
   return (
     <>

@@ -1,4 +1,4 @@
-import { useState, Children, SyntheticEvent, cloneElement } from 'react';
+import { useState, Children, cloneElement } from 'react';
 import { Tabs, Tab, Typography, useTheme, Box, Card } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { styles } from './HorizontalTabs.style';
@@ -20,11 +20,11 @@ const HorizontalTabs = (props: any) => {
   } = props;
 
   const [value, setValue] = useState(defaultValue);
-  const handleChange = (event: SyntheticEvent, newValue: number) => {
+  const handleChange = (_: any, newValue: number) => {
     setValue(newValue);
   };
 
-  const arrayChildren = Children.toArray(children);
+  const arrayChildren = Children?.toArray(children);
 
   const theme: any = useTheme();
   return (
@@ -33,12 +33,11 @@ const HorizontalTabs = (props: any) => {
         selectionFollowsFocus
         orientation="horizontal"
         variant={variant}
-        sx={styles.tabRoot(theme)}
+        sx={styles?.tabRoot(theme)}
         TabIndicatorProps={styles?.tabIndicator(theme)}
         value={value}
         defaultValue={defaultValue}
         onChange={handleChange}
-        // scrollButtons={false}
         allowScrollButtonsMobile
       >
         {tabsDataArray?.map((title: string) => (

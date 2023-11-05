@@ -10,8 +10,13 @@ const CustomPagination: React.FC<CustomPaginationPropsI> = ({
   rowsPerPageOptions,
   entriePages,
 }) => {
-  const { rowsPerPage, page, handleChangePage, handleChangeRowsPerPage } =
-    useCustomPagination();
+  const {
+    rowsPerPage,
+    page,
+    handleChangePage,
+    handleChangeRowsPerPage,
+    theme,
+  } = useCustomPagination();
 
   const handlePageChange = (_: any, value: number) => {
     handleChangePage(value);
@@ -44,7 +49,7 @@ const CustomPagination: React.FC<CustomPaginationPropsI> = ({
             labelRowsPerPage="Show"
             labelDisplayedRows={() => `of ${entriePages} entries`}
             rowsPerPageOptions={rowsPerPageOptions}
-            sx={styles?.tablePaginationStyle}
+            sx={styles?.tablePaginationStyle(theme)}
           />
         </Grid>
         <Grid
@@ -58,7 +63,7 @@ const CustomPagination: React.FC<CustomPaginationPropsI> = ({
           <IconButton
             disabled={page === 1}
             onClick={() => handleChangePage(page - 1)}
-            sx={styles?.iconStyleTwo}
+            sx={styles?.iconStyleTwo(theme)}
           >
             <ArrowCircleLeftIcon />
           </IconButton>
@@ -70,12 +75,12 @@ const CustomPagination: React.FC<CustomPaginationPropsI> = ({
             onChange={handlePageChange}
             hidePrevButton
             hideNextButton
-            sx={styles?.paddingStyle}
+            sx={styles?.paddingStyle(theme)}
           />
           <IconButton
             disabled={page === count}
             onClick={() => handleChangePage(page + 1)}
-            sx={styles?.iconStyle}
+            sx={styles?.iconStyle(theme)}
           >
             <ArrowCircleRightIcon />
           </IconButton>

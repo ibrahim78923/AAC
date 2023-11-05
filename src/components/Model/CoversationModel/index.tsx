@@ -16,14 +16,14 @@ const ConversationModel = ({
       sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
     >
       <Box
+        boxShadow={2}
         sx={{
           maxWidth: '580px',
           width: '100%',
           borderRadius: '10px',
-          border: '1px solid #E5E7EB',
+          border: '1px solid grey.700',
           padding: '24px',
-          background: '#FFF',
-          boxShadow: '0px 4px 24px -4px rgba(16, 24, 40, 0.02)',
+          background: 'custom.white',
           margin: 'auto',
         }}
       >

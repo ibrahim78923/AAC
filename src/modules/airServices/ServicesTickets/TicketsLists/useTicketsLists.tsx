@@ -79,16 +79,10 @@ export const useTicketsLists = () => {
         isDrawerOpen={isDrawerOpen}
       />
     ),
-    // [TABLE_CONSTANTS?.EDIT_TICKET]: (
-    //   <CreateTicket
-    //     setIsDrawerOpen={setIsDrawerOpen}
-    //     isDrawerOpen={isDrawerOpen}
-    //   />
-    // ),
   };
 
   const openDrawer = (tableActionQuery: any) => {
-    router.push({
+    router?.push({
       pathname: router?.pathname,
       query: {
         ...router?.query,
@@ -114,7 +108,6 @@ export const useTicketsLists = () => {
   };
 
   const ticketsActionDropdown = ticketsActionDropdownFunction?.(
-    // openDrawer,
     setDeleteModalOpen,
     markTicketAsClose,
     markTicketAsSpam,

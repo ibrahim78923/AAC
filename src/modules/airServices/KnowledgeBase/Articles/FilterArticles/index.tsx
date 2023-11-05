@@ -5,15 +5,15 @@ import { v4 as uuidv4 } from 'uuid';
 import { useFilterArticles } from './useFilterArticle';
 import { filterArticlesData } from './FilterArticles.data';
 
-export default function ArticleFilter(props: any) {
-  const { submitHandler, isOpenFilterDrawer, SetIsOpenFilterDrawer, methods } =
+const ArticleFilter = (props: any) => {
+  const { submitHandler, isOpenFilterDrawer, setIsOpenFilterDrawer, methods } =
     useFilterArticles(props);
 
   return (
     <CommonDrawer
       isDrawerOpen={isOpenFilterDrawer}
       onClose={() => {
-        SetIsOpenFilterDrawer(false);
+        setIsOpenFilterDrawer(false);
       }}
       submitHandler={submitHandler}
       title={'Filter'}
@@ -41,4 +41,6 @@ export default function ArticleFilter(props: any) {
       </Box>
     </CommonDrawer>
   );
-}
+};
+
+export default ArticleFilter;

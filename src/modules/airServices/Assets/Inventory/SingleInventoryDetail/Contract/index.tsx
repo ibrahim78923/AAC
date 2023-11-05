@@ -17,7 +17,7 @@ export const Contract = () => {
             key={uuidv4()}
             showChild
           >
-            <Typography color={theme?.palette?.grey[900]}>
+            <Typography color={theme?.palette?.grey?.[900]}>
               {singleContract?.body}
             </Typography>
           </InventoryCard>

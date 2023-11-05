@@ -1,14 +1,14 @@
 import { styles } from './AddInventory.style';
-import useEditInventory from './useAddInventory';
+import { useAddInventory } from './useAddInventory';
 import { Box, Button, Grid, Typography } from '@mui/material';
 import { FormProvider, RHFDropZone } from '@/components/ReactHookForm';
-import { editInventoryFields } from './AddInventory.data';
 import { v4 as uuidv4 } from 'uuid';
 import { useEffect } from 'react';
+import { addInventoryFields } from './AddInventory.data';
 
 const AddInventory = () => {
-  const { methods, submit, formType, setFormType, query } = useEditInventory();
-  const { mainWrapper, mainHeading, buttonWrapper } = styles();
+  const { methods, submit, formType, setFormType, query } = useAddInventory();
+  const { mainWrapper, mainHeading, buttonWrapper } = styles;
 
   useEffect(() => {
     setFormType(query?.type);
@@ -25,15 +25,17 @@ const AddInventory = () => {
               </Typography>
               <Grid item container xs={12} overflow="scroll">
                 <Grid container rowSpacing={1.8} columnSpacing={3}>
-                  {editInventoryFields?.map((form: any) => (
+                  {addInventoryFields?.map((form: any) => (
                     <Grid item xs={12} md={form?.gridLength} key={uuidv4()}>
-                      <form.component {...form.componentProps} size="small">
+                      <form.component {...form?.componentProps} size="small">
                         {form?.componentProps?.select
-                          ? form?.componentProps?.options.map((option: any) => (
-                              <option key={uuidv4()} value={option?.value}>
-                                {option?.label}
-                              </option>
-                            ))
+                          ? form?.componentProps?.options?.map(
+                              (option: any) => (
+                                <option key={uuidv4()} value={option?.value}>
+                                  {option?.label}
+                                </option>
+                              ),
+                            )
                           : form?.heading
                           ? form?.heading
                           : null}

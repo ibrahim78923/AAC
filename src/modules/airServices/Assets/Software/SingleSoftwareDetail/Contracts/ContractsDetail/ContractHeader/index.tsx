@@ -21,7 +21,7 @@ export const ContractsHeader = () => {
           color="secondary"
           size="large"
           onClick={() =>
-            router.push({
+            router?.push({
               pathname: AIR_SERVICES?.CONTRACT_FORM,
               query: {
                 contractType: 'Software License',

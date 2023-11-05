@@ -19,7 +19,7 @@ export const AttachmentForm = ({ setAddAttachment }: any) => {
   };
 
   return (
-    <FormProvider methods={methods} onSubmit={methods.handleSubmit(onSubmit)}>
+    <FormProvider methods={methods} onSubmit={methods?.handleSubmit(onSubmit)}>
       <RHFDropZone name="attachments" />
       <Button
         type="submit"

@@ -3,7 +3,8 @@ import { useForm } from 'react-hook-form';
 import { defaultValues, validationSchema } from './AddInventory.data';
 import { useRouter } from 'next/router';
 import { yupResolver } from '@hookform/resolvers/yup';
-const useEditInventory = () => {
+
+export const useAddInventory = () => {
   const { query }: any = useRouter();
 
   const [formType, setFormType] = useState<string>('');
@@ -23,4 +24,3 @@ const useEditInventory = () => {
     setFormType,
   };
 };
-export default useEditInventory;

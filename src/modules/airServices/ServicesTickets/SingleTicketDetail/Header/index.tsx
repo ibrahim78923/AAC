@@ -11,7 +11,7 @@ import {
 import { styles } from './Header.style';
 import { SmsImage } from '@/assets/images';
 
-export default function Header() {
+const Header = () => {
   const theme: any = useTheme();
 
   return (
@@ -65,4 +65,6 @@ export default function Header() {
       </Grid>
     </>
   );
-}
+};
+
+export default Header;

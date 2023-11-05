@@ -20,7 +20,6 @@ function PurchaseOrder() {
     methodsPurchaseOrderFilterForm,
     submitPurchaseOrderFilterForm,
     resetPurchaseOrderFilterForm,
-    // handlePurchaseOrderDetail,
     router,
   } = usePurchaseOrders();
 
@@ -29,7 +28,6 @@ function PurchaseOrder() {
     setPurchaseOrderData,
     data,
     router,
-    // handlePurchaseOrderDetail,
   );
   return (
     <>

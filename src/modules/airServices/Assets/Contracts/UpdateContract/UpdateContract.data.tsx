@@ -65,7 +65,7 @@ export const updateContractFormValidationSchema = Yup?.object()?.shape({
               comments: Yup?.string(),
             }),
           )
-          .min(1, 'At least one item is required');
+          ?.min(1, 'At least one item is required');
       },
       otherwise: (schema: any) => schema?.notRequired(),
     }),

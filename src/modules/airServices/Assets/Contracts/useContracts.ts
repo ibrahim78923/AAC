@@ -11,13 +11,13 @@ export function useContracts() {
   const [actionPop, setActionPop] = useState<HTMLButtonElement | null>(null);
   const router = useRouter();
   const handleAddNewContractClick = () => {
-    router.push({
+    router?.push({
       pathname: AIR_SERVICES?.CONTRACT_FORM,
     });
   };
   useEffect(() => {}, []);
   const handleActionClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setActionPop(event.currentTarget);
+    setActionPop(event?.currentTarget);
   };
   const softwareListsColumns = softwareListsColumnsFunction(
     contractsData,
