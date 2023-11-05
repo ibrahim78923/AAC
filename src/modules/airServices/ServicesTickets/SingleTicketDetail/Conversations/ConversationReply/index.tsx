@@ -1,15 +1,14 @@
 import { FormProvider } from '@/components/ReactHookForm';
 import { Grid } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
-// import { ConversationDrawerTitle } from '../Conversation.data';
 import CommonDrawer from '@/components/CommonDrawer';
 import { conversationReplyArray } from './ConversationReply.data';
+import ConversationArticleSelect from '../ConversationArticleSelect';
 
 const ConversationReply = ({
-  // selectedItem,
   show,
   setShow,
-  addCoversationModel,
+  addConversationModel,
   onSubmit,
 }: any) => {
   return (
@@ -21,8 +20,8 @@ const ConversationReply = ({
       isOk={true}
     >
       <FormProvider
-        methods={addCoversationModel}
-        onSubmit={addCoversationModel.handleSubmit(onSubmit)}
+        methods={addConversationModel}
+        onSubmit={addConversationModel.handleSubmit(onSubmit)}
       >
         <Grid container spacing={2}>
           {conversationReplyArray?.map((item: any) => (
@@ -51,27 +50,7 @@ const ConversationReply = ({
             </Grid>
           ))}
         </Grid>
-        {/* <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'flex-end',
-            mb: '16px',
-            mt: '16px',
-            gap: '10px',
-          }}
-        >
-          <Button
-            sx={{ maxWidth: '90px' }}
-            variant="outlined"
-            onClick={() => setShow(false)}
-          >
-            Cancel
-          </Button>
-          <Button sx={{ maxWidth: '90px' }} variant="contained" type={'submit'}>
-            Add
-          </Button>
-        </Box> */}
+        <ConversationArticleSelect />
       </FormProvider>
     </CommonDrawer>
   );

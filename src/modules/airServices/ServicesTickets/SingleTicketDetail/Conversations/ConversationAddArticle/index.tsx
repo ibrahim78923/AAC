@@ -1,16 +1,20 @@
-import { PlusSharedIconColor } from '@/assets/icons';
-import Search from '@/components/Search';
-import { Box, Button, Grid, Typography } from '@mui/material';
 import React, { useState } from 'react';
-import { ConversationAddArticalData } from '../Conversation.data';
+import { Typography, Button, Box, Grid } from '@mui/material';
+import Search from '@/components/Search';
+import { PlusSharedIconColor } from '@/assets/icons';
 import { v4 as uuidv4 } from 'uuid';
+import { ConversationAddArticleData } from '../Conversation.data';
 
-const ConversationAddArtical = () => {
+const ConversationAddArticle = ({ onAddContractButtonClick }) => {
   const [searchTerm, setSearchTerm] = useState('');
 
-  const filteredContent = ConversationAddArticalData.filter((item) =>
+  const filteredContent = ConversationAddArticleData.filter((item) =>
     item.title.toLowerCase().includes(searchTerm.toLowerCase()),
   );
+
+  const handleAddContractClick = (title) => {
+    onAddContractButtonClick(title);
+  };
 
   return (
     <Grid padding={'20px'}>
@@ -51,7 +55,12 @@ const ConversationAddArtical = () => {
               fontSize={'10px'}
             >
               <Typography>{item.link}</Typography>
-              <Button sx={{ ml: 2 }}>ADD Content</Button>
+              <Button
+                sx={{ ml: 2 }}
+                onClick={() => handleAddContractClick(item.title)}
+              >
+                ADD Content
+              </Button>
             </Box>
           </Box>
         ))}
@@ -61,4 +70,4 @@ const ConversationAddArtical = () => {
   );
 };
 
-export default ConversationAddArtical;
+export default ConversationAddArticle;

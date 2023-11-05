@@ -3,33 +3,25 @@ import { Grid } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
 import CommonDrawer from '@/components/CommonDrawer';
 import { conversationForwardArray } from './ConversationForward.data';
+import ConversationArticleSelect from '../ConversationArticleSelect';
 
 const ConversationForward = ({
-  // selectedItem,
   show,
   setShow,
-  addCoversationModel,
   onSubmit,
+  addConversationModel,
 }: any) => {
   return (
     <CommonDrawer
       isDrawerOpen={show}
       onClose={() => setShow(false)}
-      // selectedItem={selectedItem}
-      // onClose={() => setShow(false)}
       okText={'Add Note'}
       footer={true}
       isOk={true}
-
-      // isDrawerOpen={openDrawer}
-      // onClose={() => setOpenDrawer('')}
-      //   title={ConversationDrawerTitle[show]}
-
-      // footer={openDrawer === 'View' ? false : true}
     >
       <FormProvider
-        methods={addCoversationModel}
-        onSubmit={addCoversationModel.handleSubmit(onSubmit)}
+        methods={addConversationModel}
+        onSubmit={addConversationModel.handleSubmit(onSubmit)}
       >
         <Grid container spacing={2}>
           {conversationForwardArray?.map((item: any) => (
@@ -58,27 +50,7 @@ const ConversationForward = ({
             </Grid>
           ))}
         </Grid>
-        {/* <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'flex-end',
-            mb: '16px',
-            mt: '16px',
-            gap: '10px',
-          }}
-        >
-          <Button
-            sx={{ maxWidth: '90px' }}
-            variant="outlined"
-            onClick={() => setShow(false)}
-          >
-            Cancel
-          </Button>
-          <Button sx={{ maxWidth: '90px' }} variant="contained" type={'submit'}>
-            Add
-          </Button>
-        </Box> */}
+        <ConversationArticleSelect />
       </FormProvider>
     </CommonDrawer>
   );

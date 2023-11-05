@@ -8,6 +8,7 @@ export { default as ProductMarketingIcon } from './modules/orgAdmin/Subscription
 export { default as ProductOperationIcon } from './modules/orgAdmin/SubscriptionAndInvoices/product-operation-icon';
 export { default as ProductLoyaltyProgramIcon } from './modules/orgAdmin/SubscriptionAndInvoices/product-loyalty-program-icon';
 export { default as PlaneIcon } from './modules/orgAdmin/SubscriptionAndInvoices/plane-icon';
+export { default as ArticleModalIcon } from './modules/airServices/Tickets/article-modal-icon';
 export { default as ArrowBackIcon } from './modules/orgAdmin/SubscriptionAndInvoices/arrow-back-icon';
 export { default as MinusCircleIcon } from './modules/orgAdmin/SubscriptionAndInvoices/minus-cirlce-icon';
 export { default as AddCircleIcon } from './modules/orgAdmin/SubscriptionAndInvoices/add-circle-icon';

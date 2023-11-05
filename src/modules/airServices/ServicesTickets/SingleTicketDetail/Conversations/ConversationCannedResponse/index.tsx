@@ -1,15 +1,20 @@
-import { PlusSharedIconColor } from '@/assets/icons';
-import Search from '@/components/Search';
-import { Box, Button, Grid, Typography } from '@mui/material';
 import React, { useState } from 'react';
-import { ConversationAddArticalData } from '../Conversation.data';
+import { Typography, Button, Box, Grid } from '@mui/material';
+import Search from '@/components/Search';
+import { PlusSharedIconColor } from '@/assets/icons';
 import { v4 as uuidv4 } from 'uuid';
-const ConversationCannedResponse = () => {
+import { ConversationAddArticleData } from '../Conversation.data';
+
+const ConversationCannedResponse = ({ onAddButtonClick }) => {
   const [searchTerm, setSearchTerm] = useState('');
 
-  const filteredContent = ConversationAddArticalData.filter((item) =>
+  const filteredContent = ConversationAddArticleData.filter((item) =>
     item.title.toLowerCase().includes(searchTerm.toLowerCase()),
   );
+
+  const handleAddClick = (title) => {
+    onAddButtonClick(title);
+  };
 
   return (
     <Grid padding={'20px'}>
@@ -43,7 +48,7 @@ const ConversationCannedResponse = () => {
             padding={1}
           >
             <Typography>{item.title}</Typography>
-            <Button>ADD</Button>
+            <Button onClick={() => handleAddClick(item.title)}>ADD</Button>
           </Box>
         ))}
       </Box>

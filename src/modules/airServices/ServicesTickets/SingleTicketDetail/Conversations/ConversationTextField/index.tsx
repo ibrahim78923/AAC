@@ -2,12 +2,7 @@ import { Controller, useFormContext } from 'react-hook-form';
 import { Typography, TextField } from '@mui/material';
 import CustomLabel from '../CustomLabel';
 
-export default function ConversationTextField({
-  name,
-  required,
-  openModal,
-  ...other
-}) {
+export default function ConversationTextField({ name, required, ...other }) {
   const { control } = useFormContext();
 
   return (
@@ -43,7 +38,6 @@ export default function ConversationTextField({
             }}
             {...other}
             label=""
-            onClick={openModal} // Open the modal when the text field is clicked
           />
         </>
       )}

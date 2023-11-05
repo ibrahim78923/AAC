@@ -1,0 +1,82 @@
+import React, { useState } from 'react';
+import { Dialog, IconButton, DialogTitle } from '@mui/material';
+import { ArticleModalIcon, CloseDrawerIcon } from '@/assets/icons';
+import CannedResponseModalIcon from '@/assets/icons/modules/airServices/Tickets/canned-response-modal-icon';
+import { Box } from '@mui/material';
+import ConversationCannedResponse from '../ConversationCannedResponse';
+import ConversationAddArticle from '../ConversationAddArticle';
+
+function ConversationArticleSelect() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedComponent, setSelectedComponent] = useState({
+    component: null,
+    title: '',
+  });
+
+  const handleCannedResponseClick = () => {
+    setSelectedComponent({
+      component: (
+        <ConversationCannedResponse
+          onAddButtonClick={(selectedTitle) =>
+            handleAddButtonClick(selectedTitle)
+          }
+        />
+      ),
+      title: 'Canned Response Modal',
+    });
+    setIsModalOpen(true);
+  };
+
+  const handleArticleClick = () => {
+    setSelectedComponent({
+      component: (
+        <ConversationAddArticle
+          onAddContractButtonClick={(selectedTitle) =>
+            handleAddButtonClick(selectedTitle)
+          }
+        />
+      ),
+      title: 'Article Modal',
+    });
+    setIsModalOpen(true);
+  };
+
+  const handleAddButtonClick = (selectedTitle) => {
+    // console.log('ADD  title:', selectedTitle);
+    selectedTitle;
+    setIsModalOpen(false);
+  };
+
+  return (
+    <div>
+      <Box onClick={handleCannedResponseClick}>
+        <CannedResponseModalIcon />
+      </Box>
+      <Box onClick={handleArticleClick}>
+        <ArticleModalIcon />
+      </Box>
+
+      <Dialog open={isModalOpen} onClose={() => setIsModalOpen(false)}>
+        <IconButton
+          aria-label="close"
+          sx={{
+            position: 'absolute',
+            right: 8,
+            top: 8,
+            color: (theme) => theme.palette.grey[500],
+          }}
+          onClick={() => setIsModalOpen(false)}
+        >
+          <CloseDrawerIcon />
+        </IconButton>
+        <DialogTitle fontSize={'24px'} color={'#374151'}>
+          {selectedComponent.title}
+        </DialogTitle>
+
+        {selectedComponent.component}
+      </Dialog>
+    </div>
+  );
+}
+
+export default ConversationArticleSelect;

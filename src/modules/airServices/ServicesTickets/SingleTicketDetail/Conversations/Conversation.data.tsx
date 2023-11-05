@@ -1,28 +1,17 @@
-import {
-  RHFTextField,
-  RHFSelect,
-  RHFDropZone,
-} from '@/components/ReactHookForm';
+import { RHFTextField, RHFSelect } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 import ConversationEditor from './ConversationEditor';
-import ConversationArticalselect from './ConversationArticalselect';
 
 export const conversationModelsValidation: any = Yup.object().shape({
   note: Yup.string().required('Field is Required'),
   title: Yup.string().required('Field is Required'),
-  conversationartical: Yup.string().required('Field is Required'),
   description: Yup.string().trim().required('Field is Required'),
-  response: Yup.string().trim().required('Field is Required'),
-  file: Yup.mixed().required('Field is Required'),
 });
 
 export const conversationModelsDefaultValues: any = {
   note: '',
   title: '',
   description: '',
-  conversationartical: '',
-  response: '',
-  file: '',
 };
 
 export const conversationModelsArray = [
@@ -64,42 +53,9 @@ export const conversationModelsArray = [
     md: 12,
     mb: '12px',
   },
-  {
-    componentProps: {
-      name: 'conversationartical',
-      label: 'Artical',
-      fullWidth: true,
-      select: false,
-      // required: true,
-    },
-    options: [{ value: 'BE', label: 'BE' }],
-    component: ConversationArticalselect,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'response',
-      label: 'Canned response',
-      fullWidth: true,
-      select: false,
-      // required: true,
-    },
-    options: [{ value: 'BE', label: 'BE' }],
-    component: ConversationArticalselect,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'attachFile',
-      label: 'Attach a File',
-      fullWidth: true,
-    },
-    component: RHFDropZone,
-    md: 12,
-  },
 ];
 
-export const menuOptionsAddconversation = [
+export const menuOptionsAddConversation = [
   { value: 'Note', label: 'Note' },
   { value: 'Reply', label: 'Reply' },
   { value: 'Forward', label: 'Forward' },
@@ -111,7 +67,7 @@ export const ConversationDrawerTitle: any = {
   View: 'View Tickets',
 };
 
-export const ConversationAddArticalData = [
+export const ConversationAddArticleData = [
   {
     title: 'Guide to how to design your site footer like we did...',
     link: 'Add link',
@@ -123,5 +79,17 @@ export const ConversationAddArticalData = [
   {
     title: 'Yet another article title',
     link: 'Yet another link',
+  },
+];
+
+export const ConversationData = [
+  {
+    image: 'image1',
+    sender: 'John',
+    action: 'reply',
+    to: 'nickofl@gmail.com',
+    message:
+      'Hi Guys We have been facing issue  when we try to reach email server 3 Hi Guys .',
+    time: '11:02 PM-5 March,  2023',
   },
 ];

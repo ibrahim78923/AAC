@@ -1,11 +1,6 @@
-import {
-  RHFTextField,
-  RHFSelect,
-  RHFDropZone,
-} from '@/components/ReactHookForm';
+import { RHFTextField, RHFSelect } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 import ConversationEditor from '../ConversationEditor';
-import ConversationArticalselect from '../ConversationArticalselect';
 
 export const conversationModelsValidation = Yup.object().shape({
   note: Yup.string().required('Field is Required'),
@@ -71,38 +66,5 @@ export const conversationForwardArray = [
     component: ConversationEditor,
     md: 12,
     mb: '12px',
-  },
-  {
-    componentProps: {
-      name: 'conversationartical',
-      label: 'Artical',
-      fullWidth: true,
-      select: false,
-      // required: true,
-    },
-    options: [{ value: 'BE', label: 'BE' }],
-    component: ConversationArticalselect,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'response',
-      label: 'Canned response',
-      fullWidth: true,
-      select: false,
-      // required: true,
-    },
-    options: [{ value: 'BE', label: 'BE' }],
-    component: ConversationArticalselect,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'attachFile',
-      label: 'Attach a File',
-      fullWidth: true,
-    },
-    component: RHFDropZone,
-    md: 12,
   },
 ];

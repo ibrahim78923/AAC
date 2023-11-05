@@ -2,46 +2,43 @@ import { useState } from 'react';
 import {
   conversationModelsDefaultValues,
   conversationModelsValidation,
-  menuOptionsAddconversation,
+  menuOptionsAddConversation,
 } from './Conversation.data';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-const userCoversation = () => {
+const userConversation = () => {
   const [isConversation] = useState<boolean>(true);
   const [show, setShow] = useState(false);
-  const [addCoversation, setAddCoversation] = useState<null | HTMLElement>(
+  const [addConversation, setAddConversation] = useState<null | HTMLElement>(
     null,
   );
   const [selectedItem, setSelectedItem] = useState(
-    menuOptionsAddconversation[0].value,
+    menuOptionsAddConversation[0].value,
   );
 
   // Add state for title
   const [title, setTitle] = useState('');
 
-  const addCoversationModel: any = useForm({
+  const addConversationModel: any = useForm({
     resolver: yupResolver(conversationModelsValidation),
     defaultValues: conversationModelsDefaultValues,
   });
   const onSubmit = (data: any) => data;
-  const open = Boolean(addCoversation);
+  const open = Boolean(addConversation);
 
   const handleClickButtonMenu = (
     event: React.MouseEvent<HTMLButtonElement>,
   ) => {
-    setAddCoversation(event.currentTarget);
+    setAddConversation(event.currentTarget);
   };
 
   const handleCloseButtonMenu = (e: any) => {
     setSelectedItem(e.target.value);
     setShow(true);
-    setAddCoversation(null);
+    setAddConversation(null);
 
-    // Set the title based on the selected item
     setTitle(e.target.value);
-    // just for desgin will remove
-    // setIsConversation(!isConversation);
   };
 
   return {
@@ -50,14 +47,14 @@ const userCoversation = () => {
     show,
     setShow,
     handleClickButtonMenu,
-    addCoversation,
+    addConversation,
     handleCloseButtonMenu,
     setSelectedItem,
-    addCoversationModel,
+    addConversationModel,
     selectedItem,
     onSubmit,
-    title, // Include title in the returned object
+    title,
   };
 };
 
-export default userCoversation;
+export default userConversation;

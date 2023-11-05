@@ -8,7 +8,12 @@ import ConversationTextLabel from '../ConversationTextLabel';
 
 // ----------------------------------------------------------------------
 
-export default function ConversationEditor({ name, required, ...other }: any) {
+export default function ConversationEditor({
+  name,
+  required,
+  selectedTitle,
+  ...other
+}: any) {
   const { control } = useFormContext();
 
   return (
@@ -30,8 +35,10 @@ export default function ConversationEditor({ name, required, ...other }: any) {
             value={field.value}
             onChange={field.onChange}
             error={!!error}
+            title={selectedTitle}
             {...other}
           />
+
           <FormHelperText
             error
             sx={{

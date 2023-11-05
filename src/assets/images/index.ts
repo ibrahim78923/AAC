@@ -70,7 +70,7 @@ export { default as CreatedImage } from '../../assets/images/modules/LogitechMou
 export { default as plusImage } from '../../assets/images/modules/LogitechMouse/green-plus.png';
 export { default as TeamsLogoImage } from '../../assets/images/modules/tickets/meetings/teams-logo.png';
 export { default as ZoomLogoImage } from '../../assets/images/modules/tickets/meetings/zoom-logo.png';
-export { default as AvatarImageCoversation } from '../../assets/images/shared/avatar-conversation.png';
+export { default as AvatarImageConversation } from '../../assets/images/shared/avatar-conversation.png';
 export { default as UserAvatarImage } from '../../assets/images/modules/socialComponents/chat/user.png';
 export { default as UserSenderImage } from '../../assets/images/modules/socialComponents/chat/sender-user.png';
 export { default as GreenBgImage } from '../../assets/images/modules/superAdmin/dashboard/green-bg-img.png';
