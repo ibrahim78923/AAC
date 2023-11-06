@@ -6,10 +6,11 @@ import TaskEditorDrawer from './TaskEditorDrawer';
 import ActionDropdown from './ActionDropdown';
 import TanstackTable from '@/components/Table/TanstackTable';
 
+import { TasksTableData } from '@/mock/modules/airSales/Deals/ViewDetails';
+
 import useTasks from './useTasks';
 
 import { columns } from './Tasks.data';
-import { TasksTableData } from '@/mock/modules/airSales/Deals/ViewDetails';
 
 import { PlusSharedIcon } from '@/assets/icons';
 

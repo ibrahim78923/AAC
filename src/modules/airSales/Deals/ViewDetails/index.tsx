@@ -36,7 +36,7 @@ const ViewDetails = () => {
               <Typography variant="h4">Share My Dine</Typography>
               <Typography
                 variant="body2"
-                sx={{ color: theme.palette.custom.main }}
+                sx={{ color: theme?.palette?.custom?.main }}
               >
                 Amount: £20
               </Typography>
@@ -59,34 +59,34 @@ const ViewDetails = () => {
                 </Typography>
                 <Typography
                   variant="body3"
-                  sx={{ color: theme.palette.custom.main }}
+                  sx={{ color: theme?.palette?.custom?.main }}
                 >
                   Created on Sun, 5 Mar 9:41 PM
                 </Typography>
               </Box>
             </Box>
-            <hr style={styles.salesBox} />
-            <Box sx={styles.salesBox}>
-              <Typography variant="body3" sx={styles.salesTextBox(theme)}>
+            <hr style={styles?.salesBox} />
+            <Box sx={styles?.salesBox}>
+              <Typography variant="body3" sx={styles?.salesTextBox(theme)}>
                 Email
               </Typography>
-              <Typography variant="body3" sx={styles.salesHeading(theme)}>
+              <Typography variant="body3" sx={styles?.salesHeading(theme)}>
                 olivia@gmail.com
               </Typography>
             </Box>
-            <Box sx={styles.salesBox}>
-              <Typography variant="body3" sx={styles.salesTextBox(theme)}>
+            <Box sx={styles?.salesBox}>
+              <Typography variant="body3" sx={styles?.salesTextBox(theme)}>
                 Phone Number
               </Typography>
-              <Typography variant="body3" sx={styles.salesHeading(theme)}>
+              <Typography variant="body3" sx={styles?.salesHeading(theme)}>
                 +44 063556245
               </Typography>
             </Box>
-            <Box sx={styles.salesBox}>
-              <Typography variant="body3" sx={styles.salesTextBox(theme)}>
+            <Box sx={styles?.salesBox}>
+              <Typography variant="body3" sx={styles?.salesTextBox(theme)}>
                 Deal Type
               </Typography>
-              <Typography variant="body3" sx={styles.salesPriority(theme)}>
+              <Typography variant="body3" sx={styles?.salesPriority(theme)}>
                 New Business
               </Typography>
             </Box>
@@ -97,10 +97,10 @@ const ViewDetails = () => {
             <Typography variant="body2" sx={{ fontWeight: 600 }}>
               Products
             </Typography>
-            <Box sx={styles.noproductBox}>
+            <Box sx={styles?.noproductBox}>
               <Typography
                 variant="body3"
-                sx={{ color: theme.palette.grey[900] }}
+                sx={{ color: theme?.palette?.grey[900] }}
               >
                 No products to show
               </Typography>
@@ -112,10 +112,10 @@ const ViewDetails = () => {
             <Typography variant="body2" sx={{ fontWeight: 600 }}>
               Upcoming Meetings
             </Typography>
-            <Box sx={styles.noproductBox}>
+            <Box sx={styles?.noproductBox}>
               <Typography
                 variant="body3"
-                sx={{ color: theme.palette.grey[900] }}
+                sx={{ color: theme?.palette?.grey[900] }}
               >
                 No Meeting Found
               </Typography>
@@ -125,42 +125,42 @@ const ViewDetails = () => {
         <Grid item xs={12} sm={6} lg={3}>
           <Box sx={styles.detailsBox}>
             <Box sx={styles.salesBox}>
-              <Typography variant="body3" sx={styles.salesTextBox(theme)}>
+              <Typography variant="body3" sx={styles?.salesTextBox(theme)}>
                 Stage
               </Typography>
-              <Typography variant="body3" sx={styles.salesHeading(theme)}>
+              <Typography variant="body3" sx={styles?.salesHeading(theme)}>
                 New
               </Typography>
             </Box>
             <Box sx={styles.salesBox}>
-              <Typography variant="body3" sx={styles.salesTextBox(theme)}>
+              <Typography variant="body3" sx={styles?.salesTextBox(theme)}>
                 Pipeline
               </Typography>
-              <Typography variant="body3" sx={styles.salesHeading(theme)}>
+              <Typography variant="body3" sx={styles?.salesHeading(theme)}>
                 Sales Pipeline
               </Typography>
             </Box>
             <Box sx={styles.salesBox}>
-              <Typography variant="body3" sx={styles.salesTextBox(theme)}>
+              <Typography variant="body3" sx={styles?.salesTextBox(theme)}>
                 Priority
               </Typography>
-              <Typography variant="body3" sx={styles.salesPriority(theme)}>
+              <Typography variant="body3" sx={styles?.salesPriority(theme)}>
                 Low
               </Typography>
             </Box>
             <Box sx={styles.salesBox}>
-              <Typography variant="body3" sx={styles.salesTextBox(theme)}>
+              <Typography variant="body3" sx={styles?.salesTextBox(theme)}>
                 Created Date
               </Typography>
-              <Typography variant="body3" sx={styles.salesHeading(theme)}>
+              <Typography variant="body3" sx={styles?.salesHeading(theme)}>
                 Fri, 10 Mar 09:00 AM
               </Typography>
             </Box>
             <Box sx={styles.salesBox}>
-              <Typography variant="body3" sx={styles.salesTextBox(theme)}>
+              <Typography variant="body3" sx={styles?.salesTextBox(theme)}>
                 Closes Date
               </Typography>
-              <Typography variant="body3" sx={styles.salesHeading(theme)}>
+              <Typography variant="body3" sx={styles?.salesHeading(theme)}>
                 Tue, 14 Mar 10:00 AM
               </Typography>
             </Box>

@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { Button, ButtonGroup } from '@mui/material';
 
 import CommonTabs from '@/components/Tabs';
+import { AIR_SERVICES } from '@/constants';
 
 import DealCustomize from './DealCustomize';
 import DelasTable from './DealsTable';
@@ -78,7 +79,7 @@ const Deals = () => {
               onChange={handleActions}
             />
 
-            <Link href={'/air-sales/deals/restore'}>
+            <Link href={AIR_SERVICES?.AIRDEALS_RESTORE}>
               <Button
                 variant="outlined"
                 sx={{ height: '30px', color: theme?.palette?.custom['main'] }}

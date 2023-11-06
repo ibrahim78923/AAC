@@ -9,9 +9,9 @@ import { ArrowDropDown } from '@mui/icons-material';
 import { AlertModals } from '@/components/AlertModals';
 import { ScheduleModals } from '@/components/ScheduleModals';
 
-import useEmailActionDropdown from './useEmailActionDropDown';
+import { EmailTestingData } from '@/mock/modules/airSales/Contacts/ContactViewDetails';
 
-import { ContactEmailTestingData } from '@/mock/modules/airSales/Contacts/ContactViewDetails';
+import useEmailActionDropdown from './useEmailActionDropDown';
 
 import { isNullOrEmpty } from '@/utils';
 
@@ -49,7 +49,7 @@ const EmailActionDropDown = (props: any) => {
         onClick={handleOpenMenu}
         className="small"
         disabled={
-          selectedCheckboxes.length === 0 || selectedCheckboxes.length > 1
+          selectedCheckboxes?.length === 0 || selectedCheckboxes?.length > 1
         }
       >
         Action
@@ -80,8 +80,8 @@ const EmailActionDropDown = (props: any) => {
         handleSubmit={handleCloseAlert}
       >
         <Grid container>
-          {!isNullOrEmpty(ContactEmailTestingData) &&
-            ContactEmailTestingData?.map((item: any) => (
+          {!isNullOrEmpty(EmailTestingData) &&
+            EmailTestingData?.map((item: any) => (
               <Grid item xs={12} sx={styles?.emailBox} key={item?.name}>
                 <Grid container spacing={1}>
                   <Grid item sm={1.6} xs={12}>
@@ -125,7 +125,7 @@ const EmailActionDropDown = (props: any) => {
 
                     <Typography
                       variant="body2"
-                      sx={styles.subjectHeading(theme)}
+                      sx={styles?.subjectHeading(theme)}
                     >
                       {item?.subjectHeading}
                     </Typography>
