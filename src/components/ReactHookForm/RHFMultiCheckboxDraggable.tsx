@@ -28,7 +28,7 @@ export default function RHFMultiCheckboxDraggable({
 
               return (
                 <FormGroup>
-                  {options.map((option: any, index: any) => (
+                  {options?.map((option: any, index: any) => (
                     <Draggable key={option} draggableId={option} index={index}>
                       {(provided: any) => (
                         <div
