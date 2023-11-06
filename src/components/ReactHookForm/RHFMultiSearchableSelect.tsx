@@ -19,10 +19,15 @@ export default function RHFMultiSearchableSelect({
   name,
   options,
   isCheckBox,
+  isSearch,
+  isAllSelect,
   ...other
 }: any) {
   const { control } = useFormContext();
   const [searchTerm, setSearchTerm] = useState('');
+
+  const [isSelectAll, setIsSelectAll] = useState<any>();
+
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -34,6 +39,17 @@ export default function RHFMultiSearchableSelect({
   const handleClose = () => {
     setAnchorEl(null);
     setSearchTerm('');
+  };
+
+  const handelSelectAll = (field: any) => {
+    if (isSelectAll) {
+      setSelectedValues([]);
+      field.onChange([]);
+    } else {
+      setSelectedValues(options.map((option: any) => option.value));
+      field.onChange(options.map((option: any) => option.value));
+    }
+    setIsSelectAll(!isSelectAll);
   };
 
   const handleOptionSelect = (value: string, field: any) => {
@@ -49,6 +65,9 @@ export default function RHFMultiSearchableSelect({
   const filteredOptions = options?.filter((option: any) =>
     option.label.toLowerCase().includes(searchTerm.toLowerCase()),
   );
+
+  const searchHandler = isSearch === false ? false : true;
+  const isAllSelectHandler = isAllSelect === true ? true : false;
 
   return (
     <Controller
@@ -88,15 +107,38 @@ export default function RHFMultiSearchableSelect({
             }}
           >
             <>
-              <Search
-                searchBy={searchTerm}
-                setSearchBy={setSearchTerm}
-                label="Search By Name"
-                fullWidth
-                size="small"
-                sx={{ marginBottom: '15px' }}
-              />
-              {filteredOptions?.map((option: any) => (
+              {searchHandler && (
+                <Search
+                  searchBy={searchTerm}
+                  setSearchBy={setSearchTerm}
+                  label="Search By Name"
+                  fullWidth
+                  size="small"
+                  sx={{ marginBottom: '15px' }}
+                />
+              )}
+              {isAllSelectHandler && (
+                <Box
+                  sx={{
+                    width: '100%',
+                    height: '30px',
+                    padding: '5px 10px',
+                    display: 'flex',
+                    marginBottom: '10px',
+                    gap: '5px',
+                    borderRadius: '5px',
+                  }}
+                >
+                  <Checkbox
+                    onChange={() => handelSelectAll(field)}
+                    checked={
+                      selectedValues.length === options.length ? true : false
+                    }
+                  />
+                  <Typography variant="body1">All</Typography>
+                </Box>
+              )}
+              {filteredOptions.map((option: any) => (
                 <Box
                   key={option.value}
                   onClick={() => {

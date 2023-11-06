@@ -3,10 +3,9 @@ import { useState } from 'react';
 import { Grid, Typography, Button, useTheme } from '@mui/material';
 
 import Search from '@/components/Search';
-import TanstackTable from '@/components/Tabel/TanstackTable';
-import CustomPagination from '@/components/CustomPagination';
-
 import GenerateInvoice from '../GenerateInvoice';
+import TanstackTable from '@/components/Table/TanstackTable';
+import CustomPagination from '@/components/CustomPagination';
 import ViewBillingDetails from '../ViewBillingDetails';
 import { columns } from './BillingAndInvoices.data';
 import EditForm from '../EditForm';
@@ -16,7 +15,7 @@ import Filters from './Filters';
 
 import { BillingAndInvoicesTableData } from '@/mock/modules/superAdmin/BillingAndDetails';
 
-import PlusSharedIcon from '@/assets/icons/shared/plus-shared';
+import PlusIcon from '@/assets/icons/shared/plus-shared';
 import { FilterSharedIcon } from '@/assets/icons';
 
 const BillingAndInvoicesTable = () => {
@@ -39,7 +38,7 @@ const BillingAndInvoicesTable = () => {
           <Grid item xs={6} sm={6} sx={{ textAlign: 'end' }}>
             <Button
               onClick={() => setIsOpenDrawer(true)}
-              startIcon={<PlusSharedIcon />}
+              startIcon={<PlusIcon />}
               variant="contained"
               className="medium"
             >

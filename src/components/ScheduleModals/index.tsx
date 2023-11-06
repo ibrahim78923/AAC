@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Button, Modal, Typography } from '@mui/material';
 
 import { ModelPropsI } from './ScheduleModals.interface';
-import CloseIcon from '@/assets/icons/shared/AlertModels/close-icon';
+import CloseIcon from '@/assets/icons/shared/alert-modal-close-icon';
 import { styles } from './ScheduleModals.styles';
 import useScheduleModals from './useScheduleModals';
 

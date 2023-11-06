@@ -10,86 +10,39 @@ import TanstackTable from '@/components/Tabel/TanstackTable';
 
 import { columns } from './CallRightArea.data';
 
-import { CallFilledImage, UsersAvatarRoundedImage } from '@/assets/images';
-import { ArrowBackIcon } from '@/assets/icons';
+import { CallFilledImage } from '@/assets/images';
 
 import { styles } from './CallRightArea.style';
+import ChatCalling from './ChatCalling';
+import CallProcessCard from './CallProcessCard';
 
 const CallRightArea = ({
   callsMode,
   activeCallsSelectedData,
   isActiveCalling,
+  activeMessageData,
+  setIsActiveCalling,
+  setActiveCallsSelectedData,
 }: any) => {
   const theme = useTheme();
-
   const getColumns = columns();
-
   return (
     <Box>
       {callsMode === 'calls' &&
-        (activeCallsSelectedData ? (
+        (activeCallsSelectedData && activeCallsSelectedData ? (
           isActiveCalling ? (
-            <Box sx={{ padding: '20px' }}>
-              <ArrowBackIcon />
-              <Box
-                sx={{
-                  height: '70vh',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                <Box sx={styles.callingAreaBx(theme)}>
-                  <Typography
-                    variant="h2"
-                    fontWeight={500}
-                    textAlign={'center'}
-                    color={theme.palette.custom.grayish_blue}
-                  >
-                    {activeCallsSelectedData?.phone}
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    fontWeight={500}
-                    textAlign={'center'}
-                    mb={2}
-                    color={theme.palette.custom.bright}
-                  >
-                    Calling...
-                  </Typography>
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                    }}
-                  >
-                    <Image
-                      src={UsersAvatarRoundedImage}
-                      width={96}
-                      height={96}
-                      style={{ borderRadius: '50%' }}
-                      alt="user"
-                    />
-                    <Typography
-                      variant="h3"
-                      color={theme.palette.custom.grayish_blue}
-                    >
-                      Johny Doe
-                    </Typography>
-                  </Box>
-                  <Box>
-                    <Grid container spacing={2}></Grid>
-                  </Box>
-                </Box>
-              </Box>
-            </Box>
+            <CallProcessCard
+              phoneNo={activeCallsSelectedData.phone}
+              name={activeCallsSelectedData.userName}
+              setIsActiveCalling={setIsActiveCalling}
+            />
           ) : (
             <Box>
               <UserDetailCard
                 image={activeCallsSelectedData?.userImage}
                 name={activeCallsSelectedData?.userName}
                 phone={activeCallsSelectedData?.phone}
+                isMessage={true}
               />
               <Box sx={{ padding: '20px' }}>
                 <TanstackTable
@@ -132,6 +85,23 @@ const CallRightArea = ({
               </Box>
             </Grid>
           </Grid>
+        ))}
+
+      {callsMode === 'messages' &&
+        activeMessageData &&
+        (isActiveCalling ? (
+          <CallProcessCard
+            phoneNo={activeCallsSelectedData.userPhone}
+            name={activeCallsSelectedData.userName}
+            setIsActiveCalling={setIsActiveCalling}
+          />
+        ) : (
+          <ChatCalling
+            isActiveCalling={isActiveCalling}
+            setActiveCallsSelectedData={setActiveCallsSelectedData}
+            setIsActiveCalling={setIsActiveCalling}
+            activeMessageData={activeMessageData}
+          />
         ))}
     </Box>
   );

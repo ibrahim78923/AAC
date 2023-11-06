@@ -1,6 +1,6 @@
-export const style = {
+export const styles = {
   root: (theme: any) => ({
-    bgcolor: theme.palette.mode === 'light' ? theme.palette.grey[300] : '',
+    bgcolor: theme?.palette?.grey?.[300],
     borderRadius: '2px',
     height: 36,
   }),
