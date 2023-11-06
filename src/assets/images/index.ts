@@ -52,7 +52,7 @@ export { default as KnowledgeBaseImage } from './modules/HeaderAndSidebar/knowle
 export { default as LoginDashboardImage } from '../../assets/images/shared/login-dashboard.png';
 export { default as RQCodeImage } from '../../assets/images/shared/qr-code.png';
 
-export { default as AvatarImageConversationImage } from '../../assets/images/shared/avatar-conversation.png';
+export { default as AvatarImageConversationImage } from '../../assets/images/shared/avatar-conversation-image.png';
 export { default as UserAvatarImage } from '../../assets/images/modules/socialComponents/chat/user.png';
 export { default as UserSenderImage } from '../../assets/images/modules/socialComponents/chat/sender-user.png';
 export { default as GreenBgImage } from '../../assets/images/modules/superAdmin/dashboard/green-bg-img.png';
