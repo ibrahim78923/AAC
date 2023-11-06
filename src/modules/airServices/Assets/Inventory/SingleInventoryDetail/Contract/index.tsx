@@ -3,7 +3,7 @@ import { Typography, useTheme } from '@mui/material';
 import { contractData } from './Contract.data';
 import { InventoryCard } from '@/components/InventoryCard/index';
 import { v4 as uuidv4 } from 'uuid';
-import { contractImage } from '@/assets/images';
+import { ContractImage } from '@/assets/images';
 
 export const Contract = () => {
   const theme: any = useTheme();
@@ -17,14 +17,14 @@ export const Contract = () => {
             key={uuidv4()}
             showChild
           >
-            <Typography color={theme?.palette?.grey[900]}>
+            <Typography color={theme?.palette?.grey?.[900]}>
               {singleContract?.body}
             </Typography>
           </InventoryCard>
         ))
       ) : (
         <NoData
-          image={contractImage}
+          image={ContractImage}
           message={'There are no active contract available'}
         />
       )}

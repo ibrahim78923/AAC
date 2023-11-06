@@ -1,6 +1,6 @@
-import TopPerformanceImage from '@/assets/images/modules/LogitechMouse/CustomerWowChampion.png';
-import TopPerformanceImageTwo from '@/assets/images/modules/LogitechMouse/MostValuablePlayer.png';
-import TopPerformaceAvatar from '@/assets/images/modules/LogitechMouse/Avatar.png';
+import TopPerformanceImage from '@/assets/images/modules/airServices/Dashboard/CustomerWowChampion.png';
+import TopPerformanceImageTwo from '@/assets/images/modules/airServices/Dashboard/MostValuablePlayer.png';
+import TopPerformaceAvatar from '@/assets/images/modules/airServices/Dashboard/Avatar.png';
 
 export const topPerformerDashboardCardData = [
   {

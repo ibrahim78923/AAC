@@ -9,6 +9,7 @@ export const useAssociatesLists = () => {
   const submitDeleteModel = async () => {
     enqueueSnackbar('Task Delete Successfully', {
       variant: 'error',
+      autoHideDuration: 2000,
     });
     setDeleteModal(false);
   };

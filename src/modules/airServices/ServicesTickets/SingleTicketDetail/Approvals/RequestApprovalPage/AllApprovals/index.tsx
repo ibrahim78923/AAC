@@ -14,9 +14,8 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import CancelIcon from '@mui/icons-material/Cancel';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import UnsubscribeIcon from '@mui/icons-material/Unsubscribe';
-import SharedIcon from '@/assets/icons/shared/shared-icon';
 import { useRequestApprovalPage } from '../useRequestApprovalPage';
-import { ReceivedFileIcon } from '@/assets/icons';
+import { ReceivedFileIcon, SharedIcon } from '@/assets/icons';
 import { AlertModalCloseIcon } from '@/assets/icons';
 import { FormProvider, RHFTextField } from '@/components/ReactHookForm';
 import { styles } from '../RequestApprovalPage.style';
@@ -88,11 +87,11 @@ export const AllApprovals = () => {
                         {item?.mainText}
                       </Typography>
                       <Box sx={styles?.requestApprovalBoxSecond}>
-                        {Icons[item?.status]}
+                        {Icons?.[item?.status]}
                         <span>
                           <Typography
                             variant="customStyle"
-                            color={textColor[item?.status]}
+                            color={textColor?.[item?.status]}
                           >
                             {item?.iconText}
                           </Typography>

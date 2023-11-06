@@ -3,7 +3,7 @@ import { softwareData } from './software.data';
 import { InventoryCard } from '@/components/InventoryCard/index';
 
 import { v4 as uuidv4 } from 'uuid';
-import { expenseImage } from '@/assets/images';
+import { ExpenseImage } from '@/assets/images';
 
 export const Software = () => {
   return (
@@ -17,7 +17,7 @@ export const Software = () => {
           />
         ))
       ) : (
-        <NoData image={expenseImage} message={'No Software found'} />
+        <NoData image={ExpenseImage} message={'No Software found'} />
       )}
     </>
   );

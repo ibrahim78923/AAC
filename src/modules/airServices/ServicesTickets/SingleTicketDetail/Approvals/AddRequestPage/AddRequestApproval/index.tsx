@@ -6,7 +6,7 @@ import { addRequestApprovalDataArray } from './AddRequestApproval.data';
 import { v4 as uuidv4 } from 'uuid';
 import { enqueueSnackbar } from 'notistack';
 
-const FilterContractsForm = (props: any) => {
+export const AddRequestApproval = (props: any) => {
   const { isDrawerOpen, setIsDrawerOpen } = props;
   const { methods } = useAddRequestApproval();
   const { handleSubmit } = methods;
@@ -42,5 +42,3 @@ const FilterContractsForm = (props: any) => {
     </>
   );
 };
-
-export default FilterContractsForm;

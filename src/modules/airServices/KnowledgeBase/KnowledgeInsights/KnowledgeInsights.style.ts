@@ -1,6 +1,6 @@
 export const styles = {
   insightsStyles: (theme: any) => ({
-    background: theme?.palette?.grey[100],
+    background: theme?.palette?.grey?.[100],
     borderBottom: `0.0625rem solid ${theme?.palette?.divider}`,
     padding: '0.75rem 1rem',
   }),
@@ -10,7 +10,7 @@ export const styles = {
     cursor: 'pointer',
   }),
   mentionsStyles: (theme: any) => ({
-    background: theme?.palette?.grey[100],
+    background: theme?.palette?.grey?.[100],
     borderBottom: `0.0625rem solid ${theme?.palette?.divider}`,
     borderLeft: `0.0625rem solid ${theme?.palette?.divider}`,
     padding: '0.75rem 1rem',

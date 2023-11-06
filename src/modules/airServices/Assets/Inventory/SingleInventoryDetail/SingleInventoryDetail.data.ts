@@ -7,10 +7,10 @@ export const singleInventoryDetailActionDropdownFunction = (
   {
     title: 'Edit',
     handleClick: (x: any) => {
-      router.push({
+      router?.push({
         pathname: AIR_SERVICES?.ADD_INVENTORY,
         query: {
-          ...router.query,
+          ...router?.query,
         },
       });
       x?.();

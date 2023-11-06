@@ -8,7 +8,6 @@ import { TicketsListSubHeader } from './TicketsListSubHeader';
 export const TicketsLists = () => {
   const {
     isDrawerOpen,
-    // setIsDrawerOpen,
     router,
     openDrawer,
     TABLE_CONSTANTS,
@@ -17,6 +16,7 @@ export const TicketsLists = () => {
     deleteModalOpen,
     setDeleteModalOpen,
     deleteTicket,
+    ticketsListsColumn,
   } = useTicketsLists();
   return (
     <>
@@ -36,7 +36,7 @@ export const TicketsLists = () => {
       {router?.query?.viewType === 'board' ? (
         <TableBoardView />
       ) : (
-        <TicketsTableView />
+        <TicketsTableView ticketsListsColumn={ticketsListsColumn} />
       )}
       {deleteModalOpen && (
         <AlertModals

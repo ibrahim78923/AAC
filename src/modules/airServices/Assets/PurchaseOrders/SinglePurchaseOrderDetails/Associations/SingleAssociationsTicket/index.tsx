@@ -10,7 +10,7 @@ export const SingleAssociationsTicket = ({ associationsTicketData }: any) => {
           display={'flex'}
           justifyContent={'space-between'}
           alignItems={'center'}
-          boxShadow={'4px 4px 4px rgba(0, 0, 0, 0.1)'}
+          boxShadow={2}
           borderLeft={`.5rem solid ${theme?.palette?.primary?.main}`}
           borderRadius={'.6rem'}
           padding={'.7rem'}

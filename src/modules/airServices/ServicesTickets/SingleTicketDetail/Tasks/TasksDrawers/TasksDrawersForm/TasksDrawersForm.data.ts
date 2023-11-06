@@ -7,7 +7,7 @@ import {
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
-export const TaskTicketFormValidationSchema = Yup?.object()?.shape({
+export const taskTicketFormValidationSchema = Yup?.object()?.shape({
   title: Yup?.string()?.required('Field is Required'),
   description: Yup?.string(),
   department: Yup?.string()?.required('Field is Required'),
@@ -21,7 +21,7 @@ export const TaskTicketFormValidationSchema = Yup?.object()?.shape({
   plannedEffort: Yup?.string(),
 });
 
-export const TaskTicketFormDefaultValues = {
+export const taskTicketFormDefaultValues = {
   title: '', //1
   description: '', //2
   department: '', //3
@@ -35,7 +35,7 @@ export const TaskTicketFormDefaultValues = {
   plannedEffort: '', //11
 };
 
-export const TaskTicketFormFields = [
+export const taskTicketFormFields = [
   {
     componentProps: {
       name: 'title',

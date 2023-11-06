@@ -12,7 +12,7 @@ export const dropdownDummy = [
   },
 ];
 
-export const assetTypeDropdownData = [
+export const assetTypeOptions = [
   {
     value: 'services',
     label: 'Services',
@@ -50,7 +50,7 @@ export const assetTypeDropdownData = [
     label: 'Backup Services',
   },
 ];
-export const dateDropdownData = [
+export const dateOptions = [
   {
     value: 'None',
     label: 'None',
@@ -76,7 +76,7 @@ export const dateDropdownData = [
     label: 'Previous Month',
   },
 ];
-export const assetLifeExpiryDropdownData = [
+export const assetLifeExpiryOptions = [
   {
     value: 'None',
     label: 'None',
@@ -110,44 +110,31 @@ export const assetLifeExpiryDropdownData = [
     label: 'Next Month',
   },
 ];
-export const inventoryFilterFormDefaultValues = {
-  assetType: '',
-  usedBy: '',
-  department: '',
-  locations: '',
-  createdDate: '',
-  updatedDate: '',
-  impact: '',
-  createdBy: '',
-  assetLifeExpiry: '',
-};
 
-export const inventoryFilterFormDefaultValuesFunction = (
-  data: any = inventoryFilterFormDefaultValues,
-) => {
+export const inventoryFilterFormDefaultValuesFunction = (data?: any) => {
   return {
-    assetType: data?.assetType,
-    usedBy: data?.usedBy,
-    department: data?.department,
-    locations: data?.locations,
-    createdDate: data?.createdDate,
-    updatedDate: data?.updatedDate,
-    impact: data?.impact,
-    createdBy: data?.createdBy,
-    assetLifeExpiry: data?.assetLifeExpiry,
+    assetType: data?.assetType ?? '',
+    usedBy: data?.usedBy ?? '',
+    department: data?.department ?? '',
+    locations: data?.locations ?? '',
+    createdDate: data?.createdDate ?? '',
+    updatedDate: data?.updatedDate ?? '',
+    impact: data?.impact ?? '',
+    createdBy: data?.createdBy ?? '',
+    assetLifeExpiry: data?.assetLifeExpiry ?? '',
   };
 };
 
-export const inventoryFilterFormSchema: any = Yup.object().shape({
-  assetType: Yup.string(),
-  usedBy: Yup.string(),
-  department: Yup.string(),
-  locations: Yup.string(),
-  createdDate: Yup.string(),
-  updatedDate: Yup.string(),
-  impact: Yup.string(),
-  createdBy: Yup.string(),
-  assetLifeExpiry: Yup.string(),
+export const inventoryFilterFormSchema: any = Yup?.object()?.shape({
+  assetType: Yup?.string(),
+  usedBy: Yup?.string(),
+  department: Yup?.string(),
+  locations: Yup?.string(),
+  createdDate: Yup?.string(),
+  updatedDate: Yup?.string(),
+  impact: Yup?.string(),
+  createdBy: Yup?.string(),
+  assetLifeExpiry: Yup?.string(),
 });
 
 export const inventoryFilterFormFieldsDataFunction = (
@@ -162,7 +149,7 @@ export const inventoryFilterFormFieldsDataFunction = (
       name: 'assetType',
       label: 'Asset Type',
       select: true,
-      options: dropdownDummy,
+      options: assetTypeOptions,
       disabled: isFieldDisable,
     },
   },
@@ -207,7 +194,7 @@ export const inventoryFilterFormFieldsDataFunction = (
       label: 'Created Date',
       disabled: isFieldDisable,
       select: true,
-      options: dropdownDummy,
+      options: dateOptions,
     },
     gridLength: 12,
     component: RHFSelect,
@@ -219,7 +206,7 @@ export const inventoryFilterFormFieldsDataFunction = (
       name: 'updatedDate',
       label: 'Updated Date',
       select: true,
-      options: dropdownDummy,
+      options: dateOptions,
       disabled: isFieldDisable,
     },
     gridLength: 12,
@@ -259,7 +246,7 @@ export const inventoryFilterFormFieldsDataFunction = (
       name: 'assetLifeExpiry',
       label: 'Asset Life Expire On',
       select: true,
-      options: dropdownDummy,
+      options: assetLifeExpiryOptions,
       disabled: isFieldDisable,
     },
   },

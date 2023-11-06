@@ -23,11 +23,7 @@ const selectOptions = [
   },
   { value: 'Figma', title: 'Figma', des: ` Figma Available contract: 1` },
 ];
-const buttonContainerStyle = {
-  display: 'flex',
-  justifyContent: 'flex-end',
-  margin: 'auto',
-};
+
 export const UsersAdd = () => {
   const [isModalOpen, setModalOpen] = useState(false);
 
@@ -50,12 +46,6 @@ export const UsersAdd = () => {
               onClick={openModal}
               startIcon={<AddCircleIcon />}
               color="secondary"
-              sx={{
-                p: 2,
-                '&:hover': {
-                  backgroundColor: '#F3F4F6',
-                },
-              }}
             >
               Add User
             </Button>
@@ -65,7 +55,6 @@ export const UsersAdd = () => {
         <ConversationModel
           open={isModalOpen}
           handleClose={closeModal}
-          // handleSubmit={closeModal}
           selectedItem="Add User"
           okText="Add"
           footer={true}
@@ -90,20 +79,16 @@ export const UsersAdd = () => {
               label="Contract"
             />
           </Box>
-          <Box sx={{ ...buttonContainerStyle, mt: 2 }}>
-            <Button
-              variant="contained"
-              onClick={closeModal}
-              sx={{
-                mr: 2,
-                bgcolor: '#FFF',
-                color: '#6B7280',
-                '&:hover': {
-                  bgcolor: '#FFFFFF',
-                  color: '#6B7280',
-                },
-              }}
-            >
+          <Box
+            gap={2}
+            sx={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+              margin: 'auto',
+              mt: 2,
+            }}
+          >
+            <Button variant="outlined" color="secondary" onClick={closeModal}>
               Cancel
             </Button>
             <Button
