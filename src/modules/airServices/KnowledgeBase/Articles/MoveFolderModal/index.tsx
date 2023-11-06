@@ -29,7 +29,7 @@ export const MoveFolderModal = ({
         <Box mt={2}>
           <FormProvider
             methods={methodMoveFolderForm}
-            onSubmit={methodMoveFolderForm.handleSubmit(submitMoveFolder)}
+            onSubmit={methodMoveFolderForm?.handleSubmit(submitMoveFolder)}
           >
             <Grid container spacing={1}>
               {moveFolderFields?.map((item: any) => (
