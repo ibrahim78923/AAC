@@ -46,7 +46,8 @@ export const styles = {
       border: `1px solid ${theme?.palette?.custom.off_white_three}`,
       padding: '2rem',
       display: 'flex',
-      justifyContent: 'space-between',
+      justifyContent: 'center',
+      alignItems: 'center',
       borderRadius: '8px',
     };
   },

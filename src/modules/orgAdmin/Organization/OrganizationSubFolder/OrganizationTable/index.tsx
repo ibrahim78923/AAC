@@ -16,34 +16,31 @@ import {
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 
-import { FormProvider } from '@/components/ReactHookForm';
+import {
+  FormProvider,
+  RHFSelect,
+  RHFTextField,
+} from '@/components/ReactHookForm';
 import Search from '@/components/Search';
 import CommonDrawer from '@/components/CommonDrawer';
 import TanstackTable from '@/components/Tabel/TanstackTable';
 import CustomPagination from '@/components/CustomPagination';
 import { AlertModals } from '@/components/AlertModals';
 
-import {
-  dataArray,
-  defaultValues,
-  validationSchema,
-  columns,
-} from './OrganizationTable.data';
+import { dataArray } from './OrganizationTable.data';
 
-import { organizationTableData } from '@/mock/modules/orgAdmin/OrganizationAdmin';
 import useOrganizationTable from './useOrganizationTable';
 
 import { FeaturedImage, AddCircleImage, ComLogoImage } from '@/assets/images';
 import { AddPenIcon, EraserIcon } from '@/assets/icons';
 
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { v4 as uuidv4 } from 'uuid';
 
 import { styles } from './OrganizationTable.style';
 
-const OrganizationTable = ({ initialValueProps = defaultValues }: any) => {
+const OrganizationTable = () => {
   const {
+    tableRow,
     isOpenDrawer,
     setIsOpenDrawer,
     isOpenDelete,
@@ -56,18 +53,16 @@ const OrganizationTable = ({ initialValueProps = defaultValues }: any) => {
     open,
     theme,
     toggle,
+    isToggled,
     handleClick,
     handleClose,
+    handleSubmit,
+    methods,
+    onSubmit,
+    tablePagination,
+    isChecked,
+    getRowValues,
   } = useOrganizationTable();
-
-  const methods: any = useForm({
-    resolver: yupResolver(validationSchema),
-    defaultValues: initialValueProps,
-  });
-
-  const { handleSubmit } = methods;
-
-  const onSubmit = async () => {};
 
   return (
     <>
@@ -82,27 +77,35 @@ const OrganizationTable = ({ initialValueProps = defaultValues }: any) => {
         footer={true}
         submitHandler={handleSubmit(onSubmit)}
       >
-        <Typography variant="h5">Company Logo</Typography>
-        <center>
-          <Box sx={{ position: 'relative' }}>
-            <Box
-              sx={{
-                border: `1px solid ${theme?.palette?.grey[700]}`,
-                borderRadius: '100px',
-                width: '120px',
-                height: '120px',
-                boxShadow:
-                  '0px 2px 4px -2px #1018280F, 5px 5px 9px -2px #1018281A',
-              }}
-            ></Box>
-            <Box sx={{ position: 'absolute', right: '165px', bottom: 0 }}>
-              <AddPenIcon />
-            </Box>
-          </Box>
-        </center>
-        <Typography variant="h5">Products</Typography>
         <Box sx={{ paddingTop: '1rem' }}>
           <FormProvider methods={methods}>
+            <Typography variant="h5">Company Logo</Typography>
+            <center>
+              <Box sx={{ position: 'relative' }}>
+                <Box
+                  sx={{
+                    border: `1px solid ${theme?.palette?.grey[700]}`,
+                    borderRadius: '100px',
+                    width: '120px',
+                    height: '120px',
+                    boxShadow:
+                      '0px 2px 4px -2px #1018280F, 5px 5px 9px -2px #1018281A',
+                  }}
+                ></Box>
+                <Box
+                  onClick={() => {}}
+                  sx={{
+                    position: 'absolute',
+                    right: '165px',
+                    bottom: 0,
+                    cursor: 'pointer',
+                  }}
+                >
+                  <AddPenIcon />
+                </Box>
+              </Box>
+            </center>
+            <Typography variant="h5">Products</Typography>
             <Box
               sx={{
                 display: 'flex',
@@ -112,24 +115,24 @@ const OrganizationTable = ({ initialValueProps = defaultValues }: any) => {
                 marginBottom: '1rem',
               }}
             >
-              <Box sx={styles.productCard}>
+              <Box sx={styles?.productCard}>
                 <Checkbox
                   sx={{
                     marginLeft: '7rem',
                   }}
                 />
-                <Box sx={styles.productItem}>
+                <Box sx={styles?.productItem}>
                   <Image src={FeaturedImage} alt="1" />
                   <Typography>Sales</Typography>
                 </Box>
               </Box>
-              <Box sx={styles.productCard}>
+              <Box sx={styles?.productCard}>
                 <Checkbox
                   sx={{
                     marginLeft: '7rem',
                   }}
                 />
-                <Box sx={styles.productItem}>
+                <Box sx={styles?.productItem}>
                   <Image src={FeaturedImage} alt="1" />
                   <Typography>Marketing</Typography>
                 </Box>
@@ -140,18 +143,18 @@ const OrganizationTable = ({ initialValueProps = defaultValues }: any) => {
                     marginLeft: '7rem',
                   }}
                 />
-                <Box sx={styles.productItem}>
+                <Box sx={styles?.productItem}>
                   <Image src={FeaturedImage} alt="1" />
                   <Typography>Service</Typography>
                 </Box>
               </Box>
-              <Box sx={styles.productCard}>
+              <Box sx={styles?.productCard}>
                 <Checkbox
                   sx={{
                     marginLeft: '7rem',
                   }}
                 />
-                <Box sx={styles.productItem}>
+                <Box sx={styles?.productItem}>
                   <Image src={FeaturedImage} alt="1" />
                   <Typography>Operation</Typography>
                 </Box>
@@ -169,7 +172,12 @@ const OrganizationTable = ({ initialValueProps = defaultValues }: any) => {
                       }}
                     >
                       <InputAdornment
-                        sx={{ position: 'absolute', top: 20, right: 15 }}
+                        sx={{
+                          position: 'absolute',
+                          top: 20,
+                          right: 15,
+                          zIndex: 9999,
+                        }}
                         position="end"
                       >
                         <Box
@@ -181,14 +189,16 @@ const OrganizationTable = ({ initialValueProps = defaultValues }: any) => {
                         >
                           <EraserIcon />
                           <BorderColorIcon
-                            onClick={() => toggle(true)}
-                            sx={{ cursor: 'pointer', fontSize: '18px' }}
+                            onClick={() => {
+                              toggle(true);
+                            }}
+                            sx={{ cursor: 'pointer', fontSize: '20px' }}
                           />
                         </Box>
                       </InputAdornment>
                     </Box>
                   )}
-                  <item.component {...item.componentProps} size={'small'}>
+                  <item.component {...item?.componentProps} size={'small'}>
                     {item?.componentProps?.select &&
                       item?.options?.map((option: any) => (
                         <option key={uuidv4()} value={option?.value}>
@@ -199,6 +209,62 @@ const OrganizationTable = ({ initialValueProps = defaultValues }: any) => {
                 </Grid>
               ))}
             </Grid>
+            {isToggled && (
+              <Grid container spacing={2} sx={{ paddingTop: '1rem' }}>
+                <Grid item xs={12}>
+                  <RHFTextField
+                    name="unit"
+                    label="Flat/Unit"
+                    fullWidth={true}
+                    select={false}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <RHFTextField
+                    name="buildingName"
+                    label="Building Name"
+                    fullWidth={true}
+                    select={false}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <RHFTextField
+                    name="buildingNumber"
+                    label="Building Number"
+                    fullWidth={true}
+                    select={false}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <RHFTextField
+                    name="streetName"
+                    label="Street Name"
+                    fullWidth={true}
+                    select={false}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <RHFTextField
+                    name="city"
+                    label="Town/City"
+                    fullWidth={true}
+                    select={false}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <RHFSelect
+                    name="country"
+                    label="Country"
+                    fullWidth={true}
+                    select={true}
+                    options={[
+                      { value: 'United Kingdom', label: 'United Kingdom' },
+                      { value: 'United Kingdom', label: 'United Kingdom' },
+                    ]}
+                  />
+                </Grid>
+              </Grid>
+            )}
           </FormProvider>
         </Box>
       </CommonDrawer>
@@ -296,7 +362,7 @@ const OrganizationTable = ({ initialValueProps = defaultValues }: any) => {
             <Grid container spacing={4}>
               {dataArray?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                  <item.component {...item.componentProps} size={'small'}>
+                  <item.component {...item?.componentProps} size={'small'}>
                     {item?.componentProps?.select &&
                       item?.options?.map((option: any) => (
                         <option key={uuidv4()} value={option?.value}>
@@ -328,19 +394,20 @@ const OrganizationTable = ({ initialValueProps = defaultValues }: any) => {
                 display: 'flex',
                 justifyContent: 'flex-end',
                 flexWrap: 'wrap',
-                columnGap: '10px',
+                gap: '10px',
               }}
             >
               <Button
-                sx={styles.actionButton(theme)}
+                sx={styles?.actionButton(theme)}
                 aria-controls={open ? 'basic-menu' : undefined}
                 aria-haspopup="true"
                 aria-expanded={open ? 'true' : undefined}
                 onClick={handleClick}
+                disabled={!isChecked}
               >
                 Action
                 <ArrowDropDownIcon
-                  sx={{ color: `${theme?.palette?.custom.main}` }}
+                  sx={{ color: `${theme?.palette?.custom?.main}` }}
                 />
               </Button>
               <Menu
@@ -375,11 +442,11 @@ const OrganizationTable = ({ initialValueProps = defaultValues }: any) => {
           </Grid>
         </Grid>
       </Box>
-      <Grid>
-        <TanstackTable columns={columns} data={organizationTableData} />
+      <Grid sx={{ marginTop: '1rem' }}>
+        <TanstackTable columns={getRowValues} data={tableRow} />
         <CustomPagination
           count={1}
-          rowsPerPageOptions={[1, 2]}
+          rowsPerPageOptions={tablePagination}
           entriePages={1}
         />
       </Grid>

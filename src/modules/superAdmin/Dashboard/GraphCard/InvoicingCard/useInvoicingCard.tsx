@@ -1,94 +1,65 @@
-import { useState } from 'react';
-
 import { Theme, useTheme } from '@mui/material';
 
 const useInvoicingCard = () => {
   const theme = useTheme<Theme>();
-
-  const [series] = useState([100]);
-  const [options] = useState<any>({
+  const series = [50.3, 54.1, 41.8];
+  const sumOfThreeValues = series.slice(0, 3).reduce((a, b) => a + b, 0);
+  const options: any = {
+    series: [50.3, 54.1, 41.8],
     chart: {
-      height: 350,
-      type: 'radialBar',
-      toolbar: {
-        show: true,
-      },
+      type: 'donut',
     },
+    colors: ['#47B263', '#FF4A4A', '#0AADC7'],
     plotOptions: {
-      radialBar: {
-        startAngle: -135,
-        endAngle: 225,
-        hollow: {
-          margin: 0,
-          size: '70%',
-          background: '#fff',
-          image: undefined,
-          imageOffsetX: 0,
-          imageOffsetY: 0,
-          position: 'front',
-          dropShadow: {
-            enabled: true,
-            top: 3,
-            left: 0,
-            blur: 4,
-            opacity: 0.24,
-          },
-        },
-        track: {
-          background: '#fff',
-          strokeWidth: '67%',
-          margin: 0,
-          dropShadow: {
-            enabled: true,
-            top: -3,
-            left: 0,
-            blur: 4,
-            opacity: 0.35,
-          },
-          dataLabels: {
+      pie: {
+        startAngle: -110,
+        endAngle: 110,
+        offsetY: -5,
+        donut: {
+          labels: {
             show: true,
-            name: {
-              offsetY: -10,
+            total: {
+              showAlways: true,
               show: true,
-              color: '#888',
-              fontSize: '17px',
-            },
-            value: {
-              formatter: function (val: any) {
-                return parseInt(val);
+              formatter: function () {
+                return '€' + sumOfThreeValues.toFixed(1) + 'k';
               },
-              color: '#111',
-              fontSize: '36px',
-              show: true,
             },
           },
         },
+        tooltip: {
+          show: false,
+        },
       },
     },
-    fill: {
-      type: 'gradient',
-      gradient: {
-        shade: 'light',
-        type: 'horizontal',
-        shadeIntensity: 0,
-        gradientToColors: [
-          `${theme.palette.error.main}`,
-          `${theme?.palette?.custom.bright}`,
-          `${theme?.palette?.success.main}`,
-        ],
-        inverseColors: true,
-        opacityFrom: 1,
-        opacityTo: 1,
-        stops: [0, 200],
+    dataLabels: {
+      enabled: false,
+    },
+    legend: {
+      show: false,
+    },
+    labels: ['Invoice paid', 'Follow up soon', 'Follow up now'],
+    grid: {
+      padding: {
+        bottom: -80,
       },
     },
-    stroke: {
-      lineCap: 'round',
-    },
-    labels: ['Total Revenue'],
-  });
+    responsive: [
+      {
+        breakpoint: 480,
+        options: {
+          chart: {
+            width: 200,
+          },
+          legend: {
+            position: 'bottom',
+          },
+        },
+      },
+    ],
+    label: ['Total'],
+  };
   return {
-    series,
     options,
     theme,
   };

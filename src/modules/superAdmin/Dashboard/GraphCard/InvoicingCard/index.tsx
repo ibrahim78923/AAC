@@ -4,10 +4,10 @@ import dynamic from 'next/dynamic';
 
 import { Box, Typography, Grid } from '@mui/material';
 
-import useEnquiriesCards from '../EnquiresCard/useEnquiriesCards';
+import useInvoicingCard from './useInvoicingCard';
 
 const InvoicingCard = () => {
-  const { series, options, theme } = useEnquiriesCards();
+  const { options, theme } = useInvoicingCard();
   const ReactApexChart = dynamic(() => import('react-apexcharts'), {
     ssr: false,
   });
@@ -109,9 +109,9 @@ const InvoicingCard = () => {
           >
             <ReactApexChart
               options={options}
-              series={series}
-              type="radialBar"
-              height={230}
+              series={options.series}
+              type="donut"
+              height={290}
             />
           </Grid>
         </Grid>

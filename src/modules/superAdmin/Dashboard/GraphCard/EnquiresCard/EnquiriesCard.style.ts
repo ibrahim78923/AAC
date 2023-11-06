@@ -3,12 +3,15 @@ export const style = {
     return {
       border: `1px solid ${theme?.palette?.grey[700]}`,
       borderRadius: '8px',
-      padding: '1rem',
-      display: 'flex',
-      justifyContent: 'space-between',
-      cursor: 'pointer',
+      paddingLeft: '16px',
+      paddingTop: '16px',
       background:
         'linear-gradient(180deg, rgba(96, 213, 196, 0.084) 0%, rgba(96, 213, 196, 0) 100%)',
+    };
+  },
+  chartBox: () => {
+    return {
+      paddingLeft: '10rem',
     };
   },
   completePercent: (theme: any) => {
@@ -19,6 +22,8 @@ export const style = {
       paddingRight: '5px',
       paddingTop: '2px',
       paddingBottom: '2px',
+      fontWeight: 400,
+      color: `${theme?.palette?.common.white}`,
     };
   },
   pendingPercent: (theme: any) => {
@@ -29,6 +34,8 @@ export const style = {
       paddingRight: '5px',
       paddingTop: '2px',
       paddingBottom: '2px',
+      fontWeight: 400,
+      color: `${theme?.palette?.common.white}`,
     };
   },
   enquryTypo: () => {

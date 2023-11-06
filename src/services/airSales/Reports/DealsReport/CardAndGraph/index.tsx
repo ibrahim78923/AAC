@@ -76,26 +76,16 @@ const CardAndGraphs = () => {
               borderRadius: '8px',
             }}
           >
-            <Box>
-              <Typography variant="h5" sx={{ color: '#374151' }}>
-                Deals Analytics
-              </Typography>
-            </Box>
             <ReactApexChart
               options={optionsBar}
               series={seriesBar}
               type="bar"
-              height={290}
+              height={320}
             />
           </Box>
         </Grid>
         <Grid item lg={6}>
           <Box sx={styles.pieChart(theme)}>
-            <Box>
-              <Typography variant="h5" sx={{ color: '#374151' }}>
-                Deals Analytics
-              </Typography>
-            </Box>
             <ReactApexChart
               options={options}
               series={series}

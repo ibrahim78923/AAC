@@ -21,16 +21,6 @@ export const options: any = {
       },
     },
   ],
-  legend: {
-    position: 'right',
-    fontSize: '14px',
-    fontWeight: 500,
-    offsetY: 45,
-    color: '#374151',
-    itemMargin: {
-      vertical: 16,
-    },
-  },
 };
 
 const colorsBar = ['#FF4A4A', '#47B263', '#0AADC7'];
@@ -52,11 +42,7 @@ export const seriesBar = [
 export const optionsBar: any = {
   chart: {
     type: 'bar',
-    toolbar: {
-      show: false,
-    },
   },
-
   plotOptions: {
     bar: {
       horizontal: false,
@@ -69,7 +55,6 @@ export const optionsBar: any = {
   dataLabels: {
     enabled: false,
   },
-
   stroke: {
     show: true,
     width: 2,
@@ -91,16 +76,7 @@ export const optionsBar: any = {
       'Dec',
     ],
   },
-  legend: {
-    position: 'top',
-    horizontalAlign: 'right',
-    itemMargin: {
-      horizontal: 16,
-    },
-    markers: {
-      radius: 12,
-    },
-  },
+
   fill: {
     opacity: 1,
   },
