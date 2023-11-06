@@ -1,16 +1,16 @@
 import { Grid, Typography, Button, Box } from '@mui/material';
 
 import Search from '@/components/Search';
-import TanstackTable from '@/components/Tabel/TanstackTable';
-import CustomPagination from '@/components/CustomPagination';
-
 import GenerateInvoice from '../GenerateInvoice';
+import TanstackTable from '@/components/Table/TanstackTable';
+import CustomPagination from '@/components/CustomPagination';
 import ViewBillingDetails from '../ViewBillingDetails';
 import EditForm from '../EditForm';
 import MenuItems from './MenuOptions';
 
 import useBillingAndInvoices from './useBillingAndInvoices';
 import CommonDrawer from '@/components/CommonDrawer';
+import PlusIcon from '@/assets/icons/shared/plus-shared';
 import { FormProvider } from '@/components/ReactHookForm';
 import { styles } from '../Invoices/Invoices.style';
 import { FilterSharedIcon } from '@/assets/icons';
@@ -56,6 +56,7 @@ const BillingAndInvoicesTable = () => {
                 setIsOpenDrawer(true);
                 setIsEditModal(false);
               }}
+              startIcon={<PlusIcon />}
               variant="contained"
               className="small"
             >

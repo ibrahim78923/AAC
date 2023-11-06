@@ -12,7 +12,7 @@ import {
 import { ViewInvoicesI } from './ViewInvoices.interface';
 import { CloseModalIcon, LogoIcon } from '@/assets/icons';
 import { styles } from './ViewInvoices.style';
-import TanstackTable from '@/components/Tabel/TanstackTable';
+import TanstackTable from '@/components/Table/TanstackTable';
 import { invoiceProducData } from '@/mock/modules/SubscriptionAndInvoices';
 import { AvatarImage } from '@/assets/images';
 

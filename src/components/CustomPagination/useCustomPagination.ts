@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export function useCustomPaginationState() {
+export function useCustomPagination() {
   const [rowsPerPage, setRowsPerPage] = useState<number>(10);
   const [page, setPage] = useState<number>(1);
 

@@ -5,7 +5,11 @@ import { useFormContext } from 'react-hook-form';
 import { AttachFileIcon } from '@/assets/icons';
 
 export default function RHFDropZone({ name }: any) {
-  const { setValue, getValues } = useFormContext();
+  const {
+    setValue,
+    getValues,
+    formState: { errors },
+  }: any = useFormContext();
   const theme = useTheme();
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
     multiple: false,
@@ -20,43 +24,50 @@ export default function RHFDropZone({ name }: any) {
   });
 
   return (
-    <Box
-      {...getRootProps()}
-      sx={{
-        border: '1px solid #e0e0e0',
-        borderRadius: '8px',
-        padding: '20px',
-        textAlign: 'center',
-        cursor: 'pointer',
-      }}
-    >
-      <input {...getInputProps()} />
+    <>
+      <Box
+        {...getRootProps()}
+        sx={{
+          border: '1px solid #e0e0e0',
+          borderRadius: '8px',
+          padding: '20px',
+          textAlign: 'center',
+          cursor: 'pointer',
+        }}
+      >
+        <input {...getInputProps()} />
 
-      {!!getValues(name)?.name ? (
-        <Typography variant="body2">
-          {acceptedFiles?.[0]?.name || getValues(name)?.name}
-        </Typography>
-      ) : (
-        <Box>
-          <AttachFileIcon />
-          <Typography variant="body1" fontWeight={'bold'}>
-            Attach a file
-          </Typography>
+        {!!getValues(name)?.name ? (
           <Typography variant="body2">
-            <Typography
-              component="span"
-              fontSize={12}
-              color={theme.palette.primary.main}
-            >
-              Click to upload{' '}
+            {acceptedFiles?.[0]?.name || getValues(name)?.name}
+          </Typography>
+        ) : (
+          <Box>
+            <AttachFileIcon />
+            <Typography variant="body1" fontWeight={'bold'}>
+              Attach a file
             </Typography>
-            or drag and drop
-          </Typography>
-          <Typography component="span" fontSize={12}>
-            SVG, PNG, JPG or GIF orGIF (max 2.44 MB)
-          </Typography>
-        </Box>
+            <Typography variant="body2">
+              <Typography
+                component="span"
+                fontSize={12}
+                color={theme.palette.primary.main}
+              >
+                Click to upload{' '}
+              </Typography>
+              or drag and drop
+            </Typography>
+            <Typography component="span" fontSize={12}>
+              SVG, PNG, JPG or GIF orGIF (max 2.44 MB)
+            </Typography>
+          </Box>
+        )}
+      </Box>
+      {!!errors[name] && !!!getValues(name)?.name && (
+        <Typography variant="body2" color="error">
+          {errors[name]?.message}
+        </Typography>
       )}
-    </Box>
+    </>
   );
 }

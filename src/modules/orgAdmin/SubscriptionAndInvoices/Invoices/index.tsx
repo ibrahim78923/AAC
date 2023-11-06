@@ -1,5 +1,5 @@
 import { Box, Grid, Button, Menu, MenuItem } from '@mui/material';
-import TanstackTable from '@/components/Tabel/TanstackTable';
+import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
 import CustomPagination from '@/components/CustomPagination';
 import CommonDrawer from '@/components/CommonDrawer';

@@ -11,7 +11,7 @@ import {
   useTheme,
 } from '@mui/material';
 
-import TanstackTable from '@/components/Tabel/TanstackTable';
+import TanstackTable from '@/components/Table/TanstackTable';
 
 import { columns } from './UserInfo.data';
 
