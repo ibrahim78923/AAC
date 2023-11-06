@@ -1,13 +1,15 @@
 export const styles: any = {
-  iconBoxStyling: {
-    width: '32px',
-    height: '32px',
-    border: '1px solid #D1D5DB',
-    borderRadius: '8px ',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    margin: '4px',
+  iconBoxStyling: (theme: any) => {
+    return {
+      width: '32px',
+      height: '32px',
+      border: `1px solid ${theme?.palette?.custom?.dark}`,
+      borderRadius: '8px ',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      margin: '4px',
+    };
   },
 
   iconKabaMenuStyle: {
@@ -22,7 +24,7 @@ export const styles: any = {
   iconBoxTimerStyling: {
     width: '80px',
     height: '32px',
-    border: '0px solid #D1D5DB',
+    border: 'none',
     borderRadius: '8px ',
     display: 'flex',
     justifyContent: 'center',
@@ -36,22 +38,26 @@ export const styles: any = {
     width: '100%',
     height: '100%',
   },
-  timeEnterMainGride: {
-    justifyContent: 'space-between',
-    display: 'flex',
-    flexDirection: 'row',
-    maxWidth: '100%',
-    marginTop: '4rem',
-    border: '2px solid #EAECF0',
-    borderRadius: '8px',
+  timeEnterMainGride: (theme: any) => {
+    return {
+      justifyContent: 'space-between',
+      display: 'flex',
+      flexDirection: 'row',
+      maxWidth: '100%',
+      marginTop: '4rem',
+      border: `2px solid ${theme?.palette?.custom?.dark}`,
+      borderRadius: '8px',
+    };
   },
-  timeEnterSecGride: {
-    justifyContent: 'space-between',
-    display: 'flex',
-    flexDirection: 'row',
-    maxWidth: '100%',
-    border: '2px solid #EAECF0',
-    borderRadius: '8px',
+  timeEnterSecGride: (theme: any) => {
+    return {
+      justifyContent: 'space-between',
+      display: 'flex',
+      flexDirection: 'row',
+      maxWidth: '100%',
+      border: `2px solid ${theme?.palette?.custom?.dark}`,
+      borderRadius: '8px',
+    };
   },
   timeEnterInnerGrid: {
     display: 'flex',

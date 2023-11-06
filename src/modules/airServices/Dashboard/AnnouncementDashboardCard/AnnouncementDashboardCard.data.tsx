@@ -1,4 +1,4 @@
-import AnnouncementAvatar from '@/assets/images/modules/airServices/Dashboard/announcement-avatar.png';
+import AnnouncementAvatar from '@/assets/images/modules/airServices/Dashboard/Avatar.png';
 
 export const announcementDashboardCardData = [
   {

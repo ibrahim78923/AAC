@@ -1,13 +1,13 @@
-import { pdfImage, xlsImage, docImage } from '@/assets/images';
+import { PdfImage, XlsImage, DocImage } from '@/assets/images';
 import { useTheme } from '@mui/material';
 import { useState } from 'react';
 
 export const useAttachFileCard = () => {
   const getImageByType = (data: any) => {
     const imageData: any = {
-      pdf: pdfImage,
-      xls: xlsImage,
-      doc: docImage,
+      pdf: PdfImage,
+      xls: XlsImage,
+      doc: DocImage,
     };
     return imageData?.[data?.type] || data?.image;
   };

@@ -11,6 +11,7 @@ import SoftwareFilter from './SoftwareFilter';
 import SoftwareAssignCategory from './SoftwareAssignCategory';
 import { UpsertSoftware } from './UpsertSoftware';
 import { useRouter } from 'next/router';
+import CustomPagination from '@/components/CustomPagination';
 
 function Software() {
   const [isAddDrawerOpen, setIsAddDrawerOpen] = useState<boolean>(false);
@@ -71,6 +72,11 @@ function Software() {
         <TanstackTable
           data={data}
           columns={columns(softwareData, setSoftwareData, data, theme, router)}
+        />
+        <CustomPagination
+          count={1}
+          rowsPerPageOptions={[1, 2]}
+          entriePages={1}
         />
       </Box>
 

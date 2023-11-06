@@ -2,8 +2,8 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import { AlertModals } from '@/components/AlertModals';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import {
-  AssociatesListsData,
-  AssociatesListsColumnFunction,
+  associatesListsData,
+  associatesListsColumnFunction,
 } from './AssociatesList.data';
 import { useAssociatesLists } from './useAssociatesList';
 import { AddAssociationsDrawer } from '../AddAssociationsDrawer';
@@ -31,8 +31,8 @@ export const AssociatesLists = () => {
 
       <br />
       <TanstackTable
-        columns={AssociatesListsColumnFunction(setDeleteModal, theme)}
-        data={AssociatesListsData}
+        columns={associatesListsColumnFunction(setDeleteModal, theme)}
+        data={associatesListsData}
       />
       <AlertModals
         open={deleteModal}

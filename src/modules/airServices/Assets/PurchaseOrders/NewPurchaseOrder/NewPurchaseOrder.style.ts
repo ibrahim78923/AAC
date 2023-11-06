@@ -1,6 +1,4 @@
-import { useTheme } from '@mui/material/styles';
 export const styles = () => {
-  const { palette }: any = useTheme();
   return {
     flexBetween: {
       display: 'flex',
@@ -8,23 +6,29 @@ export const styles = () => {
       alignItems: 'center',
       justifyContent: 'space-between',
     },
-    mainWrapper: {
-      borderRadius: '12px',
-      border: `1px solid ${palette?.custom?.off_white}`,
-      boxShadow: `0px 1px 3px 0px ${palette?.custom?.transparent_dark_blue}`,
-      padding: 2.4,
-      height: 780,
-      overflow: 'scroll',
+    mainWrapper: (theme: any) => {
+      return {
+        borderRadius: '12px',
+        border: `1px solid ${theme?.palette?.custom?.off_white}`,
+        boxShadow: `0px 1px 3px 0px ${theme?.palette?.custom?.transparent_dark_blue}`,
+        padding: 2.4,
+        height: 780,
+        overflow: 'scroll',
+      };
     },
-    mainHeading: {
-      color: palette?.slateBlue?.main,
+    mainHeading: (theme: any) => {
+      return {
+        color: theme?.palette?.slateBlue?.main,
+      };
     },
-    subHeading: {
-      color: palette?.custom?.main,
-      fontWeight: 600,
-      fontSize: 20,
-      lineHeight: '30px',
-      pb: 2.4,
+    subHeading: (theme: any) => {
+      return {
+        color: theme?.palette?.custom?.main,
+        fontWeight: 600,
+        fontSize: 20,
+        lineHeight: '30px',
+        pb: 2.4,
+      };
     },
   };
 };

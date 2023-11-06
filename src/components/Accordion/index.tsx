@@ -10,13 +10,13 @@ const Accordion: React.FC<AccordionItemI> = ({ sectionTitle, children }) => {
   return (
     <div>
       <AccordionSummary
-        style={styleArr[0].accordionStyle}
+        style={styleArr?.accordionStyle}
         onClick={handleAccordionClick}
         expandIcon={isActive ? <ArrowUpIcon /> : <ArrowDownIcon />}
       >
         {sectionTitle}
       </AccordionSummary>
-      <Collapse in={isActive} sx={styleArr[0].panelStyle}>
+      <Collapse in={isActive} sx={styleArr?.panelStyle}>
         {children}
       </Collapse>
     </div>

@@ -1,8 +1,8 @@
-export const styles: any = (isActive: boolean) => [
-  {
+export const styles: any = (isActive: boolean) => {
+  return {
     accordionStyle: {
-      backgroundColor: '#35456D',
-      color: '#fff',
+      backgroundColor: 'secondary.main',
+      color: 'common.white',
       cursor: 'pointer',
       padding: '8px 16px',
       width: '100%',
@@ -14,12 +14,11 @@ export const styles: any = (isActive: boolean) => [
       marginTop: '24px',
       bottom: '1px',
     },
-
     panelStyle: {
       paddingTop: '10px',
       display: isActive ? 'block' : 'none',
-      backgroundColor: 'white',
+      backgroundColor: 'common.white',
       overflow: 'hidden',
     },
-  },
-];
+  };
+};

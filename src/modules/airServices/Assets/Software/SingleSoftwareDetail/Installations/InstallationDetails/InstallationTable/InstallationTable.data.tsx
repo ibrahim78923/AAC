@@ -1,7 +1,7 @@
 import { Checkbox } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 
-export const InstallationTableColumns: any = (
+export const installationTableColumns: any = (
   activeCheck: any,
   setActiveCheck: any,
 ) => {
@@ -20,7 +20,7 @@ export const InstallationTableColumns: any = (
             e?.target?.checked
               ? setActiveCheck([
                   ...activeCheck,
-                  InstallationTableData?.find(
+                  installationTableData?.find(
                     (item: any) => item?.Id === info?.getValue(),
                   ),
                 ])
@@ -38,10 +38,10 @@ export const InstallationTableColumns: any = (
         <Checkbox
           icon={<CheckboxIcon />}
           checkedIcon={<CheckboxCheckedIcon />}
-          checked={activeCheck?.length === InstallationTableData?.length}
+          checked={activeCheck?.length === installationTableData?.length}
           onChange={(e: any) => {
             e?.target?.checked
-              ? setActiveCheck([...InstallationTableData])
+              ? setActiveCheck([...installationTableData])
               : setActiveCheck([]);
           }}
           color="primary"
@@ -81,7 +81,7 @@ export const InstallationTableColumns: any = (
     },
   ];
 };
-export const InstallationTableData: any = [
+export const installationTableData: any = [
   {
     Id: 1,
     installationMachine: `Andrea`,
