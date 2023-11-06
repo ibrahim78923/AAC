@@ -2,7 +2,7 @@ import { Box, Typography, useTheme } from '@mui/material';
 import { useTickets } from '../useTickets';
 
 export const TicketsCard = (props: any) => {
-  const { heading, subHeading, created, status, icon } = props;
+  const { id, heading, subHeading, created, status, icon } = props;
   const { handleSingleTickets } = useTickets();
   const theme = useTheme();
   return (
@@ -22,7 +22,7 @@ export const TicketsCard = (props: any) => {
       height={'auto'}
       bgcolor={theme?.palette?.grey?.[100]}
       sx={{ cursor: 'pointer' }}
-      onClick={() => handleSingleTickets()}
+      onClick={() => handleSingleTickets(id)}
     >
       <Box
         display={'flex'}

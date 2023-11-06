@@ -9,6 +9,7 @@ export const KnowledgeBase = () => {
       {knowledgeBaseDataArray?.map((option: any) => (
         <KnowledgeBaseCard
           key={uuidv4()}
+          id={option?.id}
           name={option?.name}
           createdBy={option?.createdBy}
           createdDate={option?.createdDate}

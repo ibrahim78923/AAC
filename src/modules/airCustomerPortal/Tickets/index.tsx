@@ -15,6 +15,7 @@ export const Tickets = () => {
       {ticketsDataArray?.map((option: any) => (
         <TicketsCard
           key={uuidv4()}
+          id={option?.id}
           icon={option?.icon}
           heading={option?.heading}
           subHeading={option?.subHeading}

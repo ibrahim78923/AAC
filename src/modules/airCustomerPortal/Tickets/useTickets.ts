@@ -8,9 +8,10 @@ export const useTickets = () => {
       pathname: AIR_CUSTOMER_PORTAL?.TICKETS,
     });
   };
-  const handleSingleTickets = () => {
+  const handleSingleTickets = (id: any) => {
     router?.push({
       pathname: AIR_CUSTOMER_PORTAL?.SINGLE_TICKETS,
+      query: { id },
     });
   };
   return {
