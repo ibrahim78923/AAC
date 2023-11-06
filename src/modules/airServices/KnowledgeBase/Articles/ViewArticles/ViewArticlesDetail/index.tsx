@@ -1,7 +1,8 @@
 import { Box, Divider, Grid, Typography } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { v4 as uuidv4 } from 'uuid';
-import { ArrowLeftIcon, DotGreyIcon } from '@/assets/icons';
+import FiberManualRecordSharpIcon from '@mui/icons-material/FiberManualRecordSharp';
+import { ArrowLeftIcon } from '@/assets/icons';
 import { AlertModals } from '@/components/AlertModals';
 import { sideData, articleEditorData } from './ViewArticlesDetail.data';
 import { styles } from './ViewArticlesDetail.style';
@@ -88,7 +89,7 @@ export const ViewArticlesDetail = () => {
                           variant="body2"
                           sx={styles?.keywordStyle(theme)}
                         >
-                          {<DotGreyIcon />}
+                          {<FiberManualRecordSharpIcon fontSize={'inherit'} />}
                           {i}
                         </Typography>
                       ))}

@@ -13,7 +13,7 @@ export const styles = {
   keywordStyle: (theme: any) => ({
     display: 'flex',
     alignItems: 'center',
-    gap: 1,
+    gap: 0.5,
     color: theme?.palette?.custom?.main,
     bgcolor: theme?.palette?.grey?.[0],
     p: '4px 12px',
