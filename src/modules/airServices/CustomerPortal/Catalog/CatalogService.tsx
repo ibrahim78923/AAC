@@ -1,0 +1,175 @@
+import { ViewDetailBackArrowIcon } from '@/assets/icons';
+import { Box, Button, Grid, Typography, useTheme } from '@mui/material';
+import { useRouter } from 'next/router';
+import React from 'react';
+import { allsServices } from './Catalog.data';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import Image from 'next/image';
+function CatalogService() {
+  const router = useRouter();
+  const theme: any = useTheme();
+  const data = allsServices.find((x: any) => x?.id == router?.query?.serviceId);
+
+  return (
+    <>
+      <Box
+        display={'flex'}
+        alignItems={'center'}
+        justifyContent={'space-between'}
+        flexWrap={'wrap'}
+      >
+        <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={1}>
+          <ViewDetailBackArrowIcon />
+          <Typography
+            variant="h3"
+            sx={{ color: theme?.palette?.primary?.main }}
+          >
+            Tickets
+          </Typography>
+          <ArrowForwardIosIcon fontSize="small" />
+
+          <Typography variant="h5">{data?.title}</Typography>
+        </Box>
+        <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={2}>
+          <Button
+            color="secondary"
+            variant="outlined"
+            // onClick={() => }
+          >
+            Share
+          </Button>
+        </Box>
+      </Box>
+      <Grid container>
+        <Grid item xs={12} md={6} lg={4} key={data.id}>
+          <Box
+            key={data.id}
+            //   onClick={() => handleClickService?.(data.id)}
+
+            borderRadius={2}
+            border={'0.3rem solid'}
+            borderColor={'primary.lighter'}
+            display={'flex'}
+            flexDirection={'row'}
+            mt={1}
+            mr={3}
+            sx={{ cursor: 'pointer' }}
+          >
+            <Box
+              alignItems={'center'}
+              display={'flex'}
+              justifyContent={'flex-start'}
+              p={2}
+            >
+              <Image
+                src={data.image}
+                height={56}
+                width={58}
+                alt={`Service ${data.id} Image`}
+              />
+            </Box>
+            <Box
+              alignItems={'flex-start'}
+              display={'flex'}
+              justifyContent={'flex-start'}
+              flexDirection={'column'}
+              mt={2}
+            >
+              <Typography variant="h5">{data.title}</Typography>
+
+              <Typography variant="body2" component={'span'}>
+                {data.description}
+              </Typography>
+              <Typography variant="body2" component={'span'}>
+                {data.price}
+              </Typography>
+            </Box>
+          </Box>
+        </Grid>
+      </Grid>
+      <Grid container>
+        <Box m={1}>
+          <Typography variant="h5">{data.title}</Typography>
+          {data.title === 'Adobe Photoshop CC' && (
+            <>
+              <Typography variant="body3">Description:</Typography>
+              <Box maxWidth={'65%'} mb={1}>
+                <Typography variant="body4">
+                  {data?.serviceDescription}
+                </Typography>
+              </Box>
+              <Typography variant="body3">Features:</Typography>
+              <Box maxWidth={'9%'} mb={1}>
+                <Typography variant="body4">{data?.feature}</Typography>
+              </Box>
+              <Box maxWidth={'100%'} mb={1}>
+                <Typography variant="body4">{data?.platform}</Typography>
+              </Box>
+              <Typography variant="body2">System Requirement:</Typography>
+              <Typography variant="body2">Windows:</Typography>
+              <Box maxWidth={'100%'} ml={2}>
+                <ul>
+                  <Typography variant="body4">
+                    <li>
+                      Intel Pentium 4 or AMD Athlon 64 processor (2GHz or
+                      faster)
+                    </li>
+                    <li>
+                      Microsoft Windows 7 with Service Pack 1 or Windows 8
+                    </li>
+                    <li>
+                      1GB of RAM (3GB recommended) for 32-bit; 2GB of RAM (8GB
+                      recommended) for 64-bit
+                    </li>
+                    <li>2GB of available hard-disk space for installation</li>
+                  </Typography>
+                </ul>
+              </Box>
+              <Typography variant="body2">Mac OS:</Typography>
+              <Box maxWidth={'100%'} ml={2}>
+                <ul>
+                  <Typography variant="body4">
+                    <li>Multicore Intel processor with 64-bit support</li>
+                    <li>Mac OS X v10.6.8, v10.7, or v10.8</li>
+                    <li>2GB of RAM (8GB recommended)</li>
+                    <li>2GB of available hard-disk space for installation</li>
+                  </Typography>
+                </ul>
+              </Box>
+            </>
+          )}
+        </Box>
+        <Grid item xs={12}>
+          {data.title === 'Adobe Photoshop CC' ? (
+            <Box
+              display={'flex'}
+              alignItems={'end'}
+              justifyContent={'end'}
+              flexDirection={'row'}
+            >
+              <Button>Cancel</Button>
+              <Button variant="contained" sx={{ ml: '1rem' }}>
+                Place Request
+              </Button>
+            </Box>
+          ) : (
+            <Box
+              display={'flex'}
+              alignItems={'end'}
+              justifyContent={'end'}
+              flexDirection={'row'}
+              mt={'35rem'}
+            >
+              <Button>Cancel</Button>
+              <Button variant="contained" sx={{ ml: '1rem' }}>
+                Place Request
+              </Button>
+            </Box>
+          )}
+        </Grid>
+      </Grid>
+    </>
+  );
+}
+
+export default CatalogService;

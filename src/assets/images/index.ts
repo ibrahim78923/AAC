@@ -106,5 +106,16 @@ export { default as ServiceFeaturedImage } from './modules/catalog/services-feat
 export { default as SoftwareFeaturedImage } from './modules/catalog/software-featured.png';
 export { default as PmFeaturedImage } from './modules/catalog/pm-featured.png';
 export { default as HardwareFeaturedImage } from './modules/catalog/Hardware-featured.png';
-export { default as CatalogLogosAdobePhotoshop } from './modules/catalog/catalog-logos-adobe-photoshop.png';
+export { default as CatalogLogosAdobePhotoshopImage } from './modules/catalog/catalog-logos-adobe-photoshop.png';
 export { default as NoSearchResultFoundImage } from './shared/no-search-result.png';
+export { default as CatalogSkillIllustratorImage } from './modules/catalog/catalog-skill-illustrator.png';
+export { default as CatalogAdobePremiereImage } from './modules/catalog/catalog-adobe-premiere.png';
+export { default as CatalogDatabaseImage } from './modules/catalog/catalog-database.png';
+export { default as CatalogKyoDeviceLaptopImage } from './modules/catalog/catalog-Kyo-Device-Laptop.png';
+export { default as CatalogSkillXdImage } from './modules/catalog/catalog-skill-xd.png';
+export { default as CatalogHopstarterSoftwareAdobeImage } from './modules/catalog/catalog-hopstarter-software-adobe.png';
+export { default as CatalogLogitechMouseImage } from './modules/catalog/catalog-logitech-mouse.png';
+export { default as CatalogGroupZoomImage } from './modules/catalog/catalog-group-zoom.png';
+export { default as CatalogAppleProductsImacImage } from './modules/catalog/catalog-apple-products-imac.png';
+export { default as CatalogMetroUiOsAppleImage } from './modules/catalog/catalog-metroui-os-apple.png';
+export { default as CatalogPhuzionDeviceLaptopImage } from './modules/catalog/catalog-phuzion-device-laptop.png';
