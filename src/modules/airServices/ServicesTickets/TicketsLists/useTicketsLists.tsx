@@ -41,7 +41,7 @@ export const useTicketsLists = () => {
     ticketsListsColumnFunction(
       theme,
       router,
-      ticketList,
+      ticketsListsData,
       selectedTicketList,
       setSelectedTicketList,
       handleChange,
@@ -50,7 +50,7 @@ export const useTicketsLists = () => {
   const ticketsListsColumnPersist = ticketsListsColumnFunction(
     theme,
     router,
-    ticketList,
+    ticketsListsData,
     selectedTicketList,
     setSelectedTicketList,
     handleChange,

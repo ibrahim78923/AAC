@@ -1,4 +1,4 @@
-import AddIconWithBg from '@/assets/icons/shared/add-icon-with-bg-white';
+import AddIconWithBg from '@/assets/icons/shared/add-icon-with-bg-white-icon';
 import { Box, Button, Menu, MenuItem, Typography } from '@mui/material';
 import { menuOptionsAddconversation } from './Conversation.data';
 import { v4 as uuidv4 } from 'uuid';
