@@ -10,6 +10,7 @@ import { PurchaseOrderFilter } from './PurchaseOrderFilter';
 import usePurchaseOrders from './usePurchaseOrders';
 import { filterFields } from './PurchaseOrderFilter/PurchaseOrderFilter.data';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
+import CustomPagination from '@/components/CustomPagination';
 
 function PurchaseOrder() {
   const [purchaseOrderData, setPurchaseOrderData] = useState([]);
@@ -64,6 +65,11 @@ function PurchaseOrder() {
         </Box>
         <br />
         <TanstackTable data={data} columns={purchaseOrderColumns} />
+        <CustomPagination
+          count={1}
+          rowsPerPageOptions={[1, 2]}
+          entriePages={1}
+        />
       </Box>
     </>
   );

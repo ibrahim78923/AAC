@@ -3,7 +3,7 @@ import { Box, Typography, useTheme } from '@mui/material';
 import { purchaseOrderData } from './PurchaseOrder.data';
 import { InventoryCard } from '@/components/InventoryCard/index';
 import { v4 as uuidv4 } from 'uuid';
-import { purchaseImage } from '@/assets/images';
+import { PurchaseImage } from '@/assets/images';
 
 export const PurchaseOrder = () => {
   const theme: any = useTheme();
@@ -34,7 +34,7 @@ export const PurchaseOrder = () => {
         ))
       ) : (
         <NoData
-          image={purchaseImage}
+          image={PurchaseImage}
           message={'No purchase order associated'}
         />
       )}

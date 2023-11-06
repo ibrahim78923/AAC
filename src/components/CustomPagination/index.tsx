@@ -1,6 +1,6 @@
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
-import { Grid, IconButton, Pagination, TablePagination } from '@mui/material';
+import { Box, IconButton, Pagination, TablePagination } from '@mui/material';
 import { CustomPaginationPropsI } from './CustomPagination.interface';
 import { useCustomPagination } from './useCustomPagination';
 import { styles } from './CustomPagination.style';
@@ -24,19 +24,14 @@ const CustomPagination: React.FC<CustomPaginationPropsI> = ({
 
   return (
     <>
-      <Grid
-        container
+      <Box
+        display={'flex'}
         justifyContent={'space-between'}
         alignItems={'center'}
-        px={2.4}
+        flexWrap={'wrap'}
+        gap={2}
       >
-        <Grid
-          item
-          lg={2.5}
-          sm={4}
-          xs={12}
-          sx={{ display: 'flex', mb: { sm: '0', xs: '10px' } }}
-        >
+        <Box>
           <TablePagination
             component="div"
             count={count}
@@ -51,15 +46,8 @@ const CustomPagination: React.FC<CustomPaginationPropsI> = ({
             rowsPerPageOptions={rowsPerPageOptions}
             sx={styles?.tablePaginationStyle(theme)}
           />
-        </Grid>
-        <Grid
-          item
-          lg={3.5}
-          sm={5}
-          xs={12}
-          sx={{ display: 'flex', justifyContent: 'flex-end' }}
-          // pr={2.4}
-        >
+        </Box>
+        <Box display={'flex'}>
           <IconButton
             disabled={page === 1}
             onClick={() => handleChangePage(page - 1)}
@@ -84,8 +72,8 @@ const CustomPagination: React.FC<CustomPaginationPropsI> = ({
           >
             <ArrowCircleRightIcon />
           </IconButton>
-        </Grid>
-      </Grid>
+        </Box>
+      </Box>
     </>
   );
 };

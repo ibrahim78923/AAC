@@ -1,5 +1,6 @@
 import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
 import { Button } from '@mui/material';
+import { v4 as uuidv4 } from 'uuid';
 
 export const itemDetailColumns = [
   'Service Name',
@@ -38,7 +39,7 @@ export const itemDetailFormFieldsFunction = (
     data: (
       <RHFSelect name={`${name}.${index}.priceModel`} size="small">
         {priceModelOptions?.map((option: any) => (
-          <option key={option?.value} value={option?.value}>
+          <option key={uuidv4()} value={option?.value}>
             {option?.label}
           </option>
         ))}
