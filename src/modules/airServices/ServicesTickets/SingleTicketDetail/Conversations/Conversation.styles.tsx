@@ -52,4 +52,13 @@ export const styles = {
     justifyContent: 'flex-end',
     cursor: 'pointer',
   },
+
+  selectDiscuss: (theme: any) => ({
+    background: '#f5f8fb',
+    headerBgColor: theme?.palette?.primary?.main,
+    headerFontSize: '20px',
+    botBubbleColor: '#38CAB5',
+    botFontColor: '#fff',
+    userBubbleColor: '#fff',
+  }),
 };

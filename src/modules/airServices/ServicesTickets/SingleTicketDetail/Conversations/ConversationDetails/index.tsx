@@ -58,7 +58,11 @@ export default function ConversationsDetails() {
           />
         );
       case 'Discuss':
-        return <ConversationDiscuss />;
+        return (
+          <ConversationDiscuss
+            resetSelectedItem={() => setSelectedItem(null)}
+          />
+        );
       default:
         return null;
     }

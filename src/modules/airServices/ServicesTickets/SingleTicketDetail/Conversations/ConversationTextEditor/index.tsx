@@ -2,7 +2,6 @@ import React from 'react';
 import dynamic from 'next/dynamic';
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import 'react-quill/dist/quill.snow.css';
 import { ConversationTextEditorPropsI } from './ConversationTextEditor.interface';
 
@@ -11,7 +10,6 @@ const ReactQuill = dynamic(() => import('react-quill'), {
 });
 
 const ConversationTextEditor = ({
-  title,
   value,
   onChange,
 }: ConversationTextEditorPropsI) => {
@@ -31,7 +29,6 @@ const ConversationTextEditor = ({
 
   return (
     <Box>
-      <Typography>Title: {title}</Typography>
       <Box
         sx={{
           position: 'relative',

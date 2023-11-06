@@ -100,3 +100,10 @@ export const conversationAttachmentFileData = [
     type: 'pdf',
   },
 ];
+export const stepsDiscuss = [
+  {
+    id: '1',
+    message: 'Hello Air AppleCart',
+    end: true,
+  },
+];

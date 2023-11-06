@@ -1,30 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import ChatBot from 'react-simple-chatbot';
 import { ThemeProvider } from 'styled-components';
-import { Box, Drawer } from '@mui/material';
+import { Box, Drawer, useTheme } from '@mui/material';
+import { stepsDiscuss } from '../Conversation.data';
+import { styles } from '../Conversation.styles';
 
 export const script = [{ id: 'msg01', message: ' ' }];
 
-const theme = {
-  background: '#f5f8fb',
-  headerBgColor: '#38CAB5',
-  headerFontColor: '#fff',
-  headerFontSize: '20px',
-  botBubbleColor: '#38CAB5',
-  botFontColor: '#fff',
-  userBubbleColor: '#fff',
-  userFontColor: '#4a4a4a',
-};
-
-const steps = [
-  {
-    id: '1',
-    message: 'Hello Kashif',
-    end: true,
-  },
-];
-
-const ConversationDiscuss = () => {
+const ConversationDiscuss = ({ resetSelectedItem }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   useEffect(() => {
@@ -33,7 +16,9 @@ const ConversationDiscuss = () => {
 
   const handleCloseDrawer = () => {
     setIsDrawerOpen(false);
+    resetSelectedItem();
   };
+  const theme = useTheme();
 
   return (
     <Drawer
@@ -42,9 +27,12 @@ const ConversationDiscuss = () => {
       onClose={handleCloseDrawer}
       PaperProps={{ style: { background: 'transparent' } }}
     >
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={styles?.selectDiscuss(theme)}>
         <Box marginTop={'390px'}>
-          <ChatBot steps={steps} headerTitle="Air Apple Cart (Discuss)" />
+          <ChatBot
+            steps={stepsDiscuss}
+            headerTitle="Air Apple Cart (Discuss)"
+          />
         </Box>
       </ThemeProvider>
     </Drawer>
