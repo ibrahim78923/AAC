@@ -1,11 +1,11 @@
 import TanstackTable from '@/components/Table/TanstackTable';
-import { data, columns } from './RelatedTicketsTable.data';
-import { CreateRelatedTicketsDrawer } from './CreateRelatedTickets/CreateRelatedTicketsDrawer';
+import { data, columns } from './RelatedTickets.data';
 import { useRelatedTickets } from './useRelatedTickets';
 import { RelatedTicketsHeader } from './RelatedTicketsHeader';
+import CreateRelatedTickets from './CreateRelatedTickets';
 
 const RelatedTickets = () => {
-  const { setIsDrawerOpen, isDrawerOpen, setActive, isActive } =
+  const { setIsDrawerOpen, isDrawerOpen, setActive, isActive, theme } =
     useRelatedTickets();
 
   return (
@@ -14,7 +14,7 @@ const RelatedTickets = () => {
         isActive={isActive}
         setIsDrawerOpen={setIsDrawerOpen}
       />
-      <CreateRelatedTicketsDrawer
+      <CreateRelatedTickets
         isDrawerOpen={isDrawerOpen}
         setIsDrawerOpen={setIsDrawerOpen}
       />
@@ -22,7 +22,7 @@ const RelatedTickets = () => {
       <TanstackTable
         data={data}
         activeCheck={isActive}
-        columns={columns(setIsDrawerOpen, isActive, setActive)}
+        columns={columns(setIsDrawerOpen, isActive, setActive, theme)}
       />
     </div>
   );

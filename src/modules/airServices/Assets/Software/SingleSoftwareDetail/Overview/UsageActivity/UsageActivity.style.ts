@@ -1,7 +1,7 @@
 import { styled } from '@mui/material';
 
 export const StyledText = styled('text')(({ theme }) => ({
-  fill: theme.palette.text.primary,
+  fill: theme?.palette?.text?.primary,
   textAnchor: 'middle',
   dominantBaseline: 'central',
   fontSize: '.8rem',
@@ -12,7 +12,7 @@ export const StyledText = styled('text')(({ theme }) => ({
 export const styles = {
   mainBox: (theme: any) => ({
     border: '.1rem solid',
-    borderColor: theme.palette.grey?.[700],
+    borderColor: theme?.palette?.grey?.[700],
     maxWidth: '25rem',
     width: '100%',
     height: '25rem',

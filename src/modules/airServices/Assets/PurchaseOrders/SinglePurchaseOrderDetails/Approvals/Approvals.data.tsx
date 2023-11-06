@@ -1,4 +1,4 @@
-import { placeImage } from '@/assets/images';
+import { PlaceImage } from '@/assets/images';
 import { Fragment } from 'react';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
@@ -79,7 +79,7 @@ export const approvalsStatusObj = (status: any) => {
 
 export const approvalsDataArray = [
   {
-    src: placeImage,
+    src: PlaceImage,
     title: 'John Doe',
     status: 'Received',
     time: 'Wed May 10 2023 00:00:00 GMT+0500 (Pakistan Standard Time)',
@@ -87,7 +87,7 @@ export const approvalsDataArray = [
       'Hi Guys We have been facing issue when we try to reach email server 3 Hi Guys.',
   },
   {
-    src: placeImage,
+    src: PlaceImage,
     title: 'John Doe',
     status: 'RequestSent',
     time: 'Wed May 10 2023 00:00:00 GMT+0500 (Pakistan Standard Time)',
@@ -95,7 +95,7 @@ export const approvalsDataArray = [
       'Hi Guys We have been facing issue when we try to reach email server 3 Hi Guys.',
   },
   {
-    src: placeImage,
+    src: PlaceImage,
     title: 'John Doe',
     status: 'Approved',
     time: 'Wed May 10 2023 00:00:00 GMT+0500 (Pakistan Standard Time)',
@@ -103,7 +103,7 @@ export const approvalsDataArray = [
       'Hi Guys We have been facing issue when we try to reach email server 3 Hi Guys.',
   },
   {
-    src: placeImage,
+    src: PlaceImage,
     title: 'John Doe',
     status: 'Rejected',
     time: 'Wed May 10 2023 00:00:00 GMT+0500 (Pakistan Standard Time)',
@@ -111,7 +111,7 @@ export const approvalsDataArray = [
       'Hi Guys We have been facing issue when we try to reach email server 3 Hi Guys.',
   },
   {
-    src: placeImage,
+    src: PlaceImage,
     title: 'John Doe',
     status: 'Cancelled',
     time: 'Wed May 10 2023 00:00:00 GMT+0500 (Pakistan Standard Time)',
