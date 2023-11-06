@@ -3,7 +3,7 @@ import { activityData } from './Activity.data';
 import NoData from '@/components/NoData';
 import { ActivityTimeline } from './ActivityTimeline';
 import { v4 as uuidv4 } from 'uuid';
-import { NoAssociationFound } from '@/assets/images';
+import { NoAssociationFoundImage } from '@/assets/images';
 
 export const Activity = () => {
   return (
@@ -15,7 +15,10 @@ export const Activity = () => {
             <ActivityTimeline activityData={singleActivity} key={uuidv4()} />
           ))
         ) : (
-          <NoData image={NoAssociationFound} message={'There is no activity'} />
+          <NoData
+            image={NoAssociationFoundImage}
+            message={'There is no activity'}
+          />
         )}
       </Grid>
       <Grid item xs={12} md={1}></Grid>

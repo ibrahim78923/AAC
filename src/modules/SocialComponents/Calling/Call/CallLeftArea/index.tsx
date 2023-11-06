@@ -17,6 +17,11 @@ const CallLeftArea = ({
   activeCallsSelectedData,
   isActiveCalling,
   setIsActiveCalling,
+
+  activeMessageData,
+  setActiveMessageData,
+  isActiveMessage,
+  setIsActiveMessage,
 }: any) => {
   const theme = useTheme();
 
@@ -78,7 +83,16 @@ const CallLeftArea = ({
           setIsActiveCalling={setIsActiveCalling}
         />
       )}
-      {toggleCall === 'messages' && <MessagesGrid />}
+      {toggleCall === 'messages' && (
+        <MessagesGrid
+          activeMessageData={activeMessageData}
+          setActiveMessageData={setActiveMessageData}
+          isActiveMessage={isActiveMessage}
+          setIsActiveMessage={setIsActiveMessage}
+          setActiveCallsSelectedData={setActiveCallsSelectedData}
+          setIsActiveCalling={setIsActiveCalling}
+        />
+      )}
     </Box>
   );
 };

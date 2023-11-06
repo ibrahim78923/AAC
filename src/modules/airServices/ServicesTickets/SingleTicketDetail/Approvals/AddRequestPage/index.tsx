@@ -1,21 +1,17 @@
-import { useState } from 'react';
-import { Box, Button, Typography, useTheme } from '@mui/material';
-import AddRequestApprovalDrawer from '../AddRequestApprovalDrawer';
+import { Box, Button, Typography } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import { requestmainpagebox } from './AddRequestPage.style';
+import { styles } from './AddRequestPage.style';
+import { useAddRequestPage } from './useAddRequestPage';
+import { AddRequestApproval } from './AddRequestApproval';
 
 const AddRequestPage = () => {
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const theme = useTheme();
+  const { isDrawerOpen, setIsDrawerOpen, theme } = useAddRequestPage();
   return (
     <>
       <>
         <Typography variant="h5">Approvals</Typography>
-        <Box sx={requestmainpagebox}>
-          <Typography
-            variant="body2"
-            sx={{ color: theme?.palette?.grey?.[900] }}
-          >
+        <Box sx={styles?.requestMainPageBox}>
+          <Typography variant="body2" color={theme?.palette?.grey?.[900]}>
             No Approval Found
           </Typography>
           <Button
@@ -25,9 +21,9 @@ const AddRequestPage = () => {
           >
             Request Approval
           </Button>
-        </Box>{' '}
+        </Box>
       </>
-      <AddRequestApprovalDrawer
+      <AddRequestApproval
         isDrawerOpen={isDrawerOpen}
         setIsDrawerOpen={setIsDrawerOpen}
       />

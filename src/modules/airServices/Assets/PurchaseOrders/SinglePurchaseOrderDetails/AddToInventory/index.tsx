@@ -194,15 +194,12 @@ export const AddToInventory = (props: any) => {
                       <Grid item xs={4} md={item?.md} key={uuidv4()}>
                         {item?.component && (
                           <item.component
-                            {...item.componentProps}
+                            {...item?.componentProps}
                             size={'small'}
                           >
                             {item?.componentProps?.select
                               ? item?.options?.map((option: any) => (
-                                  <option
-                                    key={option?.value}
-                                    value={option?.value}
-                                  >
+                                  <option key={uuidv4()} value={option?.value}>
                                     {option?.label}
                                   </option>
                                 ))
@@ -215,23 +212,20 @@ export const AddToInventory = (props: any) => {
                       (item: any) =>
                         item?.component && (
                           <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                            {item.componentProps.select ? (
+                            {item?.componentProps?.select ? (
                               <item.component
-                                {...item.componentProps}
+                                {...item?.componentProps}
                                 size="small"
                               >
-                                {item.options?.map((option: any) => (
-                                  <option
-                                    key={option?.value}
-                                    value={option?.value}
-                                  >
+                                {item?.options?.map((option: any) => (
+                                  <option key={uuidv4()} value={option?.value}>
                                     {option?.label}
                                   </option>
                                 ))}
                               </item.component>
                             ) : (
                               <item.component
-                                {...item.componentProps}
+                                {...item?.componentProps}
                                 size="small"
                               />
                             )}
@@ -279,7 +273,10 @@ export const AddToInventory = (props: any) => {
                 <Grid container spacing={2}>
                   {addToInventoryItemStatus?.map((item: any) => (
                     <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                      <item.component {...item.componentProps} size={'small'} />
+                      <item.component
+                        {...item?.componentProps}
+                        size={'small'}
+                      />
                     </Grid>
                   ))}
                 </Grid>

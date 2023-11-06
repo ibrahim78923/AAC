@@ -1,4 +1,4 @@
-const ViewDetailAvaterIcon = () => {
+const ViewDetailAvatarIcon = () => {
   return (
     <svg
       width="36"
@@ -28,4 +28,4 @@ const ViewDetailAvaterIcon = () => {
     </svg>
   );
 };
-export default ViewDetailAvaterIcon;
+export default ViewDetailAvatarIcon;

@@ -4,15 +4,15 @@ import { v4 as uuidv4 } from 'uuid';
 import CommonDrawer from '@/components/CommonDrawer';
 import { useCustomizeTicketColumn } from './useCustomizeTicketsColumn';
 export const CustomizeTicketsColumn = (props: any) => {
+  const { isDrawerOpen } = props;
   const {
-    tableColumns = [],
-    checkboxClick,
+    submit,
+    onClose,
+    checkboxHandler,
     customizeColumn,
-    isDrawerOpen,
-    // onClose,
-    // setIsDrawerOpen,
-  } = props;
-  const { submit, onClose, theme } = useCustomizeTicketColumn(props);
+    ticketsListsColumnPersist,
+    theme,
+  } = useCustomizeTicketColumn(props);
 
   return (
     <>
@@ -26,7 +26,7 @@ export const CustomizeTicketsColumn = (props: any) => {
         cancelText={'Cancel'}
         footer
       >
-        {tableColumns?.map((column: any) => (
+        {ticketsListsColumnPersist?.slice?.(1)?.map((column: any) => (
           <Box
             key={uuidv4()}
             display={'flex'}
@@ -51,14 +51,14 @@ export const CustomizeTicketsColumn = (props: any) => {
               <Typography variant="body1" whiteSpace={'nowrap'}>
                 {column?.header}
               </Typography>
-              <div>
+              <Box>
                 <Checkbox
                   color="primary"
                   name={column?.id}
                   defaultChecked={customizeColumn[column?.id]}
-                  onClick={(): any => checkboxClick?.(column)}
+                  onClick={(): any => checkboxHandler?.(column)}
                 />
-              </div>
+              </Box>
             </Box>
           </Box>
         ))}

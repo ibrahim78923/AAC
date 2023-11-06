@@ -1,7 +1,7 @@
 import { styled } from '@mui/material';
 
 export const StyledText = styled('text')(({ theme }) => ({
-  fill: theme.palette.text.primary,
+  fill: theme?.palette?.text?.primary,
   textAnchor: 'middle',
   fontSize: '.8rem',
   fontWeight: 500,

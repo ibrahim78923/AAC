@@ -7,7 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { ExistingIncident } from './ExistingIncident';
 import { DialogBox } from './DialogBox';
 import { NewIncident } from './NewIncident';
-import { NoAssociationFound } from '@/assets/images';
+import { NoAssociationFoundImage } from '@/assets/images';
 
 export const Associations = () => {
   const theme: any = useTheme();
@@ -20,7 +20,7 @@ export const Associations = () => {
     <Fragment>
       {associationsDataArray?.length <= 0 ? (
         <NoData
-          image={NoAssociationFound}
+          image={NoAssociationFoundImage}
           message={'There are no associations'}
         >
           <Button
