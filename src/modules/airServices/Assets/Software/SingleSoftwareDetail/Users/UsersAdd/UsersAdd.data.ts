@@ -1,12 +1,12 @@
 import { UserSelectDataI, UserSelectOptionI } from './UsersAdd.interface';
 
-export const UserSelectOption: UserSelectOptionI[] = [
+export const userSelectOption: UserSelectOptionI[] = [
   { value: 'Andrew', title: 'Andrew', des: 'Andrew Description' },
   { value: 'John', title: 'John', des: 'John Description' },
   { value: 'Root', title: 'Root', des: 'Root Description' },
 ];
 
-export const UserSelectData: UserSelectDataI[] = [
+export const userSelectData: UserSelectDataI[] = [
   {
     value: 'option1',
     title: 'Aws',

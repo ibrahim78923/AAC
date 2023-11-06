@@ -2,9 +2,9 @@ import { Box, Grid, Typography, useTheme } from '@mui/material';
 import React from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { ShortcutSharpLeftIcon, ShortcutSharpRightIcon } from '@/assets/icons';
-import { AvatarImageConversationImage } from '@/assets/images';
+import { AvatarConversationImage } from '@/assets/images';
 import { styles } from '../Conversation.styles';
-import { ConversationData } from '../Conversation.data';
+import { conversationData } from '../Conversation.data';
 import { v4 as uuidv4 } from 'uuid';
 import Image from 'next/image';
 
@@ -12,7 +12,7 @@ const ConversationForwardView = () => {
   const theme: any = useTheme();
   return (
     <Box sx={{ mt: '50px' }}>
-      {ConversationData?.map((e: any) => (
+      {conversationData?.map((e: any) => (
         <Grid
           container
           justifyContent={'space-between'}
@@ -24,7 +24,7 @@ const ConversationForwardView = () => {
             <Box sx={styles?.leftSideParent}>
               <Box sx={styles?.imageBox}>
                 <Image
-                  src={AvatarImageConversationImage?.src}
+                  src={AvatarConversationImage?.src}
                   alt="logo"
                   width={32}
                   height={32}

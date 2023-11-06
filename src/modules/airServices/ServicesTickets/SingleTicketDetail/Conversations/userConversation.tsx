@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import {
-  conversationModelsDefaultValues,
-  conversationModelsValidation,
+  conversationModalsDefaultValues,
+  conversationModalsValidation,
   menuOptionsAddConversation,
 } from './Conversation.data';
 import { useForm } from 'react-hook-form';
@@ -20,9 +20,9 @@ const userConversation = () => {
   // Add state for title
   const [title, setTitle] = useState('');
 
-  const addConversationModel: any = useForm({
-    resolver: yupResolver(conversationModelsValidation),
-    defaultValues: conversationModelsDefaultValues,
+  const addConversationModal: any = useForm({
+    resolver: yupResolver(conversationModalsValidation),
+    defaultValues: conversationModalsDefaultValues,
   });
   const onSubmit = (data: any) => data;
   const open = Boolean(addConversation);
@@ -50,7 +50,7 @@ const userConversation = () => {
     addConversation,
     handleCloseButtonMenu,
     setSelectedItem,
-    addConversationModel,
+    addConversationModal,
     selectedItem,
     onSubmit,
     title,

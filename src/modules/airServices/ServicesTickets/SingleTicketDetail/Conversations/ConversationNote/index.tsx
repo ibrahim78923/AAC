@@ -1,14 +1,14 @@
 import { FormProvider } from '@/components/ReactHookForm';
 import { Grid } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
-import { conversationModelsArray } from '../Conversation.data';
+import { conversationModalsArray } from '../Conversation.data';
 import CommonDrawer from '@/components/CommonDrawer';
 import ConversationArticleSelect from '../ConversationArticleSelect';
 
 const ConversationNote = ({
   show,
   setShow,
-  addConversationModel,
+  addConversationModal,
   onSubmit,
 }: any) => {
   return (
@@ -20,11 +20,11 @@ const ConversationNote = ({
       isOk={true}
     >
       <FormProvider
-        methods={addConversationModel}
-        onSubmit={addConversationModel.handleSubmit(onSubmit)}
+        methods={addConversationModal}
+        onSubmit={addConversationModal?.handleSubmit(onSubmit)}
       >
         <Grid container spacing={2}>
-          {conversationModelsArray?.map((item: any) => (
+          {conversationModalsArray?.map((item: any) => (
             <Grid
               item
               xs={12}

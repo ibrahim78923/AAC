@@ -1,10 +1,12 @@
 export const styles = {
-  parent: {
-    borderRadius: '8px',
-    border: '1px solid var(--gray-200, #EAECF0)',
-    background: 'var(--base-white, #FFF)',
-    padding: '20px',
-    boxShadow: '0px 1px 2px 0px rgba(16, 24, 40, 0.06)',
+  parent(theme: any) {
+    return {
+      borderRadius: '8px',
+      border: '1px solid #EAECF0',
+      background: theme?.palette?.common?.white,
+      padding: '20px',
+      boxShadow: '0px 1px 2px 0px rgba(16, 24, 40, 0.06)',
+    };
   },
   leftSideParent: {
     display: 'flex',

@@ -6,10 +6,10 @@ import {
   ShortcutSharpLeftIcon,
   ShortcutSharpRightIcon,
 } from '@/assets/icons';
-import { AvatarImageConversationImage } from '@/assets/images';
+import { AvatarConversationImage } from '@/assets/images';
 import { styles } from '../Conversation.styles';
 import {
-  ConversationData,
+  conversationData,
   conversationAttachmentFileData,
 } from '../Conversation.data';
 import { v4 as uuidv4 } from 'uuid';
@@ -20,7 +20,7 @@ const ConversationNoteView = () => {
   const theme: any = useTheme();
   return (
     <Box sx={{ mt: '50px' }}>
-      {ConversationData?.map((e: any) => (
+      {conversationData?.map((e: any) => (
         <Grid
           container
           justifyContent={'space-between'}
@@ -32,7 +32,7 @@ const ConversationNoteView = () => {
             <Box sx={styles?.leftSideParent}>
               <Box sx={styles?.imageBox}>
                 <Image
-                  src={AvatarImageConversationImage?.src}
+                  src={AvatarConversationImage?.src}
                   alt="logo"
                   width={32}
                   height={32}

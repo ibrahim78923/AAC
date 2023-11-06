@@ -1,19 +1,19 @@
 import { RHFTextField, RHFSelect } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 import ConversationEditor from './ConversationEditor';
-export const conversationModelsValidation: any = Yup.object().shape({
-  note: Yup.string().required('Field is Required'),
-  title: Yup.string().required('Field is Required'),
-  description: Yup.string().trim().required('Field is Required'),
+export const conversationModalsValidation: any = Yup.object().shape({
+  note: Yup.string()?.required('Field is Required'),
+  title: Yup.string()?.required('Field is Required'),
+  description: Yup.string()?.trim()?.required('Field is Required'),
 });
 
-export const conversationModelsDefaultValues: any = {
+export const conversationModalsDefaultValues: any = {
   note: '',
   title: '',
   description: '',
 };
 
-export const conversationModelsArray = [
+export const conversationModalsArray = [
   {
     componentProps: {
       name: 'note',
@@ -60,13 +60,13 @@ export const menuOptionsAddConversation = [
   { value: 'Forward', label: 'Forward' },
   { value: 'Discuss', label: 'Discuss' },
 ];
-export const ConversationDrawerTitle: any = {
+export const conversationDrawerTitle: any = {
   Add: 'Add Tickets',
   Edit: 'Edit Tickets',
   View: 'View Tickets',
 };
 
-export const ConversationAddArticleData = [
+export const conversationAddArticleData = [
   {
     title: 'Guide to how to design your site footer like we did...',
     link: 'Add link',
@@ -81,7 +81,7 @@ export const ConversationAddArticleData = [
   },
 ];
 
-export const ConversationData = [
+export const conversationData = [
   {
     image: 'image1',
     sender: 'John',

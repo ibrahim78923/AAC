@@ -20,7 +20,7 @@ export default function ConversationsDetails() {
     addConversation,
     handleCloseButtonMenu,
     setSelectedItem,
-    addConversationModel,
+    addConversationModal,
     selectedItem,
     onSubmit,
   } = userConversation();
@@ -33,7 +33,7 @@ export default function ConversationsDetails() {
             selectedItem={selectedItem}
             show={show}
             setShow={setShow}
-            addConversationModel={addConversationModel}
+            addConversationModal={addConversationModal}
             onSubmit={onSubmit}
           />
         );
@@ -43,7 +43,7 @@ export default function ConversationsDetails() {
             selectedItem={selectedItem}
             show={show}
             setShow={setShow}
-            addConversationModel={addConversationModel}
+            addConversationModel={addConversationModal}
             onSubmit={onSubmit}
           />
         );
@@ -53,7 +53,7 @@ export default function ConversationsDetails() {
             selectedItem={selectedItem}
             show={show}
             setShow={setShow}
-            addConversationModel={addConversationModel}
+            addConversationModel={addConversationModal}
             onSubmit={onSubmit}
           />
         );
@@ -123,7 +123,6 @@ export default function ConversationsDetails() {
           </Menu>
         )}
       </Box>
-
       {isConversation ? (
         <ConversationView />
       ) : (

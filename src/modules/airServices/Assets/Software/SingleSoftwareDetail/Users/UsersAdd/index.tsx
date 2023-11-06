@@ -4,13 +4,17 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import { FormProvider, useForm } from 'react-hook-form';
 import UserSearchableSelect from '../UsersSearchableSelect';
-import ConversationModel from '@/components/Model/CoversationModel';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
 import { enqueueSnackbar } from 'notistack';
-import { UserSelectOption, UserSelectData } from './UsersAdd.data';
+import { userSelectOption, userSelectData } from './UsersAdd.data';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 export const UsersAdd = () => {
   const [isModalOpen, setModalOpen] = useState(false);
+  const methods = useForm();
 
   const openModal = () => {
     setModalOpen(true);
@@ -19,8 +23,6 @@ export const UsersAdd = () => {
   const closeModal = () => {
     setModalOpen(false);
   };
-
-  const methods = useForm();
 
   return (
     <FormProvider {...methods}>
@@ -36,18 +38,18 @@ export const UsersAdd = () => {
             </Button>
           </Grid>
         </Grid>
+      </Box>
 
-        <ConversationModel
-          open={isModalOpen}
-          handleClose={closeModal}
-          selectedItem="Add User"
-          okText="Add"
-          footer={true}
-        >
+      <Dialog open={isModalOpen} onClose={closeModal}>
+        <Box>
+          {' '}
+          <DialogTitle>Add User</DialogTitle>
+        </Box>
+        <DialogContent>
           <Box>
             <UserSearchableSelect
               name="selectedOption"
-              options={UserSelectOption}
+              options={userSelectOption}
               placeholder="Select Contract"
               label="User"
               showDescription={false}
@@ -58,42 +60,31 @@ export const UsersAdd = () => {
           <Box sx={{ mt: 2 }}>
             <UserSearchableSelect
               name="selectedOption"
-              options={UserSelectData}
+              options={userSelectData}
               placeholder="Select Contract"
               showSearchBar={false}
               label="Contract"
             />
           </Box>
-          <Box
-            gap={2}
-            sx={{
-              display: 'flex',
-              justifyContent: 'flex-end',
-              margin: 'auto',
-              mt: 2,
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={closeModal} color="secondary">
+            Cancel
+          </Button>
+          <Button
+            onClick={() => {
+              enqueueSnackbar('Add successfully', {
+                variant: 'success',
+                autoHideDuration: 2000,
+              });
+              setModalOpen(false);
             }}
+            color="primary"
           >
-            <Button variant="outlined" color="secondary" onClick={closeModal}>
-              Cancel
-            </Button>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() => {
-                enqueueSnackbar('Add successfully', {
-                  variant: 'success',
-
-                  autoHideDuration: 2000,
-                });
-
-                setModalOpen(false);
-              }}
-            >
-              ADD
-            </Button>
-          </Box>
-        </ConversationModel>
-      </Box>
+            ADD
+          </Button>
+        </DialogActions>
+      </Dialog>
     </FormProvider>
   );
 };

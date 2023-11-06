@@ -3,12 +3,12 @@ import { Typography, Button, Box, Grid } from '@mui/material';
 import Search from '@/components/Search';
 import { PlusSharedIconColor } from '@/assets/icons';
 import { v4 as uuidv4 } from 'uuid';
-import { ConversationAddArticleData } from '../Conversation.data';
+import { conversationAddArticleData } from '../Conversation.data';
 
 const ConversationCannedResponse = ({ onAddButtonClick }) => {
   const [searchTerm, setSearchTerm] = useState('');
 
-  const filteredContent = ConversationAddArticleData.filter((item) =>
+  const filteredContent = conversationAddArticleData?.filter((item) =>
     item.title.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 

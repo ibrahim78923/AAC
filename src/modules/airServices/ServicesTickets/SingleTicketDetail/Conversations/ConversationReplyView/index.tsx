@@ -3,18 +3,18 @@ import React from 'react';
 
 import { ShortcutSharpRightIcon } from '@/assets/icons';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { AvatarImageConversationImage } from '@/assets/images';
+import { AvatarConversationImage } from '@/assets/images';
 import { styles } from '../Conversation.styles';
 import { v4 as uuidv4 } from 'uuid';
 import Image from 'next/image';
-import { ConversationData } from '../Conversation.data';
+import { conversationData } from '../Conversation.data';
 
 const ConversationReplyView = () => {
   const theme: any = useTheme();
   return (
     <>
       <Box sx={{ mt: '50px' }}>
-        {ConversationData?.map((e: any) => (
+        {conversationData?.map((e: any) => (
           <Grid
             container
             justifyContent={'space-between'}
@@ -26,7 +26,7 @@ const ConversationReplyView = () => {
               <Box sx={styles?.leftSideParent}>
                 <Box sx={styles?.imageBox}>
                   <Image
-                    src={AvatarImageConversationImage?.src}
+                    src={AvatarConversationImage?.src}
                     alt="logo"
                     width={32}
                     height={32}
