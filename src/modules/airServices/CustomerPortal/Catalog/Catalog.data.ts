@@ -16,6 +16,7 @@ import {
   CatalogMetroUiOsAppleImage,
   CatalogPhuzionDeviceLaptopImage,
 } from '@/assets/images';
+
 export const services = [
   {
     id: 1,

@@ -4,6 +4,7 @@ import { allsServices } from './Catalog.data';
 import { useRouter } from 'next/router';
 const useCatalog = () => {
   const [result, setResult] = useState<any[]>(allsServices);
+  const [open, setOpen] = useState(false);
   const router = useRouter();
   const handleClick = (prop: string) => {
     if (prop === 'All Services') {
@@ -33,10 +34,21 @@ const useCatalog = () => {
       },
     });
   };
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
   return {
     handleClick,
     result,
     handleClickService,
+    open,
+    handleClickOpen,
+    handleClose,
+    setOpen,
   };
 };
 

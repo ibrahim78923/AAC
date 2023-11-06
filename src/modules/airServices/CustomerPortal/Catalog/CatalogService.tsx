@@ -5,11 +5,14 @@ import React from 'react';
 import { allsServices } from './Catalog.data';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import Image from 'next/image';
+import useCatalog from './useCatalog';
+import { CatalogRequest } from './CatalogRequest/CatalogRequest';
+
 function CatalogService() {
   const router = useRouter();
   const theme: any = useTheme();
   const data = allsServices.find((x: any) => x?.id == router?.query?.serviceId);
-
+  const { open, handleClickOpen, setOpen } = useCatalog();
   return (
     <>
       <Box
@@ -148,7 +151,11 @@ function CatalogService() {
               flexDirection={'row'}
             >
               <Button>Cancel</Button>
-              <Button variant="contained" sx={{ ml: '1rem' }}>
+              <Button
+                variant="contained"
+                sx={{ ml: '1rem' }}
+                onClick={handleClickOpen}
+              >
                 Place Request
               </Button>
             </Box>
@@ -166,6 +173,7 @@ function CatalogService() {
               </Button>
             </Box>
           )}
+          <CatalogRequest open={open} setOpen={setOpen} />
         </Grid>
       </Grid>
     </>
