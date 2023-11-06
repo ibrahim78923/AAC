@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Button, Grid, Typography } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 
 import { AlertModals } from '@/components/AlertModals';
 
@@ -11,13 +11,10 @@ import useProducts from './useProducts';
 
 import { columns } from './Products.data';
 
-import { productsData } from '@/mock/modules/airSales/Deals/ViewDetails';
-
-import { PlusSharedIcon } from '@/assets/icons';
-
 import { styles } from '../Associations.style';
+import { productsData } from '@/mock/modules/airSales/Contacts/ViewDetails';
 
-const Products = () => {
+const Deal = () => {
   const {
     theme,
     isOpenAlert,
@@ -43,7 +40,7 @@ const Products = () => {
             02
           </Typography>
 
-          <Typography variant="subtitle2">Products</Typography>
+          <Typography variant="subtitle2">Deals</Typography>
         </Grid>
         <Grid item md={8}>
           <Box
@@ -60,14 +57,6 @@ const Products = () => {
               label="Search By Name"
               size="small"
             />
-            <Button
-              variant="contained"
-              className="small"
-              sx={{ minWidth: '0px', gap: 0.5 }}
-              onClick={() => setOpenDrawer('Add')}
-            >
-              <PlusSharedIcon /> Add Products
-            </Button>
           </Box>
         </Grid>
         <Grid item xs={12}>
@@ -92,4 +81,4 @@ const Products = () => {
   );
 };
 
-export default Products;
+export default Deal;

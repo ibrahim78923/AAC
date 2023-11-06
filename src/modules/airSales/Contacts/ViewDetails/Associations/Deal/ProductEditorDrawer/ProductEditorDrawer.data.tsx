@@ -1,7 +1,5 @@
 import {
-  RHFCheckbox,
-  RHFDropZone,
-  RHFEditor,
+  RHFDatePicker,
   RHFSelect,
   RHFTextField,
 } from '@/components/ReactHookForm';
@@ -25,8 +23,8 @@ export const productsDefaultValues = {
 export const productsDataArray = [
   {
     componentProps: {
-      name: 'productName',
-      label: 'Product Name',
+      name: 'DealName',
+      label: 'Deal Name',
       fullWidth: true,
     },
     component: RHFTextField,
@@ -35,17 +33,22 @@ export const productsDataArray = [
 
   {
     componentProps: {
-      name: 'sku',
-      label: 'SKU',
+      name: 'DealPipeLine',
+      label: 'Deal PipeLine',
       fullWidth: true,
     },
-    component: RHFTextField,
+    options: [
+      { value: 'Inventory', label: 'Inventory' },
+      { value: 'Non-Inventory', label: 'Non-Inventory' },
+      { value: 'Service', label: 'Service' },
+    ],
+    component: RHFSelect,
     md: 12,
   },
   {
     componentProps: {
-      name: 'category',
-      label: 'Category',
+      name: 'DealStage',
+      label: 'Deal Stage',
       select: true,
     },
     options: [
@@ -59,39 +62,48 @@ export const productsDataArray = [
 
   {
     componentProps: {
-      name: 'description',
-      label: 'Description',
-      fullWidth: true,
-    },
-    component: RHFEditor,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'activeProducts',
-      label: 'Active Products',
-      fullWidth: true,
-    },
-    component: RHFCheckbox,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'unitPrice',
-      label: 'Unit Price',
+      name: 'Amount',
+      label: 'Amount',
       fullWidth: true,
     },
     component: RHFTextField,
     md: 12,
   },
+  {
+    componentProps: {
+      name: 'CloseDate',
+      label: 'Close Date',
+      fullWidth: true,
+    },
+    component: RHFDatePicker,
+    md: 12,
+  },
+  {
+    componentProps: {
+      name: 'Deal Owner',
+      label: 'Deal Owner',
+      fullWidth: true,
+    },
+    component: RHFSelect,
+    md: 12,
+  },
 
   {
     componentProps: {
-      name: 'attachFile',
-      label: '',
+      name: 'Priority',
+      label: 'Priority',
       fullWidth: true,
     },
-    component: RHFDropZone,
+    component: RHFSelect,
+    md: 12,
+  },
+  {
+    componentProps: {
+      name: 'AddLineItem',
+      label: 'Add Line Item',
+      fullWidth: true,
+    },
+    component: RHFSelect,
     md: 12,
   },
 ];

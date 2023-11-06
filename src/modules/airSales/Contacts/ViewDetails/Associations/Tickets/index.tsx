@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Button, Grid, Typography } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 
 import Search from '@/components/Search';
 import { AlertModals } from '@/components/AlertModals';
@@ -11,8 +11,6 @@ import useTickets from './useTickets';
 import { columns } from './Tickets.data';
 
 import { TasksTableData } from '@/mock/modules/airSales/Deals/ViewDetails';
-
-import { PlusSharedIcon } from '@/assets/icons';
 
 import { styles } from '../Associations.style';
 
@@ -59,14 +57,6 @@ const Tickets = () => {
               label="Search By Name"
               size="small"
             />
-            <Button
-              variant="contained"
-              className="small"
-              sx={{ minWidth: '0px', gap: 0.5 }}
-              onClick={() => setOpenDrawer('Add')}
-            >
-              <PlusSharedIcon /> Add Tickets
-            </Button>
           </Box>
         </Grid>
         <Grid item xs={12}>

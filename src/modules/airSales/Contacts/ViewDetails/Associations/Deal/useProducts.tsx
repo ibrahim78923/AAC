@@ -6,6 +6,9 @@ const useProducts = () => {
   const [searchName, setSearchName] = useState('');
   const [openDrawer, setOpenDrawer] = useState('');
   const [isOpenAlert, setIsOpenAlert] = useState(false);
+  const [selectStage, setSelectStage] = useState('');
+  const [selectPipline, setSelectPipline] = useState('');
+
   const handleCloseAlert = () => {
     setIsOpenAlert(false);
   };
@@ -18,6 +21,10 @@ const useProducts = () => {
     openDrawer,
     setOpenDrawer,
     handleCloseAlert,
+    selectPipline,
+    setSelectPipline,
+    setSelectStage,
+    selectStage,
   };
 };
 

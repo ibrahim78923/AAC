@@ -18,24 +18,9 @@ export const ActivityLogList = [
 export const TasksTableData: any = [
   {
     Id: 1,
-    taskno: ` #TSK- 5`,
-    taskname: 'Business Platform debt, docs, refactors and stability',
-    duedate: 'Mar 3, - Mar 26, 2022',
-    assignedTo: 'Robert Fox',
-  },
-  {
-    Id: 2,
-    taskno: ` #TSK- 6`,
-    taskname: 'Search migration modelling',
-    duedate: '--',
-    assignedTo: 'Ralph Edwards',
-  },
-  {
-    Id: 3,
-    taskno: ` #TSK- 7`,
-    taskname: 'Draftstrtr',
-    duedate: 'Mar 3, - Mar 26, 2022',
-    assignedTo: 'Cameron Williamson',
+    Title: `Discovery Call Script`,
+    CreatedDate: '01/01/2023',
+    CreatedBy: 'Steave Coolin',
   },
 ];
 
@@ -116,13 +101,14 @@ export const quotesData: any = [
 export const productsData: any = [
   {
     Id: 1,
-    name: `# PBR - 5`,
-    quantity: 1,
-    amount: '$42',
+    DealName: `Sharemydine`,
+    CloseDate: 1,
+    DealOwner: '$42',
+    Amount: '$42',
   },
   {
     Id: 2,
-    name: ` # PBR - 52`,
+    name: `Sharemydine`,
     quantity: 2,
     amount: '$40',
   },

@@ -47,7 +47,7 @@ export const TasksData: any = [
   },
   {
     Id: 2,
-    taskno: ` #TSK- 6`,
+    taskno: `#TSK- 6`,
     taskname: 'Search migration modelling',
     duedate: '--',
     assignedTo: 'Ralph Edwards',

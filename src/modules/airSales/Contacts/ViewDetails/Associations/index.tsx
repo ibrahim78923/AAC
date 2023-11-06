@@ -1,12 +1,14 @@
-import { Box, Grid, Typography } from '@mui/material';
 import React from 'react';
-import { styles } from '../ViewDetails.style';
+
+import { Box, Grid, Typography } from '@mui/material';
+
 import Attachments from './Attachments';
 import Companies from './Companies';
 import Tickets from './Tickets';
-import Contacts from './Contacts';
-import Products from './Products';
-import Quotes from './Quotes';
+import Deal from './Deal';
+
+import { styles } from '../ViewDetails.style';
+import PlayBook from './Contacts';
 
 const Associations = () => {
   return (
@@ -19,23 +21,17 @@ const Associations = () => {
           </Grid>
 
           <Grid item xs={12}>
+            <Deal />
+          </Grid>
+          <Grid item xs={12}>
             <Companies />
           </Grid>
 
           <Grid item xs={12}>
             <Attachments />
           </Grid>
-
           <Grid item xs={12}>
-            <Products />
-          </Grid>
-
-          <Grid item xs={12}>
-            <Quotes />
-          </Grid>
-
-          <Grid item xs={12}>
-            <Contacts />
+            <PlayBook />
           </Grid>
         </Grid>
       </Box>

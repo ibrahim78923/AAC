@@ -17,9 +17,9 @@ import { RestoreTableColumns } from './RestoreTable.data';
 
 import { BackArrIcon, FilterIcon } from '@/assets/icons';
 import RestoreAssignModalBox from './RestoreAssignModalBox';
-import ContactsActions from '../ContactsActions';
+import RestoreActions from '../ContactsActions';
 
-const Restore = () => {
+const RestoreActivities = () => {
   const {
     handleRestoreFilter,
     isRestoreFilter,
@@ -45,7 +45,7 @@ const Restore = () => {
         }}
       >
         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
-          <Link href={'/air-sales/contacts'}>
+          <Link href={'/air-sales/contacts/view-details'}>
             <BackArrIcon />
           </Link>
           <Box>
@@ -53,7 +53,7 @@ const Restore = () => {
               variant="subtitle1"
               sx={{ colors: theme.palette.grey[600] }}
             >
-              Restore Contacts
+              Restore Activities
             </Typography>
             <Typography
               variant="body2"
@@ -104,7 +104,7 @@ const Restore = () => {
             gap: '10px',
           }}
         >
-          <ContactsActions
+          <RestoreActions
             menuItem={['Restore', 'Delete']}
             disableActionBtn={false}
             onChange={handleActions}
@@ -132,4 +132,4 @@ const Restore = () => {
   );
 };
 
-export default Restore;
+export default RestoreActivities;

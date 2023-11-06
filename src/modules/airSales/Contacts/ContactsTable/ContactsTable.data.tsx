@@ -1,4 +1,5 @@
 import { Checkbox } from '@mui/material';
+import Link from 'next/link';
 
 export const ContactsColumns: any = [
   {
@@ -13,7 +14,9 @@ export const ContactsColumns: any = [
     id: 'dealOwner',
     header: 'Contacts',
     isSortable: true,
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => (
+      <Link href={'/air-sales/contacts/view-details'}>{info.getValue()}</Link>
+    ),
   },
   {
     accessorFn: (row: any) => row.email,

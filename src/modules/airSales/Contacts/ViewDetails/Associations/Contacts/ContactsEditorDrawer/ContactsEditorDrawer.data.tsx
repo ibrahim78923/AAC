@@ -152,7 +152,7 @@ export const contactsDataArray = [
 ];
 
 export const drawerTitle: any = {
-  Add: 'Add Contacts',
+  Add: 'Playbook',
   Edit: 'Edit Contacts',
   View: 'View Contacts',
 };

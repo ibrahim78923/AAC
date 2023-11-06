@@ -2,6 +2,7 @@ import { DeleteCrossIcon, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
 import { NotesAvatarImage } from '@/assets/images';
 import { Box, Typography } from '@mui/material';
 import Image from 'next/image';
+
 export const columns: any = ({
   setOpenDrawer,
   setIsOpenAlert,
@@ -27,30 +28,23 @@ export const columns: any = ({
           </Box>
         </Box>
       ),
-      header: 'Contact ID',
+      header: 'Title',
       isSortable: false,
     },
 
     {
-      accessorFn: (row: any) => row.taskname,
-      id: 'Name',
+      accessorFn: (row: any) => row.CreatedDate,
+      id: 'CreatedDate',
       isSortable: true,
-      header: ' Name',
+      header: ' Created Date',
       cell: (info: any) => info.getValue(),
     },
 
     {
-      accessorFn: (row: any) => row.duedate,
-      id: 'phonenumber',
+      accessorFn: (row: any) => row.CreatedBy,
+      id: 'CreatedBy',
       isSortable: true,
-      header: 'Phone Number',
-      cell: (info: any) => info.getValue(),
-    },
-    {
-      accessorFn: (row: any) => row.duedate,
-      id: 'jobtitle',
-      isSortable: true,
-      header: 'Job Title ',
+      header: 'Created By',
       cell: (info: any) => info.getValue(),
     },
 
