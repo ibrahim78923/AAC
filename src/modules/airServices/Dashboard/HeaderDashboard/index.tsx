@@ -3,7 +3,7 @@ import { SingleDropdownButton } from '../../../../components/SingleDropdownButto
 import { actionsFunction, dashboardFunction } from './HeaderDashboard.data';
 import { styles } from './HeaderDashboard.styles';
 
-export const HeaderDashboard = ({}: any) => {
+export const HeaderDashboard = () => {
   const theme = useTheme();
   return (
     <Grid container>

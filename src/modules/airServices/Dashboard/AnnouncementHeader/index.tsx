@@ -1,7 +1,7 @@
 import { ViewDetailSharedIcon } from '@/assets/icons';
 import { Box, Button, Typography } from '@mui/material';
 
-export const AnnouncementHeader = ({}: any) => {
+export const AnnouncementHeader = () => {
   return (
     <>
       <Box display={'flex'} justifyContent={'space-between'} marginRight={3}>

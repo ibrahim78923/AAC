@@ -3,7 +3,7 @@ import { SingleDropdownButton } from '../../../../../components/SingleDropdownBu
 import { actionsFunction, availabilityHeader } from './HeaderPieChart.data';
 import { v4 as uuidv4 } from 'uuid';
 
-export const HeaderPieChart = ({}: any) => {
+export const HeaderPieChart = () => {
   const theme = useTheme();
   return (
     <>

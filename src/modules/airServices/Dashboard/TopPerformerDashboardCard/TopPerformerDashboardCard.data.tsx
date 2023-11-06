@@ -1,10 +1,10 @@
-import { CustomerWowChampion } from '@/assets/images';
-import { MostValuablePlayer } from '@/assets/images';
-import { DashboardAvatar } from '@/assets/images';
+import { CustomerWowChampionImage } from '@/assets/images';
+import { MostValuablePlayerImage } from '@/assets/images';
+import { DashboardAvatarImage } from '@/assets/images';
 
 export const topPerformerDashboardCardData = [
   {
-    icon: DashboardAvatar,
+    icon: DashboardAvatarImage,
     topPerformanceText: ' Alesha Rai',
     topPerformanceTextOne: 'IT Department',
     topPerformanceTextTwo: 'Beginner',
@@ -13,7 +13,7 @@ export const topPerformerDashboardCardData = [
     topPerformanceTextFive: 'Champion',
     topPerformanceTextSix: 'Most Valuable',
     topPerformanceTextSeven: 'Player',
-    iconOne: CustomerWowChampion,
-    iconTwo: MostValuablePlayer,
+    iconOne: CustomerWowChampionImage,
+    iconTwo: MostValuablePlayerImage,
   },
 ];

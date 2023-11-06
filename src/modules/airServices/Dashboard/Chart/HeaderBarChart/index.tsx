@@ -2,7 +2,7 @@ import { Box, Typography } from '@mui/material';
 import { SingleDropdownButton } from '../../../../../components/SingleDropdownButton';
 import { actionsFunction } from './HeaderBarChart.data';
 
-export const HeaderBarChart = ({}: any) => {
+export const HeaderBarChart = () => {
   return (
     <>
       <Box display={'flex'} justifyContent={'space-between'} marginRight={3}>
