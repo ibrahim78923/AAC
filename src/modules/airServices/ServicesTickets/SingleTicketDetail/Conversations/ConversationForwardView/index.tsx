@@ -2,7 +2,7 @@ import { Box, Grid, Typography, useTheme } from '@mui/material';
 import React from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { ShortcutSharpLeftIcon, ShortcutSharpRightIcon } from '@/assets/icons';
-import { AvatarImageConversation } from '@/assets/images';
+import { AvatarImageConversationImage } from '@/assets/images';
 import { styles } from '../Conversation.styles';
 import { ConversationData } from '../Conversation.data';
 import { v4 as uuidv4 } from 'uuid';
@@ -24,7 +24,7 @@ const ConversationForwardView = () => {
             <Box sx={styles?.leftSideParent}>
               <Box sx={styles?.imageBox}>
                 <Image
-                  src={AvatarImageConversation?.src}
+                  src={AvatarImageConversationImage?.src}
                   alt="logo"
                   width={32}
                   height={32}

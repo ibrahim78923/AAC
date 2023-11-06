@@ -3,7 +3,7 @@ import React from 'react';
 
 import { ShortcutSharpRightIcon } from '@/assets/icons';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { AvatarImageConversation } from '@/assets/images';
+import { AvatarImageConversationImage } from '@/assets/images';
 import { styles } from '../Conversation.styles';
 import { v4 as uuidv4 } from 'uuid';
 import Image from 'next/image';
@@ -26,7 +26,7 @@ const ConversationReplyView = () => {
               <Box sx={styles?.leftSideParent}>
                 <Box sx={styles?.imageBox}>
                   <Image
-                    src={AvatarImageConversation?.src}
+                    src={AvatarImageConversationImage?.src}
                     alt="logo"
                     width={32}
                     height={32}

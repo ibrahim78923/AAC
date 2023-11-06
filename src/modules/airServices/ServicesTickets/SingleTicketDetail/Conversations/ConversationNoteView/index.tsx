@@ -6,7 +6,7 @@ import {
   ShortcutSharpLeftIcon,
   ShortcutSharpRightIcon,
 } from '@/assets/icons';
-import { AvatarImageConversation } from '@/assets/images';
+import { AvatarImageConversationImage } from '@/assets/images';
 import { styles } from '../Conversation.styles';
 import {
   ConversationData,
@@ -32,7 +32,7 @@ const ConversationNoteView = () => {
             <Box sx={styles?.leftSideParent}>
               <Box sx={styles?.imageBox}>
                 <Image
-                  src={AvatarImageConversation?.src}
+                  src={AvatarImageConversationImage?.src}
                   alt="logo"
                   width={32}
                   height={32}
