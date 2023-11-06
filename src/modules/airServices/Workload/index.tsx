@@ -1,7 +1,15 @@
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import { Avatar, Box, Divider, Grid, Tooltip, Typography } from '@mui/material';
+import {
+  Avatar,
+  Box,
+  Button,
+  Divider,
+  Grid,
+  Tooltip,
+  Typography,
+} from '@mui/material';
 import dayjs from 'dayjs';
 import { DateCalendar } from '@mui/x-date-pickers';
 import { DateFilter } from './DateFilter';
@@ -125,6 +133,18 @@ export const Workload = () => {
                       'DD MMM, YYYY hh:MM A',
                     )}
                   </Typography>
+                  <Divider />
+                  <Button
+                    color="secondary"
+                    onClick={() =>
+                      setOnClickEvent({
+                        open: true,
+                        data: eventInfo?.event,
+                      })
+                    }
+                  >
+                    ADD PLANNED EFFORT
+                  </Button>
                 </Fragment>
               }
             >
@@ -133,6 +153,7 @@ export const Workload = () => {
                 alignItems={'center'}
                 gap={'1rem'}
                 sx={{ cursor: 'pointer' }}
+                overflow={'hidden'}
                 onClick={() =>
                   setOnClickEvent({
                     open: true,

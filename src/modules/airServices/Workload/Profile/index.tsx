@@ -6,8 +6,22 @@ import { v4 as uuidv4 } from 'uuid';
 export const Profile = () => {
   const [users, setUsers] = useState<any>([]);
   const [usersExtra, setUsersExtra] = useState<any>([]);
+  const [selected, setSelected] = useState<any>([]);
   const [showExtras, setShowExtras] = useState<any>(false);
   const [anchorEl, setAnchorEl] = useState<any>(null);
+
+  const addToArray = (user: any) => {
+    if (selected.some((selectedUser: any) => selectedUser === user)) {
+      // Item is already selected, remove it
+      const updatedSelected = selected.filter(
+        (selectedUser: any) => selectedUser !== user,
+      );
+      setSelected(updatedSelected);
+    } else {
+      // Item is not selected, add it
+      setSelected([...selected, user]);
+    }
+  };
 
   const open = Boolean(anchorEl);
   const id = open ? 'basic-menu' : undefined;
@@ -31,6 +45,10 @@ export const Profile = () => {
           color: 'primary.main',
           borderRadius: 2,
           cursor: 'pointer',
+          border: selected?.length ? 0 : 2,
+        }}
+        onClick={() => {
+          setSelected([]);
         }}
       >
         All
@@ -39,8 +57,19 @@ export const Profile = () => {
       {users?.map((item: any) => (
         <Tooltip title={item?.name} key={uuidv4()}>
           <Avatar
-            sx={{ borderRadius: 2, mx: 0.2, cursor: 'pointer' }}
+            sx={{
+              borderRadius: 2,
+              mx: 0.2,
+              color: 'primary.main',
+              cursor: 'pointer',
+              border: selected?.some(
+                (selectedUser: any) => selectedUser === item,
+              )
+                ? 2
+                : 0,
+            }}
             src={item?.img?.src}
+            onClick={() => addToArray?.(item)}
           />
         </Tooltip>
       ))}
@@ -92,8 +121,22 @@ export const Profile = () => {
                   p: 1,
                   ':hover': { bgcolor: 'primary.lighter' },
                 }}
+                onClick={() => addToArray?.(item)}
               >
-                <Avatar src={item?.img?.src} />
+                <Avatar
+                  sx={{
+                    borderRadius: 2,
+                    mx: 0.2,
+                    color: 'primary.main',
+                    cursor: 'pointer',
+                    border: selected?.some(
+                      (selectedUser: any) => selectedUser === item,
+                    )
+                      ? 2
+                      : 0,
+                  }}
+                  src={item?.img?.src}
+                />
                 <Typography variant={'body1'}>{item?.name}</Typography>
               </Box>
             ))}

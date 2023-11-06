@@ -18,13 +18,6 @@ export const defaultValues = {
 
 export const dataArray = [
   {
-    heading: 'TEST',
-    componentProps: {
-      variant: 'h4',
-    },
-    component: Typography,
-  },
-  {
     componentProps: {
       name: 'description',
       label: 'Description',

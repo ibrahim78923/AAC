@@ -3,8 +3,8 @@ import { UserProfileImage } from '@/assets/images';
 
 export const WorkloadData = [
   {
-    start: '2023-11-02T15:30:00',
-    end: '2023-11-03T15:30:00',
+    start: '2023-11-06T15:30:00',
+    end: '2023-11-07T15:30:00',
     className: styles?.completed,
     extendedProps: {
       status: 'Completed',
@@ -14,8 +14,8 @@ export const WorkloadData = [
     },
   },
   {
-    start: '2023-11-01T15:30:00',
-    end: '2023-11-02T15:30:00',
+    start: '2023-11-06T15:30:00',
+    end: '2023-11-08T15:30:00',
     className: styles?.inProgress,
     extendedProps: {
       status: 'In Progress',
@@ -25,8 +25,8 @@ export const WorkloadData = [
     },
   },
   {
-    start: '2023-10-30T15:30:00',
-    end: '2023-11-03T15:30:00',
+    start: '2023-11-08T15:30:00',
+    end: '2023-11-10T15:30:00',
     className: styles?.toDo,
     extendedProps: {
       status: 'To-Do',

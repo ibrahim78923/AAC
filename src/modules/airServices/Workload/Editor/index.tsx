@@ -5,7 +5,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { v4 as uuidv4 } from 'uuid';
 import { enqueueSnackbar } from 'notistack';
-import { Box, Grid } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 
 export const Editor = ({
@@ -39,6 +39,7 @@ export const Editor = ({
       footer
       submitHandler={handleSubmit(onSubmit)}
     >
+      <Typography variant={'h4'}>{data?.extendedProps?.description}</Typography>
       <Box mt={1}>
         <FormProvider methods={methods}>
           <Grid container spacing={2}>

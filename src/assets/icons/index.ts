@@ -174,3 +174,4 @@ export { default as FolderGreyIcon } from './shared/folder-grey';
 export { default as AlertModalDeleteIcon } from './shared/alert-modal-delete-icon';
 export { default as AlertModalCloseIcon } from './shared/alert-modal-close-icon';
 export { default as TodoIcon } from './shared/todo-icon';
+export { default as TicketBannerIcon } from './shared/ticket-banner-icon';
