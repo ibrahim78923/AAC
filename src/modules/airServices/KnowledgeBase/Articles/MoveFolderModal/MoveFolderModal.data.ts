@@ -2,8 +2,8 @@ import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
 export const moveFolderValidationSchema = Yup?.object()?.shape({
-  movingFrom: Yup?.string().required('Field is Required'),
-  moveTo: Yup?.string().required('Field is Required'),
+  movingFrom: Yup?.string()?.required('Field is Required'),
+  moveTo: Yup?.string()?.required('Field is Required'),
 });
 
 export const moveFolderDefaultValues = {

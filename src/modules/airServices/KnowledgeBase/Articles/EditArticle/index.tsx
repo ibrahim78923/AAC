@@ -60,11 +60,7 @@ export const EditArticle = () => {
             </Typography>
           </Box>
           <Box pb={1.4}>
-            <CustomTextEditor
-              value={articleEditorData}
-              onChange={() => {}}
-              style={{ height: '65vh' }}
-            />
+            <CustomTextEditor value={articleEditorData} onChange={() => {}} />
           </Box>
           <CustomDropZone name="file" />
         </Grid>
