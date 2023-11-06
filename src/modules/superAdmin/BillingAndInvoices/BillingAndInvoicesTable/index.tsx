@@ -15,7 +15,7 @@ import Filters from './Filters';
 
 import { BillingAndInvoicesTableData } from '@/mock/modules/superAdmin/BillingAndDetails';
 
-import PlusSharedIcon from '@/assets/icons/shared/plus-shared';
+import PlusIcon from '@/assets/icons/shared/plus-shared';
 import { FilterSharedIcon } from '@/assets/icons';
 
 const BillingAndInvoicesTable = () => {
@@ -38,7 +38,7 @@ const BillingAndInvoicesTable = () => {
           <Grid item xs={6} sm={6} sx={{ textAlign: 'end' }}>
             <Button
               onClick={() => setIsOpenDrawer(true)}
-              startIcon={<PlusSharedIcon />}
+              startIcon={<PlusIcon />}
               variant="contained"
               className="medium"
             >

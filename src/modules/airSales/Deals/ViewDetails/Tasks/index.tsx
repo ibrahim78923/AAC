@@ -11,7 +11,7 @@ import useTasks from './useTasks';
 import { columns } from './Tasks.data';
 import { TasksTableData } from '@/mock/modules/airSales/Deals/ViewDetails';
 
-import { PlusSharedIcon } from '@/assets/icons';
+import { PlusIcon } from '@/assets/icons';
 
 const Tasks = () => {
   const { openDrawer, setOpenDrawer } = useTasks();
@@ -34,7 +34,7 @@ const Tasks = () => {
                 sx={{ minWidth: '0px', height: '35px', gap: 0.5 }}
                 onClick={() => setOpenDrawer('Add')}
               >
-                <PlusSharedIcon /> Add New Task
+                <PlusIcon /> Add New Task
               </Button>
             </Box>
           </Box>
