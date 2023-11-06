@@ -28,7 +28,7 @@ const ConversationNoteView = () => {
           mb={'20px'}
           key={uuidv4()}
         >
-          <Grid item xs={12} md={7} lg={5} paddingTop={`0 !important`}>
+          <Grid item xs={12} md={12} lg={5} paddingTop={`0 !important`}>
             <Box sx={styles?.leftSideParent}>
               <Box sx={styles?.imageBox}>
                 <Image
@@ -68,11 +68,11 @@ const ConversationNoteView = () => {
             </Box>
           </Grid>
           {conversationAttachmentFileData?.map((singleAttachment: any) => (
-            <Grid item xs={12} sm={6} lg={3} key={uuidv4()}>
+            <Grid item lg={3} md={12} key={uuidv4()}>
               <AttachFileCard data={singleAttachment} />
             </Grid>
           ))}
-          <Grid item xs={12} md={3} lg={4} paddingTop={`0 !important`}>
+          <Grid item lg={4} md={3} paddingTop={`0 !important`}>
             <Box sx={styles?.buttonBox}>
               <ShortcutSharpLeftIcon />
               <ShortcutSharpRightIcon />
