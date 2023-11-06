@@ -139,8 +139,17 @@ const Invoices = () => {
         <Box sx={{ marginTop: '1.5rem' }}>
           <FormProvider methods={FilterInvoiceFilters}>
             <Grid container spacing={4}>
-              {FilterInvoiceFiltersDataArray?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={uuidv4()}>
+              {FilterInvoiceFiltersDataArray?.map((item: any, index: any) => (
+                <Grid
+                  item
+                  xs={12}
+                  md={item?.md}
+                  key={uuidv4()}
+                  sx={{
+                    paddingTop:
+                      index === 0 ? '40px !important' : '17px !important',
+                  }}
+                >
                   <item.component {...item.componentProps} size={'small'}>
                     {!isNullOrEmpty(item?.componentProps?.select)
                       ? item?.options?.map((option: any) => (

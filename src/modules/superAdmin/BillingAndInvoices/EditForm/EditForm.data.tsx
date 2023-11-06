@@ -128,7 +128,7 @@ export const assignPlanData = (selectProductSuite: string) => {
         name: 'planPrice',
         label: 'Plan Price',
         fullWidth: true,
-        disable: true,
+        disabled: true,
       },
 
       component: RHFTextField,
@@ -140,7 +140,7 @@ export const assignPlanData = (selectProductSuite: string) => {
         name: 'defaultUser',
         label: 'Default User',
         fullWidth: true,
-        disable: true,
+        disabled: true,
       },
 
       component: RHFTextField,
@@ -152,7 +152,7 @@ export const assignPlanData = (selectProductSuite: string) => {
         name: 'defaultUserTwo',
         label: 'Default User',
         fullWidth: true,
-        disable: true,
+        disabled: true,
       },
 
       component: RHFTextField,

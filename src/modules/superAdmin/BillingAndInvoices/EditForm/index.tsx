@@ -37,46 +37,66 @@ export default function EditForm({
       <Box mt={1}>
         <FormProvider methods={isEditModal ? apiMethods : methods}>
           <Grid container spacing={4} sx={{ position: 'relative' }}>
-            {assignPlanData(selectProductSuite)?.map((item: any) => (
-              <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                <item.component {...item.componentProps} size={'small'}>
-                  {item?.componentProps?.select &&
-                    item?.options?.map((option: any) => (
-                      <option key={option?.value} value={option?.value}>
-                        {option?.label}
-                      </option>
-                    ))}
-                </item.component>
-              </Grid>
-            ))}
-            <Box
-              sx={{
-                position: 'absolute',
-                top: 90,
-                right: 0,
-                background: '#E5E7EB',
-                borderRadius: '10px',
-              }}
-            >
-              <Button
-                onClick={() => setSelectProductSuite('product')}
-                variant={`${
-                  selectProductSuite === 'product' ? 'contained' : 'text'
-                }`}
-                sx={{ height: '25px', borderRadius: '10px' }}
-              >
-                <Typography>Product</Typography>{' '}
-              </Button>
-              <Button
-                onClick={() => setSelectProductSuite('CRM')}
-                variant={`${
-                  selectProductSuite === 'CRM' ? 'contained' : 'text'
-                }`}
-                sx={{ height: '25px', borderRadius: '10px' }}
-              >
-                <Typography>CRM Suite</Typography>
-              </Button>
-            </Box>
+            {assignPlanData(selectProductSuite)?.map(
+              (item: any, index: any) => (
+                <Grid
+                  item
+                  xs={12}
+                  md={item?.md}
+                  key={uuidv4()}
+                  sx={{
+                    paddingTop:
+                      index === 0 ? '40px !important' : '17px !important',
+                  }}
+                >
+                  <item.component {...item.componentProps} size={'small'}>
+                    {item?.componentProps?.select &&
+                      item?.options?.map((option: any) => (
+                        <option key={option?.value} value={option?.value}>
+                          {option?.label}
+                        </option>
+                      ))}
+                  </item.component>
+
+                  <Box
+                    sx={{
+                      position: 'absolute',
+                      top: 122,
+                      right: 0,
+                      background: '#E5E7EB',
+                      borderRadius: '10px',
+                    }}
+                  >
+                    <Button
+                      onClick={() => setSelectProductSuite('product')}
+                      variant={`${
+                        selectProductSuite === 'product' ? 'contained' : 'text'
+                      }`}
+                      sx={{
+                        height: '25px',
+                        borderRadius: '10px',
+                        boxShadow: 'none',
+                      }}
+                    >
+                      <Typography>Product</Typography>{' '}
+                    </Button>
+                    <Button
+                      onClick={() => setSelectProductSuite('CRM')}
+                      variant={`${
+                        selectProductSuite === 'CRM' ? 'contained' : 'text'
+                      }`}
+                      sx={{
+                        height: '25px',
+                        borderRadius: '10px',
+                        boxShadow: 'none',
+                      }}
+                    >
+                      <Typography>CRM Suite</Typography>
+                    </Button>
+                  </Box>
+                </Grid>
+              ),
+            )}
           </Grid>
         </FormProvider>
       </Box>

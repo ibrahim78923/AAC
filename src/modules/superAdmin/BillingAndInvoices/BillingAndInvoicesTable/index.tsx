@@ -10,7 +10,6 @@ import MenuItems from './MenuOptions';
 
 import useBillingAndInvoices from './useBillingAndInvoices';
 import CommonDrawer from '@/components/CommonDrawer';
-import PlusIcon from '@/assets/icons/shared/plus-shared';
 import { FormProvider } from '@/components/ReactHookForm';
 import { styles } from '../Invoices/Invoices.style';
 import { FilterSharedIcon } from '@/assets/icons';
@@ -56,7 +55,6 @@ const BillingAndInvoicesTable = () => {
                 setIsOpenDrawer(true);
                 setIsEditModal(false);
               }}
-              startIcon={<PlusIcon />}
               variant="contained"
               className="small"
             >
@@ -149,8 +147,17 @@ const BillingAndInvoicesTable = () => {
         <Box mt={1}>
           <FormProvider methods={methods}>
             <Grid container spacing={4}>
-              {dataArray()?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={uuidv4()}>
+              {dataArray()?.map((item: any, index: any) => (
+                <Grid
+                  item
+                  xs={12}
+                  md={item?.md}
+                  key={uuidv4()}
+                  sx={{
+                    paddingTop:
+                      index === 0 ? '40px !important' : '17px !important',
+                  }}
+                >
                   <item.component {...item.componentProps} size={'small'}>
                     {item?.componentProps?.select &&
                       item?.options?.map((option: any) => (
