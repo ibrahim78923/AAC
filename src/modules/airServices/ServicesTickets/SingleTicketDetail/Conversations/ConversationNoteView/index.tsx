@@ -1,17 +1,20 @@
 import { Box, Grid, Typography, useTheme } from '@mui/material';
 import React from 'react';
-
+import DeleteIcon from '@mui/icons-material/Delete';
 import {
-  DeleteIcon,
   EditBlackIcon,
   ShortcutSharpLeftIcon,
   ShortcutSharpRightIcon,
 } from '@/assets/icons';
 import { AvatarImageConversation } from '@/assets/images';
 import { styles } from '../Conversation.styles';
-import { ConversationData } from '../Conversation.data';
+import {
+  ConversationData,
+  conversationAttachmentFileData,
+} from '../Conversation.data';
 import { v4 as uuidv4 } from 'uuid';
 import Image from 'next/image';
+import { AttachFileCard } from '@/components/AttachFileCard';
 
 const ConversationNoteView = () => {
   const theme: any = useTheme();
@@ -64,12 +67,28 @@ const ConversationNoteView = () => {
               </Box>
             </Box>
           </Grid>
+          {conversationAttachmentFileData?.map((singleAttachment: any) => (
+            <Grid item xs={12} sm={6} lg={3} key={uuidv4()}>
+              <AttachFileCard data={singleAttachment} />
+            </Grid>
+          ))}
           <Grid item xs={12} md={3} lg={4} paddingTop={`0 !important`}>
             <Box sx={styles?.buttonBox}>
               <ShortcutSharpLeftIcon />
               <ShortcutSharpRightIcon />
               <EditBlackIcon />
-              <DeleteIcon />
+              <Box
+                sx={{
+                  '&:hover': {
+                    '.MuiSvgIcon-root': {
+                      color: 'red',
+                    },
+                  },
+                }}
+                className="iconContainer"
+              >
+                <DeleteIcon sx={{ color: '#6B7280' }} />
+              </Box>
             </Box>
           </Grid>
         </Grid>

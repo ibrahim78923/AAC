@@ -1,7 +1,6 @@
 import { RHFTextField, RHFSelect } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 import ConversationEditor from './ConversationEditor';
-
 export const conversationModelsValidation: any = Yup.object().shape({
   note: Yup.string().required('Field is Required'),
   title: Yup.string().required('Field is Required'),
@@ -91,5 +90,13 @@ export const ConversationData = [
     message:
       'Hi Guys We have been facing issue  when we try to reach email server 3 Hi Guys .',
     time: '11:02 PM-5 March,  2023',
+  },
+];
+
+export const conversationAttachmentFileData = [
+  {
+    name: 'Picture.pdf',
+    size: '12KB',
+    type: 'pdf',
   },
 ];

@@ -1,11 +1,7 @@
 import { Box, Grid, Typography, useTheme } from '@mui/material';
 import React from 'react';
-
-import {
-  DeleteIcon,
-  ShortcutSharpLeftIcon,
-  ShortcutSharpRightIcon,
-} from '@/assets/icons';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { ShortcutSharpLeftIcon, ShortcutSharpRightIcon } from '@/assets/icons';
 import { AvatarImageConversation } from '@/assets/images';
 import { styles } from '../Conversation.styles';
 import { ConversationData } from '../Conversation.data';
@@ -67,7 +63,18 @@ const ConversationForwardView = () => {
             <Box sx={styles?.buttonBox}>
               <ShortcutSharpLeftIcon />
               <ShortcutSharpRightIcon />
-              <DeleteIcon />
+              <Box
+                sx={{
+                  '&:hover': {
+                    '.MuiSvgIcon-root': {
+                      color: 'red',
+                    },
+                  },
+                }}
+                className="iconContainer"
+              >
+                <DeleteIcon sx={{ color: '#6B7280' }} />
+              </Box>
             </Box>
           </Grid>
         </Grid>
