@@ -66,13 +66,61 @@ const ConversationNoteView = () => {
                 </Typography>
               </Box>
             </Box>
+            <Grid
+              item
+              xs={12}
+              paddingTop={`0 !important`}
+              sx={{
+                display: { lg: 'none', xs: 'block' },
+                mt: {
+                  lg: 0,
+                  xs: 2,
+                },
+              }}
+            >
+              <Box sx={styles?.buttonBox}>
+                <ShortcutSharpLeftIcon />
+                <ShortcutSharpRightIcon />
+                <EditBlackIcon />
+                <Box
+                  sx={{
+                    '&:hover': {
+                      '.MuiSvgIcon-root': {
+                        color: 'red',
+                      },
+                    },
+                  }}
+                  className="iconContainer"
+                >
+                  <DeleteIcon sx={{ color: '#6B7280' }} />
+                </Box>
+              </Box>
+            </Grid>
           </Grid>
           {conversationAttachmentFileData?.map((singleAttachment: any) => (
-            <Grid item lg={3} md={12} key={uuidv4()}>
+            <Grid
+              item
+              lg={3}
+              md={12}
+              key={uuidv4()}
+              sx={{
+                mt: {
+                  lg: 0,
+                  xs: 2,
+                },
+              }}
+            >
               <AttachFileCard data={singleAttachment} />
             </Grid>
           ))}
-          <Grid item lg={4} md={3} paddingTop={`0 !important`}>
+
+          <Grid
+            item
+            lg={4}
+            md={3}
+            paddingTop={`0 !important`}
+            sx={{ display: { lg: 'block', xs: 'none' } }}
+          >
             <Box sx={styles?.buttonBox}>
               <ShortcutSharpLeftIcon />
               <ShortcutSharpRightIcon />
