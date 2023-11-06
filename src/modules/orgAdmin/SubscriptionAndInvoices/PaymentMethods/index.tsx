@@ -1,5 +1,5 @@
 import { Box, Button, Menu, MenuItem, Typography } from '@mui/material';
-import TanstackTable from '@/components/Tabel/TanstackTable';
+import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
 import AddCard from './AddCard';
 import EditCard from './EditCard';

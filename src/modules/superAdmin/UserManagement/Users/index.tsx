@@ -1,6 +1,6 @@
 import CustomPagination from '@/components/CustomPagination';
 
-import TanstackTable from '@/components/Tabel/TanstackTable';
+import TanstackTable from '@/components/Table/TanstackTable';
 
 import { columns } from './Users.data';
 import useUserManagement from '../useUserManagement';

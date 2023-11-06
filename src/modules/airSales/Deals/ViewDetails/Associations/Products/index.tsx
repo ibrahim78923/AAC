@@ -5,7 +5,7 @@ import { AlertModals } from '@/components/AlertModals';
 
 import Search from '@/components/Search';
 import ProductEditorDrawer from './ProductEditorDrawer';
-import TanstackTable from '@/components/Tabel/TanstackTable';
+import TanstackTable from '@/components/Table/TanstackTable';
 
 import useProducts from './useProducts';
 
