@@ -1,6 +1,6 @@
 export const styles: any = {
   boxMain: (theme: any) => ({
-    background: '#FFF',
+    background: theme?.palette?.common?.white,
     borderRadius: '0.5rem',
     border: `0.063rem solid ${theme?.palette?.grey?.[700]}`,
   }),

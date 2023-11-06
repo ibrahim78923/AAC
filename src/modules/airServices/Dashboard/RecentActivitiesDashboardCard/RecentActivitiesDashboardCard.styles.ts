@@ -4,7 +4,7 @@ export const styles: any = {
     alignItems: 'center',
     flex: 1,
     gap: 2,
-    background: theme.palette.common.white,
+    background: theme?.palette?.common?.white,
     borderBottom: isborderbottom
       ? `0.063rem solid ${theme?.palette?.grey?.[700]}`
       : '',

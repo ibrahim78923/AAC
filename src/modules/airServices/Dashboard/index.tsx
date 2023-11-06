@@ -40,7 +40,7 @@ const Dashboard = () => {
                 sx={{
                   borderRadius: '0.75rem',
                   border: `0.063rem solid ${theme?.palette?.grey?.[700]}`,
-                  background: theme.palette.common.white,
+                  background: theme?.palette?.common?.white,
                 }}
               >
                 <br />
@@ -57,7 +57,7 @@ const Dashboard = () => {
                 sx={{
                   borderRadius: '0.75rem',
                   border: `0.063rem solid ${theme?.palette?.grey?.[700]}`,
-                  background: theme.palette.common.white,
+                  background: theme?.palette?.common?.white,
                 }}
               >
                 <br />
@@ -71,7 +71,7 @@ const Dashboard = () => {
                         icon={item?.icon}
                         recentActivityText={item?.recentActivityText}
                         recentActivityTextOne={item?.recentActivityTextOne}
-                        recentactivitytextTwo={item?.recentactivitytextTwo}
+                        recentactivitytextTwo={item?.recentActivityTextTwo}
                         isborderbottom={
                           recentActivitiesDashboardCardData?.length - 1 !==
                           index
@@ -98,7 +98,7 @@ const Dashboard = () => {
                 sx={{
                   borderRadius: '0.75rem',
                   border: `0.063rem solid ${theme?.palette?.grey?.[700]}`,
-                  background: theme.palette.common.white,
+                  background: theme?.palette?.common?.white,
                 }}
               >
                 <br />
@@ -136,7 +136,7 @@ const Dashboard = () => {
                 sx={{
                   borderRadius: '0.75rem',
                   border: `0.063rem solid ${theme?.palette?.grey?.[700]}`,
-                  background: theme.palette.common.white,
+                  background: theme?.palette?.common?.white,
                 }}
               >
                 <br />
