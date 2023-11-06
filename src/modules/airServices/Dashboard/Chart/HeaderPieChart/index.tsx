@@ -22,7 +22,7 @@ export const HeaderPieChart = () => {
               <Typography>{department?.title}</Typography>
             </Box>
             <Box sx={{ mt: 2 }}>
-              <Typography variant="h5">{department?.titlenumber}</Typography>
+              <Typography variant="h5">{department?.titleNumber}</Typography>
             </Box>
           </Grid>
         ))}

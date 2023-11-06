@@ -6,7 +6,7 @@ export const RecentActivitiesDashboardCard = ({
   icon,
   recentActivityText,
   recentActivityTextOne,
-  recentactivitytextTwo,
+  recentActivityTextTwo,
   isborderbottom,
 }: any) => {
   const theme = useTheme();
@@ -34,7 +34,7 @@ export const RecentActivitiesDashboardCard = ({
           {recentActivityTextOne}
         </Typography>
         <Typography sx={styles?.recentActivitiesTextDateTimeDetail(theme)}>
-          {recentactivitytextTwo}
+          {recentActivityTextTwo}
         </Typography>
       </Box>
     </Box>

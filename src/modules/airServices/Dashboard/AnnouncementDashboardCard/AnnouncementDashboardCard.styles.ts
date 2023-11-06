@@ -22,7 +22,7 @@ export const styles: any = {
 
   announcementTextOne: {
     fontSize: '0.75rem',
-    color: '#A0A3BD',
+    color: '#A0A3BD', //This color is not available in palette
     mt: 1,
   },
 

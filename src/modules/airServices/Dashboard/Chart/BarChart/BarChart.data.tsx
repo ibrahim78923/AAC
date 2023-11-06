@@ -23,7 +23,7 @@ const barChartDataOptions = (theme: any) => ({
     theme?.palette?.custom?.bright,
     theme?.palette?.error?.main,
     theme?.palette?.warning?.main,
-    '#35A275',
+    '#35A275', //This color is not available in palette
   ],
   plotOptions: {
     bar: {

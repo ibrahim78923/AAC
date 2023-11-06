@@ -19,7 +19,7 @@ export const availabilityHeader = (theme: any) => [
   {
     title: 'Total Agents',
     icon: <PersonIcon style={{ color: theme?.palette?.custom?.main }} />,
-    titlenumber: '15',
+    titleNumber: '15',
   },
   {
     title: 'Available',
@@ -28,7 +28,7 @@ export const availabilityHeader = (theme: any) => [
         style={{ color: theme?.palette?.success?.main }}
       />
     ),
-    titlenumber: '12',
+    titleNumber: '12',
   },
   {
     title: 'Not Available',
@@ -37,6 +37,6 @@ export const availabilityHeader = (theme: any) => [
         style={{ color: theme?.palette?.warning?.main }}
       />
     ),
-    titlenumber: '3',
+    titleNumber: '3',
   },
 ];

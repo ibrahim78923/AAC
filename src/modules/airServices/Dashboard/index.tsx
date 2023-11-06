@@ -1,7 +1,7 @@
 import { HeaderDashboard } from '@/modules/airServices/Dashboard/HeaderDashboard';
 import { RecentActivitiesDashboardCard } from '@/modules/airServices/Dashboard/RecentActivitiesDashboardCard';
 import { TicketDashboardCards } from '@/modules/airServices/Dashboard/TicketDashboardCards';
-import { Box, Button, Grid, Typography } from '@mui/material';
+import { Box, Button, Grid, Typography, useTheme } from '@mui/material';
 import { AnnouncementDashboardCard } from '@/modules/airServices/Dashboard/AnnouncementDashboardCard';
 import { TopPerformerDashboardCard } from '@/modules/airServices/Dashboard/TopPerformerDashboardCard';
 import { v4 as uuidv4 } from 'uuid';
@@ -16,6 +16,7 @@ import { HeaderPieChart } from './Chart/HeaderPieChart';
 import { AnnouncementHeader } from './AnnouncementHeader';
 
 const Dashboard = () => {
+  const theme = useTheme();
   return (
     <Box>
       <HeaderDashboard />
@@ -38,8 +39,8 @@ const Dashboard = () => {
               <Box
                 sx={{
                   borderRadius: '0.75rem',
-                  border: '0.063rem solid #E5E7EB',
-                  background: '#FFF',
+                  border: `0.063rem solid ${theme?.palette?.grey?.[700]}`,
+                  background: theme.palette.common.white,
                 }}
               >
                 <br />
@@ -55,8 +56,8 @@ const Dashboard = () => {
               <Box
                 sx={{
                   borderRadius: '0.75rem',
-                  border: '0.063rem solid #E5E7EB',
-                  background: '#FFF',
+                  border: `0.063rem solid ${theme?.palette?.grey?.[700]}`,
+                  background: theme.palette.common.white,
                 }}
               >
                 <br />
@@ -96,8 +97,8 @@ const Dashboard = () => {
               <Box
                 sx={{
                   borderRadius: '0.75rem',
-                  border: '0.063rem solid #E5E7EB',
-                  background: '#FFF',
+                  border: `0.063rem solid ${theme?.palette?.grey?.[700]}`,
+                  background: theme.palette.common.white,
                 }}
               >
                 <br />
@@ -134,8 +135,8 @@ const Dashboard = () => {
               <Box
                 sx={{
                   borderRadius: '0.75rem',
-                  border: '0.063rem solid #E5E7EB',
-                  background: '#FFF',
+                  border: `0.063rem solid ${theme?.palette?.grey?.[700]}`,
+                  background: theme.palette.common.white,
                 }}
               >
                 <br />
