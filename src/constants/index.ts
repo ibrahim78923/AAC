@@ -14,6 +14,10 @@ export const AIR_SERVICES = {
   CREATE_DASHBOARD: '/air-services/dashboard/create-dashboard',
   MANAGE_DASHBOARD: '/air-services/dashboard/manage-dashboard',
   KNOWLEDGE_BASE: '/air-services/knowledge-base',
+  KNOWLEDGE_BASE_VIEW_ARTICLE:
+    '/air-services/knowledge-base/article/view-article',
+  KNOWLEDGE_BASE_EDIT_ARTICLE:
+    '/air-services/knowledge-base/article/edit-article',
   ADD_ASSOCIATE_ASSET:
     '/air-services/assets/contracts/detail/add-associate-asset',
   ASSETS_CONTRACTS: '/air-services/assets/contracts',
