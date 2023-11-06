@@ -31,7 +31,7 @@ export const SearchableMultiSelect = (props: any) => {
         placement="bottom-start"
       >
         <ClickAwayListener onClickAway={handleClose}>
-          <div>
+          <Box>
             <Autocomplete
               open
               multiple
@@ -86,7 +86,7 @@ export const SearchableMultiSelect = (props: any) => {
                 />
               )}
             />
-          </div>
+          </Box>
         </ClickAwayListener>
       </StyledPopper>
     </>

@@ -1,5 +1,4 @@
 import { UserAvatarImage } from '@/assets/images';
-import { v4 as uuidv4 } from 'uuid';
 export const dashboardCheckboxData = [
   'Graphical Representation of Tickets by Statuses',
   'Recent Activities',
@@ -11,10 +10,10 @@ export const dashboardCheckboxData = [
 ];
 //using uuid here for testing purposes not for putting in map key
 export const userData = [
-  { name: 'Alee Javed', src: UserAvatarImage, id: uuidv4() },
-  { name: 'Rajvir Hundal', src: UserAvatarImage, id: uuidv4() },
-  { name: 'Ben Stock', src: UserAvatarImage, id: uuidv4() },
-  { name: 'Aleesha Kong', src: UserAvatarImage, id: uuidv4() },
+  { name: 'Alee Javed', src: UserAvatarImage, id: '1' },
+  { name: 'Rajvir Hundal', src: UserAvatarImage, id: '2' },
+  { name: 'Ben Stock', src: UserAvatarImage, id: '3' },
+  { name: 'Aleesha Kong', src: UserAvatarImage, id: '4' },
 ];
 export const previewDashboard: { [index: string]: any } = {
   'Graphical Representation of Tickets by Statuses':

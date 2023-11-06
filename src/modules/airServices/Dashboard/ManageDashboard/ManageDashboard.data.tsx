@@ -1,6 +1,6 @@
 import { EditYellowBGPenIcon } from '@/assets/icons';
 import { UserAvatarImage } from '@/assets/images';
-import { AntSwitch } from '@/components/ReactHookForm/RHFSwitch';
+import { AntSwitch } from '@/components/ReactHookForm';
 import { Avatar, Box, Typography } from '@mui/material';
 import Image from 'next/image';
 import { DeleteDashboardModal } from './DeleteDashboardModal';

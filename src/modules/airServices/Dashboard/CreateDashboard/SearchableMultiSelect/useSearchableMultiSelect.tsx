@@ -1,6 +1,7 @@
 import { AutocompleteCloseReason } from '@mui/material';
 import { PopperComponentPropsI } from './SearchableMultiSelect.interface';
 import { StyledAutocompletePopper } from './SearchableMultiSelect.styles';
+import { KeyboardEvent, SyntheticEvent } from 'react';
 export const useSearchableMultiSelect = (props: any) => {
   const { labels, anchorEl, handleClose, setPendingValue, value } = props;
   const open = Boolean(anchorEl);
@@ -10,16 +11,14 @@ export const useSearchableMultiSelect = (props: any) => {
       handleClose();
     }
   };
-  //optional chaining does not work on interfaces
   const onChangeAutocomplete = (
-    event: React.SyntheticEvent<Element, Event>,
+    event: SyntheticEvent<Element, Event>,
     newValue: any[],
     reason: any,
   ) => {
     if (
-      event.type === 'keydown' &&
-      //optional chaining does not work on interfaces
-      (event as React.KeyboardEvent)?.key === 'Backspace' &&
+      event?.type === 'keydown' &&
+      (event as KeyboardEvent)?.key === 'Backspace' &&
       reason === 'removeOption'
     ) {
       return;
