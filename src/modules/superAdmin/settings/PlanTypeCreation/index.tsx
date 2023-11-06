@@ -8,7 +8,7 @@ import { useForm } from 'react-hook-form';
 
 import Search from '@/components/Search';
 import CommonDrawer from '@/components/CommonDrawer';
-import TanstackTable from '@/components/Tabel/TanstackTable';
+import TanstackTable from '@/components/Table/TanstackTable';
 import CustomPagination from '@/components/CustomPagination';
 
 import {

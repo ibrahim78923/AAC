@@ -4,14 +4,14 @@ import { Box, Button, Grid, Typography } from '@mui/material';
 import Search from '@/components/Search';
 import { AlertModals } from '@/components/AlertModals';
 import ContactsEditorDrawer from './ContactsEditorDrawer';
-import TanstackTable from '@/components/Tabel/TanstackTable';
+import TanstackTable from '@/components/Table/TanstackTable';
 
 import useContacts from './useContacts';
 
 import { columns } from './Contacts.data';
 import { TasksTableData } from '@/mock/modules/airSales/Deals/ViewDetails';
 
-import { PlusSharedIcon } from '@/assets/icons';
+import { PlusIcon } from '@/assets/icons';
 
 import { styles } from '../Associations.style';
 
@@ -64,7 +64,7 @@ const Contacts = () => {
               sx={{ minWidth: '0px', gap: 0.5 }}
               onClick={() => setOpenDrawer('Add')}
             >
-              <PlusSharedIcon /> Add Contacts
+              <PlusIcon /> Add Contacts
             </Button>
           </Box>
         </Grid>

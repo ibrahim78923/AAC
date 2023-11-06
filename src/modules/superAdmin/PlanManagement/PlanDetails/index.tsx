@@ -1,6 +1,6 @@
 import React from 'react';
 
-import TanstackTable from '@/components/Tabel/TanstackTable';
+import TanstackTable from '@/components/Table/TanstackTable';
 import CustomPagination from '@/components/CustomPagination';
 
 import { usePlanDetails } from './usePlanDetails';

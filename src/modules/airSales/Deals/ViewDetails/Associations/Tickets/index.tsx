@@ -4,7 +4,7 @@ import { Box, Button, Grid, Typography } from '@mui/material';
 import Search from '@/components/Search';
 import { AlertModals } from '@/components/AlertModals';
 import TicketsEditorDrawer from './TicketsEditorDrawer';
-import TanstackTable from '@/components/Tabel/TanstackTable';
+import TanstackTable from '@/components/Table/TanstackTable';
 
 import useTickets from './useTickets';
 
@@ -12,7 +12,7 @@ import { columns } from './Tickets.data';
 
 import { TasksTableData } from '@/mock/modules/airSales/Deals/ViewDetails';
 
-import { PlusSharedIcon } from '@/assets/icons';
+import { PlusIcon } from '@/assets/icons';
 
 import { styles } from '../Associations.style';
 
@@ -65,7 +65,7 @@ const Tickets = () => {
               sx={{ minWidth: '0px', gap: 0.5 }}
               onClick={() => setOpenDrawer('Add')}
             >
-              <PlusSharedIcon /> Add Tickets
+              <PlusIcon /> Add Tickets
             </Button>
           </Box>
         </Grid>

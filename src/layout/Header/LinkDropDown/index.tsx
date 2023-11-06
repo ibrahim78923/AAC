@@ -29,7 +29,7 @@ import {
 
 import { styles } from './LinkDropdown.style';
 
-import { PlusSharedIcon } from '@/assets/icons';
+import { PlusIcon } from '@/assets/icons';
 
 import { v4 as uuidv4 } from 'uuid';
 
@@ -144,7 +144,7 @@ const LinkDropdown = () => {
               sx={{ minWidth: '0px', gap: 1, height: '32px' }}
               onClick={() => setIsEditLink(!isEditLink)}
             >
-              <PlusSharedIcon />
+              <PlusIcon />
               {!isEditLink && <Typography>Save</Typography>}
             </Button>
           </Box>

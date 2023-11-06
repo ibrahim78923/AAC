@@ -5,14 +5,14 @@ import { Box, Button, Grid, Typography } from '@mui/material';
 import Search from '@/components/Search';
 import { AlertModals } from '@/components/AlertModals';
 import CompaniesEditorDrawer from './CompaniesEditorDrawer';
-import TanstackTable from '@/components/Tabel/TanstackTable';
+import TanstackTable from '@/components/Table/TanstackTable';
 
 import useCompanies from './useCompanies';
 
 import { columns } from './Companies.data';
 import { companiesData } from '@/mock/modules/airSales/Deals/ViewDetails';
 
-import { PlusSharedIcon } from '@/assets/icons';
+import { PlusIcon } from '@/assets/icons';
 
 import { styles } from '../Associations.style';
 
@@ -65,7 +65,7 @@ const Companies = () => {
               sx={{ minWidth: '0px', gap: 0.5 }}
               onClick={() => setOpenDrawer('Add')}
             >
-              <PlusSharedIcon /> Add Companies
+              <PlusIcon /> Add Companies
             </Button>
           </Box>
         </Grid>

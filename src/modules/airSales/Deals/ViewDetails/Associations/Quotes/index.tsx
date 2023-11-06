@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { Box, Button, Grid, Typography, useTheme } from '@mui/material';
 
 import Search from '@/components/Search';
-import TanstackTable from '@/components/Tabel/TanstackTable';
+import TanstackTable from '@/components/Table/TanstackTable';
 
 import { columns } from './Quotes.data';
 import { quotesData } from '@/mock/modules/airSales/Deals/ViewDetails';
 
-import { PlusSharedIcon } from '@/assets/icons';
+import { PlusIcon } from '@/assets/icons';
 
 import { styles } from '../Associations.style';
 
@@ -49,7 +49,7 @@ const Quotes = () => {
               variant="contained"
               sx={{ minWidth: '0px', height: '35px', gap: 0.5 }}
             >
-              <PlusSharedIcon /> Add Quotes
+              <PlusIcon /> Add Quotes
             </Button>
           </Box>
         </Grid>

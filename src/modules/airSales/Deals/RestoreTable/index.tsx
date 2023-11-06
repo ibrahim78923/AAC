@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Box, Paper, Typography, useTheme } from '@mui/material';
 
 import Layout from '@/layout';
-import TanstackTable from '@/components/Tabel/TanstackTable';
+import TanstackTable from '@/components/Table/TanstackTable';
 import CustomPagination from '@/components/CustomPagination';
 
 import { RestoreTableData } from '@/mock/modules/airSales/Deals/Restore';

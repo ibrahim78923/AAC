@@ -9,8 +9,9 @@ import planManagementSlice from './slices/planManagement/planManagementSlice';
 
 const persistConfig = {
   key: 'role',
-  storage,
   timeout: 1000,
+  storage,
+  whitelist: ['planManagement'],
 };
 
 const reducer = combineReducers({
