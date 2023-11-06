@@ -9,7 +9,7 @@ export const SingleTicketHeader = (props: any) => {
     <Box
       display={'flex'}
       justifyContent={'space-between'}
-      flexWrap={{ xs: 'wrap', sm: 'wrap' }}
+      flexWrap={{ xs: 'wrap' }}
       alignItems={'center'}
       padding={1}
     >

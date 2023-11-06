@@ -6,12 +6,9 @@ export const SingleTicketDetail = ({
   singleTicketDetailContent,
 }: any) => {
   return (
-    <Box
-      display={'flex'}
-      flexDirection={{ xs: 'column', sm: 'row', lg: 'row' }}
-    >
+    <Box display={'flex'} flexDirection={{ xs: 'column', sm: 'row' }}>
       <Box
-        width={{ xs: '100%', sm: '70%', lg: '70%' }}
+        width={{ xs: '100%', sm: '70%' }}
         height={'20rem'}
         overflow={'scroll'}
       >
@@ -22,7 +19,7 @@ export const SingleTicketDetail = ({
         gap={1}
         display={'flex'}
         flexDirection={'column'}
-        width={{ xs: '100%', sm: '30%', lg: '30%' }}
+        width={{ xs: '100%', sm: '30%' }}
         padding={2}
       >
         <Typography variant="h4">AGENT WORKING ON</Typography>
