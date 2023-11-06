@@ -47,6 +47,7 @@ export default function EditForm({
                   sx={{
                     paddingTop:
                       index === 0 ? '40px !important' : '17px !important',
+                    position: index === 1 ? 'relative' : '',
                   }}
                 >
                   <item.component {...item.componentProps} size={'small'}>
@@ -57,43 +58,46 @@ export default function EditForm({
                         </option>
                       ))}
                   </item.component>
-
-                  <Box
-                    sx={{
-                      position: 'absolute',
-                      top: 122,
-                      right: 0,
-                      background: '#E5E7EB',
-                      borderRadius: '10px',
-                    }}
-                  >
-                    <Button
-                      onClick={() => setSelectProductSuite('product')}
-                      variant={`${
-                        selectProductSuite === 'product' ? 'contained' : 'text'
-                      }`}
+                  {index === 1 && (
+                    <Box
                       sx={{
-                        height: '25px',
+                        position: 'absolute',
+                        top: 10,
+                        right: 0,
+                        background: '#E5E7EB',
                         borderRadius: '10px',
-                        boxShadow: 'none',
                       }}
                     >
-                      <Typography>Product</Typography>{' '}
-                    </Button>
-                    <Button
-                      onClick={() => setSelectProductSuite('CRM')}
-                      variant={`${
-                        selectProductSuite === 'CRM' ? 'contained' : 'text'
-                      }`}
-                      sx={{
-                        height: '25px',
-                        borderRadius: '10px',
-                        boxShadow: 'none',
-                      }}
-                    >
-                      <Typography>CRM Suite</Typography>
-                    </Button>
-                  </Box>
+                      <Button
+                        onClick={() => setSelectProductSuite('product')}
+                        variant={`${
+                          selectProductSuite === 'product'
+                            ? 'contained'
+                            : 'text'
+                        }`}
+                        sx={{
+                          height: '25px',
+                          borderRadius: '10px',
+                          boxShadow: 'none',
+                        }}
+                      >
+                        <Typography>Product</Typography>{' '}
+                      </Button>
+                      <Button
+                        onClick={() => setSelectProductSuite('CRM')}
+                        variant={`${
+                          selectProductSuite === 'CRM' ? 'contained' : 'text'
+                        }`}
+                        sx={{
+                          height: '25px',
+                          borderRadius: '10px',
+                          boxShadow: 'none',
+                        }}
+                      >
+                        <Typography>CRM Suite</Typography>
+                      </Button>
+                    </Box>
+                  )}
                 </Grid>
               ),
             )}
