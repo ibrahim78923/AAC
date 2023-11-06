@@ -1,5 +1,6 @@
-import { useTheme } from '@mui/material';
 import { useState } from 'react';
+
+import { useTheme } from '@mui/material';
 
 const useTickets = () => {
   const theme = useTheme();

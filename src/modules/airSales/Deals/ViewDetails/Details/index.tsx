@@ -23,9 +23,9 @@ const Details = () => {
   const { theme, methodsDetails, onSubmit, handleSubmit } = useDetails();
 
   return (
-    <Box sx={styles.horizontalTabsBox}>
+    <Box sx={styles?.horizontalTabsBox}>
       <Typography variant="h4">Details</Typography>
-      <Box sx={styles.horizontalTabsInnnerBox}>
+      <Box sx={styles?.horizontalTabsInnnerBox}>
         <FormProvider
           methods={methodsDetails}
           onSubmit={handleSubmit(onSubmit)}
@@ -33,7 +33,7 @@ const Details = () => {
           <Grid container spacing={4}>
             {detailsDataArray?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                <item.component {...item.componentProps} size={'small'}>
+                <item.component {...item?.componentProps} size={'small'}>
                   {item?.componentProps?.select
                     ? item?.options?.map((option: any) => (
                         <option key={option?.value} value={option?.value}>
@@ -45,7 +45,7 @@ const Details = () => {
               </Grid>
             ))}
             <Grid item xs={12}>
-              <Divider sx={{ borderColor: theme.palette.grey[700] }} />
+              <Divider sx={{ borderColor: theme?.palette?.grey[700] }} />
             </Grid>
             <Grid item xs={12}>
               <Box

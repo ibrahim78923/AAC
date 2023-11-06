@@ -6,13 +6,14 @@ import CommonDrawer from '@/components/CommonDrawer';
 
 import { FormProvider } from '@/components/ReactHookForm';
 
-import { v4 as uuidv4 } from 'uuid';
 import useContactsEditorDrawer from './useContactsEditorDrawer';
 import {
   contactsDataArray,
   drawerButtonTitle,
   drawerTitle,
 } from './ContactsEditorDrawer.data';
+
+import { v4 as uuidv4 } from 'uuid';
 
 const ContactsEditorDrawer = (props: any) => {
   const { openDrawer, setOpenDrawer } = props;
@@ -36,7 +37,7 @@ const ContactsEditorDrawer = (props: any) => {
             <Grid container spacing={4}>
               {contactsDataArray?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                  <item.component {...item.componentProps} size={'small'}>
+                  <item.component {...item?.componentProps} size={'small'}>
                     {item?.componentProps?.select
                       ? item?.options?.map((option: any) => (
                           <option key={option?.value} value={option?.value}>

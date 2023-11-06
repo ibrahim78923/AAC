@@ -9,31 +9,31 @@ export const columns: any = ({
 }) => {
   return [
     {
-      accessorFn: (row: any) => row.name,
+      accessorFn: (row: any) => row?.name,
       id: 'product_name',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
       header: 'Product Name',
       isSortable: true,
     },
 
     {
-      accessorFn: (row: any) => row.quantity,
+      accessorFn: (row: any) => row?.quantity,
       id: 'quantity',
       isSortable: true,
       header: 'Quantity',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
 
     {
-      accessorFn: (row: any) => row.amount,
+      accessorFn: (row: any) => row?.amount,
       id: 'phonenumber',
       isSortable: true,
       header: 'Amount',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
 
     {
-      accessorFn: (row: any) => row.assignedTo,
+      accessorFn: (row: any) => row?.assignedTo,
       id: 'assignedTo',
       isSortable: false,
       header: 'Actions',

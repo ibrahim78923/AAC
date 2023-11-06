@@ -4,6 +4,7 @@ import { Box, Grid } from '@mui/material';
 
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider, RHFRadioGroup } from '@/components/ReactHookForm';
+import Search from '@/components/Search';
 
 import useProductEditorDrawer from './useProductEditorDrawer';
 
@@ -13,7 +14,6 @@ import {
   drawerTitle,
   productsDataArray,
 } from './ProductEditorDrawer.data';
-import Search from '@/components/Search';
 
 const ProductEditorDrawer = (props: any) => {
   const { openDrawer, setOpenDrawer } = props;
@@ -52,7 +52,7 @@ const ProductEditorDrawer = (props: any) => {
               {watchProductstatus[0] === 'Custom Line Item' ? (
                 productsDataArray?.map((item: any) => (
                   <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                    <item.component {...item.componentProps} size={'small'}>
+                    <item.component {...item?.componentProps} size={'small'}>
                       {item?.componentProps?.select
                         ? item?.options?.map((option: any) => (
                             <option key={option?.value} value={option?.value}>

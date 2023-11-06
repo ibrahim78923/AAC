@@ -10,9 +10,9 @@ import useAttachments from './useAttachments';
 import { columns } from './Attachments.data';
 import { attachmentData } from '@/mock/modules/airSales/Deals/ViewDetails';
 
-import { PlusSharedIcon } from '@/assets/icons';
-
 import { styles } from '../Associations.style';
+
+import { PlusSharedIcon } from '@/assets/icons';
 
 const Attachments = () => {
   const {
@@ -36,7 +36,7 @@ const Attachments = () => {
     >
       <Grid container spacing={2}>
         <Grid item md={4} sx={styles?.countBox}>
-          <Typography sx={styles.associationCount(theme)} variant="body3">
+          <Typography sx={styles?.associationCount(theme)} variant="body3">
             02
           </Typography>
 
