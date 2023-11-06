@@ -83,7 +83,16 @@ export { default as DealReportImage } from './modules/airSales/Reports/reports.p
 export { default as documentContained } from './modules/superAdmin/Settings/ModuleCreation/document-contained.png';
 export { default as ApplePhoneImage } from './modules/socialComponents/calling/apple-phone.png';
 export { default as NoSearchResultFoundImage } from './shared/no-search-result.png';
-
+export { default as AnnouncementAvatarImage } from './modules/airServices/Dashboard/announcement-avatar-image.png';
+export { default as ClipboardTickImage } from './modules/airServices/Dashboard/clipboard-tick-dashboard-image.png';
+export { default as FirstAidKitImage } from './modules/airServices/Dashboard/first-aid-kit-image.png';
+export { default as SecondAidKitImage } from './modules/airServices/Dashboard/second-aid-kit-image.png';
+export { default as ThirdAidKitImage } from './modules/airServices/Dashboard/third-aid-kit-image.png';
+export { default as FourAidKitImage } from './modules/airServices/Dashboard/four-aid-kit-image.png';
+export { default as FiveAidKitImage } from './modules/airServices/Dashboard/five-aid-kit-image.png';
+export { default as CustomerWowChampionImage } from './modules/airServices/Dashboard/customer-wow-champion-image.png';
+export { default as MostValuablePlayerImage } from './modules/airServices/Dashboard/most-valuable-player-image.png';
+export { default as DashboardAvatarImage } from './modules/airServices/Dashboard/avatar-image.png';
 export { default as ItemStatusImage } from './modules/airServices/Assets/item-status-image.png';
 export { default as TotalItemImage } from './modules/airServices/Assets/total-item-image.png';
 export { default as ItemToInventoryImage } from './modules/airServices/Assets/item-to-inventory.png';
