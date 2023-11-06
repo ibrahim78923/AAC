@@ -14,7 +14,7 @@ const Alert = (theme: any) => {
   });
 
   const outlinedStyle = (color: any) => ({
-    color: theme.palette[color][isLight ? 'darker' : 'lighter'],
+    color: theme.palette[color][isLight ? 'darker' : ''],
     border: `solid 1px ${theme.palette[color][isLight ? 'light' : 'dark']}`,
     backgroundColor: theme.palette[color][isLight ? 'lighter' : 'darker'],
     '& .MuiAlert-icon': {
