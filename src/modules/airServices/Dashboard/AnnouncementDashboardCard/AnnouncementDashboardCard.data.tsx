@@ -1,20 +1,20 @@
-import AnnouncementAvatar from '@/assets/images/modules/airServices/Dashboard/Avatar.png';
+import { DashbaordAvatar } from '@/assets/images';
 
 export const announcementDashboardCardData = [
   {
-    icon: AnnouncementAvatar,
+    icon: DashbaordAvatar,
     announcementText: ' We are excited to announce that..',
     announcementTextOne: '3 hours ago',
     announcementTextTwo: 'Kyle Jenner',
   },
   {
-    icon: AnnouncementAvatar,
+    icon: DashbaordAvatar,
     announcementText: ' We are excited to announce that..',
     announcementTextOne: '3 hours ago',
     announcementTextTwo: 'Kyle Jenner',
   },
   {
-    icon: AnnouncementAvatar,
+    icon: DashbaordAvatar,
     announcementText: ' We are excited to announce that..',
     announcementTextOne: '3 hours ago',
     announcementTextTwo: 'Kyle Jenner',

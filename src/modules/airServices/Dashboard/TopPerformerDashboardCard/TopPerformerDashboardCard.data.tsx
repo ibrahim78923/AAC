@@ -1,10 +1,10 @@
-import TopPerformanceImage from '@/assets/images/modules/airServices/Dashboard/CustomerWowChampion.png';
-import TopPerformanceImageTwo from '@/assets/images/modules/airServices/Dashboard/MostValuablePlayer.png';
-import TopPerformaceAvatar from '@/assets/images/modules/airServices/Dashboard/Avatar.png';
+import { CustomerWowChampion } from '@/assets/images';
+import { MostValuablePlayer } from '@/assets/images';
+import { DashbaordAvatar } from '@/assets/images';
 
 export const topPerformerDashboardCardData = [
   {
-    icon: TopPerformaceAvatar,
+    icon: DashbaordAvatar,
     topPerformanceText: ' Alesha Rai',
     topPerformanceTextOne: 'IT Department',
     topPerformanceTextTwo: 'Beginner',
@@ -13,7 +13,7 @@ export const topPerformerDashboardCardData = [
     topPerformanceTextFive: 'Champion',
     topPerformanceTextSix: 'Most Valuable',
     topPerformanceTextSeven: 'Player',
-    iconOne: TopPerformanceImage,
-    iconTwo: TopPerformanceImageTwo,
+    iconOne: CustomerWowChampion,
+    iconTwo: MostValuablePlayer,
   },
 ];

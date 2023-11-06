@@ -15,7 +15,7 @@ export const HeaderPieChart = ({}: any) => {
         />
       </Box>
       <Grid container spacing={5}>
-        {availabilityHeader(theme).map((department) => (
+        {availabilityHeader(theme)?.map((department) => (
           <Grid item sx={{ mt: 2 }} key={uuidv4()}>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
               {department?.icon}

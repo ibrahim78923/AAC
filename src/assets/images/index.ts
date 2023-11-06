@@ -88,9 +88,10 @@ export { default as FirstAidKit } from './modules/airServices/Dashboard/first-ai
 export { default as SecondAidKit } from './modules/airServices/Dashboard/second-aid-kit.png';
 export { default as ThirdAidKit } from './modules/airServices/Dashboard/third-aid-kit.png';
 export { default as FourAidKit } from './modules/airServices/Dashboard/four-aid-kit.png';
-export { default as CustomerWowChampion } from './modules/airServices/Dashboard/CustomerWowChampion.png';
-export { default as MostValuablePlayer } from './modules/airServices/Dashboard/MostValuablePlayer.png';
-export { default as DashbaordAvatar } from './modules/airServices/Dashboard/Avatar.png';
+export { default as FiveAidKit } from './modules/airServices/Dashboard/five-aid-kit.png';
+export { default as CustomerWowChampion } from './modules/airServices/Dashboard/customer-wow-champion.png';
+export { default as MostValuablePlayer } from './modules/airServices/Dashboard/most-valuable-player.png';
+export { default as DashbaordAvatar } from './modules/airServices/Dashboard/avatar.png';
 export { default as ItemStatusImage } from './modules/airServices/Assets/item-status-image.png';
 export { default as TotalItemImage } from './modules/airServices/Assets/total-item-image.png';
 export { default as ItemToInventoryImage } from './modules/airServices/Assets/item-to-inventory.png';
