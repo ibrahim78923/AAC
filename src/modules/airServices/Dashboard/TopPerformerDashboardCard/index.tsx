@@ -65,7 +65,7 @@ export const TopPerformerDashboardCard = ({
             sx={{ width: '62%' }}
           />
         </Box>
-        <Box display={'flex'} gap={2} px={2} marginTop={3} marginBottom={4}>
+        <Box display={'flex'} gap={2} px={2} marginTop={3} marginBottom={3.7}>
           <Avatar
             alt=""
             src={iconOne?.src}
