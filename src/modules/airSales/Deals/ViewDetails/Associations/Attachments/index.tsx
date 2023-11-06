@@ -4,7 +4,7 @@ import { Box, Button, Grid, Typography } from '@mui/material';
 
 import Search from '@/components/Search';
 import { AlertModals } from '@/components/AlertModals';
-import TanstackTable from '@/components/Tabel/TanstackTable';
+import TanstackTable from '@/components/Table/TanstackTable';
 import AttachmentsEditorDrawer from './AttachmentsEditorDrawer';
 
 import useAttachments from './useAttachments';
@@ -12,7 +12,7 @@ import useAttachments from './useAttachments';
 import { columns } from './Attachments.data';
 import { attachmentData } from '@/mock/modules/airSales/Deals/ViewDetails';
 
-import { PlusSharedIcon } from '@/assets/icons';
+import { PlusIcon } from '@/assets/icons';
 
 import { styles } from '../Associations.style';
 
@@ -65,7 +65,7 @@ const Attachments = () => {
               sx={{ minWidth: '0px', gap: 0.5 }}
               onClick={() => setOpenDrawer('Add')}
             >
-              <PlusSharedIcon /> Add Attachments
+              <PlusIcon /> Add Attachments
             </Button>
           </Box>
         </Grid>

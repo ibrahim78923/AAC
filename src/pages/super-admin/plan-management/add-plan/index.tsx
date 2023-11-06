@@ -1,3 +1,5 @@
+import React from 'react';
+// ====================================================================================================
 import Layout from '@/layout';
 
 // un-comment this if want to use direct import

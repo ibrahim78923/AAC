@@ -6,7 +6,7 @@ import Search from '@/components/Search';
 
 import CustomPagination from '@/components/CustomPagination';
 
-import TanstackTable from '@/components/Tabel/TanstackTable';
+import TanstackTable from '@/components/Table/TanstackTable';
 
 import { delegatesColumns, delegatesData } from './Delegates.data';
 
