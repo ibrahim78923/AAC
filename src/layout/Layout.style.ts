@@ -42,7 +42,7 @@ export const styles = {
   dropdownChildren: (theme: any) => {
     return {
       position: 'relative',
-      borderLeft: `1px solid ${theme?.palette?.grey[900]}`,
+      borderLeft: `1px solid ${theme?.palette?.grey[700]}`,
       padding: '8px 0px',
       paddingLeft: '24px',
       '&:before': {
@@ -52,8 +52,8 @@ export const styles = {
         width: '15px',
         height: '15px',
         left: -1,
-        borderLeft: `1px solid ${theme?.palette?.grey[900]}`,
-        borderBottom: `1px solid ${theme?.palette?.grey[900]}`,
+        borderLeft: `1px solid ${theme?.palette?.grey[700]}`,
+        borderBottom: `1px solid ${theme?.palette?.grey[700]}`,
         borderRadius: '0px 0px 0px 7px',
         top: 3,
       },

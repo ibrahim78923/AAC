@@ -45,7 +45,7 @@ export const authAPI = baseAPI.injectEndpoints({
 
     getAuthCompanies: builder.query({
       query: () => ({
-        url: endpoints.auth_search_company,
+        url: `${endpoints.auth_search_company}?by='crn'`,
         method: 'GET',
       }),
       providesTags: ['companies'],

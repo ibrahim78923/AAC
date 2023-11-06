@@ -5,19 +5,12 @@ import Link from 'next/link';
 import {
   Grid,
   Button,
-  InputAdornment,
   Typography,
-  Switch,
-  FormControl,
-  Select,
-  MenuItem,
   useTheme,
   Box,
-  FormControlLabel,
-  Checkbox,
+  InputAdornment,
+  IconButton,
 } from '@mui/material';
-
-import InputField from '@/components/InputField';
 
 import {
   EyeIcon,
@@ -30,50 +23,36 @@ import { LoginDashboardImage } from '@/assets/images';
 
 import { styles } from './SignUp.style';
 
-import { useForm, Controller, FormProvider } from 'react-hook-form';
-import { useSignUpMutation } from '@/services/auth';
+import useSignup from './useSignup';
+import {
+  FormProvider,
+  RHFAutocomplete,
+  RHFMultiCheckbox,
+  RHFSelect,
+  RHFTextField,
+} from '@/components/ReactHookForm';
+import { noOfEmployee } from './SignUp.data';
+
+import { v4 as uuidv4 } from 'uuid';
 
 const SignUp = () => {
-  const [isShowError, setIsShowError] = useState<boolean>(false);
-  const [isMatchPassword, setIsMatchPassword] = useState<boolean>(false);
-  const [isStepComplete, setIsStepComplete] = useState<boolean>(false);
-  const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
-  const [employeesNumber, setEmployeesNumber] = React.useState('');
+  const { onSubmit, handleSubmit, methodsSignup } = useSignup();
+  // const { data } = useGetAuthCompaniesQuery({})
 
-  const [isShowConfirmPassword, setIsShowConfirmPassword] =
-    useState<boolean>(false);
-  const [isSuccess, setIsSuccess] = useState<boolean>(false);
+  const [isStepComplete, setIsStepComplete] = useState<boolean>(false);
+
+  const isSuccess = false;
 
   const theme = useTheme();
-  const {
-    handleSubmit,
-    control,
-    formState: { errors },
-  } = useForm();
-  const [SignUpHandler] = useSignUpMutation();
 
-  const isPasswordValid = (password: string) => {
-    const regex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{8,}$/;
-    return regex.test(password);
-  };
+  const [showPassword, setShowPassword] = React.useState(false);
 
-  const onSubmit = async (data: any) => {
-    const { createPassword, confirmPassword } = data;
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
 
-    if (isPasswordValid(createPassword)) {
-      if (createPassword !== confirmPassword) {
-        setIsMatchPassword(true);
-      } else {
-        setIsMatchPassword(false);
-
-        setIsSuccess(true);
-        await SignUpHandler({ user: data });
-      }
-    }
-  };
-
-  const handleChange = (event: SelectChangeEvent) => {
-    setEmployeesNumber(event?.target?.value as string);
+  const handleMouseDownPassword = (
+    event: React.MouseEvent<HTMLButtonElement>,
+  ) => {
+    event.preventDefault();
   };
 
   return (
@@ -107,7 +86,7 @@ const SignUp = () => {
               click on that link for further verification to proceed.
             </Typography>
             <Typography variant="h6" sx={{ color: theme?.palette?.grey[900] }}>
-              If you didn’t get the verification email click on{' '}
+              If you didn’t get the verification email click on
               <Link
                 href="/sign-up"
                 style={{
@@ -115,8 +94,7 @@ const SignUp = () => {
                   fontWeight: '600',
                 }}
               >
-                {' '}
-                Resend link{' '}
+                Resend link
               </Link>
             </Typography>
           </Box>
@@ -142,10 +120,152 @@ const SignUp = () => {
                 >
                   Let’s Get Started!
                 </Typography>
-                <FormProvider>
+                <Box style={styles.formStyling}>
+                  <FormProvider
+                    methods={methodsSignup}
+                    onSubmit={handleSubmit(onSubmit)}
+                  >
+                    {!isStepComplete ? (
+                      <Grid container spacing={4}>
+                        <Grid item xs={12}>
+                          <RHFTextField
+                            name="fullName"
+                            label="Full Name"
+                            size="small"
+                          />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <RHFTextField
+                            name="email"
+                            label="Email Address"
+                            size="small"
+                          />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <RHFAutocomplete
+                            name="organizationNumber"
+                            label="To"
+                            options={noOfEmployee}
+                            size="small"
+                          />
+                        </Grid>
+
+                        <Grid item xs={12}>
+                          <RHFTextField
+                            name="organizationName"
+                            label="Organization Name"
+                            size="small"
+                          />
+                        </Grid>
+
+                        <Grid item xs={12}>
+                          <RHFSelect
+                            name="employeesNumber"
+                            label="No of Employees"
+                            size="small"
+                          >
+                            {noOfEmployee?.map((option: any) => (
+                              <option key={uuidv4()} value={option?.value}>
+                                {option?.label}
+                              </option>
+                            ))}
+                          </RHFSelect>
+                        </Grid>
+
+                        <Grid item xs={12}>
+                          <RHFTextField
+                            name="phoneNumber"
+                            label="Phone Number"
+                            size="small"
+                          />
+                        </Grid>
+
+                        <Grid item xs={12}>
+                          <Button
+                            variant="contained"
+                            sx={{ width: '100%' }}
+                            onClick={() => setIsStepComplete(true)}
+                          >
+                            {' '}
+                            Next
+                          </Button>
+                        </Grid>
+                      </Grid>
+                    ) : (
+                      <Grid container spacing={4}>
+                        <Grid item xs={6}>
+                          <Button
+                            variant="contained"
+                            onClick={() => setIsStepComplete(false)}
+                          >
+                            {' '}
+                            Back
+                          </Button>
+                          <RHFMultiCheckbox
+                            name="ff"
+                            options={['sdsd', 'efdf']}
+                          />
+                        </Grid>
+
+                        <Grid item xs={12}>
+                          <RHFTextField
+                            name="DRN"
+                            label=" Delegate Reference Number (DRN) if applied"
+                            size="small"
+                          />
+                        </Grid>
+
+                        <Grid item xs={12}>
+                          <RHFTextField
+                            name="password"
+                            label="Password"
+                            size="small"
+                            type={showPassword ? 'text' : 'password'}
+                            endAdornment={
+                              <InputAdornment position="end">
+                                <IconButton
+                                  aria-label="toggle password visibility"
+                                  onClick={handleClickShowPassword}
+                                  onMouseDown={handleMouseDownPassword}
+                                >
+                                  {showPassword ? (
+                                    <EyeSlashIcon />
+                                  ) : (
+                                    <EyeIcon />
+                                  )}
+                                </IconButton>
+                              </InputAdornment>
+                            }
+                          />
+                        </Grid>
+
+                        <Grid item xs={12}>
+                          <RHFTextField
+                            name="confirmPassword"
+                            label="Confirm password"
+                            size="small"
+                            type={'password'}
+                          />
+                        </Grid>
+
+                        <Grid item xs={12}>
+                          <Button
+                            variant="contained"
+                            type="submit"
+                            sx={{ width: '100%' }}
+                          >
+                            {' '}
+                            Submit
+                          </Button>
+                        </Grid>
+                      </Grid>
+                    )}
+                  </FormProvider>
+                </Box>
+                {/* <FormProvider>
                   <form
                     onSubmit={handleSubmit(onSubmit)}
-                    style={styles.formStyling}
+
                   >
                     {isStepComplete ? (
                       <>
@@ -153,7 +273,7 @@ const SignUp = () => {
                           variant="body2"
                           sx={{ marginBottom: '4px' }}
                         >
-                          Select Product(s){' '}
+                          Select Product(s)
                           <span style={{ color: 'red' }}>*</span>
                         </Typography>
 
@@ -237,7 +357,7 @@ const SignUp = () => {
                             variant="body1"
                             sx={{ color: theme?.palette?.error?.main }}
                           >
-                            {' '}
+                            
                             {errors?.Sales?.message}
                           </Typography>
                         )}
@@ -276,7 +396,7 @@ const SignUp = () => {
                           variant="body2"
                           style={{ marginBottom: '4px', marginTop: '10px' }}
                         >
-                          Create Password{' '}
+                          Create Password
                           <span style={{ color: 'red' }}>*</span>
                         </Typography>
                         <Controller
@@ -345,7 +465,7 @@ const SignUp = () => {
                           variant="body2"
                           style={{ marginBottom: '4px', marginTop: '10px' }}
                         >
-                          Confirm Password{' '}
+                          Confirm Password
                           <span style={{ color: 'red' }}>*</span>
                         </Typography>
                         <Controller
@@ -609,7 +729,7 @@ const SignUp = () => {
                       </>
                     )}
                   </form>
-                </FormProvider>
+                </FormProvider> */}
               </Box>
             </Grid>
             <Grid
