@@ -3,17 +3,17 @@ import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
 import { v4 as uuidv4 } from 'uuid';
 import { useFilterArticles } from './useFilterArticle';
-import { FilterArticlesData } from './FilterArticles.data';
+import { filterArticlesData } from './FilterArticles.data';
 
-export default function ArticleFilter(props: any) {
-  const { submitHandler, IsOpenFilterDrawer, SetIsOpenFilterDrawer, methods } =
+const ArticleFilter = (props: any) => {
+  const { submitHandler, isOpenFilterDrawer, setIsOpenFilterDrawer, methods } =
     useFilterArticles(props);
 
   return (
     <CommonDrawer
-      isDrawerOpen={IsOpenFilterDrawer}
+      isDrawerOpen={isOpenFilterDrawer}
       onClose={() => {
-        SetIsOpenFilterDrawer(false);
+        setIsOpenFilterDrawer(false);
       }}
       submitHandler={submitHandler}
       title={'Filter'}
@@ -24,9 +24,9 @@ export default function ArticleFilter(props: any) {
       <Box mt={1}>
         <FormProvider methods={methods} onSubmit={submitHandler}>
           <Grid container spacing={4}>
-            {FilterArticlesData?.map((item: any) => (
+            {filterArticlesData?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                <item.component {...item.componentProps} size={'small'}>
+                <item.component {...item?.componentProps} size={'small'}>
                   {item?.componentProps?.select &&
                     item?.options?.map((option: any) => (
                       <option key={uuidv4()} value={option?.value}>
@@ -41,4 +41,6 @@ export default function ArticleFilter(props: any) {
       </Box>
     </CommonDrawer>
   );
-}
+};
+
+export default ArticleFilter;

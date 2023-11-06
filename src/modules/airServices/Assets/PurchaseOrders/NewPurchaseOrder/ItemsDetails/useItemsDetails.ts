@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { singleItem } from './idfsdfsdtemsDetails.data';
+import { singleItem } from './ItemsDetails.data';
 
 const useItemsDetails = () => {
   const [itemsList, setItemsList] = useState([singleItem]);

@@ -1,7 +1,7 @@
 export const styles = {
   mainBox: (theme: any) => ({
     border: '.1rem solid',
-    borderColor: theme.palette.grey?.[700],
+    borderColor: theme?.palette?.grey?.[700],
     maxWidth: '33.7rem',
     width: '100%',
     height: '25rem',
@@ -30,7 +30,7 @@ export const styles = {
     paddingLeft: '1.2rem',
     borderRadius: '.5rem',
     display: 'flex',
-    backgroundColor: theme.palette.grey?.[100],
+    backgroundColor: theme?.palette?.grey?.[100],
     maxWidth: '30rem',
     width: '100%',
     height: '3.2rem',

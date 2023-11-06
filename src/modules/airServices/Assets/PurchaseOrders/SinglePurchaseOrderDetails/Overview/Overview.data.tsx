@@ -4,7 +4,7 @@ export const overviewData = [
   {
     id: '1',
     heading: 'Purchase Details',
-    DetailsData: [
+    detailsData: [
       { name: 'Vendor', detail: 'Dell' },
       { name: 'Details', detail: 'Dell monitor' },
       { name: 'Currency', detail: 'Pound' },
@@ -29,7 +29,7 @@ export const overviewTableColumns: any = (
       id: 'itemName',
       cell: (info: any) => (
         <Typography color={theme?.palette?.blue?.dull_blue}>
-          {info.getValue()}
+          {info?.getValue()}
         </Typography>
       ),
       header: 'Item Name',
@@ -73,7 +73,7 @@ export const overviewTableColumns: any = (
           sx={{ cursor: 'pointer', color: theme?.palette?.primary?.main }}
           onClick={() => setOpenOverviewModal(true)}
         >
-          {info.getValue()}
+          {info?.getValue()}
         </Typography>
       ),
     },

@@ -51,7 +51,7 @@ export const useExpense = () => {
       return;
     }
     // set selected record values in expense modal
-    Object?.entries(selectedExpenseList[0])?.map(
+    Object?.entries(selectedExpenseList?.[0])?.map(
       ([key, value]: any) =>
         addExpenseMethods?.setValue(
           key,

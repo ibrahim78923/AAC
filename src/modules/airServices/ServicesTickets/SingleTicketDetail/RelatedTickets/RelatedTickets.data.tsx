@@ -1,4 +1,4 @@
-import { Checkbox } from '@mui/material';
+import { Checkbox, Typography } from '@mui/material';
 import { TableDataI } from './RelatedTickets.interface';
 
 export const data: TableDataI[] = [
@@ -31,6 +31,7 @@ export const columns: any = (
   setIsDrawerOpen: any,
   isActive: any,
   setActive: any,
+  theme: any,
 ) => [
   {
     accessorFn: (row: any) => row?.Id,
@@ -72,9 +73,9 @@ export const columns: any = (
     header: 'Tickets ID',
     isSortable: true,
     cell: (info: any) => (
-      <div
-        style={{
-          color: '#0AADC7',
+      <Typography
+        sx={{
+          color: 'info.main',
           cursor: 'pointer',
         }}
         onClick={() => {
@@ -82,7 +83,7 @@ export const columns: any = (
         }}
       >
         {info?.getValue()}
-      </div>
+      </Typography>
     ),
   },
   {
@@ -115,17 +116,17 @@ export const columns: any = (
       const status = info?.getValue();
       const color =
         status === 'Open'
-          ? '#0AADC7'
+          ? theme?.palette?.info?.main
           : status === 'Pending'
-          ? '#FF4A4A'
+          ? theme?.palette?.error?.main
           : status === 'Resolved'
-          ? '#FFC20E'
+          ? theme?.palette?.warning?.main
           : '';
       return (
-        <div
-          style={{
+        <Typography
+          sx={{
+            border: color ? `1px solid ${color}` : 'none',
             color: color,
-            border: color ? '1px solid ' + color : 'none',
             padding: '3px 10px',
             borderRadius: '16px',
             cursor: 'pointer',
@@ -133,7 +134,7 @@ export const columns: any = (
           }}
         >
           {status}
-        </div>
+        </Typography>
       );
     },
     sortFunction: (a: any, b: any) => {

@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { useTheme } from '@mui/material';
 
-export const useAssociationsDrawerDetail = () => {
-  const [DrawerData, setDrawerData] = useState([]);
+export const useAssociationsDrawer = () => {
+  const [drawerData, setDrawerData] = useState([]);
   const theme = useTheme();
   return {
-    DrawerData,
+    drawerData,
     setDrawerData,
     theme,
   };

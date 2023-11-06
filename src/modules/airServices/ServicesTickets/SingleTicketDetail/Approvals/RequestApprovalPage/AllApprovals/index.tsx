@@ -14,9 +14,8 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import CancelIcon from '@mui/icons-material/Cancel';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import UnsubscribeIcon from '@mui/icons-material/Unsubscribe';
-import SharedIcon from '@/assets/icons/shared/shared-icon';
 import { useRequestApprovalPage } from '../useRequestApprovalPage';
-import { ReceivedFileIcon } from '@/assets/icons';
+import { ReceivedFileIcon, SharedIcon } from '@/assets/icons';
 import { AlertModalCloseIcon } from '@/assets/icons';
 import { FormProvider, RHFTextField } from '@/components/ReactHookForm';
 import { styles } from '../RequestApprovalPage.style';
@@ -30,11 +29,11 @@ export const AllApprovals = () => {
     handleClose,
     textColor,
     anchorEl,
-    handleApprovalModelOpen,
-    handleApprovalModelClose,
+    handleApprovalModalOpen,
+    handleApprovalModalClose,
     openApprovalModal,
-    handleRejectModelClose,
-    handleRejectModelOpen,
+    handleRejectModalClose,
+    handleRejectModalOpen,
     openRejectModal,
     REQUESTED_CONDITION,
     RECEIVED_CONDITION: RECEIVED_CONDITION,
@@ -67,9 +66,9 @@ export const AllApprovals = () => {
   return (
     <>
       <Box sx={styles?.approvalsContainerBox}>
-        {requestApprovalPageData?.map((item) => {
+        {requestApprovalPageData?.map((item: any) => {
           return (
-            <Box key={uuidv4()} sx={styles?.approvalsContainer}>
+            <Box sx={styles?.approvalsContainer} key={uuidv4()}>
               <Grid
                 container
                 justifyContent={'space-between'}
@@ -88,11 +87,11 @@ export const AllApprovals = () => {
                         {item?.mainText}
                       </Typography>
                       <Box sx={styles?.requestApprovalBoxSecond}>
-                        {Icons[item?.status]}
+                        {Icons?.[item?.status]}
                         <span>
                           <Typography
                             variant="customStyle"
-                            color={textColor[item?.status]}
+                            color={textColor?.[item?.status]}
                           >
                             {item?.iconText}
                           </Typography>
@@ -140,7 +139,7 @@ export const AllApprovals = () => {
                     <Box sx={styles?.requestApprovalBoxFirst}>
                       <Button
                         variant="outlined"
-                        onClick={handleApprovalModelOpen}
+                        onClick={handleApprovalModalOpen}
                         startIcon={
                           <CheckCircleIcon
                             sx={{ color: theme?.palette?.success?.main }}
@@ -150,7 +149,7 @@ export const AllApprovals = () => {
                         Approve
                       </Button>
                       <Button
-                        onClick={handleRejectModelOpen}
+                        onClick={handleRejectModalOpen}
                         variant="outlined"
                         color="error"
                         startIcon={
@@ -175,13 +174,13 @@ export const AllApprovals = () => {
         <Dialog
           fullWidth
           open={openApprovalModal}
-          onClose={handleApprovalModelClose}
+          onClose={handleApprovalModalClose}
         >
           <Box width={'100%'} p={'1rem'}>
             <Box sx={styles?.dialogBoxStyle}>
               <Typography variant="h5">Approval</Typography>
               <AlertModalCloseIcon
-                onClick={handleApprovalModelClose}
+                onClick={handleApprovalModalClose}
                 style={{ cursor: 'pointer' }}
               />
             </Box>
@@ -195,7 +194,7 @@ export const AllApprovals = () => {
             />
             <Box sx={styles?.boxBorderStyle}></Box>
             <Box sx={styles?.buttonBox}>
-              <Button variant="outlined" onClick={handleApprovalModelClose}>
+              <Button variant="outlined" onClick={handleApprovalModalClose}>
                 Cancel
               </Button>
               <Button variant="contained">Approve</Button>
@@ -205,13 +204,13 @@ export const AllApprovals = () => {
         <Dialog
           fullWidth
           open={openRejectModal}
-          onClose={handleRejectModelClose}
+          onClose={handleRejectModalClose}
         >
           <Box width={'100%'} p={'1rem'}>
             <Box sx={styles?.dialogBoxStyle}>
               <Typography variant="h5">Approval</Typography>
               <AlertModalCloseIcon
-                onClick={handleRejectModelClose}
+                onClick={handleRejectModalClose}
                 style={{ cursor: 'pointer' }}
               />
             </Box>
@@ -225,7 +224,11 @@ export const AllApprovals = () => {
             />
             <Box sx={styles?.boxBorderStyle}></Box>
             <Box sx={styles?.buttonBox}>
-              <Button variant="outlined" onClick={handleRejectModelClose}>
+              <Button
+                variant="outlined"
+                color="inherit"
+                onClick={handleRejectModalClose}
+              >
                 Cancel
               </Button>
               <Button variant="contained" color="error">

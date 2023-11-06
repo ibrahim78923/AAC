@@ -1,7 +1,7 @@
 import { styles } from './TimePicker.style';
 import useTimePicker from './useTimePicker';
 
-function TimePicker() {
+const TimePicker = () => {
   const { time, handleTimeChange } = useTimePicker();
   return (
     <input
@@ -12,6 +12,6 @@ function TimePicker() {
       style={styles}
     />
   );
-}
+};
 
 export default TimePicker;

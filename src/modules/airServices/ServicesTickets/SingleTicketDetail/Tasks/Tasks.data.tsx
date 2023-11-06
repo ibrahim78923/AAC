@@ -1,4 +1,4 @@
-import { Checkbox, Typography, useTheme } from '@mui/material';
+import { Checkbox, Typography } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { styles } from './Tasks.styles';
 
@@ -6,8 +6,8 @@ export const tasksTableColumns: any = (
   activeCheck: any,
   setActiveCheck: any,
   setIsDetailDrawerOpen: any,
+  theme: any,
 ) => {
-  const theme = useTheme();
   return [
     {
       accessorFn: (row: any) => row?.Id,

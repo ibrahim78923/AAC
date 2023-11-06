@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { AssociationsDrawer } from './AssociationsDrawer';
 import { SingleAssociationsTicket } from './SingleAssociationsTicket';
 import { associationsTicketData } from './Associations.data';
-import { NoAssociationFound } from '@/assets/images';
+import { NoAssociationFoundImage } from '@/assets/images';
 
 export const Associations = () => {
   const theme: any = useTheme();
@@ -16,7 +16,7 @@ export const Associations = () => {
       {associationsTicketData?.length === 0 ? (
         <>
           <NoData
-            image={NoAssociationFound}
+            image={NoAssociationFoundImage}
             message={
               'Make approved purchases by sending the order to your stakeholders for approval'
             }

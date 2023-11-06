@@ -14,6 +14,7 @@ export const Tasks = () => {
     setActiveCheck,
     isEditDrawerOpen,
     setIsEditDrawerOpen,
+    theme,
   } = useTasks();
   return (
     <div>
@@ -28,6 +29,7 @@ export const Tasks = () => {
           activeCheck,
           setActiveCheck,
           setIsDetailDrawerOpen,
+          theme,
         )}
         data={tasksTableData}
       />
