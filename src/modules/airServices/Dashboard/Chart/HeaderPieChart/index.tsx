@@ -18,11 +18,11 @@ export const HeaderPieChart = ({}: any) => {
         {availabilityHeader(theme).map((department) => (
           <Grid item sx={{ mt: 2 }} key={uuidv4()}>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-              {department.icon}
-              <Typography>{department.title}</Typography>
+              {department?.icon}
+              <Typography>{department?.title}</Typography>
             </Box>
             <Box sx={{ mt: 2 }}>
-              <Typography variant="h5">{department.titlenumber}</Typography>
+              <Typography variant="h5">{department?.titlenumber}</Typography>
             </Box>
           </Grid>
         ))}
