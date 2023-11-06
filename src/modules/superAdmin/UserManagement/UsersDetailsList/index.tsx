@@ -42,6 +42,8 @@ import useUserDetailsList from './useUserDetailsList';
 import Filter from './Filter';
 import AddCompanyDetails from './AddCompanyDetails';
 import StatusBadge from '@/components/StatusBadge';
+import { useGetUsersQuery } from '@/services/superAdmin/user-management/users';
+import { v4 as uuidv4 } from 'uuid';
 
 const UsersDetailsList = () => {
   const {
@@ -65,6 +67,11 @@ const UsersDetailsList = () => {
     theme,
     navigate,
   } = useUserDetailsList();
+
+  const params = {
+    role: 'ORG_ADMIN',
+  };
+  const { data } = useGetUsersQuery(params);
 
   return (
     <Box>
@@ -143,64 +150,72 @@ const UsersDetailsList = () => {
                 </Button>
               </Stack>
             </Box>
-
-            <Box
-              className="users-wrapper"
-              sx={{
-                my: 2,
-                backgroundColor: theme?.palette?.grey[400],
-                borderRadius: '4px',
-                padding: '11px 8px',
-                width: '100%',
-              }}
-            >
+            {data?.data?.users?.length === 0 && (
+              <Typography>No user found</Typography>
+            )}
+            {data?.data?.users?.map((item: any) => (
               <Box
+                className="users-wrapper"
                 sx={{
-                  display: 'flex',
-                  gap: '10px',
-                  alignItems: 'center',
-                  flexWrap: {
-                    xs: 'wrap',
-                    sm: 'nowrap',
-                    lg: 'wrap',
-                    xl: 'nowrap',
-                  },
+                  my: 2,
+                  backgroundColor: theme?.palette?.grey[400],
+                  borderRadius: '4px',
+                  padding: '11px 8px',
+                  width: '100%',
                 }}
+                key={uuidv4()}
               >
-                <Avatar>
-                  <Image
-                    src={AvatarImage}
-                    alt="Avatar"
-                    width={40}
-                    height={40}
-                  />
-                </Avatar>
-                <Box sx={{ width: '100%' }}>
-                  <Box
-                    sx={{ display: 'flex', justifyContent: 'space-between' }}
-                  >
-                    <Typography>Roberts Rohan</Typography>
-                    <StatusBadge
-                      value={userStatus}
-                      onChange={(e: any) => setUserStatus(e?.target?.value)}
-                      options={[
-                        {
-                          label: 'Active',
-                          value: 'active',
-                          color: theme?.palette?.success?.main,
-                        },
-                        {
-                          label: 'Inactive',
-                          value: 'inactive',
-                          color: theme?.palette?.error?.main,
-                        },
-                      ]}
+                <Box
+                  sx={{
+                    display: 'flex',
+                    gap: '10px',
+                    alignItems: 'center',
+                    flexWrap: {
+                      xs: 'wrap',
+                      sm: 'nowrap',
+                      lg: 'wrap',
+                      xl: 'nowrap',
+                    },
+                  }}
+                >
+                  <Avatar>
+                    <Image
+                      src={AvatarImage}
+                      alt="Avatar"
+                      width={40}
+                      height={40}
                     />
+                  </Avatar>
+                  <Box sx={{ width: '100%' }}>
+                    <Box
+                      sx={{ display: 'flex', justifyContent: 'space-between' }}
+                    >
+                      <Typography>
+                        {item?.firstName} {item?.lastName}
+                      </Typography>
+                      <StatusBadge
+                        defaultValue={item?.status}
+                        value={userStatus}
+                        onChange={(e: any) => setUserStatus(e?.target?.value)}
+                        options={[
+                          {
+                            label: 'Active',
+                            value: 'active',
+                            color: theme?.palette?.success?.main,
+                          },
+                          {
+                            label: 'Inactive',
+                            value: 'inactive',
+                            color: theme?.palette?.error?.main,
+                          },
+                        ]}
+                      />
+                    </Box>
+                    <Typography>{item?.email}</Typography>
                   </Box>
-                  <Typography>Robert@airapplecart.co.uk</Typography>
                 </Box>
               </Box>
-            </Box>
+            ))}
           </Box>
         </Grid>
         <Grid item xl={9} lg={8} xs={12}>

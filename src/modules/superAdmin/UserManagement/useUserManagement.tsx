@@ -15,7 +15,6 @@ const useUserManagement = () => {
   const [selectedValue, setSelectedValue] = useState(null);
   const [tabVal, setTabVal] = useState<number>(0);
   const [search, setSearch] = useState('');
-
   const { useGetUsersQuery }: any = usersApi;
 
   const handleClick = (event: any) => {

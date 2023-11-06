@@ -10,8 +10,8 @@ import { SwitchBtn } from '@/components/SwitchButton';
 
 import { AvatarImage } from '@/assets/images';
 
-import * as Yup from 'yup';
 import dayjs from 'dayjs';
+import * as Yup from 'yup';
 
 export const columns: any = [
   {
@@ -52,7 +52,11 @@ export const columns: any = [
     id: 'userType',
     isSortable: true,
     header: 'UserType',
-    cell: (info: any) => info?.getValue() ?? 'N/A',
+    cell: (info: any) => (
+      <Typography>
+        {info?.row?.original?.role?.toLowerCase()?.replace('_', ' ')}
+      </Typography>
+    ),
   },
   {
     accessorFn: (row: any) => row?.OrganizationName,
@@ -97,39 +101,6 @@ export const columns: any = [
   },
 ];
 
-export const superAdminUsersData: any = [
-  {
-    Id: 1,
-    UserId: `123`,
-    UserType: 'Super Admin',
-    OrganizationName: 'Extreme Commerce',
-    CreatedOn: '12/10/2023',
-  },
-  {
-    Id: 2,
-    UserId: `456`,
-    UserType: 'Super Admin',
-    OrganizationName: '-',
-    Products: '-',
-    CreatedOn: '12/10/2023',
-  },
-  {
-    Id: 3,
-    UserId: `789`,
-    UserType: 'Super Admin',
-    OrganizationName: '-',
-    Products: '-',
-    CreatedOn: '12/10/2023',
-  },
-  {
-    Id: 4,
-    UserId: `752`,
-    UserType: 'Super Admin',
-    OrganizationName: '10 Pearls',
-    CreatedOn: '12/10/2023',
-  },
-];
-
 export const superAdminColumns: any = [
   {
     accessorFn: (row: any) => row.Id,
@@ -169,7 +140,11 @@ export const superAdminColumns: any = [
     id: 'userType',
     isSortable: true,
     header: 'UserType',
-    cell: (info: any) => info.getValue() ?? 'N/A',
+    cell: (info: any) => (
+      <Typography>
+        {info?.row?.original?.role?.toLowerCase()?.replace('_', ' ')}
+      </Typography>
+    ),
   },
   {
     accessorFn: (row: any) => row?.OrganizationName,
@@ -200,7 +175,7 @@ export const superAdminColumns: any = [
     header: 'Status',
     cell: (info: any) => (
       <SwitchBtn
-        checked={info?.row?.original?.status === 'ACTIVE' ? true : false}
+        defaultChecked={info?.row?.original?.status === 'ACTIVE' ? true : false}
       />
     ),
   },
