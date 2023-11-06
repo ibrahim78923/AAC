@@ -3,10 +3,6 @@ import { Box, Typography } from '@mui/material';
 import { knowledgeBaseDetailContent } from '../KnowledgeBase.data';
 import { useKnowledgeBase } from '../useKnowledgeBase';
 
-const HTMLRenderer = ({ content }: any) => (
-  <div dangerouslySetInnerHTML={{ __html: content }} />
-);
-
 export const KnowledgeBaseDetail = () => {
   const { handleKnowledgeBase } = useKnowledgeBase();
   return (
@@ -22,9 +18,10 @@ export const KnowledgeBaseDetail = () => {
         </Box>
         <Typography variant="h6">Expense Reimbursement Policy</Typography>
       </Box>
-      <Box mt={3}>
-        <HTMLRenderer content={knowledgeBaseDetailContent} />
-      </Box>
+      <Box
+        mt={3}
+        dangerouslySetInnerHTML={{ __html: knowledgeBaseDetailContent }}
+      />
     </>
   );
 };
