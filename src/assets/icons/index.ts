@@ -174,4 +174,4 @@ export { default as AlertModalDeleteIcon } from './shared/alert-modal-delete-ico
 export { default as AlertModalCloseIcon } from './shared/alert-modal-close-icon';
 export { default as PhotoShopIcon } from './shared/photoshop-icon';
 export { default as XdIcon } from './shared/xd-icon';
-export { default as IllustratratorIcon } from './shared/illustratrator';
+export { default as IllustratorIcon } from './shared/illustrator-icon';

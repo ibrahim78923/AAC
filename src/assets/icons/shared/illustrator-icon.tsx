@@ -1,4 +1,4 @@
-export default function IllustratratorIcon() {
+export default function IllustratorIcon() {
   return (
     <svg
       width="20"
