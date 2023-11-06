@@ -98,7 +98,7 @@ export { default as PlaceImage } from './modules/airServices/Assets/place-image.
 export { default as CrossCircleImage } from './modules/airServices/Assets/cross-circle.png';
 export { default as DocImage } from './modules/airServices/Assets/doc-image.png';
 export { default as ExportImage } from './modules/airServices/Assets/export-image.png';
-export { default as editImage } from './modules/airServices/Assets/edit-image.png';
+export { default as EditImage } from './modules/airServices/Assets/edit-image.png';
 export { default as CreatedImage } from './modules/airServices/Assets/created-image.png';
 export { default as PlusImage } from './modules/airServices/Assets/plus-image.png';
 export { default as AssetsReceivedImage } from './modules/airServices/Assets/assets-received-image.png';
