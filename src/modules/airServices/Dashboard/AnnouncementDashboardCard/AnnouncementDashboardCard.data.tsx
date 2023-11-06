@@ -1,20 +1,20 @@
-import { DashbaordAvatar } from '@/assets/images';
+import { DashboardAvatar } from '@/assets/images';
 
 export const announcementDashboardCardData = [
   {
-    icon: DashbaordAvatar,
+    icon: DashboardAvatar,
     announcementText: ' We are excited to announce that..',
     announcementTextOne: '3 hours ago',
     announcementTextTwo: 'Kyle Jenner',
   },
   {
-    icon: DashbaordAvatar,
+    icon: DashboardAvatar,
     announcementText: ' We are excited to announce that..',
     announcementTextOne: '3 hours ago',
     announcementTextTwo: 'Kyle Jenner',
   },
   {
-    icon: DashbaordAvatar,
+    icon: DashboardAvatar,
     announcementText: ' We are excited to announce that..',
     announcementTextOne: '3 hours ago',
     announcementTextTwo: 'Kyle Jenner',

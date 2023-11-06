@@ -91,7 +91,7 @@ export { default as FourAidKit } from './modules/airServices/Dashboard/four-aid-
 export { default as FiveAidKit } from './modules/airServices/Dashboard/five-aid-kit.png';
 export { default as CustomerWowChampion } from './modules/airServices/Dashboard/customer-wow-champion.png';
 export { default as MostValuablePlayer } from './modules/airServices/Dashboard/most-valuable-player.png';
-export { default as DashbaordAvatar } from './modules/airServices/Dashboard/avatar.png';
+export { default as DashboardAvatar } from './modules/airServices/Dashboard/avatar.png';
 export { default as ItemStatusImage } from './modules/airServices/Assets/item-status-image.png';
 export { default as TotalItemImage } from './modules/airServices/Assets/total-item-image.png';
 export { default as ItemToInventoryImage } from './modules/airServices/Assets/item-to-inventory.png';
