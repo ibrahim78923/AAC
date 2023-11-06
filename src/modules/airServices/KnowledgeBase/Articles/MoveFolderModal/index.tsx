@@ -1,10 +1,10 @@
 import { Box, Button, Dialog, Grid, Typography } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
+import { LoadingButton } from '@mui/lab';
 import { FormProvider } from '@/components/ReactHookForm';
 import { AlertModalCloseIcon } from '@/assets/icons';
 import { moveFolderFields } from './MoveFolderModal.data';
 import { useMoveFolderModal } from './useMoveFolderModal';
-import { LoadingButton } from '@mui/lab';
 
 export const MoveFolderModal = ({
   moveFolderModal,
@@ -37,7 +37,7 @@ export const MoveFolderModal = ({
                   <item.component {...item?.componentProps} size={'small'}>
                     {item?.componentProps?.select
                       ? item?.options?.map((option: any) => (
-                          <option key={option?.value} value={option?.value}>
+                          <option key={uuidv4()} value={option?.value}>
                             {option?.label}
                           </option>
                         ))
