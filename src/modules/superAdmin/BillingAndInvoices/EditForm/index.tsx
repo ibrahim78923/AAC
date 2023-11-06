@@ -81,7 +81,7 @@ export default function EditForm({
                           boxShadow: 'none',
                         }}
                       >
-                        <Typography>Product</Typography>{' '}
+                        <Typography variant="body3">Product</Typography>{' '}
                       </Button>
                       <Button
                         onClick={() => setSelectProductSuite('CRM')}
@@ -94,7 +94,7 @@ export default function EditForm({
                           boxShadow: 'none',
                         }}
                       >
-                        <Typography>CRM Suite</Typography>
+                        <Typography variant="body3">CRM Suite</Typography>
                       </Button>
                     </Box>
                   )}

@@ -96,7 +96,9 @@ export const assignPlanData = (selectProductSuite: string) => {
     {
       componentProps: {
         name: 'product',
-        label: `${selectProductSuite === 'product' ? 'Product/Suite' : 'CRM'}`,
+        label: `${
+          selectProductSuite === 'product' ? 'Select Products' : 'CRM Suite'
+        }`,
         fullWidth: true,
         select: true,
       },
