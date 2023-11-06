@@ -28,6 +28,14 @@ export const AIR_SERVICES = {
   UPSERT_ARTICLE: `/air-services/knowledge-base/article/upsert-article`,
 };
 
+export const AIR_CUSTOMER_PORTAL = {
+  TICKETS: `/air-customer-portal/tickets`,
+  SINGLE_TICKETS: `/air-customer-portal/tickets/single-ticket`,
+  KNOWLEDGE_BASE: '/air-customer-portal/knowledge-base',
+  KNOWLEDGE_BASE_DETAIL:
+    '/air-customer-portal/knowledge-base/knowledge-base-detail',
+};
+
 export const ORG_ADMIN: any = {
   ROLES_AND_RIGHTS: '/org-admin/roles-and-rights',
   ADD_ROLE: '/org-admin/roles-and-rights/add-role',
