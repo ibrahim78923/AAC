@@ -158,7 +158,7 @@ const Dashboard = () => {
                   ))}
                 </Box>
                 <Box display={'flex'} justifyContent={'center'}>
-                  <Button>View All</Button>
+                  <Button variant="text">View All</Button>
                 </Box>
               </Box>
             </Grid>
