@@ -71,7 +71,7 @@ const Dashboard = () => {
                         icon={item?.icon}
                         recentActivityText={item?.recentActivityText}
                         recentActivityTextOne={item?.recentActivityTextOne}
-                        recentactivitytextTwo={item?.recentActivityTextTwo}
+                        recentActivityTextTwo={item?.recentActivityTextTwo}
                         isborderbottom={
                           recentActivitiesDashboardCardData?.length - 1 !==
                           index
