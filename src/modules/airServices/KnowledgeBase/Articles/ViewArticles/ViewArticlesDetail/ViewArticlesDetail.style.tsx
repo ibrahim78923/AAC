@@ -1,14 +1,17 @@
+const PUBLISHED = 'Published';
+const TRAINING = 'Training';
+
 export const styles = {
   desStyle: (des: any, theme: any) => ({
-    bgcolor: des === 'Published' ? theme?.palette?.blue?.main : null,
+    bgcolor: des === PUBLISHED ? theme?.palette?.blue?.main : null,
     color:
-      des === 'Published'
+      des === PUBLISHED
         ? theme?.palette?.common?.white
-        : des === 'Training'
+        : des === TRAINING
         ? theme?.palette?.primary?.main
         : theme?.palette?.grey?.[600],
     p: '4px 12px',
-    borderRadius: des === 'Published' ? 6 : null,
+    borderRadius: des === PUBLISHED ? 6 : null,
   }),
   keywordStyle: (theme: any) => ({
     display: 'flex',
