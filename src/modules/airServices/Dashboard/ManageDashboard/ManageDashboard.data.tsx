@@ -1,12 +1,12 @@
 import { EditYellowBGPenIcon } from '@/assets/icons';
 import { UserAvatarImage } from '@/assets/images';
-import { AntSwitch } from '@/components/ReactHookForm';
 import { Avatar, Box, Typography } from '@mui/material';
 import Image from 'next/image';
 import { DeleteDashboardModal } from './DeleteDashboardModal';
 import { PreviewDashboardModal } from '../PreviewDashboardItems/PreviewDashboardModal';
 import Link from 'next/link';
 import { AIR_SERVICES } from '@/constants';
+import { AntSwitch } from './ManageDashboard.styles';
 
 export const manageDashboardsDataColumns = [
   {

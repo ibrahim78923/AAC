@@ -1,4 +1,4 @@
-import { MinusSquareBlackIcon } from '@/assets/icons';
+import IndeterminateCheckBoxRoundedIcon from '@mui/icons-material/IndeterminateCheckBoxRounded';
 import { AlertModals } from '@/components/AlertModals';
 import { Box, Button, Collapse, Typography } from '@mui/material';
 import { useSingleAssociationsTicket } from './useSingleAssociationsTicket';
@@ -33,7 +33,9 @@ export const SingleAssociationsTicket = ({ associationsItem }: any) => {
               sx={{ cursor: 'pointer' }}
               onClick={() => setDisassociateModal(true)}
             >
-              <MinusSquareBlackIcon />
+              <IndeterminateCheckBoxRoundedIcon
+                sx={{ color: theme?.palette?.custom?.main }}
+              />
             </Box>
           </Collapse>
           <Typography>{associationsItem?.title}</Typography>

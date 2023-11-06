@@ -1,10 +1,7 @@
-import {
-  FilterSharedIcon,
-  ViewDetailBackArrowIcon,
-  AddIconWithBgWhiteIcon,
-} from '@/assets/icons';
+import { FilterSharedIcon, ViewDetailBackArrowIcon } from '@/assets/icons';
 import Search from '@/components/Search';
 import { Box, Button, Grid, Typography } from '@mui/material';
+import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
 import {
   dashboardsData,
   manageDashboardsDataColumns,
@@ -49,7 +46,9 @@ export const ManageDashboard = () => {
             <Button
               LinkComponent={Link}
               href={AIR_SERVICES?.CREATE_DASHBOARD}
-              startIcon={<AddIconWithBgWhiteIcon />}
+              startIcon={
+                <AddCircleRoundedIcon sx={{ color: 'common.white' }} />
+              }
               variant="contained"
               disableElevation
               sx={styles(matches)?.createDashboardButton}

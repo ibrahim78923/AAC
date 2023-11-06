@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { AlertModalCloseIcon, EyeIcon, EyeRedIcon } from '@/assets/icons';
+import { AlertModalCloseIcon, EyeIcon } from '@/assets/icons';
 import {
   Box,
   Button,
@@ -10,6 +10,7 @@ import {
   Typography,
   useTheme,
 } from '@mui/material';
+import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded';
 import { v4 as uuidv4 } from 'uuid';
 import { previewDashboard } from '../../CreateDashboard/CreateDashboard.data';
 import { styles } from './PreviewDashboardModal.styles';
@@ -24,7 +25,7 @@ export const PreviewDashboardModal = ({
     <>
       {type === 'Create' ? (
         <Box onClick={() => setOpen(true)} sx={{ cursor: 'pointer' }}>
-          <EyeRedIcon />
+          <VisibilityRoundedIcon sx={{ color: 'blue.main' }} />
         </Box>
       ) : (
         <Button
