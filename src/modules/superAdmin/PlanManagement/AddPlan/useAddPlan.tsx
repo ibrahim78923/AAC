@@ -30,14 +30,14 @@ import { usePostPlanMangementMutation } from '@/services/superAdmin/plan-mangeme
 
 export const useAddPlan = () => {
   const [addPlanFormValues, setAddPlanFormValues] = useState({});
-
   const [activeStep, setActiveStep] = useState(0);
 
   const [postPlanMangement] = usePostPlanMangementMutation();
+
   const router = useRouter();
   const dispatch = useDispatch();
   const hanldeGoBack = () => {
-    router.back();
+    router?.back();
   };
 
   const methods: any = useForm({
@@ -71,7 +71,7 @@ export const useAddPlan = () => {
   const onSubmitPlan = async (values: any) => {
     dispatch(addPlanFormData(values));
     setActiveStep((previous) => previous + 1);
-    // console.log(values)
+
     enqueueSnackbar('Plan Details Added Successfully', {
       variant: 'success',
     });
@@ -96,11 +96,11 @@ export const useAddPlan = () => {
         featuresData,
       };
       try {
-        postPlanMangement({ body: planManagementPayload }).unwrap();
+        postPlanMangement({ body: planManagementPayload })?.unwrap();
         enqueueSnackbar('Plan Modules Details Added Successfully', {
           variant: 'success',
         });
-        persistor.purge();
+        persistor?.purge();
         reset();
       } catch (error: any) {
         enqueueSnackbar('An error occured', {
@@ -109,9 +109,6 @@ export const useAddPlan = () => {
       }
     }
 
-    enqueueSnackbar('Plan Modules Details Added Successfully', {
-      variant: 'success',
-    });
     reset();
   };
 
@@ -122,14 +119,18 @@ export const useAddPlan = () => {
   const handlePlanModules = handleSubmitPlanModules(onSubmitPlanModulesHandler);
 
   const handleCompleteStep = () => {
-    handlePlanForm();
-    handlePlanFeatures();
+    if (activeStep === 0) {
+      handlePlanForm();
+    }
+    if (activeStep === 1) {
+      handlePlanFeatures();
+    }
 
-    if (activeStep == AddPlanStepperData?.length - 1) {
+    if (activeStep === 2) {
       handlePlanModules();
       reset();
-      persistor.purge();
-      router.push('/super-admin/plan-management');
+      persistor?.purge();
+      router?.push('/super-admin/plan-management');
       return;
     }
   };

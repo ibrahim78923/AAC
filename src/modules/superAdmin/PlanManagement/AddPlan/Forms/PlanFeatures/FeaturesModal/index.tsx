@@ -38,7 +38,7 @@ const FeaturesModal = ({
 
   const onSubmit = async (values: any) => {
     dispatch(setFeatureDetails(values));
-
+    handleCloseFeaturesModal();
     enqueueSnackbar('Details Added Successfully', {
       variant: 'success',
     });
@@ -85,13 +85,17 @@ const FeaturesModal = ({
                     </Grid>
                   ))}
                 </Grid>
+                <Box sx={styles.buttonBox} mt={2}>
+                  <Button variant="outlined">No</Button>
+                  <Button
+                    variant="contained"
+                    type="submit"
+                    onClick={handleSubmit}
+                  >
+                    Submit
+                  </Button>
+                </Box>
               </FormProvider>
-            </Box>
-            <Box sx={styles.buttonBox}>
-              <Button variant="outlined">No</Button>
-              <Button variant="contained" onClick={handleSubmit}>
-                Yes
-              </Button>
             </Box>
           </Box>
         </Box>

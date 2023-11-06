@@ -56,8 +56,9 @@ const Modules = () => {
             },
             '& .MuiAccordionSummary-root': {
               backgroundColor: theme?.palette?.blue?.main,
-              color: theme.palette.common.white,
+              color: theme?.palette?.common?.white,
               borderRadius: '8px',
+              marginBottom: '11px',
             },
           }}
         >
@@ -66,18 +67,20 @@ const Modules = () => {
             aria-controls="plan-features-sales-accordion-content"
             id="plan-features-sales-accordion-header"
           >
-            <Typography variant="h4">{feature}</Typography>
+            <Typography variant="h4">
+              {feature === '6541d60a6e917be584ed1a37' ? 'Sales' : 'Marketing'}
+            </Typography>
           </AccordionSummary>
           <AccordionDetails>
             <Grid container>
               {AirSalesCategories?.map((item: any) => (
-                <Grid item xs={12} sm={6} lg={4} xl={3} key={item.name}>
+                <Grid item xs={12} sm={6} lg={4} xl={3} key={item?.name}>
                   <Box sx={{ width: 'max-content', display: 'flex' }}>
                     <FormGroup>
                       <FormControlLabel
                         control={<Checkbox />}
                         label={
-                          <CheckboxLabel name={item.name} desc={item.desc} />
+                          <CheckboxLabel name={item?.name} desc={item?.desc} />
                         }
                       />
                     </FormGroup>

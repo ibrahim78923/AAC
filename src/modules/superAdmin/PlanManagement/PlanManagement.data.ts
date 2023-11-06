@@ -37,10 +37,10 @@ export const avatarGroupMockData: IAVATARGROUPDATA[] = [
   },
 ];
 
-export const planManagementFilterValidationSchema = Yup.object().shape({
-  products: Yup.string().trim().required('Field is Required'),
-  plan: Yup.string().trim().required('Field is Required'),
-  createdDate: Yup.string().trim().required('Field is Required'),
+export const planManagementFilterValidationSchema = Yup?.object()?.shape({
+  products: Yup?.string()?.trim()?.required('Field is Required'),
+  plan: Yup.string()?.trim()?.required('Field is Required'),
+  createdDate: Yup?.string()?.trim()?.required('Field is Required'),
 });
 
 export const planManagementFilterDefaultValues = {

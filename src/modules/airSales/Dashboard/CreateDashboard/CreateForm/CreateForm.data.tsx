@@ -8,9 +8,9 @@ import {
 
 import * as Yup from 'yup';
 
-export const validationSchema = Yup.object().shape({
-  dashboardName: Yup.string().trim().required('Field is Required'),
-  accessDashboard: Yup.string().trim().required('Field is Required'),
+export const validationSchema = Yup?.object()?.shape({
+  dashboardName: Yup?.string()?.trim()?.required('Field is Required'),
+  accessDashboard: Yup?.string()?.trim()?.required('Field is Required'),
 });
 
 export const defaultValues = {
