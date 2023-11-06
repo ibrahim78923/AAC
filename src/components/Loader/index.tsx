@@ -14,7 +14,7 @@ const Loader = ({ isLoading }: any) => {
         bottom: 0,
         left: 0,
         right: 0,
-        backgroundColor: alpha(theme.palette.background.paper, 0.775),
+        backgroundColor: alpha(theme?.palette?.background?.paper, 0.775),
         zIndex: 99999,
       }}
     >

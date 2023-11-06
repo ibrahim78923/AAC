@@ -1,6 +1,7 @@
 import { Checkbox, Typography } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
-export const DrawerTableColumns = (
+
+export const drawerTableColumns = (
   DrawerData: any,
   setDrawerData: any,
   DrawerMainData: any,
@@ -72,7 +73,7 @@ export const DrawerTableColumns = (
   },
 ];
 
-export const DrawerTableData: any = [
+export const drawerTableData: any = [
   {
     id: '1',
     title: 'Logitech Mouse',

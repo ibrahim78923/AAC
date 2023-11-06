@@ -23,7 +23,7 @@ export const useUpdateContract = () => {
   const { handleSubmit } = methods;
 
   const handleCancelBtn = () => {
-    router.push({ pathname: AIR_SERVICES?.ASSETS_CONTRACTS });
+    router?.push({ pathname: AIR_SERVICES?.ASSETS_CONTRACTS });
   };
 
   const submitUpdateContractForm = async () => {

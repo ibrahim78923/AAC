@@ -72,7 +72,7 @@ export const softwareListsColumnsFunction = (
               );
         }}
         color="primary"
-        name={info.getValue()}
+        name={info?.getValue()}
       />
     ),
     header: (
@@ -98,7 +98,7 @@ export const softwareListsColumnsFunction = (
       <Typography
         component="span"
         onClick={() =>
-          router.push({
+          router?.push({
             pathname: AIR_SERVICES?.ASSETS_CONTRACTS_DETAIL,
             query: {
               contractId: info?.row?.id,
