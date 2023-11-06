@@ -1,8 +1,11 @@
 import { ArrowLeftIcon } from '@/assets/icons';
 import { Box, Typography } from '@mui/material';
 import { knowledgeBaseDetailContent } from '../KnowledgeBase.data';
-import HTMLRenderer from '@/components/HTMLRenderer';
 import { useKnowledgeBase } from '../useKnowledgeBase';
+
+const HTMLRenderer = ({ content }: any) => (
+  <div dangerouslySetInnerHTML={{ __html: content }} />
+);
 
 export const KnowledgeBaseDetail = () => {
   const { handleKnowledgeBase } = useKnowledgeBase();

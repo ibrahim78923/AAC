@@ -1,5 +1,8 @@
-import HTMLRenderer from '@/components/HTMLRenderer';
 import { Box, Typography } from '@mui/material';
+
+const HTMLRenderer = ({ content }: any) => (
+  <div dangerouslySetInnerHTML={{ __html: content }} />
+);
 
 export const SingleTicketDetail = ({
   status,
