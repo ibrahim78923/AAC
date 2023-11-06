@@ -1,13 +1,15 @@
 export const styles: any = {
-  iconBoxStyling: {
-    width: '32px',
-    height: '32px',
-    border: '1px solid #D1D5DB',
-    borderRadius: '8px ',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    margin: '4px',
+  iconBoxStyling: (theme: any) => {
+    return {
+      width: '32px',
+      height: '32px',
+      border: `1px solid ${theme?.palette?.custom?.dark}`,
+      borderRadius: '8px ',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      margin: '4px',
+    };
   },
 
   iconKabaMenuStyle: {
@@ -22,7 +24,7 @@ export const styles: any = {
   iconBoxTimerStyling: {
     width: '80px',
     height: '32px',
-    border: '0px solid #D1D5DB',
+    border: 'none',
     borderRadius: '8px ',
     display: 'flex',
     justifyContent: 'center',

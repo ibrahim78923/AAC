@@ -33,10 +33,10 @@ export const RelatedTicketsHeader = ({ isActive, setIsDrawerOpen }: any) => {
       </Grid>
       <Grid sm={6} xs={12} item sx={styles?.btnContainer}>
         <Button
-          sx={styles?.actionBtn}
+          color="secondary"
           endIcon={<ActionButtonIcon />}
           onClick={handleActionClick}
-          disabled={!!!isActive.length}
+          disabled={!!!isActive?.length}
         >
           Action
         </Button>

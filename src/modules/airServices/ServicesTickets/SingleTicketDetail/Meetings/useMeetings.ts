@@ -28,7 +28,7 @@ export const useMeetings = () => {
     setActionsPopover(null);
   };
   const handleRescheduleClick = (event: any) => {
-    setReschedulePopover(event.currentTarget);
+    setReschedulePopover(event?.currentTarget);
   };
   const handleReschedulePopoverClose = () => {
     setReschedulePopover(null);

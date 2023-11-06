@@ -34,7 +34,7 @@ export function useRequestApprovalPage() {
   const REQUESTED_CONDITION = 'Requested';
 
   const textColor: any = {
-    Request: '#0AADC7',
+    Request: theme?.palette?.info?.main,
     Receive: theme?.palette?.primary?.main,
     Approve: theme?.palette?.success?.main,
     Reject: theme?.palette?.error?.main,

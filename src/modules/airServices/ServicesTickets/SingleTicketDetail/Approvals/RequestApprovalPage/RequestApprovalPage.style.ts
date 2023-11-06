@@ -4,7 +4,7 @@ export const styles = {
     overflow: 'auto',
   },
   approvalsContainer: (theme: any) => ({
-    border: `0.0625rem solid ${theme?.palette?.grey[900]}`,
+    border: `0.0625rem solid ${theme?.palette?.grey?.[900]}`,
     borderRadius: '0.5rem',
     padding: '1rem',
     marginBottom: '0.625rem',
@@ -20,7 +20,7 @@ export const styles = {
     gap: '0.3125rem',
   },
   requestApprovalButton: (theme: any) => ({
-    border: `0.0625rem solid ${theme?.palette?.grey[700]}`,
+    border: `0.0625rem solid ${theme?.palette?.grey?.[700]}`,
     padding: '0rem 0.9375rem',
     height: '2.5rem',
     fontWeight: '500',

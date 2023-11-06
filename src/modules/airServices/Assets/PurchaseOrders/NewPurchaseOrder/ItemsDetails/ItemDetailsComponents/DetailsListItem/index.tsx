@@ -23,7 +23,7 @@ const DetailsListItem: FC<{
         freeSolo
         id="itemName"
         disableClearable
-        options={data?.map((option: any) => option.itemName)}
+        options={data?.map((option: any) => option?.itemName)}
         onChange={(_, v) => handleSelectItem(v, data, index)}
         value={detailItem?.['itemName']}
         renderInput={(params) => (

@@ -25,6 +25,7 @@ export const Articles = () => {
     moveFolderModal,
     setMoveFolderModal,
     dropdownOptions,
+    theme,
   } = useArticles();
 
   const { tabWrapper, selectedTabColor } = styles();
@@ -37,14 +38,14 @@ export const Articles = () => {
             {articlesTabs?.map((tab: string) => (
               <Box
                 key={uuidv4()}
-                sx={{ ...tabWrapper(tab, selectedArticlesTab) }}
+                sx={{ ...tabWrapper(tab, selectedArticlesTab, theme) }}
                 onClick={() => handleSelectedArticlesTab(tab)}
               >
                 <FolderGreyIcon
-                  fill={selectedTabColor(tab, selectedArticlesTab)}
+                  fill={selectedTabColor(tab, selectedArticlesTab, theme)}
                 />
                 <Typography
-                  color={selectedTabColor(tab, selectedArticlesTab)}
+                  color={selectedTabColor(tab, selectedArticlesTab, theme)}
                   textTransform={'capitalize'}
                 >
                   {tab}

@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { enqueueSnackbar } from 'notistack';
+import { useTheme } from '@mui/material';
 import { AIR_SERVICES } from '@/constants';
 import { actionBtnData, articlesColumnsFunction, data } from './Articles.data';
 
 export const useArticles = () => {
   const { KNOWLEDGE_BASE_VIEW_ARTICLE, KNOWLEDGE_BASE_EDIT_ARTICLE } =
     AIR_SERVICES;
+  const theme = useTheme();
   const { push } = useRouter();
   const [selectedArticlesData, setSelectedArticlesData] = useState([]);
   const [selectedArticlesTab, setSelectedArticlesTab] = useState('all');
@@ -52,5 +54,6 @@ export const useArticles = () => {
     moveFolderModal,
     setMoveFolderModal,
     dropdownOptions,
+    theme,
   };
 };

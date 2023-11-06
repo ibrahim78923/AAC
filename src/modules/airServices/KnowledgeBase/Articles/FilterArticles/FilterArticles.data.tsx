@@ -23,7 +23,7 @@ const authorOption = [
   { value: 'Luke', label: 'Luke' },
   { value: 'Manpreet', label: 'Manpreet' },
 ];
-export const FilterArticlesData = [
+export const filterArticlesData = [
   {
     componentProps: {
       name: 'status',
