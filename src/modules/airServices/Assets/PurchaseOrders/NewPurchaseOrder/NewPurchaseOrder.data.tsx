@@ -16,17 +16,6 @@ export const dropdownDummy = [
   },
 ];
 
-export const dropdownDummy2 = [
-  {
-    value: 122,
-    label: 'Option 1',
-  },
-  {
-    value: 22,
-    label: 'Option 2',
-  },
-];
-
 const ticketsTypeOptions = [
   {
     value: 'search',
@@ -75,21 +64,21 @@ const ticketsTypeOptions = [
 ];
 
 // form validation schema
-export const validationSchema: any = yup.object().shape({
-  orderName: yup.string().required('Required field!'),
+export const validationSchema: any = yup?.object()?.shape({
+  orderName: yup?.string()?.required('Required field!'),
   orderNumber: yup
-    .number()
-    .typeError('Enter valid format!')
-    .required('Required field!'),
-  vendor: yup.string().required('Required field!'),
-  currency: yup.string().required('Required field!'),
-  department: yup.string(),
+    ?.number()
+    ?.typeError('Enter valid format!')
+    ?.required('Required field!'),
+  vendor: yup?.string()?.required('Required field!'),
+  currency: yup?.string()?.required('Required field!'),
+  department: yup?.string(),
   deliverDate: yup
-    .date()
-    .typeError('Enter valid date format!')
-    .required('Required field!'),
-  location: yup.string(),
-  termsAndCondidtions: yup.string(),
+    ?.date()
+    ?.typeError('Enter valid date format!')
+    ?.required('Required field!'),
+  location: yup?.string(),
+  termsAndConditions: yup?.string(),
 });
 
 export const defaultValues = {
@@ -100,7 +89,7 @@ export const defaultValues = {
   department: '',
   deliverDate: null,
   location: '',
-  termsAndCondidtions: '',
+  termsAndConditions: '',
 };
 
 export const newPurchaseFieldsFunction = (
@@ -196,8 +185,8 @@ export const newPurchaseFieldsFunction = (
     id: 8,
     componentProps: {
       fullWidth: true,
-      name: 'termsAndCondidtions',
-      label: 'terms And Condidtions',
+      name: 'termsAndConditions',
+      label: 'terms And Conditions',
       multiline: true,
       minRows: 3,
     },

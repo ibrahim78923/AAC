@@ -72,7 +72,6 @@ const priorityOptions = [
 ];
 
 export const ticketsActionDropdownFunction = (
-  // TODO: openDrawer: any,
   setDeleteModalOpen: any,
   markTicketAsClose: any,
   markTicketAsSpam: any,
@@ -80,7 +79,6 @@ export const ticketsActionDropdownFunction = (
   {
     title: 'Edit',
     handleClick: (closeMenu: any) => {
-      // TODO: openDrawer?.(TABLE_CONSTANTS?.EDIT_TICKET);
       closeMenu?.();
     },
   },
@@ -93,7 +91,6 @@ export const ticketsActionDropdownFunction = (
   {
     title: 'Bulk Update',
     handleClick: (closeMenu: any) => {
-      // TODO: openDrawer?.(TABLE_CONSTANTS?.BULK_UPDATE_DATA);
       closeMenu?.();
     },
   },
@@ -190,7 +187,9 @@ export const ticketsListsColumnFunction: any = (
             e?.target?.checked
               ? setSelectedTicketList([
                   ...selectedTicketList,
-                  ticketList.find((item: any) => item?.id === info?.getValue()),
+                  ticketList?.find(
+                    (item: any) => item?.id === info?.getValue(),
+                  ),
                 ])
               : setSelectedTicketList(
                   selectedTicketList?.filter((item: any) => {
@@ -206,7 +205,7 @@ export const ticketsListsColumnFunction: any = (
         <Checkbox
           checked={selectedTicketList?.length === ticketList?.length}
           onChange={(e: any) => {
-            e.target.checked
+            e?.target?.checked
               ? setSelectedTicketList([...ticketList])
               : setSelectedTicketList([]);
           }}
@@ -294,7 +293,7 @@ export const ticketsListsColumnFunction: any = (
             },
           }}
           defaultValue="none"
-          value={info.getValue()}
+          value={info?.getValue()}
           onChange={(e) => handleChange(info?.row?._valuesCache, e?.target)}
           inputProps={{ 'aria-label': 'Without label' }}
         >
@@ -331,7 +330,7 @@ export const ticketsListsColumnFunction: any = (
             },
           }}
           defaultValue="none"
-          value={info.getValue()}
+          value={info?.getValue()}
           onChange={(e) => handleChange(info?.row?._valuesCache, e?.target)}
           inputProps={{ 'aria-label': 'Without label' }}
         >
@@ -363,7 +362,7 @@ export const ticketsListsColumnFunction: any = (
             },
           }}
           defaultValue="none"
-          value={info.getValue()}
+          value={info?.getValue()}
           onChange={(e) => handleChange(info?.row?._valuesCache, e?.target)}
           inputProps={{ 'aria-label': 'Without label' }}
         >

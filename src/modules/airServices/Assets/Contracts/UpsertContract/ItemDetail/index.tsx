@@ -8,7 +8,6 @@ import {
   TableHead,
   TableRow,
   Typography,
-  // useTheme,
 } from '@mui/material';
 import { useFormContext, useFieldArray } from 'react-hook-form';
 import {
@@ -27,7 +26,6 @@ export const ItemDetail: any = (props: any) => {
     control,
     name,
   });
-  // const theme = useTheme();
   //TODO: use item.id as a key because RHF fieldArray is using and it recommends that.
 
   return (

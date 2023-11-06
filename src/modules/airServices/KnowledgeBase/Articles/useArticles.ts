@@ -2,10 +2,11 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { AIR_SERVICES } from '@/constants';
 import { articlesColumnsFunction, data } from './Articles.data';
+import { useTheme } from '@mui/material';
 
 export const useArticles = () => {
   const { KNOWLEDGE_BASE } = AIR_SERVICES;
-
+  const theme = useTheme();
   const { push } = useRouter();
   const [selectedArticlesData, setSelectedArticlesData] = useState([]);
   const [selectedArticlesTab, setSelectedArticlesTab] = useState('all');
@@ -27,5 +28,6 @@ export const useArticles = () => {
     articlesColumns,
     selectedArticlesTab,
     handleSelectedArticlesTab,
+    theme,
   };
 };

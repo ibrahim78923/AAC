@@ -8,14 +8,14 @@ export const singleSoftwareDetailTabsData = [
 export const singleSoftwareDropdown = [
   {
     title: 'Edit',
-    handleClick: (x: any) => {
-      x?.();
+    handleClick: (closeMenu: any) => {
+      closeMenu?.();
     },
   },
   {
     title: 'Delete',
-    handleClick: (x: any) => {
-      x?.();
+    handleClick: (closeMenu: any) => {
+      closeMenu?.();
     },
   },
 ];

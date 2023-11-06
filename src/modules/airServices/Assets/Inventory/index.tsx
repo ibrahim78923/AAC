@@ -8,6 +8,7 @@ import { PageTitledHeader } from '../../../../components/PageTitledHeader/index'
 import { AlertModals } from '@/components/AlertModals';
 import { useInventory } from './useInventory';
 import { INVENTORY_LIST_ACTIONS } from './Inventory.data';
+import CustomPagination from '@/components/CustomPagination';
 
 function Inventory() {
   const {
@@ -95,6 +96,7 @@ function Inventory() {
       </Box>
       <br />
       <TanstackTable data={data} columns={inventoryListsColumns} />
+      <CustomPagination count={1} rowsPerPageOptions={[1, 2]} entriePages={1} />
       {isDrawerOpen && renderComponent?.[router?.query?.tableAction as string]}
     </>
   );

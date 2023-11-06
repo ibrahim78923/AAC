@@ -1,7 +1,7 @@
 import { Box, Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
-import { TaskTicketFormFields } from './TasksDrawersForm.data';
 import { v4 as uuidv4 } from 'uuid';
+import { taskTicketFormFields } from './TasksDrawersForm.data';
 
 export const TasksDrawersForm = ({
   submitTicket,
@@ -12,12 +12,12 @@ export const TasksDrawersForm = ({
     <Box mt={1}>
       <FormProvider methods={methods} onSubmit={handleSubmit(submitTicket)}>
         <Grid container spacing={1}>
-          {TaskTicketFormFields?.map((item: any) => (
+          {taskTicketFormFields?.map((item: any) => (
             <Grid item xs={12} md={item?.md} key={uuidv4()}>
               <item.component {...item?.componentProps} size={'small'}>
                 {item?.componentProps?.select
                   ? item?.options?.map((option: any) => (
-                      <option key={option?.value} value={option?.value}>
+                      <option key={uuidv4()} value={option?.value}>
                         {option?.label}
                       </option>
                     ))

@@ -2,16 +2,17 @@ import { Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useFilterInventory } from './useFilterInventory';
 import CommonDrawer from '@/components/CommonDrawer';
+import { v4 as uuidv4 } from 'uuid';
 
 export const FilterInventory = (props: any) => {
-  const { isDrawerOpen, setIsDrawerOpen } = props;
+  const { isDrawerOpen } = props;
   const {
     inventoryFilterFormFieldsData,
-    router,
     methods,
     submitInventoryFilterForm,
     handleSubmit,
-  } = useFilterInventory();
+    closeInventoryFilterForm,
+  } = useFilterInventory(props);
 
   return (
     <>
@@ -25,18 +26,7 @@ export const FilterInventory = (props: any) => {
         isOk
         footer
         okText="Submit"
-        onClose={() => {
-          //TODO: destructing as i do not need that in rest queries.
-          /* eslint-disable @typescript-eslint/no-unused-vars */
-          const { tableAction, ...restQueries } = router?.query;
-          router?.push({
-            pathname: router?.pathname,
-            query: {
-              ...restQueries,
-            },
-          });
-          setIsDrawerOpen?.(false);
-        }}
+        onClose={() => closeInventoryFilterForm?.()}
       >
         <br />
         <FormProvider
@@ -46,7 +36,7 @@ export const FilterInventory = (props: any) => {
           <Grid container spacing={2}>
             {inventoryFilterFormFieldsData?.map((form: any) => {
               return (
-                <Grid item xs={12} md={form?.gridLength} key={form.id}>
+                <Grid item xs={12} md={form?.gridLength} key={uuidv4()}>
                   <form.component {...form?.componentProps} size="small">
                     {form?.componentProps?.select
                       ? form?.componentProps?.options?.map?.((option: any) => (

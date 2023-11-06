@@ -29,11 +29,10 @@ export const useCreateTicket = (props: any) => {
   };
 
   const onClose = () => {
-    const {
-      //  tableAction,
-      ...restQueries
-    } = router?.query;
-    router.push({
+    //TODO: destructing as i do not need that in rest queries.
+    /* eslint-disable @typescript-eslint/no-unused-vars */
+    const { tableAction, ...restQueries } = router?.query;
+    router?.push({
       pathname: router?.pathname,
       query: {
         ...restQueries,

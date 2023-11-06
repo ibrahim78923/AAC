@@ -27,12 +27,7 @@ export const ActivityTimeline = ({ activityData }: any) => {
         </IconButton>
         <Typography variant="body2" sx={{ flex: 0.8 }}>
           {' '}
-          <Typography
-            variant="body2"
-            // component={'span'}
-            color="primary"
-            marginRight={0.3}
-          >
+          <Typography variant="body2" color="primary" marginRight={0.3}>
             {activityData?.createdBy}
           </Typography>
           {activityData?.description}

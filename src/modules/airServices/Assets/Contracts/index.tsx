@@ -9,6 +9,7 @@ import { AlertModals } from '@/components/AlertModals';
 import { useContracts } from './useContracts';
 import { ExportButton } from '../../../../components/ExportButton';
 import { PageTitledHeader } from '../../../../components/PageTitledHeader';
+import CustomPagination from '@/components/CustomPagination';
 
 function Contracts() {
   const {
@@ -62,6 +63,11 @@ function Contracts() {
       <br />
       <Box sx={{ marginBottom: '25px' }}>
         <TanstackTable data={data} columns={softwareListsColumns} />
+        <CustomPagination
+          count={1}
+          rowsPerPageOptions={[1, 2]}
+          entriePages={1}
+        />
       </Box>
       <Box>
         <AlertModals

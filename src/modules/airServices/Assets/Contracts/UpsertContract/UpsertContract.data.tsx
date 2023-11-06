@@ -138,26 +138,6 @@ const softwareLicense = {
   licenseKey: '',
 };
 
-export const upsertContractFormExampleValues = {
-  contractName: '123213123',
-  contractNumber: '321312',
-  type: 'Lease',
-  associateAssets: 'option1',
-  cost: '4444',
-  approver: '',
-  startDate: new Date(todayDate),
-  endDate: new Date(todayDate),
-  autoRenew: false,
-  notifyExpiry: false,
-  notifyBefore: '7',
-  notifyTo: 'ali',
-  itemDetail: [],
-  billingCycle: '77777',
-  licenseType: '88888',
-  licenseKey: '88888',
-  software: 'option1',
-};
-
 export const upsertContractFormDefaultValuesFunction = (
   contractType: string,
   data?: any,
@@ -273,7 +253,7 @@ export const upsertContractFormSchemaFunction: any = Yup?.object()?.shape({
               comments: Yup?.string(),
             }),
           )
-          .min(1, 'At least one item is required');
+          ?.min(1, 'At least one item is required');
       },
       otherwise: (schema: any) => schema?.notRequired(),
     }),

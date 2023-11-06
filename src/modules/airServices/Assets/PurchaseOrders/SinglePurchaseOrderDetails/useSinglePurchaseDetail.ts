@@ -8,7 +8,6 @@ import {
 export const useSinglePurchaseDetail = () => {
   const router = useRouter();
 
-  // Purchase action
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [isADrawerOpen, setIsADrawerOpen] = useState<boolean>(false);

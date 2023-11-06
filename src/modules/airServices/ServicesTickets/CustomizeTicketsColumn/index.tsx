@@ -51,14 +51,14 @@ export const CustomizeTicketsColumn = (props: any) => {
               <Typography variant="body1" whiteSpace={'nowrap'}>
                 {column?.header}
               </Typography>
-              <div>
+              <Box>
                 <Checkbox
                   color="primary"
                   name={column?.id}
                   defaultChecked={customizeColumn[column?.id]}
                   onClick={(): any => checkboxHandler?.(column)}
                 />
-              </div>
+              </Box>
             </Box>
           </Box>
         ))}
