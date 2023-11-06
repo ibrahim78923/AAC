@@ -1,7 +1,7 @@
 export const styles = {
   card: (theme: any) => ({
     backgroundColor: '#F7F9FB',
-    border: `1px solid ${theme.palette.grey[700]}`,
+    border: `1px solid ${theme?.palette?.grey[700]}`,
     borderRadius: '10px',
     height: '616px',
   }),

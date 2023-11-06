@@ -1,6 +1,6 @@
-import Image from 'next/image';
-
+import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
 
 import {
   Table,
@@ -16,16 +16,14 @@ import {
 } from '@mui/material';
 
 import { FormProvider } from '@/components/ReactHookForm';
+import { SUPER_ADMIN } from '@/constants';
 
 import { ImportContactsData } from './ImportContacts.data';
 
+import { ImportIcon } from '@/assets/icons';
 import { AvailableImage } from '@/assets/images';
 
-import { useForm } from 'react-hook-form';
-
 import { v4 as uuidv4 } from 'uuid';
-import { ImportIcon } from '@/assets/icons';
-import { SUPER_ADMIN } from '@/constants';
 
 const ImportColumns = () => {
   const route = useRouter();
@@ -45,7 +43,7 @@ const ImportColumns = () => {
           startIcon={<ImportIcon />}
           variant="outlined"
           onClick={() => {
-            route.push(SUPER_ADMIN.AIRSALES_IMPORTHISTORY);
+            route?.push(SUPER_ADMIN?.AIRSALES_IMPORTHISTORY);
           }}
         >
           Import History
@@ -55,7 +53,7 @@ const ImportColumns = () => {
         <Box sx={{ overflowX: 'auto' }}>
           <Table>
             <TableHead>
-              <TableRow sx={{ color: theme.palette.blue['main'] }}>
+              <TableRow sx={{ color: theme?.palette?.blue['main'] }}>
                 <TableCell sx={{ width: '33.33%' }}>File Columns</TableCell>
                 <TableCell sx={{ width: '33.33%' }}>CRM Fields</TableCell>
                 <TableCell sx={{ width: '33.33%' }}>Mapped</TableCell>
@@ -63,21 +61,21 @@ const ImportColumns = () => {
             </TableHead>
 
             <TableBody>
-              {ImportContactsData.map((data, i) => (
+              {ImportContactsData?.map((data, i) => (
                 <TableRow key={uuidv4()}>
                   <TableCell sx={{ width: '33.33%' }}>
-                    {data.fileColumn}
+                    {data?.fileColumn}
                     <Typography sx={{ fontSize: '10px' }}>
-                      {data.subTitle}
+                      {data?.subTitle}
                     </Typography>
                   </TableCell>
 
                   <TableCell sx={{ width: '33.33%' }}>
-                    <data.component size="small" {...data.componentProps}>
-                      {data.componentProps.select
-                        ? data.options.map((option) => (
-                            <MenuItem key={uuidv4()} value={option.value}>
-                              {option.label}
+                    <data.component size="small" {...data?.componentProps}>
+                      {data?.componentProps?.select
+                        ? data?.options?.map((option) => (
+                            <MenuItem key={uuidv4()} value={option?.value}>
+                              {option?.label}
                             </MenuItem>
                           ))
                         : null}
@@ -94,14 +92,14 @@ const ImportColumns = () => {
           <Box textAlign="end">
             <Button
               variant="outlined"
-              onClick={() => route.push(SUPER_ADMIN.CONTACT_IMPORT)}
+              onClick={() => route?.push(SUPER_ADMIN?.CONTACT_IMPORT)}
             >
               Back
             </Button>
             <Button
               variant="contained"
               sx={{ ml: '10px' }}
-              onClick={() => route.push(SUPER_ADMIN.AIRSALES_IMPORTHISTORY)}
+              onClick={() => route?.push(SUPER_ADMIN?.AIRSALES_IMPORTHISTORY)}
             >
               Import
             </Button>

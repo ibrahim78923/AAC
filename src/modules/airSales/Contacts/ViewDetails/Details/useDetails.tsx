@@ -1,11 +1,11 @@
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 
 import { useTheme } from '@mui/material';
 
-import { detailsDefaultValues, detailsValidationSchema } from './Details.data';
-
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
+
+import { detailsDefaultValues, detailsValidationSchema } from './Details.data';
 
 const useDetails = () => {
   const theme = useTheme();

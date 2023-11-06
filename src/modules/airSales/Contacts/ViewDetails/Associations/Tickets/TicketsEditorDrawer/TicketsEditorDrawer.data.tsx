@@ -5,11 +5,11 @@ import {
   RHFTextField,
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
-export const ticketsValidationSchema = Yup.object().shape({
-  subject: Yup.string().trim().required('Field is Required'),
-  ticketStatus: Yup.string().trim().required('Field is Required'),
-  requester: Yup.string().trim().required('Field is Required'),
-  status: Yup.string().trim().required('Field is Required'),
+export const ticketsValidationSchema = Yup?.object()?.shape({
+  subject: Yup?.string()?.trim()?.required('Field is Required'),
+  ticketStatus: Yup?.string()?.trim()?.required('Field is Required'),
+  requester: Yup?.string()?.trim()?.required('Field is Required'),
+  status: Yup?.string()?.trim()?.required('Field is Required'),
 });
 
 export const ticketsDefaultValues = {

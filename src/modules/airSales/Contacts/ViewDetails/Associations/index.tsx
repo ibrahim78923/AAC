@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Box, Grid, Typography } from '@mui/material';
 
 import Attachments from './Attachments';
@@ -12,9 +10,9 @@ import PlayBook from './Contacts';
 
 const Associations = () => {
   return (
-    <Box sx={styles.horizontalTabsBox}>
+    <Box sx={styles?.horizontalTabsBox}>
       <Typography variant="h4">Associations </Typography>
-      <Box sx={styles.horizontalTabsInnnerBox}>
+      <Box sx={styles?.horizontalTabsInnnerBox}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <Tickets />

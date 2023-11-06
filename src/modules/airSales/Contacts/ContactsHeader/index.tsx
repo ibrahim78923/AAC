@@ -8,25 +8,25 @@ import { SUPER_ADMIN } from '@/constants';
 import useContactsHeader from './useContactsHeader';
 import CreateContacts from '../CreateContacts';
 
-import { ImportIcon } from '@/assets/icons';
-
 import { styles } from './ContractsHeader.style';
+
+import { ImportIcon } from '@/assets/icons';
 
 const ContactsHeader = () => {
   const route = useRouter();
   const { isCreateDeal, handleCreateDealOpen } = useContactsHeader();
 
   return (
-    <Box sx={styles.HeaderStyle}>
+    <Box sx={styles?.HeaderStyle}>
       <Box display="flex" alignItems={'center'} gap={'10px'}>
-        <Typography variant="h4" sx={styles.HeaderTypography}>
+        <Typography variant="h4" sx={styles?.HeaderTypography}>
           Contacts
         </Typography>
       </Box>
-      <Box sx={styles.HeaderChildStyle}>
+      <Box sx={styles?.HeaderChildStyle}>
         <Button
           variant="outlined"
-          onClick={() => route.push(SUPER_ADMIN.CONTACT_IMPORT)}
+          onClick={() => route?.push(SUPER_ADMIN?.CONTACT_IMPORT)}
           startIcon={<ImportIcon />}
           sx={{ height: '35px' }}
         >

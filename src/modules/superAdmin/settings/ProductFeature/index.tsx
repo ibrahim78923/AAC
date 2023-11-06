@@ -12,13 +12,14 @@ import {
 
 import Search from '@/components/Search';
 import CommonDrawer from '@/components/CommonDrawer';
-import TanstackTable from '@/components/Tabel/TanstackTable';
+import TanstackTable from '@/components/Table/TanstackTable';
 import CustomPagination from '@/components/CustomPagination';
 
 import { FormProvider } from '@/components/ReactHookForm';
 
 import {
   columns,
+  editProductFeaturesDefaultValues,
   productFeaturesDefaultValues,
   productFeaturesFiltersDataArray,
   productFeaturesValidationSchema,
@@ -32,6 +33,7 @@ import { DownIcon } from '@/assets/icons';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { v4 as uuidv4 } from 'uuid';
+import useProductFeature from './useProductFeature';
 
 const ProductFeature = () => {
   const theme = useTheme();
@@ -41,6 +43,14 @@ const ProductFeature = () => {
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const actionMenuOpen = Boolean(anchorEl);
+  const {
+    isDisabled,
+    setIsDisabled,
+    tableRowValues,
+    setTableRowValues,
+    isOpenEditDrawer,
+    setIsOpenEditDrawer,
+  } = useProductFeature();
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -52,10 +62,21 @@ const ProductFeature = () => {
     resolver: yupResolver(productFeaturesValidationSchema),
     defaultValues: productFeaturesDefaultValues,
   });
+  const editmethodsProductFeatures = useForm({
+    resolver: yupResolver(productFeaturesValidationSchema),
+    defaultValues: editProductFeaturesDefaultValues,
+  });
   const onSubmit = () => {
     setIsAddProductFeatureDrawer(false);
   };
   const { handleSubmit } = methodsProductFeatures;
+
+  const getProductFeatureRowData = columns(
+    isDisabled,
+    setIsDisabled,
+    tableRowValues,
+    setTableRowValues,
+  );
 
   return (
     <Box
@@ -106,6 +127,7 @@ const ProductFeature = () => {
             aria-haspopup="true"
             aria-expanded={actionMenuOpen ? 'true' : undefined}
             onClick={handleClick}
+            disabled={!isDisabled}
             sx={{
               color: theme.palette.grey[500],
               height: '40px',
@@ -123,7 +145,7 @@ const ProductFeature = () => {
               'aria-labelledby': 'basic-button',
             }}
           >
-            <MenuItem>Edit</MenuItem>
+            <MenuItem onClick={() => setIsOpenEditDrawer(true)}>Edit</MenuItem>
           </Menu>
           <Button
             variant="contained"
@@ -135,7 +157,10 @@ const ProductFeature = () => {
         </Box>
       </Box>
       <Box>
-        <TanstackTable columns={columns} data={productFeatureTableData} />
+        <TanstackTable
+          columns={getProductFeatureRowData}
+          data={productFeatureTableData}
+        />
         <CustomPagination
           count={1}
           rowsPerPageOptions={[1, 2]}
@@ -144,9 +169,15 @@ const ProductFeature = () => {
       </Box>
 
       <CommonDrawer
-        isDrawerOpen={isAddProductFeatureDrawer}
-        onClose={() => setIsAddProductFeatureDrawer(false)}
-        title="Add Product Feature form"
+        isDrawerOpen={isAddProductFeatureDrawer || isOpenEditDrawer}
+        onClose={() => {
+          setIsAddProductFeatureDrawer(false), setIsOpenEditDrawer(false);
+        }}
+        title={
+          isOpenEditDrawer
+            ? 'Edit Product Feature form'
+            : 'Add Product Feature form'
+        }
         okText="Apply"
         isOk={true}
         footer={true}
@@ -154,7 +185,11 @@ const ProductFeature = () => {
       >
         <>
           <FormProvider
-            methods={methodsProductFeatures}
+            methods={
+              isOpenEditDrawer
+                ? editmethodsProductFeatures
+                : methodsProductFeatures
+            }
             onSubmit={handleSubmit(onSubmit)}
           >
             <Grid container spacing={4}>

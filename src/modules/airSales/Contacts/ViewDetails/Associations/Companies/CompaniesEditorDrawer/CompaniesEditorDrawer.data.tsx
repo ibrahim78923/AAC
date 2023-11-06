@@ -5,8 +5,10 @@ import {
   RHFTextField,
   RHFTimePicker,
 } from '@/components/ReactHookForm';
+
 import * as Yup from 'yup';
-export const companiesValidationSchema = Yup.object().shape({});
+
+export const companiesValidationSchema = Yup?.object()?.shape({});
 
 export const companiesDefaultValues = {
   companieStatus: 'New Company',

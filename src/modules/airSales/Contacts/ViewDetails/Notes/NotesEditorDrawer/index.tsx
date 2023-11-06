@@ -2,11 +2,10 @@ import React from 'react';
 
 import { Box, Grid } from '@mui/material';
 
+import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
 
 import useNotesEditorDrawer from './useNotesEditorDrawer';
-
-import { FormProvider } from '@/components/ReactHookForm';
 
 import {
   dealsNotesDataArray,
@@ -38,7 +37,7 @@ const NotesEditorDrawer = (props: any) => {
             <Grid container spacing={4}>
               {dealsNotesDataArray?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                  <item.component {...item.componentProps} size={'small'}>
+                  <item.component {...item?.componentProps} size={'small'}>
                     {item?.componentProps?.select
                       ? item?.options?.map((option: any) => (
                           <option key={option?.value} value={option?.value}>

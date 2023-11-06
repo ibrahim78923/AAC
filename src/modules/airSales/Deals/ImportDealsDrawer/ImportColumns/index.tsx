@@ -33,27 +33,31 @@ const ImportColumns = () => {
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Table>
         <TableHead>
-          <TableRow sx={{ color: theme.palette.blue['main'] }}>
+          <TableRow sx={{ color: theme?.palette?.blue['main'] }}>
             <TableCell>File Columns</TableCell>
             <TableCell sx={{ width: '200px' }}>CRM Fields</TableCell>
             <TableCell>Mapped</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {ImportDealsData.map((data, i) => (
+          {ImportDealsData?.map((data, i) => (
             <TableRow key={uuidv4()}>
               <TableCell align="left" sx={{ color: '#111827' }}>
-                {data.fileColumn}
+                {data?.fileColumn}
                 <Typography sx={{ fontSize: '10px' }}>
-                  {data.subTitle}
+                  {data?.subTitle}
                 </Typography>
               </TableCell>
               <TableCell align="left" sx={{ width: '250px' }}>
-                <data.component size="small" fullWidth {...data.componentProps}>
-                  {data.componentProps.select
-                    ? data.options.map((option) => (
-                        <MenuItem key={uuidv4()} value={option.value}>
-                          {option.label}
+                <data.component
+                  size="small"
+                  fullWidth
+                  {...data?.componentProps}
+                >
+                  {data?.componentProps?.select
+                    ? data?.options?.map((option) => (
+                        <MenuItem key={uuidv4()} value={option?.value}>
+                          {option?.label}
                         </MenuItem>
                       ))
                     : null}

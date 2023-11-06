@@ -9,7 +9,6 @@ import CreateView from './CreateView';
 import { SUPER_ADMIN } from '@/constants';
 
 import { ContactsSaleSite } from './ContactsSaleSite.data';
-
 import ContactsActions from './ContactsActions';
 import ContactsCustomize from './ContactsCustomize';
 import ContactsFilterDrawer from './ContactsFilterDrawer';
@@ -62,10 +61,10 @@ const Contacts = () => {
               onChange={handleActions}
             />
 
-            <Link href={SUPER_ADMIN.AIRSALES_CONTCATS_RESTORE}>
+            <Link href={SUPER_ADMIN?.AIRSALES_CONTCATS_RESTORE}>
               <Button
                 variant="outlined"
-                sx={{ height: '30px', color: theme.palette.custom['main'] }}
+                sx={{ height: '30px', color: theme?.palette?.custom['main'] }}
                 startIcon={<RestoreIcon />}
               >
                 Restore
@@ -75,14 +74,14 @@ const Contacts = () => {
               <Button
                 onClick={handleDealCustomize}
                 variant="outlined"
-                sx={{ height: '30px', color: theme.palette.custom['main'] }}
+                sx={{ height: '30px', color: theme?.palette?.custom['main'] }}
               >
                 <CutomizeIcon /> &nbsp; Customize
               </Button>
             </>
             <Button
               variant="outlined"
-              sx={{ height: '30px', color: theme.palette.custom['main'] }}
+              sx={{ height: '30px', color: theme?.palette?.custom['main'] }}
               onClick={handleFilter}
             >
               <FilterIcon />
@@ -90,7 +89,7 @@ const Contacts = () => {
             </Button>
             <Button
               variant="outlined"
-              sx={{ height: '30px', color: theme.palette.custom['main'] }}
+              sx={{ height: '30px', color: theme?.palette?.custom['main'] }}
               onClick={handleExportModal}
             >
               <FilterIcon />

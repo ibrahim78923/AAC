@@ -3,54 +3,54 @@ import Link from 'next/link';
 
 export const ContactsColumns: any = [
   {
-    accessorFn: (row: any) => row.id,
+    accessorFn: (row: any) => row?.id,
     id: 'id',
-    cell: (info: any) => <Checkbox color="primary" name={info.getValue()} />,
+    cell: (info: any) => <Checkbox color="primary" name={info?.getValue()} />,
     header: <Checkbox color="primary" name="id" />,
     isSortable: false,
   },
   {
-    accessorFn: (row: any) => row.contact,
+    accessorFn: (row: any) => row?.contact,
     id: 'dealOwner',
     header: 'Contacts',
     isSortable: true,
     cell: (info: any) => (
-      <Link href={'/air-sales/contacts/view-details'}>{info.getValue()}</Link>
+      <Link href={'/air-sales/contacts/view-details'}>{info?.getValue()}</Link>
     ),
   },
   {
-    accessorFn: (row: any) => row.email,
+    accessorFn: (row: any) => row?.email,
     id: 'email',
     isSortable: true,
     header: 'Email',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.address,
+    accessorFn: (row: any) => row?.address,
     id: 'address',
     isSortable: true,
     header: 'Address',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.dateofBirth,
+    accessorFn: (row: any) => row?.dateofBirth,
     id: 'dateofBirth',
     isSortable: true,
     header: 'Date of Birth',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.phoneNumber,
+    accessorFn: (row: any) => row?.phoneNumber,
     id: 'phoneNumber',
     isSortable: true,
     header: 'Phone Number',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.whatsAppNumber,
+    accessorFn: (row: any) => row?.whatsAppNumber,
     id: 'whatsAppNumber',
     isSortable: true,
     header: 'WhatsApp Number',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
 ];

@@ -2,9 +2,9 @@ import Link from 'next/link';
 
 import { Box, Button, Paper, Typography } from '@mui/material';
 
-import TanstackTable from '@/components/Tabel/TanstackTable';
 import CustomPagination from '@/components/CustomPagination';
 import Search from '@/components/Search';
+import TanstackTable from '@/components/Table/TanstackTable';
 
 import { RestoreTableData } from '@/mock/modules/airSales/Deals/Restore';
 
@@ -12,12 +12,11 @@ import RestoreFilterDrawer from './RestoreFilterDrawer';
 import RestoreDeleteModal from './RestoreDeleteModal';
 
 import useRestore from './useRestore';
-
 import { RestoreTableColumns } from './RestoreTable.data';
-
-import { BackArrIcon, FilterIcon } from '@/assets/icons';
 import RestoreAssignModalBox from './RestoreAssignModalBox';
 import RestoreActions from '../ContactsActions';
+
+import { BackArrIcon, FilterIcon } from '@/assets/icons';
 
 const RestoreActivities = () => {
   const {

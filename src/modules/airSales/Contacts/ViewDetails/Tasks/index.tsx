@@ -1,15 +1,13 @@
-import React from 'react';
-
 import { Box, Grid, Typography } from '@mui/material';
+
+import TanstackTable from '@/components/Table/TanstackTable';
+
+import { TasksTableData } from '@/mock/modules/airSales/Deals/ViewDetails';
 
 import TaskEditorDrawer from './TaskEditorDrawer';
 import ActionDropdown from './ActionDropdown';
-import TanstackTable from '@/components/Tabel/TanstackTable';
-
 import useTasks from './useTasks';
-
 import { columns } from './Tasks.data';
-import { TasksTableData } from '@/mock/modules/airSales/Deals/ViewDetails';
 
 const Tasks = () => {
   const { openDrawer, setOpenDrawer } = useTasks();

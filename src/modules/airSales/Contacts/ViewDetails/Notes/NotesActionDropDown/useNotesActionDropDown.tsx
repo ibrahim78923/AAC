@@ -1,5 +1,6 @@
+import { useState } from 'react';
+
 import { useTheme } from '@mui/material';
-import React, { useState } from 'react';
 
 const useNotesActionDropdown = ({ setOpenDrawer }: any) => {
   const theme = useTheme();
@@ -7,7 +8,7 @@ const useNotesActionDropdown = ({ setOpenDrawer }: any) => {
   const [isOpenAlertModal, setIsOpenAlertModal] = useState(false);
   const isMenuOpen = Boolean(anchorEl);
   const handleOpenMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
+    setAnchorEl(event?.currentTarget);
   };
   const handleCloseMenu = () => {
     setAnchorEl(null);

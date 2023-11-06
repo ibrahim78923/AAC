@@ -1,58 +1,71 @@
-import React from 'react';
-import { Box, Button, Modal, Typography } from '@mui/material';
 import {
-  checkModelType,
-  checkModelTypeForImage,
-  checkModelTypeMessage,
-} from './AlertModals.utils';
-import { ModelPropsI } from './AlertModals.interface';
-import CloseIcon from '@/assets/icons/shared/AlertModels/close-icon';
-import { styles } from './AlertModals.styles';
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Typography,
+} from '@mui/material';
+import { checkModalTypeForImage } from './AlertModals.data';
+import { AlertModalCloseIcon } from '@/assets/icons';
 
-export const AlertModals: React.FunctionComponent<ModelPropsI> = ({
+export const AlertModals = ({
   message,
   type,
   open,
   handleClose,
-  handleSubmit,
-}: ModelPropsI) => {
+  handleCancelBtn = handleClose,
+  handleSubmitBtn,
+  cancelBtnText = 'No',
+  submitBtnText = 'Yes',
+  typeImage,
+}: any) => {
   return (
-    <Box>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={styles.parentBox}>
-          <Box sx={styles.modalBox}>
-            <Box sx={styles.innerBoxOne}>
-              <Box sx={styles.innerBoxTwo}>
-                {checkModelTypeForImage(type)}
-                <Typography component="span" sx={styles.modalTypeText}>
-                  {checkModelType(type)}
-                </Typography>
-              </Box>
-              <Box sx={{ cursor: 'pointer' }} onClick={() => handleClose(open)}>
-                <CloseIcon />
-              </Box>
-            </Box>
-            <Box sx={{ margin: '20px 0' }}>
-              <Typography sx={styles.messageText}>
-                {message ? message : checkModelTypeMessage(type)}
-              </Typography>
-            </Box>
-            <Box sx={styles.buttonBox}>
-              <Button onClick={() => handleClose(open)} variant="outlined">
-                No
-              </Button>
-              <Button variant="contained" onClick={handleSubmit}>
-                Yes
-              </Button>
-            </Box>
+    <Dialog
+      open={open}
+      onClose={() => handleClose?.()}
+      fullWidth
+      maxWidth={'sm'}
+    >
+      <DialogTitle>
+        <Box
+          display={'flex'}
+          alignItems={'center'}
+          justifyContent={'space-between'}
+          gap={1}
+          flexWrap={'wrap'}
+        >
+          <Box display={'flex'} alignItems={'center'} gap={1} flexWrap={'wrap'}>
+            {checkModalTypeForImage(type) ?? typeImage}
+            <Typography variant="h3" textTransform={'capitalize'}>
+              {type}
+            </Typography>
+          </Box>
+          <Box sx={{ cursor: 'pointer' }} onClick={() => handleClose?.()}>
+            <AlertModalCloseIcon />
           </Box>
         </Box>
-      </Modal>
-    </Box>
+      </DialogTitle>
+      <DialogContent>
+        <Typography variant="body1" sx={{ marginTop: '1rem' }}>
+          {message}{' '}
+        </Typography>
+      </DialogContent>
+      <DialogActions
+        sx={{ '&.MuiDialogActions-root': { padding: '1.5rem !important' } }}
+      >
+        <Button
+          variant="outlined"
+          color="secondary"
+          onClick={() => handleCancelBtn?.()}
+        >
+          {cancelBtnText}
+        </Button>
+        <Button variant="contained" onClick={() => handleSubmitBtn?.()}>
+          {submitBtnText}
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 };

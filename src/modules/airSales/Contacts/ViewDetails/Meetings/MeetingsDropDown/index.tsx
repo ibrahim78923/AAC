@@ -7,6 +7,7 @@ import { AlertModals } from '@/components/AlertModals';
 import useMeetingsDropDown from './useMeetingsDropDown';
 import { ScheduleModals } from '@/components/ScheduleModals';
 import { FormProvider } from '@/components/ReactHookForm';
+
 import {
   outcomesDataArray,
   reAssignCallDataArray,
@@ -44,8 +45,8 @@ const MeetingsDropDown = (props: any) => {
       <Button
         endIcon={<ArrowDropDown />}
         sx={{
-          border: `1px solid ${theme.palette.custom.dark}`,
-          color: `${theme.palette.custom.main}`,
+          border: `1px solid ${theme?.palette?.custom?.dark}`,
+          color: `${theme?.palette?.custom?.main}`,
           minWidth: '0px',
           height: '35px',
         }}
@@ -100,7 +101,7 @@ const MeetingsDropDown = (props: any) => {
           <Grid container spacing={4}>
             {outcomesDataArray?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                <item.component {...item.componentProps} size={'small'}>
+                <item.component {...item?.componentProps} size={'small'}>
                   {item?.componentProps?.select
                     ? item?.options?.map((option: any) => (
                         <option key={option?.value} value={option?.value}>
@@ -133,7 +134,7 @@ const MeetingsDropDown = (props: any) => {
           <Grid container spacing={3}>
             {reAssignCallDataArray?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                <item.component {...item.componentProps} size={'small'}>
+                <item.component {...item?.componentProps} size={'small'}>
                   {item?.componentProps?.select
                     ? item?.options?.map((option: any) => (
                         <option key={option?.value} value={option?.value}>

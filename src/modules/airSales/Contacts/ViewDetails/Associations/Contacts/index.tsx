@@ -1,17 +1,17 @@
-import React from 'react';
 import { Box, Grid, Typography } from '@mui/material';
 
 import Search from '@/components/Search';
 import { AlertModals } from '@/components/AlertModals';
+import TanstackTable from '@/components/Table/TanstackTable';
+import { TasksTableData } from '@/mock/modules/airSales/Contacts/ViewDetails';
+
 import ContactsEditorDrawer from './ContactsEditorDrawer';
-import TanstackTable from '@/components/Tabel/TanstackTable';
 
 import useContacts from './useContacts';
 
 import { columns } from './Contacts.data';
 
 import { styles } from '../Associations.style';
-import { TasksTableData } from '@/mock/modules/airSales/Contacts/ViewDetails';
 
 const PlayBook = () => {
   const {
@@ -34,8 +34,8 @@ const PlayBook = () => {
       }}
     >
       <Grid container spacing={2}>
-        <Grid item md={4} xs={12} sx={styles.countBox}>
-          <Typography sx={styles.associationCount(theme)} variant="body3">
+        <Grid item md={4} xs={12} sx={styles?.countBox}>
+          <Typography sx={styles?.associationCount(theme)} variant="body3">
             02
           </Typography>
 

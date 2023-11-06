@@ -1,7 +1,6 @@
 import { useState } from 'react';
 
 import { Popover, Button, MenuItem } from '@mui/material';
-
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 import { ContactsActionInterfacePropsI } from './Actions.interface';

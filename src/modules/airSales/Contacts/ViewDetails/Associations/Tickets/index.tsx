@@ -3,14 +3,15 @@ import { Box, Grid, Typography } from '@mui/material';
 
 import Search from '@/components/Search';
 import { AlertModals } from '@/components/AlertModals';
+import TanstackTable from '@/components/Table/TanstackTable';
+
 import TicketsEditorDrawer from './TicketsEditorDrawer';
-import TanstackTable from '@/components/Tabel/TanstackTable';
+
+import { TasksTableData } from '@/mock/modules/airSales/Deals/ViewDetails';
 
 import useTickets from './useTickets';
 
 import { columns } from './Tickets.data';
-
-import { TasksTableData } from '@/mock/modules/airSales/Deals/ViewDetails';
 
 import { styles } from '../Associations.style';
 
@@ -35,8 +36,8 @@ const Tickets = () => {
       }}
     >
       <Grid container spacing={2}>
-        <Grid item md={4} sx={styles.countBox}>
-          <Typography sx={styles.associationCount(theme)} variant="body3">
+        <Grid item md={4} sx={styles?.countBox}>
+          <Typography sx={styles?.associationCount(theme)} variant="body3">
             02
           </Typography>
 

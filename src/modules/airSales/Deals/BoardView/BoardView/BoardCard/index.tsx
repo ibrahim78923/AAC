@@ -1,5 +1,7 @@
 import React, { FC } from 'react';
+
 import { Box, Typography } from '@mui/material';
+
 import { BoardCardI } from './BoardCard.interface';
 import { styles } from './BoardCard.style';
 import DealCard from './DealCard';
@@ -11,9 +13,9 @@ const BoardCard: FC<BoardCardI> = ({
   stageDealsPercent,
 }) => {
   return (
-    <Box sx={styles.card}>
-      <Box sx={styles.cardHeader}>
-        <Box sx={styles.cardHeaderLeft}>
+    <Box sx={styles?.card}>
+      <Box sx={styles?.cardHeader}>
+        <Box sx={styles?.cardHeaderLeft}>
           <Typography
             variant="body2"
             sx={{ fontWeight: '700', color: 'blue.main' }}
@@ -23,15 +25,15 @@ const BoardCard: FC<BoardCardI> = ({
           <Box sx={styles.dealsNumber}>{stageDealsNumber}</Box>
         </Box>
 
-        <Box sx={styles.cardHeaderRight}>
-          <Box sx={styles.totalAmount}>
+        <Box sx={styles?.cardHeaderRight}>
+          <Box sx={styles?.totalAmount}>
             Total: <Box component={'span'}>£{stageDealsAmount}</Box>
           </Box>
-          <Box sx={styles.dealsPercentage}>{`(${stageDealsPercent}%)`}</Box>
+          <Box sx={styles?.dealsPercentage}>{`(${stageDealsPercent}%)`}</Box>
         </Box>
       </Box>
 
-      <Box sx={styles.cardBody}>
+      <Box sx={styles?.cardBody}>
         <DealCard />
         <DealCard />
       </Box>

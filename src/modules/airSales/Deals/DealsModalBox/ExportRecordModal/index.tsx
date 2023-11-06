@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { AlertModals } from '@/components/AlertModals';
 
 const ExportRecordModal = ({ open, onClose, handleExportRecord }: any) => {

@@ -1,10 +1,9 @@
-import React from 'react';
-
 import { Box, Button, Grid, Typography } from '@mui/material';
 
 import Search from '@/components/Search';
 import { AlertModals } from '@/components/AlertModals';
-import TanstackTable from '@/components/Tabel/TanstackTable';
+import TanstackTable from '@/components/Table/TanstackTable';
+
 import AttachmentsEditorDrawer from './AttachmentsEditorDrawer';
 
 import useAttachments from './useAttachments';
@@ -12,9 +11,9 @@ import useAttachments from './useAttachments';
 import { columns } from './Attachments.data';
 import { attachmentData } from '@/mock/modules/airSales/Deals/ViewDetails';
 
-import { PlusSharedIcon } from '@/assets/icons';
-
 import { styles } from '../Associations.style';
+
+import { PlusSharedIcon } from '@/assets/icons';
 
 const Attachments = () => {
   const {
@@ -37,8 +36,8 @@ const Attachments = () => {
       }}
     >
       <Grid container spacing={2}>
-        <Grid item md={4} sx={styles.countBox}>
-          <Typography sx={styles.associationCount(theme)} variant="body3">
+        <Grid item md={4} sx={styles?.countBox}>
+          <Typography sx={styles?.associationCount(theme)} variant="body3">
             02
           </Typography>
 

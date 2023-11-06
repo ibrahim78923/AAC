@@ -1,27 +1,26 @@
-import React from 'react';
-
 import Image from 'next/image';
 
 import { Box, Grid, Typography } from '@mui/material';
 
 import useNameWithStyledWords from '@/hooks/useNameStyledWords';
 
+import { ActivitiesLog } from '@/mock/modules/airSales/Contacts/ContactViewDetails';
+
 import { styles } from '../ViewDetails.style';
 
-import { ActivitiesLog } from '@/mock/modules/airSales/Contacts/ContactViewDetails';
 import { v4 as uuidv4 } from 'uuid';
 
 const ActivityLog = () => {
   const { theme } = useNameWithStyledWords();
 
   return (
-    <Box sx={styles.horizontalTabsBox}>
+    <Box sx={styles?.horizontalTabsBox}>
       <Typography variant="h4">Activities</Typography>
-      <Box sx={styles.horizontalTabsInnnerBox}>
+      <Box sx={styles?.horizontalTabsInnnerBox}>
         <Grid container>
-          {ActivitiesLog.map((item: any, index) => (
+          {ActivitiesLog?.map((item: any, index) => (
             <Grid item xs={12} key={uuidv4()}>
-              <Typography mb={3}>{item.heading}</Typography>
+              <Typography mb={3}>{item?.heading}</Typography>
               <Box
                 sx={{
                   gap: 2,
@@ -41,16 +40,16 @@ const ActivityLog = () => {
                     >
                       <Box sx={{ display: 'flex', gap: '15px' }}>
                         <Box>
-                          <Image src={data.img} alt="image" />
+                          <Image src={data?.img} alt="image" />
                         </Box>
                         <Box>
                           <Typography
                             sx={{ color: '#1F2937' }}
                             variant="formTopHeading"
                           >
-                            {data.title}{' '}
+                            {data?.title}
                             <span style={{ color: '#5ED4C3' }}>
-                              {data.name}
+                              {data?.name}
                             </span>
                           </Typography>
                           <Typography
@@ -58,7 +57,7 @@ const ActivityLog = () => {
                             fontSize="12px"
                             sx={{ color: '#6B7280' }}
                           >
-                            {data.message}
+                            {data?.message}
                           </Typography>
                         </Box>
                       </Box>
@@ -72,7 +71,7 @@ const ActivityLog = () => {
                             borderRadius: '10px',
                           }}
                         >
-                          <li>{data.date}</li>
+                          <li>{data?.date}</li>
                         </Box>
                         <Box>
                           <Typography
@@ -80,7 +79,7 @@ const ActivityLog = () => {
                             fontSize="12px"
                             sx={{ mt: '10px', color: '#6B7280' }}
                           >
-                            {data.dateTime}
+                            {data?.dateTime}
                           </Typography>
                         </Box>
                       </Box>
@@ -88,36 +87,20 @@ const ActivityLog = () => {
                   ))}
                 </>
                 <Box sx={{ width: '50vw' }}>
-                  {/* <NameWithStyledWords
-                    name={item.message}
-                    customKey="ActivityHead"
-                  /> */}
                   <Typography
                     variant="body3"
-                    sx={{ color: theme.palette.custom.main }}
+                    sx={{ color: theme?.palette?.custom?.main }}
                   >
-                    {item.message}
+                    {item?.message}
                   </Typography>
-                  {/* {item.activityList && (
-                    <Box>
-                      {item.activityList.map((option) => (
-                        <Box key={uuidv4()}>
-                          <NameWithStyledWords
-                            name={option}
-                            customKey="Activitylist"
-                          />
-                        </Box>
-                      ))}
-                    </Box>
-                  )} */}
                 </Box>
               </Box>
 
-              {index !== ActivitiesLog.length - 1 && (
+              {index !== ActivitiesLog?.length - 1 && (
                 <Box
                   sx={{
                     width: '1px',
-                    backgroundColor: theme.palette.grey[700],
+                    backgroundColor: theme?.palette?.grey[700],
                     mx: 2.5,
                     height: '40px',
                     my: 1,

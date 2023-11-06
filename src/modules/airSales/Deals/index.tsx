@@ -15,8 +15,9 @@ import useDealSaleSite from './useDealSaleSite';
 import DeleteModal from './DealsModalBox/DeleteModal';
 import ExportRecordModal from './DealsModalBox/ExportRecordModal';
 import AssignModalBox from './DealsModalBox/AssignModalBox';
-
 import { DealsTabs } from './DealsSaleSite.data';
+import DealsActions from './DealsActions';
+import BoardView from './BoardView/BoardView';
 
 import {
   FilterIcon,
@@ -25,8 +26,6 @@ import {
   ListViewIcon,
   GridViewIcon,
 } from '@/assets/icons';
-import DealsActions from './DealsActions';
-import BoardView from './BoardView/BoardView';
 
 const Deals = () => {
   const {
@@ -82,7 +81,7 @@ const Deals = () => {
             <Link href={'/air-sales/deals/restore'}>
               <Button
                 variant="outlined"
-                sx={{ height: '30px', color: theme.palette.custom['main'] }}
+                sx={{ height: '30px', color: theme?.palette?.custom['main'] }}
                 startIcon={<RestoreIcon />}
               >
                 Restore
@@ -92,14 +91,14 @@ const Deals = () => {
               <Button
                 onClick={handleDealCustomize}
                 variant="outlined"
-                sx={{ height: '30px', color: theme.palette.custom['main'] }}
+                sx={{ height: '30px', color: theme?.palette?.custom['main'] }}
               >
                 <CutomizeIcon /> &nbsp; Customize
               </Button>
             </>
             <Button
               variant="outlined"
-              sx={{ height: '30px', color: theme.palette.custom['main'] }}
+              sx={{ height: '30px', color: theme?.palette?.custom['main'] }}
               onClick={handleFilter}
             >
               <FilterIcon />

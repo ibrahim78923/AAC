@@ -9,9 +9,9 @@ import CreateDeal from '../CreateDeal';
 import ViewAllDeals from '../ViewAllDeals';
 import useDealHeader from './useDealHeader';
 
-import { ImportIcon, MenuIcon } from '@/assets/icons';
-
 import { styles } from './DealHeader.style';
+
+import { ImportIcon, MenuIcon } from '@/assets/icons';
 
 const DealHeader = () => {
   const {
@@ -24,16 +24,16 @@ const DealHeader = () => {
   } = useDealHeader();
 
   return (
-    <Box sx={styles.HeaderStyle}>
+    <Box sx={styles?.HeaderStyle}>
       <Box display="flex" alignItems={'center'} gap={'10px'}>
         <SvgIcon onClick={handleViewAll} sx={{ cursor: 'pointer' }}>
           <MenuIcon />
         </SvgIcon>
-        <Typography variant="h4" sx={styles.HeaderTypography}>
+        <Typography variant="h4" sx={styles?.HeaderTypography}>
           Deals
         </Typography>
       </Box>
-      <Box sx={styles.HeaderChildStyle}>
+      <Box sx={styles?.HeaderChildStyle}>
         <Button
           variant="outlined"
           onClick={handleImportDealOpen}

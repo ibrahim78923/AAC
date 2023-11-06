@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { Box, Button, Grid, Typography, useTheme } from '@mui/material';
 
 import HorizontalTabs from '@/components/Tabs/HorizontalTabs';
+
 import Details from './Details';
 import ActivityLog from './ActivityLog';
 import Tasks from './Tasks';
@@ -38,7 +39,7 @@ const ContactViewDetails = () => {
               <Link href={'/air-sales/contacts/view-details/restore-activties'}>
                 <Button
                   variant="outlined"
-                  sx={{ height: '30px', color: theme.palette.custom['main'] }}
+                  sx={{ height: '30px', color: theme?.palette?.custom['main'] }}
                   startIcon={<RestoreIcon />}
                 >
                   Restore Activities

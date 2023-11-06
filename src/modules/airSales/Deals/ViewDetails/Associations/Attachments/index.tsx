@@ -1,10 +1,8 @@
-import React from 'react';
-
 import { Box, Button, Grid, Typography } from '@mui/material';
 
 import Search from '@/components/Search';
 import { AlertModals } from '@/components/AlertModals';
-import TanstackTable from '@/components/Tabel/TanstackTable';
+import TanstackTable from '@/components/Table/TanstackTable';
 import AttachmentsEditorDrawer from './AttachmentsEditorDrawer';
 
 import useAttachments from './useAttachments';
@@ -37,7 +35,7 @@ const Attachments = () => {
       }}
     >
       <Grid container spacing={2}>
-        <Grid item md={4} sx={styles.countBox}>
+        <Grid item md={4} sx={styles?.countBox}>
           <Typography sx={styles.associationCount(theme)} variant="body3">
             02
           </Typography>

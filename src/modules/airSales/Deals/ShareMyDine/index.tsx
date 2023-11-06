@@ -54,30 +54,30 @@ const ShareMyDine = ({ open, onClose }: any) => {
         </Box>
         <Box sx={{ marginTop: '40px' }}>
           {ShareData?.map((item: any) => (
-            <Box key={uuidv4()} sx={styles.heading}>
+            <Box key={uuidv4()} sx={styles?.heading}>
               <Typography
                 sx={{
                   fontSize: '14x',
                   fontWeight: 400,
-                  color: theme.palette.custom['main'],
+                  color: theme?.palette?.custom['main'],
                 }}
               >
-                {item.heading}
+                {item?.heading}
               </Typography>
               <Typography
                 sx={{
                   fontSize: '14x',
                   fontWeight: 600,
-                  color: theme.palette.slateBlue['main'],
+                  color: theme?.palette?.slateBlue['main'],
                 }}
               >
-                {item.values}
+                {item?.values}
               </Typography>
             </Box>
           ))}
         </Box>
         <Box>
-          {ShareAccordianData.map((item) => (
+          {ShareAccordianData?.map((item) => (
             <Accordion key={uuidv4()}>
               <AccordionSummary
                 expandIcon={<ArrowBgDownIcon />}
@@ -87,12 +87,12 @@ const ShareMyDine = ({ open, onClose }: any) => {
                 <Box
                   sx={{ display: 'flex', alignItems: 'center', gap: '20px' }}
                 >
-                  <Typography sx={styles.accordianSummary(theme)}>
-                    {item.number}
+                  <Typography sx={styles?.accordianSummary(theme)}>
+                    {item?.number}
                   </Typography>
                   <Typography
                     sx={{
-                      color: theme.palette.slateBlue['main'],
+                      color: theme?.palette?.slateBlue['main'],
                       fontSize: '16px',
                       fontWeight: 600,
                     }}
@@ -102,10 +102,10 @@ const ShareMyDine = ({ open, onClose }: any) => {
                 </Box>
               </AccordionSummary>
               <AccordionDetails>
-                {AccordianDetailsData.map((data: any) => (
+                {AccordianDetailsData?.map((data: any) => (
                   <Box key={uuidv4()} my={1}>
                     <Stack direction="row" gap={1}>
-                      <Image src={data.img} alt="" />
+                      <Image src={data?.img} alt="" />
                       <Stack
                         width="100%"
                         direction="row"
@@ -113,21 +113,21 @@ const ShareMyDine = ({ open, onClose }: any) => {
                         alignItems="center"
                       >
                         <Stack>
-                          <Typography sx={styles.accordianText(theme)}>
-                            {data.name}
+                          <Typography sx={styles?.accordianText(theme)}>
+                            {data?.name}
                           </Typography>
-                          <Typography sx={styles.accordianEmail(theme)}>
-                            {data.email}
+                          <Typography sx={styles?.accordianEmail(theme)}>
+                            {data?.email}
                           </Typography>
                         </Stack>
                         <Typography
                           sx={{
-                            color: theme.palette.grey['900'],
+                            color: theme?.palette?.grey['900'],
                             fontSize: '14px',
                             fontWeight: 500,
                           }}
                         >
-                          {data.number}
+                          {data?.number}
                         </Typography>
                       </Stack>
                     </Stack>

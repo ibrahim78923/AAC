@@ -1,8 +1,6 @@
-import React from 'react';
-
 import CustomPagination from '@/components/CustomPagination';
 
-import TanstackTable from '@/components/Tabel/TanstackTable';
+import TanstackTable from '@/components/Table/TanstackTable';
 
 import { columns, data } from './RoleAndRights.data';
 

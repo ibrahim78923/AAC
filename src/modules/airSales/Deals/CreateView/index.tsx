@@ -1,4 +1,4 @@
-import React from 'react';
+import { useForm } from 'react-hook-form';
 
 import {
   FormControlLabel,
@@ -13,8 +13,6 @@ import {
 import CommonDrawer from '@/components/CommonDrawer';
 
 import { CreateViewData } from './CreateView.data';
-
-import { useForm } from 'react-hook-form';
 
 import { FormProvider } from '@/components/ReactHookForm';
 
@@ -35,11 +33,11 @@ const CreateView = ({ open, onClose }: any) => {
       >
         <FormProvider methods={methods}>
           <Grid container spacing={2}>
-            {CreateViewData.map((obj) => (
+            {CreateViewData?.map((obj) => (
               <Grid item xs={12} key={uuidv4()}>
                 <Typography
                   sx={{
-                    colors: theme.palette.grey[600],
+                    colors: theme?.palette?.grey[600],
                     fontWeight: '500',
                     fontSize: '14px',
                   }}
@@ -52,10 +50,10 @@ const CreateView = ({ open, onClose }: any) => {
                   SelectProps={{ sx: { borderRadius: '8px' } }}
                   {...obj.componentProps}
                 >
-                  {obj.componentProps.select
-                    ? obj.options?.map((option) => (
-                        <MenuItem key={uuidv4()} value={option.value}>
-                          {option.label}
+                  {obj?.componentProps?.select
+                    ? obj?.options?.map((option) => (
+                        <MenuItem key={uuidv4()} value={option?.value}>
+                          {option?.label}
                         </MenuItem>
                       ))
                     : null}
@@ -67,7 +65,7 @@ const CreateView = ({ open, onClose }: any) => {
         <Typography
           sx={{
             mt: '20px',
-            color: theme.palette.slateBlue['main'],
+            color: theme?.palette?.slateBlue['main'],
             fontSize: '18px',
             fontWeight: 600,
           }}

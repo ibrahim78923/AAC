@@ -1,4 +1,3 @@
-import React from 'react';
 import Image from 'next/image';
 
 import {
@@ -22,8 +21,9 @@ import { styles } from '../ViewDetails.style';
 
 import { ElipseImage } from '@/assets/images';
 
-import { v4 as uuidv4 } from 'uuid';
 import { EditProfile } from '@/assets/icons';
+
+import { v4 as uuidv4 } from 'uuid';
 
 const Details = () => {
   const {
@@ -87,7 +87,7 @@ const Details = () => {
             {detailsDataArray?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={uuidv4()}>
                 <Typography>{item.label}</Typography>
-                <item.component {...item.componentProps} size={'small'}>
+                <item.component {...item?.componentProps} size={'small'}>
                   {item?.componentProps?.select
                     ? item?.options?.map((option: any) => (
                         <option key={option?.value} value={option?.value}>
@@ -108,8 +108,8 @@ const Details = () => {
           <Grid container spacing={4}>
             {systemInformationDataArray?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                <Typography>{item.label}</Typography>
-                <item.component {...item.componentProps} size={'small'}>
+                <Typography>{item?.label}</Typography>
+                <item.component {...item?.componentProps} size={'small'}>
                   {item?.componentProps?.select
                     ? item?.options?.map((option: any) => (
                         <option key={option?.value} value={option?.value}>
@@ -121,7 +121,7 @@ const Details = () => {
               </Grid>
             ))}
             <Grid item xs={12}>
-              <Divider sx={{ borderColor: theme.palette.grey[700] }} />
+              <Divider sx={{ borderColor: theme?.palette?.grey[700] }} />
             </Grid>
           </Grid>
 

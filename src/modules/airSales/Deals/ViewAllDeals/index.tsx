@@ -26,10 +26,10 @@ const ViewAllDeals = ({ open, onClose }: any) => {
         fullWidth
         autoComplete="off"
       />
-      {columnsData.map((column) => (
+      {columnsData?.map((column) => (
         <ColumnsWrapper
           key={uuidv4()}
-          title={column.title}
+          title={column?.title}
           checkboxProps={{
             onChange: () => {},
           }}

@@ -1,11 +1,10 @@
-import React from 'react';
-
 import { Box, Grid, Typography } from '@mui/material';
 
 import Search from '@/components/Search';
+import TanstackTable from '@/components/Table/TanstackTable';
 import { AlertModals } from '@/components/AlertModals';
+
 import CompaniesEditorDrawer from './CompaniesEditorDrawer';
-import TanstackTable from '@/components/Tabel/TanstackTable';
 
 import useCompanies from './useCompanies';
 
@@ -35,8 +34,8 @@ const Companies = () => {
       }}
     >
       <Grid container spacing={2}>
-        <Grid item md={4} sx={styles.countBox}>
-          <Typography sx={styles.associationCount(theme)} variant="body3">
+        <Grid item md={4} sx={styles?.countBox}>
+          <Typography sx={styles?.associationCount(theme)} variant="body3">
             02
           </Typography>
 

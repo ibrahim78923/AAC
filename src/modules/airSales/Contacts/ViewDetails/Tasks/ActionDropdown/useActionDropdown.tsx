@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import { useTheme } from '@mui/material';
 
@@ -25,7 +25,7 @@ const useActionDropdown = ({ setOpenDrawer }: any) => {
   const { handleSubmit } = methodsAssignee;
 
   const handleOpenMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
+    setAnchorEl(event?.currentTarget);
   };
   const handleCloseMenu = () => {
     setAnchorEl(null);

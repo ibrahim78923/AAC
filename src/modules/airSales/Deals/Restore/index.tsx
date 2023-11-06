@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 import { Box, Button, Paper, Typography } from '@mui/material';
 
-import TanstackTable from '@/components/Tabel/TanstackTable';
+import TanstackTable from '@/components/Table/TanstackTable';
 import CustomPagination from '@/components/CustomPagination';
 import Search from '@/components/Search';
 
@@ -14,7 +14,6 @@ import RestoreDealModal from './RestoreDealModal';
 import DealsActions from '../DealsActions';
 
 import useRestore from './useRestore';
-
 import { RestoreTableColumns } from './RestoreTable.data';
 
 import { BackArrIcon, FilterIcon } from '@/assets/icons';
@@ -51,13 +50,13 @@ const Restore = () => {
           <Box>
             <Typography
               variant="subtitle1"
-              sx={{ colors: theme.palette.grey[600] }}
+              sx={{ colors: theme?.palette?.grey[600] }}
             >
               Restore Deals
             </Typography>
             <Typography
               variant="body2"
-              sx={{ color: theme.palette.custom['main'] }}
+              sx={{ color: theme?.palette?.custom['main'] }}
             >
               Restore Deals deleted in the last 90 days
             </Typography>
@@ -112,7 +111,7 @@ const Restore = () => {
           <Button
             startIcon={<FilterIcon />}
             variant="outlined"
-            sx={{ height: '35px', color: theme.palette.custom['main'] }}
+            sx={{ height: '35px', color: theme?.palette?.custom['main'] }}
             onClick={handleRestoreFilter}
           >
             {' '}

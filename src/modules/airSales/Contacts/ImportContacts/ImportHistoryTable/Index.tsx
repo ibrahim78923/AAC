@@ -3,9 +3,8 @@ import { useRouter } from 'next/router';
 import { Box, Button, Card, Paper, Typography, useTheme } from '@mui/material';
 
 import CustomPagination from '@/components/CustomPagination';
-import TanstackTable from '@/components/Tabel/TanstackTable';
 import Search from '@/components/Search';
-
+import TanstackTable from '@/components/Table/TanstackTable';
 import { SUPER_ADMIN } from '@/constants';
 
 import { ImportHistoryTableData } from '@/mock/modules/airSales/Contacts/ImportHistoryData';
@@ -32,7 +31,7 @@ const ImportHistoryTable = () => {
         <Typography variant="h4">Import History</Typography>
         <Button
           variant="contained"
-          onClick={() => route.push(SUPER_ADMIN.CONTACT_IMPORT)}
+          onClick={() => route?.push(SUPER_ADMIN?.CONTACT_IMPORT)}
           startIcon={<ImportIcon />}
           sx={{ height: '35px' }}
         >
@@ -51,7 +50,7 @@ const ImportHistoryTable = () => {
             variant="outlined"
             sx={{
               height: '30px',
-              color: theme.palette.custom['main'],
+              color: theme?.palette?.custom['main'],
               my: '12px',
             }}
             onClick={handleFilterDrawer}

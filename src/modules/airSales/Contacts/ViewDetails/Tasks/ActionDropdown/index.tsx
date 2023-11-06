@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { Button, Grid, Menu, MenuItem } from '@mui/material';
 import { ArrowDropDown } from '@mui/icons-material';
 
@@ -10,6 +9,7 @@ import useActionDropdown from './useActionDropdown';
 import { assigneeDataArray } from './ActionDropDown.data';
 
 import { FormProvider } from '@/components/ReactHookForm';
+
 import { v4 as uuidv4 } from 'uuid';
 
 const ActionDropdown = (props: any) => {
@@ -36,8 +36,8 @@ const ActionDropdown = (props: any) => {
       <Button
         endIcon={<ArrowDropDown />}
         sx={{
-          border: `1px solid ${theme.palette.custom.dark}`,
-          color: `${theme.palette.custom.main}`,
+          border: `1px solid ${theme?.palette?.custom?.dark}`,
+          color: `${theme?.palette?.custom?.main}`,
           minWidth: '0px',
           height: '35px',
         }}
@@ -81,7 +81,7 @@ const ActionDropdown = (props: any) => {
           <Grid container>
             {assigneeDataArray?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                <item.component {...item.componentProps} size={'small'}>
+                <item.component {...item?.componentProps} size={'small'}>
                   {item?.componentProps?.select
                     ? item?.options?.map((option: any) => (
                         <option key={option?.value} value={option?.value}>

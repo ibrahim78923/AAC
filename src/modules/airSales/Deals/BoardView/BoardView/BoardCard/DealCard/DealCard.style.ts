@@ -1,7 +1,7 @@
 export const styles = {
   card: (theme: any) => ({
     backgroundColor: 'common.white',
-    border: `1px solid ${theme.palette.grey[700]}`,
+    border: `1px solid ${theme?.palette?.grey[700]}`,
     p: '10px',
     borderRadius: '10px',
     '&:not(:first-of-type)': {
@@ -32,7 +32,7 @@ export const styles = {
     fontSize: '12px',
     fontWeight: '400',
     lineHeight: '1.5',
-    color: theme.palette.grey[900],
+    color: theme?.palette?.grey[900],
   }),
   cardBody: () => ({
     display: 'block',
@@ -53,7 +53,7 @@ export const styles = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
-    borderTop: `1px solid ${theme.palette.grey[400]}`,
+    borderTop: `1px solid ${theme?.palette?.grey[400]}`,
     pt: '8px',
   }),
   activities: (theme: any) => ({
@@ -63,7 +63,7 @@ export const styles = {
     '& > li': {
       display: 'flex',
       p: '0 8px',
-      borderLeft: `1px solid ${theme.palette.grey[400]}`,
+      borderLeft: `1px solid ${theme?.palette?.grey[400]}`,
       '&:first-child': {
         border: 'none',
         pl: '0',

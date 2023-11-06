@@ -1,7 +1,9 @@
 import { RHFSelect } from '@/components/ReactHookForm';
+
 import * as Yup from 'yup';
-export const assigneeValidationSchema = Yup.object().shape({
-  taskname: Yup.string().trim().required('Field is Required'),
+
+export const assigneeValidationSchema = Yup?.object()?.shape({
+  taskname: Yup?.string()?.trim()?.required('Field is Required'),
 });
 
 export const assigneeDefaultValues = {

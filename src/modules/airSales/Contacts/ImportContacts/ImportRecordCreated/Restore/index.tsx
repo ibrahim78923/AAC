@@ -2,22 +2,22 @@ import Link from 'next/link';
 
 import { Box, Button, Paper, Typography } from '@mui/material';
 
-import TanstackTable from '@/components/Tabel/TanstackTable';
 import CustomPagination from '@/components/CustomPagination';
 import Search from '@/components/Search';
+import { SUPER_ADMIN } from '@/constants';
+import TanstackTable from '@/components/Table/TanstackTable';
 
 import RestoreFilterDrawer from './RestoreFilterDrawer';
 import RestoreDeleteModal from './RestoreDeleteModal';
 
+import { CreatedRestoreTableData } from '@/mock/modules/airSales/Contacts/ImportHistoryData/ImportRecordTableCreated/CreatedRestoreData';
+
 import useRestore from './useRestore';
-
 import { CreatedRestoreTableColumns } from './RestoreTable.data';
-
-import { BackArrIcon, FilterIcon } from '@/assets/icons';
 import RestoreAssignModalBox from './RestoreAssignModalBox';
 import ContactsActions from '../CreatedActions';
-import { CreatedRestoreTableData } from '@/mock/modules/airSales/Contacts/ImportHistoryData/ImportRecordTableCreated/CreatedRestoreData';
-import { SUPER_ADMIN } from '@/constants';
+
+import { BackArrIcon, FilterIcon } from '@/assets/icons';
 
 const Restore = () => {
   const {
@@ -45,19 +45,19 @@ const Restore = () => {
         }}
       >
         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
-          <Link href={SUPER_ADMIN.IMPORT_RECORD}>
+          <Link href={SUPER_ADMIN?.IMPORT_RECORD}>
             <BackArrIcon />
           </Link>
           <Box>
             <Typography
               variant="subtitle1"
-              sx={{ colors: theme.palette.grey[600] }}
+              sx={{ colors: theme?.palette?.grey[600] }}
             >
               Restore Contacts
             </Typography>
             <Typography
               variant="body2"
-              sx={{ color: theme.palette.custom['main'] }}
+              sx={{ color: theme?.palette?.custom['main'] }}
             >
               Restore Deals deleted in the last 90 days
             </Typography>
@@ -112,7 +112,7 @@ const Restore = () => {
           <Button
             startIcon={<FilterIcon />}
             variant="outlined"
-            sx={{ height: '30px', color: theme.palette.custom['main'] }}
+            sx={{ height: '30px', color: theme?.palette?.custom['main'] }}
             onClick={handleRestoreFilter}
           >
             Filter

@@ -1,6 +1,8 @@
 import { RHFDropZone } from '@/components/ReactHookForm';
+
 import * as Yup from 'yup';
-export const attachmentsValidationSchema = Yup.object().shape({});
+
+export const attachmentsValidationSchema = Yup?.object()?.shape({});
 
 export const attachmentsDefaultValues = {
   attachment: '',

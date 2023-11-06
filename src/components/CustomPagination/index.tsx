@@ -2,14 +2,8 @@ import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import { Grid, IconButton, Pagination, TablePagination } from '@mui/material';
 import { CustomPaginationPropsI } from './CustomPagination.interface';
-import { useCustomPaginationState } from './useCustomPagination';
-
-import {
-  paddingStyle,
-  iconStyle,
-  iconStyleTwo,
-  tablePaginationStyle,
-} from './CustomPagination.style';
+import { useCustomPagination } from './useCustomPagination';
+import { styles } from './CustomPagination.style';
 
 const CustomPagination: React.FC<CustomPaginationPropsI> = ({
   count,
@@ -17,18 +11,20 @@ const CustomPagination: React.FC<CustomPaginationPropsI> = ({
   entriePages,
 }) => {
   const { rowsPerPage, page, handleChangePage, handleChangeRowsPerPage } =
-    useCustomPaginationState();
+    useCustomPagination();
 
-  const handlePageChange = (
-    event: React.ChangeEvent<unknown>,
-    value: number,
-  ) => {
+  const handlePageChange = (_: any, value: number) => {
     handleChangePage(value);
   };
 
   return (
     <>
-      <Grid container justifyContent={'space-between'} alignItems={'center'}>
+      <Grid
+        container
+        justifyContent={'space-between'}
+        alignItems={'center'}
+        px={2.4}
+      >
         <Grid
           item
           lg={2.5}
@@ -48,14 +44,21 @@ const CustomPagination: React.FC<CustomPaginationPropsI> = ({
             labelRowsPerPage="Show"
             labelDisplayedRows={() => `of ${entriePages} entries`}
             rowsPerPageOptions={rowsPerPageOptions}
-            sx={tablePaginationStyle}
+            sx={styles?.tablePaginationStyle}
           />
         </Grid>
-        <Grid item lg={3.5} sm={5} xs={12} sx={{ display: 'flex' }}>
+        <Grid
+          item
+          lg={3.5}
+          sm={5}
+          xs={12}
+          sx={{ display: 'flex', justifyContent: 'flex-end' }}
+          // pr={2.4}
+        >
           <IconButton
             disabled={page === 1}
             onClick={() => handleChangePage(page - 1)}
-            sx={iconStyleTwo}
+            sx={styles?.iconStyleTwo}
           >
             <ArrowCircleLeftIcon />
           </IconButton>
@@ -67,12 +70,12 @@ const CustomPagination: React.FC<CustomPaginationPropsI> = ({
             onChange={handlePageChange}
             hidePrevButton
             hideNextButton
-            sx={paddingStyle}
+            sx={styles?.paddingStyle}
           />
           <IconButton
             disabled={page === count}
             onClick={() => handleChangePage(page + 1)}
-            sx={iconStyle}
+            sx={styles?.iconStyle}
           >
             <ArrowCircleRightIcon />
           </IconButton>

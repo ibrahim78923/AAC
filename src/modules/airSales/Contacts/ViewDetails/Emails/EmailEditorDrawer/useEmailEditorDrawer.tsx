@@ -1,5 +1,7 @@
 import { useForm } from 'react-hook-form';
 
+import { useTheme } from '@mui/material';
+
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import {
@@ -8,7 +10,6 @@ import {
   scheduleEmailDefaultValues,
   scheduleEmailValidationSchema,
 } from './EmailEditorDrawer.data';
-import { useTheme } from '@mui/material';
 
 const useEmailEditorDrawer = () => {
   const theme = useTheme();

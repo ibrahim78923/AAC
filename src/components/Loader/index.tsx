@@ -1,7 +1,7 @@
 import { useTheme } from '@emotion/react';
 import { Box, CircularProgress, alpha } from '@mui/material';
 
-const IsLoading = ({ isLoading }: any) => {
+const Loader = ({ isLoading }: any) => {
   const theme: any = useTheme();
 
   if (!isLoading) return null;
@@ -30,4 +30,4 @@ const IsLoading = ({ isLoading }: any) => {
   );
 };
 
-export default IsLoading;
+export default Loader;

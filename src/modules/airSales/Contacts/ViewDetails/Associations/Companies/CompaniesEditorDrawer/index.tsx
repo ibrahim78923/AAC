@@ -1,20 +1,18 @@
-import React from 'react';
-
 import { Box, Grid } from '@mui/material';
 
 import CommonDrawer from '@/components/CommonDrawer';
-
 import { FormProvider, RHFRadioGroup } from '@/components/ReactHookForm';
-
-import { v4 as uuidv4 } from 'uuid';
+import Search from '@/components/Search';
 
 import {
   companiesDataArray,
   drawerButtonTitle,
   drawerTitle,
 } from './CompaniesEditorDrawer.data';
+
 import useCompaniesEditorDrawer from './useCompaniesEditorDrawer';
-import Search from '@/components/Search';
+
+import { v4 as uuidv4 } from 'uuid';
 
 const CompaniesEditorDrawer = (props: any) => {
   const { openDrawer, setOpenDrawer } = props;

@@ -1,9 +1,10 @@
+import { useForm } from 'react-hook-form';
+
 import {
   dealsCallsDefaultValues,
   dealsCallsValidationSchema,
 } from './CallsEditorDrawer.data';
 
-import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 const useCallsEditorDrawer = () => {

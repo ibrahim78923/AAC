@@ -81,8 +81,8 @@ const EmailActionDropDown = (props: any) => {
       >
         <Grid container>
           {!isNullOrEmpty(ContactEmailTestingData) &&
-            ContactEmailTestingData.map((item: any) => (
-              <Grid item xs={12} sx={styles.emailBox} key={item.name}>
+            ContactEmailTestingData?.map((item: any) => (
+              <Grid item xs={12} sx={styles?.emailBox} key={item?.name}>
                 <Grid container spacing={1}>
                   <Grid item sm={1.6} xs={12}>
                     <Image
@@ -97,17 +97,19 @@ const EmailActionDropDown = (props: any) => {
                       sx={{ display: 'flex', justifyContent: 'space-between' }}
                     >
                       <Box>
-                        <Typography variant="subtitle2">{item.name}</Typography>
+                        <Typography variant="subtitle2">
+                          {item?.name}
+                        </Typography>
                         <Box sx={{ display: 'flex' }}>
                           <Typography
                             variant="body3"
-                            sx={{ color: theme.palette.grey[900] }}
+                            sx={{ color: theme?.palette?.grey[900] }}
                           >
                             to:
                           </Typography>
                           <Typography
                             variant="body3"
-                            sx={{ color: theme.palette.grey[600] }}
+                            sx={{ color: theme?.palette?.grey[600] }}
                           >
                             {item?.emailTo}
                           </Typography>
@@ -115,7 +117,7 @@ const EmailActionDropDown = (props: any) => {
                       </Box>
                       <Typography
                         variant="body3"
-                        sx={{ color: theme.palette.grey[900] }}
+                        sx={{ color: theme?.palette?.grey[900] }}
                       >
                         {item?.createdDate}
                       </Typography>
@@ -130,7 +132,7 @@ const EmailActionDropDown = (props: any) => {
                     {item?.sendingReply && (
                       <Typography
                         variant="body3"
-                        sx={{ color: theme.palette.grey[900] }}
+                        sx={{ color: theme?.palette?.grey[900] }}
                       >
                         {item?.sendingReply}
                         <br />
@@ -141,7 +143,7 @@ const EmailActionDropDown = (props: any) => {
                       sx={{
                         borderLeft: '1px solid #D2D6DF',
                         paddingLeft: '5px',
-                        color: theme.palette.grey[900],
+                        color: theme?.palette?.grey[900],
                       }}
                     >
                       {item?.subject && item?.subject}

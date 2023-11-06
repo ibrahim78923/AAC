@@ -6,7 +6,7 @@ import {
 
 import * as Yup from 'yup';
 
-export const emailValidationsSchema = Yup.object().shape({});
+export const emailValidationsSchema = Yup?.object()?.shape({});
 export const emailDefaultValues = {};
 
 export const options = [
@@ -15,7 +15,7 @@ export const options = [
   { value: 'No response', label: 'No response' },
 ];
 
-export const scheduleEmailValidationSchema = Yup.object().shape({});
+export const scheduleEmailValidationSchema = Yup?.object()?.shape({});
 
 export const scheduleEmailDefaultValues = {
   date: '',

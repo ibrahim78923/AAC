@@ -24,7 +24,7 @@ const ContactsCustomize = ({ open, onClose }: any) => {
       <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
         <Typography
           sx={{
-            color: theme.palette.slateBlue['main'],
+            color: theme?.palette?.slateBlue['main'],
             fontSize: '14px',
             fontWeight: 600,
           }}
@@ -39,10 +39,10 @@ const ContactsCustomize = ({ open, onClose }: any) => {
           Add Columns
         </Button>
       </Box>
-      {columnsData.map((column) => (
+      {columnsData?.map((column) => (
         <ColumnsWrapper
           key={uuidv4()}
-          title={column.title}
+          title={column?.title}
           checkboxProps={{
             onChange: () => {},
           }}

@@ -4,15 +4,13 @@ import { Box, Grid, Typography } from '@mui/material';
 import { AlertModals } from '@/components/AlertModals';
 
 import Search from '@/components/Search';
-import ProductEditorDrawer from './ProductEditorDrawer';
-import TanstackTable from '@/components/Tabel/TanstackTable';
-
-import useProducts from './useProducts';
-
-import { columns } from './Products.data';
-
-import { styles } from '../Associations.style';
+import TanstackTable from '@/components/Table/TanstackTable';
 import { productsData } from '@/mock/modules/airSales/Contacts/ViewDetails';
+
+import ProductEditorDrawer from './ProductEditorDrawer';
+import useProducts from './useProducts';
+import { columns } from './Products.data';
+import { styles } from '../Associations.style';
 
 const Deal = () => {
   const {
@@ -35,8 +33,8 @@ const Deal = () => {
       }}
     >
       <Grid container spacing={2}>
-        <Grid item md={4} sx={styles.countBox}>
-          <Typography sx={styles.associationCount(theme)} variant="body3">
+        <Grid item md={4} sx={styles?.countBox}>
+          <Typography sx={styles?.associationCount(theme)} variant="body3">
             02
           </Typography>
 

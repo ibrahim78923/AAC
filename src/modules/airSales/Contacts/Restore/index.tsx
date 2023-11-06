@@ -2,9 +2,9 @@ import Link from 'next/link';
 
 import { Box, Button, Paper, Typography } from '@mui/material';
 
-import TanstackTable from '@/components/Tabel/TanstackTable';
 import CustomPagination from '@/components/CustomPagination';
 import Search from '@/components/Search';
+import TanstackTable from '@/components/Table/TanstackTable';
 
 import { RestoreTableData } from '@/mock/modules/airSales/Deals/Restore';
 
@@ -12,12 +12,12 @@ import RestoreFilterDrawer from './RestoreFilterDrawer';
 import RestoreDeleteModal from './RestoreDeleteModal';
 
 import useRestore from './useRestore';
-
 import { RestoreTableColumns } from './RestoreTable.data';
 
-import { BackArrIcon, FilterIcon } from '@/assets/icons';
 import RestoreAssignModalBox from './RestoreAssignModalBox';
 import ContactsActions from '../ContactsActions';
+
+import { BackArrIcon, FilterIcon } from '@/assets/icons';
 
 const Restore = () => {
   const {
@@ -51,13 +51,13 @@ const Restore = () => {
           <Box>
             <Typography
               variant="subtitle1"
-              sx={{ colors: theme.palette.grey[600] }}
+              sx={{ colors: theme?.palette?.grey[600] }}
             >
               Restore Contacts
             </Typography>
             <Typography
               variant="body2"
-              sx={{ color: theme.palette.custom['main'] }}
+              sx={{ color: theme?.palette?.custom['main'] }}
             >
               Restore Deals deleted in the last 90 days
             </Typography>
@@ -112,7 +112,7 @@ const Restore = () => {
           <Button
             startIcon={<FilterIcon />}
             variant="outlined"
-            sx={{ height: '30px', color: theme.palette.custom['main'] }}
+            sx={{ height: '30px', color: theme?.palette?.custom['main'] }}
             onClick={handleRestoreFilter}
           >
             {' '}

@@ -1,6 +1,8 @@
-import { DeleteCrossIcon, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
 import { Box, MenuItem, Select } from '@mui/material';
+
 import useProducts from './useProducts';
+
+import { DeleteCrossIcon, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
 export const columns: any = ({
   setOpenDrawer,
   setIsOpenAlert,
@@ -12,15 +14,15 @@ export const columns: any = ({
     useProducts();
   return [
     {
-      accessorFn: (row: any) => row.DealName,
+      accessorFn: (row: any) => row?.DealName,
       id: 'dealName',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
       header: 'Deal Name',
       isSortable: true,
     },
 
     {
-      accessorFn: (row: any) => row.Stage,
+      accessorFn: (row: any) => row?.Stage,
       id: 'Stage',
       isSortable: true,
       header: 'Stage',
@@ -43,7 +45,7 @@ export const columns: any = ({
     },
 
     {
-      accessorFn: (row: any) => row.Pipeline,
+      accessorFn: (row: any) => row?.Pipeline,
       id: 'Pipeline',
       isSortable: true,
       header: 'Pipeline',
@@ -53,7 +55,7 @@ export const columns: any = ({
           fullWidth
           size="small"
           onChange={(e) => {
-            setSelectPipline(e.target.value);
+            setSelectPipline(e?.target?.value);
           }}
         >
           <MenuItem value="val1" selected>
@@ -65,28 +67,28 @@ export const columns: any = ({
       ),
     },
     {
-      accessorFn: (row: any) => row.CloseDate,
+      accessorFn: (row: any) => row?.CloseDate,
       id: 'CloseDate',
       isSortable: true,
       header: 'CloseDate',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row.DealOwner,
+      accessorFn: (row: any) => row?.DealOwner,
       id: 'dealOwner',
       isSortable: true,
       header: 'Deal Owner',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row.Amount,
+      accessorFn: (row: any) => row?.Amount,
       id: 'amount',
       isSortable: true,
       header: 'Amount',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row.assignedTo,
+      accessorFn: (row: any) => row?.assignedTo,
       id: 'assignedTo',
       isSortable: false,
       header: 'Actions',

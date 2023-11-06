@@ -1,3 +1,5 @@
+import { useForm } from 'react-hook-form';
+
 import {
   FormControlLabel,
   Grid,
@@ -8,19 +10,17 @@ import {
   useTheme,
 } from '@mui/material';
 
+import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
 
 import { CreateViewData } from './CreateView.data';
-
-import { useForm } from 'react-hook-form';
-
-import { FormProvider } from '@/components/ReactHookForm';
 
 import { v4 as uuidv4 } from 'uuid';
 
 const CreateView = ({ open, onClose }: any) => {
   const methods = useForm({});
   const theme = useTheme();
+
   return (
     <>
       <CommonDrawer
@@ -35,27 +35,27 @@ const CreateView = ({ open, onClose }: any) => {
       >
         <FormProvider methods={methods}>
           <Grid container spacing={2}>
-            {CreateViewData.map((obj) => (
+            {CreateViewData?.map((obj) => (
               <Grid item xs={12} key={uuidv4()}>
                 <Typography
                   sx={{
-                    colors: theme.palette.grey[600],
+                    colors: theme?.palette?.grey[600],
                     fontWeight: '500',
                     fontSize: '14px',
                   }}
                 >
-                  {obj.title}
+                  {obj?.title}
                 </Typography>
                 <obj.component
                   fullWidth
                   size={'small'}
                   SelectProps={{ sx: { borderRadius: '8px' } }}
-                  {...obj.componentProps}
+                  {...obj?.componentProps}
                 >
-                  {obj.componentProps.select
-                    ? obj.options?.map((option) => (
-                        <MenuItem key={uuidv4()} value={option.value}>
-                          {option.label}
+                  {obj.componentProps?.select
+                    ? obj?.options?.map((option) => (
+                        <MenuItem key={uuidv4()} value={option?.value}>
+                          {option?.label}
                         </MenuItem>
                       ))
                     : null}
@@ -67,7 +67,7 @@ const CreateView = ({ open, onClose }: any) => {
         <Typography
           sx={{
             mt: '35px',
-            color: theme.palette.slateBlue['main'],
+            color: theme?.palette?.slateBlue['main'],
             fontSize: '18px',
             fontWeight: 600,
           }}

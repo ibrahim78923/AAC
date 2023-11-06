@@ -6,22 +6,21 @@ import AppHorizontalStepper from '@/components/Stepper';
 import { FormProvider } from '@/components/ReactHookForm';
 
 import { useAddPlan } from './useAddPlan';
-import { useAddPlanForm } from './Forms/PlanForm/useAddPlanForm';
 
 import { ArrowLeft } from '@/assets/icons';
 
 const AddPlan = () => {
   const {
-    addPlanFormValues,
-    setAddPlanFormValues,
-    AddPlanStepperData,
-    hanldeGoBack,
+    methods,
     activeStep,
+    hanldeGoBack,
+    handleFormSubmit,
+    addPlanFormValues,
+    AddPlanStepperData,
+    setAddPlanFormValues,
     hanldeGoPreviousBack,
-    handleCompleteStep,
   } = useAddPlan();
 
-  const { methods, handleSubmit, onSubmit } = useAddPlanForm();
   return (
     <div>
       <Box
@@ -34,7 +33,7 @@ const AddPlan = () => {
         <ArrowLeft />
         <Typography variant="h4">Add Plan</Typography>
       </Box>
-      <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+      <FormProvider methods={methods}>
         <AppHorizontalStepper
           activeStep={activeStep}
           stepsArray={AddPlanStepperData}
@@ -62,10 +61,10 @@ const AddPlan = () => {
                   Back
                 </Button>
                 <Button
+                  // type="submit"
                   variant="contained"
-                  type="submit"
                   fullWidth
-                  onClick={handleCompleteStep}
+                  onClick={handleFormSubmit}
                   disabled={activeStep === AddPlanStepperData?.length}
                 >
                   {activeStep === AddPlanStepperData?.length - 1

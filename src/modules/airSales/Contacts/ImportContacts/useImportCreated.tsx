@@ -4,7 +4,6 @@ import { useTheme } from '@mui/material';
 
 const useImportContacts = () => {
   const theme: any = useTheme();
-
   const [isColumn, setIsColumn] = useState(false);
   const [isFilterDrawer, setIsFilterDrawer] = useState(false);
 

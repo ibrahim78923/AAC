@@ -1,12 +1,12 @@
-import React from 'react';
-
 import { Paper, Box, Card } from '@mui/material';
 
-import TanstackTable from '@/components/Tabel/TanstackTable';
 import CustomPagination from '@/components/CustomPagination';
 
-import { CreatedColumns } from './ContactsTable.data';
+import TanstackTable from '@/components/Table/TanstackTable';
+
 import { ImportRecordCreatedData } from '@/mock/modules/airSales/Contacts/ImportHistoryData/ImportRecordTableCreated';
+
+import { CreatedColumns } from './ContactsTable.data';
 
 const CreatedTable = () => {
   return (

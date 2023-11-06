@@ -164,7 +164,7 @@ const EmailEditorDrawer = (props: any) => {
 
                       <Typography
                         variant="body2"
-                        sx={{ color: theme.palette.slateBlue.main }}
+                        sx={{ color: theme?.palette?.slateBlue?.main }}
                       >
                         You haven’t connected your email to the CRM. Connect it
                         now to keep your conversations synced.
@@ -183,7 +183,7 @@ const EmailEditorDrawer = (props: any) => {
                         sx={{
                           color: 'grey',
                           gap: 0.5,
-                          background: theme.palette.common.white,
+                          background: theme?.palette?.common?.white,
                         }}
                         className="small"
                       >
@@ -196,7 +196,7 @@ const EmailEditorDrawer = (props: any) => {
                         sx={{
                           color: 'grey',
                           gap: 0.5,
-                          background: theme.palette.common.white,
+                          background: theme?.palette?.common?.white,
                         }}
                         className="small"
                       >
@@ -211,7 +211,7 @@ const EmailEditorDrawer = (props: any) => {
                         sx={{
                           color: 'grey',
                           gap: 0.5,
-                          background: theme.palette.common.white,
+                          background: theme?.palette?.common?.white,
                         }}
                         className="small"
                       >
@@ -269,7 +269,7 @@ const EmailEditorDrawer = (props: any) => {
           <Grid container spacing={5}>
             {scheduleEmailDataArray?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                <item.component {...item.componentProps} size={'small'}>
+                <item.component {...item?.componentProps} size={'small'}>
                   {item?.componentProps?.select
                     ? item?.options?.map((option: any) => (
                         <option key={uuidv4()} value={option?.value}>

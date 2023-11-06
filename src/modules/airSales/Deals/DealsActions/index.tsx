@@ -31,7 +31,7 @@ const DealsActions = ({
         onClick={handleClick}
         disabled={disableActionBtn}
         classes={{ outlined: 'outlined_btn' }}
-        sx={styles.ActionBtn}
+        sx={styles?.ActionBtn}
       >
         Actions
       </Button>
@@ -49,7 +49,7 @@ const DealsActions = ({
           horizontal: 'center',
         }}
       >
-        {menuItem.map((item) => (
+        {menuItem?.map((item) => (
           <MenuItem
             value={item}
             key={item}

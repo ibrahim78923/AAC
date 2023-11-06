@@ -2,8 +2,9 @@ import CommonDrawer from '@/components/CommonDrawer';
 
 import { columnsData } from './ContactsCustomize.data';
 
-import { v4 as uuidv4 } from 'uuid';
 import ColumnsWrapper from './ColumnsWrapper';
+
+import { v4 as uuidv4 } from 'uuid';
 
 const ContactsCustomize = ({ open, onClose }: any) => {
   return (
@@ -16,10 +17,10 @@ const ContactsCustomize = ({ open, onClose }: any) => {
       okText="Save"
       title="Customize"
     >
-      {columnsData.map((column) => (
+      {columnsData?.map((column) => (
         <ColumnsWrapper
           key={uuidv4()}
-          title={column.title}
+          title={column?.title}
           checkboxProps={{
             onChange: () => {},
           }}

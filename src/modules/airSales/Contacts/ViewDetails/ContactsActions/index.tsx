@@ -1,7 +1,6 @@
 import { useState } from 'react';
 
 import { Popover, Button, MenuItem } from '@mui/material';
-
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 import { ContactsActionInterfacePropsI } from './Actions.interface';
@@ -18,7 +17,7 @@ const RestoreActions = ({
   const id = open ? 'simple-popover' : undefined;
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
+    setAnchorEl(event?.currentTarget);
   };
 
   const handleClose = () => {
@@ -32,7 +31,7 @@ const RestoreActions = ({
         onClick={handleClick}
         disabled={disableActionBtn}
         classes={{ outlined: 'outlined_btn' }}
-        sx={styles.ActionBtn}
+        sx={styles?.ActionBtn}
       >
         Actions
       </Button>
@@ -50,7 +49,7 @@ const RestoreActions = ({
           horizontal: 'center',
         }}
       >
-        {menuItem.map((item) => (
+        {menuItem?.map((item) => (
           <MenuItem
             value={item}
             key={item}

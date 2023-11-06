@@ -5,7 +5,7 @@ import {
   RHFTimePicker,
 } from '@/components/ReactHookForm';
 import { Checkbox } from '@mui/material';
-import TanstackTable from '@/components/Tabel/TanstackTable';
+import TanstackTable from '@/components/Table/TanstackTable';
 import GridView from './GridView';
 
 export const tasksColumns: any = [

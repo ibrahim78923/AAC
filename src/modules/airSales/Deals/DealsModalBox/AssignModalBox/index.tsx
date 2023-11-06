@@ -16,9 +16,9 @@ const AssignModalBox = ({ open, onClose, handleAssignModal }: any) => {
       submitButonText={'Update'}
       isFooter
     >
-      <Select sx={{ width: '100%' }} {...RestoreModalData.componentProps}>
-        {RestoreModalData.options.map((option) => (
-          <MenuItem key={uuidv4()}>{option.value}</MenuItem>
+      <Select sx={{ width: '100%' }} {...RestoreModalData?.componentProps}>
+        {RestoreModalData?.options?.map((option) => (
+          <MenuItem key={uuidv4()}>{option?.value}</MenuItem>
         ))}
       </Select>
     </ScheduleModals>

@@ -1,11 +1,13 @@
 import { RHFDropZone, RHFTextField } from '@/components/ReactHookForm';
+
 import { Typography } from '@mui/material';
+
 import * as Yup from 'yup';
 
-export const customValidationSchema = Yup.object().shape({
-  file: Yup.string().required('Field is Required'),
-  contacts: Yup.string().required('Field is Required'),
-  date: Yup.string().required('Field is Required'),
+export const customValidationSchema = Yup?.object()?.shape({
+  file: Yup?.string()?.required('Field is Required'),
+  contacts: Yup?.string()?.required('Field is Required'),
+  date: Yup?.string()?.required('Field is Required'),
 });
 
 export const customDefaultValues = {

@@ -7,10 +7,10 @@ import {
 
 import * as Yup from 'yup';
 
-export const reAssignCallValidationSchema = Yup.object().shape({
-  reschedule: Yup.string().trim().required('Field is Required'),
-  date: Yup.string().trim().required('Field is Required'),
-  time: Yup.string().trim().required('Field is Required'),
+export const reAssignCallValidationSchema = Yup?.object()?.shape({
+  reschedule: Yup?.string()?.trim()?.required('Field is Required'),
+  date: Yup?.string()?.trim()?.required('Field is Required'),
+  time: Yup?.string()?.trim()?.required('Field is Required'),
 });
 
 export const reAssignCallDefaultValues = {
@@ -19,9 +19,9 @@ export const reAssignCallDefaultValues = {
   time: '',
 };
 
-export const outcomesValidationSchema = Yup.object().shape({
-  addoutcome: Yup.string().trim().required('Field is Required'),
-  description: Yup.string().trim().required('Field is Required'),
+export const outcomesValidationSchema = Yup?.object()?.shape({
+  addoutcome: Yup?.string()?.trim()?.required('Field is Required'),
+  description: Yup?.string()?.trim()?.required('Field is Required'),
 });
 
 export const outcomesDefaultValues = {

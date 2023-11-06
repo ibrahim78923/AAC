@@ -4,21 +4,22 @@ import Image from 'next/image';
 
 import { Box, Button, Grid, Typography } from '@mui/material';
 
-import TanstackTable from '@/components/Tabel/TanstackTable';
-import MeetingsDropDown from './MeetingsDropDown';
-import MeetingsEditorDrawer from './MeetingsEditorDrawer';
-
-import useMeetings from './useMeetings';
-
-import { isNullOrEmpty } from '@/utils';
+import TanstackTable from '@/components/Table/TanstackTable';
 
 import { TasksTableData } from '@/mock/modules/airSales/Deals/ViewDetails';
+
+import MeetingsDropDown from './MeetingsDropDown';
+import MeetingsEditorDrawer from './MeetingsEditorDrawer';
+import useMeetings from './useMeetings';
 import { callsDetails, callsStatusColor, columns } from './Meetings.data';
 
 import { EmailMeetingImage } from '@/assets/images';
-import { MircosoftTeamsIcon, PlusSharedIcon, ZoomIcon } from '@/assets/icons';
 
 import { styles } from './Meetings.style';
+
+import { isNullOrEmpty } from '@/utils';
+
+import { MircosoftTeamsIcon, PlusSharedIcon, ZoomIcon } from '@/assets/icons';
 
 const Meetings = () => {
   const { openDrawer, setOpenDrawer, theme } = useMeetings();
@@ -32,7 +33,7 @@ const Meetings = () => {
       }}
     >
       <Grid container spacing={3} sx={{ marginBottom: '25px' }}>
-        {Object.entries(callsDetails).map(([key, value]) => (
+        {Object?.entries(callsDetails)?.map(([key, value]) => (
           <Grid item md={4} xs={12} key={key}>
             <Box sx={styles.callStatusBox(callsStatusColor, key)}>
               <Typography variant="body2">{key}</Typography>
@@ -43,7 +44,7 @@ const Meetings = () => {
       </Grid>
       <Grid container>
         <Grid item xs={12}>
-          <Box sx={styles.callsSpacingBetween}>
+          <Box sx={styles?.callsSpacingBetween}>
             <Typography variant="h4"> Meetings</Typography>
             {!isNullOrEmpty(TasksTableData) && (
               <Box
@@ -83,7 +84,7 @@ const Meetings = () => {
               <Image src={EmailMeetingImage} alt="EmailMeetingImage" />
               <Typography
                 variant="body2"
-                sx={{ color: theme.palette.grey[900] }}
+                sx={{ color: theme?.palette?.grey[900] }}
               >
                 Schedule virtual and in-person meetings right from the CRM.
               </Typography>
@@ -98,7 +99,7 @@ const Meetings = () => {
               </Button>
               <Typography
                 variant="body2"
-                sx={{ color: theme.palette.slateBlue.main }}
+                sx={{ color: theme?.palette?.slateBlue?.main }}
               >
                 Bring Your emails into the CRM
               </Typography>

@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { AlertModals } from '@/components/AlertModals';
 
 const RestoreDealModal = ({ open, onClose, handlePermanantDelete }: any) => {

@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { Box, Button, Grid, Typography, useTheme } from '@mui/material';
 
 import Search from '@/components/Search';
-import TanstackTable from '@/components/Tabel/TanstackTable';
 
 import { columns } from './Quotes.data';
 import { quotesData } from '@/mock/modules/airSales/Deals/ViewDetails';
+import TanstackTable from '@/components/Table/TanstackTable';
 
 import { PlusSharedIcon } from '@/assets/icons';
 
@@ -23,8 +23,8 @@ const Quotes = () => {
       }}
     >
       <Grid container spacing={2}>
-        <Grid item md={4} sx={styles.countBox}>
-          <Typography sx={styles.associationCount(theme)} variant="body3">
+        <Grid item md={4} sx={styles?.countBox}>
+          <Typography sx={styles?.associationCount(theme)} variant="body3">
             02
           </Typography>
 

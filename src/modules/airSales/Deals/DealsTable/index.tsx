@@ -1,8 +1,6 @@
-import React from 'react';
-
 import { Paper, Box } from '@mui/material';
 
-import TanstackTable from '@/components/Tabel/TanstackTable';
+import TanstackTable from '@/components/Table/TanstackTable';
 import CustomPagination from '@/components/CustomPagination';
 
 import { dealsTableData } from '@/mock/modules/airSales/Deals/DealsTableData';
