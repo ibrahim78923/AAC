@@ -36,7 +36,7 @@ export const Profile = () => {
           color: 'primary.main',
           borderRadius: 2,
           cursor: 'pointer',
-          border: selected ? 0 : 2,
+          border: selected ? 0 : 3,
         }}
         onClick={() => {
           setSelected(null);
@@ -53,7 +53,7 @@ export const Profile = () => {
               mx: 0.2,
               color: 'primary.main',
               cursor: 'pointer',
-              border: selected === item ? 2 : 0,
+              border: selected === item ? 3 : 0,
             }}
             src={item?.img?.src}
             onClick={() => addToArray?.(item)}
@@ -116,7 +116,7 @@ export const Profile = () => {
                     mx: 0.2,
                     color: 'primary.main',
                     cursor: 'pointer',
-                    border: selected === item ? 2 : 0,
+                    border: selected === item ? 3 : 0,
                   }}
                   src={item?.img?.src}
                 />

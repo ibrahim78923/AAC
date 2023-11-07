@@ -60,7 +60,10 @@ export const Workload = () => {
       <FullCalendar
         ref={calendarRef}
         dayHeaderContent={(data: any) => (
-          <Box>{dayjs(data?.start?.marker).format('ddd - DD')}</Box>
+          <Box sx={{ cursor: 'pointer' }}>
+            {dayjs(data?.date).format('ddd - DD')}
+            <Typography variant={'h6'}>test</Typography>
+          </Box>
         )}
         customButtons={{
           datePicker: {
