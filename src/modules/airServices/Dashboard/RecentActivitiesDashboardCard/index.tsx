@@ -20,7 +20,7 @@ export const RecentActivitiesDashboardCard = ({
         />
       </Box>
       <Box>
-        <Typography sx={styles?.recentActivitiesText(theme)}>
+        <Typography sx={styles?.recentActivitiesText(theme)} variant="body3">
           <span style={styles?.recentActivitiesTextBoldWord(theme)}>
             John Doe
           </span>
@@ -33,7 +33,10 @@ export const RecentActivitiesDashboardCard = ({
         <Typography sx={styles?.recentActivitiesTextPassword(theme)}>
           {recentActivityTextOne}
         </Typography>
-        <Typography sx={styles?.recentActivitiesTextDateTimeDetail(theme)}>
+        <Typography
+          sx={styles?.recentActivitiesTextDateTimeDetail(theme)}
+          variant="body3"
+        >
           {recentActivityTextTwo}
         </Typography>
       </Box>

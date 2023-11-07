@@ -13,11 +13,13 @@ export const AnnouncementDashboardCard = ({
   return (
     <Box sx={styles?.boxMain(isborderbottom, theme)}>
       <Box marginTop={1}>
-        <Typography sx={styles?.announcementText}>
+        <Typography variant="body3" sx={styles?.announcementText}>
           {announcementText}
         </Typography>
-        <Typography sx={styles?.announcementTextOne}>
-          {announcementTextOne}
+        <Typography>
+          <Typography variant="body3" sx={styles?.announcementTextOne}>
+            {announcementTextOne}
+          </Typography>
         </Typography>
       </Box>
       <Box display={'flex'} justifyContent={'center'}>
@@ -30,7 +32,7 @@ export const AnnouncementDashboardCard = ({
             marginRight: '0.625rem',
           }}
         />
-        <Typography sx={styles?.announcementTextTwo}>
+        <Typography variant="body3" sx={styles?.announcementTextTwo}>
           {announcementTextTwo}
         </Typography>
       </Box>

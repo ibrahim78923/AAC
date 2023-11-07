@@ -2,18 +2,18 @@ import { HeaderDashboard } from '@/modules/airServices/Dashboard/HeaderDashboard
 import { RecentActivitiesDashboardCard } from '@/modules/airServices/Dashboard/RecentActivitiesDashboardCard';
 import { TicketDashboardCards } from '@/modules/airServices/Dashboard/TicketDashboardCards';
 import { Box, Button, Grid, Typography, useTheme } from '@mui/material';
-import { AnnouncementDashboardCard } from '@/modules/airServices/Dashboard/AnnouncementDashboardCard';
+import { AnnouncementDashboardCard } from '@/modules/airServices/Dashboard/AnnouncementDashboard/AnnouncementDashboardCard';
 import { TopPerformerDashboardCard } from '@/modules/airServices/Dashboard/TopPerformerDashboardCard';
 import { v4 as uuidv4 } from 'uuid';
 import { ticketDashboardCardsData } from './TicketDashboardCards/TicketDashboardCards.data';
 import { recentActivitiesDashboardCardData } from './RecentActivitiesDashboardCard/RecentActivitiesDashboardCard.data';
-import { announcementDashboardCardData } from './AnnouncementDashboardCard/AnnouncementDashboardCard.data';
+import { announcementDashboardCardData } from './AnnouncementDashboard/AnnouncementDashboardCard/AnnouncementDashboardCard.data';
 import { topPerformerDashboardCardData } from './TopPerformerDashboardCard/TopPerformerDashboardCard.data';
-import { BarChart } from './Chart/BarChart';
-import { PieChart } from './Chart/PieChart';
-import { HeaderBarChart } from './Chart/HeaderBarChart';
-import { HeaderPieChart } from './Chart/HeaderPieChart';
-import { AnnouncementHeader } from './AnnouncementHeader';
+import { BarChart } from './Chart/BarChart/BarChart';
+import { PieChart } from './Chart/PieChart/PieChart';
+import { HeaderBarChart } from './Chart/BarChart/HeaderBarChart';
+import { HeaderPieChart } from './Chart/PieChart/HeaderPieChart';
+import { AnnouncementHeader } from './AnnouncementDashboard/AnnouncementHeader';
 
 const Dashboard = () => {
   const theme = useTheme();
@@ -62,7 +62,7 @@ const Dashboard = () => {
               >
                 <br />
                 <Box marginLeft={2}>
-                  <Typography variant="h5">Recent Activities</Typography>
+                  <Typography variant="h6">Recent Activities</Typography>
                 </Box>
                 <Box marginTop={2} key={uuidv4()}>
                   {recentActivitiesDashboardCardData?.map((item, index) => (
@@ -85,7 +85,9 @@ const Dashboard = () => {
                   justifyContent={'center'}
                   marginBottom={1}
                 >
-                  <Button variant="text">View All</Button>
+                  <Button variant="text" fullWidth>
+                    View All
+                  </Button>
                 </Box>
               </Box>
             </Grid>
@@ -96,9 +98,9 @@ const Dashboard = () => {
             <Grid item xs={12} lg={4}>
               <Box
                 sx={{
-                  borderRadius: '0.75rem',
-                  border: `0.063rem solid ${theme?.palette?.grey?.[700]}`,
                   background: theme?.palette?.common?.white,
+                  borderRadius: '0.5rem',
+                  border: `0.063rem solid ${theme?.palette?.grey?.[700]}`,
                 }}
               >
                 <br />
@@ -111,36 +113,41 @@ const Dashboard = () => {
               </Box>
             </Grid>
             <Grid item xs={12} lg={4}>
-              <Box>
-                {topPerformerDashboardCardData?.map((item) => (
-                  <Box key={uuidv4()}>
-                    <TopPerformerDashboardCard
-                      icon={item?.icon}
-                      iconOne={item?.iconOne}
-                      iconTwo={item?.iconTwo}
-                      topPerformanceText={item?.topPerformanceText}
-                      topPerformanceTextOne={item?.topPerformanceTextOne}
-                      topPerformanceTextTwo={item?.topPerformanceTextTwo}
-                      topPerformanceTextThree={item?.topPerformanceTextThree}
-                      topPerformanceTextFour={item?.topPerformanceTextFour}
-                      topPerformanceTextFive={item?.topPerformanceTextFive}
-                      topPerformanceTextSix={item?.topPerformanceTextSix}
-                      topPerformanceTextSeven={item?.topPerformanceTextSeven}
-                    />
-                  </Box>
-                ))}
-              </Box>
+              {topPerformerDashboardCardData?.map((item) => (
+                <Box
+                  key={uuidv4()}
+                  sx={{
+                    background: theme?.palette?.common?.white,
+                    borderRadius: '0.5rem',
+                    border: `0.063rem solid ${theme?.palette?.grey?.[700]}`,
+                  }}
+                >
+                  <TopPerformerDashboardCard
+                    icon={item?.icon}
+                    iconOne={item?.iconOne}
+                    iconTwo={item?.iconTwo}
+                    topPerformanceText={item?.topPerformanceText}
+                    topPerformanceTextOne={item?.topPerformanceTextOne}
+                    topPerformanceTextTwo={item?.topPerformanceTextTwo}
+                    topPerformanceTextThree={item?.topPerformanceTextThree}
+                    topPerformanceTextFour={item?.topPerformanceTextFour}
+                    topPerformanceTextFive={item?.topPerformanceTextFive}
+                    topPerformanceTextSix={item?.topPerformanceTextSix}
+                    topPerformanceTextSeven={item?.topPerformanceTextSeven}
+                  />
+                </Box>
+              ))}
             </Grid>
             <Grid item xs={12} lg={4}>
               <Box
                 sx={{
-                  borderRadius: '0.75rem',
-                  border: `0.063rem solid ${theme?.palette?.grey?.[700]}`,
                   background: theme?.palette?.common?.white,
+                  borderRadius: '0.5rem',
+                  border: `0.063rem solid ${theme?.palette?.grey?.[700]}`,
                 }}
               >
                 <br />
-                <Box marginLeft={2}>
+                <Box>
                   <AnnouncementHeader />
                 </Box>
                 <Box>
@@ -158,8 +165,10 @@ const Dashboard = () => {
                     </Box>
                   ))}
                 </Box>
-                <Box display={'flex'} justifyContent={'center'}>
-                  <Button variant="text">View All</Button>
+                <Box display={'flex'} justifyContent={'center'} marginTop={1}>
+                  <Button variant="text" fullWidth>
+                    View All
+                  </Button>
                 </Box>
               </Box>
             </Grid>

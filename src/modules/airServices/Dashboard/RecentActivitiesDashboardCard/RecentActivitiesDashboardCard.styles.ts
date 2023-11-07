@@ -18,7 +18,6 @@ export const styles: any = {
   }),
 
   recentActivitiesText: (theme: any) => ({
-    fontSize: '0.75rem',
     fontWeight: 400,
     color: theme?.palette?.grey?.[600],
   }),

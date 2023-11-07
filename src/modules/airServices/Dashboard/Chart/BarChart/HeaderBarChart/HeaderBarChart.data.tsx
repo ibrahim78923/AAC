@@ -1,5 +1,5 @@
 import { BarChart } from '../BarChart';
-import { RadialBarChart } from '../RadialBarChart';
+import { RadialBarChart } from '../../RadialBarChart';
 
 export const actionsFunction = [
   {

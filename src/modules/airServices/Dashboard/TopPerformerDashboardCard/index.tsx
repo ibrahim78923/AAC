@@ -21,9 +21,9 @@ export const TopPerformerDashboardCard = ({
   const theme = useTheme();
   return (
     <>
-      <Box sx={styles?.boxMain(theme)}>
-        <Box marginLeft={2} marginTop={2}>
-          <Typography variant="h5">Top Performer</Typography>
+      <Box>
+        <Box marginLeft={2} marginTop={3}>
+          <Typography variant="h6">Top Performer</Typography>
         </Box>
         <Box display={'flex'} gap={2} marginLeft={2} marginTop={2}>
           <Avatar
@@ -35,26 +35,35 @@ export const TopPerformerDashboardCard = ({
             }}
           />
           <Box>
-            <Typography sx={styles?.topPerformaceText(theme)}>
+            <Typography sx={styles?.topPerformaceText(theme)} variant="body2">
               {topPerformanceText}
             </Typography>
-            <Typography sx={styles?.topPerformaceTextOne(theme)}>
+            <Typography
+              sx={styles?.topPerformaceTextOne(theme)}
+              variant="body3"
+            >
               {topPerformanceTextOne}
             </Typography>
           </Box>
         </Box>
         <Box display={'flex'} gap={2} marginLeft={2} marginTop={3}>
-          <Typography sx={styles?.topPerformaceTextTwo(theme)}>
+          <Typography sx={styles?.topPerformaceTextTwo(theme)} variant="body3">
             {topPerformanceTextTwo}
           </Typography>
         </Box>
         <Box display={'flex'} gap={2} marginLeft={2}>
-          <Typography sx={styles?.topPerformaceTextThree(theme)}>
+          <Typography
+            sx={styles?.topPerformaceTextThree(theme)}
+            variant="body3"
+          >
             {topPerformanceTextThree}
           </Typography>
         </Box>
         <Box display={'flex'} gap={2} marginLeft={4} marginTop={1}>
-          <Typography sx={styles?.topPerformaceProgressBar(theme)}>
+          <Typography
+            sx={styles?.topPerformaceProgressBar(theme)}
+            variant="body2"
+          >
             {progress}%
           </Typography>
         </Box>
@@ -65,18 +74,26 @@ export const TopPerformerDashboardCard = ({
             sx={{ width: '62%' }}
           />
         </Box>
-        <Box display={'flex'} gap={2} px={2} marginTop={3} marginBottom={3.7}>
+        <Box display={'flex'} gap={2} px={2} marginTop={3} marginBottom={3}>
           <Avatar
             alt=""
             src={iconOne?.src}
             sx={{ width: '2.375rem', height: '2.721rem' }}
           />
           <Box>
-            <Typography sx={styles?.topPerformaceTextFour(theme)}>
+            <Typography
+              sx={styles?.topPerformaceTextFour(theme)}
+              variant="body3"
+            >
               {topPerformanceTextFour}
             </Typography>
-            <Typography sx={styles?.topPerformaceTextFour(theme)}>
-              {topPerformanceTextFive}
+            <Typography>
+              <Typography
+                sx={styles?.topPerformaceTextFour(theme)}
+                variant="body3"
+              >
+                {topPerformanceTextFive}
+              </Typography>
             </Typography>
           </Box>
 
@@ -86,11 +103,19 @@ export const TopPerformerDashboardCard = ({
             sx={{ width: '2.375rem', height: '2.721rem' }}
           />
           <Box>
-            <Typography sx={styles?.topPerformaceTextFour(theme)}>
+            <Typography
+              sx={styles?.topPerformaceTextFour(theme)}
+              variant="body3"
+            >
               {topPerformanceTextSix}
             </Typography>
-            <Typography sx={styles?.topPerformaceTextFour(theme)}>
-              {topPerformanceTextSeven}
+            <Typography>
+              <Typography
+                sx={styles?.topPerformaceTextFour(theme)}
+                variant="body3"
+              >
+                {topPerformanceTextSeven}
+              </Typography>
             </Typography>
           </Box>
         </Box>
