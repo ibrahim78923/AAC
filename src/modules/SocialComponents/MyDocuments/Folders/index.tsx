@@ -111,14 +111,14 @@ const Folders = (props: any) => {
             <Button
               variant="outlined"
               className="large"
-              sx={style.filterUserButton}
+              sx={style?.filterUserButton}
             >
               <SingleUserBlackIcon /> Me
             </Button>
             <Button
               variant="outlined"
               className="large"
-              sx={style.filterUserButton}
+              sx={style?.filterUserButton}
             >
               <TwoUserBlackIcon /> My Team
             </Button>
@@ -144,7 +144,7 @@ const Folders = (props: any) => {
                 variant="body2"
                 sx={{
                   fontWeight: 400,
-                  color: `${theme?.palette?.blue.dull_blue}`,
+                  color: `${theme?.palette?.blue?.dull_blue}`,
                 }}
               >
                 AirApple Cart team

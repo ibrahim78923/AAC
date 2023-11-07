@@ -9,7 +9,7 @@ export const styles = {
       borderRadius: '8px',
       cursor: 'pointer',
       '&:hover': {
-        border: `1px solid ${theme?.palette?.error.main}`,
+        border: `1px solid ${theme?.palette?.error?.main}`,
       },
     };
   },
@@ -23,7 +23,7 @@ export const styles = {
       borderRadius: '8px',
       cursor: 'pointer',
       '&:hover': {
-        border: `1px solid ${theme?.palette?.success.main}`,
+        border: `1px solid ${theme?.palette?.success?.main}`,
       },
     };
   },
@@ -37,13 +37,13 @@ export const styles = {
       borderRadius: '8px',
       cursor: 'pointer',
       '&:hover': {
-        border: `1px solid ${theme?.palette?.custom.bright}`,
+        border: `1px solid ${theme?.palette?.custom?.bright}`,
       },
     };
   },
   pieChart: (theme: any) => {
     return {
-      border: `1px solid ${theme?.palette?.custom.off_white_three}`,
+      border: `1px solid ${theme?.palette?.custom?.off_white_three}`,
       padding: '2rem',
       display: 'flex',
       justifyContent: 'space-between',

@@ -211,7 +211,7 @@ const OrganizationCard = () => {
                       sx={{
                         fontWeight: 500,
                         lineHeight: '18px',
-                        color: `${theme?.palette?.primary.main}`,
+                        color: `${theme?.palette?.primary?.main}`,
                       }}
                     >
                       Edit Info
@@ -238,7 +238,7 @@ const OrganizationCard = () => {
                         fontWeight: 400,
                         fontSize: '16px',
                         lineHeight: '24px',
-                        color: `${theme?.palette?.custom.main}`,
+                        color: `${theme?.palette?.custom?.main}`,
                       }}
                     >
                       (4)

@@ -26,33 +26,33 @@ export const restoreArr = [
 
 export const columns: any = [
   {
-    accessorFn: (row: any) => row.Id,
+    accessorFn: (row: any) => row?.Id,
     id: 'Id',
-    cell: (info: any) => <Checkbox color="primary" name={info.getValue()} />,
+    cell: (info: any) => <Checkbox color="primary" name={info?.getValue()} />,
     header: <Checkbox color="primary" name="Id" />,
     isSortable: false,
   },
   {
     accessorFn: (row: any) => row.name,
     id: 'name',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
 
     header: 'Company Name',
     isSortable: true,
   },
   {
-    accessorFn: (row: any) => row.deletedBy,
+    accessorFn: (row: any) => row?.deletedBy,
     id: 'deletedBy',
     isSortable: true,
     header: 'Deleted By',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.timeDeleted,
+    accessorFn: (row: any) => row?.timeDeleted,
     id: 'timeDeleted',
     isSortable: true,
     header: 'Tome Deleted',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
 ];
 

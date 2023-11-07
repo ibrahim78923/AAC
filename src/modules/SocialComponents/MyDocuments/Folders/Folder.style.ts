@@ -2,7 +2,7 @@ export const style = {
   actionButton: (theme: any) => {
     return {
       border: `1px solid ${theme?.palette?.custom?.dark}`,
-      color: `${theme?.palette?.custom.main}`,
+      color: `${theme?.palette?.custom?.main}`,
       fontSize: '14px',
       fontWeight: 500,
       width: { lg: 'unset', md: 'unset', sm: 'unset', xs: '100%' },

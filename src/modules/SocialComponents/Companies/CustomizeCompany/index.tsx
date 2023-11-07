@@ -32,7 +32,7 @@ const CustomizeCompany = ({ setIsCustomize, isCustomize }: any) => {
         <Box sx={{ paddingTop: '1rem' }}>
           <FormProvider methods={methods}>
             <Grid container>
-              {CustomizeArr.map((item) => {
+              {CustomizeArr?.map((item) => {
                 return (
                   <Grid item lg={12} key={uuidv4()}>
                     <ColumnsWrapper

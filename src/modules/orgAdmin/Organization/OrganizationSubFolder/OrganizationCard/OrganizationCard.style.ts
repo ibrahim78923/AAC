@@ -5,7 +5,7 @@ export const styles = {
       display: 'flex',
       alignItems: 'center',
       background: '#FF4A4A1A',
-      color: `${theme?.palette?.error.main}`,
+      color: `${theme?.palette?.error?.main}`,
       padding: '0.4rem',
       fontSize: '12px',
       fontWeight: 400,
@@ -17,8 +17,8 @@ export const styles = {
       borderRadius: '40px',
       display: 'flex',
       alignItems: 'center',
-      background: `${theme?.palette?.primary.light}`,
-      color: `${theme?.palette?.primary.main}`,
+      background: `${theme?.palette?.primary?.light}`,
+      color: `${theme?.palette?.primary?.main}`,
       padding: '0.4rem',
       fontSize: '12px',
       fontWeight: 400,
@@ -30,7 +30,7 @@ export const styles = {
       fontWeight: 600,
       fontSize: '20px',
       lineHeight: '30px',
-      color: `${theme?.palette?.custom.main}`,
+      color: `${theme?.palette?.custom?.main}`,
       textAlign: {
         lg: 'start',
         md: 'start',
@@ -74,9 +74,9 @@ export const styles = {
       marginX: '2.5rem',
     };
   },
-  productCard: () => {
+  productCard: (theme: any) => {
     return {
-      border: '1px solid #E9EAEF',
+      border: `1px solid ${theme?.palette?.custom?.light_lavendar_gray}`,
       borderRadius: '8px',
       padding: '0.7rem',
     };

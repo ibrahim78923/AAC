@@ -69,7 +69,7 @@ const Documents = (props: any) => {
           setIsOpenDrawer(false);
         }}
         title="Filters"
-        okText="ok"
+        okText="Apply"
         isOk={true}
         footer={true}
       >

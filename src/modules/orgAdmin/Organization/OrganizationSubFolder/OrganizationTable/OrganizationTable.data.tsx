@@ -12,7 +12,7 @@ export const columns = (
 ) => {
   return [
     {
-      accessorFn: (row: any) => row.Id,
+      accessorFn: (row: any) => row?.Id,
       id: 'Id',
       cell: (info: any) => (
         <Checkbox
@@ -21,7 +21,7 @@ export const columns = (
             info?.cell?.row?.original?._id ===
               isGetRowValues?.cell?.row?.original?._id && ischecked
           }
-          name={info.getValue()}
+          name={info?.getValue()}
           onClick={() => {
             setIsGetRowValues(info), setIschecked(!ischecked);
           }}
@@ -31,52 +31,48 @@ export const columns = (
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row.accountName,
+      accessorFn: (row: any) => row?.accountName,
       id: 'accountName',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
       header: 'Company Account',
       isSortable: true,
     },
     {
-      accessorFn: (row: any) => row.products,
+      accessorFn: (row: any) => row?.products,
       id: 'products',
       isSortable: true,
       header: 'Products',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row.phoneNo,
+      accessorFn: (row: any) => row?.phoneNo,
       id: 'phoneNo',
       isSortable: true,
       header: 'Phone No',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row.address,
+      accessorFn: (row: any) => row?.address,
       id: 'address',
       isSortable: true,
       header: 'Address',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row.status,
+      accessorFn: (row: any) => row?.status,
       id: 'status',
       isSortable: true,
       header: 'Status',
       cell: (info: any) => (
         <Switch
           color="primary"
-          checked={info.getValue() === 'Active' ? true : false}
-          name={info.getValue()}
+          checked={info?.getValue() === 'Active' ? true : false}
+          name={info?.getValue()}
         />
       ),
     },
   ];
 };
-
-// export const columns: any = [
-
-// ];
 
 export const validationSchema = Yup.object().shape({
   accountName: Yup.string().required('Field is Required'),

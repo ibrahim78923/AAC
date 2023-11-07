@@ -13,7 +13,7 @@ const useOrganizationCard = () => {
 
   const { handleSubmit } = methods;
 
-  const onSubmit = async () => {};
+  const onSubmit: any = async () => {};
   return {
     theme,
     isOpenDrawer,

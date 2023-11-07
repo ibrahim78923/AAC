@@ -22,7 +22,7 @@ const CreateCompany = ({ setIsOpenDrawer, isOpenDrawer }: any) => {
           setIsOpenDrawer(false);
         }}
         title="Create Company"
-        okText="ok"
+        okText="Add"
         isOk={true}
         footer={true}
       >
