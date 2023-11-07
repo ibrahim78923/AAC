@@ -53,7 +53,12 @@ const useStatisticsCard = () => {
         'Loyalty Program',
       ],
     },
-    colors: ['#47B263', '#FFC20E', '#FF4A4A', '#0AADC7'],
+    colors: [
+      `${theme?.palette?.success?.main}`,
+      `${theme?.palette?.warning?.main}`,
+      `${theme?.palette?.error?.main}`,
+      `${theme?.palette?.custom?.bright}`,
+    ],
     legend: {
       horizontalAlign: 'center',
       itemMargin: {

@@ -126,7 +126,7 @@ const Folders = (props: any) => {
               onClick={() => setIsOpenDrawer(true)}
               variant="contained"
               className="large"
-              sx={style.filterUserAnyButton(theme)}
+              sx={style?.filterUserAnyButton(theme)}
             >
               <AnyRoundIcon /> Any
             </Button>
@@ -134,11 +134,11 @@ const Folders = (props: any) => {
           <Box sx={{ paddingTop: '1rem' }}>
             <Typography
               variant="h5"
-              sx={{ color: `${theme?.palette?.slateBlue.main}` }}
+              sx={{ color: `${theme?.palette?.slateBlue?.main}` }}
             >
               Teams
             </Typography>
-            <Box sx={style.teamRow}>
+            <Box sx={style?.teamRow}>
               <TeamUserIcon />
               <Typography
                 variant="body2"
@@ -150,13 +150,13 @@ const Folders = (props: any) => {
                 AirApple Cart team
               </Typography>
             </Box>
-            <Box sx={style.teamRow}>
+            <Box sx={style?.teamRow}>
               <TeamUserIcon />
               <Typography
                 variant="body2"
                 sx={{
                   fontWeight: 400,
-                  color: `${theme?.palette?.slateBlue.main}`,
+                  color: `${theme?.palette?.slateBlue?.main}`,
                 }}
               >
                 Johan Doe
@@ -166,17 +166,17 @@ const Folders = (props: any) => {
           <Box sx={{ paddingTop: '1rem' }}>
             <Typography
               variant="h5"
-              sx={{ color: `${theme?.palette?.slateBlue.main}` }}
+              sx={{ color: `${theme?.palette?.slateBlue?.main}` }}
             >
               Users
             </Typography>
-            <Box sx={style.teamRow}>
+            <Box sx={style?.teamRow}>
               <Image src={UserRoundImage} alt="No Image" />
               <Box>
                 <Typography
                   variant="body2"
                   sx={{
-                    color: `${theme?.palette?.slateBlue.main}`,
+                    color: `${theme?.palette?.slateBlue?.main}`,
                     fontWeight: 500,
                   }}
                 >
@@ -185,7 +185,7 @@ const Folders = (props: any) => {
                 <Typography
                   variant="body3"
                   sx={{
-                    color: `${theme?.palette?.custom.main}`,
+                    color: `${theme?.palette?.custom?.main}`,
                     fontWeight: 500,
                   }}
                 >
@@ -198,7 +198,7 @@ const Folders = (props: any) => {
             variant="body2"
             sx={{
               fontWeight: 500,
-              color: `${theme?.palette?.slateBlue.main}`,
+              color: `${theme?.palette?.slateBlue?.main}`,
               paddingTop: '1rem',
             }}
           >
@@ -225,61 +225,61 @@ const Folders = (props: any) => {
               setValue(e);
             }}
           />
-          <Box sx={style.folderRow}>
+          <Box sx={style?.folderRow}>
             <FolderIcon />
             <Typography
               variant="body2"
               sx={{
                 fontWeight: 400,
-                color: `${theme?.palette?.slateBlue.main}`,
+                color: `${theme?.palette?.slateBlue?.main}`,
               }}
             >
               My PDF
             </Typography>
           </Box>
-          <Box sx={style.folderRow}>
+          <Box sx={style?.folderRow}>
             <FolderIcon />
             <Typography
               variant="body2"
               sx={{
                 fontWeight: 400,
-                color: `${theme?.palette?.slateBlue.main}`,
+                color: `${theme?.palette?.slateBlue?.main}`,
               }}
             >
               Employee CV’s
             </Typography>
           </Box>
-          <Box sx={style.folderRow}>
+          <Box sx={style?.folderRow}>
             <FolderIcon />
             <Typography
               variant="body2"
               sx={{
                 fontWeight: 400,
-                color: `${theme?.palette?.slateBlue.main}`,
+                color: `${theme?.palette?.slateBlue?.main}`,
               }}
             >
               AirApple Cart
             </Typography>
           </Box>
-          <Box sx={style.folderRow}>
+          <Box sx={style?.folderRow}>
             <FolderIcon />
             <Typography
               variant="body2"
               sx={{
                 fontWeight: 400,
-                color: `${theme?.palette?.slateBlue.main}`,
+                color: `${theme?.palette?.slateBlue?.main}`,
               }}
             >
               AirApple Cart document testing
             </Typography>
           </Box>
-          <Box sx={style.folderRow}>
+          <Box sx={style?.folderRow}>
             <FolderIcon />
             <Typography
               variant="body2"
               sx={{
                 fontWeight: 400,
-                color: `${theme?.palette?.slateBlue.main}`,
+                color: `${theme?.palette?.slateBlue?.main}`,
               }}
             >
               Test
@@ -291,7 +291,7 @@ const Folders = (props: any) => {
         <Grid item lg={3}>
           <Box
             sx={{
-              border: `1px solid ${theme?.palette?.custom.pale_gray}`,
+              border: `1px solid ${theme?.palette?.custom?.pale_gray}`,
               padding: '1rem',
               borderRadius: '8px, 0px, 0px, 8px',
             }}
@@ -300,7 +300,7 @@ const Folders = (props: any) => {
               <ArrowBackIcon
                 onClick={() => toggle()}
                 sx={{
-                  color: `${theme?.palette?.custom.light}`,
+                  color: `${theme?.palette?.custom?.light}`,
                   fontSize: '30px',
                 }}
               />
@@ -318,9 +318,9 @@ const Folders = (props: any) => {
               >
                 Folders
               </Typography>
-              <Box sx={style.actionFilterBox}>
+              <Box sx={style?.actionFilterBox}>
                 <Button
-                  sx={style.actionButton(theme)}
+                  sx={style?.actionButton(theme)}
                   aria-controls={open ? 'basic-menu' : undefined}
                   aria-haspopup="true"
                   aria-expanded={open ? 'true' : undefined}
@@ -328,7 +328,7 @@ const Folders = (props: any) => {
                 >
                   Action
                   <ArrowDropDownIcon
-                    sx={{ color: `${theme?.palette?.custom.main}` }}
+                    sx={{ color: `${theme?.palette?.custom?.main}` }}
                   />
                 </Button>
                 <Menu
@@ -360,7 +360,7 @@ const Folders = (props: any) => {
             <Divider
               sx={{
                 marginY: '10px',
-                border: `1px solid ${theme?.palette?.custom.pale_gray}`,
+                border: `1px solid ${theme?.palette?.custom?.pale_gray}`,
               }}
             />
             <Box
@@ -421,14 +421,14 @@ const Folders = (props: any) => {
         <Grid item lg={9}>
           <Box
             sx={{
-              border: `1px solid ${theme?.palette?.custom.pale_gray}`,
+              border: `1px solid ${theme?.palette?.custom?.pale_gray}`,
               borderRadius: '8px, 0px, 0px, 8px',
               padding: '1rem',
             }}
           >
             <Grid container spacing={2}>
               <Grid item lg={6} md={6} sm={6} xs={12}>
-                <Typography variant="h5" sx={style.documentTitle(theme)}>
+                <Typography variant="h5" sx={style?.documentTitle(theme)}>
                   Documents
                 </Typography>
               </Grid>
@@ -438,23 +438,21 @@ const Folders = (props: any) => {
                 md={6}
                 sm={6}
                 xs={12}
-                sx={style.actionButtonBox}
+                sx={style?.actionButtonBox}
               >
                 <Button
                   variant="outlined"
                   onClick={() => {
                     setIsOpenModal(true);
                   }}
-                  sx={style.createFolderButton(theme)}
+                  sx={style?.createFolderButton(theme)}
                 >
                   <AddCircle /> Create Folder
                 </Button>
                 <Button
                   variant="contained"
-                  onClick={() => {
-                    // setIsOpenModal(true);
-                  }}
-                  sx={style.uploadDocumentsButton(theme)}
+                  onClick={() => {}}
+                  sx={style?.uploadDocumentsButton(theme)}
                 >
                   Upload Documents
                 </Button>
@@ -465,7 +463,7 @@ const Folders = (props: any) => {
                 md={6}
                 sm={6}
                 xs={12}
-                sx={style.documentTitle(theme)}
+                sx={style?.documentTitle(theme)}
               >
                 <Search
                   label="Search here"
@@ -477,9 +475,9 @@ const Folders = (props: any) => {
                 />
               </Grid>
               <Grid item lg={6} md={6} sm={6} xs={12}>
-                <Box sx={style.actionFilterBox}>
+                <Box sx={style?.actionFilterBox}>
                   <Button
-                    sx={style.actionButton(theme)}
+                    sx={style?.actionButton(theme)}
                     aria-controls={open ? 'basic-menu' : undefined}
                     aria-haspopup="true"
                     aria-expanded={open ? 'true' : undefined}
@@ -487,7 +485,7 @@ const Folders = (props: any) => {
                   >
                     Action
                     <ArrowDropDownIcon
-                      sx={{ color: `${theme?.palette?.custom.main}` }}
+                      sx={{ color: `${theme?.palette?.custom?.main}` }}
                     />
                   </Button>
                   <Menu
@@ -520,7 +518,7 @@ const Folders = (props: any) => {
                       setIsOpenDrawer(true);
                     }}
                     variant="outlined"
-                    sx={style.fiterButton(theme)}
+                    sx={style?.fiterButton(theme)}
                   >
                     <FilterSharedIcon /> Any
                   </Button>
@@ -651,7 +649,10 @@ const Folders = (props: any) => {
           <Checkbox />
           <Typography
             variant="body2"
-            sx={{ fontWeight: 400, color: `${theme?.palette?.slateBlue.main}` }}
+            sx={{
+              fontWeight: 400,
+              color: `${theme?.palette?.slateBlue?.main}`,
+            }}
           >
             Require email address to view document
           </Typography>

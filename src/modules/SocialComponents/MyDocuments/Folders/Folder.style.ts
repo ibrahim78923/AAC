@@ -1,7 +1,7 @@
 export const style = {
   actionButton: (theme: any) => {
     return {
-      border: `1px solid ${theme?.palette?.custom.dark}`,
+      border: `1px solid ${theme?.palette?.custom?.dark}`,
       color: `${theme?.palette?.custom.main}`,
       fontSize: '14px',
       fontWeight: 500,
@@ -22,7 +22,7 @@ export const style = {
   createFolderButton: (theme: any) => {
     return {
       border: `1px solid ${theme?.palette?.grey[0]}`,
-      color: `${theme?.palette?.custom.main}`,
+      color: `${theme?.palette?.custom?.main}`,
       display: 'flex',
       gap: '10px',
       fontSize: '14px',
@@ -31,7 +31,7 @@ export const style = {
   },
   uploadDocumentsButton: (theme: any) => {
     return {
-      color: `${theme?.palette?.common.white}`,
+      color: `${theme?.palette?.common?.white}`,
       display: 'flex',
       gap: '10px',
       fontSize: '14px',
@@ -41,7 +41,7 @@ export const style = {
   filterUserButton: (theme: any) => {
     return {
       border: `1px solid ${theme?.palette?.grey[0]}`,
-      color: `${theme?.palette?.custom.main}`,
+      color: `${theme?.palette?.custom?.main}`,
       display: 'flex',
       gap: '10px',
       fontSize: '14px',
@@ -50,7 +50,7 @@ export const style = {
   },
   filterUserAnyButton: (theme: any) => {
     return {
-      color: `${theme?.palette?.common.white}`,
+      color: `${theme?.palette?.common?.white}`,
       display: 'flex',
       gap: '10px',
       fontSize: '14px',

@@ -182,3 +182,6 @@ export { default as SendIconLifted } from './modules/SocialComponents/Calling/se
 export { default as FolderGreyIcon } from './shared/folder-grey';
 export { default as AlertModalDeleteIcon } from './shared/alert-modal-delete-icon';
 export { default as AlertModalCloseIcon } from './shared/alert-modal-close-icon';
+export { default as CompanyIcon } from './modules/SocialComponents/Companies/company';
+export { default as ImportCompaniesIcon } from './modules/SocialComponents/Companies/import';
+export { default as BackArrow } from './modules/airSales/deals/back-arrow';

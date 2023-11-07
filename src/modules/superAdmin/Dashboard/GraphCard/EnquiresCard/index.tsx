@@ -16,7 +16,7 @@ const EnquiriesCard = () => {
 
   return (
     <>
-      <Box sx={style.mainBox(theme)}>
+      <Box sx={style?.mainBox(theme)}>
         <Box>
           <Typography
             variant="body2"
@@ -29,7 +29,7 @@ const EnquiriesCard = () => {
             Enquires
           </Typography>
         </Box>
-        <Box sx={style.chartBox}>
+        <Box sx={style?.chartBox}>
           <ReactApexChart
             options={options}
             series={series}

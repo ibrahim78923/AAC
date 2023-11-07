@@ -9,7 +9,11 @@ const useInvoicingCard = () => {
     chart: {
       type: 'donut',
     },
-    colors: ['#47B263', '#FF4A4A', '#0AADC7'],
+    colors: [
+      `${theme?.palette?.success?.main}`,
+      `${theme?.palette?.error?.main}`,
+      `${theme?.palette?.custom?.bright}`,
+    ],
     plotOptions: {
       pie: {
         startAngle: -110,

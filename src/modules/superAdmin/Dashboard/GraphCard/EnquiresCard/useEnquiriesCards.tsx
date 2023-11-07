@@ -29,7 +29,7 @@ const useEnquiriesCards = () => {
       fontSize: '14px',
       fontWeight: 500,
       offsetY: 52,
-      color: '#374151',
+      color: `${theme?.palette?.slateBlue?.main}`,
       itemMargin: {
         vertical: 16,
       },
@@ -42,7 +42,10 @@ const useEnquiriesCards = () => {
         return seriesName + ' ' + opts.w.globals.series[opts.seriesIndex] + '%';
       },
     },
-    colors: [`${theme.palette.primary.main}`, `${theme.palette.error.main}`],
+    colors: [
+      `${theme?.palette?.primary?.main}`,
+      `${theme?.palette?.error?.main}`,
+    ],
   });
 
   return {

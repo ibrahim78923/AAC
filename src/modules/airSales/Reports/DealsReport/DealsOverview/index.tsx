@@ -3,7 +3,6 @@ import React from 'react';
 import { Box, Grid, Theme, Typography, useTheme } from '@mui/material';
 
 import Search from '@/components/Search';
-
 import TanstackTable from '@/components/Table/TanstackTable';
 import CustomPagination from '@/components/CustomPagination';
 

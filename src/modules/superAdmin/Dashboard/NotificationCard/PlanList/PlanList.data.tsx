@@ -1,11 +1,4 @@
 export const columns: any = [
-  // {
-  //   accessorFn: (row: any) => row.Id,
-  //   id: 'Id',
-  //   cell: (info: any) => <Checkbox color="primary" name={info.getValue()} />,
-  //   header: <Checkbox color="primary" name="Id" />,
-  //   isSortable: false,
-  // },
   {
     accessorFn: (row: any) => row.planId,
     id: 'planId',

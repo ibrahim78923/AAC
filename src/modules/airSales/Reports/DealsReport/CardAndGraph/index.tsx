@@ -19,7 +19,7 @@ const CardAndGraphs = () => {
     <>
       <Grid container spacing={2}>
         <Grid item lg={4} md={6} sm={12} xs={12}>
-          <Box sx={styles.totalDeals(theme)}>
+          <Box sx={styles?.totalDeals(theme)}>
             <Typography
               variant="h6"
               sx={{ color: `${theme?.palette?.slateBlue.main}` }}
@@ -35,7 +35,7 @@ const CardAndGraphs = () => {
           </Box>
         </Grid>
         <Grid item lg={4} md={6} sm={6} xs={12}>
-          <Box sx={styles.openDeals(theme)}>
+          <Box sx={styles?.openDeals(theme)}>
             <Typography
               variant="h6"
               sx={{ color: `${theme?.palette?.slateBlue.main}` }}
@@ -51,7 +51,7 @@ const CardAndGraphs = () => {
           </Box>
         </Grid>
         <Grid item lg={4} md={6} sm={6} xs={12}>
-          <Box sx={styles.closeDeals(theme)}>
+          <Box sx={styles?.closeDeals(theme)}>
             <Typography
               variant="h6"
               sx={{ color: `${theme?.palette?.slateBlue.main}` }}
@@ -77,7 +77,10 @@ const CardAndGraphs = () => {
             }}
           >
             <Box>
-              <Typography variant="h5" sx={{ color: '#374151' }}>
+              <Typography
+                variant="h5"
+                sx={{ color: `${theme?.palette?.slateBlue?.main}` }}
+              >
                 Deals Analytics
               </Typography>
             </Box>
@@ -90,9 +93,12 @@ const CardAndGraphs = () => {
           </Box>
         </Grid>
         <Grid item lg={6}>
-          <Box sx={styles.pieChart(theme)}>
+          <Box sx={styles?.pieChart(theme)}>
             <Box>
-              <Typography variant="h5" sx={{ color: '#374151' }}>
+              <Typography
+                variant="h5"
+                sx={{ color: `${theme?.palette?.slateBlue?.main}` }}
+              >
                 Deals Analytics
               </Typography>
             </Box>

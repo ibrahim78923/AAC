@@ -1,0 +1,171 @@
+import React from 'react';
+
+import { Box, Button, Grid, Menu, MenuItem, Typography } from '@mui/material';
+
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+
+import { BackArrow, FilterIcon } from '@/assets/icons';
+
+import CommonDrawer from '@/components/CommonDrawer';
+import TanstackTable from '@/components/Table/TanstackTable';
+import CustomPagination from '@/components/CustomPagination';
+import useRestoreCompanies from './useRestoreCompanies';
+import Search from '@/components/Search';
+import { FormProvider } from '@/components/ReactHookForm';
+
+import { columns, restoreArr, restoreTableData } from './RestoreCompanies.data';
+
+import { styles } from './RestoreComponies.style';
+
+import { v4 as uuidv4 } from 'uuid';
+
+const RestoreCompanies = (props: any) => {
+  const { toggle } = props;
+
+  const {
+    search,
+    setSearch,
+    isDrawer,
+    setIsDrawer,
+    theme,
+    open,
+    anchorEl,
+    handleClick,
+    handleClose,
+    methods,
+    handleSubmit,
+    onSubmit,
+  } = useRestoreCompanies();
+
+  return (
+    <>
+      <Box sx={styles.mainCompanyBox}>
+        <Grid container>
+          <Grid item lg={12} md={12} sm={12} xs={12}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+              <Box sx={{ cursor: 'pointer' }} onClick={() => toggle(true)}>
+                <BackArrow />
+              </Box>
+              <Box sx={{ marginTop: '1rem' }}>
+                <Typography
+                  variant="h3"
+                  sx={{ color: `${theme?.palette?.grey[800]}` }}
+                >
+                  Restore Companies
+                </Typography>
+                <Typography
+                  variant="body2"
+                  sx={{ color: `${theme?.palette?.custom?.main}` }}
+                >
+                  Restore Company deleted in the last 90 days
+                </Typography>
+              </Box>
+            </Box>
+          </Grid>
+        </Grid>
+        <Grid container spacing={1} sx={{ paddingTop: '2rem' }}>
+          <Grid item lg={6} md={6} sm={12} xs={12}>
+            <Search
+              label="Search here"
+              width="100%"
+              searchBy={search}
+              setSearchBy={(e: string) => {
+                setSearch(e);
+              }}
+            />
+          </Grid>
+          <Grid item lg={6} md={6} sm={12} xs={12}>
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'flex-end',
+                flexWrap: 'wrap',
+                gap: '10px',
+              }}
+            >
+              <Button
+                sx={styles?.actionButton(theme)}
+                aria-controls={open ? 'basic-menu' : undefined}
+                aria-haspopup="true"
+                aria-expanded={open ? 'true' : undefined}
+                onClick={handleClick}
+                disabled
+              >
+                Action
+                <ArrowDropDownIcon
+                  sx={{ color: `${theme?.palette?.custom?.main}` }}
+                />
+              </Button>
+              <Menu
+                id="basic-menu"
+                anchorEl={anchorEl}
+                open={open}
+                onClose={handleClose}
+                MenuListProps={{
+                  'aria-labelledby': 'basic-button',
+                }}
+              >
+                <MenuItem onClick={handleClose}>Edit</MenuItem>
+                <MenuItem onClick={handleClose}>View</MenuItem>
+                <MenuItem>Delete</MenuItem>
+              </Menu>
+              <Button
+                onClick={() => {
+                  setIsDrawer(true);
+                }}
+                variant="outlined"
+                sx={{
+                  display: 'flex',
+                  alignContent: 'center',
+                  columnGap: '10px',
+                }}
+              >
+                <FilterIcon /> Filter
+              </Button>
+            </Box>
+          </Grid>
+        </Grid>
+        <Grid container>
+          <TanstackTable columns={columns} data={restoreTableData} />
+          <CustomPagination
+            count={1}
+            rowsPerPageOptions={[1, 2]}
+            entriePages={1}
+          />
+        </Grid>
+      </Box>
+      <CommonDrawer
+        isDrawerOpen={isDrawer}
+        onClose={() => {
+          setIsDrawer(false);
+        }}
+        title="Filters"
+        okText="Apply"
+        isOk={true}
+        footer={true}
+        submitHandler={handleSubmit(onSubmit)}
+      >
+        <Box sx={{ paddingTop: '1rem' }}>
+          <FormProvider methods={methods}>
+            <Grid container spacing={1}>
+              {restoreArr?.map((item: any) => (
+                <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                  <item.component {...item?.componentProps} size={'small'}>
+                    {item?.componentProps?.select &&
+                      item?.options?.map((option: any) => (
+                        <option key={uuidv4()} value={uuidv4()}>
+                          {option?.label}
+                        </option>
+                      ))}
+                  </item.component>
+                </Grid>
+              ))}
+            </Grid>
+          </FormProvider>
+        </Box>
+      </CommonDrawer>
+    </>
+  );
+};
+
+export default RestoreCompanies;

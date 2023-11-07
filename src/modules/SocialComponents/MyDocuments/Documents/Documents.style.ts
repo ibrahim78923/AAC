@@ -1,8 +1,8 @@
 export const style = {
   actionButton: (theme: any) => {
     return {
-      border: `1px solid ${theme?.palette?.custom.dark}`,
-      color: `${theme?.palette?.custom.main}`,
+      border: `1px solid ${theme?.palette?.custom?.dark}`,
+      color: `${theme?.palette?.custom?.main}`,
       fontSize: '14px',
       fontWeight: 500,
       width: { lg: 'unset', md: 'unset', sm: 'unset', xs: '100%' },
@@ -14,7 +14,7 @@ export const style = {
       alignContent: 'center',
       columnGap: '10px',
       border: `1px solid ${theme?.palette?.grey[0]}`,
-      color: `${theme?.palette?.custom.main}`,
+      color: `${theme?.palette?.custom?.main}`,
       fontWeight: 500,
       fontSize: '14px',
     };
@@ -22,7 +22,7 @@ export const style = {
   createFolderButton: (theme: any) => {
     return {
       border: `1px solid ${theme?.palette?.grey[0]}`,
-      color: `${theme?.palette?.custom.main}`,
+      color: `${theme?.palette?.custom?.main}`,
       display: 'flex',
       gap: '10px',
       fontSize: '14px',
@@ -32,7 +32,7 @@ export const style = {
   filterUserButton: (theme: any) => {
     return {
       border: `1px solid ${theme?.palette?.grey[0]}`,
-      color: `${theme?.palette?.custom.main}`,
+      color: `${theme?.palette?.custom?.main}`,
       display: 'flex',
       gap: '10px',
       fontSize: '14px',
@@ -41,7 +41,7 @@ export const style = {
   },
   filterUserAnyButton: (theme: any) => {
     return {
-      color: `${theme?.palette?.common.white}`,
+      color: `${theme?.palette?.common?.white}`,
       display: 'flex',
       gap: '10px',
       fontSize: '14px',

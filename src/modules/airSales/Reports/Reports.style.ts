@@ -1,7 +1,7 @@
 export const styles = {
   mainDealBox: (theme: any) => {
     return {
-      border: `1px solid ${theme.palette.grey[700]}`,
+      border: `1px solid ${theme?.palette?.grey[700]}`,
       display: 'flex',
       flexWrap: 'wrap',
       borderRadius: '12px',

@@ -43,14 +43,14 @@ const InvoicingCard = () => {
                     variant="body2"
                     sx={{
                       fontWeight: 500,
-                      color: `${theme?.palette?.custom.main}`,
+                      color: `${theme?.palette?.custom?.main}`,
                     }}
                   >
                     Invoice paid
                   </Typography>
                   <Typography
                     variant="h6"
-                    sx={{ color: `${theme?.palette?.success.main}` }}
+                    sx={{ color: `${theme?.palette?.success?.main}` }}
                   >
                     £ 50.3k
                   </Typography>
@@ -62,14 +62,14 @@ const InvoicingCard = () => {
                     variant="body2"
                     sx={{
                       fontWeight: 500,
-                      color: `${theme?.palette?.custom.main}`,
+                      color: `${theme?.palette?.custom?.main}`,
                     }}
                   >
                     Follow up soon
                   </Typography>
                   <Typography
                     variant="h6"
-                    sx={{ color: `${theme?.palette?.custom.bright}` }}
+                    sx={{ color: `${theme?.palette?.custom?.bright}` }}
                   >
                     £ 54.1k
                   </Typography>
@@ -81,14 +81,14 @@ const InvoicingCard = () => {
                     variant="body2"
                     sx={{
                       fontWeight: 500,
-                      color: `${theme?.palette?.custom.main}`,
+                      color: `${theme?.palette?.custom?.main}`,
                     }}
                   >
                     Follow up now
                   </Typography>
                   <Typography
                     variant="h6"
-                    sx={{ color: `${theme.palette.error.main}` }}
+                    sx={{ color: `${theme.palette.error?.main}` }}
                   >
                     £ 41.8k
                   </Typography>

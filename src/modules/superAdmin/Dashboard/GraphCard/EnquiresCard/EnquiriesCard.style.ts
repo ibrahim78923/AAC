@@ -16,35 +16,35 @@ export const style = {
   },
   completePercent: (theme: any) => {
     return {
-      background: `${theme.palette.primary.main}`,
+      background: `${theme.palette.primary?.main}`,
       borderRadius: '6px',
       paddingLeft: '5px',
       paddingRight: '5px',
       paddingTop: '2px',
       paddingBottom: '2px',
       fontWeight: 400,
-      color: `${theme?.palette?.common.white}`,
+      color: `${theme?.palette?.common?.white}`,
     };
   },
   pendingPercent: (theme: any) => {
     return {
-      background: `${theme.palette.error.main}`,
+      background: `${theme.palette.error?.main}`,
       borderRadius: '6px',
       paddingLeft: '5px',
       paddingRight: '5px',
       paddingTop: '2px',
       paddingBottom: '2px',
       fontWeight: 400,
-      color: `${theme?.palette?.common.white}`,
+      color: `${theme?.palette?.common?.white}`,
     };
   },
-  enquryTypo: () => {
+  enquryTypo: (theme: any) => {
     return {
       display: 'flex',
       alignItems: 'center',
       gap: '10px',
       fontWeight: 500,
-      color: '#374151',
+      color: `${theme?.palette?.slateBlue?.main}`,
       lineHeight: '20px',
     };
   },
