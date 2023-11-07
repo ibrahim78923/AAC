@@ -51,7 +51,6 @@ export { default as ChangeCircleImage } from './modules/HeaderAndSidebar/change-
 export { default as KnowledgeBaseImage } from './modules/HeaderAndSidebar/knowledge-base.png';
 export { default as LoginDashboardImage } from '../../assets/images/shared/login-dashboard.png';
 export { default as RQCodeImage } from '../../assets/images/shared/qr-code.png';
-
 export { default as AvatarImageCoversation } from '../../assets/images/shared/avatar-conversation.png';
 export { default as UserAvatarImage } from '../../assets/images/modules/socialComponents/chat/user.png';
 export { default as UserSenderImage } from '../../assets/images/modules/socialComponents/chat/sender-user.png';
@@ -70,7 +69,6 @@ export { default as UserProfileAvatarImage } from '../../assets/images/modules/s
 export { default as CallFilledImage } from '../../assets/images/modules/socialComponents/calling/call-filled.png';
 export { default as PdfAvatarImage } from '../../assets/images/modules/airMarketer/MyDocuments/pdf-avatar.png';
 export { default as UnionBgImage } from '../../assets/images/modules/superAdmin/dashboard/Union.png';
-
 export { default as ActivityLogImage } from './modules/airSales/Deals/activity-log.png';
 export { default as NotesAvatarImage } from './modules/airSales/Deals/notes-avatar.png';
 export { default as YellowDotImage } from './shared/yellow-dot.png';
@@ -112,7 +110,6 @@ export { default as EditImage } from './modules/airServices/Assets/edit-image.pn
 export { default as CreatedImage } from './modules/airServices/Assets/created-image.png';
 export { default as PlusImage } from './modules/airServices/Assets/plus-image.png';
 export { default as AssetsReceivedImage } from './modules/airServices/Assets/assets-received-image.png';
-
 export { default as TeamsLogoImage } from './modules/airServices/Tickets/teams-logo-image.png';
 export { default as ZoomLogoImage } from './modules/airServices/Tickets/zoom-logo-image.png';
 export { default as DiscussionImage } from './modules/airServices/Tickets/discussion-image.png';
