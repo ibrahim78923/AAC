@@ -1,10 +1,10 @@
-import AddIconWithBg from '@/assets/icons/shared/add-icon-with-bg-white';
 import { Box, Button, Menu, MenuItem, Typography } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
 import { menuOptionsAddConversation } from '../Conversation.data';
 import userConversation from '../userConversation';
 import ConversationView from '../ConversationView';
 import NoData from '@/components/NoData';
+import { AddWhiteBgIcon } from '@/assets/icons';
 
 export default function ConversationsDetails() {
   const {
@@ -28,7 +28,7 @@ export default function ConversationsDetails() {
         <Typography variant="h4">Conversation</Typography>
         <Button
           variant="contained"
-          startIcon={<AddIconWithBg />}
+          startIcon={<AddWhiteBgIcon />}
           id="basic-button"
           aria-controls={open ? 'basic-menu' : undefined}
           aria-haspopup="true"
@@ -77,7 +77,7 @@ export default function ConversationsDetails() {
           <NoData message="There are no Asset Associations">
             <Button
               variant="contained"
-              startIcon={<AddIconWithBg />}
+              startIcon={<AddWhiteBgIcon />}
               id="basic-button"
               aria-controls={open ? 'basic-menu' : undefined}
               aria-haspopup="true"
