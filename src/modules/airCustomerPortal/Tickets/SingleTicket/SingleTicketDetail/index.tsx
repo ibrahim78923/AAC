@@ -1,4 +1,3 @@
-import HTMLRenderer from '@/components/HTMLRenderer';
 import { Box, Typography } from '@mui/material';
 
 export const SingleTicketDetail = ({
@@ -11,10 +10,8 @@ export const SingleTicketDetail = ({
         width={{ xs: '100%', sm: '70%' }}
         height={'20rem'}
         overflow={'scroll'}
-      >
-        <HTMLRenderer content={singleTicketDetailContent} />
-      </Box>
-
+        dangerouslySetInnerHTML={{ __html: singleTicketDetailContent }}
+      />
       <Box
         gap={1}
         display={'flex'}
