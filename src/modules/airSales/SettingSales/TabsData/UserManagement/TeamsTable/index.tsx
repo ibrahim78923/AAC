@@ -3,7 +3,7 @@ import React from 'react';
 import { Box, Grid } from '@mui/material';
 
 import Search from '@/components/Search';
-import TanstackTable from '@/components/Tabel/TanstackTable';
+import TanstackTable from '@/components/Table/TanstackTable';
 import CustomPagination from '@/components/CustomPagination';
 
 import { teamsTableData } from '@/mock/modules/airSales/SettingSales';
