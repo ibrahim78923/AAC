@@ -11,12 +11,15 @@ const useCatalogRequest = () => {
     defaultValues: placeRequestDefaultValues,
   });
 
-  const onSubmitRequest = () => {};
-  const { handleSubmit } = methodRequest;
+  const { handleSubmit, getValues, control } = methodRequest;
+  const onSubmitRequest = handleSubmit(() => {});
+
   return {
     methodRequest,
     handleSubmit,
     onSubmitRequest,
+    getValues,
+    control,
   };
 };
 export default useCatalogRequest;

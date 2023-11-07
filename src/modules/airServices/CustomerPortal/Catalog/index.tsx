@@ -6,14 +6,7 @@ import { services } from './Catalog.data';
 import useCatalog from './useCatalog';
 
 function Catalog() {
-  const {
-    handleClick,
-    result,
-    handleClickService,
-    // open,
-    // handleClickOpen,
-    // handleClose,
-  } = useCatalog();
+  const { handleClick, result, handleClickService } = useCatalog();
   return (
     <>
       <Typography variant="h3">All Services</Typography>

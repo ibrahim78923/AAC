@@ -7,24 +7,16 @@ const useCatalog = () => {
   const [open, setOpen] = useState(false);
   const router = useRouter();
   const handleClick = (prop: string) => {
+    let filteredServices;
     if (prop === 'All Services') {
-      setResult(allsServices);
-    } else if (prop === 'Software installation') {
-      const filteredServices = allsServices.filter(
-        (service) => service.serviceId === 'Software installation',
+      filteredServices = allsServices;
+    } else {
+      filteredServices = allsServices.filter(
+        (service) => service.serviceId === prop,
       );
-      setResult(filteredServices);
-    } else if (prop === 'PM Tools') {
-      const filteredServices = allsServices.filter(
-        (service) => service.serviceId === 'PM Tools',
-      );
-      setResult(filteredServices);
-    } else if (prop === 'Hardware') {
-      const filteredServices = allsServices.filter(
-        (service) => service.serviceId === 'Hardware',
-      );
-      setResult(filteredServices);
     }
+
+    setResult(filteredServices);
   };
   const handleClickService = (id: any) => {
     router?.push({

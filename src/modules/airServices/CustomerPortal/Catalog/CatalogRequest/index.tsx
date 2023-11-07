@@ -12,6 +12,7 @@ import { Grid } from '@mui/material';
 import { placeRequest } from './CatalogRequest.data';
 import useCatalogRequest from './useCatalogRequest';
 import { v4 as uuidv4 } from 'uuid';
+import { useWatch } from 'react-hook-form';
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
     padding: theme.spacing(2),
@@ -25,7 +26,7 @@ export const CatalogRequest = ({ open, setOpen }: any) => {
   const handleClose = () => {
     setOpen(false);
   };
-  const { methodRequest, handleSubmit, onSubmitRequest } = useCatalogRequest();
+  const { onSubmitRequest } = useCatalogRequest();
   return (
     <React.Fragment>
       <BootstrapDialog
@@ -50,29 +51,41 @@ export const CatalogRequest = ({ open, setOpen }: any) => {
         >
           <CloseIcon />
         </IconButton>
-        <DialogContent dividers>
-          <FormProvider methods={methodRequest} onSubmit={handleSubmit}>
-            <Grid container spacing={2}>
-              {placeRequest?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                  <item.component {...item?.componentProps} size={'small'} />
-                </Grid>
-              ))}
-            </Grid>
-          </FormProvider>
-        </DialogContent>
-        <DialogActions>
-          <Button>cancel</Button>
-          <Button
-            variant="contained"
-            onClick={() => {
-              onSubmitRequest();
-            }}
-          >
-            confirm
-          </Button>
-        </DialogActions>
+        <ItemRequestDialog />
       </BootstrapDialog>
     </React.Fragment>
   );
 };
+
+function ItemRequestDialog() {
+  const { methodRequest, onSubmitRequest, control, getValues } =
+    useCatalogRequest();
+
+  useWatch({ control, name: 'requestForSomeOneElse' });
+
+  return (
+    <DialogContent dividers>
+      <FormProvider methods={methodRequest} onSubmit={onSubmitRequest}>
+        <Grid container spacing={2}>
+          {placeRequest?.map((item: any) => {
+            const { shouldDisplay } = item;
+            let display = true;
+            if (shouldDisplay) display = shouldDisplay({ getValues });
+            if (!display) return null;
+            return (
+              <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                <item.component {...item?.componentProps} size={'small'} />
+              </Grid>
+            );
+          })}
+        </Grid>
+        <DialogActions>
+          <Button>cancel</Button>
+          <Button variant="contained" type="submit">
+            confirm
+          </Button>
+        </DialogActions>
+      </FormProvider>
+    </DialogContent>
+  );
+}

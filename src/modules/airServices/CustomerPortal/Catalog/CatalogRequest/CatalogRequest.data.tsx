@@ -28,7 +28,6 @@ export const placeRequest = [
     },
     component: RHFCheckbox,
     md: 12,
-    toShow: 'Yes',
   },
   {
     componentProps: {
@@ -37,8 +36,8 @@ export const placeRequest = [
       fullWidth: true,
       require: true,
     },
-
     component: RHFTextField,
+    shouldDisplay: ({ getValues }: any) => getValues('requestForSomeOneElse'),
     md: 12,
   },
 ];
