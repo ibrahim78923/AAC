@@ -59,9 +59,9 @@ export const Workload = () => {
 
       <FullCalendar
         ref={calendarRef}
-        dayHeaderFormat={(date: any) => {
-          return dayjs(date?.start?.marker).format('ddd - DD');
-        }}
+        dayHeaderContent={(data: any) => (
+          <Box>{dayjs(data?.start?.marker).format('ddd - DD')}</Box>
+        )}
         customButtons={{
           datePicker: {
             text: 'Button!',
