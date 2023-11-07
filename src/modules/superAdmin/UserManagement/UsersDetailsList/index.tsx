@@ -135,7 +135,6 @@ const UsersDetailsList = () => {
                 alignItems={'center'}
               >
                 <Search placeholder="Search" size="small" />
-
                 <Button
                   sx={{
                     border: '1px solid grey',

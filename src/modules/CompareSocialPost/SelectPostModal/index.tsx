@@ -1,0 +1,53 @@
+import { Box, Button } from '@mui/material';
+import Search from '@/components/Search';
+import CommonModal from '@/components/CommonModal';
+import { useComparePost } from '../useComparePost';
+import RecipeReviewCard from './PostCard';
+
+const SelectPostModal = (props: any) => {
+  const { isSelectPostModal, setIsSelectPostModal, setIsOverview } = props;
+  const { searchBy, setSearchBy } = useComparePost();
+
+  return (
+    <Box>
+      {isSelectPostModal && (
+        <CommonModal
+          open={isSelectPostModal}
+          handleClose={() => setIsSelectPostModal(false)}
+          handleSubmit={() => setIsSelectPostModal(false)}
+          title="Select Post"
+          footer={false}
+          okText="Ok"
+          cancelText="ok"
+        >
+          <Box>
+            <Box
+              display="flex"
+              justifyContent="space-between"
+              alignItems="center"
+            >
+              <Search
+                label="search"
+                width="230px"
+                searchBy={searchBy}
+                setSearchBy={setSearchBy}
+              />
+              <Box display="flex" alignItems="center" gap={1}>
+                <Button variant="outlined">Date</Button>
+                <Button variant="outlined">Filter</Button>
+              </Box>
+            </Box>
+            <Box mt={3}>
+              <RecipeReviewCard
+                setIsOverview={setIsOverview}
+                setIsSelectPostModal={setIsSelectPostModal}
+              />
+            </Box>
+          </Box>
+        </CommonModal>
+      )}
+    </Box>
+  );
+};
+
+export default SelectPostModal;
