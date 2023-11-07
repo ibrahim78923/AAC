@@ -2,9 +2,11 @@ import { Grid, Typography, useTheme } from '@mui/material';
 import { SingleDropdownButton } from '../../../../components/SingleDropdownButton';
 import { actionsFunction, dashboardFunction } from './HeaderDashboard.data';
 import { styles } from './HeaderDashboard.styles';
+import { useRouter } from 'next/router';
 
 export const HeaderDashboard = () => {
   const theme = useTheme();
+  const router = useRouter();
   return (
     <Grid container>
       <Grid item xs={12}>
@@ -28,7 +30,7 @@ export const HeaderDashboard = () => {
               </Grid>
               <Grid item>
                 <SingleDropdownButton
-                  dropdownOptions={dashboardFunction(theme)}
+                  dropdownOptions={dashboardFunction(theme, router)}
                   dropdownName="Dashboards"
                 />
               </Grid>
