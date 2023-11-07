@@ -36,16 +36,12 @@ const NotificationCard = (props: NotificationProps) => {
       </Box>
 
       {data.map((obj) => (
-        <Box
-          key={uuidv4()}
-          onClick={() => singleCardClick(obj)}
-          sx={styles.card}
-        >
+        <Box key={uuidv4()} sx={styles.card}>
           <Checkbox
             name={`singleCheckbox${uuidv4()}`}
             {...singleCheckboxProps}
           />
-          <Box>
+          <Box onClick={() => singleCardClick(obj)}>
             <Typography>{obj.title}</Typography>
             <Typography variant="body2" color={'primary'} margin={'8px 0px'}>
               {obj.subTitle}

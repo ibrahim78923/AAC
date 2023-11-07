@@ -1,6 +1,11 @@
 import React from 'react';
 import { Box, Button, IconButton, Typography } from '@mui/material';
-import { ProfileCircleIcon } from '@/assets/icons';
+import {
+  EmailReplyIcon,
+  ForwardIcon,
+  ProfileCircleIcon,
+  ReplyAllIcon,
+} from '@/assets/icons';
 import Search from '@/components/Search';
 import { v4 as uuidv4 } from 'uuid';
 import { RightSideData } from '../Chat.interface';
@@ -16,10 +21,12 @@ const RightSide = (props: RightSideData) => {
     emailSettingProps = {},
     sendEmailProps,
     searchProps,
+    handleContactModal,
   } = props;
+
   return (
     <Box>
-      <Box sx={styles.rightSide}>
+      <Box sx={styles?.rightSide}>
         <Search size="small" placeholder="Search Here" {...searchProps} />
         <Box>
           <Button
@@ -41,8 +48,12 @@ const RightSide = (props: RightSideData) => {
           <Box key={uuidv4()} sx={styles?.rightSideCard}>
             {obj.userImg || <ProfileCircleIcon />}
             <Box flex={1}>
-              <Box sx={styles.emailWrap}>
-                <Box>
+              <Box sx={styles?.emailWrap}>
+                <Box
+                  flex={1}
+                  sx={{ cursor: 'pointer' }}
+                  onClick={handleContactModal}
+                >
                   <Typography variant="h5">{obj?.title}</Typography>
                   <Typography variant="body2">To: {obj?.to}</Typography>
                 </Box>
@@ -51,13 +62,13 @@ const RightSide = (props: RightSideData) => {
                     {obj?.date}
                   </Typography>
                   <IconButton size="small" onClick={() => handleReplayAll(obj)}>
-                    Replay All
+                    <ReplyAllIcon />
                   </IconButton>
                   <IconButton size="small" onClick={() => handleReplay(obj)}>
-                    Replay
+                    <EmailReplyIcon />
                   </IconButton>
                   <IconButton size="small" onClick={() => handleForward(obj)}>
-                    Forward
+                    <ForwardIcon />
                   </IconButton>
                 </Box>
               </Box>
@@ -66,7 +77,7 @@ const RightSide = (props: RightSideData) => {
           </Box>
         ))
       ) : (
-        <Box sx={styles.content}>
+        <Box sx={styles?.content}>
           <Typography variant="subtitle1">No Content to show!!</Typography>
         </Box>
       )}

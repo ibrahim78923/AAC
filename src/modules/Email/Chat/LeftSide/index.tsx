@@ -19,8 +19,8 @@ const LeftSide = (props: LeftSideData) => {
     filterBtnProps,
   } = props;
   return (
-    <Box sx={styles.card}>
-      <Box sx={styles.emailWrap}>
+    <Box sx={styles?.card}>
+      <Box sx={styles?.emailWrap}>
         <Typography>Email</Typography>
         <Box>
           <Button

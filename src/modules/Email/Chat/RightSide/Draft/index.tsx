@@ -14,6 +14,10 @@ const Draft = () => {
 
   const { handleSubmit } = methods;
 
+  const onSubmit = (values: any) => {
+    values;
+  };
+
   return (
     <Box>
       <Box sx={styles?.draftMainWrap}>

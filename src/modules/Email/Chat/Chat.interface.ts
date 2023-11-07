@@ -51,4 +51,5 @@ export interface RightSideData {
   sendEmailProps?: ButtonProps;
   emailSettingProps?: ButtonProps;
   searchProps?: SearchPropsI & TextFieldProps;
+  handleContactModal?: () => void;
 }

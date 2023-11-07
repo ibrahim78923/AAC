@@ -5,14 +5,44 @@ export const useChat = () => {
   const [currTab, setCurrTab] = useState<string | number>('');
   const getTabVal = (val: string | number) => setCurrTab(val);
   const [messages, setMessags] = useState<any>([]);
+  const [sendEmailModal, setSendEmailModal] = useState(false);
+  const [replyModal, setReplyModal] = useState(false);
+
+  const [linkToDealModal, setLinkToDealModal] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
+  const [contactModal, setContactModal] = useState(false);
+
+  const handleLinkToDealModal = () => setLinkToDealModal(!linkToDealModal);
+  const handleDeleteModal = () => setDeleteModal(!deleteModal);
+  const handleSendEmailModal = () => setSendEmailModal(!sendEmailModal);
+  const handleReplyModal = () => setReplyModal(!replyModal);
+  const handleContactModal = () => setContactModal(!contactModal);
+
+  const handleActionChange = (value: string) => {
+    switch (value) {
+      case 'Link to deal':
+        handleLinkToDealModal();
+        break;
+      case 'Delete':
+        handleDeleteModal();
+        break;
+      case 'Reply':
+        handleReplyModal();
+        break;
+      case 'Forward':
+        handleReplyModal();
+        break;
+
+      default:
+        break;
+    }
+  };
 
   const leftSideData: LeftSideData = {
     getTabVal,
     actionButtonProps: {
       disableActionBtn: false,
-      onChange: (value) => {
-        value;
-      },
+      onChange: handleActionChange,
     },
     filterBtnProps: { onClick: () => {} },
     inboxData: {
@@ -53,24 +83,37 @@ export const useChat = () => {
     emailSettingProps: { onClick: () => {} },
     handleForward: (obj) => {
       obj;
+      handleReplyModal();
     },
     handleReplay: (obj) => {
       obj;
+      handleReplyModal();
     },
     handleReplayAll: (obj) => {
       obj;
     },
-    sendEmailProps: { onClick: () => {} },
+    sendEmailProps: { onClick: handleSendEmailModal },
     searchProps: {
       onChange: (event) => {
         event;
       },
     },
+    handleContactModal,
   };
 
   return {
     currTab,
     leftSideData,
     rightSideData,
+    linkToDealModal,
+    handleLinkToDealModal,
+    handleDeleteModal,
+    deleteModal,
+    handleSendEmailModal,
+    sendEmailModal,
+    handleReplyModal,
+    replyModal,
+    contactModal,
+    handleContactModal,
   };
 };

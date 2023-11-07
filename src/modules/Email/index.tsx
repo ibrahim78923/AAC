@@ -40,9 +40,9 @@ const Email = () => {
       </Typography>
       <Box display={'flex'} flexWrap={'wrap'} gap={'15px'}>
         {EmailArray?.map((item) => (
-          <Box key={uuidv4()} sx={styles.emailArray}>
-            {item.Icon}
-            <Typography variant="h6">{item.Text}</Typography>
+          <Box key={uuidv4()} sx={styles?.emailArray}>
+            {item?.Icon}
+            <Typography variant="h6">{item?.Text}</Typography>
           </Box>
         ))}
       </Box>

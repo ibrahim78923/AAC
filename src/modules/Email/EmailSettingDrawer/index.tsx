@@ -30,8 +30,8 @@ const EmailSettingDrawer = ({
         <Box>
           {EmailArray?.map((item) => (
             <Box key={uuidv4()} sx={styles.emailArray}>
-              {item.Icon}
-              <Typography variant="h6">{item.Text}</Typography>
+              {item?.Icon}
+              <Typography variant="h6">{item?.Text}</Typography>
             </Box>
           ))}
         </Box>

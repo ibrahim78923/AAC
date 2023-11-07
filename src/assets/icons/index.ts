@@ -145,3 +145,8 @@ export { default as PhoneGreenIcon } from './modules/SocialComponents/Calling/ph
 export { default as TimeClockIcon } from './modules/airSales/deals/time-clock';
 export { default as EmailInfoIcon } from './modules/superAdmin/email/Alert';
 export { default as SettingsIcon } from './modules/superAdmin/email/Settings';
+export { default as SmsIcon } from './modules/superAdmin/email/Sms';
+export { default as CallsIcon } from './modules/superAdmin/email/call';
+export { default as ForwardIcon } from './modules/superAdmin/email/Forward';
+export { default as ReplyAllIcon } from './modules/superAdmin/email/replyAll';
+export { default as EmailReplyIcon } from './modules/superAdmin/email/Reply';
