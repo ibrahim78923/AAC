@@ -41,9 +41,7 @@ const CreateView = ({ open, onClose }: any) => {
                     fontWeight: '500',
                     fontSize: '14px',
                   }}
-                >
-                  {obj.title}
-                </Typography>
+                ></Typography>
                 <obj.component
                   fullWidth
                   size={'small'}

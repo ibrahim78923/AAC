@@ -190,3 +190,5 @@ export { default as SendIconLifted } from './modules/SocialComponents/Calling/se
 export { default as FolderGreyIcon } from './shared/folder-grey';
 export { default as AlertModalDeleteIcon } from './shared/alert-modal-delete-icon';
 export { default as AlertModalCloseIcon } from './shared/alert-modal-close-icon';
+export { default as ExportRecordIcon } from './modules/airSales/deals/export-record';
+export { default as RestoreDealsIcon } from './modules/airSales/deals/restore-deal';

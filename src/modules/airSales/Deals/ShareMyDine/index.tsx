@@ -45,7 +45,7 @@ const ShareMyDine = ({ open, onClose }: any) => {
         okText="Submit"
         title="ShareMyDine"
       >
-        <Box sx={styles.iconWrap}>
+        <Box sx={styles?.iconWrap}>
           <MailIcon />
           <CallIcon />
           <ActivitiesIcon />
