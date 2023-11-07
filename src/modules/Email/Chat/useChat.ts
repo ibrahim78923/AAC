@@ -59,7 +59,7 @@ export const useChat = () => {
       handleRefresh: () => {},
       selectAllProps: {
         onChange: ({ target }) => {
-          target.value;
+          target?.value;
         },
       },
       singleCardClick: (obj: object) => {
@@ -67,7 +67,7 @@ export const useChat = () => {
       },
       singleCheckboxProps: {
         onChange: ({ target }) => {
-          target.value;
+          target?.value;
         },
       },
     },

@@ -15,7 +15,7 @@ const ActivityAndPerformance = () => {
         <Button
           onClick={handleInsightsBtnClick}
           sx={{
-            background: counter === 0 ? theme.palette.grey[400] : '',
+            background: counter === 0 ? theme?.palette.grey[400] : '',
           }}
         >
           Insights
@@ -23,7 +23,7 @@ const ActivityAndPerformance = () => {
         <Button
           onClick={handleFeedBtnClick}
           sx={{
-            background: counter === 1 ? theme.palette.grey[400] : '',
+            background: counter === 1 ? theme?.palette.grey[400] : '',
           }}
         >
           Feed

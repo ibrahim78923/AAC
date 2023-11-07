@@ -57,7 +57,7 @@ const RightSide = (props: RightSideData) => {
                   <Typography variant="h5">{obj?.title}</Typography>
                   <Typography variant="body2">To: {obj?.to}</Typography>
                 </Box>
-                <Box display={'flex'} alignItems={'center'} gap={'14px'}>
+                <Box display={'flex'} alignItems={'jcenter'} gap={'14px'}>
                   <Typography variant="subtitle2" fontWeight={400}>
                     {obj?.date}
                   </Typography>
