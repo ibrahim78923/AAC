@@ -4,7 +4,7 @@ import ActionBtn from '../../ActionBtn';
 import EditColumn from '../../EditColumn';
 import FilterComp from '../../Filter';
 import ListGridViewBtn from '../../ListGridViewBtn';
-import { RefreshIcon } from '@/assets/icons';
+import { RefreshTasksIcon } from '@/assets/icons';
 import { FilterWrapperI } from './TabToolbar.interface';
 import { styles } from './TabToobar.style';
 
@@ -19,7 +19,7 @@ const TabToolbar = ({
       <Box display={'flex'} alignItems={'center'} gap={'8px'} flexWrap={'wrap'}>
         <Tooltip title={'Refresh Filter'}>
           <Button variant="outlined" onClick={handleRefreshList}>
-            <RefreshIcon />
+            <RefreshTasksIcon />
           </Button>
         </Tooltip>
         <ActionBtn

@@ -19,7 +19,7 @@ import { columns } from './CallingMain.data';
 
 import useCallingMain from './useCallingMain';
 
-import { DownIcon, MobileIcon, PlusSharedIcon } from '@/assets/icons';
+import { DownIcon, MobileIcon, PlusIcon } from '@/assets/icons';
 import ScheduleCallDrawer from './ScheduleCallDrawer';
 
 const CallingMain = ({ setAddaNumber }: any) => {
@@ -95,7 +95,7 @@ const CallingMain = ({ setAddaNumber }: any) => {
                   onClick={handleClickScheduleCall}
                 >
                   Schedule a call &nbsp;
-                  <PlusSharedIcon />
+                  <PlusIcon />
                 </Button>
                 <Menu
                   id="schedule-a-call"

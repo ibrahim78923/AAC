@@ -5,7 +5,7 @@ import Search from '@/components/Search';
 import useManage from './useManage';
 import Table from './Table';
 
-import { ArrowLeft, FilterSharedIcon, PlusSharedIcon } from '@/assets/icons';
+import { ArrowLeft, FilterSharedIcon, PlusIcon } from '@/assets/icons';
 import Filters from './Filters';
 
 const Manage = ({ toggle, setIsShowCreateDashboardForm }: any) => {
@@ -31,7 +31,7 @@ const Manage = ({ toggle, setIsShowCreateDashboardForm }: any) => {
       </Grid>
       <Grid item xs={6} sm={6} sx={{ textAlign: 'end' }}>
         <Button
-          startIcon={<PlusSharedIcon />}
+          startIcon={<PlusIcon />}
           variant="contained"
           className="medium"
           onClick={() => setIsShowCreateDashboardForm(true)}
