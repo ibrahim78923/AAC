@@ -31,6 +31,7 @@ export const defaultValues = {
     label: '',
     value: '',
   },
+  verifyEmployees: '',
   organizationName: '',
   employeesNumber: '',
   phoneNumber: '',

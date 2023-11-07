@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import Image from 'next/image';
 import Link from 'next/link';
+
 import {
   Grid,
   Button,
@@ -12,26 +13,30 @@ import {
   IconButton,
 } from '@mui/material';
 
-import {
-  EyeIcon,
-  EyeSlashIcon,
-  CompanyLogoIcon,
-  VerifiedIcon,
-} from '@/assets/icons';
-
-import { LoginDashboardImage } from '@/assets/images';
-
-import { styles } from './SignUp.style';
-
 import useSignup from './useSignup';
+
 import {
   FormProvider,
   RHFAutocomplete,
   RHFMultiCheckbox,
   RHFSelect,
+  RHFSwitch,
   RHFTextField,
 } from '@/components/ReactHookForm';
+
 import { noOfEmployee } from './SignUp.data';
+
+import {
+  EyeIcon,
+  EyeSlashIcon,
+  CompanyLogoIcon,
+  VerifiedIcon,
+  SearchSharedIcon,
+} from '@/assets/icons';
+
+import { LoginDashboardImage } from '@/assets/images';
+
+import { styles } from './SignUp.style';
 
 import { v4 as uuidv4 } from 'uuid';
 
@@ -126,11 +131,12 @@ const SignUp = () => {
                     onSubmit={handleSubmit(onSubmit)}
                   >
                     {!isStepComplete ? (
-                      <Grid container spacing={4}>
+                      <Grid container spacing={2}>
                         <Grid item xs={12}>
                           <RHFTextField
                             name="fullName"
                             label="Full Name"
+                            placeholder="Enter Full Name"
                             size="small"
                           />
                         </Grid>
@@ -138,15 +144,18 @@ const SignUp = () => {
                           <RHFTextField
                             name="email"
                             label="Email Address"
+                            placeholder="Enter Email"
                             size="small"
                           />
                         </Grid>
                         <Grid item xs={12}>
                           <RHFAutocomplete
                             name="organizationNumber"
-                            label="To"
+                            label="Company Registration Number(CRN)"
                             options={noOfEmployee}
                             size="small"
+                            placeholder="Enter CRN Number"
+                            popupIcon={<SearchSharedIcon />}
                           />
                         </Grid>
 
@@ -154,6 +163,7 @@ const SignUp = () => {
                           <RHFTextField
                             name="organizationName"
                             label="Organization Name"
+                            placeholder="Enter Organization"
                             size="small"
                           />
                         </Grid>
@@ -171,12 +181,19 @@ const SignUp = () => {
                             ))}
                           </RHFSelect>
                         </Grid>
+                        <Grid item xs={12}>
+                          <RHFSwitch
+                            name="verifyEmployees"
+                            label="Verify your Employees through Identity Gram and Get 10% discount"
+                          />
+                        </Grid>
 
                         <Grid item xs={12}>
                           <RHFTextField
                             name="phoneNumber"
                             label="Phone Number"
                             size="small"
+                            placeholder="Enter Phone Number"
                           />
                         </Grid>
 
@@ -194,16 +211,17 @@ const SignUp = () => {
                     ) : (
                       <Grid container spacing={4}>
                         <Grid item xs={6}>
-                          <Button
-                            variant="contained"
-                            onClick={() => setIsStepComplete(false)}
-                          >
-                            {' '}
-                            Back
-                          </Button>
+                          <Typography variant="subtitle1">
+                            Select Product(s)
+                          </Typography>
                           <RHFMultiCheckbox
-                            name="ff"
-                            options={['sdsd', 'efdf']}
+                            name="selectProduct"
+                            options={[
+                              'AIR Sales',
+                              'Air Operations',
+                              'Air Marketer',
+                              'Air Service',
+                            ]}
                           />
                         </Grid>
 
@@ -212,6 +230,7 @@ const SignUp = () => {
                             name="DRN"
                             label=" Delegate Reference Number (DRN) if applied"
                             size="small"
+                            placeholder="Enter DRN"
                           />
                         </Grid>
 
@@ -220,22 +239,25 @@ const SignUp = () => {
                             name="password"
                             label="Password"
                             size="small"
+                            placeholder="Enter Password"
                             type={showPassword ? 'text' : 'password'}
-                            endAdornment={
-                              <InputAdornment position="end">
-                                <IconButton
-                                  aria-label="toggle password visibility"
-                                  onClick={handleClickShowPassword}
-                                  onMouseDown={handleMouseDownPassword}
-                                >
-                                  {showPassword ? (
-                                    <EyeSlashIcon />
-                                  ) : (
-                                    <EyeIcon />
-                                  )}
-                                </IconButton>
-                              </InputAdornment>
-                            }
+                            InputProps={{
+                              endAdornment: (
+                                <InputAdornment position="end">
+                                  <IconButton
+                                    aria-label="toggle password visibility"
+                                    onClick={handleClickShowPassword}
+                                    onMouseDown={handleMouseDownPassword}
+                                  >
+                                    {!showPassword ? (
+                                      <EyeSlashIcon />
+                                    ) : (
+                                      <EyeIcon />
+                                    )}
+                                  </IconButton>
+                                </InputAdornment>
+                              ),
+                            }}
                           />
                         </Grid>
 
@@ -243,8 +265,26 @@ const SignUp = () => {
                           <RHFTextField
                             name="confirmPassword"
                             label="Confirm password"
+                            placeholder="Enter Password"
                             size="small"
-                            type={'password'}
+                            type={showPassword ? 'text' : 'password'}
+                            InputProps={{
+                              endAdornment: (
+                                <InputAdornment position="end">
+                                  <IconButton
+                                    aria-label="toggle password visibility"
+                                    onClick={handleClickShowPassword}
+                                    onMouseDown={handleMouseDownPassword}
+                                  >
+                                    {!showPassword ? (
+                                      <EyeSlashIcon />
+                                    ) : (
+                                      <EyeIcon />
+                                    )}
+                                  </IconButton>
+                                </InputAdornment>
+                              ),
+                            }}
                           />
                         </Grid>
 
