@@ -55,18 +55,14 @@ export default function RHFAutocomplete({
             autoComplete
             noOptionsText={noOptionsText}
             value={value}
-            PaperComponent={(props) =>
-              multiple ? (
-                <Fragment>{props?.children}</Fragment>
-              ) : (
-                <Paper
-                  {...props}
-                  style={{ backgroundColor: theme?.palette?.grey?.[100] }}
-                >
-                  {props?.children}
-                </Paper>
-              )
-            }
+            PaperComponent={(props) => (
+              <Paper
+                {...props}
+                style={{ backgroundColor: theme?.palette?.grey?.[100] }}
+              >
+                {props?.children}
+              </Paper>
+            )}
             {...other}
             renderInput={(params) => (
               <>

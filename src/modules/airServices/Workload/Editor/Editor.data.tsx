@@ -10,10 +10,26 @@ import * as Yup from 'yup';
 
 export const validationSchema = Yup?.object()?.shape({
   description: Yup?.string(), //1
+  plannedStartDate: Yup?.date(), //2
+  plannedStartTime: Yup?.date(), //3
+  plannedEndDate: Yup?.date(), //4
+  plannedEndTime: Yup?.date(), //5
+  plannedEffort: Yup?.mixed(), //6
+  requester: Yup?.string(), //7
+  priority: Yup?.string(), //8
+  status: Yup?.string(), //9
 });
 
 export const defaultValues = {
   description: '', //1
+  plannedStartDate: new Date(), //2
+  plannedStartTime: new Date(), //3
+  plannedEndDate: new Date(), //4
+  plannedEndTime: new Date(), //6
+  plannedEffort: [], //6
+  requester: '', //7
+  priority: '', //8
+  status: '', //9
 };
 
 export const dataArray = [

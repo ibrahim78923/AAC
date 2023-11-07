@@ -11,7 +11,6 @@ import {
   Typography,
 } from '@mui/material';
 import dayjs from 'dayjs';
-import { DateCalendar } from '@mui/x-date-pickers';
 import { DateFilter } from './DateFilter';
 import { ManageWorkload } from './ManageWorkload';
 import { UnassignedWork } from './UnassignedWork';
@@ -62,17 +61,11 @@ export const Workload = () => {
         dayHeaderContent={(data: any) => (
           <Box sx={{ cursor: 'pointer' }}>
             {dayjs(data?.date).format('ddd - DD')}
-            <Typography variant={'h6'}>test</Typography>
+            <Typography variant={'h6'}>
+              {data?.day?.allDayEvents?.length}
+            </Typography>
           </Box>
         )}
-        customButtons={{
-          datePicker: {
-            text: 'Button!',
-            click: function () {
-              <DateCalendar />;
-            },
-          },
-        }}
         headerToolbar={false}
         plugins={[dayGridPlugin, interactionPlugin]}
         initialView="dayGridWeek"
@@ -166,7 +159,7 @@ export const Workload = () => {
               >
                 <Avatar
                   src={eventInfo?.event?.extendedProps?.img?.src}
-                  sx={{ width: 28, height: 28 }}
+                  sx={{ width: 28, height: 28, color: 'primary.main' }}
                 />
                 <Typography variant={'body2'}>
                   {eventInfo?.event?.extendedProps?.ticketNo}{' '}

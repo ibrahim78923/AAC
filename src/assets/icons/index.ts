@@ -184,3 +184,4 @@ export { default as TicketBannerIcon } from './shared/ticket-banner-icon';
 export { default as PhotoShopIcon } from './shared/photoshop-icon';
 export { default as XdIcon } from './shared/xd-icon';
 export { default as IllustratorIcon } from './shared/illustrator-icon';
+export { default as EditGreyIcon } from './shared/edit-grey-icon';

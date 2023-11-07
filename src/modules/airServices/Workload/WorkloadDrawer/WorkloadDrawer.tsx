@@ -1,4 +1,4 @@
-import { FilterIcon, TicketBannerIcon } from '@/assets/icons';
+import { EditGreyIcon, FilterIcon, TicketBannerIcon } from '@/assets/icons';
 import {
   Avatar,
   Box,
@@ -19,8 +19,9 @@ import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import EditCalendarIcon from '@mui/icons-material/EditCalendar';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import { DateRange } from 'react-date-range';
-import 'react-date-range/dist/styles.css'; // main style file
+import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
+import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
 
 const WorkloadDrawer = ({
   setOpenDrawer,
@@ -197,7 +198,28 @@ const WorkloadDrawer = ({
                   </Typography>
                 </Grid>
               </Box>
-              <Box>Buttons</Box>
+              <Box display={'flex'} gap={2}>
+                <IconButton
+                  sx={{
+                    height: '50px',
+                    width: '50px',
+                    borderRadius: 2,
+                    boxShadow: 2,
+                  }}
+                >
+                  <EditGreyIcon />
+                </IconButton>
+                <IconButton
+                  sx={{
+                    height: '50px',
+                    width: '50px',
+                    borderRadius: 2,
+                    boxShadow: 2,
+                  }}
+                >
+                  <PersonRoundedIcon sx={{ color: 'custom.main' }} />
+                </IconButton>
+              </Box>
             </Box>
             <Divider />
           </Fragment>
