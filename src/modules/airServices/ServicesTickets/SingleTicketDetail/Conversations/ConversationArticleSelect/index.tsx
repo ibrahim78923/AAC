@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Dialog, IconButton, DialogTitle } from '@mui/material';
+import { Dialog, IconButton, DialogTitle, useTheme } from '@mui/material';
 import { ArticleModalIcon, CloseDrawerIcon } from '@/assets/icons';
 import CannedResponseModalIcon from '@/assets/icons/modules/airServices/Tickets/canned-response-modal-icon';
 import { Box } from '@mui/material';
@@ -7,6 +7,8 @@ import ConversationCannedResponse from '../ConversationCannedResponse';
 import ConversationAddArticle from '../ConversationAddArticle';
 
 function ConversationArticleSelect() {
+  const theme = useTheme();
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedComponent, setSelectedComponent] = useState({
     component: null,
@@ -69,7 +71,7 @@ function ConversationArticleSelect() {
         >
           <CloseDrawerIcon />
         </IconButton>
-        <DialogTitle fontSize={'24px'} color={'#374151'}>
+        <DialogTitle color={theme.palette.slateBlue.main}>
           {selectedComponent.title}
         </DialogTitle>
 

@@ -19,7 +19,7 @@ import { AttachFileCard } from '@/components/AttachFileCard';
 const ConversationNoteView = () => {
   const theme: any = useTheme();
   return (
-    <Box sx={{ mt: '50px' }}>
+    <Box marginTop={'50px'}>
       {conversationData?.map((e: any) => (
         <Grid
           container
@@ -92,7 +92,7 @@ const ConversationNoteView = () => {
                   }}
                   className="iconContainer"
                 >
-                  <DeleteIcon sx={{ color: '#6B7280' }} />
+                  <DeleteIcon color={theme?.palette?.custom.main} />
                 </Box>
               </Box>
             </Grid>
@@ -135,7 +135,7 @@ const ConversationNoteView = () => {
                 }}
                 className="iconContainer"
               >
-                <DeleteIcon sx={{ color: '#6B7280' }} />
+                <DeleteIcon color={theme?.palette?.custom.main} />
               </Box>
             </Box>
           </Grid>

@@ -4,8 +4,11 @@ import Search from '@/components/Search';
 import { PlusSharedIconColor } from '@/assets/icons';
 import { v4 as uuidv4 } from 'uuid';
 import { conversationAddArticleData } from '../Conversation.data';
+import { useTheme } from '@emotion/react';
 
 const ConversationAddArticle = ({ onAddContractButtonClick }) => {
+  const theme = useTheme();
+
   const [searchTerm, setSearchTerm] = useState('');
 
   const filteredContent = conversationAddArticleData?.filter((item) =>
@@ -18,47 +21,36 @@ const ConversationAddArticle = ({ onAddContractButtonClick }) => {
 
   return (
     <Grid padding={'20px'}>
-      <Box width={{ md: '528px', xs: '280px' }}>
+      <Box width={{ md: '528px', xs: '280px' }} marginBottom={'15px'}>
         <Search
           value={searchTerm}
           onChange={(event) => setSearchTerm(event.target.value)}
           label="Search By Name"
           fullWidth
           size="small"
-          sx={{ marginBottom: '15px' }}
         />
       </Box>
 
       <Box>
-        <Box display={'flex'} alignItems="center">
-          <PlusSharedIconColor
-            color={'#38CaB5'}
-            style={{ cursor: 'pointer' }}
-          />
-          <Typography sx={{ ml: 1 }}>Add New Article</Typography>
+        <Box display={'flex'} alignItems="center" cursor={'pointer'}>
+          <PlusSharedIconColor color={theme?.palette?.primary?.main} />
+          <Typography marginLeft={1}>Add New Article</Typography>
         </Box>
 
         <br />
-        {filteredContent.map((item) => (
+        {filteredContent?.map((item) => (
           <Box
             marginTop={2}
             key={uuidv4()}
-            border={`1px solid #E5E7EB`}
+            border={`1px solid ${theme?.palette?.grey[700]}`}
             borderRadius={2}
             padding={1}
           >
             <Typography>{item.title}</Typography>
-            <Box
-              display="flex"
-              alignItems="center"
-              marginTop={1}
-              fontSize={'10px'}
-            >
-              <Typography>{item.link}</Typography>
-              <Button
-                sx={{ ml: 2 }}
-                onClick={() => handleAddContractClick(item.title)}
-              >
+            <Box display="flex" alignItems="center" marginTop={1}>
+              <Typography marginRight={'8px'}>{item.link}</Typography>
+
+              <Button onClick={() => handleAddContractClick(item.title)}>
                 ADD Content
               </Button>
             </Box>

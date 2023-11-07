@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { Typography, Button, Box, Grid } from '@mui/material';
+import { Typography, Button, Box, Grid, useTheme } from '@mui/material';
 import Search from '@/components/Search';
 import { PlusSharedIconColor } from '@/assets/icons';
 import { v4 as uuidv4 } from 'uuid';
 import { conversationAddArticleData } from '../Conversation.data';
 
 const ConversationCannedResponse = ({ onAddButtonClick }) => {
+  const theme = useTheme();
   const [searchTerm, setSearchTerm] = useState('');
 
   const filteredContent = conversationAddArticleData?.filter((item) =>
@@ -18,24 +19,20 @@ const ConversationCannedResponse = ({ onAddButtonClick }) => {
 
   return (
     <Grid padding={'20px'}>
-      <Box width={{ md: '528px', xs: '280px' }}>
+      <Box width={{ md: '528px', xs: '280px' }} marginBottom={'15px'}>
         <Search
           value={searchTerm}
           onChange={(event) => setSearchTerm(event.target.value)}
           label="Search By Name"
           fullWidth
           size="small"
-          sx={{ marginBottom: '15px' }}
         />
       </Box>
 
       <Box>
-        <Box display={'flex'} alignItems="center">
-          <PlusSharedIconColor
-            color={'#38CaB5'}
-            style={{ cursor: 'pointer' }}
-          />
-          <Typography sx={{ ml: 1 }}>Add Canned Response</Typography>
+        <Box display={'flex'} alignItems="center" cursor={'pointer'}>
+          <PlusSharedIconColor color={theme?.palette?.primary?.main} />
+          <Typography marginLeft={1}>Add Canned Response</Typography>
         </Box>
 
         <br />
@@ -43,7 +40,7 @@ const ConversationCannedResponse = ({ onAddButtonClick }) => {
           <Box
             marginTop={2}
             key={uuidv4()}
-            border={`1px solid #E5E7EB`}
+            border={`1px solid ${theme?.palette?.grey[700]}`}
             borderRadius={2}
             padding={1}
           >

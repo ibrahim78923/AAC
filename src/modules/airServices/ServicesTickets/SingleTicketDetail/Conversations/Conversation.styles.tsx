@@ -2,7 +2,7 @@ export const styles = {
   parent(theme: any) {
     return {
       borderRadius: '8px',
-      border: '1px solid #EAECF0',
+      border: `1px solid ${theme?.palette?.custom?.off_white_three}`,
       background: theme?.palette?.common?.white,
       padding: '20px',
       boxShadow: '0px 1px 2px 0px rgba(16, 24, 40, 0.06)',
@@ -56,11 +56,11 @@ export const styles = {
   },
 
   selectDiscuss: (theme: any) => ({
-    background: '#f5f8fb',
+    background: theme?.palette?.common?.white,
     headerBgColor: theme?.palette?.primary?.main,
     headerFontSize: '20px',
-    botBubbleColor: '#38CAB5',
-    botFontColor: '#fff',
-    userBubbleColor: '#fff',
+    botBubbleColor: theme?.palette?.primary?.main,
+    botFontColor: theme?.palette?.common?.white,
+    userBubbleColor: theme?.palette?.common?.white,
   }),
 };

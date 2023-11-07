@@ -69,14 +69,12 @@ export default function ConversationsDetails() {
   };
 
   return (
-    <Box sx={{ mt: '20px' }}>
+    <Box marginTop={'20px'}>
       {renderSelectedComponent()}
       <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}
+        display={'flex'}
+        alignItems={'center'}
+        justifyContent={'space-between'}
       >
         <Typography variant="h4">Conversation</Typography>
         <Button

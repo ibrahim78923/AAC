@@ -11,7 +11,7 @@ import Image from 'next/image';
 const ConversationForwardView = () => {
   const theme: any = useTheme();
   return (
-    <Box sx={{ mt: '50px' }}>
+    <Box marginTop={'20px'}>
       {conversationData?.map((e: any) => (
         <Grid
           container
@@ -73,7 +73,7 @@ const ConversationForwardView = () => {
                 }}
                 className="iconContainer"
               >
-                <DeleteIcon sx={{ color: '#6B7280' }} />
+                <DeleteIcon color={theme?.palette?.custom.main} />
               </Box>
             </Box>
           </Grid>

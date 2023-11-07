@@ -5,8 +5,6 @@ import { Box, Drawer, useTheme } from '@mui/material';
 import { stepsDiscuss } from '../Conversation.data';
 import { styles } from '../Conversation.styles';
 
-export const script = [{ id: 'msg01', message: ' ' }];
-
 const ConversationDiscuss = ({ resetSelectedItem }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
