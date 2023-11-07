@@ -5,7 +5,7 @@ export const styles = {
       border: `1px solid ${theme?.palette?.custom?.off_white_three}`,
       background: theme?.palette?.common?.white,
       padding: '20px',
-      boxShadow: '0px 1px 2px 0px rgba(16, 24, 40, 0.06)',
+      boxShadow: 1,
     };
   },
   leftSideParent: {
