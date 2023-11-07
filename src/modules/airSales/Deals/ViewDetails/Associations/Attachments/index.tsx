@@ -10,9 +10,9 @@ import useAttachments from './useAttachments';
 import { columns } from './Attachments.data';
 import { attachmentData } from '@/mock/modules/airSales/Deals/ViewDetails';
 
-import { styles } from '../Associations.style';
+import { PlusIcon } from '@/assets/icons';
 
-import { PlusSharedIcon } from '@/assets/icons';
+import { styles } from '../Associations.style';
 
 const Attachments = () => {
   const {
@@ -63,7 +63,7 @@ const Attachments = () => {
               sx={{ minWidth: '0px', gap: 0.5 }}
               onClick={() => setOpenDrawer('Add')}
             >
-              <PlusSharedIcon /> Add Attachments
+              <PlusIcon /> Add Attachments
             </Button>
           </Box>
         </Grid>

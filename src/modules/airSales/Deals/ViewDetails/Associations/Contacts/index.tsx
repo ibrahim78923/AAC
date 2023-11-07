@@ -11,7 +11,7 @@ import useContacts from './useContacts';
 import { columns } from './Contacts.data';
 import { TasksTableData } from '@/mock/modules/airSales/Deals/ViewDetails';
 
-import { PlusSharedIcon } from '@/assets/icons';
+import { PlusIcon } from '@/assets/icons';
 
 import { styles } from '../Associations.style';
 
@@ -64,7 +64,7 @@ const Contacts = () => {
               sx={{ minWidth: '0px', gap: 0.5 }}
               onClick={() => setOpenDrawer('Add')}
             >
-              <PlusSharedIcon /> Add Contacts
+              <PlusIcon /> Add Contacts
             </Button>
           </Box>
         </Grid>

@@ -16,7 +16,7 @@ import { TasksTableData } from '@/mock/modules/airSales/Deals/ViewDetails';
 import { callsDetails, callsStatusColor, columns } from './Meetings.data';
 
 import { EmailMeetingImage } from '@/assets/images';
-import { MircosoftTeamsIcon, PlusSharedIcon, ZoomIcon } from '@/assets/icons';
+import { MircosoftTeamsIcon, PlusIcon, ZoomIcon } from '@/assets/icons';
 
 import { styles } from './Meetings.style';
 
@@ -61,7 +61,7 @@ const Meetings = () => {
                   onClick={() => setOpenDrawer('Add')}
                   className="small"
                 >
-                  <PlusSharedIcon />
+                  <PlusIcon />
                   <Typography variant="body2">Create Meetings</Typography>
                 </Button>
               </Box>
@@ -93,7 +93,7 @@ const Meetings = () => {
                 onClick={() => setOpenDrawer('Add')}
                 className="small"
               >
-                <PlusSharedIcon />
+                <PlusIcon />
                 <Typography variant="body2">Create Meetings</Typography>
               </Button>
               <Typography

@@ -22,7 +22,7 @@ import {
 import AddProducts from '../AddProducts';
 import { AlertModals } from '@/components/AlertModals';
 import useInvoices from '../../../useInvoices';
-import { PlusSharedIcon } from '@/assets/icons';
+import { PlusIcon } from '@/assets/icons';
 import { v4 as uuidv4 } from 'uuid';
 
 const ProductsTable = () => {
@@ -46,7 +46,7 @@ const ProductsTable = () => {
         <Button
           variant="contained"
           sx={{ display: 'flex', gap: '10px' }}
-          startIcon={<PlusSharedIcon />}
+          startIcon={<PlusIcon />}
           onClick={() => setIsDrawerOpen(true)}
         >
           Add Products

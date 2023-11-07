@@ -13,7 +13,7 @@ import { columns } from './Products.data';
 
 import { productsData } from '@/mock/modules/airSales/Deals/ViewDetails';
 
-import { PlusSharedIcon } from '@/assets/icons';
+import { PlusIcon } from '@/assets/icons';
 
 import { styles } from '../Associations.style';
 
@@ -66,7 +66,7 @@ const Products = () => {
               sx={{ minWidth: '0px', gap: 0.5 }}
               onClick={() => setOpenDrawer('Add')}
             >
-              <PlusSharedIcon /> Add Products
+              <PlusIcon /> Add Products
             </Button>
           </Box>
         </Grid>
