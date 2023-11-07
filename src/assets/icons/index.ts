@@ -15,6 +15,7 @@ export { default as AddCircleIcon } from './modules/orgAdmin/SubscriptionAndInvo
 export { default as LogoIcon } from './modules/orgAdmin/SubscriptionAndInvoices/logo-icon';
 export { default as PaymentMethodIcon } from './modules/orgAdmin/SubscriptionAndInvoices/payment-method-icon';
 export { default as TickCircleIcon } from './modules/orgAdmin/SubscriptionAndInvoices/tick-circle-icon';
+export { default as CannedResponseModalIcon } from './modules/airServices/Tickets/canned-response-modal-icon';
 export { default as ExampleSharedCase } from './shared/example-shared';
 export { default as EmailIcon } from './shared/email-shared';
 export { default as PhoneIcon } from './shared/phone-shared';

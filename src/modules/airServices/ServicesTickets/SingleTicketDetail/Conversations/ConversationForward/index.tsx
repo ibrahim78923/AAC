@@ -36,7 +36,7 @@ const ConversationForward = ({
                 <item.component
                   {...item.componentProps}
                   size={'small'}
-                  options={item.options}
+                  options={item?.options}
                 >
                   {item?.componentProps?.select
                     ? item?.options?.map((option: any) => (

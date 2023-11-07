@@ -14,10 +14,9 @@ const userConversation = () => {
     null,
   );
   const [selectedItem, setSelectedItem] = useState(
-    menuOptionsAddConversation[0].value,
+    menuOptionsAddConversation[0]?.value,
   );
 
-  // Add state for title
   const [title, setTitle] = useState('');
 
   const addConversationModal: any = useForm({
@@ -30,15 +29,15 @@ const userConversation = () => {
   const handleClickButtonMenu = (
     event: React.MouseEvent<HTMLButtonElement>,
   ) => {
-    setAddConversation(event.currentTarget);
+    setAddConversation(event?.currentTarget);
   };
 
   const handleCloseButtonMenu = (e: any) => {
-    setSelectedItem(e.target.value);
+    setSelectedItem(e?.target?.value);
     setShow(true);
     setAddConversation(null);
 
-    setTitle(e.target.value);
+    setTitle(e?.target?.value);
   };
 
   return {

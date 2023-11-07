@@ -9,8 +9,8 @@ const ConversationCannedResponse = ({ onAddButtonClick }) => {
   const theme = useTheme();
   const [searchTerm, setSearchTerm] = useState('');
 
-  const filteredContent = conversationAddArticleData?.filter((item) =>
-    item.title.toLowerCase().includes(searchTerm.toLowerCase()),
+  const filteredContent = conversationAddArticleData?.filter(
+    (item) => item?.title?.toLowerCase()?.includes(searchTerm?.toLowerCase()),
   );
 
   const handleAddClick = (title) => {
@@ -22,7 +22,7 @@ const ConversationCannedResponse = ({ onAddButtonClick }) => {
       <Box width={{ md: '528px', xs: '280px' }} marginBottom={'15px'}>
         <Search
           value={searchTerm}
-          onChange={(event) => setSearchTerm(event.target.value)}
+          onChange={(event) => setSearchTerm(event?.target?.value)}
           label="Search By Name"
           fullWidth
           size="small"
@@ -36,7 +36,7 @@ const ConversationCannedResponse = ({ onAddButtonClick }) => {
         </Box>
 
         <br />
-        {filteredContent.map((item) => (
+        {filteredContent?.map((item) => (
           <Box
             marginTop={2}
             key={uuidv4()}
@@ -45,7 +45,7 @@ const ConversationCannedResponse = ({ onAddButtonClick }) => {
             padding={1}
           >
             <Typography>{item.title}</Typography>
-            <Button onClick={() => handleAddClick(item.title)}>ADD</Button>
+            <Button onClick={() => handleAddClick(item?.title)}>ADD</Button>
           </Box>
         ))}
       </Box>

@@ -73,7 +73,7 @@ const ConversationForwardView = () => {
                 }}
                 className="iconContainer"
               >
-                <DeleteIcon color={theme?.palette?.custom.main} />
+                <DeleteIcon sx={{ color: `${theme?.palette?.custom.main}` }} />
               </Box>
             </Box>
           </Grid>

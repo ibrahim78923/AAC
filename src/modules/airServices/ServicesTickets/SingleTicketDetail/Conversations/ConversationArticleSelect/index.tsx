@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { Dialog, IconButton, DialogTitle, useTheme } from '@mui/material';
-import { ArticleModalIcon, CloseDrawerIcon } from '@/assets/icons';
-import CannedResponseModalIcon from '@/assets/icons/modules/airServices/Tickets/canned-response-modal-icon';
+import {
+  ArticleModalIcon,
+  CannedResponseModalIcon,
+  CloseDrawerIcon,
+} from '@/assets/icons';
 import { Box } from '@mui/material';
 import ConversationCannedResponse from '../ConversationCannedResponse';
 import ConversationAddArticle from '../ConversationAddArticle';
@@ -44,7 +47,6 @@ function ConversationArticleSelect() {
   };
 
   const handleAddButtonClick = (selectedTitle) => {
-    // console.log('ADD  title:', selectedTitle);
     selectedTitle;
     setIsModalOpen(false);
   };
@@ -65,17 +67,17 @@ function ConversationArticleSelect() {
             position: 'absolute',
             right: 8,
             top: 8,
-            color: (theme) => theme.palette.grey[500],
+            color: (theme) => theme?.palette?.grey[500],
           }}
           onClick={() => setIsModalOpen(false)}
         >
           <CloseDrawerIcon />
         </IconButton>
-        <DialogTitle color={theme.palette.slateBlue.main}>
-          {selectedComponent.title}
+        <DialogTitle color={theme?.palette?.slateBlue?.main}>
+          {selectedComponent?.title}
         </DialogTitle>
 
-        {selectedComponent.component}
+        {selectedComponent?.component}
       </Dialog>
     </div>
   );

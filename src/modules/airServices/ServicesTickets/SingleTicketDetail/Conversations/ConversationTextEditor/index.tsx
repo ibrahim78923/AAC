@@ -32,11 +32,11 @@ const ConversationTextEditor = ({
       <Box
         sx={{
           position: 'relative',
-          border: `1.5px solid #9CA3AF`,
+          border: `1.5px solid ${theme?.palette?.grey?.[900]}`,
           borderRadius: '8px',
           overflow: 'hidden',
           '& .ql-toolbar.ql-snow': {
-            backgroundColor: theme.palette.grey[100],
+            backgroundColor: theme?.palette?.grey[100],
             border: 'none',
           },
           '& .ql-container.ql-snow': {

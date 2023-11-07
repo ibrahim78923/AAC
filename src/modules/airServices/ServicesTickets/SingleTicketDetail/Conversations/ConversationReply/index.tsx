@@ -21,7 +21,7 @@ const ConversationReply = ({
     >
       <FormProvider
         methods={addConversationModel}
-        onSubmit={addConversationModel.handleSubmit(onSubmit)}
+        onSubmit={addConversationModel?.handleSubmit(onSubmit)}
       >
         <Grid container spacing={2}>
           {conversationReplyArray?.map((item: any) => (
@@ -30,17 +30,17 @@ const ConversationReply = ({
               xs={12}
               md={item?.md}
               key={uuidv4()}
-              mb={item.mb ? item.mb : ''}
+              mb={item?.mb ? item?.mb : ''}
             >
               <Grid item xs={12} md={item?.md} key={uuidv4()}>
                 <item.component
                   {...item.componentProps}
                   size={'small'}
-                  options={item.options}
+                  options={item?.options}
                 >
                   {item?.componentProps?.select
                     ? item?.options?.map((option: any) => (
-                        <option key={option?.value} value={option?.value}>
+                        <option key={uuidv4()} value={option?.value}>
                           {option?.label}
                         </option>
                       ))

@@ -11,8 +11,8 @@ const ConversationAddArticle = ({ onAddContractButtonClick }) => {
 
   const [searchTerm, setSearchTerm] = useState('');
 
-  const filteredContent = conversationAddArticleData?.filter((item) =>
-    item.title.toLowerCase().includes(searchTerm.toLowerCase()),
+  const filteredContent = conversationAddArticleData?.filter(
+    (item) => item?.title?.toLowerCase()?.includes(searchTerm?.toLowerCase()),
   );
 
   const handleAddContractClick = (title) => {
@@ -24,7 +24,7 @@ const ConversationAddArticle = ({ onAddContractButtonClick }) => {
       <Box width={{ md: '528px', xs: '280px' }} marginBottom={'15px'}>
         <Search
           value={searchTerm}
-          onChange={(event) => setSearchTerm(event.target.value)}
+          onChange={(event) => setSearchTerm(event?.target?.value)}
           label="Search By Name"
           fullWidth
           size="small"
@@ -48,9 +48,9 @@ const ConversationAddArticle = ({ onAddContractButtonClick }) => {
           >
             <Typography>{item.title}</Typography>
             <Box display="flex" alignItems="center" marginTop={1}>
-              <Typography marginRight={'8px'}>{item.link}</Typography>
+              <Typography marginRight={'8px'}>{item?.link}</Typography>
 
-              <Button onClick={() => handleAddContractClick(item.title)}>
+              <Button onClick={() => handleAddContractClick(item?.title)}>
                 ADD Content
               </Button>
             </Box>

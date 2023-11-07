@@ -32,8 +32,8 @@ export default function ConversationEditor({
           <ConversationTextEditor
             id={name}
             name={name}
-            value={field.value}
-            onChange={field.onChange}
+            value={field?.value}
+            onChange={field?.onChange}
             error={!!error}
             title={selectedTitle}
             {...other}
