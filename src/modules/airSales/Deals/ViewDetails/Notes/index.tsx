@@ -14,7 +14,7 @@ import { isNullOrEmpty } from '@/utils';
 
 import { NotesDataArray } from '@/mock/modules/airSales/Deals/ViewDetails';
 
-import { MessageIcon, PlusSharedIcon } from '@/assets/icons';
+import { MessageIcon, PlusIcon } from '@/assets/icons';
 
 import { styles } from '../ViewDetails.style';
 
@@ -53,7 +53,7 @@ const Notes = () => {
                   className="small"
                   onClick={() => setOpenDrawer('Add')}
                 >
-                  <PlusSharedIcon /> Add Notes
+                  <PlusIcon /> Add Notes
                 </Button>
               </Box>
             )}
@@ -74,7 +74,7 @@ const Notes = () => {
                 There are no notes available{' '}
               </Typography>
               <Button variant="contained" sx={{ height: '35px' }}>
-                <PlusSharedIcon /> Add Notes
+                <PlusIcon /> Add Notes
               </Button>
             </Box>
           )}

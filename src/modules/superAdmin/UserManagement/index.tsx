@@ -14,7 +14,7 @@ import SuperAdminUsers from './Users/Admin';
 
 import { ArrowDropDown } from '@mui/icons-material';
 
-import { FilterSharedIcon, PlusSharedIcon } from '@/assets/icons';
+import { FilterSharedIcon, PlusIcon } from '@/assets/icons';
 
 import useUserManagement from './useUserManagement';
 
@@ -57,7 +57,7 @@ const UserManagement = () => {
               tabVal === 2 ? handleAddRole() : setIsOpenAddUserDrawer(true)
             }
             variant="contained"
-            startIcon={<PlusSharedIcon />}
+            startIcon={<PlusIcon />}
           >
             {tabVal === 2 ? 'Add Role' : 'Add User'}
           </Button>
