@@ -1,10 +1,6 @@
 import AddIconWithBg from '@/assets/icons/shared/add-icon-with-bg-white';
 import { Box, Button, Menu, MenuItem, Typography } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
-import ConversationNote from '../ConversationNote';
-import ConversationReply from '../ConversationReply';
-import ConversationForward from '../ConversationForward';
-import ConversationDiscuss from '../ConversationDiscuss';
 import { menuOptionsAddConversation } from '../Conversation.data';
 import userConversation from '../userConversation';
 import ConversationView from '../ConversationView';
@@ -14,59 +10,12 @@ export default function ConversationsDetails() {
   const {
     isConversation,
     open,
-    show,
-    setShow,
     handleClickButtonMenu,
     addConversation,
     handleCloseButtonMenu,
     setSelectedItem,
-    addConversationModal,
-    selectedItem,
-    onSubmit,
+    renderSelectedComponent,
   } = userConversation();
-
-  const renderSelectedComponent = () => {
-    switch (selectedItem) {
-      case 'Note':
-        return (
-          <ConversationNote
-            selectedItem={selectedItem}
-            show={show}
-            setShow={setShow}
-            addConversationModal={addConversationModal}
-            onSubmit={onSubmit}
-          />
-        );
-      case 'Reply':
-        return (
-          <ConversationReply
-            selectedItem={selectedItem}
-            show={show}
-            setShow={setShow}
-            addConversationModel={addConversationModal}
-            onSubmit={onSubmit}
-          />
-        );
-      case 'Forward':
-        return (
-          <ConversationForward
-            selectedItem={selectedItem}
-            show={show}
-            setShow={setShow}
-            addConversationModel={addConversationModal}
-            onSubmit={onSubmit}
-          />
-        );
-      case 'Discuss':
-        return (
-          <ConversationDiscuss
-            resetSelectedItem={() => setSelectedItem(null)}
-          />
-        );
-      default:
-        return null;
-    }
-  };
 
   return (
     <Box marginTop={'20px'}>

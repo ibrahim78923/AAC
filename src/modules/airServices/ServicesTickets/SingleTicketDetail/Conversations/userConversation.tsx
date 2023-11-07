@@ -6,6 +6,10 @@ import {
 } from './Conversation.data';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import ConversationNote from './ConversationNote';
+import ConversationReply from './ConversationReply';
+import ConversationForward from './ConversationForward';
+import ConversationDiscuss from './ConversationDiscuss';
 
 const userConversation = () => {
   const [isConversation] = useState<boolean>(true);
@@ -23,6 +27,7 @@ const userConversation = () => {
     resolver: yupResolver(conversationModalsValidation),
     defaultValues: conversationModalsDefaultValues,
   });
+
   const onSubmit = (data: any) => data;
   const open = Boolean(addConversation);
 
@@ -40,6 +45,49 @@ const userConversation = () => {
     setTitle(e?.target?.value);
   };
 
+  const renderSelectedComponent = () => {
+    switch (selectedItem) {
+      case 'Note':
+        return (
+          <ConversationNote
+            selectedItem={selectedItem}
+            show={show}
+            setShow={setShow}
+            addConversationModal={addConversationModal}
+            onSubmit={onSubmit}
+          />
+        );
+      case 'Reply':
+        return (
+          <ConversationReply
+            selectedItem={selectedItem}
+            show={show}
+            setShow={setShow}
+            addConversationModel={addConversationModal}
+            onSubmit={onSubmit}
+          />
+        );
+      case 'Forward':
+        return (
+          <ConversationForward
+            selectedItem={selectedItem}
+            show={show}
+            setShow={setShow}
+            addConversationModel={addConversationModal}
+            onSubmit={onSubmit}
+          />
+        );
+      case 'Discuss':
+        return (
+          <ConversationDiscuss
+            resetSelectedItem={() => setSelectedItem(null)}
+          />
+        );
+      default:
+        return null;
+    }
+  };
+
   return {
     isConversation,
     open,
@@ -53,6 +101,7 @@ const userConversation = () => {
     selectedItem,
     onSubmit,
     title,
+    renderSelectedComponent,
   };
 };
 
