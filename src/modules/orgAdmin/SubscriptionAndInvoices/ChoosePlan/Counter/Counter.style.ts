@@ -25,11 +25,11 @@ export const styles = {
 
     '& > input': {
       fontSize: '14px',
-      border: `1.5px solid ${theme.palette.grey[700]}`,
+      border: `1.5px solid ${theme?.palette?.grey[700]}`,
       borderRadius: '8px',
       width: '58px',
       height: '44px',
-      color: theme.palette.grey[900],
+      color: theme?.palette?.grey[900],
       textAlign: 'center',
       '&:focus': {
         outline: '0',

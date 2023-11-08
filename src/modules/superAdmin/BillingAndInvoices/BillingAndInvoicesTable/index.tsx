@@ -1,84 +1,113 @@
-import { useState } from 'react';
-
-import { Grid, Typography, Button, useTheme } from '@mui/material';
+import { Grid, Typography, Button, Box } from '@mui/material';
 
 import Search from '@/components/Search';
 import GenerateInvoice from '../GenerateInvoice';
 import TanstackTable from '@/components/Table/TanstackTable';
 import CustomPagination from '@/components/CustomPagination';
 import ViewBillingDetails from '../ViewBillingDetails';
-import { columns } from './BillingAndInvoices.data';
 import EditForm from '../EditForm';
 import MenuItems from './MenuOptions';
-import useMenuOptions from './MenuOptions/useMenuOptions';
-import Filters from './Filters';
 
-import { BillingAndInvoicesTableData } from '@/mock/modules/superAdmin/BillingAndDetails';
-
-import PlusIcon from '@/assets/icons/shared/plus-shared';
+import useBillingAndInvoices from './useBillingAndInvoices';
+import CommonDrawer from '@/components/CommonDrawer';
+import { FormProvider } from '@/components/ReactHookForm';
+import { styles } from '../Invoices/Invoices.style';
 import { FilterSharedIcon } from '@/assets/icons';
+import { dataArray, defaultValues } from './BillingAndInvoices.data';
+import { v4 as uuidv4 } from 'uuid';
 
 const BillingAndInvoicesTable = () => {
-  const [searchByClientName, setSearchByClientName] = useState('');
-  const [isViewDetailOpen, setIsViewDeailOpen] = useState<boolean>(false);
-  const [isOpenDrawer, setIsOpenDrawer] = useState(false);
-  const [isOpenFilter, setIsOpenFilter] = useState(false);
-  const [isShowGenerateInvoice, setisShowGenerateInvoice] = useState(false);
-  const theme = useTheme();
-  const { isShowViewBillingDetails, setIsShowViewBillingDetails } =
-    useMenuOptions();
+  const {
+    getRowValues,
+    isChecked,
+    searchByClientName,
+    setSearchByClientName,
+    isViewDetailOpen,
+    setIsViewDeailOpen,
+    isOpenDrawer,
+    setIsOpenDrawer,
+    isOpenFilter,
+    setIsOpenFilter,
+    isShowGenerateInvoice,
+    setisShowGenerateInvoice,
+    theme,
+    isShowViewBillingDetails,
+    setIsShowViewBillingDetails,
+    setIsEditModal,
+    isEditModal,
+    assignPlanTableData,
+    isGetRowValues,
+    handleSubmit,
+    onSubmit,
+    methods,
+  } = useBillingAndInvoices(defaultValues);
 
   return (
-    <>
-      <Grid>
+    <Grid sx={styles?.invoicesTableWrapper}>
+      <Grid sx={{ padding: '15px 15px 0 15px' }}>
         <Grid container>
-          <Grid item xs={6} sm={6}>
-            <Typography variant="h4">Billing & Invoices</Typography>
+          <Grid item xs={12} sm={6}>
+            <Typography variant="h4">Plan Assignment</Typography>
           </Grid>
-          <Grid item xs={6} sm={6} sx={{ textAlign: 'end' }}>
+          <Grid item xs={12} sm={6} sx={{ textAlign: 'end' }}>
             <Button
-              onClick={() => setIsOpenDrawer(true)}
-              startIcon={<PlusIcon />}
+              onClick={() => {
+                setIsOpenDrawer(true);
+                setIsEditModal(false);
+              }}
               variant="contained"
-              className="medium"
+              className="small"
             >
               Assign Plan
             </Button>
           </Grid>
         </Grid>
-        <Grid container mt={2}>
-          <Grid item xs={12} xl={10} mt={4}>
+
+        <Grid
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+          }}
+        >
+          <Grid item xs={12} md={6} xl={6} mt={2}>
             <Search
               searchBy={searchByClientName}
               setSearchBy={setSearchByClientName}
-              label="Search By Name"
-              size="medium"
+              label="Search Here"
+              size="small"
             />
           </Grid>
-          <Grid item xs={12} sm={12} xl={2} mt={4} style={{ display: 'flex' }}>
-            <MenuItems
-              isViewDetailOpen={isViewDetailOpen}
-              setIsViewDeailOpen={setIsViewDeailOpen}
-              setIsOpenDrawer={setIsOpenDrawer}
-              setIsShowViewBillingDetails={setIsShowViewBillingDetails}
-              setisShowGenerateInvoice={setisShowGenerateInvoice}
-            />
-            <Button
-              onClick={() => setIsOpenFilter(true)}
-              startIcon={<FilterSharedIcon />}
-              sx={{
-                border: `1px solid ${theme.palette.custom.dark}`,
-                color: theme.palette.custom.main,
-                width: '105px',
-                marginLeft: '20px',
-              }}
-            >
-              Filters
-            </Button>
+          <Grid item xs={12} md={6} xl={6} mt={2}>
+            <Box style={{ display: 'flex', flexWrap: 'wrap' }}>
+              <MenuItems
+                isViewDetailOpen={isViewDetailOpen}
+                setIsViewDeailOpen={setIsViewDeailOpen}
+                setIsOpenDrawer={setIsOpenDrawer}
+                setIsShowViewBillingDetails={setIsShowViewBillingDetails}
+                setisShowGenerateInvoice={setisShowGenerateInvoice}
+                isChecked={isChecked}
+                setIsEditModal={setIsEditModal}
+              />
+              <Button
+                onClick={() => setIsOpenFilter(true)}
+                startIcon={<FilterSharedIcon />}
+                sx={{
+                  border: `1px solid ${theme?.palette?.custom?.dark}`,
+                  color: theme?.palette?.custom?.main,
+                  width: '105px',
+                  marginLeft: '10px',
+                  '@media (max-width:400px)': {
+                    width: '100% !important',
+                    marginTop: '10px',
+                    marginLeft: '0px !important',
+                  },
+                }}
+              >
+                Filters
+              </Button>
+            </Box>
           </Grid>
-          {/* <Grid item xs={12} sm={6}  xl={1}  mt={4}>
-         
-          </Grid> */}
         </Grid>
         {isShowGenerateInvoice && <GenerateInvoice />}
       </Grid>
@@ -86,19 +115,64 @@ const BillingAndInvoicesTable = () => {
         <ViewBillingDetails
           isOpenDrawer={isShowViewBillingDetails}
           onClose={setIsShowViewBillingDetails}
+          isGetRowValues={isGetRowValues}
         />
       )}
-      <Grid item xs={12} sm={12} mt={3}>
-        <TanstackTable columns={columns} data={BillingAndInvoicesTableData} />
+      <Grid item xs={12} sm={12} mt={1}>
+        <TanstackTable
+          columns={getRowValues}
+          data={assignPlanTableData?.data}
+        />
       </Grid>
       <CustomPagination count={1} rowsPerPageOptions={[1, 2]} entriePages={1} />
       {isOpenDrawer && (
-        <EditForm isOpenDrawer={isOpenDrawer} onClose={setIsOpenDrawer} />
+        <EditForm
+          isOpenDrawer={isOpenDrawer}
+          onClose={setIsOpenDrawer}
+          isEditModal={isEditModal}
+          isGetRowValues={isGetRowValues}
+        />
       )}
-      {isOpenFilter && (
-        <Filters isOpenDrawer={isOpenFilter} onClose={setIsOpenFilter} />
-      )}
-    </>
+
+      <CommonDrawer
+        isDrawerOpen={isOpenFilter}
+        onClose={() => setIsOpenFilter(false)}
+        title={'Filter'}
+        okText={'Apply'}
+        isOk
+        cancelText={'Cancel'}
+        footer
+        submitHandler={handleSubmit(onSubmit)}
+      >
+        <Box mt={1}>
+          <FormProvider methods={methods}>
+            <Grid container spacing={4}>
+              {dataArray()?.map((item: any, index: any) => (
+                <Grid
+                  item
+                  xs={12}
+                  md={item?.md}
+                  key={uuidv4()}
+                  sx={{
+                    paddingTop:
+                      index === 0 ? '40px !important' : '17px !important',
+                  }}
+                >
+                  <item.component {...item.componentProps} size={'small'}>
+                    {item?.componentProps?.select &&
+                      item?.options?.map((option: any) => (
+                        <option key={option?.value} value={option?.value}>
+                          {option?.label}
+                        </option>
+                      ))}
+                  </item.component>
+                </Grid>
+              ))}
+            </Grid>
+          </FormProvider>
+        </Box>
+      </CommonDrawer>
+    </Grid>
   );
 };
 

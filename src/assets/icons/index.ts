@@ -177,6 +177,7 @@ export { default as ClearIcon } from './modules/SocialComponents/Calling/clear';
 export { default as PhoneGreenIcon } from './modules/SocialComponents/Calling/phone-green';
 export { default as TimeClockIcon } from './modules/airSales/deals/time-clock';
 export { default as AddPlusPrimaryIcon } from './shared/add-plus-primary';
+export { default as AirPlaneIcon } from './shared/airplane';
 export { default as EditPenBorderedIcon } from './shared/edit-pen-bordered';
 export { default as SendIconLifted } from './modules/SocialComponents/Calling/send';
 export { default as FolderGreyIcon } from './shared/folder-grey';
