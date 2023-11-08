@@ -7,7 +7,7 @@ import Search from '@/components/Search';
 import AddGroupModal from './AddGroupModal';
 import ChatDropdown from '../../ChatDropdown';
 
-import { FilterSharedIcon, PlusSharedIcon } from '@/assets/icons';
+import { FilterSharedIcon, PlusIcon } from '@/assets/icons';
 
 import {
   chatContactsData,
@@ -96,7 +96,7 @@ const ContactList = ({ chatMode }: any) => {
             sx={{ width: '100%', marginTop: '15px', height: '36px' }}
             onClick={() => setIsAddGroupModal(true)}
           >
-            <PlusSharedIcon />
+            <PlusIcon />
             &nbsp;&nbsp;Create New Group
           </Button>
         )}

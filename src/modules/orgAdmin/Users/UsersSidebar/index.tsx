@@ -4,7 +4,7 @@ import { Avatar, Box, Button, Divider, Typography } from '@mui/material';
 
 import FilterUser from '../Drawers/FilterUser';
 
-import { FilterSharedIcon, PlusSharedIcon } from '@/assets/icons';
+import { FilterSharedIcon, PlusIcon } from '@/assets/icons';
 
 import Search from '@/components/Search';
 
@@ -49,7 +49,7 @@ const UsersSidebar = () => {
             setIsOpenAdduserDrawer(true);
           }}
           variant="contained"
-          startIcon={<PlusSharedIcon />}
+          startIcon={<PlusIcon />}
         >
           Add User
         </Button>

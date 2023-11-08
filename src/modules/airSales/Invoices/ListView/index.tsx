@@ -10,14 +10,15 @@ import {
 } from '@mui/material';
 import { ArrowDropDown } from '@mui/icons-material';
 import FilterDrawer from './FilterDrawer';
-import { PlusSharedIcon, RefreshSharedIcon } from '@/assets/icons';
+import { PlusIcon } from '@/assets/icons';
 import Search from '@/components/Search';
 import CustomPagination from '@/components/CustomPagination';
-import TanstackTable from '@/components/Tabel/TanstackTable';
+import TanstackTable from '@/components/Table/TanstackTable';
 import { invoicesTableColumns, invoicesTableData } from '../Invoices.data';
 import useListView from './useListView';
 import { AlertModals } from '@/components/AlertModals';
 import { AIR_SALES } from '@/routesConstants/paths';
+import RefreshIcon from '@/assets/icons/modules/airSales/Tasks/refresh';
 
 const ListView = () => {
   const navigate = useRouter();
@@ -40,7 +41,7 @@ const ListView = () => {
         <Button
           variant="contained"
           sx={{ display: 'flex', gap: '10px', fontWeight: '500' }}
-          startIcon={<PlusSharedIcon />}
+          startIcon={<PlusIcon />}
           onClick={() => navigate?.push(AIR_SALES?.SALES_CREATE_INVOICES)}
         >
           Create Invoice
@@ -86,7 +87,7 @@ const ListView = () => {
                 width: '50px',
               }}
             >
-              <RefreshSharedIcon />
+              <RefreshIcon />
             </Box>
             <FilterDrawer />
           </Stack>

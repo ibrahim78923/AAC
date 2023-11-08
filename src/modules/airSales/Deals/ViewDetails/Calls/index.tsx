@@ -13,7 +13,7 @@ import { isNullOrEmpty } from '@/utils';
 import { TasksTableData } from '@/mock/modules/airSales/Deals/ViewDetails';
 import { callsDetails, callsStatusColor, columns } from './Calls.data';
 
-import { PlusSharedIcon, ViewCallIcon } from '@/assets/icons';
+import { PlusIcon, ViewCallIcon } from '@/assets/icons';
 
 import { styles } from './Calls.style';
 
@@ -57,7 +57,7 @@ const Calls = () => {
                   sx={{ minWidth: '0px', height: '35px', gap: 0.5 }}
                   onClick={() => setOpenDrawer('Add')}
                 >
-                  <PlusSharedIcon /> Add Calls
+                  <PlusIcon /> Add Calls
                 </Button>
               </Box>
             )}
@@ -78,7 +78,7 @@ const Calls = () => {
                 sx={{ height: '35px' }}
                 onClick={() => setOpenDrawer('Add')}
               >
-                <PlusSharedIcon /> Add Calls
+                <PlusIcon /> Add Calls
               </Button>
             </Box>
           </Grid>

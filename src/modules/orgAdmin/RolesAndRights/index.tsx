@@ -10,7 +10,7 @@ import useRolesAndRights from './useRolesAndRights';
 import RoleFilters from './RoleFilters';
 
 import { ArrowDropDown } from '@mui/icons-material';
-import { FilterSharedIcon, PlusSharedIcon } from '@/assets/icons';
+import { FilterSharedIcon, PlusIcon } from '@/assets/icons';
 
 const RolesAndRights = () => {
   const {
@@ -36,7 +36,7 @@ const RolesAndRights = () => {
             navigate.push(ORG_ADMIN?.ADD_ROLE);
           }}
           variant="contained"
-          startIcon={<PlusSharedIcon />}
+          startIcon={<PlusIcon />}
         >
           Add Role
         </Button>
