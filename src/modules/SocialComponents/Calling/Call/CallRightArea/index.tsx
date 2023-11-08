@@ -6,7 +6,7 @@ import { Box, Grid, Typography, useTheme } from '@mui/material';
 
 import UserDetailCard from '../UserDetailCard';
 import DialingPad from './DialingPad';
-import TanstackTable from '@/components/Tabel/TanstackTable';
+import TanstackTable from '@/components/Table/TanstackTable';
 
 import { columns } from './CallRightArea.data';
 

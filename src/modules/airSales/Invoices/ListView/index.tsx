@@ -12,7 +12,7 @@ import FilterDrawer from './FilterDrawer';
 import { PlusIcon, RefreshSharedIcon } from '@/assets/icons';
 import Search from '@/components/Search';
 import CustomPagination from '@/components/CustomPagination';
-import TanstackTable from '@/components/Tabel/TanstackTable';
+import TanstackTable from '@/components/Table/TanstackTable';
 import { invoicesTableColumns, invoicesTableData } from '../Invoices.data';
 import useListView from './useListView';
 import { AlertModals } from '@/components/AlertModals';

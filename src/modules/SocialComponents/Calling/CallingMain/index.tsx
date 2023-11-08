@@ -12,7 +12,6 @@ import {
 } from '@mui/material';
 
 import Search from '@/components/Search';
-import TanstackTable from '@/components/Tabel/TanstackTable';
 
 import { callingData } from '@/mock/modules/SocialComponents/Calling';
 import { columns } from './CallingMain.data';
@@ -21,6 +20,7 @@ import useCallingMain from './useCallingMain';
 
 import { DownIcon, MobileIcon, PlusIcon } from '@/assets/icons';
 import ScheduleCallDrawer from './ScheduleCallDrawer';
+import TanstackTable from '@/components/Table/TanstackTable';
 
 const CallingMain = ({ setAddaNumber }: any) => {
   const {

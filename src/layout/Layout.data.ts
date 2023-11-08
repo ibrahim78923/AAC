@@ -598,4 +598,6 @@ export const zeroPaddingRoutes = [
   '/social-components/calling/call',
   '/org-admin/users',
   '/super-admin/user-management/users-list',
+  '/air-marketer/social-marketing/social-inbox',
+  '/air-marketer/social-marketing',
 ];

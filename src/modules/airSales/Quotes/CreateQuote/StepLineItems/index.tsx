@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Button, Stack, Typography } from '@mui/material';
-import TanstackTable from '@/components/Tabel/TanstackTable';
+import TanstackTable from '@/components/Table/TanstackTable';
 import { lineItemsData } from '@/mock/modules/Quotes';
 import Search from '@/components/Search';
 import { AddCircleSmallIcon } from '@/assets/icons';

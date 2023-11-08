@@ -2,7 +2,7 @@ import Search from '@/components/Search';
 import { Box, Card, Typography } from '@mui/material';
 import { ArrowBack } from '@mui/icons-material';
 import useUserReports from './useUserReports';
-import TanstackTable from '@/components/Tabel/TanstackTable';
+import TanstackTable from '@/components/Table/TanstackTable';
 import CustomPagination from '@/components/CustomPagination';
 import { usersData, usersColumns } from './UserReports.data';
 import Link from 'next/link';

@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material';
-import TanstackTable from '@/components/Tabel/TanstackTable';
+import TanstackTable from '@/components/Table/TanstackTable';
 import { productServicesData } from '@/mock/modules/Quotes';
 import { columns } from './ProductsAndServices.data';
 import { styles } from './ProductsAndServices.style';

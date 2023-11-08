@@ -41,7 +41,7 @@ import {
   folderArr,
 } from '@/mock/modules/SocialComponents/Documents';
 
-import TanstackTable from '@/components/Tabel/TanstackTable';
+import TanstackTable from '@/components/Table/TanstackTable';
 import CustomPagination from '@/components/CustomPagination';
 import { columns, toolTipData } from './Folder.data';
 import useFolder from './useFolder';

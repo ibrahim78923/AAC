@@ -1,5 +1,5 @@
 import { Box, Grid, Button, Menu, MenuItem } from '@mui/material';
-import TanstackTable from '@/components/Tabel/TanstackTable';
+import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
 import { DropdownIcon } from '@/assets/icons';
 import { invoicesData } from '@/mock/modules/SubscriptionAndInvoices';
