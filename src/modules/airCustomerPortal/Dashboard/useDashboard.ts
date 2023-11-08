@@ -1,9 +1,9 @@
-import { CUSTOMER_PORTAL } from '@/constants';
+import { AIR_CUSTOMER_PORTAL } from '@/constants';
 import { useRouter } from 'next/router';
 import { dashboardWidgetsTitles } from './Dashboard.data';
 
 export const useDashboard = () => {
-  const { TICKETS, KNOWLEDGE_BASE } = CUSTOMER_PORTAL;
+  const { TICKETS, KNOWLEDGE_BASE } = AIR_CUSTOMER_PORTAL;
   const { push } = useRouter();
 
   const handleViewMore = (widget: string) => {
