@@ -50,7 +50,7 @@ export const conversationModalsArray = [
     },
     component: ConversationEditor,
     md: 12,
-    mb: '12px',
+    mb: 2,
   },
 ];
 
@@ -92,7 +92,18 @@ export const conversationData = [
     time: '11:02 PM-5 March,  2023',
   },
 ];
-
+export const modules = {
+  toolbar: {
+    container: [
+      ['bold', 'italic', 'underline'],
+      [{ align: 'center' }, { align: 'right' }, { align: 'justify' }],
+      [{ list: 'bullet' }, { list: 'ordered' }],
+      [{ color: [] }],
+      ['image'],
+      ['capitalize'],
+    ],
+  },
+};
 export const conversationAttachmentFileData = [
   {
     name: 'Picture.pdf',

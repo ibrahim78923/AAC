@@ -1,5 +1,4 @@
-import { Box, Grid, Typography, useTheme } from '@mui/material';
-import React from 'react';
+import { Box, Grid, Typography } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {
   EditBlackIcon,
@@ -15,17 +14,18 @@ import {
 import { v4 as uuidv4 } from 'uuid';
 import Image from 'next/image';
 import { AttachFileCard } from '@/components/AttachFileCard';
+import UseConversation from '../useConversation';
 
 const ConversationNoteView = () => {
-  const theme: any = useTheme();
+  const { theme } = UseConversation();
   return (
-    <Box marginTop={'50px'}>
+    <Box marginTop={'3.125rem'}>
       {conversationData?.map((e: any) => (
         <Grid
           container
           justifyContent={'space-between'}
           sx={styles?.parent}
-          mb={'20px'}
+          mb={'1.25rem'}
           key={uuidv4()}
         >
           <Grid item xs={12} md={12} lg={5} paddingTop={`0 !important`}>
@@ -38,7 +38,7 @@ const ConversationNoteView = () => {
                   height={32}
                 />
                 <Box>
-                  <Typography sx={styles?.imageHeading(theme)}>
+                  <Typography variant="body1">
                     <Typography
                       component="span"
                       color={theme?.palette?.primary?.main}
@@ -86,13 +86,13 @@ const ConversationNoteView = () => {
                   sx={{
                     '&:hover': {
                       '.MuiSvgIcon-root': {
-                        color: 'red',
+                        color: `${theme?.palette?.custom.main}`,
                       },
                     },
                   }}
                   className="iconContainer"
                 >
-                  <DeleteIcon color={theme?.palette?.custom.main} />
+                  <DeleteIcon color={theme?.palette?.custom?.main} />
                 </Box>
               </Box>
             </Grid>
@@ -129,7 +129,7 @@ const ConversationNoteView = () => {
                 sx={{
                   '&:hover': {
                     '.MuiSvgIcon-root': {
-                      color: 'red',
+                      color: theme?.palette?.error?.main,
                     },
                   },
                 }}

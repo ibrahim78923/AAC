@@ -1,10 +1,10 @@
 export const styles = {
   parent(theme: any) {
     return {
-      borderRadius: '8px',
-      border: `1px solid ${theme?.palette?.custom?.off_white_three}`,
+      borderRadius: '0.50rem',
+      border: `.1rem solid ${theme?.palette?.custom?.off_white_three}`,
       background: theme?.palette?.common?.white,
-      padding: '20px',
+      padding: '1.25rem',
       boxShadow: 1,
     };
   },
@@ -18,39 +18,27 @@ export const styles = {
   imageBox: {
     display: 'flex',
     alignItems: 'flex-start',
-    gap: '16px',
-    mb: '10px',
+    gap: '1rem',
+    mb: '0.625rem',
   },
   imageHeading(styles: any) {
     return {
       color: styles?.palette?.blue?.dull_blue,
-      fontSize: '14px',
-      fontStyle: 'normal',
-      fontWeight: '500',
-      lineHeight: '20px',
     };
   },
   date: {
     color: '#A0A3BD', // color not in theme
-    fontSize: '12px',
-    fontStyle: 'normal',
-    fontWeight: '400',
-    lineHeight: '18px',
   },
   message(styles: any) {
     return {
       color: styles?.palette?.blue?.dull_blue,
-      fontSize: '14px',
-      fontStyle: 'normal',
-      fontWeight: '400',
-      lineHeight: '18px',
     };
   },
   buttonBox: {
     display: 'flex',
     alignItems: 'center',
-    gap: '5px',
-    columnGap: '16px',
+    gap: '0.313rem',
+    columnGap: '1rem',
     justifyContent: 'flex-end',
     cursor: 'pointer',
   },
@@ -58,7 +46,7 @@ export const styles = {
   selectDiscuss: (theme: any) => ({
     background: theme?.palette?.common?.white,
     headerBgColor: theme?.palette?.primary?.main,
-    headerFontSize: '20px',
+    headerFontSize: '1.125rem',
     botBubbleColor: theme?.palette?.primary?.main,
     botFontColor: theme?.palette?.common?.white,
     userBubbleColor: theme?.palette?.common?.white,

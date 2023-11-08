@@ -33,7 +33,6 @@ export default function ConversationTextField({ name, required, ...other }) {
             FormHelperTextProps={{
               classes: {
                 root: '',
-                color: 'green',
               },
             }}
             {...other}

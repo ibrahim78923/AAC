@@ -1,4 +1,3 @@
-import React from 'react';
 import ConversationForwardView from '../ConversationForwardView';
 import ConversationReplyView from '../ConversationReplyView';
 import ConversationNoteView from '../ConversationNoteView';

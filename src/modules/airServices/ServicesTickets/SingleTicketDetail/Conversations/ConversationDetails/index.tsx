@@ -1,10 +1,10 @@
 import { Box, Button, Menu, MenuItem, Typography } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
 import { menuOptionsAddConversation } from '../Conversation.data';
-import userConversation from '../userConversation';
 import ConversationView from '../ConversationView';
 import NoData from '@/components/NoData';
 import { AddWhiteBgIcon } from '@/assets/icons';
+import UseConversation from '../useConversation';
 
 export default function ConversationsDetails() {
   const {
@@ -15,10 +15,10 @@ export default function ConversationsDetails() {
     handleCloseButtonMenu,
     setSelectedItem,
     renderSelectedComponent,
-  } = userConversation();
+  } = UseConversation();
 
   return (
-    <Box marginTop={'20px'}>
+    <Box marginTop={'1.25rem'}>
       {renderSelectedComponent()}
       <Box
         display={'flex'}
@@ -29,8 +29,8 @@ export default function ConversationsDetails() {
         <Button
           variant="contained"
           startIcon={<AddWhiteBgIcon />}
-          id="basic-button"
-          aria-controls={open ? 'basic-menu' : undefined}
+          id="conversation-button"
+          aria-controls={open ? 'conversation-menu' : undefined}
           aria-haspopup="true"
           aria-expanded={open ? 'true' : undefined}
           onClick={handleClickButtonMenu}
@@ -42,17 +42,17 @@ export default function ConversationsDetails() {
         <Box />
         {isConversation && (
           <Menu
-            id="basic-menu"
+            id="conversation-menu"
             anchorEl={addConversation}
             open={open}
             onClose={handleCloseButtonMenu}
             sx={{
               '& .MuiList-root': {
-                width: '280px',
+                width: 280,
               },
             }}
             MenuListProps={{
-              'aria-labelledby': 'basic-button',
+              'aria-labelledby': 'conversation-button',
             }}
           >
             {menuOptionsAddConversation?.map((item: any) => (
@@ -78,8 +78,8 @@ export default function ConversationsDetails() {
             <Button
               variant="contained"
               startIcon={<AddWhiteBgIcon />}
-              id="basic-button"
-              aria-controls={open ? 'basic-menu' : undefined}
+              id="conversation-button"
+              aria-controls={open ? 'conversation-menu' : undefined}
               aria-haspopup="true"
               aria-expanded={open ? 'true' : undefined}
               onClick={handleClickButtonMenu}

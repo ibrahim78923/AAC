@@ -26,7 +26,7 @@ const ConversationDiscuss = ({ resetSelectedItem }) => {
       PaperProps={{ style: { background: 'transparent' } }}
     >
       <ThemeProvider theme={styles?.selectDiscuss(theme)}>
-        <Box marginTop={'390px'}>
+        <Box marginTop={'24.375rem'}>
           <ChatBot
             steps={stepsDiscuss}
             headerTitle="Air Apple Cart (Discuss)"

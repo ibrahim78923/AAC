@@ -34,7 +34,7 @@ const ConversationReply = ({
             >
               <Grid item xs={12} md={item?.md} key={uuidv4()}>
                 <item.component
-                  {...item.componentProps}
+                  {...item?.componentProps}
                   size={'small'}
                   options={item?.options}
                 >

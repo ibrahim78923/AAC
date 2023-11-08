@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Dialog, IconButton, DialogTitle, useTheme } from '@mui/material';
+import { Dialog, IconButton, DialogTitle } from '@mui/material';
 import {
   ArticleModalIcon,
   CannedResponseModalIcon,
@@ -8,9 +8,10 @@ import {
 import { Box } from '@mui/material';
 import ConversationCannedResponse from '../ConversationCannedResponse';
 import ConversationAddArticle from '../ConversationAddArticle';
+import UseConversation from '../useConversation';
 
 function ConversationArticleSelect() {
-  const theme = useTheme();
+  const { theme } = UseConversation();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedComponent, setSelectedComponent] = useState({
@@ -52,7 +53,7 @@ function ConversationArticleSelect() {
   };
 
   return (
-    <div>
+    <Box>
       <Box onClick={handleCannedResponseClick}>
         <CannedResponseModalIcon />
       </Box>
@@ -79,7 +80,7 @@ function ConversationArticleSelect() {
 
         {selectedComponent?.component}
       </Dialog>
-    </div>
+    </Box>
   );
 }
 

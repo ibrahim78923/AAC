@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import {
+  conversationAddArticleData,
   conversationModalsDefaultValues,
   conversationModalsValidation,
   menuOptionsAddConversation,
@@ -10,8 +11,9 @@ import ConversationNote from './ConversationNote';
 import ConversationReply from './ConversationReply';
 import ConversationForward from './ConversationForward';
 import ConversationDiscuss from './ConversationDiscuss';
+import { useTheme } from '@mui/material';
 
-const userConversation = () => {
+const UseConversation = () => {
   const [isConversation] = useState<boolean>(true);
   const [show, setShow] = useState(false);
   const [addConversation, setAddConversation] = useState<null | HTMLElement>(
@@ -20,8 +22,15 @@ const userConversation = () => {
   const [selectedItem, setSelectedItem] = useState(
     menuOptionsAddConversation[0]?.value,
   );
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const filteredContent = conversationAddArticleData?.filter(
+    (item) => item?.title?.toLowerCase()?.includes(searchTerm?.toLowerCase()),
+  );
 
   const [title, setTitle] = useState('');
+
+  const theme = useTheme();
 
   const addConversationModal: any = useForm({
     resolver: yupResolver(conversationModalsValidation),
@@ -102,7 +111,12 @@ const userConversation = () => {
     onSubmit,
     title,
     renderSelectedComponent,
+    theme,
+    searchTerm,
+    filteredContent,
+    setSearchTerm,
+    conversationAddArticleData,
   };
 };
 
-export default userConversation;
+export default UseConversation;

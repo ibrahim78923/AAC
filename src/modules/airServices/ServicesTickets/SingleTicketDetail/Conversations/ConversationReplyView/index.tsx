@@ -1,6 +1,4 @@
-import { Box, Grid, Typography, useTheme } from '@mui/material';
-import React from 'react';
-
+import { Box, Grid, Typography } from '@mui/material';
 import { ShortcutSharpRightIcon } from '@/assets/icons';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { AvatarConversationImage } from '@/assets/images';
@@ -8,18 +6,19 @@ import { styles } from '../Conversation.styles';
 import { v4 as uuidv4 } from 'uuid';
 import Image from 'next/image';
 import { conversationData } from '../Conversation.data';
+import UseConversation from '../useConversation';
 
 const ConversationReplyView = () => {
-  const theme: any = useTheme();
+  const { theme } = UseConversation();
   return (
     <>
-      <Box marginTop={'50px'}>
+      <Box marginTop={'3.125rem'}>
         {conversationData?.map((e: any) => (
           <Grid
             container
             justifyContent={'space-between'}
             sx={styles?.parent}
-            mb={'20px'}
+            mb={'1.25rem'}
             key={uuidv4()}
           >
             <Grid item xs={12} md={7} lg={5} paddingTop={`0 !important`}>
@@ -32,7 +31,7 @@ const ConversationReplyView = () => {
                     height={32}
                   />
                   <Box>
-                    <Typography sx={styles?.imageHeading(theme)}>
+                    <Typography variant="body1">
                       <Typography
                         component="span"
                         color={theme?.palette?.primary?.main}
@@ -68,7 +67,7 @@ const ConversationReplyView = () => {
                   sx={{
                     '&:hover': {
                       '.MuiSvgIcon-root': {
-                        color: 'red',
+                        color: theme?.palette?.error?.main,
                       },
                     },
                   }}

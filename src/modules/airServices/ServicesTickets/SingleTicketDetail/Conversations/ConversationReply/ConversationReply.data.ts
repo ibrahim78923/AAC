@@ -6,7 +6,7 @@ export const conversationModelsValidation = Yup.object().shape({
   note: Yup.string()?.required('Field is Required'),
   from: Yup.string()?.required('Field is Required'),
   reply: Yup.string()?.required('Field is Required'),
-  description: Yup.string()?.trim().required('Field is Required'),
+  description: Yup.string()?.trim()?.required('Field is Required'),
 });
 
 export const conversationModelsDefaultValues = {
@@ -61,6 +61,6 @@ export const conversationReplyArray = [
     },
     component: ConversationEditor,
     md: 12,
-    mb: '12px',
+    mb: 2,
   },
 ];
