@@ -50,7 +50,7 @@ const FormAddCompany = ({ open, onClose }: any) => {
         </Alert>
         <FormProvider methods={methods}>
           <Grid container spacing={'32px'}>
-            {addCompanyFields.map((item) => (
+            {addCompanyFields?.map((item) => (
               <Grid item xs={12} key={item.id}>
                 <item.component {...item.componentProps} size={'small'} />
               </Grid>

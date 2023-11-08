@@ -40,10 +40,10 @@ const PlanManagement = () => {
     theme,
     handleClick,
     handleClose,
-    onSubmit,
     methodsFaqsFilters,
-    handleSubmit,
+    filterSubmit,
   } = usePlanManagement();
+
   return (
     <Box sx={styles.main}>
       <Box
@@ -133,13 +133,10 @@ const PlanManagement = () => {
         okText="Apply"
         isOk={true}
         footer={true}
-        submitHandler={() => setIsFaqsFilterDrawerOpen(false)}
+        submitHandler={filterSubmit}
       >
         <Box sx={{ marginTop: '1.5rem' }}>
-          <FormProvider
-            methods={methodsFaqsFilters}
-            onSubmit={handleSubmit(onSubmit)}
-          >
+          <FormProvider methods={methodsFaqsFilters}>
             <Grid container spacing={4}>
               {planManagementFilterFiltersDataArray?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
