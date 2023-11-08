@@ -1,5 +1,3 @@
-import { useState } from 'react';
-
 import { Box, Grid, InputAdornment, Typography } from '@mui/material';
 
 import { FormProvider, RHFSelect } from '@/components/ReactHookForm';
@@ -22,9 +20,10 @@ import {
 import { useForm } from 'react-hook-form';
 import { enqueueSnackbar } from 'notistack';
 import { v4 as uuidv4 } from 'uuid';
+import useUserManagement from '../../useUserManagement';
 
 const AddUser = ({ isOpenDrawer, onClose }: any) => {
-  const [userType, setUserType] = useState();
+  const { userType, setUserType } = useUserManagement();
   const [isToggled, setIsToggled] = useToggle(false);
   const { usePostUsersMutation } = usersApi;
   const [postUsers] = usePostUsersMutation();

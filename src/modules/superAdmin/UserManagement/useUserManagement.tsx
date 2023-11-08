@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import { useTheme } from '@mui/material';
 
 import { SUPER_ADMIN } from '@/constants';
+
 import { usersApi } from '@/services/superAdmin/user-management/users';
 
 const useUserManagement = () => {
@@ -12,6 +13,7 @@ const useUserManagement = () => {
   const theme = useTheme();
   const [isOpenAddUserDrawer, setIsOpenAddUserDrawer] = useState(false);
   const [isOpenFilterDrawer, setIsOpenFilterDrawer] = useState(false);
+  const [userType, setUserType] = useState();
   const [selectedValue, setSelectedValue] = useState(null);
   const [tabVal, setTabVal] = useState<number>(0);
   const [search, setSearch] = useState('');
@@ -28,6 +30,7 @@ const useUserManagement = () => {
 
   const handleClose = () => {
     setSelectedValue(null);
+    setIsOpenAddUserDrawer(true);
   };
 
   const handleUsersList = () => {
@@ -50,6 +53,8 @@ const useUserManagement = () => {
     selectedValue,
     tabVal,
     setTabVal,
+    userType,
+    setUserType,
     search,
     setSearch,
     handleClick,

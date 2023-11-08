@@ -1,10 +1,18 @@
 import { Box, Button, Menu, MenuItem } from '@mui/material';
 import useUserManagement from '../useUserManagement';
 import { ArrowDropDown } from '@mui/icons-material';
+import AddUser from '../Users/AddUser';
 
 const ActionButton = () => {
-  const { theme, selectedValue, handleClick, handleClose, handleUsersList } =
-    useUserManagement();
+  const {
+    theme,
+    selectedValue,
+    handleClick,
+    handleClose,
+    handleUsersList,
+    isOpenAddUserDrawer,
+    setIsOpenAddUserDrawer,
+  } = useUserManagement();
 
   return (
     <Box>
@@ -30,6 +38,13 @@ const ActionButton = () => {
         <MenuItem onClick={handleClose}>View</MenuItem>
         <MenuItem onClick={handleClose}>Edit</MenuItem>
       </Menu>
+
+      {isOpenAddUserDrawer && (
+        <AddUser
+          isOpenDrawer={isOpenAddUserDrawer}
+          onClose={() => setIsOpenAddUserDrawer(false)}
+        />
+      )}
     </Box>
   );
 };
