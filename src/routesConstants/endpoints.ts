@@ -1,4 +1,4 @@
-export const ENDPOINTS = {
+export const endpoints = {
   login: 'auth/signin',
   signup: 'auth/signup',
   verify_token: 'auth/verify-token',
