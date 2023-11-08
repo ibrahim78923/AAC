@@ -11,6 +11,11 @@ export const SUPER_ADMIN_DASHBOARD_PERMISSIONS = {
 
 export const SUPER_ADMIN_PLAN_MANAGEMENT_PERMISSIONS = {
   PLAN_LIST: 'plan-list',
+  SEARCH_AND_FILTER: 'plan-search-and-filter',
+  ADD_PLAN: 'add-plan',
+  ACTIVE_INACTIVE_PLAN: 'active-inactive-plans',
+  EDIT_PLAN: 'edit-plan',
+  VIEW_PLAN: 'view-plan',
 };
 
 export const SUPER_ADMIN_SETTINGS_JOB_POSTING_PERMISSIONS = {

@@ -10,7 +10,7 @@ import {
 } from '@/services/superAdmin/plan-mangement';
 
 export const defaultValues = {
-  product: [],
+  product: [''],
   planType: '',
   description: '',
   defaultUsers: '',
