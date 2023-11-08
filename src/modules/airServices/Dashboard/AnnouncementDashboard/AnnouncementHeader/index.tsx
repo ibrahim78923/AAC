@@ -1,9 +1,13 @@
 import { ViewDetailSharedIcon } from '@/assets/icons';
-import { Box, Typography, useTheme, Divider, IconButton } from '@mui/material';
+import { Box, Typography, Divider, IconButton } from '@mui/material';
 import { styles } from './AnnouncementHeader.styles';
+import { useAnnouncementDashboard } from '../AnnouncementDashboardDrawer/useAnnouncementDashboard';
+import AnnouncementDashboardDrawer from '../AnnouncementDashboardDrawer';
 
 export const AnnouncementHeader = () => {
-  const theme = useTheme();
+  const { setIsDrawerOpen, isDrawerOpen, handleIconButtonClick, theme } =
+    useAnnouncementDashboard();
+
   return (
     <>
       <Box
@@ -16,11 +20,15 @@ export const AnnouncementHeader = () => {
         <Typography variant="h6" sx={styles?.announcementText(theme)}>
           Announcements
         </Typography>
-        <IconButton>
+        <IconButton onClick={handleIconButtonClick}>
           <ViewDetailSharedIcon />
         </IconButton>
       </Box>
       <Divider />
+      <AnnouncementDashboardDrawer
+        isDrawerOpen={isDrawerOpen}
+        setIsDrawerOpen={setIsDrawerOpen}
+      />
     </>
   );
 };

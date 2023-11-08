@@ -8,7 +8,7 @@ export const styles: any = {
     borderBottom: isborderbottom
       ? `0.063rem solid ${theme?.palette?.grey?.[700]}`
       : '',
-    marginTop: 1,
+    height: 88,
   }),
 
   recentActivitiesTextBoldWord: (theme: any) => ({
@@ -31,6 +31,5 @@ export const styles: any = {
   recentActivitiesTextDateTimeDetail: (theme: any) => ({
     fontSize: '0.625rem',
     color: theme?.palette?.grey?.[600],
-    marginBottom: 1,
   }),
 };

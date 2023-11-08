@@ -1,12 +1,12 @@
 import { HeaderDashboard } from '@/modules/airServices/Dashboard/HeaderDashboard';
-import { RecentActivitiesDashboardCard } from '@/modules/airServices/Dashboard/RecentActivitiesDashboardCard';
+import { RecentActivitiesDashboardCard } from '@/modules/airServices/Dashboard/RecentActivitiesDashboard/RecentActivitiesDashboardCard';
 import { TicketDashboardCards } from '@/modules/airServices/Dashboard/TicketDashboardCards';
-import { Box, Button, Grid, Typography, useTheme } from '@mui/material';
+import { Box, Button, Grid, Typography } from '@mui/material';
 import { AnnouncementDashboardCard } from '@/modules/airServices/Dashboard/AnnouncementDashboard/AnnouncementDashboardCard';
 import { TopPerformerDashboardCard } from '@/modules/airServices/Dashboard/TopPerformerDashboardCard';
 import { v4 as uuidv4 } from 'uuid';
 import { ticketDashboardCardsData } from './TicketDashboardCards/TicketDashboardCards.data';
-import { recentActivitiesDashboardCardData } from './RecentActivitiesDashboardCard/RecentActivitiesDashboardCard.data';
+import { recentActivitiesDashboardCardData } from './RecentActivitiesDashboard/RecentActivitiesDashboardCard/RecentActivitiesDashboardCard.data';
 import { announcementDashboardCardData } from './AnnouncementDashboard/AnnouncementDashboardCard/AnnouncementDashboardCard.data';
 import { topPerformerDashboardCardData } from './TopPerformerDashboardCard/TopPerformerDashboardCard.data';
 import { BarChart } from './Chart/BarChart/BarChart';
@@ -14,9 +14,20 @@ import { PieChart } from './Chart/PieChart/PieChart';
 import { HeaderBarChart } from './Chart/BarChart/HeaderBarChart';
 import { HeaderPieChart } from './Chart/PieChart/HeaderPieChart';
 import { AnnouncementHeader } from './AnnouncementDashboard/AnnouncementHeader';
+import { RadialBarChart } from './Chart/RadialBarChart';
+import { useDashboard } from './useDashboard';
+import RecentActivitiesDashboardDrawer from './RecentActivitiesDashboard/RecentActivitiesDashboardDrawer';
 
 const Dashboard = () => {
-  const theme = useTheme();
+  const {
+    setIsDrawerOpen,
+    isDrawerOpen,
+    handleIconButtonClick,
+    theme,
+    isbarchart,
+    setIsbarChart,
+  } = useDashboard();
+
   return (
     <Box>
       <HeaderDashboard />
@@ -45,10 +56,10 @@ const Dashboard = () => {
               >
                 <br />
                 <Box marginLeft={2}>
-                  <HeaderBarChart />
+                  <HeaderBarChart setIsbarChart={setIsbarChart} />
                 </Box>
                 <Box marginTop={2} marginBottom={2}>
-                  <BarChart />
+                  {isbarchart ? <BarChart /> : <RadialBarChart />}
                 </Box>
               </Box>
             </Grid>
@@ -64,7 +75,7 @@ const Dashboard = () => {
                 <Box marginLeft={2}>
                   <Typography variant="h6">Recent Activities</Typography>
                 </Box>
-                <Box marginTop={2} key={uuidv4()}>
+                <Box marginTop={2}>
                   {recentActivitiesDashboardCardData?.map((item, index) => (
                     <Box key={uuidv4()}>
                       <RecentActivitiesDashboardCard
@@ -80,12 +91,16 @@ const Dashboard = () => {
                     </Box>
                   ))}
                 </Box>
-                <Box
-                  display={'flex'}
-                  justifyContent={'center'}
-                  marginBottom={1}
-                >
-                  <Button variant="text" fullWidth>
+                <RecentActivitiesDashboardDrawer
+                  isDrawerOpen={isDrawerOpen}
+                  setIsDrawerOpen={setIsDrawerOpen}
+                />
+                <Box display={'flex'} justifyContent={'center'}>
+                  <Button
+                    variant="text"
+                    fullWidth
+                    onClick={handleIconButtonClick}
+                  >
                     View All
                   </Button>
                 </Box>

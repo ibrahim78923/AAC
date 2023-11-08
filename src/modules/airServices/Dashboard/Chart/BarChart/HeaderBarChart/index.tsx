@@ -3,19 +3,16 @@ import { SingleDropdownButton } from '../../../../../../components/SingleDropdow
 import { actionsFunction } from './HeaderBarChart.data';
 import { styles } from './HeaderBarChart.styles';
 
-export const HeaderBarChart = () => {
+export const HeaderBarChart = ({ setIsbarChart }: any) => {
   const theme = useTheme();
-
+  const options = actionsFunction(setIsbarChart);
   return (
     <>
       <Box display={'flex'} justifyContent={'space-between'} marginRight={3}>
         <Typography variant="h6" sx={styles?.headerText(theme)}>
           Tickets based on Status
         </Typography>
-        <SingleDropdownButton
-          dropdownOptions={actionsFunction}
-          dropdownName="Status"
-        />
+        <SingleDropdownButton dropdownOptions={options} dropdownName="Status" />
       </Box>
     </>
   );

@@ -1,13 +1,10 @@
-import { BarChart } from '../BarChart';
-import { RadialBarChart } from '../../RadialBarChart';
-
-export const actionsFunction = [
+export const actionsFunction = (setIsbarChart: any) => [
   {
     title: 'Priority',
-    component: <RadialBarChart />,
+    handleClick: () => setIsbarChart(false),
   },
   {
     title: 'Status',
-    component: <BarChart />,
+    handleClick: () => setIsbarChart(true),
   },
 ];
