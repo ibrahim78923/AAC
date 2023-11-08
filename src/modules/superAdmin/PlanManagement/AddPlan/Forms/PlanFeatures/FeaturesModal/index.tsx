@@ -52,9 +52,9 @@ const FeaturesModal = ({
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={styles.parentBox}>
-          <Box sx={styles.modalBox}>
-            <Box sx={styles.innerBoxOne}>
+        <Box sx={styles?.parentBox}>
+          <Box sx={styles?.modalBox}>
+            <Box sx={styles?.innerBoxOne}>
               <Box sx={{ cursor: 'pointer' }}>
                 <CloseIcon />
               </Box>
@@ -74,7 +74,7 @@ const FeaturesModal = ({
                 <Grid container spacing={4}>
                   {dataArrayFeatures?.map((item: any) => (
                     <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                      <item.component {...item.componentProps} size={'small'}>
+                      <item.component {...item?.componentProps} size={'small'}>
                         {item?.componentProps?.select &&
                           item?.options?.map((option: any) => (
                             <option key={option?.value} value={option?.value}>
@@ -85,7 +85,7 @@ const FeaturesModal = ({
                     </Grid>
                   ))}
                 </Grid>
-                <Box sx={styles.buttonBox} mt={2}>
+                <Box sx={styles?.buttonBox} mt={2}>
                   <Button variant="outlined">No</Button>
                   <Button
                     variant="contained"

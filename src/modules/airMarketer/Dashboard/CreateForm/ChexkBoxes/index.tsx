@@ -1,14 +1,19 @@
 import * as React from 'react';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import Checkbox from '@mui/material/Checkbox';
+
+import {
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Checkbox,
+} from '@mui/material';
+
 import { checkBoxesOptions } from './CheckBoxes.data';
+
 import { v4 as uuidv4 } from 'uuid';
 
-export default function CheckboxList() {
+const CheckboxList = () => {
   const [checked, setChecked] = React.useState([0]);
 
   const handleToggle = (value: number) => () => {
@@ -52,4 +57,5 @@ export default function CheckboxList() {
       })}
     </List>
   );
-}
+};
+export default CheckboxList;

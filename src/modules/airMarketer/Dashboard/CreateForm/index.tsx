@@ -17,7 +17,7 @@ import { useForm } from 'react-hook-form';
 import { enqueueSnackbar } from 'notistack';
 import { v4 as uuidv4 } from 'uuid';
 
-export default function CreateForm({ isOpenDrawer, onClose }: any) {
+const CreateForm = ({ isOpenDrawer, onClose }: any) => {
   const { isShowDashboardTemplate, setIsShowDashboardTemplate } =
     useCreateForm();
   const methods = useForm({
@@ -81,11 +81,11 @@ export default function CreateForm({ isOpenDrawer, onClose }: any) {
                   >
                     {item.componentProps.name === 'accessDashboard' ? (
                       <Box>
-                        <item.component {...item.componentProps} size="small">
+                        <item.component {...item?.componentProps} size="small">
                           {item?.componentProps?.select &&
                             item?.options?.map((option: any) => (
-                              <option value={option.value} key={uuidv4()}>
-                                {option.label}
+                              <option value={option?.value} key={uuidv4()}>
+                                {option?.label}
                               </option>
                             ))}
                         </item.component>
@@ -100,7 +100,7 @@ export default function CreateForm({ isOpenDrawer, onClose }: any) {
                         )}
                       </Box>
                     ) : (
-                      <item.component {...item.componentProps} size="small" />
+                      <item.component {...item?.componentProps} size="small" />
                     )}
                   </Grid>
                 ))}
@@ -111,4 +111,5 @@ export default function CreateForm({ isOpenDrawer, onClose }: any) {
       )}
     </CommonDrawer>
   );
-}
+};
+export default CreateForm;

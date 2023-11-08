@@ -1,4 +1,5 @@
 import { Box, Card, Typography, useTheme } from '@mui/material';
+
 import Table from './Table';
 
 const TotalMarketingEmail = () => {

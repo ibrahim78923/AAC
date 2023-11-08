@@ -20,7 +20,7 @@ import { usePlanFeatures } from './usePlanFeatures';
 import { dataArrayFeatures } from './FeaturesModal/FeaturesModal.data';
 import FeaturesModal from './FeaturesModal';
 
-import { CheckboxItem } from './PlanFeatures.interface';
+import { CheckboxItemI } from './PlanFeatures.interface';
 
 import { isNullOrEmpty } from '@/utils';
 
@@ -114,7 +114,7 @@ const PlanFeatures = ({ methods, handleSubmit }: any) => {
             <Grid container>
               {!isNullOrEmpty(productFeatures?.data?.productfeatures)
                 ? productFeatures?.data?.productfeatures?.map(
-                    (item: CheckboxItem) => (
+                    (item: CheckboxItemI) => (
                       <Grid item xs={12} sm={6} lg={4} xl={3} key={uuidv4()}>
                         <Box sx={{ width: 'max-content', display: 'flex' }}>
                           <FormGroup>

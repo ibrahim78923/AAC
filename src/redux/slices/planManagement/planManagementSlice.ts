@@ -12,16 +12,16 @@ const planManagementSlice = createSlice({
   initialState,
   reducers: {
     addPlanFormData: (state, action) => {
-      state.addPlanForm = action.payload;
+      state.addPlanForm = action?.payload;
     },
     planFeaturesFormData: (state, action) => {
-      state.planFeaturesForm = action.payload;
+      state.planFeaturesForm = action?.payload;
     },
     modulesFormData: (state, action) => {
-      state.modulesForm = action.payload;
+      state.modulesForm = action?.payload;
     },
     setFeatureDetails: (state, action) => {
-      state.featureDetails = action.payload;
+      state.featureDetails = action?.payload;
     },
   },
 });
@@ -31,7 +31,7 @@ export const {
   planFeaturesFormData,
   modulesFormData,
   setFeatureDetails,
-} = planManagementSlice.actions;
+} = planManagementSlice?.actions;
 export const getAddPlanForms = (state: any) =>
-  state.planManagementSlice.addPlanForm;
+  state.planManagementSlice?.addPlanForm;
 export default planManagementSlice;
