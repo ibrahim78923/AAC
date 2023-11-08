@@ -92,7 +92,13 @@ const CreateForm = ({ isOpenDrawer, onClose }: any) => {
 
                         {watchFields[0] === 'Everyone' && (
                           <RHFRadioGroup
-                            options={['View and edit', 'View Only']}
+                            options={[
+                              {
+                                value: 'View and edit',
+                                label: 'View and edit',
+                              },
+                              { value: 'View Only', label: 'View Only' },
+                            ]}
                             name="viewAndEdit"
                             label=""
                             row={false}
