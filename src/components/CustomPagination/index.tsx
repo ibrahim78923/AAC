@@ -14,7 +14,6 @@ const CustomPagination = (props: any) => {
   const {
     count,
     rowsPerPageOptions,
-    entirePages,
     pageLimit,
     currentPage,
     onPageChange,
@@ -45,9 +44,7 @@ const CustomPagination = (props: any) => {
               setPage?.(1);
             }}
             labelRowsPerPage="Show"
-            labelDisplayedRows={() =>
-              `of ${count * pageLimit ?? entirePages} entries`
-            }
+            labelDisplayedRows={() => `of ${count * pageLimit || 1} entries`}
             rowsPerPageOptions={rowsPerPageOptions}
             sx={styles?.tablePaginationStyle(theme)}
           />
