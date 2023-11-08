@@ -1,10 +1,10 @@
-import { v4 as uuidv4 } from 'uuid';
+// import { v4 as uuidv4 } from 'uuid';
 import { AvatarImage } from '@/assets/images';
 import {
   Box,
   Checkbox,
-  Select,
-  MenuItem,
+  // Select,
+  // MenuItem,
   Avatar,
   Typography,
 } from '@mui/material';
@@ -18,58 +18,58 @@ export const TABLE_CONSTANTS = {
   EDIT_TICKET: 'edit-ticket',
 };
 
-const options = [
-  {
-    value: 'user1',
-    label: 'user1',
-  },
-  {
-    value: 'user2',
-    label: 'user2',
-  },
-  {
-    value: 'user3',
-    label: 'user3',
-  },
-];
+// const options = [
+//   {
+//     value: 'user1',
+//     label: 'user1',
+//   },
+//   {
+//     value: 'user2',
+//     label: 'user2',
+//   },
+//   {
+//     value: 'user3',
+//     label: 'user3',
+//   },
+// ];
 
-const StatusOptions = [
-  {
-    value: 'open',
-    label: 'Open',
-  },
-  {
-    value: 'pending',
-    label: 'Pending',
-  },
-  {
-    value: 'resolved',
-    label: 'Resolved',
-  },
-  {
-    value: 'closed',
-    label: 'Closed',
-  },
-];
+// const StatusOptions = [
+//   {
+//     value: 'open',
+//     label: 'Open',
+//   },
+//   {
+//     value: 'pending',
+//     label: 'Pending',
+//   },
+//   {
+//     value: 'resolved',
+//     label: 'Resolved',
+//   },
+//   {
+//     value: 'closed',
+//     label: 'Closed',
+//   },
+// ];
 
-const priorityOptions = [
-  {
-    value: 'high',
-    label: 'High',
-  },
-  {
-    value: 'low',
-    label: 'Low',
-  },
-  {
-    value: 'medium',
-    label: 'Medium',
-  },
-  {
-    value: 'urgent',
-    label: 'Urgent',
-  },
-];
+// const priorityOptions = [
+//   {
+//     value: 'high',
+//     label: 'High',
+//   },
+//   {
+//     value: 'low',
+//     label: 'Low',
+//   },
+//   {
+//     value: 'medium',
+//     label: 'Medium',
+//   },
+//   {
+//     value: 'urgent',
+//     label: 'Urgent',
+//   },
+// ];
 
 export const ticketsActionDropdownFunction = (
   setDeleteModalOpen: any,
@@ -210,7 +210,7 @@ export const ticketsListsColumnFunction: any = (
   ticketList: any,
   selectedTicketList: any,
   setSelectedTicketList: any,
-  handleChange: (value: any, event: any) => void,
+  // handleChange: (value: any, event: any) => void,
 ) => {
   const { palette } = theme;
   return [
@@ -305,14 +305,14 @@ export const ticketsListsColumnFunction: any = (
           <Avatar
             sx={{ bgcolor: palette?.blue?.main }}
             style={{ width: 24, height: 24 }}
-            src={info.getValue()?.profileImg?.src}
+            src={info?.getValue()?.profileImg?.src}
           >
             <Typography component="span" fontSize={10} fontWeight={500}>
-              {info.getValue()?.name?.split(' ')?.[0][0]}
-              {info.getValue()?.name?.split(' ')?.[1][0]}
+              {info?.getValue()?.name?.split(' ')?.[0][0]}
+              {info?.getValue()?.name?.split(' ')?.[1][0]}
             </Typography>
           </Avatar>
-          {info.getValue()?.name}
+          {info?.getValue()?.name}
         </Box>
       ),
     },
@@ -321,30 +321,31 @@ export const ticketsListsColumnFunction: any = (
       id: 'assignedTo',
       isSortable: true,
       header: 'Assigned To',
-      cell: (info: any) => (
-        <Select
-          name="assignedTo"
-          sx={{
-            minWidth: 80,
-            '&.Mui-focused, .MuiOutlinedInput-notchedOutline': {
-              border: 'none',
-            },
-            '.MuiSvgIcon-root': {
-              color: palette?.custom?.off_white_three,
-            },
-          }}
-          defaultValue="none"
-          value={info?.getValue()}
-          onChange={(e) => handleChange(info?.row?._valuesCache, e?.target)}
-          inputProps={{ 'aria-label': 'Without label' }}
-        >
-          {options?.map(({ value, label }: { value: any; label: string }) => (
-            <MenuItem key={uuidv4()} value={value}>
-              {label}
-            </MenuItem>
-          ))}
-        </Select>
-      ),
+      // cell: (info: any) => (
+      //   <Select
+      //     name="assignedTo"
+      //     sx={{
+      //       minWidth: 80,
+      //       '&.Mui-focused, .MuiOutlinedInput-notchedOutline': {
+      //         border: 'none',
+      //       },
+      //       '.MuiSvgIcon-root': {
+      //         color: palette?.custom?.off_white_three,
+      //       },
+      //     }}
+      //     defaultValue="none"
+      //     value={info?.getValue()}
+      //     onChange={(e) => handleChange(info?.row?._valuesCache, e?.target)}
+      //     inputProps={{ 'aria-label': 'Without label' }}
+      //   >
+      //     {options?.map(({ value, label }: { value: any; label: string }) => (
+      //       <MenuItem key={uuidv4()} value={value}>
+      //         {label}
+      //       </MenuItem>
+      //     ))}
+      //   </Select>
+      // ),
+      cell: (info: any) => info?.getValue(),
     },
     {
       accessorFn: (row: any) => row?.state,
@@ -358,64 +359,66 @@ export const ticketsListsColumnFunction: any = (
       id: 'status',
       isSortable: true,
       header: 'Status',
-      cell: (info: any) => (
-        <Select
-          name="status"
-          sx={{
-            minWidth: 80,
-            '&.Mui-focused, .MuiOutlinedInput-notchedOutline': {
-              border: 'none',
-            },
-            '.MuiSvgIcon-root': {
-              color: palette?.custom?.off_white_three,
-            },
-          }}
-          defaultValue="none"
-          value={info?.getValue()}
-          onChange={(e) => handleChange(info?.row?._valuesCache, e?.target)}
-          inputProps={{ 'aria-label': 'Without label' }}
-        >
-          {StatusOptions?.map(
-            ({ value, label }: { value: any; label: string }) => (
-              <MenuItem key={uuidv4()} value={value}>
-                {label}
-              </MenuItem>
-            ),
-          )}
-        </Select>
-      ),
+      // cell: (info: any) => (
+      //   <Select
+      //     name="status"
+      //     sx={{
+      //       minWidth: 80,
+      //       '&.Mui-focused, .MuiOutlinedInput-notchedOutline': {
+      //         border: 'none',
+      //       },
+      //       '.MuiSvgIcon-root': {
+      //         color: palette?.custom?.off_white_three,
+      //       },
+      //     }}
+      //     defaultValue="none"
+      //     value={info?.getValue()}
+      //     onChange={(e) => handleChange(info?.row?._valuesCache, e?.target)}
+      //     inputProps={{ 'aria-label': 'Without label' }}
+      //   >
+      //     {StatusOptions?.map(
+      //       ({ value, label }: { value: any; label: string }) => (
+      //         <MenuItem key={uuidv4()} value={value}>
+      //           {label}
+      //         </MenuItem>
+      //       ),
+      //     )}
+      //   </Select>
+      // ),
+      cell: (info: any) => info?.getValue(),
     },
     {
       accessorFn: (row: any) => row?.priority,
       id: 'priority',
       isSortable: true,
       header: 'Priority',
-      cell: (info: any) => (
-        <Select
-          name="priority"
-          sx={{
-            minWidth: 80,
-            '&.Mui-focused, .MuiOutlinedInput-notchedOutline': {
-              border: 'none',
-            },
-            '.MuiSvgIcon-root': {
-              color: palette?.custom?.off_white_three,
-            },
-          }}
-          defaultValue="none"
-          value={info?.getValue()}
-          onChange={(e) => handleChange(info?.row?._valuesCache, e?.target)}
-          inputProps={{ 'aria-label': 'Without label' }}
-        >
-          {priorityOptions?.map(
-            ({ value, label }: { value: any; label: string }) => (
-              <MenuItem key={uuidv4()} value={value}>
-                {label}
-              </MenuItem>
-            ),
-          )}
-        </Select>
-      ),
+      // cell: (info: any) => (
+      //   <Select
+      //     name="priority"
+      //     sx={{
+      //       minWidth: 80,
+      //       '&.Mui-focused, .MuiOutlinedInput-notchedOutline': {
+      //         border: 'none',
+      //       },
+      //       '.MuiSvgIcon-root': {
+      //         color: palette?.custom?.off_white_three,
+      //       },
+      //     }}
+      //     defaultValue="none"
+      //     value={info?.getValue()}
+      //     onChange={(e) => handleChange(info?.row?._valuesCache, e?.target)}
+      //     inputProps={{ 'aria-label': 'Without label' }}
+      //   >
+      //     {priorityOptions?.map(
+      //       ({ value, label }: { value: any; label: string }) => (
+      //         <MenuItem key={uuidv4()} value={value}>
+      //           {label}
+      //         </MenuItem>
+      //       ),
+      //     )}
+      //   </Select>
+      // ),
+      cell: (info: any) => info?.getValue(),
     },
     {
       accessorFn: (row: any) => row?.department,

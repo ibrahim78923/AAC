@@ -11,11 +11,26 @@ import { useTheme } from '@mui/material';
 import { TicketsFilter } from '../TicketsFilter';
 import CreateTicket from '../CreateTicket';
 import { enqueueSnackbar } from 'notistack';
+import { useGetTicketsQuery } from '@/services/airServices/tickets';
 
 export const useTicketsLists = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [ticketList, setTicketList] = useState([]);
-  const [selectedTicketList, setSelectedTicketList] = useState([]);
+  const [selectedTicketList, setSelectedTicketList] = useState();
+
+  const [search, setSearch] = useState<any>(undefined);
+  const [columnsName, setColumnsName] = useState(['status', 'subject']);
+
+  const getTicketsParameter = {
+    queryParams: {
+      page: 1,
+      limit: 10,
+      search,
+      columnsName,
+    },
+  };
+
+  const { data } = useGetTicketsQuery(getTicketsParameter);
 
   useEffect(() => {
     setTicketList(ticketsListsData);
@@ -162,5 +177,10 @@ export const useTicketsLists = () => {
     deleteModalOpen,
     setDeleteModalOpen,
     deleteTicket,
+    data,
+    columnsName,
+    setColumnsName,
+    search,
+    setSearch,
   };
 };

@@ -18,14 +18,14 @@ export const ticketsAPI = baseAPI?.injectEndpoints({
       providesTags: [TAG],
     }),
     postTickets: builder?.mutation({
-      query: ({ id, body }: any) => ({
-        url: `/ticket/${id}`,
+      query: ({ body }: any) => ({
+        url: `/ticket`,
         method: 'POST',
         body: body,
       }),
       invalidatesTags: [TAG],
     }),
-    updateTickets: builder?.mutation({
+    putTickets: builder?.mutation({
       query: ({ id, body }: any) => ({
         url: `/ticket/${id}`,
         method: 'PUT',
@@ -44,9 +44,9 @@ export const ticketsAPI = baseAPI?.injectEndpoints({
 });
 
 export const {
-  useUpdateTicketsMutation,
   usePostTicketsMutation,
   useGetTicketsQuery,
   useDeleteTicketsMutation,
   useGetTicketsByIdQuery,
+  usePutTicketsMutation,
 } = ticketsAPI;
