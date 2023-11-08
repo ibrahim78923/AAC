@@ -36,7 +36,7 @@ const useUserManagement = () => {
   };
 
   const handleUserSwitchChange = (e: any, id: any) => {
-    queryParams.status = e.target.checked;
+    queryParams.status = e?.target?.checked;
     updateUsers({ id, ...queryParams });
   };
 
