@@ -44,8 +44,7 @@ const RecipeReviewCard = (props: any) => {
           <CardHeader
             avatar={
               <Avatar src={item?.avatar} sx={{ width: '30px', height: '30px' }}>
-                {' '}
-                R{' '}
+                R
               </Avatar>
             }
             title={

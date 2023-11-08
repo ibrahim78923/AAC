@@ -26,9 +26,9 @@ export const profileDefaultValues = {
 
 export const profileFields = [
   {
-    title: 'First Name',
     componentProps: {
       name: 'firstName',
+      label: 'First Name',
       placeholder: 'Enter First Name',
       fullWidth: true,
     },
@@ -37,9 +37,9 @@ export const profileFields = [
   },
 
   {
-    title: 'Middle Name',
     componentProps: {
       name: 'middleName',
+      label: 'Middle Name',
       placeholder: 'Enter Middle Name',
       fullWidth: true,
     },
@@ -47,9 +47,9 @@ export const profileFields = [
     md: 6,
   },
   {
-    title: 'Last Name',
     componentProps: {
       name: 'lastName',
+      label: 'Last Name',
       placeholder: 'Enter Last Name',
       fullWidth: true,
     },
@@ -57,19 +57,19 @@ export const profileFields = [
     md: 6,
   },
   {
-    title: 'Phone Number',
     componentProps: {
       name: 'phoneNo',
-      label: 'Enter Phone',
+      label: 'Phone Number',
+      placeholder: 'Enter Phone',
       fullWidth: true,
     },
     component: RHFTextField,
     md: 6,
   },
   {
-    title: 'Email',
     componentProps: {
       name: 'email',
+      label: 'Email',
       placeholder: 'Enter Email',
       fullWidth: true,
     },
@@ -77,9 +77,9 @@ export const profileFields = [
     md: 6,
   },
   {
-    title: 'Job Title',
     componentProps: {
       name: 'jobTitle',
+      label: 'Job Title',
       placeholder: 'Enter Job Title',
       fullWidth: true,
     },
@@ -88,9 +88,9 @@ export const profileFields = [
   },
 
   {
-    title: 'Post Code',
     componentProps: {
       name: 'postCode',
+      label: 'Post Code',
       placeholder: 'Enter Post Code',
       fullWidth: true,
     },
@@ -99,9 +99,9 @@ export const profileFields = [
   },
 
   {
-    title: 'Address',
     componentProps: {
       name: 'address',
+      label: 'Address',
       placeholder: 'Enter Address',
       fullWidth: true,
     },
@@ -109,9 +109,9 @@ export const profileFields = [
     md: 6,
   },
   {
-    title: 'Flat/Unit',
     componentProps: {
       name: 'flat',
+      label: 'Flat/Unit',
       placeholder: 'Enter Flat/Unit',
       fullWidth: true,
     },
@@ -120,9 +120,9 @@ export const profileFields = [
     md: 6,
   },
   {
-    title: 'Building Name',
     componentProps: {
       name: 'buildingName',
+      label: 'Building Name',
       placeholder: 'Enter Building Name',
       fullWidth: true,
     },
@@ -131,9 +131,9 @@ export const profileFields = [
     md: 6,
   },
   {
-    title: 'Building Number',
     componentProps: {
       name: 'buildingNumber',
+      label: 'Building Number',
       placeholder: 'Enter Building Number',
       fullWidth: true,
     },
@@ -142,9 +142,9 @@ export const profileFields = [
     md: 6,
   },
   {
-    title: 'Street Name',
     componentProps: {
       name: 'streetName',
+      label: 'Street Name',
       placeholder: 'Enter Street Name',
       fullWidth: true,
     },
@@ -153,9 +153,9 @@ export const profileFields = [
     md: 6,
   },
   {
-    title: 'Town/CIty',
     componentProps: {
       name: 'city',
+      label: 'Town/CIty',
       placeholder: 'Enter Town/City',
       fullWidth: true,
     },
@@ -164,9 +164,9 @@ export const profileFields = [
     md: 6,
   },
   {
-    title: 'Country',
     componentProps: {
       name: 'country',
+      label: 'Country',
       fullWidth: true,
       select: true,
     },
@@ -192,9 +192,9 @@ export const profileFields = [
   },
 
   {
-    title: 'Facebook URL',
     componentProps: {
       name: 'fbUrl',
+      label: 'Facebook URL',
       placeholder: 'Enter FaceBook URL',
       fullWidth: true,
     },
@@ -203,9 +203,9 @@ export const profileFields = [
   },
 
   {
-    title: 'Twitter URL',
     componentProps: {
       name: 'twitterUrl',
+      label: 'Twitter URL',
       placeholder: 'Enter Twitter Url',
       fullWidth: true,
     },

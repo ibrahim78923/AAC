@@ -40,22 +40,11 @@ const UserDetailsProfile = () => {
         {profileFields?.map((item: any) => {
           return (
             <Grid item xs={12} md={item?.md} key={uuidv4()}>
-              {isToggled && item?.toShow?.includes('address') && (
-                <Typography variant="body2" fontWeight={500}>
-                  {item?.title}
-                </Typography>
-              )}
-              {!item?.toShow?.includes('address') && (
-                <Typography variant="body2" fontWeight={500}>
-                  {item?.title}
-                </Typography>
-              )}
               {item?.componentProps?.heading && (
                 <Typography variant="h5">
                   {item?.componentProps?.heading}
                 </Typography>
               )}
-
               {/* for address fileds */}
               {item?.componentProps?.name === 'address' && (
                 <Box
@@ -68,7 +57,7 @@ const UserDetailsProfile = () => {
                   <InputAdornment
                     sx={{
                       position: 'absolute',
-                      top: 20,
+                      top: 45,
                       right: 15,
                       zIndex: 9999,
                     }}
