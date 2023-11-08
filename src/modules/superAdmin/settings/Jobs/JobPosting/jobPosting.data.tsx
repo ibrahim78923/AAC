@@ -5,7 +5,9 @@ import {
   RHFTextField,
 } from '@/components/ReactHookForm';
 import { Checkbox } from '@mui/material';
+import dayjs from 'dayjs';
 import * as Yup from 'yup';
+import useJobPosting from './useJobPosting';
 export const jobPostingValidationSchema = Yup.object().shape({
   jobTitle: Yup.string().trim().required('Field is Required'),
   JobType: Yup.string().trim().required('Field is Required'),
@@ -124,83 +126,98 @@ export const jobPostingFiltersDefaultValues = {
   status: '',
 };
 
-export const jobPostingFiltersFields = [
-  {
-    componentProps: {
-      name: 'jobCategory',
-      label: 'Category',
-      select: true,
+export const jobPostingFiltersFields = () => {
+  const { data } = useJobPosting();
+  const createdByOptions = data?.data?.jobs?.reduce(
+    (uniqueOptions: any, option: any) => {
+      const createdById = option?.createdBy?._id;
+      if (
+        createdById &&
+        !uniqueOptions.some((item: any) => item.value === createdById)
+      ) {
+        uniqueOptions.push({
+          value: createdById,
+          label: option?.createdBy?.name,
+        });
+      }
+      return uniqueOptions;
     },
-    options: [
-      { value: 'SALES', label: 'Sales' },
-      { value: 'MARKETING', label: 'Marketing' },
-      { value: 'SERVICES', label: 'Service' },
-      { value: 'OPERATIONS', label: 'Operations' },
-      { value: 'LOYALTY_PROGRAM', label: 'Loyalty Program' },
-    ],
-    component: RHFSelect,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'createdById',
-      label: 'Created By',
-      select: true,
+    [],
+  );
+  return [
+    {
+      componentProps: {
+        name: 'jobCategory',
+        label: 'Category',
+        select: true,
+      },
+      options: [
+        { value: 'SALES', label: 'Sales' },
+        { value: 'MARKETING', label: 'Marketing' },
+        { value: 'SERVICES', label: 'Service' },
+        { value: 'OPERATIONS', label: 'Operations' },
+        { value: 'LOYALTY_PROGRAM', label: 'Loyalty Program' },
+      ],
+      component: RHFSelect,
+      md: 12,
     },
-    options: [
-      { value: 'John Doe', label: 'John Doe' },
-      { value: 'William', label: 'William' },
-      { value: 'Andrew', label: 'Andrew' },
-    ],
-    component: RHFSelect,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'createdAt',
-      label: 'Created Date',
-      fullWidth: true,
+    {
+      componentProps: {
+        name: 'createdBy',
+        label: 'Created By',
+        select: true,
+      },
+      options: createdByOptions,
+      component: RHFSelect,
+      md: 12,
     },
-    component: RHFDatePicker,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'status',
-      label: 'Status',
-      select: true,
+    {
+      componentProps: {
+        name: 'createdAt',
+        label: 'Created Date',
+        fullWidth: true,
+      },
+      component: RHFDatePicker,
+      md: 12,
     },
-    options: [
-      { value: 'Open', label: 'Open' },
-      { value: 'Close', label: 'Close' },
-    ],
-    component: RHFSelect,
-    md: 12,
-  },
-];
+    {
+      componentProps: {
+        name: 'status',
+        label: 'Status',
+        select: true,
+      },
+      options: [
+        { value: 'Open', label: 'Open' },
+        { value: 'Close', label: 'Close' },
+      ],
+      component: RHFSelect,
+      md: 12,
+    },
+  ];
+};
 
 export const columns: any = [
   {
-    accessorFn: (row: any) => row.id,
+    accessorFn: (row: any) => row?.id,
     id: 'id',
-    cell: (info: any) => <Checkbox color="primary" name={info.getValue()} />,
+    cell: (info: any) => <Checkbox color="primary" name={info?.getValue()} />,
     header: <Checkbox color="primary" name="Id" />,
     isSortable: false,
   },
   {
-    accessorFn: (row: any) => row.title,
+    accessorFn: (row: any) => row?.title,
     id: 'title',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
     header: 'Job Title',
     isSortable: false,
   },
   {
-    accessorFn: (row: any) => row.description,
+    accessorFn: (row: any) => row?.description,
     id: 'description',
     isSortable: true,
     header: 'Short Discription',
     cell: (info: any) => {
-      const response = info.getValue().replace(/<[^>]*>/g, '');
+      const response = info?.getValue().replace(/<[^>]*>/g, '');
       return <>{response}</>;
     },
   },
@@ -211,44 +228,44 @@ export const columns: any = [
     header: 'Category',
     cell: (info: any) => {
       const category =
-        info.getValue() === 'SALES'
+        info?.getValue() === 'SALES'
           ? 'Sales'
-          : info.getValue() === 'MARKETING'
+          : info?.getValue() === 'MARKETING'
           ? 'Marketing'
-          : info.getValue() === 'SERVICES'
+          : info?.getValue() === 'SERVICES'
           ? 'Services'
-          : info.getValue() === 'OPERATIONS'
+          : info?.getValue() === 'OPERATIONS'
           ? 'Operations'
           : 'Loyalty Program';
       return <>{category}</>;
     },
   },
   {
-    accessorFn: (row: any) => row.numberOfVacancy,
+    accessorFn: (row: any) => row?.numberOfVacancy,
     id: 'numberOfVacancy',
     isSortable: true,
     header: 'No of Vacency',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.createdBy,
+    accessorFn: (row: any) => row?.createdBy,
     id: 'createdBy',
     isSortable: true,
     header: 'Created By',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue().name,
   },
   {
-    accessorFn: (row: any) => row.createdDate,
-    id: 'createdDate',
+    accessorFn: (row: any) => row?.createdAt,
+    id: 'createdAt',
     isSortable: true,
     header: 'Created date',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => dayjs(info?.getValue()).format('MM/DD/YYYY'),
   },
   {
-    accessorFn: (row: any) => row.status,
+    accessorFn: (row: any) => row?.status,
     id: 'status',
     isSortable: true,
     header: 'Status',
-    cell: (info: any) => (info.getValue() === 'OPEN' ? 'Open' : 'Close'),
+    cell: (info: any) => (info?.getValue() === 'OPEN' ? 'Open' : 'Close'),
   },
 ];

@@ -2,14 +2,17 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 // import { yupResolver } from '@hookform/resolvers/yup';
 import { jobPostingFiltersDefaultValues } from './jobPosting.data';
+import { useGetJobsQuery } from '@/services/superAdmin/settings/jobs';
 
 const useJobPosting = () => {
-  const [rowsPerPage, setRowsPerPage] = useState(2);
-  const defaultParams = { page: 1, limit: rowsPerPage };
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const defaultParams = { page: 1, limit: 5 };
   const [jobsParams, setJobsParams] = useState(defaultParams);
   const [searchValue, setSearchValue] = useState('');
   const [openJobPostingFilter, setOpenJobPostingFilter] = useState(false);
-  const [page, setPage] = useState(0);
+  const { data, isLoading, isFetching, isSuccess, isError } =
+    useGetJobsQuery(jobsParams);
 
   const methodsFilterJobPosting: any = useForm({
     defaultValues: jobPostingFiltersDefaultValues,
@@ -74,6 +77,11 @@ const useJobPosting = () => {
   };
 
   return {
+    data,
+    isLoading,
+    isFetching,
+    isSuccess,
+    isError,
     jobsParams,
     searchValue,
     handleSearch,

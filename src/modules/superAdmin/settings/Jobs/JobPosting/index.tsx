@@ -16,15 +16,14 @@ import {
   jobPostingFiltersFields,
   jobPostingValidationSchema,
 } from './jobPosting.data';
+
 import { JobPostingPropsI } from './JobPostingProps.interface';
 import { DownIcon, FilterSharedIcon, RefreshSharedIcon } from '@/assets/icons';
 import { v4 as uuidv4 } from 'uuid';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-
-import { styles } from './Jobs.styles';
-import { useGetJobsQuery } from '@/services/superAdmin/settings/jobs';
 import useJobPosting from './useJobPosting';
+import { styles } from './Jobs.styles';
 
 const JobPosting = ({
   isJobPostingDrawer,
@@ -37,7 +36,7 @@ const JobPosting = ({
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const actionMenuOpen = Boolean(anchorEl);
   const {
-    jobsParams,
+    data,
     searchValue,
     handleSearch,
     handleRefresh,
@@ -46,13 +45,8 @@ const JobPosting = ({
     handleCloseJobPostingFilters,
     handleFiltersSubmit,
     methodsFilterJobPosting,
-    handleChangeRowsPerPage,
-    rowsPerPage,
-    handleChangePage,
-    page,
   } = useJobPosting();
-  const { data } = useGetJobsQuery(jobsParams);
-  // isLoading, isFetching, isSuccess, isError
+
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -146,13 +140,9 @@ const JobPosting = ({
       <Box>
         <TanstackTable columns={columns} data={data?.data?.jobs} />
         <CustomPagination
-          page={page}
-          count={data?.data?.meta?.total / rowsPerPage}
-          rowsPerPage={rowsPerPage}
-          rowsPerPageOptions={[2, 10, 25, 50, 100]}
-          entriePages={data?.data?.meta?.total}
-          handleChangeRowsPerPage={handleChangeRowsPerPage}
-          handleChangePage={handleChangePage}
+          count={3}
+          rowsPerPageOptions={[5, 10, 25, 50, 100]}
+          entriePages={50}
         />
       </Box>
       <CommonDrawer
@@ -200,7 +190,7 @@ const JobPosting = ({
         <>
           <FormProvider methods={methodsFilterJobPosting}>
             <Grid container spacing={4}>
-              {jobPostingFiltersFields?.map((item: any) => (
+              {jobPostingFiltersFields()?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
                   <item.component {...item.componentProps} size={'small'}>
                     {item?.componentProps?.select
