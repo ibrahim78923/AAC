@@ -9,7 +9,7 @@ export const styles: any = {
     px: '1.125rem',
     color: 'custom.main',
     ':hover': { bgcolor: 'common.white' },
-    border: '0.063rem solid #D1D5DB',
+    border: '0.063rem solid grey.0',
     display: 'flex',
     alignItems: 'center',
     justifyContents: 'center',

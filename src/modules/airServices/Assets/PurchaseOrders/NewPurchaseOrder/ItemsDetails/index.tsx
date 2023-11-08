@@ -6,7 +6,7 @@ import DetailsListItem from './ItemDetailsComponents/DetailsListItem';
 import useItemsDetails from './useItemsDetails';
 import ItemBilling from './ItemDetailsComponents/ItemBilling';
 import { styles } from './ItemsDetails.style';
-import { itemsDetailsData } from './idfsdfsdtemsDetails.data';
+import { itemsDetailsData } from './ItemsDetails.data';
 
 const ItemsDetails = () => {
   const { itemsList, handleAddAdditionalItems } = useItemsDetails();

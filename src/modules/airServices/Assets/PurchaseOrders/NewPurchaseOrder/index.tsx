@@ -46,7 +46,7 @@ const NewPurchaseOrder = () => {
             >
               {newPurchaseFields?.map((form: any) => (
                 <Grid item xs={12} md={form?.gridLength} key={uuidv4()}>
-                  <form.component {...form.componentProps} size="small">
+                  <form.component {...form?.componentProps} size="small">
                     {form?.componentProps?.select
                       ? form?.componentProps?.options?.map((option: any) => (
                           <option key={uuidv4()} value={option?.value}>
@@ -69,7 +69,7 @@ const NewPurchaseOrder = () => {
           </Grid>
           <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2 }}>
             <Button
-              onClick={() => methods.reset()}
+              onClick={() => methods?.reset()}
               variant="outlined"
               color="secondary"
             >

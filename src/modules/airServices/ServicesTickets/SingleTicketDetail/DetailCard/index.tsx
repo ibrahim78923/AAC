@@ -41,7 +41,6 @@ export const DetailCard = () => {
                   {' '}
                   Sophie Baxter
                 </Typography>
-                {/* <Typography variant="caption">Created On</Typography> */}
               </div>
             </Box>
             <Box
@@ -83,14 +82,7 @@ export const DetailCard = () => {
             md: 'none',
           }}
         >
-          {/* <CloseOutlined style={{ float: 'right' }} /> */}
-          <Box
-            display={'flex'}
-            flexWrap={'wrap'}
-            // justifyContent={'space-between'}
-            gap={1}
-            marginBottom={1}
-          >
+          <Box display={'flex'} flexWrap={'wrap'} gap={1} marginBottom={1}>
             <Typography variant="body2" fontWeight={600}>
               Description:
             </Typography>
@@ -99,13 +91,7 @@ export const DetailCard = () => {
               What’s going on? Regards, Andrea
             </Typography>
           </Box>
-          <Box
-            display={'flex'}
-            flexWrap={'wrap'}
-            gap={1}
-            // justifyContent={'space-between'}
-            marginBottom={1}
-          >
+          <Box display={'flex'} flexWrap={'wrap'} gap={1} marginBottom={1}>
             <Typography variant="body2" fontWeight={600}>
               Attachments:
             </Typography>
@@ -131,7 +117,6 @@ export const DetailCard = () => {
               size="small"
               color="primary"
             />
-            {/* <Typography variant="body2">email@service.com</Typography> */}
           </Box>
           <Box
             display={'flex'}

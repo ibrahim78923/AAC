@@ -4,7 +4,13 @@ import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { ViewDetailBackArrowIcon } from '@/assets/icons';
 
 export const Header = (props: any) => {
-  const { dropdownOptions, handleAddToInventory, handleReceived } = props;
+  const {
+    dropdownOptions,
+    handleAddToInventory,
+    handleReceived,
+    statusDropdownOptions,
+    currentStatus,
+  } = props;
 
   return (
     <>
@@ -34,6 +40,11 @@ export const Header = (props: any) => {
           >
             Add to Inventory
           </Button>
+          <SingleDropdownButton
+            dropdownOptions={statusDropdownOptions}
+            dropdownName={currentStatus}
+          />
+
           <SingleDropdownButton dropdownOptions={dropdownOptions} />
         </Box>
       </Box>

@@ -40,3 +40,5 @@ export default function RHFCheckbox({ name, required, ...other }: any) {
     />
   );
 }
+
+// ----------------------------------------------------------------------

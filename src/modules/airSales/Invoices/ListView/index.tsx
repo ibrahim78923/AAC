@@ -9,7 +9,7 @@ import {
 } from '@mui/material';
 import { ArrowDropDown } from '@mui/icons-material';
 import FilterDrawer from './FilterDrawer';
-import { PlusSharedIcon, RefreshSharedIcon } from '@/assets/icons';
+import { PlusIcon, RefreshSharedIcon } from '@/assets/icons';
 import Search from '@/components/Search';
 import CustomPagination from '@/components/CustomPagination';
 import TanstackTable from '@/components/Tabel/TanstackTable';
@@ -37,7 +37,7 @@ const ListView = (props: any) => {
         <Button
           variant="contained"
           sx={{ display: 'flex', gap: '10px' }}
-          startIcon={<PlusSharedIcon />}
+          startIcon={<PlusIcon />}
           onClick={() => setIsListView(true)}
         >
           Create Invoice

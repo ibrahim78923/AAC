@@ -1,6 +1,5 @@
 import { RHFSelect } from '@/components/ReactHookForm';
 
-// filter options data
 export const venderOptions = [
   {
     label: 'Dell',

@@ -43,10 +43,10 @@ export const data: any = [
     ExpiryDate: '26 Oct, 2023',
   },
 ];
-export const columns = (
-  meetingsData: any,
-  setMeetingsData: any,
-  meetingsMainData: any,
+export const softwareListsColumnsFunction = (
+  contractsData: any,
+  setContractsData: any,
+  mainContractsData: any,
   router: any,
 ): any => [
   {
@@ -55,33 +55,33 @@ export const columns = (
     cell: (info: any) => (
       <Checkbox
         checked={
-          !!meetingsData?.find((item: any) => item?.id === info?.getValue())
+          !!contractsData?.find((item: any) => item?.id === info?.getValue())
         }
         onChange={(e: any) => {
           e?.target?.checked
-            ? setMeetingsData([
-                ...meetingsData,
-                meetingsMainData?.find(
+            ? setContractsData([
+                ...contractsData,
+                mainContractsData?.find(
                   (item: any) => item?.id === info?.getValue(),
                 ),
               ])
-            : setMeetingsData(
-                meetingsData?.filter((item: any) => {
+            : setContractsData(
+                contractsData?.filter((item: any) => {
                   return item?.id !== info?.getValue();
                 }),
               );
         }}
         color="primary"
-        name={info.getValue()}
+        name={info?.getValue()}
       />
     ),
     header: (
       <Checkbox
-        checked={meetingsData?.length === meetingsMainData?.length}
+        checked={contractsData?.length === mainContractsData?.length}
         onChange={(e: any) => {
           e?.target?.checked
-            ? setMeetingsData([...meetingsMainData])
-            : setMeetingsData([]);
+            ? setContractsData([...mainContractsData])
+            : setContractsData([]);
         }}
         color="primary"
         name="id"
@@ -98,7 +98,7 @@ export const columns = (
       <Typography
         component="span"
         onClick={() =>
-          router.push({
+          router?.push({
             pathname: AIR_SERVICES?.ASSETS_CONTRACTS_DETAIL,
             query: {
               contractId: info?.row?.id,

@@ -7,13 +7,14 @@ import {
 } from '@/components/ReactHookForm';
 import { InputAdornment } from '@mui/material';
 import * as Yup from 'yup';
-export const validationSchema = Yup.object().shape({
-  task: Yup.string().required('Field is Required'),
-  agent: Yup.string().required('Field is Required'),
-  hours: Yup.date(),
-  status: Yup.string(),
-  on: Yup.date(),
-  note: Yup.string(),
+
+export const validationSchema = Yup?.object()?.shape({
+  task: Yup?.string()?.required('Field is Required'),
+  agent: Yup?.string()?.required('Field is Required'),
+  hours: Yup?.date(),
+  status: Yup?.string(),
+  on: Yup?.date(),
+  note: Yup?.string(),
 });
 
 export const defaultValues = {
