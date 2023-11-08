@@ -7,4 +7,5 @@ export const ENDPOINTS = {
   reset_password: 'auth/resetPassword',
   forgot_password: 'auth/forgot-password',
   WORKLOAD: `/workload/workload-management`,
+  WORKLOAD_PROFILE: `/workload/user-tasks`,
 };
