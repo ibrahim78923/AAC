@@ -1,6 +1,9 @@
 import { AIR_CUSTOMER_PORTAL } from '@/constants';
 import { useRouter } from 'next/router';
-import { dashboardWidgetsTitles } from './Dashboard.data';
+import {
+  dashboardWidgetsFunction,
+  dashboardWidgetsTitles,
+} from './Dashboard.data';
 
 export const useDashboard = () => {
   const { TICKETS, KNOWLEDGE_BASE } = AIR_CUSTOMER_PORTAL;
@@ -21,5 +24,8 @@ export const useDashboard = () => {
         return push(KNOWLEDGE_BASE);
     }
   };
-  return { handleViewMore };
+
+  const dashboardWidgets = dashboardWidgetsFunction(handleViewMore);
+
+  return { dashboardWidgets };
 };

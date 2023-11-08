@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 export const RecentTickets = ({
   title,
-  data: recentTicketsData,
+  recentTicketsData,
   handleViewMore,
 }: any) => {
   const { palette }: any = useTheme();

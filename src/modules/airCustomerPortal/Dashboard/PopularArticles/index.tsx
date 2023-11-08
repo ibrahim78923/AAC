@@ -7,7 +7,7 @@ import { styles } from './PopularArticles.style';
 
 export const PopularArticles = ({
   title,
-  data: articles = [],
+  articlesData = [],
   handleViewMore,
 }: any) => {
   const { palette }: any = useTheme();
@@ -20,7 +20,7 @@ export const PopularArticles = ({
       btnPosition={'center'}
     >
       <Box sx={mainWrapper}>
-        {articles?.map((article: string) => (
+        {articlesData?.map((article: string) => (
           <Box key={uuidv4()} sx={articleWrapper(palette)}>
             <DocumentTextIcon />
             <Typography variant="body2" color={palette?.grey?.[600]}>

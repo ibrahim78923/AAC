@@ -1,7 +1,9 @@
 import { Announcements } from './Announcements';
+import { Header } from './Header';
 import { PendingApprovals } from './PendingApprovals';
 import { PopularArticles } from './PopularArticles';
 import { RecentTickets } from './RecentTickets';
+import { WelcomeCard } from './WelcomeCard';
 
 export const ticketsData = {
   newTickets: 15,
@@ -163,11 +165,20 @@ export const dashboardWidgetsTitles = {
   announcements: 'Announcements',
 };
 
-export const dashboardWidgets = [
+export const dashboardWidgetsFunction = (handleViewMore: any) => [
+  {
+    component: Header,
+  },
+  {
+    component: WelcomeCard,
+    ticketsData,
+    ticketsTypeList,
+  },
   {
     title: dashboardWidgetsTitles?.popularArticles,
     component: PopularArticles,
-    data: articlesData,
+    articlesData,
+    handleViewMore,
     componentProps: {
       lg: 6.5,
     },
@@ -175,7 +186,8 @@ export const dashboardWidgets = [
   {
     title: dashboardWidgetsTitles?.pendingApproval,
     component: PendingApprovals,
-    data: pendingApprovalData,
+    pendingApprovalData,
+    handleViewMore,
     componentProps: {
       lg: 5.5,
     },
@@ -183,7 +195,8 @@ export const dashboardWidgets = [
   {
     title: dashboardWidgetsTitles?.recentTickets,
     component: RecentTickets,
-    data: recentTicketsData,
+    recentTicketsData,
+    handleViewMore,
     componentProps: {
       lg: 6.5,
     },
@@ -191,7 +204,8 @@ export const dashboardWidgets = [
   {
     title: dashboardWidgetsTitles?.announcements,
     component: Announcements,
-    data: announcementsData,
+    announcementsData,
+    handleViewMore,
     componentProps: {
       lg: 5.5,
     },

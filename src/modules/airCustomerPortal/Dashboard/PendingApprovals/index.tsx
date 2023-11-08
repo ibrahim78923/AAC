@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 export const PendingApprovals = ({
   title,
-  data: pendingApprovalData,
+  pendingApprovalData,
   handleViewMore,
 }: any) => {
   const { palette }: any = useTheme();
