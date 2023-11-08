@@ -15,12 +15,13 @@ const useUserManagement = () => {
   const [selectedValue, setSelectedValue] = useState(null);
   const [tabVal, setTabVal] = useState<number>(0);
   const [search, setSearch] = useState('');
-  const { useGetUsersQuery }: any = usersApi;
+  const { useGetUsersQuery, useUpdateUsersMutation }: any = usersApi;
 
+  const [updateUsers] = useUpdateUsersMutation();
+  const queryParams: any = {};
   const handleClick = (event: any) => {
     setSelectedValue(event?.currentTarget);
   };
-
   const handleAddRole = () => {
     navigate.push(SUPER_ADMIN?.ADDROLE);
   };
@@ -32,6 +33,11 @@ const useUserManagement = () => {
   const handleUsersList = () => {
     navigate.push(SUPER_ADMIN?.USERS_LIST);
     setSelectedValue(null);
+  };
+
+  const handleUserSwitchChange = (e: any, id: any) => {
+    queryParams.status = e.target.checked;
+    updateUsers({ id, ...queryParams });
   };
 
   return {
@@ -51,6 +57,7 @@ const useUserManagement = () => {
     handleClose,
     handleUsersList,
     useGetUsersQuery,
+    handleUserSwitchChange,
   };
 };
 

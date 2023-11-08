@@ -6,16 +6,18 @@ import { columns } from './Users.data';
 import useUserManagement from '../useUserManagement';
 
 const Users = () => {
-  const { useGetUsersQuery, search } = useUserManagement();
+  const { useGetUsersQuery, search, handleUserSwitchChange } =
+    useUserManagement();
   const params = {
     role: 'ORG_ADMIN',
     search: search,
   };
   const { data } = useGetUsersQuery(params);
+  const columnParams = columns(handleUserSwitchChange);
 
   return (
     <>
-      <TanstackTable columns={columns} data={data?.data?.users} />
+      <TanstackTable columns={columnParams} data={data?.data?.users} />
       <CustomPagination count={1} rowsPerPageOptions={[1, 2]} entriePages={1} />
     </>
   );

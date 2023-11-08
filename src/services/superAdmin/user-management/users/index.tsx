@@ -30,11 +30,13 @@ export const usersApi = baseAPI.injectEndpoints({
       invalidatesTags: ['USERS'],
     }),
     updateUsers: builder.mutation({
-      query: ({ id, body }: any) => ({
-        url: `/${id}`,
-        method: 'PUT',
-        body: body,
-      }),
+      query: ({ id, ...queryParams }: any) => {
+        return {
+          url: `${endpoints?.UPDATE_USER_LIST}/${id}`,
+          method: 'PATCH',
+          params: queryParams,
+        };
+      },
       invalidatesTags: ['USERS'],
     }),
     deleteUsers: builder.mutation({

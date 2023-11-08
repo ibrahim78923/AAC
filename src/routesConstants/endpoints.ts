@@ -10,4 +10,5 @@ export const endpoints = {
   ADD_USER: '/users',
   ADD_USER_ACCOUNT: '/super-admin/add-accounts',
   USER_ACCOUNTS_LIST: '/super-admin/accounts-list',
+  UPDATE_USER_LIST: '/users/edit',
 };

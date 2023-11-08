@@ -45,7 +45,7 @@ const AddUser = ({ isOpenDrawer, onClose }: any) => {
   const onSubmit = async (values: any) => {
     values.role = userType;
     try {
-      postUsers({ body: values }).unwrap();
+      postUsers({ body: values })?.unwrap();
       enqueueSnackbar('User Added Successfully', {
         variant: 'success',
       });

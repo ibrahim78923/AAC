@@ -13,7 +13,7 @@ import { AvatarImage } from '@/assets/images';
 import dayjs from 'dayjs';
 import * as Yup from 'yup';
 
-export const columns: any = [
+export const columns: any = (handleUserSwitchChange: any) => [
   {
     accessorFn: (row: any) => row?.Id,
     id: 'Id',
@@ -87,7 +87,10 @@ export const columns: any = [
     header: 'Status',
     cell: (info: any) => (
       <SwitchBtn
-        checked={info?.row?.original?.status === 'ACTIVE' ? true : false}
+        defaultChecked={info?.row?.original?.status === 'ACTIVE' ? true : false}
+        handleSwitchChange={(e: any) =>
+          handleUserSwitchChange(e, info?.row?.original?._id)
+        }
       />
     ),
   },
@@ -101,7 +104,7 @@ export const columns: any = [
   },
 ];
 
-export const superAdminColumns: any = [
+export const superAdminColumns: any = (handleUserSwitchChange: any) => [
   {
     accessorFn: (row: any) => row.Id,
     id: 'Id',
@@ -176,6 +179,9 @@ export const superAdminColumns: any = [
     cell: (info: any) => (
       <SwitchBtn
         defaultChecked={info?.row?.original?.status === 'ACTIVE' ? true : false}
+        handleSwitchChange={(e: any) =>
+          handleUserSwitchChange(e, info?.row?.original?._id)
+        }
       />
     ),
   },
