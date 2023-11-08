@@ -44,8 +44,3 @@ export const ORG_ADMIN: any = {
   ROLES_AND_RIGHTS: '/org-admin/roles-and-rights',
   ADD_ROLE: '/org-admin/roles-and-rights/add-role',
 };
-
-export const CUSTOMER_PORTAL: any = {
-  TICKETS: '/customer-portal/tickets',
-  KNOWLEDGE_BASE: '/customer-portal/knowledge-base',
-};
