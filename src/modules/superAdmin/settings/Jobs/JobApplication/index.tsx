@@ -41,9 +41,7 @@ const JobApplication = () => {
   };
   const { handleSubmit } = methodsJobApplication;
 
-  const handelStatusChange = () => {};
-
-  const getColumns = columns(handelStatusChange);
+  const getColumns = columns(theme);
 
   return (
     <Box>
@@ -55,6 +53,7 @@ const JobApplication = () => {
           flexWrap: 'wrap',
           justifyContent: 'space-between',
           gap: '10px',
+          padding: '0px 24px',
         }}
       >
         <Search

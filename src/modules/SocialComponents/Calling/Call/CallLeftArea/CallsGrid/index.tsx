@@ -39,11 +39,11 @@ const CallsGrid = ({
           overflow: 'scroll',
         }}
       >
-        {callsContactsData.map((item: any) => {
-          const activeCheck = activeCallsSelectedData?.id === item.id;
+        {callsContactsData?.map((item: any) => {
+          const activeCheck = activeCallsSelectedData?.id === item?.id;
           return (
-            <Box key={uuidv4()} sx={styles.callsCardWrapper(activeCheck)}>
-              <Box sx={styles.callsCardInner}>
+            <Box key={uuidv4()} sx={styles?.callsCardWrapper(activeCheck)}>
+              <Box sx={styles?.callsCardInner}>
                 <Box
                   sx={{
                     display: 'flex',
@@ -57,7 +57,7 @@ const CallsGrid = ({
                 >
                   <Box>
                     <Image
-                      src={item.userImage}
+                      src={item?.userImage}
                       width={40}
                       height={40}
                       style={{ borderRadius: '50%' }}
@@ -75,11 +75,11 @@ const CallsGrid = ({
                       fontWeight="600"
                       color={
                         activeCheck
-                          ? theme.palette.primary.main
-                          : theme.palette.grey[800]
+                          ? theme?.palette?.primary?.main
+                          : theme?.palette?.grey[800]
                       }
                     >
-                      {item.userName}
+                      {item?.userName}
                     </Typography>
                     <Box
                       sx={{
@@ -88,11 +88,11 @@ const CallsGrid = ({
                         gap: '10px',
                       }}
                     >
-                      {item.callType === 'outgoing' && <OutgoingIcon />}
-                      {item.callType === 'inComing' && <InComingIcon />}
+                      {item?.callType === 'outgoing' && <OutgoingIcon />}
+                      {item?.callType === 'inComing' && <InComingIcon />}
 
                       <Typography variant="body2" fontWeight="400">
-                        {item.callTime}
+                        {item?.callTime}
                       </Typography>
                     </Box>
                   </Box>

@@ -44,3 +44,17 @@ export const AIR_SALES = {
   SALES_VIEW_INVOICES: '/air-sales/invoices/view-invoices',
   SALES_CREATE_INVOICES: '/air-sales/invoices/create-invoices',
 };
+export const SUPER_ADMIN: any = {
+  PLAN_MANAGEMENT: '/plan',
+  PLAN_TYPE_LIST: 'plan/plan-type-list',
+  PRODUCT_FEATURES: 'product-features',
+};
+export const orgAdminSubcriptionInvoices = {
+  choose_plan: '/org-admin/subscription-and-invoices/choose-plan',
+  back_subscription_invoices: '/org-admin/subscription-and-invoices',
+  manage_plan: '/org-admin/subscription-and-invoices/manage-plan',
+};
+
+export const superAdminBillingInvoicesPath = {
+  generate_invoice: '/super-admin/billing-invoices/generate-invoice',
+};

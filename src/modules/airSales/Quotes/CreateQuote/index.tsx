@@ -40,12 +40,12 @@ const CreateQuote = () => {
           stepperMargin="2rem 0 0"
           stepsArray={createQuoteSteps}
           stepperButtons={
-            <Box sx={styles.stepperButtons}>
+            <Box sx={styles?.stepperButtons}>
               {activeStep !== createQuoteSteps.length - 1 && (
                 <Button
                   onClick={handleStepBack}
                   variant="outlined"
-                  sx={styles.btnBack}
+                  sx={styles?.btnBack}
                 >
                   Back
                 </Button>
@@ -57,7 +57,7 @@ const CreateQuote = () => {
                     <Button
                       onClick={handleStepperCancel}
                       variant="outlined"
-                      sx={styles.btnBack}
+                      sx={styles?.btnBack}
                     >
                       Cancel
                     </Button>
@@ -75,7 +75,7 @@ const CreateQuote = () => {
                     <Button
                       onClick={handleStepBack}
                       variant="outlined"
-                      sx={styles.btnBack}
+                      sx={styles?.btnBack}
                     >
                       Preview
                     </Button>

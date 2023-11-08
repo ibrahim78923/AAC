@@ -82,7 +82,7 @@ export const invoiceProducData: any = [
     planPrice: 40,
     additionalUsers: 3,
     additionalStorage: 3,
-    discount: 20,
+    discount: '',
     subTotal: 40,
   },
 ];
