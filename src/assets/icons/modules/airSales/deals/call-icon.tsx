@@ -1,4 +1,4 @@
-const CallDealsIcon = () => (
+const CallIcon = () => (
   <svg
     width="16"
     height="16"
@@ -17,4 +17,4 @@ const CallDealsIcon = () => (
   </svg>
 );
 
-export default CallDealsIcon;
+export default CallIcon;

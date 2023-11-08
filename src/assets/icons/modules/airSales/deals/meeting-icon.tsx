@@ -1,4 +1,4 @@
-const MeetingDealsIcon = () => (
+const MeetingIcon = () => (
   <svg
     width="16"
     height="16"
@@ -21,4 +21,4 @@ const MeetingDealsIcon = () => (
   </svg>
 );
 
-export default MeetingDealsIcon;
+export default MeetingIcon;

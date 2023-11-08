@@ -60,7 +60,7 @@ const ImportContacts = () => {
           <Grid container spacing={4}>
             {importContactsData?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                <item.component size={'small'} {...item.componentProps}>
+                <item.component size={'small'} {...item?.componentProps}>
                   {item?.componentProps?.select &&
                     item?.options?.map((option: any) => (
                       <option key={option?.value} value={option?.value}>
@@ -70,7 +70,7 @@ const ImportContacts = () => {
                 </item.component>
                 {item?.componentProps?.heading && (
                   <Typography variant="h5">
-                    {item?.componentProps.heading}
+                    {item?.componentProps?.heading}
                   </Typography>
                 )}
               </Grid>
@@ -80,7 +80,7 @@ const ImportContacts = () => {
             <Button
               variant="outlined"
               onClick={() => {
-                route.push(SUPER_ADMIN.AIRSALES_CONTCATS);
+                route.push(SUPER_ADMIN?.AIRSALES_CONTCATS);
               }}
             >
               Cancel
@@ -88,7 +88,7 @@ const ImportContacts = () => {
             <Button
               variant="contained"
               sx={{ ml: '10px' }}
-              onClick={() => route.push(SUPER_ADMIN.CONTCATS_COLUMN)}
+              onClick={() => route.push(SUPER_ADMIN?.CONTCATS_COLUMN)}
             >
               Next
             </Button>

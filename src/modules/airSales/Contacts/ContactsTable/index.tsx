@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Paper, Box, Card } from '@mui/material';
 
 import CustomPagination from '@/components/CustomPagination';

@@ -64,7 +64,7 @@ const ImportRecordCreated = () => {
           <Link href={SUPER_ADMIN.IMPORTRECORD_RESTORE}>
             <Button
               variant="outlined"
-              sx={{ height: '30px', color: theme.palette.custom['main'] }}
+              sx={{ height: '30px', color: theme?.palette?.custom['main'] }}
               startIcon={<RestoreIcon />}
             >
               Restore
@@ -73,14 +73,14 @@ const ImportRecordCreated = () => {
           <Button
             onClick={handleCustomizeDrawer}
             variant="outlined"
-            sx={{ height: '30px', color: theme.palette.custom['main'] }}
+            sx={{ height: '30px', color: theme?.palette?.custom['main'] }}
           >
             <CutomizeIcon /> &nbsp; Customize
           </Button>
 
           <Button
             variant="outlined"
-            sx={{ height: '30px', color: theme.palette.custom['main'] }}
+            sx={{ height: '30px', color: theme?.palette?.custom['main'] }}
             onClick={handleFilterDrawer}
           >
             <FilterIcon />
@@ -88,7 +88,7 @@ const ImportRecordCreated = () => {
           </Button>
           <Button
             variant="outlined"
-            sx={{ height: '30px', color: theme.palette.custom['main'] }}
+            sx={{ height: '30px', color: theme?.palette?.custom['main'] }}
           >
             <FilterIcon />
             &nbsp; Export

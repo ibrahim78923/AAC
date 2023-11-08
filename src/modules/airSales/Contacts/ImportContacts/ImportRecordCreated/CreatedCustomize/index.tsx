@@ -6,7 +6,7 @@ import ColumnsWrapper from './ColumnsWrapper';
 
 import { v4 as uuidv4 } from 'uuid';
 
-const ContactsCustomize = ({ open, onClose }: any) => {
+const CreatedCustomize = ({ open, onClose }: any) => {
   return (
     <CommonDrawer
       isDrawerOpen={open}
@@ -30,4 +30,4 @@ const ContactsCustomize = ({ open, onClose }: any) => {
   );
 };
 
-export default ContactsCustomize;
+export default CreatedCustomize;

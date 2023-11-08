@@ -1,4 +1,4 @@
-const TaskDealsIcon = () => (
+const TaskIcon = () => (
   <svg
     width="16"
     height="16"
@@ -13,4 +13,4 @@ const TaskDealsIcon = () => (
   </svg>
 );
 
-export default TaskDealsIcon;
+export default TaskIcon;

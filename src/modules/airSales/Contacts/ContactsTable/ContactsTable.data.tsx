@@ -1,5 +1,6 @@
-import { Checkbox } from '@mui/material';
 import Link from 'next/link';
+
+import { Checkbox } from '@mui/material';
 
 export const ContactsColumns: any = [
   {

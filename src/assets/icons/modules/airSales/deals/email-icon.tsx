@@ -1,4 +1,4 @@
-const EmailDealsIcon = () => (
+const EmailIcon = () => (
   <svg
     width="16"
     height="16"
@@ -13,4 +13,4 @@ const EmailDealsIcon = () => (
   </svg>
 );
 
-export default EmailDealsIcon;
+export default EmailIcon;

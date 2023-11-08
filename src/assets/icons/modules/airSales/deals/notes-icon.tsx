@@ -1,4 +1,4 @@
-const NotesDealsIcon = () => (
+const NotesIcon = () => (
   <svg
     width="16"
     height="16"
@@ -17,4 +17,4 @@ const NotesDealsIcon = () => (
   </svg>
 );
 
-export default NotesDealsIcon;
+export default NotesIcon;

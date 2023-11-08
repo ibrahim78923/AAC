@@ -4,9 +4,9 @@ import Attachments from './Attachments';
 import Companies from './Companies';
 import Tickets from './Tickets';
 import Deal from './Deal';
+import PlayBook from './PlayBook';
 
 import { styles } from '../ViewDetails.style';
-import PlayBook from './Contacts';
 
 const Associations = () => {
   return (
@@ -21,6 +21,7 @@ const Associations = () => {
           <Grid item xs={12}>
             <Deal />
           </Grid>
+
           <Grid item xs={12}>
             <Companies />
           </Grid>
@@ -28,6 +29,7 @@ const Associations = () => {
           <Grid item xs={12}>
             <Attachments />
           </Grid>
+
           <Grid item xs={12}>
             <PlayBook />
           </Grid>
