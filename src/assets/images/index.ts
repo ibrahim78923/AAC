@@ -51,7 +51,6 @@ export { default as ChangeCircleImage } from './modules/HeaderAndSidebar/change-
 export { default as KnowledgeBaseImage } from './modules/HeaderAndSidebar/knowledge-base.png';
 export { default as LoginDashboardImage } from '../../assets/images/shared/login-dashboard.png';
 export { default as RQCodeImage } from '../../assets/images/shared/qr-code.png';
-
 export { default as AvatarImageCoversation } from '../../assets/images/shared/avatar-conversation.png';
 export { default as UserAvatarImage } from '../../assets/images/modules/socialComponents/chat/user.png';
 export { default as UserSenderImage } from '../../assets/images/modules/socialComponents/chat/sender-user.png';
@@ -70,12 +69,12 @@ export { default as UserProfileAvatarImage } from '../../assets/images/modules/s
 export { default as CallFilledImage } from '../../assets/images/modules/socialComponents/calling/call-filled.png';
 export { default as PdfAvatarImage } from '../../assets/images/modules/airMarketer/MyDocuments/pdf-avatar.png';
 export { default as UnionBgImage } from '../../assets/images/modules/superAdmin/dashboard/Union.png';
-
 export { default as ActivityLogImage } from './modules/airSales/Deals/activity-log.png';
 export { default as NotesAvatarImage } from './modules/airSales/Deals/notes-avatar.png';
 export { default as YellowDotImage } from './shared/yellow-dot.png';
 export { default as EmailMeetingImage } from './modules/airSales/Deals/email-meeting.png';
 export { default as AttendeeAvatarImage } from './modules/airSales/Deals/attendee-avatar.png';
+export { default as DashboardPrototypeImage } from './modules/airServices/dashboard/dashboard-prototype-image.png';
 export { default as SmsImage } from '@/assets/images/modules/airServices/Tickets/sms-image.png';
 export { default as UsersAvatarRoundedImage } from './modules/socialComponents/calling/user-avatar-rounded.png';
 export { default as DealReportImage } from './modules/airSales/Reports/reports.png';
@@ -98,7 +97,16 @@ export { default as CatalogMetroUiOsAppleImage } from './modules/catalog/catalog
 export { default as CatalogPhuzionDeviceLaptopImage } from './modules/catalog/catalog-phuzion-device-laptop.png';
 export { default as documentContained } from './modules/superAdmin/Settings/ModuleCreation/document-contained.png';
 export { default as ApplePhoneImage } from './modules/socialComponents/calling/apple-phone.png';
-
+export { default as AnnouncementAvatarImage } from './modules/airServices/Dashboard/announcement-avatar-image.png';
+export { default as ClipboardTickImage } from './modules/airServices/Dashboard/clipboard-tick-dashboard-image.png';
+export { default as FirstAidKitImage } from './modules/airServices/Dashboard/first-aid-kit-image.png';
+export { default as SecondAidKitImage } from './modules/airServices/Dashboard/second-aid-kit-image.png';
+export { default as ThirdAidKitImage } from './modules/airServices/Dashboard/third-aid-kit-image.png';
+export { default as FourAidKitImage } from './modules/airServices/Dashboard/four-aid-kit-image.png';
+export { default as FiveAidKitImage } from './modules/airServices/Dashboard/five-aid-kit-image.png';
+export { default as CustomerWowChampionImage } from './modules/airServices/Dashboard/customer-wow-champion-image.png';
+export { default as MostValuablePlayerImage } from './modules/airServices/Dashboard/most-valuable-player-image.png';
+export { default as DashboardAvatarImage } from './modules/airServices/Dashboard/avatar-image.png';
 export { default as ItemStatusImage } from './modules/airServices/Assets/item-status-image.png';
 export { default as TotalItemImage } from './modules/airServices/Assets/total-item-image.png';
 export { default as ItemToInventoryImage } from './modules/airServices/Assets/item-to-inventory.png';
@@ -118,7 +126,6 @@ export { default as EditImage } from './modules/airServices/Assets/edit-image.pn
 export { default as CreatedImage } from './modules/airServices/Assets/created-image.png';
 export { default as PlusImage } from './modules/airServices/Assets/plus-image.png';
 export { default as AssetsReceivedImage } from './modules/airServices/Assets/assets-received-image.png';
-
 export { default as TeamsLogoImage } from './modules/airServices/Tickets/teams-logo-image.png';
 export { default as ZoomLogoImage } from './modules/airServices/Tickets/zoom-logo-image.png';
 export { default as DiscussionImage } from './modules/airServices/Tickets/discussion-image.png';

@@ -159,7 +159,11 @@ function CatalogService() {
               mt={'35rem'}
             >
               <Button>Cancel</Button>
-              <Button variant="contained" sx={{ ml: '1rem' }}>
+              <Button
+                variant="contained"
+                sx={{ ml: '1rem' }}
+                onClick={handleClickOpen}
+              >
                 Place Request
               </Button>
             </Box>

@@ -8,7 +8,7 @@ import {
   CardActions,
   CardContent,
 } from '@mui/material';
-import { PlusSharedIcon } from '@/assets/icons';
+import { PlusIcon } from '@/assets/icons';
 import { productTotalDetails } from './EditDetailsData';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -21,7 +21,7 @@ const ProductsTable = () => {
           variant="contained"
           sx={{ display: 'flex', gap: '10px' }}
           // onClick={() => setIsListViewPgae(true)}
-          startIcon={<PlusSharedIcon />}
+          startIcon={<PlusIcon />}
         >
           Add Products
         </Button>

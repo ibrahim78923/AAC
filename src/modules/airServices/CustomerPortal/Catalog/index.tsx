@@ -48,7 +48,8 @@ function Catalog() {
                   gutterBottom
                   mt={1}
                   mb={2}
-                  width={'90%'}
+                  ml={2}
+                  mr={2}
                 >
                   {service?.description}
                 </Typography>

@@ -16,7 +16,7 @@ export const ActivityTimeline = ({ activityData }: any) => {
       >
         <Typography variant="body3" sx={{ flex: 0.15 }}>
           {' '}
-          {activityData?.date}
+          {activityData?.createdAt}
         </Typography>
         <IconButton
           disabled
@@ -28,7 +28,7 @@ export const ActivityTimeline = ({ activityData }: any) => {
         <Typography variant="body2" sx={{ flex: 0.8 }}>
           {' '}
           <Typography variant="body2" color="primary" marginRight={0.3}>
-            {activityData?.createdBy}
+            {activityData?.displayName}
           </Typography>
           {activityData?.description}
         </Typography>
