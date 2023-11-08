@@ -31,7 +31,7 @@ export const styles = {
     };
   },
   date: {
-    color: '#A0A3BD',
+    color: '#A0A3BD', // color not in theme
     fontSize: '12px',
     fontStyle: 'normal',
     fontWeight: '400',
