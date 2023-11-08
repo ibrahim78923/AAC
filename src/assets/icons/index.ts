@@ -185,6 +185,7 @@ export { default as TaskDealsIcon } from './modules/airSales/deals/task-icon';
 export { default as BoardViewIcon } from './modules/airSales/deals/board-view';
 export { default as SubTaskIcon } from './modules/airSales/deals/sub-task';
 export { default as EditProfile } from './modules/airSales/Contacts/edit-profile';
+export { default as AddPlusPrimaryIcon } from './shared/add-plus-primary';
 export { default as AirPlaneIcon } from './shared/airplane';
 export { default as EditPenBorderedIcon } from './shared/edit-pen-bordered';
 export { default as SendIconLifted } from './modules/SocialComponents/Calling/send';
@@ -202,3 +203,4 @@ export { default as AlertModalDeleteIcon } from './shared/alert-modal-delete-ico
 export { default as AlertModalCloseIcon } from './shared/alert-modal-close-icon';
 export { default as ExportRecordIcon } from './modules/airSales/deals/export-record';
 export { default as RestoreDealsIcon } from './modules/airSales/deals/restore-deal';
+export { default as FeaturedMarketingIcon } from './shared/featured-marketing';

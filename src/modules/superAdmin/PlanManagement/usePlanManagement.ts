@@ -19,7 +19,7 @@ export const usePlanManagement = () => {
   const theme = useTheme<Theme>();
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
+    setAnchorEl(event?.currentTarget);
   };
 
   const handleClose = () => {

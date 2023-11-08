@@ -45,18 +45,18 @@ const PlanManagement = () => {
   } = usePlanManagement();
 
   return (
-    <Box sx={styles.main}>
+    <Box sx={styles?.main}>
       <Box
         display={'flex'}
         justifyContent={'space-between'}
         flexWrap={'wrap'}
         gap={1}
       >
-        <Typography variant="h4" sx={styles.planManagementHeading}>
+        <Typography variant="h4" sx={styles?.planManagementHeading}>
           Plan Management
         </Typography>
 
-        <Box sx={styles.linkStyle}>
+        <Box sx={styles?.linkStyle}>
           <Link href={'/super-admin/plan-management/add-plan'}>
             <Button variant="contained" fullWidth startIcon={<PlusIcon />}>
               Add Plan
@@ -99,7 +99,7 @@ const PlanManagement = () => {
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
             onClick={handleClick}
-            sx={styles.actionButton(theme)}
+            sx={styles?.actionButton(theme)}
           >
             Actions <ArrowDropDownIcon />
           </Button>
@@ -117,7 +117,7 @@ const PlanManagement = () => {
           </Menu>
 
           <Button
-            sx={styles.filterButton(theme)}
+            sx={styles?.filterButton(theme)}
             onClick={() => setIsFaqsFilterDrawerOpen(true)}
           >
             <FilterSharedIcon /> &nbsp; Filter
@@ -140,7 +140,7 @@ const PlanManagement = () => {
             <Grid container spacing={4}>
               {planManagementFilterFiltersDataArray?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                  <item.component {...item.componentProps} size={'small'}>
+                  <item.component {...item?.componentProps} size={'small'}>
                     {!isNullOrEmpty(item?.componentProps?.select)
                       ? item?.options?.map((option: any) => (
                           <option key={uuidv4()} value={option?.value}>
