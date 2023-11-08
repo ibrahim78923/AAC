@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import Image from 'next/image';
 import {
@@ -8,6 +8,7 @@ import {
   Menu,
   Checkbox,
   Typography,
+  Button,
 } from '@mui/material';
 import Search from '../Search';
 
@@ -19,10 +20,20 @@ export default function RHFMultiSearchableSelect({
   name,
   options,
   isCheckBox,
+  isSearch,
+  isAllSelect,
+  defaultOpen,
+  isFooter,
+  footerText,
+  footerActionHandler,
+  setIsDropdownClose,
   ...other
 }: any) {
   const { control } = useFormContext();
   const [searchTerm, setSearchTerm] = useState('');
+
+  const [isSelectAll, setIsSelectAll] = useState<any>();
+
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -34,6 +45,20 @@ export default function RHFMultiSearchableSelect({
   const handleClose = () => {
     setAnchorEl(null);
     setSearchTerm('');
+    if (setIsDropdownClose) {
+      setIsDropdownClose(false);
+    }
+  };
+
+  const handelSelectAll = (field: any) => {
+    if (isSelectAll) {
+      setSelectedValues([]);
+      field.onChange([]);
+    } else {
+      setSelectedValues(options.map((option: any) => option.value));
+      field.onChange(options.map((option: any) => option.value));
+    }
+    setIsSelectAll(!isSelectAll);
   };
 
   const handleOptionSelect = (value: string, field: any) => {
@@ -50,6 +75,24 @@ export default function RHFMultiSearchableSelect({
     option.label.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
+  const searchHandler = isSearch === false ? false : true;
+  const isAllSelectHandler = isAllSelect === true ? true : false;
+
+  const getSelectedLabels = () => {
+    return selectedValues
+      .map(
+        (value) => options.find((option: any) => option.value === value)?.label,
+      )
+      .filter((label) => label !== undefined);
+  };
+
+  const inputRef = useRef(null);
+  useEffect(() => {
+    if (defaultOpen) {
+      setAnchorEl(inputRef.current);
+    }
+  }, [defaultOpen]);
+
   return (
     <Controller
       name={name}
@@ -62,9 +105,10 @@ export default function RHFMultiSearchableSelect({
             error={!!error}
             helperText={error?.message}
             {...other}
-            value={selectedValues}
+            value={getSelectedLabels().join(', ')}
             onClick={handleClick}
             InputProps={{
+              inputRef: inputRef,
               endAdornment: (
                 <InputAdornment position="start">
                   <ArrowDownIcon />
@@ -88,24 +132,18 @@ export default function RHFMultiSearchableSelect({
             }}
           >
             <>
-              <Search
-                searchBy={searchTerm}
-                setSearchBy={setSearchTerm}
-                label="Search By Name"
-                fullWidth
-                size="small"
-                sx={{ marginBottom: '15px' }}
-              />
-              {filteredOptions.map((option: any) => (
+              {searchHandler && (
+                <Search
+                  searchBy={searchTerm}
+                  setSearchBy={setSearchTerm}
+                  label="Search By Name"
+                  fullWidth
+                  size="small"
+                  sx={{ marginBottom: '15px' }}
+                />
+              )}
+              {isAllSelectHandler && (
                 <Box
-                  key={option.value}
-                  onClick={() => {
-                    {
-                      isCheckBox
-                        ? null
-                        : handleOptionSelect(option.value, field);
-                    }
-                  }}
                   sx={{
                     width: '100%',
                     height: '30px',
@@ -114,37 +152,77 @@ export default function RHFMultiSearchableSelect({
                     marginBottom: '10px',
                     gap: '5px',
                     borderRadius: '5px',
-                    backgroundColor: isCheckBox
-                      ? 'transparent'
-                      : selectedValues.includes(option.value)
-                      ? '#e0e0e0'
-                      : 'transparent',
-                    '&:hover': {
-                      backgroundColor: '#e0e0e0',
-                    },
                   }}
                 >
-                  {option.image && (
-                    <Image
-                      width={24}
-                      height={24}
-                      alt="user"
-                      src={option.image}
-                    />
-                  )}
-                  {isCheckBox && (
-                    <Checkbox
-                      onClick={() => {
-                        handleOptionSelect(option.value, field);
-                      }}
-                      checked={
-                        selectedValues.includes(option.value) ? true : false
-                      }
-                    />
-                  )}
-                  <Typography variant="body1">{option.label}</Typography>
+                  <Checkbox
+                    onChange={() => handelSelectAll(field)}
+                    checked={
+                      selectedValues.length === options.length ? true : false
+                    }
+                  />
+                  <Typography variant="body1">All</Typography>
                 </Box>
-              ))}
+              )}
+              {filteredOptions &&
+                filteredOptions.map((option: any) => (
+                  <Box
+                    key={option.value}
+                    onClick={() => {
+                      {
+                        isCheckBox
+                          ? null
+                          : handleOptionSelect(option.value, field);
+                      }
+                    }}
+                    sx={{
+                      width: '100%',
+                      height: '30px',
+                      padding: '5px 10px',
+                      display: 'flex',
+                      marginBottom: '10px',
+                      gap: '5px',
+                      borderRadius: '5px',
+                      backgroundColor: isCheckBox
+                        ? 'transparent'
+                        : selectedValues.includes(option.value)
+                        ? '#e0e0e0'
+                        : 'transparent',
+                      '&:hover': {
+                        backgroundColor: '#e0e0e0',
+                      },
+                    }}
+                  >
+                    {option.image && (
+                      <Image
+                        width={24}
+                        height={24}
+                        alt="user"
+                        src={option.image}
+                      />
+                    )}
+                    {isCheckBox && (
+                      <Checkbox
+                        onClick={() => {
+                          handleOptionSelect(option.value, field);
+                        }}
+                        checked={
+                          selectedValues.includes(option.value) ? true : false
+                        }
+                      />
+                    )}
+                    <Typography variant="body1">{option.label}</Typography>
+                  </Box>
+                ))}
+
+              {isFooter && (
+                <Button
+                  variant="contained"
+                  sx={{ width: '100%' }}
+                  onClick={footerActionHandler}
+                >
+                  {footerText}
+                </Button>
+              )}
             </>
           </Menu>
         </>

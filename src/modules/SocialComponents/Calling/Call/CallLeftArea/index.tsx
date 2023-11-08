@@ -17,6 +17,10 @@ const CallLeftArea = ({
   activeCallsSelectedData,
   isActiveCalling,
   setIsActiveCalling,
+  activeMessageData,
+  setActiveMessageData,
+  isActiveMessage,
+  setIsActiveMessage,
 }: any) => {
   const theme = useTheme();
 
@@ -35,26 +39,26 @@ const CallLeftArea = ({
           }}
         >
           <Box
-            sx={styles.tabsWrapperCalls(toggleCall)}
+            sx={styles?.tabsWrapperCalls(toggleCall)}
             onClick={() => setToggleCall('calls')}
           >
             <CallContainedIcon />
             <Typography
               variant="body2"
-              color={theme.palette.primary.main}
+              color={theme?.palette?.primary?.main}
               fontWeight="500"
             >
               Call
             </Typography>
           </Box>
           <Box
-            sx={styles.tabsWrapperMessage(toggleCall)}
+            sx={styles?.tabsWrapperMessage(toggleCall)}
             onClick={() => setToggleCall('messages')}
           >
             <MessageContainedIcon />
             <Typography
               variant="body2"
-              color={theme.palette.primary.main}
+              color={theme?.palette?.primary?.main}
               fontWeight="500"
             >
               Message
@@ -78,7 +82,16 @@ const CallLeftArea = ({
           setIsActiveCalling={setIsActiveCalling}
         />
       )}
-      {toggleCall === 'messages' && <MessagesGrid />}
+      {toggleCall === 'messages' && (
+        <MessagesGrid
+          activeMessageData={activeMessageData}
+          setActiveMessageData={setActiveMessageData}
+          isActiveMessage={isActiveMessage}
+          setIsActiveMessage={setIsActiveMessage}
+          setActiveCallsSelectedData={setActiveCallsSelectedData}
+          setIsActiveCalling={setIsActiveCalling}
+        />
+      )}
     </Box>
   );
 };

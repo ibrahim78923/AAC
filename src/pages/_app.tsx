@@ -1,7 +1,9 @@
 import { LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+
 import ThemeProvider from '../../theme';
 import ThemeLocalization from '../../theme/ThemeLocalization';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+
 import { SnackbarProvider } from 'notistack';
 
 import { Provider } from 'react-redux';
@@ -24,7 +26,12 @@ export default function App(props: any) {
           <AuthProvider>
             <PersistGate loading={null} persistor={persistor}>
               <ThemeLocalization>
-                <SnackbarProvider>
+                <SnackbarProvider
+                  anchorOrigin={{
+                    horizontal: 'center',
+                    vertical: 'top',
+                  }}
+                >
                   {getLayout(<Component {...pageProps} />)}
                 </SnackbarProvider>
               </ThemeLocalization>

@@ -12,7 +12,7 @@ import {
 
 import Search from '@/components/Search';
 import CommonDrawer from '@/components/CommonDrawer';
-import TanstackTable from '@/components/Tabel/TanstackTable';
+import TanstackTable from '@/components/Table/TanstackTable';
 import CustomPagination from '@/components/CustomPagination';
 import { FormProvider } from '@/components/ReactHookForm';
 import { AlertModals } from '@/components/AlertModals';
@@ -67,82 +67,91 @@ const Enquiries = () => {
       sx={{
         borderRadius: '15px',
         border: '1px solid #EAECF0',
-        padding: '16px 24px',
       }}
     >
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          marginBottom: '19px',
-        }}
-      >
-        <Typography variant="h3" sx={{ fontWeight: '600' }}>
-          Enquiries
-        </Typography>
-      </Box>
-      <Box
-        mt={2}
-        mb={3}
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}
-      >
-        <Search
-          label={'Search here'}
-          searchBy={faqsSearch}
-          setSearchBy={setFaqsSearch}
-          width="100%"
-          size="small"
-        />
+      <Box sx={{ padding: '16px 24px' }}>
         <Box
           sx={{
             display: 'flex',
+            justifyContent: 'space-between',
             alignItems: 'center',
-            gap: '10px',
+            marginBottom: '19px',
           }}
         >
-          <Button
-            id="basic-button"
-            aria-controls={isActionMenuOpen ? 'basic-menu' : undefined}
-            aria-haspopup="true"
-            aria-expanded={isActionMenuOpen ? 'true' : undefined}
-            onClick={handleClick}
+          <Typography variant="h3" sx={{ fontWeight: '600' }}>
+            Enquiries
+          </Typography>
+        </Box>
+        <Box
+          mt={2}
+          mb={3}
+          sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: '10px',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}
+        >
+          <Search
+            label={'Search here'}
+            searchBy={faqsSearch}
+            setSearchBy={setFaqsSearch}
+            width="100%"
+            size="small"
+          />
+          <Box
             sx={{
-              color: theme.palette.grey[500],
-              height: '40px',
-              border: '1.5px solid #e7e7e9',
+              display: 'flex',
+              flexWrap: 'wrap',
+              alignItems: 'center',
+              gap: '10px',
             }}
           >
-            Actions &nbsp; <DownIcon />
-          </Button>
-          <Menu
-            id="basic-menu"
-            anchorEl={anchorEl}
-            open={isActionMenuOpen}
-            onClose={handleClose}
-            MenuListProps={{
-              'aria-labelledby': 'basic-button',
-            }}
-          >
-            <MenuItem onClick={() => setIsQueryModalOpen(true)}>Reply</MenuItem>
-            <MenuItem>View</MenuItem>
-            <MenuItem onClick={() => setIsEnquiriesDeleteModal(true)}>
-              Delete
-            </MenuItem>
-          </Menu>
-          <Button sx={styles.refreshButton(theme)}>
-            <RefreshSharedIcon />
-          </Button>
-          <Button
-            sx={styles.filterButton(theme)}
-            onClick={() => setIsEnquiriesFilterDrawerOpen(true)}
-          >
-            <FilterSharedIcon /> &nbsp; Filter
-          </Button>
+            <Button
+              id="basic-button"
+              aria-controls={isActionMenuOpen ? 'basic-menu' : undefined}
+              aria-haspopup="true"
+              aria-expanded={isActionMenuOpen ? 'true' : undefined}
+              onClick={handleClick}
+              sx={{
+                color: theme.palette.grey[500],
+                height: '40px',
+                border: '1.5px solid #e7e7e9',
+                '@media (max-width:581px)': {
+                  width: '100%',
+                },
+              }}
+            >
+              Actions &nbsp; <DownIcon />
+            </Button>
+            <Menu
+              id="basic-menu"
+              anchorEl={anchorEl}
+              open={isActionMenuOpen}
+              onClose={handleClose}
+              MenuListProps={{
+                'aria-labelledby': 'basic-button',
+              }}
+            >
+              <MenuItem onClick={() => setIsQueryModalOpen(true)}>
+                Reply
+              </MenuItem>
+              <MenuItem>View</MenuItem>
+              <MenuItem onClick={() => setIsEnquiriesDeleteModal(true)}>
+                Delete
+              </MenuItem>
+            </Menu>
+            <Button sx={styles.refreshButton(theme)}>
+              <RefreshSharedIcon />
+            </Button>
+            <Button
+              sx={styles.filterButton(theme)}
+              onClick={() => setIsEnquiriesFilterDrawerOpen(true)}
+            >
+              <FilterSharedIcon /> &nbsp; Filter
+            </Button>
+          </Box>
         </Box>
       </Box>
       <Box>

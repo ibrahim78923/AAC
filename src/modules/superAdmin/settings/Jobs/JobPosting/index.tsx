@@ -4,7 +4,7 @@ import { Box, useTheme, Button, Grid, MenuItem, Menu } from '@mui/material';
 
 import CommonDrawer from '@/components/CommonDrawer';
 import Search from '@/components/Search';
-import TanstackTable from '@/components/Tabel/TanstackTable';
+import TanstackTable from '@/components/Table/TanstackTable';
 import CustomPagination from '@/components/CustomPagination';
 import { FormProvider } from '@/components/ReactHookForm';
 import { AlertModals } from '@/components/AlertModals';
@@ -65,6 +65,8 @@ const JobPosting = ({
 
   const { handleSubmit } = methodsAddJobPosting;
 
+  const getColumns = columns(theme);
+
   return (
     <Box>
       <Box
@@ -76,6 +78,7 @@ const JobPosting = ({
           justifyContent: 'space-between',
           flexWrap: 'wrap',
           gap: '10px',
+          padding: '0px 24px',
         }}
       >
         <Search
@@ -138,7 +141,7 @@ const JobPosting = ({
         </Box>
       </Box>
       <Box>
-        <TanstackTable columns={columns} data={data?.data?.jobs} />
+        <TanstackTable columns={getColumns} data={data?.data?.jobs} />
         <CustomPagination
           count={3}
           rowsPerPageOptions={[5, 10, 25, 50, 100]}

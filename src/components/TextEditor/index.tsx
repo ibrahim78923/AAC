@@ -8,22 +8,27 @@ import { TextEditorPropsI } from './TextEditor.interface';
 const ReactQuill = dynamic(() => import('react-quill'), {
   ssr: false,
 });
-const TextEditor = ({ value, onChange }: TextEditorPropsI) => {
+const TextEditor = ({ value, customToolbar, onChange }: TextEditorPropsI) => {
   const theme = useTheme();
+  const defaultFeatures = [
+    ['bold', 'italic', 'underline'],
+    [{ align: 'center' }, { align: 'right' }, { align: 'justify' }],
+    [{ list: 'bullet' }, { list: 'ordered' }],
+    [{ color: [] }],
+    ['capitalize'],
+  ];
+  const handelDefaultFeatures = customToolbar?.length
+    ? customToolbar
+    : defaultFeatures;
   const modules = {
     toolbar: {
-      container: [
-        ['bold', 'italic', 'underline'],
-        [{ align: 'center' }, { align: 'right' }, { align: 'justify' }],
-        [{ list: 'bullet' }, { list: 'ordered' }],
-        [{ color: [] }],
-        ['capitalize'],
-      ],
+      container: handelDefaultFeatures,
     },
   };
   return (
     <Box
       sx={{
+        position: 'relative',
         border: `1.5px solid #9CA3AF`,
         borderRadius: '8px',
         overflow: 'hidden',
@@ -41,6 +46,7 @@ const TextEditor = ({ value, onChange }: TextEditorPropsI) => {
         value={value}
         onChange={(newValue) => onChange(newValue)}
         modules={modules}
+        style={{ position: 'relative' }}
       />
     </Box>
   );

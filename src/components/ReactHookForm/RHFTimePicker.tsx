@@ -1,7 +1,17 @@
+// form
 import { useFormContext, Controller } from 'react-hook-form';
-import { MobileTimePicker } from '@mui/x-date-pickers';
+// @mui
+import { TimePicker } from '@mui/x-date-pickers';
+import { Typography } from '@mui/material';
+import CustomLabel from '../CustomLabel';
+// ----------------------------------------------------------------------
 
-export default function RHFTimePicker({ name, label, ...other }: any) {
+export default function RHFTimePicker({
+  name,
+  label,
+  required,
+  ...other
+}: any) {
   const { control } = useFormContext();
 
   return (
@@ -9,19 +19,31 @@ export default function RHFTimePicker({ name, label, ...other }: any) {
       name={name}
       control={control}
       render={({ field, fieldState: { error } }) => (
-        <MobileTimePicker
-          {...field}
-          {...other}
-          slotProps={{
-            textField: {
-              helperText: error ? error?.message : '',
-              error: error,
-              fullWidth: other?.fullWidth,
-              size: other?.size,
-            },
-          }}
-          label={label}
-        />
+        <>
+          {label && (
+            <CustomLabel label={label} error={error} required={required} />
+          )}
+          <TimePicker
+            {...field}
+            {...other}
+            slotProps={{
+              textField: {
+                helperText: (
+                  <Typography
+                    component={'span'}
+                    sx={{ display: 'block', mt: -1, ml: -1 }}
+                  >
+                    {error?.message}
+                  </Typography>
+                ),
+                error: error,
+                fullWidth: other?.fullWidth,
+                size: other?.size,
+              },
+            }}
+            label={''}
+          />
+        </>
       )}
     />
   );

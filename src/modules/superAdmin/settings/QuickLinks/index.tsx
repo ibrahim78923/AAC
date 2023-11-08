@@ -13,7 +13,7 @@ import {
 
 import Search from '@/components/Search';
 import CommonDrawer from '@/components/CommonDrawer';
-import TanstackTable from '@/components/Tabel/TanstackTable';
+import TanstackTable from '@/components/Table/TanstackTable';
 import CustomPagination from '@/components/CustomPagination';
 
 import { useForm } from 'react-hook-form';
@@ -82,87 +82,95 @@ const QuickLinks = () => {
           sx={{
             borderRadius: '15px',
             border: '1px solid #EAECF0',
-            padding: '16px 24px',
           }}
         >
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              marginBottom: '19px',
-            }}
-          >
-            <Typography variant="h3" sx={{ fontWeight: '600' }}>
-              Quick Links
-            </Typography>
-            <Button
-              variant="contained"
-              sx={{ height: '36px', fontWeight: '500' }}
-              onClick={() => setIsManageQuickLinks(true)}
-            >
-              <PlusShared /> &nbsp; Manage
-            </Button>
-          </Box>
-          <Box
-            mt={2}
-            mb={3}
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-            }}
-          >
-            <Search
-              label={'Search here'}
-              searchBy={quickLinksSearch}
-              setSearchBy={setQuickLinksSearch}
-              width="100%"
-              size="small"
-            />
+          <Box sx={{ padding: '16px 24px' }}>
             <Box
               sx={{
                 display: 'flex',
+                flexWrap: 'wrap',
+                justifyContent: 'space-between',
                 alignItems: 'center',
-                gap: '10px',
+                marginBottom: '19px',
               }}
             >
+              <Typography variant="h3" sx={{ fontWeight: '600' }}>
+                Quick Links
+              </Typography>
               <Button
-                id="basic-button"
-                aria-controls={actionMenuOpen ? 'basic-menu' : undefined}
-                aria-haspopup="true"
-                aria-expanded={actionMenuOpen ? 'true' : undefined}
-                onClick={handleClick}
+                variant="contained"
+                sx={{ height: '36px', fontWeight: '500' }}
+                onClick={() => setIsManageQuickLinks(true)}
+              >
+                <PlusShared /> &nbsp; Manage
+              </Button>
+            </Box>
+            <Box
+              mt={2}
+              mb={3}
+              sx={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: '10px',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+              }}
+            >
+              <Search
+                label={'Search here'}
+                searchBy={quickLinksSearch}
+                setSearchBy={setQuickLinksSearch}
+                width="100%"
+                size="small"
+              />
+              <Box
                 sx={{
-                  color: theme.palette.grey[500],
-                  height: '40px',
-                  border: '1.5px solid #e7e7e9',
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  alignItems: 'center',
+                  gap: '10px',
                 }}
               >
-                Actions &nbsp; <DownIcon />
-              </Button>
-              <Menu
-                id="basic-menu"
-                anchorEl={anchorEl}
-                open={actionMenuOpen}
-                onClose={handleClose}
-                MenuListProps={{
-                  'aria-labelledby': 'basic-button',
-                }}
-              >
-                <MenuItem onClick={() => setisQuickLinksDeleteModal(true)}>
-                  Delete
-                </MenuItem>
-              </Menu>
-              <Button sx={styles.refreshButton(theme)}>
-                <RefreshSharedIcon />
-              </Button>
-              <Button
-                sx={styles.filterButton(theme)}
-                onClick={() => setIsQuickLinksFilterDrawerOpen(true)}
-              >
-                <FilterSharedIcon /> &nbsp; Filter
-              </Button>
+                <Button
+                  id="basic-button"
+                  aria-controls={actionMenuOpen ? 'basic-menu' : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={actionMenuOpen ? 'true' : undefined}
+                  onClick={handleClick}
+                  sx={{
+                    color: theme.palette.grey[500],
+                    height: '40px',
+                    border: '1.5px solid #e7e7e9',
+                    '@media (max-width:581px)': {
+                      width: '100%',
+                    },
+                  }}
+                >
+                  Actions &nbsp; <DownIcon />
+                </Button>
+                <Menu
+                  id="basic-menu"
+                  anchorEl={anchorEl}
+                  open={actionMenuOpen}
+                  onClose={handleClose}
+                  MenuListProps={{
+                    'aria-labelledby': 'basic-button',
+                  }}
+                >
+                  <MenuItem onClick={() => setisQuickLinksDeleteModal(true)}>
+                    Delete
+                  </MenuItem>
+                </Menu>
+                <Button sx={styles.refreshButton(theme)}>
+                  <RefreshSharedIcon />
+                </Button>
+                <Button
+                  sx={styles.filterButton(theme)}
+                  onClick={() => setIsQuickLinksFilterDrawerOpen(true)}
+                >
+                  <FilterSharedIcon /> &nbsp; Filter
+                </Button>
+              </Box>
             </Box>
           </Box>
           <Box>

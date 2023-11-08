@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { Box, Grid, Typography } from '@mui/material';
 
 import CommonModal from '@/components/CommonModal';
-import TanstackTable from '@/components/Tabel/TanstackTable';
+import TanstackTable from '@/components/Table/TanstackTable';
 import {
   FormProvider,
   RHFMultiSearchableSelect,

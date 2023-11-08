@@ -7,7 +7,7 @@ import Search from '@/components/Search';
 import AddGroupModal from './AddGroupModal';
 import ChatDropdown from '../../ChatDropdown';
 
-import { FilterSharedIcon, PlusSharedIcon } from '@/assets/icons';
+import { FilterSharedIcon, PlusIcon } from '@/assets/icons';
 
 import {
   chatContactsData,
@@ -28,7 +28,7 @@ const ContactList = ({ chatMode }: any) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const actionMenuOpen = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
+    setAnchorEl(event?.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
@@ -62,8 +62,8 @@ const ContactList = ({ chatMode }: any) => {
 
   return (
     <>
-      <Box sx={styles.wrapperContactList}>
-        <Box sx={styles.contactListHeader}>
+      <Box sx={styles?.wrapperContactList}>
+        <Box sx={styles?.contactListHeader}>
           <Box sx={{ display: 'flex' }}>
             <Checkbox checked={false} />
             <Search
@@ -75,7 +75,7 @@ const ContactList = ({ chatMode }: any) => {
             />
           </Box>
           <Button
-            sx={styles.filterButton}
+            sx={styles?.filterButton}
             aria-controls={actionMenuOpen ? 'basic-menu' : undefined}
             aria-haspopup="true"
             aria-expanded={actionMenuOpen ? 'true' : undefined}
@@ -96,12 +96,12 @@ const ContactList = ({ chatMode }: any) => {
             sx={{ width: '100%', marginTop: '15px', height: '36px' }}
             onClick={() => setIsAddGroupModal(true)}
           >
-            <PlusSharedIcon />
+            <PlusIcon />
             &nbsp;&nbsp;Create New Group
           </Button>
         )}
         <Box mt={2}>
-          {chatsTypeToShow.map((item) => (
+          {chatsTypeToShow?.map((item) => (
             <ContactsCard
               key={uuidv4()}
               cardData={item}

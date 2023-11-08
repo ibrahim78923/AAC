@@ -4,6 +4,7 @@ import {
   RHFSelect,
   RHFTextField,
 } from '@/components/ReactHookForm';
+import StatusBadge from '@/components/StatusBadge';
 import { Checkbox } from '@mui/material';
 import dayjs from 'dayjs';
 import * as Yup from 'yup';
@@ -196,76 +197,95 @@ export const jobPostingFiltersFields = () => {
   ];
 };
 
-export const columns: any = [
-  {
-    accessorFn: (row: any) => row?.id,
-    id: 'id',
-    cell: (info: any) => <Checkbox color="primary" name={info?.getValue()} />,
-    header: <Checkbox color="primary" name="Id" />,
-    isSortable: false,
-  },
-  {
-    accessorFn: (row: any) => row?.title,
-    id: 'title',
-    cell: (info: any) => info?.getValue(),
-    header: 'Job Title',
-    isSortable: false,
-  },
-  {
-    accessorFn: (row: any) => row?.description,
-    id: 'description',
-    isSortable: true,
-    header: 'Short Discription',
-    cell: (info: any) => {
-      const response = info?.getValue().replace(/<[^>]*>/g, '');
-      return <>{response}</>;
+export const columns = (theme: any) => {
+  return [
+    {
+      accessorFn: (row: any) => row?.id,
+      id: 'id',
+      cell: (info: any) => <Checkbox color="primary" name={info?.getValue()} />,
+      header: <Checkbox color="primary" name="Id" />,
+      isSortable: false,
     },
-  },
-  {
-    accessorFn: (row: any) => row.jobCategory,
-    id: 'jobCategory',
-    isSortable: true,
-    header: 'Category',
-    cell: (info: any) => {
-      const category =
-        info?.getValue() === 'SALES'
-          ? 'Sales'
-          : info?.getValue() === 'MARKETING'
-          ? 'Marketing'
-          : info?.getValue() === 'SERVICES'
-          ? 'Services'
-          : info?.getValue() === 'OPERATIONS'
-          ? 'Operations'
-          : 'Loyalty Program';
-      return <>{category}</>;
+    {
+      accessorFn: (row: any) => row?.title,
+      id: 'title',
+      cell: (info: any) => info?.getValue(),
+      header: 'Job Title',
+      isSortable: false,
     },
-  },
-  {
-    accessorFn: (row: any) => row?.numberOfVacancy,
-    id: 'numberOfVacancy',
-    isSortable: true,
-    header: 'No of Vacency',
-    cell: (info: any) => info?.getValue(),
-  },
-  {
-    accessorFn: (row: any) => row?.createdBy,
-    id: 'createdBy',
-    isSortable: true,
-    header: 'Created By',
-    cell: (info: any) => info?.getValue().name,
-  },
-  {
-    accessorFn: (row: any) => row?.createdAt,
-    id: 'createdAt',
-    isSortable: true,
-    header: 'Created date',
-    cell: (info: any) => dayjs(info?.getValue()).format('MM/DD/YYYY'),
-  },
-  {
-    accessorFn: (row: any) => row?.status,
-    id: 'status',
-    isSortable: true,
-    header: 'Status',
-    cell: (info: any) => (info?.getValue() === 'OPEN' ? 'Open' : 'Close'),
-  },
-];
+    {
+      accessorFn: (row: any) => row?.description,
+      id: 'description',
+      isSortable: true,
+      header: 'Short Discription',
+      cell: (info: any) => {
+        const response = info?.getValue().replace(/<[^>]*>/g, '');
+        return <>{response}</>;
+      },
+    },
+    {
+      accessorFn: (row: any) => row.jobCategory,
+      id: 'jobCategory',
+      isSortable: true,
+      header: 'Category',
+      cell: (info: any) => {
+        const category =
+          info?.getValue() === 'SALES'
+            ? 'Sales'
+            : info?.getValue() === 'MARKETING'
+            ? 'Marketing'
+            : info?.getValue() === 'SERVICES'
+            ? 'Services'
+            : info?.getValue() === 'OPERATIONS'
+            ? 'Operations'
+            : 'Loyalty Program';
+        return <>{category}</>;
+      },
+    },
+    {
+      accessorFn: (row: any) => row?.numberOfVacancy,
+      id: 'numberOfVacancy',
+      isSortable: true,
+      header: 'No of Vacency',
+      cell: (info: any) => info?.getValue(),
+    },
+    {
+      accessorFn: (row: any) => row?.createdBy,
+      id: 'createdBy',
+      isSortable: true,
+      header: 'Created By',
+      cell: (info: any) => info?.getValue().name,
+    },
+    {
+      accessorFn: (row: any) => row?.createdAt,
+      id: 'createdAt',
+      isSortable: true,
+      header: 'Created date',
+      cell: (info: any) => dayjs(info?.getValue()).format('MM/DD/YYYY'),
+    },
+    {
+      accessorFn: (row: any) => row?.status,
+      id: 'status',
+      isSortable: true,
+      header: 'Status',
+      cell: (info: any) => (
+        <StatusBadge
+          value={info.getValue()}
+          // onChange={(e: any) => setUserStatus(e.target.value)}
+          options={[
+            {
+              label: 'Open',
+              value: 'open',
+              color: theme?.palette?.success?.main,
+            },
+            {
+              label: 'Close',
+              value: 'close',
+              color: theme?.palette?.error?.main,
+            },
+          ]}
+        />
+      ),
+    },
+  ];
+};

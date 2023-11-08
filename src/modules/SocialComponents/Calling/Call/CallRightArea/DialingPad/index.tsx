@@ -4,7 +4,6 @@ import Image from 'next/image';
 
 import { Box, Grid, Typography, useTheme } from '@mui/material';
 
-import { UsersAvatarRoundedImage } from '@/assets/images';
 import { ClearIcon, PhoneGreenIcon } from '@/assets/icons';
 
 import { dailPadKeys } from './DailPad.data';
@@ -12,6 +11,7 @@ import { dailPadKeys } from './DailPad.data';
 import { styles } from './DialingPad.style';
 
 import { v4 as uuidv4 } from 'uuid';
+import { callsContactsData } from '@/mock/modules/SocialComponents/Calling';
 
 const DialingPad = () => {
   const theme = useTheme();
@@ -25,20 +25,43 @@ const DialingPad = () => {
     setPhoneNo('');
   };
 
+  const filteredData = callsContactsData?.filter(
+    (contact: any) => contact?.phone?.includes(phoneNo),
+  );
+
   return (
     <Box>
       <Box
         sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
       >
-        <Image
-          src={UsersAvatarRoundedImage}
-          width={96}
-          height={96}
-          style={{ borderRadius: '50%' }}
-          alt="user"
-        />
-        <Typography variant="h3" color={theme.palette.custom.grayish_blue}>
-          Johny Doe
+        {filteredData && (
+          <Box
+            sx={{
+              backgroundColor: 'whitesmoke',
+              width: '96px',
+              height: '96px',
+              borderRadius: '50%',
+            }}
+          >
+            {phoneNo && (
+              <>
+                {filteredData[0]?.userImage && (
+                  <Image
+                    src={filteredData[0]?.userImage}
+                    width={96}
+                    height={96}
+                    style={{ borderRadius: '50%' }}
+                    alt="user"
+                  />
+                )}
+              </>
+            )}
+          </Box>
+        )}
+        <Typography variant="h3" color={theme?.palette?.custom?.grayish_blue}>
+          {phoneNo && filteredData && filteredData[0]?.userName
+            ? filteredData[0]?.userName
+            : ''}
         </Typography>
       </Box>
       <Box>
@@ -54,10 +77,10 @@ const DialingPad = () => {
               sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}
               mt={1}
             >
-              <Box sx={styles.phoneDispWrapper}>
+              <Box sx={styles?.phoneDispWrapper}>
                 <Typography
                   variant="h4"
-                  color={theme.palette.custom.grayish_blue}
+                  color={theme?.palette?.custom?.grayish_blue}
                 >
                   {phoneNo}
                 </Typography>
@@ -67,33 +90,33 @@ const DialingPad = () => {
               </Box>
             </Box>
           )}
-          <Box mt={1} sx={styles.dailkeysWrapper}>
+          <Box mt={1} sx={styles?.dailkeysWrapper}>
             <Grid container spacing={2}>
-              {dailPadKeys.map((key: any) => (
+              {dailPadKeys?.map((key: any) => (
                 <Grid
                   item
-                  xs={8}
+                  xs={4}
                   lg={4}
                   key={uuidv4()}
-                  onClick={() => handelInputButtons(key.value)}
+                  onClick={() => handelInputButtons(key?.value)}
                 >
-                  <Box sx={styles.dailPadBtn(theme)}>
+                  <Box sx={styles?.dailPadBtn(theme)}>
                     <Box
                       fontSize={18}
                       fontWeight={400}
                       textAlign="center"
-                      color={theme.palette.slateBlue.main}
+                      color={theme?.palette?.slateBlue?.main}
                     >
-                      {key.dailKey}
+                      {key?.dailKey}
                     </Box>
                     <Box
                       fontSize={6}
                       style={{ marginTop: '-4px' }}
                       fontWeight={400}
                       textAlign="center"
-                      color={theme.palette.slateBlue.main}
+                      color={theme?.palette?.slateBlue?.main}
                     >
-                      {key.alphabets}
+                      {key?.alphabets}
                     </Box>
                   </Box>
                 </Grid>
