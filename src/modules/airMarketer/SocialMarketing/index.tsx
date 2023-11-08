@@ -29,7 +29,9 @@ const SocialMarketing = () => {
         sx={{ position: 'absolute', top: '-5px', right: '0px' }}
         variant="contained"
         className="small"
-        onClick={() => router.push('/super-admin/billing-invoices')}
+        onClick={() =>
+          router.push('/air-marketer/social-marketing/create-post')
+        }
       >
         Create Post
       </Button>

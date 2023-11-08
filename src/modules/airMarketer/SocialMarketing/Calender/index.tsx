@@ -90,7 +90,9 @@ const Calender = () => {
             { day: '2-digit', month: 'long', year: 'numeric', weekday: 'long' },
           ]}
           //  dateClick={calendarDateClick}
-          eventClick={() => router.push('/super-admin/billing-invoices')}
+          eventClick={() =>
+            router.push('/air-marketer/social-marketing/create-posts')
+          }
         />
       </Box>
     </>
