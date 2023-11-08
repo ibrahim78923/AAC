@@ -20,19 +20,19 @@ export const jobPostingValidationSchema = Yup.object().shape({
 });
 
 export const jobPostingDefaultValues = {
-  jobTitle: '',
-  JobType: '',
-  category: '',
-  experienceLevel: '',
-  numberOfVacency: '',
-  applicationDedlineDates: '',
-  jobDiscription: '',
+  title: '',
+  jobType: '',
+  jobCategory: '',
+  experience: '',
+  numberOfVacancy: '',
+  deadline: '',
+  description: '',
 };
 
 export const jobPostingDataArray = [
   {
     componentProps: {
-      name: 'jobTitle',
+      name: 'title',
       label: 'Job Title',
       fullWidth: true,
     },
@@ -41,25 +41,40 @@ export const jobPostingDataArray = [
   },
   {
     componentProps: {
-      name: 'JobType',
+      name: 'jobType',
       label: 'Job Type',
+      select: true,
       fullWidth: true,
     },
+    options: [
+      { value: 'FULL_TIME', label: 'Full Time' },
+      { value: 'PART_TIME', label: 'Part Time' },
+      { value: 'PERMANENT', label: 'Permanent' },
+      { value: 'INTERNSHIP', label: 'Internship' },
+    ],
     component: RHFSelect,
     md: 12,
   },
   {
     componentProps: {
-      name: 'category',
+      name: 'jobCategory',
       label: 'Category ',
+      select: true,
       fullWidth: true,
     },
+    options: [
+      { value: 'SALES', label: 'Sales' },
+      { value: 'MARKETING', label: 'Marketing' },
+      { value: 'SERVICES', label: 'Services' },
+      { value: 'OPERATIONS', label: 'Operations' },
+      { value: 'LOYALTY_PROGRAM', label: 'Loyalty Program' },
+    ],
     component: RHFSelect,
     md: 12,
   },
   {
     componentProps: {
-      name: 'experienceLevel',
+      name: 'experience',
       label: 'Experience Level',
       select: true,
     },
@@ -74,7 +89,7 @@ export const jobPostingDataArray = [
   },
   {
     componentProps: {
-      name: 'numberOfVacency',
+      name: 'numberOfVacancy',
       label: 'Number of Vacency',
       fullWidth: true,
       select: true,
@@ -91,7 +106,7 @@ export const jobPostingDataArray = [
   },
   {
     componentProps: {
-      name: 'applicationDedlineDates',
+      name: 'deadline',
       label: 'Application Deadline Date',
       fullWidth: true,
     },
@@ -100,7 +115,7 @@ export const jobPostingDataArray = [
   },
   {
     componentProps: {
-      name: 'jobDiscription',
+      name: 'description',
       label: 'Job Discription',
       fullWidth: true,
     },
@@ -275,12 +290,12 @@ export const columns = (theme: any) => {
           options={[
             {
               label: 'Open',
-              value: 'open',
+              value: 'OPEN',
               color: theme?.palette?.success?.main,
             },
             {
               label: 'Close',
-              value: 'close',
+              value: 'CLOSE',
               color: theme?.palette?.error?.main,
             },
           ]}

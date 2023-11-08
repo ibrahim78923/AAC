@@ -21,8 +21,8 @@ export const settingsJobsAPI = baseAPI.injectEndpoints({
     }),
 
     postJob: builder.mutation({
-      query: ({ id, body }: any) => ({
-        url: `${SETTINGS_API.jobs}/${id}`,
+      query: ({ body }: any) => ({
+        url: SETTINGS_API.jobs,
         method: 'POST',
         body: body,
       }),
