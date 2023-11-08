@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import {
   defaultValues,
   validationSchemaReportAnIssueModal,
@@ -19,6 +19,11 @@ export function useReportAnIssueModal() {
   });
   const { handleSubmit } = methods;
 
+  const fileImport: any = useRef();
+  const handleImport = () => {
+    fileImport?.current?.click();
+  };
+
   return {
     methods,
     validationSchemaReportAnIssueModal,
@@ -28,5 +33,7 @@ export function useReportAnIssueModal() {
     openReportAnIssueModal,
     setOpenReportAnIssueModal,
     theme,
+    fileImport,
+    handleImport,
   };
 }

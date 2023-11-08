@@ -1,14 +1,21 @@
-import { AlertModalCloseIcon } from '@/assets/icons';
+import { AlertModalCloseIcon, AttachIcon } from '@/assets/icons';
 import { FormProvider } from '@/components/ReactHookForm';
 import { Box, Button, Dialog, Grid, Typography } from '@mui/material';
 import { useReportAnIssueModal } from './useReportAnIssueModal';
 import { v4 as uuidv4 } from 'uuid';
 import { reportAnIssueModalDataArray } from './ReportAnIssueModal.data';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { styles } from './ReportAnIssueModal.style';
 
 const ReportAnIssueModal = () => {
-  const { methods, openReportAnIssueModal, setOpenReportAnIssueModal }: any =
-    useReportAnIssueModal();
+  const {
+    methods,
+    openReportAnIssueModal,
+    setOpenReportAnIssueModal,
+    theme,
+    fileImport,
+    handleImport,
+  }: any = useReportAnIssueModal();
   return (
     <>
       <FormProvider methods={methods}>
@@ -40,9 +47,40 @@ const ReportAnIssueModal = () => {
                 ))}
               </Grid>
             </Grid>
-            <Box></Box>
+            <Box display={'flex'} alignItems={'center'} gap={0.5}>
+              <AttachIcon />
+              <Typography
+                variant="body2"
+                fontWeight={600}
+                sx={{ cursor: 'pointer' }}
+                onClick={handleImport}
+              >
+                Attach a file
+              </Typography>
+              <input
+                type="file"
+                id="fileInput"
+                style={{ display: 'none' }}
+                ref={fileImport}
+              />
+              <Typography variant="body2">(File size &lt; 40 MB)</Typography>
+            </Box>
+            <Box
+              display={'flex'}
+              alignItems={'center'}
+              gap={0.5}
+              mt={1}
+              sx={{ cursor: 'pointer' }}
+            >
+              <AddCircleIcon color={theme?.palette?.grey?.[600]} />
+              <Typography variant="body2" fontWeight={600}>
+                Associate Assets
+              </Typography>
+            </Box>
             <Box sx={styles?.buttonBox}>
-              <Button variant="outlined">Cancel</Button>
+              <Button variant="outlined" color="secondary">
+                Cancel
+              </Button>
               <Button variant="contained">Submit</Button>
             </Box>
           </Box>

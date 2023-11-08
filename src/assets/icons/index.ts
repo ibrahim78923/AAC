@@ -181,3 +181,4 @@ export { default as AlertModalCloseIcon } from './shared/alert-modal-close-icon'
 export { default as PhotoShopIcon } from './shared/photoshop-icon';
 export { default as XdIcon } from './shared/xd-icon';
 export { default as IllustratorIcon } from './shared/illustrator-icon';
+export { default as AttachIcon } from './shared/attach-file-icon';
