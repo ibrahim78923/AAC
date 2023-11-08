@@ -1,6 +1,6 @@
 import { IAVATARGROUPDATA } from '@/types/shared/AvatarGroup';
 
-import { RHFDatePicker, RHFSelect } from '@/components/ReactHookForm';
+import { RHFSelect, RHFSwitchableDatepicker } from '@/components/ReactHookForm';
 
 import * as Yup from 'yup';
 
@@ -37,16 +37,31 @@ export const avatarGroupMockData: IAVATARGROUPDATA[] = [
   },
 ];
 
+const dateOrArraySchema = Yup.mixed().test(
+  'is-date-or-array',
+  'Must be a date or an array of dates',
+  (value: any) => {
+    if (Array.isArray(value)) {
+      return Yup.array()
+        .of(Yup.date().required('Date is required'))
+        .min(1, 'At least one date is required')
+        .isValidSync(value);
+    } else {
+      return Yup.date().required('Field is Required').isValidSync(value);
+    }
+  },
+);
+
 export const planManagementFilterValidationSchema = Yup.object().shape({
   products: Yup.string().trim().required('Field is Required'),
   plan: Yup.string().trim().required('Field is Required'),
-  createdDate: Yup.string().trim().required('Field is Required'),
+  createdDate: dateOrArraySchema.required('Field is Required'),
 });
 
 export const planManagementFilterDefaultValues = {
   products: '',
   plan: '',
-  createdDate: '',
+  createdDate: null,
 };
 
 export const planManagementFilterFiltersDataArray = [
@@ -86,7 +101,7 @@ export const planManagementFilterFiltersDataArray = [
       label: 'Created Date',
       fullWidth: true,
     },
-    component: RHFDatePicker,
+    component: RHFSwitchableDatepicker,
     md: 12,
   },
 ];

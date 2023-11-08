@@ -87,7 +87,7 @@ const DealPipelines = () => {
                           <Grid
                             container
                             spacing={2}
-                            sx={styles.BoxStyling}
+                            sx={styles?.BoxStyling}
                             style={{ marginBottom: '15px' }}
                           >
                             <Grid item xs={5} sx={{ padding: '0px' }}>
@@ -187,7 +187,7 @@ const DealPipelines = () => {
               aria-haspopup="true"
               aria-expanded={open ? 'true' : undefined}
               onClick={handleClick}
-              sx={styles.actionBtn(theme)}
+              sx={styles?.actionBtn(theme)}
               disabled={!isDisableButton}
             >
               Actions <ArrowDropDownIcon />
@@ -213,7 +213,7 @@ const DealPipelines = () => {
 
             <Button
               variant="contained"
-              sx={styles.createBtn}
+              sx={styles?.createBtn}
               onClick={() => (setIsDraweropen(true), setIsEditMode(false))}
             >
               <AddCircleIcon
@@ -306,7 +306,7 @@ const DealPipelines = () => {
                 Probability 100%
               </Typography>
             </Box>
-            <Box sx={styles.BoxStyling}>
+            <Box sx={styles?.BoxStyling}>
               <Typography variant="body2" sx={{ fontWeight: '600' }}>
                 Follow-up{' '}
               </Typography>
@@ -318,7 +318,7 @@ const DealPipelines = () => {
               </Typography>
             </Box>
 
-            <Box sx={styles.BoxStyling}>
+            <Box sx={styles?.BoxStyling}>
               <Typography variant="body2" sx={{ fontWeight: '600' }}>
                 Under review{' '}
               </Typography>
@@ -391,7 +391,7 @@ const DealPipelines = () => {
                 </Typography>
               </Box>
             </Box>
-            <Box sx={styles.BoxStyling}>
+            <Box sx={styles?.BoxStyling}>
               <Typography variant="body2" sx={{ fontWeight: '600' }}>
                 New{' '}
               </Typography>
@@ -402,7 +402,7 @@ const DealPipelines = () => {
                 Probability 100%
               </Typography>
             </Box>
-            <Box sx={styles.BoxStyling}>
+            <Box sx={styles?.BoxStyling}>
               <Typography variant="body2" sx={{ fontWeight: '600' }}>
                 Follow-up{' '}
               </Typography>
@@ -414,7 +414,7 @@ const DealPipelines = () => {
               </Typography>
             </Box>
 
-            <Box sx={styles.BoxStyling}>
+            <Box sx={styles?.BoxStyling}>
               <Typography variant="body2" sx={{ fontWeight: '600' }}>
                 Under review{' '}
               </Typography>

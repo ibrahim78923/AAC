@@ -8,6 +8,7 @@ function path(root: string, sublink: string) {
 
 const AUTH_ROOT_PAGE = '/auth';
 const DASHBOARD_ROOT_PAGE = '/dashboard';
+const SOCIAL_ROOT_PAGE = '/social-components';
 
 // ======================================================================
 
@@ -37,4 +38,17 @@ export const PATH_DASHBOARD = {
     profile: path(DASHBOARD_ROOT_PAGE, '/user/profil'),
     account: path(DASHBOARD_ROOT_PAGE, '/user/account'),
   },
+};
+
+export const SOCIAL_FEATURES = {
+  calls: path(SOCIAL_ROOT_PAGE, '/calling/call'),
+};
+export const orgAdminSubcriptionInvoices = {
+  choose_plan: '/org-admin/subscription-and-invoices/choose-plan',
+  back_subscription_invoices: '/org-admin/subscription-and-invoices',
+  manage_plan: '/org-admin/subscription-and-invoices/manage-plan',
+};
+
+export const superAdminBillingInvoicesPath = {
+  generate_invoice: '/super-admin/billing-invoices/generate-invoice',
 };
