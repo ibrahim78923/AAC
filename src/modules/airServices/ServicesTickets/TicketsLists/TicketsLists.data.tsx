@@ -134,7 +134,7 @@ export const ticketsListsData: any = [
   {
     id: 1,
     ticketId: ` #717`,
-    ticketName: 'Drafts',
+    subject: 'Drafts',
     requester: { name: 'Sophie Baxter', profileImg: AvatarImage },
     assignedTo: 'user1',
     status: 'open',
@@ -144,7 +144,7 @@ export const ticketsListsData: any = [
   {
     id: 2,
     ticketId: ` #787`,
-    ticketName: 'rafts',
+    subject: 'rafts',
     requester: { name: 'Cameron Williamson', profileImg: null },
     assignedTo: 'user2',
     state: 'Response Due',
@@ -154,12 +154,53 @@ export const ticketsListsData: any = [
   {
     id: 3,
     ticketId: ` #917`,
-    ticketName: 'fts',
+    subject: 'fts',
     requester: { name: 'Leslie Alexander', profileImg: '' },
-    assignedTo: 'user3',
-    state: 'Overdue',
     status: 'closed',
     priority: 'medium',
+    assignedTo: 'user3',
+    department: 'IT',
+    state: 'Overdue',
+    createAt: '00000000',
+    dueDate: '000000',
+    impact: 'high',
+    plannedStartDate: '11111',
+    plannedEndDate: '00000',
+    plannedEffort: 'o0o0o0',
+  },
+];
+
+export const columnsPersist = [
+  {
+    id: 1,
+    ticketId: ` #717`,
+    subject: 'Drafts',
+    details: { name: 'Sophie Baxter', profileImg: AvatarImage },
+    assignedTo: 'user1',
+    status: 'open',
+    state: 'New',
+    priority: 'high',
+  },
+  {
+    _id: '6543cdac8c813b3bdf2f21ef',
+    details: {
+      note: 'any note',
+      go: 'test',
+      ko: 'HIGH',
+      lop: 'INTERNAL',
+    },
+    subject: 'test',
+    pirority: 'HIGH',
+    type: 'INTERNAL',
+  },
+  {
+    _id: '6543cdce8c813b3bdf2f21f2',
+    details: {
+      note: 'any note',
+    },
+    subject: 'test subject',
+    pirority: 'HIGH',
+    type: 'INTERNAL',
   },
 ];
 
@@ -248,10 +289,10 @@ export const ticketsListsColumnFunction: any = (
       isSortable: true,
     },
     {
-      accessorFn: (row: any) => row?.ticketName,
-      id: 'ticketName',
+      accessorFn: (row: any) => row?.subject,
+      id: 'subject',
       isSortable: true,
-      header: 'Ticket Name',
+      header: 'Subject',
       cell: (info: any) => info?.getValue(),
     },
     {
@@ -375,6 +416,55 @@ export const ticketsListsColumnFunction: any = (
           )}
         </Select>
       ),
+    },
+    {
+      accessorFn: (row: any) => row?.department,
+      id: 'department',
+      isSortable: true,
+      header: 'Department',
+      cell: (info: any) => info?.getValue(),
+    },
+    {
+      accessorFn: (row: any) => row?.createdAt,
+      id: 'createdAt',
+      isSortable: true,
+      header: 'created Date',
+      cell: (info: any) => info?.getValue(),
+    },
+    {
+      accessorFn: (row: any) => row?.dueDate,
+      id: 'dueDate',
+      isSortable: true,
+      header: 'Due Date',
+      cell: (info: any) => info?.getValue(),
+    },
+    {
+      accessorFn: (row: any) => row?.impact,
+      id: 'impact',
+      isSortable: true,
+      header: 'impact',
+      cell: (info: any) => info?.getValue(),
+    },
+    {
+      accessorFn: (row: any) => row?.plannedStartDate,
+      id: 'plannedStartDate',
+      isSortable: true,
+      header: 'Planned Start Date',
+      cell: (info: any) => info?.getValue(),
+    },
+    {
+      accessorFn: (row: any) => row?.plannedEndDate,
+      id: 'plannedEndDate',
+      isSortable: true,
+      header: 'Planned End Date',
+      cell: (info: any) => info?.getValue(),
+    },
+    {
+      accessorFn: (row: any) => row?.plannedEffort,
+      id: 'plannedEffort',
+      isSortable: true,
+      header: 'Planned Effort',
+      cell: (info: any) => info?.getValue(),
     },
   ];
 };

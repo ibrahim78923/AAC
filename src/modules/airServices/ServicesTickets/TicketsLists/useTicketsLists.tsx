@@ -21,6 +21,34 @@ export const useTicketsLists = () => {
     setTicketList(ticketsListsData);
   }, [ticketsListsData]);
 
+  // const nop = columnsPersist?.map(
+  //   (obj: any) =>
+  //     Object?.entries(obj)?.reduce((acc: any, [key, value]: any) => {
+  //       if (
+  //         typeof value === 'object' &&
+  //         value !== null &&
+  //         !Array.isArray(value)
+  //       )
+  //         return { ...acc, ...value };
+  //       else return { [key]: value, ...acc };
+  //     }, {}),
+  // );
+  // const object1 = Object?.entries(columnsPersist?.[0])?.reduce(
+  //   (acc: any, [key, value]: any) => {
+  //     if (typeof value === 'object' && value !== null && !Array.isArray(value))
+  //       return { ...acc, ...value };
+  //     else return { [key]: value, ...acc };
+  //   },
+  //   {},
+  // );
+  // const object2 = Object?.entries(columnsPersist?.[0])?.reduce(
+  //   (x: any, y: any) => {
+  //     const [k, v] = y;
+  //     return { ...x, [k]: true };
+  //   },
+  //   {},
+  // );
+
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 
   const theme = useTheme();
@@ -37,6 +65,18 @@ export const useTicketsLists = () => {
     );
   };
 
+  const ticketsListsColumnPersist = ticketsListsColumnFunction(
+    theme,
+    router,
+    ticketsListsData,
+    selectedTicketList,
+    setSelectedTicketList,
+    handleChange,
+  );
+  // const newColumns = ticketsListsColumnPersist?.filter(
+  //   (x: any) => object2[x?.id],
+  // );
+
   const [ticketsListsColumn, setTicketsListsColumn] = useState(
     ticketsListsColumnFunction(
       theme,
@@ -46,16 +86,8 @@ export const useTicketsLists = () => {
       setSelectedTicketList,
       handleChange,
     ),
+    // newColumns,
   );
-  const ticketsListsColumnPersist = ticketsListsColumnFunction(
-    theme,
-    router,
-    ticketsListsData,
-    selectedTicketList,
-    setSelectedTicketList,
-    handleChange,
-  );
-
   const drawerComponent: any = {
     [TABLE_CONSTANTS?.CUSTOMIZE_COLUMN]: (
       <CustomizeTicketsColumn
