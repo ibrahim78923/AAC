@@ -3,13 +3,13 @@ import Search from '@/components/Search';
 
 import * as Yup from 'yup';
 
-export const validationSchema = Yup.object().shape({
-  registrationNumber: Yup.string().required('Field is Required'),
-  name: Yup.string().trim().required('Field is Required'),
-  email: Yup.string().required('Field is Required'),
-  phoneNo: Yup.string().required('Field is Required'),
-  postCode: Yup.string().required('Field is Required'),
-  address: Yup.string().required('Field is Required'),
+export const validationSchema = Yup?.object()?.shape({
+  registrationNumber: Yup?.string()?.required('Field is Required'),
+  name: Yup?.string()?.trim()?.required('Field is Required'),
+  email: Yup?.string()?.required('Field is Required'),
+  phoneNo: Yup?.string()?.required('Field is Required'),
+  postCode: Yup?.string()?.required('Field is Required'),
+  address: Yup?.string()?.required('Field is Required'),
 });
 
 export const defaultValues = {

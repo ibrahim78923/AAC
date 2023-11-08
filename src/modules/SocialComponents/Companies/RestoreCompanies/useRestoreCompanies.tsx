@@ -7,6 +7,8 @@ import { useForm } from 'react-hook-form';
 const useRestoreCompanies = () => {
   const [search, setSearch] = useState('');
   const [isDrawer, setIsDrawer] = useState(false);
+  const [isRestoreDelete, setIsRestoreDelete] = useState(false);
+  const [isRestoreItem, setIsRestoreItem] = useState(false);
   const theme = useTheme<Theme>();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -38,6 +40,10 @@ const useRestoreCompanies = () => {
     methods,
     handleSubmit,
     onSubmit,
+    isRestoreDelete,
+    setIsRestoreDelete,
+    isRestoreItem,
+    setIsRestoreItem,
   };
 };
 

@@ -8,6 +8,7 @@ const useCompanies = () => {
   const theme = useTheme<Theme>();
   const [search, setSearch] = useState('');
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
+  const [isCreateView, setIsCreateView] = useState<any>(false);
   const [isFilter, setIsFilter] = useState(false);
   const [isCustomize, setIsCustomize] = useState(false);
   const [isToggled, toggle] = useToggle(false);
@@ -37,6 +38,8 @@ const useCompanies = () => {
     toggle,
     handleClick,
     handleClose,
+    isCreateView,
+    setIsCreateView,
   };
 };
 

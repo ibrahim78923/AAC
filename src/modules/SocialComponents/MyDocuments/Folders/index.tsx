@@ -48,7 +48,7 @@ import useFolder from './useFolder';
 
 import { v4 as uuidv4 } from 'uuid';
 
-import { style } from './Folder.style';
+import { styles } from './Folder.style';
 
 const Folders = (props: any) => {
   const { toggle } = props;
@@ -111,14 +111,14 @@ const Folders = (props: any) => {
             <Button
               variant="outlined"
               className="large"
-              sx={style?.filterUserButton}
+              sx={styles?.filterUserButton}
             >
               <SingleUserBlackIcon /> Me
             </Button>
             <Button
               variant="outlined"
               className="large"
-              sx={style?.filterUserButton}
+              sx={styles?.filterUserButton}
             >
               <TwoUserBlackIcon /> My Team
             </Button>
@@ -126,7 +126,7 @@ const Folders = (props: any) => {
               onClick={() => setIsOpenDrawer(true)}
               variant="contained"
               className="large"
-              sx={style?.filterUserAnyButton(theme)}
+              sx={styles?.filterUserAnyButton(theme)}
             >
               <AnyRoundIcon /> Any
             </Button>
@@ -138,7 +138,7 @@ const Folders = (props: any) => {
             >
               Teams
             </Typography>
-            <Box sx={style?.teamRow}>
+            <Box sx={styles?.teamRow}>
               <TeamUserIcon />
               <Typography
                 variant="body2"
@@ -150,7 +150,7 @@ const Folders = (props: any) => {
                 AirApple Cart team
               </Typography>
             </Box>
-            <Box sx={style?.teamRow}>
+            <Box sx={styles?.teamRow}>
               <TeamUserIcon />
               <Typography
                 variant="body2"
@@ -170,7 +170,7 @@ const Folders = (props: any) => {
             >
               Users
             </Typography>
-            <Box sx={style?.teamRow}>
+            <Box sx={styles?.teamRow}>
               <Image src={UserRoundImage} alt="No Image" />
               <Box>
                 <Typography
@@ -225,7 +225,7 @@ const Folders = (props: any) => {
               setValue(e);
             }}
           />
-          <Box sx={style?.folderRow}>
+          <Box sx={styles?.folderRow}>
             <FolderIcon />
             <Typography
               variant="body2"
@@ -237,7 +237,7 @@ const Folders = (props: any) => {
               My PDF
             </Typography>
           </Box>
-          <Box sx={style?.folderRow}>
+          <Box sx={styles?.folderRow}>
             <FolderIcon />
             <Typography
               variant="body2"
@@ -249,7 +249,7 @@ const Folders = (props: any) => {
               Employee CV’s
             </Typography>
           </Box>
-          <Box sx={style?.folderRow}>
+          <Box sx={styles?.folderRow}>
             <FolderIcon />
             <Typography
               variant="body2"
@@ -261,7 +261,7 @@ const Folders = (props: any) => {
               AirApple Cart
             </Typography>
           </Box>
-          <Box sx={style?.folderRow}>
+          <Box sx={styles?.folderRow}>
             <FolderIcon />
             <Typography
               variant="body2"
@@ -273,7 +273,7 @@ const Folders = (props: any) => {
               AirApple Cart document testing
             </Typography>
           </Box>
-          <Box sx={style?.folderRow}>
+          <Box sx={styles?.folderRow}>
             <FolderIcon />
             <Typography
               variant="body2"
@@ -318,9 +318,9 @@ const Folders = (props: any) => {
               >
                 Folders
               </Typography>
-              <Box sx={style?.actionFilterBox}>
+              <Box sx={styles?.actionFilterBox}>
                 <Button
-                  sx={style?.actionButton(theme)}
+                  sx={styles?.actionButton(theme)}
                   aria-controls={open ? 'basic-menu' : undefined}
                   aria-haspopup="true"
                   aria-expanded={open ? 'true' : undefined}
@@ -428,7 +428,7 @@ const Folders = (props: any) => {
           >
             <Grid container spacing={2}>
               <Grid item lg={6} md={6} sm={6} xs={12}>
-                <Typography variant="h5" sx={style?.documentTitle(theme)}>
+                <Typography variant="h5" sx={styles?.documentTitle(theme)}>
                   Documents
                 </Typography>
               </Grid>
@@ -438,21 +438,21 @@ const Folders = (props: any) => {
                 md={6}
                 sm={6}
                 xs={12}
-                sx={style?.actionButtonBox}
+                sx={styles?.actionButtonBox}
               >
                 <Button
                   variant="outlined"
                   onClick={() => {
                     setIsOpenModal(true);
                   }}
-                  sx={style?.createFolderButton(theme)}
+                  sx={styles?.createFolderButton(theme)}
                 >
                   <AddCircle /> Create Folder
                 </Button>
                 <Button
                   variant="contained"
                   onClick={() => {}}
-                  sx={style?.uploadDocumentsButton(theme)}
+                  sx={styles?.uploadDocumentsButton(theme)}
                 >
                   Upload Documents
                 </Button>
@@ -463,7 +463,7 @@ const Folders = (props: any) => {
                 md={6}
                 sm={6}
                 xs={12}
-                sx={style?.documentTitle(theme)}
+                sx={styles?.documentTitle(theme)}
               >
                 <Search
                   label="Search here"
@@ -475,9 +475,9 @@ const Folders = (props: any) => {
                 />
               </Grid>
               <Grid item lg={6} md={6} sm={6} xs={12}>
-                <Box sx={style?.actionFilterBox}>
+                <Box sx={styles?.actionFilterBox}>
                   <Button
-                    sx={style?.actionButton(theme)}
+                    sx={styles?.actionButton(theme)}
                     aria-controls={open ? 'basic-menu' : undefined}
                     aria-haspopup="true"
                     aria-expanded={open ? 'true' : undefined}
@@ -518,7 +518,7 @@ const Folders = (props: any) => {
                       setIsOpenDrawer(true);
                     }}
                     variant="outlined"
-                    sx={style?.fiterButton(theme)}
+                    sx={styles?.fiterButton(theme)}
                   >
                     <FilterSharedIcon /> Any
                   </Button>

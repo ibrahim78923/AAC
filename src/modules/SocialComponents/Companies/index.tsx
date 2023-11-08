@@ -1,6 +1,15 @@
 import React from 'react';
 
-import { Box, Button, Grid, Menu, MenuItem, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Grid,
+  IconButton,
+  Menu,
+  MenuItem,
+  Tooltip,
+  Typography,
+} from '@mui/material';
 
 import { AddCircle } from '@mui/icons-material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
@@ -25,8 +34,9 @@ import {
   ImportCompaniesIcon,
   RestoreIcon,
 } from '@/assets/icons';
+import CreateViewCompany from './CreateViewCompany';
 
-const SocialCompanies = () => {
+const Companies = () => {
   const {
     open,
     anchorEl,
@@ -43,6 +53,8 @@ const SocialCompanies = () => {
     toggle,
     handleClick,
     handleClose,
+    isCreateView,
+    setIsCreateView,
   } = useCompanies();
 
   return (
@@ -51,7 +63,7 @@ const SocialCompanies = () => {
         <RestoreCompanies toggle={toggle} />
       ) : (
         <>
-          <Box sx={styles.mainCompanyBox(theme)}>
+          <Box sx={styles?.mainCompanyBox(theme)}>
             <Grid container>
               <Grid item lg={6} md={6} sm={6} xs={12}>
                 <Typography
@@ -109,6 +121,14 @@ const SocialCompanies = () => {
               }}
               headerChildren={
                 <>
+                  <Tooltip title="Add View" placement="bottom" arrow>
+                    <IconButton>
+                      <AddCircle
+                        sx={{ color: `${theme?.palette?.grey[900]}` }}
+                        onClick={() => setIsCreateView(true)}
+                      />
+                    </IconButton>
+                  </Tooltip>
                   <Button
                     variant="outlined"
                     className="small"
@@ -186,10 +206,14 @@ const SocialCompanies = () => {
             isCustomize={isCustomize}
             setIsCustomize={setIsCustomize}
           />
+          <CreateViewCompany
+            isCreateView={isCreateView}
+            setIsCreateView={setIsCreateView}
+          />
         </>
       )}
     </>
   );
 };
 
-export default SocialCompanies;
+export default Companies;

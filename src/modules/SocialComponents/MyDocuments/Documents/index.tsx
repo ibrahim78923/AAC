@@ -37,7 +37,7 @@ import useDocuments from './useDocuments';
 
 import { v4 as uuidv4 } from 'uuid';
 
-import { style } from './Documents.style';
+import { styles } from './Documents.style';
 
 const Documents = (props: any) => {
   const { toggle } = props;
@@ -93,21 +93,21 @@ const Documents = (props: any) => {
             <Button
               variant="outlined"
               className="large"
-              sx={style.filterUserButton}
+              sx={styles?.filterUserButton}
             >
               <SingleUserBlackIcon /> Me
             </Button>
             <Button
               variant="outlined"
               className="large"
-              sx={style.filterUserButton}
+              sx={styles?.filterUserButton}
             >
               <TwoUserBlackIcon /> My Team
             </Button>
             <Button
               variant="contained"
               className="large"
-              sx={style.filterUserAnyButton(theme)}
+              sx={styles?.filterUserAnyButton(theme)}
             >
               <AnyRoundIcon /> Any
             </Button>
@@ -119,7 +119,7 @@ const Documents = (props: any) => {
             >
               Teams
             </Typography>
-            <Box sx={style?.teamRow}>
+            <Box sx={styles?.teamRow}>
               <TeamUserIcon />
               <Typography
                 variant="body2"
@@ -131,7 +131,7 @@ const Documents = (props: any) => {
                 AirApple Cart team
               </Typography>
             </Box>
-            <Box sx={style?.teamRow}>
+            <Box sx={styles?.teamRow}>
               <TeamUserIcon />
               <Typography
                 variant="body2"
@@ -151,7 +151,7 @@ const Documents = (props: any) => {
             >
               Users
             </Typography>
-            <Box sx={style?.teamRow}>
+            <Box sx={styles?.teamRow}>
               <Image src={UserRoundImage} alt="No Image" />
               <Box>
                 <Typography
@@ -206,7 +206,7 @@ const Documents = (props: any) => {
               setValue(e);
             }}
           />
-          <Box sx={style.folderRow}>
+          <Box sx={styles?.folderRow}>
             <FolderIcon />
             <Typography
               variant="body2"
@@ -218,7 +218,7 @@ const Documents = (props: any) => {
               My PDF
             </Typography>
           </Box>
-          <Box sx={style?.folderRow}>
+          <Box sx={styles?.folderRow}>
             <FolderIcon />
             <Typography
               variant="body2"
@@ -230,7 +230,7 @@ const Documents = (props: any) => {
               Employee CV’s
             </Typography>
           </Box>
-          <Box sx={style?.folderRow}>
+          <Box sx={styles?.folderRow}>
             <FolderIcon />
             <Typography
               variant="body2"
@@ -242,7 +242,7 @@ const Documents = (props: any) => {
               AirApple Cart
             </Typography>
           </Box>
-          <Box sx={style?.folderRow}>
+          <Box sx={styles?.folderRow}>
             <FolderIcon />
             <Typography
               variant="body2"
@@ -254,7 +254,7 @@ const Documents = (props: any) => {
               AirApple Cart document testing
             </Typography>
           </Box>
-          <Box sx={style?.folderRow}>
+          <Box sx={styles?.folderRow}>
             <FolderIcon />
             <Typography
               variant="body2"
@@ -270,17 +270,17 @@ const Documents = (props: any) => {
       </CommonDrawer>
       <Grid container spacing={2}>
         <Grid item lg={6} md={6} sm={6} xs={12}>
-          <Typography variant="h5" sx={style?.documentTitle(theme)}>
+          <Typography variant="h5" sx={styles?.documentTitle(theme)}>
             Documents
           </Typography>
         </Grid>
-        <Grid item lg={6} md={6} sm={6} xs={12} sx={style?.actionButtonBox}>
+        <Grid item lg={6} md={6} sm={6} xs={12} sx={styles?.actionButtonBox}>
           <Button
             variant="outlined"
             onClick={() => {
               setIsOpenModal(true);
             }}
-            sx={style?.createFolderButton(theme)}
+            sx={styles?.createFolderButton(theme)}
           >
             <AddCircle /> Create Folder
           </Button>
@@ -291,7 +291,7 @@ const Documents = (props: any) => {
           md={6}
           sm={6}
           xs={12}
-          sx={style?.documentTitle(theme)}
+          sx={styles?.documentTitle(theme)}
         >
           <Search
             label="Search here"
@@ -303,9 +303,9 @@ const Documents = (props: any) => {
           />
         </Grid>
         <Grid item lg={6} md={6} sm={6} xs={12}>
-          <Box sx={style?.actionFilterBox}>
+          <Box sx={styles?.actionFilterBox}>
             <Button
-              sx={style?.actionButton(theme)}
+              sx={styles?.actionButton(theme)}
               aria-controls={open ? 'basic-menu' : undefined}
               aria-haspopup="true"
               aria-expanded={open ? 'true' : undefined}
@@ -339,7 +339,7 @@ const Documents = (props: any) => {
                 setIsOpenDrawer(true);
               }}
               variant="outlined"
-              sx={style?.fiterButton(theme)}
+              sx={styles?.fiterButton(theme)}
             >
               <FilterSharedIcon /> Any
             </Button>
@@ -367,7 +367,7 @@ const Documents = (props: any) => {
                       alignItems: 'center',
                     }}
                   >
-                    <Box sx={style?.folderBackground(theme)}>
+                    <Box sx={styles?.folderBackground(theme)}>
                       <FolderIcon />
                     </Box>
                     <Box>

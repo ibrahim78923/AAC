@@ -18,6 +18,8 @@ import { columns, restoreArr, restoreTableData } from './RestoreCompanies.data';
 import { styles } from './RestoreComponies.style';
 
 import { v4 as uuidv4 } from 'uuid';
+import DeleteModal from './ActionsModals/DeleteModal';
+import RestoreModal from './ActionsModals/RestoreModal';
 
 const RestoreCompanies = (props: any) => {
   const { toggle } = props;
@@ -35,11 +37,15 @@ const RestoreCompanies = (props: any) => {
     methods,
     handleSubmit,
     onSubmit,
+    isRestoreDelete,
+    setIsRestoreDelete,
+    isRestoreItem,
+    setIsRestoreItem,
   } = useRestoreCompanies();
 
   return (
     <>
-      <Box sx={styles.mainCompanyBox}>
+      <Box sx={styles?.mainCompanyBox}>
         <Grid container>
           <Grid item lg={12} md={12} sm={12} xs={12}>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
@@ -89,7 +95,6 @@ const RestoreCompanies = (props: any) => {
                 aria-haspopup="true"
                 aria-expanded={open ? 'true' : undefined}
                 onClick={handleClick}
-                disabled
               >
                 Action
                 <ArrowDropDownIcon
@@ -105,9 +110,12 @@ const RestoreCompanies = (props: any) => {
                   'aria-labelledby': 'basic-button',
                 }}
               >
-                <MenuItem onClick={handleClose}>Edit</MenuItem>
-                <MenuItem onClick={handleClose}>View</MenuItem>
-                <MenuItem>Delete</MenuItem>
+                <MenuItem onClick={() => setIsRestoreItem(true)}>
+                  Restore
+                </MenuItem>
+                <MenuItem onClick={() => setIsRestoreDelete(true)}>
+                  Delete
+                </MenuItem>
               </Menu>
               <Button
                 onClick={() => {
@@ -164,6 +172,14 @@ const RestoreCompanies = (props: any) => {
           </FormProvider>
         </Box>
       </CommonDrawer>
+      <DeleteModal
+        isRestoreDelete={isRestoreDelete}
+        setIsRestoreDelete={setIsRestoreDelete}
+      />
+      <RestoreModal
+        isRestoreItem={isRestoreItem}
+        setIsRestoreItem={setIsRestoreItem}
+      />
     </>
   );
 };

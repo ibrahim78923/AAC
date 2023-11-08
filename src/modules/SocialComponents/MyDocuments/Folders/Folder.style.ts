@@ -1,4 +1,4 @@
-export const style = {
+export const styles = {
   actionButton: (theme: any) => {
     return {
       border: `1px solid ${theme?.palette?.custom?.dark}`,

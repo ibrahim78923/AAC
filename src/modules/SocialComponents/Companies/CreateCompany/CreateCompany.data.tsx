@@ -2,10 +2,10 @@ import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
 
 import * as Yup from 'yup';
 
-export const validationSchema = Yup.object().shape({
-  accountName: Yup.string().required('Field is Required'),
-  phoneNo: Yup.string().trim().required('Field is Required'),
-  postCode: Yup.string().trim().required('Field is Required'),
+export const validationSchema = Yup?.object()?.shape({
+  accountName: Yup?.string()?.required('Field is Required'),
+  phoneNo: Yup?.string()?.trim()?.required('Field is Required'),
+  postCode: Yup?.string()?.trim()?.required('Field is Required'),
 });
 
 export const defaultValuesOrganization = {

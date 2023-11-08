@@ -10,7 +10,7 @@ export const styles = {
   importButton: (theme: any) => {
     return {
       border: `1px solid ${theme?.palette?.grey[0]}`,
-      color: `${theme?.palette?.custom.main}`,
+      color: `${theme?.palette?.custom?.main}`,
       display: 'flex',
       gap: '10px',
       fontSize: '14px',
@@ -19,7 +19,7 @@ export const styles = {
   },
   createButton: (theme: any) => {
     return {
-      color: `${theme?.palette?.common.white}`,
+      color: `${theme?.palette?.common?.white}`,
       display: 'flex',
       gap: '10px',
       fontSize: '14px',
