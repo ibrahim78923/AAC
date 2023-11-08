@@ -1,3 +1,4 @@
+import { AIR_SERVICES } from '@/constants';
 import { Box, Button } from '@mui/material';
 
 export const actionsFunction = [
@@ -9,7 +10,7 @@ export const actionsFunction = [
   },
 ];
 
-export const dashboardFunction = (theme: any) => [
+export const dashboardFunction = (theme: any, router: any) => [
   {
     title: (
       <Box display={'flex'} gap={'3rem'}>
@@ -48,6 +49,7 @@ export const dashboardFunction = (theme: any) => [
           border: `0.063rem solid ${theme?.palette?.grey?.[600]}`,
           color: theme?.palette?.grey?.[600],
         }}
+        onClick={() => router?.push(AIR_SERVICES?.MANAGE_DASHBOARD)}
       >
         Manage Dashboards
       </Button>
