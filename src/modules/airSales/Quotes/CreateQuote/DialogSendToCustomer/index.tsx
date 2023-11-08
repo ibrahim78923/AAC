@@ -44,7 +44,7 @@ const DialogSendToCustomer: FC<DialogSendToCustomerI> = ({ open, onClose }) => {
       onClose={onClose}
       maxWidth="sm"
       fullWidth
-      sx={styles.dialog}
+      sx={styles?.dialog}
     >
       <FormProvider methods={methods}>
         <DialogTitle>
@@ -55,7 +55,7 @@ const DialogSendToCustomer: FC<DialogSendToCustomerI> = ({ open, onClose }) => {
         </DialogTitle>
         <DialogContent sx={{ p: '12px 24px 24px' }}>
           <Grid container spacing={'32px'}>
-            {formFields.map((item) => (
+            {formFields?.map((item) => (
               <Grid item xs={12} key={item.id}>
                 <item.component {...item.componentProps} size={'small'} />
               </Grid>
@@ -63,7 +63,7 @@ const DialogSendToCustomer: FC<DialogSendToCustomerI> = ({ open, onClose }) => {
           </Grid>
         </DialogContent>
         <DialogActions>
-          <Button variant="outlined" onClick={onClose} sx={styles.btnOutlined}>
+          <Button variant="outlined" onClick={onClose} sx={styles?.btnOutlined}>
             Cancel
           </Button>
           <Button variant="contained" onClick={handleSubmit(onSubmit)}>

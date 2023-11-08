@@ -4,19 +4,19 @@ import { InComingIcon, OutgoingIcon } from '@/assets/icons';
 export const columns = () => {
   return [
     {
-      accessorFn: (row: any) => row.type,
+      accessorFn: (row: any) => row?.type,
       id: 'type',
       cell: (info: any) => (
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           {' '}
-          {info.getValue() === 'Outgoing' && (
+          {info?.getValue() === 'Outgoing' && (
             <>
-              <OutgoingIcon /> {info.getValue()}
+              <OutgoingIcon /> {info?.getValue()}
             </>
           )}{' '}
-          {info.getValue() === 'Incoming' && (
+          {info?.getValue() === 'Incoming' && (
             <>
-              <InComingIcon /> {info.getValue()}
+              <InComingIcon /> {info?.getValue()}
             </>
           )}{' '}
         </Box>
@@ -25,22 +25,22 @@ export const columns = () => {
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row.time,
+      accessorFn: (row: any) => row?.time,
       id: 'time',
       header: 'Time',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row.date,
+      accessorFn: (row: any) => row?.date,
       id: 'date',
       header: 'Date',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row.duration,
+      accessorFn: (row: any) => row?.duration,
       id: 'duration',
       header: 'Duration',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
   ];
 };

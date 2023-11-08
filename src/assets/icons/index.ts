@@ -180,6 +180,15 @@ export { default as AddPlusPrimaryIcon } from './shared/add-plus-primary';
 export { default as AirPlaneIcon } from './shared/airplane';
 export { default as EditPenBorderedIcon } from './shared/edit-pen-bordered';
 export { default as SendIconLifted } from './modules/SocialComponents/Calling/send';
+
+export { default as MessagesIcon } from './modules/SocialComponents/Calling/messages';
+export { default as MuteIcon } from './modules/SocialComponents/Calling/mute';
+export { default as HoldIcon } from './modules/SocialComponents/Calling/hold';
+export { default as KeyPadIcon } from './modules/SocialComponents/Calling/keypad';
+export { default as TransferIcon } from './modules/SocialComponents/Calling/transfer';
+export { default as RecordIcon } from './modules/SocialComponents/Calling/record';
+
+export { default as CallDropIcon } from './modules/SocialComponents/Calling/drop-call';
 export { default as FolderGreyIcon } from './shared/folder-grey';
 export { default as AlertModalDeleteIcon } from './shared/alert-modal-delete-icon';
 export { default as AlertModalCloseIcon } from './shared/alert-modal-close-icon';

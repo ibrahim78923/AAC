@@ -83,77 +83,92 @@ const ProductFeature = () => {
       sx={{
         borderRadius: '15px',
         border: '1px solid #EAECF0',
-        padding: '16px 24px',
       }}
     >
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          marginBottom: '19px',
-        }}
-      >
-        <Typography variant="h3" sx={{ fontWeight: '600' }}>
-          Product Features Setup
-        </Typography>
-        <Box>...</Box>
-      </Box>
-      <Box
-        mt={2}
-        mb={3}
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}
-      >
-        <Search
-          label={'Search here'}
-          searchBy={productFeatureSearch}
-          setSearchBy={setProductFeatureSearch}
-          width="100%"
-        />
+      <Box sx={{ padding: '16px 24px' }}>
         <Box
           sx={{
             display: 'flex',
+            justifyContent: 'space-between',
             alignItems: 'center',
-            gap: '10px',
+            marginBottom: '19px',
           }}
         >
-          <Button
-            id="basic-button"
-            aria-controls={actionMenuOpen ? 'basic-menu' : undefined}
-            aria-haspopup="true"
-            aria-expanded={actionMenuOpen ? 'true' : undefined}
-            onClick={handleClick}
-            disabled={!isDisabled}
+          <Typography variant="h3" sx={{ fontWeight: '600' }}>
+            Product Features Setup
+          </Typography>
+          <Box>...</Box>
+        </Box>
+        <Box
+          mt={2}
+          mb={3}
+          sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: '10px',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}
+        >
+          <Search
+            label={'Search here'}
+            searchBy={productFeatureSearch}
+            setSearchBy={setProductFeatureSearch}
+            width="100%"
+          />
+          <Box
             sx={{
-              color: theme.palette.grey[500],
-              height: '40px',
-              border: '1.5px solid #e7e7e9',
+              display: 'flex',
+              flexWrap: 'wrap',
+              alignItems: 'center',
+              gap: '10px',
             }}
           >
-            Actions &nbsp; <DownIcon />
-          </Button>
-          <Menu
-            id="basic-menu"
-            anchorEl={anchorEl}
-            open={actionMenuOpen}
-            onClose={handleClose}
-            MenuListProps={{
-              'aria-labelledby': 'basic-button',
-            }}
-          >
-            <MenuItem onClick={() => setIsOpenEditDrawer(true)}>Edit</MenuItem>
-          </Menu>
-          <Button
-            variant="contained"
-            sx={{ height: '36px', fontWeight: '500' }}
-            onClick={() => setIsAddProductFeatureDrawer(true)}
-          >
-            <PlusShared /> &nbsp; Add Feature
-          </Button>
+            <Button
+              id="basic-button"
+              aria-controls={actionMenuOpen ? 'basic-menu' : undefined}
+              aria-haspopup="true"
+              aria-expanded={actionMenuOpen ? 'true' : undefined}
+              onClick={handleClick}
+              disabled={!isDisabled}
+              sx={{
+                color: theme.palette.grey[500],
+                height: '40px',
+                border: '1.5px solid #e7e7e9',
+                '@media (max-width:581px)': {
+                  width: '100%',
+                },
+              }}
+            >
+              Actions &nbsp; <DownIcon />
+            </Button>
+            <Menu
+              id="basic-menu"
+              anchorEl={anchorEl}
+              open={actionMenuOpen}
+              onClose={handleClose}
+              MenuListProps={{
+                'aria-labelledby': 'basic-button',
+              }}
+            >
+              <MenuItem onClick={() => setIsOpenEditDrawer(true)}>
+                Edit
+              </MenuItem>
+            </Menu>
+            <Button
+              variant="contained"
+              sx={{
+                height: '36px',
+                fontWeight: '500',
+                '@media (max-width:581px)': {
+                  width: '100%',
+                },
+              }}
+              onClick={() => setIsAddProductFeatureDrawer(true)}
+            >
+              <PlusShared /> &nbsp; Add Feature
+            </Button>
+          </Box>
         </Box>
       </Box>
       <Box>

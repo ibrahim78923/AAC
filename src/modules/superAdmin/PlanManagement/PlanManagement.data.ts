@@ -1,6 +1,6 @@
 import { IAVATARGROUPDATA } from '@/types/shared/AvatarGroup';
 
-import { RHFDatePicker, RHFSelect } from '@/components/ReactHookForm';
+import { RHFSelect, RHFSwitchableDatepicker } from '@/components/ReactHookForm';
 
 import * as Yup from 'yup';
 
@@ -46,7 +46,7 @@ export const planManagementFilterValidationSchema = Yup?.object()?.shape({
 export const planManagementFilterDefaultValues = {
   products: '',
   plan: '',
-  createdDate: '',
+  createdDate: null,
 };
 
 export const planManagementFilterFiltersDataArray = [
@@ -86,7 +86,7 @@ export const planManagementFilterFiltersDataArray = [
       label: 'Created Date',
       fullWidth: true,
     },
-    component: RHFDatePicker,
+    component: RHFSwitchableDatepicker,
     md: 12,
   },
 ];

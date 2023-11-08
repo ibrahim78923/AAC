@@ -56,9 +56,9 @@ const ChatInfoModal = ({
       onClose={() => setIsUserProfile(false)}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
-      sx={styles.customModal}
+      sx={styles?.customModal}
     >
-      <Box sx={styles.infoModalWrapper}>
+      <Box sx={styles?.infoModalWrapper}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
           <Typography variant="h6" sx={{ fontWeight: '500' }}>
             {chatMode === 'groupChat' ? 'Group Info' : 'Profile'}
@@ -67,7 +67,7 @@ const ChatInfoModal = ({
             <CloseIcon />
           </Box>
         </Box>
-        <Box sx={styles.chatInfoDetails(theme)}>
+        <Box sx={styles?.chatInfoDetails(theme)}>
           <Image
             src={UserProfileAvatarImage}
             width={95}
@@ -78,7 +78,7 @@ const ChatInfoModal = ({
           {chatMode === 'groupChat' ? (
             <Typography
               variant="h6"
-              sx={{ fontWeight: '600', color: theme.palette.common.black }}
+              sx={{ fontWeight: '600', color: theme?.palette?.common?.black }}
             >
               Product Catalog
             </Typography>

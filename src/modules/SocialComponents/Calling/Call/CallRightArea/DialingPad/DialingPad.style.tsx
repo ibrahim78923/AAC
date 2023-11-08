@@ -1,7 +1,7 @@
 export const styles = {
   dailPadBtn: (theme: any) => {
     return {
-      background: theme.palette.grey[400],
+      background: theme?.palette?.grey[400],
       width: '40px',
       height: '40px',
       borderRadius: '50%',
