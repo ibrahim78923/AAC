@@ -105,3 +105,7 @@ export { default as DealReportImage } from './modules/airSales/Reports/reports.p
 export { default as documentContained } from './modules/superAdmin/Settings/ModuleCreation/document-contained.png';
 export { default as ApplePhoneImage } from './modules/socialComponents/calling/apple-phone.png';
 export { default as NoSearchResultFoundImage } from './shared/no-search-result.png';
+export { default as TwitterImage } from './shared/twitter.png';
+export { default as YoutubeImage } from './shared/youtube.png';
+export { default as FacebookImage } from './shared/facebook.png';
+export { default as InstagramImage } from './shared/instagram.png';

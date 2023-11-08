@@ -3,15 +3,15 @@ import { Box, Button } from '@mui/material';
 import Calender from './Calender';
 import { PlusIcon } from '@/assets/icons';
 import CommonTabs from '@/components/Tabs';
+import { useRouter } from 'next/router';
 
 const SocialMarketing = () => {
+  const router = useRouter();
   return (
     <Box
       justifyContent="space-between"
       alignItems="center"
       sx={{
-        padding: '0px 24px',
-        display: { md: 'flex' },
         position: 'relative',
       }}
     >
@@ -29,6 +29,7 @@ const SocialMarketing = () => {
         sx={{ position: 'absolute', top: '-5px', right: '0px' }}
         variant="contained"
         className="small"
+        onClick={() => router.push('/super-admin/billing-invoices')}
       >
         Create Post
       </Button>
