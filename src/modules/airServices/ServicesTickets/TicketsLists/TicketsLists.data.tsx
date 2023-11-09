@@ -1,5 +1,5 @@
 // import { v4 as uuidv4 } from 'uuid';
-import { AvatarImage } from '@/assets/images';
+// import { AvatarImage } from '@/assets/images';
 import {
   Box,
   Checkbox,
@@ -130,27 +130,23 @@ export const ticketsActionDropdownFunction = (
   },
 ];
 
+export const ticketsListTotalColumns = [
+  '_id',
+  'subject',
+  'requester',
+  'status',
+  'pirority',
+  'assignedTo',
+  'department',
+  'state',
+  'createdAt',
+  'dueDate',
+  'impact',
+  'plannedStartDate',
+  'plannedEndDate',
+  'plannedEffort',
+];
 export const ticketsListsData: any = [
-  {
-    id: 1,
-    ticketId: ` #717`,
-    subject: 'Drafts',
-    requester: { name: 'Sophie Baxter', profileImg: AvatarImage },
-    assignedTo: 'user1',
-    status: 'open',
-    state: 'New',
-    priority: 'high',
-  },
-  {
-    id: 2,
-    ticketId: ` #787`,
-    subject: 'rafts',
-    requester: { name: 'Cameron Williamson', profileImg: null },
-    assignedTo: 'user2',
-    state: 'Response Due',
-    status: 'pending',
-    priority: 'low',
-  },
   {
     id: 3,
     ticketId: ` #917`,
@@ -170,58 +166,23 @@ export const ticketsListsData: any = [
   },
 ];
 
-export const columnsPersist = [
-  {
-    id: 1,
-    ticketId: ` #717`,
-    subject: 'Drafts',
-    details: { name: 'Sophie Baxter', profileImg: AvatarImage },
-    assignedTo: 'user1',
-    status: 'open',
-    state: 'New',
-    priority: 'high',
-  },
-  {
-    _id: '6543cdac8c813b3bdf2f21ef',
-    details: {
-      note: 'any note',
-      go: 'test',
-      ko: 'HIGH',
-      lop: 'INTERNAL',
-    },
-    subject: 'test',
-    pirority: 'HIGH',
-    type: 'INTERNAL',
-  },
-  {
-    _id: '6543cdce8c813b3bdf2f21f2',
-    details: {
-      note: 'any note',
-    },
-    subject: 'test subject',
-    pirority: 'HIGH',
-    type: 'INTERNAL',
-  },
-];
-
 export const ticketsListsColumnFunction: any = (
   theme: any,
   router: any,
   ticketList: any,
   selectedTicketList: any,
   setSelectedTicketList: any,
-  // handleChange: (value: any, event: any) => void,
 ) => {
   const { palette } = theme;
   return [
     {
-      accessorFn: (row: any) => row?.id,
-      id: 'id',
+      accessorFn: (row: any) => row?._id,
+      id: '_id',
       cell: (info: any) => (
         <Checkbox
           checked={
             !!selectedTicketList?.find(
-              (item: any) => item?.id === info?.getValue(),
+              (item: any) => item?._id === info?.getValue(),
             )
           }
           onChange={(e: any) => {
@@ -229,12 +190,12 @@ export const ticketsListsColumnFunction: any = (
               ? setSelectedTicketList([
                   ...selectedTicketList,
                   ticketList?.find(
-                    (item: any) => item?.id === info?.getValue(),
+                    (item: any) => item?._id === info?.getValue(),
                   ),
                 ])
               : setSelectedTicketList(
                   selectedTicketList?.filter((item: any) => {
-                    return item?.id !== info?.getValue();
+                    return item?._id !== info?.getValue();
                   }),
                 );
           }}
@@ -257,8 +218,8 @@ export const ticketsListsColumnFunction: any = (
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row?.ticketId,
-      id: 'ticketId',
+      accessorFn: (row: any) => row?._id,
+      id: '_id',
       cell: (info: any) => (
         <Box display={'flex'} gap={1} flexWrap={'wrap'} alignItems={'center'}>
           <Avatar
@@ -267,7 +228,7 @@ export const ticketsListsColumnFunction: any = (
           >
             IT
           </Avatar>
-          <div
+          <Typography
             style={{
               color: theme?.palette?.primary?.main,
               cursor: 'pointer',
@@ -276,13 +237,13 @@ export const ticketsListsColumnFunction: any = (
               router?.push({
                 pathname: AIR_SERVICES?.TICKETS_LIST,
                 query: {
-                  id: info?.getValue(),
+                  ticketId: info?.getValue(),
                 },
               });
             }}
           >
             {info?.getValue()}
-          </div>
+          </Typography>
         </Box>
       ),
       header: 'Ticket ID',
@@ -321,30 +282,6 @@ export const ticketsListsColumnFunction: any = (
       id: 'assignedTo',
       isSortable: true,
       header: 'Assigned To',
-      // cell: (info: any) => (
-      //   <Select
-      //     name="assignedTo"
-      //     sx={{
-      //       minWidth: 80,
-      //       '&.Mui-focused, .MuiOutlinedInput-notchedOutline': {
-      //         border: 'none',
-      //       },
-      //       '.MuiSvgIcon-root': {
-      //         color: palette?.custom?.off_white_three,
-      //       },
-      //     }}
-      //     defaultValue="none"
-      //     value={info?.getValue()}
-      //     onChange={(e) => handleChange(info?.row?._valuesCache, e?.target)}
-      //     inputProps={{ 'aria-label': 'Without label' }}
-      //   >
-      //     {options?.map(({ value, label }: { value: any; label: string }) => (
-      //       <MenuItem key={uuidv4()} value={value}>
-      //         {label}
-      //       </MenuItem>
-      //     ))}
-      //   </Select>
-      // ),
       cell: (info: any) => info?.getValue(),
     },
     {
@@ -359,65 +296,13 @@ export const ticketsListsColumnFunction: any = (
       id: 'status',
       isSortable: true,
       header: 'Status',
-      // cell: (info: any) => (
-      //   <Select
-      //     name="status"
-      //     sx={{
-      //       minWidth: 80,
-      //       '&.Mui-focused, .MuiOutlinedInput-notchedOutline': {
-      //         border: 'none',
-      //       },
-      //       '.MuiSvgIcon-root': {
-      //         color: palette?.custom?.off_white_three,
-      //       },
-      //     }}
-      //     defaultValue="none"
-      //     value={info?.getValue()}
-      //     onChange={(e) => handleChange(info?.row?._valuesCache, e?.target)}
-      //     inputProps={{ 'aria-label': 'Without label' }}
-      //   >
-      //     {StatusOptions?.map(
-      //       ({ value, label }: { value: any; label: string }) => (
-      //         <MenuItem key={uuidv4()} value={value}>
-      //           {label}
-      //         </MenuItem>
-      //       ),
-      //     )}
-      //   </Select>
-      // ),
       cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row?.priority,
-      id: 'priority',
+      accessorFn: (row: any) => row?.pirority,
+      id: 'pirority',
       isSortable: true,
       header: 'Priority',
-      // cell: (info: any) => (
-      //   <Select
-      //     name="priority"
-      //     sx={{
-      //       minWidth: 80,
-      //       '&.Mui-focused, .MuiOutlinedInput-notchedOutline': {
-      //         border: 'none',
-      //       },
-      //       '.MuiSvgIcon-root': {
-      //         color: palette?.custom?.off_white_three,
-      //       },
-      //     }}
-      //     defaultValue="none"
-      //     value={info?.getValue()}
-      //     onChange={(e) => handleChange(info?.row?._valuesCache, e?.target)}
-      //     inputProps={{ 'aria-label': 'Without label' }}
-      //   >
-      //     {priorityOptions?.map(
-      //       ({ value, label }: { value: any; label: string }) => (
-      //         <MenuItem key={uuidv4()} value={value}>
-      //           {label}
-      //         </MenuItem>
-      //       ),
-      //     )}
-      //   </Select>
-      // ),
       cell: (info: any) => info?.getValue(),
     },
     {

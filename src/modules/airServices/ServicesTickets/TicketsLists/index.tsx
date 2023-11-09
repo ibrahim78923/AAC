@@ -17,7 +17,9 @@ export const TicketsLists = () => {
     setDeleteModalOpen,
     deleteTicket,
     ticketsListsColumn,
+    lazyGetTicketsStatus,
   } = useTicketsLists();
+
   return (
     <>
       <PageTitledHeader
@@ -36,7 +38,11 @@ export const TicketsLists = () => {
       {router?.query?.viewType === 'board' ? (
         <TableBoardView />
       ) : (
-        <TicketsTableView ticketsListsColumn={ticketsListsColumn} />
+        <TicketsTableView
+          ticketsListsColumn={ticketsListsColumn ?? []}
+          ticketListsData={lazyGetTicketsStatus?.data?.data?.tickets ?? []}
+          isLoading={lazyGetTicketsStatus?.isLoading}
+        />
       )}
       {deleteModalOpen && (
         <AlertModals

@@ -2,8 +2,9 @@ import { useState, useEffect } from 'react';
 import {
   TABLE_CONSTANTS,
   ticketsActionDropdownFunction,
+  ticketsListTotalColumns,
   ticketsListsColumnFunction,
-  ticketsListsData,
+  // ticketsListsData,
 } from './TicketsLists.data';
 import { CustomizeTicketsColumn } from '../CustomizeTicketsColumn';
 import { useRouter } from 'next/router';
@@ -11,98 +12,68 @@ import { useTheme } from '@mui/material';
 import { TicketsFilter } from '../TicketsFilter';
 import CreateTicket from '../CreateTicket';
 import { enqueueSnackbar } from 'notistack';
-import { useGetTicketsQuery } from '@/services/airServices/tickets';
+import { useLazyGetTicketsQuery } from '@/services/airServices/tickets';
 
-export const useTicketsLists = () => {
+export const useTicketsLists: any = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [ticketList, setTicketList] = useState([]);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [selectedTicketList, setSelectedTicketList] = useState();
 
-  const [search, setSearch] = useState<any>(undefined);
-  const [columnsName, setColumnsName] = useState(['status', 'subject']);
-
-  const getTicketsParameter = {
-    queryParams: {
-      page: 1,
-      limit: 10,
-      search,
-      columnsName,
-    },
-  };
-
-  const { data } = useGetTicketsQuery(getTicketsParameter);
-
-  useEffect(() => {
-    setTicketList(ticketsListsData);
-  }, [ticketsListsData]);
-
-  // const nop = columnsPersist?.map(
-  //   (obj: any) =>
-  //     Object?.entries(obj)?.reduce((acc: any, [key, value]: any) => {
-  //       if (
-  //         typeof value === 'object' &&
-  //         value !== null &&
-  //         !Array.isArray(value)
-  //       )
-  //         return { ...acc, ...value };
-  //       else return { [key]: value, ...acc };
-  //     }, {}),
-  // );
-  // const object1 = Object?.entries(columnsPersist?.[0])?.reduce(
-  //   (acc: any, [key, value]: any) => {
-  //     if (typeof value === 'object' && value !== null && !Array.isArray(value))
-  //       return { ...acc, ...value };
-  //     else return { [key]: value, ...acc };
-  //   },
-  //   {},
-  // );
-  // const object2 = Object?.entries(columnsPersist?.[0])?.reduce(
-  //   (x: any, y: any) => {
-  //     const [k, v] = y;
-  //     return { ...x, [k]: true };
-  //   },
-  //   {},
-  // );
-
-  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [search] = useState<any>('');
+  const [columnNames] = useState(ticketsListTotalColumns);
 
   const theme = useTheme();
   const router = useRouter();
 
-  const handleChange = (value: any, event: any) => {
-    setTicketList(
-      (preVal: any) =>
-        preVal?.map((item: any) =>
-          value?.ticketId === item?.ticketId
-            ? { ...item, [event?.name]: [event?.value] }
-            : item,
-        ),
-    );
+  const params = new URLSearchParams();
+  columnNames?.forEach((col: any) => params?.append('columnNames', col));
+  params?.append('page', 1 + '');
+  params?.append('limit', 10 + '');
+  params?.append('search', search);
+
+  const getTicketsParameter = {
+    queryParams: params,
   };
+
+  const [lazyGetTicketsTrigger, lazyGetTicketsStatus] =
+    useLazyGetTicketsQuery();
+
+  const getValueTicketsListData = async () => {
+    try {
+      const response =
+        await lazyGetTicketsTrigger(getTicketsParameter).unwrap();
+      const object2 = Object?.entries(response?.data?.tickets[0] ?? {})?.reduce(
+        (x: any, y: any) => {
+          const [k] = y;
+          return { ...x, [k]: true };
+        },
+        {},
+      );
+      const newColumns = ticketsListsColumnPersist?.filter(
+        (x: any) => object2[x?.id],
+      );
+      // console.log(newColumns);
+      setTicketsListsColumn(newColumns);
+      return response;
+    } catch (error) {
+      // console.log(error);
+      enqueueSnackbar('Error', { variant: 'error' });
+    }
+  };
+
+  useEffect(() => {
+    getValueTicketsListData();
+  }, []);
 
   const ticketsListsColumnPersist = ticketsListsColumnFunction(
     theme,
     router,
-    ticketsListsData,
+    lazyGetTicketsStatus?.data?.data?.tickets,
     selectedTicketList,
     setSelectedTicketList,
-    handleChange,
   );
-  // const newColumns = ticketsListsColumnPersist?.filter(
-  //   (x: any) => object2[x?.id],
-  // );
 
-  const [ticketsListsColumn, setTicketsListsColumn] = useState(
-    ticketsListsColumnFunction(
-      theme,
-      router,
-      ticketsListsData,
-      selectedTicketList,
-      setSelectedTicketList,
-      handleChange,
-    ),
-    // newColumns,
-  );
+  const [ticketsListsColumn, setTicketsListsColumn] = useState();
   const drawerComponent: any = {
     [TABLE_CONSTANTS?.CUSTOMIZE_COLUMN]: (
       <CustomizeTicketsColumn
@@ -159,17 +130,10 @@ export const useTicketsLists = () => {
     markTicketAsClose,
     markTicketAsSpam,
   );
-
+  // console.log({ lazyGetTicketsStatus });
   return {
-    theme,
-    router,
-    ticketList,
-    selectedTicketList,
-    setSelectedTicketList,
-    handleChange,
-    ticketsListsColumn,
     isDrawerOpen,
-    setIsDrawerOpen,
+    router,
     openDrawer,
     TABLE_CONSTANTS,
     drawerComponent,
@@ -177,10 +141,7 @@ export const useTicketsLists = () => {
     deleteModalOpen,
     setDeleteModalOpen,
     deleteTicket,
-    data,
-    columnsName,
-    setColumnsName,
-    search,
-    setSearch,
+    ticketsListsColumn,
+    lazyGetTicketsStatus,
   };
 };
