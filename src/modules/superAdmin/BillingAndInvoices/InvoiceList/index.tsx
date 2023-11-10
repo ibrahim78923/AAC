@@ -15,88 +15,96 @@ import useInvoiceList from './useInvoiceList';
 
 import { PlaneIcon } from '@/assets/icons';
 
-const InvoiceList = () => {
+const InvoiceList = ({ setOpenViewInvoice }: any) => {
   const { isOpenInvoiceList, setIsOpenInvoiceList, handleCloseInvoiceList } =
     useInvoiceList();
   const router = useRouter();
   const theme = useTheme();
   return (
     <>
-      <Box sx={styles.card(theme)}>
+      <Box sx={styles?.card(theme)}>
         <Typography variant="h5" sx={{ color: '#111827', mb: '28px' }}>
           Invoice Summary
         </Typography>
-        <Box sx={styles.cardHeader}>
-          <Box sx={styles.cardHeaderIcon}>
+        <Box sx={styles?.cardHeader}>
+          <Box sx={styles?.cardHeaderIcon}>
             <PlaneIcon />
           </Box>
           <Typography variant="h6" sx={{ fontWeight: '600' }}>
             Air Sales
           </Typography>
-          <Box sx={styles.cardHeaderAction}>
+          <Box sx={styles?.cardHeaderAction}>
             <Chip label={'Paid Monthly'} color="primary" />
           </Box>
         </Box>
 
-        <Box sx={styles.divider}></Box>
+        <Box sx={styles?.divider}></Box>
 
         <Typography variant="h6" sx={{ fontWeight: '600' }}>
           Growth Plan
         </Typography>
 
-        <Box sx={styles.planTableRow}>
-          <Box sx={styles.planTableTd}>Plan Price</Box>
-          <Box sx={styles.planTableTh}>£ 20</Box>
+        <Box sx={styles?.planTableRow}>
+          <Box sx={styles?.planTableTd}>Plan Price</Box>
+          <Box sx={styles?.planTableTh}>£ 20</Box>
         </Box>
-        <Box sx={styles.planTableRow}>
-          <Box sx={styles.planTableTd}>
+        <Box sx={styles?.planTableRow}>
+          <Box sx={styles?.planTableTd}>
             3 Additional Users{' '}
             <Box component="span" sx={{ fontSize: '12px' }}>
               (£ 15/user)
             </Box>
           </Box>
-          <Box sx={styles.planTableTh}>£ 45</Box>
+          <Box sx={styles?.planTableTh}>£ 45</Box>
         </Box>
-        <Box sx={styles.planTableRow}>
-          <Box sx={styles.planTableTd}>
+        <Box sx={styles?.planTableRow}>
+          <Box sx={styles?.planTableTd}>
             Additional Storage{' '}
             <Box component="span" sx={{ fontSize: '12px' }}>
               (£ 1/GB)
             </Box>
           </Box>
-          <Box sx={styles.planTableTh}>£ 1</Box>
+          <Box sx={styles?.planTableTh}>£ 1</Box>
         </Box>
-        <Box sx={styles.planTableRow}>
-          <Box sx={styles.planTableTdBold}>
+        <Box sx={styles?.planTableRow}>
+          <Box sx={styles?.planTableTdBold}>
             Discount{' '}
             <Box component="span" sx={{ fontSize: '12px' }}>
               (10%)
             </Box>
           </Box>
-          <Box sx={styles.planTableTh}>-£ 10</Box>
+          <Box sx={styles?.planTableTh}>-£ 10</Box>
         </Box>
-        <Box sx={styles.planTableRow}>
-          <Box sx={styles.planTableTdBold}>
+        <Box sx={styles?.planTableRow}>
+          <Box sx={styles?.planTableTdBold}>
             Tax{' '}
             <Box component="span" sx={{ fontSize: '12px' }}>
               (Vat 20%)
             </Box>
           </Box>
-          <Box sx={styles.planTableTh}>£ 27</Box>
+          <Box sx={styles?.planTableTh}>£ 27</Box>
         </Box>
 
-        <Box sx={styles.divider}></Box>
+        <Box sx={styles?.divider}></Box>
 
-        <Box sx={styles.planTableRow}>
-          <Box sx={styles.planTableTdBold}>Total Cost</Box>
-          <Box sx={styles.planTableTh}>£ 158</Box>
+        <Box sx={styles?.planTableRow}>
+          <Box sx={styles?.planTableTdBold}>Total Cost</Box>
+          <Box sx={styles?.planTableTh}>£ 158</Box>
         </Box>
       </Box>
       <Grid container>
         <Grid item sm={3}>
-          <Stack useFlexGap direction={'row'} sx={styles.updateSubscription}>
-            <Button sx={styles.cancelButton} onClick={() => router.back()}>
-              Cancle
+          <Stack
+            useFlexGap
+            direction={'row'}
+            sx={styles?.updateSubscription}
+            style={{ justifyContent: 'flex-start' }}
+          >
+            <Button
+              sx={styles?.cancelButton}
+              onClick={() => setOpenViewInvoice(false)}
+            >
+              Back
             </Button>
           </Stack>
         </Grid>
@@ -105,15 +113,19 @@ const InvoiceList = () => {
             spacing={'12px'}
             useFlexGap
             direction={'row'}
-            sx={styles.updateSubscription}
+            sx={styles?.updateSubscription}
           >
             <Button
-              sx={styles.cancelButton}
+              sx={styles?.cancelButton}
               onClick={() => setIsOpenInvoiceList(true)}
             >
               Download
             </Button>
-            <Button variant="contained" color="primary">
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => router?.back()}
+            >
               Generate Invoice
             </Button>
           </Stack>

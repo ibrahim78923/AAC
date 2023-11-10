@@ -22,28 +22,28 @@ const ChatFooter = () => {
     handleEmojiSelect,
     isOpen,
     id,
-  } = useChatFooter({});
+  } = useChatFooter();
 
   return (
     <Box sx={{ padding: '30px' }}>
-      <Box sx={styles.chatFooter(theme)}>
-        <Button sx={styles.unStyledButton}>
+      <Box sx={styles?.chatFooter(theme)}>
+        <Button sx={styles?.unStyledButton}>
           <AttachmentIcon />
         </Button>
         <TextField
           placeholder="Write message"
-          sx={styles.chatTextarea}
+          sx={styles?.chatTextarea}
           value={messageText}
-          onChange={(e) => setMessageText(e.target.value)}
+          onChange={(e) => setMessageText(e?.target?.value)}
         />
         <Button
-          sx={styles.unStyledButton}
+          sx={styles?.unStyledButton}
           aria-describedby={id}
           onClick={handleClick}
         >
           <StickerIcon />
         </Button>
-        <Button sx={styles.unStyledButton}>
+        <Button sx={styles?.unStyledButton}>
           <PostIcon />
         </Button>
       </Box>

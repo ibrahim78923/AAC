@@ -11,9 +11,23 @@ export const planManagementAPI = baseAPI.injectEndpoints({
       }),
       providesTags: TAG,
     }),
+    getPlanTypes: builder.query({
+      query: () => ({
+        url: `${SUPER_ADMIN?.PLAN_TYPE_LIST}`,
+        method: 'GET',
+      }),
+      providesTags: ['PlanTypes'],
+    }),
     getProducts: builder.query({
       query: () => ({
         url: `products`,
+        method: 'GET',
+      }),
+      providesTags: TAG,
+    }),
+    getProductsFeatures: builder.query({
+      query: () => ({
+        url: `${SUPER_ADMIN?.PRODUCT_FEATURES}?page=1&limit=10`,
         method: 'GET',
       }),
       providesTags: TAG,
@@ -69,4 +83,6 @@ export const {
   useGetPlanMangementByIdQuery,
   useGetPlanTypeListQuery,
   useGetProductsQuery,
+  useGetPlanTypesQuery,
+  useGetProductsFeaturesQuery,
 } = planManagementAPI;

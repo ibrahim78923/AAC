@@ -34,7 +34,7 @@ const StepDetails = ({ values }: any) => {
       </Grid>
       <Grid item xs={7}>
         <TemplateFrame>
-          {values.quoteTemplate === '' || values.quoteTemplate == null ? (
+          {values?.quoteTemplate === '' || values?.quoteTemplate == null ? (
             <TemplatePlaceholder />
           ) : (
             <TemplateBasic />

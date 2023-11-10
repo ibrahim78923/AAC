@@ -56,9 +56,9 @@ export const PlanDetailsData: any = [
 export const PlanDetailsDataColumnFunction: any = (theme: any, router: any) => {
   return [
     {
-      accessorFn: (row: any) => row.id,
+      accessorFn: (row: any) => row?.id,
       id: 'id',
-      cell: (info: any) => <Checkbox color="primary" name={info.getValue()} />,
+      cell: (info: any) => <Checkbox color="primary" name={info?.getValue()} />,
       header: <Checkbox color="primary" name="id" />,
       isSortable: false,
     },
@@ -70,20 +70,19 @@ export const PlanDetailsDataColumnFunction: any = (theme: any, router: any) => {
           <Image src={AvatarImage} alt="Avatar" />
           <div
             style={{
-              color: theme.palette.primary.main,
+              color: theme?.palette?.primary?.main,
               cursor: 'pointer',
             }}
             onClick={() => {
               router.push({
-                // pathname: `${router.pathname}/detail`,
                 pathname: `#`,
                 query: {
-                  id: info.getValue(),
+                  id: info?.getValue(),
                 },
               });
             }}
           >
-            {info.getValue()}
+            {info?.getValue()}
           </div>
         </Box>
       ),
@@ -91,64 +90,64 @@ export const PlanDetailsDataColumnFunction: any = (theme: any, router: any) => {
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row.product,
+      accessorFn: (row: any) => row?.product,
       id: 'product',
       isSortable: true,
       header: 'Product/Suite',
       cell: (info: any) => (
         <Box margin={'auto'}>
-          <AppAvatarGroup data={info.getValue()} />
+          <AppAvatarGroup data={info?.getValue()} />
         </Box>
       ),
     },
     {
-      accessorFn: (row: any) => row.planType,
+      accessorFn: (row: any) => row?.planType,
       id: 'planType',
       isSortable: true,
       header: 'Plan Type',
       cell: (info: any) => (
         <Box display={'flex'} flexWrap={'wrap'} alignItems={'center'} gap={1}>
           <Image src={AvatarImage} alt="Avatar" />
-          <div style={{ color: theme.palette.primary.main }}>
-            {info.getValue()}
+          <div style={{ color: theme?.palette?.primary?.main }}>
+            {info?.getValue()}
           </div>
         </Box>
       ),
     },
     {
-      accessorFn: (row: any) => row.description,
+      accessorFn: (row: any) => row?.description,
       id: 'description',
       isSortable: true,
       header: 'Created On',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row.createdOn,
+      accessorFn: (row: any) => row?.createdOn,
       id: 'createdOn',
       isSortable: true,
       header: 'Default Users',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row.planPrice,
+      accessorFn: (row: any) => row?.planPrice,
       id: 'planPrice',
       isSortable: true,
       header: 'Plan Price',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row.status,
+      accessorFn: (row: any) => row?.status,
       id: 'status',
       isSortable: true,
       header: 'Status',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row.defaultStorage,
+      accessorFn: (row: any) => row?.defaultStorage,
       id: 'defaultStorage',
       isSortable: true,
       header: 'Default Storage',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
   ];
 };

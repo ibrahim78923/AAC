@@ -11,8 +11,21 @@ export const SUPER_ADMIN_DASHBOARD_PERMISSIONS = {
 
 export const SUPER_ADMIN_PLAN_MANAGEMENT_PERMISSIONS = {
   PLAN_LIST: 'plan-list',
+  SEARCH_AND_FILTER: 'plan-search-and-filter',
+  ADD_PLAN: 'add-plan',
+  ACTIVE_INACTIVE_PLAN: 'active-inactive-plans',
+  EDIT_PLAN: 'edit-plan',
+  VIEW_PLAN: 'view-plan',
 };
 
+export const SUPER_ADMIN_BILLING_INVOICES_PERMISSIONS = {
+  BILLING_INVOICES_LIST: 'billing-and-invoice-list',
+  BILLING_SEARCH_AND_FILTER: 'billing-search-and-filter',
+  ASSIGN_PLAN: 'assign-plan',
+  BILLING_EDIT_PLAN: 'billing-edit-plan',
+  GENERATE_INVOICE: 'generate-invoice',
+  VIEW_BILLING_DETAILS: 'view-billing-details',
+};
 export const SUPER_ADMIN_SETTINGS_JOB_POSTING_PERMISSIONS = {
   Job_List: 'job-list',
   Search_and_Filter: 'job-search-and-filter',

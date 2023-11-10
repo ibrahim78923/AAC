@@ -1,9 +1,12 @@
 import React, { useState, useRef } from 'react';
 
-import { useRouter } from 'next/router';
+import { Box, Button, TextField, Typography } from '@mui/material';
 
 import CommonModal from '@/components/CommonModal';
-import { Box, Button, TextField, Typography } from '@mui/material';
+
+import { useRouter } from 'next/router';
+
+import { SOCIAL_FEATURES } from '@/routesConstants/paths';
 
 const CodeVerification = ({
   setIsCodeVerificationModal,
@@ -12,38 +15,38 @@ const CodeVerification = ({
   const router = useRouter();
 
   const [code, setCode] = useState(['', '', '', '', '', '']);
-  const inputRefs = code.map(() => useRef<any>());
+  const inputRefs = code?.map(() => useRef<any>());
   const [userInteracted, setUserInteracted] = useState(false);
 
   const handleInputChange = (index: any, event: any) => {
-    const value = event.target.value;
+    const value = event?.target?.value;
     const newCode = [...code];
     newCode[index] = value;
     setCode(newCode);
     setUserInteracted(true);
 
     if (value && index < 5) {
-      inputRefs[index + 1].current.focus();
+      inputRefs[index + 1]?.current?.focus();
     }
   };
   /* eslint-disable */
   const handleBackspace = (index: any, event: any) => {
-    if (event.key === 'Backspace' && index > 0 && code[index] === '') {
+    if (event?.key === 'Backspace' && index > 0 && code[index] === '') {
       const newCode = [...code];
       newCode[index - 1] = '';
       setCode(newCode);
       setUserInteracted(true);
-      inputRefs[index - 1].current.focus();
+      inputRefs[index - 1]?.current?.focus();
     }
   };
   /* eslint-disable */
 
-  const isCodeIncomplete = code.some((value) => value === '');
+  const isCodeIncomplete = code?.some((value) => value === '');
 
   const handelVerifyCode = () => {
     setUserInteracted(true);
     if (!isCodeIncomplete) {
-      router.push('/social-components/calling/call');
+      router?.push(SOCIAL_FEATURES?.calls);
     }
   };
 
@@ -74,7 +77,7 @@ const CodeVerification = ({
               justifyContent: 'center',
             }}
           >
-            {code.map((value, index) => (
+            {code?.map((value, index) => (
               <TextField
                 key={index}
                 inputRef={inputRefs[index]}

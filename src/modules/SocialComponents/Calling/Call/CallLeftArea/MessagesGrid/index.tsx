@@ -36,21 +36,21 @@ const MessagesGrid = ({
           overflow: 'scroll',
         }}
       >
-        {callingChats.map((item: any) => {
-          const activeCheck = activeMessageData?.id === item.id;
+        {callingChats?.map((item: any) => {
+          const activeCheck = activeMessageData?.id === item?.id;
           return (
             <>
               <Box
                 key={uuidv4()}
-                sx={styles.chatsCardWrapper(activeCheck)}
+                sx={styles?.chatsCardWrapper(activeCheck)}
                 onClick={() => {
                   setActiveMessageData(item), setIsActiveCalling(false);
                 }}
               >
-                <Box sx={styles.chatsCardInner}>
+                <Box sx={styles?.chatsCardInner}>
                   <Box sx={{ display: 'flex', gap: '10px' }}>
                     <Image
-                      src={item.userProfile}
+                      src={item?.userProfile}
                       alt="user-avatar"
                       width={40}
                       height={40}
@@ -58,14 +58,14 @@ const MessagesGrid = ({
                     />
                     <Box>
                       <Typography variant="body2" fontWeight="600">
-                        {item.userName}
+                        {item?.userName}
                       </Typography>
-                      <Typography variant="body3">{item.lastRead}</Typography>
+                      <Typography variant="body3">{item?.lastRead}</Typography>
                     </Box>
                   </Box>
                   <Box>
                     <Typography variant="body3">
-                      {item.lastMessageTime}
+                      {item?.lastMessageTime}
                     </Typography>
                   </Box>
                 </Box>

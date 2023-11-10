@@ -28,9 +28,10 @@ const Switch = (theme: any) => {
         width: 36,
         height: 20,
         borderRadius: 26 / 2,
-        backgroundColor: theme.palette.mode === 'light' ? '#D2D6DF' : '#39393D',
+        backgroundColor:
+          theme?.palette?.mode === 'light' ? '#D2D6DF' : '#39393D',
         opacity: 1,
-        transition: theme.transitions.create(['background-color'], {
+        transition: theme?.transitions?.create(['background-color'], {
           duration: 500,
         }),
       },

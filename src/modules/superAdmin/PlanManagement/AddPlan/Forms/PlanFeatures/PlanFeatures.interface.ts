@@ -1,5 +1,5 @@
-export interface CheckboxItem {
+export interface CheckboxItemI {
   name: string;
-  desc: string;
+  description: string;
   checked: boolean;
 }

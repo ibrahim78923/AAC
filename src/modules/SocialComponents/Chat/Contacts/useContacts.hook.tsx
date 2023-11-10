@@ -11,10 +11,10 @@ export const useContacts = () => {
   };
   const theme = useTheme();
   const chatModeState = useAppSelector(
-    (state: any) => state.chat.chatModeState,
+    (state: any) => state?.chat?.chatModeState,
   );
-  const chatMode = chatModeState.chatModeState
-    ? chatModeState.chatModeState
+  const chatMode = chatModeState?.chatModeState
+    ? chatModeState?.chatModeState
     : 'personalChat';
 
   return {
