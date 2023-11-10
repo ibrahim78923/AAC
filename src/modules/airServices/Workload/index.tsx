@@ -55,19 +55,19 @@ export const Workload = () => {
       ) : (
         <Fragment>
           <Grid container spacing={4} mb={4}>
-            <Grid item xs={12} md={3}>
+            <Grid item xs={12} lg={3}>
               <DateFilter setDateCalendar={setDateCalendar} />
             </Grid>
             <Grid
               item
               xs={12}
-              md={4}
+              lg={4}
               display={'flex'}
               justifyContent={'center'}
             >
               <Profile />
             </Grid>
-            <Grid item xs={12} md={5} textAlign={'end'}>
+            <Grid item xs={12} lg={5} textAlign={{ xs: 'center', lg: 'end' }}>
               <ManageWorkload />
 
               <UnassignedWork />
