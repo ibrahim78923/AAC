@@ -2,6 +2,7 @@ import { useFormContext, Controller } from 'react-hook-form';
 import { Checkbox, FormGroup, FormControlLabel } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon, DragIcon } from '@/assets/icons';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
+import { v4 as uuidv4 } from 'uuid';
 export default function RHFMultiCheckboxDraggable({
   name,
   options,
@@ -29,7 +30,11 @@ export default function RHFMultiCheckboxDraggable({
               return (
                 <FormGroup>
                   {options?.map((option: any, index: any) => (
-                    <Draggable key={option} draggableId={option} index={index}>
+                    <Draggable
+                      key={uuidv4()}
+                      draggableId={option}
+                      index={index}
+                    >
                       {(provided: any) => (
                         <div
                           ref={provided?.innerRef}
@@ -45,7 +50,7 @@ export default function RHFMultiCheckboxDraggable({
                         >
                           <DragIcon />
                           <FormControlLabel
-                            key={option}
+                            key={uuidv4()}
                             control={
                               <Checkbox
                                 checked={field?.value?.includes(option)}
