@@ -42,14 +42,14 @@ const NotificationCard = (props: NotificationProps) => {
             {...singleCheckboxProps}
           />
           <Box onClick={() => singleCardClick(obj)}>
-            <Typography>{obj.title}</Typography>
+            <Typography>{obj?.title}</Typography>
             <Typography variant="body2" color={'primary'} margin={'8px 0px'}>
-              {obj.subTitle}
+              {obj?.subTitle}
             </Typography>
             <Typography variant="body2" margin={'8px 0px'}>
-              {obj.description}
+              {obj?.description}
             </Typography>
-            <Typography variant="body2">{obj.time}</Typography>
+            <Typography variant="body2">{obj?.time}</Typography>
           </Box>
         </Box>
       ))}

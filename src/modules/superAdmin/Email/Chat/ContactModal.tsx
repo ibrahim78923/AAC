@@ -64,13 +64,13 @@ const ContactModal = ({ open, onClose }: any) => {
         >
           <Typography
             variant="formTopHeading"
-            sx={{ color: theme?.palette?.slateBlue.main }}
+            sx={{ color: theme?.palette?.slateBlue?.main }}
           >
             Email
           </Typography>
           <Typography
             variant="body3"
-            sx={{ color: theme?.palette?.primary.main }}
+            sx={{ color: theme?.palette?.primary?.main }}
           >
             Show More
           </Typography>

@@ -1,12 +1,13 @@
 import React from 'react';
 import { Grid, TextField, Typography } from '@mui/material';
-import LeftSide from './LeftSide';
-import RightSide from './RightSide';
-import Draft from './RightSide/Draft';
+
 import { useChat } from './useChat';
 import CommonModal from '@/components/CommonModal';
 import EmailEditorDrawer from '../SendEmail';
 import ContactModal from './ContactModal';
+import LeftSide from './ChatSectionA';
+import RightSide from './ChatSectionB';
+import Draft from './ChatSectionB/Draft';
 
 const EmailChat = () => {
   const {

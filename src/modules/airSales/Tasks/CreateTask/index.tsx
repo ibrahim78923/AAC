@@ -38,7 +38,7 @@ const CreateTask = ({ title, hideBtn, defaultOpen }: CreateTaskI) => {
                 fontWeight={500}
                 sx={{
                   color: theme.palette.grey[600],
-                  '& .symbol': { color: theme?.palette.error['light'] },
+                  '& .symbol': { color: theme?.palette?.error['light'] },
                 }}
               >
                 {obj?.title}
@@ -49,7 +49,7 @@ const CreateTask = ({ title, hideBtn, defaultOpen }: CreateTaskI) => {
                 InputProps={{ sx: { borderRadius: '8px' } }}
                 {...obj?.componentProps}
               >
-                {obj?.componentProps.select
+                {obj?.componentProps?.select
                   ? obj.options?.map((option) => (
                       <MenuItem key={uuid4()} value={option?.value}>
                         {option?.label}

@@ -39,7 +39,7 @@ const Filter = () => {
               {...obj?.componentProps}
             >
               {obj?.componentProps.select
-                ? obj.options?.map((option) => (
+                ? obj?.options?.map((option) => (
                     <MenuItem key={option?.value} value={option?.value}>
                       {option?.label}
                     </MenuItem>

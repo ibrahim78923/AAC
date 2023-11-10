@@ -21,7 +21,7 @@ export const styles = {
       height: '20px',
       width: '20px',
       borderRadius: '50px',
-      border: `1px solid ${theme.palette.grey[700]}`,
+      border: `1px solid ${theme?.palette?.grey[700]}`,
       background: '#fff',
       zIndex: 1,
     },
@@ -32,7 +32,7 @@ export const styles = {
       top: '38px',
       height: '2px',
       width: '100%',
-      border: `2px dashed ${theme.palette.grey[400]}`,
+      border: `2px dashed ${theme?.palette?.grey[400]}`,
     },
   }),
   leftText: {
@@ -43,7 +43,7 @@ export const styles = {
   rightSide: (theme: any) => ({
     mb: '24px',
     flex: 1,
-    border: `1px solid ${theme.palette.grey[700]}`,
+    border: `1px solid ${theme?.palette?.grey[700]}`,
     borderRadius: '6px',
     padding: '9px 24px',
     display: 'flex',
@@ -59,7 +59,7 @@ export const styles = {
   label: (theme: any) => ({
     borderRadius: '16px',
     padding: '2px 12px',
-    background: theme.palette.custom.bright,
+    background: theme?.palette?.custom?.bright,
     ml: 'auto',
     textTransform: 'capitalize',
   }),

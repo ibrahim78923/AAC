@@ -6,6 +6,7 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { actionBtnPRops } from '../../Chat.interface';
 
 import { styles } from './ActionBtn.style';
+import { uuid } from 'uuidv4';
 
 const ActionBtn = ({
   disableActionBtn,
@@ -63,7 +64,7 @@ const ActionBtn = ({
               onChange(item);
               handleClose();
             }}
-            key={item}
+            key={uuid()}
           >
             {item}
           </MenuItem>

@@ -4,7 +4,7 @@ import { Box, Typography, useTheme } from '@mui/material';
 import { styles } from './Email.styles';
 import { EmailInfoIcon } from '@/assets/icons';
 import { EmailArray } from '@/mock/modules/superAdmin/Email';
-import Settings from '@/assets/icons/modules/superAdmin/email/Settings';
+import Settings from '@/assets/icons/modules/superAdmin/email/settings-icon';
 import { v4 as uuidv4 } from 'uuid';
 import EmailSettingDrawer from './EmailSettingDrawer';
 

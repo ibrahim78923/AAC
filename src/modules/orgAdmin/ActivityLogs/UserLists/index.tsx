@@ -2,9 +2,9 @@ import React from 'react';
 import { Avatar, Box, Typography, useTheme } from '@mui/material';
 import { UserListI } from './UserList.interface';
 import { styles, renderLabelColors } from './UserList.style';
+import { v4 as uuidv4 } from 'uuid';
 
 const UserLists = ({
-  key,
   name = '',
   desc,
   message,
@@ -13,18 +13,18 @@ const UserLists = ({
   userImg,
 }: UserListI) => {
   return (
-    <Box key={key} sx={styles.customWrapper()}>
-      <Box sx={styles.wrapper}>
-        <Box sx={styles.leftSide(useTheme())}>
-          <Typography variant="body2" sx={styles.leftText}>
+    <Box key={uuidv4()} sx={styles?.customWrapper()}>
+      <Box sx={styles?.wrapper}>
+        <Box sx={styles?.leftSide(useTheme())}>
+          <Typography variant="body2" sx={styles?.leftText}>
             {time}
           </Typography>
         </Box>
-        <Box sx={styles.rightSide(useTheme())}>
+        <Box sx={styles?.rightSide(useTheme())}>
           <Box display={'flex'} alignItems={'center'} gap={'16px'}>
             <Avatar
               src={userImg?.src}
-              sx={{ ...styles.avatar, ...renderLabelColors[label] }}
+              sx={{ ...styles?.avatar, ...renderLabelColors[label] }}
             >
               {name.charAt(0)} {name.charAt(1)}
             </Avatar>
@@ -32,7 +32,7 @@ const UserLists = ({
               <Typography variant="body1">{name}</Typography>
               <Typography variant="body2">
                 {desc}
-                <Typography variant="body2" sx={styles.msg} component={'span'}>
+                <Typography variant="body2" sx={styles?.msg} component={'span'}>
                   {message}
                 </Typography>
               </Typography>
@@ -40,7 +40,7 @@ const UserLists = ({
           </Box>
           <Typography
             component={'span'}
-            sx={{ ...styles.label(useTheme()), ...renderLabelColors[label] }}
+            sx={{ ...styles?.label(useTheme()), ...renderLabelColors[label] }}
           >
             {label}
           </Typography>

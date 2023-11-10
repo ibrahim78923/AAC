@@ -13,7 +13,7 @@ export const CustomGridWithCardContent = ({
       <Box sx={style?.cardContainer}>
         <Box sx={style?.cardTitle}>{title}</Box>
         <Box sx={style?.cardWrapper}>
-          {data.map((obj: any) => (
+          {data?.map((obj: any) => (
             <Box sx={style?.cardContent} key={uuid()}>
               <Box
                 display={'flex'}

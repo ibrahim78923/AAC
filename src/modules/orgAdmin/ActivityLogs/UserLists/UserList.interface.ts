@@ -12,7 +12,7 @@ export interface UserListI {
 
 export interface RenderLabelColorsI {
   [label: string]: {
-    background: string;
-    color: string;
+    background?: string;
+    color?: string;
   };
 }
