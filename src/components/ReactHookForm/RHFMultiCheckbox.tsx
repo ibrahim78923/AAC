@@ -1,6 +1,7 @@
 import { useFormContext, Controller } from 'react-hook-form';
+// @mui
 import { Checkbox, FormGroup, FormControlLabel } from '@mui/material';
-
+import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 export default function RHFMultiCheckbox({ name, options, ...other }: any) {
   const { control } = useFormContext();
 
@@ -23,6 +24,9 @@ export default function RHFMultiCheckbox({ name, options, ...other }: any) {
                   <Checkbox
                     checked={field?.value?.includes(option)}
                     onChange={() => field?.onChange(onSelected(option))}
+                    icon={<CheckboxIcon />}
+                    checkedIcon={<CheckboxCheckedIcon />}
+                    color="primary"
                   />
                 }
                 label={option}

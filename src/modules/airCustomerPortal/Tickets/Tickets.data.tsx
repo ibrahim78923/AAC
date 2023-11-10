@@ -1,5 +1,5 @@
 import { RHFEditor, RHFTextField } from '@/components/ReactHookForm';
-import { PhotoShopIcon, XdIcon } from '@/assets/icons';
+import { PhotoShopIcon, XdIcon, IllustratorIcon } from '@/assets/icons';
 import * as Yup from 'yup';
 
 export const ticketsDataArray = [
@@ -9,7 +9,7 @@ export const ticketsDataArray = [
     subHeading: 'Adobe Illustrator',
     created: '12/08/23',
     status: 'Processing',
-    icon: <PhotoShopIcon />,
+    icon: <IllustratorIcon />,
   },
   {
     id: 2,
@@ -33,7 +33,7 @@ export const ticketsDataArray = [
     subHeading: 'Adobe Illustrator',
     created: '12/08/23',
     status: 'Processing',
-    icon: <XdIcon />,
+    icon: <IllustratorIcon />,
   },
   {
     id: 5,

@@ -1,4 +1,3 @@
-// import CustomPagination from '@/components/CustomPagination';
 import { useTicketsLists } from '../useTicketsLists';
 import CustomPagination from '@/components/CustomPagination';
 import TanstackTable from '@/components/Table/TanstackTable';
@@ -9,7 +8,12 @@ export const TicketsTableView = (props: any) => {
   return (
     <>
       <TanstackTable columns={ticketsListsColumn} data={ticketList} />
-      <CustomPagination count={1} rowsPerPageOptions={[1, 2]} entriePages={1} />
+      <CustomPagination
+        count={1}
+        pageLimit={10}
+        rowsPerPageOptions={[10, 25]}
+        currentPage={1}
+      />
     </>
   );
 };

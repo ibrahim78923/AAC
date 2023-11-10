@@ -1,7 +1,7 @@
 import { ApexOptions } from 'apexcharts';
 export interface CustomChartPropsI {
   options: ApexOptions;
-  series: ApexAxisChartSeries;
+  series: any;
   type:
     | 'area'
     | 'line'
