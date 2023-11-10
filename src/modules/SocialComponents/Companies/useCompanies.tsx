@@ -12,6 +12,11 @@ const useCompanies = () => {
   const [isFilter, setIsFilter] = useState(false);
   const [isCustomize, setIsCustomize] = useState(false);
   const [isToggled, toggle] = useToggle(false);
+  const [isPreview, setIsPreview] = useState(false);
+  const [isReassign, setIsReassign] = useState(false);
+  const [isExport, setIsExport] = useState(false);
+  const [isDeleteCompany, setIsDeleteCompany] = useState(false);
+  const [isMerge, setIsMerge] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
@@ -40,6 +45,16 @@ const useCompanies = () => {
     handleClose,
     isCreateView,
     setIsCreateView,
+    isPreview,
+    setIsPreview,
+    isReassign,
+    setIsReassign,
+    isExport,
+    setIsExport,
+    isDeleteCompany,
+    setIsDeleteCompany,
+    isMerge,
+    setIsMerge,
   };
 };
 

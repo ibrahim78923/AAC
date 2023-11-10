@@ -35,6 +35,10 @@ import {
   RestoreIcon,
 } from '@/assets/icons';
 import CreateViewCompany from './CreateViewCompany';
+import PreviewDrawer from './CompanyActions/PreviewDrawer';
+import DeleteModal from './CompanyActions/DeleteModal';
+import ReassignModal from './CompanyActions/ReassignModal';
+import MergeModal from './CompanyActions/MergeModal';
 
 const Companies = () => {
   const {
@@ -55,6 +59,15 @@ const Companies = () => {
     handleClose,
     isCreateView,
     setIsCreateView,
+    isPreview,
+    setIsPreview,
+    isReassign,
+    setIsReassign,
+    setIsExport,
+    isDeleteCompany,
+    setIsDeleteCompany,
+    isMerge,
+    setIsMerge,
   } = useCompanies();
 
   return (
@@ -137,7 +150,6 @@ const Companies = () => {
                     aria-haspopup="true"
                     aria-expanded={open ? 'true' : undefined}
                     onClick={handleClick}
-                    disabled
                   >
                     Action
                     <ArrowDropDownIcon
@@ -152,11 +164,19 @@ const Companies = () => {
                       'aria-labelledby': 'basic-button',
                     }}
                   >
-                    <MenuItem>Preview</MenuItem>
-                    <MenuItem>Re-assign</MenuItem>
-                    <MenuItem>Export</MenuItem>
-                    <MenuItem>Delete</MenuItem>
-                    <MenuItem>Manage</MenuItem>
+                    <MenuItem onClick={() => setIsPreview(true)}>
+                      Preview
+                    </MenuItem>
+                    <MenuItem onClick={() => setIsReassign(true)}>
+                      Re-assign
+                    </MenuItem>
+                    <MenuItem onClick={() => setIsExport(true)}>
+                      Export
+                    </MenuItem>
+                    <MenuItem onClick={() => setIsDeleteCompany(true)}>
+                      Delete
+                    </MenuItem>
+                    <MenuItem onClick={() => setIsMerge(true)}>Merge</MenuItem>
                   </Menu>
 
                   <Button
@@ -210,6 +230,16 @@ const Companies = () => {
             isCreateView={isCreateView}
             setIsCreateView={setIsCreateView}
           />
+          <PreviewDrawer isPreview={isPreview} setIsPreview={setIsPreview} />
+          <DeleteModal
+            isDeleteCompany={isDeleteCompany}
+            setIsDeleteCompany={setIsDeleteCompany}
+          />
+          <ReassignModal
+            isReassign={isReassign}
+            setIsReassign={setIsReassign}
+          />
+          <MergeModal isMerge={isMerge} setIsMerge={setIsMerge} />
         </>
       )}
     </>

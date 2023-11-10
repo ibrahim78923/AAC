@@ -1,6 +1,5 @@
 import {
   RHFDatePicker,
-  RHFRadioGroup,
   RHFSelect,
   RHFTextField,
 } from '@/components/ReactHookForm';
@@ -74,13 +73,8 @@ export const viewCompanyArr = [
       fullWidth: true,
       select: false,
     },
-    component: RHFRadioGroup,
-    options: [
-      {
-        label: 'Private',
-        value: true,
-      },
-    ],
+    component: RHFSelect,
+
     md: 12,
   },
 ];

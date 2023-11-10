@@ -114,3 +114,11 @@ export { default as OrcaloLogoImage } from '../../assets/images/modules/orgAdmin
 export { default as SentImage } from '../../assets/images/modules/orgAdmin/organization/sent.png';
 export { default as ServiceImage } from '../../assets/images/modules/orgAdmin/organization/service.png';
 export { default as AddCircleImage } from '../images/modules/orgAdmin/organization/add-circle.png';
+export { default as CompanyLogoImage } from '../images/modules/socialComponents/companies/logo.png';
+export { default as EmailImage } from '../images/modules/socialComponents/companies/sms.png';
+export { default as MobileImage } from '../images/modules/socialComponents/companies/call.png';
+export { default as EmpAvatarImage } from '../images/modules/socialComponents/companies/empAvt.png';
+export { default as TicketImage } from '../images/modules/socialComponents/companies/ticket.png';
+export { default as NoteImage } from '../images/modules/socialComponents/companies/note.png';
+export { default as NoteAddImage } from '../images/modules/socialComponents/companies/noteAdd.png';
+export { default as ActivitesTimeImage } from '../images/modules/socialComponents/companies/ActivitiesWithoutTime.png';
