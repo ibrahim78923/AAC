@@ -9,7 +9,7 @@ export const ManageWorkload = () => {
   const open = Boolean(anchorEl);
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
+    setAnchorEl(event?.currentTarget);
   };
 
   return (

@@ -21,7 +21,7 @@ export const DateFilter = ({ setDateCalendar }: any) => {
 
   // Date Filter Handler
   const [selectedDate, setSelectedDate] = useState<any>(
-    dayjs(new Date()).startOf('week'),
+    dayjs(new Date())?.startOf('week'),
   );
 
   // Date to be displayed
@@ -34,7 +34,7 @@ export const DateFilter = ({ setDateCalendar }: any) => {
   // Previous Click
   const handlePrevClick = () => {
     const newDate = dayjs(selectedDate)?.subtract(1, 'week')?.toDate();
-    const startOfWeek = dayjs(newDate).startOf('week').format('YYYY-MM-DD');
+    const startOfWeek = dayjs(newDate)?.startOf('week')?.format('YYYY-MM-DD');
     setSelectedDate(startOfWeek);
     setDateCalendar(newDate);
   };

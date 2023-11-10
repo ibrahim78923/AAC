@@ -34,7 +34,7 @@ const WorkloadDrawer = ({
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
+    setAnchorEl(event?.currentTarget);
   };
 
   const handleClose = () => {
@@ -50,7 +50,7 @@ const WorkloadDrawer = ({
   );
 
   const handleClickDate = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorElDate(event.currentTarget);
+    setAnchorElDate(event?.currentTarget);
   };
 
   const handleCloseDate = () => {

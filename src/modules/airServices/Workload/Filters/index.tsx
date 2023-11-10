@@ -14,11 +14,11 @@ import { FilterSharedIcon } from '@/assets/icons';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 export const Filters = () => {
-  // Popover oppen
+  // Popover open
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
+    setAnchorEl(event?.currentTarget);
   };
 
   const handleClose = () => {
@@ -32,26 +32,26 @@ export const Filters = () => {
   const [checked, setChecked] = useState([true, false]);
 
   const handleChange1 = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setChecked([event.target.checked, event.target.checked]);
+    setChecked([event?.target?.checked, event?.target?.checked]);
   };
 
   const handleChange2 = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setChecked([event.target.checked, checked[1]]);
+    setChecked([event?.target?.checked, checked?.[1]]);
   };
 
   const handleChange3 = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setChecked([checked[0], event.target.checked]);
+    setChecked([checked?.[0], event?.target?.checked]);
   };
 
   const children = (
     <Box sx={{ display: 'flex', flexDirection: 'column', ml: 3 }}>
       <FormControlLabel
         label="Tasks"
-        control={<Checkbox checked={checked[0]} onChange={handleChange2} />}
+        control={<Checkbox checked={checked?.[0]} onChange={handleChange2} />}
       />
       <FormControlLabel
         label="Tickets"
-        control={<Checkbox checked={checked[1]} onChange={handleChange3} />}
+        control={<Checkbox checked={checked?.[1]} onChange={handleChange3} />}
       />
     </Box>
   );
@@ -101,8 +101,8 @@ export const Filters = () => {
                 label="All"
                 control={
                   <Checkbox
-                    checked={checked[0] && checked[1]}
-                    indeterminate={checked[0] !== checked[1]}
+                    checked={checked?.[0] && checked?.[1]}
+                    indeterminate={checked?.[0] !== checked?.[1]}
                     onChange={handleChange1}
                   />
                 }

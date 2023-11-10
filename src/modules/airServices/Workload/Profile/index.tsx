@@ -2,7 +2,6 @@ import { Avatar, Box, Menu, Tooltip, Typography } from '@mui/material';
 import { Fragment, useState, useEffect } from 'react';
 import { ProfileAvatars } from './Profile.data';
 import { v4 as uuidv4 } from 'uuid';
-// import { useGetWorkloadProfileQuery } from '@/services/airServices/workload';
 
 export const Profile = () => {
   const [users, setUsers] = useState<any>([]);
@@ -10,8 +9,6 @@ export const Profile = () => {
   const [selected, setSelected] = useState<any>(null);
   const [showExtras, setShowExtras] = useState<any>(false);
   const [anchorEl, setAnchorEl] = useState<any>(null);
-
-  // const { data } = useGetWorkloadProfileQuery(null);
 
   const addToArray = (user: any) => {
     setSelected(user);
@@ -74,7 +71,7 @@ export const Profile = () => {
               cursor: 'pointer',
             }}
             onClick={(event: any) => {
-              setAnchorEl(event.currentTarget);
+              setAnchorEl(event?.currentTarget);
               setShowExtras(true);
             }}
           >

@@ -22,6 +22,8 @@ import CircleIcon from '@mui/icons-material/Circle';
 import { TodoIcon } from '@/assets/icons';
 import { Editor } from './Editor';
 import { useGetWorkloadQuery } from '@/services/airServices/workload';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import ApiErrorState from '@/components/ApiErrorState';
 
 export const Workload = () => {
   const calendarRef: any = useRef();
@@ -30,163 +32,172 @@ export const Workload = () => {
     data: null,
   });
 
-  const todayDate: string = dayjs().format('YYYY-MM-DD');
+  const todayDate: string = dayjs()?.format('YYYY-MM-DD');
   const [dateCalendar, setDateCalendar] = useState(todayDate);
   calendarRef?.current?.getApi()?.gotoDate(dateCalendar);
 
-  const { data, isLoading, isFetching } = useGetWorkloadQuery(
+  const { data, isLoading, isFetching, isError } = useGetWorkloadQuery(
     {
-      startDate: dayjs(dateCalendar).startOf('week').format(),
+      startDate: dayjs(dateCalendar)?.startOf('week')?.format(),
     },
     { refetchOnMountOrArgChange: true },
   );
 
   return (
-    <Box className={styles.calendarWrapper}>
+    <Box className={styles?.calendarWrapper}>
       <Typography variant="h3" mb={3}>
         Workload
       </Typography>
-
-      <Grid container spacing={4} mb={4}>
-        <Grid item xs={12} md={3}>
-          <DateFilter setDateCalendar={setDateCalendar} />
-        </Grid>
-        <Grid item xs={12} md={4} display={'flex'} justifyContent={'center'}>
-          <Profile />
-        </Grid>
-        <Grid item xs={12} md={5} textAlign={'end'}>
-          <ManageWorkload />
-
-          <UnassignedWork />
-
-          <Filters />
-        </Grid>
-      </Grid>
-
-      {isLoading || isFetching ? (
-        <>Loading</>
+      {isError ? (
+        <ApiErrorState />
+      ) : isLoading || isFetching ? (
+        <SkeletonTable />
       ) : (
-        <FullCalendar
-          ref={calendarRef}
-          dayHeaderContent={(data: any) => (
-            <Box sx={{ cursor: 'pointer' }}>
-              {dayjs(data?.date).format('ddd - DD')}
-              <Typography variant={'h6'}>
-                {data?.day?.allDayEvents?.length}
-              </Typography>
-            </Box>
-          )}
-          headerToolbar={false}
-          plugins={[dayGridPlugin, interactionPlugin]}
-          initialView="dayGridWeek"
-          events={data}
-          eventTimeFormat={{
-            hour: 'numeric',
-            meridiem: true,
-          }}
-          eventClassNames={styles?.eventClassNames}
-          eventContent={(eventInfo: any) => {
-            return (
-              <Tooltip
-                componentsProps={{
-                  tooltip: {
-                    sx: {
-                      bgcolor: 'common.white',
-                      boxShadow: 3,
-                      maxWidth: 'unset',
+        <Fragment>
+          <Grid container spacing={4} mb={4}>
+            <Grid item xs={12} md={3}>
+              <DateFilter setDateCalendar={setDateCalendar} />
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              md={4}
+              display={'flex'}
+              justifyContent={'center'}
+            >
+              <Profile />
+            </Grid>
+            <Grid item xs={12} md={5} textAlign={'end'}>
+              <ManageWorkload />
+
+              <UnassignedWork />
+
+              <Filters />
+            </Grid>
+          </Grid>
+
+          <FullCalendar
+            ref={calendarRef}
+            dayHeaderContent={(data: any) => (
+              <Box sx={{ cursor: 'pointer' }}>
+                {dayjs(data?.date)?.format('ddd - DD')}
+                <Typography variant={'h6'}>
+                  {data?.day?.allDayEvents?.length}
+                </Typography>
+              </Box>
+            )}
+            headerToolbar={false}
+            plugins={[dayGridPlugin, interactionPlugin]}
+            initialView="dayGridWeek"
+            events={data}
+            eventTimeFormat={{
+              hour: 'numeric',
+              meridiem: true,
+            }}
+            eventClassNames={styles?.eventClassNames}
+            eventContent={(eventInfo: any) => {
+              return (
+                <Tooltip
+                  componentsProps={{
+                    tooltip: {
+                      sx: {
+                        bgcolor: 'common.white',
+                        boxShadow: 3,
+                        maxWidth: 'unset',
+                      },
                     },
-                  },
-                }}
-                title={
-                  <Fragment>
-                    <Box display={'flex'} alignItems={'center'} gap={2} p={2}>
-                      <CircleIcon
-                        fontSize="small"
-                        color={
-                          eventInfo?.event?.extendedProps?.status?.toLowerCase() ===
-                          'completed'
-                            ? 'primary'
-                            : eventInfo?.event?.extendedProps?.status
-                                ?.toLowerCase()
-                                .replace(/\s/g, '') === 'inprogress'
-                            ? 'warning'
-                            : 'secondary'
-                        }
-                      />
+                  }}
+                  title={
+                    <Fragment>
+                      <Box display={'flex'} alignItems={'center'} gap={2} p={2}>
+                        <CircleIcon
+                          fontSize="small"
+                          color={
+                            eventInfo?.event?.extendedProps?.status?.toLowerCase() ===
+                            'completed'
+                              ? 'primary'
+                              : eventInfo?.event?.extendedProps?.status
+                                  ?.toLowerCase()
+                                  ?.replace(/\s/g, '') === 'inprogress'
+                              ? 'warning'
+                              : 'secondary'
+                          }
+                        />
+                        <Typography
+                          variant="body1"
+                          color={'blue.main'}
+                          textTransform={'capitalize'}
+                        >
+                          {eventInfo?.event?.extendedProps?.status}
+                        </Typography>
+                      </Box>
+                      <Divider />
+                      <Box display={'flex'} alignItems={'center'} gap={2} p={2}>
+                        <TodoIcon />
+                        <Typography variant="h5" color={'blue.main'}>
+                          {eventInfo?.event?.extendedProps?.ticketNo}
+                        </Typography>
+                        <Typography variant="body1" color={'blue.main'}>
+                          {eventInfo?.event?.extendedProps?.description}
+                        </Typography>
+                      </Box>
                       <Typography
-                        variant="body1"
-                        color={'blue.main'}
-                        textTransform={'capitalize'}
+                        variant="body2"
+                        px={2}
+                        ml={2}
+                        color={'custom.main'}
+                        pb={2}
                       >
-                        {eventInfo?.event?.extendedProps?.status}
+                        {dayjs(eventInfo?.event?.start)?.format(
+                          'DD MMM, YYYY hh:MM A',
+                        )}{' '}
+                        -{' '}
+                        {dayjs(eventInfo?.event?.end)?.format(
+                          'DD MMM, YYYY hh:MM A',
+                        )}
                       </Typography>
-                    </Box>
-                    <Divider />
-                    <Box display={'flex'} alignItems={'center'} gap={2} p={2}>
-                      <TodoIcon />
-                      <Typography variant="h5" color={'blue.main'}>
-                        {eventInfo?.event?.extendedProps?.ticketNo}
-                      </Typography>
-                      <Typography variant="body1" color={'blue.main'}>
-                        {eventInfo?.event?.extendedProps?.description}
-                      </Typography>
-                    </Box>
-                    <Typography
-                      variant="body2"
-                      px={2}
-                      ml={2}
-                      color={'custom.main'}
-                      pb={2}
-                    >
-                      {dayjs(eventInfo?.event?.start).format(
-                        'DD MMM, YYYY hh:MM A',
-                      )}{' '}
-                      -{' '}
-                      {dayjs(eventInfo?.event?.end).format(
-                        'DD MMM, YYYY hh:MM A',
-                      )}
-                    </Typography>
-                    <Divider />
-                    <Button
-                      color="secondary"
-                      onClick={() =>
-                        setOnClickEvent({
-                          open: true,
-                          data: eventInfo?.event,
-                        })
-                      }
-                    >
-                      ADD PLANNED EFFORT
-                    </Button>
-                  </Fragment>
-                }
-              >
-                <Box
-                  display={'flex'}
-                  alignItems={'center'}
-                  gap={'1rem'}
-                  sx={{ cursor: 'pointer' }}
-                  overflow={'hidden'}
-                  onClick={() =>
-                    setOnClickEvent({
-                      open: true,
-                      data: eventInfo?.event,
-                    })
+                      <Divider />
+                      <Button
+                        color="secondary"
+                        onClick={() =>
+                          setOnClickEvent({
+                            open: true,
+                            data: eventInfo?.event,
+                          })
+                        }
+                      >
+                        ADD PLANNED EFFORT
+                      </Button>
+                    </Fragment>
                   }
                 >
-                  <Avatar
-                    src={eventInfo?.event?.extendedProps?.img?.src}
-                    sx={{ width: 28, height: 28, color: 'primary.main' }}
-                  />
-                  <Typography variant={'body2'} color={'common.white'}>
-                    {eventInfo?.event?.extendedProps?.ticketNo}{' '}
-                    {eventInfo?.event?.extendedProps?.description}
-                  </Typography>
-                </Box>
-              </Tooltip>
-            );
-          }}
-        />
+                  <Box
+                    display={'flex'}
+                    alignItems={'center'}
+                    gap={'1rem'}
+                    sx={{ cursor: 'pointer' }}
+                    overflow={'hidden'}
+                    onClick={() =>
+                      setOnClickEvent({
+                        open: true,
+                        data: eventInfo?.event,
+                      })
+                    }
+                  >
+                    <Avatar
+                      src={eventInfo?.event?.extendedProps?.img?.src}
+                      sx={{ width: 28, height: 28, color: 'primary.main' }}
+                    />
+                    <Typography variant={'body2'} color={'common.white'}>
+                      {eventInfo?.event?.extendedProps?.ticketNo}{' '}
+                      {eventInfo?.event?.extendedProps?.description}
+                    </Typography>
+                  </Box>
+                </Tooltip>
+              );
+            }}
+          />
+        </Fragment>
       )}
 
       <Editor
