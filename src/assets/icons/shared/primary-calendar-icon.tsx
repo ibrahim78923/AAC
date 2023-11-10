@@ -1,4 +1,4 @@
-const PrimaryCalendar = () => {
+const PrimaryCalendarIcon = () => {
   return (
     <svg
       width="18"
@@ -19,4 +19,4 @@ const PrimaryCalendar = () => {
   );
 };
 
-export default PrimaryCalendar;
+export default PrimaryCalendarIcon;
