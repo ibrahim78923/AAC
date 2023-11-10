@@ -32,7 +32,7 @@ export const columns: any = ({
           fullWidth
           size="small"
           onChange={(e) => {
-            setSelectStage(e.target.value);
+            setSelectStage(e?.target?.value);
           }}
         >
           <MenuItem value="val1" selected>

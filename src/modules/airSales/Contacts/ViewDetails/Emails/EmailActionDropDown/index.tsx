@@ -1,5 +1,3 @@
-import React from 'react';
-
 import Image from 'next/image';
 
 import { Box, Button, Grid, Menu, MenuItem, Typography } from '@mui/material';
@@ -39,8 +37,8 @@ const EmailActionDropDown = (props: any) => {
       <Button
         endIcon={<ArrowDropDown />}
         sx={{
-          border: `1px solid ${theme.palette.custom.dark}`,
-          color: `${theme.palette.custom.main}`,
+          border: `1px solid ${theme?.palette?.custom?.dark}`,
+          color: `${theme?.palette?.custom?.main}`,
           minWidth: '0px',
         }}
         aria-controls={isMenuOpen ? 'basic-menu' : undefined}

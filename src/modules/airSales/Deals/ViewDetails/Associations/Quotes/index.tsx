@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Box, Button, Grid, Typography, useTheme } from '@mui/material';
 
 import Search from '@/components/Search';

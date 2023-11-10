@@ -38,7 +38,7 @@ const Details = () => {
   } = useDetails();
 
   return (
-    <Box sx={styles.horizontalTabsBox}>
+    <Box sx={styles?.horizontalTabsBox}>
       <Typography variant="h4">Details</Typography>
       <Box>
         <Box
@@ -86,7 +86,7 @@ const Details = () => {
           <Grid container spacing={4}>
             {detailsDataArray?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                <Typography>{item.label}</Typography>
+                <Typography>{item?.label}</Typography>
                 <item.component {...item?.componentProps} size={'small'}>
                   {item?.componentProps?.select
                     ? item?.options?.map((option: any) => (
@@ -98,9 +98,6 @@ const Details = () => {
                 </item.component>
               </Grid>
             ))}
-            {/* <Grid item xs={12}>
-              <Divider sx={{ borderColor: theme.palette.grey[700] }} />
-            </Grid> */}
           </Grid>
           <Typography sx={{ mt: '24px', mb: '24px' }} variant="h4">
             System Information

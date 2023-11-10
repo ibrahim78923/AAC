@@ -18,10 +18,10 @@ const DealCustomize = ({ open, onClose }: any) => {
       okText="Save"
       title="Customize"
     >
-      {columnsData.map((column) => (
+      {columnsData?.map((column) => (
         <ColumnsWrapper
           key={uuidv4()}
-          title={column.title}
+          title={column?.title}
           checkboxProps={{
             onChange: () => {},
           }}

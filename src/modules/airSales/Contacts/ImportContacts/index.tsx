@@ -32,7 +32,7 @@ const ImportContacts = () => {
         <Typography variant="h3">Import Contacts</Typography>
         <Button
           onClick={() => {
-            route.push(SUPER_ADMIN.AIRSALES_IMPORTHISTORY);
+            route.push(SUPER_ADMIN?.AIRSALES_IMPORTHISTORY);
           }}
           startIcon={<ImportIcon />}
           variant="outlined"
@@ -48,7 +48,7 @@ const ImportContacts = () => {
           sx={{
             fontSize: '16px',
             fontWeight: 600,
-            color: theme.palette.custom['main'],
+            color: theme?.palette?.custom['main'],
             my: '10px',
           }}
         >
@@ -80,7 +80,7 @@ const ImportContacts = () => {
             <Button
               variant="outlined"
               onClick={() => {
-                route.push(SUPER_ADMIN?.AIRSALES_CONTCATS);
+                route?.push(SUPER_ADMIN?.AIRSALES_CONTCATS);
               }}
             >
               Cancel
@@ -88,7 +88,7 @@ const ImportContacts = () => {
             <Button
               variant="contained"
               sx={{ ml: '10px' }}
-              onClick={() => route.push(SUPER_ADMIN?.CONTCATS_COLUMN)}
+              onClick={() => route?.push(SUPER_ADMIN?.CONTCATS_COLUMN)}
             >
               Next
             </Button>

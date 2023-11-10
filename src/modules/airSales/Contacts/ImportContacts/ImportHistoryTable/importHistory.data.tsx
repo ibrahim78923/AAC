@@ -6,31 +6,31 @@ import { useRouter } from 'next/router';
 
 export const ContactsHistoryColumns: any = [
   {
-    accessorFn: (row: any) => row.id,
+    accessorFn: (row: any) => row?.id,
     id: 'Sr.No',
     isSortable: false,
   },
   {
-    accessorFn: (row: any) => row.FileName,
+    accessorFn: (row: any) => row?.FileName,
     id: 'fileName',
     header: 'fileName',
     isSortable: true,
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.RecordsCreated,
+    accessorFn: (row: any) => row?.RecordsCreated,
     id: 'recordsCreated',
     isSortable: true,
     header: 'recordsCreated',
     cell: (info: any) => {
       const route = useRouter();
-      const value = info.getValue();
+      const value = info?.getValue();
       return (
         <Box display="flex" gap={1}>
           {value}
           {value === '0' && (
             <Typography
-              onClick={() => route.push(SUPER_ADMIN.IMPORT_RECORD)}
+              onClick={() => route?.push(SUPER_ADMIN?.IMPORT_RECORD)}
               variant="body3"
               sx={{
                 cursor: 'pointer',
@@ -47,38 +47,38 @@ export const ContactsHistoryColumns: any = [
     },
   },
   {
-    accessorFn: (row: any) => row.RecordsUpdated,
+    accessorFn: (row: any) => row?.RecordsUpdated,
     id: 'recordsUpdated',
     isSortable: true,
     header: 'recordsUpdated',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.RecordsErrored,
+    accessorFn: (row: any) => row?.RecordsErrored,
     id: 'recordsErrored',
     isSortable: true,
     header: 'recordsErrored',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.ImportedBy,
+    accessorFn: (row: any) => row?.ImportedBy,
     id: 'importedBy',
     isSortable: true,
     header: 'importedBy',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.ImportedAt,
+    accessorFn: (row: any) => row?.ImportedAt,
     id: 'importedAt',
     isSortable: true,
     header: 'importedAt',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.Status,
+    accessorFn: (row: any) => row?.Status,
     id: 'status',
     isSortable: true,
     header: 'status',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
 ];

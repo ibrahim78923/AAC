@@ -50,13 +50,13 @@ const RestoreActivities = () => {
           <Box>
             <Typography
               variant="subtitle1"
-              sx={{ colors: theme.palette.grey[600] }}
+              sx={{ colors: theme?.palette?.grey[600] }}
             >
               Restore Activities
             </Typography>
             <Typography
               variant="body2"
-              sx={{ color: theme.palette.custom['main'] }}
+              sx={{ color: theme?.palette?.custom['main'] }}
             >
               Restore Deals deleted in the last 90 days
             </Typography>
@@ -111,7 +111,7 @@ const RestoreActivities = () => {
           <Button
             startIcon={<FilterIcon />}
             variant="outlined"
-            sx={{ height: '30px', color: theme.palette.custom['main'] }}
+            sx={{ height: '30px', color: theme?.palette?.custom['main'] }}
             onClick={handleRestoreFilter}
           >
             {' '}

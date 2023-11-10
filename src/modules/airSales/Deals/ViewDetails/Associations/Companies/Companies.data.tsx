@@ -1,7 +1,9 @@
-import { DeleteCrossIcon, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
-import { NotesAvatarImage } from '@/assets/images';
-import { Box, Typography } from '@mui/material';
 import Image from 'next/image';
+
+import { Box, Typography } from '@mui/material';
+
+import { NotesAvatarImage } from '@/assets/images';
+import { DeleteCrossIcon, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
 export const columns: any = ({
   setOpenDrawer,
   setIsOpenAlert,

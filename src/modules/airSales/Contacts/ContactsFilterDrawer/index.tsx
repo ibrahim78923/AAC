@@ -34,7 +34,7 @@ const ContactsFilterDrawer = ({ open, onClose }: any) => {
                   fontWeight: 500,
                 }}
               >
-                {obj.title}
+                {obj?.title}
               </Typography>
               <obj.component
                 fullWidth

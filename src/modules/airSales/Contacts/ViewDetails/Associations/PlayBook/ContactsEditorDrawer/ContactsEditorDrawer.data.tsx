@@ -9,7 +9,7 @@ import {
 
 import * as Yup from 'yup';
 
-export const contactsValidationSchema = Yup.object().shape({
+export const contactsValidationSchema = Yup?.object()?.shape({
   email: Yup?.string()?.trim()?.required('Field is Required'),
   tasktype: Yup?.string()?.trim()?.required('Field is Required'),
   priority: Yup?.string()?.trim()?.required('Field is Required'),

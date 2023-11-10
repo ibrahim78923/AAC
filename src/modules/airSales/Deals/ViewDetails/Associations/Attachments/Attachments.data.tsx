@@ -22,7 +22,7 @@ export const columns: any = ({
       id: 'createdDate',
       isSortable: true,
       header: 'Created Date',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
 
     {

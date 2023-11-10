@@ -111,7 +111,6 @@ const Deals = () => {
                 onClick={() => handleListViewClick('listView')}
                 sx={{
                   '&:hover': { backgroundColor: '#F3F4F6' },
-                  // backgroundColor: activeColor === 'listView' ? '#F3F4F6' : '',
                   height: '30px',
                 }}
               >
@@ -122,7 +121,6 @@ const Deals = () => {
                 sx={{
                   '&:hover': { backgroundColor: '#F3F4F6' },
                   height: '30px',
-                  // backgroundColor: activeColor === 'gridView' ? '#F3F4F6' : '',
                 }}
               >
                 <GridViewIcon />

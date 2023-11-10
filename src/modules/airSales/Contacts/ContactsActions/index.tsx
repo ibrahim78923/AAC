@@ -17,7 +17,7 @@ const ContactsActions = ({
   const id = open ? 'simple-popover' : undefined;
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
+    setAnchorEl(event?.currentTarget);
   };
 
   const handleClose = () => {
@@ -31,7 +31,7 @@ const ContactsActions = ({
         onClick={handleClick}
         disabled={disableActionBtn}
         classes={{ outlined: 'outlined_btn' }}
-        sx={styles.ActionBtn}
+        sx={styles?.ActionBtn}
       >
         Actions
       </Button>
@@ -49,7 +49,7 @@ const ContactsActions = ({
           horizontal: 'center',
         }}
       >
-        {menuItem.map((item) => (
+        {menuItem?.map((item) => (
           <MenuItem
             value={item}
             key={item}

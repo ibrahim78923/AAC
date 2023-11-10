@@ -36,7 +36,7 @@ const ImportRecordCreated = () => {
         <SvgIcon
           cursor="pointer"
           onClick={() => {
-            route.push(SUPER_ADMIN.AIRSALES_IMPORTHISTORY);
+            route.push(SUPER_ADMIN?.AIRSALES_IMPORTHISTORY);
           }}
         >
           <BackArrIcon />
@@ -61,7 +61,7 @@ const ImportRecordCreated = () => {
             disableActionBtn={false}
             onChange={handleActions}
           />
-          <Link href={SUPER_ADMIN.IMPORTRECORD_RESTORE}>
+          <Link href={SUPER_ADMIN?.IMPORTRECORD_RESTORE}>
             <Button
               variant="outlined"
               sx={{ height: '30px', color: theme?.palette?.custom['main'] }}

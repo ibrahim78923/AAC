@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Box, Grid, Typography, Button } from '@mui/material';
 
 import TaskEditorDrawer from './TaskEditorDrawer';

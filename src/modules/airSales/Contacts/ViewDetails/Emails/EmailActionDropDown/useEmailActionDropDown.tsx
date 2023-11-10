@@ -9,7 +9,7 @@ const useEmailActionDropdown = ({ setOpenDrawer }: any) => {
   const isMenuOpen = Boolean(anchorEl);
 
   const handleOpenMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
+    setAnchorEl(event?.currentTarget);
   };
   const handleCloseMenu = () => {
     setAnchorEl(null);

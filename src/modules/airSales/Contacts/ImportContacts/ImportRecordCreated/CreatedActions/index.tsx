@@ -18,7 +18,7 @@ const CreatedActions = ({
   const id = open ? 'simple-popover' : undefined;
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
+    setAnchorEl(event?.currentTarget);
   };
 
   const handleClose = () => {
@@ -50,7 +50,7 @@ const CreatedActions = ({
           horizontal: 'center',
         }}
       >
-        {menuItem.map((item) => (
+        {menuItem?.map((item) => (
           <MenuItem
             value={item}
             key={item}

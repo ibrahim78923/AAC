@@ -43,7 +43,7 @@ const FilterDrawer = ({ open, onClose }: any) => {
                 {...obj?.componentProps}
               >
                 {obj?.componentProps?.select
-                  ? obj.options?.map((option) => (
+                  ? obj?.options?.map((option) => (
                       <MenuItem key={uuidv4()} value={option?.value}>
                         {option?.label}
                       </MenuItem>
