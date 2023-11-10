@@ -16,6 +16,13 @@ export const authAPI = baseAPI.injectEndpoints({
         body: user,
       }),
     }),
+    signUp: builder.mutation({
+      query: ({ user }: any) => ({
+        url: endpoints.signup,
+        method: 'POST',
+        body: user,
+      }),
+    }),
     forgotPassword: builder.mutation({
       query: (user: string) => ({
         url: endpoints.forgot_password,
@@ -44,8 +51,8 @@ export const authAPI = baseAPI.injectEndpoints({
     }),
 
     getAuthCompanies: builder.query({
-      query: () => ({
-        url: `${endpoints.auth_search_company}?by='crn'`,
+      query: ({ q }) => ({
+        url: `${endpoints.auth_search_company}?by=crn&q=${q}`,
         method: 'GET',
       }),
       providesTags: ['companies'],

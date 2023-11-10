@@ -2,17 +2,16 @@ import { RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
 export const validationSchema = Yup.object().shape({
-  fullName: Yup.string().required('Field is Required'),
+  firstName: Yup.string().required('Field is Required'),
+  lastName: Yup.string().required('Field is Required'),
   email: Yup.string().required('Field is Required'),
-  organizationNumber: Yup.object()
-    .shape({
-      label: Yup.string().required(),
-      value: Yup.string().required(),
-    })
-    .required('Field is Required'),
   organizationName: Yup.string().required('Field is Required'),
-  employeesNumber: Yup.string().required('Field is Required'),
+  crn: Yup.string().required('Field is Required'),
+  numberOfEmployees: Yup.string().required('Field is Required'),
   phoneNumber: Yup.string().required('Field is Required'),
+  products: Yup.array()
+    .min(1, 'Field is Required')
+    ?.required('Field is Required'),
   password: Yup.string()
     .required('Password is required')
     .matches(
@@ -25,15 +24,14 @@ export const validationSchema = Yup.object().shape({
 });
 
 export const defaultValues = {
-  fullName: '',
+  firstName: '',
+  lastName: '',
   email: '',
-  organizationNumber: {
-    label: '',
-    value: '',
-  },
-  verifyEmployees: '',
+  crn: '',
+  products: [],
+  enableEmployeeVerification: '',
   organizationName: '',
-  employeesNumber: '',
+  numberOfEmployees: '',
   phoneNumber: '',
   password: '',
   confirmPassword: '',

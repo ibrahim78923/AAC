@@ -7,4 +7,5 @@ export const endpoints = {
   reset_password: 'auth/resetPassword',
   forgot_password: 'auth/forgot-password',
   auth_search_company: 'auth/search-company',
+  auth_IG_Verification: 'auth/ig-verification',
 };

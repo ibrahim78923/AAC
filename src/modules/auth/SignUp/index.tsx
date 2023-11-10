@@ -17,7 +17,6 @@ import useSignup from './useSignup';
 
 import {
   FormProvider,
-  RHFAutocomplete,
   RHFMultiCheckbox,
   RHFSelect,
   RHFSwitch,
@@ -31,7 +30,7 @@ import {
   EyeSlashIcon,
   CompanyLogoIcon,
   VerifiedIcon,
-  SearchSharedIcon,
+  ArrowBackIcon,
 } from '@/assets/icons';
 
 import { LoginDashboardImage } from '@/assets/images';
@@ -42,7 +41,6 @@ import { v4 as uuidv4 } from 'uuid';
 
 const SignUp = () => {
   const { onSubmit, handleSubmit, methodsSignup } = useSignup();
-  // const { data } = useGetAuthCompaniesQuery({})
 
   const [isStepComplete, setIsStepComplete] = useState<boolean>(false);
 
@@ -74,7 +72,6 @@ const SignUp = () => {
       </Box>
       <Grid
         container
-        spacing={2}
         sx={{ height: '100vh', alignItems: 'center', justifyContent: 'center' }}
       >
         {isSuccess ? (
@@ -134,9 +131,17 @@ const SignUp = () => {
                       <Grid container spacing={2}>
                         <Grid item xs={12}>
                           <RHFTextField
-                            name="fullName"
-                            label="Full Name"
-                            placeholder="Enter Full Name"
+                            name="firstName"
+                            label="First Name"
+                            placeholder="Enter First Name"
+                            size="small"
+                          />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <RHFTextField
+                            name="lastName"
+                            label="Last Name"
+                            placeholder="Enter Last Name"
                             size="small"
                           />
                         </Grid>
@@ -149,13 +154,11 @@ const SignUp = () => {
                           />
                         </Grid>
                         <Grid item xs={12}>
-                          <RHFAutocomplete
-                            name="organizationNumber"
-                            label="Company Registration Number(CRN)"
-                            options={noOfEmployee}
+                          <RHFTextField
+                            name="crn"
+                            label="Organization Number"
+                            placeholder="Enter Organization Number"
                             size="small"
-                            placeholder="Enter CRN Number"
-                            popupIcon={<SearchSharedIcon />}
                           />
                         </Grid>
 
@@ -163,14 +166,14 @@ const SignUp = () => {
                           <RHFTextField
                             name="organizationName"
                             label="Organization Name"
-                            placeholder="Enter Organization"
+                            placeholder="Enter Organization Name"
                             size="small"
                           />
                         </Grid>
 
                         <Grid item xs={12}>
                           <RHFSelect
-                            name="employeesNumber"
+                            name="numberOfEmployees"
                             label="No of Employees"
                             size="small"
                           >
@@ -183,7 +186,7 @@ const SignUp = () => {
                         </Grid>
                         <Grid item xs={12}>
                           <RHFSwitch
-                            name="verifyEmployees"
+                            name="enableEmployeeVerification"
                             label="Verify your Employees through Identity Gram and Get 10% discount"
                           />
                         </Grid>
@@ -203,24 +206,34 @@ const SignUp = () => {
                             sx={{ width: '100%' }}
                             onClick={() => setIsStepComplete(true)}
                           >
-                            {' '}
                             Next
                           </Button>
                         </Grid>
                       </Grid>
                     ) : (
                       <Grid container spacing={4}>
-                        <Grid item xs={6}>
+                        <Grid item xs={12}>
+                          <Box
+                            onClick={() => setIsStepComplete(false)}
+                            sx={{ cursor: 'pointer' }}
+                          >
+                            <ArrowBackIcon />
+                          </Box>
+
                           <Typography variant="subtitle1">
                             Select Product(s)
                           </Typography>
                           <RHFMultiCheckbox
-                            name="selectProduct"
+                            name="products"
                             options={[
-                              'AIR Sales',
-                              'Air Operations',
-                              'Air Marketer',
-                              'Air Service',
+                              {
+                                value: 'AIR Sales11',
+                                label: 'Air Sales',
+                              },
+                              {
+                                value: 'AIR Sales13',
+                                label: 'Air Services',
+                              },
                             ]}
                           />
                         </Grid>
