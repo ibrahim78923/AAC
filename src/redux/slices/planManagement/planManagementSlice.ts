@@ -5,6 +5,7 @@ const initialState = {
   planFeaturesForm: {},
   modulesForm: {},
   featureDetails: '',
+  productSlugs: [],
 };
 
 const planManagementSlice = createSlice({
@@ -23,6 +24,9 @@ const planManagementSlice = createSlice({
     setFeatureDetails: (state, action) => {
       state.featureDetails = action?.payload;
     },
+    setProductSlugs: (state, action) => {
+      state.productSlugs = action.payload;
+    },
   },
 });
 
@@ -31,6 +35,7 @@ export const {
   planFeaturesFormData,
   modulesFormData,
   setFeatureDetails,
+  setProductSlugs,
 } = planManagementSlice?.actions;
 export const getAddPlanForms = (state: any) =>
   state.planManagementSlice?.addPlanForm;

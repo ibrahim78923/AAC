@@ -18,24 +18,30 @@ import { styled } from '@mui/material/styles';
 import CheckboxLabel from '../CheckboxLabel';
 
 import { v4 as uuidv4 } from 'uuid';
+import { useDispatch } from 'react-redux';
+import { setProductSlugs } from '@/redux/slices/planManagement/planManagementSlice';
 
 const SubModulesAccordion = ({ subModules }: any) => {
   const [expanded, setExpanded] = useState<string | false>('panel1');
   const [selectedCheckboxes, setSelectedCheckboxes] = useState<string[]>([]);
+  const dispatch = useDispatch();
   const handleChange =
     (panel: string) => (event: React.SyntheticEvent, newExpanded: boolean) => {
       setExpanded(newExpanded ? panel : false);
     };
   const handleCheckboxChange = (itemName: string) => {
-    const isSelected = selectedCheckboxes.includes(itemName);
+    setSelectedCheckboxes((prevSelected) => {
+      const isSelected = prevSelected.includes(itemName);
 
-    if (isSelected) {
-      setSelectedCheckboxes((prevSelected) =>
-        prevSelected.filter((item) => item !== itemName),
-      );
-    } else {
-      setSelectedCheckboxes((prevSelected) => [...prevSelected, itemName]);
-    }
+      const updatedSelectedCheckboxes = isSelected
+        ? prevSelected.filter((item) => item !== itemName)
+        : [...prevSelected, itemName];
+
+      // Dispatch using the updated state
+      dispatch(setProductSlugs(updatedSelectedCheckboxes));
+
+      return updatedSelectedCheckboxes;
+    });
   };
 
   return (

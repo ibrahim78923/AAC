@@ -23,10 +23,10 @@ export const defaultValues = {
 };
 
 export const gpDetailsInfoFormSchema: any = Yup?.object()?.shape({
-  // product: Yup.array()
-  //   ?.min(1, 'Field is Required')
-  //   ?.max(10, 'Field is Required')
-  //   ?.required('Field is Required'),
+  product: Yup.array()
+    ?.min(1, 'Field is Required')
+    ?.max(10, 'Field is Required')
+    ?.required('Field is Required'),
   // planType: Yup?.string()?.required('Required field'),
   description: Yup?.string()
     ?.trim()

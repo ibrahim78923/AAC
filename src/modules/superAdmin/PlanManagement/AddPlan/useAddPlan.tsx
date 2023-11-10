@@ -68,6 +68,10 @@ export const useAddPlan = () => {
   const featursFormData: any = useAppSelector(
     (state) => state?.planManagementForms?.planManagement?.planFeaturesForm,
   );
+  const slugsDataModules: any = useAppSelector(
+    (state) => state?.planManagementForms?.planManagement,
+  );
+
   const onSubmitPlan = async (values: any) => {
     dispatch(addPlanFormData(values));
     setActiveStep((previous) => previous + 1);
@@ -90,10 +94,12 @@ export const useAddPlan = () => {
     dispatch(modulesFormData(values));
     if (activeStep == AddPlanStepperData?.length - 1) {
       const featuresData = [featureDetails];
+      const planPermission = slugsDataModules;
       const planManagementPayload = {
         ...planForm,
         ...featursFormData,
         featuresData,
+        planPermission,
       };
       try {
         postPlanMangement({ body: planManagementPayload })?.unwrap();
