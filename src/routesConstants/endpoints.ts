@@ -9,3 +9,11 @@ export const endpoints = {
   auth_search_company: 'auth/search-company',
   auth_IG_Verification: 'auth/ig-verification',
 };
+
+export const superAdminBillingInvoices = {
+  get_org_plan: '/super-admin/get-all-orgplans?',
+  get_Products: '/products?status=inactive',
+  get_plan_type: '/plan/plan-type-list',
+  get_organizations: '/organization/get-organizations',
+  post_biling_invoices: '/super-admin/assign-plan',
+};

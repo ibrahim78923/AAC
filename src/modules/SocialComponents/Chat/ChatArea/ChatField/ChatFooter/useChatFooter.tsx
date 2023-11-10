@@ -8,7 +8,7 @@ export const useChatFooter = () => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleEmojiSelect = (emoji: string) => {
+  const handleEmojiSelect = (emoji: any) => {
     setMessageText((prevInput: any) => prevInput + emoji?.emoji);
   };
 

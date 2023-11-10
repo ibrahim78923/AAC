@@ -61,8 +61,9 @@ const AddaNumber = () => {
     ? selectedCity?.areaCodes
     : citiesData;
 
-  const filteredOptions = dataToRender?.filter((option: any) =>
-    option.label.toLowerCase().includes(callingSearch.toLowerCase()),
+  const filteredOptions = dataToRender?.filter(
+    (option: any) =>
+      option?.label?.toLowerCase()?.includes(callingSearch?.toLowerCase()),
   );
 
   useEffect(() => {
@@ -74,23 +75,23 @@ const AddaNumber = () => {
   return (
     <Box>
       <Typography variant="h3">Call</Typography>
-      <Box sx={styles.wrapperContainer}>
+      <Box sx={styles?.wrapperContainer}>
         {isAreaCodeSelected ? (
           <Box sx={{ position: 'absolute', bottom: '0', right: '0' }}>
             <Image src={ApplePhoneImage} alt="phone" />
           </Box>
         ) : null}
 
-        <Box sx={styles.insetWrapper}>
+        <Box sx={styles?.insetWrapper}>
           <Image src={CallFilledImage} alt="call" />
           <Typography variant="h2" textAlign={'center'}>
             {isAreaCodeSelected
-              ? `You Selected ${selectedAreaCode.label}`
+              ? `You Selected ${selectedAreaCode?.label}`
               : 'Select Air Apple Voice Number'}
           </Typography>
           <Typography
             variant="h4"
-            color={theme.palette.custom.grayish_blue}
+            color={theme?.palette?.custom?.grayish_blue}
             fontWeight={500}
             textAlign={'center'}
           >
@@ -101,7 +102,7 @@ const AddaNumber = () => {
           {!isAreaCodeSelected && (
             <Typography
               variant="h4"
-              color={theme.palette.custom.grayish_blue}
+              color={theme?.palette?.custom?.grayish_blue}
               textAlign={'center'}
             >
               You Must have an existing code UK-based mobile or landline phone
@@ -144,7 +145,7 @@ const AddaNumber = () => {
               />
             </Box>
             {isDropdownOpen && (
-              <Box sx={styles.dropDown}>
+              <Box sx={styles?.dropDown}>
                 <>
                   <Typography
                     variant="h6"
@@ -153,8 +154,8 @@ const AddaNumber = () => {
                   >
                     Near by cities
                   </Typography>
-                  {filteredOptions.length ? (
-                    filteredOptions.map((item: any) => (
+                  {filteredOptions?.length ? (
+                    filteredOptions?.map((item: any) => (
                       <MenuItem
                         key={uuidv4()}
                         sx={{ borderRadius: '5px' }}
@@ -171,14 +172,14 @@ const AddaNumber = () => {
                           <Typography
                             variant="h6"
                             fontWeight={400}
-                            color={theme.palette.grey[600]}
+                            color={theme?.palette?.grey[600]}
                           >
-                            {item.label}
+                            {item?.label}
                           </Typography>
                           <Typography
                             variant="body3"
                             fontWeight={400}
-                            color={theme.palette.grey[600]}
+                            color={theme?.palette?.grey[600]}
                           >
                             {selectedCity?.label}
                           </Typography>
@@ -243,7 +244,7 @@ const AddaNumber = () => {
               <Link
                 href=""
                 style={{
-                  color: theme.palette.primary.main,
+                  color: theme?.palette?.primary?.main,
                   textDecoration: 'underline',
                 }}
               >

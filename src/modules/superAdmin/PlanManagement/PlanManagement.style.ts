@@ -15,7 +15,7 @@ export const styles = {
   },
   actionButton: (theme: any) => {
     return {
-      border: `1px solid ${theme?.palette?.custom.dark}`,
+      border: `1px solid ${theme?.palette?.custom?.dark}`,
       borderRadius: '4px',
       color: `${theme?.palette?.custom.main}`,
       display: 'flex',
@@ -30,7 +30,7 @@ export const styles = {
       padding: '18px',
       border: '1.5px solid #e7e7e9',
       fontWeight: 500,
-      color: theme?.palette.grey[600],
+      color: theme?.palette?.grey[600],
       '&:hover': {
         background: '#F3F4F6 !important',
         border: '1.5px solid transparent',

@@ -4,6 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { useGetAuthCompaniesQuery, useSignUpMutation } from '@/services/auth';
 import { debouncedSearch } from '@/utils';
+import { useGetProductsQuery } from '@/services/superAdmin/billing-invoices';
 
 const useSignup = () => {
   const methodsSignup = useForm({
@@ -23,6 +24,10 @@ const useSignup = () => {
   );
 
   const [signUpValue] = useSignUpMutation();
+  const { data: productData } = useGetProductsQuery<any>({
+    refetchOnMountOrArgChange: true,
+    pagination: `page=1&limit=10`,
+  });
 
   const onSubmit = async (value: any) => {
     const user = {
@@ -43,7 +48,7 @@ const useSignup = () => {
     setOrgNumber(organizationNumber);
   }, [data, isError]);
 
-  return { onSubmit, handleSubmit, methodsSignup };
+  return { onSubmit, handleSubmit, methodsSignup, productData };
 };
 
 export default useSignup;

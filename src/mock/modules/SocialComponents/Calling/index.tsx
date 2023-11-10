@@ -7,7 +7,7 @@ export const callsContactsData = [
     userName: 'John Doe',
     callType: 'inComing',
     callTime: '4:35',
-    phone: '(319) 555-0115',
+    phone: '3195557745',
     callingDetails: [
       {
         type: 'Incoming',
@@ -29,7 +29,7 @@ export const callsContactsData = [
     userName: 'William marks',
     callType: 'inComing',
     callTime: '4:35',
-    phone: '(319) 555-0115',
+    phone: '3195552698',
     callingDetails: [
       {
         type: 'Outgoing',
@@ -51,7 +51,7 @@ export const callsContactsData = [
     userName: 'Sara Andrew',
     callType: 'inComing',
     callTime: '4:35',
-    phone: '(319) 555-0115',
+    phone: '2195552557',
     callingDetails: [
       {
         type: 'Outgoing',
@@ -82,7 +82,7 @@ export const callingChats = [
     userName: 'Glenn Maxwell',
     lastRead: 'Do you have any task today?',
     lastMessageTime: 'today',
-    userPhone: '(319) 555-0115',
+    userPhone: '3195550115',
     messages: [
       {
         ownerName: 'Glenn Maxwell',
@@ -122,7 +122,7 @@ export const callingChats = [
     userName: 'Michael Miller',
     lastRead: 'Do you have any task today?',
     lastMessageTime: 'today',
-    userPhone: '(318) 333-9562',
+    userPhone: '3195558596',
     messages: [
       {
         ownerName: 'Michael Miller',

@@ -3,9 +3,9 @@ import React, { useState } from 'react';
 import { Box, Grid, Typography, useTheme } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
-import TanstackTable from '@/components/Table/TanstackTable';
 import { FormProvider, RHFTextField } from '@/components/ReactHookForm';
 import CommonModal from '@/components/CommonModal';
+import TanstackTable from '@/components/Table/TanstackTable';
 
 import {
   editModuleDataArray,

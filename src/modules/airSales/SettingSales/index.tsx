@@ -20,7 +20,7 @@ function TabPanel(props: SalesSettingProps) {
       id={`vertical-tabpanel-${index}`}
       aria-labelledby={`vertical-tab-${index}`}
       {...other}
-      sx={styles.tabData}
+      sx={styles?.tabData}
     >
       {value === index && (
         <Box sx={{ p: { xs: 1, md: 3 } }}>
@@ -52,7 +52,7 @@ const SettingSales = () => {
             value={value}
             onChange={handleChange}
             aria-label="Vertical tabs example"
-            sx={styles.tabsStyle}
+            sx={styles?.tabsStyle}
           >
             <Tab label="Deals Pipelines" />
             <Tab label="Sales Product" />

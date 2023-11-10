@@ -81,7 +81,7 @@ const LifeCycleStage = () => {
           <Typography variant="h4">Life cycle Stages</Typography>
           <Button
             variant="contained"
-            sx={styles.createBtn}
+            sx={styles?.createBtn}
             onClick={() => {
               setIsDraweropen(true);
               setIsModalHeading('Create');
@@ -89,14 +89,14 @@ const LifeCycleStage = () => {
           >
             <AddCircleIcon
               sx={{
-                color: `${theme?.palette?.common.white}`,
+                color: `${theme?.palette?.common?.white}`,
                 fontSize: '16px',
               }}
             />{' '}
             Add Stage
           </Button>
         </Box>
-        <Box sx={styles.searchAction}>
+        <Box sx={styles?.searchAction}>
           <Search
             label={'Search here'}
             searchBy={productSearch}

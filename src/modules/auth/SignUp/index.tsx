@@ -40,7 +40,14 @@ import { styles } from './SignUp.style';
 import { v4 as uuidv4 } from 'uuid';
 
 const SignUp = () => {
-  const { onSubmit, handleSubmit, methodsSignup } = useSignup();
+  const { onSubmit, handleSubmit, methodsSignup, productData } = useSignup();
+
+  const products = productData?.data.map((product: any) => {
+    return {
+      value: product?._id,
+      label: product?.name,
+    };
+  });
 
   const [isStepComplete, setIsStepComplete] = useState<boolean>(false);
 
@@ -225,16 +232,7 @@ const SignUp = () => {
                           </Typography>
                           <RHFMultiCheckbox
                             name="products"
-                            options={[
-                              {
-                                value: 'AIR Sales11',
-                                label: 'Air Sales',
-                              },
-                              {
-                                value: 'AIR Sales13',
-                                label: 'Air Services',
-                              },
-                            ]}
+                            options={products}
                           />
                         </Grid>
 
