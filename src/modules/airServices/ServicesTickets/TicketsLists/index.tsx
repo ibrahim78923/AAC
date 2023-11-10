@@ -1,9 +1,9 @@
 import { useTicketsLists } from './useTicketsLists';
 import { TicketsTableView } from './TicketsTableView';
 import { TableBoardView } from './TicketsBoardView';
-import { AlertModals } from '@/components/AlertModals';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { TicketsListSubHeader } from './TicketsListSubHeader';
+import { TicketsDelete } from './TicketsDelete';
 
 export const TicketsLists = () => {
   const {
@@ -15,9 +15,14 @@ export const TicketsLists = () => {
     ticketsActionDropdown,
     deleteModalOpen,
     setDeleteModalOpen,
-    deleteTicket,
-    ticketsListsColumn,
     lazyGetTicketsStatus,
+    ticketsListsColumnPersist,
+    search,
+    setSearch,
+    setPage,
+    getTicketsListDataExport,
+    columnNames,
+    selectedTicketList,
   } = useTicketsLists();
 
   return (
@@ -26,10 +31,14 @@ export const TicketsLists = () => {
         title={'Ticket List - All Tickets'}
         addTitle={'Create Ticket'}
         hasExport
+        handleExcelExport={() => getTicketsListDataExport?.('excel')}
+        handleCsvExport={() => getTicketsListDataExport?.('csv')}
         handleAction={() => openDrawer?.(TABLE_CONSTANTS?.CREATE_NEW_TICKET)}
       />
       <br />
       <TicketsListSubHeader
+        search={search}
+        setSearch={setSearch}
         onFilterClick={() => openDrawer?.(TABLE_CONSTANTS?.FILTER_DATA)}
         ticketsActionDropdown={ticketsActionDropdown}
         onCustomizeClick={() => openDrawer?.(TABLE_CONSTANTS?.CUSTOMIZE_COLUMN)}
@@ -39,20 +48,23 @@ export const TicketsLists = () => {
         <TableBoardView />
       ) : (
         <TicketsTableView
-          ticketsListsColumn={ticketsListsColumn ?? []}
+          ticketsListsColumn={
+            ticketsListsColumnPersist?.filter(
+              (col: any) => columnNames?.includes?.(col?.id),
+            ) ?? []
+          }
           ticketListsData={lazyGetTicketsStatus?.data?.data?.tickets ?? []}
           isLoading={lazyGetTicketsStatus?.isLoading}
+          page={lazyGetTicketsStatus?.data?.data?.meta?.page}
+          totalPages={lazyGetTicketsStatus?.data?.data?.meta?.pages}
+          setPage={setPage}
         />
       )}
-      {deleteModalOpen && (
-        <AlertModals
-          type="delete"
-          message="Are you sure you want to delete the selected ticket"
-          open={deleteModalOpen}
-          handleClose={() => setDeleteModalOpen(false)}
-          handleSubmitBtn={() => deleteTicket?.()}
-        />
-      )}
+      <TicketsDelete
+        deleteModalOpen={deleteModalOpen}
+        setDeleteModalOpen={setDeleteModalOpen}
+        selectedTicketList={selectedTicketList}
+      />
       {isDrawerOpen && drawerComponent?.[router?.query?.tableAction as string]}
     </>
   );

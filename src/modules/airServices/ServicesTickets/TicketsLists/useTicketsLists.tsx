@@ -4,7 +4,6 @@ import {
   ticketsActionDropdownFunction,
   ticketsListTotalColumns,
   ticketsListsColumnFunction,
-  // ticketsListsData,
 } from './TicketsLists.data';
 import { CustomizeTicketsColumn } from '../CustomizeTicketsColumn';
 import { useRouter } from 'next/router';
@@ -12,58 +11,77 @@ import { useTheme } from '@mui/material';
 import { TicketsFilter } from '../TicketsFilter';
 import CreateTicket from '../CreateTicket';
 import { enqueueSnackbar } from 'notistack';
-import { useLazyGetTicketsQuery } from '@/services/airServices/tickets';
+import {
+  useLazyGetExportTicketsQuery,
+  useLazyGetTicketsQuery,
+} from '@/services/airServices/tickets';
 
 export const useTicketsLists: any = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-  const [selectedTicketList, setSelectedTicketList] = useState();
-
-  const [search] = useState<any>('');
-  const [columnNames] = useState(ticketsListTotalColumns);
+  const [selectedTicketList, setSelectedTicketList] = useState([]);
+  const [page, setPage] = useState(1);
+  const [search, setSearch] = useState<any>('');
+  const [columnNames, setColumnNames] = useState(ticketsListTotalColumns);
 
   const theme = useTheme();
   const router = useRouter();
 
   const params = new URLSearchParams();
   columnNames?.forEach((col: any) => params?.append('columnNames', col));
-  params?.append('page', 1 + '');
+  params?.append('page', page + '');
   params?.append('limit', 10 + '');
   params?.append('search', search);
 
   const getTicketsParameter = {
     queryParams: params,
   };
-
   const [lazyGetTicketsTrigger, lazyGetTicketsStatus] =
     useLazyGetTicketsQuery();
+  const [lazyGetExportTicketsTrigger, lazyGetExportTicketsStatus] =
+    useLazyGetExportTicketsQuery();
 
   const getValueTicketsListData = async () => {
     try {
       const response =
         await lazyGetTicketsTrigger(getTicketsParameter).unwrap();
-      const object2 = Object?.entries(response?.data?.tickets[0] ?? {})?.reduce(
-        (x: any, y: any) => {
-          const [k] = y;
-          return { ...x, [k]: true };
-        },
-        {},
-      );
-      const newColumns = ticketsListsColumnPersist?.filter(
-        (x: any) => object2[x?.id],
-      );
-      // console.log(newColumns);
-      setTicketsListsColumn(newColumns);
+      const checkingColumns = Object?.entries(
+        response?.data?.tickets?.[0] ?? {},
+      )?.reduce((x: any, y: any) => {
+        const [k] = y;
+        return { ...x, [k]: true };
+      }, {});
+      setTicketsListsColumn(checkingColumns);
+      enqueueSnackbar('Tickets Retrieved successfully', { variant: 'success' });
       return response;
-    } catch (error) {
-      // console.log(error);
-      enqueueSnackbar('Error', { variant: 'error' });
+    } catch (error: any) {
+      enqueueSnackbar(error?.data?.message ?? 'Error', {
+        variant: 'error',
+      });
     }
   };
-
+  const getTicketsListDataExport = async (type: any) => {
+    const getTicketsExportParameter = {
+      queryParams: {
+        exportType: type,
+      },
+    };
+    try {
+      const response: any = await lazyGetExportTicketsTrigger(
+        getTicketsExportParameter,
+      ).unwrap();
+      enqueueSnackbar('Tickets Exported successfully', { variant: 'success' });
+      return response;
+    } catch (error: any) {
+      enqueueSnackbar(error?.data?.message ?? 'Error', {
+        variant: 'error',
+      });
+    }
+  };
+  const [ticketsListsColumn, setTicketsListsColumn] = useState();
   useEffect(() => {
     getValueTicketsListData();
-  }, []);
+  }, [columnNames, search, page]);
 
   const ticketsListsColumnPersist = ticketsListsColumnFunction(
     theme,
@@ -73,7 +91,6 @@ export const useTicketsLists: any = () => {
     setSelectedTicketList,
   );
 
-  const [ticketsListsColumn, setTicketsListsColumn] = useState();
   const drawerComponent: any = {
     [TABLE_CONSTANTS?.CUSTOMIZE_COLUMN]: (
       <CustomizeTicketsColumn
@@ -82,6 +99,8 @@ export const useTicketsLists: any = () => {
         ticketsListsColumnPersist={ticketsListsColumnPersist}
         ticketsListsColumn={ticketsListsColumn}
         setTicketsListsColumn={setTicketsListsColumn}
+        setColumnNames={setColumnNames}
+        columnNames={columnNames}
       />
     ),
 
@@ -120,17 +139,11 @@ export const useTicketsLists: any = () => {
     enqueueSnackbar('Ticket marked as spam', { variant: 'success' });
   };
 
-  const deleteTicket = () => {
-    enqueueSnackbar('Ticket deleted successfully', { variant: 'success' });
-    setDeleteModalOpen(false);
-  };
-
   const ticketsActionDropdown = ticketsActionDropdownFunction?.(
     setDeleteModalOpen,
     markTicketAsClose,
     markTicketAsSpam,
   );
-  // console.log({ lazyGetTicketsStatus });
   return {
     isDrawerOpen,
     router,
@@ -140,8 +153,16 @@ export const useTicketsLists: any = () => {
     ticketsActionDropdown,
     deleteModalOpen,
     setDeleteModalOpen,
-    deleteTicket,
     ticketsListsColumn,
     lazyGetTicketsStatus,
+    ticketsListsColumnPersist,
+    search,
+    setSearch,
+    page,
+    setPage,
+    getTicketsListDataExport,
+    lazyGetExportTicketsStatus,
+    columnNames,
+    selectedTicketList,
   };
 };

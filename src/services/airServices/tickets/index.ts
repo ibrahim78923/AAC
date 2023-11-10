@@ -17,6 +17,14 @@ export const ticketsAPI = baseAPI?.injectEndpoints({
       }),
       providesTags: [TAG],
     }),
+    getExportTickets: builder?.query({
+      query: (apiDataParameter: any) => ({
+        url: `/ticket`,
+        method: 'GET',
+        params: apiDataParameter?.queryParams,
+      }),
+      providesTags: [TAG],
+    }),
     postTickets: builder?.mutation({
       query: ({ body }: any) => ({
         url: `/ticket`,
@@ -34,9 +42,10 @@ export const ticketsAPI = baseAPI?.injectEndpoints({
       invalidatesTags: [TAG],
     }),
     deleteTickets: builder?.mutation({
-      query: ({ id }: any) => ({
-        url: `/ticket/${id}`,
+      query: (deleteTicketsParameter: any) => ({
+        url: `/ticket`,
         method: 'DELETE',
+        params: deleteTicketsParameter?.queryParams,
       }),
       invalidatesTags: [TAG],
     }),
@@ -50,4 +59,5 @@ export const {
   useGetTicketsByIdQuery,
   usePutTicketsMutation,
   useLazyGetTicketsQuery,
+  useLazyGetExportTicketsQuery,
 } = ticketsAPI;

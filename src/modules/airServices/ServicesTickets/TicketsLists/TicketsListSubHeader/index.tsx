@@ -1,14 +1,20 @@
 import Search from '@/components/Search';
 import { Box, Button, ButtonGroup, Stack, useTheme } from '@mui/material';
-import { useTicketsListsSubHeader } from './useTicketsListSubHeader';
+// import { useTicketsListsSubHeader } from './useTicketsListSubHeader';
 import { useRouter } from 'next/router';
 import { FilterIcon, ListIcon, ResetIcon, SubTabIcon } from '@/assets/icons';
 import CustomizeIcon from '@/assets/icons/shared/customize-icon';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 
 export const TicketsListSubHeader = (props: any) => {
-  const { onCustomizeClick, onFilterClick, ticketsActionDropdown } = props;
-  const { search, setSearch } = useTicketsListsSubHeader();
+  const {
+    onCustomizeClick,
+    onFilterClick,
+    ticketsActionDropdown,
+    search,
+    setSearch,
+  } = props;
+  // const { search, setSearch } = useTicketsListsSubHeader();
   const theme: any = useTheme();
   const router = useRouter();
 

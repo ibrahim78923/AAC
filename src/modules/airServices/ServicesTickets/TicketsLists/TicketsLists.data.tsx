@@ -181,22 +181,15 @@ export const ticketsListsColumnFunction: any = (
       cell: (info: any) => (
         <Checkbox
           checked={
-            !!selectedTicketList?.find(
-              (item: any) => item?._id === info?.getValue(),
-            )
+            !!selectedTicketList?.find((item: any) => item === info?.getValue())
           }
           onChange={(e: any) => {
             e?.target?.checked
-              ? setSelectedTicketList([
-                  ...selectedTicketList,
-                  ticketList?.find(
-                    (item: any) => item?._id === info?.getValue(),
-                  ),
-                ])
+              ? setSelectedTicketList([...selectedTicketList, info?.getValue()])
               : setSelectedTicketList(
-                  selectedTicketList?.filter((item: any) => {
-                    return item?._id !== info?.getValue();
-                  }),
+                  selectedTicketList?.filter(
+                    (item: any) => item !== info?.getValue(),
+                  ),
                 );
           }}
           color="primary"
@@ -208,11 +201,11 @@ export const ticketsListsColumnFunction: any = (
           checked={selectedTicketList?.length === ticketList?.length}
           onChange={(e: any) => {
             e?.target?.checked
-              ? setSelectedTicketList([...ticketList])
+              ? setSelectedTicketList(ticketList?.map((x: any) => x._id))
               : setSelectedTicketList([]);
           }}
           color="primary"
-          name="id"
+          name="_id"
         />
       ),
       isSortable: false,
