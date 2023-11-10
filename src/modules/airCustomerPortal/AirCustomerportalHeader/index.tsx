@@ -10,11 +10,9 @@ export const AirCustomerPortalHeader = () => {
         <CompanyLogoIcon />
       </Grid>
       <Box>
-        {
-          <Button variant="contained">
-            <Link href={'/air-customer-portal/login'}>SignUp</Link>
-          </Button>
-        }
+        <Button variant="contained">
+          <Link href={'/air-customer-portal/login'}>SignUp</Link>
+        </Button>
       </Box>
     </Grid>
   );

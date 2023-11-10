@@ -1,10 +1,6 @@
 import { Login } from '@/modules/airCustomerPortal/Login';
 
 const LoginPage = () => {
-  return (
-    <>
-      <Login />
-    </>
-  );
+  return <Login />;
 };
 export default LoginPage;

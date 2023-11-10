@@ -1,4 +1,4 @@
-import { Button, Grid, Typography } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 import { LoginDashboardImage } from '@/assets/images';
 import { yupResolver } from '@hookform/resolvers/yup';
 
@@ -9,20 +9,22 @@ import {
   loginData,
   loginDefaultValues,
   loginValidationSchema,
-} from './LoginData';
+} from './Login.Data';
 import { AirCustomerPortalHeader } from '../AirCustomerportalHeader';
 
 import Link from 'next/link';
 import { v4 as uuidv4 } from 'uuid';
+import { LoadingButton } from '@mui/lab';
 
 export const Login = () => {
   const signInForm = useForm({
     resolver: yupResolver(loginValidationSchema),
     defaultValues: loginDefaultValues,
   });
-  const submiteSignIn = () => {};
+  const submitSignIn = () => {};
+
   const drawerSubmitHandler = () => {
-    signInForm?.handleSubmit(submiteSignIn)();
+    signInForm?.handleSubmit(submitSignIn);
   };
   return (
     <Grid container>
@@ -39,27 +41,24 @@ export const Login = () => {
         <Grid item md={10} xs={12} m={{ md: 10, xs: 0 }}>
           <FormProvider
             methods={signInForm}
-            onSubmit={signInForm?.handleSubmit(submiteSignIn)}
+            onSubmit={signInForm?.handleSubmit(submitSignIn)}
           >
-            {loginData.map((items) => {
+            {loginData?.map((items) => {
               return (
                 <Grid my={1} key={uuidv4()}>
-                  <items.component
-                    {...items.componentProps}
-                    size={'small'}
-                  ></items.component>
+                  <items.component {...items.componentProps} size={'small'} />
                 </Grid>
               );
             })}
           </FormProvider>
-          <Button
+          <LoadingButton
             sx={{ my: 2 }}
             variant="contained"
             fullWidth
             onClick={drawerSubmitHandler}
           >
             SignIn
-          </Button>
+          </LoadingButton>
           <Link href="/air-customer-portal/forget-password">
             <Typography
               fontWeight={600}
@@ -67,7 +66,7 @@ export const Login = () => {
               variant="body2"
               align="center"
             >
-              Forget Password
+              Forgot Password
             </Typography>
           </Link>
         </Grid>
