@@ -48,3 +48,8 @@ export const orgAdminSubcriptionInvoices = {
 export const superAdminBillingInvoicesPath = {
   generate_invoice: '/super-admin/billing-invoices/generate-invoice',
 };
+
+export const airMarketingCalendar = {
+  calendar: '/air-marketer/social-marketing',
+  create_post: '/air-marketer/social-marketing/create-post',
+};

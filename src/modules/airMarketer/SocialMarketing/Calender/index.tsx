@@ -24,7 +24,7 @@ const Calender = () => {
     calendarDate,
     handlePrevClick,
     handleNextClick,
-    router,
+    calendarDateClick,
   } = useCalender();
 
   return (
@@ -89,10 +89,11 @@ const Calender = () => {
           slotLabelFormat={[
             { day: '2-digit', month: 'long', year: 'numeric', weekday: 'long' },
           ]}
-          //  dateClick={calendarDateClick}
-          eventClick={() =>
-            router.push('/air-marketer/social-marketing/create-posts')
-          }
+          dateClick={calendarDateClick}
+          // dateClick={()=>router.push('/air-marketer/social-marketing/create-post')}
+          // eventClick={() =>
+          //   router.push('/air-marketer/social-marketing/create-posts')
+          // }
         />
       </Box>
     </>

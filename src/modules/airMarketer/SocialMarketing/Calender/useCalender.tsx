@@ -3,6 +3,7 @@ import dayjs from 'dayjs';
 import { Checkbox, Switch } from '@mui/material';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
+import { airMarketingCalendar } from '@/routesConstants/paths';
 
 const useCalender = () => {
   const fullCalendarRef = useRef<any>(null);
@@ -15,9 +16,9 @@ const useCalender = () => {
 
   const currentDate = dayjs().format('D MMMM YYYY');
   const [calendarDate, setCalendarDate] = useState(currentDate);
-  const router = useRouter();
-  let workSchedule: any;
 
+  let workSchedule: any;
+  const router = useRouter();
   // const data: any = [];
   const getAllActiveUsers: any = [];
 
@@ -116,18 +117,11 @@ const useCalender = () => {
       };
     });
 
-  // const calendarDateClick = () => {
-
-  //     // setIsActionType("addperdate");
-
-  //       // setIsAddModal(true);
-
-  //       // setWorkScheduleObj({
-  //       //   startPerDate: e.dateStr,
-  //       //   id: + 1,
-  //       // });
-
-  //   };
+  const calendarDateClick = () => {
+    // const clickedDate = arg.date;
+    // const formattedDate = clickedDate.toISOString();
+    router.push(`${airMarketingCalendar?.create_post}`);
+  };
 
   // const handleEventClick = () => {
 
@@ -288,7 +282,7 @@ const useCalender = () => {
     calendarDate,
     handlePrevClick,
     handleNextClick,
-    router,
+    calendarDateClick,
   };
 };
 
