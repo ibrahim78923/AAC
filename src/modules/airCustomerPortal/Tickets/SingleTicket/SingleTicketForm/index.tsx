@@ -1,7 +1,7 @@
 import { FormProvider } from '@/components/ReactHookForm';
 import { v4 as uuidv4 } from 'uuid';
 import { useSingleTicketForm } from './useSingleTicketForm';
-import { Box, Button, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 
 export const SingleTicketForm = (props: any) => {
@@ -25,16 +25,7 @@ export const SingleTicketForm = (props: any) => {
           ></item.component>
         ))}
       </FormProvider>
-      <Box
-        display={'flex'}
-        justifyContent={'space-between'}
-        mt={2}
-        gap={'1rem'}
-      >
-        <Box display={'flex'} alignItems={'center'} gap={1}>
-          <Button>Attach file</Button>
-          <Typography variant="body2">(File Size is less then 40MB)</Typography>
-        </Box>
+      <Box display={'flex'} justifyContent={'flex-end'} mt={2}>
         <LoadingButton variant="contained" onClick={onSubmit}>
           Send
         </LoadingButton>
