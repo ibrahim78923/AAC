@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+// import { enqueueSnackbar } from 'notistack';
 // import { yupResolver } from '@hookform/resolvers/yup';
 import { jobPostingFiltersDefaultValues } from './jobPosting.data';
 import { useGetJobsQuery } from '@/services/superAdmin/settings/jobs';
+// import useJobs from '../useJobs';
 
 const useJobPosting = () => {
   const [page, setPage] = useState(0);
@@ -11,13 +13,15 @@ const useJobPosting = () => {
   const [jobsParams, setJobsParams] = useState(defaultParams);
   const [searchValue, setSearchValue] = useState('');
   const [openJobPostingFilter, setOpenJobPostingFilter] = useState(false);
-  const { data, isLoading, isFetching, isSuccess, isError } =
-    useGetJobsQuery(jobsParams);
-
-  const methodsFilterJobPosting: any = useForm({
+  const {
+    data: jopPostinData,
+    isLoading: loadingJobPosting,
+    isError: errorJobPosting,
+  } = useGetJobsQuery(jobsParams);
+  const methodsFilter: any = useForm({
     defaultValues: jobPostingFiltersDefaultValues,
   });
-  const { handleSubmit } = methodsFilterJobPosting;
+  const { handleSubmit: handleMethodFilter } = methodsFilter;
 
   const handleRefresh = () => {
     setJobsParams(defaultParams);
@@ -41,7 +45,7 @@ const useJobPosting = () => {
     setOpenJobPostingFilter(false);
   };
 
-  const onSubmit = async (values: any) => {
+  const onSubmitFilters = async (values: any) => {
     const updatedParams: any = { ...jobsParams };
     for (const field in values) {
       if (values[field] !== '') {
@@ -51,7 +55,7 @@ const useJobPosting = () => {
     setJobsParams(updatedParams);
     handleCloseJobPostingFilters();
   };
-  const handleFiltersSubmit = handleSubmit(onSubmit);
+  const handleFiltersSubmit = handleMethodFilter(onSubmitFilters);
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -77,11 +81,9 @@ const useJobPosting = () => {
   };
 
   return {
-    data,
-    isLoading,
-    isFetching,
-    isSuccess,
-    isError,
+    jopPostinData,
+    loadingJobPosting,
+    errorJobPosting,
     jobsParams,
     searchValue,
     handleSearch,
@@ -89,7 +91,7 @@ const useJobPosting = () => {
     openJobPostingFilter,
     handleOpenJobPostingFilters,
     handleCloseJobPostingFilters,
-    methodsFilterJobPosting,
+    methodsFilter,
     handleFiltersSubmit,
     handleChangeRowsPerPage,
     rowsPerPage,

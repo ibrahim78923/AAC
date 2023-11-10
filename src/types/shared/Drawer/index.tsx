@@ -15,4 +15,5 @@ export interface CommonDrawerPropsI {
   isFooterFeature?: boolean;
   isFooterFeatureText?: string;
   isFooterFeatureHandler?: () => void;
+  loading?: boolean;
 }

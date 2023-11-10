@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-
 import { Box, useTheme, Button, Grid, MenuItem, Menu } from '@mui/material';
 
 import CommonDrawer from '@/components/CommonDrawer';
@@ -12,22 +11,20 @@ import { AlertModals } from '@/components/AlertModals';
 import {
   columns,
   jobPostingDataArray,
-  jobPostingDefaultValues,
   jobPostingFiltersFields,
-  jobPostingValidationSchema,
 } from './jobPosting.data';
 
 import { JobPostingPropsI } from './JobPostingProps.interface';
 import { DownIcon, FilterSharedIcon, RefreshSharedIcon } from '@/assets/icons';
 import { v4 as uuidv4 } from 'uuid';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import useJobPosting from './useJobPosting';
+import useJobs from '../useJobs';
 import { styles } from './Jobs.styles';
 
 const JobPosting = ({
-  isJobPostingDrawer,
-  setIsJobPostingDrawer,
+  isOpenAddJobPost,
+  closeAddJobPost,
+  openAddJobPost,
 }: JobPostingPropsI) => {
   const theme = useTheme();
   const [isjobPostingDeleteModal, setIsJobPostingDeleteModal] =
@@ -36,7 +33,7 @@ const JobPosting = ({
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const actionMenuOpen = Boolean(anchorEl);
   const {
-    data,
+    jopPostinData,
     searchValue,
     handleSearch,
     handleRefresh,
@@ -44,8 +41,10 @@ const JobPosting = ({
     handleOpenJobPostingFilters,
     handleCloseJobPostingFilters,
     handleFiltersSubmit,
-    methodsFilterJobPosting,
+    methodsFilter,
   } = useJobPosting();
+  const { methodsAddJobPosting, handleSubmitAddJobPost, loadingPostAddJob } =
+    useJobs();
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -53,17 +52,6 @@ const JobPosting = ({
   const handleClose = () => {
     setAnchorEl(null);
   };
-
-  const methodsAddJobPosting = useForm({
-    resolver: yupResolver(jobPostingValidationSchema),
-    defaultValues: jobPostingDefaultValues,
-  });
-
-  const onSubmit = () => {
-    setIsJobPostingDrawer(false);
-  };
-
-  const { handleSubmit } = methodsAddJobPosting;
 
   const getColumns = columns(theme);
 
@@ -118,12 +106,8 @@ const JobPosting = ({
               'aria-labelledby': 'basic-button',
             }}
           >
-            <MenuItem onClick={() => setIsJobPostingDrawer(true)}>
-              Edit
-            </MenuItem>
-            <MenuItem onClick={() => setIsJobPostingDrawer(true)}>
-              View
-            </MenuItem>
+            <MenuItem onClick={openAddJobPost}>Edit</MenuItem>
+            <MenuItem onClick={openAddJobPost}>View</MenuItem>
             <MenuItem onClick={() => setIsJobPostingDeleteModal(true)}>
               Delete
             </MenuItem>
@@ -141,7 +125,7 @@ const JobPosting = ({
         </Box>
       </Box>
       <Box>
-        <TanstackTable columns={getColumns} data={data?.data?.jobs} />
+        <TanstackTable columns={getColumns} data={jopPostinData?.data?.jobs} />
         <CustomPagination
           count={3}
           rowsPerPageOptions={[5, 10, 25, 50, 100]}
@@ -149,19 +133,17 @@ const JobPosting = ({
         />
       </Box>
       <CommonDrawer
-        isDrawerOpen={isJobPostingDrawer}
-        onClose={() => setIsJobPostingDrawer(false)}
+        isDrawerOpen={isOpenAddJobPost}
+        onClose={closeAddJobPost}
         title="Post a Job"
         okText="Post"
         isOk={true}
         footer={true}
-        submitHandler={handleSubmit(onSubmit)}
+        loading={loadingPostAddJob}
+        submitHandler={handleSubmitAddJobPost}
       >
         <>
-          <FormProvider
-            methods={methodsAddJobPosting}
-            onSubmit={handleSubmit(onSubmit)}
-          >
+          <FormProvider methods={methodsAddJobPosting}>
             <Grid container spacing={4}>
               {jobPostingDataArray?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
@@ -191,7 +173,7 @@ const JobPosting = ({
         submitHandler={handleFiltersSubmit}
       >
         <>
-          <FormProvider methods={methodsFilterJobPosting}>
+          <FormProvider methods={methodsFilter}>
             <Grid container spacing={4}>
               {jobPostingFiltersFields()?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>

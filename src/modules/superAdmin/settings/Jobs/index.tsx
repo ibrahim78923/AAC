@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import { Button, Typography, Box, Tabs, Tab } from '@mui/material';
 
@@ -6,14 +6,16 @@ import JobPosting from './JobPosting';
 import JobApplication from './JobApplication';
 
 import PlusShared from '@/assets/icons/shared/plus-shared';
+import useJobs from './useJobs';
 
 const Jobs = () => {
-  const [isJobPostingDrawer, setIsJobPostingDrawer] = useState<boolean>(false);
   const [tabsValue, setTabsValue] = React.useState(0);
 
   const handleTabsChange = (event: React.SyntheticEvent, newValue: number) => {
     setTabsValue(newValue);
   };
+  const { openAddJobPost, handleOpenAddJobPost, handleCloseAddJobPost } =
+    useJobs();
 
   return (
     <Box
@@ -38,7 +40,7 @@ const Jobs = () => {
           <Button
             variant="contained"
             sx={{ height: '36px', fontWeight: '500' }}
-            onClick={() => setIsJobPostingDrawer(true)}
+            onClick={handleOpenAddJobPost}
           >
             <PlusShared /> &nbsp; Post a Job
           </Button>
@@ -53,8 +55,9 @@ const Jobs = () => {
       </Box>
       {tabsValue === 0 && (
         <JobPosting
-          isJobPostingDrawer={isJobPostingDrawer}
-          setIsJobPostingDrawer={setIsJobPostingDrawer}
+          isOpenAddJobPost={openAddJobPost}
+          closeAddJobPost={handleCloseAddJobPost}
+          openAddJobPost={handleOpenAddJobPost}
         />
       )}
       {tabsValue === 1 && <JobApplication />}

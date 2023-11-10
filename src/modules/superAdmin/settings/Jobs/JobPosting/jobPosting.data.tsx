@@ -9,14 +9,15 @@ import { Checkbox } from '@mui/material';
 import dayjs from 'dayjs';
 import * as Yup from 'yup';
 import useJobPosting from './useJobPosting';
+
 export const jobPostingValidationSchema = Yup.object().shape({
-  jobTitle: Yup.string().trim().required('Field is Required'),
-  JobType: Yup.string().trim().required('Field is Required'),
-  category: Yup.string().trim().required('Field is Required'),
-  experienceLevel: Yup.string().trim().required('Field is Required'),
-  numberOfVacency: Yup.string().trim().required('Field is Required'),
-  applicationDedlineDates: Yup.string().trim().required('Field is Required'),
-  jobDiscription: Yup.string().trim().required('Field is Required'),
+  title: Yup.string().trim().required('Field is Required'),
+  jobType: Yup.string().trim().required('Field is Required'),
+  jobCategory: Yup.string().trim().required('Field is Required'),
+  experience: Yup.string().trim().required('Field is Required'),
+  numberOfVacancy: Yup.string().trim().required('Field is Required'),
+  deadline: Yup.date().required('Field is Required'),
+  description: Yup.string().trim().required('Field is Required'),
 });
 
 export const jobPostingDefaultValues = {
@@ -25,7 +26,7 @@ export const jobPostingDefaultValues = {
   jobCategory: '',
   experience: '',
   numberOfVacancy: '',
-  deadline: '',
+  deadline: null,
   description: '',
 };
 
