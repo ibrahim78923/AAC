@@ -181,7 +181,7 @@ export const AllApprovals = () => {
               />
             </Box>
             <RHFTextField
-              name="description"
+              name="approval"
               multiline
               minRows={7}
               fullWidth
@@ -190,7 +190,11 @@ export const AllApprovals = () => {
             />
             <Box sx={styles?.boxBorderStyle}></Box>
             <Box sx={styles?.buttonBox}>
-              <Button variant="outlined" onClick={handleApprovalModalClose}>
+              <Button
+                variant="outlined"
+                color="secondary"
+                onClick={handleApprovalModalClose}
+              >
                 Cancel
               </Button>
               <Button variant="contained">Approve</Button>
@@ -211,7 +215,7 @@ export const AllApprovals = () => {
               />
             </Box>
             <RHFTextField
-              name="description"
+              name="rejected"
               multiline
               minRows={7}
               fullWidth
@@ -222,7 +226,7 @@ export const AllApprovals = () => {
             <Box sx={styles?.buttonBox}>
               <Button
                 variant="outlined"
-                color="inherit"
+                color="secondary"
                 onClick={handleRejectModalClose}
               >
                 Cancel
