@@ -4,11 +4,11 @@ import { TemplatePlaceholderIcon } from '@/assets/icons';
 
 const TemplatePlaceholder = () => {
   return (
-    <Box sx={styles.container}>
+    <Box sx={styles?.container}>
       <Box>
         <TemplatePlaceholderIcon />
       </Box>
-      <Typography sx={styles.text} variant="body1">
+      <Typography sx={styles?.text} variant="body1">
         You haven’t choose any template yet.
       </Typography>
     </Box>

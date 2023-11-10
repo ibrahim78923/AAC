@@ -15,12 +15,12 @@ const ProductList = () => {
 
   return (
     <Box>
-      <Typography variant="h3" color={theme.palette.grey[800]}>
+      <Typography variant="h3" color={theme?.palette?.grey[800]}>
         Product List
       </Typography>
       <Box mt={2}>
         <Grid container spacing={2}>
-          {getProductList.map((item: any) => (
+          {getProductList?.map((item: any) => (
             <Grid
               item
               xs={8}
@@ -28,30 +28,34 @@ const ProductList = () => {
               key={uuidv4()}
               onClick={item?.navigateHandler}
             >
-              <Box sx={styles.productListCard(theme)}>
-                <Image src={item.icon} alt="product" />
+              <Box sx={styles?.productListCard(theme)}>
+                <Image src={item?.icon} alt="product" />
                 <Box>
                   <Typography
                     variant="h6"
-                    color={theme.palette.custom.grayish_blue}
+                    color={theme?.palette?.custom?.grayish_blue}
                     fontWeight={'700'}
                   >
-                    {item.heading}
+                    {item?.heading}
                   </Typography>
                   <Typography
                     variant="body2"
-                    color={theme.palette.custom.grayish_blue}
+                    color={theme?.palette?.custom?.grayish_blue}
                   >
-                    {item.content}
+                    {item?.content}
                   </Typography>
                 </Box>
-                <Box sx={styles.productBadge(item.isActive)}>
+                <Box sx={styles?.productBadge(item?.isActive)}>
                   <Typography
                     variant="body2"
-                    color={item.isActive === true ? '#47B262' : '#1F305D'}
+                    color={
+                      item?.isActive === true
+                        ? '#47B262'
+                        : theme?.palette?.blue?.main
+                    }
                   >
                     {' '}
-                    {item.isActive === true ? 'Active' : 'In Active'}
+                    {item?.isActive === true ? 'Active' : 'In Active'}
                   </Typography>
                 </Box>
               </Box>

@@ -33,17 +33,19 @@ const ContactsCard = ({ cardData, setSelectedValues, selectedValues }: any) => {
   return (
     <>
       <Box
-        sx={styles.contactsCardMain(isCardHover)}
+        sx={styles?.contactsCardMain(isCardHover)}
         onMouseOver={() => setIsCardHover(true)}
         onMouseLeave={() => setIsCardHover(false)}
       >
         {isCardHover && (
           <Checkbox
             onClick={() => {
-              handleChatSelect(cardData.chatId);
+              handleChatSelect(cardData?.chatId);
             }}
             checked={
-              selectedValues ? selectedValues.includes(cardData.chatId) : false
+              selectedValues
+                ? selectedValues?.includes(cardData?.chatId)
+                : false
             }
           />
         )}
@@ -53,7 +55,7 @@ const ContactsCard = ({ cardData, setSelectedValues, selectedValues }: any) => {
               <Image
                 width={isCardHover ? 32 : 24}
                 height={isCardHover ? 32 : 24}
-                src={cardData.userAvatar}
+                src={cardData?.userAvatar}
                 alt="avatar"
               />
               <Box sx={{ maxWidth: '210px' }}>
@@ -72,7 +74,7 @@ const ContactsCard = ({ cardData, setSelectedValues, selectedValues }: any) => {
                 width: '100%',
               }}
             >
-              <Box sx={styles.chatNotification}>12</Box>
+              <Box sx={styles?.chatNotification}>12</Box>
               {isCardHover && (
                 <Box sx={{ display: 'flex', gap: '10px' }}>
                   <Box onClick={() => setIsDeleteModal(true)}>
@@ -83,12 +85,12 @@ const ContactsCard = ({ cardData, setSelectedValues, selectedValues }: any) => {
               )}
             </Box>
           </Box>
-          <Typography variant="body3" sx={{ color: theme.palette.grey[600] }}>
-            {cardData.lastMessage}
+          <Typography variant="body3" sx={{ color: theme?.palette?.grey[600] }}>
+            {cardData?.lastMessage}
           </Typography>
           <br />
           <Typography variant="body3" sx={{ color: '#6E7191' }}>
-            {cardData.time}
+            {cardData?.time}
           </Typography>
         </Box>
       </Box>

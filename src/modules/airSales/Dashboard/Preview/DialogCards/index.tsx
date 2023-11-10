@@ -42,22 +42,22 @@ const DialogCards = ({ open, setOpen, selectedDashoardWidget }: any) => {
           {!isNullOrEmpty(selectedDashoardWidget) ? (
             <>
               {' '}
-              {selectedDashoardWidget.closedAndCreatedDeals && (
+              {selectedDashoardWidget?.closedAndCreatedDeals && (
                 <Grid item sm={12} mt={3}>
                   <DealsGraph />
                 </Grid>
               )}
-              {selectedDashoardWidget.mettingDetails && (
+              {selectedDashoardWidget?.mettingDetails && (
                 <Grid item sm={12} mt={3}>
                   <MeetingDetails />
                 </Grid>
               )}
-              {selectedDashoardWidget.teamActivities && (
+              {selectedDashoardWidget?.teamActivities && (
                 <Grid item sm={12} mt={3}>
                   <TeamActivity />
                 </Grid>
               )}
-              {selectedDashoardWidget.totalDeals && (
+              {selectedDashoardWidget?.totalDeals && (
                 <Grid item sm={12} mt={3}>
                   <Widget />
                 </Grid>

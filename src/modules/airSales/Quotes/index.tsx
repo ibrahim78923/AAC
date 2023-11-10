@@ -30,7 +30,7 @@ const Quotes = () => {
 
   return (
     <>
-      <Box sx={styles.TableWrapper}>
+      <Box sx={styles?.TableWrapper}>
         <PageHeader />
 
         <TableToolbar
