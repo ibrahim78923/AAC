@@ -1,9 +1,9 @@
 import { RHFCheckbox, RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
-export const dealPipelinesvalidationSchema = Yup.object().shape({
-  pipelineName: Yup.string().required('Field is Required'),
-  defaultPipeline: Yup.string(),
+export const dealPipelinesvalidationSchema = Yup?.object()?.shape({
+  pipelineName: Yup?.string()?.required('Field is Required'),
+  defaultPipeline: Yup?.string(),
 });
 
 export const dealPipelinesDefaultValues = {

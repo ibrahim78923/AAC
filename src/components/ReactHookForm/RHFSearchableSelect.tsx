@@ -82,12 +82,6 @@ export default function RHFSearchableSelect({
             }}
           >
             <>
-              {/* <TextField
-                fullWidth
-                placeholder="Search..."
-                onChange={(e) => setSearchTerm(e.target.value)}
-                style={{ height: '44px', marginBottom: '20px' }}
-              /> */}
               <Search
                 searchBy={searchTerm}
                 setSearchBy={setSearchTerm}
@@ -96,13 +90,13 @@ export default function RHFSearchableSelect({
                 size="small"
                 sx={{ marginBottom: '15px' }}
               />
-              {filteredOptions.map((option: any) => (
+              {filteredOptions?.map((option: any) => (
                 <Box
-                  key={option.value}
+                  key={option?.value}
                   onClick={() => {
                     handleClose(),
-                      field.onChange(option.value),
-                      setSelectedValue(option.label);
+                      field.onChange(option?.value),
+                      setSelectedValue(option?.label);
                   }}
                   sx={{
                     width: '100%',
@@ -113,7 +107,7 @@ export default function RHFSearchableSelect({
                     gap: '5px',
                     borderRadius: '5px',
                     cursor: 'pointer',
-                    backgroundColor: selectedValue.includes(option.value)
+                    backgroundColor: selectedValue?.includes(option?.value)
                       ? '#e0e0e0'
                       : 'transparent',
                     '&:hover': {
@@ -126,7 +120,7 @@ export default function RHFSearchableSelect({
               ))}
               {isFooter && (
                 <Box
-                  color={theme.palette.primary.main}
+                  color={theme?.palette?.primary?.main}
                   sx={{ marginLeft: '10px', cursor: 'pointer' }}
                   onClick={footerActionHandler}
                 >

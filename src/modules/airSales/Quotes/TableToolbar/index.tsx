@@ -27,7 +27,7 @@ const TableToolbar: FC<TableToolbarI> = ({
   } = useQuotes();
 
   return (
-    <Box sx={styles.tableToolbar}>
+    <Box sx={styles?.tableToolbar}>
       <Box>
         <Search size="small" />
       </Box>
@@ -35,7 +35,7 @@ const TableToolbar: FC<TableToolbarI> = ({
         <Box>
           <Button
             className="small"
-            sx={styles.actionButton}
+            sx={styles?.actionButton}
             endIcon={<DropdownIcon />}
             onClick={handleActionsDropdown}
           >
@@ -66,14 +66,14 @@ const TableToolbar: FC<TableToolbarI> = ({
         </Box>
         <Button
           className="small"
-          sx={styles.actionButton}
+          sx={styles?.actionButton}
           onClick={handleResetFilters}
         >
           <RefreshSharedIcon />
         </Button>
         <Button
           className="small"
-          sx={styles.actionButton}
+          sx={styles?.actionButton}
           startIcon={<CustomizeIcon />}
           onClick={handleCustomizeColumns}
         >
@@ -81,7 +81,7 @@ const TableToolbar: FC<TableToolbarI> = ({
         </Button>
         <Button
           className="small"
-          sx={styles.actionButton}
+          sx={styles?.actionButton}
           startIcon={<FilterSharedIcon />}
           onClick={handleFilters}
         >

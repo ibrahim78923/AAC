@@ -6,7 +6,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
-import TanstackTable from '@/components/Tabel/TanstackTable';
+import TanstackTable from '@/components/Table/TanstackTable';
 import CustomPagination from '@/components/CustomPagination';
 import Search from '@/components/Search';
 
@@ -90,19 +90,19 @@ const SalesProductCategories = () => {
           <Typography variant="h4">Sales Product Categories</Typography>
           <Button
             variant="contained"
-            sx={styles.createBtn}
+            sx={styles?.createBtn}
             onClick={() => (setIsDraweropen(true), setIsEditMode(false))}
           >
             <AddCircleIcon
               sx={{
-                color: `${theme?.palette?.common.white}`,
+                color: `${theme?.palette?.common?.white}`,
                 fontSize: '16px',
               }}
             />{' '}
             Product Category
           </Button>
         </Box>
-        <Box sx={styles.searchAction}>
+        <Box sx={styles?.searchAction}>
           <Search
             label={'Search here'}
             searchBy={productSearch}
@@ -121,7 +121,7 @@ const SalesProductCategories = () => {
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
             onClick={handleClick}
-            sx={styles.actionBtn(theme)}
+            sx={styles?.actionBtn(theme)}
             disabled={!isChecked}
           >
             Actions <ArrowDropDownIcon />

@@ -15,3 +15,4 @@ export { default as RHFSwitch } from './RHFSwitch';
 export { default as RHFButtonGroup } from './RHFButtonGroup';
 export { default as RHFSearchableSelect } from './RHFSearchableSelect';
 export { default as RHFMultiSearchableSelect } from './RHFMultiSearchableSelect';
+export { default as RHFSwitchableDatepicker } from './RHFSwitchableDatepicker';

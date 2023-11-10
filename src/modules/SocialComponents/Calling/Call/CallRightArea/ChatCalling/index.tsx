@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 
 import Image from 'next/image';
 
-import { Box, TextField, Typography } from '@mui/material';
+import { Box, TextField, Typography, useTheme } from '@mui/material';
 
 import UserDetailCard from '../../UserDetailCard';
 
@@ -17,6 +17,7 @@ const ChatCalling = ({
   setIsActiveCalling,
   setActiveCallsSelectedData,
 }: any) => {
+  const theme = useTheme();
   const chatContainerRef = useRef<any>(null);
   useEffect(() => {
     chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
@@ -33,13 +34,13 @@ const ChatCalling = ({
             setActiveCallsSelectedData(activeMessageData);
         }}
       />
-      <Box sx={styles.chatAreaWrapper} ref={chatContainerRef}>
+      <Box sx={styles?.chatAreaWrapper} ref={chatContainerRef}>
         {activeMessageData?.messages &&
-          activeMessageData.messages.map((item: any) => (
-            <Box sx={styles.chatInnerBox(item.type)} key={uuidv4()}>
-              <Box sx={styles.chatBox}>
-                {item.type === 'receiver' && (
-                  <Box sx={styles.userImageWrapper}>
+          activeMessageData?.messages?.map((item: any) => (
+            <Box sx={styles?.chatInnerBox(item?.type)} key={uuidv4()}>
+              <Box sx={styles?.chatBox}>
+                {item?.type === 'receiver' && (
+                  <Box sx={styles?.userImageWrapper}>
                     <Image
                       src={activeMessageData?.userProfile}
                       width={40}
@@ -49,18 +50,24 @@ const ChatCalling = ({
                     />
                   </Box>
                 )}
-                <Box sx={styles.chatBoxInset(item.type)}>
-                  <Box sx={styles.chatHead}>
+                <Box sx={styles?.chatBoxInset(item?.type)}>
+                  <Box sx={styles?.chatHead}>
                     <Typography variant="body2" fontWeight={600}>
-                      {item.ownerName}
+                      {item?.ownerName}
                     </Typography>
-                    <Typography variant="body3" color={'#9CA3AF'}>
-                      {item.time}
+                    <Typography
+                      variant="body3"
+                      color={theme?.palette?.grey[900]}
+                    >
+                      {item?.time}
                     </Typography>
                   </Box>
                   <Box>
-                    <Typography variant="body3" color={'#6B7280'}>
-                      {item.message}
+                    <Typography
+                      variant="body3"
+                      color={theme?.palette?.custom?.grayish_blue}
+                    >
+                      {item?.message}
                     </Typography>
                   </Box>
                 </Box>
@@ -68,9 +75,9 @@ const ChatCalling = ({
             </Box>
           ))}
       </Box>
-      <Box sx={styles.chatFooter}>
-        <Box sx={styles.chatFooterInset}>
-          <TextField placeholder="Write message" sx={styles.chatTextarea} />
+      <Box sx={styles?.chatFooter}>
+        <Box sx={styles?.chatFooterInset}>
+          <TextField placeholder="Write message" sx={styles?.chatTextarea} />
           <SendIconLifted />
         </Box>
       </Box>

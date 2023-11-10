@@ -9,13 +9,13 @@ import {
 
 import * as Yup from 'yup';
 
-export const validationSchema = Yup.object().shape({
-  recurringEmail: Yup.string().trim().required('Field is Required'),
-  internalRecipients: Yup.string().trim().required('Field is Required'),
-  emailSubject: Yup.string().trim().required('Field is Required'),
-  message: Yup.string().trim().required('Field is Required'),
-  reportsInExport: Yup.string().trim().required('Field is Required'),
-  downloadableFile: Yup.string().trim().required('Field is Required'),
+export const validationSchema = Yup?.object()?.shape({
+  recurringEmail: Yup?.string()?.trim()?.required('Field is Required'),
+  internalRecipients: Yup?.string()?.trim()?.required('Field is Required'),
+  emailSubject: Yup?.string()?.trim()?.required('Field is Required'),
+  message: Yup?.string()?.trim()?.required('Field is Required'),
+  reportsInExport: Yup?.string()?.trim()?.required('Field is Required'),
+  downloadableFile: Yup?.string()?.trim()?.required('Field is Required'),
 });
 
 export const defaultValues = {
