@@ -23,7 +23,7 @@ const authSlice = createSlice({
   extraReducers: (builder) => {
     builder
       //Login Matchers
-      .addMatcher(authAPI.endpoints.login.matchFulfilled, loginSuccess)
+      .addMatcher(authAPI.endpoints.authLogin.matchFulfilled, loginSuccess)
       //Register Matchers
       .addMatcher(authAPI.endpoints.signUp.matchFulfilled, registerSuccess)
       //permissions Matchers

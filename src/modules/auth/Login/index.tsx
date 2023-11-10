@@ -23,6 +23,7 @@ import { styles } from './Login.style';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { v4 as uuidv4 } from 'uuid';
+import { useAuthLoginMutation } from '@/services/auth';
 
 const Login = () => {
   const theme = useTheme();
@@ -32,23 +33,15 @@ const Login = () => {
   });
 
   const { login } = useAuth();
+  const [authLogin] = useAuthLoginMutation();
 
   const onSubmit = async (credentials: any) => {
-    const response = {
-      user: {
-        credentials,
-      },
-      authToken: 'DKLFJDFKLJSLKFJDKLDJDSKJDSJ',
-    };
-    login(response);
-
-    // try {
-    //   const res: any = await loginTrigger(credentials).unwrap();
-
-    // } catch (error: any) {
-    //   const errMsg = error?.data?.message;
-
-    // }
+    try {
+      const res: any = await authLogin(credentials).unwrap();
+      login(res);
+    } catch (error: any) {
+      error?.data?.message;
+    }
   };
 
   const { handleSubmit } = loginForm;

@@ -40,7 +40,13 @@ import { styles } from './SignUp.style';
 import { v4 as uuidv4 } from 'uuid';
 
 const SignUp = () => {
-  const { onSubmit, handleSubmit, methodsSignup, productData } = useSignup();
+  const {
+    onSubmit,
+    handleSubmit,
+    methodsSignup,
+    productData,
+    isVerifiedSuccess,
+  } = useSignup();
 
   const products = productData?.data.map((product: any) => {
     return {
@@ -50,8 +56,6 @@ const SignUp = () => {
   });
 
   const [isStepComplete, setIsStepComplete] = useState<boolean>(false);
-
-  const isSuccess = false;
 
   const theme = useTheme();
 
@@ -81,7 +85,7 @@ const SignUp = () => {
         container
         sx={{ height: '100vh', alignItems: 'center', justifyContent: 'center' }}
       >
-        {isSuccess ? (
+        {isVerifiedSuccess ? (
           <Box sx={{ textAlign: 'center', width: { md: '40%', xs: '85%' } }}>
             <VerifiedIcon />
             <Typography variant="h3" sx={{ marginTop: '10px' }}>

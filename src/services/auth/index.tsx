@@ -2,20 +2,14 @@ import { endpoints } from '@/routesConstants/endpoints';
 import { TAGS, baseAPI } from '../base-api';
 export const authAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
-    login: builder.mutation({
+    authLogin: builder.mutation({
       query: (credentials: string) => ({
         url: endpoints.login,
-        method: 'PUT',
+        method: 'POST',
         body: credentials,
       }),
     }),
-    signUp: builder.mutation({
-      query: ({ user }: any) => ({
-        url: endpoints.signup,
-        method: 'POST',
-        body: user,
-      }),
-    }),
+
     signUp: builder.mutation({
       query: ({ user }: any) => ({
         url: endpoints.signup,
@@ -35,6 +29,14 @@ export const authAPI = baseAPI.injectEndpoints({
         url: endpoints.reset_password,
         method: 'POST',
         body: user,
+      }),
+    }),
+
+    authCompanyVerification: builder.mutation({
+      query: ({ email }: any) => ({
+        url: endpoints.auth_IG_Verification,
+        method: 'POST',
+        body: email,
       }),
     }),
 
@@ -61,11 +63,12 @@ export const authAPI = baseAPI.injectEndpoints({
 });
 
 export const {
-  useLoginMutation,
+  useAuthLoginMutation,
   useResetPasswordMutation,
   useForgotPasswordMutation,
   useSignUpMutation,
   useLogoutMutation,
   useGetPermissionsQuery,
   useGetAuthCompaniesQuery,
+  useAuthCompanyVerificationMutation,
 } = authAPI;

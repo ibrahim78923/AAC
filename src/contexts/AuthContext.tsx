@@ -82,10 +82,6 @@ function AuthProvider({ children }: { children: ReactNode }) {
 
   //permisions api will be called after 40 sec if user is authenticated
 
-  {
-    /* <> permissions api </> */
-  }
-
   // useGetPermissionsQuery({}, {
   //   pollingInterval: 40000, skip: !state.isAuthenticated
   // })
@@ -97,14 +93,14 @@ function AuthProvider({ children }: { children: ReactNode }) {
     const initialize = () => {
       try {
         const {
-          authToken,
+          accessToken,
           refreshToken,
           user,
-        }: { authToken: string; refreshToken: string; user: any } =
+        }: { accessToken: string; refreshToken: string; user: any } =
           getSession();
 
         // if (authToken && isValidToken(authToken)) {
-        if (authToken) {
+        if (accessToken) {
           // removed line after permissons api
           permissions();
 
@@ -116,7 +112,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
             },
           });
           // Set auth tokens is redux for api headers
-          const authData: any = { authToken, refreshToken };
+          const authData: any = { accessToken, refreshToken };
 
           appDispatch(setAuthTokens(authData));
         } else {
@@ -144,9 +140,11 @@ function AuthProvider({ children }: { children: ReactNode }) {
 
   //called at the time of  user login
   const login = (response: any) => {
-    const { authToken, user } = response;
+    const { accessToken, user, refreshToken } = response?.data;
+
+    //temporary call
     permissions();
-    setSession({ authToken, user });
+    setSession({ accessToken, user, refreshToken });
     dispatch({
       type: 'LOGIN',
       payload: {
