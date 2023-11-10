@@ -42,11 +42,11 @@ const Draft = () => {
               <Grid
                 item
                 key={uuidv4()}
-                md={data.gridLength}
+                md={data?.gridLength}
                 xs={12}
-                sx={data.sx}
+                sx={data?.sx}
               >
-                <Typography>{data.title}</Typography>
+                <Typography>{data?.title}</Typography>
                 <data.component {...data.componentProps}>
                   {data?.componentProps?.select
                     ? data?.options?.map((option: any) => (

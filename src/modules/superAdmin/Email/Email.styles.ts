@@ -5,7 +5,7 @@ export const styles = {
     alignItems: 'center',
   },
   heading: (theme: any) => ({
-    color: theme.palette.grey[800],
+    color: theme?.palette.grey[800],
     m: 0,
   }),
   emailAlert: {
@@ -19,7 +19,7 @@ export const styles = {
     gap: '10px',
   },
   paragraph: (theme: any) => ({
-    color: theme.palette.custom.main,
+    color: theme?.palette?.custom.main,
     paddingBottom: '20px',
   }),
   socialMedia: {

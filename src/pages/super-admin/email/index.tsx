@@ -1,5 +1,5 @@
 import Layout from '@/layout';
-import Email from '@/modules/Email';
+import Email from '@/modules/superAdmin/Email';
 function EmailPage() {
   return <Email />;
 }

@@ -1,6 +1,6 @@
+import React from 'react';
 import CommonDrawer from '@/components/CommonDrawer';
 import { Box, Typography, useTheme } from '@mui/material';
-import React from 'react';
 import { styles } from './Chat.styles';
 import { emailsData } from './Chat.data';
 import { CallIcon, SmsIcon } from '@/assets/icons';
@@ -32,7 +32,7 @@ const ContactModal = ({ open, onClose }: any) => {
         </Box>
       </Box>
       <Box pt={1.5}>
-        <Typography variant="h5" sx={{ color: theme?.palette.slateBlue.main }}>
+        <Typography variant="h5" sx={{ color: theme?.palette?.slateBlue.main }}>
           Details
         </Typography>
         <Box sx={styles?.emailDetails}>
@@ -64,13 +64,13 @@ const ContactModal = ({ open, onClose }: any) => {
         >
           <Typography
             variant="formTopHeading"
-            sx={{ color: theme?.palette.slateBlue.main }}
+            sx={{ color: theme?.palette?.slateBlue.main }}
           >
             Email
           </Typography>
           <Typography
             variant="body3"
-            sx={{ color: theme?.palette.primary.main }}
+            sx={{ color: theme?.palette?.primary.main }}
           >
             Show More
           </Typography>
@@ -78,28 +78,28 @@ const ContactModal = ({ open, onClose }: any) => {
         {emailsData?.map((item: any) => (
           <Box key={uuidv4()} sx={styles?.emailsWrap(theme)}>
             <Typography variant="body3" sx={styles?.emails(theme)}>
-              {item.heading}
+              {item?.heading}
             </Typography>
             <Typography variant="body3" sx={styles?.emailDesc(theme)}>
-              {item.desc}
+              {item?.desc}
             </Typography>
             <Typography
               variant="body3"
-              sx={{ color: theme?.palette.primary.main }}
+              sx={{ color: theme?.palette?.primary?.main }}
             >
-              {item.date}
+              {item?.date}
             </Typography>
           </Box>
         ))}
       </Box>
       <Box>
-        <Typography variant="h5" sx={{ color: theme.palette.slateBlue.main }}>
+        <Typography variant="h5" sx={{ color: theme.palette?.slateBlue?.main }}>
           Deal
         </Typography>
         <Box sx={styles?.dealsWrap(theme)}>
           <Typography
             variant="body4"
-            sx={{ color: theme?.palette.custom.light }}
+            sx={{ color: theme?.palette?.custom?.light }}
           >
             Nothing to show
           </Typography>

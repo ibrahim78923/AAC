@@ -1,8 +1,11 @@
-import React from 'react';
+import { useState } from 'react';
+
 import { Popover, Button, MenuItem, useTheme } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import { styles } from './ActionBtn.style';
+
 import { actionBtnPRops } from '../../Chat.interface';
+
+import { styles } from './ActionBtn.style';
 
 const ActionBtn = ({
   disableActionBtn,
@@ -10,9 +13,7 @@ const ActionBtn = ({
 }: actionBtnPRops) => {
   const theme = useTheme();
 
-  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
-    null,
-  );
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
   const MenuItems = [
@@ -24,7 +25,7 @@ const ActionBtn = ({
   ];
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
+    setAnchorEl(event?.currentTarget);
   };
 
   const handleClose = () => {
@@ -56,7 +57,7 @@ const ActionBtn = ({
           horizontal: 'right',
         }}
       >
-        {MenuItems.map((item) => (
+        {MenuItems?.map((item) => (
           <MenuItem
             onClick={() => {
               onChange(item);

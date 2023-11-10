@@ -1,4 +1,3 @@
-import React from 'react';
 import type { ButtonProps, CheckboxProps, TextFieldProps } from '@mui/material';
 import { SearchPropsI } from '@/components/Search/Search.interface';
 

@@ -1,5 +1,5 @@
 import Layout from '@/layout';
-import EmailChat from '@/modules/Email/Chat';
+import EmailChat from '@/modules/superAdmin/Email/Chat';
 function EmailPage() {
   return <EmailChat />;
 }

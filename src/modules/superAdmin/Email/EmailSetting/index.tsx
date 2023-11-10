@@ -44,11 +44,7 @@ const EmailSetting = () => {
           </Box>
           <Box sx={{ mt: 1.5 }}>
             <Typography variant="h5">Team Signature</Typography>
-            <Button
-              variant="text"
-              sx={{ my: 1 }}
-              // startIcon={<AddIcon />}
-            >
+            <Button variant="text" sx={{ my: 1 }}>
               Add Team Signature
             </Button>
             <br />
