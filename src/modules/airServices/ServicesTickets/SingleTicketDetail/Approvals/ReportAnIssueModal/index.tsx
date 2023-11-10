@@ -74,7 +74,7 @@ const ReportAnIssueModal = () => {
             >
               <AddCircleIcon color={theme?.palette?.grey?.[600]} />
               <Typography variant="body2" fontWeight={600}>
-                Associate Assets
+                Associate Asset
               </Typography>
             </Box>
             <Box sx={styles?.buttonBox}>
