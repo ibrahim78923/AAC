@@ -1,10 +1,10 @@
-import { SignUp } from '@/modules/airCustomerPortal/SignUp/SignUp/SignUp';
+import { Login } from '@/modules/airCustomerPortal/Login';
 
-const loginnPage = () => {
+const LoginPage = () => {
   return (
     <>
-      <SignUp />
+      <Login />
     </>
   );
 };
-export default loginnPage;
+export default LoginPage;

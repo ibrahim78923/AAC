@@ -6,19 +6,19 @@ import Image from 'next/image';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useForm } from 'react-hook-form';
 import {
-  signUpData,
-  signUpDefaultValues,
-  signUpValidationSchema,
+  loginData,
+  loginDefaultValues,
+  loginValidationSchema,
 } from './LoginData';
 import { AirCustomerPortalHeader } from '../AirCustomerportalHeader';
 
 import Link from 'next/link';
 import { v4 as uuidv4 } from 'uuid';
 
-export default function Login() {
+export const Login = () => {
   const signInForm = useForm({
-    resolver: yupResolver(signUpValidationSchema),
-    defaultValues: signUpDefaultValues,
+    resolver: yupResolver(loginValidationSchema),
+    defaultValues: loginDefaultValues,
   });
   const submiteSignIn = () => {};
   const drawerSubmitHandler = () => {
@@ -41,7 +41,7 @@ export default function Login() {
             methods={signInForm}
             onSubmit={signInForm?.handleSubmit(submiteSignIn)}
           >
-            {signUpData.map((items) => {
+            {loginData.map((items) => {
               return (
                 <Grid my={1} key={uuidv4()}>
                   <items.component
@@ -84,4 +84,4 @@ export default function Login() {
       </Grid>
     </Grid>
   );
-}
+};

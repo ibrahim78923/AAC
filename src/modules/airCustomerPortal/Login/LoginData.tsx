@@ -1,16 +1,16 @@
 import { RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
-export const signUpValidationSchema: any = Yup.object().shape({
-  email: Yup.string().required('Email is Required'),
-  password: Yup.string().required('Password is Required'),
+export const loginValidationSchema: any = Yup?.object()?.shape({
+  email: Yup?.string()?.required('Email is Required'),
+  password: Yup?.string()?.required('Password is Required'),
 });
 
-export const signUpDefaultValues = {
+export const loginDefaultValues = {
   Email: '',
   password: '',
 };
-export const signUpData = [
+export const loginData = [
   {
     componentProps: {
       id: '1',
