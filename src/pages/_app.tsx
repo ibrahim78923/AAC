@@ -27,6 +27,8 @@ export default function App(props: any) {
             <PersistGate loading={null} persistor={persistor}>
               <ThemeLocalization>
                 <SnackbarProvider
+                  maxSnack={1}
+                  preventDuplicate
                   anchorOrigin={{
                     horizontal: 'center',
                     vertical: 'top',

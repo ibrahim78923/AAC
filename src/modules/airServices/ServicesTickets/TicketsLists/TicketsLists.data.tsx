@@ -198,10 +198,16 @@ export const ticketsListsColumnFunction: any = (
       ),
       header: (
         <Checkbox
-          checked={selectedTicketList?.length === ticketList?.length}
+          checked={
+            ticketList?.length
+              ? selectedTicketList?.length === ticketList?.length
+              : false
+          }
           onChange={(e: any) => {
             e?.target?.checked
-              ? setSelectedTicketList(ticketList?.map((x: any) => x._id))
+              ? setSelectedTicketList(
+                  ticketList?.map((ticket: any) => ticket?._id),
+                )
               : setSelectedTicketList([]);
           }}
           color="primary"

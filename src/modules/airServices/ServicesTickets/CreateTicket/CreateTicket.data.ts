@@ -3,6 +3,8 @@ import {
   RHFDatePicker,
   RHFDropZone,
   RHFEditor,
+  RHFMultiSearchableSelect,
+  RHFSearchableSelect,
   RHFSelect,
   RHFTextField,
   RHFTimePicker,
@@ -29,22 +31,23 @@ export const createTicketValidationSchema = Yup?.object()?.shape({
 });
 
 export const createTicketDefaultValues = {
-  requester: '', //1
-  subject: '', //2
-  description: '', //3
-  category: '', //4
-  status: '', //5
-  priority: '', //6
-  department: '', //7
-  source: '', //8
-  impact: '', //9
-  agent: '', //10
-  plannedStartDate: new Date(), //11
-  plannedStartTime: new Date(), //12
-  plannedEndDate: new Date(), //13
-  plannedEndTime: new Date(), //14
-  plannedEffort: [], //15
-  attachFile: null, //16
+  requester: '',
+  subject: '',
+  description: '',
+  category: '',
+  status: '',
+  priority: '',
+  department: '',
+  source: '',
+  impact: '',
+  agent: '',
+  plannedStartDate: new Date(),
+  plannedStartTime: new Date(),
+  plannedEndDate: new Date(),
+  plannedEndTime: new Date(),
+  plannedEffort: [],
+  associatesAsset: [],
+  attachFile: null,
 };
 
 export const createTicketDataArray = [
@@ -53,9 +56,14 @@ export const createTicketDataArray = [
       name: 'requester',
       label: 'Requester',
       fullWidth: true,
-      options: ['BE', 'BE1', 'BE2'],
+      options: [
+        { value: 'JohnDoe', label: 'John Doe' },
+        { value: 'Andrew', label: 'Andrew' },
+        { value: 'RichardRobertson', label: 'Richard robertson' },
+        { value: 'Franksten', label: 'Franksten' },
+      ],
     },
-    component: RHFAutocomplete,
+    component: RHFSearchableSelect,
     md: 12,
   },
   {
@@ -81,9 +89,14 @@ export const createTicketDataArray = [
       name: 'category',
       label: 'Category',
       fullWidth: true,
-      options: ['BE', 'BE1', 'BE2'],
+      options: [
+        { value: 'JohnDoe', label: 'John Doe' },
+        { value: 'Andrew', label: 'Andrew' },
+        { value: 'RichardRobertson', label: 'Richard robertson' },
+        { value: 'Franksten', label: 'Franksten' },
+      ],
     },
-    component: RHFAutocomplete,
+    component: RHFSearchableSelect,
     md: 12,
   },
   {
@@ -123,9 +136,14 @@ export const createTicketDataArray = [
       name: 'department',
       label: 'Department',
       fullWidth: true,
-      options: ['BE', 'BE1', 'BE2'],
+      options: [
+        { value: 'JohnDoe', label: 'John Doe' },
+        { value: 'Andrew', label: 'Andrew' },
+        { value: 'RichardRobertson', label: 'Richard robertson' },
+        { value: 'Franksten', label: 'Franksten' },
+      ],
     },
-    component: RHFAutocomplete,
+    component: RHFSearchableSelect,
     md: 12,
   },
   {
@@ -167,9 +185,14 @@ export const createTicketDataArray = [
       name: 'agent',
       label: 'Agent',
       fullWidth: true,
-      options: ['BE', 'BE1', 'BE2'],
+      options: [
+        { value: 'JohnDoe', label: 'John Doe' },
+        { value: 'Andrew', label: 'Andrew' },
+        { value: 'RichardRobertson', label: 'Richard robertson' },
+        { value: 'Franksten', label: 'Franksten' },
+      ],
     },
-    component: RHFAutocomplete,
+    component: RHFSearchableSelect,
     md: 12,
   },
   {
@@ -217,6 +240,21 @@ export const createTicketDataArray = [
       multiple: true,
     },
     component: RHFAutocomplete,
+    md: 12,
+  },
+  {
+    componentProps: {
+      name: 'associatesAsset',
+      label: 'Associate Asset',
+      fullWidth: true,
+      options: [
+        { value: 'JohnDoe', label: 'John Doe' },
+        { value: 'Andrew', label: 'Andrew' },
+        { value: 'RichardRobertson', label: 'Richard robertson' },
+        { value: 'Franksten', label: 'Franksten' },
+      ],
+    },
+    component: RHFMultiSearchableSelect,
     md: 12,
   },
   {
