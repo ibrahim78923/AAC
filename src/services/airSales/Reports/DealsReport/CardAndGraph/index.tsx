@@ -19,48 +19,57 @@ const CardAndGraphs = () => {
     <>
       <Grid container spacing={2}>
         <Grid item lg={4} md={6} sm={12} xs={12}>
-          <Box sx={styles.totalDeals(theme)}>
+          <Box sx={styles?.totalDeals(theme)}>
             <Typography
               variant="h6"
-              sx={{ color: `${theme?.palette?.slateBlue.main}` }}
+              sx={{ color: `${theme?.palette?.slateBlue?.main}` }}
             >
               Total Deals
             </Typography>
             <Typography
               variant="h3"
-              sx={{ color: `${theme?.palette?.common.black}`, fontWeight: 500 }}
+              sx={{
+                color: `${theme?.palette?.common?.black}`,
+                fontWeight: 500,
+              }}
             >
               6
             </Typography>
           </Box>
         </Grid>
         <Grid item lg={4} md={6} sm={6} xs={12}>
-          <Box sx={styles.openDeals(theme)}>
+          <Box sx={styles?.openDeals(theme)}>
             <Typography
               variant="h6"
-              sx={{ color: `${theme?.palette?.slateBlue.main}` }}
+              sx={{ color: `${theme?.palette?.slateBlue?.main}` }}
             >
               Open Deals
             </Typography>
             <Typography
               variant="h3"
-              sx={{ color: `${theme?.palette?.common.black}`, fontWeight: 500 }}
+              sx={{
+                color: `${theme?.palette?.common?.black}`,
+                fontWeight: 500,
+              }}
             >
               3
             </Typography>
           </Box>
         </Grid>
         <Grid item lg={4} md={6} sm={6} xs={12}>
-          <Box sx={styles.closeDeals(theme)}>
+          <Box sx={styles?.closeDeals(theme)}>
             <Typography
               variant="h6"
-              sx={{ color: `${theme?.palette?.slateBlue.main}` }}
+              sx={{ color: `${theme?.palette?.slateBlue?.main}` }}
             >
               Close Deals
             </Typography>
             <Typography
               variant="h3"
-              sx={{ color: `${theme?.palette?.common.black}`, fontWeight: 500 }}
+              sx={{
+                color: `${theme?.palette?.common?.black}`,
+                fontWeight: 500,
+              }}
             >
               3
             </Typography>
@@ -71,7 +80,7 @@ const CardAndGraphs = () => {
         <Grid item lg={6}>
           <Box
             sx={{
-              border: `1px solid ${theme?.palette?.custom.off_white_three}`,
+              border: `1px solid ${theme?.palette?.custom?.off_white_three}`,
               padding: '2rem',
               borderRadius: '8px',
             }}
@@ -85,7 +94,7 @@ const CardAndGraphs = () => {
           </Box>
         </Grid>
         <Grid item lg={6}>
-          <Box sx={styles.pieChart(theme)}>
+          <Box sx={styles?.pieChart(theme)}>
             <ReactApexChart
               options={options}
               series={series}

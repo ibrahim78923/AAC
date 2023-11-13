@@ -55,13 +55,13 @@ const DealsReport = (props: any) => {
             <ArrowBackIcon
               sx={{
                 cursor: 'pointer',
-                color: `${theme?.palette?.custom.light}`,
+                color: `${theme?.palette?.custom?.light}`,
               }}
               onClick={() => toggle(true)}
             />
             <Typography
               variant="h3"
-              sx={{ color: `${theme.palette.grey[800]}` }}
+              sx={{ color: `${theme?.palette?.grey[800]}` }}
             >
               Deals Report
             </Typography>
@@ -82,7 +82,7 @@ const DealsReport = (props: any) => {
                 <InputLabel
                   id="demo-multiple-checkbox-label"
                   sx={{
-                    color: `${theme?.palette?.custom.main}`,
+                    color: `${theme?.palette?.custom?.main}`,
                     fontWeight: 500,
                     fontSize: '16px',
                   }}
@@ -101,9 +101,9 @@ const DealsReport = (props: any) => {
                   MenuProps={MenuProps}
                   size="medium"
                 >
-                  {names.map((name) => (
+                  {names?.map((name) => (
                     <MenuItem key={name} value={name}>
-                      <Checkbox checked={personName.indexOf(name) > -1} />
+                      <Checkbox checked={personName?.indexOf(name) > -1} />
                       <ListItemText primary={name} />
                     </MenuItem>
                   ))}
@@ -115,7 +115,7 @@ const DealsReport = (props: any) => {
                 <InputLabel
                   id="demo-multiple-checkbox-label"
                   sx={{
-                    color: `${theme?.palette?.custom.main}`,
+                    color: `${theme?.palette?.custom?.main}`,
                     fontWeight: 500,
                     fontSize: '16px',
                   }}
@@ -134,9 +134,9 @@ const DealsReport = (props: any) => {
                   MenuProps={MenuProps}
                   size="medium"
                 >
-                  {names.map((name) => (
+                  {names?.map((name) => (
                     <MenuItem key={name} value={name}>
-                      <Checkbox checked={personName.indexOf(name) > -1} />
+                      <Checkbox checked={personName?.indexOf(name) > -1} />
                       <ListItemText primary={name} />
                     </MenuItem>
                   ))}
@@ -144,7 +144,7 @@ const DealsReport = (props: any) => {
               </FormControl>
             </Grid>
             <Grid item lg={3} md={6} sm={6} xs={12}>
-              <Box sx={styles.downloadIcon(theme)}>
+              <Box sx={styles?.downloadIcon(theme)}>
                 <DownloadLargeIcon />
               </Box>
             </Grid>

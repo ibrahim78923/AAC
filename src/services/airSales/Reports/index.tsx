@@ -23,7 +23,10 @@ const Reports = () => {
         <DealsReport toggle={toggle} />
       ) : (
         <>
-          <Typography variant="h3" sx={{ color: `${theme.palette.grey[800]}` }}>
+          <Typography
+            variant="h3"
+            sx={{ color: `${theme?.palette?.grey[800]}` }}
+          >
             Reports
           </Typography>
           <Box sx={{ paddingTop: '2rem' }}>
@@ -31,20 +34,20 @@ const Reports = () => {
               variant="h4"
               sx={{
                 fontWeight: 500,
-                color: `${theme.palette.grey[800]}`,
+                color: `${theme?.palette?.grey[800]}`,
                 paddingBottom: '2rem',
               }}
             >
               Deals
             </Typography>
-            <Box onClick={() => toggle(true)} sx={styles.mainDealBox(theme)}>
+            <Box onClick={() => toggle(true)} sx={styles?.mainDealBox(theme)}>
               <Image src={DealReportImage} alt="no image" />
               <Box sx={{ marginLeft: '1rem' }}>
                 <Typography
                   variant="h6"
                   sx={{
                     fontWeight: 700,
-                    color: `${theme.palette.custom.grayish_blue}`,
+                    color: `${theme?.palette?.custom?.grayish_blue}`,
                   }}
                 >
                   Deals
@@ -53,7 +56,7 @@ const Reports = () => {
                   variant="body3"
                   sx={{
                     fontWeight: 500,
-                    color: `${theme.palette.custom.grayish_blue}`,
+                    color: `${theme?.palette?.custom?.grayish_blue}`,
                   }}
                 >
                   Overview Deals Report

@@ -1,10 +1,11 @@
+import { organization } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
 export const organizationAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     postOrganization: builder.mutation({
       query: ({ body }: any) => ({
-        url: `/org-company-account`,
+        url: `${organization.post_organization_account}`,
         method: 'POST',
         body: body,
       }),
@@ -12,28 +13,28 @@ export const organizationAPI = baseAPI.injectEndpoints({
     }),
     getOrganization: builder.query({
       query: ({ organizationId, pages = 1, limit = 10 }: any) => ({
-        url: `/org-company-account/get-accounts/${organizationId}?page=${pages}&limit=${limit}`,
+        url: `${organization.get_organization_account_all}/${organizationId}?page=${pages}&limit=${limit}`,
         method: 'GET',
       }),
       providesTags: ['Organization'],
     }),
     getOrganizationById: builder.query({
       query: ({ id }: any) => ({
-        url: `/org-company-account/${id}`,
+        url: `${organization.get_organization_account_id}/${id}`,
         method: 'GET',
       }),
       providesTags: ['Organization'],
     }),
     getOrganizationMainId: builder.query({
       query: ({ id }: any) => ({
-        url: `/organization/${id}`,
+        url: `${organization.get_main_organization}/${id}`,
         method: 'GET',
       }),
       providesTags: ['Organization'],
     }),
     updateOrganization: builder.mutation({
       query: ({ id, body }: any) => ({
-        url: `/organization/${id}`,
+        url: `${organization.update_organization_account}/${id}`,
         method: 'PUT',
         body: body,
       }),
@@ -41,7 +42,7 @@ export const organizationAPI = baseAPI.injectEndpoints({
     }),
     deleteOrganization: builder.mutation({
       query: ({ id }: any) => ({
-        url: `/organization/${id}`,
+        url: `${organization.delete_organization_account}/${id}`,
         method: 'DELETE',
       }),
       invalidatesTags: ['Organization'],

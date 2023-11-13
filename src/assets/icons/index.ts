@@ -194,6 +194,6 @@ export { default as AlertModalDeleteIcon } from './shared/alert-modal-delete-ico
 export { default as AlertModalCloseIcon } from './shared/alert-modal-close-icon';
 export { default as CompanyIcon } from './modules/SocialComponents/Companies/company';
 export { default as ImportCompaniesIcon } from './modules/SocialComponents/Companies/import';
-export { default as BackArrow } from './modules/airSales/deals/back-arrow';
+export { default as BackArrowIcon } from './modules/airSales/deals/back-arrow';
 export { default as AssignCommonIcon } from './shared/assign-common';
 export { default as FeaturedMarketingIcon } from './shared/featured-marketing';
