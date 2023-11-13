@@ -1,5 +1,5 @@
 import styles from '@/modules/airServices/Workload/Workload.module.scss';
-import { ENDPOINTS } from '@/routesConstants/endpoints';
+import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
 const TAG = 'WORKLOAD';
@@ -29,7 +29,7 @@ export const workloadAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getWorkload: builder.query({
       query: (params: any) => ({
-        url: `${ENDPOINTS?.WORKLOAD}`,
+        url: `${END_POINTS?.WORKLOAD}`,
         method: 'GET',
         params,
       }),
