@@ -10,7 +10,7 @@ import { v4 as uuidv4 } from 'uuid';
 function CatalogItemRequest() {
   const { methodRequest, onSubmitRequest, control, getValues } =
     useCatalogRequest();
-  useWatch({ control, name: 'requestForSomeOneElse' });
+  useWatch<any>({ control, name: 'requestForSomeOneElse' });
   const router = useRouter();
   const serviceData: any = allsServices?.find(
     (x: any) => x?.id == router?.query?.serviceId,

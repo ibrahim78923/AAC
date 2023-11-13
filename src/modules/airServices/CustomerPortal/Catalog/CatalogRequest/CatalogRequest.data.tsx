@@ -38,7 +38,6 @@ export const placeRequest = [
     componentProps: {
       name: 'requestForSomeOneElse',
       label: 'Request For Someone else',
-      sx: { mb: 4 },
     },
     component: RHFCheckbox,
     md: 12,

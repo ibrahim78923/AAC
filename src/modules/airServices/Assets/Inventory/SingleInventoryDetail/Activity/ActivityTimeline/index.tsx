@@ -5,6 +5,7 @@ import { useTheme } from '@mui/material';
 
 export const ActivityTimeline = ({ activityData }: any) => {
   const theme = useTheme();
+
   return (
     <>
       <Box
@@ -16,7 +17,7 @@ export const ActivityTimeline = ({ activityData }: any) => {
       >
         <Typography variant="body3" sx={{ flex: 0.15 }}>
           {' '}
-          {activityData?.createdAt}
+          {activityData?.createdBy}
         </Typography>
         <IconButton
           disabled

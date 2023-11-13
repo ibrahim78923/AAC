@@ -5,10 +5,8 @@ import { ActivityTimeline } from './ActivityTimeline';
 import { v4 as uuidv4 } from 'uuid';
 import { ExportButton } from '@/components/ExportButton';
 import { NoAssociationFoundImage } from '@/assets/images';
-import { useActivityListQuery } from '@/services/airServices/Assets/Inventory';
-export const Activity = () => {
-  const { data: inventoryDetails } = useActivityListQuery({});
 
+export const Activity = () => {
   return (
     <>
       <br />
@@ -28,7 +26,7 @@ export const Activity = () => {
         <Grid item xs={12} md={0.5}></Grid>
         <Grid item xs={12} md={10.5}>
           {!!activityData?.length ? (
-            inventoryDetails?.data?.result?.map((singleActivity: any) => (
+            activityData?.map((singleActivity: any) => (
               <ActivityTimeline activityData={singleActivity} key={uuidv4()} />
             ))
           ) : (

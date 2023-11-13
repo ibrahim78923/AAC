@@ -10,13 +10,13 @@ import {
 export const data: any = [
   {
     id: 1,
-    type: 'purchase cost',
+    expenseType: 'purchase cost',
     cost: 1506.325,
     date: `${new Date()}`,
   },
   {
     id: 2,
-    type: 'maintenance cost',
+    expenseType: 'maintenance cost',
     cost: 1506.325,
     date: `${new Date()}`,
   },

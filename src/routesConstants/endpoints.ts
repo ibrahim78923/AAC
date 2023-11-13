@@ -6,5 +6,5 @@ export const END_POINTS = {
   get_permissions: '/premissions',
   reset_password: 'auth/resetPassword',
   forgot_password: 'auth/forgot-password',
-  InventoryActivity: '/assets/inventory?assetType=services&impact=low',
+  INVENTORY_ACTIVITY: 'assets/inventory',
 };
