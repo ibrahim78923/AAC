@@ -17,7 +17,7 @@ export default function RHFMultiCheckbox({ name, options, ...other }: any) {
 
         return (
           <FormGroup>
-            {options.map((option: any) => (
+            {options?.map((option: any) => (
               <FormControlLabel
                 key={option}
                 control={

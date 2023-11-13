@@ -22,8 +22,6 @@ export default function RHFAutocomplete({
 
   const theme: any = useTheme();
 
-  const label = other?.label;
-
   const onChanged = (e: any, newValue: any, onChange: any) => {
     if (multiple) {
       onChange(newValue?.map((item: any) => item));
@@ -68,7 +66,7 @@ export default function RHFAutocomplete({
               <>
                 {other?.label && (
                   <CustomLabel
-                    label={label}
+                    label={other?.label}
                     error={error}
                     required={required}
                   />
