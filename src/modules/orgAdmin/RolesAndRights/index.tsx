@@ -2,7 +2,7 @@ import { Box, Button, Card, Menu, MenuItem, Typography } from '@mui/material';
 
 import Search from '@/components/Search';
 import CustomPagination from '@/components/CustomPagination';
-import TanstackTable from '@/components/Tabel/TanstackTable';
+import TanstackTable from '@/components/Table/TanstackTable';
 import { ORG_ADMIN } from '@/constants';
 
 import { columns, data } from './RoleAndRights.data';

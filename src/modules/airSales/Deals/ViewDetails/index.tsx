@@ -43,7 +43,7 @@ const ViewDetails = () => {
         </Grid>
 
         <Grid item xs={12} sm={6} lg={3}>
-          <Box sx={styles.detailsBox}>
+          <Box sx={styles?.detailsBox}>
             <Box sx={{ display: 'flex', gap: 1, marginBottom: '7px' }}>
               <Image
                 src={NotesAvatarImage}
@@ -72,7 +72,7 @@ const ViewDetails = () => {
                 olivia@gmail.com
               </Typography>
             </Box>
-            <Box sx={styles?.salesBox}>
+            <Box sx={styles.salesBox}>
               <Typography variant="body3" sx={styles?.salesTextBox(theme)}>
                 Phone Number
               </Typography>
@@ -91,7 +91,7 @@ const ViewDetails = () => {
           </Box>
         </Grid>
         <Grid item xs={12} sm={6} lg={3}>
-          <Box sx={styles.detailsBox}>
+          <Box sx={styles?.detailsBox}>
             <Typography variant="body2" sx={{ fontWeight: 600 }}>
               Products
             </Typography>
@@ -106,7 +106,7 @@ const ViewDetails = () => {
           </Box>
         </Grid>
         <Grid item xs={12} sm={6} lg={3}>
-          <Box sx={styles.detailsBox}>
+          <Box sx={styles?.detailsBox}>
             <Typography variant="body2" sx={{ fontWeight: 600 }}>
               Upcoming Meetings
             </Typography>
@@ -121,8 +121,8 @@ const ViewDetails = () => {
           </Box>
         </Grid>
         <Grid item xs={12} sm={6} lg={3}>
-          <Box sx={styles.detailsBox}>
-            <Box sx={styles.salesBox}>
+          <Box sx={styles?.detailsBox}>
+            <Box sx={styles?.salesBox}>
               <Typography variant="body3" sx={styles?.salesTextBox(theme)}>
                 Stage
               </Typography>
@@ -130,7 +130,7 @@ const ViewDetails = () => {
                 New
               </Typography>
             </Box>
-            <Box sx={styles.salesBox}>
+            <Box sx={styles?.salesBox}>
               <Typography variant="body3" sx={styles?.salesTextBox(theme)}>
                 Pipeline
               </Typography>
@@ -138,7 +138,7 @@ const ViewDetails = () => {
                 Sales Pipeline
               </Typography>
             </Box>
-            <Box sx={styles.salesBox}>
+            <Box sx={styles?.salesBox}>
               <Typography variant="body3" sx={styles?.salesTextBox(theme)}>
                 Priority
               </Typography>
@@ -146,7 +146,7 @@ const ViewDetails = () => {
                 Low
               </Typography>
             </Box>
-            <Box sx={styles.salesBox}>
+            <Box sx={styles?.salesBox}>
               <Typography variant="body3" sx={styles?.salesTextBox(theme)}>
                 Created Date
               </Typography>
@@ -154,7 +154,7 @@ const ViewDetails = () => {
                 Fri, 10 Mar 09:00 AM
               </Typography>
             </Box>
-            <Box sx={styles.salesBox}>
+            <Box sx={styles?.salesBox}>
               <Typography variant="body3" sx={styles?.salesTextBox(theme)}>
                 Closes Date
               </Typography>

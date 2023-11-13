@@ -14,7 +14,7 @@ import {
 import DetailCard from '../CreateInvoice/EditDetails/DetailCard';
 import { style } from './ViewInvoice.style';
 import { useTheme } from '@mui/material/styles';
-import TanstackTable from '@/components/Tabel/TanstackTable';
+import TanstackTable from '@/components/Table/TanstackTable';
 import { productsTableColumns, productsTableData } from './ViewInvoice.data';
 import { productTotalDetails } from '../CreateInvoice/EditDetails/EditDetails.data';
 

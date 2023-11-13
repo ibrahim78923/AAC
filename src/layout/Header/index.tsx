@@ -5,10 +5,7 @@ import Image from 'next/image';
 
 import {
   Box,
-  Menu,
-  MenuItem,
   Typography,
-  Divider,
   InputBase,
   useTheme,
   IconButton,
@@ -21,17 +18,19 @@ import LinkDropdown from './LinkDropDown';
 import AccountMenu from './AccountMenu';
 import Search from '@/components/Search';
 import NotificationDropdown from './NotificationDropDown';
+import SocialIconsDropdown from './SocialIconsDropdown';
+import ProfilMenu from './ProfileMenu';
 
 import { isNullOrEmpty } from '@/utils';
 
-import { ProfileDropDown, QuickLinkData, StatusDropDown } from '../Layout.data';
+import { QuickLinkData } from '../Layout.data';
 
-import { ArrowDownImage, ArrowUpImage, AvatarImage } from '@/assets/images';
+import { SearchSharedIcon } from '@/assets/icons';
+import { AvatarImage } from '@/assets/images';
 
 import { styles } from './Header.style';
 
 import { v4 as uuidv4 } from 'uuid';
-import { SearchSharedIcon } from '@/assets/icons';
 
 const role = 'super-admin';
 
@@ -40,12 +39,7 @@ const Header = (props: any) => {
   const theme = useTheme();
 
   const [isExpanded, setIsExpanded] = useState(false);
-  const [profileDropDown, setProfileDropDown] = useState<null | HTMLElement>(
-    null,
-  );
-  const [statusDropDown, setStatusDropDown] = useState<null | HTMLElement>(
-    null,
-  );
+
   const [searchValue, SetSearchValue] = useState<string>('');
   const [isOpenModal, setIsOpenModal] = useState(false);
 
@@ -55,27 +49,6 @@ const Header = (props: any) => {
 
   const handleClose = () => {
     setIsOpenModal(false);
-  };
-
-  const isProfileDropDownOpen = Boolean(profileDropDown);
-  const isStatusOpen = Boolean(statusDropDown);
-
-  const statusDropdownHandler = (
-    event: React.MouseEvent<HTMLButtonElement>,
-  ) => {
-    setStatusDropDown(event.currentTarget);
-  };
-
-  const profileDropdownHandler = (
-    event: React.MouseEvent<HTMLButtonElement>,
-  ) => {
-    setProfileDropDown(event.currentTarget);
-  };
-  const closeProfileDropDown = () => {
-    setProfileDropDown(null);
-  };
-  const closeStatusDropDown = () => {
-    setStatusDropDown(null);
   };
 
   const handleExpandClick = () => {
@@ -96,14 +69,14 @@ const Header = (props: any) => {
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { md: 'none' }, padding: 0 }}
+            sx={{ mr: { sm: 2, xs: 1.2 }, display: { md: 'none' }, padding: 0 }}
           >
             <MenuIcon />
           </IconButton>
           <Box sx={{ display: { xs: 'none', lg: 'block' } }}>
             <Box
               component="form"
-              sx={styles.searchAnimation(isExpanded, theme)}
+              sx={styles?.searchAnimation(isExpanded, theme)}
             >
               <InputBase
                 fullWidth
@@ -120,7 +93,7 @@ const Header = (props: any) => {
           <Box sx={{ display: { md: 'block', lg: 'none' } }}>
             <Box
               component="form"
-              sx={styles.searchIcon(theme)}
+              sx={styles?.searchIcon(theme)}
               onClick={handleClickOpen}
             >
               <IconButton>
@@ -133,16 +106,16 @@ const Header = (props: any) => {
           sx={{
             display: 'flex',
             justifyContent: 'end',
-            gap: 2,
+            gap: { sm: 2, xs: 1.5 },
             alignItems: 'center',
           }}
         >
           {role && (
-            <Box sx={styles.quickLinkBox(theme)}>
+            <Box sx={styles?.quickLinkBox(theme)}>
               {!isNullOrEmpty(QuickLinkData) &&
-                QuickLinkData.map((image) => (
-                  <Box key={uuidv4()} sx={styles.innerQuickLinkBox(theme)}>
-                    <Link href={image.path}>
+                QuickLinkData?.map((image) => (
+                  <Box key={uuidv4()} sx={styles?.innerQuickLinkBox(theme)}>
+                    <Link href={image?.path}>
                       <Image
                         src={image?.icon}
                         alt="logo"
@@ -154,6 +127,7 @@ const Header = (props: any) => {
                 ))}
             </Box>
           )}
+          {role && <SocialIconsDropdown />}
           {role && <AccountMenu />}
 
           <LinkDropdown />
@@ -162,102 +136,13 @@ const Header = (props: any) => {
           {role === 'sales' && (
             <Typography
               variant="subtitle1"
-              sx={{ color: theme.palette.primary.main }}
+              sx={{ color: theme?.palette?.primary?.main }}
             >
               Orcalo Limited
             </Typography>
           )}
           <Image src={AvatarImage} alt="Avatar" />
-          <Box
-            onClick={profileDropdownHandler}
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              cursor: 'pointer',
-            }}
-          >
-            <Image src={ArrowDownImage} alt="Avatar" />
-          </Box>
-          <Menu
-            id="basic-menu"
-            anchorEl={profileDropDown}
-            open={isProfileDropDownOpen}
-            onClose={closeProfileDropDown}
-            MenuListProps={{
-              'aria-labelledby': 'basic-button',
-            }}
-            sx={{
-              marginTop: '20px',
-            }}
-          >
-            <MenuItem>
-              <Box sx={{ gap: 1, display: 'flex', alignItems: 'center' }}>
-                <Image src={AvatarImage} alt="Avatar" />
-                <Box onClick={statusDropdownHandler}>
-                  <Image
-                    src={isStatusOpen ? ArrowUpImage : ArrowDownImage}
-                    alt="Avatar"
-                  />
-                </Box>
-                <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                  <Typography
-                    variant="subtitle2"
-                    sx={{ color: theme.palette.grey[600] }}
-                  >
-                    Sophie Turner
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    sx={{ color: theme.palette.grey[600] }}
-                  >
-                    Sales Manager
-                  </Typography>
-                </Box>
-              </Box>
-            </MenuItem>
-            <Divider />
-            {!isNullOrEmpty(ProfileDropDown) &&
-              ProfileDropDown.map((item) => (
-                <MenuItem
-                  key={uuidv4()}
-                  onClick={closeStatusDropDown}
-                  sx={{
-                    gap: 1,
-                    padding: '12px',
-                    fontSize: '16px',
-                    color: theme.palette.grey[600],
-                  }}
-                >
-                  <Link href={`${item?.key}`}>{item?.label}</Link>
-                </MenuItem>
-              ))}
-          </Menu>
-
-          <Menu
-            id="basic-menu"
-            anchorEl={statusDropDown}
-            open={isStatusOpen}
-            onClose={closeStatusDropDown}
-            MenuListProps={{
-              'aria-labelledby': 'basic-button',
-            }}
-          >
-            {!isNullOrEmpty(StatusDropDown) &&
-              StatusDropDown.map((statusItem) => (
-                <MenuItem
-                  key={uuidv4()}
-                  onClick={closeStatusDropDown}
-                  sx={{
-                    gap: 1,
-                    fontSize: '16px',
-                    color: theme.palette.grey[600],
-                  }}
-                >
-                  <Image src={statusItem?.icon} alt="icon" />{' '}
-                  {statusItem?.label}
-                </MenuItem>
-              ))}
-          </Menu>
+          <ProfilMenu />
         </Box>
       </Box>
 

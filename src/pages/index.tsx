@@ -1,13 +1,9 @@
-import { Permissions } from '@/constants/permissions';
-import Layout from '@/layout';
+import AuthGuard from '@/GuardsAndPermissions/AuthGuard';
 
 export default function Home() {
-  return <div>fdfdff</div>;
+  return <div> Air Sales </div>;
 }
+
 Home.getLayout = function getLayout(page: any) {
-  return (
-    <Layout guardRoute permissions={Permissions.view_dashoard}>
-      {page}
-    </Layout>
-  );
+  return <AuthGuard>{page}</AuthGuard>;
 };
