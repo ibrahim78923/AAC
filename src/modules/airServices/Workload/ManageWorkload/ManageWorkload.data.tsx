@@ -1,4 +1,4 @@
-export const ManageWorkLoadOptions = [
+export const manageWorkLoadOptions = [
   { title: 'All', count: '10' },
   { title: 'Planned', count: '9' },
   { title: 'UnPlanned', count: '8' },

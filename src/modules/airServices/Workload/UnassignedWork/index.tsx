@@ -1,6 +1,6 @@
 import { Button } from '@mui/material';
 import { Fragment, useState } from 'react';
-import { UnassignedWorkDataArray } from './UnassignedWork.data';
+import { unassignedWorkDataArray } from './UnassignedWork.data';
 import WorkloadDrawer from '../WorkloadDrawer/WorkloadDrawer';
 
 export const UnassignedWork = () => {
@@ -25,7 +25,7 @@ export const UnassignedWork = () => {
       </Button>
 
       <WorkloadDrawer
-        dataArray={UnassignedWorkDataArray}
+        dataArray={unassignedWorkDataArray}
         setOpenDrawer={setOpenDrawer}
         openDrawer={openDrawer}
         setDateRange={setDateRange}

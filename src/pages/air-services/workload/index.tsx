@@ -1,12 +1,12 @@
 import Layout from '@/layout';
 import { Workload } from '@/modules/airServices/Workload';
 
-const WorkLoadPage = () => {
+const WorkloadPage = () => {
   return <Workload />;
 };
 
-WorkLoadPage.getLayout = function getLayout(page: any) {
+WorkloadPage.getLayout = function getLayout(page: any) {
   return <Layout>{page}</Layout>;
 };
 
-export default WorkLoadPage;
+export default WorkloadPage;

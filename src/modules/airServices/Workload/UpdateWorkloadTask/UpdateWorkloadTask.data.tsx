@@ -8,28 +8,42 @@ import {
 import { Typography } from '@mui/material';
 import * as Yup from 'yup';
 
+const priority = [
+  { value: 'Low', label: 'Low' },
+  { value: 'Medium', label: 'Medium' },
+  { value: 'High', label: 'High' },
+  { value: 'Urgent', label: 'Urgent' },
+];
+
+const status = [
+  { value: 'Open', label: 'Open' },
+  { value: 'Close', label: 'Close' },
+  { value: 'Pending', label: 'Pending' },
+  { value: 'Resolved', label: 'Resolved' },
+];
+
 export const validationSchema = Yup?.object()?.shape({
-  description: Yup?.string(), //1
-  plannedStartDate: Yup?.date(), //2
-  plannedStartTime: Yup?.date(), //3
-  plannedEndDate: Yup?.date(), //4
-  plannedEndTime: Yup?.date(), //5
-  plannedEffort: Yup?.mixed(), //6
-  requester: Yup?.string(), //7
-  priority: Yup?.string(), //8
-  status: Yup?.string(), //9
+  description: Yup?.string(),
+  plannedStartDate: Yup?.date(),
+  plannedStartTime: Yup?.date(),
+  plannedEndDate: Yup?.date(),
+  plannedEndTime: Yup?.date(),
+  plannedEffort: Yup?.mixed(),
+  requester: Yup?.string(),
+  priority: Yup?.string(),
+  status: Yup?.string(),
 });
 
 export const defaultValues = {
-  description: '', //1
-  plannedStartDate: new Date(), //2
-  plannedStartTime: new Date(), //3
-  plannedEndDate: new Date(), //4
-  plannedEndTime: new Date(), //6
-  plannedEffort: [], //6
-  requester: '', //7
-  priority: '', //8
-  status: '', //9
+  description: '',
+  plannedStartDate: new Date(),
+  plannedStartTime: new Date(),
+  plannedEndDate: new Date(),
+  plannedEndTime: new Date(),
+  plannedEffort: [],
+  requester: '',
+  priority: '',
+  status: '',
 };
 
 export const dataArray = [
@@ -117,12 +131,7 @@ export const dataArray = [
       fullWidth: true,
       select: true,
     },
-    options: [
-      { value: 'Low', label: 'Low' },
-      { value: 'Medium', label: 'Medium' },
-      { value: 'High', label: 'High' },
-      { value: 'Urgent', label: 'Urgent' },
-    ],
+    options: priority,
     component: RHFSelect,
   },
   {
@@ -132,12 +141,7 @@ export const dataArray = [
       fullWidth: true,
       select: true,
     },
-    options: [
-      { value: 'Open', label: 'Open' },
-      { value: 'Close', label: 'Close' },
-      { value: 'Pending', label: 'Pending' },
-      { value: 'Resolved', label: 'Resolved' },
-    ],
+    options: status,
     component: RHFSelect,
   },
 ];

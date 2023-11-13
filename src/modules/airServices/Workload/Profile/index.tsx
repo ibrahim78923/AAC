@@ -1,6 +1,6 @@
 import { Avatar, Box, Menu, Tooltip, Typography } from '@mui/material';
 import { Fragment, useState, useEffect } from 'react';
-import { ProfileAvatars } from './Profile.data';
+import { profileAvatars } from './Profile.data';
 import { v4 as uuidv4 } from 'uuid';
 
 export const Profile = () => {
@@ -17,16 +17,16 @@ export const Profile = () => {
   const open = Boolean(anchorEl);
   const id = open ? 'basic-menu' : undefined;
 
-  const maxLimit = 5;
+  const MAX_LIMIT = 5;
 
   const handleClose = () => {
     setAnchorEl(null);
   };
 
   useEffect(() => {
-    setUsers(ProfileAvatars?.slice(0, maxLimit));
-    setUsersExtra(ProfileAvatars?.slice(maxLimit, ProfileAvatars?.length));
-  }, [ProfileAvatars]);
+    setUsers(profileAvatars?.slice(0, MAX_LIMIT));
+    setUsersExtra(profileAvatars?.slice(MAX_LIMIT, profileAvatars?.length));
+  }, [profileAvatars]);
 
   return (
     <Fragment>

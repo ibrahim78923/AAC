@@ -1,4 +1,4 @@
-export const UnassignedWorkDataArray = [
+export const unassignedWorkDataArray = [
   {
     ticketNo: 'INC-7',
     description: 'Workload',

@@ -1,7 +1,7 @@
 import styles from './Workload.module.scss';
 import { UserProfileImage } from '@/assets/images';
 
-export const WorkloadData = [
+export const workloadData = [
   {
     start: '2023-11-06T15:30:00',
     end: '2023-11-07T15:30:00',

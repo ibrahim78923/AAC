@@ -1,7 +1,7 @@
 import { Box, Button, Chip, Menu, MenuItem, Typography } from '@mui/material';
 import { Fragment, useState } from 'react';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import { ManageWorkLoadOptions } from './ManageWorkload.data';
+import { manageWorkLoadOptions } from './ManageWorkload.data';
 import { v4 as uuidv4 } from 'uuid';
 
 export const ManageWorkload = () => {
@@ -33,7 +33,7 @@ export const ManageWorkload = () => {
         open={open}
         onClose={() => setAnchorEl(null)}
       >
-        {ManageWorkLoadOptions?.map((item: any) => (
+        {manageWorkLoadOptions?.map((item: any) => (
           <MenuItem
             key={uuidv4()}
             onClick={() => item?.handleClick?.()}

@@ -20,10 +20,10 @@ import { useRef, useState, Fragment } from 'react';
 import styles from './Workload.module.scss';
 import CircleIcon from '@mui/icons-material/Circle';
 import { TodoIcon } from '@/assets/icons';
-import { Editor } from './Editor';
 import { useGetWorkloadQuery } from '@/services/airServices/workload';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
+import { UpdateWorkloadTask } from './UpdateWorkloadTask';
 
 export const Workload = () => {
   const calendarRef: any = useRef();
@@ -42,6 +42,9 @@ export const Workload = () => {
     },
     { refetchOnMountOrArgChange: true },
   );
+
+  const COMPLETED = 'completed';
+  const IN_PROGRESS = 'inprogress';
 
   return (
     <Box className={styles?.calendarWrapper}>
@@ -114,11 +117,11 @@ export const Workload = () => {
                           fontSize="small"
                           color={
                             eventInfo?.event?.extendedProps?.status?.toLowerCase() ===
-                            'completed'
+                            COMPLETED
                               ? 'primary'
                               : eventInfo?.event?.extendedProps?.status
                                   ?.toLowerCase()
-                                  ?.replace(/\s/g, '') === 'inprogress'
+                                  ?.replace(/\s/g, '') === IN_PROGRESS
                               ? 'warning'
                               : 'secondary'
                           }
@@ -200,7 +203,7 @@ export const Workload = () => {
         </Fragment>
       )}
 
-      <Editor
+      <UpdateWorkloadTask
         openDrawer={onClickEvent?.open}
         onClose={() => setOnClickEvent({ open: null, data: null })}
         data={onClickEvent?.data}

@@ -4,14 +4,17 @@ import { baseAPI } from '@/services/base-api';
 
 const TAG = 'WORKLOAD';
 
+const COMPLETED = 'completed';
+const IN_PROGRESS = 'inprogress';
+
 const TransformResponse = (response: any) =>
   response?.data?.map((item: any) => ({
     start: item?.startDate,
     end: item?.endDate,
     className:
-      item?.status?.toLowerCase() === 'completed'
+      item?.status?.toLowerCase() === COMPLETED
         ? styles?.completed
-        : item?.status?.toLowerCase().replace(/\s/g, '') === 'inprogress'
+        : item?.status?.toLowerCase()?.replace(/\s/g, '') === IN_PROGRESS
         ? styles?.inprogress
         : styles?.toDo,
     extendedProps: {
@@ -33,16 +36,7 @@ export const workloadAPI = baseAPI.injectEndpoints({
       transformResponse: (response: any) => TransformResponse(response),
       providesTags: [TAG],
     }),
-    getWorkloadProfile: builder.query({
-      query: (params: any) => ({
-        url: `${ENDPOINTS?.WORKLOAD_PROFILE}`,
-        method: 'GET',
-        params,
-      }),
-      transformResponse: (response: any) => TransformResponse(response),
-      providesTags: [TAG],
-    }),
   }),
 });
 
-export const { useGetWorkloadQuery, useGetWorkloadProfileQuery } = workloadAPI;
+export const { useGetWorkloadQuery } = workloadAPI;
