@@ -1,5 +1,5 @@
 import { Box, Grid, Typography } from '@mui/material';
-import React from 'react';
+
 import { styles } from '../ViewDetails.style';
 import Attachments from './Attachments';
 import Companies from './Companies';

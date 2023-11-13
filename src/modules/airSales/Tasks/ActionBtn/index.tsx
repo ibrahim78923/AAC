@@ -1,7 +1,7 @@
 import React from 'react';
 import { Popover, Button, MenuItem, useTheme } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import { TaskInterfacePropsI } from './ActionBtn.Interface';
+import { TaskInterfacePropsI } from './ActionBtn.interface';
 import { styles } from './ActionBtn.style';
 
 const ActionBtn = ({ disableActionBtn, onChange }: TaskInterfacePropsI) => {
@@ -15,7 +15,7 @@ const ActionBtn = ({ disableActionBtn, onChange }: TaskInterfacePropsI) => {
   const MenuItems = ['Edit', 'View Activity', 'Change Status', 'Delete'];
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
+    setAnchorEl(event?.currentTarget);
   };
 
   const handleClose = () => {

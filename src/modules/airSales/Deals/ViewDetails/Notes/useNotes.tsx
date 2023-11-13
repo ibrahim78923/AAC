@@ -1,4 +1,5 @@
 import { useState } from 'react';
+
 import { useTheme } from '@mui/material';
 
 const useNotes = () => {
@@ -12,7 +13,7 @@ const useNotes = () => {
     event: React.ChangeEvent<HTMLInputElement>,
     id: number,
   ) => {
-    const isChecked = event.target.checked;
+    const isChecked = event?.target?.checked;
 
     if (isChecked) {
       setSelectedCheckboxes((prevSelected) => [...prevSelected, { id: id }]);
