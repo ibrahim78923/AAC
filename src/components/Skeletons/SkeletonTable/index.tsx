@@ -14,6 +14,30 @@ const SkeletonTable = () => {
         height={50}
         sx={styles?.root(theme)}
       />
+      <br />
+      <Skeleton
+        animation="wave"
+        variant="rectangular"
+        width={'100%'}
+        height={50}
+        sx={styles?.root(theme)}
+      />
+      <br />
+      <Skeleton
+        animation="wave"
+        variant="rectangular"
+        width={'100%'}
+        height={50}
+        sx={styles?.root(theme)}
+      />
+      <br />
+      <Skeleton
+        animation="wave"
+        variant="rectangular"
+        width={'100%'}
+        height={50}
+        sx={styles?.root(theme)}
+      />
     </Box>
   );
 };
