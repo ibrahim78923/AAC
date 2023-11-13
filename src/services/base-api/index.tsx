@@ -7,7 +7,7 @@ export const TAGS = ['USERS', 'PLAN_MANEGEMENT', 'INVENTORY_EXPENSE'];
 const baseQuery = fetchBaseQuery({
   baseUrl: BASE_URL,
   prepareHeaders: (headers) => {
-    const token: string | null = 'null';
+    const token: string | null = null;
     if (token) {
       headers.set('Authorization', `Bearer ${token}`);
     }
