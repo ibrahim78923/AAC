@@ -1,4 +1,4 @@
 export interface CustomGridWithCardI {
-  title: string;
-  data: any[];
+  title?: string;
+  data?: any[];
 }
