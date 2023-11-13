@@ -59,24 +59,23 @@ export const assetTypeOptions = [
 ];
 
 export const validationSchema: any = yup?.object()?.shape({
-  displayName: yup?.string()?.required('Required field!'),
-  assetType: yup?.string()?.required('Required field!'),
-  impact: yup?.string()?.required('Required field!'),
+  // displayName: yup?.string()?.required('Required field!'),
+  // assetType: yup?.string()?.required('Required field!'),
+  // impact: yup?.string()?.required('Required field!'),
 });
 
 export const defaultValues = {
-  displayName: '',
-  assetId: '',
-  assetType: '',
-  impact: '',
+  displayName: 'Name',
+  assetType: 'services',
+  impact: 'low',
   description: '',
   assetLifeExpireOn: null,
-  location: '',
-  department: '',
+  locationId: '651bdf53beeb02bc627d6804',
+  departmentId: '6543a48a41732bce39b26f23',
   assignedOnDate: null,
   assignedOnTime: null,
-  usedBy: '',
-  attachFile: '',
+  usedBy: '651bdf53beeb02bc627d6805',
+  attachFile: ['652ee528da86b788fd6ca7ea'],
 };
 
 export const addInventoryFields = [
@@ -135,7 +134,7 @@ export const addInventoryFields = [
     id: 5,
     componentProps: {
       fullWidth: true,
-      name: 'department',
+      name: 'departmentId',
       label: 'department',
       select: true,
       options: dropdownDummy,
@@ -197,7 +196,7 @@ export const addInventoryFields = [
     id: 7,
     componentProps: {
       fullWidth: true,
-      name: 'location',
+      name: 'locationId',
       label: 'location',
       select: true,
       options: dropdownDummy,

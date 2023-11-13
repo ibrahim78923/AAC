@@ -2,12 +2,12 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import {
   INVENTORY_LIST_ACTIONS,
-  data,
   inventoryListsColumnsFunction,
 } from './Inventory.data';
 import { CustomizeInventoryColumn } from './CustomizeInventoryColumn';
 import { FilterInventory } from './FilterInventory';
 import { AIR_SERVICES } from '@/constants';
+import { useGetAssetInventoryQuery } from '@/services/airServices/assets-inventory';
 
 export const useInventory = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -16,6 +16,13 @@ export const useInventory = () => {
   const [searchValue, SetSearchValue] = useState<string>('');
   const router = useRouter();
   const { push } = useRouter();
+
+  const { data } = useGetAssetInventoryQuery({
+    assetType: 'services',
+    impact: 'low',
+  });
+
+  const tableData = data?.data?.result;
 
   const handleAddInventory = () => {
     push(AIR_SERVICES?.ADD_INVENTORY);
@@ -113,5 +120,6 @@ export const useInventory = () => {
     data,
     inventoryData,
     setInventoryData,
+    tableData,
   };
 };

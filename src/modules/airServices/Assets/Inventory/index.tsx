@@ -22,8 +22,8 @@ function Inventory() {
     searchValue,
     SetSearchValue,
     inventoryListsColumns,
-    data,
     inventoryData,
+    tableData,
   } = useInventory();
   return (
     <>
@@ -95,7 +95,7 @@ function Inventory() {
         </Box>
       </Box>
       <br />
-      <TanstackTable data={data} columns={inventoryListsColumns} />
+      <TanstackTable data={tableData} columns={inventoryListsColumns} />
       <CustomPagination count={1} rowsPerPageOptions={[1, 2]} entriePages={1} />
       {isDrawerOpen && renderComponent?.[router?.query?.tableAction as string]}
     </>

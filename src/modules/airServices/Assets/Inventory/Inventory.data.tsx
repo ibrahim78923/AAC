@@ -1,35 +1,35 @@
 import { AIR_SERVICES } from '@/constants';
 import { Checkbox, Typography } from '@mui/material';
 
-export const data: any = [
-  {
-    id: 1,
-    Name: 'Logitech Mouse',
-    AssetType: 'Hardware',
-    Location: '---',
-    UsedBy: '---',
-    Department: '---',
-    Impact: 'Low',
-  },
-  {
-    id: 2,
-    Name: 'Dell Monitor',
-    AssetType: 'Hardware',
-    Location: '---',
-    UsedBy: '---',
-    Department: '---',
-    Impact: 'Low',
-  },
-  {
-    id: 3,
-    Name: 'Andrea’s Laptop',
-    AssetType: `Hardware`,
-    Location: '---',
-    UsedBy: 'Andrea',
-    Department: '---',
-    Impact: 'Medium',
-  },
-];
+// export const data: any = [
+//   {
+//     id: 1,
+//     Name: 'Logitech Mouse',
+//     AssetType: 'Hardware',
+//     Location: '---',
+//     UsedBy: '---',
+//     Department: '---',
+//     Impact: 'Low',
+//   },
+//   {
+//     id: 2,
+//     Name: 'Dell Monitor',
+//     AssetType: 'Hardware',
+//     Location: '---',
+//     UsedBy: '---',
+//     Department: '---',
+//     Impact: 'Low',
+//   },
+//   {
+//     id: 3,
+//     Name: 'Andrea’s Laptop',
+//     AssetType: `Hardware`,
+//     Location: '---',
+//     UsedBy: 'Andrea',
+//     Department: '---',
+//     Impact: 'Medium',
+//   },
+// ];
 
 export const INVENTORY_LIST_ACTIONS = {
   FILTER: 'filter',
@@ -81,8 +81,8 @@ export const inventoryListsColumnsFunction = (
     isSortable: false,
   },
   {
-    accessorFn: (row: any) => row?.Name,
-    id: 'Name',
+    accessorFn: (row: any) => row?.displayName,
+    id: 'displayName',
     isSortable: true,
     header: 'Name',
     cell: (info: any) => (
@@ -92,7 +92,7 @@ export const inventoryListsColumnsFunction = (
           router?.push({
             pathname: AIR_SERVICES?.ASSETS_INVENTORY_DETAIL,
             query: {
-              inventoryId: info?.row?.id,
+              inventoryId: data?._id,
             },
           })
         }
@@ -104,36 +104,36 @@ export const inventoryListsColumnsFunction = (
     ),
   },
   {
-    accessorFn: (row: any) => row?.AssetType,
-    id: 'AssetType',
+    accessorFn: (row: any) => row?.assetType,
+    id: 'assetType',
     header: 'Asset Type',
     isSortable: true,
     cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row?.Location,
-    id: 'Location',
+    accessorFn: (row: any) => row?.locationId,
+    id: 'locationId',
     isSortable: true,
     header: 'Location',
     cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row?.UsedBy,
-    id: 'UsedBy',
+    accessorFn: (row: any) => row?.usedBy,
+    id: 'usedBy',
     isSortable: true,
     header: 'Used By',
     cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row?.Department,
-    id: 'Department',
+    accessorFn: (row: any) => row?.departmentId,
+    id: 'departmentId',
     isSortable: true,
     header: 'Department',
     cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row?.Impact,
-    id: 'Impact',
+    accessorFn: (row: any) => row?.impact,
+    id: 'impact',
     isSortable: true,
     header: 'Impact',
     cell: (info: any) => info?.getValue(),

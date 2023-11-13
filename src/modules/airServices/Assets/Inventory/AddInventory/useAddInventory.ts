@@ -3,9 +3,12 @@ import { useForm } from 'react-hook-form';
 import { defaultValues, validationSchema } from './AddInventory.data';
 import { useRouter } from 'next/router';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { usePostAssetInventoryMutation } from '@/services/airServices/assets-inventory';
 
 export const useAddInventory = () => {
   const { query }: any = useRouter();
+
+  const [AddInventory] = usePostAssetInventoryMutation();
 
   const [formType, setFormType] = useState<string>('');
 
@@ -14,7 +17,9 @@ export const useAddInventory = () => {
     defaultValues,
   });
 
-  const submit = async () => {};
+  const submit = (data: any) => {
+    AddInventory(data);
+  };
 
   return {
     methods,

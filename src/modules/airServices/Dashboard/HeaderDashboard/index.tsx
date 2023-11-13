@@ -14,13 +14,13 @@ export const HeaderDashboard = () => {
       </Grid>
       <Grid item xs={12}>
         <Grid container justifyContent="space-between">
-          <Grid item lg={10}>
+          <Grid item>
             <Typography variant="h4" sx={{ marginTop: 2 }}>
               <span style={{ color: theme?.palette?.blue?.main }}>Hi Sam!</span>{' '}
               Happy to See You again
             </Typography>
           </Grid>
-          <Grid item lg={2}>
+          <Grid item>
             <Grid container spacing={1}>
               <Grid item>
                 <SingleDropdownButton

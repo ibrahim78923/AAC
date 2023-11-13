@@ -8,7 +8,6 @@ export const styles: any = {
     borderBottom: isborderbottom
       ? `0.063rem solid ${theme?.palette?.grey?.[700]}`
       : '',
-    height: 88,
   }),
 
   recentActivitiesTextBoldWord: (theme: any) => ({

@@ -22,9 +22,9 @@ export const HeaderPieChart = () => {
           dropdownName="All Dept."
         />
       </Box>
-      <Grid container spacing={5}>
+      <Grid container justifyContent={'space-between'}>
         {availabilityHeader(theme)?.map((department) => (
-          <Grid item sx={{ mt: 2 }} key={uuidv4()}>
+          <Grid item sx={{ mt: 2 }} key={uuidv4()} xs={12} lg={4}>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
               {department?.icon}
               <Typography variant="body3">{department?.title}</Typography>
