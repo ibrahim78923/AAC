@@ -16,7 +16,7 @@ const EditColumn = () => {
     >
       <Search size={'medium'} fullWidth label={'Search'} />
       {drawerTasksData.map((column) => (
-        <ColumnsWrapper key={uuid()} title={column.title} />
+        <ColumnsWrapper key={uuid()} title={column?.title} />
       ))}
     </DrawerComp>
   );

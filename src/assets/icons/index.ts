@@ -177,6 +177,13 @@ export { default as MessageDullIcon } from './modules/SocialComponents/Calling/m
 export { default as ClearIcon } from './modules/SocialComponents/Calling/clear';
 export { default as PhoneGreenIcon } from './modules/SocialComponents/Calling/phone-green';
 export { default as TimeClockIcon } from './modules/airSales/deals/time-clock';
+export { default as EmailInfoIcon } from './modules/superAdmin/email/alert-icon';
+export { default as SettingsIcon } from './modules/superAdmin/email/settings-icon';
+export { default as SmsIcon } from './modules/superAdmin/email/sms-icon';
+export { default as CallsIcon } from './modules/superAdmin/email/call-icon';
+export { default as ForwardIcon } from './modules/superAdmin/email/forward-icon';
+export { default as ReplyAllIcon } from './modules/superAdmin/email/reply-all-icon';
+export { default as EmailReplyIcon } from './modules/superAdmin/email/reply-icon';
 export { default as AddPlusPrimaryIcon } from './shared/add-plus-primary';
 export { default as AirPlaneIcon } from './shared/airplane';
 export { default as EditPenBorderedIcon } from './shared/edit-pen-bordered';
