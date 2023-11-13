@@ -1,9 +1,9 @@
-import { Box, Typography } from '@mui/material';
+import { Avatar, Box, Typography } from '@mui/material';
 import { style } from './CompareSocialPost.style';
-import { comparePosts } from './CompareSocialPost.data';
 import { useComparePost } from './useComparePost';
 import SelectPostModal from './SelectPostModal';
-import { v4 as uuidv4 } from 'uuid';
+import { useState } from 'react';
+import { PlusPrimaryIcon } from '@/assets/icons';
 
 const CompareSocialPost = () => {
   const {
@@ -12,7 +12,12 @@ const CompareSocialPost = () => {
     setIsSelectPostModal,
     isOverView,
     setIsOverview,
+    fisrtPost,
+    secondPost,
+    setFirstPost,
+    setSecondPost,
   } = useComparePost();
+  const [isPost, setisPost] = useState<any>();
 
   return (
     <Box>
@@ -25,28 +30,66 @@ const CompareSocialPost = () => {
       </Box>
       <Box className="posts" mt={6}>
         <Box display="flex" gap={3}>
-          {comparePosts?.map((item: any) => (
-            <Box key={uuidv4()}>
-              <Typography variant="h5">Post</Typography>
+          <Box>
+            <Typography variant="h5">Post</Typography>
+            <Box
+              display="flex"
+              gap={5}
+              flexDirection={{ xs: 'column', md: 'row' }}
+            >
               <Box
                 sx={style?.postCompareBox(theme?.palette)}
                 mt={1}
                 onClick={() => {
                   setIsSelectPostModal(true);
                   setIsOverview(false);
+                  setisPost(1);
                 }}
               >
-                <Typography>{item?.description}</Typography>
-                {item?.icon}
+                <Box display="flex" gap={1} alignItems="center">
+                  {fisrtPost.avatar && (
+                    <Avatar src={fisrtPost?.avatar}></Avatar>
+                  )}
+                  <Typography>
+                    {fisrtPost?.description
+                      ? fisrtPost?.description
+                      : 'Select post to compare'}
+                  </Typography>
+                </Box>
+                <PlusPrimaryIcon />
+              </Box>
+              <Box
+                sx={style?.postCompareBox(theme?.palette)}
+                mt={1}
+                onClick={() => {
+                  setIsSelectPostModal(true);
+                  setIsOverview(false);
+                  setisPost(2);
+                }}
+              >
+                <Box display="flex" gap={1} alignItems="center">
+                  {secondPost?.avatar && (
+                    <Avatar src={secondPost?.avatar}></Avatar>
+                  )}
+                  <Typography>
+                    {secondPost?.description
+                      ? secondPost?.description
+                      : 'Select post to compare'}
+                  </Typography>
+                </Box>
+                <PlusPrimaryIcon />
               </Box>
             </Box>
-          ))}
+          </Box>
         </Box>
       </Box>
       <SelectPostModal
         isSelectPostModal={isSelectPostModal}
         setIsSelectPostModal={setIsSelectPostModal}
         setIsOverview={setIsOverview}
+        setSecondPost={setSecondPost}
+        setFirstPost={setFirstPost}
+        post={isPost}
       />
 
       {isOverView && (

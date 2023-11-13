@@ -10,8 +10,14 @@ import {
 import { postData } from '../SelectPostModal.data';
 import { v4 as uuidv4 } from 'uuid';
 
-const RecipeReviewCard = (props: any) => {
-  const { setIsSelectPostModal, setIsOverview } = props;
+const PostCards = (props: any) => {
+  const {
+    setIsSelectPostModal,
+    setIsOverview,
+    setSecondPost,
+    setFirstPost,
+    post,
+  } = props;
 
   return (
     <Box display="flex" gap={2} flexWrap="wrap">
@@ -21,6 +27,7 @@ const RecipeReviewCard = (props: any) => {
           onClick={() => {
             setIsOverview(true);
             setIsSelectPostModal(false);
+            post === 1 ? setFirstPost(item) : setSecondPost(item);
           }}
           key={uuidv4()}
         >
@@ -64,4 +71,4 @@ const RecipeReviewCard = (props: any) => {
   );
 };
 
-export default RecipeReviewCard;
+export default PostCards;

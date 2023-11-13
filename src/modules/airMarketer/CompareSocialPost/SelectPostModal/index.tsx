@@ -2,10 +2,17 @@ import { Box, Button } from '@mui/material';
 import Search from '@/components/Search';
 import CommonModal from '@/components/CommonModal';
 import { useComparePost } from '../useComparePost';
-import RecipeReviewCard from './PostCard';
+import PostCards from './PostCards';
 
 const SelectPostModal = (props: any) => {
-  const { isSelectPostModal, setIsSelectPostModal, setIsOverview } = props;
+  const {
+    isSelectPostModal,
+    setIsSelectPostModal,
+    setIsOverview,
+    setSecondPost,
+    setFirstPost,
+    post,
+  } = props;
   const { searchBy, setSearchBy } = useComparePost();
 
   return (
@@ -38,9 +45,12 @@ const SelectPostModal = (props: any) => {
               </Box>
             </Box>
             <Box mt={3}>
-              <RecipeReviewCard
+              <PostCards
                 setIsOverview={setIsOverview}
                 setIsSelectPostModal={setIsSelectPostModal}
+                setSecondPost={setSecondPost}
+                setFirstPost={setFirstPost}
+                post={post}
               />
             </Box>
           </Box>

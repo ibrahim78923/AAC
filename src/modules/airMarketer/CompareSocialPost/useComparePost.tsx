@@ -6,6 +6,8 @@ export const useComparePost = () => {
   const [isSelectPostModal, setIsSelectPostModal] = useState(false);
   const [isOverView, setIsOverview] = useState(false);
   const [searchBy, setSearchBy] = useState('');
+  const [fisrtPost, setFirstPost] = useState<any>({});
+  const [secondPost, setSecondPost] = useState<any>({});
 
   return {
     theme,
@@ -15,5 +17,9 @@ export const useComparePost = () => {
     setIsOverview,
     isSelectPostModal,
     setIsSelectPostModal,
+    fisrtPost,
+    secondPost,
+    setFirstPost,
+    setSecondPost,
   };
 };
