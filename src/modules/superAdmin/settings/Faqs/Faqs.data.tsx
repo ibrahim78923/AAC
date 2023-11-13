@@ -73,50 +73,62 @@ export const faqsFilterFiltersDataArray = () => {
   ];
 };
 
-export const columns: any = [
-  {
-    accessorFn: (row: any) => row?.id,
-    id: 'id',
-    cell: (info: any) => <Checkbox color="primary" name={info?.getValue()} />,
-    header: <Checkbox color="primary" name="Id" />,
-    isSortable: false,
-  },
-  {
-    accessorFn: (row: any) => row?.faqQuestion,
-    id: 'faqQuestion',
-    cell: (info: any) => info?.getValue(),
-    header: 'Question',
-    isSortable: false,
-  },
-  {
-    accessorFn: (row: any) => row?.faqCategory,
-    id: 'faqCategory',
-    isSortable: true,
-    header: 'FAQ Category',
-    cell: (info: any) => info?.getValue(),
-  },
-  {
-    accessorFn: (row: any) => row?.faqAnswer,
-    id: 'faqAnswer',
-    isSortable: true,
-    header: 'Answer',
-    cell: (info: any) => {
-      const response = info?.getValue().replace(/<[^>]*>/g, '');
-      return <>{response}</>;
+export const columns = () => {
+  const { handleRowSelect, isSelected } = useFaqs();
+
+  return [
+    {
+      accessorFn: (row: any) => row?._id,
+      id: '_id',
+      cell: (info: any) => (
+        <Checkbox
+          color="primary"
+          name={info?.getValue()}
+          checked={isSelected(info?.getValue())}
+          onChange={(event: any) => handleRowSelect(event, info?.getValue())}
+        />
+      ),
+      // cell: (info: any) => info?.getValue(),
+      header: <></>,
+      isSortable: false,
     },
-  },
-  {
-    accessorFn: (row: any) => row?.createdBy,
-    id: 'createdBy',
-    isSortable: true,
-    header: 'Created By',
-    cell: (info: any) => info?.getValue().name,
-  },
-  {
-    accessorFn: (row: any) => row?.createdAt,
-    id: 'createdAt',
-    isSortable: true,
-    header: 'Created Date',
-    cell: (info: any) => dayjs(info?.getValue()).format('MM/DD/YYYY'),
-  },
-];
+    {
+      accessorFn: (row: any) => row?.faqQuestion,
+      id: 'faqQuestion',
+      cell: (info: any) => info?.getValue(),
+      header: 'Question',
+      isSortable: false,
+    },
+    {
+      accessorFn: (row: any) => row?.faqCategory,
+      id: 'faqCategory',
+      isSortable: true,
+      header: 'FAQ Category',
+      cell: (info: any) => info?.getValue(),
+    },
+    {
+      accessorFn: (row: any) => row?.faqAnswer,
+      id: 'faqAnswer',
+      isSortable: true,
+      header: 'Answer',
+      cell: (info: any) => {
+        const response = info?.getValue().replace(/<[^>]*>/g, '');
+        return <>{response}</>;
+      },
+    },
+    {
+      accessorFn: (row: any) => row?.createdBy,
+      id: 'createdBy',
+      isSortable: true,
+      header: 'Created By',
+      cell: (info: any) => info?.getValue().name,
+    },
+    {
+      accessorFn: (row: any) => row?.createdAt,
+      id: 'createdAt',
+      isSortable: true,
+      header: 'Created Date',
+      cell: (info: any) => dayjs(info?.getValue()).format('MM/DD/YYYY'),
+    },
+  ];
+};

@@ -14,6 +14,7 @@ import {
 } from './AddFaq/AddFaq.data';
 
 const useFaqs = () => {
+  const [faqId, setFaqId] = useState('');
   const [searchValue, setSearchValue] = useState('');
   const [openFilters, setOpenFilters] = useState(false);
   const [openModalAddFaq, setOpenModalAddFaq] = useState(false);
@@ -152,6 +153,14 @@ const useFaqs = () => {
   };
   const handleAddFaqSubmit = handleMethodAddFaq(onSubmitAddFaq);
 
+  const [selectedRow, setSelectedRow] = useState(null);
+  const handleRowSelect = (event: any, id: any) => {
+    setFaqId(id);
+    setSelectedRow((prevSelectedRow) => (prevSelectedRow === id ? null : id));
+  };
+
+  const isSelected = (id: any) => selectedRow === id;
+
   return {
     openFilters,
     handleOpenFilters,
@@ -170,6 +179,9 @@ const useFaqs = () => {
     handleAddFaqSubmit,
     loadingAddFaq,
     resetAddFaqForm,
+    handleRowSelect,
+    isSelected,
+    faqId,
   };
 };
 

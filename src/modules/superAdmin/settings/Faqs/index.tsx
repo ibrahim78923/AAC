@@ -157,7 +157,7 @@ const Faqs = () => {
       </Box>
       <Box>
         <TanstackTable
-          columns={columns}
+          columns={columns()}
           data={dataGetFaqs?.data?.faqs}
           isLoading={loagingGetFaqs}
         />
