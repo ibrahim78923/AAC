@@ -12,13 +12,14 @@ import { styles } from './CustomPagination.style';
 
 const CustomPagination = (props: any) => {
   const {
-    count,
-    rowsPerPageOptions,
-    pageLimit,
-    currentPage,
+    count = 1,
+    rowsPerPageOptions = [5, 10],
+    pageLimit = 10,
+    currentPage = 1,
     onPageChange,
     setPage,
     setPageLimit,
+    totalRecords = 0,
   } = props;
 
   const theme = useTheme();
@@ -35,7 +36,7 @@ const CustomPagination = (props: any) => {
         <Box>
           <TablePagination
             component="div"
-            count={count}
+            count={totalRecords}
             page={currentPage}
             onPageChange={(_: any, page) => onPageChange?.(page)}
             rowsPerPage={pageLimit}
@@ -43,8 +44,6 @@ const CustomPagination = (props: any) => {
               setPageLimit?.(parseInt(event?.target?.value, 10));
               setPage?.(1);
             }}
-            labelRowsPerPage="Show"
-            labelDisplayedRows={() => `of ${count * pageLimit || 1} entries`}
             rowsPerPageOptions={rowsPerPageOptions}
             sx={styles?.tablePaginationStyle(theme)}
           />
