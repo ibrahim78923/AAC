@@ -1,47 +1,47 @@
 import { baseAPI } from '@/services/base-api';
 import { SUPER_ADMIN } from '@/routesConstants/paths';
 
-const TAG = ['SETTINGS_JOBS'];
-export const settingsJobsAPI = baseAPI.injectEndpoints({
+const TAG = ['SETTINGS_FAQS'];
+export const settingsFaqsAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
-    getJobs: builder.query({
+    getFaqs: builder.query({
       query: (params) => ({
-        url: SUPER_ADMIN.JOBS,
+        url: SUPER_ADMIN.FAQS,
         method: 'GET',
         params: params,
       }),
       providesTags: TAG,
     }),
 
-    getJobById: builder.query({
+    getFaqsById: builder.query({
       query: ({ id }: any) => ({
-        url: `${SUPER_ADMIN.JOBS}/${id}`,
+        url: `${SUPER_ADMIN.FAQS}/${id}`,
         method: 'GET',
       }),
       providesTags: TAG,
     }),
 
-    postJob: builder.mutation({
+    postFaqs: builder.mutation({
       query: ({ body }: any) => ({
-        url: SUPER_ADMIN.JOBS,
+        url: SUPER_ADMIN.FAQS,
         method: 'POST',
         body: body,
       }),
       invalidatesTags: TAG,
     }),
 
-    updateJob: builder.mutation({
+    updateFaqs: builder.mutation({
       query: ({ id, body }: any) => ({
-        url: `${SUPER_ADMIN.JOBS}/${id}`,
+        url: `${SUPER_ADMIN.FAQS}/${id}`,
         method: 'PATCH',
         body: body,
       }),
       invalidatesTags: TAG,
     }),
 
-    deleteJob: builder.mutation({
+    deleteFaqs: builder.mutation({
       query: ({ id }: any) => ({
-        url: `${SUPER_ADMIN.JOBS}/${id}`,
+        url: `${SUPER_ADMIN.FAQS}/${id}`,
         method: 'DELETE',
       }),
       invalidatesTags: TAG,
@@ -50,9 +50,9 @@ export const settingsJobsAPI = baseAPI.injectEndpoints({
 });
 
 export const {
-  useGetJobsQuery,
-  useGetJobByIdQuery,
-  useUpdateJobMutation,
-  usePostJobMutation,
-  useDeleteJobMutation,
-} = settingsJobsAPI;
+  useGetFaqsQuery,
+  useGetFaqsByIdQuery,
+  useUpdateFaqsMutation,
+  usePostFaqsMutation,
+  useDeleteFaqsMutation,
+} = settingsFaqsAPI;

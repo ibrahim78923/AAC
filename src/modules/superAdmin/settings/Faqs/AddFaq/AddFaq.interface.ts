@@ -1,4 +1,7 @@
 export interface AddFaqPropsI {
   isAddModalOpen: boolean;
-  setIsAddModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  onClose: () => void;
+  handleSubmit: any;
+  formMethods: any;
+  isLoading?: boolean;
 }

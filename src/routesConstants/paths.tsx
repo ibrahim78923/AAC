@@ -1,7 +1,3 @@
-export const SETTINGS_API = {
-  jobs: '/jobs',
-  faqs: '/faqs',
-};
 // ======================================================================
 
 function path(root: string, sublink: string) {
@@ -47,6 +43,9 @@ export const SUPER_ADMIN: any = {
   PLAN_MANAGEMENT: '/plan',
   PLAN_TYPE_LIST: 'plan/plan-type-list',
   PRODUCT_FEATURES: 'product-features',
+
+  JOBS: '/jobs',
+  FAQS: '/faqs',
 };
 export const orgAdminSubcriptionInvoices = {
   choose_plan: '/org-admin/subscription-and-invoices/choose-plan',

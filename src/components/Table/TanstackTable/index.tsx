@@ -7,6 +7,7 @@ import {
   TableRow,
   Box,
   Grid,
+  Skeleton,
 } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -24,6 +25,7 @@ const TanstackTable = ({
   data,
   rootSX,
   showSerialNo = false,
+  isLoading,
 }: any) => {
   const table = useTanstackTable(data, columns, showSerialNo);
   return (
@@ -80,22 +82,32 @@ const TanstackTable = ({
               ))}
             </TableHead>
             <TableBody>
-              {table
-                ?.getRowModel()
-                ?.rows?.map((row) => (
-                  <StyledTableRow key={uuidv4()}>
-                    {row
-                      ?.getVisibleCells()
-                      ?.map((cell) => (
+              {isLoading
+                ? Array.from({ length: 5 }).map(() => (
+                    <StyledTableRow key={uuidv4()}>
+                      {columns.map(() => (
                         <StyledTableCell key={uuidv4()}>
-                          {flexRender(
-                            cell?.column?.columnDef?.cell,
-                            cell?.getContext(),
-                          )}
+                          <Skeleton variant="rectangular" animation="wave" />
                         </StyledTableCell>
                       ))}
-                  </StyledTableRow>
-                ))}
+                    </StyledTableRow>
+                  ))
+                : table
+                    ?.getRowModel()
+                    ?.rows?.map((row) => (
+                      <StyledTableRow key={uuidv4()}>
+                        {row
+                          ?.getVisibleCells()
+                          ?.map((cell) => (
+                            <StyledTableCell key={uuidv4()}>
+                              {flexRender(
+                                cell?.column?.columnDef?.cell,
+                                cell?.getContext(),
+                              )}
+                            </StyledTableCell>
+                          ))}
+                      </StyledTableRow>
+                    ))}
             </TableBody>
           </Table>
         </TableContainer>

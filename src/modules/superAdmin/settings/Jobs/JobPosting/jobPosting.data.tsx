@@ -144,8 +144,8 @@ export const jobPostingFiltersDefaultValues = {
 };
 
 export const jobPostingFiltersFields = () => {
-  const { data } = useJobPosting();
-  const createdByOptions = data?.data?.jobs?.reduce(
+  const { jopPostinData } = useJobPosting();
+  const createdByOptions = jopPostinData?.data?.jobs?.reduce(
     (uniqueOptions: any, option: any) => {
       const createdById = option?.createdBy?._id;
       if (
