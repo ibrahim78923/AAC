@@ -16,6 +16,7 @@ import { ArrowDownIcon } from '@/assets/icons';
 
 import { useFormContext, Controller } from 'react-hook-form';
 import Search from '@/components/Search';
+import CloseIcon from '@mui/icons-material/Close';
 import { v4 as uuidv4 } from 'uuid';
 
 export default function RHFMultiSearchableSelectWithAccordion({
@@ -29,8 +30,6 @@ export default function RHFMultiSearchableSelectWithAccordion({
 }: any) {
   const { control } = useFormContext();
   const [searchTerm, setSearchTerm] = useState('');
-
-  // const [isSelectAll, setIsSelectAll] = useState<any>();
 
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
   const [selectedValueImage, setSelectedValueImage] = useState<string[]>([]);
@@ -48,18 +47,6 @@ export default function RHFMultiSearchableSelectWithAccordion({
       setIsDropdownClose(false);
     }
   };
-
-  // const handelSelectAll = (field: any) => {
-  //   if (isSelectAll) {
-  //     setSelectedValues([]);
-  //     field.onChange([]);
-  //   } else {
-  //     setSelectedValues(options?.map((option: any) => option?.value));
-  //     field.onChange(options?.map((option: any) => option?.value));
-  //   }
-  //   setIsSelectAll(!isSelectAll);
-  // };
-
   const handleOptionSelect = (value: string, field: any, image: any) => {
     if (!selectedValues.includes(value)) {
       setSelectedValues([...selectedValues, value]);
@@ -83,7 +70,6 @@ export default function RHFMultiSearchableSelectWithAccordion({
         ),
       };
 
-      // Only include parent options if there are filtered child options
       return filteredParentOptions?.options?.length > 0
         ? filteredParentOptions
         : null;
@@ -91,7 +77,6 @@ export default function RHFMultiSearchableSelectWithAccordion({
     .filter(Boolean);
 
   const searchHandler = isSearch === false ? false : true;
-  // const isAllSelectHandler = isAllSelect === true ? true : false;
 
   const getSelectedLabels = () => {
     return selectedValues
@@ -111,6 +96,13 @@ export default function RHFMultiSearchableSelectWithAccordion({
         return undefined;
       })
       .filter((label) => label !== undefined);
+  };
+
+  const handleRemove = (valueToRemove: any) => {
+    const updatedValues = selectedValues.filter(
+      (value) => value !== valueToRemove,
+    );
+    setSelectedValues(updatedValues);
   };
 
   const inputRef = useRef(null);
@@ -169,27 +161,6 @@ export default function RHFMultiSearchableSelectWithAccordion({
                   sx={{ marginBottom: '15px' }}
                 />
               )}
-              {/* {isAllSelectHandler && (
-                <Box
-                  sx={{
-                    width: '100%',
-                    height: '30px',
-                    padding: '5px 10px',
-                    display: 'flex',
-                    marginBottom: '10px',
-                    gap: '5px',
-                    borderRadius: '5px',
-                  }}
-                >
-                  <Checkbox
-                    onChange={() => handelSelectAll(field)}
-                    checked={
-                      selectedValues?.length === options?.length ? true : false
-                    }
-                  />
-                  <Typography variant="body1">All</Typography>
-                </Box>
-              )} */}
 
               {filteredOptions &&
                 filteredOptions?.map((option: any) => (
@@ -251,18 +222,6 @@ export default function RHFMultiSearchableSelectWithAccordion({
                             },
                           }}
                         >
-                          {/* 
-                          {isCheckBox && (
-                            <Checkbox
-                              onClick={() => {
-                                handleOptionSelect(option?.value, field);
-                              }}
-                              checked={
-                                selectedValues?.includes(option?.value) ? true : false
-                              }
-                            />
-                          )} */}
-
                           <Box sx={{ display: 'flex', marginTop: '5px' }}>
                             {option?.image && (
                               <Image
@@ -287,21 +246,37 @@ export default function RHFMultiSearchableSelectWithAccordion({
             </>
           </Menu>
 
-          {/* {selectedValues.length > 0 && (
-            <Box
-              sx={{
-                width: 'fit-content',
-                background: '#F3F4F6',
-                borderRadius: '20px',
-                color: '#6E7191',
-                padding: '1px 6px',
-                display: 'flex',
-              }}
-            >
-                  {option?.label}
-            
-            </Box>
-          )} */}
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+            }}
+          >
+            {selectedValues?.map((option: any) => (
+              <Box
+                key={uuidv4()}
+                sx={{
+                  width: 'fit-content',
+                  background: '#F3F4F6',
+                  borderRadius: '20px',
+                  color: '#6E7191',
+                  padding: '1px 8px',
+                  display: 'flex',
+                  marginRight: '10px',
+                  alignItems: 'center',
+                  marginTop: '15px',
+                }}
+              >
+                {option}
+
+                <CloseIcon
+                  sx={{ fontSize: '18px' }}
+                  onClick={() => handleRemove(option)}
+                  style={{ cursor: 'pointer' }}
+                />
+              </Box>
+            ))}
+          </Box>
         </>
       )}
     />
