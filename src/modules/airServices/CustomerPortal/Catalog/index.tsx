@@ -28,7 +28,7 @@ function Catalog() {
                 justifyContent={'center'}
               >
                 <Image
-                  src={service.image}
+                  src={service?.image}
                   height={40}
                   width={40}
                   alt={`Service ${service?.id} Image`}
@@ -63,7 +63,7 @@ function Catalog() {
           <Grid item xs={12} md={6} lg={4} key={uuidv4()}>
             <Box
               key={uuidv4()}
-              onClick={() => handleClickService?.(allsService.id)}
+              onClick={() => handleClickService?.(allsService?.id)}
               borderRadius={2}
               border={'0.3rem solid'}
               borderColor={'primary.lighter'}
@@ -80,10 +80,10 @@ function Catalog() {
                 p={2}
               >
                 <Image
-                  src={allsService.image}
+                  src={allsService?.image}
                   height={56}
                   width={58}
-                  alt={`Service ${allsService.id} Image`}
+                  alt={`Service ${allsService?.id} Image`}
                 />
               </Box>
               <Box
@@ -93,13 +93,13 @@ function Catalog() {
                 flexDirection={'column'}
                 mt={2}
               >
-                <Typography variant="h5">{allsService.title}</Typography>
+                <Typography variant="h5">{allsService?.title}</Typography>
 
                 <Typography variant="body2" component={'span'}>
-                  {allsService.description}
+                  {allsService?.description}
                 </Typography>
                 <Typography variant="body2" component={'span'}>
-                  {allsService.price}
+                  {allsService?.price}
                 </Typography>
               </Box>
             </Box>

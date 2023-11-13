@@ -7,6 +7,9 @@ import Image from 'next/image';
 import useCatalog from '../useCatalog';
 import { allsServices } from '../Catalog.data';
 import { CatalogRequest } from '../CatalogRequest';
+import CatalogServiceBackUp from '../CatalogServiceBackUp';
+import CatalogServiceSoftware from '../CatalogServiceSoftware';
+import { v4 as uuidv4 } from 'uuid';
 
 function CatalogService() {
   const router = useRouter();
@@ -37,9 +40,9 @@ function CatalogService() {
         </Box>
       </Box>
       <Grid container>
-        <Grid item xs={12} md={6} lg={4} key={serviceData.id}>
+        <Grid item xs={12} md={6} lg={4} key={uuidv4()}>
           <Box
-            key={serviceData.id}
+            key={serviceData?.id}
             borderRadius={2}
             border={'0.3rem solid'}
             borderColor={'primary.lighter'}
@@ -56,10 +59,10 @@ function CatalogService() {
               p={2}
             >
               <Image
-                src={serviceData.image}
+                src={serviceData?.image || ''}
                 height={56}
                 width={58}
-                alt={`Service ${serviceData.id} Image`}
+                alt={`Service ${serviceData?.id} Image`}
               />
             </Box>
             <Box
@@ -69,13 +72,13 @@ function CatalogService() {
               flexDirection={'column'}
               mt={2}
             >
-              <Typography variant="h5">{serviceData.title}</Typography>
+              <Typography variant="h5">{serviceData?.title}</Typography>
 
               <Typography variant="body2" component={'span'}>
-                {serviceData.description}
+                {serviceData?.description}
               </Typography>
               <Typography variant="body2" component={'span'}>
-                {serviceData.price}
+                {serviceData?.price}
               </Typography>
             </Box>
           </Box>
@@ -83,91 +86,37 @@ function CatalogService() {
       </Grid>
       <Grid container>
         <Box m={1}>
-          <Typography variant="h5">{serviceData.title}</Typography>
-          {serviceData.title === 'Adobe Photoshop CC' && (
+          <Typography variant="h5">{serviceData?.title}</Typography>
+          {serviceData?.title === 'Data Backup' ? (
             <>
-              <Typography variant="body3">Description:</Typography>
-              <Box maxWidth={'65%'} mb={1}>
-                <Typography variant="body4">
-                  {serviceData?.serviceDescription}
-                </Typography>
-              </Box>
-              <Typography variant="body3">Features:</Typography>
-              <Box maxWidth={'9%'} mb={1}>
-                <Typography variant="body4">{serviceData?.feature}</Typography>
-              </Box>
-              <Box maxWidth={'100%'} mb={1}>
-                <Typography variant="body4">{serviceData?.platform}</Typography>
-              </Box>
-              <Typography variant="body2">System Requirement:</Typography>
-              <Typography variant="body2">Windows:</Typography>
-              <Box maxWidth={'100%'} ml={2}>
-                <ul>
-                  <Typography variant="body4">
-                    <li>
-                      Intel Pentium 4 or AMD Athlon 64 processor (2GHz or
-                      faster)
-                    </li>
-                    <li>
-                      Microsoft Windows 7 with Service Pack 1 or Windows 8
-                    </li>
-                    <li>
-                      1GB of RAM (3GB recommended) for 32-bit; 2GB of RAM (8GB
-                      recommended) for 64-bit
-                    </li>
-                    <li>2GB of available hard-disk space for installation</li>
-                  </Typography>
-                </ul>
-              </Box>
-              <Typography variant="body2">Mac OS:</Typography>
-              <Box maxWidth={'100%'} ml={2}>
-                <ul>
-                  <Typography variant="body4">
-                    <li>Multicore Intel processor with 64-bit support</li>
-                    <li>Mac OS X v10.6.8, v10.7, or v10.8</li>
-                    <li>2GB of RAM (8GB recommended)</li>
-                    <li>2GB of available hard-disk space for installation</li>
-                  </Typography>
-                </ul>
-              </Box>
+              <CatalogServiceBackUp />
+            </>
+          ) : (
+            <>
+              <CatalogServiceSoftware />
             </>
           )}
         </Box>
         <Grid item xs={12}>
-          {serviceData.title === 'Adobe Photoshop CC' ? (
-            <Box
-              display={'flex'}
-              alignItems={'end'}
-              justifyContent={'end'}
-              flexDirection={'row'}
+          <Box
+            display={'flex'}
+            alignItems={'end'}
+            justifyContent={'end'}
+            flexDirection={'row'}
+            position={'absolute'}
+            bottom={'1rem'}
+            right={'2rem'}
+          >
+            <Button>Cancel</Button>
+            <Button
+              variant="contained"
+              sx={{ ml: '1rem' }}
+              onClick={handleClickOpen}
             >
-              <Button>Cancel</Button>
-              <Button
-                variant="contained"
-                sx={{ ml: '1rem' }}
-                onClick={handleClickOpen}
-              >
-                Place Request
-              </Button>
-            </Box>
-          ) : (
-            <Box
-              display={'flex'}
-              alignItems={'end'}
-              justifyContent={'end'}
-              flexDirection={'row'}
-              mt={'35rem'}
-            >
-              <Button>Cancel</Button>
-              <Button
-                variant="contained"
-                sx={{ ml: '1rem' }}
-                onClick={handleClickOpen}
-              >
-                Place Request
-              </Button>
-            </Box>
-          )}
+              Place Request
+            </Button>
+          </Box>
+
           <CatalogRequest open={open} setOpen={setOpen} />
         </Grid>
       </Grid>

@@ -85,6 +85,8 @@ export const allsServices = [
     description: 'Request for Data backup for all your data',
     price: '$ 700.00',
     image: CatalogDatabaseImage,
+    serviceDescription:
+      'Request to backup all your data This will periodically backup all your data on our backup servers so you don`t miss anything because of complications during a release or any such unforeseen scenario.',
   },
   {
     id: 5,

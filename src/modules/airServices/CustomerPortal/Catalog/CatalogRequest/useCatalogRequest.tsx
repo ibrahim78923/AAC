@@ -4,13 +4,11 @@ import {
   placeRequestDefaultValues,
   placeRequestValidationSchema,
 } from './CatalogRequest.data';
-
 const useCatalogRequest = () => {
   const methodRequest = useForm({
     resolver: yupResolver(placeRequestValidationSchema),
     defaultValues: placeRequestDefaultValues,
   });
-
   const { handleSubmit, getValues, control } = methodRequest;
   const onSubmitRequest = handleSubmit(() => {});
 

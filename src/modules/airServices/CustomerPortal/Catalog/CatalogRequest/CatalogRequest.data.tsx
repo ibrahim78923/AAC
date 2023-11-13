@@ -3,12 +3,26 @@ import * as Yup from 'yup';
 export const placeRequestValidationSchema = Yup?.object()?.shape({
   requestor: Yup?.string()?.required('Field is Required'),
   requestorFor: Yup?.string()?.required('Field is Required'),
+  noOfItem: Yup.number(),
 });
 export const placeRequestDefaultValues = {
   requestor: '',
   requestorFor: '',
 };
+
 export const placeRequest = [
+  {
+    componentProps: {
+      name: 'noOfItem ',
+      label: 'No of item',
+      fullWidth: true,
+      require: true,
+      type: 'number',
+    },
+    shouldDisplay: ({ other: { serviceId } }: any) => serviceId === 'Hardware',
+    component: RHFTextField,
+    md: 3,
+  },
   {
     componentProps: {
       name: 'requestor',

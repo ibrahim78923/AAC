@@ -11,8 +11,8 @@ const useCatalog = () => {
     if (prop === 'All Services') {
       filteredServices = allsServices;
     } else {
-      filteredServices = allsServices.filter(
-        (service) => service.serviceId === prop,
+      filteredServices = allsServices?.filter(
+        (service) => service?.serviceId === prop,
       );
     }
 
