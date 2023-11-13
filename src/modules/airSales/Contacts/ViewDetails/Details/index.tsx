@@ -21,7 +21,7 @@ import { styles } from '../ViewDetails.style';
 
 import { ElipseImage } from '@/assets/images';
 
-import { EditProfile } from '@/assets/icons';
+import { EditProfileIcon } from '@/assets/icons';
 
 import { v4 as uuidv4 } from 'uuid';
 
@@ -55,7 +55,7 @@ const Details = () => {
             sx={{ position: 'absolute', bottom: '-10px', right: '0' }}
             onClick={handleShowMenuClick}
           >
-            <EditProfile />
+            <EditProfileIcon />
           </Box>
         </Box>
         <Menu

@@ -89,7 +89,7 @@ const CommonTabs = (props: CommonTabsPropsI) => {
         </Tabs>
         {addIcon && (
           <Box sx={{ ml: '50px' }}>
-            <AddCircleIcon sx={styles.addIcon(theme)} onClick={onAddClick} />
+            <AddCircleIcon sx={styles?.addIcon(theme)} onClick={onAddClick} />
           </Box>
         )}
       </Box>

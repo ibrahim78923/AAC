@@ -184,7 +184,7 @@ export { default as NotesDealsIcon } from './modules/airSales/deals/notes-icon';
 export { default as TaskDealsIcon } from './modules/airSales/deals/task-icon';
 export { default as BoardViewIcon } from './modules/airSales/deals/board-view';
 export { default as SubTaskIcon } from './modules/airSales/deals/sub-task';
-export { default as EditProfile } from './modules/airSales/Contacts/edit-profile';
+export { default as EditProfileIcon } from './modules/airSales/Contacts/edit-profile';
 export { default as AddPlusPrimaryIcon } from './shared/add-plus-primary';
 export { default as AirPlaneIcon } from './shared/airplane';
 export { default as EditPenBorderedIcon } from './shared/edit-pen-bordered';

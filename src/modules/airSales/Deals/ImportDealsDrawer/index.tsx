@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Typography, Box } from '@mui/material';
 
 import CommonDrawer from '@/components/CommonDrawer';
@@ -23,13 +21,13 @@ const ImportDealsDrawer = ({ open, onClose }: any) => {
       title="Import Deals"
       cancelText="Back"
     >
-      <Typography sx={styles.selectColTypography(theme)}>
+      <Typography sx={styles?.selectColTypography(theme)}>
         {isColumnsSelect
           ? 'Map Columns from your file to the right CRM fields. Your 5 unmapped columns won’t be imported'
           : 'Uploaded file must have these columns'}
       </Typography>
 
-      <Typography variant="h6" sx={styles.Typograpghy(theme)}>
+      <Typography variant="h6" sx={styles?.Typograpghy(theme)}>
         Step {isColumnsSelect ? '2' : '1'} of 2
       </Typography>
 
