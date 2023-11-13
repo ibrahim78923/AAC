@@ -75,7 +75,7 @@ export const useTicketsLists: any = () => {
     try {
       const response: any = await lazyGetExportTicketsTrigger(
         getTicketsExportParameter,
-      ).unwrap();
+      )?.unwrap();
 
       const FILE_TYPE: any = {
         CSV: 'text/csv',
