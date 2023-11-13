@@ -120,22 +120,6 @@ export default function RHFMultiSearchableSelectWithAccordion({
     }
   }, [defaultOpen]);
 
-  const findImageByLabel = (labelName: any, options: any) => {
-    for (const parentOption of options) {
-      for (const childOption of parentOption?.options) {
-        if (childOption?.label === labelName) {
-          return childOption?.image;
-        }
-      }
-    }
-    return null; // Return null if the label is not found
-  };
-
-  const images = [getSelectedLabels()?.join(', ')]?.map((label) => ({
-    label: label,
-    image: findImageByLabel(label, options),
-  }));
-
   return (
     <Controller
       name={name}
@@ -303,7 +287,7 @@ export default function RHFMultiSearchableSelectWithAccordion({
             </>
           </Menu>
 
-          {[getSelectedLabels()?.join(', ')].length > 0 && (
+          {/* {selectedValues.length > 0 && (
             <Box
               sx={{
                 width: 'fit-content',
@@ -314,19 +298,10 @@ export default function RHFMultiSearchableSelectWithAccordion({
                 display: 'flex',
               }}
             >
-              {images?.map((option: any) => (
-                <>
-                  {/* <Image
-                    width={24}
-                    height={24}
-                    alt="user"
-                    src={option?.image}
-                  /> */}
                   {option?.label}
-                </>
-              ))}
+            
             </Box>
-          )}
+          )} */}
         </>
       )}
     />
