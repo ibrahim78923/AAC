@@ -15,4 +15,6 @@ export interface CommonTabsPropsI {
   headerChildren?: React.ReactNode;
   searchBarProps?: SearchPropsI;
   getTabVal?: ({}: number) => void;
+  addIcon?: boolean;
+  onAddClick?: () => void;
 }
