@@ -23,9 +23,9 @@ const ActivityLogs = () => {
             my={'24px'}
             textTransform={'capitalize'}
           >
-            {data.date}
+            {data?.date}
           </Typography>
-          {data.userLists.map((user) => (
+          {data?.userLists?.map((user) => (
             <UserLists key={uuidv4()} {...user} />
           ))}
         </Box>

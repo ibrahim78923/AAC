@@ -24,9 +24,9 @@ const EmailSetting = () => {
           <Grid item xs={12} key={uuidv4()}>
             <Typography
               variant="body4"
-              sx={{ colors: theme.palette.grey[600], fontSize: '14px' }}
+              sx={{ colors: theme?.palette?.grey[600], fontSize: '14px' }}
             >
-              {item.label}
+              {item?.label}
             </Typography>
             <item.component {...item?.componentProps} size={'small'}>
               {item?.componentProps?.select &&

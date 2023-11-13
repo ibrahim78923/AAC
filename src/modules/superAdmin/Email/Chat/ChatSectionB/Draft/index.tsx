@@ -38,7 +38,7 @@ const Draft = () => {
       <Box sx={styles?.draftWrap}>
         <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={2}>
-            {DraftData.map((data: any) => (
+            {DraftData?.map((data: any) => (
               <Grid
                 item
                 key={uuidv4()}
