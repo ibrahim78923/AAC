@@ -6,25 +6,25 @@ import Image from 'next/image';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useForm } from 'react-hook-form';
 import {
-  loginData,
+  loginFormFields,
   loginDefaultValues,
   loginValidationSchema,
 } from './Login.Data';
-import { AirCustomerPortalHeader } from '../AirCustomerportalHeader';
+import { AirCustomerPortalHeader } from '../AirCustomerPortalHeader';
 
 import Link from 'next/link';
 import { v4 as uuidv4 } from 'uuid';
 import { LoadingButton } from '@mui/lab';
 
 export const Login = () => {
-  const signInForm = useForm({
+  const logIn = useForm({
     resolver: yupResolver(loginValidationSchema),
     defaultValues: loginDefaultValues,
   });
   const submitSignIn = () => {};
 
   const drawerSubmitHandler = () => {
-    signInForm?.handleSubmit(submitSignIn);
+    logIn?.handleSubmit(submitSignIn);
   };
   return (
     <Grid container>
@@ -33,17 +33,17 @@ export const Login = () => {
       <Grid item md={6} pt={10}>
         <Grid item md={12}>
           <Typography variant="h2">Sign In to Air Applecart</Typography>
-          <Typography sx={{ py: 1 }} variant="h6" color="#9CA3AF">
+          <Typography sx={{ py: 1 }} variant="h6" color="grey.900">
             Let’s Get Started!
           </Typography>
         </Grid>
 
         <Grid item md={10} xs={12} m={{ md: 10, xs: 0 }}>
           <FormProvider
-            methods={signInForm}
-            onSubmit={signInForm?.handleSubmit(submitSignIn)}
+            methods={logIn}
+            onSubmit={logIn?.handleSubmit(submitSignIn)}
           >
-            {loginData?.map((items) => {
+            {loginFormFields?.map((items) => {
               return (
                 <Grid my={1} key={uuidv4()}>
                   <items.component {...items.componentProps} size={'small'} />

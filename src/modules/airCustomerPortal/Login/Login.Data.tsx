@@ -10,7 +10,7 @@ export const loginDefaultValues = {
   Email: '',
   password: '',
 };
-export const loginData = [
+export const loginFormFields = [
   {
     componentProps: {
       id: '1',

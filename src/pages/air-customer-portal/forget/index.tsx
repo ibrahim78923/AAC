@@ -1,4 +1,4 @@
 const ForgetPasswordPage = () => {
-  return <>Error 404</>;
+  return <></>;
 };
 export default ForgetPasswordPage;
