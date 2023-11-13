@@ -1,12 +1,5 @@
 import { Fragment, useState } from 'react';
-import {
-  Box,
-  Checkbox,
-  FormControlLabel,
-  FormGroup,
-  Grid,
-  Typography,
-} from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 import MuiAccordion, { AccordionProps } from '@mui/material/Accordion';
 import MuiAccordionSummary, {
   AccordionSummaryProps,
@@ -14,80 +7,49 @@ import MuiAccordionSummary, {
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
 import { styled } from '@mui/material/styles';
-
-import CheckboxLabel from '../CheckboxLabel';
-
 import { v4 as uuidv4 } from 'uuid';
-import { useDispatch } from 'react-redux';
-import { setProductSlugs } from '@/redux/slices/planManagement/planManagementSlice';
+import { RHFMultiCheckbox } from '@/components/ReactHookForm';
+import { FormProvider } from '@/components/ReactHookForm';
 
-const SubModulesAccordion = ({ subModules }: any) => {
+const SubModulesAccordion = ({ subModules, methods, handleSubmit }: any) => {
   const [expanded, setExpanded] = useState<string | false>('panel1');
-  const [selectedCheckboxes, setSelectedCheckboxes] = useState<string[]>([]);
-  const dispatch = useDispatch();
   const handleChange =
     (panel: string) => (event: React.SyntheticEvent, newExpanded: boolean) => {
       setExpanded(newExpanded ? panel : false);
     };
-  const handleCheckboxChange = (itemName: string) => {
-    setSelectedCheckboxes((prevSelected) => {
-      const isSelected = prevSelected.includes(itemName);
-
-      const updatedSelectedCheckboxes = isSelected
-        ? prevSelected.filter((item) => item !== itemName)
-        : [...prevSelected, itemName];
-
-      // Dispatch using the updated state
-      dispatch(setProductSlugs(updatedSelectedCheckboxes));
-
-      return updatedSelectedCheckboxes;
-    });
-  };
 
   return (
     <>
-      {subModules?.map((subModule: any) => (
-        <Accordion
-          key={uuidv4()}
-          expanded={expanded === subModule?.name}
-          onChange={handleChange(subModule?.name)}
-        >
-          <Fragment key={subModule?.name}>
-            <AccordionSummary
-              aria-controls={`accordion-${subModule?.name}`}
-              id={`accordion-${subModule?.name}`}
-            >
-              <Typography variant="h4">{subModule?.name}</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Grid container>
-                {subModule?.permissions?.map((item: any) => (
-                  <Grid item xs={3} key={uuidv4()}>
-                    <Box sx={{ width: 'max-content' }}>
-                      <FormGroup>
-                        <FormControlLabel
-                          control={
-                            <Checkbox
-                              checked={selectedCheckboxes.includes(item?.label)}
-                              onChange={() => handleCheckboxChange(item?.label)}
-                            />
-                          }
-                          label={
-                            <CheckboxLabel
-                              name={item?.label}
-                              desc={item?.desc}
-                            />
-                          }
-                        />
-                      </FormGroup>
-                    </Box>
+      {subModules?.map((subModule: any) => {
+        const permissions = subModule?.permissions;
+
+        return (
+          <Accordion
+            key={uuidv4()}
+            expanded={expanded === subModule?.name}
+            onChange={handleChange(subModule?.name)}
+          >
+            <Fragment key={subModule?.name}>
+              <AccordionSummary
+                aria-controls={`accordion-${subModule?.name}`}
+                id={`accordion-${subModule?.name}`}
+              >
+                <Typography variant="h4">{subModule?.name}</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <FormProvider methods={methods} onSubmit={handleSubmit}>
+                  <Grid container>
+                    <RHFMultiCheckbox
+                      name="permissionSlugs"
+                      options={permissions}
+                    />
                   </Grid>
-                ))}
-              </Grid>
-            </AccordionDetails>
-          </Fragment>
-        </Accordion>
-      ))}
+                </FormProvider>
+              </AccordionDetails>
+            </Fragment>
+          </Accordion>
+        );
+      })}
     </>
   );
 };

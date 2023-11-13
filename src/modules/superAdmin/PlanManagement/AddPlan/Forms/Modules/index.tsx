@@ -17,7 +17,7 @@ import { permisionsPlanManagement } from '@/constants/permission-keys';
 import SubModulesAccordion from './SubModulesAccordian';
 import { SwitchBtn } from '@/components/SwitchButton';
 
-const Modules = () => {
+const Modules = ({ methods, handleSubmit }: any) => {
   const { theme } = useModules();
 
   const [isAccordionExpanded, setIsAccordionExpanded] = useState<
@@ -67,7 +67,11 @@ const Modules = () => {
           </AccordionSummary>
 
           <AccordionDetails>
-            <SubModulesAccordion subModules={feature?.Sub_Modules} />
+            <SubModulesAccordion
+              subModules={feature?.Sub_Modules}
+              methods={methods}
+              handleSubmit={handleSubmit}
+            />
           </AccordionDetails>
         </Accordion>
       ))}

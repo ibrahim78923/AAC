@@ -115,12 +115,10 @@ export const permisionsPlanManagement = [
         name: 'Deal Details',
         permissions: [
           {
-            id: 1,
             label: 'Delete User',
             value: 'delete-user',
           },
           {
-            id: 2,
             label: 'Delete Users',
             value: 'delete-users',
           },
