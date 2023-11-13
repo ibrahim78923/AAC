@@ -11,6 +11,7 @@ export interface CommonTabsPropsI {
   tabsArray?: string[];
   children?: React.ReactNode;
   isHeader?: boolean;
+  defaultValue?: number;
   headerChildren?: React.ReactNode;
   searchBarProps?: SearchPropsI;
   getTabVal?: ({}: number) => void;

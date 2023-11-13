@@ -2,6 +2,7 @@
 export { default as ArrowUpIcon } from './shared/arrow-up-icon';
 export { default as PlusSharedIcon } from './shared/shared-icon';
 export { default as PlusSharedIconColor } from './shared/plus-shared-color';
+export { default as PlusPrimaryIcon } from './shared/primary-plus-icon';
 
 // export { default as ExampleKababCase } from './sections/login/example-kabab-case';
 export { default as CloseDrawerIcon } from './shared/close-drawer-icon';
@@ -65,7 +66,7 @@ export { default as ViewDetailMeetingIcon } from './modules/airServices/Tickets/
 export { default as ViewDetailDocumentTextIcon } from './modules/airServices/Tickets/view-detail-document-text-icon';
 export { default as ViewDetailCallIcon } from './modules/airServices/Tickets/view-details-call-icon';
 export { default as ViewDetailBackArrowIcon } from './shared/view-detail-back-arrow-icon';
-export { default as RefreshIcon } from './shared/refresh-icon';
+// export { default as RefreshIcon } from './shared/refresh-icon';
 export { default as LeftArrowConversatationIcon } from './shared/AddConversation/left-arrow-icon';
 export { default as RightArrowConversatationIcon } from './shared/AddConversation/right-arrow-icon';
 export { default as DeleteIconConversatationIcon } from './shared/AddConversation/delete-icon-add-coversation';

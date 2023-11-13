@@ -8,7 +8,7 @@ export const StatusDropdown = (props: any) => {
   const [selectedValue, setSelectedValue] = useState(null);
 
   const handleStatusClick = (event: any) => {
-    setSelectedValue(event.currentTarget);
+    setSelectedValue(event?.currentTarget);
   };
 
   const handleClose = () => {
@@ -21,14 +21,15 @@ export const StatusDropdown = (props: any) => {
         onClick={handleStatusClick}
         sx={{
           border: '1px solid #D1D5DB',
+          backgroundColor: '#F3F4F6',
           color: '#6B7280',
           borderRadius: '30px',
-          padding: '2px 6px',
+          padding: '2px 8px',
           height: '22px',
           fontSize: '12px',
         }}
       >
-        {data.getValue()}
+        {data?.getValue()}
         <ArrowDropDown />
       </Button>
       <Menu

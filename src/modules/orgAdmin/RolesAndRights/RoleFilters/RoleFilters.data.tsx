@@ -20,9 +20,9 @@ export const rolesDefaultValues = {
 
 export const rolesFiltersArray = [
   {
+    title: 'Role Name',
     componentProps: {
       name: 'roleName',
-      label: 'Role Name',
       fullWidth: true,
       select: true,
     },
@@ -34,9 +34,9 @@ export const rolesFiltersArray = [
     md: 12,
   },
   {
+    title: 'Product',
     componentProps: {
       name: 'product',
-      label: 'Product',
       fullWidth: true,
       select: true,
     },
@@ -51,9 +51,9 @@ export const rolesFiltersArray = [
   },
 
   {
+    title: 'Status',
     componentProps: {
       name: 'status',
-      label: 'Status',
       fullWidth: true,
       select: true,
     },
@@ -66,9 +66,9 @@ export const rolesFiltersArray = [
   },
 
   {
+    title: 'Created Date',
     componentProps: {
       name: 'createdDate',
-      label: 'Created Date',
       fullWidth: true,
     },
     component: RHFDatePicker,
