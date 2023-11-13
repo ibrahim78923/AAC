@@ -10,13 +10,13 @@ import {
 export const data: any = [
   {
     id: 1,
-    expenseType: 'purchase cost',
+    type: 'purchase cost',
     cost: 1506.325,
     date: `${new Date()}`,
   },
   {
     id: 2,
-    expenseType: 'maintenance cost',
+    type: 'maintenance cost',
     cost: 1506.325,
     date: `${new Date()}`,
   },
@@ -24,7 +24,7 @@ export const data: any = [
 
 export const dropdownDummy = [
   {
-    value: 'purchase cost',
+    value: 'Purchase Cost',
     label: 'purchase cost',
   },
   {
@@ -35,16 +35,12 @@ export const dropdownDummy = [
 
 // add expense form validation schema
 export const addExpenseValidationSchema: any = yup?.object()?.shape({
-  expenseType: yup?.string()?.required('Required field!'),
-  cost: yup
-    ?.number()
-    ?.positive()
-    ?.typeError('Enter valid format!')
-    ?.required('Required field!'),
+  type: yup?.string()?.required('Required field!'),
+  cost: yup?.string()?.required('Required field!'),
 });
 
 export const addExpenseDefaultValues = {
-  expenseType: '',
+  type: '',
   cost: '',
   date: new Date(),
 };
@@ -54,7 +50,7 @@ export const addExpenseFormData = [
     id: 129,
     componentProps: {
       fullWidth: true,
-      name: 'expenseType',
+      name: 'type',
       label: 'expenseType',
       select: true,
       options: dropdownDummy,

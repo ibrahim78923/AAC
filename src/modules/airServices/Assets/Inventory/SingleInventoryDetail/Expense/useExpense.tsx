@@ -10,8 +10,14 @@ import {
   data,
   expenseActionsDropdownFunction,
 } from './Expense.data';
+import { usePostExpenseInfoDataMutation } from '@/services/airServices/Assets/Inventory/Expense';
+import { useRouter } from 'next/router';
 
 export const useExpense = () => {
+  const [postExpenseInfoDataTrigger, postExpenseInfoDataStatus] =
+    usePostExpenseInfoDataMutation();
+  // const { query } = useRouter();
+  const router = useRouter();
   const [selectedExpenseList, setSelectedExpenseList] = useState([]);
   const [addExpenseModalTitle, setAddExpenseModalTitle] =
     useState('Add New Expense');
@@ -33,7 +39,20 @@ export const useExpense = () => {
     setIsAddExpenseModalOpen(false);
     addExpenseMethods?.reset();
   };
-  const onAddExpenseSubmit = () => {
+  const onAddExpenseSubmit = async (data: any) => {
+    const queryParams = {
+      fosterChildId: router.query.fosterChildId,
+    };
+    const apiDataParameter = {
+      body: { ...data, assetId: '651d8c552d3ef0d603ed4210' },
+      queryParams,
+    };
+    try {
+      await postExpenseInfoDataTrigger(apiDataParameter).unwrap();
+    } catch (error: any) {
+      const errMsg = error?.data?.message;
+      enqueueSnackbar(errMsg ?? 'Error occurred', { variant: 'error' });
+    }
     addExpenseMethods?.reset();
     setIsAddExpenseModalOpen(false);
   };
@@ -118,5 +137,6 @@ export const useExpense = () => {
     dropdownOptions,
     addExpenseProps,
     actionProps,
+    postExpenseInfoDataStatus,
   };
 };
