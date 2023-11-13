@@ -9,7 +9,7 @@ export const TicketsDelete = (props: any) => {
       type="delete"
       message="Are you sure you want to delete the selected ticket"
       open={deleteModalOpen}
-      handleClose={() => setDeleteModalOpen(false)}
+      handleClose={() => setDeleteModalOpen?.(false)}
       handleSubmitBtn={() => deleteTicket?.()}
     />
   );

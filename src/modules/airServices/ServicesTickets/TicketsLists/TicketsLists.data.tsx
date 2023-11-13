@@ -9,8 +9,9 @@ import {
   Typography,
 } from '@mui/material';
 import { AIR_SERVICES } from '@/constants';
+import { enqueueSnackbar } from 'notistack';
 
-export const TABLE_CONSTANTS = {
+export const TICKETS_ACTION_CONSTANTS = {
   CUSTOMIZE_COLUMN: 'customize-column',
   FILTER_DATA: 'filter-data',
   BULK_UPDATE_DATA: 'bulk-update-data',
@@ -18,67 +19,95 @@ export const TABLE_CONSTANTS = {
   EDIT_TICKET: 'edit-ticket',
 };
 
-// const options = [
-//   {
-//     value: 'user1',
-//     label: 'user1',
-//   },
-//   {
-//     value: 'user2',
-//     label: 'user2',
-//   },
-//   {
-//     value: 'user3',
-//     label: 'user3',
-//   },
-// ];
+export const TICKET_STATUS = {
+  OPEN: 'OPEN',
+  CLOSED: 'CLOSED',
+  RESOLVED: 'RESOLVED',
+  PENDING: 'PENDING',
+};
 
-// const StatusOptions = [
-//   {
-//     value: 'open',
-//     label: 'Open',
-//   },
-//   {
-//     value: 'pending',
-//     label: 'Pending',
-//   },
-//   {
-//     value: 'resolved',
-//     label: 'Resolved',
-//   },
-//   {
-//     value: 'closed',
-//     label: 'Closed',
-//   },
-// ];
+export const TICKET_PRIORITY = {
+  LOW: 'LOW',
+  MEDIUM: 'MEDIUM',
+  HIGH: 'HIGH',
+  URGENT: 'URGENT',
+};
 
-// const priorityOptions = [
-//   {
-//     value: 'high',
-//     label: 'High',
-//   },
-//   {
-//     value: 'low',
-//     label: 'Low',
-//   },
-//   {
-//     value: 'medium',
-//     label: 'Medium',
-//   },
-//   {
-//     value: 'urgent',
-//     label: 'Urgent',
-//   },
-// ];
+export const TICKET_IMPACT = {
+  LOW: 'LOW',
+  MEDIUM: 'MEDIUM',
+  HIGH: 'HIGH',
+};
+
+export const ticketStatusOptions = [
+  {
+    value: TICKET_STATUS?.OPEN,
+    label: 'Open',
+  },
+  {
+    value: TICKET_STATUS?.PENDING,
+    label: 'Pending',
+  },
+  {
+    value: TICKET_STATUS?.RESOLVED,
+    label: 'Resolved',
+  },
+  {
+    value: TICKET_STATUS?.CLOSED,
+    label: 'Closed',
+  },
+];
+
+export const ticketPriorityOptions = [
+  {
+    value: TICKET_PRIORITY?.LOW,
+    label: 'Low',
+  },
+  {
+    value: TICKET_PRIORITY?.MEDIUM,
+    label: 'Medium',
+  },
+  {
+    value: TICKET_PRIORITY?.HIGH,
+    label: 'High',
+  },
+  {
+    value: TICKET_PRIORITY?.URGENT,
+    label: 'Urgent',
+  },
+];
+
+export const ticketImpactOptions = [
+  {
+    value: TICKET_IMPACT?.LOW,
+    label: 'Low',
+  },
+  {
+    value: TICKET_IMPACT?.MEDIUM,
+    label: 'Medium',
+  },
+  {
+    value: TICKET_IMPACT?.MEDIUM,
+    label: 'High',
+  },
+];
 
 export const ticketsActionDropdownFunction = (
   setDeleteModalOpen: any,
   markTicketAsClose: any,
   markTicketAsSpam: any,
+  openDrawer: any,
+  selectedTicketList: any,
 ) => [
   {
     title: 'Edit',
     handleClick: (closeMenu: any) => {
+      if (selectedTicketList?.length !== 1) {
+        enqueueSnackbar('Please Select 1 ticket', { variant: 'warning' });
+        closeMenu?.();
+        return;
+      }
+      openDrawer(TICKETS_ACTION_CONSTANTS?.EDIT_TICKET);
       closeMenu?.();
     },
   },
@@ -217,34 +246,36 @@ export const ticketsListsColumnFunction: any = (
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row?._id,
-      id: '_id',
-      cell: (info: any) => (
-        <Box display={'flex'} gap={1} flexWrap={'wrap'} alignItems={'center'}>
-          <Avatar
-            sx={{ bgcolor: palette?.blue?.main, borderRadius: 1.25 }}
-            style={{ width: 28, height: 28 }}
-          >
-            IT
-          </Avatar>
-          <Typography
-            style={{
-              color: theme?.palette?.primary?.main,
-              cursor: 'pointer',
-            }}
-            onClick={() => {
-              router?.push({
-                pathname: AIR_SERVICES?.TICKETS_LIST,
-                query: {
-                  ticketId: info?.getValue(),
-                },
-              });
-            }}
-          >
-            {info?.getValue()}
-          </Typography>
-        </Box>
-      ),
+      accessorFn: (row: any) => row?.subject,
+      id: 'subject',
+      cell: (info: any) => {
+        return (
+          <Box display={'flex'} gap={1} flexWrap={'wrap'} alignItems={'center'}>
+            <Avatar
+              sx={{ bgcolor: palette?.blue?.main, borderRadius: 1.25 }}
+              style={{ width: 28, height: 28 }}
+            >
+              IT
+            </Avatar>
+            <Typography
+              style={{
+                color: theme?.palette?.primary?.main,
+                cursor: 'pointer',
+              }}
+              onClick={() => {
+                router?.push({
+                  pathname: AIR_SERVICES?.TICKETS_LIST,
+                  query: {
+                    ticketId: info?.row?.original?._id,
+                  },
+                });
+              }}
+            >
+              {info?.getValue()}
+            </Typography>
+          </Box>
+        );
+      },
       header: 'Ticket ID',
       isSortable: true,
     },

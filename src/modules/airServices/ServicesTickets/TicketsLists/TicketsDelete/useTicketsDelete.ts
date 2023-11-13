@@ -15,11 +15,11 @@ export const useTicketDelete = (props: any) => {
     try {
       const response: any = await deleteTicketsTrigger(
         deleteTicketsParameter,
-      ).unwrap();
+      )?.unwrap();
       enqueueSnackbar('Ticket deleted successfully', {
         variant: 'success',
       });
-      setDeleteModalOpen(false);
+      setDeleteModalOpen?.(false);
       return response;
     } catch (error: any) {
       enqueueSnackbar(error?.data?.message ?? 'Error', {

@@ -1,9 +1,13 @@
 import Search from '@/components/Search';
 import { Box, Button, ButtonGroup, Stack, useTheme } from '@mui/material';
-// import { useTicketsListsSubHeader } from './useTicketsListSubHeader';
 import { useRouter } from 'next/router';
-import { FilterIcon, ListIcon, ResetIcon, SubTabIcon } from '@/assets/icons';
-import CustomizeIcon from '@/assets/icons/shared/customize-icon';
+import {
+  CustomizeIcon,
+  FilterIcon,
+  ListIcon,
+  ResetIcon,
+  SubTabIcon,
+} from '@/assets/icons';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 
 export const TicketsListSubHeader = (props: any) => {
@@ -13,8 +17,9 @@ export const TicketsListSubHeader = (props: any) => {
     ticketsActionDropdown,
     search,
     setSearch,
+    disabledActionButton,
   } = props;
-  // const { search, setSearch } = useTicketsListsSubHeader();
+
   const theme: any = useTheme();
   const router = useRouter();
 
@@ -40,7 +45,10 @@ export const TicketsListSubHeader = (props: any) => {
           gap={'.5rem'}
         >
           {router?.query?.viewType !== 'board' && (
-            <SingleDropdownButton dropdownOptions={ticketsActionDropdown} />
+            <SingleDropdownButton
+              dropdownOptions={ticketsActionDropdown}
+              disabled={disabledActionButton}
+            />
           )}
           <Button
             variant="outlined"
@@ -90,7 +98,7 @@ export const TicketsListSubHeader = (props: any) => {
                 style={{
                   backgroundColor:
                     router?.query?.viewType !== 'board'
-                      ? theme?.palette?.grey['0']
+                      ? theme?.palette?.grey?.['0']
                       : '',
                 }}
                 color="secondary"
@@ -98,11 +106,11 @@ export const TicketsListSubHeader = (props: any) => {
                 <ListIcon />
               </Button>,
               <Button
-                key={1}
+                key={2}
                 style={{
                   backgroundColor:
                     router?.query?.viewType === 'board'
-                      ? theme?.palette?.grey['0']
+                      ? theme?.palette?.grey?.['0']
                       : '',
                 }}
                 onClick={() => {

@@ -3,44 +3,63 @@ import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
-  createTicketDefaultValues,
+  createTicketDefaultValuesFunction,
   createTicketValidationSchema,
 } from './CreateTicket.data';
 import { enqueueSnackbar } from 'notistack';
-import { usePostTicketsMutation } from '@/services/airServices/tickets';
+import {
+  useGetTicketsByIdQuery,
+  usePostTicketsMutation,
+  usePutTicketsMutation,
+} from '@/services/airServices/tickets';
+import { useEffect } from 'react';
 
 export const useCreateTicket = (props: any) => {
   const router = useRouter();
   const theme: any = useTheme();
-  const { ticketId } = router?.query;
   const [postTicketTrigger, postTicketStatus] = usePostTicketsMutation();
-  const { setIsDrawerOpen } = props;
+  const { setIsDrawerOpen, ticketId } = props;
+  const [putTicketTrigger, putTicketStatus] = usePutTicketsMutation();
 
-  const methods: any = useForm({
+  const getSingleTicketParameter = {
+    pathParam: {
+      ticketId,
+    },
+  };
+
+  const { data, isLoading, isFetching } = useGetTicketsByIdQuery(
+    getSingleTicketParameter,
+    {
+      refetchOnMountOrArgChange: true,
+      skip: !!!ticketId,
+    },
+  );
+  const methods: any = useForm<any>({
     resolver: yupResolver(createTicketValidationSchema),
-    defaultValues: createTicketDefaultValues,
+    defaultValues: createTicketDefaultValuesFunction(),
+    reValidateMode: 'onBlur',
   });
 
   const { handleSubmit, reset } = methods;
 
   const submitCreateNewTicket = async (data: any) => {
     const upsertTicketFormData = new FormData();
-    Object?.entries?.(data || {})?.forEach(([k, v]: any) =>
-      upsertTicketFormData.append(k, v),
+    Object?.entries?.(data || {})?.forEach(
+      ([k, v]: any) => upsertTicketFormData?.append(k, v),
     );
     if (!!ticketId) {
       submitUpdateTicket(upsertTicketFormData);
       return;
     }
-    // upsertTicketFormData.append('attachFile', data?.attachFile);
-    // upsertTicketFormData.forEach((x: any) => console.log(x));
+    const postTicketParameter = {
+      body: data,
+    };
     try {
-      const response = await postTicketTrigger({}).unwrap();
-      // console.log(response);
+      const response = await postTicketTrigger(postTicketParameter).unwrap();
       enqueueSnackbar(response?.message ?? 'Ticket Added Successfully', {
         variant: 'success',
       });
-      reset(createTicketDefaultValues);
+      reset();
       setIsDrawerOpen(false);
     } catch (error) {
       enqueueSnackbar('There is something wrong', {
@@ -49,17 +68,19 @@ export const useCreateTicket = (props: any) => {
     }
   };
 
-  const submitUpdateTicket = async ({}: any) => {
-    // console.log(data);
-    // upsertTicketFormData.append('attachFile', data?.attachFile);
-    // upsertTicketFormData.forEach((x: any) => console.log(x));
+  const submitUpdateTicket = async (data: any) => {
+    const putTicketParameter = {
+      body: data,
+      pathParam: {
+        id: ticketId,
+      },
+    };
     try {
-      const response = await postTicketTrigger({}).unwrap();
-      // console.log(response);
+      const response = await putTicketTrigger(putTicketParameter)?.unwrap();
       enqueueSnackbar(response?.message ?? 'Ticket Added Successfully', {
         variant: 'success',
       });
-      reset(createTicketDefaultValues);
+      reset();
       setIsDrawerOpen(false);
     } catch (error) {
       enqueueSnackbar('There is something wrong', {
@@ -67,11 +88,14 @@ export const useCreateTicket = (props: any) => {
       });
     }
   };
+  useEffect(() => {
+    reset(() => createTicketDefaultValuesFunction(data?.data));
+  }, [data, reset]);
 
   const onClose = () => {
     //TODO: destructing as i do not need that in rest queries.
     /* eslint-disable @typescript-eslint/no-unused-vars */
-    const { tableAction, ...restQueries } = router?.query;
+    const { ticketAction, ...restQueries } = router?.query;
     router?.push({
       pathname: router?.pathname,
       query: {
@@ -89,5 +113,8 @@ export const useCreateTicket = (props: any) => {
     methods,
     onClose,
     postTicketStatus,
+    isLoading,
+    isFetching,
+    putTicketStatus,
   };
 };

@@ -1,5 +1,4 @@
 import {
-  RHFAutocomplete,
   RHFDatePicker,
   RHFDropZone,
   RHFEditor,
@@ -10,14 +9,42 @@ import {
   RHFTimePicker,
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
+import {
+  ticketImpactOptions,
+  ticketPriorityOptions,
+  ticketStatusOptions,
+} from '../TicketsLists/TicketsLists.data';
+import dayjs from 'dayjs';
 
+const todayDate = dayjs()?.format('MM/DD/YYYY');
+
+export const ticketSourceOptions = [
+  { value: 'Phone No.', label: 'Phone No.' },
+  { value: 'Email', label: 'Email' },
+  { value: 'Portal', label: 'Portal' },
+  { value: 'Chat', label: 'Chat' },
+  { value: 'Walk Up', label: 'Walk Up' },
+  { value: 'Slack', label: 'Slack' },
+  { value: 'MS Team', label: 'MS Team' },
+];
+
+export const dropdownDummy = [
+  {
+    value: 'option1',
+    label: 'Option 1',
+  },
+  {
+    value: 'option2',
+    label: 'Option 2',
+  },
+];
 export const createTicketValidationSchema = Yup?.object()?.shape({
   requester: Yup?.string()?.required('Field is Required'),
   subject: Yup?.string()?.trim()?.required('Field is Required'),
   description: Yup?.string(),
   category: Yup?.string(),
   status: Yup?.string()?.required('Field is Required'),
-  priority: Yup?.string()?.required('Field is Required'),
+  pirority: Yup?.string()?.required('Field is Required'),
   department: Yup?.string(),
   source: Yup?.string(),
   impact: Yup?.string(),
@@ -30,38 +57,36 @@ export const createTicketValidationSchema = Yup?.object()?.shape({
   attachFile: Yup?.mixed()?.nullable(),
 });
 
-export const createTicketDefaultValues = {
-  requester: '',
-  subject: '',
-  description: '',
-  category: '',
-  status: '',
-  priority: '',
-  department: '',
-  source: '',
-  impact: '',
-  agent: '',
-  plannedStartDate: new Date(),
-  plannedStartTime: new Date(),
-  plannedEndDate: new Date(),
-  plannedEndTime: new Date(),
-  plannedEffort: [],
-  associatesAsset: [],
-  attachFile: null,
+export const createTicketDefaultValuesFunction = (data?: any) => {
+  return {
+    requester: data?.requester ?? '',
+    subject: data?.subject ?? '',
+    description: data?.description ?? '',
+    category: data?.category ?? '',
+    status: data?.status ?? '',
+    pirority: data?.pirority ?? '',
+    department: data?.department ?? '',
+    source: data?.source ?? '',
+    impact: data?.impact ?? '',
+    agent: data?.agent ?? '',
+    plannedStartDate: new Date(data?.plannedStartDate ?? todayDate),
+    plannedStartTime: new Date(),
+    plannedEndDate: new Date(data?.plannedEndDate ?? todayDate),
+    plannedEndTime: new Date(),
+    plannedEffort: !!data?.plannedEffort?.length ? data?.plannedEffort : [],
+    associatesAsset: !!data?.associatesAsset?.length
+      ? data?.associatesAsset
+      : [],
+    attachFile: null,
+  };
 };
-
 export const createTicketDataArray = [
   {
     componentProps: {
       name: 'requester',
       label: 'Requester',
       fullWidth: true,
-      options: [
-        { value: 'JohnDoe', label: 'John Doe' },
-        { value: 'Andrew', label: 'Andrew' },
-        { value: 'RichardRobertson', label: 'Richard robertson' },
-        { value: 'Franksten', label: 'Franksten' },
-      ],
+      options: dropdownDummy,
     },
     component: RHFSearchableSelect,
     md: 12,
@@ -89,12 +114,7 @@ export const createTicketDataArray = [
       name: 'category',
       label: 'Category',
       fullWidth: true,
-      options: [
-        { value: 'JohnDoe', label: 'John Doe' },
-        { value: 'Andrew', label: 'Andrew' },
-        { value: 'RichardRobertson', label: 'Richard robertson' },
-        { value: 'Franksten', label: 'Franksten' },
-      ],
+      options: dropdownDummy,
     },
     component: RHFSearchableSelect,
     md: 12,
@@ -106,28 +126,18 @@ export const createTicketDataArray = [
       fullWidth: true,
       select: true,
     },
-    options: [
-      { value: 'Open', label: 'Open' },
-      { value: 'Close', label: 'Close' },
-      { value: 'Pending', label: 'Pending' },
-      { value: 'Resolved', label: 'Resolved' },
-    ],
+    options: ticketStatusOptions,
     component: RHFSelect,
     md: 12,
   },
   {
     componentProps: {
-      name: 'priority',
+      name: 'pirority',
       label: 'Priority',
       fullWidth: true,
       select: true,
     },
-    options: [
-      { value: 'Low', label: 'Low' },
-      { value: 'Medium', label: 'Medium' },
-      { value: 'High', label: 'High' },
-      { value: 'Urgent', label: 'Urgent' },
-    ],
+    options: ticketPriorityOptions,
     component: RHFSelect,
     md: 12,
   },
@@ -136,12 +146,7 @@ export const createTicketDataArray = [
       name: 'department',
       label: 'Department',
       fullWidth: true,
-      options: [
-        { value: 'JohnDoe', label: 'John Doe' },
-        { value: 'Andrew', label: 'Andrew' },
-        { value: 'RichardRobertson', label: 'Richard robertson' },
-        { value: 'Franksten', label: 'Franksten' },
-      ],
+      options: dropdownDummy,
     },
     component: RHFSearchableSelect,
     md: 12,
@@ -153,15 +158,7 @@ export const createTicketDataArray = [
       fullWidth: true,
       select: true,
     },
-    options: [
-      { value: 'Phone No.', label: 'Phone No.' },
-      { value: 'Email', label: 'Email' },
-      { value: 'Portal', label: 'Portal' },
-      { value: 'Chat', label: 'Chat' },
-      { value: 'Walk Up', label: 'Walk Up' },
-      { value: 'Slack', label: 'Slack' },
-      { value: 'MS Team', label: 'MS Team' },
-    ],
+    options: ticketSourceOptions,
     component: RHFSelect,
     md: 12,
   },
@@ -172,11 +169,7 @@ export const createTicketDataArray = [
       fullWidth: true,
       select: true,
     },
-    options: [
-      { value: 'Low', label: 'Low' },
-      { value: 'Medium', label: 'Medium' },
-      { value: 'High', label: 'High' },
-    ],
+    options: ticketImpactOptions,
     component: RHFSelect,
     md: 12,
   },
@@ -185,12 +178,7 @@ export const createTicketDataArray = [
       name: 'agent',
       label: 'Agent',
       fullWidth: true,
-      options: [
-        { value: 'JohnDoe', label: 'John Doe' },
-        { value: 'Andrew', label: 'Andrew' },
-        { value: 'RichardRobertson', label: 'Richard robertson' },
-        { value: 'Franksten', label: 'Franksten' },
-      ],
+      options: dropdownDummy,
     },
     component: RHFSearchableSelect,
     md: 12,
@@ -236,10 +224,9 @@ export const createTicketDataArray = [
       name: 'plannedEffort',
       label: 'Planned Effort',
       fullWidth: true,
-      options: ['BE', 'BE1', 'BE2'],
       multiple: true,
     },
-    component: RHFAutocomplete,
+    component: RHFTextField,
     md: 12,
   },
   {
@@ -247,12 +234,7 @@ export const createTicketDataArray = [
       name: 'associatesAsset',
       label: 'Associate Asset',
       fullWidth: true,
-      options: [
-        { value: 'JohnDoe', label: 'John Doe' },
-        { value: 'Andrew', label: 'Andrew' },
-        { value: 'RichardRobertson', label: 'Richard robertson' },
-        { value: 'Franksten', label: 'Franksten' },
-      ],
+      options: dropdownDummy,
     },
     component: RHFMultiSearchableSelect,
     md: 12,

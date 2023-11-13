@@ -1,49 +1,68 @@
+import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 const TAG = 'TICKETS';
 export const ticketsAPI = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
     getTickets: builder?.query({
       query: (apiDataParameter: any) => ({
-        url: `/ticket`,
+        url: `${END_POINTS?.TICKET}`,
         method: 'GET',
         params: apiDataParameter?.queryParams,
       }),
       providesTags: [TAG],
     }),
     getTicketsById: builder?.query({
-      query: ({ id }: any) => ({
-        url: `/ticket/${id}`,
+      query: (getSingleTicketParameter: any) => ({
+        url: `${END_POINTS?.TICKET}/${getSingleTicketParameter?.pathParam?.ticketId}`,
         method: 'GET',
       }),
       providesTags: [TAG],
     }),
     getExportTickets: builder?.query({
       query: (apiDataParameter: any) => ({
-        url: `/ticket`,
+        url: `${END_POINTS?.TICKET}`,
         method: 'GET',
         params: apiDataParameter?.queryParams,
+        responseHandler: (response: { text: () => any }) => response?.text(),
       }),
       providesTags: [TAG],
     }),
     postTickets: builder?.mutation({
-      query: ({ body }: any) => ({
-        url: `/ticket`,
+      query: (postTicketParameter: any) => ({
+        url: `${END_POINTS?.TICKET}`,
         method: 'POST',
-        body: body,
+        body: postTicketParameter?.body,
       }),
       invalidatesTags: [TAG],
     }),
     putTickets: builder?.mutation({
-      query: ({ id, body }: any) => ({
-        url: `/ticket/${id}`,
+      query: (putTicketParameter: any) => ({
+        url: `${END_POINTS?.TICKET}/${putTicketParameter?.pathParam?.id}`,
         method: 'PUT',
-        body: body,
+        body: putTicketParameter?.body,
+      }),
+      invalidatesTags: [TAG],
+    }),
+    putSingleTicketStatus: builder?.mutation({
+      query: (putSingleTicketStatusParameter: any) => ({
+        url: `${END_POINTS?.TICKET_STATUS}/${putSingleTicketStatusParameter?.pathParams?.ticketId}`,
+        method: 'PUT',
+        params: putSingleTicketStatusParameter?.queryParams,
+      }),
+      invalidatesTags: [TAG],
+    }),
+    patchBulkUpdateTickets: builder?.mutation({
+      query: (patchBulkUpdateTicketsParameter: any) => ({
+        url: `${END_POINTS?.TICKET_BULK_UPDATE}`,
+        method: 'PATCH',
+        params: patchBulkUpdateTicketsParameter?.queryParams,
+        body: patchBulkUpdateTicketsParameter?.body,
       }),
       invalidatesTags: [TAG],
     }),
     deleteTickets: builder?.mutation({
       query: (deleteTicketsParameter: any) => ({
-        url: `/ticket`,
+        url: `${END_POINTS?.TICKET}`,
         method: 'DELETE',
         params: deleteTicketsParameter?.queryParams,
       }),

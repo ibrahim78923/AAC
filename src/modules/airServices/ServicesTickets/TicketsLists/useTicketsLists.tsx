@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import {
-  TABLE_CONSTANTS,
+  TICKETS_ACTION_CONSTANTS,
   ticketsActionDropdownFunction,
   ticketsListTotalColumns,
   ticketsListsColumnFunction,
@@ -15,29 +15,38 @@ import {
   useLazyGetExportTicketsQuery,
   useLazyGetTicketsQuery,
 } from '@/services/airServices/tickets';
+import { downloadFile } from '@/utils/file';
 
 export const useTicketsLists: any = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [selectedTicketList, setSelectedTicketList] = useState([]);
   const [page, setPage] = useState(1);
+  const [pageLimit, setPageLimit] = useState(10);
   const [search, setSearch] = useState<any>('');
   const [columnNames, setColumnNames] = useState(ticketsListTotalColumns);
+  const [ticketsFilter, setTicketsFilter] = useState<any>([]);
 
   const theme = useTheme();
   const router = useRouter();
 
-  const params = new URLSearchParams();
-  columnNames?.forEach((col: any) => params?.append('columnNames', col));
-  params?.append('page', page + '');
-  params?.append('limit', 10 + '');
-  params?.append('search', search);
+  const getTicketsParam = new URLSearchParams();
+
+  columnNames?.forEach(
+    (col: any) => getTicketsParam?.append('columnNames', col),
+  );
+  ticketsFilter.forEach(([k, v]: any) => getTicketsParam?.append(k, v));
+  getTicketsParam?.append('page', page + '');
+  getTicketsParam?.append('limit', pageLimit + '');
+  getTicketsParam?.append('search', search);
 
   const getTicketsParameter = {
-    queryParams: params,
+    queryParams: getTicketsParam,
   };
+
   const [lazyGetTicketsTrigger, lazyGetTicketsStatus] =
     useLazyGetTicketsQuery();
+
   const [lazyGetExportTicketsTrigger, lazyGetExportTicketsStatus] =
     useLazyGetExportTicketsQuery();
 
@@ -45,13 +54,6 @@ export const useTicketsLists: any = () => {
     try {
       const response =
         await lazyGetTicketsTrigger(getTicketsParameter).unwrap();
-      const checkingColumns = Object?.entries(
-        response?.data?.tickets?.[0] ?? {},
-      )?.reduce((x: any, y: any) => {
-        const [k] = y;
-        return { ...x, [k]: true };
-      }, {});
-      setTicketsListsColumn(checkingColumns);
       enqueueSnackbar('Tickets Retrieved successfully', { variant: 'success' });
       return response;
     } catch (error: any) {
@@ -61,15 +63,27 @@ export const useTicketsLists: any = () => {
     }
   };
   const getTicketsListDataExport = async (type: any) => {
+    const exportTicketsParams = new URLSearchParams();
+    exportTicketsParams?.append('assetType', 'services');
+    exportTicketsParams?.append('impact', 'low');
+    exportTicketsParams?.append('exportType', type);
+
     const getTicketsExportParameter = {
-      queryParams: {
-        exportType: type,
-      },
+      queryParams: exportTicketsParams,
     };
+
     try {
       const response: any = await lazyGetExportTicketsTrigger(
         getTicketsExportParameter,
       ).unwrap();
+
+      const FILE_TYPE: any = {
+        CSV: 'text/csv',
+        XLS: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      };
+
+      downloadFile(response, 'TicketLists', FILE_TYPE?.[type]);
+
       enqueueSnackbar('Tickets Exported successfully', { variant: 'success' });
       return response;
     } catch (error: any) {
@@ -78,11 +92,24 @@ export const useTicketsLists: any = () => {
       });
     }
   };
-  const [ticketsListsColumn, setTicketsListsColumn] = useState();
+
   useEffect(() => {
     getValueTicketsListData();
-  }, [columnNames, search, page]);
+  }, [columnNames, search, page, pageLimit, ticketsFilter]);
 
+  useEffect(() => {
+    if (!isDrawerOpen) {
+      //TODO: destructing as i do not need that in rest queries.
+      /* eslint-disable @typescript-eslint/no-unused-vars */
+      const { ticketAction, ...restQueries } = router?.query;
+      router?.push({
+        pathname: router?.pathname,
+        query: {
+          ...restQueries,
+        },
+      });
+    }
+  }, []);
   const ticketsListsColumnPersist = ticketsListsColumnFunction(
     theme,
     router,
@@ -92,38 +119,44 @@ export const useTicketsLists: any = () => {
   );
 
   const drawerComponent: any = {
-    [TABLE_CONSTANTS?.CUSTOMIZE_COLUMN]: (
+    [TICKETS_ACTION_CONSTANTS?.CUSTOMIZE_COLUMN]: (
       <CustomizeTicketsColumn
         isDrawerOpen={isDrawerOpen}
         setIsDrawerOpen={setIsDrawerOpen}
         ticketsListsColumnPersist={ticketsListsColumnPersist}
-        ticketsListsColumn={ticketsListsColumn}
-        setTicketsListsColumn={setTicketsListsColumn}
         setColumnNames={setColumnNames}
         columnNames={columnNames}
       />
     ),
 
-    [TABLE_CONSTANTS?.FILTER_DATA]: (
+    [TICKETS_ACTION_CONSTANTS?.FILTER_DATA]: (
       <TicketsFilter
         setIsDrawerOpen={setIsDrawerOpen}
         isDrawerOpen={isDrawerOpen}
+        setTicketsFilter={setTicketsFilter}
       />
     ),
-    [TABLE_CONSTANTS?.CREATE_NEW_TICKET]: (
+    [TICKETS_ACTION_CONSTANTS?.CREATE_NEW_TICKET]: (
       <CreateTicket
         setIsDrawerOpen={setIsDrawerOpen}
         isDrawerOpen={isDrawerOpen}
       />
     ),
+    [TICKETS_ACTION_CONSTANTS?.EDIT_TICKET]: (
+      <CreateTicket
+        setIsDrawerOpen={setIsDrawerOpen}
+        isDrawerOpen={isDrawerOpen}
+        ticketId={selectedTicketList?.[0]}
+      />
+    ),
   };
 
-  const openDrawer = (tableActionQuery: any) => {
+  const openDrawer = (ticketActionQuery: any) => {
     router?.push({
       pathname: router?.pathname,
       query: {
         ...router?.query,
-        tableAction: tableActionQuery,
+        ticketAction: ticketActionQuery,
       },
     });
     setTimeout(() => {
@@ -143,17 +176,19 @@ export const useTicketsLists: any = () => {
     setDeleteModalOpen,
     markTicketAsClose,
     markTicketAsSpam,
+    openDrawer,
+    selectedTicketList,
   );
+
   return {
     isDrawerOpen,
     router,
     openDrawer,
-    TABLE_CONSTANTS,
+    TICKETS_ACTION_CONSTANTS,
     drawerComponent,
     ticketsActionDropdown,
     deleteModalOpen,
     setDeleteModalOpen,
-    ticketsListsColumn,
     lazyGetTicketsStatus,
     ticketsListsColumnPersist,
     search,
@@ -164,5 +199,7 @@ export const useTicketsLists: any = () => {
     lazyGetExportTicketsStatus,
     columnNames,
     selectedTicketList,
+    pageLimit,
+    setPageLimit,
   };
 };

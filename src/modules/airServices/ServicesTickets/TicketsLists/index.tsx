@@ -10,7 +10,7 @@ export const TicketsLists = () => {
     isDrawerOpen,
     router,
     openDrawer,
-    TABLE_CONSTANTS,
+    TICKETS_ACTION_CONSTANTS,
     drawerComponent,
     ticketsActionDropdown,
     deleteModalOpen,
@@ -23,6 +23,7 @@ export const TicketsLists = () => {
     getTicketsListDataExport,
     columnNames,
     selectedTicketList,
+    setPageLimit,
   } = useTicketsLists();
 
   return (
@@ -31,17 +32,24 @@ export const TicketsLists = () => {
         title={'Ticket List - All Tickets'}
         addTitle={'Create Ticket'}
         hasExport
-        handleExcelExport={() => getTicketsListDataExport?.('excel')}
-        handleCsvExport={() => getTicketsListDataExport?.('csv')}
-        handleAction={() => openDrawer?.(TABLE_CONSTANTS?.CREATE_NEW_TICKET)}
+        handleExcelExport={() => getTicketsListDataExport?.('XLS')}
+        handleCsvExport={() => getTicketsListDataExport?.('CSV')}
+        handleAction={() =>
+          openDrawer?.(TICKETS_ACTION_CONSTANTS?.CREATE_NEW_TICKET)
+        }
       />
       <br />
       <TicketsListSubHeader
+        disabledActionButton={!!!selectedTicketList?.length}
         search={search}
         setSearch={setSearch}
-        onFilterClick={() => openDrawer?.(TABLE_CONSTANTS?.FILTER_DATA)}
+        onFilterClick={() =>
+          openDrawer?.(TICKETS_ACTION_CONSTANTS?.FILTER_DATA)
+        }
         ticketsActionDropdown={ticketsActionDropdown}
-        onCustomizeClick={() => openDrawer?.(TABLE_CONSTANTS?.CUSTOMIZE_COLUMN)}
+        onCustomizeClick={() =>
+          openDrawer?.(TICKETS_ACTION_CONSTANTS?.CUSTOMIZE_COLUMN)
+        }
       />
       <br />
       {router?.query?.viewType === 'board' ? (
@@ -57,7 +65,13 @@ export const TicketsLists = () => {
           isLoading={lazyGetTicketsStatus?.isLoading}
           page={lazyGetTicketsStatus?.data?.data?.meta?.page}
           totalPages={lazyGetTicketsStatus?.data?.data?.meta?.pages}
+          pageLimit={lazyGetTicketsStatus?.data?.data?.meta?.limit}
+          totalRecords={lazyGetTicketsStatus?.data?.data?.meta?.total}
           setPage={setPage}
+          setPageLimit={setPageLimit}
+          isFetching={lazyGetTicketsStatus?.isFetching}
+          isError={lazyGetTicketsStatus?.isError}
+          isSuccess={lazyGetTicketsStatus?.isSuccess}
         />
       )}
       <TicketsDelete
@@ -65,7 +79,7 @@ export const TicketsLists = () => {
         setDeleteModalOpen={setDeleteModalOpen}
         selectedTicketList={selectedTicketList}
       />
-      {isDrawerOpen && drawerComponent?.[router?.query?.tableAction as string]}
+      {isDrawerOpen && drawerComponent?.[router?.query?.ticketAction as string]}
     </>
   );
 };

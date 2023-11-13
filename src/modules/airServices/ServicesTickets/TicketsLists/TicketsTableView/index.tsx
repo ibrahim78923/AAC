@@ -1,7 +1,3 @@
-import { NoAssociationFoundImage } from '@/assets/images';
-import CustomPagination from '@/components/CustomPagination';
-import NoData from '@/components/NoData';
-import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import TanstackTable from '@/components/Table/TanstackTable';
 
 export const TicketsTableView = (props: any) => {
@@ -12,29 +8,33 @@ export const TicketsTableView = (props: any) => {
     isLoading,
     page,
     totalPages,
+    pageLimit,
+    totalRecords,
+    setPageLimit,
+    isFetching,
+    isError,
+    isSuccess,
   } = props;
-
-  if (isLoading) return <SkeletonTable />;
 
   return (
     <>
-      {!!ticketsListsColumn?.length ? (
-        <>
-          <TanstackTable columns={ticketsListsColumn} data={ticketListsData} />
-          <CustomPagination
-            count={totalPages}
-            pageLimit={10}
-            rowsPerPageOptions={[10]}
-            currentPage={page}
-            onPageChange={(page: any) => setPage(page)}
-          />
-        </>
-      ) : (
-        <NoData
-          image={NoAssociationFoundImage}
-          message={'No data is available'}
-        />
-      )}
+      <TanstackTable
+        columns={ticketsListsColumn}
+        data={ticketListsData}
+        isLoading={isLoading}
+        isFetching={isFetching}
+        isError={isError}
+        isSuccess={isSuccess}
+        count={totalPages}
+        pageLimit={pageLimit}
+        rowsPerPageOptions={[3, 5, 10, 15, 20, 60]}
+        currentPage={page}
+        totalRecords={totalRecords}
+        onPageChange={(page: any) => setPage(page)}
+        setPage={setPage}
+        setPageLimit={setPageLimit}
+        isPagination
+      />
     </>
   );
 };
