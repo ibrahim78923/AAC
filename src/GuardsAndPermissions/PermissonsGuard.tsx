@@ -10,7 +10,7 @@ const useCurrentPermissions = () => {
 
 function checkPermissions(permissions: any, modulePermissions: any) {
   const componentPermissionsDictionary: any = {};
-  modulePermissions.forEach((value: any) => {
+  modulePermissions?.forEach((value: any) => {
     componentPermissionsDictionary[value] = true;
   });
 

@@ -72,12 +72,12 @@ const handlers = {
 
 //TODO:reducers check our handler type and call method according to that for global state recognitions
 const reducer = (state: any, action: any) =>
-  handlers[action.type as keyof typeof handlers]
-    ? handlers[action.type as keyof typeof handlers](state, action)
+  handlers[action?.type as keyof typeof handlers]
+    ? handlers[action?.type as keyof typeof handlers](state, action)
     : state;
 
 function AuthProvider({ children }: { children: ReactNode }) {
-  //TODO:reducer to keep an eye on specific called reducer fucntion which method from handler called
+  //TODO:reducer to keep an eye on specific called reducer function which method from handler called
   const [state, dispatch] = useReducer(reducer, initialState);
 
   //TODO:permisions api will be called after 40 sec if user is authenticated
@@ -155,12 +155,12 @@ function AuthProvider({ children }: { children: ReactNode }) {
   //TODO: temporary functions will be removed after permissions apis working
   const permissions = () => {
     const permissions = [
-      SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS.USER_LIST,
-      SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS.ADD_USER,
-      SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS.USER_SEARCH_AND_FILTER,
-      SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS.PLAN_MANAGEMENT,
-      SUPER_ADMIN_PLAN_MANAGEMENT_PERMISSIONS.PLAN_LIST,
-      SUPER_ADMIN_DASHBOARD_PERMISSIONS.VIEW_DASHBOARD,
+      SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS?.USER_LIST,
+      SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS?.ADD_USER,
+      SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS?.USER_SEARCH_AND_FILTER,
+      SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS?.PLAN_MANAGEMENT,
+      SUPER_ADMIN_PLAN_MANAGEMENT_PERMISSIONS?.PLAN_LIST,
+      SUPER_ADMIN_DASHBOARD_PERMISSIONS?.VIEW_DASHBOARD,
     ];
 
     dispatch({

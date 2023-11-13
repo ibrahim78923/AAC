@@ -19,18 +19,20 @@ const useSignup = () => {
   const { handleSubmit, watch, setValue } = methodsSignup;
 
   const organizationNumber = watch('crn');
+  const email = watch('email');
 
   const [orgNumber, setOrgNumber] = useState('');
 
   debouncedSearch(organizationNumber, setOrgNumber);
   const { data, isSuccess, isError } = useGetAuthCompaniesQuery(
     { q: orgNumber },
-    { skip: orgNumber.length < 3 },
+    { skip: orgNumber?.length < 3 },
   );
 
   const [signUpValue] = useSignUpMutation();
   const [authCompanyVerification, { isSuccess: isVerifiedSuccess }] =
     useAuthCompanyVerificationMutation();
+
   const { data: productData } = useGetProductsQuery<any>({
     refetchOnMountOrArgChange: true,
     pagination: `page=1&limit=10`,
@@ -45,7 +47,7 @@ const useSignup = () => {
     const response: any = await signUpValue({ user });
 
     if (response?.data) {
-      authCompanyVerification({ email: { email: response?.data?.email } });
+      authCompanyVerification({ email: { email: email } });
     }
   };
 
