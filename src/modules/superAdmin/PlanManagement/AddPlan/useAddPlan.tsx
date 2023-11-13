@@ -76,9 +76,6 @@ export const useAddPlan = () => {
   const featuresFormData: any = useAppSelector(
     (state) => state?.planManagementForms?.planManagement?.planFeature,
   );
-  const slugsDataModules: any = useAppSelector(
-    (state) => state?.planManagementForms?.planManagement,
-  );
 
   const onSubmitPlan = async (values: any) => {
     dispatch(addPlanFormData(values));
@@ -97,7 +94,7 @@ export const useAddPlan = () => {
     });
     reset();
   };
-
+  const featureId = Object?.keys(featuresFormData);
   const onSubmitPlanModulesHandler = async (values: any) => {
     dispatch(modulesFormData(values));
     if (activeStep == AddPlanStepperData?.length - 1) {
@@ -116,7 +113,7 @@ export const useAddPlan = () => {
           {
             features: [
               {
-                featureId: featuresFormData?.planFeature,
+                featureId: featureId[1],
                 dealsAssociationsDetail:
                   featureDetails?.dealsAssociationsDetail,
               },
@@ -126,11 +123,15 @@ export const useAddPlan = () => {
         ],
       };
       const planPermissions = {
+        productId: planForm?.productId[0],
         planPermission: [
           {
-            permissionSlugs: slugsDataModules?.planPermission?.permissionSlugs,
+            permissionSlugs: values?.permissionSlugs,
           },
         ],
+      };
+      const permissions = {
+        ...planPermissions,
         productId: planForm?.productId[0],
       };
 
@@ -139,7 +140,7 @@ export const useAddPlan = () => {
           body: {
             ...planFormData,
             ...planFeaturesFormData,
-            ...planPermissions,
+            ...permissions,
           },
         })?.unwrap();
         enqueueSnackbar('Plan Modules Details Added Successfully', {
