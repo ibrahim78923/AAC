@@ -283,6 +283,7 @@ const useCalender = () => {
     handlePrevClick,
     handleNextClick,
     calendarDateClick,
+    router,
   };
 };
 

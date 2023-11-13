@@ -1,12 +1,13 @@
 import React from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import { Box } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import ResourcePlugin from '@fullcalendar/resource';
 import interactionPlugin from '@fullcalendar/interaction';
 import resourceTimelinePlugin from '@fullcalendar/resource-timeline';
 import useCalender from './useCalender';
 import Filters from './Filters';
+import { PlusIcon } from '@/assets/icons';
 
 const Calender = () => {
   const {
@@ -25,11 +26,23 @@ const Calender = () => {
     handlePrevClick,
     handleNextClick,
     calendarDateClick,
+    router,
   } = useCalender();
 
   return (
     <>
       <Box className="apply-work-wrapper">
+        <Button
+          startIcon={<PlusIcon />}
+          sx={{ float: 'right', marginBottom: '25px' }}
+          variant="contained"
+          className="small"
+          onClick={() =>
+            router.push('/air-marketer/social-marketing/create-post')
+          }
+        >
+          Create Post
+        </Button>
         <Filters />
 
         <FullCalendar

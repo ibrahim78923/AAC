@@ -109,3 +109,5 @@ export { default as TwitterImage } from './shared/twitter.png';
 export { default as YoutubeImage } from './shared/youtube.png';
 export { default as FacebookImage } from './shared/facebook.png';
 export { default as InstagramImage } from './shared/instagram.png';
+export { default as FacebookLogo } from './shared/facebookLogo.png';
+export { default as InstagramLogo } from './shared/instagramLogo.png';

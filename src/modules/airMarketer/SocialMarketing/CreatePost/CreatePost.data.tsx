@@ -2,6 +2,11 @@ import { RHFDropZone, RHFEditor, RHFSelect } from '@/components/ReactHookForm';
 
 import * as Yup from 'yup';
 import RHFMultiSearchableSelectWithAccordion from './MultiSearchableSelectWithAccordion';
+import {
+  FacebookLogo,
+  InstagramLogo,
+  UserProfileAvatarImage,
+} from '@/assets/images';
 
 export const validationSchema = Yup?.object()?.shape({
   SocialAccount: Yup?.string(),
@@ -23,13 +28,37 @@ export const createPostDataArray = [
       name: 'SocialAccount',
       label: 'Add Social Account',
       isCheckBox: false,
-      isSearch: true, //optional...
-      isAllSelect: true, //optional...
+      isSearch: true,
+      isAllSelect: false,
       options: [
-        { value: 'JohnDoe', label: 'John Doe' },
-        { value: 'Andrew', label: 'Andrew' },
-        { value: 'RichardRobertson', label: 'Richard robertson' },
-        { value: 'Franksten', label: 'Franksten' },
+        {
+          label: 'Facebook',
+          image: FacebookLogo,
+          options: [
+            {
+              image: UserProfileAvatarImage,
+              value: 'JohnDoe',
+              label: 'John Doe',
+            },
+            { image: UserProfileAvatarImage, value: 'Andrew', label: 'Andrew' },
+          ],
+        },
+        {
+          label: 'Instagram',
+          image: InstagramLogo,
+          options: [
+            {
+              image: UserProfileAvatarImage,
+              value: 'RichardRobertson',
+              label: 'Richard robertson',
+            },
+            {
+              image: UserProfileAvatarImage,
+              value: 'Franksten',
+              label: 'Franksten',
+            },
+          ],
+        },
       ],
     },
     component: RHFMultiSearchableSelectWithAccordion,
@@ -41,12 +70,12 @@ export const createPostDataArray = [
       label: 'Campaign',
       fullWidth: true,
       select: true,
-      options: [
-        { value: 'pdf', label: 'Pdf' },
-        { value: 'excel', label: 'Excel' },
-        { value: 'xls', label: 'XLS' },
-      ],
     },
+    options: [
+      { value: 'Campaign1', label: 'Campaign1' },
+      { value: 'Campaign2', label: 'Campaign2' },
+      { value: 'Campaign3', label: 'Campaign3' },
+    ],
 
     component: RHFSelect,
 
