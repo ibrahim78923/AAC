@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { Button, Grid, Menu, MenuItem } from '@mui/material';
 import { ArrowDropDown } from '@mui/icons-material';
 
@@ -81,7 +80,7 @@ const ActionDropdown = (props: any) => {
           <Grid container>
             {assigneeDataArray?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                <item.component {...item.componentProps} size={'small'}>
+                <item.component {...item?.componentProps} size={'small'}>
                   {item?.componentProps?.select
                     ? item?.options?.map((option: any) => (
                         <option key={option?.value} value={option?.value}>

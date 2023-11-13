@@ -1,18 +1,17 @@
-import React from 'react';
-
 import Image from 'next/image';
 
 import { Box, Button, Checkbox, Grid, Typography } from '@mui/material';
 
+import useNameWithStyledWords from '@/hooks/useNameStyledWords';
+import { isNullOrEmpty } from '@/utils';
+
+import useEmails from './useEmails';
 import EmailActionDropDown from './EmailActionDropDown';
 import EmailEditorDrawer from './EmailEditorDrawer';
 
-import useEmails from './useEmails';
-import useNameWithStyledWords from '@/hooks/useNameStyledWords';
-
-import { isNullOrEmpty } from '@/utils';
-
 import { NotesDataArray } from '@/mock/modules/airSales/Deals/ViewDetails';
+
+import { styles } from '../ViewDetails.style';
 
 import {
   GmailIcon,
@@ -21,8 +20,6 @@ import {
   SMSIcon,
   SendArrowIcon,
 } from '@/assets/icons';
-
-import { styles } from '../ViewDetails.style';
 
 import { v4 as uuidv4 } from 'uuid';
 

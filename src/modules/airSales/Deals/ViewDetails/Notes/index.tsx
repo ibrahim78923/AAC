@@ -1,5 +1,3 @@
-import React from 'react';
-
 import Image from 'next/image';
 
 import { Box, Button, Checkbox, Grid, Typography } from '@mui/material';
@@ -30,7 +28,7 @@ const Notes = () => {
   const { NameWithStyledWords, theme } = useNameWithStyledWords();
 
   return (
-    <Box sx={styles.horizontalTabsBox}>
+    <Box sx={styles?.horizontalTabsBox}>
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Box sx={styles?.headingSpacingBetween}>

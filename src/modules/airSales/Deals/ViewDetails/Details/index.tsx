@@ -1,5 +1,3 @@
-import React from 'react';
-
 import {
   Box,
   Typography,
@@ -33,7 +31,7 @@ const Details = () => {
           <Grid container spacing={4}>
             {detailsDataArray?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                <item.component {...item.componentProps} size={'small'}>
+                <item.component {...item?.componentProps} size={'small'}>
                   {item?.componentProps?.select
                     ? item?.options?.map((option: any) => (
                         <option key={option?.value} value={option?.value}>
@@ -45,7 +43,7 @@ const Details = () => {
               </Grid>
             ))}
             <Grid item xs={12}>
-              <Divider sx={{ borderColor: theme.palette.grey[700] }} />
+              <Divider sx={{ borderColor: theme?.palette?.grey[700] }} />
             </Grid>
             <Grid item xs={12}>
               <Box

@@ -1,14 +1,11 @@
-import React from 'react';
-
 import { Box, Button, Grid, Typography } from '@mui/material';
 
 import CallsEditorDrawer from './CallsEditorDrawer';
 import CallsActionDropdown from './CallsActionDropDown';
 import TanstackTable from '@/components/Table/TanstackTable';
+import { isNullOrEmpty } from '@/utils';
 
 import useCalls from './useCalls';
-
-import { isNullOrEmpty } from '@/utils';
 
 import { TasksTableData } from '@/mock/modules/airSales/Deals/ViewDetails';
 import { callsDetails, callsStatusColor, columns } from './Calls.data';

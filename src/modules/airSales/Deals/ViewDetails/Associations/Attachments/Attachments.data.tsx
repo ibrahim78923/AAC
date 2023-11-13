@@ -1,5 +1,6 @@
-import { DeleteCrossIcon, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
 import { Box } from '@mui/material';
+
+import { DeleteCrossIcon, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
 export const columns: any = ({
   setOpenDrawer,
   setIsOpenAlert,

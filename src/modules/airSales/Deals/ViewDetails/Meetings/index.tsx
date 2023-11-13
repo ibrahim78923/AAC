@@ -1,5 +1,3 @@
-import React from 'react';
-
 import Image from 'next/image';
 
 import { Box, Button, Grid, Typography } from '@mui/material';

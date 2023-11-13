@@ -1,5 +1,3 @@
-import React from 'react';
-
 import {
   Box,
   Button,
@@ -26,11 +24,12 @@ import {
 } from './MeetingsEditorDrawer.data';
 
 import useMeetingsEditorDrawer from './useMeetingsEditorDrawer';
-import { MircosoftTeamsIcon, ZoomIcon } from '@/assets/icons';
 import { AttendeeAvatarImage } from '@/assets/images';
 import { options } from '../../Emails/EmailEditorDrawer/EmailEditorDrawer.data';
 import AppAvatarGroup from '@/components/AvatarGroup';
 import { avatarGroupMockData } from '@/modules/superAdmin/PlanManagement/PlanManagement.data';
+
+import { MircosoftTeamsIcon, ZoomIcon } from '@/assets/icons';
 
 import { v4 as uuidv4 } from 'uuid';
 
@@ -58,7 +57,7 @@ const MeetingsEditorDrawer = (props: any) => {
             <Grid container spacing={4}>
               {dealsCallsDataArray?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                  <item.component {...item.componentProps} size={'small'}>
+                  <item.component {...item?.componentProps} size={'small'}>
                     {item?.componentProps?.select
                       ? item?.options?.map((option: any) => (
                           <option key={option?.value} value={option?.value}>

@@ -5,7 +5,7 @@ import EditColumn from '../../EditColumn';
 import FilterComp from '../../Filter';
 import ListGridViewBtn from '../../ListGridViewBtn';
 import { RefreshTasksIcon } from '@/assets/icons';
-import { FilterWrapperI } from './TabToolbar.interface';
+import { FilterWrapperI } from './TabToolbar.Interface';
 import { styles } from './TabToobar.style';
 
 const TabToolbar = ({

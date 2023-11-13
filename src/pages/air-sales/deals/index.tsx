@@ -1,5 +1,3 @@
-import React from 'react';
-
 import Deals from '@/modules/airSales/Deals';
 import Layout from '@/layout';
 

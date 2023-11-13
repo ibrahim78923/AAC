@@ -104,6 +104,10 @@ export { default as NoAssociationFound } from '@/assets/images/modules/LogitechM
 export { default as SmsImage } from '@/assets/images/modules/airServices/Tickets/sms-image.png';
 export { default as UsersAvatarRoundedImage } from './modules/socialComponents/calling/user-avatar-rounded.png';
 export { default as DealReportImage } from './modules/airSales/Reports/reports.png';
+export { default as ElipseImage } from './modules/airSales/contacts/elipse-avatar.png';
+export { default as MessageActiveImage } from './modules/airSales/contacts/message-activity.png';
+export { default as CallActiveImage } from './modules/airSales/contacts/call-acivity.png';
+export { default as CalendarActiveImage } from './modules/airSales/contacts/calendar-activity.png';
 export { default as documentContained } from './modules/superAdmin/Settings/ModuleCreation/document-contained.png';
 export { default as ApplePhoneImage } from './modules/socialComponents/calling/apple-phone.png';
 export { default as NoSearchResultFoundImage } from './shared/no-search-result.png';
