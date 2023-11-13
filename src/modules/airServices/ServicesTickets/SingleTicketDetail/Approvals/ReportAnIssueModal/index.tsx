@@ -26,7 +26,12 @@ const ReportAnIssueModal = () => {
           onClose={() => setOpenReportAnIssueModal(false)}
         >
           <Box width={'100%'} p={'1rem'}>
-            <Box sx={styles?.dialogBoxStyle}>
+            <Box
+              display={'flex'}
+              justifyContent={'space-between'}
+              alignItems={'center'}
+              mb={1}
+            >
               <Typography variant="h3">Report an issue</Typography>
               <AlertModalCloseIcon
                 onClick={() => setOpenReportAnIssueModal(false)}
@@ -77,7 +82,13 @@ const ReportAnIssueModal = () => {
                 Associate Asset
               </Typography>
             </Box>
-            <Box sx={styles?.buttonBox}>
+            <Box
+              display={'flex'}
+              justifyContent={'flex-end'}
+              alignItems={'center'}
+              gap={1}
+              mt={'0.625rem'}
+            >
               <Button variant="outlined" color="secondary">
                 Cancel
               </Button>
