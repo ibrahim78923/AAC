@@ -1,18 +1,19 @@
 export type TAuthSlice = {
-  authToken: string | null;
+  accessToken: string | null;
   refreshToken: string | null;
 };
 
 export const loginSuccess = (state: TAuthSlice, action: any) => {
-  const data = action.payload.data;
-  state.authToken = data.authToken;
-  state.refreshToken = data.refreshToken;
+  const data = action?.payload?.data;
+
+  state.accessToken = data?.accessToken;
+  state.refreshToken = data?.refreshToken;
 };
 
 export const registerSuccess = (state: TAuthSlice, action: any) => {
-  const data = action.payload.data;
-  state.authToken = data.authToken;
-  state.refreshToken = data.refreshToken;
+  const data = action?.payload?.data;
+  state.accessToken = data?.accessToken;
+  state.refreshToken = data?.refreshToken;
 };
 
 //whenever permissions api will updated this will run and update the global permissions state

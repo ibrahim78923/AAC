@@ -22,7 +22,6 @@ const CommonDrawer = ({
   isOk,
   cancelText,
   footer,
-
   footerActionText,
   footerActionTextIcon,
   onFooterActionSubmit,

@@ -49,6 +49,8 @@ export { default as CustomerPortalImage } from './modules/HeaderAndSidebar/custo
 export { default as ProblemImage } from './modules/HeaderAndSidebar/problems.png';
 export { default as ChangeCircleImage } from './modules/HeaderAndSidebar/change-circle.png';
 export { default as KnowledgeBaseImage } from './modules/HeaderAndSidebar/knowledge-base.png';
+export { default as CompaniesImage } from './modules/HeaderAndSidebar/companies.png';
+
 export { default as LoginDashboardImage } from '../../assets/images/shared/login-dashboard.png';
 export { default as RQCodeImage } from '../../assets/images/shared/qr-code.png';
 export { default as AvatarImageCoversation } from '../../assets/images/shared/avatar-conversation.png';
@@ -78,6 +80,10 @@ export { default as DashboardPrototypeImage } from './modules/airServices/dashbo
 export { default as SmsImage } from '@/assets/images/modules/airServices/Tickets/sms-image.png';
 export { default as UsersAvatarRoundedImage } from './modules/socialComponents/calling/user-avatar-rounded.png';
 export { default as DealReportImage } from './modules/airSales/Reports/reports.png';
+export { default as ElipseImage } from './modules/airSales/contacts/elipse-avatar.png';
+export { default as MessageActiveImage } from './modules/airSales/contacts/message-activity.png';
+export { default as CallActiveImage } from './modules/airSales/contacts/call-acivity.png';
+export { default as CalendarActiveImage } from './modules/airSales/contacts/calendar-activity.png';
 export { default as documentContained } from './modules/superAdmin/Settings/ModuleCreation/document-contained.png';
 export { default as ApplePhoneImage } from './modules/socialComponents/calling/apple-phone.png';
 export { default as NoSearchResultFoundImage } from './shared/no-search-result.png';
@@ -106,7 +112,7 @@ export { default as PlaceImage } from './modules/airServices/Assets/place-image.
 export { default as CrossCircleImage } from './modules/airServices/Assets/cross-circle.png';
 export { default as DocImage } from './modules/airServices/Assets/doc-image.png';
 export { default as ExportImage } from './modules/airServices/Assets/export-image.png';
-export { default as EditImage } from './modules/airServices/Assets/edit-image.png';
+export { default as EditCircleImage } from './modules/airServices/Assets/edit-circle-image.png';
 export { default as CreatedImage } from './modules/airServices/Assets/created-image.png';
 export { default as PlusImage } from './modules/airServices/Assets/plus-image.png';
 export { default as AssetsReceivedImage } from './modules/airServices/Assets/assets-received-image.png';
@@ -115,3 +121,20 @@ export { default as ZoomLogoImage } from './modules/airServices/Tickets/zoom-log
 export { default as DiscussionImage } from './modules/airServices/Tickets/discussion-image.png';
 export { default as TeamsImage } from './modules/airServices/Tickets/teams-image.png';
 export { default as ZoomImage } from './modules/airServices/Tickets/zoom-image.png';
+export { default as PhoneImage } from '../../assets/images/modules/orgAdmin/organization/phone.png';
+export { default as UserImage } from '../../assets/images/modules/orgAdmin/organization/user.png';
+export { default as EditImage } from '../../assets/images/modules/orgAdmin/organization/edit.png';
+export { default as FeaturedImage } from '../../assets/images/modules/orgAdmin/organization/featured.png';
+export { default as ComLogoImage } from '../../assets/images/modules/orgAdmin/organization/intel-logo.png';
+export { default as OrcaloLogoImage } from '../../assets/images/modules/orgAdmin/organization/orcalo-logo.png';
+export { default as SentImage } from '../../assets/images/modules/orgAdmin/organization/sent.png';
+export { default as ServiceImage } from '../../assets/images/modules/orgAdmin/organization/service.png';
+export { default as AddCircleImage } from '../images/modules/orgAdmin/organization/add-circle.png';
+export { default as CompanyLogoImage } from '../images/modules/socialComponents/companies/logo.png';
+export { default as EmailImage } from '../images/modules/socialComponents/companies/sms.png';
+export { default as MobileImage } from '../images/modules/socialComponents/companies/call.png';
+export { default as EmpAvatarImage } from '../images/modules/socialComponents/companies/empAvt.png';
+export { default as TicketImage } from '../images/modules/socialComponents/companies/ticket.png';
+export { default as NoteImage } from '../images/modules/socialComponents/companies/note.png';
+export { default as NoteAddImage } from '../images/modules/socialComponents/companies/noteAdd.png';
+export { default as ActivitesTimeImage } from '../images/modules/socialComponents/companies/ActivitiesWithoutTime.png';

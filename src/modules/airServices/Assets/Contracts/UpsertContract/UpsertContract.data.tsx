@@ -8,15 +8,14 @@ import { ItemDetail } from './ItemDetail';
 import dayjs from 'dayjs';
 import * as Yup from 'yup';
 import { Box, Typography } from '@mui/material';
+import {
+  BILLING_CYCLE,
+  CONTRACT_STATUS,
+  CONTRACT_TYPES,
+  LICENSE_TYPE,
+} from '@/constants/strings';
 
 const todayDate = dayjs()?.format('MM/DD/YYYY');
-
-export const CONTRACT_TYPES = {
-  LEASE: 'Lease',
-  MAINTENANCE: 'Maintenance',
-  SOFTWARE_LICENSE: 'Software License',
-  WARRANTY: 'Warranty',
-};
 
 export const dropdownDummy = [
   {
@@ -31,93 +30,96 @@ export const dropdownDummy = [
 
 export const contractTypeOptions = [
   {
-    value: 'Lease',
+    value: CONTRACT_TYPES?.LEASE,
     label: 'Lease',
   },
   {
-    value: 'Maintenance',
+    value: CONTRACT_TYPES?.MAINTENANCE,
     label: 'Maintenance',
   },
   {
-    value: 'Software License',
+    value: CONTRACT_TYPES?.SOFTWARE_LICENSE,
     label: 'Software License',
   },
   {
-    value: 'Warranty',
+    value: CONTRACT_TYPES?.WARRANTY,
     label: 'Warranty',
   },
 ];
+
 export const contractStatusOptions = [
   {
-    value: 'Approved',
+    value: CONTRACT_STATUS?.APPROVED,
     label: 'Approved',
   },
   {
-    value: 'Draft',
+    value: CONTRACT_STATUS?.DRAFT,
     label: 'Draft',
   },
   {
-    value: 'Pending for approval',
+    value: CONTRACT_STATUS?.PENDING_APPROVAL,
     label: 'Pending for approval',
   },
   {
-    value: 'Active',
+    value: CONTRACT_STATUS?.ACTIVE,
     label: 'Active',
   },
   {
-    value: 'Expired',
+    value: CONTRACT_STATUS?.EXPIRED,
     label: 'Expired',
   },
   {
-    value: 'Rejected',
+    value: CONTRACT_STATUS?.REJECTED,
     label: 'Rejected',
   },
   {
-    value: 'Terminated',
+    value: CONTRACT_STATUS?.TERMINATED,
     label: 'Terminated',
   },
 ];
+
 export const billingCycleOptions = [
   {
-    value: 'Monthly',
+    value: BILLING_CYCLE?.MONTHLY,
     label: 'Monthly',
   },
   {
-    value: 'Quarterly',
+    value: BILLING_CYCLE?.QUARTERLY,
     label: 'Quarterly',
   },
   {
-    value: 'Half Yearly',
+    value: BILLING_CYCLE?.HALF_YEARLY,
     label: 'Half Yearly',
   },
   {
-    value: 'Annual',
+    value: BILLING_CYCLE?.ANNUAL,
     label: 'Annual',
   },
   {
-    value: 'One Time',
+    value: BILLING_CYCLE?.ONE_TIME,
     label: 'One Time',
   },
 ];
+
 export const licenseTypeOptions = [
   {
-    value: 'Volume',
+    value: LICENSE_TYPE?.VOLUME,
     label: 'Volume',
   },
   {
-    value: 'Enterprise',
+    value: LICENSE_TYPE?.ENTERPRISE,
     label: 'Enterprise',
   },
   {
-    value: 'Trail',
-    label: 'Trail',
+    value: LICENSE_TYPE?.TRIAL,
+    label: 'Trial',
   },
   {
-    value: 'OpenSource',
+    value: LICENSE_TYPE?.OPEN_SOURCE,
     label: 'OpenSource',
   },
   {
-    value: 'Free',
+    value: LICENSE_TYPE?.FREE,
     label: 'Free',
   },
 ];

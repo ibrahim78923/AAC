@@ -25,13 +25,13 @@ const CustomizeColumns = ({ open, onClose, columns, onSubmit }: any) => {
       cancelText={'Cancel'}
       submitHandler={onSubmit}
     >
-      <List sx={styles.columnsList}>
+      <List sx={styles?.columnsList}>
         {columns?.map((col: any) => {
-          if (col.id === 'cellCheckbox') {
+          if (col?.id === 'cellCheckbox') {
             return null;
           }
           return (
-            <ListItem key={col.id} disablePadding>
+            <ListItem key={col?.id} disablePadding>
               <ListItemButton
                 className={colsChecked.indexOf(col.id) !== -1 ? 'selected' : ''}
                 role={undefined}
@@ -41,10 +41,10 @@ const CustomizeColumns = ({ open, onClose, columns, onSubmit }: any) => {
                 <ListItemIcon>
                   <DragSharedIcon />
                 </ListItemIcon>
-                <ListItemText primary={col.header} />
+                <ListItemText primary={col?.header} />
                 <Checkbox
                   edge="start"
-                  checked={colsChecked.indexOf(col.id) !== -1}
+                  checked={colsChecked.indexOf(col?.id) !== -1}
                   tabIndex={-1}
                   disableRipple
                 />

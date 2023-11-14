@@ -2,8 +2,8 @@
 import { useFormContext, Controller } from 'react-hook-form';
 // @mui
 import { Box, FormHelperText } from '@mui/material';
-import TextEditor from '../TextEditor';
 import CustomLabel from '../CustomLabel';
+import CustomTextEditor from '../CustomTextEditor';
 
 // ----------------------------------------------------------------------
 
@@ -23,7 +23,7 @@ export default function RHFEditor({ name, required, ...other }: any) {
               required={required}
             />
           )}
-          <TextEditor
+          <CustomTextEditor
             id={name}
             name={name}
             value={field.value}

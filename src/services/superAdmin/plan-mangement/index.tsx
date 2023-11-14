@@ -1,47 +1,76 @@
+import { SUPER_ADMIN } from '@/routesConstants/paths';
 import { baseAPI } from '@/services/base-api';
 
+const TAG = ['PLAN_MANAGEMENT'];
 export const planManagementAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getPlanMangement: builder.query({
       query: () => ({
-        url: `/plan-management`,
+        url: `${SUPER_ADMIN?.PLAN_MANAGEMENT}`,
         method: 'GET',
       }),
-      providesTags: ['PLAN_MANAGEMENT'],
+      providesTags: TAG,
     }),
-
+    getPlanTypes: builder.query({
+      query: () => ({
+        url: `${SUPER_ADMIN?.PLAN_TYPE_LIST}`,
+        method: 'GET',
+      }),
+      providesTags: ['PlanTypes'],
+    }),
+    getProducts: builder.query({
+      query: () => ({
+        url: `products`,
+        method: 'GET',
+      }),
+      providesTags: TAG,
+    }),
+    getProductsFeatures: builder.query({
+      query: () => ({
+        url: `${SUPER_ADMIN?.PRODUCT_FEATURES}?page=1&limit=10`,
+        method: 'GET',
+      }),
+      providesTags: TAG,
+    }),
     getPlanMangementById: builder.query({
       query: ({ id }: any) => ({
-        url: `/plan-management/${id}`,
+        url: `${SUPER_ADMIN?.PLAN_MANAGEMENT}/${id}`,
         method: 'GET',
       }),
-      providesTags: ['PLAN_MANAGEMENT'],
+      providesTags: TAG,
     }),
 
+    getPlanTypeList: builder.query({
+      query: () => ({
+        url: `${SUPER_ADMIN?.PLAN_TYPE_LIST}`,
+        method: 'GET',
+      }),
+      providesTags: TAG,
+    }),
     postPlanMangement: builder.mutation({
-      query: ({ id, body }: any) => ({
-        url: `/plan-management/${id}`,
+      query: ({ body }: any) => ({
+        url: `${SUPER_ADMIN?.PLAN_MANAGEMENT}`,
         method: 'POST',
         body: body,
       }),
-      invalidatesTags: ['PLAN_MANAGEMENT'],
+      invalidatesTags: TAG,
     }),
 
     updatePlanMangement: builder.mutation({
       query: ({ id, body }: any) => ({
-        url: `/plan-management/${id}`,
-        method: 'PUT',
+        url: `${SUPER_ADMIN?.PLAN_MANAGEMENT}/${id}`,
+        method: 'PATCH',
         body: body,
       }),
-      invalidatesTags: ['PLAN_MANAGEMENT'],
+      invalidatesTags: TAG,
     }),
 
     deletePlanMangement: builder.mutation({
       query: ({ id }: any) => ({
-        url: `/plan-management/${id}`,
+        url: `${SUPER_ADMIN?.PLAN_MANAGEMENT}/${id}`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['PLAN_MANAGEMENT'],
+      invalidatesTags: TAG,
     }),
   }),
 });
@@ -52,4 +81,8 @@ export const {
   useGetPlanMangementQuery,
   useDeletePlanMangementMutation,
   useGetPlanMangementByIdQuery,
+  useGetPlanTypeListQuery,
+  useGetProductsQuery,
+  useGetPlanTypesQuery,
+  useGetProductsFeaturesQuery,
 } = planManagementAPI;

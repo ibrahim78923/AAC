@@ -9,11 +9,14 @@ const Widget = () => {
   const theme = useTheme();
   return (
     <Card style={{ minHeight: '450px' }}>
-      <Box p={1.6} sx={{ backgroundColor: theme.palette.grey[700] }}>
+      <Box p={1.6} sx={{ backgroundColor: theme?.palette?.grey[700] }}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
           <Box>
             <Typography variant="h6">Widget</Typography>
-            <Typography variant="body3" sx={{ color: theme.palette.grey[900] }}>
+            <Typography
+              variant="body3"
+              sx={{ color: theme?.palette?.grey[900] }}
+            >
               Date range In last 30 days | compare To : Year before
             </Typography>
           </Box>
@@ -31,7 +34,7 @@ const Widget = () => {
                   fontSize: 14,
                   textAlign: 'center',
                   fontWeight: 600,
-                  color: theme.palette.slateBlue?.main,
+                  color: theme.palette?.slateBlue?.main,
                 }}
                 color="text.secondary"
                 gutterBottom

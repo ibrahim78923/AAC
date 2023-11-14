@@ -54,21 +54,21 @@ const ChatHeader = ({ chatMode }: any) => {
 
   return (
     <>
-      <Box sx={styles.headerChat(theme)}>
+      <Box sx={styles?.headerChat(theme)}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <Image width={55} height={55} src={UserAvatarImage} alt="avatar" />
           <Box>
             <Typography
               variant="h4"
-              sx={{ fontWeight: '600', color: theme.palette.common.white }}
+              sx={{ fontWeight: '600', color: theme?.palette?.common?.white }}
             >
               Paula Griffin
             </Typography>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <Box sx={styles.userStatus}></Box>
+              <Box sx={styles?.userStatus}></Box>
               <Typography
                 variant="body3"
-                sx={{ fontWeight: '600', color: theme.palette.common.white }}
+                sx={{ fontWeight: '600', color: theme?.palette?.common?.white }}
               >
                 Active Now
               </Typography>
@@ -76,23 +76,23 @@ const ChatHeader = ({ chatMode }: any) => {
           </Box>
         </Box>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <Button sx={styles.unStyledButton}>
+          <Button sx={styles?.unStyledButton}>
             <PhoneWhiteIcon />
           </Button>
           <Button
-            sx={styles.unStyledButton}
+            sx={styles?.unStyledButton}
             onClick={() => setIsUserProfile(true)}
           >
             {chatMode === 'groupChat' ? <InfoIcon /> : <UserWhiteIcon />}
           </Button>
           <Button
-            sx={styles.unStyledButton}
+            sx={styles?.unStyledButton}
             aria-controls={actionMenuOpen ? 'basic-menu' : undefined}
             aria-haspopup="true"
             aria-expanded={actionMenuOpen ? 'true' : undefined}
             onClick={handleClick}
           >
-            <ThreeDotsIcon color={theme.palette.common.white} />
+            <ThreeDotsIcon color={theme?.palette?.common?.white} />
           </Button>
           <ChatDropdown
             anchorEl={anchorEl}

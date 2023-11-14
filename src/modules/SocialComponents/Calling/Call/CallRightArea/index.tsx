@@ -4,9 +4,10 @@ import Image from 'next/image';
 
 import { Box, Grid, Typography, useTheme } from '@mui/material';
 
+import TanstackTable from '@/components/Table/TanstackTable';
+
 import UserDetailCard from '../UserDetailCard';
 import DialingPad from './DialingPad';
-import TanstackTable from '@/components/Tabel/TanstackTable';
 
 import { columns } from './CallRightArea.data';
 
@@ -32,8 +33,8 @@ const CallRightArea = ({
         (activeCallsSelectedData && activeCallsSelectedData ? (
           isActiveCalling ? (
             <CallProcessCard
-              phoneNo={activeCallsSelectedData.phone}
-              name={activeCallsSelectedData.userName}
+              phoneNo={activeCallsSelectedData?.phone}
+              name={activeCallsSelectedData?.userName}
               setIsActiveCalling={setIsActiveCalling}
             />
           ) : (
@@ -55,19 +56,19 @@ const CallRightArea = ({
         ) : (
           <Grid container>
             <Grid item xs={12} sm={12} md={12} lg={8}>
-              <Box sx={styles.leftWrapper}>
-                <Box sx={styles.leftInset}>
+              <Box sx={styles?.leftWrapper}>
+                <Box sx={styles?.leftInset}>
                   <Image src={CallFilledImage} alt="call" />
                   <Typography
                     variant="h2"
                     textAlign={'center'}
-                    color={theme.palette.grey[800]}
+                    color={theme?.palette?.grey[800]}
                   >
                     Air AppleCart Calling Feature
                   </Typography>
                   <Typography
                     variant="h4"
-                    color={theme.palette.custom.grayish_blue}
+                    color={theme?.palette?.custom?.grayish_blue}
                     fontWeight={500}
                     textAlign={'center'}
                   >
@@ -78,8 +79,8 @@ const CallRightArea = ({
               </Box>
             </Grid>
             <Grid item xs={12} sm={12} md={12} lg={4}>
-              <Box sx={styles.rightWrapper(theme)}>
-                <Box sx={styles.callingWrapper(theme)}>
+              <Box sx={styles?.rightWrapper(theme)}>
+                <Box sx={styles?.callingWrapper(theme)}>
                   <DialingPad />
                 </Box>
               </Box>
@@ -91,8 +92,8 @@ const CallRightArea = ({
         activeMessageData &&
         (isActiveCalling ? (
           <CallProcessCard
-            phoneNo={activeCallsSelectedData.userPhone}
-            name={activeCallsSelectedData.userName}
+            phoneNo={activeCallsSelectedData?.userPhone}
+            name={activeCallsSelectedData?.userName}
             setIsActiveCalling={setIsActiveCalling}
           />
         ) : (
