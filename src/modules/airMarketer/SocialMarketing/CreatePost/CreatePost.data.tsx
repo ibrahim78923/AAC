@@ -1,4 +1,4 @@
-import { RHFDropZone, RHFEditor, RHFSelect } from '@/components/ReactHookForm';
+import { RHFDropZone, RHFSelect } from '@/components/ReactHookForm';
 
 import * as Yup from 'yup';
 import RHFMultiSearchableSelectWithAccordion from './MultiSearchableSelectWithAccordion';
@@ -7,6 +7,7 @@ import {
   InstagramLogo,
   UserProfileAvatarImage,
 } from '@/assets/images';
+import PostDetailsField from './PostDetailsField';
 
 export const validationSchema = Yup?.object()?.shape({
   SocialAccount: Yup?.string(),
@@ -89,7 +90,7 @@ export const createPostDataArray = [
       select: false,
     },
 
-    component: RHFEditor,
+    component: PostDetailsField,
 
     md: 12,
   },
