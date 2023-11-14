@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import {
   Box,
   Button,
@@ -9,16 +10,18 @@ import {
 } from '@mui/material';
 import { ArrowDropDown } from '@mui/icons-material';
 import FilterDrawer from './FilterDrawer';
-import { PlusIcon, RefreshSharedIcon } from '@/assets/icons';
+import { PlusIcon } from '@/assets/icons';
 import Search from '@/components/Search';
 import CustomPagination from '@/components/CustomPagination';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { invoicesTableColumns, invoicesTableData } from '../Invoices.data';
 import useListView from './useListView';
 import { AlertModals } from '@/components/AlertModals';
+import { AIR_SALES } from '@/routesConstants/paths';
+import RefreshIcon from '@/assets/icons/modules/airSales/Tasks/refresh';
 
-const ListView = (props: any) => {
-  const { setIsListView } = props;
+const ListView = () => {
+  const navigate = useRouter();
   const {
     selectedValue,
     handleClose,
@@ -30,15 +33,16 @@ const ListView = (props: any) => {
     handleDeleteModal,
     handleClick,
   } = useListView();
+
   return (
     <>
       <Stack direction="row" justifyContent="space-between">
         <Typography variant="h3">Invoice</Typography>
         <Button
           variant="contained"
-          sx={{ display: 'flex', gap: '10px' }}
+          sx={{ display: 'flex', gap: '10px', fontWeight: '500' }}
           startIcon={<PlusIcon />}
-          onClick={() => setIsListView(true)}
+          onClick={() => navigate?.push(AIR_SALES?.SALES_CREATE_INVOICES)}
         >
           Create Invoice
         </Button>
@@ -83,7 +87,7 @@ const ListView = (props: any) => {
                 width: '50px',
               }}
             >
-              <RefreshSharedIcon />
+              <RefreshIcon />
             </Box>
             <FilterDrawer />
           </Stack>

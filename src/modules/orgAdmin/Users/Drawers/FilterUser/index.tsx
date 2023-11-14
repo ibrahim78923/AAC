@@ -1,4 +1,4 @@
-import { Grid } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 
 import { FormProvider } from '@/components/ReactHookForm';
 
@@ -44,11 +44,14 @@ const FilterUser = ({ isOpenDrawer, onClose }: any) => {
       footer
     >
       <FormProvider methods={methods}>
-        <Grid container spacing={4} sx={{ my: '5px' }}>
+        <Grid container spacing={2}>
           {usersFilterArray?.map((item: any) => {
             return (
               <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                <item.component {...item.componentProps} size={'small'}>
+                <Typography variant="body2" fontWeight={500}>
+                  {item?.title}
+                </Typography>
+                <item.component {...item?.componentProps} size={'small'}>
                   {item?.componentProps?.select &&
                     item?.options?.map((option: any) => (
                       <option key={uuidv4()} value={option?.value}>

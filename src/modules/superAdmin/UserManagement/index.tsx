@@ -1,4 +1,4 @@
-import { Box, Button, Menu, MenuItem, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 
 import CommonTabs from '@/components/Tabs';
 
@@ -12,11 +12,10 @@ import AddUser from './Users/AddUser';
 
 import SuperAdminUsers from './Users/Admin';
 
-import { ArrowDropDown } from '@mui/icons-material';
-
-import { FilterSharedIcon, PlusIcon } from '@/assets/icons';
+import { FilterrIcon, PlusIcon } from '@/assets/icons';
 
 import useUserManagement from './useUserManagement';
+import ActionButton from './ActionButton';
 
 import { SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
@@ -28,15 +27,11 @@ const UserManagement = () => {
     setIsOpenAddUserDrawer,
     isOpenFilterDrawer,
     setIsOpenFilterDrawer,
-    selectedValue,
     tabVal,
     setTabVal,
     search,
     setSearch,
-    handleClick,
     handleAddRole,
-    handleClose,
-    handleUsersList,
   } = useUserManagement();
 
   return (
@@ -65,7 +60,7 @@ const UserManagement = () => {
       </Box>
       <PermissionsGuard
         permissions={[
-          SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS.USER_SEARCH_AND_FILTER,
+          SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS?.USER_SEARCH_AND_FILTER,
         ]}
       >
         <Box sx={{ padding: '0px 24px' }}>
@@ -85,35 +80,12 @@ const UserManagement = () => {
             ]}
             headerChildren={
               <>
-                <Box>
-                  <Button
-                    onClick={handleClick}
-                    sx={{
-                      border: `1px solid ${theme?.palette?.custom?.dark}`,
-                      color: theme?.palette?.custom?.main,
-                      width: '112px',
-                      height: '36px',
-                    }}
-                  >
-                    Actions
-                    <ArrowDropDown />
-                  </Button>
-                  <Menu
-                    id="simple-menu"
-                    anchorEl={selectedValue}
-                    open={Boolean(selectedValue)}
-                    onClose={handleClose}
-                  >
-                    <MenuItem onClick={handleUsersList}>User List</MenuItem>
-                    <MenuItem onClick={handleClose}>View</MenuItem>
-                    <MenuItem onClick={handleClose}>Edit</MenuItem>
-                  </Menu>
-                </Box>
+                <ActionButton />
                 <Button
                   onClick={() => {
                     setIsOpenFilterDrawer(true);
                   }}
-                  startIcon={<FilterSharedIcon />}
+                  startIcon={<FilterrIcon />}
                   sx={{
                     border: `1px solid ${theme?.palette?.custom?.dark}`,
                     color: theme?.palette?.custom?.main,

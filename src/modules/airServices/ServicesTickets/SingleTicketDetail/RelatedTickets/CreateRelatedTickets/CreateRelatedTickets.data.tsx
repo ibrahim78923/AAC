@@ -8,7 +8,7 @@ import {
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 import { InputAdornment } from '@mui/material';
-import { PlusSharedIconColor } from '@/assets/icons';
+import { PlusSharedColorIcon } from '@/assets/icons';
 
 export const createTicketValidationSchema: any = Yup.object().shape({
   requester: Yup.string().required('Field is Required'),
@@ -59,7 +59,7 @@ export const createTicketDataArray = [
       InputProps: {
         endAdornment: (
           <InputAdornment position="end">
-            <PlusSharedIconColor color={'#6B7280'} />
+            <PlusSharedColorIcon color={'#6B7280'} />
           </InputAdornment>
         ),
       },
@@ -294,7 +294,7 @@ export const createTicketDataArray = [
       InputProps: {
         endAdornment: (
           <InputAdornment position="end">
-            <PlusSharedIconColor color={'#38CAB5'} />
+            <PlusSharedColorIcon color={'#38CAB5'} />
           </InputAdornment>
         ),
       },
