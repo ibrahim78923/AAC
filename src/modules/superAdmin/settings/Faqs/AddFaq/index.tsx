@@ -7,18 +7,21 @@ import { addFaqsFiltersDataArray } from './AddFaq.data';
 import { v4 as uuidv4 } from 'uuid';
 
 const AddFaq = ({
+  title,
   isAddModalOpen,
   onClose,
   handleSubmit,
   formMethods,
   isLoading,
 }: AddFaqPropsI) => {
+  // const { data: dataSingleFaq, isLoading: loadingFaq } = useGetFaqsByIdQuery(faqID)
+  // console.log('dataSingleFaq::: ', dataSingleFaq)
   return (
     <CommonModal
       open={isAddModalOpen}
       handleClose={onClose}
       handleSubmit={handleSubmit}
-      title="Add a new feature"
+      title={title}
       okText="add"
       footer={true}
       isLoading={isLoading}

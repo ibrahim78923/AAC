@@ -14,7 +14,7 @@ export const settingsFaqsAPI = baseAPI.injectEndpoints({
     }),
 
     getFaqsById: builder.query({
-      query: ({ id }: any) => ({
+      query: (id: any) => ({
         url: `${SUPER_ADMIN.FAQS}/${id}`,
         method: 'GET',
       }),
@@ -40,7 +40,7 @@ export const settingsFaqsAPI = baseAPI.injectEndpoints({
     }),
 
     deleteFaqs: builder.mutation({
-      query: ({ id }: any) => ({
+      query: (id: any) => ({
         url: `${SUPER_ADMIN.FAQS}/${id}`,
         method: 'DELETE',
       }),

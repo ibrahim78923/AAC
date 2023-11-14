@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import {
   Box,
@@ -31,6 +31,14 @@ import useFaqs from './useFaqs';
 
 const Faqs = () => {
   const {
+    anchorEl,
+    actionMenuOpen,
+    handleActionsMenuClick,
+    handleActionsMenuClose,
+    isDisabled,
+    setIsDisabled,
+    tableRowValues,
+    setTableRowValues,
     openFilters,
     handleOpenFilters,
     handleCloseFilters,
@@ -41,23 +49,25 @@ const Faqs = () => {
     methodsFilter,
     handleFiltersSubmit,
     handleRefresh,
+    modalTitle,
     openModalAddFaq,
     handleOpenModalFaq,
     handleCloseModalFaq,
     methodsAddFaqs,
     handleAddFaqSubmit,
     loadingAddFaq,
+    handleDeleteFaq,
+    loadingDelete,
+    isFaqsDeleteModal,
+    handleOpenModalDelete,
+    handleCloseModalDelete,
   } = useFaqs();
   const theme = useTheme();
-  const [isFaqsDeleteModal, setIsFaqsDeleteModal] = useState(false);
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const actionMenuOpen = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  const getFaqsTableColumns = columns(
+    setIsDisabled,
+    tableRowValues,
+    setTableRowValues,
+  );
 
   return (
     <Box
@@ -83,7 +93,7 @@ const Faqs = () => {
           <Button
             variant="contained"
             sx={{ height: '36px', fontWeight: '500' }}
-            onClick={handleOpenModalFaq}
+            onClick={() => handleOpenModalFaq('Add a New FAQ')}
           >
             <PlusShared /> &nbsp; Add
           </Button>
@@ -119,7 +129,7 @@ const Faqs = () => {
               aria-controls={actionMenuOpen ? 'basic-menu' : undefined}
               aria-haspopup="true"
               aria-expanded={actionMenuOpen ? 'true' : undefined}
-              onClick={handleClick}
+              onClick={handleActionsMenuClick}
               sx={{
                 color: theme.palette.grey[500],
                 height: '40px',
@@ -128,6 +138,7 @@ const Faqs = () => {
                   width: '100%',
                 },
               }}
+              disabled={isDisabled}
             >
               Actions &nbsp; <DownIcon />
             </Button>
@@ -135,16 +146,18 @@ const Faqs = () => {
               id="basic-menu"
               anchorEl={anchorEl}
               open={actionMenuOpen}
-              onClose={handleClose}
+              onClose={handleActionsMenuClose}
               MenuListProps={{
                 'aria-labelledby': 'basic-button',
               }}
             >
-              <MenuItem>Edit</MenuItem>
-              <MenuItem>View</MenuItem>
-              <MenuItem onClick={() => setIsFaqsDeleteModal(true)}>
-                Delete
+              <MenuItem onClick={() => handleOpenModalFaq('Edit FAQ')}>
+                Edit
               </MenuItem>
+              <MenuItem onClick={() => handleOpenModalFaq('FAQ')}>
+                View
+              </MenuItem>
+              <MenuItem onClick={handleOpenModalDelete}>Delete</MenuItem>
             </Menu>
             <Button sx={styles.refreshButton(theme)} onClick={handleRefresh}>
               <RefreshSharedIcon />
@@ -157,7 +170,7 @@ const Faqs = () => {
       </Box>
       <Box>
         <TanstackTable
-          columns={columns()}
+          columns={getFaqsTableColumns}
           data={dataGetFaqs?.data?.faqs}
           isLoading={loagingGetFaqs}
         />
@@ -199,15 +212,18 @@ const Faqs = () => {
         message={'Are you sure you want to delete this entry ?'}
         type="delete"
         open={isFaqsDeleteModal}
-        handleClose={() => setIsFaqsDeleteModal(false)}
-        handleSubmit={() => setIsFaqsDeleteModal(false)}
+        handleClose={handleCloseModalDelete}
+        handleSubmitBtn={handleDeleteFaq}
+        loading={loadingDelete}
       />
       <AddFaq
+        title={modalTitle}
         isAddModalOpen={openModalAddFaq}
         onClose={handleCloseModalFaq}
         formMethods={methodsAddFaqs}
         handleSubmit={handleAddFaqSubmit}
         isLoading={loadingAddFaq}
+        // faqID={tableRowValues[0]}
       />
     </Box>
   );

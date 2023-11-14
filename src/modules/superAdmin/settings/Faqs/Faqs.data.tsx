@@ -73,23 +73,49 @@ export const faqsFilterFiltersDataArray = () => {
   ];
 };
 
-export const columns = () => {
-  const { handleRowSelect, isSelected } = useFaqs();
+export const columns = (
+  setIsDisabled: (value: boolean) => void,
+  tableRowValues: any,
+  setTableRowValues: any,
+) => {
+  const handleRowSelect = (id: any) => {
+    const selectedIndex = tableRowValues.indexOf(id);
+    let newSelected: any = [];
+
+    if (selectedIndex === -1) {
+      newSelected = newSelected.concat(tableRowValues, id);
+    } else if (selectedIndex === 0) {
+      newSelected = newSelected.concat(tableRowValues.slice(1));
+    } else if (selectedIndex === tableRowValues.length - 1) {
+      newSelected = newSelected.concat(tableRowValues.slice(0, -1));
+    } else if (selectedIndex > 0) {
+      newSelected = newSelected.concat(
+        tableRowValues.slice(0, selectedIndex),
+        tableRowValues.slice(selectedIndex + 1),
+      );
+    }
+    const disabled = newSelected.length === 0;
+    setIsDisabled(disabled);
+    setTableRowValues(newSelected);
+  };
+
+  const isSelected = (id: any) => tableRowValues.indexOf(id) !== -1;
 
   return [
     {
-      accessorFn: (row: any) => row?._id,
+      accessorFn: (row: any) => row._id,
       id: '_id',
       cell: (info: any) => (
         <Checkbox
           color="primary"
-          name={info?.getValue()}
-          checked={isSelected(info?.getValue())}
-          onChange={(event: any) => handleRowSelect(event, info?.getValue())}
+          checked={isSelected(info?.cell?.row?.original?._id)}
+          name={info?.cell?.row?.original?._id}
+          onClick={() => {
+            handleRowSelect(info?.cell?.row?.original?._id);
+          }}
         />
       ),
-      // cell: (info: any) => info?.getValue(),
-      header: <></>,
+      header: <Checkbox color="primary" name="Id" />,
       isSortable: false,
     },
     {

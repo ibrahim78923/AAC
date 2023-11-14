@@ -6,6 +6,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import {
   useGetFaqsQuery,
   usePostFaqsMutation,
+  useDeleteFaqsMutation,
+  useGetFaqsByIdQuery,
 } from '@/services/superAdmin/settings/faqs';
 import { faqsFilterDefaultValues } from './Faqs.data';
 import {
@@ -14,10 +16,9 @@ import {
 } from './AddFaq/AddFaq.data';
 
 const useFaqs = () => {
-  const [faqId, setFaqId] = useState('');
-  const [searchValue, setSearchValue] = useState('');
-  const [openFilters, setOpenFilters] = useState(false);
-  const [openModalAddFaq, setOpenModalAddFaq] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(true);
+  const [modalTitle, setModalTitle] = useState('FAQ');
+  const [tableRowValues, setTableRowValues] = useState([]);
   const defaultParams = { page: 1, limit: 5 };
   const [filterParams, setFilterParams] = useState(defaultParams);
   const methodsFilter: any = useForm({
@@ -27,29 +28,28 @@ const useFaqs = () => {
     methodsFilter;
   const { data: dataGetFaqs, isLoading: loagingGetFaqs } =
     useGetFaqsQuery(filterParams);
-  const [postAddFaq, { isLoading: loadingAddFaq }] = usePostFaqsMutation();
+  const { data: dataSingleFaq, isLoading: loadingFaq } = useGetFaqsByIdQuery(
+    tableRowValues[0],
+  );
+  // Dropdown Menu
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const actionMenuOpen = Boolean(anchorEl);
+  const handleActionsMenuClick = (
+    event: React.MouseEvent<HTMLButtonElement>,
+  ) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleActionsMenuClose = () => {
+    setAnchorEl(null);
+  };
 
+  // Filters
+  const [openFilters, setOpenFilters] = useState(false);
   const handleOpenFilters = () => {
     setOpenFilters(true);
   };
   const handleCloseFilters = () => {
     setOpenFilters(false);
-  };
-
-  const handleRefresh = () => {
-    setFilterParams(defaultParams);
-    setSearchValue('');
-    resetFilters();
-  };
-
-  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchValue(event.target.value);
-    setFilterParams((prev) => {
-      return {
-        ...prev,
-        search: event.target.value,
-      };
-    });
   };
 
   const onSubmitFilters = async (values: any) => {
@@ -92,37 +92,28 @@ const useFaqs = () => {
   };
   const handleFiltersSubmit = handleMethodFilter(onSubmitFilters);
 
-  // const methodsAddJobPosting = useForm({
-  //   resolver: yupResolver(jobPostingValidationSchema),
-  //   defaultValues: jobPostingDefaultValues,
-  // });
+  // Search
+  const [searchValue, setSearchValue] = useState('');
+  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(event.target.value);
+    setFilterParams((prev) => {
+      return {
+        ...prev,
+        search: event.target.value,
+      };
+    });
+  };
 
-  // const onSubmitAddJobPost = async (values: any) => {
-  //   const dateString = values?.deadline;
-  //   const dateObject = new Date(dateString);
-  //   const formattedDate = dateObject.toISOString();
-  //   const payload = {
-  //     ...values,
-  //     deadline: formattedDate,
-  //   };
+  // Refresh
+  const handleRefresh = () => {
+    setFilterParams(defaultParams);
+    setSearchValue('');
+    resetFilters();
+  };
 
-  //   try {
-  //     await postAddJobPost({ body: payload })?.unwrap();
-  //     setOpenAddJobPost(false);
-  //     enqueueSnackbar('Plan Modules Details Added Successfully', {
-  //       variant: 'success',
-  //     });
-  //   } catch (error: any) {
-  //     enqueueSnackbar('An error occured', {
-  //       variant: 'error',
-  //     });
-  //   }
-  // };
-
-  // const { handleSubmit: handleMethodAddJobpost } = methodsAddJobPosting;
-
-  // const handleSubmitAddJobPost = handleMethodAddJobpost(onSubmitAddJobPost);
-
+  // Add FAQ
+  const [postAddFaq, { isLoading: loadingAddFaq }] = usePostFaqsMutation();
+  const [openModalAddFaq, setOpenModalAddFaq] = useState(false);
   const methodsAddFaqs = useForm({
     resolver: yupResolver(addFaqsValidationSchema),
     defaultValues: addFaqsDefaultValues,
@@ -131,8 +122,10 @@ const useFaqs = () => {
   const { handleSubmit: handleMethodAddFaq, reset: resetAddFaqForm } =
     methodsAddFaqs;
 
-  const handleOpenModalFaq = () => {
+  const handleOpenModalFaq = (title: string) => {
+    setModalTitle(title);
     setOpenModalAddFaq(true);
+    handleActionsMenuClose();
   };
   const handleCloseModalFaq = () => {
     setOpenModalAddFaq(false);
@@ -153,25 +146,55 @@ const useFaqs = () => {
   };
   const handleAddFaqSubmit = handleMethodAddFaq(onSubmitAddFaq);
 
-  const [selectedRow, setSelectedRow] = useState(null);
-  const handleRowSelect = (event: any, id: any) => {
-    setFaqId(id);
-    setSelectedRow((prevSelectedRow) => (prevSelectedRow === id ? null : id));
+  // Delete Faq
+  const [isFaqsDeleteModal, setIsFaqsDeleteModal] = useState(false);
+  const [deleteFaq, { isLoading: loadingDelete }] = useDeleteFaqsMutation();
+  const handleOpenModalDelete = () => {
+    handleActionsMenuClose();
+    setIsFaqsDeleteModal(true);
+  };
+  const handleCloseModalDelete = () => {
+    setIsFaqsDeleteModal(false);
   };
 
-  const isSelected = (id: any) => selectedRow === id;
+  const handleDeleteFaq = async () => {
+    const items = await tableRowValues.join(',');
+    try {
+      await deleteFaq(items)?.unwrap();
+      handleCloseModalDelete();
+      enqueueSnackbar('Record has been deleted.', {
+        variant: 'success',
+      });
+      setIsDisabled(true);
+    } catch (error: any) {
+      enqueueSnackbar('An error occured', {
+        variant: 'error',
+      });
+    }
+  };
 
   return {
+    anchorEl,
+    actionMenuOpen,
+    handleActionsMenuClick,
+    handleActionsMenuClose,
+    isDisabled,
+    setIsDisabled,
+    tableRowValues,
+    setTableRowValues,
     openFilters,
     handleOpenFilters,
     handleCloseFilters,
     loagingGetFaqs,
     dataGetFaqs,
+    dataSingleFaq,
+    loadingFaq,
     handleSearch,
     searchValue,
     methodsFilter,
     handleFiltersSubmit,
     handleRefresh,
+    modalTitle,
     openModalAddFaq,
     handleOpenModalFaq,
     handleCloseModalFaq,
@@ -179,9 +202,11 @@ const useFaqs = () => {
     handleAddFaqSubmit,
     loadingAddFaq,
     resetAddFaqForm,
-    handleRowSelect,
-    isSelected,
-    faqId,
+    loadingDelete,
+    handleDeleteFaq,
+    isFaqsDeleteModal,
+    handleOpenModalDelete,
+    handleCloseModalDelete,
   };
 };
 
