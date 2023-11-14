@@ -19,79 +19,6 @@ export const TICKETS_ACTION_CONSTANTS = {
   EDIT_TICKET: 'edit-ticket',
 };
 
-export const TICKET_STATUS = {
-  OPEN: 'OPEN',
-  CLOSED: 'CLOSED',
-  RESOLVED: 'RESOLVED',
-  PENDING: 'PENDING',
-};
-
-export const TICKET_PRIORITY = {
-  LOW: 'LOW',
-  MEDIUM: 'MEDIUM',
-  HIGH: 'HIGH',
-  URGENT: 'URGENT',
-};
-
-export const TICKET_IMPACT = {
-  LOW: 'LOW',
-  MEDIUM: 'MEDIUM',
-  HIGH: 'HIGH',
-};
-
-export const ticketStatusOptions = [
-  {
-    value: TICKET_STATUS?.OPEN,
-    label: 'Open',
-  },
-  {
-    value: TICKET_STATUS?.PENDING,
-    label: 'Pending',
-  },
-  {
-    value: TICKET_STATUS?.RESOLVED,
-    label: 'Resolved',
-  },
-  {
-    value: TICKET_STATUS?.CLOSED,
-    label: 'Closed',
-  },
-];
-
-export const ticketPriorityOptions = [
-  {
-    value: TICKET_PRIORITY?.LOW,
-    label: 'Low',
-  },
-  {
-    value: TICKET_PRIORITY?.MEDIUM,
-    label: 'Medium',
-  },
-  {
-    value: TICKET_PRIORITY?.HIGH,
-    label: 'High',
-  },
-  {
-    value: TICKET_PRIORITY?.URGENT,
-    label: 'Urgent',
-  },
-];
-
-export const ticketImpactOptions = [
-  {
-    value: TICKET_IMPACT?.LOW,
-    label: 'Low',
-  },
-  {
-    value: TICKET_IMPACT?.MEDIUM,
-    label: 'Medium',
-  },
-  {
-    value: TICKET_IMPACT?.MEDIUM,
-    label: 'High',
-  },
-];
-
 export const ticketsActionDropdownFunction = (
   setDeleteModalOpen: any,
   markTicketAsClose: any,
@@ -149,7 +76,6 @@ export const ticketsActionDropdownFunction = (
       closeMenu?.();
     },
   },
-
   {
     title: 'Delete',
     handleClick: (closeMenu: any) => {
@@ -175,6 +101,7 @@ export const ticketsListTotalColumns = [
   'plannedEndDate',
   'plannedEffort',
 ];
+
 export const ticketsListsData: any = [
   {
     id: 3,
@@ -202,7 +129,6 @@ export const ticketsListsColumnFunction: any = (
   selectedTicketList: any,
   setSelectedTicketList: any,
 ) => {
-  const { palette } = theme;
   return [
     {
       accessorFn: (row: any) => row?._id,
@@ -252,13 +178,13 @@ export const ticketsListsColumnFunction: any = (
         return (
           <Box display={'flex'} gap={1} flexWrap={'wrap'} alignItems={'center'}>
             <Avatar
-              sx={{ bgcolor: palette?.blue?.main, borderRadius: 1.25 }}
+              sx={{ bgcolor: theme?.palette?.blue?.main, borderRadius: 1.25 }}
               style={{ width: 28, height: 28 }}
             >
               IT
             </Avatar>
             <Typography
-              style={{
+              sx={{
                 color: theme?.palette?.primary?.main,
                 cursor: 'pointer',
               }}
@@ -294,7 +220,7 @@ export const ticketsListsColumnFunction: any = (
       cell: (info: any) => (
         <Box display={'flex'} flexWrap={'wrap'} alignItems={'center'} gap={1}>
           <Avatar
-            sx={{ bgcolor: palette?.blue?.main }}
+            sx={{ bgcolor: theme?.palette?.blue?.main }}
             style={{ width: 24, height: 24 }}
             src={info?.getValue()?.profileImg?.src}
           >

@@ -10,11 +10,12 @@ export const useTicketsFilter = (props: any) => {
   const ticketsFilterFormFieldsData = ticketsFilterFormFieldsDataFunction();
 
   const methods: any = useForm({});
+
   const { handleSubmit, reset } = methods;
 
   const submitTicketFilterForm = async (data: any) => {
-    const ticketsFiltered = Object.entries(data).filter(
-      ([, v]: any) => v !== undefined && v != '',
+    const ticketsFiltered = Object?.entries(data || {})?.filter(
+      ([, value]: any) => value !== undefined && value != '',
     );
     if (!!!ticketsFiltered?.length) {
       onClose();
@@ -41,6 +42,7 @@ export const useTicketsFilter = (props: any) => {
     reset?.();
     setIsDrawerOpen?.(false);
   };
+
   return {
     ticketsFilterFormFieldsData,
     router,

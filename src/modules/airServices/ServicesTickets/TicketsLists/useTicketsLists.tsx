@@ -9,13 +9,13 @@ import { CustomizeTicketsColumn } from '../CustomizeTicketsColumn';
 import { useRouter } from 'next/router';
 import { useTheme } from '@mui/material';
 import { TicketsFilter } from '../TicketsFilter';
-import CreateTicket from '../CreateTicket';
 import { enqueueSnackbar } from 'notistack';
 import {
   useLazyGetExportTicketsQuery,
   useLazyGetTicketsQuery,
 } from '@/services/airServices/tickets';
 import { downloadFile } from '@/utils/file';
+import { UpsertTicket } from '../UpsertTicket';
 
 export const useTicketsLists: any = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -35,11 +35,12 @@ export const useTicketsLists: any = () => {
   columnNames?.forEach(
     (col: any) => getTicketsParam?.append('columnNames', col),
   );
-  ticketsFilter.forEach(([k, v]: any) => getTicketsParam?.append(k, v));
+  ticketsFilter?.forEach(
+    ([key, value]: any) => getTicketsParam?.append(key, value),
+  );
   getTicketsParam?.append('page', page + '');
   getTicketsParam?.append('limit', pageLimit + '');
   getTicketsParam?.append('search', search);
-
   const getTicketsParameter = {
     queryParams: getTicketsParam,
   };
@@ -53,7 +54,7 @@ export const useTicketsLists: any = () => {
   const getValueTicketsListData = async () => {
     try {
       const response =
-        await lazyGetTicketsTrigger(getTicketsParameter).unwrap();
+        await lazyGetTicketsTrigger(getTicketsParameter)?.unwrap();
       enqueueSnackbar('Tickets Retrieved successfully', { variant: 'success' });
       return response;
     } catch (error: any) {
@@ -64,8 +65,7 @@ export const useTicketsLists: any = () => {
   };
   const getTicketsListDataExport = async (type: any) => {
     const exportTicketsParams = new URLSearchParams();
-    exportTicketsParams?.append('assetType', 'services');
-    exportTicketsParams?.append('impact', 'low');
+
     exportTicketsParams?.append('exportType', type);
 
     const getTicketsExportParameter = {
@@ -110,6 +110,7 @@ export const useTicketsLists: any = () => {
       });
     }
   }, []);
+
   const ticketsListsColumnPersist = ticketsListsColumnFunction(
     theme,
     router,
@@ -137,13 +138,13 @@ export const useTicketsLists: any = () => {
       />
     ),
     [TICKETS_ACTION_CONSTANTS?.CREATE_NEW_TICKET]: (
-      <CreateTicket
+      <UpsertTicket
         setIsDrawerOpen={setIsDrawerOpen}
         isDrawerOpen={isDrawerOpen}
       />
     ),
     [TICKETS_ACTION_CONSTANTS?.EDIT_TICKET]: (
-      <CreateTicket
+      <UpsertTicket
         setIsDrawerOpen={setIsDrawerOpen}
         isDrawerOpen={isDrawerOpen}
         ticketId={selectedTicketList?.[0]}
@@ -160,7 +161,7 @@ export const useTicketsLists: any = () => {
       },
     });
     setTimeout(() => {
-      setIsDrawerOpen(true);
+      setIsDrawerOpen?.(true);
     }, 100);
   };
 

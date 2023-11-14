@@ -3,9 +3,9 @@ import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
-  createTicketDefaultValuesFunction,
-  createTicketValidationSchema,
-} from './CreateTicket.data';
+  upsertTicketDefaultValuesFunction,
+  upsertTicketValidationSchema,
+} from './UpsertTicket.data';
 import { enqueueSnackbar } from 'notistack';
 import {
   useGetTicketsByIdQuery,
@@ -14,11 +14,13 @@ import {
 } from '@/services/airServices/tickets';
 import { useEffect } from 'react';
 
-export const useCreateTicket = (props: any) => {
+export const useUpsertTicket = (props: any) => {
+  const { setIsDrawerOpen, ticketId } = props;
+
   const router = useRouter();
   const theme: any = useTheme();
+
   const [postTicketTrigger, postTicketStatus] = usePostTicketsMutation();
-  const { setIsDrawerOpen, ticketId } = props;
   const [putTicketTrigger, putTicketStatus] = usePutTicketsMutation();
 
   const getSingleTicketParameter = {
@@ -34,18 +36,19 @@ export const useCreateTicket = (props: any) => {
       skip: !!!ticketId,
     },
   );
+
   const methods: any = useForm<any>({
-    resolver: yupResolver(createTicketValidationSchema),
-    defaultValues: createTicketDefaultValuesFunction(),
+    resolver: yupResolver(upsertTicketValidationSchema),
+    defaultValues: upsertTicketDefaultValuesFunction(),
     reValidateMode: 'onBlur',
   });
 
   const { handleSubmit, reset } = methods;
 
-  const submitCreateNewTicket = async (data: any) => {
+  const submitUpsertTicket = async (data: any) => {
     const upsertTicketFormData = new FormData();
     Object?.entries?.(data || {})?.forEach(
-      ([k, v]: any) => upsertTicketFormData?.append(k, v),
+      ([key, value]: any) => upsertTicketFormData?.append(key, value),
     );
     if (!!ticketId) {
       submitUpdateTicket(upsertTicketFormData);
@@ -55,12 +58,12 @@ export const useCreateTicket = (props: any) => {
       body: data,
     };
     try {
-      const response = await postTicketTrigger(postTicketParameter).unwrap();
+      const response = await postTicketTrigger(postTicketParameter)?.unwrap();
       enqueueSnackbar(response?.message ?? 'Ticket Added Successfully', {
         variant: 'success',
       });
       reset();
-      setIsDrawerOpen(false);
+      setIsDrawerOpen?.(false);
     } catch (error) {
       enqueueSnackbar('There is something wrong', {
         variant: 'error',
@@ -81,7 +84,7 @@ export const useCreateTicket = (props: any) => {
         variant: 'success',
       });
       reset();
-      setIsDrawerOpen(false);
+      setIsDrawerOpen?.(false);
     } catch (error) {
       enqueueSnackbar('There is something wrong', {
         variant: 'error',
@@ -89,7 +92,7 @@ export const useCreateTicket = (props: any) => {
     }
   };
   useEffect(() => {
-    reset(() => createTicketDefaultValuesFunction(data?.data));
+    reset(() => upsertTicketDefaultValuesFunction(data?.data));
   }, [data, reset]);
 
   const onClose = () => {
@@ -103,18 +106,19 @@ export const useCreateTicket = (props: any) => {
       },
     });
     reset?.();
-    setIsDrawerOpen(false);
+    setIsDrawerOpen?.(false);
   };
   return {
     router,
     theme,
     handleSubmit,
-    submitCreateNewTicket,
+    submitUpsertTicket,
     methods,
     onClose,
     postTicketStatus,
     isLoading,
     isFetching,
     putTicketStatus,
+    ticketId,
   };
 };

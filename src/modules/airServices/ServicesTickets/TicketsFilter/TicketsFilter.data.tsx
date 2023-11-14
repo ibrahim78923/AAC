@@ -4,12 +4,13 @@ import {
   RHFSelect,
   RHFTimePicker,
 } from '@/components/ReactHookForm';
+
 import {
   ticketImpactOptions,
   ticketPriorityOptions,
+  ticketSourceOptions,
   ticketStatusOptions,
-} from '../TicketsLists/TicketsLists.data';
-import { ticketSourceOptions } from '../CreateTicket/CreateTicket.data';
+} from '../ServicesTickets.data';
 
 export const dropdownDummy = [
   {

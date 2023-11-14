@@ -9,24 +9,15 @@ import {
   RHFTimePicker,
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
+import dayjs from 'dayjs';
 import {
   ticketImpactOptions,
   ticketPriorityOptions,
+  ticketSourceOptions,
   ticketStatusOptions,
-} from '../TicketsLists/TicketsLists.data';
-import dayjs from 'dayjs';
+} from '../ServicesTickets.data';
 
 const todayDate = dayjs()?.format('MM/DD/YYYY');
-
-export const ticketSourceOptions = [
-  { value: 'Phone No.', label: 'Phone No.' },
-  { value: 'Email', label: 'Email' },
-  { value: 'Portal', label: 'Portal' },
-  { value: 'Chat', label: 'Chat' },
-  { value: 'Walk Up', label: 'Walk Up' },
-  { value: 'Slack', label: 'Slack' },
-  { value: 'MS Team', label: 'MS Team' },
-];
 
 export const dropdownDummy = [
   {
@@ -38,7 +29,8 @@ export const dropdownDummy = [
     label: 'Option 2',
   },
 ];
-export const createTicketValidationSchema = Yup?.object()?.shape({
+
+export const upsertTicketValidationSchema = Yup?.object()?.shape({
   requester: Yup?.string()?.required('Field is Required'),
   subject: Yup?.string()?.trim()?.required('Field is Required'),
   description: Yup?.string(),
@@ -57,7 +49,7 @@ export const createTicketValidationSchema = Yup?.object()?.shape({
   attachFile: Yup?.mixed()?.nullable(),
 });
 
-export const createTicketDefaultValuesFunction = (data?: any) => {
+export const upsertTicketDefaultValuesFunction = (data?: any) => {
   return {
     requester: data?.requester ?? '',
     subject: data?.subject ?? '',
@@ -80,7 +72,7 @@ export const createTicketDefaultValuesFunction = (data?: any) => {
     attachFile: null,
   };
 };
-export const createTicketDataArray = [
+export const upsertTicketFormFields = [
   {
     componentProps: {
       name: 'requester',
