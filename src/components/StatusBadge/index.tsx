@@ -34,10 +34,10 @@ const StatusBadge = (props: BadgeStatusI) => {
         return (
           <MenuItem
             key={uuidv4()}
-            value={item.value}
+            value={item?.value}
             defaultValue={defaultValue}
           >
-            {item.label}
+            {item?.label}
           </MenuItem>
         );
       })}

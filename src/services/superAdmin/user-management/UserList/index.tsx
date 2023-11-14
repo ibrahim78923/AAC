@@ -5,7 +5,7 @@ export const userListApi = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getUsersAccounts: builder.query({
       query: () => ({
-        url: endpoints.USER_ACCOUNTS_LIST,
+        url: endpoints?.USER_ACCOUNTS_LIST,
         method: 'GET',
       }),
       providesTags: ['USERS'],
