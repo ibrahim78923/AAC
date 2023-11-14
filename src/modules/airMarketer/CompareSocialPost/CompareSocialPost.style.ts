@@ -7,5 +7,11 @@ export const style = {
     width: '366px',
     padding: '20px',
     borderRadius: '8px',
+    '.postContent': {
+      whiteSpace: 'nowrap',
+      width: '215px',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+    },
   }),
 };

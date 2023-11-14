@@ -12,7 +12,7 @@ import AddUser from './Users/AddUser';
 
 import SuperAdminUsers from './Users/Admin';
 
-import { FilterSharedIcon, PlusIcon } from '@/assets/icons';
+import { FilterrIcon, PlusIcon } from '@/assets/icons';
 
 import useUserManagement from './useUserManagement';
 import ActionButton from './ActionButton';
@@ -85,7 +85,7 @@ const UserManagement = () => {
                   onClick={() => {
                     setIsOpenFilterDrawer(true);
                   }}
-                  startIcon={<FilterSharedIcon />}
+                  startIcon={<FilterrIcon />}
                   sx={{
                     border: `1px solid ${theme?.palette?.custom?.dark}`,
                     color: theme?.palette?.custom?.main,

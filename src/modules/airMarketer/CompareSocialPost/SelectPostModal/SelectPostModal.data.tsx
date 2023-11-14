@@ -116,3 +116,22 @@ export const postData = [
     videoTenScndsViews: '0',
   },
 ];
+
+export const postsOverviewData = [
+  {
+    title: 'Clicks',
+    description: '----',
+  },
+  {
+    title: 'Interaction',
+    description: '----',
+  },
+  {
+    title: 'Impression',
+    description: '----',
+  },
+  {
+    title: 'Comments',
+    description: '----',
+  },
+];
