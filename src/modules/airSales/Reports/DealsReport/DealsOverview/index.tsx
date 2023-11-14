@@ -17,7 +17,7 @@ const DealsOverview = () => {
   return (
     <>
       <Box sx={styles.dealBox(theme)}>
-        <Typography variant="h5" sx={{ color: `${theme.palette.grey[800]}` }}>
+        <Typography variant="h5" sx={{ color: `${theme?.palette?.grey[800]}` }}>
           Deals Overview
         </Typography>
         <Search label="Search here" />

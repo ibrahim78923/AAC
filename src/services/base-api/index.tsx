@@ -4,10 +4,11 @@ import { RootState } from '@/redux/store';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 // Tags
-export const TAGS = ['USERS', 'PLAN_MANEGEMENT'];
+export const TAGS = ['USERS', 'PLAN_MANEGEMENT', 'Organization'];
 
 const baseQuery = fetchBaseQuery({
   baseUrl: BASE_URL,
+
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState)?.auth?.accessToken;
 

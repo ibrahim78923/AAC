@@ -3,36 +3,29 @@ import Search from '@/components/Search';
 
 import * as Yup from 'yup';
 
-export const validationSchema = Yup.object().shape({
-  accountName: Yup.string().required('Field is Required'),
-  phoneNumber: Yup.string().trim().required('Field is Required'),
-  address: Yup.string().required('Field is Required'),
-  buildingName: Yup.string().required('Field is Required'),
-  unit: Yup.string().required('Field is Required'),
-  buildingNumber: Yup.string().required('Field is Required'),
-  streetName: Yup.string().required('Field is Required'),
-  city: Yup.string().required('Field is Required'),
-  country: Yup.string().required('Field is Required'),
+export const validationSchema = Yup?.object()?.shape({
+  registrationNumber: Yup?.string()?.required('Field is Required'),
+  name: Yup?.string()?.trim()?.required('Field is Required'),
+  email: Yup?.string()?.required('Field is Required'),
+  phoneNo: Yup?.string()?.required('Field is Required'),
+  postCode: Yup?.string()?.required('Field is Required'),
+  address: Yup?.string()?.required('Field is Required'),
 });
 
 export const defaultValues = {
-  accountName: '',
-  phoneNumber: '',
+  registrationNumber: '',
+  name: '',
+  email: '',
+  phoneNo: '',
   postCode: '',
   address: '',
-  unit: '',
-  buildingName: '',
-  buildingNumber: '',
-  streetName: '',
-  city: '',
-  country: '',
 };
 
 export const dataArray = [
   {
     componentProps: {
-      name: 'sale',
-      label: 'Company Account Name',
+      name: 'registrationNumber',
+      label: 'Company Registration Number',
       fullWidth: true,
       select: false,
     },
@@ -41,8 +34,8 @@ export const dataArray = [
   },
   {
     componentProps: {
-      name: 'accountName',
-      label: 'Company Account Name',
+      name: 'name',
+      label: 'Organization Name',
       fullWidth: true,
       select: false,
     },
@@ -51,7 +44,7 @@ export const dataArray = [
   },
   {
     componentProps: {
-      name: 'phoneNumber',
+      name: 'phoneNo',
       label: 'Phone No',
       fullWidth: true,
       select: false,
