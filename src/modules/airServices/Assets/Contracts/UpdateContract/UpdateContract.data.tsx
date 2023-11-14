@@ -6,35 +6,14 @@ import {
 import * as Yup from 'yup';
 import { Typography } from '@mui/material';
 import { ItemDetail } from './ItemDetail';
-
 import dayjs from 'dayjs';
+import { CONTRACT_TYPES } from '@/constants/strings';
+import {
+  contractTypeOptions,
+  dropdownDummy,
+} from '../UpsertContract/UpsertContract.data';
 
 const todayDate = dayjs()?.format('MM/DD/YYYY');
-
-export const CONTRACT_TYPES = {
-  LEASE: 'Lease',
-  MAINTENANCE: 'Maintenance',
-  SOFTWARE_LICENSE: 'Software License',
-  WARRANTY: 'Warranty',
-};
-export const contractTypeOptions = [
-  {
-    value: 'Lease',
-    label: 'Lease',
-  },
-  {
-    value: 'Maintenance',
-    label: 'Maintenance',
-  },
-  {
-    value: 'Software License',
-    label: 'Software License',
-  },
-  {
-    value: 'Warranty',
-    label: 'Warranty',
-  },
-];
 
 export const updateContractFormValidationSchema = Yup?.object()?.shape({
   startDate: Yup?.date(),
@@ -142,25 +121,7 @@ export const updateContractFormFieldsFunction = (router: any) => [
       fullWidth: true,
       select: true,
     },
-    options: [
-      {
-        value: 'markwood',
-        label: 'Markwook',
-      },
-      {
-        value: 'randall',
-        label: 'Randall',
-      },
-      {
-        value: 'shane',
-        label: 'Shane',
-      },
-      {
-        value: 'floyd',
-        label: 'floyd',
-      },
-    ],
-
+    options: dropdownDummy,
     component: RHFSelect,
     md: 6,
   },
