@@ -16,6 +16,7 @@ const useCompanies = () => {
   const [isReassign, setIsReassign] = useState(false);
   const [isExport, setIsExport] = useState(false);
   const [isDeleteCompany, setIsDeleteCompany] = useState(false);
+  const [isImport, setIsImport] = useState(false);
   const [isMerge, setIsMerge] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -55,6 +56,8 @@ const useCompanies = () => {
     setIsDeleteCompany,
     isMerge,
     setIsMerge,
+    isImport,
+    setIsImport,
   };
 };
 
