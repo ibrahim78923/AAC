@@ -9,10 +9,10 @@ const StepSignature = ({ values }: any) => {
   return (
     <Grid container spacing={'40px'}>
       <Grid item xs={5}>
-        <Typography variant="h5" sx={styles.heading}>
+        <Typography variant="h5" sx={styles?.heading}>
           Signature
         </Typography>
-        <Typography variant="body1" sx={styles.checkInformation}>
+        <Typography variant="body1" sx={styles?.checkInformation}>
           Check the information about you and your company that will appear on
           the quote
         </Typography>

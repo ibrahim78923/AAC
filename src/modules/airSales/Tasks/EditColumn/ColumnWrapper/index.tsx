@@ -10,8 +10,8 @@ export const ColumnsWrapper = ({
   checkBoxProps = {},
 }: EditColumnI) => {
   return (
-    <Box key={key} my={'16px'} sx={styles.columnWrapper}>
-      <Box sx={styles.dragIcon}>
+    <Box key={key} my={'16px'} sx={styles?.columnWrapper}>
+      <Box sx={styles?.dragIcon}>
         <DragIcon />
         {title}
       </Box>

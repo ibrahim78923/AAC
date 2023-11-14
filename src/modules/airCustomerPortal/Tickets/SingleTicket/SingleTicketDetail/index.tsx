@@ -1,3 +1,4 @@
+import { AIR_CUSTOMER_PORTAL_TICKET } from '@/constants/strings';
 import { Box, Typography } from '@mui/material';
 
 export const SingleTicketDetail = ({
@@ -37,7 +38,9 @@ export const SingleTicketDetail = ({
           alignItems={'center'}
           justifyContent={'center'}
         >
-          {status ? 'Closed' : 'Processing'}
+          {status
+            ? AIR_CUSTOMER_PORTAL_TICKET?.CLOSED
+            : AIR_CUSTOMER_PORTAL_TICKET?.PROCESSING}
         </Typography>
       </Box>
     </Box>

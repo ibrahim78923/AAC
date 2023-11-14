@@ -53,12 +53,15 @@ const EmailDashboard = ({ isOpenDrawer, onClose }: any) => {
                 watchFields[0] === 'Include selected reports' ? (
                   <Grid item container>
                     <item.component
-                      {...item.componentProps}
+                      {...item?.componentProps}
                       size={'small'}
                     ></item.component>
                     {dataArraySelectedReports?.map((item: any) => (
                       <Grid item xs={12} key={uuidv4()}>
-                        <item.component {...item.componentProps} size={'small'}>
+                        <item.component
+                          {...item?.componentProps}
+                          size={'small'}
+                        >
                           {item?.componentProps?.select &&
                             item?.options?.map((option: any) => (
                               <option value={option?.value} key={uuidv4()}>
@@ -70,7 +73,7 @@ const EmailDashboard = ({ isOpenDrawer, onClose }: any) => {
                     ))}
                   </Grid>
                 ) : (
-                  <item.component {...item.componentProps} size={'small'}>
+                  <item.component {...item?.componentProps} size={'small'}>
                     {item?.componentProps?.select &&
                       item?.options?.map((option: any) => (
                         <option value={option?.value} key={uuidv4()}>

@@ -20,10 +20,12 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { DownloadLargeIcon } from '@/assets/icons';
-import { names } from '@/mock/modules/airSales/Reports/DealsReport';
-import { styles } from './DealsReport.style';
+
 import CardAndGraphs from './CardAndGraph';
 import DealsOverview from './DealsOverview';
+
+import { styles } from './DealsReport.style';
+import { names } from '@/mock/modules/airSales/Reports/DealsReport';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -47,6 +49,7 @@ const DealsReport = (props: any) => {
     } = event;
     setPersonName(typeof value === 'string' ? value.split(',') : value);
   };
+
   return (
     <>
       <Grid container spacing={2}>
@@ -61,7 +64,7 @@ const DealsReport = (props: any) => {
             />
             <Typography
               variant="h3"
-              sx={{ color: `${theme.palette.grey[800]}` }}
+              sx={{ color: `${theme?.palette?.grey[800]}` }}
             >
               Deals Report
             </Typography>
@@ -144,7 +147,7 @@ const DealsReport = (props: any) => {
               </FormControl>
             </Grid>
             <Grid item lg={3} md={6} sm={6} xs={12}>
-              <Box sx={styles.downloadIcon(theme)}>
+              <Box sx={styles?.downloadIcon(theme)}>
                 <DownloadLargeIcon />
               </Box>
             </Grid>

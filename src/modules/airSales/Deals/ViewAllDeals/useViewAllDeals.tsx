@@ -13,8 +13,8 @@ const useViewAllDeals = () => {
   const ColumnsWrapper = ({ ...rest }) => {
     const { title, checkboxProps } = rest;
     return (
-      <Box my={'16px'} sx={styles.viewBox(theme)}>
-        <Box sx={styles.viewChildBox}>
+      <Box my={'16px'} sx={styles?.viewBox(theme)}>
+        <Box sx={styles?.viewChildBox}>
           <DragIcon />
           {title}
         </Box>

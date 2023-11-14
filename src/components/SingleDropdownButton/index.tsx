@@ -22,8 +22,10 @@ export const SingleDropdownButton = (props: any) => {
         endIcon={<ArrowDropDownIcon />}
         color="secondary"
         disabled={disabled}
+        sx={{ textTransform: 'capitalize' }}
       >
-        {dropdownName}
+        {dropdownName?.[0]?.toUpperCase() +
+          dropdownName?.slice?.(1)?.toLowerCase()}
       </Button>
       <Menu
         id="demo-positioned-menu"
