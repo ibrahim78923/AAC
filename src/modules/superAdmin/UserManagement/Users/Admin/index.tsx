@@ -13,13 +13,11 @@ const Admin = () => {
     search: search,
   };
   const { data } = useGetUsersQuery(params);
+  const columnParams = superAdminColumns(handleUserSwitchChange);
 
   return (
     <>
-      <TanstackTable
-        columns={superAdminColumns(handleUserSwitchChange)}
-        data={data?.data?.users}
-      />
+      <TanstackTable columns={columnParams} data={data?.data?.users} />
       <CustomPagination count={1} rowsPerPageOptions={[1, 2]} entriePages={1} />
     </>
   );

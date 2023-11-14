@@ -31,11 +31,7 @@ import Delegates from './UserDetailsTables/Delegates';
 
 import { ArrowBack, AddCircleOutlined } from '@mui/icons-material';
 
-import {
-  AddShopIcon,
-  AddUserCircleIcon,
-  FilterSharedIcon,
-} from '@/assets/icons';
+import { AddShopIcon, AddUserCircleIcon, FilterrIcon } from '@/assets/icons';
 
 import { AvatarImage } from '@/assets/images';
 import useUserDetailsList from './useUserDetailsList';
@@ -145,7 +141,7 @@ const UsersDetailsList = () => {
                   }}
                   onClick={() => setIsOpenDrawer(true)}
                 >
-                  <FilterSharedIcon />
+                  <FilterrIcon />
                 </Button>
               </Stack>
             </Box>
