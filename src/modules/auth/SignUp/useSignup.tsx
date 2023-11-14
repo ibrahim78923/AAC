@@ -46,13 +46,18 @@ const useSignup = () => {
     };
 
     try {
-      const response: any = await signUpValue({ user });
+      const response: any = await signUpValue({ user }).unwrap();
       if (response?.data) {
-        authCompanyVerification({ email: { email: email } });
+        try {
+          await authCompanyVerification({ email: { email: email } }).unwrap();
+        } catch (error: any) {
+          const errMsg = error?.data?.message;
+          enqueueSnackbar(errMsg ?? 'Error occurred', { variant: 'error' });
+        }
       }
     } catch (error: any) {
       const errMsg = error?.data?.message;
-      enqueueSnackbar(errMsg ?? 'Error occured', { variant: 'error' });
+      enqueueSnackbar(errMsg ?? 'Error occurred', { variant: 'error' });
     }
   };
 
