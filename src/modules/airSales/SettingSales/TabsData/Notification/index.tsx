@@ -58,19 +58,19 @@ const Notification = () => {
         <Typography variant="h6" sx={{ marginY: '20px', fontWeight: '600' }}>
           Notification List
         </Typography>
-        <Box sx={styles.BoxStyling(theme)}>
+        <Box sx={styles?.BoxStyling(theme)}>
           <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap' }}>
             <DealsIcon />
             <Box sx={{ marginLeft: '15px' }}>
               <Typography
                 variant="h6"
-                sx={{ color: theme.palette.slateBlue.main }}
+                sx={{ color: theme?.palette?.slateBlue?.main }}
               >
                 Deals
               </Typography>
               <Typography
                 variant="body2"
-                sx={{ color: theme.palette.custom.main }}
+                sx={{ color: theme?.palette?.custom?.main }}
               >
                 Deals notification will be sent to your inbox.{' '}
               </Typography>
@@ -80,19 +80,19 @@ const Notification = () => {
           <Switch defaultChecked />
         </Box>
 
-        <Box sx={styles.BoxStyling(theme)} style={{ marginTop: '25px' }}>
+        <Box sx={styles?.BoxStyling(theme)} style={{ marginTop: '25px' }}>
           <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap' }}>
             <QuotesIcon />
             <Box sx={{ marginLeft: '15px' }}>
               <Typography
                 variant="h6"
-                sx={{ color: theme.palette.slateBlue.main }}
+                sx={{ color: theme?.palette?.slateBlue?.main }}
               >
                 Quotes
               </Typography>
               <Typography
                 variant="body2"
-                sx={{ color: theme.palette.custom.main }}
+                sx={{ color: theme?.palette?.custom?.main }}
               >
                 Quotes notification will be sent to your inbox.
               </Typography>

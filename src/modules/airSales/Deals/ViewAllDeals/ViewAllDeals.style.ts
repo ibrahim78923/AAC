@@ -2,8 +2,8 @@ export const styles = {
   viewBox: (theme: any) => ({
     padding: '0px 16px',
     borderRadius: '8px',
-    border: `1.5px solid ${theme.palette.grey[700]}`,
-    color: theme.palette.grey[900],
+    border: `1.5px solid ${theme?.palette?.grey[700]}`,
+    color: theme?.palette?.grey[900],
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',

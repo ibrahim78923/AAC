@@ -25,12 +25,12 @@ const Counter: FC<CounterI> = ({
   };
 
   return (
-    <Box sx={styles.counterHolder}>
-      <Box sx={styles.decrementBtn} onClick={decrement}>
+    <Box sx={styles?.counterHolder}>
+      <Box sx={styles?.decrementBtn} onClick={decrement}>
         <MinusCircleIcon />
       </Box>
 
-      <Box sx={styles.textField}>
+      <Box sx={styles?.textField}>
         <input
           type="text"
           value={fixedText ? `${value} ${fixedText}` : value}
@@ -39,7 +39,7 @@ const Counter: FC<CounterI> = ({
         />
       </Box>
 
-      <Box sx={styles.incrementBtn} onClick={increment}>
+      <Box sx={styles?.incrementBtn} onClick={increment}>
         <AddCircleIcon />
       </Box>
     </Box>

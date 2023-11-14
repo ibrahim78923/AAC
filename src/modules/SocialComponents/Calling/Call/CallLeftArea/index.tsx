@@ -17,7 +17,6 @@ const CallLeftArea = ({
   activeCallsSelectedData,
   isActiveCalling,
   setIsActiveCalling,
-
   activeMessageData,
   setActiveMessageData,
   isActiveMessage,
@@ -40,26 +39,26 @@ const CallLeftArea = ({
           }}
         >
           <Box
-            sx={styles.tabsWrapperCalls(toggleCall)}
+            sx={styles?.tabsWrapperCalls(toggleCall)}
             onClick={() => setToggleCall('calls')}
           >
             <CallContainedIcon />
             <Typography
               variant="body2"
-              color={theme.palette.primary.main}
+              color={theme?.palette?.primary?.main}
               fontWeight="500"
             >
               Call
             </Typography>
           </Box>
           <Box
-            sx={styles.tabsWrapperMessage(toggleCall)}
+            sx={styles?.tabsWrapperMessage(toggleCall)}
             onClick={() => setToggleCall('messages')}
           >
             <MessageContainedIcon />
             <Typography
               variant="body2"
-              color={theme.palette.primary.main}
+              color={theme?.palette?.primary?.main}
               fontWeight="500"
             >
               Message

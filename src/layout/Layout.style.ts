@@ -6,11 +6,12 @@ export const styles = {
       '&:hover': {
         background: 'transparent',
       },
-      color: router.pathname.includes(`${subItem.key}`)
-        ? theme.palette.secondary.main
-        : theme.palette.grey[900],
+      color: router?.pathname?.includes(`${subItem?.key}`)
+        ? theme?.palette?.secondary?.main
+        : theme?.palette?.grey[900],
       background:
-        router.pathname.includes(`${subItem.key}`) && theme.palette.grey[400],
+        router?.pathname?.includes(`${subItem?.key}`) &&
+        theme?.palette?.grey[400],
     };
   },
   collapseMenuOpener: (
@@ -21,27 +22,27 @@ export const styles = {
   ) => {
     return {
       background:
-        (router.pathname.includes(`${item.key}`) || isDropDownOpen) &&
-        theme.palette.grey[400],
+        (router?.pathname?.includes(`${item?.key}`) || isDropDownOpen) &&
+        theme?.palette?.grey[400],
       '&:hover': {
         background:
-          router.pathname.includes(`${item.key}`) || isDropDownOpen
-            ? theme.palette.grey[400]
+          router?.pathname?.includes(`${item?.key}`) || isDropDownOpen
+            ? theme?.palette?.grey[400]
             : 'transparent',
       },
       padding: '6px  15px',
       borderRadius: '5px',
       fontSize: '14px',
       color:
-        router.pathname.includes(`${item.key}`) ||
-        (isDropDownOpen && theme.palette.secondary.main),
+        router?.pathname?.includes(`${item?.key}`) ||
+        (isDropDownOpen && theme?.palette?.secondary?.main),
     };
   },
 
   dropdownChildren: (theme: any) => {
     return {
       position: 'relative',
-      borderLeft: `1px solid ${theme.palette.grey[900]}`,
+      borderLeft: `1px solid ${theme?.palette?.grey[700]}`,
       padding: '8px 0px',
       paddingLeft: '24px',
       '&:before': {
@@ -51,8 +52,8 @@ export const styles = {
         width: '15px',
         height: '15px',
         left: -1,
-        borderLeft: `1px solid ${theme.palette.grey[900]}`,
-        borderBottom: `1px solid ${theme.palette.grey[900]}`,
+        borderLeft: `1px solid ${theme?.palette?.grey[700]}`,
+        borderBottom: `1px solid ${theme?.palette?.grey[700]}`,
         borderRadius: '0px 0px 0px 7px',
         top: 3,
       },
@@ -61,11 +62,11 @@ export const styles = {
 
   mainNavLink: (pathNameKey?: any, routerPathName?: any, theme?: any) => {
     return {
-      background: routerPathName === pathNameKey && theme.palette.grey[400],
+      background: routerPathName === pathNameKey && theme?.palette?.grey[400],
       '&:hover': {
         background:
           routerPathName === pathNameKey
-            ? theme.palette.grey[400]
+            ? theme?.palette?.grey[400]
             : 'transparent',
       },
       padding: '7px 0px 7px 10px',
@@ -73,8 +74,8 @@ export const styles = {
       fontSize: '14px',
       color:
         routerPathName === pathNameKey
-          ? theme.palette.secondary.main
-          : theme.palette.grey[900],
+          ? theme?.palette?.secondary?.main
+          : theme?.palette?.grey[900],
     };
   },
 
@@ -87,11 +88,11 @@ export const styles = {
     return {
       background:
         (routerPathName === lowerPathNameKey || dropdownKey) &&
-        theme.palette.grey[400],
+        theme?.palette?.grey[400],
       '&:hover': {
         background:
           routerPathName === lowerPathNameKey || dropdownKey
-            ? theme.palette.grey[400]
+            ? theme?.palette?.grey[400]
             : 'transparent',
       },
       padding: '7px 0px 7px 10px',
@@ -99,8 +100,8 @@ export const styles = {
       fontSize: '14px',
       color:
         routerPathName === lowerPathNameKey || dropdownKey
-          ? theme.palette.secondary.main
-          : theme.palette.grey[900],
+          ? theme?.palette?.secondary?.main
+          : theme?.palette?.grey[900],
     };
   },
 
@@ -108,7 +109,7 @@ export const styles = {
     return {
       width: { md: `calc(100% - ${drawerWidth}px)` },
       ml: { sm: `${drawerWidth}px` },
-      background: theme.palette.common.white,
+      background: theme?.palette?.common?.white,
       boxShadow: 'none',
       color: 'black',
       padding: '18px 24px',
@@ -153,7 +154,7 @@ export const styles = {
     return {
       background: isZeroPaddingRoutes
         ? 'transparent'
-        : theme.palette.common.white,
+        : theme?.palette?.common?.white,
       minHeight: `calc(100% - ${70}px)`,
       height: 'auto',
       padding: `${isZeroPaddingRoutes ? '1px' : '24px'}`,

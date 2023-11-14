@@ -22,9 +22,9 @@ export const styles = {
 
   actionBtn: (theme: any) => {
     return {
-      border: `1px solid ${theme?.palette?.custom.dark}`,
+      border: `1px solid ${theme?.palette?.custom?.dark}`,
       borderRadius: '4px',
-      color: `${theme?.palette?.custom.main}`,
+      color: `${theme?.palette?.custom?.main}`,
       display: 'flex',
       alignItems: 'center',
       padding: '6px 15px',

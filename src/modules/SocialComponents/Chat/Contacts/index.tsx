@@ -20,7 +20,7 @@ const Contacts = () => {
         sx={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}
       >
         <Typography variant="h4">Chats</Typography>
-        <Box sx={styles.wrapperButtons(theme)}>
+        <Box sx={styles?.wrapperButtons(theme)}>
           <ToggleButtonGroup
             value={chatMode}
             exclusive
@@ -29,14 +29,14 @@ const Contacts = () => {
           >
             <ToggleButton
               value="personalChat"
-              sx={styles.toggleButtonLeft(theme)}
+              sx={styles?.toggleButtonLeft(theme)}
               aria-label="left-aligned"
             >
               Personal Chat
             </ToggleButton>
             <ToggleButton
               value="groupChat"
-              sx={styles.toggleButtonRight(theme)}
+              sx={styles?.toggleButtonRight(theme)}
               aria-label="right-aligned"
             >
               Group chat
