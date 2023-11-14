@@ -38,7 +38,8 @@ export const columns: any = (handleUserSwitchChange: any) => [
         <Avatar alt="Remy Sharp" src={AvatarImage?.src} />
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
           <Typography component={'span'}>
-            {info?.row?.original?.firstName} {info?.row?.original?.lastName}
+            {info?.row?.original?.firstName} {info?.row?.original?.middleName}{' '}
+            {info?.row?.original?.lastName}
           </Typography>
           <Typography component={'span'}>
             {info?.row?.original?.email}
@@ -129,7 +130,8 @@ export const superAdminColumns: any = (handleUserSwitchChange: any) => [
         <Avatar alt="Remy Sharp" src={AvatarImage?.src} />
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
           <Typography component={'span'}>
-            {info?.row?.original?.firstName} {info?.row?.original?.lastName}
+            {info?.row?.original?.firstName} {info?.row?.original?.middleName}{' '}
+            {info?.row?.original?.lastName}
           </Typography>
           <Typography component={'span'}>
             {info?.row?.original?.email}

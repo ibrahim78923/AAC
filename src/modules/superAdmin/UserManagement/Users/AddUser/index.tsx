@@ -21,13 +21,14 @@ import { useForm } from 'react-hook-form';
 import { enqueueSnackbar } from 'notistack';
 import { v4 as uuidv4 } from 'uuid';
 import useUserManagement from '../../useUserManagement';
+import { SUPER_ADMIN } from '@/constants/index';
 
 const AddUser = ({ isOpenDrawer, onClose }: any) => {
   const { userType, setUserType } = useUserManagement();
   const [isToggled, setIsToggled] = useToggle(false);
   const { usePostUsersMutation } = usersApi;
   const [postUsers] = usePostUsersMutation();
-  const pathName = window.location.pathname;
+  const pathName = window?.location?.pathname;
 
   const superAdminMethods: any = useForm({
     resolver: yupResolver(superAdminValidationSchema),
@@ -37,12 +38,16 @@ const AddUser = ({ isOpenDrawer, onClose }: any) => {
     resolver: yupResolver(CompanyOwnerValidationSchema),
     defaultValues: companyOwnerDefaultValues,
   });
+
   const methods =
     userType === 'SUPER_ADMIN' ? superAdminMethods : companyOwnerMethods;
-  const { handleSubmit, reset } = methods;
+
+  const { handleSubmit, reset, watch } = methods;
+  const { crn } = watch({ name: 'crn' });
 
   const onSubmit = async (values: any) => {
     values.role = userType;
+    values.companyName = crn;
     try {
       postUsers({ body: values })?.unwrap();
       enqueueSnackbar('User Added Successfully', {
@@ -68,7 +73,7 @@ const AddUser = ({ isOpenDrawer, onClose }: any) => {
     >
       <FormProvider methods={methods}>
         <Grid container spacing={2} mt={1}>
-          {pathName === '/super-admin/user-management' && (
+          {pathName === SUPER_ADMIN?.USERMANAGMENT && (
             <Grid item xs={12}>
               <Typography variant="body2" fontWeight={500}>
                 User Type
@@ -92,7 +97,7 @@ const AddUser = ({ isOpenDrawer, onClose }: any) => {
           {addUsersArray?.map((item: any) => {
             return (
               item?.toShow?.includes(
-                pathName === '/super-admin/user-management'
+                pathName === SUPER_ADMIN?.USERMANAGMENT
                   ? userType
                   : 'ORG_ADMIN',
               ) && (

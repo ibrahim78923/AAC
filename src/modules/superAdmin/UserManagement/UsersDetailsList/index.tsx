@@ -186,7 +186,7 @@ const UsersDetailsList = () => {
                       sx={{ display: 'flex', justifyContent: 'space-between' }}
                     >
                       <Typography>
-                        {item?.firstName} {item?.lastName}
+                        {item?.firstName} {item?.middleName} {item?.lastName}
                       </Typography>
                       <StatusBadge
                         defaultValue={item?.status}

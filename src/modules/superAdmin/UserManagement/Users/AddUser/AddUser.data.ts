@@ -12,7 +12,7 @@ export const CompanyOwnerValidationSchema = Yup.object().shape({
   middleName: Yup.string().required('Field is Required'),
   lastName: Yup.string().required('Field is Required'),
   email: Yup.string().required('Field is Required'),
-  crnNumber: Yup.string().required('Field is Required'),
+  crn: Yup.string().required('Field is Required'),
   companyName: Yup.string().required('Field is Required'),
   phoneNumber: Yup.string().required('Field is Required'),
 });
@@ -37,7 +37,7 @@ export const companyOwnerDefaultValues = {
   middleName: '',
   lastName: '',
   email: '',
-  crnNumber: '',
+  crn: '',
   companyName: '',
   phoneNumber: '',
 };
@@ -103,7 +103,7 @@ export const addUsersArray = [
   {
     title: 'Company Registration Number(CRN)',
     componentProps: {
-      name: 'crnNumber',
+      name: 'crn',
       placeholder: 'Enter CRN Number',
       fullWidth: true,
     },
