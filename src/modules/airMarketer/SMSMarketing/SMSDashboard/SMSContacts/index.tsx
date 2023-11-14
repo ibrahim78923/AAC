@@ -11,8 +11,8 @@ import { styles } from './SMSContacts.style';
 const SMSContacts = () => {
   const { theme } = useSMSContacts();
   return (
-    <Box sx={styles.SMSContactsCardStyle}>
-      <Typography variant="h4" sx={styles.heading(theme)}>
+    <Box sx={styles?.SMSContactsCardStyle}>
+      <Typography variant="h4" sx={styles?.heading(theme)}>
         SMS Contacts
       </Typography>
       <Stack direction="row" justifyContent="space-between">

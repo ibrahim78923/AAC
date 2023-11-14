@@ -19,9 +19,9 @@ const ScheduledSMS = () => {
   const { theme, statusTag } = useScheduledSMS();
 
   return (
-    <Box sx={styles.scheduledSMSCardStyle}>
+    <Box sx={styles?.scheduledSMSCardStyle}>
       <Box className="scheduledSMSHeader">
-        <Typography variant="h4" sx={styles.heading(theme)}>
+        <Typography variant="h4" sx={styles?.heading(theme)}>
           Scheduled SMS
         </Typography>
         <Button variant="contained">View All</Button>
@@ -38,7 +38,7 @@ const ScheduledSMS = () => {
                   <Typography gutterBottom variant="h5" component="div">
                     {item?.title}
                   </Typography>
-                  <Box sx={styles.cardHeader}>
+                  <Box sx={styles?.cardHeader}>
                     <Box
                       sx={{
                         width: '10px',

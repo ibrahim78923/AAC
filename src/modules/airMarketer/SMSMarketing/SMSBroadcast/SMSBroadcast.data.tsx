@@ -11,13 +11,13 @@ import { styled } from '@mui/material/styles';
 const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
   height: 10,
   borderRadius: 5,
-  [`&.${linearProgressClasses.colorPrimary}`]: {
+  [`&.${linearProgressClasses?.colorPrimary}`]: {
     backgroundColor:
-      theme.palette.grey[theme.palette.mode === 'light' ? 200 : 800],
+      theme?.palette?.grey[theme?.palette?.mode === 'light' ? 200 : 800],
   },
-  [`& .${linearProgressClasses.bar}`]: {
+  [`& .${linearProgressClasses?.bar}`]: {
     borderRadius: 5,
-    backgroundColor: theme.palette.mode === 'light' ? '#1a90ff' : '#308fe8',
+    backgroundColor: theme?.palette?.mode === 'light' ? '#1a90ff' : '#308fe8',
   },
 }));
 
@@ -58,42 +58,42 @@ export const broadcastData: any = [
 
 export const broadcastColumns: any = (statusTag: any) => [
   {
-    accessorFn: (row: any) => row.Id,
+    accessorFn: (row: any) => row?.Id,
     id: 'Id',
-    cell: (info: any) => <Checkbox color="primary" name={info.getValue()} />,
+    cell: (info: any) => <Checkbox color="primary" name={info?.getValue()} />,
     header: <Checkbox color="primary" name="Id" />,
     isSortable: false,
   },
   {
-    accessorFn: (row: any) => row.name,
+    accessorFn: (row: any) => row?.name,
     id: 'name',
     isSortable: false,
     header: 'Name',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.CreatedOn,
+    accessorFn: (row: any) => row?.CreatedOn,
     id: 'createdOn',
     isSortable: true,
     header: 'Created On',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.Successful,
+    accessorFn: (row: any) => row?.Successful,
     id: 'successful',
     isSortable: true,
     header: 'Successful',
     cell: <BorderLinearProgress variant="determinate" value={50} />,
   },
   {
-    accessorFn: (row: any) => row.Replied,
+    accessorFn: (row: any) => row?.Replied,
     id: 'replied',
     isSortable: true,
     header: 'Replied',
     cell: <BorderLinearProgress variant="determinate" value={50} />,
   },
   {
-    accessorFn: (row: any) => row.Recipients,
+    accessorFn: (row: any) => row?.Recipients,
     id: 'Recipients',
     isSortable: true,
     header: 'Recipients',
@@ -110,7 +110,7 @@ export const broadcastColumns: any = (statusTag: any) => [
     ),
   },
   {
-    accessorFn: (row: any) => row.Failed,
+    accessorFn: (row: any) => row?.Failed,
     id: 'failed',
     isSortable: true,
     header: 'Failed',
@@ -127,21 +127,21 @@ export const broadcastColumns: any = (statusTag: any) => [
     ),
   },
   {
-    accessorFn: (row: any) => row.Status,
+    accessorFn: (row: any) => row?.Status,
     id: 'status',
     isSortable: true,
     header: 'Status',
     cell: (info: any) => (
-      <Box sx={styles.cardHeader}>
+      <Box sx={styles?.cardHeader}>
         <Box
           sx={{
             width: '10px',
             height: '10px',
-            backgroundColor: `${statusTag(info.getValue())}`,
+            backgroundColor: `${statusTag(info?.getValue())}`,
             borderRadius: '50%',
           }}
         />
-        {info.getValue()}
+        {info?.getValue()}
       </Box>
     ),
   },
