@@ -1,4 +1,4 @@
 export interface QueryModalPropsI {
   isQueryModalOpen: boolean;
-  setIsQueryModalOpen: () => void;
+  setIsQueryModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }

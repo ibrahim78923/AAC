@@ -15,7 +15,7 @@ const ProductWiseGrpah = () => {
   });
 
   return (
-    <Box sx={styles.productWiseGraph}>
+    <Box sx={styles?.productWiseGraph}>
       <Typography
         sx={{
           color: `${theme?.palette?.custom.dark_blue}`,

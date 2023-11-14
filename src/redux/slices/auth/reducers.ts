@@ -1,13 +1,13 @@
 import { TAuthSlice } from './extra-reducers';
 
 const initialState: TAuthSlice = {
-  authToken: null,
+  accessToken: null,
   refreshToken: null,
 };
 
 export const setTokens = (state: any, action: any) => {
-  state.authToken = action.payload.authToken;
-  state.refreshToken = action.payload.refreshToken;
+  state.accessToken = action?.payload?.accessToken;
+  state.refreshToken = action?.payload?.refreshToken;
 };
 
 export const logout = (state: any) => {

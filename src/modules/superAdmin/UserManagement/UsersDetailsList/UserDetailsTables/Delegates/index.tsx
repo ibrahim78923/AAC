@@ -12,7 +12,7 @@ import { delegatesColumns, delegatesData } from './Delegates.data';
 
 import DelegateFilterDrawer from '../../DelegateFilterDrawer';
 
-import { FilterSharedIcon } from '@/assets/icons';
+import { FilterrIcon } from '@/assets/icons';
 
 const Delegates = () => {
   const [isOpenFilterDrawer, setIsOpenFilterDrawer] = useState(false);
@@ -44,7 +44,7 @@ const Delegates = () => {
                 onClick={() => {
                   setIsOpenFilterDrawer(true);
                 }}
-                startIcon={<FilterSharedIcon />}
+                startIcon={<FilterrIcon />}
                 variant="outlined"
                 sx={{
                   border: '1px solid #D1D5DB',

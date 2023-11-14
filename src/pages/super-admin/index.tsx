@@ -6,5 +6,5 @@ const SuperAdminPage = () => {
 };
 export default SuperAdminPage;
 SuperAdminPage.getLayout = function getLayout(page: any) {
-  return <Layout guardRoute>{page}</Layout>;
+  return <Layout>{page}</Layout>;
 };

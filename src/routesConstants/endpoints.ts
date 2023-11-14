@@ -8,4 +8,29 @@ export const END_POINTS = {
   forgot_password: 'auth/forgot-password',
   INVENTORY_EXPENSE: 'expense/add-expense',
   GET_INVENTORY_EXPENSE: 'expense/get-expense',
+  USER_LIST: '/users',
+  ADD_USER: '/users',
+  ADD_USER_ACCOUNT: '/super-admin/add-accounts',
+  USER_ACCOUNTS_LIST: '/super-admin/accounts-list',
+  UPDATE_USER_LIST: '/users/edit',
+  COMPANY_CRN: '/auth/search-company',
+  auth_search_company: 'auth/search-company',
+  auth_IG_Verification: 'auth/ig-verification',
+};
+
+export const superAdminBillingInvoices = {
+  get_org_plan: '/super-admin/get-all-orgplans?',
+  get_Products: '/products?status=inactive',
+  get_plan_type: '/plan/plan-type-list',
+  get_organizations: '/organization/get-organizations',
+  post_biling_invoices: '/super-admin/assign-plan',
+};
+
+export const organization = {
+  post_organization_account: '/org-company-account',
+  get_organization_account_all: '/org-company-account/get-accounts',
+  get_organization_account_id: '/org-company-account',
+  get_main_organization: '/organization',
+  update_organization_account: '/org-company-account',
+  delete_organization_account: '/org-company-account',
 };

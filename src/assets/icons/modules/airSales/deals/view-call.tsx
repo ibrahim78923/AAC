@@ -1,4 +1,4 @@
-const ViewCallIcon = () => {
+const ViewCall = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -18,4 +18,4 @@ const ViewCallIcon = () => {
     </svg>
   );
 };
-export default ViewCallIcon;
+export default ViewCall;

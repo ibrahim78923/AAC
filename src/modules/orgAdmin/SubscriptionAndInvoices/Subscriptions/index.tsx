@@ -55,17 +55,17 @@ const Subscriptions = () => {
       >
         {data?.map((plan: any) => {
           return (
-            <Grid item key={plan.id} xs={12} md={6} lg={4}>
+            <Grid item key={plan?.id} xs={12} md={6} lg={4}>
               <PlanCard
-                status={plan.status}
-                icon={getProductIcon(plan.product)}
-                title={plan.product}
-                planDuration={plan.planDuration}
+                status={plan?.status}
+                icon={getProductIcon(plan?.product)}
+                title={plan?.product}
+                planDuration={plan?.planDuration}
                 planUsers={plan?.planUsers}
                 planData={plan?.planData}
-                price={plan.price}
-                billOn={plan.billOn}
-                type={plan.type}
+                price={plan?.price}
+                billOn={plan?.billOn}
+                type={plan?.type}
                 handleBillingDetail={handleDrawerOpen}
               />
             </Grid>

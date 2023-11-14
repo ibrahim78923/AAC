@@ -11,7 +11,7 @@ export const columns = (
 ) => {
   return [
     {
-      accessorFn: (row: any) => row.Id,
+      accessorFn: (row: any) => row?.Id,
       id: 'Id',
       cell: (info: any) => (
         <Checkbox
@@ -31,7 +31,7 @@ export const columns = (
     },
 
     {
-      accessorFn: (row: any) => row.default,
+      accessorFn: (row: any) => row?.default,
       id: 'default',
       cell: () => <Switch defaultChecked />,
       header: 'Default',
@@ -39,35 +39,35 @@ export const columns = (
     },
 
     {
-      accessorFn: (row: any) => row.owner,
+      accessorFn: (row: any) => row?.owner,
       id: 'owner',
       isSortable: true,
       header: 'Owner',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
 
     {
-      accessorFn: (row: any) => row.accessRights,
+      accessorFn: (row: any) => row?.accessRights,
       id: 'accessRights',
       isSortable: true,
       header: 'Access Rights',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
 
     {
-      accessorFn: (row: any) => row.lastViewed,
+      accessorFn: (row: any) => row?.lastViewed,
       id: 'lastViewed',
       isSortable: true,
       header: 'Last Viewed',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
 
     {
-      accessorFn: (row: any) => row.lastUpdated,
+      accessorFn: (row: any) => row?.lastUpdated,
       id: 'lastUpdated',
       isSortable: true,
       header: 'Last Updated',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
 
     {

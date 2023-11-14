@@ -1,5 +1,3 @@
-import React from 'react';
-
 import Link from 'next/link';
 
 import { Box, Paper, Typography, useTheme } from '@mui/material';
@@ -10,8 +8,7 @@ import CustomPagination from '@/components/CustomPagination';
 
 import { RestoreTableData } from '@/mock/modules/airSales/Deals/Restore';
 
-import { RestoreTableColumns } from './RestoreTable.data';
-
+import { RestoreTableColumns } from '../Restore/RestoreTable.data';
 import { BackArrIcon } from '@/assets/icons';
 
 const RestoreTable = () => {
@@ -27,7 +24,7 @@ const RestoreTable = () => {
             </Link>
             <Typography
               variant="subtitle1"
-              sx={{ colors: theme.palette.grey[600], ml: '10px' }}
+              sx={{ colors: theme?.palette?.grey[600], ml: '10px' }}
             >
               {' '}
               Restore Deals

@@ -6,9 +6,9 @@ import { useAppSelector } from '@/redux/store';
 
 const ChatArea = () => {
   const chatModeState = useAppSelector(
-    (state: any) => state.chat.chatModeState,
+    (state: any) => state?.chat?.chatModeState,
   );
-  const chatMode = chatModeState.chatModeState;
+  const chatMode = chatModeState?.chatModeState;
 
   return (
     <Box>

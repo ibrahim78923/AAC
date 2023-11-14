@@ -7,18 +7,18 @@ import {
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
-export const dealsCallsValidationSchema = Yup.object().shape({
-  title: Yup.string().trim().required('Field is Required'),
-  fromDate: Yup.string().trim().required('Field is Required'),
-  toDate: Yup.string().trim().required('Field is Required'),
-  fromTime: Yup.string().trim().required('Field is Required'),
-  toTime: Yup.string().trim().required('Field is Required'),
-  linkDeal: Yup.string().trim().required('Field is Required'),
-  callType: Yup.string().trim().required('Field is Required'),
-  setReminder: Yup.string().trim().required('Field is Required'),
-  outcome: Yup.string().trim().required('Field is Required'),
-  callNotes: Yup.string().trim().required('Field is Required'),
-  outcomeText: Yup.string().trim().required('Field is Required'),
+export const dealsCallsValidationSchema = Yup?.object()?.shape({
+  title: Yup?.string()?.trim()?.required('Field is Required'),
+  fromDate: Yup?.string()?.trim()?.required('Field is Required'),
+  toDate: Yup?.string()?.trim()?.required('Field is Required'),
+  fromTime: Yup?.string()?.trim()?.required('Field is Required'),
+  toTime: Yup?.string()?.trim()?.required('Field is Required'),
+  linkDeal: Yup?.string()?.trim()?.required('Field is Required'),
+  callType: Yup?.string()?.trim()?.required('Field is Required'),
+  setReminder: Yup?.string()?.trim()?.required('Field is Required'),
+  outcome: Yup?.string()?.trim()?.required('Field is Required'),
+  callNotes: Yup?.string()?.trim()?.required('Field is Required'),
+  outcomeText: Yup?.string()?.trim()?.required('Field is Required'),
 });
 
 export const dealsCallsDefaultValues = {
@@ -130,7 +130,7 @@ export const dealsCallsDataArray = [
 
 export const drawerTitle: any = {
   Add: 'Schedule Call',
-  Edit: 'Edit Calls',
+  Edit: 'Edit Schedule Calls',
 };
 export const drawerButtonTitle: any = {
   Add: 'Save',

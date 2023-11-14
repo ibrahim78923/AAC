@@ -1,19 +1,23 @@
-import { Box, Button, Divider, Stack } from '@mui/material';
+import { Box, Button, Divider, Stack, TextField } from '@mui/material';
+import { ScheduleModals } from '@/components/ScheduleModals';
 import AppHorizontalStepper from '@/components/Stepper';
 import useCreateInvoices from './useCreateInvoices';
-import { useRouter } from 'next/router';
+import useReviewInvoice from './ReviewInvoice/useReviewInvoice';
+import { style } from './CreateInvoice.style';
 
 const CreateInvoice = () => {
-  // const { invoicesStepperData } = CreateInvoicesStepperData();
   const {
     activeStep,
     invoicesStepperData,
     handleCompleteStep,
     hanldeGoPreviousBack,
+    handlerCancelButton,
   } = useCreateInvoices();
-  const router = useRouter();
+
+  const { isEmailModal, setIsEmailModal } = useReviewInvoice();
+
   return (
-    <Box>
+    <Box sx={style?.stepperPages}>
       <AppHorizontalStepper
         activeStep={activeStep}
         stepsArray={invoicesStepperData}
@@ -23,35 +27,90 @@ const CreateInvoice = () => {
             <Stack
               justifyContent="space-between"
               alignItems="center"
-              direction="row"
+              direction={{ xs: 'column', sm: 'row' }}
+              gap={1}
               mt={2}
             >
-              <Button variant="outlined" onClick={hanldeGoPreviousBack}>
-                Back
-              </Button>
-              <Box>
-                <Stack gap="10px" direction="row">
+              <Box width={{ xs: '100%', sm: 'auto' }}>
+                <Button
+                  variant="outlined"
+                  disabled={activeStep === 0 ? true : false}
+                  sx={style?.outlinedButton}
+                  onClick={hanldeGoPreviousBack}
+                  fullWidth
+                >
+                  Back
+                </Button>
+              </Box>
+              <Stack
+                gap="10px"
+                direction={{ xs: 'column', sm: 'row' }}
+                sx={{ width: { xs: '100%', sm: 'auto' } }}
+              >
+                {activeStep === 0 || activeStep === 1 ? (
                   <Button
                     variant="outlined"
-                    onClick={() => router.push('/air-sales/sales-invoices')}
+                    sx={style?.outlinedButton}
+                    onClick={handlerCancelButton}
                   >
                     Cancel
                   </Button>
+                ) : (
+                  <Button variant="outlined" sx={style?.outlinedButton}>
+                    Save as Draft
+                  </Button>
+                )}
+                {activeStep == 0 && (
                   <Button
                     variant="outlined"
-                    onClick={() => router.push('/air-sales/sales-invoices')}
+                    sx={style?.outlinedButton}
+                    onClick={handlerCancelButton}
                   >
                     Skip
                   </Button>
-                  <Button variant="contained" onClick={handleCompleteStep}>
+                )}
+                {activeStep === 0 || activeStep === 1 ? (
+                  <Button
+                    variant="contained"
+                    sx={style?.containedButton}
+                    onClick={handleCompleteStep}
+                  >
                     Next
                   </Button>
-                </Stack>
-              </Box>
+                ) : (
+                  <Button
+                    variant="contained"
+                    sx={style?.containedButton}
+                    onClick={() => setIsEmailModal(true)}
+                  >
+                    Send To Customer
+                  </Button>
+                )}
+              </Stack>
             </Stack>
           </>
         }
       />
+      <ScheduleModals
+        type="assign"
+        open={isEmailModal}
+        handleClose={() => {
+          setIsEmailModal(false);
+        }}
+        handleSubmit={() => {}}
+        submitButonText="Send"
+        isFooter
+      >
+        <Box my={3}>
+          <label>Email</label>
+          <TextField
+            fullWidth
+            type="email"
+            placeholder="abc@ceative.co.uk"
+            size="small"
+          />
+        </Box>
+      </ScheduleModals>
     </Box>
   );
 };

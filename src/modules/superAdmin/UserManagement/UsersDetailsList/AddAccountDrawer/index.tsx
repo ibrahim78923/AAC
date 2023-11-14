@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Grid, Box } from '@mui/material';
+import { Grid, Box, Typography } from '@mui/material';
 
 import CommonDrawer from '@/components/CommonDrawer';
 
@@ -19,9 +19,11 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { enqueueSnackbar } from 'notistack';
+import { usePostUsersAccountMutation } from '@/services/superAdmin/user-management/UserList';
 
 const AddAccountDrawer = (props: any) => {
   const { isOpen, setIsOpen } = props;
+  const [postUsersAccount] = usePostUsersAccountMutation();
 
   const methods: any = useForm({
     resolver: yupResolver(AddAccountValidationSchema),
@@ -30,11 +32,18 @@ const AddAccountDrawer = (props: any) => {
 
   const { handleSubmit, reset } = methods;
 
-  const onSubmit = async () => {
-    enqueueSnackbar('User Added Successfully', {
-      variant: 'success',
-    });
-    reset();
+  const onSubmit = async (values: any) => {
+    try {
+      postUsersAccount({ body: values });
+      enqueueSnackbar('User Added Successfully', {
+        variant: 'success',
+      });
+      reset();
+    } catch (error: any) {
+      enqueueSnackbar(error?.message, {
+        variant: 'error',
+      });
+    }
   };
 
   return (
@@ -51,9 +60,12 @@ const AddAccountDrawer = (props: any) => {
     >
       <Box mt={1}>
         <FormProvider methods={methods}>
-          <Grid container spacing={4}>
+          <Grid container spacing={2}>
             {AddAccountArray?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                <Typography variant="body2" fontWeight={500}>
+                  {item?.title}
+                </Typography>
                 <item.component {...item.componentProps} size={'small'}>
                   {item?.componentProps?.select &&
                     item?.options?.map((option: any) => (
