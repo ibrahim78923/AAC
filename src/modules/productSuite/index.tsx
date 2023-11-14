@@ -86,7 +86,7 @@ const ProductSuite = () => {
           },
         }}
       >
-        {products.map((product) => (
+        {products?.map((product: any) => (
           <Grid item xs={12} sm={6} md={6} lg={3} key={uuidv4()}>
             <Card
               className="card-hover-color cursor-pointer"
@@ -119,7 +119,7 @@ const ProductSuite = () => {
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                   {product?.logo && (
                     <Image
-                      src={`/${product.logo.url}`}
+                      src={`/${product?.logo?.url}`}
                       width={25}
                       height={25}
                       alt="product"
