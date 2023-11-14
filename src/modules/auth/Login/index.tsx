@@ -22,6 +22,8 @@ import { styles } from './Login.style';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
+import { useAuthLoginMutation } from '@/services/auth';
+import { enqueueSnackbar } from 'notistack';
 import { v4 as uuidv4 } from 'uuid';
 
 const Login = () => {
@@ -32,29 +34,23 @@ const Login = () => {
   });
 
   const { login } = useAuth();
+  const [authLogin] = useAuthLoginMutation();
 
   const onSubmit = async (credentials: any) => {
-    const response = {
-      user: {
-        credentials,
-      },
-      authToken: 'DKLFJDFKLJSLKFJDKLDJDSKJDSJ',
-    };
-    login(response);
-
-    // try {
-    //   const res: any = await loginTrigger(credentials).unwrap();
-
-    // } catch (error: any) {
-    //   const errMsg = error?.data?.message;
-
-    // }
+    try {
+      const res: any = await authLogin(credentials)?.unwrap();
+      login(res);
+    } catch (error: any) {
+      const errMsg = error?.data?.message;
+      enqueueSnackbar(errMsg ?? 'Error occured', { variant: 'error' });
+    }
   };
 
   const { handleSubmit } = loginForm;
+
   return (
     <Box sx={{ height: '100vh' }}>
-      <Box sx={styles.AuthHeader}>
+      <Box sx={styles?.AuthHeader}>
         <Box>
           <CompanyLogoIcon />
         </Box>
@@ -82,7 +78,7 @@ const Login = () => {
               Let’s Get Started
             </Typography>
 
-            <Box sx={styles.formStyling}>
+            <Box sx={styles?.formStyling}>
               <FormProvider
                 methods={loginForm}
                 onSubmit={handleSubmit(onSubmit)}
@@ -91,7 +87,7 @@ const Login = () => {
                   {loginDataArray?.map((item: any) => (
                     <Grid item xs={12} md={item?.md} key={uuidv4()}>
                       <item.component
-                        {...item.componentProps}
+                        {...item?.componentProps}
                         size={'small'}
                       ></item.component>
                     </Grid>
@@ -106,7 +102,7 @@ const Login = () => {
                   Sign In
                 </Button>
               </FormProvider>
-              <Link href="/forget-password" style={styles.aTag}>
+              <Link href="/forget-password" style={styles?.aTag}>
                 Forgot password?
               </Link>
             </Box>

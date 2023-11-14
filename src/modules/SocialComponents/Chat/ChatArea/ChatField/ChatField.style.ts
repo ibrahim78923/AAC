@@ -1,7 +1,7 @@
 export const styles = {
   timeSlot: (theme: any) => {
     return {
-      background: theme.palette.common.white,
+      background: theme?.palette?.common?.white,
       width: 'fit-content',
       position: 'relative',
       paddingRight: '20px',
@@ -10,7 +10,7 @@ export const styles = {
         position: 'absolute',
         right: '0',
         top: '10px',
-        background: theme.palette.grey[700],
+        background: theme?.palette?.grey[700],
         width: '9px',
         height: '9px',
         borderRadius: '50%',
@@ -22,19 +22,19 @@ export const styles = {
       position: 'relative',
       background:
         role === 'sender'
-          ? theme.palette.primary.main
-          : theme.palette.primary.lighter,
+          ? theme?.palette?.primary?.main
+          : theme?.palette?.primary?.lighter,
       color:
         role === 'sender'
-          ? theme.palette.common.white
-          : theme.palette.custom.grayish_blue,
+          ? theme?.palette?.common?.white
+          : theme?.palette?.custom?.grayish_blue,
       padding: '10px 14px',
       minWidth: '15vw',
       maxWidth: '46vw',
       borderRadius: `${
         role === 'sender' ? '12px 12px 0px 12px' : '12px 12px 12px 0px'
       }`,
-      border: `1px solid ${theme.palette.grey[700]}`,
+      border: `1px solid ${theme?.palette?.grey[700]}`,
     };
   },
   chatMessageArea: (role: any) => {
@@ -87,7 +87,7 @@ export const styles = {
   },
   sendReaction: (theme: any) => {
     return {
-      background: theme.palette.common.white,
+      background: theme?.palette?.common?.white,
       boxShadow: '01px 4px 4px 0px rgb(194 194 194 / 16%)',
       width: '100%',
       height: '50px',
@@ -95,7 +95,7 @@ export const styles = {
       bottom: '-59px',
       left: '0px',
       borderRadius: '8px',
-      border: `1px solid ${theme.palette.grey[400]}`,
+      border: `1px solid ${theme?.palette?.grey[400]}`,
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'space-between',

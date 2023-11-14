@@ -16,10 +16,12 @@ import { styles } from './AccountMenu.style';
 const role = 'sales';
 const AccountMenu = () => {
   const theme = useTheme();
-  const [openPopver, setOpenPopover] = useState<HTMLButtonElement | null>(null);
+  const [openPopver, setOpenPopover] = useState<
+    (EventTarget & HTMLDivElement) | null
+  >(null);
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setOpenPopover(event.currentTarget);
+  const handleClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    setOpenPopover(event?.currentTarget);
   };
 
   const handleClose = () => {
@@ -79,17 +81,17 @@ const AccountMenu = () => {
           </Box>
           <Box>
             {!isNullOrEmpty(MyAccountData) &&
-              MyAccountData.map((item) => {
+              MyAccountData?.map((item) => {
                 return (
                   <Box sx={{ px: 2 }} key={uuidv4()}>
-                    <Box sx={styles.mainBox(item, role, theme)}>
-                      <Box style={styles.cartBox(item, role, theme)}>
+                    <Box sx={styles?.mainBox(item, role, theme)}>
+                      <Box style={styles?.cartBox(item, role, theme)}>
                         <Image
-                          src={item.icon}
+                          src={item?.icon}
                           alt="icon"
                           style={{
                             filter:
-                              item.role === role
+                              item?.role === role
                                 ? 'brightness(100) grayscale(100%)'
                                 : '',
                           }}
@@ -99,7 +101,7 @@ const AccountMenu = () => {
                         variant="subtitle1"
                         sx={{ marginLeft: '10px' }}
                       >
-                        {item.title}
+                        {item?.title}
                       </Typography>
                     </Box>
 
@@ -115,7 +117,7 @@ const AccountMenu = () => {
                             key={uuidv4()}
                           >
                             <Typography
-                              sx={styles.radioCircle(theme)}
+                              sx={styles?.radioCircle(theme)}
                             ></Typography>
                             <Box>
                               <Typography variant="body1">

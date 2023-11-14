@@ -10,4 +10,12 @@ export const styles = {
       borderRadius: '8px',
     };
   },
+  addMembersWrapper: () => {
+    return {
+      position: 'absolute',
+      background: '#fff',
+      width: '100%',
+      marginTop: '-150px',
+    };
+  },
 };

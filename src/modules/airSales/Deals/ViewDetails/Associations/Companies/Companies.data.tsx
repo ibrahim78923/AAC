@@ -1,7 +1,9 @@
-import { DeleteCrossIcon, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
-import { NotesAvatarImage } from '@/assets/images';
-import { Box, Typography } from '@mui/material';
 import Image from 'next/image';
+
+import { Box, Typography } from '@mui/material';
+
+import { NotesAvatarImage } from '@/assets/images';
+import { DeleteCrossIcon, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
 export const columns: any = ({
   setOpenDrawer,
   setIsOpenAlert,
@@ -11,17 +13,19 @@ export const columns: any = ({
 }) => {
   return [
     {
-      accessorFn: (row: any) => row.name,
+      accessorFn: (row: any) => row?.name,
       id: 'contact_id',
       cell: (info: any) => (
         <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
           <Image src={NotesAvatarImage} width={40} height={40} alt="avatar" />
           <Box>
             <Typography variant="body3" sx={{ color: '#111827' }}>
-              {info.row.original.name}
+              {info?.row?.original?.name}
             </Typography>
             <br />
-            <Typography variant="body3">{info.row.original.email}</Typography>
+            <Typography variant="body3">
+              {info?.row?.original?.email}
+            </Typography>
           </Box>
         </Box>
       ),
@@ -30,23 +34,23 @@ export const columns: any = ({
     },
 
     {
-      accessorFn: (row: any) => row.phoneNumber,
+      accessorFn: (row: any) => row?.phoneNumber,
       id: 'Phone Number',
       isSortable: true,
       header: ' Phone Number',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
 
     {
-      accessorFn: (row: any) => row.owner,
+      accessorFn: (row: any) => row?.owner,
       id: 'owner',
       isSortable: true,
       header: 'Company Owner',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
 
     {
-      accessorFn: (row: any) => row.assignedTo,
+      accessorFn: (row: any) => row?.assignedTo,
       id: 'assignedTo',
       isSortable: false,
       header: 'Actions',

@@ -16,9 +16,9 @@ export const DelegateDefaultValues = {
 
 export const DelegateArray = [
   {
+    title: 'Status',
     componentProps: {
       name: 'status',
-      label: 'Status',
       fullWidth: true,
       select: true,
     },
@@ -30,18 +30,18 @@ export const DelegateArray = [
     md: 12,
   },
   {
+    title: 'From Date',
     componentProps: {
       name: 'fromDate',
-      label: 'From Date',
       fullWidth: true,
     },
     component: RHFDatePicker,
     md: 12,
   },
   {
+    title: 'To Date',
     componentProps: {
       name: 'toDate',
-      label: 'To Date',
       fullWidth: true,
     },
     component: RHFDatePicker,

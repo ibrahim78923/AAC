@@ -9,7 +9,7 @@ const useNameWithStyledWords = () => {
     name: string;
     customKey: string;
   }) => {
-    const words = name.trim().split(' ');
+    const words = name?.trim()?.split(' ');
 
     const styledName = (
       <Typography

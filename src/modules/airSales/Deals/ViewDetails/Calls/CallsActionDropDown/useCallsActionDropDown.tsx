@@ -1,5 +1,6 @@
+import { useState } from 'react';
+
 import { useTheme } from '@mui/material';
-import React, { useState } from 'react';
 
 import { useForm } from 'react-hook-form';
 
@@ -34,7 +35,7 @@ const useCallsActionDropdown = ({ setOpenDrawer }: any) => {
   const { handleSubmit: handleOutCome } = methodsOutCome;
 
   const handleOpenMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
+    setAnchorEl(event?.currentTarget);
   };
   const handleCloseMenu = () => {
     setAnchorEl(null);

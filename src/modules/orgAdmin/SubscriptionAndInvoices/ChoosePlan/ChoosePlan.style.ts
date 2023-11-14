@@ -1,11 +1,11 @@
 export const styles = {
   tableContainer: (theme: any) => ({
-    border: `1px solid ${theme.palette.custom.off_white_two}`,
+    border: `1px solid ${theme?.palette?.custom?.off_white_two}`,
     borderRadius: '4px',
   }),
   table: (theme: any) => ({
     '& .MuiTableCell-root': {
-      border: `1px solid ${theme.palette.custom.off_white_two}`,
+      border: `1px solid ${theme?.palette?.custom?.off_white_two}`,
     },
   }),
   tableHead: (theme: any) => ({
@@ -15,14 +15,14 @@ export const styles = {
       fontSize: '18px',
       fontWeight: '600',
       lineHeight: '1.5',
-      color: theme.palette.custom.main,
+      color: theme?.palette?.custom?.main,
       p: '26px 16px',
     },
   }),
   productBoxTitle: (theme: any) => ({
     fontSize: '24px',
     lineHeight: '1.25',
-    color: theme.palette.grey[800],
+    color: theme?.palette?.grey[800],
   }),
   planBox: (theme: any) => ({
     pt: '32px',
@@ -35,12 +35,12 @@ export const styles = {
       '& span': {
         fontSize: '14px',
         fontWeight: '400',
-        color: theme.palette.custom.main,
+        color: theme?.palette?.custom?.main,
       },
     },
   }),
   productBoxText: (theme: any) => ({
-    color: theme.palette.custom.main,
+    color: theme?.palette?.custom?.main,
   }),
   freeTrialBox: () => ({
     textAlign: 'center',

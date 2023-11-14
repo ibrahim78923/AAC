@@ -16,4 +16,11 @@ export const styles = {
     flexWrap: 'wrap',
     gap: '8px',
   },
+  addIcon: (theme: any) => {
+    return {
+      float: 'right',
+      cursor: 'pointer',
+      color: theme.palette.grey[900],
+    };
+  },
 };

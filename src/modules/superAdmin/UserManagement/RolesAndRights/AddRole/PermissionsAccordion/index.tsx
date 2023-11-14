@@ -36,7 +36,7 @@ const PermissionsAccordion = () => {
           },
           '& .MuiAccordionSummary-root': {
             backgroundColor: theme?.palette?.blue?.main,
-            color: theme.palette.common.white,
+            color: theme.palette?.common?.white,
             borderRadius: '8px',
           },
         }}
@@ -71,7 +71,7 @@ const PermissionsAccordion = () => {
           },
           '& .MuiAccordionSummary-root': {
             backgroundColor: theme?.palette?.blue?.main,
-            color: theme.palette.common.white,
+            color: theme.palette?.common?.white,
             borderRadius: '8px',
           },
         }}

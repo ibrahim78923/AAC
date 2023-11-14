@@ -5,27 +5,31 @@ import { ArrowDropDown } from '@mui/icons-material';
 
 import useMenuOptions from './useMenuOptions';
 
-import { useRouter } from 'next/router';
-
-import { SUPER_ADMIN } from '@/constants';
-
-const MenuItems = ({ setIsOpenDrawer, setIsShowViewBillingDetails }: any) => {
+const MenuItems = ({
+  setIsOpenDrawer,
+  setIsShowViewBillingDetails,
+  isChecked,
+  setIsEditModal,
+}: any) => {
   const { handleClickActions, handleCloseMenuOptions, anchorEl, openDropDown } =
     useMenuOptions();
-  const router = useRouter();
   const theme = useTheme();
   return (
-    <div>
+    <>
       <Button
         onClick={handleClickActions}
         sx={{
-          border: `1px solid ${theme.palette.custom.dark}`,
-          color: theme.palette.custom.main,
+          border: `1px solid ${theme?.palette?.custom?.dark}`,
+          color: theme?.palette?.custom?.main,
           width: '105px',
+          '@media (max-width:400px)': {
+            width: '100% !important',
+          },
         }}
+        disabled={!isChecked}
       >
-        <ArrowDropDown />
         Actions
+        <ArrowDropDown />
       </Button>
 
       <Menu
@@ -39,11 +43,12 @@ const MenuItems = ({ setIsOpenDrawer, setIsShowViewBillingDetails }: any) => {
         TransitionComponent={Fade}
       >
         <MenuItem
-          onClick={() =>
-            router.push(`${SUPER_ADMIN?.BILLING_INVOICES}/generate-invoice`)
-          }
+          onClick={() => {
+            setIsOpenDrawer(true);
+            setIsEditModal(true);
+          }}
         >
-          Generate Invoice
+          Edit Plan
         </MenuItem>
 
         <MenuItem
@@ -51,18 +56,10 @@ const MenuItems = ({ setIsOpenDrawer, setIsShowViewBillingDetails }: any) => {
             setIsShowViewBillingDetails(true);
           }}
         >
-          View Billing Detail
-        </MenuItem>
-
-        <MenuItem
-          onClick={() => {
-            setIsOpenDrawer(true);
-          }}
-        >
-          Edit
+          View Billing History
         </MenuItem>
       </Menu>
-    </div>
+    </>
   );
 };
 

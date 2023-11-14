@@ -19,7 +19,7 @@ export const usePlanManagement = () => {
   const theme = useTheme<Theme>();
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
+    setAnchorEl(event?.currentTarget);
   };
 
   const handleClose = () => {
@@ -31,10 +31,12 @@ export const usePlanManagement = () => {
   });
 
   const onSubmit = () => {
-    setIsFaqsFilterDrawerOpen(false);
+    // console.log('vvvvvvvvvvvvvvvvv:', values.createdDate);
+    // setIsFaqsFilterDrawerOpen(false);
   };
 
   const { handleSubmit } = methodsFaqsFilters;
+  const filterSubmit = handleSubmit(onSubmit);
 
   return {
     searchBy,
@@ -49,5 +51,6 @@ export const usePlanManagement = () => {
     onSubmit,
     methodsFaqsFilters,
     handleSubmit,
+    filterSubmit,
   };
 };

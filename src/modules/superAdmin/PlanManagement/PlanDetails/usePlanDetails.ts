@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 
 import { useTheme } from '@mui/material';
-
+import { useGetPlanMangementQuery } from '@/services/superAdmin/plan-mangement';
 import {
   TABLE_CONSTANTS,
   PlanDetailsDataColumnFunction,
@@ -12,13 +12,19 @@ import {
 export const usePlanDetails = () => {
   const theme = useTheme();
   const router = useRouter();
-
+  const { data, isError, isFetching, isLoading, isSuccess } =
+    useGetPlanMangementQuery({});
   const [ticketsListsColumn, seTTicketsListsColumn] = useState(
     PlanDetailsDataColumnFunction(theme, router),
   );
 
   return {
     ticketsListsColumn,
+    tableRowData: data?.data?.plans,
+    isError,
+    isFetching,
+    isLoading,
+    isSuccess,
     router,
     TABLE_CONSTANTS,
     seTTicketsListsColumn,

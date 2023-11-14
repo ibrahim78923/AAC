@@ -13,10 +13,13 @@ import { v4 as uuidv4 } from 'uuid';
 
 const NotificationDropdown = () => {
   const theme = useTheme();
-  const [openPopver, setOpenPopover] = useState<HTMLButtonElement | null>(null);
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setOpenPopover(event.currentTarget);
+  const [openPopver, setOpenPopover] = useState<
+    (EventTarget & HTMLDivElement) | null
+  >(null);
+
+  const handleClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    setOpenPopover(event?.currentTarget);
   };
 
   const handleClose = () => {
@@ -82,7 +85,7 @@ const NotificationDropdown = () => {
                         key={uuidv4()}
                       >
                         <Image
-                          src={item.icon}
+                          src={item?.icon}
                           width={32}
                           height={32}
                           alt="notification-avatar"
@@ -90,13 +93,13 @@ const NotificationDropdown = () => {
                         <Box>
                           <Typography
                             variant="body2"
-                            sx={{ color: theme.palette.grey[600] }}
+                            sx={{ color: theme?.palette?.grey[600] }}
                           >
                             {item?.message}
                           </Typography>
                           <Typography
                             variant="body3"
-                            sx={{ color: theme.palette.custom.main }}
+                            sx={{ color: theme?.palette?.custom?.main }}
                           >
                             {item?.date}
                           </Typography>
