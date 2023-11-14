@@ -26,7 +26,7 @@ export const validationSchema = Yup?.object()?.shape({
   plannedEndTime: Yup?.date(),
   plannedEffort: Yup?.string()?.trim(),
   associateAssets: Yup?.mixed(),
-  attachFile: Yup?.mixed()?.nullable(),
+  // associateAssets: Yup?.mixed()?.nullable(),
 });
 
 export const defaultValues = {
@@ -46,7 +46,7 @@ export const defaultValues = {
   plannedEndTime: new Date(), //14
   plannedEffort: '', //15
   associateAssets: [], //16
-  attachFile: null, //17
+  // associateAssets: null, //17
 };
 
 export const dataArray = [
@@ -232,7 +232,7 @@ export const dataArray = [
   },
   {
     componentProps: {
-      name: 'attachFile',
+      name: 'associateAssets',
       fullWidth: true,
     },
     component: RHFDropZone,

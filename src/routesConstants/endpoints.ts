@@ -6,7 +6,7 @@ export const END_POINTS = {
   get_permissions: '/premissions',
   reset_password: 'auth/resetPassword',
   forgot_password: 'auth/forgot-password',
-  CREATE_TICKET: '/ticket',
+  NEW_INCIDENT: '/ticket',
   USER_LIST: '/users',
   ADD_USER: '/users',
   ADD_USER_ACCOUNT: '/super-admin/add-accounts',

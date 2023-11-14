@@ -1,13 +1,13 @@
 import { baseAPI } from '@/services/base-api';
 import { END_POINTS } from '@/routesConstants/endpoints';
 
-const TAG = ['CREATE_TICKET'];
+const TAG = ['NEW_INCIDENT'];
 
-export const createTicketApi = baseAPI.injectEndpoints({
+export const newIncidentApi = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
-    postCreateTicket: builder.mutation({
+    postNewIncident: builder.mutation({
       query: () => ({
-        url: `${END_POINTS?.CREATE_TICKET}`,
+        url: `${END_POINTS.NEW_INCIDENT}`,
         method: 'post',
       }),
       invalidatesTags: [TAG],
@@ -15,4 +15,4 @@ export const createTicketApi = baseAPI.injectEndpoints({
   }),
 });
 
-export const { usePostCreateTicketMutation } = createTicketApi;
+export const { usePostNewIncidentMutation } = newIncidentApi;
