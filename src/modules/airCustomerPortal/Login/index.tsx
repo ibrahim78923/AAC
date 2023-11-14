@@ -23,22 +23,25 @@ export const Login = () => {
   });
   const submitSignIn = () => {};
 
-  const drawerSubmitHandler = () => {
+  const SubmitHandler = () => {
     logIn?.handleSubmit(submitSignIn);
   };
   return (
     <Grid container>
-      <AirCustomerPortalHeader />
+      <AirCustomerPortalHeader
+        buttonText="Sign Up"
+        link={'/air-customer-portal/sign-up'}
+      />
 
-      <Grid item md={6} pt={10}>
-        <Grid item md={12}>
+      <Grid item md={6} pt={{ md: 15, xs: 5 }} pb={5} px={{ md: 10, xs: 5 }}>
+        <Grid item md={12} px={{ md: 5, xs: 0 }}>
           <Typography variant="h2">Sign In to Air Applecart</Typography>
-          <Typography sx={{ py: 1 }} variant="h6" color="grey.900">
+          <Typography sx={{ py: 2 }} variant="h6" color="grey.900">
             Let’s Get Started!
           </Typography>
         </Grid>
 
-        <Grid item md={10} xs={12} m={{ md: 10, xs: 0 }}>
+        <Grid item md={10} xs={12} mx={{ md: 10, xs: 0 }}>
           <FormProvider
             methods={logIn}
             onSubmit={logIn?.handleSubmit(submitSignIn)}
@@ -55,7 +58,7 @@ export const Login = () => {
             sx={{ my: 2 }}
             variant="contained"
             fullWidth
-            onClick={drawerSubmitHandler}
+            onClick={SubmitHandler}
           >
             SignIn
           </LoadingButton>
@@ -77,6 +80,7 @@ export const Login = () => {
         md={6}
         container
         alignItems="center"
+        pt={5}
         sx={{ display: { md: 'flex', xs: 'none' } }}
       >
         <Image src={LoginDashboardImage} alt="dashboard" />

@@ -1,13 +1,8 @@
 import { Permissions } from '@/constants/permissions';
 import Layout from '@/layout';
-import { Login } from '@/modules/airCustomerPortal/Login';
 
 export default function Home() {
-  return (
-    <div>
-      <Login />
-    </div>
-  );
+  return <div>fdfdff</div>;
 }
 Home.getLayout = function getLayout(page: any) {
   return (
