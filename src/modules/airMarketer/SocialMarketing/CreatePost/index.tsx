@@ -158,6 +158,7 @@ const CreatePost = () => {
               variant="contained"
               sx={{ marginLeft: '10px' }}
               endIcon={<ArrowDropDownIcon />}
+              onClick={() => router.push(`${airMarketingCalendar?.calendar}`)}
             >
               Post Now
             </Button>

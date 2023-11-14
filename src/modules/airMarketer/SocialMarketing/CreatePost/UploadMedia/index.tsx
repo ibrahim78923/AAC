@@ -33,22 +33,36 @@ export default function UploadMedia({ name }: any) {
   return (
     <>
       <Typography>Media</Typography>
-      <Box
-        sx={{
-          border: '2px dotted #e0e0e0',
-          borderRadius: '8px',
-          padding: '40px',
-          textAlign: 'center',
-          cursor: 'pointer',
-        }}
-      >
-        <input {...getInputProps()} />
-
-        {!!getValues(name)?.name ? (
+      {!!getValues(name)?.name ? (
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Typography variant="body2">
             {acceptedFiles?.[0]?.name || getValues(name)?.name}
           </Typography>
-        ) : (
+          <Box
+            {...getRootProps()}
+            sx={{
+              border: '2px dotted #e0e0e0',
+              backgroundColor: '#EBFAF8',
+              padding: '30px',
+              marginLeft: '10px',
+              cursor: 'pointer',
+            }}
+          >
+            <AttachFileIcon />
+          </Box>
+        </Box>
+      ) : (
+        <Box
+          sx={{
+            border: '2px dotted #e0e0e0',
+            borderRadius: '8px',
+            padding: '40px',
+            textAlign: 'center',
+            cursor: 'pointer',
+          }}
+        >
+          <input {...getInputProps()} />
+
           <Box>
             <AttachFileIcon />
 
@@ -81,8 +95,8 @@ export default function UploadMedia({ name }: any) {
               Upload from Device
             </Button>
           </Box>
-        )}
-      </Box>
+        </Box>
+      )}
       {!!errors[name] && !!!getValues(name)?.name && (
         <Typography variant="body2" color="error">
           {errors[name]?.message}
