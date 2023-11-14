@@ -10,6 +10,7 @@ import {
   data,
   expenseActionsDropdownFunction,
 } from './Expense.data';
+import { usePostInventoryExpenseMutation } from '@/services/airServices/example-folder/inventory/expense';
 
 export const useExpense = () => {
   const [selectedExpenseList, setSelectedExpenseList] = useState([]);
@@ -33,9 +34,20 @@ export const useExpense = () => {
     setIsAddExpenseModalOpen(false);
     addExpenseMethods?.reset();
   };
-  const onAddExpenseSubmit = () => {
-    addExpenseMethods?.reset();
-    setIsAddExpenseModalOpen(false);
+  const [expense] = usePostInventoryExpenseMutation();
+  const onAddExpenseSubmit = async (data: any) => {
+    try {
+      await expense(data);
+      enqueueSnackbar('Expense added successfully!', {
+        variant: 'success',
+      });
+      addExpenseMethods?.reset();
+      setIsAddExpenseModalOpen(false);
+    } catch (e: any) {
+      enqueueSnackbar('Something went wrong!', {
+        variant: 'error',
+      });
+    }
   };
 
   const handleActionClick = (ActionType: string) => {
