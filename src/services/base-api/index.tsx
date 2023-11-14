@@ -2,7 +2,7 @@ import { BASE_URL } from '@/config';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 // Tags
-export const TAGS = ['USERS', 'PLAN_MANEGEMENT'];
+export const TAGS = ['USERS', 'PLAN_MANEGEMENT', 'CREATE_TICKET'];
 
 const baseQuery = fetchBaseQuery({
   baseUrl: BASE_URL,

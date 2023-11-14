@@ -6,4 +6,5 @@ export const END_POINTS = {
   get_permissions: '/premissions',
   reset_password: 'auth/resetPassword',
   forgot_password: 'auth/forgot-password',
+  CREATE_TICKET: '/ticket',
 };
