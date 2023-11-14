@@ -102,7 +102,7 @@ const Login = () => {
                   Sign In
                 </Button>
               </FormProvider>
-              <Link href="/forget-password" style={styles.aTag}>
+              <Link href="/forget-password" style={styles?.aTag}>
                 Forgot password?
               </Link>
             </Box>
