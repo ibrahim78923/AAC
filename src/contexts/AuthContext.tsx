@@ -139,7 +139,12 @@ function AuthProvider({ children }: { children: ReactNode }) {
 
   //TODO:called at the time of  user login
   const login = (response: any) => {
-    const { accessToken, user, refreshToken } = response?.data;
+    const {
+      accessToken,
+      user,
+      refreshToken,
+    }: { accessToken: string; refreshToken: string; user: any } =
+      response?.data;
 
     //temporary call
     permissions();

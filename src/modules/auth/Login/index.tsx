@@ -22,8 +22,9 @@ import { styles } from './Login.style';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
-import { v4 as uuidv4 } from 'uuid';
 import { useAuthLoginMutation } from '@/services/auth';
+import { enqueueSnackbar } from 'notistack';
+import { v4 as uuidv4 } from 'uuid';
 
 const Login = () => {
   const theme = useTheme();
@@ -40,7 +41,8 @@ const Login = () => {
       const res: any = await authLogin(credentials).unwrap();
       login(res);
     } catch (error: any) {
-      error?.data?.message;
+      const errMsg = error?.data?.message;
+      enqueueSnackbar(errMsg ?? 'Error occured', { variant: 'error' });
     }
   };
 

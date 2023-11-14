@@ -9,6 +9,7 @@ import {
 } from '@/services/auth';
 import { debouncedSearch } from '@/utils';
 import { useGetProductsQuery } from '@/services/superAdmin/billing-invoices';
+import { enqueueSnackbar } from 'notistack';
 
 const useSignup = () => {
   const methodsSignup = useForm({
@@ -44,10 +45,14 @@ const useSignup = () => {
       role: 'ORG_ADMIN',
     };
 
-    const response: any = await signUpValue({ user });
-
-    if (response?.data) {
-      authCompanyVerification({ email: { email: email } });
+    try {
+      const response: any = await signUpValue({ user });
+      if (response?.data) {
+        authCompanyVerification({ email: { email: email } });
+      }
+    } catch (error: any) {
+      const errMsg = error?.data?.message;
+      enqueueSnackbar(errMsg ?? 'Error occured', { variant: 'error' });
     }
   };
 

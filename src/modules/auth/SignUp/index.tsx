@@ -140,7 +140,7 @@ const SignUp = () => {
                   >
                     {!isStepComplete ? (
                       <Grid container spacing={2}>
-                        <Grid item xs={12}>
+                        <Grid item xs={12} md={6}>
                           <RHFTextField
                             name="firstName"
                             label="First Name"
@@ -148,7 +148,7 @@ const SignUp = () => {
                             size="small"
                           />
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item xs={12} md={6}>
                           <RHFTextField
                             name="lastName"
                             label="Last Name"

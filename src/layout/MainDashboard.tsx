@@ -52,11 +52,13 @@ const DashboardLayout = ({ children, window }: any) => {
   const handleDrawerToggle = () => {
     setIsMobileOpen(!isMobileOpen);
   };
+
   const toggleDropDown = (linkKey: any) => {
     setDropDownOpen((prevState: any) => ({
       [linkKey]: !prevState[linkKey],
     }));
   };
+
   const isZeroPaddingRoutes = zeroPaddingRoutes.includes(pathname);
 
   const drawer = (
