@@ -2,7 +2,6 @@ import { RHFDatePicker, RHFTextField } from '@/components/ReactHookForm';
 
 export const CreateViewData = [
   {
-    title: 'Name',
     componentProps: {
       name: 'Name',
       label: 'Enter Name',
@@ -17,10 +16,9 @@ export const CreateViewData = [
     component: RHFTextField,
   },
   {
-    title: 'Deal Pipeline',
     componentProps: {
       name: 'DealPipline',
-      label: 'Select',
+      label: 'DealPipline',
       select: true,
     },
     options: [
@@ -32,10 +30,9 @@ export const CreateViewData = [
     component: RHFTextField,
   },
   {
-    title: 'Deal Owner',
     componentProps: {
       name: 'DealName',
-      label: 'Select',
+      label: 'DealName',
       select: true,
     },
     options: [
@@ -47,10 +44,9 @@ export const CreateViewData = [
     component: RHFTextField,
   },
   {
-    title: 'Deal Owner',
     componentProps: {
       name: 'DealOwner',
-      label: 'Select',
+      label: 'DealOwner',
       select: true,
     },
     options: [
@@ -62,18 +58,16 @@ export const CreateViewData = [
     component: RHFTextField,
   },
   {
-    title: 'Close Date',
     componentProps: {
       name: 'CloseDate',
-      label: 'Moday,January 30,2023 12:50 PM',
+      label: 'CloseDate',
     },
     component: RHFDatePicker,
   },
   {
-    title: 'Deal Stage',
     componentProps: {
       name: 'DealStage',
-      label: 'Select',
+      label: 'DealStage',
       select: true,
     },
     options: [

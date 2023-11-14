@@ -1,5 +1,3 @@
-import React from 'react';
-
 import Image from 'next/image';
 
 import { Box, Grid, Typography } from '@mui/material';
@@ -20,9 +18,9 @@ const ActivityLog = () => {
   return (
     <Box sx={styles.horizontalTabsBox}>
       <Typography variant="h4">Activity Log </Typography>
-      <Box sx={styles.horizontalTabsInnnerBox}>
+      <Box sx={styles?.horizontalTabsInnnerBox}>
         <Grid container>
-          {ActivityLogList.map((item, index) => (
+          {ActivityLogList?.map((item, index) => (
             <Grid item xs={12} key={uuidv4()}>
               <Box
                 sx={{
@@ -52,7 +50,7 @@ const ActivityLog = () => {
                   </Typography>
                   {item.activityList && (
                     <Box>
-                      {item.activityList.map((option) => (
+                      {item.activityList?.map((option) => (
                         <Box key={uuidv4()}>
                           <NameWithStyledWords
                             name={option}
@@ -65,11 +63,11 @@ const ActivityLog = () => {
                 </Box>
               </Box>
 
-              {index !== ActivityLogList.length - 1 && (
+              {index !== ActivityLogList?.length - 1 && (
                 <Box
                   sx={{
                     width: '1px',
-                    backgroundColor: theme.palette.grey[700],
+                    backgroundColor: theme?.palette?.grey[700],
                     mx: 2.5,
                     height: '40px',
                     my: 1,

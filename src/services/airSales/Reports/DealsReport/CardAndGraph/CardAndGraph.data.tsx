@@ -1,0 +1,90 @@
+export const series = [28, 18, 54];
+const colors = ['#FF4A4A', '#47B263', '#0AADC7'];
+export const options: any = {
+  chart: {
+    width: 380,
+    type: 'pie',
+  },
+  labels: ['Loss', 'Win', 'Open'],
+  colors: colors,
+
+  responsive: [
+    {
+      breakpoint: 480,
+      options: {
+        chart: {
+          width: 200,
+        },
+        legend: {
+          position: 'bottom',
+        },
+      },
+    },
+  ],
+};
+
+const colorsBar = ['#FF4A4A', '#47B263', '#0AADC7'];
+export const seriesBar = [
+  {
+    name: 'All Deals',
+    data: [600, 400, 200, 350, 450, 650, 777, 850, 450, 700, 550, 320],
+  },
+  {
+    name: 'Open Deals',
+    data: [900, 750, 250, 320, 570, 700, 750, 650, 880, 780, 351, 890],
+  },
+  {
+    name: 'CloseDeals',
+    data: [350, 415, 366, 269, 459, 480, 528, 530, 412, 860, 610, 725],
+  },
+];
+
+export const optionsBar: any = {
+  chart: {
+    type: 'bar',
+  },
+  plotOptions: {
+    bar: {
+      horizontal: false,
+      columnWidth: '40%',
+      endingShape: 'rounded',
+    },
+  },
+  colors: colorsBar,
+
+  dataLabels: {
+    enabled: false,
+  },
+  stroke: {
+    show: true,
+    width: 2,
+    colors: ['transparent'],
+  },
+
+  xaxis: {
+    categories: [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'July',
+      'Aug',
+      'Oct',
+      'Nov',
+      'Dec',
+    ],
+  },
+
+  fill: {
+    opacity: 1,
+  },
+  tooltip: {
+    y: {
+      formatter: function (val: any) {
+        return '$ ' + val + ' thousands';
+      },
+    },
+  },
+};

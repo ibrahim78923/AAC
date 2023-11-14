@@ -3,19 +3,19 @@ import Image from 'next/image';
 
 export const columns: any = [
   {
-    accessorFn: (row: any) => row.Id,
+    accessorFn: (row: any) => row?.Id,
     id: 'Id',
-    cell: (info: any) => <Checkbox color="primary" name={info.getValue()} />,
+    cell: (info: any) => <Checkbox color="primary" name={info?.getValue()} />,
     header: <Checkbox color="primary" name="Id" />,
     isSortable: false,
   },
   {
-    accessorFn: (row: any) => row.name,
+    accessorFn: (row: any) => row?.name,
     id: 'name',
     cell: (info: any) => (
       <Box sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
         <Image src={info?.table?.row?.original?.img} alt="no imae" />{' '}
-        {info.getValue()}
+        {info?.getValue()}
       </Box>
     ),
 
@@ -23,25 +23,25 @@ export const columns: any = [
     isSortable: true,
   },
   {
-    accessorFn: (row: any) => row.sharedLinks,
+    accessorFn: (row: any) => row?.sharedLinks,
     id: 'sharedLinks',
     isSortable: true,
     header: 'Shared Links',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.reads,
+    accessorFn: (row: any) => row?.reads,
     id: 'reads',
     isSortable: true,
     header: 'Reads',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.createdBy,
+    accessorFn: (row: any) => row?.createdBy,
     id: 'createdBy',
     isSortable: true,
     header: 'Created By',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
 ];
 
