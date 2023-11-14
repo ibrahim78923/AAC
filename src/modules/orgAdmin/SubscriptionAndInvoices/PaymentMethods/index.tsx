@@ -2,13 +2,11 @@ import { Box, Button, Menu, MenuItem, Typography } from '@mui/material';
 import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
 import AddCard from './AddCard';
-import EditCard from './EditCard';
 import usePaymentMethods from './usePaymentMethods';
 import CustomPagination from '@/components/CustomPagination';
 import { DropdownIcon } from '@/assets/icons';
 import { paymentData } from '@/mock/modules/SubscriptionAndInvoices';
 import { AlertModals } from '@/components/AlertModals';
-import { columns } from './PaymentMethods.data';
 import { styles } from './PaymentMethod.style';
 
 const PaymentMethods = () => {
@@ -18,21 +16,24 @@ const PaymentMethods = () => {
     handleActionsClick,
     handleClose,
     openAddCard,
+    setOpenEditCard,
     handleOpenAddCard,
     handleCloseAddCard,
     openEditCard,
-    handleOpenEditCard,
-    handleCloseEditCard,
     openDeleteModal,
     handleOpenDeleteModal,
     handleCloseDeleteModal,
+    getRowValues,
+    isChecked,
+    setOpenAddCard,
+    isGetRowValues,
   } = usePaymentMethods();
 
   return (
     <>
-      <Box sx={styles.paymentsTableWrapper}>
-        <Box sx={styles.paymentsHeader}>
-          <Typography variant="h4" sx={styles.paymentTitle}>
+      <Box sx={styles?.paymentsTableWrapper}>
+        <Box sx={styles?.paymentsHeader}>
+          <Typography variant="h4" sx={styles?.paymentTitle}>
             Payment Methods
           </Typography>
           <Button
@@ -44,17 +45,18 @@ const PaymentMethods = () => {
           </Button>
         </Box>
 
-        <Box sx={styles.tableToolbar}>
-          <Box sx={styles.tableSearch}>
-            <Search size="small" />
+        <Box sx={styles?.tableToolbar}>
+          <Box sx={styles?.tableSearch}>
+            <Search size="small" placeholder="search here" />
           </Box>
-          <Box sx={styles.tableToolbarActions}>
+          <Box sx={styles?.tableToolbarActions}>
             <Box>
               <Button
                 size="small"
                 onClick={handleActionsClick}
-                sx={styles.actionButton}
+                sx={styles?.actionButton}
                 endIcon={<DropdownIcon />}
+                disabled={!isChecked}
               >
                 Actions
               </Button>
@@ -76,24 +78,36 @@ const PaymentMethods = () => {
                   },
                 }}
               >
-                <MenuItem onClick={handleOpenEditCard}>Edit</MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    setOpenAddCard(true);
+                    setOpenEditCard('Edit');
+                  }}
+                >
+                  Edit
+                </MenuItem>
                 <MenuItem onClick={handleOpenDeleteModal}>Delete</MenuItem>
               </Menu>
             </Box>
           </Box>
         </Box>
 
-        <TanstackTable columns={columns} data={paymentData} />
+        <TanstackTable columns={getRowValues} data={paymentData} />
 
         <CustomPagination
           count={3}
           rowsPerPageOptions={[6, 10, 25, 50, 100]}
-          entriePages={paymentData.length}
+          entriePages={paymentData?.length}
         />
       </Box>
 
-      <AddCard open={openAddCard} onClose={handleCloseAddCard} />
-      <EditCard open={openEditCard} onClose={handleCloseEditCard} />
+      <AddCard
+        open={openAddCard}
+        onClose={handleCloseAddCard}
+        openEditCard={openEditCard}
+        setOpenAddCard={setOpenAddCard}
+        isGetRowValues={isGetRowValues}
+      />
       <AlertModals
         message="Are you sure you want to delete this payment method?"
         type="delete"

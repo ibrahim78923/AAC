@@ -1,13 +1,10 @@
-import { Permissions } from '@/constants/permissions';
-import Layout from '@/layout';
+import AuthGuard from '@/GuardsAndPermissions/AuthGuard';
+import ProductSuite from '@/modules/productSuite';
 
 export default function Home() {
-  return <div>fdfdff</div>;
+  return <ProductSuite />;
 }
+
 Home.getLayout = function getLayout(page: any) {
-  return (
-    <Layout guardRoute permissions={Permissions.view_dashoard}>
-      {page}
-    </Layout>
-  );
+  return <AuthGuard>{page}</AuthGuard>;
 };

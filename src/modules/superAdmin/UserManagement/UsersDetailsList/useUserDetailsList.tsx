@@ -9,7 +9,7 @@ const useUserDetailsList = () => {
   const navigate = useRouter();
   const [search, setSearch] = useState('');
   const [tabVal, setTabVal] = useState<number>();
-  const [userStatus, setUserStatus] = useState('active');
+  const [userStatus, setUserStatus] = useState();
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
   const [isOpenAddAccountDrawer, setIsOpenAddAccountDrawer] = useState(false);
   const [isOpenAddCompanyDrawer, setISOpenCompanyDrawer] = useState(false);

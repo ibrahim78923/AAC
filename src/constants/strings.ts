@@ -21,6 +21,7 @@ export const EXPORT_TYPE = {
   CSV: 'CSV',
   XLS: 'XLS',
 };
+
 export const TICKET_STATUS = {
   OPEN: 'OPEN',
   CLOSED: 'CLOSED',
@@ -91,4 +92,9 @@ export const ASSET_IMPACT = {
   LOW: 'low',
   MEDIUM: 'medium',
   HIGH: 'high',
+};
+
+export const AIR_CUSTOMER_PORTAL_TICKET = {
+  CLOSED: 'Closed',
+  PROCESSING: 'Processing',
 };

@@ -1,4 +1,4 @@
-import { PlusSharedIconColor } from '@/assets/icons';
+import { PlusSharedColorIcon } from '@/assets/icons';
 import { Box, Button, Menu, MenuItem, Typography } from '@mui/material';
 import { useHeader } from './useHeader';
 import { AIR_SERVICES } from '@/constants';
@@ -25,7 +25,7 @@ export const Header = (props: any) => {
         onClick={handleClick}
         size="medium"
         variant="contained"
-        startIcon={<PlusSharedIconColor />}
+        startIcon={<PlusSharedColorIcon />}
       >
         Create New
       </Button>

@@ -33,12 +33,12 @@ export const styles = {
   },
   salesTextBox: (theme: any) => {
     return {
-      color: theme.palette.custom.main,
+      color: theme?.palette?.custom?.main,
     };
   },
   salesHeading: (theme: any) => {
     return {
-      color: theme.palette.blue.dull_blue,
+      color: theme?.palette?.blue?.dull_blue,
       fontWeight: 600,
     };
   },
@@ -53,10 +53,10 @@ export const styles = {
   },
   salesPriority: (theme: any) => {
     return {
-      background: theme.palette.grey[400],
+      background: theme?.palette?.grey[400],
       padding: '2px 4px 2px 6px',
       borderRadius: '16px',
-      color: theme.palette.slateBlue.main,
+      color: theme?.palette?.slateBlue?.main,
       display: 'flex',
       alignItems: 'center',
       gap: 0.2,

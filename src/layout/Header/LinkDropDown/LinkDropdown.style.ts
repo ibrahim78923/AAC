@@ -7,10 +7,10 @@ export const styles = {
       alignItems: 'center',
       cursor: 'pointer',
 
-      background: isLinkDropDownOpen && theme.palette.grey[400],
+      background: isLinkDropDownOpen && theme?.palette?.grey[400],
       border: isLinkDropDownOpen
         ? '1px solid transparent'
-        : `1px solid ${theme.palette.grey[0]}`,
+        : `1px solid ${theme?.palette?.grey[0]}`,
     };
   },
 

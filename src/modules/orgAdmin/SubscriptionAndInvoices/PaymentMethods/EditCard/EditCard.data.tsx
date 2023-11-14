@@ -2,14 +2,14 @@ import { RHFDatePicker, RHFTextField } from '@/components/ReactHookForm';
 
 import * as Yup from 'yup';
 
-export const validationSchema = Yup.object().shape({
-  cardNumber: Yup.string().required('Field is Required'),
+export const validationSchema = Yup?.object()?.shape({
+  cardNumber: Yup?.string()?.required('Field is Required'),
 
-  expirationDate: Yup.date(),
+  expirationDate: Yup?.date(),
 
-  nameOnCard: Yup.string().required('Field is Required'),
+  nameOnCard: Yup?.string()?.required('Field is Required'),
 
-  CVVCode: Yup.string().required('Field is Required'),
+  CVVCode: Yup?.string()?.required('Field is Required'),
 });
 
 export const defaultValues = {

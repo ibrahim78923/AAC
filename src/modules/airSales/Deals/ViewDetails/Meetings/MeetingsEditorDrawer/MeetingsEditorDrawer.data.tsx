@@ -3,11 +3,13 @@ import {
   RHFTextField,
   RHFTimePicker,
 } from '@/components/ReactHookForm';
+
 import * as Yup from 'yup';
-export const dealsCallsValidationSchema = Yup.object().shape({
-  title: Yup.string().trim().required('Field is Required'),
-  description: Yup.string().trim().required('Field is Required'),
-  attachfile: Yup.string().trim().required('Field is Required'),
+
+export const dealsCallsValidationSchema = Yup?.object()?.shape({
+  title: Yup?.string()?.trim()?.required('Field is Required'),
+  description: Yup?.string()?.trim()?.required('Field is Required'),
+  attachfile: Yup?.string()?.trim()?.required('Field is Required'),
 });
 
 export const dealsCallsDefaultValues = {

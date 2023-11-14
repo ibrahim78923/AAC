@@ -1,11 +1,11 @@
-import { endpoints } from '@/routesConstants/endpoints';
+import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
 export const assetInventoryAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     postAssetInventory: builder.mutation({
       query: (body: any) => ({
-        url: endpoints?.ASSET_INVENTORY,
+        url: END_POINTS?.ASSET_INVENTORY,
         method: 'POST',
         body,
       }),
@@ -13,7 +13,7 @@ export const assetInventoryAPI = baseAPI.injectEndpoints({
     }),
     getAssetInventory: builder.query({
       query: (params) => ({
-        url: `${endpoints?.ASSET_INVENTORY}`,
+        url: `${END_POINTS?.ASSET_INVENTORY}`,
         method: 'GET',
         params,
       }),

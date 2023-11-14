@@ -18,6 +18,7 @@ const useSalesProductCategories = () => {
   const [productSearch, setproductSearch] = useState<string>('');
   const [isChecked, setIsChecked] = useState(false);
   const [isGetRowValues, setIsGetRowValues] = useState('');
+  const [userStatus, setUserStatus] = useState('active');
   const theme = useTheme<Theme>();
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -44,6 +45,9 @@ const useSalesProductCategories = () => {
     setIsChecked,
     isChecked,
     isGetRowValues,
+    userStatus,
+    setUserStatus,
+    theme,
   );
 
   return {

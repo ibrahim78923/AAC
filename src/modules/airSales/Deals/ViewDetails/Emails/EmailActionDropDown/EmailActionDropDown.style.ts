@@ -12,7 +12,7 @@ export const styles = {
       width: 'fit-content',
       borderRadius: '16px',
       my: 1,
-      color: theme.palette.custom.main,
+      color: theme?.palette?.custom?.main,
     };
   },
 };

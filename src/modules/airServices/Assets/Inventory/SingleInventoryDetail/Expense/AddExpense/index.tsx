@@ -10,7 +10,7 @@ import {
   Grid,
   Typography,
 } from '@mui/material';
-import { CloseModalIcon, PlusSharedIconColor } from '@/assets/icons';
+import { CloseModalIcon, PlusSharedColorIcon } from '@/assets/icons';
 import { FormProvider } from '@/components/ReactHookForm';
 import { addExpenseFormData } from '../Expense.data';
 
@@ -27,7 +27,7 @@ export const AddExpense = ({ addExpenseProps }: any) => {
     <>
       <Button
         variant="contained"
-        startIcon={<PlusSharedIconColor />}
+        startIcon={<PlusSharedColorIcon />}
         onClick={() => handleAddExpenseModal?.(true)}
       >
         Add New Expense
