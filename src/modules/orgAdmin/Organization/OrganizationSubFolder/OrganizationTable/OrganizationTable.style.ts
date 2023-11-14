@@ -1,7 +1,7 @@
 export const styles = {
   actionButton: (theme: any) => {
     return {
-      border: `1px solid ${theme?.palette?.custom.dark}`,
+      border: `1px solid ${theme?.palette?.custom?.dark}`,
       color: `${theme?.palette?.custom.main}`,
       fontSize: '14px',
       fontWeight: 500,
@@ -17,9 +17,9 @@ export const styles = {
       marginX: '2.5rem',
     };
   },
-  productCard: () => {
+  productCard: (theme: any) => {
     return {
-      border: '1px solid #E9EAEF',
+      border: `1px solid ${theme?.palette?.custom?.light_lavendar_gray}`,
       borderRadius: '8px',
       padding: '0.7rem',
     };

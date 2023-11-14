@@ -3,7 +3,7 @@ import React from 'react';
 import { Box, Grid, Theme, Typography, useTheme } from '@mui/material';
 
 import Search from '@/components/Search';
-import TanstackTable from '@/components/Tabel/TanstackTable';
+import TanstackTable from '@/components/Table/TanstackTable';
 import CustomPagination from '@/components/CustomPagination';
 
 import { columns } from './DealsOverview.data';
@@ -17,7 +17,7 @@ const DealsOverview = () => {
   return (
     <>
       <Box sx={styles.dealBox(theme)}>
-        <Typography variant="h5" sx={{ color: `${theme.palette.grey[800]}` }}>
+        <Typography variant="h5" sx={{ color: `${theme?.palette?.grey[800]}` }}>
           Deals Overview
         </Typography>
         <Search label="Search here" />

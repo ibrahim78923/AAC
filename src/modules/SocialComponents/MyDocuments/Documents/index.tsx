@@ -37,7 +37,7 @@ import useDocuments from './useDocuments';
 
 import { v4 as uuidv4 } from 'uuid';
 
-import { style } from './Documents.style';
+import { styles } from './Documents.style';
 
 const Documents = (props: any) => {
   const { toggle } = props;
@@ -69,7 +69,7 @@ const Documents = (props: any) => {
           setIsOpenDrawer(false);
         }}
         title="Filters"
-        okText="ok"
+        okText="Apply"
         isOk={true}
         footer={true}
       >
@@ -93,21 +93,21 @@ const Documents = (props: any) => {
             <Button
               variant="outlined"
               className="large"
-              sx={style.filterUserButton}
+              sx={styles?.filterUserButton}
             >
               <SingleUserBlackIcon /> Me
             </Button>
             <Button
               variant="outlined"
               className="large"
-              sx={style.filterUserButton}
+              sx={styles?.filterUserButton}
             >
               <TwoUserBlackIcon /> My Team
             </Button>
             <Button
               variant="contained"
               className="large"
-              sx={style.filterUserAnyButton(theme)}
+              sx={styles?.filterUserAnyButton(theme)}
             >
               <AnyRoundIcon /> Any
             </Button>
@@ -119,7 +119,7 @@ const Documents = (props: any) => {
             >
               Teams
             </Typography>
-            <Box sx={style.teamRow}>
+            <Box sx={styles?.teamRow}>
               <TeamUserIcon />
               <Typography
                 variant="body2"
@@ -131,13 +131,13 @@ const Documents = (props: any) => {
                 AirApple Cart team
               </Typography>
             </Box>
-            <Box sx={style.teamRow}>
+            <Box sx={styles?.teamRow}>
               <TeamUserIcon />
               <Typography
                 variant="body2"
                 sx={{
                   fontWeight: 400,
-                  color: `${theme?.palette?.slateBlue.main}`,
+                  color: `${theme?.palette?.slateBlue?.main}`,
                 }}
               >
                 Johan Doe
@@ -147,17 +147,17 @@ const Documents = (props: any) => {
           <Box sx={{ paddingTop: '1rem' }}>
             <Typography
               variant="h5"
-              sx={{ color: `${theme?.palette?.slateBlue.main}` }}
+              sx={{ color: `${theme?.palette?.slateBlue?.main}` }}
             >
               Users
             </Typography>
-            <Box sx={style.teamRow}>
+            <Box sx={styles?.teamRow}>
               <Image src={UserRoundImage} alt="No Image" />
               <Box>
                 <Typography
                   variant="body2"
                   sx={{
-                    color: `${theme?.palette?.slateBlue.main}`,
+                    color: `${theme?.palette?.slateBlue?.main}`,
                     fontWeight: 500,
                   }}
                 >
@@ -166,7 +166,7 @@ const Documents = (props: any) => {
                 <Typography
                   variant="body3"
                   sx={{
-                    color: `${theme?.palette?.custom.main}`,
+                    color: `${theme?.palette?.custom?.main}`,
                     fontWeight: 500,
                   }}
                 >
@@ -179,7 +179,7 @@ const Documents = (props: any) => {
             variant="body2"
             sx={{
               fontWeight: 500,
-              color: `${theme?.palette?.slateBlue.main}`,
+              color: `${theme?.palette?.slateBlue?.main}`,
               paddingTop: '1rem',
             }}
           >
@@ -206,61 +206,61 @@ const Documents = (props: any) => {
               setValue(e);
             }}
           />
-          <Box sx={style.folderRow}>
+          <Box sx={styles?.folderRow}>
             <FolderIcon />
             <Typography
               variant="body2"
               sx={{
                 fontWeight: 400,
-                color: `${theme?.palette?.slateBlue.main}`,
+                color: `${theme?.palette?.slateBlue?.main}`,
               }}
             >
               My PDF
             </Typography>
           </Box>
-          <Box sx={style.folderRow}>
+          <Box sx={styles?.folderRow}>
             <FolderIcon />
             <Typography
               variant="body2"
               sx={{
                 fontWeight: 400,
-                color: `${theme?.palette?.slateBlue.main}`,
+                color: `${theme?.palette?.slateBlue?.main}`,
               }}
             >
               Employee CV’s
             </Typography>
           </Box>
-          <Box sx={style.folderRow}>
+          <Box sx={styles?.folderRow}>
             <FolderIcon />
             <Typography
               variant="body2"
               sx={{
                 fontWeight: 400,
-                color: `${theme?.palette?.slateBlue.main}`,
+                color: `${theme?.palette?.slateBlue?.main}`,
               }}
             >
               AirApple Cart
             </Typography>
           </Box>
-          <Box sx={style.folderRow}>
+          <Box sx={styles?.folderRow}>
             <FolderIcon />
             <Typography
               variant="body2"
               sx={{
                 fontWeight: 400,
-                color: `${theme?.palette?.slateBlue.main}`,
+                color: `${theme?.palette?.slateBlue?.main}`,
               }}
             >
               AirApple Cart document testing
             </Typography>
           </Box>
-          <Box sx={style.folderRow}>
+          <Box sx={styles?.folderRow}>
             <FolderIcon />
             <Typography
               variant="body2"
               sx={{
                 fontWeight: 400,
-                color: `${theme?.palette?.slateBlue.main}`,
+                color: `${theme?.palette?.slateBlue?.main}`,
               }}
             >
               Test
@@ -270,22 +270,29 @@ const Documents = (props: any) => {
       </CommonDrawer>
       <Grid container spacing={2}>
         <Grid item lg={6} md={6} sm={6} xs={12}>
-          <Typography variant="h5" sx={style.documentTitle(theme)}>
+          <Typography variant="h5" sx={styles?.documentTitle(theme)}>
             Documents
           </Typography>
         </Grid>
-        <Grid item lg={6} md={6} sm={6} xs={12} sx={style.actionButtonBox}>
+        <Grid item lg={6} md={6} sm={6} xs={12} sx={styles?.actionButtonBox}>
           <Button
             variant="outlined"
             onClick={() => {
               setIsOpenModal(true);
             }}
-            sx={style.createFolderButton(theme)}
+            sx={styles?.createFolderButton(theme)}
           >
             <AddCircle /> Create Folder
           </Button>
         </Grid>
-        <Grid item lg={6} md={6} sm={6} xs={12} sx={style.documentTitle(theme)}>
+        <Grid
+          item
+          lg={6}
+          md={6}
+          sm={6}
+          xs={12}
+          sx={styles?.documentTitle(theme)}
+        >
           <Search
             label="Search here"
             width="100%"
@@ -296,9 +303,9 @@ const Documents = (props: any) => {
           />
         </Grid>
         <Grid item lg={6} md={6} sm={6} xs={12}>
-          <Box sx={style.actionFilterBox}>
+          <Box sx={styles?.actionFilterBox}>
             <Button
-              sx={style.actionButton(theme)}
+              sx={styles?.actionButton(theme)}
               aria-controls={open ? 'basic-menu' : undefined}
               aria-haspopup="true"
               aria-expanded={open ? 'true' : undefined}
@@ -306,7 +313,7 @@ const Documents = (props: any) => {
             >
               Action
               <ArrowDropDownIcon
-                sx={{ color: `${theme?.palette?.custom.main}` }}
+                sx={{ color: `${theme?.palette?.custom?.main}` }}
               />
             </Button>
             <Menu
@@ -332,7 +339,7 @@ const Documents = (props: any) => {
                 setIsOpenDrawer(true);
               }}
               variant="outlined"
-              sx={style.fiterButton(theme)}
+              sx={styles?.fiterButton(theme)}
             >
               <FilterSharedIcon /> Any
             </Button>
@@ -344,7 +351,7 @@ const Documents = (props: any) => {
               <Grid item lg={3} md={3} sm={6} xs={12}>
                 <Box
                   sx={{
-                    border: `1.16px solid ${theme?.palette?.custom.pale_gray}`,
+                    border: `1.16px solid ${theme?.palette?.custom?.pale_gray}`,
                     borderRadius: '11.56px',
                     padding: '0.6rem',
                   }}
@@ -360,7 +367,7 @@ const Documents = (props: any) => {
                       alignItems: 'center',
                     }}
                   >
-                    <Box sx={style.folderBackground(theme)}>
+                    <Box sx={styles?.folderBackground(theme)}>
                       <FolderIcon />
                     </Box>
                     <Box>
@@ -375,7 +382,7 @@ const Documents = (props: any) => {
                         color: `${theme?.palette?.grey[600]}`,
                       }}
                     >
-                      {item.folderName}
+                      {item?.folderName}
                     </Typography>
                     <Typography
                       variant="body3"
@@ -390,11 +397,11 @@ const Documents = (props: any) => {
                       Created By:
                       <Typography
                         sx={{
-                          color: `${theme?.palette?.custom.main}`,
+                          color: `${theme?.palette?.custom?.main}`,
                           fontWeight: 500,
                         }}
                       >
-                        {item.createdBy}
+                        {item?.createdBy}
                       </Typography>
                     </Typography>
                     <Typography
@@ -410,11 +417,11 @@ const Documents = (props: any) => {
                       Created Date:
                       <Typography
                         sx={{
-                          color: `${theme?.palette?.custom.main}`,
+                          color: `${theme?.palette?.custom?.main}`,
                           fontWeight: 500,
                         }}
                       >
-                        {item.createdAt}
+                        {item?.createdAt}
                       </Typography>
                     </Typography>
                   </Grid>

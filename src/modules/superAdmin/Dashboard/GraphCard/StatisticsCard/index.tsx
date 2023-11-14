@@ -16,10 +16,13 @@ const StatisticsCard = () => {
 
   return (
     <>
-      <Box sx={styles.staticCardStyle}>
+      <Box sx={styles?.staticCardStyle}>
         <Typography
           variant="body2"
-          sx={{ color: `${theme?.palette?.custom.dark_blue}`, fontWeight: 600 }}
+          sx={{
+            color: `${theme?.palette?.custom?.dark_blue}`,
+            fontWeight: 600,
+          }}
         >
           Plan Statistics
         </Typography>

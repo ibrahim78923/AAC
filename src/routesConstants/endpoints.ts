@@ -20,3 +20,12 @@ export const superAdminBillingInvoices = {
   get_organizations: '/organization/get-organizations',
   post_biling_invoices: '/super-admin/assign-plan',
 };
+
+export const organization = {
+  post_organization_account: '/org-company-account',
+  get_organization_account_all: '/org-company-account/get-accounts',
+  get_organization_account_id: '/org-company-account',
+  get_main_organization: '/organization',
+  update_organization_account: '/org-company-account',
+  delete_organization_account: '/org-company-account',
+};

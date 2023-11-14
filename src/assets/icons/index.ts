@@ -209,6 +209,10 @@ export { default as CallDropIcon } from './modules/SocialComponents/Calling/drop
 export { default as FolderGreyIcon } from './shared/folder-grey';
 export { default as AlertModalDeleteIcon } from './shared/alert-modal-delete-icon';
 export { default as AlertModalCloseIcon } from './shared/alert-modal-close-icon';
+export { default as CompanyIcon } from './modules/SocialComponents/Companies/company';
+export { default as ImportCompaniesIcon } from './modules/SocialComponents/Companies/import';
+export { default as BackArrowIcon } from './modules/airSales/deals/back-arrow';
+export { default as AssignCommonIcon } from './shared/assign-common';
 export { default as ExportRecordIcon } from './modules/airSales/deals/export-record';
 export { default as RestoreDealsIcon } from './modules/airSales/deals/restore-deal';
 export { default as FeaturedMarketingIcon } from './shared/featured-marketing';
