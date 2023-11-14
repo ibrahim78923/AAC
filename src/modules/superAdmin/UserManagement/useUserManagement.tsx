@@ -17,7 +17,11 @@ const useUserManagement = () => {
   const [selectedValue, setSelectedValue] = useState(null);
   const [tabVal, setTabVal] = useState<number>(0);
   const [search, setSearch] = useState('');
-  const { useGetUsersQuery, useUpdateUsersMutation }: any = usersApi;
+  const {
+    useGetUsersQuery,
+    useUpdateUsersMutation,
+    useGetCompaniesCRNQuery,
+  }: any = usersApi;
 
   const [updateUsers] = useUpdateUsersMutation();
   const queryParams: any = {};
@@ -62,6 +66,7 @@ const useUserManagement = () => {
     handleClose,
     handleUsersList,
     useGetUsersQuery,
+    useGetCompaniesCRNQuery,
     handleUserSwitchChange,
   };
 };

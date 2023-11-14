@@ -24,7 +24,8 @@ import useUserManagement from '../../useUserManagement';
 import { SUPER_ADMIN } from '@/constants/index';
 
 const AddUser = ({ isOpenDrawer, onClose }: any) => {
-  const { userType, setUserType } = useUserManagement();
+  const { userType, setUserType, useGetCompaniesCRNQuery } =
+    useUserManagement();
   const [isToggled, setIsToggled] = useToggle(false);
   const { usePostUsersMutation } = usersApi;
   const [postUsers] = usePostUsersMutation();
@@ -41,13 +42,14 @@ const AddUser = ({ isOpenDrawer, onClose }: any) => {
 
   const methods =
     userType === 'SUPER_ADMIN' ? superAdminMethods : companyOwnerMethods;
-
   const { handleSubmit, reset, watch } = methods;
-  const { crn } = watch({ name: 'crn' });
+
+  const crnNumber = watch('crn');
+  const { data } = useGetCompaniesCRNQuery(crnNumber);
 
   const onSubmit = async (values: any) => {
     values.role = userType;
-    values.companyName = crn;
+    values.crn = data?.name;
     try {
       postUsers({ body: values })?.unwrap();
       enqueueSnackbar('User Added Successfully', {

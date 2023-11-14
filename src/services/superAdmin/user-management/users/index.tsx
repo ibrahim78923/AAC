@@ -11,6 +11,14 @@ export const usersApi = baseAPI.injectEndpoints({
       providesTags: ['USERS'],
     }),
 
+    getCompaniesCRN: builder.query({
+      query: ({ num }) => ({
+        url: `${endpoints?.COMPANY_CRN}?by=crn&q=${num}`,
+        method: 'GET',
+      }),
+      providesTags: ['USERS'],
+    }),
+
     getUsersById: builder.query({
       query: ({ id }: any) => ({
         url: `/${id}`,
@@ -53,6 +61,7 @@ export const {
   useUpdateUsersMutation,
   usePostUsersMutation,
   useGetUsersQuery,
+  useGetCompaniesCRNQuery,
   useDeleteUsersMutation,
   useGetUsersByIdQuery,
 } = usersApi;

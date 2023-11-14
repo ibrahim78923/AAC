@@ -11,6 +11,7 @@ export const endpoints = {
   ADD_USER_ACCOUNT: '/super-admin/add-accounts',
   USER_ACCOUNTS_LIST: '/super-admin/accounts-list',
   UPDATE_USER_LIST: '/users/edit',
+  COMPANY_CRN: '/auth/search-company',
 };
 
 export const superAdminBillingInvoices = {
