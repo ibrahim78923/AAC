@@ -216,6 +216,11 @@ export { default as ExportRecordIcon } from './modules/airSales/deals/export-rec
 export { default as RestoreDealsIcon } from './modules/airSales/deals/restore-deal';
 export { default as FeaturedMarketingIcon } from './shared/featured-marketing';
 
+export { default as SentSmsIcon } from './modules/airMarketer/SMSMarketing/sent-sms-icon';
+export { default as ReadSmsIcon } from './modules/airMarketer/SMSMarketing/read-sms-icon';
+export { default as FailedSmsIcon } from './modules/airMarketer/SMSMarketing/failed-sms-icon';
+export { default as RepliedSmsIcon } from './modules/airMarketer/SMSMarketing/replied-sms-icon';
+export { default as DeliveredSmsIcon } from './modules/airMarketer/SMSMarketing/delivered-sms-icon';
 export { default as airSalesIcon } from './modules/productSuite/air-sales';
 export { default as airMarketerIcon } from './modules/productSuite/air-marketer';
 export { default as airOperationsIcon } from './modules/productSuite/air-operations';
