@@ -133,8 +133,8 @@ const EmailEditorDrawer = (props: any) => {
                       variant="body2"
                       sx={{ color: theme?.palette?.slateBlue?.main }}
                     >
-                      You haven’t connected your email to the CRM. Connect it
-                      now to keep your conversations synced.
+                      You haven’t connected your email to the CRM?. Connect it
+                      now to keep your conversations synced?.
                     </Typography>
                   </Box>
 
@@ -213,7 +213,7 @@ const EmailEditorDrawer = (props: any) => {
 
       <ScheduleModals
         message={
-          "You're about to delete a record. Deleted records can't be restored after 90 days."
+          "You're about to delete a record. Deleted records can't be restored after 90 days?."
         }
         submitButonText="Schedule"
         type={'outcome'}

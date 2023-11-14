@@ -16,8 +16,8 @@ import { AIR_SALES } from '@/routesConstants/paths';
 import { useTheme } from '@mui/material/styles';
 import TanstackTable from '@/components/Table/TanstackTable';
 import DetailCard from '../CreateInvoice/EditDetails/DetailCard';
-import { productTotalDetails } from '../CreateInvoice/EditDetails/EditDetails.data';
 import { productsTableColumns, productsTableData } from './ViewInvoice.data';
+import { productTotalDetails } from '../CreateInvoice/EditDetails/EditDetails.data';
 import { style } from './ViewInvoice.style';
 import { v4 as uuidv4 } from 'uuid';
 

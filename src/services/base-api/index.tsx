@@ -1,4 +1,5 @@
 import { BASE_URL } from '@/config';
+
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 // Tags

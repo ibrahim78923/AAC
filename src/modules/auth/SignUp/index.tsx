@@ -2,79 +2,76 @@ import React, { useState } from 'react';
 
 import Image from 'next/image';
 import Link from 'next/link';
+
 import {
   Grid,
   Button,
-  InputAdornment,
   Typography,
-  Switch,
-  FormControl,
-  Select,
-  MenuItem,
   useTheme,
   Box,
-  FormControlLabel,
-  Checkbox,
+  InputAdornment,
+  IconButton,
 } from '@mui/material';
 
-import InputField from '@/components/InputField';
+import useSignup from './useSignup';
+
+import {
+  FormProvider,
+  RHFMultiCheckbox,
+  RHFSelect,
+  RHFSwitch,
+  RHFTextField,
+} from '@/components/ReactHookForm';
+
+import { noOfEmployee } from './SignUp.data';
 
 import {
   EyeIcon,
   EyeSlashIcon,
   CompanyLogoIcon,
   VerifiedIcon,
+  ArrowBackIcon,
 } from '@/assets/icons';
 
 import { LoginDashboardImage } from '@/assets/images';
 
 import { styles } from './SignUp.style';
 
-import { useForm, Controller, FormProvider } from 'react-hook-form';
+import { v4 as uuidv4 } from 'uuid';
 
 const SignUp = () => {
-  const [isShowError, setIsShowError] = useState<boolean>(false);
-  const [isMatchPassword, setIsMatchPassword] = useState<boolean>(false);
-  const [isStepComplete, setIsStepComplete] = useState<boolean>(false);
-  const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
-  const [employeesNumber, setEmployeesNumber] = React.useState('');
+  const {
+    onSubmit,
+    handleSubmit,
+    methodsSignup,
+    productData,
+    isVerifiedSuccess,
+  } = useSignup();
 
-  const [isShowConfirmPassword, setIsShowConfirmPassword] =
-    useState<boolean>(false);
-  const [isSuccess, setIsSuccess] = useState<boolean>(false);
+  const products = productData?.data.map((product: any) => {
+    return {
+      value: product?._id,
+      label: product?.name,
+    };
+  });
+
+  const [isStepComplete, setIsStepComplete] = useState<boolean>(false);
 
   const theme = useTheme();
-  const {
-    handleSubmit,
-    control,
-    formState: { errors },
-  } = useForm();
 
-  const isPasswordValid = (password: string) => {
-    const regex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{8,}$/;
-    return regex.test(password);
-  };
+  const [showPassword, setShowPassword] = React.useState(false);
 
-  const onSubmit = (data: any) => {
-    const { createPassword, confirmPassword } = data;
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
 
-    if (isPasswordValid(createPassword)) {
-      if (createPassword !== confirmPassword) {
-        setIsMatchPassword(true);
-      } else {
-        setIsMatchPassword(false);
-        setIsSuccess(true);
-      }
-    }
-  };
-
-  const handleChange = (event: SelectChangeEvent) => {
-    setEmployeesNumber(event.target.value as string);
+  const handleMouseDownPassword = (
+    event: React.MouseEvent<HTMLButtonElement>,
+  ) => {
+    event.preventDefault();
   };
 
   return (
     <Box sx={{ height: '100vh' }}>
-      <Box sx={styles.AuthHeader}>
+      <Box sx={styles?.AuthHeader}>
         <Box>
           <CompanyLogoIcon />
         </Box>
@@ -86,10 +83,9 @@ const SignUp = () => {
       </Box>
       <Grid
         container
-        spacing={2}
         sx={{ height: '100vh', alignItems: 'center', justifyContent: 'center' }}
       >
-        {isSuccess ? (
+        {isVerifiedSuccess ? (
           <Box sx={{ textAlign: 'center', width: { md: '40%', xs: '85%' } }}>
             <VerifiedIcon />
             <Typography variant="h3" sx={{ marginTop: '10px' }}>
@@ -103,7 +99,7 @@ const SignUp = () => {
               click on that link for further verification to proceed.
             </Typography>
             <Typography variant="h6" sx={{ color: theme?.palette?.grey[900] }}>
-              If you didn’t get the verification email click on{' '}
+              If you didn’t get the verification email click on
               <Link
                 href="/sign-up"
                 style={{
@@ -111,8 +107,7 @@ const SignUp = () => {
                   fontWeight: '600',
                 }}
               >
-                {' '}
-                Resend link{' '}
+                Resend link
               </Link>
             </Typography>
           </Box>
@@ -138,475 +133,189 @@ const SignUp = () => {
                 >
                   Let’s Get Started!
                 </Typography>
-                <FormProvider>
-                  <form
+                <Box style={styles?.formStyling}>
+                  <FormProvider
+                    methods={methodsSignup}
                     onSubmit={handleSubmit(onSubmit)}
-                    style={styles.formStyling}
                   >
-                    {isStepComplete ? (
-                      <>
-                        <Typography
-                          variant="body2"
-                          sx={{ marginBottom: '4px' }}
-                        >
-                          Select Product(s){' '}
-                          <span style={{ color: 'red' }}>*</span>
-                        </Typography>
-
-                        <Grid container spacing={2}>
-                          <Grid item xs={12} md={6} lg={6}>
-                            <Controller
-                              name="Sales"
-                              control={control}
-                              rules={{ required: 'required field' }}
-                              render={({ field }) => (
-                                <FormControlLabel
-                                  control={
-                                    <Checkbox
-                                      {...field}
-                                      sx={{ color: theme?.palette?.grey[0] }}
-                                    />
-                                  }
-                                  label="Sales"
-                                />
-                              )}
-                            />
-                          </Grid>
-                          <Grid item xs={12} md={6} lg={6}>
-                            <Controller
-                              name="Operation"
-                              control={control}
-                              render={({ field }) => (
-                                <FormControlLabel
-                                  control={
-                                    <Checkbox
-                                      {...field}
-                                      sx={{ color: theme?.palette?.grey[0] }}
-                                    />
-                                  }
-                                  label="Operation"
-                                />
-                              )}
-                            />
-                          </Grid>
+                    {!isStepComplete ? (
+                      <Grid container spacing={2}>
+                        <Grid item xs={12} md={6}>
+                          <RHFTextField
+                            name="firstName"
+                            label="First Name"
+                            placeholder="Enter First Name"
+                            size="small"
+                          />
+                        </Grid>
+                        <Grid item xs={12} md={6}>
+                          <RHFTextField
+                            name="lastName"
+                            label="Last Name"
+                            placeholder="Enter Last Name"
+                            size="small"
+                          />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <RHFTextField
+                            name="email"
+                            label="Email Address"
+                            placeholder="Enter Email"
+                            size="small"
+                          />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <RHFTextField
+                            name="crn"
+                            label="Organization Number"
+                            placeholder="Enter Organization Number"
+                            size="small"
+                          />
                         </Grid>
 
-                        <Grid container spacing={2}>
-                          <Grid item xs={12} md={6} lg={6}>
-                            <Controller
-                              name="Marketing"
-                              control={control}
-                              render={({ field }) => (
-                                <FormControlLabel
-                                  control={
-                                    <Checkbox
-                                      {...field}
-                                      sx={{ color: theme?.palette?.grey[0] }}
-                                    />
-                                  }
-                                  label="Marketing"
-                                />
-                              )}
-                            />
-                          </Grid>
-                          <Grid item xs={12} md={6} lg={6}>
-                            <Controller
-                              name="Service"
-                              control={control}
-                              render={({ field }) => (
-                                <FormControlLabel
-                                  control={
-                                    <Checkbox
-                                      {...field}
-                                      sx={{ color: theme?.palette?.grey[0] }}
-                                    />
-                                  }
-                                  label="Service"
-                                />
-                              )}
-                            />
-                          </Grid>
+                        <Grid item xs={12}>
+                          <RHFTextField
+                            name="organizationName"
+                            label="Organization Name"
+                            placeholder="Enter Organization Name"
+                            size="small"
+                          />
                         </Grid>
 
-                        {errors?.Sales && (
-                          <Typography
-                            variant="body1"
-                            sx={{ color: theme?.palette?.error?.main }}
+                        <Grid item xs={12}>
+                          <RHFSelect
+                            name="numberOfEmployees"
+                            label="No of Employees"
+                            size="small"
                           >
-                            {' '}
-                            {errors?.Sales?.message}
-                          </Typography>
-                        )}
+                            {noOfEmployee?.map((option: any) => (
+                              <option key={uuidv4()} value={option?.value}>
+                                {option?.label}
+                              </option>
+                            ))}
+                          </RHFSelect>
+                        </Grid>
+                        <Grid item xs={12}>
+                          <RHFSwitch
+                            name="enableEmployeeVerification"
+                            label="Verify your Employees through Identity Gram and Get 10% discount"
+                          />
+                        </Grid>
 
-                        <Typography
-                          variant="body2"
-                          sx={{ marginBottom: '4px', marginTop: '20px' }}
-                        >
-                          Delegate Reference Number (DRN) if applied
-                        </Typography>
-                        <Controller
-                          name="DRNumber"
-                          control={control}
-                          defaultValue=""
-                          render={({ field }) => (
-                            <InputField
-                              field={{ ...field }}
-                              name="DRNumber"
-                              placeholder="Enter DRN"
-                              width="100%"
-                              height="23px"
-                              autoComplete="off"
-                              type="number"
-                              hasError={!!errors?.DRNumber}
-                            />
-                          )}
-                        />
+                        <Grid item xs={12}>
+                          <RHFTextField
+                            name="phoneNumber"
+                            label="Phone Number"
+                            size="small"
+                            placeholder="Enter Phone Number"
+                          />
+                        </Grid>
 
-                        <Typography
-                          sx={{ marginBottom: '4px', fontSize: '12px' }}
-                        >
-                          Enter DRN Number
-                        </Typography>
-
-                        <Typography
-                          variant="body2"
-                          style={{ marginBottom: '4px', marginTop: '10px' }}
-                        >
-                          Create Password{' '}
-                          <span style={{ color: 'red' }}>*</span>
-                        </Typography>
-                        <Controller
-                          name="createPassword"
-                          control={control}
-                          defaultValue=""
-                          rules={{
-                            required: 'required field',
-                            validate: (value) =>
-                              isPasswordValid(value)
-                                ? setIsShowError(false)
-                                : setIsShowError(true),
-                          }}
-                          render={({ field }) => (
-                            <InputField
-                              field={{ ...field }}
-                              name="createPassword"
-                              placeholder="Enter password"
-                              width="100%"
-                              height="23px"
-                              autoComplete="off"
-                              hasError={!!errors?.createPassword}
-                              error={errors?.createPassword?.message}
-                              type={isShowPassword ? 'text' : 'password'}
-                              InputProps={{
-                                endAdornment: (
-                                  <InputAdornment
-                                    position="end"
-                                    sx={{ width: '30px', cursor: 'pointer' }}
-                                  >
-                                    {isShowPassword ? (
-                                      <Box
-                                        onClick={() =>
-                                          setIsShowPassword(!isShowPassword)
-                                        }
-                                      >
-                                        <EyeIcon />
-                                      </Box>
-                                    ) : (
-                                      <Box
-                                        onClick={() =>
-                                          setIsShowPassword(!isShowPassword)
-                                        }
-                                      >
-                                        <EyeSlashIcon />
-                                      </Box>
-                                    )}
-                                  </InputAdornment>
-                                ),
-                              }}
-                            />
-                          )}
-                        />
-                        <Typography
-                          variant="body2"
-                          sx={{
-                            marginTop: '7px',
-                            color: isShowError && theme?.palette?.error?.main,
-                          }}
-                        >
-                          The Password must be at least 8 characters long having
-                          1 capital letter,1 small letter and 1 numeric digit
-                        </Typography>
-
-                        <Typography
-                          variant="body2"
-                          style={{ marginBottom: '4px', marginTop: '10px' }}
-                        >
-                          Confirm Password{' '}
-                          <span style={{ color: 'red' }}>*</span>
-                        </Typography>
-                        <Controller
-                          name="confirmPassword"
-                          control={control}
-                          defaultValue=""
-                          rules={{
-                            required: 'Required field',
-                          }}
-                          render={({ field }) => (
-                            <InputField
-                              field={{ ...field }}
-                              name="confirmPassword"
-                              placeholder="Confirm Password"
-                              width="100%"
-                              height="23px"
-                              autoComplete="off"
-                              hasError={!!errors?.confirmPassword}
-                              error={errors?.confirmPassword?.message}
-                              type={isShowConfirmPassword ? 'text' : 'password'}
-                              InputProps={{
-                                endAdornment: (
-                                  <InputAdornment
-                                    position="end"
-                                    sx={{ width: '30px', cursor: 'pointer' }}
-                                  >
-                                    {isShowConfirmPassword ? (
-                                      <Box
-                                        onClick={() =>
-                                          setIsShowConfirmPassword(
-                                            !isShowConfirmPassword,
-                                          )
-                                        }
-                                      >
-                                        <EyeIcon />
-                                      </Box>
-                                    ) : (
-                                      <Box
-                                        onClick={() =>
-                                          setIsShowConfirmPassword(
-                                            !isShowConfirmPassword,
-                                          )
-                                        }
-                                      >
-                                        <EyeSlashIcon />
-                                      </Box>
-                                    )}
-                                  </InputAdornment>
-                                ),
-                              }}
-                            />
-                          )}
-                        />
-
-                        {isMatchPassword && (
-                          <Typography
-                            variant="body2"
-                            sx={{ color: theme?.palette?.error?.main }}
+                        <Grid item xs={12}>
+                          <Button
+                            variant="contained"
+                            sx={{ width: '100%' }}
+                            onClick={() => setIsStepComplete(true)}
                           >
-                            password not match
-                          </Typography>
-                        )}
-
-                        <Button
-                          type="submit"
-                          variant="contained"
-                          sx={{ marginTop: '30px' }}
-                        >
-                          Sign Up
-                        </Button>
-                      </>
+                            Next
+                          </Button>
+                        </Grid>
+                      </Grid>
                     ) : (
-                      <>
-                        <Typography
-                          variant="body2"
-                          style={{ marginBottom: '4px' }}
-                        >
-                          Full Name <span style={{ color: 'red' }}>*</span>
-                        </Typography>
-                        <Controller
-                          name="fullName"
-                          control={control}
-                          defaultValue=""
-                          rules={{ required: 'required field' }}
-                          render={({ field }) => (
-                            <InputField
-                              field={{ ...field }}
-                              name="fullName"
-                              placeholder="Enter fullName"
-                              width="100%"
-                              height="23px"
-                              autoComplete="off"
-                              type="text"
-                              hasError={!!errors?.fullName}
-                              error={errors?.fullName?.message}
-                            />
-                          )}
-                        />
-
-                        <Typography
-                          variant="body2"
-                          style={{ marginBottom: '4px', marginTop: '20px' }}
-                        >
-                          Email <span style={{ color: 'red' }}>*</span>
-                        </Typography>
-                        <Controller
-                          name="email"
-                          control={control}
-                          defaultValue=""
-                          rules={{
-                            required: 'required field',
-                            pattern: {
-                              value:
-                                /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-                              message: 'Invalid email address',
-                            },
-                          }}
-                          render={({ field }) => (
-                            <InputField
-                              field={{ ...field }}
-                              name="email"
-                              placeholder="Enter email"
-                              width="100%"
-                              height="23px"
-                              autoComplete="off"
-                              type="text"
-                              hasError={!!errors?.email}
-                              error={errors?.email?.message}
-                            />
-                          )}
-                        />
-
-                        {errors?.email && (
-                          <Typography
-                            variant="body1"
-                            sx={{ color: theme?.palette?.error?.main }}
+                      <Grid container spacing={4}>
+                        <Grid item xs={12}>
+                          <Box
+                            onClick={() => setIsStepComplete(false)}
+                            sx={{ cursor: 'pointer' }}
                           >
-                            {' '}
-                            {errors?.email?.message}
+                            <ArrowBackIcon />
+                          </Box>
+
+                          <Typography variant="subtitle1">
+                            Select Product(s)
                           </Typography>
-                        )}
+                          <RHFMultiCheckbox
+                            name="products"
+                            options={products}
+                          />
+                        </Grid>
 
-                        <Typography
-                          variant="body2"
-                          style={{ marginBottom: '4px', marginTop: '20px' }}
-                        >
-                          Company Registration Number (CRN){' '}
-                          <span style={{ color: 'red' }}>*</span>
-                        </Typography>
-                        <Controller
-                          name="CRNNumber"
-                          control={control}
-                          defaultValue=""
-                          rules={{
-                            required: 'required field',
-                          }}
-                          render={({ field }) => (
-                            <InputField
-                              field={{ ...field }}
-                              name="CRNNumber"
-                              placeholder="Enter CRN Number"
-                              width="100%"
-                              height="23px"
-                              autoComplete="off"
-                              type="text"
-                              hasError={!!errors?.CRNNumber}
-                              error={errors?.CRNNumber?.message}
-                            />
-                          )}
-                        />
+                        <Grid item xs={12}>
+                          <RHFTextField
+                            name="DRN"
+                            label=" Delegate Reference Number (DRN) if applied"
+                            size="small"
+                            placeholder="Enter DRN"
+                          />
+                        </Grid>
 
-                        <Typography
-                          variant="body2"
-                          sx={{ marginBottom: '4px', marginTop: '20px' }}
-                        >
-                          Organization Name
-                        </Typography>
-                        <Controller
-                          name="OrganizationName"
-                          control={control}
-                          defaultValue=""
-                          rules={{
-                            required: 'required field',
-                          }}
-                          render={({ field }) => (
-                            <InputField
-                              field={{ ...field }}
-                              name="OrganizationName"
-                              placeholder="Enter Organization Name"
-                              width="100%"
-                              height="23px"
-                              autoComplete="off"
-                              type="text"
-                              hasError={!!errors?.OrganizationName}
-                              error={errors?.OrganizationName?.message}
-                            />
-                          )}
-                        />
+                        <Grid item xs={12}>
+                          <RHFTextField
+                            name="password"
+                            label="Password"
+                            size="small"
+                            placeholder="Enter Password"
+                            type={showPassword ? 'text' : 'password'}
+                            InputProps={{
+                              endAdornment: (
+                                <InputAdornment position="end">
+                                  <IconButton
+                                    aria-label="toggle password visibility"
+                                    onClick={handleClickShowPassword}
+                                    onMouseDown={handleMouseDownPassword}
+                                  >
+                                    {!showPassword ? (
+                                      <EyeSlashIcon />
+                                    ) : (
+                                      <EyeIcon />
+                                    )}
+                                  </IconButton>
+                                </InputAdornment>
+                              ),
+                            }}
+                          />
+                        </Grid>
 
-                        <Typography
-                          variant="body2"
-                          sx={{ marginBottom: '4px', marginTop: '20px' }}
-                        >
-                          No of Employees
-                        </Typography>
-                        <FormControl fullWidth>
-                          <Select
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            value={employeesNumber}
-                            label="Age"
-                            onChange={handleChange}
-                            sx={{ height: '43px' }}
+                        <Grid item xs={12}>
+                          <RHFTextField
+                            name="confirmPassword"
+                            label="Confirm password"
+                            placeholder="Enter Password"
+                            size="small"
+                            type={showPassword ? 'text' : 'password'}
+                            InputProps={{
+                              endAdornment: (
+                                <InputAdornment position="end">
+                                  <IconButton
+                                    aria-label="toggle password visibility"
+                                    onClick={handleClickShowPassword}
+                                    onMouseDown={handleMouseDownPassword}
+                                  >
+                                    {!showPassword ? (
+                                      <EyeSlashIcon />
+                                    ) : (
+                                      <EyeIcon />
+                                    )}
+                                  </IconButton>
+                                </InputAdornment>
+                              ),
+                            }}
+                          />
+                        </Grid>
+
+                        <Grid item xs={12}>
+                          <Button
+                            variant="contained"
+                            type="submit"
+                            sx={{ width: '100%' }}
                           >
-                            <MenuItem value={50}>10-50</MenuItem>
-                            <MenuItem value={100}>50-100</MenuItem>
-                            <MenuItem value={150}>100-150</MenuItem>
-                            <MenuItem value={200}>150-200</MenuItem>
-                            <MenuItem value={250}>200-250</MenuItem>
-                          </Select>
-                        </FormControl>
-
-                        <FormControlLabel
-                          sx={{ marginTop: '20px' }}
-                          control={<Switch defaultChecked />}
-                          label="Verify your employees through Identity Gram and Get 10% discount"
-                        />
-
-                        <Typography
-                          variant="body2"
-                          sx={{ marginBottom: '4px', marginTop: '20px' }}
-                        >
-                          Phone Number <span style={{ color: 'red' }}>*</span>
-                        </Typography>
-                        <Controller
-                          name="phoneNumber"
-                          control={control}
-                          defaultValue=""
-                          rules={{ required: 'required field' }}
-                          render={({ field }) => (
-                            <InputField
-                              field={{ ...field }}
-                              name="phoneNumber"
-                              placeholder="Enter Number"
-                              width="100%"
-                              height="23px"
-                              autoComplete="off"
-                              type="number"
-                              hasError={!!errors?.phoneNumber}
-                              error={errors?.phoneNumber?.message}
-                            />
-                          )}
-                        />
-
-                        <Button
-                          variant="contained"
-                          sx={{ marginTop: '30px' }}
-                          onClick={() => setIsStepComplete(true)}
-                        >
-                          Next
-                        </Button>
-                      </>
+                            Submit
+                          </Button>
+                        </Grid>
+                      </Grid>
                     )}
-                  </form>
-                </FormProvider>
+                  </FormProvider>
+                </Box>
               </Box>
             </Grid>
             <Grid
@@ -614,14 +323,14 @@ const SignUp = () => {
               xs={0}
               md={6}
               lg={6}
-              style={styles.loginDashboard}
+              style={styles?.loginDashboard}
               sx={{
                 '@media (max-width: 900px)': {
-                  display: 'none !important', // Hide the element when the screen width is less than 900px
+                  display: 'none !important',
                 },
               }}
             >
-              <Image src={LoginDashboardImage} alt="dashborad" />
+              <Image src={LoginDashboardImage} alt="dashboard" />
             </Grid>
           </>
         )}

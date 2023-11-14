@@ -12,6 +12,8 @@ export const endpoints = {
   USER_ACCOUNTS_LIST: '/super-admin/accounts-list',
   UPDATE_USER_LIST: '/users/edit',
   COMPANY_CRN: '/auth/search-company',
+  auth_search_company: 'auth/search-company',
+  auth_IG_Verification: 'auth/ig-verification',
 };
 
 export const superAdminBillingInvoices = {

@@ -16,7 +16,7 @@ const ActivityLog = () => {
   const { NameWithStyledWords, theme } = useNameWithStyledWords();
 
   return (
-    <Box sx={styles.horizontalTabsBox}>
+    <Box sx={styles?.horizontalTabsBox}>
       <Typography variant="h4">Activity Log </Typography>
       <Box sx={styles?.horizontalTabsInnnerBox}>
         <Grid container>
@@ -39,18 +39,18 @@ const ActivityLog = () => {
                 </Box>
                 <Box sx={{ width: '50vw' }}>
                   <NameWithStyledWords
-                    name={item.name}
+                    name={item?.name}
                     customKey="ActivityHead"
                   />
                   <Typography
                     variant="body3"
-                    sx={{ color: theme.palette.custom.main }}
+                    sx={{ color: theme?.palette?.custom?.main }}
                   >
-                    {item.message}
+                    {item?.message}
                   </Typography>
-                  {item.activityList && (
+                  {item?.activityList && (
                     <Box>
-                      {item.activityList?.map((option) => (
+                      {item?.activityList?.map((option) => (
                         <Box key={uuidv4()}>
                           <NameWithStyledWords
                             name={option}
