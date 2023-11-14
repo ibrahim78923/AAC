@@ -24,7 +24,7 @@ export { default as PhoneIcon } from './shared/phone-shared';
 export { default as EditIcon } from './shared/edit-shared';
 export { default as EditYellowBgIcon } from './shared/edit-yellow-bg';
 export { default as EditColoredIcon } from './shared/edit-colored-shared';
-// export { default as FilterSharedIcon } from './shared/filter-shared';
+export { default as FilterSharedIcon } from './shared/filter-shared';
 export { default as ExampleKababCase } from './modules/Login/example-kabab-case';
 export { default as ViewEyeIcon } from './modules/airSales/SettingsUserManagement/view-eye';
 export { default as DeleteCrossIcon } from './modules/airSales/SettingsUserManagement/delete-cross';
