@@ -1,22 +1,8 @@
-export const TICKET_STATUS = {
-  OPEN: 'OPEN',
-  CLOSED: 'CLOSED',
-  RESOLVED: 'RESOLVED',
-  PENDING: 'PENDING',
-};
-
-export const TICKET_PRIORITY = {
-  LOW: 'LOW',
-  MEDIUM: 'MEDIUM',
-  HIGH: 'HIGH',
-  URGENT: 'URGENT',
-};
-
-export const TICKET_IMPACT = {
-  LOW: 'LOW',
-  MEDIUM: 'MEDIUM',
-  HIGH: 'HIGH',
-};
+import {
+  TICKET_IMPACT,
+  TICKET_PRIORITY,
+  TICKET_STATUS,
+} from '@/constants/strings';
 
 export const ticketStatusOptions = [
   {
