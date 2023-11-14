@@ -15,4 +15,4 @@ export const createTicketApi = baseAPI.injectEndpoints({
   }),
 });
 
-export const { useCreateTicketMutation } = createTicketApi;
+export const { usePostCreateTicketMutation } = createTicketApi;
