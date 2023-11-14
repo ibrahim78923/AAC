@@ -36,7 +36,7 @@ export const gpDetailsInfoFormSchema: any = Yup?.object()?.shape({
   defaultUsers: Yup?.string()
     ?.trim()
     ?.required('Required field')
-    ?.matches(/^[A-Za-z\s]*$/, 'only Aplhabets are allowed')
+
     ?.min(1, 'Mininum 1 characters')
     ?.max(30, 'Maximum 50 characters'),
   defaultStorage: Yup?.string()
