@@ -1,10 +1,10 @@
-export const actionsFunction = (setIsbarChart: any) => [
+export const dropDownMenus = (setIsBarChart: any) => [
   {
     title: 'Priority',
-    handleClick: () => setIsbarChart(false),
+    handleClick: () => setIsBarChart(false),
   },
   {
     title: 'Status',
-    handleClick: () => setIsbarChart(true),
+    handleClick: () => setIsBarChart(true),
   },
 ];

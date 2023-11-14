@@ -5,20 +5,20 @@ import { styles } from './AnnouncementDashboardCard.styles';
 export const AnnouncementDashboardCard = ({
   icon,
   announcementText,
-  announcementTextOne,
-  announcementTextTwo,
+  announcementTextTime,
+  announcementImageText,
   isborderbottom,
 }: any) => {
   const theme = useTheme();
   return (
-    <Box sx={styles?.boxMain(isborderbottom, theme)}>
+    <Box sx={styles?.boxMain(theme, isborderbottom)}>
       <Box marginTop={1}>
-        <Typography variant="body3" sx={styles?.announcementText}>
+        <Typography variant="body3" color={'grey.800'}>
           {announcementText}
         </Typography>
         <Typography>
-          <Typography variant="body3" sx={styles?.announcementTextOne}>
-            {announcementTextOne}
+          <Typography variant="body3" color={'grey.800'}>
+            {announcementTextTime}
           </Typography>
         </Typography>
       </Box>
@@ -32,8 +32,8 @@ export const AnnouncementDashboardCard = ({
             marginRight: '0.625rem',
           }}
         />
-        <Typography variant="body3" sx={styles?.announcementTextTwo}>
-          {announcementTextTwo}
+        <Typography variant="body3" color={'custom?.main'}>
+          {announcementImageText}
         </Typography>
       </Box>
     </Box>

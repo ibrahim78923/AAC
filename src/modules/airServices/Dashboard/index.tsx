@@ -25,7 +25,7 @@ const Dashboard = () => {
     handleIconButtonClick,
     theme,
     isbarchart,
-    setIsbarChart,
+    setIsBarChart,
   } = useDashboard();
 
   return (
@@ -56,7 +56,7 @@ const Dashboard = () => {
               >
                 <br />
                 <Box marginLeft={2}>
-                  <HeaderBarChart setIsbarChart={setIsbarChart} />
+                  <HeaderBarChart setIsBarChart={setIsBarChart} />
                 </Box>
                 <Box marginTop={2} marginBottom={2}>
                   {isbarchart ? <BarChart /> : <RadialBarChart />}
@@ -73,7 +73,7 @@ const Dashboard = () => {
               >
                 <br />
                 <Box marginLeft={2}>
-                  <Typography variant="h6">Recent Activities</Typography>
+                  <Typography variant="h5">Recent Activities</Typography>
                 </Box>
                 <Box marginTop={2}>
                   {recentActivitiesDashboardCardData?.map((item, index) => (
@@ -129,26 +129,17 @@ const Dashboard = () => {
             </Grid>
             <Grid item xs={12} lg={4}>
               {topPerformerDashboardCardData?.map((item) => (
-                <Box
-                  key={uuidv4()}
-                  sx={{
-                    background: theme?.palette?.common?.white,
-                    borderRadius: '0.5rem',
-                    border: `0.063rem solid ${theme?.palette?.grey?.[700]}`,
-                  }}
-                >
+                <Box key={uuidv4()}>
                   <TopPerformerDashboardCard
-                    icon={item?.icon}
-                    iconOne={item?.iconOne}
-                    iconTwo={item?.iconTwo}
-                    topPerformanceText={item?.topPerformanceText}
-                    topPerformanceTextOne={item?.topPerformanceTextOne}
-                    topPerformanceTextTwo={item?.topPerformanceTextTwo}
-                    topPerformanceTextThree={item?.topPerformanceTextThree}
-                    topPerformanceTextFour={item?.topPerformanceTextFour}
-                    topPerformanceTextFive={item?.topPerformanceTextFive}
-                    topPerformanceTextSix={item?.topPerformanceTextSix}
-                    topPerformanceTextSeven={item?.topPerformanceTextSeven}
+                    userImage={item?.userImage}
+                    badgeImage={item?.badgeImage}
+                    badgeNextImage={item?.badgeNextImage}
+                    userImageText={item?.userImageText}
+                    userImageDescription={item?.userImageDescription}
+                    progressBarText={item?.progressBarText}
+                    ProgressBarDescription={item?.ProgressBarDescription}
+                    badgeText={item?.badgeText}
+                    badgeNextText={item?.badgeNextText}
                   />
                 </Box>
               ))}
@@ -171,8 +162,8 @@ const Dashboard = () => {
                       <AnnouncementDashboardCard
                         icon={item?.icon}
                         announcementText={item?.announcementText}
-                        announcementTextOne={item?.announcementTextOne}
-                        announcementTextTwo={item?.announcementTextTwo}
+                        announcementTextTime={item?.announcementTextTime}
+                        announcementImageText={item?.announcementImageText}
                         isborderbottom={
                           announcementDashboardCardData?.length - 1 !== index
                         }

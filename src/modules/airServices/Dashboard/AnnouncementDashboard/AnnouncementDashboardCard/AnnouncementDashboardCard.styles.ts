@@ -10,22 +10,7 @@ export const styles: any = {
       : '',
     flexShrink: 0,
     px: 2,
-    height: 76,
-  }),
-
-  announcementText: (theme: any) => ({
-    color: theme?.palette?.common?.[800],
-    mt: 1,
-  }),
-
-  announcementTextOne: {
-    color: '#A0A3BD', //This color is not available in palette
-    mt: 1,
-  },
-
-  announcementTextTwo: (theme: any) => ({
-    fontWeight: 600,
-    color: theme?.palette?.custom?.main,
-    display: 'flex',
+    height: 81,
+    borderRadius: 3,
   }),
 };

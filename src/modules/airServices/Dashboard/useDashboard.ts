@@ -3,7 +3,7 @@ import { useTheme } from '@mui/material';
 
 export function useDashboard() {
   const theme = useTheme();
-  const [isbarchart, setIsbarChart] = useState(true);
+  const [isbarchart, setIsBarChart] = useState(true);
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const handleIconButtonClick = () => {
     setIsDrawerOpen(!isDrawerOpen);
@@ -14,6 +14,6 @@ export function useDashboard() {
     theme,
     handleIconButtonClick,
     isbarchart,
-    setIsbarChart,
+    setIsBarChart,
   };
 }

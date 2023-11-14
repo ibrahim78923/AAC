@@ -70,12 +70,12 @@ export const defaultValues = {
   impact: 'low',
   description: '',
   assetLifeExpireOn: null,
-  locationId: '651bdf53beeb02bc627d6804',
-  departmentId: '6543a48a41732bce39b26f23',
+  locationId: '',
+  departmentId: '',
   assignedOnDate: null,
   assignedOnTime: null,
-  usedBy: '651bdf53beeb02bc627d6805',
-  attachFile: ['652ee528da86b788fd6ca7ea'],
+  usedBy: '',
+  attachFile: [''],
 };
 
 export const addInventoryFields = [

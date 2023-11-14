@@ -4,13 +4,13 @@ import {
   createAnnouncementDashboardDataArray,
   createAnnouncementDashboardDefaultValues,
   createAnnouncementDashboardValidationSchema,
-} from './AnnouncementDashboardDrawer.data';
+} from './AddAnnouncement.data';
 import { v4 as uuidv4 } from 'uuid';
 import CommonDrawer from '@/components/CommonDrawer';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-function AnnouncementDashboardDrawer({ isDrawerOpen, setIsDrawerOpen }: any) {
+function AddAnnouncement({ isDrawerOpen, setIsDrawerOpen }: any) {
   const methods: any = useForm({
     resolver: yupResolver(createAnnouncementDashboardValidationSchema),
     defaultValues: createAnnouncementDashboardDefaultValues,
@@ -58,4 +58,4 @@ function AnnouncementDashboardDrawer({ isDrawerOpen, setIsDrawerOpen }: any) {
   );
 }
 
-export default AnnouncementDashboardDrawer;
+export default AddAnnouncement;

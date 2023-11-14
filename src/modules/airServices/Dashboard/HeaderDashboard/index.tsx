@@ -1,6 +1,6 @@
 import { Grid, Typography, useTheme } from '@mui/material';
 import { SingleDropdownButton } from '../../../../components/SingleDropdownButton';
-import { actionsFunction, dashboardFunction } from './HeaderDashboard.data';
+import { dropDownMenus, dashboardFunction } from './HeaderDashboard.data';
 import { styles } from './HeaderDashboard.styles';
 import { useRouter } from 'next/router';
 
@@ -24,7 +24,7 @@ export const HeaderDashboard = () => {
             <Grid container spacing={1}>
               <Grid item>
                 <SingleDropdownButton
-                  dropdownOptions={actionsFunction}
+                  dropdownOptions={dropDownMenus}
                   dropdownName="Actions"
                 />
               </Grid>

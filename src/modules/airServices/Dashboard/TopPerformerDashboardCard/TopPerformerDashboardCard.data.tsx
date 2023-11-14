@@ -4,16 +4,14 @@ import { DashboardAvatarImage } from '@/assets/images';
 
 export const topPerformerDashboardCardData = [
   {
-    icon: DashboardAvatarImage,
-    topPerformanceText: ' Alesha Rai',
-    topPerformanceTextOne: 'IT Department',
-    topPerformanceTextTwo: 'Beginner',
-    topPerformanceTextThree: 'Score + 2400 points to intermediate',
-    topPerformanceTextFour: 'Customer Wow',
-    topPerformanceTextFive: 'Champion',
-    topPerformanceTextSix: 'Most Valuable',
-    topPerformanceTextSeven: 'Player',
-    iconOne: CustomerWowChampionImage,
-    iconTwo: MostValuablePlayerImage,
+    userImage: DashboardAvatarImage,
+    userImageText: ' Alesha Rai',
+    userImageDescription: 'IT Department',
+    progressBarText: 'Beginner',
+    ProgressBarDescription: 'Score + 2400 points to intermediate',
+    badgeText: 'Customer Wow Champion',
+    badgeNextText: 'Most Valuable Player',
+    badgeImage: CustomerWowChampionImage,
+    badgeNextImage: MostValuablePlayerImage,
   },
 ];

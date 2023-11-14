@@ -4,19 +4,19 @@ export const announcementDashboardCardData = [
   {
     icon: DashboardAvatarImage,
     announcementText: ' We are excited to announce that..',
-    announcementTextOne: '3 hours ago',
-    announcementTextTwo: 'Kyle Jenner',
+    announcementTextTime: '3 hours ago',
+    announcementImageText: 'Kyle Jenner',
   },
   {
     icon: DashboardAvatarImage,
     announcementText: ' We are excited to announce that..',
-    announcementTextOne: '3 hours ago',
-    announcementTextTwo: 'Kyle Jenner',
+    announcementTextTime: '3 hours ago',
+    announcementImageText: 'Kyle Jenner',
   },
   {
     icon: DashboardAvatarImage,
     announcementText: ' We are excited to announce that..',
-    announcementTextOne: '3 hours ago',
-    announcementTextTwo: 'Kyle Jenner',
+    announcementTextTime: '3 hours ago',
+    announcementImageText: 'Kyle Jenner',
   },
 ];
