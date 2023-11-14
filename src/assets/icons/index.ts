@@ -193,3 +193,9 @@ export { default as FolderGreyIcon } from './shared/folder-grey';
 export { default as AlertModalDeleteIcon } from './shared/alert-modal-delete-icon';
 export { default as AlertModalCloseIcon } from './shared/alert-modal-close-icon';
 export { default as FeaturedMarketingIcon } from './shared/featured-marketing';
+
+export { default as SentSmsIcon } from './modules/airMarketer/SMSMarketing/sent-sms-icon';
+export { default as ReadSmsIcon } from './modules/airMarketer/SMSMarketing/read-sms-icon';
+export { default as FailedSmsIcon } from './modules/airMarketer/SMSMarketing/failed-sms-icon';
+export { default as RepliedSmsIcon } from './modules/airMarketer/SMSMarketing/replied-sms-icon';
+export { default as DeliveredSmsIcon } from './modules/airMarketer/SMSMarketing/delivered-sms-icon';
