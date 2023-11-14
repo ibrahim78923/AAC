@@ -7,4 +7,5 @@ export const END_POINTS = {
   reset_password: 'auth/resetPassword',
   forgot_password: 'auth/forgot-password',
   INVENTORY_EXPENSE: 'expense/add-expense',
+  GET_INVENTORY_EXPENSE: 'expense/get-expense',
 };
