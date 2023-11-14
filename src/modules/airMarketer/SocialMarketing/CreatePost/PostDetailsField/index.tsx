@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Button, Popover, TextField } from '@mui/material';
+import { Box, Button, Popover, TextField, Typography } from '@mui/material';
 import {
   ATRateIcon,
   CapitalSmallIcon,
@@ -24,6 +24,7 @@ export default function PostDetailsField() {
 
   return (
     <Box sx={{ position: 'relative' }}>
+      <Typography>Post Details</Typography>
       <TextField
         fullWidth
         multiline

@@ -113,172 +113,175 @@ export default function RHFMultiSearchableSelectWithAccordion({
   }, [defaultOpen]);
 
   return (
-    <Controller
-      name={name}
-      control={control}
-      render={({ field, fieldState: { error } }) => (
-        <>
-          <TextField
-            {...field}
-            fullWidth
-            error={!!error}
-            helperText={error?.message}
-            {...other}
-            value={getSelectedLabels()?.join(', ')}
-            onClick={handleClick}
-            InputProps={{
-              inputRef: inputRef,
-              endAdornment: (
-                <InputAdornment position="start">
-                  <ArrowDownIcon />
-                </InputAdornment>
-              ),
-            }}
-          />
-          <Menu
-            id="basic-menu"
-            anchorEl={anchorEl}
-            open={open}
-            onClose={handleClose}
-            MenuListProps={{
-              'aria-labelledby': 'basic-button',
-            }}
-            PaperProps={{
-              style: {
-                width: anchorEl ? anchorEl?.clientWidth : 'auto',
-                padding: '10px',
-              },
-            }}
-          >
-            <>
-              {searchHandler && (
-                <Search
-                  searchBy={searchTerm}
-                  setSearchBy={setSearchTerm}
-                  label="Search By Name"
-                  fullWidth
-                  size="small"
-                  sx={{ marginBottom: '15px' }}
-                />
-              )}
+    <>
+      <Typography>Add Social Account</Typography>
+      <Controller
+        name={name}
+        control={control}
+        render={({ field, fieldState: { error } }) => (
+          <>
+            <TextField
+              {...field}
+              fullWidth
+              error={!!error}
+              helperText={error?.message}
+              {...other}
+              value={getSelectedLabels()?.join(', ')}
+              onClick={handleClick}
+              InputProps={{
+                inputRef: inputRef,
+                endAdornment: (
+                  <InputAdornment position="start">
+                    <ArrowDownIcon />
+                  </InputAdornment>
+                ),
+              }}
+            />
+            <Menu
+              id="basic-menu"
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleClose}
+              MenuListProps={{
+                'aria-labelledby': 'basic-button',
+              }}
+              PaperProps={{
+                style: {
+                  width: anchorEl ? anchorEl?.clientWidth : 'auto',
+                  padding: '10px',
+                },
+              }}
+            >
+              <>
+                {searchHandler && (
+                  <Search
+                    searchBy={searchTerm}
+                    setSearchBy={setSearchTerm}
+                    label="Search By Name"
+                    fullWidth
+                    size="small"
+                    sx={{ marginBottom: '15px' }}
+                  />
+                )}
 
-              {filteredOptions &&
-                filteredOptions?.map((option: any) => (
-                  <Accordion key={uuidv4()}>
-                    <AccordionSummary
-                      expandIcon={<ArrowDropDownIcon />}
-                      aria-controls="panel1a-content"
-                      id="panel1a-header"
-                      sx={{
-                        backgroundColor: '#f1f1f17a',
-                        borderRadius: '5px',
-                        display: 'flex',
-                        marginBottom: '5px',
-                      }}
-                    >
-                      {option?.image && (
-                        <Image
-                          width={24}
-                          height={24}
-                          alt="user"
-                          src={option?.image}
-                        />
-                      )}
-                      <Typography sx={{ marginLeft: '10px' }}>
-                        {option?.label}
-                      </Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                      {option?.options?.map((option: any) => (
-                        <Box
-                          key={option?.value}
-                          onClick={() => {
-                            {
-                              isCheckBox
-                                ? null
-                                : handleOptionSelect(
-                                    option?.value,
-                                    field,
-                                    option?.image,
-                                  );
-                            }
-                          }}
-                          sx={{
-                            width: '100%',
-                            height: '40px',
-                            padding: '5px 10px',
-                            display: 'flex',
-                            marginBottom: '10px',
-                            gap: '5px',
-                            borderRadius: '5px',
-                            cursor: 'pointer',
-                            backgroundColor: isCheckBox
-                              ? 'transparent'
-                              : selectedValues?.includes(option?.value)
-                              ? '#e0e0e0'
-                              : 'transparent',
-                            '&:hover': {
-                              backgroundColor: '#e0e0e0',
-                            },
-                          }}
-                        >
-                          <Box sx={{ display: 'flex', marginTop: '5px' }}>
-                            {option?.image && (
-                              <Image
-                                width={24}
-                                height={24}
-                                alt="user"
-                                src={option?.image}
-                              />
-                            )}
-                            <Typography
-                              variant="body1"
-                              sx={{ marginLeft: '5px' }}
-                            >
-                              {option?.label}
-                            </Typography>
+                {filteredOptions &&
+                  filteredOptions?.map((option: any) => (
+                    <Accordion key={uuidv4()}>
+                      <AccordionSummary
+                        expandIcon={<ArrowDropDownIcon />}
+                        aria-controls="panel1a-content"
+                        id="panel1a-header"
+                        sx={{
+                          backgroundColor: '#f1f1f17a',
+                          borderRadius: '5px',
+                          display: 'flex',
+                          marginBottom: '5px',
+                        }}
+                      >
+                        {option?.image && (
+                          <Image
+                            width={24}
+                            height={24}
+                            alt="user"
+                            src={option?.image}
+                          />
+                        )}
+                        <Typography sx={{ marginLeft: '10px' }}>
+                          {option?.label}
+                        </Typography>
+                      </AccordionSummary>
+                      <AccordionDetails>
+                        {option?.options?.map((option: any) => (
+                          <Box
+                            key={option?.value}
+                            onClick={() => {
+                              {
+                                isCheckBox
+                                  ? null
+                                  : handleOptionSelect(
+                                      option?.value,
+                                      field,
+                                      option?.image,
+                                    );
+                              }
+                            }}
+                            sx={{
+                              width: '100%',
+                              height: '40px',
+                              padding: '5px 10px',
+                              display: 'flex',
+                              marginBottom: '10px',
+                              gap: '5px',
+                              borderRadius: '5px',
+                              cursor: 'pointer',
+                              backgroundColor: isCheckBox
+                                ? 'transparent'
+                                : selectedValues?.includes(option?.value)
+                                ? '#e0e0e0'
+                                : 'transparent',
+                              '&:hover': {
+                                backgroundColor: '#e0e0e0',
+                              },
+                            }}
+                          >
+                            <Box sx={{ display: 'flex', marginTop: '5px' }}>
+                              {option?.image && (
+                                <Image
+                                  width={24}
+                                  height={24}
+                                  alt="user"
+                                  src={option?.image}
+                                />
+                              )}
+                              <Typography
+                                variant="body1"
+                                sx={{ marginLeft: '5px' }}
+                              >
+                                {option?.label}
+                              </Typography>
+                            </Box>
                           </Box>
-                        </Box>
-                      ))}
-                    </AccordionDetails>
-                  </Accordion>
-                ))}
-            </>
-          </Menu>
+                        ))}
+                      </AccordionDetails>
+                    </Accordion>
+                  ))}
+              </>
+            </Menu>
 
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-            }}
-          >
-            {selectedValues?.map((option: any) => (
-              <Box
-                key={uuidv4()}
-                sx={{
-                  width: 'fit-content',
-                  background: '#F3F4F6',
-                  borderRadius: '20px',
-                  color: '#6E7191',
-                  padding: '1px 8px',
-                  display: 'flex',
-                  marginRight: '10px',
-                  alignItems: 'center',
-                  marginTop: '15px',
-                }}
-              >
-                {option}
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+              }}
+            >
+              {selectedValues?.map((option: any) => (
+                <Box
+                  key={uuidv4()}
+                  sx={{
+                    width: 'fit-content',
+                    background: '#F3F4F6',
+                    borderRadius: '20px',
+                    color: '#6E7191',
+                    padding: '1px 8px',
+                    display: 'flex',
+                    marginRight: '10px',
+                    alignItems: 'center',
+                    marginTop: '15px',
+                  }}
+                >
+                  {option}
 
-                <CloseIcon
-                  sx={{ fontSize: '18px' }}
-                  onClick={() => handleRemove(option)}
-                  style={{ cursor: 'pointer' }}
-                />
-              </Box>
-            ))}
-          </Box>
-        </>
-      )}
-    />
+                  <CloseIcon
+                    sx={{ fontSize: '18px' }}
+                    onClick={() => handleRemove(option)}
+                    style={{ cursor: 'pointer' }}
+                  />
+                </Box>
+              ))}
+            </Box>
+          </>
+        )}
+      />
+    </>
   );
 }

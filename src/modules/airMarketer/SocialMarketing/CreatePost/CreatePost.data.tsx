@@ -1,4 +1,4 @@
-import { RHFDropZone, RHFSelect } from '@/components/ReactHookForm';
+import { RHFSelect } from '@/components/ReactHookForm';
 
 import * as Yup from 'yup';
 import RHFMultiSearchableSelectWithAccordion from './MultiSearchableSelectWithAccordion';
@@ -8,6 +8,7 @@ import {
   UserProfileAvatarImage,
 } from '@/assets/images';
 import PostDetailsField from './PostDetailsField';
+import UploadMedia from './UploadMedia';
 
 export const validationSchema = Yup?.object()?.shape({
   SocialAccount: Yup?.string(),
@@ -102,7 +103,7 @@ export const createPostDataArray = [
       select: false,
     },
 
-    component: RHFDropZone,
+    component: UploadMedia,
 
     md: 12,
   },
