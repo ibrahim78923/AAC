@@ -14,7 +14,7 @@ import {
 import { AddCircleRounded } from '@mui/icons-material';
 import { useTheme } from '@mui/material/styles';
 import { productTotalDetails } from '../EditDetails.data';
-import TanstackTable from '@/components/Tabel/TanstackTable';
+import TanstackTable from '@/components/Table/TanstackTable';
 import {
   productsTableColumns,
   productsTableData,

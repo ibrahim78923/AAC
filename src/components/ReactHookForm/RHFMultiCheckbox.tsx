@@ -1,5 +1,10 @@
 import { useFormContext, Controller } from 'react-hook-form';
-import { Checkbox, FormGroup, FormControlLabel } from '@mui/material';
+import {
+  Checkbox,
+  FormGroup,
+  FormControlLabel,
+  FormHelperText,
+} from '@mui/material';
 
 export default function RHFMultiCheckbox({ name, options, ...other }: any) {
   const { control } = useFormContext();
@@ -8,28 +13,37 @@ export default function RHFMultiCheckbox({ name, options, ...other }: any) {
     <Controller
       name={name}
       control={control}
-      render={({ field }) => {
+      render={({ field, fieldState: { error } }) => {
         const onSelected = (option: any) =>
-          field?.value?.includes(option)
-            ? field?.value?.filter((value: any) => value !== option)
-            : [...field?.value, option];
+          field?.value?.some((item: any) => item === option?.value)
+            ? field?.value?.filter((value: any) => value !== option?.value)
+            : [...field?.value, option?.value];
 
         return (
-          <FormGroup>
-            {options.map((option: any) => (
-              <FormControlLabel
-                key={option}
-                control={
-                  <Checkbox
-                    checked={field?.value?.includes(option)}
-                    onChange={() => field?.onChange(onSelected(option))}
-                  />
-                }
-                label={option}
-                {...other}
-              />
-            ))}
-          </FormGroup>
+          <>
+            <FormGroup>
+              {options?.map((option: any) => (
+                <FormControlLabel
+                  key={option?.value}
+                  control={
+                    <Checkbox
+                      checked={field?.value?.some(
+                        (item: any) => item === option?.value,
+                      )}
+                      onChange={() => field?.onChange(onSelected(option))}
+                    />
+                  }
+                  label={option?.label}
+                  {...other}
+                />
+              ))}
+            </FormGroup>
+            {!!error && (
+              <FormHelperText error sx={{ display: 'block', mt: -0.5, ml: 0 }}>
+                {error?.message}
+              </FormHelperText>
+            )}
+          </>
         );
       }}
     />

@@ -13,7 +13,7 @@ export const columns: any = ({
 }) => {
   return [
     {
-      accessorFn: (row: any) => row.name,
+      accessorFn: (row: any) => row?.name,
       id: 'contact_id',
       cell: (info: any) => (
         <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
