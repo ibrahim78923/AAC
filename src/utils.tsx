@@ -31,6 +31,7 @@ export const debouncedSearch = debounce((value: any, setSearchBy: any) => {
 
 const getSession = () => {
   const sessionJSON = window.localStorage.getItem('session');
+
   if (sessionJSON) return JSON.parse(sessionJSON);
   return {};
 };

@@ -2,15 +2,16 @@ import { endpoints } from '@/routesConstants/endpoints';
 import { TAGS, baseAPI } from '../base-api';
 export const authAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
-    login: builder.mutation({
+    authLogin: builder.mutation({
       query: (credentials: string) => ({
         url: endpoints.login,
-        method: 'PUT',
+        method: 'POST',
         body: credentials,
       }),
     }),
+
     signUp: builder.mutation({
-      query: (user: string) => ({
+      query: ({ user }: any) => ({
         url: endpoints.signup,
         method: 'POST',
         body: user,
@@ -31,6 +32,14 @@ export const authAPI = baseAPI.injectEndpoints({
       }),
     }),
 
+    authCompanyVerification: builder.mutation({
+      query: ({ email }: any) => ({
+        url: endpoints.auth_IG_Verification,
+        method: 'POST',
+        body: email,
+      }),
+    }),
+
     logout: builder.mutation<null, void>({
       queryFn: () => ({ data: null }),
       invalidatesTags: TAGS,
@@ -42,14 +51,24 @@ export const authAPI = baseAPI.injectEndpoints({
       }),
       providesTags: ['permissions'],
     }),
+
+    getAuthCompanies: builder.query({
+      query: ({ q }) => ({
+        url: `${endpoints.auth_search_company}?by=crn&q=${q}`,
+        method: 'GET',
+      }),
+      providesTags: ['companies'],
+    }),
   }),
 });
 
 export const {
-  useLoginMutation,
+  useAuthLoginMutation,
   useResetPasswordMutation,
   useForgotPasswordMutation,
   useSignUpMutation,
   useLogoutMutation,
   useGetPermissionsQuery,
+  useGetAuthCompaniesQuery,
+  useAuthCompanyVerificationMutation,
 } = authAPI;

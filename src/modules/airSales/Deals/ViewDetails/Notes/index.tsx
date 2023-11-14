@@ -124,11 +124,11 @@ const Notes = () => {
                     alignItems: 'center',
                   }}
                 >
-                  <Image src={item.image} alt="Avatar" />
+                  <Image src={item?.image} alt="Avatar" />
                 </Grid>
                 <Grid item xs={12} lg={10} sm={9} sx={{ gap: 1 }}>
                   <NameWithStyledWords
-                    name={item.title}
+                    name={item?.title}
                     customKey="ActivityHead"
                   />
                   <Typography

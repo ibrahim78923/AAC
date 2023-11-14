@@ -24,7 +24,7 @@ export { default as PhoneIcon } from './shared/phone-shared';
 export { default as EditIcon } from './shared/edit-shared';
 export { default as EditYellowBgIcon } from './shared/edit-yellow-bg';
 export { default as EditColoredIcon } from './shared/edit-colored-shared';
-// export { default as FilterSharedIcon } from './shared/filter-shared';
+export { default as FilterSharedIcon } from './shared/filter-shared';
 export { default as ExampleKababCase } from './modules/Login/example-kabab-case';
 export { default as ViewEyeIcon } from './modules/airSales/SettingsUserManagement/view-eye';
 export { default as DeleteCrossIcon } from './modules/airSales/SettingsUserManagement/delete-cross';
@@ -221,3 +221,9 @@ export { default as ReadSmsIcon } from './modules/airMarketer/SMSMarketing/read-
 export { default as FailedSmsIcon } from './modules/airMarketer/SMSMarketing/failed-sms-icon';
 export { default as RepliedSmsIcon } from './modules/airMarketer/SMSMarketing/replied-sms-icon';
 export { default as DeliveredSmsIcon } from './modules/airMarketer/SMSMarketing/delivered-sms-icon';
+export { default as airSalesIcon } from './modules/productSuite/air-sales';
+export { default as airMarketerIcon } from './modules/productSuite/air-marketer';
+export { default as airOperationsIcon } from './modules/productSuite/air-operations';
+export { default as airServicesIcon } from './modules/productSuite/air-services';
+export { default as callCenterIcon } from './modules/productSuite/call-center';
+export { default as loyaltyIcon } from './modules/productSuite/loyalty';
