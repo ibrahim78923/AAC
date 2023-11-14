@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import {
   Accordion,
@@ -8,26 +8,20 @@ import {
   FormControlLabel,
   Box,
 } from '@mui/material';
+
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-import { useModules } from './useModules';
-import { v4 as uuidv4 } from 'uuid';
-
-import { permisionsPlanManagement } from '@/constants/permission-keys';
-import SubModulesAccordion from './SubModulesAccordian';
 import { SwitchBtn } from '@/components/SwitchButton';
 
+import { useModules } from './useModules';
+import SubModulesAccordion from './SubModulesAccordian';
+
+import { v4 as uuidv4 } from 'uuid';
+import { permisionsPlanManagement } from '@/constants/permission-keys';
+
 const Modules = ({ methods, handleSubmit }: any) => {
-  const { theme } = useModules();
-
-  const [isAccordionExpanded, setIsAccordionExpanded] = useState<
-    string | false
-  >('plan-air-sales-accordion');
-
-  const handleExpandAccordionChange =
-    (panel: string) => (event: React.SyntheticEvent, newExpanded: boolean) => {
-      setIsAccordionExpanded(newExpanded ? panel : false);
-    };
+  const { theme, isAccordionExpanded, handleExpandAccordionChange } =
+    useModules();
 
   return (
     <div>

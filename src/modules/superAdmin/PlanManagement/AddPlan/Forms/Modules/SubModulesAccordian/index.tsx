@@ -1,22 +1,23 @@
-import { Fragment, useState } from 'react';
+import { Fragment } from 'react';
+
 import { Grid, Typography } from '@mui/material';
 import MuiAccordion, { AccordionProps } from '@mui/material/Accordion';
 import MuiAccordionSummary, {
   AccordionSummaryProps,
 } from '@mui/material/AccordionSummary';
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
+
 import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
 import { styled } from '@mui/material/styles';
-import { v4 as uuidv4 } from 'uuid';
+
 import { RHFMultiCheckbox } from '@/components/ReactHookForm';
 import { FormProvider } from '@/components/ReactHookForm';
+import useSubModulesAccordian from './useSubModulesAccordian';
+
+import { v4 as uuidv4 } from 'uuid';
 
 const SubModulesAccordion = ({ subModules, methods, handleSubmit }: any) => {
-  const [expanded, setExpanded] = useState<string | false>('panel1');
-  const handleChange =
-    (panel: string) => (event: React.SyntheticEvent, newExpanded: boolean) => {
-      setExpanded(newExpanded ? panel : false);
-    };
+  const { expandedAccordian, handleChangeAccordian } = useSubModulesAccordian();
 
   return (
     <>
@@ -26,8 +27,8 @@ const SubModulesAccordion = ({ subModules, methods, handleSubmit }: any) => {
         return (
           <Accordion
             key={uuidv4()}
-            expanded={expanded === subModule?.name}
-            onChange={handleChange(subModule?.name)}
+            expanded={expandedAccordian === subModule?.name}
+            onChange={handleChangeAccordian(subModule?.name)}
           >
             <Fragment key={subModule?.name}>
               <AccordionSummary

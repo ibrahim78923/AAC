@@ -6,6 +6,8 @@ import {
   FormHelperText,
 } from '@mui/material';
 
+import { v4 as uuidv4 } from 'uuid';
+
 export default function RHFMultiCheckbox({ name, options, ...other }: any) {
   const { control } = useFormContext();
 
@@ -15,8 +17,8 @@ export default function RHFMultiCheckbox({ name, options, ...other }: any) {
       control={control}
       render={({ field, fieldState: { error } }) => {
         const onSelected = (option: any) =>
-          field?.value?.some((item: any) => item === option.value)
-            ? field?.value?.filter((value: any) => value !== option.value)
+          field?.value?.some((item: any) => item === option?.value)
+            ? field?.value?.filter((value: any) => value !== option?.value)
             : [...field?.value, option?.value];
 
         return (
@@ -24,23 +26,23 @@ export default function RHFMultiCheckbox({ name, options, ...other }: any) {
             <FormGroup>
               {options.map((option: any) => (
                 <FormControlLabel
-                  key={option.value}
+                  key={uuidv4()}
                   control={
                     <Checkbox
                       checked={field?.value?.some(
-                        (item: any) => item === option.value,
+                        (item: any) => item === option?.value,
                       )}
                       onChange={() => field?.onChange(onSelected(option))}
                     />
                   }
-                  label={option.label}
+                  label={option?.label}
                   {...other}
                 />
               ))}
             </FormGroup>
             {!!error && (
               <FormHelperText error sx={{ display: 'block', mt: -0.5, ml: 0 }}>
-                {error.message}
+                {error?.message}
               </FormHelperText>
             )}
           </>

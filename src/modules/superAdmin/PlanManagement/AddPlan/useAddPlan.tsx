@@ -174,9 +174,9 @@ export const useAddPlan = () => {
 
     if (activeStep === 2) {
       handlePlanModules();
-      // reset();
-      // persistor?.purge();
-      // router?.push('/super-admin/plan-management');
+      reset();
+      persistor?.purge();
+      router?.push('/super-admin/plan-management');
       return;
     }
   };

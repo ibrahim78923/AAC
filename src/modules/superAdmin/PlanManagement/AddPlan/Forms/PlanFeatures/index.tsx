@@ -55,7 +55,7 @@ const PlanFeatures = ({ methods, handleSubmit }: any) => {
         <Accordion
           expanded={expandedAccordion === feature}
           onChange={handleExpandAccordionChange(feature)}
-          key={feature}
+          key={uuidv4()}
           disableGutters
           sx={{
             '&.MuiAccordion': {
