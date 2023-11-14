@@ -1,4 +1,4 @@
-import { RHFTextField } from '@/components/ReactHookForm';
+import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
 export const SignUpDefaultValues = {
   firstName: '',
   lastName: '',
@@ -46,8 +46,14 @@ export const SignUpFormFields = [
       label: 'CompanyName',
       type: 'CompanyName',
       fullWidth: true,
-      required: false,
+      select: true,
     },
-    component: RHFTextField,
+    options: [
+      { value: 'Cameron Williamson', label: 'Cameron Williamson' },
+      { value: 'Cameron Williamson', label: 'Cameron Williamson' },
+      { value: 'Cameron Williamson', label: 'Cameron Williamson' },
+      { value: 'Cameron Williamson', label: 'Cameron Williamson' },
+    ],
+    component: RHFSelect,
   },
 ];

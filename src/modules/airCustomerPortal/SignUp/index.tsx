@@ -46,9 +46,17 @@ export const SignUp = () => {
             methods={method}
             onSubmit={handleSubmit(submitData)}
           >
-            {SignUpFormFields.map((items) => (
+            {SignUpFormFields.map((item) => (
               <Grid key={uuidv4()} mt={1}>
-                <items.component {...items.componentProps} size={'small'} />
+                <item.component {...item.componentProps} size={'small'}>
+                  {item?.componentProps?.select
+                    ? item?.options?.map((option: any) => (
+                        <option key={uuidv4()} value={option?.value}>
+                          {option?.label}
+                        </option>
+                      ))
+                    : null}
+                </item.component>
               </Grid>
             ))}
             <LoadingButton
