@@ -10,7 +10,7 @@ import {
   data,
   expenseActionsDropdownFunction,
 } from './Expense.data';
-import { usePostInventoryExpenseMutation } from '@/services/airServices/example-folder/inventory/expense';
+import { usePostInventoryExpenseMutation } from '@/services/airServices/inventory/expense';
 
 export const useExpense = () => {
   const [selectedExpenseList, setSelectedExpenseList] = useState([]);
