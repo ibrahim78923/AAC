@@ -55,8 +55,8 @@ export const CustomizeTicketsColumn = (props: any) => {
                 <Checkbox
                   color="primary"
                   name={column?.id}
-                  defaultChecked={customizeColumn[column?.id]}
-                  onClick={(): any => checkboxHandler?.(column)}
+                  checked={customizeColumn?.includes?.(column?.id)}
+                  onClick={(e: any): any => checkboxHandler?.(e, column)}
                 />
               </Box>
             </Box>

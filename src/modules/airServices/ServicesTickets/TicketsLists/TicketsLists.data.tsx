@@ -1,16 +1,17 @@
-import { v4 as uuidv4 } from 'uuid';
-import { AvatarImage } from '@/assets/images';
+// import { v4 as uuidv4 } from 'uuid';
+// import { AvatarImage } from '@/assets/images';
 import {
   Box,
   Checkbox,
-  Select,
-  MenuItem,
+  // Select,
+  // MenuItem,
   Avatar,
   Typography,
 } from '@mui/material';
 import { AIR_SERVICES } from '@/constants';
+import { enqueueSnackbar } from 'notistack';
 
-export const TABLE_CONSTANTS = {
+export const TICKETS_ACTION_CONSTANTS = {
   CUSTOMIZE_COLUMN: 'customize-column',
   FILTER_DATA: 'filter-data',
   BULK_UPDATE_DATA: 'bulk-update-data',
@@ -18,67 +19,22 @@ export const TABLE_CONSTANTS = {
   EDIT_TICKET: 'edit-ticket',
 };
 
-const options = [
-  {
-    value: 'user1',
-    label: 'user1',
-  },
-  {
-    value: 'user2',
-    label: 'user2',
-  },
-  {
-    value: 'user3',
-    label: 'user3',
-  },
-];
-
-const StatusOptions = [
-  {
-    value: 'open',
-    label: 'Open',
-  },
-  {
-    value: 'pending',
-    label: 'Pending',
-  },
-  {
-    value: 'resolved',
-    label: 'Resolved',
-  },
-  {
-    value: 'closed',
-    label: 'Closed',
-  },
-];
-
-const priorityOptions = [
-  {
-    value: 'high',
-    label: 'High',
-  },
-  {
-    value: 'low',
-    label: 'Low',
-  },
-  {
-    value: 'medium',
-    label: 'Medium',
-  },
-  {
-    value: 'urgent',
-    label: 'Urgent',
-  },
-];
-
 export const ticketsActionDropdownFunction = (
   setDeleteModalOpen: any,
   markTicketAsClose: any,
   markTicketAsSpam: any,
+  openDrawer: any,
+  selectedTicketList: any,
 ) => [
   {
     title: 'Edit',
     handleClick: (closeMenu: any) => {
+      if (selectedTicketList?.length !== 1) {
+        enqueueSnackbar('Please Select 1 ticket', { variant: 'warning' });
+        closeMenu?.();
+        return;
+      }
+      openDrawer(TICKETS_ACTION_CONSTANTS?.EDIT_TICKET);
       closeMenu?.();
     },
   },
@@ -120,7 +76,6 @@ export const ticketsActionDropdownFunction = (
       closeMenu?.();
     },
   },
-
   {
     title: 'Delete',
     handleClick: (closeMenu: any) => {
@@ -130,36 +85,40 @@ export const ticketsActionDropdownFunction = (
   },
 ];
 
+export const ticketsListTotalColumns = [
+  '_id',
+  'subject',
+  'requester',
+  'status',
+  'pirority',
+  'assignedTo',
+  'department',
+  'state',
+  'createdAt',
+  'dueDate',
+  'impact',
+  'plannedStartDate',
+  'plannedEndDate',
+  'plannedEffort',
+];
+
 export const ticketsListsData: any = [
-  {
-    id: 1,
-    ticketId: ` #717`,
-    ticketName: 'Drafts',
-    requester: { name: 'Sophie Baxter', profileImg: AvatarImage },
-    assignedTo: 'user1',
-    status: 'open',
-    state: 'New',
-    priority: 'high',
-  },
-  {
-    id: 2,
-    ticketId: ` #787`,
-    ticketName: 'rafts',
-    requester: { name: 'Cameron Williamson', profileImg: null },
-    assignedTo: 'user2',
-    state: 'Response Due',
-    status: 'pending',
-    priority: 'low',
-  },
   {
     id: 3,
     ticketId: ` #917`,
-    ticketName: 'fts',
+    subject: 'fts',
     requester: { name: 'Leslie Alexander', profileImg: '' },
-    assignedTo: 'user3',
-    state: 'Overdue',
     status: 'closed',
     priority: 'medium',
+    assignedTo: 'user3',
+    department: 'IT',
+    state: 'Overdue',
+    createAt: '00000000',
+    dueDate: '000000',
+    impact: 'high',
+    plannedStartDate: '11111',
+    plannedEndDate: '00000',
+    plannedEffort: 'o0o0o0',
   },
 ];
 
@@ -169,32 +128,23 @@ export const ticketsListsColumnFunction: any = (
   ticketList: any,
   selectedTicketList: any,
   setSelectedTicketList: any,
-  handleChange: (value: any, event: any) => void,
 ) => {
-  const { palette } = theme;
   return [
     {
-      accessorFn: (row: any) => row?.id,
-      id: 'id',
+      accessorFn: (row: any) => row?._id,
+      id: '_id',
       cell: (info: any) => (
         <Checkbox
           checked={
-            !!selectedTicketList?.find(
-              (item: any) => item?.id === info?.getValue(),
-            )
+            !!selectedTicketList?.find((item: any) => item === info?.getValue())
           }
           onChange={(e: any) => {
             e?.target?.checked
-              ? setSelectedTicketList([
-                  ...selectedTicketList,
-                  ticketList?.find(
-                    (item: any) => item?.id === info?.getValue(),
-                  ),
-                ])
+              ? setSelectedTicketList([...selectedTicketList, info?.getValue()])
               : setSelectedTicketList(
-                  selectedTicketList?.filter((item: any) => {
-                    return item?.id !== info?.getValue();
-                  }),
+                  selectedTicketList?.filter(
+                    (item: any) => item !== info?.getValue(),
+                  ),
                 );
           }}
           color="primary"
@@ -203,55 +153,63 @@ export const ticketsListsColumnFunction: any = (
       ),
       header: (
         <Checkbox
-          checked={selectedTicketList?.length === ticketList?.length}
+          checked={
+            ticketList?.length
+              ? selectedTicketList?.length === ticketList?.length
+              : false
+          }
           onChange={(e: any) => {
             e?.target?.checked
-              ? setSelectedTicketList([...ticketList])
+              ? setSelectedTicketList(
+                  ticketList?.map((ticket: any) => ticket?._id),
+                )
               : setSelectedTicketList([]);
           }}
           color="primary"
-          name="id"
+          name="_id"
         />
       ),
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row?.ticketId,
-      id: 'ticketId',
-      cell: (info: any) => (
-        <Box display={'flex'} gap={1} flexWrap={'wrap'} alignItems={'center'}>
-          <Avatar
-            sx={{ bgcolor: palette?.blue?.main, borderRadius: 1.25 }}
-            style={{ width: 28, height: 28 }}
-          >
-            IT
-          </Avatar>
-          <div
-            style={{
-              color: theme?.palette?.primary?.main,
-              cursor: 'pointer',
-            }}
-            onClick={() => {
-              router?.push({
-                pathname: AIR_SERVICES?.TICKETS_LIST,
-                query: {
-                  id: info?.getValue(),
-                },
-              });
-            }}
-          >
-            {info?.getValue()}
-          </div>
-        </Box>
-      ),
+      accessorFn: (row: any) => row?.subject,
+      id: 'subject',
+      cell: (info: any) => {
+        return (
+          <Box display={'flex'} gap={1} flexWrap={'wrap'} alignItems={'center'}>
+            <Avatar
+              sx={{ bgcolor: theme?.palette?.blue?.main, borderRadius: 1.25 }}
+              style={{ width: 28, height: 28 }}
+            >
+              IT
+            </Avatar>
+            <Typography
+              sx={{
+                color: theme?.palette?.primary?.main,
+                cursor: 'pointer',
+              }}
+              onClick={() => {
+                router?.push({
+                  pathname: AIR_SERVICES?.TICKETS_LIST,
+                  query: {
+                    ticketId: info?.row?.original?._id,
+                  },
+                });
+              }}
+            >
+              {info?.getValue()}
+            </Typography>
+          </Box>
+        );
+      },
       header: 'Ticket ID',
       isSortable: true,
     },
     {
-      accessorFn: (row: any) => row?.ticketName,
-      id: 'ticketName',
+      accessorFn: (row: any) => row?.subject,
+      id: 'subject',
       isSortable: true,
-      header: 'Ticket Name',
+      header: 'Subject',
       cell: (info: any) => info?.getValue(),
     },
     {
@@ -262,16 +220,16 @@ export const ticketsListsColumnFunction: any = (
       cell: (info: any) => (
         <Box display={'flex'} flexWrap={'wrap'} alignItems={'center'} gap={1}>
           <Avatar
-            sx={{ bgcolor: palette?.blue?.main }}
+            sx={{ bgcolor: theme?.palette?.blue?.main }}
             style={{ width: 24, height: 24 }}
-            src={info.getValue()?.profileImg?.src}
+            src={info?.getValue()?.profileImg?.src}
           >
             <Typography component="span" fontSize={10} fontWeight={500}>
-              {info.getValue()?.name?.split(' ')?.[0][0]}
-              {info.getValue()?.name?.split(' ')?.[1][0]}
+              {info?.getValue()?.name?.split(' ')?.[0][0]}
+              {info?.getValue()?.name?.split(' ')?.[1][0]}
             </Typography>
           </Avatar>
-          {info.getValue()?.name}
+          {info?.getValue()?.name}
         </Box>
       ),
     },
@@ -280,30 +238,7 @@ export const ticketsListsColumnFunction: any = (
       id: 'assignedTo',
       isSortable: true,
       header: 'Assigned To',
-      cell: (info: any) => (
-        <Select
-          name="assignedTo"
-          sx={{
-            minWidth: 80,
-            '&.Mui-focused, .MuiOutlinedInput-notchedOutline': {
-              border: 'none',
-            },
-            '.MuiSvgIcon-root': {
-              color: palette?.custom?.off_white_three,
-            },
-          }}
-          defaultValue="none"
-          value={info?.getValue()}
-          onChange={(e) => handleChange(info?.row?._valuesCache, e?.target)}
-          inputProps={{ 'aria-label': 'Without label' }}
-        >
-          {options?.map(({ value, label }: { value: any; label: string }) => (
-            <MenuItem key={uuidv4()} value={value}>
-              {label}
-            </MenuItem>
-          ))}
-        </Select>
-      ),
+      cell: (info: any) => info?.getValue(),
     },
     {
       accessorFn: (row: any) => row?.state,
@@ -317,64 +252,63 @@ export const ticketsListsColumnFunction: any = (
       id: 'status',
       isSortable: true,
       header: 'Status',
-      cell: (info: any) => (
-        <Select
-          name="status"
-          sx={{
-            minWidth: 80,
-            '&.Mui-focused, .MuiOutlinedInput-notchedOutline': {
-              border: 'none',
-            },
-            '.MuiSvgIcon-root': {
-              color: palette?.custom?.off_white_three,
-            },
-          }}
-          defaultValue="none"
-          value={info?.getValue()}
-          onChange={(e) => handleChange(info?.row?._valuesCache, e?.target)}
-          inputProps={{ 'aria-label': 'Without label' }}
-        >
-          {StatusOptions?.map(
-            ({ value, label }: { value: any; label: string }) => (
-              <MenuItem key={uuidv4()} value={value}>
-                {label}
-              </MenuItem>
-            ),
-          )}
-        </Select>
-      ),
+      cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row?.priority,
-      id: 'priority',
+      accessorFn: (row: any) => row?.pirority,
+      id: 'pirority',
       isSortable: true,
       header: 'Priority',
-      cell: (info: any) => (
-        <Select
-          name="priority"
-          sx={{
-            minWidth: 80,
-            '&.Mui-focused, .MuiOutlinedInput-notchedOutline': {
-              border: 'none',
-            },
-            '.MuiSvgIcon-root': {
-              color: palette?.custom?.off_white_three,
-            },
-          }}
-          defaultValue="none"
-          value={info?.getValue()}
-          onChange={(e) => handleChange(info?.row?._valuesCache, e?.target)}
-          inputProps={{ 'aria-label': 'Without label' }}
-        >
-          {priorityOptions?.map(
-            ({ value, label }: { value: any; label: string }) => (
-              <MenuItem key={uuidv4()} value={value}>
-                {label}
-              </MenuItem>
-            ),
-          )}
-        </Select>
-      ),
+      cell: (info: any) => info?.getValue(),
+    },
+    {
+      accessorFn: (row: any) => row?.department,
+      id: 'department',
+      isSortable: true,
+      header: 'Department',
+      cell: (info: any) => info?.getValue(),
+    },
+    {
+      accessorFn: (row: any) => row?.createdAt,
+      id: 'createdAt',
+      isSortable: true,
+      header: 'created Date',
+      cell: (info: any) => info?.getValue(),
+    },
+    {
+      accessorFn: (row: any) => row?.dueDate,
+      id: 'dueDate',
+      isSortable: true,
+      header: 'Due Date',
+      cell: (info: any) => info?.getValue(),
+    },
+    {
+      accessorFn: (row: any) => row?.impact,
+      id: 'impact',
+      isSortable: true,
+      header: 'impact',
+      cell: (info: any) => info?.getValue(),
+    },
+    {
+      accessorFn: (row: any) => row?.plannedStartDate,
+      id: 'plannedStartDate',
+      isSortable: true,
+      header: 'Planned Start Date',
+      cell: (info: any) => info?.getValue(),
+    },
+    {
+      accessorFn: (row: any) => row?.plannedEndDate,
+      id: 'plannedEndDate',
+      isSortable: true,
+      header: 'Planned End Date',
+      cell: (info: any) => info?.getValue(),
+    },
+    {
+      accessorFn: (row: any) => row?.plannedEffort,
+      id: 'plannedEffort',
+      isSortable: true,
+      header: 'Planned Effort',
+      cell: (info: any) => info?.getValue(),
     },
   ];
 };

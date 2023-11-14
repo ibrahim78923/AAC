@@ -1,18 +1,39 @@
-import { useTicketsLists } from '../useTicketsLists';
-import CustomPagination from '@/components/CustomPagination';
 import TanstackTable from '@/components/Table/TanstackTable';
 
 export const TicketsTableView = (props: any) => {
-  const { ticketsListsColumn } = props;
-  const { ticketList } = useTicketsLists();
+  const {
+    ticketsListsColumn,
+    ticketListsData,
+    setPage,
+    isLoading,
+    page,
+    totalPages,
+    pageLimit,
+    totalRecords,
+    setPageLimit,
+    isFetching,
+    isError,
+    isSuccess,
+  } = props;
+
   return (
     <>
-      <TanstackTable columns={ticketsListsColumn} data={ticketList} />
-      <CustomPagination
-        count={1}
-        pageLimit={10}
-        rowsPerPageOptions={[10, 25]}
-        currentPage={1}
+      <TanstackTable
+        columns={ticketsListsColumn}
+        data={ticketListsData}
+        isLoading={isLoading}
+        isFetching={isFetching}
+        isError={isError}
+        isSuccess={isSuccess}
+        count={totalPages}
+        pageLimit={pageLimit}
+        rowsPerPageOptions={[3, 5, 10, 15, 20, 60]}
+        currentPage={page}
+        totalRecords={totalRecords}
+        onPageChange={(page: any) => setPage(page)}
+        setPage={setPage}
+        setPageLimit={setPageLimit}
+        isPagination
       />
     </>
   );
