@@ -8,13 +8,13 @@ export const CustomBox = ({ label, value, changeStatusColor }: CustomBoxI) => {
   let color: string | any;
   switch (value) {
     case 'inprogress':
-      color = theme.palette.warning.main;
+      color = theme?.palette?.warning?.main;
       break;
     case 'pending':
-      color = theme.palette.error.main;
+      color = theme?.palette?.error?.main;
       break;
     case 'completed':
-      color = theme.palette.success.main;
+      color = theme?.palette?.success?.main;
       break;
     default:
       color = '#';
@@ -27,12 +27,12 @@ export const CustomBox = ({ label, value, changeStatusColor }: CustomBoxI) => {
       justifyContent={'space-between'}
       mt={'8px'}
     >
-      <Typography sx={{ ...styles.cardSubHead(theme), color: '#6B7280' }}>
+      <Typography sx={{ ...styles?.cardSubHead(theme), color: '#6B7280' }}>
         {label}
       </Typography>
       <Typography
         sx={{
-          ...styles.cardSubHead2(theme),
+          ...styles?.cardSubHead2(theme),
           color: changeStatusColor && color,
         }}
       >

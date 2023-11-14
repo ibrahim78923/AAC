@@ -11,7 +11,7 @@ const Organization = () => {
     <>
       <Box
         sx={{
-          background: `${theme?.palette?.common.white}`,
+          background: `${theme?.palette?.common?.white}`,
           borderRadius: '8px',
         }}
       >

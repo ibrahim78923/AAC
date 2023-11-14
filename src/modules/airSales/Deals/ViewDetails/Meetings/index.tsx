@@ -1,5 +1,3 @@
-import React from 'react';
-
 import Image from 'next/image';
 
 import { Box, Button, Grid, Typography } from '@mui/material';
@@ -32,9 +30,9 @@ const Meetings = () => {
       }}
     >
       <Grid container spacing={3} sx={{ marginBottom: '25px' }}>
-        {Object.entries(callsDetails).map(([key, value]) => (
+        {Object?.entries(callsDetails).map(([key, value]) => (
           <Grid item md={4} xs={12} key={key}>
-            <Box sx={styles.callStatusBox(callsStatusColor, key)}>
+            <Box sx={styles?.callStatusBox(callsStatusColor, key)}>
               <Typography variant="body2">{key}</Typography>
               <Typography variant="subtitle2">{value}</Typography>
             </Box>
@@ -43,7 +41,7 @@ const Meetings = () => {
       </Grid>
       <Grid container>
         <Grid item xs={12}>
-          <Box sx={styles.callsSpacingBetween}>
+          <Box sx={styles?.callsSpacingBetween}>
             <Typography variant="h4"> Meetings</Typography>
             {isNullOrEmpty(TasksTableData) && (
               <Box
@@ -83,7 +81,7 @@ const Meetings = () => {
               <Image src={EmailMeetingImage} alt="EmailMeetingImage" />
               <Typography
                 variant="body2"
-                sx={{ color: theme.palette.grey[900] }}
+                sx={{ color: theme?.palette?.grey[900] }}
               >
                 Schedule virtual and in-person meetings right from the CRM.
               </Typography>
@@ -98,7 +96,7 @@ const Meetings = () => {
               </Button>
               <Typography
                 variant="body2"
-                sx={{ color: theme.palette.slateBlue.main }}
+                sx={{ color: theme?.palette?.slateBlue?.main }}
               >
                 Bring Your emails into the CRM
               </Typography>
