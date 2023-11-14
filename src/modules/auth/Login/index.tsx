@@ -38,7 +38,7 @@ const Login = () => {
 
   const onSubmit = async (credentials: any) => {
     try {
-      const res: any = await authLogin(credentials).unwrap();
+      const res: any = await authLogin(credentials)?.unwrap();
       login(res);
     } catch (error: any) {
       const errMsg = error?.data?.message;
@@ -47,9 +47,10 @@ const Login = () => {
   };
 
   const { handleSubmit } = loginForm;
+
   return (
     <Box sx={{ height: '100vh' }}>
-      <Box sx={styles.AuthHeader}>
+      <Box sx={styles?.AuthHeader}>
         <Box>
           <CompanyLogoIcon />
         </Box>
@@ -77,7 +78,7 @@ const Login = () => {
               Let’s Get Started
             </Typography>
 
-            <Box sx={styles.formStyling}>
+            <Box sx={styles?.formStyling}>
               <FormProvider
                 methods={loginForm}
                 onSubmit={handleSubmit(onSubmit)}
@@ -86,7 +87,7 @@ const Login = () => {
                   {loginDataArray?.map((item: any) => (
                     <Grid item xs={12} md={item?.md} key={uuidv4()}>
                       <item.component
-                        {...item.componentProps}
+                        {...item?.componentProps}
                         size={'small'}
                       ></item.component>
                     </Grid>
