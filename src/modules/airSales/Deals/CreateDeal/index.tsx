@@ -1,42 +1,37 @@
-import React from 'react';
+import { useForm } from 'react-hook-form';
 
 import { Grid, MenuItem, Typography, useTheme } from '@mui/material';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
 
-import DealDrawer from '../DealDrawer';
+import CommonDrawer from '@/components/CommonDrawer';
+import { FormProvider } from '@/components/ReactHookForm';
 
 import { createDealData } from './CreateDeal.data';
 
-import { FormProvider } from '@/components/ReactHookForm';
-
-import { useForm } from 'react-hook-form';
 import { v4 as uuidv4 } from 'uuid';
 
-const CreateDeal = () => {
+const CreateDeal = ({ open, onClose }: any) => {
   const methods = useForm({});
   const theme = useTheme();
 
   return (
-    <DealDrawer
-      btnProps={{
-        title: 'Creat Deal',
-        startIcon: <AddCircleIcon />,
-        variant: 'contained',
-        sx: { height: '35px' },
-      }}
-      drawerProps={{
-        title: 'Create Deal',
-        okText: 'Submit',
-        submitHandler: () => {},
-      }}
+    <CommonDrawer
+      isDrawerOpen={open}
+      onClose={onClose}
+      title="Create Deal"
+      footer
+      okText="Create"
+      isOk
     >
       <FormProvider methods={methods}>
-        <Grid container spacing={2}>
-          {createDealData.map((obj) => (
+        <Grid container spacing={2} gap={'7px'}>
+          {createDealData?.map((obj) => (
             <Grid item xs={12} key={uuidv4()}>
               <Typography
-                variant="body4"
-                sx={{ colors: theme.palette.grey[600] }}
+                sx={{
+                  colors: theme?.palette?.grey[600],
+                  fontWeight: 500,
+                  fontSize: '14px',
+                }}
               >
                 {obj.title}
               </Typography>
@@ -44,12 +39,12 @@ const CreateDeal = () => {
                 fullWidth
                 size={'small'}
                 SelectProps={{ sx: { borderRadius: '8px' } }}
-                {...obj.componentProps}
+                {...obj?.componentProps}
               >
-                {obj.componentProps.select
-                  ? obj.options?.map((option) => (
-                      <MenuItem key={uuidv4()} value={option.value}>
-                        {option.label}
+                {obj?.componentProps?.select
+                  ? obj?.options?.map((option) => (
+                      <MenuItem key={uuidv4()} value={option?.value}>
+                        {option?.label}
                       </MenuItem>
                     ))
                   : null}
@@ -58,7 +53,7 @@ const CreateDeal = () => {
           ))}
         </Grid>
       </FormProvider>
-    </DealDrawer>
+    </CommonDrawer>
   );
 };
 

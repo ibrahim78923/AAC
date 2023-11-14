@@ -1,7 +1,6 @@
-import React from 'react';
+import { useForm } from 'react-hook-form';
 
 import {
-  Box,
   FormControlLabel,
   Grid,
   MenuItem,
@@ -11,54 +10,48 @@ import {
   useTheme,
 } from '@mui/material';
 
-import DealDrawer from '../DealDrawer';
+import CommonDrawer from '@/components/CommonDrawer';
 
 import { CreateViewData } from './CreateView.data';
 
 import { FormProvider } from '@/components/ReactHookForm';
 
-import { CutomizeIcon } from '@/assets/icons';
-
 import { v4 as uuidv4 } from 'uuid';
-import { useForm } from 'react-hook-form';
 
-const CreateView = () => {
+const CreateView = ({ open, onClose }: any) => {
   const methods = useForm({});
   const theme = useTheme();
   return (
     <>
-      <DealDrawer
-        btnProps={{
-          title: 'Add View',
-          startIcon: <CutomizeIcon />,
-          sx: { height: '30px' },
-        }}
-        drawerProps={{
-          title: 'Create View',
-          okText: 'Save',
-          submitHandler: () => {},
-        }}
+      <CommonDrawer
+        isDrawerOpen={open}
+        onClose={onClose}
+        isOk
+        submitHandler={onClose}
+        okText="Submit"
+        title="Create View"
       >
         <FormProvider methods={methods}>
           <Grid container spacing={2}>
-            {CreateViewData.map((obj) => (
+            {CreateViewData?.map((obj) => (
               <Grid item xs={12} key={uuidv4()}>
                 <Typography
-                  variant="body4"
-                  sx={{ colors: theme.palette.grey[600] }}
-                >
-                  {obj.title}
-                </Typography>
+                  sx={{
+                    colors: theme?.palette?.grey[600],
+                    fontWeight: '500',
+                    fontSize: '14px',
+                  }}
+                ></Typography>
                 <obj.component
                   fullWidth
                   size={'small'}
                   SelectProps={{ sx: { borderRadius: '8px' } }}
                   {...obj.componentProps}
                 >
-                  {obj.componentProps.select
-                    ? obj.options?.map((option) => (
-                        <MenuItem key={uuidv4()} value={option.value}>
-                          {option.label}
+                  {obj?.componentProps?.select
+                    ? obj?.options?.map((option) => (
+                        <MenuItem key={uuidv4()} value={option?.value}>
+                          {option?.label}
                         </MenuItem>
                       ))
                     : null}
@@ -67,7 +60,16 @@ const CreateView = () => {
             ))}
           </Grid>
         </FormProvider>
-        <Box sx={{ mt: '20px' }}>Shared with</Box>
+        <Typography
+          sx={{
+            mt: '20px',
+            color: theme?.palette?.slateBlue['main'],
+            fontSize: '18px',
+            fontWeight: 600,
+          }}
+        >
+          Shared with
+        </Typography>
         <RadioGroup
           aria-labelledby="demo-radio-buttons-group-label"
           defaultValue="female"
@@ -89,7 +91,7 @@ const CreateView = () => {
             label="Everyone"
           />
         </RadioGroup>
-      </DealDrawer>
+      </CommonDrawer>
     </>
   );
 };

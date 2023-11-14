@@ -30,18 +30,18 @@ const Filter = () => {
                 mb: '8px',
               }}
             >
-              {obj.title}
+              {obj?.title}
             </Typography>
             <obj.component
               size={'small'}
               fullWidth
               {...styles}
-              {...obj.componentProps}
+              {...obj?.componentProps}
             >
-              {obj.componentProps.select
-                ? obj.options?.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
-                      {option.label}
+              {obj?.componentProps.select
+                ? obj?.options?.map((option) => (
+                    <MenuItem key={option?.value} value={option?.value}>
+                      {option?.label}
                     </MenuItem>
                   ))
                 : null}
