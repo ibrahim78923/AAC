@@ -1,6 +1,6 @@
 import { useTheme } from '@mui/material';
 
-export const useSocialMarketing = () => {
+export const useSocialInbox = () => {
   const handleSelection = () => {
     //   dispatch(setChatModes({ chatModeState: newValue }));
   };

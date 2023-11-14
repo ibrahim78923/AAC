@@ -6,17 +6,17 @@ import {
   ToggleButtonGroup,
 } from '@mui/material';
 import React from 'react';
-import { styles } from './SocialMarketing.style';
-import { useSocialMarketing } from './useSocialMarketing';
+import { styles } from './SocialInbox.style';
 import { FilterSharedIcon } from '@/assets/icons';
+import { useSocialInbox } from './useSocialInbox';
 
 const SocialInbox = () => {
-  const { theme } = useSocialMarketing();
+  const { theme } = useSocialInbox();
   return (
     <Box>
       <Grid container spacing={3}>
         <Grid item xs={12} md={4}>
-          <Box sx={styles.wrapperBox}>
+          <Box sx={styles?.wrapperBox}>
             <ToggleButtonGroup
               value={''}
               exclusive
@@ -25,14 +25,14 @@ const SocialInbox = () => {
             >
               <ToggleButton
                 value="personalChat"
-                sx={styles.toggleButtonLeft(theme)}
+                sx={styles?.toggleButtonLeft(theme)}
                 aria-label="left-aligned"
               >
                 Personal Chat
               </ToggleButton>
               <ToggleButton
                 value="groupChat"
-                sx={styles.toggleButtonRight(theme)}
+                sx={styles?.toggleButtonRight(theme)}
                 aria-label="right-aligned"
               >
                 Group chat
@@ -46,7 +46,7 @@ const SocialInbox = () => {
           </Box>
         </Grid>
         <Grid item xs={12} md={8}>
-          <Box sx={styles.wrapperBox}></Box>
+          <Box sx={styles?.wrapperBox}></Box>
         </Grid>
       </Grid>
     </Box>

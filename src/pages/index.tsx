@@ -1,7 +1,8 @@
 import AuthGuard from '@/GuardsAndPermissions/AuthGuard';
+import ProductSuite from '@/modules/productSuite';
 
 export default function Home() {
-  return <div> Air Sales </div>;
+  return <ProductSuite />;
 }
 
 Home.getLayout = function getLayout(page: any) {

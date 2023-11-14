@@ -72,7 +72,7 @@ const ViewDetails = () => {
                 olivia@gmail.com
               </Typography>
             </Box>
-            <Box sx={styles.salesBox}>
+            <Box sx={styles?.salesBox}>
               <Typography variant="body3" sx={styles?.salesTextBox(theme)}>
                 Phone Number
               </Typography>

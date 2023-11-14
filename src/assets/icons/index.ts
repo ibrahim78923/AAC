@@ -211,3 +211,10 @@ export { default as AlertModalCloseIcon } from './shared/alert-modal-close-icon'
 export { default as ExportRecordIcon } from './modules/airSales/deals/export-record';
 export { default as RestoreDealsIcon } from './modules/airSales/deals/restore-deal';
 export { default as FeaturedMarketingIcon } from './shared/featured-marketing';
+
+export { default as airSalesIcon } from './modules/productSuite/air-sales';
+export { default as airMarketerIcon } from './modules/productSuite/air-marketer';
+export { default as airOperationsIcon } from './modules/productSuite/air-operations';
+export { default as airServicesIcon } from './modules/productSuite/air-services';
+export { default as callCenterIcon } from './modules/productSuite/call-center';
+export { default as loyaltyIcon } from './modules/productSuite/loyalty';
