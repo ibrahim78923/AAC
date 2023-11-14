@@ -9,17 +9,18 @@ import {
 } from '@mui/material';
 
 import { styles } from './CustomPagination.style';
+import { PAGINATION } from '@/config';
 
 const CustomPagination = (props: any) => {
   const {
-    count = 1,
-    rowsPerPageOptions = [5, 10],
-    pageLimit = 10,
-    currentPage = 1,
+    count = PAGINATION?.PAGE_COUNT,
+    rowsPerPageOptions = PAGINATION?.ROWS_PER_PAGE,
+    pageLimit = PAGINATION?.PAGE_LIMIT,
+    currentPage = PAGINATION?.CURRENT_PAGE,
     onPageChange,
     setPage,
     setPageLimit,
-    totalRecords = 0,
+    totalRecords = PAGINATION?.TOTAL_RECORDS,
   } = props;
 
   const theme = useTheme();
@@ -37,12 +38,12 @@ const CustomPagination = (props: any) => {
           <TablePagination
             component="div"
             count={totalRecords}
-            page={currentPage}
+            page={currentPage - 1}
             onPageChange={(_: any, page) => onPageChange?.(page)}
             rowsPerPage={pageLimit}
             onRowsPerPageChange={(event: any) => {
               setPageLimit?.(parseInt(event?.target?.value, 10));
-              setPage?.(1);
+              setPage?.(0);
             }}
             rowsPerPageOptions={rowsPerPageOptions}
             sx={styles?.tablePaginationStyle(theme)}
