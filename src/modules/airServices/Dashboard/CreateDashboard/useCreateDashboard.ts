@@ -63,13 +63,13 @@ export const useCreateDashboard = () => {
     methodsCreateDashboardFilterForm?.reset();
   };
   const alignArrays = (firstArray: string[], secondArray: any[]) => {
-    const alignedFirstArray = secondArray?.reduce((acc, item) => {
+    const dragAndDropAlignment = secondArray?.reduce((acc, item) => {
       if (firstArray?.includes(item)) {
         acc?.push(item);
       }
       return acc;
     }, []);
-    return alignedFirstArray;
+    return dragAndDropAlignment;
   };
   const reorder = <T>(list: T[], startIndex: number, endIndex: number): T[] => {
     const result = Array?.from(list);
@@ -86,10 +86,10 @@ export const useCreateDashboard = () => {
       source?.index,
       destination?.index,
     );
-    const alignedFirstArray = alignArrays(dashboardItems, newItems);
+    const dragAndDropAlignment = alignArrays(dashboardItems, newItems);
     methodsCreateDashboardFilterForm?.setValue(
       'dashboardItems',
-      alignedFirstArray,
+      dragAndDropAlignment,
     );
     setDashboardCheckboxItems(newItems);
   };

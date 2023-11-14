@@ -10,14 +10,14 @@ const useStatisticsCard = () => {
     {
       name: 'Premium Plan',
 
-      data: [76, 85, 101, 98, 87],
+      data: [76, 85, 95, 98, 87],
     },
     {
       name: 'Enterprise Plan',
       data: [35, 41, 36, 26, 45],
     },
     {
-      name: 'Enterprise Plan',
+      name: 'Free Plan',
       data: [30, 25, 30, 20, 35],
     },
   ];
@@ -53,11 +53,26 @@ const useStatisticsCard = () => {
         'Loyalty Program',
       ],
     },
+    colors: [
+      `${theme?.palette?.success?.main}`,
+      `${theme?.palette?.warning?.main}`,
+      `${theme?.palette?.error?.main}`,
+      `${theme?.palette?.custom?.bright}`,
+    ],
+    legend: {
+      horizontalAlign: 'center',
+      itemMargin: {
+        vertical: 16,
+        horizontal: 49,
+      },
+      markers: {
+        radius: 12,
+      },
+    },
 
     fill: {
       opacity: 1,
     },
-
     tooltip: {
       y: {
         formatter: function (val: any) {

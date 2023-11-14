@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
-import { Tabs, Tab, Box } from '@mui/material';
+import { Tabs, Tab, Box, useTheme } from '@mui/material';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 import Search from '../Search';
 
@@ -42,7 +43,10 @@ const CommonTabs = (props: CommonTabsPropsI) => {
     headerChildren,
     searchBarProps = {},
     getTabVal = () => {},
+    addIcon = false,
+    onAddClick = () => {},
   } = props;
+  const theme = useTheme();
   const arrayChildren = React.Children.toArray(children);
 
   const [value, setValue] = useState(0);
@@ -57,7 +61,16 @@ const CommonTabs = (props: CommonTabsPropsI) => {
 
   return (
     <Box sx={styles.tabWrapper}>
-      <Box sx={{ borderBottom: 1, borderColor: '#EAECF0' }}>
+      <Box
+        sx={{
+          mt: '20px',
+          borderBottom: 1,
+          borderColor: '#EAECF0',
+          display: 'flex',
+          justifyContent: 'flex-start',
+          alignItems: 'center',
+        }}
+      >
         <Tabs
           value={value}
           onChange={handleChange}
@@ -74,6 +87,11 @@ const CommonTabs = (props: CommonTabsPropsI) => {
             />
           ))}
         </Tabs>
+        {addIcon && (
+          <Box sx={{ ml: '50px' }}>
+            <AddCircleIcon sx={styles?.addIcon(theme)} onClick={onAddClick} />
+          </Box>
+        )}
       </Box>
       {isHeader && (
         <Box sx={styles.headerWrapper}>

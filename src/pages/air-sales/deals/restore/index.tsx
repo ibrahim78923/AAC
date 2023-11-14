@@ -1,7 +1,12 @@
-import RestoreTable from '@/modules/airSales/Deals/RestoreTable';
+import Layout from '@/layout';
+import Restore from '@/modules/airSales/Deals/Restore';
 
 const RestoreTablePage = () => {
-  return <RestoreTable />;
+  return (
+    <Layout>
+      <Restore />
+    </Layout>
+  );
 };
 
 export default RestoreTablePage;

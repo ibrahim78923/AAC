@@ -24,17 +24,20 @@ const AddRole = () => {
       <Box sx={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
         <ArrowBack
           onClick={() => {
-            navigate.push(SUPER_ADMIN.USERMANAGMENT);
+            navigate.push(SUPER_ADMIN?.USERMANAGMENT);
           }}
           sx={{ cursor: 'pointer' }}
         />
         <Typography variant="h5">Add New Role</Typography>
       </Box>
-      <Box sx={{ my: 3 }}>
+      <Box sx={{ my: 2 }}>
         <FormProvider methods={methods}>
-          <Grid container spacing={4}>
+          <Grid container spacing={2}>
             {addUsersArrayData?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                <Typography variant="body2" fontWeight={500}>
+                  {item?.title}
+                </Typography>
                 <item.component {...item.componentProps} size={'small'}>
                   {item?.componentProps?.select &&
                     item?.options?.map((option: any) => (

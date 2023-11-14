@@ -38,7 +38,7 @@ const FormCreateDeal = ({ open, onClose }: any) => {
       <Box sx={{ pt: '27px' }}>
         <FormProvider methods={methods}>
           <Grid container spacing={'32px'}>
-            {createDealData.map((item) => (
+            {createDealData?.map((item) => (
               <Grid item xs={12} key={uuidv4()}>
                 <item.component {...item.componentProps} size={'small'}>
                   {item?.componentProps?.select &&

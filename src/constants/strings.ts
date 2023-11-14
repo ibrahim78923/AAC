@@ -21,6 +21,7 @@ export const EXPORT_TYPE = {
   CSV: 'CSV',
   XLS: 'XLS',
 };
+
 export const TICKET_STATUS = {
   OPEN: 'OPEN',
   CLOSED: 'CLOSED',
@@ -72,4 +73,28 @@ export const LICENSE_TYPE = {
   TRIAL: 'TRIAL',
   OPEN_SOURCE: 'OPEN_SOURCE',
   FREE: 'FREE',
+};
+
+export const PURCHASE_ORDER_STATUS = {
+  ORDERED: 'ORDERED',
+  OPEN: 'OPEN',
+  CANCELLED: 'CANCELLED',
+  RECEIVED: 'RECEIVED',
+  PARTLY_RECEIVED: 'PARTLY_RECEIVED',
+  APPROVED: 'APPROVED',
+  DRAFT: 'DRAFT',
+  PENDING_APPROVAL: 'PENDING_APPROVAL',
+  CLOSED: 'CLOSED',
+  REJECTED: 'REJECTED',
+};
+
+export const ASSET_IMPACT = {
+  LOW: 'low',
+  MEDIUM: 'medium',
+  HIGH: 'high',
+};
+
+export const AIR_CUSTOMER_PORTAL_TICKET = {
+  CLOSED: 'Closed',
+  PROCESSING: 'Processing',
 };

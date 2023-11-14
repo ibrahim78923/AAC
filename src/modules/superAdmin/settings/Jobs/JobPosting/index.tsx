@@ -67,6 +67,8 @@ const JobPosting = ({
   const { handleSubmit } = methodsAddJobPosting;
   const { handleSubmit: filterSubmitHandler } = methodsFilterJobPosting;
 
+  const getColumns = columns(theme);
+
   return (
     <Box>
       <Box
@@ -78,6 +80,7 @@ const JobPosting = ({
           justifyContent: 'space-between',
           flexWrap: 'wrap',
           gap: '10px',
+          padding: '0px 24px',
         }}
       >
         <Search
@@ -140,7 +143,7 @@ const JobPosting = ({
         </Box>
       </Box>
       <Box>
-        <TanstackTable columns={columns} data={jobPostingTabledata} />
+        <TanstackTable columns={getColumns} data={jobPostingTabledata} />
         <CustomPagination
           count={1}
           rowsPerPageOptions={[1, 2]}

@@ -7,8 +7,7 @@ import { styles } from './StatusBadge.style';
 import { v4 as uuidv4 } from 'uuid';
 
 const StatusBadge = (props: BadgeStatusI) => {
-  const { options = undefined, onChange, value } = props;
-
+  const { options = undefined, onChange, value, defaultValue } = props;
   const theme = useTheme();
 
   return (
@@ -32,8 +31,12 @@ const StatusBadge = (props: BadgeStatusI) => {
     >
       {options?.map((item: any) => {
         return (
-          <MenuItem key={uuidv4()} value={item.value}>
-            {item.label}
+          <MenuItem
+            key={uuidv4()}
+            value={item?.value}
+            defaultValue={defaultValue}
+          >
+            {item?.label}
           </MenuItem>
         );
       })}

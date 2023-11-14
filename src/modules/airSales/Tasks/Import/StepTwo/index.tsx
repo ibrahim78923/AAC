@@ -18,9 +18,9 @@ const StepTwo = () => {
         methods={stepTwoMethods}
         handleSubmit={StepTwoHandleSubmit(stepTwoSubmit)}
       >
-        {matchColumnsData.map((obj) => (
+        {matchColumnsData?.map((obj) => (
           <Box key={uuid4()} my={'24px'}>
-            <Typography sx={title}>{obj.title}</Typography>
+            <Typography sx={title}>{obj?.title}</Typography>
             <obj.component
               size={'small'}
               SelectProps={{
@@ -29,9 +29,9 @@ const StepTwo = () => {
               {...obj.componentProps}
             >
               {obj.componentProps.select
-                ? obj.options.map((option) => (
-                    <MenuItem key={uuid4()} value={option.value}>
-                      {option.label}
+                ? obj.options?.map((option) => (
+                    <MenuItem key={uuid4()} value={option?.value}>
+                      {option?.label}
                     </MenuItem>
                   ))
                 : null}

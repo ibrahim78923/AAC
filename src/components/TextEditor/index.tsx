@@ -8,17 +8,21 @@ import { TextEditorPropsI } from './TextEditor.interface';
 const ReactQuill = dynamic(() => import('react-quill'), {
   ssr: false,
 });
-const TextEditor = ({ value, onChange }: TextEditorPropsI) => {
+const TextEditor = ({ value, customToolbar, onChange }: TextEditorPropsI) => {
   const theme = useTheme();
+  const defaultFeatures = [
+    ['bold', 'italic', 'underline'],
+    [{ align: 'center' }, { align: 'right' }, { align: 'justify' }],
+    [{ list: 'bullet' }, { list: 'ordered' }],
+    [{ color: [] }],
+    ['capitalize'],
+  ];
+  const handelDefaultFeatures = customToolbar?.length
+    ? customToolbar
+    : defaultFeatures;
   const modules = {
     toolbar: {
-      container: [
-        ['bold', 'italic', 'underline'],
-        [{ align: 'center' }, { align: 'right' }, { align: 'justify' }],
-        [{ list: 'bullet' }, { list: 'ordered' }],
-        [{ color: [] }],
-        ['capitalize'],
-      ],
+      container: handelDefaultFeatures,
     },
   };
   return (

@@ -45,14 +45,14 @@ export const companyData: any = [
 
 export const companyColumns: any = [
   {
-    accessorFn: (row: any) => row.Id,
+    accessorFn: (row: any) => row?.Id,
     id: 'Id',
-    cell: (info: any) => <Checkbox color="primary" name={info.getValue()} />,
+    cell: (info: any) => <Checkbox color="primary" name={info?.getValue()} />,
     header: <Checkbox color="primary" name="Id" />,
     isSortable: false,
   },
   {
-    accessorFn: (row: any) => row.Product,
+    accessorFn: (row: any) => row?.Product,
     id: 'product',
     isSortable: false,
     header: 'Product',
@@ -64,28 +64,28 @@ export const companyColumns: any = [
     ),
   },
   {
-    accessorFn: (row: any) => row.Company,
+    accessorFn: (row: any) => row?.Company,
     id: 'company',
     isSortable: true,
     header: 'Company',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.Email,
+    accessorFn: (row: any) => row?.Email,
     id: 'email',
     isSortable: true,
     header: 'Email',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.ManageRole,
+    accessorFn: (row: any) => row?.ManageRole,
     id: 'manageRole',
     isSortable: true,
     header: 'Manage Roles',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.Status,
+    accessorFn: (row: any) => row?.Status,
     id: 'status',
     isSortable: true,
     header: 'Status',

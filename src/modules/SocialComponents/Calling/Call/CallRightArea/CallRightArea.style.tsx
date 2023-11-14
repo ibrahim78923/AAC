@@ -28,7 +28,7 @@ export const styles = {
     return {
       height: '80vh',
       display: 'flex',
-      borderLeft: `1px solid ${theme.palette.grey[700]}`,
+      borderLeft: `1px solid ${theme?.palette?.grey[700]}`,
       flexDirection: 'column',
       justifyContent: 'center',
       padding: '20px',
@@ -39,7 +39,7 @@ export const styles = {
   },
   callingWrapper: (theme: any) => {
     return {
-      border: `1px solid ${theme.palette.grey[700]}`,
+      border: `1px solid ${theme?.palette?.grey[700]}`,
       borderRadius: '8px',
       width: '100%',
       height: '65vh',
