@@ -1,40 +1,55 @@
 import { baseAPI } from '@/services/base-api';
+import { endpoints } from '@/routesConstants/endpoints';
 
 export const usersApi = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getUsers: builder.query({
-      query: () => ({
-        url: `/users}`,
+      query: ({ role, search }) => ({
+        url: `${endpoints?.USER_LIST}?page=1&limit=100&role=${role}&search=${search}`,
         method: 'GET',
       }),
       providesTags: ['USERS'],
     }),
+
+    getCompaniesCRN: builder.query({
+      query: ({ num }) => ({
+        url: `${endpoints?.COMPANY_CRN}?by=crn&q=${num}`,
+        method: 'GET',
+      }),
+      providesTags: ['USERS'],
+    }),
+
     getUsersById: builder.query({
       query: ({ id }: any) => ({
-        url: `/users/${id}`,
+        url: `/${id}`,
         method: 'GET',
       }),
       providesTags: ['USERS'],
     }),
+
     postUsers: builder.mutation({
-      query: ({ id, body }: any) => ({
-        url: `/users/${id}`,
-        method: 'POST',
-        body: body,
-      }),
+      query: ({ body }: any) => {
+        return {
+          url: endpoints?.ADD_USER,
+          method: 'POST',
+          body: body,
+        };
+      },
       invalidatesTags: ['USERS'],
     }),
     updateUsers: builder.mutation({
-      query: ({ id, body }: any) => ({
-        url: `/users/${id}`,
-        method: 'PUT',
-        body: body,
-      }),
+      query: ({ id, ...queryParams }: any) => {
+        return {
+          url: `${endpoints?.UPDATE_USER_LIST}/${id}`,
+          method: 'PATCH',
+          params: queryParams,
+        };
+      },
       invalidatesTags: ['USERS'],
     }),
     deleteUsers: builder.mutation({
       query: ({ id }: any) => ({
-        url: `/users/${id}`,
+        url: `/${id}`,
         method: 'GET',
       }),
       invalidatesTags: ['USERS'],
@@ -46,6 +61,7 @@ export const {
   useUpdateUsersMutation,
   usePostUsersMutation,
   useGetUsersQuery,
+  useGetCompaniesCRNQuery,
   useDeleteUsersMutation,
   useGetUsersByIdQuery,
 } = usersApi;

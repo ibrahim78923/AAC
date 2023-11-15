@@ -10,23 +10,23 @@ import * as Yup from 'yup';
 import { InputAdornment } from '@mui/material';
 import { PlusSharedIconColor } from '@/assets/icons';
 
-export const createTicketValidationSchema: any = Yup.object().shape({
-  requester: Yup.string().required('Field is Required'),
-  subject: Yup.string().trim().required('Field is Required'),
-  description: Yup.string(),
-  category: Yup.string(),
-  status: Yup.string().required('Field is Required'),
-  priority: Yup.string().required('Field is Required'),
-  department: Yup.string(),
-  source: Yup.string(),
-  impact: Yup.string(),
-  agent: Yup.string(),
-  plannedStartDate: Yup.date(),
-  plannedStartTime: Yup.date(),
-  plannedEndDate: Yup.date(),
-  plannedEndTime: Yup.date(),
-  plannedEffort: Yup.string(),
-  attachFile: Yup.mixed(),
+export const createTicketValidationSchema: any = Yup?.object()?.shape({
+  requester: Yup?.string()?.required('Field is Required'),
+  subject: Yup?.string()?.trim()?.required('Field is Required'),
+  description: Yup?.string(),
+  category: Yup?.string(),
+  status: Yup?.string()?.required('Field is Required'),
+  priority: Yup?.string()?.required('Field is Required'),
+  department: Yup?.string(),
+  source: Yup?.string(),
+  impact: Yup?.string(),
+  agent: Yup?.string(),
+  plannedStartDate: Yup?.date(),
+  plannedStartTime: Yup?.date(),
+  plannedEndDate: Yup?.date(),
+  plannedEndTime: Yup?.date(),
+  plannedEffort: Yup?.string(),
+  attachFile: Yup?.mixed(),
 });
 
 export const createTicketDefaultValues: any = {
@@ -59,7 +59,7 @@ export const createTicketDataArray = [
       InputProps: {
         endAdornment: (
           <InputAdornment position="end">
-            <PlusSharedIconColor color={'#6B7280'} />
+            <PlusSharedIconColor />
           </InputAdornment>
         ),
       },
@@ -294,7 +294,7 @@ export const createTicketDataArray = [
       InputProps: {
         endAdornment: (
           <InputAdornment position="end">
-            <PlusSharedIconColor color={'#38CAB5'} />
+            <PlusSharedIconColor color={'primary.main'} />
           </InputAdornment>
         ),
       },

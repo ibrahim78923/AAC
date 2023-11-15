@@ -19,7 +19,7 @@ const useNotes = () => {
       setSelectedCheckboxes((prevSelected) => [...prevSelected, { id: id }]);
     } else {
       setSelectedCheckboxes((prevSelected) =>
-        prevSelected.filter((item) => item.id !== id),
+        prevSelected.filter((item) => item?.id !== id),
       );
     }
   };

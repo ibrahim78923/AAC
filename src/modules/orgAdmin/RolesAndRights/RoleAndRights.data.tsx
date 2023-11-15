@@ -45,42 +45,42 @@ export const data: any = [
 
 export const columns: any = [
   {
-    accessorFn: (row: any) => row.Id,
+    accessorFn: (row: any) => row?.Id,
     id: 'Id',
-    cell: (info: any) => <Checkbox color="primary" name={info.getValue()} />,
+    cell: (info: any) => <Checkbox color="primary" name={info?.getValue()} />,
     header: <Checkbox color="primary" name="Id" />,
     isSortable: false,
   },
   {
-    accessorFn: (row: any) => row.RoleId,
+    accessorFn: (row: any) => row?.RoleId,
     id: 'roleId',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
     header: 'Role ID',
     isSortable: true,
   },
   {
-    accessorFn: (row: any) => row.RoleName,
+    accessorFn: (row: any) => row?.RoleName,
     id: 'roleName',
     isSortable: true,
     header: 'Role Name',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.Products,
+    accessorFn: (row: any) => row?.Products,
     id: 'products',
     isSortable: true,
     header: 'Products',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.CompanyAccount,
+    accessorFn: (row: any) => row?.CompanyAccount,
     id: 'companyAccount',
     isSortable: true,
     header: 'Company Accounts',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.Status,
+    accessorFn: (row: any) => row?.Status,
     id: 'status',
     isSortable: true,
     header: 'Status',
@@ -178,9 +178,9 @@ export const addUserDefault = {
 
 export const addUsersArrayData = [
   {
+    title: 'Select Product',
     componentProps: {
       name: 'productType',
-      label: 'Select Product',
       fullWidth: true,
       select: true,
     },
@@ -195,9 +195,9 @@ export const addUsersArrayData = [
     md: 5,
   },
   {
+    title: 'Select Company Account',
     componentProps: {
       name: 'companyAccount',
-      label: 'Select Company Account',
       fullWidth: true,
       select: true,
     },
@@ -209,27 +209,30 @@ export const addUsersArrayData = [
     md: 5,
   },
   {
+    title: 'Role Name',
     componentProps: {
       name: 'roleName',
-      label: 'Role Name',
+      placeholder: 'Role Name',
       fullWidth: true,
     },
     component: RHFTextField,
     md: 5,
   },
   {
+    title: 'Description',
     componentProps: {
       name: 'desc',
-      label: 'Description',
+      placeholder: 'Description',
       fullWidth: true,
     },
     component: RHFTextField,
     md: 5,
   },
   {
+    title: 'Default User',
     componentProps: {
       name: 'defaultUser',
-      label: 'Default User',
+      placeholder: 'Default User',
       fullWidth: true,
     },
     component: RHFTextField,

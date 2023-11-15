@@ -28,7 +28,6 @@ export const Timeline = ({ data }: any) => {
           {' '}
           <Typography
             variant="body2"
-            // component={'span'}
             fontWeight={600}
             color="primary"
             marginRight={0.3}
@@ -47,7 +46,7 @@ export const Timeline = ({ data }: any) => {
             <Button
               size="small"
               sx={{
-                color: theme?.palette?.grey[600],
+                color: theme?.palette?.grey?.[600],
                 background: theme?.palette?.primary?.light,
                 fontSize: '0.8rem',
                 fontWeight: 400,
@@ -61,7 +60,7 @@ export const Timeline = ({ data }: any) => {
             <Button
               size="small"
               sx={{
-                color: theme?.palette?.grey[600],
+                color: theme?.palette?.grey?.[600],
                 background: theme?.palette?.primary?.light,
                 fontSize: '0.8rem',
                 fontWeight: 400,

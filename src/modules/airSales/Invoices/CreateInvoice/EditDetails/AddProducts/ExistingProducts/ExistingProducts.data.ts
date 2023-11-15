@@ -12,9 +12,9 @@ export const customDefaultValues = {
 
 export const customFields = [
   {
+    title: 'Search',
     componentProps: {
       name: 'searchProduct',
-      label: 'Seach',
       fullWidth: true,
       select: true,
     },

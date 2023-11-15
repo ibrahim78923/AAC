@@ -6,20 +6,20 @@ import {
 } from './FilterArticles.data';
 
 export const useFilterArticles = (props: any) => {
-  const { IsOpenFilterDrawer, SetIsOpenFilterDrawer } = props;
+  const { isOpenFilterDrawer, setIsOpenFilterDrawer } = props;
   const methods: any = useForm({
     resolver: yupResolver(filterArticlesValidationSchema),
     defaultValues: filterArticlesDataDefaultValues,
   });
   const { handleSubmit } = methods;
   const submitHandler = handleSubmit(() => {
-    SetIsOpenFilterDrawer(false);
-    methods.reset(filterArticlesDataDefaultValues);
+    setIsOpenFilterDrawer(false);
+    methods?.reset(filterArticlesDataDefaultValues);
   });
   return {
     submitHandler,
-    IsOpenFilterDrawer,
-    SetIsOpenFilterDrawer,
+    isOpenFilterDrawer,
+    setIsOpenFilterDrawer,
     methods,
   };
 };

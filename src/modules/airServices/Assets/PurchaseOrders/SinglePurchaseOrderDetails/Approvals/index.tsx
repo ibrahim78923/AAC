@@ -12,7 +12,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import { ApproveForm } from './ApproveForm';
 import { RejectForm } from './RejectForm';
 import { enqueueSnackbar } from 'notistack';
-import { NoAssociationFound } from '@/assets/images';
+import { NoAssociationFoundImage } from '@/assets/images';
 
 export const Approvals = () => {
   const theme: any = useTheme();
@@ -27,7 +27,7 @@ export const Approvals = () => {
     <Fragment>
       {approvalsDataArray?.length <= 0 ? (
         <NoData
-          image={NoAssociationFound}
+          image={NoAssociationFoundImage}
           message={
             'Make Approved Purchases by sending the order to your stakeholders for approval'
           }

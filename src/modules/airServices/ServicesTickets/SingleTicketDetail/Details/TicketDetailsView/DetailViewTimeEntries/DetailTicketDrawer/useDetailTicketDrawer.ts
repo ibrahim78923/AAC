@@ -5,17 +5,12 @@ import { useForm } from 'react-hook-form';
 export const useDetailTicketDrawer = () => {
   const methods: any = useForm({
     resolver: yupResolver(validationSchema),
-
     defaultValues,
   });
-  const {
-    handleSubmit,
-    // formState: { isSubmitting },
-  } = methods;
 
-  const onSubmit = async () => {
-    // console.log(data);
-  };
+  const { handleSubmit } = methods;
+
+  const onSubmit = async () => {};
   return {
     methods,
     handleSubmit,

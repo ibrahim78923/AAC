@@ -46,7 +46,7 @@ export const TicketsListSubHeader = (props: any) => {
               <ResetIcon />
             </Stack>
           </Button>
-          {router.query.viewType !== 'board' && (
+          {router?.query?.viewType !== 'board' && (
             <Button
               variant="outlined"
               onClick={() => onCustomizeClick?.()}
@@ -71,6 +71,7 @@ export const TicketsListSubHeader = (props: any) => {
               <Button
                 key={1}
                 onClick={() => {
+                  //TODO: destructing because do not require viewType in restqyesries
                   /* eslint-disable @typescript-eslint/no-unused-vars */
                   const { viewType, ...routerQueries } = router?.query;
                   router?.push({
