@@ -210,6 +210,7 @@ export { default as PhotoShopIcon } from './shared/photoshop-icon';
 export { default as XdIcon } from './shared/xd-icon';
 export { default as IllustratorIcon } from './shared/illustrator-icon';
 export { default as EditGreyIcon } from './shared/edit-grey-icon';
+export { default as AttachIcon } from './shared/attach-file-icon';
 export { default as CompanyIcon } from './modules/SocialComponents/Companies/company';
 export { default as ImportCompaniesIcon } from './modules/SocialComponents/Companies/import';
 export { default as BackArrowIcon } from './modules/airSales/deals/back-arrow';

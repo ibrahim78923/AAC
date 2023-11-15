@@ -2,8 +2,8 @@ import {
   Box,
   Grid,
   IconButton,
-  Menu,
   MenuItem,
+  Popover,
   Typography,
 } from '@mui/material';
 import Image from 'next/image';
@@ -70,14 +70,10 @@ const RequestApproval = () => {
                     <IconButton onClick={handleClick}>
                       <MoreVertIcon fontSize="large" />
                     </IconButton>
-                    <Menu
-                      id="basic-menu"
+                    <Popover
                       anchorEl={anchorEl}
                       open={open}
                       onClose={handleClose}
-                      MenuListProps={{
-                        'aria-labelledby': 'basic-button',
-                      }}
                       anchorOrigin={{
                         vertical: 'bottom',
                         horizontal: 'center',
@@ -89,7 +85,7 @@ const RequestApproval = () => {
                     >
                       <MenuItem onClick={handleClose}>Send Reminder</MenuItem>
                       <MenuItem onClick={handleClose}>Cancel Approval</MenuItem>
-                    </Menu>
+                    </Popover>
                   </Grid>
                 </Grid>
               </Box>
