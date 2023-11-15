@@ -9,7 +9,7 @@ export const TAGS = ['USERS', 'PLAN_MANEGEMENT', 'Organization'];
 const baseQuery = fetchBaseQuery({
   baseUrl: BASE_URL,
   prepareHeaders: (headers, { getState }) => {
-    const token = (getState() as RootState).auth.accessToken;
+    const token = (getState() as RootState)?.auth?.accessToken;
     if (token) {
       headers.set('Authorization', `Bearer ${token}`);
     }
