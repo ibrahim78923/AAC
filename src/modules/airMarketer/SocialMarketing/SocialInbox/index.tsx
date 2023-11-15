@@ -28,14 +28,14 @@ const SocialInbox = () => {
                 aria-label="text alignment"
               >
                 <ToggleButton
-                  value="Teams"
+                  value="TeamChannel"
                   sx={styles?.toggleButtonLeft(theme)}
                   aria-label="left-aligned"
                 >
                   Personal Chat
                 </ToggleButton>
                 <ToggleButton
-                  value="Channel"
+                  value="GroupChannel"
                   sx={styles?.toggleButtonRight(theme)}
                   aria-label="right-aligned"
                 >
@@ -44,17 +44,23 @@ const SocialInbox = () => {
               </ToggleButtonGroup>
             </Box>
 
-            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                padding: '20px 0px',
+              }}
+            >
               <FormControlLabel
                 control={<Checkbox defaultChecked />}
                 label="Select All"
               />
-              <Button>
-                <FilterSharedIcon />
+              <Button sx={styles.filterButton}>
+                <FilterSharedIcon /> Filter
               </Button>
             </Box>
 
-            <SocialModes />
+            <SocialModes socialModeState={socialModeState} />
           </Box>
         </Grid>
         <Grid item xs={12} md={9}>

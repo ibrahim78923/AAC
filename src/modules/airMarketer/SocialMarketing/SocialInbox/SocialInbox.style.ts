@@ -39,4 +39,12 @@ export const styles = {
       },
     };
   },
+
+  filterButton: {
+    border: '1.5px solid #e7e7e9',
+    borderRadius: '8px',
+    color: '#6B7280',
+    gap: 0.5,
+    padding: '0px 15px',
+  },
 };

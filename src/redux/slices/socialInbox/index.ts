@@ -5,7 +5,7 @@ interface SocialInboxI {
 }
 
 const initialState: SocialInboxI = {
-  socialInboxState: 'Teams',
+  socialInboxState: 'TeamChannel',
 };
 
 const SocialInboxSlice = createSlice({
