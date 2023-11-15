@@ -1,14 +1,14 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
-  TaskTicketFormDefaultValues,
-  TaskTicketFormValidationSchema,
+  taskTicketFormDefaultValues,
+  taskTicketFormValidationSchema,
 } from '../TasksDrawersForm/TasksDrawersForm.data';
 
 export const useEditTaskDrawer = () => {
   const methodsEditTicketForm = useForm({
-    resolver: yupResolver(TaskTicketFormValidationSchema),
-    defaultValues: TaskTicketFormDefaultValues,
+    resolver: yupResolver(taskTicketFormValidationSchema),
+    defaultValues: taskTicketFormDefaultValues,
   });
   const submitEditTicket = async () => {};
   const drawerSubmitHandler = () => {

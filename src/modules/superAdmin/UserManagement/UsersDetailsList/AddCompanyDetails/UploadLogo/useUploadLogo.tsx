@@ -4,8 +4,8 @@ import { useState } from 'react';
 const useUploadLogo = () => {
   const [selectedFile, setSelectedFile] = useState<any>();
   const handleChangeImg = (e: any) => {
-    if (e.target.files.length) {
-      setSelectedFile(e.target.files[0]);
+    if (e?.target?.files?.length) {
+      setSelectedFile(e?.target?.files[0]);
     }
   };
   const placeholderImage = UserAvatarImage;

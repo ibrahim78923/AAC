@@ -5,6 +5,6 @@ export const singleTicketDetailTabsData = [
   'Associates Assets',
   'Approvals',
   'Meetings',
-  // 'Activities',
+  'Activities',
   'Conversation',
 ];

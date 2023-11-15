@@ -2,7 +2,7 @@ export const overviewData = [
   {
     id: '1',
     heading: 'General Details',
-    DetailsData: [
+    detailsData: [
       { name: 'Contact Number', detail: 'CNTR-8' },
       { name: 'Vendor', detail: 'Dell' },
       { name: 'Type', detail: 'Lease' },
@@ -15,7 +15,7 @@ export const overviewData = [
   {
     id: '2',
     heading: 'Items and Cost Details',
-    DetailsData: [
+    detailsData: [
       { name: 'Software', detail: 'Microsoft' },
       { name: 'Pricing Model', detail: 'Fixes' },
       { name: 'Cost', detail: '£654' },
@@ -27,7 +27,7 @@ export const overviewData = [
   {
     id: '3',
     heading: 'Software License Properties',
-    DetailsData: [
+    detailsData: [
       { name: 'License Type', detail: 'Volume' },
       { name: 'License Key', detail: 'Volume' },
     ],

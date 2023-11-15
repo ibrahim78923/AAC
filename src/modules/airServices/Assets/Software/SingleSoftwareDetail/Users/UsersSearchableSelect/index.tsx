@@ -10,7 +10,7 @@ import { useFormContext, Controller } from 'react-hook-form';
 import { ArrowDownIcon } from '@/assets/icons';
 import { v4 as uuidv4 } from 'uuid';
 
-export default function UsersSearchableSelect({
+const UsersSearchableSelect = ({
   name,
   options,
   placeholder,
@@ -19,15 +19,15 @@ export default function UsersSearchableSelect({
   showSearchBar = false,
   showDescription = true,
   ...other
-}) {
+}: any) => {
   const { control } = useFormContext();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedValue, setSelectedValue] = useState('');
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [anchorEl, setAnchorEl] = useState<any>(null);
   const open = Boolean(anchorEl);
 
   const handleClick = (event: any) => {
-    setAnchorEl(event.currentTarget);
+    setAnchorEl(event?.currentTarget);
   };
 
   const handleClose = () => {
@@ -35,14 +35,14 @@ export default function UsersSearchableSelect({
     setSearchTerm('');
   };
 
-  const filteredOptions = options.filter((option: any) => {
-    const isTitleMatch = option.title
-      ? option.title.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredOptions = options?.filter((option: any) => {
+    const isTitleMatch = option?.title
+      ? option?.title?.toLowerCase()?.includes(searchTerm?.toLowerCase())
       : false;
 
     const isDescriptionMatch =
-      showDescription && option.des
-        ? option.des.toLowerCase().includes(searchTerm.toLowerCase())
+      showDescription && option?.des
+        ? option?.des?.toLowerCase()?.includes(searchTerm?.toLowerCase())
         : false;
 
     return isTitleMatch || isDescriptionMatch;
@@ -94,7 +94,7 @@ export default function UsersSearchableSelect({
               }}
               PaperProps={{
                 style: {
-                  width: anchorEl ? anchorEl.clientWidth : 'auto',
+                  width: anchorEl ? anchorEl?.clientWidth : 'auto',
                   padding: '8px',
                   paddingBottom: '54px',
                 },
@@ -106,11 +106,11 @@ export default function UsersSearchableSelect({
                     <TextField
                       fullWidth
                       placeholder={placeholder || 'Search...'}
-                      onChange={(e) => setSearchTerm(e.target.value)}
+                      onChange={(e) => setSearchTerm(e?.target?.value)}
                       sx={{ height: '44px', mb: '40px' }}
                     />
                   )}
-                  {filteredOptions?.map((option, index) => (
+                  {filteredOptions?.map((option: any, index: any) => (
                     <Box
                       key={uuidv4()}
                       onClick={() => {
@@ -129,19 +129,19 @@ export default function UsersSearchableSelect({
                         component="div"
                         variant="subtitle1"
                         sx={{
-                          color: '#4B5563',
+                          color: 'grey.600',
                           fontSize: '14px',
                           fontWeight: 700,
                         }}
                       >
-                        {option.title}
+                        {option?.title}
                       </Typography>
                       {showDescription && (
                         <Typography
                           component="div"
                           variant="body1"
                           sx={{
-                            color: '#4B5563',
+                            color: 'grey.600',
                             fontWeight: 500,
                           }}
                         >
@@ -158,4 +158,6 @@ export default function UsersSearchableSelect({
       )}
     />
   );
-}
+};
+
+export default UsersSearchableSelect;

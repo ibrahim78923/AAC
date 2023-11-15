@@ -4,7 +4,7 @@ import NoData from '@/components/NoData';
 import { ActivityTimeline } from './ActivityTimeline';
 import { v4 as uuidv4 } from 'uuid';
 import { ExportButton } from '@/components/ExportButton';
-import { NoAssociationFound } from '@/assets/images';
+import { NoAssociationFoundImage } from '@/assets/images';
 export const Activity = () => {
   return (
     <>
@@ -30,7 +30,7 @@ export const Activity = () => {
             ))
           ) : (
             <NoData
-              image={NoAssociationFound}
+              image={NoAssociationFoundImage}
               message={'There is no activity'}
             />
           )}

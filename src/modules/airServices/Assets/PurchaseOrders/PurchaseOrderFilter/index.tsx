@@ -39,7 +39,7 @@ export const PurchaseOrderFilter = (props: any) => {
             <Grid container rowSpacing={2.6} columnSpacing={2} mt={-1}>
               {filterFields?.map((form: any) => (
                 <Grid item xs={12} md={form?.gridLength} key={uuidv4()}>
-                  <form.component {...form.componentProps} size="small">
+                  <form.component {...form?.componentProps} size="small">
                     {form?.componentProps?.select
                       ? form?.componentProps?.options?.map((option: any) => (
                           <option key={uuidv4()} value={option?.value}>
