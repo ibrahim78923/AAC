@@ -18,6 +18,7 @@ export const END_POINTS = {
   COMPANY_CRN: '/auth/search-company',
   auth_search_company: 'auth/search-company',
   auth_IG_Verification: 'auth/ig-verification',
+  EXPENSE: '/expense/add-expense',
 };
 
 export const superAdminBillingInvoices = {

@@ -11,14 +11,7 @@ import {
   expenseActionsDropdownFunction,
 } from './Expense.data';
 
-import { useRouter } from 'next/router';
-import { usePostExpenseInfoDataMutation } from '@/services/airServices/assets/inventory/single-inventory-details/expense';
-
 export const useExpense = () => {
-  const [postExpenseInfoDataTrigger, postExpenseInfoResponse] =
-    usePostExpenseInfoDataMutation();
-
-  const router = useRouter();
   const [selectedExpenseList, setSelectedExpenseList] = useState([]);
   const [addExpenseModalTitle, setAddExpenseModalTitle] =
     useState('Add New Expense');
@@ -40,20 +33,7 @@ export const useExpense = () => {
     setIsAddExpenseModalOpen(false);
     addExpenseMethods?.reset();
   };
-  const onAddExpenseSubmit = async (data: any) => {
-    const queryParams = {
-      assetsId: router?.query?.inventoryId,
-    };
-    const apiDataParameter = {
-      body: data,
-      queryParams,
-    };
-    try {
-      await postExpenseInfoDataTrigger(apiDataParameter)?.unwrap();
-    } catch (error: any) {
-      const errMsg = error?.data?.message;
-      enqueueSnackbar(errMsg ?? 'Error occurred', { variant: 'error' });
-    }
+  const onAddExpenseSubmit = () => {
     addExpenseMethods?.reset();
     setIsAddExpenseModalOpen(false);
   };
@@ -77,7 +57,7 @@ export const useExpense = () => {
           key,
           key === 'date'
             ? value
-              ? new Date(dayjs(value)?.format('YYYY-MM-DD'))
+              ? new Date(dayjs(value).format('YYYY-MM-DD'))
               : '---'
             : value,
         ),
@@ -138,6 +118,5 @@ export const useExpense = () => {
     dropdownOptions,
     addExpenseProps,
     actionProps,
-    postExpenseInfoResponse,
   };
 };
