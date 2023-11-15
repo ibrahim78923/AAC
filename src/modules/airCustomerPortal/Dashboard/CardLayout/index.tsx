@@ -12,7 +12,7 @@ export const CardLayout = ({
 
   return (
     <Box sx={cardWrapper}>
-      <Typography fontWeight={600} color="grey?.800">
+      <Typography fontWeight={600} color="grey.800">
         {title}
       </Typography>
       <Box sx={{ height: maxHeight, overflowY: 'scroll' }}>{children}</Box>
