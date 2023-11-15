@@ -19,7 +19,7 @@ const SocialInbox = () => {
     <Box>
       <Grid container spacing={3}>
         <Grid item xs={12} md={3}>
-          <Box sx={styles.mainWrapperBox}>
+          <Box sx={styles?.mainWrapperBox}>
             <Box sx={styles?.wrapperBox}>
               <ToggleButtonGroup
                 value={socialModeState}
@@ -49,13 +49,7 @@ const SocialInbox = () => {
                 control={<Checkbox defaultChecked />}
                 label="Select All"
               />
-              <Button
-                // sx={styles?.filterButton}
-                // aria-controls={actionMenuOpen ? 'basic-menu' : undefined}
-                aria-haspopup="true"
-                // aria-expanded={actionMenuOpen ? 'true' : undefined}
-                // onClick={handleClick}
-              >
+              <Button>
                 <FilterSharedIcon />
               </Button>
             </Box>

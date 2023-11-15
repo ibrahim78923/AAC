@@ -13,9 +13,9 @@ const SocialInboxSlice = createSlice({
   initialState: initialState,
   reducers: {
     setSocialInboxMode: (state: any, action: PayloadAction<any>) => {
-      state.socialInboxState = action.payload;
+      state.socialInboxState = action?.payload;
     },
   },
 });
-export const { setSocialInboxMode } = SocialInboxSlice.actions;
+export const { setSocialInboxMode } = SocialInboxSlice?.actions;
 export default SocialInboxSlice.reducer;
