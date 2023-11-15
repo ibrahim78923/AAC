@@ -1,23 +1,17 @@
-// react
-import { useState, useEffect, Fragment } from 'react';
-// form
+import { useState, Fragment } from 'react';
 import { useFormContext, Controller } from 'react-hook-form';
-// @mui
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import CircularProgress from '@mui/material/CircularProgress';
 import { debounce } from 'lodash';
-
-// mui icons
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
-import { Checkbox, Chip, FormLabel, Stack } from '@mui/material';
+import { Checkbox, Chip, Paper, useTheme } from '@mui/material';
+import { Search } from '@mui/icons-material';
+import CustomLabel from '../CustomLabel';
 
-// ----------------------------------------------------------------------
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
-
-// ----------------------------------------------------------------------
 
 export default function RHFAutocompleteAsync({
   name,
@@ -27,38 +21,30 @@ export default function RHFAutocompleteAsync({
   getOptionLabel = (option: any) => option?.name,
   multiple = false,
   variant = 'outlined',
-  outerLabel,
   EndIcon,
   placeholder,
-  StartIcon,
+  noOptionsText = 'Nothing in the List',
   externalParams = {},
   isOptionEqualToValue = (option: any, newValue: any) =>
     option?._id === newValue?._id,
+  renderOption,
+  required,
   ...other
 }: any): JSX.Element {
-  // states
   const { control } = useFormContext();
   const [open, setOpen] = useState(false);
 
-  // api
   const [trigger, { data, isLoading, isFetching }]: any = apiQuery;
 
-  // constants
-  const label = other?.label;
-
-  // debounce
   const triggerDebounce = debounce((newInputValue) => {
     trigger({ params: { [queryKey]: newInputValue, ...externalParams } });
   }, debounceTime);
 
-  // on changes
   const onChanged = (e: any, newValue: any, onChange: any) => {
     onChange(newValue);
   };
 
-  useEffect(() => {
-    trigger({ params: {} });
-  }, [trigger]);
+  const theme: any = useTheme();
 
   return (
     <Controller
@@ -66,40 +52,48 @@ export default function RHFAutocompleteAsync({
       control={control}
       render={(form) => {
         return (
-          <Stack gap="0.6rem">
-            {outerLabel && <FormLabel>{outerLabel}</FormLabel>}
-            <Autocomplete
-              {...form?.field}
-              multiple={multiple}
-              id={name}
-              open={open}
-              autoComplete
-              includeInputInList
-              filterSelectedOptions
-              noOptionsText="No option"
-              options={data ?? []}
-              disableCloseOnSelect
-              {...other}
-              onOpen={() => {
-                setOpen(true);
-              }}
-              onClose={() => {
-                setOpen(false);
-              }}
-              isOptionEqualToValue={isOptionEqualToValue}
-              getOptionLabel={getOptionLabel}
-              loading={isLoading || isFetching}
-              onChange={(e: React.SyntheticEvent, newValue: any) => {
-                onChanged(e, newValue, form?.field?.onChange);
-              }}
-              onInputChange={(event, newInputValue) => {
-                triggerDebounce?.cancel();
-                if (newInputValue?.trim()) triggerDebounce(newInputValue);
-              }}
-              filterOptions={(x) => x}
-              renderOption={(props, option: any, { selected }) => {
-                return (
-                  <li {...props} key={option?.id}>
+          <Autocomplete
+            {...form?.field}
+            multiple={multiple}
+            id={name}
+            open={open}
+            autoComplete
+            includeInputInList
+            filterSelectedOptions
+            noOptionsText={noOptionsText}
+            options={data ?? []}
+            disableCloseOnSelect
+            {...other}
+            onOpen={() => {
+              setOpen(true);
+              trigger({ params: {} });
+            }}
+            onClose={() => {
+              setOpen(false);
+            }}
+            isOptionEqualToValue={isOptionEqualToValue}
+            getOptionLabel={getOptionLabel}
+            loading={isLoading || isFetching}
+            onChange={(e: React.SyntheticEvent, newValue: any) => {
+              onChanged(e, newValue, form?.field?.onChange);
+            }}
+            PaperComponent={(props) => (
+              <Paper
+                {...props}
+                style={{ backgroundColor: theme?.palette?.grey?.[100] }}
+              >
+                {props?.children}
+              </Paper>
+            )}
+            onInputChange={(event, newInputValue) => {
+              triggerDebounce?.cancel();
+              if (newInputValue?.trim()) triggerDebounce(newInputValue);
+            }}
+            filterOptions={(x) => x}
+            renderOption={(props, option: any, { selected }) => {
+              return (
+                <li {...props} key={option?.id}>
+                  {multiple && (
                     <Checkbox
                       key={option?.id}
                       icon={icon}
@@ -107,23 +101,33 @@ export default function RHFAutocompleteAsync({
                       style={{ marginRight: 8 }}
                       checked={selected}
                     />
-                    {getOptionLabel(option)}
-                  </li>
-                );
-              }}
-              renderTags={(tagValue, getTagProps) => {
-                return tagValue?.map((option: any, index) => (
-                  <Chip
-                    {...getTagProps({ index })}
-                    key={option?.id}
-                    label={getOptionLabel(option)}
+                  )}
+                  {renderOption && renderOption(option)}
+                  {getOptionLabel(option)}
+                </li>
+              );
+            }}
+            renderTags={(tagValue, getTagProps) => {
+              return tagValue?.map((option: any, index) => (
+                <Chip
+                  {...getTagProps({ index })}
+                  key={option?.id}
+                  label={getOptionLabel(option)}
+                />
+              ));
+            }}
+            renderInput={(params) => (
+              <Fragment>
+                {other?.label && (
+                  <CustomLabel
+                    label={other?.label}
+                    error={form?.fieldState?.error}
+                    required={required}
                   />
-                ));
-              }}
-              renderInput={(params) => (
+                )}
                 <TextField
                   {...params}
-                  label={label}
+                  label={''}
                   placeholder={placeholder}
                   error={Boolean(form?.fieldState?.error)}
                   helperText={form?.fieldState?.error?.message}
@@ -134,16 +138,17 @@ export default function RHFAutocompleteAsync({
                       <Fragment>
                         {isLoading || isFetching ? (
                           <CircularProgress color="inherit" size={20} />
-                        ) : null}
+                        ) : (
+                          <Search sx={{ color: 'inherit' }} />
+                        )}
                         {EndIcon ?? params?.InputProps?.endAdornment}
                       </Fragment>
                     ),
-                    ...(StartIcon && { startAdornment: StartIcon }),
                   }}
                 />
-              )}
-            />
-          </Stack>
+              </Fragment>
+            )}
+          />
         );
       }}
     />
