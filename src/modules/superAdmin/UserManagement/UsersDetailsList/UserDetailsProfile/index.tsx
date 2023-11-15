@@ -1,11 +1,8 @@
-import React from 'react';
-
 import { Box, Button, Grid, InputAdornment, Typography } from '@mui/material';
 
 import { FormProvider } from '@/components/ReactHookForm';
 
 import {
-  profileDefaultValues,
   profileFields,
   profileValidationSchema,
 } from './UserDetailsProfile.data';
@@ -19,19 +16,18 @@ import { v4 as uuidv4 } from 'uuid';
 import useToggle from '@/hooks/useToggle';
 import { EraserIcon } from '@/assets/icons';
 
-const UserDetailsProfile = () => {
+const UserDetailsProfile = (props: any) => {
+  const { userDetails } = props;
   const [isToggled, setIsToggled] = useToggle(false);
 
   const methods: any = useForm({
     resolver: yupResolver(profileValidationSchema),
-    defaultValues: profileDefaultValues,
+    defaultValues: userDetails,
   });
 
   const { handleSubmit } = methods;
 
-  const onSubmit = async () => {
-    alert('profile');
-  };
+  const onSubmit = async () => {};
 
   return (
     <FormProvider methods={methods}>

@@ -92,7 +92,7 @@ const UsersDetailsList = () => {
                   sx={{ cursor: 'pointer' }}
                 />
                 <Typography variant="h3">
-                  {userDetails?.firstName} {userDetails?.middleName}{' '}
+                  {userDetails?.firstName} {userDetails?.middleName}
                   {userDetails?.lastName}
                 </Typography>
               </Stack>
@@ -265,7 +265,7 @@ const UsersDetailsList = () => {
                     }
                   >
                     <CompanyAccounts />
-                    <UserDetailsProfile />
+                    <UserDetailsProfile userDetails={userDetails} />
                     <Delegates />
                   </CommonTabs>
                 </Card>

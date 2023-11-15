@@ -7,15 +7,15 @@ import * as Yup from 'yup';
 export const profileValidationSchema = Yup.object().shape({
   firstName: Yup.string().required('Field is Required'),
   lastName: Yup.string().required('Field is Required'),
-  postCode: Yup.string().required('Field is Required'),
-  address: Yup.string().required('Field is Required'),
+  // postCode: Yup.string().required('Field is Required'),
+  // address: Yup.string().required('Field is Required'),
 });
 
 export const profileDefaultValues = {
-  firstName: '',
+  firstName: 'usman',
   middleName: '',
   lastName: '',
-  phoneNo: '',
+  phoneNumber: '',
   email: '',
   jobTitlle: '',
   postCode: '',
@@ -58,7 +58,7 @@ export const profileFields = [
   },
   {
     componentProps: {
-      name: 'phoneNo',
+      name: 'phoneNumber',
       label: 'Phone Number',
       placeholder: 'Enter Phone',
       fullWidth: true,
