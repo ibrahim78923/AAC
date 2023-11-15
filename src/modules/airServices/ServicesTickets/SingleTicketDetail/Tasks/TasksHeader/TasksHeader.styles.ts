@@ -11,7 +11,7 @@ export const styles: any = {
   actionBtn: (theme: any) => ({
     px: '18px',
     color: theme?.palette?.custom?.main,
-    border: `1px solid ${theme?.palette?.grey[0]}`,
+    border: `1px solid ${theme?.palette?.grey?.[0]}`,
   }),
   addTaskBtn: (theme: any) => ({
     px: '18px',

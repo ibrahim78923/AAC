@@ -5,70 +5,64 @@ import * as Yup from 'yup';
 export const validationSchema = Yup.object().shape({
   companyName: Yup.string().trim().required('Field is Required'),
   phoneNo: Yup.string().trim().required('Field is Required'),
+  product: Yup.string().trim().required('Field is Required'),
+  company: Yup.string().trim().required('Field is Required'),
 });
 
 export const defaultValues = {
   companyName: '',
   phoneNo: '',
+  product: '',
+  company: '',
 };
 
 export const dataArray = [
   {
+    title: 'Company Name',
     componentProps: {
+      placeholder: 'Enter Company Name',
       name: 'companyName',
-      label: 'Company Name',
       fullWidth: true,
     },
-
     component: RHFTextField,
-
     md: 12,
   },
   {
+    title: 'Phone No',
     componentProps: {
+      placeholder: 'Enter Number',
       name: 'phoneNo',
-      label: 'Phone No',
       fullWidth: true,
     },
-
     component: RHFTextField,
-
     md: 12,
   },
-
   {
+    title: 'Product',
     componentProps: {
-      name: 'producct',
-      label: 'Product',
+      name: 'product',
       fullWidth: true,
       select: true,
     },
-
     options: [
       { value: 'serviceCart', label: 'Service Cart' },
       { value: 'marketingCart', label: 'Marketing Cart' },
     ],
-
     component: RHFSelect,
-
     md: 12,
   },
-
   {
+    title: 'Company',
     componentProps: {
       name: 'company',
-      label: 'Company',
       fullWidth: true,
       select: true,
     },
-
     options: [
       { value: 'orcaloHoldings', label: 'Orcalo Holdings' },
       { value: 'airAppleCart', label: 'Air applecart' },
     ],
-
     component: RHFSelect,
-
     md: 12,
   },
 ];

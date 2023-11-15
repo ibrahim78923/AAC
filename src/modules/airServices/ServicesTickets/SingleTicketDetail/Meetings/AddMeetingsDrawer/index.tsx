@@ -12,7 +12,7 @@ export const AddMeetingsDrawer = ({
   open,
   setDrawerOpen,
 }: AddMeetingsDrawerPropsI) => {
-  const methodsCreateNewTicketForm = useForm({
+  const methodsCreateNewTicketForm = useForm<any>({
     resolver: yupResolver(addMeetingValidationSchema),
     defaultValues: addMeetingDefaultValues,
   });

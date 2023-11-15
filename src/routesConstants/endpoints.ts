@@ -1,4 +1,4 @@
-export const endpoints = {
+export const END_POINTS = {
   login: 'auth/signin',
   signup: 'auth/signup',
   verify_token: 'auth/verify-token',
@@ -6,6 +6,12 @@ export const endpoints = {
   get_permissions: '/premissions',
   reset_password: 'auth/resetPassword',
   forgot_password: 'auth/forgot-password',
+  USER_LIST: '/users',
+  ADD_USER: '/users',
+  ADD_USER_ACCOUNT: '/super-admin/add-accounts',
+  USER_ACCOUNTS_LIST: '/super-admin/accounts-list',
+  UPDATE_USER_LIST: '/users/edit',
+  COMPANY_CRN: '/auth/search-company',
   auth_search_company: 'auth/search-company',
   auth_IG_Verification: 'auth/ig-verification',
 };

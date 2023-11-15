@@ -1,21 +1,15 @@
 import CommonDrawer from '@/components/CommonDrawer';
-import { useFilterContractsForm } from './useFilterContractsForm';
 import { Box, Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { filterContractsFormDataArray } from './FilterContractsForm.data';
 import { v4 as uuidv4 } from 'uuid';
-import { enqueueSnackbar } from 'notistack';
+import { useFilterContractsForm } from './useFilterContractsForm';
 
 const FilterContractsForm = (props: any) => {
   const { isDrawerOpen, setIsDrawerOpen } = props;
-  const { methods } = useFilterContractsForm();
-  const { handleSubmit } = methods;
-  const onSubmit = async () => {
-    enqueueSnackbar('Save Successfully', {
-      variant: 'success',
-    });
-    setIsDrawerOpen(false);
-  };
+
+  const { methods, handleSubmit, onSubmit } = useFilterContractsForm(props);
+
   return (
     <>
       <CommonDrawer
@@ -35,7 +29,7 @@ const FilterContractsForm = (props: any) => {
                   <item.component {...item?.componentProps} size={'small'}>
                     {item?.componentProps?.select
                       ? item?.options?.map((option: any) => (
-                          <option key={option?.value} value={option?.value}>
+                          <option key={uuidv4()} value={option?.value}>
                             {option?.label}
                           </option>
                         ))

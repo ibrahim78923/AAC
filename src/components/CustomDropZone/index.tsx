@@ -15,8 +15,8 @@ export default function CustomDropZone({ name }: any) {
     multiple: false,
     onDrop: useCallback(
       (files: any) => {
-        if (files && files.length > 0) {
-          setValue(name, files[0]);
+        if (files && files?.length > 0) {
+          setValue(name, files?.[0]);
         }
       },
       [setValue, name],

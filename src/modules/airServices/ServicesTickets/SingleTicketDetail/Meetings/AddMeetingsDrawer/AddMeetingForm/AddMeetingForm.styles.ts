@@ -1,8 +1,8 @@
 export const videoConferencingButtons = {
-  border: '1.5px solid #E5E7EB !important',
+  border: '1.5px solid grey.700 !important',
   borderRadius: '8px !important',
   p: '10px 16px !important',
-  color: '#9CA3AF',
+  color: 'grey.900',
   fontSize: '14px',
   fontWeight: '400',
   gap: '20px',
