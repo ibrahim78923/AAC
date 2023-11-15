@@ -17,7 +17,7 @@ import { useModules } from './useModules';
 import SubModulesAccordion from './SubModulesAccordian';
 
 import { v4 as uuidv4 } from 'uuid';
-import { permisionsPlanManagement } from '@/constants/permission-keys';
+import { PERMISSIONS_PLAN_MANAGEMENT } from '@/constants/permission-keys';
 
 const Modules = ({ methods, handleSubmit }: any) => {
   const { theme, isAccordionExpanded, handleExpandAccordionChange } =
@@ -25,7 +25,7 @@ const Modules = ({ methods, handleSubmit }: any) => {
 
   return (
     <div>
-      {permisionsPlanManagement?.map((feature: string) => (
+      {PERMISSIONS_PLAN_MANAGEMENT?.map((feature: string) => (
         <Accordion
           key={uuidv4()}
           expanded={isAccordionExpanded === feature}

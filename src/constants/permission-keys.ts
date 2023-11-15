@@ -154,7 +154,7 @@ export const SUPER_ADMIN_SETTINGS_PRODUCT_FEATURES_PERMISSIONS = {
   Active_Inactive_Features: 'active-inactive-feature',
 };
 
-export const permisionsPlanManagement = [
+export const PERMISSIONS_PLAN_MANAGEMENT = [
   {
     Modules: 'Deals',
     Sub_Modules: [
