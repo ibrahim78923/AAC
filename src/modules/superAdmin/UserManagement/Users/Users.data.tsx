@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Checkbox } from '@mui/material';
 
 import { Avatar, AvatarGroup, Box, Typography } from '@mui/material';
@@ -14,11 +13,11 @@ import { AvatarImage } from '@/assets/images';
 import dayjs from 'dayjs';
 import * as Yup from 'yup';
 
-export const columns: any = (handleUserSwitchChange: any) => {
-  const [checkedRows, setCheckedRows] = useState<any>([]);
+export const columns: any = (columnsProps: any) => {
+  const { handleUserSwitchChange, checkedRows, setCheckedRows } = columnsProps;
 
   const handleCheckboxChange = (rowId: string) => {
-    setCheckedRows([rowId]);
+    setCheckedRows(rowId);
   };
 
   return [
@@ -29,11 +28,11 @@ export const columns: any = (handleUserSwitchChange: any) => {
         <Checkbox
           color="primary"
           name={info?.getValue()}
-          checked={checkedRows?.includes(info?.row?.original?._id)}
+          defaultChecked={checkedRows === info?.row?.original?._id}
           onChange={() => handleCheckboxChange(info?.row?.original?._id)}
         />
       ),
-      header: <Checkbox color="primary" name="Id" />,
+      header: <Checkbox color="primary" name="Id" disabled />,
       isSortable: false,
     },
     {

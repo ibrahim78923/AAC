@@ -38,7 +38,6 @@ import useUserDetailsList from './useUserDetailsList';
 import Filter from './Filter';
 import AddCompanyDetails from './AddCompanyDetails';
 import StatusBadge from '@/components/StatusBadge';
-import { useGetUsersQuery } from '@/services/superAdmin/user-management/users';
 import { v4 as uuidv4 } from 'uuid';
 
 const UsersDetailsList = () => {
@@ -62,12 +61,10 @@ const UsersDetailsList = () => {
     setTabVal,
     theme,
     navigate,
-  } = useUserDetailsList();
-
-  const params = {
-    role: 'ORG_ADMIN',
-  };
-  const { data } = useGetUsersQuery(params);
+    useGetUsersByIdQuery,
+  }: any = useUserDetailsList();
+  const { id } = navigate.query;
+  const { data } = useGetUsersByIdQuery(id);
 
   return (
     <Box>

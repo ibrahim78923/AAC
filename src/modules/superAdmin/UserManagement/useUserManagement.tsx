@@ -14,6 +14,7 @@ const useUserManagement = () => {
   const [isOpenAddUserDrawer, setIsOpenAddUserDrawer] = useState(false);
   const [isOpenFilterDrawer, setIsOpenFilterDrawer] = useState(false);
   const [userType, setUserType] = useState();
+  const [checkedRows, setCheckedRows] = useState<any>();
   const [selectedValue, setSelectedValue] = useState(null);
   const [tabVal, setTabVal] = useState<number>(0);
   const [search, setSearch] = useState('');
@@ -21,6 +22,7 @@ const useUserManagement = () => {
     useGetUsersQuery,
     useUpdateUsersMutation,
     useGetCompaniesCRNQuery,
+    useGetUsersByIdQuery,
   }: any = usersApi;
 
   const [updateUsers] = useUpdateUsersMutation();
@@ -37,8 +39,8 @@ const useUserManagement = () => {
     setIsOpenAddUserDrawer(true);
   };
 
-  const handleUsersList = () => {
-    navigate.push(SUPER_ADMIN?.USERS_LIST);
+  const handleUsersList = (id: any) => {
+    navigate.push({ pathname: SUPER_ADMIN?.USERS_LIST, query: { id: id } });
     setSelectedValue(null);
   };
 
@@ -68,6 +70,9 @@ const useUserManagement = () => {
     useGetUsersQuery,
     useGetCompaniesCRNQuery,
     handleUserSwitchChange,
+    useGetUsersByIdQuery,
+    checkedRows,
+    setCheckedRows,
   };
 };
 
