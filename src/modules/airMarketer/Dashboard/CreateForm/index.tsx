@@ -8,6 +8,7 @@ import useCreateForm from './useCreateForm';
 import {
   dataArrayCreateForm,
   defaultValues,
+  optionViews,
   validationSchema,
 } from './CreateForm.data';
 
@@ -92,13 +93,7 @@ const CreateForm = ({ isOpenDrawer, onClose }: any) => {
 
                         {watchFields[0] === 'Everyone' && (
                           <RHFRadioGroup
-                            options={[
-                              {
-                                value: 'View and edit',
-                                label: 'View and edit',
-                              },
-                              { value: 'View Only', label: 'View Only' },
-                            ]}
+                            options={optionViews}
                             name="viewAndEdit"
                             label=""
                             row={false}
