@@ -36,17 +36,17 @@ export default function useAddToInventoryDrawer(props: any) {
   const [boolVariable, setBoolVariable] = useState(true);
   const [toShow, setToShow] = useState(true);
   const handleRadioChange = (event: { target: { value: string } }) => {
-    setToShow(event.target.value === 'Add New');
+    setToShow(event?.target?.value === 'Add New');
   };
   const submitHandlerYes = handleSubmitYes(() => {
     setBoolVariable(false);
-    methodsYes.reset(addInventoryDefaultValuesOne);
+    methodsYes?.reset(addInventoryDefaultValuesOne);
   });
   const submitHandlerNo = handleSubmitNo(() => {
     enqueueSnackbar('item added to inventory Successfully', {
       variant: 'success',
     });
-    methodsNo.reset(addInventoryDefaultValuesOneUpdate);
+    methodsNo?.reset(addInventoryDefaultValuesOneUpdate);
   });
   const submitHandlerTwo = handleSubmitTwo(() => {
     enqueueSnackbar('item added to inventory Successfully', {
@@ -54,13 +54,13 @@ export default function useAddToInventoryDrawer(props: any) {
     });
     setIsADrawerOpen(false);
     setBoolVariable(true);
-    methodsTwo.reset(addToInventoryItemStatusDefaultValues);
+    methodsTwo?.reset(addToInventoryItemStatusDefaultValues);
   });
-  const filteredYes = addToInventoryItemAdded.filter((item: any) => {
-    return item.toShow === 'Yes';
+  const filteredYes = addToInventoryItemAdded?.filter((item: any) => {
+    return item?.toShow === 'Yes';
   });
-  const filteredNo = addToInventoryItemAdded.filter((item: any) => {
-    return item.toShow === 'No';
+  const filteredNo = addToInventoryItemAdded?.filter((item: any) => {
+    return item?.toShow === 'No';
   });
   return {
     methodsTwo,

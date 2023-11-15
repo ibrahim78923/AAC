@@ -37,42 +37,33 @@ export const useTicketsLists = () => {
     );
   };
 
-  const [ticketsListsColumn] = useState(
+  const [ticketsListsColumn, setTicketsListsColumn] = useState(
     ticketsListsColumnFunction(
       theme,
       router,
-      ticketList,
-      setTicketList,
       ticketsListsData,
+      selectedTicketList,
+      setSelectedTicketList,
       handleChange,
     ),
   );
   const ticketsListsColumnPersist = ticketsListsColumnFunction(
     theme,
     router,
-    ticketList,
-    setTicketList,
     ticketsListsData,
+    selectedTicketList,
+    setSelectedTicketList,
     handleChange,
   );
-
-  const customizeColumns: any = ticketsListsColumnPersist.reduce(
-    (x: any, y: any) => {
-      const { id } = y;
-      return { ...x, [id]: true };
-    },
-    {},
-  );
-  const [customizeColumn, setCustomizeColumn] = useState(customizeColumns);
 
   const drawerComponent: any = {
     [TABLE_CONSTANTS?.CUSTOMIZE_COLUMN]: (
       <CustomizeTicketsColumn
         isDrawerOpen={isDrawerOpen}
         setIsDrawerOpen={setIsDrawerOpen}
-        tableColumns={ticketsListsColumnPersist?.slice?.(1)}
-        customizeColumn={customizeColumn}
-        setCustomizeColumn={setCustomizeColumn}
+        ticketsListsColumnPersist={ticketsListsColumnPersist}
+        ticketsListsColumn={ticketsListsColumn}
+        setTicketsListsColumn={setTicketsListsColumn}
       />
     ),
 
@@ -88,16 +79,10 @@ export const useTicketsLists = () => {
         isDrawerOpen={isDrawerOpen}
       />
     ),
-    // [TABLE_CONSTANTS?.EDIT_TICKET]: (
-    //   <CreateTicket
-    //     setIsDrawerOpen={setIsDrawerOpen}
-    //     isDrawerOpen={isDrawerOpen}
-    //   />
-    // ),
   };
 
   const openDrawer = (tableActionQuery: any) => {
-    router.push({
+    router?.push({
       pathname: router?.pathname,
       query: {
         ...router?.query,
@@ -123,7 +108,6 @@ export const useTicketsLists = () => {
   };
 
   const ticketsActionDropdown = ticketsActionDropdownFunction?.(
-    // openDrawer,
     setDeleteModalOpen,
     markTicketAsClose,
     markTicketAsSpam,

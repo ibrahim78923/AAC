@@ -44,7 +44,7 @@ export const columns = (
   router: any,
 ): any => [
   {
-    accessorFn: (row: any) => row.id,
+    accessorFn: (row: any) => row?.id,
     id: 'id',
     cell: (info: any) => (
       <Checkbox
@@ -64,7 +64,7 @@ export const columns = (
               );
         }}
         color="primary"
-        name={info.getValue()}
+        name={info?.getValue()}
       />
     ),
     header: (
@@ -88,7 +88,7 @@ export const columns = (
       <Typography
         component="span"
         onClick={() =>
-          router.push({
+          router?.push({
             pathname: AIR_SERVICES?.ASSETS_SOFTWARE_DETAIL,
             query: {
               softwareId: info?.row?.id,
@@ -98,7 +98,7 @@ export const columns = (
         color="custom.bright"
         sx={{ cursor: 'pointer' }}
       >
-        {info.getValue()}
+        {info?.getValue()}
       </Typography>
     ),
   },

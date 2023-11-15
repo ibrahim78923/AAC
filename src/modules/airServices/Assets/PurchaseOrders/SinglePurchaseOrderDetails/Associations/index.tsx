@@ -5,7 +5,8 @@ import { useState } from 'react';
 import { AssociationsDrawer } from './AssociationsDrawer';
 import { SingleAssociationsTicket } from './SingleAssociationsTicket';
 import { associationsTicketData } from './Associations.data';
-import { NoAssociationFound } from '@/assets/images';
+import { NoAssociationFoundImage } from '@/assets/images';
+import { v4 as uuidv4 } from 'uuid';
 
 export const Associations = () => {
   const theme: any = useTheme();
@@ -16,7 +17,7 @@ export const Associations = () => {
       {associationsTicketData?.length === 0 ? (
         <>
           <NoData
-            image={NoAssociationFound}
+            image={NoAssociationFoundImage}
             message={
               'Make approved purchases by sending the order to your stakeholders for approval'
             }
@@ -44,15 +45,16 @@ export const Associations = () => {
                 backgroundColor: theme?.palette?.primary?.light,
                 color: theme?.palette?.primary?.main,
               }}
+              onClick={() => setOpenDrawer(true)}
               variant="outlined"
               startIcon={<AddCircleIcon />}
             >
               Associate
             </Button>
           </Box>
-          <SingleAssociationsTicket
-            associationsTicketData={associationsTicketData}
-          />
+          {associationsTicketData?.map((item: any) => (
+            <SingleAssociationsTicket key={uuidv4()} associationsItem={item} />
+          ))}
         </>
       )}
 

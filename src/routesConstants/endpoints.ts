@@ -1,6 +1,6 @@
-export const endpoints = {
-  login: 'auth/signin',
-  signup: 'auth/signup',
+export const END_POINTS = {
+  LOGIN: 'auth/signin',
+  SIGNUP: 'auth/signup',
   verify_token: 'auth/verify-token',
   search_company: 'auth/signup',
   get_permissions: '/premissions',
@@ -13,8 +13,8 @@ export const endpoints = {
   USER_ACCOUNTS_LIST: '/super-admin/accounts-list',
   UPDATE_USER_LIST: '/users/edit',
   COMPANY_CRN: '/auth/search-company',
-  auth_search_company: 'auth/search-company',
-  auth_IG_Verification: 'auth/ig-verification',
+  AUTH_SEARCH_COMPANY: 'auth/search-company',
+  AUTH_IG_VERIFICATION: 'auth/ig-verification',
 };
 
 export const superAdminBillingInvoices = {

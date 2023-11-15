@@ -1,10 +1,10 @@
-import { endpoints } from '@/routesConstants/endpoints';
+import { END_POINTS } from '@/routesConstants/endpoints';
 import { TAGS, baseAPI } from '../base-api';
 export const authAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     authLogin: builder.mutation({
       query: (credentials: string) => ({
-        url: endpoints.login,
+        url: END_POINTS.LOGIN,
         method: 'POST',
         body: credentials,
       }),
@@ -12,21 +12,21 @@ export const authAPI = baseAPI.injectEndpoints({
 
     signUp: builder.mutation({
       query: ({ user }: any) => ({
-        url: endpoints.signup,
+        url: END_POINTS.SIGNUP,
         method: 'POST',
         body: user,
       }),
     }),
     forgotPassword: builder.mutation({
       query: (user: string) => ({
-        url: endpoints.forgot_password,
+        url: END_POINTS.FORGOT_PASSWORD,
         method: 'POST',
         body: user,
       }),
     }),
     resetPassword: builder.mutation({
       query: (user: string) => ({
-        url: endpoints.reset_password,
+        url: END_POINTS.RESET_PASSWORD,
         method: 'POST',
         body: user,
       }),
@@ -34,7 +34,7 @@ export const authAPI = baseAPI.injectEndpoints({
 
     authCompanyVerification: builder.mutation({
       query: ({ email }: any) => ({
-        url: endpoints.auth_IG_Verification,
+        url: END_POINTS.AUTH_IG_VERIFICATION,
         method: 'POST',
         body: email,
       }),
@@ -46,7 +46,7 @@ export const authAPI = baseAPI.injectEndpoints({
     }),
     getPermissions: builder.query({
       query: () => ({
-        url: endpoints.get_permissions,
+        url: END_POINTS.GET_PERMISSIONS,
         method: 'GET',
       }),
       providesTags: ['permissions'],
@@ -54,7 +54,7 @@ export const authAPI = baseAPI.injectEndpoints({
 
     getAuthCompanies: builder.query({
       query: ({ q }) => ({
-        url: `${endpoints.auth_search_company}?by=crn&q=${q}`,
+        url: `${END_POINTS.AUTH_SEARCH_COMPANY}?by=crn&q=${q}`,
         method: 'GET',
       }),
       providesTags: ['companies'],

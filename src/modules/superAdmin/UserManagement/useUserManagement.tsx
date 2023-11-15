@@ -18,6 +18,7 @@ const useUserManagement = () => {
   const [selectedValue, setSelectedValue] = useState(null);
   const [tabVal, setTabVal] = useState<number>(0);
   const [search, setSearch] = useState('');
+  // imports users API's
   const {
     useGetUsersQuery,
     useUpdateUsersMutation,

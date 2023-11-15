@@ -1,9 +1,9 @@
 import { RHFEditor, RHFSelect } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
-export const addOutcomeValidation = Yup.object().shape({
-  addOutcome: Yup.string().required('Field is Required'),
-  description: Yup.string().trim().required('Field is Required'),
+export const addOutcomeValidation = Yup?.object()?.shape({
+  addOutcome: Yup?.string()?.required('Field is Required'),
+  description: Yup?.string()?.trim()?.required('Field is Required'),
 });
 
 export const addOutcomeDefaultValues = {

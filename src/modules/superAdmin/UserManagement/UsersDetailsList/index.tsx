@@ -1,5 +1,4 @@
 import Image from 'next/image';
-
 import {
   Box,
   Button,
@@ -39,6 +38,7 @@ import Filter from './Filter';
 import AddCompanyDetails from './AddCompanyDetails';
 import StatusBadge from '@/components/StatusBadge';
 import { v4 as uuidv4 } from 'uuid';
+import useUserManagement from '../useUserManagement';
 
 const UsersDetailsList = () => {
   const {
@@ -61,10 +61,12 @@ const UsersDetailsList = () => {
     setTabVal,
     theme,
     navigate,
-    useGetUsersByIdQuery,
   }: any = useUserDetailsList();
+  const { useGetUsersByIdQuery } = useUserManagement();
   const { id } = navigate.query;
+
   const { data } = useGetUsersByIdQuery(id);
+  const userDetails = data?.data;
 
   return (
     <Box>
@@ -82,14 +84,17 @@ const UsersDetailsList = () => {
               py={1}
               sx={{ display: 'flex', justifyContent: 'space-between' }}
             >
-              <Stack direction={'row'} alignItems={'center'}>
+              <Stack direction={'row'} gap={1} alignItems="center">
                 <ArrowBack
                   onClick={() => {
                     navigate.push(SUPER_ADMIN.USERMANAGMENT);
                   }}
                   sx={{ cursor: 'pointer' }}
                 />
-                <Typography variant="h3">Olivia</Typography>
+                <Typography variant="h3">
+                  {userDetails?.firstName} {userDetails?.middleName}{' '}
+                  {userDetails?.lastName}
+                </Typography>
               </Stack>
               <Stack direction={'row'} gap={1}>
                 <Button
@@ -213,7 +218,13 @@ const UsersDetailsList = () => {
         <Grid item xl={9} lg={8} xs={12}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <ProfileCard handleEditProfile={() => setTabVal(1)} />
+              <ProfileCard
+                userName={`${userDetails?.firstName} ${userDetails?.middleName} ${userDetails?.lastName}`}
+                role={userDetails?.role}
+                email={userDetails?.email}
+                phone={userDetails?.phoneNumber}
+                handleEditProfile={() => setTabVal(1)}
+              />
             </Grid>
             <Grid item xs={12}>
               <Box
@@ -263,7 +274,6 @@ const UsersDetailsList = () => {
           </Grid>
         </Grid>
       </Grid>
-
       {isOpenAddAccountDrawer && (
         <AddAccountDrawer
           isOpen={isOpenAddAccountDrawer}
