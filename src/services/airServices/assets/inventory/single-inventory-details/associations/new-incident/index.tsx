@@ -6,9 +6,10 @@ const TAG = ['NEW_INCIDENT'];
 export const newIncidentApi = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     postNewIncident: builder.mutation({
-      query: () => ({
-        url: `${END_POINTS.NEW_INCIDENT}`,
+      query: (postInventoryParameter: any) => ({
+        url: `${END_POINTS?.NEW_INCIDENT}`,
         method: 'post',
+        body: postInventoryParameter?.body,
       }),
       invalidatesTags: [TAG],
     }),

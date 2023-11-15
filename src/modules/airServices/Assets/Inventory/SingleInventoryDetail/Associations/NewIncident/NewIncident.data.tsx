@@ -7,6 +7,10 @@ import {
   RHFTextField,
   RHFTimePicker,
 } from '@/components/ReactHookForm';
+import {
+  ticketPriorityOptions,
+  ticketStatusOptions,
+} from '@/modules/airServices/ServicesTickets/ServicesTickets.data';
 import * as Yup from 'yup';
 
 export const validationSchema = Yup?.object()?.shape({
@@ -95,12 +99,7 @@ export const dataArray = [
       fullWidth: true,
       select: true,
     },
-    options: [
-      { value: 'Open', label: 'Open' },
-      { value: 'Close', label: 'Close' },
-      { value: 'Pending', label: 'Pending' },
-      { value: 'Resolved', label: 'Resolved' },
-    ],
+    options: ticketStatusOptions,
     component: RHFSelect,
     md: 12,
   },
@@ -111,12 +110,7 @@ export const dataArray = [
       fullWidth: true,
       select: true,
     },
-    options: [
-      { value: 'Low', label: 'Low' },
-      { value: 'Medium', label: 'Medium' },
-      { value: 'High', label: 'High' },
-      { value: 'Urgent', label: 'Urgent' },
-    ],
+    options: ticketPriorityOptions,
     component: RHFSelect,
     md: 12,
   },
