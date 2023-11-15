@@ -7,7 +7,6 @@ import { addFaqsFiltersDataArray } from './AddFaq.data';
 import { v4 as uuidv4 } from 'uuid';
 
 const AddFaq = ({
-  title,
   isAddModalOpen,
   onClose,
   handleSubmit,
@@ -21,8 +20,8 @@ const AddFaq = ({
       open={isAddModalOpen}
       handleClose={onClose}
       handleSubmit={handleSubmit}
-      title={title}
-      okText="add"
+      title={'Add a New FAQ'}
+      okText="Add"
       footer={true}
       isLoading={isLoading}
     >

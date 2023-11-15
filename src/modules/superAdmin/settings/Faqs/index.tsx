@@ -1,5 +1,4 @@
 import React from 'react';
-
 import {
   Box,
   Button,
@@ -28,6 +27,7 @@ import { styles } from './Faqs.styles';
 
 import { v4 as uuidv4 } from 'uuid';
 import useFaqs from './useFaqs';
+import EditFaq from './EditFaq';
 
 const Faqs = () => {
   const {
@@ -49,7 +49,6 @@ const Faqs = () => {
     methodsFilter,
     handleFiltersSubmit,
     handleRefresh,
-    modalTitle,
     openModalAddFaq,
     handleOpenModalFaq,
     handleCloseModalFaq,
@@ -61,6 +60,10 @@ const Faqs = () => {
     isFaqsDeleteModal,
     handleOpenModalDelete,
     handleCloseModalDelete,
+    openModalEditFaq,
+    handleOpenModalEditFaq,
+    handleCloseModalEditFaq,
+    methodsUpdateFaqs,
   } = useFaqs();
   const theme = useTheme();
   const getFaqsTableColumns = columns(
@@ -151,10 +154,16 @@ const Faqs = () => {
                 'aria-labelledby': 'basic-button',
               }}
             >
-              <MenuItem onClick={() => handleOpenModalFaq('Edit FAQ')}>
+              <MenuItem
+                disabled={tableRowValues.length !== 1}
+                onClick={() => handleOpenModalEditFaq('Edit FAQ')}
+              >
                 Edit
               </MenuItem>
-              <MenuItem onClick={() => handleOpenModalFaq('FAQ')}>
+              <MenuItem
+                disabled={tableRowValues.length !== 1}
+                onClick={() => handleOpenModalEditFaq('FAQ')}
+              >
                 View
               </MenuItem>
               <MenuItem onClick={handleOpenModalDelete}>Delete</MenuItem>
@@ -217,13 +226,20 @@ const Faqs = () => {
         loading={loadingDelete}
       />
       <AddFaq
-        title={modalTitle}
         isAddModalOpen={openModalAddFaq}
         onClose={handleCloseModalFaq}
         formMethods={methodsAddFaqs}
         handleSubmit={handleAddFaqSubmit}
         isLoading={loadingAddFaq}
-        // faqID={tableRowValues[0]}
+      />
+
+      <EditFaq
+        title={'Edit'}
+        isModalOpen={openModalEditFaq}
+        onClose={handleCloseModalEditFaq}
+        formMethods={methodsUpdateFaqs}
+        handleSubmit={handleAddFaqSubmit}
+        isLoading={loadingAddFaq}
       />
     </Box>
   );

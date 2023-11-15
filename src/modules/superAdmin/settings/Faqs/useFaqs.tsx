@@ -14,8 +14,13 @@ import {
   addFaqsValidationSchema,
   addFaqsDefaultValues,
 } from './AddFaq/AddFaq.data';
+import {
+  editFaqsValidationSchema,
+  editFaqsDefaultValues,
+} from './EditFaq/EditFaq.data';
 
 const useFaqs = () => {
+  const [faqId, setFaqId] = useState(null);
   const [isDisabled, setIsDisabled] = useState(true);
   const [modalTitle, setModalTitle] = useState('FAQ');
   const [tableRowValues, setTableRowValues] = useState([]);
@@ -28,9 +33,7 @@ const useFaqs = () => {
     methodsFilter;
   const { data: dataGetFaqs, isLoading: loagingGetFaqs } =
     useGetFaqsQuery(filterParams);
-  const { data: dataSingleFaq, isLoading: loadingFaq } = useGetFaqsByIdQuery(
-    tableRowValues[0],
-  );
+
   // Dropdown Menu
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const actionMenuOpen = Boolean(anchorEl);
@@ -146,6 +149,40 @@ const useFaqs = () => {
   };
   const handleAddFaqSubmit = handleMethodAddFaq(onSubmitAddFaq);
 
+  // Update FAQ
+  // const [initValues, setInitValues] = useState({
+  //   faqCategory: '',
+  //   faqQuestion: '',
+  //   faqAnswer: '',
+  // });
+  const {
+    data: dataSingleFaq,
+    isLoading: loadingFaq,
+    refetch: refetchSingleFaq,
+  } = useGetFaqsByIdQuery(tableRowValues[0]);
+  const [openModalEditFaq, setOpenModalEditFaq] = useState(false);
+  const handleOpenModalEditFaq = (title: string) => {
+    setFaqId(tableRowValues[0]);
+    setModalTitle(title);
+    setOpenModalEditFaq(true);
+    handleActionsMenuClose();
+    // setInitValues({
+    //   faqCategory: dataSingleFaq?.data?.faqCategory,
+    //   faqQuestion: dataSingleFaq?.data?.faqQuestion,
+    //   faqAnswer: dataSingleFaq?.data?.faqAnswer,
+    // });
+  };
+  const handleCloseModalEditFaq = () => {
+    setOpenModalEditFaq(false);
+  };
+
+  const methodsUpdateFaqs = useForm({
+    resolver: yupResolver(editFaqsValidationSchema),
+    defaultValues: editFaqsDefaultValues,
+  });
+
+  // const { handleSubmit: handleMethodEditFaq, reset: resetEditFaqForm } = methodsAddFaqs;
+
   // Delete Faq
   const [isFaqsDeleteModal, setIsFaqsDeleteModal] = useState(false);
   const [deleteFaq, { isLoading: loadingDelete }] = useDeleteFaqsMutation();
@@ -182,13 +219,13 @@ const useFaqs = () => {
     setIsDisabled,
     tableRowValues,
     setTableRowValues,
+    faqId,
+    setFaqId,
     openFilters,
     handleOpenFilters,
     handleCloseFilters,
     loagingGetFaqs,
     dataGetFaqs,
-    dataSingleFaq,
-    loadingFaq,
     handleSearch,
     searchValue,
     methodsFilter,
@@ -207,6 +244,13 @@ const useFaqs = () => {
     isFaqsDeleteModal,
     handleOpenModalDelete,
     handleCloseModalDelete,
+    openModalEditFaq,
+    handleOpenModalEditFaq,
+    handleCloseModalEditFaq,
+    methodsUpdateFaqs,
+    loadingFaq,
+    refetchSingleFaq,
+    dataSingleFaq,
   };
 };
 
