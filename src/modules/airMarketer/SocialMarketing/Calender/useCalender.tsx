@@ -60,7 +60,7 @@ const useCalender = () => {
 
   const router = useRouter();
   const calendarDateClick = () => {
-    router.push(`${airMarketingCalendar?.create_post}`);
+    router?.push(`${airMarketingCalendar?.create_post}`);
   };
 
   const eventContentHandler = (eventInfo: any) => {
@@ -106,7 +106,7 @@ const useCalender = () => {
                   },
                 }}
                 alt="Instagram Image"
-                src={AvatarImage.src}
+                src={AvatarImage?.src}
               />
               <Box sx={{ position: 'absolute', right: '0', bottom: '-2px' }}>
                 {event?.extendedProps?.SocailMedia === 'youtube' && (
@@ -146,7 +146,7 @@ const useCalender = () => {
   };
 
   const handleNextClick = () => {
-    const newDate = dayjs(calendarDate).add(1, 'day').format('D MMMM YYYY');
+    const newDate = dayjs(calendarDate)?.add(1, 'day')?.format('D MMMM YYYY');
     setCalendarDate(newDate);
   };
 

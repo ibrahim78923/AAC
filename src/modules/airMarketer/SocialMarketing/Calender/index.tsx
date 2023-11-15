@@ -12,6 +12,7 @@ import { styles } from './Calendar.style';
 import { v4 as uuidv4 } from 'uuid';
 import { AvatarImage, EventImage } from '@/assets/images';
 import Image from 'next/image';
+import { airMarketingCalendar } from '@/routesConstants/paths';
 
 const Calender = () => {
   const {
@@ -40,9 +41,7 @@ const Calender = () => {
           sx={{ float: 'right', marginBottom: '25px' }}
           variant="contained"
           className="small"
-          onClick={() =>
-            router.push('/air-marketer/social-marketing/create-post')
-          }
+          onClick={() => router?.push(`${airMarketingCalendar?.create_post}`)}
         >
           Create Post
         </Button>
@@ -99,7 +98,6 @@ const Calender = () => {
             { day: '2-digit', month: 'long', year: 'numeric', weekday: 'long' },
           ]}
           dateClick={calendarDateClick}
-          // dateClick={()=>router.push('/air-marketer/social-marketing/create-post')}
           eventClick={handleEventClick}
         />
       </Box>
@@ -238,7 +236,7 @@ const Calender = () => {
                     }}
                   >
                     <Box>
-                      <Avatar alt="Instagram Image" src={AvatarImage.src} />
+                      <Avatar alt="Instagram Image" src={AvatarImage?.src} />
                     </Box>
                     <Box sx={{ marginLeft: '10px' }}>
                       <Typography

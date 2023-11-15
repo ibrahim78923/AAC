@@ -59,7 +59,7 @@ const Filters = () => {
                 marginLeft: '-20px',
               }}
               alt="Instagram Image"
-              src={InstagramImage.src}
+              src={InstagramImage?.src}
             />
             <Avatar
               style={{
@@ -67,7 +67,7 @@ const Filters = () => {
                 marginLeft: '-20px',
               }}
               alt="Facebook Image"
-              src={FacebookImage.src}
+              src={FacebookImage?.src}
             />
             <Avatar
               style={{
@@ -75,7 +75,7 @@ const Filters = () => {
                 marginLeft: '-20px',
               }}
               alt="YoutubeImage"
-              src={YoutubeImage.src}
+              src={YoutubeImage?.src}
             />
             <Avatar
               style={{
@@ -83,7 +83,7 @@ const Filters = () => {
                 marginLeft: '-20px',
               }}
               alt="Twitter Image"
-              src={TwitterImage.src}
+              src={TwitterImage?.src}
             />
           </AvatarGroup>{' '}
           Platforms
@@ -149,7 +149,7 @@ const Filters = () => {
                 },
               }}
               alt="Facebook Image"
-              src={AvatarImage.src}
+              src={AvatarImage?.src}
             />
             <Avatar
               style={{
@@ -165,7 +165,7 @@ const Filters = () => {
                 },
               }}
               alt="YoutubeImage"
-              src={AvatarImage.src}
+              src={AvatarImage?.src}
             />
             <Avatar
               style={{
@@ -181,7 +181,7 @@ const Filters = () => {
                 },
               }}
               alt="Twitter Image"
-              src={AvatarImage.src}
+              src={AvatarImage?.src}
             />
           </AvatarGroup>{' '}
           Profiles
