@@ -15,7 +15,7 @@ function CatalogService() {
   const router = useRouter();
   const theme: any = useTheme();
   const serviceData = allsServices.find(
-    (x: any) => x?.id == router?.query?.serviceId,
+    (service: any) => service?.id == router?.query?.serviceId,
   );
   const { open, handleClickOpen, setOpen } = useCatalog();
   return (

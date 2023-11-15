@@ -11,7 +11,7 @@ function Catalog() {
     <>
       <Typography variant="h3">All Services</Typography>
       <Grid container spacing={2}>
-        {services.map((service) => (
+        {services?.map((service) => (
           <Grid item xs={12} md={6} lg={3} key={uuidv4()}>
             <Box
               onClick={() => handleClick(service?.title)}
@@ -59,7 +59,7 @@ function Catalog() {
         ))}
       </Grid>
       <Grid container spacing={2}>
-        {result.map((allsService: any) => (
+        {result?.map((allsService: any) => (
           <Grid item xs={12} md={6} lg={4} key={uuidv4()}>
             <Box
               key={uuidv4()}

@@ -11,7 +11,7 @@ import { dataBackUp } from '../CatalogService/CatalogService.data';
 const CatalogServiceBackUp = () => {
   const router = useRouter();
   const serviceData = allsServices?.find(
-    (x: any) => x?.id == router?.query?.serviceId,
+    (service: any) => service?.id == router?.query?.serviceId,
   );
   const { method, onSubmit } = useCatalogService();
   return (
@@ -27,13 +27,12 @@ const CatalogServiceBackUp = () => {
           {dataBackUp?.map((item: any) => (
             <Grid item xs={12} md={item?.md} key={uuidv4()}>
               <item.component {...item.componentProps} size={'small'}>
-                {item?.componentProps?.select
-                  ? item?.options?.map((option: any) => (
-                      <option key={option?.value} value={option?.value}>
-                        {option?.label}
-                      </option>
-                    ))
-                  : null}
+                {item?.componentProps?.select &&
+                  item?.options?.map((option: any) => (
+                    <option key={option?.value} value={option?.value}>
+                      {option?.label}
+                    </option>
+                  ))}
               </item.component>
             </Grid>
           ))}

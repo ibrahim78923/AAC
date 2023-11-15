@@ -14,9 +14,9 @@ import { usePostExpenseInfoDataMutation } from '@/services/airServices/Assets/In
 import { useRouter } from 'next/router';
 
 export const useExpense = () => {
-  const [postExpenseInfoDataTrigger, postExpenseInfoDataStatus] =
+  const [postExpenseInfoDataTrigger, postExpenseInfoResponse] =
     usePostExpenseInfoDataMutation();
-  // const { query } = useRouter();
+
   const router = useRouter();
   const [selectedExpenseList, setSelectedExpenseList] = useState([]);
   const [addExpenseModalTitle, setAddExpenseModalTitle] =
@@ -137,6 +137,6 @@ export const useExpense = () => {
     dropdownOptions,
     addExpenseProps,
     actionProps,
-    postExpenseInfoDataStatus,
+    postExpenseInfoResponse,
   };
 };

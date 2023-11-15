@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 const CatalogServiceSoftware = () => {
   const router = useRouter();
   const serviceData = allsServices?.find(
-    (x: any) => x?.id == router?.query?.serviceId,
+    (service: any) => service?.id == router?.query?.serviceId,
   );
   return (
     <>

@@ -13,7 +13,7 @@ function CatalogItemRequest() {
   useWatch<any>({ control, name: 'requestForSomeOneElse' });
   const router = useRouter();
   const serviceData: any = allsServices?.find(
-    (x: any) => x?.id == router?.query?.serviceId,
+    (service: any) => service?.id == router?.query?.serviceId,
   );
   const { serviceId } = serviceData;
 
@@ -24,9 +24,9 @@ function CatalogItemRequest() {
           {placeRequest?.map((item: any) => {
             const { shouldDisplay } = item;
             let display = true;
-            if (shouldDisplay)
-              display = shouldDisplay({ getValues, other: { serviceId } });
-            if (!display) return null;
+            shouldDisplay &&
+              (display = shouldDisplay({ getValues, other: { serviceId } }));
+            if (!display) return <></>;
             return (
               <Grid item xs={12} md={item?.md} key={uuidv4()}>
                 <item.component {...item?.componentProps} size={'small'} />
