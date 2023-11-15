@@ -1,36 +1,28 @@
 import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
-import {
-  ticketsFilterDefaultFormValuesFunction,
-  ticketsFilterFormFieldsDataFunction,
-  ticketsFilterFormSchema,
-} from './TicketsFilter.data';
-import { yupResolver } from '@hookform/resolvers/yup';
+import { ticketsFilterFormFieldsDataFunction } from './TicketsFilter.data';
 import { useForm } from 'react-hook-form';
-import { enqueueSnackbar } from 'notistack';
 
 export const useTicketsFilter = (props: any) => {
-  const { setIsDrawerOpen } = props;
+  const { setIsDrawerOpen, setTicketsFilter } = props;
   const router = useRouter();
   const theme: any = useTheme();
   const ticketsFilterFormFieldsData = ticketsFilterFormFieldsDataFunction();
 
-  const methods: any = useForm({
-    resolver: yupResolver(ticketsFilterFormSchema),
-    defaultValues: ticketsFilterDefaultFormValuesFunction(),
-  });
-  const { handleSubmit, reset } = methods;
-  //TODO: will use in BE integration
-  //   useEffect(() => {
-  //     reset(() => ticketsFilterDefaultFormValuesFunction(data?.data));
-  //   }, [data, reset]);
+  const methods: any = useForm({});
 
-  const submitTicketFilterForm = async () => {
-    enqueueSnackbar(`Ticket Filtered Successfully`, {
-      variant: 'success',
-    });
-    reset(ticketsFilterDefaultFormValuesFunction?.());
-    setIsDrawerOpen?.(false);
+  const { handleSubmit, reset } = methods;
+
+  const submitTicketFilterForm = async (data: any) => {
+    const ticketsFiltered = Object?.entries(data || {})?.filter(
+      ([, value]: any) => value !== undefined && value != '',
+    );
+    if (!!!ticketsFiltered?.length) {
+      onClose();
+      return;
+    }
+    setTicketsFilter(ticketsFiltered);
+    onClose();
   };
 
   const resetTicketFilterForm = async () => {
@@ -40,7 +32,7 @@ export const useTicketsFilter = (props: any) => {
   const onClose = () => {
     //TODO: destructing as i do not need that in rest queries.
     /* eslint-disable @typescript-eslint/no-unused-vars */
-    const { tableAction, ...restQueries } = router?.query;
+    const { ticketAction, ...restQueries } = router?.query;
     router?.push({
       pathname: router?.pathname,
       query: {
@@ -50,6 +42,7 @@ export const useTicketsFilter = (props: any) => {
     reset?.();
     setIsDrawerOpen?.(false);
   };
+
   return {
     ticketsFilterFormFieldsData,
     router,

@@ -8,12 +8,14 @@ export const TAGS = [
   'PLAN_MANEGEMENT',
   'INVENTORY_EXPENSE',
   'Organization',
+  'TICKETS',
 ];
 
 const baseQuery = fetchBaseQuery({
   baseUrl: BASE_URL,
   prepareHeaders: (headers) => {
     const token: string | null = null;
+
     if (token) {
       headers.set('Authorization', `Bearer ${token}`);
     }
