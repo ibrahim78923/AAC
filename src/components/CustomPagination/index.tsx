@@ -9,16 +9,18 @@ import {
 } from '@mui/material';
 
 import { styles } from './CustomPagination.style';
+import { PAGINATION } from '@/config';
 
 const CustomPagination = (props: any) => {
   const {
-    count,
-    rowsPerPageOptions,
-    pageLimit,
-    currentPage,
+    count = PAGINATION?.PAGE_COUNT,
+    rowsPerPageOptions = PAGINATION?.ROWS_PER_PAGE,
+    pageLimit = PAGINATION?.PAGE_LIMIT,
+    currentPage = PAGINATION?.CURRENT_PAGE,
     onPageChange,
     setPage,
     setPageLimit,
+    totalRecords = PAGINATION?.TOTAL_RECORDS,
   } = props;
 
   const theme = useTheme();
@@ -35,16 +37,14 @@ const CustomPagination = (props: any) => {
         <Box>
           <TablePagination
             component="div"
-            count={count}
-            page={currentPage}
+            count={totalRecords}
+            page={currentPage - 1}
             onPageChange={(_: any, page) => onPageChange?.(page)}
             rowsPerPage={pageLimit}
             onRowsPerPageChange={(event: any) => {
               setPageLimit?.(parseInt(event?.target?.value, 10));
-              setPage?.(1);
+              setPage?.(0);
             }}
-            labelRowsPerPage="Show"
-            labelDisplayedRows={() => `of ${count * pageLimit || 1} entries`}
             rowsPerPageOptions={rowsPerPageOptions}
             sx={styles?.tablePaginationStyle(theme)}
           />

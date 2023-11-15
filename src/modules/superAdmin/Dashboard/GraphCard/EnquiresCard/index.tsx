@@ -2,7 +2,7 @@ import React from 'react';
 
 import dynamic from 'next/dynamic';
 
-import { Box, Typography, Grid } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 
 import useEnquiriesCards from './useEnquiriesCards';
 
@@ -16,62 +16,27 @@ const EnquiriesCard = () => {
 
   return (
     <>
-      <Box sx={style.mainBox(theme)}>
-        <Grid container spacing={2}>
-          <Grid item lg={6} md={6} sm={12} xs={12}>
-            <Typography
-              variant="body2"
-              sx={{ color: `${theme?.palette?.grey[800]}`, fontWeight: 600 }}
-            >
-              Enquires
-            </Typography>
-            <Box
-              sx={{
-                display: 'grid',
-                justifyItems: 'center',
-                rowGap: '10px',
-                paddingY: '1.5rem',
-              }}
-            >
-              <Typography variant="body2" sx={style.enquryTypo}>
-                Complete
-                <Box sx={style.completePercent(theme)}>
-                  <Typography
-                    variant="body3"
-                    sx={{
-                      fontWeight: 400,
-                      color: `${theme?.palette?.common.white}`,
-                    }}
-                  >
-                    65%
-                  </Typography>
-                </Box>
-              </Typography>
-              <Typography variant="body2" sx={style.enquryTypo}>
-                Pending
-                <Box sx={style.pendingPercent(theme)}>
-                  <Typography
-                    variant="body3"
-                    sx={{
-                      fontWeight: 400,
-                      color: `${theme?.palette?.common.white}`,
-                    }}
-                  >
-                    35%
-                  </Typography>
-                </Box>
-              </Typography>
-            </Box>
-          </Grid>
-          <Grid item lg={6} md={6} sm={12} xs={12}>
-            <ReactApexChart
-              options={options}
-              series={series}
-              type="donut"
-              height={210}
-            />
-          </Grid>
-        </Grid>
+      <Box sx={style?.mainBox(theme)}>
+        <Box>
+          <Typography
+            variant="body2"
+            sx={{
+              color: `${theme?.palette?.grey[800]}`,
+              fontWeight: 600,
+              textAlign: 'start',
+            }}
+          >
+            Enquires
+          </Typography>
+        </Box>
+        <Box sx={style?.chartBox}>
+          <ReactApexChart
+            options={options}
+            series={series}
+            type="donut"
+            height={250}
+          />
+        </Box>
       </Box>
     </>
   );

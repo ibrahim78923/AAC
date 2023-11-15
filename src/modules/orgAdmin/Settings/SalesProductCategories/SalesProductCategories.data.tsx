@@ -1,8 +1,9 @@
-import { Checkbox, MenuItem, Select } from '@mui/material';
+import { Checkbox } from '@mui/material';
 
 import { RHFEditor, RHFTextField } from '@/components/ReactHookForm';
 
 import * as Yup from 'yup';
+import StatusBadge from '@/components/StatusBadge';
 
 export const ProductCategoryvalidationSchema = Yup.object().shape({
   ProductCategoryName: Yup.string().required('Field is Required'),
@@ -66,16 +67,19 @@ export const columns = (
   setIschecked: any,
   ischecked: any,
   isGetRowValues: any,
+  userStatus: any,
+  setUserStatus: any,
+  theme: any,
 ) => {
   return [
     {
-      accessorFn: (row: any) => row.Id,
+      accessorFn: (row: any) => row?.Id,
       id: 'Id',
       cell: (info: any) => (
         <Checkbox
           color="primary"
           checked={
-            info.cell.row.original.Id ===
+            info?.cell?.row?.original?.Id ===
               isGetRowValues?.cell?.row?.original?.Id && ischecked
           }
           name={info.getValue()}
@@ -88,41 +92,48 @@ export const columns = (
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row.name,
+      accessorFn: (row: any) => row?.name,
       id: 'name',
       cell: (info: any) => info.getValue(),
       header: 'Name',
       isSortable: true,
     },
     {
-      accessorFn: (row: any) => row.Description,
+      accessorFn: (row: any) => row?.Description,
       id: 'Description',
       isSortable: true,
       header: 'Created By',
       cell: (info: any) => info.getValue(),
     },
     {
-      accessorFn: (row: any) => row.createdDate,
+      accessorFn: (row: any) => row?.createdDate,
       id: 'createdDate',
       isSortable: true,
       header: 'Created Date',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row.action,
+      accessorFn: (row: any) => row?.action,
       id: 'action',
       isSortable: true,
       header: 'Action',
       cell: () => (
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={'age'}
-          label="Age"
-        >
-          <MenuItem value={10}>Active</MenuItem>
-          <MenuItem value={20}>Inactive</MenuItem>
-        </Select>
+        <StatusBadge
+          value={userStatus}
+          onChange={(e: any) => setUserStatus(e.target.value)}
+          options={[
+            {
+              label: 'Active',
+              value: 'active',
+              color: theme?.palette?.success?.main,
+            },
+            {
+              label: 'Inactive',
+              value: 'inactive',
+              color: theme?.palette?.error?.main,
+            },
+          ]}
+        />
       ),
     },
   ];

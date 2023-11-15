@@ -100,7 +100,7 @@ const SalesProduct = () => {
           <Typography variant="h4">Sales Product</Typography>
           <Button
             variant="contained"
-            sx={styles.createBtn}
+            sx={styles?.createBtn}
             onClick={() => (setIsDraweropen(true), setIsEditMode(false))}
           >
             <AddCircleIcon
@@ -112,7 +112,7 @@ const SalesProduct = () => {
             Create Product
           </Button>
         </Box>
-        <Box sx={styles.searchAction}>
+        <Box sx={styles?.searchAction}>
           <Search
             label={'Search here'}
             searchBy={productSearch}
@@ -131,7 +131,7 @@ const SalesProduct = () => {
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
             onClick={handleClick}
-            sx={styles.actionBtn(theme)}
+            sx={styles?.actionBtn(theme)}
             disabled={!isChecked}
           >
             Actions <ArrowDropDownIcon />

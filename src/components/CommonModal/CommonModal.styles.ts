@@ -8,6 +8,12 @@ export const styles = {
     bgcolor: '#fff',
     p: 2,
     borderRadius: '20px',
+    '@media (max-width:1200px)': {
+      width: '60vw',
+    },
+    '@media (max-width:581px)': {
+      width: '90vw',
+    },
   },
   headingText: {
     fontSize: '16px',

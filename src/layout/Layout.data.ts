@@ -9,6 +9,7 @@ import {
   BusyImage,
   CallImage,
   ChangeCircleImage,
+  CompaniesImage,
   ContactImage,
   CustomerPortalImage,
   DashboardImage,
@@ -563,6 +564,11 @@ export const QuickLinkData = [
     icon: MessageImage,
     path: '',
   },
+  {
+    key: '7',
+    icon: CompaniesImage,
+    path: '',
+  },
 ];
 
 const ROLES_ROUTES: any = {
@@ -593,4 +599,6 @@ export const zeroPaddingRoutes = [
   '/org-admin/users',
   '/super-admin/user-management/users-list',
   '/air-customer-portal',
+  '/air-marketer/social-marketing/social-inbox',
+  '/air-marketer/social-marketing',
 ];

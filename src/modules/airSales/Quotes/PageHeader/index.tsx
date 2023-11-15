@@ -6,14 +6,14 @@ import { styles } from './PageHeader.style';
 const PageHeader = () => {
   const router = useRouter();
   return (
-    <Box sx={styles.pageHeader}>
-      <Typography variant="h4" sx={styles.pageHeaderTitle}>
+    <Box sx={styles?.pageHeader}>
+      <Typography variant="h4" sx={styles?.pageHeaderTitle}>
         Quotes
       </Typography>
       <Stack direction="row" spacing={'12px'}>
         <Button
           className="small"
-          sx={styles.actionButton}
+          sx={styles?.actionButton}
           startIcon={<DownloadIcon />}
         >
           Download All

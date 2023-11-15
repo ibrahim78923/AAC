@@ -20,7 +20,6 @@ const Jobs = () => {
       sx={{
         borderRadius: '15px',
         border: '1px solid #EAECF0',
-        padding: '16px 24px',
       }}
     >
       <Box
@@ -29,6 +28,7 @@ const Jobs = () => {
           justifyContent: 'space-between',
           alignItems: 'center',
           marginBottom: '19px',
+          padding: '20px 20px 0px 20px',
         }}
       >
         <Typography variant="h3" sx={{ fontWeight: '600' }}>
@@ -45,10 +45,12 @@ const Jobs = () => {
         )}
       </Box>
 
-      <Tabs value={tabsValue} onChange={handleTabsChange}>
-        <Tab label="Job Posting" />
-        <Tab label="Job Application" />
-      </Tabs>
+      <Box sx={{ padding: '0px 24px' }}>
+        <Tabs value={tabsValue} onChange={handleTabsChange}>
+          <Tab label="Job Posting" />
+          <Tab label="Job Application" />
+        </Tabs>
+      </Box>
       {tabsValue === 0 && (
         <JobPosting
           isJobPostingDrawer={isJobPostingDrawer}

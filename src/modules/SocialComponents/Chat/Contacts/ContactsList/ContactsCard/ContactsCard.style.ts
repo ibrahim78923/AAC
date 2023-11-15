@@ -24,7 +24,7 @@ export const styles = {
       alignItems: 'center',
       justifyContent: 'center',
       fontSize: '10px',
-      marginLeft: '20px',
+      marginLeft: '30px',
     };
   },
 };

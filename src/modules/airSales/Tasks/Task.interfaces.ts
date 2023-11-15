@@ -1,5 +1,5 @@
 export interface TabPanelI {
   children?: React.ReactNode;
-  index: number;
-  value: number;
+  index?: number;
+  value?: number;
 }

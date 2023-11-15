@@ -17,6 +17,7 @@ const CommonModal = ({
   submitIcon,
   footer,
   footerFill,
+  headerIcon,
 }: ModelPropsI) => {
   return (
     <Modal
@@ -30,7 +31,15 @@ const CommonModal = ({
     >
       <>
         <Box sx={styles.parentBox}>
-          <Box sx={{ marginBottom: '20px' }}>
+          <Box
+            sx={{
+              marginBottom: '20px',
+              display: 'flex',
+              gap: 1,
+              alignItems: 'center',
+            }}
+          >
+            {headerIcon}
             <Typography variant="h5">{title}</Typography>
           </Box>
           {children}

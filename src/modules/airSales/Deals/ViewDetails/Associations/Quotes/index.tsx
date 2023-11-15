@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Box, Button, Grid, Typography, useTheme } from '@mui/material';
 
 import Search from '@/components/Search';
@@ -23,8 +23,8 @@ const Quotes = () => {
       }}
     >
       <Grid container spacing={2}>
-        <Grid item md={4} sx={styles.countBox}>
-          <Typography sx={styles.associationCount(theme)} variant="body3">
+        <Grid item md={4} sx={styles?.countBox}>
+          <Typography sx={styles?.associationCount(theme)} variant="body3">
             02
           </Typography>
 

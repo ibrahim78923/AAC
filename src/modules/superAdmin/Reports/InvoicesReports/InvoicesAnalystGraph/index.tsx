@@ -15,7 +15,7 @@ const InvoicesAnalystGraph = () => {
   });
 
   return (
-    <Box sx={styles.productWiseGraph}>
+    <Box sx={styles?.productWiseGraph}>
       <Typography
         sx={{
           color: `${theme?.palette?.custom.dark_blue}`,
@@ -23,7 +23,6 @@ const InvoicesAnalystGraph = () => {
           fontSize: '18px',
         }}
       >
-        {' '}
         Invoicing Analytics
       </Typography>
       <Box height="350px">

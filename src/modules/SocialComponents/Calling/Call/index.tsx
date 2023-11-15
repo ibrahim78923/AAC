@@ -26,10 +26,10 @@ const Call = () => {
   const theme = useTheme();
 
   return (
-    <Box sx={{ background: theme.palette.common.white }}>
+    <Box sx={{ background: theme?.palette?.common?.white }}>
       <Grid container>
         <Grid item xs={12} sm={12} md={12} lg={3}>
-          <Box sx={styles.leftWrapper}>
+          <Box sx={styles?.leftWrapper}>
             <CallLeftArea
               toggleCall={callsMode}
               setToggleCall={setCallsMode}
@@ -45,7 +45,7 @@ const Call = () => {
           </Box>
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={9}>
-          <Box sx={styles.rightWrapper}>
+          <Box sx={styles?.rightWrapper}>
             <CallRightArea
               callsMode={callsMode}
               activeCallsSelectedData={activeCallsSelectedData}

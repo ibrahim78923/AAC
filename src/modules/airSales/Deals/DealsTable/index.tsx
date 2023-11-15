@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Paper, Box } from '@mui/material';
 
 import TanstackTable from '@/components/Table/TanstackTable';
