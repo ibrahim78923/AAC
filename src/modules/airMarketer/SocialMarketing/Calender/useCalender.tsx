@@ -1,9 +1,15 @@
 import React, { useRef, useState } from 'react';
 import dayjs from 'dayjs';
-import { Checkbox, Switch } from '@mui/material';
+import { Avatar, Box, Checkbox, Typography, useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { airMarketingCalendar } from '@/routesConstants/paths';
+import { AvatarImage } from '@/assets/images';
+import {
+  FacebookRoundIcon,
+  InstagramRoundIcon,
+  YoutubeRoundIcon,
+} from '@/assets/icons';
 
 const useCalender = () => {
   const fullCalendarRef = useRef<any>(null);
@@ -11,11 +17,52 @@ const useCalender = () => {
   // const [isSelectedUser, setIsSelectedUser] = useState<boolean>(true);
   // const [workScheduleObj, setWorkScheduleObj] = useState({});
   const [selectedUserData, setSelectedUserData] = useState<any>({});
-
-  const [nonScheduledUser, setNonScheduledUser] = useState(false);
-
+  const [selectedEventData, setSelectedEventData] = useState<any>({});
+  const [modalEvents, setModalEvents] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const currentDate = dayjs().format('D MMMM YYYY');
   const [calendarDate, setCalendarDate] = useState(currentDate);
+
+  const theme = useTheme();
+
+  const SocailMediaEvent = [
+    {
+      title: 'However rare effects obse....',
+      SocailMedia: 'facebook',
+      start: '2023-11-06T10:00:00',
+      end: '2023-11-06T12:00:00',
+    },
+    {
+      title: 'However rare effects obse....',
+      SocailMedia: 'youtube',
+      start: '2023-11-06T10:00:00',
+      end: '2023-11-06T12:00:00',
+    },
+    {
+      title: 'However rare effects obse....',
+      SocailMedia: 'facebook',
+      start: '2023-11-06T10:00:00',
+      end: '2023-11-06T12:00:00',
+    },
+    {
+      title: 'However rare effects obse....',
+      SocailMedia: 'facebook',
+      start: '2023-11-06T10:00:00',
+      end: '2023-11-06T12:00:00',
+    },
+    {
+      title: 'i am always growing, learning....',
+      SocailMedia: 'instagram',
+      start: '2023-11-07T10:00:00',
+      end: '2023-11-07T12:00:00',
+    },
+    {
+      title: 'Nobody got a guided tour....',
+      SocailMedia: 'youtube',
+      start: '2023-11-20T10:00:00',
+      end: '2023-11-20T12:00:00',
+    },
+  ];
 
   let workSchedule: any;
   const router = useRouter();
@@ -61,26 +108,26 @@ const useCalender = () => {
     };
   });
 
-  const NonSchedulerWorkScheduleEvent =
-    filterNonScheduledUsers &&
-    filterNonScheduledUsers?.map((ele: any) => {
-      return {
-        id: ele?.userShift?.id || ele?.id,
-        title: ele?.userShift?.shift?.name || ele?.shift?.name,
-        resourceIds: [ele?.userShift?.user?.id || ele?.user?.id],
-        start: ele?.userShift?.effectiveFrom || ele?.effectiveFrom,
-        end: ele?.userShift?.effectiveTo || ele?.effectiveTo,
-        shift: ele?.userShift?.shift?.name || ele?.shift?.name,
-        total: ele?.userShift?.shift?.totalHours || ele?.shift?.totalHours,
-        shiftStart:
-          ele?.userShift?.shift?.shiftStartTime || ele?.shift?.shiftStartTime,
-        shiftEnd:
-          ele?.userShift?.shift?.shiftEndTime || ele?.shift?.shiftEndTime,
-        effiectiveHours:
-          ele?.userShift?.shift?.minEffectiveHours ||
-          ele?.shift?.minEffectiveHours,
-      };
-    });
+  // const NonSchedulerWorkScheduleEvent =
+  //   filterNonScheduledUsers &&
+  //   filterNonScheduledUsers?.map((ele: any) => {
+  //     return {
+  //       id: ele?.userShift?.id || ele?.id,
+  //       title: ele?.userShift?.shift?.name || ele?.shift?.name,
+  //       resourceIds: [ele?.userShift?.user?.id || ele?.user?.id],
+  //       start: ele?.userShift?.effectiveFrom || ele?.effectiveFrom,
+  //       end: ele?.userShift?.effectiveTo || ele?.effectiveTo,
+  //       shift: ele?.userShift?.shift?.name || ele?.shift?.name,
+  //       total: ele?.userShift?.shift?.totalHours || ele?.shift?.totalHours,
+  //       shiftStart:
+  //         ele?.userShift?.shift?.shiftStartTime || ele?.shift?.shiftStartTime,
+  //       shiftEnd:
+  //         ele?.userShift?.shift?.shiftEndTime || ele?.shift?.shiftEndTime,
+  //       effiectiveHours:
+  //         ele?.userShift?.shift?.minEffectiveHours ||
+  //         ele?.shift?.minEffectiveHours,
+  //     };
+  //   });
 
   const WorkScheduleUser = workScheduleEventMap?.map((ele: any) => {
     // const userImage = <img src={ele?.user?.profileImageName} alt={`${ele?.user?.firstName} ${ele?.user?.lastName}`} style={{ borderRadius: '50%' }} />;
@@ -140,45 +187,73 @@ const useCalender = () => {
   const eventContentHandler = (eventInfo: any) => {
     const event = eventInfo?.event?._def;
     const backgroundColor: any = {
-      MorningTest: '#FF6A6C',
-      EveningTest: '#37B4A4',
-      NightTest: '#FDCA64',
+      facebook: '#F0F5FF ',
+      instagram: '#FFEEF4',
+      youtube: '#FFE9E9',
     };
 
-    // let shiftColor = "#" + Math.floor(Math.random() * 16777215).toString(16);
+    const Color: any = {
+      facebook: '#47639D',
+      instagram: '#992F53',
+      youtube: '#D74646',
+    };
+
     return (
       <>
-        <div className="absent-grid d-flex justify-between h-100">
-          <div
-            className="absent-grid-item w-100 d-flex"
-            style={{
-              backgroundColor:
-                backgroundColor[event?.extendedProps?.shift] || '#37B4A4',
-            }}
-          >
-            <span className="absent-line"></span>
-            <div className="absent-grid-content ">
-              <h2 className="fs-14 fw-400 m-0">{event.title}</h2>
-              <div className="absent-grid-circle d-flex align-center">
-                <span
-                  style={{ backgroundColor: event?.extendedProps?.shift }}
-                ></span>
-                <p className="fs-12 fw-500 m-0">
-                  {event?.extendedProps?.shift}
-                </p>
-              </div>
-              <div className="working-grid">
-                <h3 className="fs-12 fw-500 m-0">
-                  Working Hours : {event?.extendedProps?.total}
-                </h3>
-                <p className="fs-14 fw-600 m-0">
-                  {event?.extendedProps?.shiftStart} to&nbsp;
-                  {event?.extendedProps?.shiftEnd}
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
+        <Box
+          sx={{
+            backgroundColor:
+              backgroundColor[event?.extendedProps?.SocailMedia] || '#FFE9E9',
+            padding: '6px',
+            borderRadius: '4px',
+            width: '100%',
+            margin: '0 10px',
+          }}
+        >
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Box sx={{ position: 'relative' }}>
+              <Avatar
+                style={{
+                  border: 'none',
+                }}
+                sx={{
+                  '& .MuiAvatar-img': {
+                    width: '75%',
+                    height: '75%',
+                    border: `2px solid ${
+                      Color[event?.extendedProps?.SocailMedia] || '#D74646'
+                    }`,
+                    borderRadius: '50%',
+                  },
+                }}
+                alt="Instagram Image"
+                src={AvatarImage.src}
+              />
+              <Box sx={{ position: 'absolute', right: '0', bottom: '-2px' }}>
+                {event?.extendedProps?.SocailMedia === 'youtube' && (
+                  <YoutubeRoundIcon />
+                )}
+                {event?.extendedProps?.SocailMedia === 'instagram' && (
+                  <InstagramRoundIcon />
+                )}
+                {event?.extendedProps?.SocailMedia === 'facebook' && (
+                  <FacebookRoundIcon />
+                )}
+              </Box>
+            </Box>
+
+            <Typography
+              variant="body4"
+              sx={{
+                color: Color[event?.extendedProps?.SocailMedia] || '#D74646',
+                whiteSpace: 'initial',
+                fontWeight: '600',
+              }}
+            >
+              {event?.title}
+            </Typography>
+          </Box>
+        </Box>
       </>
     );
   };
@@ -231,29 +306,6 @@ const useCalender = () => {
     );
   };
 
-  const handleResourceHeaderContent = () => {
-    return (
-      <>
-        <div className="resource-user">
-          <h2 className="fs-12 fw-500 m-0 black-color">Users</h2>
-
-          <div className="d-flex align-center" style={{ gap: '20px' }}>
-            <p className="fs-12 fw-400 line-height-18 m-0">Show unschedule</p>
-            <Switch
-              defaultChecked
-              size="small"
-              onChange={() =>
-                setNonScheduledUser(
-                  (prevNonScheduledUser) => !prevNonScheduledUser,
-                )
-              }
-            />
-          </div>
-        </div>
-      </>
-    );
-  };
-
   const handlePrevClick = () => {
     const newDate = dayjs(calendarDate)
       .subtract(1, 'day')
@@ -267,23 +319,39 @@ const useCalender = () => {
     setCalendarDate(newDate);
   };
 
+  const handleEventClick = (info: any) => {
+    setSelectedEventData(info?.event);
+    setIsModalOpen(true);
+  };
+
+  const handleMoreLinkClick = (info: any) => {
+    setModalEvents(info?.allSegs);
+    setIsModalOpen(true);
+  };
+
   return {
     fullCalendarRef,
-    nonScheduledUser,
     WorkScheduleEvent,
-    NonSchedulerWorkScheduleEvent,
     WorkScheduleUser,
     nonSchedulerWorkScheduleUser,
     eventContentHandler,
     handleSlotContent,
     handleResourceRender,
-    handleResourceHeaderContent,
     currentDate,
     calendarDate,
     handlePrevClick,
     handleNextClick,
     calendarDateClick,
     router,
+    handleEventClick,
+    isModalOpen,
+    setIsModalOpen,
+    selectedEventData,
+    SocailMediaEvent,
+    handleMoreLinkClick,
+    modalEvents,
+    setModalEvents,
+    theme,
   };
 };
 

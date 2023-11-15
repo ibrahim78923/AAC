@@ -231,3 +231,6 @@ export { default as airOperationsIcon } from './modules/productSuite/air-operati
 export { default as airServicesIcon } from './modules/productSuite/air-services';
 export { default as callCenterIcon } from './modules/productSuite/call-center';
 export { default as loyaltyIcon } from './modules/productSuite/loyalty';
+export { default as YoutubeRoundIcon } from './modules/airMarketer/CreatePost/youtubeRound';
+export { default as FacebookRoundIcon } from './modules/airMarketer/CreatePost/facebookRound';
+export { default as InstagramRoundIcon } from './modules/airMarketer/CreatePost/instagramRound';

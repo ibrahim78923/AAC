@@ -144,3 +144,4 @@ export { default as TicketImage } from '../images/modules/socialComponents/compa
 export { default as NoteImage } from '../images/modules/socialComponents/companies/note.png';
 export { default as NoteAddImage } from '../images/modules/socialComponents/companies/noteAdd.png';
 export { default as ActivitesTimeImage } from '../images/modules/socialComponents/companies/ActivitiesWithoutTime.png';
+export { default as EventImage } from '../images/shared/EventImage.png';
