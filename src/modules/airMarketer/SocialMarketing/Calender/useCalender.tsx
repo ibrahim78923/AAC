@@ -1,8 +1,7 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import dayjs from 'dayjs';
-import { Avatar, Box, Checkbox, Typography, useTheme } from '@mui/material';
+import { Avatar, Box, Typography, useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
-import Image from 'next/image';
 import { airMarketingCalendar } from '@/routesConstants/paths';
 import { AvatarImage } from '@/assets/images';
 import {
@@ -12,11 +11,6 @@ import {
 } from '@/assets/icons';
 
 const useCalender = () => {
-  const fullCalendarRef = useRef<any>(null);
-
-  // const [isSelectedUser, setIsSelectedUser] = useState<boolean>(true);
-  // const [workScheduleObj, setWorkScheduleObj] = useState({});
-  const [selectedUserData, setSelectedUserData] = useState<any>({});
   const [selectedEventData, setSelectedEventData] = useState<any>({});
   const [modalEvents, setModalEvents] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -64,125 +58,10 @@ const useCalender = () => {
     },
   ];
 
-  let workSchedule: any;
   const router = useRouter();
-  // const data: any = [];
-  const getAllActiveUsers: any = [];
-
-  // workSchedule = data;
-
-  const workScheduleEventMap = workSchedule;
-
-  const filterNonScheduledUsers: any =
-    !!getAllActiveUsers?.data?.length &&
-    getAllActiveUsers?.data[0]?.filter(
-      (item: any) =>
-        !workScheduleEventMap?.some(
-          (eventUser: any) => eventUser?.user?.id === item?.id,
-        ),
-    );
-
-  const handleCheckbox = (e: any, selectedUserData: any) => {
-    // e.target.checked === true
-    //   ? setIsSelectedUser(false)
-    //   : setIsSelectedUser(true);
-
-    setSelectedUserData(!!e.target.checked ? selectedUserData : {});
-  };
-
-  const WorkScheduleEvent = workScheduleEventMap?.map((ele: any) => {
-    return {
-      id: ele?.userShift?.id || ele?.id,
-      title: ele?.userShift?.shift?.name || ele?.shift?.name,
-      resourceIds: [ele?.userShift?.user?.id || ele?.user?.id],
-      start: ele?.userShift?.effectiveFrom || ele?.effectiveFrom,
-      end: ele?.userShift?.effectiveTo || ele?.effectiveTo,
-      shift: ele?.userShift?.shift?.name || ele?.shift?.name,
-      total: ele?.userShift?.shift?.totalHours || ele?.shift?.totalHours,
-      shiftStart:
-        ele?.userShift?.shift?.shiftStartTime || ele?.shift?.shiftStartTime,
-      shiftEnd: ele?.userShift?.shift?.shiftEndTime || ele?.shift?.shiftEndTime,
-      effiectiveHours:
-        ele?.userShift?.shift?.minEffectiveHours ||
-        ele?.shift?.minEffectiveHours,
-    };
-  });
-
-  // const NonSchedulerWorkScheduleEvent =
-  //   filterNonScheduledUsers &&
-  //   filterNonScheduledUsers?.map((ele: any) => {
-  //     return {
-  //       id: ele?.userShift?.id || ele?.id,
-  //       title: ele?.userShift?.shift?.name || ele?.shift?.name,
-  //       resourceIds: [ele?.userShift?.user?.id || ele?.user?.id],
-  //       start: ele?.userShift?.effectiveFrom || ele?.effectiveFrom,
-  //       end: ele?.userShift?.effectiveTo || ele?.effectiveTo,
-  //       shift: ele?.userShift?.shift?.name || ele?.shift?.name,
-  //       total: ele?.userShift?.shift?.totalHours || ele?.shift?.totalHours,
-  //       shiftStart:
-  //         ele?.userShift?.shift?.shiftStartTime || ele?.shift?.shiftStartTime,
-  //       shiftEnd:
-  //         ele?.userShift?.shift?.shiftEndTime || ele?.shift?.shiftEndTime,
-  //       effiectiveHours:
-  //         ele?.userShift?.shift?.minEffectiveHours ||
-  //         ele?.shift?.minEffectiveHours,
-  //     };
-  //   });
-
-  const WorkScheduleUser = workScheduleEventMap?.map((ele: any) => {
-    // const userImage = <img src={ele?.user?.profileImageName} alt={`${ele?.user?.firstName} ${ele?.user?.lastName}`} style={{ borderRadius: '50%' }} />;
-    const title = `${
-      (ele?.user?.firstName?.charAt(0)?.toUpperCase() ||
-        ele?.userShift?.user?.firstName?.charAt(0)?.toUpperCase()) +
-      (ele?.user?.firstName?.slice(1) ||
-        ele?.userShift?.user?.firstName?.slice(1))
-    } ${
-      (ele?.user?.lastName?.charAt(0)?.toUpperCase() ||
-        ele?.userShift?.user?.lastName?.charAt(0)?.toUpperCase()) +
-      (ele?.user?.lastName?.slice(1) ||
-        ele?.userShift?.user?.lastName?.slice(1))
-    }`;
-
-    return {
-      id: ele?.userShift?.user?.id || ele?.user?.id,
-      // title: userImage + " " + title,
-      title,
-    };
-  });
-
-  const nonSchedulerWorkScheduleUser =
-    filterNonScheduledUsers &&
-    filterNonScheduledUsers?.map((ele: any) => {
-      // const userImage = <img src={ele?.user?.profileImageName || ""} alt={`${ele?.user?.firstName} ${ele?.user?.lastName}`} style={{ borderRadius: '50%' }} />
-      const title = `${
-        ele?.firstName?.charAt(0)?.toUpperCase() + ele?.firstName?.slice(1)
-      } ${ele?.lastName?.charAt(0)?.toUpperCase() + ele?.lastName?.slice(1)}`;
-      return {
-        id: ele?.id,
-        // title: userImage + " " + title,
-        title,
-      };
-    });
-
   const calendarDateClick = () => {
-    // const clickedDate = arg.date;
-    // const formattedDate = clickedDate.toISOString();
     router.push(`${airMarketingCalendar?.create_post}`);
   };
-
-  // const handleEventClick = () => {
-
-  //     // setIsEventModal(true);
-  //     // const eventId = +e.event?._def?.publicId;
-
-  //     // const scheduleObj = workScheduleEventMap?.find(
-  //     //   (ele: any) => ele?.id === eventId
-  //     // );
-
-  //     // setWorkScheduleObj(scheduleObj);
-  //     // setEventModalData(e);
-  //     // setIsActionType("edit");
-  //   };
 
   const eventContentHandler = (eventInfo: any) => {
     const event = eventInfo?.event?._def;
@@ -258,54 +137,6 @@ const useCalender = () => {
     );
   };
 
-  const handleSlotContent = (slotEvent: any) => {
-    return (
-      <>
-        <div className="slot-event-wrapper">
-          <div className="d-flex align-center" style={{ gap: '5px' }}>
-            <div>
-              <p className="fs-14 fw-400 line-height-20 m-0">
-                {dayjs(slotEvent.date).format('dddd')}
-              </p>
-            </div>
-          </div>
-        </div>
-      </>
-    );
-  };
-
-  const handleResourceRender = (info: any) => {
-    const resource = info.resource._resource;
-
-    return (
-      <>
-        <div className="resource-render-wrapper d-flex align-center">
-          <Checkbox
-            onChange={(e: any) => handleCheckbox(e, resource)}
-            className={`resource-render-checked ${
-              selectedUserData && 'user-is-checked'
-            }`}
-            name={`${resource.id}`}
-            id={`${resource.id}`}
-          ></Checkbox>
-
-          <div
-            className="resource-render-content d-flex align-center cursor-pointer"
-            style={{ marginLeft: '25px' }}
-          >
-            <Image src={resource.extendedProps.imageUrl} alt="" />
-            <label
-              className="grey-color fs-14 fw-400 line-height-20 cursor-pointer"
-              htmlFor={`${resource.id}`}
-            >
-              {resource.title}
-            </label>
-          </div>
-        </div>
-      </>
-    );
-  };
-
   const handlePrevClick = () => {
     const newDate = dayjs(calendarDate)
       .subtract(1, 'day')
@@ -330,13 +161,7 @@ const useCalender = () => {
   };
 
   return {
-    fullCalendarRef,
-    WorkScheduleEvent,
-    WorkScheduleUser,
-    nonSchedulerWorkScheduleUser,
     eventContentHandler,
-    handleSlotContent,
-    handleResourceRender,
     currentDate,
     calendarDate,
     handlePrevClick,

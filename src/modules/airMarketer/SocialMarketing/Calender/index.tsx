@@ -15,11 +15,7 @@ import Image from 'next/image';
 
 const Calender = () => {
   const {
-    fullCalendarRef,
-    WorkScheduleUser,
     eventContentHandler,
-    handleSlotContent,
-    handleResourceRender,
     currentDate,
     calendarDate,
     handlePrevClick,
@@ -38,7 +34,7 @@ const Calender = () => {
   } = useCalender();
   return (
     <>
-      <Box className="apply-work-wrapper">
+      <Box sx={{ backgroundColor: 'white', padding: '20px' }}>
         <Button
           startIcon={<PlusIcon />}
           sx={{ float: 'right', marginBottom: '25px' }}
@@ -53,7 +49,6 @@ const Calender = () => {
         <Filters />
 
         <FullCalendar
-          ref={fullCalendarRef}
           schedulerLicenseKey="CC-Attribution-NonCommercial-NoDerivatives"
           plugins={[
             resourceTimelinePlugin,
@@ -90,7 +85,6 @@ const Calender = () => {
           }}
           initialView="dayGridMonth"
           noEventsText="No Events to Show"
-          resources={WorkScheduleUser}
           events={SocailMediaEvent}
           dayMaxEventRows={3}
           moreLinkClick={handleMoreLinkClick}
@@ -100,9 +94,7 @@ const Calender = () => {
           resourceAreaWidth={240}
           eventMinWidth={200}
           eventContent={eventContentHandler}
-          resourceLabelContent={handleResourceRender}
           slotDuration="24:00:00"
-          slotLabelContent={handleSlotContent}
           slotLabelFormat={[
             { day: '2-digit', month: 'long', year: 'numeric', weekday: 'long' },
           ]}
