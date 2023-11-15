@@ -131,6 +131,7 @@ export const allsServices = [
   {
     id: 10,
     title: 'Apple iMac',
+    serviceId: 'Software installation',
     description: 'Request for Apple iMac',
     price: '$ 700.00',
     image: CatalogAppleProductsImacImage,
