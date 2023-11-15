@@ -7,7 +7,7 @@ export const loginValidationSchema: any = Yup?.object()?.shape({
 });
 
 export const loginDefaultValues = {
-  Email: '',
+  email: '',
   password: '',
 };
 export const loginFormFields = [
@@ -16,6 +16,7 @@ export const loginFormFields = [
       id: '1',
       name: 'email',
       label: 'email',
+      placeholder: 'johncide@gmail.com',
       type: 'email',
       fullWidth: true,
       required: true,
@@ -28,6 +29,7 @@ export const loginFormFields = [
       name: 'password',
       label: 'password',
       type: 'password',
+      placeholder: '*******',
       fullWidth: true,
       required: true,
     },

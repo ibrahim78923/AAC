@@ -1,25 +1,33 @@
 import { Grid, Typography } from '@mui/material';
 import React from 'react';
-import { AirCustomerPortalHeader } from '../AirCustomerPortalHeader';
+import { AirCustomerPortalHeader } from '../AirCustomerportalHeader';
 import { useForm } from 'react-hook-form';
-// import { yupResolver } from '@hookform/resolvers/yup';
-import { SignUpDefaultValues, SignUpFormFields } from './SignUp.Data';
+import { yupResolver } from '@hookform/resolvers/yup';
+import {
+  SignUpDefaultValues,
+  SignUpFormFields,
+  signupValidationSchema,
+} from './SignUp.Data';
 import { FormProvider } from '@/components/ReactHookForm';
 import { v4 as uuidv4 } from 'uuid';
 import { LoadingButton } from '@mui/lab';
 import { LoginDashboardImage } from '@/assets/images';
-// import { Image } from '@mui/icons-material';
+
 import Image from 'next/image';
+import Link from 'next/link';
 
 export const SignUp = () => {
-  const method = useForm({
-    // resolver: yupResolver({}),
+  const SignUp = useForm({
+    resolver: yupResolver(signupValidationSchema),
     defaultValues: SignUpDefaultValues,
   });
-  const { handleSubmit } = method;
-  const submitData = () => {
-    // console.log(formData);
+
+  const submitSignUp = () => {};
+
+  const SubmitHandler = () => {
+    SignUp?.handleSubmit(submitSignUp);
   };
+
   return (
     <Grid container>
       <AirCustomerPortalHeader
@@ -43,8 +51,8 @@ export const SignUp = () => {
         >
           <FormProvider
             size={'small'}
-            methods={method}
-            onSubmit={handleSubmit(submitData)}
+            methods={SignUp}
+            onSubmit={SignUp?.handleSubmit(submitSignUp)}
           >
             {SignUpFormFields.map((item) => (
               <Grid key={uuidv4()} mt={1}>
@@ -62,9 +70,9 @@ export const SignUp = () => {
             <LoadingButton
               variant="contained"
               fullWidth
-              // onClick={SubmitHandler}
+              onClick={SubmitHandler}
             >
-              Continue
+              <Link href={''}>Continue</Link>
             </LoadingButton>
           </FormProvider>
         </Grid>

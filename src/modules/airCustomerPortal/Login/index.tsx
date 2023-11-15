@@ -17,14 +17,14 @@ import { v4 as uuidv4 } from 'uuid';
 import { LoadingButton } from '@mui/lab';
 
 export const Login = () => {
-  const logIn = useForm({
+  const method = useForm({
     resolver: yupResolver(loginValidationSchema),
     defaultValues: loginDefaultValues,
   });
   const submitSignIn = () => {};
 
   const SubmitHandler = () => {
-    logIn?.handleSubmit(submitSignIn);
+    method?.handleSubmit(submitSignIn);
   };
   return (
     <Grid container>
@@ -43,8 +43,8 @@ export const Login = () => {
 
         <Grid item md={10} xs={12} mx={{ md: 10, xs: 0 }}>
           <FormProvider
-            methods={logIn}
-            onSubmit={logIn?.handleSubmit(submitSignIn)}
+            methods={method}
+            onSubmit={method?.handleSubmit(submitSignIn)}
           >
             {loginFormFields?.map((items) => {
               return (
