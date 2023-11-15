@@ -7,6 +7,8 @@ export const END_POINTS = {
   reset_password: 'auth/resetPassword',
   forgot_password: 'auth/forgot-password',
   WORKLOAD: `/workload/workload-management`,
+  INVENTORY_EXPENSE: 'expense/add-expense',
+  GET_INVENTORY_EXPENSE: 'expense/get-expense',
   TICKET: '/ticket',
   TICKET_STATUS: '/ticket/status',
   TICKET_BULK_UPDATE: '/ticket/bulk-ticket-update',
