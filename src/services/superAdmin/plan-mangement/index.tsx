@@ -5,9 +5,10 @@ const TAG = ['PLAN_MANAGEMENT'];
 export const planManagementAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getPlanMangement: builder.query({
-      query: () => ({
+      query: ({ params }: any) => ({
         url: `${SUPER_ADMIN?.PLAN_MANAGEMENT}`,
         method: 'GET',
+        params: params,
       }),
       providesTags: TAG,
     }),

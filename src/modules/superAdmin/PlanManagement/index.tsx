@@ -41,6 +41,7 @@ const PlanManagement = () => {
     handleClick,
     handleClose,
     methodsFaqsFilters,
+    filterValues,
     filterSubmit,
   } = usePlanManagement();
 
@@ -138,7 +139,7 @@ const PlanManagement = () => {
         <Box sx={{ marginTop: '1.5rem' }}>
           <FormProvider methods={methodsFaqsFilters}>
             <Grid container spacing={4}>
-              {planManagementFilterFiltersDataArray?.map((item: any) => (
+              {planManagementFilterFiltersDataArray()?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
                   <item.component {...item?.componentProps} size={'small'}>
                     {!isNullOrEmpty(item?.componentProps?.select)
@@ -156,7 +157,7 @@ const PlanManagement = () => {
         </Box>
       </CommonDrawer>
 
-      <PlanDetails />
+      <PlanDetails filterValues={filterValues} searchBy={searchBy} />
     </Box>
   );
 };

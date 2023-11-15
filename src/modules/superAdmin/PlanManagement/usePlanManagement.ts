@@ -9,11 +9,13 @@ import {
   planManagementFilterDefaultValues,
   planManagementFilterValidationSchema,
 } from './PlanManagement.data';
+import dayjs from 'dayjs';
 
 export const usePlanManagement = () => {
   const [searchBy, setSearchBy] = useState('');
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [isFaqsFilterDrawerOpen, setIsFaqsFilterDrawerOpen] = useState(false);
+  const [filterValues, setFilterValues] = useState({});
 
   const open = Boolean(anchorEl);
   const theme = useTheme<Theme>();
@@ -30,9 +32,13 @@ export const usePlanManagement = () => {
     defaultValues: planManagementFilterDefaultValues,
   });
 
-  const onSubmit = () => {
-    // console.log('vvvvvvvvvvvvvvvvv:', values.createdDate);
-    // setIsFaqsFilterDrawerOpen(false);
+  const onSubmit = (values: any) => {
+    const filterPlanManagementValues = {
+      productId: values?.productId,
+      planTypeId: values?.planTypeId,
+      createdAt: dayjs(values?.createdAt)?.format('YYYY-MM-DD'),
+    };
+    setFilterValues(filterPlanManagementValues);
   };
 
   const { handleSubmit } = methodsFaqsFilters;
@@ -52,5 +58,6 @@ export const usePlanManagement = () => {
     methodsFaqsFilters,
     handleSubmit,
     filterSubmit,
+    filterValues,
   };
 };
