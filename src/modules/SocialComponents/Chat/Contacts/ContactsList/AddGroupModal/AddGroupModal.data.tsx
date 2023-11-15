@@ -2,7 +2,7 @@ import { RHFTextField } from '@/components/ReactHookForm';
 import { Box, Checkbox } from '@mui/material';
 
 import * as Yup from 'yup';
-export const addGroupValidationSchema = Yup.object().shape({
+export const addGroupValidationSchema = Yup?.object()?.shape({
   groupTitle: Yup.string().trim().required('Field is Required'),
   candidates: Yup.string().required('Field is Required'),
 });
@@ -33,18 +33,18 @@ export const participantsData = [
 export const columns = () => {
   return [
     {
-      accessorFn: (row: any) => row.id,
+      accessorFn: (row: any) => row?.id,
       id: 'id',
-      cell: (info: any) => <Checkbox color="primary" name={info.getValue()} />,
+      cell: (info: any) => <Checkbox color="primary" name={info?.getValue()} />,
       header: 'Group Admin',
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row.participant,
+      accessorFn: (row: any) => row?.participant,
       id: 'participant',
       isSortable: false,
       header: 'participant',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
     {
       id: 'Remove Participant',

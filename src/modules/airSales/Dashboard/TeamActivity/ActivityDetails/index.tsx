@@ -10,7 +10,7 @@ const ActivityDetails = () => {
   const theme = useTheme();
   return (
     <>
-      {teamActivityData.map((teamData: any) => {
+      {teamActivityData?.map((teamData: any) => {
         return (
           <Grid container key={uuidv4()} p={1}>
             <Grid item sm={1}>

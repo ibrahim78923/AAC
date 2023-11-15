@@ -8,7 +8,7 @@ export const styles = (theme: any) => {
         borderRadius: '50px',
       },
       '& .user_name': {
-        color: theme.palette.blue['dull_blue'],
+        color: theme?.palette?.blue['dull_blue'],
         fontSize: '12px',
         fontWeight: 600,
         textTransform: 'capitalize',
@@ -21,7 +21,7 @@ export const styles = (theme: any) => {
       '& .user_date': {
         fontSize: '12px',
         fontWeight: 600,
-        color: theme.palette.blue['main'],
+        color: theme?.palette?.blue['main'],
       },
     },
   };

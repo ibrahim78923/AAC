@@ -30,10 +30,10 @@ export const jobApplicationFiltersDataArray = [
       isCheckBox: true,
     },
     options: [
-      { value: 'JohnDoe', label: 'John Doe' },
-      { value: 'Andrew', label: 'Andrew' },
-      { value: 'RichardRobertson', label: 'Richard robertson' },
-      { value: 'Franksten', label: 'Franksten' },
+      { value: '155315', label: 'John Doe ' },
+      { value: '785978', label: 'Andrew' },
+      { value: '456456', label: 'Richard robertson' },
+      { value: '518686', label: 'Franksten' },
     ],
     component: RHFMultiSearchableSelect,
     md: 12,
@@ -64,7 +64,7 @@ export const jobApplicationFiltersDataArray = [
   },
 ];
 
-export const columns = (handelStatusChange: any) => {
+export const columns = (theme: any) => {
   return [
     {
       accessorFn: (row: any) => row.id,
@@ -120,18 +120,44 @@ export const columns = (handelStatusChange: any) => {
       id: 'status',
       isSortable: true,
       header: 'Status',
-      cell: (info: any) => {
+      cell: (info: any) => (
         <StatusBadge
-          options={[
-            { value: 'pending', label: 'Pending', color: 'grey' },
-            { value: 'rejected', label: 'Rejected', color: 'red' },
-            { value: 'shortlisted', label: 'Shortlisted', color: 'grey' },
-            { value: 'interviewed', label: 'Interviewed', color: 'red' },
-          ]}
-          onChange={() => handelStatusChange()}
           value={info.getValue()}
-        />;
-      },
+          // onChange={(e: any) => setUserStatus(e.target.value)}
+          options={[
+            {
+              label: 'Interviewed',
+              value: 'interviewed',
+              color: theme?.palette?.custom.bluish_gray,
+            },
+            {
+              label: 'Interview Scheduled',
+              value: 'interviewScheduled',
+              color: theme?.palette?.error?.main,
+            },
+            {
+              label: 'Shortlisted',
+              value: 'shortlisted',
+              color: theme?.palette?.error?.main,
+            },
+            {
+              label: 'Pending',
+              value: 'pending',
+              color: theme?.palette?.custom.bluish_gray,
+            },
+            {
+              label: 'Rejected',
+              value: 'rejected',
+              color: theme?.palette?.error.main,
+            },
+            {
+              label: 'Hired',
+              value: 'hired',
+              color: theme?.palette?.success.main,
+            },
+          ]}
+        />
+      ),
     },
   ];
 };

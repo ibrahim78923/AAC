@@ -4,7 +4,7 @@ export const styles = {
       display: 'flex',
       alignItems: 'center',
       flexDirection: 'row',
-      background: item.role === role && theme.palette.primary.lighter,
+      background: item?.role === role && theme?.palette?.primary?.lighter,
       padding: '12px 16px',
       borderRadius: '8px',
     };
@@ -12,9 +12,9 @@ export const styles = {
   cartBox: (item: any, role: any, theme: any) => {
     return {
       background:
-        item.role === role
-          ? theme.palette.primary.main
-          : theme.palette.primary.lighter,
+        item?.role === role
+          ? theme?.palette?.primary?.main
+          : theme?.palette?.primary?.lighter,
       padding: '8px',
       borderRadius: '5px',
       display: 'flex',
@@ -25,7 +25,7 @@ export const styles = {
     return {
       width: '8px',
       height: '8px ',
-      background: theme.palette.primary.main,
+      background: theme?.palette?.primary?.main,
       borderRadius: '20px',
       marginRight: 1,
     };

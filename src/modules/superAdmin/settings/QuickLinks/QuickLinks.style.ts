@@ -8,6 +8,9 @@ export const styles = {
         background: `${theme?.palette.grey[400]}`,
         border: '1.5px solid transparent',
       },
+      '@media (max-width:581px)': {
+        width: '100%',
+      },
     };
   },
   filterButton: (theme: any) => {
@@ -20,6 +23,9 @@ export const styles = {
       '&:hover': {
         background: `${theme?.palette.grey[400]}`,
         border: '1.5px solid transparent',
+      },
+      '@media (max-width:581px)': {
+        width: '100%',
       },
     };
   },

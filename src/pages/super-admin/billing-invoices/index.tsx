@@ -1,8 +1,8 @@
 import Layout from '@/layout';
-import BillingAndInvoicesTable from '@/modules/superAdmin/BillingAndInvoices/BillingAndInvoicesTable';
+import BillingAndInvoices from '@/modules/superAdmin/BillingAndInvoices';
 
 const BillingInvoicesPage = () => {
-  return <BillingAndInvoicesTable />;
+  return <BillingAndInvoices />;
 };
 export default BillingInvoicesPage;
 BillingInvoicesPage.getLayout = function getLayout(page: any) {

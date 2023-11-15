@@ -12,7 +12,7 @@ export const styles = (theme: any) => {
       flex: 1,
       fontSize: '24px',
       fontWeight: 600,
-      color: theme.palette.grey[800],
+      color: theme?.palette?.grey[800],
     },
     action: {
       display: 'flex',

@@ -26,7 +26,7 @@ export const styles = {
     ml: 'auto',
   },
   divider: (theme: any) => ({
-    borderTop: `1px solid ${theme.palette.custom.off_white_one}`,
+    borderTop: `1px solid ${theme?.palette?.custom?.off_white_one}`,
     margin: '24px 0',
   }),
   planSelectionRow: {
@@ -41,31 +41,31 @@ export const styles = {
     p: '4px 0',
   },
   planTableTd: (theme: any) => ({
-    color: theme.palette.custom[1],
+    color: theme?.palette?.custom[1],
     fontSize: '16px',
     lineHeight: '1.5',
   }),
   planTableTdBold: (theme: any) => ({
-    color: theme.palette.slateBlue.main,
+    color: theme?.palette?.slateBlue?.main,
     fontSize: '16px',
     fontWeight: '600',
     lineHeight: '1.5',
   }),
   planTableTh: (theme: any) => ({
-    color: theme.palette.slateBlue.main,
+    color: theme?.palette?.slateBlue?.main,
     fontSize: '18px',
     fontWeight: '700',
     lineHeight: 1.5555556,
     textAlign: 'right',
   }),
   updateSubscription: (theme: any) => ({
-    borderTop: `1px solid ${theme.palette.custom.off_white_one}`,
+    borderTop: `1px solid ${theme?.palette?.custom?.off_white_one}`,
     mt: '110px',
     pt: '24px',
     justifyContent: 'flex-end',
   }),
   cancelButton: (theme: any) => ({
-    backgroundColor: theme.palette.grey[400],
-    color: theme.palette.custom[1],
+    backgroundColor: theme?.palette?.grey[400],
+    color: theme?.palette?.custom[1],
   }),
 };
