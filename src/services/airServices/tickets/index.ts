@@ -1,7 +1,9 @@
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
+
 const TAG = 'TICKETS';
-export const ticketsAPI = baseAPI?.injectEndpoints({
+
+export const ticketsAPI: any = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
     getTickets: builder?.query({
       query: (apiDataParameter: any) => ({
@@ -79,4 +81,5 @@ export const {
   usePutTicketsMutation,
   useLazyGetTicketsQuery,
   useLazyGetExportTicketsQuery,
+  usePatchBulkUpdateTicketsMutation,
 } = ticketsAPI;

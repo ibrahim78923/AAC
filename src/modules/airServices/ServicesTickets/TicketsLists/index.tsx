@@ -3,7 +3,7 @@ import { TicketsTableView } from './TicketsTableView';
 import { TableBoardView } from './TicketsBoardView';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { TicketsListSubHeader } from './TicketsListSubHeader';
-import { TicketsDelete } from './TicketsDelete';
+import { TicketsDelete } from '../TicketsDelete';
 
 export const TicketsLists = () => {
   const {

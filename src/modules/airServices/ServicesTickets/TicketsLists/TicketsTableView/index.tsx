@@ -1,4 +1,5 @@
 import TanstackTable from '@/components/Table/TanstackTable';
+import { PAGINATION } from '@/config';
 
 export const TicketsTableView = (props: any) => {
   const {
@@ -27,7 +28,7 @@ export const TicketsTableView = (props: any) => {
         isSuccess={isSuccess}
         count={totalPages}
         pageLimit={pageLimit}
-        rowsPerPageOptions={[3, 5, 10, 15, 20, 60]}
+        rowsPerPageOptions={PAGINATION?.ROWS_PER_PAGE}
         currentPage={page}
         totalRecords={totalRecords}
         onPageChange={(page: any) => setPage(page)}

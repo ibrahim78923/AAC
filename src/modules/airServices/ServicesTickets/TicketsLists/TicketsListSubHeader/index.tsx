@@ -2,7 +2,7 @@ import Search from '@/components/Search';
 import { Box, Button, ButtonGroup, Stack, useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
 import {
-  CustomizeIcon,
+  CutomizeIcon,
   FilterIcon,
   ListIcon,
   ResetIcon,
@@ -65,7 +65,7 @@ export const TicketsListSubHeader = (props: any) => {
               variant="outlined"
               onClick={() => onCustomizeClick?.()}
               size="large"
-              startIcon={<CustomizeIcon />}
+              startIcon={<CutomizeIcon />}
               color="secondary"
             >
               Customize

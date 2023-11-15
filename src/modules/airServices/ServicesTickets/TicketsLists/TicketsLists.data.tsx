@@ -1,15 +1,7 @@
-// import { v4 as uuidv4 } from 'uuid';
-// import { AvatarImage } from '@/assets/images';
-import {
-  Box,
-  Checkbox,
-  // Select,
-  // MenuItem,
-  Avatar,
-  Typography,
-} from '@mui/material';
+import { Box, Checkbox, Avatar, Typography } from '@mui/material';
 import { AIR_SERVICES } from '@/constants';
 import { enqueueSnackbar } from 'notistack';
+import { TICKET_STATUS } from '@/constants/strings';
 
 export const TICKETS_ACTION_CONSTANTS = {
   CUSTOMIZE_COLUMN: 'customize-column',
@@ -21,16 +13,17 @@ export const TICKETS_ACTION_CONSTANTS = {
 
 export const ticketsActionDropdownFunction = (
   setDeleteModalOpen: any,
-  markTicketAsClose: any,
-  markTicketAsSpam: any,
   openDrawer: any,
   selectedTicketList: any,
+  updateTicketStatus: any,
 ) => [
   {
     title: 'Edit',
     handleClick: (closeMenu: any) => {
       if (selectedTicketList?.length !== 1) {
-        enqueueSnackbar('Please Select 1 ticket', { variant: 'warning' });
+        enqueueSnackbar('Please select only one ticket', {
+          variant: 'warning',
+        });
         closeMenu?.();
         return;
       }
@@ -65,14 +58,14 @@ export const ticketsActionDropdownFunction = (
   {
     title: 'Mark as Close',
     handleClick: (closeMenu: any) => {
-      markTicketAsClose?.();
+      updateTicketStatus?.(TICKET_STATUS?.CLOSED);
       closeMenu?.();
     },
   },
   {
     title: 'Mark as Spam',
     handleClick: (closeMenu: any) => {
-      markTicketAsSpam?.();
+      updateTicketStatus?.(TICKET_STATUS?.SPAM);
       closeMenu?.();
     },
   },
@@ -172,16 +165,17 @@ export const ticketsListsColumnFunction: any = (
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row?.subject,
-      id: 'subject',
+      accessorFn: (row: any) => row?._id,
+      id: '_id',
       cell: (info: any) => {
         return (
           <Box display={'flex'} gap={1} flexWrap={'wrap'} alignItems={'center'}>
             <Avatar
               sx={{ bgcolor: theme?.palette?.blue?.main, borderRadius: 1.25 }}
               style={{ width: 28, height: 28 }}
+              alt={info?.row?.original?.department}
             >
-              IT
+              {info?.row?.original?.department}
             </Avatar>
             <Typography
               sx={{
@@ -220,15 +214,11 @@ export const ticketsListsColumnFunction: any = (
       cell: (info: any) => (
         <Box display={'flex'} flexWrap={'wrap'} alignItems={'center'} gap={1}>
           <Avatar
-            sx={{ bgcolor: theme?.palette?.blue?.main }}
             style={{ width: 24, height: 24 }}
-            src={info?.getValue()?.profileImg?.src}
-          >
-            <Typography component="span" fontSize={10} fontWeight={500}>
-              {info?.getValue()?.name?.split(' ')?.[0][0]}
-              {info?.getValue()?.name?.split(' ')?.[1][0]}
-            </Typography>
-          </Avatar>
+            src={info?.row?.original?.requester?.profileImg?.src}
+            alt={info?.row?.original?.requester?.name}
+          />
+
           {info?.getValue()?.name}
         </Box>
       ),
