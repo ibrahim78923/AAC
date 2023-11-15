@@ -23,6 +23,7 @@ export default function App(props: any) {
           <AuthProvider>
             <ThemeLocalization>
               <SnackbarProvider
+                preventDuplicate
                 anchorOrigin={{
                   horizontal: 'center',
                   vertical: 'top',

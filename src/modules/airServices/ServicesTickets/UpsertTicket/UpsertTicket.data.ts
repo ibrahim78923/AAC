@@ -1,21 +1,42 @@
 import {
-  RHFAutocomplete,
   RHFDatePicker,
   RHFDropZone,
   RHFEditor,
+  RHFMultiSearchableSelect,
+  RHFSearchableSelect,
   RHFSelect,
   RHFTextField,
   RHFTimePicker,
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
+import dayjs from 'dayjs';
+import {
+  ticketImpactOptions,
+  ticketPriorityOptions,
+  ticketSourceOptions,
+  ticketStatusOptions,
+} from '../ServicesTickets.data';
 
-export const createTicketValidationSchema = Yup?.object()?.shape({
+const todayDate = dayjs()?.format('MM/DD/YYYY');
+
+export const dropdownDummy = [
+  {
+    value: 'option1',
+    label: 'Option 1',
+  },
+  {
+    value: 'option2',
+    label: 'Option 2',
+  },
+];
+
+export const upsertTicketValidationSchema = Yup?.object()?.shape({
   requester: Yup?.string()?.required('Field is Required'),
   subject: Yup?.string()?.trim()?.required('Field is Required'),
   description: Yup?.string(),
   category: Yup?.string(),
   status: Yup?.string()?.required('Field is Required'),
-  priority: Yup?.string()?.required('Field is Required'),
+  pirority: Yup?.string()?.required('Field is Required'),
   department: Yup?.string(),
   source: Yup?.string(),
   impact: Yup?.string(),
@@ -28,34 +49,38 @@ export const createTicketValidationSchema = Yup?.object()?.shape({
   attachFile: Yup?.mixed()?.nullable(),
 });
 
-export const createTicketDefaultValues = {
-  requester: '', //1
-  subject: '', //2
-  description: '', //3
-  category: '', //4
-  status: '', //5
-  priority: '', //6
-  department: '', //7
-  source: '', //8
-  impact: '', //9
-  agent: '', //10
-  plannedStartDate: new Date(), //11
-  plannedStartTime: new Date(), //12
-  plannedEndDate: new Date(), //13
-  plannedEndTime: new Date(), //14
-  plannedEffort: [], //15
-  attachFile: null, //16
+export const upsertTicketDefaultValuesFunction = (data?: any) => {
+  return {
+    requester: data?.requester ?? '',
+    subject: data?.subject ?? '',
+    description: data?.description ?? '',
+    category: data?.category ?? '',
+    status: data?.status ?? '',
+    pirority: data?.pirority ?? '',
+    department: data?.department ?? '',
+    source: data?.source ?? '',
+    impact: data?.impact ?? '',
+    agent: data?.agent ?? '',
+    plannedStartDate: new Date(data?.plannedStartDate ?? todayDate),
+    plannedStartTime: new Date(),
+    plannedEndDate: new Date(data?.plannedEndDate ?? todayDate),
+    plannedEndTime: new Date(),
+    plannedEffort: !!data?.plannedEffort?.length ? data?.plannedEffort : [],
+    associatesAsset: !!data?.associatesAsset?.length
+      ? data?.associatesAsset
+      : [],
+    attachFile: null,
+  };
 };
-
-export const createTicketDataArray = [
+export const upsertTicketFormFields = [
   {
     componentProps: {
       name: 'requester',
       label: 'Requester',
       fullWidth: true,
-      options: ['BE', 'BE1', 'BE2'],
+      options: dropdownDummy,
     },
-    component: RHFAutocomplete,
+    component: RHFSearchableSelect,
     md: 12,
   },
   {
@@ -81,9 +106,9 @@ export const createTicketDataArray = [
       name: 'category',
       label: 'Category',
       fullWidth: true,
-      options: ['BE', 'BE1', 'BE2'],
+      options: dropdownDummy,
     },
-    component: RHFAutocomplete,
+    component: RHFSearchableSelect,
     md: 12,
   },
   {
@@ -93,28 +118,18 @@ export const createTicketDataArray = [
       fullWidth: true,
       select: true,
     },
-    options: [
-      { value: 'Open', label: 'Open' },
-      { value: 'Close', label: 'Close' },
-      { value: 'Pending', label: 'Pending' },
-      { value: 'Resolved', label: 'Resolved' },
-    ],
+    options: ticketStatusOptions,
     component: RHFSelect,
     md: 12,
   },
   {
     componentProps: {
-      name: 'priority',
+      name: 'pirority',
       label: 'Priority',
       fullWidth: true,
       select: true,
     },
-    options: [
-      { value: 'Low', label: 'Low' },
-      { value: 'Medium', label: 'Medium' },
-      { value: 'High', label: 'High' },
-      { value: 'Urgent', label: 'Urgent' },
-    ],
+    options: ticketPriorityOptions,
     component: RHFSelect,
     md: 12,
   },
@@ -123,9 +138,9 @@ export const createTicketDataArray = [
       name: 'department',
       label: 'Department',
       fullWidth: true,
-      options: ['BE', 'BE1', 'BE2'],
+      options: dropdownDummy,
     },
-    component: RHFAutocomplete,
+    component: RHFSearchableSelect,
     md: 12,
   },
   {
@@ -135,15 +150,7 @@ export const createTicketDataArray = [
       fullWidth: true,
       select: true,
     },
-    options: [
-      { value: 'Phone No.', label: 'Phone No.' },
-      { value: 'Email', label: 'Email' },
-      { value: 'Portal', label: 'Portal' },
-      { value: 'Chat', label: 'Chat' },
-      { value: 'Walk Up', label: 'Walk Up' },
-      { value: 'Slack', label: 'Slack' },
-      { value: 'MS Team', label: 'MS Team' },
-    ],
+    options: ticketSourceOptions,
     component: RHFSelect,
     md: 12,
   },
@@ -154,11 +161,7 @@ export const createTicketDataArray = [
       fullWidth: true,
       select: true,
     },
-    options: [
-      { value: 'Low', label: 'Low' },
-      { value: 'Medium', label: 'Medium' },
-      { value: 'High', label: 'High' },
-    ],
+    options: ticketImpactOptions,
     component: RHFSelect,
     md: 12,
   },
@@ -167,9 +170,9 @@ export const createTicketDataArray = [
       name: 'agent',
       label: 'Agent',
       fullWidth: true,
-      options: ['BE', 'BE1', 'BE2'],
+      options: dropdownDummy,
     },
-    component: RHFAutocomplete,
+    component: RHFSearchableSelect,
     md: 12,
   },
   {
@@ -213,10 +216,19 @@ export const createTicketDataArray = [
       name: 'plannedEffort',
       label: 'Planned Effort',
       fullWidth: true,
-      options: ['BE', 'BE1', 'BE2'],
       multiple: true,
     },
-    component: RHFAutocomplete,
+    component: RHFTextField,
+    md: 12,
+  },
+  {
+    componentProps: {
+      name: 'associatesAsset',
+      label: 'Associate Asset',
+      fullWidth: true,
+      options: dropdownDummy,
+    },
+    component: RHFMultiSearchableSelect,
     md: 12,
   },
   {
