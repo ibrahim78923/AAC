@@ -15,10 +15,13 @@ import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { v4 as uuidv4 } from 'uuid';
 import useToggle from '@/hooks/useToggle';
 import { EraserIcon } from '@/assets/icons';
+import useUserManagement from '../../useUserManagement';
 
 const UserDetailsProfile = (props: any) => {
   const { userDetails } = props;
+  const { updateUserProfile }: any = useUserManagement();
   const [isToggled, setIsToggled] = useToggle(false);
+  const id = userDetails?._id;
 
   const methods: any = useForm({
     resolver: yupResolver(profileValidationSchema),
@@ -27,7 +30,13 @@ const UserDetailsProfile = (props: any) => {
 
   const { handleSubmit } = methods;
 
-  const onSubmit = async () => {};
+  const queryParams: any = {};
+  const onSubmit = async (values: any) => {
+    queryParams.firstName = values?.firstName;
+    queryParams.middleName = values?.middleName;
+    queryParams.lastName = values?.lastName;
+    updateUserProfile({ id, ...queryParams });
+  };
 
   return (
     <FormProvider methods={methods}>

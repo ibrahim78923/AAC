@@ -11,19 +11,6 @@ export const profileValidationSchema = Yup.object().shape({
   // address: Yup.string().required('Field is Required'),
 });
 
-export const profileDefaultValues = {
-  firstName: 'usman',
-  middleName: '',
-  lastName: '',
-  phoneNumber: '',
-  email: '',
-  jobTitlle: '',
-  postCode: '',
-  address: '',
-  fbUrl: '',
-  TwitterUrl: '',
-};
-
 export const profileFields = [
   {
     componentProps: {

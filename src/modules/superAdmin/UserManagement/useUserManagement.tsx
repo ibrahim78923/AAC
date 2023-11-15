@@ -6,7 +6,10 @@ import { useTheme } from '@mui/material';
 
 import { SUPER_ADMIN } from '@/constants';
 
-import { usersApi } from '@/services/superAdmin/user-management/users';
+import {
+  useUpdateUserProfileMutation,
+  usersApi,
+} from '@/services/superAdmin/user-management/users';
 
 const useUserManagement = () => {
   const navigate = useRouter();
@@ -27,6 +30,8 @@ const useUserManagement = () => {
   }: any = usersApi;
 
   const [updateUsers] = useUpdateUsersMutation();
+  const [updateUserProfile] = useUpdateUserProfileMutation();
+
   const queryParams: any = {};
   const handleClick = (event: any) => {
     setSelectedValue(event?.currentTarget);
@@ -74,6 +79,7 @@ const useUserManagement = () => {
     useGetUsersByIdQuery,
     checkedRows,
     setCheckedRows,
+    updateUserProfile,
   };
 };
 

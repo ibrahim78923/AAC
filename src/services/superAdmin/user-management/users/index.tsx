@@ -49,6 +49,18 @@ export const usersApi = baseAPI.injectEndpoints({
       },
       invalidatesTags: ['USERS'],
     }),
+
+    updateUserProfile: builder.mutation({
+      query: ({ id, ...queryParams }: any) => {
+        return {
+          url: `${END_POINTS?.ADD_USER}/${id}`,
+          method: 'PATCH',
+          params: queryParams,
+        };
+      },
+      invalidatesTags: ['USERS'],
+    }),
+
     deleteUsers: builder.mutation({
       query: ({ id }: any) => ({
         url: `/${id}`,
@@ -66,4 +78,5 @@ export const {
   useGetCompaniesCRNQuery,
   useDeleteUsersMutation,
   useGetUsersByIdQuery,
+  useUpdateUserProfileMutation,
 } = usersApi;
