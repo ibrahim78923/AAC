@@ -124,8 +124,8 @@ export const jobPostingDataArray = [
     md: 12,
   },
 ];
-// Filters Data
 
+// Filters Data
 export const jobPostingFiltersValidationSchema = Yup.object().shape({
   jobTitle: Yup.string().trim().required('Field is Required'),
   JobType: Yup.string().trim().required('Field is Required'),
@@ -213,12 +213,54 @@ export const jobPostingFiltersFields = () => {
   ];
 };
 
-export const columns = (theme: any) => {
+export const columns = (
+  theme: any,
+  setIsDisabled: (value: boolean) => void,
+  tableRowValues: any,
+  setTableRowValues: any,
+  setRowId: any,
+) => {
+  const handleRowSelect = (id: any) => {
+    const selectedIndex = tableRowValues.indexOf(id);
+    let newSelected: any = [];
+
+    if (selectedIndex === -1) {
+      newSelected = newSelected.concat(tableRowValues, id);
+    } else if (selectedIndex === 0) {
+      newSelected = newSelected.concat(tableRowValues.slice(1));
+    } else if (selectedIndex === tableRowValues.length - 1) {
+      newSelected = newSelected.concat(tableRowValues.slice(0, -1));
+    } else if (selectedIndex > 0) {
+      newSelected = newSelected.concat(
+        tableRowValues.slice(0, selectedIndex),
+        tableRowValues.slice(selectedIndex + 1),
+      );
+    }
+    const disabled = newSelected.length === 0;
+    setIsDisabled(disabled);
+    setTableRowValues(newSelected);
+    if (newSelected.length === 1) {
+      setRowId(newSelected[0]);
+    } else {
+      setRowId(null);
+    }
+  };
+
+  const isSelected = (id: any) => tableRowValues.indexOf(id) !== -1;
   return [
     {
-      accessorFn: (row: any) => row?.id,
-      id: 'id',
-      cell: (info: any) => <Checkbox color="primary" name={info?.getValue()} />,
+      accessorFn: (row: any) => row._id,
+      id: '_id',
+      cell: (info: any) => (
+        <Checkbox
+          color="primary"
+          checked={isSelected(info?.cell?.row?.original?._id)}
+          name={info?.cell?.row?.original?._id}
+          onClick={() => {
+            handleRowSelect(info?.cell?.row?.original?._id);
+          }}
+        />
+      ),
       header: <Checkbox color="primary" name="Id" />,
       isSortable: false,
     },

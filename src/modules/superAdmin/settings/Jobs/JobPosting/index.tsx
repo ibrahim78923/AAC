@@ -8,31 +8,23 @@ import CustomPagination from '@/components/CustomPagination';
 import { FormProvider } from '@/components/ReactHookForm';
 import { AlertModals } from '@/components/AlertModals';
 
-import {
-  columns,
-  jobPostingDataArray,
-  jobPostingFiltersFields,
-} from './jobPosting.data';
-
-import { JobPostingPropsI } from './JobPostingProps.interface';
+import { columns, jobPostingFiltersFields } from './jobPosting.data';
+import useEditJobPost from './EditJobPost/useEditJobPost';
 import { DownIcon, FilterSharedIcon, RefreshSharedIcon } from '@/assets/icons';
 import { v4 as uuidv4 } from 'uuid';
 import useJobPosting from './useJobPosting';
-import useJobs from '../useJobs';
 import { styles } from './Jobs.styles';
+import EditJobPost from './EditJobPost/index';
 
-const JobPosting = ({
-  isOpenAddJobPost,
-  closeAddJobPost,
-  openAddJobPost,
-}: JobPostingPropsI) => {
+const JobPosting = () => {
   const theme = useTheme();
   const [isjobPostingDeleteModal, setIsJobPostingDeleteModal] =
     useState<boolean>(false);
-
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const actionMenuOpen = Boolean(anchorEl);
   const {
+    anchorEl,
+    actionMenuOpen,
+    handleActionsClick,
+    handleClose,
     jopPostinData,
     searchValue,
     handleSearch,
@@ -42,18 +34,26 @@ const JobPosting = ({
     handleCloseJobPostingFilters,
     handleFiltersSubmit,
     methodsFilter,
+    tableRowValues,
+    setTableRowValues,
+    setIsDisabled,
+    isDisabled,
+    setRowId,
+    rowId,
+    handleOpenEditJobPost,
+    handleCloseEditJobPost,
+    openEditJobPost,
   } = useJobPosting();
-  const { methodsAddJobPosting, handleSubmitAddJobPost, loadingPostAddJob } =
-    useJobs();
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  const { methodsEditJobPost } = useEditJobPost();
 
-  const getColumns = columns(theme);
+  const getColumns = columns(
+    theme,
+    setIsDisabled,
+    tableRowValues,
+    setTableRowValues,
+    setRowId,
+  );
 
   return (
     <Box>
@@ -88,12 +88,13 @@ const JobPosting = ({
             aria-controls={actionMenuOpen ? 'basic-menu' : undefined}
             aria-haspopup="true"
             aria-expanded={actionMenuOpen ? 'true' : undefined}
-            onClick={handleClick}
+            onClick={handleActionsClick}
             sx={{
               color: theme.palette.grey[500],
               height: '40px',
               border: '1.5px solid #e7e7e9',
             }}
+            disabled={isDisabled}
           >
             Actions &nbsp; <DownIcon />
           </Button>
@@ -106,8 +107,12 @@ const JobPosting = ({
               'aria-labelledby': 'basic-button',
             }}
           >
-            <MenuItem onClick={openAddJobPost}>Edit</MenuItem>
-            <MenuItem onClick={openAddJobPost}>View</MenuItem>
+            <MenuItem disabled={!rowId} onClick={handleOpenEditJobPost}>
+              Edit
+            </MenuItem>
+            <MenuItem disabled={!rowId} onClick={handleOpenEditJobPost}>
+              View
+            </MenuItem>
             <MenuItem onClick={() => setIsJobPostingDeleteModal(true)}>
               Delete
             </MenuItem>
@@ -132,36 +137,6 @@ const JobPosting = ({
           entriePages={50}
         />
       </Box>
-      <CommonDrawer
-        isDrawerOpen={isOpenAddJobPost}
-        onClose={closeAddJobPost}
-        title="Post a Job"
-        okText="Post"
-        isOk={true}
-        footer={true}
-        loading={loadingPostAddJob}
-        submitHandler={handleSubmitAddJobPost}
-      >
-        <>
-          <FormProvider methods={methodsAddJobPosting}>
-            <Grid container spacing={4}>
-              {jobPostingDataArray?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                  <item.component {...item.componentProps} size={'small'}>
-                    {item?.componentProps?.select
-                      ? item?.options?.map((option: any) => (
-                          <option key={option?.value} value={option?.value}>
-                            {option?.label}
-                          </option>
-                        ))
-                      : null}
-                  </item.component>
-                </Grid>
-              ))}
-            </Grid>
-          </FormProvider>
-        </>
-      </CommonDrawer>
 
       <CommonDrawer
         isDrawerOpen={openJobPostingFilter}
@@ -199,6 +174,13 @@ const JobPosting = ({
         open={isjobPostingDeleteModal}
         handleClose={() => setIsJobPostingDeleteModal(false)}
         handleSubmit={() => setIsJobPostingDeleteModal(false)}
+      />
+
+      <EditJobPost
+        isModalOpen={openEditJobPost}
+        onClose={handleCloseEditJobPost}
+        formMethods={methodsEditJobPost}
+        rowId={rowId}
       />
     </Box>
   );

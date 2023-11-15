@@ -14,7 +14,7 @@ export const settingsJobsAPI = baseAPI.injectEndpoints({
     }),
 
     getJobById: builder.query({
-      query: ({ id }: any) => ({
+      query: (id: any) => ({
         url: `${SUPER_ADMIN.JOBS}/${id}`,
         method: 'GET',
       }),
@@ -40,7 +40,7 @@ export const settingsJobsAPI = baseAPI.injectEndpoints({
     }),
 
     deleteJob: builder.mutation({
-      query: ({ id }: any) => ({
+      query: (id: any) => ({
         url: `${SUPER_ADMIN.JOBS}/${id}`,
         method: 'DELETE',
       }),

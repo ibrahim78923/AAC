@@ -5,13 +5,17 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import {
   jobPostingValidationSchema,
   jobPostingDefaultValues,
-} from './JobPosting/jobPosting.data';
+} from './Jobs.data';
 import { usePostJobMutation } from '@/services/superAdmin/settings/jobs';
 
 const useJobs = () => {
   const [openAddJobPost, setOpenAddJobPost] = useState(false);
   const [postAddJobPost, { isLoading: loadingPostAddJob }] =
     usePostJobMutation();
+  const methodsAddJobPost = useForm({
+    resolver: yupResolver(jobPostingValidationSchema),
+    defaultValues: jobPostingDefaultValues,
+  });
 
   const handleOpenAddJobPost = () => {
     setOpenAddJobPost(true);
@@ -21,24 +25,13 @@ const useJobs = () => {
     setOpenAddJobPost(false);
   };
 
-  const methodsAddJobPosting = useForm({
-    resolver: yupResolver(jobPostingValidationSchema),
-    defaultValues: jobPostingDefaultValues,
-  });
+  const { handleSubmit: handleMethodAddJob } = methodsAddJobPost;
 
-  const onSubmitAddJobPost = async (values: any) => {
-    const dateString = values?.deadline;
-    const dateObject = new Date(dateString);
-    const formattedDate = dateObject.toISOString();
-    const payload = {
-      ...values,
-      deadline: formattedDate,
-    };
-
+  const onSubmitAddJob = async (values: any) => {
     try {
-      await postAddJobPost({ body: payload })?.unwrap();
-      setOpenAddJobPost(false);
-      enqueueSnackbar('Plan Modules Details Added Successfully', {
+      await postAddJobPost({ body: values })?.unwrap();
+      handleCloseAddJobPost();
+      enqueueSnackbar('Job added successfully', {
         variant: 'success',
       });
     } catch (error: any) {
@@ -47,16 +40,13 @@ const useJobs = () => {
       });
     }
   };
-
-  const { handleSubmit: handleMethodAddJobpost } = methodsAddJobPosting;
-
-  const handleSubmitAddJobPost = handleMethodAddJobpost(onSubmitAddJobPost);
+  const handleSubmitAddJobPost = handleMethodAddJob(onSubmitAddJob);
 
   return {
     openAddJobPost,
     handleOpenAddJobPost,
     handleCloseAddJobPost,
-    methodsAddJobPosting,
+    methodsAddJobPost,
     handleSubmitAddJobPost,
     loadingPostAddJob,
   };

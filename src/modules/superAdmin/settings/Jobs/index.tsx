@@ -1,11 +1,12 @@
 import React from 'react';
-
-import { Button, Typography, Box, Tabs, Tab } from '@mui/material';
-
+import { Button, Typography, Box, Tabs, Tab, Grid } from '@mui/material';
+import { v4 as uuidv4 } from 'uuid';
+import CommonDrawer from '@/components/CommonDrawer';
+import { FormProvider } from '@/components/ReactHookForm';
 import JobPosting from './JobPosting';
 import JobApplication from './JobApplication';
-
 import PlusShared from '@/assets/icons/shared/plus-shared';
+import { jobPostingDataArray } from './Jobs.data';
 import useJobs from './useJobs';
 
 const Jobs = () => {
@@ -14,8 +15,14 @@ const Jobs = () => {
   const handleTabsChange = (event: React.SyntheticEvent, newValue: number) => {
     setTabsValue(newValue);
   };
-  const { openAddJobPost, handleOpenAddJobPost, handleCloseAddJobPost } =
-    useJobs();
+  const {
+    openAddJobPost,
+    handleOpenAddJobPost,
+    handleCloseAddJobPost,
+    loadingPostAddJob,
+    handleSubmitAddJobPost,
+    methodsAddJobPost,
+  } = useJobs();
 
   return (
     <Box
@@ -53,14 +60,39 @@ const Jobs = () => {
           <Tab label="Job Application" />
         </Tabs>
       </Box>
-      {tabsValue === 0 && (
-        <JobPosting
-          isOpenAddJobPost={openAddJobPost}
-          closeAddJobPost={handleCloseAddJobPost}
-          openAddJobPost={handleOpenAddJobPost}
-        />
-      )}
+      {tabsValue === 0 && <JobPosting />}
       {tabsValue === 1 && <JobApplication />}
+
+      <CommonDrawer
+        isDrawerOpen={openAddJobPost}
+        onClose={handleCloseAddJobPost}
+        title="Post a Job"
+        okText="Post"
+        isOk={true}
+        footer={true}
+        loading={loadingPostAddJob}
+        submitHandler={handleSubmitAddJobPost}
+      >
+        <>
+          <FormProvider methods={methodsAddJobPost}>
+            <Grid container spacing={4}>
+              {jobPostingDataArray?.map((item: any) => (
+                <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                  <item.component {...item.componentProps} size={'small'}>
+                    {item?.componentProps?.select
+                      ? item?.options?.map((option: any) => (
+                          <option key={option?.value} value={option?.value}>
+                            {option?.label}
+                          </option>
+                        ))
+                      : null}
+                  </item.component>
+                </Grid>
+              ))}
+            </Grid>
+          </FormProvider>
+        </>
+      </CommonDrawer>
     </Box>
   );
 };

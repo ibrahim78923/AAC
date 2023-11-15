@@ -7,12 +7,24 @@ import { useGetJobsQuery } from '@/services/superAdmin/settings/jobs';
 // import useJobs from '../useJobs';
 
 const useJobPosting = () => {
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  // const [page, setPage] = useState(0);
+  // const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const actionMenuOpen = Boolean(anchorEl);
+  const [openEditJobPost, setOpenEditJobPost] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(true);
+  const [tableRowValues, setTableRowValues] = useState([]);
+  const [rowId, setRowId] = useState(null);
   const defaultParams = { page: 1, limit: 5 };
   const [jobsParams, setJobsParams] = useState(defaultParams);
   const [searchValue, setSearchValue] = useState('');
   const [openJobPostingFilter, setOpenJobPostingFilter] = useState(false);
+  const handleActionsClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   const {
     data: jopPostinData,
     isLoading: loadingJobPosting,
@@ -57,30 +69,42 @@ const useJobPosting = () => {
   };
   const handleFiltersSubmit = handleMethodFilter(onSubmitFilters);
 
-  const handleChangePage = (event: unknown, newPage: number) => {
-    setPage(newPage);
-    setJobsParams((prev: any) => {
-      return {
-        ...prev,
-        page: newPage,
-      };
-    });
+  // const handleChangePage = (event: unknown, newPage: number) => {
+  //   setPage(newPage);
+  //   setJobsParams((prev: any) => {
+  //     return {
+  //       ...prev,
+  //       page: newPage,
+  //     };
+  //   });
+  // };
+
+  // const handleChangeRowsPerPage = (
+  //   event: React.ChangeEvent<HTMLInputElement>,
+  // ) => {
+  //   setRowsPerPage(parseInt(event.target.value));
+  //   setPage(0);
+  //   setJobsParams((prev: any) => {
+  //     return {
+  //       ...prev,
+  //       limit: event.target.value,
+  //     };
+  //   });
+  // };
+
+  const handleOpenEditJobPost = () => {
+    setOpenEditJobPost(true);
   };
 
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    setRowsPerPage(parseInt(event.target.value));
-    setPage(0);
-    setJobsParams((prev: any) => {
-      return {
-        ...prev,
-        limit: event.target.value,
-      };
-    });
+  const handleCloseEditJobPost = () => {
+    setOpenEditJobPost(false);
   };
 
   return {
+    anchorEl,
+    actionMenuOpen,
+    handleActionsClick,
+    handleClose,
     jopPostinData,
     loadingJobPosting,
     errorJobPosting,
@@ -93,10 +117,15 @@ const useJobPosting = () => {
     handleCloseJobPostingFilters,
     methodsFilter,
     handleFiltersSubmit,
-    handleChangeRowsPerPage,
-    rowsPerPage,
-    handleChangePage,
-    page,
+    tableRowValues,
+    setTableRowValues,
+    isDisabled,
+    setIsDisabled,
+    setRowId,
+    rowId,
+    handleOpenEditJobPost,
+    handleCloseEditJobPost,
+    openEditJobPost,
   };
 };
 
