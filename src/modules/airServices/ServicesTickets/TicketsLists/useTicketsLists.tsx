@@ -13,9 +13,11 @@ import { enqueueSnackbar } from 'notistack';
 import {
   useLazyGetExportTicketsQuery,
   useLazyGetTicketsQuery,
+  usePatchBulkUpdateTicketsMutation,
 } from '@/services/airServices/tickets';
 import { downloadFile } from '@/utils/file';
 import { UpsertTicket } from '../UpsertTicket';
+import { EXPORT_TYPE } from '@/constants/strings';
 
 export const useTicketsLists: any = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -51,18 +53,22 @@ export const useTicketsLists: any = () => {
   const [lazyGetExportTicketsTrigger, lazyGetExportTicketsStatus] =
     useLazyGetExportTicketsQuery();
 
+  const [patchBulkUpdateTicketsTrigger] = usePatchBulkUpdateTicketsMutation();
+
   const getValueTicketsListData = async () => {
     try {
       const response =
         await lazyGetTicketsTrigger(getTicketsParameter)?.unwrap();
-      enqueueSnackbar('Tickets Retrieved successfully', { variant: 'success' });
-      return response;
+      enqueueSnackbar(response?.message ?? 'Tickets Retrieved successfully', {
+        variant: 'success',
+      });
     } catch (error: any) {
       enqueueSnackbar(error?.data?.message ?? 'Error', {
         variant: 'error',
       });
     }
   };
+
   const getTicketsListDataExport = async (type: any) => {
     const exportTicketsParams = new URLSearchParams();
 
@@ -78,14 +84,16 @@ export const useTicketsLists: any = () => {
       )?.unwrap();
 
       const FILE_TYPE: any = {
-        CSV: 'text/csv',
-        XLS: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        [EXPORT_TYPE?.CSV]: 'text/csv',
+        [EXPORT_TYPE?.XLS]:
+          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
       };
 
       downloadFile(response, 'TicketLists', FILE_TYPE?.[type]);
 
-      enqueueSnackbar('Tickets Exported successfully', { variant: 'success' });
-      return response;
+      enqueueSnackbar(response?.message ?? 'Tickets Exported successfully', {
+        variant: 'success',
+      });
     } catch (error: any) {
       enqueueSnackbar(error?.data?.message ?? 'Error', {
         variant: 'error',
@@ -111,6 +119,33 @@ export const useTicketsLists: any = () => {
     }
   }, []);
 
+  const updateTicketStatus = async (status: any) => {
+    const updateTicketStatusParams = new URLSearchParams();
+    selectedTicketList?.forEach(
+      (ticketId: any) => updateTicketStatusParams?.append('ids', ticketId),
+    );
+    const updateTicketStatusTicketsParameter = {
+      queryParams: updateTicketStatusParams,
+      body: {
+        status,
+      },
+    };
+    try {
+      const response: any = await patchBulkUpdateTicketsTrigger(
+        updateTicketStatusTicketsParameter,
+      )?.unwrap();
+      enqueueSnackbar(
+        response?.message ?? `Ticket marked as ${status?.toLowerCase()}`,
+        {
+          variant: 'success',
+        },
+      );
+    } catch (error: any) {
+      enqueueSnackbar(error?.data?.error ?? 'Error', {
+        variant: 'error',
+      });
+    }
+  };
   const ticketsListsColumnPersist = ticketsListsColumnFunction(
     theme,
     router,
@@ -165,20 +200,11 @@ export const useTicketsLists: any = () => {
     }, 100);
   };
 
-  const markTicketAsClose = () => {
-    enqueueSnackbar('Ticket marked as close', { variant: 'success' });
-  };
-
-  const markTicketAsSpam = () => {
-    enqueueSnackbar('Ticket marked as spam', { variant: 'success' });
-  };
-
   const ticketsActionDropdown = ticketsActionDropdownFunction?.(
     setDeleteModalOpen,
-    markTicketAsClose,
-    markTicketAsSpam,
     openDrawer,
     selectedTicketList,
+    updateTicketStatus,
   );
 
   return {
