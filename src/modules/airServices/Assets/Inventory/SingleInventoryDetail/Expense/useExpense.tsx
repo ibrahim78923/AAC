@@ -42,14 +42,14 @@ export const useExpense = () => {
   };
   const onAddExpenseSubmit = async (data: any) => {
     const queryParams = {
-      fosterChildId: router.query.fosterChildId,
+      assetsId: router?.query?.inventoryId,
     };
     const apiDataParameter = {
-      body: { ...data, assetId: '651d8c552d3ef0d603ed4210' },
+      body: data,
       queryParams,
     };
     try {
-      await postExpenseInfoDataTrigger(apiDataParameter).unwrap();
+      await postExpenseInfoDataTrigger(apiDataParameter)?.unwrap();
     } catch (error: any) {
       const errMsg = error?.data?.message;
       enqueueSnackbar(errMsg ?? 'Error occurred', { variant: 'error' });
@@ -77,7 +77,7 @@ export const useExpense = () => {
           key,
           key === 'date'
             ? value
-              ? new Date(dayjs(value).format('YYYY-MM-DD'))
+              ? new Date(dayjs(value)?.format('YYYY-MM-DD'))
               : '---'
             : value,
         ),

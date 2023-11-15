@@ -83,13 +83,13 @@ export { default as DealReportImage } from './modules/airSales/Reports/reports.p
 export { default as ServiceFeaturedImage } from './modules/airCustomerPortal/catalog/services-featured-image.png';
 export { default as SoftwareFeaturedImage } from './modules/airCustomerPortal/catalog/software-featured-image.png';
 export { default as PmFeaturedImage } from './modules/airCustomerPortal/catalog/pm-featured-image.png';
-export { default as HardwareFeaturedImage } from './modules/airCustomerPortal/catalog/Hardware-featured-image.png';
+export { default as HardwareFeaturedImage } from './modules/airCustomerPortal/catalog/hardware-featured-image.png';
 export { default as CatalogLogosAdobePhotoshopImage } from './modules/airCustomerPortal/catalog/catalog-logos-adobe-photoshop-image.png';
 export { default as NoSearchResultFoundImage } from './shared/no-search-result.png';
 export { default as CatalogSkillIllustratorImage } from './modules/airCustomerPortal/catalog/catalog-skill-illustrator-image.png';
 export { default as CatalogAdobePremiereImage } from './modules/airCustomerPortal/catalog/catalog-adobe-premiere-image.png';
 export { default as CatalogDatabaseImage } from './modules/airCustomerPortal/catalog/catalog-database-image.png';
-export { default as CatalogKyoDeviceLaptopImage } from './modules/airCustomerPortal/catalog/catalog-Kyo-Device-Laptop-image.png';
+export { default as CatalogKyoDeviceLaptopImage } from './modules/airCustomerPortal/catalog/catalog-kyo-device-laptop-image.png';
 export { default as CatalogSkillXdImage } from './modules/airCustomerPortal/catalog/catalog-skill-xd-image.png';
 export { default as CatalogHopstarterSoftwareAdobeImage } from './modules/airCustomerPortal/catalog/catalog-hopstarter-software-adobe-image.png';
 export { default as CatalogLogitechMouseImage } from './modules/airCustomerPortal/catalog/catalog-logitech-mouse-image.png';
