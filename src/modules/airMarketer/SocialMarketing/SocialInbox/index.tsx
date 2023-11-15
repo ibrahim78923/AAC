@@ -1,6 +1,8 @@
 import {
   Box,
   Button,
+  Checkbox,
+  FormControlLabel,
   Grid,
   ToggleButton,
   ToggleButtonGroup,
@@ -9,44 +11,60 @@ import React from 'react';
 import { styles } from './SocialInbox.style';
 import { FilterSharedIcon } from '@/assets/icons';
 import { useSocialInbox } from './useSocialInbox';
+import SocialModes from './SocialModes';
 
 const SocialInbox = () => {
-  const { theme } = useSocialInbox();
+  const { theme, socialModeState, handleSelection } = useSocialInbox();
   return (
     <Box>
       <Grid container spacing={3}>
-        <Grid item xs={12} md={4}>
-          <Box sx={styles?.wrapperBox}>
-            <ToggleButtonGroup
-              value={''}
-              exclusive
-              // onChange={handleSelection}
-              aria-label="text alignment"
-            >
-              <ToggleButton
-                value="personalChat"
-                sx={styles?.toggleButtonLeft(theme)}
-                aria-label="left-aligned"
+        <Grid item xs={12} md={3}>
+          <Box sx={styles.mainWrapperBox}>
+            <Box sx={styles?.wrapperBox}>
+              <ToggleButtonGroup
+                value={socialModeState}
+                exclusive
+                onChange={handleSelection}
+                aria-label="text alignment"
               >
-                Personal Chat
-              </ToggleButton>
-              <ToggleButton
-                value="groupChat"
-                sx={styles?.toggleButtonRight(theme)}
-                aria-label="right-aligned"
-              >
-                Group chat
-              </ToggleButton>
-            </ToggleButtonGroup>
+                <ToggleButton
+                  value="Teams"
+                  sx={styles?.toggleButtonLeft(theme)}
+                  aria-label="left-aligned"
+                >
+                  Personal Chat
+                </ToggleButton>
+                <ToggleButton
+                  value="Channel"
+                  sx={styles?.toggleButtonRight(theme)}
+                  aria-label="right-aligned"
+                >
+                  Group chat
+                </ToggleButton>
+              </ToggleButtonGroup>
+            </Box>
 
-            <Box>{/* <RHFCheckbox name="cc" label="CC" /> */}</Box>
-            <Button>
-              <FilterSharedIcon />
-            </Button>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+              <FormControlLabel
+                control={<Checkbox defaultChecked />}
+                label="Select All"
+              />
+              <Button
+                // sx={styles?.filterButton}
+                // aria-controls={actionMenuOpen ? 'basic-menu' : undefined}
+                aria-haspopup="true"
+                // aria-expanded={actionMenuOpen ? 'true' : undefined}
+                // onClick={handleClick}
+              >
+                <FilterSharedIcon />
+              </Button>
+            </Box>
+
+            <SocialModes />
           </Box>
         </Grid>
-        <Grid item xs={12} md={8}>
-          <Box sx={styles?.wrapperBox}></Box>
+        <Grid item xs={12} md={9}>
+          <Box sx={styles?.mainWrapperBox}></Box>
         </Grid>
       </Grid>
     </Box>

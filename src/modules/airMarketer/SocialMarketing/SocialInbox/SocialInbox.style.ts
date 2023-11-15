@@ -1,10 +1,14 @@
 export const styles = {
   wrapperBox: () => {
     return {
-      padding: '20px 0px',
-      width: '100%',
       display: 'flex',
       justifyContent: 'center',
+    };
+  },
+  mainWrapperBox: () => {
+    return {
+      padding: '20px 20px',
+      width: '100%',
       backgroundColor: 'white',
       height: '87vh',
       borderRadius: '8px',

@@ -9,7 +9,7 @@ const initialState: SocialInboxI = {
 };
 
 const SocialInboxSlice = createSlice({
-  name: 'chat',
+  name: 'SocialInbox',
   initialState: initialState,
   reducers: {
     setSocialInboxMode: (state: any, action: PayloadAction<any>) => {
