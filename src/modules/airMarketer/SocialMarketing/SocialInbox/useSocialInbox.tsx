@@ -9,7 +9,7 @@ export const useSocialInbox = () => {
   };
   const theme = useTheme();
   const socialModeState = useAppSelector(
-    (state: any) => state?.socialInbox.socialInboxState,
+    (state: any) => state?.socialInbox?.socialInboxState,
   );
 
   return {
