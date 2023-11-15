@@ -11,10 +11,10 @@ import CatalogServiceBackUp from '../CatalogServiceBackUp';
 import CatalogServiceSoftware from '../CatalogServiceSoftware';
 import { v4 as uuidv4 } from 'uuid';
 
-function CatalogService() {
+const CatalogService = () => {
   const router = useRouter();
   const theme: any = useTheme();
-  const serviceData = allsServices.find(
+  const serviceData = allsServices?.find(
     (service: any) => service?.id == router?.query?.serviceId,
   );
   const { open, handleClickOpen, setOpen } = useCatalog();
@@ -122,6 +122,6 @@ function CatalogService() {
       </Grid>
     </>
   );
-}
+};
 
 export default CatalogService;

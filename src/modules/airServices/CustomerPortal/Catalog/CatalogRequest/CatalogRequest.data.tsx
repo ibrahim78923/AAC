@@ -3,7 +3,7 @@ import * as Yup from 'yup';
 export const placeRequestValidationSchema = Yup?.object()?.shape({
   requestor: Yup?.string()?.required('Field is Required'),
   requestorFor: Yup?.string()?.required('Field is Required'),
-  noOfItem: Yup.number(),
+  noOfItem: Yup?.number(),
 });
 export const placeRequestDefaultValues = {
   requestor: '',

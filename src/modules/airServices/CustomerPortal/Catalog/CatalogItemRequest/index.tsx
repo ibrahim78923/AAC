@@ -7,7 +7,7 @@ import { FormProvider } from '@/components/ReactHookForm';
 import { placeRequest } from '../CatalogRequest/CatalogRequest.data';
 import { useWatch } from 'react-hook-form';
 import { v4 as uuidv4 } from 'uuid';
-function CatalogItemRequest() {
+const CatalogItemRequest = () => {
   const { methodRequest, onSubmitRequest, control, getValues } =
     useCatalogRequest();
   useWatch<any>({ control, name: 'requestForSomeOneElse' });
@@ -43,6 +43,6 @@ function CatalogItemRequest() {
       </FormProvider>
     </DialogContent>
   );
-}
+};
 
 export default CatalogItemRequest;

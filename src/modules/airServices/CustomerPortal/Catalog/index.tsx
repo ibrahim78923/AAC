@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { services } from './Catalog.data';
 import useCatalog from './useCatalog';
 
-function Catalog() {
+const Catalog = () => {
   const { handleClick, result, handleClickService } = useCatalog();
   return (
     <>
@@ -108,6 +108,6 @@ function Catalog() {
       </Grid>
     </>
   );
-}
+};
 
 export default Catalog;

@@ -1,5 +1,5 @@
 import { baseAPI } from '@/services/base-api';
-const TAG = 'Expense';
+const TAG = 'EXPENSE';
 export const detailsExpenseInfoAPI = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
     postExpenseInfoData: builder?.mutation({
