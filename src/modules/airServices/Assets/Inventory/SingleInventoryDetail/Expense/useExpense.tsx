@@ -10,8 +10,9 @@ import {
   data,
   expenseActionsDropdownFunction,
 } from './Expense.data';
-import { usePostExpenseInfoDataMutation } from '@/services/airServices/Assets/Inventory/Expense';
+
 import { useRouter } from 'next/router';
+import { usePostExpenseInfoDataMutation } from '@/services/airServices/assets/inventory/single-inventory-details/expense';
 
 export const useExpense = () => {
   const [postExpenseInfoDataTrigger, postExpenseInfoResponse] =

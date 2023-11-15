@@ -153,4 +153,4 @@ export { default as EmpAvatarImage } from '../images/modules/socialComponents/co
 export { default as TicketImage } from '../images/modules/socialComponents/companies/ticket.png';
 export { default as NoteImage } from '../images/modules/socialComponents/companies/note.png';
 export { default as NoteAddImage } from '../images/modules/socialComponents/companies/noteAdd.png';
-export { default as ActivitesTimeImage } from '../images/modules/socialComponents/companies/ActivitiesWithoutTime.png';
+export { default as ActivitesTimeImage } from '../images/modules/socialComponents/companies/activitiesWithoutTime.png';
