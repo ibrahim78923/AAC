@@ -55,6 +55,7 @@ export default function RHFUploadFile(props: any) {
       <input
         {...other?.register(`${name}`)}
         type="file"
+        accept=".png, .jpg, .jpeg, .gif, .pdf, .doc, .docx, .xls, .xlsx, .csv"
         disabled={disabled}
         name={`${name}`}
         id={`${name}`}

@@ -1,6 +1,6 @@
 import { Button } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import { associationsImage } from '@/assets/images';
+import { AssociationsImage } from '@/assets/images';
 import NoData from '@/components/NoData';
 import { assetsAssociateTableData } from './AssetsAssociateDetail/AssetsAssociateTable/AssetsAssociateTable.data';
 import { AssetsAssociateDetail } from './AssetsAssociateDetail';
@@ -15,7 +15,7 @@ export const AssetsAssociate = () => {
       ) : (
         <NoData
           message="There are no Asset Associations"
-          image={associationsImage}
+          image={AssociationsImage}
         >
           <Button
             variant="outlined"

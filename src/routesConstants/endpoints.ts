@@ -1,11 +1,19 @@
-export const endpoints = {
-  login: 'auth/signin',
-  signup: 'auth/signup',
+export const END_POINTS = {
+  LOGIN: 'auth/signin',
+  SIGNUP: 'auth/signup',
   verify_token: 'auth/verify-token',
   search_company: 'auth/signup',
-  get_permissions: '/premissions',
-  reset_password: 'auth/resetPassword',
-  forgot_password: 'auth/forgot-password',
+  GET_PERMISSIONS: '/permissions',
+  RESET_PASSWORD: 'auth/resetPassword',
+  FORGOT_PASSWORD: 'auth/forgot-password',
+  USER_LIST: '/users',
+  ADD_USER: '/users',
+  ADD_USER_ACCOUNT: '/super-admin/add-accounts',
+  USER_ACCOUNTS_LIST: '/super-admin/accounts-list',
+  UPDATE_USER_LIST: '/users/edit',
+  COMPANY_CRN: '/auth/search-company',
+  AUTH_SEARCH_COMPANY: 'auth/search-company',
+  AUTH_IG_VERIFICATION: 'auth/ig-verification',
 };
 
 export const superAdminBillingInvoices = {

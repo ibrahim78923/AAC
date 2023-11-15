@@ -19,17 +19,6 @@ export const dropdownDummy = [
   },
 ];
 
-export const dropdownDummy2 = [
-  {
-    value: 122,
-    label: 'Option 1',
-  },
-  {
-    value: 22,
-    label: 'Option 2',
-  },
-];
-
 export const assetTypeOptions = [
   {
     value: 'Services',
@@ -69,11 +58,10 @@ export const assetTypeOptions = [
   },
 ];
 
-// form validation schema
-export const validationSchema: any = yup.object().shape({
-  displayName: yup.string().required('Required field!'),
-  assetType: yup.string().required('Required field!'),
-  impact: yup.string().required('Required field!'),
+export const validationSchema: any = yup?.object()?.shape({
+  displayName: yup?.string()?.required('Required field!'),
+  assetType: yup?.string()?.required('Required field!'),
+  impact: yup?.string()?.required('Required field!'),
 });
 
 export const defaultValues = {
@@ -91,7 +79,7 @@ export const defaultValues = {
   attachFile: '',
 };
 
-export const editInventoryFields = [
+export const addInventoryFields = [
   {
     id: 1,
     component: RHFTextField,
@@ -171,7 +159,7 @@ export const editInventoryFields = [
   {
     id: 7,
     componentProps: {
-      varient: 'h4',
+      variant: 'h4',
       fontSize: '1.25rem',
       fontWeight: 600,
       lineHeight: '1.875rem',
@@ -196,7 +184,7 @@ export const editInventoryFields = [
   {
     id: 17,
     componentProps: {
-      varient: 'h4',
+      variant: 'h4',
       fontSize: '1.25rem',
       fontWeight: 600,
       lineHeight: '1.875rem',

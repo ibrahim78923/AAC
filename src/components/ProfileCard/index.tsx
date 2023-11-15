@@ -1,5 +1,3 @@
-import React from 'react';
-
 import Image from 'next/image';
 
 import { Box, Typography, Button, useTheme } from '@mui/material';
@@ -19,13 +17,14 @@ import { UserProfileImage } from '@/assets/images';
 
 const ProfileCard = (props: CardPropsI) => {
   const theme = useTheme();
+
   const {
     src = UserProfileImage,
     userName = 'John Doe',
     role = 'Org Admin',
     email = 'Johndoe@gmail.com',
     phone = '(316) 555-0116',
-    handleEditProfile = () => {},
+    handleEditProfile,
     handleEditImage = () => {},
     editBtn = true,
     isBadge = true,
@@ -35,15 +34,15 @@ const ProfileCard = (props: CardPropsI) => {
     <Box sx={styles.cardWrapper(theme)}>
       <Box
         sx={{
-          color: theme.palette.primary.light,
+          color: theme?.palette?.primary?.light,
           display: 'flex',
           flexDirection: { xs: 'column', sm: 'row' },
         }}
       >
-        <Box sx={styles.imgWrapper}>
+        <Box sx={styles?.imgWrapper}>
           <Box
             className="edit-Icon"
-            sx={styles.editIcon}
+            sx={styles?.editIcon}
             onClick={handleEditImage}
           >
             <EditIcon />
@@ -58,33 +57,32 @@ const ProfileCard = (props: CardPropsI) => {
             {userName}
           </Typography>
           {isBadge && (
-            <Typography component={'span'} sx={styles.badge(theme)}>
+            <Typography component={'span'} sx={styles?.badge(theme)}>
               {role}
             </Typography>
           )}
           <Box
             sx={{ display: 'flex', gap: '20px', flexWrap: 'wrap', mt: '16px' }}
           >
-            <Box sx={styles.icon}>
-              <Typography component="span" sx={styles.iconWrapper(theme)}>
+            <Box sx={styles?.icon}>
+              <Typography component="span" sx={styles?.iconWrapper(theme)}>
                 <EmailIcon />
               </Typography>
               <Typography
                 variant="body4"
-                sx={{ color: `${theme?.palette?.custom.main}` }}
+                sx={{ color: `${theme?.palette?.custom?.main}` }}
               >
-                {' '}
                 {email}
               </Typography>
             </Box>
-            <Box sx={styles.icon}>
-              <Typography component="span" sx={styles.iconWrapper}>
+            <Box sx={styles?.icon}>
+              <Typography component="span" sx={styles?.iconWrapper}>
                 <PhoneIcon />
               </Typography>
 
               <Typography
                 variant="body4"
-                sx={{ color: `${theme?.palette?.custom.main}` }}
+                sx={{ color: `${theme?.palette?.custom?.main}` }}
               >
                 {phone}
               </Typography>

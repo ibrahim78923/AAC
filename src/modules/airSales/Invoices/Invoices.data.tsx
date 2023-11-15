@@ -42,28 +42,28 @@ export const invoiceDetail = [
 //sales list view columns
 export const invoicesTableColumns: any = [
   {
-    accessorFn: (row: any) => row.Id,
+    accessorFn: (row: any) => row?.Id,
     id: 'Id',
-    cell: (info: any) => <Checkbox color="primary" name={info.getValue()} />,
+    cell: (info: any) => <Checkbox color="primary" name={info?.getValue()} />,
     header: <Checkbox color="primary" name="Id" />,
     isSortable: false,
   },
   {
-    accessorFn: (row: any) => row.invoiceName,
+    accessorFn: (row: any) => row?.invoiceName,
     id: 'invoiceName',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
     header: 'Invoice Name',
     isSortable: true,
   },
   {
-    accessorFn: (row: any) => row.invoiceAmount,
+    accessorFn: (row: any) => row?.invoiceAmount,
     id: 'invoiceAmount',
     isSortable: true,
     header: 'Invoice Amount',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.status,
+    accessorFn: (row: any) => row?.status,
     id: 'status',
     isSortable: true,
     header: 'Status',
@@ -72,25 +72,25 @@ export const invoicesTableColumns: any = [
     },
   },
   {
-    accessorFn: (row: any) => row.linkedQuote,
+    accessorFn: (row: any) => row?.linkedQuote,
     id: 'linkedQuote',
     isSortable: true,
     header: 'Linked Quote',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.createdBy,
+    accessorFn: (row: any) => row?.createdBy,
     id: 'createdBy',
     isSortable: true,
     header: 'Created By',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.createdDate,
+    accessorFn: (row: any) => row?.createdDate,
     id: 'createdDate',
     isSortable: true,
     header: 'Created Date',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
 ];
 
@@ -155,16 +155,16 @@ export const invoicesTableData: any = [
 ];
 
 //filter drwaer form
-export const validationSchema = Yup.object().shape({
-  requester: Yup.string().required('Field is Required'),
-  impact: Yup.string().required('Field is Required'),
-  plannedEndDate: Yup.date(),
+export const validationSchema = Yup?.object().shape({
+  requester: Yup?.string().required('Field is Required'),
+  impact: Yup?.string().required('Field is Required'),
+  plannedEndDate: Yup?.date(),
 });
 
 export const defaultValues = {
   requester: '',
   impact: '',
-  plannedEndDate: new Date(),
+  plannedEndDate: '',
 };
 
 export const invoiceFilterFields = [
@@ -181,7 +181,7 @@ export const invoiceFilterFields = [
   },
   {
     componentProps: {
-      name: 'plannedEndDate',
+      name: 'plannedEndDat e',
       label: 'Planned End Date',
       fullWidth: true,
     },
@@ -211,28 +211,28 @@ export const productsTableColumns = (
   setIsDrawerOpen: any,
 ) => [
   {
-    accessorFn: (row: any) => row.Sr,
+    accessorFn: (row: any) => row?.Sr,
     id: 'Sr',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
     header: 'Sr#',
     isSortable: false,
   },
   {
-    accessorFn: (row: any) => row.productName,
+    accessorFn: (row: any) => row?.productName,
     id: 'productName',
     cell: (info: any) => info.getValue(),
     header: 'Product Name',
     isSortable: true,
   },
   {
-    accessorFn: (row: any) => row.unitPrice,
+    accessorFn: (row: any) => row?.unitPrice,
     id: 'unitPrice',
     isSortable: true,
     header: 'Unit Price',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.quantity,
+    accessorFn: (row: any) => row?.quantity,
     id: 'quantity',
     isSortable: true,
     header: 'Quantity',
@@ -241,7 +241,7 @@ export const productsTableColumns = (
     },
   },
   {
-    accessorFn: (row: any) => row.unitDiscount,
+    accessorFn: (row: any) => row?.unitDiscount,
     id: 'unitDiscount',
     isSortable: true,
     header: 'Unit Discount',
@@ -260,21 +260,21 @@ export const productsTableColumns = (
     },
   },
   {
-    accessorFn: (row: any) => row.totalPrice,
+    accessorFn: (row: any) => row?.totalPrice,
     id: 'totalPrice',
     isSortable: true,
     header: 'Total Price',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.createdDate,
+    accessorFn: (row: any) => row?.createdDate,
     id: 'createdDate',
     isSortable: true,
     header: 'Created Date',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.action,
+    accessorFn: (row: any) => row?.action,
     id: 'Actions',
     isSortable: true,
     header: 'Actions',

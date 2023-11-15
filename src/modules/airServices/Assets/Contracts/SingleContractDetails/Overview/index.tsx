@@ -13,7 +13,7 @@ export const Overview = () => {
             {item?.heading}
           </Typography>
           <Box sx={styles?.mainContainerBox}>
-            {item?.DetailsData?.map((detail: any) => (
+            {item?.detailsData?.map((detail: any) => (
               <div key={uuidv4()}>
                 <Box sx={styles?.childContainerBox}>
                   <Box sx={{ width: { sm: '20%', xs: '140px' } }}>

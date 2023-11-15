@@ -11,14 +11,9 @@ export const useDetailsViewPropertiesSection = () => {
 
     defaultValues,
   });
-  const {
-    handleSubmit,
-    // formState: { isSubmitting },
-  } = methods;
+  const { handleSubmit } = methods;
 
-  const onSubmit = async () => {
-    // console.log(data);
-  };
+  const onSubmit = async () => {};
   return {
     methods,
     handleSubmit,

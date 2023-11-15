@@ -10,7 +10,7 @@ export const QuantityNumber = (props: any) => {
         max: 100,
         step: 1,
       }}
-      value={data.getValue()}
+      value={data?.getValue()}
       size="small"
     />
   );

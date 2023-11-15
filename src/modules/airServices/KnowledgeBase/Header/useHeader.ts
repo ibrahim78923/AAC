@@ -8,7 +8,7 @@ export const useHeader = () => {
   const theme = useTheme();
   const router = useRouter();
   const handleClick = (event: MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
+    setAnchorEl(event?.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);

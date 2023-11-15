@@ -16,7 +16,7 @@ const useRolesAndRights = () => {
   };
 
   const handleClick = (event: any) => {
-    setSelectedValue(event.currentTarget);
+    setSelectedValue(event?.currentTarget);
   };
   return {
     navigate,
