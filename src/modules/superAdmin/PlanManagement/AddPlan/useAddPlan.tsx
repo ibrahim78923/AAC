@@ -102,11 +102,13 @@ export const useAddPlan = () => {
         productId: planForm?.productId[0],
         planTypeId: planForm?.planTypeId,
         description: planForm?.description,
-        defaultUsers: planForm?.defaultUsers,
-        defaultStorage: planForm?.defaultStorage,
-        planPrice: planForm?.planPrice,
-        additionalPerUserPrice: planForm?.additionalPerUserPrice,
-        additionalStoragePrice: planForm?.additionalStoragePrice,
+        defaultUsers: parseInt(planForm?.defaultUsers),
+        defaultStorage: parseInt(planForm?.defaultStorage),
+        planPrice: parseInt(planForm?.planPrice),
+        additionalPerUserPrice: parseInt(planForm?.additionalPerUserPrice),
+        additionalStoragePrice: parseInt(planForm?.additionalStoragePrice),
+        allowAdditionalUsers: planForm?.allowAdditionalUsers,
+        allowAdditionalStorage: planForm?.allowAdditionalStorage,
       };
       const planFeaturesFormData = {
         planFeature: [
@@ -123,18 +125,19 @@ export const useAddPlan = () => {
         ],
       };
       const planPermissions = {
-        productId: planForm?.productId[0],
         planPermission: [
           {
             permissionSlugs: values?.permissionSlugs,
+            productId: planForm?.productId[0],
           },
         ],
       };
       const permissions = {
         ...planPermissions,
+        ...planFormData,
+        ...planFeaturesFormData,
         productId: planForm?.productId[0],
       };
-
       try {
         postPlanMangement({
           body: {
