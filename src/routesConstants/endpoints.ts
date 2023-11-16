@@ -18,10 +18,12 @@ export const END_POINTS = {
 
 export const superAdminBillingInvoices = {
   get_org_plan: '/super-admin/get-all-orgplans?',
-  get_Products: '/products?status=inactive',
+  get_Products: '/products?status=active',
   get_plan_type: '/plan/plan-type-list',
   get_organizations: '/organization/get-organizations',
   post_biling_invoices: '/super-admin/assign-plan',
+  get_plan_id: '/super-admin/find-plan',
+  patch_assign_plan: '/super-admin/update-assign-plan',
 };
 
 export const organization = {

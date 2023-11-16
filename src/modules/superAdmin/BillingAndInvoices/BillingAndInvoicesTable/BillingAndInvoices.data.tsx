@@ -67,7 +67,7 @@ export const Columns = (
       ),
     },
     {
-      accessorFn: (row: any) => row?.plantypes,
+      accessorFn: (row: any) => row?.plantypes?.name,
       id: 'plantypes',
       isSortable: true,
       header: 'Plan Type',
@@ -106,7 +106,7 @@ export const Columns = (
       cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row?.defaultStorage,
+      accessorFn: (row: any) => row?.plans?.defaultStorage,
       id: 'DefaultStorage',
       isSortable: true,
       header: 'Default storage',

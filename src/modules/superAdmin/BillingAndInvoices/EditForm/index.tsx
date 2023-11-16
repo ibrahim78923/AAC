@@ -18,15 +18,17 @@ export default function EditForm({
     selectProductSuite,
     setSelectProductSuite,
     methods,
-    apiMethods,
     handleSubmit,
     onSubmit,
+    reset,
   } = useEditForm(isEditModal, isGetRowValues, onClose);
 
   return (
     <CommonDrawer
       isDrawerOpen={isOpenDrawer}
-      onClose={() => onClose(false)}
+      onClose={() => {
+        onClose(false), reset;
+      }}
       title={`${isEditModal ? 'Update' : 'Assign'}  Plan`}
       okText={`${isEditModal ? 'Update' : 'Assign'}`}
       isOk
@@ -35,7 +37,7 @@ export default function EditForm({
       submitHandler={handleSubmit(onSubmit)}
     >
       <Box mt={1}>
-        <FormProvider methods={isEditModal ? apiMethods : methods}>
+        <FormProvider methods={methods}>
           <Grid container spacing={4} sx={{ position: 'relative' }}>
             {assignPlanData(selectProductSuite)?.map(
               (item: any, index: any) => (
