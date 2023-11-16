@@ -14,7 +14,7 @@ export default SuperAdminPlanManagementPage;
 SuperAdminPlanManagementPage.getLayout = function getLayout(page: any) {
   const persistor = persistStore(store);
   return (
-    <Layout permissions={Permissions.PLAN_MANAGEMENT}>
+    <Layout permissions={Permissions?.PLAN_MANAGEMENT}>
       {' '}
       <PersistGate loading={null} persistor={persistor}>
         {' '}

@@ -17,7 +17,7 @@ export const columns = (
         <Checkbox
           color="primary"
           checked={
-            info?.cell?.row?.original.Id ===
+            info?.cell?.row?.original?.Id ===
               isGetRowValues?.cell?.row?.original?.Id && isChecked
           }
           name={info?.getValue()}

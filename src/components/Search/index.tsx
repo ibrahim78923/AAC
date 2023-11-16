@@ -21,20 +21,11 @@ const Search = ({
   const theme = useTheme();
 
   const debouncedResults = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
+    const { value } = event?.target;
     debouncedSearch(value, setSearchBy);
   };
 
   return (
-    // <input
-    //               type="text"
-    //               onChange={(e: any) => {
-    //                 debouncedResults(e);
-
-    //               }}
-    //               className="searchbar border-radius-4"
-    //               placeholder="Search By Vehicle Number"
-    //             />
     <TextField
       onChange={debouncedResults}
       value={searchBy}

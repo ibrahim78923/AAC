@@ -129,7 +129,7 @@ const PlanManagement = () => {
             <Link
               href={{
                 pathname: '/super-admin/plan-management/add-plan',
-                query: { data: JSON.stringify(tableRowValues?.row?.original) },
+                query: { data: JSON?.stringify(tableRowValues?.row?.original) },
               }}
               as="/super-admin/plan-management/add-plan"
             >
