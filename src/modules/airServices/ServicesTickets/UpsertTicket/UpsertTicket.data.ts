@@ -1,9 +1,9 @@
 import {
+  RHFAutocompleteAsync,
   RHFDatePicker,
   RHFDropZone,
   RHFEditor,
   RHFMultiSearchableSelect,
-  RHFSearchableSelect,
   RHFSelect,
   RHFTextField,
   RHFTimePicker,
@@ -31,16 +31,16 @@ export const dropdownDummy = [
 ];
 
 export const upsertTicketValidationSchema = Yup?.object()?.shape({
-  requester: Yup?.string()?.required('Field is Required'),
+  requester: Yup?.mixed()?.nullable()?.required('Required'),
   subject: Yup?.string()?.trim()?.required('Field is Required'),
   description: Yup?.string(),
-  category: Yup?.string(),
+  category: Yup?.string()?.required('Field is Required'),
   status: Yup?.string()?.required('Field is Required'),
   pirority: Yup?.string()?.required('Field is Required'),
-  department: Yup?.string(),
+  department: Yup?.string()?.required('Field is Required'),
   source: Yup?.string(),
   impact: Yup?.string(),
-  agent: Yup?.string(),
+  agent: Yup?.string()?.required('Field is Required'),
   plannedStartDate: Yup?.date(),
   plannedStartTime: Yup?.date(),
   plannedEndDate: Yup?.date(),
@@ -51,16 +51,16 @@ export const upsertTicketValidationSchema = Yup?.object()?.shape({
 
 export const upsertTicketDefaultValuesFunction = (data?: any) => {
   return {
-    requester: data?.requester ?? '',
+    requester: data?.requester ?? null,
     subject: data?.subject ?? '',
     description: data?.description ?? '',
-    category: data?.category ?? '',
+    category: data?.category ?? null,
     status: data?.status ?? '',
     pirority: data?.pirority ?? '',
-    department: data?.department ?? '',
+    department: data?.department ?? null,
     source: data?.source ?? '',
     impact: data?.impact ?? '',
-    agent: data?.agent ?? '',
+    agent: data?.agent ?? null,
     plannedStartDate: new Date(data?.plannedStartDate ?? todayDate),
     plannedStartTime: new Date(),
     plannedEndDate: new Date(data?.plannedEndDate ?? todayDate),
@@ -72,15 +72,20 @@ export const upsertTicketDefaultValuesFunction = (data?: any) => {
     attachFile: null,
   };
 };
-export const upsertTicketFormFields = [
+export const upsertTicketFormFieldsDynamic = (
+  apiQueryRequester?: any,
+  apiQueryDepartment?: any,
+  apiQueryCategory?: any,
+  apiQueryAgent?: any,
+) => [
   {
     componentProps: {
       name: 'requester',
       label: 'Requester',
       fullWidth: true,
-      options: dropdownDummy,
+      apiQuery: apiQueryRequester,
     },
-    component: RHFSearchableSelect,
+    component: RHFAutocompleteAsync,
     md: 12,
   },
   {
@@ -106,9 +111,9 @@ export const upsertTicketFormFields = [
       name: 'category',
       label: 'Category',
       fullWidth: true,
-      options: dropdownDummy,
+      apiQuery: apiQueryCategory,
     },
-    component: RHFSearchableSelect,
+    component: RHFAutocompleteAsync,
     md: 12,
   },
   {
@@ -138,9 +143,9 @@ export const upsertTicketFormFields = [
       name: 'department',
       label: 'Department',
       fullWidth: true,
-      options: dropdownDummy,
+      apiQuery: apiQueryDepartment,
     },
-    component: RHFSearchableSelect,
+    component: RHFAutocompleteAsync,
     md: 12,
   },
   {
@@ -170,9 +175,9 @@ export const upsertTicketFormFields = [
       name: 'agent',
       label: 'Agent',
       fullWidth: true,
-      options: dropdownDummy,
+      apiQuery: apiQueryAgent,
     },
-    component: RHFSearchableSelect,
+    component: RHFAutocompleteAsync,
     md: 12,
   },
   {

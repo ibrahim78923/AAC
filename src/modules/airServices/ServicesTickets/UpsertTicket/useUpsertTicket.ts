@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
   upsertTicketDefaultValuesFunction,
+  upsertTicketFormFieldsDynamic,
   upsertTicketValidationSchema,
 } from './UpsertTicket.data';
 import { enqueueSnackbar } from 'notistack';
@@ -13,6 +14,7 @@ import {
   usePutTicketsMutation,
 } from '@/services/airServices/tickets';
 import { useEffect } from 'react';
+import { useLazyGetOrganizationsQuery } from '@/services/dropdowns';
 
 export const useUpsertTicket = (props: any) => {
   const { setIsDrawerOpen, ticketId } = props;
@@ -29,7 +31,7 @@ export const useUpsertTicket = (props: any) => {
     },
   };
 
-  const { data, isLoading, isFetching } = useGetTicketsByIdQuery(
+  const { data, isLoading, isFetching, isError } = useGetTicketsByIdQuery(
     getSingleTicketParameter,
     {
       refetchOnMountOrArgChange: true,
@@ -108,6 +110,14 @@ export const useUpsertTicket = (props: any) => {
     reset?.();
     setIsDrawerOpen?.(false);
   };
+  const apiQueryOrganizations = useLazyGetOrganizationsQuery();
+
+  const upsertTicketFormFields = upsertTicketFormFieldsDynamic(
+    apiQueryOrganizations,
+    apiQueryOrganizations,
+    apiQueryOrganizations,
+    apiQueryOrganizations,
+  );
   return {
     router,
     theme,
@@ -120,5 +130,7 @@ export const useUpsertTicket = (props: any) => {
     isFetching,
     putTicketStatus,
     ticketId,
+    upsertTicketFormFields,
+    isError,
   };
 };

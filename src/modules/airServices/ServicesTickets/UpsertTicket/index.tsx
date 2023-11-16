@@ -1,10 +1,8 @@
 import { Box, Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
-import { v4 as uuidv4 } from 'uuid';
 import CommonDrawer from '@/components/CommonDrawer';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import { useUpsertTicket } from './useUpsertTicket';
-import { upsertTicketFormFields } from './UpsertTicket.data';
 
 export const UpsertTicket = (props: any) => {
   const { isDrawerOpen } = props;
@@ -16,6 +14,7 @@ export const UpsertTicket = (props: any) => {
     onClose,
     isLoading,
     ticketId,
+    upsertTicketFormFields,
   } = useUpsertTicket(props);
 
   return (
@@ -39,11 +38,11 @@ export const UpsertTicket = (props: any) => {
           >
             <Grid container spacing={4}>
               {upsertTicketFormFields?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                <Grid item xs={12} md={item?.md} key={item?.id}>
                   <item.component {...item?.componentProps} size={'small'}>
                     {item?.componentProps?.select &&
                       item?.options?.map((option: any) => (
-                        <option key={uuidv4()} value={option?.value}>
+                        <option key={option?.value} value={option?.value}>
                           {option?.label}
                         </option>
                       ))}
