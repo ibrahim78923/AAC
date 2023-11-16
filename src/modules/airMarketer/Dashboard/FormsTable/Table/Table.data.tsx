@@ -1,6 +1,6 @@
 export const columns: any = [
   {
-    accessorFn: (row: any) => row?.meetingName,
+    accessorFn: (row: any) => row?.landingPage,
     id: 'landingPage',
     cell: (info: any) => info?.getValue(),
     header: 'Landing Page',
@@ -8,7 +8,7 @@ export const columns: any = [
   },
 
   {
-    accessorFn: (row: any) => row?.organizer,
+    accessorFn: (row: any) => row?.publishStatus,
     id: 'publishStatus',
     cell: (info: any) => info?.getValue(),
     header: 'Publish Status',
@@ -16,25 +16,25 @@ export const columns: any = [
   },
 
   {
-    accessorFn: (row: any) => row?.type,
+    accessorFn: (row: any) => row?.views,
     id: 'views',
-    isSortable: true,
+    isSortable: false,
     header: 'Views',
     cell: (info: any) => info?.getValue(),
   },
 
   {
-    accessorFn: (row: any) => row?.duration,
+    accessorFn: (row: any) => row?.totalSubmission,
     id: 'totalSubmission',
-    isSortable: true,
+    isSortable: false,
     header: 'Total Submission',
     cell: (info: any) => info?.getValue(),
   },
 
   {
-    accessorFn: (row: any) => row?.businessUnit,
+    accessorFn: (row: any) => row?.type,
     id: 'type',
-    isSortable: true,
+    isSortable: false,
     header: 'Type',
     cell: (info: any) => info?.getValue(),
   },

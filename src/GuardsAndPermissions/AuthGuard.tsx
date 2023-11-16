@@ -10,7 +10,6 @@ import LoadingScreen from '@/components/LoadingScreen';
 
 export default function AuthGuard({ children }: any) {
   const { isAuthenticated, isInitialized } = useAuth();
-  const [isLoading, setIsLoading] = useState(true);
 
   const { pathname, push } = useRouter();
   const [requestedLocation, setRequestedLocation] = useState<any>(null);
@@ -20,10 +19,9 @@ export default function AuthGuard({ children }: any) {
       setRequestedLocation(null);
       push(requestedLocation);
     }
-    setIsLoading(false);
   }, [pathname, push, requestedLocation]);
 
-  if (!isInitialized || isLoading) {
+  if (!isInitialized) {
     return <LoadingScreen />;
   }
 

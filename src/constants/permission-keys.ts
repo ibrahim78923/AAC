@@ -56,15 +56,6 @@ export const SUPER_ADMIN_DASHBOARD_PERMISSIONS = {
   VIEW_DASHBOARD: 'view-dashboard',
 };
 
-export const SUPER_ADMIN_PLAN_MANAGEMENT_PERMISSIONS = {
-  PLAN_LIST: 'plan-list',
-  SEARCH_AND_FILTER: 'plan-search-and-filter',
-  ADD_PLAN: 'add-plan',
-  ACTIVE_INACTIVE_PLAN: 'active-inactive-plans',
-  EDIT_PLAN: 'edit-plan',
-  VIEW_PLAN: 'view-plan',
-};
-
 export const SUPER_ADMIN_BILLING_INVOICES_PERMISSIONS = {
   BILLING_INVOICES_LIST: 'billing-and-invoice-list',
   BILLING_SEARCH_AND_FILTER: 'billing-search-and-filter',
@@ -153,3 +144,25 @@ export const SUPER_ADMIN_SETTINGS_PRODUCT_FEATURES_PERMISSIONS = {
   Add_Features: 'add-feature',
   Active_Inactive_Features: 'active-inactive-feature',
 };
+
+//for display and purpose purpose in steppers
+export const SUPER_ADMIN_PLAN_MANAGEMENT_PERMISSIONS = [
+  {
+    Modules: 'Deals',
+    Sub_Modules: [
+      {
+        name: 'Deal Details',
+        permissions: [
+          {
+            label: 'Delete User',
+            value: 'delete-user',
+          },
+          {
+            label: 'Delete Users',
+            value: 'delete-users',
+          },
+        ],
+      },
+    ],
+  },
+];

@@ -1,6 +1,6 @@
 export const END_POINTS = {
-  login: 'auth/signin',
-  signup: 'auth/signup',
+  LOGIN: 'auth/signin',
+  SIGNUP: 'auth/signup',
   verify_token: 'auth/verify-token',
   search_company: 'auth/signup',
   get_permissions: '/premissions',
@@ -13,13 +13,15 @@ export const END_POINTS = {
   TICKET_STATUS: '/ticket/status',
   TICKET_BULK_UPDATE: '/ticket/bulk-ticket-update',
   USER_LIST: '/users',
+  // USER_LIST: '/users',
   ADD_USER: '/users',
+  // GET_USER_DETAILS:'/users',
   ADD_USER_ACCOUNT: '/super-admin/add-accounts',
   USER_ACCOUNTS_LIST: '/super-admin/accounts-list',
   UPDATE_USER_LIST: '/users/edit',
   COMPANY_CRN: '/auth/search-company',
-  auth_search_company: 'auth/search-company',
-  auth_IG_Verification: 'auth/ig-verification',
+  AUTH_SEARCH_COMPANY: 'auth/search-company',
+  AUTH_IG_VERIFICATION: 'auth/ig-verification',
 };
 
 export const superAdminBillingInvoices = {
