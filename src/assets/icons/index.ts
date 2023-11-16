@@ -1,8 +1,9 @@
 export { default as ArrowUpIcon } from './shared/arrow-up-icon';
 export { default as PlusSharedIcon } from './shared/shared-icon';
-export { default as PlusSharedIconColor } from './shared/plus-shared-color';
 export { default as PlusSharedColorIcon } from './shared/plus-shared-color';
 export { default as PlusPrimaryIcon } from './shared/primary-plus-icon';
+
+// export { default as ExampleKababCase } from './sections/login/example-kabab-case';
 export { default as CloseDrawerIcon } from './shared/close-drawer-icon';
 export { default as CloseModalIcon } from './shared/close-modal-icon';
 export { default as ProductSalesIcon } from './modules/orgAdmin/SubscriptionAndInvoices/product-sales-icon';
@@ -213,6 +214,13 @@ export { default as AssignCommonIcon } from './shared/assign-common';
 export { default as ExportRecordIcon } from './modules/airSales/deals/export-record';
 export { default as RestoreDealsIcon } from './modules/airSales/deals/restore-deal';
 export { default as FeaturedMarketingIcon } from './shared/featured-marketing';
+export { default as ProfilePlusIcon } from './shared/profile-plus';
+export { default as CreatePostCalendaIcon } from './shared/create-post-calendar';
+export { default as EmojiIcon } from './modules/airMarketer/CreatePost/emoji';
+export { default as ATRateIcon } from './modules/airMarketer/CreatePost/aTRate';
+export { default as HashTagIcon } from './modules/airMarketer/CreatePost/hashtag';
+export { default as LocationIcon } from './modules/airMarketer/CreatePost/location';
+export { default as CapitalSmallIcon } from './modules/airMarketer/CreatePost/capitalSmall';
 export { default as SentSmsIcon } from './modules/airMarketer/SMSMarketing/sent-sms-icon';
 export { default as ReadSmsIcon } from './modules/airMarketer/SMSMarketing/read-sms-icon';
 export { default as FailedSmsIcon } from './modules/airMarketer/SMSMarketing/failed-sms-icon';
@@ -224,3 +232,18 @@ export { default as airOperationsIcon } from './modules/productSuite/air-operati
 export { default as airServicesIcon } from './modules/productSuite/air-services';
 export { default as callCenterIcon } from './modules/productSuite/call-center';
 export { default as loyaltyIcon } from './modules/productSuite/loyalty';
+export { default as YoutubeRoundIcon } from './modules/airMarketer/CreatePost/youtubeRound';
+export { default as FacebookRoundIcon } from './modules/airMarketer/CreatePost/facebookRound';
+export { default as InstagramRoundIcon } from './modules/airMarketer/CreatePost/instagramRound';
+export { default as ArchiveIcon } from './shared/archive-icon';
+export { default as AddChannelIcon } from './modules/airMarketer/SocialInbox/add-channnel';
+
+export { default as UserCircleIcon } from './shared/user-circle';
+export { default as ViewExpandedIcon } from './shared/view-expanded';
+export { default as LikeIcon } from './modules/airMarketer/SMSMarketing/Contacts/like';
+export { default as CommentIcon } from './modules/airMarketer/SMSMarketing/Contacts/comment';
+export { default as ShareIcon } from './modules/airMarketer/SMSMarketing/Contacts/share';
+
+export { default as QuriesIcon } from './modules/airMarketer/SocialInbox/quries';
+export { default as AttachmentsIcon } from './modules/airMarketer/SocialInbox/add-channnel';
+export { default as ReplyRoundedIcon } from './modules/airMarketer/SocialInbox/reply';

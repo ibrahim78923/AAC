@@ -5,7 +5,7 @@ export const usersApi = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getUsers: builder.query({
       query: ({ role, search }) => ({
-        url: `${END_POINTS?.USER_LIST}?page=1&limit=100&role=${role}&search=${search}`,
+        url: `${END_POINTS?.ADD_USER}?page=1&limit=100&role=${role}&search=${search}`,
         method: 'GET',
       }),
       providesTags: ['USERS'],
@@ -20,10 +20,12 @@ export const usersApi = baseAPI.injectEndpoints({
     }),
 
     getUsersById: builder.query({
-      query: ({ id }: any) => ({
-        url: `/${id}`,
-        method: 'GET',
-      }),
+      query: (id: any) => {
+        return {
+          url: `${END_POINTS?.ADD_USER}/${id}`,
+          method: 'GET',
+        };
+      },
       providesTags: ['USERS'],
     }),
 
@@ -47,6 +49,18 @@ export const usersApi = baseAPI.injectEndpoints({
       },
       invalidatesTags: ['USERS'],
     }),
+
+    updateUserProfile: builder.mutation({
+      query: ({ id, ...queryParams }: any) => {
+        return {
+          url: `${END_POINTS?.ADD_USER}/${id}`,
+          method: 'PATCH',
+          params: queryParams,
+        };
+      },
+      invalidatesTags: ['USERS'],
+    }),
+
     deleteUsers: builder.mutation({
       query: ({ id }: any) => ({
         url: `/${id}`,
@@ -64,4 +78,5 @@ export const {
   useGetCompaniesCRNQuery,
   useDeleteUsersMutation,
   useGetUsersByIdQuery,
+  useUpdateUserProfileMutation,
 } = usersApi;

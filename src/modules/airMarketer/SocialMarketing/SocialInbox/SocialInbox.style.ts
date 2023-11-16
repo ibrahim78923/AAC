@@ -1,12 +1,16 @@
 export const styles = {
   wrapperBox: () => {
     return {
-      padding: '20px 0px',
-      width: '100%',
       display: 'flex',
       justifyContent: 'center',
+    };
+  },
+  mainWrapperBox: () => {
+    return {
+      padding: '20px 20px',
+      width: '100%',
       backgroundColor: 'white',
-      height: '87vh',
+      minHeight: '87vh',
       borderRadius: '8px',
     };
   },
@@ -34,5 +38,13 @@ export const styles = {
         color: '#fff',
       },
     };
+  },
+
+  filterButton: {
+    border: '1.5px solid #e7e7e9',
+    borderRadius: '8px',
+    color: '#6B7280',
+    gap: 0.5,
+    padding: '0px 15px',
   },
 };

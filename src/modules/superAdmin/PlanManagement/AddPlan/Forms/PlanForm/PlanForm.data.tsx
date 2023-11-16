@@ -10,8 +10,8 @@ import {
 } from '@/services/superAdmin/plan-mangement';
 
 export const defaultValues = {
-  product: [''],
-  planType: '',
+  productId: [''],
+  planTypeId: [''],
   description: '',
   defaultUsers: '',
   defaultStorage: '',
@@ -23,11 +23,11 @@ export const defaultValues = {
 };
 
 export const gpDetailsInfoFormSchema: any = Yup?.object()?.shape({
-  product: Yup.array()
+  productId: Yup.array()
     ?.min(1, 'Field is Required')
     ?.max(10, 'Field is Required')
     ?.required('Field is Required'),
-  planType: Yup?.string()?.required('Required field'),
+  planTypeId: Yup?.string()?.required('Required field'),
   description: Yup?.string()
     ?.trim()
     ?.required('Required field')
@@ -36,7 +36,7 @@ export const gpDetailsInfoFormSchema: any = Yup?.object()?.shape({
   defaultUsers: Yup?.string()
     ?.trim()
     ?.required('Required field')
-    ?.matches(/^[A-Za-z\s]*$/, 'only Aplhabets are allowed')
+
     ?.min(1, 'Mininum 1 characters')
     ?.max(30, 'Maximum 50 characters'),
   defaultStorage: Yup?.string()
@@ -65,8 +65,8 @@ export const gpDetailsInfoFormSchema: any = Yup?.object()?.shape({
 
 export const defaultValuesFunction = (data: any = defaultValues) => {
   const {
-    product,
-    planType,
+    productId,
+    planTypeId,
     description,
     defaultUsers,
     defaultStorage,
@@ -77,8 +77,8 @@ export const defaultValuesFunction = (data: any = defaultValues) => {
     additionalStoragePrice,
   } = data;
   return {
-    product,
-    planType,
+    productId,
+    planTypeId,
     description,
     defaultUsers,
     defaultStorage,
@@ -113,7 +113,7 @@ export const dataArray = () => {
   return [
     {
       componentProps: {
-        name: 'product',
+        name: 'productId',
         label: 'Product',
         isCheckBox: true,
         options: productsOptions,
@@ -126,7 +126,7 @@ export const dataArray = () => {
       id: 2,
       componentProps: {
         fullWidth: true,
-        name: 'planType',
+        name: 'planTypeId',
         label: 'Plan Type',
         select: true,
       },
