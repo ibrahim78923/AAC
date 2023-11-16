@@ -224,3 +224,5 @@ export { default as airOperationsIcon } from './modules/productSuite/air-operati
 export { default as airServicesIcon } from './modules/productSuite/air-services';
 export { default as callCenterIcon } from './modules/productSuite/call-center';
 export { default as loyaltyIcon } from './modules/productSuite/loyalty';
+export { default as ArchiveIcon } from './shared/archive-icon';
+export { default as AddChannelIcon } from './modules/airMarketer/SoicalInbox/add-channnel';

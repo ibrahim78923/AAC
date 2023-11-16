@@ -138,3 +138,14 @@ export { default as TicketImage } from '../images/modules/socialComponents/compa
 export { default as NoteImage } from '../images/modules/socialComponents/companies/note.png';
 export { default as NoteAddImage } from '../images/modules/socialComponents/companies/noteAdd.png';
 export { default as ActivitesTimeImage } from '../images/modules/socialComponents/companies/ActivitiesWithoutTime.png';
+
+export { default as GroupGmailImage } from './modules/airMarketer/SocialMarketing/group-gmail.png';
+export { default as GroupFacebookImage } from './modules/airMarketer/SocialMarketing/group-facebook.png';
+export { default as GroupTwitterImage } from './modules/airMarketer/SocialMarketing/group-twitter.png';
+export { default as GroupInstagramImage } from './modules/airMarketer/SocialMarketing/group-instagram.png';
+
+export { default as AddChannelImage } from './modules/airMarketer/SocialMarketing/add-channel.png';
+export { default as FacebookChannelImage } from './modules/airMarketer/SocialMarketing/facebook-channel.png';
+export { default as TwitterChannelImage } from './modules/airMarketer/SocialMarketing/twitter-channel.png';
+export { default as InstagramChannelImage } from './modules/airMarketer/SocialMarketing/instagram-channel.png';
+export { default as YoutubeChannelImage } from './modules/airMarketer/SocialMarketing/youtube-channel.png';
