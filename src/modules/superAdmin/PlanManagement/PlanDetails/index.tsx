@@ -5,14 +5,15 @@ import CustomPagination from '@/components/CustomPagination';
 
 import { usePlanDetails } from './usePlanDetails';
 
-const PlanDetails = ({ filterValues, searchBy }: any) => {
-  const { ticketsListsColumn, tableRowData } = usePlanDetails(
-    filterValues,
-    searchBy,
-  );
+const PlanDetails = ({
+  filterValues,
+  searchBy,
+  getPlanManagementRowData,
+}: any) => {
+  const { tableRowData } = usePlanDetails(filterValues, searchBy);
   return (
     <div>
-      <TanstackTable columns={ticketsListsColumn} data={tableRowData} />
+      <TanstackTable columns={getPlanManagementRowData} data={tableRowData} />
       <CustomPagination count={1} rowsPerPageOptions={[1, 2]} entriePages={1} />
     </div>
   );

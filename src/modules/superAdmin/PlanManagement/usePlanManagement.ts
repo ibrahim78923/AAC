@@ -12,6 +12,9 @@ import {
 import dayjs from 'dayjs';
 
 export const usePlanManagement = () => {
+  const [isOpenEditDrawer, setIsOpenEditDrawer] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(false);
+  const [tableRowValues, setTableRowValues] = useState();
   const [searchBy, setSearchBy] = useState('');
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [isFaqsFilterDrawerOpen, setIsFaqsFilterDrawerOpen] = useState(false);
@@ -27,6 +30,7 @@ export const usePlanManagement = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
   const methodsFaqsFilters = useForm({
     resolver: yupResolver(planManagementFilterValidationSchema),
     defaultValues: planManagementFilterDefaultValues,
@@ -59,5 +63,11 @@ export const usePlanManagement = () => {
     handleSubmit,
     filterSubmit,
     filterValues,
+    isDisabled,
+    setIsDisabled,
+    tableRowValues,
+    setTableRowValues,
+    isOpenEditDrawer,
+    setIsOpenEditDrawer,
   };
 };

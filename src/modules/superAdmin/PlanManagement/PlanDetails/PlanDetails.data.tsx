@@ -53,13 +53,30 @@ export const PlanDetailsData: any = [
   },
 ];
 
-export const PlanDetailsDataColumnFunction: any = () => {
+export const PlanDetailsDataColumnFunction: any = (
+  isDisabled: boolean,
+  setIsDisabled: (value: boolean) => void,
+  tableRowValues: any,
+  setTableRowValues: any,
+) => {
   // theme: any, router: any
   return [
     {
       accessorFn: (row: any) => row?.id,
       id: 'id',
-      cell: (info: any) => <Checkbox color="primary" name={info?.getValue()} />,
+      cell: (info: any) => (
+        <Checkbox
+          color="primary"
+          checked={
+            info?.cell?.row?.original?._id ===
+              tableRowValues?.cell?.row?.original?._id && isDisabled
+          }
+          name={info.getValue()}
+          onClick={() => {
+            setTableRowValues(info), setIsDisabled(!isDisabled);
+          }}
+        />
+      ),
       header: <Checkbox color="primary" name="id" />,
       isSortable: false,
     },

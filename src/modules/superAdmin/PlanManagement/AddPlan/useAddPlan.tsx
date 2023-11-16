@@ -23,21 +23,30 @@ import { useDispatch } from 'react-redux';
 import { persistStore } from 'redux-persist';
 import store, { useAppSelector } from '@/redux/store';
 
-import { usePostPlanMangementMutation } from '@/services/superAdmin/plan-mangement';
+import {
+  usePostPlanMangementMutation,
+  useUpdatePlanMangementMutation,
+} from '@/services/superAdmin/plan-mangement';
 import {
   defaultValuesModules,
   defaultValuesPlanFeatures,
   validationSchemaModules,
   validationSchemaPlanFeatures,
 } from './Forms/Modules/PlanFeatures.data';
+import { isNullOrEmpty } from '@/utils';
 
 export const useAddPlan = () => {
   const [addPlanFormValues, setAddPlanFormValues] = useState({});
   const [activeStep, setActiveStep] = useState(0);
 
   const [postPlanMangement] = usePostPlanMangementMutation();
+  const [updatePlanMangement] = useUpdatePlanMangementMutation();
+  const router: any = useRouter();
+  let parsedRowData: any;
+  if (router.query.data) {
+    parsedRowData = JSON.parse(router.query.data);
+  }
 
-  const router = useRouter();
   const dispatch = useDispatch();
   const hanldeGoBack = () => {
     router?.back();
@@ -50,9 +59,81 @@ export const useAddPlan = () => {
 
   const persistor = persistStore(store);
 
+  // const methods: any = useForm({
+  //   resolver: yupResolver(FormSchema),
+  //   defaultValues: async () => {
+  //     // if action is view or update
+  //     if (action === "view" || (action === "update" && id !== "")) {
+  //       setIsLoading(true);
+  //       const { data, isError, error } = await getSatsExamGradeInfoById(
+  //         { id },
+  //         false
+  //       );
+  //       const {
+  //         schoolYear,
+  //         formName,
+  //         term,
+  //         subject,
+  //         teacher,
+  //         target,
+  //         currentLevel,
+  //       } = data?.data;
+  //       setIsLoading(false);
+  //       if (isError || !data?.data) {
+  //         displayErrorMessage(error, enqueueSnackbar);
+  //         return defaultValues;
+  //       }
+  //       return {
+  //         schoolYear,
+  //         formName,
+  //         term,
+  //         subject,
+  //         teacher,
+  //         target,
+  //         currentLevel,
+  //       };
+  //     }
+  //     setIsLoading(false);
+  //     return defaultValues;
+  //   },
+  // });
   const methodsPlan: any = useForm({
     resolver: yupResolver(gpDetailsInfoFormSchema),
-    defaultValues: defaultValues,
+    defaultValues: async () => {
+      // if action is view or update
+
+      if (parsedRowData) {
+        const {
+          defaultUsers,
+          defaultStorage,
+          planPrice,
+          additionalPerUserPrice,
+          additionalStoragePrice,
+          description,
+          allowAdditionalUsers,
+          allowAdditionalStorage,
+          planProducts,
+          planType,
+        } = parsedRowData;
+        if (!isNullOrEmpty(planProducts)) {
+          const productId = planProducts[0].name;
+          const planTypeId = { value: planType?.name, label: planType?.name };
+          return {
+            defaultUsers,
+            defaultStorage,
+            planPrice,
+            additionalPerUserPrice,
+            additionalStoragePrice,
+            description,
+            allowAdditionalUsers,
+            allowAdditionalStorage,
+            productId,
+            planTypeId,
+          };
+        }
+      }
+      return defaultValues;
+    },
   });
   const methodsPlanFeatures: any = useForm({
     resolver: yupResolver(validationSchemaPlanFeatures),
@@ -139,13 +220,22 @@ export const useAddPlan = () => {
         productId: planForm?.productId[0],
       };
       try {
-        postPlanMangement({
-          body: {
-            ...planFormData,
-            ...planFeaturesFormData,
-            ...permissions,
-          },
-        })?.unwrap();
+        parsedRowData
+          ? updatePlanMangement({
+              id: parsedRowData?._id,
+              body: {
+                ...planFormData,
+                ...planFeaturesFormData,
+                ...permissions,
+              },
+            })
+          : postPlanMangement({
+              body: {
+                ...planFormData,
+                ...planFeaturesFormData,
+                ...permissions,
+              },
+            })?.unwrap();
         enqueueSnackbar('Plan Modules Details Added Successfully', {
           variant: 'success',
         });

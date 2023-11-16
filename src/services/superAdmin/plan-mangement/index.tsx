@@ -12,6 +12,7 @@ export const planManagementAPI = baseAPI.injectEndpoints({
       }),
       providesTags: TAG,
     }),
+
     getPlanTypes: builder.query({
       query: () => ({
         url: `${SUPER_ADMIN?.PLAN_TYPE_LIST}`,

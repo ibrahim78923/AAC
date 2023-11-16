@@ -11,7 +11,7 @@ import {
 
 export const defaultValues = {
   productId: [''],
-  planTypeId: '',
+  planTypeId: [''],
   description: '',
   defaultUsers: '',
   defaultStorage: '',

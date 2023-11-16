@@ -28,6 +28,7 @@ import { isNullOrEmpty } from '@/utils';
 import { FilterSharedIcon, PlusIcon } from '@/assets/icons';
 
 import { v4 as uuidv4 } from 'uuid';
+import { PlanDetailsDataColumnFunction } from './PlanDetails/PlanDetails.data';
 
 const PlanManagement = () => {
   const {
@@ -43,7 +44,18 @@ const PlanManagement = () => {
     methodsFaqsFilters,
     filterValues,
     filterSubmit,
+    isDisabled,
+    setIsDisabled,
+    tableRowValues,
+    setTableRowValues,
   } = usePlanManagement();
+
+  const getPlanManagementRowData = PlanDetailsDataColumnFunction(
+    isDisabled,
+    setIsDisabled,
+    tableRowValues,
+    setTableRowValues,
+  );
 
   return (
     <Box sx={styles?.main}>
@@ -56,7 +68,7 @@ const PlanManagement = () => {
         <Typography variant="h4" sx={styles?.planManagementHeading}>
           Plan Management
         </Typography>
-
+        .
         <Box sx={styles?.linkStyle}>
           <Link href={'/super-admin/plan-management/add-plan'}>
             <Button variant="contained" fullWidth startIcon={<PlusIcon />}>
@@ -114,7 +126,16 @@ const PlanManagement = () => {
               'aria-labelledby': 'basic-button',
             }}
           >
-            <MenuItem>Edit</MenuItem>
+            <Link
+              href={{
+                pathname: '/super-admin/plan-management/add-plan',
+                query: { data: JSON.stringify(tableRowValues?.row?.original) },
+              }}
+              as="/super-admin/plan-management/add-plan"
+            >
+              {' '}
+              <MenuItem>Edit</MenuItem>
+            </Link>
           </Menu>
 
           <Button
@@ -157,7 +178,11 @@ const PlanManagement = () => {
         </Box>
       </CommonDrawer>
 
-      <PlanDetails filterValues={filterValues} searchBy={searchBy} />
+      <PlanDetails
+        filterValues={filterValues}
+        searchBy={searchBy}
+        getPlanManagementRowData={getPlanManagementRowData}
+      />
     </Box>
   );
 };
