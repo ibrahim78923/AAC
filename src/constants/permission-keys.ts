@@ -145,6 +145,7 @@ export const SUPER_ADMIN_SETTINGS_PRODUCT_FEATURES_PERMISSIONS = {
   Active_Inactive_Features: 'active-inactive-feature',
 };
 
+//for display and purpose purpose in steppers
 export const SUPER_ADMIN_PLAN_MANAGEMENT_PERMISSIONS = [
   {
     Modules: 'Deals',
