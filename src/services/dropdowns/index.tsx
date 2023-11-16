@@ -7,9 +7,9 @@ const transformResponse = (response: any) => {
   if (response) return response?.data;
 };
 
-export const dropdownsAPI = baseAPI.injectEndpoints({
+export const dropdownsAPI = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
-    getOrganizations: builder.query({
+    getOrganizations: builder?.query({
       query: ({ params }: any) => ({
         url: `${END_POINTS?.DROPDOWN_ORGANIZATIONS}`,
         method: 'GET',
@@ -19,7 +19,7 @@ export const dropdownsAPI = baseAPI.injectEndpoints({
       providesTags: [TAG],
     }),
 
-    getProducts: builder.query({
+    getProducts: builder?.query({
       query: ({ params }: any) => ({
         url: `${END_POINTS?.DROPDOWN_PRODUCTS}`,
         method: 'GET',

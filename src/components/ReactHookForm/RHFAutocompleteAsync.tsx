@@ -21,7 +21,7 @@ export default function RHFAutocompleteAsync({
   getOptionLabel = (option: any) => option?.name,
   multiple = false,
   variant = 'outlined',
-  EndIcon,
+  endIcon,
   placeholder,
   noOptionsCase = 'Nothing in the List',
   externalParams = {},
@@ -141,7 +141,7 @@ export default function RHFAutocompleteAsync({
                         ) : (
                           <Search sx={{ color: 'inherit' }} />
                         )}
-                        {EndIcon ?? params?.InputProps?.endAdornment}
+                        {endIcon ?? params?.InputProps?.endAdornment}
                       </Fragment>
                     ),
                   }}
