@@ -17,11 +17,11 @@ import { AlertModals } from '@/components/AlertModals';
 import { callingData } from '@/mock/modules/SocialComponents/Calling';
 import { columns } from './CallingMain.data';
 
-import TanstackTable from '@/components/Table/TanstackTable';
 import useCallingMain from './useCallingMain';
 
 import { DownIcon, MobileIcon, PlusIcon } from '@/assets/icons';
 import ScheduleCallDrawer from './ScheduleCallDrawer';
+import TanstackTable from '@/components/Table/TanstackTable';
 
 const CallingMain = ({ setAddaNumber }: any) => {
   const {

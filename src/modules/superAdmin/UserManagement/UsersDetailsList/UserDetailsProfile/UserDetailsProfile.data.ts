@@ -1,34 +1,22 @@
 import { Typography } from '@mui/material';
 
-import { RHFTextField } from '@/components/ReactHookForm';
+import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
 
 import * as Yup from 'yup';
 
 export const profileValidationSchema = Yup.object().shape({
   firstName: Yup.string().required('Field is Required'),
   lastName: Yup.string().required('Field is Required'),
-  postCode: Yup.string().required('Field is Required'),
-  address: Yup.string().required('Field is Required'),
+  // postCode: Yup.string().required('Field is Required'),
+  // address: Yup.string().required('Field is Required'),
 });
-
-export const profileDefaultValues = {
-  firstName: '',
-  middleName: '',
-  lastName: '',
-  phoneNo: '',
-  email: '',
-  jobTitlle: '',
-  postCode: '',
-  address: '',
-  fbUrl: '',
-  TwitterUrl: '',
-};
 
 export const profileFields = [
   {
     componentProps: {
       name: 'firstName',
       label: 'First Name',
+      placeholder: 'Enter First Name',
       fullWidth: true,
     },
     component: RHFTextField,
@@ -39,6 +27,7 @@ export const profileFields = [
     componentProps: {
       name: 'middleName',
       label: 'Middle Name',
+      placeholder: 'Enter Middle Name',
       fullWidth: true,
     },
     component: RHFTextField,
@@ -48,6 +37,7 @@ export const profileFields = [
     componentProps: {
       name: 'lastName',
       label: 'Last Name',
+      placeholder: 'Enter Last Name',
       fullWidth: true,
     },
     component: RHFTextField,
@@ -55,8 +45,9 @@ export const profileFields = [
   },
   {
     componentProps: {
-      name: 'phoneNo',
+      name: 'phoneNumber',
       label: 'Phone Number',
+      placeholder: 'Enter Phone',
       fullWidth: true,
     },
     component: RHFTextField,
@@ -66,6 +57,7 @@ export const profileFields = [
     componentProps: {
       name: 'email',
       label: 'Email',
+      placeholder: 'Enter Email',
       fullWidth: true,
     },
     component: RHFTextField,
@@ -75,6 +67,7 @@ export const profileFields = [
     componentProps: {
       name: 'jobTitle',
       label: 'Job Title',
+      placeholder: 'Enter Job Title',
       fullWidth: true,
     },
     component: RHFTextField,
@@ -85,6 +78,7 @@ export const profileFields = [
     componentProps: {
       name: 'postCode',
       label: 'Post Code',
+      placeholder: 'Enter Post Code',
       fullWidth: true,
     },
     component: RHFTextField,
@@ -95,17 +89,89 @@ export const profileFields = [
     componentProps: {
       name: 'address',
       label: 'Address',
+      placeholder: 'Enter Address',
       fullWidth: true,
     },
     component: RHFTextField,
     md: 6,
   },
-
+  {
+    componentProps: {
+      name: 'flat',
+      label: 'Flat/Unit',
+      placeholder: 'Enter Flat/Unit',
+      fullWidth: true,
+    },
+    toShow: ['address'],
+    component: RHFTextField,
+    md: 6,
+  },
+  {
+    componentProps: {
+      name: 'buildingName',
+      label: 'Building Name',
+      placeholder: 'Enter Building Name',
+      fullWidth: true,
+    },
+    toShow: ['address'],
+    component: RHFTextField,
+    md: 6,
+  },
+  {
+    componentProps: {
+      name: 'buildingNumber',
+      label: 'Building Number',
+      placeholder: 'Enter Building Number',
+      fullWidth: true,
+    },
+    toShow: ['address'],
+    component: RHFTextField,
+    md: 6,
+  },
+  {
+    componentProps: {
+      name: 'streetName',
+      label: 'Street Name',
+      placeholder: 'Enter Street Name',
+      fullWidth: true,
+    },
+    toShow: ['address'],
+    component: RHFTextField,
+    md: 6,
+  },
+  {
+    componentProps: {
+      name: 'city',
+      label: 'Town/CIty',
+      placeholder: 'Enter Town/City',
+      fullWidth: true,
+    },
+    toShow: ['address'],
+    component: RHFTextField,
+    md: 6,
+  },
+  {
+    componentProps: {
+      name: 'country',
+      label: 'Country',
+      fullWidth: true,
+      select: true,
+    },
+    options: [
+      { value: 'pakistan', label: 'Pakistan' },
+      { value: 'India', label: 'India' },
+      { value: 'uk', label: 'UK' },
+      { value: 'us', label: 'US' },
+    ],
+    component: RHFSelect,
+    toShow: ['address'],
+    md: 6,
+  },
   {
     componentProps: {
       color: '#7a7a7b',
       varient: 'h4',
-      heading: 'Links',
+      heading: 'Other',
     },
 
     gridLength: 12,
@@ -115,7 +181,8 @@ export const profileFields = [
   {
     componentProps: {
       name: 'fbUrl',
-      label: 'FaceBook URL',
+      label: 'Facebook URL',
+      placeholder: 'Enter FaceBook URL',
       fullWidth: true,
     },
     component: RHFTextField,
@@ -125,7 +192,8 @@ export const profileFields = [
   {
     componentProps: {
       name: 'twitterUrl',
-      label: 'Twitter Url',
+      label: 'Twitter URL',
+      placeholder: 'Enter Twitter Url',
       fullWidth: true,
     },
     component: RHFTextField,

@@ -13,6 +13,17 @@ export default function RHFDropZone({ name }: any) {
   const theme = useTheme();
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
     multiple: false,
+    accept: {
+      'image/png': ['.png', '.PNG'],
+      'image/jpeg': ['.jpg', '.jpeg', '.JPG', '.JPEG'],
+      'image/gif': ['.gif', '.GIF'],
+      'application/pdf': ['.pdf'],
+      'application/msword': ['.doc'],
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
+        ['.docx'],
+      'application/vnd.ms-excel': ['.xls', '.xlsx'],
+      'text/csv': ['.csv'],
+    },
     onDrop: useCallback(
       (files: any) => {
         if (files && files.length > 0) {

@@ -24,22 +24,23 @@ const AddProducts = (props: any) => {
 
   // handle radio change value
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setValue((event.target as HTMLInputElement).value);
+    setValue((event?.target as HTMLInputElement)?.value);
   };
 
   // handle submit values
   const onSubmit = () => {};
 
-  const methods: any = useForm({
+  const existingItemMethods: any = useForm({
     resolver: yupResolver(existingProductsValidationSchema),
     defaultValues: existingProductsDefaultValues,
   });
-  const myMethods: any = useForm({
+  const CustomItemsMethods: any = useForm({
     resolver: yupResolver(customValidationSchema),
     defaultValues: customDefaultValues,
   });
 
-  const isCustom = value === 'customLineItem' ? myMethods : methods;
+  const isCustom =
+    value === 'customLineItem' ? CustomItemsMethods : existingItemMethods;
   const { handleSubmit } = isCustom;
 
   return (

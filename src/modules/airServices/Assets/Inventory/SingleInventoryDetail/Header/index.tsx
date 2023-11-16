@@ -22,7 +22,7 @@ export const Header = (props: any) => {
             alignItems={'center'}
             sx={{ cursor: 'pointer' }}
             onClick={() =>
-              router.push({
+              router?.push({
                 pathname: AIR_SERVICES?.ASSETS_INVENTORY,
               })
             }

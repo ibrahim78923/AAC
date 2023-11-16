@@ -6,11 +6,12 @@ import useAuth from '../hooks/useAuth';
 
 import Login from '@/modules/auth/Login';
 
+import LoadingScreen from '@/components/LoadingScreen';
+
 export default function AuthGuard({ children }: any) {
   const { isAuthenticated, isInitialized } = useAuth();
 
   const { pathname, push } = useRouter();
-
   const [requestedLocation, setRequestedLocation] = useState<any>(null);
 
   useEffect(() => {
@@ -21,7 +22,7 @@ export default function AuthGuard({ children }: any) {
   }, [pathname, push, requestedLocation]);
 
   if (!isInitialized) {
-    return <p>Auth guard Loading . . . .</p>;
+    return <LoadingScreen />;
   }
 
   if (!isAuthenticated) {

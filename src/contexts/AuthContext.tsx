@@ -16,7 +16,7 @@ const initialState = {
   user: null,
   permissions: [],
 };
-//first step context Creation
+//TODO:first step context Creation
 const AuthContext = createContext({
   ...initialState,
   method: 'jwt',
@@ -25,7 +25,7 @@ const AuthContext = createContext({
   logout: () => Promise.resolve(),
 });
 
-//second step make methods for reducers this will be used globally
+//TODO:second step make methods for reducers this will be used globally
 const handlers = {
   INITIALIZE: (state: any, action: any) => {
     const { isAuthenticated, user } = action.payload;
@@ -70,42 +70,37 @@ const handlers = {
   },
 };
 
-//reducers check our handler type and call method according to that for global state recognitions
+//TODO:reducers check our handler type and call method according to that for global state recognitions
 const reducer = (state: any, action: any) =>
-  handlers[action.type as keyof typeof handlers]
-    ? handlers[action.type as keyof typeof handlers](state, action)
+  handlers[action?.type as keyof typeof handlers]
+    ? handlers[action?.type as keyof typeof handlers](state, action)
     : state;
 
 function AuthProvider({ children }: { children: ReactNode }) {
-  //reducer to keep an eye on specific called reducer fucntion which method from handler called
+  //TODO:reducer to keep an eye on specific called reducer function which method from handler called
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  //permisions api will be called after 40 sec if user is authenticated
-
-  {
-    /* <> permissions api </> */
-  }
-
+  //TODO:permisions api will be called after 40 sec if user is authenticated
   // useGetPermissionsQuery({}, {
   //   pollingInterval: 40000, skip: !state.isAuthenticated
   // })
-
   // const [logoutTrigger] = useLogoutMutation();
+
   const appDispatch = useAppDispatch();
 
   useEffect(() => {
     const initialize = () => {
       try {
         const {
-          authToken,
+          accessToken,
           refreshToken,
           user,
-        }: { authToken: string; refreshToken: string; user: any } =
+        }: { accessToken: string; refreshToken: string; user: any } =
           getSession();
 
-        // if (authToken && isValidToken(authToken)) {
-        if (authToken) {
-          // removed line after permissons api
+        //TODO: if (authToken && isValidToken(authToken)) {
+        if (accessToken) {
+          //TODO: removed line after permissons api
           permissions();
 
           dispatch({
@@ -115,8 +110,8 @@ function AuthProvider({ children }: { children: ReactNode }) {
               user,
             },
           });
-          // Set auth tokens is redux for api headers
-          const authData: any = { authToken, refreshToken };
+          //TODO: Set auth tokens is redux for api headers
+          const authData: any = { accessToken, refreshToken };
 
           appDispatch(setAuthTokens(authData));
         } else {
@@ -142,11 +137,18 @@ function AuthProvider({ children }: { children: ReactNode }) {
     initialize();
   }, [appDispatch]);
 
-  //called at the time of  user login
+  //TODO:called at the time of  user login
   const login = (response: any) => {
-    const { authToken, user } = response;
+    const {
+      accessToken,
+      user,
+      refreshToken,
+    }: { accessToken: string; refreshToken: string; user: any } =
+      response?.data;
+
+    //temporary call
     permissions();
-    setSession({ authToken, user });
+    setSession({ accessToken, user, refreshToken });
     dispatch({
       type: 'LOGIN',
       payload: {
@@ -155,15 +157,15 @@ function AuthProvider({ children }: { children: ReactNode }) {
     });
   };
 
-  //temporary functions will be removed after permissions apis working
+  //TODO: temporary functions will be removed after permissions apis working
   const permissions = () => {
     const permissions = [
-      SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS.USER_LIST,
-      SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS.ADD_USER,
-      SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS.USER_SEARCH_AND_FILTER,
-      SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS.PLAN_MANAGEMENT,
-      SUPER_ADMIN_PLAN_MANAGEMENT_PERMISSIONS.PLAN_LIST,
-      SUPER_ADMIN_DASHBOARD_PERMISSIONS.VIEW_DASHBOARD,
+      SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS?.USER_LIST,
+      SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS?.ADD_USER,
+      SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS?.USER_SEARCH_AND_FILTER,
+      SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS?.PLAN_MANAGEMENT,
+      SUPER_ADMIN_PLAN_MANAGEMENT_PERMISSIONS?.PLAN_LIST,
+      SUPER_ADMIN_DASHBOARD_PERMISSIONS?.VIEW_DASHBOARD,
     ];
 
     dispatch({
@@ -175,7 +177,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
     });
   };
 
-  //called at the time of  user logout
+  //TODO:called at the time of  user logout
 
   const logout = async () => {
     setSession(null);

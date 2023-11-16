@@ -180,3 +180,10 @@ export const userAndTeams = [
   { label: '3 Idiots', year: 2009 },
   { label: 'Monty Python and the Holy Grail', year: 1975 },
 ];
+export const optionViews = [
+  {
+    value: 'View and edit',
+    label: 'View and edit',
+  },
+  { value: 'View Only', label: 'View Only' },
+];

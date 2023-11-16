@@ -2,7 +2,7 @@ import { Box, Button, Card, Menu, MenuItem, Typography } from '@mui/material';
 
 import Search from '@/components/Search';
 import CustomPagination from '@/components/CustomPagination';
-import TanstackTable from '@/components/Tabel/TanstackTable';
+import TanstackTable from '@/components/Table/TanstackTable';
 import { ORG_ADMIN } from '@/constants';
 
 import { columns, data } from './RoleAndRights.data';
@@ -33,7 +33,7 @@ const RolesAndRights = () => {
         <Typography variant="h3">Roles and Rights</Typography>
         <Button
           onClick={() => {
-            navigate.push(ORG_ADMIN.ADD_ROLE);
+            navigate.push(ORG_ADMIN?.ADD_ROLE);
           }}
           variant="contained"
           startIcon={<PlusIcon />}
@@ -70,7 +70,7 @@ const RolesAndRights = () => {
               <MenuItem
                 onClick={() => {
                   handleClose;
-                  navigate.push(ORG_ADMIN.ADD_ROLE);
+                  navigate.push(ORG_ADMIN?.ADD_ROLE);
                 }}
               >
                 Edit
@@ -78,7 +78,7 @@ const RolesAndRights = () => {
               <MenuItem
                 onClick={() => {
                   handleClose;
-                  navigate.push(ORG_ADMIN.ADD_ROLE);
+                  navigate.push(ORG_ADMIN?.ADD_ROLE);
                 }}
               >
                 View

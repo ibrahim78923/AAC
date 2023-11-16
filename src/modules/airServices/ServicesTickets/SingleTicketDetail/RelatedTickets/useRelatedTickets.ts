@@ -1,18 +1,20 @@
 import { useState } from 'react';
 import { useSnackbar } from 'notistack';
+import { useTheme } from '@mui/material';
 
 export function useRelatedTickets() {
   const { enqueueSnackbar } = useSnackbar();
+  const theme = useTheme();
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [isActive, setActive] = useState<any>([]);
   const handleCheckboxChange = (event: any) => {
-    setActive(event.target.checked);
+    setActive(event?.target.checked);
   };
   const [actionPop, setActionPop] = useState<HTMLButtonElement | null>(null);
   const [actionExportPop, setActionExportPop] =
     useState<HTMLButtonElement | null>(null);
   const handleActionClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setActionPop(event.currentTarget);
+    setActionPop(event?.currentTarget);
   };
   const handleActionClose = () => {
     setActionPop(null);
@@ -44,5 +46,6 @@ export function useRelatedTickets() {
     handleActionExportClick,
     handleActionClose,
     openActionExport,
+    theme,
   };
 }

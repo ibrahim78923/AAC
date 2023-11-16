@@ -78,7 +78,7 @@ const UsersSidebar = () => {
       <Box
         className="users-wrapper"
         sx={{
-          backgroundColor: theme.palette.grey[400],
+          backgroundColor: theme?.palette?.grey[400],
           borderRadius: '4px',
           padding: '11px 8px',
           width: '100%',
@@ -100,7 +100,7 @@ const UsersSidebar = () => {
               <Typography>Roberts Rohan</Typography>
               <StatusBadge
                 value={userStatus}
-                onChange={(e: any) => setUserStatus(e.target.value)}
+                onChange={(e: any) => setUserStatus(e?.target?.value)}
                 options={[
                   {
                     label: 'Active',

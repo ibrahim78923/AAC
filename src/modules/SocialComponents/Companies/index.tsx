@@ -23,7 +23,7 @@ import CreateCompany from './CreateCompany';
 import FilterCompany from './FilterCompany';
 import CustomizeCompany from './CustomizeCompany';
 
-import { columns, companiesTableData, companyTabs } from './Companies.data';
+import { columns, companyTabs } from './Companies.data';
 import { styles } from './Companies.style';
 import useCompanies from './useCompanies';
 
@@ -39,6 +39,8 @@ import PreviewDrawer from './CompanyActions/PreviewDrawer';
 import DeleteModal from './CompanyActions/DeleteModal';
 import ReassignModal from './CompanyActions/ReassignModal';
 import MergeModal from './CompanyActions/MergeModal';
+import ImportCompanies from './ImportCompanies';
+import { companiesTableData } from '@/mock/modules/SocialComponents/Companies';
 
 const Companies = () => {
   const {
@@ -68,6 +70,8 @@ const Companies = () => {
     setIsDeleteCompany,
     isMerge,
     setIsMerge,
+    isImport,
+    setIsImport,
   } = useCompanies();
 
   return (
@@ -103,7 +107,11 @@ const Companies = () => {
                   gap: '1rem',
                 }}
               >
-                <Button variant="outlined" sx={styles?.importButton(theme)}>
+                <Button
+                  onClick={() => setIsImport(true)}
+                  variant="outlined"
+                  sx={styles?.importButton(theme)}
+                >
                   <ImportCompaniesIcon />
                   Import
                 </Button>
@@ -240,6 +248,7 @@ const Companies = () => {
             setIsReassign={setIsReassign}
           />
           <MergeModal isMerge={isMerge} setIsMerge={setIsMerge} />
+          <ImportCompanies isImport={isImport} setIsImport={setIsImport} />
         </>
       )}
     </>

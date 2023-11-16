@@ -23,7 +23,7 @@ const RequestApproval = () => {
     <>
       <Box sx={styles?.approvalsContainerBox}>
         {requestApprovalPageData
-          ?.filter((item) => item?.status === 'Request')
+          ?.filter((item: any) => item?.status === 'Request')
           ?.map((filteredItem) => {
             return (
               <Box key={filteredItem?.id} sx={styles?.approvalsContainer}>
@@ -47,11 +47,11 @@ const RequestApproval = () => {
                           {filteredItem?.mainText}
                         </Typography>
                         <Box sx={styles?.requestApprovalBoxSecond}>
-                          {Icons[filteredItem?.status]}
+                          {Icons?.[filteredItem?.status]}
                           <span>
                             <Typography
                               variant="customStyle"
-                              color={textColor[filteredItem?.status]}
+                              color={textColor?.[filteredItem?.status]}
                             >
                               {filteredItem?.iconText}
                             </Typography>

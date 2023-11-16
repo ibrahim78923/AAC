@@ -177,7 +177,9 @@ export const useAddPlan = () => {
     dispatch(modulesFormData(values));
     if (activeStep == AddPlanStepperData?.length - 1) {
       const planFormData = {
+        //we are getting array when we select options in searchable select
         productId: planForm?.productId[0],
+
         planTypeId: planForm?.planTypeId,
         description: planForm?.description,
         defaultUsers: parseInt(planForm?.defaultUsers),
@@ -198,11 +200,14 @@ export const useAddPlan = () => {
                   featureDetails?.dealsAssociationsDetail,
               },
             ],
+            //we are getting array when we select options in searchable select
             productId: planForm?.productId[0],
           },
         ],
       };
       const planPermissions = {
+        //we are getting array when we select options in searchable select
+        productId: planForm?.productId[0],
         planPermission: [
           {
             permissionSlugs: values?.permissionSlugs,
@@ -212,8 +217,7 @@ export const useAddPlan = () => {
       };
       const permissions = {
         ...planPermissions,
-        ...planFormData,
-        ...planFeaturesFormData,
+        //we are getting array when we select options in searchable select
         productId: planForm?.productId[0],
       };
       try {

@@ -16,7 +16,6 @@ export default function App(props: any) {
   const { Component, pageProps } = props;
 
   const getLayout = Component.getLayout ?? ((page: any) => page);
-
   return (
     <ThemeProvider>
       <LocalizationProvider dateAdapter={AdapterDateFns}>

@@ -1,6 +1,4 @@
-import { useTheme } from '@mui/material/styles';
 export const styles = () => {
-  const { palette }: any = useTheme();
   return {
     flexBetween: {
       display: 'flex',
@@ -11,10 +9,12 @@ export const styles = () => {
     itemsWrapper: {
       minWidth: { xs: 1200, md: 1100, lg: 1000 },
     },
-    headItemWrapper: {
-      background: palette?.custom?.off_white_three,
-      py: 1.3,
-      borderRadius: '8px 8px 0 0 ',
+    headItemWrapper: (theme: any) => {
+      return {
+        background: theme?.palette?.custom?.off_white_three,
+        py: 1.3,
+        borderRadius: '8px 8px 0 0 ',
+      };
     },
     headItem: {
       fontWeight: 500,
