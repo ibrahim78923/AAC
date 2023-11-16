@@ -5,8 +5,8 @@ import { styles } from './RecentActivitiesDashboardCard.styles';
 export const RecentActivitiesDashboardCard = ({
   icon,
   recentActivityText,
-  recentActivityTextOne,
-  recentActivityTextTwo,
+  recentActivityTextPassword,
+  recentActivityTextDateTime,
   isborderbottom,
 }: any) => {
   const theme = useTheme();
@@ -36,13 +36,13 @@ export const RecentActivitiesDashboardCard = ({
               </span>
             </Typography>
             <Typography sx={styles?.recentActivitiesTextPassword(theme)}>
-              {recentActivityTextOne}
+              {recentActivityTextPassword}
             </Typography>
             <Typography
               sx={styles?.recentActivitiesTextDateTimeDetail(theme)}
               variant="body3"
             >
-              {recentActivityTextTwo}
+              {recentActivityTextDateTime}
             </Typography>
           </Box>
         </Box>

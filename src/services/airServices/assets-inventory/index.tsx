@@ -19,8 +19,19 @@ export const assetInventoryAPI = baseAPI.injectEndpoints({
       }),
       providesTags: ['ASSETS_INVENTORY'],
     }),
+    deleteAssetInventory: builder.mutation({
+      query: (deleteInventoryParameter: any) => ({
+        url: `/assets/{id}`,
+        method: 'DELETE',
+        params: deleteInventoryParameter?.queryParams,
+      }),
+      invalidatesTags: ['ASSETS_INVENTORY'],
+    }),
   }),
 });
 
-export const { useGetAssetInventoryQuery, usePostAssetInventoryMutation } =
-  assetInventoryAPI;
+export const {
+  useGetAssetInventoryQuery,
+  usePostAssetInventoryMutation,
+  useDeleteAssetInventoryMutation,
+} = assetInventoryAPI;

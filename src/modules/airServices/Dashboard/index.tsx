@@ -22,7 +22,7 @@ const Dashboard = () => {
   const {
     setIsDrawerOpen,
     isDrawerOpen,
-    handleIconButtonClick,
+    handleIconButton,
     theme,
     isbarchart,
     setIsBarChart,
@@ -81,8 +81,12 @@ const Dashboard = () => {
                       <RecentActivitiesDashboardCard
                         icon={item?.icon}
                         recentActivityText={item?.recentActivityText}
-                        recentActivityTextOne={item?.recentActivityTextOne}
-                        recentActivityTextTwo={item?.recentActivityTextTwo}
+                        recentActivityTextPassword={
+                          item?.recentActivityTextPassword
+                        }
+                        recentActivityTextDateTime={
+                          item?.recentActivityTextDateTime
+                        }
                         isborderbottom={
                           recentActivitiesDashboardCardData?.length - 1 !==
                           index
@@ -96,11 +100,7 @@ const Dashboard = () => {
                   setIsDrawerOpen={setIsDrawerOpen}
                 />
                 <Box display={'flex'} justifyContent={'center'}>
-                  <Button
-                    variant="text"
-                    fullWidth
-                    onClick={handleIconButtonClick}
-                  >
+                  <Button variant="text" fullWidth onClick={handleIconButton}>
                     View All
                   </Button>
                 </Box>

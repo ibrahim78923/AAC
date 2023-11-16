@@ -4,7 +4,7 @@ import { useAddAnnouncement } from '../AddAnnouncement/useAddAnnouncement ';
 import AnnouncementDashboardDrawer from '../AddAnnouncement';
 
 export const AnnouncementHeader = () => {
-  const { setIsDrawerOpen, isDrawerOpen, handleIconButtonClick } =
+  const { setIsDrawerOpen, isDrawerOpen, handleIconButton } =
     useAddAnnouncement();
 
   return (
@@ -17,7 +17,7 @@ export const AnnouncementHeader = () => {
         mb={1}
       >
         <Typography variant="h5">Announcements</Typography>
-        <IconButton onClick={handleIconButtonClick}>
+        <IconButton onClick={handleIconButton}>
           <ViewDetailSharedIcon />
         </IconButton>
       </Box>

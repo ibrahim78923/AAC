@@ -3,7 +3,6 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
 import { Button } from '@mui/material';
 import { FilterSharedIcon, CustomizeSharedIcon } from '@/assets/icons';
-import { enqueueSnackbar } from 'notistack';
 import { PageTitledHeader } from '../../../../components/PageTitledHeader/index';
 import { AlertModals } from '@/components/AlertModals';
 import { useInventory } from './useInventory';
@@ -24,7 +23,10 @@ function Inventory() {
     inventoryListsColumns,
     inventoryData,
     tableData,
+    deleteTicket,
   } = useInventory();
+
+  // const {}=useDeleteAssetInventoryMutation();
   return (
     <>
       <AlertModals
@@ -36,11 +38,12 @@ function Inventory() {
           setOpenDeleteModal(false);
         }}
         handleSubmit={() => {
-          enqueueSnackbar('Delete successfully', {
-            variant: 'error',
-            autoHideDuration: 3000,
-          });
-          setOpenDeleteModal(false);
+          () => deleteTicket?.();
+          // enqueueSnackbar('Delete successfully', {
+          //   variant: 'error',
+          //   autoHideDuration: 3000,
+          // });
+          // setOpenDeleteModal(false);
         }}
       />
       <PageTitledHeader
