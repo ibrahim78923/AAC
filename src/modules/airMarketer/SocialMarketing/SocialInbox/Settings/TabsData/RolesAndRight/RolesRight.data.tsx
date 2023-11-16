@@ -118,38 +118,38 @@ export const dataArray = [
 
 export const columns: any = [
   {
-    accessorFn: (row: any) => row.Id,
+    accessorFn: (row: any) => row?.Id,
     id: 'Id',
-    cell: (info: any) => <Checkbox color="primary" name={info.getValue()} />,
+    cell: (info: any) => <Checkbox color="primary" name={info?.getValue()} />,
     header: <Checkbox color="primary" name="Id" />,
     isSortable: false,
   },
   {
-    accessorFn: (row: any) => row.roleId,
+    accessorFn: (row: any) => row?.roleId,
     id: 'roleId',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
     header: 'Role ID',
     isSortable: true,
   },
   {
-    accessorFn: (row: any) => row.roleName,
+    accessorFn: (row: any) => row?.roleName,
     id: 'roleName',
     isSortable: true,
     header: 'Role Name',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.createdOn,
+    accessorFn: (row: any) => row?.createdOn,
     id: 'createdOn',
     isSortable: true,
     header: 'Created On',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.decription,
+    accessorFn: (row: any) => row?.decription,
     id: 'decription',
     isSortable: true,
     header: 'Decription',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
 ];

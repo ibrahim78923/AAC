@@ -166,7 +166,7 @@ export const columns = (
 ) => {
   return [
     {
-      accessorFn: (row: any) => row.Id,
+      accessorFn: (row: any) => row?.Id,
       id: 'Id',
       cell: (info: any) => (
         <Checkbox
@@ -213,7 +213,7 @@ export const columns = (
       cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row.createdBy,
+      accessorFn: (row: any) => row?.createdBy,
       id: 'createdBy',
       isSortable: true,
       header: 'Created By',
