@@ -7,8 +7,8 @@ export default function RHFUploadFile(props: any) {
   const { disabled, name, label, ...other } = props;
   const [borderColor, setBorderColor] = useState(
     disabled
-      ? theme.palette.action.disabledBackground
-      : theme.palette.action.focus,
+      ? theme?.palette?.action?.disabledBackground
+      : theme?.palette?.action?.focus,
   );
   return (
     <>
@@ -29,18 +29,21 @@ export default function RHFUploadFile(props: any) {
           } as React.CSSProperties
         }
         onMouseOver={() =>
-          !disabled && setBorderColor(theme.palette.text.primary)
+          !disabled && setBorderColor(theme?.palette?.text?.primary)
         }
         onMouseLeave={() =>
-          !disabled && setBorderColor(theme.palette.action.focus)
+          !disabled && setBorderColor(theme?.palette?.action?.focus)
         }
       >
         <div
-          style={{ paddingLeft: '10px', color: theme.palette.action.disabled }}
+          style={{
+            paddingLeft: '10px',
+            color: theme?.palette?.action?.disabled,
+          }}
         >
           {/* trimming extra words */}
           {(other?.getValues(`${name}`)?.name?.length > 20
-            ? '. . .' + other?.getValues(`${name}`)?.name.slice(-15)
+            ? '. . .' + other?.getValues(`${name}`)?.name?.slice?.(-15)
             : other?.getValues(`${name}`)?.name) ||
             label ||
             'Upload file'}
@@ -60,7 +63,7 @@ export default function RHFUploadFile(props: any) {
         name={`${name}`}
         id={`${name}`}
         onChange={(event: any) => {
-          const file: any = event.target.files?.[0];
+          const file: any = event?.target?.files?.[0];
           other?.setValue(`${name}`, file);
           other?.trigger(`${name}`);
         }}

@@ -5,6 +5,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import Image from 'next/image';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useForm } from 'react-hook-form';
+import { enqueueSnackbar } from 'notistack';
 import {
   loginFormFields,
   loginDefaultValues,
@@ -22,25 +23,35 @@ export const Login = () => {
     defaultValues: loginDefaultValues,
   });
 
-  const onSubmit = () => {};
+  const onSubmit = () => {
+    enqueueSnackbar('Login Successfully', {
+      variant: 'success',
+      autoHideDuration: 2000,
+    });
+  };
   const { handleSubmit } = method;
+  // const [showPassword, setShowPassword] = useState(false);
 
+  // const handleClickShowPassword = () => setShowPassword((show:any) => !show);
+
+  // const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+  //   event.preventDefault();
+  // };
   return (
     <Grid container>
       <AirCustomerPortalHeader
         buttonText="Sign Up"
         link={'/air-customer-portal/sign-up'}
       />
-
-      <Grid item md={6} pt={{ md: 15, xs: 5 }} pb={5} px={{ md: 10, xs: 5 }}>
-        <Grid item md={12} px={{ md: 5, xs: 0 }}>
-          <Typography variant="h2">Sign In to Air Applecart</Typography>
-          <Typography sx={{ py: 2 }} variant="h6" color="grey.900">
+      <Grid item md={6}>
+        <Grid p={7}>
+          <Typography variant="h2">Welcome to Air Applecart</Typography>
+          <Typography sx={{ py: 1 }} variant="h6" color="grey.900">
             Let’s Get Started!
           </Typography>
         </Grid>
 
-        <Grid item md={10} xs={12} mx={{ md: 10, xs: 0 }}>
+        <Grid item md={7} xs={12} mx={{ md: 10, xs: 0 }}>
           <FormProvider methods={method} onSubmit={handleSubmit(onSubmit)}>
             {loginFormFields?.map((items) => {
               return (

@@ -6,6 +6,7 @@ export const END_POINTS = {
   get_permissions: '/premissions',
   reset_password: 'auth/resetPassword',
   forgot_password: 'auth/forgot-password',
+  WORKLOAD: `/workload/workload-management`,
   INVENTORY_EXPENSE: 'expense/add-expense',
   GET_INVENTORY_EXPENSE: 'expense/get-expense',
   TICKET: '/ticket',
@@ -19,6 +20,8 @@ export const END_POINTS = {
   USER_ACCOUNTS_LIST: '/super-admin/accounts-list',
   UPDATE_USER_LIST: '/users/edit',
   COMPANY_CRN: '/auth/search-company',
+  DROPDOWN_ORGANIZATIONS: '/dropdown/organizations',
+  DROPDOWN_PRODUCTS: '/dropdown/products',
   AUTH_SEARCH_COMPANY: 'auth/search-company',
   AUTH_IG_VERIFICATION: 'auth/ig-verification',
 };

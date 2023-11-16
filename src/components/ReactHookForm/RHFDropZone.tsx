@@ -62,7 +62,7 @@ export default function RHFDropZone({ name }: any) {
               <Typography
                 component="span"
                 fontSize={12}
-                color={theme.palette.primary.main}
+                color={theme?.palette?.primary?.main}
               >
                 Click to upload{' '}
               </Typography>

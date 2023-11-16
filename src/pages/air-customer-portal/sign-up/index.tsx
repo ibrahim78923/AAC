@@ -1,6 +1,6 @@
 import { SignUp } from '@/modules/airCustomerPortal/SignUp';
 
-const LoginPage = () => {
+const SignUpPage = () => {
   return <SignUp />;
 };
-export default LoginPage;
+export default SignUpPage;

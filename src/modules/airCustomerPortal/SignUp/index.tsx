@@ -17,16 +17,12 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 export const SignUp = () => {
-  const SignUp = useForm({
+  const method = useForm({
     resolver: yupResolver(signupValidationSchema),
     defaultValues: SignUpDefaultValues,
   });
-
-  const submitSignUp = () => {};
-
-  const SubmitHandler = () => {
-    SignUp?.handleSubmit(submitSignUp);
-  };
+  const onSubmit = () => {};
+  const { handleSubmit } = method;
 
   return (
     <Grid container>
@@ -51,8 +47,8 @@ export const SignUp = () => {
         >
           <FormProvider
             size={'small'}
-            methods={SignUp}
-            onSubmit={SignUp?.handleSubmit(submitSignUp)}
+            methods={method}
+            onSubmit={handleSubmit(onSubmit)}
           >
             {SignUpFormFields.map((item) => (
               <Grid key={uuidv4()} mt={1}>
@@ -67,17 +63,22 @@ export const SignUp = () => {
                 </item.component>
               </Grid>
             ))}
-            <LoadingButton
-              variant="contained"
-              fullWidth
-              onClick={SubmitHandler}
-            >
-              <Link href={''}>Continue</Link>
+            <LoadingButton variant="contained" fullWidth type="submit">
+              <Link href={'/air-customer-portal/next-screen-signup-form'}>
+                Next
+              </Link>
             </LoadingButton>
           </FormProvider>
         </Grid>
       </Grid>
-      <Grid item md={6} p={10}>
+      <Grid
+        item
+        md={6}
+        container
+        alignItems="center"
+        pt={5}
+        sx={{ display: { md: 'flex', xs: 'none' } }}
+      >
         <Image src={LoginDashboardImage} alt={'dasboard'} />
       </Grid>
     </Grid>
