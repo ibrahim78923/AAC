@@ -10,7 +10,7 @@ import {
 import EmojiPickerComponent from '@/modules/SocialComponents/Chat/ChatArea/ChatField/ChatFooter/EmojiPicker';
 import usePostDetailsField from './usePostDetailsField';
 
-export default function PostDetailsField() {
+const PostDetailsField = () => {
   const {
     setAnchorEl,
     anchorEl,
@@ -86,4 +86,5 @@ export default function PostDetailsField() {
       </Popover>
     </Box>
   );
-}
+};
+export default PostDetailsField;
