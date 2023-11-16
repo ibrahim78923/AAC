@@ -1,48 +1,35 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
   Typography,
-  FormGroup,
   FormControlLabel,
-  Checkbox,
-  Grid,
   Box,
 } from '@mui/material';
+
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-import CheckboxLabel from './CheckboxLabel';
+import { SwitchBtn } from '@/components/SwitchButton';
 
 import { useModules } from './useModules';
-
-import { AirSalesCategories } from './PlanFeatures.data';
+import SubModulesAccordion from './SubModulesAccordian';
 
 import { v4 as uuidv4 } from 'uuid';
-import { useAppSelector } from '@/redux/store';
+import { SUPER_ADMIN_PLAN_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 
-const Modules = () => {
-  const { theme } = useModules();
-  const { planManagement }: any = useAppSelector(
-    (state) => state.planManagementForms,
-  );
+const Modules = ({ methods, handleSubmit }: any) => {
+  const { theme, isAccordionExpanded, handleExpandAccordionChange } =
+    useModules();
 
-  const [expandedAccordion, setExpandedAccordion] = useState<string | false>(
-    '',
-  );
-
-  const handleExpandAccordionChange =
-    (accordionId: string) => (_: any, isExpanded: boolean) => {
-      setExpandedAccordion(isExpanded ? accordionId : '');
-    };
   return (
     <div>
-      {planManagement?.addPlanForm?.product?.map((feature: string) => (
+      {SUPER_ADMIN_PLAN_MANAGEMENT_PERMISSIONS?.map((feature: string) => (
         <Accordion
-          expanded={expandedAccordion === feature}
-          onChange={handleExpandAccordionChange(feature)}
           key={uuidv4()}
+          expanded={isAccordionExpanded === feature}
+          onChange={handleExpandAccordionChange(feature)}
           disableGutters
           sx={{
             '&.MuiAccordion': {
@@ -64,30 +51,21 @@ const Modules = () => {
         >
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
-            aria-controls="plan-features-sales-accordion-content"
-            id="plan-features-sales-accordion-header"
+            aria-controls={`accordion-${feature}`}
+            id={`accordion-${feature}`}
           >
-            <Typography variant="h4">
-              {feature === '6541d60a6e917be584ed1a37' ? 'Sales' : 'Marketing'}
-            </Typography>
+            <Box display="flex" alignItems="center">
+              <FormControlLabel control={<SwitchBtn />} label="" />
+              <Typography variant="h4">{feature?.Modules}</Typography>
+            </Box>
           </AccordionSummary>
+
           <AccordionDetails>
-            <Grid container>
-              {AirSalesCategories?.map((item: any) => (
-                <Grid item xs={12} sm={6} lg={4} xl={3} key={item?.name}>
-                  <Box sx={{ width: 'max-content', display: 'flex' }}>
-                    <FormGroup>
-                      <FormControlLabel
-                        control={<Checkbox />}
-                        label={
-                          <CheckboxLabel name={item?.name} desc={item?.desc} />
-                        }
-                      />
-                    </FormGroup>
-                  </Box>
-                </Grid>
-              ))}
-            </Grid>
+            <SubModulesAccordion
+              subModules={feature?.Sub_Modules}
+              methods={methods}
+              handleSubmit={handleSubmit}
+            />
           </AccordionDetails>
         </Accordion>
       ))}
