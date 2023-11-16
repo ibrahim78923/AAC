@@ -8,6 +8,8 @@ export const TAGS = [
   'USERS',
   'PLAN_MANEGEMENT',
   'NEW_INCIDENT',
+  'WORKLOAD',
+  'DROPDOWNS',
   'INVENTORY_EXPENSE',
   'Organization',
   'TICKETS',
