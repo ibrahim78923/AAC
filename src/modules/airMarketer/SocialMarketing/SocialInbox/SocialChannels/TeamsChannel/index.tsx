@@ -17,14 +17,14 @@ const TeamsChannel = () => {
   const router = useRouter();
   return (
     <>
-      <Box sx={styles.subChannels}>
+      <Box sx={styles?.subChannels}>
         <Box
-          onClick={() => router?.push(AIR_MARKETER.SOCIAL_INBOX_SETTINGS)}
+          onClick={() => router?.push(AIR_MARKETER?.SOCIAL_INBOX_SETTINGS)}
           sx={{ cursor: 'pointer' }}
         >
           <AddChannelIcon />
         </Box>
-        <Box sx={styles.subChannelBox}>
+        <Box sx={styles?.subChannelBox}>
           {socialSubChannelData?.map((channel) => (
             <Box
               key={uuidv4()}
