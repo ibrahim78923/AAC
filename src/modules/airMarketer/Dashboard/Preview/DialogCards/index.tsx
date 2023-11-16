@@ -32,8 +32,8 @@ const DialogCards = ({ open, setOpen, selectedDashoardWidget }: any) => {
       }}
     >
       <DialogContent sx={{ p: '12px 24px 24px' }}>
-        <Box sx={styles.topBar}>
-          <Box sx={styles.modalClose} onClick={onClose}>
+        <Box sx={styles?.topBar}>
+          <Box sx={styles?.modalClose} onClick={onClose}>
             <CloseModalIcon />
           </Box>
         </Box>

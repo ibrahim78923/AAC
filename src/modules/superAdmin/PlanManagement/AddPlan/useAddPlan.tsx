@@ -59,7 +59,6 @@ export const useAddPlan = () => {
 
   const persistor = persistStore(store);
 
-  // const methods: any = useForm({
   //   resolver: yupResolver(FormSchema),
   //   defaultValues: async () => {
   //     // if action is view or update
@@ -100,8 +99,6 @@ export const useAddPlan = () => {
   const methodsPlan: any = useForm({
     resolver: yupResolver(gpDetailsInfoFormSchema),
     defaultValues: async () => {
-      // if action is view or update
-
       if (parsedRowData) {
         const {
           defaultUsers,

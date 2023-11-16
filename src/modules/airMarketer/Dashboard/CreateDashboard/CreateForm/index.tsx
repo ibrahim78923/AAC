@@ -92,8 +92,8 @@ const CreateForm = ({
                       <item.component {...item.componentProps} size="small">
                         {item?.componentProps?.select &&
                           item?.options?.map((option: any) => (
-                            <option value={option.value} key={uuidv4()}>
-                              {option.label}
+                            <option value={option?.value} key={uuidv4()}>
+                              {option?.label}
                             </option>
                           ))}
                       </item.component>
@@ -119,7 +119,7 @@ const CreateForm = ({
                       )}
                     </Box>
                   ) : (
-                    <item.component {...item.componentProps} size="small" />
+                    <item.component {...item?.componentProps} size="small" />
                   )}
                 </Grid>
               ))}
