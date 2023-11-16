@@ -2,17 +2,17 @@ import { RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
 export const validationSchemaFeatures = Yup.object().shape({
-  featureDetails: Yup.string()?.trim()?.required('Field is Required'),
+  dealsAssociationsDetail: Yup.string()?.trim()?.required('Field is Required'),
 });
 
 export const defaultValuesFeatures = {
-  featureDetails: '',
+  dealsAssociationsDetail: '',
 };
 
 export const dataArrayFeatures = [
   {
     componentProps: {
-      name: 'featureDetails',
+      name: 'dealsAssociationsDetail',
       label: 'Enter Details',
       fullWidth: true,
     },

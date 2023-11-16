@@ -22,11 +22,14 @@ import {
 import { useDispatch } from 'react-redux';
 import { persistStore } from 'redux-persist';
 import store, { useAppSelector } from '@/redux/store';
-import {
-  defaultValuesFeatures,
-  validationSchemaFeatures,
-} from './Forms/PlanFeatures/FeaturesModal/FeaturesModal.data';
+
 import { usePostPlanMangementMutation } from '@/services/superAdmin/plan-mangement';
+import {
+  defaultValuesModules,
+  defaultValuesPlanFeatures,
+  validationSchemaModules,
+  validationSchemaPlanFeatures,
+} from './Forms/Modules/PlanFeatures.data';
 
 export const useAddPlan = () => {
   const [addPlanFormValues, setAddPlanFormValues] = useState({});
@@ -52,12 +55,17 @@ export const useAddPlan = () => {
     defaultValues: defaultValues,
   });
   const methodsPlanFeatures: any = useForm({
-    resolver: yupResolver(validationSchemaFeatures),
-    defaultValues: defaultValuesFeatures,
+    resolver: yupResolver(validationSchemaPlanFeatures),
+    defaultValues: defaultValuesPlanFeatures,
   });
+  const methodsPlanModules: any = useForm({
+    resolver: yupResolver(validationSchemaModules),
+    defaultValues: defaultValuesModules,
+  });
+
   const { handleSubmit, reset } = methodsPlan;
   const { handleSubmit: handleSubmitPlanFeatures } = methodsPlanFeatures;
-  const { handleSubmit: handleSubmitPlanModules } = methodsPlanFeatures;
+  const { handleSubmit: handleSubmitPlanModules } = methodsPlanModules;
 
   const planForm: any = useAppSelector(
     (state) => state?.planManagementForms?.planManagement?.addPlanForm,
@@ -65,9 +73,10 @@ export const useAddPlan = () => {
   const featureDetails: any = useAppSelector(
     (state) => state?.planManagementForms?.planManagement?.featureDetails,
   );
-  const featursFormData: any = useAppSelector(
-    (state) => state?.planManagementForms?.planManagement?.planFeaturesForm,
+  const featuresFormData: any = useAppSelector(
+    (state) => state?.planManagementForms?.planManagement?.planFeature,
   );
+
   const onSubmitPlan = async (values: any) => {
     dispatch(addPlanFormData(values));
     setActiveStep((previous) => previous + 1);
@@ -85,18 +94,60 @@ export const useAddPlan = () => {
     });
     reset();
   };
-
+  const featureId = Object?.keys(featuresFormData);
   const onSubmitPlanModulesHandler = async (values: any) => {
     dispatch(modulesFormData(values));
     if (activeStep == AddPlanStepperData?.length - 1) {
-      const featuresData = [featureDetails];
-      const planManagementPayload = {
-        ...planForm,
-        ...featursFormData,
-        featuresData,
+      const planFormData = {
+        //we are getting array when we select options in searchable select
+        productId: planForm?.productId[0],
+
+        planTypeId: planForm?.planTypeId,
+        description: planForm?.description,
+        defaultUsers: planForm?.defaultUsers,
+        defaultStorage: planForm?.defaultStorage,
+        planPrice: planForm?.planPrice,
+        additionalPerUserPrice: planForm?.additionalPerUserPrice,
+        additionalStoragePrice: planForm?.additionalStoragePrice,
       };
+      const planFeaturesFormData = {
+        planFeature: [
+          {
+            features: [
+              {
+                featureId: featureId[1],
+                dealsAssociationsDetail:
+                  featureDetails?.dealsAssociationsDetail,
+              },
+            ],
+            //we are getting array when we select options in searchable select
+            productId: planForm?.productId[0],
+          },
+        ],
+      };
+      const planPermissions = {
+        //we are getting array when we select options in searchable select
+        productId: planForm?.productId[0],
+        planPermission: [
+          {
+            permissionSlugs: values?.permissionSlugs,
+          },
+        ],
+      };
+      const permissions = {
+        ...planPermissions,
+        //we are getting array when we select options in searchable select
+        productId: planForm?.productId[0],
+      };
+
       try {
-        postPlanMangement({ body: planManagementPayload })?.unwrap();
+        postPlanMangement({
+          body: {
+            ...planFormData,
+            ...planFeaturesFormData,
+            ...permissions,
+          },
+        })?.unwrap();
         enqueueSnackbar('Plan Modules Details Added Successfully', {
           variant: 'success',
         });
@@ -159,7 +210,12 @@ export const useAddPlan = () => {
     {
       key: uuidv4(),
       label: 'Modules',
-      component: <Modules />,
+      component: (
+        <Modules
+          methods={methodsPlanModules}
+          handleSubmit={handlePlanModules}
+        />
+      ),
       componentProps: { addPlanFormValues, setAddPlanFormValues },
     },
   ];
