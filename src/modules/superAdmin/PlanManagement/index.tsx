@@ -134,7 +134,6 @@ const PlanManagement = () => {
               }}
               as={`${SUPER_ADMIN_PLAN_MANAGEMENT?.ADD_PLAN}`}
             >
-              {' '}
               <MenuItem>Edit</MenuItem>
             </Link>
           </Menu>
