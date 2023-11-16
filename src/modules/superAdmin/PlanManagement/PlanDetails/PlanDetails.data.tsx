@@ -1,11 +1,6 @@
-// import Image from 'next/image';
-
 import { Checkbox } from '@mui/material';
 
 import { avatarGroupMockData } from '../PlanManagement.data';
-
-// import { AvatarImage } from '@/assets/images';
-// import AppAvatarGroup from '@/components/AvatarGroup';
 
 export const TABLE_CONSTANTS = {
   CUSTOMIZE_COLUMN: 'customize-column',
@@ -59,7 +54,6 @@ export const PlanDetailsDataColumnFunction: any = (
   tableRowValues: any,
   setTableRowValues: any,
 ) => {
-  // theme: any, router: any
   return [
     {
       accessorFn: (row: any) => row?.id,
