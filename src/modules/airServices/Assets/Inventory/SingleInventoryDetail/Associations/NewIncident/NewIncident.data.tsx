@@ -8,7 +8,9 @@ import {
   RHFTimePicker,
 } from '@/components/ReactHookForm';
 import {
+  ticketImpactOptions,
   ticketPriorityOptions,
+  ticketSourceOptions,
   ticketStatusOptions,
 } from '@/modules/airServices/ServicesTickets/ServicesTickets.data';
 import * as Yup from 'yup';
@@ -131,15 +133,7 @@ export const dataArray = [
       fullWidth: true,
       select: true,
     },
-    options: [
-      { value: 'Phone No.', label: 'Phone No.' },
-      { value: 'Email', label: 'Email' },
-      { value: 'Portal', label: 'Portal' },
-      { value: 'Chat', label: 'Chat' },
-      { value: 'Walk Up', label: 'Walk Up' },
-      { value: 'Slack', label: 'Slack' },
-      { value: 'MS Team', label: 'MS Team' },
-    ],
+    options: ticketSourceOptions,
     component: RHFSelect,
     md: 12,
   },
@@ -150,11 +144,7 @@ export const dataArray = [
       fullWidth: true,
       select: true,
     },
-    options: [
-      { value: 'Low', label: 'Low' },
-      { value: 'Medium', label: 'Medium' },
-      { value: 'High', label: 'High' },
-    ],
+    options: ticketImpactOptions,
     component: RHFSelect,
     md: 12,
   },
