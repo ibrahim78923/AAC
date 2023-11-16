@@ -58,44 +58,6 @@ export const useAddPlan = () => {
   });
 
   const persistor = persistStore(store);
-
-  //   resolver: yupResolver(FormSchema),
-  //   defaultValues: async () => {
-  //     // if action is view or update
-  //     if (action === "view" || (action === "update" && id !== "")) {
-  //       setIsLoading(true);
-  //       const { data, isError, error } = await getSatsExamGradeInfoById(
-  //         { id },
-  //         false
-  //       );
-  //       const {
-  //         schoolYear,
-  //         formName,
-  //         term,
-  //         subject,
-  //         teacher,
-  //         target,
-  //         currentLevel,
-  //       } = data?.data;
-  //       setIsLoading(false);
-  //       if (isError || !data?.data) {
-  //         displayErrorMessage(error, enqueueSnackbar);
-  //         return defaultValues;
-  //       }
-  //       return {
-  //         schoolYear,
-  //         formName,
-  //         term,
-  //         subject,
-  //         teacher,
-  //         target,
-  //         currentLevel,
-  //       };
-  //     }
-  //     setIsLoading(false);
-  //     return defaultValues;
-  //   },
-  // });
   const methodsPlan: any = useForm({
     resolver: yupResolver(gpDetailsInfoFormSchema),
     defaultValues: async () => {
