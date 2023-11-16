@@ -72,7 +72,7 @@ const UseConversation = () => {
             selectedItem={selectedItem}
             show={show}
             setShow={setShow}
-            addConversationModel={addConversationModal}
+            addConversationModal={addConversationModal}
             onSubmit={onSubmit}
           />
         );
@@ -82,7 +82,7 @@ const UseConversation = () => {
             selectedItem={selectedItem}
             show={show}
             setShow={setShow}
-            addConversationModel={addConversationModal}
+            addConversationModal={addConversationModal}
             onSubmit={onSubmit}
           />
         );

@@ -135,7 +135,7 @@ const ConversationNoteView = () => {
                 }}
                 className="iconContainer"
               >
-                <DeleteIcon sx={{ color: `${theme?.palette?.custom.main}` }} />
+                <DeleteIcon sx={{ color: `${theme?.palette?.custom?.main}` }} />
               </Box>
             </Box>
           </Grid>

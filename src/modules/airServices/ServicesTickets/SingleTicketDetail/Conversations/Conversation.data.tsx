@@ -1,10 +1,10 @@
 import { RHFTextField, RHFSelect } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 import ConversationEditor from './ConversationEditor';
-export const conversationModalsValidation: any = Yup.object().shape({
-  note: Yup.string()?.required('Field is Required'),
-  title: Yup.string()?.required('Field is Required'),
-  description: Yup.string()?.trim()?.required('Field is Required'),
+export const conversationModalsValidation: any = Yup?.object().shape({
+  note: Yup?.string()?.required('Field is Required'),
+  title: Yup?.string()?.required('Field is Required'),
+  description: Yup?.string()?.trim()?.required('Field is Required'),
 });
 
 export const conversationModalsDefaultValues: any = {
@@ -38,7 +38,6 @@ export const conversationModalsArray = [
       label: 'Notify to',
       fullWidth: true,
     },
-    options: [{ value: 'BE', label: 'BE' }],
     component: RHFTextField,
     md: 12,
   },

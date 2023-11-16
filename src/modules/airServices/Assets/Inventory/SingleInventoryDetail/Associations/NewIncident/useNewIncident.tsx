@@ -1,13 +1,16 @@
 import { useForm } from 'react-hook-form';
-import { defaultValues, validationSchema } from './NewIncident.data';
+import {
+  incidentFormDefaultValues,
+  incidentFormValidationSchema,
+} from './NewIncident.data';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { enqueueSnackbar } from 'notistack';
 import { usePostNewIncidentMutation } from '@/services/airServices/assets/inventory/single-inventory-details/associations/new-incident';
 
 export const useNewIncident = ({ onClose }: any) => {
   const methods: any = useForm({
-    resolver: yupResolver(validationSchema),
-    defaultValues,
+    resolver: yupResolver(incidentFormValidationSchema),
+    incidentFormDefaultValues,
   });
 
   const { handleSubmit } = methods;
@@ -30,7 +33,7 @@ export const useNewIncident = ({ onClose }: any) => {
       plannedEndDate,
       plannedEndTime,
       plannedEffort,
-      associateAssets, // attachFile,
+      associateAssets,
     } = newIncident;
     const modifiedFormData = {
       status,
@@ -70,7 +73,6 @@ export const useNewIncident = ({ onClose }: any) => {
         variant: 'error',
       });
     }
-    // console.log(modifiedFormData);
   };
   return { handleSubmit, onSubmit, methods };
 };

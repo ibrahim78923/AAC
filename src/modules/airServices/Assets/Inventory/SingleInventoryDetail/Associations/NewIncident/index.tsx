@@ -4,13 +4,9 @@ import { Grid, Box } from '@mui/material';
 import { dataArray } from './NewIncident.data';
 import { v4 as uuidv4 } from 'uuid';
 import { useNewIncident } from './useNewIncident';
-// import CreateTicket from '@/modules/airServices/ServicesTickets/CreateTicket';
 
 export const NewIncident = ({ openDrawer, onClose }: any) => {
   const { handleSubmit, onSubmit, methods } = useNewIncident({ onClose });
-
-  // const data =CreateTicket;
-  // console.log(data);
 
   return (
     <CommonDrawer

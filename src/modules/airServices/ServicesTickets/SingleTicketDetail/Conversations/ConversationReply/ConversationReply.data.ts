@@ -2,11 +2,11 @@ import { RHFTextField, RHFSelect } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 import ConversationEditor from '../ConversationEditor';
 
-export const conversationModelsValidation = Yup.object().shape({
-  note: Yup.string()?.required('Field is Required'),
-  from: Yup.string()?.required('Field is Required'),
-  reply: Yup.string()?.required('Field is Required'),
-  description: Yup.string()?.trim()?.required('Field is Required'),
+export const conversationModelsValidation = Yup?.object().shape({
+  note: Yup?.string()?.required('Field is Required'),
+  from: Yup?.string()?.required('Field is Required'),
+  reply: Yup?.string()?.required('Field is Required'),
+  description: Yup?.string()?.trim()?.required('Field is Required'),
 });
 
 export const conversationModelsDefaultValues = {

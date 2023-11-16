@@ -8,7 +8,7 @@ import ConversationArticleSelect from '../ConversationArticleSelect';
 const ConversationReply = ({
   show,
   setShow,
-  addConversationModel,
+  addConversationModal,
   onSubmit,
 }: any) => {
   return (
@@ -20,8 +20,8 @@ const ConversationReply = ({
       isOk={true}
     >
       <FormProvider
-        methods={addConversationModel}
-        onSubmit={addConversationModel?.handleSubmit(onSubmit)}
+        methods={addConversationModal}
+        onSubmit={addConversationModal?.handleSubmit(onSubmit)}
       >
         <Grid container spacing={2}>
           {conversationReplyArray?.map((item: any) => (

@@ -9,7 +9,7 @@ const ConversationForward = ({
   show,
   setShow,
   onSubmit,
-  addConversationModel,
+  addConversationModal,
 }: any) => {
   return (
     <CommonDrawer
@@ -20,8 +20,8 @@ const ConversationForward = ({
       isOk={true}
     >
       <FormProvider
-        methods={addConversationModel}
-        onSubmit={addConversationModel.handleSubmit(onSubmit)}
+        methods={addConversationModal}
+        onSubmit={addConversationModal.handleSubmit(onSubmit)}
       >
         <Grid container spacing={2}>
           {conversationForwardArray?.map((item: any) => (
@@ -30,7 +30,7 @@ const ConversationForward = ({
               xs={12}
               md={item?.md}
               key={uuidv4()}
-              mb={item.mb ? item.mb : ''}
+              mb={item?.mb ? item.mb : ''}
             >
               <Grid item xs={12} md={item?.md} key={uuidv4()}>
                 <item.component
