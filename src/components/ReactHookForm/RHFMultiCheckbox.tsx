@@ -6,6 +6,8 @@ import {
   FormHelperText,
 } from '@mui/material';
 
+import { v4 as uuidv4 } from 'uuid';
+
 export default function RHFMultiCheckbox({ name, options, ...other }: any) {
   const { control } = useFormContext();
 
@@ -24,7 +26,7 @@ export default function RHFMultiCheckbox({ name, options, ...other }: any) {
             <FormGroup>
               {options?.map((option: any) => (
                 <FormControlLabel
-                  key={option?.value}
+                  key={uuidv4()}
                   control={
                     <Checkbox
                       checked={field?.value?.some(

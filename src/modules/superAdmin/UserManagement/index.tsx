@@ -32,6 +32,8 @@ const UserManagement = () => {
     search,
     setSearch,
     handleAddRole,
+    checkedRows,
+    setCheckedRows,
   } = useUserManagement();
 
   return (
@@ -80,7 +82,7 @@ const UserManagement = () => {
             ]}
             headerChildren={
               <>
-                <ActionButton />
+                <ActionButton checkedRows={checkedRows} />
                 <Button
                   onClick={() => {
                     setIsOpenFilterDrawer(true);
@@ -98,7 +100,7 @@ const UserManagement = () => {
               </>
             }
           >
-            <Users />
+            <Users checkedRows={checkedRows} setCheckedRows={setCheckedRows} />
             <SuperAdminUsers />
             <RolesAndRights />
           </CommonTabs>
