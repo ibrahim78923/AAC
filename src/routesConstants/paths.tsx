@@ -47,7 +47,7 @@ export const AIR_SALES = {
 export const SUPER_ADMIN_PLAN_MANAGEMENT: any = {
   PLAN_MANAGEMENT: '/plan',
   PLAN_TYPE_LIST: 'plan/plan-type-list',
-  PRODUCT_FEATURES: 'product-features',
+  PRODUCT_FEATURES: 'product-features?page=1&limit=10',
   ADD_PLAN: '/super-admin/plan-management/add-plan',
 };
 export const orgAdminSubcriptionInvoices = {

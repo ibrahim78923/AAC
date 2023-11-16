@@ -29,7 +29,7 @@ export const planManagementAPI = baseAPI.injectEndpoints({
     }),
     getProductsFeatures: builder.query({
       query: () => ({
-        url: `${SUPER_ADMIN_PLAN_MANAGEMENT?.PRODUCT_FEATURES}?page=1&limit=10`,
+        url: `${SUPER_ADMIN_PLAN_MANAGEMENT?.PRODUCT_FEATURES}`,
         method: 'GET',
       }),
       providesTags: TAG,
