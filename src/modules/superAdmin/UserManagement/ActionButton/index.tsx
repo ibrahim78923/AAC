@@ -3,7 +3,8 @@ import useUserManagement from '../useUserManagement';
 import { ArrowDropDown } from '@mui/icons-material';
 import AddUser from '../Users/AddUser';
 
-const ActionButton = () => {
+const ActionButton = (props: any) => {
+  const { checkedRows } = props;
   const {
     theme,
     selectedValue,
@@ -18,6 +19,7 @@ const ActionButton = () => {
     <Box>
       <Button
         onClick={handleClick}
+        disabled={checkedRows === undefined ? true : false}
         sx={{
           border: `1px solid ${theme?.palette?.custom?.dark}`,
           color: theme?.palette?.custom?.main,
@@ -34,7 +36,9 @@ const ActionButton = () => {
         open={Boolean(selectedValue)}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleUsersList}>User List</MenuItem>
+        <MenuItem onClick={() => handleUsersList(checkedRows)}>
+          User List
+        </MenuItem>
         <MenuItem onClick={handleClose}>View</MenuItem>
         <MenuItem onClick={handleClose}>Edit</MenuItem>
       </Menu>

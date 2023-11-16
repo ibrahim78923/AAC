@@ -1,11 +1,11 @@
 import { baseAPI } from '@/services/base-api';
-import { endpoints } from '@/routesConstants/endpoints';
+import { END_POINTS } from '@/routesConstants/endpoints';
 
 export const userListApi = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getUsersAccounts: builder.query({
       query: () => ({
-        url: endpoints?.USER_ACCOUNTS_LIST,
+        url: END_POINTS?.USER_ACCOUNTS_LIST,
         method: 'GET',
       }),
       providesTags: ['USERS'],
@@ -22,7 +22,7 @@ export const userListApi = baseAPI.injectEndpoints({
     postUsersAccount: builder.mutation({
       query: ({ body }: any) => {
         return {
-          url: endpoints?.ADD_USER_ACCOUNT,
+          url: END_POINTS?.ADD_USER_ACCOUNT,
           method: 'POST',
           body: body,
         };
