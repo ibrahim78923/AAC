@@ -1,11 +1,11 @@
 import { baseAPI } from '@/services/base-api';
-import { endpoints } from '@/routesConstants/endpoints';
+import { END_POINTS } from '@/routesConstants/endpoints';
 
 export const usersApi = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getUsers: builder.query({
       query: ({ role, search }) => ({
-        url: `${endpoints?.USER_LIST}?page=1&limit=100&role=${role}&search=${search}`,
+        url: `${END_POINTS?.USER_LIST}?page=1&limit=100&role=${role}&search=${search}`,
         method: 'GET',
       }),
       providesTags: ['USERS'],
@@ -13,7 +13,7 @@ export const usersApi = baseAPI.injectEndpoints({
 
     getCompaniesCRN: builder.query({
       query: ({ num }) => ({
-        url: `${endpoints?.COMPANY_CRN}?by=crn&q=${num}`,
+        url: `${END_POINTS?.COMPANY_CRN}?by=crn&q=${num}`,
         method: 'GET',
       }),
       providesTags: ['USERS'],
@@ -30,7 +30,7 @@ export const usersApi = baseAPI.injectEndpoints({
     postUsers: builder.mutation({
       query: ({ body }: any) => {
         return {
-          url: endpoints?.ADD_USER,
+          url: END_POINTS?.ADD_USER,
           method: 'POST',
           body: body,
         };
@@ -40,7 +40,7 @@ export const usersApi = baseAPI.injectEndpoints({
     updateUsers: builder.mutation({
       query: ({ id, ...queryParams }: any) => {
         return {
-          url: `${endpoints?.UPDATE_USER_LIST}/${id}`,
+          url: `${END_POINTS?.UPDATE_USER_LIST}/${id}`,
           method: 'PATCH',
           params: queryParams,
         };

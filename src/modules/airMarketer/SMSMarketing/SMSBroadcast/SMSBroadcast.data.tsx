@@ -1,25 +1,15 @@
-import { Avatar, AvatarGroup, Box, Checkbox } from '@mui/material';
+import {
+  Avatar,
+  AvatarGroup,
+  Box,
+  Checkbox,
+  Stack,
+  Typography,
+} from '@mui/material';
 
 import { styles } from '../SMSDashboard/ScheduledSMS/ScheduledSMS.style';
 
-import LinearProgress, {
-  linearProgressClasses,
-} from '@mui/material/LinearProgress';
-
-import { styled } from '@mui/material/styles';
-
-const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
-  height: 10,
-  borderRadius: 5,
-  [`&.${linearProgressClasses?.colorPrimary}`]: {
-    backgroundColor:
-      theme?.palette?.grey[theme?.palette?.mode === 'light' ? 200 : 800],
-  },
-  [`& .${linearProgressClasses?.bar}`]: {
-    borderRadius: 5,
-    backgroundColor: theme?.palette?.mode === 'light' ? '#1a90ff' : '#308fe8',
-  },
-}));
+import LinearProgress from '@mui/material/LinearProgress';
 
 export const broadcastData: any = [
   {
@@ -83,14 +73,28 @@ export const broadcastColumns: any = (statusTag: any) => [
     id: 'successful',
     isSortable: true,
     header: 'Successful',
-    cell: <BorderLinearProgress variant="determinate" value={50} />,
+    cell: (
+      <Stack gap={1}>
+        <Typography variant="body2" textAlign={'center'}>
+          100%
+        </Typography>
+        <LinearProgress variant="determinate" value={100} />
+      </Stack>
+    ),
   },
   {
     accessorFn: (row: any) => row?.Replied,
     id: 'replied',
     isSortable: true,
     header: 'Replied',
-    cell: <BorderLinearProgress variant="determinate" value={50} />,
+    cell: (
+      <Stack gap={1}>
+        <Typography variant="body2" textAlign={'center'}>
+          60%
+        </Typography>
+        <LinearProgress variant="determinate" value={50} />
+      </Stack>
+    ),
   },
   {
     accessorFn: (row: any) => row?.Recipients,

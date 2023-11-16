@@ -6,7 +6,7 @@ const SMSBroadcastHeader = () => {
   return (
     <Grid container sx={{ justifyContent: 'space-between', my: 1 }}>
       <Grid item lg={6}>
-        date calander here
+        {/* date calander here */}
       </Grid>
       <Grid
         item
