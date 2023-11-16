@@ -60,6 +60,6 @@ export const superAdminBillingInvoicesPath = {
 };
 
 export const airMarketingCalendar = {
-  calendar: '/air-marketer/social-marketing',
+  calendar: '/air-marketer/social-marketing/calender',
   create_post: '/air-marketer/social-marketing/create-post',
 };

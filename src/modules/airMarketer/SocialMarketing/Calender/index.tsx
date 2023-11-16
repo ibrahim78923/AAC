@@ -8,11 +8,12 @@ import resourceTimelinePlugin from '@fullcalendar/resource-timeline';
 import useCalender from './useCalender';
 import Filters from './Filters';
 import { PlusIcon } from '@/assets/icons';
-import { styles } from './Calendar.style';
+import { styles } from './Calender.style';
 import { v4 as uuidv4 } from 'uuid';
 import { AvatarImage, EventImage } from '@/assets/images';
 import Image from 'next/image';
 import { airMarketingCalendar } from '@/routesConstants/paths';
+import { SocailMediaEvent } from './Calender.data';
 
 const Calender = () => {
   const {
@@ -27,7 +28,6 @@ const Calender = () => {
     isModalOpen,
     setIsModalOpen,
     selectedEventData,
-    SocailMediaEvent,
     handleMoreLinkClick,
     modalEvents,
     setModalEvents,
