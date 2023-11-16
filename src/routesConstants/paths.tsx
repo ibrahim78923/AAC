@@ -44,10 +44,11 @@ export const AIR_SALES = {
   SALES_VIEW_INVOICES: '/air-sales/invoices/view-invoices',
   SALES_CREATE_INVOICES: '/air-sales/invoices/create-invoices',
 };
-export const SUPER_ADMIN: any = {
+export const SUPER_ADMIN_PLAN_MANAGEMENT: any = {
   PLAN_MANAGEMENT: '/plan',
   PLAN_TYPE_LIST: 'plan/plan-type-list',
   PRODUCT_FEATURES: 'product-features',
+  ADD_PLAN: '/super-admin/plan-management/add-plan',
 };
 export const orgAdminSubcriptionInvoices = {
   choose_plan: '/org-admin/subscription-and-invoices/choose-plan',

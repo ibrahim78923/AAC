@@ -29,6 +29,7 @@ import { FilterSharedIcon, PlusIcon } from '@/assets/icons';
 
 import { v4 as uuidv4 } from 'uuid';
 import { PlanDetailsDataColumnFunction } from './PlanDetails/PlanDetails.data';
+import { SUPER_ADMIN_PLAN_MANAGEMENT } from '@/routesConstants/paths';
 
 const PlanManagement = () => {
   const {
@@ -70,7 +71,7 @@ const PlanManagement = () => {
         </Typography>
         .
         <Box sx={styles?.linkStyle}>
-          <Link href={'/super-admin/plan-management/add-plan'}>
+          <Link href={`${SUPER_ADMIN_PLAN_MANAGEMENT?.ADD_PLAN}`}>
             <Button variant="contained" fullWidth startIcon={<PlusIcon />}>
               Add Plan
             </Button>
@@ -128,10 +129,10 @@ const PlanManagement = () => {
           >
             <Link
               href={{
-                pathname: '/super-admin/plan-management/add-plan',
+                pathname: `${SUPER_ADMIN_PLAN_MANAGEMENT?.ADD_PLAN}`,
                 query: { data: JSON?.stringify(tableRowValues?.row?.original) },
               }}
-              as="/super-admin/plan-management/add-plan"
+              as={`${SUPER_ADMIN_PLAN_MANAGEMENT?.ADD_PLAN}`}
             >
               {' '}
               <MenuItem>Edit</MenuItem>
