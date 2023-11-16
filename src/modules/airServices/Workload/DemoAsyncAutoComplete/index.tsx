@@ -8,6 +8,7 @@ import {
   useLazyGetOrganizationsQuery,
   useLazyGetProductsQuery,
 } from '@/services/dropdowns';
+import { Fragment } from 'react';
 
 export const validationSchema = Yup?.object()?.shape({
   singleSelect: Yup?.mixed()?.nullable()?.required('Required'),
@@ -85,6 +86,11 @@ export const getDataArray = (
         label: 'Button',
         fullWidth: true,
         apiQuery: apiQueryProducts,
+        noOptionsCase: (
+          <Fragment>
+            <Button>Click here</Button>
+          </Fragment>
+        ),
       },
       component: RHFAutocompleteAsync,
     },

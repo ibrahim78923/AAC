@@ -23,7 +23,7 @@ export default function RHFAutocompleteAsync({
   variant = 'outlined',
   EndIcon,
   placeholder,
-  noOptionsText = 'Nothing in the List',
+  noOptionsCase = 'Nothing in the List',
   externalParams = {},
   isOptionEqualToValue = (option: any, newValue: any) =>
     option?._id === newValue?._id,
@@ -60,7 +60,7 @@ export default function RHFAutocompleteAsync({
             autoComplete
             includeInputInList
             filterSelectedOptions
-            noOptionsText={noOptionsText}
+            noOptionsText={noOptionsCase}
             options={data ?? []}
             disableCloseOnSelect
             {...other}

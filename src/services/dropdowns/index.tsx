@@ -10,18 +10,20 @@ const transformResponse = (response: any) => {
 export const dropdownsAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getOrganizations: builder.query({
-      query: () => ({
+      query: ({ params }: any) => ({
         url: `${END_POINTS?.DROPDOWN_ORGANIZATIONS}`,
         method: 'GET',
+        params,
       }),
       transformResponse: (response: any) => transformResponse(response),
       providesTags: [TAG],
     }),
 
     getProducts: builder.query({
-      query: () => ({
+      query: ({ params }: any) => ({
         url: `${END_POINTS?.DROPDOWN_PRODUCTS}`,
         method: 'GET',
+        params,
       }),
       transformResponse: (response: any) => transformResponse(response),
       providesTags: [TAG],
