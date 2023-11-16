@@ -8,6 +8,7 @@ export const TAGS = [
   'PLAN_MANEGEMENT',
   'ASSETS_INVENTORY',
   'Organization',
+  'TICKETS',
 ];
 
 const baseQuery = fetchBaseQuery({
