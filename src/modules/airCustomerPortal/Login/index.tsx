@@ -21,11 +21,10 @@ export const Login = () => {
     resolver: yupResolver(loginValidationSchema),
     defaultValues: loginDefaultValues,
   });
-  const submitSignIn = () => {};
 
-  const SubmitHandler = () => {
-    method?.handleSubmit(submitSignIn);
-  };
+  const onSubmit = () => {};
+  const { handleSubmit } = method;
+
   return (
     <Grid container>
       <AirCustomerPortalHeader
@@ -42,26 +41,23 @@ export const Login = () => {
         </Grid>
 
         <Grid item md={10} xs={12} mx={{ md: 10, xs: 0 }}>
-          <FormProvider
-            methods={method}
-            onSubmit={method?.handleSubmit(submitSignIn)}
-          >
+          <FormProvider methods={method} onSubmit={handleSubmit(onSubmit)}>
             {loginFormFields?.map((items) => {
               return (
                 <Grid my={1} key={uuidv4()}>
-                  <items.component {...items.componentProps} size={'small'} />
+                  <items.component {...items?.componentProps} size={'small'} />
                 </Grid>
               );
             })}
+            <LoadingButton
+              sx={{ my: 2 }}
+              variant="contained"
+              fullWidth
+              type="submit"
+            >
+              SignIn
+            </LoadingButton>
           </FormProvider>
-          <LoadingButton
-            sx={{ my: 2 }}
-            variant="contained"
-            fullWidth
-            onClick={SubmitHandler}
-          >
-            SignIn
-          </LoadingButton>
           <Link href="/air-customer-portal/forget-password">
             <Typography
               fontWeight={600}

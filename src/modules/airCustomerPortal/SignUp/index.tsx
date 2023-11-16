@@ -1,6 +1,6 @@
 import { Grid, Typography } from '@mui/material';
 import React from 'react';
-import { AirCustomerPortalHeader } from '../AirCustomerportalHeader';
+import { AirCustomerPortalHeader } from '../AirCustomerPortalHeader';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
