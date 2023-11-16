@@ -64,15 +64,12 @@ export const useNewIncident = ({ onClose }: any) => {
       enqueueSnackbar(response?.message ?? 'Ticket Added Successfully', {
         variant: 'success',
       });
+      onClose(false);
     } catch (error) {
       enqueueSnackbar('There is something wrong', {
         variant: 'error',
       });
     }
-    enqueueSnackbar('Incident Associated Successfully!', {
-      variant: 'success',
-    });
-    onClose(false);
     // console.log(modifiedFormData);
   };
   return { handleSubmit, onSubmit, methods };
