@@ -10,13 +10,13 @@ import {
 export const data: any = [
   {
     id: 1,
-    expenseType: 'purchase cost',
+    type: 'purchase cost',
     cost: 1506.325,
     date: `${new Date()}`,
   },
   {
     id: 2,
-    expenseType: 'maintenance cost',
+    type: 'maintenance cost',
     cost: 1506.325,
     date: `${new Date()}`,
   },
@@ -33,9 +33,8 @@ export const dropdownDummy = [
   },
 ];
 
-// add expense form validation schema
 export const addExpenseValidationSchema: any = yup?.object()?.shape({
-  expenseType: yup?.string()?.required('Required field!'),
+  type: yup?.string()?.required('Required field!'),
   cost: yup
     ?.number()
     ?.positive()
@@ -44,7 +43,7 @@ export const addExpenseValidationSchema: any = yup?.object()?.shape({
 });
 
 export const addExpenseDefaultValues = {
-  expenseType: '',
+  type: '',
   cost: '',
   date: new Date(),
 };
@@ -54,8 +53,8 @@ export const addExpenseFormData = [
     id: 129,
     componentProps: {
       fullWidth: true,
-      name: 'expenseType',
-      label: 'expenseType',
+      name: 'type',
+      label: 'Expense Type',
       select: true,
       options: dropdownDummy,
       required: true,
@@ -69,7 +68,7 @@ export const addExpenseFormData = [
       name: 'cost',
       fullWidth: true,
       placeholder: 'cost',
-      label: 'cost',
+      label: 'Cost',
       required: true,
     },
     gridLength: 12,
@@ -133,8 +132,8 @@ export const addExpenseColumnsFunction = (
     isSortable: false,
   },
   {
-    accessorFn: (row: any) => row?.expenseType,
-    id: 'expenseType',
+    accessorFn: (row: any) => row?.type,
+    id: 'type',
     isSortable: true,
     header: 'Expense Type',
     cell: (info: any) => info?.getValue(),

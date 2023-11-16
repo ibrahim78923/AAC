@@ -1,8 +1,9 @@
 export { default as ArrowUpIcon } from './shared/arrow-up-icon';
 export { default as PlusSharedIcon } from './shared/shared-icon';
-export { default as PlusSharedIconColor } from './shared/plus-shared-color';
 export { default as PlusSharedColorIcon } from './shared/plus-shared-color';
 export { default as PlusPrimaryIcon } from './shared/primary-plus-icon';
+
+// export { default as ExampleKababCase } from './sections/login/example-kabab-case';
 export { default as CloseDrawerIcon } from './shared/close-drawer-icon';
 export { default as CloseModalIcon } from './shared/close-modal-icon';
 export { default as ProductSalesIcon } from './modules/orgAdmin/SubscriptionAndInvoices/product-sales-icon';
@@ -208,6 +209,7 @@ export { default as AlertModalCloseIcon } from './shared/alert-modal-close-icon'
 export { default as PhotoShopIcon } from './shared/photoshop-icon';
 export { default as XdIcon } from './shared/xd-icon';
 export { default as IllustratorIcon } from './shared/illustrator-icon';
+export { default as AttachIcon } from './shared/attach-file-icon';
 export { default as CompanyIcon } from './modules/SocialComponents/Companies/company';
 export { default as ImportCompaniesIcon } from './modules/SocialComponents/Companies/import';
 export { default as BackArrowIcon } from './modules/airSales/deals/back-arrow';

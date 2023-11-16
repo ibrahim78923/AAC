@@ -1,134 +1,232 @@
 import { useState, useEffect } from 'react';
 import {
-  TABLE_CONSTANTS,
+  TICKETS_ACTION_CONSTANTS,
   ticketsActionDropdownFunction,
+  ticketsListTotalColumns,
   ticketsListsColumnFunction,
-  ticketsListsData,
 } from './TicketsLists.data';
 import { CustomizeTicketsColumn } from '../CustomizeTicketsColumn';
 import { useRouter } from 'next/router';
 import { useTheme } from '@mui/material';
 import { TicketsFilter } from '../TicketsFilter';
-import CreateTicket from '../CreateTicket';
 import { enqueueSnackbar } from 'notistack';
+import {
+  useLazyGetExportTicketsQuery,
+  useLazyGetTicketsQuery,
+  usePatchBulkUpdateTicketsMutation,
+} from '@/services/airServices/tickets';
+import { downloadFile } from '@/utils/file';
+import { UpsertTicket } from '../UpsertTicket';
+import { EXPORT_TYPE } from '@/constants/strings';
 
-export const useTicketsLists = () => {
+export const useTicketsLists: any = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [ticketList, setTicketList] = useState([]);
-  const [selectedTicketList, setSelectedTicketList] = useState([]);
-
-  useEffect(() => {
-    setTicketList(ticketsListsData);
-  }, [ticketsListsData]);
-
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [selectedTicketList, setSelectedTicketList] = useState([]);
+  const [page, setPage] = useState(1);
+  const [pageLimit, setPageLimit] = useState(10);
+  const [search, setSearch] = useState<any>('');
+  const [columnNames, setColumnNames] = useState(ticketsListTotalColumns);
+  const [ticketsFilter, setTicketsFilter] = useState<any>([]);
 
   const theme = useTheme();
   const router = useRouter();
 
-  const handleChange = (value: any, event: any) => {
-    setTicketList(
-      (preVal: any) =>
-        preVal?.map((item: any) =>
-          value?.ticketId === item?.ticketId
-            ? { ...item, [event?.name]: [event?.value] }
-            : item,
-        ),
-    );
+  const getTicketsParam = new URLSearchParams();
+
+  columnNames?.forEach(
+    (col: any) => getTicketsParam?.append('columnNames', col),
+  );
+  ticketsFilter?.forEach(
+    ([key, value]: any) => getTicketsParam?.append(key, value),
+  );
+  getTicketsParam?.append('page', page + '');
+  getTicketsParam?.append('limit', pageLimit + '');
+  getTicketsParam?.append('search', search);
+  const getTicketsParameter = {
+    queryParams: getTicketsParam,
   };
 
-  const [ticketsListsColumn, setTicketsListsColumn] = useState(
-    ticketsListsColumnFunction(
-      theme,
-      router,
-      ticketsListsData,
-      selectedTicketList,
-      setSelectedTicketList,
-      handleChange,
-    ),
-  );
+  const [lazyGetTicketsTrigger, lazyGetTicketsStatus] =
+    useLazyGetTicketsQuery();
+
+  const [lazyGetExportTicketsTrigger, lazyGetExportTicketsStatus] =
+    useLazyGetExportTicketsQuery();
+
+  const [patchBulkUpdateTicketsTrigger] = usePatchBulkUpdateTicketsMutation();
+
+  const getValueTicketsListData = async () => {
+    try {
+      const response =
+        await lazyGetTicketsTrigger(getTicketsParameter)?.unwrap();
+      enqueueSnackbar(response?.message ?? 'Tickets Retrieved successfully', {
+        variant: 'success',
+      });
+    } catch (error: any) {
+      enqueueSnackbar(error?.data?.message ?? 'Error', {
+        variant: 'error',
+      });
+    }
+  };
+
+  const getTicketsListDataExport = async (type: any) => {
+    const exportTicketsParams = new URLSearchParams();
+
+    exportTicketsParams?.append('exportType', type);
+
+    const getTicketsExportParameter = {
+      queryParams: exportTicketsParams,
+    };
+
+    try {
+      const response: any = await lazyGetExportTicketsTrigger(
+        getTicketsExportParameter,
+      )?.unwrap();
+
+      const FILE_TYPE: any = {
+        [EXPORT_TYPE?.CSV]: 'text/csv',
+        [EXPORT_TYPE?.XLS]:
+          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      };
+
+      downloadFile(response, 'TicketLists', FILE_TYPE?.[type]);
+
+      enqueueSnackbar(response?.message ?? 'Tickets Exported successfully', {
+        variant: 'success',
+      });
+    } catch (error: any) {
+      enqueueSnackbar(error?.data?.message ?? 'Error', {
+        variant: 'error',
+      });
+    }
+  };
+
+  useEffect(() => {
+    getValueTicketsListData();
+  }, [columnNames, search, page, pageLimit, ticketsFilter]);
+
+  useEffect(() => {
+    if (!isDrawerOpen) {
+      //TODO: destructing as i do not need that in rest queries.
+      /* eslint-disable @typescript-eslint/no-unused-vars */
+      const { ticketAction, ...restQueries } = router?.query;
+      router?.push({
+        pathname: router?.pathname,
+        query: {
+          ...restQueries,
+        },
+      });
+    }
+  }, []);
+
+  const updateTicketStatus = async (status: any) => {
+    const updateTicketStatusParams = new URLSearchParams();
+    selectedTicketList?.forEach(
+      (ticketId: any) => updateTicketStatusParams?.append('ids', ticketId),
+    );
+    const updateTicketStatusTicketsParameter = {
+      queryParams: updateTicketStatusParams,
+      body: {
+        status,
+      },
+    };
+    try {
+      const response: any = await patchBulkUpdateTicketsTrigger(
+        updateTicketStatusTicketsParameter,
+      )?.unwrap();
+      enqueueSnackbar(
+        response?.message ?? `Ticket marked as ${status?.toLowerCase()}`,
+        {
+          variant: 'success',
+        },
+      );
+    } catch (error: any) {
+      enqueueSnackbar(error?.data?.error ?? 'Error', {
+        variant: 'error',
+      });
+    }
+  };
   const ticketsListsColumnPersist = ticketsListsColumnFunction(
     theme,
     router,
-    ticketsListsData,
+    lazyGetTicketsStatus?.data?.data?.tickets,
     selectedTicketList,
     setSelectedTicketList,
-    handleChange,
   );
 
   const drawerComponent: any = {
-    [TABLE_CONSTANTS?.CUSTOMIZE_COLUMN]: (
+    [TICKETS_ACTION_CONSTANTS?.CUSTOMIZE_COLUMN]: (
       <CustomizeTicketsColumn
         isDrawerOpen={isDrawerOpen}
         setIsDrawerOpen={setIsDrawerOpen}
         ticketsListsColumnPersist={ticketsListsColumnPersist}
-        ticketsListsColumn={ticketsListsColumn}
-        setTicketsListsColumn={setTicketsListsColumn}
+        setColumnNames={setColumnNames}
+        columnNames={columnNames}
       />
     ),
 
-    [TABLE_CONSTANTS?.FILTER_DATA]: (
+    [TICKETS_ACTION_CONSTANTS?.FILTER_DATA]: (
       <TicketsFilter
+        setIsDrawerOpen={setIsDrawerOpen}
+        isDrawerOpen={isDrawerOpen}
+        setTicketsFilter={setTicketsFilter}
+      />
+    ),
+    [TICKETS_ACTION_CONSTANTS?.CREATE_NEW_TICKET]: (
+      <UpsertTicket
         setIsDrawerOpen={setIsDrawerOpen}
         isDrawerOpen={isDrawerOpen}
       />
     ),
-    [TABLE_CONSTANTS?.CREATE_NEW_TICKET]: (
-      <CreateTicket
+    [TICKETS_ACTION_CONSTANTS?.EDIT_TICKET]: (
+      <UpsertTicket
         setIsDrawerOpen={setIsDrawerOpen}
         isDrawerOpen={isDrawerOpen}
+        ticketId={selectedTicketList?.[0]}
       />
     ),
   };
 
-  const openDrawer = (tableActionQuery: any) => {
+  const openDrawer = (ticketActionQuery: any) => {
     router?.push({
       pathname: router?.pathname,
       query: {
         ...router?.query,
-        tableAction: tableActionQuery,
+        ticketAction: ticketActionQuery,
       },
     });
     setTimeout(() => {
-      setIsDrawerOpen(true);
+      setIsDrawerOpen?.(true);
     }, 100);
-  };
-
-  const markTicketAsClose = () => {
-    enqueueSnackbar('Ticket marked as close', { variant: 'success' });
-  };
-
-  const markTicketAsSpam = () => {
-    enqueueSnackbar('Ticket marked as spam', { variant: 'success' });
-  };
-
-  const deleteTicket = () => {
-    enqueueSnackbar('Ticket deleted successfully', { variant: 'success' });
-    setDeleteModalOpen(false);
   };
 
   const ticketsActionDropdown = ticketsActionDropdownFunction?.(
     setDeleteModalOpen,
-    markTicketAsClose,
-    markTicketAsSpam,
+    openDrawer,
+    selectedTicketList,
+    updateTicketStatus,
   );
 
   return {
-    theme,
-    router,
-    ticketList,
-    selectedTicketList,
-    setSelectedTicketList,
-    handleChange,
-    ticketsListsColumn,
     isDrawerOpen,
-    setIsDrawerOpen,
+    router,
     openDrawer,
-    TABLE_CONSTANTS,
+    TICKETS_ACTION_CONSTANTS,
     drawerComponent,
     ticketsActionDropdown,
     deleteModalOpen,
     setDeleteModalOpen,
-    deleteTicket,
+    lazyGetTicketsStatus,
+    ticketsListsColumnPersist,
+    search,
+    setSearch,
+    page,
+    setPage,
+    getTicketsListDataExport,
+    lazyGetExportTicketsStatus,
+    columnNames,
+    selectedTicketList,
+    pageLimit,
+    setPageLimit,
   };
 };
