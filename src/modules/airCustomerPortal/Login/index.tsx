@@ -22,7 +22,6 @@ export const Login = () => {
     resolver: yupResolver(loginValidationSchema),
     defaultValues: loginDefaultValues,
   });
-
   const onSubmit = () => {
     enqueueSnackbar('Login Successfully', {
       variant: 'success',
@@ -30,13 +29,7 @@ export const Login = () => {
     });
   };
   const { handleSubmit } = method;
-  // const [showPassword, setShowPassword] = useState(false);
 
-  // const handleClickShowPassword = () => setShowPassword((show:any) => !show);
-
-  // const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
-  //   event.preventDefault();
-  // };
   return (
     <Grid container>
       <AirCustomerPortalHeader

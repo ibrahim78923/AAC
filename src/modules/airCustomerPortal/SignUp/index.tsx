@@ -11,7 +11,7 @@ import {
 import { FormProvider } from '@/components/ReactHookForm';
 import { v4 as uuidv4 } from 'uuid';
 import { LoadingButton } from '@mui/lab';
-import { LoginDashboardImage } from '@/assets/images';
+import { SignUpImage } from '@/assets/images';
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -79,7 +79,7 @@ export const SignUp = () => {
         pt={5}
         sx={{ display: { md: 'flex', xs: 'none' } }}
       >
-        <Image src={LoginDashboardImage} alt={'dasboard'} />
+        <Image src={SignUpImage} alt={'dasboard'} />
       </Grid>
     </Grid>
   );

@@ -30,8 +30,7 @@ export const loginFormFields = [
       label: 'password',
       placeholder: '*******',
       fullWidth: true,
-      type: 'submit',
-
+      type: 'password',
       required: true,
     },
     component: RHFTextField,
