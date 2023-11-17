@@ -16,42 +16,43 @@ import {
   CatalogMetroUiOsAppleImage,
   CatalogPhuzionDeviceLaptopImage,
 } from '@/assets/images';
+import { CATALOG_SERVICE_TYPES } from '@/constants/strings';
 
 export const services = [
   {
     id: 1,
-    title: 'All Services',
+    title: CATALOG_SERVICE_TYPES?.ALL,
     description:
       'Browse the list of all services  offered and raise a request.',
     image: ServiceFeaturedImage,
   },
   {
     id: 2,
-    title: 'Software installation',
+    title: CATALOG_SERVICE_TYPES?.SOFTWARE_INSTALLATION,
     description:
       'Browse the list of  Softer ware installation services  offered and raise a request.',
     image: SoftwareFeaturedImage,
   },
   {
     id: 3,
-    title: 'PM Tools',
+    title: CATALOG_SERVICE_TYPES?.PM_TOOLS,
     description:
       'Browse the list of project management services  offered and raise a request..',
     image: PmFeaturedImage,
   },
   {
     id: 4,
-    title: 'Hardware',
+    title: CATALOG_SERVICE_TYPES?.HARDWARE,
     description:
       'Browse the list of hardware services  offered and raise a request.',
     image: HardwareFeaturedImage,
   },
 ];
-export const allsServices = [
+export const allServices = [
   {
     id: 1,
     title: 'Adobe Photoshop CC',
-    serviceId: 'Software installation',
+    serviceId: CATALOG_SERVICE_TYPES?.SOFTWARE_INSTALLATION,
     description: 'Request for Adobe Photoshop CC',
     price: '$ 700.00',
     image: CatalogLogosAdobePhotoshopImage,
@@ -65,7 +66,7 @@ export const allsServices = [
   {
     id: 2,
     title: 'Adobe illustrator CC',
-    serviceId: 'Software installation',
+    serviceId: CATALOG_SERVICE_TYPES?.SOFTWARE_INSTALLATION,
     description: 'Request for Adobe illustrator CC',
     price: '$ 700.00',
     image: CatalogSkillIllustratorImage,
@@ -73,7 +74,7 @@ export const allsServices = [
   {
     id: 3,
     title: 'Adobe Premier Pro CC',
-    serviceId: 'Software installation',
+    serviceId: CATALOG_SERVICE_TYPES?.SOFTWARE_INSTALLATION,
     description: 'Request for Adobe Premier Pro CC',
     price: '$ 700.00',
     image: CatalogAdobePremiereImage,
@@ -81,7 +82,7 @@ export const allsServices = [
   {
     id: 4,
     title: 'Data Backup',
-    serviceId: 'PM Tools',
+    serviceId: CATALOG_SERVICE_TYPES?.PM_TOOLS,
     description: 'Request for Data backup for all your data',
     price: '$ 700.00',
     image: CatalogDatabaseImage,
@@ -91,7 +92,7 @@ export const allsServices = [
   {
     id: 5,
     title: 'Dell Monitor',
-    serviceId: 'Hardware',
+    serviceId: CATALOG_SERVICE_TYPES?.HARDWARE,
     description: 'Request for New Dell Monitor',
     price: '$ 700.00',
     image: CatalogKyoDeviceLaptopImage,
@@ -99,7 +100,7 @@ export const allsServices = [
   {
     id: 6,
     title: 'Adobe XD CC',
-    serviceId: 'Software installation',
+    serviceId: CATALOG_SERVICE_TYPES?.SOFTWARE_INSTALLATION,
     description: 'Request for Adobe XD CC',
     price: '$ 700.00',
     image: CatalogSkillXdImage,
@@ -107,7 +108,7 @@ export const allsServices = [
   {
     id: 7,
     title: 'Adobe InDesign',
-    serviceId: 'Software installation',
+    serviceId: CATALOG_SERVICE_TYPES?.SOFTWARE_INSTALLATION,
     description: 'Request for Adobe In design',
     price: '$ 700.00',
     image: CatalogHopstarterSoftwareAdobeImage,
@@ -115,7 +116,7 @@ export const allsServices = [
   {
     id: 8,
     title: 'Logitech Wireless Mouse',
-    serviceId: 'Hardware',
+    serviceId: CATALOG_SERVICE_TYPES?.HARDWARE,
     description: 'Raise a request  for Wireless Mouse',
     price: '$ 700.00',
     image: CatalogLogitechMouseImage,
@@ -123,7 +124,7 @@ export const allsServices = [
   {
     id: 9,
     title: 'Zoo  Pro',
-    serviceId: 'PM Tools',
+    serviceId: CATALOG_SERVICE_TYPES?.PM_TOOLS,
     description: 'Request for Zoom Pro',
     price: '$ 700.00',
     image: CatalogGroupZoomImage,
@@ -131,7 +132,7 @@ export const allsServices = [
   {
     id: 10,
     title: 'Apple iMac',
-    serviceId: 'Software installation',
+    serviceId: CATALOG_SERVICE_TYPES?.SOFTWARE_INSTALLATION,
     description: 'Request for Apple iMac',
     price: '$ 700.00',
     image: CatalogAppleProductsImacImage,
@@ -139,7 +140,7 @@ export const allsServices = [
   {
     id: 11,
     title: 'Apple MacBook',
-    serviceId: 'Hardware',
+    serviceId: CATALOG_SERVICE_TYPES?.HARDWARE,
     description: 'Raise a request  for Apple MacBook',
     price: '$ 700.00',
     image: CatalogMetroUiOsAppleImage,
@@ -147,7 +148,7 @@ export const allsServices = [
   {
     id: 12,
     title: 'Windows Laptop',
-    serviceId: 'PM Tools',
+    serviceId: CATALOG_SERVICE_TYPES?.PM_TOOLS,
     description: 'Request for New Laptop',
     price: '$ 700.00',
     image: CatalogPhuzionDeviceLaptopImage,

@@ -5,7 +5,7 @@ import React from 'react';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import Image from 'next/image';
 import useCatalog from '../useCatalog';
-import { allsServices } from '../Catalog.data';
+import { allServices } from '../Catalog.data';
 import { CatalogRequest } from '../CatalogRequest';
 import CatalogServiceBackUp from '../CatalogServiceBackUp';
 import CatalogServiceSoftware from '../CatalogServiceSoftware';
@@ -14,7 +14,7 @@ import { v4 as uuidv4 } from 'uuid';
 const CatalogService = () => {
   const router = useRouter();
   const theme: any = useTheme();
-  const serviceData = allsServices?.find(
+  const serviceData = allServices?.find(
     (service: any) => service?.id == router?.query?.serviceId,
   );
   const { open, handleClickOpen, setOpen } = useCatalog();

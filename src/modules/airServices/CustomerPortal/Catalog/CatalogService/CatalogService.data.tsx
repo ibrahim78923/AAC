@@ -16,7 +16,7 @@ export const dataBackUp = [
   {
     componentProps: {
       name: 'dataBaseName',
-      label: 'Data Base Name ',
+      label: 'Database Name ',
       fullWidth: true,
     },
     component: RHFTextField,

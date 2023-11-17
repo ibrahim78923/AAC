@@ -127,3 +127,10 @@ export const NOTISTACK_VARIANTS = {
 export const ALERT_MODALS_TYPE = {
   DELETE: 'delete',
 };
+
+export const CATALOG_SERVICE_TYPES = {
+  ALL: 'ALL Services',
+  HARDWARE: 'Hardware',
+  SOFTWARE_INSTALLATION: 'Software Installation',
+  PM_TOOLS: 'PM Tools',
+};

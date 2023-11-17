@@ -1,7 +1,7 @@
 import React from 'react';
 import useCatalogRequest from '../CatalogRequest/useCatalogRequest';
 import { useRouter } from 'next/router';
-import { allsServices } from '../Catalog.data';
+import { allServices } from '../Catalog.data';
 import { Button, DialogActions, DialogContent, Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { placeRequest } from '../CatalogRequest/CatalogRequest.data';
@@ -12,7 +12,7 @@ const CatalogItemRequest = () => {
     useCatalogRequest();
   useWatch<any>({ control, name: 'requestForSomeOneElse' });
   const router = useRouter();
-  const serviceData: any = allsServices?.find(
+  const serviceData: any = allServices?.find(
     (service: any) => service?.id == router?.query?.serviceId,
   );
   const { serviceId } = serviceData;

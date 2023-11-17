@@ -1,6 +1,6 @@
 import { Box, Grid, Typography } from '@mui/material';
 import React from 'react';
-import { allsServices } from '../Catalog.data';
+import { allServices } from '../Catalog.data';
 import { useRouter } from 'next/router';
 
 import { FormProvider } from '@/components/ReactHookForm';
@@ -10,7 +10,7 @@ import useCatalogService from '../CatalogService/useCatalogService';
 import { dataBackUp } from '../CatalogService/CatalogService.data';
 const CatalogServiceBackUp = () => {
   const router = useRouter();
-  const serviceData = allsServices?.find(
+  const serviceData = allServices?.find(
     (service: any) => service?.id == router?.query?.serviceId,
   );
   const { method, onSubmit } = useCatalogService();

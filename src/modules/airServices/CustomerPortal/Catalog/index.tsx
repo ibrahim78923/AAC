@@ -59,11 +59,11 @@ const Catalog = () => {
         ))}
       </Grid>
       <Grid container spacing={2}>
-        {result?.map((allsService: any) => (
+        {result?.map((allService: any) => (
           <Grid item xs={12} md={6} lg={4} key={uuidv4()}>
             <Box
               key={uuidv4()}
-              onClick={() => handleClickService?.(allsService?.id)}
+              onClick={() => handleClickService?.(allService?.id)}
               borderRadius={2}
               border={'0.3rem solid'}
               borderColor={'primary.lighter'}
@@ -80,10 +80,10 @@ const Catalog = () => {
                 p={2}
               >
                 <Image
-                  src={allsService?.image}
+                  src={allService?.image}
                   height={56}
                   width={58}
-                  alt={`Service ${allsService?.id} Image`}
+                  alt={`Service ${allService?.id} Image`}
                 />
               </Box>
               <Box
@@ -93,13 +93,13 @@ const Catalog = () => {
                 flexDirection={'column'}
                 mt={2}
               >
-                <Typography variant="h5">{allsService?.title}</Typography>
+                <Typography variant="h5">{allService?.title}</Typography>
 
                 <Typography variant="body2" component={'span'}>
-                  {allsService?.description}
+                  {allService?.description}
                 </Typography>
                 <Typography variant="body2" component={'span'}>
-                  {allsService?.price}
+                  {allService?.price}
                 </Typography>
               </Box>
             </Box>
