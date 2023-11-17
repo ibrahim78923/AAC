@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import { allsServices } from './Catalog.data';
 import { useRouter } from 'next/router';
+import { AIR_CUSTOMER_PORTAL } from '@/constants';
 const useCatalog = () => {
   const [result, setResult] = useState<any[]>(allsServices);
   const [open, setOpen] = useState(false);
@@ -20,7 +21,7 @@ const useCatalog = () => {
   };
   const handleClickService = (id: any) => {
     router?.push({
-      pathname: `/air-services/catalog/detail`,
+      pathname: AIR_CUSTOMER_PORTAL.CATALOG_DETAILS,
       query: {
         serviceId: id,
       },
