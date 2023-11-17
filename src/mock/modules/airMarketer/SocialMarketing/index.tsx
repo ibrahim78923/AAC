@@ -8,14 +8,20 @@ export const postBoxSteps = [
     label: '3 November 2022',
     time: '2:48 PM',
     description: (theme: Theme) => (
-      <Box sx={{ display: 'flex', color: '#4E4B66', gap: 0.5 }}>
-        <Typography sx={{ color: theme?.palette?.primary?.main }}>
+      <Box sx={{ display: 'flex', color: '#4E4B66', gap: 0.3 }}>
+        <Typography
+          variant="body4"
+          sx={{ color: theme?.palette?.primary?.main }}
+        >
           Natalia
-        </Typography>{' '}
-        created and{' '}
-        <Typography sx={{ color: theme?.palette?.primary?.main }}>
+        </Typography>
+        created and
+        <Typography
+          variant="body4"
+          sx={{ color: theme?.palette?.primary?.main }}
+        >
           scheduled
-        </Typography>{' '}
+        </Typography>
         the post to kristy.
       </Box>
     ),
@@ -24,12 +30,18 @@ export const postBoxSteps = [
     icon: <SingleUserIcon />,
     label: '3 November 2022',
     description: (theme: Theme) => (
-      <Box sx={{ display: 'flex', color: '#4E4B66', gap: 0.5 }}>
-        <Typography sx={{ color: theme?.palette?.primary?.main }}>
+      <Box sx={{ display: 'flex', color: '#4E4B66', gap: 0.3 }}>
+        <Typography
+          variant="body4"
+          sx={{ color: theme?.palette?.primary?.main }}
+        >
           Natalia
         </Typography>{' '}
         created and{' '}
-        <Typography sx={{ color: theme?.palette?.primary?.main }}>
+        <Typography
+          variant="body4"
+          sx={{ color: theme?.palette?.primary?.main }}
+        >
           scheduled
         </Typography>{' '}
         the post to kristy.
@@ -40,12 +52,18 @@ export const postBoxSteps = [
     icon: <ActivityEditIcon />,
     label: '3 November 2022',
     description: (theme: Theme) => (
-      <Box sx={{ display: 'flex', color: '#4E4B66', gap: 0.5 }}>
-        <Typography sx={{ color: theme?.palette?.primary?.main }}>
+      <Box sx={{ display: 'flex', color: '#4E4B66', gap: 0.3 }}>
+        <Typography
+          variant="body4"
+          sx={{ color: theme?.palette?.primary?.main }}
+        >
           Natalia
         </Typography>{' '}
         created and{' '}
-        <Typography sx={{ color: theme?.palette?.primary?.main }}>
+        <Typography
+          variant="body4"
+          sx={{ color: theme?.palette?.primary?.main }}
+        >
           scheduled
         </Typography>{' '}
         the post to kristy.
@@ -55,12 +73,18 @@ export const postBoxSteps = [
   {
     label: '3 November 2022',
     description: (theme: Theme) => (
-      <Box sx={{ display: 'flex', color: '#4E4B66', gap: 0.5 }}>
-        <Typography sx={{ color: theme?.palette?.primary?.main }}>
+      <Box sx={{ display: 'flex', color: '#4E4B66', gap: 0.3 }}>
+        <Typography
+          variant="body4"
+          sx={{ color: theme?.palette?.primary?.main }}
+        >
           Natalia
         </Typography>{' '}
         created and{' '}
-        <Typography sx={{ color: theme?.palette?.primary?.main }}>
+        <Typography
+          variant="body4"
+          sx={{ color: theme?.palette?.primary?.main }}
+        >
           scheduled
         </Typography>{' '}
         the post to kristy.
@@ -71,12 +95,18 @@ export const postBoxSteps = [
     icon: <CheckIcon />,
     label: '3 November 2022',
     description: (theme: Theme) => (
-      <Box sx={{ display: 'flex', color: '#4E4B66', gap: 0.5 }}>
-        <Typography sx={{ color: theme?.palette?.primary?.main }}>
+      <Box sx={{ display: 'flex', color: '#4E4B66', gap: 0.3 }}>
+        <Typography
+          variant="body4"
+          sx={{ color: theme?.palette?.primary?.main }}
+        >
           Natalia
         </Typography>{' '}
         created and{' '}
-        <Typography sx={{ color: theme?.palette?.primary?.main }}>
+        <Typography
+          variant="body4"
+          sx={{ color: theme?.palette?.primary?.main }}
+        >
           scheduled
         </Typography>{' '}
         the post to kristy.
@@ -88,11 +118,17 @@ export const postBoxSteps = [
     label: '3 November 2022',
     description: (theme: Theme) => (
       <Box sx={{ display: 'flex', color: '#4E4B66', gap: 0.5 }}>
-        <Typography sx={{ color: theme?.palette?.primary?.main }}>
+        <Typography
+          variant="body4"
+          sx={{ color: theme?.palette?.primary?.main }}
+        >
           Natalia
         </Typography>{' '}
         created and{' '}
-        <Typography sx={{ color: theme?.palette?.primary?.main }}>
+        <Typography
+          variant="body4"
+          sx={{ color: theme?.palette?.primary?.main }}
+        >
           scheduled
         </Typography>{' '}
         the post to kristy.
@@ -104,11 +140,17 @@ export const postBoxSteps = [
     label: '3 November 2022',
     description: (theme: Theme) => (
       <Box sx={{ display: 'flex', color: '#4E4B66', gap: 0.5 }}>
-        <Typography sx={{ color: theme?.palette?.primary?.main }}>
+        <Typography
+          variant="body4"
+          sx={{ color: theme?.palette?.primary?.main }}
+        >
           Natalia
         </Typography>{' '}
         created and{' '}
-        <Typography sx={{ color: theme?.palette?.primary?.main }}>
+        <Typography
+          variant="body4"
+          sx={{ color: theme?.palette?.primary?.main }}
+        >
           scheduled
         </Typography>{' '}
         the post to kristy.

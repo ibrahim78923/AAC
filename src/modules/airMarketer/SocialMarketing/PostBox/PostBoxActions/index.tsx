@@ -6,7 +6,7 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { styles } from './ActionBtn.style';
 import Image from 'next/image';
 import { GroupAppAvatar } from '@/assets/images';
-import { platFormDropdownData } from './ContactActions.data';
+import { platFormDropdownData } from './PostActions.data';
 
 import { v4 as uuidv4 } from 'uuid';
 
