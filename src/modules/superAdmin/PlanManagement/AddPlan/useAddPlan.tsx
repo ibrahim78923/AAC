@@ -22,19 +22,31 @@ import {
 import { useDispatch } from 'react-redux';
 import { persistStore } from 'redux-persist';
 import store, { useAppSelector } from '@/redux/store';
+
 import {
-  defaultValuesFeatures,
-  validationSchemaFeatures,
-} from './Forms/PlanFeatures/FeaturesModal/FeaturesModal.data';
-import { usePostPlanMangementMutation } from '@/services/superAdmin/plan-mangement';
+  usePostPlanMangementMutation,
+  useUpdatePlanMangementMutation,
+} from '@/services/superAdmin/plan-mangement';
+import {
+  defaultValuesModules,
+  defaultValuesPlanFeatures,
+  validationSchemaModules,
+  validationSchemaPlanFeatures,
+} from './Forms/Modules/PlanFeatures.data';
+import { isNullOrEmpty } from '@/utils';
 
 export const useAddPlan = () => {
   const [addPlanFormValues, setAddPlanFormValues] = useState({});
   const [activeStep, setActiveStep] = useState(0);
 
   const [postPlanMangement] = usePostPlanMangementMutation();
+  const [updatePlanMangement] = useUpdatePlanMangementMutation();
+  const router: any = useRouter();
+  let parsedRowData: any;
+  if (router.query.data) {
+    parsedRowData = JSON.parse(router.query.data);
+  }
 
-  const router = useRouter();
   const dispatch = useDispatch();
   const hanldeGoBack = () => {
     router?.back();
@@ -46,18 +58,54 @@ export const useAddPlan = () => {
   });
 
   const persistor = persistStore(store);
-
   const methodsPlan: any = useForm({
     resolver: yupResolver(gpDetailsInfoFormSchema),
-    defaultValues: defaultValues,
+    defaultValues: async () => {
+      if (parsedRowData) {
+        const {
+          defaultUsers,
+          defaultStorage,
+          planPrice,
+          additionalPerUserPrice,
+          additionalStoragePrice,
+          description,
+          allowAdditionalUsers,
+          allowAdditionalStorage,
+          planProducts,
+          planType,
+        } = parsedRowData;
+        if (!isNullOrEmpty(planProducts)) {
+          const productId = planProducts[0].name;
+          const planTypeId = { value: planType?.name, label: planType?.name };
+          return {
+            defaultUsers,
+            defaultStorage,
+            planPrice,
+            additionalPerUserPrice,
+            additionalStoragePrice,
+            description,
+            allowAdditionalUsers,
+            allowAdditionalStorage,
+            productId,
+            planTypeId,
+          };
+        }
+      }
+      return defaultValues;
+    },
   });
   const methodsPlanFeatures: any = useForm({
-    resolver: yupResolver(validationSchemaFeatures),
-    defaultValues: defaultValuesFeatures,
+    resolver: yupResolver(validationSchemaPlanFeatures),
+    defaultValues: defaultValuesPlanFeatures,
   });
+  const methodsPlanModules: any = useForm({
+    resolver: yupResolver(validationSchemaModules),
+    defaultValues: defaultValuesModules,
+  });
+
   const { handleSubmit, reset } = methodsPlan;
   const { handleSubmit: handleSubmitPlanFeatures } = methodsPlanFeatures;
-  const { handleSubmit: handleSubmitPlanModules } = methodsPlanFeatures;
+  const { handleSubmit: handleSubmitPlanModules } = methodsPlanModules;
 
   const planForm: any = useAppSelector(
     (state) => state?.planManagementForms?.planManagement?.addPlanForm,
@@ -65,9 +113,10 @@ export const useAddPlan = () => {
   const featureDetails: any = useAppSelector(
     (state) => state?.planManagementForms?.planManagement?.featureDetails,
   );
-  const featursFormData: any = useAppSelector(
-    (state) => state?.planManagementForms?.planManagement?.planFeaturesForm,
+  const featuresFormData: any = useAppSelector(
+    (state) => state?.planManagementForms?.planManagement?.planFeature,
   );
+
   const onSubmitPlan = async (values: any) => {
     dispatch(addPlanFormData(values));
     setActiveStep((previous) => previous + 1);
@@ -85,18 +134,71 @@ export const useAddPlan = () => {
     });
     reset();
   };
-
+  const featureId = Object?.keys(featuresFormData);
   const onSubmitPlanModulesHandler = async (values: any) => {
     dispatch(modulesFormData(values));
     if (activeStep == AddPlanStepperData?.length - 1) {
-      const featuresData = [featureDetails];
-      const planManagementPayload = {
-        ...planForm,
-        ...featursFormData,
-        featuresData,
+      const planFormData = {
+        //we are getting array when we select options in searchable select
+        productId: planForm?.productId[0],
+
+        planTypeId: planForm?.planTypeId,
+        description: planForm?.description,
+        defaultUsers: parseInt(planForm?.defaultUsers),
+        defaultStorage: parseInt(planForm?.defaultStorage),
+        planPrice: parseInt(planForm?.planPrice),
+        additionalPerUserPrice: parseInt(planForm?.additionalPerUserPrice),
+        additionalStoragePrice: parseInt(planForm?.additionalStoragePrice),
+        allowAdditionalUsers: planForm?.allowAdditionalUsers,
+        allowAdditionalStorage: planForm?.allowAdditionalStorage,
+      };
+      const planFeaturesFormData = {
+        planFeature: [
+          {
+            features: [
+              {
+                featureId: featureId[1],
+                dealsAssociationsDetail:
+                  featureDetails?.dealsAssociationsDetail,
+              },
+            ],
+            //we are getting array when we select options in searchable select
+            productId: planForm?.productId[0],
+          },
+        ],
+      };
+      const planPermissions = {
+        //we are getting array when we select options in searchable select
+        productId: planForm?.productId[0],
+        planPermission: [
+          {
+            permissionSlugs: values?.permissionSlugs,
+            productId: planForm?.productId[0],
+          },
+        ],
+      };
+      const permissions = {
+        ...planPermissions,
+        //we are getting array when we select options in searchable select
+        productId: planForm?.productId[0],
       };
       try {
-        postPlanMangement({ body: planManagementPayload })?.unwrap();
+        parsedRowData
+          ? updatePlanMangement({
+              id: parsedRowData?._id,
+              body: {
+                ...planFormData,
+                ...planFeaturesFormData,
+                ...permissions,
+              },
+            })
+          : postPlanMangement({
+              body: {
+                ...planFormData,
+                ...planFeaturesFormData,
+                ...permissions,
+              },
+            })?.unwrap();
         enqueueSnackbar('Plan Modules Details Added Successfully', {
           variant: 'success',
         });
@@ -159,7 +261,12 @@ export const useAddPlan = () => {
     {
       key: uuidv4(),
       label: 'Modules',
-      component: <Modules />,
+      component: (
+        <Modules
+          methods={methodsPlanModules}
+          handleSubmit={handlePlanModules}
+        />
+      ),
       componentProps: { addPlanFormValues, setAddPlanFormValues },
     },
   ];

@@ -5,7 +5,8 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import { columns } from './Users.data';
 import useUserManagement from '../useUserManagement';
 
-const Users = () => {
+const Users = (props: any) => {
+  const { checkedRows, setCheckedRows } = props;
   const { useGetUsersQuery, search, handleUserSwitchChange } =
     useUserManagement();
   const params = {
@@ -13,7 +14,12 @@ const Users = () => {
     search: search,
   };
   const { data } = useGetUsersQuery(params);
-  const columnParams = columns(handleUserSwitchChange);
+  const columnsProps = {
+    handleUserSwitchChange: handleUserSwitchChange,
+    checkedRows: checkedRows,
+    setCheckedRows: setCheckedRows,
+  };
+  const columnParams = columns(columnsProps);
 
   return (
     <>
