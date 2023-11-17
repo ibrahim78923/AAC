@@ -16,7 +16,7 @@ const usePurchaseOrders = () => {
   });
 
   const handleNewPurchaseOrder = () => {
-    router.push(NEW_PURCHASE_ORDER);
+    router?.push(NEW_PURCHASE_ORDER);
   };
 
   const submitPurchaseOrderFilterForm = async () => {};
@@ -33,7 +33,6 @@ const usePurchaseOrders = () => {
     methodsPurchaseOrderFilterForm,
     submitPurchaseOrderFilterForm,
     resetPurchaseOrderFilterForm,
-    // new purchase order
     isNewPurchaseOrder,
     setIsNewPurchaseOrder,
     router,

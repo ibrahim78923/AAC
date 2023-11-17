@@ -39,9 +39,10 @@ export const useUpsertContract = () => {
     defaultValue: false,
   });
   const handleCancelBtn = () => {
-    router.push({ pathname: AIR_SERVICES?.ASSETS_CONTRACTS });
+    router?.push({ pathname: AIR_SERVICES?.ASSETS_CONTRACTS });
   };
-  // TODO: we will use it after BE integration
+
+  // TODO: we will use it in BE integration
   // useEffect(() => {
   //   reset(() =>
   //     upsertContractFormDefaultValuesFunction(contractType),

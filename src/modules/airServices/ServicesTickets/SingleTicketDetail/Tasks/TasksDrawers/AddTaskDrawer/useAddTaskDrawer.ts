@@ -1,13 +1,13 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
-  TaskTicketFormDefaultValues,
-  TaskTicketFormValidationSchema,
+  taskTicketFormDefaultValues,
+  taskTicketFormValidationSchema,
 } from '../TasksDrawersForm/TasksDrawersForm.data';
 export const useAddTaskDrawer = () => {
   const methodsCreateNewTicketForm = useForm({
-    resolver: yupResolver(TaskTicketFormValidationSchema),
-    defaultValues: TaskTicketFormDefaultValues,
+    resolver: yupResolver(taskTicketFormValidationSchema),
+    defaultValues: taskTicketFormDefaultValues,
   });
   const submitCreateNewTicket = async () => {};
   const drawerSubmitHandler = () => {

@@ -2,9 +2,8 @@ import { useEffect, useState } from 'react';
 
 import { useRouter } from 'next/router';
 
-import { Box } from '@mui/material';
-
 import useAuth from '../hooks/useAuth';
+import LoadingScreen from '@/components/LoadingScreen';
 
 export default function GuestGuard({ children }: any) {
   const { push } = useRouter();
@@ -22,7 +21,7 @@ export default function GuestGuard({ children }: any) {
   }, [isAuthenticated, push, isInitialized]);
 
   if (!isInitialized || isLoading) {
-    return <Box>Loading</Box>;
+    return <LoadingScreen />;
   }
 
   return <>{children}</>;

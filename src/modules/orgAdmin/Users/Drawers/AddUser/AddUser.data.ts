@@ -32,36 +32,40 @@ export const defaultValues = {
 
 export const addUsersArray = [
   {
+    title: 'First Name',
     componentProps: {
       name: 'firstName',
-      label: 'First Name',
+      placeholder: 'Enter First Name',
       fullWidth: true,
     },
     component: RHFTextField,
     md: 12,
   },
   {
+    title: 'Middle Name',
     componentProps: {
       name: 'middleName',
-      label: 'Middle Name',
+      placeholder: 'Enter Middle Name',
       fullWidth: true,
     },
     component: RHFTextField,
     md: 12,
   },
   {
+    title: 'Last Name',
     componentProps: {
       name: 'lastName',
-      label: 'Last  Name',
+      placeholder: 'Enter Last  Name',
       fullWidth: true,
     },
     component: RHFTextField,
     md: 12,
   },
   {
+    title: 'Email',
     componentProps: {
       name: 'email',
-      label: 'Email',
+      placeholder: 'Enter Email',
       fullWidth: true,
     },
     component: RHFTextField,
@@ -69,18 +73,20 @@ export const addUsersArray = [
   },
 
   {
+    title: 'Phone Number',
     componentProps: {
       name: 'phoneNo',
-      label: 'Phone Number',
+      placeholder: 'Enter Number',
       fullWidth: true,
     },
     component: RHFTextField,
     md: 12,
   },
   {
+    title: 'Post Code',
     componentProps: {
       name: 'postCode',
-      label: 'Post Code',
+      placeholder: 'Enter Post Code',
       fullWidth: true,
     },
 
@@ -88,9 +94,10 @@ export const addUsersArray = [
     md: 12,
   },
   {
+    title: 'Address',
     componentProps: {
       name: 'address',
-      label: 'Address',
+      placeholder: 'Enter Address',
       fullWidth: true,
     },
 
@@ -98,9 +105,10 @@ export const addUsersArray = [
     md: 12,
   },
   {
+    title: 'Job Title',
     componentProps: {
       name: 'jobTitle',
-      label: 'Job Title',
+      placeholder: 'Enter Job Title',
       fullWidth: true,
     },
 
@@ -108,9 +116,10 @@ export const addUsersArray = [
     md: 12,
   },
   {
+    title: 'Facebook URL',
     componentProps: {
       name: 'fbUrl',
-      label: 'Facebook URL',
+      placeholder: 'Enter Facebook URL',
       fullWidth: true,
     },
 
@@ -118,9 +127,10 @@ export const addUsersArray = [
     md: 12,
   },
   {
+    title: 'LinkedIn URL',
     componentProps: {
       name: 'linkinUrl',
-      label: 'LinkedIn URL',
+      placeholder: 'Enter LinkedIn URL',
       fullWidth: true,
     },
 
@@ -128,9 +138,10 @@ export const addUsersArray = [
     md: 12,
   },
   {
+    title: 'Twitter URL',
     componentProps: {
       name: 'twitterUrl',
-      label: 'Twitter URL',
+      placeholder: 'Enter Twitter URL',
       fullWidth: true,
     },
 
