@@ -22,7 +22,7 @@ export default function UploadMedia({ name }: any) {
     multiple: false,
     onDrop: useCallback(
       (files: any) => {
-        if (files && files.length > 0) {
+        if (files && files?.length > 0) {
           setValue(name, files[0]);
         }
       },
@@ -109,12 +109,12 @@ export default function UploadMedia({ name }: any) {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={styles.parentBox}>
+        <Box sx={styles?.parentBox}>
           <IconButton
             edge="end"
             color="inherit"
             onClick={() => setIsOpenModal(false)}
-            sx={styles.closeButton}
+            sx={styles?.closeButton}
           >
             <CloseIcon />
           </IconButton>
