@@ -15,6 +15,7 @@ import FilterDropdown from './SocialModes/FilterDropDown';
 import SocialChannels from './SocialChannels';
 
 import { styles } from './SocialInbox.style';
+import PostsArea from './PostsArea';
 
 const SocialInbox = () => {
   const { theme, socialModeState, handleSelection } = useSocialInbox();
@@ -83,7 +84,9 @@ const SocialInbox = () => {
           </Box>
         </Grid>
         <Grid item xs={12} md={9}>
-          <Box sx={styles?.mainWrapperBox}></Box>
+          <Box sx={styles?.mainWrapperBox}>
+            <PostsArea />
+          </Box>
         </Grid>
         <FilterDropdown
           anchorEl={anchorEl}

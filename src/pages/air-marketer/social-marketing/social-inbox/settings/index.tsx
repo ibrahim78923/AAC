@@ -1,5 +1,5 @@
 import Layout from '@/layout';
-import SocialInboxSettings from '@/modules/airMarketer/SocialMarketing/SocialInbox/Settings';
+import SocialInboxSettings from '@/modules/airMarketer/SocialMarketing/SocialInbox/SocialInboxSettings';
 
 import React from 'react';
 

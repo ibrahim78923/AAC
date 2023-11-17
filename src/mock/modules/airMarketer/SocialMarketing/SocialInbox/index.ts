@@ -11,6 +11,12 @@ import {
   YoutubeChannelImage,
 } from '@/assets/images';
 
+import {
+  DysonAvatarImage,
+  RandomPostImage,
+  UserProfileAvatarImage,
+} from '@/assets/images';
+
 export const SocialTeamsData = [
   {
     id: '01',
@@ -90,3 +96,66 @@ export const socialSubChannelData = [
     name: 'SportsHub',
   },
 ];
+
+export const inboxPostData = [
+  {
+    id: '1',
+    userImage: DysonAvatarImage,
+    userName: 'Live Broadcast',
+    postedTime: '01:34 PM',
+    discription:
+      'Surround Yourself With The Dreams And The Doers, The Believers And Thinkers, But Most Of All Surround Yourself With Those Who See Greatness Within You, Even When You Don’t See It Yourself',
+    postImage: RandomPostImage,
+    likes: '159',
+    comments: '65',
+    shares: '30',
+    postComments: [
+      {
+        id: '1',
+        userImage: UserProfileAvatarImage,
+        userName: 'Paula Griffin',
+        comment:
+          'People getting this type of rejection for AI images, or any images that contains A.I  generated comntnt, but this is definitely not AI',
+        recomment: [
+          {
+            userImage: DysonAvatarImage,
+            userName: 'Live Broadcast',
+            comment: 'Thank you',
+          },
+        ],
+      },
+      {
+        id: '2',
+        userImage: UserProfileAvatarImage,
+        userName: 'Jhon Doe',
+        comment: 'Very good post',
+        recomment: [
+          {
+            userImage: DysonAvatarImage,
+            userName: 'Live Broadcast',
+            comment: 'Really Appreciated',
+          },
+        ],
+      },
+    ],
+  },
+];
+
+export const userProfile = {
+  userImage: UserProfileAvatarImage,
+  userName: 'Willam marks',
+  stats: [
+    {
+      label: 'Likes',
+      value: '20',
+    },
+    {
+      label: 'Comments',
+      value: '755',
+    },
+    {
+      label: 'Shares',
+      value: '78',
+    },
+  ],
+};

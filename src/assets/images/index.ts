@@ -149,3 +149,10 @@ export { default as FacebookChannelImage } from './modules/airMarketer/SocialMar
 export { default as TwitterChannelImage } from './modules/airMarketer/SocialMarketing/twitter-channel.png';
 export { default as InstagramChannelImage } from './modules/airMarketer/SocialMarketing/instagram-channel.png';
 export { default as YoutubeChannelImage } from './modules/airMarketer/SocialMarketing/youtube-channel.png';
+
+export { default as DysonAvatarImage } from './modules/airMarketer/SocialMarketing/SocialInbox/dyson-avatar.png';
+export { default as RandomPostImage } from './modules/airMarketer/SocialMarketing/SocialInbox/random-post.png';
+export { default as ThumbsUpImage } from './modules/airMarketer/SocialMarketing/SocialInbox/thumbs-up.png';
+export { default as FacebookImage } from './modules/airMarketer/SocialMarketing/SocialInbox/facebook.png';
+export { default as InstagramImage } from './modules/airMarketer/SocialMarketing/SocialInbox/instagram.png';
+export { default as TwitterImage } from './modules/airMarketer/SocialMarketing/SocialInbox/twitter.png';
