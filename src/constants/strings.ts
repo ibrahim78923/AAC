@@ -95,7 +95,35 @@ export const ASSET_IMPACT = {
   HIGH: 'high',
 };
 
+export const ASSET_TYPE = {
+  SERVICES: 'services',
+  HARDWARE: 'hardware',
+  SOFTWARE: 'software',
+};
+export const SOFTWARE_STATUS = {
+  RESTRICTED: 'Restricted',
+  IGNORED: 'Ignored',
+  MANAGED: 'Managed',
+  DISABLED: 'Disabled',
+  IN_REVIEW: 'InReview',
+};
+export const SOFTWARE_TYPE = {
+  DESKTOP: 'Desktop',
+  SASS: 'Sass',
+  MOBILE: 'Mobile',
+};
 export const AIR_CUSTOMER_PORTAL_TICKET = {
   CLOSED: 'Closed',
   PROCESSING: 'Processing',
+};
+
+export const NOTISTACK_VARIANTS = {
+  SUCCESS: 'success',
+  ERROR: 'error',
+  WARNING: 'warning',
+  INFO: 'info',
+};
+
+export const ALERT_MODALS_TYPE = {
+  DELETE: 'delete',
 };
