@@ -5,6 +5,7 @@ import Image from 'next/image';
 import AppAvatarGroup from '@/components/AvatarGroup';
 import { avatarGroupMockData } from '@/modules/superAdmin/PlanManagement/PlanManagement.data';
 import { v4 as uuidv4 } from 'uuid';
+import { styles } from './SocialAccounts.style';
 
 const SocialAccounts = () => {
   return (
@@ -18,22 +19,11 @@ const SocialAccounts = () => {
       >
         {accountData?.map((item) => (
           <Grid item xs={6} key={uuidv4()}>
-            <Box
-              sx={{
-                borderRadius: '12px',
-                border: '1px solid var(--stroke-color-200, #E5E7EB)',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                height: '238px',
-                padding: '20px 0px',
-                gap: '5px',
-              }}
-            >
+            <Box sx={styles.socialCards}>
               <Box>
                 <Image src={item?.logo} alt="logo" />
                 <Typography variant="body2" sx={{ paddingTop: '8px' }}>
-                  {item.name}
+                  {item?.name}
                 </Typography>
               </Box>
               <AppAvatarGroup data={avatarGroupMockData} />

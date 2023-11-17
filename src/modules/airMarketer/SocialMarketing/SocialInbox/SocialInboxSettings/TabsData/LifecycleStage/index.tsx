@@ -13,8 +13,9 @@ import { styles } from './LifecycleStage.style';
 import TanstackTable from '@/components/Table/TanstackTable';
 
 import CustomPagination from '@/components/CustomPagination';
-import { LifeCycleStageTableData } from '@/mock/modules/airMarketer/SocialMarketing/SocialInbox';
+
 import { drawerButtonTitle, drawerTitle } from './LifecycleStage.data';
+import { LifeCycleStageTableData } from '@/mock/modules/airMarketer/SocialMarketing/SocialInbox';
 
 const LifeCycleStage = () => {
   const {
