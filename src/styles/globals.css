@@ -78,3 +78,19 @@ a {
   color: inherit;
   text-decoration: none;
 }
+
+.fc .fc-toolbar.fc-header-toolbar {
+  margin-top: -42px;
+  /* Add other styles as needed */
+}
+
+.fc-direction-ltr .fc-toolbar>*> :not(:first-child),
+.fc .fc-button:not(:disabled) {
+  background-color: white;
+  border-color: transparent;
+  color: black;
+}
+
+.fc .fc-button-primary:focus {
+  box-shadow: none;
+}
