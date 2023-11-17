@@ -2,8 +2,8 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   addPlanForm: {},
-  planFeaturesForm: {},
-  modulesForm: {},
+  planFeature: {},
+  planPermission: {},
   featureDetails: '',
 };
 
@@ -15,10 +15,10 @@ const planManagementSlice = createSlice({
       state.addPlanForm = action?.payload;
     },
     planFeaturesFormData: (state, action) => {
-      state.planFeaturesForm = action?.payload;
+      state.planFeature = action?.payload;
     },
     modulesFormData: (state, action) => {
-      state.modulesForm = action?.payload;
+      state.planPermission = action?.payload;
     },
     setFeatureDetails: (state, action) => {
       state.featureDetails = action?.payload;

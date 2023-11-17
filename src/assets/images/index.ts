@@ -103,6 +103,7 @@ export { default as CallActiveImage } from './modules/airSales/contacts/call-aci
 export { default as CalendarActiveImage } from './modules/airSales/contacts/calendar-activity.png';
 export { default as documentContained } from './modules/superAdmin/Settings/ModuleCreation/document-contained.png';
 export { default as ApplePhoneImage } from './modules/socialComponents/calling/apple-phone.png';
+export { default as WelcomeCardImage } from './modules/airServices/dashboard/welcome-card-image.png';
 export { default as AnnouncementAvatarImage } from './modules/airServices/Dashboard/announcement-avatar-image.png';
 export { default as ClipboardTickImage } from './modules/airServices/Dashboard/clipboard-tick-dashboard-image.png';
 export { default as FirstAidKitImage } from './modules/airServices/Dashboard/first-aid-kit-image.png';

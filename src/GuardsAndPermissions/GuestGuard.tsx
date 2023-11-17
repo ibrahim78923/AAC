@@ -14,7 +14,7 @@ export default function GuestGuard({ children }: any) {
   useEffect(() => {
     if (!isInitialized) return;
     if (isAuthenticated) {
-      push('/');
+      push('/super-admin');
       return;
     }
     setIsLoading(false);

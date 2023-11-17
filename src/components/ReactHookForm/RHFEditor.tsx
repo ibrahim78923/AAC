@@ -26,8 +26,8 @@ export default function RHFEditor({ name, required, ...other }: any) {
           <CustomTextEditor
             id={name}
             name={name}
-            value={field.value}
-            onChange={field.onChange}
+            value={field?.value}
+            onChange={field?.onChange}
             error={!!error}
             {...other}
           />

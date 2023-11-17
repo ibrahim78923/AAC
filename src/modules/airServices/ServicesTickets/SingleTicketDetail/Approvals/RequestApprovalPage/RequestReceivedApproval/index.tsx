@@ -117,7 +117,7 @@ const RequestReceivedApproval = () => {
           </Box>
           <FormProvider methods={methods}>
             <RHFTextField
-              name="description"
+              name="approval"
               multiline
               minRows={7}
               fullWidth
@@ -127,7 +127,11 @@ const RequestReceivedApproval = () => {
           </FormProvider>
           <Box sx={styles?.boxBorderStyle}></Box>
           <Box sx={styles?.buttonBox}>
-            <Button variant="outlined" onClick={handleApprovalModalClose}>
+            <Button
+              variant="outlined"
+              color="secondary"
+              onClick={handleApprovalModalClose}
+            >
               Cancel
             </Button>
             <Button variant="contained">Approve</Button>
@@ -145,7 +149,7 @@ const RequestReceivedApproval = () => {
           </Box>
           <FormProvider methods={methods}>
             <RHFTextField
-              name="description"
+              name="rejected"
               multiline
               minRows={7}
               fullWidth
@@ -157,7 +161,7 @@ const RequestReceivedApproval = () => {
           <Box sx={styles?.buttonBox}>
             <Button
               variant="outlined"
-              color="inherit"
+              color="secondary"
               onClick={handleRejectModalClose}
             >
               Cancel
