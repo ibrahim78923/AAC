@@ -43,7 +43,7 @@ const PostComments = ({ postComments }: any) => {
           }}
           variant="body2"
         >
-          Previous Comments <ArrowDownIcon size={18} />{' '}
+          Previous Comments <ArrowDownIcon size={18} />
         </Typography>
         <Typography
           variant="body2"
@@ -101,7 +101,7 @@ const PostCommentsContents = ({ item, setActiveReply, activeReply }: any) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
+    setAnchorEl(event?.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);

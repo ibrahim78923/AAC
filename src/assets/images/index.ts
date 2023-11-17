@@ -156,3 +156,11 @@ export { default as ThumbsUpImage } from './modules/airMarketer/SocialMarketing/
 export { default as FacebookImage } from './modules/airMarketer/SocialMarketing/SocialInbox/facebook.png';
 export { default as InstagramImage } from './modules/airMarketer/SocialMarketing/SocialInbox/instagram.png';
 export { default as TwitterImage } from './modules/airMarketer/SocialMarketing/SocialInbox/twitter.png';
+
+export { default as LogoLinkedinImage } from './modules/airMarketer/SocialMarketing/SocialInbox/logo-linkedin.png';
+
+export { default as LogoInstagramImage } from './modules/airMarketer/SocialMarketing/SocialInbox/logo-instagram.png';
+
+export { default as LogoWhatsappImage } from './modules/airMarketer/SocialMarketing/SocialInbox/logos-whatsapp.png';
+
+export { default as LogoFacebookImage } from './modules/airMarketer/SocialMarketing/SocialInbox/logo-facebook.png';
