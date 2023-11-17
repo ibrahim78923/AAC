@@ -13,10 +13,10 @@ import { useTheme } from '@emotion/react';
 import useFilter from './useFilter';
 import {
   AvatarImage,
-  FacebookImage,
-  InstagramImage,
-  TwitterImage,
-  YoutubeImage,
+  FacebookCalenderImage,
+  InstagramCalenderImage,
+  TwitterCalenderImage,
+  YoutubeCalenderImage,
 } from '@/assets/images';
 
 dayjs.extend(customParseFormat);
@@ -59,7 +59,7 @@ const Filters = () => {
                 marginLeft: '-20px',
               }}
               alt="Instagram Image"
-              src={InstagramImage?.src}
+              src={InstagramCalenderImage?.src}
             />
             <Avatar
               style={{
@@ -67,7 +67,7 @@ const Filters = () => {
                 marginLeft: '-20px',
               }}
               alt="Facebook Image"
-              src={FacebookImage?.src}
+              src={FacebookCalenderImage?.src}
             />
             <Avatar
               style={{
@@ -75,7 +75,7 @@ const Filters = () => {
                 marginLeft: '-20px',
               }}
               alt="YoutubeImage"
-              src={YoutubeImage?.src}
+              src={YoutubeCalenderImage?.src}
             />
             <Avatar
               style={{
@@ -83,7 +83,7 @@ const Filters = () => {
                 marginLeft: '-20px',
               }}
               alt="Twitter Image"
-              src={TwitterImage?.src}
+              src={TwitterCalenderImage?.src}
             />
           </AvatarGroup>{' '}
           Platforms

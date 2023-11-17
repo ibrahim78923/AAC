@@ -87,10 +87,10 @@ export { default as CalendarActiveImage } from './modules/airSales/contacts/cale
 export { default as documentContained } from './modules/superAdmin/Settings/ModuleCreation/document-contained.png';
 export { default as ApplePhoneImage } from './modules/socialComponents/calling/apple-phone.png';
 export { default as NoSearchResultFoundImage } from './shared/no-search-result.png';
-export { default as TwitterImage } from './shared/twitter.png';
-export { default as YoutubeImage } from './shared/youtube.png';
-export { default as FacebookImage } from './shared/facebook.png';
-export { default as InstagramImage } from './shared/instagram.png';
+export { default as TwitterCalenderImage } from './shared/twitter.png';
+export { default as YoutubeCalenderImage } from './shared/youtube.png';
+export { default as FacebookCalenderImage } from './shared/facebook.png';
+export { default as InstagramCalenderImage } from './shared/instagram.png';
 export { default as FacebookLogo } from './shared/facebookLogo.png';
 export { default as InstagramLogo } from './shared/instagramLogo.png';
 export { default as AnnouncementAvatarImage } from './modules/airServices/Dashboard/announcement-avatar-image.png';
@@ -145,3 +145,21 @@ export { default as NoteImage } from '../images/modules/socialComponents/compani
 export { default as NoteAddImage } from '../images/modules/socialComponents/companies/noteAdd.png';
 export { default as ActivitesTimeImage } from '../images/modules/socialComponents/companies/ActivitiesWithoutTime.png';
 export { default as EventImage } from '../images/shared/EventImage.png';
+
+export { default as GroupGmailImage } from './modules/airMarketer/SocialMarketing/group-gmail.png';
+export { default as GroupFacebookImage } from './modules/airMarketer/SocialMarketing/group-facebook.png';
+export { default as GroupTwitterImage } from './modules/airMarketer/SocialMarketing/group-twitter.png';
+export { default as GroupInstagramImage } from './modules/airMarketer/SocialMarketing/group-instagram.png';
+
+export { default as AddChannelImage } from './modules/airMarketer/SocialMarketing/add-channel.png';
+export { default as FacebookChannelImage } from './modules/airMarketer/SocialMarketing/facebook-channel.png';
+export { default as TwitterChannelImage } from './modules/airMarketer/SocialMarketing/twitter-channel.png';
+export { default as InstagramChannelImage } from './modules/airMarketer/SocialMarketing/instagram-channel.png';
+export { default as YoutubeChannelImage } from './modules/airMarketer/SocialMarketing/youtube-channel.png';
+
+export { default as DysonAvatarImage } from './modules/airMarketer/SocialMarketing/SocialInbox/dyson-avatar.png';
+export { default as RandomPostImage } from './modules/airMarketer/SocialMarketing/SocialInbox/random-post.png';
+export { default as ThumbsUpImage } from './modules/airMarketer/SocialMarketing/SocialInbox/thumbs-up.png';
+export { default as FacebookImage } from './modules/airMarketer/SocialMarketing/SocialInbox/facebook.png';
+export { default as InstagramImage } from './modules/airMarketer/SocialMarketing/SocialInbox/instagram.png';
+export { default as TwitterImage } from './modules/airMarketer/SocialMarketing/SocialInbox/twitter.png';

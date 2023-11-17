@@ -235,3 +235,15 @@ export { default as loyaltyIcon } from './modules/productSuite/loyalty';
 export { default as YoutubeRoundIcon } from './modules/airMarketer/CreatePost/youtubeRound';
 export { default as FacebookRoundIcon } from './modules/airMarketer/CreatePost/facebookRound';
 export { default as InstagramRoundIcon } from './modules/airMarketer/CreatePost/instagramRound';
+export { default as ArchiveIcon } from './shared/archive-icon';
+export { default as AddChannelIcon } from './modules/airMarketer/SocialInbox/add-channnel';
+
+export { default as UserCircleIcon } from './shared/user-circle';
+export { default as ViewExpandedIcon } from './shared/view-expanded';
+export { default as LikeIcon } from './modules/airMarketer/SMSMarketing/Contacts/like';
+export { default as CommentIcon } from './modules/airMarketer/SMSMarketing/Contacts/comment';
+export { default as ShareIcon } from './modules/airMarketer/SMSMarketing/Contacts/share';
+
+export { default as QuriesIcon } from './modules/airMarketer/SocialInbox/quries';
+export { default as AttachmentsIcon } from './modules/airMarketer/SocialInbox/add-channnel';
+export { default as ReplyRoundedIcon } from './modules/airMarketer/SocialInbox/reply';

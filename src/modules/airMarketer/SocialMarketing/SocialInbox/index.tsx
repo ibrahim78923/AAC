@@ -8,13 +8,26 @@ import {
   ToggleButtonGroup,
 } from '@mui/material';
 import React from 'react';
-import { styles } from './SocialInbox.style';
 import { FilterSharedIcon } from '@/assets/icons';
 import { useSocialInbox } from './useSocialInbox';
 import SocialModes from './SocialModes';
+import FilterDropdown from './SocialModes/FilterDropDown';
+import SocialChannels from './SocialChannels';
+
+import { styles } from './SocialInbox.style';
+import PostsArea from './PostsArea';
 
 const SocialInbox = () => {
   const { theme, socialModeState, handleSelection } = useSocialInbox();
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const actionMenuOpen = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event?.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
     <Box>
       <Grid container spacing={3}>
@@ -32,17 +45,18 @@ const SocialInbox = () => {
                   sx={styles?.toggleButtonLeft(theme)}
                   aria-label="left-aligned"
                 >
-                  Personal Chat
+                  Teams
                 </ToggleButton>
                 <ToggleButton
                   value="GroupChannel"
                   sx={styles?.toggleButtonRight(theme)}
                   aria-label="right-aligned"
                 >
-                  Group chat
+                  Channel
                 </ToggleButton>
               </ToggleButtonGroup>
             </Box>
+            <SocialChannels socialModeState={socialModeState} />
 
             <Box
               sx={{
@@ -55,7 +69,13 @@ const SocialInbox = () => {
                 control={<Checkbox defaultChecked />}
                 label="Select All"
               />
-              <Button sx={styles.filterButton}>
+              <Button
+                sx={styles?.filterButton}
+                aria-controls={actionMenuOpen ? 'basic-menu' : undefined}
+                aria-haspopup="true"
+                aria-expanded={actionMenuOpen ? 'true' : undefined}
+                onClick={handleClick}
+              >
                 <FilterSharedIcon /> Filter
               </Button>
             </Box>
@@ -64,8 +84,15 @@ const SocialInbox = () => {
           </Box>
         </Grid>
         <Grid item xs={12} md={9}>
-          <Box sx={styles?.mainWrapperBox}></Box>
+          <Box sx={styles?.mainWrapperBox}>
+            <PostsArea />
+          </Box>
         </Grid>
+        <FilterDropdown
+          anchorEl={anchorEl}
+          actionMenuOpen={actionMenuOpen}
+          handleClose={handleClose}
+        />
       </Grid>
     </Box>
   );
