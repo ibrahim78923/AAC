@@ -1,7 +1,9 @@
 import { Permissions } from '@/constants/permissions';
 import Layout from '@/layout';
-
+import { persistStore } from 'redux-persist';
+import { PersistGate } from 'redux-persist/integration/react';
 import PlanManagement from '@/modules/superAdmin/PlanManagement';
+import store from '@/redux/store';
 
 const SuperAdminPlanManagementPage = () => {
   return <PlanManagement />;
@@ -10,5 +12,14 @@ const SuperAdminPlanManagementPage = () => {
 export default SuperAdminPlanManagementPage;
 
 SuperAdminPlanManagementPage.getLayout = function getLayout(page: any) {
-  return <Layout permissions={Permissions.PLAN_MANAGEMENT}>{page}</Layout>;
+  const persistor = persistStore(store);
+  return (
+    <Layout permissions={Permissions?.PLAN_MANAGEMENT}>
+      {' '}
+      <PersistGate loading={null} persistor={persistor}>
+        {' '}
+        {page}{' '}
+      </PersistGate>
+    </Layout>
+  );
 };

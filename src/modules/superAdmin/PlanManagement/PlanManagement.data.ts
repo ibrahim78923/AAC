@@ -1,6 +1,10 @@
 import { IAVATARGROUPDATA } from '@/types/shared/AvatarGroup';
 
 import { RHFSelect, RHFSwitchableDatepicker } from '@/components/ReactHookForm';
+import {
+  useGetPlanTypesQuery,
+  useGetProductsQuery,
+} from '@/services/superAdmin/plan-mangement';
 
 import * as Yup from 'yup';
 
@@ -38,55 +42,67 @@ export const avatarGroupMockData: IAVATARGROUPDATA[] = [
 ];
 
 export const planManagementFilterValidationSchema = Yup?.object()?.shape({
-  products: Yup?.string()?.trim()?.required('Field is Required'),
-  plan: Yup.string()?.trim()?.required('Field is Required'),
-  createdDate: Yup?.string()?.trim()?.required('Field is Required'),
+  productId: Yup?.string()?.trim()?.required('Field is Required'),
+  planTypeId: Yup.string()?.trim()?.required('Field is Required'),
+  createdAt: Yup?.string()?.trim()?.required('Field is Required'),
 });
 
 export const planManagementFilterDefaultValues = {
-  products: '',
-  plan: '',
-  createdDate: null,
+  productId: '',
+  planTypeId: '',
+  createdAt: null,
 };
 
-export const planManagementFilterFiltersDataArray = [
-  {
-    componentProps: {
-      name: 'products',
-      label: 'Products',
-      select: true,
+export const planManagementFilterFiltersDataArray = () => {
+  const { data } = useGetProductsQuery({});
+
+  const productsOptions: { value: number; label: string } = data?.data?.map(
+    (products: any) => {
+      return {
+        value: products?._id,
+        label: products?.name,
+      };
     },
-    options: [
-      { value: 'Sales', label: 'Sales' },
-      { value: 'Marketing', label: 'Marketing' },
-      { value: 'Service', label: 'Service' },
-      { value: 'Operations', label: 'Operations' },
-      { value: 'Loyalty Program', label: 'Loyalty Program' },
-    ],
-    component: RHFSelect,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'plan',
-      label: 'Plan',
-      select: true,
+  );
+  const { data: planTypeData } = useGetPlanTypesQuery<any>({
+    refetchOnMountOrArgChange: true,
+    pagination: `page=1&limit=10`,
+  });
+
+  const planType = planTypeData?.data?.map((planType: any) => ({
+    value: planType?._id,
+    label: planType?.name,
+  }));
+
+  return [
+    {
+      componentProps: {
+        name: 'productId',
+        label: 'Products',
+        select: true,
+      },
+      options: productsOptions,
+      component: RHFSelect,
+      md: 12,
     },
-    options: [
-      { value: 'John Doe', label: 'John Doe' },
-      { value: 'William', label: 'William' },
-      { value: 'Andrew', label: 'Andrew' },
-    ],
-    component: RHFSelect,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'createdDate',
-      label: 'Created Date',
-      fullWidth: true,
+    {
+      componentProps: {
+        name: 'planTypeId',
+        label: 'Plan',
+        select: true,
+      },
+      options: planType,
+      component: RHFSelect,
+      md: 12,
     },
-    component: RHFSwitchableDatepicker,
-    md: 12,
-  },
-];
+    {
+      componentProps: {
+        name: 'createdAt',
+        label: 'Created Date',
+        fullWidth: true,
+      },
+      component: RHFSwitchableDatepicker,
+      md: 12,
+    },
+  ];
+};
