@@ -87,6 +87,12 @@ export { default as CalendarActiveImage } from './modules/airSales/contacts/cale
 export { default as documentContained } from './modules/superAdmin/Settings/ModuleCreation/document-contained.png';
 export { default as ApplePhoneImage } from './modules/socialComponents/calling/apple-phone.png';
 export { default as NoSearchResultFoundImage } from './shared/no-search-result.png';
+export { default as TwitterCalenderImage } from './shared/twitter.png';
+export { default as YoutubeCalenderImage } from './shared/youtube.png';
+export { default as FacebookCalenderImage } from './shared/facebook.png';
+export { default as InstagramCalenderImage } from './shared/instagram.png';
+export { default as FacebookLogo } from './shared/facebookLogo.png';
+export { default as InstagramLogo } from './shared/instagramLogo.png';
 export { default as AnnouncementAvatarImage } from './modules/airServices/Dashboard/announcement-avatar-image.png';
 export { default as ClipboardTickImage } from './modules/airServices/Dashboard/clipboard-tick-dashboard-image.png';
 export { default as FirstAidKitImage } from './modules/airServices/Dashboard/first-aid-kit-image.png';
@@ -138,6 +144,7 @@ export { default as TicketImage } from '../images/modules/socialComponents/compa
 export { default as NoteImage } from '../images/modules/socialComponents/companies/note.png';
 export { default as NoteAddImage } from '../images/modules/socialComponents/companies/noteAdd.png';
 export { default as ActivitesTimeImage } from '../images/modules/socialComponents/companies/ActivitiesWithoutTime.png';
+export { default as EventImage } from '../images/shared/EventImage.png';
 
 export { default as GroupGmailImage } from './modules/airMarketer/SocialMarketing/group-gmail.png';
 export { default as GroupFacebookImage } from './modules/airMarketer/SocialMarketing/group-facebook.png';
