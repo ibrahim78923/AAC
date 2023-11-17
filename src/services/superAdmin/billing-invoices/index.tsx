@@ -63,7 +63,7 @@ export const bilingInvoicesAPI = baseAPI.injectEndpoints({
 
     getBillingHistory: builder.query({
       query: ({ pagination }: any) => ({
-        url: `${superAdminBillingInvoices.get_all_invoice}${pagination}`,
+        url: `${superAdminBillingInvoices.get_all_invoice}?${pagination}`,
         method: 'GET',
       }),
       providesTags: ['bilingInvoices'],
