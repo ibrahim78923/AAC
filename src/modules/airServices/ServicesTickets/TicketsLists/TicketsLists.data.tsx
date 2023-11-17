@@ -9,13 +9,17 @@ export const TICKETS_ACTION_CONSTANTS = {
   BULK_UPDATE_DATA: 'bulk-update-data',
   CREATE_NEW_TICKET: 'create-new-ticket',
   EDIT_TICKET: 'edit-ticket',
+  ASSIGNED_TICKET: 'assigned-ticket',
+  MOVE_TICKET: 'move-ticket',
+  MERGE_TICKET: 'merge-ticket',
+  DELETE_TICKET: 'delete-ticket',
 };
 
 export const ticketsActionDropdownFunction = (
-  setDeleteModalOpen: any,
   openDrawer: any,
   selectedTicketList: any,
   updateTicketStatus: any,
+  openModal: any,
 ) => [
   {
     title: 'Edit',
@@ -34,24 +38,35 @@ export const ticketsActionDropdownFunction = (
   {
     title: 'Assignee',
     handleClick: (closeMenu: any) => {
+      openModal(TICKETS_ACTION_CONSTANTS?.ASSIGNED_TICKET);
       closeMenu?.();
     },
   },
   {
     title: 'Bulk Update',
     handleClick: (closeMenu: any) => {
+      openDrawer(TICKETS_ACTION_CONSTANTS?.BULK_UPDATE_DATA);
       closeMenu?.();
     },
   },
   {
     title: 'Merge',
     handleClick: (closeMenu: any) => {
+      if (selectedTicketList?.length !== 1) {
+        enqueueSnackbar('Please select only one ticket', {
+          variant: 'warning',
+        });
+        closeMenu?.();
+        return;
+      }
+      openModal(TICKETS_ACTION_CONSTANTS?.MERGE_TICKET);
       closeMenu?.();
     },
   },
   {
     title: 'Move',
     handleClick: (closeMenu: any) => {
+      openModal(TICKETS_ACTION_CONSTANTS?.MOVE_TICKET);
       closeMenu?.();
     },
   },
@@ -72,27 +87,49 @@ export const ticketsActionDropdownFunction = (
   {
     title: 'Delete',
     handleClick: (closeMenu: any) => {
-      setDeleteModalOpen?.(true);
+      openModal(TICKETS_ACTION_CONSTANTS?.DELETE_TICKET);
       closeMenu?.();
     },
   },
 ];
 
+// export const ticketsListTotalColumns = [
+//   '_id',
+//   'subject',
+//   'requester',
+//   'status',
+//   'pirority',
+//   'assignedTo',
+//   'department',
+//   'state',
+//   'createdAt',
+//   'dueDate',
+//   'impact',
+//   'plannedStartDate',
+//   'plannedEndDate',
+//   'plannedEffort',
+// ];
+export const ticketsListInitialColumns = [
+  '_id',
+  'subject',
+  'requester',
+  'assignedTo',
+  'state',
+  'status',
+  'pirority',
+  'createdAt',
+  'impact',
+];
 export const ticketsListTotalColumns = [
   '_id',
   'subject',
   'requester',
+  'assignedTo',
+  'state',
   'status',
   'pirority',
-  'assignedTo',
-  'department',
-  'state',
   'createdAt',
-  'dueDate',
   'impact',
-  'plannedStartDate',
-  'plannedEndDate',
-  'plannedEffort',
 ];
 
 export const ticketsListsData: any = [

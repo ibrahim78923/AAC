@@ -18,10 +18,16 @@ import {
 import { downloadFile } from '@/utils/file';
 import { UpsertTicket } from '../UpsertTicket';
 import { EXPORT_TYPE } from '@/constants/strings';
+import { TicketsBulkUpdate } from '../TicketsBulkUpdate';
+import { AssignedTickets } from '../AssignedTickets';
+import { MoveTickets } from '../MoveTickets';
+import { MergeTickets } from '../MergeTickets';
+import { TicketsDelete } from '../TicketsDelete';
+import usePath from '@/hooks/usePath';
 
 export const useTicketsLists: any = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedTicketList, setSelectedTicketList] = useState([]);
   const [page, setPage] = useState(1);
   const [pageLimit, setPageLimit] = useState(10);
@@ -31,15 +37,16 @@ export const useTicketsLists: any = () => {
 
   const theme = useTheme();
   const router = useRouter();
-
+  const { makePath } = usePath();
   const getTicketsParam = new URLSearchParams();
 
-  columnNames?.forEach(
-    (col: any) => getTicketsParam?.append('columnNames', col),
-  );
+  // columnNames?.forEach(
+  //   (col: any) => getTicketsParam?.append('columnNames', col),
+  // );
   ticketsFilter?.forEach(
     ([key, value]: any) => getTicketsParam?.append(key, value),
   );
+  getTicketsParam?.append('columnNames', '*');
   getTicketsParam?.append('page', page + '');
   getTicketsParam?.append('limit', pageLimit + '');
   getTicketsParam?.append('search', search);
@@ -103,20 +110,15 @@ export const useTicketsLists: any = () => {
 
   useEffect(() => {
     getValueTicketsListData();
-  }, [columnNames, search, page, pageLimit, ticketsFilter]);
+  }, [search, page, pageLimit, ticketsFilter]);
 
   useEffect(() => {
-    if (!isDrawerOpen) {
-      //TODO: destructing as i do not need that in rest queries.
-      /* eslint-disable @typescript-eslint/no-unused-vars */
-      const { ticketAction, ...restQueries } = router?.query;
-      router?.push({
-        pathname: router?.pathname,
-        query: {
-          ...restQueries,
-        },
-      });
-    }
+    router?.push(
+      makePath({
+        path: router?.pathname,
+        skipQueries: ['ticketAction'],
+      }),
+    );
   }, []);
 
   const updateTicketStatus = async (status: any) => {
@@ -185,6 +187,41 @@ export const useTicketsLists: any = () => {
         ticketId={selectedTicketList?.[0]}
       />
     ),
+    [TICKETS_ACTION_CONSTANTS?.BULK_UPDATE_DATA]: (
+      <TicketsBulkUpdate
+        setIsDrawerOpen={setIsDrawerOpen}
+        isDrawerOpen={isDrawerOpen}
+        ticketId={selectedTicketList?.[0]}
+      />
+    ),
+    [TICKETS_ACTION_CONSTANTS?.ASSIGNED_TICKET]: (
+      <AssignedTickets
+        setIsAssignedModalOpen={setIsModalOpen}
+        isAssignedModalOpen={isModalOpen}
+        selectedTicketList={selectedTicketList}
+      />
+    ),
+    [TICKETS_ACTION_CONSTANTS?.MOVE_TICKET]: (
+      <MoveTickets
+        setIsMoveTicketsModalOpen={setIsModalOpen}
+        isMoveTicketsModalOpen={isModalOpen}
+        selectedTicketList={selectedTicketList}
+      />
+    ),
+    [TICKETS_ACTION_CONSTANTS?.MERGE_TICKET]: (
+      <MergeTickets
+        setIsMergedTicketsModalOpen={setIsModalOpen}
+        isMergedTicketsModalOpen={isModalOpen}
+        selectedTicketList={selectedTicketList}
+      />
+    ),
+    [TICKETS_ACTION_CONSTANTS?.DELETE_TICKET]: (
+      <TicketsDelete
+        deleteModalOpen={isModalOpen}
+        setDeleteModalOpen={setIsModalOpen}
+        selectedTicketList={selectedTicketList}
+      />
+    ),
   };
 
   const openDrawer = (ticketActionQuery: any) => {
@@ -200,11 +237,24 @@ export const useTicketsLists: any = () => {
     }, 100);
   };
 
+  const openModal = (ticketActionQuery: any) => {
+    router?.push({
+      pathname: router?.pathname,
+      query: {
+        ...router?.query,
+        ticketAction: ticketActionQuery,
+      },
+    });
+    setTimeout(() => {
+      setIsModalOpen?.(true);
+    }, 100);
+  };
+
   const ticketsActionDropdown = ticketsActionDropdownFunction?.(
-    setDeleteModalOpen,
     openDrawer,
     selectedTicketList,
     updateTicketStatus,
+    openModal,
   );
 
   return {
@@ -214,8 +264,6 @@ export const useTicketsLists: any = () => {
     TICKETS_ACTION_CONSTANTS,
     drawerComponent,
     ticketsActionDropdown,
-    deleteModalOpen,
-    setDeleteModalOpen,
     lazyGetTicketsStatus,
     ticketsListsColumnPersist,
     search,
@@ -228,5 +276,7 @@ export const useTicketsLists: any = () => {
     selectedTicketList,
     pageLimit,
     setPageLimit,
+    isModalOpen,
+    setColumnNames,
   };
 };

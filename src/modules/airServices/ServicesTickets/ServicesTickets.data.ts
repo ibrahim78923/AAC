@@ -52,7 +52,7 @@ export const ticketImpactOptions = [
     label: 'Medium',
   },
   {
-    value: TICKET_IMPACT?.MEDIUM,
+    value: TICKET_IMPACT?.HIGH,
     label: 'High',
   },
 ];

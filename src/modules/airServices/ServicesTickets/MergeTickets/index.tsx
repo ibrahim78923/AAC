@@ -12,27 +12,30 @@ import {
   Typography,
   useTheme,
 } from '@mui/material';
-import { useForm } from 'react-hook-form';
-import { v4 as uuidv4 } from 'uuid';
-import {
-  mergeTicketsDefaultValue,
-  mergeTicketsFormFields,
-} from './MergeTickets.data';
+import { useMergedTickets } from './useMergeTickets';
 
 export const MergeTickets = (props: any) => {
-  const method = useForm({
-    defaultValues: mergeTicketsDefaultValue(),
-  });
   const theme = useTheme();
-  const { isModalOpen, handleClose } = props;
+  const { isMergedTicketsModalOpen } = props;
+  const {
+    mergedTicketsFormMethod,
+    closeMergedTicketsModal,
+    handleSubmit,
+    submitMergedTicketsForm,
+    mergeTicketsFormFields,
+  } = useMergedTickets(props);
+
   return (
     <Dialog
-      open={isModalOpen}
-      onClose={() => handleClose?.()}
+      open={isMergedTicketsModalOpen}
+      onClose={() => closeMergedTicketsModal?.()}
       fullWidth
       maxWidth={'sm'}
     >
-      <FormProvider methods={method}>
+      <FormProvider
+        methods={mergedTicketsFormMethod}
+        onSubmit={handleSubmit(submitMergedTicketsForm)}
+      >
         <DialogTitle>
           <Box
             display={'flex'}
@@ -51,7 +54,10 @@ export const MergeTickets = (props: any) => {
                 Assigned To
               </Typography>
             </Box>
-            <Box sx={{ cursor: 'pointer' }} onClick={() => handleClose?.()}>
+            <Box
+              sx={{ cursor: 'pointer' }}
+              onClick={() => closeMergedTicketsModal?.()}
+            >
               <AlertModalCloseIcon />
             </Box>
           </Box>
@@ -60,12 +66,20 @@ export const MergeTickets = (props: any) => {
           <br />
           <Grid container spacing={4}>
             {mergeTicketsFormFields?.map((item: any) => (
-              <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                <item.component {...item?.componentProps} size={'small'} />
+              <Grid item xs={12} md={item?.md} key={item?.id}>
+                <item.component {...item?.componentProps} size={'small'}>
+                  {item?.componentProps?.select
+                    ? item?.componentProps?.options?.map((option: any) => (
+                        <option key={option?.value} value={option?.value}>
+                          {option?.label}
+                        </option>
+                      ))
+                    : null}
+                </item.component>
               </Grid>
             ))}
           </Grid>
-
+          <br />
           <Box
             padding={1.5}
             border={{
@@ -93,12 +107,7 @@ export const MergeTickets = (props: any) => {
                 >
                   IT
                 </Avatar>
-                <Typography
-                  sx={{
-                    color: theme?.palette?.primary?.main,
-                    cursor: 'pointer',
-                  }}
-                >
+                <Typography variant="h6" color="secondary">
                   #INC-3
                 </Typography>
               </Box>
@@ -109,54 +118,31 @@ export const MergeTickets = (props: any) => {
                 alignItems={'center'}
               >
                 <Typography
-                  color={theme?.palette?.primary?.main}
+                  color={'grey.0'}
                   sx={{
                     cursor: 'pointer',
                   }}
                 >
-                  Request for Jhon Dyson
+                  Request for John Dyson
                 </Typography>
                 <Typography
-                  color={theme?.palette?.primary?.main}
-                  sx={{
-                    cursor: 'pointer',
-                  }}
+                  component={'span'}
+                  color="secondary"
+                  variant="body1"
                 >
                   Whats wrong with my email
                 </Typography>
               </Box>
             </Box>
-            <Typography
-              color={theme?.palette?.primary?.main}
-              sx={{
-                cursor: 'pointer',
-              }}
-            >
+            <Typography color={'grey.0'} my={0.5}>
               From :{' '}
-              <Typography
-                component={'span'}
-                color={theme?.palette?.primary?.main}
-                sx={{
-                  cursor: 'pointer',
-                }}
-              >
+              <Typography component={'span'} color="secondary" variant="body1">
                 John Dyson
               </Typography>
             </Typography>
-            <Typography
-              color={theme?.palette?.primary?.main}
-              sx={{
-                cursor: 'pointer',
-              }}
-            >
+            <Typography color="grey.0">
               Created :{' '}
-              <Typography
-                component={'span'}
-                color={theme?.palette?.primary?.main}
-                sx={{
-                  cursor: 'pointer',
-                }}
-              >
+              <Typography component={'span'} color="secondary" variant="body1">
                 12 hours ago
               </Typography>
             </Typography>
@@ -168,14 +154,11 @@ export const MergeTickets = (props: any) => {
           <LoadingButton
             variant="outlined"
             color="secondary"
-            //   onClick={() => handleCancelBtn?.()}
+            onClick={() => closeMergedTicketsModal?.()}
           >
             Cancel
           </LoadingButton>
-          <LoadingButton
-            variant="contained"
-            // onClick={() => handleSubmitBtn?.()}
-          >
+          <LoadingButton variant="contained" type="submit">
             Continue
           </LoadingButton>
         </DialogActions>

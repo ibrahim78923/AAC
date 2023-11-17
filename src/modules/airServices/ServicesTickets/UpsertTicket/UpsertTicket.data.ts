@@ -3,7 +3,6 @@ import {
   RHFDatePicker,
   RHFDropZone,
   RHFEditor,
-  RHFMultiSearchableSelect,
   RHFSelect,
   RHFTextField,
   RHFTimePicker,
@@ -46,6 +45,7 @@ export const upsertTicketValidationSchema = Yup?.object()?.shape({
   plannedEndDate: Yup?.date(),
   plannedEndTime: Yup?.date(),
   plannedEffort: Yup?.mixed(),
+  associatesAsset: Yup?.mixed()?.nullable()?.required('Required'),
   attachFile: Yup?.mixed()?.nullable(),
 });
 
@@ -69,7 +69,7 @@ export const upsertTicketDefaultValuesFunction = (data?: any) => {
     associatesAsset: !!data?.associatesAsset?.length
       ? data?.associatesAsset
       : [],
-    attachFile: null,
+    attachFile: null ?? '',
   };
 };
 export const upsertTicketFormFieldsDynamic = (
@@ -231,9 +231,10 @@ export const upsertTicketFormFieldsDynamic = (
       name: 'associatesAsset',
       label: 'Associate Asset',
       fullWidth: true,
-      options: dropdownDummy,
+      multiple: true,
+      apiQuery: apiQueryDepartment,
     },
-    component: RHFMultiSearchableSelect,
+    component: RHFAutocompleteAsync,
     md: 12,
   },
   {

@@ -1,46 +1,39 @@
 import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
 import {
-  ticketsBulkUpdateDefaultFormValuesFunction,
-  ticketsBulkUpdateFormFieldsDataFunction,
+  ticketsBulkUpdateDefaultFormValues,
+  ticketsBulkUpdateFormFieldsData,
   ticketsBulkUpdateFormValidationSchemaFunction,
-  ticketsBulkUpdateToFormFieldsDataFunction,
+  ticketsBulkUpdateAddReplyFormFieldsData,
 } from './TicketsBulkUpdate.data';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { enqueueSnackbar } from 'notistack';
 import usePath from '@/hooks/usePath';
 
 export const useTicketBulkUpdate = (props: any) => {
+  const { setIsDrawerOpen } = props;
+  const [isReplyAdded, setIsReplyAdded] = useState(false);
+
   const router = useRouter();
   const theme: any = useTheme();
   const { makePath } = usePath();
-  const [isReplyAdded, setIsReplyAdded] = useState(false);
-  const { setIsDrawerOpen } = props;
-  const ticketsBulkUpdateFormFieldsData =
-    ticketsBulkUpdateFormFieldsDataFunction();
-  const ticketsBulkUpdateToFormFieldsData =
-    ticketsBulkUpdateToFormFieldsDataFunction();
 
   const methodsBulkUpdateForm: any = useForm({
     resolver: yupResolver(
       ticketsBulkUpdateFormValidationSchemaFunction?.(isReplyAdded),
     ),
-    defaultValues: ticketsBulkUpdateDefaultFormValuesFunction?.(),
+    defaultValues: ticketsBulkUpdateDefaultFormValues,
   });
 
   const { handleSubmit, reset } = methodsBulkUpdateForm;
-
-  useEffect(() => {
-    reset(() => ticketsBulkUpdateDefaultFormValuesFunction());
-  }, [isReplyAdded, reset]);
 
   const submitTicketBulkUpdateForm = async () => {
     enqueueSnackbar('Ticket Updated Successfully', {
       variant: 'success',
     });
-    reset(ticketsBulkUpdateDefaultFormValuesFunction?.());
+    reset();
     setIsDrawerOpen?.(false);
   };
 
@@ -48,16 +41,9 @@ export const useTicketBulkUpdate = (props: any) => {
     router?.push(
       makePath({
         path: router?.pathname,
-        skipQueries: ['tableAction'],
+        skipQueries: ['ticketAction'],
       }),
     );
-    // const { tableAction, ...restQueries } = router?.query;
-    // router?.push({
-    //   pathname: router?.pathname,
-    //   query: {
-    //     ...restQueries,
-    //   },
-    // });
     reset?.();
     setIsDrawerOpen(false);
   };
@@ -65,7 +51,7 @@ export const useTicketBulkUpdate = (props: any) => {
     ticketsBulkUpdateFormFieldsData,
     router,
     theme,
-    ticketsBulkUpdateToFormFieldsData,
+    ticketsBulkUpdateAddReplyFormFieldsData,
     methodsBulkUpdateForm,
     handleSubmit,
     submitTicketBulkUpdateForm,

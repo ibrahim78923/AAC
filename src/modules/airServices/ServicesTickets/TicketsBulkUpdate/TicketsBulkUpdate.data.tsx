@@ -4,7 +4,14 @@ import {
   RHFSelect,
   RHFTextField,
 } from '@/components/ReactHookForm';
+
 import * as Yup from 'yup';
+import {
+  ticketImpactOptions,
+  ticketPriorityOptions,
+  ticketSourceOptions,
+  ticketStatusOptions,
+} from '../ServicesTickets.data';
 
 export const dropdownDummy = [
   {
@@ -23,18 +30,15 @@ export const ticketsBulkUpdateToFormSchema: any = {
   file: Yup?.mixed(),
 };
 
-export const ticketsBulkUpdateToFormFieldsDataFunction = (
-  isFieldDisable = false,
-) => [
+export const ticketsBulkUpdateAddReplyFormFieldsData = [
   {
     id: 2,
     component: RHFTextField,
-    gridLength: 6,
+    md: 12,
     componentProps: {
       fullWidth: true,
       name: 'to',
       label: 'To',
-      disabled: isFieldDisable,
     },
   },
   {
@@ -43,9 +47,9 @@ export const ticketsBulkUpdateToFormFieldsDataFunction = (
       fullWidth: true,
       name: 'description',
       label: 'Description',
-      disabled: isFieldDisable,
+      style: { height: '250px' },
     },
-    gridLength: 6,
+    md: 12,
     component: RHFEditor,
   },
   {
@@ -54,93 +58,52 @@ export const ticketsBulkUpdateToFormFieldsDataFunction = (
       fullWidth: true,
       name: 'file',
       label: 'File',
-      //   select: true,
-      //   options: dropdownDummy,
-      disabled: isFieldDisable,
     },
-    gridLength: 6,
+    md: 12,
     component: RHFDropZone,
   },
 ];
 
-export const ticketsBulkUpdateDefaultFormValues = () => {
-  return {
-    ticketType: '',
-    created: '',
-    status: '',
-    agents: '',
-    requester: '',
-    priority: '',
-    impact: '',
-    urgency: '',
-    to: '',
-    description: '',
-    file: '',
-  };
-};
-
-export const ticketsBulkUpdateDefaultFormValuesFunction = (data?: any) => {
-  return {
-    ticketType: data?.ticketType ?? '',
-    created: data?.created ?? '',
-    status: data?.status ?? '',
-    agents: data?.agents ?? '',
-    requester: data?.requester ?? '',
-    priority: data?.priority ?? '',
-    impact: data?.impact ?? '',
-    urgency: data?.urgency ?? '',
-    to: data?.to ?? '',
-    description: data?.description ?? '',
-    file: data?.file ?? '',
-  };
+export const ticketsBulkUpdateDefaultFormValues = {
+  priority: '',
+  status: '',
+  impact: '',
+  agent: '',
+  source: '',
+  category: '',
+  to: '',
+  description: '',
+  file: '',
 };
 
 export const ticketsBulkUpdateFormValidationSchemaFunction: any = (
   isReplyAdded: boolean,
 ) =>
   Yup?.object()?.shape({
-    ticketType: Yup?.string(),
-    created: Yup?.string(),
-    status: Yup?.string(),
-    agents: Yup?.string(),
-    requester: Yup?.string(),
     priority: Yup?.string(),
+    status: Yup?.string(),
     impact: Yup?.string(),
-    urgency: Yup?.string(),
+    agent: Yup?.string(),
+    source: Yup?.string(),
+    category: Yup?.string(),
     ...(isReplyAdded && {
-      to: Yup?.string().required(),
+      to: Yup?.string()?.required(),
       description: Yup?.mixed(),
       file: Yup?.mixed(),
     }),
   });
 
-export const ticketsBulkUpdateFormFieldsDataFunction = (
-  isFieldDisable = false,
-) => [
+export const ticketsBulkUpdateFormFieldsData = [
   {
-    id: 2,
-    component: RHFSelect,
-    gridLength: 6,
+    id: 100,
     componentProps: {
       fullWidth: true,
-      name: 'ticketType',
-      label: 'Ticket Type',
+      name: 'priority',
+      label: 'Priority',
       select: true,
-      options: dropdownDummy,
-      disabled: isFieldDisable,
+      options: ticketPriorityOptions,
     },
-  },
-  {
-    id: 920,
-    componentProps: {
-      fullWidth: true,
-      name: 'created',
-      label: 'Created',
-      select: true,
-      options: dropdownDummy,
-      disabled: isFieldDisable,
-    },
-    gridLength: 6,
+    md: 12,
     component: RHFSelect,
   },
   {
@@ -150,75 +113,57 @@ export const ticketsBulkUpdateFormFieldsDataFunction = (
       name: 'status',
       label: 'Status',
       select: true,
-      options: dropdownDummy,
-      disabled: isFieldDisable,
+      options: ticketStatusOptions,
     },
-    gridLength: 6,
-    component: RHFSelect,
-  },
-  {
-    id: 200,
-    component: RHFSelect,
-    gridLength: 6,
-    componentProps: {
-      fullWidth: true,
-      name: 'agents',
-      label: 'Agents',
-      select: true,
-      options: dropdownDummy,
-      disabled: isFieldDisable,
-    },
-  },
-  {
-    id: 129,
-    componentProps: {
-      fullWidth: true,
-      name: 'requester',
-      label: 'Requester',
-      select: true,
-      options: dropdownDummy,
-      disabled: isFieldDisable,
-    },
-    gridLength: 6,
-    component: RHFSelect,
-  },
-  {
-    id: 100,
-    componentProps: {
-      fullWidth: true,
-      name: 'priority',
-      label: 'Priority',
-      select: true,
-      options: dropdownDummy,
-      disabled: isFieldDisable,
-    },
-    gridLength: 6,
+    md: 12,
     component: RHFSelect,
   },
   {
     id: 82,
     component: RHFSelect,
-    gridLength: 6,
+    md: 12,
     componentProps: {
       fullWidth: true,
       name: 'impact',
       label: 'Impact',
       select: true,
-      options: dropdownDummy,
-      disabled: isFieldDisable,
+      options: ticketImpactOptions,
     },
   },
   {
-    id: 90,
+    id: 200,
+    component: RHFSelect,
+    md: 12,
     componentProps: {
       fullWidth: true,
-      name: 'urgency',
-      label: 'Urgency',
+      name: 'agent',
+      label: 'Agent',
       select: true,
       options: dropdownDummy,
-      disabled: isFieldDisable,
     },
-    gridLength: 6,
+  },
+  {
+    id: 2,
+    component: RHFSelect,
+    md: 12,
+    componentProps: {
+      fullWidth: true,
+      name: 'source',
+      label: 'Source',
+      select: true,
+      options: ticketSourceOptions,
+    },
+  },
+  {
+    id: 920,
+    componentProps: {
+      fullWidth: true,
+      name: 'category',
+      label: 'Category',
+      select: true,
+      options: dropdownDummy,
+    },
+    md: 12,
     component: RHFSelect,
   },
 ];

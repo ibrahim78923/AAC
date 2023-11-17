@@ -1,7 +1,11 @@
+import usePath from '@/hooks/usePath';
 import { useDeleteTicketsMutation } from '@/services/airServices/tickets';
+import { useRouter } from 'next/router';
 import { enqueueSnackbar } from 'notistack';
 
 export const useTicketDelete = (props: any) => {
+  const router = useRouter();
+  const { makePath } = usePath();
   const { setDeleteModalOpen, selectedTicketList } = props;
   const [deleteTicketsTrigger] = useDeleteTicketsMutation();
   const deleteTicket = async () => {
@@ -19,14 +23,25 @@ export const useTicketDelete = (props: any) => {
       enqueueSnackbar(response?.message ?? 'Ticket deleted successfully', {
         variant: 'success',
       });
-      setDeleteModalOpen?.(false);
+      closeTicketsDeleteModal?.();
     } catch (error: any) {
       enqueueSnackbar(error?.data?.message ?? 'Error', {
         variant: 'error',
       });
     }
   };
+  const closeTicketsDeleteModal = () => {
+    router?.push(
+      makePath({
+        path: router?.pathname,
+        skipQueries: ['ticketAction'],
+      }),
+    );
+    setDeleteModalOpen?.(false);
+  };
+
   return {
     deleteTicket,
+    closeTicketsDeleteModal,
   };
 };

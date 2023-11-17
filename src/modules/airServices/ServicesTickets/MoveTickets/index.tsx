@@ -10,26 +10,28 @@ import {
   Grid,
   Typography,
 } from '@mui/material';
-import { useForm } from 'react-hook-form';
-import { moveTicketsFormFields } from './MoveTickets.data';
-import { v4 as uuidv4 } from 'uuid';
+import { useMoveTickets } from './useMoveTickets';
 
 export const MoveTickets = (props: any) => {
-  const method = useForm({
-    defaultValues: {
-      department: '',
-      agent: '',
-    },
-  });
-  const { isModalOpen, handleClose } = props;
+  const { isMoveTicketsModalOpen } = props;
+  const {
+    moveTicketsFormMethod,
+    closeMoveTicketsModal,
+    handleSubmit,
+    submitMoveTicketsForm,
+    moveTicketsFormFields,
+  } = useMoveTickets(props);
   return (
     <Dialog
-      open={isModalOpen}
-      onClose={() => handleClose?.()}
+      open={isMoveTicketsModalOpen}
+      onClose={() => closeMoveTicketsModal?.()}
       fullWidth
       maxWidth={'sm'}
     >
-      <FormProvider methods={method}>
+      <FormProvider
+        methods={moveTicketsFormMethod}
+        onSubmit={handleSubmit(submitMoveTicketsForm)}
+      >
         <DialogTitle>
           <Box
             display={'flex'}
@@ -45,10 +47,13 @@ export const MoveTickets = (props: any) => {
               flexWrap={'wrap'}
             >
               <Typography variant="h3" textTransform={'capitalize'}>
-                Assigned To
+                Move
               </Typography>
             </Box>
-            <Box sx={{ cursor: 'pointer' }} onClick={() => handleClose?.()}>
+            <Box
+              sx={{ cursor: 'pointer' }}
+              onClick={() => closeMoveTicketsModal?.()}
+            >
               <AlertModalCloseIcon />
             </Box>
           </Box>
@@ -57,7 +62,7 @@ export const MoveTickets = (props: any) => {
           <br />
           <Grid container spacing={4}>
             {moveTicketsFormFields?.map((item: any) => (
-              <Grid item xs={12} md={item?.md} key={uuidv4()}>
+              <Grid item xs={12} md={item?.md} key={item?.id}>
                 <item.component {...item?.componentProps} size={'small'} />
               </Grid>
             ))}
@@ -69,14 +74,11 @@ export const MoveTickets = (props: any) => {
           <LoadingButton
             variant="outlined"
             color="secondary"
-            //   onClick={() => handleCancelBtn?.()}
+            onClick={() => closeMoveTicketsModal?.()}
           >
             Cancel
           </LoadingButton>
-          <LoadingButton
-            variant="contained"
-            // onClick={() => handleSubmitBtn?.()}
-          >
+          <LoadingButton variant="contained" type="submit">
             Continue
           </LoadingButton>
         </DialogActions>

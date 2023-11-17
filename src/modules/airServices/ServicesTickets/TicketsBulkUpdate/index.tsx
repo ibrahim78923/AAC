@@ -11,30 +11,30 @@ export const TicketsBulkUpdate = (props: any) => {
   const {
     ticketsBulkUpdateFormFieldsData,
     theme,
-    ticketsBulkUpdateToFormFieldsData,
+    ticketsBulkUpdateAddReplyFormFieldsData,
     methodsBulkUpdateForm,
     handleSubmit,
     isReplyAdded,
     setIsReplyAdded,
     onClose,
     submitTicketBulkUpdateForm,
-  } = useTicketBulkUpdate(props);
+  }: any = useTicketBulkUpdate(props);
   return (
     <>
       <CommonDrawer
         isDrawerOpen={isDrawerOpen}
         onClose={() => onClose?.()}
-        okText={'Submit'}
-        title={'Tickets Bulk Update'}
+        okText={'Update'}
+        title={'Bulk Update'}
         submitHandler={() => handleSubmit(submitTicketBulkUpdateForm)()}
         isOk
         cancelText={'Cancel'}
         footer
       >
-        <br />
         {!isReplyAdded && (
           <Button
-            variant="outlined"
+            variant="text"
+            sx={{ backgroundColor: 'primary.lighter' }}
             onClick={() => setIsReplyAdded(true)}
             startIcon={<AddCircleIcon />}
           >
@@ -49,58 +49,43 @@ export const TicketsBulkUpdate = (props: any) => {
           {isReplyAdded && (
             <>
               <Box
-                padding={1.5}
-                borderRadius={'.5rem'}
-                style={{ backgroundColor: theme?.palette?.primary?.light }}
+                padding={1.25}
+                borderRadius={2}
+                sx={{ backgroundColor: theme?.palette?.primary?.lighter }}
               >
                 <Box display={'flex'} justifyContent={'space-between'}>
-                  <div style={{ flex: 1 }}></div>
-                  <CloseIcon onClick={() => setIsReplyAdded(false)} />
+                  <Box sx={{ flex: 1 }}></Box>
+                  <Box
+                    sx={{ cursor: 'pointer' }}
+                    onClick={() => setIsReplyAdded(false)}
+                  >
+                    <CloseIcon />
+                  </Box>
                 </Box>
-                <Grid container marginBottom={3} spacing={2}>
-                  {ticketsBulkUpdateToFormFieldsData?.map((form: any) => {
+                <Grid container spacing={1.5}>
+                  {ticketsBulkUpdateAddReplyFormFieldsData?.map((form: any) => {
                     return (
-                      <Grid
-                        item
-                        xs={12}
-                        // md={12}
-                        key={uuidv4()}
-                      >
-                        <form.component {...form?.componentProps} size="medium">
-                          {form?.componentProps?.select
-                            ? form?.componentProps?.options?.map?.(
-                                (option: any) => (
-                                  <option
-                                    key={option?.id}
-                                    value={option?.value}
-                                  >
-                                    {option?.label}
-                                  </option>
-                                ),
-                              )
-                            : null}
-                        </form.component>
+                      <Grid item xs={12} key={uuidv4()}>
+                        <form.component
+                          {...form?.componentProps}
+                          size="small"
+                        />
                       </Grid>
                     );
                   })}
                 </Grid>
               </Box>
-              <br />
             </>
           )}
-          <Grid container spacing={5}>
+          <br />
+          <Grid container spacing={1.5}>
             {ticketsBulkUpdateFormFieldsData?.map((form: any) => {
               return (
-                <Grid
-                  item
-                  xs={12}
-                  //   md={form?.gridLength}
-                  key={uuidv4()}
-                >
-                  <form.component {...form?.componentProps} size="medium">
+                <Grid item xs={12} key={uuidv4()}>
+                  <form.component {...form?.componentProps} size="small">
                     {form?.componentProps?.select
                       ? form?.componentProps?.options?.map?.((option: any) => (
-                          <option key={option?.id} value={option?.value}>
+                          <option key={uuidv4()} value={option?.value}>
                             {option?.label}
                           </option>
                         ))

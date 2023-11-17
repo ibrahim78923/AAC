@@ -1,43 +1,38 @@
-import { RHFSearchableSelect } from '@/components/ReactHookForm';
+import { RHFAutocompleteAsync } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
 export const moveTicketsValidationSchema = Yup?.object()?.shape({
-  department: Yup?.string(),
-  agent: Yup?.string(),
+  department: Yup?.string()?.nullable(),
+  agent: Yup?.string()?.nullable(),
 });
 
-export const moveTicketsDefaultValue = (data: any) => {
-  return {
-    department: data?.department ?? '',
-    agent: data?.agent ?? '',
-  };
+export const moveTicketsDefaultValue = {
+  department: null,
+  agent: null,
 };
 
-export const moveTicketsFormFields = [
+export const moveTicketsFormFieldsDynamic = (
+  apiQueryDepartment: any,
+  apiQueryAgent: any,
+) => [
   {
     id: 'department',
-    component: RHFSearchableSelect,
+    component: RHFAutocompleteAsync,
     componentProps: {
       name: 'department',
       label: 'Select Department*',
       fullWidth: true,
-      options: [
-        { value: 'deal1', label: 'Deal Name 1' },
-        { value: 'deal2', label: 'Deal Name 2' },
-      ],
+      apiQuery: apiQueryDepartment,
     },
   },
   {
     id: 'agent',
-    component: RHFSearchableSelect,
+    component: RHFAutocompleteAsync,
     componentProps: {
       name: 'agent',
       label: 'Select Agent',
       fullWidth: true,
-      options: [
-        { value: 'deal1', label: 'Deal Name 1' },
-        { value: 'deal2', label: 'Deal Name 2' },
-      ],
+      apiQuery: apiQueryAgent,
     },
   },
 ];

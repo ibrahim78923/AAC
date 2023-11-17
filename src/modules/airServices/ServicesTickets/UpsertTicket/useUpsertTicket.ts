@@ -15,13 +15,14 @@ import {
 } from '@/services/airServices/tickets';
 import { useEffect } from 'react';
 import { useLazyGetOrganizationsQuery } from '@/services/dropdowns';
+import usePath from '@/hooks/usePath';
 
 export const useUpsertTicket = (props: any) => {
   const { setIsDrawerOpen, ticketId } = props;
 
   const router = useRouter();
   const theme: any = useTheme();
-
+  const { makePath } = usePath();
   const [postTicketTrigger, postTicketStatus] = usePostTicketsMutation();
   const [putTicketTrigger, putTicketStatus] = usePutTicketsMutation();
 
@@ -98,15 +99,12 @@ export const useUpsertTicket = (props: any) => {
   }, [data, reset]);
 
   const onClose = () => {
-    //TODO: destructing as i do not need that in rest queries.
-    /* eslint-disable @typescript-eslint/no-unused-vars */
-    const { ticketAction, ...restQueries } = router?.query;
-    router?.push({
-      pathname: router?.pathname,
-      query: {
-        ...restQueries,
-      },
-    });
+    router?.push(
+      makePath({
+        path: router?.pathname,
+        skipQueries: ['ticketAction'],
+      }),
+    );
     reset?.();
     setIsDrawerOpen?.(false);
   };

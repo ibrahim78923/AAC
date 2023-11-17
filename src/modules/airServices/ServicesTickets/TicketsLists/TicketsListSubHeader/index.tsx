@@ -1,5 +1,5 @@
 import Search from '@/components/Search';
-import { Box, Button, ButtonGroup, Stack, useTheme } from '@mui/material';
+import { Box, Button, ButtonGroup, useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
 import {
   CutomizeIcon,
@@ -9,6 +9,7 @@ import {
   SubTabIcon,
 } from '@/assets/icons';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
+import { ticketsListInitialColumns } from '../TicketsLists.data';
 
 export const TicketsListSubHeader = (props: any) => {
   const {
@@ -18,6 +19,7 @@ export const TicketsListSubHeader = (props: any) => {
     search,
     setSearch,
     disabledActionButton,
+    setColumnNames,
   } = props;
 
   const theme: any = useTheme();
@@ -52,13 +54,13 @@ export const TicketsListSubHeader = (props: any) => {
           )}
           <Button
             variant="outlined"
-            onClick={() => {}}
+            onClick={() => {
+              setColumnNames(ticketsListInitialColumns);
+            }}
             size="large"
             color="secondary"
           >
-            <Stack>
-              <ResetIcon />
-            </Stack>
+            <ResetIcon />
           </Button>
           {router?.query?.viewType !== 'board' && (
             <Button

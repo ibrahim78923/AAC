@@ -1,43 +1,41 @@
-import { RHFSearchableSelect, RHFSelect } from '@/components/ReactHookForm';
+import { RHFAutocompleteAsync, RHFSelect } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
-export const mergeTicketsValidationSchema = Yup?.object()?.shape({
-  department: Yup?.string(),
-  agent: Yup?.string(),
+export const mergeTicketsFormValidationSchema = Yup?.object()?.shape({
+  ticketSelection: Yup?.string(),
+  searchTicket: Yup?.string()?.nullable(),
 });
 
-export const mergeTicketsDefaultValue = (data?: any) => {
-  return {
-    ticketSelection: data?.ticketSelection ?? '',
-    searchTicket: data?.searchTicket ?? '',
-  };
+export const mergeTicketsFormDefaultValue = {
+  ticketSelection: 'requester',
+  searchTicket: null,
 };
 
-export const mergeTicketsFormFields = [
+const ticketSelectionOptions = [
+  { value: 'requester', label: 'Requester' },
+  { value: 'subject', label: 'Subject' },
+  { value: 'id', label: 'ID' },
+];
+export const mergeTicketsFormFieldsDynamic = (apiQuerySearch: any) => [
   {
-    id: 'ticketSelection',
+    id: 1,
     component: RHFSelect,
     componentProps: {
       name: 'ticketSelection',
-      label: 'Select Department*',
+      label: 'Select Ticket',
       fullWidth: true,
-      options: [
-        { value: 'deal1', label: 'Deal Name 1' },
-        { value: 'deal2', label: 'Deal Name 2' },
-      ],
+      select: true,
+      options: ticketSelectionOptions,
     },
   },
   {
-    id: 'searchTicket',
-    component: RHFSearchableSelect,
+    id: 2,
+    component: RHFAutocompleteAsync,
     componentProps: {
       name: 'searchTicket',
       label: 'search Ticket',
       fullWidth: true,
-      options: [
-        { value: 'deal1', label: 'Deal Name 1' },
-        { value: 'deal2', label: 'Deal Name 2' },
-      ],
+      apiQuery: apiQuerySearch,
     },
   },
 ];

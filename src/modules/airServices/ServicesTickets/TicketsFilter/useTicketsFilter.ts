@@ -2,12 +2,14 @@ import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
 import { ticketsFilterFormFieldsDataFunction } from './TicketsFilter.data';
 import { useForm } from 'react-hook-form';
+import usePath from '@/hooks/usePath';
+import { useLazyGetOrganizationsQuery } from '@/services/dropdowns';
 
 export const useTicketsFilter = (props: any) => {
   const { setIsDrawerOpen, setTicketsFilter } = props;
   const router = useRouter();
   const theme: any = useTheme();
-  const ticketsFilterFormFieldsData = ticketsFilterFormFieldsDataFunction();
+  const { makePath } = usePath();
 
   const methods: any = useForm({});
 
@@ -29,19 +31,24 @@ export const useTicketsFilter = (props: any) => {
     reset();
     setIsDrawerOpen?.(false);
   };
+
   const onClose = () => {
-    //TODO: destructing as i do not need that in rest queries.
-    /* eslint-disable @typescript-eslint/no-unused-vars */
-    const { ticketAction, ...restQueries } = router?.query;
-    router?.push({
-      pathname: router?.pathname,
-      query: {
-        ...restQueries,
-      },
-    });
+    router?.push(
+      makePath({
+        path: router?.pathname,
+        skipQueries: ['ticketAction'],
+      }),
+    );
     reset?.();
     setIsDrawerOpen?.(false);
   };
+  const apiQueryOrganizations = useLazyGetOrganizationsQuery();
+  const ticketsFilterFormFieldsData = ticketsFilterFormFieldsDataFunction(
+    apiQueryOrganizations,
+    apiQueryOrganizations,
+    apiQueryOrganizations,
+    apiQueryOrganizations,
+  );
 
   return {
     ticketsFilterFormFieldsData,

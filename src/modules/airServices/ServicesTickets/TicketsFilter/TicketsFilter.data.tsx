@@ -1,6 +1,7 @@
 import {
+  RHFAutocomplete,
+  RHFAutocompleteAsync,
   RHFDatePicker,
-  RHFSearchableSelect,
   RHFSelect,
   RHFTimePicker,
 } from '@/components/ReactHookForm';
@@ -70,17 +71,21 @@ const ticketsTypeOptions = [
   },
 ];
 
-export const ticketsFilterFormFieldsDataFunction = (isFieldDisable = false) => [
+export const ticketsFilterFormFieldsDataFunction = (
+  apiQueryRequester?: any,
+  apiQueryDepartment?: any,
+  apiQueryCategory?: any,
+  apiQueryAgent?: any,
+) => [
   {
     id: 2,
-    component: RHFSearchableSelect,
+    component: RHFAutocomplete,
     gridLength: 12,
     componentProps: {
       fullWidth: true,
       name: 'ticketType',
       label: 'Ticket Type',
       options: ticketsTypeOptions,
-      disabled: isFieldDisable,
     },
   },
   {
@@ -91,7 +96,6 @@ export const ticketsFilterFormFieldsDataFunction = (isFieldDisable = false) => [
       label: 'Created On',
       select: true,
       options: dropdownDummy,
-      disabled: isFieldDisable,
     },
     gridLength: 12,
     component: RHFSelect,
@@ -104,34 +108,31 @@ export const ticketsFilterFormFieldsDataFunction = (isFieldDisable = false) => [
       label: 'Status',
       select: true,
       options: ticketStatusOptions,
-      disabled: isFieldDisable,
     },
     gridLength: 12,
     component: RHFSelect,
   },
   {
     id: 200,
-    component: RHFSearchableSelect,
+    component: RHFAutocompleteAsync,
     gridLength: 12,
     componentProps: {
       fullWidth: true,
       name: 'agents',
       label: 'Agents',
-      options: dropdownDummy,
-      disabled: isFieldDisable,
+      apiQuery: apiQueryAgent,
     },
   },
   {
     id: 129,
     componentProps: {
-      fullWidth: true,
       name: 'requester',
       label: 'Requester',
-      options: dropdownDummy,
-      disabled: isFieldDisable,
+      fullWidth: true,
+      apiQuery: apiQueryRequester,
     },
+    component: RHFAutocompleteAsync,
     gridLength: 12,
-    component: RHFSearchableSelect,
   },
   {
     id: 129,
@@ -139,11 +140,10 @@ export const ticketsFilterFormFieldsDataFunction = (isFieldDisable = false) => [
       fullWidth: true,
       name: 'department',
       label: 'Department',
-      options: dropdownDummy,
-      disabled: isFieldDisable,
+      apiQuery: apiQueryDepartment,
     },
     gridLength: 12,
-    component: RHFSearchableSelect,
+    component: RHFAutocompleteAsync,
   },
   {
     id: 100,
@@ -153,7 +153,6 @@ export const ticketsFilterFormFieldsDataFunction = (isFieldDisable = false) => [
       label: 'Priority',
       select: true,
       options: ticketPriorityOptions,
-      disabled: isFieldDisable,
     },
     gridLength: 12,
     component: RHFSelect,
@@ -168,7 +167,6 @@ export const ticketsFilterFormFieldsDataFunction = (isFieldDisable = false) => [
       label: 'Impact',
       select: true,
       options: ticketImpactOptions,
-      disabled: isFieldDisable,
     },
   },
   {
@@ -178,10 +176,10 @@ export const ticketsFilterFormFieldsDataFunction = (isFieldDisable = false) => [
       name: 'category',
       label: 'Category',
       options: dropdownDummy,
-      disabled: isFieldDisable,
+      apiQuery: apiQueryCategory,
     },
     gridLength: 12,
-    component: RHFSearchableSelect,
+    component: RHFAutocompleteAsync,
   },
   {
     id: 97,
@@ -250,7 +248,6 @@ export const ticketsFilterFormFieldsDataFunction = (isFieldDisable = false) => [
       label: 'Type Source',
       select: true,
       options: ticketSourceOptions,
-      disabled: isFieldDisable,
     },
     gridLength: 12,
     component: RHFSelect,

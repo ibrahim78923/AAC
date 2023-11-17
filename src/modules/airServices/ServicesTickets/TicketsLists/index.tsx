@@ -3,7 +3,7 @@ import { TicketsTableView } from './TicketsTableView';
 import { TableBoardView } from './TicketsBoardView';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { TicketsListSubHeader } from './TicketsListSubHeader';
-import { TicketsDelete } from '../TicketsDelete';
+import { EXPORT_TYPE } from '@/constants/strings';
 
 export const TicketsLists = () => {
   const {
@@ -13,8 +13,6 @@ export const TicketsLists = () => {
     TICKETS_ACTION_CONSTANTS,
     drawerComponent,
     ticketsActionDropdown,
-    deleteModalOpen,
-    setDeleteModalOpen,
     lazyGetTicketsStatus,
     ticketsListsColumnPersist,
     search,
@@ -24,6 +22,8 @@ export const TicketsLists = () => {
     columnNames,
     selectedTicketList,
     setPageLimit,
+    isModalOpen,
+    setColumnNames,
   } = useTicketsLists();
 
   return (
@@ -32,8 +32,8 @@ export const TicketsLists = () => {
         title={'Ticket List - All Tickets'}
         addTitle={'Create Ticket'}
         hasExport
-        handleExcelExport={() => getTicketsListDataExport?.('XLS')}
-        handleCsvExport={() => getTicketsListDataExport?.('CSV')}
+        handleExcelExport={() => getTicketsListDataExport?.(EXPORT_TYPE?.XLS)}
+        handleCsvExport={() => getTicketsListDataExport?.(EXPORT_TYPE?.CSV)}
         handleAction={() =>
           openDrawer?.(TICKETS_ACTION_CONSTANTS?.CREATE_NEW_TICKET)
         }
@@ -50,6 +50,7 @@ export const TicketsLists = () => {
         onCustomizeClick={() =>
           openDrawer?.(TICKETS_ACTION_CONSTANTS?.CUSTOMIZE_COLUMN)
         }
+        setColumnNames={setColumnNames}
       />
       <br />
       {router?.query?.viewType === 'board' ? (
@@ -74,11 +75,7 @@ export const TicketsLists = () => {
           isSuccess={lazyGetTicketsStatus?.isSuccess}
         />
       )}
-      <TicketsDelete
-        deleteModalOpen={deleteModalOpen}
-        setDeleteModalOpen={setDeleteModalOpen}
-        selectedTicketList={selectedTicketList}
-      />
+      {isModalOpen && drawerComponent?.[router?.query?.ticketAction as string]}
       {isDrawerOpen && drawerComponent?.[router?.query?.ticketAction as string]}
     </>
   );

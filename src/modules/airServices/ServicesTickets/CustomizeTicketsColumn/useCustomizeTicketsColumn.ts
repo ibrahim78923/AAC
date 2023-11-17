@@ -1,3 +1,4 @@
+import usePath from '@/hooks/usePath';
 import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
@@ -12,7 +13,7 @@ export const useCustomizeTicketColumn = (props: any) => {
 
   const theme = useTheme();
   const router = useRouter();
-
+  const { makePath } = usePath();
   const [customizeColumn, setCustomizeColumn]: any = useState<any>(columnNames);
   const checkboxHandler = (e: any, col: any) => {
     e?.target?.checked
@@ -21,29 +22,19 @@ export const useCustomizeTicketColumn = (props: any) => {
           customizeColumn?.filter((item: any) => item !== col?.id),
         );
   };
+
   const submit = () => {
     setColumnNames(customizeColumn);
-    //TODO: destructing as i do not need that in rest queries.
-    /* eslint-disable @typescript-eslint/no-unused-vars */
-    const { ticketAction, ...restQueries } = router?.query;
-    router?.push({
-      pathname: router?.pathname,
-      query: {
-        ...restQueries,
-      },
-    });
-    setIsDrawerOpen(false);
+    onClose?.();
   };
+
   const onClose = () => {
-    //TODO: destructing as i do not need that in rest queries.
-    /* eslint-disable @typescript-eslint/no-unused-vars */
-    const { ticketAction, ...restQueries } = router?.query;
-    router?.push({
-      pathname: router?.pathname,
-      query: {
-        ...restQueries,
-      },
-    });
+    router?.push(
+      makePath({
+        path: router?.pathname,
+        skipQueries: ['ticketAction'],
+      }),
+    );
     setIsDrawerOpen?.(false);
   };
 

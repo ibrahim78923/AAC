@@ -1,5 +1,5 @@
 import { AlertModalCloseIcon } from '@/assets/icons';
-import { FormProvider, RHFSearchableSelect } from '@/components/ReactHookForm';
+import { FormProvider, RHFAutocompleteAsync } from '@/components/ReactHookForm';
 import { LoadingButton } from '@mui/lab';
 import {
   Box,
@@ -9,23 +9,29 @@ import {
   DialogTitle,
   Typography,
 } from '@mui/material';
-import { useForm } from 'react-hook-form';
+import { useAssignedTickets } from './useAssignedTickets';
 
 export const AssignedTickets = (props: any) => {
-  const method = useForm({
-    defaultValues: {
-      user: '',
-    },
-  });
-  const { isAssignedModalOpen, handleClose } = props;
+  const { isAssignedModalOpen } = props;
+  const {
+    assignedTicketsMethod,
+    handleSubmit,
+    submitAssignedTicketsForm,
+    closeTicketsAssignedModal,
+    apiQueryOrganizations,
+  } = useAssignedTickets(props);
+
   return (
     <Dialog
       open={isAssignedModalOpen}
-      onClose={() => handleClose?.()}
+      onClose={() => closeTicketsAssignedModal?.()}
       fullWidth
       maxWidth={'sm'}
     >
-      <FormProvider methods={method}>
+      <FormProvider
+        methods={assignedTicketsMethod}
+        onSubmit={handleSubmit(submitAssignedTicketsForm)}
+      >
         <DialogTitle>
           <Box
             display={'flex'}
@@ -44,22 +50,22 @@ export const AssignedTickets = (props: any) => {
                 Assigned To
               </Typography>
             </Box>
-            <Box sx={{ cursor: 'pointer' }} onClick={() => handleClose?.()}>
+            <Box
+              sx={{ cursor: 'pointer' }}
+              onClick={() => closeTicketsAssignedModal?.()}
+            >
               <AlertModalCloseIcon />
             </Box>
           </Box>
         </DialogTitle>
         <DialogContent>
           <br />
-          <RHFSearchableSelect
+          <RHFAutocompleteAsync
             label="select User"
             name="user"
-            // label="Select Deal*"
             fullWidth
-            options={[
-              { value: 'deal1', label: 'Deal Name 1' },
-              { value: 'deal2', label: 'Deal Name 2' },
-            ]}
+            apiQuery={apiQueryOrganizations}
+            size="small"
           />
         </DialogContent>
         <DialogActions
@@ -68,14 +74,11 @@ export const AssignedTickets = (props: any) => {
           <LoadingButton
             variant="outlined"
             color="secondary"
-            //   onClick={() => handleCancelBtn?.()}
+            onClick={() => closeTicketsAssignedModal?.()}
           >
             Cancel
           </LoadingButton>
-          <LoadingButton
-            variant="contained"
-            // onClick={() => handleSubmitBtn?.()}
-          >
+          <LoadingButton variant="contained" type="submit">
             Assign
           </LoadingButton>
         </DialogActions>
