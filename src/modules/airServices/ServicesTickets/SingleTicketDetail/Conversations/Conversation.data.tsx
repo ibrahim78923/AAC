@@ -5,15 +5,19 @@ export const conversationModalsValidation: any = Yup?.object().shape({
   note: Yup?.string()?.required('Field is Required'),
   title: Yup?.string()?.required('Field is Required'),
   description: Yup?.string()?.trim()?.required('Field is Required'),
+  from: Yup?.string()?.required('Field is Required'),
+  reply: Yup?.string()?.required('Field is Required'),
 });
 
 export const conversationModalsDefaultValues: any = {
   note: '',
   title: '',
   description: '',
+  from: '',
+  reply: '',
 };
 
-export const conversationModalsArray = [
+export const conversationNoteArray = [
   {
     componentProps: {
       name: 'note',
@@ -36,6 +40,102 @@ export const conversationModalsArray = [
     componentProps: {
       name: 'title',
       label: 'Notify to',
+      fullWidth: true,
+    },
+    component: RHFTextField,
+    md: 12,
+  },
+  {
+    componentProps: {
+      name: 'description',
+      label: 'Description',
+      fullWidth: true,
+    },
+    component: ConversationEditor,
+    md: 12,
+    mb: 2,
+  },
+];
+export const conversationReplyArray = [
+  {
+    componentProps: {
+      name: 'note',
+      label: 'Reply',
+      fullWidth: true,
+      select: true,
+    },
+
+    options: [
+      { value: 'Note', label: 'Note' },
+      { value: 'Reply', label: 'Reply' },
+      { value: 'Forward', label: 'Forward' },
+    ],
+
+    component: RHFSelect,
+
+    md: 12,
+  },
+  {
+    componentProps: {
+      name: 'from',
+      label: 'From',
+      fullWidth: true,
+    },
+    component: RHFTextField,
+    md: 12,
+  },
+  {
+    componentProps: {
+      name: 'reply',
+      label: 'Reply to',
+      fullWidth: true,
+    },
+    component: RHFTextField,
+    md: 12,
+  },
+  {
+    componentProps: {
+      name: 'description',
+      label: 'Description',
+      fullWidth: true,
+    },
+    component: ConversationEditor,
+    md: 12,
+    mb: 2,
+  },
+];
+export const conversationForwardArray = [
+  {
+    componentProps: {
+      name: 'note',
+      label: 'Forward',
+      fullWidth: true,
+      select: true,
+    },
+
+    options: [
+      { value: 'Note', label: 'Note' },
+      { value: 'Reply', label: 'Reply' },
+      { value: 'Forward', label: 'Forward' },
+    ],
+
+    component: RHFSelect,
+
+    md: 12,
+  },
+  {
+    componentProps: {
+      name: 'from',
+      label: 'From',
+      fullWidth: true,
+    },
+    component: RHFTextField,
+    md: 12,
+  },
+  {
+    componentProps: {
+      name: 'reply',
+      label: 'From to',
       fullWidth: true,
     },
     component: RHFTextField,

@@ -2,8 +2,8 @@ import { FormProvider } from '@/components/ReactHookForm';
 import { Grid } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
 import CommonDrawer from '@/components/CommonDrawer';
-import { conversationForwardArray } from './ConversationForward.data';
 import ConversationArticleSelect from '../ConversationArticleSelect';
+import { conversationForwardArray } from '../Conversation.data';
 
 const ConversationForward = ({
   show,
