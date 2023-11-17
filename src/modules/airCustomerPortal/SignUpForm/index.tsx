@@ -4,7 +4,7 @@ import {
   SignUpFormValidationSchema,
   SignUpFormDefaultValues,
   SignUpFormFields,
-} from './NextSignUp.Data';
+} from './SignUpForm.Data';
 
 import { enqueueSnackbar } from 'notistack';
 import { useForm } from 'react-hook-form';
@@ -14,7 +14,8 @@ import { v4 as uuidv4 } from 'uuid';
 import { LoadingButton } from '@mui/lab';
 import { SignUpImage } from '@/assets/images';
 import Image from 'next/image';
-export const NextSignUpForm = () => {
+import { AIR_CUSTOMER_PORTAL } from '@/constants';
+export const SignUpForm = () => {
   const method = useForm({
     resolver: yupResolver(SignUpFormValidationSchema),
     defaultValues: SignUpFormDefaultValues,
@@ -31,7 +32,7 @@ export const NextSignUpForm = () => {
     <Grid container>
       <AirCustomerPortalHeader
         buttonText={'Sign In'}
-        link={'/air-customer-portal/log-in'}
+        link={AIR_CUSTOMER_PORTAL?.AIR_CUSTOMER_PORTAL_LOGIN}
       />
 
       <Grid item md={6}>

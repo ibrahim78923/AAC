@@ -6,7 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import {
   SignUpDefaultValues,
   SignUpFormFields,
-  signupValidationSchema,
+  SignUpValidationSchema,
 } from './SignUp.Data';
 import { FormProvider } from '@/components/ReactHookForm';
 import { v4 as uuidv4 } from 'uuid';
@@ -15,10 +15,11 @@ import { SignUpImage } from '@/assets/images';
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { AIR_CUSTOMER_PORTAL } from '@/constants';
 
 export const SignUp = () => {
   const method = useForm({
-    resolver: yupResolver(signupValidationSchema),
+    resolver: yupResolver(SignUpValidationSchema),
     defaultValues: SignUpDefaultValues,
   });
   const onSubmit = () => {};
@@ -28,7 +29,7 @@ export const SignUp = () => {
     <Grid container>
       <AirCustomerPortalHeader
         buttonText={'Sign In'}
-        link={'/air-customer-portal/log-in'}
+        link={AIR_CUSTOMER_PORTAL?.AIR_CUSTOMER_PORTAL_LOGIN}
       />
 
       <Grid item md={6}>
@@ -64,7 +65,9 @@ export const SignUp = () => {
               </Grid>
             ))}
             <LoadingButton variant="contained" fullWidth type="submit">
-              <Link href={'/air-customer-portal/next-screen-signup-form'}>
+              <Link
+                href={AIR_CUSTOMER_PORTAL?.AIR_CUSTOMER_PORTAL_SIGN_UP_FORM}
+              >
                 Next
               </Link>
             </LoadingButton>

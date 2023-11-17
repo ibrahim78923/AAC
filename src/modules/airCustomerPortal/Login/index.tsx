@@ -16,6 +16,7 @@ import { AirCustomerPortalHeader } from '../AirCustomerPortalHeader';
 import Link from 'next/link';
 import { v4 as uuidv4 } from 'uuid';
 import { LoadingButton } from '@mui/lab';
+import { AIR_CUSTOMER_PORTAL } from '@/constants';
 
 export const Login = () => {
   const method = useForm({
@@ -34,7 +35,7 @@ export const Login = () => {
     <Grid container>
       <AirCustomerPortalHeader
         buttonText="Sign Up"
-        link={'/air-customer-portal/sign-up'}
+        link={AIR_CUSTOMER_PORTAL?.AIR_CUSTOMER_PORTAL_SIGN_UP}
       />
       <Grid item md={6}>
         <Grid p={7}>
@@ -62,7 +63,7 @@ export const Login = () => {
               SignIn
             </LoadingButton>
           </FormProvider>
-          <Link href="/air-customer-portal/forget-password">
+          <Link href={AIR_CUSTOMER_PORTAL?.AIR_CUSTOMER_PORTAL_FORGET}>
             <Typography
               fontWeight={600}
               color="primary"
