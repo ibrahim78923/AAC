@@ -26,7 +26,6 @@ function Inventory() {
     deleteTicket,
   } = useInventory();
 
-  // const {}=useDeleteAssetInventoryMutation();
   return (
     <>
       <AlertModals
@@ -39,11 +38,6 @@ function Inventory() {
         }}
         handleSubmit={() => {
           () => deleteTicket?.();
-          // enqueueSnackbar('Delete successfully', {
-          //   variant: 'error',
-          //   autoHideDuration: 3000,
-          // });
-          // setOpenDeleteModal(false);
         }}
       />
       <PageTitledHeader

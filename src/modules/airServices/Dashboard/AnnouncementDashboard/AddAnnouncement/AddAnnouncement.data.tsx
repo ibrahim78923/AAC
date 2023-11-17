@@ -35,6 +35,13 @@ export const createAnnouncementDashboardDefaultValues: any = {
   addMember: 'Search agents and requesters', //10
 };
 
+const managedBy = [{ value: 'jamesHarry', label: 'James Harry' }];
+
+const visiBility = [
+  { value: 'select', label: 'Select' },
+  { value: 'allAgent', label: 'All agent' },
+  { value: 'everyone', label: 'Everyone' },
+];
 export const createAnnouncementDashboardDataArray = [
   {
     componentProps: {
@@ -92,7 +99,7 @@ export const createAnnouncementDashboardDataArray = [
       select: true,
       required: true,
     },
-    options: [{ value: 'jamesHarry', label: 'James Harry' }],
+    options: managedBy,
     component: RHFSelect,
     md: 12,
   },
@@ -104,11 +111,7 @@ export const createAnnouncementDashboardDataArray = [
       select: true,
       required: true,
     },
-    options: [
-      { value: 'select', label: 'Select' },
-      { value: 'allAgent', label: 'All agent' },
-      { value: 'everyone', label: 'Everyone' },
-    ],
+    options: visiBility,
     component: RHFSelect,
     md: 12,
   },

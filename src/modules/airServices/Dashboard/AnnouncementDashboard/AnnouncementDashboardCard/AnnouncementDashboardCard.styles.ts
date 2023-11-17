@@ -8,9 +8,7 @@ export const styles: any = {
     borderBottom: isborderbottom
       ? `0.063rem solid ${theme?.palette?.grey?.[700]}`
       : '',
-    flexShrink: 0,
     px: 2,
     height: 81,
-    borderRadius: 3,
   }),
 };

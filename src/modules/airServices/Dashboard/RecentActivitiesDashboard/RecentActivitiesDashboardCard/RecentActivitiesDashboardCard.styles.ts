@@ -15,20 +15,4 @@ export const styles: any = {
     fontWeight: 600,
     color: theme?.palette?.custom?.bright,
   }),
-
-  recentActivitiesText: (theme: any) => ({
-    fontWeight: 400,
-    color: theme?.palette?.grey?.[600],
-  }),
-
-  recentActivitiesTextPassword: (theme: any) => ({
-    fontSize: '0.75rem',
-    fontWeight: 500,
-    color: theme?.palette?.grey?.[800],
-  }),
-
-  recentActivitiesTextDateTimeDetail: (theme: any) => ({
-    fontSize: '0.625rem',
-    color: theme?.palette?.grey?.[600],
-  }),
 };

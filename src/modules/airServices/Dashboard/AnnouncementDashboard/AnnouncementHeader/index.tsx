@@ -4,7 +4,7 @@ import { useAddAnnouncement } from '../AddAnnouncement/useAddAnnouncement ';
 import AnnouncementDashboardDrawer from '../AddAnnouncement';
 
 export const AnnouncementHeader = () => {
-  const { setIsDrawerOpen, isDrawerOpen, handleIconButton } =
+  const { setIsDrawerOpen, isDrawerOpen, handleIconButton, theme } =
     useAddAnnouncement();
 
   return (
@@ -21,7 +21,9 @@ export const AnnouncementHeader = () => {
           <ViewDetailSharedIcon />
         </IconButton>
       </Box>
-      <Divider />
+      <Divider
+        sx={{ border: `0.063rem solid ${theme?.palette?.grey?.[700]}` }}
+      />
       <AnnouncementDashboardDrawer
         isDrawerOpen={isDrawerOpen}
         setIsDrawerOpen={setIsDrawerOpen}

@@ -12,8 +12,8 @@ export const RecentActivitiesDashboardCard = ({
   const theme = useTheme();
   return (
     <Grid container>
-      <Grid item xs={12} height={{ md: 88, xs: 115 }}>
-        <Box sx={styles?.boxMain(isborderbottom, theme)}>
+      <Grid item xs={12} height={{ md: 88, xs: 122 }}>
+        <Box sx={styles?.boxMain(isborderbottom, theme)} overflow={'scroll'}>
           <Box marginLeft={2}>
             <Avatar
               alt=""
@@ -22,10 +22,7 @@ export const RecentActivitiesDashboardCard = ({
             />
           </Box>
           <Box>
-            <Typography
-              sx={styles?.recentActivitiesText(theme)}
-              variant="body3"
-            >
+            <Typography color={'grey?.[600]'} variant="body3">
               <span style={styles?.recentActivitiesTextBoldWord(theme)}>
                 John Doe
               </span>
@@ -35,13 +32,12 @@ export const RecentActivitiesDashboardCard = ({
                 Mark Dyson
               </span>
             </Typography>
-            <Typography sx={styles?.recentActivitiesTextPassword(theme)}>
+            <br />
+            <Typography variant="body3" color={'grey?.[800]'}>
               {recentActivityTextPassword}
             </Typography>
-            <Typography
-              sx={styles?.recentActivitiesTextDateTimeDetail(theme)}
-              variant="body3"
-            >
+            <br />
+            <Typography color={'grey?.[600]'} variant="body3">
               {recentActivityTextDateTime}
             </Typography>
           </Box>

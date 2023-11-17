@@ -25,7 +25,7 @@ function RecentActivitiesDashboardDrawer({
             <Typography variant="h5">Today</Typography>
           </Box>
           {recentActivitiesDashboardCardData?.map((item, index) => (
-            <Box key={uuidv4()}>
+            <Box key={uuidv4()} marginTop={1}>
               <RecentActivitiesDashboardCard
                 icon={item?.icon}
                 recentActivityText={item?.recentActivityText}

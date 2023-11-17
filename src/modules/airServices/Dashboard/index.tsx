@@ -48,11 +48,8 @@ const Dashboard = () => {
           <Grid container spacing={2}>
             <Grid item xs={12} lg={8} sx={{ marginTop: 2 }}>
               <Box
-                sx={{
-                  borderRadius: '0.75rem',
-                  border: `0.063rem solid ${theme?.palette?.grey?.[700]}`,
-                  background: theme?.palette?.common?.white,
-                }}
+                borderRadius={3}
+                border={`1px solid ${theme?.palette?.grey?.[700]}`}
               >
                 <br />
                 <Box marginLeft={2}>
@@ -65,17 +62,14 @@ const Dashboard = () => {
             </Grid>
             <Grid item xs={12} lg={4} sx={{ marginTop: 2 }}>
               <Box
-                sx={{
-                  borderRadius: '0.75rem',
-                  border: `0.063rem solid ${theme?.palette?.grey?.[700]}`,
-                  background: theme?.palette?.common?.white,
-                }}
+                borderRadius={3}
+                border={`1px solid ${theme?.palette?.grey?.[700]}`}
               >
                 <br />
                 <Box marginLeft={2}>
                   <Typography variant="h5">Recent Activities</Typography>
                 </Box>
-                <Box marginTop={2}>
+                <Box marginTop={2} overflow={'scroll'} height={'36.5vh'}>
                   {recentActivitiesDashboardCardData?.map((item, index) => (
                     <Box key={uuidv4()}>
                       <RecentActivitiesDashboardCard
@@ -99,7 +93,7 @@ const Dashboard = () => {
                   isDrawerOpen={isDrawerOpen}
                   setIsDrawerOpen={setIsDrawerOpen}
                 />
-                <Box display={'flex'} justifyContent={'center'}>
+                <Box display={'flex'} justifyContent={'center'} marginTop={0.5}>
                   <Button variant="text" fullWidth onClick={handleIconButton}>
                     View All
                   </Button>
@@ -112,11 +106,8 @@ const Dashboard = () => {
           <Grid container spacing={2}>
             <Grid item xs={12} lg={4}>
               <Box
-                sx={{
-                  background: theme?.palette?.common?.white,
-                  borderRadius: '0.5rem',
-                  border: `0.063rem solid ${theme?.palette?.grey?.[700]}`,
-                }}
+                borderRadius={3}
+                border={`1px solid ${theme?.palette?.grey?.[700]}`}
               >
                 <br />
                 <Box sx={{ marginLeft: 2 }}>
@@ -146,17 +137,14 @@ const Dashboard = () => {
             </Grid>
             <Grid item xs={12} lg={4}>
               <Box
-                sx={{
-                  background: theme?.palette?.common?.white,
-                  borderRadius: '0.5rem',
-                  border: `0.063rem solid ${theme?.palette?.grey?.[700]}`,
-                }}
+                borderRadius={3}
+                border={`1px solid ${theme?.palette?.grey?.[700]}`}
               >
                 <br />
                 <Box>
                   <AnnouncementHeader />
                 </Box>
-                <Box>
+                <Box overflow={'scroll'} height={'25vh'}>
                   {announcementDashboardCardData?.map((item, index) => (
                     <Box key={uuidv4()}>
                       <AnnouncementDashboardCard
