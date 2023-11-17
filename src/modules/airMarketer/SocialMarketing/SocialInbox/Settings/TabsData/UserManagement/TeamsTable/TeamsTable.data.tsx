@@ -4,24 +4,24 @@ import * as Yup from 'yup';
 
 export const columnsTeams: any = [
   {
-    accessorFn: (row: any) => row.name,
+    accessorFn: (row: any) => row?.name,
     id: 'name',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
     header: 'Name',
     isSortable: true,
   },
   {
-    accessorFn: (row: any) => row.teamMember,
+    accessorFn: (row: any) => row?.teamMember,
     id: 'teamMember',
     isSortable: true,
     header: 'Team Member',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
 ];
 
-export const validationSchema = Yup.object().shape({
-  teamName: Yup.string().required('Field is Required'),
-  teamMember: Yup.string().trim().required('Field is Required'),
+export const validationSchema = Yup?.object()?.shape({
+  teamName: Yup?.string()?.required('Field is Required'),
+  teamMember: Yup?.string()?.trim()?.required('Field is Required'),
 });
 
 export const defaultValues = {

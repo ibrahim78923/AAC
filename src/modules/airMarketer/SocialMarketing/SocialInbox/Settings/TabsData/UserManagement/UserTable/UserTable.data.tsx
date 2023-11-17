@@ -4,17 +4,17 @@ import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
 
 import * as Yup from 'yup';
 
-export const validationSchema = Yup.object().shape({
-  accountName: Yup.string().required('Field is Required'),
-  phoneNumber: Yup.string().trim().required('Field is Required'),
-  postCode: Yup.string().trim().required('Field is Required'),
-  address: Yup.string(),
-  buildingName: Yup.string().required('Field is Required'),
-  unit: Yup.string().required('Field is Required'),
-  buildingNumber: Yup.string(),
-  streetName: Yup.string(),
-  city: Yup.string(),
-  country: Yup.string(),
+export const validationSchema = Yup?.object()?.shape({
+  accountName: Yup?.string()?.required('Field is Required'),
+  phoneNumber: Yup?.string()?.trim()?.required('Field is Required'),
+  postCode: Yup?.string()?.trim()?.required('Field is Required'),
+  address: Yup?.string(),
+  buildingName: Yup?.string()?.required('Field is Required'),
+  unit: Yup?.string()?.required('Field is Required'),
+  buildingNumber: Yup?.string(),
+  streetName: Yup?.string(),
+  city: Yup?.string(),
+  country: Yup?.string(),
 });
 
 export const defaultValues = {
@@ -198,28 +198,28 @@ export const dataArray = [
 
 export const columns: any = [
   {
-    accessorFn: (row: any) => row.Id,
+    accessorFn: (row: any) => row?.Id,
     id: 'Id',
-    cell: (info: any) => <Checkbox color="primary" name={info.getValue()} />,
+    cell: (info: any) => <Checkbox color="primary" name={info?.getValue()} />,
     header: <Checkbox color="primary" name="Id" />,
     isSortable: false,
   },
   {
-    accessorFn: (row: any) => row.name,
+    accessorFn: (row: any) => row?.name,
     id: 'name',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
     header: 'Name',
     isSortable: true,
   },
   {
-    accessorFn: (row: any) => row.email,
+    accessorFn: (row: any) => row?.email,
     id: 'email',
     isSortable: true,
     header: 'Email',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.team,
+    accessorFn: (row: any) => row?.team,
     id: 'team',
     isSortable: true,
     header: 'Team',
@@ -231,7 +231,7 @@ export const columns: any = [
         value="Alfa"
         // onChange={handleChange}
         label="Select"
-        name={info.getValue()}
+        name={info?.getValue()}
       >
         <MenuItem value="">
           <em>None</em>
@@ -243,7 +243,7 @@ export const columns: any = [
     ),
   },
   {
-    accessorFn: (row: any) => row.role,
+    accessorFn: (row: any) => row?.role,
     id: 'role',
     isSortable: true,
     header: 'Role',
@@ -255,7 +255,7 @@ export const columns: any = [
         value="Alfa"
         // onChange={handleChange}
         label="Select"
-        name={info.getValue()}
+        name={info?.getValue()}
       >
         <MenuItem value="">
           <em>None</em>
@@ -267,10 +267,10 @@ export const columns: any = [
     ),
   },
   {
-    accessorFn: (row: any) => row.status,
+    accessorFn: (row: any) => row?.status,
     id: 'status',
     isSortable: true,
     header: 'Status',
-    cell: (info: any) => <Switch color="primary" name={info.getValue()} />,
+    cell: (info: any) => <Switch color="primary" name={info?.getValue()} />,
   },
 ];

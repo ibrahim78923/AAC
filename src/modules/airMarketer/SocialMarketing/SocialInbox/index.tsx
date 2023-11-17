@@ -69,7 +69,7 @@ const SocialInbox = () => {
                 label="Select All"
               />
               <Button
-                sx={styles.filterButton}
+                sx={styles?.filterButton}
                 aria-controls={actionMenuOpen ? 'basic-menu' : undefined}
                 aria-haspopup="true"
                 aria-expanded={actionMenuOpen ? 'true' : undefined}

@@ -34,19 +34,19 @@ const Notification = () => {
         <Typography variant="h6" sx={{ marginY: '20px', fontWeight: '600' }}>
           Email Notification
         </Typography>
-        <Box sx={styles.BoxStyling(theme)}>
+        <Box sx={styles?.BoxStyling(theme)}>
           <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap' }}>
             <NotificationIcon />
             <Box sx={{ marginLeft: '15px' }}>
               <Typography
                 variant="h6"
-                sx={{ color: theme.palette.slateBlue.main }}
+                sx={{ color: theme?.palette?.slateBlue?.main }}
               >
                 Email
               </Typography>
               <Typography
                 variant="body2"
-                sx={{ color: theme.palette.custom.main }}
+                sx={{ color: theme?.palette?.custom?.main }}
               >
                 Email notification will be sent to your inbox.
               </Typography>

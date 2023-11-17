@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Box, Tabs, Tab, Typography, useMediaQuery } from '@mui/material';
 
@@ -31,7 +31,7 @@ function TabPanel(props: SalesSettingProps) {
   );
 }
 const SocialInboxSettings = () => {
-  const [value, setValue] = React.useState<any>(0);
+  const [value, setValue] = useState<any>(0);
   const isMobile = useMediaQuery('(max-width: 899px)');
   const tabsOrientation = isMobile ? 'horizontal' : 'vertical';
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
