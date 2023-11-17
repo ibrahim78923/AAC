@@ -13,16 +13,14 @@ export const useTicketsFilter = (props: any) => {
   const { setIsDrawerOpen } = props;
   const router = useRouter();
   const theme: any = useTheme();
-  const ticketsFilterFormFieldsData = ticketsFilterFormFieldsDataFunction(
-    router?.query?.action === 'view',
-  );
+  const ticketsFilterFormFieldsData = ticketsFilterFormFieldsDataFunction();
 
   const methods: any = useForm({
     resolver: yupResolver(ticketsFilterFormSchema),
     defaultValues: ticketsFilterDefaultFormValuesFunction(),
   });
   const { handleSubmit, reset } = methods;
-
+  //TODO: will use in BE integration
   //   useEffect(() => {
   //     reset(() => ticketsFilterDefaultFormValuesFunction(data?.data));
   //   }, [data, reset]);
@@ -40,11 +38,10 @@ export const useTicketsFilter = (props: any) => {
     setIsDrawerOpen?.(false);
   };
   const onClose = () => {
-    const {
-      // tableAction,
-      ...restQueries
-    } = router?.query;
-    router.push({
+    //TODO: destructing as i do not need that in rest queries.
+    /* eslint-disable @typescript-eslint/no-unused-vars */
+    const { tableAction, ...restQueries } = router?.query;
+    router?.push({
       pathname: router?.pathname,
       query: {
         ...restQueries,

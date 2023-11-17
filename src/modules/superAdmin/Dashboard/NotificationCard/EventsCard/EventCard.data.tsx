@@ -34,7 +34,16 @@ export const steps = [
     borderColor: '#FF4A4A',
   },
   {
-    label: 'Fee Update',
+    label: (
+      <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Typography variant="body2" sx={{ color: '#303E67', fontWeight: 600 }}>
+          Fee Update
+        </Typography>
+        <Typography variant="body2" sx={{ color: '#A4ABC5', fontWeight: 400 }}>
+          10 Min ago
+        </Typography>
+      </Box>
+    ),
     description: `Add new fees for services id 1239572`,
     icon: <MessadeIcon />,
     borderColor: '#0AADC7',

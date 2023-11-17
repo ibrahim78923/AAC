@@ -13,16 +13,17 @@ import {
   Checkbox,
 } from '@mui/material';
 
-import { postCardsData } from './PostCards.data';
+import SwitchableDatepicker from '@/components/SwitchableDatepicker';
+
 import PostBoxModalBox from './PostBoxModalBox';
 import usePostBox from './usePostBox';
 import ContactsActions from './PostBoxActions';
 import { customizeData } from './Customize/Cutomize.data';
+import { postCardsData } from './PostCards.data';
 
 import { SettingsIcon } from '@/assets/icons';
 
 import { v4 as uuidv4 } from 'uuid';
-import SwitchableDatepicker from '@/components/SwitchableDatepicker';
 
 const PostBox = () => {
   const {
@@ -93,7 +94,7 @@ const PostBox = () => {
         </Box>
       </Box>
       <Grid container spacing={2}>
-        {postCardsData?.map(({ category, data }) => (
+        {postCardsData?.map(({ category, data }: any) => (
           <Grid item lg={2} key={category}>
             <Box border="1px solid #E5E7EB" borderRadius="5px">
               <Box
@@ -120,7 +121,7 @@ const PostBox = () => {
                 </Typography>
               </Box>
               <Box sx={{ p: '10px', background: postBoxColor[category] }}>
-                {data?.map((item) => (
+                {data?.map((item: any) => (
                   <Card
                     sx={{
                       width: '100%',

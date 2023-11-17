@@ -7,7 +7,7 @@ import { CirclePlusIcon, ViewDetailVuesaxIcon } from '@/assets/icons';
 import { styles } from './DetailViewTimeEntries.style';
 import { DetailTicketDrawer } from './DetailTicketDrawer';
 
-export default function DetailViewTimeEntries() {
+const DetailViewTimeEntries = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   return (
     <>
@@ -85,4 +85,6 @@ export default function DetailViewTimeEntries() {
       </Grid>
     </>
   );
-}
+};
+
+export default DetailViewTimeEntries;

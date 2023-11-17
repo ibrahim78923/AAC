@@ -33,7 +33,7 @@ import { styles } from './Layout.style';
 import { v4 as uuidv4 } from 'uuid';
 
 const drawerWidth = 230;
-const role = 'SUPER_ADMIN';
+const role = 'AIR_SERVICES';
 
 const DashboardLayout = ({ children, window }: any) => {
   const theme = useTheme();
@@ -52,11 +52,13 @@ const DashboardLayout = ({ children, window }: any) => {
   const handleDrawerToggle = () => {
     setIsMobileOpen(!isMobileOpen);
   };
+
   const toggleDropDown = (linkKey: any) => {
     setDropDownOpen((prevState: any) => ({
       [linkKey]: !prevState[linkKey],
     }));
   };
+
   const isZeroPaddingRoutes = zeroPaddingRoutes.includes(pathname);
 
   const drawer = (
@@ -70,10 +72,10 @@ const DashboardLayout = ({ children, window }: any) => {
               sx={{
                 fontSize: '10px',
                 fontWeight: 800,
-                color: theme.palette.primary.main,
+                color: theme?.palette?.primary?.main,
               }}
             >
-              {role.replaceAll('_', ' ')}
+              {role?.replaceAll('_', ' ')}
             </Typography>
           </Box>
         </Box>
@@ -89,36 +91,36 @@ const DashboardLayout = ({ children, window }: any) => {
         <Box>
           <List>
             {!isNullOrEmpty(routes) &&
-              routes.map((link: any) => {
+              routes?.map((link: any) => {
                 const pathNameKey =
-                  link.key.split('/')[1] ?? link.key.split('/')[0];
+                  link?.key?.split('/')[1] ?? link?.key?.split('/')[0];
                 return (
                   <div key={uuidv4()}>
-                    {link.textNames ? (
+                    {link?.textNames ? (
                       <>
-                        {/* <PermissionsGuard permissions={link.permissions}> */}
+                        {/* <PermissionsGuard permissions={link?.permissions}> */}
 
                         <ListItem sx={{ padding: '6px 0px 6px 0px' }}>
                           <Link
-                            href={`/${link.key}`}
+                            href={`/${link?.key}`}
                             style={{
                               width: '100%',
                               padding: '0px',
                             }}
                           >
                             <ListItemButton
-                              sx={styles.mainNavLink(
+                              sx={styles?.mainNavLink(
                                 pathNameKey,
                                 routerPathName,
                                 theme,
                               )}
-                              onClick={() => toggleDropDown(link.key)}
+                              onClick={() => toggleDropDown(link?.key)}
                             >
                               <ListItemIcon
                                 sx={{ minWidth: 20, marginRight: '10px' }}
                               >
                                 <Image
-                                  src={link.icon}
+                                  src={link?.icon}
                                   alt="icons"
                                   style={{
                                     opacity:
@@ -151,18 +153,18 @@ const DashboardLayout = ({ children, window }: any) => {
                           unmountOnExit
                         >
                           <List component="div" disablePadding>
-                            {link.textNames.map((subItem: any) => (
-                              <Link href={`/${subItem.key}`} key={uuidv4()}>
+                            {link?.textNames?.map((subItem: any) => (
+                              <Link href={`/${subItem?.key}`} key={uuidv4()}>
                                 <ListItem sx={{ padding: '0px' }}>
                                   <ListItemButton
-                                    sx={styles.collapseMenu(
+                                    sx={styles?.collapseMenu(
                                       subItem,
                                       router,
                                       theme,
                                     )}
                                   >
-                                    <Box sx={styles.dropdownChildren(theme)}>
-                                      {subItem.label}
+                                    <Box sx={styles?.dropdownChildren(theme)}>
+                                      {subItem?.label}
                                     </Box>
                                   </ListItemButton>
                                 </ListItem>
@@ -172,14 +174,14 @@ const DashboardLayout = ({ children, window }: any) => {
                         </Collapse>
                       </>
                     ) : (
-                      // <PermissionsGuard permissions={link.permissions}>
-                      <Link key={uuidv4()} href={`/${link.key}`}>
+                      // <PermissionsGuard permissions={link?.permissions}>
+                      <Link key={uuidv4()} href={`/${link?.key}`}>
                         <ListItem
                           sx={{ padding: '6px 0px 6px 0px' }}
                           onClick={() => setDropDownOpen({})}
                         >
                           <ListItemButton
-                            sx={styles.mainNavLink(
+                            sx={styles?.mainNavLink(
                               pathNameKey,
                               routerPathName,
                               theme,
@@ -189,8 +191,8 @@ const DashboardLayout = ({ children, window }: any) => {
                               sx={{ minWidth: 20, marginRight: '10px' }}
                             >
                               <Image
-                                src={link.icon}
-                                alt={link.icon}
+                                src={link?.icon}
+                                alt={link?.icon}
                                 style={{
                                   opacity:
                                     routerPathName === pathNameKey
@@ -199,7 +201,7 @@ const DashboardLayout = ({ children, window }: any) => {
                                 }}
                               />
                             </ListItemIcon>
-                            {link.label}
+                            {link?.label}
                           </ListItemButton>
                         </ListItem>
                       </Link>
@@ -214,34 +216,34 @@ const DashboardLayout = ({ children, window }: any) => {
         <Box sx={{ paddingBottom: '20px' }}>
           <List>
             {!isNullOrEmpty(lowerRoutes) &&
-              lowerRoutes.map((link: any) => {
+              lowerRoutes?.map((link: any) => {
                 const lowerPathNameKey =
-                  link.key.split('/').splice(2)[0] ??
-                  link.key.split('/').splice(1)[0] ??
-                  link.key.split('/').splice(0)[0];
+                  link?.key?.split('/')?.splice(2)[0] ??
+                  link?.key?.split('/')?.splice(1)[0] ??
+                  link?.key?.split('/')?.splice(0)[0];
 
                 return (
                   <div key={uuidv4()}>
-                    {link.textNames ? (
+                    {link?.textNames ? (
                       <>
                         <ListItem sx={{ padding: '6px 0px 6px 0px' }}>
                           <ListItemButton
-                            sx={styles.LowerNavLink(
+                            sx={styles?.LowerNavLink(
                               lowerPathNameKey,
                               routerPathName,
-                              dropDownOpen[link.key],
+                              dropDownOpen[link?.key],
                               theme,
                             )}
-                            onClick={() => toggleDropDown(link.key)}
+                            onClick={() => toggleDropDown(link?.key)}
                           >
                             <ListItemIcon sx={{ minWidth: 20 }}>
                               <Image
-                                src={link.icon}
+                                src={link?.icon}
                                 alt="icons"
                                 style={{
                                   opacity:
                                     routerPathName === lowerPathNameKey ||
-                                    dropDownOpen[link.key]
+                                    dropDownOpen[link?.key]
                                       ? '1'
                                       : '0.4',
                                 }}
@@ -264,25 +266,25 @@ const DashboardLayout = ({ children, window }: any) => {
                         </ListItem>
                         <Collapse
                           in={
-                            dropDownOpen[link.key] ||
+                            dropDownOpen[link?.key] ||
                             routerPathName === lowerPathNameKey
                           }
                           timeout="auto"
                           unmountOnExit
                         >
                           <List component="div" disablePadding>
-                            {link.textNames.map((subItem: any) => (
-                              <Link href={`/${subItem.key}`} key={uuidv4()}>
+                            {link?.textNames?.map((subItem: any) => (
+                              <Link href={`/${subItem?.key}`} key={uuidv4()}>
                                 <ListItem sx={{ padding: '0px' }}>
                                   <ListItemButton
-                                    sx={styles.collapseMenu(
+                                    sx={styles?.collapseMenu(
                                       subItem,
                                       router,
                                       theme,
                                     )}
                                   >
-                                    <Box sx={styles.dropdownChildren(theme)}>
-                                      {subItem.label}
+                                    <Box sx={styles?.dropdownChildren(theme)}>
+                                      {subItem?.label}
                                     </Box>
                                   </ListItemButton>
                                 </ListItem>
@@ -292,25 +294,25 @@ const DashboardLayout = ({ children, window }: any) => {
                         </Collapse>
                       </>
                     ) : (
-                      <Link key={uuidv4()} href={`${link.key}`}>
+                      <Link key={uuidv4()} href={`${link?.key}`}>
                         <ListItem sx={{ padding: '6px 0px 6px 0px' }}>
                           <ListItemButton
-                            sx={styles.mainNavLink(link, router, theme)}
+                            sx={styles?.mainNavLink(link, router, theme)}
                           >
                             <ListItemIcon sx={{ minWidth: 20 }}>
                               <Image
-                                src={link.icon}
-                                alt={link.icon}
+                                src={link?.icon}
+                                alt={link?.icon}
                                 style={{
-                                  opacity: router.pathname.includes(
-                                    `${link.key}`,
+                                  opacity: router?.pathname?.includes(
+                                    `${link?.key}`,
                                   )
                                     ? '1'
                                     : '0.4',
                                 }}
                               />
                             </ListItemIcon>
-                            {link.label}
+                            {link?.label}
                           </ListItemButton>
                         </ListItem>
                       </Link>
@@ -325,12 +327,12 @@ const DashboardLayout = ({ children, window }: any) => {
   );
 
   const container =
-    window !== undefined ? () => window().document.body : undefined;
+    window !== undefined ? () => window()?.document?.body : undefined;
 
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar sx={styles.appToolbar(drawerWidth, theme)}>
+      <AppBar sx={styles?.appToolbar(drawerWidth, theme)}>
         <Header handleDrawerToggle={handleDrawerToggle} />
       </AppBar>
       <Box
@@ -346,17 +348,17 @@ const DashboardLayout = ({ children, window }: any) => {
           ModalProps={{
             keepMounted: true,
           }}
-          sx={styles.mobileDrawer(drawerWidth)}
+          sx={styles?.mobileDrawer(drawerWidth)}
         >
           {drawer}
         </Drawer>
-        <Drawer variant="permanent" sx={styles.mainDrawer(drawerWidth)} open>
+        <Drawer variant="permanent" sx={styles?.mainDrawer(drawerWidth)} open>
           {drawer}
         </Drawer>
       </Box>
-      <Box component="main" sx={styles.layoutBox(drawerWidth)}>
+      <Box component="main" sx={styles?.layoutBox(drawerWidth)}>
         <Toolbar />
-        <Box sx={styles.layoutInnerBox(theme, isZeroPaddingRoutes)}>
+        <Box sx={styles?.layoutInnerBox(theme, isZeroPaddingRoutes)}>
           {children}
         </Box>
       </Box>

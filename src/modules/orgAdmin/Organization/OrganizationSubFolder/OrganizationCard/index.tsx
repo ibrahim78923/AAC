@@ -1,24 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import Image from 'next/image';
 
-import {
-  Grid,
-  Box,
-  Typography,
-  Checkbox,
-  Theme,
-  useTheme,
-} from '@mui/material';
+import { Grid, Box, Typography } from '@mui/material';
 
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
 
-import {
-  dataArray,
-  defaultValues,
-  validationSchema,
-} from './OrganizationCard.data';
+import { dataArray } from './OrganizationCard.data';
 
 import { productItem } from '@/mock/modules/orgAdmin/OrganizationAdmin';
 
@@ -27,7 +16,6 @@ import {
   PhoneImage,
   UserImage,
   EditImage,
-  FeaturedImage,
   ComLogoImage,
   OrcaloLogoImage,
 } from '@/assets/images';
@@ -35,22 +23,19 @@ import { AddPenIcon } from '@/assets/icons';
 
 import { styles } from './OrganizationCard.style';
 
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { v4 as uuidv4 } from 'uuid';
+import useOrganizationCard from './useOrganizationCard';
 
-const OrganizationCard = ({ initialValueProps = defaultValues }: any) => {
-  const [isOpenDrawer, setIsOpenDrawer] = useState(false);
-  const theme = useTheme<Theme>();
-
-  const methods: any = useForm({
-    resolver: yupResolver(validationSchema),
-    defaultValues: initialValueProps,
-  });
-
-  const { handleSubmit } = methods;
-
-  const onSubmit = async () => {};
+const OrganizationCard = () => {
+  const {
+    theme,
+    isOpenDrawer,
+    setIsOpenDrawer,
+    handleSubmit,
+    onSubmit,
+    methods,
+    data,
+  } = useOrganizationCard();
 
   return (
     <>
@@ -60,7 +45,7 @@ const OrganizationCard = ({ initialValueProps = defaultValues }: any) => {
           setIsOpenDrawer(false);
         }}
         title="Edit Info"
-        okText="ok"
+        okText="Update"
         isOk={true}
         footer={true}
         submitHandler={handleSubmit(onSubmit)}
@@ -89,66 +74,11 @@ const OrganizationCard = ({ initialValueProps = defaultValues }: any) => {
               </Box>
             </Box>
           </center>
-          <Typography variant="h5">Products</Typography>
           <FormProvider methods={methods}>
-            <Box
-              sx={{
-                display: 'flex',
-                columnGap: '1rem',
-                alignItems: 'center',
-                overflowY: 'scroll',
-                marginBottom: '1rem',
-              }}
-            >
-              <Box sx={styles.productCard}>
-                <Checkbox
-                  sx={{
-                    marginLeft: '7rem',
-                  }}
-                />
-                <Box sx={styles.productItem}>
-                  <Image src={FeaturedImage} alt="1" />
-                  <Typography>Sales</Typography>
-                </Box>
-              </Box>
-              <Box sx={styles.productCard}>
-                <Checkbox
-                  sx={{
-                    marginLeft: '7rem',
-                  }}
-                />
-                <Box sx={styles.productItem}>
-                  <Image src={FeaturedImage} alt="1" />
-                  <Typography>Marketing</Typography>
-                </Box>
-              </Box>
-              <Box sx={styles.productCard}>
-                <Checkbox
-                  sx={{
-                    marginLeft: '7rem',
-                  }}
-                />
-                <Box sx={styles.productItem}>
-                  <Image src={FeaturedImage} alt="1" />
-                  <Typography>Service</Typography>
-                </Box>
-              </Box>
-              <Box sx={styles.productCard}>
-                <Checkbox
-                  sx={{
-                    marginLeft: '7rem',
-                  }}
-                />
-                <Box sx={styles.productItem}>
-                  <Image src={FeaturedImage} alt="1" />
-                  <Typography>Operation</Typography>
-                </Box>
-              </Box>
-            </Box>
-            <Grid container spacing={4}>
+            <Grid container spacing={4} sx={{ paddingTop: '1rem' }}>
               {dataArray?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                  <item.component {...item.componentProps} size={'small'}>
+                  <item.component {...item?.componentProps} size={'small'}>
                     {item?.componentProps?.select &&
                       item?.options?.map((option: any) => (
                         <option key={uuidv4()} value={uuidv4()}>
@@ -201,10 +131,10 @@ const OrganizationCard = ({ initialValueProps = defaultValues }: any) => {
                       sx={{
                         fontWeight: 500,
                         lineHeight: '30px',
-                        color: `${theme?.palette?.custom.main}`,
+                        color: `${theme?.palette?.custom?.main}`,
                       }}
                     >
-                      Orcalo Holdings
+                      {data?.data?.name}
                     </Typography>
                     <Box
                       sx={{
@@ -220,7 +150,7 @@ const OrganizationCard = ({ initialValueProps = defaultValues }: any) => {
                         sx={{
                           fontWeight: 500,
                           lineHeight: '18px',
-                          color: `${theme?.palette?.custom.main}`,
+                          color: `${theme?.palette?.custom?.main}`,
                         }}
                       >
                         John Doe
@@ -240,10 +170,10 @@ const OrganizationCard = ({ initialValueProps = defaultValues }: any) => {
                         sx={{
                           fontWeight: 500,
                           lineHeight: '18px',
-                          color: `${theme?.palette?.custom.main}`,
+                          color: `${theme?.palette?.custom?.main}`,
                         }}
                       >
-                        Johndoe@gmail.com
+                        {data?.data?.email}
                       </Typography>
                     </Box>
                     <Box
@@ -260,10 +190,10 @@ const OrganizationCard = ({ initialValueProps = defaultValues }: any) => {
                         sx={{
                           fontWeight: 500,
                           lineHeight: '18px',
-                          color: `${theme?.palette?.custom.main}`,
+                          color: `${theme?.palette?.custom?.main}`,
                         }}
                       >
-                        (316) 555-0116
+                        {data?.data?.phoneNo}
                       </Typography>
                     </Box>
                   </Box>
@@ -273,7 +203,7 @@ const OrganizationCard = ({ initialValueProps = defaultValues }: any) => {
                     onClick={() => {
                       setIsOpenDrawer(true);
                     }}
-                    sx={styles.editSection}
+                    sx={styles?.editSection}
                   >
                     <Image src={EditImage} alt="edit" />
                     <Typography
@@ -281,7 +211,7 @@ const OrganizationCard = ({ initialValueProps = defaultValues }: any) => {
                       sx={{
                         fontWeight: 500,
                         lineHeight: '18px',
-                        color: `${theme?.palette?.primary.main}`,
+                        color: `${theme?.palette?.primary?.main}`,
                       }}
                     >
                       Edit Info
@@ -301,14 +231,14 @@ const OrganizationCard = ({ initialValueProps = defaultValues }: any) => {
             >
               <Grid container>
                 <Grid item lg={6} md={6} sm={12} xs={12}>
-                  <Typography sx={styles.productTitle(theme)}>
+                  <Typography sx={styles?.productTitle(theme)}>
                     Products&nbsp;
                     <span
                       style={{
                         fontWeight: 400,
                         fontSize: '16px',
                         lineHeight: '24px',
-                        color: `${theme?.palette?.custom.main}`,
+                        color: `${theme?.palette?.custom?.main}`,
                       }}
                     >
                       (4)
@@ -316,8 +246,8 @@ const OrganizationCard = ({ initialValueProps = defaultValues }: any) => {
                   </Typography>
                 </Grid>
                 <Grid item lg={6} md={6} sm={12} xs={12}>
-                  <Box sx={styles.statusSection}>
-                    <Box sx={styles.Active(theme)}>
+                  <Box sx={styles?.statusSection}>
+                    <Box sx={styles?.Active(theme)}>
                       Active&nbsp; (
                       <Typography
                         variant="body3"
@@ -330,7 +260,7 @@ const OrganizationCard = ({ initialValueProps = defaultValues }: any) => {
                       </Typography>
                       )
                     </Box>
-                    <Box sx={styles.inActive(theme)}>
+                    <Box sx={styles?.inActive(theme)}>
                       Inactive&nbsp; (
                       <Typography
                         variant="body3"
@@ -347,12 +277,12 @@ const OrganizationCard = ({ initialValueProps = defaultValues }: any) => {
                 </Grid>
               </Grid>
               <Grid container sx={{ paddingTop: '10px' }}>
-                {productItem.map((item) => {
+                {productItem?.map((item) => {
                   return (
                     <>
                       <Grid item lg={4} md={4} sm={6} xs={12} key={uuidv4()}>
                         <Box sx={{ display: 'grid', justifyItems: 'center' }}>
-                          <Image src={item.img} alt="no image" />
+                          <Image src={item?.img} alt="no image" />
                           <Typography
                             variant="body2"
                             sx={{
@@ -362,7 +292,7 @@ const OrganizationCard = ({ initialValueProps = defaultValues }: any) => {
                               paddingTop: '10px',
                             }}
                           >
-                            {item.name}
+                            {item?.name}
                           </Typography>
                         </Box>
                       </Grid>

@@ -8,6 +8,7 @@ import useCreateForm from './useCreateForm';
 import {
   dataArrayCreateForm,
   defaultValues,
+  optionViews,
   validationSchema,
 } from './CreateForm.data';
 
@@ -79,7 +80,7 @@ const CreateForm = ({ isOpenDrawer, onClose }: any) => {
                     key={uuidv4()}
                     style={{ paddingTop: '10px' }}
                   >
-                    {item.componentProps.name === 'accessDashboard' ? (
+                    {item?.componentProps?.name === 'accessDashboard' ? (
                       <Box>
                         <item.component {...item?.componentProps} size="small">
                           {item?.componentProps?.select &&
@@ -92,7 +93,7 @@ const CreateForm = ({ isOpenDrawer, onClose }: any) => {
 
                         {watchFields[0] === 'Everyone' && (
                           <RHFRadioGroup
-                            options={['View and edit', 'View Only']}
+                            options={optionViews}
                             name="viewAndEdit"
                             label=""
                             row={false}

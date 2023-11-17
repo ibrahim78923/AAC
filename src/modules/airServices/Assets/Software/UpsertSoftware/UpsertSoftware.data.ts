@@ -14,14 +14,14 @@ const typeOptions = [
   { value: 'Mobile', label: 'Mobile' },
 ];
 
-export const upsertSoftwareFormValidationSchema = Yup.object().shape({
-  name: Yup.string().required('Field is Required'),
-  description: Yup.string(),
-  status: Yup.string(),
-  type: Yup.string().required('Field is Required'),
-  publisher: Yup.string(),
-  category: Yup.string(),
-  managedBy: Yup.string(),
+export const upsertSoftwareFormValidationSchema = Yup?.object()?.shape({
+  name: Yup?.string()?.required('Field is Required'),
+  description: Yup?.string(),
+  status: Yup?.string(),
+  type: Yup?.string()?.required('Field is Required'),
+  publisher: Yup?.string(),
+  category: Yup?.string(),
+  managedBy: Yup?.string(),
 });
 
 export const upsertSoftwareFormDefaultValues = {

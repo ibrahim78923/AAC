@@ -1,5 +1,5 @@
 import { Box, Button, useTheme, Typography } from '@mui/material';
-import { PlusSharedIconColor, ImportIcon } from '@/assets/icons';
+import { PlusSharedColorIcon, ImportIcon } from '@/assets/icons';
 import { ExportButton } from '../ExportButton';
 
 export const PageTitledHeader = ({
@@ -47,7 +47,7 @@ export const PageTitledHeader = ({
 
           <Button
             variant="contained"
-            startIcon={<PlusSharedIconColor />}
+            startIcon={<PlusSharedColorIcon />}
             onClick={handleAction}
           >
             {addTitle}

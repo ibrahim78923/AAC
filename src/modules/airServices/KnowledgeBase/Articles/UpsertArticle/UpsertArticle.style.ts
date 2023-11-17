@@ -1,6 +1,4 @@
-import { useTheme } from '@mui/material/styles';
 export const styles = () => {
-  const { palette }: any = useTheme();
   return {
     flexBetween: {
       display: 'flex',
@@ -11,15 +9,18 @@ export const styles = () => {
     mainWrapper: {
       borderRadius: '12px',
     },
-    mainHeading: {
-      color: palette?.slateBlue?.main,
+    mainHeading: (theme: any) => {
+      return {
+        color: theme?.palette?.slateBlue?.main,
+      };
     },
-    formGridWrapper: {
-      borderLeft: `1px solid ${palette?.custom?.dark}`,
-      position: 'relative',
-      padding: 2.4,
+    formGridWrapper: (theme: any) => {
+      return {
+        borderLeft: `1px solid ${theme?.palette?.custom?.dark}`,
+        position: 'relative',
+        padding: 2.4,
+      };
     },
-
     formBtnWrapper: {
       width: '100%',
       display: 'flex',

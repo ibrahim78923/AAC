@@ -40,9 +40,12 @@ export const dataArrayCreateForm = [
       name: 'accessDashboard',
       fullWidth: true,
       options: [
-        'Private to owner(me)',
-        'Everyone',
-        'Only special user and teams',
+        { value: 'Private to owner(me)', label: 'Private to owner(me)' },
+        { value: 'Everyone', label: 'Everyone' },
+        {
+          value: 'Only special user and teams',
+          label: 'Only special user and teams',
+        },
       ],
       row: false,
     },
@@ -176,4 +179,11 @@ export const userAndTeams = [
   { label: 'Snatch', year: 2000 },
   { label: '3 Idiots', year: 2009 },
   { label: 'Monty Python and the Holy Grail', year: 1975 },
+];
+export const optionViews = [
+  {
+    value: 'View and edit',
+    label: 'View and edit',
+  },
+  { value: 'View Only', label: 'View Only' },
 ];

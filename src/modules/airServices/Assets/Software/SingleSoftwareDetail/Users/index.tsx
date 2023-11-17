@@ -20,7 +20,7 @@ export const Users = () => {
   const [actionModalOpen, setActionModalOpen] = useState(false);
   const [selectedActionTitle, setSelectedActionTitle] = useState(null);
 
-  const userActionClickHandler = (title: string) => {
+  const userActionClickHandler = (title: any) => {
     setSelectedActionTitle(title);
     setActionModalOpen(true);
   };
@@ -40,7 +40,7 @@ export const Users = () => {
       variant: 'success',
     });
   };
-  const actionClickHandler = (selectedActionTitle) => {
+  const actionClickHandler = (selectedActionTitle: any) => {
     switch (selectedActionTitle) {
       case 'Allocate':
         enqueueSnackbar('Contract Allocated Successfully', {

@@ -1,7 +1,7 @@
 import { Box, Divider, Grid, Typography, TextField } from '@mui/material';
-import { billingData } from '../../idfsdfsdtemsDetails.data';
 import { styles } from '../../ItemsDetails.style';
 import { v4 as uuidv4 } from 'uuid';
+import { billingData } from '../../ItemsDetails.data';
 
 const ItemBilling = () => {
   const { flexBetween, billingWrapper, billingLabel, billingValue } = styles();
@@ -15,8 +15,8 @@ const ItemBilling = () => {
     >
       {billingData?.map((item: any) => {
         const totalItem = [
-          billingData[0]?.label,
-          billingData[billingData?.length - 1]?.label,
+          billingData?.[0]?.label,
+          billingData?.[billingData?.length - 1]?.label,
         ];
         return (
           <Grid
@@ -54,7 +54,6 @@ const ItemBilling = () => {
                   key={item?.value}
                   name={item?.value}
                   value={item?.value}
-                  //   onChange={handleChange}
                   type={item?.value === 'description' ? 'text' : 'number'}
                   inputProps={{
                     style: {
