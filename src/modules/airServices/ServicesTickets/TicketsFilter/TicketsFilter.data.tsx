@@ -26,10 +26,6 @@ export const dropdownDummy = [
 
 const ticketsTypeOptions = [
   {
-    value: 'search',
-    label: 'Search',
-  },
-  {
     value: 'All Tickets',
     label: 'All Tickets',
   },
@@ -188,7 +184,7 @@ export const ticketsFilterFormFieldsDataFunction = (
       name: 'plannedStartDate',
       label: 'Planned Start Date',
     },
-    gridLength: 9,
+    gridLength: 7.5,
     component: RHFDatePicker,
   },
   {
@@ -197,7 +193,7 @@ export const ticketsFilterFormFieldsDataFunction = (
       name: 'plannedStartTime',
       label: '\u00a0\u00a0',
     },
-    gridLength: 3,
+    gridLength: 4.5,
     component: RHFTimePicker,
   },
   {
@@ -207,7 +203,7 @@ export const ticketsFilterFormFieldsDataFunction = (
       name: 'plannedEndDate',
       label: 'Planned End Date',
     },
-    gridLength: 9,
+    gridLength: 7.5,
     component: RHFDatePicker,
   },
   {
@@ -217,7 +213,7 @@ export const ticketsFilterFormFieldsDataFunction = (
       label: '\u00a0\u00a0',
       fullWidth: true,
     },
-    gridLength: 3,
+    gridLength: 4.5,
     component: RHFTimePicker,
   },
   {
@@ -227,7 +223,7 @@ export const ticketsFilterFormFieldsDataFunction = (
       name: 'dueByDate',
       label: 'Due By',
     },
-    gridLength: 9,
+    gridLength: 7.5,
     component: RHFDatePicker,
   },
   {
@@ -237,7 +233,7 @@ export const ticketsFilterFormFieldsDataFunction = (
       name: 'dueByTime',
       label: '\u00a0\u00a0',
     },
-    gridLength: 3,
+    gridLength: 4.5,
     component: RHFTimePicker,
   },
   {
