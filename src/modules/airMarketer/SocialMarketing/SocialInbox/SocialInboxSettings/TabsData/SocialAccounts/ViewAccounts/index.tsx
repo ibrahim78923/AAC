@@ -1,11 +1,16 @@
-import { BackArrIcon } from '@/assets/icons';
+import React from 'react';
+
+import { Box, Grid, Typography } from '@mui/material';
+
 import Search from '@/components/Search';
 import TanstackTable from '@/components/Table/TanstackTable';
-import { Box, Grid, Typography } from '@mui/material';
-import React from 'react';
+
 import useViewAccounts from './useViewAccounts';
+
 import { columns } from './ViewAccounts.data';
 import { companiesData } from '@/mock/modules/airSales/Contacts/ContactViewDetails';
+
+import { BackArrIcon } from '@/assets/icons';
 
 const ViewAccount = ({ handleShowCard }: { handleShowCard: () => void }) => {
   const { searchTerm, setSearchTerm } = useViewAccounts();
@@ -25,7 +30,7 @@ const ViewAccount = ({ handleShowCard }: { handleShowCard: () => void }) => {
             <Box onClick={handleShowCard}>
               <BackArrIcon />
             </Box>
-            <Typography variant="h4">ViewAccount</Typography>
+            <Typography variant="h4">Facebook</Typography>
           </Box>
         </Grid>
         <Grid item xs={12}>
