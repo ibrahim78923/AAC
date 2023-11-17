@@ -11,6 +11,7 @@ import {
   ticketPriorityOptions,
   ticketSourceOptions,
   ticketStatusOptions,
+  ticketsTypeOptions,
 } from '../ServicesTickets.data';
 
 export const dropdownDummy = [
@@ -21,49 +22,6 @@ export const dropdownDummy = [
   {
     value: 'option2',
     label: 'Option 2',
-  },
-];
-
-const ticketsTypeOptions = [
-  {
-    value: 'All Tickets',
-    label: 'All Tickets',
-  },
-  {
-    value: 'Urgent and High Priority',
-    label: 'Urgent and High Priority',
-  },
-  {
-    value: 'My Open and Pending Tickets',
-    label: 'My Open and Pending Tickets',
-  },
-  {
-    value: 'Spam',
-    label: 'Spam',
-  },
-  {
-    value: 'New & My Open Tickets',
-    label: 'New & My Open Tickets',
-  },
-  {
-    value: 'All Unresolved Tickets',
-    label: 'All Unresolved Tickets',
-  },
-  {
-    value: 'Incidents',
-    label: 'Incidents',
-  },
-  {
-    value: 'Service Requests',
-    label: 'Service Requests',
-  },
-  {
-    value: 'Tickets I Requested',
-    label: 'Tickets I Requested',
-  },
-  {
-    value: 'Shared with me',
-    label: 'Shared with me',
   },
 ];
 
