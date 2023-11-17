@@ -39,6 +39,8 @@ const Faqs = () => {
     setIsDisabled,
     tableRowValues,
     setTableRowValues,
+    setRowId,
+    rowId,
     openFilters,
     handleOpenFilters,
     handleCloseFilters,
@@ -63,13 +65,13 @@ const Faqs = () => {
     openModalEditFaq,
     handleOpenModalEditFaq,
     handleCloseModalEditFaq,
-    methodsUpdateFaqs,
   } = useFaqs();
   const theme = useTheme();
   const getFaqsTableColumns = columns(
     setIsDisabled,
     tableRowValues,
     setTableRowValues,
+    setRowId,
   );
 
   return (
@@ -156,13 +158,13 @@ const Faqs = () => {
             >
               <MenuItem
                 disabled={tableRowValues.length !== 1}
-                onClick={() => handleOpenModalEditFaq('Edit FAQ')}
+                onClick={() => handleOpenModalEditFaq()}
               >
                 Edit
               </MenuItem>
               <MenuItem
                 disabled={tableRowValues.length !== 1}
-                onClick={() => handleOpenModalEditFaq('FAQ')}
+                onClick={() => handleOpenModalEditFaq()}
               >
                 View
               </MenuItem>
@@ -234,12 +236,9 @@ const Faqs = () => {
       />
 
       <EditFaq
-        title={'Edit'}
         isModalOpen={openModalEditFaq}
         onClose={handleCloseModalEditFaq}
-        formMethods={methodsUpdateFaqs}
-        handleSubmit={handleAddFaqSubmit}
-        isLoading={loadingAddFaq}
+        rowId={rowId}
       />
     </Box>
   );

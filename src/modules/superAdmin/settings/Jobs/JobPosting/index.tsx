@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Box, useTheme, Button, Grid, MenuItem, Menu } from '@mui/material';
 
 import CommonDrawer from '@/components/CommonDrawer';
@@ -9,7 +9,6 @@ import { FormProvider } from '@/components/ReactHookForm';
 import { AlertModals } from '@/components/AlertModals';
 
 import { columns, jobPostingFiltersFields } from './jobPosting.data';
-import useEditJobPost from './EditJobPost/useEditJobPost';
 import { DownIcon, FilterSharedIcon, RefreshSharedIcon } from '@/assets/icons';
 import { v4 as uuidv4 } from 'uuid';
 import useJobPosting from './useJobPosting';
@@ -18,14 +17,13 @@ import EditJobPost from './EditJobPost/index';
 
 const JobPosting = () => {
   const theme = useTheme();
-  const [isjobPostingDeleteModal, setIsJobPostingDeleteModal] =
-    useState<boolean>(false);
   const {
     anchorEl,
     actionMenuOpen,
     handleActionsClick,
     handleClose,
     jopPostinData,
+    loadingJobPosting,
     searchValue,
     handleSearch,
     handleRefresh,
@@ -43,9 +41,12 @@ const JobPosting = () => {
     handleOpenEditJobPost,
     handleCloseEditJobPost,
     openEditJobPost,
+    openModalDeleteJobPost,
+    handleOpenModalDeleteJobPost,
+    handleCloseModalDeleteJobPost,
+    handleDeleteJobPost,
+    loadingDeleteJobPost,
   } = useJobPosting();
-
-  const { methodsEditJobPost } = useEditJobPost();
 
   const getColumns = columns(
     theme,
@@ -113,9 +114,7 @@ const JobPosting = () => {
             <MenuItem disabled={!rowId} onClick={handleOpenEditJobPost}>
               View
             </MenuItem>
-            <MenuItem onClick={() => setIsJobPostingDeleteModal(true)}>
-              Delete
-            </MenuItem>
+            <MenuItem onClick={handleOpenModalDeleteJobPost}>Delete</MenuItem>
           </Menu>
 
           <Button sx={styles.refreshButton(theme)} onClick={handleRefresh}>
@@ -130,7 +129,11 @@ const JobPosting = () => {
         </Box>
       </Box>
       <Box>
-        <TanstackTable columns={getColumns} data={jopPostinData?.data?.jobs} />
+        <TanstackTable
+          columns={getColumns}
+          data={jopPostinData?.data?.jobs}
+          isLoading={loadingJobPosting}
+        />
         <CustomPagination
           count={3}
           rowsPerPageOptions={[5, 10, 25, 50, 100]}
@@ -171,15 +174,15 @@ const JobPosting = () => {
       <AlertModals
         message={'Are you sure you want to delete this entry ?'}
         type="delete"
-        open={isjobPostingDeleteModal}
-        handleClose={() => setIsJobPostingDeleteModal(false)}
-        handleSubmit={() => setIsJobPostingDeleteModal(false)}
+        open={openModalDeleteJobPost}
+        handleClose={handleCloseModalDeleteJobPost}
+        handleSubmitBtn={handleDeleteJobPost}
+        loading={loadingDeleteJobPost}
       />
 
       <EditJobPost
         isModalOpen={openEditJobPost}
         onClose={handleCloseEditJobPost}
-        formMethods={methodsEditJobPost}
         rowId={rowId}
       />
     </Box>

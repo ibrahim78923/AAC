@@ -77,6 +77,7 @@ export const columns = (
   setIsDisabled: (value: boolean) => void,
   tableRowValues: any,
   setTableRowValues: any,
+  setRowId: any,
 ) => {
   const handleRowSelect = (id: any) => {
     const selectedIndex = tableRowValues.indexOf(id);
@@ -97,6 +98,11 @@ export const columns = (
     const disabled = newSelected.length === 0;
     setIsDisabled(disabled);
     setTableRowValues(newSelected);
+    if (newSelected.length === 1) {
+      setRowId(newSelected[0]);
+    } else {
+      setRowId(null);
+    }
   };
 
   const isSelected = (id: any) => tableRowValues.indexOf(id) !== -1;

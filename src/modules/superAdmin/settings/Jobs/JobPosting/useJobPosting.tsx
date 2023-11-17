@@ -1,14 +1,13 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-// import { enqueueSnackbar } from 'notistack';
-// import { yupResolver } from '@hookform/resolvers/yup';
+import { enqueueSnackbar } from 'notistack';
 import { jobPostingFiltersDefaultValues } from './jobPosting.data';
-import { useGetJobsQuery } from '@/services/superAdmin/settings/jobs';
-// import useJobs from '../useJobs';
+import {
+  useGetJobsQuery,
+  useDeleteJobMutation,
+} from '@/services/superAdmin/settings/jobs';
 
 const useJobPosting = () => {
-  // const [page, setPage] = useState(0);
-  // const [rowsPerPage, setRowsPerPage] = useState(5);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const actionMenuOpen = Boolean(anchorEl);
   const [openEditJobPost, setOpenEditJobPost] = useState(false);
@@ -25,11 +24,10 @@ const useJobPosting = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const {
-    data: jopPostinData,
-    isLoading: loadingJobPosting,
-    isError: errorJobPosting,
-  } = useGetJobsQuery(jobsParams);
+  const { data: jopPostinData, isLoading: loadingJobPosting } =
+    useGetJobsQuery(jobsParams);
+  const [deleteJobPost, { isLoading: loadingDeleteJobPost }] =
+    useDeleteJobMutation();
   const methodsFilter: any = useForm({
     defaultValues: jobPostingFiltersDefaultValues,
   });
@@ -69,35 +67,40 @@ const useJobPosting = () => {
   };
   const handleFiltersSubmit = handleMethodFilter(onSubmitFilters);
 
-  // const handleChangePage = (event: unknown, newPage: number) => {
-  //   setPage(newPage);
-  //   setJobsParams((prev: any) => {
-  //     return {
-  //       ...prev,
-  //       page: newPage,
-  //     };
-  //   });
-  // };
-
-  // const handleChangeRowsPerPage = (
-  //   event: React.ChangeEvent<HTMLInputElement>,
-  // ) => {
-  //   setRowsPerPage(parseInt(event.target.value));
-  //   setPage(0);
-  //   setJobsParams((prev: any) => {
-  //     return {
-  //       ...prev,
-  //       limit: event.target.value,
-  //     };
-  //   });
-  // };
-
   const handleOpenEditJobPost = () => {
+    handleClose();
     setOpenEditJobPost(true);
   };
 
   const handleCloseEditJobPost = () => {
     setOpenEditJobPost(false);
+  };
+
+  const [openModalDeleteJobPost, setOpenModalDeleteJobPost] =
+    useState<boolean>(false);
+  const handleOpenModalDeleteJobPost = () => {
+    handleClose();
+    setOpenModalDeleteJobPost(true);
+  };
+
+  const handleCloseModalDeleteJobPost = () => {
+    setOpenModalDeleteJobPost(false);
+  };
+
+  const handleDeleteJobPost = async () => {
+    const items = await tableRowValues.join(',');
+    try {
+      await deleteJobPost(items)?.unwrap();
+      handleCloseEditJobPost();
+      enqueueSnackbar('Record has been deleted.', {
+        variant: 'success',
+      });
+      setIsDisabled(true);
+    } catch (error: any) {
+      enqueueSnackbar('An error occured', {
+        variant: 'error',
+      });
+    }
   };
 
   return {
@@ -107,7 +110,6 @@ const useJobPosting = () => {
     handleClose,
     jopPostinData,
     loadingJobPosting,
-    errorJobPosting,
     jobsParams,
     searchValue,
     handleSearch,
@@ -126,6 +128,11 @@ const useJobPosting = () => {
     handleOpenEditJobPost,
     handleCloseEditJobPost,
     openEditJobPost,
+    openModalDeleteJobPost,
+    handleOpenModalDeleteJobPost,
+    handleCloseModalDeleteJobPost,
+    handleDeleteJobPost,
+    loadingDeleteJobPost,
   };
 };
 

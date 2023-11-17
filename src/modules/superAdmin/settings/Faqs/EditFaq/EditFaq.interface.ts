@@ -1,9 +1,6 @@
 export interface EditFaqPropsI {
-  title: string;
+  title?: string;
   isModalOpen: boolean;
   onClose: () => void;
-  handleSubmit: any;
-  formMethods: any;
-  isLoading?: boolean;
-  faqId?: any;
+  rowId?: any;
 }

@@ -7,20 +7,15 @@ import {
   useGetFaqsQuery,
   usePostFaqsMutation,
   useDeleteFaqsMutation,
-  useGetFaqsByIdQuery,
 } from '@/services/superAdmin/settings/faqs';
 import { faqsFilterDefaultValues } from './Faqs.data';
 import {
   addFaqsValidationSchema,
   addFaqsDefaultValues,
 } from './AddFaq/AddFaq.data';
-import {
-  editFaqsValidationSchema,
-  editFaqsDefaultValues,
-} from './EditFaq/EditFaq.data';
 
 const useFaqs = () => {
-  const [faqId, setFaqId] = useState(null);
+  const [rowId, setRowId] = useState(null);
   const [isDisabled, setIsDisabled] = useState(true);
   const [modalTitle, setModalTitle] = useState('FAQ');
   const [tableRowValues, setTableRowValues] = useState([]);
@@ -150,38 +145,14 @@ const useFaqs = () => {
   const handleAddFaqSubmit = handleMethodAddFaq(onSubmitAddFaq);
 
   // Update FAQ
-  // const [initValues, setInitValues] = useState({
-  //   faqCategory: '',
-  //   faqQuestion: '',
-  //   faqAnswer: '',
-  // });
-  const {
-    data: dataSingleFaq,
-    isLoading: loadingFaq,
-    refetch: refetchSingleFaq,
-  } = useGetFaqsByIdQuery(tableRowValues[0]);
   const [openModalEditFaq, setOpenModalEditFaq] = useState(false);
-  const handleOpenModalEditFaq = (title: string) => {
-    setFaqId(tableRowValues[0]);
-    setModalTitle(title);
+  const handleOpenModalEditFaq = () => {
     setOpenModalEditFaq(true);
     handleActionsMenuClose();
-    // setInitValues({
-    //   faqCategory: dataSingleFaq?.data?.faqCategory,
-    //   faqQuestion: dataSingleFaq?.data?.faqQuestion,
-    //   faqAnswer: dataSingleFaq?.data?.faqAnswer,
-    // });
   };
   const handleCloseModalEditFaq = () => {
     setOpenModalEditFaq(false);
   };
-
-  const methodsUpdateFaqs = useForm({
-    resolver: yupResolver(editFaqsValidationSchema),
-    defaultValues: editFaqsDefaultValues,
-  });
-
-  // const { handleSubmit: handleMethodEditFaq, reset: resetEditFaqForm } = methodsAddFaqs;
 
   // Delete Faq
   const [isFaqsDeleteModal, setIsFaqsDeleteModal] = useState(false);
@@ -219,8 +190,8 @@ const useFaqs = () => {
     setIsDisabled,
     tableRowValues,
     setTableRowValues,
-    faqId,
-    setFaqId,
+    rowId,
+    setRowId,
     openFilters,
     handleOpenFilters,
     handleCloseFilters,
@@ -247,10 +218,6 @@ const useFaqs = () => {
     openModalEditFaq,
     handleOpenModalEditFaq,
     handleCloseModalEditFaq,
-    methodsUpdateFaqs,
-    loadingFaq,
-    refetchSingleFaq,
-    dataSingleFaq,
   };
 };
 

@@ -1,50 +1,62 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Grid } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { enqueueSnackbar } from 'notistack';
 import { yupResolver } from '@hookform/resolvers/yup';
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
-import { EditJobPostPropsI } from './EditFaq.interface';
+import { EditJobPostPropsI } from './EditJobPost.interface';
 import { jobPostingDataArray } from './EditJobPost.data';
 import { v4 as uuidv4 } from 'uuid';
+import dayjs from 'dayjs';
+import { parseISO } from 'date-fns';
 import {
   useGetJobByIdQuery,
   useUpdateJobMutation,
 } from '@/services/superAdmin/settings/jobs';
 import { jobPostingValidationSchema } from './EditJobPost.data';
 
-const EditJobPost = ({
-  isModalOpen,
-  onClose,
-  isLoading,
-  rowId,
-}: EditJobPostPropsI) => {
+const EditJobPost = ({ isModalOpen, onClose, rowId }: EditJobPostPropsI) => {
+  const [initValues, setInitValues]: any = useState({});
   const { data: jobDataById } = useGetJobByIdQuery(rowId);
 
-  const [updateJobPost] = useUpdateJobMutation();
+  useEffect(() => {
+    if (jobDataById && jobDataById.data) {
+      setInitValues({
+        title: jobDataById?.data?.title,
+        jobType: jobDataById?.data?.jobType,
+        jobCategory: jobDataById?.data?.jobCategory,
+        experience: jobDataById?.data?.experience,
+        numberOfVacancy: jobDataById?.data?.numberOfVacancy,
+        deadline: dayjs(jobDataById?.data?.deadline).format('YYYY-MM-DD'),
+        description: jobDataById?.data?.description,
+      });
+    }
+  }, [jobDataById, rowId]);
 
-  const defaultValues = {
-    title: jobDataById?.data?.title,
-    jobType: jobDataById?.data?.jobType,
-    jobCategory: jobDataById?.data?.jobCategory,
-    experience: jobDataById?.data?.experience,
-    numberOfVacancy: jobDataById?.data?.numberOfVacancy,
-    deadline: jobDataById?.data?.deadline,
-    description: jobDataById?.data?.description,
-  };
-
+  const [updateJobPost, { isLoading: loadingUpdateJobPost }] =
+    useUpdateJobMutation();
   const methods = useForm({
     resolver: yupResolver(jobPostingValidationSchema),
-    defaultValues: defaultValues,
   });
+  useEffect(() => {
+    if (initValues) {
+      methods.setValue('title', initValues?.title);
+      methods.setValue('jobType', initValues?.jobType);
+      methods.setValue('jobCategory', initValues?.jobCategory);
+      methods.setValue('experience', initValues?.experience);
+      methods.setValue('numberOfVacancy', initValues?.numberOfVacancy);
+      methods.setValue('deadline', parseISO(initValues?.deadline));
+      methods.setValue('description', initValues?.description);
+    }
+  }, [initValues, methods]);
   const { handleSubmit } = methods;
 
   const onSubmitEditJob = async (values: any) => {
     try {
       await updateJobPost({ id: rowId, body: values })?.unwrap();
-
-      enqueueSnackbar('Job added successfully', {
+      onClose();
+      enqueueSnackbar('Job updated successfully', {
         variant: 'success',
       });
     } catch (error: any) {
@@ -59,12 +71,12 @@ const EditJobPost = ({
     <CommonDrawer
       isDrawerOpen={isModalOpen}
       onClose={onClose}
-      title="Post a Job"
+      title="Update a Job"
       okText="Update"
       isOk={true}
       footer={true}
-      loading={isLoading}
       submitHandler={handleSubmitAddJobPost}
+      loading={loadingUpdateJobPost}
     >
       <>
         <FormProvider methods={methods}>
