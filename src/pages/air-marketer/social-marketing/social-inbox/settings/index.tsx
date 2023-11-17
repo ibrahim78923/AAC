@@ -1,7 +1,8 @@
-import Layout from '@/layout';
-import SocialInboxSettings from '@/modules/airMarketer/SocialMarketing/SocialInbox/SocialInboxSettings';
-
 import React from 'react';
+
+import Layout from '@/layout';
+
+import SocialInboxSettings from '@/modules/airMarketer/SocialMarketing/SocialInbox/SocialInboxSettings';
 
 const SettingsPage = () => {
   return <SocialInboxSettings />;
