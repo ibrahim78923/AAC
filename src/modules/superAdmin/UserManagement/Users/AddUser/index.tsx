@@ -22,7 +22,12 @@ import { v4 as uuidv4 } from 'uuid';
 import useUserManagement from '../../useUserManagement';
 import { SUPER_ADMIN } from '@/constants/index';
 
-const AddUser = ({ isOpenDrawer, onClose, tabVal }: any) => {
+const AddUser = ({
+  isOpenDrawer,
+  onClose,
+  tabVal,
+  isOpenAddUserDrawer,
+}: any) => {
   const { userType, useGetCompaniesCRNQuery } = useUserManagement();
   const [isToggled, setIsToggled] = useToggle(false);
   const { usePostUsersMutation } = usersApi;
@@ -38,8 +43,7 @@ const AddUser = ({ isOpenDrawer, onClose, tabVal }: any) => {
     defaultValues: companyOwnerDefaultValues,
   });
 
-  const methods =
-    userType === 'SUPER_ADMIN' ? superAdminMethods : companyOwnerMethods;
+  const methods = tabVal === 1 ? superAdminMethods : companyOwnerMethods;
   const { handleSubmit, reset, watch } = methods;
 
   const crnNumber = watch('crn');
@@ -65,9 +69,15 @@ const AddUser = ({ isOpenDrawer, onClose, tabVal }: any) => {
     <CommonDrawer
       isDrawerOpen={isOpenDrawer}
       onClose={onClose}
-      title="Add User"
-      okText="Add"
-      isOk={true}
+      title={
+        isOpenAddUserDrawer?.type === 'add'
+          ? 'Add User'
+          : isOpenAddUserDrawer?.type === 'view'
+          ? 'Paracha'
+          : 'Edit User'
+      }
+      okText={isOpenAddUserDrawer?.type === 'add' ? 'Add' : 'Update User'}
+      isOk={isOpenAddUserDrawer?.type === 'view' ? false : true}
       submitHandler={handleSubmit(onSubmit)}
       footer
     >

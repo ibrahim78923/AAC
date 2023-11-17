@@ -3,8 +3,8 @@ import useUserManagement from '../useUserManagement';
 import { ArrowDropDown } from '@mui/icons-material';
 import AddUser from '../Users/AddUser';
 
-const ActionButton = (props: any) => {
-  const { checkedRows } = props;
+const ActionButton = (props?: any) => {
+  const { checkedRows, tabVal, setIsOpenAddUserDrawer } = props;
   const {
     theme,
     selectedValue,
@@ -12,7 +12,6 @@ const ActionButton = (props: any) => {
     handleClose,
     handleUsersList,
     isOpenAddUserDrawer,
-    setIsOpenAddUserDrawer,
   } = useUserManagement();
 
   return (
@@ -39,14 +38,31 @@ const ActionButton = (props: any) => {
         <MenuItem onClick={() => handleUsersList(checkedRows)}>
           User List
         </MenuItem>
-        <MenuItem onClick={handleClose}>View</MenuItem>
+        <MenuItem
+          onClick={() => {
+            handleClose();
+            setIsOpenAddUserDrawer({
+              ...isOpenAddUserDrawer,
+              drawer: true,
+              type: 'view',
+            });
+          }}
+        >
+          View
+        </MenuItem>
         <MenuItem onClick={handleClose}>Edit</MenuItem>
       </Menu>
 
-      {isOpenAddUserDrawer && (
+      {isOpenAddUserDrawer?.drawer && (
         <AddUser
-          isOpenDrawer={isOpenAddUserDrawer}
-          onClose={() => setIsOpenAddUserDrawer(false)}
+          tabVal={tabVal}
+          isOpenDrawer={isOpenAddUserDrawer?.drawer}
+          onClose={() =>
+            setIsOpenAddUserDrawer({
+              ...isOpenAddUserDrawer,
+              drawer: false,
+            })
+          }
         />
       )}
     </Box>

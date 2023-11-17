@@ -51,7 +51,13 @@ const UserManagement = () => {
         >
           <Button
             onClick={() =>
-              tabVal === 2 ? handleAddRole() : setIsOpenAddUserDrawer(true)
+              tabVal === 2
+                ? handleAddRole()
+                : setIsOpenAddUserDrawer({
+                    ...isOpenAddUserDrawer,
+                    drawer: true,
+                    type: 'add',
+                  })
             }
             variant="contained"
             startIcon={<PlusIcon />}
@@ -86,7 +92,11 @@ const UserManagement = () => {
             ]}
             headerChildren={
               <>
-                <ActionButton checkedRows={checkedRows} />
+                <ActionButton
+                  checkedRows={checkedRows}
+                  tabVal={tabVal}
+                  setIsOpenAddUserDrawer={setIsOpenAddUserDrawer}
+                />
                 <Button
                   onClick={() => {
                     setIsOpenFilterDrawer(true);
@@ -119,11 +129,17 @@ const UserManagement = () => {
         />
       )}
 
-      {isOpenAddUserDrawer && (
+      {isOpenAddUserDrawer?.drawer && (
         <AddUser
           tabVal={tabVal}
-          isOpenDrawer={isOpenAddUserDrawer}
-          onClose={() => setIsOpenAddUserDrawer(false)}
+          isOpenDrawer={isOpenAddUserDrawer?.drawer}
+          onClose={() =>
+            setIsOpenAddUserDrawer({
+              ...isOpenAddUserDrawer,
+              drawer: false,
+            })
+          }
+          isOpenAddUserDrawer={isOpenAddUserDrawer}
         />
       )}
     </Box>
