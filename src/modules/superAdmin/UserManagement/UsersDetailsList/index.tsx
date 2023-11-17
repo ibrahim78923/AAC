@@ -49,8 +49,8 @@ const UsersDetailsList = () => {
     setISOpenCompanyDrawer,
     handleCloseAddCompanyDrawer,
     handleAddUserDrawer,
-    isOpenAddUserDrawer,
-    setIsOpenAddUserDrawer,
+    isOpenAdduserDrawer,
+    setIsOpenAdduserDrawer,
     userStatus,
     setUserStatus,
     isOpenAddAccountDrawer,
@@ -105,10 +105,7 @@ const UsersDetailsList = () => {
                   }}
                   variant="outlined"
                   onClick={() => {
-                    setIsOpenAddUserDrawer({
-                      ...isOpenAddUserDrawer,
-                      drawer: true,
-                    });
+                    setIsOpenAdduserDrawer(true);
                   }}
                 >
                   <AddUserCircleIcon />
@@ -292,9 +289,9 @@ const UsersDetailsList = () => {
           onClose={handleCloseAddCompanyDrawer}
         />
       )}
-      {isOpenAddUserDrawer?.drawer && (
+      {isOpenAdduserDrawer && (
         <AddUser
-          isOpenDrawer={isOpenAddUserDrawer?.drawer}
+          isOpenDrawer={isOpenAdduserDrawer}
           onClose={handleAddUserDrawer}
         />
       )}

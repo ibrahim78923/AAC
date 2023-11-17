@@ -56,7 +56,11 @@ const UserManagement = () => {
             variant="contained"
             startIcon={<PlusIcon />}
           >
-            {tabVal === 2 ? 'Add Role' : 'Add User'}
+            {tabVal === 0
+              ? 'Add Company Owner'
+              : tabVal === 1
+              ? 'Add Super Admin '
+              : 'Add Role'}
           </Button>
         </PermissionsGuard>
       </Box>
@@ -117,6 +121,7 @@ const UserManagement = () => {
 
       {isOpenAddUserDrawer && (
         <AddUser
+          tabVal={tabVal}
           isOpenDrawer={isOpenAddUserDrawer}
           onClose={() => setIsOpenAddUserDrawer(false)}
         />

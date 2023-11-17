@@ -1,6 +1,6 @@
 import { Box, Grid, InputAdornment, Typography } from '@mui/material';
 
-import { FormProvider, RHFSelect } from '@/components/ReactHookForm';
+import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
 import { EraserIcon } from '@/assets/icons';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
@@ -12,7 +12,6 @@ import {
   addUsersArray,
   superAdminDefaultValues,
   companyOwnerDefaultValues,
-  options,
   superAdminValidationSchema,
   CompanyOwnerValidationSchema,
 } from './AddUser.data';
@@ -23,9 +22,8 @@ import { v4 as uuidv4 } from 'uuid';
 import useUserManagement from '../../useUserManagement';
 import { SUPER_ADMIN } from '@/constants/index';
 
-const AddUser = ({ isOpenDrawer, onClose }: any) => {
-  const { userType, setUserType, useGetCompaniesCRNQuery } =
-    useUserManagement();
+const AddUser = ({ isOpenDrawer, onClose, tabVal }: any) => {
+  const { userType, useGetCompaniesCRNQuery } = useUserManagement();
   const [isToggled, setIsToggled] = useToggle(false);
   const { usePostUsersMutation } = usersApi;
   const [postUsers] = usePostUsersMutation();
@@ -75,33 +73,10 @@ const AddUser = ({ isOpenDrawer, onClose }: any) => {
     >
       <FormProvider methods={methods}>
         <Grid container spacing={2} mt={1}>
-          {pathName === SUPER_ADMIN?.USERMANAGMENT && (
-            <Grid item xs={12}>
-              <Typography variant="body2" fontWeight={500}>
-                User Type
-              </Typography>
-              <RHFSelect
-                name="role"
-                size={'small'}
-                value={userType}
-                onChange={(e: any) => setUserType(e?.target?.value)}
-                fullWidth={true}
-                select={true}
-              >
-                {options?.map((option: any) => (
-                  <option key={uuidv4()} value={option?.value}>
-                    {option?.label}
-                  </option>
-                ))}
-              </RHFSelect>
-            </Grid>
-          )}
           {addUsersArray?.map((item: any) => {
             return (
               item?.toShow?.includes(
-                pathName === SUPER_ADMIN?.USERMANAGMENT
-                  ? userType
-                  : 'ORG_ADMIN',
+                pathName === SUPER_ADMIN?.USERMANAGMENT ? tabVal : 0,
               ) && (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
                   <Typography variant="body2" fontWeight={500}>
