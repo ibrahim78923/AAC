@@ -13,6 +13,8 @@ export default function EditForm({
   onClose,
   isEditModal,
   isGetRowValues,
+  setIsGetRowValues,
+  setIsChecked,
 }: any) {
   const {
     selectProductSuite,
@@ -21,7 +23,13 @@ export default function EditForm({
     handleSubmit,
     onSubmit,
     reset,
-  } = useEditForm(isEditModal, isGetRowValues, onClose);
+  } = useEditForm(
+    isEditModal,
+    isGetRowValues,
+    onClose,
+    setIsGetRowValues,
+    setIsChecked,
+  );
 
   return (
     <CommonDrawer

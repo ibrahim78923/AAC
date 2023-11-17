@@ -11,6 +11,11 @@ const ViewBillingDetails = ({
   isGetRowValues,
 }: any) => {
   const theme: any = useTheme();
+
+  // const { data: assignPlanTableData } = useGetBilingInvoicesQuery<any>({
+  //   pagination: `page=1&limit=2`,
+  // });
+
   const DataArr = [
     {
       bilingType: 'Growth',
@@ -77,7 +82,8 @@ const ViewBillingDetails = ({
                 variant="overline"
                 sx={{ textTransform: 'capitalize' }}
               >
-                Air Sales ( {data?.bilingType})
+                {isGetRowValues?.cell?.row?.original?.planProducts[0]?.name} ({' '}
+                {isGetRowValues?.cell?.row?.original?.plantypes?.name} )
               </Typography>
               <Typography variant="body1" sx={{ textTransform: 'lowercase' }}>
                 paid {isGetRowValues?.cell?.row?.original?.billingCycle}
@@ -118,7 +124,7 @@ const ViewBillingDetails = ({
             <Typography variant="caption">Plan Price</Typography>
             <Box sx={{ ml: 'auto' }}>
               <Typography variant="overline">
-                {data?.paymentDetailes?.planPrice}
+                {isGetRowValues?.cell?.row?.original?.plans?.planPrice}
               </Typography>
             </Box>
           </Box>
@@ -183,7 +189,9 @@ const ViewBillingDetails = ({
             </Typography>
 
             <Box sx={{ ml: 'auto' }}>
-              <Typography variant="overline">{data?.totalCost}</Typography>
+              <Typography variant="overline">
+                {isGetRowValues?.cell?.row?.original?.total}
+              </Typography>
             </Box>
           </Box>
         </Box>

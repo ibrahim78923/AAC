@@ -60,6 +60,14 @@ export const bilingInvoicesAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: ['bilingInvoices'],
     }),
+
+    getBillingHistory: builder.query({
+      query: ({ pagination }: any) => ({
+        url: `${superAdminBillingInvoices.get_all_invoice}${pagination}`,
+        method: 'GET',
+      }),
+      providesTags: ['bilingInvoices'],
+    }),
   }),
 });
 
@@ -71,4 +79,5 @@ export const {
   useGetOrganizationsQuery,
   useGetPlanIdQuery,
   usePatchBilingInvoicesMutation,
+  useGetBillingHistoryQuery,
 } = bilingInvoicesAPI;

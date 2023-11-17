@@ -9,7 +9,13 @@ import {
   usePostBilingInvoicesMutation,
 } from '@/services/superAdmin/billing-invoices';
 
-const useEditForm = (isEditModal: any, isGetRowValues: any, onClose: any) => {
+const useEditForm = (
+  isEditModal: any,
+  isGetRowValues: any,
+  onClose: any,
+  setIsGetRowValues: any,
+  setIsChecked: any,
+) => {
   const [selectProductSuite, setSelectProductSuite] = useState('product');
 
   const [addAssignPlan] = usePostBilingInvoicesMutation();
@@ -108,11 +114,18 @@ const useEditForm = (isEditModal: any, isGetRowValues: any, onClose: any) => {
             organizationPlanId: isGetRowValues?.cell?.row?.original?._id,
           }).unwrap()
         : await addAssignPlan({ body: assignPlanPayload }).unwrap();
-      enqueueSnackbar('plan added Successfully', {
-        variant: 'success',
-      });
+
+      enqueueSnackbar(
+        `plan ${isEditModal ? 'updated' : 'added'} Successfully`,
+        {
+          variant: 'success',
+        },
+      );
+
       reset();
       onClose(false);
+      setIsGetRowValues([]);
+      setIsChecked(false);
     } catch (error) {
       enqueueSnackbar('Some thing went wrong', {
         variant: 'error',
