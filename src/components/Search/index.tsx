@@ -15,17 +15,19 @@ const Search = ({
   width,
   searchBy,
   setSearchBy,
+
   ...rest
 }: CombinedProps) => {
   const theme = useTheme();
-  const handleChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchBy(e.target.value);
-    debouncedSearch(e.target.value, setSearchBy);
+
+  const debouncedResults = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event?.target;
+    debouncedSearch(value, setSearchBy);
   };
 
   return (
     <TextField
-      onChange={handleChangeSearch}
+      onChange={debouncedResults}
       value={searchBy}
       sx={{
         background: 'transparent',

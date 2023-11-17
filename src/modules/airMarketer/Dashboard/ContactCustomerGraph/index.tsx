@@ -12,9 +12,9 @@ const ContactCustomerGraph = () => {
   return (
     <Card>
       <Box p={1.6} sx={{ backgroundColor: theme?.palette?.grey[700] }}>
-        <Typography variant="h6">Deals created vs Closed deals</Typography>
+        <Typography variant="h6">New contact, and customer by day</Typography>
         <Typography variant="body3" sx={{ color: theme?.palette?.grey[900] }}>
-          Date range: 6 months
+          Date range: In last 30 dayss
         </Typography>
       </Box>
       <Box>
