@@ -1,3 +1,4 @@
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import usePath from '@/hooks/usePath';
 import { useDeleteTicketsMutation } from '@/services/airServices/tickets';
 import { useRouter } from 'next/router';
@@ -21,13 +22,14 @@ export const useTicketDelete = (props: any) => {
         deleteTicketsParameter,
       )?.unwrap();
       enqueueSnackbar(response?.message ?? 'Ticket deleted successfully', {
-        variant: 'success',
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
       closeTicketsDeleteModal?.();
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message ?? 'Error', {
-        variant: 'error',
+      enqueueSnackbar(error?.data?.message?.error ?? 'Ticket not deleted', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
       });
+      closeTicketsDeleteModal?.();
     }
   };
   const closeTicketsDeleteModal = () => {

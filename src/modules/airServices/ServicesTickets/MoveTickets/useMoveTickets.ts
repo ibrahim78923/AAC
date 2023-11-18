@@ -7,6 +7,7 @@ import {
 import { useRouter } from 'next/router';
 import usePath from '@/hooks/usePath';
 import { useLazyGetOrganizationsQuery } from '@/services/dropdowns';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 export const useMoveTickets = (props: any) => {
   const router = useRouter();
@@ -21,7 +22,7 @@ export const useMoveTickets = (props: any) => {
 
   const submitMoveTicketsForm = () => {
     enqueueSnackbar('Tickets Move Successfully', {
-      variant: 'success',
+      variant: NOTISTACK_VARIANTS?.SUCCESS,
     });
     closeMoveTicketsModal?.();
   };

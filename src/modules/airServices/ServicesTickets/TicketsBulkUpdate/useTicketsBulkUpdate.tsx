@@ -11,6 +11,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { enqueueSnackbar } from 'notistack';
 import usePath from '@/hooks/usePath';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 export const useTicketBulkUpdate = (props: any) => {
   const { setIsDrawerOpen } = props;
@@ -31,7 +32,7 @@ export const useTicketBulkUpdate = (props: any) => {
 
   const submitTicketBulkUpdateForm = async () => {
     enqueueSnackbar('Ticket Updated Successfully', {
-      variant: 'success',
+      variant: NOTISTACK_VARIANTS?.SUCCESS,
     });
     reset();
     setIsDrawerOpen?.(false);

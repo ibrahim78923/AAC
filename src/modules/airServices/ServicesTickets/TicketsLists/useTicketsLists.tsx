@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import {
   TICKETS_ACTION_CONSTANTS,
   ticketsActionDropdownFunction,
-  ticketsListTotalColumns,
+  ticketsListInitialColumns,
   ticketsListsColumnFunction,
 } from './TicketsLists.data';
 import { CustomizeTicketsColumn } from '../CustomizeTicketsColumn';
@@ -17,22 +17,23 @@ import {
 } from '@/services/airServices/tickets';
 import { downloadFile } from '@/utils/file';
 import { UpsertTicket } from '../UpsertTicket';
-import { EXPORT_TYPE } from '@/constants/strings';
+import { EXPORT_FILE_TYPE, NOTISTACK_VARIANTS } from '@/constants/strings';
 import { TicketsBulkUpdate } from '../TicketsBulkUpdate';
 import { AssignedTickets } from '../AssignedTickets';
 import { MoveTickets } from '../MoveTickets';
 import { MergeTickets } from '../MergeTickets';
 import { TicketsDelete } from '../TicketsDelete';
 import usePath from '@/hooks/usePath';
+import { PAGINATION } from '@/config';
 
 export const useTicketsLists: any = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedTicketList, setSelectedTicketList] = useState([]);
-  const [page, setPage] = useState(1);
-  const [pageLimit, setPageLimit] = useState(10);
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [search, setSearch] = useState<any>('');
-  const [columnNames, setColumnNames] = useState(ticketsListTotalColumns);
+  const [columnNames, setColumnNames] = useState(ticketsListInitialColumns);
   const [ticketsFilter, setTicketsFilter] = useState<any>([]);
 
   const theme = useTheme();
@@ -40,9 +41,6 @@ export const useTicketsLists: any = () => {
   const { makePath } = usePath();
   const getTicketsParam = new URLSearchParams();
 
-  // columnNames?.forEach(
-  //   (col: any) => getTicketsParam?.append('columnNames', col),
-  // );
   ticketsFilter?.forEach(
     ([key, value]: any) => getTicketsParam?.append(key, value),
   );
@@ -67,11 +65,11 @@ export const useTicketsLists: any = () => {
       const response =
         await lazyGetTicketsTrigger(getTicketsParameter)?.unwrap();
       enqueueSnackbar(response?.message ?? 'Tickets Retrieved successfully', {
-        variant: 'success',
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
     } catch (error: any) {
       enqueueSnackbar(error?.data?.message ?? 'Error', {
-        variant: 'error',
+        variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }
   };
@@ -89,28 +87,23 @@ export const useTicketsLists: any = () => {
       const response: any = await lazyGetExportTicketsTrigger(
         getTicketsExportParameter,
       )?.unwrap();
-
-      const FILE_TYPE: any = {
-        [EXPORT_TYPE?.CSV]: 'text/csv',
-        [EXPORT_TYPE?.XLS]:
-          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-      };
-
-      downloadFile(response, 'TicketLists', FILE_TYPE?.[type]);
-
-      enqueueSnackbar(response?.message ?? 'Tickets Exported successfully', {
-        variant: 'success',
-      });
+      downloadFile(response, 'TicketLists', EXPORT_FILE_TYPE?.[type]);
+      enqueueSnackbar(
+        response?.data?.message ?? 'Tickets Exported successfully',
+        {
+          variant: NOTISTACK_VARIANTS?.SUCCESS,
+        },
+      );
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message ?? 'Error', {
-        variant: 'error',
+      enqueueSnackbar(error?.data?.message ?? 'Tickets not exported', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }
   };
-
-  useEffect(() => {
-    getValueTicketsListData();
-  }, [search, page, pageLimit, ticketsFilter]);
+  //TODO: we will be used while doing BE integration
+  // useEffect(() => {
+  //   getValueTicketsListData();
+  // }, [search, page, pageLimit, ticketsFilter]);
 
   useEffect(() => {
     router?.push(
@@ -139,13 +132,17 @@ export const useTicketsLists: any = () => {
       enqueueSnackbar(
         response?.message ?? `Ticket marked as ${status?.toLowerCase()}`,
         {
-          variant: 'success',
+          variant: NOTISTACK_VARIANTS?.SUCCESS,
         },
       );
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.error ?? 'Error', {
-        variant: 'error',
-      });
+      enqueueSnackbar(
+        error?.data?.error?.message ??
+          `Ticket not marked as ${status?.toLowerCase()}`,
+        {
+          variant: NOTISTACK_VARIANTS?.ERROR,
+        },
+      );
     }
   };
   const ticketsListsColumnPersist = ticketsListsColumnFunction(
@@ -156,7 +153,7 @@ export const useTicketsLists: any = () => {
     setSelectedTicketList,
   );
 
-  const drawerComponent: any = {
+  const ticketActionComponent: any = {
     [TICKETS_ACTION_CONSTANTS?.CUSTOMIZE_COLUMN]: (
       <CustomizeTicketsColumn
         isDrawerOpen={isDrawerOpen}
@@ -262,7 +259,7 @@ export const useTicketsLists: any = () => {
     router,
     openDrawer,
     TICKETS_ACTION_CONSTANTS,
-    drawerComponent,
+    ticketActionComponent,
     ticketsActionDropdown,
     lazyGetTicketsStatus,
     ticketsListsColumnPersist,
@@ -278,5 +275,6 @@ export const useTicketsLists: any = () => {
     setPageLimit,
     isModalOpen,
     setColumnNames,
+    getValueTicketsListData,
   };
 };

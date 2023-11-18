@@ -1,15 +1,11 @@
 import Search from '@/components/Search';
 import { Box, Button, ButtonGroup, useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
-import {
-  CutomizeIcon,
-  FilterIcon,
-  ListIcon,
-  ResetIcon,
-  SubTabIcon,
-} from '@/assets/icons';
+import { CutomizeIcon, FilterIcon, ListIcon, SubTabIcon } from '@/assets/icons';
+import AutoRenewIcon from '@mui/icons-material/Autorenew';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { ticketsListInitialColumns } from '../TicketsLists.data';
+import usePath from '@/hooks/usePath';
 
 export const TicketsListSubHeader = (props: any) => {
   const {
@@ -24,6 +20,7 @@ export const TicketsListSubHeader = (props: any) => {
 
   const theme: any = useTheme();
   const router = useRouter();
+  const { makePath } = usePath();
 
   return (
     <>
@@ -60,7 +57,7 @@ export const TicketsListSubHeader = (props: any) => {
             size="large"
             color="secondary"
           >
-            <ResetIcon />
+            <AutoRenewIcon />
           </Button>
           {router?.query?.viewType !== 'board' && (
             <Button
@@ -87,17 +84,14 @@ export const TicketsListSubHeader = (props: any) => {
               <Button
                 key={1}
                 onClick={() => {
-                  //TODO: destructing because do not require viewType in restqyesries
-                  /* eslint-disable @typescript-eslint/no-unused-vars */
-                  const { viewType, ...routerQueries } = router?.query;
-                  router?.push({
-                    pathname: router?.pathname,
-                    query: {
-                      ...routerQueries,
-                    },
-                  });
+                  router?.push(
+                    makePath({
+                      path: router?.pathname,
+                      skipQueries: ['viewType'],
+                    }),
+                  );
                 }}
-                style={{
+                sx={{
                   backgroundColor:
                     router?.query?.viewType !== 'board'
                       ? theme?.palette?.grey?.['0']
@@ -109,7 +103,7 @@ export const TicketsListSubHeader = (props: any) => {
               </Button>,
               <Button
                 key={2}
-                style={{
+                sx={{
                   backgroundColor:
                     router?.query?.viewType === 'board'
                       ? theme?.palette?.grey?.['0']

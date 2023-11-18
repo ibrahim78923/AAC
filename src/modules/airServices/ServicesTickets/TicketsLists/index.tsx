@@ -4,6 +4,7 @@ import { TableBoardView } from './TicketsBoardView';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { TicketsListSubHeader } from './TicketsListSubHeader';
 import { EXPORT_TYPE } from '@/constants/strings';
+import { ticketsListsData } from './TicketsLists.data';
 
 export const TicketsLists = () => {
   const {
@@ -11,7 +12,7 @@ export const TicketsLists = () => {
     router,
     openDrawer,
     TICKETS_ACTION_CONSTANTS,
-    drawerComponent,
+    ticketActionComponent,
     ticketsActionDropdown,
     lazyGetTicketsStatus,
     ticketsListsColumnPersist,
@@ -62,7 +63,9 @@ export const TicketsLists = () => {
               (col: any) => columnNames?.includes?.(col?.id),
             ) ?? []
           }
-          ticketListsData={lazyGetTicketsStatus?.data?.data?.tickets ?? []}
+          ticketListsData={
+            lazyGetTicketsStatus?.data?.data?.tickets ?? ticketsListsData
+          }
           isLoading={lazyGetTicketsStatus?.isLoading}
           page={lazyGetTicketsStatus?.data?.data?.meta?.page}
           totalPages={lazyGetTicketsStatus?.data?.data?.meta?.pages}
@@ -72,11 +75,13 @@ export const TicketsLists = () => {
           setPageLimit={setPageLimit}
           isFetching={lazyGetTicketsStatus?.isFetching}
           isError={lazyGetTicketsStatus?.isError}
-          isSuccess={lazyGetTicketsStatus?.isSuccess}
+          isSuccess={lazyGetTicketsStatus?.isSuccess || true}
         />
       )}
-      {isModalOpen && drawerComponent?.[router?.query?.ticketAction as string]}
-      {isDrawerOpen && drawerComponent?.[router?.query?.ticketAction as string]}
+      {isModalOpen &&
+        ticketActionComponent?.[router?.query?.ticketAction as string]}
+      {isDrawerOpen &&
+        ticketActionComponent?.[router?.query?.ticketAction as string]}
     </>
   );
 };

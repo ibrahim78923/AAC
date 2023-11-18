@@ -16,6 +16,7 @@ import {
 import { useEffect } from 'react';
 import { useLazyGetOrganizationsQuery } from '@/services/dropdowns';
 import usePath from '@/hooks/usePath';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 export const useUpsertTicket = (props: any) => {
   const { setIsDrawerOpen, ticketId } = props;
@@ -43,7 +44,6 @@ export const useUpsertTicket = (props: any) => {
   const methods: any = useForm<any>({
     resolver: yupResolver(upsertTicketValidationSchema),
     defaultValues: upsertTicketDefaultValuesFunction(),
-    reValidateMode: 'onBlur',
   });
 
   const { handleSubmit, reset } = methods;
@@ -60,16 +60,17 @@ export const useUpsertTicket = (props: any) => {
     const postTicketParameter = {
       body: data,
     };
+
     try {
       const response = await postTicketTrigger(postTicketParameter)?.unwrap();
       enqueueSnackbar(response?.message ?? 'Ticket Added Successfully', {
-        variant: 'success',
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
       reset();
       setIsDrawerOpen?.(false);
     } catch (error) {
-      enqueueSnackbar('There is something wrong', {
-        variant: 'error',
+      enqueueSnackbar('Something went wrong', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }
   };
@@ -84,13 +85,13 @@ export const useUpsertTicket = (props: any) => {
     try {
       const response = await putTicketTrigger(putTicketParameter)?.unwrap();
       enqueueSnackbar(response?.message ?? 'Ticket Added Successfully', {
-        variant: 'success',
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
       reset();
       setIsDrawerOpen?.(false);
     } catch (error) {
-      enqueueSnackbar('There is something wrong', {
-        variant: 'error',
+      enqueueSnackbar('Something went wrong', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }
   };

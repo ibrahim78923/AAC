@@ -103,7 +103,7 @@ export const ticketsFilterFormFieldsDataFunction = (
     id: 100,
     componentProps: {
       fullWidth: true,
-      name: 'pirority',
+      name: 'priority',
       label: 'Priority',
       select: true,
       options: ticketPriorityOptions,

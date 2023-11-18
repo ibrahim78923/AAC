@@ -117,7 +117,7 @@ export const AIR_CUSTOMER_PORTAL_TICKET = {
   PROCESSING: 'Processing',
 };
 
-export const NOTISTACK_VARIANTS = {
+export const NOTISTACK_VARIANTS: any = {
   SUCCESS: 'success',
   ERROR: 'error',
   WARNING: 'warning',
@@ -139,4 +139,10 @@ export const TICKET_TYPES = {
   SERVICE_REQUEST: 'Service Requests',
   TICKETS_I_REQUESTED: 'Tickets I Requested',
   SHARED_WITH_ME: 'Shared with me',
+};
+
+export const EXPORT_FILE_TYPE: any = {
+  [EXPORT_TYPE?.CSV]: 'text/csv',
+  [EXPORT_TYPE?.XLS]:
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
 };

@@ -1,3 +1,4 @@
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import usePath from '@/hooks/usePath';
 import { useLazyGetOrganizationsQuery } from '@/services/dropdowns';
 import { useRouter } from 'next/router';
@@ -18,8 +19,8 @@ export const useAssignedTickets = (props: any) => {
   const { handleSubmit, reset } = assignedTicketsMethod;
 
   const submitAssignedTicketsForm = () => {
-    enqueueSnackbar('Ticket Updated Successfully', {
-      variant: 'success',
+    enqueueSnackbar('Ticket Assigned Successfully', {
+      variant: NOTISTACK_VARIANTS?.SUCCESS,
     });
     closeTicketsAssignedModal?.();
   };
