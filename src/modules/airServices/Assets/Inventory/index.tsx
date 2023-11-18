@@ -3,6 +3,7 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
 import { Button } from '@mui/material';
 import { FilterSharedIcon, CustomizeSharedIcon } from '@/assets/icons';
+import { enqueueSnackbar } from 'notistack';
 import { PageTitledHeader } from '../../../../components/PageTitledHeader/index';
 import { AlertModals } from '@/components/AlertModals';
 import { useInventory } from './useInventory';
@@ -21,11 +22,9 @@ function Inventory() {
     searchValue,
     SetSearchValue,
     inventoryListsColumns,
+    data,
     inventoryData,
-    tableData,
-    deleteTicket,
   } = useInventory();
-
   return (
     <>
       <AlertModals
@@ -37,7 +36,11 @@ function Inventory() {
           setOpenDeleteModal(false);
         }}
         handleSubmit={() => {
-          () => deleteTicket?.();
+          enqueueSnackbar('Delete successfully', {
+            variant: 'error',
+            autoHideDuration: 3000,
+          });
+          setOpenDeleteModal(false);
         }}
       />
       <PageTitledHeader
@@ -92,7 +95,7 @@ function Inventory() {
         </Box>
       </Box>
       <br />
-      <TanstackTable data={tableData} columns={inventoryListsColumns} />
+      <TanstackTable data={data} columns={inventoryListsColumns} />
       <CustomPagination count={1} rowsPerPageOptions={[1, 2]} entriePages={1} />
       {isDrawerOpen && renderComponent?.[router?.query?.tableAction as string]}
     </>
