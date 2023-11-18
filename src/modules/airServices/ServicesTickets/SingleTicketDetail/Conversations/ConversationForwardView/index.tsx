@@ -1,4 +1,4 @@
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Grid, Typography, useTheme } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { ShortcutSharpLeftIcon, ShortcutSharpRightIcon } from '@/assets/icons';
 import { AvatarConversationImage } from '@/assets/images';
@@ -6,10 +6,9 @@ import { styles } from '../Conversation.styles';
 import { conversationData } from '../Conversation.data';
 import { v4 as uuidv4 } from 'uuid';
 import Image from 'next/image';
-import UseConversation from '../useConversation';
 
 const ConversationForwardView = () => {
-  const { theme } = UseConversation();
+  const theme = useTheme();
   return (
     <Box marginTop={'1.25rem'}>
       {conversationData?.map((e: any) => (

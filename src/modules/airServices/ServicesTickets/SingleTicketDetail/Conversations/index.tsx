@@ -1,5 +1,5 @@
 import ConversationsDetails from './ConversationDetails';
 
-export default function Conversations() {
+export const Conversations = () => {
   return <ConversationsDetails />;
-}
+};

@@ -1,14 +1,14 @@
 import { Typography, Button, Box, Grid } from '@mui/material';
 import Search from '@/components/Search';
-import { PlusSharedIconColor } from '@/assets/icons';
+import { PlusSharedIcon } from '@/assets/icons';
 import { v4 as uuidv4 } from 'uuid';
-import UseConversation from '../useConversation';
+import { useConversation } from '../useConversation';
 
-const ConversationCannedResponse = ({ onAddButtonClick }) => {
+const ConversationCannedResponse = ({ onAddButtonClick }: any) => {
   const { theme, searchTerm, setSearchTerm, filteredContent } =
-    UseConversation();
+    useConversation();
 
-  const handleAddClick = (title) => {
+  const handleAddClick = (title: any) => {
     onAddButtonClick(title);
   };
 
@@ -25,13 +25,13 @@ const ConversationCannedResponse = ({ onAddButtonClick }) => {
       </Box>
 
       <Box>
-        <Box display={'flex'} alignItems="center" cursor={'pointer'}>
-          <PlusSharedIconColor color={theme?.palette?.primary?.main} />
+        <Box display={'flex'} alignItems="center" sx={{ cursor: 'pointer' }}>
+          <PlusSharedIcon />
           <Typography marginLeft={1}>Add Canned Response</Typography>
         </Box>
 
         <br />
-        {filteredContent?.map((item) => (
+        {filteredContent?.map((item: any) => (
           <Box
             marginTop={2}
             key={uuidv4()}

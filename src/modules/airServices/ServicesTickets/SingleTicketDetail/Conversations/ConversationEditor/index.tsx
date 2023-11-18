@@ -8,12 +8,12 @@ import ConversationTextLabel from '../ConversationTextLabel';
 
 // ----------------------------------------------------------------------
 
-export default function ConversationEditor({
+const ConversationEditor = ({
   name,
   required,
   selectedTitle,
   ...other
-}: any) {
+}: any) => {
   const { control } = useFormContext();
 
   return (
@@ -52,4 +52,6 @@ export default function ConversationEditor({
       )}
     />
   );
-}
+};
+
+export default ConversationEditor;

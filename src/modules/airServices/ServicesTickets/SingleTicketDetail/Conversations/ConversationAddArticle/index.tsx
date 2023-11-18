@@ -1,14 +1,14 @@
 import { Typography, Button, Box, Grid } from '@mui/material';
 import Search from '@/components/Search';
-import { PlusSharedIconColor } from '@/assets/icons';
+import { PlusSharedIcon } from '@/assets/icons';
 import { v4 as uuidv4 } from 'uuid';
-import UseConversation from '../useConversation';
+import { useConversation } from '../useConversation';
 
-const ConversationAddArticle = ({ onAddContractButtonClick }) => {
+const ConversationAddArticle = ({ onAddContractButtonClick }: any) => {
   const { theme, filteredContent, searchTerm, setSearchTerm } =
-    UseConversation();
+    useConversation();
 
-  const handleAddContractClick = (title) => {
+  const handleAddContractClick = (title: any) => {
     onAddContractButtonClick(title);
   };
 
@@ -25,8 +25,8 @@ const ConversationAddArticle = ({ onAddContractButtonClick }) => {
       </Box>
 
       <Box>
-        <Box display={'flex'} alignItems="center" cursor={'pointer'}>
-          <PlusSharedIconColor color={theme?.palette?.primary?.main} />
+        <Box display={'flex'} alignItems="center" sx={{ cursor: 'pointer' }}>
+          <PlusSharedIcon />
           <Typography marginLeft={1}>Add New Article</Typography>
         </Box>
 

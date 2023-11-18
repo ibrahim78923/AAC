@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Dialog, IconButton, DialogTitle } from '@mui/material';
 import {
   ArticleModalIcon,
@@ -6,51 +6,17 @@ import {
   CloseDrawerIcon,
 } from '@/assets/icons';
 import { Box } from '@mui/material';
-import ConversationCannedResponse from '../ConversationCannedResponse';
-import ConversationAddArticle from '../ConversationAddArticle';
-import UseConversation from '../useConversation';
+import { useConversationArticleSelect } from './useConversationArticleSelect';
 
-function ConversationArticleSelect() {
-  const { theme } = UseConversation();
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedComponent, setSelectedComponent] = useState({
-    component: null,
-    title: '',
-  });
-
-  const handleCannedResponseClick = () => {
-    setSelectedComponent({
-      component: (
-        <ConversationCannedResponse
-          onAddButtonClick={(selectedTitle) =>
-            handleAddButtonClick(selectedTitle)
-          }
-        />
-      ),
-      title: 'Canned Response Modal',
-    });
-    setIsModalOpen(true);
-  };
-
-  const handleArticleClick = () => {
-    setSelectedComponent({
-      component: (
-        <ConversationAddArticle
-          onAddContractButtonClick={(selectedTitle) =>
-            handleAddButtonClick(selectedTitle)
-          }
-        />
-      ),
-      title: 'Article Modal',
-    });
-    setIsModalOpen(true);
-  };
-
-  const handleAddButtonClick = (selectedTitle) => {
-    selectedTitle;
-    setIsModalOpen(false);
-  };
+const ConversationArticleSelect = () => {
+  const {
+    handleCannedResponseClick,
+    handleArticleClick,
+    isModalOpen,
+    setIsModalOpen,
+    theme,
+    selectedComponent,
+  }: any = useConversationArticleSelect();
 
   return (
     <Box>
@@ -68,7 +34,7 @@ function ConversationArticleSelect() {
             position: 'absolute',
             right: 8,
             top: 8,
-            color: (theme) => theme?.palette?.grey[500],
+            color: (theme) => theme?.palette?.grey?.[500],
           }}
           onClick={() => setIsModalOpen(false)}
         >
@@ -82,6 +48,6 @@ function ConversationArticleSelect() {
       </Dialog>
     </Box>
   );
-}
+};
 
 export default ConversationArticleSelect;

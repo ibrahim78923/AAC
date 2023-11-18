@@ -4,9 +4,10 @@ import { menuOptionsAddConversation } from '../Conversation.data';
 import ConversationView from '../ConversationView';
 import NoData from '@/components/NoData';
 import { AddWhiteBgIcon } from '@/assets/icons';
-import UseConversation from '../useConversation';
+import { NoAssociationFoundImage } from '@/assets/images';
+import { useConversation } from '../useConversation';
 
-export default function ConversationsDetails() {
+const ConversationsDetails = () => {
   const {
     isConversation,
     open,
@@ -15,7 +16,7 @@ export default function ConversationsDetails() {
     handleCloseButtonMenu,
     setSelectedItem,
     renderSelectedComponent,
-  } = UseConversation();
+  } = useConversation();
 
   return (
     <Box marginTop={'1.25rem'}>
@@ -74,7 +75,10 @@ export default function ConversationsDetails() {
         <ConversationView />
       ) : (
         <>
-          <NoData message="There are no Asset Associations">
+          <NoData
+            message="There are no Conversation"
+            image={NoAssociationFoundImage}
+          >
             <Button
               variant="contained"
               startIcon={<AddWhiteBgIcon />}
@@ -91,4 +95,6 @@ export default function ConversationsDetails() {
       )}
     </Box>
   );
-}
+};
+
+export default ConversationsDetails;

@@ -1,4 +1,4 @@
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Grid, Typography, useTheme } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {
   EditBlackIcon,
@@ -14,10 +14,9 @@ import {
 import { v4 as uuidv4 } from 'uuid';
 import Image from 'next/image';
 import { AttachFileCard } from '@/components/AttachFileCard';
-import UseConversation from '../useConversation';
 
 const ConversationNoteView = () => {
-  const { theme } = UseConversation();
+  const theme = useTheme();
   return (
     <Box marginTop={'3.125rem'}>
       {conversationData?.map((e: any) => (
