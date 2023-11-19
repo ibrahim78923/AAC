@@ -27,21 +27,22 @@ import usePath from '@/hooks/usePath';
 import { PAGINATION } from '@/config';
 
 export const useTicketsLists: any = () => {
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [hasTicketAction, setHasTicketAction] = useState(false);
   const [selectedTicketList, setSelectedTicketList] = useState([]);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [search, setSearch] = useState<any>('');
-  const [columnNames, setColumnNames] = useState(ticketsListInitialColumns);
-  const [ticketsFilter, setTicketsFilter] = useState<any>([]);
+  const [ticketsListsActiveColumn, setTicketsListsActiveColumn] = useState(
+    ticketsListInitialColumns,
+  );
+  const [filterTicketLists, setFilterTicketLists] = useState<any>({});
 
   const theme = useTheme();
   const router = useRouter();
   const { makePath } = usePath();
   const getTicketsParam = new URLSearchParams();
 
-  ticketsFilter?.forEach(
+  Object?.entries(filterTicketLists || {})?.forEach(
     ([key, value]: any) => getTicketsParam?.append(key, value),
   );
   getTicketsParam?.append('columnNames', '*');
@@ -78,7 +79,9 @@ export const useTicketsLists: any = () => {
     const exportTicketsParams = new URLSearchParams();
 
     exportTicketsParams?.append('exportType', type);
-
+    exportTicketsParams?.append('columnNames', '*');
+    exportTicketsParams?.append('page', page + '');
+    exportTicketsParams?.append('limit', pageLimit + '');
     const getTicketsExportParameter = {
       queryParams: exportTicketsParams,
     };
@@ -89,21 +92,24 @@ export const useTicketsLists: any = () => {
       )?.unwrap();
       downloadFile(response, 'TicketLists', EXPORT_FILE_TYPE?.[type]);
       enqueueSnackbar(
-        response?.data?.message ?? 'Tickets Exported successfully',
+        response?.data?.message ?? `Tickets Exported successfully as ${type}`,
         {
           variant: NOTISTACK_VARIANTS?.SUCCESS,
         },
       );
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message ?? 'Tickets not exported', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      enqueueSnackbar(
+        error?.data?.message ?? `Tickets not exported as ${type}`,
+        {
+          variant: NOTISTACK_VARIANTS?.ERROR,
+        },
+      );
     }
   };
   //TODO: we will be used while doing BE integration
-  // useEffect(() => {
-  //   getValueTicketsListData();
-  // }, [search, page, pageLimit, ticketsFilter]);
+  useEffect(() => {
+    getValueTicketsListData();
+  }, [search, page, pageLimit, filterTicketLists]);
 
   useEffect(() => {
     router?.push(
@@ -156,72 +162,73 @@ export const useTicketsLists: any = () => {
   const ticketActionComponent: any = {
     [TICKETS_ACTION_CONSTANTS?.CUSTOMIZE_COLUMN]: (
       <CustomizeTicketsColumn
-        isDrawerOpen={isDrawerOpen}
-        setIsDrawerOpen={setIsDrawerOpen}
+        isDrawerOpen={hasTicketAction}
+        setIsDrawerOpen={setHasTicketAction}
         ticketsListsColumnPersist={ticketsListsColumnPersist}
-        setColumnNames={setColumnNames}
-        columnNames={columnNames}
+        setTicketsListsActiveColumn={setTicketsListsActiveColumn}
+        ticketsListsActiveColumn={ticketsListsActiveColumn}
       />
     ),
 
     [TICKETS_ACTION_CONSTANTS?.FILTER_DATA]: (
       <TicketsFilter
-        setIsDrawerOpen={setIsDrawerOpen}
-        isDrawerOpen={isDrawerOpen}
-        setTicketsFilter={setTicketsFilter}
+        setIsDrawerOpen={setHasTicketAction}
+        isDrawerOpen={hasTicketAction}
+        setFilterTicketLists={setFilterTicketLists}
+        filterTicketLists={filterTicketLists}
       />
     ),
     [TICKETS_ACTION_CONSTANTS?.CREATE_NEW_TICKET]: (
       <UpsertTicket
-        setIsDrawerOpen={setIsDrawerOpen}
-        isDrawerOpen={isDrawerOpen}
+        setIsDrawerOpen={setHasTicketAction}
+        isDrawerOpen={hasTicketAction}
       />
     ),
     [TICKETS_ACTION_CONSTANTS?.EDIT_TICKET]: (
       <UpsertTicket
-        setIsDrawerOpen={setIsDrawerOpen}
-        isDrawerOpen={isDrawerOpen}
+        setIsDrawerOpen={setHasTicketAction}
+        isDrawerOpen={hasTicketAction}
         ticketId={selectedTicketList?.[0]}
       />
     ),
     [TICKETS_ACTION_CONSTANTS?.BULK_UPDATE_DATA]: (
       <TicketsBulkUpdate
-        setIsDrawerOpen={setIsDrawerOpen}
-        isDrawerOpen={isDrawerOpen}
+        setIsDrawerOpen={setHasTicketAction}
+        isDrawerOpen={hasTicketAction}
         ticketId={selectedTicketList?.[0]}
       />
     ),
     [TICKETS_ACTION_CONSTANTS?.ASSIGNED_TICKET]: (
       <AssignedTickets
-        setIsAssignedModalOpen={setIsModalOpen}
-        isAssignedModalOpen={isModalOpen}
+        setIsAssignedModalOpen={setHasTicketAction}
+        isAssignedModalOpen={hasTicketAction}
         selectedTicketList={selectedTicketList}
       />
     ),
     [TICKETS_ACTION_CONSTANTS?.MOVE_TICKET]: (
       <MoveTickets
-        setIsMoveTicketsModalOpen={setIsModalOpen}
-        isMoveTicketsModalOpen={isModalOpen}
+        setIsMoveTicketsModalOpen={setHasTicketAction}
+        isMoveTicketsModalOpen={hasTicketAction}
         selectedTicketList={selectedTicketList}
       />
     ),
     [TICKETS_ACTION_CONSTANTS?.MERGE_TICKET]: (
       <MergeTickets
-        setIsMergedTicketsModalOpen={setIsModalOpen}
-        isMergedTicketsModalOpen={isModalOpen}
+        setIsMergedTicketsModalOpen={setHasTicketAction}
+        isMergedTicketsModalOpen={hasTicketAction}
         selectedTicketList={selectedTicketList}
       />
     ),
     [TICKETS_ACTION_CONSTANTS?.DELETE_TICKET]: (
       <TicketsDelete
-        deleteModalOpen={isModalOpen}
-        setDeleteModalOpen={setIsModalOpen}
+        deleteModalOpen={hasTicketAction}
+        setDeleteModalOpen={setHasTicketAction}
         selectedTicketList={selectedTicketList}
       />
     ),
   };
 
-  const openDrawer = (ticketActionQuery: any) => {
+  const setTicketAction = (ticketActionQuery: any) => {
     router?.push({
       pathname: router?.pathname,
       query: {
@@ -230,34 +237,20 @@ export const useTicketsLists: any = () => {
       },
     });
     setTimeout(() => {
-      setIsDrawerOpen?.(true);
-    }, 100);
-  };
-
-  const openModal = (ticketActionQuery: any) => {
-    router?.push({
-      pathname: router?.pathname,
-      query: {
-        ...router?.query,
-        ticketAction: ticketActionQuery,
-      },
-    });
-    setTimeout(() => {
-      setIsModalOpen?.(true);
+      setHasTicketAction?.(true);
     }, 100);
   };
 
   const ticketsActionDropdown = ticketsActionDropdownFunction?.(
-    openDrawer,
+    setTicketAction,
     selectedTicketList,
     updateTicketStatus,
-    openModal,
   );
 
   return {
-    isDrawerOpen,
+    hasTicketAction,
     router,
-    openDrawer,
+    setTicketAction,
     TICKETS_ACTION_CONSTANTS,
     ticketActionComponent,
     ticketsActionDropdown,
@@ -269,12 +262,11 @@ export const useTicketsLists: any = () => {
     setPage,
     getTicketsListDataExport,
     lazyGetExportTicketsStatus,
-    columnNames,
+    ticketsListsActiveColumn,
     selectedTicketList,
     pageLimit,
     setPageLimit,
-    isModalOpen,
-    setColumnNames,
+    setTicketsListsActiveColumn,
     getValueTicketsListData,
   };
 };

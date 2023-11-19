@@ -19,10 +19,9 @@ export const TICKETS_ACTION_CONSTANTS = {
 };
 
 export const ticketsActionDropdownFunction = (
-  openDrawer: any,
+  setTicketAction: any,
   selectedTicketList: any,
   updateTicketStatus: any,
-  openModal: any,
 ) => [
   {
     title: 'Edit',
@@ -34,21 +33,21 @@ export const ticketsActionDropdownFunction = (
         closeMenu?.();
         return;
       }
-      openDrawer(TICKETS_ACTION_CONSTANTS?.EDIT_TICKET);
+      setTicketAction(TICKETS_ACTION_CONSTANTS?.EDIT_TICKET);
       closeMenu?.();
     },
   },
   {
     title: 'Assignee',
     handleClick: (closeMenu: any) => {
-      openModal(TICKETS_ACTION_CONSTANTS?.ASSIGNED_TICKET);
+      setTicketAction(TICKETS_ACTION_CONSTANTS?.ASSIGNED_TICKET);
       closeMenu?.();
     },
   },
   {
     title: 'Bulk Update',
     handleClick: (closeMenu: any) => {
-      openDrawer(TICKETS_ACTION_CONSTANTS?.BULK_UPDATE_DATA);
+      setTicketAction(TICKETS_ACTION_CONSTANTS?.BULK_UPDATE_DATA);
       closeMenu?.();
     },
   },
@@ -62,14 +61,14 @@ export const ticketsActionDropdownFunction = (
         closeMenu?.();
         return;
       }
-      openModal(TICKETS_ACTION_CONSTANTS?.MERGE_TICKET);
+      setTicketAction(TICKETS_ACTION_CONSTANTS?.MERGE_TICKET);
       closeMenu?.();
     },
   },
   {
     title: 'Move',
     handleClick: (closeMenu: any) => {
-      openModal(TICKETS_ACTION_CONSTANTS?.MOVE_TICKET);
+      setTicketAction(TICKETS_ACTION_CONSTANTS?.MOVE_TICKET);
       closeMenu?.();
     },
   },
@@ -90,7 +89,7 @@ export const ticketsActionDropdownFunction = (
   {
     title: 'Delete',
     handleClick: (closeMenu: any) => {
-      openModal(TICKETS_ACTION_CONSTANTS?.DELETE_TICKET);
+      setTicketAction(TICKETS_ACTION_CONSTANTS?.DELETE_TICKET);
       closeMenu?.();
     },
   },

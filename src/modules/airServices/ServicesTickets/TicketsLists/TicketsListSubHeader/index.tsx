@@ -15,7 +15,7 @@ export const TicketsListSubHeader = (props: any) => {
     search,
     setSearch,
     disabledActionButton,
-    setColumnNames,
+    setTicketsListsActiveColumn,
   } = props;
 
   const theme: any = useTheme();
@@ -52,7 +52,7 @@ export const TicketsListSubHeader = (props: any) => {
           <Button
             variant="outlined"
             onClick={() => {
-              setColumnNames(ticketsListInitialColumns);
+              setTicketsListsActiveColumn(ticketsListInitialColumns);
             }}
             size="large"
             color="secondary"

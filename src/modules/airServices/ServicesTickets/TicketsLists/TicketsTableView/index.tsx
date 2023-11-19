@@ -1,20 +1,12 @@
 import TanstackTable from '@/components/Table/TanstackTable';
-import { PAGINATION } from '@/config';
 
 export const TicketsTableView = (props: any) => {
   const {
     ticketsListsColumn,
     ticketListsData,
+    metaData,
     setPage,
-    isLoading,
-    page,
-    totalPages,
-    pageLimit,
-    totalRecords,
     setPageLimit,
-    isFetching,
-    isError,
-    isSuccess,
   } = props;
 
   return (
@@ -22,15 +14,14 @@ export const TicketsTableView = (props: any) => {
       <TanstackTable
         columns={ticketsListsColumn}
         data={ticketListsData}
-        isLoading={isLoading}
-        isFetching={isFetching}
-        isError={isError}
-        isSuccess={isSuccess}
-        count={totalPages}
-        pageLimit={pageLimit}
-        rowsPerPageOptions={PAGINATION?.ROWS_PER_PAGE}
-        currentPage={page}
-        totalRecords={totalRecords}
+        isLoading={metaData?.isLoading}
+        isFetching={metaData?.isFetching}
+        isError={metaData?.isError}
+        isSuccess={metaData?.isSuccess || true}
+        currentPage={metaData?.data?.data?.meta?.page}
+        count={metaData?.data?.data?.meta?.pages}
+        pageLimit={metaData?.data?.data?.meta?.limit}
+        totalRecords={metaData?.data?.data?.meta?.total}
         onPageChange={(page: any) => setPage(page)}
         setPage={setPage}
         setPageLimit={setPageLimit}

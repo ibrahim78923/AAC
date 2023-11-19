@@ -7,14 +7,16 @@ export const useCustomizeTicketColumn = (props: any) => {
   const {
     ticketsListsColumnPersist,
     setIsDrawerOpen,
-    setColumnNames,
-    columnNames,
+    setTicketsListsActiveColumn,
+    ticketsListsActiveColumn,
   } = props;
 
   const theme = useTheme();
   const router = useRouter();
   const { makePath } = usePath();
-  const [customizeColumn, setCustomizeColumn]: any = useState<any>(columnNames);
+  const [customizeColumn, setCustomizeColumn]: any = useState<any>(
+    ticketsListsActiveColumn,
+  );
   const checkboxHandler = (e: any, col: any) => {
     e?.target?.checked
       ? setCustomizeColumn([...customizeColumn, col?.id])
@@ -24,7 +26,7 @@ export const useCustomizeTicketColumn = (props: any) => {
   };
 
   const submit = () => {
-    setColumnNames(customizeColumn);
+    setTicketsListsActiveColumn(customizeColumn);
     onClose?.();
   };
 

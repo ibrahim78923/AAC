@@ -25,6 +25,30 @@ export const dropdownDummy = [
   },
 ];
 
+export const ticketsFilterFormFieldsDefaultValues = (data?: any) => {
+  return {
+    ticketType: data?.ticketType ?? '',
+    createdOn: data?.createdOn ?? '',
+    status: data?.status ?? '',
+    agent: data?.agent ?? null,
+    requester: data?.requester ?? null,
+    department: data?.department ?? null,
+    priority: data?.priority ?? '',
+    impact: data?.impact ?? '',
+    category: data?.category ?? null,
+    source: data?.source ?? '',
+    plannedStartDate:
+      typeof data?.plannedStartDate === 'object'
+        ? new Date(data?.plannedStartDate)
+        : null,
+    plannedStartTime: null,
+    plannedEndDate:
+      typeof data?.plannedEndDate === 'object'
+        ? new Date(data?.plannedEndDate)
+        : null,
+    plannedEndTime: null,
+  };
+};
 export const ticketsFilterFormFieldsDataFunction = (
   apiQueryRequester?: any,
   apiQueryDepartment?: any,
