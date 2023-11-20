@@ -34,7 +34,7 @@ const PostsArea = () => {
   const [isUserViewModal, setIsUserViewModal] = useState(false);
   const [activeUserProfile, setActiveUserProfile] = useState(userProfile);
   return (
-    <Box sx={styles.mainPostsWrapper}>
+    <Box sx={styles?.mainPostsWrapper}>
       {inboxPostData?.map((post) => (
         <Box sx={styles?.postCard} key={uuidv4()}>
           <Box

@@ -174,7 +174,7 @@ export { default as MessageDullIcon } from './modules/SocialComponents/Calling/m
 export { default as ClearIcon } from './modules/SocialComponents/Calling/clear';
 export { default as PhoneGreenIcon } from './modules/SocialComponents/Calling/phone-green';
 export { default as TimeClockIcon } from './modules/airSales/deals/time-clock';
-export { default as ActionsIcon } from './modules/airSales/Contacts/Actions';
+export { default as ActionsIcon } from './modules/airSales/Contacts/actions';
 export { default as callIcon } from './modules/airSales/deals/call-icon';
 export { default as EmailDealsIcon } from './modules/airSales/deals/email-icon';
 export { default as MeetingDealsIcon } from './modules/airSales/deals/meeting-icon';
@@ -228,6 +228,13 @@ export { default as ActivityEditIcon } from './modules/airMarketer/SocialMarketi
 export { default as SingleUserIcon } from './modules/airMarketer/SocialMarketing/PostBox/single-user';
 export { default as CheckIcon } from './modules/airMarketer/SocialMarketing/PostBox/check';
 export { default as SenderIcon } from './modules/airMarketer/SocialMarketing/PostBox/sender';
+export { default as ProfilePlusIcon } from './shared/profile-plus';
+export { default as CreatePostCalendaIcon } from './shared/create-post-calendar';
+export { default as EmojiIcon } from './modules/airMarketer/CreatePost/emoji';
+export { default as ATRateIcon } from './modules/airMarketer/CreatePost/aTRate';
+export { default as HashTagIcon } from './modules/airMarketer/CreatePost/hashtag';
+export { default as LocationIcon } from './modules/airMarketer/CreatePost/location';
+export { default as CapitalSmallIcon } from './modules/airMarketer/CreatePost/capitalSmall';
 export { default as SentSmsIcon } from './modules/airMarketer/SMSMarketing/sent-sms-icon';
 export { default as ReadSmsIcon } from './modules/airMarketer/SMSMarketing/read-sms-icon';
 export { default as FailedSmsIcon } from './modules/airMarketer/SMSMarketing/failed-sms-icon';
@@ -239,6 +246,9 @@ export { default as airOperationsIcon } from './modules/productSuite/air-operati
 export { default as airServicesIcon } from './modules/productSuite/air-services';
 export { default as callCenterIcon } from './modules/productSuite/call-center';
 export { default as loyaltyIcon } from './modules/productSuite/loyalty';
+export { default as YoutubeRoundIcon } from './modules/airMarketer/CreatePost/youtubeRound';
+export { default as FacebookRoundIcon } from './modules/airMarketer/CreatePost/facebookRound';
+export { default as InstagramRoundIcon } from './modules/airMarketer/CreatePost/instagramRound';
 export { default as ArchiveIcon } from './shared/archive-icon';
 export { default as AddChannelIcon } from './modules/airMarketer/SocialInbox/add-channnel';
 
