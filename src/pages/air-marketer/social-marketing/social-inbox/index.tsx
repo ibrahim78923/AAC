@@ -1,6 +1,6 @@
+import React from 'react';
 import Layout from '@/layout';
 import SocialInbox from '@/modules/airMarketer/SocialMarketing/SocialInbox';
-import React from 'react';
 
 const SocialInboxPage = () => {
   return <SocialInbox />;

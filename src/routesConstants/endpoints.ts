@@ -14,10 +14,10 @@ export const END_POINTS = {
   TICKET_STATUS: '/ticket/status',
   TICKET_BULK_UPDATE: '/ticket/bulk-ticket-update',
   USER_LIST: '/users',
-  // USER_LIST: '/users',
   ADD_USER: '/users',
-  // GET_USER_DETAILS:'/users',
   ADD_USER_ACCOUNT: '/super-admin/add-accounts',
+  SUPER_ADMIN_USER_LIST: '/super-admin/user-list',
+  SUPER_ADMIN_ADD_USER: '/super-admin/add-user',
   USER_ACCOUNTS_LIST: '/super-admin/accounts-list',
   UPDATE_USER_LIST: '/users/edit',
   COMPANY_CRN: '/auth/search-company',
@@ -32,10 +32,13 @@ export const END_POINTS = {
 
 export const superAdminBillingInvoices = {
   get_org_plan: '/super-admin/get-all-orgplans?',
-  get_Products: '/products?status=inactive',
+  get_Products: '/products?status=active',
   get_plan_type: '/plan/plan-type-list',
   get_organizations: '/organization/get-organizations',
   post_biling_invoices: '/super-admin/assign-plan',
+  get_plan_id: '/super-admin/find-plan',
+  patch_assign_plan: '/super-admin/update-assign-plan',
+  get_all_invoice: '/super-admin/get-all-invoice',
 };
 
 export const organization = {

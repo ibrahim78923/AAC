@@ -32,7 +32,7 @@ export const options: any = {
   },
   yaxis: {
     labels: {
-      formatter: function (value: any, index: any) {
+      formatter: function (_: any, index: any) {
         return customYAxisLabels[index];
       },
     },
@@ -45,6 +45,7 @@ export const options: any = {
     },
   },
 };
+//x and y axis customers and earnings values
 export const series: any = [
   {
     name: 'Customers',

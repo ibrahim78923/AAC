@@ -11,10 +11,14 @@ import ContactsCustomize from './CreatedCustomize';
 import CreatedActions from './CreatedActions';
 import useImportRecordCreated from './useImportRecordCreated';
 import CreatedFilterDrawer from './CreatedFilterDrawer';
+import AssignModalBox from './CreateRecordModalBox/AssignModalBox';
+import DeleteModal from './CreateRecordModalBox/DeleteModal';
+import ExportModal from './CreateRecordModalBox/ExportModal';
 
 import {
   BackArrIcon,
   CutomizeIcon,
+  ExportIcon,
   FilterIcon,
   RestoreIcon,
 } from '@/assets/icons';
@@ -28,6 +32,12 @@ const ImportRecordCreated = () => {
     handleCustomizeDrawer,
     IsFilter,
     handleFilterDrawer,
+    isAssign,
+    handleAssignModal,
+    HandleDeleteModal,
+    isDelete,
+    IsExport,
+    handleExportModal,
   } = useImportRecordCreated();
 
   return (
@@ -89,8 +99,9 @@ const ImportRecordCreated = () => {
           <Button
             variant="outlined"
             sx={{ height: '30px', color: theme?.palette?.custom['main'] }}
+            onClick={handleExportModal}
           >
-            <FilterIcon />
+            <ExportIcon />
             &nbsp; Export
           </Button>
         </Box>
@@ -98,6 +109,9 @@ const ImportRecordCreated = () => {
       <ContactsCustomize open={isCustomize} onClose={handleCustomizeDrawer} />
       <CreatedFilterDrawer open={IsFilter} onClose={handleFilterDrawer} />
       <CreatedTable />
+      <AssignModalBox open={isAssign} onClose={handleAssignModal} />
+      <DeleteModal open={isDelete} onClose={HandleDeleteModal} />
+      <ExportModal open={IsExport} onClose={handleExportModal} />
     </>
   );
 };

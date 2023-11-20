@@ -1,9 +1,9 @@
 import React from 'react';
 import Layout from '@/layout';
-import SocialMarketing from '@/modules/airMarketer/SocialMarketing';
+import Calender from '@/modules/airMarketer/SocialMarketing/Calender';
 
 const AirMarketerSocialMarketingPage = () => {
-  return <SocialMarketing />;
+  return <Calender />;
 };
 
 export default AirMarketerSocialMarketingPage;

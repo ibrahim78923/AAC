@@ -8,7 +8,8 @@ export const styles = {
     width: '100%',
     zIndex: 1,
     padding: { md: '0 7%', xs: '10px 10px' },
-    backgroundColor: 'rgb(245, 245, 245)',
+
+    // backgroundColor: 'rgb(245, 245, 245)',
 
     '& a': {
       backgroundColor: '#41CCB8',

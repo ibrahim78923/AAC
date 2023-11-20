@@ -110,14 +110,14 @@ export const companiesData: any = [
     name: `Help Squad`,
     email: 'helpsquad.com',
     phoneNumber: '+434343554445',
-    owner: 'Nick Olive',
+    owner: 'Connected',
   },
   {
     Id: 2,
     name: ` Help Squad2`,
     email: 'helpsquad2.com',
     phoneNumber: '+434343554445',
-    owner: '--',
+    owner: 'Disconnected',
   },
 ];
 

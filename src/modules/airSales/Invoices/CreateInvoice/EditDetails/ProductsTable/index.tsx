@@ -179,13 +179,15 @@ const ProductsTable = () => {
       </Grid>
 
       {/* delete modal */}
-      <AlertModals
-        message="You're about to delete all record. Detailed records can't be restored after 90 days."
-        type="delete"
-        open={isDeleteModal}
-        handleClose={() => setIsDeleteModal(false)}
-        handleSubmit={() => setIsDeleteModal(false)}
-      />
+      {isDeleteModal && (
+        <AlertModals
+          message="You're about to delete all record. Detailed records can't be restored after 90 days."
+          type="delete"
+          open={isDeleteModal}
+          handleClose={() => setIsDeleteModal(false)}
+          handleSubmit={() => setIsDeleteModal(false)}
+        />
+      )}
       <AddProducts
         isDrawerOpen={isDrawerOpen}
         setIsDrawerOpen={setIsDrawerOpen}
