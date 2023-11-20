@@ -10,7 +10,7 @@ import { CatalogRequest } from '../CatalogRequest';
 import CatalogServiceBackUp from '../CatalogServiceBackUp';
 import CatalogServiceSoftware from '../CatalogServiceSoftware';
 import { v4 as uuidv4 } from 'uuid';
-import Link from 'next/link';
+
 import { AIR_CUSTOMER_PORTAL } from '@/constants';
 
 const CatalogService = () => {
@@ -29,9 +29,13 @@ const CatalogService = () => {
         flexWrap={'wrap'}
       >
         <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={1}>
-          <Link href={AIR_CUSTOMER_PORTAL?.CATALOG_SERVICE_DETAILS}>
+          <Button
+            onClick={() =>
+              router.push(AIR_CUSTOMER_PORTAL?.CATALOG_SERVICE_DETAILS)
+            }
+          >
             <ViewDetailBackArrowIcon />
-          </Link>
+          </Button>
           <Typography
             variant="h3"
             sx={{ color: theme?.palette?.primary?.main }}
