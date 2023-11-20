@@ -12,6 +12,7 @@ import CatalogServiceSoftware from '../CatalogServiceSoftware';
 import { v4 as uuidv4 } from 'uuid';
 
 import { AIR_CUSTOMER_PORTAL } from '@/constants';
+import { CATALOG_SERVICE } from '@/constants/strings';
 
 const CatalogService = () => {
   const router = useRouter();
@@ -95,7 +96,7 @@ const CatalogService = () => {
       <Grid container>
         <Box m={1}>
           <Typography variant="h5">{serviceData?.title}</Typography>
-          {serviceData?.title === 'Data Backup' ? (
+          {serviceData?.title === CATALOG_SERVICE?.DATA_BACKUP ? (
             <>
               <CatalogServiceBackUp />
             </>

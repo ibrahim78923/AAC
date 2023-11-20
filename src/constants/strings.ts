@@ -134,7 +134,9 @@ export const CATALOG_SERVICE_TYPES = {
   SOFTWARE_INSTALLATION: 'Software Installation',
   PM_TOOLS: 'PM Tools',
 };
-
+export const CATALOG_SERVICE = {
+  DATA_BACKUP: 'Data Backup',
+};
 export const EXPORT_FILE_TYPE: any = {
   [EXPORT_TYPE?.CSV]: 'text/csv',
   [EXPORT_TYPE?.XLS]:

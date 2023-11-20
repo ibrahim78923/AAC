@@ -1,5 +1,6 @@
 import Layout from '@/layout';
-import Catalog from '@/modules/airServices/CustomerPortal/Catalog';
+import Catalog from '@/modules/airCustomerPortal/Catalog';
+
 import React from 'react';
 
 const CatalogPage = () => {
