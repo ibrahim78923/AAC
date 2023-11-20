@@ -6,8 +6,8 @@ import { AvatarImage } from '@/assets/images';
 
 export const columns = (
   setIsGetRowValues: any,
-  setIschecked: any,
-  ischecked: any,
+  setIsChecked: any,
+  isChecked: any,
   isGetRowValues: any,
 ) => {
   return [
@@ -19,11 +19,13 @@ export const columns = (
           color="primary"
           checked={
             info?.cell?.row?.original?.id ===
-              isGetRowValues?.cell?.row?.original?.id && ischecked
+              isGetRowValues?.cell?.row?.original?.id && isChecked
           }
           name={info?.getValue()}
           onClick={() => {
-            setIsGetRowValues(info), setIschecked(!ischecked);
+            !isChecked
+              ? (setIsGetRowValues(info), setIsChecked(!isChecked))
+              : (setIsGetRowValues([]), setIsChecked(!isChecked));
           }}
         />
       ),
@@ -40,7 +42,7 @@ export const columns = (
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
               <Typography variant="subtitle2"> {info?.getValue()}</Typography>
               <Typography variant="body3">
-                {info?.row?.original?.plan}
+                {info?.row?.original?.organizations?.name}
               </Typography>
             </Box>
           </Box>
@@ -58,13 +60,13 @@ export const columns = (
         <>
           <Typography variant="subtitle2">{info?.getValue()}</Typography>
           <Typography variant="body3">
-            {info?.row?.original?.planType}
+            {info?.row?.original?.details?.plantypes} plan
           </Typography>
         </>
       ),
     },
     {
-      accessorFn: (row: any) => row?.dueDate,
+      accessorFn: (row: any) => row?.billingDate?.substring(0, 10),
       id: 'InvoiceDate',
       isSortable: true,
       header: 'Invoice Date',
@@ -77,13 +79,13 @@ export const columns = (
       header: 'Details',
       cell: (info: any) => (
         <>
-          <Box>Invoice # {info?.getValue()}</Box>
-          <Box>Due date: {info?.row?.original?.dueDate}</Box>
+          <Box>Invoice # {info?.row?.original?.invoiceNo}</Box>
+          <Box>Due date: {info?.row?.original?.dueDate?.substring(0, 10)}</Box>
         </>
       ),
     },
     {
-      accessorFn: (row: any) => row?.InvoiceAmount,
+      accessorFn: (row: any) => row?.total,
       id: 'InvoiceAmount',
       isSortable: true,
       header: 'Invoice amount',
@@ -94,7 +96,9 @@ export const columns = (
       id: 'PaymentDate',
       isSortable: true,
       header: 'Payment Date',
-      cell: (info: any) => <> {info?.getValue()}</>,
+      cell: (info: any) => (
+        <> {info?.row?.original?.dueDate?.substring(0, 10)}</>
+      ),
     },
     {
       accessorFn: (row: any) => row?.status,

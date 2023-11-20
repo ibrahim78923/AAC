@@ -5,7 +5,6 @@ import CustomPagination from '@/components/CustomPagination';
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
 import { DropdownIcon, FilterSharedIcon } from '@/assets/icons';
-import { invoicesData } from '@/mock/modules/SubscriptionAndInvoices';
 import ViewInvoices from './ViewInvoices';
 import PayInvoice from './PayInvoice';
 import useInvoices from './useInvoices';
@@ -35,6 +34,7 @@ const Invoices = () => {
     getRowValues,
     isChecked,
     router,
+    allInvoicesTableData,
   } = useInvoices();
 
   return (
@@ -114,12 +114,15 @@ const Invoices = () => {
           </Grid>
         </Grid>
 
-        <TanstackTable columns={getRowValues} data={invoicesData} />
+        <TanstackTable
+          columns={getRowValues}
+          data={allInvoicesTableData?.data?.invoices}
+        />
 
         <CustomPagination
           count={3}
           rowsPerPageOptions={[6, 10, 25, 50, 100]}
-          entriePages={invoicesData?.length}
+          entriePages={allInvoicesTableData?.data?.invoices?.length}
         />
       </Box>
 

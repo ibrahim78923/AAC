@@ -46,7 +46,7 @@ export const Columns = (
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             <Typography variant="subtitle2"> {info?.getValue()}</Typography>
             <Typography variant="body3">
-              {info?.row?.original?.clientSub}
+              {info?.row?.original?.organizations?.name}
             </Typography>
           </Box>
         </Box>
