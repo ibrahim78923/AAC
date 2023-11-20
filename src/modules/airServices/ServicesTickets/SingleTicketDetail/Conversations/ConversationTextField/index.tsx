@@ -1,7 +1,7 @@
 import React from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { Typography, TextField } from '@mui/material';
-import CustomLabel from '../CustomLabel';
+import CustomLabel from '@/components/CustomLabel';
 
 const ConversationTextField = ({ name, required, ...other }) => {
   const { control } = useFormContext();
@@ -44,5 +44,4 @@ const ConversationTextField = ({ name, required, ...other }) => {
     />
   );
 };
-
 export default ConversationTextField;

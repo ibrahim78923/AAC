@@ -140,3 +140,10 @@ export const TICKET_TYPES = {
   TICKETS_I_REQUESTED: 'Tickets I Requested',
   SHARED_WITH_ME: 'Shared with me',
 };
+
+export const TICKETS_CONVERSATION_TYPE = {
+  REPLY: 'reply',
+  FORWARD: 'Forward',
+  DISCUSS: 'Discuss',
+  NOTE: 'note',
+};

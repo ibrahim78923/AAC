@@ -15,7 +15,7 @@ import { useTheme } from '@mui/material';
 import ConversationDiscuss from './ConversationDiscuss';
 import ConversationAddComponent from './ConversationAddComponent';
 
-const UseConversation = () => {
+export const UseConversation = () => {
   const [isConversation] = useState<boolean>(true);
   const [show, setShow] = useState(false);
   const [addConversation, setAddConversation] = useState<null | HTMLElement>(
@@ -79,9 +79,7 @@ const UseConversation = () => {
         );
       case 'Discuss':
         return (
-          <ConversationDiscuss
-            resetSelectedItem={() => setSelectedItem(null)}
-          />
+          <ConversationDiscuss resetSelectedItem={() => setSelectedItem('')} />
         );
       default:
         return null;
@@ -116,5 +114,3 @@ const UseConversation = () => {
     conversationAddArticleData,
   };
 };
-
-export default UseConversation;

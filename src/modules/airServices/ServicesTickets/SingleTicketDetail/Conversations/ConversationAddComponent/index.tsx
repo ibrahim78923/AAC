@@ -33,7 +33,7 @@ const ConversationAddComponent = ({
               key={uuidv4()}
               mb={item?.mb ? item?.mb : ''}
             >
-              <Grid item xs={12} md={item?.md} key={uuidv4()}>
+              <Grid item xs={12} md={item?.md}>
                 <item.component
                   {...item?.componentProps}
                   size={'small'}

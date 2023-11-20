@@ -1,4 +1,4 @@
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Grid, Typography, useTheme } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {
   EditBlackIcon,
@@ -14,10 +14,10 @@ import {
 import { v4 as uuidv4 } from 'uuid';
 import Image from 'next/image';
 import { AttachFileCard } from '@/components/AttachFileCard';
-import UseConversation from '../useConversation';
+import { TICKETS_CONVERSATION_TYPE } from '@/constants/strings';
 
 const ConversationNoteView = () => {
-  const { theme } = UseConversation();
+  const theme = useTheme();
   return (
     <Box marginTop={'3.125rem'}>
       {conversationData?.map((e: any) => (
@@ -45,16 +45,18 @@ const ConversationNoteView = () => {
                     >
                       {e?.sender}
                     </Typography>{' '}
-                    {e?.action === 'reply'
+                    {e?.action === TICKETS_CONVERSATION_TYPE?.REPLY
                       ? 'Replied  to'
-                      : e?.action === 'note'
+                      : e?.action === TICKETS_CONVERSATION_TYPE?.NOTE
                       ? 'Added a private note'
                       : 'forwaded to'}{' '}
                     <Typography
                       component="span"
                       color={theme?.palette?.primary?.main}
                     >
-                      {e?.action === 'note' ? null : e?.to}
+                      {e?.action === TICKETS_CONVERSATION_TYPE?.NOTE
+                        ? null
+                        : e?.to}
                     </Typography>
                   </Typography>
                   <Typography sx={styles?.date}>{e?.time}</Typography>
