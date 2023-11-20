@@ -180,7 +180,7 @@ export const profileFields = [
 
   {
     componentProps: {
-      name: 'fbUrl',
+      name: 'facebookUrl',
       label: 'Facebook URL',
       placeholder: 'Enter FaceBook URL',
       fullWidth: true,

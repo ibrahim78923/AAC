@@ -50,7 +50,6 @@ export { default as ProblemImage } from './modules/HeaderAndSidebar/problems.png
 export { default as ChangeCircleImage } from './modules/HeaderAndSidebar/change-circle.png';
 export { default as KnowledgeBaseImage } from './modules/HeaderAndSidebar/knowledge-base.png';
 export { default as CompaniesImage } from './modules/HeaderAndSidebar/companies.png';
-
 export { default as LoginDashboardImage } from '../../assets/images/shared/login-dashboard.png';
 export { default as RQCodeImage } from '../../assets/images/shared/qr-code.png';
 
@@ -89,6 +88,15 @@ export { default as documentContained } from './modules/superAdmin/Settings/Modu
 export { default as ApplePhoneImage } from './modules/socialComponents/calling/apple-phone.png';
 export { default as NoSearchResultFoundImage } from './shared/no-search-result.png';
 export { default as WelcomeCardImage } from './modules/airServices/Dashboard/welcome-card-image.png';
+export { default as GroupAppAvatarImage } from './modules/airMarketer/SocialMarketer/PostBox/group-app-avatar.png';
+export { default as NatureFreekImage } from './modules/airMarketer/SocialMarketer/PostBox/NatureFreek.png';
+export { default as SeaImage } from './modules/airMarketer/SocialMarketer/PostBox/sea-image.png';
+export { default as TwitterCalenderImage } from './shared/twitter.png';
+export { default as YoutubeCalenderImage } from './shared/youtube.png';
+export { default as FacebookCalenderImage } from './shared/facebook.png';
+export { default as InstagramCalenderImage } from './shared/instagram.png';
+export { default as FacebookLogo } from './shared/facebookLogo.png';
+export { default as InstagramLogo } from './shared/instagramLogo.png';
 export { default as AnnouncementAvatarImage } from './modules/airServices/Dashboard/announcement-avatar-image.png';
 export { default as ClipboardTickImage } from './modules/airServices/Dashboard/clipboard-tick-dashboard-image.png';
 export { default as FirstAidKitImage } from './modules/airServices/Dashboard/first-aid-kit-image.png';
@@ -140,3 +148,23 @@ export { default as TicketImage } from '../images/modules/socialComponents/compa
 export { default as NoteImage } from '../images/modules/socialComponents/companies/note.png';
 export { default as NoteAddImage } from '../images/modules/socialComponents/companies/noteAdd.png';
 export { default as ActivitesTimeImage } from '../images/modules/socialComponents/companies/activitiesWithoutTime.png';
+export { default as EventImage } from '../images/shared/EventImage.png';
+export { default as GroupGmailImage } from './modules/airMarketer/SocialMarketing/group-gmail.png';
+export { default as GroupFacebookImage } from './modules/airMarketer/SocialMarketing/group-facebook.png';
+export { default as GroupTwitterImage } from './modules/airMarketer/SocialMarketing/group-twitter.png';
+export { default as GroupInstagramImage } from './modules/airMarketer/SocialMarketing/group-instagram.png';
+export { default as AddChannelImage } from './modules/airMarketer/SocialMarketing/add-channel.png';
+export { default as FacebookChannelImage } from './modules/airMarketer/SocialMarketing/facebook-channel.png';
+export { default as TwitterChannelImage } from './modules/airMarketer/SocialMarketing/twitter-channel.png';
+export { default as InstagramChannelImage } from './modules/airMarketer/SocialMarketing/instagram-channel.png';
+export { default as YoutubeChannelImage } from './modules/airMarketer/SocialMarketing/youtube-channel.png';
+export { default as DysonAvatarImage } from './modules/airMarketer/SocialMarketing/SocialInbox/dyson-avatar.png';
+export { default as RandomPostImage } from './modules/airMarketer/SocialMarketing/SocialInbox/random-post.png';
+export { default as ThumbsUpImage } from './modules/airMarketer/SocialMarketing/SocialInbox/thumbs-up.png';
+export { default as FacebookImage } from './modules/airMarketer/SocialMarketing/SocialInbox/facebook.png';
+export { default as InstagramImage } from './modules/airMarketer/SocialMarketing/SocialInbox/instagram.png';
+export { default as TwitterImage } from './modules/airMarketer/SocialMarketing/SocialInbox/twitter.png';
+export { default as LogoLinkedinImage } from './modules/airMarketer/SocialMarketing/SocialInbox/logo-linkedin.png';
+export { default as LogoInstagramImage } from './modules/airMarketer/SocialMarketing/SocialInbox/logo-instagram.png';
+export { default as LogoWhatsappImage } from './modules/airMarketer/SocialMarketing/SocialInbox/logos-whatsapp.png';
+export { default as LogoFacebookImage } from './modules/airMarketer/SocialMarketing/SocialInbox/logo-facebook.png';

@@ -20,6 +20,7 @@ const BillingAndInvoicesTable = () => {
   const {
     getRowValues,
     isChecked,
+    setIsChecked,
     searchByClientName,
     setSearchByClientName,
     isViewDetailOpen,
@@ -36,6 +37,7 @@ const BillingAndInvoicesTable = () => {
     setIsEditModal,
     isEditModal,
     assignPlanTableData,
+    setIsGetRowValues,
     isGetRowValues,
     handleSubmit,
     onSubmit,
@@ -57,6 +59,7 @@ const BillingAndInvoicesTable = () => {
               }}
               variant="contained"
               className="small"
+              disabled={isChecked}
             >
               Assign Plan
             </Button>
@@ -115,7 +118,6 @@ const BillingAndInvoicesTable = () => {
         <ViewBillingDetails
           isOpenDrawer={isShowViewBillingDetails}
           onClose={setIsShowViewBillingDetails}
-          isGetRowValues={isGetRowValues}
         />
       )}
       <Grid item xs={12} sm={12} mt={1}>
@@ -131,6 +133,8 @@ const BillingAndInvoicesTable = () => {
           onClose={setIsOpenDrawer}
           isEditModal={isEditModal}
           isGetRowValues={isGetRowValues}
+          setIsGetRowValues={setIsGetRowValues}
+          setIsChecked={setIsChecked}
         />
       )}
 
