@@ -36,7 +36,7 @@ function AddAnnouncement({ isDrawerOpen, setIsDrawerOpen }: any) {
           <FormProvider methods={methods}>
             <Grid container spacing={4}>
               {createAnnouncementDashboardDataArray?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                <Grid item xs={12} md={item?.md} key={item?.id}>
                   <item.component {...item.componentProps} size={'small'}>
                     {item?.componentProps?.select
                       ? item?.options?.map((option: any) => (

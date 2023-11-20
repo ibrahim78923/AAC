@@ -35,15 +35,16 @@ export const createAnnouncementDashboardDefaultValues: any = {
   addMember: 'Search agents and requesters', //10
 };
 
-const managedBy = [{ value: 'jamesHarry', label: 'James Harry' }];
+const managedBy = [{ value: 'James Harry', label: 'James Harry' }];
 
 const visiBility = [
-  { value: 'select', label: 'Select' },
-  { value: 'allAgent', label: 'All agent' },
-  { value: 'everyone', label: 'Everyone' },
+  { value: 'Select', label: 'Select' },
+  { value: 'All agent', label: 'All agent' },
+  { value: 'Everyone', label: 'Everyone' },
 ];
 export const createAnnouncementDashboardDataArray = [
   {
+    id: 1,
     componentProps: {
       name: 'title',
       label: 'Title',
@@ -54,6 +55,7 @@ export const createAnnouncementDashboardDataArray = [
     md: 12,
   },
   {
+    id: 2,
     componentProps: {
       name: 'description',
       label: 'Description',
@@ -64,6 +66,7 @@ export const createAnnouncementDashboardDataArray = [
     md: 12,
   },
   {
+    id: 3,
     componentProps: {
       value: 'Schedule an announcement',
     },
@@ -71,6 +74,7 @@ export const createAnnouncementDashboardDataArray = [
     md: 12,
   },
   {
+    id: 4,
     componentProps: {
       name: 'startDate',
       label: 'Start Date',
@@ -81,6 +85,7 @@ export const createAnnouncementDashboardDataArray = [
     md: 6,
   },
   {
+    id: 5,
     componentProps: {
       name: 'endDate',
       label: 'End Date',
@@ -91,6 +96,7 @@ export const createAnnouncementDashboardDataArray = [
     md: 6,
   },
   {
+    id: 6,
     componentProps: {
       name: 'managedBy',
       label: 'Managed By',
@@ -103,6 +109,7 @@ export const createAnnouncementDashboardDataArray = [
     md: 12,
   },
   {
+    id: 7,
     componentProps: {
       name: 'visibility',
       label: 'Visibility',
@@ -115,6 +122,7 @@ export const createAnnouncementDashboardDataArray = [
     md: 12,
   },
   {
+    id: 8,
     componentProps: {
       name: 'notifyMember',
       label: 'Notify members via email',
@@ -124,6 +132,7 @@ export const createAnnouncementDashboardDataArray = [
     md: 12,
   },
   {
+    id: 9,
     componentProps: {
       name: 'emailRecipients',
       label: 'Additional Email recipients',
@@ -133,6 +142,7 @@ export const createAnnouncementDashboardDataArray = [
     md: 12,
   },
   {
+    id: 10,
     componentProps: {
       name: 'addMember',
       label: 'Add Members',
