@@ -1,5 +1,4 @@
 import { Box, Grid, InputAdornment, Typography } from '@mui/material';
-
 import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
 import { EraserIcon } from '@/assets/icons';
@@ -14,11 +13,10 @@ import {
   superAdminValidationSchema,
   CompanyOwnerValidationSchema,
 } from './AddUser.data';
-
 import { useForm } from 'react-hook-form';
 import { enqueueSnackbar } from 'notistack';
-import { v4 as uuidv4 } from 'uuid';
 import { SUPER_ADMIN } from '@/constants/index';
+import { v4 as uuidv4 } from 'uuid';
 
 const AddUser = ({
   isOpenDrawer,
@@ -40,7 +38,6 @@ const AddUser = ({
 
   const companyOwnerDetail = {
     firstName: userDetail?.firstName,
-    middleName: userDetail?.middleName,
     lastName: userDetail?.lastName,
     email: userDetail?.email,
     crn: userDetail?.crn,

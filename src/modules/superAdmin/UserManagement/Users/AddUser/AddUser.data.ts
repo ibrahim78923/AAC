@@ -8,7 +8,6 @@ import * as Yup from 'yup';
 
 export const CompanyOwnerValidationSchema = Yup.object().shape({
   firstName: Yup.string().required('Field is Required'),
-  middleName: Yup.string().required('Field is Required'),
   lastName: Yup.string().required('Field is Required'),
   email: Yup.string().required('Field is Required'),
   crn: Yup.string().required('Field is Required'),
@@ -18,7 +17,6 @@ export const CompanyOwnerValidationSchema = Yup.object().shape({
 
 export const superAdminValidationSchema = Yup.object().shape({
   firstName: Yup.string().required('Field is Required'),
-  middleName: Yup.string().required('Field is Required'),
   lastName: Yup.string().required('Field is Required'),
   email: Yup.string().required('Field is Required'),
   phoneNumber: Yup.string().required('Field is Required'),
@@ -31,7 +29,6 @@ export const superAdminValidationSchema = Yup.object().shape({
 
 export const companyOwnerDefaultValues = {
   firstName: '',
-  middleName: '',
   lastName: '',
   email: '',
   crn: '',
@@ -40,7 +37,6 @@ export const companyOwnerDefaultValues = {
 };
 export const superAdminDefaultValues = {
   firstName: '',
-  middleName: '',
   lastName: '',
   email: '',
   phoneNumber: '',
@@ -57,17 +53,6 @@ export const addUsersArray = [
     componentProps: {
       name: 'firstName',
       placeholder: 'Enter First Name',
-      fullWidth: true,
-    },
-    toShow: ['COMPANY_OWNER', 'SUPER_ADMIN'],
-    component: RHFTextField,
-    md: 12,
-  },
-  {
-    title: 'Middle Name',
-    componentProps: {
-      name: 'middleName',
-      placeholder: 'Enter Middle Name',
       fullWidth: true,
     },
     toShow: ['COMPANY_OWNER', 'SUPER_ADMIN'],
