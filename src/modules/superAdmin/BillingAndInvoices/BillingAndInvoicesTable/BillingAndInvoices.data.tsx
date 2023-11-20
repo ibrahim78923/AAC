@@ -6,7 +6,7 @@ import {
   useGetPlanTypeQuery,
   useGetProductsQuery,
 } from '@/services/superAdmin/billing-invoices';
-
+import { v4 as uuidv4 } from 'uuid';
 import * as Yup from 'yup';
 
 export const Columns = (
@@ -55,16 +55,17 @@ export const Columns = (
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row?.planProducts[0]?.name,
+      accessorFn: (row: any) => row?.planProducts,
       id: 'productsSuite',
       isSortable: true,
       header: 'Products/Suite',
       cell: (info: any) => (
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-          <Typography variant="body3"> {info?.getValue()}</Typography>
-          <Typography variant="body3">
-            {info?.row?.original?.planProduct?.name}
-          </Typography>
+          {info?.row?.original?.planProducts?.map((data: any) => (
+            <Typography variant="body3" key={uuidv4()}>
+              {data?.name}{' '}
+            </Typography>
+          ))}
         </Box>
       ),
     },
