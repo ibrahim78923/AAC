@@ -4,7 +4,7 @@ import Search from '@/components/Search';
 import CustomPagination from '@/components/CustomPagination';
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
-import { DropdownIcon, FilterSharedIcon } from '@/assets/icons';
+import { DropdownIcon, FilterSharedIcon, RefreshIcon } from '@/assets/icons';
 import ViewInvoices from './ViewInvoices';
 import PayInvoice from './PayInvoice';
 import useInvoices from './useInvoices';
@@ -45,11 +45,20 @@ const Invoices = () => {
           <Grid container>
             <Grid item xs={3}>
               <Box sx={styles?.invoicesHeaderLabel}>Invoices Due</Box>
-              <Box sx={styles?.invoicesHeaderValue}>1</Box>
+              <Box sx={styles?.invoicesHeaderValue}>
+                {allInvoicesTableData?.data?.widget?.countInvoiceDue === 0
+                  ? 0
+                  : allInvoicesTableData?.data?.widget?.countInvoiceDue}
+              </Box>
             </Grid>
             <Grid item xs={9}>
               <Box sx={styles?.invoicesHeaderLabel}>Total Balance Due</Box>
-              <Box sx={styles?.invoicesHeaderValue}>£ 1,234.11</Box>
+              <Box sx={styles?.invoicesHeaderValue}>
+                £{' '}
+                {allInvoicesTableData?.data?.widget?.totalAmountDue === 0
+                  ? 0
+                  : allInvoicesTableData?.data?.widget?.totalAmountDue}
+              </Box>
             </Grid>
           </Grid>
         </Box>
@@ -102,6 +111,10 @@ const Invoices = () => {
                   View Invoice
                 </MenuItem>
               </Menu>
+
+              <Button sx={{ border: '1px solid #D1D5DB', marginLeft: '10px' }}>
+                <RefreshIcon />
+              </Button>
 
               <Button
                 size="small"

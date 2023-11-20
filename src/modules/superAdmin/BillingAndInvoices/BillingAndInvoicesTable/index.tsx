@@ -15,6 +15,7 @@ import { styles } from '../Invoices/Invoices.style';
 import { FilterSharedIcon } from '@/assets/icons';
 import { dataArray, defaultValues } from './BillingAndInvoices.data';
 import { v4 as uuidv4 } from 'uuid';
+import { RefreshIcon } from '@/assets/icons';
 
 const BillingAndInvoicesTable = () => {
   const {
@@ -42,6 +43,7 @@ const BillingAndInvoicesTable = () => {
     handleSubmit,
     onSubmit,
     methods,
+    handleRefresh,
   } = useBillingAndInvoices(defaultValues);
 
   return (
@@ -92,6 +94,14 @@ const BillingAndInvoicesTable = () => {
                 isChecked={isChecked}
                 setIsEditModal={setIsEditModal}
               />
+
+              <Button
+                sx={{ border: '1px solid #D1D5DB', marginLeft: '10px' }}
+                onClick={handleRefresh}
+              >
+                <RefreshIcon />
+              </Button>
+
               <Button
                 onClick={() => setIsOpenFilter(true)}
                 startIcon={<FilterSharedIcon />}

@@ -50,14 +50,20 @@ const useBillingAndInvoices = (defaultValues: any) => {
     defaultValues: defaultValues,
   });
 
-  const { handleSubmit } = methods;
+  const { handleSubmit, reset } = methods;
 
   const onSubmit = async (values: any) => {
     setOrginzationId(values?.ClientOrganization);
     setProductId(values?.productSuite);
     setPlanTypeId(values?.planType);
-
+    reset();
     setIsOpenFilter(false);
+  };
+
+  const handleRefresh = async () => {
+    setOrginzationId('');
+    setProductId('');
+    setPlanTypeId('');
   };
 
   const getRowValues = Columns(
@@ -92,6 +98,7 @@ const useBillingAndInvoices = (defaultValues: any) => {
     handleSubmit,
     onSubmit,
     methods,
+    handleRefresh,
   };
 };
 
