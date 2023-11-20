@@ -151,3 +151,13 @@ export const VIEW_TYPES = {
   TABLE: 'table',
   BOARD: 'board',
 };
+
+export const EXPENSE_TYPE = {
+  PURCHASE: 'Purchase Cost',
+  MAINTENANCE: 'maintenance cost',
+};
+
+export const TICKETS_ISSUES_TYPE = {
+  SERVICES: 'Services',
+  INCIDENT: 'Incident',
+};

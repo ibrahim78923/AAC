@@ -1,6 +1,20 @@
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, MenuItem, Popover, Typography } from '@mui/material';
+import React from 'react';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import AddBoxIcon from '@mui/icons-material/AddBox';
+import ReportAnIssueModal from '../ReportAnIssueModal';
+import { useDashboard } from '../useDashboard';
 
 export const Header = () => {
+  const {
+    openReportAnIssueModal,
+    setOpenReportAnIssueModal,
+    open,
+    anchorEl,
+    handleButtonClick,
+    handleClose,
+    handleSubmitModal,
+  } = useDashboard();
   return (
     <>
       <Box
@@ -29,9 +43,43 @@ export const Header = () => {
           <Button variant="outlined" color="secondary">
             revert
           </Button>
-          <Button variant="contained">new</Button>
+          <Button
+            id="demo-customized-button"
+            aria-controls={open ? 'demo-customized-menu' : undefined}
+            aria-haspopup="true"
+            aria-expanded={open ? 'true' : undefined}
+            variant="contained"
+            disableElevation
+            onClick={handleButtonClick}
+            startIcon={<AddBoxIcon />}
+            endIcon={<ArrowDropDownIcon />}
+          >
+            Add
+          </Button>
+          <Popover
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'center',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            sx={{ mt: '0.5rem' }}
+          >
+            <MenuItem onClick={handleClose}>Report an Issue</MenuItem>
+            <MenuItem onClick={handleClose}>Request a service</MenuItem>
+          </Popover>
         </Box>
       </Box>
+      <ReportAnIssueModal
+        openReportAnIssueModal={openReportAnIssueModal}
+        setOpenReportAnIssueModal={setOpenReportAnIssueModal}
+        handleSubmitModal={handleSubmitModal}
+      />
     </>
   );
 };

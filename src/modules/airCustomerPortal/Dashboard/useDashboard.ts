@@ -1,9 +1,11 @@
+import { useState } from 'react';
 import { AIR_CUSTOMER_PORTAL } from '@/constants';
 import { useRouter } from 'next/router';
 import {
   dashboardWidgetsFunction,
   dashboardWidgetsTitles,
 } from './Dashboard.data';
+import { enqueueSnackbar } from 'notistack';
 
 export const useDashboard = () => {
   const { TICKETS, KNOWLEDGE_BASE } = AIR_CUSTOMER_PORTAL;
@@ -26,6 +28,39 @@ export const useDashboard = () => {
   };
 
   const dashboardWidgets = dashboardWidgetsFunction(handleViewMore);
+  const [openReportAnIssueModal, setOpenReportAnIssueModal] =
+    useState<boolean>(false);
+  const [open, setOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState<any>(null);
 
-  return { dashboardWidgets };
+  const handleButtonClick = (event: any) => {
+    setAnchorEl(event.currentTarget);
+    setOpen(!open);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+    setOpen(false);
+    setOpenReportAnIssueModal(true);
+  };
+
+  const handleSubmitModal = () => {
+    enqueueSnackbar('Issue Report Successfully', {
+      variant: 'success',
+    });
+    setOpenReportAnIssueModal(false);
+  };
+
+  return {
+    dashboardWidgets,
+    openReportAnIssueModal,
+    setOpenReportAnIssueModal,
+    open,
+    setOpen,
+    anchorEl,
+    setAnchorEl,
+    handleButtonClick,
+    handleClose,
+    handleSubmitModal,
+  };
 };
