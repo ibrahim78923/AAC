@@ -80,7 +80,7 @@ const CreateForm = ({ isOpenDrawer, onClose }: any) => {
                     key={uuidv4()}
                     style={{ paddingTop: '10px' }}
                   >
-                    {item.componentProps.name === 'accessDashboard' ? (
+                    {item?.componentProps?.name === 'accessDashboard' ? (
                       <Box>
                         <item.component {...item?.componentProps} size="small">
                           {item?.componentProps?.select &&

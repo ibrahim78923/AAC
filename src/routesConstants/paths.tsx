@@ -44,10 +44,11 @@ export const AIR_SALES = {
   SALES_VIEW_INVOICES: '/air-sales/invoices/view-invoices',
   SALES_CREATE_INVOICES: '/air-sales/invoices/create-invoices',
 };
-export const SUPER_ADMIN: any = {
+export const SUPER_ADMIN_PLAN_MANAGEMENT: any = {
   PLAN_MANAGEMENT: '/plan',
   PLAN_TYPE_LIST: 'plan/plan-type-list',
-  PRODUCT_FEATURES: 'product-features',
+  PRODUCT_FEATURES: 'product-features?page=1&limit=10',
+  ADD_PLAN: '/super-admin/plan-management/add-plan',
 };
 export const orgAdminSubcriptionInvoices = {
   choose_plan: '/org-admin/subscription-and-invoices/choose-plan',
@@ -57,4 +58,12 @@ export const orgAdminSubcriptionInvoices = {
 
 export const superAdminBillingInvoicesPath = {
   generate_invoice: '/super-admin/billing-invoices/generate-invoice',
+};
+
+export const airMarketingCalendar = {
+  calendar: '/air-marketer/social-marketing/calender',
+  create_post: '/air-marketer/social-marketing/create-post',
+};
+export const AIR_MARKETER = {
+  SOCIAL_INBOX_SETTINGS: '/air-marketer/social-marketing/social-inbox/settings',
 };

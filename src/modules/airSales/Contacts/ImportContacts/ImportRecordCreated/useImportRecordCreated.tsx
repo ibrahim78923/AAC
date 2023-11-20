@@ -5,6 +5,7 @@ const useImportRecordCreated = () => {
   const [isAssign, setIsAssign] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
   const [IsFilter, setIsFilter] = useState(false);
+  const [IsExport, setIsExport] = useState(false);
 
   const handleCustomizeDrawer = () => {
     setIsCustomize(!isCustomize);
@@ -19,6 +20,9 @@ const useImportRecordCreated = () => {
   };
   const handleFilterDrawer = () => {
     setIsFilter(!IsFilter);
+  };
+  const handleExportModal = () => {
+    setIsExport(!IsExport);
   };
 
   const handleActions = (value: string | any) => {
@@ -39,6 +43,12 @@ const useImportRecordCreated = () => {
     handleActions,
     IsFilter,
     handleFilterDrawer,
+    isAssign,
+    handleAssignModal,
+    HandleDeleteModal,
+    isDelete,
+    handleExportModal,
+    IsExport,
   };
 };
 
