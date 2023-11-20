@@ -11,7 +11,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import {
   addUsersArray,
   superAdminDefaultValues,
-  companyOwnerDefaultValues,
   superAdminValidationSchema,
   CompanyOwnerValidationSchema,
 } from './AddUser.data';
@@ -19,7 +18,6 @@ import {
 import { useForm } from 'react-hook-form';
 import { enqueueSnackbar } from 'notistack';
 import { v4 as uuidv4 } from 'uuid';
-import useUserManagement from '../../useUserManagement';
 import { SUPER_ADMIN } from '@/constants/index';
 
 const AddUser = ({
@@ -27,36 +25,52 @@ const AddUser = ({
   onClose,
   tabVal,
   isOpenAddUserDrawer,
+  setIsOpenAddUserDrawer,
 }: any) => {
-  const { userType, useGetCompaniesCRNQuery } = useUserManagement();
   const [isToggled, setIsToggled] = useToggle(false);
   const { usePostUsersMutation } = usersApi;
   const [postUsers] = usePostUsersMutation();
   const pathName = window?.location?.pathname;
+  const userDetail = isOpenAddUserDrawer?.data?.data;
 
   const superAdminMethods: any = useForm({
     resolver: yupResolver(superAdminValidationSchema),
     defaultValues: superAdminDefaultValues,
   });
+
+  const companyOwnerDetail = {
+    firstName: userDetail?.firstName,
+    middleName: userDetail?.middleName,
+    lastName: userDetail?.lastName,
+    email: userDetail?.email,
+    crn: userDetail?.crn,
+    companyName: userDetail?.organization,
+    phoneNumber: userDetail?.phoneNumber,
+  };
+
   const companyOwnerMethods: any = useForm({
     resolver: yupResolver(CompanyOwnerValidationSchema),
-    defaultValues: companyOwnerDefaultValues,
+    defaultValues: companyOwnerDetail,
   });
 
   const methods = tabVal === 1 ? superAdminMethods : companyOwnerMethods;
-  const { handleSubmit, reset, watch } = methods;
+  const {
+    handleSubmit,
+    reset,
+    //  watch
+  } = methods;
 
-  const crnNumber = watch('crn');
-  const { data } = useGetCompaniesCRNQuery(crnNumber);
+  // const crnNumber = watch('crn');
+  // const { crnData } = useGetCompaniesCRNQuery(crnNumber);
 
   const onSubmit = async (values: any) => {
-    values.role = userType;
-    values.crn = data?.name;
+    values.role = tabVal === 0 ? 'ORG_ADMIN' : 'SUPER_ADMIN';
     try {
       postUsers({ body: values })?.unwrap();
       enqueueSnackbar('User Added Successfully', {
         variant: 'success',
       });
+      setIsOpenAddUserDrawer({ ...isOpenAddUserDrawer, drawer: false });
       reset();
     } catch (error: any) {
       enqueueSnackbar(error, {
@@ -73,7 +87,7 @@ const AddUser = ({
         isOpenAddUserDrawer?.type === 'add'
           ? 'Add User'
           : isOpenAddUserDrawer?.type === 'view'
-          ? 'Paracha'
+          ? userDetail?.firstName
           : 'Edit User'
       }
       okText={isOpenAddUserDrawer?.type === 'add' ? 'Add' : 'Update User'}
@@ -98,17 +112,11 @@ const AddUser = ({
                     </Typography>
                   )}
                   {item?.componentProps?.name === 'address' && (
-                    <Box
-                      sx={{
-                        backgroundColor: '',
-                        position: 'relative',
-                        right: 0,
-                      }}
-                    >
+                    <Box position="relative">
                       <InputAdornment
                         sx={{
                           position: 'absolute',
-                          top: 20,
+                          top: 45,
                           right: 15,
                           zIndex: 9999,
                         }}

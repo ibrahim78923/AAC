@@ -140,6 +140,7 @@ const UserManagement = () => {
             })
           }
           isOpenAddUserDrawer={isOpenAddUserDrawer}
+          setIsOpenAddUserDrawer={setIsOpenAddUserDrawer}
         />
       )}
     </Box>

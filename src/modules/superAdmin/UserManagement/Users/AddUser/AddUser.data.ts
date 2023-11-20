@@ -164,10 +164,10 @@ export const addUsersArray = [
     md: 12,
   },
   {
-    title: 'Address',
     componentProps: {
       name: 'address',
       placeholder: 'Address',
+      label: 'Address',
       fullWidth: true,
     },
     toShow: [1],

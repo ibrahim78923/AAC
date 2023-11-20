@@ -12,8 +12,9 @@ const ActionButton = (props?: any) => {
     handleClose,
     handleUsersList,
     isOpenAddUserDrawer,
+    useGetUsersByIdQuery,
   } = useUserManagement();
-
+  const { data } = useGetUsersByIdQuery(checkedRows);
   return (
     <Box>
       <Button
@@ -45,6 +46,7 @@ const ActionButton = (props?: any) => {
               ...isOpenAddUserDrawer,
               drawer: true,
               type: 'view',
+              data: data,
             });
           }}
         >
