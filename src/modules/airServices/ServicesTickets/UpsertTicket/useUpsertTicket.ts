@@ -49,6 +49,12 @@ export const useUpsertTicket = (props: any) => {
   const { handleSubmit, reset } = methods;
 
   const submitUpsertTicket = async (data: any) => {
+    enqueueSnackbar('Ticket Added Successfully', {
+      variant: NOTISTACK_VARIANTS?.SUCCESS,
+    });
+    reset();
+    setIsDrawerOpen?.(false);
+    return;
     const upsertTicketFormData = new FormData();
     Object?.entries?.(data || {})?.forEach(
       ([key, value]: any) => upsertTicketFormData?.append(key, value),
