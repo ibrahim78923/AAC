@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { defaultValues, validationSchema } from './EditForm.data';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -23,7 +23,10 @@ const useEditForm = (
 
   const rowApiValues = {
     clientName: isGetRowValues?.cell?.row?.original?.organizationId,
-    product: isGetRowValues?.cell?.row?.original?.planProducts[0]?._id,
+    product:
+      isGetRowValues?.cell?.row?.original?.planProducts?.length > 1
+        ? 'CRM2'
+        : isGetRowValues?.cell?.row?.original?.planProducts[0]?._id,
     planType: isGetRowValues?.cell?.row?.original?.plantypes?._id,
     additionalUser: isGetRowValues?.cell?.row?.original?.additionalUsers,
     planPrice: isGetRowValues?.cell?.row?.original?.plans?.planPrice,
@@ -132,6 +135,12 @@ const useEditForm = (
       });
     }
   };
+
+  useEffect(() => {
+    if (isGetRowValues?.cell?.row?.original?.planProducts?.length > 1) {
+      setSelectProductSuite('CRM');
+    }
+  }, [isEditModal]);
 
   return {
     selectProductSuite,
