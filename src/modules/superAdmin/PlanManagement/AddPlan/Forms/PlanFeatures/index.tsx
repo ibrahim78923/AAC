@@ -6,22 +6,13 @@ import {
   AccordionSummary,
   AccordionDetails,
   Typography,
-  FormGroup,
-  FormControlLabel,
-  Checkbox,
   Grid,
   Box,
 } from '@mui/material';
 
-import { FormProvider } from '@/components/ReactHookForm';
-
-import CheckboxLabel from './CheckboxLabel';
+import { FormProvider, RHFCheckbox } from '@/components/ReactHookForm';
 import { usePlanFeatures } from './usePlanFeatures';
-import { dataArrayFeatures } from './FeaturesModal/FeaturesModal.data';
 import FeaturesModal from './FeaturesModal';
-
-import { CheckboxItemI } from './PlanFeatures.interface';
-
 import { isNullOrEmpty } from '@/utils';
 
 import { AddPlusPrimaryIcon } from '@/assets/icons';
@@ -60,28 +51,11 @@ const PlanFeatures = ({ methods, handleSubmit }: any) => {
 
   return (
     <div>
-      <FormProvider methods={methods} onSubmit={handleSubmit}>
-        <Grid container spacing={5}>
-          {dataArrayFeatures?.map((item: any) => (
-            <Grid item xs={12} md={item?.md} key={uuidv4()}>
-              <item.component {...item?.componentProps} size={'small'}>
-                {!isNullOrEmpty(item?.componentProps?.select) &&
-                  item?.options?.map((option: any) => (
-                    <option key={uuidv4()} value={option?.value}>
-                      {option?.name}
-                    </option>
-                  ))}
-              </item.component>
-            </Grid>
-          ))}
-        </Grid>
-      </FormProvider>
-
-      {planManagement?.addPlanForm?.product?.map((feature: string) => (
+      {planManagement?.addPlanForm?.productId?.map((feature: string) => (
         <Accordion
           expanded={expandedAccordion === feature}
           onChange={handleExpandAccordionChange(feature)}
-          key={feature}
+          key={uuidv4()}
           disableGutters
           sx={{
             '&.MuiAccordion': {
@@ -106,28 +80,21 @@ const PlanFeatures = ({ methods, handleSubmit }: any) => {
             aria-controls="plan-features-sales-accordion-content"
             id="plan-features-sales-accordion-header"
           >
-            <Typography variant="h4">
-              {feature === '6541d60a6e917be584ed1a37' ? 'Sales' : 'Marketing'}
-            </Typography>
+            <Typography variant="h4">{feature}</Typography>
           </AccordionSummary>
           <AccordionDetails>
             <Grid container>
               {!isNullOrEmpty(productFeatures?.data?.productfeatures)
-                ? productFeatures?.data?.productfeatures?.map(
-                    (item: CheckboxItemI) => (
+                ? productFeatures?.data?.productfeatures?.map((item: any) => {
+                    return (
                       <Grid item xs={12} sm={6} lg={4} xl={3} key={uuidv4()}>
                         <Box sx={{ width: 'max-content', display: 'flex' }}>
-                          <FormGroup>
-                            <FormControlLabel
-                              control={<Checkbox />}
-                              label={
-                                <CheckboxLabel
-                                  name={item?.name}
-                                  desc={item?.description}
-                                />
-                              }
-                            />
-                          </FormGroup>
+                          <FormProvider
+                            methods={methods}
+                            onSubmit={handleSubmit}
+                          >
+                            <RHFCheckbox name={item?._id} label={item?.name} />
+                          </FormProvider>
                           <Box
                             sx={{ cursor: 'pointer' }}
                             onClick={() => {
@@ -139,8 +106,8 @@ const PlanFeatures = ({ methods, handleSubmit }: any) => {
                           </Box>
                         </Box>
                       </Grid>
-                    ),
-                  )
+                    );
+                  })
                 : 'No Data'}
             </Grid>
           </AccordionDetails>

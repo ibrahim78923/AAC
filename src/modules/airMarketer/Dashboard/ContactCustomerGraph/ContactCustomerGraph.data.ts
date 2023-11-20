@@ -1,10 +1,10 @@
-const customYAxisLabels = ['0', '1', '2', '3', '4', '5', '6'];
+const customYAxisLabels = ['0', '10', '20', '30', '40', '50', '60'];
 export const options: any = {
   chart: {
     type: 'bar',
     height: 350,
   },
-  colors: ['#47B263', '#74D4CB'],
+  colors: ['#35456D', '#74D4CB'],
   plotOptions: {
     bar: {
       horizontal: false,
@@ -21,11 +21,18 @@ export const options: any = {
     colors: ['transparent'],
   },
   xaxis: {
-    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+    categories: [
+      '4/18/2023',
+      '5/18/2023',
+      '6/18/2023',
+      '7/18/2023',
+      '8/18/2023',
+      '9/18/2023',
+    ],
   },
   yaxis: {
     labels: {
-      formatter: function (value: any, index: any) {
+      formatter: function (_: any, index: any) {
         return customYAxisLabels[index];
       },
     },
@@ -38,13 +45,14 @@ export const options: any = {
     },
   },
 };
+//x and y axis customers and earnings values
 export const series: any = [
   {
-    name: 'Count of deals',
+    name: 'Customers',
     data: [44, 55, 57, 56, 61, 58],
   },
   {
-    name: 'Closed Deals',
+    name: 'Earnings',
     data: [76, 85, 101, 98, 87, 105],
   },
 ];

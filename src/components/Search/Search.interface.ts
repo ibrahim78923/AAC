@@ -3,5 +3,6 @@ export interface SearchPropsI {
   searchBy?: string;
   setSearchBy?: any;
   width?: string | number;
+  debouncedResults?: any;
   rest?: any;
 }

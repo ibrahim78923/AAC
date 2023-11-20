@@ -29,6 +29,7 @@ const AddPlan = () => {
         sx={{ cursor: 'pointer', width: 'max-content' }}
       >
         <ArrowLeft />
+
         <Typography variant="h4">Add Plan</Typography>
       </Box>
 
