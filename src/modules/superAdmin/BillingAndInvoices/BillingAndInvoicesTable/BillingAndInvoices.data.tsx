@@ -61,11 +61,15 @@ export const Columns = (
       header: 'Products/Suite',
       cell: (info: any) => (
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-          {info?.row?.original?.planProducts?.map((data: any) => (
-            <Typography variant="body3" key={uuidv4()}>
-              {data?.name}{' '}
-            </Typography>
-          ))}
+          {info?.row?.original?.planProducts?.length > 1 ? (
+            <Typography variant="body3">CRM</Typography>
+          ) : (
+            info?.row?.original?.planProducts?.map((data: any) => (
+              <Typography variant="body3" key={uuidv4()}>
+                {data?.name}{' '}
+              </Typography>
+            ))
+          )}
         </Box>
       ),
     },
