@@ -51,12 +51,22 @@ const UserManagement = () => {
         >
           <Button
             onClick={() =>
-              tabVal === 2 ? handleAddRole() : setIsOpenAddUserDrawer(true)
+              tabVal === 2
+                ? handleAddRole()
+                : setIsOpenAddUserDrawer({
+                    ...isOpenAddUserDrawer,
+                    drawer: true,
+                    type: 'add',
+                  })
             }
             variant="contained"
             startIcon={<PlusIcon />}
           >
-            {tabVal === 2 ? 'Add Role' : 'Add User'}
+            {tabVal === 0
+              ? 'Add Company Owner'
+              : tabVal === 1
+              ? 'Add Super Admin '
+              : 'Add Role'}
           </Button>
         </PermissionsGuard>
       </Box>
@@ -82,7 +92,11 @@ const UserManagement = () => {
             ]}
             headerChildren={
               <>
-                <ActionButton checkedRows={checkedRows} />
+                <ActionButton
+                  checkedRows={checkedRows}
+                  tabVal={tabVal}
+                  setIsOpenAddUserDrawer={setIsOpenAddUserDrawer}
+                />
                 <Button
                   onClick={() => {
                     setIsOpenFilterDrawer(true);
@@ -115,10 +129,18 @@ const UserManagement = () => {
         />
       )}
 
-      {isOpenAddUserDrawer && (
+      {isOpenAddUserDrawer?.drawer && (
         <AddUser
-          isOpenDrawer={isOpenAddUserDrawer}
-          onClose={() => setIsOpenAddUserDrawer(false)}
+          tabVal={tabVal}
+          isOpenDrawer={isOpenAddUserDrawer?.drawer}
+          onClose={() =>
+            setIsOpenAddUserDrawer({
+              ...isOpenAddUserDrawer,
+              drawer: false,
+            })
+          }
+          isOpenAddUserDrawer={isOpenAddUserDrawer}
+          setIsOpenAddUserDrawer={setIsOpenAddUserDrawer}
         />
       )}
     </Box>
