@@ -32,11 +32,11 @@ const AddUser = ({
   const [postUsers] = usePostUsersMutation();
   const pathName = window?.location?.pathname;
   const userDetail = isOpenAddUserDrawer?.data?.data;
-
   const superAdminMethods: any = useForm({
     resolver: yupResolver(superAdminValidationSchema),
     defaultValues: superAdminDefaultValues,
   });
+  const tabTitle = tabVal === 0 ? 'COMPANY_OWNER' : 'SUPER_ADMIN';
 
   const companyOwnerDetail = {
     firstName: userDetail?.firstName,
@@ -53,7 +53,8 @@ const AddUser = ({
     defaultValues: companyOwnerDetail,
   });
 
-  const methods = tabVal === 1 ? superAdminMethods : companyOwnerMethods;
+  const methods =
+    tabTitle === 'SUPER_ADMIN' ? superAdminMethods : companyOwnerMethods;
   const {
     handleSubmit,
     reset,
@@ -64,7 +65,7 @@ const AddUser = ({
   // const { crnData } = useGetCompaniesCRNQuery(crnNumber);
 
   const onSubmit = async (values: any) => {
-    values.role = tabVal === 0 ? 'ORG_ADMIN' : 'SUPER_ADMIN';
+    values.role = tabTitle === 'COMPANY_OWNER' ? 'ORG_ADMIN' : 'SUPER_ADMIN';
     try {
       postUsers({ body: values })?.unwrap();
       enqueueSnackbar('User Added Successfully', {
@@ -100,7 +101,9 @@ const AddUser = ({
           {addUsersArray?.map((item: any) => {
             return (
               item?.toShow?.includes(
-                pathName === SUPER_ADMIN?.USERMANAGMENT ? tabVal : 0,
+                pathName === SUPER_ADMIN?.USERMANAGMENT
+                  ? tabTitle
+                  : 'COMPANY_OWNER',
               ) && (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
                   <Typography variant="body2" fontWeight={500}>

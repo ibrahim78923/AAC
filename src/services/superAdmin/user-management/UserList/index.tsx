@@ -11,6 +11,14 @@ export const userListApi = baseAPI.injectEndpoints({
       providesTags: ['USERS'],
     }),
 
+    getEmployeeList: builder.query({
+      query: () => ({
+        url: END_POINTS?.SUPER_ADMIN_USER_LIST,
+        method: 'GET',
+      }),
+      providesTags: ['USERS'],
+    }),
+
     getUserAccountsById: builder.query({
       query: ({ id }: any) => ({
         url: `/${id}`,
@@ -49,6 +57,7 @@ export const userListApi = baseAPI.injectEndpoints({
 
 export const {
   useGetUsersAccountsQuery,
+  useGetEmployeeListQuery,
   useGetUserAccountsByIdQuery,
   usePostUsersAccountMutation,
   useUpdateUsersAccountMutation,
