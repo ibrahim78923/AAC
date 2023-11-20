@@ -5,7 +5,7 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 import { styles } from './ActionBtn.style';
 import Image from 'next/image';
-import { GroupAppAvatar } from '@/assets/images';
+import { GroupAppAvatarImage } from '@/assets/images';
 import { platFormDropdownData } from './PostActions.data';
 
 import { v4 as uuidv4 } from 'uuid';
@@ -31,7 +31,7 @@ const ContactsActions = () => {
         classes={{ outlined: 'outlined_btn' }}
         sx={styles?.ActionBtn}
       >
-        <Image src={GroupAppAvatar} alt="icon" />
+        <Image src={GroupAppAvatarImage} alt="icon" />
         <Typography>Platfoms</Typography>
       </Button>
       <Popover
@@ -52,7 +52,7 @@ const ContactsActions = () => {
           <MenuItem key={uuidv4()}>
             <Box sx={{ display: 'flex', gap: 1 }}>
               <Box>{item?.icon}</Box>
-              {item.platform}
+              {item?.platform}
             </Box>
           </MenuItem>
         ))}
