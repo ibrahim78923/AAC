@@ -75,8 +75,8 @@ const Dashboard = () => {
                       <RecentActivitiesDashboardCard
                         icon={item?.icon}
                         recentActivityText={item?.recentActivityText}
-                        recentActivityTextPassword={
-                          item?.recentActivityTextPassword
+                        recentActivityRequestText={
+                          item?.recentActivityRequestText
                         }
                         recentActivityTextDateTime={
                           item?.recentActivityTextDateTime
@@ -151,7 +151,7 @@ const Dashboard = () => {
                         icon={item?.icon}
                         announcementText={item?.announcementText}
                         announcementTextTime={item?.announcementTextTime}
-                        announcementImageText={item?.announcementImageText}
+                        announcementTextAvatar={item?.announcementTextAvatar}
                         isborderbottom={
                           announcementDashboardCardData?.length - 1 !== index
                         }

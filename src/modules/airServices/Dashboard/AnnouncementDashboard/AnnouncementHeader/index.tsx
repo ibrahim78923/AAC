@@ -21,9 +21,7 @@ export const AnnouncementHeader = () => {
           <ViewDetailSharedIcon />
         </IconButton>
       </Box>
-      <Divider
-        sx={{ border: `0.063rem solid ${theme?.palette?.grey?.[700]}` }}
-      />
+      <Divider sx={{ bgcolor: theme?.palette?.grey?.[700] }} />
       <AnnouncementDashboardDrawer
         isDrawerOpen={isDrawerOpen}
         setIsDrawerOpen={setIsDrawerOpen}

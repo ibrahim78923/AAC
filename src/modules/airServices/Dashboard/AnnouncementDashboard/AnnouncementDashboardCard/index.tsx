@@ -6,7 +6,7 @@ export const AnnouncementDashboardCard = ({
   icon,
   announcementText,
   announcementTextTime,
-  announcementImageText,
+  announcementTextAvatar,
   isborderbottom,
 }: any) => {
   const theme = useTheme();
@@ -34,7 +34,7 @@ export const AnnouncementDashboardCard = ({
             }}
           />
           <Typography variant="body3" color={'custom?.main'}>
-            {announcementImageText}
+            {announcementTextAvatar}
           </Typography>
         </Box>
       </Box>

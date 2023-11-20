@@ -27,13 +27,13 @@ function AddAnnouncement({ isDrawerOpen, setIsDrawerOpen }: any) {
           setIsDrawerOpen(false);
         }}
         title="New Announcements"
-        submitHandler={() => methods?.handleSubmit(submit)()}
+        submitHandler={() => handleSubmit(submit)()}
         footer={true}
         isOk={true}
         okText="Announce"
       >
         <Box mt={1}>
-          <FormProvider methods={methods} onSubmit={handleSubmit?.(submit)}>
+          <FormProvider methods={methods}>
             <Grid container spacing={4}>
               {createAnnouncementDashboardDataArray?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>

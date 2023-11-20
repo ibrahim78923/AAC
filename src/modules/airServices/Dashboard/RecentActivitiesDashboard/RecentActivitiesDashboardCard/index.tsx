@@ -5,7 +5,7 @@ import { styles } from './RecentActivitiesDashboardCard.styles';
 export const RecentActivitiesDashboardCard = ({
   icon,
   recentActivityText,
-  recentActivityTextPassword,
+  recentActivityRequestText,
   recentActivityTextDateTime,
   isborderbottom,
 }: any) => {
@@ -34,7 +34,7 @@ export const RecentActivitiesDashboardCard = ({
             </Typography>
             <br />
             <Typography variant="body3" color={'grey?.[800]'}>
-              {recentActivityTextPassword}
+              {recentActivityRequestText}
             </Typography>
             <br />
             <Typography color={'grey?.[600]'} variant="body3">
