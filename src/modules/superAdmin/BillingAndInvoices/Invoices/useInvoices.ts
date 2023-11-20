@@ -93,6 +93,7 @@ const useInvoices = () => {
     isChecked,
     router,
     allInvoicesTableData,
+    isGetRowValues,
   };
 };
 

@@ -35,6 +35,7 @@ const Invoices = () => {
     isChecked,
     router,
     allInvoicesTableData,
+    isGetRowValues,
   } = useInvoices();
 
   return (
@@ -126,7 +127,12 @@ const Invoices = () => {
         />
       </Box>
 
-      <ViewInvoices open={openViewInvoice} onClose={handleCloseViewInvoice} />
+      <ViewInvoices
+        open={openViewInvoice}
+        onClose={handleCloseViewInvoice}
+        isGetRowValues={isGetRowValues}
+        allInvoicesTableData={allInvoicesTableData}
+      />
       <PayInvoice open={openPayInvoice} onClose={handleClosePayInvoice} />
 
       <CommonDrawer
