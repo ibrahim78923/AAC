@@ -24,27 +24,28 @@ import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import CustomPagination from '@/components/CustomPagination';
 import ApiErrorState from '@/components/ApiErrorState';
 
-const TanstackTable = ({
-  columns,
-  data,
-  rootSX,
-  showSerialNo = false,
-  isLoading = false,
-  isFetching,
-  isError,
-  isSuccess = true,
-  isPagination,
-  count,
-  pageLimit,
-  rowsPerPageOptions,
-  currentPage,
-  totalRecords,
-  onPageChange,
-  setPage,
-  setPageLimit,
-}: any) => {
-  const table = useTanstackTable(data, columns, showSerialNo);
+const TanstackTable = (props: any) => {
+  const {
+    columns = [],
+    data = [],
+    rootSX,
+    showSerialNo = false,
+    isLoading = false,
+    isFetching = false,
+    isError = false,
+    isSuccess = true,
+    isPagination = true,
+    count,
+    pageLimit,
+    rowsPerPageOptions,
+    currentPage,
+    totalRecords,
+    onPageChange,
+    setPage,
+    setPageLimit,
+  } = props;
 
+  const table = useTanstackTable(data, columns, showSerialNo);
   if (isLoading || isFetching) return <SkeletonTable />;
 
   return (
@@ -101,8 +102,10 @@ const TanstackTable = ({
                   </TableRow>
                 ))}
               </TableHead>
+
               <TableBody>
                 {isSuccess &&
+                  !isError &&
                   table
                     ?.getRowModel()
                     ?.rows?.map((row) => (
@@ -121,13 +124,17 @@ const TanstackTable = ({
                     ))}
               </TableBody>
             </Table>
-            {!!!table?.getRowModel()?.rows?.length && isSuccess && (
-              <NoData
-                image={NoAssociationFoundImage}
-                message={'No data is available'}
-              />
+            {isError ? (
+              <ApiErrorState />
+            ) : (
+              !!!table?.getRowModel()?.rows?.length &&
+              isSuccess && (
+                <NoData
+                  image={NoAssociationFoundImage}
+                  message={'No data is available'}
+                />
+              )
             )}
-            {isError && <ApiErrorState />}
           </TableContainer>
         </Grid>
       </Grid>
