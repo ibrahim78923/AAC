@@ -39,6 +39,7 @@ import AddCompanyDetails from './AddCompanyDetails';
 import StatusBadge from '@/components/StatusBadge';
 import { v4 as uuidv4 } from 'uuid';
 import useUserManagement from '../useUserManagement';
+import { useGetEmployeeListQuery } from '@/services/superAdmin/user-management/UserList';
 
 const UsersDetailsList = () => {
   const {
@@ -63,10 +64,11 @@ const UsersDetailsList = () => {
     navigate,
   }: any = useUserDetailsList();
   const { useGetUsersByIdQuery } = useUserManagement();
-  const { id } = navigate.query;
 
+  const { id } = navigate.query;
   const { data } = useGetUsersByIdQuery(id);
-  const userDetails = data?.data;
+  const { data: employeeList } = useGetEmployeeListQuery({ _id: id });
+  const userDetails = data?.data || employeeList?.data?.useros;
 
   return (
     <Box>

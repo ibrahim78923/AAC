@@ -1,7 +1,10 @@
 import { Box, Checkbox, Avatar, Typography } from '@mui/material';
 import { AIR_SERVICES } from '@/constants';
 import { enqueueSnackbar } from 'notistack';
-import { TICKET_STATUS } from '@/constants/strings';
+import { NOTISTACK_VARIANTS, TICKET_STATUS } from '@/constants/strings';
+import dayjs from 'dayjs';
+
+const todayDate = dayjs()?.format('MM/DD/YYYY');
 
 export const TICKETS_ACTION_CONSTANTS = {
   CUSTOMIZE_COLUMN: 'customize-column',
@@ -9,49 +12,63 @@ export const TICKETS_ACTION_CONSTANTS = {
   BULK_UPDATE_DATA: 'bulk-update-data',
   CREATE_NEW_TICKET: 'create-new-ticket',
   EDIT_TICKET: 'edit-ticket',
+  ASSIGNED_TICKET: 'assigned-ticket',
+  MOVE_TICKET: 'move-ticket',
+  MERGE_TICKET: 'merge-ticket',
+  DELETE_TICKET: 'delete-ticket',
 };
 
 export const ticketsActionDropdownFunction = (
-  setDeleteModalOpen: any,
-  openDrawer: any,
+  setTicketAction: any,
   selectedTicketList: any,
   updateTicketStatus: any,
 ) => [
   {
     title: 'Edit',
     handleClick: (closeMenu: any) => {
-      if (selectedTicketList?.length !== 1) {
+      if (selectedTicketList?.length > 1) {
         enqueueSnackbar('Please select only one ticket', {
-          variant: 'warning',
+          variant: NOTISTACK_VARIANTS?.WARNING,
         });
         closeMenu?.();
         return;
       }
-      openDrawer(TICKETS_ACTION_CONSTANTS?.EDIT_TICKET);
+      setTicketAction(TICKETS_ACTION_CONSTANTS?.EDIT_TICKET);
       closeMenu?.();
     },
   },
   {
     title: 'Assignee',
     handleClick: (closeMenu: any) => {
+      setTicketAction(TICKETS_ACTION_CONSTANTS?.ASSIGNED_TICKET);
       closeMenu?.();
     },
   },
   {
     title: 'Bulk Update',
     handleClick: (closeMenu: any) => {
+      setTicketAction(TICKETS_ACTION_CONSTANTS?.BULK_UPDATE_DATA);
       closeMenu?.();
     },
   },
   {
     title: 'Merge',
     handleClick: (closeMenu: any) => {
+      if (selectedTicketList?.length > 1) {
+        enqueueSnackbar('Please select only one ticket', {
+          variant: NOTISTACK_VARIANTS?.WARNING,
+        });
+        closeMenu?.();
+        return;
+      }
+      setTicketAction(TICKETS_ACTION_CONSTANTS?.MERGE_TICKET);
       closeMenu?.();
     },
   },
   {
     title: 'Move',
     handleClick: (closeMenu: any) => {
+      setTicketAction(TICKETS_ACTION_CONSTANTS?.MOVE_TICKET);
       closeMenu?.();
     },
   },
@@ -72,53 +89,65 @@ export const ticketsActionDropdownFunction = (
   {
     title: 'Delete',
     handleClick: (closeMenu: any) => {
-      setDeleteModalOpen?.(true);
+      setTicketAction(TICKETS_ACTION_CONSTANTS?.DELETE_TICKET);
       closeMenu?.();
     },
   },
 ];
 
-export const ticketsListTotalColumns = [
+export const ticketsListInitialColumns = [
   '_id',
   'subject',
   'requester',
-  'status',
-  'pirority',
   'assignedTo',
-  'department',
   'state',
+  'status',
+  'priority',
   'createdAt',
-  'dueDate',
   'impact',
-  'plannedStartDate',
-  'plannedEndDate',
-  'plannedEffort',
 ];
 
 export const ticketsListsData: any = [
   {
-    id: 3,
-    ticketId: ` #917`,
-    subject: 'fts',
+    _id: 3,
+    ticketId: ` #SR-917`,
+    subject: 'What is wrong with my email',
     requester: { name: 'Leslie Alexander', profileImg: '' },
     status: 'closed',
     priority: 'medium',
     assignedTo: 'user3',
     department: 'IT',
     state: 'Overdue',
-    createAt: '00000000',
-    dueDate: '000000',
+    createAt: new Date(todayDate),
+    dueDate: new Date(todayDate),
     impact: 'high',
-    plannedStartDate: '11111',
-    plannedEndDate: '00000',
-    plannedEffort: 'o0o0o0',
+    plannedStartDate: new Date(todayDate),
+    plannedEndDate: new Date(todayDate),
+    plannedEffort: '1 hour',
+  },
+  {
+    _id: 4,
+    ticketId: ` #SR-917`,
+    subject: 'What is wrong with my email',
+    requester: { name: 'Leslie Alexander', profileImg: '' },
+    status: 'closed',
+    priority: 'medium',
+    assignedTo: 'user3',
+    department: 'IT',
+    state: 'Overdue',
+    createAt: new Date(todayDate),
+    dueDate: new Date(todayDate),
+    impact: 'high',
+    plannedStartDate: new Date(todayDate),
+    plannedEndDate: new Date(todayDate),
+    plannedEffort: '1 hour',
   },
 ];
 
 export const ticketsListsColumnFunction: any = (
   theme: any,
   router: any,
-  ticketList: any,
+  ticketList: any = ticketsListsData,
   selectedTicketList: any,
   setSelectedTicketList: any,
 ) => {
@@ -169,10 +198,15 @@ export const ticketsListsColumnFunction: any = (
       id: '_id',
       cell: (info: any) => {
         return (
-          <Box display={'flex'} gap={1} flexWrap={'wrap'} alignItems={'center'}>
+          <Box
+            display={'flex'}
+            gap={0.5}
+            flexWrap={'wrap'}
+            alignItems={'center'}
+          >
             <Avatar
               sx={{ bgcolor: theme?.palette?.blue?.main, borderRadius: 1.25 }}
-              style={{ width: 28, height: 28 }}
+              style={{ width: 25, height: 25 }}
               alt={info?.row?.original?.department}
             >
               {info?.row?.original?.department}
@@ -191,7 +225,7 @@ export const ticketsListsColumnFunction: any = (
                 });
               }}
             >
-              {info?.getValue()}
+              {info?.row?.original?.ticketId}
             </Typography>
           </Box>
         );
@@ -214,6 +248,7 @@ export const ticketsListsColumnFunction: any = (
       cell: (info: any) => (
         <Box display={'flex'} flexWrap={'wrap'} alignItems={'center'} gap={1}>
           <Avatar
+            sx={{ bgcolor: theme?.palette?.blue?.main }}
             style={{ width: 24, height: 24 }}
             src={info?.row?.original?.requester?.profileImg?.src}
             alt={info?.row?.original?.requester?.name}
@@ -245,8 +280,8 @@ export const ticketsListsColumnFunction: any = (
       cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row?.pirority,
-      id: 'pirority',
+      accessorFn: (row: any) => row?.priority,
+      id: 'priority',
       isSortable: true,
       header: 'Priority',
       cell: (info: any) => info?.getValue(),
@@ -263,14 +298,14 @@ export const ticketsListsColumnFunction: any = (
       id: 'createdAt',
       isSortable: true,
       header: 'created Date',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => dayjs(info?.getValue())?.format('MM/DD/YYYY'),
     },
     {
       accessorFn: (row: any) => row?.dueDate,
       id: 'dueDate',
       isSortable: true,
       header: 'Due Date',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => dayjs(info?.getValue())?.format('MM/DD/YYYY'),
     },
     {
       accessorFn: (row: any) => row?.impact,
@@ -284,14 +319,14 @@ export const ticketsListsColumnFunction: any = (
       id: 'plannedStartDate',
       isSortable: true,
       header: 'Planned Start Date',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => dayjs(info?.getValue())?.format('MM/DD/YYYY'),
     },
     {
       accessorFn: (row: any) => row?.plannedEndDate,
       id: 'plannedEndDate',
       isSortable: true,
       header: 'Planned End Date',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => dayjs(info?.getValue())?.format('MM/DD/YYYY'),
     },
     {
       accessorFn: (row: any) => row?.plannedEffort,

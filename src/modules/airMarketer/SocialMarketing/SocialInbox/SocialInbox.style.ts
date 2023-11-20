@@ -10,7 +10,7 @@ export const styles = {
       padding: '20px 20px',
       width: '100%',
       backgroundColor: 'white',
-      height: '87vh',
+      minHeight: '87vh',
       borderRadius: '8px',
     };
   },
