@@ -11,7 +11,7 @@ export const BarChart = () => {
       options={barChartDataOptions(theme)}
       series={barChartData}
       type="bar"
-      height={345}
+      height={348}
     />
   );
 };

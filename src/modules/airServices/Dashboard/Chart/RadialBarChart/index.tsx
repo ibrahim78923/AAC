@@ -15,7 +15,7 @@ export const RadialBarChart = () => {
       options={radialBarChartDataOptions(theme)}
       series={radialBarChartData}
       type="radialBar"
-      height={388}
+      height={393}
     />
   );
 };
