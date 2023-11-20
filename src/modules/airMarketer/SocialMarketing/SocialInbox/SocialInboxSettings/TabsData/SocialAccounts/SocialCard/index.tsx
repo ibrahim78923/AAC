@@ -32,7 +32,14 @@ const SocialCard = ({ handleShowCard }: { handleShowCard: () => void }) => {
                 </Typography>
               </Box>
               <AppAvatarGroup data={avatarGroupMockData} />
-              <Box style={{ gap: 10, display: 'flex', padding: '20px 0px' }}>
+              <Box
+                sx={{
+                  gap: 2,
+                  display: 'flex',
+                  flexDirection: { xs: 'column', sm: 'row' },
+                  padding: '20px 0px',
+                }}
+              >
                 <Box>
                   <Button variant="contained">Connect Now</Button>
                 </Box>

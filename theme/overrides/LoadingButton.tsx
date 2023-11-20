@@ -3,6 +3,9 @@ const LoadingButton = () => {
     MuiLoadingButton: {
       styleOverrides: {
         root: {
+          '&.MuiLoadingButton-loading': {
+            backgroundColor: '#16847f',
+          },
           '&.MuiButton-text': {
             '& .MuiLoadingButton-startIconPendingStart': {
               marginLeft: 0,

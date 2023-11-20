@@ -1,6 +1,11 @@
 import Image from 'next/image';
-import { Box, Switch, Typography } from '@mui/material';
+import { Box, Chip, Switch, Typography } from '@mui/material';
 import { NotesAvatarImage } from '@/assets/images';
+
+const status: Record<string, [string, string]> = {
+  Connected: ['#ECFFF1', '#47B263'],
+  Disconnected: ['#FDD', '#FF4A4A'],
+};
 
 export const columns: any = () => {
   return [
@@ -38,7 +43,15 @@ export const columns: any = () => {
       id: 'status',
       isSortable: true,
       header: 'Status',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => (
+        <Chip
+          label={info?.row?.original?.owner}
+          sx={{
+            bgcolor: status[info?.row?.original?.owner][0],
+            color: status[info?.row?.original?.owner][1],
+          }}
+        />
+      ),
     },
 
     {

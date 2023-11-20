@@ -5,7 +5,7 @@ export const styles = {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    height: '238px',
+    minHeight: '238px',
     padding: '20px 0px',
     gap: '5px',
   },
