@@ -1,7 +1,7 @@
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Grid, Typography, useTheme } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import { styles } from './RecentActivitiesDashboardCard.styles';
-import { useRecentActivities } from './useRecentActivities';
+import dayjs from 'dayjs';
 
 export const RecentActivitiesDashboardCard = ({
   icon,
@@ -9,8 +9,7 @@ export const RecentActivitiesDashboardCard = ({
   recentActivityRequestText,
   isBorderBottom,
 }: any) => {
-  const { theme, currentDate, formatDateTime } = useRecentActivities();
-
+  const theme = useTheme();
   return (
     <Grid container>
       <Grid item xs={12} height={{ md: 88, xs: 122 }}>
@@ -45,7 +44,7 @@ export const RecentActivitiesDashboardCard = ({
             </Typography>
             <br />
             <Typography color={'grey?.[600]'} variant="body3">
-              {formatDateTime(currentDate)}{' '}
+              {dayjs(new Date()).format('ddd, MMM D, YYYY, h:mm A')}
             </Typography>
           </Box>
         </Box>

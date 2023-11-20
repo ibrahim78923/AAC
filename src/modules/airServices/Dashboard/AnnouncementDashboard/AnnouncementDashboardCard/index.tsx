@@ -1,15 +1,15 @@
-import { Box, Divider, Typography } from '@mui/material';
+import { Box, Divider, Typography, useTheme } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import { styles } from './AnnouncementDashboardCard.styles';
-import { useAnnouncementDashboardCard } from './useAnnouncementDashboardCard.';
 
 export const AnnouncementDashboardCard = ({
   icon,
   announcementText,
   announcementTextAvatar,
+  announcementTextTime,
   isBorderBottom,
 }: any) => {
-  const { theme, currentDate, formatDateTime } = useAnnouncementDashboardCard();
+  const theme = useTheme();
 
   return (
     <Box>
@@ -20,7 +20,7 @@ export const AnnouncementDashboardCard = ({
           </Typography>
           <Typography>
             <Typography variant="body3" color={'grey.800'}>
-              {formatDateTime(currentDate)}{' '}
+              {announcementTextTime}
             </Typography>
           </Typography>
         </Box>
