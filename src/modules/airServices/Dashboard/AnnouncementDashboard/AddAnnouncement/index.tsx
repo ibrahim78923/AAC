@@ -5,7 +5,6 @@ import {
   createAnnouncementDashboardDefaultValues,
   createAnnouncementDashboardValidationSchema,
 } from './AddAnnouncement.data';
-import { v4 as uuidv4 } from 'uuid';
 import CommonDrawer from '@/components/CommonDrawer';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -40,7 +39,7 @@ function AddAnnouncement({ isDrawerOpen, setIsDrawerOpen }: any) {
                   <item.component {...item.componentProps} size={'small'}>
                     {item?.componentProps?.select
                       ? item?.options?.map((option: any) => (
-                          <option key={uuidv4()} value={option?.value}>
+                          <option value={option?.value} key={option?.value}>
                             {option?.label}
                           </option>
                         ))
