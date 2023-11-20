@@ -3,27 +3,29 @@ import { TicketsTableView } from './TicketsTableView';
 import { TableBoardView } from './TicketsBoardView';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { TicketsListSubHeader } from './TicketsListSubHeader';
-import { TicketsDelete } from '../TicketsDelete';
+import { EXPORT_TYPE, VIEW_TYPES } from '@/constants/strings';
+import {
+  TICKETS_ACTION_CONSTANTS,
+  ticketsListsData,
+} from './TicketsLists.data';
 
 export const TicketsLists = () => {
   const {
-    isDrawerOpen,
+    hasTicketAction,
     router,
-    openDrawer,
-    TICKETS_ACTION_CONSTANTS,
-    drawerComponent,
+    setTicketAction,
+    ticketActionComponent,
     ticketsActionDropdown,
-    deleteModalOpen,
-    setDeleteModalOpen,
     lazyGetTicketsStatus,
     ticketsListsColumnPersist,
     search,
     setSearch,
     setPage,
     getTicketsListDataExport,
-    columnNames,
+    ticketsListsActiveColumn,
     selectedTicketList,
     setPageLimit,
+    setTicketsListsActiveColumn,
   } = useTicketsLists();
 
   return (
@@ -32,10 +34,10 @@ export const TicketsLists = () => {
         title={'Ticket List - All Tickets'}
         addTitle={'Create Ticket'}
         hasExport
-        handleExcelExport={() => getTicketsListDataExport?.('XLS')}
-        handleCsvExport={() => getTicketsListDataExport?.('CSV')}
+        handleExcelExport={() => getTicketsListDataExport?.(EXPORT_TYPE?.XLS)}
+        handleCsvExport={() => getTicketsListDataExport?.(EXPORT_TYPE?.CSV)}
         handleAction={() =>
-          openDrawer?.(TICKETS_ACTION_CONSTANTS?.CREATE_NEW_TICKET)
+          setTicketAction?.(TICKETS_ACTION_CONSTANTS?.CREATE_NEW_TICKET)
         }
       />
       <br />
@@ -44,42 +46,34 @@ export const TicketsLists = () => {
         search={search}
         setSearch={setSearch}
         onFilterClick={() =>
-          openDrawer?.(TICKETS_ACTION_CONSTANTS?.FILTER_DATA)
+          setTicketAction?.(TICKETS_ACTION_CONSTANTS?.FILTER_DATA)
         }
         ticketsActionDropdown={ticketsActionDropdown}
         onCustomizeClick={() =>
-          openDrawer?.(TICKETS_ACTION_CONSTANTS?.CUSTOMIZE_COLUMN)
+          setTicketAction?.(TICKETS_ACTION_CONSTANTS?.CUSTOMIZE_COLUMN)
         }
+        setTicketsListsActiveColumn={setTicketsListsActiveColumn}
       />
       <br />
-      {router?.query?.viewType === 'board' ? (
+      {router?.query?.viewType === VIEW_TYPES?.BOARD ? (
         <TableBoardView />
       ) : (
         <TicketsTableView
           ticketsListsColumn={
             ticketsListsColumnPersist?.filter(
-              (col: any) => columnNames?.includes?.(col?.id),
+              (col: any) => ticketsListsActiveColumn?.includes?.(col?.id),
             ) ?? []
           }
-          ticketListsData={lazyGetTicketsStatus?.data?.data?.tickets ?? []}
-          isLoading={lazyGetTicketsStatus?.isLoading}
-          page={lazyGetTicketsStatus?.data?.data?.meta?.page}
-          totalPages={lazyGetTicketsStatus?.data?.data?.meta?.pages}
-          pageLimit={lazyGetTicketsStatus?.data?.data?.meta?.limit}
-          totalRecords={lazyGetTicketsStatus?.data?.data?.meta?.total}
+          ticketListsData={
+            lazyGetTicketsStatus?.data?.data?.tickets ?? ticketsListsData
+          }
+          metaData={lazyGetTicketsStatus}
           setPage={setPage}
           setPageLimit={setPageLimit}
-          isFetching={lazyGetTicketsStatus?.isFetching}
-          isError={lazyGetTicketsStatus?.isError}
-          isSuccess={lazyGetTicketsStatus?.isSuccess}
         />
       )}
-      <TicketsDelete
-        deleteModalOpen={deleteModalOpen}
-        setDeleteModalOpen={setDeleteModalOpen}
-        selectedTicketList={selectedTicketList}
-      />
-      {isDrawerOpen && drawerComponent?.[router?.query?.ticketAction as string]}
+      {hasTicketAction &&
+        ticketActionComponent?.[router?.query?.ticketAction as string]}
     </>
   );
 };

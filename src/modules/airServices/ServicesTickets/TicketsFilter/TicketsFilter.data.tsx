@@ -1,6 +1,7 @@
 import {
+  RHFAutocomplete,
+  RHFAutocompleteAsync,
   RHFDatePicker,
-  RHFSearchableSelect,
   RHFSelect,
   RHFTimePicker,
 } from '@/components/ReactHookForm';
@@ -10,6 +11,7 @@ import {
   ticketPriorityOptions,
   ticketSourceOptions,
   ticketStatusOptions,
+  ticketsTypeOptions,
 } from '../ServicesTickets.data';
 
 export const dropdownDummy = [
@@ -23,64 +25,45 @@ export const dropdownDummy = [
   },
 ];
 
-const ticketsTypeOptions = [
-  {
-    value: 'search',
-    label: 'Search',
-  },
-  {
-    value: 'All Tickets',
-    label: 'All Tickets',
-  },
-  {
-    value: 'Urgent and High Priority',
-    label: 'Urgent and High Priority',
-  },
-  {
-    value: 'My Open and Pending Tickets',
-    label: 'My Open and Pending Tickets',
-  },
-  {
-    value: 'Spam',
-    label: 'Spam',
-  },
-  {
-    value: 'New & My Open Tickets',
-    label: 'New & My Open Tickets',
-  },
-  {
-    value: 'All Unresolved Tickets',
-    label: 'All Unresolved Tickets',
-  },
-  {
-    value: 'Incidents',
-    label: 'Incidents',
-  },
-  {
-    value: 'Service Requests',
-    label: 'Service Requests',
-  },
-  {
-    value: 'Tickets I Requested',
-    label: 'Tickets I Requested',
-  },
-  {
-    value: 'Shared with me',
-    label: 'Shared with me',
-  },
-];
-
-export const ticketsFilterFormFieldsDataFunction = (isFieldDisable = false) => [
+export const ticketsFilterFormFieldsDefaultValues = (data?: any) => {
+  return {
+    ticketType: data?.ticketType ?? '',
+    createdOn: data?.createdOn ?? '',
+    status: data?.status ?? '',
+    agent: data?.agent ?? null,
+    requester: data?.requester ?? null,
+    department: data?.department ?? null,
+    priority: data?.priority ?? '',
+    impact: data?.impact ?? '',
+    category: data?.category ?? null,
+    source: data?.source ?? '',
+    plannedStartDate:
+      typeof data?.plannedStartDate === 'object'
+        ? new Date(data?.plannedStartDate)
+        : null,
+    plannedStartTime: null,
+    plannedEndDate:
+      typeof data?.plannedEndDate === 'object'
+        ? new Date(data?.plannedEndDate)
+        : null,
+    plannedEndTime: null,
+  };
+};
+export const ticketsFilterFormFieldsDataFunction = (
+  apiQueryRequester?: any,
+  apiQueryDepartment?: any,
+  apiQueryCategory?: any,
+  apiQueryAgent?: any,
+) => [
   {
     id: 2,
-    component: RHFSearchableSelect,
+    component: RHFAutocomplete,
     gridLength: 12,
     componentProps: {
       fullWidth: true,
       name: 'ticketType',
       label: 'Ticket Type',
       options: ticketsTypeOptions,
-      disabled: isFieldDisable,
     },
   },
   {
@@ -91,7 +74,6 @@ export const ticketsFilterFormFieldsDataFunction = (isFieldDisable = false) => [
       label: 'Created On',
       select: true,
       options: dropdownDummy,
-      disabled: isFieldDisable,
     },
     gridLength: 12,
     component: RHFSelect,
@@ -104,34 +86,31 @@ export const ticketsFilterFormFieldsDataFunction = (isFieldDisable = false) => [
       label: 'Status',
       select: true,
       options: ticketStatusOptions,
-      disabled: isFieldDisable,
     },
     gridLength: 12,
     component: RHFSelect,
   },
   {
     id: 200,
-    component: RHFSearchableSelect,
+    component: RHFAutocompleteAsync,
     gridLength: 12,
     componentProps: {
       fullWidth: true,
       name: 'agents',
       label: 'Agents',
-      options: dropdownDummy,
-      disabled: isFieldDisable,
+      apiQuery: apiQueryAgent,
     },
   },
   {
     id: 129,
     componentProps: {
-      fullWidth: true,
       name: 'requester',
       label: 'Requester',
-      options: dropdownDummy,
-      disabled: isFieldDisable,
+      fullWidth: true,
+      apiQuery: apiQueryRequester,
     },
+    component: RHFAutocompleteAsync,
     gridLength: 12,
-    component: RHFSearchableSelect,
   },
   {
     id: 129,
@@ -139,21 +118,19 @@ export const ticketsFilterFormFieldsDataFunction = (isFieldDisable = false) => [
       fullWidth: true,
       name: 'department',
       label: 'Department',
-      options: dropdownDummy,
-      disabled: isFieldDisable,
+      apiQuery: apiQueryDepartment,
     },
     gridLength: 12,
-    component: RHFSearchableSelect,
+    component: RHFAutocompleteAsync,
   },
   {
     id: 100,
     componentProps: {
       fullWidth: true,
-      name: 'pirority',
+      name: 'priority',
       label: 'Priority',
       select: true,
       options: ticketPriorityOptions,
-      disabled: isFieldDisable,
     },
     gridLength: 12,
     component: RHFSelect,
@@ -168,7 +145,6 @@ export const ticketsFilterFormFieldsDataFunction = (isFieldDisable = false) => [
       label: 'Impact',
       select: true,
       options: ticketImpactOptions,
-      disabled: isFieldDisable,
     },
   },
   {
@@ -178,10 +154,10 @@ export const ticketsFilterFormFieldsDataFunction = (isFieldDisable = false) => [
       name: 'category',
       label: 'Category',
       options: dropdownDummy,
-      disabled: isFieldDisable,
+      apiQuery: apiQueryCategory,
     },
     gridLength: 12,
-    component: RHFSearchableSelect,
+    component: RHFAutocompleteAsync,
   },
   {
     id: 97,
@@ -190,7 +166,7 @@ export const ticketsFilterFormFieldsDataFunction = (isFieldDisable = false) => [
       name: 'plannedStartDate',
       label: 'Planned Start Date',
     },
-    gridLength: 9,
+    gridLength: 7.5,
     component: RHFDatePicker,
   },
   {
@@ -199,7 +175,7 @@ export const ticketsFilterFormFieldsDataFunction = (isFieldDisable = false) => [
       name: 'plannedStartTime',
       label: '\u00a0\u00a0',
     },
-    gridLength: 3,
+    gridLength: 4.5,
     component: RHFTimePicker,
   },
   {
@@ -209,7 +185,7 @@ export const ticketsFilterFormFieldsDataFunction = (isFieldDisable = false) => [
       name: 'plannedEndDate',
       label: 'Planned End Date',
     },
-    gridLength: 9,
+    gridLength: 7.5,
     component: RHFDatePicker,
   },
   {
@@ -219,7 +195,7 @@ export const ticketsFilterFormFieldsDataFunction = (isFieldDisable = false) => [
       label: '\u00a0\u00a0',
       fullWidth: true,
     },
-    gridLength: 3,
+    gridLength: 4.5,
     component: RHFTimePicker,
   },
   {
@@ -229,7 +205,7 @@ export const ticketsFilterFormFieldsDataFunction = (isFieldDisable = false) => [
       name: 'dueByDate',
       label: 'Due By',
     },
-    gridLength: 9,
+    gridLength: 7.5,
     component: RHFDatePicker,
   },
   {
@@ -239,7 +215,7 @@ export const ticketsFilterFormFieldsDataFunction = (isFieldDisable = false) => [
       name: 'dueByTime',
       label: '\u00a0\u00a0',
     },
-    gridLength: 3,
+    gridLength: 4.5,
     component: RHFTimePicker,
   },
   {
@@ -250,7 +226,6 @@ export const ticketsFilterFormFieldsDataFunction = (isFieldDisable = false) => [
       label: 'Type Source',
       select: true,
       options: ticketSourceOptions,
-      disabled: isFieldDisable,
     },
     gridLength: 12,
     component: RHFSelect,

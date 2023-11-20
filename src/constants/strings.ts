@@ -134,3 +134,14 @@ export const CATALOG_SERVICE_TYPES = {
   SOFTWARE_INSTALLATION: 'Software Installation',
   PM_TOOLS: 'PM Tools',
 };
+
+export const EXPORT_FILE_TYPE: any = {
+  [EXPORT_TYPE?.CSV]: 'text/csv',
+  [EXPORT_TYPE?.XLS]:
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+};
+
+export const VIEW_TYPES = {
+  TABLE: 'table',
+  BOARD: 'board',
+};

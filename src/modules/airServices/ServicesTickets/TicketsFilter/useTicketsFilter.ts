@@ -1,27 +1,36 @@
 import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
-import { ticketsFilterFormFieldsDataFunction } from './TicketsFilter.data';
+import {
+  ticketsFilterFormFieldsDataFunction,
+  ticketsFilterFormFieldsDefaultValues,
+} from './TicketsFilter.data';
 import { useForm } from 'react-hook-form';
+import usePath from '@/hooks/usePath';
+import { useLazyGetOrganizationsQuery } from '@/services/dropdowns';
 
 export const useTicketsFilter = (props: any) => {
-  const { setIsDrawerOpen, setTicketsFilter } = props;
+  const { setIsDrawerOpen, setFilterTicketLists, filterTicketLists } = props;
   const router = useRouter();
   const theme: any = useTheme();
-  const ticketsFilterFormFieldsData = ticketsFilterFormFieldsDataFunction();
+  const { makePath } = usePath();
 
-  const methods: any = useForm({});
+  const methods: any = useForm({
+    defaultValues: ticketsFilterFormFieldsDefaultValues(filterTicketLists),
+  });
 
   const { handleSubmit, reset } = methods;
 
   const submitTicketFilterForm = async (data: any) => {
-    const ticketsFiltered = Object?.entries(data || {})?.filter(
-      ([, value]: any) => value !== undefined && value != '',
-    );
-    if (!!!ticketsFiltered?.length) {
+    const ticketsFiltered = Object?.entries(data || {})
+      ?.filter(
+        ([, value]: any) => value !== undefined && value != '' && value != null,
+      )
+      ?.reduce((acc: any, [key, value]: any) => ({ ...acc, [key]: value }), {});
+    if (!Object?.keys(ticketsFiltered || {})?.length) {
       onClose();
       return;
     }
-    setTicketsFilter(ticketsFiltered);
+    setFilterTicketLists(ticketsFiltered);
     onClose();
   };
 
@@ -29,19 +38,24 @@ export const useTicketsFilter = (props: any) => {
     reset();
     setIsDrawerOpen?.(false);
   };
+
   const onClose = () => {
-    //TODO: destructing as i do not need that in rest queries.
-    /* eslint-disable @typescript-eslint/no-unused-vars */
-    const { ticketAction, ...restQueries } = router?.query;
-    router?.push({
-      pathname: router?.pathname,
-      query: {
-        ...restQueries,
-      },
-    });
+    router?.push(
+      makePath({
+        path: router?.pathname,
+        skipQueries: ['ticketAction'],
+      }),
+    );
     reset?.();
     setIsDrawerOpen?.(false);
   };
+  const apiQueryOrganizations = useLazyGetOrganizationsQuery();
+  const ticketsFilterFormFieldsData = ticketsFilterFormFieldsDataFunction(
+    apiQueryOrganizations,
+    apiQueryOrganizations,
+    apiQueryOrganizations,
+    apiQueryOrganizations,
+  );
 
   return {
     ticketsFilterFormFieldsData,
