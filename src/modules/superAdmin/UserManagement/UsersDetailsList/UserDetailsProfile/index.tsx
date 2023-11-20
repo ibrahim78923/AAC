@@ -30,12 +30,22 @@ const UserDetailsProfile = (props: any) => {
 
   const { handleSubmit } = methods;
 
-  const queryParams: any = {};
   const onSubmit = async (values: any) => {
-    queryParams.firstName = values?.firstName;
-    queryParams.middleName = values?.middleName;
-    queryParams.lastName = values?.lastName;
-    updateUserProfile({ id, ...queryParams });
+    const keysToDelete = [
+      '_id',
+      'products',
+      'role',
+      'organization',
+      'createdAt',
+      'createdBy',
+      'updatedAt',
+      'status',
+    ];
+
+    for (const key of keysToDelete) {
+      delete values[key];
+    }
+    updateUserProfile({ id, ...values });
   };
 
   return (

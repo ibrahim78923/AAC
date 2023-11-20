@@ -7,7 +7,6 @@ import RHFTextField from '@/components/ReactHookForm/RHFTextField';
 import * as Yup from 'yup';
 
 export const CompanyOwnerValidationSchema = Yup.object().shape({
-  // userType: Yup.string().required('Field is Required'),
   firstName: Yup.string().required('Field is Required'),
   middleName: Yup.string().required('Field is Required'),
   lastName: Yup.string().required('Field is Required'),
@@ -18,7 +17,6 @@ export const CompanyOwnerValidationSchema = Yup.object().shape({
 });
 
 export const superAdminValidationSchema = Yup.object().shape({
-  // userType: Yup.string().required('Field is Required'),
   firstName: Yup.string().required('Field is Required'),
   middleName: Yup.string().required('Field is Required'),
   lastName: Yup.string().required('Field is Required'),
@@ -32,7 +30,6 @@ export const superAdminValidationSchema = Yup.object().shape({
 });
 
 export const companyOwnerDefaultValues = {
-  // userType: '',
   firstName: '',
   middleName: '',
   lastName: '',
@@ -42,7 +39,6 @@ export const companyOwnerDefaultValues = {
   phoneNumber: '',
 };
 export const superAdminDefaultValues = {
-  // userType: '',
   firstName: '',
   middleName: '',
   lastName: '',
@@ -63,7 +59,7 @@ export const addUsersArray = [
       placeholder: 'Enter First Name',
       fullWidth: true,
     },
-    toShow: ['ORG_ADMIN', 'SUPER_ADMIN'],
+    toShow: ['COMPANY_OWNER', 'SUPER_ADMIN'],
     component: RHFTextField,
     md: 12,
   },
@@ -74,7 +70,7 @@ export const addUsersArray = [
       placeholder: 'Enter Middle Name',
       fullWidth: true,
     },
-    toShow: ['ORG_ADMIN', 'SUPER_ADMIN'],
+    toShow: ['COMPANY_OWNER', 'SUPER_ADMIN'],
     component: RHFTextField,
     md: 12,
   },
@@ -85,7 +81,7 @@ export const addUsersArray = [
       placeholder: 'Enter Last  Name',
       fullWidth: true,
     },
-    toShow: ['ORG_ADMIN', 'SUPER_ADMIN'],
+    toShow: ['COMPANY_OWNER', 'SUPER_ADMIN'],
     component: RHFTextField,
     md: 12,
   },
@@ -96,7 +92,7 @@ export const addUsersArray = [
       placeholder: 'Enter Email',
       fullWidth: true,
     },
-    toShow: ['ORG_ADMIN', 'SUPER_ADMIN'],
+    toShow: ['COMPANY_OWNER', 'SUPER_ADMIN'],
     component: RHFTextField,
     md: 12,
   },
@@ -107,7 +103,7 @@ export const addUsersArray = [
       placeholder: 'Enter CRN Number',
       fullWidth: true,
     },
-    toShow: ['ORG_ADMIN'],
+    toShow: ['COMPANY_OWNER'],
     component: RHFTextField,
     md: 12,
   },
@@ -118,7 +114,7 @@ export const addUsersArray = [
       placeholder: 'Enter Company  Name',
       fullWidth: true,
     },
-    toShow: ['ORG_ADMIN'],
+    toShow: ['COMPANY_OWNER'],
     component: RHFTextField,
     md: 12,
   },
@@ -129,7 +125,7 @@ export const addUsersArray = [
       placeholder: 'Enter Number',
       fullWidth: true,
     },
-    toShow: ['ORG_ADMIN', 'SUPER_ADMIN'],
+    toShow: ['COMPANY_OWNER', 'SUPER_ADMIN'],
     component: RHFTextField,
     md: 12,
   },
@@ -140,7 +136,7 @@ export const addUsersArray = [
       varient: 'h4',
       heading: 'Select Product(s)',
     },
-    toShow: ['ORG_ADMIN'],
+    toShow: ['COMPANY_OWNER'],
     gridLength: 12,
     component: Typography,
   },
@@ -151,7 +147,7 @@ export const addUsersArray = [
       options: ['Air Sales', 'Air Operation', 'Air Marketer', 'Air Service'],
       fullWidth: true,
     },
-    toShow: ['ORG_ADMIN'],
+    toShow: ['COMPANY_OWNER'],
     component: RHFMultiCheckbox,
     md: 12,
   },
@@ -168,10 +164,10 @@ export const addUsersArray = [
     md: 12,
   },
   {
-    title: 'Address',
     componentProps: {
       name: 'address',
       placeholder: 'Address',
+      label: 'Address',
       fullWidth: true,
     },
     toShow: ['SUPER_ADMIN'],
@@ -284,9 +280,4 @@ export const addUsersArray = [
     component: RHFTextField,
     md: 12,
   },
-];
-
-export const options = [
-  { value: 'ORG_ADMIN', label: 'Company Owner' },
-  { value: 'SUPER_ADMIN', label: 'Super Admin' },
 ];

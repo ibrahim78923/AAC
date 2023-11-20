@@ -10,11 +10,16 @@ import {
   useUpdateUserProfileMutation,
   usersApi,
 } from '@/services/superAdmin/user-management/users';
+import { enqueueSnackbar } from 'notistack';
 
 const useUserManagement = () => {
   const navigate = useRouter();
   const theme = useTheme();
-  const [isOpenAddUserDrawer, setIsOpenAddUserDrawer] = useState(false);
+  const [isOpenAddUserDrawer, setIsOpenAddUserDrawer] = useState({
+    drawer: false,
+    type: '',
+    data: {},
+  });
   const [isOpenFilterDrawer, setIsOpenFilterDrawer] = useState(false);
   const [userType, setUserType] = useState();
   const [checkedRows, setCheckedRows] = useState<any>();
@@ -42,7 +47,6 @@ const useUserManagement = () => {
 
   const handleClose = () => {
     setSelectedValue(null);
-    setIsOpenAddUserDrawer(true);
   };
 
   const handleUsersList = (id: any) => {
@@ -51,8 +55,11 @@ const useUserManagement = () => {
   };
 
   const handleUserSwitchChange = (e: any, id: any) => {
-    queryParams.status = e?.target?.checked;
+    queryParams.status = e?.target?.checked ? 'ACTIVE' : 'INACTIVE';
     updateUsers({ id, ...queryParams });
+    enqueueSnackbar('User updated successfully', {
+      variant: 'success',
+    });
   };
 
   return {
