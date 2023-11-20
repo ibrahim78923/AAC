@@ -1,16 +1,16 @@
+import React from 'react';
 import { FormProvider } from '@/components/ReactHookForm';
 import { Grid } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
 import CommonDrawer from '@/components/CommonDrawer';
-
 import ConversationArticleSelect from '../ConversationArticleSelect';
-import { conversationReplyArray } from '../Conversation.data';
 
-const ConversationReply = ({
+const ConversationAddComponent = ({
   show,
   setShow,
   addConversationModal,
   onSubmit,
+  dataArray,
 }: any) => {
   return (
     <CommonDrawer
@@ -25,7 +25,7 @@ const ConversationReply = ({
         onSubmit={addConversationModal?.handleSubmit(onSubmit)}
       >
         <Grid container spacing={2}>
-          {conversationReplyArray?.map((item: any) => (
+          {dataArray?.map((item: any) => (
             <Grid
               item
               xs={12}
@@ -57,4 +57,4 @@ const ConversationReply = ({
   );
 };
 
-export default ConversationReply;
+export default ConversationAddComponent;

@@ -1,19 +1,10 @@
-// form
+import React from 'react';
 import { useFormContext, Controller } from 'react-hook-form';
-// @mui
 import { Box, FormHelperText } from '@mui/material';
-
 import ConversationTextEditor from '../ConversationTextEditor';
 import ConversationTextLabel from '../ConversationTextLabel';
 
-// ----------------------------------------------------------------------
-
-export default function ConversationEditor({
-  name,
-  required,
-  selectedTitle,
-  ...other
-}: any) {
+const ConversationEditor = ({ name, required, selectedTitle, ...other }) => {
   const { control } = useFormContext();
 
   return (
@@ -52,4 +43,6 @@ export default function ConversationEditor({
       )}
     />
   );
-}
+};
+
+export default ConversationEditor;

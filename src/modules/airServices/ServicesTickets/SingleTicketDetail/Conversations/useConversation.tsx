@@ -1,17 +1,19 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   conversationAddArticleData,
   conversationModalsDefaultValues,
   conversationModalsValidation,
   menuOptionsAddConversation,
+  conversationNoteArray,
+  conversationReplyArray,
+  conversationForwardArray,
 } from './Conversation.data';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import ConversationNote from './ConversationNote';
-import ConversationReply from './ConversationReply';
-import ConversationForward from './ConversationForward';
-import ConversationDiscuss from './ConversationDiscuss';
 import { useTheme } from '@mui/material';
+
+import ConversationDiscuss from './ConversationDiscuss';
+import ConversationAddComponent from './ConversationAddComponent';
 
 const UseConversation = () => {
   const [isConversation] = useState<boolean>(true);
@@ -23,20 +25,15 @@ const UseConversation = () => {
     menuOptionsAddConversation[0]?.value,
   );
   const [searchTerm, setSearchTerm] = useState('');
-
-  const filteredContent = conversationAddArticleData?.filter(
-    (item) => item?.title?.toLowerCase()?.includes(searchTerm?.toLowerCase()),
-  );
-
   const [title, setTitle] = useState('');
-
+  const [filteredContent, setFilteredContent] = useState(
+    conversationAddArticleData,
+  );
   const theme = useTheme();
-
   const addConversationModal: any = useForm({
     resolver: yupResolver(conversationModalsValidation),
     defaultValues: conversationModalsDefaultValues,
   });
-
   const onSubmit = (data: any) => data;
   const open = Boolean(addConversation);
 
@@ -50,40 +47,34 @@ const UseConversation = () => {
     setSelectedItem(e?.target?.value);
     setShow(true);
     setAddConversation(null);
-
     setTitle(e?.target?.value);
+  };
+
+  const getArrayByTitle = (title) => {
+    switch (title) {
+      case 'Note':
+        return conversationNoteArray;
+      case 'Reply':
+        return conversationReplyArray;
+      case 'Forward':
+        return conversationForwardArray;
+      default:
+        return [];
+    }
   };
 
   const renderSelectedComponent = () => {
     switch (selectedItem) {
       case 'Note':
-        return (
-          <ConversationNote
-            selectedItem={selectedItem}
-            show={show}
-            setShow={setShow}
-            addConversationModal={addConversationModal}
-            onSubmit={onSubmit}
-          />
-        );
       case 'Reply':
-        return (
-          <ConversationReply
-            selectedItem={selectedItem}
-            show={show}
-            setShow={setShow}
-            addConversationModal={addConversationModal}
-            onSubmit={onSubmit}
-          />
-        );
       case 'Forward':
         return (
-          <ConversationForward
-            selectedItem={selectedItem}
+          <ConversationAddComponent
             show={show}
             setShow={setShow}
             addConversationModal={addConversationModal}
             onSubmit={onSubmit}
+            dataArray={getArrayByTitle(selectedItem)}
           />
         );
       case 'Discuss':
@@ -96,6 +87,13 @@ const UseConversation = () => {
         return null;
     }
   };
+
+  useEffect(() => {
+    const filteredData = conversationAddArticleData?.filter(
+      (item) => item?.title?.toLowerCase()?.includes(searchTerm?.toLowerCase()),
+    );
+    setFilteredContent(filteredData);
+  }, [searchTerm]);
 
   return {
     isConversation,

@@ -1,67 +1,47 @@
 import React, { useState } from 'react';
-import { Dialog, IconButton, DialogTitle } from '@mui/material';
+import { Box, Dialog, IconButton, DialogTitle } from '@mui/material';
 import {
   ArticleModalIcon,
   CannedResponseModalIcon,
   CloseDrawerIcon,
 } from '@/assets/icons';
-import { Box } from '@mui/material';
-import ConversationCannedResponse from '../ConversationCannedResponse';
-import ConversationAddArticle from '../ConversationAddArticle';
 import UseConversation from '../useConversation';
+import ConversationSelectModal from '../ConversationSelectModal';
 
 function ConversationArticleSelect() {
-  const { theme } = UseConversation();
+  const { theme, filteredContent, searchTerm, setSearchTerm } =
+    UseConversation();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedComponent, setSelectedComponent] = useState({
-    component: null,
     title: '',
   });
 
-  const handleCannedResponseClick = () => {
+  const handleIconClick = (title) => {
     setSelectedComponent({
-      component: (
-        <ConversationCannedResponse
-          onAddButtonClick={(selectedTitle) =>
-            handleAddButtonClick(selectedTitle)
-          }
-        />
-      ),
-      title: 'Canned Response Modal',
+      title,
     });
     setIsModalOpen(true);
   };
 
-  const handleArticleClick = () => {
-    setSelectedComponent({
-      component: (
-        <ConversationAddArticle
-          onAddContractButtonClick={(selectedTitle) =>
-            handleAddButtonClick(selectedTitle)
-          }
-        />
-      ),
-      title: 'Article Modal',
-    });
-    setIsModalOpen(true);
+  const handleAddButtonClick = () => {
+    setIsModalOpen(false);
   };
 
-  const handleAddButtonClick = (selectedTitle) => {
-    selectedTitle;
+  const handleCloseModal = () => {
     setIsModalOpen(false);
   };
 
   return (
     <Box>
-      <Box onClick={handleCannedResponseClick}>
+      <Box onClick={() => handleIconClick('Add Canned Response')}>
         <CannedResponseModalIcon />
       </Box>
-      <Box onClick={handleArticleClick}>
+      <Box onClick={() => handleIconClick('Add New Article')}>
         <ArticleModalIcon />
       </Box>
 
-      <Dialog open={isModalOpen} onClose={() => setIsModalOpen(false)}>
+      <Dialog open={isModalOpen} onClose={handleCloseModal}>
         <IconButton
           aria-label="close"
           sx={{
@@ -70,15 +50,22 @@ function ConversationArticleSelect() {
             top: 8,
             color: (theme) => theme?.palette?.grey[500],
           }}
-          onClick={() => setIsModalOpen(false)}
+          onClick={handleCloseModal}
         >
           <CloseDrawerIcon />
         </IconButton>
         <DialogTitle color={theme?.palette?.slateBlue?.main}>
-          {selectedComponent?.title}
+          {selectedComponent.title}
         </DialogTitle>
 
-        {selectedComponent?.component}
+        <ConversationSelectModal
+          theme={theme}
+          onAddButtonClick={handleAddButtonClick}
+          filteredContent={filteredContent}
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+          title={selectedComponent.title}
+        />
       </Dialog>
     </Box>
   );

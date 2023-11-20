@@ -1,15 +1,20 @@
+// ConversationSelectModal.jsx
+import React from 'react';
 import { Typography, Button, Box, Grid } from '@mui/material';
 import Search from '@/components/Search';
-import { PlusSharedIconColor } from '@/assets/icons';
 import { v4 as uuidv4 } from 'uuid';
-import UseConversation from '../useConversation';
+import PlusSharedIconColor from '@/assets/icons/shared/plus-shared-color';
 
-const ConversationAddArticle = ({ onAddContractButtonClick }) => {
-  const { theme, filteredContent, searchTerm, setSearchTerm } =
-    UseConversation();
-
-  const handleAddContractClick = (title) => {
-    onAddContractButtonClick(title);
+const ConversationSelectModal = ({
+  theme,
+  onAddButtonClick,
+  filteredContent,
+  searchTerm,
+  setSearchTerm,
+  title,
+}) => {
+  const handleAddClick = (selectedTitle) => {
+    onAddButtonClick(selectedTitle);
   };
 
   return (
@@ -27,7 +32,7 @@ const ConversationAddArticle = ({ onAddContractButtonClick }) => {
       <Box>
         <Box display={'flex'} alignItems="center" cursor={'pointer'}>
           <PlusSharedIconColor color={theme?.palette?.primary?.main} />
-          <Typography marginLeft={1}>Add New Article</Typography>
+          <Typography marginLeft={1}>{title}</Typography>
         </Box>
 
         <br />
@@ -41,10 +46,11 @@ const ConversationAddArticle = ({ onAddContractButtonClick }) => {
           >
             <Typography>{item?.title}</Typography>
             <Box display="flex" alignItems="center" marginTop={1}>
-              <Typography marginRight={'.50rem'}>{item?.link}</Typography>
-
-              <Button onClick={() => handleAddContractClick(item?.title)}>
-                ADD Content
+              {title === 'Add New Article' && (
+                <Typography marginRight={'.50rem'}>{item?.link}</Typography>
+              )}
+              <Button onClick={() => handleAddClick(item?.title)}>
+                {title === 'Add Canned Response' ? 'ADD' : 'ADD Content'}
               </Button>
             </Box>
           </Box>
@@ -55,4 +61,4 @@ const ConversationAddArticle = ({ onAddContractButtonClick }) => {
   );
 };
 
-export default ConversationAddArticle;
+export default ConversationSelectModal;
