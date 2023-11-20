@@ -46,7 +46,6 @@ const TanstackTable = (props: any) => {
   } = props;
 
   const table = useTanstackTable(data, columns, showSerialNo);
-
   if (isLoading || isFetching) return <SkeletonTable />;
 
   return (
@@ -103,8 +102,10 @@ const TanstackTable = (props: any) => {
                   </TableRow>
                 ))}
               </TableHead>
+
               <TableBody>
                 {isSuccess &&
+                  !isError &&
                   table
                     ?.getRowModel()
                     ?.rows?.map((row) => (
@@ -123,13 +124,17 @@ const TanstackTable = (props: any) => {
                     ))}
               </TableBody>
             </Table>
-            {!!!table?.getRowModel()?.rows?.length && isSuccess && (
-              <NoData
-                image={NoAssociationFoundImage}
-                message={'No data is available'}
-              />
+            {isError ? (
+              <ApiErrorState />
+            ) : (
+              !!!table?.getRowModel()?.rows?.length &&
+              isSuccess && (
+                <NoData
+                  image={NoAssociationFoundImage}
+                  message={'No data is available'}
+                />
+              )
             )}
-            {isError && <ApiErrorState />}
           </TableContainer>
         </Grid>
       </Grid>
