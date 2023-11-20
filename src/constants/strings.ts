@@ -117,7 +117,7 @@ export const AIR_CUSTOMER_PORTAL_TICKET = {
   PROCESSING: 'Processing',
 };
 
-export const NOTISTACK_VARIANTS = {
+export const NOTISTACK_VARIANTS: any = {
   SUCCESS: 'success',
   ERROR: 'error',
   WARNING: 'warning',
