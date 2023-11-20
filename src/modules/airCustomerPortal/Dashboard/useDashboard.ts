@@ -5,7 +5,6 @@ import {
   dashboardWidgetsFunction,
   dashboardWidgetsTitles,
 } from './Dashboard.data';
-import { enqueueSnackbar } from 'notistack';
 
 export const useDashboard = () => {
   const { TICKETS, KNOWLEDGE_BASE } = AIR_CUSTOMER_PORTAL;
@@ -34,7 +33,7 @@ export const useDashboard = () => {
   const [anchorEl, setAnchorEl] = useState<any>(null);
 
   const handleButtonClick = (event: any) => {
-    setAnchorEl(event.currentTarget);
+    setAnchorEl(event?.currentTarget);
     setOpen(!open);
   };
 
@@ -42,13 +41,6 @@ export const useDashboard = () => {
     setAnchorEl(null);
     setOpen(false);
     setOpenReportAnIssueModal(true);
-  };
-
-  const handleSubmitModal = () => {
-    enqueueSnackbar('Issue Report Successfully', {
-      variant: 'success',
-    });
-    setOpenReportAnIssueModal(false);
   };
 
   return {
@@ -61,6 +53,5 @@ export const useDashboard = () => {
     setAnchorEl,
     handleButtonClick,
     handleClose,
-    handleSubmitModal,
   };
 };

@@ -25,8 +25,9 @@ export const defaultValues = {
   description: '',
 };
 
-export const reportAnIssueModalDataArray = [
+export const reportAnIssueModalFormFields = [
   {
+    id: 1,
     componentProps: {
       name: 'issueRelatedTo',
       label: 'Issue Related To',
@@ -38,6 +39,7 @@ export const reportAnIssueModalDataArray = [
     md: 12,
   },
   {
+    id: 2,
     componentProps: {
       name: 'requester',
       label: 'Requester',
@@ -47,6 +49,7 @@ export const reportAnIssueModalDataArray = [
     md: 12,
   },
   {
+    id: 3,
     componentProps: {
       name: 'subject',
       label: 'Subject',
@@ -56,6 +59,7 @@ export const reportAnIssueModalDataArray = [
     md: 12,
   },
   {
+    id: 4,
     componentProps: {
       name: 'description',
       label: 'Description',

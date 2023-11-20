@@ -9,15 +9,13 @@ import {
   Typography,
 } from '@mui/material';
 import { useReportAnIssueModal } from './useReportAnIssueModal';
-import { v4 as uuidv4 } from 'uuid';
-import { reportAnIssueModalDataArray } from './ReportAnIssueModal.data';
+import { reportAnIssueModalFormFields } from './ReportAnIssueModal.data';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { styles } from './ReportAnIssueModal.style';
 
 const ReportAnIssueModal = ({
   openReportAnIssueModal,
   setOpenReportAnIssueModal,
-  handleSubmitModal,
 }: any) => {
   const { methods, theme, fileImport, handleImport }: any =
     useReportAnIssueModal();
@@ -26,7 +24,7 @@ const ReportAnIssueModal = ({
       <FormProvider methods={methods}>
         <Dialog
           fullWidth
-          sx={styles?.modelSizing}
+          sx={styles?.modalSizing}
           open={openReportAnIssueModal}
           onClose={() => setOpenReportAnIssueModal(false)}
         >
@@ -46,11 +44,11 @@ const ReportAnIssueModal = ({
             </Box>
             <Grid container spacing={4}>
               <Grid item xs={12}>
-                {reportAnIssueModalDataArray?.map((item: any) => (
-                  <item.component {...item?.componentProps} key={uuidv4()}>
+                {reportAnIssueModalFormFields?.map((item: any) => (
+                  <item.component {...item?.componentProps} key={item?.id}>
                     {item?.componentProps?.select &&
                       item?.options?.map((option: any) => (
-                        <option key={uuidv4()} value={option?.value}>
+                        <option key={option?.value} value={option?.value}>
                           {option?.label}
                         </option>
                       ))}
@@ -102,9 +100,7 @@ const ReportAnIssueModal = ({
               >
                 Cancel
               </Button>
-              <Button variant="contained" onClick={handleSubmitModal}>
-                Submit
-              </Button>
+              <Button variant="contained">Submit</Button>
             </Box>
           </Box>
         </Dialog>

@@ -1,5 +1,5 @@
 export const styles = {
-  modelSizing: {
+  modalSizing: {
     '& .MuiDialog-container': {
       '& .MuiPaper-root': {
         width: '100%',

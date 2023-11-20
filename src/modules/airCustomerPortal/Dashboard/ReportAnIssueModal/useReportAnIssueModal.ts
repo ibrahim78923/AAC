@@ -8,7 +8,7 @@ import { useSnackbar } from 'notistack';
 import { useForm } from 'react-hook-form';
 import { useTheme } from '@mui/material';
 
-export function useReportAnIssueModal() {
+export const useReportAnIssueModal = () => {
   const { enqueueSnackbar } = useSnackbar();
   const theme = useTheme();
   const methods = useForm({
@@ -32,4 +32,4 @@ export function useReportAnIssueModal() {
     fileImport,
     handleImport,
   };
-}
+};
