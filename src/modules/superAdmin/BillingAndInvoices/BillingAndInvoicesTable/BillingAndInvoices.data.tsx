@@ -11,8 +11,8 @@ import * as Yup from 'yup';
 
 export const Columns = (
   setIsGetRowValues: any,
-  setIschecked: any,
-  ischecked: any,
+  setIsChecked: any,
+  isChecked: any,
   isGetRowValues: any,
 ) => {
   return [
@@ -24,11 +24,13 @@ export const Columns = (
           color="primary"
           checked={
             info?.cell?.row?.original?._id ===
-              isGetRowValues?.cell?.row?.original?._id && ischecked
+              isGetRowValues?.cell?.row?.original?._id && isChecked
           }
           name={info?.getValue()}
           onClick={() => {
-            setIsGetRowValues(info), setIschecked(!ischecked);
+            !isChecked
+              ? (setIsGetRowValues(info), setIsChecked(!isChecked))
+              : (setIsGetRowValues([]), setIsChecked(!isChecked));
           }}
         />
       ),
@@ -53,7 +55,7 @@ export const Columns = (
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row?.plans?.description,
+      accessorFn: (row: any) => row?.planProducts[0]?.name,
       id: 'productsSuite',
       isSortable: true,
       header: 'Products/Suite',
