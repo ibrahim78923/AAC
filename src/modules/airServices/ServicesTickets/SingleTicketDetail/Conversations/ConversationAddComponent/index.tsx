@@ -1,6 +1,6 @@
 import React from 'react';
 import { FormProvider } from '@/components/ReactHookForm';
-import { Grid } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
 import CommonDrawer from '@/components/CommonDrawer';
 import ConversationArticleSelect from '../ConversationArticleSelect';
@@ -19,11 +19,9 @@ const ConversationAddComponent = ({
       okText={'Add Note'}
       footer={true}
       isOk={true}
+      submitHandler={addConversationModal?.handleSubmit(onSubmit)}
     >
-      <FormProvider
-        methods={addConversationModal}
-        onSubmit={addConversationModal?.handleSubmit(onSubmit)}
-      >
+      <FormProvider methods={addConversationModal}>
         <Grid container spacing={2}>
           {dataArray?.map((item: any) => (
             <Grid
@@ -51,7 +49,10 @@ const ConversationAddComponent = ({
             </Grid>
           ))}
         </Grid>
-        <ConversationArticleSelect />
+        <Box sx={{ mt: 2 }}>
+          {' '}
+          <ConversationArticleSelect />
+        </Box>
       </FormProvider>
     </CommonDrawer>
   );

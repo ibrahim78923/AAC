@@ -53,7 +53,7 @@ export const conversationNoteArray = [
     },
     component: ConversationEditor,
     md: 12,
-    mb: 2,
+    // mb: 2,
   },
 ];
 export const conversationReplyArray = [

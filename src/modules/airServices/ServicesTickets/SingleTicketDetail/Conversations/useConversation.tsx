@@ -11,6 +11,7 @@ import {
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useTheme } from '@mui/material';
+import { enqueueSnackbar } from 'notistack';
 
 import ConversationDiscuss from './ConversationDiscuss';
 import ConversationAddComponent from './ConversationAddComponent';
@@ -34,13 +35,22 @@ export const UseConversation = () => {
     resolver: yupResolver(conversationModalsValidation),
     defaultValues: conversationModalsDefaultValues,
   });
-  const onSubmit = (data: any) => data;
+
   const open = Boolean(addConversation);
 
   const handleClickButtonMenu = (
     event: React.MouseEvent<HTMLButtonElement>,
   ) => {
     setAddConversation(event?.currentTarget);
+  };
+
+  const { handleSubmit } = addConversationModal;
+
+  const onSubmit = async () => {
+    enqueueSnackbar('Note Add Successfully!', {
+      variant: 'success',
+    });
+    setShow(false);
   };
 
   const handleCloseButtonMenu = (e: any) => {
@@ -73,7 +83,7 @@ export const UseConversation = () => {
             show={show}
             setShow={setShow}
             addConversationModal={addConversationModal}
-            onSubmit={onSubmit}
+            onSubmit={handleSubmit(onSubmit)}
             dataArray={getArrayByTitle(selectedItem)}
           />
         );
@@ -93,6 +103,11 @@ export const UseConversation = () => {
     setFilteredContent(filteredData);
   }, [searchTerm]);
 
+  useEffect(() => {
+    // Set default values when the component mounts
+    renderSelectedComponent();
+  }, [selectedItem]);
+
   return {
     isConversation,
     open,
@@ -105,6 +120,7 @@ export const UseConversation = () => {
     addConversationModal,
     selectedItem,
     onSubmit,
+    handleSubmit,
     title,
     renderSelectedComponent,
     theme,
