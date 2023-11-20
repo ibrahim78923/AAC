@@ -29,9 +29,9 @@ function RecentActivitiesDashboardDrawer({
               <RecentActivitiesDashboardCard
                 icon={item?.icon}
                 recentActivityText={item?.recentActivityText}
-                recentActivityTextPassword={item?.recentActivityTextPassword}
+                recentActivityRequestText={item?.recentActivityRequestText}
                 recentActivityTextDateTime={item?.recentActivityTextDateTime}
-                isborderbottom={
+                isBorderBottom={
                   recentActivitiesDashboardCardData?.length - 1 !== index
                 }
               />

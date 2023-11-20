@@ -1,19 +1,20 @@
-import { Box, Grid, Typography, useTheme } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import { styles } from './RecentActivitiesDashboardCard.styles';
+import { useRecentActivities } from './useRecentActivities';
 
 export const RecentActivitiesDashboardCard = ({
   icon,
   recentActivityText,
   recentActivityRequestText,
-  recentActivityTextDateTime,
-  isborderbottom,
+  isBorderBottom,
 }: any) => {
-  const theme = useTheme();
+  const { theme, currentDate, formatDateTime } = useRecentActivities();
+
   return (
     <Grid container>
       <Grid item xs={12} height={{ md: 88, xs: 122 }}>
-        <Box sx={styles?.boxMain(isborderbottom, theme)} overflow={'scroll'}>
+        <Box sx={styles?.boxMain(isBorderBottom, theme)} overflow={'scroll'}>
           <Box marginLeft={2}>
             <Avatar
               alt=""
@@ -23,14 +24,20 @@ export const RecentActivitiesDashboardCard = ({
           </Box>
           <Box>
             <Typography color={'grey?.[600]'} variant="body3">
-              <span style={styles?.recentActivitiesTextBoldWord(theme)}>
+              <Typography
+                style={styles?.recentActivitiesTextBoldWord(theme)}
+                component="span"
+              >
                 John Doe
-              </span>
+              </Typography>
               {recentActivityText}
-              <span style={styles?.recentActivitiesTextBoldWord(theme)}>
+              <Typography
+                style={styles?.recentActivitiesTextBoldWord(theme)}
+                component="span"
+              >
                 {' '}
                 Mark Dyson
-              </span>
+              </Typography>
             </Typography>
             <br />
             <Typography variant="body3" color={'grey?.[800]'}>
@@ -38,7 +45,7 @@ export const RecentActivitiesDashboardCard = ({
             </Typography>
             <br />
             <Typography color={'grey?.[600]'} variant="body3">
-              {recentActivityTextDateTime}
+              {formatDateTime(currentDate)}{' '}
             </Typography>
           </Box>
         </Box>

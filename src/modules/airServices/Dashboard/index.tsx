@@ -81,7 +81,7 @@ const Dashboard = () => {
                         recentActivityTextDateTime={
                           item?.recentActivityTextDateTime
                         }
-                        isborderbottom={
+                        isBorderBottom={
                           recentActivitiesDashboardCardData?.length - 1 !==
                           index
                         }
@@ -152,7 +152,7 @@ const Dashboard = () => {
                         announcementText={item?.announcementText}
                         announcementTextTime={item?.announcementTextTime}
                         announcementTextAvatar={item?.announcementTextAvatar}
-                        isborderbottom={
+                        isBorderBottom={
                           announcementDashboardCardData?.length - 1 !== index
                         }
                       />
