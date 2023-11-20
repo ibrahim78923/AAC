@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
   upsertTicketDefaultValuesFunction,
+  upsertTicketFormFieldsDynamic,
   upsertTicketValidationSchema,
 } from './UpsertTicket.data';
 import { enqueueSnackbar } from 'notistack';
@@ -13,13 +14,16 @@ import {
   usePutTicketsMutation,
 } from '@/services/airServices/tickets';
 import { useEffect } from 'react';
+import { useLazyGetOrganizationsQuery } from '@/services/dropdowns';
+import usePath from '@/hooks/usePath';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 export const useUpsertTicket = (props: any) => {
   const { setIsDrawerOpen, ticketId } = props;
 
   const router = useRouter();
   const theme: any = useTheme();
-
+  const { makePath } = usePath();
   const [postTicketTrigger, postTicketStatus] = usePostTicketsMutation();
   const [putTicketTrigger, putTicketStatus] = usePutTicketsMutation();
 
@@ -29,7 +33,7 @@ export const useUpsertTicket = (props: any) => {
     },
   };
 
-  const { data, isLoading, isFetching } = useGetTicketsByIdQuery(
+  const { data, isLoading, isFetching, isError } = useGetTicketsByIdQuery(
     getSingleTicketParameter,
     {
       refetchOnMountOrArgChange: true,
@@ -40,7 +44,6 @@ export const useUpsertTicket = (props: any) => {
   const methods: any = useForm<any>({
     resolver: yupResolver(upsertTicketValidationSchema),
     defaultValues: upsertTicketDefaultValuesFunction(),
-    reValidateMode: 'onBlur',
   });
 
   const { handleSubmit, reset } = methods;
@@ -57,16 +60,17 @@ export const useUpsertTicket = (props: any) => {
     const postTicketParameter = {
       body: data,
     };
+
     try {
       const response = await postTicketTrigger(postTicketParameter)?.unwrap();
       enqueueSnackbar(response?.message ?? 'Ticket Added Successfully', {
-        variant: 'success',
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
       reset();
       setIsDrawerOpen?.(false);
     } catch (error) {
-      enqueueSnackbar('There is something wrong', {
-        variant: 'error',
+      enqueueSnackbar('Something went wrong', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }
   };
@@ -81,13 +85,13 @@ export const useUpsertTicket = (props: any) => {
     try {
       const response = await putTicketTrigger(putTicketParameter)?.unwrap();
       enqueueSnackbar(response?.message ?? 'Ticket Added Successfully', {
-        variant: 'success',
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
       reset();
       setIsDrawerOpen?.(false);
     } catch (error) {
-      enqueueSnackbar('There is something wrong', {
-        variant: 'error',
+      enqueueSnackbar('Something went wrong', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }
   };
@@ -96,18 +100,23 @@ export const useUpsertTicket = (props: any) => {
   }, [data, reset]);
 
   const onClose = () => {
-    //TODO: destructing as i do not need that in rest queries.
-    /* eslint-disable @typescript-eslint/no-unused-vars */
-    const { ticketAction, ...restQueries } = router?.query;
-    router?.push({
-      pathname: router?.pathname,
-      query: {
-        ...restQueries,
-      },
-    });
+    router?.push(
+      makePath({
+        path: router?.pathname,
+        skipQueries: ['ticketAction'],
+      }),
+    );
     reset?.();
     setIsDrawerOpen?.(false);
   };
+  const apiQueryOrganizations = useLazyGetOrganizationsQuery();
+
+  const upsertTicketFormFields = upsertTicketFormFieldsDynamic(
+    apiQueryOrganizations,
+    apiQueryOrganizations,
+    apiQueryOrganizations,
+    apiQueryOrganizations,
+  );
   return {
     router,
     theme,
@@ -120,5 +129,7 @@ export const useUpsertTicket = (props: any) => {
     isFetching,
     putTicketStatus,
     ticketId,
+    upsertTicketFormFields,
+    isError,
   };
 };

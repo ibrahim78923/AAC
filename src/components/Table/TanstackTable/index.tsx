@@ -34,7 +34,7 @@ const TanstackTable = (props: any) => {
     isFetching = false,
     isError = false,
     isSuccess = true,
-    isPagination = true,
+    isPagination,
     count,
     pageLimit,
     rowsPerPageOptions,
