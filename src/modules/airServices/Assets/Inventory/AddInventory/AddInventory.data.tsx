@@ -59,23 +59,24 @@ export const assetTypeOptions = [
 ];
 
 export const validationSchema: any = yup?.object()?.shape({
-  // displayName: yup?.string()?.required('Required field!'),
-  // assetType: yup?.string()?.required('Required field!'),
-  // impact: yup?.string()?.required('Required field!'),
+  displayName: yup?.string()?.required('Required field!'),
+  assetType: yup?.string()?.required('Required field!'),
+  impact: yup?.string()?.required('Required field!'),
 });
 
 export const defaultValues = {
-  displayName: 'Name',
-  assetType: 'services',
-  impact: 'low',
+  displayName: '',
+  assetId: '',
+  assetType: '',
+  impact: '',
   description: '',
   assetLifeExpireOn: null,
-  locationId: '',
-  departmentId: '',
+  location: '',
+  department: '',
   assignedOnDate: null,
   assignedOnTime: null,
   usedBy: '',
-  attachFile: [''],
+  attachFile: '',
 };
 
 export const addInventoryFields = [
@@ -134,7 +135,7 @@ export const addInventoryFields = [
     id: 5,
     componentProps: {
       fullWidth: true,
-      name: 'departmentId',
+      name: 'department',
       label: 'department',
       select: true,
       options: dropdownDummy,
@@ -196,7 +197,7 @@ export const addInventoryFields = [
     id: 7,
     componentProps: {
       fullWidth: true,
-      name: 'locationId',
+      name: 'location',
       label: 'location',
       select: true,
       options: dropdownDummy,

@@ -2,16 +2,12 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import {
   INVENTORY_LIST_ACTIONS,
+  data,
   inventoryListsColumnsFunction,
 } from './Inventory.data';
 import { CustomizeInventoryColumn } from './CustomizeInventoryColumn';
 import { FilterInventory } from './FilterInventory';
 import { AIR_SERVICES } from '@/constants';
-import {
-  useDeleteAssetInventoryMutation,
-  useGetAssetInventoryQuery,
-} from '@/services/airServices/assets-inventory';
-import { enqueueSnackbar } from 'notistack';
 
 export const useInventory = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -20,37 +16,6 @@ export const useInventory = () => {
   const [searchValue, SetSearchValue] = useState<string>('');
   const router = useRouter();
   const { push } = useRouter();
-  const [deleteTicketsTrigger] = useDeleteAssetInventoryMutation();
-
-  const deleteTicket = async () => {
-    const deleteParams = new URLSearchParams();
-    inventoryData?.forEach(
-      (ticketId: any) => deleteParams?.append('ids', ticketId),
-    );
-    const deleteInventoryParameter = {
-      queryParams: deleteParams,
-    };
-    try {
-      const response: any = await deleteTicketsTrigger(
-        deleteInventoryParameter,
-      )?.unwrap();
-      enqueueSnackbar(response?.message ?? 'Ticket deleted successfully', {
-        variant: 'success',
-      });
-      setOpenDeleteModal?.(false);
-    } catch (error: any) {
-      enqueueSnackbar(error?.data?.message ?? 'Error', {
-        variant: 'error',
-      });
-    }
-  };
-
-  const { data } = useGetAssetInventoryQuery({
-    assetType: 'services',
-    impact: 'low',
-  });
-
-  const tableData = data?.data?.result;
 
   const handleAddInventory = () => {
     push(AIR_SERVICES?.ADD_INVENTORY);
@@ -148,7 +113,5 @@ export const useInventory = () => {
     data,
     inventoryData,
     setInventoryData,
-    tableData,
-    deleteTicket,
   };
 };
