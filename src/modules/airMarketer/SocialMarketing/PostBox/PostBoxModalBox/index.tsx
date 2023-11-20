@@ -14,9 +14,11 @@ import {
 
 import CommonModal from '@/components/CommonModal';
 
-import { styles } from './style';
-
 import usePostBox from '../usePostBox';
+
+import { NatureFreekImage, SeaImage } from '@/assets/images';
+import { postBoxSteps } from '@/mock/modules/airMarketer/SocialMarketing';
+import DeleteModalBox from '../DeleteModalBox';
 
 import {
   ActionsIcon,
@@ -28,9 +30,8 @@ import {
   MultipleUserIcon,
   ShareIcon,
 } from '@/assets/icons';
-import { NatureFreekImage, SeaImage } from '@/assets/images';
-import { postBoxSteps } from '@/mock/modules/airMarketer/SocialMarketing';
-import DeleteModalBox from '../DeleteModalBox';
+
+import { styles } from './style';
 
 import { v4 as uuidv4 } from 'uuid';
 

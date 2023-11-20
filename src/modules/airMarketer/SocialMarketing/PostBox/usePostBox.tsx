@@ -6,14 +6,9 @@ const usePostBox = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [selectedPost, setSelectedPost] = useState({});
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
-  const [showDatePicker, setShowDatePicker] = useState(false);
-
-  const handleDatePicker = () => {
-    setShowDatePicker(!showDatePicker);
-  };
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
+    setAnchorEl(event?.currentTarget);
   };
 
   const handleClose = () => {
@@ -56,8 +51,6 @@ const usePostBox = () => {
     anchorEl,
     isDeleteModal,
     handleSubmit,
-    handleDatePicker,
-    showDatePicker,
   };
 };
 

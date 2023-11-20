@@ -7,10 +7,6 @@ import {
   CardContent,
   Box,
   Grid,
-  Button,
-  Popover,
-  FormControlLabel,
-  Checkbox,
 } from '@mui/material';
 
 import SwitchableDatepicker from '@/components/SwitchableDatepicker';
@@ -18,24 +14,14 @@ import SwitchableDatepicker from '@/components/SwitchableDatepicker';
 import PostBoxModalBox from './PostBoxModalBox';
 import usePostBox from './usePostBox';
 import ContactsActions from './PostBoxActions';
-import { customizeData } from './Customize/Cutomize.data';
 import { postCardsData } from './PostCards.data';
 
-import { SettingsIcon } from '@/assets/icons';
-
 import { v4 as uuidv4 } from 'uuid';
+import Customize from './Customize';
 
 const PostBox = () => {
-  const {
-    handlePostBox,
-    isPostModal,
-    open,
-    handleClose,
-    handleClick,
-    anchorEl,
-    handleDatePicker,
-    showDatePicker,
-  } = usePostBox();
+  const { handlePostBox, isPostModal } = usePostBox();
+
   const postBoxColor: any = {
     posted: 'rgba(58, 131, 126, 0.20)',
     scheduled: 'rgba(121, 94, 199, 0.20)',
@@ -44,6 +30,7 @@ const PostBox = () => {
     rejected: 'rgba(52, 155, 248, 0.20)',
     failed: 'rgba(255, 30, 30, 0.20)',
   };
+
   return (
     <>
       <Box
@@ -52,50 +39,26 @@ const PostBox = () => {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
+          flexWrap: 'wrap',
+          gap: 1,
         }}
       >
         <ContactsActions />
-        <Box>
-          <Button
-            sx={{ gap: 1, height: '35px' }}
-            variant="outlined"
-            onClick={handleClick}
-          >
-            <SettingsIcon />
-            Customize
-          </Button>
-          <Popover
-            open={open}
-            anchorEl={anchorEl}
-            onClose={handleClose}
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'left',
-            }}
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'left',
-            }}
-          >
-            {customizeData?.map((data) => (
-              <Box sx={{ ml: 1 }} key={uuidv4()}>
-                <FormControlLabel control={<Checkbox />} label={data?.label} />
-              </Box>
-            ))}
-          </Popover>
-          <Button
-            onClick={handleDatePicker}
-            sx={{ ml: '10px', height: '35px' }}
-            variant="outlined"
-          >
-            Date
-          </Button>
-          {showDatePicker && <SwitchableDatepicker />}
+        <Box
+          sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+          }}
+          gap={1}
+        >
+          <Customize />
+          {<SwitchableDatepicker size="small" />}
         </Box>
       </Box>
+
       <Grid container spacing={2}>
         {postCardsData?.map(({ category, data }: any) => (
-          <Grid item lg={2} key={category}>
+          <Grid item xs={12} sm={6} md={4} lg={3} xl={2} key={category}>
             <Box border="1px solid #E5E7EB" borderRadius="5px">
               <Box
                 p="10px"

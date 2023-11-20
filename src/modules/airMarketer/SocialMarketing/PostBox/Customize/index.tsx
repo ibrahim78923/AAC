@@ -1,25 +1,32 @@
-// import * as React from 'react';
-// import Popover from '@mui/material/Popover';
-// import Typography from '@mui/material/Typography';
-// import Button from '@mui/material/Button';
+import {
+  Button,
+  Box,
+  Checkbox,
+  FormControlLabel,
+  Popover,
+} from '@mui/material';
+
+import usePostBox from '../usePostBox';
+import { customizeData } from './Cutomize.data';
+
+import { SettingsIcon } from '@/assets/icons';
+
+import { v4 as uuidv4 } from 'uuid';
 
 const Customize = () => {
-  // const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
+  const { open, handleClose, handleClick, anchorEl } = usePostBox();
 
-  // const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-  //   setAnchorEl(event.currentTarget);
-  // };
-
-  // const handleClose = () => {
-  //   setAnchorEl(null);
-  // };
   return (
     <div>
-      {/* <Button aria-describedby={id} variant="contained" onClick={handleClick}>
-        Open Popover
+      <Button
+        sx={{ gap: 1, height: '30px' }}
+        variant="outlined"
+        onClick={handleClick}
+        startIcon={<SettingsIcon />}
+      >
+        Customize
       </Button>
       <Popover
-        id={id}
         open={open}
         anchorEl={anchorEl}
         onClose={handleClose}
@@ -27,9 +34,17 @@ const Customize = () => {
           vertical: 'bottom',
           horizontal: 'left',
         }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'left',
+        }}
       >
-        <Typography sx={{ p: 2 }}>The content of the Popover.</Typography>
-      </Popover> */}
+        {customizeData?.map((data) => (
+          <Box sx={{ ml: 1 }} key={uuidv4()}>
+            <FormControlLabel control={<Checkbox />} label={data?.label} />
+          </Box>
+        ))}
+      </Popover>
     </div>
   );
 };
