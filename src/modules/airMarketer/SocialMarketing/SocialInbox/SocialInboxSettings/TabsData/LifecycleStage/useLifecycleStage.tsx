@@ -7,13 +7,14 @@ import { Theme, useTheme } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import {
+  columns,
   socialSalesDefaultValues,
   socialSalesvalidationSchema,
 } from './LifecycleStage.data';
 
 const useLifecycleStage = () => {
-  const [isDraweropen, setIsDraweropen] = useState(false);
-  const [isEditMode, setIsEditMode] = useState(false);
+  const [isDraweropen, setIsDraweropen] = useState('');
+
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
   const [productSearch, setproductSearch] = useState<string>('');
   const [isDisableButton, setDisableButton] = useState(false);
@@ -21,7 +22,7 @@ const useLifecycleStage = () => {
   const theme = useTheme<Theme>();
 
   const handleCloseDrawer = () => {
-    setIsDraweropen(false);
+    setIsDraweropen('');
   };
 
   const dealPipelines = useForm({
@@ -43,11 +44,11 @@ const useLifecycleStage = () => {
     setDisableButton(event?.target?.checked);
   };
 
+  const getRowValues = columns(setIsDraweropen, setDeleteModalOpen);
   return {
     isDraweropen,
+    getRowValues,
     setIsDraweropen,
-    isEditMode,
-    setIsEditMode,
     isDeleteModalOpen,
     setDeleteModalOpen,
     productSearch,

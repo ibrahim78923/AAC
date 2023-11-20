@@ -159,3 +159,22 @@ export const userProfile = {
     },
   ],
 };
+
+export const LifeCycleStageTableData: any = [
+  {
+    Id: 1,
+    name: `Subscriber`,
+    usedIn: '8',
+  },
+  {
+    Id: 2,
+    name: `Lead`,
+    usedIn: '0',
+  },
+
+  {
+    Id: 3,
+    name: `Customer`,
+    usedIn: '3',
+  },
+];
