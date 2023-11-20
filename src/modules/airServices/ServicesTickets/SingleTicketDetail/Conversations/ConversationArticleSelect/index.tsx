@@ -5,8 +5,8 @@ import {
   CannedResponseModalIcon,
   CloseDrawerIcon,
 } from '@/assets/icons';
-import UseConversation from '../useConversation';
 import ConversationSelectModal from '../ConversationSelectModal';
+import { UseConversation } from '../useConversation';
 
 function ConversationArticleSelect() {
   const { theme, filteredContent, searchTerm, setSearchTerm } =

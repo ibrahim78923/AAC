@@ -5,7 +5,7 @@ import ConversationView from '../ConversationView';
 import NoData from '@/components/NoData';
 import { AddWhiteBgIcon } from '@/assets/icons';
 import { NoAssociationFoundImage } from '@/assets/images';
-import { useConversation } from '../useConversation';
+import { UseConversation } from '../useConversation';
 
 const ConversationsDetails = () => {
   const {
@@ -16,7 +16,7 @@ const ConversationsDetails = () => {
     handleCloseButtonMenu,
     setSelectedItem,
     renderSelectedComponent,
-  } = useConversation();
+  } = UseConversation();
 
   return (
     <Box marginTop={'1.25rem'}>

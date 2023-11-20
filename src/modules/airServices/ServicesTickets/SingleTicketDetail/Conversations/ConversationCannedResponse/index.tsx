@@ -2,11 +2,11 @@ import { Typography, Button, Box, Grid } from '@mui/material';
 import Search from '@/components/Search';
 import { PlusSharedIcon } from '@/assets/icons';
 import { v4 as uuidv4 } from 'uuid';
-import { useConversation } from '../useConversation';
+import { UseConversation } from '../useConversation';
 
 const ConversationCannedResponse = ({ onAddButtonClick }: any) => {
   const { theme, searchTerm, setSearchTerm, filteredContent } =
-    useConversation();
+    UseConversation();
 
   const handleAddClick = (title: any) => {
     onAddButtonClick(title);
