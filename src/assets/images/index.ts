@@ -85,7 +85,6 @@ export { default as SoftwareFeaturedImage } from './modules/airCustomerPortal/ca
 export { default as PmFeaturedImage } from './modules/airCustomerPortal/catalog/pm-featured-image.png';
 export { default as HardwareFeaturedImage } from './modules/airCustomerPortal/catalog/hardware-featured-image.png';
 export { default as CatalogLogosAdobePhotoshopImage } from './modules/airCustomerPortal/catalog/catalog-logos-adobe-photoshop-image.png';
-export { default as NoSearchResultFoundImage } from './shared/no-search-result.png';
 export { default as CatalogSkillIllustratorImage } from './modules/airCustomerPortal/catalog/catalog-skill-illustrator-image.png';
 export { default as CatalogAdobePremiereImage } from './modules/airCustomerPortal/catalog/catalog-adobe-premiere-image.png';
 export { default as CatalogDatabaseImage } from './modules/airCustomerPortal/catalog/catalog-database-image.png';
@@ -104,6 +103,7 @@ export { default as CalendarActiveImage } from './modules/airSales/contacts/cale
 export { default as documentContained } from './modules/superAdmin/Settings/ModuleCreation/document-contained.png';
 export { default as ApplePhoneImage } from './modules/socialComponents/calling/apple-phone.png';
 export { default as WelcomeCardImage } from './modules/airServices/dashboard/welcome-card-image.png';
+export { default as NoSearchResultFoundImage } from './shared/no-search-result.png';
 export { default as AnnouncementAvatarImage } from './modules/airServices/Dashboard/announcement-avatar-image.png';
 export { default as ClipboardTickImage } from './modules/airServices/Dashboard/clipboard-tick-dashboard-image.png';
 export { default as FirstAidKitImage } from './modules/airServices/Dashboard/first-aid-kit-image.png';

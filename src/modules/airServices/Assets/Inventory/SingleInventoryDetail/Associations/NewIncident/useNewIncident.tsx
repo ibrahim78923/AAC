@@ -1,12 +1,15 @@
 import { useForm } from 'react-hook-form';
-import { defaultValues, validationSchema } from './NewIncident.data';
+import {
+  incidentFormDefaultValues,
+  incidentFormValidationSchema,
+} from './NewIncident.data';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { enqueueSnackbar } from 'notistack';
 
 export const useNewIncident = ({ onClose }: any) => {
   const methods: any = useForm({
-    resolver: yupResolver(validationSchema),
-    defaultValues,
+    resolver: yupResolver(incidentFormValidationSchema),
+    defaultValues: incidentFormDefaultValues,
   });
 
   const { handleSubmit } = methods;
