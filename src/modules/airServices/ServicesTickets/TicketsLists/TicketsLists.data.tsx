@@ -26,7 +26,7 @@ export const ticketsActionDropdownFunction = (
   {
     title: 'Edit',
     handleClick: (closeMenu: any) => {
-      if (selectedTicketList?.length !== 1) {
+      if (selectedTicketList?.length > 1) {
         enqueueSnackbar('Please select only one ticket', {
           variant: NOTISTACK_VARIANTS?.WARNING,
         });
@@ -54,7 +54,7 @@ export const ticketsActionDropdownFunction = (
   {
     title: 'Merge',
     handleClick: (closeMenu: any) => {
-      if (selectedTicketList?.length !== 1) {
+      if (selectedTicketList?.length > 1) {
         enqueueSnackbar('Please select only one ticket', {
           variant: NOTISTACK_VARIANTS?.WARNING,
         });
@@ -110,6 +110,23 @@ export const ticketsListInitialColumns = [
 export const ticketsListsData: any = [
   {
     _id: 3,
+    ticketId: ` #SR-917`,
+    subject: 'What is wrong with my email',
+    requester: { name: 'Leslie Alexander', profileImg: '' },
+    status: 'closed',
+    priority: 'medium',
+    assignedTo: 'user3',
+    department: 'IT',
+    state: 'Overdue',
+    createAt: new Date(todayDate),
+    dueDate: new Date(todayDate),
+    impact: 'high',
+    plannedStartDate: new Date(todayDate),
+    plannedEndDate: new Date(todayDate),
+    plannedEffort: '1 hour',
+  },
+  {
+    _id: 4,
     ticketId: ` #SR-917`,
     subject: 'What is wrong with my email',
     requester: { name: 'Leslie Alexander', profileImg: '' },

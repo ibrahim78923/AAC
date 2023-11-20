@@ -6,6 +6,7 @@ import AutoRenewIcon from '@mui/icons-material/Autorenew';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { ticketsListInitialColumns } from '../TicketsLists.data';
 import usePath from '@/hooks/usePath';
+import { VIEW_TYPES } from '@/constants/strings';
 
 export const TicketsListSubHeader = (props: any) => {
   const {
@@ -43,7 +44,7 @@ export const TicketsListSubHeader = (props: any) => {
           flexWrap={'wrap'}
           gap={'.5rem'}
         >
-          {router?.query?.viewType !== 'board' && (
+          {router?.query?.viewType !== VIEW_TYPES?.BOARD && (
             <SingleDropdownButton
               dropdownOptions={ticketsActionDropdown}
               disabled={disabledActionButton}
@@ -59,7 +60,7 @@ export const TicketsListSubHeader = (props: any) => {
           >
             <AutoRenewIcon />
           </Button>
-          {router?.query?.viewType !== 'board' && (
+          {router?.query?.viewType !== VIEW_TYPES?.BOARD && (
             <Button
               variant="outlined"
               onClick={() => onCustomizeClick?.()}
@@ -93,7 +94,7 @@ export const TicketsListSubHeader = (props: any) => {
                 }}
                 sx={{
                   backgroundColor:
-                    router?.query?.viewType !== 'board'
+                    router?.query?.viewType !== VIEW_TYPES?.BOARD
                       ? theme?.palette?.grey?.['0']
                       : '',
                 }}
@@ -105,7 +106,7 @@ export const TicketsListSubHeader = (props: any) => {
                 key={2}
                 sx={{
                   backgroundColor:
-                    router?.query?.viewType === 'board'
+                    router?.query?.viewType === VIEW_TYPES?.BOARD
                       ? theme?.palette?.grey?.['0']
                       : '',
                 }}
@@ -114,7 +115,7 @@ export const TicketsListSubHeader = (props: any) => {
                     pathname: router?.pathname,
                     query: {
                       ...router?.query,
-                      viewType: 'board',
+                      viewType: VIEW_TYPES?.BOARD,
                     },
                   });
                 }}

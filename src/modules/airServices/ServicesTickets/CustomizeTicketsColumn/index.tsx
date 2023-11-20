@@ -19,13 +19,16 @@ export const CustomizeTicketsColumn = (props: any) => {
       <CommonDrawer
         isDrawerOpen={isDrawerOpen}
         onClose={() => onClose?.()}
-        okText={'Submit'}
+        okText={'Update'}
         title={'Customize Column'}
         submitHandler={() => submit?.()}
         isOk
-        cancelText={'Cancel'}
         footer
       >
+        <Typography variant="h5" color="slateblue.main">
+          {' '}
+          Selected ({customizeColumn?.length})
+        </Typography>
         {ticketsListsColumnPersist?.slice?.(1)?.map((column: any) => (
           <Box
             key={uuidv4()}
@@ -33,8 +36,8 @@ export const CustomizeTicketsColumn = (props: any) => {
             alignItems={'center'}
             flexWrap={'wrap'}
             border={`1px solid ${theme?.palette?.primary?.main}`}
-            borderRadius={'.3rem'}
-            gap={'.5rem'}
+            borderRadius={2}
+            gap={1}
             marginTop={1.5}
             padding={1}
           >

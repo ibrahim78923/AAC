@@ -107,9 +107,9 @@ export const useTicketsLists: any = () => {
     }
   };
   //TODO: we will be used while doing BE integration
-  useEffect(() => {
-    getValueTicketsListData();
-  }, [search, page, pageLimit, filterTicketLists]);
+  // useEffect(() => {
+  //   getValueTicketsListData();
+  // }, [search, page, pageLimit, filterTicketLists]);
 
   useEffect(() => {
     router?.push(

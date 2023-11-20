@@ -3,7 +3,7 @@ import { TicketsTableView } from './TicketsTableView';
 import { TableBoardView } from './TicketsBoardView';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { TicketsListSubHeader } from './TicketsListSubHeader';
-import { EXPORT_TYPE } from '@/constants/strings';
+import { EXPORT_TYPE, VIEW_TYPES } from '@/constants/strings';
 import {
   TICKETS_ACTION_CONSTANTS,
   ticketsListsData,
@@ -55,7 +55,7 @@ export const TicketsLists = () => {
         setTicketsListsActiveColumn={setTicketsListsActiveColumn}
       />
       <br />
-      {router?.query?.viewType === 'board' ? (
+      {router?.query?.viewType === VIEW_TYPES?.BOARD ? (
         <TableBoardView />
       ) : (
         <TicketsTableView
