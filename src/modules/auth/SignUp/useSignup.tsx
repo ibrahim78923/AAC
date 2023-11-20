@@ -30,7 +30,7 @@ const useSignup = () => {
     { skip: orgNumber?.length < 3 },
   );
 
-  const [signUpValue] = useSignUpMutation();
+  const [signUpValue, { isLoading }] = useSignUpMutation();
   const [authCompanyVerification, { isSuccess: isVerifiedSuccess }] =
     useAuthCompanyVerificationMutation();
 
@@ -74,6 +74,7 @@ const useSignup = () => {
   return {
     onSubmit,
     handleSubmit,
+    isLoading,
     methodsSignup,
     productData,
     isVerifiedSuccess,
