@@ -1,11 +1,18 @@
-import { Avatar, Box, Grid, Typography } from '@mui/material';
+import { useState } from 'react';
+import { Avatar, Box, Card, Grid, Typography } from '@mui/material';
+import TanstackTable from '@/components/Table/TanstackTable';
 import { style } from './CompareSocialPost.style';
 import { useComparePost } from './useComparePost';
 import SelectPostModal from './SelectPostModal';
-import { useState } from 'react';
-import { PlusPrimaryIcon } from '@/assets/icons';
 import FirstPostOverview from './PostOverview/FirstPostOverView';
 import SecondPostOverview from './PostOverview/SecondPostOverview';
+import { PlusPrimaryIcon } from '@/assets/icons';
+import {
+  postPerformanceColumn,
+  postPerformanceData,
+  videoPerformanceColumn,
+  videoPerformanceData,
+} from './CompareSocialPost.data';
 
 const CompareSocialPost = () => {
   const {
@@ -103,11 +110,33 @@ const CompareSocialPost = () => {
         <Box mt={4}>
           <Typography variant="h4">OverView</Typography>
           <Grid container>
-            <Grid item xs={12} md={3.2}>
+            <Grid item xs={12} md={3.5}>
               {fisrtPost?.id && <FirstPostOverview postData={fisrtPost} />}
             </Grid>
-            <Grid item xs={12} md={3.2}>
+            <Grid item xs={12} md={3.5}>
               {secondPost?.id && <SecondPostOverview postData={secondPost} />}
+            </Grid>
+          </Grid>
+          <Grid container>
+            <Grid item xs={5}>
+              <Box my={2} sx={style?.comparePosts}>
+                <Typography variant="h4">Social Post Performance</Typography>
+                <Card sx={{ mt: 2 }}>
+                  <TanstackTable
+                    columns={postPerformanceColumn}
+                    data={postPerformanceData}
+                  />
+                </Card>
+              </Box>
+              <Box my={2} sx={style?.comparePosts}>
+                <Typography variant="h4">Video Post Performance</Typography>
+                <Card sx={{ mt: 2 }}>
+                  <TanstackTable
+                    columns={videoPerformanceColumn}
+                    data={videoPerformanceData}
+                  />
+                </Card>
+              </Box>
             </Grid>
           </Grid>
         </Box>
