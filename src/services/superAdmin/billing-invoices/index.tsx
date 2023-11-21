@@ -43,6 +43,31 @@ export const bilingInvoicesAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: ['bilingInvoices'],
     }),
+
+    getPlanId: builder.query({
+      query: ({ proId, planTypeId }) => ({
+        url: `${superAdminBillingInvoices.get_plan_id}?productId=${proId}&planTypeId=${planTypeId}`,
+        method: 'GET',
+      }),
+      providesTags: ['bilingInvoices'],
+    }),
+
+    patchBilingInvoices: builder.mutation({
+      query: ({ body, organizationPlanId }: any) => ({
+        url: `${superAdminBillingInvoices.patch_assign_plan}?organizationPlanId=${organizationPlanId}`,
+        method: 'PATCH',
+        body: body,
+      }),
+      invalidatesTags: ['bilingInvoices'],
+    }),
+
+    getBillingHistory: builder.query({
+      query: ({ pagination }: any) => ({
+        url: `${superAdminBillingInvoices.get_all_invoice}?${pagination}`,
+        method: 'GET',
+      }),
+      providesTags: ['bilingInvoices'],
+    }),
   }),
 });
 
@@ -52,4 +77,7 @@ export const {
   useGetProductsQuery,
   useGetPlanTypeQuery,
   useGetOrganizationsQuery,
+  useGetPlanIdQuery,
+  usePatchBilingInvoicesMutation,
+  useGetBillingHistoryQuery,
 } = bilingInvoicesAPI;
