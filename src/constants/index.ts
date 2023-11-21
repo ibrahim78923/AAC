@@ -50,7 +50,7 @@ export const AIR_CUSTOMER_PORTAL = {
     '/air-customer-portal/knowledge-base/knowledge-base-detail',
   AIR_CUSTOMER_PORTAL_LOGIN: '/air-customer-portal/log-in',
   AIR_CUSTOMER_PORTAL_SIGN_UP: '/air-customer-portal/sign-up',
-  AIR_CUSTOMER_PORTAL_SIGN_UP_FORM: '/air-customer-portal/signup-form',
+  AIR_CUSTOMER_PORTAL_CREATE_PASSWORD: '/air-customer-portal/create-password',
   AIR_CUSTOMER_PORTAL_FORGET: '/air-customer-portal/forget-password',
 };
 

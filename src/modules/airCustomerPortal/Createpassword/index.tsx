@@ -4,7 +4,7 @@ import {
   createPasswordValidationSchema,
   createPasswordFields,
   createPasswordFormDefaultValues,
-} from './CreatePassword.Data';
+} from './CreatePassword.data';
 
 import { enqueueSnackbar } from 'notistack';
 import { useForm } from 'react-hook-form';
@@ -15,7 +15,7 @@ import { LoadingButton } from '@mui/lab';
 import { SignUpImage } from '@/assets/images';
 import Image from 'next/image';
 import { AIR_CUSTOMER_PORTAL } from '@/constants';
-export const SignUpForm = () => {
+export const CreatePassword = () => {
   const method = useForm({
     resolver: yupResolver(createPasswordValidationSchema),
     defaultValues: createPasswordFormDefaultValues,

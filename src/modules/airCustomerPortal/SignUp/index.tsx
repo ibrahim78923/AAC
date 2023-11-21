@@ -7,7 +7,7 @@ import {
   SignUpDefaultValues,
   SignUpFormFields,
   SignUpValidationSchema,
-} from './SignUp.Data';
+} from './SignUp.data';
 import { FormProvider } from '@/components/ReactHookForm';
 import { LoadingButton } from '@mui/lab';
 import { SignUpImage } from '@/assets/images';
@@ -23,7 +23,7 @@ export const SignUp = () => {
     defaultValues: SignUpDefaultValues,
   });
   const onSubmit = () => {
-    router.push(AIR_CUSTOMER_PORTAL?.AIR_CUSTOMER_PORTAL_SIGN_UP_FORM);
+    router.push(AIR_CUSTOMER_PORTAL?.AIR_CUSTOMER_PORTAL_CREATE_PASSWORD);
   };
   const { handleSubmit } = method;
 
