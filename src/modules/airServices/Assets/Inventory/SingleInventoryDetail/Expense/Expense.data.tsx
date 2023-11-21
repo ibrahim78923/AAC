@@ -24,7 +24,7 @@ export const data: any = [
 
 export const dropdownDummy = [
   {
-    value: 'purchase cost',
+    value: 'Purchase Cost',
     label: 'purchase cost',
   },
   {
@@ -35,11 +35,7 @@ export const dropdownDummy = [
 
 export const addExpenseValidationSchema: any = yup?.object()?.shape({
   type: yup?.string()?.required('Required field!'),
-  cost: yup
-    ?.number()
-    ?.positive()
-    ?.typeError('Enter valid format!')
-    ?.required('Required field!'),
+  cost: yup?.string()?.required('Required field!'),
 });
 
 export const addExpenseDefaultValues = {
@@ -54,7 +50,7 @@ export const addExpenseFormData = [
     componentProps: {
       fullWidth: true,
       name: 'type',
-      label: 'Expense Type',
+      label: 'expenseType',
       select: true,
       options: dropdownDummy,
       required: true,

@@ -7,10 +7,12 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 export const TAGS = [
   'USERS',
   'PLAN_MANEGEMENT',
+  'Organization',
+  'INVENTORY_ACTIVITY',
+  'EXPENSE',
   'WORKLOAD',
   'DROPDOWNS',
   'INVENTORY_EXPENSE',
-  'Organization',
   'TICKETS',
 ];
 
