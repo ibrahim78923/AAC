@@ -1,5 +1,4 @@
 import { Grid, Typography } from '@mui/material';
-import React from 'react';
 import { AirCustomerPortalHeader } from '../AirCustomerPortalHeader';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -11,9 +10,7 @@ import {
 import { FormProvider } from '@/components/ReactHookForm';
 import { LoadingButton } from '@mui/lab';
 import { SignUpImage } from '@/assets/images';
-
 import Image from 'next/image';
-
 import { AIR_CUSTOMER_PORTAL } from '@/constants';
 import router from 'next/router';
 
@@ -22,9 +19,11 @@ export const SignUp = () => {
     resolver: yupResolver(SignUpValidationSchema),
     defaultValues: SignUpDefaultValues,
   });
+
   const onSubmit = () => {
     router.push(AIR_CUSTOMER_PORTAL?.AIR_CUSTOMER_PORTAL_CREATE_PASSWORD);
   };
+
   const { handleSubmit } = method;
 
   return (
@@ -70,16 +69,7 @@ export const SignUp = () => {
                 </item.component>
               </Grid>
             ))}
-            <LoadingButton
-              variant="contained"
-              fullWidth
-              type="submit"
-              // onClick={() =>
-              //   router.push(
-              //     AIR_CUSTOMER_PORTAL?.AIR_CUSTOMER_PORTAL_SIGN_UP_FORM,
-              //   )
-              // }
-            >
+            <LoadingButton variant="contained" fullWidth type="submit">
               Next
             </LoadingButton>
           </FormProvider>

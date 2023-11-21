@@ -15,17 +15,20 @@ import { LoadingButton } from '@mui/lab';
 import { SignUpImage } from '@/assets/images';
 import Image from 'next/image';
 import { AIR_CUSTOMER_PORTAL } from '@/constants';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
+
 export const CreatePassword = () => {
   const method = useForm({
     resolver: yupResolver(createPasswordValidationSchema),
     defaultValues: createPasswordFormDefaultValues,
   });
+
   const onSubmit = () => {
-    enqueueSnackbar('Login Successfully', {
-      variant: 'success',
-      autoHideDuration: 2000,
+    enqueueSnackbar('Logged in Successfully', {
+      variant: NOTISTACK_VARIANTS?.SUCCESS,
     });
   };
+
   const { handleSubmit } = method;
 
   return (

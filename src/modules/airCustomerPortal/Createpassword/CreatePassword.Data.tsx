@@ -1,9 +1,11 @@
 import { RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
+
 export const createPasswordFormDefaultValues = {
   password: '',
   confirmPassword: '',
 };
+
 export const createPasswordValidationSchema: any = Yup?.object()?.shape({
   password: Yup?.string()
     ?.required('Password is required')
@@ -17,6 +19,7 @@ export const createPasswordValidationSchema: any = Yup?.object()?.shape({
     ?.required('Please Confrim your Password')
     ?.oneOf([Yup.ref('password')], 'Password must match'),
 });
+
 export const createPasswordFields = [
   {
     id: 1,

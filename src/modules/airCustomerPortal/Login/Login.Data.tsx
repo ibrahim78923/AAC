@@ -10,6 +10,7 @@ export const loginDefaultValues = {
   email: '',
   password: '',
 };
+
 export const loginFormFields = [
   {
     id: 1,

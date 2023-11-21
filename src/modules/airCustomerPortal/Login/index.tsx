@@ -16,6 +16,7 @@ import { AirCustomerPortalHeader } from '../AirCustomerPortalHeader';
 import { LoadingButton } from '@mui/lab';
 import { AIR_CUSTOMER_PORTAL } from '@/constants';
 import router from 'next/router';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 export const Login = () => {
   const method = useForm({
@@ -23,9 +24,8 @@ export const Login = () => {
     defaultValues: loginDefaultValues,
   });
   const onSubmit = () => {
-    enqueueSnackbar('Login Successfully', {
-      variant: 'success',
-      autoHideDuration: 2000,
+    enqueueSnackbar('Logged in Successfully', {
+      variant: NOTISTACK_VARIANTS?.SUCCESS,
     });
   };
   const { handleSubmit } = method;

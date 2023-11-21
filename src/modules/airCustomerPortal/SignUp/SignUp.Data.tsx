@@ -1,11 +1,18 @@
 import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
+
+const companyName = [
+  { value: 'Cameron Williamson', label: 'Cameron Williamson' },
+  { value: 'Cameron', label: 'Cameron' },
+];
+
 export const SignUpDefaultValues = {
   firstName: '',
   lastName: '',
   email: '',
   companyName: '',
 };
+
 export const SignUpValidationSchema: any = Yup?.object()?.shape({
   firstName: Yup?.string()
     ?.required('firstName is Required')
@@ -15,6 +22,7 @@ export const SignUpValidationSchema: any = Yup?.object()?.shape({
     ?.required('email is Required')
     ?.max(100, 'character must not be greater then 30'),
 });
+
 export const SignUpFormFields = [
   {
     id: 1,
@@ -22,7 +30,6 @@ export const SignUpFormFields = [
       name: 'firstName',
       label: 'First Name',
       placeholder: 'Enter First Name',
-      type: 'string',
       fullWidth: true,
       required: true,
     },
@@ -34,7 +41,6 @@ export const SignUpFormFields = [
       name: 'lastName',
       label: 'Last Name',
       placeholder: 'Enter Last Name',
-      type: 'string',
       fullWidth: true,
     },
     component: RHFTextField,
@@ -44,7 +50,7 @@ export const SignUpFormFields = [
     componentProps: {
       name: 'email',
       label: 'email',
-      type: 'Email',
+      type: 'email',
       placeholder: 'Enter Email',
       fullWidth: true,
       required: true,
@@ -56,16 +62,10 @@ export const SignUpFormFields = [
     componentProps: {
       name: 'companyName',
       label: 'CompanyName',
-      type: 'CompanyName',
       fullWidth: true,
       select: true,
     },
-    options: [
-      { value: 'Cameron Williamson', label: 'Cameron Williamson' },
-      { value: 'Cameron Williamson', label: 'Cameron Williamson' },
-      { value: 'Cameron Williamson', label: 'Cameron Williamson' },
-      { value: 'Cameron Williamson', label: 'Cameron Williamson' },
-    ],
+    options: companyName,
     component: RHFSelect,
   },
 ];
