@@ -7,6 +7,8 @@ const useContacts = () => {
   const [searchName, setSearchName] = useState('');
   const [openDrawer, setOpenDrawer] = useState('');
   const [isOpenAlert, setIsOpenAlert] = useState(false);
+  // const { data } = useGetContactsQuery({});
+
   const handleCloseAlert = () => {
     setIsOpenAlert(false);
   };
