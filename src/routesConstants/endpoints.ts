@@ -28,6 +28,10 @@ export const END_POINTS = {
   DROPDOWN_PRODUCTS: '/dropdown/products',
   AUTH_SEARCH_COMPANY: 'auth/search-company',
   AUTH_IG_VERIFICATION: 'auth/ig-verification',
+  VIEW_DEALS_NOTES: '/note',
+  CONTACTS: '/contact',
+  LIFECYCLE_STAGES: '/lifecycle-stages',
+  CONTACT_STATUS: '/contact-status',
 };
 
 export const superAdminBillingInvoices = {

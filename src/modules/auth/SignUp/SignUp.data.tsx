@@ -1,4 +1,4 @@
-import { RHFTextField } from '@/components/ReactHookForm';
+import { RHFMultiCheckbox, RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
 export const validationSchema = Yup.object().shape({
@@ -83,9 +83,15 @@ export const contactsDataArray = [
     componentProps: {
       name: 'organizationNumber',
       label: 'Organization Name',
-      fullWidth: true,
+      GridView: 6,
     },
-    component: RHFTextField,
+    component: RHFMultiCheckbox,
+    options: [
+      { value: '0001', label: '001' },
+      { value: '0002', label: '0200' },
+      { value: '1000-5000', label: '100-500' },
+      { value: '5000+ ', label: '500+ ' },
+    ],
     md: 12,
   },
 ];

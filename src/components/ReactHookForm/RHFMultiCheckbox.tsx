@@ -4,11 +4,20 @@ import {
   FormGroup,
   FormControlLabel,
   FormHelperText,
+  Grid,
 } from '@mui/material';
 
 import { v4 as uuidv4 } from 'uuid';
+import CustomLabel from '../CustomLabel';
 
-export default function RHFMultiCheckbox({ name, options, ...other }: any) {
+export default function RHFMultiCheckbox({
+  GridView,
+  required,
+  label,
+  name,
+  options,
+  ...other
+}: any) {
   const { control } = useFormContext();
 
   return (
@@ -23,22 +32,28 @@ export default function RHFMultiCheckbox({ name, options, ...other }: any) {
 
         return (
           <>
+            {label && (
+              <CustomLabel label={label} error={error} required={required} />
+            )}
             <FormGroup>
-              {options?.map((option: any) => (
-                <FormControlLabel
-                  key={uuidv4()}
-                  control={
-                    <Checkbox
-                      checked={field?.value?.some(
-                        (item: any) => item === option?.value,
-                      )}
-                      onChange={() => field?.onChange(onSelected(option))}
+              <Grid container>
+                {options?.map((option: any) => (
+                  <Grid item xs={12} md={GridView} key={uuidv4()}>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={field?.value?.some(
+                            (item: any) => item === option?.value,
+                          )}
+                          onChange={() => field?.onChange(onSelected(option))}
+                        />
+                      }
+                      label={option?.label}
+                      {...other}
                     />
-                  }
-                  label={option?.label}
-                  {...other}
-                />
-              ))}
+                  </Grid>
+                ))}
+              </Grid>
             </FormGroup>
             {!!error && (
               <FormHelperText error sx={{ display: 'block', mt: -0.5, ml: 0 }}>

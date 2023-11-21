@@ -163,6 +163,7 @@ export { default as TicketImage } from '../images/modules/socialComponents/compa
 export { default as NoteImage } from '../images/modules/socialComponents/companies/note.png';
 export { default as NoteAddImage } from '../images/modules/socialComponents/companies/noteAdd.png';
 export { default as ActivitesTimeImage } from '../images/modules/socialComponents/companies/activitiesWithoutTime.png';
+export { default as SignUpImage } from '../images/shared/sign-up.png';
 export { default as EventImage } from '../images/shared/EventImage.png';
 export { default as GroupGmailImage } from './modules/airMarketer/SocialMarketing/group-gmail.png';
 export { default as GroupFacebookImage } from './modules/airMarketer/SocialMarketing/group-facebook.png';
@@ -183,3 +184,4 @@ export { default as LogoLinkedinImage } from './modules/airMarketer/SocialMarket
 export { default as LogoInstagramImage } from './modules/airMarketer/SocialMarketing/SocialInbox/logo-instagram.png';
 export { default as LogoWhatsappImage } from './modules/airMarketer/SocialMarketing/SocialInbox/logos-whatsapp.png';
 export { default as LogoFacebookImage } from './modules/airMarketer/SocialMarketing/SocialInbox/logo-facebook.png';
+export { default as UserRetroImage } from './modules/airMarketer/SocialMarketing/user-retro.png';

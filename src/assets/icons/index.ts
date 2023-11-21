@@ -2,8 +2,6 @@ export { default as ArrowUpIcon } from './shared/arrow-up-icon';
 export { default as PlusSharedIcon } from './shared/shared-icon';
 export { default as PlusSharedColorIcon } from './shared/plus-shared-color';
 export { default as PlusPrimaryIcon } from './shared/primary-plus-icon';
-
-// export { default as ExampleKababCase } from './sections/login/example-kabab-case';
 export { default as CloseDrawerIcon } from './shared/close-drawer-icon';
 export { default as CloseModalIcon } from './shared/close-modal-icon';
 export { default as ProductSalesIcon } from './modules/orgAdmin/SubscriptionAndInvoices/product-sales-icon';
@@ -209,6 +207,7 @@ export { default as AlertModalDeleteIcon } from './shared/alert-modal-delete-ico
 export { default as AlertModalCloseIcon } from './shared/alert-modal-close-icon';
 export { default as TodoIcon } from './shared/todo-icon';
 export { default as TicketBannerIcon } from './shared/ticket-banner-icon';
+export { default as PlusRoundedIcon } from './modules/airMarketer/SMSMarketing/Contacts/plus-rounded';
 export { default as PhotoShopIcon } from './shared/photoshop-icon';
 export { default as XdIcon } from './shared/xd-icon';
 export { default as IllustratorIcon } from './shared/illustrator-icon';
@@ -226,9 +225,6 @@ export { default as InstagramIcon } from './modules/airMarketer/SocialMarketing/
 export { default as LinkedInIcon } from './modules/airMarketer/SocialMarketing/PostBox/linked-in';
 export { default as TwitterIcon } from './modules/airMarketer/SocialMarketing/PostBox/twitter';
 export { default as MultipleUserIcon } from './modules/airMarketer/SocialMarketing/PostBox/multiple-user';
-// export { default as LikeIcon } from './modules/airMarketer/SocialMarketing/PostBox/like';
-// export { default as CommentIcon } from './modules/airMarketer/SocialMarketing/PostBox/comment';
-// export { default as ShareIcon } from './modules/airMarketer/SocialMarketing/PostBox/share';
 export { default as FillCheckboxIcon } from './modules/airMarketer/SocialMarketing/PostBox/FillCheckbox';
 export { default as BiAcivityIcon } from './modules/airMarketer/SocialMarketing/PostBox/bi-acivity';
 export { default as ActivityEditIcon } from './modules/airMarketer/SocialMarketing/PostBox/edit';
@@ -258,13 +254,11 @@ export { default as FacebookRoundIcon } from './modules/airMarketer/CreatePost/f
 export { default as InstagramRoundIcon } from './modules/airMarketer/CreatePost/instagramRound';
 export { default as ArchiveIcon } from './shared/archive-icon';
 export { default as AddChannelIcon } from './modules/airMarketer/SocialInbox/add-channnel';
-
 export { default as UserCircleIcon } from './shared/user-circle';
 export { default as ViewExpandedIcon } from './shared/view-expanded';
 export { default as LikeIcon } from './modules/airMarketer/SMSMarketing/Contacts/like';
 export { default as CommentIcon } from './modules/airMarketer/SMSMarketing/Contacts/comment';
 export { default as ShareIcon } from './modules/airMarketer/SMSMarketing/Contacts/share';
-
-export { default as QuriesIcon } from './modules/airMarketer/SocialInbox/quries';
-export { default as AttachmentsIcon } from './modules/airMarketer/SocialInbox/add-channnel';
-export { default as ReplyRoundedIcon } from './modules/airMarketer/SocialInbox/reply';
+export { default as QuriesIcon } from './modules/airMarketer/SocialMarketing/SocialInbox/quries';
+export { default as AttachmentsIcon } from './modules/airMarketer/SocialMarketing/SocialInbox/attachments';
+export { default as ReplyRoundedIcon } from './modules/airMarketer/SocialMarketing/SocialInbox/reply';

@@ -17,6 +17,8 @@ const CommonModal = ({
   submitIcon,
   footer,
   footerFill,
+  handleCancel,
+  isSubmitDisabled,
   headerIcon,
 }: ModelPropsI) => {
   return (
@@ -55,7 +57,7 @@ const CommonModal = ({
             >
               {!footerFill && cancelText && (
                 <Button
-                  // onClick={handleCancel}
+                  onClick={handleCancel}
                   variant="outlined"
                   sx={{
                     height: '36px',
@@ -68,6 +70,7 @@ const CommonModal = ({
               )}
               <Button
                 onClick={handleSubmit}
+                disabled={isSubmitDisabled ? isSubmitDisabled : false}
                 variant="contained"
                 sx={{
                   height: '36px',
