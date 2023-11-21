@@ -4,9 +4,9 @@ import { styles } from './AnnouncementDashboardCard.styles';
 
 export const AnnouncementDashboardCard = ({
   icon,
-  announcementText,
-  announcementTextAvatar,
-  announcementTextTime,
+  announcement,
+  announcementAvatar,
+  announcementTime,
   isBorderBottom,
 }: any) => {
   const theme = useTheme();
@@ -16,11 +16,11 @@ export const AnnouncementDashboardCard = ({
       <Box sx={styles?.boxMain(theme, isBorderBottom)}>
         <Box marginTop={1}>
           <Typography variant="body3" color={'grey.800'}>
-            {announcementText}
+            {announcement}
           </Typography>
           <Typography>
             <Typography variant="body3" color={'grey.800'}>
-              {announcementTextTime}
+              {announcementTime}
             </Typography>
           </Typography>
         </Box>
@@ -35,7 +35,7 @@ export const AnnouncementDashboardCard = ({
             }}
           />
           <Typography variant="body3" color={'custom?.main'}>
-            {announcementTextAvatar}
+            {announcementAvatar}
           </Typography>
         </Box>
       </Box>

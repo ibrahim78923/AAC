@@ -74,13 +74,9 @@ const Dashboard = () => {
                     <Box key={uuidv4()}>
                       <RecentActivitiesDashboardCard
                         icon={item?.icon}
-                        recentActivityText={item?.recentActivityText}
-                        recentActivityRequestText={
-                          item?.recentActivityRequestText
-                        }
-                        recentActivityTextDateTime={
-                          item?.recentActivityTextDateTime
-                        }
+                        recentActivity={item?.recentActivity}
+                        recentActivityRequest={item?.recentActivityRequest}
+                        recentActivityDateTime={item?.recentActivityDateTime}
                         isBorderBottom={
                           recentActivitiesDashboardCardData?.length - 1 !==
                           index
@@ -149,9 +145,9 @@ const Dashboard = () => {
                     <Box key={uuidv4()}>
                       <AnnouncementDashboardCard
                         icon={item?.icon}
-                        announcementText={item?.announcementText}
-                        announcementTextTime={item?.announcementTextTime}
-                        announcementTextAvatar={item?.announcementTextAvatar}
+                        announcement={item?.announcement}
+                        announcementTime={item?.announcementTime}
+                        announcementAvatar={item?.announcementAvatar}
                         isBorderBottom={
                           announcementDashboardCardData?.length - 1 !== index
                         }

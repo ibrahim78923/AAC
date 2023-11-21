@@ -5,8 +5,8 @@ import dayjs from 'dayjs';
 
 export const RecentActivitiesDashboardCard = ({
   icon,
-  recentActivityText,
-  recentActivityRequestText,
+  recentActivity,
+  recentActivityRequest,
   isBorderBottom,
 }: any) => {
   const theme = useTheme();
@@ -29,7 +29,7 @@ export const RecentActivitiesDashboardCard = ({
               >
                 John Doe
               </Typography>
-              {recentActivityText}
+              {recentActivity}
               <Typography
                 style={styles?.recentActivitiesTextBoldWord(theme)}
                 component="span"
@@ -40,7 +40,7 @@ export const RecentActivitiesDashboardCard = ({
             </Typography>
             <br />
             <Typography variant="body3" color={'grey?.[800]'}>
-              {recentActivityRequestText}
+              {recentActivityRequest}
             </Typography>
             <br />
             <Typography color={'grey?.[600]'} variant="body3">
