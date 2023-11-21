@@ -86,7 +86,7 @@ export { default as CalendarActiveImage } from './modules/airSales/contacts/cale
 export { default as documentContained } from './modules/superAdmin/Settings/ModuleCreation/document-contained.png';
 export { default as ApplePhoneImage } from './modules/socialComponents/calling/apple-phone.png';
 export { default as NoSearchResultFoundImage } from './shared/no-search-result.png';
-export { default as WelcomeCardImage } from './modules/airServices/Dashboard/welcome-card-image.png';
+export { default as WelcomeCardImage } from './modules/airCustomerPortal/Dashboard/welcome-card-image.png';
 export { default as GroupAppAvatarImage } from './modules/airMarketer/SocialMarketer/PostBox/group-app-avatar.png';
 export { default as NatureFreekImage } from './modules/airMarketer/SocialMarketer/PostBox/NatureFreek.png';
 export { default as SeaImage } from './modules/airMarketer/SocialMarketer/PostBox/sea-image.png';
