@@ -5,7 +5,8 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import { superAdminColumns } from '../Users.data';
 import useUserManagement from '../../useUserManagement';
 
-const Admin = () => {
+const Admin = (props: any) => {
+  const { checkedRows, setCheckedRows } = props;
   const { useGetUsersQuery, search, handleUserSwitchChange } =
     useUserManagement();
   const params = {
@@ -13,7 +14,12 @@ const Admin = () => {
     search: search,
   };
   const { data } = useGetUsersQuery(params);
-  const columnParams = superAdminColumns(handleUserSwitchChange);
+  const columnsProps = {
+    handleUserSwitchChange: handleUserSwitchChange,
+    checkedRows: checkedRows,
+    setCheckedRows: setCheckedRows,
+  };
+  const columnParams = superAdminColumns(columnsProps);
 
   return (
     <>

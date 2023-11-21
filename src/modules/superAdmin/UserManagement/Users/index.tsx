@@ -9,6 +9,7 @@ const Users = (props: any) => {
   const { checkedRows, setCheckedRows } = props;
   const { useGetUsersQuery, search, handleUserSwitchChange } =
     useUserManagement();
+
   const params = {
     role: 'ORG_ADMIN',
     search: search,

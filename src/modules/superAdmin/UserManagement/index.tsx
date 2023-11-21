@@ -115,7 +115,10 @@ const UserManagement = () => {
             }
           >
             <Users checkedRows={checkedRows} setCheckedRows={setCheckedRows} />
-            <SuperAdminUsers />
+            <SuperAdminUsers
+              checkedRows={checkedRows}
+              setCheckedRows={setCheckedRows}
+            />
             <RolesAndRights />
           </CommonTabs>
         </Box>
