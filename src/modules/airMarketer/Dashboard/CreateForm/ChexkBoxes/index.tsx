@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState } from 'react';
 
 import {
   List,
@@ -14,10 +14,10 @@ import { checkBoxesOptions } from './CheckBoxes.data';
 import { v4 as uuidv4 } from 'uuid';
 
 const CheckboxList = () => {
-  const [checked, setChecked] = React.useState([0]);
+  const [checked, setChecked] = useState<any>([]);
 
   const handleToggle = (value: number) => () => {
-    const currentIndex = checked.indexOf(value);
+    const currentIndex = checked?.indexOf(value);
     const newChecked = [...checked];
 
     if (currentIndex === -1) {
@@ -31,7 +31,7 @@ const CheckboxList = () => {
 
   return (
     <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-      {checkBoxesOptions.map((value) => {
+      {checkBoxesOptions?.map((value) => {
         const labelId = `checkbox-list-label-${value?.id}`;
 
         return (
@@ -44,7 +44,7 @@ const CheckboxList = () => {
               <ListItemIcon>
                 <Checkbox
                   edge="start"
-                  checked={checked.indexOf(value?.id) !== -1}
+                  checked={checked?.indexOf(value?.id) !== -1}
                   tabIndex={-1}
                   disableRipple
                   inputProps={{ 'aria-labelledby': labelId }}

@@ -95,7 +95,59 @@ export const ASSET_IMPACT = {
   HIGH: 'high',
 };
 
+export const ASSET_TYPE = {
+  SERVICES: 'services',
+  HARDWARE: 'hardware',
+  SOFTWARE: 'software',
+};
+export const SOFTWARE_STATUS = {
+  RESTRICTED: 'Restricted',
+  IGNORED: 'Ignored',
+  MANAGED: 'Managed',
+  DISABLED: 'Disabled',
+  IN_REVIEW: 'InReview',
+};
+export const SOFTWARE_TYPE = {
+  DESKTOP: 'Desktop',
+  SASS: 'Sass',
+  MOBILE: 'Mobile',
+};
 export const AIR_CUSTOMER_PORTAL_TICKET = {
   CLOSED: 'Closed',
   PROCESSING: 'Processing',
+};
+
+export const NOTISTACK_VARIANTS: any = {
+  SUCCESS: 'success',
+  ERROR: 'error',
+  WARNING: 'warning',
+  INFO: 'info',
+};
+
+export const ALERT_MODALS_TYPE = {
+  DELETE: 'delete',
+};
+
+export const TICKET_TYPES = {
+  ALL_TICKETS: 'All Tickets',
+  URGENT_AND_HIGH_PRIORITY: 'Urgent and High Priority',
+  MY_OPEN_AND_PENDING_TICKETS: 'My Open and Pending Tickets',
+  NEW_AND_MY_OPEN_TICKETS: 'New & My Open Tickets',
+  SPAM: 'SPAM',
+  UNRESOLVED_TICKETS: 'All Unresolved Tickets',
+  INCIDENTS: 'Incidents',
+  SERVICE_REQUEST: 'Service Requests',
+  TICKETS_I_REQUESTED: 'Tickets I Requested',
+  SHARED_WITH_ME: 'Shared with me',
+};
+
+export const EXPORT_FILE_TYPE: any = {
+  [EXPORT_TYPE?.CSV]: 'text/csv',
+  [EXPORT_TYPE?.XLS]:
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+};
+
+export const VIEW_TYPES = {
+  TABLE: 'table',
+  BOARD: 'board',
 };

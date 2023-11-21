@@ -14,4 +14,9 @@ export const style = {
       textOverflow: 'ellipsis',
     },
   }),
+  comparePosts: {
+    '.MuiTableRow-head': {
+      display: 'none',
+    },
+  },
 };

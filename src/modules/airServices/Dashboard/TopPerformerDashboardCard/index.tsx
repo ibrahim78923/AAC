@@ -4,30 +4,28 @@ import Avatar from '@mui/material/Avatar';
 import LinearProgress from '@mui/material/LinearProgress';
 
 export const TopPerformerDashboardCard = ({
-  icon,
-  iconOne,
-  iconTwo,
-  topPerformanceText,
-  topPerformanceTextOne,
-  topPerformanceTextTwo,
-  topPerformanceTextThree,
-  topPerformanceTextFour,
-  topPerformanceTextFive,
-  topPerformanceTextSix,
-  topPerformanceTextSeven,
+  userImage,
+  badgeImage,
+  badgeNextImage,
+  userImageText,
+  userImageDescription,
+  progressBarText,
+  ProgressBarDescription,
+  badgeText,
+  badgeNextText,
 }: any) => {
   const [progress] = useState(10);
   const theme: any = useTheme();
 
   return (
     <Box borderRadius={3} border={`1px solid ${theme?.palette?.grey?.[700]}`}>
-      <Box marginLeft={2} marginTop={2}>
+      <Box marginLeft={2} marginTop={3}>
         <Typography variant="h5">Top Performer</Typography>
       </Box>
       <Box display={'flex'} gap={2} marginLeft={2} marginTop={2}>
         <Avatar
           alt=""
-          src={icon?.src}
+          src={userImage?.src}
           sx={{
             width: '2.625rem',
             height: '2.625rem',
@@ -35,18 +33,18 @@ export const TopPerformerDashboardCard = ({
         />
         <Box>
           <Typography variant="body1" color={'grey.600'}>
-            {topPerformanceText}
+            {userImageText}
           </Typography>
-          <Typography variant="body1">{topPerformanceTextOne}</Typography>
+          <Typography variant="body1">{userImageDescription}</Typography>
         </Box>
       </Box>
       <Box display={'flex'} gap={2} marginLeft={2} marginTop={3}>
         <Typography variant="body1" color={'grey.600'}>
-          {topPerformanceTextTwo}
+          {progressBarText}
         </Typography>
       </Box>
       <Box display={'flex'} gap={2} marginLeft={2}>
-        <Typography variant="body1">{topPerformanceTextThree}</Typography>
+        <Typography variant="body1">{ProgressBarDescription}</Typography>
       </Box>
       <Box display={'flex'} gap={2} marginLeft={4} marginTop={1}>
         <Typography variant="body1">{progress}%</Typography>
@@ -61,21 +59,17 @@ export const TopPerformerDashboardCard = ({
       <Box display={'flex'} gap={2} px={2} marginTop={3} marginBottom={3.7}>
         <Avatar
           alt=""
-          src={iconOne?.src}
+          src={badgeImage?.src}
           sx={{ width: '2.375rem', height: '2.721rem' }}
         />
-        <Typography>
-          {topPerformanceTextFour} {topPerformanceTextFive}
-        </Typography>
+        <Typography>{badgeText}</Typography>
 
         <Avatar
           alt=""
-          src={iconTwo?.src}
+          src={badgeNextImage?.src}
           sx={{ width: '2.375rem', height: '2.721rem' }}
         />
-        <Typography>
-          {topPerformanceTextSix} {topPerformanceTextSeven}
-        </Typography>
+        <Typography>{badgeNextText}</Typography>
       </Box>
     </Box>
   );
