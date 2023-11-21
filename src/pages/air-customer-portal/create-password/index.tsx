@@ -1,4 +1,4 @@
-import { CreatePassword } from '@/modules/airCustomerPortal/Createpassword';
+import { CreatePassword } from '@/modules/airCustomerPortal/CreatePassword';
 
 const CreatePasswordPage = () => {
   return <CreatePassword />;

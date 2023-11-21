@@ -40,7 +40,7 @@ export const Login = () => {
           })
         }
       />
-      <Grid item md={6}>
+      <Grid item md={6} xs={12}>
         <Grid p={7}>
           <Typography variant="h2">Welcome to Air Applecart</Typography>
           <Typography sx={{ py: 1 }} variant="h6" color="grey.900">

@@ -128,19 +128,15 @@ export const ALERT_MODALS_TYPE = {
   DELETE: 'delete',
 };
 
-export const TICKET_TYPES = {
-  ALL_TICKETS: 'All Tickets',
-  URGENT_AND_HIGH_PRIORITY: 'Urgent and High Priority',
-  MY_OPEN_AND_PENDING_TICKETS: 'My Open and Pending Tickets',
-  NEW_AND_MY_OPEN_TICKETS: 'New & My Open Tickets',
-  SPAM: 'SPAM',
-  UNRESOLVED_TICKETS: 'All Unresolved Tickets',
-  INCIDENTS: 'Incidents',
-  SERVICE_REQUEST: 'Service Requests',
-  TICKETS_I_REQUESTED: 'Tickets I Requested',
-  SHARED_WITH_ME: 'Shared with me',
+export const CATALOG_SERVICE_TYPES = {
+  ALL: 'ALL Services',
+  HARDWARE: 'Hardware',
+  SOFTWARE_INSTALLATION: 'Software Installation',
+  PM_TOOLS: 'PM Tools',
 };
-
+export const CATALOG_SERVICE = {
+  DATA_BACKUP: 'Data Backup',
+};
 export const EXPORT_FILE_TYPE: any = {
   [EXPORT_TYPE?.CSV]: 'text/csv',
   [EXPORT_TYPE?.XLS]:
