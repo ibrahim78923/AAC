@@ -1,4 +1,4 @@
-import { Box, Grid, Button, Menu, MenuItem } from '@mui/material';
+import { Box, Grid, Button, Menu, MenuItem, Typography } from '@mui/material';
 import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
 import CustomPagination from '@/components/CustomPagination';
@@ -13,6 +13,7 @@ import { FilterInvoiceFiltersDataArray } from './Invoices.data';
 import { isNullOrEmpty } from '@/utils';
 import { v4 as uuidv4 } from 'uuid';
 import { superAdminBillingInvoicesPath } from '@/routesConstants/paths';
+import Link from 'next/link';
 
 const Invoices = () => {
   const {
@@ -33,7 +34,6 @@ const Invoices = () => {
     handleSubmit,
     getRowValues,
     isChecked,
-    router,
     allInvoicesTableData,
     isGetRowValues,
   } = useInvoices();
@@ -46,18 +46,17 @@ const Invoices = () => {
             <Grid item xs={3}>
               <Box sx={styles?.invoicesHeaderLabel}>Invoices Due</Box>
               <Box sx={styles?.invoicesHeaderValue}>
-                {allInvoicesTableData?.data?.widget?.countInvoiceDue === 0
-                  ? 0
-                  : allInvoicesTableData?.data?.widget?.countInvoiceDue}
+                {!allInvoicesTableData?.data?.widget && (
+                  <Typography>No Due Invoices </Typography>
+                )}
+                {allInvoicesTableData?.data?.widget?.countInvoiceDue}
               </Box>
             </Grid>
             <Grid item xs={9}>
               <Box sx={styles?.invoicesHeaderLabel}>Total Balance Due</Box>
               <Box sx={styles?.invoicesHeaderValue}>
-                £{' '}
-                {allInvoicesTableData?.data?.widget?.totalAmountDue === 0
-                  ? 0
-                  : allInvoicesTableData?.data?.widget?.totalAmountDue}
+                £ {!allInvoicesTableData?.data?.widget && 0}
+                {allInvoicesTableData?.data?.widget?.totalAmountDue}
               </Box>
             </Grid>
           </Grid>
@@ -98,15 +97,18 @@ const Invoices = () => {
               >
                 {/* <MenuItem onClick={handleOpenPayInvoice}>Pay Now</MenuItem> */}
 
-                <MenuItem
-                  onClick={() =>
-                    router?.push(
-                      `${superAdminBillingInvoicesPath?.generate_invoice}`,
-                    )
-                  }
+                <Link
+                  href={{
+                    pathname: `${superAdminBillingInvoicesPath?.generate_invoice}`,
+                    query: {
+                      key: JSON.stringify(isGetRowValues?.row?.original),
+                    },
+                  }}
+                  as={`${superAdminBillingInvoicesPath?.generate_invoice}`}
                 >
-                  Edit Invoice
-                </MenuItem>
+                  <MenuItem> Edit Invoice</MenuItem>
+                </Link>
+
                 <MenuItem onClick={handleOpenViewInvoice}>
                   View Invoice
                 </MenuItem>
@@ -144,7 +146,6 @@ const Invoices = () => {
         open={openViewInvoice}
         onClose={handleCloseViewInvoice}
         isGetRowValues={isGetRowValues}
-        allInvoicesTableData={allInvoicesTableData}
       />
       <PayInvoice open={openPayInvoice} onClose={handleClosePayInvoice} />
 

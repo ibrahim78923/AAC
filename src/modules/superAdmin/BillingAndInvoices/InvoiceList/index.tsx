@@ -15,7 +15,11 @@ import useInvoiceList from './useInvoiceList';
 
 import { PlaneIcon } from '@/assets/icons';
 
-const InvoiceList = ({ setOpenViewInvoice }: any) => {
+const InvoiceList = ({
+  setOpenViewInvoice,
+  EditInvoice,
+  discountValue,
+}: any) => {
   const { isOpenInvoiceList, setIsOpenInvoiceList, handleCloseInvoiceList } =
     useInvoiceList();
   const router = useRouter();
@@ -30,66 +34,83 @@ const InvoiceList = ({ setOpenViewInvoice }: any) => {
           <Box sx={styles?.cardHeaderIcon}>
             <PlaneIcon />
           </Box>
-          <Typography variant="h6" sx={{ fontWeight: '600' }}>
-            Air Sales
-          </Typography>
+
+          <Box>
+            <Typography variant="h6" sx={{ fontWeight: '600' }}>
+              Dummy
+            </Typography>
+            <Typography
+              variant="h6"
+              sx={{ fontWeight: '600', textTransform: 'capitalize' }}
+            >
+              ({EditInvoice?.details?.plantypes} Plan)
+            </Typography>
+          </Box>
+
           <Box sx={styles?.cardHeaderAction}>
-            <Chip label={'Paid Monthly'} color="primary" />
+            <Chip
+              label={`Paid ${EditInvoice?.details?.billingCycle}`}
+              color="primary"
+            />
           </Box>
         </Box>
 
         <Box sx={styles?.divider}></Box>
 
-        <Typography variant="h6" sx={{ fontWeight: '600' }}>
-          Growth Plan
-        </Typography>
-
-        <Box sx={styles?.planTableRow}>
-          <Box sx={styles?.planTableTd}>Plan Price</Box>
-          <Box sx={styles?.planTableTh}>£ 20</Box>
-        </Box>
         <Box sx={styles?.planTableRow}>
           <Box sx={styles?.planTableTd}>
-            3 Additional Users{' '}
+            {EditInvoice?.details?.additionalUsers} Additional Users{' '}
             <Box component="span" sx={{ fontSize: '12px' }}>
               (£ 15/user)
             </Box>
           </Box>
-          <Box sx={styles?.planTableTh}>£ 45</Box>
+          <Box sx={styles?.planTableTh}>
+            £ {EditInvoice?.details?.additionalUsers * 15}
+          </Box>
         </Box>
         <Box sx={styles?.planTableRow}>
           <Box sx={styles?.planTableTd}>
-            Additional Storage{' '}
+            {EditInvoice?.details?.additionalStorage}GB Additional Storage{' '}
             <Box component="span" sx={{ fontSize: '12px' }}>
-              (£ 1/GB)
+              (£ 15/GB)
             </Box>
           </Box>
-          <Box sx={styles?.planTableTh}>£ 1</Box>
+          <Box sx={styles?.planTableTh}>
+            £ {EditInvoice?.details?.additionalStorage * 15}
+          </Box>
         </Box>
+
+        <Box sx={styles?.planTableRow}>
+          <Box sx={styles?.planTableTdBold}>Sub Total</Box>
+          <Box sx={styles?.planTableTh}>£ {EditInvoice?.subTotal}</Box>
+        </Box>
+
         <Box sx={styles?.planTableRow}>
           <Box sx={styles?.planTableTdBold}>
             Discount{' '}
             <Box component="span" sx={{ fontSize: '12px' }}>
-              (10%)
+              ({EditInvoice?.invoiceDiscount && discountValue} %)
             </Box>
           </Box>
-          <Box sx={styles?.planTableTh}>-£ 10</Box>
+          <Box sx={styles?.planTableTh}>
+            £ {EditInvoice?.invoiceDiscount && discountValue}
+          </Box>
         </Box>
         <Box sx={styles?.planTableRow}>
           <Box sx={styles?.planTableTdBold}>
             Tax{' '}
             <Box component="span" sx={{ fontSize: '12px' }}>
-              (Vat 20%)
+              (Vat {EditInvoice?.vat}%)
             </Box>
           </Box>
-          <Box sx={styles?.planTableTh}>£ 27</Box>
+          <Box sx={styles?.planTableTh}>£ {EditInvoice?.vat}</Box>
         </Box>
 
         <Box sx={styles?.divider}></Box>
 
         <Box sx={styles?.planTableRow}>
           <Box sx={styles?.planTableTdBold}>Total Cost</Box>
-          <Box sx={styles?.planTableTh}>£ 158</Box>
+          <Box sx={styles?.planTableTh}>£ {EditInvoice?.total}</Box>
         </Box>
       </Box>
       <Grid container>

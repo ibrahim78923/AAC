@@ -26,6 +26,7 @@ export const superAdminBillingInvoices = {
   get_plan_id: '/super-admin/find-plan',
   patch_assign_plan: '/super-admin/update-assign-plan',
   get_all_invoice: '/super-admin/get-all-invoice',
+  update_invoice: '/super-admin/update-invoice',
 };
 
 export const organization = {

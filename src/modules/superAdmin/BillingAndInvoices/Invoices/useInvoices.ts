@@ -6,7 +6,6 @@ import {
 } from './Invoices.data';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
-import { useRouter } from 'next/router';
 import { useGetBillingHistoryQuery } from '@/services/superAdmin/billing-invoices';
 
 const useInvoices = () => {
@@ -17,7 +16,6 @@ const useInvoices = () => {
   const [isOpenFilter, setIsOpenFilter] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   const [isGetRowValues, setIsGetRowValues] = useState('');
-  const router = useRouter();
 
   const { data: allInvoicesTableData } = useGetBillingHistoryQuery<any>({
     refetchOnMountOrArgChange: true,
@@ -91,7 +89,6 @@ const useInvoices = () => {
     setIsGetRowValues,
     setIsChecked,
     isChecked,
-    router,
     allInvoicesTableData,
     isGetRowValues,
   };

@@ -15,12 +15,7 @@ import { styles } from './ViewInvoices.style';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { AvatarImage } from '@/assets/images';
 
-const ViewInvoices: FC<ViewInvoicesI> = ({
-  open,
-  onClose,
-  isGetRowValues,
-  allInvoicesTableData,
-}) => {
+const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose, isGetRowValues }) => {
   const columns: any = [
     {
       accessorFn: (row: any) => row?.id,
@@ -75,7 +70,7 @@ const ViewInvoices: FC<ViewInvoicesI> = ({
       ),
     },
     {
-      accessorFn: (row: any) => row?.details?.planDiscount,
+      accessorFn: (row: any) => row?.invoiceDiscount,
       id: 'discount',
       isSortable: true,
       header: 'Discount(%)',
@@ -238,7 +233,7 @@ const ViewInvoices: FC<ViewInvoicesI> = ({
             <Box sx={styles?.productHeading}>Products</Box>
             <TanstackTable
               columns={columns}
-              data={allInvoicesTableData?.data?.invoices}
+              data={[isGetRowValues?.row?.original]}
             />
           </Box>
 
@@ -251,11 +246,11 @@ const ViewInvoices: FC<ViewInvoicesI> = ({
                   component="span"
                   sx={{ fontWeight: '500', fontSize: '14px' }}
                 >
-                  ({isGetRowValues?.row?.original?.details?.planDiscount}%)
+                  ({isGetRowValues?.row?.original?.invoiceDiscount}%)
                 </Box>
               </Box>
               <Box sx={styles?.vValue}>
-                (£ {isGetRowValues?.row?.original?.details?.planDiscount})
+                (£ {isGetRowValues?.row?.original?.invoiceDiscount})
               </Box>
             </Box>
             <Box sx={styles?.vRow}>

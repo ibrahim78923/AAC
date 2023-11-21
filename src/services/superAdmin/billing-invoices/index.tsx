@@ -68,6 +68,15 @@ export const bilingInvoicesAPI = baseAPI.injectEndpoints({
       }),
       providesTags: ['bilingInvoices'],
     }),
+
+    patchUpdateInvoices: builder.mutation({
+      query: ({ body, invoiceId }: any) => ({
+        url: `${superAdminBillingInvoices.update_invoice}?invoiceId=${invoiceId}`,
+        method: 'PATCH',
+        body: body,
+      }),
+      invalidatesTags: ['bilingInvoices'],
+    }),
   }),
 });
 
@@ -80,4 +89,5 @@ export const {
   useGetPlanIdQuery,
   usePatchBilingInvoicesMutation,
   useGetBillingHistoryQuery,
+  usePatchUpdateInvoicesMutation,
 } = bilingInvoicesAPI;
