@@ -43,9 +43,9 @@ export const SUPER_ADMIN: any = {
   PLAN_MANAGEMENT: '/plan',
   PLAN_TYPE_LIST: 'plan/plan-type-list',
   PRODUCT_FEATURES: 'product-features',
-
   JOBS: '/jobs',
   FAQS: '/faqs',
+  TAX_CALCULATION: '/tax-calculation',
 };
 export const orgAdminSubcriptionInvoices = {
   choose_plan: '/org-admin/subscription-and-invoices/choose-plan',

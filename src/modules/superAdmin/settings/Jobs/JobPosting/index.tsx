@@ -38,14 +38,17 @@ const JobPosting = () => {
     isDisabled,
     setRowId,
     rowId,
-    handleOpenEditJobPost,
-    handleCloseEditJobPost,
-    openEditJobPost,
     openModalDeleteJobPost,
     handleOpenModalDeleteJobPost,
     handleCloseModalDeleteJobPost,
     handleDeleteJobPost,
     loadingDeleteJobPost,
+    openEditJobPost,
+    handleOpenEditJobPost,
+    handleCloseEditJobPost,
+    handleSubmitEditJobPost,
+    loadingUpdateJobPost,
+    methodsEditJobPosting,
   } = useJobPosting();
 
   const getColumns = columns(
@@ -183,7 +186,9 @@ const JobPosting = () => {
       <EditJobPost
         isModalOpen={openEditJobPost}
         onClose={handleCloseEditJobPost}
-        rowId={rowId}
+        handleSubmit={handleSubmitEditJobPost}
+        formMethods={methodsEditJobPosting}
+        isLoading={loadingUpdateJobPost}
       />
     </Box>
   );

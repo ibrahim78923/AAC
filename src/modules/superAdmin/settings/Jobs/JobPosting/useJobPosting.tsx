@@ -1,16 +1,21 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { enqueueSnackbar } from 'notistack';
-import { jobPostingFiltersDefaultValues } from './jobPosting.data';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { parseISO } from 'date-fns';
+import {
+  jobPostingFiltersDefaultValues,
+  jobPostingValidationSchema,
+} from './jobPosting.data';
 import {
   useGetJobsQuery,
   useDeleteJobMutation,
+  useUpdateJobMutation,
 } from '@/services/superAdmin/settings/jobs';
 
 const useJobPosting = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const actionMenuOpen = Boolean(anchorEl);
-  const [openEditJobPost, setOpenEditJobPost] = useState(false);
   const [isDisabled, setIsDisabled] = useState(true);
   const [tableRowValues, setTableRowValues] = useState([]);
   const [rowId, setRowId] = useState(null);
@@ -67,8 +72,33 @@ const useJobPosting = () => {
   };
   const handleFiltersSubmit = handleMethodFilter(onSubmitFilters);
 
+  // Update Job Posting
+  const [updateJobPost, { isLoading: loadingUpdateJobPost }] =
+    useUpdateJobMutation();
+  const methodsEditJobPosting = useForm({
+    resolver: yupResolver(jobPostingValidationSchema),
+  });
+  const { handleSubmit: handleMethodEditJobPosting } = methodsEditJobPosting;
+  const [openEditJobPost, setOpenEditJobPost] = useState(false);
   const handleOpenEditJobPost = () => {
     handleClose();
+    const selectedItem =
+      jopPostinData?.data?.jobs.find((item: any) => item._id === rowId) || {};
+    if (selectedItem) {
+      methodsEditJobPosting.setValue('title', selectedItem?.title);
+      methodsEditJobPosting.setValue('jobType', selectedItem?.jobType);
+      methodsEditJobPosting.setValue('jobCategory', selectedItem?.jobCategory);
+      methodsEditJobPosting.setValue('experience', selectedItem?.experience);
+      methodsEditJobPosting.setValue(
+        'numberOfVacancy',
+        selectedItem?.numberOfVacancy,
+      );
+      methodsEditJobPosting.setValue(
+        'deadline',
+        parseISO(selectedItem?.deadline),
+      );
+      methodsEditJobPosting.setValue('description', selectedItem?.description);
+    }
     setOpenEditJobPost(true);
   };
 
@@ -76,6 +106,22 @@ const useJobPosting = () => {
     setOpenEditJobPost(false);
   };
 
+  const onSubmitEditJob = async (values: any) => {
+    try {
+      await updateJobPost({ id: rowId, body: values })?.unwrap();
+      handleCloseEditJobPost();
+      enqueueSnackbar('Job updated successfully', {
+        variant: 'success',
+      });
+    } catch (error: any) {
+      enqueueSnackbar('An error occured', {
+        variant: 'error',
+      });
+    }
+  };
+  const handleSubmitEditJobPost = handleMethodEditJobPosting(onSubmitEditJob);
+
+  // Delete JobPosting
   const [openModalDeleteJobPost, setOpenModalDeleteJobPost] =
     useState<boolean>(false);
   const handleOpenModalDeleteJobPost = () => {
@@ -125,14 +171,17 @@ const useJobPosting = () => {
     setIsDisabled,
     setRowId,
     rowId,
-    handleOpenEditJobPost,
-    handleCloseEditJobPost,
-    openEditJobPost,
     openModalDeleteJobPost,
     handleOpenModalDeleteJobPost,
     handleCloseModalDeleteJobPost,
     handleDeleteJobPost,
     loadingDeleteJobPost,
+    openEditJobPost,
+    handleOpenEditJobPost,
+    handleCloseEditJobPost,
+    handleSubmitEditJobPost,
+    loadingUpdateJobPost,
+    methodsEditJobPosting,
   };
 };
 

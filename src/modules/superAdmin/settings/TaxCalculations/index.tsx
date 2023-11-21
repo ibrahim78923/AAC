@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-
+import React from 'react';
 import {
   Box,
   Button,
@@ -15,65 +14,66 @@ import CommonDrawer from '@/components/CommonDrawer';
 import TanstackTable from '@/components/Table/TanstackTable';
 import CustomPagination from '@/components/CustomPagination';
 import { AlertModals } from '@/components/AlertModals';
-
 import { FormProvider } from '@/components/ReactHookForm';
-import { useForm } from 'react-hook-form';
-
 import {
-  addTaxFormDefaultValues,
-  addTaxFormFiltersDataArray,
-  addTaxFormValidationSchema,
+  addTaxFormDataArray,
   columns,
-  taxFormFiltersDefaultValues,
-  taxFormFiltersFiltersDataArray,
-  taxFormFiltersValidationSchema,
+  taxFormFiltersDataArray,
 } from './TaxCalculations.data';
-
-import { taxCalculationTableData } from '@/mock/modules/superAdmin/Settings/TaxCalculation';
-
 import { DownIcon, FilterSharedIcon, RefreshSharedIcon } from '@/assets/icons';
 import PlusShared from '@/assets/icons/shared/plus-shared';
-
 import { styles } from './TaxCalculations.styles';
-
-import { yupResolver } from '@hookform/resolvers/yup';
 import { v4 as uuidv4 } from 'uuid';
+import useTaxCalculations from './useTaxCalculations';
 
 const TaxCalculation = () => {
+  const {
+    anchorEl,
+    actionMenuOpen,
+    handleActionsMenuClick,
+    handleActionsMenuClose,
+    isActionsDisabled,
+    setIsActionsDisabled,
+    tableRowValues,
+    setTableRowValues,
+    rowId,
+    setRowId,
+    openFilters,
+    handleOpenFilters,
+    handleCloseFilters,
+    loagingGetTaxCalculation,
+    dataGetTaxCalculation,
+    handleSearch,
+    searchValue,
+    methodsFilter,
+    handleFiltersSubmit,
+    handleRefresh,
+    isAddTaxCalculationDrawerOpen,
+    handleOpenAddDrawer,
+    handleCloseAddDrawer,
+    methodsAddTaxForm,
+    handleAddTaxSubmit,
+    loadingAddTax,
+    loadingDelete,
+    handleDeleteTaxCalculation,
+    isTaxDeleteModal,
+    handleOpenModalDelete,
+    handleCloseModalDelete,
+    handleUpdateStatus,
+    openDrawerEditTax,
+    handleOpenDrawerEditTax,
+    handleCloseDrawerEditTax,
+    methodsEditTaxForm,
+    handleSubmitEditTax,
+    loadingUpdateTax,
+  } = useTaxCalculations();
   const theme = useTheme();
-  const [
-    isTaxCalculationFilterDrawerOpen,
-    setIsTaxCalculationFilterDrawerOpen,
-  ] = useState(false);
-  const [isTaxCalculationDrawerOpen, setIsTaxCalculationDrawerOpen] =
-    useState(false);
-  const [taxCalculationSearch, setTaxCalculationSearch] = useState('');
-  const [isTaxDeleteModal, setisTaxDeleteModal] = useState(false);
-
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const actionMenuOpen = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const methodsAddTaxForm = useForm({
-    resolver: yupResolver(addTaxFormValidationSchema),
-    defaultValues: addTaxFormDefaultValues,
-  });
-
-  const methodsTaxFormFilters = useForm({
-    resolver: yupResolver(taxFormFiltersValidationSchema),
-    defaultValues: taxFormFiltersDefaultValues,
-  });
-
-  const onSubmit = () => {
-    setIsTaxCalculationDrawerOpen(false);
-  };
-  const { handleSubmit } = methodsAddTaxForm;
-  const { handleSubmit: submitHandler } = methodsTaxFormFilters;
+  const getTableColumns = columns(
+    setIsActionsDisabled,
+    tableRowValues,
+    setTableRowValues,
+    setRowId,
+  );
 
   return (
     <Box
@@ -98,7 +98,7 @@ const TaxCalculation = () => {
           <Button
             variant="contained"
             sx={{ height: '36px', fontWeight: '500' }}
-            onClick={() => setIsTaxCalculationDrawerOpen(true)}
+            onClick={handleOpenAddDrawer}
           >
             <PlusShared /> &nbsp; Add
           </Button>
@@ -116,8 +116,8 @@ const TaxCalculation = () => {
         >
           <Search
             label={'Search here'}
-            searchBy={taxCalculationSearch}
-            setSearchBy={setTaxCalculationSearch}
+            value={searchValue}
+            onChange={handleSearch}
             width="100%"
           />
           <Box
@@ -133,7 +133,7 @@ const TaxCalculation = () => {
               aria-controls={actionMenuOpen ? 'basic-menu' : undefined}
               aria-haspopup="true"
               aria-expanded={actionMenuOpen ? 'true' : undefined}
-              onClick={handleClick}
+              onClick={handleActionsMenuClick}
               sx={{
                 color: theme.palette.grey[500],
                 height: '40px',
@@ -142,6 +142,7 @@ const TaxCalculation = () => {
                   width: '100%',
                 },
               }}
+              disabled={isActionsDisabled}
             >
               Actions &nbsp; <DownIcon />
             </Button>
@@ -149,25 +150,32 @@ const TaxCalculation = () => {
               id="basic-menu"
               anchorEl={anchorEl}
               open={actionMenuOpen}
-              onClose={handleClose}
+              onClose={handleActionsMenuClose}
               MenuListProps={{
                 'aria-labelledby': 'basic-button',
               }}
             >
-              <MenuItem>Edit</MenuItem>
-              <MenuItem>Active</MenuItem>
-              <MenuItem>Inactive</MenuItem>
-              <MenuItem onClick={() => setisTaxDeleteModal(true)}>
-                Delete
+              <MenuItem disabled={!rowId} onClick={handleOpenDrawerEditTax}>
+                Edit
               </MenuItem>
+              <MenuItem
+                disabled={!rowId}
+                onClick={() => handleUpdateStatus('active')}
+              >
+                Active
+              </MenuItem>
+              <MenuItem
+                disabled={!rowId}
+                onClick={() => handleUpdateStatus('inactive')}
+              >
+                Inactive
+              </MenuItem>
+              <MenuItem onClick={handleOpenModalDelete}>Delete</MenuItem>
             </Menu>
-            <Button sx={styles.refreshButton(theme)}>
+            <Button sx={styles.refreshButton(theme)} onClick={handleRefresh}>
               <RefreshSharedIcon />
             </Button>
-            <Button
-              sx={styles.filterButton(theme)}
-              onClick={() => setIsTaxCalculationFilterDrawerOpen(true)}
-            >
+            <Button sx={styles.filterButton(theme)} onClick={handleOpenFilters}>
               <FilterSharedIcon /> &nbsp; Filter
             </Button>
           </Box>
@@ -175,7 +183,11 @@ const TaxCalculation = () => {
       </Box>
 
       <Box>
-        <TanstackTable columns={columns} data={taxCalculationTableData} />
+        <TanstackTable
+          columns={getTableColumns}
+          data={dataGetTaxCalculation?.data?.taxCalculations}
+          isLoading={loagingGetTaxCalculation}
+        />
         <CustomPagination
           count={1}
           rowsPerPageOptions={[1, 2]}
@@ -184,21 +196,18 @@ const TaxCalculation = () => {
       </Box>
 
       <CommonDrawer
-        isDrawerOpen={isTaxCalculationFilterDrawerOpen}
-        onClose={() => setIsTaxCalculationFilterDrawerOpen(false)}
+        isDrawerOpen={openFilters}
+        onClose={handleCloseFilters}
         title="Filters"
         okText="Apply"
         isOk={true}
         footer={true}
-        submitHandler={submitHandler(onSubmit)}
+        submitHandler={handleFiltersSubmit}
       >
         <>
-          <FormProvider
-            methods={methodsAddTaxForm}
-            onSubmit={handleSubmit(onSubmit)}
-          >
+          <FormProvider methods={methodsFilter}>
             <Grid container spacing={4}>
-              {taxFormFiltersFiltersDataArray?.map((item: any) => (
+              {taxFormFiltersDataArray?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
                   <item.component {...item.componentProps} size={'small'}>
                     {item?.componentProps?.select
@@ -217,21 +226,19 @@ const TaxCalculation = () => {
       </CommonDrawer>
 
       <CommonDrawer
-        isDrawerOpen={isTaxCalculationDrawerOpen}
-        onClose={() => setIsTaxCalculationDrawerOpen(false)}
+        isDrawerOpen={isAddTaxCalculationDrawerOpen}
+        onClose={handleCloseAddDrawer}
         title="Tax Form"
         okText="Apply"
         isOk={true}
         footer={true}
-        submitHandler={handleSubmit(onSubmit)}
+        submitHandler={handleAddTaxSubmit}
+        loading={loadingAddTax}
       >
         <>
-          <FormProvider
-            methods={methodsAddTaxForm}
-            onSubmit={handleSubmit(onSubmit)}
-          >
+          <FormProvider methods={methodsAddTaxForm}>
             <Grid container spacing={4}>
-              {addTaxFormFiltersDataArray?.map((item: any) => (
+              {addTaxFormDataArray?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
                   <item.component {...item.componentProps} size={'small'}>
                     {item?.componentProps?.select
@@ -248,12 +255,45 @@ const TaxCalculation = () => {
           </FormProvider>
         </>
       </CommonDrawer>
+
+      <CommonDrawer
+        isDrawerOpen={openDrawerEditTax}
+        onClose={handleCloseDrawerEditTax}
+        title="Tax Form"
+        okText="Apply"
+        isOk={true}
+        footer={true}
+        submitHandler={handleSubmitEditTax}
+        loading={loadingUpdateTax}
+      >
+        <>
+          <FormProvider methods={methodsEditTaxForm}>
+            <Grid container spacing={4}>
+              {addTaxFormDataArray?.map((item: any) => (
+                <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                  <item.component {...item.componentProps} size={'small'}>
+                    {item?.componentProps?.select
+                      ? item?.options?.map((option: any) => (
+                          <option key={option?.value} value={option?.value}>
+                            {option?.label}
+                          </option>
+                        ))
+                      : null}
+                  </item.component>
+                </Grid>
+              ))}
+            </Grid>
+          </FormProvider>
+        </>
+      </CommonDrawer>
+
       <AlertModals
         message={'Are you sure you want to delete this entry ?'}
         type="delete"
         open={isTaxDeleteModal}
-        handleClose={() => setisTaxDeleteModal(false)}
-        handleSubmit={() => setisTaxDeleteModal(false)}
+        handleClose={handleCloseModalDelete}
+        handleSubmitBtn={handleDeleteTaxCalculation}
+        loading={loadingDelete}
       />
     </Box>
   );

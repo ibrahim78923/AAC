@@ -4,5 +4,4 @@ export interface AddFaqPropsI {
   handleSubmit: any;
   formMethods: any;
   isLoading?: boolean;
-  faqID?: string;
 }

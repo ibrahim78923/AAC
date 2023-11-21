@@ -7,6 +7,7 @@ import {
   useGetFaqsQuery,
   usePostFaqsMutation,
   useDeleteFaqsMutation,
+  useUpdateFaqsMutation,
 } from '@/services/superAdmin/settings/faqs';
 import { faqsFilterDefaultValues } from './Faqs.data';
 import {
@@ -145,14 +146,43 @@ const useFaqs = () => {
   const handleAddFaqSubmit = handleMethodAddFaq(onSubmitAddFaq);
 
   // Update FAQ
+  const [updateFaq, { isLoading: loadingUpdateFaq }] = useUpdateFaqsMutation();
+  const methodsEditFaq = useForm({
+    resolver: yupResolver(addFaqsValidationSchema),
+    defaultValues: addFaqsDefaultValues,
+  });
+  const { handleSubmit: handleMethodEditFaq } = methodsEditFaq;
   const [openModalEditFaq, setOpenModalEditFaq] = useState(false);
+
   const handleOpenModalEditFaq = () => {
-    setOpenModalEditFaq(true);
     handleActionsMenuClose();
+    const selectedItem =
+      dataGetFaqs?.data?.faqs.find((item: any) => item._id === rowId) || {};
+    if (selectedItem) {
+      methodsEditFaq.setValue('faqCategory', selectedItem?.faqCategory);
+      methodsEditFaq.setValue('faqQuestion', selectedItem?.faqQuestion);
+      methodsEditFaq.setValue('faqAnswer', selectedItem?.faqAnswer);
+    }
+    setOpenModalEditFaq(true);
   };
   const handleCloseModalEditFaq = () => {
     setOpenModalEditFaq(false);
   };
+
+  const onSubmitEditJob = async (values: any) => {
+    try {
+      await updateFaq({ id: rowId, body: values })?.unwrap();
+      handleCloseModalEditFaq();
+      enqueueSnackbar('FAQ updated successfully', {
+        variant: 'success',
+      });
+    } catch (error: any) {
+      enqueueSnackbar('An error occured', {
+        variant: 'error',
+      });
+    }
+  };
+  const handleSubmitUpdateFaq = handleMethodEditFaq(onSubmitEditJob);
 
   // Delete Faq
   const [isFaqsDeleteModal, setIsFaqsDeleteModal] = useState(false);
@@ -218,6 +248,9 @@ const useFaqs = () => {
     openModalEditFaq,
     handleOpenModalEditFaq,
     handleCloseModalEditFaq,
+    handleSubmitUpdateFaq,
+    loadingUpdateFaq,
+    methodsEditFaq,
   };
 };
 
