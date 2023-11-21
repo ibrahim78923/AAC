@@ -17,7 +17,7 @@ export const columns = (setDiscountValue: any, discountValue: any) => {
           <Box sx={{ fontWeight: '500', color: 'blue.dull_blue' }}>
             {info?.getValue()}dumy
           </Box>
-          <Box>{info?.row?.original?.organizations?.name}</Box>
+          <Box>{info?.row?.original?.details?.plantypes}</Box>
         </>
       ),
       header: 'Product/Suite',
