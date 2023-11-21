@@ -16,6 +16,8 @@ import { useForm } from 'react-hook-form';
 import { enqueueSnackbar } from 'notistack';
 import { SUPER_ADMIN } from '@/constants/index';
 import { v4 as uuidv4 } from 'uuid';
+import { usePostUserEmployeeMutation } from '@/services/superAdmin/user-management/UserList';
+import useUserDetailsList from '../../UsersDetailsList/useUserDetailsList';
 
 const AddUser = ({
   isOpenDrawer,
@@ -28,39 +30,21 @@ const AddUser = ({
   const { usePostUsersMutation, useUpdateUsersMutation } = usersApi;
   const [postUsers] = usePostUsersMutation();
   const [updateUsers] = useUpdateUsersMutation();
+  const [postUserEmployee] = usePostUserEmployeeMutation();
   const pathName = window?.location?.pathname;
   const userDetail = isOpenAddUserDrawer?.data?.data;
   const tabTitle = tabVal === 0 ? 'COMPANY_OWNER' : 'SUPER_ADMIN';
   const id = isOpenAddUserDrawer?.data?.data?._id;
-
-  const companyOwnerDetail = {
-    firstName: userDetail?.firstName,
-    lastName: userDetail?.lastName,
-    email: userDetail?.email,
-    crn: userDetail?.crn,
-    companyName: userDetail?.organization,
-    phoneNumber: userDetail?.phoneNumber,
-  };
-
-  const superAdminDetail = {
-    firstName: userDetail?.firstName,
-    lastName: userDetail?.lastName,
-    email: userDetail?.email,
-    phoneNumber: userDetail?.phoneNumber,
-    postCode: userDetail?.postCode,
-    jobTitle: userDetail?.jobTitle,
-    address: userDetail?.address,
-    fbUrl: userDetail?.facebookUrl,
-    linkinUrl: userDetail?.LinkedInURL,
-  };
+  const { setIsOpenAdduserDrawer: setIsAddEmployyeDrawer } =
+    useUserDetailsList();
 
   const superAdminMethods: any = useForm({
     resolver: yupResolver(superAdminValidationSchema),
-    defaultValues: superAdminDetail,
+    defaultValues: userDetail,
   });
   const companyOwnerMethods: any = useForm({
     resolver: yupResolver(CompanyOwnerValidationSchema),
-    defaultValues: companyOwnerDetail,
+    defaultValues: userDetail,
   });
 
   const methods =
@@ -79,11 +63,14 @@ const AddUser = ({
     try {
       isOpenAddUserDrawer?.type === 'add'
         ? postUsers({ body: values })?.unwrap()
+        : pathName === SUPER_ADMIN?.USERS_LIST
+        ? postUserEmployee({ body: values })
         : updateUsers({ id, ...values });
       enqueueSnackbar('User Added Successfully', {
         variant: 'success',
       });
       setIsOpenAddUserDrawer({ ...isOpenAddUserDrawer, drawer: false });
+      setIsAddEmployyeDrawer(false);
       reset();
     } catch (error: any) {
       enqueueSnackbar(error, {

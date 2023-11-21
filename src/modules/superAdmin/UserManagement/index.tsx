@@ -54,9 +54,9 @@ const UserManagement = () => {
               tabVal === 2
                 ? handleAddRole()
                 : setIsOpenAddUserDrawer({
-                    ...isOpenAddUserDrawer,
                     drawer: true,
                     type: 'add',
+                    data: {},
                   })
             }
             variant="contained"
