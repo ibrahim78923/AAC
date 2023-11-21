@@ -11,6 +11,7 @@ import Analytics from './Analytics';
 import { styles } from './SMSBroadcastDetails.style';
 
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { AIR_MARKETER } from '@/routesConstants/paths';
 
 const SMSBroadcastDetails = () => {
   const { theme, navigate } = useSMSBroadcast();
@@ -20,7 +21,7 @@ const SMSBroadcastDetails = () => {
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <ArrowBackIcon
             onClick={() => {
-              navigate.push('/air-marketer/sms-marketing');
+              navigate.push(AIR_MARKETER?.SMS_MARKETING);
             }}
             sx={{ cursor: 'pointer' }}
           />

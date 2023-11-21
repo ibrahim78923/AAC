@@ -7,11 +7,13 @@ import {
   Typography,
 } from '@mui/material';
 
+import Link from 'next/link';
+
 import { styles } from '../SMSDashboard/ScheduledSMS/ScheduledSMS.style';
 
 import LinearProgress from '@mui/material/LinearProgress';
 
-import Link from 'next/link';
+import { AIR_MARKETER } from '@/routesConstants/paths';
 
 export const broadcastData: any = [
   {
@@ -64,7 +66,7 @@ export const broadcastColumns: any = (statusTag: any, theme: any) => {
       header: 'Name',
       cell: (info: any) => (
         <Link
-          href={'/air-marketer/sms-marketing/sms-marketing-details'}
+          href={`/${AIR_MARKETER?.SMS_MARKETING_DETAILS}`}
           style={{ color: theme?.palette?.custom?.bright, fontWeight: 600 }}
         >
           {info?.getValue()}
