@@ -1,4 +1,5 @@
 import { RHFCheckbox, RHFTextField } from '@/components/ReactHookForm';
+import { CATALOG_SERVICE_TYPES } from '@/constants/strings';
 import * as Yup from 'yup';
 export const placeRequestValidationSchema = Yup?.object()?.shape({
   requestor: Yup?.string()?.required('Field is Required'),
@@ -19,7 +20,8 @@ export const placeRequest = [
       require: true,
       type: 'number',
     },
-    shouldDisplay: ({ other: { serviceId } }: any) => serviceId === 'Hardware',
+    shouldDisplay: ({ other: { serviceId } }: any) =>
+      serviceId === CATALOG_SERVICE_TYPES?.HARDWARE,
     component: RHFTextField,
     md: 3,
   },

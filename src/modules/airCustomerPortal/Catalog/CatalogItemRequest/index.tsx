@@ -6,7 +6,7 @@ import { Button, DialogActions, DialogContent, Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { placeRequest } from '../CatalogRequest/CatalogRequest.data';
 import { useWatch } from 'react-hook-form';
-import { v4 as uuidv4 } from 'uuid';
+
 const CatalogItemRequest = () => {
   const { methodRequest, onSubmitRequest, control, getValues } =
     useCatalogRequest();
@@ -28,7 +28,7 @@ const CatalogItemRequest = () => {
               (display = shouldDisplay({ getValues, other: { serviceId } }));
             if (!display) return <></>;
             return (
-              <Grid item xs={12} md={item?.md} key={uuidv4()}>
+              <Grid item xs={12} md={item?.md} key={item?.id}>
                 <item.component {...item?.componentProps} size={'small'} />
               </Grid>
             );

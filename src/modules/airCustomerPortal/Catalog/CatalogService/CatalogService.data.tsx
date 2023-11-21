@@ -6,10 +6,14 @@ import {
 import * as Yup from 'yup';
 export const dataBackUpValidationSchema = Yup?.object()?.shape({
   dataBaseName: Yup?.string(),
+  backUpData: Yup?.string(),
+  backUpTime: Yup?.string(),
 });
 
 export const dataBackUpDefaultValues = {
   dataBaseName: '',
+  backUpData: '',
+  backUpTime: ',',
 };
 
 export const dataBackUp = [
@@ -33,7 +37,7 @@ export const dataBackUp = [
   },
   {
     componentProps: {
-      name: 'BackUpTime',
+      name: 'backUpTime',
       label: 'Backup Time',
       fullWidth: true,
     },

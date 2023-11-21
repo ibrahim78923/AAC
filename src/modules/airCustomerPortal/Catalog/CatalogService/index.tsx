@@ -31,9 +31,7 @@ const CatalogService = () => {
       >
         <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={1}>
           <Button
-            onClick={() =>
-              router.push(AIR_CUSTOMER_PORTAL?.CATALOG_SERVICE_DETAILS)
-            }
+            onClick={() => router.push(AIR_CUSTOMER_PORTAL?.CATALOG_SERVICES)}
           >
             <ViewDetailBackArrowIcon />
           </Button>

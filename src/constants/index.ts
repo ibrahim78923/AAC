@@ -49,7 +49,7 @@ export const AIR_CUSTOMER_PORTAL = {
   KNOWLEDGE_BASE_DETAIL:
     '/air-customer-portal/knowledge-base/knowledge-base-detail',
   SINGLE_CATALOG_SERVICE_DETAILS: `/air-customer-portal/catalog/detail`,
-  CATALOG_SERVICE_DETAILS: '/air-customer-portal/catalog',
+  CATALOG_SERVICES: '/air-customer-portal/catalog',
 };
 
 export const ORG_ADMIN: any = {
