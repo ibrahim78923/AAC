@@ -183,7 +183,7 @@ export { default as MessageDullIcon } from './modules/SocialComponents/Calling/m
 export { default as ClearIcon } from './modules/SocialComponents/Calling/clear';
 export { default as PhoneGreenIcon } from './modules/SocialComponents/Calling/phone-green';
 export { default as TimeClockIcon } from './modules/airSales/deals/time-clock';
-export { default as ActionsIcon } from './modules/airSales/Contacts/actions';
+export { default as ActionsIcon } from './modules/airSales/Contacts/Actions';
 export { default as callIcon } from './modules/airSales/deals/call-icon';
 export { default as EmailDealsIcon } from './modules/airSales/deals/email-icon';
 export { default as MeetingDealsIcon } from './modules/airSales/deals/meeting-icon';
