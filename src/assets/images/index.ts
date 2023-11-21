@@ -184,3 +184,4 @@ export { default as LogoLinkedinImage } from './modules/airMarketer/SocialMarket
 export { default as LogoInstagramImage } from './modules/airMarketer/SocialMarketing/SocialInbox/logo-instagram.png';
 export { default as LogoWhatsappImage } from './modules/airMarketer/SocialMarketing/SocialInbox/logos-whatsapp.png';
 export { default as LogoFacebookImage } from './modules/airMarketer/SocialMarketing/SocialInbox/logo-facebook.png';
+export { default as UserRetroImage } from './modules/airMarketer/SocialMarketing/user-retro.png';
