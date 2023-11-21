@@ -1,4 +1,4 @@
-import { Box, Button, Menu, MenuItem, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 
 import CommonTabs from '@/components/Tabs';
 
@@ -12,11 +12,10 @@ import AddUser from './Users/AddUser';
 
 import SuperAdminUsers from './Users/Admin';
 
-import { ArrowDropDown } from '@mui/icons-material';
-
-import { FilterSharedIcon, PlusIcon } from '@/assets/icons';
+import { FilterrIcon, PlusIcon } from '@/assets/icons';
 
 import useUserManagement from './useUserManagement';
+import ActionButton from './ActionButton';
 
 import { SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
@@ -28,15 +27,13 @@ const UserManagement = () => {
     setIsOpenAddUserDrawer,
     isOpenFilterDrawer,
     setIsOpenFilterDrawer,
-    selectedValue,
     tabVal,
     setTabVal,
     search,
     setSearch,
-    handleClick,
     handleAddRole,
-    handleClose,
-    handleUsersList,
+    checkedRows,
+    setCheckedRows,
   } = useUserManagement();
 
   return (
@@ -54,18 +51,28 @@ const UserManagement = () => {
         >
           <Button
             onClick={() =>
-              tabVal === 2 ? handleAddRole() : setIsOpenAddUserDrawer(true)
+              tabVal === 2
+                ? handleAddRole()
+                : setIsOpenAddUserDrawer({
+                    ...isOpenAddUserDrawer,
+                    drawer: true,
+                    type: 'add',
+                  })
             }
             variant="contained"
             startIcon={<PlusIcon />}
           >
-            {tabVal === 2 ? 'Add Role' : 'Add User'}
+            {tabVal === 0
+              ? 'Add Company Owner'
+              : tabVal === 1
+              ? 'Add Super Admin '
+              : 'Add Role'}
           </Button>
         </PermissionsGuard>
       </Box>
       <PermissionsGuard
         permissions={[
-          SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS.USER_SEARCH_AND_FILTER,
+          SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS?.USER_SEARCH_AND_FILTER,
         ]}
       >
         <Box sx={{ padding: '0px 24px' }}>
@@ -85,35 +92,16 @@ const UserManagement = () => {
             ]}
             headerChildren={
               <>
-                <Box>
-                  <Button
-                    onClick={handleClick}
-                    sx={{
-                      border: `1px solid ${theme?.palette?.custom?.dark}`,
-                      color: theme?.palette?.custom?.main,
-                      width: '112px',
-                      height: '36px',
-                    }}
-                  >
-                    Actions
-                    <ArrowDropDown />
-                  </Button>
-                  <Menu
-                    id="simple-menu"
-                    anchorEl={selectedValue}
-                    open={Boolean(selectedValue)}
-                    onClose={handleClose}
-                  >
-                    <MenuItem onClick={handleUsersList}>User List</MenuItem>
-                    <MenuItem onClick={handleClose}>View</MenuItem>
-                    <MenuItem onClick={handleClose}>Edit</MenuItem>
-                  </Menu>
-                </Box>
+                <ActionButton
+                  checkedRows={checkedRows}
+                  tabVal={tabVal}
+                  setIsOpenAddUserDrawer={setIsOpenAddUserDrawer}
+                />
                 <Button
                   onClick={() => {
                     setIsOpenFilterDrawer(true);
                   }}
-                  startIcon={<FilterSharedIcon />}
+                  startIcon={<FilterrIcon />}
                   sx={{
                     border: `1px solid ${theme?.palette?.custom?.dark}`,
                     color: theme?.palette?.custom?.main,
@@ -126,7 +114,7 @@ const UserManagement = () => {
               </>
             }
           >
-            <Users />
+            <Users checkedRows={checkedRows} setCheckedRows={setCheckedRows} />
             <SuperAdminUsers />
             <RolesAndRights />
           </CommonTabs>
@@ -141,10 +129,18 @@ const UserManagement = () => {
         />
       )}
 
-      {isOpenAddUserDrawer && (
+      {isOpenAddUserDrawer?.drawer && (
         <AddUser
-          isOpenDrawer={isOpenAddUserDrawer}
-          onClose={() => setIsOpenAddUserDrawer(false)}
+          tabVal={tabVal}
+          isOpenDrawer={isOpenAddUserDrawer?.drawer}
+          onClose={() =>
+            setIsOpenAddUserDrawer({
+              ...isOpenAddUserDrawer,
+              drawer: false,
+            })
+          }
+          isOpenAddUserDrawer={isOpenAddUserDrawer}
+          setIsOpenAddUserDrawer={setIsOpenAddUserDrawer}
         />
       )}
     </Box>

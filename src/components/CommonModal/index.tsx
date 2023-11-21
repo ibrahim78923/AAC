@@ -19,6 +19,9 @@ const CommonModal = ({
   footer,
   footerFill,
   isLoading,
+  handleCancel,
+  isSubmitDisabled,
+  headerIcon,
 }: ModelPropsI) => {
   return (
     <Modal
@@ -32,7 +35,15 @@ const CommonModal = ({
     >
       <>
         <Box sx={styles.parentBox}>
-          <Box sx={{ marginBottom: '20px' }}>
+          <Box
+            sx={{
+              marginBottom: '20px',
+              display: 'flex',
+              gap: 1,
+              alignItems: 'center',
+            }}
+          >
+            {headerIcon}
             <Typography variant="h5">{title}</Typography>
           </Box>
           {children}
@@ -48,7 +59,7 @@ const CommonModal = ({
             >
               {!footerFill && cancelText && (
                 <Button
-                  // onClick={handleCancel}
+                  onClick={handleCancel}
                   variant="outlined"
                   sx={{
                     height: '36px',
@@ -62,6 +73,7 @@ const CommonModal = ({
               <LoadingButton
                 loading={isLoading}
                 onClick={handleSubmit}
+                disabled={isSubmitDisabled ? isSubmitDisabled : false}
                 variant="contained"
                 sx={{
                   height: '36px',

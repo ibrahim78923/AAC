@@ -28,7 +28,7 @@ const useNewPurchaseOrders = () => {
   };
 
   const handlePageBack = () => {
-    router.push(PURCHASE_ORDER);
+    router?.push(PURCHASE_ORDER);
   };
 
   const handleVenderSelect = (e: any) => {
@@ -49,7 +49,6 @@ const useNewPurchaseOrders = () => {
     vendor,
     submit,
     resetPurchaseOrderFilterForm,
-    // new purchase order
     isNewPurchaseOrder,
     setIsNewPurchaseOrder,
     handleVenderSelect,

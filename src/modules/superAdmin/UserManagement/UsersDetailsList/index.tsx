@@ -1,5 +1,4 @@
 import Image from 'next/image';
-
 import {
   Box,
   Button,
@@ -8,7 +7,6 @@ import {
   Stack,
   Typography,
   Avatar,
-  Tooltip,
   Card,
 } from '@mui/material';
 
@@ -32,17 +30,16 @@ import Delegates from './UserDetailsTables/Delegates';
 
 import { ArrowBack, AddCircleOutlined } from '@mui/icons-material';
 
-import {
-  AddShopIcon,
-  AddUserCircleIcon,
-  FilterSharedIcon,
-} from '@/assets/icons';
+import { AddShopIcon, AddUserCircleIcon, FilterrIcon } from '@/assets/icons';
 
 import { AvatarImage } from '@/assets/images';
 import useUserDetailsList from './useUserDetailsList';
 import Filter from './Filter';
 import AddCompanyDetails from './AddCompanyDetails';
 import StatusBadge from '@/components/StatusBadge';
+import { v4 as uuidv4 } from 'uuid';
+import useUserManagement from '../useUserManagement';
+import { useGetEmployeeListQuery } from '@/services/superAdmin/user-management/UserList';
 
 const UsersDetailsList = () => {
   const {
@@ -65,7 +62,13 @@ const UsersDetailsList = () => {
     setTabVal,
     theme,
     navigate,
-  } = useUserDetailsList();
+  }: any = useUserDetailsList();
+  const { useGetUsersByIdQuery } = useUserManagement();
+
+  const { id } = navigate.query;
+  const { data } = useGetUsersByIdQuery(id);
+  const { data: employeeList } = useGetEmployeeListQuery({ _id: id });
+  const userDetails = data?.data || employeeList?.data?.useros;
 
   return (
     <Box>
@@ -83,46 +86,45 @@ const UsersDetailsList = () => {
               py={1}
               sx={{ display: 'flex', justifyContent: 'space-between' }}
             >
-              <Stack direction={'row'} alignItems={'center'}>
+              <Stack direction={'row'} gap={1} alignItems="center">
                 <ArrowBack
                   onClick={() => {
                     navigate.push(SUPER_ADMIN.USERMANAGMENT);
                   }}
                   sx={{ cursor: 'pointer' }}
                 />
-                <Typography variant="h3">Olivia</Typography>
+                <Typography variant="h3">
+                  {userDetails?.firstName} {userDetails?.middleName}
+                  {userDetails?.lastName}
+                </Typography>
               </Stack>
               <Stack direction={'row'} gap={1}>
-                <Tooltip title="Add User">
-                  <Button
-                    sx={{
-                      border: '1px solid grey',
-                      height: '44px',
-                      width: '44px',
-                    }}
-                    variant="outlined"
-                    onClick={() => {
-                      setIsOpenAdduserDrawer(true);
-                    }}
-                  >
-                    <AddShopIcon />
-                  </Button>
-                </Tooltip>
-                <Tooltip title="Add Company">
-                  <Button
-                    sx={{
-                      border: '1px solid grey',
-                      height: '44px',
-                      width: '44px',
-                    }}
-                    variant="outlined"
-                    onClick={() => {
-                      setISOpenCompanyDrawer(true);
-                    }}
-                  >
-                    <AddUserCircleIcon />
-                  </Button>
-                </Tooltip>
+                <Button
+                  sx={{
+                    border: '1px solid grey',
+                    height: '44px',
+                    width: '44px',
+                  }}
+                  variant="outlined"
+                  onClick={() => {
+                    setIsOpenAdduserDrawer(true);
+                  }}
+                >
+                  <AddUserCircleIcon />
+                </Button>
+                <Button
+                  sx={{
+                    border: '1px solid grey',
+                    height: '44px',
+                    width: '44px',
+                  }}
+                  variant="outlined"
+                  onClick={() => {
+                    setISOpenCompanyDrawer(true);
+                  }}
+                >
+                  <AddShopIcon />
+                </Button>
               </Stack>
             </Box>
             <Divider />
@@ -133,7 +135,6 @@ const UsersDetailsList = () => {
                 alignItems={'center'}
               >
                 <Search placeholder="Search" size="small" />
-
                 <Button
                   sx={{
                     border: '1px solid grey',
@@ -144,74 +145,88 @@ const UsersDetailsList = () => {
                   }}
                   onClick={() => setIsOpenDrawer(true)}
                 >
-                  <FilterSharedIcon />
+                  <FilterrIcon />
                 </Button>
               </Stack>
             </Box>
-
-            <Box
-              className="users-wrapper"
-              sx={{
-                my: 2,
-                backgroundColor: theme.palette.grey[400],
-                borderRadius: '4px',
-                padding: '11px 8px',
-                width: '100%',
-              }}
-            >
+            {data?.data?.users?.length === 0 && (
+              <Typography>No user found</Typography>
+            )}
+            {data?.data?.users?.map((item: any) => (
               <Box
+                className="users-wrapper"
                 sx={{
-                  display: 'flex',
-                  gap: '10px',
-                  alignItems: 'center',
-                  flexWrap: {
-                    xs: 'wrap',
-                    sm: 'nowrap',
-                    lg: 'wrap',
-                    xl: 'nowrap',
-                  },
+                  my: 2,
+                  backgroundColor: theme?.palette?.grey[400],
+                  borderRadius: '4px',
+                  padding: '11px 8px',
+                  width: '100%',
                 }}
+                key={uuidv4()}
               >
-                <Avatar>
-                  <Image
-                    src={AvatarImage}
-                    alt="Avatar"
-                    width={40}
-                    height={40}
-                  />
-                </Avatar>
-                <Box sx={{ width: '100%' }}>
-                  <Box
-                    sx={{ display: 'flex', justifyContent: 'space-between' }}
-                  >
-                    <Typography>Roberts Rohan</Typography>
-                    <StatusBadge
-                      value={userStatus}
-                      onChange={(e: any) => setUserStatus(e.target.value)}
-                      options={[
-                        {
-                          label: 'Active',
-                          value: 'active',
-                          color: theme?.palette?.success?.main,
-                        },
-                        {
-                          label: 'Inactive',
-                          value: 'inactive',
-                          color: theme?.palette?.error?.main,
-                        },
-                      ]}
+                <Box
+                  sx={{
+                    display: 'flex',
+                    gap: '10px',
+                    alignItems: 'center',
+                    flexWrap: {
+                      xs: 'wrap',
+                      sm: 'nowrap',
+                      lg: 'wrap',
+                      xl: 'nowrap',
+                    },
+                  }}
+                >
+                  <Avatar>
+                    <Image
+                      src={AvatarImage}
+                      alt="Avatar"
+                      width={40}
+                      height={40}
                     />
+                  </Avatar>
+                  <Box sx={{ width: '100%' }}>
+                    <Box
+                      sx={{ display: 'flex', justifyContent: 'space-between' }}
+                    >
+                      <Typography>
+                        {item?.firstName} {item?.middleName} {item?.lastName}
+                      </Typography>
+                      <StatusBadge
+                        defaultValue={item?.status}
+                        value={userStatus}
+                        onChange={(e: any) => setUserStatus(e?.target?.value)}
+                        options={[
+                          {
+                            label: 'Active',
+                            value: 'active',
+                            color: theme?.palette?.success?.main,
+                          },
+                          {
+                            label: 'Inactive',
+                            value: 'inactive',
+                            color: theme?.palette?.error?.main,
+                          },
+                        ]}
+                      />
+                    </Box>
+                    <Typography>{item?.email}</Typography>
                   </Box>
-                  <Typography>Robert@airapplecart.co.uk</Typography>
                 </Box>
               </Box>
-            </Box>
+            ))}
           </Box>
         </Grid>
         <Grid item xl={9} lg={8} xs={12}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <ProfileCard />
+              <ProfileCard
+                userName={`${userDetails?.firstName} ${userDetails?.middleName} ${userDetails?.lastName}`}
+                role={userDetails?.role}
+                email={userDetails?.email}
+                phone={userDetails?.phoneNumber}
+                handleEditProfile={() => setTabVal(1)}
+              />
             </Grid>
             <Grid item xs={12}>
               <Box
@@ -252,7 +267,7 @@ const UsersDetailsList = () => {
                     }
                   >
                     <CompanyAccounts />
-                    <UserDetailsProfile />
+                    <UserDetailsProfile userDetails={userDetails} />
                     <Delegates />
                   </CommonTabs>
                 </Card>
@@ -261,7 +276,6 @@ const UsersDetailsList = () => {
           </Grid>
         </Grid>
       </Grid>
-
       {isOpenAddAccountDrawer && (
         <AddAccountDrawer
           isOpen={isOpenAddAccountDrawer}

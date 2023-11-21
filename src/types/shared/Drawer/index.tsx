@@ -2,7 +2,7 @@ export interface CommonDrawerPropsI {
   isDrawerOpen: boolean;
   onClose: () => void;
   children: React.ReactNode;
-  title: string;
+  title?: string;
   okText: string;
   isOk: boolean;
   cancelText?: string;
@@ -15,5 +15,7 @@ export interface CommonDrawerPropsI {
   isFooterFeature?: boolean;
   isFooterFeatureText?: string;
   isFooterFeatureHandler?: () => void;
-  loading?: boolean;
+  titleIcon?: any;
+  isLoading?: boolean;
+  isDisabled?: boolean;
 }

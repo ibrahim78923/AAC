@@ -5,7 +5,7 @@ import RequestReceivedApproval from './RequestReceivedApproval';
 import { Button, Grid, Typography } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { AllApprovals } from './AllApprovals';
-import AddRequestApproval from '../AddRequestPage/AddRequestApproval';
+import { AddRequestApproval } from '../AddRequestPage/AddRequestApproval';
 
 const TabsData = ['All', 'Request Approval', 'Request received for approval'];
 

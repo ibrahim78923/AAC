@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Box, Button, Grid, Typography } from '@mui/material';
 
 import Search from '@/components/Search';
@@ -37,8 +35,8 @@ const Attachments = () => {
       }}
     >
       <Grid container spacing={2}>
-        <Grid item md={4} sx={styles.countBox}>
-          <Typography sx={styles.associationCount(theme)} variant="body3">
+        <Grid item md={4} sx={styles?.countBox}>
+          <Typography sx={styles?.associationCount(theme)} variant="body3">
             02
           </Typography>
 

@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-import { v4 as uuidv4 } from 'uuid';
+import { AIR_SALES } from '@/routesConstants/paths';
 import ChooseQuotes from './ChooseQuotes';
 import EditDetails from './EditDetails';
 import ReviewInvoice from './ReviewInvoice';
+import { v4 as uuidv4 } from 'uuid';
 
 const useCreateInvoices = () => {
   const [activeStep, setActiveStep] = useState(0);
@@ -22,33 +23,38 @@ const useCreateInvoices = () => {
     },
     {
       key: uuidv4(),
-      label: 'Review',
+      label: 'Review and send',
       component: <ReviewInvoice />,
     },
   ];
 
   const handleCompleteStep = () => {
     if (activeStep == invoicesStepperData?.length - 1) {
-      router.push('/super-admin/plan-management');
+      router.push(AIR_SALES?.SALES_INVOICES);
       return;
     }
-
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
   const hanldeGoPreviousBack = () => {
     if (activeStep === 0) {
-      router.push('/super-admin/plan-management');
+      router.push(AIR_SALES?.SALES_INVOICES);
       return;
     }
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
+  const handlerCancelButton = () => {
+    router.push(AIR_SALES?.SALES_INVOICES);
+  };
+
   return {
+    AIR_SALES,
     activeStep,
     invoicesStepperData,
     handleCompleteStep,
     hanldeGoPreviousBack,
+    handlerCancelButton,
   };
 };
 

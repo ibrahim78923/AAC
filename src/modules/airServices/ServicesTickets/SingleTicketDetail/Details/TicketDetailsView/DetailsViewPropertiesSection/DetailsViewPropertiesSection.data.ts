@@ -5,21 +5,21 @@ import {
   RHFTimePicker,
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
-export const validationSchema = Yup.object().shape({
-  status: Yup.string().required('Field is Required'),
-  priority: Yup.string().required('Field is Required'),
-  urgency: Yup.string(),
-  source: Yup.string(),
-  type: Yup.string(),
-  impact: Yup.string(),
-  agent: Yup.string(),
-  category: Yup.string(),
-  tags: Yup.string(),
-  plannedStartDate: Yup.date(),
-  plannedStartTime: Yup.date(),
-  plannedEndDate: Yup.date(),
-  plannedEndTime: Yup.date(),
-  plannedEffort: Yup.string(),
+export const validationSchema = Yup?.object()?.shape({
+  status: Yup?.string()?.required('Field is Required'),
+  priority: Yup?.string()?.required('Field is Required'),
+  urgency: Yup?.string(),
+  source: Yup?.string(),
+  type: Yup?.string(),
+  impact: Yup?.string(),
+  agent: Yup?.string(),
+  category: Yup?.string(),
+  tags: Yup?.string(),
+  plannedStartDate: Yup?.date(),
+  plannedStartTime: Yup?.date(),
+  plannedEndDate: Yup?.date(),
+  plannedEndTime: Yup?.date(),
+  plannedEffort: Yup?.string(),
   // attachFile: Yup.mixed(),
 });
 

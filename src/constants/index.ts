@@ -3,6 +3,15 @@ export const SUPER_ADMIN: any = {
   ADDROLE: '/super-admin/user-management/add-role',
   USERS_LIST: '/super-admin/user-management/users-list',
   BILLING_INVOICES: '/super-admin/billing-invoices',
+  AIRSALES_CONTCATS_RESTORE: '/air-sales/contacts/restore',
+  CONTACT_IMPORT: '/air-sales/contacts/import',
+  CONTCATS_COLUMN: '/air-sales/contacts/import/import-column',
+  AIRSALES_CONTCATS: '/air-sales/contacts',
+  AIRSALES_IMPORTHISTORY: '/air-sales/contacts/import/import-history',
+  IMPORT_RECORD:
+    '/air-sales/contacts/import/import-history/import-record-created',
+  IMPORTRECORD_RESTORE:
+    '/air-sales/contacts/import/import-history/import-record-created/restore',
 };
 
 export const AIR_SERVICES = {
@@ -11,7 +20,13 @@ export const AIR_SERVICES = {
   PURCHASE_ORDER: '/air-services/assets/purchase-orders',
   ASSETS_PURCHASE_ORDER_DETAIL: '/air-services/assets/purchase-orders/detail',
   NEW_PURCHASE_ORDER: '/air-services/assets/purchase-orders/new-purchase',
+  CREATE_DASHBOARD: '/air-services/dashboard/create-dashboard',
+  MANAGE_DASHBOARD: '/air-services/dashboard/manage-dashboard',
   KNOWLEDGE_BASE: '/air-services/knowledge-base',
+  KNOWLEDGE_BASE_VIEW_ARTICLE:
+    '/air-services/knowledge-base/article/view-article',
+  KNOWLEDGE_BASE_EDIT_ARTICLE:
+    '/air-services/knowledge-base/article/edit-article',
   ADD_ASSOCIATE_ASSET:
     '/air-services/assets/contracts/detail/add-associate-asset',
   ASSETS_CONTRACTS: '/air-services/assets/contracts',
@@ -24,6 +39,15 @@ export const AIR_SERVICES = {
   ASSETS_SOFTWARE_DETAIL: `/air-services/assets/software/detail`,
   ADD_INVENTORY: `/air-services/assets/inventory/add-inventory`,
   UPSERT_ARTICLE: `/air-services/knowledge-base/article/upsert-article`,
+  AIRDEALS_RESTORE: '/air-sales/deals/restore',
+};
+
+export const AIR_CUSTOMER_PORTAL = {
+  TICKETS: `/air-customer-portal/tickets`,
+  SINGLE_TICKETS: `/air-customer-portal/tickets/single-ticket`,
+  KNOWLEDGE_BASE: '/air-customer-portal/knowledge-base',
+  KNOWLEDGE_BASE_DETAIL:
+    '/air-customer-portal/knowledge-base/knowledge-base-detail',
 };
 
 export const ORG_ADMIN: any = {

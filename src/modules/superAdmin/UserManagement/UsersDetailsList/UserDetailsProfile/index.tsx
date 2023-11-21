@@ -1,11 +1,8 @@
-import React from 'react';
-
-import { Button, Grid, Typography } from '@mui/material';
+import { Box, Button, Grid, InputAdornment, Typography } from '@mui/material';
 
 import { FormProvider } from '@/components/ReactHookForm';
 
 import {
-  profileDefaultValues,
   profileFields,
   profileValidationSchema,
 } from './UserDetailsProfile.data';
@@ -13,19 +10,42 @@ import {
 import { useForm } from 'react-hook-form';
 
 import { yupResolver } from '@hookform/resolvers/yup';
+import BorderColorIcon from '@mui/icons-material/BorderColor';
 
 import { v4 as uuidv4 } from 'uuid';
+import useToggle from '@/hooks/useToggle';
+import { EraserIcon } from '@/assets/icons';
+import useUserManagement from '../../useUserManagement';
 
-const UserDetailsProfile = () => {
+const UserDetailsProfile = (props: any) => {
+  const { userDetails } = props;
+  const { updateUserProfile }: any = useUserManagement();
+  const [isToggled, setIsToggled] = useToggle(false);
+  const id = userDetails?._id;
+
   const methods: any = useForm({
     resolver: yupResolver(profileValidationSchema),
-    defaultValues: profileDefaultValues,
+    defaultValues: userDetails,
   });
 
   const { handleSubmit } = methods;
 
-  const onSubmit = async () => {
-    alert('profile');
+  const onSubmit = async (values: any) => {
+    const keysToDelete = [
+      '_id',
+      'products',
+      'role',
+      'organization',
+      'createdAt',
+      'createdBy',
+      'updatedAt',
+      'status',
+    ];
+
+    for (const key of keysToDelete) {
+      delete values[key];
+    }
+    updateUserProfile({ id, ...values });
   };
 
   return (
@@ -40,14 +60,66 @@ const UserDetailsProfile = () => {
                   {item?.componentProps?.heading}
                 </Typography>
               )}
-              <item.component {...item.componentProps} size={'small'}>
-                {item?.componentProps?.select &&
-                  item?.options?.map((option: any) => (
-                    <option key={uuidv4()} value={option?.value}>
-                      {option?.label}
-                    </option>
-                  ))}
-              </item.component>
+              {/* for address fileds */}
+              {item?.componentProps?.name === 'address' && (
+                <Box
+                  sx={{
+                    backgroundColor: '',
+                    position: 'relative',
+                    right: 0,
+                  }}
+                >
+                  <InputAdornment
+                    sx={{
+                      position: 'absolute',
+                      top: 45,
+                      right: 15,
+                      zIndex: 9999,
+                    }}
+                    position="end"
+                  >
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        gap: '10px',
+                        alignItems: 'center',
+                      }}
+                    >
+                      <Box
+                        sx={{ cursor: 'pointer' }}
+                        onClick={() => setIsToggled(false)}
+                      >
+                        <EraserIcon />
+                      </Box>
+                      <BorderColorIcon
+                        onClick={() => setIsToggled(true)}
+                        sx={{ cursor: 'pointer', fontSize: '20px' }}
+                      />
+                    </Box>
+                  </InputAdornment>
+                </Box>
+              )}
+
+              {!item?.toShow?.includes('address') && (
+                <item.component {...item.componentProps} size={'small'}>
+                  {item?.componentProps?.select &&
+                    item?.options?.map((option: any) => (
+                      <option key={uuidv4()} value={option?.value}>
+                        {option?.label}
+                      </option>
+                    ))}
+                </item.component>
+              )}
+              {isToggled && item?.toShow?.includes('address') && (
+                <item.component {...item.componentProps} size={'small'}>
+                  {item?.componentProps?.select &&
+                    item?.options?.map((option: any) => (
+                      <option key={uuidv4()} value={option?.value}>
+                        {option?.label}
+                      </option>
+                    ))}
+                </item.component>
+              )}
             </Grid>
           );
         })}

@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import { AlertModals } from '@/components/AlertModals';
 import { quotesListData } from '@/mock/modules/Quotes';
-import TanstackTable from '@/components/Tabel/TanstackTable';
+import TanstackTable from '@/components/Table/TanstackTable';
 import TableToolbar from './TableToolbar';
 import PageHeader from './PageHeader';
 import CustomPagination from '@/components/CustomPagination';

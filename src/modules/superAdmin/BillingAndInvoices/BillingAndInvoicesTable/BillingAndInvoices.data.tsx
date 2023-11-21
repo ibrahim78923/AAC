@@ -6,13 +6,13 @@ import {
   useGetPlanTypeQuery,
   useGetProductsQuery,
 } from '@/services/superAdmin/billing-invoices';
-
+import { v4 as uuidv4 } from 'uuid';
 import * as Yup from 'yup';
 
 export const Columns = (
   setIsGetRowValues: any,
-  setIschecked: any,
-  ischecked: any,
+  setIsChecked: any,
+  isChecked: any,
   isGetRowValues: any,
 ) => {
   return [
@@ -24,11 +24,13 @@ export const Columns = (
           color="primary"
           checked={
             info?.cell?.row?.original?._id ===
-              isGetRowValues?.cell?.row?.original?._id && ischecked
+              isGetRowValues?.cell?.row?.original?._id && isChecked
           }
           name={info?.getValue()}
           onClick={() => {
-            setIsGetRowValues(info), setIschecked(!ischecked);
+            !isChecked
+              ? (setIsGetRowValues(info), setIsChecked(!isChecked))
+              : (setIsGetRowValues([]), setIsChecked(!isChecked));
           }}
         />
       ),
@@ -53,21 +55,33 @@ export const Columns = (
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row?.plans?.description,
+      accessorFn: (row: any) => row?.planProducts,
       id: 'productsSuite',
       isSortable: true,
       header: 'Products/Suite',
       cell: (info: any) => (
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-          <Typography variant="body3"> {info?.getValue()}</Typography>
-          <Typography variant="body3">
-            {info?.row?.original?.planProduct?.name}
-          </Typography>
+          {info?.row?.original?.planProducts?.length > 1 ? (
+            <>
+              <Typography variant="body3">CRM</Typography>
+              {info?.row?.original?.planProducts?.map((data: any) => (
+                <Typography variant="body3" key={uuidv4()}>
+                  {data?.name}{' '}
+                </Typography>
+              ))}
+            </>
+          ) : (
+            info?.row?.original?.planProducts?.map((data: any) => (
+              <Typography variant="body3" key={uuidv4()}>
+                {data?.name}{' '}
+              </Typography>
+            ))
+          )}
         </Box>
       ),
     },
     {
-      accessorFn: (row: any) => row?.plantypes,
+      accessorFn: (row: any) => row?.plantypes?.name,
       id: 'plantypes',
       isSortable: true,
       header: 'Plan Type',
@@ -106,7 +120,7 @@ export const Columns = (
       cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row?.defaultStorage,
+      accessorFn: (row: any) => row?.plans?.defaultStorage,
       id: 'DefaultStorage',
       isSortable: true,
       header: 'Default storage',

@@ -13,7 +13,7 @@ export const style = {
       justifyContent: 'space-between',
       cursor: 'pointer',
       '&:hover': {
-        backgroundColor: '#AFEAE140',
+        backgroundColor: `${theme?.palette?.custom?.aqua_breeze}`,
       },
     };
   },

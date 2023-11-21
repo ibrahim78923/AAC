@@ -1,7 +1,11 @@
 import React from 'react';
+
 import { Box, Grid, Theme, Typography, useTheme } from '@mui/material';
+
 import TanstackTable from '@/components/Table/TanstackTable';
+
 import { columns } from './PlanList.data';
+
 import { planListData } from '@/mock/modules/superAdmin/SuperAdminDashboard';
 
 const PlanList = () => {
@@ -22,13 +26,19 @@ const PlanList = () => {
           flexDirection: { lg: 'row', md: 'row', sm: 'row', xs: 'column' },
         }}
       >
-        <Typography variant="body2" sx={{ color: '#030229', fontWeight: 600 }}>
+        <Typography
+          variant="body2"
+          sx={{
+            color: `${theme?.palette?.custom?.dark_blue}`,
+            fontWeight: 600,
+          }}
+        >
           Plan list
         </Typography>
         <Typography
           variant="body2"
           sx={{
-            color: `${theme?.palette?.primary.main}`,
+            color: `${theme?.palette?.primary?.main}`,
             fontWeight: 600,
           }}
         >

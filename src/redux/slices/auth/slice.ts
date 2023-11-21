@@ -9,7 +9,7 @@ import { setTokens, logout } from './reducers';
 import { authAPI } from '@/services/auth';
 
 const initialState: TAuthSlice = {
-  authToken: null,
+  accessToken: null,
   refreshToken: null,
 };
 
@@ -23,16 +23,16 @@ const authSlice = createSlice({
   extraReducers: (builder) => {
     builder
       //Login Matchers
-      .addMatcher(authAPI.endpoints.login.matchFulfilled, loginSuccess)
+      .addMatcher(authAPI?.endpoints?.authLogin?.matchFulfilled, loginSuccess)
       //Register Matchers
-      .addMatcher(authAPI.endpoints.signUp.matchFulfilled, registerSuccess)
+      .addMatcher(authAPI?.endpoints?.signUp?.matchFulfilled, registerSuccess)
       //permissions Matchers
       .addMatcher(
-        authAPI.endpoints.getPermissions.matchFulfilled,
+        authAPI?.endpoints?.getPermissions?.matchFulfilled,
         permissionsUpdate,
       );
   },
 });
 
-export const { setAuthTokens } = authSlice.actions;
+export const { setAuthTokens } = authSlice?.actions;
 export default authSlice.reducer;

@@ -13,12 +13,12 @@ const RequestReceivedApproval = () => {
   const {
     theme,
     textColor,
-    handleApprovalModelClose,
+    handleApprovalModalClose,
     openApprovalModal,
-    handleRejectModelClose,
+    handleRejectModalClose,
     openRejectModal,
-    handleRejectModelOpen,
-    handleApprovalModelOpen,
+    handleRejectModalOpen,
+    handleApprovalModalOpen,
     methods,
   } = useRequestApprovalPage();
 
@@ -29,7 +29,7 @@ const RequestReceivedApproval = () => {
     <>
       <Box sx={styles?.approvalsContainerBox}>
         {requestApprovalPageData
-          ?.filter((item) => item?.status === 'Request')
+          ?.filter((item: any) => item?.status === 'Request')
           ?.map((filteredItem) => {
             return (
               <Box key={filteredItem?.id} sx={styles?.approvalsContainer}>
@@ -74,7 +74,7 @@ const RequestReceivedApproval = () => {
                     <Box sx={styles?.requestApprovalBoxFirst}>
                       <Button
                         variant="outlined"
-                        onClick={handleApprovalModelOpen}
+                        onClick={handleApprovalModalOpen}
                         startIcon={
                           <CheckCircleIcon
                             sx={{ color: theme?.palette?.success?.main }}
@@ -84,7 +84,7 @@ const RequestReceivedApproval = () => {
                         Approve
                       </Button>
                       <Button
-                        onClick={handleRejectModelOpen}
+                        onClick={handleRejectModalOpen}
                         variant="outlined"
                         color="error"
                         startIcon={
@@ -105,13 +105,13 @@ const RequestReceivedApproval = () => {
       <Dialog
         fullWidth
         open={openApprovalModal}
-        onClose={handleApprovalModelClose}
+        onClose={handleApprovalModalClose}
       >
         <Box width={'100%'} p={'1rem'}>
           <Box sx={styles?.dialogBoxStyle}>
             <Typography variant="h5">Approval</Typography>
             <AlertModalCloseIcon
-              onClick={handleApprovalModelClose}
+              onClick={handleApprovalModalClose}
               style={{ cursor: 'pointer' }}
             />
           </Box>
@@ -127,19 +127,19 @@ const RequestReceivedApproval = () => {
           </FormProvider>
           <Box sx={styles?.boxBorderStyle}></Box>
           <Box sx={styles?.buttonBox}>
-            <Button variant="outlined" onClick={handleApprovalModelClose}>
+            <Button variant="outlined" onClick={handleApprovalModalClose}>
               Cancel
             </Button>
             <Button variant="contained">Approve</Button>
           </Box>
         </Box>
       </Dialog>
-      <Dialog fullWidth open={openRejectModal} onClose={handleRejectModelClose}>
+      <Dialog fullWidth open={openRejectModal} onClose={handleRejectModalClose}>
         <Box width={'100%'} p={'1rem'}>
           <Box sx={styles?.dialogBoxStyle}>
             <Typography variant="h5">Approval</Typography>
             <AlertModalCloseIcon
-              onClick={handleRejectModelClose}
+              onClick={handleRejectModalClose}
               style={{ cursor: 'pointer' }}
             />
           </Box>
@@ -155,7 +155,11 @@ const RequestReceivedApproval = () => {
           </FormProvider>
           <Box sx={styles?.boxBorderStyle}></Box>
           <Box sx={styles?.buttonBox}>
-            <Button variant="outlined" onClick={handleRejectModelClose}>
+            <Button
+              variant="outlined"
+              color="inherit"
+              onClick={handleRejectModalClose}
+            >
               Cancel
             </Button>
             <Button variant="contained" color="error">

@@ -1,11 +1,12 @@
-import { PlusSharedIconColor } from '@/assets/icons';
+import { PlusSharedColorIcon } from '@/assets/icons';
 import { Box, Button, Menu, MenuItem, Typography } from '@mui/material';
 import { useHeader } from './useHeader';
 import { AIR_SERVICES } from '@/constants';
 
-export const Header = () => {
+export const Header = (props: any) => {
   const { anchorEl, open, theme, handleClick, handleClose, router } =
     useHeader();
+  const { setIsFolderFormOpen } = props;
   return (
     <Box
       display={'flex'}
@@ -24,7 +25,7 @@ export const Header = () => {
         onClick={handleClick}
         size="medium"
         variant="contained"
-        startIcon={<PlusSharedIconColor />}
+        startIcon={<PlusSharedColorIcon />}
       >
         Create New
       </Button>
@@ -38,6 +39,7 @@ export const Header = () => {
         <MenuItem
           key={1}
           onClick={() => {
+            router?.push(AIR_SERVICES?.UPSERT_ARTICLE);
             handleClose?.();
           }}
         >
@@ -45,7 +47,6 @@ export const Header = () => {
             variant="body2"
             fontWeight={500}
             color={theme?.palette?.grey?.[600]}
-            onClick={() => router?.push(AIR_SERVICES?.UPSERT_ARTICLE)}
           >
             Article
           </Typography>
@@ -53,6 +54,7 @@ export const Header = () => {
         <MenuItem
           key={2}
           onClick={() => {
+            setIsFolderFormOpen(true);
             handleClose?.();
           }}
           sx={{

@@ -9,6 +9,7 @@ import {
   BusyImage,
   CallImage,
   ChangeCircleImage,
+  CompaniesImage,
   ContactImage,
   CustomerPortalImage,
   DashboardImage,
@@ -50,21 +51,21 @@ export const SuperAdminRoutes: MenuItemI[] = [
     icon: DashboardImage,
     label: 'Dashboard',
     role: 'super-admin',
-    permissions: Permissions.view_dashoard,
+    permissions: Permissions?.view_dashoard,
   },
   {
     key: 'super-admin/user-management',
     icon: UserManagementImage,
     label: 'User Management',
     role: 'super-admin',
-    permissions: Permissions.user_management,
+    permissions: Permissions?.user_management,
   },
   {
     key: 'super-admin/plan-management',
     icon: PlanManagementImage,
     label: 'Plan Management',
     role: 'super-admin',
-    permissions: Permissions.PLAN_MANAGEMENT,
+    permissions: Permissions?.PLAN_MANAGEMENT,
   },
   {
     key: 'super-admin/billing-invoices',
@@ -251,6 +252,37 @@ export const ServicesRoutes: any = [
     icon: CustomerPortalImage,
     label: 'Control Panel',
     role: 'SERVICE',
+    permissions: [],
+  },
+];
+
+export const CustomerPortalRoutes: any = [
+  {
+    key: 'customer-portal',
+    icon: DashboardImage,
+    label: 'Dashboard',
+    role: 'CUSTOMER_PORTAL',
+    permissions: [],
+  },
+  {
+    key: 'customer-portal/tickets',
+    icon: TicketDiscountImage,
+    label: 'Tickets',
+    role: 'CUSTOMER_PORTAL',
+    permissions: [],
+  },
+  {
+    key: 'customer-portal/knowledge-base',
+    icon: KnowledgeBaseImage,
+    label: 'Knowledge Base',
+    role: 'CUSTOMER_PORTAL',
+    permissions: [],
+  },
+  {
+    key: 'customer-portal/catalog',
+    icon: WorkLoadImage,
+    label: 'Catalog',
+    role: 'CUSTOMER_PORTAL',
     permissions: [],
   },
 ];
@@ -563,6 +595,11 @@ export const QuickLinkData = [
     icon: MessageImage,
     path: '',
   },
+  {
+    key: '7',
+    icon: CompaniesImage,
+    path: '',
+  },
 ];
 
 const ROLES_ROUTES: any = {
@@ -570,6 +607,7 @@ const ROLES_ROUTES: any = {
   AIR_SALES: SalesRoutes,
   AIR_SERVICES: ServicesRoutes,
   ORG_ADMIN: OrgAdminRoutes,
+  CUSTOMER_PORTAL: CustomerPortalRoutes,
 };
 
 export const getRoutes = (role: any) => {
@@ -592,4 +630,6 @@ export const zeroPaddingRoutes = [
   '/social-components/calling/call',
   '/org-admin/users',
   '/super-admin/user-management/users-list',
+  '/air-marketer/social-marketing/social-inbox',
+  '/air-marketer/social-marketing',
 ];

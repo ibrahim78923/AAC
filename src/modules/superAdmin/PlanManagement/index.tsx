@@ -28,6 +28,8 @@ import { isNullOrEmpty } from '@/utils';
 import { FilterSharedIcon, PlusIcon } from '@/assets/icons';
 
 import { v4 as uuidv4 } from 'uuid';
+import { PlanDetailsDataColumnFunction } from './PlanDetails/PlanDetails.data';
+import { SUPER_ADMIN_PLAN_MANAGEMENT } from '@/routesConstants/paths';
 
 const PlanManagement = () => {
   const {
@@ -41,8 +43,20 @@ const PlanManagement = () => {
     handleClick,
     handleClose,
     methodsFaqsFilters,
+    filterValues,
     filterSubmit,
+    isDisabled,
+    setIsDisabled,
+    tableRowValues,
+    setTableRowValues,
   } = usePlanManagement();
+
+  const getPlanManagementRowData = PlanDetailsDataColumnFunction(
+    isDisabled,
+    setIsDisabled,
+    tableRowValues,
+    setTableRowValues,
+  );
 
   return (
     <Box sx={styles?.main}>
@@ -55,9 +69,9 @@ const PlanManagement = () => {
         <Typography variant="h4" sx={styles?.planManagementHeading}>
           Plan Management
         </Typography>
-
+        .
         <Box sx={styles?.linkStyle}>
-          <Link href={'/super-admin/plan-management/add-plan'}>
+          <Link href={`${SUPER_ADMIN_PLAN_MANAGEMENT?.ADD_PLAN}`}>
             <Button variant="contained" fullWidth startIcon={<PlusIcon />}>
               Add Plan
             </Button>
@@ -113,7 +127,15 @@ const PlanManagement = () => {
               'aria-labelledby': 'basic-button',
             }}
           >
-            <MenuItem>Edit</MenuItem>
+            <Link
+              href={{
+                pathname: `${SUPER_ADMIN_PLAN_MANAGEMENT?.ADD_PLAN}`,
+                query: { data: JSON?.stringify(tableRowValues?.row?.original) },
+              }}
+              as={`${SUPER_ADMIN_PLAN_MANAGEMENT?.ADD_PLAN}`}
+            >
+              <MenuItem>Edit</MenuItem>
+            </Link>
           </Menu>
 
           <Button
@@ -138,7 +160,7 @@ const PlanManagement = () => {
         <Box sx={{ marginTop: '1.5rem' }}>
           <FormProvider methods={methodsFaqsFilters}>
             <Grid container spacing={4}>
-              {planManagementFilterFiltersDataArray?.map((item: any) => (
+              {planManagementFilterFiltersDataArray()?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
                   <item.component {...item?.componentProps} size={'small'}>
                     {!isNullOrEmpty(item?.componentProps?.select)
@@ -156,7 +178,11 @@ const PlanManagement = () => {
         </Box>
       </CommonDrawer>
 
-      <PlanDetails />
+      <PlanDetails
+        filterValues={filterValues}
+        searchBy={searchBy}
+        getPlanManagementRowData={getPlanManagementRowData}
+      />
     </Box>
   );
 };

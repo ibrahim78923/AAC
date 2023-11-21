@@ -4,10 +4,13 @@ export const styles = {
     alignItems: 'center',
     justifyContent: 'space-between',
     position: 'fixed',
-    top: 20,
+    top: { md: 20 },
     width: '100%',
     zIndex: 1,
-    padding: '0 7%',
+    padding: { md: '0 7%', xs: '10px 10px' },
+
+    // backgroundColor: 'rgb(245, 245, 245)',
+
     '& a': {
       backgroundColor: '#41CCB8',
       color: '#fff',

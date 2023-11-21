@@ -3,13 +3,11 @@ import { Box, Checkbox } from '@mui/material';
 
 import * as Yup from 'yup';
 export const addGroupValidationSchema = Yup?.object()?.shape({
-  groupTitle: Yup.string().trim().required('Field is Required'),
-  candidates: Yup.string().required('Field is Required'),
+  groupTitle: Yup?.string()?.trim()?.required('Field is Required'),
 });
 
 export const addGroupDefaultValues = {
   groupTitle: '',
-  candidates: '',
 };
 
 export const addGroupFiltersDataArray = [

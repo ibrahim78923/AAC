@@ -3,9 +3,9 @@ import { RHFSelect } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 export const AddAccountArray = [
   {
+    title: 'Products',
     componentProps: {
       name: 'products',
-      label: 'Products',
       fullWidth: true,
       select: true,
     },
@@ -19,9 +19,9 @@ export const AddAccountArray = [
     md: 12,
   },
   {
+    title: 'Company',
     componentProps: {
       name: 'company',
-      label: 'Company',
       fullWidth: true,
       select: true,
     },
@@ -35,9 +35,9 @@ export const AddAccountArray = [
     md: 12,
   },
   {
+    title: 'Manage Role',
     componentProps: {
       name: 'manageRole',
-      label: 'Manage Role',
       fullWidth: true,
       select: true,
     },
@@ -50,9 +50,9 @@ export const AddAccountArray = [
     md: 6,
   },
   {
+    title: 'Status',
     componentProps: {
       name: 'status',
-      label: 'Status',
       fullWidth: true,
       select: true,
     },

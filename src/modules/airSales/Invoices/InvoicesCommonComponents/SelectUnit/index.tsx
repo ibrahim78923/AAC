@@ -11,7 +11,7 @@ export const SelectUnit = (props: any) => {
         id="demo-simple-select"
         value={selectValue}
         onChange={(event: any) => {
-          setSelectValue(event.target.value);
+          setSelectValue(event?.target?.value);
         }}
         sx={{ width: '100px' }}
       >

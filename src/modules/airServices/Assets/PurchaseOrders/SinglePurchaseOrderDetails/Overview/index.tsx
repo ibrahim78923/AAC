@@ -17,7 +17,7 @@ export const Overview = () => {
             {item?.heading}
           </Typography>
           <Box sx={styles?.mainContainerBox}>
-            {item?.DetailsData?.map((detail) => (
+            {item?.detailsData?.map((detail: any) => (
               <Box key={uuidv4()}>
                 <Box sx={styles?.childContainerBox}>
                   <Box width={{ sm: '20%', xs: '8.75rem' }}>
@@ -28,7 +28,7 @@ export const Overview = () => {
                   <Box>
                     <Typography
                       variant="body2"
-                      color={theme?.palette?.grey[900]}
+                      color={theme?.palette?.grey?.[900]}
                     >
                       {detail?.detail}
                     </Typography>

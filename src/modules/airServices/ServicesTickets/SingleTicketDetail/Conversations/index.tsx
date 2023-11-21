@@ -1,4 +1,3 @@
-import AddIconWithBg from '@/assets/icons/shared/add-icon-with-bg-white';
 import { Box, Button, Menu, MenuItem, Typography } from '@mui/material';
 import { menuOptionsAddconversation } from './Conversation.data';
 import { v4 as uuidv4 } from 'uuid';
@@ -41,7 +40,6 @@ export default function Conversations() {
           <>
             <Button
               variant="contained"
-              startIcon={<AddIconWithBg />}
               id="basic-button"
               aria-controls={open ? 'basic-menu' : undefined}
               aria-haspopup="true"
@@ -98,7 +96,6 @@ export default function Conversations() {
               </Typography>
               <Button
                 variant="contained"
-                startIcon={<AddIconWithBg />}
                 id="basic-button"
                 aria-controls={open ? 'basic-menu' : undefined}
                 aria-haspopup="true"

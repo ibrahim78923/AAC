@@ -23,17 +23,15 @@ const CommonDrawer = ({
   isOk,
   cancelText,
   footer,
-
   footerActionText,
   footerActionTextIcon,
   onFooterActionSubmit,
-
   isCancel,
-
   isFooterFeature,
   isFooterFeatureText,
   isFooterFeatureHandler,
-  loading,
+  isLoading,
+  isDisabled,
 }: CommonDrawerPropsI) => {
   const theme = useTheme();
 
@@ -137,15 +135,14 @@ const CommonDrawer = ({
                   {isOk && (
                     <LoadingButton
                       variant="contained"
-                      loading={loading}
                       sx={{
                         padding: '0px 22px',
                         height: '44px',
                         fontWeight: '500',
                       }}
+                      loading={isLoading}
                       onClick={submitHandler}
-
-                      // type="submit"
+                      disabled={isDisabled}
                     >
                       {okText}
                     </LoadingButton>
