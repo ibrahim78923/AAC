@@ -1,4 +1,8 @@
-import { RHFTextField, RHFSelect } from '@/components/ReactHookForm';
+import {
+  RHFTextField,
+  RHFSelect,
+  RHFDropZone,
+} from '@/components/ReactHookForm';
 import { TICKETS_ISSUES_TYPE } from '@/constants/strings';
 import * as Yup from 'yup';
 
@@ -69,6 +73,15 @@ export const reportAnIssueModalFormFields = [
       minRows: 5,
     },
     component: RHFTextField,
+    md: 12,
+  },
+  {
+    componentProps: {
+      name: 'attachFile',
+      label: '',
+      fullWidth: true,
+    },
+    component: RHFDropZone,
     md: 12,
   },
 ];

@@ -1,5 +1,5 @@
 import { AlertModalCloseIcon } from '@/assets/icons';
-import { FormProvider, RHFDropZone } from '@/components/ReactHookForm';
+import { FormProvider } from '@/components/ReactHookForm';
 import {
   Box,
   Button,
@@ -54,9 +54,6 @@ const ReportAnIssueModal = ({
                   </item.component>
                 ))}
               </Grid>
-            </Grid>
-            <Grid item xs={12}>
-              <RHFDropZone name="attachFile" />
             </Grid>
             <Box
               display={'flex'}
