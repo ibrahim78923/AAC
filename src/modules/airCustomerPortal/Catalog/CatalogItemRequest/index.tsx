@@ -2,10 +2,11 @@ import React from 'react';
 import useCatalogRequest from '../CatalogRequest/useCatalogRequest';
 import { useRouter } from 'next/router';
 import { allServices } from '../Catalog.data';
-import { Button, DialogActions, DialogContent, Grid } from '@mui/material';
+import { DialogActions, DialogContent, Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { placeRequest } from '../CatalogRequest/CatalogRequest.data';
 import { useWatch } from 'react-hook-form';
+import { LoadingButton } from '@mui/lab';
 
 const CatalogItemRequest = () => {
   const { methodRequest, onSubmitRequest, control, getValues } =
@@ -35,10 +36,10 @@ const CatalogItemRequest = () => {
           })}
         </Grid>
         <DialogActions>
-          <Button>cancel</Button>
-          <Button variant="contained" type="submit">
+          <LoadingButton>cancel</LoadingButton>
+          <LoadingButton variant="contained" type="submit">
             confirm
-          </Button>
+          </LoadingButton>
         </DialogActions>
       </FormProvider>
     </DialogContent>

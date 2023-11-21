@@ -22,7 +22,7 @@ const useCatalog = () => {
   };
   const handleClickService = (id: any) => {
     router?.push({
-      pathname: AIR_CUSTOMER_PORTAL.SINGLE_CATALOG_SERVICE_DETAILS,
+      pathname: AIR_CUSTOMER_PORTAL?.SINGLE_CATALOG_SERVICE_DETAILS,
       query: {
         serviceId: id,
       },

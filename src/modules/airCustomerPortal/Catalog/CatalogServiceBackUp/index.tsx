@@ -2,10 +2,7 @@ import { Box, Grid, Typography } from '@mui/material';
 import React from 'react';
 import { allServices } from '../Catalog.data';
 import { useRouter } from 'next/router';
-
 import { FormProvider } from '@/components/ReactHookForm';
-
-import { v4 as uuidv4 } from 'uuid';
 import useCatalogService from '../CatalogService/useCatalogService';
 import { dataBackUp } from '../CatalogService/CatalogService.data';
 const CatalogServiceBackUp = () => {
@@ -25,7 +22,7 @@ const CatalogServiceBackUp = () => {
       <FormProvider methods={method} onSubmit={onSubmit}>
         <Grid container spacing={5} mt={4}>
           {dataBackUp?.map((item: any) => (
-            <Grid item xs={12} md={item?.md} key={uuidv4()}>
+            <Grid item xs={12} md={item?.md} key={item?.id}>
               <item.component {...item.componentProps} size={'small'}>
                 {item?.componentProps?.select &&
                   item?.options?.map((option: any) => (
