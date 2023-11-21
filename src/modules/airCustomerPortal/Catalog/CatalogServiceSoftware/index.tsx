@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import React from 'react';
-import { softwareDetailContent } from '../Catalog.data';
+import { catalogDetailContent } from '../Catalog.data';
 
 const CatalogServiceSoftware = () => {
   return (
@@ -8,7 +8,7 @@ const CatalogServiceSoftware = () => {
       <>
         <Box
           mt={3}
-          dangerouslySetInnerHTML={{ __html: softwareDetailContent }}
+          dangerouslySetInnerHTML={{ __html: catalogDetailContent }}
         />
       </>
     </>

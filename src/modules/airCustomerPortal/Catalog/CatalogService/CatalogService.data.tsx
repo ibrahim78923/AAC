@@ -13,7 +13,7 @@ export const dataBackUpValidationSchema = Yup?.object()?.shape({
 export const dataBackUpDefaultValues = {
   dataBaseName: '',
   backUpData: '',
-  backUpTime: ',',
+  backUpTime: '',
 };
 
 export const dataBackUp = [
