@@ -1,13 +1,5 @@
-import { useState, useEffect } from 'react';
-import {
-  conversationAddArticleData,
-  conversationModalsDefaultValues,
-  conversationModalsValidation,
-  menuOptionsAddConversation,
-  conversationNoteArray,
-  conversationReplyArray,
-  conversationForwardArray,
-} from './Conversation.data';
+// UseConversation.tsx
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useTheme } from '@mui/material';
@@ -15,6 +7,15 @@ import { enqueueSnackbar } from 'notistack';
 
 import ConversationDiscuss from './ConversationDiscuss';
 import ConversationAddComponent from './ConversationAddComponent';
+import {
+  conversationAddArticleData,
+  conversationNoteArray,
+  conversationReplyArray,
+  conversationForwardArray,
+  menuOptionsAddConversation,
+  getValidationSchema,
+  conversationModalsDefaultValues,
+} from './Conversation.data';
 
 export const UseConversation = () => {
   const [isConversation] = useState<boolean>(true);
@@ -31,9 +32,10 @@ export const UseConversation = () => {
     conversationAddArticleData,
   );
   const theme = useTheme();
+
   const addConversationModal: any = useForm({
-    resolver: yupResolver(conversationModalsValidation),
-    defaultValues: conversationModalsDefaultValues,
+    resolver: yupResolver(getValidationSchema(selectedItem)),
+    defaultValues: conversationModalsDefaultValues[selectedItem] || {},
   });
 
   const open = Boolean(addConversation);
@@ -44,20 +46,31 @@ export const UseConversation = () => {
     setAddConversation(event?.currentTarget);
   };
 
-  const { handleSubmit } = addConversationModal;
+  const { handleSubmit, setValue } = addConversationModal;
 
   const onSubmit = async () => {
-    enqueueSnackbar('Note Add Successfully!', {
-      variant: 'success',
-    });
-    setShow(false);
+    try {
+      // console.log('Form Data:', data);
+
+      const successMessage = `${selectedItem} Add Successfully!`;
+
+      enqueueSnackbar(successMessage, {
+        variant: 'success',
+      });
+
+      addConversationModal.reset();
+      setShow(false);
+    } catch (error) {
+      // console.error('Error submitting form:', error);
+    }
   };
 
   const handleCloseButtonMenu = (e: any) => {
-    setSelectedItem(e?.target?.value);
+    const newSelectedItem = e?.target?.value;
+    setSelectedItem(newSelectedItem);
     setShow(true);
     setAddConversation(null);
-    setTitle(e?.target?.value);
+    setTitle(newSelectedItem);
   };
 
   const getArrayByTitle = (title) => {
@@ -95,7 +108,6 @@ export const UseConversation = () => {
         return null;
     }
   };
-
   useEffect(() => {
     const filteredData = conversationAddArticleData?.filter(
       (item) => item?.title?.toLowerCase()?.includes(searchTerm?.toLowerCase()),
@@ -104,7 +116,6 @@ export const UseConversation = () => {
   }, [searchTerm]);
 
   useEffect(() => {
-    // Set default values when the component mounts
     renderSelectedComponent();
   }, [selectedItem]);
 
@@ -128,5 +139,6 @@ export const UseConversation = () => {
     filteredContent,
     setSearchTerm,
     conversationAddArticleData,
+    setValue,
   };
 };

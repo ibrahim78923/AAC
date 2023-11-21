@@ -1,20 +1,47 @@
 import { RHFTextField, RHFSelect } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 import ConversationEditor from './ConversationEditor';
-export const conversationModalsValidation: any = Yup?.object().shape({
-  note: Yup?.string()?.required('Field is Required'),
-  title: Yup?.string()?.required('Field is Required'),
-  description: Yup?.string()?.trim()?.required('Field is Required'),
-  from: Yup?.string()?.required('Field is Required'),
-  reply: Yup?.string()?.required('Field is Required'),
-});
+export const getValidationSchema = (action) => {
+  switch (action) {
+    case 'Note':
+      return Yup?.object()?.shape({
+        note: Yup?.string()?.required('Field is Required'),
+        notify: Yup?.string()?.required('Field is Required'),
+        noteDescription: Yup?.string()?.trim()?.required('Field is Required'),
+      });
+    case 'Reply':
+      return Yup.object().shape({
+        reply: Yup?.string()?.required('Field is Required'),
+        replyFrom: Yup?.string()?.required('Field is Required'),
+        replyTo: Yup?.string()?.required('Field is Required'),
+        replyDescription: Yup?.string()?.trim()?.required('Field is Required'),
+      });
+    case 'Forward':
+      return Yup.object().shape({
+        forward: Yup?.string()?.required('Field is Required'),
+        forwardFrom: Yup?.string()?.required('Field is Required'),
+        forwardTo: Yup?.string()?.required('Field is Required'),
+        forwardDescription: Yup?.string()
+          ?.trim()
+          ?.required('Field is Required'),
+      });
+    default:
+      return Yup?.object()?.shape({});
+  }
+};
 
 export const conversationModalsDefaultValues: any = {
   note: '',
-  title: '',
-  description: '',
-  from: '',
+  notify: '',
+  noteDescription: '',
   reply: '',
+  replyFrom: '',
+  replyTo: '',
+  replyDescription: '',
+  forward: '',
+  forwardFrom: '',
+  forwardTo: '',
+  forwardDescription: '',
 };
 
 export const conversationNoteArray = [
@@ -38,7 +65,7 @@ export const conversationNoteArray = [
   },
   {
     componentProps: {
-      name: 'title',
+      name: 'notify',
       label: 'Notify to',
       fullWidth: true,
     },
@@ -47,28 +74,28 @@ export const conversationNoteArray = [
   },
   {
     componentProps: {
-      name: 'description',
+      name: 'noteDescription',
       label: 'Description',
       fullWidth: true,
     },
     component: ConversationEditor,
     md: 12,
-    // mb: 2,
+    mb: 2,
   },
 ];
 export const conversationReplyArray = [
   {
     componentProps: {
-      name: 'note',
+      name: 'reply',
       label: 'Reply',
       fullWidth: true,
       select: true,
     },
 
     options: [
+      { value: 'Forward', label: 'Forward' },
       { value: 'Note', label: 'Note' },
       { value: 'Reply', label: 'Reply' },
-      { value: 'Forward', label: 'Forward' },
     ],
 
     component: RHFSelect,
@@ -77,7 +104,7 @@ export const conversationReplyArray = [
   },
   {
     componentProps: {
-      name: 'from',
+      name: 'replyFrom',
       label: 'From',
       fullWidth: true,
     },
@@ -86,7 +113,7 @@ export const conversationReplyArray = [
   },
   {
     componentProps: {
-      name: 'reply',
+      name: 'replyTo',
       label: 'Reply to',
       fullWidth: true,
     },
@@ -95,7 +122,7 @@ export const conversationReplyArray = [
   },
   {
     componentProps: {
-      name: 'description',
+      name: 'replyDescription',
       label: 'Description',
       fullWidth: true,
     },
@@ -107,7 +134,7 @@ export const conversationReplyArray = [
 export const conversationForwardArray = [
   {
     componentProps: {
-      name: 'note',
+      name: 'forward',
       label: 'Forward',
       fullWidth: true,
       select: true,
@@ -125,7 +152,7 @@ export const conversationForwardArray = [
   },
   {
     componentProps: {
-      name: 'from',
+      name: 'forwardFrom',
       label: 'From',
       fullWidth: true,
     },
@@ -134,7 +161,7 @@ export const conversationForwardArray = [
   },
   {
     componentProps: {
-      name: 'reply',
+      name: 'forwardTo',
       label: 'From to',
       fullWidth: true,
     },
@@ -143,7 +170,7 @@ export const conversationForwardArray = [
   },
   {
     componentProps: {
-      name: 'description',
+      name: 'forwardDescription',
       label: 'Description',
       fullWidth: true,
     },

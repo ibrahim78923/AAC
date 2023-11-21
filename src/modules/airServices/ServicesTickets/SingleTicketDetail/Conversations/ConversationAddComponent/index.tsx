@@ -19,38 +19,32 @@ const ConversationAddComponent = ({
       okText={'Add Note'}
       footer={true}
       isOk={true}
-      submitHandler={addConversationModal?.handleSubmit(onSubmit)}
+      submitHandler={() => {
+        addConversationModal.handleSubmit(onSubmit)();
+      }}
     >
       <FormProvider methods={addConversationModal}>
         <Grid container spacing={2}>
           {dataArray?.map((item: any) => (
-            <Grid
-              item
-              xs={12}
-              md={item?.md}
-              key={uuidv4()}
-              mb={item?.mb ? item?.mb : ''}
-            >
+            <Grid item xs={12} md={item?.md} key={uuidv4()} mb={item?.mb || ''}>
               <Grid item xs={12} md={item?.md}>
                 <item.component
                   {...item?.componentProps}
                   size={'small'}
                   options={item?.options}
                 >
-                  {item?.componentProps?.select
-                    ? item?.options?.map((option: any) => (
-                        <option key={uuidv4()} value={option?.value}>
-                          {option?.label}
-                        </option>
-                      ))
-                    : null}
+                  {item?.componentProps?.select &&
+                    item?.options?.map((option: any) => (
+                      <option key={uuidv4()} value={option?.value}>
+                        {option?.label}
+                      </option>
+                    ))}
                 </item.component>
               </Grid>
             </Grid>
           ))}
         </Grid>
         <Box sx={{ mt: 2 }}>
-          {' '}
           <ConversationArticleSelect />
         </Box>
       </FormProvider>
