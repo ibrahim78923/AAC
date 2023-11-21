@@ -1,11 +1,11 @@
 export const styles: any = {
-  boxMain: (isborderbottom: boolean, theme: any) => ({
+  boxMain: (lastElement: boolean, theme: any) => ({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
     flex: 1,
     background: theme?.palette?.common?.white,
-    borderBottom: isborderbottom
+    borderBottom: lastElement
       ? `0.063rem solid ${theme?.palette?.grey?.[700]}`
       : '',
     flexShrink: 0,

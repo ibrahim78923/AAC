@@ -1,12 +1,8 @@
+import { TICKET_PRIORITY } from '@/constants/strings';
+
 const radialBarChartData = [100, 55, 67, 83];
-const radialBarChartDataOptions = (theme: any) => ({
-  labels: ['Low', 'Medium', 'High', 'Urgent'],
-  colors: [
-    theme?.palette?.custom?.bright,
-    theme?.palette?.error?.main,
-    theme?.palette?.warning?.main,
-    '#35A275', //This color is not available in palette
-  ],
+const radialBarChartDataOptions: any = {
+  labels: Object.values(TICKET_PRIORITY),
   plotOptions: {
     radialBar: {
       dataLabels: {
@@ -26,5 +22,5 @@ const radialBarChartDataOptions = (theme: any) => ({
       },
     },
   },
-});
+};
 export { radialBarChartData, radialBarChartDataOptions };

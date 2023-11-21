@@ -1,7 +1,7 @@
 import PersonIcon from '@mui/icons-material/Person';
 import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
-import QueryBuilderRoundedIcon from '@mui/icons-material/QueryBuilderRounded';
-export const actionsFunction = [
+import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
+export const dropDownMenus = [
   {
     title: 'AllDepartments',
   },
@@ -15,7 +15,7 @@ export const actionsFunction = [
     title: 'Finance',
   },
 ];
-export const availabilityHeader = (theme: any) => [
+export const pieChartHeader = (theme: any) => [
   {
     title: 'Total Agents',
     icon: <PersonIcon style={{ color: theme?.palette?.custom?.main }} />,
@@ -33,9 +33,7 @@ export const availabilityHeader = (theme: any) => [
   {
     title: 'Not Available',
     icon: (
-      <QueryBuilderRoundedIcon
-        style={{ color: theme?.palette?.warning?.main }}
-      />
+      <AccessTimeFilledIcon style={{ color: theme?.palette?.warning?.main }} />
     ),
     titleNumber: '3',
   },
