@@ -38,13 +38,18 @@ export const Columns = (
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row?.clientName,
+      accessorFn: (row: any) => {
+        `${row?.usersOrg?.firstName}  ${row?.usersOrg?.lastName}`;
+      },
       id: 'clientName',
       cell: (info: any) => (
         <Box sx={{ display: 'flex', gap: '5px' }}>
           <Avatar alt="Remy Sharp" src={AvatarImage?.src} />
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-            <Typography variant="subtitle2"> {info?.getValue()}</Typography>
+            <Typography variant="subtitle2">
+              {' '}
+              {`${info?.row?.original?.usersOrg?.firstName}  ${info?.row?.original?.usersOrg?.lastName}`}
+            </Typography>
             <Typography variant="body3">
               {info?.row?.original?.organizations?.name}
             </Typography>
