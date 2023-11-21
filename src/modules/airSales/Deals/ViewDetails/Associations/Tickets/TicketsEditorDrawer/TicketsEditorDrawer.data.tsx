@@ -48,7 +48,6 @@ export const ticketsDataArray = [
     component: RHFTextField,
     md: 12,
   },
-
   {
     componentProps: {
       name: 'description',

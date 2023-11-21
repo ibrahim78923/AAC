@@ -204,6 +204,7 @@ export { default as CallDropIcon } from './modules/SocialComponents/Calling/drop
 export { default as FolderGreyIcon } from './shared/folder-grey';
 export { default as AlertModalDeleteIcon } from './shared/alert-modal-delete-icon';
 export { default as AlertModalCloseIcon } from './shared/alert-modal-close-icon';
+export { default as PlusRoundedIcon } from './modules/airMarketer/SMSMarketing/Contacts/plus-rounded';
 export { default as PhotoShopIcon } from './shared/photoshop-icon';
 export { default as XdIcon } from './shared/xd-icon';
 export { default as IllustratorIcon } from './shared/illustrator-icon';
@@ -257,7 +258,6 @@ export { default as ViewExpandedIcon } from './shared/view-expanded';
 export { default as LikeIcon } from './modules/airMarketer/SMSMarketing/Contacts/like';
 export { default as CommentIcon } from './modules/airMarketer/SMSMarketing/Contacts/comment';
 export { default as ShareIcon } from './modules/airMarketer/SMSMarketing/Contacts/share';
-
-export { default as QuriesIcon } from './modules/airMarketer/SocialInbox/quries';
-export { default as AttachmentsIcon } from './modules/airMarketer/SocialInbox/add-channnel';
-export { default as ReplyRoundedIcon } from './modules/airMarketer/SocialInbox/reply';
+export { default as QuriesIcon } from './modules/airMarketer/SocialMarketing/SocialInbox/quries';
+export { default as AttachmentsIcon } from './modules/airMarketer/SocialMarketing/SocialInbox/attachments';
+export { default as ReplyRoundedIcon } from './modules/airMarketer/SocialMarketing/SocialInbox/reply';

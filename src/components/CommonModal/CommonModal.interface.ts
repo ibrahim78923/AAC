@@ -4,10 +4,12 @@ export interface ModelPropsI {
   handleSubmit?: () => void;
   children: any;
   title: string;
-  okText: string;
+  okText?: string;
   cancelText?: string;
+  handleCancel?: any;
   submitIcon?: any;
   footer?: boolean;
   footerFill?: any;
+  isSubmitDisabled?: any;
   headerIcon?: any;
 }

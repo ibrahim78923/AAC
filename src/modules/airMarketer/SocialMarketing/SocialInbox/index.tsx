@@ -13,7 +13,6 @@ import { useSocialInbox } from './useSocialInbox';
 import SocialModes from './SocialModes';
 import FilterDropdown from './SocialModes/FilterDropDown';
 import SocialChannels from './SocialChannels';
-
 import { styles } from './SocialInbox.style';
 import PostsArea from './PostsArea';
 

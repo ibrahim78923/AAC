@@ -11,6 +11,7 @@ import useSMSMarketing from './useSMSMarketing';
 import CreateSMSBroadcast from './SMSBroadcast/CreateSMSBroadcast';
 
 import { PlusIcon } from '@/assets/icons';
+import ContactsSMSMarketing from './Contacts';
 
 const SMSMarketing = () => {
   const { tabVal, setTabVal, isCreateSmsBroadcast, setIsCreateSmsBroadcast } =
@@ -46,6 +47,7 @@ const SMSMarketing = () => {
           >
             <SMSDashboard />
             <SMSBroadcast />
+            <ContactsSMSMarketing />
           </CommonTabs>
         </Box>
       )}
