@@ -1,5 +1,5 @@
-import { AlertModalCloseIcon, AttachIcon } from '@/assets/icons';
-import { FormProvider } from '@/components/ReactHookForm';
+import { AlertModalCloseIcon } from '@/assets/icons';
+import { FormProvider, RHFDropZone } from '@/components/ReactHookForm';
 import {
   Box,
   Button,
@@ -17,8 +17,7 @@ const ReportAnIssueModal = ({
   openReportAnIssueModal,
   setOpenReportAnIssueModal,
 }: any) => {
-  const { methods, theme, fileImport, handleImport }: any =
-    useReportAnIssueModal();
+  const { methods, theme }: any = useReportAnIssueModal();
   return (
     <>
       <FormProvider methods={methods}>
@@ -56,24 +55,9 @@ const ReportAnIssueModal = ({
                 ))}
               </Grid>
             </Grid>
-            <Box display={'flex'} alignItems={'center'} gap={0.5}>
-              <AttachIcon />
-              <Typography
-                variant="body2"
-                fontWeight={600}
-                sx={{ cursor: 'pointer' }}
-                onClick={handleImport}
-              >
-                Attach a file
-              </Typography>
-              <input
-                type="file"
-                id="fileInput"
-                style={{ display: 'none' }}
-                ref={fileImport}
-              />
-              <Typography variant="body2">(File size &lt; 40 MB)</Typography>
-            </Box>
+            <Grid item xs={12}>
+              <RHFDropZone name="attachFile" />
+            </Grid>
             <Box
               display={'flex'}
               alignItems={'center'}
