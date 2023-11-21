@@ -1,4 +1,4 @@
-import { Login } from '@/modules/airCustomerPortal/Login';
+import { Login } from '@/modules/airCustomerPortal/Loginss';
 
 const LoginPage = () => {
   return <Login />;

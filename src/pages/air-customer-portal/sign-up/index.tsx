@@ -1,4 +1,4 @@
-import { SignUp } from '@/modules/airCustomerPortal/SignUp';
+import { SignUp } from '@/modules/airCustomerPortal/SignUpss';
 
 const SignUpPage = () => {
   return <SignUp />;
