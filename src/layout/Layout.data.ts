@@ -256,6 +256,37 @@ export const ServicesRoutes: any = [
   },
 ];
 
+export const CustomerPortalRoutes: any = [
+  {
+    key: 'customer-portal',
+    icon: DashboardImage,
+    label: 'Dashboard',
+    role: 'CUSTOMER_PORTAL',
+    permissions: [],
+  },
+  {
+    key: 'customer-portal/tickets',
+    icon: TicketDiscountImage,
+    label: 'Tickets',
+    role: 'CUSTOMER_PORTAL',
+    permissions: [],
+  },
+  {
+    key: 'customer-portal/knowledge-base',
+    icon: KnowledgeBaseImage,
+    label: 'Knowledge Base',
+    role: 'CUSTOMER_PORTAL',
+    permissions: [],
+  },
+  {
+    key: 'customer-portal/catalog',
+    icon: WorkLoadImage,
+    label: 'Catalog',
+    role: 'CUSTOMER_PORTAL',
+    permissions: [],
+  },
+];
+
 export const SalesRoutes: any = [
   {
     key: 'air-sales',
@@ -576,6 +607,7 @@ const ROLES_ROUTES: any = {
   AIR_SALES: SalesRoutes,
   AIR_SERVICES: ServicesRoutes,
   ORG_ADMIN: OrgAdminRoutes,
+  CUSTOMER_PORTAL: CustomerPortalRoutes,
 };
 
 export const getRoutes = (role: any) => {
