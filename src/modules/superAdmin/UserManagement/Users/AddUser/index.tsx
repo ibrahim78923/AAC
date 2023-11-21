@@ -9,7 +9,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import {
   addUsersArray,
-  superAdminDefaultValues,
   superAdminValidationSchema,
   CompanyOwnerValidationSchema,
 } from './AddUser.data';
@@ -26,15 +25,13 @@ const AddUser = ({
   setIsOpenAddUserDrawer,
 }: any) => {
   const [isToggled, setIsToggled] = useToggle(false);
-  const { usePostUsersMutation } = usersApi;
+  const { usePostUsersMutation, useUpdateUsersMutation } = usersApi;
   const [postUsers] = usePostUsersMutation();
+  const [updateUsers] = useUpdateUsersMutation();
   const pathName = window?.location?.pathname;
   const userDetail = isOpenAddUserDrawer?.data?.data;
-  const superAdminMethods: any = useForm({
-    resolver: yupResolver(superAdminValidationSchema),
-    defaultValues: superAdminDefaultValues,
-  });
   const tabTitle = tabVal === 0 ? 'COMPANY_OWNER' : 'SUPER_ADMIN';
+  const id = isOpenAddUserDrawer?.data?.data?._id;
 
   const companyOwnerDetail = {
     firstName: userDetail?.firstName,
@@ -45,6 +42,22 @@ const AddUser = ({
     phoneNumber: userDetail?.phoneNumber,
   };
 
+  const superAdminDetail = {
+    firstName: userDetail?.firstName,
+    lastName: userDetail?.lastName,
+    email: userDetail?.email,
+    phoneNumber: userDetail?.phoneNumber,
+    postCode: userDetail?.postCode,
+    jobTitle: userDetail?.jobTitle,
+    address: userDetail?.address,
+    fbUrl: userDetail?.facebookUrl,
+    linkinUrl: userDetail?.LinkedInURL,
+  };
+
+  const superAdminMethods: any = useForm({
+    resolver: yupResolver(superAdminValidationSchema),
+    defaultValues: superAdminDetail,
+  });
   const companyOwnerMethods: any = useForm({
     resolver: yupResolver(CompanyOwnerValidationSchema),
     defaultValues: companyOwnerDetail,
@@ -64,7 +77,9 @@ const AddUser = ({
   const onSubmit = async (values: any) => {
     values.role = tabTitle === 'COMPANY_OWNER' ? 'ORG_ADMIN' : 'SUPER_ADMIN';
     try {
-      postUsers({ body: values })?.unwrap();
+      isOpenAddUserDrawer?.type === 'add'
+        ? postUsers({ body: values })?.unwrap()
+        : updateUsers({ id, ...values });
       enqueueSnackbar('User Added Successfully', {
         variant: 'success',
       });
@@ -82,13 +97,13 @@ const AddUser = ({
       isDrawerOpen={isOpenDrawer}
       onClose={onClose}
       title={
-        isOpenAddUserDrawer?.type === 'add'
-          ? 'Add User'
-          : isOpenAddUserDrawer?.type === 'view'
+        isOpenAddUserDrawer?.type === 'view'
           ? userDetail?.firstName
-          : 'Edit User'
+          : isOpenAddUserDrawer?.type === 'edit'
+          ? 'Edit User'
+          : 'Add User'
       }
-      okText={isOpenAddUserDrawer?.type === 'add' ? 'Add' : 'Update User'}
+      okText={isOpenAddUserDrawer?.type === 'edit' ? 'Update User' : 'Add'}
       isOk={isOpenAddUserDrawer?.type === 'view' ? false : true}
       submitHandler={handleSubmit(onSubmit)}
       footer
@@ -100,7 +115,7 @@ const AddUser = ({
               item?.toShow?.includes(
                 pathName === SUPER_ADMIN?.USERMANAGMENT
                   ? tabTitle
-                  : 'COMPANY_OWNER',
+                  : 'SUPER_ADMIN',
               ) && (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
                   <Typography variant="body2" fontWeight={500}>

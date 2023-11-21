@@ -27,26 +27,6 @@ export const superAdminValidationSchema = Yup.object().shape({
   linkinUrl: Yup.string().required('Field is Required'),
 });
 
-export const companyOwnerDefaultValues = {
-  firstName: '',
-  lastName: '',
-  email: '',
-  crn: '',
-  companyName: '',
-  phoneNumber: '',
-};
-export const superAdminDefaultValues = {
-  firstName: '',
-  lastName: '',
-  email: '',
-  phoneNumber: '',
-  postCode: '',
-  address: '',
-  jobTitle: '',
-  fbUrl: '',
-  linkinUrl: '',
-};
-
 export const addUsersArray = [
   {
     title: 'First Name',

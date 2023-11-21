@@ -6,9 +6,8 @@ import { columns } from './Users.data';
 import useUserManagement from '../useUserManagement';
 
 const Users = (props: any) => {
-  const { checkedRows, setCheckedRows } = props;
-  const { useGetUsersQuery, search, handleUserSwitchChange } =
-    useUserManagement();
+  const { checkedRows, setCheckedRows, search } = props;
+  const { useGetUsersQuery, handleUserSwitchChange } = useUserManagement();
 
   const params = {
     role: 'ORG_ADMIN',

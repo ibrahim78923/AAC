@@ -52,7 +52,19 @@ const ActionButton = (props?: any) => {
         >
           View
         </MenuItem>
-        <MenuItem onClick={handleClose}>Edit</MenuItem>
+        <MenuItem
+          onClick={() => {
+            handleClose();
+            setIsOpenAddUserDrawer({
+              ...isOpenAddUserDrawer,
+              drawer: true,
+              type: 'edit',
+              data: data,
+            });
+          }}
+        >
+          Edit
+        </MenuItem>
       </Menu>
 
       {isOpenAddUserDrawer?.drawer && (
