@@ -1,10 +1,10 @@
 import { Grid, Typography } from '@mui/material';
 import { AirCustomerPortalHeader } from '../AirCustomerPortalHeader';
 import {
-  SignUpFormValidationSchema,
-  SignUpFormDefaultValues,
-  SignUpFormFields,
-} from './SignUpForm.Data';
+  createPasswordValidationSchema,
+  createPasswordFields,
+  createPasswordFormDefaultValues,
+} from './CreatePassword.Data';
 
 import { enqueueSnackbar } from 'notistack';
 import { useForm } from 'react-hook-form';
@@ -17,8 +17,8 @@ import Image from 'next/image';
 import { AIR_CUSTOMER_PORTAL } from '@/constants';
 export const SignUpForm = () => {
   const method = useForm({
-    resolver: yupResolver(SignUpFormValidationSchema),
-    defaultValues: SignUpFormDefaultValues,
+    resolver: yupResolver(createPasswordValidationSchema),
+    defaultValues: createPasswordFormDefaultValues,
   });
   const onSubmit = () => {
     enqueueSnackbar('Login Successfully', {
@@ -45,10 +45,10 @@ export const SignUpForm = () => {
 
         <Grid item md={6} xs={12} mx={{ md: 10, xs: 0 }}>
           <FormProvider methods={method} onSubmit={handleSubmit(onSubmit)}>
-            {SignUpFormFields?.map((items) => {
+            {createPasswordFields?.map((item) => {
               return (
                 <Grid my={1} key={uuidv4()}>
-                  <items.component {...items?.componentProps} size={'small'} />
+                  <item.component {...item?.componentProps} size={'small'} />
                 </Grid>
               );
             })}

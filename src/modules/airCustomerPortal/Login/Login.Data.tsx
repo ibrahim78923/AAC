@@ -12,11 +12,10 @@ export const loginDefaultValues = {
 };
 export const loginFormFields = [
   {
+    id: 1,
     componentProps: {
-      id: '1',
       name: 'email',
-      label: 'email',
-      placeholder: 'johncide@gmail.com',
+      label: 'Email',
       type: 'email',
       fullWidth: true,
       required: true,
@@ -24,11 +23,10 @@ export const loginFormFields = [
     component: RHFTextField,
   },
   {
+    id: 2,
     componentProps: {
-      id: '2',
       name: 'password',
-      label: 'password',
-      placeholder: '*******',
+      label: 'Password',
       fullWidth: true,
       type: 'password',
       required: true,

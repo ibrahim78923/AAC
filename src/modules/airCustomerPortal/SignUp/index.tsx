@@ -9,27 +9,33 @@ import {
   SignUpValidationSchema,
 } from './SignUp.Data';
 import { FormProvider } from '@/components/ReactHookForm';
-import { v4 as uuidv4 } from 'uuid';
 import { LoadingButton } from '@mui/lab';
 import { SignUpImage } from '@/assets/images';
 
 import Image from 'next/image';
-import Link from 'next/link';
+
 import { AIR_CUSTOMER_PORTAL } from '@/constants';
+import router from 'next/router';
 
 export const SignUp = () => {
   const method = useForm({
     resolver: yupResolver(SignUpValidationSchema),
     defaultValues: SignUpDefaultValues,
   });
-  const onSubmit = () => {};
+  const onSubmit = () => {
+    router.push(AIR_CUSTOMER_PORTAL?.AIR_CUSTOMER_PORTAL_SIGN_UP_FORM);
+  };
   const { handleSubmit } = method;
 
   return (
     <Grid container>
       <AirCustomerPortalHeader
         buttonText={'Sign In'}
-        link={AIR_CUSTOMER_PORTAL?.AIR_CUSTOMER_PORTAL_LOGIN}
+        onClick={() => {
+          router.push({
+            pathname: AIR_CUSTOMER_PORTAL?.AIR_CUSTOMER_PORTAL_LOGIN,
+          });
+        }}
       />
 
       <Grid item md={6}>
@@ -52,11 +58,11 @@ export const SignUp = () => {
             onSubmit={handleSubmit(onSubmit)}
           >
             {SignUpFormFields.map((item) => (
-              <Grid key={uuidv4()} mt={1}>
-                <item.component {...item.componentProps} size={'small'}>
+              <Grid key={item?.id} mt={1}>
+                <item.component {...item?.componentProps} size={'small'}>
                   {item?.componentProps?.select
                     ? item?.options?.map((option: any) => (
-                        <option key={uuidv4()} value={option?.value}>
+                        <option key={item?.id} value={option?.value}>
                           {option?.label}
                         </option>
                       ))
@@ -64,12 +70,17 @@ export const SignUp = () => {
                 </item.component>
               </Grid>
             ))}
-            <LoadingButton variant="contained" fullWidth type="submit">
-              <Link
-                href={AIR_CUSTOMER_PORTAL?.AIR_CUSTOMER_PORTAL_SIGN_UP_FORM}
-              >
-                Next
-              </Link>
+            <LoadingButton
+              variant="contained"
+              fullWidth
+              type="submit"
+              // onClick={() =>
+              //   router.push(
+              //     AIR_CUSTOMER_PORTAL?.AIR_CUSTOMER_PORTAL_SIGN_UP_FORM,
+              //   )
+              // }
+            >
+              Next
             </LoadingButton>
           </FormProvider>
         </Grid>

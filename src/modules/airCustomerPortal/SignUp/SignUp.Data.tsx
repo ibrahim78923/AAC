@@ -17,8 +17,8 @@ export const SignUpValidationSchema: any = Yup?.object()?.shape({
 });
 export const SignUpFormFields = [
   {
+    id: '1',
     componentProps: {
-      id: '1',
       name: 'firstName',
       label: 'First Name',
       placeholder: 'Enter First Name',
@@ -29,8 +29,8 @@ export const SignUpFormFields = [
     component: RHFTextField,
   },
   {
+    id: '2',
     componentProps: {
-      id: '2',
       name: 'lastName',
       label: 'Last Name',
       placeholder: 'Enter Last Name',
@@ -40,8 +40,8 @@ export const SignUpFormFields = [
     component: RHFTextField,
   },
   {
+    id: '3',
     componentProps: {
-      id: '3',
       name: 'email',
       label: 'email',
       type: 'Email',
@@ -52,8 +52,8 @@ export const SignUpFormFields = [
     component: RHFTextField,
   },
   {
+    id: '4',
     componentProps: {
-      id: '4',
       name: 'companyName',
       label: 'CompanyName',
       type: 'CompanyName',

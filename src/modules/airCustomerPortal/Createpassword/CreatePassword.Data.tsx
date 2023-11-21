@@ -1,10 +1,10 @@
 import { RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
-export const SignUpFormDefaultValues = {
+export const createPasswordFormDefaultValues = {
   password: '',
-  confirmpassword: '',
+  confirmPassword: '',
 };
-export const SignUpFormValidationSchema: any = Yup?.object()?.shape({
+export const createPasswordValidationSchema: any = Yup?.object()?.shape({
   password: Yup?.string()
     ?.required('Password is required')
     ?.max(30, 'Password should be less than 30 characters')
@@ -13,30 +13,30 @@ export const SignUpFormValidationSchema: any = Yup?.object()?.shape({
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{8,30}$/,
       'Password must include at least one uppercase letter, one lowercase letter, one digit, and one special character',
     ),
-  confrimpassword: Yup?.string()
+  confrimPassword: Yup?.string()
     ?.required('Please Confrim your Password')
     ?.oneOf([Yup.ref('password')], 'Password must match'),
 });
-export const SignUpFormFields = [
+export const createPasswordFields = [
   {
+    id: 1,
     componentProps: {
-      id: '1',
       name: 'password',
-      label: 'password',
+      label: 'Password',
       placeholder: 'Enter Password',
-      type: 'string',
+      type: 'password',
       fullWidth: true,
       required: true,
     },
     component: RHFTextField,
   },
   {
+    id: 2,
     componentProps: {
-      id: '2',
-      name: 'confrimpassword',
-      label: 'confrim password',
+      name: 'confrimPassword',
+      label: 'Confrim Password',
       placeholder: 'Enter password',
-      type: 'string',
+      type: 'password',
       fullWidth: true,
       required: true,
     },

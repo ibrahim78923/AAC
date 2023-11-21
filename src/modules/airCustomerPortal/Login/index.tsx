@@ -13,10 +13,9 @@ import {
 } from './Login.Data';
 import { AirCustomerPortalHeader } from '../AirCustomerPortalHeader';
 
-import Link from 'next/link';
-import { v4 as uuidv4 } from 'uuid';
 import { LoadingButton } from '@mui/lab';
 import { AIR_CUSTOMER_PORTAL } from '@/constants';
+import router from 'next/router';
 
 export const Login = () => {
   const method = useForm({
@@ -35,7 +34,11 @@ export const Login = () => {
     <Grid container>
       <AirCustomerPortalHeader
         buttonText="Sign Up"
-        link={AIR_CUSTOMER_PORTAL?.AIR_CUSTOMER_PORTAL_SIGN_UP}
+        onClick={() =>
+          router.push({
+            pathname: AIR_CUSTOMER_PORTAL?.AIR_CUSTOMER_PORTAL_SIGN_UP,
+          })
+        }
       />
       <Grid item md={6}>
         <Grid p={7}>
@@ -47,10 +50,10 @@ export const Login = () => {
 
         <Grid item md={7} xs={12} mx={{ md: 10, xs: 0 }}>
           <FormProvider methods={method} onSubmit={handleSubmit(onSubmit)}>
-            {loginFormFields?.map((items) => {
+            {loginFormFields?.map((item) => {
               return (
-                <Grid my={1} key={uuidv4()}>
-                  <items.component {...items?.componentProps} size={'small'} />
+                <Grid my={1} key={item?.id}>
+                  <item.component {...item?.componentProps} size={'small'} />
                 </Grid>
               );
             })}
@@ -60,19 +63,23 @@ export const Login = () => {
               fullWidth
               type="submit"
             >
-              SignIn
+              Sign In
             </LoadingButton>
           </FormProvider>
-          <Link href={AIR_CUSTOMER_PORTAL?.AIR_CUSTOMER_PORTAL_FORGET}>
-            <Typography
-              fontWeight={600}
-              color="primary"
-              variant="body2"
-              align="center"
-            >
-              Forgot Password
-            </Typography>
-          </Link>
+
+          <Typography
+            fontWeight={600}
+            color="primary"
+            variant="body2"
+            align="center"
+            onClick={() =>
+              router.push({
+                pathname: AIR_CUSTOMER_PORTAL?.AIR_CUSTOMER_PORTAL_FORGET,
+              })
+            }
+          >
+            Forgot Password
+          </Typography>
         </Grid>
       </Grid>
 
