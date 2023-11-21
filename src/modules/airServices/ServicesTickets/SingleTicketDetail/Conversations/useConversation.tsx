@@ -4,17 +4,17 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useTheme } from '@mui/material';
 import { enqueueSnackbar } from 'notistack';
-
+import { v4 as uuidv4 } from 'uuid';
 import ConversationDiscuss from './ConversationDiscuss';
 import ConversationAddComponent from './ConversationAddComponent';
 import {
   conversationAddArticleData,
+  conversationForwardArray,
+  conversationModalsDefaultValues,
   conversationNoteArray,
   conversationReplyArray,
-  conversationForwardArray,
-  menuOptionsAddConversation,
   getValidationSchema,
-  conversationModalsDefaultValues,
+  menuOptionsAddConversation,
 } from './Conversation.data';
 
 export const UseConversation = () => {
@@ -31,6 +31,7 @@ export const UseConversation = () => {
   const [filteredContent, setFilteredContent] = useState(
     conversationAddArticleData,
   );
+  const [selectedValues, setSelectedValues] = useState<any>({});
   const theme = useTheme();
 
   const addConversationModal: any = useForm({
@@ -46,13 +47,17 @@ export const UseConversation = () => {
     setAddConversation(event?.currentTarget);
   };
 
-  const { handleSubmit, setValue } = addConversationModal;
+  const { handleSubmit, setValue, getValues } = addConversationModal;
 
   const onSubmit = async () => {
     try {
-      // console.log('Form Data:', data);
-
       const successMessage = `${selectedItem} Add Successfully!`;
+
+      // Store the selected values
+      setSelectedValues((prevValues) => ({
+        ...prevValues,
+        [uuidv4()]: getValues(),
+      }));
 
       enqueueSnackbar(successMessage, {
         variant: 'success',
@@ -108,6 +113,7 @@ export const UseConversation = () => {
         return null;
     }
   };
+
   useEffect(() => {
     const filteredData = conversationAddArticleData?.filter(
       (item) => item?.title?.toLowerCase()?.includes(searchTerm?.toLowerCase()),
@@ -140,5 +146,6 @@ export const UseConversation = () => {
     setSearchTerm,
     conversationAddArticleData,
     setValue,
+    selectedValues,
   };
 };
