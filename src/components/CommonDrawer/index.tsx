@@ -9,6 +9,7 @@ import {
   Typography,
   useTheme,
 } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
 import { CommonDrawerPropsI } from '@/types/shared/Drawer';
 import CloseIcon from '@/assets/icons/shared/close-icon';
 
@@ -31,6 +32,8 @@ const CommonDrawer = ({
   isFooterFeature,
   isFooterFeatureText,
   isFooterFeatureHandler,
+  isLoading,
+  isDisabled,
 }: CommonDrawerPropsI) => {
   const theme = useTheme();
 
@@ -132,18 +135,19 @@ const CommonDrawer = ({
                     </Button>
                   )}
                   {isOk && (
-                    <Button
+                    <LoadingButton
                       variant="contained"
                       sx={{
                         padding: '0px 22px',
                         height: '44px',
                         fontWeight: '500',
                       }}
+                      loading={isLoading}
                       onClick={submitHandler}
-                      // type="submit"
+                      disabled={isDisabled}
                     >
                       {okText}
-                    </Button>
+                    </LoadingButton>
                   )}
                 </Box>
               </>

@@ -4,11 +4,11 @@ import { Box, Tabs, Tab, Typography, useMediaQuery } from '@mui/material';
 
 import RolesRight from './TabsData/RolesAndRight';
 import UserManagement from './TabsData/UserManagement';
-import SalesProduct from './TabsData/SalesProduct';
 import Notification from './TabsData/Notification';
 import { SalesSettingProps } from './SettingSales.interface';
 import { styles } from './SettingSales.style';
 import LifeCycleStage from './TabsData/LifecycleStage';
+import SocialAccounts from './TabsData/SocialAccounts';
 
 function TabPanel(props: SalesSettingProps) {
   const { children, value, index, ...other } = props;
@@ -64,7 +64,7 @@ const SocialInboxSettings = () => {
             <LifeCycleStage />
           </TabPanel>
           <TabPanel value={value} index={1}>
-            <SalesProduct />
+            <SocialAccounts />
           </TabPanel>
           <TabPanel value={value} index={2}>
             <RolesRight />

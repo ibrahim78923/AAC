@@ -1,20 +1,22 @@
 export const styles = {
   scheduledSMSCardStyle: (theme: any) => {
     return {
-      height: 'auto',
       border: `1px solid ${theme?.palette?.grey[700]}`,
       borderRadius: '8px',
       padding: '1rem',
+      height: 'auto',
+
       '.cardWrapper': {
-        height: '340px',
         overflowY: 'scroll',
+        height: '340px',
       },
+
       '.scheduledSMSHeader': {
         justifyContent: 'space-between',
         alignItems: 'center',
+        marginBottom: '20px',
         flexWrap: 'wrap',
         display: 'flex',
-        marginBottom: '20px',
       },
     };
   },
@@ -22,16 +24,18 @@ export const styles = {
     return {
       background: theme?.palette?.grey[400],
       alignItems: 'center',
+      width: 'fit-content',
       borderRadius: '30px',
       display: 'flex',
       p: '8px 16px',
       gap: 1,
     };
   },
+
   heading: (theme: any) => {
     return {
       color: `${theme?.palette?.custom.dark_blue}`,
-      fontWeight: 600,
+      fontWeight: `${theme?.typography?.fontWeightMedium}`,
     };
   },
 };

@@ -1,6 +1,6 @@
 import { Box, Grid, InputAdornment, Typography } from '@mui/material';
 
-import { FormProvider, RHFSelect } from '@/components/ReactHookForm';
+import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
 import { EraserIcon } from '@/assets/icons';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
@@ -11,8 +11,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import {
   addUsersArray,
   superAdminDefaultValues,
-  companyOwnerDefaultValues,
-  options,
   superAdminValidationSchema,
   CompanyOwnerValidationSchema,
 } from './AddUser.data';
@@ -20,41 +18,60 @@ import {
 import { useForm } from 'react-hook-form';
 import { enqueueSnackbar } from 'notistack';
 import { v4 as uuidv4 } from 'uuid';
-import useUserManagement from '../../useUserManagement';
 import { SUPER_ADMIN } from '@/constants/index';
 
-const AddUser = ({ isOpenDrawer, onClose }: any) => {
-  const { userType, setUserType, useGetCompaniesCRNQuery } =
-    useUserManagement();
+const AddUser = ({
+  isOpenDrawer,
+  onClose,
+  tabVal,
+  isOpenAddUserDrawer,
+  setIsOpenAddUserDrawer,
+}: any) => {
   const [isToggled, setIsToggled] = useToggle(false);
   const { usePostUsersMutation } = usersApi;
   const [postUsers] = usePostUsersMutation();
   const pathName = window?.location?.pathname;
-
+  const userDetail = isOpenAddUserDrawer?.data?.data;
   const superAdminMethods: any = useForm({
     resolver: yupResolver(superAdminValidationSchema),
     defaultValues: superAdminDefaultValues,
   });
+  const tabTitle = tabVal === 0 ? 'COMPANY_OWNER' : 'SUPER_ADMIN';
+
+  const companyOwnerDetail = {
+    firstName: userDetail?.firstName,
+    middleName: userDetail?.middleName,
+    lastName: userDetail?.lastName,
+    email: userDetail?.email,
+    crn: userDetail?.crn,
+    companyName: userDetail?.organization,
+    phoneNumber: userDetail?.phoneNumber,
+  };
+
   const companyOwnerMethods: any = useForm({
     resolver: yupResolver(CompanyOwnerValidationSchema),
-    defaultValues: companyOwnerDefaultValues,
+    defaultValues: companyOwnerDetail,
   });
 
   const methods =
-    userType === 'SUPER_ADMIN' ? superAdminMethods : companyOwnerMethods;
-  const { handleSubmit, reset, watch } = methods;
+    tabTitle === 'SUPER_ADMIN' ? superAdminMethods : companyOwnerMethods;
+  const {
+    handleSubmit,
+    reset,
+    //  watch
+  } = methods;
 
-  const crnNumber = watch('crn');
-  const { data } = useGetCompaniesCRNQuery(crnNumber);
+  // const crnNumber = watch('crn');
+  // const { crnData } = useGetCompaniesCRNQuery(crnNumber);
 
   const onSubmit = async (values: any) => {
-    values.role = userType;
-    values.crn = data?.name;
+    values.role = tabTitle === 'COMPANY_OWNER' ? 'ORG_ADMIN' : 'SUPER_ADMIN';
     try {
       postUsers({ body: values })?.unwrap();
       enqueueSnackbar('User Added Successfully', {
         variant: 'success',
       });
+      setIsOpenAddUserDrawer({ ...isOpenAddUserDrawer, drawer: false });
       reset();
     } catch (error: any) {
       enqueueSnackbar(error, {
@@ -67,41 +84,26 @@ const AddUser = ({ isOpenDrawer, onClose }: any) => {
     <CommonDrawer
       isDrawerOpen={isOpenDrawer}
       onClose={onClose}
-      title="Add User"
-      okText="Add"
-      isOk={true}
+      title={
+        isOpenAddUserDrawer?.type === 'add'
+          ? 'Add User'
+          : isOpenAddUserDrawer?.type === 'view'
+          ? userDetail?.firstName
+          : 'Edit User'
+      }
+      okText={isOpenAddUserDrawer?.type === 'add' ? 'Add' : 'Update User'}
+      isOk={isOpenAddUserDrawer?.type === 'view' ? false : true}
       submitHandler={handleSubmit(onSubmit)}
       footer
     >
       <FormProvider methods={methods}>
         <Grid container spacing={2} mt={1}>
-          {pathName === SUPER_ADMIN?.USERMANAGMENT && (
-            <Grid item xs={12}>
-              <Typography variant="body2" fontWeight={500}>
-                User Type
-              </Typography>
-              <RHFSelect
-                name="role"
-                size={'small'}
-                value={userType}
-                onChange={(e: any) => setUserType(e?.target?.value)}
-                fullWidth={true}
-                select={true}
-              >
-                {options?.map((option: any) => (
-                  <option key={uuidv4()} value={option?.value}>
-                    {option?.label}
-                  </option>
-                ))}
-              </RHFSelect>
-            </Grid>
-          )}
           {addUsersArray?.map((item: any) => {
             return (
               item?.toShow?.includes(
                 pathName === SUPER_ADMIN?.USERMANAGMENT
-                  ? userType
-                  : 'ORG_ADMIN',
+                  ? tabTitle
+                  : 'COMPANY_OWNER',
               ) && (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
                   <Typography variant="body2" fontWeight={500}>
@@ -113,17 +115,11 @@ const AddUser = ({ isOpenDrawer, onClose }: any) => {
                     </Typography>
                   )}
                   {item?.componentProps?.name === 'address' && (
-                    <Box
-                      sx={{
-                        backgroundColor: '',
-                        position: 'relative',
-                        right: 0,
-                      }}
-                    >
+                    <Box position="relative">
                       <InputAdornment
                         sx={{
                           position: 'absolute',
-                          top: 20,
+                          top: 45,
                           right: 15,
                           zIndex: 9999,
                         }}

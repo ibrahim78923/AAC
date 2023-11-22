@@ -10,13 +10,17 @@ import Search from '@/components/Search';
 import { AlertModals } from '@/components/AlertModals';
 
 import { styles } from './LifecycleStage.style';
+import TanstackTable from '@/components/Table/TanstackTable';
+
+import CustomPagination from '@/components/CustomPagination';
+
+import { drawerButtonTitle, drawerTitle } from './LifecycleStage.data';
+import { LifeCycleStageTableData } from '@/mock/modules/airMarketer/SocialMarketing/SocialInbox';
 
 const LifeCycleStage = () => {
   const {
     isDraweropen,
     setIsDraweropen,
-    isEditMode,
-    setIsEditMode,
     isDeleteModalOpen,
     productSearch,
     setproductSearch,
@@ -27,16 +31,17 @@ const LifeCycleStage = () => {
     onSubmit,
     handleCloseDeleteModal,
     handleDelete,
+    getRowValues,
   } = useLifecycleStage();
 
   return (
     <>
       <CommonDrawer
-        isDrawerOpen={isDraweropen}
+        isDrawerOpen={!!isDraweropen}
         onClose={handleCloseDrawer}
-        title={isEditMode ? 'Edit Pipelines' : 'Create Pipelines'}
-        okText={'Add'}
-        footer={true}
+        title={drawerTitle[isDraweropen]}
+        okText={drawerButtonTitle[isDraweropen]}
+        footer={isDraweropen === 'View' ? false : true}
         isOk={true}
         submitHandler={handleSubmit(onSubmit)}
       >
@@ -85,7 +90,7 @@ const LifeCycleStage = () => {
             <Button
               variant="contained"
               sx={styles?.createBtn}
-              onClick={() => (setIsDraweropen(true), setIsEditMode(false))}
+              onClick={() => setIsDraweropen('Add')}
             >
               <AddCircleIcon
                 sx={{
@@ -106,6 +111,18 @@ const LifeCycleStage = () => {
           size="small"
           sx={{ marginTop: '2rem', marginBottom: '1rem' }}
         />
+
+        <Grid>
+          <TanstackTable
+            columns={getRowValues}
+            data={LifeCycleStageTableData}
+          />
+          <CustomPagination
+            count={1}
+            rowsPerPageOptions={[1, 2]}
+            entriePages={1}
+          />
+        </Grid>
       </Box>
     </>
   );
