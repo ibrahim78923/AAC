@@ -9,6 +9,7 @@ import { Checkbox } from '@mui/material';
 import dayjs from 'dayjs';
 import * as Yup from 'yup';
 import useJobPosting from './useJobPosting';
+import { DATE_FORMAT } from '@/constants';
 
 export const jobPostingValidationSchema = Yup.object().shape({
   title: Yup.string().trim().required('Field is Required'),
@@ -150,7 +151,7 @@ export const jobPostingFiltersFields = () => {
       const createdById = option?.createdBy?._id;
       if (
         createdById &&
-        !uniqueOptions.some((item: any) => item.value === createdById)
+        !uniqueOptions.some((item: any) => item?.value === createdById)
       ) {
         uniqueOptions.push({
           value: createdById,
@@ -225,7 +226,7 @@ export const columns = (
     let newSelected: any = [];
 
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(tableRowValues, id);
+      newSelected = newSelected?.concat(tableRowValues, id);
     } else if (selectedIndex === 0) {
       newSelected = newSelected.concat(tableRowValues.slice(1));
     } else if (selectedIndex === tableRowValues.length - 1) {
@@ -319,7 +320,10 @@ export const columns = (
       id: 'createdAt',
       isSortable: true,
       header: 'Created date',
-      cell: (info: any) => dayjs(info?.getValue()).format('MM/DD/YYYY'),
+      cell: (info: any) => {
+        const formattedDate = dayjs(info?.getValue()).format(DATE_FORMAT.UI);
+        return formattedDate;
+      },
     },
     {
       accessorFn: (row: any) => row?.status,

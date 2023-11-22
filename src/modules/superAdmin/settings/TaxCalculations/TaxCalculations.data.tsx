@@ -8,6 +8,7 @@ import {
 import { Checkbox } from '@mui/material';
 import dayjs from 'dayjs';
 import * as Yup from 'yup';
+import { DATE_FORMAT } from '@/constants';
 export const addTaxFormValidationSchema = Yup.object().shape({
   name: Yup.string().trim().required('Field is Required'),
   percentage: Yup.string().trim().required('Field is Required'),
@@ -117,7 +118,7 @@ export const columns = (
   setRowId: any,
 ) => {
   const handleRowSelect = (id: any) => {
-    const selectedIndex = tableRowValues.indexOf(id);
+    const selectedIndex = tableRowValues?.indexOf(id);
     let newSelected: any = [];
 
     if (selectedIndex === -1) {
@@ -189,7 +190,7 @@ export const columns = (
       id: 'createdAt',
       isSortable: true,
       header: 'Create Date',
-      cell: (info: any) => dayjs(info?.getValue()).format('DD-MMM-YYYY'),
+      cell: (info: any) => dayjs(info?.getValue()).format(DATE_FORMAT.UI),
     },
     {
       accessorFn: (row: any) => row.applyOn,

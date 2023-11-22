@@ -27,11 +27,11 @@ const useJobApplication = () => {
   };
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchValue(event.target.value);
+    setSearchValue(event?.target?.value);
     setFilterParams((prev) => {
       return {
         ...prev,
-        search: event.target.value,
+        search: event?.target?.value,
       };
     });
   };

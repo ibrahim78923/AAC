@@ -9,6 +9,7 @@ import {
 import StatusBadge from '@/components/StatusBadge';
 import useJobApplication from './useJobApplication';
 import * as Yup from 'yup';
+import { DATE_FORMAT } from '@/constants';
 
 export const jobApplicationValidationSchema = Yup.object().shape({
   candidateId: Yup.array().min(1).required('Field is Required'),
@@ -87,7 +88,7 @@ export const columns = (theme: any) => {
       isSortable: true,
       header: 'Candidate',
       cell: (info: any) => (
-        <AppAvatarGroup data={info.getValue()?.proFileImage || []} />
+        <AppAvatarGroup data={info?.getValue()?.proFileImage || []} />
       ),
     },
     {
@@ -95,14 +96,20 @@ export const columns = (theme: any) => {
       id: 'createdAt',
       isSortable: true,
       header: 'Apply Date',
-      cell: (info: any) => dayjs(info?.getValue()).format('MM/DD/YYYY'),
+      cell: (info: any) => {
+        const formattedDate = dayjs(info?.getValue()).format(DATE_FORMAT.UI);
+        return formattedDate;
+      },
     },
     {
       accessorFn: (row: any) => row.jobPostedDate,
       id: 'jobPostedDate',
       isSortable: true,
       header: 'Job Posted Date',
-      cell: (info: any) => dayjs(info?.getValue()).format('MM/DD/YYYY'),
+      cell: (info: any) => {
+        const formattedDate = dayjs(info?.getValue()).format(DATE_FORMAT.UI);
+        return formattedDate;
+      },
     },
     {
       accessorFn: (row: any) => row.resume,

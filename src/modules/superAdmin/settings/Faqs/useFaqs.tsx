@@ -14,6 +14,7 @@ import {
   addFaqsValidationSchema,
   addFaqsDefaultValues,
 } from './AddFaq/AddFaq.data';
+import { DATE_FORMAT } from '@/constants';
 
 const useFaqs = () => {
   const [rowId, setRowId] = useState(null);
@@ -36,7 +37,7 @@ const useFaqs = () => {
   const handleActionsMenuClick = (
     event: React.MouseEvent<HTMLButtonElement>,
   ) => {
-    setAnchorEl(event.currentTarget);
+    setAnchorEl(event?.currentTarget);
   };
   const handleActionsMenuClose = () => {
     setAnchorEl(null);
@@ -73,16 +74,16 @@ const useFaqs = () => {
         setFilterParams((prev) => {
           return {
             ...prev,
-            startDate: dayjs(values?.createdAt).format('YYYY-MM-DD'),
-            endDate: dayjs(values?.createdAt).format('YYYY-MM-DD'),
+            startDate: dayjs(values?.createdAt).format(DATE_FORMAT.API),
+            endDate: dayjs(values?.createdAt).format(DATE_FORMAT.API),
           };
         });
       } else {
         setFilterParams((prev) => {
           return {
             ...prev,
-            startDate: dayjs(values?.createdAt[0]).format('YYYY-MM-DD'),
-            endDate: dayjs(values?.createdAt[1]).format('YYYY-MM-DD'),
+            startDate: dayjs(values?.createdAt[0]).format(DATE_FORMAT.API),
+            endDate: dayjs(values?.createdAt[1]).format(DATE_FORMAT.API),
           };
         });
       }
@@ -94,11 +95,11 @@ const useFaqs = () => {
   // Search
   const [searchValue, setSearchValue] = useState('');
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchValue(event.target.value);
+    setSearchValue(event?.target?.value);
     setFilterParams((prev) => {
       return {
         ...prev,
-        search: event.target.value,
+        search: event?.target?.value,
       };
     });
   };
@@ -157,7 +158,7 @@ const useFaqs = () => {
   const handleOpenModalEditFaq = () => {
     handleActionsMenuClose();
     const selectedItem =
-      dataGetFaqs?.data?.faqs.find((item: any) => item._id === rowId) || {};
+      dataGetFaqs?.data?.faqs?.find((item: any) => item?._id === rowId) || {};
     if (selectedItem) {
       methodsEditFaq.setValue('faqCategory', selectedItem?.faqCategory);
       methodsEditFaq.setValue('faqQuestion', selectedItem?.faqQuestion);
@@ -196,7 +197,7 @@ const useFaqs = () => {
   };
 
   const handleDeleteFaq = async () => {
-    const items = await tableRowValues.join(',');
+    const items = await tableRowValues?.join(',');
     try {
       await deleteFaq(items)?.unwrap();
       handleCloseModalDelete();

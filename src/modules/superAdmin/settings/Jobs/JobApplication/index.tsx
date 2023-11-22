@@ -53,10 +53,10 @@ const JobApplication = () => {
             gap: '10px',
           }}
         >
-          <Button sx={styles.refreshButton(theme)} onClick={handleRefresh}>
+          <Button sx={styles?.refreshButton(theme)} onClick={handleRefresh}>
             <RefreshSharedIcon />
           </Button>
-          <Button sx={styles.filterButton(theme)} onClick={handleOpenFilters}>
+          <Button sx={styles?.filterButton(theme)} onClick={handleOpenFilters}>
             <FilterSharedIcon /> &nbsp; Filter
           </Button>
         </Box>

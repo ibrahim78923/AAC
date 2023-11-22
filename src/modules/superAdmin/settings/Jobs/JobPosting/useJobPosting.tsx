@@ -44,11 +44,11 @@ const useJobPosting = () => {
   };
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchValue(event.target.value);
+    setSearchValue(event?.target?.value);
     setJobsParams((prev) => {
       return {
         ...prev,
-        search: event.target.value,
+        search: event?.target?.value,
       };
     });
   };
@@ -83,7 +83,7 @@ const useJobPosting = () => {
   const handleOpenEditJobPost = () => {
     handleClose();
     const selectedItem =
-      jopPostinData?.data?.jobs.find((item: any) => item._id === rowId) || {};
+      jopPostinData?.data?.jobs.find((item: any) => item?._id === rowId) || {};
     if (selectedItem) {
       methodsEditJobPosting.setValue('title', selectedItem?.title);
       methodsEditJobPosting.setValue('jobType', selectedItem?.jobType);
@@ -134,7 +134,7 @@ const useJobPosting = () => {
   };
 
   const handleDeleteJobPost = async () => {
-    const items = await tableRowValues.join(',');
+    const items = await tableRowValues?.join(',');
     try {
       await deleteJobPost(items)?.unwrap();
       handleCloseEditJobPost();

@@ -9,6 +9,7 @@ import {
   useUpdateTaxCalculationMutation,
   useDeleteTaxCalculationMutation,
 } from '@/services/superAdmin/settings/tax-calculations';
+import { DATE_FORMAT } from '@/constants';
 import {
   addTaxFormDefaultValues,
   addTaxFormValidationSchema,
@@ -56,25 +57,28 @@ const useTaxCalculations = () => {
       setFilterParams((prev) => {
         return {
           ...prev,
-          status: values.status,
+          status: values?.status,
         };
       });
     }
     if (values?.createdDate != null) {
       if (!Array.isArray(values?.createdDate)) {
+        const formatedDate = dayjs(values?.createdDate).format(
+          DATE_FORMAT?.API,
+        );
         setFilterParams((prev) => {
           return {
             ...prev,
-            dateStart: dayjs(values?.createdDate).format('YYYY-MM-DD'),
-            dateEnd: dayjs(values?.createdDate).format('YYYY-MM-DD'),
+            dateStart: formatedDate,
+            dateEnd: formatedDate,
           };
         });
       } else {
         setFilterParams((prev) => {
           return {
             ...prev,
-            dateStart: dayjs(values?.createdDate[0]).format('YYYY-MM-DD'),
-            dateEnd: dayjs(values?.createdDate[1]).format('YYYY-MM-DD'),
+            dateStart: dayjs(values?.createdDate[0]).format(DATE_FORMAT?.API),
+            dateEnd: dayjs(values?.createdDate[1]).format(DATE_FORMAT?.API),
           };
         });
       }
