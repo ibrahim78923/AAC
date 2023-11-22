@@ -4,12 +4,9 @@ import {
   RHFSelect,
   RHFTextField,
 } from '@/components/ReactHookForm';
-import {
-  useGetPlanTypesQuery,
-  useGetProductsQuery,
-} from '@/services/superAdmin/plan-mangement';
 
 export const defaultValues = {
+  suide: [],
   productId: [''],
   planTypeId: [''],
   description: '',
@@ -65,6 +62,7 @@ export const gpDetailsInfoFormSchema: any = Yup?.object()?.shape({
 
 export const defaultValuesFunction = (data: any = defaultValues) => {
   const {
+    suide,
     productId,
     planTypeId,
     description,
@@ -77,6 +75,7 @@ export const defaultValuesFunction = (data: any = defaultValues) => {
     additionalStoragePrice,
   } = data;
   return {
+    suide,
     productId,
     planTypeId,
     description,
@@ -90,31 +89,12 @@ export const defaultValuesFunction = (data: any = defaultValues) => {
   };
 };
 
-export const dataArray = () => {
-  const { data } = useGetProductsQuery({});
-
-  const productsOptions: { value: number; label: string } = data?.data?.map(
-    (products: any) => {
-      return {
-        value: products?._id,
-        label: products?.name,
-      };
-    },
-  );
-  const { data: planTypeData } = useGetPlanTypesQuery<any>({
-    refetchOnMountOrArgChange: true,
-    pagination: `page=1&limit=10`,
-  });
-
-  const planType = planTypeData?.data?.map((planType: any) => ({
-    value: planType?._id,
-    label: planType?.name,
-  }));
+export const dataArray = (_: any, selectProductSuite: any) => {
   return [
     {
       componentProps: {
-        name: 'productId',
-        label: 'Product',
+        name: selectProductSuite == 'product' ? 'productId' : 'suide',
+        label: selectProductSuite == 'product' ? 'Product' : 'Product Suide',
         isCheckBox: true,
         options: productsOptions,
       },

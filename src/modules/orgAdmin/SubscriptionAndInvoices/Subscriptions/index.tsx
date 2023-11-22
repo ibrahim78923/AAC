@@ -9,7 +9,7 @@ import {
   ProductOperationIcon,
   ProductLoyaltyProgramIcon,
 } from '@/assets/icons';
-import { data } from '@/mock/modules/SubscriptionAndInvoices';
+import { useGetSubscriptionsAndInvoicesQuery } from '@/services/orgAdmin/subscription-and-invoices';
 
 const getProductIcon = (product: any) => {
   let iconProduct;
@@ -37,7 +37,7 @@ const getProductIcon = (product: any) => {
 
 const Subscriptions = () => {
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
-
+  const { data: getSubscriptionData } = useGetSubscriptionsAndInvoicesQuery({});
   const handleDrawerOpen = () => {
     setIsOpenDrawer(true);
   };
@@ -53,19 +53,23 @@ const Subscriptions = () => {
         rowSpacing={'24px'}
         columnSpacing={{ xs: '24px', xl: '60px' }}
       >
-        {data?.map((plan: any) => {
+        {getSubscriptionData?.data?.map((plan: any) => {
           return (
             <Grid item key={plan?.id} xs={12} md={6} lg={4}>
               <PlanCard
                 status={plan?.status}
                 icon={getProductIcon(plan?.product)}
-                title={plan?.product}
+                title={
+                  plan?.planProducts?.map(
+                    (product: { name: string }) => product?.name,
+                  ) ?? plan?.name
+                }
                 planDuration={plan?.planDuration}
-                planUsers={plan?.planUsers}
-                planData={plan?.planData}
-                price={plan?.price}
-                billOn={plan?.billOn}
-                type={plan?.type}
+                planUsers={plan?.additionalUsers}
+                planData={plan?.billingCycle}
+                price={plan?.plans?.planPrice ?? 0}
+                billOn={plan?.billingDate}
+                type={plan?.plantypes?.name ?? plan?.plan}
                 handleBillingDetail={handleDrawerOpen}
               />
             </Grid>
