@@ -15,5 +15,5 @@ export const validationSchemaPlanFeatures = Yup?.object()?.shape({
 });
 
 export const defaultValuesPlanFeatures = {
-  featureId: '',
+  features: [],
 };

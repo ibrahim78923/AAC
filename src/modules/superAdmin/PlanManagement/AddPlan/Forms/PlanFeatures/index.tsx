@@ -10,7 +10,11 @@ import {
   Box,
 } from '@mui/material';
 
-import { FormProvider, RHFCheckbox } from '@/components/ReactHookForm';
+import {
+  FormProvider,
+  RHFCheckbox,
+  RHFMultiCheckbox,
+} from '@/components/ReactHookForm';
 import { usePlanFeatures } from './usePlanFeatures';
 import FeaturesModal from './FeaturesModal';
 import { isNullOrEmpty } from '@/utils';
@@ -29,6 +33,8 @@ const PlanFeatures = ({ methods, handleSubmit }: any) => {
     featureName,
     handleCloseFeaturesModal,
     handleOpenFeaturesModal,
+    setAccordianId,
+    accordianId,
   } = usePlanFeatures();
   const { planManagement }: any = useAppSelector(
     (state) => state?.planManagementForms,
@@ -40,10 +46,11 @@ const PlanFeatures = ({ methods, handleSubmit }: any) => {
 
   const handleExpandAccordionChange =
     (accordionId: string) => (_: any, isExpanded: boolean) => {
+      setAccordianId(accordionId);
       setExpandedAccordion(isExpanded ? accordionId : '');
     };
 
-  const { data, isSuccess } = useGetProductsFeaturesQuery({});
+  const { data, isSuccess } = useGetProductsFeaturesQuery({ id: accordianId });
   let productFeatures: any;
   if (isSuccess) {
     productFeatures = data;
@@ -104,9 +111,15 @@ const PlanFeatures = ({ methods, handleSubmit }: any) => {
                                   methods={methods}
                                   onSubmit={handleSubmit}
                                 >
-                                  <RHFCheckbox
-                                    name={item?._id}
-                                    label={item?.name}
+                                  <RHFMultiCheckbox
+                                    name="features"
+                                    label="Features"
+                                    options={[
+                                      {
+                                        label: item?.name,
+                                        value: item?._id,
+                                      },
+                                    ]}
                                   />
                                 </FormProvider>
                                 <Box

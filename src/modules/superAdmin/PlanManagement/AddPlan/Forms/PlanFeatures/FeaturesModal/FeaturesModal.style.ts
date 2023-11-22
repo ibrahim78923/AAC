@@ -6,6 +6,7 @@ export const styles = {
     justifyContent: 'center',
   },
   modalBox: {
+    background: 'white',
     borderRadius: '20px',
     maxWidth: '580px',
     width: '100%',
@@ -30,6 +31,7 @@ export const styles = {
     gap: '10px',
   },
   modalTypeText: {
+    color: '#374151',
     fontSize: '24px',
     fontStyle: 'normal',
     fontWeight: 600,

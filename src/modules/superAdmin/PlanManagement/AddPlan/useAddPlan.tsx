@@ -24,6 +24,7 @@ import { persistStore } from 'redux-persist';
 import store, { useAppSelector } from '@/redux/store';
 
 import {
+  useGetProductsFeaturesAllQuery,
   usePostPlanMangementMutation,
   useUpdatePlanMangementMutation,
 } from '@/services/superAdmin/plan-mangement';
@@ -116,6 +117,11 @@ export const useAddPlan = () => {
   const featuresFormData: any = useAppSelector(
     (state) => state?.planManagementForms?.planManagement?.planFeature,
   );
+  const { data, isSuccess } = useGetProductsFeaturesAllQuery({});
+  let productFeatures: any;
+  if (isSuccess) {
+    productFeatures = data;
+  }
 
   const onSubmitPlan = async (values: any) => {
     dispatch(addPlanFormData(values));
@@ -127,21 +133,37 @@ export const useAddPlan = () => {
     reset();
   };
   const onSubmitPlanFeaturesHandler = async (values: any) => {
-    dispatch(planFeaturesFormData(values));
+    const productId = productFeatures?.data?.productfeatures?.find(
+      (id: any) => values?.features.includes(id?._id),
+    );
+    const featuresData = values?.features?.map((item: any) => {
+      return {
+        features: [
+          {
+            dealsAssociationsDetail: featureDetails?.dealsAssociationsDetail,
+            featureId: item,
+          },
+        ],
+        productId: productId?.productId,
+      };
+    });
+
+    dispatch(planFeaturesFormData(featuresData));
     setActiveStep((previous) => previous + 1);
     enqueueSnackbar('Plan Features Details Added Successfully', {
       variant: 'success',
     });
     reset();
   };
-  const featureId = Object?.keys(featuresFormData);
+  // const featureId = Object?.keys(featuresFormData);
+  // console.log(featuresFormData[0]?.features)
   const onSubmitPlanModulesHandler = async (values: any) => {
     dispatch(modulesFormData(values));
     if (activeStep == AddPlanStepperData?.length - 1) {
       const planFormData = {
         //we are getting array when we select options in searchable select
         productId: planForm?.productId[0],
-
+        suide: planForm?.suide,
         planTypeId: planForm?.planTypeId,
         description: planForm?.description,
         defaultUsers: parseInt(planForm?.defaultUsers),
@@ -153,20 +175,21 @@ export const useAddPlan = () => {
         allowAdditionalStorage: planForm?.allowAdditionalStorage,
       };
       const planFeaturesFormData = {
-        planFeature: [
-          {
-            features: [
-              {
-                featureId: featureId[1],
-                dealsAssociationsDetail:
-                  featureDetails?.dealsAssociationsDetail,
-              },
-            ],
-            //we are getting array when we select options in searchable select
-            productId: planForm?.productId[0],
-          },
-        ],
+        //getting formdata at index 0
+        planFeature:
+          featuresFormData[0]?.features?.map((item: any) => {
+            return {
+              features: [
+                {
+                  featureId: item?.featureId,
+                  dealsAssociationsDetail: item?.dealsAssociationsDetail,
+                },
+              ],
+              productId: 'string', // Make sure to replace "string" with the actual value you want here
+            };
+          }) || [], // Use an empty array if featuresFormData or features is undefined
       };
+
       const planPermissions = {
         //we are getting array when we select options in searchable select
         productId: planForm?.productId[0],
