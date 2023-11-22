@@ -96,7 +96,11 @@ const BillingAndInvoicesTable = () => {
               />
 
               <Button
-                sx={{ border: '1px solid #D1D5DB', marginLeft: '10px' }}
+                sx={{
+                  border: '1px solid #D1D5DB',
+                  marginLeft: '10px',
+                  height: '36px',
+                }}
                 onClick={handleRefresh}
               >
                 <RefreshIcon />
@@ -110,6 +114,7 @@ const BillingAndInvoicesTable = () => {
                   color: theme?.palette?.custom?.main,
                   width: '105px',
                   marginLeft: '10px',
+                  height: '36px',
                   '@media (max-width:400px)': {
                     width: '100% !important',
                     marginTop: '10px',

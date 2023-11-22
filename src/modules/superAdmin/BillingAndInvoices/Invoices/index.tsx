@@ -123,7 +123,11 @@ const Invoices = () => {
               </Menu>
 
               <Button
-                sx={{ border: '1px solid #D1D5DB', marginLeft: '10px' }}
+                sx={{
+                  border: '1px solid #D1D5DB',
+                  marginLeft: '10px',
+                  height: '36px',
+                }}
                 onClick={handleRefresh}
               >
                 <RefreshIcon />
