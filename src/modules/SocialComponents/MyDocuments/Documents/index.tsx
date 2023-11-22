@@ -23,11 +23,11 @@ import { AlertModals } from '@/components/AlertModals';
 
 import {
   AnyRoundIcon,
-  FilterSharedIcon,
   FolderIcon,
   SingleUserBlackIcon,
   TeamUserIcon,
   TwoUserBlackIcon,
+  FilterrIcon,
 } from '@/assets/icons';
 import { UserRoundImage } from '@/assets/images';
 
@@ -341,7 +341,7 @@ const Documents = (props: any) => {
               variant="outlined"
               sx={styles?.fiterButton(theme)}
             >
-              <FilterSharedIcon /> Any
+              <FilterrIcon /> Any
             </Button>
           </Box>
         </Grid>

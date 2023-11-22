@@ -18,9 +18,7 @@ import SMSBroadcast from './SMSBroadcast';
 import useSMSMarketing from './useSMSMarketing';
 
 import { PlusIcon } from '@/assets/icons';
-
 import EditSmsIcon from '@/assets/icons/modules/airMarketer/SMSMarketing/edit-sms-icon';
-
 import ContactsSMSMarketing from './Contacts';
 
 import { AIR_MARKETER } from '@/routesConstants/paths';

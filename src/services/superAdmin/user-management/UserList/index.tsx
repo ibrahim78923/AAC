@@ -37,6 +37,18 @@ export const userListApi = baseAPI.injectEndpoints({
       },
       invalidatesTags: ['USERS'],
     }),
+
+    postUserEmployee: builder.mutation({
+      query: ({ body }: any) => {
+        return {
+          url: END_POINTS?.SUPER_ADMIN_ADD_USER,
+          method: 'POST',
+          body: body,
+        };
+      },
+      invalidatesTags: ['USERS'],
+    }),
+
     updateUsersAccount: builder.mutation({
       query: ({ id, body }: any) => ({
         url: `/${id}`,
@@ -62,4 +74,5 @@ export const {
   usePostUsersAccountMutation,
   useUpdateUsersAccountMutation,
   useDeleteUsersMutation,
+  usePostUserEmployeeMutation,
 } = userListApi;
