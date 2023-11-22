@@ -4,7 +4,7 @@ import { Box, Button, Grid, Menu, MenuItem, Typography } from '@mui/material';
 
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
-import { BackArrow, FilterIcon } from '@/assets/icons';
+import { BackArrowIcon, FilterIcon } from '@/assets/icons';
 
 import CommonDrawer from '@/components/CommonDrawer';
 import TanstackTable from '@/components/Table/TanstackTable';
@@ -50,7 +50,7 @@ const RestoreCompanies = (props: any) => {
           <Grid item lg={12} md={12} sm={12} xs={12}>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
               <Box sx={{ cursor: 'pointer' }} onClick={() => toggle(true)}>
-                <BackArrow />
+                <BackArrowIcon />
               </Box>
               <Box sx={{ marginTop: '1rem' }}>
                 <Typography

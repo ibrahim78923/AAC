@@ -12,6 +12,7 @@ import { AvatarImage } from '@/assets/images';
 
 import dayjs from 'dayjs';
 import * as Yup from 'yup';
+import useUserManagement from '../useUserManagement';
 
 export const columns: any = (columnsProps: any) => {
   const { handleUserSwitchChange, checkedRows, setCheckedRows } = columnsProps;
@@ -52,8 +53,7 @@ export const columns: any = (columnsProps: any) => {
           <Avatar alt="Remy Sharp" src={AvatarImage?.src} />
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             <Typography component={'span'}>
-              {info?.row?.original?.firstName} {info?.row?.original?.middleName}
-              {info?.row?.original?.lastName}
+              {info?.row?.original?.firstName} {info?.row?.original?.lastName}
             </Typography>
             <Typography component={'span'}>
               {info?.row?.original?.email}
@@ -122,162 +122,180 @@ export const columns: any = (columnsProps: any) => {
   ];
 };
 
-export const superAdminColumns: any = (handleUserSwitchChange: any) => [
-  {
-    accessorFn: (row: any) => row.Id,
-    id: 'Id',
-    cell: (info: any) => <Checkbox color="primary" name={info.getValue()} />,
-    header: <Checkbox color="primary" name="Id" />,
-    isSortable: false,
-  },
-  {
-    accessorFn: (row: any) => row?._id,
-    id: 'userId',
-    header: 'UserID',
-    isSortable: false,
-    cell: (info: any) => info.getValue() ?? 'N/A',
-  },
-  {
-    accessorFn: (row: any) => row?.Name,
-    id: 'name',
-    isSortable: true,
-    header: 'Name',
-    cell: (info: any) => (
-      <Box sx={{ display: 'flex', gap: '5px' }}>
-        <Avatar alt="Remy Sharp" src={AvatarImage?.src} />
-        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-          <Typography component={'span'}>
-            {info?.row?.original?.firstName} {info?.row?.original?.middleName}{' '}
-            {info?.row?.original?.lastName}
-          </Typography>
-          <Typography component={'span'}>
-            {info?.row?.original?.email}
-          </Typography>
+export const superAdminColumns: any = (columnsProps: any) => {
+  const { handleUserSwitchChange, checkedRows, setCheckedRows } = columnsProps;
+
+  const handleCheckboxChange = (rowId: string) => {
+    setCheckedRows(rowId);
+  };
+  return [
+    {
+      accessorFn: (row: any) => row?.Id,
+      id: 'Id',
+      cell: (info: any) => (
+        <Checkbox
+          color="primary"
+          name={info?.getValue()}
+          defaultChecked={checkedRows === info?.row?.original?._id}
+          onChange={() => handleCheckboxChange(info?.row?.original?._id)}
+        />
+      ),
+      header: <Checkbox color="primary" name="Id" disabled />,
+      isSortable: false,
+    },
+    {
+      accessorFn: (row: any) => row?._id,
+      id: 'userId',
+      header: 'UserID',
+      isSortable: false,
+      cell: (info: any) => info.getValue() ?? 'N/A',
+    },
+    {
+      accessorFn: (row: any) => row?.Name,
+      id: 'name',
+      isSortable: true,
+      header: 'Name',
+      cell: (info: any) => (
+        <Box sx={{ display: 'flex', gap: '5px' }}>
+          <Avatar alt="Remy Sharp" src={AvatarImage?.src} />
+          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+            <Typography component={'span'}>
+              {info?.row?.original?.firstName} {info?.row?.original?.lastName}
+            </Typography>
+            <Typography component={'span'}>
+              {info?.row?.original?.email}
+            </Typography>
+          </Box>
         </Box>
-      </Box>
-    ),
-  },
-  {
-    accessorFn: (row: any) => row?.role,
-    id: 'userType',
-    isSortable: true,
-    header: 'UserType',
-    cell: (info: any) => (
-      <Typography>
-        {info?.row?.original?.role?.toLowerCase()?.replace('_', ' ')}
-      </Typography>
-    ),
-  },
-  {
-    accessorFn: (row: any) => row?.OrganizationName,
-    id: 'organizationName',
-    isSortable: true,
-    header: 'OrganizationName',
-    cell: (info: any) => info?.getValue() ?? 'N/A',
-  },
-  {
-    accessorFn: (row: any) => row?.Products,
-    id: 'products',
-    isSortable: true,
-    header: 'Products',
-    cell: (
-      <AvatarGroup max={4} sx={{ display: 'flex', justifyContent: 'start' }}>
-        <Avatar alt="Remy Sharp" src={AvatarImage?.src} />
-        <Avatar alt="Travis Howard" src={AvatarImage?.src} />
-        <Avatar alt="Cindy Baker" src={AvatarImage?.src} />
-        <Avatar alt="Agnes Walker" src={AvatarImage?.src} />
-        <Avatar alt="Trevor Henderson" src={AvatarImage?.src} />
-      </AvatarGroup>
-    ),
-  },
-  {
-    accessorFn: (row: any) => row?.Status,
-    id: 'status',
-    isSortable: true,
-    header: 'Status',
-    cell: (info: any) => (
-      <SwitchBtn
-        defaultChecked={info?.row?.original?.status === 'ACTIVE' ? true : false}
-        handleSwitchChange={(e: any) =>
-          handleUserSwitchChange(e, info?.row?.original?._id)
-        }
-      />
-    ),
-  },
-  {
-    accessorFn: (row: any) => row?.createdOn,
-    id: 'createdOn',
-    isSortable: true,
-    header: 'CreatedOn',
-    cell: (info: any) =>
-      dayjs(info?.row?.original?.createdAt).format('DD/MM/YYYY'),
-  },
-];
+      ),
+    },
+    {
+      accessorFn: (row: any) => row?.role,
+      id: 'userType',
+      isSortable: true,
+      header: 'UserType',
+      cell: (info: any) => (
+        <Typography>
+          {info?.row?.original?.role?.toLowerCase()?.replace('_', ' ')}
+        </Typography>
+      ),
+    },
+    {
+      accessorFn: (row: any) => row?.OrganizationName,
+      id: 'organizationName',
+      isSortable: true,
+      header: 'OrganizationName',
+      cell: (info: any) => info?.getValue() ?? 'N/A',
+    },
+    {
+      accessorFn: (row: any) => row?.Products,
+      id: 'products',
+      isSortable: true,
+      header: 'Products',
+      cell: (
+        <AvatarGroup max={4} sx={{ display: 'flex', justifyContent: 'start' }}>
+          <Avatar alt="Remy Sharp" src={AvatarImage?.src} />
+          <Avatar alt="Travis Howard" src={AvatarImage?.src} />
+          <Avatar alt="Cindy Baker" src={AvatarImage?.src} />
+          <Avatar alt="Agnes Walker" src={AvatarImage?.src} />
+          <Avatar alt="Trevor Henderson" src={AvatarImage?.src} />
+        </AvatarGroup>
+      ),
+    },
+    {
+      accessorFn: (row: any) => row?.Status,
+      id: 'status',
+      isSortable: true,
+      header: 'Status',
+      cell: (info: any) => (
+        <SwitchBtn
+          defaultChecked={
+            info?.row?.original?.status === 'ACTIVE' ? true : false
+          }
+          handleSwitchChange={(e: any) =>
+            handleUserSwitchChange(e, info?.row?.original?._id)
+          }
+        />
+      ),
+    },
+    {
+      accessorFn: (row: any) => row?.createdOn,
+      id: 'createdOn',
+      isSortable: true,
+      header: 'CreatedOn',
+      cell: (info: any) =>
+        dayjs(info?.row?.original?.createdAt).format('DD/MM/YYYY'),
+    },
+  ];
+};
 
 export const usersValidationSchema = Yup.object().shape({
-  userType: Yup.string().required('Field is Required'),
-  organizationName: Yup.string().required('Field is Required'),
-  product: Yup.string().required('Field is Required'),
-  createdDate: Yup.date().required('Field is Required'),
+  role: Yup.string(),
+  organization: Yup.string(),
+  products: Yup.string(),
 });
 
 export const usersDefaultValues = {
-  userType: '',
-  organizationName: '',
-  product: '',
+  role: '',
+  organization: '',
+  products: '',
   createdDate: null,
 };
 
-export const usersFilterArray = [
-  {
-    title: 'User Type',
-    componentProps: {
-      name: 'userType',
-      fullWidth: true,
-      select: true,
+export const usersFilterArray = () => {
+  const { products, organizations } = useUserManagement();
+
+  return [
+    {
+      componentProps: {
+        name: 'role',
+        label: 'User Type',
+        fullWidth: true,
+        select: true,
+      },
+      options: [
+        { value: 'ORG_ADMIN', label: 'Company Owner' },
+        { value: 'SUPER_ADMIN', label: 'Super Admin' },
+      ],
+      component: RHFSelect,
+      md: 12,
     },
-    options: [
-      { value: 'CompanyOwner', label: 'Company Owner' },
-      { value: 'SuperAdmin', label: 'Super Admin' },
-    ],
-    component: RHFSelect,
-    md: 12,
-  },
-  {
-    title: 'Organization Name',
-    componentProps: {
-      name: 'organizationName',
-      fullWidth: true,
-      select: true,
+    {
+      componentProps: {
+        name: 'organization',
+        label: 'Organization Name',
+        fullWidth: true,
+        select: true,
+      },
+      options: organizations?.data?.map((item: any) => ({
+        value: item?._id,
+        label: item?.name,
+      })),
+      component: RHFSelect,
+      md: 12,
     },
-    options: [
-      { value: 'CompanyOwner', label: 'Company Owner' },
-      { value: 'SuperAdmin', label: 'Super Admin' },
-    ],
-    component: RHFSelect,
-    md: 12,
-  },
-  {
-    title: 'Product',
-    componentProps: {
-      name: 'product',
-      fullWidth: true,
-      select: true,
+    {
+      componentProps: {
+        name: 'products',
+        label: 'Product',
+        fullWidth: true,
+        select: true,
+      },
+      options: products?.data?.map((item: any) => ({
+        value: item?._id,
+        label: item?.name,
+      })),
+      component: RHFSelect,
+      md: 12,
     },
-    options: [
-      { value: 'CompanyOwner', label: 'Company Owner' },
-      { value: 'SuperAdmin', label: 'Super Admin' },
-    ],
-    component: RHFSelect,
-    md: 12,
-  },
-  {
-    title: 'Created Date',
-    componentProps: {
-      name: 'createdDate',
-      fullWidth: true,
+    {
+      title: 'Created Date',
+      componentProps: {
+        name: 'createdDate',
+        fullWidth: true,
+      },
+      component: RHFDatePicker,
+      md: 12,
     },
-    component: RHFDatePicker,
-    md: 12,
-  },
-];
+  ];
+};

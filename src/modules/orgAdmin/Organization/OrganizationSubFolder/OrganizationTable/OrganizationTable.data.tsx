@@ -9,6 +9,7 @@ export const columns = (
   setIschecked: any,
   ischecked: any,
   isGetRowValues: any,
+  setEditData: any,
 ) => {
   return [
     {
@@ -17,13 +18,24 @@ export const columns = (
       cell: (info: any) => (
         <Checkbox
           color="primary"
-          checked={
-            info?.cell?.row?.original?._id ===
-              isGetRowValues?.cell?.row?.original?._id && ischecked
-          }
+          checked={isGetRowValues?.includes(info?.row?.original?._id)}
           name={info?.getValue()}
           onClick={() => {
-            setIsGetRowValues(info), setIschecked(!ischecked);
+            const isChecked = isGetRowValues?.includes(
+              info?.row?.original?._id,
+            );
+            if (!isChecked) {
+              setIsGetRowValues((prev: any) => [
+                ...prev,
+                info?.row?.original?._id,
+              ]);
+            } else {
+              setIsGetRowValues((prev: any) =>
+                prev.filter((id: any) => id !== info?.row?.original?._id),
+              );
+            }
+            setEditData({ ...info?.row?.original });
+            setIschecked(!isChecked);
           }}
         />
       ),
@@ -81,6 +93,7 @@ export const validationSchema = Yup?.object()?.shape({
 });
 
 export const defaultValuesOrganization = {
+  logoUrl: '',
   accountName: '',
   phoneNo: '',
   postCode: '',

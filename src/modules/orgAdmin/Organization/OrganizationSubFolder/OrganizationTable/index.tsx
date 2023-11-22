@@ -18,6 +18,7 @@ import BorderColorIcon from '@mui/icons-material/BorderColor';
 
 import {
   FormProvider,
+  RHFDropZone,
   RHFSelect,
   RHFTextField,
 } from '@/components/ReactHookForm';
@@ -31,12 +32,13 @@ import { dataArray } from './OrganizationTable.data';
 
 import useOrganizationTable from './useOrganizationTable';
 
-import { FeaturedImage, AddCircleImage, ComLogoImage } from '@/assets/images';
+import { FeaturedImage, AddCircleImage } from '@/assets/images';
 import { AddPenIcon, EraserIcon } from '@/assets/icons';
 
 import { v4 as uuidv4 } from 'uuid';
 
 import { styles } from './OrganizationTable.style';
+import CommonModal from '@/components/CommonModal';
 
 const OrganizationTable = () => {
   const {
@@ -45,8 +47,6 @@ const OrganizationTable = () => {
     setIsOpenDrawer,
     isOpenDelete,
     setIsOpenDelete,
-    openEditDrawer,
-    setOpenEditDrawer,
     value,
     setValue,
     anchorEl,
@@ -60,12 +60,16 @@ const OrganizationTable = () => {
     methods,
     onSubmit,
     tablePagination,
-    isChecked,
     getRowValues,
+    isGetRowValues,
+    deleteOrganizationCompany,
+    imageHandler,
+    setImageHandler,
   } = useOrganizationTable();
 
   return (
     <>
+      {/* Add form */}
       <CommonDrawer
         isDrawerOpen={isOpenDrawer}
         onClose={() => {
@@ -93,7 +97,9 @@ const OrganizationTable = () => {
                   }}
                 ></Box>
                 <Box
-                  onClick={() => {}}
+                  onClick={() => {
+                    setImageHandler(true);
+                  }}
                   sx={{
                     position: 'absolute',
                     right: '165px',
@@ -160,7 +166,7 @@ const OrganizationTable = () => {
                 </Box>
               </Box>
             </Box>
-            <Grid container spacing={4}>
+            <Grid container spacing={1}>
               {dataArray?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
                   {item?.componentProps?.name === 'address' && (
@@ -174,7 +180,7 @@ const OrganizationTable = () => {
                       <InputAdornment
                         sx={{
                           position: 'absolute',
-                          top: 20,
+                          top: 40,
                           right: 15,
                           zIndex: 9999,
                         }}
@@ -209,6 +215,17 @@ const OrganizationTable = () => {
                 </Grid>
               ))}
             </Grid>
+            <CommonModal
+              open={imageHandler}
+              handleClose={() => setImageHandler(false)}
+              handleSubmit={() => setImageHandler(false)}
+              title="Upload Logo"
+              footer={true}
+              okText="Add"
+              cancelText="Cancle"
+            >
+              <RHFDropZone name="logoUrl" />
+            </CommonModal>
             {isToggled && (
               <Grid container spacing={2} sx={{ paddingTop: '1rem' }}>
                 <Grid item xs={12}>
@@ -259,120 +276,12 @@ const OrganizationTable = () => {
                     select={true}
                     options={[
                       { value: 'United Kingdom', label: 'United Kingdom' },
-                      { value: 'United Kingdom', label: 'United Kingdom' },
+                      { value: 'Pakistan', label: 'Pakistan' },
                     ]}
                   />
                 </Grid>
               </Grid>
             )}
-          </FormProvider>
-        </Box>
-      </CommonDrawer>
-      <CommonDrawer
-        isDrawerOpen={openEditDrawer}
-        onClose={() => {
-          setOpenEditDrawer(false);
-        }}
-        title="Edit Company"
-        okText="Update"
-        isOk={true}
-        footer={true}
-        submitHandler={handleSubmit(onSubmit)}
-      >
-        <Box sx={{ paddingTop: '1rem' }}>
-          <center>
-            <Box sx={{ position: 'relative' }}>
-              <Box
-                sx={{
-                  border: `1px solid ${theme?.palette?.grey[700]}`,
-                  borderRadius: '100px',
-                  width: '120px',
-                  height: '120px',
-                  boxShadow:
-                    '0px 2px 4px -2px #1018280F, 5px 5px 9px -2px #1018281A',
-                }}
-              >
-                <Image
-                  src={ComLogoImage}
-                  alt="NO image"
-                  style={{ borderRadius: '100px' }}
-                />
-              </Box>
-              <Box sx={{ position: 'absolute', right: '165px', bottom: 0 }}>
-                <AddPenIcon />
-              </Box>
-            </Box>
-          </center>
-          <Typography variant="h5">Products</Typography>
-          <FormProvider methods={methods}>
-            <Box
-              sx={{
-                display: 'flex',
-                columnGap: '1rem',
-                alignItems: 'center',
-                overflowY: 'scroll',
-                marginBottom: '1rem',
-              }}
-            >
-              <Box sx={styles.productCard}>
-                <Checkbox
-                  sx={{
-                    marginLeft: '7rem',
-                  }}
-                />
-                <Box sx={styles.productItem}>
-                  <Image src={FeaturedImage} alt="1" />
-                  <Typography>Sales</Typography>
-                </Box>
-              </Box>
-              <Box sx={styles.productCard}>
-                <Checkbox
-                  sx={{
-                    marginLeft: '7rem',
-                  }}
-                />
-                <Box sx={styles.productItem}>
-                  <Image src={FeaturedImage} alt="1" />
-                  <Typography>Marketing</Typography>
-                </Box>
-              </Box>
-              <Box sx={styles.productCard}>
-                <Checkbox
-                  sx={{
-                    marginLeft: '7rem',
-                  }}
-                />
-                <Box sx={styles.productItem}>
-                  <Image src={FeaturedImage} alt="1" />
-                  <Typography>Service</Typography>
-                </Box>
-              </Box>
-              <Box sx={styles.productCard}>
-                <Checkbox
-                  sx={{
-                    marginLeft: '7rem',
-                  }}
-                />
-                <Box sx={styles.productItem}>
-                  <Image src={FeaturedImage} alt="1" />
-                  <Typography>Operation</Typography>
-                </Box>
-              </Box>
-            </Box>
-            <Grid container spacing={4}>
-              {dataArray?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                  <item.component {...item?.componentProps} size={'small'}>
-                    {item?.componentProps?.select &&
-                      item?.options?.map((option: any) => (
-                        <option key={uuidv4()} value={option?.value}>
-                          {option?.label}
-                        </option>
-                      ))}
-                  </item.component>
-                </Grid>
-              ))}
-            </Grid>
           </FormProvider>
         </Box>
       </CommonDrawer>
@@ -403,7 +312,7 @@ const OrganizationTable = () => {
                 aria-haspopup="true"
                 aria-expanded={open ? 'true' : undefined}
                 onClick={handleClick}
-                disabled={!isChecked}
+                disabled={isGetRowValues?.length === 0}
               >
                 Action
                 <ArrowDropDownIcon
@@ -454,9 +363,12 @@ const OrganizationTable = () => {
         message={'Are you sure you want to delete this role?'}
         type={'delete'}
         open={isOpenDelete}
+        submitBtnText="Delete"
+        cancelBtnText="Cancel"
         handleClose={() => setIsOpenDelete(false)}
-        handleSubmit={function (): void {
-          throw new Error('Function not implemented.');
+        handleSubmitBtn={() => {
+          deleteOrganizationCompany();
+          setIsOpenDelete(false);
         }}
       />
     </>
