@@ -89,7 +89,7 @@ const ContactList = ({ open, onClose }: any) => {
               : null}
           </form.component>
         ))}
-        <Box sx={styles.smallContactlist(theme)}>
+        <Box sx={styles?.smallContactlist(theme)}>
           <Typography sx={styles?.text}>Small Contact List</Typography>
           <Typography sx={styles?.textTwo(theme)}>
             Your contact list may be too small to match enough people for ad
@@ -105,7 +105,7 @@ const ContactList = ({ open, onClose }: any) => {
           0 out of 0
         </Typography>
 
-        {accountValues.map((form: any) => (
+        {accountValues?.map((form: any) => (
           <form.component
             key={uuidv4()}
             fullWidth
@@ -132,7 +132,7 @@ const ContactList = ({ open, onClose }: any) => {
           </Typography>
         </Typography>
         <Box sx={{ mt: 3 }}>
-          {audienceName.map((form: any) => (
+          {audienceName?.map((form: any) => (
             <form.component
               key={uuidv4()}
               fullWidth

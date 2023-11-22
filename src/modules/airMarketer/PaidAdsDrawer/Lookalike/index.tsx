@@ -60,7 +60,7 @@ const Lookalike = ({ open, onClose }: any) => {
       headerIcon={<ViewDetailBackArrowIcon />}
     >
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-        {formValues.map((form: any) => (
+        {formValues?.map((form: any) => (
           <form.component
             key={uuidv4()}
             fullWidth
@@ -77,7 +77,7 @@ const Lookalike = ({ open, onClose }: any) => {
           </form.component>
         ))}
         <Box sx={{ marginTop: '20px' }}>
-          {accountValues.map((form: any) => (
+          {accountValues?.map((form: any) => (
             <form.component
               key={uuidv4()}
               fullWidth
@@ -95,7 +95,7 @@ const Lookalike = ({ open, onClose }: any) => {
           ))}
         </Box>
         <Box sx={{ mt: 3 }}>
-          {audienceName.map((form: any) => (
+          {audienceName?.map((form: any) => (
             <form.component
               key={uuidv4()}
               fullWidth

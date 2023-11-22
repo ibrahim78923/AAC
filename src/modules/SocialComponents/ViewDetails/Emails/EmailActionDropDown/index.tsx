@@ -2,8 +2,6 @@ import Image from 'next/image';
 
 import { Box, Button, Grid, Menu, MenuItem, Typography } from '@mui/material';
 
-import { ArrowDropDown } from '@mui/icons-material';
-
 import { AlertModals } from '@/components/AlertModals';
 import { ScheduleModals } from '@/components/ScheduleModals';
 
@@ -14,6 +12,7 @@ import { isNullOrEmpty } from '@/utils';
 import { EmailTestingData } from '@/mock/modules/airSales/Deals/ViewDetails';
 
 import { styles } from './EmailActionDropDown.style';
+import { ArrowDropDownIcon } from '@mui/x-date-pickers';
 
 const EmailActionDropDown = (props: any) => {
   const { setOpenDrawer, selectedCheckboxes } = props;
@@ -35,7 +34,7 @@ const EmailActionDropDown = (props: any) => {
   return (
     <div>
       <Button
-        endIcon={<ArrowDropDown />}
+        endIcon={<ArrowDropDownIcon />}
         sx={{
           border: `1px solid ${theme?.palette?.custom?.dark}`,
           color: `${theme?.palette?.custom?.main}`,

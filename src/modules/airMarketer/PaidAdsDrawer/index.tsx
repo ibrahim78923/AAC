@@ -30,16 +30,16 @@ const PaidAds = () => {
         onClose={() => setIsCreateAudience(false)}
         title="Create Audience"
       >
-        {createAudience.map((item: any) => (
+        {createAudience?.map((item: any) => (
           <Box
-            sx={styles.createDrawer}
+            sx={styles?.createDrawer}
             key={uuidv4()}
             onClick={() => handleDrawerActions(item?.title)}
           >
             <Typography variant="h6">{item?.title}</Typography>
             <Typography
               variant="body2"
-              sx={{ color: theme.palette.custom.main }}
+              sx={{ color: theme?.palette?.custom?.main }}
             >
               {item?.desc}
             </Typography>

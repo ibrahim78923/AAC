@@ -72,7 +72,7 @@ const CompanyList = ({ open, onClose }: any) => {
       onClose={onClose}
     >
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-        {formValues.map((form: any) => (
+        {formValues?.map((form: any) => (
           <form.component
             key={uuidv4()}
             fullWidth
@@ -80,7 +80,7 @@ const CompanyList = ({ open, onClose }: any) => {
             {...form.componentProps}
           >
             {form?.componentProps?.select
-              ? form?.options.map((option: any) => (
+              ? form?.options?.map((option: any) => (
                   <MenuItem key={option?.value} value={option?.value}>
                     {option?.label}
                   </MenuItem>
@@ -95,7 +95,7 @@ const CompanyList = ({ open, onClose }: any) => {
           0
         </Typography>
 
-        {accountValues.map((form: any) => (
+        {accountValues?.map((form: any) => (
           <form.component
             key={uuidv4()}
             fullWidth
@@ -112,7 +112,7 @@ const CompanyList = ({ open, onClose }: any) => {
           </form.component>
         ))}
         <Box sx={{ mt: 3 }}>
-          {audienceName.map((form: any) => (
+          {audienceName?.map((form: any) => (
             <form.component
               key={uuidv4()}
               fullWidth
