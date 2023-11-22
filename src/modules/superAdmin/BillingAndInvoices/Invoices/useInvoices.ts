@@ -34,8 +34,8 @@ const useInvoices = () => {
   if (!isNullOrEmpty(orginzationId))
     paramsObj['organizationId'] = orginzationId;
   if (!isNullOrEmpty(status)) paramsObj['status'] = status;
-  if (!isNullOrEmpty(invoiceDate)) paramsObj['invoiceDate'] = invoiceDate;
-  if (!isNullOrEmpty(paymentDate)) paramsObj['paymentDate'] = paymentDate;
+  if (!isNullOrEmpty(invoiceDate)) paramsObj['billingDate'] = invoiceDate;
+  if (!isNullOrEmpty(paymentDate)) paramsObj['dueDate'] = paymentDate;
 
   const queryParams = Object.entries(paramsObj)
     .map(([key, value]) => `${key}=${encodeURIComponent(value)}`)
