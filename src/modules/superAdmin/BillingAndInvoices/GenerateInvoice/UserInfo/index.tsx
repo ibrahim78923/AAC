@@ -115,7 +115,10 @@ const UserInfo = () => {
               R
             </Avatar>
             <Box>
-              <Typography sx={styles?.userName(theme)}>Dummy</Typography>
+              <Typography sx={styles?.userName(theme)}>
+                {EditInvoice?.usersOrg?.firstName}{' '}
+                {EditInvoice?.usersOrg?.lastName}
+              </Typography>
               <Box sx={styles?.orgName}>
                 {' '}
                 {EditInvoice?.organizations?.name}

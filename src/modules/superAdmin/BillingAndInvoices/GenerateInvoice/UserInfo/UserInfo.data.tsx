@@ -1,5 +1,5 @@
-import { Box, Input } from '@mui/material';
-
+import { Box, Input, Typography } from '@mui/material';
+import { v4 as uuidv4 } from 'uuid';
 export const columns = (setDiscountValue: any, discountValue: any) => {
   return [
     {
@@ -14,9 +14,11 @@ export const columns = (setDiscountValue: any, discountValue: any) => {
       id: 'product',
       cell: (info: any) => (
         <>
-          <Box sx={{ fontWeight: '500', color: 'blue.dull_blue' }}>
-            {info?.getValue()}dumy
-          </Box>
+          {info?.row?.original?.plans?.products?.map((data: any) => (
+            <Typography variant="subtitle2" key={uuidv4()}>
+              {data?.name}{' '}
+            </Typography>
+          ))}
           <Box>{info?.row?.original?.details?.plantypes}</Box>
         </>
       ),

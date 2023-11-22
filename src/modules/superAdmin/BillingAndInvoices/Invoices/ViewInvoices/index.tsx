@@ -14,6 +14,7 @@ import { CloseModalIcon, LogoIcon } from '@/assets/icons';
 import { styles } from './ViewInvoices.style';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { AvatarImage } from '@/assets/images';
+import { v4 as uuidv4 } from 'uuid';
 
 const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose, isGetRowValues }) => {
   const columns: any = [
@@ -25,15 +26,20 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose, isGetRowValues }) => {
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row?.product,
+      accessorFn: (row: any) => row?.products,
       id: 'product',
       cell: (info: any) => (
         <>
           <Box sx={{ fontWeight: '500', color: 'blue.dull_blue' }}>
-            {info?.getValue()}dumy
+            {info?.getValue()}
+            {info?.row?.original?.plans?.products?.map((data: any) => (
+              <Typography variant="body3" key={uuidv4()}>
+                {data?.name}{' '}
+              </Typography>
+            ))}
           </Box>
           <Typography variant="body3">
-            {info?.row?.original?.organizations?.name}
+            ({info?.row?.original?.plantypes})
           </Typography>
         </>
       ),
@@ -158,7 +164,10 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose, isGetRowValues }) => {
                   {' '}
                 </Avatar>
                 <Box>
-                  <Typography sx={styles?.userName}>Dumy</Typography>
+                  <Typography sx={styles?.userName}>
+                    {isGetRowValues?.row?.original?.usersOrg?.firstName}{' '}
+                    {isGetRowValues?.row?.original?.usersOrg?.lastName}
+                  </Typography>
                   <Box sx={styles?.orgName}>
                     {isGetRowValues?.row?.original?.organizations?.name}
                   </Box>

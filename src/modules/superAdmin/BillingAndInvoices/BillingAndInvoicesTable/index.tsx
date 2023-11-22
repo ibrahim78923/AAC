@@ -128,6 +128,7 @@ const BillingAndInvoicesTable = () => {
         <ViewBillingDetails
           isOpenDrawer={isShowViewBillingDetails}
           onClose={setIsShowViewBillingDetails}
+          isGetRowValues={isGetRowValues?.row?.original}
         />
       )}
       <Grid item xs={12} sm={12} mt={1}>

@@ -14,7 +14,7 @@ import DownloadInvoices from '../DownloadInvoices';
 import useInvoiceList from './useInvoiceList';
 
 import { PlaneIcon } from '@/assets/icons';
-
+import { v4 as uuidv4 } from 'uuid';
 const InvoiceList = ({
   setOpenViewInvoice,
   EditInvoice,
@@ -34,11 +34,16 @@ const InvoiceList = ({
           <Box sx={styles?.cardHeaderIcon}>
             <PlaneIcon />
           </Box>
-
           <Box>
-            <Typography variant="h6" sx={{ fontWeight: '600' }}>
-              Dummy
-            </Typography>
+            {EditInvoice.plans?.products?.map((data: any) => (
+              <Typography
+                variant="h6"
+                sx={{ fontWeight: '600' }}
+                key={uuidv4()}
+              >
+                {data?.name}{' '}
+              </Typography>
+            ))}
             <Typography
               variant="h6"
               sx={{ fontWeight: '600', textTransform: 'capitalize' }}
@@ -156,6 +161,8 @@ const InvoiceList = ({
       <DownloadInvoices
         open={isOpenInvoiceList}
         onClose={handleCloseInvoiceList}
+        DownloadInvoiceData={EditInvoice}
+        discountValue={discountValue}
       />
     </>
   );

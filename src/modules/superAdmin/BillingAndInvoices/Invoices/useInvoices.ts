@@ -20,6 +20,7 @@ const useInvoices = () => {
   const { data: allInvoicesTableData } = useGetBillingHistoryQuery<any>({
     refetchOnMountOrArgChange: true,
     pagination: `page=1&limit=10`,
+    organizationPlanId: '655c599e31965468dc7e9af8',
   });
 
   const handleActionsClick = (event: React.MouseEvent<HTMLElement>) => {

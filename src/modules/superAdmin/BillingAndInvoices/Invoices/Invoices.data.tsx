@@ -3,6 +3,7 @@ import { styles } from './Invoices.style';
 import { RHFDatePicker, RHFSelect } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 import { AvatarImage } from '@/assets/images';
+import { v4 as uuidv4 } from 'uuid';
 
 export const columns = (
   setIsGetRowValues: any,
@@ -57,13 +58,17 @@ export const columns = (
       isSortable: true,
     },
     {
-      accessorFn: (row: any) => row?.ProductSuite,
+      accessorFn: (row: any) => row?.products,
       id: 'Products/Suite',
       isSortable: true,
       header: 'Products/Suite',
       cell: (info: any) => (
         <>
-          <Typography variant="subtitle2">{info?.getValue()}</Typography>
+          {info?.row?.original?.plans?.products?.map((data: any) => (
+            <Typography variant="subtitle2" key={uuidv4()}>
+              {data?.name}{' '}
+            </Typography>
+          ))}
           <Typography variant="body3">
             {info?.row?.original?.details?.plantypes} plan
           </Typography>
