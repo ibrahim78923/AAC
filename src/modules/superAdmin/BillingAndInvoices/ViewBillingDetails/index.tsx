@@ -4,12 +4,22 @@ import CommonDrawer from '@/components/CommonDrawer';
 import { AirPlaneIcon } from '@/assets/icons';
 import { v4 as uuidv4 } from 'uuid';
 import { useGetBillingHistoryQuery } from '@/services/superAdmin/billing-invoices';
+import { isNullOrEmpty } from '@/utils';
 
 const ViewBillingDetails = ({ isOpenDrawer, onClose, isGetRowValues }: any) => {
   const theme: any = useTheme();
+  const orginzationPlanId = isGetRowValues?._id;
+  const paramsObj: any = {};
+  if (!isNullOrEmpty(orginzationPlanId))
+    paramsObj['organizationPlanId'] = orginzationPlanId;
+
+  const queryParams = Object.entries(paramsObj)
+    .map(([key, value]) => `${key}=${encodeURIComponent(value)}`)
+    .join('&');
+  const query = `&${queryParams}`;
   const { data: BillingDetailsHistory } = useGetBillingHistoryQuery<any>({
-    pagination: `page=1&limit=2`,
-    organizationPlanId: isGetRowValues?._id,
+    query,
+    pagination: `page=1&limit=10`,
   });
 
   return (
@@ -46,7 +56,8 @@ const ViewBillingDetails = ({ isOpenDrawer, onClose, isGetRowValues }: any) => {
                     variant="overline"
                     sx={{ textTransform: 'capitalize' }}
                   >
-                    {data?.plans?.description} ( {data?.details?.plantypes} )
+                    {data?.plans?.products[0]?.name} ({' '}
+                    {data?.details?.plantypes} )
                   </Typography>
                   <Typography
                     variant="body1"

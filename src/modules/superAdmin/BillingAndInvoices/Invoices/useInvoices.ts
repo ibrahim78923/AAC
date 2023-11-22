@@ -7,6 +7,7 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { useGetBillingHistoryQuery } from '@/services/superAdmin/billing-invoices';
+import { isNullOrEmpty } from '@/utils';
 
 const useInvoices = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -16,11 +17,34 @@ const useInvoices = () => {
   const [isOpenFilter, setIsOpenFilter] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   const [isGetRowValues, setIsGetRowValues] = useState('');
+  const [searchByClientName, setSearchByClientName] = useState('');
+  const [orginzationId, setOrginzationId] = useState('');
+  const [productId, setProductId] = useState('');
+  const [PlanTypeId, setPlanTypeId] = useState('');
+  const [status, setStatus] = useState('');
+  const [invoiceDate, setInvoiceDate] = useState('');
+  const [paymentDate, setPaymentDate] = useState('');
+
+  const paramsObj: any = {};
+
+  if (!isNullOrEmpty(searchByClientName))
+    paramsObj['search'] = searchByClientName;
+  if (!isNullOrEmpty(productId)) paramsObj['productId'] = productId;
+  if (!isNullOrEmpty(PlanTypeId)) paramsObj['planTypeId'] = PlanTypeId;
+  if (!isNullOrEmpty(orginzationId))
+    paramsObj['organizationId'] = orginzationId;
+  if (!isNullOrEmpty(status)) paramsObj['status'] = status;
+  if (!isNullOrEmpty(invoiceDate)) paramsObj['invoiceDate'] = invoiceDate;
+  if (!isNullOrEmpty(paymentDate)) paramsObj['paymentDate'] = paymentDate;
+
+  const queryParams = Object.entries(paramsObj)
+    .map(([key, value]) => `${key}=${encodeURIComponent(value)}`)
+    .join('&');
+  const query = `&${queryParams}`;
 
   const { data: allInvoicesTableData } = useGetBillingHistoryQuery<any>({
-    refetchOnMountOrArgChange: true,
+    query,
     pagination: `page=1&limit=10`,
-    organizationPlanId: '655c599e31965468dc7e9af8',
   });
 
   const handleActionsClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -55,9 +79,24 @@ const useInvoices = () => {
     defaultValues: FilterInvoiceDefaultValues,
   });
 
-  const onSubmit = () => {
+  const onSubmit = (values: any) => {
+    setOrginzationId(values?.ClientOrganization);
+    setProductId(values?.productSuite);
+    setPlanTypeId(values?.planType);
+    setStatus(values?.status);
+    setInvoiceDate(values?.InvoiceDate);
+    setPaymentDate(values?.PaymentDate);
     setIsOpenFilter(false);
     reset();
+  };
+
+  const handleRefresh = async () => {
+    setOrginzationId('');
+    setProductId('');
+    setPlanTypeId('');
+    setStatus('');
+    setInvoiceDate('');
+    setPaymentDate('');
   };
 
   const { handleSubmit, reset } = FilterInvoiceFilters;
@@ -92,6 +131,9 @@ const useInvoices = () => {
     isChecked,
     allInvoicesTableData,
     isGetRowValues,
+    searchByClientName,
+    setSearchByClientName,
+    handleRefresh,
   };
 };
 

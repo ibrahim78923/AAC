@@ -4,10 +4,9 @@ import { baseAPI } from '@/services/base-api';
 export const bilingInvoicesAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getBilingInvoices: builder.query({
-      query: ({ param, query, pagination }: any) => ({
+      query: ({ query, pagination }: any) => ({
         url: `${superAdminBillingInvoices.get_org_plan}${pagination}${query}`,
         method: 'GET',
-        param: param,
       }),
       providesTags: ['bilingInvoices'],
     }),
@@ -62,8 +61,8 @@ export const bilingInvoicesAPI = baseAPI.injectEndpoints({
     }),
 
     getBillingHistory: builder.query({
-      query: ({ pagination, organizationPlanId }: any) => ({
-        url: `${superAdminBillingInvoices.get_all_invoice}?${pagination}&organizationPlanId=${organizationPlanId}`,
+      query: ({ pagination, query }: any) => ({
+        url: `${superAdminBillingInvoices.get_all_invoice}?${pagination}&${query}`,
         method: 'GET',
       }),
       providesTags: ['bilingInvoices'],

@@ -36,6 +36,9 @@ const Invoices = () => {
     isChecked,
     allInvoicesTableData,
     isGetRowValues,
+    handleRefresh,
+    searchByClientName,
+    setSearchByClientName,
   } = useInvoices();
 
   return (
@@ -64,7 +67,12 @@ const Invoices = () => {
 
         <Grid sx={styles?.tableToolbar}>
           <Grid item xs={12} md={6} xl={6} sx={styles?.tableSearch}>
-            <Search size="small" label="Search Here" />
+            <Search
+              searchBy={searchByClientName}
+              setSearchBy={setSearchByClientName}
+              label="Search Here"
+              size="small"
+            />
           </Grid>
           <Grid item xs={12} md={6} xl={6} sx={styles?.tableToolbarActions}>
             <Box>
@@ -114,7 +122,10 @@ const Invoices = () => {
                 </MenuItem>
               </Menu>
 
-              <Button sx={{ border: '1px solid #D1D5DB', marginLeft: '10px' }}>
+              <Button
+                sx={{ border: '1px solid #D1D5DB', marginLeft: '10px' }}
+                onClick={handleRefresh}
+              >
                 <RefreshIcon />
               </Button>
 
@@ -162,7 +173,7 @@ const Invoices = () => {
         <Box sx={{ marginTop: '1.5rem' }}>
           <FormProvider methods={FilterInvoiceFilters}>
             <Grid container spacing={4}>
-              {FilterInvoiceFiltersDataArray?.map((item: any, index: any) => (
+              {FilterInvoiceFiltersDataArray()?.map((item: any, index: any) => (
                 <Grid
                   item
                   xs={12}

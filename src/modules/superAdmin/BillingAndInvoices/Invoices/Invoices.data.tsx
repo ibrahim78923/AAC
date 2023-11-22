@@ -4,6 +4,11 @@ import { RHFDatePicker, RHFSelect } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 import { AvatarImage } from '@/assets/images';
 import { v4 as uuidv4 } from 'uuid';
+import {
+  useGetOrganizationsQuery,
+  useGetPlanTypeQuery,
+  useGetProductsQuery,
+} from '@/services/superAdmin/billing-invoices';
 
 export const columns = (
   setIsGetRowValues: any,
@@ -121,14 +126,16 @@ export const columns = (
 };
 
 export const FilterInvoiceValidationSchema = Yup?.object()?.shape({
-  products: Yup?.string()?.trim()?.required('Field is Required'),
-  plan: Yup?.string()?.trim()?.required('Field is Required'),
-  status: Yup?.string()?.trim()?.required('Field is Required'),
-  InvoiceDate: Yup?.string()?.trim()?.required('Field is Required'),
-  PaymentDate: Yup?.string()?.trim()?.required('Field is Required'),
+  ClientOrganization: Yup?.string(),
+  products: Yup?.string(),
+  plan: Yup?.string(),
+  status: Yup?.string(),
+  InvoiceDate: Yup?.string(),
+  PaymentDate: Yup?.string(),
 });
 
 export const FilterInvoiceDefaultValues = {
+  ClientOrganization: '',
   products: '',
   plan: '',
   status: '',
@@ -136,67 +143,103 @@ export const FilterInvoiceDefaultValues = {
   PaymentDate: '',
 };
 
-export const FilterInvoiceFiltersDataArray = [
-  {
-    componentProps: {
-      name: 'products',
-      label: 'Products',
-      select: true,
+export const FilterInvoiceFiltersDataArray = () => {
+  const { data: productData } = useGetProductsQuery<any>({
+    refetchOnMountOrArgChange: true,
+    pagination: `page=1&limit=10`,
+  });
+
+  const productSuite = productData?.data?.map((product: any) => ({
+    value: product?._id,
+    label: product?.name,
+  }));
+
+  const { data: planTypeData } = useGetPlanTypeQuery<any>({
+    refetchOnMountOrArgChange: true,
+    pagination: `page=1&limit=10`,
+  });
+
+  const planType = planTypeData?.data?.map((planType: any) => ({
+    value: planType?._id,
+    label: planType?.name,
+  }));
+
+  const { data: OrganizationsData } = useGetOrganizationsQuery<any>({
+    refetchOnMountOrArgChange: true,
+    pagination: `page=1&limit=10`,
+  });
+
+  const Organizations = OrganizationsData?.data?.map((Organizations: any) => ({
+    value: Organizations?._id,
+    label: Organizations?.name,
+  }));
+  return [
+    {
+      componentProps: {
+        name: 'ClientOrganization',
+        label: 'Client & Organization',
+        fullWidth: true,
+        select: true,
+      },
+
+      options: Organizations,
+
+      component: RHFSelect,
+
+      md: 12,
     },
-    options: [
-      { value: 'Sales', label: 'Sales' },
-      { value: 'Marketing', label: 'Marketing' },
-      { value: 'Service', label: 'Service' },
-      { value: 'Operations', label: 'Operations' },
-      { value: 'Loyalty Program', label: 'Loyalty Program' },
-    ],
-    component: RHFSelect,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'plan',
-      label: 'Plan type',
-      select: true,
+    {
+      componentProps: {
+        name: 'products',
+        label: 'Products',
+        select: true,
+      },
+      options: productSuite,
+      component: RHFSelect,
+      md: 12,
     },
-    options: [
-      { value: 'John Doe', label: 'John Doe' },
-      { value: 'William', label: 'William' },
-      { value: 'Andrew', label: 'Andrew' },
-    ],
-    component: RHFSelect,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'status',
-      label: 'status',
-      select: true,
+    {
+      componentProps: {
+        name: 'planType',
+        label: 'Plan type',
+        select: true,
+      },
+      options: planType,
+      component: RHFSelect,
+      md: 12,
     },
-    options: [
-      { value: 'John Doe', label: 'John Doe' },
-      { value: 'William', label: 'William' },
-      { value: 'Andrew', label: 'Andrew' },
-    ],
-    component: RHFSelect,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'InvoiceDate',
-      label: 'Invoice Date',
-      fullWidth: true,
+    {
+      componentProps: {
+        name: 'status',
+        label: 'status',
+        select: true,
+      },
+      options: [
+        { value: 'OVERDUE', label: 'OVERDUE' },
+        { value: 'PENDING', label: 'PENDING' },
+        { value: 'SELECTED', label: 'SELECTED' },
+        { value: 'PAID', label: 'PAID' },
+      ],
+      component: RHFSelect,
+      md: 12,
     },
-    component: RHFDatePicker,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'PaymentDate',
-      label: 'Payment Date',
-      fullWidth: true,
+    {
+      componentProps: {
+        name: 'InvoiceDate',
+        label: 'Invoice Date',
+        fullWidth: true,
+      },
+      component: RHFDatePicker,
+      md: 12,
     },
-    component: RHFDatePicker,
-    md: 12,
-  },
-];
+    {
+      componentProps: {
+        name: 'PaymentDate',
+        label: 'Payment Date',
+        fullWidth: true,
+      },
+      component: RHFDatePicker,
+      md: 12,
+    },
+  ];
+};
