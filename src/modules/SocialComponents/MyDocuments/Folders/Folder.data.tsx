@@ -14,7 +14,7 @@ export const columns: any = [
     id: 'name',
     cell: (info: any) => (
       <Box sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-        <Image src={info?.table?.row?.original?.img} alt="no imae" />{' '}
+        <Image src={info?.table?.row?.original?.img} alt="no image" />
         {info?.getValue()}
       </Box>
     ),

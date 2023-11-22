@@ -35,10 +35,11 @@ export const superAdminBillingInvoices = {
 };
 
 export const organization = {
-  post_organization_account: '/org-company-account',
-  get_organization_account_all: '/org-company-account/get-accounts',
-  get_organization_account_id: '/org-company-account',
-  get_main_organization: '/organization',
-  update_organization_account: '/org-company-account',
-  delete_organization_account: '/org-company-account',
+  POST_ORGANIZATION_ACCOUNT: '/org-company-account',
+  GET_ORGANIZATION_ACCOUNT_ALL: '/org-company-account/get-accounts',
+  GET_ORGANIZATION_ACCOUNT_ID: '/org-company-account',
+  GET_MAIN_ORGANIZATION: '/organization',
+  UPDATE_ORGANIZATION_ACCOUNT: '/org-company-account',
+  DELETE_ORGANIZATION_ACCOUNT: '/org-company-account',
+  DELETE_ORGANIZARION_MULTIPLE: '/org-company-account/delete-multiple',
 };

@@ -12,7 +12,7 @@ import { dataArray } from './OrganizationCard.data';
 import { productItem } from '@/mock/modules/orgAdmin/OrganizationAdmin';
 
 import {
-  SmsImage,
+  MessageGreyImage,
   PhoneImage,
   UserImage,
   EditImage,
@@ -164,7 +164,7 @@ const OrganizationCard = () => {
                         paddingTop: '8px',
                       }}
                     >
-                      <Image src={SmsImage} alt="sms" />
+                      <Image src={MessageGreyImage} alt="sms" />
                       <Typography
                         variant="body3"
                         sx={{

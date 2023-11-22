@@ -13,7 +13,7 @@ const useEnquiriesCards = () => {
     labels: ['Complete', 'Pending'],
     responsive: [
       {
-        breakpoint: 480,
+        breakpoint: 769,
         options: {
           chart: {
             width: 200,
