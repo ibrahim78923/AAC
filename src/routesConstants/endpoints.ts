@@ -6,6 +6,7 @@ export const END_POINTS = {
   get_permissions: '/premissions',
   reset_password: 'auth/resetPassword',
   forgot_password: 'auth/forgot-password',
+  INVENTORY_ACTIVITY: 'assets/inventory',
   WORKLOAD: `/workload/workload-management`,
   INVENTORY_EXPENSE: 'expense/add-expense',
   GET_INVENTORY_EXPENSE: 'expense/get-expense',
@@ -20,10 +21,19 @@ export const END_POINTS = {
   USER_ACCOUNTS_LIST: '/super-admin/accounts-list',
   UPDATE_USER_LIST: '/users/edit',
   COMPANY_CRN: '/auth/search-company',
+  auth_search_company: 'auth/search-company',
+  auth_IG_Verification: 'auth/ig-verification',
+  EXPENSE: '/expense/add-expense',
   DROPDOWN_ORGANIZATIONS: '/dropdown/organizations',
   DROPDOWN_PRODUCTS: '/dropdown/products',
   AUTH_SEARCH_COMPANY: 'auth/search-company',
   AUTH_IG_VERIFICATION: 'auth/ig-verification',
+  PRODUCTS: '/products',
+  ORGANIZATIONS: '/organization/get-organizations',
+  VIEW_DEALS_NOTES: '/note',
+  CONTACTS: '/contact',
+  LIFECYCLE_STAGES: '/lifecycle-stages',
+  CONTACT_STATUS: '/contact-status',
 };
 
 export const superAdminBillingInvoices = {
@@ -38,10 +48,11 @@ export const superAdminBillingInvoices = {
 };
 
 export const organization = {
-  post_organization_account: '/org-company-account',
-  get_organization_account_all: '/org-company-account/get-accounts',
-  get_organization_account_id: '/org-company-account',
-  get_main_organization: '/organization',
-  update_organization_account: '/org-company-account',
-  delete_organization_account: '/org-company-account',
+  POST_ORGANIZATION_ACCOUNT: '/org-company-account',
+  GET_ORGANIZATION_ACCOUNT_ALL: '/org-company-account/get-accounts',
+  GET_ORGANIZATION_ACCOUNT_ID: '/org-company-account',
+  GET_MAIN_ORGANIZATION: '/organization',
+  UPDATE_ORGANIZATION_ACCOUNT: '/org-company-account',
+  DELETE_ORGANIZATION_ACCOUNT: '/org-company-account',
+  DELETE_ORGANIZARION_MULTIPLE: '/org-company-account/delete-multiple',
 };

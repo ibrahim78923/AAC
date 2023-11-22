@@ -1,7 +1,7 @@
 import { AIR_SERVICES } from '@/constants';
 import { Box, Button } from '@mui/material';
 
-export const actionsFunction = [
+export const dropDownMenus = [
   {
     title: 'Copy URL',
   },

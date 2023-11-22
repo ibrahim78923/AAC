@@ -7,6 +7,7 @@ const useFolder = () => {
   const [value, setValue] = useState('search here');
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
   const [isOpenFolderDrawer, setIsOpenFolderDrawer] = useState(false);
+  const [isPdfOpen, setIsPdfOpen] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [isEditOpenModal, setIsEditOpenModal] = useState(false);
   const [isOpenDelete, setIsOpenDelete] = useState(false);
@@ -16,6 +17,9 @@ const useFolder = () => {
   const [isCreateLinkOpen, setIsCreateLinkOpen] = useState(false);
   const open = Boolean(anchorEl);
   const openSide = Boolean(anchorElSide);
+
+  const handlePdfOpen = () => setIsPdfOpen(true);
+  const handlePdfClose = () => setIsPdfOpen(false);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -60,6 +64,10 @@ const useFolder = () => {
     setIsLinkOpen,
     isCreateLinkOpen,
     setIsCreateLinkOpen,
+    isPdfOpen,
+    setIsPdfOpen,
+    handlePdfOpen,
+    handlePdfClose,
   };
 };
 

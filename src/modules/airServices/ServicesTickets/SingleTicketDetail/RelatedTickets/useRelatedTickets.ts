@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useSnackbar } from 'notistack';
 import { useTheme } from '@mui/material';
-
 export function useRelatedTickets() {
   const { enqueueSnackbar } = useSnackbar();
   const theme = useTheme();

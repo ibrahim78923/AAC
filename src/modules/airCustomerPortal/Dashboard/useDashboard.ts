@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { AIR_CUSTOMER_PORTAL } from '@/constants';
 import { useRouter } from 'next/router';
 import {
@@ -26,6 +27,31 @@ export const useDashboard = () => {
   };
 
   const dashboardWidgets = dashboardWidgetsFunction(handleViewMore);
+  const [openReportAnIssueModal, setOpenReportAnIssueModal] =
+    useState<boolean>(false);
+  const [open, setOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState<any>(null);
 
-  return { dashboardWidgets };
+  const handleButtonClick = (event: any) => {
+    setAnchorEl(event?.currentTarget);
+    setOpen(!open);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+    setOpen(false);
+    setOpenReportAnIssueModal(true);
+  };
+
+  return {
+    dashboardWidgets,
+    openReportAnIssueModal,
+    setOpenReportAnIssueModal,
+    open,
+    setOpen,
+    anchorEl,
+    setAnchorEl,
+    handleButtonClick,
+    handleClose,
+  };
 };

@@ -232,12 +232,10 @@ const SignUp = () => {
                           >
                             <ArrowBackIcon />
                           </Box>
-
-                          <Typography variant="subtitle1">
-                            Select Product(s)
-                          </Typography>
                           <RHFMultiCheckbox
                             name="products"
+                            GridView={6}
+                            label="Select Product(s)"
                             options={products}
                           />
                         </Grid>

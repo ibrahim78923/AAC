@@ -8,6 +8,8 @@ import {
   GroupTwitterImage,
   InstagramChannelImage,
   TwitterChannelImage,
+  UserRetroImage,
+  UserRoundImage,
   YoutubeChannelImage,
 } from '@/assets/images';
 
@@ -178,3 +180,26 @@ export const LifeCycleStageTableData: any = [
     usedIn: '3',
   },
 ];
+
+export const mailingData: any = {
+  id: '1',
+  userName: 'Keith Thompson',
+  userImage: UserRetroImage,
+  timeStamp: 'Apr 6, 2023 at 09:49 GMT +5',
+  from: 'keitht@gmail.com',
+  to: ['robertfox@gmail.com'],
+  subject: 'Work from home request',
+  body: '<strong>Hi James Henry,</strong><br /><br />Thank you so much for being a customer of Hycholic.ltdbr <br /> It’s because of people like you we have been able to be in business for such a long time. To thank you, we have created a discount coupon especially for you. <br /><br /> Use the code #000000000 to get a discount from any product in our store . But hurry! The offer is only available for the first people who make the purchase<br /><br /> <strong>Kind Regards,</strong> <br /> Mr. Robert Fox <br /><br />Hycholic.LTD<br /><strong>Mr.RobertFox314@gmail.com</strong>',
+  reply: [
+    {
+      id: '2',
+      userName: 'Robert Fox',
+      userImage: UserRoundImage,
+      timeStamp: 'Apr 6, 2023 at 10:56 GMT +5',
+      from: 'robert@gmail.com',
+      to: ['robertfox@gmail.com'],
+      subject: 'Work from home request',
+      body: '<strong>Hi James Henry,</strong><br /><br />Thank you so much for being a customer of Hycholic.ltdbr <br /> It’s because of people like you we have been able to be in business for such a long time. To thank you, we have created a discount coupon especially for you. <br /><br /> Use the code #000000000 to get a discount from any product in our store . But hurry! The offer is only available for the first people who make the purchase<br /><br /> <strong>Kind Regards,</strong> <br /> Mr. Robert Fox <br /><br />Hycholic.LTD<br /><strong>Mr.RobertFox314@gmail.com</strong>',
+    },
+  ],
+};
