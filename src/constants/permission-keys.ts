@@ -166,6 +166,7 @@ export const AIR_SALES_DEALS_PERMISSIONS = {
 //for display and purpose purpose in steppers
 export const SUPER_ADMIN_PLAN_MANAGEMENT_PERMISSIONS = [
   {
+    ProductName: 'Sales',
     Modules: 'Deals',
     Sub_Modules: [
       {

@@ -35,6 +35,7 @@ import {
   validationSchemaPlanFeatures,
 } from './Forms/Modules/PlanFeatures.data';
 import { isNullOrEmpty } from '@/utils';
+import { SUPER_ADMIN_PLAN_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 
 export const useAddPlan = () => {
   const [addPlanFormValues, setAddPlanFormValues] = useState({});
@@ -133,11 +134,11 @@ export const useAddPlan = () => {
     reset();
   };
   const onSubmitPlanFeaturesHandler = async (values: any) => {
-    const productId = productFeatures?.data?.productfeatures?.find(
-      (id: any) => values?.features.includes(id?._id),
-    );
-
     const featuresData = values?.features?.map((item: any) => {
+      const productId = productFeatures?.data?.productfeatures?.find(
+        (id: any) => id?._id === item,
+      );
+
       return {
         features: [
           {
@@ -145,10 +146,9 @@ export const useAddPlan = () => {
             featureId: item,
           },
         ],
-        productId: productId?.productId,
+        productId: productId?.productId || null, // Use null or a default value if productId is not found
       };
     });
-
     dispatch(planFeaturesFormData(featuresData));
     setActiveStep((previous) => previous + 1);
     enqueueSnackbar('Plan Features Details Added Successfully', {
@@ -159,6 +159,39 @@ export const useAddPlan = () => {
   // const featureId = Object?.keys(featuresFormData);
   // console.log(featuresFormData[0]?.features)
   const onSubmitPlanModulesHandler = async (values: any) => {
+    const permissionSlugToFind: any = values?.permissionSlugs;
+    const productNamesWithPermissions: any = [];
+
+    SUPER_ADMIN_PLAN_MANAGEMENT_PERMISSIONS.forEach((permissionData) => {
+      permissionData.Sub_Modules.forEach((subModule) => {
+        const matchingPermissions = subModule.permissions.filter((permission) =>
+          permissionSlugToFind.includes(permission.value),
+        );
+
+        if (matchingPermissions.length > 0) {
+          productNamesWithPermissions.push(permissionData.ProductName);
+        }
+      });
+    });
+
+    const modulesPermissionsData = productNamesWithPermissions?.map(
+      (item: any) => {
+        const productId = productFeatures?.data?.productfeatures?.find(
+          (id: any) => id?.productName === item,
+        );
+
+        return {
+          planPermission: [
+            {
+              permissionSlugs: values?.permissionSlugs,
+            },
+          ],
+          productId: productId?.productId || null, // Use null or a default value if productId is not found
+        };
+      },
+    );
+    // console.log("modulesData",modulesPermissionsData)
+
     dispatch(modulesFormData(values));
     if (activeStep == AddPlanStepperData?.length - 1) {
       const planFormData = {
@@ -175,24 +208,34 @@ export const useAddPlan = () => {
         allowAdditionalUsers: planForm?.allowAdditionalUsers,
         allowAdditionalStorage: planForm?.allowAdditionalStorage,
       };
-      const planFeaturesFormData = featuresFormData.map((item: any) =>
-        item.features.map((feature: any) => ({
-          features: [
-            {
-              dealsAssociationsDetail: 'string', // You can set your desired value here
-              featureId: feature.featureId,
-            },
-          ],
-          productId: item.productId,
-        })),
+      const planFeaturesFormData = featuresFormData?.map(
+        (item: any) =>
+          item?.features?.map((feature: any) => ({
+            features: [
+              {
+                dealsAssociationsDetail: 'string', // You can set your desired value here
+                featureId: feature?.featureId,
+              },
+            ],
+            productId: item?.productId,
+          })),
       );
 
       const transformedFeaturesFormData = {
-        planFeature: planFeaturesFormData.flat().map((item: any) => ({
-          features: item.features,
-          productId: item.productId,
+        planFeature: planFeaturesFormData?.flat()?.map((item: any) => ({
+          features: item?.features,
+          productId: item?.productId,
         })),
       };
+      const transformedModulesFormData = {
+        planPermission: modulesPermissionsData?.flat()?.map((item: any) => ({
+          permissionSlugs: item?.planPermission,
+          productId: item?.productId,
+        })),
+      };
+      // alert("dsgsfg")
+      // console.log("transformedModulesFormData",transformedModulesFormData)
+      // console.log("transformedFeaturesFormData",transformedFeaturesFormData)
 
       // const planFeaturesFormData = featuresFormData?.map((item:any) => ({
       //   planFeature: {
@@ -204,21 +247,22 @@ export const useAddPlan = () => {
       //   }
       // }));
 
-      const planPermissions = {
-        //we are getting array when we select options in searchable select
-        productId: planForm?.productId[0],
-        planPermission: [
-          {
-            permissionSlugs: values?.permissionSlugs,
-            productId: planForm?.productId[0],
-          },
-        ],
-      };
-      const permissions = {
-        ...planPermissions,
-        //we are getting array when we select options in searchable select
-        productId: planForm?.productId[0],
-      };
+      // const planPermissions = {
+      //   //we are getting array when we select options in searchable select
+      //   productId: planForm?.productId[0],
+      //   planPermission: [
+      //     {
+      //       permissionSlugs: values?.permissionSlugs,
+      //       productId: planForm?.productId[0],
+      //     },
+      //   ],
+      // };
+
+      // const permissions = {
+      //   ...planPermissions,
+      //   //we are getting array when we select options in searchable select
+      //   productId: planForm?.productId[0],
+      // };
       try {
         parsedRowData
           ? updatePlanMangement({
@@ -226,14 +270,14 @@ export const useAddPlan = () => {
               body: {
                 ...planFormData,
                 ...transformedFeaturesFormData,
-                ...permissions,
+                ...transformedModulesFormData,
               },
             })
           : postPlanMangement({
               body: {
                 ...planFormData,
                 ...transformedFeaturesFormData,
-                ...permissions,
+                ...transformedModulesFormData,
               },
             })?.unwrap();
         enqueueSnackbar('Plan Modules Details Added Successfully', {

@@ -18,18 +18,56 @@ import SubModulesAccordion from './SubModulesAccordian';
 
 import { v4 as uuidv4 } from 'uuid';
 import { SUPER_ADMIN_PLAN_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
+import { useAppSelector } from '@/redux/store';
+import { useGetProductsFeaturesAllQuery } from '@/services/superAdmin/plan-mangement';
 
 const Modules = ({ methods, handleSubmit }: any) => {
   const { theme, isAccordionExpanded, handleExpandAccordionChange } =
     useModules();
+  const { data, isSuccess } = useGetProductsFeaturesAllQuery({});
+  let productFeatures: any;
+  if (isSuccess) {
+    productFeatures = data;
+  }
+
+  const { planManagement }: any = useAppSelector(
+    (state: any) => state?.planManagementForms,
+  );
+
+  const productModules = planManagement?.addPlanForm?.suide?.map(
+    (module: any) => {
+      const products = productFeatures?.data?.productfeatures?.find(
+        (id: any) => id?.productId === module,
+      );
+      return {
+        productName: products?.productName,
+      };
+    },
+  );
+
+  const productModulesPermissions = productModules?.map((productName: any) => {
+    return {
+      productName: productName?.productName,
+      permissions: SUPER_ADMIN_PLAN_MANAGEMENT_PERMISSIONS?.filter(
+        (permissionsArray) =>
+          permissionsArray?.ProductName === productName?.productName,
+      ),
+    };
+  });
+
+  // console.log(productModulesPermissions);
 
   return (
     <div>
-      {SUPER_ADMIN_PLAN_MANAGEMENT_PERMISSIONS?.map((feature: string) => (
+      {productModulesPermissions?.map((productModulePermissions: any) => (
         <Accordion
           key={uuidv4()}
-          expanded={isAccordionExpanded === feature}
-          onChange={handleExpandAccordionChange(feature)}
+          expanded={
+            isAccordionExpanded === productModulePermissions?.productName
+          }
+          onChange={handleExpandAccordionChange(
+            productModulePermissions?.productName,
+          )}
           disableGutters
           sx={{
             '&.MuiAccordion': {
@@ -51,21 +89,26 @@ const Modules = ({ methods, handleSubmit }: any) => {
         >
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
-            aria-controls={`accordion-${feature}`}
-            id={`accordion-${feature}`}
+            aria-controls={`accordion-${productModulePermissions?.productName}`}
+            id={`accordion-${productModulePermissions?.productName}`}
           >
             <Box display="flex" alignItems="center">
               <FormControlLabel control={<SwitchBtn />} label="" />
-              <Typography variant="h4">{feature?.Modules}</Typography>
+              <Typography variant="h4">
+                {productModulePermissions?.productName}
+              </Typography>
             </Box>
           </AccordionSummary>
 
           <AccordionDetails>
-            <SubModulesAccordion
-              subModules={feature?.Sub_Modules}
-              methods={methods}
-              handleSubmit={handleSubmit}
-            />
+            {productModulePermissions?.permissions.map((permission: any) => (
+              <SubModulesAccordion
+                key={uuidv4()}
+                subModules={permission?.Sub_Modules}
+                methods={methods}
+                handleSubmit={handleSubmit}
+              />
+            ))}
           </AccordionDetails>
         </Accordion>
       ))}
