@@ -52,8 +52,6 @@ export const UseConversation = () => {
   const onSubmit = async () => {
     try {
       const successMessage = `${selectedItem} Add Successfully!`;
-
-      // Store the selected values
       setSelectedValues((prevValues) => ({
         ...prevValues,
         [uuidv4()]: getValues(),
@@ -65,9 +63,7 @@ export const UseConversation = () => {
 
       addConversationModal.reset();
       setShow(false);
-    } catch (error) {
-      // console.error('Error submitting form:', error);
-    }
+    } catch (error) {}
   };
 
   const handleCloseButtonMenu = (e: any) => {

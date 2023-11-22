@@ -20,8 +20,6 @@ import {
   ConversationDataI,
 } from '../Conversation.interface';
 
-// ... (imports)
-
 const ConversationView: React.FC<{
   selectedValues: ConversationSelectedValuesI;
 }> = ({ selectedValues }) => {
@@ -73,16 +71,11 @@ const ConversationView: React.FC<{
                   sx={{
                     display: 'flex',
                     flexDirection: { md: 'row', xs: 'column' },
-                    border: '1px solid black',
                     mt: { md: 0, xs: 2 },
                   }}
                 >
                   {Object.entries(renderNoteContent(conversationData))
-                    .filter(
-                      ([,]) =>
-                        // Ignore unused variables without declaring them
-                        true,
-                    )
+                    .filter(([,]) => true)
                     .map(([, value]) => (
                       <Typography
                         key={uuidv4()}
@@ -134,7 +127,7 @@ const ConversationView: React.FC<{
   };
 
   return (
-    <Box marginTop="3.125rem">
+    <Box>
       {Object.entries(selectedValues).length > 0 ? (
         <Grid container sx={styles?.parent}>
           {Object.entries(selectedValues).map(renderConversationItem)}
@@ -142,9 +135,7 @@ const ConversationView: React.FC<{
       ) : (
         <NoData
           message="There are no selected conversations"
-          image={
-            <Image src={NoAssociationFoundImage} alt="No Association Found" />
-          }
+          image={NoAssociationFoundImage}
         />
       )}
     </Box>

@@ -10,14 +10,14 @@ export const getValidationSchema = (action) => {
         noteDescription: Yup?.string()?.trim()?.required('Field is Required'),
       });
     case 'Reply':
-      return Yup.object().shape({
+      return Yup?.object()?.shape({
         reply: Yup?.string()?.required('Field is Required'),
         replyFrom: Yup?.string()?.required('Field is Required'),
         replyTo: Yup?.string()?.required('Field is Required'),
         replyDescription: Yup?.string()?.trim()?.required('Field is Required'),
       });
     case 'Forward':
-      return Yup.object().shape({
+      return Yup?.object()?.shape({
         forward: Yup?.string()?.required('Field is Required'),
         forwardFrom: Yup?.string()?.required('Field is Required'),
         forwardTo: Yup?.string()?.required('Field is Required'),
