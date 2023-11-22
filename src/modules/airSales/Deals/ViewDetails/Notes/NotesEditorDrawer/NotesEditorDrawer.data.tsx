@@ -11,7 +11,7 @@ export const dealsNotesValidationSchema = Yup?.object()?.shape({
 export const dealsNotesDefaultValues = {
   title: '',
   description: '',
-  attachFile: null,
+  file: '',
 };
 
 export const dealsNotesDataArray = [
@@ -36,8 +36,9 @@ export const dealsNotesDataArray = [
   },
   {
     componentProps: {
-      name: 'attachFile',
+      name: 'file',
       label: '',
+
       fullWidth: true,
     },
     component: RHFDropZone,
