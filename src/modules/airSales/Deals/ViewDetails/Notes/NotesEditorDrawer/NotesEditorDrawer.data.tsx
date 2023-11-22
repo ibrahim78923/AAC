@@ -6,14 +6,12 @@ import {
 import * as Yup from 'yup';
 export const dealsNotesValidationSchema = Yup?.object()?.shape({
   title: Yup?.string()?.trim()?.required('Field is Required'),
-  description: Yup?.string()?.trim()?.required('Field is Required'),
-  attachfile: Yup?.string()?.trim()?.required('Field is Required'),
 });
 
 export const dealsNotesDefaultValues = {
   title: '',
   description: '',
-  attachfile: '',
+  attachFile: null,
 };
 
 export const dealsNotesDataArray = [
@@ -38,7 +36,7 @@ export const dealsNotesDataArray = [
   },
   {
     componentProps: {
-      name: 'attachfile',
+      name: 'attachFile',
       label: '',
       fullWidth: true,
     },

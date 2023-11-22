@@ -6,14 +6,30 @@ import {
   dealsNotesDefaultValues,
   dealsNotesValidationSchema,
 } from './NotesEditorDrawer.data';
+import { usePostDealNoteMutation } from '@/services/airSales/deals/view-details/Notes';
+import { enqueueSnackbar } from 'notistack';
 
 const useNotesEditorDrawer = () => {
+  const [postDealNote] = usePostDealNoteMutation();
+
   const methodsdealsNotes = useForm({
     resolver: yupResolver(dealsNotesValidationSchema),
     defaultValues: dealsNotesDefaultValues,
   });
 
-  const onSubmit = () => {};
+  const onSubmit = async (values: any) => {
+    const body = {
+      ...values,
+      recordId: '654dbb4a211df87d0a9c4d80',
+    };
+    try {
+      await postDealNote({ body }).unwrap();
+      enqueueSnackbar('Record Updated', { variant: 'success' });
+    } catch (error: any) {
+      const errMsg = error?.data?.message;
+      enqueueSnackbar(errMsg ?? 'Error occurred', { variant: 'error' });
+    }
+  };
   const { handleSubmit } = methodsdealsNotes;
   return { handleSubmit, onSubmit, methodsdealsNotes };
 };
