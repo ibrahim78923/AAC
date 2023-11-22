@@ -1,4 +1,4 @@
-import { Box, ListItem, ListItemText, Typography } from '@mui/material';
+import { Box, Button, List, ListItem, Typography } from '@mui/material';
 import React from 'react';
 
 const ConnectAds = () => {
@@ -12,20 +12,38 @@ const ConnectAds = () => {
         You all-in-one place to manage all your Facebook, Instagram,
         <br /> LinkedIn, and Google ad campaigns.
       </Typography>
-      <ListItem sx={{ fontSize: '14px', color: '#6B7280' }}>
-        <ListItemText>Tie ad spend directly to company revenue.</ListItemText>
-        <ListItemText>See who is interacting with each ad.</ListItemText>
-        <ListItemText>Re-engage with existing contacts.</ListItemText>
-        <ListItemText>
-          Align advertising with the rest of your marketing.
-        </ListItemText>
-      </ListItem>
+      <List
+        sx={{
+          fontSize: '14px',
+          color: '#6B7280',
+          '& li': {
+            position: 'relative',
+            '&::before': {
+              position: 'absolute',
+              content: `''`,
+              left: 0,
+              top: '18px',
+              borderRadius: '50px',
+              padding: '2px',
+              background: '#6B7280',
+            },
+          },
+        }}
+      >
+        <ListItem>Tie ad spend directly to company revenue.</ListItem>
+        <ListItem>See who is interacting with each ad.</ListItem>
+        <ListItem>Re-engage with existing contacts.</ListItem>
+        <ListItem>Align advertising with the rest of your marketing.</ListItem>
+      </List>
       <Typography sx={{ mt: 2, fontWeight: 300 }}>
         Once you connect an account, you may be eligible for $500 USD in <br />{' '}
         ad credits. Learn more about the{' '}
         <span style={{ color: '#38CAB5' }}>LinkedIn offer</span> and{' '}
         <span style={{ color: '#38CAB5' }}>Google Offer</span>.
       </Typography>
+      <Button sx={{ mt: 2 }} variant="contained">
+        Connect accounts
+      </Button>
     </Box>
   );
 };
