@@ -1,5 +1,4 @@
 import { Box, Grid, InputAdornment, Typography } from '@mui/material';
-
 import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
 import { EraserIcon } from '@/assets/icons';
@@ -10,15 +9,15 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import {
   addUsersArray,
-  superAdminDefaultValues,
   superAdminValidationSchema,
   CompanyOwnerValidationSchema,
 } from './AddUser.data';
-
 import { useForm } from 'react-hook-form';
 import { enqueueSnackbar } from 'notistack';
-import { v4 as uuidv4 } from 'uuid';
 import { SUPER_ADMIN } from '@/constants/index';
+import { v4 as uuidv4 } from 'uuid';
+import { usePostUserEmployeeMutation } from '@/services/superAdmin/user-management/UserList';
+import useUserDetailsList from '../../UsersDetailsList/useUserDetailsList';
 
 const AddUser = ({
   isOpenDrawer,
@@ -28,29 +27,24 @@ const AddUser = ({
   setIsOpenAddUserDrawer,
 }: any) => {
   const [isToggled, setIsToggled] = useToggle(false);
-  const { usePostUsersMutation } = usersApi;
+  const { usePostUsersMutation, useUpdateUsersMutation } = usersApi;
   const [postUsers] = usePostUsersMutation();
+  const [updateUsers] = useUpdateUsersMutation();
+  const [postUserEmployee] = usePostUserEmployeeMutation();
   const pathName = window?.location?.pathname;
   const userDetail = isOpenAddUserDrawer?.data?.data;
+  const tabTitle = tabVal === 0 ? 'COMPANY_OWNER' : 'SUPER_ADMIN';
+  const id = isOpenAddUserDrawer?.data?.data?._id;
+  const { setIsOpenAdduserDrawer: setIsAddEmployyeDrawer } =
+    useUserDetailsList();
+
   const superAdminMethods: any = useForm({
     resolver: yupResolver(superAdminValidationSchema),
-    defaultValues: superAdminDefaultValues,
+    defaultValues: userDetail,
   });
-  const tabTitle = tabVal === 0 ? 'COMPANY_OWNER' : 'SUPER_ADMIN';
-
-  const companyOwnerDetail = {
-    firstName: userDetail?.firstName,
-    middleName: userDetail?.middleName,
-    lastName: userDetail?.lastName,
-    email: userDetail?.email,
-    crn: userDetail?.crn,
-    companyName: userDetail?.organization,
-    phoneNumber: userDetail?.phoneNumber,
-  };
-
   const companyOwnerMethods: any = useForm({
     resolver: yupResolver(CompanyOwnerValidationSchema),
-    defaultValues: companyOwnerDetail,
+    defaultValues: userDetail,
   });
 
   const methods =
@@ -67,11 +61,16 @@ const AddUser = ({
   const onSubmit = async (values: any) => {
     values.role = tabTitle === 'COMPANY_OWNER' ? 'ORG_ADMIN' : 'SUPER_ADMIN';
     try {
-      postUsers({ body: values })?.unwrap();
+      isOpenAddUserDrawer?.type === 'add'
+        ? postUsers({ body: values })?.unwrap()
+        : pathName === SUPER_ADMIN?.USERS_LIST
+        ? postUserEmployee({ body: values })
+        : updateUsers({ id, ...values });
       enqueueSnackbar('User Added Successfully', {
         variant: 'success',
       });
       setIsOpenAddUserDrawer({ ...isOpenAddUserDrawer, drawer: false });
+      setIsAddEmployyeDrawer(false);
       reset();
     } catch (error: any) {
       enqueueSnackbar(error, {
@@ -85,13 +84,13 @@ const AddUser = ({
       isDrawerOpen={isOpenDrawer}
       onClose={onClose}
       title={
-        isOpenAddUserDrawer?.type === 'add'
-          ? 'Add User'
-          : isOpenAddUserDrawer?.type === 'view'
+        isOpenAddUserDrawer?.type === 'view'
           ? userDetail?.firstName
-          : 'Edit User'
+          : isOpenAddUserDrawer?.type === 'edit'
+          ? 'Edit User'
+          : 'Add User'
       }
-      okText={isOpenAddUserDrawer?.type === 'add' ? 'Add' : 'Update User'}
+      okText={isOpenAddUserDrawer?.type === 'edit' ? 'Update User' : 'Add'}
       isOk={isOpenAddUserDrawer?.type === 'view' ? false : true}
       submitHandler={handleSubmit(onSubmit)}
       footer
@@ -103,7 +102,7 @@ const AddUser = ({
               item?.toShow?.includes(
                 pathName === SUPER_ADMIN?.USERMANAGMENT
                   ? tabTitle
-                  : 'COMPANY_OWNER',
+                  : 'SUPER_ADMIN',
               ) && (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
                   <Typography variant="body2" fontWeight={500}>

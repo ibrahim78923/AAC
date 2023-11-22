@@ -1,4 +1,4 @@
-import { PdfAvatarImage } from '@/assets/images';
+import { PdfViewImage } from '@/assets/images';
 
 export const documentFolderArr: any = [
   {
@@ -86,7 +86,7 @@ export const folderArr = [
 export const documentTableData = [
   {
     Id: 1,
-    img: PdfAvatarImage,
+    img: PdfViewImage,
     name: 'My File.pdf',
     sharedLinks: '10',
     reads: '11',
@@ -94,7 +94,7 @@ export const documentTableData = [
   },
   {
     Id: 2,
-    img: PdfAvatarImage,
+    img: PdfViewImage,
     name: 'World file',
     sharedLinks: '15',
     reads: '12',
@@ -102,7 +102,7 @@ export const documentTableData = [
   },
   {
     Id: 3,
-    img: PdfAvatarImage,
+    img: PdfViewImage,
     name: 'File',
     sharedLinks: '20',
     reads: '12',
@@ -110,7 +110,7 @@ export const documentTableData = [
   },
   {
     Id: 4,
-    img: PdfAvatarImage,
+    img: PdfViewImage,
     name: 'My Apps',
     sharedLinks: '22',
     reads: '14',
@@ -118,7 +118,7 @@ export const documentTableData = [
   },
   {
     Id: 5,
-    img: PdfAvatarImage,
+    img: PdfViewImage,
     name: 'View',
     sharedLinks: '09',
     reads: '20',
@@ -126,7 +126,7 @@ export const documentTableData = [
   },
   {
     Id: 6,
-    img: PdfAvatarImage,
+    img: PdfViewImage,
     name: 'Document',
     sharedLinks: '07',
     reads: '25',

@@ -1,5 +1,5 @@
 export const styles = {
-  select: (value: any, theme: any) => {
+  select: (value: any, defaultValue: any, theme: any) => {
     return {
       borderRadius: '16px',
       height: '22px',
@@ -8,7 +8,10 @@ export const styles = {
       },
       'svg path': {
         fill:
-          value === 'active' || value === 'open'
+          value === 'active' ||
+          value === 'open' ||
+          defaultValue === 'active' ||
+          defaultValue === 'open'
             ? theme?.palette?.success?.main
             : theme?.palette?.error?.main,
       },

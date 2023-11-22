@@ -23,17 +23,17 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { v4 as uuidv4 } from 'uuid';
 
 const UsersManagementFilters = (props: any) => {
-  const { isOpen, setIsOpen, tabVal } = props;
+  const { isOpen, setIsOpen, tabVal, filterValues, setFilterValues } = props;
 
   const tabsFilter: any = {
     0: {
       schema: usersValidationSchema,
-      array: usersFilterArray,
+      array: usersFilterArray(),
       defaultVal: usersDefaultValues,
     },
     1: {
       schema: usersValidationSchema,
-      array: usersFilterArray,
+      array: usersFilterArray(),
       defaultVal: usersDefaultValues,
     },
     2: {
@@ -50,9 +50,16 @@ const UsersManagementFilters = (props: any) => {
 
   const { handleSubmit } = methods;
 
-  const onSubmit = async () => {
+  const onSubmit = async (values: any) => {
+    setFilterValues({
+      ...filterValues,
+      products: values?.products,
+      role: values?.role,
+      organization: values?.organization,
+    });
     setIsOpen(false);
   };
+
   return (
     <CommonDrawer
       isDrawerOpen={isOpen}

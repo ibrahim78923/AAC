@@ -27,12 +27,12 @@ import { AlertModals } from '@/components/AlertModals';
 
 import {
   AnyRoundIcon,
-  FilterSharedIcon,
   FolderBlackIcon,
   FolderIcon,
   SingleUserBlackIcon,
   TeamUserIcon,
   TwoUserBlackIcon,
+  FilterrIcon,
 } from '@/assets/icons';
 import { UserRoundImage } from '@/assets/images';
 
@@ -49,6 +49,7 @@ import useFolder from './useFolder';
 import { v4 as uuidv4 } from 'uuid';
 
 import { styles } from './Folder.style';
+import PreviewPdf from './PreviewPdf';
 
 const Folders = (props: any) => {
   const { toggle } = props;
@@ -78,6 +79,10 @@ const Folders = (props: any) => {
     setIsLinkOpen,
     isCreateLinkOpen,
     setIsCreateLinkOpen,
+    isPdfOpen,
+    setIsPdfOpen,
+    handlePdfOpen,
+    handlePdfClose,
   } = useFolder();
   return (
     <>
@@ -389,7 +394,7 @@ const Folders = (props: any) => {
                 paddingTop: '10px',
               }}
             >
-              {folderArr.map((item) => {
+              {folderArr?.map((item) => {
                 return (
                   <>
                     <Box
@@ -409,7 +414,7 @@ const Folders = (props: any) => {
                           color: `${theme?.palette?.grey[600]}`,
                         }}
                       >
-                        {item.name}
+                        {item?.name}
                       </Typography>
                     </Box>
                   </>
@@ -500,7 +505,7 @@ const Folders = (props: any) => {
                     <MenuItem onClick={() => setIsLinkOpen(true)}>
                       Create Link
                     </MenuItem>
-                    <MenuItem onClick={() => setIsOpenFolderDrawer(true)}>
+                    <MenuItem onClick={() => setIsPdfOpen(true)}>
                       Preview
                     </MenuItem>
                     <MenuItem onClick={() => setIsEditOpenModal(true)}>
@@ -520,7 +525,7 @@ const Folders = (props: any) => {
                     variant="outlined"
                     sx={styles?.fiterButton(theme)}
                   >
-                    <FilterSharedIcon /> Any
+                    <FilterrIcon /> Any
                   </Button>
                 </Box>
               </Grid>
@@ -733,6 +738,12 @@ const Folders = (props: any) => {
         handleSubmit={function (): void {
           throw new Error('Function not implemented.');
         }}
+      />
+      <PreviewPdf
+        isPdfOpen={isPdfOpen}
+        setIsPdfOpen={setIsPdfOpen}
+        handlePdfOpen={handlePdfOpen}
+        handlePdfClose={handlePdfClose}
       />
     </>
   );
