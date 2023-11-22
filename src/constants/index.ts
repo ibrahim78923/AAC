@@ -1,3 +1,8 @@
+export const DATE_FORMAT = {
+  UI: 'MM/DD/YYYY',
+  API: 'YYYY-MM-DD',
+};
+
 export const SUPER_ADMIN: any = {
   USERMANAGMENT: '/super-admin/user-management',
   ADDROLE: '/super-admin/user-management/add-role',

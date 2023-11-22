@@ -1,3 +1,4 @@
+'use client';
 import React, { useState } from 'react';
 
 import {
@@ -18,29 +19,25 @@ import { FormProvider } from '@/components/ReactHookForm';
 import { AlertModals } from '@/components/AlertModals';
 import QueryModal from './QueryModal';
 
-import { enquiriesTabledata } from '@/mock/modules/superAdmin/Settings/Enquiries';
-
 import {
-  columns,
   enquiriesFiltersDefaultValues,
   enquiriesFiltersFiltersDataArray,
   enquiriesFiltersValidationSchema,
 } from './Enquiries.data';
 
-import { DownIcon, FilterSharedIcon, RefreshSharedIcon } from '@/assets/icons';
+import { DownIcon, FilterSharedIcon } from '@/assets/icons';
 
 import { styles } from './Enquiries.styles';
 
 import { v4 as uuidv4 } from 'uuid';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useEnquiries } from './useEnquiries';
 
 const Enquiries = () => {
   const theme = useTheme();
   const [isEnquiriesFilterDrawerOpen, setIsEnquiriesFilterDrawerOpen] =
     useState(false);
-  const [faqsSearch, setFaqsSearch] = useState('');
-  const [isEnquiriesDeleteModal, setIsEnquiriesDeleteModal] = useState(false);
   const [isQueryModalOpen, setIsQueryModalOpen] = useState(false);
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -48,6 +45,17 @@ const Enquiries = () => {
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
+
+  const {
+    tableData,
+    tableRowIds,
+    handleDeleteEnquiries,
+    handleDeleteModal,
+    isEnquiriesDeleteModal,
+    search,
+    setSearch,
+  } = useEnquiries();
+
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -95,8 +103,8 @@ const Enquiries = () => {
         >
           <Search
             label={'Search here'}
-            searchBy={faqsSearch}
-            setSearchBy={setFaqsSearch}
+            searchBy={search}
+            setSearchBy={setSearch}
             width="100%"
             size="small"
           />
@@ -109,6 +117,7 @@ const Enquiries = () => {
             }}
           >
             <Button
+              disabled={tableRowIds.length > 0 ? false : true}
               id="basic-button"
               aria-controls={isActionMenuOpen ? 'basic-menu' : undefined}
               aria-haspopup="true"
@@ -138,12 +147,10 @@ const Enquiries = () => {
                 Reply
               </MenuItem>
               <MenuItem>View</MenuItem>
-              <MenuItem onClick={() => setIsEnquiriesDeleteModal(true)}>
-                Delete
-              </MenuItem>
+              <MenuItem onClick={handleDeleteModal}>Delete</MenuItem>
             </Menu>
             <Button sx={styles.refreshButton(theme)}>
-              <RefreshSharedIcon />
+              {/* <RefreshSharedIcon /> */}
             </Button>
             <Button
               sx={styles.filterButton(theme)}
@@ -155,7 +162,7 @@ const Enquiries = () => {
         </Box>
       </Box>
       <Box>
-        <TanstackTable columns={columns} data={enquiriesTabledata} />
+        <TanstackTable {...tableData} />
         <CustomPagination
           count={1}
           rowsPerPageOptions={[1, 2]}
@@ -200,13 +207,15 @@ const Enquiries = () => {
         setIsQueryModalOpen={setIsQueryModalOpen}
       />
 
-      <AlertModals
-        message={'Are you sure you want to delete this entry ?'}
-        type="delete"
-        open={isEnquiriesDeleteModal}
-        handleClose={() => setIsEnquiriesDeleteModal(false)}
-        handleSubmit={() => setIsEnquiriesDeleteModal(false)}
-      />
+      {isEnquiriesDeleteModal && (
+        <AlertModals
+          message={'Are you sure you want to delete this entry ?'}
+          type="delete"
+          open={isEnquiriesDeleteModal}
+          handleClose={handleDeleteModal}
+          handleSubmitBtn={handleDeleteEnquiries}
+        />
+      )}
     </Box>
   );
 };

@@ -17,7 +17,7 @@ const SwitchableDatepicker = ({ error, field, ...other }: any) => {
   const [isMonthYearPicker, setIsMonthYearPicker] = useState(false);
   const [isYearPicker, setIsYearPicker] = useState(false);
   const [isRangePicker, setIsRangePicker] = useState(false);
-  const [startDate, setStartDate]: any = useState(new Date());
+  const [startDate, setStartDate]: any = useState(null);
   const [endDate, setEndDate]: any = useState(null);
   const [dateFormat, setDateFormat] = useState('MM/dd/yyyy');
 

@@ -1,6 +1,10 @@
 import Layout from '@/layout';
 import PaidAds from '@/modules/airMarketer/PaidAds';
-const PaidAdsPage = () => <PaidAds />;
+import React from 'react';
+
+const PaidAdsPage = () => {
+  return <PaidAds />;
+};
 
 export default PaidAdsPage;
 
