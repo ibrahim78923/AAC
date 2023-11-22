@@ -18,7 +18,7 @@ import { ArrowDropDown } from '@mui/icons-material';
 
 import { AlertModalDeleteIcon } from '@/assets/icons';
 
-const SMSBroadcastHeader = () => {
+const SMSBroadcastHeader = (props: any) => {
   const {
     theme,
     handleClick,
@@ -63,6 +63,7 @@ const SMSBroadcastHeader = () => {
         </FormControl>
         <Box>
           <Button
+            disabled={props.selectedId ? false : true}
             onClick={handleClick}
             // disabled={checkedRows === undefined ? true : false}
             sx={{

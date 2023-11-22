@@ -46,21 +46,25 @@ const CreateSMSBroadcast = () => {
 
   return (
     <>
-      <Box
-        alignItems="center"
-        gap={1}
-        sx={{ display: { md: 'flex' }, zIndex: 99, position: 'relative' }}
-      >
-        <ArrowBackIcon
-          sx={{ cursor: 'pointer' }}
-          onClick={() => {
-            navigate.push(AIR_MARKETER?.SMS_MARKETING);
-          }}
-        />
-        <Typography variant="h4">
-          {type === 'add' ? 'Create ' : 'Edit '}SMS Broadcast
-        </Typography>
-      </Box>
+      <Stack direction="row" justifyContent="space-between">
+        <Box
+          alignItems="center"
+          gap={1}
+          sx={{ display: { md: 'flex' }, zIndex: 99, position: 'relative' }}
+        >
+          <ArrowBackIcon
+            sx={{ cursor: 'pointer' }}
+            onClick={() => {
+              navigate.push(AIR_MARKETER?.SMS_MARKETING);
+            }}
+          />
+          <Typography variant="h4">
+            {type === 'add' ? 'Create ' : 'Edit '}SMS Broadcast
+          </Typography>
+        </Box>
+        {type !== 'add' && <Button variant="outlined">Save as Draft</Button>}
+      </Stack>
+
       <FormProvider methods={methods}>
         <Grid container spacing={3}>
           <Grid item md={6}>

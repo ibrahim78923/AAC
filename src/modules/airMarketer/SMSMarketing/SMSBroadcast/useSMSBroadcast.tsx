@@ -8,6 +8,7 @@ import { useState } from 'react';
 const useSMSBroadcast = () => {
   const [selectedValue, setSelectedValue] = useState(null);
   const [isDelete, setIsDelete] = useState(false);
+  const [selectedId, setSelectedId] = useState();
   const theme = useTheme<Theme>();
   const navigate = useRouter();
 
@@ -55,6 +56,8 @@ const useSMSBroadcast = () => {
     statusTag,
     navigate,
     isDelete,
+    selectedId,
+    setSelectedId,
     theme,
   };
 };
