@@ -25,7 +25,7 @@ export const addTaxFormDataArray = [
   {
     componentProps: {
       name: 'name',
-      label: 'Tax Name',
+      label: 'Tax Name*',
     },
     component: RHFTextField,
     md: 12,
@@ -33,7 +33,7 @@ export const addTaxFormDataArray = [
   {
     componentProps: {
       name: 'percentage',
-      label: 'Tax Percentage',
+      label: 'Tax Percentage*',
       type: 'number',
     },
     component: RHFTextField,
@@ -41,45 +41,18 @@ export const addTaxFormDataArray = [
   },
   {
     componentProps: {
+      label: 'Select Forms*',
       name: 'applyOn',
-      options: ['invoice', 'quotes', 'subscriptions', 'products'],
+      options: [
+        { value: 'invoice', label: 'Invoice' },
+        { value: 'quotes', label: 'Quotes' },
+        { value: 'subscriptions', label: 'Subscriptions' },
+        { value: 'products', label: 'Products' },
+      ],
     },
     component: RHFMultiCheckbox,
-    md: 3,
+    md: 12,
   },
-
-  // {
-  //   componentProps: {
-  //     name: 'Invoices',
-  //     label: 'Invoices',
-  //   },
-  //   component: RHFCheckbox,
-  //   md: 6,
-  // },
-  // {
-  //   componentProps: {
-  //     name: 'subscription',
-  //     label: 'Subscription',
-  //   },
-  //   component: RHFCheckbox,
-  //   md: 6,
-  // },
-  // {
-  //   componentProps: {
-  //     name: 'qoutes',
-  //     label: 'Quotes',
-  //   },
-  //   component: RHFCheckbox,
-  //   md: 6,
-  // },
-  // {
-  //   componentProps: {
-  //     name: 'products',
-  //     label: 'Products',
-  //   },
-  //   component: RHFCheckbox,
-  //   md: 6,
-  // },
   {
     componentProps: {
       name: 'description',

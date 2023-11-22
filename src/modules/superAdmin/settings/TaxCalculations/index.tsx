@@ -233,7 +233,7 @@ const TaxCalculation = () => {
         isOk={true}
         footer={true}
         submitHandler={handleAddTaxSubmit}
-        loading={loadingAddTax}
+        isLoading={loadingAddTax}
       >
         <>
           <FormProvider methods={methodsAddTaxForm}>

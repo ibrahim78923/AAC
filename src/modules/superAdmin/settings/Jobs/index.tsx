@@ -70,7 +70,7 @@ const Jobs = () => {
         okText="Post"
         isOk={true}
         footer={true}
-        loading={loadingPostAddJob}
+        isLoading={loadingPostAddJob}
         submitHandler={handleSubmitAddJobPost}
       >
         <>

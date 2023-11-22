@@ -13,8 +13,6 @@ const AddFaq = ({
   formMethods,
   isLoading,
 }: AddFaqPropsI) => {
-  // const { data: dataSingleFaq, isLoading: loadingFaq } = useGetFaqsByIdQuery(faqID)
-  // console.log('dataSingleFaq::: ', dataSingleFaq)
   return (
     <CommonModal
       open={isAddModalOpen}

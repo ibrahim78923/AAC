@@ -22,7 +22,7 @@ const EditJobPost = ({
       isOk={true}
       footer={true}
       submitHandler={handleSubmit}
-      loading={isLoading}
+      isLoading={isLoading}
     >
       <>
         <FormProvider methods={formMethods}>

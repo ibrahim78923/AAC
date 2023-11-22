@@ -17,15 +17,16 @@ const useJobs = () => {
     defaultValues: jobPostingDefaultValues,
   });
 
+  const { handleSubmit: handleMethodAddJob, reset } = methodsAddJobPost;
+
   const handleOpenAddJobPost = () => {
     setOpenAddJobPost(true);
   };
 
   const handleCloseAddJobPost = () => {
     setOpenAddJobPost(false);
+    reset();
   };
-
-  const { handleSubmit: handleMethodAddJob } = methodsAddJobPost;
 
   const onSubmitAddJob = async (values: any) => {
     try {

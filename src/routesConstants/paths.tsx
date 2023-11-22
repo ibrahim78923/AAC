@@ -41,6 +41,8 @@ export const PATH_DASHBOARD = {
 
 export const SUPER_ADMIN_SETTINGS: any = {
   JOBS: '/jobs',
+  JOB_APPLICATIONS: '/job-applications',
+  UNIQUE_CANDIDATE: '/job-applications/get-unique-candidate',
   FAQS: '/faqs',
   TAX_CALCULATION: '/tax-calculation',
 };
