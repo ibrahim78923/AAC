@@ -9,6 +9,7 @@ import {
 import { v4 as uuidv4 } from 'uuid';
 import { Box, MenuItem, Typography } from '@mui/material';
 import useCompanyList from './useCompanyList';
+import { BackArrIcon } from '@/assets/icons';
 
 const CompanyList = ({ open, onClose }: any) => {
   const { methods } = useCompanyList();
@@ -66,6 +67,8 @@ const CompanyList = ({ open, onClose }: any) => {
       okText="Create Audience"
       isOk
       footer
+      headerIcon={<BackArrIcon />}
+      title="Company List"
       onClose={onClose}
     >
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>

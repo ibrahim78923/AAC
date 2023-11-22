@@ -10,6 +10,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { Box, MenuItem, Typography } from '@mui/material';
 import { styles } from './ContactList.style';
 import useContactList from './useContactList';
+import { BackArrowIcon } from '@/assets/icons';
 
 const ContactList = ({ open, onClose }: any) => {
   const { theme, methods } = useContactList();
@@ -67,6 +68,8 @@ const ContactList = ({ open, onClose }: any) => {
       okText="Create Audience"
       isOk
       footer
+      headerIcon={<BackArrowIcon />}
+      title="Contact List"
       onClose={onClose}
     >
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
