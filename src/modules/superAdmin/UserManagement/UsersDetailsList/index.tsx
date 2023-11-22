@@ -66,9 +66,10 @@ const UsersDetailsList = () => {
   const { useGetUsersByIdQuery } = useUserManagement();
 
   const { id } = navigate.query;
-  const { data } = useGetUsersByIdQuery(id);
+  const { data: userDetail } = useGetUsersByIdQuery(id);
   const { data: employeeList } = useGetEmployeeListQuery({ _id: id });
-  const userDetails = data?.data || employeeList?.data?.useros;
+  const userDetails = userDetail?.data;
+  const empDetail = employeeList?.data?.useros;
 
   return (
     <Box>
@@ -94,8 +95,7 @@ const UsersDetailsList = () => {
                   sx={{ cursor: 'pointer' }}
                 />
                 <Typography variant="h3">
-                  {userDetails?.firstName} {userDetails?.middleName}
-                  {userDetails?.lastName}
+                  {userDetails?.firstName} {userDetails?.lastName}
                 </Typography>
               </Stack>
               <Stack direction={'row'} gap={1}>
@@ -149,10 +149,8 @@ const UsersDetailsList = () => {
                 </Button>
               </Stack>
             </Box>
-            {data?.data?.users?.length === 0 && (
-              <Typography>No user found</Typography>
-            )}
-            {data?.data?.users?.map((item: any) => (
+            {empDetail?.length === 0 && <Typography>No user found</Typography>}
+            {empDetail?.map((item: any) => (
               <Box
                 className="users-wrapper"
                 sx={{
@@ -190,7 +188,7 @@ const UsersDetailsList = () => {
                       sx={{ display: 'flex', justifyContent: 'space-between' }}
                     >
                       <Typography>
-                        {item?.firstName} {item?.middleName} {item?.lastName}
+                        {item?.firstName} {item?.lastName}
                       </Typography>
                       <StatusBadge
                         defaultValue={item?.status}
@@ -221,7 +219,7 @@ const UsersDetailsList = () => {
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <ProfileCard
-                userName={`${userDetails?.firstName} ${userDetails?.middleName} ${userDetails?.lastName}`}
+                userName={`${userDetails?.firstName} ${userDetails?.lastName}`}
                 role={userDetails?.role}
                 email={userDetails?.email}
                 phone={userDetails?.phoneNumber}

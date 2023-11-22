@@ -16,26 +16,29 @@ const StatusBadge = (props: BadgeStatusI) => {
       sx={{
         fontSize: '14px',
         backgroundColor:
-          value === 'active' || value === 'open'
+          value === 'active' ||
+          value === 'open' ||
+          defaultValue === 'active' ||
+          defaultValue === 'open'
             ? 'rgba(71, 178, 99, 0.2)'
             : 'rgba(255, 74, 74, 0.2)',
         color:
-          value === 'active' || value === 'open'
+          value === 'active' ||
+          value === 'open' ||
+          defaultValue === 'active' ||
+          defaultValue === 'open'
             ? theme?.palette?.success?.main
             : theme?.palette?.error?.main,
-        ...styles.select(value, theme),
+        ...styles.select(value, defaultValue, theme),
       }}
       id="demo-simple-select"
       value={value}
       onChange={onChange}
+      defaultValue={defaultValue}
     >
       {options?.map((item: any) => {
         return (
-          <MenuItem
-            key={uuidv4()}
-            value={item?.value}
-            defaultValue={defaultValue}
-          >
+          <MenuItem key={uuidv4()} value={item?.value}>
             {item?.label}
           </MenuItem>
         );

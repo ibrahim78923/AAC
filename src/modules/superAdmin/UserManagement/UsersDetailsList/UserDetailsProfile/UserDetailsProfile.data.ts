@@ -22,17 +22,6 @@ export const profileFields = [
     component: RHFTextField,
     md: 6,
   },
-
-  {
-    componentProps: {
-      name: 'middleName',
-      label: 'Middle Name',
-      placeholder: 'Enter Middle Name',
-      fullWidth: true,
-    },
-    component: RHFTextField,
-    md: 6,
-  },
   {
     componentProps: {
       name: 'lastName',
