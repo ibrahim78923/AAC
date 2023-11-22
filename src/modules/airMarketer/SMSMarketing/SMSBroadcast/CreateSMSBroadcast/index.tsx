@@ -1,6 +1,5 @@
 import {
   Avatar,
-  AvatarGroup,
   Box,
   Button,
   Grid,
@@ -25,14 +24,13 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import DateRangeIcon from '@mui/icons-material/DateRange';
 import { PlusSharedColorIcon } from '@/assets/icons';
 import useCreateSMSBroadcast from './useCreateSMSBroadcast';
-import AddContactsDrawer from './AddContactsDrawer';
+import AddContactDrawer from './AddContactDrawer';
 
 const CreateSMSBroadcast = (props: any) => {
   const { setIsCreateSmsBroadcast } = props;
 
-  const { theme, isAddRecipients, setIsAddRecipients } =
+  const { theme, isAddContactDrawerOpen, setIsAddContactDrawerOpen } =
     useCreateSMSBroadcast();
-
   const methods: any = useForm({
     resolver: yupResolver(validationSchema),
     defaultValues: defaultValues,
@@ -66,6 +64,36 @@ const CreateSMSBroadcast = (props: any) => {
               {createBroadcast?.map((item: any) => {
                 return (
                   <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                    {item?.componentProps?.name === 'recipients' && (
+                      <Box position="relative">
+                        <InputAdornment
+                          sx={{
+                            position: 'absolute',
+                            top: 48,
+                            right: 15,
+                            zIndex: 9999,
+                          }}
+                          position="end"
+                        >
+                          <Box
+                            sx={{
+                              display: 'flex',
+                              gap: '10px',
+                              alignItems: 'center',
+                            }}
+                          >
+                            <Box
+                              sx={{ cursor: 'pointer' }}
+                              onClick={() => setIsAddContactDrawerOpen(true)}
+                            >
+                              <PlusSharedColorIcon
+                                color={theme?.palette?.primary?.main}
+                              />
+                            </Box>
+                          </Box>
+                        </InputAdornment>
+                      </Box>
+                    )}
                     <item.component {...item.componentProps} size={'small'}>
                       {item?.componentProps?.select &&
                         item?.options?.map((option: any) => (
@@ -74,35 +102,6 @@ const CreateSMSBroadcast = (props: any) => {
                           </option>
                         ))}
                     </item.component>
-                    {item?.componentProps?.name === 'recipients' && (
-                      <Box sx={{ position: 'relative', cursor: 'pointer' }}>
-                        <InputAdornment
-                          sx={{
-                            position: 'absolute',
-                            top: -30,
-                            right: 15,
-                            zIndex: 99,
-                          }}
-                          onClick={() => {
-                            setIsAddRecipients(true);
-                          }}
-                          position="end"
-                        >
-                          <PlusSharedColorIcon
-                            color={theme?.palette?.primary?.main}
-                          />
-                        </InputAdornment>
-                        <Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
-                          <AvatarGroup max={4}>
-                            <Avatar alt="avatar" src="" />
-                            <Avatar alt="avatar" src="" />
-                            <Avatar alt="avatar" src="" />
-                            <Avatar alt="avatar" src="" />
-                            <Avatar alt="avatar" src="" />
-                          </AvatarGroup>
-                        </Box>
-                      </Box>
-                    )}
                   </Grid>
                 );
               })}
@@ -165,10 +164,10 @@ const CreateSMSBroadcast = (props: any) => {
           </Grid>
         </Grid>
       </FormProvider>
-      {isAddRecipients && (
-        <AddContactsDrawer
-          isDrawerOpen={isAddRecipients}
-          onClose={() => setIsAddRecipients(false)}
+      {isAddContactDrawerOpen && (
+        <AddContactDrawer
+          isDrawerOpen={isAddContactDrawerOpen}
+          onClose={() => setIsAddContactDrawerOpen(false)}
         />
       )}
     </>

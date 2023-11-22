@@ -29,8 +29,8 @@ const UserManagement = () => {
     setIsOpenFilterDrawer,
     tabVal,
     setTabVal,
-    search,
-    setSearch,
+    filterValues,
+    setFilterValues,
     handleAddRole,
     checkedRows,
     setCheckedRows,
@@ -54,9 +54,9 @@ const UserManagement = () => {
               tabVal === 2
                 ? handleAddRole()
                 : setIsOpenAddUserDrawer({
-                    ...isOpenAddUserDrawer,
                     drawer: true,
                     type: 'add',
+                    data: {},
                   })
             }
             variant="contained"
@@ -80,8 +80,8 @@ const UserManagement = () => {
             getTabVal={(val: number) => setTabVal(val)}
             searchBarProps={{
               label: 'Search Here',
-              setSearchBy: setSearch,
-              searchBy: search,
+              setSearchBy: setFilterValues,
+              searchBy: filterValues?.search,
               width: '260px',
             }}
             isHeader={true}
@@ -114,8 +114,16 @@ const UserManagement = () => {
               </>
             }
           >
-            <Users checkedRows={checkedRows} setCheckedRows={setCheckedRows} />
-            <SuperAdminUsers />
+            <Users
+              checkedRows={checkedRows}
+              setCheckedRows={setCheckedRows}
+              filterValues={filterValues}
+            />
+            <SuperAdminUsers
+              checkedRows={checkedRows}
+              setCheckedRows={setCheckedRows}
+              search={filterValues?.search}
+            />
             <RolesAndRights />
           </CommonTabs>
         </Box>
@@ -125,6 +133,8 @@ const UserManagement = () => {
         <UsersManagementFilters
           tabVal={tabVal}
           isOpen={isOpenFilterDrawer}
+          filterValues={filterValues}
+          setFilterValues={setFilterValues}
           setIsOpen={setIsOpenFilterDrawer}
         />
       )}

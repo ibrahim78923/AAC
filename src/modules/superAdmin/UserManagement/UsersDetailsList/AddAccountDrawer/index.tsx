@@ -61,7 +61,7 @@ const AddAccountDrawer = (props: any) => {
       <Box mt={1}>
         <FormProvider methods={methods}>
           <Grid container spacing={2}>
-            {AddAccountArray?.map((item: any) => (
+            {AddAccountArray()?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={uuidv4()}>
                 <Typography variant="body2" fontWeight={500}>
                   {item?.title}

@@ -36,9 +36,11 @@ const ActionButton = (props?: any) => {
         open={Boolean(selectedValue)}
         onClose={handleClose}
       >
-        <MenuItem onClick={() => handleUsersList(checkedRows)}>
-          User List
-        </MenuItem>
+        {tabVal === 0 && (
+          <MenuItem onClick={() => handleUsersList(checkedRows)}>
+            User List
+          </MenuItem>
+        )}
         <MenuItem
           onClick={() => {
             handleClose();
@@ -52,7 +54,19 @@ const ActionButton = (props?: any) => {
         >
           View
         </MenuItem>
-        <MenuItem onClick={handleClose}>Edit</MenuItem>
+        <MenuItem
+          onClick={() => {
+            handleClose();
+            setIsOpenAddUserDrawer({
+              ...isOpenAddUserDrawer,
+              drawer: true,
+              type: 'edit',
+              data: data,
+            });
+          }}
+        >
+          Edit
+        </MenuItem>
       </Menu>
 
       {isOpenAddUserDrawer?.drawer && (

@@ -19,7 +19,7 @@ export const styles = {
   },
   productCard: (theme: any) => {
     return {
-      border: `1px solid ${theme?.palette?.custom?.light_lavendar_gray}`,
+      border: `1px solid ${theme?.palette?.custom?.off_white_one}`,
       borderRadius: '8px',
       padding: '0.7rem',
     };

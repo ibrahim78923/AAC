@@ -147,6 +147,14 @@ export { default as TicketImage } from '../images/modules/socialComponents/compa
 export { default as NoteImage } from '../images/modules/socialComponents/companies/note.png';
 export { default as NoteAddImage } from '../images/modules/socialComponents/companies/noteAdd.png';
 export { default as ActivitesTimeImage } from '../images/modules/socialComponents/companies/ActivitiesWithoutTime.png';
+export { default as DummyDesktopImage } from '../images/modules/socialComponents/companies/dummyDesktop.png';
+export { default as PdfViewImage } from '../images/modules/socialComponents/companies/pdfView.png';
+export { default as TotalUserImage } from '../images/modules/orgAdmin/Delegates/profileuser.png';
+export { default as ActiveUserImage } from '../images/modules/orgAdmin/Delegates/activeuser.png';
+export { default as InActiveUserImage } from '../images/modules/orgAdmin/Delegates/inactiveuser.png';
+export { default as ViewEyeImage } from '../images/modules/orgAdmin/Delegates/viewEye.png';
+export { default as CardbgImage } from '../images/modules/orgAdmin/Delegates/cardBgImage.png';
+export { default as LineBgImage } from '../images/modules/orgAdmin/Delegates/linesBG.png';
 export { default as EventImage } from '../images/shared/EventImage.png';
 
 export { default as GroupGmailImage } from './modules/airMarketer/SocialMarketing/group-gmail.png';
@@ -175,3 +183,4 @@ export { default as LogoWhatsappImage } from './modules/airMarketer/SocialMarket
 
 export { default as LogoFacebookImage } from './modules/airMarketer/SocialMarketing/SocialInbox/logo-facebook.png';
 export { default as UserRetroImage } from './modules/airMarketer/SocialMarketing/user-retro.png';
+export { default as MessageGreyImage } from './modules/orgAdmin/organization/message.png';
