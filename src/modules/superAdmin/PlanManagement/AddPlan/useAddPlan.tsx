@@ -136,6 +136,7 @@ export const useAddPlan = () => {
     const productId = productFeatures?.data?.productfeatures?.find(
       (id: any) => values?.features.includes(id?._id),
     );
+
     const featuresData = values?.features?.map((item: any) => {
       return {
         features: [
@@ -174,21 +175,34 @@ export const useAddPlan = () => {
         allowAdditionalUsers: planForm?.allowAdditionalUsers,
         allowAdditionalStorage: planForm?.allowAdditionalStorage,
       };
-      const planFeaturesFormData = {
-        //getting formdata at index 0
-        planFeature:
-          featuresFormData[0]?.features?.map((item: any) => {
-            return {
-              features: [
-                {
-                  featureId: item?.featureId,
-                  dealsAssociationsDetail: item?.dealsAssociationsDetail,
-                },
-              ],
-              productId: 'string', // Make sure to replace "string" with the actual value you want here
-            };
-          }) || [], // Use an empty array if featuresFormData or features is undefined
+      const planFeaturesFormData = featuresFormData.map((item: any) =>
+        item.features.map((feature: any) => ({
+          features: [
+            {
+              dealsAssociationsDetail: 'string', // You can set your desired value here
+              featureId: feature.featureId,
+            },
+          ],
+          productId: item.productId,
+        })),
+      );
+
+      const transformedFeaturesFormData = {
+        planFeature: planFeaturesFormData.flat().map((item: any) => ({
+          features: item.features,
+          productId: item.productId,
+        })),
       };
+
+      // const planFeaturesFormData = featuresFormData?.map((item:any) => ({
+      //   planFeature: {
+      //     features: item.features.map((feature:any) => ({
+      //       dealsAssociationsDetail: 'string',  // You can set your desired value here
+      //       featureId: feature.featureId,
+      //     })),
+      //     productId: item.productId,
+      //   }
+      // }));
 
       const planPermissions = {
         //we are getting array when we select options in searchable select
@@ -211,14 +225,14 @@ export const useAddPlan = () => {
               id: parsedRowData?._id,
               body: {
                 ...planFormData,
-                ...planFeaturesFormData,
+                ...transformedFeaturesFormData,
                 ...permissions,
               },
             })
           : postPlanMangement({
               body: {
                 ...planFormData,
-                ...planFeaturesFormData,
+                ...transformedFeaturesFormData,
                 ...permissions,
               },
             })?.unwrap();
