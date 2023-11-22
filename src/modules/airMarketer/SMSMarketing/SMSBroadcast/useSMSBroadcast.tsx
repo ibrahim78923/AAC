@@ -1,3 +1,4 @@
+import { AIR_MARKETER } from '@/routesConstants/paths';
 import { Theme, useTheme } from '@mui/material';
 
 import { useRouter } from 'next/router';
@@ -17,6 +18,14 @@ const useSMSBroadcast = () => {
   const handleDelete = () => {
     setSelectedValue(null);
     setIsDelete(true);
+  };
+
+  const handleEdit = () => {
+    setSelectedValue(null);
+    navigate.push({
+      pathname: AIR_MARKETER?.CREATE_SMS_BROADCAST,
+      query: { type: 'edit' },
+    });
   };
 
   const handleClick = (event: any) => {
@@ -41,6 +50,7 @@ const useSMSBroadcast = () => {
     handleDelete,
     handleClose,
     handleClick,
+    handleEdit,
     setIsDelete,
     statusTag,
     navigate,

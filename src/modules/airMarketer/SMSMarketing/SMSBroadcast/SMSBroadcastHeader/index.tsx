@@ -27,6 +27,7 @@ const SMSBroadcastHeader = () => {
     isDelete,
     setIsDelete,
     handleDelete,
+    handleEdit,
   } = useSMSBroadcast();
 
   return (
@@ -80,7 +81,7 @@ const SMSBroadcastHeader = () => {
             open={Boolean(selectedValue)}
             onClose={handleClose}
           >
-            <MenuItem onClick={handleClose}>Edit</MenuItem>
+            <MenuItem onClick={handleEdit}>Edit</MenuItem>
             <MenuItem onClick={handleDelete}>Delete</MenuItem>
           </Menu>
         </Box>
