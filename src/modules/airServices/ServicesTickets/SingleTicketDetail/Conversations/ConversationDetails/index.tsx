@@ -1,11 +1,8 @@
-// ConversationsDetails.tsx
 import { Box, Button, Menu, MenuItem, Typography } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
 import { menuOptionsAddConversation } from '../Conversation.data';
 import ConversationView from '../ConversationView';
-import NoData from '@/components/NoData';
 import { AddWhiteBgIcon } from '@/assets/icons';
-import { NoAssociationFoundImage } from '@/assets/images';
 import { UseConversation } from '../useConversation';
 
 const ConversationsDetails = () => {
@@ -73,26 +70,7 @@ const ConversationsDetails = () => {
           </Menu>
         )}
       </Box>
-      {isConversation ? (
-        <ConversationView selectedValues={selectedValues} />
-      ) : (
-        <NoData
-          message="There are no Conversation"
-          image={NoAssociationFoundImage}
-        >
-          <Button
-            variant="contained"
-            startIcon={<AddWhiteBgIcon />}
-            id="conversation-button"
-            aria-controls={open ? 'conversation-menu' : undefined}
-            aria-haspopup="true"
-            aria-expanded={open ? 'true' : undefined}
-            onClick={handleClickButtonMenu}
-          >
-            Add Conversation
-          </Button>
-        </NoData>
-      )}
+      <ConversationView selectedValues={selectedValues} />
     </Box>
   );
 };
