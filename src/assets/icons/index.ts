@@ -237,3 +237,6 @@ export { default as ShareIcon } from './modules/airMarketer/SMSMarketing/Contact
 export { default as QuriesIcon } from './modules/airMarketer/SocialInbox/quries';
 export { default as AttachmentsIcon } from './modules/airMarketer/SocialInbox/add-channnel';
 export { default as ReplyRoundedIcon } from './modules/airMarketer/SocialInbox/reply';
+
+export { default as FacebookIcon } from './modules/airMarketer/PaidAds/fb-Icon';
+export { default as LinkdinIcon } from './modules/airMarketer/PaidAds/linkedIn-Icon';
