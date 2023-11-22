@@ -51,11 +51,11 @@ export const usersApi = baseAPI.injectEndpoints({
     }),
 
     updateUserProfile: builder.mutation({
-      query: ({ id, ...queryParams }: any) => {
+      query: ({ id, ...values }: any) => {
         return {
           url: `${END_POINTS?.ADD_USER}/${id}`,
           method: 'PATCH',
-          params: queryParams,
+          params: values,
         };
       },
       invalidatesTags: ['USERS'],

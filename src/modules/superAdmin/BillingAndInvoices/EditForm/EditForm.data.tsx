@@ -203,10 +203,10 @@ export const assignPlanData = (selectProductSuite: string) => {
       },
 
       options: [
-        { value: 'paidMonthly', label: 'Paid Monthly' },
-        { value: 'paidquarterly', label: 'Paid Quarterly' },
-        { value: 'paidHalfYearly', label: 'Paid Half-Yearly' },
-        { value: 'paidAnnually', label: 'Paid Annually' },
+        { value: 'MONTHLY', label: 'Paid Monthly' },
+        { value: 'QUARTERLY', label: 'Paid Quarterly' },
+        { value: 'HALF_YEARLY', label: 'Paid Half-Yearly' },
+        { value: 'YEARLY', label: 'Paid Annually' },
       ],
 
       component: RHFSelect,

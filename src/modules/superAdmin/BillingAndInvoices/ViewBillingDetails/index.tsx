@@ -3,46 +3,13 @@ import { Box, Divider, Typography, useTheme } from '@mui/material';
 import CommonDrawer from '@/components/CommonDrawer';
 import { AirPlaneIcon } from '@/assets/icons';
 import { v4 as uuidv4 } from 'uuid';
+import { useGetBillingHistoryQuery } from '@/services/superAdmin/billing-invoices';
 
-const ViewBillingDetails = ({
-  isOpenDrawer,
-
-  onClose,
-  isGetRowValues,
-}: any) => {
+const ViewBillingDetails = ({ isOpenDrawer, onClose }: any) => {
   const theme: any = useTheme();
-  const DataArr = [
-    {
-      bilingType: 'Growth',
-      paymentType: 'paid Monthly',
-      payment: 'pending',
-      paymentDetailes: {
-        invoiceDate: '01/01/2023',
-        dueDate: '6/01/2023',
-        planPrice: '£ 20',
-        additionalUser: '£ 45',
-        AdditionalStorage: '£ 1',
-        Discount: '£ 10',
-        Tax: '£ 27',
-      },
-      totalCost: '£ 158',
-    },
-    {
-      bilingType: 'Basic',
-      paymentType: 'paid Monthly',
-      payment: 'Paid',
-      paymentDetailes: {
-        invoiceDate: '01/01/2023',
-        dueDate: '6/01/2023',
-        planPrice: '£ 20',
-        additionalUser: '£ 45',
-        AdditionalStorage: '£ 1',
-        Discount: '£ 10',
-        Tax: '£ 27',
-      },
-      totalCost: '£ 158',
-    },
-  ];
+  const { data: BillingDetailsHistory } = useGetBillingHistoryQuery<any>({
+    pagination: `page=1&limit=2`,
+  });
 
   return (
     <CommonDrawer
@@ -52,7 +19,7 @@ const ViewBillingDetails = ({
       isOk
       footer={false}
     >
-      {DataArr?.map((data: any) => (
+      {BillingDetailsHistory?.data?.invoices?.map((data: any) => (
         <Box
           key={uuidv4()}
           sx={{
@@ -77,10 +44,10 @@ const ViewBillingDetails = ({
                 variant="overline"
                 sx={{ textTransform: 'capitalize' }}
               >
-                Air Sales ( {data?.bilingType})
+                {data?.plans?.description} ( {data?.details?.plantypes} )
               </Typography>
               <Typography variant="body1" sx={{ textTransform: 'lowercase' }}>
-                paid {isGetRowValues?.cell?.row?.original?.billingCycle}
+                paid {data?.details?.billingCycle}
               </Typography>
             </Box>
 
@@ -89,7 +56,7 @@ const ViewBillingDetails = ({
                 variant="body3"
                 sx={{
                   background:
-                    data?.payment === 'pending'
+                    data?.status === 'pending'
                       ? theme?.palette?.warning?.main
                       : theme?.palette?.primary?.main,
                   borderRadius: '15px',
@@ -97,7 +64,7 @@ const ViewBillingDetails = ({
                   color: 'white',
                 }}
               >
-                {data?.payment}
+                {data?.status}
               </Typography>
             </Box>
           </Box>
@@ -105,11 +72,17 @@ const ViewBillingDetails = ({
 
           <Box sx={{ display: 'flex', alignItems: 'center', mt: '15px' }}>
             <Typography variant="caption">
-              Invoice Date: {data?.paymentDetailes?.invoiceDate}
+              Invoice Date:{' '}
+              {data?.billingDate
+                ? new Date(data.billingDate).toLocaleDateString('en-GB')
+                : 'Invalid Date'}
             </Typography>
             <Box sx={{ ml: 'auto' }}>
               <Typography variant="caption">
-                Due Date: {data?.paymentDetailes?.dueDate}
+                Due Date:{' '}
+                {data?.dueDate
+                  ? new Date(data.dueDate).toLocaleDateString('en-GB')
+                  : 'Invalid Date'}
               </Typography>
             </Box>
           </Box>
@@ -118,18 +91,17 @@ const ViewBillingDetails = ({
             <Typography variant="caption">Plan Price</Typography>
             <Box sx={{ ml: 'auto' }}>
               <Typography variant="overline">
-                {data?.paymentDetailes?.planPrice}
+                {data?.details?.plans?.planPrice}
               </Typography>
             </Box>
           </Box>
           <Box sx={{ display: 'flex', alignItems: 'center', mt: '15px' }}>
             <Typography variant="caption">
-              {isGetRowValues?.cell?.row?.original?.additionalUsers} Additional
-              Users (£ 15/user)
+              {data?.details?.additionalUsers} Additional Users (£ 15/user)
             </Typography>
             <Box sx={{ ml: 'auto' }}>
               <Typography variant="overline">
-                £ {isGetRowValues?.cell?.row?.original?.additionalUsers * 15}
+                £ {data?.details?.additionalUsers * 15}
               </Typography>
             </Box>
           </Box>
@@ -139,7 +111,7 @@ const ViewBillingDetails = ({
             </Typography>
             <Box sx={{ ml: 'auto' }}>
               <Typography variant="overline">
-                £ {isGetRowValues?.cell?.row?.original?.additionalStorage}
+                £ {data?.details?.additionalStorage}
               </Typography>
             </Box>
           </Box>
@@ -152,11 +124,11 @@ const ViewBillingDetails = ({
               >
                 Discount{' '}
               </Typography>{' '}
-              ({isGetRowValues?.cell?.row?.original?.planDiscount}%)
+              ({data?.details?.planDiscount}%)
             </Typography>
             <Box sx={{ ml: 'auto' }}>
               <Typography variant="overline">
-                £ {isGetRowValues?.cell?.row?.original?.planDiscount}
+                £ {data?.details?.planDiscount}
               </Typography>
             </Box>
           </Box>
@@ -168,12 +140,10 @@ const ViewBillingDetails = ({
               >
                 Tax{' '}
               </Typography>{' '}
-              (Vat 20%)
+              (Vat {data?.vat}%)
             </Typography>
             <Box sx={{ ml: 'auto' }}>
-              <Typography variant="overline">
-                {data?.paymentDetailes?.Tax}
-              </Typography>
+              <Typography variant="overline">£ {data?.vat}</Typography>
             </Box>
           </Box>
           <Divider />
@@ -183,7 +153,7 @@ const ViewBillingDetails = ({
             </Typography>
 
             <Box sx={{ ml: 'auto' }}>
-              <Typography variant="overline">{data?.totalCost}</Typography>
+              <Typography variant="overline">{data?.total}</Typography>
             </Box>
           </Box>
         </Box>
