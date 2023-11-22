@@ -3,12 +3,12 @@ import { useState } from 'react';
 
 const useCreateSMSBroadcast = () => {
   const theme = useTheme<Theme>();
-  const [isAddRecipients, setIsAddRecipients] = useState(false);
+  const [isAddContactDrawerOpen, setIsAddContactDrawerOpen] = useState(false);
 
   return {
     theme,
-    isAddRecipients,
-    setIsAddRecipients,
+    isAddContactDrawerOpen,
+    setIsAddContactDrawerOpen,
   };
 };
 
