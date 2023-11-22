@@ -1,5 +1,5 @@
-export interface AddFaqPropsI {
-  isAddModalOpen: boolean;
+export interface EditJobPostPropsI {
+  isModalOpen: boolean;
   onClose: () => void;
   handleSubmit: any;
   formMethods: any;

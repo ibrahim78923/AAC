@@ -3,32 +3,24 @@ import React from 'react';
 import { TextField, InputAdornment, TextFieldProps } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
-import { debouncedSearch } from '@/utils';
+// import { debouncedSearch } from '@/utils';
 
 import { SearchPropsI } from './Search.interface';
 
 import SearchSharedIcon from '@/assets/icons/shared/search-shared';
 
 type CombinedProps = TextFieldProps & SearchPropsI;
-const Search = ({
-  label,
-  width,
-  searchBy,
-  setSearchBy,
-
-  ...rest
-}: CombinedProps) => {
+const Search = ({ label, width, onChange, value, ...rest }: CombinedProps) => {
   const theme = useTheme();
-
-  const debouncedResults = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event?.target;
-    debouncedSearch(value, setSearchBy);
-  };
+  // const handleChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setSearchBy(e.target.value);
+  //   debouncedSearch(e.target.value, setSearchBy);
+  // };
 
   return (
     <TextField
-      onChange={debouncedResults}
-      value={searchBy}
+      onChange={onChange}
+      value={value}
       sx={{
         background: 'transparent',
         '& .MuiOutlinedInput-root ': {

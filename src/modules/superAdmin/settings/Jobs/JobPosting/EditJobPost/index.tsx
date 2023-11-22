@@ -1,32 +1,33 @@
 import React from 'react';
 import { Grid } from '@mui/material';
-import CommonModal from '@/components/CommonModal';
+import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
-import { AddFaqPropsI } from './AddFaq.interface';
-import { addFaqsFiltersDataArray } from './AddFaq.data';
+import { EditJobPostPropsI } from './EditJobPost.interface';
+import { jobPostingDataArray } from './EditJobPost.data';
 import { v4 as uuidv4 } from 'uuid';
 
-const AddFaq = ({
-  isAddModalOpen,
+const EditJobPost = ({
+  isModalOpen,
   onClose,
   handleSubmit,
   formMethods,
   isLoading,
-}: AddFaqPropsI) => {
+}: EditJobPostPropsI) => {
   return (
-    <CommonModal
-      open={isAddModalOpen}
-      handleClose={onClose}
-      handleSubmit={handleSubmit}
-      title={'Add a New FAQ'}
-      okText="Add"
+    <CommonDrawer
+      isDrawerOpen={isModalOpen}
+      onClose={onClose}
+      title="Update a Job"
+      okText="Update"
+      isOk={true}
       footer={true}
+      submitHandler={handleSubmit}
       isLoading={isLoading}
     >
       <>
         <FormProvider methods={formMethods}>
           <Grid container spacing={4}>
-            {addFaqsFiltersDataArray?.map((item: any) => (
+            {jobPostingDataArray?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={uuidv4()}>
                 <item.component {...item.componentProps} size={'small'}>
                   {item?.componentProps?.select
@@ -42,8 +43,8 @@ const AddFaq = ({
           </Grid>
         </FormProvider>
       </>
-    </CommonModal>
+    </CommonDrawer>
   );
 };
 
-export default AddFaq;
+export default EditJobPost;
