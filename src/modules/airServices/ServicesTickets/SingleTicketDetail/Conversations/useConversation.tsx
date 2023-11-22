@@ -13,7 +13,7 @@ import {
   conversationModalsDefaultValues,
   conversationNoteArray,
   conversationReplyArray,
-  getValidationSchema,
+  conversationValidationSchema,
   menuOptionsAddConversation,
 } from './Conversation.data';
 
@@ -35,7 +35,7 @@ export const UseConversation = () => {
   const theme = useTheme();
 
   const addConversationModal: any = useForm({
-    resolver: yupResolver(getValidationSchema(selectedItem)),
+    resolver: yupResolver(conversationValidationSchema(selectedItem)),
     defaultValues: conversationModalsDefaultValues[selectedItem] || {},
   });
 

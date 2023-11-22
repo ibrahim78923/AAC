@@ -1,7 +1,6 @@
-import { RHFTextField, RHFSelect } from '@/components/ReactHookForm';
+import { RHFTextField, RHFSelect, RHFEditor } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
-import ConversationEditor from './ConversationEditor';
-export const getValidationSchema = (action) => {
+export const conversationValidationSchema = (action) => {
   switch (action) {
     case 'Note':
       return Yup?.object()?.shape({
@@ -78,7 +77,7 @@ export const conversationNoteArray = [
       label: 'Description',
       fullWidth: true,
     },
-    component: ConversationEditor,
+    component: RHFEditor,
     md: 12,
     mb: 2,
   },
@@ -126,7 +125,7 @@ export const conversationReplyArray = [
       label: 'Description',
       fullWidth: true,
     },
-    component: ConversationEditor,
+    component: RHFEditor,
     md: 12,
     mb: 2,
   },
@@ -174,7 +173,7 @@ export const conversationForwardArray = [
       label: 'Description',
       fullWidth: true,
     },
-    component: ConversationEditor,
+    component: RHFEditor,
     md: 12,
     mb: 2,
   },
