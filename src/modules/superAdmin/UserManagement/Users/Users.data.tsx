@@ -12,6 +12,7 @@ import { AvatarImage } from '@/assets/images';
 
 import dayjs from 'dayjs';
 import * as Yup from 'yup';
+import useUserManagement from '../useUserManagement';
 
 export const columns: any = (columnsProps: any) => {
   const { handleUserSwitchChange, checkedRows, setCheckedRows } = columnsProps;
@@ -229,69 +230,72 @@ export const superAdminColumns: any = (columnsProps: any) => {
 };
 
 export const usersValidationSchema = Yup.object().shape({
-  userType: Yup.string().required('Field is Required'),
-  organizationName: Yup.string().required('Field is Required'),
-  product: Yup.string().required('Field is Required'),
-  createdDate: Yup.date().required('Field is Required'),
+  role: Yup.string(),
+  organization: Yup.string(),
+  products: Yup.string(),
 });
 
 export const usersDefaultValues = {
-  userType: '',
-  organizationName: '',
-  product: '',
+  role: '',
+  organization: '',
+  products: '',
   createdDate: null,
 };
 
-export const usersFilterArray = [
-  {
-    title: 'User Type',
-    componentProps: {
-      name: 'userType',
-      fullWidth: true,
-      select: true,
+export const usersFilterArray = () => {
+  const { products, organizations } = useUserManagement();
+
+  return [
+    {
+      componentProps: {
+        name: 'role',
+        label: 'User Type',
+        fullWidth: true,
+        select: true,
+      },
+      options: [
+        { value: 'ORG_ADMIN', label: 'Company Owner' },
+        { value: 'SUPER_ADMIN', label: 'Super Admin' },
+      ],
+      component: RHFSelect,
+      md: 12,
     },
-    options: [
-      { value: 'CompanyOwner', label: 'Company Owner' },
-      { value: 'SuperAdmin', label: 'Super Admin' },
-    ],
-    component: RHFSelect,
-    md: 12,
-  },
-  {
-    title: 'Organization Name',
-    componentProps: {
-      name: 'organizationName',
-      fullWidth: true,
-      select: true,
+    {
+      componentProps: {
+        name: 'organization',
+        label: 'Organization Name',
+        fullWidth: true,
+        select: true,
+      },
+      options: organizations?.data?.map((item: any) => ({
+        value: item?._id,
+        label: item?.name,
+      })),
+      component: RHFSelect,
+      md: 12,
     },
-    options: [
-      { value: 'CompanyOwner', label: 'Company Owner' },
-      { value: 'SuperAdmin', label: 'Super Admin' },
-    ],
-    component: RHFSelect,
-    md: 12,
-  },
-  {
-    title: 'Product',
-    componentProps: {
-      name: 'product',
-      fullWidth: true,
-      select: true,
+    {
+      componentProps: {
+        name: 'products',
+        label: 'Product',
+        fullWidth: true,
+        select: true,
+      },
+      options: products?.data?.map((item: any) => ({
+        value: item?._id,
+        label: item?.name,
+      })),
+      component: RHFSelect,
+      md: 12,
     },
-    options: [
-      { value: 'CompanyOwner', label: 'Company Owner' },
-      { value: 'SuperAdmin', label: 'Super Admin' },
-    ],
-    component: RHFSelect,
-    md: 12,
-  },
-  {
-    title: 'Created Date',
-    componentProps: {
-      name: 'createdDate',
-      fullWidth: true,
+    {
+      title: 'Created Date',
+      componentProps: {
+        name: 'createdDate',
+        fullWidth: true,
+      },
+      component: RHFDatePicker,
+      md: 12,
     },
-    component: RHFDatePicker,
-    md: 12,
-  },
-];
+  ];
+};

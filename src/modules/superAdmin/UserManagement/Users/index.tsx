@@ -6,12 +6,14 @@ import { columns } from './Users.data';
 import useUserManagement from '../useUserManagement';
 
 const Users = (props: any) => {
-  const { checkedRows, setCheckedRows, search } = props;
+  const { checkedRows, setCheckedRows, filterValues } = props;
   const { useGetUsersQuery, handleUserSwitchChange } = useUserManagement();
 
   const params = {
     role: 'ORG_ADMIN',
-    search: search,
+    search: filterValues?.search,
+    products: filterValues?.products,
+    // organization: filterValues?.organization
   };
   const { data } = useGetUsersQuery(params);
   const columnsProps = {

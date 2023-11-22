@@ -109,7 +109,16 @@ export const addUsersArray = [
   {
     componentProps: {
       name: 'products',
-      options: ['Air Sales', 'Air Operation', 'Air Marketer', 'Air Service'],
+      label: 'Products',
+      GridView: 6,
+      isCheckBox: true,
+      options: [
+        { value: '1', label: '1' },
+        { value: '1', label: '1' },
+        { value: '1', label: '1' },
+        { value: '1', label: '1' },
+        { value: '1', label: '1' },
+      ],
       fullWidth: true,
     },
     toShow: ['COMPANY_OWNER'],
