@@ -258,15 +258,15 @@ const QuickLinks = () => {
                 </Grid>
               ))}
           </Grid>
-          <AlertModals
-            message={'Are you sure you want to delete this entry ?'}
-            type="delete"
-            open={isQuickLinksDeleteModal}
-            handleClose={() => setisQuickLinksDeleteModal(false)}
-            handleSubmit={() => setisQuickLinksDeleteModal(false)}
-          />
         </Box>
       )}
+      <AlertModals
+        message={'Are you sure you want to delete this entry ?'}
+        type="delete"
+        open={isQuickLinksDeleteModal}
+        handleClose={() => setisQuickLinksDeleteModal(false)}
+        handleSubmit={() => setisQuickLinksDeleteModal(false)}
+      />
     </>
   );
 };

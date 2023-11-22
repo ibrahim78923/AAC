@@ -17,6 +17,10 @@ export const END_POINTS = {
   AUTH_IG_VERIFICATION: 'auth/ig-verification',
   PRODUCTS: '/products',
   ORGANIZATIONS: '/organization/get-organizations',
+  VIEW_DEALS_NOTES: '/note',
+  CONTACTS: '/contact',
+  LIFECYCLE_STAGES: '/lifecycle-stages',
+  CONTACT_STATUS: '/contact-status',
 };
 
 export const superAdminBillingInvoices = {
