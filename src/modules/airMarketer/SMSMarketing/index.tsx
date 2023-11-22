@@ -20,6 +20,7 @@ import CreateSMSBroadcast from './SMSBroadcast/CreateSMSBroadcast';
 
 import { PlusIcon } from '@/assets/icons';
 import EditSmsIcon from '@/assets/icons/modules/airMarketer/SMSMarketing/edit-sms-icon';
+import ContactsSMSMarketing from './Contacts';
 
 const SMSMarketing = () => {
   const { tabVal, setTabVal, isCreateSmsBroadcast, setIsCreateSmsBroadcast } =
@@ -75,6 +76,7 @@ const SMSMarketing = () => {
           >
             <SMSDashboard />
             <SMSBroadcast />
+            <ContactsSMSMarketing />
           </CommonTabs>
         </Box>
       )}

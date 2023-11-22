@@ -12,7 +12,6 @@ import {
   useTheme,
 } from '@mui/material';
 
-import { styles } from './PostComments.style';
 import { DysonAvatarImage } from '@/assets/images';
 import {
   ArrowDownIcon,
@@ -24,6 +23,7 @@ import {
   ThreeDotsIcon,
 } from '@/assets/icons';
 
+import { styles } from './PostComments.style';
 import { v4 as uuidv4 } from 'uuid';
 
 const PostComments = ({ postComments }: any) => {
