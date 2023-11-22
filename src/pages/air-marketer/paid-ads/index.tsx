@@ -1,5 +1,5 @@
 import Layout from '@/layout';
-import PaidAds from '@/modules/airMarketer/PaidAdsDrawer';
+import PaidAds from '@/modules/airMarketer/PaidAds';
 import React from 'react';
 
 const PaidAdsPage = () => {
