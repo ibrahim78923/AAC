@@ -6,7 +6,7 @@ import {
   dealsNotesDefaultValues,
   dealsNotesValidationSchema,
 } from './NotesEditorDrawer.data';
-import { usePostDealNoteMutation } from '@/services/airSales/deals/view-details/Notes';
+import { usePostDealNoteMutation } from '@/services/airSales/deals/view-details/note';
 import { enqueueSnackbar } from 'notistack';
 
 const useNotesEditorDrawer = () => {
