@@ -45,6 +45,7 @@ export const AIR_SERVICES = {
   ADD_INVENTORY: `/air-services/assets/inventory/add-inventory`,
   UPSERT_ARTICLE: `/air-services/knowledge-base/article/upsert-article`,
   AIRDEALS_RESTORE: '/air-sales/deals/restore',
+  SETTINGS_USER_MANAGEMENT: '/air-services/settings/user-management',
 };
 
 export const AIR_CUSTOMER_PORTAL = {
