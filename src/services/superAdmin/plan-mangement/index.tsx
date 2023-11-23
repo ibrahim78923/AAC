@@ -23,7 +23,7 @@ export const planManagementAPI = baseAPI.injectEndpoints({
     }),
     getProducts: builder.query({
       query: () => ({
-        url: superAdminBillingInvoices?.get_Products,
+        url: `${superAdminBillingInvoices?.get_Products}`,
         method: 'GET',
       }),
       providesTags: TAG,

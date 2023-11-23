@@ -146,7 +146,7 @@ const PlanFeatures = ({ methods, handleSubmit }: any) => {
               sx={{
                 '&.MuiAccordion': {
                   '&.Mui-expanded': {
-                    boxShadow: 'theme.customShadows.z8',
+                    boxShadow: 'theme?.customShadows?.z8',
                     borderRadius: '8px',
                   },
                   '&.Mui-disabled': {
