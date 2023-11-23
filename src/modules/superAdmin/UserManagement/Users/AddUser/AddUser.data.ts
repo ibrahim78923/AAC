@@ -8,7 +8,6 @@ import * as Yup from 'yup';
 
 export const CompanyOwnerValidationSchema = Yup.object().shape({
   firstName: Yup.string().required('Field is Required'),
-  middleName: Yup.string().required('Field is Required'),
   lastName: Yup.string().required('Field is Required'),
   email: Yup.string().required('Field is Required'),
   crn: Yup.string().required('Field is Required'),
@@ -18,7 +17,6 @@ export const CompanyOwnerValidationSchema = Yup.object().shape({
 
 export const superAdminValidationSchema = Yup.object().shape({
   firstName: Yup.string().required('Field is Required'),
-  middleName: Yup.string().required('Field is Required'),
   lastName: Yup.string().required('Field is Required'),
   email: Yup.string().required('Field is Required'),
   phoneNumber: Yup.string().required('Field is Required'),
@@ -29,45 +27,12 @@ export const superAdminValidationSchema = Yup.object().shape({
   linkinUrl: Yup.string().required('Field is Required'),
 });
 
-export const companyOwnerDefaultValues = {
-  firstName: '',
-  middleName: '',
-  lastName: '',
-  email: '',
-  crn: '',
-  companyName: '',
-  phoneNumber: '',
-};
-export const superAdminDefaultValues = {
-  firstName: '',
-  middleName: '',
-  lastName: '',
-  email: '',
-  phoneNumber: '',
-  postCode: '',
-  address: '',
-  jobTitle: '',
-  fbUrl: '',
-  linkinUrl: '',
-};
-
 export const addUsersArray = [
   {
     title: 'First Name',
     componentProps: {
       name: 'firstName',
       placeholder: 'Enter First Name',
-      fullWidth: true,
-    },
-    toShow: ['COMPANY_OWNER', 'SUPER_ADMIN'],
-    component: RHFTextField,
-    md: 12,
-  },
-  {
-    title: 'Middle Name',
-    componentProps: {
-      name: 'middleName',
-      placeholder: 'Enter Middle Name',
       fullWidth: true,
     },
     toShow: ['COMPANY_OWNER', 'SUPER_ADMIN'],
@@ -144,7 +109,16 @@ export const addUsersArray = [
   {
     componentProps: {
       name: 'products',
-      options: ['Air Sales', 'Air Operation', 'Air Marketer', 'Air Service'],
+      label: 'Products',
+      GridView: 6,
+      isCheckBox: true,
+      options: [
+        { value: '1', label: '1' },
+        { value: '1', label: '1' },
+        { value: '1', label: '1' },
+        { value: '1', label: '1' },
+        { value: '1', label: '1' },
+      ],
       fullWidth: true,
     },
     toShow: ['COMPANY_OWNER'],

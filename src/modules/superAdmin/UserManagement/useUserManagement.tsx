@@ -11,6 +11,7 @@ import {
   usersApi,
 } from '@/services/superAdmin/user-management/users';
 import { enqueueSnackbar } from 'notistack';
+import { CommonAPIS, useGetOrganizationsQuery } from '@/services/common-APIs';
 
 const useUserManagement = () => {
   const navigate = useRouter();
@@ -25,7 +26,13 @@ const useUserManagement = () => {
   const [checkedRows, setCheckedRows] = useState<any>();
   const [selectedValue, setSelectedValue] = useState(null);
   const [tabVal, setTabVal] = useState<number>(0);
-  const [search, setSearch] = useState('');
+  const [filterValues, setFilterValues] = useState<any>({
+    search: '',
+    role: '',
+    products: '',
+    organization: '',
+    createdDate: '',
+  });
   // imports users API's
   const {
     useGetUsersQuery,
@@ -33,10 +40,12 @@ const useUserManagement = () => {
     useGetCompaniesCRNQuery,
     useGetUsersByIdQuery,
   }: any = usersApi;
+  const { useGetProductsQuery } = CommonAPIS;
 
   const [updateUsers] = useUpdateUsersMutation();
   const [updateUserProfile] = useUpdateUserProfileMutation();
-
+  const { data: products } = useGetProductsQuery({});
+  const { data: organizations } = useGetOrganizationsQuery({});
   const queryParams: any = {};
   const handleClick = (event: any) => {
     setSelectedValue(event?.currentTarget);
@@ -74,8 +83,8 @@ const useUserManagement = () => {
     setTabVal,
     userType,
     setUserType,
-    search,
-    setSearch,
+    filterValues,
+    setFilterValues,
     handleClick,
     handleAddRole,
     handleClose,
@@ -87,6 +96,8 @@ const useUserManagement = () => {
     checkedRows,
     setCheckedRows,
     updateUserProfile,
+    products,
+    organizations,
   };
 };
 

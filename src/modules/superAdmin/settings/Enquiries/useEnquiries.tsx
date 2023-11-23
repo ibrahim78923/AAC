@@ -18,18 +18,13 @@ export const useEnquiries = () => {
     isError,
     isSuccess,
     isFetching,
-  } = useGetEnquiriesQuery({
-    // page: 1,
-    // limit: 10,
-    // status: 'Pending',
-    // search: search && search
-  });
+  } = useGetEnquiriesQuery({});
 
   const handleAction = (checked: boolean, id: string) => {
     if (checked) {
       setTableRowIds([...tableRowIds, id]);
     } else {
-      setTableRowIds(tableRowIds.filter((_id) => _id !== id));
+      setTableRowIds(tableRowIds?.filter((_id) => _id !== id));
     }
   };
   const handleDeleteModal = () => {
@@ -37,7 +32,7 @@ export const useEnquiries = () => {
   };
   const handleDeleteEnquiries = async () => {
     try {
-      await deleteRnquiriesMutation({ ids: tableRowIds.join(',') });
+      await deleteRnquiriesMutation({ ids: tableRowIds?.join(',') });
       handleDeleteModal();
       enqueueSnackbar('Enquiries delete successfully', {
         variant: 'success',
@@ -60,53 +55,53 @@ export const useEnquiries = () => {
           }}
           color="primary"
           checked={tableRowIds.includes(info?.row?.original?._id)}
-          name={info.getValue()}
+          name={info?.getValue()}
         />
       ),
       header: <Checkbox color="primary" name="Id" />,
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row.name,
+      accessorFn: (row: any) => row?.name,
       id: 'name',
-      cell: (info: any) => info.getValue() ?? '--',
+      cell: (info: any) => info?.getValue() ?? '--',
       header: 'Name',
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row.companyName,
+      accessorFn: (row: any) => row?.companyName,
       id: 'companyName',
       isSortable: true,
       header: 'Company Name',
-      cell: (info: any) => info.getValue() ?? '--',
+      cell: (info: any) => info?.getValue() ?? '--',
     },
     {
-      accessorFn: (row: any) => row.email,
+      accessorFn: (row: any) => row?.email,
       id: 'email',
       isSortable: true,
       header: 'Email',
-      cell: (info: any) => info.getValue() ?? '--',
+      cell: (info: any) => info?.getValue() ?? '--',
     },
     {
-      accessorFn: (row: any) => row.phoneNumber,
+      accessorFn: (row: any) => row?.phoneNumber,
       id: 'phoneNumber',
       isSortable: true,
       header: 'Phone Number',
-      cell: (info: any) => info.getValue() ?? '--',
+      cell: (info: any) => info?.getValue() ?? '--',
     },
     {
-      accessorFn: (row: any) => row.comments,
+      accessorFn: (row: any) => row?.comments,
       id: 'comments',
       isSortable: true,
       header: 'Comments',
-      cell: (info: any) => info.getValue() ?? '--',
+      cell: (info: any) => info?.getValue() ?? '--',
     },
     {
-      accessorFn: (row: any) => row.status,
+      accessorFn: (row: any) => row?.status,
       id: 'status',
       isSortable: true,
       header: 'Status',
-      cell: (info: any) => info.getValue() ?? '--',
+      cell: (info: any) => info?.getValue() ?? '--',
     },
   ];
 

@@ -1,55 +1,62 @@
 import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
 import {
-  ticketsFilterDefaultFormValuesFunction,
   ticketsFilterFormFieldsDataFunction,
-  ticketsFilterFormSchema,
+  ticketsFilterFormFieldsDefaultValues,
 } from './TicketsFilter.data';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
-import { enqueueSnackbar } from 'notistack';
+import usePath from '@/hooks/usePath';
+import { useLazyGetOrganizationsQuery } from '@/services/dropdowns';
 
 export const useTicketsFilter = (props: any) => {
-  const { setIsDrawerOpen } = props;
+  const { setIsDrawerOpen, setFilterTicketLists, filterTicketLists } = props;
   const router = useRouter();
   const theme: any = useTheme();
-  const ticketsFilterFormFieldsData = ticketsFilterFormFieldsDataFunction();
+  const { makePath } = usePath();
 
   const methods: any = useForm({
-    resolver: yupResolver(ticketsFilterFormSchema),
-    defaultValues: ticketsFilterDefaultFormValuesFunction(),
+    defaultValues: ticketsFilterFormFieldsDefaultValues(filterTicketLists),
   });
-  const { handleSubmit, reset } = methods;
-  //TODO: will use in BE integration
-  //   useEffect(() => {
-  //     reset(() => ticketsFilterDefaultFormValuesFunction(data?.data));
-  //   }, [data, reset]);
 
-  const submitTicketFilterForm = async () => {
-    enqueueSnackbar(`Ticket Filtered Successfully`, {
-      variant: 'success',
-    });
-    reset(ticketsFilterDefaultFormValuesFunction?.());
-    setIsDrawerOpen?.(false);
+  const { handleSubmit, reset } = methods;
+
+  const submitTicketFilterForm = async (data: any) => {
+    const ticketsFiltered = Object?.entries(data || {})
+      ?.filter(
+        ([, value]: any) => value !== undefined && value != '' && value != null,
+      )
+      ?.reduce((acc: any, [key, value]: any) => ({ ...acc, [key]: value }), {});
+    if (!Object?.keys(ticketsFiltered || {})?.length) {
+      onClose();
+      return;
+    }
+    setFilterTicketLists(ticketsFiltered);
+    onClose();
   };
 
   const resetTicketFilterForm = async () => {
     reset();
     setIsDrawerOpen?.(false);
   };
+
   const onClose = () => {
-    //TODO: destructing as i do not need that in rest queries.
-    /* eslint-disable @typescript-eslint/no-unused-vars */
-    const { tableAction, ...restQueries } = router?.query;
-    router?.push({
-      pathname: router?.pathname,
-      query: {
-        ...restQueries,
-      },
-    });
+    router?.push(
+      makePath({
+        path: router?.pathname,
+        skipQueries: ['ticketAction'],
+      }),
+    );
     reset?.();
     setIsDrawerOpen?.(false);
   };
+  const apiQueryOrganizations = useLazyGetOrganizationsQuery();
+  const ticketsFilterFormFieldsData = ticketsFilterFormFieldsDataFunction(
+    apiQueryOrganizations,
+    apiQueryOrganizations,
+    apiQueryOrganizations,
+    apiQueryOrganizations,
+  );
+
   return {
     ticketsFilterFormFieldsData,
     router,

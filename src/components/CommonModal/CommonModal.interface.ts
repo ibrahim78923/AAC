@@ -10,6 +10,7 @@ export interface ModelPropsI {
   submitIcon?: any;
   footer?: boolean;
   footerFill?: any;
+  isLoading?: boolean;
   isSubmitDisabled?: any;
   headerIcon?: any;
 }

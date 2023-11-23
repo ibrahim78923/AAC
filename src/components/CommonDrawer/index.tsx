@@ -27,9 +27,7 @@ const CommonDrawer = ({
   footerActionText,
   footerActionTextIcon,
   onFooterActionSubmit,
-
   isCancel,
-
   isFooterFeature,
   isFooterFeatureText,
   isFooterFeatureHandler,

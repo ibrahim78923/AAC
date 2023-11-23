@@ -32,13 +32,15 @@ function ChipWrapper({ selected }: any) {
         overflow: 'hidden',
       }}
     >
-      {selected.slice(0, 3).map(({ label }: any) => (
-        <Chip
-          sx={{ backgroundColor: '#e4e7eb', color: '#000000' }}
-          key={uuidv4()}
-          label={label}
-        />
-      ))}
+      {selected
+        ?.slice(0, 3)
+        ?.map(({ label }: any) => (
+          <Chip
+            sx={{ backgroundColor: 'grey[300]', color: 'common.black' }}
+            key={uuidv4()}
+            label={label}
+          />
+        ))}
       {selected?.length > 3 && '......'}
     </Box>
   );
@@ -61,12 +63,15 @@ export default function RHFMultiSelect({
 
     let values = [...value];
     const length = values?.length;
-    const lastItem = values[length - 1];
+    const lastItem = values?.[length - 1];
 
     // Avoid duplicates
     for (let i = 1; i < length; i++) {
-      if (values[i - 1].value === lastItem?.value) {
-        values = [...values.slice(0, i - 1), ...values.slice(i, length - 1)];
+      if (values[i - 1]?.value === lastItem?.value) {
+        values = [
+          ...values?.slice?.(0, i - 1),
+          ...values?.slice?.(i, length - 1),
+        ];
         break;
       }
     }
@@ -95,12 +100,12 @@ export default function RHFMultiSelect({
             onChange={handleChange}
             sx={{
               '& .MuiSelect-select': {
-                py: field.value.length > 0 ? 1.2 : 1.65,
+                py: field?.value?.length > 0 ? 1.2 : 1.65,
               },
             }}
             onClose={() => {
               setTimeout(() => {
-                (document.activeElement as HTMLElement).blur();
+                (document?.activeElement as HTMLElement)?.blur();
               }, 0);
             }}
           >

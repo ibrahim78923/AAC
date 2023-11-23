@@ -22,6 +22,9 @@ const Button = (theme: any) => {
             fontWeight: 500,
             color: '#D1D5DB',
             fontSize: '14px',
+            '& .MuiLoadingButton-loadingIndicator': {
+              color: 'rgba(0,0,0,0.5)',
+            },
           },
         },
 

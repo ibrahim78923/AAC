@@ -44,7 +44,7 @@ const ActivityLog = () => {
                   />
                   <Typography
                     variant="body3"
-                    sx={{ color: theme.palette.custom.main }}
+                    sx={{ color: theme?.palette?.custom?.main }}
                   >
                     {item?.message}
                   </Typography>

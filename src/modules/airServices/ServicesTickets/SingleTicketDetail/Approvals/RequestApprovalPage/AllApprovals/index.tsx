@@ -4,8 +4,8 @@ import {
   Dialog,
   Grid,
   IconButton,
-  Menu,
   MenuItem,
+  Popover,
   Typography,
 } from '@mui/material';
 import Image from 'next/image';
@@ -112,14 +112,10 @@ export const AllApprovals = () => {
                       <IconButton onClick={handleClick}>
                         <MoreVertIcon fontSize="large" />
                       </IconButton>
-                      <Menu
-                        id="basic-menu"
+                      <Popover
                         anchorEl={anchorEl}
                         open={open}
                         onClose={handleClose}
-                        MenuListProps={{
-                          'aria-labelledby': 'basic-button',
-                        }}
                         anchorOrigin={{
                           vertical: 'bottom',
                           horizontal: 'center',
@@ -133,7 +129,7 @@ export const AllApprovals = () => {
                         <MenuItem onClick={handleClose}>
                           Cancel Approval
                         </MenuItem>
-                      </Menu>
+                      </Popover>
                     </>
                   ) : item?.showButton === REQUESTED_CONDITION ? (
                     <Box sx={styles?.requestApprovalBoxFirst}>
@@ -185,7 +181,7 @@ export const AllApprovals = () => {
               />
             </Box>
             <RHFTextField
-              name="description"
+              name="approval"
               multiline
               minRows={7}
               fullWidth
@@ -194,7 +190,11 @@ export const AllApprovals = () => {
             />
             <Box sx={styles?.boxBorderStyle}></Box>
             <Box sx={styles?.buttonBox}>
-              <Button variant="outlined" onClick={handleApprovalModalClose}>
+              <Button
+                variant="outlined"
+                color="secondary"
+                onClick={handleApprovalModalClose}
+              >
                 Cancel
               </Button>
               <Button variant="contained">Approve</Button>
@@ -215,7 +215,7 @@ export const AllApprovals = () => {
               />
             </Box>
             <RHFTextField
-              name="description"
+              name="rejected"
               multiline
               minRows={7}
               fullWidth
@@ -226,7 +226,7 @@ export const AllApprovals = () => {
             <Box sx={styles?.buttonBox}>
               <Button
                 variant="outlined"
-                color="inherit"
+                color="secondary"
                 onClick={handleRejectModalClose}
               >
                 Cancel
