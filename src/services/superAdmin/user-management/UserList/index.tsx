@@ -11,6 +11,14 @@ export const userListApi = baseAPI.injectEndpoints({
       providesTags: ['USERS'],
     }),
 
+    getEmployeeList: builder.query({
+      query: () => ({
+        url: END_POINTS?.SUPER_ADMIN_USER_LIST,
+        method: 'GET',
+      }),
+      providesTags: ['USERS'],
+    }),
+
     getUserAccountsById: builder.query({
       query: ({ id }: any) => ({
         url: `/${id}`,
@@ -29,6 +37,18 @@ export const userListApi = baseAPI.injectEndpoints({
       },
       invalidatesTags: ['USERS'],
     }),
+
+    postUserEmployee: builder.mutation({
+      query: ({ body }: any) => {
+        return {
+          url: END_POINTS?.SUPER_ADMIN_ADD_USER,
+          method: 'POST',
+          body: body,
+        };
+      },
+      invalidatesTags: ['USERS'],
+    }),
+
     updateUsersAccount: builder.mutation({
       query: ({ id, body }: any) => ({
         url: `/${id}`,
@@ -49,8 +69,10 @@ export const userListApi = baseAPI.injectEndpoints({
 
 export const {
   useGetUsersAccountsQuery,
+  useGetEmployeeListQuery,
   useGetUserAccountsByIdQuery,
   usePostUsersAccountMutation,
   useUpdateUsersAccountMutation,
   useDeleteUsersMutation,
+  usePostUserEmployeeMutation,
 } = userListApi;

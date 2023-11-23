@@ -38,6 +38,7 @@ import { LoginDashboardImage } from '@/assets/images';
 import { styles } from './SignUp.style';
 
 import { v4 as uuidv4 } from 'uuid';
+import { LoadingButton } from '@mui/lab';
 
 const SignUp = () => {
   const {
@@ -46,6 +47,7 @@ const SignUp = () => {
     methodsSignup,
     productData,
     isVerifiedSuccess,
+    isLoading,
   } = useSignup();
 
   const products = productData?.data.map((product: any) => {
@@ -77,7 +79,7 @@ const SignUp = () => {
         </Box>
         <Box>
           <Link href="/login" variant="contained">
-            SigIn
+            SignIn
           </Link>
         </Box>
       </Box>
@@ -230,12 +232,10 @@ const SignUp = () => {
                           >
                             <ArrowBackIcon />
                           </Box>
-
-                          <Typography variant="subtitle1">
-                            Select Product(s)
-                          </Typography>
                           <RHFMultiCheckbox
                             name="products"
+                            GridView={6}
+                            label="Select Product(s)"
                             options={products}
                           />
                         </Grid>
@@ -304,13 +304,14 @@ const SignUp = () => {
                         </Grid>
 
                         <Grid item xs={12}>
-                          <Button
+                          <LoadingButton
                             variant="contained"
-                            type="submit"
                             sx={{ width: '100%' }}
+                            type="submit"
+                            loading={isLoading}
                           >
                             Submit
-                          </Button>
+                          </LoadingButton>
                         </Grid>
                       </Grid>
                     )}

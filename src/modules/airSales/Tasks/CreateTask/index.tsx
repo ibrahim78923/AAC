@@ -37,7 +37,7 @@ const CreateTask = ({ title, hideBtn, defaultOpen }: CreateTaskI) => {
                 fontSize={'14px'}
                 fontWeight={500}
                 sx={{
-                  color: theme.palette.grey[600],
+                  color: theme?.palette?.grey[600],
                   '& .symbol': { color: theme?.palette?.error['light'] },
                 }}
               >

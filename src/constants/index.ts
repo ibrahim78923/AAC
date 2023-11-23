@@ -1,3 +1,8 @@
+export const DATE_FORMAT = {
+  UI: 'MM/DD/YYYY',
+  API: 'YYYY-MM-DD',
+};
+
 export const SUPER_ADMIN: any = {
   USERMANAGMENT: '/super-admin/user-management',
   ADDROLE: '/super-admin/user-management/add-role',
@@ -48,6 +53,12 @@ export const AIR_CUSTOMER_PORTAL = {
   KNOWLEDGE_BASE: '/air-customer-portal/knowledge-base',
   KNOWLEDGE_BASE_DETAIL:
     '/air-customer-portal/knowledge-base/knowledge-base-detail',
+  AIR_CUSTOMER_PORTAL_LOGIN: '/air-customer-portal/log-in',
+  AIR_CUSTOMER_PORTAL_SIGN_UP: '/air-customer-portal/sign-up',
+  AIR_CUSTOMER_PORTAL_CREATE_PASSWORD: '/air-customer-portal/create-password',
+  AIR_CUSTOMER_PORTAL_FORGET: '/air-customer-portal/forget-password',
+  SINGLE_CATALOG_SERVICE_DETAILS: `/air-customer-portal/catalog/detail`,
+  CATALOG_SERVICES: '/air-customer-portal/catalog',
 };
 
 export const ORG_ADMIN: any = {

@@ -29,8 +29,8 @@ const UserManagement = () => {
     setIsOpenFilterDrawer,
     tabVal,
     setTabVal,
-    search,
-    setSearch,
+    filterValues,
+    setFilterValues,
     handleAddRole,
     checkedRows,
     setCheckedRows,
@@ -51,12 +51,22 @@ const UserManagement = () => {
         >
           <Button
             onClick={() =>
-              tabVal === 2 ? handleAddRole() : setIsOpenAddUserDrawer(true)
+              tabVal === 2
+                ? handleAddRole()
+                : setIsOpenAddUserDrawer({
+                    drawer: true,
+                    type: 'add',
+                    data: {},
+                  })
             }
             variant="contained"
             startIcon={<PlusIcon />}
           >
-            {tabVal === 2 ? 'Add Role' : 'Add User'}
+            {tabVal === 0
+              ? 'Add Company Owner'
+              : tabVal === 1
+              ? 'Add Super Admin '
+              : 'Add Role'}
           </Button>
         </PermissionsGuard>
       </Box>
@@ -70,8 +80,8 @@ const UserManagement = () => {
             getTabVal={(val: number) => setTabVal(val)}
             searchBarProps={{
               label: 'Search Here',
-              setSearchBy: setSearch,
-              searchBy: search,
+              setSearchBy: setFilterValues,
+              searchBy: filterValues?.search,
               width: '260px',
             }}
             isHeader={true}
@@ -82,7 +92,11 @@ const UserManagement = () => {
             ]}
             headerChildren={
               <>
-                <ActionButton checkedRows={checkedRows} />
+                <ActionButton
+                  checkedRows={checkedRows}
+                  tabVal={tabVal}
+                  setIsOpenAddUserDrawer={setIsOpenAddUserDrawer}
+                />
                 <Button
                   onClick={() => {
                     setIsOpenFilterDrawer(true);
@@ -100,8 +114,16 @@ const UserManagement = () => {
               </>
             }
           >
-            <Users checkedRows={checkedRows} setCheckedRows={setCheckedRows} />
-            <SuperAdminUsers />
+            <Users
+              checkedRows={checkedRows}
+              setCheckedRows={setCheckedRows}
+              filterValues={filterValues}
+            />
+            <SuperAdminUsers
+              checkedRows={checkedRows}
+              setCheckedRows={setCheckedRows}
+              search={filterValues?.search}
+            />
             <RolesAndRights />
           </CommonTabs>
         </Box>
@@ -111,14 +133,24 @@ const UserManagement = () => {
         <UsersManagementFilters
           tabVal={tabVal}
           isOpen={isOpenFilterDrawer}
+          filterValues={filterValues}
+          setFilterValues={setFilterValues}
           setIsOpen={setIsOpenFilterDrawer}
         />
       )}
 
-      {isOpenAddUserDrawer && (
+      {isOpenAddUserDrawer?.drawer && (
         <AddUser
-          isOpenDrawer={isOpenAddUserDrawer}
-          onClose={() => setIsOpenAddUserDrawer(false)}
+          tabVal={tabVal}
+          isOpenDrawer={isOpenAddUserDrawer?.drawer}
+          onClose={() =>
+            setIsOpenAddUserDrawer({
+              ...isOpenAddUserDrawer,
+              drawer: false,
+            })
+          }
+          isOpenAddUserDrawer={isOpenAddUserDrawer}
+          setIsOpenAddUserDrawer={setIsOpenAddUserDrawer}
         />
       )}
     </Box>

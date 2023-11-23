@@ -8,6 +8,7 @@ function path(root: string, sublink: string) {
 
 const AUTH_ROOT_PAGE = '/auth';
 const DASHBOARD_ROOT_PAGE = '/dashboard';
+const SOCIAL_ROOT_PAGE = '/social-components';
 
 // ======================================================================
 
@@ -19,7 +20,6 @@ export const PATH_AUTH = {
   verify: path(AUTH_ROOT_PAGE, '/verify'),
 };
 
-// ======================================================================
 export const PATH_PAGE = {
   comingSoon: '/coming-soon',
   maintenance: '/maintenance',
@@ -39,17 +39,31 @@ export const PATH_DASHBOARD = {
   },
 };
 
+export const SUPER_ADMIN_SETTINGS: any = {
+  JOBS: '/jobs',
+  JOB_APPLICATIONS: '/job-applications',
+  UNIQUE_CANDIDATE: '/job-applications/get-unique-candidate',
+  FAQS: '/faqs',
+  TAX_CALCULATION: '/tax-calculation',
+};
+
+export const SOCIAL_FEATURES = {
+  calls: path(SOCIAL_ROOT_PAGE, '/calling/call'),
+};
+
 export const AIR_SALES = {
   SALES_INVOICES: '/air-sales/invoices',
   SALES_VIEW_INVOICES: '/air-sales/invoices/view-invoices',
   SALES_CREATE_INVOICES: '/air-sales/invoices/create-invoices',
 };
+
 export const SUPER_ADMIN_PLAN_MANAGEMENT: any = {
   PLAN_MANAGEMENT: '/plan',
   PLAN_TYPE_LIST: 'plan/plan-type-list',
   PRODUCT_FEATURES: 'product-features?page=1&limit=10',
   ADD_PLAN: '/super-admin/plan-management/add-plan',
 };
+
 export const orgAdminSubcriptionInvoices = {
   choose_plan: '/org-admin/subscription-and-invoices/choose-plan',
   back_subscription_invoices: '/org-admin/subscription-and-invoices',
@@ -58,4 +72,15 @@ export const orgAdminSubcriptionInvoices = {
 
 export const superAdminBillingInvoicesPath = {
   generate_invoice: '/super-admin/billing-invoices/generate-invoice',
+};
+
+export const airMarketingCalendar = {
+  calendar: '/air-marketer/social-marketing/calender',
+  create_post: '/air-marketer/social-marketing/create-post',
+};
+
+export const AIR_MARKETER = {
+  SOCIAL_INBOX_SETTINGS: '/air-marketer/social-marketing/social-inbox/settings',
+  SMS_MARKETING: '/air-marketer/sms-marketing',
+  SMS_MARKETING_DETAILS: '/air-marketer/sms-marketing/sms-marketing-details',
 };

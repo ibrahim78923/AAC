@@ -3,8 +3,8 @@ import useUserManagement from '../useUserManagement';
 import { ArrowDropDown } from '@mui/icons-material';
 import AddUser from '../Users/AddUser';
 
-const ActionButton = (props: any) => {
-  const { checkedRows } = props;
+const ActionButton = (props?: any) => {
+  const { checkedRows, tabVal, setIsOpenAddUserDrawer } = props;
   const {
     theme,
     selectedValue,
@@ -12,9 +12,9 @@ const ActionButton = (props: any) => {
     handleClose,
     handleUsersList,
     isOpenAddUserDrawer,
-    setIsOpenAddUserDrawer,
+    useGetUsersByIdQuery,
   } = useUserManagement();
-
+  const { data } = useGetUsersByIdQuery(checkedRows);
   return (
     <Box>
       <Button
@@ -36,17 +36,49 @@ const ActionButton = (props: any) => {
         open={Boolean(selectedValue)}
         onClose={handleClose}
       >
-        <MenuItem onClick={() => handleUsersList(checkedRows)}>
-          User List
+        {tabVal === 0 && (
+          <MenuItem onClick={() => handleUsersList(checkedRows)}>
+            User List
+          </MenuItem>
+        )}
+        <MenuItem
+          onClick={() => {
+            handleClose();
+            setIsOpenAddUserDrawer({
+              ...isOpenAddUserDrawer,
+              drawer: true,
+              type: 'view',
+              data: data,
+            });
+          }}
+        >
+          View
         </MenuItem>
-        <MenuItem onClick={handleClose}>View</MenuItem>
-        <MenuItem onClick={handleClose}>Edit</MenuItem>
+        <MenuItem
+          onClick={() => {
+            handleClose();
+            setIsOpenAddUserDrawer({
+              ...isOpenAddUserDrawer,
+              drawer: true,
+              type: 'edit',
+              data: data,
+            });
+          }}
+        >
+          Edit
+        </MenuItem>
       </Menu>
 
-      {isOpenAddUserDrawer && (
+      {isOpenAddUserDrawer?.drawer && (
         <AddUser
-          isOpenDrawer={isOpenAddUserDrawer}
-          onClose={() => setIsOpenAddUserDrawer(false)}
+          tabVal={tabVal}
+          isOpenDrawer={isOpenAddUserDrawer?.drawer}
+          onClose={() =>
+            setIsOpenAddUserDrawer({
+              ...isOpenAddUserDrawer,
+              drawer: false,
+            })
+          }
         />
       )}
     </Box>

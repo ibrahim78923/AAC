@@ -1,49 +1,30 @@
 import React from 'react';
-
 import { Grid } from '@mui/material';
-
 import CommonModal from '@/components/CommonModal';
-
 import { FormProvider } from '@/components/ReactHookForm';
-import { useForm } from 'react-hook-form';
-
 import { AddFaqPropsI } from './AddFaq.interface';
-
-import {
-  addFaqsDefaultValues,
-  addFaqsFiltersDataArray,
-  addFaqsValidationSchema,
-} from './AddFaq.data';
-
-import { yupResolver } from '@hookform/resolvers/yup';
-
+import { addFaqsFiltersDataArray } from './AddFaq.data';
 import { v4 as uuidv4 } from 'uuid';
 
-const AddFaq = ({ isAddModalOpen, setIsAddModalOpen }: AddFaqPropsI) => {
-  const methodsAddFaqs = useForm({
-    resolver: yupResolver(addFaqsValidationSchema),
-    defaultValues: addFaqsDefaultValues,
-  });
-
-  const onSubmit = () => {
-    setIsAddModalOpen(false);
-  };
-  const { handleSubmit } = methodsAddFaqs;
-
+const AddFaq = ({
+  isAddModalOpen,
+  onClose,
+  handleSubmit,
+  formMethods,
+  isLoading,
+}: AddFaqPropsI) => {
   return (
     <CommonModal
       open={isAddModalOpen}
-      handleClose={() => setIsAddModalOpen(false)}
-      handleSubmit={() => setIsAddModalOpen(false)}
-      title="Add a new feature"
-      okText="add"
+      handleClose={onClose}
+      handleSubmit={handleSubmit}
+      title={'Add a New FAQ'}
+      okText="Add"
       footer={true}
+      isLoading={isLoading}
     >
       <>
-        <FormProvider
-          methods={methodsAddFaqs}
-          onSubmit={handleSubmit(onSubmit)}
-        >
+        <FormProvider methods={formMethods}>
           <Grid container spacing={4}>
             {addFaqsFiltersDataArray?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={uuidv4()}>

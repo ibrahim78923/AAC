@@ -63,4 +63,16 @@ export const restoreTableData = [
     deletedBy: '10',
     timeDeleted: '11',
   },
+  {
+    Id: 2,
+    name: 'word.pdf',
+    deletedBy: '6',
+    timeDeleted: '11',
+  },
+  {
+    Id: 3,
+    name: 'My File.pdf',
+    deletedBy: '2',
+    timeDeleted: '11',
+  },
 ];

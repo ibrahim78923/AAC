@@ -1,11 +1,11 @@
 import { baseAPI } from '@/services/base-api';
 import { END_POINTS } from '@/routesConstants/endpoints';
 
-export const usersApi = baseAPI.injectEndpoints({
+export const usersApi: any = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getUsers: builder.query({
-      query: ({ role, search }) => ({
-        url: `${END_POINTS?.ADD_USER}?page=1&limit=100&role=${role}&search=${search}`,
+      query: ({ role, search, products }) => ({
+        url: `${END_POINTS?.ADD_USER}?page=1&limit=100&role=${role}&search=${search}&products=${products}`,
         method: 'GET',
       }),
       providesTags: ['USERS'],
@@ -51,11 +51,11 @@ export const usersApi = baseAPI.injectEndpoints({
     }),
 
     updateUserProfile: builder.mutation({
-      query: ({ id, ...queryParams }: any) => {
+      query: ({ id, ...values }: any) => {
         return {
           url: `${END_POINTS?.ADD_USER}/${id}`,
           method: 'PATCH',
-          params: queryParams,
+          params: values,
         };
       },
       invalidatesTags: ['USERS'],

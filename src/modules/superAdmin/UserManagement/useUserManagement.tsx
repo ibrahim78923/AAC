@@ -10,17 +10,29 @@ import {
   useUpdateUserProfileMutation,
   usersApi,
 } from '@/services/superAdmin/user-management/users';
+import { enqueueSnackbar } from 'notistack';
+import { CommonAPIS, useGetOrganizationsQuery } from '@/services/common-APIs';
 
 const useUserManagement = () => {
   const navigate = useRouter();
   const theme = useTheme();
-  const [isOpenAddUserDrawer, setIsOpenAddUserDrawer] = useState(false);
+  const [isOpenAddUserDrawer, setIsOpenAddUserDrawer] = useState({
+    drawer: false,
+    type: '',
+    data: {},
+  });
   const [isOpenFilterDrawer, setIsOpenFilterDrawer] = useState(false);
   const [userType, setUserType] = useState();
   const [checkedRows, setCheckedRows] = useState<any>();
   const [selectedValue, setSelectedValue] = useState(null);
   const [tabVal, setTabVal] = useState<number>(0);
-  const [search, setSearch] = useState('');
+  const [filterValues, setFilterValues] = useState<any>({
+    search: '',
+    role: '',
+    products: '',
+    organization: '',
+    createdDate: '',
+  });
   // imports users API's
   const {
     useGetUsersQuery,
@@ -28,10 +40,12 @@ const useUserManagement = () => {
     useGetCompaniesCRNQuery,
     useGetUsersByIdQuery,
   }: any = usersApi;
+  const { useGetProductsQuery } = CommonAPIS;
 
   const [updateUsers] = useUpdateUsersMutation();
   const [updateUserProfile] = useUpdateUserProfileMutation();
-
+  const { data: products } = useGetProductsQuery({});
+  const { data: organizations } = useGetOrganizationsQuery({});
   const queryParams: any = {};
   const handleClick = (event: any) => {
     setSelectedValue(event?.currentTarget);
@@ -42,7 +56,6 @@ const useUserManagement = () => {
 
   const handleClose = () => {
     setSelectedValue(null);
-    setIsOpenAddUserDrawer(true);
   };
 
   const handleUsersList = (id: any) => {
@@ -51,8 +64,11 @@ const useUserManagement = () => {
   };
 
   const handleUserSwitchChange = (e: any, id: any) => {
-    queryParams.status = e?.target?.checked;
+    queryParams.status = e?.target?.checked ? 'ACTIVE' : 'INACTIVE';
     updateUsers({ id, ...queryParams });
+    enqueueSnackbar('User updated successfully', {
+      variant: 'success',
+    });
   };
 
   return {
@@ -67,8 +83,8 @@ const useUserManagement = () => {
     setTabVal,
     userType,
     setUserType,
-    search,
-    setSearch,
+    filterValues,
+    setFilterValues,
     handleClick,
     handleAddRole,
     handleClose,
@@ -80,6 +96,8 @@ const useUserManagement = () => {
     checkedRows,
     setCheckedRows,
     updateUserProfile,
+    products,
+    organizations,
   };
 };
 
