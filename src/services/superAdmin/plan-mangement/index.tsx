@@ -1,3 +1,4 @@
+import { superAdminBillingInvoices } from '@/routesConstants/endpoints';
 import { SUPER_ADMIN_PLAN_MANAGEMENT } from '@/routesConstants/paths';
 import { baseAPI } from '@/services/base-api';
 
@@ -22,7 +23,7 @@ export const planManagementAPI = baseAPI.injectEndpoints({
     }),
     getProducts: builder.query({
       query: () => ({
-        url: `products?status=active`,
+        url: superAdminBillingInvoices?.get_Products,
         method: 'GET',
       }),
       providesTags: TAG,

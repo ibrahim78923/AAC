@@ -161,14 +161,14 @@ export const useAddPlan = () => {
     const permissionSlugToFind: any = values?.permissionSlugs;
     const productNamesWithPermissions: any = [];
 
-    SUPER_ADMIN_PLAN_MANAGEMENT_PERMISSIONS.forEach((permissionData) => {
-      permissionData.Sub_Modules.forEach((subModule) => {
-        const matchingPermissions = subModule.permissions.filter((permission) =>
-          permissionSlugToFind.includes(permission.value),
+    SUPER_ADMIN_PLAN_MANAGEMENT_PERMISSIONS?.forEach((permissionData) => {
+      permissionData.Sub_Modules?.forEach((subModule) => {
+        const matchingPermissions = subModule?.permissions.filter(
+          (permission) => permissionSlugToFind?.includes(permission?.value),
         );
 
-        if (matchingPermissions.length > 0) {
-          productNamesWithPermissions.push(permissionData.ProductName);
+        if (!isNullOrEmpty(matchingPermissions)) {
+          productNamesWithPermissions?.push(permissionData?.ProductName);
         }
       });
     });
@@ -181,7 +181,6 @@ export const useAddPlan = () => {
 
         return {
           permissionSlugs: values?.permissionSlugs,
-
           productId: productId?.productId || null, // Use null or a default value if productId is not found
         };
       },
@@ -192,6 +191,7 @@ export const useAddPlan = () => {
       const planFormData = {
         //we are getting array when we select options in searchable select
         productId: planForm?.productId[0],
+
         ...(isNullOrEmpty(planForm?.productId) && { suite: planForm?.suite }),
         planTypeId: planForm?.planTypeId,
         description: planForm?.description,
@@ -208,7 +208,8 @@ export const useAddPlan = () => {
           item?.features?.map((feature: any) => ({
             features: [
               {
-                dealsAssociationsDetail: 'string', // You can set your desired value here
+                dealsAssociationsDetail:
+                  featureDetails?.dealsAssociationsDetail,
                 featureId: feature?.featureId,
               },
             ],
@@ -228,36 +229,6 @@ export const useAddPlan = () => {
           productId: item?.productId,
         })),
       };
-      // alert("dsgsfg")
-      // console.log("transformedModulesFormData",transformedModulesFormData)
-      // console.log("transformedFeaturesFormData",transformedFeaturesFormData)
-
-      // const planFeaturesFormData = featuresFormData?.map((item:any) => ({
-      //   planFeature: {
-      //     features: item.features.map((feature:any) => ({
-      //       dealsAssociationsDetail: 'string',  // You can set your desired value here
-      //       featureId: feature.featureId,
-      //     })),
-      //     productId: item.productId,
-      //   }
-      // }));
-
-      // const planPermissions = {
-      //   //we are getting array when we select options in searchable select
-      //   productId: planForm?.productId[0],
-      //   planPermission: [
-      //     {
-      //       permissionSlugs: values?.permissionSlugs,
-      //       productId: planForm?.productId[0],
-      //     },
-      //   ],
-      // };
-
-      // const permissions = {
-      //   ...planPermissions,
-      //   //we are getting array when we select options in searchable select
-      //   productId: planForm?.productId[0],
-      // };
       try {
         parsedRowData
           ? updatePlanMangement({

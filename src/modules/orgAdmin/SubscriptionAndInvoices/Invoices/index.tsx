@@ -1,7 +1,6 @@
 import { Box, Grid, Button, Menu, MenuItem } from '@mui/material';
 import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
-import CustomPagination from '@/components/CustomPagination';
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
 import { DropdownIcon, FilterSharedIcon } from '@/assets/icons';
@@ -102,12 +101,6 @@ const Invoices = () => {
         </Box>
 
         <TanstackTable columns={getRowValues} data={invoicesTableData} />
-
-        <CustomPagination
-          count={3}
-          rowsPerPageOptions={[6, 10, 25, 50, 100]}
-          entriePages={invoicesTableData?.length}
-        />
       </Box>
 
       <ViewInvoices open={openViewInvoice} onClose={handleCloseViewInvoice} />

@@ -10,7 +10,7 @@ import {
 } from '@/services/superAdmin/plan-mangement';
 
 export const defaultValues = {
-  suide: [],
+  suite: [],
   productId: [],
   planTypeId: [],
   description: '',
@@ -62,7 +62,7 @@ export const gpDetailsInfoFormSchema: any = Yup?.object()?.shape({
 
 export const defaultValuesFunction = (data: any = defaultValues) => {
   const {
-    suide,
+    suite,
     product,
     planTypeId,
     description,
@@ -75,7 +75,7 @@ export const defaultValuesFunction = (data: any = defaultValues) => {
     additionalStoragePrice,
   } = data;
   return {
-    suide,
+    suite,
     product,
     planTypeId,
     description,
@@ -91,14 +91,6 @@ export const defaultValuesFunction = (data: any = defaultValues) => {
 
 export const dataArray = (_: any, selectProductSuite: any) => {
   const { data } = useGetProductsQuery({});
-  // const productsOptions: { value: number; label: string } = data?.data?.map(
-  //   (products: any) => {
-  //     return {
-  //       value: products?._id,
-  //       label: products?.name,
-  //     };
-  //   },
-  // );
 
   const productsOptions = data?.data?.map((product: any) => ({
     value: product?._id,
@@ -116,9 +108,9 @@ export const dataArray = (_: any, selectProductSuite: any) => {
   }));
 
   const planLabelRender =
-    selectProductSuite == 'product' ? 'productId' : 'suide';
+    selectProductSuite == 'product' ? 'productId' : 'suite';
   const planNameRender =
-    selectProductSuite == 'product' ? 'productId' : 'suide';
+    selectProductSuite == 'product' ? 'productId' : 'suite';
 
   return [
     {

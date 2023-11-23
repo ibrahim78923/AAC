@@ -35,7 +35,7 @@ const Modules = ({ methods, handleSubmit }: any) => {
     (state: any) => state?.planManagementForms,
   );
 
-  const productModules = isNullOrEmpty(planManagement?.addPlanForm?.suide)
+  const productModules = isNullOrEmpty(planManagement?.addPlanForm?.suite)
     ? planManagement?.addPlanForm?.productId?.map((module: any) => {
         const products = productFeatures?.data?.productfeatures?.find(
           (id: any) => id?.productId === module,
@@ -44,7 +44,7 @@ const Modules = ({ methods, handleSubmit }: any) => {
           productName: products?.productName,
         };
       })
-    : planManagement?.addPlanForm?.suide?.map((module: any) => {
+    : planManagement?.addPlanForm?.suite?.map((module: any) => {
         const products = productFeatures?.data?.productfeatures?.find(
           (id: any) => id?.productId === module,
         );
@@ -62,8 +62,6 @@ const Modules = ({ methods, handleSubmit }: any) => {
       ),
     };
   });
-
-  // console.log(productModulesPermissions);
 
   return (
     <div>
@@ -109,7 +107,7 @@ const Modules = ({ methods, handleSubmit }: any) => {
           </AccordionSummary>
 
           <AccordionDetails>
-            {productModulePermissions?.permissions.map((permission: any) => (
+            {productModulePermissions?.permissions?.map((permission: any) => (
               <SubModulesAccordion
                 key={uuidv4()}
                 subModules={permission?.Sub_Modules}

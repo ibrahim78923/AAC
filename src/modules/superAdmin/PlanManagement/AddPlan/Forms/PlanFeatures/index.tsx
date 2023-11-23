@@ -54,8 +54,8 @@ const PlanFeatures = ({ methods, handleSubmit }: any) => {
 
   return (
     <div>
-      {!isNullOrEmpty(planManagement?.addPlanForm?.suide)
-        ? planManagement?.addPlanForm?.suide?.map((feature: string) => (
+      {!isNullOrEmpty(planManagement?.addPlanForm?.suite)
+        ? planManagement?.addPlanForm?.suite?.map((feature: string) => (
             <Accordion
               expanded={expandedAccordion === feature}
               onChange={handleExpandAccordionChange(feature)}
