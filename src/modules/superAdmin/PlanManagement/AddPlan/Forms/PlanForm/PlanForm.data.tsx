@@ -63,7 +63,7 @@ export const gpDetailsInfoFormSchema: any = Yup?.object()?.shape({
 export const defaultValuesFunction = (data: any = defaultValues) => {
   const {
     suide,
-    productId,
+    product,
     planTypeId,
     description,
     defaultUsers,
@@ -76,7 +76,7 @@ export const defaultValuesFunction = (data: any = defaultValues) => {
   } = data;
   return {
     suide,
-    productId,
+    product,
     planTypeId,
     description,
     defaultUsers,
@@ -100,11 +100,10 @@ export const dataArray = (_: any, selectProductSuite: any) => {
   //   },
   // );
 
-  const productsOptions =
-    data?.data?.map((product: any) => ({
-      value: product?._id,
-      label: product?.name,
-    })) || [];
+  const productsOptions = data?.data?.map((product: any) => ({
+    value: product?._id,
+    label: product?.name,
+  }));
 
   const { data: planTypeData } = useGetPlanTypesQuery<any>({
     refetchOnMountOrArgChange: true,
@@ -116,7 +115,8 @@ export const dataArray = (_: any, selectProductSuite: any) => {
     label: planType?.name,
   }));
 
-  const planLabelRender = selectProductSuite == 'product' ? 'product' : 'suide';
+  const planLabelRender =
+    selectProductSuite == 'product' ? 'productId' : 'suide';
   const planNameRender =
     selectProductSuite == 'product' ? 'productId' : 'suide';
 
@@ -125,7 +125,7 @@ export const dataArray = (_: any, selectProductSuite: any) => {
       componentProps: {
         name: planLabelRender,
         label: planNameRender,
-        isCheckBox: true,
+        isCheckBox: selectProductSuite == 'product' ? false : true,
         options: productsOptions,
       },
       component: RHFMultiSearchableSelect,

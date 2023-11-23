@@ -156,8 +156,7 @@ export const useAddPlan = () => {
     });
     reset();
   };
-  // const featureId = Object?.keys(featuresFormData);
-  // console.log(featuresFormData[0]?.features)
+
   const onSubmitPlanModulesHandler = async (values: any) => {
     const permissionSlugToFind: any = values?.permissionSlugs;
     const productNamesWithPermissions: any = [];
@@ -181,23 +180,19 @@ export const useAddPlan = () => {
         );
 
         return {
-          planPermission: [
-            {
-              permissionSlugs: values?.permissionSlugs,
-            },
-          ],
+          permissionSlugs: values?.permissionSlugs,
+
           productId: productId?.productId || null, // Use null or a default value if productId is not found
         };
       },
     );
-    // console.log("modulesData",modulesPermissionsData)
 
     dispatch(modulesFormData(values));
     if (activeStep == AddPlanStepperData?.length - 1) {
       const planFormData = {
         //we are getting array when we select options in searchable select
         productId: planForm?.productId[0],
-        suide: planForm?.suide,
+        ...(isNullOrEmpty(planForm?.productId) && { suite: planForm?.suite }),
         planTypeId: planForm?.planTypeId,
         description: planForm?.description,
         defaultUsers: parseInt(planForm?.defaultUsers),
@@ -229,7 +224,7 @@ export const useAddPlan = () => {
       };
       const transformedModulesFormData = {
         planPermission: modulesPermissionsData?.flat()?.map((item: any) => ({
-          permissionSlugs: item?.planPermission,
+          permissionSlugs: item?.permissionSlugs,
           productId: item?.productId,
         })),
       };

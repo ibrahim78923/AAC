@@ -10,11 +10,7 @@ import {
   Box,
 } from '@mui/material';
 
-import {
-  FormProvider,
-  RHFCheckbox,
-  RHFMultiCheckbox,
-} from '@/components/ReactHookForm';
+import { FormProvider, RHFMultiCheckbox } from '@/components/ReactHookForm';
 import { usePlanFeatures } from './usePlanFeatures';
 import FeaturesModal from './FeaturesModal';
 import { isNullOrEmpty } from '@/utils';
@@ -193,9 +189,15 @@ const PlanFeatures = ({ methods, handleSubmit }: any) => {
                                   methods={methods}
                                   onSubmit={handleSubmit}
                                 >
-                                  <RHFCheckbox
-                                    name={item?._id}
-                                    label={item?.name}
+                                  <RHFMultiCheckbox
+                                    name="features"
+                                    label="Features"
+                                    options={[
+                                      {
+                                        label: item?.name,
+                                        value: item?._id,
+                                      },
+                                    ]}
                                   />
                                 </FormProvider>
                                 <Box

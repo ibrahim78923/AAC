@@ -22,7 +22,7 @@ export const planManagementAPI = baseAPI.injectEndpoints({
     }),
     getProducts: builder.query({
       query: () => ({
-        url: `products`,
+        url: `products?status=active`,
         method: 'GET',
       }),
       providesTags: TAG,

@@ -20,6 +20,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { SUPER_ADMIN_PLAN_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 import { useAppSelector } from '@/redux/store';
 import { useGetProductsFeaturesAllQuery } from '@/services/superAdmin/plan-mangement';
+import { isNullOrEmpty } from '@/utils';
 
 const Modules = ({ methods, handleSubmit }: any) => {
   const { theme, isAccordionExpanded, handleExpandAccordionChange } =
@@ -34,16 +35,23 @@ const Modules = ({ methods, handleSubmit }: any) => {
     (state: any) => state?.planManagementForms,
   );
 
-  const productModules = planManagement?.addPlanForm?.suide?.map(
-    (module: any) => {
-      const products = productFeatures?.data?.productfeatures?.find(
-        (id: any) => id?.productId === module,
-      );
-      return {
-        productName: products?.productName,
-      };
-    },
-  );
+  const productModules = isNullOrEmpty(planManagement?.addPlanForm?.suide)
+    ? planManagement?.addPlanForm?.productId?.map((module: any) => {
+        const products = productFeatures?.data?.productfeatures?.find(
+          (id: any) => id?.productId === module,
+        );
+        return {
+          productName: products?.productName,
+        };
+      })
+    : planManagement?.addPlanForm?.suide?.map((module: any) => {
+        const products = productFeatures?.data?.productfeatures?.find(
+          (id: any) => id?.productId === module,
+        );
+        return {
+          productName: products?.productName,
+        };
+      });
 
   const productModulesPermissions = productModules?.map((productName: any) => {
     return {
