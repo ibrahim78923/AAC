@@ -1,7 +1,9 @@
-import { Box, Button, List, ListItem, Typography } from '@mui/material';
 import React from 'react';
+import { Box, Button, List, ListItem, Typography } from '@mui/material';
+import { useRouter } from 'next/navigation';
 
 const ConnectAds = () => {
+  const router = useRouter();
   return (
     <Box>
       <Typography variant="h3">Ads</Typography>
@@ -41,7 +43,13 @@ const ConnectAds = () => {
         <span style={{ color: '#38CAB5' }}>LinkedIn offer</span> and{' '}
         <span style={{ color: '#38CAB5' }}>Google Offer</span>.
       </Typography>
-      <Button sx={{ mt: 2 }} variant="contained">
+      <Button
+        sx={{ mt: 2 }}
+        variant="contained"
+        onClick={() =>
+          router.push('/air-marketer/connect-ads/connect-ad-account')
+        }
+      >
         Connect accounts
       </Button>
     </Box>
