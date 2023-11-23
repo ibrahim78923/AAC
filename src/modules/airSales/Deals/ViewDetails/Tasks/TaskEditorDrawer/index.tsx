@@ -21,11 +21,12 @@ const TaskEditorDrawer = (props: any) => {
   return (
     <div>
       <CommonDrawer
-        isDrawerOpen={openDrawer}
+        isDrawerOpen={!!openDrawer}
         onClose={() => setOpenDrawer('')}
         title={drawerTitle[openDrawer]}
         okText={drawerButtonTitle[openDrawer]}
         isOk={true}
+        submitHandler={handleSubmit(onSubmit)}
         footer={openDrawer === 'View' ? false : true}
       >
         <Box sx={{ pt: 2 }}>

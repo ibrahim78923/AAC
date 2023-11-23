@@ -4,8 +4,6 @@ import TaskEditorDrawer from './TaskEditorDrawer';
 import ActionDropdown from './ActionDropdown';
 import TanstackTable from '@/components/Table/TanstackTable';
 
-import { TasksTableData } from '@/mock/modules/airSales/Deals/ViewDetails';
-
 import useTasks from './useTasks';
 
 import { columns } from './Tasks.data';
@@ -13,7 +11,13 @@ import { columns } from './Tasks.data';
 import { PlusIcon } from '@/assets/icons';
 
 const Tasks = () => {
-  const { openDrawer, setOpenDrawer } = useTasks();
+  const {
+    openDrawer,
+    setOpenDrawer,
+    handleCheckboxChange,
+    selectedCheckboxes,
+    taskData,
+  } = useTasks();
   return (
     <Box
       sx={{
@@ -39,7 +43,10 @@ const Tasks = () => {
           </Box>
         </Grid>
         <Grid item xs={12}>
-          <TanstackTable columns={columns} data={TasksTableData} />
+          <TanstackTable
+            columns={columns({ handleCheckboxChange, selectedCheckboxes })}
+            data={taskData?.data?.taskmanagements}
+          />
         </Grid>
       </Grid>
 

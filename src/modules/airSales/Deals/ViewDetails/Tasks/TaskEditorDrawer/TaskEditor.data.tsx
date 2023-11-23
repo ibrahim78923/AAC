@@ -3,38 +3,38 @@ import {
   RHFEditor,
   RHFSelect,
   RHFTextField,
-  RHFTimePicker,
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
 export const dealsTasksValidationSchema = Yup?.object()?.shape({
-  taskname: Yup?.string()?.trim()?.required('Field is Required'),
-  tasktype: Yup?.string()?.trim()?.required('Field is Required'),
+  name: Yup?.string()?.trim()?.required('Field is Required'),
+  type: Yup?.string()?.trim()?.required('Field is Required'),
   priority: Yup?.string()?.trim()?.required('Field is Required'),
-  taskstatus: Yup?.string()?.trim()?.required('Field is Required'),
-  selectdeal: Yup?.string()?.trim()?.required('Field is Required'),
-  assignedto: Yup?.string()?.trim()?.required('Field is Required'),
-  associatewithrecords: Yup?.string()?.trim()?.required('Field is Required'),
+  status: Yup?.string()?.trim()?.required('Field is Required'),
+  deal: Yup?.string()?.trim()?.required('Field is Required'),
+  assignto: Yup?.string()?.trim()?.required('Field is Required'),
+  associate: Yup?.string()?.trim()?.required('Field is Required'),
   reminder: Yup?.string()?.trim()?.required('Field is Required'),
   note: Yup?.string()?.trim()?.required('Field is Required'),
 });
 
 export const dealsTasksDefaultValues = {
-  taskname: '',
-  tasktype: '',
+  name: '',
+  type: '',
   priority: '',
-  taskstatus: '',
-  selectdeal: '',
-  assignedto: '',
-  associatewithrecords: '',
+  status: '',
+  deal: '',
+  assignto: '',
+  associate: '',
   reminder: '',
   note: '',
+  dueDate: null,
 };
 
 export const dealsTasksDataArray = [
   {
     componentProps: {
-      name: 'taskname',
+      name: 'name',
       label: 'Task Name',
       fullWidth: true,
     },
@@ -44,7 +44,7 @@ export const dealsTasksDataArray = [
 
   {
     componentProps: {
-      name: 'tasktype',
+      name: 'type',
       label: 'Task Type',
       select: true,
     },
@@ -73,7 +73,7 @@ export const dealsTasksDataArray = [
   },
   {
     componentProps: {
-      name: 'taskstatus',
+      name: 'status',
       label: 'Task Status',
       select: true,
     },
@@ -87,7 +87,7 @@ export const dealsTasksDataArray = [
   },
   {
     componentProps: {
-      name: 'selectdeal',
+      name: 'deal',
       label: 'Select Deal',
       disable: true,
     },
@@ -97,7 +97,7 @@ export const dealsTasksDataArray = [
   },
   {
     componentProps: {
-      name: 'associatewithrecords',
+      name: 'associate',
       label: 'Associate with Records',
       select: true,
     },
@@ -112,7 +112,7 @@ export const dealsTasksDataArray = [
   },
   {
     componentProps: {
-      name: 'assignedto',
+      name: 'assignto',
       label: 'Assigned to',
       select: true,
     },
@@ -127,21 +127,12 @@ export const dealsTasksDataArray = [
 
   {
     componentProps: {
-      name: 'due-date',
+      name: 'dueDate',
       label: 'Due Date',
       fullWidth: true,
     },
     component: RHFDatePicker,
-    md: 8,
-  },
-  {
-    componentProps: {
-      name: 'create-time',
-      label: '',
-      fullWidth: true,
-    },
-    component: RHFTimePicker,
-    md: 4,
+    md: 12,
   },
 
   {

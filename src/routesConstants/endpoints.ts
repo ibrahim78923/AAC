@@ -19,7 +19,7 @@ export const END_POINTS = {
   CONTACTS: '/contact',
   LIFECYCLE_STAGES: '/lifecycle-stages',
   CONTACT_STATUS: '/contact-status',
-  TASK: '/task',
+  TASK_MANAGEMENT: '/task/management',
 };
 
 export const superAdminBillingInvoices = {

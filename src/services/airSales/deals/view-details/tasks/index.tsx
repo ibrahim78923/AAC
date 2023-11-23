@@ -3,42 +3,42 @@ import { baseAPI } from '@/services/base-api';
 
 export const exampleExampleAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
-    getDealsTasks: builder.query({
+    getDealsTasksManagement: builder.query({
       query: () => ({
-        url: `${END_POINTS?.TASK}`,
+        url: `${END_POINTS?.TASK_MANAGEMENT}?page=1&limit=10`,
         method: 'GET',
       }),
-      providesTags: ['DEALS_TASK'],
+      providesTags: ['DEALS_TASK_MANAGEMENT'],
     }),
-    postDealsTasks: builder.mutation({
+    postDealsTasksManagement: builder.mutation({
       query: ({ body }: any) => ({
-        url: END_POINTS?.TASK,
+        url: END_POINTS?.TASK_MANAGEMENT,
         method: 'POST',
         body: body,
       }),
-      invalidatesTags: ['DEALS_TASK'],
+      invalidatesTags: ['DEALS_TASK_MANAGEMENT'],
     }),
-    updateDealsTasks: builder.mutation({
+    updateDealsTasksManagement: builder.mutation({
       query: ({ id, body }: any) => ({
-        url: `${END_POINTS?.TASK}/${id}`,
+        url: `${END_POINTS?.TASK_MANAGEMENT}/${id}`,
         method: 'PUT',
         body: body,
       }),
-      invalidatesTags: ['DEALS_TASK'],
+      invalidatesTags: ['DEALS_TASK_MANAGEMENT'],
     }),
-    deleteDealsTasks: builder.mutation({
+    deleteDealsTasksManagement: builder.mutation({
       query: ({ id }: any) => ({
-        url: `${END_POINTS?.TASK}/${id}`,
+        url: `${END_POINTS?.TASK_MANAGEMENT}/${id}`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['DEALS_TASK'],
+      invalidatesTags: ['DEALS_TASK_MANAGEMENT'],
     }),
   }),
 });
 
 export const {
-  useGetDealsTasksQuery,
-  usePostDealsTasksMutation,
-  useUpdateDealsTasksMutation,
-  useDeleteDealsTasksMutation,
+  useGetDealsTasksManagementQuery,
+  usePostDealsTasksManagementMutation,
+  useUpdateDealsTasksManagementMutation,
+  useDeleteDealsTasksManagementMutation,
 } = exampleExampleAPI;
