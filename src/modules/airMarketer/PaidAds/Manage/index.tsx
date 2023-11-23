@@ -86,7 +86,7 @@ const Manage = () => {
         </Grid>
       </Grid>
       <Box mt={4} display="flex" justifyContent="space-between">
-        <Search size="small" />
+        <Search placeholder="Search" size="small" />
         <Button
           // onClick={() => {
           //   setIsOpenFilterDrawer(true);

@@ -65,9 +65,9 @@ const UsersDetailsList = () => {
   }: any = useUserDetailsList();
   const { useGetUsersByIdQuery } = useUserManagement();
 
-  const { id } = navigate.query;
-  const { data: userDetail } = useGetUsersByIdQuery(id);
-  const { data: employeeList } = useGetEmployeeListQuery({ _id: id });
+  const { userName, organizationId } = navigate.query;
+  const { data: userDetail } = useGetUsersByIdQuery('632823');
+  const { data: employeeList } = useGetEmployeeListQuery({ _id: 347893 });
   const userDetails = userDetail?.data;
   const empDetail = employeeList?.data?.useros;
 
@@ -94,9 +94,7 @@ const UsersDetailsList = () => {
                   }}
                   sx={{ cursor: 'pointer' }}
                 />
-                <Typography variant="h3">
-                  {userDetails?.firstName} {userDetails?.lastName}
-                </Typography>
+                <Typography variant="h3">{userName}</Typography>
               </Stack>
               <Stack direction={'row'} gap={1}>
                 <Button
@@ -161,6 +159,7 @@ const UsersDetailsList = () => {
                   width: '100%',
                 }}
                 key={uuidv4()}
+                onClick={() => alert(item?._id)}
               >
                 <Box
                   sx={{
@@ -293,6 +292,7 @@ const UsersDetailsList = () => {
         <AddUser
           isOpenDrawer={isOpenAdduserDrawer}
           onClose={handleAddUserDrawer}
+          organizationId={organizationId}
         />
       )}
     </Box>

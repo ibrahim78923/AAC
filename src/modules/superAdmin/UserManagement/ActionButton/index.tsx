@@ -37,7 +37,7 @@ const ActionButton = (props?: any) => {
         onClose={handleClose}
       >
         {tabVal === 0 && (
-          <MenuItem onClick={() => handleUsersList(checkedRows)}>
+          <MenuItem onClick={() => handleUsersList(data?.data)}>
             User List
           </MenuItem>
         )}

@@ -6,7 +6,6 @@ import BorderColorIcon from '@mui/icons-material/BorderColor';
 import useToggle from '@/hooks/useToggle';
 import { usersApi } from '@/services/superAdmin/user-management/users';
 import { yupResolver } from '@hookform/resolvers/yup';
-
 import {
   addUsersArray,
   superAdminValidationSchema,
@@ -25,6 +24,7 @@ const AddUser = ({
   tabVal,
   isOpenAddUserDrawer,
   setIsOpenAddUserDrawer,
+  organizationId,
 }: any) => {
   const [isToggled, setIsToggled] = useToggle(false);
   const { usePostUsersMutation, useUpdateUsersMutation } = usersApi;
@@ -64,8 +64,8 @@ const AddUser = ({
       isOpenAddUserDrawer?.type === 'add'
         ? postUsers({ body: values })?.unwrap()
         : pathName === SUPER_ADMIN?.USERS_LIST
-        ? postUserEmployee({ body: values })
-        : updateUsers({ id, ...values });
+        ? postUserEmployee({ id: organizationId, body: values })
+        : updateUsers({ id, body: values });
       enqueueSnackbar('User Added Successfully', {
         variant: 'success',
       });
@@ -97,7 +97,7 @@ const AddUser = ({
     >
       <FormProvider methods={methods}>
         <Grid container spacing={2} mt={1}>
-          {addUsersArray?.map((item: any) => {
+          {addUsersArray()?.map((item: any) => {
             return (
               item?.toShow?.includes(
                 pathName === SUPER_ADMIN?.USERMANAGMENT
@@ -149,7 +149,13 @@ const AddUser = ({
                       </InputAdornment>
                     </Box>
                   )}
-                  <item.component {...item.componentProps} size={'small'}>
+                  <item.component
+                    {...item.componentProps}
+                    size={'small'}
+                    disabled={
+                      isOpenAddUserDrawer?.type === 'view' ? true : false
+                    }
+                  >
                     {item?.componentProps?.select &&
                       item?.options?.map((option: any) => (
                         <option key={uuidv4()} value={option?.value}>

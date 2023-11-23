@@ -9,7 +9,7 @@ export const END_POINTS = {
   ADD_USER: '/users',
   ADD_USER_ACCOUNT: '/super-admin/add-accounts',
   SUPER_ADMIN_USER_LIST: '/super-admin/user-list',
-  SUPER_ADMIN_ADD_USER: '/super-admin/add-user',
+  ORG_USER_EMPLOYEE: '/users/organization',
   USER_ACCOUNTS_LIST: '/super-admin/accounts-list',
   UPDATE_USER_LIST: '/users/edit',
   COMPANY_CRN: '/auth/search-company',

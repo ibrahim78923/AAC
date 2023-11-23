@@ -46,7 +46,6 @@ const useUserManagement = () => {
   const [updateUserProfile] = useUpdateUserProfileMutation();
   const { data: products } = useGetProductsQuery({});
   const { data: organizations } = useGetOrganizationsQuery({});
-  const queryParams: any = {};
   const handleClick = (event: any) => {
     setSelectedValue(event?.currentTarget);
   };
@@ -58,14 +57,20 @@ const useUserManagement = () => {
     setSelectedValue(null);
   };
 
-  const handleUsersList = (id: any) => {
-    navigate.push({ pathname: SUPER_ADMIN?.USERS_LIST, query: { id: id } });
+  const handleUsersList = (data: any) => {
+    navigate.push({
+      pathname: SUPER_ADMIN?.USERS_LIST,
+      query: {
+        userName: `${data?.firstName} ${data?.lastName}`,
+        organizationId: data?.organization,
+      },
+    });
     setSelectedValue(null);
   };
 
   const handleUserSwitchChange = (e: any, id: any) => {
-    queryParams.status = e?.target?.checked ? 'ACTIVE' : 'INACTIVE';
-    updateUsers({ id, ...queryParams });
+    const status = e?.target?.checked ? 'ACTIVE' : 'INACTIVE';
+    updateUsers({ id, body: { status: status } });
     enqueueSnackbar('User updated successfully', {
       variant: 'success',
     });
