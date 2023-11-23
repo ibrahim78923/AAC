@@ -20,6 +20,7 @@ export const END_POINTS = {
   LIFECYCLE_STAGES: '/lifecycle-stages',
   CONTACT_STATUS: '/contact-status',
   TASK_MANAGEMENT: '/task/management',
+  DEALS_ASSOCIATION: '/deals/get-associations',
 };
 
 export const superAdminBillingInvoices = {
