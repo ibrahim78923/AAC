@@ -39,7 +39,7 @@ export const columns: any = (columnsProps: any) => {
     {
       accessorFn: (row: any) => row?._id,
       id: 'userId',
-      header: 'UserID',
+      header: 'User ID',
       isSortable: false,
       cell: (info: any) => info.getValue() ?? 'N/A',
     },
@@ -66,7 +66,7 @@ export const columns: any = (columnsProps: any) => {
       accessorFn: (row: any) => row?.role,
       id: 'userType',
       isSortable: true,
-      header: 'UserType',
+      header: 'User Type',
       cell: (info: any) => (
         <Typography>
           {info?.row?.original?.role?.toLowerCase()?.replace('_', ' ')}
@@ -77,7 +77,7 @@ export const columns: any = (columnsProps: any) => {
       accessorFn: (row: any) => row?.OrganizationName,
       id: 'organizationName',
       isSortable: true,
-      header: 'OrganizationName',
+      header: 'Organization Name',
       cell: (info: any) => info?.getValue() ?? 'N/A',
     },
     {
@@ -115,7 +115,7 @@ export const columns: any = (columnsProps: any) => {
       accessorFn: (row: any) => row?.createdAt,
       id: 'createdOn',
       isSortable: true,
-      header: 'CreatedOn',
+      header: 'Created On',
       cell: (info: any) =>
         dayjs(info?.row?.original?.createdAt).format('DD/MM/YYYY'),
     },
@@ -146,7 +146,7 @@ export const superAdminColumns: any = (columnsProps: any) => {
     {
       accessorFn: (row: any) => row?._id,
       id: 'userId',
-      header: 'UserID',
+      header: 'User ID',
       isSortable: false,
       cell: (info: any) => info.getValue() ?? 'N/A',
     },
@@ -173,7 +173,7 @@ export const superAdminColumns: any = (columnsProps: any) => {
       accessorFn: (row: any) => row?.role,
       id: 'userType',
       isSortable: true,
-      header: 'UserType',
+      header: 'User Type',
       cell: (info: any) => (
         <Typography>
           {info?.row?.original?.role?.toLowerCase()?.replace('_', ' ')}
@@ -184,7 +184,7 @@ export const superAdminColumns: any = (columnsProps: any) => {
       accessorFn: (row: any) => row?.OrganizationName,
       id: 'organizationName',
       isSortable: true,
-      header: 'OrganizationName',
+      header: 'Organization Name',
       cell: (info: any) => info?.getValue() ?? 'N/A',
     },
     {
@@ -222,7 +222,7 @@ export const superAdminColumns: any = (columnsProps: any) => {
       accessorFn: (row: any) => row?.createdOn,
       id: 'createdOn',
       isSortable: true,
-      header: 'CreatedOn',
+      header: 'Created On',
       cell: (info: any) =>
         dayjs(info?.row?.original?.createdAt).format('DD/MM/YYYY'),
     },

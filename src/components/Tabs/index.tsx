@@ -72,6 +72,7 @@ const CommonTabs = (props: CommonTabsPropsI) => {
         }}
       >
         <Tabs
+          variant="scrollable"
           value={value}
           onChange={handleChange}
           aria-label="common tabs"

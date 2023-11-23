@@ -45,11 +45,12 @@ const UserManagement = () => {
         alignItems="center"
         sx={{ padding: '0px 24px', display: { md: 'flex' } }}
       >
-        <Typography variant="h4">User Management</Typography>
+        <Typography variant="h3">User Management</Typography>
         <PermissionsGuard
           permissions={[SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS.ADD_USER]}
         >
           <Button
+            sx={{ mt: { md: 0, xs: 1 } }}
             onClick={() =>
               tabVal === 2
                 ? handleAddRole()
@@ -82,7 +83,7 @@ const UserManagement = () => {
               label: 'Search Here',
               setSearchBy: setFilterValues,
               searchBy: filterValues?.search,
-              width: '260px',
+              // width: '260px',
             }}
             isHeader={true}
             tabsArray={[

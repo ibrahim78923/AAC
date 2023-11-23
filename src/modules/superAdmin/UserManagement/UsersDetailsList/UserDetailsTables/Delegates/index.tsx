@@ -20,26 +20,27 @@ const Delegates = () => {
     <>
       <Box sx={{ margin: '16px 24px' }}>
         <Grid container spacing={2}>
-          <Grid item lg={6} xs={12}>
+          <Grid item lg={4} xs={12}>
             <Typography component="span">Total Earnings</Typography>
             <Typography variant="h5">£ 1,234.11</Typography>
           </Grid>
-          <Grid item lg={6} xs={12}>
+          <Grid item lg={8} xs={12}>
             <Typography component="span">
               Pending From Inactive Members
             </Typography>
             <Typography variant="h5">£ 1,234.11</Typography>
           </Grid>
-          <Divider />
           <Grid item xs={12}>
+            <Divider />
             <Box
               sx={{
+                mt: 1,
                 display: 'flex',
                 flexWrap: 'wrap',
                 justifyContent: 'space-between',
               }}
             >
-              <Search placeholder="Search Here" />
+              <Search placeholder="Search Here" size="small" />
               <Button
                 onClick={() => {
                   setIsOpenFilterDrawer(true);
