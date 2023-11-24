@@ -16,7 +16,6 @@ export const useDepartmentsDetail = () => {
   const handleDeleteSubmit = () => {
     enqueueSnackbar('Department Deleted', {
       variant: NOTISTACK_VARIANTS?.SUCCESS,
-      autoHideDuration: 2000,
     });
     setOpenDelete(false);
     setActionPop(null);
