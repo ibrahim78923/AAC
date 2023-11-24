@@ -1,4 +1,4 @@
-export const AssetTypeIcon = () => {
+const AssetTypeIcon = () => {
   return (
     <svg
       width="26"
@@ -26,3 +26,5 @@ export const AssetTypeIcon = () => {
     </svg>
   );
 };
+
+export default AssetTypeIcon;
