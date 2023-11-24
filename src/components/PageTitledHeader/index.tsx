@@ -1,6 +1,7 @@
 import { Box, Button, useTheme, Typography } from '@mui/material';
 import { PlusSharedColorIcon, ImportIcon } from '@/assets/icons';
 import { ExportButton } from '../ExportButton';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 export const PageTitledHeader = ({
   title,
@@ -10,6 +11,8 @@ export const PageTitledHeader = ({
   handleAction = () => {},
   handleExcelExport,
   handleCsvExport,
+  moveBack,
+  hasMovedBack,
 }: any) => {
   const theme: any = useTheme();
 
@@ -21,9 +24,20 @@ export const PageTitledHeader = ({
         justifyContent={'space-between'}
         flexWrap={'wrap'}
       >
-        <Typography variant="h4" color={theme?.palette?.slateBlue?.main}>
-          {title}
-        </Typography>
+        <Box display={'flex'} alignItems={'center'} gap={1} flexWrap={'wrap'}>
+          {hasMovedBack && (
+            <ArrowBackIcon
+              color={'secondary'}
+              sx={{ cursor: 'pointer' }}
+              onClick={() => {
+                moveBack?.();
+              }}
+            />
+          )}
+          <Typography variant="h4" color={theme?.palette?.slateBlue?.main}>
+            {title}
+          </Typography>
+        </Box>
         <Box display={'flex'} alignItems={'center'} gap={1} flexWrap={'wrap'}>
           {hasImport && (
             <Button

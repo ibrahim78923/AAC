@@ -40,7 +40,7 @@ export const UserManagement = () => {
               </Avatar>
               <Typography
                 variant="body2"
-                color="slateblue.main"
+                color="slateBlue.main"
                 whiteSpace={'nowrap'}
               >
                 {item?.type}

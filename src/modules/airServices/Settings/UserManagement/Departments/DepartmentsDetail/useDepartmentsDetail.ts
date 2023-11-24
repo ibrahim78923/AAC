@@ -29,7 +29,6 @@ export const useDepartmentsDetail = () => {
   return {
     theme,
     actionPop,
-    setActionPop,
     handleActionClick,
     handleActionClose,
     openAction,
