@@ -8,6 +8,7 @@ import {
   productListsData,
 } from './ProductCatalog.data';
 import { Box } from '@mui/material';
+import { AIR_SERVICES } from '@/constants';
 
 export const ProductCatalog = () => {
   const {
@@ -27,12 +28,18 @@ export const ProductCatalog = () => {
         addTitle={'New Product'}
         hasExport
         hasImport
+        hasMovedBack
         handleExcelExport={() => getProductListsDataExport?.(EXPORT_TYPE?.XLS)}
         handleCsvExport={() => getProductListsDataExport?.(EXPORT_TYPE?.CSV)}
-        handleAction={() => {}}
+        handleAction={() =>
+          router?.push({
+            pathname: AIR_SERVICES?.UPSERT_PRODUCT_CATALOG,
+          })
+        }
         handleImport={() =>
           setProductListAction(PRODUCT_LISTS_ACTION_CONSTANTS?.IMPORT)
         }
+        moveBack={() => router?.back()}
       />
       <Search
         label="search"
@@ -47,7 +54,9 @@ export const ProductCatalog = () => {
         isPagination
       />
       {hasProductAction &&
-        productListActionComponent?.[router?.query?.ticketAction as string]}
+        productListActionComponent?.[
+          router?.query?.productListAction as string
+        ]}
     </>
   );
 };

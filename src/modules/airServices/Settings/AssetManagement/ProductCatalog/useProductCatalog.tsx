@@ -36,7 +36,7 @@ export const useProductCatalog = () => {
       pathname: router?.pathname,
       query: {
         ...router?.query,
-        ticketAction: productListActionQuery,
+        productListAction: productListActionQuery,
       },
     });
     setTimeout(() => {
