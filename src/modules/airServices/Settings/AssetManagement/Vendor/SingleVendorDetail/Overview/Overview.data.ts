@@ -1,35 +1,17 @@
 export const overviewData = [
   {
     id: '1',
-    heading: 'General Details',
     detailsData: [
-      { name: 'Contact Number', detail: 'CNTR-8' },
-      { name: 'Vendor', detail: 'Dell' },
-      { name: 'Type', detail: 'Lease' },
-      { name: 'Status', detail: 'Active' },
-      { name: 'Cost', detail: '£654' },
-      { name: 'Approver', detail: '--' },
-      { name: 'Validity', detail: '28 Mar, 2023 to 28 Dec, 2024' },
-    ],
-  },
-  {
-    id: '2',
-    heading: 'Items and Cost Details',
-    detailsData: [
-      { name: 'Software', detail: 'Microsoft' },
-      { name: 'Pricing Model', detail: 'Fixes' },
-      { name: 'Cost', detail: '£654' },
-      { name: 'Count', detail: 'Unlimited' },
-      { name: 'Comments', detail: '--' },
-      { name: 'Billing Cycle', detail: 'One Time' },
-    ],
-  },
-  {
-    id: '3',
-    heading: 'Software License Properties',
-    detailsData: [
-      { name: 'License Type', detail: 'Volume' },
-      { name: 'License Key', detail: 'Volume' },
+      { name: 'Contact Name', detail: '--' },
+      { name: 'Phone', detail: '--' },
+      { name: 'Mobile', detail: '--' },
+      { name: 'Email', detail: '--' },
+      { name: 'Description', detail: '--' },
+      { name: 'Address', detail: '1 infinite Loop' },
+      { name: 'Country', detail: 'United States' },
+      { name: 'State', detail: 'California' },
+      { name: 'City', detail: 'Cupertino' },
+      { name: 'Zip Code', detail: '95014' },
     ],
   },
 ];

@@ -1,22 +1,22 @@
 import { Box, Typography, useTheme } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
 import { overviewData } from './Overview.data';
-import { styles } from './Overview.style';
 export const Overview = () => {
   const theme = useTheme();
 
   return (
-    <div>
+    <>
       {overviewData?.map((item: any) => (
-        <div key={uuidv4()}>
-          <Typography variant="h5" sx={{ py: '10px' }}>
-            {item?.heading}
-          </Typography>
-          <Box sx={styles?.mainContainerBox}>
+        <Box key={uuidv4()}>
+          <Box
+            width={'100%'}
+            borderRadius={'.5rem'}
+            sx={{ backgroundColor: theme?.palette?.primary?.light }}
+          >
             {item?.detailsData?.map((detail: any) => (
-              <div key={uuidv4()}>
-                <Box sx={styles?.childContainerBox}>
-                  <Box sx={{ width: { sm: '20%', xs: '140px' } }}>
+              <Box key={uuidv4()}>
+                <Box display={'flex'} alignItems={'center'} padding={'1rem'}>
+                  <Box sx={{ width: { sm: '20%', xs: '8rem' } }}>
                     <Typography variant="body2" fontWeight={500}>
                       {detail?.name}
                     </Typography>
@@ -30,12 +30,11 @@ export const Overview = () => {
                     </Typography>
                   </Box>
                 </Box>
-              </div>
+              </Box>
             ))}
           </Box>
-          <Box sx={styles?.borderBox} />
-        </div>
+        </Box>
       ))}
-    </div>
+    </>
   );
 };
