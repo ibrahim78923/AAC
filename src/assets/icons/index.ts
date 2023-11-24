@@ -260,11 +260,12 @@ export { default as LikeIcon } from './modules/airMarketer/SMSMarketing/Contacts
 export { default as CommentIcon } from './modules/airMarketer/SMSMarketing/Contacts/comment';
 export { default as ShareIcon } from './modules/airMarketer/SMSMarketing/Contacts/share';
 export { default as FacebookIcon } from './modules/airMarketer/PaidAds/fb-Icon';
-export { default as LinkdinIcon } from './modules/airMarketer/PaidAds/linkedIn-Icon';
+export { default as LinkdinIcon } from './modules/airMarketer/PaidAds/linkedIn';
 export { default as QuriesIcon } from './modules/airMarketer/SocialMarketing/SocialInbox/quries';
 export { default as AttachmentsIcon } from './modules/airMarketer/SocialMarketing/SocialInbox/attachments';
 export { default as ReplyRoundedIcon } from './modules/airMarketer/SocialMarketing/SocialInbox/reply';
 export { default as RefreshSharedIcon } from './shared/refresh-shared';
+export { default as InfoBlueIcon } from './modules/airMarketer/PaidAds/info-circle';
 export { default as AssetTypeIcon } from './modules/airServices/Settings/asset-type-icon';
 export { default as ProductCatalogIcon } from './modules/airServices/Settings/product-catalog-icon';
 export { default as VendorIcon } from './modules/airServices/Settings/vendor-icon';

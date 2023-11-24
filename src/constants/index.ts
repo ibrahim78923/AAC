@@ -65,6 +65,8 @@ export const AIR_SERVICES = {
   DEPARTMENT_FIELD_SETTINGS: `/air-services/settings/user-management/department-field`,
   USER_FIELD_SETTINGS: `/air-services/settings/user-management/user-field`,
   USER_ROLES_SETTINGS: `/air-services/settings/user-management/roles`,
+  PRODUCT_CATALOG: `/air-services/settings/asset-management/product-catalog`,
+  UPSERT_PRODUCT_CATALOG: `/air-services/settings/asset-management/product-catalog/upsert-product`,
 };
 
 export const AIR_CUSTOMER_PORTAL = {
