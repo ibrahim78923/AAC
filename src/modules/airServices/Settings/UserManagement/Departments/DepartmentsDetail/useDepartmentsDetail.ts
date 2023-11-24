@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useTheme } from '@mui/material';
 import { enqueueSnackbar } from 'notistack';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 export const useDepartmentsDetail = () => {
   const [actionPop, setActionPop] = useState<HTMLElement | null>(null);
@@ -14,7 +15,7 @@ export const useDepartmentsDetail = () => {
   const openAction = Boolean(actionPop);
   const handleDeleteSubmit = () => {
     enqueueSnackbar('Department Deleted', {
-      variant: 'success',
+      variant: NOTISTACK_VARIANTS?.SUCCESS,
       autoHideDuration: 2000,
     });
     setOpenDelete(false);
