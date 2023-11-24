@@ -1,3 +1,4 @@
+import { AIR_SERVICES } from '@/constants';
 import { Box } from '@mui/material';
 
 export const PRODUCT_LISTS_ACTION_CONSTANTS = {
@@ -24,8 +25,14 @@ export const productListsColumnDynamic: any = (router?: any) => {
       cell: (info: any) => (
         <Box
           onClick={() => {
-            router?.push({});
+            router?.push({
+              pathname: AIR_SERVICES?.SINGLE_PRODUCT_CATALOG,
+              query: {
+                productCatalogId: info?.getValue(),
+              },
+            });
           }}
+          sx={{ cursor: 'pointer' }}
         >
           {info?.getValue()}
         </Box>

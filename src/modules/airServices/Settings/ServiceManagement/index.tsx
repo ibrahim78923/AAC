@@ -36,13 +36,13 @@ export const ServiceManagement = () => {
               </Avatar>
               <Typography
                 variant="h6"
-                color="slateblue.main"
+                color="slateBlue.main"
                 whiteSpace={'nowrap'}
                 marginY={1.25}
               >
                 {item?.type}
               </Typography>
-              <Typography variant="body2" color="slateblue.main">
+              <Typography variant="body2" color="slateBlue.main">
                 {item?.purpose}
               </Typography>
             </Box>

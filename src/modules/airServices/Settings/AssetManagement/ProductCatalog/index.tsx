@@ -37,9 +37,13 @@ export const ProductCatalog = () => {
           })
         }
         handleImport={() =>
-          setProductListAction(PRODUCT_LISTS_ACTION_CONSTANTS?.IMPORT)
+          setProductListAction?.(PRODUCT_LISTS_ACTION_CONSTANTS?.IMPORT)
         }
-        moveBack={() => router?.back()}
+        moveBack={() =>
+          router?.push({
+            pathname: AIR_SERVICES?.ASSET_MANAGEMENT_SETTINGS,
+          })
+        }
       />
       <Search
         label="search"
@@ -47,7 +51,7 @@ export const ProductCatalog = () => {
         value={search}
         onChange={(e: any) => setSearch(e?.target?.value)}
       />
-      <Box marginY={3}></Box>
+      <Box marginY={3} />
       <TanstackTable
         columns={productListsColumn}
         data={productListsData}
