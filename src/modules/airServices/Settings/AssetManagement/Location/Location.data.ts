@@ -1,6 +1,6 @@
 export const locationlist = [
   {
-    id: 3,
+    id: 1,
     title: 'America',
     subList: [
       {
@@ -14,7 +14,7 @@ export const locationlist = [
     ],
   },
   {
-    id: 3,
+    id: 2,
     title: 'Asia',
     subList: [
       {

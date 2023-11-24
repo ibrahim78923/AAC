@@ -7,7 +7,6 @@ import {
   EditPenIcon,
 } from '@/assets/icons';
 import React from 'react';
-import { v4 as uuidv4 } from 'uuid';
 import { AlertModals } from '@/components/AlertModals';
 import { enqueueSnackbar } from 'notistack';
 import { ALERT_MODALS_TYPE, NOTISTACK_VARIANTS } from '@/constants/strings';
@@ -33,7 +32,6 @@ export const ListLocation = ({ continents, handleCollapse }: any) => {
           flexWrap={'wrap'}
           borderLeft={`.5rem solid ${theme?.palette?.primary?.main}`}
           bgcolor={theme?.palette?.grey[100]}
-          key={uuidv4()}
           boxShadow={2}
           padding={1.5}
           borderRadius={2}
