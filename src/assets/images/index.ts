@@ -194,3 +194,4 @@ export { default as LogoWhatsappImage } from './modules/airMarketer/SocialMarket
 export { default as LogoFacebookImage } from './modules/airMarketer/SocialMarketing/SocialInbox/logo-facebook.png';
 export { default as UserRetroImage } from './modules/airMarketer/SocialMarketing/user-retro.png';
 export { default as MessageGreyImage } from './modules/orgAdmin/organization/message.png';
+export { default as GoogleAds } from './modules/airMarketer/PaidAds/google-ads.png';
