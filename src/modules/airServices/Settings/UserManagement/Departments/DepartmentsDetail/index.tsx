@@ -10,10 +10,10 @@ import {
 } from '@mui/material';
 import { MoreHoriz, AddCircle } from '@mui/icons-material';
 import { v4 as uuidv4 } from 'uuid';
-import { departmentsData } from './DepartmentsDetail.data';
-import { useDepartmentsDetail } from './useDepartmentsDetail';
 import { AlertModals } from '@/components/AlertModals';
 import { ALERT_MODALS_TYPE } from '@/constants/strings';
+import { departmentsData } from './DepartmentsDetail.data';
+import { useDepartmentsDetail } from './useDepartmentsDetail';
 
 export const DepartmentsDetail = () => {
   const {
