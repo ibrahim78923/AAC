@@ -1,11 +1,10 @@
-import SettingsIcon from '@mui/icons-material/Settings';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
 import { AIR_SERVICES } from '@/constants';
+import { ClosureRuleIcon, ServicesCatalogIcon } from '@/assets/icons';
 export const serviceManagement = [
   {
     id: 1,
-    avatar: AccountCircleIcon,
+    avatar: ServicesCatalogIcon,
     type: 'Service Catalog',
     purpose: `Create and manage fields to capture information about projects`,
     link: AIR_SERVICES?.SERVICE_CATALOG_SETTINGS,
@@ -19,7 +18,7 @@ export const serviceManagement = [
   },
   {
     id: 3,
-    avatar: SettingsIcon,
+    avatar: ClosureRuleIcon,
     type: 'Closure Rule',
     purpose: `Create and manage fields to capture information about projects`,
     link: AIR_SERVICES?.CLOSURE_RULE_SETTINGS,
