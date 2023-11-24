@@ -40,7 +40,7 @@ const Contacts = ({ assocaitionData }: any) => {
             02
           </Typography>
 
-          {assocaitionData.length > 0 && assocaitionData.map((item) => item)}
+          {assocaitionData?.length > 0 && assocaitionData?.map((item) => item)}
           <Typography variant="subtitle2">Contacts</Typography>
         </Grid>
         <Grid item md={8} xs={12}>
@@ -51,6 +51,7 @@ const Contacts = ({ assocaitionData }: any) => {
               gap: 2,
               flexDirection: { xs: 'column', sm: 'row' },
             }}
+            // dangerouslySetInnerHTML={{ __html: '<b>fgggfgdfgdgfdgdgfg</b>' }}
           >
             <Search
               searchBy={searchName}
