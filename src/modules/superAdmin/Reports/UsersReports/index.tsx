@@ -1,6 +1,6 @@
-import Search from '@/components/Search';
 import { Box, Card, Typography } from '@mui/material';
 import { ArrowBack } from '@mui/icons-material';
+import Search from '@/components/Search';
 import useUserReports from './useUserReports';
 import TanstackTable from '@/components/Table/TanstackTable';
 import CustomPagination from '@/components/CustomPagination';

@@ -20,9 +20,6 @@ export const CompanyOwnerValidationSchema = Yup.object().shape({
   crn: Yup.string()
     .required('Field is Required')
     .matches(/^[0-9]+$/, 'Must be a number'),
-  companyName: Yup.string()
-    .required('Field is Required')
-    .matches(/^[A-Za-z]+$/, 'Only alphabetic characters are allowed'),
   phoneNumber: Yup.string()
     .required('Field is Required')
     .matches(/^[0-9]+$/, 'Must be a number'),
@@ -92,28 +89,28 @@ export const addUsersArray = () => {
       component: RHFTextField,
       md: 12,
     },
-    {
-      title: 'Company Registration Number(CRN)',
-      componentProps: {
-        name: 'crn',
-        placeholder: 'Enter CRN Number',
-        fullWidth: true,
-      },
-      toShow: ['COMPANY_OWNER'],
-      component: RHFTextField,
-      md: 12,
-    },
-    {
-      title: 'Company Name',
-      componentProps: {
-        name: 'companyName',
-        placeholder: 'Enter Company  Name',
-        fullWidth: true,
-      },
-      toShow: ['COMPANY_OWNER'],
-      component: RHFTextField,
-      md: 12,
-    },
+    // {
+    //   componentProps: {
+    //     name: 'crn',
+    //     label: 'Company Registration Number(CRN)',
+    //     placeholder: 'Enter CRN Number',
+    //     fullWidth: true,
+    //   },
+    //   toShow: ['COMPANY_OWNER'],
+    //   component: RHFTextField,
+    //   md: 12,
+    // },
+    // {
+    //   title: 'Company Name',
+    //   componentProps: {
+    //     name: 'companyName',
+    //     placeholder: 'Enter Company  Name',
+    //     fullWidth: true,
+    //   },
+    //   toShow: ['COMPANY_OWNER'],
+    //   component: RHFTextField,
+    //   md: 12,
+    // },
     {
       title: 'Phone Number',
       componentProps: {

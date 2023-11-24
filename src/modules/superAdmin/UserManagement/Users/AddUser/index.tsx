@@ -1,10 +1,9 @@
 import { Box, Grid, InputAdornment, Typography } from '@mui/material';
-import { FormProvider } from '@/components/ReactHookForm';
+import { FormProvider, RHFTextField } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
 import { EraserIcon } from '@/assets/icons';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import useToggle from '@/hooks/useToggle';
-import { usersApi } from '@/services/superAdmin/user-management/users';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
   addUsersArray,
@@ -14,9 +13,12 @@ import {
 import { useForm } from 'react-hook-form';
 import { enqueueSnackbar } from 'notistack';
 import { SUPER_ADMIN } from '@/constants/index';
-import { v4 as uuidv4 } from 'uuid';
-import { usePostUserEmployeeMutation } from '@/services/superAdmin/user-management/UserList';
 import useUserDetailsList from '../../UsersDetailsList/useUserDetailsList';
+import { useGetAuthCompaniesQuery } from '@/services/auth';
+import { useEffect, useState } from 'react';
+import { debouncedSearch } from '@/utils';
+import useAddUser from './useAddUser';
+import { v4 as uuidv4 } from 'uuid';
 
 const AddUser = ({
   isOpenDrawer,
@@ -26,12 +28,8 @@ const AddUser = ({
   setIsOpenAddUserDrawer,
   organizationId,
 }: any) => {
+  const { pathName, postUsers, updateUsers, postUserEmployee } = useAddUser();
   const [isToggled, setIsToggled] = useToggle(false);
-  const { usePostUsersMutation, useUpdateUsersMutation } = usersApi;
-  const [postUsers] = usePostUsersMutation();
-  const [updateUsers] = useUpdateUsersMutation();
-  const [postUserEmployee] = usePostUserEmployeeMutation();
-  const pathName = window?.location?.pathname;
   const userDetail = isOpenAddUserDrawer?.data?.data;
   const tabTitle = tabVal === 0 ? 'COMPANY_OWNER' : 'SUPER_ADMIN';
   const id = isOpenAddUserDrawer?.data?.data?._id;
@@ -49,14 +47,7 @@ const AddUser = ({
 
   const methods =
     tabTitle === 'SUPER_ADMIN' ? superAdminMethods : companyOwnerMethods;
-  const {
-    handleSubmit,
-    reset,
-    //  watch
-  } = methods;
-
-  // const crnNumber = watch('crn');
-  // const { crnData } = useGetCompaniesCRNQuery(crnNumber);
+  const { handleSubmit, reset, watch, setValue } = methods;
 
   const onSubmit = async (values: any) => {
     values.role = tabTitle === 'COMPANY_OWNER' ? 'ORG_ADMIN' : 'SUPER_ADMIN';
@@ -78,6 +69,22 @@ const AddUser = ({
       });
     }
   };
+
+  const organizationNumber = watch('crn');
+
+  const [orgNumber, setOrgNumber] = useState('');
+  debouncedSearch(organizationNumber, setOrgNumber);
+  const { data, isSuccess, isError } = useGetAuthCompaniesQuery({
+    q: orgNumber,
+  });
+  let companyDetails: any = {};
+  if (isSuccess) {
+    companyDetails = data?.data;
+  }
+  useEffect(() => {
+    setValue('companyName', companyDetails?.company_name);
+    setOrgNumber(organizationNumber);
+  }, [data, isError]);
 
   return (
     <CommonDrawer
@@ -189,12 +196,46 @@ const AddUser = ({
                             </data.component>
                           </Grid>
                         ))}
+                      <Grid item xs={12} md={6}>
+                        <RHFTextField
+                          name="firstName"
+                          label="First Name"
+                          placeholder="Enter First Name"
+                          size="small"
+                        />
+                      </Grid>
+                      <Grid item xs={12} md={6}>
+                        <RHFTextField
+                          name="lastName"
+                          label="Last Name"
+                          placeholder="Enter Last Name"
+                          size="small"
+                        />
+                      </Grid>
                     </Grid>
                   )}
                 </Grid>
               )
             );
           })}
+          <Grid item xs={12}>
+            <RHFTextField
+              name="crn"
+              defaultValue={userDetail?.crn}
+              label="Company Registration Number(CRN)"
+              placeholder="Enter crn"
+              size="small"
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <RHFTextField
+              name="companyName"
+              label="company Name"
+              placeholder="Company Name"
+              size="small"
+              disabled
+            />
+          </Grid>
         </Grid>
       </FormProvider>
     </CommonDrawer>
