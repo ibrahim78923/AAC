@@ -6,21 +6,21 @@ export const singleProductDetailActionDropdownFunction = (
 ) => [
   {
     title: 'Edit Catalog',
-    handleClick: (x: any) => {
+    handleClick: (closeMenu: any) => {
       router?.push({
-        pathname: AIR_SERVICES?.ADD_INVENTORY,
+        pathname: AIR_SERVICES?.UPSERT_PRODUCT_CATALOG,
         query: {
           ...router?.query,
         },
       });
-      x?.();
+      closeMenu?.();
     },
   },
   {
     title: 'Delete',
-    handleClick: (x: any) => {
+    handleClick: (closeMenu: any) => {
       setDeleteModalOpen?.(true);
-      x?.();
+      closeMenu?.();
     },
   },
 ];
