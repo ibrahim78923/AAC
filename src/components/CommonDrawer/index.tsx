@@ -23,12 +23,11 @@ const CommonDrawer = ({
   isOk,
   cancelText,
   footer,
+  headerIcon,
   footerActionText,
   footerActionTextIcon,
   onFooterActionSubmit,
-
   isCancel,
-
   isFooterFeature,
   isFooterFeatureText,
   isFooterFeatureHandler,
@@ -65,7 +64,17 @@ const CommonDrawer = ({
               justifyContent: 'space-between',
             }}
           >
-            <Typography variant="h5">{title}</Typography>
+            <Box
+              sx={{
+                marginBottom: '20px',
+                display: 'flex',
+                gap: 1,
+                alignItems: 'center',
+              }}
+            >
+              {headerIcon}
+              <Typography variant="h5">{title}</Typography>
+            </Box>
             <Box onClick={onClose} sx={{ cursor: 'pointer' }}>
               <CloseIcon />
             </Box>
