@@ -2,13 +2,14 @@ import { AlertModals } from '@/components/AlertModals';
 import { Header } from './Header';
 import { SingleContractDetailsTabs } from './SingleVendorDetailTabs';
 import { useSingleVendorDetails } from './useSingleVendorDetails';
-import { enqueueSnackbar } from 'notistack';
+import { ALERT_MODALS_TYPE } from '@/constants/strings';
 
 export const SingleVendorDetail = () => {
   const {
     singleVendorDetailsActionDropdown,
     deleteModalOpen,
     setDeleteModalOpen,
+    handleDeleteBtn,
   } = useSingleVendorDetails();
   return (
     <>
@@ -18,15 +19,10 @@ export const SingleVendorDetail = () => {
 
       {deleteModalOpen && (
         <AlertModals
-          type="delete"
+          type={ALERT_MODALS_TYPE?.DELETE}
           open={deleteModalOpen}
           handleClose={() => setDeleteModalOpen(false)}
-          handleSubmitBtn={() => {
-            setDeleteModalOpen(false);
-            enqueueSnackbar('Vendor deleted Successfully', {
-              variant: 'success',
-            });
-          }}
+          handleSubmitBtn={handleDeleteBtn}
           message="Are you sure you want to delete this Vendor?"
         />
       )}
