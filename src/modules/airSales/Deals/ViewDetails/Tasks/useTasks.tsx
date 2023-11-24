@@ -18,7 +18,7 @@ const useTasks = () => {
       setSelectedCheckboxes((prevSelected) => [...prevSelected, row]);
     } else {
       setSelectedCheckboxes((prevSelected) =>
-        prevSelected.filter((item) => item.id !== row.id),
+        prevSelected.filter((item) => item._id !== row._id),
       );
     }
   };

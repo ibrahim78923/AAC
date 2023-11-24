@@ -41,7 +41,6 @@ export const dealsTasksDataArray = [
     component: RHFTextField,
     md: 12,
   },
-
   {
     componentProps: {
       name: 'type',
@@ -49,9 +48,8 @@ export const dealsTasksDataArray = [
       select: true,
     },
     options: [
-      { value: 'To-do', label: 'To-do' },
-      { value: 'Follow-up', label: 'Follow-up' },
-      { value: 'Call reminder', label: 'Call reminder' },
+      { value: 'Call', label: 'Call' },
+      { value: 'Email', label: 'Email' },
     ],
     component: RHFSelect,
     md: 8,

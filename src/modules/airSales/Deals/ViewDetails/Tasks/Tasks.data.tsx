@@ -1,4 +1,6 @@
+import { DATE_FORMAT } from '@/constants';
 import { Checkbox } from '@mui/material';
+import dayjs from 'dayjs';
 
 export const columns = ({ handleCheckboxChange, selectedCheckboxes }: any) => {
   return [
@@ -9,9 +11,10 @@ export const columns = ({ handleCheckboxChange, selectedCheckboxes }: any) => {
         <Checkbox
           color="primary"
           name={'name'}
-          onChange={(event) => handleCheckboxChange(event, info.row.original)}
+          onChange={(event) => handleCheckboxChange(event, info?.row?.original)}
           checked={selectedCheckboxes?.some(
-            (selectedItem) => selectedItem.id === info.row.original.id,
+            (selectedItem: any) =>
+              selectedItem?._id === info?.row?.original?._id,
           )}
         />
       ),
@@ -37,10 +40,10 @@ export const columns = ({ handleCheckboxChange, selectedCheckboxes }: any) => {
 
     {
       accessorFn: (row: any) => row?.dueDate,
-      id: 'duedate',
+      id: 'dueDate',
       isSortable: true,
       header: 'Due Date',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => dayjs(info?.getValue())?.format(DATE_FORMAT?.UI),
     },
 
     {
