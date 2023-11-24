@@ -1,19 +1,46 @@
 import React from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import { Avatar, Box, Button, Grid, Modal, Typography } from '@mui/material';
+import {
+  Avatar,
+  Box,
+  Button,
+  Divider,
+  Grid,
+  Modal,
+  StepLabel,
+  Stepper,
+  SvgIcon,
+  Typography,
+} from '@mui/material';
 import ResourcePlugin from '@fullcalendar/resource';
 import interactionPlugin from '@fullcalendar/interaction';
 import resourceTimelinePlugin from '@fullcalendar/resource-timeline';
 import useCalender from './useCalender';
 import Filters from './Filters';
-import { PlusIcon } from '@/assets/icons';
+import {
+  ActionsIcon,
+  BiAcivityIcon,
+  CloseModalIcon,
+  CommentIcon,
+  FillCheckboxIcon,
+  LikeIcon,
+  MultipleUserIcon,
+  PlusIcon,
+  ShareIcon,
+} from '@/assets/icons';
 import { styles } from './Calender.style';
 import { v4 as uuidv4 } from 'uuid';
-import { AvatarImage, EventImage } from '@/assets/images';
+import {
+  AvatarImage,
+  EventImage,
+  NatureFreekImage,
+  SeaImage,
+} from '@/assets/images';
 import Image from 'next/image';
 import { airMarketingCalendar } from '@/routesConstants/paths';
 import { SocailMediaEvent } from './Calender.data';
+import { postBoxSteps } from '@/mock/modules/airMarketer/SocialMarketing';
 
 const Calender = () => {
   const {
@@ -112,8 +139,139 @@ const Calender = () => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={styles.parentBox}>
-          {selectedEventData?._def?.title}
+          {modalEvents?.length === 0 && (
+            <>
+              {selectedEventData?._def?.title}
+              <Box mt="-20px" textAlign="end">
+                <SvgIcon
+                  onClick={() => setIsModalOpen(false)}
+                  sx={{ cursor: 'pointer' }}
+                >
+                  <CloseModalIcon />
+                </SvgIcon>
+              </Box>
+              <Box sx={{ display: 'flex', justifyContent: 'end', mb: '25px' }}>
+                <Typography variant="h5">
+                  Posted <FillCheckboxIcon />
+                </Typography>
+              </Box>
+              <Grid container spacing={2}>
+                <Grid item xs={8} borderRadius="8px" border="1px solid #DADDE1">
+                  <Box
+                    display="flex"
+                    justifyContent="space-between"
+                    padding="15px"
+                  >
+                    <Box display="flex" gap={1.5}>
+                      <Box>
+                        <Image src={NatureFreekImage} alt="image" />
+                      </Box>
+                      <Box>
+                        <Typography sx={{ fontSize: '15px', fontWeight: 700 }}>
+                          Nature Freek
+                        </Typography>
+                        <Box
+                          sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
+                        >
+                          <Typography variant="body4">5 min .</Typography>
+                          <MultipleUserIcon />
+                        </Box>
+                      </Box>
+                    </Box>
+                    <Box>
+                      <SvgIcon>
+                        <ActionsIcon />
+                      </SvgIcon>
+                    </Box>
+                  </Box>
+                  <Box sx={{ padding: '10px' }}>
+                    <Typography sx={{ color: '#1D2129' }}>
+                      {`Hey guys! I really love the city pop hit Plastic Love and I'm
+                working on a new cover of it! 😊😊😊😊`}
+                    </Typography>
+                    <Typography sx={{ color: '#50ABF1' }}>
+                      @zackben#nature #beauty #mountain #travel
+                    </Typography>
+                  </Box>
 
+                  <Image src={SeaImage} alt="image" />
+
+                  <Divider sx={{ my: '10px' }} />
+
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      justifyContent: 'space-around',
+                      mb: '10px',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <Button
+                      disableRipple
+                      sx={{ color: '#606770', fontSize: '500' }}
+                      startIcon={<LikeIcon />}
+                    >
+                      3.6 k
+                    </Button>
+                    <Button
+                      sx={{ color: '#606770', fontSize: '500' }}
+                      startIcon={<CommentIcon />}
+                    >
+                      2.1 k
+                    </Button>
+                    <Button
+                      sx={{ color: '#606770', fontSize: '500' }}
+                      startIcon={<ShareIcon />}
+                    >
+                      2.6 k
+                    </Button>
+                  </Box>
+                </Grid>
+
+                <Grid item xs={4}>
+                  <Typography>
+                    {' '}
+                    <BiAcivityIcon /> Activity
+                  </Typography>
+                  <Box sx={{ maxWidth: 400 }}>
+                    <Box sx={{ maxWidth: 400 }}>
+                      <Stepper activeStep={6} orientation="vertical">
+                        {postBoxSteps?.map((step: any) => (
+                          <StepLabel
+                            key={uuidv4()}
+                            sx={{ display: 'flex' }}
+                            icon={step?.icon}
+                          >
+                            <Box
+                              sx={{
+                                display: 'flex',
+                                gap: 8,
+                                mt: '15px',
+                                color: theme?.palette?.custom?.steel_blue,
+                              }}
+                            >
+                              <Typography variant="body4">
+                                {step?.label}
+                              </Typography>
+                              <Typography variant="body4">
+                                {step?.time}
+                              </Typography>
+                            </Box>
+                            <Typography
+                              sx={{ color: '#4E4B66' }}
+                              variant="body4"
+                            >
+                              {step?.description(theme)}
+                            </Typography>
+                          </StepLabel>
+                        ))}
+                      </Stepper>
+                    </Box>
+                  </Box>
+                </Grid>
+              </Grid>
+            </>
+          )}
           {modalEvents?.length > 0 && (
             <>
               <Typography
