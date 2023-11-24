@@ -21,6 +21,8 @@ import { styles } from './ViewInvoices.style';
 import { CloseModalIcon, LogoIcon } from '@/assets/icons';
 import { AvatarImage } from '@/assets/images';
 import { v4 as uuidv4 } from 'uuid';
+import jsPDF from 'jspdf';
+import { useRouter } from 'next/router';
 
 const DownloadInvoices: FC<ViewInvoicesI> = ({
   open,
@@ -108,6 +110,17 @@ const DownloadInvoices: FC<ViewInvoicesI> = ({
     },
   ];
   const theme = useTheme();
+  const router = useRouter();
+
+  const handleDownload = () => {
+    const invoice: any = new jsPDF('portrait', 'pt', [1200, 1200]);
+    invoice.html(document.querySelector('#invoice-data')).then(() => {
+      invoice.save('invoice.pdf');
+    });
+    onClose();
+    router?.back();
+  };
+
   return (
     <Dialog
       open={open}
@@ -121,7 +134,7 @@ const DownloadInvoices: FC<ViewInvoicesI> = ({
       }}
     >
       <DialogContent sx={{ p: '12px 24px 24px' }}>
-        <Box>
+        <Box id="invoice-data">
           <Box sx={styles?.topBar}>
             <Box sx={styles?.modalClose} onClick={onClose}>
               <CloseModalIcon />
@@ -200,31 +213,31 @@ const DownloadInvoices: FC<ViewInvoicesI> = ({
               <Grid item xs={4}>
                 <Box sx={styles?.invoiceInfoTitle}>
                   Invoice No:{' '}
-                  <Box component="span">{DownloadInvoiceData?.invoiceNo}</Box>
+                  <Typography>{DownloadInvoiceData?.invoiceNo}</Typography>
                 </Box>
               </Grid>
               <Grid item xs={4}>
                 <Box sx={styles?.invoiceInfoTitle}>
                   Invoice Date:{' '}
-                  <Box component="span">
+                  <Typography>
                     {DownloadInvoiceData?.billingDate
                       ? new Date(
                           DownloadInvoiceData?.billingDate,
                         ).toLocaleDateString('en-GB')
                       : 'Invalid Date'}
-                  </Box>
+                  </Typography>
                 </Box>
               </Grid>
               <Grid item xs={4}>
                 <Box sx={styles?.invoiceInfoTitle}>
                   Due Date:{' '}
-                  <Box component="span">
+                  <Typography>
                     {DownloadInvoiceData?.dueDate
                       ? new Date(
                           DownloadInvoiceData?.dueDate,
                         ).toLocaleDateString('en-GB')
                       : 'Invalid Date'}
-                  </Box>
+                  </Typography>
                 </Box>
               </Grid>
             </Grid>
@@ -241,12 +254,9 @@ const DownloadInvoices: FC<ViewInvoicesI> = ({
             <Box sx={styles?.vRow}>
               <Box sx={styles?.vLabel}>
                 Discount{' '}
-                <Box
-                  component="span"
-                  sx={{ fontWeight: '500', fontSize: '14px' }}
-                >
+                <Typography sx={{ fontWeight: '500', fontSize: '14px' }}>
                   ({DownloadInvoiceData?.invoiceDiscount && discountValue}%)
-                </Box>
+                </Typography>
               </Box>
               <Box sx={styles?.vValue}>
                 (£ {DownloadInvoiceData?.invoiceDiscount && discountValue})
@@ -255,12 +265,9 @@ const DownloadInvoices: FC<ViewInvoicesI> = ({
             <Box sx={styles?.vRow}>
               <Box sx={styles?.vLabel}>
                 Tax{' '}
-                <Box
-                  component={'span'}
-                  sx={{ fontWeight: '400', fontSize: '12px' }}
-                >
+                <Typography sx={{ fontWeight: '400', fontSize: '12px' }}>
                   (Vat {DownloadInvoiceData?.vat}%)
-                </Box>
+                </Typography>
               </Box>
               <Box sx={styles?.vValue}>£ {DownloadInvoiceData?.vat}</Box>
             </Box>
@@ -274,7 +281,11 @@ const DownloadInvoices: FC<ViewInvoicesI> = ({
           <Divider sx={{ borderColor: 'custom.off_white_one', my: '24px' }} />
 
           <Box sx={{ textAlign: 'right' }}>
-            <Button variant="contained" color="primary">
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleDownload}
+            >
               Download
             </Button>
           </Box>

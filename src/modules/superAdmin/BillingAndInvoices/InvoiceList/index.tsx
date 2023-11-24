@@ -1,4 +1,3 @@
-import { useRouter } from 'next/router';
 import {
   Box,
   Button,
@@ -22,7 +21,6 @@ const InvoiceList = ({
 }: any) => {
   const { isOpenInvoiceList, setIsOpenInvoiceList, handleCloseInvoiceList } =
     useInvoiceList();
-  const router = useRouter();
   const theme = useTheme();
   return (
     <>
@@ -147,13 +145,13 @@ const InvoiceList = ({
             >
               Download
             </Button>
-            <Button
+            {/* <Button
               variant="contained"
               color="primary"
               onClick={() => router?.back()}
             >
               Generate Invoice
-            </Button>
+            </Button> */}
           </Stack>
         </Grid>
       </Grid>

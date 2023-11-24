@@ -15,6 +15,7 @@ import { styles } from './ViewInvoices.style';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { AvatarImage } from '@/assets/images';
 import { v4 as uuidv4 } from 'uuid';
+import jsPDF from 'jspdf';
 
 const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose, isGetRowValues }) => {
   const columns: any = [
@@ -95,6 +96,14 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose, isGetRowValues }) => {
     },
   ];
 
+  const handleDownload = () => {
+    const invoice: any = new jsPDF('portrait', 'pt', [1200, 1200]);
+    invoice.html(document.querySelector('#invoice-data')).then(() => {
+      invoice.save('invoice.pdf');
+    });
+    onClose();
+  };
+
   return (
     <Dialog
       open={open}
@@ -108,7 +117,7 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose, isGetRowValues }) => {
       }}
     >
       <DialogContent sx={{ p: '12px 24px 24px' }}>
-        <Box>
+        <Box id="invoice-data">
           <Box sx={styles?.topBar}>
             <Box sx={styles?.modalClose} onClick={onClose}>
               <CloseModalIcon />
@@ -205,33 +214,33 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose, isGetRowValues }) => {
               <Grid item xs={4}>
                 <Box sx={styles?.invoiceInfoTitle}>
                   Invoice No:{' '}
-                  <Box component="span">
+                  <Typography>
                     {isGetRowValues?.row?.original?.invoiceNo}
-                  </Box>
+                  </Typography>
                 </Box>
               </Grid>
               <Grid item xs={4}>
                 <Box sx={styles?.invoiceInfoTitle}>
                   Invoice Date:{' '}
-                  <Box component="span">
+                  <Typography>
                     {isGetRowValues?.row?.original?.billingDate
                       ? new Date(
                           isGetRowValues?.row?.original?.billingDate,
                         ).toLocaleDateString('en-GB')
                       : 'Invalid Date'}
-                  </Box>
+                  </Typography>
                 </Box>
               </Grid>
               <Grid item xs={4}>
                 <Box sx={styles?.invoiceInfoTitle}>
                   Due Date:{' '}
-                  <Box component="span">
+                  <Typography>
                     {isGetRowValues?.row?.original?.dueDate
                       ? new Date(
                           isGetRowValues?.row?.original?.dueDate,
                         ).toLocaleDateString('en-GB')
                       : 'Invalid Date'}
-                  </Box>
+                  </Typography>
                 </Box>
               </Grid>
             </Grid>
@@ -251,12 +260,9 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose, isGetRowValues }) => {
             <Box sx={styles?.vRow}>
               <Box sx={styles?.vLabel}>
                 Discount{' '}
-                <Box
-                  component="span"
-                  sx={{ fontWeight: '500', fontSize: '14px' }}
-                >
+                <Typography sx={{ fontWeight: '500', fontSize: '14px' }}>
                   ({isGetRowValues?.row?.original?.invoiceDiscount}%)
-                </Box>
+                </Typography>
               </Box>
               <Box sx={styles?.vValue}>
                 (£ {isGetRowValues?.row?.original?.invoiceDiscount})
@@ -265,12 +271,9 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose, isGetRowValues }) => {
             <Box sx={styles?.vRow}>
               <Box sx={styles?.vLabel}>
                 Tax{' '}
-                <Box
-                  component={'span'}
-                  sx={{ fontWeight: '400', fontSize: '12px' }}
-                >
+                <Typography sx={{ fontWeight: '400', fontSize: '12px' }}>
                   (Vat {isGetRowValues?.row?.original?.vat}%)
-                </Box>
+                </Typography>
               </Box>
               <Box sx={styles?.vValue}>
                 £ {isGetRowValues?.row?.original?.vat}
@@ -288,7 +291,11 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose, isGetRowValues }) => {
           <Divider sx={{ borderColor: 'custom.off_white_one', my: '24px' }} />
 
           <Box sx={{ textAlign: 'right' }}>
-            <Button variant="contained" color="primary">
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleDownload}
+            >
               Download
             </Button>
           </Box>
