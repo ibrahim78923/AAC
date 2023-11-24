@@ -9,11 +9,20 @@ import {
 import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { AlertModals } from '@/components/AlertModals';
+import { enqueueSnackbar } from 'notistack';
 
 export const ListLocation = ({ continents, handleCollapse }: any) => {
   const theme: any = useTheme();
   const [showIcon, setShowIcon] = useState(false);
   const [isOpenAlert, setIsOpenAlert] = useState(false);
+
+  const handleDeleteSubmit = () => {
+    enqueueSnackbar('Delete successfully', {
+      variant: 'error',
+      autoHideDuration: 3000,
+    });
+    setIsOpenAlert(false);
+  };
 
   return (
     <>
@@ -60,11 +69,11 @@ export const ListLocation = ({ continents, handleCollapse }: any) => {
       </Box>
 
       <AlertModals
-        message={'Are you Sure?'}
+        message={'Are you sure you want to delete this list?'}
         type={'delete'}
         open={isOpenAlert}
         handleClose={() => setIsOpenAlert(false)}
-        handleSubmitBtn={() => setIsOpenAlert(false)}
+        handleSubmitBtn={handleDeleteSubmit}
       />
     </>
   );
