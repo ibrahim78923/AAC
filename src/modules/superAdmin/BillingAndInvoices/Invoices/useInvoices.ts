@@ -29,7 +29,7 @@ const useInvoices = () => {
 
   if (!isNullOrEmpty(searchByClientName))
     paramsObj['search'] = searchByClientName;
-  if (!isNullOrEmpty(productId)) paramsObj['productId'] = productId;
+  if (!isNullOrEmpty(productId)) paramsObj['products'] = productId;
   if (!isNullOrEmpty(PlanTypeId)) paramsObj['planTypeId'] = PlanTypeId;
   if (!isNullOrEmpty(orginzationId))
     paramsObj['organizationId'] = orginzationId;
@@ -81,7 +81,7 @@ const useInvoices = () => {
 
   const onSubmit = (values: any) => {
     setOrginzationId(values?.ClientOrganization);
-    setProductId(values?.productSuite);
+    setProductId(values?.products);
     setPlanTypeId(values?.planType);
     setStatus(values?.status);
     setInvoiceDate(values?.InvoiceDate);
