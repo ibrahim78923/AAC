@@ -12,6 +12,7 @@ import { MoreHoriz, AddCircle } from '@mui/icons-material';
 import { departmentsData } from './DepartmentsDetail.data';
 import { useDepartmentsDetail } from './useDepartmentsDetail';
 import { AlertModals } from '@/components/AlertModals';
+import { ALERT_MODALS_TYPE } from '@/constants/strings';
 
 export const DepartmentsDetail = () => {
   const {
@@ -102,7 +103,7 @@ export const DepartmentsDetail = () => {
         handleClose={handleDeleteClose}
         handleSubmitBtn={handleDeleteSubmit}
         message="Are you sure you want to delete this Department?"
-        type="delete"
+        type={ALERT_MODALS_TYPE?.DELETE}
       />
     </>
   );
