@@ -17,12 +17,15 @@ export const useImportLocation = (props: any) => {
 
   const methods: any = useForm<any>({
     resolver: yupResolver(importLocationValidationSchema),
-    defaultValues: importLocationDefaultValue(),
+    defaultValues: importLocationDefaultValue,
   });
 
   const { handleSubmit, reset } = methods;
   const submitImportLocation = async () => {
     try {
+      enqueueSnackbar('Import Succeessfully', {
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
+      });
       reset();
       setIsDrawerOpen?.(false);
     } catch (error) {

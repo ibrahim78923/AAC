@@ -14,16 +14,13 @@ export const ImportLocation = (props: any) => {
       onClose={() => onClose()}
       okText={'Import'}
       title={'Location Import'}
-      submitHandler={() => handleSubmit(submitImportLocation)()}
+      submitHandler={handleSubmit(submitImportLocation)}
       isOk
       cancelText={'Cancel'}
       footer
     >
       <Box mt={1}>
-        <FormProvider
-          methods={methods}
-          onSubmit={handleSubmit(submitImportLocation)}
-        >
+        <FormProvider methods={methods}>
           <Grid container spacing={4}>
             <Grid item xs={12}>
               <Typography variant="body2">Add File</Typography>
