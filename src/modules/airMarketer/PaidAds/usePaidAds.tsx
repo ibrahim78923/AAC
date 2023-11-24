@@ -1,10 +1,13 @@
+import { useState } from 'react';
+
 const usePaidAds = () => {
   //states
-
+  const [isFilterDrawer, setIsFilterDrawer] = useState(false);
   //functions
 
   return {
-    //states
+    isFilterDrawer,
+    setIsFilterDrawer,
     //functions
   };
 };

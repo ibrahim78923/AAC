@@ -19,10 +19,13 @@ import CustomPagination from '@/components/CustomPagination';
 import useManage from './useManage';
 import Search from '@/components/Search';
 import { FilterrIcon } from '@/assets/icons';
+import usePaidAds from '../usePaidAds';
+import PaidAdsFilterDrawer from '../FilterDrwaer';
 
 const Manage = () => {
   const theme = useTheme();
   const { statusBtnValue } = useManage();
+  const { isFilterDrawer, setIsFilterDrawer } = usePaidAds();
   return (
     <Box>
       <Grid container justifyContent="space-between" spacing={2}>
@@ -88,9 +91,7 @@ const Manage = () => {
       <Box mt={4} display="flex" justifyContent="space-between">
         <Search placeholder="Search" size="small" />
         <Button
-          // onClick={() => {
-          //   setIsOpenFilterDrawer(true);
-          // }}
+          onClick={() => setIsFilterDrawer(true)}
           startIcon={<FilterrIcon />}
           sx={{
             border: `1px solid ${theme?.palette?.custom?.dark}`,
@@ -113,6 +114,12 @@ const Manage = () => {
           entriePages={1}
         />
       </Box>
+      {isFilterDrawer && (
+        <PaidAdsFilterDrawer
+          isOpenDrawer={isFilterDrawer}
+          onClose={() => setIsFilterDrawer(false)}
+        />
+      )}
     </Box>
   );
 };
