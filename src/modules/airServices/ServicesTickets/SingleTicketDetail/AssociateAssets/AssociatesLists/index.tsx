@@ -20,6 +20,7 @@ export const AssociatesLists = () => {
     setOpenDrawer,
     theme,
   } = useAssociatesLists();
+
   return (
     <>
       <br />

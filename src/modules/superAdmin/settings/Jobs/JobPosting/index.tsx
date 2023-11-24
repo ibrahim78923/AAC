@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-
+import React from 'react';
 import { Box, useTheme, Button, Grid, MenuItem, Menu } from '@mui/material';
 
 import CommonDrawer from '@/components/CommonDrawer';
@@ -9,65 +8,56 @@ import CustomPagination from '@/components/CustomPagination';
 import { FormProvider } from '@/components/ReactHookForm';
 import { AlertModals } from '@/components/AlertModals';
 
-import {
-  columns,
-  jobPostingDataArray,
-  jobPostingDefaultValues,
-  jobPostingFiltersDataArray,
-  jobPostingFiltersDefaultValues,
-  jobPostingFiltersValidationSchema,
-  jobPostingValidationSchema,
-} from './jobPosting.data';
-
-import { JobPostingPropsI } from './JobPostingProps.interface';
-
-import { jobPostingTabledata } from '@/mock/modules/superAdmin/Settings/Jobs';
-
+import { columns, jobPostingFiltersFields } from './jobPosting.data';
 import { DownIcon, FilterSharedIcon, RefreshSharedIcon } from '@/assets/icons';
-
 import { v4 as uuidv4 } from 'uuid';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-
+import useJobPosting from './useJobPosting';
 import { styles } from './Jobs.styles';
+import EditJobPost from './EditJobPost/index';
 
-const JobPosting = ({
-  isJobPostingDrawer,
-  setIsJobPostingDrawer,
-}: JobPostingPropsI) => {
+const JobPosting = () => {
   const theme = useTheme();
-  const [jobPostingSearch, setJobPostingSearch] = useState<string>('');
-  const [isJobPostingFilterDrawer, setIsJobPostingFilterDrawer] =
-    useState<boolean>(false);
-  const [isjobPostingDeleteModal, setIsJobPostingDeleteModal] =
-    useState<boolean>(false);
+  const {
+    anchorEl,
+    actionMenuOpen,
+    handleActionsClick,
+    handleClose,
+    jopPostinData,
+    loadingJobPosting,
+    searchValue,
+    handleSearch,
+    handleRefresh,
+    openJobPostingFilter,
+    handleOpenJobPostingFilters,
+    handleCloseJobPostingFilters,
+    handleFiltersSubmit,
+    methodsFilter,
+    tableRowValues,
+    setTableRowValues,
+    setIsDisabled,
+    isDisabled,
+    setRowId,
+    rowId,
+    openModalDeleteJobPost,
+    handleOpenModalDeleteJobPost,
+    handleCloseModalDeleteJobPost,
+    handleDeleteJobPost,
+    loadingDeleteJobPost,
+    openEditJobPost,
+    handleOpenEditJobPost,
+    handleCloseEditJobPost,
+    handleSubmitEditJobPost,
+    loadingUpdateJobPost,
+    methodsEditJobPosting,
+  } = useJobPosting();
 
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const actionMenuOpen = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const methodsAddJobPosting = useForm({
-    resolver: yupResolver(jobPostingValidationSchema),
-    defaultValues: jobPostingDefaultValues,
-  });
-  const methodsFilterJobPosting = useForm({
-    resolver: yupResolver(jobPostingFiltersValidationSchema),
-    defaultValues: jobPostingFiltersDefaultValues,
-  });
-
-  const onSubmit = () => {
-    setIsJobPostingDrawer(false);
-  };
-
-  const { handleSubmit } = methodsAddJobPosting;
-  const { handleSubmit: filterSubmitHandler } = methodsFilterJobPosting;
-
-  const getColumns = columns(theme);
+  const getColumns = columns(
+    theme,
+    setIsDisabled,
+    tableRowValues,
+    setTableRowValues,
+    setRowId,
+  );
 
   return (
     <Box>
@@ -85,10 +75,10 @@ const JobPosting = ({
       >
         <Search
           label={'Search here'}
-          searchBy={jobPostingSearch}
-          setSearchBy={setJobPostingSearch}
           width="100%"
           size="small"
+          onChange={handleSearch}
+          value={searchValue}
         />
         <Box
           sx={{
@@ -102,12 +92,13 @@ const JobPosting = ({
             aria-controls={actionMenuOpen ? 'basic-menu' : undefined}
             aria-haspopup="true"
             aria-expanded={actionMenuOpen ? 'true' : undefined}
-            onClick={handleClick}
+            onClick={handleActionsClick}
             sx={{
               color: theme.palette.grey[500],
               height: '40px',
               border: '1.5px solid #e7e7e9',
             }}
+            disabled={isDisabled}
           >
             Actions &nbsp; <DownIcon />
           </Button>
@@ -120,84 +111,52 @@ const JobPosting = ({
               'aria-labelledby': 'basic-button',
             }}
           >
-            <MenuItem onClick={() => setIsJobPostingDrawer(true)}>
+            <MenuItem disabled={!rowId} onClick={handleOpenEditJobPost}>
               Edit
             </MenuItem>
-            <MenuItem onClick={() => setIsJobPostingDrawer(true)}>
+            <MenuItem disabled={!rowId} onClick={handleOpenEditJobPost}>
               View
             </MenuItem>
-            <MenuItem onClick={() => setIsJobPostingDeleteModal(true)}>
-              Delete
-            </MenuItem>
+            <MenuItem onClick={handleOpenModalDeleteJobPost}>Delete</MenuItem>
           </Menu>
 
-          <Button sx={styles.refreshButton(theme)}>
+          <Button sx={styles.refreshButton(theme)} onClick={handleRefresh}>
             <RefreshSharedIcon />
           </Button>
           <Button
             sx={styles.filterButton(theme)}
-            onClick={() => setIsJobPostingFilterDrawer(true)}
+            onClick={handleOpenJobPostingFilters}
           >
             <FilterSharedIcon /> &nbsp; Filter
           </Button>
         </Box>
       </Box>
       <Box>
-        <TanstackTable columns={getColumns} data={jobPostingTabledata} />
+        <TanstackTable
+          columns={getColumns}
+          data={jopPostinData?.data?.jobs}
+          isLoading={loadingJobPosting}
+        />
         <CustomPagination
-          count={1}
-          rowsPerPageOptions={[1, 2]}
-          entriePages={1}
+          count={3}
+          rowsPerPageOptions={[5, 10, 25, 50, 100]}
+          entriePages={50}
         />
       </Box>
+
       <CommonDrawer
-        isDrawerOpen={isJobPostingDrawer}
-        onClose={() => setIsJobPostingDrawer(false)}
-        title="Post a Job"
-        okText="Post"
-        isOk={true}
-        footer={true}
-        submitHandler={handleSubmit(onSubmit)}
-      >
-        <>
-          <FormProvider
-            methods={methodsAddJobPosting}
-            onSubmit={handleSubmit(onSubmit)}
-          >
-            <Grid container spacing={4}>
-              {jobPostingDataArray?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                  <item.component {...item.componentProps} size={'small'}>
-                    {item?.componentProps?.select
-                      ? item?.options?.map((option: any) => (
-                          <option key={option?.value} value={option?.value}>
-                            {option?.label}
-                          </option>
-                        ))
-                      : null}
-                  </item.component>
-                </Grid>
-              ))}
-            </Grid>
-          </FormProvider>
-        </>
-      </CommonDrawer>
-      <CommonDrawer
-        isDrawerOpen={isJobPostingFilterDrawer}
-        onClose={() => setIsJobPostingFilterDrawer(false)}
+        isDrawerOpen={openJobPostingFilter}
+        onClose={handleCloseJobPostingFilters}
         title="Filters"
         okText="Apply"
         isOk={true}
         footer={true}
-        submitHandler={filterSubmitHandler(onSubmit)}
+        submitHandler={handleFiltersSubmit}
       >
         <>
-          <FormProvider
-            methods={methodsFilterJobPosting}
-            onSubmit={filterSubmitHandler(onSubmit)}
-          >
+          <FormProvider methods={methodsFilter}>
             <Grid container spacing={4}>
-              {jobPostingFiltersDataArray?.map((item: any) => (
+              {jobPostingFiltersFields()?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
                   <item.component {...item.componentProps} size={'small'}>
                     {item?.componentProps?.select
@@ -218,9 +177,18 @@ const JobPosting = ({
       <AlertModals
         message={'Are you sure you want to delete this entry ?'}
         type="delete"
-        open={isjobPostingDeleteModal}
-        handleClose={() => setIsJobPostingDeleteModal(false)}
-        handleSubmit={() => setIsJobPostingDeleteModal(false)}
+        open={openModalDeleteJobPost}
+        handleClose={handleCloseModalDeleteJobPost}
+        handleSubmitBtn={handleDeleteJobPost}
+        loading={loadingDeleteJobPost}
+      />
+
+      <EditJobPost
+        isModalOpen={openEditJobPost}
+        onClose={handleCloseEditJobPost}
+        handleSubmit={handleSubmitEditJobPost}
+        formMethods={methodsEditJobPosting}
+        isLoading={loadingUpdateJobPost}
       />
     </Box>
   );
