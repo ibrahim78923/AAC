@@ -9,7 +9,6 @@ import {
   Typography,
 } from '@mui/material';
 import { MoreHoriz, AddCircle } from '@mui/icons-material';
-import { v4 as uuidv4 } from 'uuid';
 import { departmentsData } from './DepartmentsDetail.data';
 import { useDepartmentsDetail } from './useDepartmentsDetail';
 
@@ -20,11 +19,7 @@ export const DepartmentsDetail = () => {
     <Grid container spacing={2}>
       {departmentsData?.map((item) => (
         <Grid item lg={4} md={6} sm={12} key={item?.id}>
-          <Box
-            p={2}
-            borderRadius={3}
-            boxShadow={`0px 0px 8px 2px rgba(9, 161, 218, 0.2)`}
-          >
+          <Box p={2} borderRadius={3} boxShadow={2}>
             <Box
               display={'flex'}
               justifyContent={'space-between'}
@@ -44,11 +39,17 @@ export const DepartmentsDetail = () => {
                 open={openAction}
                 anchorEl={actionPop}
                 onClose={handleActionClose}
-                sx={{ '& .MuiPaper-root': { boxShadow: 2 } }}
-                transformOrigin={{ vertical: 10, horizontal: 80 }}
+                sx={{
+                  '& .MuiPaper-root': {
+                    boxShadow: 2,
+                    width: '7%',
+                    borderRadius: 2,
+                  },
+                }}
+                transformOrigin={{ vertical: 10, horizontal: 100 }}
               >
-                <MenuItem sx={{ pr: 5 }}>Edit</MenuItem>
-                <MenuItem sx={{ pr: 5 }}>Delete</MenuItem>
+                <MenuItem>Edit</MenuItem>
+                <MenuItem>Delete</MenuItem>
               </Menu>
             </Box>
             <Box
@@ -72,7 +73,7 @@ export const DepartmentsDetail = () => {
                 }}
               >
                 {item?.avatar?.map((ava) => (
-                  <Avatar key={uuidv4()} src={ava?.src} />
+                  <Avatar key={ava?.id} src={ava?.src?.src} />
                 ))}
               </AvatarGroup>
               <IconButton>

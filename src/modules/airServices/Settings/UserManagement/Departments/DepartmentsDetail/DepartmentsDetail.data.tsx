@@ -5,19 +5,18 @@ import {
   AvatarImageCoversation,
   UsersAvatarRoundedImage,
 } from '@/assets/images';
-import { DepartmentsDetailDataI } from './DepartmentsDetail.interface';
 
-export const departmentsData: DepartmentsDetailDataI[] = [
+export const departmentsData = [
   {
     id: 1,
     icon: ItIcon,
     department: 'IT',
     description: `The IT department is responsible for managing the IT related issues of the company.`,
     avatar: [
-      AvatarImageCoversation,
-      UsersAvatarRoundedImage,
-      AttendeeAvatarImage,
-      AvatarImage,
+      { id: 1, src: AvatarImageCoversation },
+      { id: 2, src: UsersAvatarRoundedImage },
+      { id: 3, src: AttendeeAvatarImage },
+      { id: 4, src: AvatarImage },
     ],
   },
   {
@@ -26,10 +25,10 @@ export const departmentsData: DepartmentsDetailDataI[] = [
     department: 'Human Resources',
     description: `The human resources department is responsible for a company's most important asset its people.`,
     avatar: [
-      AvatarImageCoversation,
-      UsersAvatarRoundedImage,
-      AttendeeAvatarImage,
-      AvatarImage,
+      { id: 1, src: AvatarImageCoversation },
+      { id: 2, src: UsersAvatarRoundedImage },
+      { id: 3, src: AttendeeAvatarImage },
+      { id: 4, src: AvatarImage },
     ],
   },
   {
@@ -38,10 +37,10 @@ export const departmentsData: DepartmentsDetailDataI[] = [
     department: 'Design',
     description: `Designers are responsible for the design and implementation of all the experiences and resolved designing related issues.`,
     avatar: [
-      AvatarImageCoversation,
-      UsersAvatarRoundedImage,
-      AttendeeAvatarImage,
-      AvatarImage,
+      { id: 1, src: AvatarImageCoversation },
+      { id: 2, src: UsersAvatarRoundedImage },
+      { id: 3, src: AttendeeAvatarImage },
+      { id: 4, src: AvatarImage },
     ],
   },
   {
@@ -50,10 +49,10 @@ export const departmentsData: DepartmentsDetailDataI[] = [
     department: 'Finance',
     description: `The finance department is responsible for the financial planning and management of the company.`,
     avatar: [
-      AvatarImageCoversation,
-      UsersAvatarRoundedImage,
-      AttendeeAvatarImage,
-      AvatarImage,
+      { id: 1, src: AvatarImageCoversation },
+      { id: 2, src: UsersAvatarRoundedImage },
+      { id: 3, src: AttendeeAvatarImage },
+      { id: 4, src: AvatarImage },
     ],
   },
 ];
