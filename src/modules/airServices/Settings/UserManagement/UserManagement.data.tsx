@@ -1,8 +1,7 @@
 import LanIcon from '@mui/icons-material/Lan';
-import SettingsIcon from '@mui/icons-material/Settings';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import MarkEmailUnreadIcon from '@mui/icons-material/MarkEmailUnread';
 import { AIR_SERVICES } from '@/constants';
+import { AgentsIcon, RequesterIcon, RolesIcon } from '@/assets/icons';
+
 export const userManagement = [
   {
     id: 1,
@@ -12,31 +11,19 @@ export const userManagement = [
   },
   {
     id: 2,
-    avatar: MarkEmailUnreadIcon,
+    avatar: AgentsIcon,
     type: 'Agents',
     link: AIR_SERVICES?.AGENTS_SETTINGS,
   },
   {
     id: 3,
-    avatar: SettingsIcon,
+    avatar: RequesterIcon,
     type: 'Requester',
     link: AIR_SERVICES?.REQUESTERS_SETTINGS,
   },
   {
     id: 4,
-    avatar: AccountCircleIcon,
-    type: 'Department Field',
-    link: AIR_SERVICES?.DEPARTMENT_FIELD_SETTINGS,
-  },
-  {
-    id: 5,
-    avatar: MarkEmailUnreadIcon,
-    type: 'User Field',
-    link: AIR_SERVICES?.USER_FIELD_SETTINGS,
-  },
-  {
-    id: 6,
-    avatar: SettingsIcon,
+    avatar: RolesIcon,
     type: 'Roles',
     link: AIR_SERVICES?.USER_ROLES_SETTINGS,
   },
