@@ -1,6 +1,9 @@
 import { ListLocation } from './ListLocation';
 import { locationlist } from './Location.data';
 import { useState } from 'react';
+import { SubListWrapper } from './SubListWrapper';
+import { SubListLocation } from './SubListLocation';
+import { Box } from '@mui/material';
 
 export const Location = () => {
   const [collapseItem, setIsCollapse] = useState<undefined | number>();
@@ -10,24 +13,21 @@ export const Location = () => {
 
   return (
     <>
-      {locationlist?.map((asset, index) => (
+      {locationlist?.map((item, index) => (
         <>
           <ListLocation
-            title={asset?.title}
+            continents={item?.title}
             handleCollapse={() => handleCollapse(index)}
-            icNotCollapseAble={index === 0}
           />
-          {/* {collapseItem === index && !!asset?.subList && (
-      <ChildBarWrapper>
-        {asset?.subList?.map((subAsset) => (
-          <>
-            <TitleBar
-              title={subAsset?.title}
-            />
-          </>
-        ))}
-      </ChildBarWrapper>
-    )} */}
+          {collapseItem === index && !!item?.subList && (
+            <SubListWrapper>
+              {item?.subList?.map((subItem) => (
+                <Box key={subItem?.id}>
+                  <SubListLocation country={subItem?.title} />
+                </Box>
+              ))}
+            </SubListWrapper>
+          )}
         </>
       ))}
     </>
