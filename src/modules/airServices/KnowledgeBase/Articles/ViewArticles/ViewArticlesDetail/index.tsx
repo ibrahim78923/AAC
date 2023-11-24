@@ -41,11 +41,7 @@ export const ViewArticlesDetail = () => {
               View Article
             </Typography>
           </Box>
-          <div
-            dangerouslySetInnerHTML={{
-              __html: articleEditorData ? articleEditorData : '',
-            }}
-          ></div>
+          <div dangerouslySetInnerHTML={{ __html: articleEditorData }}></div>
         </Grid>
         <Grid item xs={12} lg={3}>
           <Box sx={styles?.sideStyle(theme)}>
