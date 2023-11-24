@@ -16,10 +16,10 @@ export const Overview = () => {
               color={'grey.600'}
               minWidth={'20%'}
             >
-              {Object.keys(item)[0]}:
+              {Object?.keys?.(item)?.[0]}:
             </Typography>
             <Typography variant={'body1'} p={2} color={'grey.900'}>
-              {item[Object.keys(item)[0]]}
+              {item?.[Object?.keys?.(item)?.[0]]}
             </Typography>
           </Box>
         ))}
