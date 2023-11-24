@@ -4,38 +4,17 @@ import { Typography } from '@mui/material';
 export const vendorData: any = [
   {
     Name: 'Apple',
-    Email: '...',
-    Phone: '...',
-    UsedBy: '...',
-    Mobile: '...',
+    Email: 'johndoe@gmail.com',
+    Phone: 'xyz',
+    UsedBy: 'doe',
+    Mobile: 'xyz',
   },
   {
     Name: 'Dell',
-    Email: '...',
-    Phone: '...',
-    UsedBy: '...',
-    Mobile: '...',
-  },
-  {
-    Name: 'FreshWorks',
-    Email: '...',
-    Phone: '...',
-    UsedBy: '...',
-    Mobile: '...',
-  },
-  {
-    Name: 'Logitech',
-    Email: '...',
-    Phone: '...',
-    UsedBy: '...',
-    Mobile: '...',
-  },
-  {
-    Name: 'Microsoft',
-    Email: '...',
-    Phone: '...',
-    UsedBy: '...',
-    Mobile: '...',
+    Email: 'john@gmail.com',
+    Phone: 'xyz',
+    UsedBy: 'john',
+    Mobile: 'xyz',
   },
 ];
 
@@ -50,7 +29,7 @@ export const vendorListsColumnsFunction = (router: any): any => [
         component={'span'}
         onClick={() =>
           router?.push({
-            pathname: AIR_SERVICES?.ASSETS_MANAGEMENT_DETAIL,
+            pathname: AIR_SERVICES?.VENDOR_DETAIL,
             query: {
               vendorId: info?.row?.id,
             },

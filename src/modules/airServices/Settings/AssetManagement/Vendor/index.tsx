@@ -1,13 +1,12 @@
-import { ViewDetailBackArrowIcon } from '@/assets/icons';
 import ImportIcon from '@/assets/icons/shared/import-icon';
 import { ExportButton } from '@/components/ExportButton';
 import Search from '@/components/Search';
 import { AIR_SERVICES } from '@/constants';
 import { Box, Button, Typography } from '@mui/material';
 import TanstackTable from '@/components/Table/TanstackTable';
-import { useVendor } from './useVendor';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { vendorData } from './Vendor.data';
-
+import { useVendor } from './useVendor';
 export const Vendor = () => {
   const { router, searchValue, SetSearchValue, VendorListsColumns } =
     useVendor();
@@ -19,10 +18,11 @@ export const Vendor = () => {
         justifyContent={'space-between'}
         flexWrap={'wrap'}
       >
-        <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'}>
-          <Button onClick={() => router?.push(AIR_SERVICES?.ASSETS_MANAGEMENT)}>
-            <ViewDetailBackArrowIcon />
-          </Button>
+        <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={2}>
+          <ArrowBackIcon
+            onClick={() => router?.push(AIR_SERVICES?.ASSETS_MANAGEMENT)}
+          />
+
           <Typography variant="h3">Vendor</Typography>
         </Box>
       </Box>
