@@ -1,9 +1,13 @@
 export const styles = {
-  status: (theme: any) => {
+  cardHeader: (theme: any) => {
     return {
       background: theme?.palette?.grey[400],
-      padding: '5px 10px',
+      alignItems: 'center',
+      width: 'fit-content',
       borderRadius: '30px',
+      display: 'flex',
+      p: '8px 16px',
+      gap: 1,
     };
   },
 };

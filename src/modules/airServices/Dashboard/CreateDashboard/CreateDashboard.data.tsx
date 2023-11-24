@@ -1,4 +1,12 @@
 import { UserAvatarImage } from '@/assets/images';
+import { TicketDashboardCards } from '../PreviewDashboardItems/TicketDashboardCards';
+import { TopPerformer } from '../PreviewDashboardItems/TopPerformer';
+import { Announcements } from '../PreviewDashboardItems/Announcements';
+import { TicketsByStatusBarChart } from '../PreviewDashboardItems/TicketsByStatusBarChart';
+import { TicketsByPriorityRadialChart } from '../PreviewDashboardItems/TicketsByPriorityRadialChart';
+import { RecentActivities } from '../PreviewDashboardItems/RecentActivities';
+import { AgentAvailability } from '../PreviewDashboardItems/AgentAvailability';
+
 export const dashboardCheckboxData = [
   'Graphical Representation of Tickets by Statuses',
   'Recent Activities',
@@ -8,7 +16,6 @@ export const dashboardCheckboxData = [
   'Achievements',
   'Agent Availability',
 ];
-//using uuid here for testing purposes not for putting in map key
 export const userData = [
   { name: 'Alee Javed', src: UserAvatarImage, id: '1' },
   { name: 'Rajvir Hundal', src: UserAvatarImage, id: '2' },
@@ -16,14 +23,15 @@ export const userData = [
   { name: 'Aleesha Kong', src: UserAvatarImage, id: '4' },
 ];
 export const previewDashboard: { [index: string]: any } = {
-  'Graphical Representation of Tickets by Statuses':
-    'Graphical Representation of Tickets by Statuses',
-  'Recent Activities': 'Recent Activities',
-  Announcements: 'Announcements',
-  'Tickets Overview by Status': 'Tickets Overview by Status',
-  'Tickets by Priority': 'Tickets by Priority',
-  Achievements: 'Achievements',
-  'Agent Availability': 'Agent Availability',
+  'Graphical Representation of Tickets by Statuses': (
+    <TicketsByStatusBarChart />
+  ),
+  'Recent Activities': <RecentActivities />,
+  Achievements: <TopPerformer />,
+  'Tickets Overview by Status': <TicketDashboardCards />,
+  'Tickets by Priority': <TicketsByPriorityRadialChart />,
+  Announcements: <Announcements />,
+  'Agent Availability': <AgentAvailability />,
 };
 
 export const createDashboardDefaultValue = {

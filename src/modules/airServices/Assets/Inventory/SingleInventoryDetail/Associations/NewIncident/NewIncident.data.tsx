@@ -7,9 +7,15 @@ import {
   RHFTextField,
   RHFTimePicker,
 } from '@/components/ReactHookForm';
+import {
+  ticketImpactOptions,
+  ticketPriorityOptions,
+  ticketSourceOptions,
+  ticketStatusOptions,
+} from '@/modules/airServices/ServicesTickets/ServicesTickets.data';
 import * as Yup from 'yup';
 
-export const validationSchema = Yup?.object()?.shape({
+export const incidentFormValidationSchema = Yup?.object()?.shape({
   requester: Yup?.string()?.required('Field is Required'),
   subject: Yup?.string()?.trim()?.required('Field is Required'),
   description: Yup?.string()?.trim(),
@@ -26,27 +32,25 @@ export const validationSchema = Yup?.object()?.shape({
   plannedEndTime: Yup?.date(),
   plannedEffort: Yup?.string()?.trim(),
   associateAssets: Yup?.mixed(),
-  attachFile: Yup?.mixed()?.nullable(),
 });
 
-export const defaultValues = {
-  requester: '', //1
-  subject: '', //2
-  description: '', //3
-  category: '', //4
-  status: '', //5
-  priority: '', //6
-  department: '', //7
-  source: '', //8
-  impact: '', //9
-  agent: '', //10
-  plannedStartDate: new Date(), //11
-  plannedStartTime: new Date(), //12
-  plannedEndDate: new Date(), //13
-  plannedEndTime: new Date(), //14
-  plannedEffort: '', //15
-  associateAssets: [], //16
-  attachFile: null, //17
+export const incidentFormDefaultValues = {
+  requester: '',
+  subject: '',
+  description: '',
+  category: '',
+  status: '',
+  priority: '',
+  department: '',
+  source: '',
+  impact: '',
+  agent: '',
+  plannedStartDate: new Date(),
+  plannedStartTime: new Date(),
+  plannedEndDate: new Date(),
+  plannedEndTime: new Date(),
+  plannedEffort: '',
+  associateAssets: [],
 };
 
 export const dataArray = [
@@ -95,12 +99,7 @@ export const dataArray = [
       fullWidth: true,
       select: true,
     },
-    options: [
-      { value: 'Open', label: 'Open' },
-      { value: 'Close', label: 'Close' },
-      { value: 'Pending', label: 'Pending' },
-      { value: 'Resolved', label: 'Resolved' },
-    ],
+    options: ticketStatusOptions,
     component: RHFSelect,
     md: 12,
   },
@@ -111,12 +110,7 @@ export const dataArray = [
       fullWidth: true,
       select: true,
     },
-    options: [
-      { value: 'Low', label: 'Low' },
-      { value: 'Medium', label: 'Medium' },
-      { value: 'High', label: 'High' },
-      { value: 'Urgent', label: 'Urgent' },
-    ],
+    options: ticketPriorityOptions,
     component: RHFSelect,
     md: 12,
   },
@@ -137,15 +131,7 @@ export const dataArray = [
       fullWidth: true,
       select: true,
     },
-    options: [
-      { value: 'Phone No.', label: 'Phone No.' },
-      { value: 'Email', label: 'Email' },
-      { value: 'Portal', label: 'Portal' },
-      { value: 'Chat', label: 'Chat' },
-      { value: 'Walk Up', label: 'Walk Up' },
-      { value: 'Slack', label: 'Slack' },
-      { value: 'MS Team', label: 'MS Team' },
-    ],
+    options: ticketSourceOptions,
     component: RHFSelect,
     md: 12,
   },
@@ -156,11 +142,7 @@ export const dataArray = [
       fullWidth: true,
       select: true,
     },
-    options: [
-      { value: 'Low', label: 'Low' },
-      { value: 'Medium', label: 'Medium' },
-      { value: 'High', label: 'High' },
-    ],
+    options: ticketImpactOptions,
     component: RHFSelect,
     md: 12,
   },
@@ -232,7 +214,7 @@ export const dataArray = [
   },
   {
     componentProps: {
-      name: 'attachFile',
+      name: 'associateAssets',
       fullWidth: true,
     },
     component: RHFDropZone,

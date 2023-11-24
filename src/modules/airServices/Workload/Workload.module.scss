@@ -1,0 +1,28 @@
+.calendarWrapper {
+  th {
+    font-size: 0.9rem !important;
+  }
+
+  tr th div div table thead tr th {
+    padding: 0.6rem;
+  }
+
+  .eventClassNames {
+    margin: 0.6rem;
+    padding: 0.5rem 1rem;
+    border-radius: 1.5rem;
+    border: none;
+  }
+
+  .completed {
+    background-color: #38cab5;
+  }
+
+  .inprogress {
+    background-color: #ffc20e;
+  }
+
+  .toDo {
+    background-color: #1f305d;
+  }
+}
