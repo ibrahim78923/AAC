@@ -18,9 +18,18 @@ const Compaigns = () => {
       >
         <Typography variant="h4">Compaigns</Typography>
 
-        <Button variant="contained" startIcon={<PlusIcon />}>
-          {tabVal === 0 ? 'Manage' : tabVal === 1 ? 'Calendar' : 'Tasks'}
-        </Button>
+        <Box>
+          <Button
+            variant="outlined"
+            sx={{ mr: 1, mt: 0.2 }}
+            startIcon={<PlusIcon />}
+          >
+            Compare compaigns
+          </Button>
+          <Button variant="contained" startIcon={<PlusIcon />}>
+            Create compaigns
+          </Button>
+        </Box>
       </Box>
 
       <Box sx={{ padding: '0px 24px' }}>
