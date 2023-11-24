@@ -270,3 +270,11 @@ export { default as HrIcon } from './modules/airServices/Settings/UserManagement
 export { default as DesignIcon } from './modules/airServices/Settings/UserManagement/Departments/deisgn-icon';
 export { default as FinanceIcon } from './modules/airServices/Settings/UserManagement/Departments/finance-icon';
 export { default as InfoBlueIcon } from './modules/airMarketer/PaidAds/info-circle';
+export { default as AssetTypeIcon } from './modules/airServices/Settings/asset-type-icon';
+export { default as ProductCatalogIcon } from './modules/airServices/Settings/product-catalog-icon';
+export { default as VendorIcon } from './modules/airServices/Settings/vendor-icon';
+export { default as AgentsIcon } from './modules/airServices/Settings/agents-icon';
+export { default as RequesterIcon } from './modules/airServices/Settings/requester-icon';
+export { default as RolesIcon } from './modules/airServices/Settings/roles-icon';
+export { default as ClosureRuleIcon } from './modules/airServices/Settings/closure-rule-icon';
+export { default as ServicesCatalogIcon } from './modules/airServices/Settings/services-catalog-icon';
