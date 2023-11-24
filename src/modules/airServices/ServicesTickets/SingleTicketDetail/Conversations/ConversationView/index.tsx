@@ -93,12 +93,15 @@ const ConversationView: React.FC<{
               </Box>
             </Box>
             <Box>
-              <Typography sx={styles?.message(theme)}>
-                {conversationData.noteDescription ||
-                  conversationData.replyDescription ||
-                  conversationData.forwardDescription ||
-                  'Unknown description'}
-              </Typography>
+              <div
+                dangerouslySetInnerHTML={{
+                  __html:
+                    conversationData.noteDescription ||
+                    conversationData.replyDescription ||
+                    conversationData.forwardDescription ||
+                    'Unknown description',
+                }}
+              ></div>
             </Box>
           </Box>
         </Grid>
@@ -129,7 +132,7 @@ const ConversationView: React.FC<{
   return (
     <Box>
       {Object.entries(selectedValues).length > 0 ? (
-        <Grid container sx={styles?.parent}>
+        <Grid container marginTop={2}>
           {Object.entries(selectedValues).map(renderConversationItem)}
         </Grid>
       ) : (
