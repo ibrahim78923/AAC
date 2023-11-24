@@ -31,6 +31,7 @@ export const usersApi: any = baseAPI.injectEndpoints({
       },
       invalidatesTags: ['USERS'],
     }),
+
     updateUsers: builder.mutation({
       query: ({ id, body }: any) => {
         return {

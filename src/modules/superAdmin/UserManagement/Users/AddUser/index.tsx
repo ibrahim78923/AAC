@@ -173,7 +173,6 @@ const AddUser = ({
                   {isToggled && (
                     <Grid item container spacing={2} mt={1}>
                       {item?.title === 'Address' &&
-                        isToggled &&
                         item?.subData?.map((data: any) => (
                           <Grid item xs={12} md={item?.md} key={uuidv4()}>
                             <Typography variant="body2" fontWeight={500}>
@@ -221,7 +220,7 @@ const AddUser = ({
           <Grid item xs={12}>
             <RHFTextField
               name="crn"
-              defaultValue={userDetail?.crn}
+              defaultValue={userDetail?.organization?.crn}
               label="Company Registration Number(CRN)"
               placeholder="Enter crn"
               size="small"
@@ -234,6 +233,7 @@ const AddUser = ({
               placeholder="Company Name"
               size="small"
               disabled
+              defaultValue={userDetail?.organization?.name}
             />
           </Grid>
         </Grid>

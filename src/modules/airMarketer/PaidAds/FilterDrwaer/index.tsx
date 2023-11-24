@@ -10,6 +10,7 @@ import {
   filterDefaultValues,
   filterValidationSchema,
 } from './FilterDrawer.data';
+
 const PaidAdsFilterDrawer = (props: any) => {
   const { isOpenDrawer, onClose } = props;
 
@@ -23,34 +24,32 @@ const PaidAdsFilterDrawer = (props: any) => {
   const onSubmit = async () => {};
 
   return (
-    <>
-      <CommonDrawer
-        isDrawerOpen={isOpenDrawer}
-        title="Filters"
-        okText="Apply"
-        submitHandler={handleSubmit(onSubmit)}
-        onClose={onClose}
-        isOk={true}
-        footer
-      >
-        <FormProvider methods={methods}>
-          <Grid container spacing={2}>
-            {usersFilterArray?.map((item: any) => (
-              <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                <item.component {...item.componentProps} size={'small'}>
-                  {item?.componentProps?.select &&
-                    item?.options?.map((option: any) => (
-                      <option key={uuidv4()} value={option?.value}>
-                        {option?.label}
-                      </option>
-                    ))}
-                </item.component>
-              </Grid>
-            ))}
-          </Grid>
-        </FormProvider>
-      </CommonDrawer>
-    </>
+    <CommonDrawer
+      isDrawerOpen={isOpenDrawer}
+      title="Filters"
+      okText="Apply"
+      submitHandler={handleSubmit(onSubmit)}
+      onClose={onClose}
+      isOk={true}
+      footer
+    >
+      <FormProvider methods={methods}>
+        <Grid container spacing={2}>
+          {usersFilterArray?.map((item: any) => (
+            <Grid item xs={12} md={item?.md} key={uuidv4()}>
+              <item.component {...item.componentProps} size={'small'}>
+                {item?.componentProps?.select &&
+                  item?.options?.map((option: any) => (
+                    <option key={uuidv4()} value={option?.value}>
+                      {option?.label}
+                    </option>
+                  ))}
+              </item.component>
+            </Grid>
+          ))}
+        </Grid>
+      </FormProvider>
+    </CommonDrawer>
   );
 };
 
