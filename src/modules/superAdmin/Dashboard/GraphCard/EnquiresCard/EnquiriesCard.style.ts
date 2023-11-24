@@ -11,7 +11,7 @@ export const style = {
   },
   chartBox: () => {
     return {
-      paddingLeft: '10rem',
+      paddingLeft: { lg: '10rem', md: '0rem', sm: '3rem', xs: '0rem' },
     };
   },
   completePercent: (theme: any) => {

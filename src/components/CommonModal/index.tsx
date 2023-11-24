@@ -5,6 +5,7 @@ import { Box, Button, Modal, Typography } from '@mui/material';
 import { ModelPropsI } from './CommonModal.interface';
 
 import { styles } from './CommonModal.styles';
+import { LoadingButton } from '@mui/lab';
 
 const CommonModal = ({
   open,
@@ -17,6 +18,7 @@ const CommonModal = ({
   submitIcon,
   footer,
   footerFill,
+  isLoading,
   handleCancel,
   isSubmitDisabled,
   headerIcon,
@@ -68,7 +70,8 @@ const CommonModal = ({
                   {cancelText}
                 </Button>
               )}
-              <Button
+              <LoadingButton
+                loading={isLoading}
                 onClick={handleSubmit}
                 disabled={isSubmitDisabled ? isSubmitDisabled : false}
                 variant="contained"
@@ -79,7 +82,7 @@ const CommonModal = ({
                 startIcon={submitIcon ? submitIcon : ''}
               >
                 {okText}
-              </Button>
+              </LoadingButton>
             </Box>
           )}
         </Box>

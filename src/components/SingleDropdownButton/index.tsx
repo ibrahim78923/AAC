@@ -10,7 +10,6 @@ export const SingleDropdownButton = (props: any) => {
   const { dropdownOptions, disabled, dropdownName = 'Action' } = props;
   const { anchorEl, open, theme, handleClick, handleClose } =
     useSingleDropdownButton();
-
   return (
     <>
       <Button

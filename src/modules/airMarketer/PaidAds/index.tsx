@@ -6,6 +6,7 @@ import Audience from './Audience';
 import Analyze from './Analyze';
 import Manage from './Manage';
 import Events from './Events';
+import CreateAudience from './CreateAudience';
 
 const PaidAds = () => {
   const theme = useTheme();
@@ -17,9 +18,7 @@ const PaidAds = () => {
           <Typography variant="body2">Manage your Ad Creation</Typography>
         </Box>
         <Box display="flex" gap={1} sx={style?.button(theme?.palette)}>
-          <Button className="audienceBtn" startIcon={<PlusIcon />}>
-            Create Audience
-          </Button>
+          <CreateAudience />
           <Button
             className="eventBtn"
             variant="outlined"
@@ -40,6 +39,7 @@ const PaidAds = () => {
           <Analyze />
         </CommonTabs>
       </Box>
+      {/* {isAudience && <CreateAudience />} */}
     </Card>
   );
 };

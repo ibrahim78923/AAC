@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-
+import React from 'react';
 import {
   Box,
   Button,
@@ -17,14 +16,8 @@ import CustomPagination from '@/components/CustomPagination';
 import { AlertModals } from '@/components/AlertModals';
 import AddFaq from './AddFaq';
 
-import {
-  columns,
-  faqsFilterDefaultValues,
-  faqsFilterFiltersDataArray,
-  faqsFilterValidationSchema,
-} from './Faqs.data';
+import { columns, faqsFilterFiltersDataArray } from './Faqs.data';
 
-import { faqsTableDate } from '@/mock/modules/superAdmin/Settings/Faqs';
 import { FormProvider } from '@/components/ReactHookForm';
 
 import { DownIcon, FilterSharedIcon, RefreshSharedIcon } from '@/assets/icons';
@@ -33,34 +26,56 @@ import PlusShared from '@/assets/icons/shared/plus-shared';
 import { styles } from './Faqs.styles';
 
 import { v4 as uuidv4 } from 'uuid';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
+import useFaqs from './useFaqs';
+import EditFaq from './EditFaq';
 
 const Faqs = () => {
+  const {
+    anchorEl,
+    actionMenuOpen,
+    handleActionsMenuClick,
+    handleActionsMenuClose,
+    isDisabled,
+    setIsDisabled,
+    tableRowValues,
+    setTableRowValues,
+    setRowId,
+    rowId,
+    openFilters,
+    handleOpenFilters,
+    handleCloseFilters,
+    loagingGetFaqs,
+    dataGetFaqs,
+    handleSearch,
+    searchValue,
+    methodsFilter,
+    handleFiltersSubmit,
+    handleRefresh,
+    openModalAddFaq,
+    handleOpenModalFaq,
+    handleCloseModalFaq,
+    methodsAddFaqs,
+    handleAddFaqSubmit,
+    loadingAddFaq,
+    handleDeleteFaq,
+    loadingDelete,
+    isFaqsDeleteModal,
+    handleOpenModalDelete,
+    handleCloseModalDelete,
+    openModalEditFaq,
+    handleOpenModalEditFaq,
+    handleCloseModalEditFaq,
+    handleSubmitUpdateFaq,
+    loadingUpdateFaq,
+    methodsEditFaq,
+  } = useFaqs();
   const theme = useTheme();
-  const [isFaqsFilterDrawerOpen, setIsFaqsFilterDrawerOpen] = useState(false);
-  const [faqsSearch, setFaqsSearch] = useState('');
-  const [isFaqsDeleteModal, setIsFaqsDeleteModal] = useState(false);
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const actionMenuOpen = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const methodsFaqsFilters = useForm({
-    resolver: yupResolver(faqsFilterValidationSchema),
-    defaultValues: faqsFilterDefaultValues,
-  });
-
-  const onSubmit = () => {
-    setIsFaqsFilterDrawerOpen(false);
-  };
-  const { handleSubmit } = methodsFaqsFilters;
+  const getFaqsTableColumns = columns(
+    setIsDisabled,
+    tableRowValues,
+    setTableRowValues,
+    setRowId,
+  );
 
   return (
     <Box
@@ -86,7 +101,7 @@ const Faqs = () => {
           <Button
             variant="contained"
             sx={{ height: '36px', fontWeight: '500' }}
-            onClick={() => setIsAddModalOpen(true)}
+            onClick={() => handleOpenModalFaq('Add a New FAQ')}
           >
             <PlusShared /> &nbsp; Add
           </Button>
@@ -105,8 +120,8 @@ const Faqs = () => {
         >
           <Search
             label={'Search here'}
-            searchBy={faqsSearch}
-            setSearchBy={setFaqsSearch}
+            value={searchValue}
+            onChange={handleSearch}
             width="100%"
           />
           <Box
@@ -122,7 +137,7 @@ const Faqs = () => {
               aria-controls={actionMenuOpen ? 'basic-menu' : undefined}
               aria-haspopup="true"
               aria-expanded={actionMenuOpen ? 'true' : undefined}
-              onClick={handleClick}
+              onClick={handleActionsMenuClick}
               sx={{
                 color: theme.palette.grey[500],
                 height: '40px',
@@ -131,6 +146,7 @@ const Faqs = () => {
                   width: '100%',
                 },
               }}
+              disabled={isDisabled}
             >
               Actions &nbsp; <DownIcon />
             </Button>
@@ -138,23 +154,31 @@ const Faqs = () => {
               id="basic-menu"
               anchorEl={anchorEl}
               open={actionMenuOpen}
-              onClose={handleClose}
+              onClose={handleActionsMenuClose}
               MenuListProps={{
                 'aria-labelledby': 'basic-button',
               }}
             >
-              <MenuItem>Edit</MenuItem>
-              <MenuItem>View</MenuItem>
-              <MenuItem onClick={() => setIsFaqsDeleteModal(true)}>
-                Delete
+              <MenuItem
+                disabled={!rowId}
+                onClick={() => handleOpenModalEditFaq()}
+              >
+                Edit
               </MenuItem>
+              <MenuItem
+                disabled={!rowId}
+                onClick={() => handleOpenModalEditFaq()}
+              >
+                View
+              </MenuItem>
+              <MenuItem onClick={handleOpenModalDelete}>Delete</MenuItem>
             </Menu>
-            <Button sx={styles.refreshButton(theme)}>
+            <Button sx={styles?.refreshButton(theme)} onClick={handleRefresh}>
               <RefreshSharedIcon />
             </Button>
             <Button
-              sx={styles.filterButton(theme)}
-              onClick={() => setIsFaqsFilterDrawerOpen(true)}
+              sx={styles?.filterButton(theme)}
+              onClick={handleOpenFilters}
             >
               <FilterSharedIcon /> &nbsp; Filter
             </Button>
@@ -162,7 +186,11 @@ const Faqs = () => {
         </Box>
       </Box>
       <Box>
-        <TanstackTable columns={columns} data={faqsTableDate} />
+        <TanstackTable
+          columns={getFaqsTableColumns}
+          data={dataGetFaqs?.data?.faqs}
+          isLoading={loagingGetFaqs}
+        />
         <CustomPagination
           count={1}
           rowsPerPageOptions={[1, 2]}
@@ -170,48 +198,55 @@ const Faqs = () => {
         />
       </Box>
       <CommonDrawer
-        isDrawerOpen={isFaqsFilterDrawerOpen}
-        onClose={() => setIsFaqsFilterDrawerOpen(false)}
+        isDrawerOpen={openFilters}
+        onClose={handleCloseFilters}
         title="Filters"
         okText="Apply"
         isOk={true}
         footer={true}
-        submitHandler={() => setIsFaqsFilterDrawerOpen(false)}
+        submitHandler={handleFiltersSubmit}
       >
-        <>
-          <FormProvider
-            methods={methodsFaqsFilters}
-            onSubmit={handleSubmit(onSubmit)}
-          >
-            <Grid container spacing={4}>
-              {faqsFilterFiltersDataArray?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                  <item.component {...item.componentProps} size={'small'}>
-                    {item?.componentProps?.select
-                      ? item?.options?.map((option: any) => (
-                          <option key={option?.value} value={option?.value}>
-                            {option?.label}
-                          </option>
-                        ))
-                      : null}
-                  </item.component>
-                </Grid>
-              ))}
-            </Grid>
-          </FormProvider>
-        </>
+        <FormProvider methods={methodsFilter}>
+          <Grid container spacing={4}>
+            {faqsFilterFiltersDataArray()?.map((item: any) => (
+              <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                <item.component {...item.componentProps} size={'small'}>
+                  {item?.componentProps?.select
+                    ? item?.options?.map((option: any) => (
+                        <option key={option?.value} value={option?.value}>
+                          {option?.label}
+                        </option>
+                      ))
+                    : null}
+                </item.component>
+              </Grid>
+            ))}
+          </Grid>
+        </FormProvider>
       </CommonDrawer>
 
       <AlertModals
         message={'Are you sure you want to delete this entry ?'}
         type="delete"
         open={isFaqsDeleteModal}
-        handleClose={() => setIsFaqsDeleteModal(false)}
-        handleSubmit={() => setIsFaqsDeleteModal(false)}
+        handleClose={handleCloseModalDelete}
+        handleSubmitBtn={handleDeleteFaq}
+        loading={loadingDelete}
       />
       <AddFaq
-        isAddModalOpen={isAddModalOpen}
-        setIsAddModalOpen={setIsAddModalOpen}
+        isAddModalOpen={openModalAddFaq}
+        onClose={handleCloseModalFaq}
+        formMethods={methodsAddFaqs}
+        handleSubmit={handleAddFaqSubmit}
+        isLoading={loadingAddFaq}
+      />
+
+      <EditFaq
+        isModalOpen={openModalEditFaq}
+        onClose={handleCloseModalEditFaq}
+        formMethods={methodsEditFaq}
+        handleSubmit={handleSubmitUpdateFaq}
+        isLoading={loadingUpdateFaq}
       />
     </Box>
   );

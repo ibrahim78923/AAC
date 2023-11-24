@@ -16,7 +16,6 @@ export default function RHFRadioGroup({
   name,
   options,
   required,
-  // getOptionLabel,
   ...other
 }: any) {
   const { control } = useFormContext();
@@ -35,7 +34,7 @@ export default function RHFRadioGroup({
             />
           )}
           <RadioGroup {...field} row {...other}>
-            {options.map((option: any) => (
+            {options?.map((option: any) => (
               <FormControlLabel
                 key={option?.value}
                 value={option?.value}
@@ -47,7 +46,7 @@ export default function RHFRadioGroup({
 
           {!!error && (
             <FormHelperText error sx={{ display: 'block', mt: -0.5, ml: 0 }}>
-              {error.message}
+              {error?.message}
             </FormHelperText>
           )}
         </Box>

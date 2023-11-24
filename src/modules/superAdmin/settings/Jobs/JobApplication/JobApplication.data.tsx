@@ -1,78 +1,80 @@
 import AppAvatarGroup from '@/components/AvatarGroup';
-
+import dayjs from 'dayjs';
 import { DocumentIcon } from '@/assets/icons';
-
 import {
   RHFDatePicker,
   RHFMultiSearchableSelect,
   RHFSelect,
 } from '@/components/ReactHookForm';
-import { Checkbox } from '@mui/material';
-import * as Yup from 'yup';
 import StatusBadge from '@/components/StatusBadge';
+import useJobApplication from './useJobApplication';
+import * as Yup from 'yup';
+import { DATE_FORMAT } from '@/constants';
+
 export const jobApplicationValidationSchema = Yup.object().shape({
-  candidates: Yup.array().min(1).required('Field is Required'),
+  candidateId: Yup.array().min(1).required('Field is Required'),
   applyDate: Yup.string().trim().required('Field is Required'),
   status: Yup.string().trim().required('Field is Required'),
 });
 
 export const jobApplicationDefaultValues = {
-  candidates: [],
+  candidateId: [],
   applyDate: '',
   status: '',
 };
 
-export const jobApplicationFiltersDataArray = [
-  {
-    componentProps: {
-      name: 'candidates',
-      label: 'Candidates',
-      isCheckBox: true,
-    },
-    options: [
-      { value: '155315', label: 'John Doe ' },
-      { value: '785978', label: 'Andrew' },
-      { value: '456456', label: 'Richard robertson' },
-      { value: '518686', label: 'Franksten' },
-    ],
-    component: RHFMultiSearchableSelect,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'applyDate',
-      label: 'Apply Date',
-      fullWidth: true,
-    },
-    component: RHFDatePicker,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'status',
-      label: 'Status',
-      select: true,
-    },
-    options: [
-      { value: 'Pending', label: 'Pending' },
-      { value: 'ShortListed', labelShort: 'listed' },
-      { value: 'Interview Schedule', label: 'Interview Scheduled' },
-      { value: 'Interviewed', label: 'Interviewed' },
-    ],
-    component: RHFSelect,
-    md: 12,
-  },
-];
+export const getFiltersDataArray = () => {
+  const { dataUniqueCandidate } = useJobApplication();
 
-export const columns = (theme: any) => {
+  const getCandidates = () => {
+    const candidatesArray = dataUniqueCandidate?.data;
+    return candidatesArray?.map((item: any) => {
+      return { value: item?._id, label: item?.name };
+    });
+  };
+
   return [
     {
-      accessorFn: (row: any) => row.id,
-      id: 'id',
-      cell: (info: any) => <Checkbox color="primary" name={info.getValue()} />,
-      header: <Checkbox color="primary" name="Id" />,
-      isSortable: false,
+      componentProps: {
+        name: 'candidateId',
+        label: 'Candidates',
+        isCheckBox: true,
+      },
+      options: getCandidates(),
+      component: RHFMultiSearchableSelect,
+      md: 12,
     },
+    {
+      componentProps: {
+        name: 'applyDate',
+        label: 'Apply Date',
+        fullWidth: true,
+      },
+      component: RHFDatePicker,
+      md: 12,
+    },
+    {
+      componentProps: {
+        name: 'status',
+        label: 'Status',
+        select: true,
+      },
+      options: [
+        { value: 'pending', label: 'Pending' },
+        { value: 'rejected', label: 'Rejected' },
+        { value: 'shortlisted', label: 'Shortlisted' },
+        { value: 'interviewed', label: 'Interviewed' },
+      ],
+      component: RHFSelect,
+      md: 12,
+    },
+  ];
+};
+
+export const columns = (theme: any) => {
+  const { handleUpdateStatus, statusValue, setStatusValue } =
+    useJobApplication();
+  return [
     {
       accessorFn: (row: any) => row.jobTitle,
       id: 'jobTitle',
@@ -85,21 +87,29 @@ export const columns = (theme: any) => {
       id: 'candidate',
       isSortable: true,
       header: 'Candidate',
-      cell: (info: any) => <AppAvatarGroup data={info.getValue()} />,
+      cell: (info: any) => (
+        <AppAvatarGroup data={info?.getValue()?.proFileImage || []} />
+      ),
     },
     {
-      accessorFn: (row: any) => row.applyDate,
-      id: 'applyDate',
+      accessorFn: (row: any) => row.createdAt,
+      id: 'createdAt',
       isSortable: true,
       header: 'Apply Date',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => {
+        const formattedDate = dayjs(info?.getValue()).format(DATE_FORMAT.UI);
+        return formattedDate;
+      },
     },
     {
       accessorFn: (row: any) => row.jobPostedDate,
       id: 'jobPostedDate',
       isSortable: true,
       header: 'Job Posted Date',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => {
+        const formattedDate = dayjs(info?.getValue()).format(DATE_FORMAT.UI);
+        return formattedDate;
+      },
     },
     {
       accessorFn: (row: any) => row.resume,
@@ -120,44 +130,51 @@ export const columns = (theme: any) => {
       id: 'status',
       isSortable: true,
       header: 'Status',
-      cell: (info: any) => (
-        <StatusBadge
-          value={info.getValue()}
-          // onChange={(e: any) => setUserStatus(e.target.value)}
-          options={[
-            {
-              label: 'Interviewed',
-              value: 'interviewed',
-              color: theme?.palette?.custom.bluish_gray,
-            },
-            {
-              label: 'Interview Scheduled',
-              value: 'interviewScheduled',
-              color: theme?.palette?.error?.main,
-            },
-            {
-              label: 'Shortlisted',
-              value: 'shortlisted',
-              color: theme?.palette?.error?.main,
-            },
-            {
-              label: 'Pending',
-              value: 'pending',
-              color: theme?.palette?.custom.bluish_gray,
-            },
-            {
-              label: 'Rejected',
-              value: 'rejected',
-              color: theme?.palette?.error.main,
-            },
-            {
-              label: 'Hired',
-              value: 'hired',
-              color: theme?.palette?.success.main,
-            },
-          ]}
-        />
-      ),
+      cell: (info: any) => {
+        setStatusValue(info.getValue());
+        return (
+          <StatusBadge
+            key={info?.row?.original?._id}
+            defaultValue={info.getValue()}
+            value={statusValue}
+            onChange={(e: any) =>
+              handleUpdateStatus(e?.target?.value, info?.row?.original?._id)
+            }
+            options={[
+              {
+                label: 'Pending',
+                value: 'pending',
+                color: theme?.palette?.custom.bluish_gray,
+              },
+              {
+                label: 'Rejected',
+                value: 'rejected',
+                color: theme?.palette?.error.main,
+              },
+              {
+                label: 'Shortlisted',
+                value: 'shortlisted',
+                color: theme?.palette?.error?.main,
+              },
+              {
+                label: 'Interviewed',
+                value: 'interviewed',
+                color: theme?.palette?.custom.bluish_gray,
+              },
+              // {
+              //   label: 'Interview Scheduled',
+              //   value: 'interviewScheduled',
+              //   color: theme?.palette?.error?.main,
+              // },
+              // {
+              //   label: 'Hired',
+              //   value: 'hired',
+              //   color: theme?.palette?.success.main,
+              // },
+            ]}
+          />
+        );
+      },
     },
   ];
 };
