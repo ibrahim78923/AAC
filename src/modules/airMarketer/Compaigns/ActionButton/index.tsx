@@ -8,6 +8,7 @@ import { AlertModalDeleteIcon } from '@/assets/icons';
 import CloneModal from '../CloneModal';
 import EditGoalDrawer from '../EidtGoalDrawer';
 import ExportCompaignDrawer from '../ExportCompaignDrawer';
+import EditCompaign from '../EditCompaign';
 
 const ActionButton = () => {
   const {
@@ -86,6 +87,17 @@ const ActionButton = () => {
             setActionsModalDetails({
               ...actionsModalDetails,
               isExportCompaign: false,
+            })
+          }
+        />
+      )}
+      {actionsModalDetails?.isEditCompaign && (
+        <EditCompaign
+          isOpenDrawer={actionsModalDetails?.isEditCompaign}
+          onClose={() =>
+            setActionsModalDetails({
+              ...actionsModalDetails,
+              isEditCompaign: false,
             })
           }
         />

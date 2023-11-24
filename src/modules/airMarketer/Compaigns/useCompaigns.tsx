@@ -11,6 +11,7 @@ const useCompaigns = () => {
     isClone: false,
     isOpenFilterDrawer: false,
     isExportCompaign: false,
+    isEditCompaign: false,
   });
   const [isDelete, setIsDelete] = useState(false);
   const handleClick = (event: any) => {
@@ -31,6 +32,11 @@ const useCompaigns = () => {
       setActionsModalDetails({
         ...actionsModalDetails,
         isExportCompaign: true,
+      });
+    } else if (option === 'Edit Compaign') {
+      setActionsModalDetails({
+        ...actionsModalDetails,
+        isEditCompaign: true,
       });
     }
     setSelectedOptionsValue(option);
