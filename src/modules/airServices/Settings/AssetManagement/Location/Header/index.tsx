@@ -9,7 +9,7 @@ export const Header = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const router = useRouter();
-  const handleLocationSetting = () => {
+  const handleSettingLocation = () => {
     router?.push({
       pathname: AIR_SERVICES?.ASSET_MANAGEMENT_SETTINGS,
     });
@@ -28,7 +28,7 @@ export const Header = () => {
           alignItems={'center'}
           gap={1}
         >
-          <ArrowBackIcon onClick={() => handleLocationSetting()} />
+          <ArrowBackIcon onClick={handleSettingLocation} />
           <Typography variant="h5">Location</Typography>
         </Box>
         <Box display={'flex'} alignItems={'center'} gap={1}>
