@@ -10,6 +10,7 @@ import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { AlertModals } from '@/components/AlertModals';
 import { enqueueSnackbar } from 'notistack';
+import { ALERT_MODALS_TYPE, NOTISTACK_VARIANTS } from '@/constants/strings';
 
 export const ListLocation = ({ continents, handleCollapse }: any) => {
   const theme: any = useTheme();
@@ -18,8 +19,7 @@ export const ListLocation = ({ continents, handleCollapse }: any) => {
 
   const handleDeleteSubmit = () => {
     enqueueSnackbar('Delete successfully', {
-      variant: 'error',
-      autoHideDuration: 3000,
+      variant: NOTISTACK_VARIANTS?.ERROR,
     });
     setIsOpenAlert(false);
   };
@@ -70,7 +70,7 @@ export const ListLocation = ({ continents, handleCollapse }: any) => {
 
       <AlertModals
         message={'Are you sure you want to delete this list?'}
-        type={'delete'}
+        type={ALERT_MODALS_TYPE?.DELETE}
         open={isOpenAlert}
         handleClose={() => setIsOpenAlert(false)}
         handleSubmitBtn={handleDeleteSubmit}

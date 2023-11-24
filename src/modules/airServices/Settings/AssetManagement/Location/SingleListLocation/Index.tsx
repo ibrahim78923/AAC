@@ -14,7 +14,7 @@ export const SingleListLocation = () => {
   return (
     <>
       {locationlist?.map((item, index) => (
-        <>
+        <Box key={item?.id}>
           <ListLocation
             continents={item?.title}
             handleCollapse={() => handleCollapse(index)}
@@ -28,7 +28,7 @@ export const SingleListLocation = () => {
               ))}
             </SubListWrapper>
           )}
-        </>
+        </Box>
       ))}
     </>
   );
