@@ -1,8 +1,8 @@
 import Layout from '@/layout';
-import React from 'react';
+import { AccountSettings } from '@/modules/airServices/Settings/AccountSettings';
 
 const AccountSettingsPage = () => {
-  return <div>AccountSettingsPage</div>;
+  return <AccountSettings />;
 };
 
 export default AccountSettingsPage;
