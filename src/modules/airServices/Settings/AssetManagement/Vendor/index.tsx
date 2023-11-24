@@ -1,3 +1,5 @@
+import { SingleVendorDetail } from './SingleVendorDetail';
+
 export const Vendor = () => {
-  return <>Vendor</>;
+  return <SingleVendorDetail />;
 };
