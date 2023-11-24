@@ -7,6 +7,8 @@ import {
   Button,
   Divider,
   Grid,
+  Menu,
+  MenuItem,
   Modal,
   StepLabel,
   Stepper,
@@ -23,7 +25,6 @@ import {
   BiAcivityIcon,
   CloseModalIcon,
   CommentIcon,
-  FillCheckboxIcon,
   LikeIcon,
   MultipleUserIcon,
   PlusIcon,
@@ -41,6 +42,7 @@ import Image from 'next/image';
 import { airMarketingCalendar } from '@/routesConstants/paths';
 import { SocailMediaEvent } from './Calender.data';
 import { postBoxSteps } from '@/mock/modules/airMarketer/SocialMarketing';
+import { AlertModals } from '@/components/AlertModals';
 
 const Calender = () => {
   const {
@@ -59,7 +61,13 @@ const Calender = () => {
     modalEvents,
     setModalEvents,
     theme,
+    handleClose,
+    handleClick,
+    setIsDelete,
+    anchorEl,
+    isDelete,
   } = useCalender();
+
   return (
     <>
       <Box sx={{ backgroundColor: 'white', padding: '20px' }}>
@@ -141,8 +149,7 @@ const Calender = () => {
         <Box sx={styles.parentBox}>
           {modalEvents?.length === 0 && (
             <>
-              {selectedEventData?._def?.title}
-              <Box mt="-20px" textAlign="end">
+              <Box textAlign="end">
                 <SvgIcon
                   onClick={() => setIsModalOpen(false)}
                   sx={{ cursor: 'pointer' }}
@@ -150,12 +157,8 @@ const Calender = () => {
                   <CloseModalIcon />
                 </SvgIcon>
               </Box>
-              <Box sx={{ display: 'flex', justifyContent: 'end', mb: '25px' }}>
-                <Typography variant="h5">
-                  Posted <FillCheckboxIcon />
-                </Typography>
-              </Box>
-              <Grid container spacing={2}>
+
+              <Grid container spacing={2} mt={2}>
                 <Grid item xs={8} borderRadius="8px" border="1px solid #DADDE1">
                   <Box
                     display="flex"
@@ -179,15 +182,30 @@ const Calender = () => {
                       </Box>
                     </Box>
                     <Box>
-                      <SvgIcon>
+                      <SvgIcon sx={{ cursor: 'pointer' }} onClick={handleClick}>
                         <ActionsIcon />
                       </SvgIcon>
+                      <Menu
+                        anchorEl={anchorEl}
+                        open={Boolean(anchorEl)}
+                        onClose={handleClose}
+                      >
+                        <MenuItem
+                          onClick={() =>
+                            router?.push(`${airMarketingCalendar?.create_post}`)
+                          }
+                        >
+                          Edit
+                        </MenuItem>
+                        <MenuItem onClick={() => setIsDelete(true)}>
+                          Delete
+                        </MenuItem>
+                      </Menu>
                     </Box>
                   </Box>
                   <Box sx={{ padding: '10px' }}>
                     <Typography sx={{ color: '#1D2129' }}>
-                      {`Hey guys! I really love the city pop hit Plastic Love and I'm
-                working on a new cover of it! 😊😊😊😊`}
+                      {selectedEventData?._def?.title}
                     </Typography>
                     <Typography sx={{ color: '#50ABF1' }}>
                       @zackben#nature #beauty #mountain #travel
@@ -466,6 +484,14 @@ const Calender = () => {
           </Grid>
         </Box>
       </Modal>
+
+      <AlertModals
+        message="Are you sure want to delete?"
+        type="delete"
+        open={isDelete}
+        handleClose={() => setIsDelete(false)}
+        handleSubmit={() => setIsDelete(false)}
+      />
     </>
   );
 };

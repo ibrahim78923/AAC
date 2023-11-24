@@ -121,6 +121,17 @@ const useCalender = () => {
     setIsModalOpen(true);
   };
 
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [isDelete, setIsDelete] = useState(false);
+
+  const handleClick = (event: any) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   return {
     eventContentHandler,
     currentDate,
@@ -137,6 +148,11 @@ const useCalender = () => {
     modalEvents,
     setModalEvents,
     theme,
+    handleClose,
+    handleClick,
+    setIsDelete,
+    anchorEl,
+    isDelete,
   };
 };
 
