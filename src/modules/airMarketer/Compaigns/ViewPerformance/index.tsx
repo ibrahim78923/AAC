@@ -5,6 +5,8 @@ import { Box, Button, Typography } from '@mui/material';
 import { BackArrowIcon } from '@/assets/icons';
 import { FilterrIcon, PlusIcon } from '@/assets/icons';
 import useCompaigns from '../useCompaigns';
+import Performance from './Tabs/Performace';
+import Tasks from './Tabs/Tasks';
 
 const ViewPerforance = () => {
   const { theme, setTabVal } = useCompaigns();
@@ -41,7 +43,7 @@ const ViewPerforance = () => {
             width: '260px',
           }}
           isHeader={true}
-          tabsArray={['Manage', 'Calendar', 'Tasks']}
+          tabsArray={['Performance', 'Assets', 'Tasks']}
           headerChildren={
             <>
               <Button
@@ -80,10 +82,9 @@ const ViewPerforance = () => {
             </>
           }
         >
-          {/* <Manage />
-          <Manage />
-
-          <Manage /> */}
+          <Performance />
+          <Performance />
+          <Tasks />
         </CommonTabs>
       </Box>
     </Box>
