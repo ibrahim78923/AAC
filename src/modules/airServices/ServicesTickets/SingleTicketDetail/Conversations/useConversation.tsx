@@ -48,14 +48,15 @@ export const UseConversation = () => {
     setAddConversation(event?.currentTarget);
   };
 
-  const { handleSubmit, setValue, getValues } = addConversationModal;
+  const { handleSubmit, setValue, getConversationValuess } =
+    addConversationModal;
 
   const onSubmit = async () => {
     try {
       const successMessage = `${selectedItem} Add Successfully!`;
       setSelectedValues((prevValues) => ({
         ...prevValues,
-        [uuidv4()]: getValues(),
+        [uuidv4()]: getConversationValuess(),
       }));
 
       enqueueSnackbar(successMessage, {
