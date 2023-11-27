@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
-import { useRouter } from 'next/router';
 import { Box, Button, Typography, Stack } from '@mui/material';
 import { PlanCardI } from './PlanCard.interface';
 import { styles } from './PlanCard.style';
 import { orgAdminSubcriptionInvoices } from '@/routesConstants/paths';
+import Link from 'next/link';
 
 const PlanCard: FC<PlanCardI> = ({
   status,
@@ -16,9 +16,9 @@ const PlanCard: FC<PlanCardI> = ({
   billOn,
   type,
   handleBillingDetail,
+  id,
+  plan,
 }) => {
-  const router = useRouter();
-
   return (
     <Box sx={styles?.planCard}>
       <Box sx={styles?.planStatus}>
@@ -53,18 +53,20 @@ const PlanCard: FC<PlanCardI> = ({
         direction={'row'}
         sx={styles?.planActions}
       >
-        <Button variant="contained" onClick={handleBillingDetail}>
+        <Button variant="contained" onClick={() => handleBillingDetail(id)}>
           Billing Details
         </Button>
-        <Button
-          variant="outlined"
-          sx={styles?.buttonOutlineGrey}
-          onClick={() =>
-            router.push(`${orgAdminSubcriptionInvoices.manage_plan}`)
-          }
+        <Link
+          href={{
+            pathname: `${orgAdminSubcriptionInvoices.manage_plan}`,
+            query: { data: JSON.stringify(plan) },
+          }}
+          as={`${orgAdminSubcriptionInvoices.manage_plan}`}
         >
-          Manage Plan
-        </Button>
+          <Button variant="outlined" sx={styles?.buttonOutlineGrey}>
+            Manage Plan
+          </Button>
+        </Link>
       </Stack>
     </Box>
   );
