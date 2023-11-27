@@ -47,7 +47,7 @@ export const ProductCatalog = () => {
       />
       <Search
         label="search"
-        width="100%"
+        // width="100%"
         value={search}
         onChange={(e: any) => setSearch(e?.target?.value)}
       />
