@@ -163,7 +163,7 @@ export const AIR_SALES_DEALS_PERMISSIONS = {
   Add_Associate_Products: 'view-deal-add-associate-product',
   Edit_Products: 'sale-deal-edit-product',
 };
-//for display and purpose purpose in steppers
+//for display purpose in steppers
 export const SUPER_ADMIN_PLAN_MANAGEMENT_PERMISSIONS = [
   {
     ProductName: 'Sales',

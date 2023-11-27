@@ -10,6 +10,8 @@ import {
   ProductLoyaltyProgramIcon,
 } from '@/assets/icons';
 import { useGetSubscriptionsAndInvoicesQuery } from '@/services/orgAdmin/subscription-and-invoices';
+import { DATE_FORMAT } from '@/constants';
+import dayjs from 'dayjs';
 
 const getProductIcon = (product: any) => {
   let iconProduct;
@@ -70,7 +72,7 @@ const Subscriptions = () => {
                 planUsers={plan?.additionalUsers}
                 planData={plan?.billingCycle}
                 price={plan?.plans?.planPrice ?? 0}
-                billOn={plan?.billingDate}
+                billOn={dayjs(plan?.billingDate).format(DATE_FORMAT?.UI)}
                 type={plan?.plantypes?.name ?? plan?.plan}
                 handleBillingDetail={handleDrawerOpen}
                 id={plan?._id}

@@ -5,14 +5,14 @@ export const subscriptionAndInvoicesAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getSubscriptionsAndInvoices: builder.query({
       query: () => ({
-        url: ORG_ADMIN?.SUBSCRIPTION_AND_INVOICES,
+        url: `${ORG_ADMIN?.SUBSCRIPTION_AND_INVOICES}`,
         method: 'GET',
       }),
       providesTags: TAG,
     }),
     getInvoices: builder.query({
       query: () => ({
-        url: ORG_ADMIN?.GET_INVOICES,
+        url: `${ORG_ADMIN?.GET_INVOICES}`,
         method: 'GET',
       }),
       providesTags: TAG,

@@ -6,6 +6,8 @@ import {
   useGetPlanTypesQuery,
   useGetProductsQuery,
 } from '@/services/superAdmin/plan-mangement';
+import { DATE_FORMAT } from '@/constants';
+import dayjs from 'dayjs';
 
 export const columns = (
   setIsGetRowValues: any,
@@ -48,7 +50,7 @@ export const columns = (
       isSortable: true,
     },
     {
-      accessorFn: (row: any) => row?.billingDate,
+      accessorFn: (row: any) => dayjs(row?.billingDate).format(DATE_FORMAT?.UI),
       id: 'billingDate',
       isSortable: true,
       header: 'Invoice Date',
@@ -119,6 +121,7 @@ export const FilterInvoiceFiltersDataArray = () => {
   );
   const { data: planTypeData } = useGetPlanTypesQuery<any>({
     refetchOnMountOrArgChange: true,
+    //TODO: Both Page and Limit  will be dynamic in future ,now used just for to get data from API
     pagination: `page=1&limit=10`,
   });
 

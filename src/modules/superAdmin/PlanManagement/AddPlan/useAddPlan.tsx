@@ -163,7 +163,7 @@ export const useAddPlan = () => {
 
     SUPER_ADMIN_PLAN_MANAGEMENT_PERMISSIONS?.forEach((permissionData) => {
       permissionData.Sub_Modules?.forEach((subModule) => {
-        const matchingPermissions = subModule?.permissions.filter(
+        const matchingPermissions = subModule?.permissions?.filter(
           (permission) => permissionSlugToFind?.includes(permission?.value),
         );
 
