@@ -4,16 +4,24 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import { vendorData } from './Vendor.data';
 import { useVendor } from './useVendor';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
+import { AIR_SERVICES } from '@/constants';
+
 export const Vendor = () => {
-  const { searchValue, setSearchValue, VendorListsColumns } = useVendor();
+  const { router, searchValue, setSearchValue, VendorListsColumns } =
+    useVendor();
   return (
     <>
       <PageTitledHeader
         title={'Vendor'}
         addTitle={'Add New Vendor'}
-        hasImport={true}
-        hasExport={true}
+        hasImport
+        hasExport
         canMovedBack
+        moveBack={() => {
+          router?.push({
+            pathname: AIR_SERVICES?.ASSET_MANAGEMENT_SETTINGS,
+          });
+        }}
       />
 
       <Box

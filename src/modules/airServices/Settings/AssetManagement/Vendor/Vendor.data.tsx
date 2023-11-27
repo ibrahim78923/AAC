@@ -21,7 +21,7 @@ export const vendorData: any = [
 export const vendorListsColumnsFunction = (router: any): any => [
   {
     accessorFn: (row: any) => row?.name,
-    id: 'Name',
+    id: 'name',
     isSortable: true,
     header: 'Name',
     cell: (info: any) => (
@@ -43,21 +43,21 @@ export const vendorListsColumnsFunction = (router: any): any => [
   },
   {
     accessorFn: (row: any) => row?.email,
-    id: 'Email',
+    id: 'email',
     header: 'Email',
     isSortable: true,
     cell: (info: any) => info?.getValue(),
   },
   {
     accessorFn: (row: any) => row?.phone,
-    id: 'Phone',
+    id: 'phone',
     isSortable: true,
     header: 'Phone',
     cell: (info: any) => info?.getValue(),
   },
   {
     accessorFn: (row: any) => row?.usedBy,
-    id: 'UsedBy',
+    id: 'usedBy',
     isSortable: true,
     header: 'UsedBy',
     cell: (info: any) => info?.getValue(),
