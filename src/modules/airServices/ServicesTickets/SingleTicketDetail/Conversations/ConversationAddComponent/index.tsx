@@ -1,3 +1,4 @@
+// ConversationAddComponent.jsx
 import React from 'react';
 import { FormProvider } from '@/components/ReactHookForm';
 import { Box, Grid } from '@mui/material';
@@ -20,7 +21,7 @@ const ConversationAddComponent = ({
       footer={true}
       isOk={true}
       submitHandler={() => {
-        addConversationModal.handleSubmit(onSubmit)();
+        addConversationModal?.handleSubmit(onSubmit)();
       }}
     >
       <FormProvider methods={addConversationModal}>

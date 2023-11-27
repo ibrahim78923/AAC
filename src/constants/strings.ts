@@ -143,10 +143,20 @@ export const CATALOG_SERVICE = {
 };
 
 export const TICKETS_CONVERSATION_TYPE = {
-  REPLY: 'reply',
+  REPLY: 'Reply',
   FORWARD: 'Forward',
   DISCUSS: 'Discuss',
-  NOTE: 'note',
+  NOTE: 'Note',
+};
+
+export const TICKETS_CONVERSATION_Description_Type = {
+  REPLY: 'replyDescription',
+  FORWARD: 'forwardDescription',
+  NOTE: 'noteDescription',
+};
+export const TICKETS_CONVERSATION_MODAL_TYPE = {
+  CANNED: 'Add Canned Response',
+  ARTICLE: 'Add New Article',
 };
 export const EXPORT_FILE_TYPE: any = {
   [EXPORT_TYPE?.CSV]: 'text/csv',

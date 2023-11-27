@@ -7,6 +7,7 @@ import {
 } from '@/assets/icons';
 import ConversationSelectModal from '../ConversationSelectModal';
 import { UseConversation } from '../useConversation';
+import { TICKETS_CONVERSATION_MODAL_TYPE } from '@/constants/strings';
 
 function ConversationArticleSelect() {
   const { theme, filteredContent, searchTerm, setSearchTerm } =
@@ -34,10 +35,14 @@ function ConversationArticleSelect() {
 
   return (
     <Box>
-      <Box onClick={() => handleIconClick('Add Canned Response')}>
+      <Box
+        onClick={() => handleIconClick(TICKETS_CONVERSATION_MODAL_TYPE.CANNED)}
+      >
         <CannedResponseModalIcon />
       </Box>
-      <Box onClick={() => handleIconClick('Add New Article')}>
+      <Box
+        onClick={() => handleIconClick(TICKETS_CONVERSATION_MODAL_TYPE.ARTICLE)}
+      >
         <ArticleModalIcon />
       </Box>
 

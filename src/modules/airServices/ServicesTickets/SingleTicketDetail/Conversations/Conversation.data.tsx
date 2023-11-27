@@ -1,21 +1,22 @@
 import { RHFTextField, RHFSelect, RHFEditor } from '@/components/ReactHookForm';
+import { TICKETS_CONVERSATION_TYPE } from '@/constants/strings';
 import * as Yup from 'yup';
 export const conversationValidationSchema = (action) => {
   switch (action) {
-    case 'Note':
+    case TICKETS_CONVERSATION_TYPE.NOTE:
       return Yup?.object()?.shape({
         note: Yup?.string()?.required('Field is Required'),
         notify: Yup?.string()?.required('Field is Required'),
         noteDescription: Yup?.string()?.trim()?.required('Field is Required'),
       });
-    case 'Reply':
+    case TICKETS_CONVERSATION_TYPE.REPLY:
       return Yup?.object()?.shape({
         reply: Yup?.string()?.required('Field is Required'),
         replyFrom: Yup?.string()?.required('Field is Required'),
         replyTo: Yup?.string()?.required('Field is Required'),
         replyDescription: Yup?.string()?.trim()?.required('Field is Required'),
       });
-    case 'Forward':
+    case TICKETS_CONVERSATION_TYPE.FORWARD:
       return Yup?.object()?.shape({
         forward: Yup?.string()?.required('Field is Required'),
         forwardFrom: Yup?.string()?.required('Field is Required'),

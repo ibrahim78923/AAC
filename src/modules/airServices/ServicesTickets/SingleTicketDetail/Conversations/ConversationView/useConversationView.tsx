@@ -6,15 +6,19 @@ import {
 import React from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { ConversationDataI } from '../Conversation.interface';
+import {
+  TICKETS_CONVERSATION_Description_Type,
+  TICKETS_CONVERSATION_TYPE,
+} from '@/constants/strings';
 export const useConversationView = () => {
   const conversationNoteContent = (conversationData: ConversationDataI) => {
     const content: { [key: string]: string } = {};
 
     for (const key in conversationData) {
       if (
-        key !== 'noteDescription' &&
-        key !== 'replyDescription' &&
-        key !== 'forwardDescription' &&
+        key !== TICKETS_CONVERSATION_Description_Type.NOTE &&
+        key !== TICKETS_CONVERSATION_Description_Type.REPLY &&
+        key !== TICKETS_CONVERSATION_Description_Type.FORWARD &&
         conversationData[key]
       ) {
         content[key] = `${key}: ${conversationData[key]}`;
@@ -26,7 +30,7 @@ export const useConversationView = () => {
 
   const conversationActionIcon = (actionType: string) => {
     switch (actionType) {
-      case 'Note':
+      case TICKETS_CONVERSATION_TYPE.NOTE:
         return (
           <>
             <ShortcutSharpLeftIcon />
@@ -42,7 +46,7 @@ export const useConversationView = () => {
             />
           </>
         );
-      case 'Forward':
+      case TICKETS_CONVERSATION_TYPE.FORWARD:
         return (
           <>
             <ShortcutSharpLeftIcon />
@@ -57,7 +61,7 @@ export const useConversationView = () => {
             />
           </>
         );
-      case 'Reply':
+      case TICKETS_CONVERSATION_TYPE.REPLY:
         return (
           <>
             <ShortcutSharpRightIcon />
