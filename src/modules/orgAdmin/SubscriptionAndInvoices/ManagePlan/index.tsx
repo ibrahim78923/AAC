@@ -39,7 +39,6 @@ const ManagePlan = () => {
     planId: parsedManageData?.plans?._id,
     additionalUsers: parsedManageData?.plans?.additionalUsers,
     additionalStorage: parsedManageData?.plans?.additionalStorage,
-    planDiscount: 0,
     billingDate: dayjs(parsedManageData?.billingDate).format(DATE_FORMAT?.API),
     status: parsedManageData?.status,
     billingCycle: parsedManageData?.billingCycle,

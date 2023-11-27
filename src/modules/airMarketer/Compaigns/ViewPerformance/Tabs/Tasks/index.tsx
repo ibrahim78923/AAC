@@ -1,12 +1,16 @@
+import { Box, Button, Menu, MenuItem } from '@mui/material';
+
 import CustomPagination from '@/components/CustomPagination';
 import TanstackTable from '@/components/Table/TanstackTable';
+import { AlertModals } from '@/components/AlertModals';
+
 import { columns } from './Tasks.data';
-import { tableData } from '@/mock/modules/airMarketer/Compaigns/Tasks';
-import { Box, Button, Menu, MenuItem } from '@mui/material';
-import { AlertModalDeleteIcon, DownIcon } from '@/assets/icons';
 import useTasks from './useTasks';
 import EditTask from './EditTask';
-import { AlertModals } from '@/components/AlertModals';
+
+import { tableData } from '@/mock/modules/airMarketer/Compaigns/Tasks';
+
+import { AlertModalDeleteIcon, DownIcon } from '@/assets/icons';
 
 const Tasks = () => {
   const {
@@ -62,7 +66,8 @@ const Tasks = () => {
               sx={{
                 color: theme.palette.grey[500],
                 height: '40px',
-                border: '1.5px solid #e7e7e9',
+                //
+                border: `1.5px solid ${theme?.palette?.custom?.border_grayish_blue}`,
                 '@media (max-width:581px)': {
                   width: '100%',
                 },

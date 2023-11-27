@@ -69,7 +69,7 @@ export const columns: any = [
   {
     accessorFn: (row: any) => row?.id,
     id: 'Id',
-    cell: (info: any) => <Checkbox color="primary" name={info.getValue()} />,
+    cell: (info: any) => <Checkbox color="primary" name={info?.getValue()} />,
     header: <Checkbox color="primary" name="id" />,
     isSortable: false,
   },
@@ -124,11 +124,11 @@ export const columns: any = [
   },
 ];
 
-export const rolesValidationSchema = Yup.object().shape({
-  roleName: Yup.string().required('Field is Required'),
-  product: Yup.string().required('Field is Required'),
-  status: Yup.string().required('Field is Required'),
-  createdDate: Yup.date().required('Field is Required'),
+export const rolesValidationSchema = Yup?.object()?.shape({
+  roleName: Yup?.string()?.required('Field is Required'),
+  product: Yup?.string()?.required('Field is Required'),
+  status: Yup?.string()?.required('Field is Required'),
+  createdDate: Yup?.date()?.required('Field is Required'),
 });
 
 export const rolesDefaultValues = {
@@ -196,11 +196,11 @@ export const rolesFiltersArray = [
   },
 ];
 
-export const addUserSchema = Yup.object().shape({
-  roleName: Yup.string().required('Field is Required'),
-  productType: Yup.string().required('Field is Required'),
-  defaultUser: Yup.string().required('Field is Required'),
-  desc: Yup.string().required('Field is Required'),
+export const addUserSchema = Yup?.object()?.shape({
+  roleName: Yup?.string()?.required('Field is Required'),
+  productType: Yup?.string()?.required('Field is Required'),
+  defaultUser: Yup?.string()?.required('Field is Required'),
+  desc: Yup?.string()?.required('Field is Required'),
 });
 
 export const addUserDefault = {

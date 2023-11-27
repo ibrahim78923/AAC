@@ -28,7 +28,7 @@ export default function ExportCompaignDrawer({
   const { handleSubmit } = methods;
 
   const onSubmit = async () => {
-    enqueueSnackbar('Ticket Updated Successfully', {
+    enqueueSnackbar('Exported Successfully', {
       variant: 'success',
     });
   };

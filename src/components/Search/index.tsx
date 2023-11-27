@@ -14,7 +14,7 @@ const Search = ({ label, width, setSearchBy, ...rest }: CombinedProps) => {
   const theme = useTheme();
 
   const handleChangeSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
+    const { value } = event?.target;
     debouncedSearch(value, setSearchBy);
   };
 

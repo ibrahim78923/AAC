@@ -7,7 +7,7 @@ import {
 
 import * as Yup from 'yup';
 
-export const validationSchema = Yup.object().shape({
+export const validationSchema = Yup?.object().shape({
   taskName: Yup?.string()?.required('Field is Required'),
   taskType: Yup?.string()?.trim()?.required('Field is Required'),
   selectCompaign: Yup?.string()?.required('Field is Required'),

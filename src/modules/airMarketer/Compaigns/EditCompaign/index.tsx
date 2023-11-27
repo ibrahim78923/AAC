@@ -28,7 +28,7 @@ export default function EditCompaign({
   const { handleSubmit } = methods;
 
   const onSubmit = async () => {
-    enqueueSnackbar('Ticket Updated Successfully', {
+    enqueueSnackbar('Compaign Updated Successfully', {
       variant: 'success',
     });
   };

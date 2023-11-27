@@ -5,6 +5,8 @@ import { BillingDetailI } from './BillingDetail.interface';
 import { AirPlaneIcon } from '@/assets/icons';
 import { v4 as uuidv4 } from 'uuid';
 import { useGetInvoicesByIdQuery } from '@/services/orgAdmin/subscription-and-invoices';
+import dayjs from 'dayjs';
+import { DATE_FORMAT } from '@/constants';
 
 const BillingDetail: FC<BillingDetailI> = ({
   open,
@@ -69,7 +71,8 @@ const BillingDetail: FC<BillingDetailI> = ({
 
           <Box sx={{ display: 'flex', alignItems: 'center', mt: '15px' }}>
             <Typography variant="caption">
-              Invoice Date: {data?.details?.billingDate}
+              Invoice Date:{' '}
+              {dayjs(data?.details?.billingDate).format(DATE_FORMAT?.UI)}
             </Typography>
             <Box sx={{ ml: 'auto' }}>
               <Typography variant="caption">

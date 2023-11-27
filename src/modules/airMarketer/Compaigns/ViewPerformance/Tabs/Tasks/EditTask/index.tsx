@@ -24,7 +24,7 @@ export default function EditTask({
   const { handleSubmit } = methods;
 
   const onSubmit = async () => {
-    enqueueSnackbar('Ticket Updated Successfully', {
+    enqueueSnackbar('Task Updated Successfully', {
       variant: 'success',
     });
   };

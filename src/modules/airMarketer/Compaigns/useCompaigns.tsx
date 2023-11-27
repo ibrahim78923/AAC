@@ -22,28 +22,38 @@ const useCompaigns = () => {
   };
 
   const handleSelectedOptionValue = (option: any) => {
-    if (option === 'Delete') {
-      setIsDelete(true);
-    } else if (option === 'Clone') {
-      setActionsModalDetails({ ...actionsModalDetails, isClone: true });
-    } else if (option === 'Edit Goal') {
-      setActionsModalDetails({
-        ...actionsModalDetails,
-        isOpenFilterDrawer: true,
-      });
-    } else if (option === 'Export Compaign') {
-      setActionsModalDetails({
-        ...actionsModalDetails,
-        isExportCompaign: true,
-      });
-    } else if (option === 'Edit Compaign') {
-      setActionsModalDetails({
-        ...actionsModalDetails,
-        isEditCompaign: true,
-      });
-    } else if (option === 'View Performance') {
-      router.push(`${AIR_MARKETER?.VIEW_PERFORMANCE}`);
+    switch (option) {
+      case 'Delete':
+        setIsDelete(true);
+        break;
+      case 'Clone':
+        setActionsModalDetails({ ...actionsModalDetails, isClone: true });
+        break;
+      case 'Edit Goal':
+        setActionsModalDetails({
+          ...actionsModalDetails,
+          isOpenFilterDrawer: true,
+        });
+        break;
+      case 'Export Compaign':
+        setActionsModalDetails({
+          ...actionsModalDetails,
+          isExportCompaign: true,
+        });
+        break;
+      case 'Edit Compaign':
+        setActionsModalDetails({
+          ...actionsModalDetails,
+          isEditCompaign: true,
+        });
+        break;
+      case 'View Performance':
+        router.push(`${AIR_MARKETER?.VIEW_PERFORMANCE}`);
+        break;
+      default:
+        break;
     }
+
     setSelectedOptionsValue(option);
     setSelectedValue(null);
   };

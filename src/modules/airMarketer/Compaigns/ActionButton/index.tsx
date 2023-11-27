@@ -1,14 +1,19 @@
 import { Box, Button, Menu, MenuItem } from '@mui/material';
 
 import { ArrowDropDown } from '@mui/icons-material';
+
 import useCompaigns from '../useCompaigns';
 import { actionsOptions } from './ActionButton.data';
-import { AlertModals } from '@/components/AlertModals';
-import { AlertModalDeleteIcon } from '@/assets/icons';
+
 import CloneModal from '../CloneModal';
 import EditGoalDrawer from '../EidtGoalDrawer';
 import ExportCompaignDrawer from '../ExportCompaignDrawer';
 import EditCompaign from '../EditCompaign';
+
+import { AlertModals } from '@/components/AlertModals';
+import { AlertModalDeleteIcon } from '@/assets/icons';
+
+import { v4 as uuidv4 } from 'uuid';
 
 const ActionButton = () => {
   const {
@@ -45,7 +50,7 @@ const ActionButton = () => {
         {actionsOptions?.map((option) => {
           return (
             <MenuItem
-              key={option}
+              key={uuidv4()}
               onClick={() => {
                 handleSelectedOptionValue(option);
               }}

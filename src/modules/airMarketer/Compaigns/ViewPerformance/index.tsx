@@ -1,11 +1,16 @@
 import React from 'react';
-import ViewCompaignDetails from './ViewCompaignDetails';
-import CommonTabs from '@/components/Tabs';
+
 import { Box, Button, Typography } from '@mui/material';
-import { BackArrowIcon } from '@/assets/icons';
-import { FilterrIcon, PlusIcon } from '@/assets/icons';
+
+import ViewCompaignDetails from './ViewCompaignDetails';
 import useCompaigns from '../useCompaigns';
 import Performance from './Tabs/Performace';
+
+import CommonTabs from '@/components/Tabs';
+
+import { BackArrowIcon } from '@/assets/icons';
+import { FilterrIcon, PlusIcon } from '@/assets/icons';
+
 import Tasks from './Tabs/Tasks';
 
 const ViewPerforance = () => {

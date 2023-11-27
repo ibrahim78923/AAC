@@ -21,7 +21,6 @@ const CloneModal = ({ openCloneModal, handleCloseFeaturesModal }: any) => {
   const theme = useTheme();
   const methods: any = useForm({
     resolver: yupResolver(validationSchemaFeatures),
-
     defaultValues: defaultValuesFeatures,
   });
 
@@ -29,7 +28,7 @@ const CloneModal = ({ openCloneModal, handleCloseFeaturesModal }: any) => {
 
   const onSubmit = async () => {
     handleCloseFeaturesModal();
-    enqueueSnackbar('Details Added Successfully', {
+    enqueueSnackbar('Clone Successfully', {
       variant: 'success',
     });
   };
@@ -64,7 +63,7 @@ const CloneModal = ({ openCloneModal, handleCloseFeaturesModal }: any) => {
                       <item.component {...item?.componentProps} size={'small'}>
                         {item?.componentProps?.select &&
                           item?.options?.map((option: any) => (
-                            <option key={option?.value} value={option?.value}>
+                            <option key={uuidv4()} value={option?.value}>
                               {option?.label}
                             </option>
                           ))}

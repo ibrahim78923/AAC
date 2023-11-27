@@ -59,7 +59,7 @@ const PlanCard: FC<PlanCardI> = ({
         <Link
           href={{
             pathname: `${orgAdminSubcriptionInvoices.manage_plan}`,
-            query: { data: JSON.stringify(plan) },
+            query: { data: JSON?.stringify(plan) },
           }}
           as={`${orgAdminSubcriptionInvoices.manage_plan}`}
         >
