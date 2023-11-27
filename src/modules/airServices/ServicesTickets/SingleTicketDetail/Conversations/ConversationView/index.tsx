@@ -13,11 +13,24 @@ import {
   ConversationDataI,
 } from '../Conversation.interface';
 import { useConversationView } from './useConversationView';
+import { menuOptionsAddConversation } from '../Conversation.data';
+import ConversationMenu from '../ConversationMenu';
 
 const ConversationView: React.FC<{
   selectedValues: ConversationSelectedValuesI;
-  handleEditClick: (conversationId: string, actionType: string) => void;
-}> = ({ selectedValues }) => {
+  open: boolean;
+  handleClickButtonMenu: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  addConversation: HTMLElement | null;
+  handleCloseButtonMenu: (e: any) => void;
+  setSelectedItem: (value: any) => void;
+}> = ({
+  selectedValues,
+  open,
+  handleClickButtonMenu,
+  addConversation,
+  handleCloseButtonMenu,
+  setSelectedItem,
+}) => {
   const { conversationActionIcon, conversationNoteContent } =
     useConversationView();
   const theme = useTheme();
@@ -104,10 +117,23 @@ const ConversationView: React.FC<{
           {Object?.entries(selectedValues)?.map(renderConversationItem)}
         </Grid>
       ) : (
-        <NoData
-          message="There are no selected conversations"
-          image={NoAssociationFoundImage}
-        />
+        <>
+          <Box marginTop={-10}>
+            <NoData
+              message="There are no selected conversations"
+              image={NoAssociationFoundImage}
+            >
+              <ConversationMenu
+                open={open}
+                handleClickButtonMenu={handleClickButtonMenu}
+                addConversation={addConversation}
+                handleCloseButtonMenu={handleCloseButtonMenu}
+                setSelectedItem={setSelectedItem}
+                menuOptionsAddConversation={menuOptionsAddConversation}
+              />
+            </NoData>
+          </Box>
+        </>
       )}
     </Box>
   );

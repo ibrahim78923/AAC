@@ -1,13 +1,12 @@
-import { Box, Button, Menu, MenuItem, Typography } from '@mui/material';
-import { v4 as uuidv4 } from 'uuid';
-import { menuOptionsAddConversation } from '../Conversation.data';
+import React from 'react';
+import { Box, Typography } from '@mui/material';
 import ConversationView from '../ConversationView';
-import { AddWhiteBgIcon } from '@/assets/icons';
 import { UseConversation } from '../useConversation';
+import { menuOptionsAddConversation } from '../Conversation.data';
+import ConversationMenu from '../ConversationMenu';
 
 const ConversationsDetails = () => {
   const {
-    isConversation,
     open,
     handleClickButtonMenu,
     addConversation,
@@ -26,51 +25,25 @@ const ConversationsDetails = () => {
         justifyContent={'space-between'}
       >
         <Typography variant="h4">Conversation</Typography>
-        <Button
-          variant="contained"
-          startIcon={<AddWhiteBgIcon />}
-          id="conversation-button"
-          aria-controls={open ? 'conversation-menu' : undefined}
-          aria-haspopup="true"
-          aria-expanded={open ? 'true' : undefined}
-          onClick={handleClickButtonMenu}
-          sx={{ marginLeft: 'auto' }}
-        >
-          {' '}
-          Add Conversation
-        </Button>
-        <Box />
-        {isConversation && (
-          <Menu
-            id="conversation-menu"
-            anchorEl={addConversation}
+        {Object?.entries(selectedValues)?.length > 0 && (
+          <ConversationMenu
             open={open}
-            onClose={handleCloseButtonMenu}
-            sx={{
-              '& .MuiList-root': {
-                width: 280,
-              },
-            }}
-            MenuListProps={{
-              'aria-labelledby': 'conversation-button',
-            }}
-          >
-            {menuOptionsAddConversation?.map((item: any) => (
-              <MenuItem
-                onClick={(e) => {
-                  handleCloseButtonMenu(e);
-                  setSelectedItem(item?.value);
-                }}
-                key={uuidv4()}
-                value={item?.value}
-              >
-                {item?.label}
-              </MenuItem>
-            ))}
-          </Menu>
+            handleClickButtonMenu={handleClickButtonMenu}
+            addConversation={addConversation}
+            handleCloseButtonMenu={handleCloseButtonMenu}
+            setSelectedItem={setSelectedItem}
+            menuOptionsAddConversation={menuOptionsAddConversation}
+          />
         )}
       </Box>
-      <ConversationView selectedValues={selectedValues} />
+      <ConversationView
+        selectedValues={selectedValues}
+        open={open}
+        handleClickButtonMenu={handleClickButtonMenu}
+        addConversation={addConversation}
+        handleCloseButtonMenu={handleCloseButtonMenu}
+        setSelectedItem={setSelectedItem}
+      />
     </Box>
   );
 };

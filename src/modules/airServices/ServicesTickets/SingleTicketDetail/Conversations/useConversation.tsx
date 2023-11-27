@@ -1,4 +1,3 @@
-// UseConversation.tsx
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -68,7 +67,7 @@ export const UseConversation = () => {
       reset();
       setShow(false);
     } catch (error) {
-      // console.error('Error submitting form:', error);
+      // Handle error
     }
   };
 
@@ -92,6 +91,7 @@ export const UseConversation = () => {
         return [];
     }
   };
+
   const renderSelectedComponent = () => {
     switch (selectedItem) {
       case TICKETS_CONVERSATION_TYPE?.NOTE:
@@ -125,6 +125,7 @@ export const UseConversation = () => {
   useEffect(() => {
     renderSelectedComponent();
   }, [selectedItem]);
+
   return {
     isConversation,
     open,
