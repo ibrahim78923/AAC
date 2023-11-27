@@ -10,6 +10,7 @@ import {
   planManagementFilterValidationSchema,
 } from './PlanManagement.data';
 import dayjs from 'dayjs';
+import { DATE_FORMAT } from '@/constants';
 
 export const usePlanManagement = () => {
   const [isOpenEditDrawer, setIsOpenEditDrawer] = useState(false);
@@ -40,7 +41,7 @@ export const usePlanManagement = () => {
     const filterPlanManagementValues = {
       productId: values?.productId,
       planTypeId: values?.planTypeId,
-      createdAt: dayjs(values?.createdAt)?.format('YYYY-MM-DD'),
+      createdAt: dayjs(values?.createdAt)?.format(DATE_FORMAT?.API),
     };
     setFilterValues(filterPlanManagementValues);
   };
