@@ -11,9 +11,9 @@ export const defaultValuesModules = {
 };
 
 export const validationSchemaPlanFeatures = Yup?.object()?.shape({
-  featureId: Yup?.string()?.required('Field is Required'),
+  // featureId: Yup?.string()?.required('Field is Required'),
 });
 
 export const defaultValuesPlanFeatures = {
-  featureId: '',
+  features: [],
 };

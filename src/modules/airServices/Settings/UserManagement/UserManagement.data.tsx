@@ -18,7 +18,7 @@ export const userManagement = [
   {
     id: 3,
     avatar: RequesterIcon,
-    type: 'Requester',
+    type: 'Requesters',
     link: AIR_SERVICES?.REQUESTERS_SETTINGS,
   },
   {

@@ -6,6 +6,7 @@ import {
 } from './Invoices.data';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
+import { useGetInvoicesQuery } from '@/services/orgAdmin/subscription-and-invoices';
 
 const useInvoices = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -15,6 +16,7 @@ const useInvoices = () => {
   const [isOpenFilter, setIsOpenFilter] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   const [isGetRowValues, setIsGetRowValues] = useState('');
+  const { data } = useGetInvoicesQuery({});
 
   const handleActionsClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event?.currentTarget);
@@ -83,6 +85,7 @@ const useInvoices = () => {
     setIsGetRowValues,
     setIsChecked,
     isChecked,
+    invoicesTableData: data?.data?.invoices,
   };
 };
 
