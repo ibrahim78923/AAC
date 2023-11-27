@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Grid, Box, Button, Typography, Modal } from '@mui/material';
+import { Grid, Box, Button, Typography, Modal, useTheme } from '@mui/material';
 
 import { FormProvider } from '@/components/ReactHookForm';
 
@@ -27,7 +27,7 @@ const FeaturesModal = ({
   featureName,
 }: any) => {
   const dispatch = useDispatch();
-
+  const theme = useTheme();
   const methods: any = useForm({
     resolver: yupResolver(validationSchemaFeatures),
 
@@ -53,7 +53,7 @@ const FeaturesModal = ({
         aria-describedby="modal-modal-description"
       >
         <Box sx={styles?.parentBox}>
-          <Box sx={styles?.modalBox}>
+          <Box sx={styles?.modalBox(theme?.palette)}>
             <Box sx={styles?.innerBoxOne}>
               <Box sx={{ cursor: 'pointer' }}>
                 <CloseIcon />
