@@ -5,7 +5,7 @@ export const exampleExampleAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getDealsTasksManagement: builder.query({
       query: () => ({
-        url: `${END_POINTS?.TASK_MANAGEMENT}?page=1&limit=10`,
+        url: `${END_POINTS?.TASK_MANAGEMENT}?page=1&limit=100`,
         method: 'GET',
       }),
       providesTags: ['DEALS_TASK_MANAGEMENT'],
@@ -21,7 +21,7 @@ export const exampleExampleAPI = baseAPI.injectEndpoints({
     updateDealsTasksManagement: builder.mutation({
       query: ({ id, body }: any) => ({
         url: `${END_POINTS?.TASK_MANAGEMENT}/${id}`,
-        method: 'PUT',
+        method: 'PATCH',
         body: body,
       }),
       invalidatesTags: ['DEALS_TASK_MANAGEMENT'],

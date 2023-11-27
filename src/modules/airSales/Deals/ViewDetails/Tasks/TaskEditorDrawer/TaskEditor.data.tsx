@@ -8,14 +8,14 @@ import * as Yup from 'yup';
 
 export const dealsTasksValidationSchema = Yup?.object()?.shape({
   name: Yup?.string()?.trim()?.required('Field is Required'),
-  type: Yup?.string()?.trim()?.required('Field is Required'),
-  priority: Yup?.string()?.trim()?.required('Field is Required'),
-  status: Yup?.string()?.trim()?.required('Field is Required'),
-  deal: Yup?.string()?.trim()?.required('Field is Required'),
-  assignto: Yup?.string()?.trim()?.required('Field is Required'),
+  type: Yup?.string()?.required('Field is Required'),
+  priority: Yup?.string()?.required('Field is Required'),
+  status: Yup?.string()?.required('Field is Required'),
+  deal: Yup?.string()?.required('Field is Required'),
+  // assignto: Yup?.string()?.required('Field is Required'),
   associate: Yup?.string()?.trim()?.required('Field is Required'),
   reminder: Yup?.string()?.trim()?.required('Field is Required'),
-  note: Yup?.string()?.trim()?.required('Field is Required'),
+  note: Yup?.string()?.required('Field is Required'),
 });
 
 export const dealsTasksDefaultValues = {
@@ -131,6 +131,9 @@ export const dealsTasksDataArray = [
       fullWidth: true,
     },
     component: RHFDatePicker,
+    format: (date: any) => {
+      return new Date(date);
+    },
     md: 12,
   },
 
@@ -143,8 +146,8 @@ export const dealsTasksDataArray = [
     options: [
       { value: 'Today', label: 'Today' },
       { value: 'Tomorrow', label: 'Tomorrow' },
-      { value: 'In 1 business Day', label: 'In 1 business Day' },
-      { value: 'In 2 business Day', label: 'In 2 business Day' },
+      { value: 'in1businessday', label: 'In 1 business Day' },
+      { value: 'in2businessday', label: 'In 2 business Day' },
     ],
     component: RHFSelect,
     md: 12,

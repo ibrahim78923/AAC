@@ -17,6 +17,7 @@ const Tasks = () => {
     handleCheckboxChange,
     selectedCheckboxes,
     taskData,
+    setSelectedCheckboxes,
   } = useTasks();
   return (
     <Box
@@ -31,7 +32,11 @@ const Tasks = () => {
           <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
             <Typography variant="h4"> Tasks</Typography>
             <Box sx={{ gap: 1, display: 'flex' }}>
-              <ActionDropdown setOpenDrawer={setOpenDrawer} />
+              <ActionDropdown
+                selectedCheckboxes={selectedCheckboxes}
+                setSelectedCheckboxes={setSelectedCheckboxes}
+                setOpenDrawer={setOpenDrawer}
+              />
               <Button
                 variant="contained"
                 sx={{ minWidth: '0px', height: '35px', gap: 0.5 }}
@@ -49,8 +54,14 @@ const Tasks = () => {
           />
         </Grid>
       </Grid>
-
-      <TaskEditorDrawer openDrawer={openDrawer} setOpenDrawer={setOpenDrawer} />
+      {openDrawer && (
+        <TaskEditorDrawer
+          openDrawer={openDrawer}
+          setOpenDrawer={setOpenDrawer}
+          setSelectedCheckboxes={setSelectedCheckboxes}
+          selectedCheckboxes={selectedCheckboxes}
+        />
+      )}
     </Box>
   );
 };

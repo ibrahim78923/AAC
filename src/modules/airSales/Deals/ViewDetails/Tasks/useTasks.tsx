@@ -5,8 +5,9 @@ import { useGetDealsTasksManagementQuery } from '@/services/airSales/deals/view-
 
 const useTasks = () => {
   const theme = useTheme();
-  const { data: taskData } = useGetDealsTasksManagementQuery({});
+  const [openDrawer, setOpenDrawer] = useState('');
   const [selectedCheckboxes, setSelectedCheckboxes] = useState<any>([]);
+  const { data: taskData } = useGetDealsTasksManagementQuery({});
 
   const handleCheckboxChange = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -23,8 +24,6 @@ const useTasks = () => {
     }
   };
 
-  const [openDrawer, setOpenDrawer] = useState('');
-
   return {
     openDrawer,
     setOpenDrawer,
@@ -32,6 +31,7 @@ const useTasks = () => {
     taskData,
     handleCheckboxChange,
     selectedCheckboxes,
+    setSelectedCheckboxes,
   };
 };
 
