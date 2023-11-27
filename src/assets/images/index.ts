@@ -82,7 +82,7 @@ export { default as DealReportImage } from './modules/airSales/Reports/reports.p
 export { default as ServiceFeaturedImage } from './modules/airCustomerPortal/catalog/services-featured-image.png';
 export { default as SoftwareFeaturedImage } from './modules/airCustomerPortal/catalog/software-featured-image.png';
 export { default as PmFeaturedImage } from './modules/airCustomerPortal/catalog/pm-featured-image.png';
-export { default as HardwareFeaturedImage } from './modules/airCustomerPortal/catalog/hardware-featured-image.png';
+export { default as HardwareFeaturedImage } from './modules/airCustomerPortal/catalog/Hardware-featured-image.png';
 export { default as CatalogLogosAdobePhotoshopImage } from './modules/airCustomerPortal/catalog/catalog-logos-adobe-photoshop-image.png';
 export { default as CatalogSkillIllustratorImage } from './modules/airCustomerPortal/catalog/catalog-skill-illustrator-image.png';
 export { default as CatalogAdobePremiereImage } from './modules/airCustomerPortal/catalog/catalog-adobe-premiere-image.png';
@@ -163,7 +163,7 @@ export { default as TicketImage } from '../images/modules/socialComponents/compa
 export { default as NoteImage } from '../images/modules/socialComponents/companies/note.png';
 export { default as NoteAddImage } from '../images/modules/socialComponents/companies/noteAdd.png';
 export { default as SignUpImage } from '../images/shared/sign-up.png';
-export { default as ActivitesTimeImage } from '../images/modules/socialComponents/companies/ActivitiesWithoutTime.png';
+export { default as ActivitesTimeImage } from '../images/modules/socialComponents/companies/activitiesWithoutTime.png';
 export { default as DummyDesktopImage } from '../images/modules/socialComponents/companies/dummyDesktop.png';
 export { default as PdfViewImage } from '../images/modules/socialComponents/companies/pdfView.png';
 export { default as TotalUserImage } from '../images/modules/orgAdmin/Delegates/profileuser.png';
