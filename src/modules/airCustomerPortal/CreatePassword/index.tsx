@@ -1,5 +1,5 @@
 import { Grid, Typography } from '@mui/material';
-import { AirCustomerPortalHeader } from '../AirCustomerPortalHeader';
+import { CustomerPortalHeader } from '../CustomerPortalHeader';
 import {
   createPasswordValidationSchema,
   createPasswordFields,
@@ -33,7 +33,7 @@ export const CreatePassword = () => {
 
   return (
     <Grid container>
-      <AirCustomerPortalHeader
+      <CustomerPortalHeader
         buttonText={'Sign In'}
         link={AIR_CUSTOMER_PORTAL?.AIR_CUSTOMER_PORTAL_LOGIN}
       />
