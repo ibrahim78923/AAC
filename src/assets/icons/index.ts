@@ -265,6 +265,10 @@ export { default as QuriesIcon } from './modules/airMarketer/SocialMarketing/Soc
 export { default as AttachmentsIcon } from './modules/airMarketer/SocialMarketing/SocialInbox/attachments';
 export { default as ReplyRoundedIcon } from './modules/airMarketer/SocialMarketing/SocialInbox/reply';
 export { default as RefreshSharedIcon } from './shared/refresh-shared';
+export { default as ItIcon } from './modules/airServices/Settings/UserManagement/Departments/it-icon';
+export { default as HrIcon } from './modules/airServices/Settings/UserManagement/Departments/hr-icon';
+export { default as DesignIcon } from './modules/airServices/Settings/UserManagement/Departments/deisgn-icon';
+export { default as FinanceIcon } from './modules/airServices/Settings/UserManagement/Departments/finance-icon';
 export { default as InfoBlueIcon } from './modules/airMarketer/PaidAds/info-circle';
 export { default as AssetTypeIcon } from './modules/airServices/Settings/asset-type-icon';
 export { default as ProductCatalogIcon } from './modules/airServices/Settings/product-catalog-icon';
@@ -274,3 +278,6 @@ export { default as RequesterIcon } from './modules/airServices/Settings/request
 export { default as RolesIcon } from './modules/airServices/Settings/roles-icon';
 export { default as ClosureRuleIcon } from './modules/airServices/Settings/closure-rule-icon';
 export { default as ServicesCatalogIcon } from './modules/airServices/Settings/services-catalog-icon';
+export { default as CannedResponseIcon } from './modules/airServices/Settings/canned-response-icon';
+export { default as LeadersBoardIcon } from './modules/airServices/Settings/leaders-board-icon';
+export { default as WorkloadManagementIcon } from './modules/airServices/Settings/workload-management-icon';
