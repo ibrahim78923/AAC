@@ -3,7 +3,5 @@ export interface SearchPropsI {
   searchBy?: string;
   setSearchBy?: any;
   width?: string | number;
-  onChange?: any;
-  value: string;
   rest?: any;
 }

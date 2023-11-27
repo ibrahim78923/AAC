@@ -57,3 +57,8 @@ export const organization = {
   DELETE_ORGANIZATION_ACCOUNT: '/org-company-account',
   DELETE_ORGANIZARION_MULTIPLE: '/org-company-account/delete-multiple',
 };
+
+export const ORG_ADMIN = {
+  SUBSCRIPTION_AND_INVOICES: '/org-admin/subscriptions',
+  GET_INVOICES: '/org-admin/invoices',
+};
