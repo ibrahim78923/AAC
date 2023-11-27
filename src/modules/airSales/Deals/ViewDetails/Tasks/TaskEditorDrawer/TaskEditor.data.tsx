@@ -78,7 +78,7 @@ export const dealsTasksDataArray = [
     options: [
       { value: 'Pending', label: 'Pending' },
       { value: 'Inprogress', label: 'Inprogress' },
-      { value: 'Completed', label: 'Completed' },
+      { value: 'Complete', label: 'Complete' },
     ],
     component: RHFSelect,
     md: 12,
