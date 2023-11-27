@@ -16,6 +16,8 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import { AvatarImage } from '@/assets/images';
 import { v4 as uuidv4 } from 'uuid';
 import jsPDF from 'jspdf';
+import dayjs from 'dayjs';
+import { DATE_FORMAT } from '@/constants';
 
 const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose, isGetRowValues }) => {
   const columns: any = [
@@ -223,11 +225,9 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose, isGetRowValues }) => {
                 <Box sx={styles?.invoiceInfoTitle}>
                   Invoice Date:{' '}
                   <Typography>
-                    {isGetRowValues?.row?.original?.billingDate
-                      ? new Date(
-                          isGetRowValues?.row?.original?.billingDate,
-                        ).toLocaleDateString('en-GB')
-                      : 'Invalid Date'}
+                    {dayjs(isGetRowValues?.row?.original?.billingDate)?.format(
+                      DATE_FORMAT?.UI,
+                    )}
                   </Typography>
                 </Box>
               </Grid>
@@ -235,11 +235,9 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose, isGetRowValues }) => {
                 <Box sx={styles?.invoiceInfoTitle}>
                   Due Date:{' '}
                   <Typography>
-                    {isGetRowValues?.row?.original?.dueDate
-                      ? new Date(
-                          isGetRowValues?.row?.original?.dueDate,
-                        ).toLocaleDateString('en-GB')
-                      : 'Invalid Date'}
+                    {dayjs(isGetRowValues?.row?.original?.dueDate)?.format(
+                      DATE_FORMAT?.UI,
+                    )}
                   </Typography>
                 </Box>
               </Grid>

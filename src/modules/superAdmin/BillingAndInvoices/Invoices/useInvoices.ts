@@ -8,6 +8,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { useGetBillingHistoryQuery } from '@/services/superAdmin/billing-invoices';
 import { isNullOrEmpty } from '@/utils';
+// import dayjs from 'dayjs';
+// import { DATE_FORMAT } from '@/constants';
 
 const useInvoices = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -24,12 +26,13 @@ const useInvoices = () => {
   const [status, setStatus] = useState('');
   const [invoiceDate, setInvoiceDate] = useState('');
   const [paymentDate, setPaymentDate] = useState('');
+  const [filterValues, setFilterValues] = useState({});
 
   const paramsObj: any = {};
 
   if (!isNullOrEmpty(searchByClientName))
     paramsObj['search'] = searchByClientName;
-  if (!isNullOrEmpty(productId)) paramsObj['products'] = productId;
+  if (!isNullOrEmpty(productId)) paramsObj['productId'] = productId;
   if (!isNullOrEmpty(PlanTypeId)) paramsObj['planTypeId'] = PlanTypeId;
   if (!isNullOrEmpty(orginzationId))
     paramsObj['organizationId'] = orginzationId;
@@ -45,6 +48,7 @@ const useInvoices = () => {
   const { data: allInvoicesTableData } = useGetBillingHistoryQuery<any>({
     query,
     pagination: `page=1&limit=10`,
+    params: filterValues,
   });
 
   const handleActionsClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -80,17 +84,52 @@ const useInvoices = () => {
   });
 
   const onSubmit = (values: any) => {
-    setOrginzationId(values?.ClientOrganization);
-    setProductId(values?.products);
-    setPlanTypeId(values?.planType);
-    setStatus(values?.status);
-    setInvoiceDate(values?.InvoiceDate);
-    setPaymentDate(values?.PaymentDate);
+    if (values?.ClientOrganization !== '') {
+      setFilterValues((prev) => {
+        return {
+          ...prev,
+          organizationId: values?.ClientOrganization,
+        };
+      });
+    }
+    if (values?.products !== '') {
+      setFilterValues((prev) => {
+        return {
+          ...prev,
+          productId: values?.products,
+        };
+      });
+    }
+
+    if (values?.planType !== '') {
+      setFilterValues((prev) => {
+        return {
+          ...prev,
+          planTypeId: values?.planType,
+        };
+      });
+    }
+
+    if (values?.status !== '') {
+      setFilterValues((prev) => {
+        return {
+          ...prev,
+          status: values?.status,
+        };
+      });
+    }
+
+    //   // billingDate: values?.InvoiceDate && dayjs(values?.InvoiceDate)?.format(DATE_FORMAT?.API),
+    //   // dueDate: values?.PaymentDate && dayjs(values?.PaymentDate)?.format(DATE_FORMAT?.API),
+
+    // setInvoiceDate(values?.InvoiceDate && dayjs(values?.InvoiceDate)?.format(DATE_FORMAT?.API));
+    // setPaymentDate(values?.PaymentDate && dayjs(values?.PaymentDate)?.format(DATE_FORMAT?.API));
     setIsOpenFilter(false);
     reset();
   };
 
   const handleRefresh = async () => {
+    setFilterValues('');
     setOrginzationId('');
     setProductId('');
     setPlanTypeId('');

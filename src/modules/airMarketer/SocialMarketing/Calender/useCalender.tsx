@@ -125,7 +125,7 @@ const useCalender = () => {
   const [isDelete, setIsDelete] = useState(false);
 
   const handleClick = (event: any) => {
-    setAnchorEl(event.currentTarget);
+    setAnchorEl(event?.currentTarget);
   };
 
   const handleClose = () => {

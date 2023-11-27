@@ -144,30 +144,21 @@ export const FilterInvoiceDefaultValues = {
 };
 
 export const FilterInvoiceFiltersDataArray = () => {
-  const { data: productData } = useGetProductsQuery<any>({
-    refetchOnMountOrArgChange: true,
-    pagination: `page=1&limit=10`,
-  });
+  const { data: productData } = useGetProductsQuery<any>({});
 
   const productSuite = productData?.data?.map((product: any) => ({
     value: product?._id,
     label: product?.name,
   }));
 
-  const { data: planTypeData } = useGetPlanTypeQuery<any>({
-    refetchOnMountOrArgChange: true,
-    pagination: `page=1&limit=10`,
-  });
+  const { data: planTypeData } = useGetPlanTypeQuery<any>({});
 
   const planType = planTypeData?.data?.map((planType: any) => ({
     value: planType?._id,
     label: planType?.name,
   }));
 
-  const { data: OrganizationsData } = useGetOrganizationsQuery<any>({
-    refetchOnMountOrArgChange: true,
-    pagination: `page=1&limit=10`,
-  });
+  const { data: OrganizationsData } = useGetOrganizationsQuery<any>({});
 
   const Organizations = OrganizationsData?.data?.map((Organizations: any) => ({
     value: Organizations?._id,
