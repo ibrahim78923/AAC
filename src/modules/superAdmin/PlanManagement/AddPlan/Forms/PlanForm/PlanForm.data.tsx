@@ -10,8 +10,9 @@ import {
 } from '@/services/superAdmin/plan-mangement';
 
 export const defaultValues = {
-  productId: [''],
-  planTypeId: [''],
+  suite: [],
+  productId: [],
+  planTypeId: [],
   description: '',
   defaultUsers: '',
   defaultStorage: '',
@@ -23,10 +24,6 @@ export const defaultValues = {
 };
 
 export const gpDetailsInfoFormSchema: any = Yup?.object()?.shape({
-  productId: Yup.array()
-    ?.min(1, 'Field is Required')
-    ?.max(10, 'Field is Required')
-    ?.required('Field is Required'),
   planTypeId: Yup?.string()?.required('Required field'),
   description: Yup?.string()
     ?.trim()
@@ -65,7 +62,8 @@ export const gpDetailsInfoFormSchema: any = Yup?.object()?.shape({
 
 export const defaultValuesFunction = (data: any = defaultValues) => {
   const {
-    productId,
+    suite,
+    product,
     planTypeId,
     description,
     defaultUsers,
@@ -77,7 +75,8 @@ export const defaultValuesFunction = (data: any = defaultValues) => {
     additionalStoragePrice,
   } = data;
   return {
-    productId,
+    suite,
+    product,
     planTypeId,
     description,
     defaultUsers,
@@ -90,17 +89,14 @@ export const defaultValuesFunction = (data: any = defaultValues) => {
   };
 };
 
-export const dataArray = () => {
+export const dataArray = (_: any, selectProductSuite: any) => {
   const { data } = useGetProductsQuery({});
 
-  const productsOptions: { value: number; label: string } = data?.data?.map(
-    (products: any) => {
-      return {
-        value: products?._id,
-        label: products?.name,
-      };
-    },
-  );
+  const productsOptions = data?.data?.map((product: any) => ({
+    value: product?._id,
+    label: product?.name,
+  }));
+
   const { data: planTypeData } = useGetPlanTypesQuery<any>({
     refetchOnMountOrArgChange: true,
     pagination: `page=1&limit=10`,
@@ -110,15 +106,20 @@ export const dataArray = () => {
     value: planType?._id,
     label: planType?.name,
   }));
+
+  const planLabelRender =
+    selectProductSuite == 'product' ? 'productId' : 'suite';
+  const planNameRender =
+    selectProductSuite == 'product' ? 'productId' : 'suite';
+
   return [
     {
       componentProps: {
-        name: 'productId',
-        label: 'Product',
-        isCheckBox: true,
+        name: planLabelRender,
+        label: planNameRender,
+        isCheckBox: selectProductSuite == 'product' ? false : true,
         options: productsOptions,
       },
-
       component: RHFMultiSearchableSelect,
       md: 6,
     },

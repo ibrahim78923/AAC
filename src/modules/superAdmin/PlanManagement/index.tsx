@@ -43,7 +43,6 @@ const PlanManagement = () => {
     handleClick,
     handleClose,
     methodsFaqsFilters,
-    filterValues,
     filterSubmit,
     isDisabled,
     setIsDisabled,
@@ -179,7 +178,6 @@ const PlanManagement = () => {
       </CommonDrawer>
 
       <PlanDetails
-        filterValues={filterValues}
         searchBy={searchBy}
         getPlanManagementRowData={getPlanManagementRowData}
       />
