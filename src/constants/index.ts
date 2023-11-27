@@ -64,7 +64,6 @@ export const AIR_SERVICES = {
   REQUESTERS_SETTINGS: `/air-services/settings/user-management/requesters`,
   USER_ROLES_SETTINGS: `/air-services/settings/user-management/roles`,
   VENDOR_DETAIL: 'vendor/detail',
-  ASSETS_MANAGEMENT: '/air-services/settings/asset-management',
   PRODUCT_CATALOG: `/air-services/settings/asset-management/product-catalog`,
   UPSERT_PRODUCT_CATALOG: `/air-services/settings/asset-management/product-catalog/upsert-product`,
   SINGLE_PRODUCT_CATALOG: `/air-services/settings/asset-management/product-catalog/details`,

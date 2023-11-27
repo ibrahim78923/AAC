@@ -8,7 +8,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { vendorData } from './Vendor.data';
 import { useVendor } from './useVendor';
 export const Vendor = () => {
-  const { router, searchValue, SetSearchValue, VendorListsColumns } =
+  const { router, searchValue, setSearchValue, VendorListsColumns } =
     useVendor();
   return (
     <>
@@ -20,7 +20,9 @@ export const Vendor = () => {
       >
         <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={2}>
           <ArrowBackIcon
-            onClick={() => router?.push(AIR_SERVICES?.ASSETS_MANAGEMENT)}
+            onClick={() =>
+              router?.push(AIR_SERVICES?.ASSET_MANAGEMENT_SETTINGS)
+            }
           />
 
           <Typography variant="h3">Vendor</Typography>
@@ -39,9 +41,8 @@ export const Vendor = () => {
             <Search
               label="search"
               width="100%"
-              searchBy={searchValue}
-              setSearchBy={SetSearchValue}
-              value={''}
+              onChange={(e: any) => setSearchValue(e?.target?.value)}
+              value={searchValue}
             />
           </Box>
           <Box

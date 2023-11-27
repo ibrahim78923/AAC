@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { vendorListsColumnsFunction } from './Vendor.data';
 
 export const useVendor = () => {
-  const [searchValue, SetSearchValue] = useState<string>('');
+  const [searchValue, setSearchValue] = useState<string>('');
   const router = useRouter();
 
   const VendorListsColumns = vendorListsColumnsFunction(router);
@@ -11,7 +11,7 @@ export const useVendor = () => {
   return {
     router,
     searchValue,
-    SetSearchValue,
+    setSearchValue,
     VendorListsColumns,
   };
 };
