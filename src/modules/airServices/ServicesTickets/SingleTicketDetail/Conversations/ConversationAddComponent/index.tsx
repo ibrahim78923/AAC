@@ -10,7 +10,7 @@ const ConversationAddComponent = ({
   setShow,
   addConversationModal,
   onSubmit,
-  conversationDataArray,
+  dataArray,
 }: any) => {
   return (
     <CommonDrawer
@@ -25,7 +25,7 @@ const ConversationAddComponent = ({
     >
       <FormProvider methods={addConversationModal}>
         <Grid container spacing={2}>
-          {conversationDataArray?.map((item: any) => (
+          {dataArray?.map((item: any) => (
             <Grid item xs={12} md={item?.md} key={uuidv4()} mb={item?.mb || ''}>
               <Grid item xs={12} md={item?.md}>
                 <item.component

@@ -61,7 +61,7 @@ export const UseConversation = () => {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
 
-      addConversationModal.reset();
+      addConversationModal?.reset();
       setShow(false);
     } catch (error) {}
   };
@@ -98,7 +98,7 @@ export const UseConversation = () => {
             setShow={setShow}
             addConversationModal={addConversationModal}
             onSubmit={handleSubmit(onSubmit)}
-            conversationDataArray={getArrayByTitle?.(selectedItem)}
+            dataArray={getArrayByTitle?.(selectedItem)}
           />
         );
       case 'Discuss':
