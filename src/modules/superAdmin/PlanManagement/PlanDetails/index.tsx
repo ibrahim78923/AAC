@@ -5,12 +5,8 @@ import CustomPagination from '@/components/CustomPagination';
 
 import { usePlanDetails } from './usePlanDetails';
 
-const PlanDetails = ({
-  filterValues,
-  searchBy,
-  getPlanManagementRowData,
-}: any) => {
-  const { tableRowData } = usePlanDetails(filterValues, searchBy);
+const PlanDetails = ({ searchBy, getPlanManagementRowData }: any) => {
+  const { tableRowData } = usePlanDetails(searchBy);
   return (
     <div>
       <TanstackTable columns={getPlanManagementRowData} data={tableRowData} />
