@@ -16,9 +16,9 @@ export const useConversationView = () => {
 
     for (const key in conversationData) {
       if (
-        key !== TICKETS_CONVERSATION_Description_Type.NOTE &&
-        key !== TICKETS_CONVERSATION_Description_Type.REPLY &&
-        key !== TICKETS_CONVERSATION_Description_Type.FORWARD &&
+        key !== TICKETS_CONVERSATION_Description_Type?.NOTE &&
+        key !== TICKETS_CONVERSATION_Description_Type?.REPLY &&
+        key !== TICKETS_CONVERSATION_Description_Type?.FORWARD &&
         conversationData[key]
       ) {
         content[key] = `${key}: ${conversationData[key]}`;
@@ -30,7 +30,7 @@ export const useConversationView = () => {
 
   const conversationActionIcon = (actionType: string) => {
     switch (actionType) {
-      case TICKETS_CONVERSATION_TYPE.NOTE:
+      case TICKETS_CONVERSATION_TYPE?.NOTE:
         return (
           <>
             <ShortcutSharpLeftIcon />
@@ -46,7 +46,7 @@ export const useConversationView = () => {
             />
           </>
         );
-      case TICKETS_CONVERSATION_TYPE.FORWARD:
+      case TICKETS_CONVERSATION_TYPE?.FORWARD:
         return (
           <>
             <ShortcutSharpLeftIcon />
@@ -61,7 +61,7 @@ export const useConversationView = () => {
             />
           </>
         );
-      case TICKETS_CONVERSATION_TYPE.REPLY:
+      case TICKETS_CONVERSATION_TYPE?.REPLY:
         return (
           <>
             <ShortcutSharpRightIcon />

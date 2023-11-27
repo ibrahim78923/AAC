@@ -16,7 +16,10 @@ import {
   conversationValidationSchema,
   menuOptionsAddConversation,
 } from './Conversation.data';
-import { TICKETS_CONVERSATION_TYPE } from '@/constants/strings';
+import {
+  NOTISTACK_VARIANTS,
+  TICKETS_CONVERSATION_TYPE,
+} from '@/constants/strings';
 
 export const UseConversation = () => {
   const [isConversation] = useState<boolean>(true);
@@ -48,24 +51,25 @@ export const UseConversation = () => {
     setAddConversation(event?.currentTarget);
   };
 
-  const { handleSubmit, setValue, getConversationValuess } =
-    addConversationModal;
+  const { handleSubmit, setValue, getValues, reset } = addConversationModal;
 
   const onSubmit = async () => {
     try {
-      const successMessage = `${selectedItem} Add Successfully!`;
+      const successMessage = `${selectedItem} Added Successfully!`;
       setSelectedValues((prevValues) => ({
         ...prevValues,
-        [uuidv4()]: getConversationValuess(),
+        [uuidv4()]: getValues(),
       }));
 
       enqueueSnackbar(successMessage, {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
+        variant: NOTISTACK_VARIANTS.SUCCESS,
       });
 
-      addConversationModal?.reset();
+      reset();
       setShow(false);
-    } catch (error) {}
+    } catch (error) {
+      // console.error('Error submitting form:', error);
+    }
   };
 
   const handleCloseButtonMenu = (e: any) => {
@@ -78,11 +82,11 @@ export const UseConversation = () => {
 
   const getArrayByTitle = (title) => {
     switch (title) {
-      case TICKETS_CONVERSATION_TYPE.NOTE:
+      case TICKETS_CONVERSATION_TYPE?.NOTE:
         return conversationNoteArray;
-      case TICKETS_CONVERSATION_TYPE.REPLY:
+      case TICKETS_CONVERSATION_TYPE?.REPLY:
         return conversationReplyArray;
-      case TICKETS_CONVERSATION_TYPE.FORWARD:
+      case TICKETS_CONVERSATION_TYPE?.FORWARD:
         return conversationForwardArray;
       default:
         return [];
@@ -90,9 +94,9 @@ export const UseConversation = () => {
   };
   const renderSelectedComponent = () => {
     switch (selectedItem) {
-      case TICKETS_CONVERSATION_TYPE.NOTE:
-      case TICKETS_CONVERSATION_TYPE.REPLY:
-      case TICKETS_CONVERSATION_TYPE.FORWARD:
+      case TICKETS_CONVERSATION_TYPE?.NOTE:
+      case TICKETS_CONVERSATION_TYPE?.REPLY:
+      case TICKETS_CONVERSATION_TYPE?.FORWARD:
         return (
           <ConversationAddComponent
             show={show}
