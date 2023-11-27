@@ -11,10 +11,9 @@ export const ImportProductCatalog = (props: any) => {
       isDrawerOpen={isDrawerOpen}
       onClose={() => onClose?.()}
       okText={'Submit'}
-      title={'Filter'}
+      title={'Import Product'}
       submitHandler={() => handleSubmit(submitImportFile)()}
       isOk
-      cancelText={'Reset'}
       footer
     >
       <FormProvider

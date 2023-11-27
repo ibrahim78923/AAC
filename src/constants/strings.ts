@@ -174,3 +174,9 @@ export const TICKET_TYPES = {
   TICKETS_I_REQUESTED: 'Tickets I Requested',
   SHARED_WITH_ME: 'Shared with me',
 };
+
+export const PRODUCT_CATALOG_STATUS = {
+  IN_PIPELINE: 'in pipeline',
+  IN_PRODUCTION: 'in production',
+  RETIRED: 'retired',
+};

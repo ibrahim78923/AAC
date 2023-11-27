@@ -28,7 +28,7 @@ export const ProductCatalog = () => {
         addTitle={'New Product'}
         hasExport
         hasImport
-        hasMovedBack
+        canMovedBack
         handleExcelExport={() => getProductListsDataExport?.(EXPORT_TYPE?.XLS)}
         handleCsvExport={() => getProductListsDataExport?.(EXPORT_TYPE?.CSV)}
         handleAction={() =>

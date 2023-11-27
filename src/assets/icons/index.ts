@@ -278,3 +278,6 @@ export { default as RequesterIcon } from './modules/airServices/Settings/request
 export { default as RolesIcon } from './modules/airServices/Settings/roles-icon';
 export { default as ClosureRuleIcon } from './modules/airServices/Settings/closure-rule-icon';
 export { default as ServicesCatalogIcon } from './modules/airServices/Settings/services-catalog-icon';
+export { default as CannedResponseIcon } from './modules/airServices/Settings/canned-response-icon';
+export { default as LeadersBoardIcon } from './modules/airServices/Settings/leaders-board-icon';
+export { default as WorkloadManagementIcon } from './modules/airServices/Settings/workload-management-icon';
