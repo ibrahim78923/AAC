@@ -1,3 +1,5 @@
+import { SingleListLocation } from './SingleListLocation/Index';
+
 export const Location = () => {
-  return <>Location</>;
+  return <SingleListLocation />;
 };
