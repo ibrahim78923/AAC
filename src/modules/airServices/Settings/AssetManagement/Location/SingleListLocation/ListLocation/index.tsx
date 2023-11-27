@@ -25,7 +25,7 @@ export const ListLocation = ({ continents, handleCollapse }: any) => {
 
   return (
     <>
-      <Box bgcolor={theme?.palette?.grey[400]} p={1}>
+      <Box bgcolor={theme?.palette?.grey[400]} p={2} borderRadius={2}>
         <Box
           display={'flex'}
           justifyContent={'space-between'}
