@@ -102,10 +102,10 @@ const CUSTOM_COLORS = {
   border_grayish_blue: '#e7e7e9',
 };
 const GRADIENTS = {
-  primary: createGradient(PRIMARY.light, PRIMARY.main),
-  success: createGradient(SUCCESS.light, SUCCESS.main),
-  warning: createGradient(WARNING.light, WARNING.main),
-  error: createGradient(ERROR.light, ERROR.main),
+  primary: createGradient(PRIMARY?.light, PRIMARY?.main),
+  success: createGradient(SUCCESS?.light, SUCCESS?.main),
+  warning: createGradient(WARNING?.light, WARNING?.main),
+  error: createGradient(ERROR?.light, ERROR?.main),
 };
 
 const COMMON = {

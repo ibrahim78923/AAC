@@ -28,7 +28,7 @@ export default function EditGoalDrawer({
   const { handleSubmit } = methods;
 
   const onSubmit = async () => {
-    enqueueSnackbar('Goal Updated Successfully', {
+    enqueueSnackbar('Export Campaign Exported Successfully', {
       variant: 'success',
     });
   };
