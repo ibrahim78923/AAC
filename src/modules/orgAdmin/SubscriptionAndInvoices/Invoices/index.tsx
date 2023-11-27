@@ -1,11 +1,9 @@
 import { Box, Grid, Button, Menu, MenuItem } from '@mui/material';
 import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
-import CustomPagination from '@/components/CustomPagination';
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
 import { DropdownIcon, FilterSharedIcon } from '@/assets/icons';
-import { invoicesData } from '@/mock/modules/SubscriptionAndInvoices';
 import ViewInvoices from './ViewInvoices';
 import PayInvoice from './PayInvoice';
 import useInvoices from './useInvoices';
@@ -34,6 +32,7 @@ const Invoices = () => {
     handleSubmit,
     getRowValues,
     isChecked,
+    invoicesTableData,
   } = useInvoices();
 
   return (
@@ -101,13 +100,7 @@ const Invoices = () => {
           </Box>
         </Box>
 
-        <TanstackTable columns={getRowValues} data={invoicesData} />
-
-        <CustomPagination
-          count={3}
-          rowsPerPageOptions={[6, 10, 25, 50, 100]}
-          entriePages={invoicesData?.length}
-        />
+        <TanstackTable columns={getRowValues} data={invoicesTableData} />
       </Box>
 
       <ViewInvoices open={openViewInvoice} onClose={handleCloseViewInvoice} />
@@ -126,9 +119,9 @@ const Invoices = () => {
         <Box sx={{ marginTop: '1.5rem' }}>
           <FormProvider methods={FilterInvoiceFilters}>
             <Grid container spacing={4}>
-              {FilterInvoiceFiltersDataArray?.map((item: any) => (
+              {FilterInvoiceFiltersDataArray()?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                  <item.component {...item.componentProps} size={'small'}>
+                  <item.component {...item?.componentProps} size={'small'}>
                     {!isNullOrEmpty(item?.componentProps?.select)
                       ? item?.options?.map((option: any) => (
                           <option key={uuidv4()} value={option?.value}>

@@ -13,6 +13,7 @@ const Invoices = () => {
   const open = Boolean(anchorEl);
   const [openViewInvoice, setOpenViewInvoice] = useState(false);
   const [openPayInvoice, setOpenPayInvoice] = useState(false);
+
   const handleActionsClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
