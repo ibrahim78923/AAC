@@ -6,46 +6,31 @@ import {
   AvatarConversationImage,
   NoAssociationFoundImage,
 } from '@/assets/images';
-
-import {
-  DeleteIcon,
-  EditBlackIcon,
-  ShortcutSharpLeftIcon,
-  ShortcutSharpRightIcon,
-} from '@/assets/icons';
 import { styles } from '../Conversation.styles';
 import NoData from '@/components/NoData';
 import {
   ConversationSelectedValuesI,
   ConversationDataI,
 } from '../Conversation.interface';
+import { useConversationView } from './useConversationView';
 
 const ConversationView: React.FC<{
   selectedValues: ConversationSelectedValuesI;
+  handleEditClick: (conversationId: string, actionType: string) => void;
 }> = ({ selectedValues }) => {
+  const { conversationActionIcon, conversationNoteContent } =
+    useConversationView();
   const theme = useTheme();
-
-  const renderNoteContent = (conversationData: ConversationDataI) => {
-    const content: { [key: string]: string } = {};
-
-    for (const key in conversationData) {
-      if (
-        key !== 'noteDescription' &&
-        key !== 'replyDescription' &&
-        key !== 'forwardDescription' &&
-        conversationData[key]
-      ) {
-        content[key] = `${key}: ${conversationData[key]}`;
-      }
-    }
-
-    return content;
-  };
 
   const renderConversationItem = ([id, conversationData]: [
     string,
     ConversationDataI,
   ]) => {
+    const actionType =
+      conversationData?.note ||
+      conversationData?.reply ||
+      conversationData?.forward;
+
     return (
       <Grid
         container
@@ -74,9 +59,9 @@ const ConversationView: React.FC<{
                     mt: { md: 0, xs: 2 },
                   }}
                 >
-                  {Object.entries(renderNoteContent(conversationData))
-                    .filter(([,]) => true)
-                    .map(([, value]) => (
+                  {Object?.entries(conversationNoteContent(conversationData))
+                    ?.filter(([,]) => true)
+                    ?.map(([, value]) => (
                       <Typography
                         key={uuidv4()}
                         component="span"
@@ -96,9 +81,9 @@ const ConversationView: React.FC<{
               <div
                 dangerouslySetInnerHTML={{
                   __html:
-                    conversationData.noteDescription ||
-                    conversationData.replyDescription ||
-                    conversationData.forwardDescription ||
+                    conversationData?.noteDescription ||
+                    conversationData?.replyDescription ||
+                    conversationData?.forwardDescription ||
                     'Unknown description',
                 }}
               ></div>
@@ -106,24 +91,7 @@ const ConversationView: React.FC<{
           </Box>
         </Grid>
         <Grid item md={4} xs={12} paddingTop="0 !important">
-          <Box sx={styles?.buttonBox}>
-            <ShortcutSharpRightIcon />
-            <EditBlackIcon />
-            <ShortcutSharpLeftIcon />
-
-            <Box
-              sx={{
-                '&:hover': {
-                  '.MuiSvgIcon-root': {
-                    color: theme?.palette?.error?.main,
-                  },
-                },
-              }}
-              className="iconContainer"
-            >
-              <DeleteIcon color={theme?.palette?.custom?.main} />
-            </Box>
-          </Box>
+          <Box sx={styles?.buttonBox}>{conversationActionIcon(actionType)}</Box>
         </Grid>
       </Grid>
     );
@@ -131,9 +99,9 @@ const ConversationView: React.FC<{
 
   return (
     <Box>
-      {Object.entries(selectedValues).length > 0 ? (
+      {Object?.entries(selectedValues)?.length > 0 ? (
         <Grid container marginTop={2}>
-          {Object.entries(selectedValues).map(renderConversationItem)}
+          {Object?.entries(selectedValues)?.map(renderConversationItem)}
         </Grid>
       ) : (
         <NoData

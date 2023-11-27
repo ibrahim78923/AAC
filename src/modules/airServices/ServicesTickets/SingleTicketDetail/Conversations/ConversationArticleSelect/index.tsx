@@ -55,7 +55,7 @@ function ConversationArticleSelect() {
           <CloseDrawerIcon />
         </IconButton>
         <DialogTitle color={theme?.palette?.slateBlue?.main}>
-          {selectedComponent.title}
+          {selectedComponent?.title}
         </DialogTitle>
 
         <ConversationSelectModal
@@ -64,7 +64,7 @@ function ConversationArticleSelect() {
           filteredContent={filteredContent}
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
-          title={selectedComponent.title}
+          title={selectedComponent?.title}
         />
       </Dialog>
     </Box>

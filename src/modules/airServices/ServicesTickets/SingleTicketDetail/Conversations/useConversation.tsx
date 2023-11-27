@@ -98,7 +98,7 @@ export const UseConversation = () => {
             setShow={setShow}
             addConversationModal={addConversationModal}
             onSubmit={handleSubmit(onSubmit)}
-            dataArray={getArrayByTitle(selectedItem)}
+            conversationDataArray={getArrayByTitle?.(selectedItem)}
           />
         );
       case 'Discuss':
