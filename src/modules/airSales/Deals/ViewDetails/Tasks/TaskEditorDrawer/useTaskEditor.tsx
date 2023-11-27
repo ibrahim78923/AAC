@@ -20,6 +20,7 @@ const useTaskEditor = ({
   setOpenDrawer,
   setSelectedCheckboxes,
 }: any) => {
+  // todo: for edit case taking first element from array
   const editCheckBoxes = selectedCheckboxes && selectedCheckboxes[0];
 
   const methodsdealsTasks = useForm({
@@ -58,7 +59,7 @@ const useTaskEditor = ({
 
   const onSubmit = async (values: any) => {
     const { dueDate, ...rest } = values;
-    const DueDate = dayjs(dueDate).format(DATE_FORMAT.API);
+    const DueDate = dayjs(dueDate)?.format(DATE_FORMAT?.API);
     const body = {
       dueDate: DueDate,
       ...rest,
@@ -68,8 +69,8 @@ const useTaskEditor = ({
         ? await updatedDealsTasksManagement({
             body,
             id: editCheckBoxes?._id,
-          }).unwrap()
-        : await postDealsTasksManagement({ body }).unwrap();
+          })?.unwrap()
+        : await postDealsTasksManagement({ body })?.unwrap();
       enqueueSnackbar(
         `Task ${openDrawer === 'Edit' ? 'Updated' : 'Added '} Successfully`,
         { variant: 'success' },

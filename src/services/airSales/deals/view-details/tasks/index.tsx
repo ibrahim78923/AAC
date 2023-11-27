@@ -5,6 +5,7 @@ export const exampleExampleAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getDealsTasksManagement: builder.query({
       query: () => ({
+        // todo: pagination will be implemented at the end .
         url: `${END_POINTS?.TASK_MANAGEMENT}?page=1&limit=100`,
         method: 'GET',
       }),

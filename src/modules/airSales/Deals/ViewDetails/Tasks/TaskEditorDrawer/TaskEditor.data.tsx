@@ -23,6 +23,7 @@ export const dealsTasksDefaultValues = {
   type: '',
   priority: '',
   status: '',
+  // TODO: Temporary id will come from backend
   deal: '655b2b2ecd318b576d7d71e8',
   assignto: '',
   associate: '',
@@ -90,6 +91,7 @@ export const dealsTasksDataArray = [
       select: true,
       disabled: true,
     },
+    // todo: array come from backend
     options: [{ value: '655b2b2ecd318b576d7d71e8', label: 'Deal name' }],
     component: RHFSelect,
     md: 12,
