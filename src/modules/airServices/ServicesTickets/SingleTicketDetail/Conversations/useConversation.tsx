@@ -58,7 +58,7 @@ export const UseConversation = () => {
       }));
 
       enqueueSnackbar(successMessage, {
-        variant: 'success',
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
 
       addConversationModal.reset();

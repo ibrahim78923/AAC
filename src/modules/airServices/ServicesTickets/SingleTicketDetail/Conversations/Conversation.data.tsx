@@ -30,7 +30,7 @@ export const conversationValidationSchema = (action) => {
 };
 
 export const conversationModalsDefaultValues: any = {
-  note: 'note',
+  note: '',
   notify: '',
   noteDescription: '',
   reply: '',
@@ -142,9 +142,9 @@ export const conversationForwardArray = [
     },
 
     options: [
+      { value: 'Forward', label: 'Forward' },
       { value: 'Note', label: 'Note' },
       { value: 'Reply', label: 'Reply' },
-      { value: 'Forward', label: 'Forward' },
     ],
 
     component: RHFSelect,

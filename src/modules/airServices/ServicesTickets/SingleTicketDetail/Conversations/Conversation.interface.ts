@@ -1,5 +1,3 @@
-// Conversation.interface.ts
-
 export interface ConversationDataI {
   note?: string;
   notify?: string;
