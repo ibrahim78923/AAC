@@ -23,7 +23,7 @@ export const useImportLocation = (props: any) => {
   const { handleSubmit, reset } = methods;
   const submitImportLocation = async () => {
     try {
-      enqueueSnackbar('Import Succeessfully', {
+      enqueueSnackbar('Import Successfully', {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
       reset();
