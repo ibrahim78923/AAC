@@ -64,7 +64,7 @@ const Tasks = () => {
               aria-expanded={'true'}
               onClick={handleActionsMenuClick}
               sx={{
-                color: theme.palette.grey[500],
+                color: theme?.palette?.grey[500],
                 height: '40px',
                 //
                 border: `1.5px solid ${theme?.palette?.custom?.border_grayish_blue}`,
