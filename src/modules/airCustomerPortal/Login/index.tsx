@@ -11,7 +11,7 @@ import {
   loginDefaultValues,
   loginValidationSchema,
 } from './Login.data';
-import { AirCustomerPortalHeader } from '../AirCustomerPortalHeader';
+import { CustomerPortalHeader } from '../CustomerPortalHeader';
 
 import { LoadingButton } from '@mui/lab';
 import { AIR_CUSTOMER_PORTAL } from '@/constants';
@@ -32,10 +32,10 @@ export const Login = () => {
 
   return (
     <Grid container>
-      <AirCustomerPortalHeader
+      <CustomerPortalHeader
         buttonText="Sign Up"
         onClick={() =>
-          router.push({
+          router?.push({
             pathname: AIR_CUSTOMER_PORTAL?.AIR_CUSTOMER_PORTAL_SIGN_UP,
           })
         }
@@ -73,7 +73,7 @@ export const Login = () => {
             variant="body2"
             align="center"
             onClick={() =>
-              router.push({
+              router?.push({
                 pathname: AIR_CUSTOMER_PORTAL?.AIR_CUSTOMER_PORTAL_FORGET,
               })
             }

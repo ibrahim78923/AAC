@@ -4,6 +4,7 @@ import { Typography, Button, Box, Grid } from '@mui/material';
 import Search from '@/components/Search';
 import { v4 as uuidv4 } from 'uuid';
 import PlusSharedIconColor from '@/assets/icons/shared/plus-shared-color';
+import { TICKETS_CONVERSATION_MODAL_TYPE } from '@/constants/strings';
 
 const ConversationSelectModal = ({
   theme,
@@ -46,11 +47,13 @@ const ConversationSelectModal = ({
           >
             <Typography>{item?.title}</Typography>
             <Box display="flex" alignItems="center" marginTop={1}>
-              {title === 'Add New Article' && (
+              {title === TICKETS_CONVERSATION_MODAL_TYPE.ARTICLE && (
                 <Typography marginRight={'.50rem'}>{item?.link}</Typography>
               )}
               <Button onClick={() => handleAddClick(item?.title)}>
-                {title === 'Add Canned Response' ? 'ADD' : 'ADD Content'}
+                {title === TICKETS_CONVERSATION_MODAL_TYPE.CANNED
+                  ? 'ADD'
+                  : 'ADD Content'}
               </Button>
             </Box>
           </Box>

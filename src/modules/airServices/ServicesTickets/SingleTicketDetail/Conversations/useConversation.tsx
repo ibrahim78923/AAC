@@ -16,6 +16,7 @@ import {
   conversationValidationSchema,
   menuOptionsAddConversation,
 } from './Conversation.data';
+import { TICKETS_CONVERSATION_TYPE } from '@/constants/strings';
 
 export const UseConversation = () => {
   const [isConversation] = useState<boolean>(true);
@@ -47,21 +48,22 @@ export const UseConversation = () => {
     setAddConversation(event?.currentTarget);
   };
 
-  const { handleSubmit, setValue, getValues } = addConversationModal;
+  const { handleSubmit, setValue, getConversationValuess } =
+    addConversationModal;
 
   const onSubmit = async () => {
     try {
       const successMessage = `${selectedItem} Add Successfully!`;
       setSelectedValues((prevValues) => ({
         ...prevValues,
-        [uuidv4()]: getValues(),
+        [uuidv4()]: getConversationValuess(),
       }));
 
       enqueueSnackbar(successMessage, {
-        variant: 'success',
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
 
-      addConversationModal.reset();
+      addConversationModal?.reset();
       setShow(false);
     } catch (error) {}
   };
@@ -76,32 +78,31 @@ export const UseConversation = () => {
 
   const getArrayByTitle = (title) => {
     switch (title) {
-      case 'Note':
+      case TICKETS_CONVERSATION_TYPE.NOTE:
         return conversationNoteArray;
-      case 'Reply':
+      case TICKETS_CONVERSATION_TYPE.REPLY:
         return conversationReplyArray;
-      case 'Forward':
+      case TICKETS_CONVERSATION_TYPE.FORWARD:
         return conversationForwardArray;
       default:
         return [];
     }
   };
-
   const renderSelectedComponent = () => {
     switch (selectedItem) {
-      case 'Note':
-      case 'Reply':
-      case 'Forward':
+      case TICKETS_CONVERSATION_TYPE.NOTE:
+      case TICKETS_CONVERSATION_TYPE.REPLY:
+      case TICKETS_CONVERSATION_TYPE.FORWARD:
         return (
           <ConversationAddComponent
             show={show}
             setShow={setShow}
             addConversationModal={addConversationModal}
             onSubmit={handleSubmit(onSubmit)}
-            dataArray={getArrayByTitle(selectedItem)}
+            dataArray={getArrayByTitle?.(selectedItem)}
           />
         );
-      case 'Discuss':
+      case TICKETS_CONVERSATION_TYPE.DISCUSS:
         return (
           <ConversationDiscuss resetSelectedItem={() => setSelectedItem('')} />
         );
@@ -120,7 +121,6 @@ export const UseConversation = () => {
   useEffect(() => {
     renderSelectedComponent();
   }, [selectedItem]);
-
   return {
     isConversation,
     open,

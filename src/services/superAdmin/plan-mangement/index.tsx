@@ -1,3 +1,4 @@
+import { superAdminBillingInvoices } from '@/routesConstants/endpoints';
 import { SUPER_ADMIN_PLAN_MANAGEMENT } from '@/routesConstants/paths';
 import { baseAPI } from '@/services/base-api';
 
@@ -22,12 +23,19 @@ export const planManagementAPI = baseAPI.injectEndpoints({
     }),
     getProducts: builder.query({
       query: () => ({
-        url: `products`,
+        url: `${superAdminBillingInvoices?.get_Products}`,
         method: 'GET',
       }),
       providesTags: TAG,
     }),
     getProductsFeatures: builder.query({
+      query: ({ id }) => ({
+        url: `${SUPER_ADMIN_PLAN_MANAGEMENT?.PRODUCT_FEATURES}&productId=${id}`,
+        method: 'GET',
+      }),
+      providesTags: TAG,
+    }),
+    getProductsFeaturesAll: builder.query({
       query: () => ({
         url: `${SUPER_ADMIN_PLAN_MANAGEMENT?.PRODUCT_FEATURES}`,
         method: 'GET',
@@ -87,4 +95,5 @@ export const {
   useGetProductsQuery,
   useGetPlanTypesQuery,
   useGetProductsFeaturesQuery,
+  useGetProductsFeaturesAllQuery,
 } = planManagementAPI;

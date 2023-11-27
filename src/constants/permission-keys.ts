@@ -145,9 +145,28 @@ export const SUPER_ADMIN_SETTINGS_PRODUCT_FEATURES_PERMISSIONS = {
   Active_Inactive_Features: 'active-inactive-feature',
 };
 
-//for display and purpose purpose in steppers
+export const AIR_SALES_DEALS_PERMISSIONS = {
+  Update_Info: 'sale-update-info',
+  View_Activity_Log: 'sale-deal-activity-log',
+  Add_Associate_Contacts: 'sale-deal-add-associate-contact',
+  Edit_Contacts: 'sale-deal-edit-contact',
+  View_Contacts: 'sale-deal-view-contact',
+  Remove_Contacts: 'sale-deal-remove-conatct',
+  Add_Associate_Tickets: 'sale-deal-add-associate-ticket',
+  Edit_Tickets: 'sale-deal-edit-ticket',
+  View_Tickets: 'sale-deal-view-ticket',
+  Remove_Tickets: 'sale-deal-remove-ticket',
+  Add_Associate_Companies: 'sale-deal-add-associate-company',
+  Edit_Companies: 'sale-deal-edit-comapny',
+  View_Companies: 'sale-deal-view-company',
+  Remove_Companies: 'sale-deal-remove-company',
+  Add_Associate_Products: 'view-deal-add-associate-product',
+  Edit_Products: 'sale-deal-edit-product',
+};
+//for display purpose in steppers
 export const SUPER_ADMIN_PLAN_MANAGEMENT_PERMISSIONS = [
   {
+    ProductName: 'Sales',
     Modules: 'Deals',
     Sub_Modules: [
       {
@@ -158,8 +177,68 @@ export const SUPER_ADMIN_PLAN_MANAGEMENT_PERMISSIONS = [
             value: 'delete-user',
           },
           {
-            label: 'Delete Users',
-            value: 'delete-users',
+            label: 'update info',
+            value: 'sale-update-info',
+          },
+          {
+            label: 'view activity log',
+            value: 'sale-deal-activity-log',
+          },
+          {
+            label: 'add/associate contacts ',
+            value: 'sale-deal-add-associate-contact',
+          },
+          {
+            label: 'edit contacts ',
+            value: 'sale-deal-view-contact',
+          },
+          {
+            label: 'View contacts ',
+            value: 'sale-deal-view-contact',
+          },
+          {
+            label: 'Remove contacts  ',
+            value: 'sale-deal-remove-conatct',
+          },
+          {
+            label: 'add/associate Tickets ',
+            value: 'sale-deal-add-associate-ticket',
+          },
+          {
+            label: 'Edit Tickets ',
+            value: 'sale-deal-edit-ticket',
+          },
+          {
+            label: 'View Tickets',
+            value: 'sale-deal-view-ticket',
+          },
+          {
+            label: 'Remove Tickets ',
+            value: 'sale-deal-remove-ticket',
+          },
+          {
+            label: 'add/associate Companies',
+            value: 'sale-deal-add-associate-company',
+          },
+          {
+            label: 'Edit Companies ',
+            value: 'sale-deal-edit-comapny',
+          },
+          {
+            label: 'View Companies ',
+            value: 'sale-deal-view-company',
+          },
+          {
+            label: 'Remove Companies ',
+            value: 'sale-deal-remove-company',
+          },
+          {
+            label: 'add/associate Products ',
+            value: 'view-deal-add-associate-product',
+          },
+          {
+            label: 'Edit Products ',
+            value: 'sale-deal-edit-product',
           },
         ],
       },
