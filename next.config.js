@@ -7,7 +7,7 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
-    domains: ['http://airapplecart-public.s3.eu-west-2.amazonaws.com'],
+    domains: ['airapplecart-public.s3.eu-west-2.amazonaws.com'],
   },
   eslint: {
     ignoreDuringBuilds: true,

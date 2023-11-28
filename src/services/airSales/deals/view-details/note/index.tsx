@@ -4,8 +4,8 @@ import { baseAPI } from '@/services/base-api';
 export const exampleExampleAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getDealNote: builder.query({
-      query: () => ({
-        url: `${END_POINTS?.VIEW_DEALS_NOTES}`,
+      query: ({ recordId }) => ({
+        url: `${END_POINTS?.VIEW_DEALS_NOTES}?page=1&limit=100&recordId=${recordId}`,
         method: 'GET',
       }),
       providesTags: ['DEALS_NOTES'],
@@ -21,7 +21,7 @@ export const exampleExampleAPI = baseAPI.injectEndpoints({
     updateDealNote: builder.mutation({
       query: ({ id, body }: any) => ({
         url: `${END_POINTS?.VIEW_DEALS_NOTES}/${id}`,
-        method: 'PUT',
+        method: 'PATCH',
         body: body,
       }),
       invalidatesTags: ['DEALS_NOTES'],

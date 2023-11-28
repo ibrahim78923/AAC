@@ -1,27 +1,31 @@
 import { useState } from 'react';
 
 import { useTheme } from '@mui/material';
-// import { useGetDealNoteQuery } from '@/services/airSales/deals/view-details/Notes';
+import { useGetDealNoteQuery } from '@/services/airSales/deals/view-details/note';
 
 const useNotes = () => {
   const theme = useTheme();
   const [openDrawer, setOpenDrawer] = useState('');
   const [selectedCheckboxes, setSelectedCheckboxes] = useState<
-    { id: number }[]
+    { _id: number }[]
   >([]);
-  // const { data } = useGetDealNoteQuery({});
+
+  //Todo: temporarily id this be updated after list view
+  const { data } = useGetDealNoteQuery({
+    recordId: '654dbb4a211df87d0a9c4d80',
+  });
 
   const handleCheckboxChange = (
     event: React.ChangeEvent<HTMLInputElement>,
-    id: number,
+    item: any,
   ) => {
     const isChecked = event?.target?.checked;
 
     if (isChecked) {
-      setSelectedCheckboxes((prevSelected) => [...prevSelected, { id: id }]);
+      setSelectedCheckboxes((prevSelected) => [...prevSelected, item]);
     } else {
       setSelectedCheckboxes((prevSelected) =>
-        prevSelected.filter((item) => item?.id !== id),
+        prevSelected.filter((selectedItem) => selectedItem?._id !== item?._id),
       );
     }
   };
@@ -31,7 +35,9 @@ const useNotes = () => {
     setOpenDrawer,
     theme,
     selectedCheckboxes,
+    setSelectedCheckboxes,
     handleCheckboxChange,
+    data,
   };
 };
 
