@@ -1,23 +1,48 @@
-import {
-  RHFAutocomplete,
-  RHFDatePicker,
-  RHFTextField,
-} from '@/components/ReactHookForm';
+import { RHFAutocomplete, RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
 const vendorCatalogOptions = ['Dell', 'Freshworks', 'Logitech'];
 
+const warrantyValidityYrsOptions = [
+  '1',
+  '2',
+  '3',
+  '4',
+  '5',
+  '6',
+  '7',
+  '8',
+  '9',
+  '10',
+];
+
+const warrantyValidityMonthsOptions = [
+  '1',
+  '2',
+  '3',
+  '4',
+  '5',
+  '6',
+  '7',
+  '8',
+  '9',
+  '10',
+  '11',
+];
+
 export const upsertVendorValidationSchema = Yup?.object()?.shape({
   vendorCatalog: Yup?.string()?.required('Field is Required'),
   price: Yup?.string()?.trim()?.required('Field is Required'),
-  warrantyValidity: Yup?.date()?.required('Field is Required'),
-  quantity: Yup?.string()?.trim()?.required('Field is Required'),
+  warrantyValidityYrs: Yup?.string(),
+  warrantyValidityMonths: Yup?.string(),
+  quantity: Yup?.string()?.trim(),
 });
 
 export const upsertVendorDefaultValues = {
   vendorCatalog: '',
   price: '',
-  warrantyValidity: new Date(),
+  warrantyValidityYrs: '',
+  warrantyValidityMonths: '',
   quantity: '',
 };
 
@@ -28,7 +53,6 @@ export const upsertVendorDataArray = [
       name: 'vendorCatalog',
       label: 'Vendor Catalog',
       required: true,
-      fullWidth: true,
       options: vendorCatalogOptions,
     },
     component: RHFAutocomplete,
@@ -39,27 +63,36 @@ export const upsertVendorDataArray = [
       name: 'price',
       label: 'Price (£)',
       required: true,
-      fullWidth: true,
     },
     component: RHFTextField,
   },
   {
     id: 3,
     componentProps: {
-      name: 'warrantyValidity',
+      name: 'warrantyValidityYrs',
       label: 'Warranty/Validity',
-      required: true,
-      fullWidth: true,
+      placeholder: 'Yrs',
+      options: warrantyValidityYrsOptions,
     },
-    component: RHFDatePicker,
+    component: RHFAutocomplete,
+    md: 6,
   },
   {
     id: 4,
     componentProps: {
+      name: 'warrantyValidityMonths',
+      label: '\u00a0\u00a0',
+      placeholder: 'Months',
+      options: warrantyValidityMonthsOptions,
+    },
+    component: RHFAutocomplete,
+    md: 6,
+  },
+  {
+    id: 5,
+    componentProps: {
       name: 'quantity',
       label: 'Quantity',
-      required: true,
-      fullWidth: true,
     },
     component: RHFTextField,
   },
