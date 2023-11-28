@@ -13,7 +13,7 @@ import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
 import { styles } from '../Invoices/Invoices.style';
 import { FilterSharedIcon } from '@/assets/icons';
-import { dataArray, defaultValues } from './BillingAndInvoices.data';
+import { dataArray } from './BillingAndInvoices.data';
 import { v4 as uuidv4 } from 'uuid';
 import { RefreshIcon } from '@/assets/icons';
 
@@ -44,7 +44,7 @@ const BillingAndInvoicesTable = () => {
     onSubmit,
     methods,
     handleRefresh,
-  } = useBillingAndInvoices(defaultValues);
+  } = useBillingAndInvoices();
 
   return (
     <Grid sx={styles?.invoicesTableWrapper}>

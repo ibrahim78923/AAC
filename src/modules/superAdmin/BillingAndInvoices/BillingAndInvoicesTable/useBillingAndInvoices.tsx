@@ -3,17 +3,13 @@ import { Columns, validationSchema } from './BillingAndInvoices.data';
 import useMenuOptions from './MenuOptions/useMenuOptions';
 import { useTheme } from '@mui/material';
 import { useGetBilingInvoicesQuery } from '@/services/superAdmin/billing-invoices';
-import { isNullOrEmpty } from '@/utils';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { useForm } from 'react-hook-form';
 
-const useBillingAndInvoices = (defaultValues: any) => {
+const useBillingAndInvoices = () => {
   const [searchByClientName, setSearchByClientName] = useState('');
-  const [orginzationId, setOrginzationId] = useState('');
-  const [productId, setProductId] = useState('');
-  const [PlanTypeId, setPlanTypeId] = useState('');
   const [isViewDetailOpen, setIsViewDeailOpen] = useState<boolean>(false);
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
   const [isEditModal, setIsEditModal] = useState(false);
@@ -24,46 +20,30 @@ const useBillingAndInvoices = (defaultValues: any) => {
     useMenuOptions();
   const [isChecked, setIsChecked] = useState(false);
   const [isGetRowValues, setIsGetRowValues] = useState('');
+  const [filterValues, setFilterValues] = useState({});
 
-  const paramsObj: any = {};
-
-  if (!isNullOrEmpty(searchByClientName))
-    paramsObj['search'] = searchByClientName;
-  if (!isNullOrEmpty(productId)) paramsObj['productId'] = productId;
-  if (!isNullOrEmpty(PlanTypeId)) paramsObj['planTypeId'] = PlanTypeId;
-  if (!isNullOrEmpty(orginzationId))
-    paramsObj['organizationId'] = orginzationId;
-  const queryParams = Object.entries(paramsObj)
-    .map(([key, value]) => `${key}=${encodeURIComponent(value)}`)
-    .join('&');
-  const query = `&${queryParams}`;
+  const obj = { search: searchByClientName };
 
   const { data: assignPlanTableData } = useGetBilingInvoicesQuery<any>({
-    query,
-    refetchOnMountOrArgChange: true,
     pagination: `page=1&limit=10`,
+    params: { ...filterValues, ...obj },
   });
 
   const methods: any = useForm({
     resolver: yupResolver(validationSchema),
-
-    defaultValues: defaultValues,
+    defaultValues: {},
   });
 
   const { handleSubmit, reset } = methods;
 
   const onSubmit = async (values: any) => {
-    setOrginzationId(values?.ClientOrganization);
-    setProductId(values?.productSuite);
-    setPlanTypeId(values?.planType);
+    setFilterValues(values);
     reset();
     setIsOpenFilter(false);
   };
 
   const handleRefresh = async () => {
-    setOrginzationId('');
-    setProductId('');
-    setPlanTypeId('');
+    setFilterValues('');
   };
 
   const getRowValues = Columns(

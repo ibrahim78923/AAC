@@ -149,16 +149,10 @@ export const Columns = (
 };
 
 export const validationSchema = Yup?.object()?.shape({
-  ClientOrganization: Yup?.string(),
-  productSuite: Yup?.string()?.trim(),
-  planType: Yup?.string()?.trim(),
+  organizationId: Yup?.string(),
+  productId: Yup?.string()?.trim(),
+  planTypeId: Yup?.string()?.trim(),
 });
-
-export const defaultValues = {
-  ClientOrganization: '',
-  productSuite: '',
-  planType: '',
-};
 
 export const dataArray = () => {
   const { data: productData } = useGetProductsQuery<any>({
@@ -194,7 +188,7 @@ export const dataArray = () => {
   return [
     {
       componentProps: {
-        name: 'ClientOrganization',
+        name: 'organizationId',
         label: 'Client & Organization',
         fullWidth: true,
         select: true,
@@ -208,7 +202,7 @@ export const dataArray = () => {
     },
     {
       componentProps: {
-        name: 'productSuite',
+        name: 'productId',
         label: 'Product/Suite',
         fullWidth: true,
         select: true,
@@ -223,7 +217,7 @@ export const dataArray = () => {
 
     {
       componentProps: {
-        name: 'planType',
+        name: 'planTypeId',
         label: 'Plan Type',
         fullWidth: true,
         select: true,

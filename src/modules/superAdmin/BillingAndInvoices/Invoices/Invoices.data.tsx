@@ -82,7 +82,7 @@ export const columns = (
     },
     {
       accessorFn: (row: any) => row?.billingDate?.substring(0, 10),
-      id: 'InvoiceDate',
+      id: 'billingDate',
       isSortable: true,
       header: 'Invoice Date',
       cell: (info: any) => <>{info?.getValue()}</>,
@@ -107,8 +107,8 @@ export const columns = (
       cell: (info: any) => <>£ {info?.getValue()}</>,
     },
     {
-      accessorFn: (row: any) => row?.PaymentDate,
-      id: 'PaymentDate',
+      accessorFn: (row: any) => row?.dueDate,
+      id: 'dueDate',
       isSortable: true,
       header: 'Payment Date',
       cell: (info: any) => (
@@ -126,22 +126,13 @@ export const columns = (
 };
 
 export const FilterInvoiceValidationSchema = Yup?.object()?.shape({
-  ClientOrganization: Yup?.string(),
-  products: Yup?.string(),
-  plan: Yup?.string(),
-  status: Yup?.string(),
-  InvoiceDate: Yup?.string(),
-  PaymentDate: Yup?.string(),
+  organizationId: Yup?.string().trim().optional(),
+  productId: Yup?.string().trim().optional(),
+  planTypeId: Yup?.string().trim().optional(),
+  status: Yup?.string().trim().optional(),
+  billingDate: Yup?.string().trim().optional().nullable(),
+  dueDate: Yup?.string().trim().optional().nullable(),
 });
-
-export const FilterInvoiceDefaultValues = {
-  ClientOrganization: '',
-  products: '',
-  plan: '',
-  status: '',
-  InvoiceDate: '',
-  PaymentDate: '',
-};
 
 export const FilterInvoiceFiltersDataArray = () => {
   const { data: productData } = useGetProductsQuery<any>({});
@@ -167,7 +158,7 @@ export const FilterInvoiceFiltersDataArray = () => {
   return [
     {
       componentProps: {
-        name: 'ClientOrganization',
+        name: 'organizationId',
         label: 'Client & Organization',
         fullWidth: true,
         select: true,
@@ -181,7 +172,7 @@ export const FilterInvoiceFiltersDataArray = () => {
     },
     {
       componentProps: {
-        name: 'products',
+        name: 'productId',
         label: 'Products',
         select: true,
       },
@@ -191,7 +182,7 @@ export const FilterInvoiceFiltersDataArray = () => {
     },
     {
       componentProps: {
-        name: 'planType',
+        name: 'planTypeId',
         label: 'Plan type',
         select: true,
       },
@@ -216,7 +207,7 @@ export const FilterInvoiceFiltersDataArray = () => {
     },
     {
       componentProps: {
-        name: 'InvoiceDate',
+        name: 'billingDate',
         label: 'Invoice Date',
         fullWidth: true,
       },
@@ -225,7 +216,7 @@ export const FilterInvoiceFiltersDataArray = () => {
     },
     {
       componentProps: {
-        name: 'PaymentDate',
+        name: 'dueDate',
         label: 'Payment Date',
         fullWidth: true,
       },

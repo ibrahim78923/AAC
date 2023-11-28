@@ -1,9 +1,5 @@
 import { useState } from 'react';
-import {
-  FilterInvoiceDefaultValues,
-  FilterInvoiceValidationSchema,
-  columns,
-} from './Invoices.data';
+import { FilterInvoiceValidationSchema, columns } from './Invoices.data';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { useGetBillingHistoryQuery } from '@/services/superAdmin/billing-invoices';
@@ -20,10 +16,11 @@ const useInvoices = () => {
   const [isGetRowValues, setIsGetRowValues] = useState('');
   const [searchByClientName, setSearchByClientName] = useState('');
   const [filterValues, setFilterValues] = useState({});
+  const obj = { search: searchByClientName };
 
   const { data: allInvoicesTableData } = useGetBillingHistoryQuery<any>({
     pagination: `page=1&limit=10`,
-    params: filterValues,
+    params: { ...filterValues, ...obj },
   });
 
   const handleActionsClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -55,61 +52,26 @@ const useInvoices = () => {
 
   const FilterInvoiceFilters = useForm({
     resolver: yupResolver(FilterInvoiceValidationSchema),
-    defaultValues: FilterInvoiceDefaultValues,
+    defaultValues: {},
   });
 
   const onSubmit = (values: any) => {
-    if (values?.ClientOrganization !== '') {
-      setFilterValues((prev) => {
-        return {
-          ...prev,
-          organizationId: values?.ClientOrganization,
-        };
-      });
-    }
-    if (values?.products !== '') {
-      setFilterValues((prev) => {
-        return {
-          ...prev,
-          productId: values?.products,
-        };
-      });
-    }
+    const { organizationId, productId, planTypeId, status } = values;
 
-    if (values?.planType !== '') {
-      setFilterValues((prev) => {
-        return {
-          ...prev,
-          planTypeId: values?.planType,
-        };
-      });
-    }
+    const filterPayloadValues = {
+      organizationId,
+      productId,
+      planTypeId,
+      status,
+      ...(values.billingDate && {
+        billingDate: dayjs(values?.billingDate)?.format(DATE_FORMAT?.API),
+      }),
+      ...(values.dueDate && {
+        dueDate: dayjs(values?.dueDate)?.format(DATE_FORMAT?.API),
+      }),
+    };
 
-    if (values?.status !== '') {
-      setFilterValues((prev) => {
-        return {
-          ...prev,
-          status: values?.status,
-        };
-      });
-    }
-    if (values?.InvoiceDate != null && values?.InvoiceDate !== '') {
-      setFilterValues((prev) => {
-        return {
-          ...prev,
-          billingDate: dayjs(values?.InvoiceDate)?.format(DATE_FORMAT?.API),
-        };
-      });
-    }
-    if (values?.PaymentDate != null && values?.PaymentDate !== '') {
-      setFilterValues((prev) => {
-        return {
-          ...prev,
-          dueDate: dayjs(values?.PaymentDate)?.format(DATE_FORMAT?.API),
-        };
-      });
-    }
-
+    setFilterValues(filterPayloadValues);
     setIsOpenFilter(false);
     reset();
   };
