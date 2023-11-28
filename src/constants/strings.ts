@@ -142,6 +142,26 @@ export const CATALOG_SERVICE = {
   DATA_BACKUP: 'Data Backup',
 };
 
+export const TICKETS_CONVERSATION_TYPE = {
+  REPLY: 'Reply',
+  FORWARD: 'Forward',
+  DISCUSS: 'Discuss',
+  NOTE: 'Note',
+};
+export const TICKETS_CONVERSATION_VALUE = {
+  FILE: 'file',
+  DESCRIPTION: 'description',
+};
+
+export const TICKETS_CONVERSATION_Description_Type = {
+  REPLY: 'replyDescription',
+  FORWARD: 'forwardDescription',
+  NOTE: 'noteDescription',
+};
+export const TICKETS_CONVERSATION_MODAL_TYPE = {
+  CANNED: 'Add Canned Response',
+  ARTICLE: 'Add New Article',
+};
 export const EXPORT_FILE_TYPE: any = {
   [EXPORT_TYPE?.CSV]: 'text/csv',
   [EXPORT_TYPE?.XLS]:
@@ -174,4 +194,9 @@ export const TICKET_TYPES = {
   SERVICE_REQUEST: 'Service Requests',
   TICKETS_I_REQUESTED: 'Tickets I Requested',
   SHARED_WITH_ME: 'Shared with me',
+};
+export const AGENT_REQUEST_STATUS = {
+  APPROVED: 'Approved',
+  REJECTED: 'Rejected',
+  PENDING: 'Pending',
 };
