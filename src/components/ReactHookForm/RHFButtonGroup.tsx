@@ -13,14 +13,10 @@ export default function RHFButtonGroup({
     <Controller
       name={name}
       control={control}
-      render={({ field, fieldState: { error } }) => (
+      render={({ field }) => (
         <>
           {other?.label && (
-            <CustomLabel
-              label={other?.label}
-              error={error}
-              required={required}
-            />
+            <CustomLabel label={other?.label} required={required} />
           )}
           <ToggleButtonGroup
             sx={{ display: 'flex', mt: '16px', gap: '20px' }}

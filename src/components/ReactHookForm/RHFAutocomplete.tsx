@@ -66,11 +66,7 @@ export default function RHFAutocomplete({
             renderInput={(params) => (
               <>
                 {other?.label && (
-                  <CustomLabel
-                    label={other?.label}
-                    error={error}
-                    required={required}
-                  />
+                  <CustomLabel label={other?.label} required={required} />
                 )}
                 <TextField
                   {...params}
