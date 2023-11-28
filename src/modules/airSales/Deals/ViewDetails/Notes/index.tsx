@@ -16,6 +16,9 @@ import { styles } from '../ViewDetails.style';
 
 import { v4 as uuidv4 } from 'uuid';
 import { IMG_URL } from '@/config';
+import { DATE_FORMAT } from '@/constants';
+import dayjs from 'dayjs';
+import CustomPagination from '@/components/CustomPagination';
 
 const Notes = () => {
   const {
@@ -25,6 +28,7 @@ const Notes = () => {
     setSelectedCheckboxes,
     handleCheckboxChange,
     data,
+    setPagination,
   } = useNotes();
   const { NameWithStyledWords, theme } = useNameWithStyledWords();
 
@@ -80,7 +84,7 @@ const Notes = () => {
           )}
         </Grid>
 
-        {!isNullOrEmpty(data?.data.notes) && (
+        {!isNullOrEmpty(data?.data?.notes) && (
           <Grid item xs={12} sx={styles?.horizontalTabsInnnerBox}>
             {data?.data?.notes?.map((item) => (
               <Grid
@@ -143,7 +147,8 @@ const Notes = () => {
                     variant="body3"
                     sx={{ color: theme?.palette?.custom?.main }}
                   >
-                    {item?.date}
+                    {dayjs(item?.createdAt).format(DATE_FORMAT.UI)}
+                    <></>
                   </Typography>
                   <Typography
                     variant="body2"
@@ -154,6 +159,12 @@ const Notes = () => {
             ))}
           </Grid>
         )}
+        <Grid item xs={12}>
+          <CustomPagination
+            totalRecords={data?.data?.meta?.total}
+            setPage={setPagination}
+          />
+        </Grid>
       </Grid>
 
       {openDrawer && (

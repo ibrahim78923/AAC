@@ -4,9 +4,10 @@ import { baseAPI } from '@/services/base-api';
 export const exampleExampleAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getDealNote: builder.query({
-      query: ({ recordId }) => ({
-        url: `${END_POINTS?.VIEW_DEALS_NOTES}?page=1&limit=100&recordId=${recordId}`,
+      query: ({ params }) => ({
+        url: `${END_POINTS?.VIEW_DEALS_NOTES}`,
         method: 'GET',
+        params: params,
       }),
       providesTags: ['DEALS_NOTES'],
     }),

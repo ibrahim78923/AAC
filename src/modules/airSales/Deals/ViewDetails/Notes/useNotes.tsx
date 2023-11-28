@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import { useTheme } from '@mui/material';
 import { useGetDealNoteQuery } from '@/services/airSales/deals/view-details/note';
+import { PAGINATION } from '@/config';
 
 const useNotes = () => {
   const theme = useTheme();
@@ -9,12 +10,13 @@ const useNotes = () => {
   const [selectedCheckboxes, setSelectedCheckboxes] = useState<
     { _id: number }[]
   >([]);
-  // const { data } = useGetDealNoteQuery({});
-
-  //Todo: temporarily id this be updated after list view
-  const { data } = useGetDealNoteQuery({
-    recordId: '654dbb4a211df87d0a9c4d80',
+  const [pagination, setPagination] = useState({
+    page: PAGINATION?.CURRENT_PAGE,
+    limit: PAGINATION?.PAGE_LIMIT,
   });
+  //Todo: temporarily id this be updated after list view
+  const params = { ...pagination, recordId: '654dbb4a211df87d0a9c4d80' };
+  const { data } = useGetDealNoteQuery({ params });
 
   const handleCheckboxChange = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -39,6 +41,7 @@ const useNotes = () => {
     setSelectedCheckboxes,
     handleCheckboxChange,
     data,
+    setPagination,
   };
 };
 
