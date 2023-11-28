@@ -9,10 +9,12 @@ import { TasksData } from '../Task.data';
 const Tabs = () => {
   const { handleToggler, toggler, handleActionBtn, actionType } = useTask();
 
+  const getTastaData = TasksData();
+
   return (
     <>
       <CommonTabs
-        tabsArray={TasksData.map(({ label }) => label)}
+        tabsArray={getTastaData?.map(({ label }) => label)}
         isHeader
         headerChildren={
           <Filter
@@ -26,11 +28,11 @@ const Tabs = () => {
         }
       >
         {toggler === 'listView' &&
-          TasksData.map(({ tableChildren }) => (
+          getTastaData?.map(({ tableChildren }) => (
             <Fragment key={uuidv4()}>{tableChildren}</Fragment>
           ))}
         {toggler === 'gridView' &&
-          TasksData.map(({ gridChildtren }) => (
+          getTastaData?.map(({ gridChildtren }) => (
             <Fragment key={uuidv4()}>{gridChildtren}</Fragment>
           ))}
       </CommonTabs>

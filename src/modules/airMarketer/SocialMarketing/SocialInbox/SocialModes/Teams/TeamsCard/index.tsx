@@ -10,7 +10,7 @@ import { ArchiveIcon, DeleteIcon, PinIcon } from '@/assets/icons';
 
 import { styles } from './TeamsCard.style';
 
-const TeamsCard = ({ chatGroupsData }: any) => {
+const TeamsCard = ({ chatGroupsData, setPostMode }: any) => {
   const [isDeleteModal, setIsDeleteModal] = useState(false);
   const [selectedValues, setSelectedValues] = useState<any>([]);
 
@@ -52,7 +52,10 @@ const TeamsCard = ({ chatGroupsData }: any) => {
             }
           />
         )}
-        <Box sx={{ width: '100%' }}>
+        <Box
+          sx={{ width: '100%' }}
+          onClick={() => setPostMode(chatGroupsData?.socialMode)}
+        >
           <Box
             sx={{
               display: 'flex',

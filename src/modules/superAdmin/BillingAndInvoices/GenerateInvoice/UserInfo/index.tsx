@@ -15,8 +15,6 @@ import TanstackTable from '@/components/Table/TanstackTable';
 
 import { columns } from './UserInfo.data';
 
-import { invoiceProducData } from '@/mock/modules/superAdmin/BillingAndDetails/GenerateInvoice';
-
 import { LogoIcon } from '@/assets/icons';
 import { AvatarImage } from '@/assets/images';
 
@@ -24,12 +22,57 @@ import { SUPER_ADMIN } from '@/constants';
 
 import { styles } from './UserInfo.style';
 import InvoiceList from '../../InvoiceList';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { usePatchUpdateInvoicesMutation } from '@/services/superAdmin/billing-invoices';
+import { enqueueSnackbar } from 'notistack';
 
 const UserInfo = () => {
   const [openViewInvoice, setOpenViewInvoice] = useState(false);
+  const [discountValue, setDiscountValue] = useState('');
+  const [dateValue, setDateValue] = useState<Date | null>(Date(''));
+
+  const inputDate = new Date(dateValue);
+
+  const [updateInvoice] = usePatchUpdateInvoicesMutation();
+
+  const year = inputDate.getUTCFullYear();
+  const month = (inputDate.getUTCMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
+  const day = inputDate.getUTCDate().toString().padStart(2, '0');
+  const formattedDateString = `${year}-${month}-${day}`;
 
   const router = useRouter();
   const theme = useTheme();
+
+  let EditInvoice: any;
+  if (router?.query?.key) {
+    EditInvoice = JSON?.parse(router?.query?.key);
+  }
+
+  const getDiscountValues = columns(setDiscountValue, discountValue);
+
+  const handleUpdate = async () => {
+    const updateInvoicePayload = {
+      dueDate: formattedDateString,
+      invoiceDiscount: discountValue,
+      status: EditInvoice?.status,
+    };
+
+    try {
+      await updateInvoice({
+        body: updateInvoicePayload,
+        invoiceId: EditInvoice?._id,
+      }).unwrap();
+      enqueueSnackbar('Invoice Updated Successfully', {
+        variant: 'success',
+      });
+      setOpenViewInvoice(true);
+    } catch {
+      enqueueSnackbar('Some thing went wrong', {
+        variant: 'error',
+      });
+    }
+  };
+
   return (
     <Box>
       <Box sx={styles?.blueCard}>
@@ -50,16 +93,18 @@ const UserInfo = () => {
               Air Applecart
             </Typography>
             <Typography variant="body3" sx={styles?.cardLeftText(theme)}>
-              123 Street Address
+              {EditInvoice?.organizations?.address?.street}
             </Typography>
             <Typography variant="body3" sx={styles?.cardLeftText(theme)}>
-              City | State | Zip Code
+              {EditInvoice?.organizations?.address?.city} |{' '}
+              {EditInvoice?.organizations?.address?.state} |{' '}
+              {EditInvoice?.organizations?.address?.postalCode}
             </Typography>
             <Typography variant="body3" sx={styles?.cardLeftText(theme)}>
-              Phone No
+              {EditInvoice?.organizations?.address?.phoneNo}
             </Typography>
             <Typography variant="body3" sx={styles?.cardLeftText(theme)}>
-              Company Email
+              {EditInvoice?.organizations?.address?.email}
             </Typography>
           </Box>
         </Box>
@@ -70,22 +115,30 @@ const UserInfo = () => {
               R
             </Avatar>
             <Box>
-              <Typography sx={styles?.userName(theme)}>Olivia Rhye</Typography>
-              <Box sx={styles?.orgName}>Extreme Commerce</Box>
+              <Typography sx={styles?.userName(theme)}>
+                {EditInvoice?.usersOrg?.firstName}{' '}
+                {EditInvoice?.usersOrg?.lastName}
+              </Typography>
+              <Box sx={styles?.orgName}>
+                {' '}
+                {EditInvoice?.organizations?.name}
+              </Box>
             </Box>
           </Box>
           <Box>
             <Typography variant="body3" sx={styles?.cardLeftText(theme)}>
-              123 Street Address
+              {EditInvoice?.organizations?.address?.street}
             </Typography>
             <Typography variant="body3" sx={styles?.cardLeftText(theme)}>
-              City | State | Zip Code
+              {EditInvoice?.organizations?.address?.city} |{' '}
+              {EditInvoice?.organizations?.address?.state} |{' '}
+              {EditInvoice?.organizations?.address?.postalCode}
             </Typography>
             <Typography variant="body3" sx={styles?.cardLeftText(theme)}>
-              Phone No
+              {EditInvoice?.organizations?.address?.phoneNo}
             </Typography>
             <Typography variant="body3" sx={styles?.cardLeftText(theme)}>
-              Company Email
+              {EditInvoice?.organizations?.address?.email}
             </Typography>
           </Box>
         </Box>
@@ -93,35 +146,54 @@ const UserInfo = () => {
 
       <Box sx={styles?.invoiceInfo}>
         <Grid container spacing={'16px'}>
-          <Grid item xs={3}>
+          <Grid item xs={4}>
             <Box sx={styles?.invoiceInfoTitle}>
-              Invoice No: <Box component="span">Doc-3</Box>
+              Invoice No: <Box component="span">{EditInvoice?.invoiceNo}</Box>
             </Box>
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={4}>
             <Box sx={styles?.invoiceInfoTitle}>
-              Invoice Date: <Box component="span">April 9,2023</Box>
+              Invoice Date:{' '}
+              <Box component="span">
+                {' '}
+                {EditInvoice?.billingDate
+                  ? new Date(EditInvoice?.billingDate).toLocaleDateString(
+                      'en-GB',
+                    )
+                  : 'Invalid Date'}
+              </Box>
             </Box>
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={4}>
             <Box sx={styles?.invoiceInfoTitle}>
-              Due Date: <Box component="span">April 27,2023</Box>
-            </Box>
-          </Grid>
-          <Grid item xs={3}>
-            <Box sx={styles?.invoiceInfoTitle}>
-              Prepared By: <Box component="span">Adil Khan</Box>
+              {/* Due Date: <Box component="span">April 27,2023</Box> */}
+              Due Date:
+              <DatePicker
+                slotProps={{
+                  textField: {
+                    label: '',
+                    inputProps: { style: { height: 2 } },
+                  },
+                }}
+                // value={dateValue}
+                onChange={(newValue) => setDateValue(newValue)}
+                label="date picker"
+              />
             </Box>
           </Grid>
         </Grid>
       </Box>
       {openViewInvoice ? (
-        <InvoiceList setOpenViewInvoice={setOpenViewInvoice} />
+        <InvoiceList
+          setOpenViewInvoice={setOpenViewInvoice}
+          EditInvoice={EditInvoice}
+          discountValue={discountValue}
+        />
       ) : (
         <>
           <Box sx={styles?.productCont}>
             <Box sx={styles?.productHeading}>Products</Box>
-            <TanstackTable columns={columns} data={invoiceProducData} />
+            <TanstackTable columns={getDiscountValues} data={[EditInvoice]} />
           </Box>
           <Box sx={styles?.voucher}>
             <Box sx={styles?.vRow}>
@@ -131,10 +203,10 @@ const UserInfo = () => {
                   component="span"
                   sx={{ fontWeight: '500', fontSize: '14px' }}
                 >
-                  (10%)
+                  ({EditInvoice?.invoiceDiscount}%)
                 </Box>
               </Box>
-              <Box sx={styles?.vValue}>(£ 10)</Box>
+              <Box sx={styles?.vValue}>(£ {EditInvoice?.invoiceDiscount})</Box>
             </Box>
             <Box sx={styles?.vRow}>
               <Box sx={styles?.vLabel}>
@@ -143,15 +215,15 @@ const UserInfo = () => {
                   component={'span'}
                   sx={{ fontWeight: '400', fontSize: '12px' }}
                 >
-                  (Vat 20%)
+                  (Vat {EditInvoice?.vat}%)
                 </Box>
               </Box>
-              <Box sx={styles?.vValue}>£ 27</Box>
+              <Box sx={styles?.vValue}>£ {EditInvoice?.vat}</Box>
             </Box>
             <Divider sx={{ borderColor: 'custom.off_white_one', my: '6px' }} />
             <Box sx={styles?.vRow}>
               <Box sx={styles?.vLabel}>Total Cost</Box>
-              <Box sx={styles?.vValue}>£ 162</Box>
+              <Box sx={styles?.vValue}>£ {EditInvoice?.total}</Box>
             </Box>
           </Box>
         </>
@@ -171,7 +243,9 @@ const UserInfo = () => {
           <Button
             variant="contained"
             color="primary"
-            onClick={() => setOpenViewInvoice(true)}
+            onClick={() => {
+              handleUpdate();
+            }}
             sx={{ marginLeft: '15px' }}
           >
             Next
