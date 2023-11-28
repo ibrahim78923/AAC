@@ -63,9 +63,14 @@ export const AIR_SERVICES = {
   AGENTS_SETTINGS: `/air-services/settings/user-management/agents`,
   REQUESTERS_SETTINGS: `/air-services/settings/user-management/requesters`,
   USER_ROLES_SETTINGS: `/air-services/settings/user-management/roles`,
+  VENDOR_DETAIL: '/air-services/settings/asset-management/vendor/details',
   PRODUCT_CATALOG: `/air-services/settings/asset-management/product-catalog`,
   UPSERT_PRODUCT_CATALOG: `/air-services/settings/asset-management/product-catalog/upsert-product`,
   SINGLE_PRODUCT_CATALOG: `/air-services/settings/asset-management/product-catalog/details`,
+  AGENT_PERFORMANCE_MANAGEMENT_SETTINGS: `/air-services/settings/agent-performance-management`,
+  CANNED_RESPONSE_SETTINGS: `/air-services/settings/agent-performance-management/canned-responses`,
+  LEADER_BOARD_SETTINGS: `/air-services/settings/agent-performance-management/leader-board`,
+  WORKLOAD_MANAGEMENT_SETTINGS: `/air-services/settings/agent-performance-management/workload-management`,
 };
 
 export const AIR_CUSTOMER_PORTAL = {

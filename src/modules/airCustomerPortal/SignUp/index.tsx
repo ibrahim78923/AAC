@@ -1,5 +1,5 @@
 import { Grid, Typography } from '@mui/material';
-import { AirCustomerPortalHeader } from '../AirCustomerPortalHeader';
+import { CustomerPortalHeader } from '../CustomerPortalHeader';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
@@ -28,10 +28,10 @@ export const SignUp = () => {
 
   return (
     <Grid container>
-      <AirCustomerPortalHeader
+      <CustomerPortalHeader
         buttonText={'Sign In'}
         onClick={() => {
-          router.push({
+          router?.push({
             pathname: AIR_CUSTOMER_PORTAL?.AIR_CUSTOMER_PORTAL_LOGIN,
           });
         }}
@@ -83,7 +83,7 @@ export const SignUp = () => {
         pt={5}
         sx={{ display: { md: 'flex', xs: 'none' } }}
       >
-        <Image src={SignUpImage} alt={'dasboard'} />
+        <Image src={SignUpImage} alt={'dashboard'} />
       </Grid>
     </Grid>
   );

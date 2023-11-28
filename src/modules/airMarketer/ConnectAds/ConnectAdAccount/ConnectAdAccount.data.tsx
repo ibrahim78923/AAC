@@ -55,6 +55,6 @@ export const accountColumns: any = [
     id: 'autoTracking',
     isSortable: true,
     header: 'AUTO TRACKING',
-    cell: () => <SwitchBtn checked={true} />,
+    cell: () => <SwitchBtn />,
   },
 ];

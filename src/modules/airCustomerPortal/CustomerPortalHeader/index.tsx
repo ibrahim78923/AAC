@@ -1,7 +1,7 @@
 import { CompanyLogoIcon } from '@/assets/icons';
 import { Box, Button, Grid } from '@mui/material';
 
-export const AirCustomerPortalHeader = (props: any) => {
+export const CustomerPortalHeader = (props: any) => {
   const { buttonText, onClick } = props;
 
   return (

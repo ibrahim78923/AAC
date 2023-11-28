@@ -4,45 +4,21 @@ import CommonDrawer from '@/components/CommonDrawer';
 import { BillingDetailI } from './BillingDetail.interface';
 import { AirPlaneIcon } from '@/assets/icons';
 import { v4 as uuidv4 } from 'uuid';
+import { useGetInvoicesByIdQuery } from '@/services/orgAdmin/subscription-and-invoices';
+import dayjs from 'dayjs';
+import { DATE_FORMAT } from '@/constants';
 
-const BillingDetail: FC<BillingDetailI> = ({ open, onClose }) => {
+const BillingDetail: FC<BillingDetailI> = ({
+  open,
+  onClose,
+  subscriptionId,
+}) => {
+  const { data } = useGetInvoicesByIdQuery({ id: subscriptionId });
   const theme: any = useTheme();
-  const DataArr = [
-    {
-      bilingType: 'Growth',
-      paymentType: 'paid Monthly',
-      payment: 'pending',
-      paymentDetailes: {
-        invoiceDate: '01/01/2023',
-        dueDate: '6/01/2023',
-        planPrice: '£ 20',
-        additionalUser: '£ 45',
-        AdditionalStorage: '£ 1',
-        Discount: '£ 10',
-        Tax: '£ 27',
-      },
-      totalCost: '£ 158',
-    },
-    {
-      bilingType: 'Basic',
-      paymentType: 'paid Monthly',
-      payment: 'Paid',
-      paymentDetailes: {
-        invoiceDate: '01/01/2023',
-        dueDate: '6/01/2023',
-        planPrice: '£ 20',
-        additionalUser: '£ 45',
-        AdditionalStorage: '£ 1',
-        Discount: '£ 10',
-        Tax: '£ 27',
-      },
-      totalCost: '£ 158',
-    },
-  ];
 
   return (
     <CommonDrawer title="Billing Details" isDrawerOpen={open} onClose={onClose}>
-      {DataArr?.map((data: any) => (
+      {data?.data?.invoices?.map((data: any) => (
         <Box
           key={uuidv4()}
           sx={{
@@ -67,9 +43,11 @@ const BillingDetail: FC<BillingDetailI> = ({ open, onClose }) => {
                 variant="overline"
                 sx={{ textTransform: 'capitalize' }}
               >
-                Air Sales ( {data?.bilingType})
+                Air Sales ( {data?.details?.plantypes})
               </Typography>
-              <Typography variant="body1">{data?.paymentType}</Typography>
+              <Typography variant="body1">
+                {data?.details?.billingCycle}
+              </Typography>
             </Box>
 
             <Box sx={{ ml: 'auto' }}>
@@ -85,7 +63,7 @@ const BillingDetail: FC<BillingDetailI> = ({ open, onClose }) => {
                   color: 'white',
                 }}
               >
-                {data?.payment}
+                {data?.payment ? data?.payment : 'Unpaid'}
               </Typography>
             </Box>
           </Box>
@@ -93,7 +71,8 @@ const BillingDetail: FC<BillingDetailI> = ({ open, onClose }) => {
 
           <Box sx={{ display: 'flex', alignItems: 'center', mt: '15px' }}>
             <Typography variant="caption">
-              Invoice Date: {data?.paymentDetailes?.invoiceDate}
+              Invoice Date:{' '}
+              {dayjs(data?.details?.billingDate).format(DATE_FORMAT?.UI)}
             </Typography>
             <Box sx={{ ml: 'auto' }}>
               <Typography variant="caption">
@@ -106,27 +85,32 @@ const BillingDetail: FC<BillingDetailI> = ({ open, onClose }) => {
             <Typography variant="caption">Plan Price</Typography>
             <Box sx={{ ml: 'auto' }}>
               <Typography variant="overline">
-                {data?.paymentDetailes?.planPrice}
+                {data?.details?.plans?.planPrice}
               </Typography>
             </Box>
           </Box>
           <Box sx={{ display: 'flex', alignItems: 'center', mt: '15px' }}>
             <Typography variant="caption">
-              3 Additional Users (£ 15/user)
+              {data?.details?.plans?.defaultUsers} Additional Users (£ 15/user)
             </Typography>
             <Box sx={{ ml: 'auto' }}>
               <Typography variant="overline">
-                {data?.paymentDetailes?.additionalUser}
+                £
+                {data?.details?.plans?.defaultUsers *
+                  data?.details?.plans?.additionalPerUserPrice}
               </Typography>
             </Box>
           </Box>
           <Box sx={{ display: 'flex', alignItems: 'center', mt: '15px' }}>
             <Typography variant="caption">
-              Additional Storage (£ 1/GB)
+              {data?.details?.plans?.defaultStorage} Additional Storage (£{' '}
+              {data?.details?.plans?.additionalStoragePrice} /GB)
             </Typography>
             <Box sx={{ ml: 'auto' }}>
               <Typography variant="overline">
-                {data?.paymentDetailes?.AdditionalStorage}
+                £
+                {data?.details?.plans?.defaultStorage *
+                  data?.details?.plans?.additionalStoragePrice}
               </Typography>
             </Box>
           </Box>

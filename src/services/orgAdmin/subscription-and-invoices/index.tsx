@@ -17,8 +17,27 @@ export const subscriptionAndInvoicesAPI = baseAPI.injectEndpoints({
       }),
       providesTags: TAG,
     }),
+    getInvoicesById: builder.query({
+      query: ({ id }) => ({
+        url: `${ORG_ADMIN?.GET_INVOICES}?organizationPlanId=${id}`,
+        method: 'GET',
+      }),
+      providesTags: TAG,
+    }),
+    updateSubscription: builder.mutation({
+      query: ({ id, body }) => ({
+        url: `${ORG_ADMIN?.GET_INVOICES}?organizationPlanId=${id}`,
+        method: 'PATCH',
+        body: body,
+      }),
+      invalidatesTags: TAG,
+    }),
   }),
 });
 
-export const { useGetSubscriptionsAndInvoicesQuery, useGetInvoicesQuery } =
-  subscriptionAndInvoicesAPI;
+export const {
+  useGetSubscriptionsAndInvoicesQuery,
+  useGetInvoicesQuery,
+  useGetInvoicesByIdQuery,
+  useUpdateSubscriptionMutation,
+} = subscriptionAndInvoicesAPI;

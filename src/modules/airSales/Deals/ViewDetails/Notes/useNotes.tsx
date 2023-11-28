@@ -9,6 +9,7 @@ const useNotes = () => {
   const [selectedCheckboxes, setSelectedCheckboxes] = useState<
     { _id: number }[]
   >([]);
+  // const { data } = useGetDealNoteQuery({});
 
   //Todo: temporarily id this be updated after list view
   const { data } = useGetDealNoteQuery({
