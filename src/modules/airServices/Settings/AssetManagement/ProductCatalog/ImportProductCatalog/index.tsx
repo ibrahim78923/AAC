@@ -1,5 +1,5 @@
 import CommonDrawer from '@/components/CommonDrawer';
-import { FormProvider, RHFDropZone } from '@/components/ReactHookForm';
+import { FormProvider, RHFFileImport } from '@/components/ReactHookForm';
 import { useImportProductCatalog } from './useImportProductCatalog';
 import { Box, Typography } from '@mui/material';
 
@@ -23,7 +23,7 @@ export const ImportProductCatalog = (props: any) => {
         methods={importFormMethod}
         onSubmit={handleSubmit(submitImportFile)}
       >
-        <RHFDropZone name="file" />
+        <RHFFileImport name="file" />
       </FormProvider>
     </CommonDrawer>
   );
