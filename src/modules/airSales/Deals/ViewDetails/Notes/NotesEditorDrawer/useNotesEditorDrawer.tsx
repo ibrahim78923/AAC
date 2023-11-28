@@ -20,6 +20,7 @@ const useNotesEditorDrawer = () => {
   const onSubmit = async (values: any) => {
     const formData = new FormData();
     formData.append('file', values?.file);
+    //Todo: using static id temporarily because deals list will be implemented by someone else
     formData.append('recordId', '654dbb4a211df87d0a9c4d80');
     formData.append('description', values?.description);
     formData.append('title', values?.title);

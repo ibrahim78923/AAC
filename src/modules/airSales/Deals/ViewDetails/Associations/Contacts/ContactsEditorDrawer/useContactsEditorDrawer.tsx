@@ -13,6 +13,7 @@ import {
 } from '@/services/commonFeatures/contacts';
 import { enqueueSnackbar } from 'notistack';
 import dayjs from 'dayjs';
+import { DATE_FORMAT } from '@/constants';
 
 const useContactsEditorDrawer = () => {
   const { data: lifeCycleStages } = useGetLifeCycleQuery({});
@@ -42,19 +43,25 @@ const useContactsEditorDrawer = () => {
     formData.append('lastName', values?.lastName);
     formData.append('phoneNumber', values?.phoneNumber);
     formData.append('whatsAppNumber', values?.whatsAppNumber);
-    formData.append('dateOfBirth', dayjs(values?.dateOfBirth)?.format());
+    formData.append(
+      'dateOfBirth',
+      dayjs(values?.dateOfBirth)?.format(DATE_FORMAT?.API),
+    );
     formData.append('address', values?.address);
     formData.append('jobTitle', values?.jobTitle);
     formData.append('lifeCycleStageId', values?.lifeCycleStageId);
     formData.append('statusId', values?.statusId);
-    formData.append('dataOfJoinig', dayjs(values?.dataOfJoinig)?.format());
+    formData.append(
+      'dataOfJoinig',
+      dayjs(values?.dataOfJoinig)?.format(DATE_FORMAT?.API),
+    );
     formData.append('title', values?.title);
 
     try {
       await postContacts({ body: formData })?.unwrap();
       enqueueSnackbar('Record Updated', { variant: 'success' });
     } catch (error) {
-      const errMsg = error?.message;
+      const errMsg = error?.data?.message;
       enqueueSnackbar(errMsg ?? 'Error occurred', { variant: 'error' });
     }
   };
