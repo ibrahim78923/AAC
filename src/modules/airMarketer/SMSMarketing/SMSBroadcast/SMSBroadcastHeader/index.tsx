@@ -63,7 +63,7 @@ const SMSBroadcastHeader = (props: any) => {
         </FormControl>
         <Box>
           <Button
-            disabled={props.selectedId ? false : true}
+            disabled={props?.selectedId ? false : true}
             onClick={handleClick}
             // disabled={checkedRows === undefined ? true : false}
             sx={{

@@ -5,7 +5,7 @@ export const rolesAndRightsAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getPermissionsRoles: builder.query({
       query: (values: any) => ({
-        url: END_POINTS.GET_PERMISSIONS_ROLES,
+        url: END_POINTS?.GET_PERMISSIONS_ROLES,
         method: 'GET',
         params: values,
       }),

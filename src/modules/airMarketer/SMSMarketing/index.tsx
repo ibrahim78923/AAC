@@ -24,21 +24,35 @@ import ContactsSMSMarketing from './Contacts';
 import { AIR_MARKETER } from '@/routesConstants/paths';
 
 const SMSMarketing = () => {
-  const { tabVal, setTabVal, navigate } = useSMSMarketing();
+  const { tabVal, setTabVal, navigate, theme } = useSMSMarketing();
 
   return (
     <>
-      <Box>
-        <Box
+      <Box
+        sx={{
+          border: `1px solid ${theme?.palette?.custom?.light_lavender_gray}`,
+          p: 2.4,
+          borderRadius: '8px',
+        }}
+      >
+        <Stack
+          direction={{ sm: 'row', xs: 'column' }}
+          alignItems={{ sm: 'center' }}
           justifyContent="space-between"
-          alignItems="center"
-          sx={{ display: { md: 'flex' } }}
         >
-          <Typography variant="h4">SMS Marketing</Typography>
+          <Typography variant="h3">SMS Marketing</Typography>
+
           {tabVal === 0 && (
-            <Stack direction="row" gap={1} alignItems="center">
-              <FormControl fullWidth sx={{ width: '200px' }}>
+            <Stack direction={{ sm: 'row', xs: 'column' }} gap={1.5}>
+              <FormControl fullWidth>
                 <Select
+                  sx={{
+                    height: '52px',
+                    width: '181px',
+                    padding: '7px 0px',
+                    alignItems: 'center',
+                    display: 'flex',
+                  }}
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
                   defaultValue={'monica'}
@@ -46,7 +60,7 @@ const SMSMarketing = () => {
                   // onChange={handleChange}
                 >
                   <MenuItem value={'monica'}>
-                    <Stack direction="row" gap={1}>
+                    <Stack direction="row" gap={1} alignItems="center">
                       <Avatar
                         alt=""
                         src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aHVtYW58ZW58MHx8MHx8fDA%3D"
@@ -58,7 +72,7 @@ const SMSMarketing = () => {
                     </Stack>
                   </MenuItem>
                   <MenuItem value={'Nakita'}>
-                    <Stack direction="row" gap={1}>
+                    <Stack direction="row" gap={1} alignItems="center">
                       <Avatar
                         alt=""
                         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJZE0VNh6-l13QFIf7SdXGqFIKnD-qOJP-yzN2r800&s"
@@ -98,7 +112,7 @@ const SMSMarketing = () => {
               Create SMS Broadcast
             </Button>
           )}
-        </Box>
+        </Stack>
         <CommonTabs
           tabsArray={['Dashboard', 'SMS Broadcast', 'Contacts', 'Templates']}
           getTabVal={(val: number) => setTabVal(val)}

@@ -59,7 +59,7 @@ const RolesAndRights = () => {
           placeholder="Search Here"
           size="small"
           onChange={(e: any) => {
-            setFilterValues({ ...filterValues, search: e.target.value });
+            setFilterValues({ ...filterValues, search: e?.target?.value });
           }}
         />
         <Box sx={{ display: 'flex', gap: '10px' }}>
