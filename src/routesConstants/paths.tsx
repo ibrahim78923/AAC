@@ -83,4 +83,5 @@ export const AIR_MARKETER = {
   SOCIAL_INBOX_SETTINGS: '/air-marketer/social-marketing/social-inbox/settings',
   SMS_MARKETING: '/air-marketer/sms-marketing',
   SMS_MARKETING_DETAILS: '/air-marketer/sms-marketing/sms-marketing-details',
+  VIEW_PERFORMANCE: '/air-marketer/compaigns/view-performance',
 };

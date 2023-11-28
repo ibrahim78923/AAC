@@ -9,7 +9,7 @@ export const styles = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: '60vw',
+    width: '70vw',
     bgcolor: '#fff',
     p: 2,
     borderRadius: '20px',

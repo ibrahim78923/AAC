@@ -34,18 +34,22 @@ export const END_POINTS = {
   CONTACTS: '/contact',
   LIFECYCLE_STAGES: '/lifecycle-stages',
   CONTACT_STATUS: '/contact-status',
+  TASK_MANAGEMENT: '/task/management',
+  DEALS_ASSOCIATION: '/deals/get-associations',
   ENQUIRIES: '/enquiries/',
+  TASK_MANAGEMENT: '/task/management',
 };
 
 export const superAdminBillingInvoices = {
-  get_org_plan: '/super-admin/get-all-orgplans?',
-  get_Products: '/products?status=active',
-  get_plan_type: '/plan/plan-type-list',
-  get_organizations: '/organization/get-organizations',
-  post_biling_invoices: '/super-admin/assign-plan',
-  get_plan_id: '/super-admin/find-plan',
-  patch_assign_plan: '/super-admin/update-assign-plan',
-  get_all_invoice: '/super-admin/get-all-invoice',
+  GET_ORG_PLAN: '/super-admin/get-all-orgplans?',
+  GET_PRODUCTS: '/products?status=active',
+  GET_PLAN_TYPE: '/plan/plan-type-list',
+  GET_ORGANIZATION: '/organization/get-organizations',
+  POST_BILING_INVOICES: '/super-admin/assign-plan',
+  GET_PLAN_ID: '/super-admin/find-plan',
+  PATCH_ASSIGN_PLAN: '/super-admin/update-assign-plan',
+  GET_ALL_INVOICE: '/super-admin/get-all-invoice',
+  UPDATE_INVOICE: '/super-admin/update-invoice',
 };
 
 export const organization = {

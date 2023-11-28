@@ -22,6 +22,7 @@ const MenuItems = ({
           border: `1px solid ${theme?.palette?.custom?.dark}`,
           color: theme?.palette?.custom?.main,
           width: '105px',
+          height: '36px',
           '@media (max-width:400px)': {
             width: '100% !important',
           },

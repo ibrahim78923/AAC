@@ -3,7 +3,6 @@ import { Grid, Typography, Button, Box } from '@mui/material';
 import Search from '@/components/Search';
 import GenerateInvoice from '../GenerateInvoice';
 import TanstackTable from '@/components/Table/TanstackTable';
-import CustomPagination from '@/components/CustomPagination';
 import ViewBillingDetails from '../ViewBillingDetails';
 import EditForm from '../EditForm';
 import MenuItems from './MenuOptions';
@@ -13,8 +12,9 @@ import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
 import { styles } from '../Invoices/Invoices.style';
 import { FilterSharedIcon } from '@/assets/icons';
-import { dataArray, defaultValues } from './BillingAndInvoices.data';
+import { dataArray } from './BillingAndInvoices.data';
 import { v4 as uuidv4 } from 'uuid';
+import { RefreshIcon } from '@/assets/icons';
 
 const BillingAndInvoicesTable = () => {
   const {
@@ -42,7 +42,10 @@ const BillingAndInvoicesTable = () => {
     handleSubmit,
     onSubmit,
     methods,
-  } = useBillingAndInvoices(defaultValues);
+    handleRefresh,
+    setPage,
+    setPageLimit,
+  } = useBillingAndInvoices();
 
   return (
     <Grid sx={styles?.invoicesTableWrapper}>
@@ -92,6 +95,18 @@ const BillingAndInvoicesTable = () => {
                 isChecked={isChecked}
                 setIsEditModal={setIsEditModal}
               />
+
+              <Button
+                sx={{
+                  border: '1px solid #D1D5DB',
+                  marginLeft: '10px',
+                  height: '36px',
+                }}
+                onClick={handleRefresh}
+              >
+                <RefreshIcon />
+              </Button>
+
               <Button
                 onClick={() => setIsOpenFilter(true)}
                 startIcon={<FilterSharedIcon />}
@@ -100,6 +115,7 @@ const BillingAndInvoicesTable = () => {
                   color: theme?.palette?.custom?.main,
                   width: '105px',
                   marginLeft: '10px',
+                  height: '36px',
                   '@media (max-width:400px)': {
                     width: '100% !important',
                     marginTop: '10px',
@@ -118,15 +134,22 @@ const BillingAndInvoicesTable = () => {
         <ViewBillingDetails
           isOpenDrawer={isShowViewBillingDetails}
           onClose={setIsShowViewBillingDetails}
+          isGetRowValues={isGetRowValues?.row?.original}
         />
       )}
       <Grid item xs={12} sm={12} mt={1}>
         <TanstackTable
           columns={getRowValues}
           data={assignPlanTableData?.data}
+          totalRecords={assignPlanTableData?.data?.meta?.total}
+          onPageChange={(page: any) => setPage(page)}
+          setPage={setPage}
+          setPageLimit={setPageLimit}
+          count={assignPlanTableData?.data?.meta?.pages}
+          isPagination
         />
       </Grid>
-      <CustomPagination count={1} rowsPerPageOptions={[1, 2]} entriePages={1} />
+      {/* <CustomPagination count={1} rowsPerPageOptions={[1, 2]} entriePages={1} /> */}
       {isOpenDrawer && (
         <EditForm
           isOpenDrawer={isOpenDrawer}

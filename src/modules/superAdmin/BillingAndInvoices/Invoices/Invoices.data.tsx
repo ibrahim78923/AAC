@@ -3,11 +3,17 @@ import { styles } from './Invoices.style';
 import { RHFDatePicker, RHFSelect } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 import { AvatarImage } from '@/assets/images';
+import { v4 as uuidv4 } from 'uuid';
+import {
+  useGetOrganizationsQuery,
+  useGetPlanTypeQuery,
+  useGetProductsQuery,
+} from '@/services/superAdmin/billing-invoices';
 
 export const columns = (
   setIsGetRowValues: any,
-  setIschecked: any,
-  ischecked: any,
+  setIsChecked: any,
+  isChecked: any,
   isGetRowValues: any,
 ) => {
   return [
@@ -18,12 +24,14 @@ export const columns = (
         <Checkbox
           color="primary"
           checked={
-            info?.cell?.row?.original?.id ===
-              isGetRowValues?.cell?.row?.original?.id && ischecked
+            info?.cell?.row?.original?._id ===
+              isGetRowValues?.cell?.row?.original?._id && isChecked
           }
           name={info?.getValue()}
           onClick={() => {
-            setIsGetRowValues(info), setIschecked(!ischecked);
+            !isChecked
+              ? (setIsGetRowValues(info), setIsChecked(!isChecked))
+              : (setIsGetRowValues([]), setIsChecked(!isChecked));
           }}
         />
       ),
@@ -31,16 +39,21 @@ export const columns = (
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row?.ClientName,
+      accessorFn: (row: any) => {
+        `${row?.usersOrg?.firstName}  ${row?.usersOrg?.lastName}`;
+      },
       id: 'ClientName',
       cell: (info: any) => (
         <>
           <Box sx={{ display: 'flex', gap: '5px' }}>
             <Avatar alt="Remy Sharp" src={AvatarImage?.src} />
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-              <Typography variant="subtitle2"> {info?.getValue()}</Typography>
+              <Typography variant="subtitle2">
+                {' '}
+                {`${info?.row?.original?.usersOrg?.firstName}  ${info?.row?.original?.usersOrg?.lastName}`}
+              </Typography>
               <Typography variant="body3">
-                {info?.row?.original?.plan}
+                {info?.row?.original?.organizations?.name}
               </Typography>
             </Box>
           </Box>
@@ -50,22 +63,26 @@ export const columns = (
       isSortable: true,
     },
     {
-      accessorFn: (row: any) => row?.ProductSuite,
+      accessorFn: (row: any) => row?.products,
       id: 'Products/Suite',
       isSortable: true,
       header: 'Products/Suite',
       cell: (info: any) => (
         <>
-          <Typography variant="subtitle2">{info?.getValue()}</Typography>
+          {info?.row?.original?.plans?.products?.map((data: any) => (
+            <Typography variant="subtitle2" key={uuidv4()}>
+              {data?.name}{' '}
+            </Typography>
+          ))}
           <Typography variant="body3">
-            {info?.row?.original?.planType}
+            {info?.row?.original?.details?.plantypes} plan
           </Typography>
         </>
       ),
     },
     {
-      accessorFn: (row: any) => row?.dueDate,
-      id: 'InvoiceDate',
+      accessorFn: (row: any) => row?.billingDate?.substring(0, 10),
+      id: 'billingDate',
       isSortable: true,
       header: 'Invoice Date',
       cell: (info: any) => <>{info?.getValue()}</>,
@@ -77,24 +94,26 @@ export const columns = (
       header: 'Details',
       cell: (info: any) => (
         <>
-          <Box>Invoice # {info?.getValue()}</Box>
-          <Box>Due date: {info?.row?.original?.dueDate}</Box>
+          <Box>Invoice # {info?.row?.original?.invoiceNo}</Box>
+          <Box>Due date: {info?.row?.original?.dueDate?.substring(0, 10)}</Box>
         </>
       ),
     },
     {
-      accessorFn: (row: any) => row?.InvoiceAmount,
+      accessorFn: (row: any) => row?.total,
       id: 'InvoiceAmount',
       isSortable: true,
       header: 'Invoice amount',
       cell: (info: any) => <>£ {info?.getValue()}</>,
     },
     {
-      accessorFn: (row: any) => row?.PaymentDate,
-      id: 'PaymentDate',
+      accessorFn: (row: any) => row?.dueDate,
+      id: 'dueDate',
       isSortable: true,
       header: 'Payment Date',
-      cell: (info: any) => <> {info?.getValue()}</>,
+      cell: (info: any) => (
+        <> {info?.row?.original?.dueDate?.substring(0, 10)}</>
+      ),
     },
     {
       accessorFn: (row: any) => row?.status,
@@ -107,82 +126,102 @@ export const columns = (
 };
 
 export const FilterInvoiceValidationSchema = Yup?.object()?.shape({
-  products: Yup?.string()?.trim()?.required('Field is Required'),
-  plan: Yup?.string()?.trim()?.required('Field is Required'),
-  status: Yup?.string()?.trim()?.required('Field is Required'),
-  InvoiceDate: Yup?.string()?.trim()?.required('Field is Required'),
-  PaymentDate: Yup?.string()?.trim()?.required('Field is Required'),
+  organizationId: Yup?.string().trim().optional(),
+  productId: Yup?.string().trim().optional(),
+  planTypeId: Yup?.string().trim().optional(),
+  status: Yup?.string().trim().optional(),
+  billingDate: Yup?.string().trim().optional().nullable(),
+  dueDate: Yup?.string().trim().optional().nullable(),
 });
 
-export const FilterInvoiceDefaultValues = {
-  products: '',
-  plan: '',
-  status: '',
-  InvoiceDate: '',
-  PaymentDate: '',
-};
+export const FilterInvoiceFiltersDataArray = () => {
+  const { data: productData } = useGetProductsQuery<any>({});
 
-export const FilterInvoiceFiltersDataArray = [
-  {
-    componentProps: {
-      name: 'products',
-      label: 'Products',
-      select: true,
+  const productSuite = productData?.data?.map((product: any) => ({
+    value: product?._id,
+    label: product?.name,
+  }));
+
+  const { data: planTypeData } = useGetPlanTypeQuery<any>({});
+
+  const planType = planTypeData?.data?.map((planType: any) => ({
+    value: planType?._id,
+    label: planType?.name,
+  }));
+
+  const { data: OrganizationsData } = useGetOrganizationsQuery<any>({});
+
+  const Organizations = OrganizationsData?.data?.map((Organizations: any) => ({
+    value: Organizations?._id,
+    label: Organizations?.name,
+  }));
+  return [
+    {
+      componentProps: {
+        name: 'organizationId',
+        label: 'Client & Organization',
+        fullWidth: true,
+        select: true,
+      },
+
+      options: Organizations,
+
+      component: RHFSelect,
+
+      md: 12,
     },
-    options: [
-      { value: 'Sales', label: 'Sales' },
-      { value: 'Marketing', label: 'Marketing' },
-      { value: 'Service', label: 'Service' },
-      { value: 'Operations', label: 'Operations' },
-      { value: 'Loyalty Program', label: 'Loyalty Program' },
-    ],
-    component: RHFSelect,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'plan',
-      label: 'Plan type',
-      select: true,
+    {
+      componentProps: {
+        name: 'productId',
+        label: 'Products',
+        select: true,
+      },
+      options: productSuite,
+      component: RHFSelect,
+      md: 12,
     },
-    options: [
-      { value: 'John Doe', label: 'John Doe' },
-      { value: 'William', label: 'William' },
-      { value: 'Andrew', label: 'Andrew' },
-    ],
-    component: RHFSelect,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'status',
-      label: 'status',
-      select: true,
+    {
+      componentProps: {
+        name: 'planTypeId',
+        label: 'Plan type',
+        select: true,
+      },
+      options: planType,
+      component: RHFSelect,
+      md: 12,
     },
-    options: [
-      { value: 'John Doe', label: 'John Doe' },
-      { value: 'William', label: 'William' },
-      { value: 'Andrew', label: 'Andrew' },
-    ],
-    component: RHFSelect,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'InvoiceDate',
-      label: 'Invoice Date',
-      fullWidth: true,
+    {
+      componentProps: {
+        name: 'status',
+        label: 'status',
+        select: true,
+      },
+      options: [
+        { value: 'OVERDUE', label: 'OVERDUE' },
+        { value: 'PENDING', label: 'PENDING' },
+        { value: 'SELECTED', label: 'SELECTED' },
+        { value: 'PAID', label: 'PAID' },
+      ],
+      component: RHFSelect,
+      md: 12,
     },
-    component: RHFDatePicker,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'PaymentDate',
-      label: 'Payment Date',
-      fullWidth: true,
+    {
+      componentProps: {
+        name: 'billingDate',
+        label: 'Invoice Date',
+        fullWidth: true,
+      },
+      component: RHFDatePicker,
+      md: 12,
     },
-    component: RHFDatePicker,
-    md: 12,
-  },
-];
+    {
+      componentProps: {
+        name: 'dueDate',
+        label: 'Payment Date',
+        fullWidth: true,
+      },
+      component: RHFDatePicker,
+      md: 12,
+    },
+  ];
+};

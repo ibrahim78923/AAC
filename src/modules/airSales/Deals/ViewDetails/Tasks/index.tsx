@@ -4,8 +4,6 @@ import TaskEditorDrawer from './TaskEditorDrawer';
 import ActionDropdown from './ActionDropdown';
 import TanstackTable from '@/components/Table/TanstackTable';
 
-import { TasksTableData } from '@/mock/modules/airSales/Deals/ViewDetails';
-
 import useTasks from './useTasks';
 
 import { columns } from './Tasks.data';
@@ -13,7 +11,14 @@ import { columns } from './Tasks.data';
 import { PlusIcon } from '@/assets/icons';
 
 const Tasks = () => {
-  const { openDrawer, setOpenDrawer } = useTasks();
+  const {
+    openDrawer,
+    setOpenDrawer,
+    handleCheckboxChange,
+    selectedCheckboxes,
+    taskData,
+    setSelectedCheckboxes,
+  } = useTasks();
   return (
     <Box
       sx={{
@@ -27,7 +32,11 @@ const Tasks = () => {
           <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
             <Typography variant="h4"> Tasks</Typography>
             <Box sx={{ gap: 1, display: 'flex' }}>
-              <ActionDropdown setOpenDrawer={setOpenDrawer} />
+              <ActionDropdown
+                selectedCheckboxes={selectedCheckboxes}
+                setSelectedCheckboxes={setSelectedCheckboxes}
+                setOpenDrawer={setOpenDrawer}
+              />
               <Button
                 variant="contained"
                 sx={{ minWidth: '0px', height: '35px', gap: 0.5 }}
@@ -39,11 +48,20 @@ const Tasks = () => {
           </Box>
         </Grid>
         <Grid item xs={12}>
-          <TanstackTable columns={columns} data={TasksTableData} />
+          <TanstackTable
+            columns={columns({ handleCheckboxChange, selectedCheckboxes })}
+            data={taskData?.data?.taskmanagements}
+          />
         </Grid>
       </Grid>
-
-      <TaskEditorDrawer openDrawer={openDrawer} setOpenDrawer={setOpenDrawer} />
+      {openDrawer && (
+        <TaskEditorDrawer
+          openDrawer={openDrawer}
+          setOpenDrawer={setOpenDrawer}
+          setSelectedCheckboxes={setSelectedCheckboxes}
+          selectedCheckboxes={selectedCheckboxes}
+        />
+      )}
     </Box>
   );
 };

@@ -12,7 +12,8 @@ export const PageTitledHeader = ({
   handleExcelExport,
   handleCsvExport,
   moveBack,
-  hasMovedBack,
+  canMovedBack,
+  handleImport,
 }: any) => {
   const theme: any = useTheme();
 
@@ -25,7 +26,7 @@ export const PageTitledHeader = ({
         flexWrap={'wrap'}
       >
         <Box display={'flex'} alignItems={'center'} gap={1} flexWrap={'wrap'}>
-          {hasMovedBack && (
+          {canMovedBack && (
             <ArrowBackIcon
               color={'secondary'}
               sx={{ cursor: 'pointer' }}
@@ -44,6 +45,7 @@ export const PageTitledHeader = ({
               color="secondary"
               variant="outlined"
               startIcon={<ImportIcon />}
+              onClick={() => handleImport?.()}
             >
               Import
             </Button>
@@ -58,14 +60,15 @@ export const PageTitledHeader = ({
               }}
             />
           )}
-
-          <Button
-            variant="contained"
-            startIcon={<PlusSharedColorIcon />}
-            onClick={handleAction}
-          >
-            {addTitle}
-          </Button>
+          {!!addTitle?.length && (
+            <Button
+              variant="contained"
+              startIcon={<PlusSharedColorIcon />}
+              onClick={handleAction}
+            >
+              {addTitle}
+            </Button>
+          )}
         </Box>
       </Box>
       <br />

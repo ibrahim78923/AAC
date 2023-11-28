@@ -5,6 +5,9 @@ import Step2 from './Import/StepTwo';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
+import { useGetTasksQuery } from '@/services/airSales/task';
+import { PAGINATION } from '@/config';
+import { useState } from 'react';
 
 export const useTask = () => {
   const [toggler, setToggler] = React.useState<string>('listView');
@@ -30,7 +33,7 @@ export const useTask = () => {
     },
   ];
 
-  const [counter, setCounter] = React.useState(0);
+  const [counter, setCounter] = useState(0);
   const handleInsightsBtnClick = () => setCounter(0);
   const handleFeedBtnClick = () => setCounter(1);
 
@@ -47,15 +50,18 @@ export const useTask = () => {
   const { handleSubmit: StepTwoHandleSubmit } = stepTwoMethods;
   const stepTwoSubmit = () => {};
 
-  const createTaskMethods = useForm({
-    resolver: yupResolver(Yup.object({})),
-    defaultValues: {},
-  });
-  const { handleSubmit: createTaskHandleSubmit } = createTaskMethods;
-  const createTaskSubmit = () => {};
+  const [actionType, setActionType] = useState('');
+  const handleActionBtn = (val: any) => {
+    setActionType(val);
+  };
 
-  const [actionType, setActionType] = React.useState('');
-  const handleActionBtn = (val: any) => setActionType(val);
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+
+  const { data: taskData, isLoading } = useGetTasksQuery({
+    params: { page: page, limit: pageLimit },
+  });
+
   return {
     toggler,
     handleToggler,
@@ -72,10 +78,14 @@ export const useTask = () => {
     stepTwoMethods,
     StepTwoHandleSubmit,
     stepTwoSubmit,
-    createTaskMethods,
-    createTaskHandleSubmit,
-    createTaskSubmit,
     actionType,
     handleActionBtn,
+    taskData,
+
+    page,
+    setPage,
+    pageLimit,
+    setPageLimit,
+    isLoading,
   };
 };

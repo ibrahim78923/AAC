@@ -21,19 +21,19 @@ export const CustomGridWithCardContent = ({
                 justifyContent={'space-between'}
               >
                 <Box>
-                  <Typography sx={style?.cardHead}>{obj?.taskName}</Typography>
+                  <Typography sx={style?.cardHead}>{obj?.name}</Typography>
                   <Typography sx={style?.cardSubHead}>
-                    Last Date: {obj?.lastDate}
+                    Last Date: {obj?.updatedAt}
                   </Typography>
                 </Box>
                 <Checkbox />
               </Box>
 
-              <CustomBox label={'Linked Company'} value={obj?.linkedCompany} />
-              <CustomBox label={'Assigned User'} value={obj?.assignedUser} />
+              <CustomBox label={'Linked Company'} value={obj?.associate} />
+              <CustomBox label={'Assigned User'} value={obj?.assignTo} />
               <CustomBox
                 label={'Task Status'}
-                value={obj?.taskStatus}
+                value={obj?.status}
                 changeStatusColor
               />
             </Box>

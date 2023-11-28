@@ -7,19 +7,32 @@ import {
 } from '@/components/ReactHookForm';
 
 // Define your Yup validation schema
-export const contactsValidationSchema = Yup.object().shape({
-  email: Yup.string().email('Invalid email').trim().required('Required Field'),
-  profilePicture: Yup.string().trim().required('Required Field'),
-  firstName: Yup.string().trim().required('Required Field'),
-  lastName: Yup.string().trim().required('Required Field'),
-  address: Yup.string().trim().required('Required Field'),
-  phoneNumber: Yup.number().nullable().required('Required Field'),
-  whatsAppNumber: Yup.number().nullable().required('Required Field'),
-  lifeCycleStage: Yup.string().trim().required('Required Field'),
-  contactOwner: Yup.string().trim().required('Required Field'),
-  status: Yup.string().trim().required('Required Field'),
-  dateOfJoining: Yup.string().nullable().required('Required Field'),
-  dateOfBirth: Yup.string().nullable().required('Required Field'),
+export const contactsValidationSchema = Yup?.object()?.shape({
+  email: Yup?.string()?.email('Invalid email')?.required('Required Field'),
+  profilePicture: Yup?.string()?.trim()?.required('Required Field'),
+  firstName: Yup?.string()
+    ?.trim()
+    ?.matches(/^[a-zA-Z]*$/, 'Alphabets Only')
+    ?.required('Required Field'),
+  lastName: Yup?.string()
+    ?.trim()
+    ?.matches(/^[a-zA-Z]*$/, 'Alphabets Only')
+    ?.required('Required Field'),
+  address: Yup?.string()?.trim()?.required('Required Field'),
+  phoneNumber: Yup?.string()
+    ?.matches(/^[0-9]*$/, 'must be a number')
+    ?.min(10, 'Mininum 10 characters')
+    ?.required('Required field'),
+  whatsAppNumber: Yup?.string()
+    ?.matches(/^[0-9]*$/, 'must be a number')
+    ?.min(10, 'Mininum 10 characters')
+    ?.required('Required field'),
+  lifeCycleStageId: Yup?.string()?.trim()?.required('Required Field'),
+  // contactOwner: Yup?.string()?.trim()?.required('Required Field'),
+  statusId: Yup?.string()?.trim()?.required('Required Field'),
+  jobTitle: Yup?.string()?.trim()?.required('Required Field'),
+  dateOfJoining: Yup?.string()?.nullable()?.required('Required Field'),
+  dateOfBirth: Yup?.string()?.nullable()?.required('Required Field'),
 });
 
 // Define your default values
@@ -29,11 +42,12 @@ export const contactsDefaultValues = {
   firstName: '',
   lastName: '',
   address: '',
+  jobTitle: '',
   phoneNumber: null,
   whatsAppNumber: null,
-  lifeCycleStage: '',
+  lifeCycleStageId: '',
   contactOwner: '',
-  status: '',
+  statusId: '',
   dateOfJoining: null,
   dateOfBirth: null,
 };
@@ -47,7 +61,7 @@ export const contactsDataArray = ({
       title: 'Email',
       componentProps: {
         name: 'email',
-        label: 'Enter Name',
+        label: 'Enter Email',
       },
       md: 12,
       component: RHFTextField,
@@ -132,9 +146,17 @@ export const contactsDataArray = ({
       component: RHFSelect,
     },
     {
+      componentProps: {
+        name: 'jobTitle',
+        label: 'Job Title',
+      },
+      md: 12,
+      component: RHFTextField,
+    },
+    {
       title: 'Lifecycle Stage',
       componentProps: {
-        name: 'lifeCycleStage',
+        name: 'lifeCycleStageId',
         label: 'Lifecycle Stage',
         select: true,
       },
@@ -144,7 +166,7 @@ export const contactsDataArray = ({
     },
     {
       componentProps: {
-        name: 'status',
+        name: 'statusId',
         label: 'Status',
         select: true,
       },

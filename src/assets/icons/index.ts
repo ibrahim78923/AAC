@@ -264,7 +264,19 @@ export { default as LinkdinIcon } from './modules/airMarketer/PaidAds/linkedIn';
 export { default as QuriesIcon } from './modules/airMarketer/SocialMarketing/SocialInbox/quries';
 export { default as AttachmentsIcon } from './modules/airMarketer/SocialMarketing/SocialInbox/attachments';
 export { default as ReplyRoundedIcon } from './modules/airMarketer/SocialMarketing/SocialInbox/reply';
+// export { default as ReplyAllIcon } from './modules/airMarketer/SocialInbox/reply-all';
+export { default as DotsBoldIcon } from './modules/airMarketer/SocialInbox/dots-bold';
+export { default as ReplyMailIcon } from './modules/airMarketer/SocialInbox/reply-mail';
+export { default as EmojiOutlinedIcon } from './shared/emoji-outlined';
+
+export { default as InstaLikeIcon } from './modules/airMarketer/SocialMarketing/SocialInbox/insta-like';
+export { default as InstaCommentIcon } from './modules/airMarketer/SocialMarketing/SocialInbox/insta-comments';
+
+export { default as TwitterCommentIcon } from './modules/airMarketer/SocialMarketing/SocialInbox/twitter-comment';
+export { default as TwitterShareIcon } from './modules/airMarketer/SocialMarketing/SocialInbox/twitter-share';
+export { default as RetweetIcon } from './modules/airMarketer/SocialMarketing/SocialInbox/re-tweet';
 export { default as RefreshSharedIcon } from './shared/refresh-shared';
+export { default as DropdownMenuIcon } from './shared/dropdown-menu-icon';
 export { default as ItIcon } from './modules/airServices/Settings/UserManagement/Departments/it-icon';
 export { default as HrIcon } from './modules/airServices/Settings/UserManagement/Departments/hr-icon';
 export { default as DesignIcon } from './modules/airServices/Settings/UserManagement/Departments/deisgn-icon';
@@ -278,3 +290,6 @@ export { default as RequesterIcon } from './modules/airServices/Settings/request
 export { default as RolesIcon } from './modules/airServices/Settings/roles-icon';
 export { default as ClosureRuleIcon } from './modules/airServices/Settings/closure-rule-icon';
 export { default as ServicesCatalogIcon } from './modules/airServices/Settings/services-catalog-icon';
+export { default as CannedResponseIcon } from './modules/airServices/Settings/canned-response-icon';
+export { default as LeadersBoardIcon } from './modules/airServices/Settings/leaders-board-icon';
+export { default as WorkloadManagementIcon } from './modules/airServices/Settings/workload-management-icon';
