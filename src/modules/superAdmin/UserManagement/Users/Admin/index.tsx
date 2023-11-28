@@ -6,11 +6,13 @@ import { superAdminColumns } from '../Users.data';
 import useUserManagement from '../../useUserManagement';
 
 const Admin = (props: any) => {
-  const { checkedRows, setCheckedRows, search } = props;
+  const { checkedRows, setCheckedRows, filterValues, searchVal } = props;
   const { useGetUsersQuery, handleUserSwitchChange } = useUserManagement();
   const params = {
     role: 'SUPER_ADMIN',
-    search: search,
+    search: searchVal ?? '',
+    products: filterValues?.products ?? '',
+    // organization: filterValues?.organization ?? ''
   };
   const { data } = useGetUsersQuery(params);
   const columnsProps = {

@@ -16,7 +16,7 @@ export const END_POINTS = {
   USER_LIST: '/users',
   ADD_USER: '/users',
   ADD_USER_ACCOUNT: '/super-admin/add-accounts',
-  SUPER_ADMIN_USER_LIST: '/super-admin/user-list',
+  ORG_ADMIN_EMP_LIST: '/users/organization',
   ORG_USER_EMPLOYEE: '/users/organization',
   USER_ACCOUNTS_LIST: '/super-admin/accounts-list',
   UPDATE_USER_LIST: '/users/edit',

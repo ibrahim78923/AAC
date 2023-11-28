@@ -14,6 +14,8 @@ const useUserDetailsList = () => {
   const [isOpenAddAccountDrawer, setIsOpenAddAccountDrawer] = useState(false);
   const [isOpenAddCompanyDrawer, setISOpenCompanyDrawer] = useState(false);
   const [isOpenAdduserDrawer, setIsOpenAdduserDrawer] = useState(false);
+  const [employeeDataById, setEmployeeDataById] = useState();
+  const [isActiveEmp, setIsActiveEmp] = useState(0);
 
   const handleCloseDrawer = () => {
     setIsOpenDrawer(false);
@@ -44,6 +46,10 @@ const useUserDetailsList = () => {
     setTabVal,
     theme,
     navigate,
+    employeeDataById,
+    setEmployeeDataById,
+    isActiveEmp,
+    setIsActiveEmp,
   };
 };
 export default useUserDetailsList;

@@ -26,8 +26,8 @@ const useUserManagement = () => {
   const [checkedRows, setCheckedRows] = useState<any>();
   const [selectedValue, setSelectedValue] = useState(null);
   const [tabVal, setTabVal] = useState<number>(0);
+  const [searchVal, setSearchVal] = useState('');
   const [filterValues, setFilterValues] = useState<any>({
-    search: '',
     role: '',
     products: '',
     organization: '',
@@ -62,7 +62,7 @@ const useUserManagement = () => {
       pathname: SUPER_ADMIN?.USERS_LIST,
       query: {
         userName: `${data?.firstName} ${data?.lastName}`,
-        organizationId: data?.organization,
+        organizationId: data?.organization?._id,
       },
     });
     setSelectedValue(null);
@@ -102,6 +102,8 @@ const useUserManagement = () => {
     setCheckedRows,
     updateUserProfile,
     products,
+    searchVal,
+    setSearchVal,
     organizations,
   };
 };

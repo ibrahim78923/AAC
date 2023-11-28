@@ -241,20 +241,6 @@ export const usersFilterArray = () => {
   return [
     {
       componentProps: {
-        name: 'role',
-        label: 'User Type',
-        fullWidth: true,
-        select: true,
-      },
-      options: [
-        { value: 'ORG_ADMIN', label: 'Company Owner' },
-        { value: 'SUPER_ADMIN', label: 'Super Admin' },
-      ],
-      component: RHFSelect,
-      md: 12,
-    },
-    {
-      componentProps: {
         name: 'organization',
         label: 'Organization Name',
         fullWidth: true,
