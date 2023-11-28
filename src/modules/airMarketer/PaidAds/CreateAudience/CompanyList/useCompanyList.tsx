@@ -2,7 +2,6 @@ import { useTheme } from '@emotion/react';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-
 const useCompanyList = () => {
   const theme = useTheme();
   const methods = useForm({

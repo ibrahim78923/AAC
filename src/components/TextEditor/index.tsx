@@ -8,7 +8,14 @@ import { TextEditorPropsI } from './TextEditor.interface';
 const ReactQuill = dynamic(() => import('react-quill'), {
   ssr: false,
 });
-const TextEditor = ({ value, customToolbar, onChange }: TextEditorPropsI) => {
+const TextEditor = ({
+  value,
+  customToolbar,
+  isBorder,
+  isBackground,
+  height,
+  setValue,
+}: TextEditorPropsI) => {
   const theme = useTheme();
   const defaultFeatures = [
     ['bold', 'italic', 'underline'],
@@ -29,22 +36,24 @@ const TextEditor = ({ value, customToolbar, onChange }: TextEditorPropsI) => {
     <Box
       sx={{
         position: 'relative',
-        border: `1.5px solid #9CA3AF`,
+        border: isBorder === false ? undefined : `1.5px solid #9CA3AF`,
         borderRadius: '8px',
         overflow: 'hidden',
         '& .ql-toolbar.ql-snow': {
-          backgroundColor: theme.palette.grey[100],
+          backgroundColor:
+            isBackground === false ? undefined : theme?.palette?.grey[100],
           border: 'none',
         },
         '& .ql-container.ql-snow': {
           border: 'none',
-          height: '110px',
+          height: height ?? '110px',
         },
       }}
     >
       <ReactQuill
         value={value}
-        onChange={(newValue) => onChange(newValue)}
+        // onChange={(newValue) => onChange(newValue)}
+        onChange={setValue}
         modules={modules}
         style={{ position: 'relative' }}
       />

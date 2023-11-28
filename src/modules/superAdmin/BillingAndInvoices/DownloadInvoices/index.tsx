@@ -14,15 +14,22 @@ import {
 
 import TanstackTable from '@/components/Table/TanstackTable';
 
-import { invoiceProducData } from '@/mock/modules/SubscriptionAndInvoices';
 import { ViewInvoicesI } from './ViewInvoices.interface';
 
 import { styles } from './ViewInvoices.style';
 
 import { CloseModalIcon, LogoIcon } from '@/assets/icons';
 import { AvatarImage } from '@/assets/images';
+import { v4 as uuidv4 } from 'uuid';
+import jsPDF from 'jspdf';
+import { useRouter } from 'next/router';
 
-const DownloadInvoices: FC<ViewInvoicesI> = ({ open, onClose }) => {
+const DownloadInvoices: FC<ViewInvoicesI> = ({
+  open,
+  onClose,
+  DownloadInvoiceData,
+  discountValue,
+}) => {
   const columns: any = [
     {
       accessorFn: (row: any) => row?.id,
@@ -32,55 +39,64 @@ const DownloadInvoices: FC<ViewInvoicesI> = ({ open, onClose }) => {
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row?.product,
+      accessorFn: (row: any) => row?.products,
       id: 'product',
       cell: (info: any) => (
         <>
           <Box sx={{ fontWeight: '500', color: 'blue.dull_blue' }}>
             {info?.getValue()}
+            {info?.row?.original?.plans?.products?.map((data: any) => (
+              <Typography variant="body3" key={uuidv4()}>
+                {data?.name}{' '}
+              </Typography>
+            ))}
           </Box>
-          <Box>{info?.row?.original?.plan}</Box>
+          <Typography variant="body3">
+            ({info?.row?.original?.plantypes})
+          </Typography>
         </>
       ),
       header: 'Product/Suite',
       isSortable: true,
     },
     {
-      accessorFn: (row: any) => row?.planPrice,
+      accessorFn: (row: any) => row?.details?.plans?.planPrice,
       id: 'planPrice',
       isSortable: true,
       header: 'Plan Price',
       cell: (info: any) => <>£ {info?.getValue()}</>,
     },
     {
-      accessorFn: (row: any) => row?.additionalUsers,
+      accessorFn: (row: any) => row?.details?.additionalUsers,
       id: 'additionalUsers',
       isSortable: true,
       header: 'Additional Users',
       cell: (info: any) => (
         <>
-          {info?.getValue()} (*£15) = £{info?.getValue() * 15}
+          {info?.getValue()} (*£15) = £ {info?.getValue() * 15}
         </>
       ),
     },
     {
-      accessorFn: (row: any) => row?.additionalStorage,
+      accessorFn: (row: any) => row?.details?.additionalStorage,
       id: 'additionalStorage',
       isSortable: true,
       header: 'Additional Storage',
       cell: (info: any) => (
         <>
-          {info?.getValue()} (*£15) = £{info?.getValue() * 15}
+          {info?.getValue()} (*£15) = £{info.getValue() * 15}
         </>
       ),
     },
     {
-      accessorFn: (row: any) => row?.discount,
+      accessorFn: (row: any) => row?.invoiceDiscount,
       id: 'discount',
       isSortable: true,
       header: 'Discount(%)',
       cell: (info: any) => (
-        <Box sx={{ fontWeight: '800' }}>{info?.getValue()} %</Box>
+        <Box sx={{ fontWeight: '800' }}>
+          {info?.getValue() && discountValue} %
+        </Box>
       ),
     },
     {
@@ -94,6 +110,17 @@ const DownloadInvoices: FC<ViewInvoicesI> = ({ open, onClose }) => {
     },
   ];
   const theme = useTheme();
+  const router = useRouter();
+
+  const handleDownload = () => {
+    const invoice: any = new jsPDF('portrait', 'pt', [1200, 1200]);
+    invoice.html(document.querySelector('#invoice-data')).then(() => {
+      invoice.save('invoice.pdf');
+    });
+    onClose();
+    router?.back();
+  };
+
   return (
     <Dialog
       open={open}
@@ -107,7 +134,7 @@ const DownloadInvoices: FC<ViewInvoicesI> = ({ open, onClose }) => {
       }}
     >
       <DialogContent sx={{ p: '12px 24px 24px' }}>
-        <Box>
+        <Box id="invoice-data">
           <Box sx={styles?.topBar}>
             <Box sx={styles?.modalClose} onClick={onClose}>
               <CloseModalIcon />
@@ -131,16 +158,18 @@ const DownloadInvoices: FC<ViewInvoicesI> = ({ open, onClose }) => {
                   Air Applecart
                 </Typography>
                 <Typography variant="body3" sx={styles?.cardLeftText(theme)}>
-                  123 Street Address
+                  {DownloadInvoiceData?.organizations?.address?.street}
                 </Typography>
-                <Typography variant="body3" sx={styles?.cardLeftText(theme)}>
-                  City | State | Zip Code
+                <Typography variant="body3" sx={styles?.cardLeftText}>
+                  {DownloadInvoiceData?.organizations?.address?.city} |{' '}
+                  {DownloadInvoiceData?.organizations?.address?.state} |{' '}
+                  {DownloadInvoiceData?.organizations?.address?.postalCode}
                 </Typography>
-                <Typography variant="body3" sx={styles?.cardLeftText(theme)}>
-                  Phone No
+                <Typography variant="body3" sx={styles?.cardLeftText}>
+                  {DownloadInvoiceData?.organizations?.phoneNo}
                 </Typography>
-                <Typography variant="body3" sx={styles?.cardLeftText(theme)}>
-                  Company Email
+                <Typography variant="body3" sx={styles?.cardLeftText}>
+                  {DownloadInvoiceData?.organizations?.email}
                 </Typography>
               </Box>
             </Box>
@@ -148,25 +177,32 @@ const DownloadInvoices: FC<ViewInvoicesI> = ({ open, onClose }) => {
             <Box sx={styles?.cardRight}>
               <Box sx={styles?.userInfo}>
                 <Avatar sx={styles?.avatar} alt="" src={AvatarImage?.src}>
-                  R
+                  {' '}
                 </Avatar>
                 <Box>
-                  <Typography sx={styles?.userName}>Olivia Rhye</Typography>
-                  <Box sx={styles?.orgName(theme)}>Extreme Commerce</Box>
+                  <Typography sx={styles?.userName}>
+                    {DownloadInvoiceData?.usersOrg?.firstName}{' '}
+                    {DownloadInvoiceData?.usersOrg?.lastName}
+                  </Typography>
+                  <Box sx={styles?.orgName}>
+                    {DownloadInvoiceData?.organizations?.name}
+                  </Box>
                 </Box>
               </Box>
               <Box>
-                <Typography variant="body3" sx={styles?.cardLeftText(theme)}>
-                  123 Street Address
+                <Typography variant="body3" sx={styles?.cardLeftText}>
+                  {DownloadInvoiceData?.organizations?.address?.street}
                 </Typography>
-                <Typography variant="body3" sx={styles?.cardLeftText(theme)}>
-                  City | State | Zip Code
+                <Typography variant="body3" sx={styles?.cardLeftText}>
+                  {DownloadInvoiceData?.organizations?.address?.city} |{' '}
+                  {DownloadInvoiceData?.organizations?.address?.state} |{' '}
+                  {DownloadInvoiceData?.organizations?.address?.postalCode}
                 </Typography>
-                <Typography variant="body3" sx={styles?.cardLeftText(theme)}>
-                  Phone No
+                <Typography variant="body3" sx={styles?.cardLeftText}>
+                  {DownloadInvoiceData?.organizations?.phoneNo}
                 </Typography>
-                <Typography variant="body3" sx={styles?.cardLeftText(theme)}>
-                  Company Email
+                <Typography variant="body3" sx={styles?.cardLeftText}>
+                  {DownloadInvoiceData?.organizations?.email}
                 </Typography>
               </Box>
             </Box>
@@ -174,70 +210,82 @@ const DownloadInvoices: FC<ViewInvoicesI> = ({ open, onClose }) => {
 
           <Box sx={styles?.invoiceInfo}>
             <Grid container spacing={'16px'}>
-              <Grid item xs={3}>
+              <Grid item xs={4}>
                 <Box sx={styles?.invoiceInfoTitle}>
-                  Invoice No: <Box component="span">Doc-3</Box>
+                  Invoice No:{' '}
+                  <Typography>{DownloadInvoiceData?.invoiceNo}</Typography>
                 </Box>
               </Grid>
-              <Grid item xs={3}>
+              <Grid item xs={4}>
                 <Box sx={styles?.invoiceInfoTitle}>
-                  Invoice Date: <Box component="span">April 9,2023</Box>
+                  Invoice Date:{' '}
+                  <Typography>
+                    {DownloadInvoiceData?.billingDate
+                      ? new Date(
+                          DownloadInvoiceData?.billingDate,
+                        ).toLocaleDateString('en-GB')
+                      : 'Invalid Date'}
+                  </Typography>
                 </Box>
               </Grid>
-              <Grid item xs={3}>
+              <Grid item xs={4}>
                 <Box sx={styles?.invoiceInfoTitle}>
-                  Due Date: <Box component="span">April 27,2023</Box>
-                </Box>
-              </Grid>
-              <Grid item xs={3}>
-                <Box sx={styles?.invoiceInfoTitle}>
-                  Prepared By: <Box component="span">Adil Khan</Box>
+                  Due Date:{' '}
+                  <Typography>
+                    {DownloadInvoiceData?.dueDate
+                      ? new Date(
+                          DownloadInvoiceData?.dueDate,
+                        ).toLocaleDateString('en-GB')
+                      : 'Invalid Date'}
+                  </Typography>
                 </Box>
               </Grid>
             </Grid>
           </Box>
 
+          {/* Product Table */}
           <Box sx={styles?.productCont}>
             <Box sx={styles?.productHeading}>Products</Box>
-            <TanstackTable columns={columns} data={invoiceProducData} />
+            <TanstackTable columns={columns} data={[DownloadInvoiceData]} />
           </Box>
 
+          {/* Voucher Card*/}
           <Box sx={styles?.voucher}>
             <Box sx={styles?.vRow}>
               <Box sx={styles?.vLabel}>
                 Discount{' '}
-                <Box
-                  component="span"
-                  sx={{ fontWeight: '500', fontSize: '14px' }}
-                >
-                  (10%)
-                </Box>
+                <Typography sx={{ fontWeight: '500', fontSize: '14px' }}>
+                  ({DownloadInvoiceData?.invoiceDiscount && discountValue}%)
+                </Typography>
               </Box>
-              <Box sx={styles?.vValue}>(£ 10)</Box>
+              <Box sx={styles?.vValue}>
+                (£ {DownloadInvoiceData?.invoiceDiscount && discountValue})
+              </Box>
             </Box>
             <Box sx={styles?.vRow}>
               <Box sx={styles?.vLabel}>
                 Tax{' '}
-                <Box
-                  component={'span'}
-                  sx={{ fontWeight: '400', fontSize: '12px' }}
-                >
-                  (Vat 20%)
-                </Box>
+                <Typography sx={{ fontWeight: '400', fontSize: '12px' }}>
+                  (Vat {DownloadInvoiceData?.vat}%)
+                </Typography>
               </Box>
-              <Box sx={styles?.vValue}>£ 27</Box>
+              <Box sx={styles?.vValue}>£ {DownloadInvoiceData?.vat}</Box>
             </Box>
             <Divider sx={{ borderColor: 'custom.off_white_one', my: '6px' }} />
             <Box sx={styles?.vRow}>
               <Box sx={styles?.vLabel}>Total Cost</Box>
-              <Box sx={styles?.vValue}>£ 162</Box>
+              <Box sx={styles?.vValue}>£ {DownloadInvoiceData?.total}</Box>
             </Box>
           </Box>
 
           <Divider sx={{ borderColor: 'custom.off_white_one', my: '24px' }} />
 
           <Box sx={{ textAlign: 'right' }}>
-            <Button variant="contained" color="primary">
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleDownload}
+            >
               Download
             </Button>
           </Box>

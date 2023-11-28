@@ -7,7 +7,7 @@ export const styles = {
   },
   mainWrapperBox: () => {
     return {
-      padding: '20px 20px',
+      padding: '14px 14px',
       width: '100%',
       backgroundColor: 'white',
       minHeight: '87vh',

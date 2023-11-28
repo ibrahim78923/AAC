@@ -73,13 +73,15 @@ export const styles = {
     mt: '16px',
   }),
   invoiceInfoTitle: (theme: any) => ({
+    display: 'flex',
     fontSize: '14px',
     fontWeight: '500',
     color: theme?.palette?.blue?.dull_blue,
     lineHeight: '1.42857',
-    '& > span': {
+    '& > p': {
       color: theme?.palette?.custom?.main,
       fontWeight: '400',
+      fontSize: '14px',
     },
   }),
   productCont: (theme: any) => ({
@@ -108,6 +110,8 @@ export const styles = {
     py: '12px',
   }),
   vLabel: () => ({
+    display: 'flex',
+    alignItems: 'center',
     fontSize: '16px',
     fontWeight: '600',
     lineHeight: '1.5',

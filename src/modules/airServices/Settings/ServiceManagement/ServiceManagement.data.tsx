@@ -5,7 +5,7 @@ export const serviceManagement = [
   {
     id: 1,
     avatar: ServicesCatalogIcon,
-    type: 'Service Catalog',
+    type: 'Services Catalog',
     purpose: `Create and manage fields to capture information about projects`,
     link: AIR_SERVICES?.SERVICE_CATALOG_SETTINGS,
   },

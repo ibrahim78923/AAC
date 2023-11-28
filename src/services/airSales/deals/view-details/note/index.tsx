@@ -5,7 +5,7 @@ export const exampleExampleAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getDealNote: builder.query({
       query: () => ({
-        url: END_POINTS?.VIEW_DEALS_NOTES,
+        url: `${END_POINTS?.VIEW_DEALS_NOTES}`,
         method: 'GET',
       }),
       providesTags: ['DEALS_NOTES'],

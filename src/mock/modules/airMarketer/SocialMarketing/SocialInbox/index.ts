@@ -10,6 +10,7 @@ import {
   TwitterChannelImage,
   UserRetroImage,
   UserRoundImage,
+  UsersAvatarRoundedImage,
   YoutubeChannelImage,
 } from '@/assets/images';
 
@@ -28,6 +29,7 @@ export const SocialTeamsData = [
     notification: '2',
     time: '12:48PM',
     socialIcon: GroupFacebookImage,
+    socialMode: 'fbPost',
   },
   {
     id: '02',
@@ -37,6 +39,7 @@ export const SocialTeamsData = [
     notification: '2',
     time: '12:48PM',
     socialIcon: GroupGmailImage,
+    socialMode: 'mail',
   },
   {
     id: '03',
@@ -46,6 +49,7 @@ export const SocialTeamsData = [
     notification: '2',
     time: '12:48PM',
     socialIcon: GroupTwitterImage,
+    socialMode: 'twitterPost',
   },
   {
     id: '04',
@@ -55,6 +59,7 @@ export const SocialTeamsData = [
     notification: '2',
     time: '12:48PM',
     socialIcon: GroupInstagramImage,
+    socialMode: 'instagramPost',
   },
 ];
 
@@ -187,7 +192,7 @@ export const mailingData: any = {
   userImage: UserRetroImage,
   timeStamp: 'Apr 6, 2023 at 09:49 GMT +5',
   from: 'keitht@gmail.com',
-  to: ['robertfox@gmail.com'],
+  to: 'robertfox@gmail.com',
   subject: 'Work from home request',
   body: '<strong>Hi James Henry,</strong><br /><br />Thank you so much for being a customer of Hycholic.ltdbr <br /> It’s because of people like you we have been able to be in business for such a long time. To thank you, we have created a discount coupon especially for you. <br /><br /> Use the code #000000000 to get a discount from any product in our store . But hurry! The offer is only available for the first people who make the purchase<br /><br /> <strong>Kind Regards,</strong> <br /> Mr. Robert Fox <br /><br />Hycholic.LTD<br /><strong>Mr.RobertFox314@gmail.com</strong>',
   reply: [
@@ -203,3 +208,49 @@ export const mailingData: any = {
     },
   ],
 };
+
+export const quickReplies = [
+  {
+    title: 'Feedback',
+    content:
+      'Delighted with our customer support? Would you like to leave us a review of your experience with our team?',
+  },
+  {
+    title: 'Query:',
+    content:
+      'Hey Paul,I’m getting back to you regarding the discount you mentioned in your last email.',
+  },
+  {
+    title: 'Query:',
+    content:
+      'Hey Paul,I’m getting back to you regarding the discount you mentioned in your last email.',
+  },
+];
+
+export const commentActivity = [
+  {
+    userImage: UsersAvatarRoundedImage,
+    userName: 'Aditya Cah Tegal',
+    date: '01/02/23',
+    time: '01:34 PM',
+    comment:
+      'People getting this type of rejection for AI images, or any images that contains A.I  generated comntnt, but this is definitely not AI',
+    commentNotification: '',
+  },
+  {
+    userImage: UsersAvatarRoundedImage,
+    userName: 'Robert fox',
+    date: '01/02/23',
+    time: '01:34 PM',
+    comment: 'replied on this comment  “Thanks”',
+    commentNotification: '',
+  },
+  {
+    userImage: UsersAvatarRoundedImage,
+    userName: 'Robert fox',
+    date: '01/02/23',
+    time: '01:34 PM',
+    comment: 'reacted on this comment 😊',
+    commentNotification: '',
+  },
+];

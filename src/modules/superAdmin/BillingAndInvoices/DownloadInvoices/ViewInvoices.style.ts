@@ -40,7 +40,7 @@ export const styles = {
     fontSize: '14px',
     fontWeight: '400',
     lineHeight: '1.42857',
-    '& > span': {
+    '& > p': {
       fontWeight: '700',
       color: theme?.palette?.grey[400],
     },
@@ -73,12 +73,15 @@ export const styles = {
     mt: '16px',
   }),
   invoiceInfoTitle: (theme: any) => ({
+    display: 'flex',
+    alignItems: 'center',
     fontSize: '14px',
     fontWeight: '500',
     color: theme?.palette?.blue?.dull_blue,
     lineHeight: '1.42857',
-    '& > span': {
+    '& > p': {
       color: theme?.palette?.custom?.main,
+      fontSize: '14px',
       fontWeight: '400',
     },
   }),
@@ -112,6 +115,8 @@ export const styles = {
     fontWeight: '600',
     lineHeight: '1.5',
     color: 'slateBlue.main',
+    display: 'flex',
+    alignItems: 'center',
   }),
   vValue: () => ({
     fontSize: '18px',
