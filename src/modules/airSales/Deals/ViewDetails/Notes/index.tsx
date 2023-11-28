@@ -127,7 +127,7 @@ const Notes = () => {
                   }}
                 >
                   <Image
-                    src={`${IMG_URL}${item?.file.url}`}
+                    src={`${IMG_URL}${item?.file?.url}`}
                     alt="Avatar"
                     width={66}
                     height={66}

@@ -39,7 +39,7 @@ const NotesActionDropdown = (props: any) => {
         aria-haspopup="true"
         aria-expanded={isMenuOpen ? 'true' : undefined}
         onClick={handleOpenMenu}
-        disabled={selectedCheckboxes.length < 1}
+        disabled={selectedCheckboxes?.length < 1}
       >
         Action
       </Button>
@@ -53,13 +53,13 @@ const NotesActionDropdown = (props: any) => {
         }}
       >
         <MenuItem
-          disabled={selectedCheckboxes.length > 1}
+          disabled={selectedCheckboxes?.length > 1}
           onClick={handleOpenViewDrawer}
         >
           View
         </MenuItem>
         <MenuItem
-          disabled={selectedCheckboxes.length > 1}
+          disabled={selectedCheckboxes?.length > 1}
           onClick={handleOpenEditDrawer}
         >
           Edit

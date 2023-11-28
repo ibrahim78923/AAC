@@ -38,13 +38,13 @@ const useNotesActionDropdown = ({
     setIsOpenAlertModal(false);
   };
 
-  const selectedCheckboxesIds = selectedCheckboxes.map(
+  const selectedCheckboxesIds = selectedCheckboxes?.map(
     (checked: any) => checked?._id,
   );
 
   const handleDeleteHandler = async () => {
     try {
-      await deleteDealNote({ id: selectedCheckboxesIds }).unwrap();
+      await deleteDealNote({ id: selectedCheckboxesIds })?.unwrap();
       enqueueSnackbar(`Notes Deleted Successfully`, { variant: 'success' });
       handleCloseAlert();
       setSelectedCheckboxes([]);
