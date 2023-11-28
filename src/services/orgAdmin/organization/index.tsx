@@ -35,8 +35,15 @@ export const organizationAPI = baseAPI.injectEndpoints({
     updateOrganization: builder.mutation({
       query: ({ id, body }: any) => ({
         url: `${organization.UPDATE_ORGANIZATION_ACCOUNT}/${id}`,
-        method: 'PUT',
+        method: 'PATCH',
         body: body,
+      }),
+      invalidatesTags: ['Organization'],
+    }),
+    updateOrganizationStatus: builder.mutation({
+      query: ({ id, isActive }: any) => ({
+        url: `${organization.UPDATE_ORGANIZATION_ACCOUNT_STATUS}?id=${id}&isActive=${isActive}`,
+        method: 'PATCH',
       }),
       invalidatesTags: ['Organization'],
     }),
@@ -58,4 +65,5 @@ export const {
   useDeleteOrganizationMutation,
   useGetOrganizationByIdQuery,
   useGetOrganizationMainIdQuery,
+  useUpdateOrganizationStatusMutation,
 } = organizationAPI;

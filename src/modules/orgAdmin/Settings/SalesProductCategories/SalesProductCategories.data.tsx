@@ -1,24 +1,27 @@
-import { Checkbox } from '@mui/material';
+import { Box, Checkbox } from '@mui/material';
 
 import { RHFEditor, RHFTextField } from '@/components/ReactHookForm';
 
 import * as Yup from 'yup';
 import StatusBadge from '@/components/StatusBadge';
+import { enqueueSnackbar } from 'notistack';
 
-export const ProductCategoryvalidationSchema = Yup.object().shape({
-  ProductCategoryName: Yup.string().required('Field is Required'),
+export const ProductCategoryvalidationSchema: any = Yup.object().shape({
+  name: Yup.string()
+    .required('Field is Required')
+    .matches(/^[a-zA-Z\s]+$/, 'Only letters are allowed in this field'),
   description: Yup.string().required('Field is Required'),
 });
 
 export const ProductCategoryDefaultValues = {
-  ProductCategoryName: '',
+  name: '',
   description: '',
 };
 
 export const dataArray = [
   {
     componentProps: {
-      name: 'ProductCategoryName',
+      name: 'name',
       label: 'Product Category Name',
       fullWidth: true,
     },
@@ -70,6 +73,9 @@ export const columns = (
   userStatus: any,
   setUserStatus: any,
   theme: any,
+  setEditData: any,
+  editData: any,
+  updateSalesProductCategories: any,
 ) => {
   return [
     {
@@ -78,13 +84,24 @@ export const columns = (
       cell: (info: any) => (
         <Checkbox
           color="primary"
-          checked={
-            info?.cell?.row?.original?.Id ===
-              isGetRowValues?.cell?.row?.original?.Id && ischecked
-          }
-          name={info.getValue()}
+          checked={isGetRowValues?.includes(info?.row?.original?._id)}
+          name={info?.getValue()}
           onClick={() => {
-            setIsGetRowValues(info), setIschecked(!ischecked);
+            const isChecked = isGetRowValues?.includes(
+              info?.row?.original?._id,
+            );
+            if (!isChecked) {
+              setIsGetRowValues((prev: any) => [
+                ...prev,
+                info?.row?.original?._id,
+              ]);
+            } else {
+              setIsGetRowValues((prev: any) =>
+                prev.filter((id: any) => id !== info?.row?.original?._id),
+              );
+            }
+            setEditData(info?.row?.original);
+            setIschecked(!isChecked);
           }}
         />
       ),
@@ -99,28 +116,45 @@ export const columns = (
       isSortable: true,
     },
     {
-      accessorFn: (row: any) => row?.Description,
-      id: 'Description',
+      accessorFn: (row: any) => row?.description,
+      id: 'description',
       isSortable: true,
-      header: 'Created By',
-      cell: (info: any) => info.getValue(),
+      header: 'Description',
+      cell: (info: any) => (
+        <Box
+          dangerouslySetInnerHTML={{ __html: info?.row?.original?.description }}
+        />
+      ),
     },
     {
-      accessorFn: (row: any) => row?.createdDate,
-      id: 'createdDate',
+      accessorFn: (row: any) => row?.createdAt,
+      id: 'createdAt',
       isSortable: true,
       header: 'Created Date',
       cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row?.action,
-      id: 'action',
+      accessorFn: (row: any) => row?.status,
+      id: 'status',
       isSortable: true,
       header: 'Action',
-      cell: () => (
+      cell: (info: any) => (
         <StatusBadge
-          value={userStatus}
-          onChange={(e: any) => setUserStatus(e.target.value)}
+          value={info?.row?.original?.status}
+          onChange={async (e: any) => {
+            try {
+              await updateSalesProductCategories({
+                body: { status: e?.target?.value },
+                id: info?.row?.original?._id,
+              }).unwrap();
+
+              enqueueSnackbar('Categories status Updated Successfully', {
+                variant: 'success',
+              });
+            } catch (error: any) {
+              enqueueSnackbar('Something went wrong !', { variant: 'error' });
+            }
+          }}
           options={[
             {
               label: 'Active',
@@ -133,6 +167,7 @@ export const columns = (
               color: theme?.palette?.error?.main,
             },
           ]}
+          defaultValue={''}
         />
       ),
     },

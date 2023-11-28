@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Theme, useTheme } from '@mui/material';
 import useToggle from '@/hooks/useToggle';
 import {
@@ -6,24 +6,23 @@ import {
   useGetOrganizationQuery,
   usePostOrganizationMutation,
   useUpdateOrganizationMutation,
+  useUpdateOrganizationStatusMutation,
 } from '@/services/orgAdmin/organization';
 import { enqueueSnackbar } from 'notistack';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { columns, validationSchema } from './OrganizationTable.data';
+import {
+  columns,
+  defaultValuesOrganization,
+  validationSchema,
+} from './OrganizationTable.data';
 import useAuth from '@/hooks/useAuth';
+import { isNullOrEmpty } from '@/utils';
 const useOrganizationTable = () => {
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   const [editData, setEditData] = useState<any>({});
   const [isGetRowValues, setIsGetRowValues] = useState<any>([]);
-  const getRowValues = columns(
-    setIsGetRowValues,
-    setIsChecked,
-    isChecked,
-    isGetRowValues,
-    setEditData,
-  );
   const [isOpenDelete, setIsOpenDelete] = useState(false);
   const [isToggled, toggle] = useToggle(false);
   const [openEditDrawer, setOpenEditDrawer] = useState(false);
@@ -34,6 +33,7 @@ const useOrganizationTable = () => {
   const [postOrganization] = usePostOrganizationMutation();
   const [updateOrganizationCompany] = useUpdateOrganizationMutation();
   const [deleteOrganization] = useDeleteOrganizationMutation();
+  const [updateOrganizationStatus] = useUpdateOrganizationStatusMutation();
   const [imageHandler, setImageHandler] = useState(false);
   const { user }: any = useAuth();
   const { data, isLoading, isError, isFetching, isSuccess } =
@@ -52,16 +52,33 @@ const useOrganizationTable = () => {
     }
   };
 
-  const methods: any = useForm<any>({
+  const methods: any = useForm({
     resolver: yupResolver(validationSchema),
     defaultValues: async () => {
-      return {
-        accountName: editData?.accountName ?? '',
-        phoneNo: editData?.phoneNo ?? '',
-        postCode: editData?.postCode ?? '',
-      };
+      if (editData) {
+        const { accountName, phoneNo, postCode, address } = editData;
+        if (!isNullOrEmpty(Object.keys(editData))) {
+          return {
+            accountName,
+            phoneNo,
+            postCode,
+            address,
+          };
+        }
+      }
+      return defaultValuesOrganization;
     },
   });
+
+  useEffect(() => {
+    if (editData) {
+      const { accountName, phoneNo, address, postCode } = editData;
+      methods.setValue('accountName', accountName);
+      methods.setValue('phoneNo', phoneNo);
+      methods.setValue('postCode', postCode);
+      methods.setValue('address', address);
+    }
+  }, [editData, methods]);
 
   const { handleSubmit, reset } = methods;
 
@@ -74,34 +91,22 @@ const useOrganizationTable = () => {
       status: 'Active',
     };
     try {
-      await postOrganization({ body: organizationData }).unwrap();
-      enqueueSnackbar('Company Created Successfully', {
-        variant: 'success',
-      });
-      reset(validationSchema);
-      setIsOpenDrawer(false);
-    } catch (error: any) {
-      enqueueSnackbar('Something went wrong !', { variant: 'error' });
-    }
-  };
-
-  const onSubmitEdit = async (data: any) => {
-    const organizationData = {
-      ...data,
-      organizationId: user?.organization?._id,
-      products: [],
-      status: 'Active',
-    };
-
-    try {
-      await updateOrganizationCompany({
-        body: organizationData,
-        id: isGetRowValues,
-      }).unwrap();
-      enqueueSnackbar('Company Update Successfully', {
-        variant: 'success',
-      });
-      setIsOpenDrawer(false);
+      if (editData) {
+        await updateOrganizationCompany({
+          body: organizationData,
+          id: editData?._id,
+        }).unwrap();
+        enqueueSnackbar('Company Updated Successfully', {
+          variant: 'success',
+        });
+      } else {
+        await postOrganization({ body: organizationData }).unwrap();
+        enqueueSnackbar('Company Created Successfully', {
+          variant: 'success',
+        });
+        reset(validationSchema);
+        setIsOpenDrawer(false);
+      }
     } catch (error: any) {
       enqueueSnackbar('Something went wrong !', { variant: 'error' });
     }
@@ -115,6 +120,15 @@ const useOrganizationTable = () => {
     setAnchorEl(null);
     setOpenEditDrawer(true);
   };
+
+  const getRowValues = columns(
+    setIsGetRowValues,
+    setIsChecked,
+    isChecked,
+    isGetRowValues,
+    setEditData,
+    updateOrganizationStatus,
+  );
 
   return {
     tableRow: data?.data?.organizationcompanyaccounts,
@@ -149,9 +163,10 @@ const useOrganizationTable = () => {
     isChecked,
     isGetRowValues,
     getRowValues,
-    onSubmitEdit,
+    setEditData,
     imageHandler,
     setImageHandler,
+    editData,
   };
 };
 
