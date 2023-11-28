@@ -51,7 +51,6 @@ const Contacts = ({ assocaitionData }: any) => {
               gap: 2,
               flexDirection: { xs: 'column', sm: 'row' },
             }}
-            // dangerouslySetInnerHTML={{ __html: '<b>fgggfgdfgdgfdgdgfg</b>' }}
           >
             <Search
               searchBy={searchName}

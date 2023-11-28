@@ -47,8 +47,6 @@ const OrganizationTable = () => {
     setIsOpenDrawer,
     isOpenDelete,
     setIsOpenDelete,
-    value,
-    setValue,
     anchorEl,
     open,
     theme,
@@ -65,6 +63,7 @@ const OrganizationTable = () => {
     deleteOrganizationCompany,
     imageHandler,
     setImageHandler,
+    editData,
   } = useOrganizationTable();
 
   return (
@@ -75,8 +74,8 @@ const OrganizationTable = () => {
         onClose={() => {
           setIsOpenDrawer(false);
         }}
-        title="Create Company"
-        okText="Add"
+        title={editData ? 'Edit Data' : 'Create Company'}
+        okText={editData ? 'Update' : 'Add'}
         isOk
         footer={true}
         submitHandler={handleSubmit(onSubmit)}
@@ -328,7 +327,7 @@ const OrganizationTable = () => {
                   'aria-labelledby': 'basic-button',
                 }}
               >
-                <MenuItem onClick={handleClose}>Edit</MenuItem>
+                <MenuItem onClick={() => setIsOpenDrawer(true)}>Edit</MenuItem>
                 <MenuItem onClick={handleClose}>View</MenuItem>
                 <MenuItem onClick={() => setIsOpenDelete(true)}>
                   Delete

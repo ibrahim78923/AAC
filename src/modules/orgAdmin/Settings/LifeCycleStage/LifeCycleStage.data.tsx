@@ -7,20 +7,22 @@ import { DeleteCrossIcon, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
 
 import * as Yup from 'yup';
 
-export const LifeCycleStagevalidationSchema = Yup.object().shape({
-  AddStageName: Yup.string().required('Field is Required'),
+export const LifeCycleStagevalidationSchema: any = Yup.object().shape({
+  name: Yup.string()
+    .required('Field is Required')
+    .matches(/^[a-zA-Z\s]+$/, 'Only letters are allowed in this field'),
   description: Yup.string().required('Field is Required'),
 });
 
 export const LifeCycleStageDefaultValues = {
-  AddStageName: '',
+  name: '',
   description: '',
 };
 
 export const dataArray = [
   {
     componentProps: {
-      name: 'AddStageName',
+      name: 'name',
       label: 'Add stage name',
       fullWidth: true,
     },
@@ -72,8 +74,9 @@ export const LifeCycleStageTableData: any = [
 
 export const columns = (
   setIsDraweropen: any,
-  setIsOpenAlert: any,
   setIsModalHeading: any,
+  handleDeleteRecord: any,
+  handleEditClick: any,
 ) => {
   return [
     {
@@ -91,29 +94,19 @@ export const columns = (
       isSortable: true,
     },
     {
-      accessorFn: (row: any) => row?.Description,
-      id: 'Description',
+      accessorFn: (row: any) => row?.description,
+      id: 'description',
       isSortable: true,
       header: 'Description',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => (
+        <Box
+          dangerouslySetInnerHTML={{ __html: info?.row?.original?.description }}
+        />
+      ),
     },
     {
-      accessorFn: (row: any) => row?.CompaniesUsage,
-      id: 'CompaniesUsage ',
-      isSortable: true,
-      header: 'Companies Usage',
-      cell: (info: any) => info.getValue(),
-    },
-    {
-      accessorFn: (row: any) => row?.ContactUsage,
-      id: 'ContactUsage',
-      isSortable: true,
-      header: 'Contact Usage',
-      cell: (info: any) => info.getValue(),
-    },
-    {
-      accessorFn: (row: any) => row?.createdDate,
-      id: 'createdDate',
+      accessorFn: (row: any) => row?.createdAt,
+      id: 'createdAt',
       isSortable: true,
       header: 'Created Date',
       cell: (info: any) => info.getValue(),
@@ -123,7 +116,7 @@ export const columns = (
       id: 'action',
       isSortable: true,
       header: 'Action',
-      cell: () => (
+      cell: (info: any) => (
         <Box sx={{ display: 'flex', gap: 0.5 }}>
           <Box
             sx={{ cursor: 'pointer' }}
@@ -137,13 +130,16 @@ export const columns = (
           <Box
             sx={{ cursor: 'pointer' }}
             onClick={() => {
-              setIsDraweropen(true);
+              handleEditClick(info?.row?.original);
               setIsModalHeading('Edit');
             }}
           >
             <EditPenIcon />
           </Box>
-          <Box sx={{ cursor: 'pointer' }} onClick={() => setIsOpenAlert(true)}>
+          <Box
+            sx={{ cursor: 'pointer' }}
+            onClick={() => handleDeleteRecord(info?.row?.original?._id)}
+          >
             <DeleteCrossIcon />
           </Box>
         </Box>
