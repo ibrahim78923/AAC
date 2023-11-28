@@ -5,11 +5,7 @@ import {
   ShortcutSharpLeftIcon,
   ShortcutSharpRightIcon,
 } from '@/assets/icons';
-import { ConversationDataI } from '../Conversation.interface';
-import {
-  TICKETS_CONVERSATION_Description_Type,
-  TICKETS_CONVERSATION_TYPE,
-} from '@/constants/strings';
+import { TICKETS_CONVERSATION_TYPE } from '@/constants/strings';
 
 export const useConversationView = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -18,22 +14,6 @@ export const useConversationView = () => {
   };
   const handleDelete = () => {
     setIsDeleteModalOpen(true);
-  };
-  const conversationNoteContent = (conversationData: ConversationDataI) => {
-    const content: { [key: string]: string } = {};
-
-    for (const key in conversationData) {
-      if (
-        key !== TICKETS_CONVERSATION_Description_Type?.NOTE &&
-        key !== TICKETS_CONVERSATION_Description_Type?.REPLY &&
-        key !== TICKETS_CONVERSATION_Description_Type?.FORWARD &&
-        conversationData[key]
-      ) {
-        content[key] = `${key}: ${conversationData[key]}`;
-      }
-    }
-
-    return content;
   };
 
   const conversationActionIcon = (actionType: string) => {
@@ -92,7 +72,6 @@ export const useConversationView = () => {
   };
 
   return {
-    conversationNoteContent,
     conversationActionIcon,
     isDeleteModalOpen,
     handleCloseDeleteModal,

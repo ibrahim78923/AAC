@@ -148,6 +148,10 @@ export const TICKETS_CONVERSATION_TYPE = {
   DISCUSS: 'Discuss',
   NOTE: 'Note',
 };
+export const TICKETS_CONVERSATION_VALUE = {
+  FILE: 'file',
+  DESCRIPTION: 'description',
+};
 
 export const TICKETS_CONVERSATION_Description_Type = {
   REPLY: 'replyDescription',

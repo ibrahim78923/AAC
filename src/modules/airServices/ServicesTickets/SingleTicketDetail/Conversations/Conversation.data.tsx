@@ -2,7 +2,7 @@ import {
   RHFTextField,
   RHFSelect,
   RHFEditor,
-  // RHFDropZone,
+  RHFDropZone,
 } from '@/components/ReactHookForm';
 import { TICKETS_CONVERSATION_TYPE } from '@/constants/strings';
 import * as Yup from 'yup';
@@ -12,26 +12,24 @@ export const conversationValidationSchema = (action) => {
       return Yup?.object()?.shape({
         note: Yup?.string()?.required('Field is Required'),
         notify: Yup?.string()?.required('Field is Required'),
-        noteDescription: Yup?.string()?.trim()?.required('Field is Required'),
-        // file: Yup?.string()?.trim()?.required('Field is Required'),
+        description: Yup?.string()?.trim()?.required('Field is Required'),
+        file: Yup?.string()?.trim()?.required('Field is Required'),
       });
     case TICKETS_CONVERSATION_TYPE?.REPLY:
       return Yup?.object()?.shape({
         reply: Yup?.string()?.required('Field is Required'),
         replyFrom: Yup?.string()?.required('Field is Required'),
         replyTo: Yup?.string()?.required('Field is Required'),
-        replyDescription: Yup?.string()?.trim()?.required('Field is Required'),
-        // file: Yup?.string()?.trim()?.required('Field is Required'),
+        description: Yup?.string()?.trim()?.required('Field is Required'),
+        file: Yup?.string()?.trim()?.required('Field is Required'),
       });
     case TICKETS_CONVERSATION_TYPE?.FORWARD:
       return Yup?.object()?.shape({
         forward: Yup?.string()?.required('Field is Required'),
         forwardFrom: Yup?.string()?.required('Field is Required'),
         forwardTo: Yup?.string()?.required('Field is Required'),
-        forwardDescription: Yup?.string()
-          ?.trim()
-          ?.required('Field is Required'),
-        // file: Yup?.string()?.required('Field is Required'),
+        description: Yup?.string()?.trim()?.required('Field is Required'),
+        file: Yup?.string()?.required('Field is Required'),
       });
     default:
       return Yup?.object()?.shape({});
@@ -41,17 +39,16 @@ export const conversationValidationSchema = (action) => {
 export const conversationModalsDefaultValues: any = {
   note: '',
   notify: '',
-  noteDescription: '',
-  // file: '',
+  description: '',
+  file: '',
   reply: '',
   replyFrom: '',
   replyTo: '',
-  replyDescription: '',
   forward: '',
   forwardFrom: '',
   forwardTo: '',
-  forwardDescription: '',
 };
+
 export const conversationOptions = [
   { value: 'Forward', label: 'Forward' },
   { value: 'Note', label: 'Note' },
@@ -84,7 +81,7 @@ export const conversationNoteArray = [
   },
   {
     componentProps: {
-      name: 'noteDescription',
+      name: 'description',
       label: 'Description',
       fullWidth: true,
       style: { height: '20vh' },
@@ -93,15 +90,15 @@ export const conversationNoteArray = [
     md: 12,
     mb: 2,
   },
-  // {
-  //   componentProps: {
-  //     name: 'file',
-  //     label: '',
-  //     fullWidth: true,
-  //   },
-  //   component: RHFDropZone,
-  //   md: 12,
-  // },
+  {
+    componentProps: {
+      name: 'file',
+      label: '',
+      fullWidth: true,
+    },
+    component: RHFDropZone,
+    md: 12,
+  },
 ];
 export const conversationReplyArray = [
   {
@@ -138,7 +135,7 @@ export const conversationReplyArray = [
   },
   {
     componentProps: {
-      name: 'replyDescription',
+      name: 'description',
       label: 'Description',
       fullWidth: true,
       style: { height: '20vh' },
@@ -147,15 +144,15 @@ export const conversationReplyArray = [
     md: 12,
     mb: 2,
   },
-  // {
-  //   componentProps: {
-  //     name: 'file',
-  //     label: '',
-  //     fullWidth: true,
-  //   },
-  //   component: RHFDropZone,
-  //   md: 12,
-  // },
+  {
+    componentProps: {
+      name: 'file',
+      label: '',
+      fullWidth: true,
+    },
+    component: RHFDropZone,
+    md: 12,
+  },
 ];
 export const conversationForwardArray = [
   {
@@ -190,7 +187,7 @@ export const conversationForwardArray = [
   },
   {
     componentProps: {
-      name: 'forwardDescription',
+      name: 'description',
       label: 'Description',
       fullWidth: true,
       style: { height: '20vh' },
@@ -199,15 +196,15 @@ export const conversationForwardArray = [
     md: 12,
     mb: 2,
   },
-  // {
-  //   componentProps: {
-  //     name: 'file',
-  //     label: '',
-  //     fullWidth: true,
-  //   },
-  //   component: RHFDropZone,
-  //   md: 12,
-  // },
+  {
+    componentProps: {
+      name: 'file',
+      label: '',
+      fullWidth: true,
+    },
+    component: RHFDropZone,
+    md: 12,
+  },
 ];
 
 export const menuOptionsAddConversation = [

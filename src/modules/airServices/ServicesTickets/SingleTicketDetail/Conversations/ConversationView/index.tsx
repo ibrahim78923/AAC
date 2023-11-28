@@ -9,14 +9,12 @@ import {
 } from '@/assets/images';
 import { styles } from '../Conversation.styles';
 import NoData from '@/components/NoData';
-import {
-  ConversationSelectedValuesI,
-  ConversationDataI,
-} from '../Conversation.interface';
+import { ConversationSelectedValuesI } from '../Conversation.interface';
 import { useConversationView } from './useConversationView';
 import { menuOptionsAddConversation } from '../Conversation.data';
 import ConversationMenu from '../ConversationMenu';
 import { AlertModals } from '@/components/AlertModals';
+import { TICKETS_CONVERSATION_VALUE } from '@/constants/strings';
 
 const ConversationView: React.FC<{
   selectedValues: ConversationSelectedValuesI;
@@ -35,12 +33,13 @@ const ConversationView: React.FC<{
 }) => {
   const {
     conversationActionIcon,
-    conversationNoteContent,
     isDeleteModalOpen,
     handleCloseDeleteModal,
     handleDelete,
   } = useConversationView();
+
   const theme = useTheme();
+
   const [currentTime, setCurrentTime] = useState<string>(
     dayjs().format('h:mm A -D MMMM, YYYY'),
   );
@@ -53,10 +52,30 @@ const ConversationView: React.FC<{
     return () => clearInterval(interval);
   }, []);
 
-  const renderConversationItem = ([id, conversationData]: [
-    string,
-    ConversationDataI,
-  ]) => {
+  const renderConversationItem = ([id, conversationData]) => {
+    const transformedData = Object?.entries(conversationData)?.map(
+      ([key, value]) => {
+        const itemData = () => {
+          switch (key) {
+            case TICKETS_CONVERSATION_VALUE.FILE: {
+              return {
+                name: value?.name,
+                size: value?.size,
+                type: value?.type,
+              };
+            }
+            case TICKETS_CONVERSATION_VALUE.DESCRIPTION: {
+              return { description: value };
+            }
+            default:
+              return value;
+          }
+        };
+
+        return itemData();
+      },
+    );
+
     const actionType =
       conversationData?.note ||
       conversationData?.reply ||
@@ -71,7 +90,7 @@ const ConversationView: React.FC<{
           mb="1.25rem"
           key={id}
         >
-          <Grid item md={8} xs={12} paddingTop="0 !important">
+          <Grid item lg={5} xs={12} paddingTop="0 !important">
             <Box sx={styles?.leftSideParent}>
               <Box
                 display="flex"
@@ -91,16 +110,20 @@ const ConversationView: React.FC<{
                       mt: { md: 0, xs: 2 },
                     }}
                   >
-                    {Object?.entries(conversationNoteContent(conversationData))
-                      ?.filter(([,]) => true)
-                      ?.map(([, value]) => (
+                    {transformedData
+                      ?.filter((value) => !value?.name && !value?.size)
+                      ?.map((value) => (
                         <Typography
                           key={uuidv4()}
                           component="span"
-                          sx={{ mr: 1 }}
-                          color={theme?.palette?.primary?.main}
+                          sx={{
+                            mr: 1,
+                            color: theme?.palette?.primary?.main,
+                          }}
                         >
-                          {value}
+                          {!value?.description && (
+                            <Typography>{value}</Typography>
+                          )}
                         </Typography>
                       ))}
                   </Box>
@@ -110,17 +133,38 @@ const ConversationView: React.FC<{
               <Box>
                 <div
                   dangerouslySetInnerHTML={{
-                    __html:
-                      conversationData?.noteDescription ||
-                      conversationData?.replyDescription ||
-                      conversationData?.forwardDescription ||
-                      'Unknown description',
+                    __html: transformedData?.find((value) => value?.description)
+                      ?.description,
                   }}
                 ></div>
               </Box>
             </Box>
           </Grid>
-          <Grid item md={4} xs={12} paddingTop="0 !important">
+          <Grid lg={4} xs={12}>
+            {transformedData
+              ?.filter((value) => value?.name || value?.size)
+              ?.map((value) => (
+                <Typography
+                  key={uuidv4()}
+                  component="span"
+                  sx={{
+                    mr: 1,
+                    color: theme?.palette?.primary?.main,
+                  }}
+                >
+                  <>
+                    <Typography> {value?.name} </Typography>
+                    {value?.size && (
+                      <Typography>
+                        {' '}
+                        {`${(value?.size / 1024).toFixed(2)} KB`}{' '}
+                      </Typography>
+                    )}
+                  </>
+                </Typography>
+              ))}
+          </Grid>
+          <Grid item lg={3} xs={12} paddingTop="0 !important">
             <Box sx={styles?.buttonBox}>
               {conversationActionIcon(actionType)}
             </Box>

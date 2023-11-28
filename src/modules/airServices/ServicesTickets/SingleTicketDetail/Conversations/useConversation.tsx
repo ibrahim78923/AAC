@@ -9,7 +9,6 @@ import ConversationAddComponent from './ConversationAddComponent';
 import {
   conversationAddArticleData,
   conversationForwardArray,
-  conversationModalsDefaultValues,
   conversationNoteArray,
   conversationReplyArray,
   conversationValidationSchema,
@@ -39,7 +38,8 @@ export const UseConversation = () => {
 
   const addConversationModal: any = useForm({
     resolver: yupResolver(conversationValidationSchema(selectedItem)),
-    defaultValues: conversationModalsDefaultValues[selectedItem] || {},
+    defaultValues: {},
+    // defaultValues: conversationModalsDefaultValues[selectedItem] || {},
   });
 
   const open = Boolean(addConversation);
@@ -55,26 +55,28 @@ export const UseConversation = () => {
   const onSubmit = async () => {
     try {
       const successMessage = `${selectedItem} Added Successfully!`;
-      setSelectedValues((prevValues) => ({
-        ...prevValues,
-        [uuidv4()]: getValues(),
-      }));
+      const values = await getValues();
+      setSelectedValues((prevValues) => {
+        return {
+          ...prevValues,
+          [uuidv4()]: values,
+        };
+      });
 
       enqueueSnackbar(successMessage, {
         variant: NOTISTACK_VARIANTS.SUCCESS,
       });
-
       reset();
       setShow(false);
     } catch (error) {}
   };
 
-  const handleCloseButtonMenu = (e: any) => {
-    const newSelectedItem = e?.target?.value;
-    setSelectedItem(newSelectedItem);
+  const handleCloseButtonMenu = (e?: any = '') => {
+    e && setSelectedItem(e);
     setShow(true);
     setAddConversation(null);
-    setTitle(newSelectedItem);
+    setTitle(e);
+    e && setValue(e?.toLocaleLowerCase?.(), e);
   };
 
   const getArrayByTitle = (title) => {

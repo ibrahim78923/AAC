@@ -41,8 +41,8 @@ const ConversationMenu = ({
       >
         {menuOptionsAddConversation?.map((item) => (
           <MenuItem
-            onClick={(e) => {
-              handleCloseButtonMenu(e);
+            onClick={() => {
+              handleCloseButtonMenu(item?.value);
               setSelectedItem(item?.value);
             }}
             key={uuidv4()}
