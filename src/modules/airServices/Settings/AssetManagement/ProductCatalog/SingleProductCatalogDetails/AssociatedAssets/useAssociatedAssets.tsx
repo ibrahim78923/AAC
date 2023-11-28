@@ -11,7 +11,8 @@ export const useAssociatedAssets = () => {
 
   const [addModalOpen, setAddModalOpen] = useState(false);
 
-  const columns = getAssociatedAssetsColumns(setIsDeleteModalOpen);
+  const associatedAssetsColumns =
+    getAssociatedAssetsColumns(setIsDeleteModalOpen);
 
   const handleSubmitDelete = async () => {
     try {
@@ -28,7 +29,7 @@ export const useAssociatedAssets = () => {
   };
 
   return {
-    columns,
+    associatedAssetsColumns,
     isDeleteModalOpen,
     setIsDeleteModalOpen,
     handleSubmitDelete,

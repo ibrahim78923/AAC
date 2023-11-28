@@ -10,7 +10,7 @@ import { Fragment } from 'react';
 
 export const AssociatedAssets = () => {
   const {
-    columns,
+    associatedAssetsColumns,
     isDeleteModalOpen,
     setIsDeleteModalOpen,
     handleSubmitDelete,
@@ -32,7 +32,7 @@ export const AssociatedAssets = () => {
 
       <TanstackTable
         data={associatedAssetsData}
-        columns={columns}
+        columns={associatedAssetsColumns}
         isPagination
       />
 

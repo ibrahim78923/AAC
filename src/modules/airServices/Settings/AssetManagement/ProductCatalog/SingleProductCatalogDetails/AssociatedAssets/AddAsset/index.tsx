@@ -9,12 +9,12 @@ import {
 import CloseIcon from '@mui/icons-material/Close';
 import { FormProvider } from '@/components/ReactHookForm';
 import { addAssetDataArray } from './AddAsset.data';
-import { useAddAssets } from './useAddAsset';
+import { useAddAsset } from './useAddAsset';
 
 export const AddAsset = (props: any) => {
   const { addModalOpen, setAddModalOpen } = props;
 
-  const { methods, handleSubmit, onSubmit } = useAddAssets(setAddModalOpen);
+  const { methods, handleSubmit, onSubmit } = useAddAsset(setAddModalOpen);
 
   return (
     <Dialog

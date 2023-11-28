@@ -14,7 +14,10 @@ export const useVendors = () => {
     id: '',
   });
 
-  const columns = getVendorsColumns(setIsDeleteModalOpen, setIsUpsertModalOpen);
+  const vendorsColumns = getVendorsColumns(
+    setIsDeleteModalOpen,
+    setIsUpsertModalOpen,
+  );
 
   const handleSubmitDelete = async () => {
     try {
@@ -31,7 +34,7 @@ export const useVendors = () => {
   };
 
   return {
-    columns,
+    vendorsColumns,
     isDeleteModalOpen,
     setIsDeleteModalOpen,
     handleSubmitDelete,

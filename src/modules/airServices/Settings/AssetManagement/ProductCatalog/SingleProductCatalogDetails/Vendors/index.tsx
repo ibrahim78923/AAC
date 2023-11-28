@@ -10,7 +10,7 @@ import { UpsertAsset } from './UpsertVendor';
 
 export const Vendors = () => {
   const {
-    columns,
+    vendorsColumns,
     isDeleteModalOpen,
     setIsDeleteModalOpen,
     handleSubmitDelete,
@@ -30,7 +30,7 @@ export const Vendors = () => {
         </Button>
       </Box>
 
-      <TanstackTable data={vendorsData} columns={columns} isPagination />
+      <TanstackTable data={vendorsData} columns={vendorsColumns} isPagination />
 
       {isDeleteModalOpen && (
         <AlertModals

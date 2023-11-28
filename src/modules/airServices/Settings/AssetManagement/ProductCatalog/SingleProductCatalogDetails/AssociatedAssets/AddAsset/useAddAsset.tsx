@@ -7,7 +7,7 @@ import {
   addAssetValidationSchema,
 } from './AddAsset.data';
 
-export const useAddAssets = (setAddModalOpen: any) => {
+export const useAddAsset = (setAddModalOpen: any) => {
   const methods: any = useForm({
     resolver: yupResolver(addAssetValidationSchema),
     defaultValues: addAssetDefaultValues,
