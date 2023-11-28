@@ -70,8 +70,8 @@ const UsersDetailsList = () => {
 
   const { userName, organizationId } = navigate.query;
   const empListParams = {
-    orgId: organizationId,
-    // orgId: '65531519211df87d0a9c5bc2'
+    // orgId: organizationId,
+    orgId: '65531519211df87d0a9c5bc2',
   };
   const { data: employeeList } = useGetEmployeeListQuery(empListParams);
   const empDetail = employeeList?.data?.users;

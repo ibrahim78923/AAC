@@ -41,7 +41,7 @@ export const superAdminValidationSchema = Yup.object().shape({
   postCode: Yup.string()
     .required('Field is Required')
     .matches(/^[0-9]+$/, 'Must be a number'),
-  address: Yup.string().required('Field is Required'),
+  compositeAddress: Yup.string().required('Field is Required'),
   jobTitle: Yup.string()
     .required('Field is Required')
     .matches(/^[A-Za-z]+$/, 'Only alphabetic characters are allowed'),
@@ -57,9 +57,9 @@ export const addUsersArray = () => {
   const { products } = useUserManagement();
   return [
     {
-      title: 'First Name',
       componentProps: {
         name: 'firstName',
+        label: 'First Name',
         placeholder: 'Enter First Name',
         fullWidth: true,
       },
@@ -68,9 +68,9 @@ export const addUsersArray = () => {
       md: 12,
     },
     {
-      title: 'Last Name',
       componentProps: {
         name: 'lastName',
+        label: 'Last Name',
         placeholder: 'Enter Last  Name',
         fullWidth: true,
       },
@@ -79,9 +79,9 @@ export const addUsersArray = () => {
       md: 12,
     },
     {
-      title: 'Email',
       componentProps: {
         name: 'email',
+        label: 'Email',
         placeholder: 'Enter Email',
         fullWidth: true,
       },
@@ -112,9 +112,9 @@ export const addUsersArray = () => {
     //   md: 12,
     // },
     {
-      title: 'Phone Number',
       componentProps: {
         name: 'phoneNumber',
+        label: 'Phone Number',
         placeholder: 'Enter Number',
         fullWidth: true,
       },
@@ -150,9 +150,9 @@ export const addUsersArray = () => {
     },
 
     {
-      title: 'Post Code',
       componentProps: {
         name: 'postCode',
+        label: 'Post Code',
         placeholder: 'Enter Post Code',
         fullWidth: true,
       },
@@ -162,9 +162,9 @@ export const addUsersArray = () => {
     },
     {
       componentProps: {
-        name: 'address',
-        placeholder: 'Address',
+        name: 'compositeAddress',
         label: 'Address',
+        placeholder: 'Address',
         fullWidth: true,
       },
       toShow: ['SUPER_ADMIN'],
@@ -172,9 +172,9 @@ export const addUsersArray = () => {
       md: 12,
       subData: [
         {
-          title: 'Flat/Unit',
           componentProps: {
             name: 'flat',
+            label: 'Flat/Unit',
             placeholder: 'Enter Flat/Unit',
             fullWidth: true,
           },
@@ -183,9 +183,9 @@ export const addUsersArray = () => {
           md: 12,
         },
         {
-          title: 'Building Name',
           componentProps: {
             name: 'buildingName',
+            label: 'Building Name',
             placeholder: 'Enter Building Name',
             fullWidth: true,
           },
@@ -194,9 +194,9 @@ export const addUsersArray = () => {
           md: 12,
         },
         {
-          title: 'Building Number',
           componentProps: {
             name: 'buildingNumber',
+            label: 'Building Number',
             placeholder: 'Enter Building Number',
             fullWidth: true,
           },
@@ -205,9 +205,9 @@ export const addUsersArray = () => {
           md: 12,
         },
         {
-          title: 'Street Name',
           componentProps: {
             name: 'streetName',
+            label: 'Street Name',
             placeholder: 'Enter Street Name',
             fullWidth: true,
           },
@@ -216,9 +216,9 @@ export const addUsersArray = () => {
           md: 12,
         },
         {
-          title: 'Town/CIty',
           componentProps: {
             name: 'city',
+            label: 'Town/CIty',
             placeholder: 'Enter Town/City',
             fullWidth: true,
           },
@@ -227,9 +227,9 @@ export const addUsersArray = () => {
           md: 12,
         },
         {
-          title: 'Country',
           componentProps: {
             name: 'country',
+            label: 'Country',
             fullWidth: true,
             select: true,
           },
@@ -240,14 +240,15 @@ export const addUsersArray = () => {
             { value: 'us', label: 'US' },
           ],
           component: RHFSelect,
+          toShow: ['SUPER_ADMIN'],
           md: 12,
         },
       ],
     },
     {
-      title: 'Job Title',
       componentProps: {
         name: 'jobTitle',
+        label: 'Job Title',
         placeholder: 'Enter Job Title',
         fullWidth: true,
       },
@@ -256,9 +257,9 @@ export const addUsersArray = () => {
       md: 12,
     },
     {
-      title: 'Facebook URL',
       componentProps: {
         name: 'fbUrl',
+        label: 'Facebook URL',
         placeholder: 'Enter Facebook URL',
         fullWidth: true,
       },
@@ -267,9 +268,9 @@ export const addUsersArray = () => {
       md: 12,
     },
     {
-      title: 'LinkedIn URL',
       componentProps: {
         name: 'linkinUrl',
+        label: 'LinkedIn URL',
         placeholder: 'Enter LinkedIn URL',
         fullWidth: true,
       },

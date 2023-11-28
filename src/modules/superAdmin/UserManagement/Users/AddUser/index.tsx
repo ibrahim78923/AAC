@@ -51,6 +51,20 @@ const AddUser = ({
 
   const onSubmit = async (values: any) => {
     values.role = tabTitle === 'COMPANY_OWNER' ? 'ORG_ADMIN' : 'SUPER_ADMIN';
+    if (values?.compositeAddress) {
+      values.address = {
+        composite: values?.compositeAddress,
+      };
+    } else {
+      values.address = {
+        flatNumber: values.flat,
+        buildingName: values?.buildingName,
+        buildingNumber: values?.buildingNumber,
+        streetName: values?.streetName,
+        city: values?.city,
+        country: values?.country,
+      };
+    }
     try {
       isOpenAddUserDrawer?.type === 'add'
         ? postUsers({ body: values })?.unwrap()
@@ -112,21 +126,18 @@ const AddUser = ({
                   : 'SUPER_ADMIN',
               ) && (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                  <Typography variant="body2" fontWeight={500}>
-                    {item?.title}
-                  </Typography>
                   {item?.componentProps?.heading && (
                     <Typography variant="h5">
                       {item?.componentProps?.heading}
                     </Typography>
                   )}
-                  {item?.componentProps?.name === 'address' && (
+                  {item?.componentProps?.name === 'compositeAddress' && (
                     <Box position="relative">
                       <InputAdornment
                         sx={{
                           position: 'absolute',
                           top: 45,
-                          right: 15,
+                          right: 20,
                           zIndex: 9999,
                         }}
                         position="end"
@@ -172,7 +183,7 @@ const AddUser = ({
                   </item.component>
                   {isToggled && (
                     <Grid item container spacing={2} mt={1}>
-                      {item?.title === 'Address' &&
+                      {item?.componentProps?.name === 'compositeAddress' &&
                         item?.subData?.map((data: any) => (
                           <Grid item xs={12} md={item?.md} key={uuidv4()}>
                             <Typography variant="body2" fontWeight={500}>
@@ -195,47 +206,35 @@ const AddUser = ({
                             </data.component>
                           </Grid>
                         ))}
-                      <Grid item xs={12} md={6}>
-                        <RHFTextField
-                          name="firstName"
-                          label="First Name"
-                          placeholder="Enter First Name"
-                          size="small"
-                        />
-                      </Grid>
-                      <Grid item xs={12} md={6}>
-                        <RHFTextField
-                          name="lastName"
-                          label="Last Name"
-                          placeholder="Enter Last Name"
-                          size="small"
-                        />
-                      </Grid>
                     </Grid>
                   )}
                 </Grid>
               )
             );
           })}
-          <Grid item xs={12}>
-            <RHFTextField
-              name="crn"
-              defaultValue={userDetail?.organization?.crn}
-              label="Company Registration Number(CRN)"
-              placeholder="Enter crn"
-              size="small"
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <RHFTextField
-              name="companyName"
-              label="company Name"
-              placeholder="Company Name"
-              size="small"
-              disabled
-              defaultValue={userDetail?.organization?.name}
-            />
-          </Grid>
+          {tabTitle === 'COMPANY_OWNER' && (
+            <>
+              <Grid item xs={12}>
+                <RHFTextField
+                  name="crn"
+                  defaultValue={userDetail?.organization?.crn}
+                  label="Company Registration Number(CRN)"
+                  placeholder="Enter crn"
+                  size="small"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <RHFTextField
+                  name="companyName"
+                  label="company Name"
+                  placeholder="Company Name"
+                  size="small"
+                  disabled
+                  defaultValue={userDetail?.organization?.name}
+                />
+              </Grid>
+            </>
+          )}
         </Grid>
       </FormProvider>
     </CommonDrawer>
