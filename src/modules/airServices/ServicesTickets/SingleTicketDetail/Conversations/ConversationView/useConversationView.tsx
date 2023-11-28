@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {
   EditBlackIcon,
@@ -12,6 +12,13 @@ import {
 } from '@/constants/strings';
 
 export const useConversationView = () => {
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const handleCloseDeleteModal = () => {
+    setIsDeleteModalOpen(false);
+  };
+  const handleDelete = () => {
+    setIsDeleteModalOpen(true);
+  };
   const conversationNoteContent = (conversationData: ConversationDataI) => {
     const content: { [key: string]: string } = {};
 
@@ -44,6 +51,7 @@ export const useConversationView = () => {
                   color: 'error.main',
                 },
               }}
+              onClick={handleDelete}
             />
           </>
         );
@@ -59,6 +67,7 @@ export const useConversationView = () => {
                   color: 'error.main',
                 },
               }}
+              onClick={handleDelete}
             />
           </>
         );
@@ -73,6 +82,7 @@ export const useConversationView = () => {
                   color: 'error.main',
                 },
               }}
+              onClick={handleDelete}
             />
           </>
         );
@@ -84,5 +94,8 @@ export const useConversationView = () => {
   return {
     conversationNoteContent,
     conversationActionIcon,
+    isDeleteModalOpen,
+    handleCloseDeleteModal,
+    handleDelete,
   };
 };

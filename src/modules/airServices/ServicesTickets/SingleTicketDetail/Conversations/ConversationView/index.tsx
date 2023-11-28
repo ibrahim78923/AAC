@@ -16,6 +16,7 @@ import {
 import { useConversationView } from './useConversationView';
 import { menuOptionsAddConversation } from '../Conversation.data';
 import ConversationMenu from '../ConversationMenu';
+import { AlertModals } from '@/components/AlertModals';
 
 const ConversationView: React.FC<{
   selectedValues: ConversationSelectedValuesI;
@@ -32,8 +33,13 @@ const ConversationView: React.FC<{
   handleCloseButtonMenu,
   setSelectedItem,
 }) => {
-  const { conversationActionIcon, conversationNoteContent } =
-    useConversationView();
+  const {
+    conversationActionIcon,
+    conversationNoteContent,
+    isDeleteModalOpen,
+    handleCloseDeleteModal,
+    handleDelete,
+  } = useConversationView();
   const theme = useTheme();
   const [currentTime, setCurrentTime] = useState<string>(
     dayjs().format('h:mm A -D MMMM, YYYY'),
@@ -57,66 +63,79 @@ const ConversationView: React.FC<{
       conversationData?.forward;
 
     return (
-      <Grid
-        container
-        justifyContent="space-between"
-        sx={styles?.parent}
-        mb="1.25rem"
-        key={id}
-      >
-        <Grid item md={8} xs={12} paddingTop="0 !important">
-          <Box sx={styles?.leftSideParent}>
-            <Box
-              display="flex"
-              sx={{ flexDirection: { md: 'row', xs: 'column' } }}
-            >
-              <Image
-                src={AvatarConversationImage?.src}
-                alt="logo"
-                width={32}
-                height={32}
-              />
-              <Box sx={{ ml: { md: 2, xs: 0 } }}>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    flexDirection: { md: 'row', xs: 'column' },
-                    mt: { md: 0, xs: 2 },
-                  }}
-                >
-                  {Object?.entries(conversationNoteContent(conversationData))
-                    ?.filter(([,]) => true)
-                    ?.map(([, value]) => (
-                      <Typography
-                        key={uuidv4()}
-                        component="span"
-                        sx={{ mr: 1 }}
-                        color={theme?.palette?.primary?.main}
-                      >
-                        {value}
-                      </Typography>
-                    ))}
+      <>
+        <Grid
+          container
+          justifyContent="space-between"
+          sx={styles?.parent}
+          mb="1.25rem"
+          key={id}
+        >
+          <Grid item md={8} xs={12} paddingTop="0 !important">
+            <Box sx={styles?.leftSideParent}>
+              <Box
+                display="flex"
+                sx={{ flexDirection: { md: 'row', xs: 'column' } }}
+              >
+                <Image
+                  src={AvatarConversationImage?.src}
+                  alt="logo"
+                  width={32}
+                  height={32}
+                />
+                <Box sx={{ ml: { md: 2, xs: 0 } }}>
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      flexDirection: { md: 'row', xs: 'column' },
+                      mt: { md: 0, xs: 2 },
+                    }}
+                  >
+                    {Object?.entries(conversationNoteContent(conversationData))
+                      ?.filter(([,]) => true)
+                      ?.map(([, value]) => (
+                        <Typography
+                          key={uuidv4()}
+                          component="span"
+                          sx={{ mr: 1 }}
+                          color={theme?.palette?.primary?.main}
+                        >
+                          {value}
+                        </Typography>
+                      ))}
+                  </Box>
+                  <Typography sx={styles?.date}>{currentTime}</Typography>
                 </Box>
-                <Typography sx={styles?.date}>{currentTime}</Typography>
+              </Box>
+              <Box>
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html:
+                      conversationData?.noteDescription ||
+                      conversationData?.replyDescription ||
+                      conversationData?.forwardDescription ||
+                      'Unknown description',
+                  }}
+                ></div>
               </Box>
             </Box>
-            <Box>
-              <div
-                dangerouslySetInnerHTML={{
-                  __html:
-                    conversationData?.noteDescription ||
-                    conversationData?.replyDescription ||
-                    conversationData?.forwardDescription ||
-                    'Unknown description',
-                }}
-              ></div>
+          </Grid>
+          <Grid item md={4} xs={12} paddingTop="0 !important">
+            <Box sx={styles?.buttonBox}>
+              {conversationActionIcon(actionType)}
             </Box>
-          </Box>
+          </Grid>
         </Grid>
-        <Grid item md={4} xs={12} paddingTop="0 !important">
-          <Box sx={styles?.buttonBox}>{conversationActionIcon(actionType)}</Box>
-        </Grid>
-      </Grid>
+        <Box>
+          <AlertModals
+            message="Are you sure you want to delete this conversation?"
+            type="delete"
+            open={isDeleteModalOpen}
+            handleClose={handleCloseDeleteModal}
+            handleSubmit={handleDelete}
+          />
+        </Box>
+      </>
     );
   };
 
