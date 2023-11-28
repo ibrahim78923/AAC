@@ -33,13 +33,13 @@ export const UseConversation = () => {
   const [filteredContent, setFilteredContent] = useState(
     conversationAddArticleData,
   );
+  const [editConversationItem, setEditConversationItem] = useState(false);
   const [selectedValues, setSelectedValues] = useState<any>({});
   const theme = useTheme();
 
   const addConversationModal: any = useForm({
     resolver: yupResolver(conversationValidationSchema(selectedItem)),
     defaultValues: {},
-    // defaultValues: conversationModalsDefaultValues[selectedItem] || {},
   });
 
   const open = Boolean(addConversation);
@@ -49,7 +49,9 @@ export const UseConversation = () => {
   ) => {
     setAddConversation(event?.currentTarget);
   };
-
+  const handleEdit = () => {
+    setEditConversationItem(true);
+  };
   const { handleSubmit, setValue, getValues, reset } = addConversationModal;
 
   const onSubmit = async () => {
@@ -148,5 +150,7 @@ export const UseConversation = () => {
     conversationAddArticleData,
     setValue,
     selectedValues,
+    editConversationItem,
+    handleEdit,
   };
 };

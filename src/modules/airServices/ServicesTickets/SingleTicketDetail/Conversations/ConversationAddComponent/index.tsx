@@ -11,10 +11,11 @@ const ConversationAddComponent = ({
   addConversationModal,
   onSubmit,
   dataArray,
+  editConversationItem,
 }: any) => {
   return (
     <CommonDrawer
-      isDrawerOpen={show}
+      isDrawerOpen={show || editConversationItem}
       onClose={() => setShow(false)}
       okText={'Add Note'}
       footer={true}

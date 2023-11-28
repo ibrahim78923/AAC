@@ -6,8 +6,11 @@ import {
   ShortcutSharpRightIcon,
 } from '@/assets/icons';
 import { TICKETS_CONVERSATION_TYPE } from '@/constants/strings';
+import { UseConversation } from '../useConversation';
+import { Box } from '@mui/material';
 
 export const useConversationView = () => {
+  const { handleEdit } = UseConversation();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const handleCloseDeleteModal = () => {
     setIsDeleteModalOpen(false);
@@ -23,7 +26,9 @@ export const useConversationView = () => {
           <>
             <ShortcutSharpLeftIcon />
             <ShortcutSharpRightIcon />
-            <EditBlackIcon />
+            <Box onClick={handleEdit}>
+              <EditBlackIcon />
+            </Box>
             <DeleteIcon
               sx={{
                 color: 'custom.main',
