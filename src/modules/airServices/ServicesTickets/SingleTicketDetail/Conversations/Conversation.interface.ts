@@ -2,6 +2,11 @@ export interface ConversationDataI {
   note?: string;
   notify?: string;
   noteDescription?: string;
+  // noteFile?: {
+  //   name: string;
+  //   size: string;
+  //   type: string;
+  // };
   reply?: string;
   replyFrom?: string;
   replyTo?: string;

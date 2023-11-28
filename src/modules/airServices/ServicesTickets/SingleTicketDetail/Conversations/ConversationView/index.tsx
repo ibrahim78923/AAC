@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import dayjs from 'dayjs';
 import { Box, Grid, Typography, useTheme } from '@mui/material';
 import Image from 'next/image';
 import { v4 as uuidv4 } from 'uuid';
@@ -34,6 +35,17 @@ const ConversationView: React.FC<{
   const { conversationActionIcon, conversationNoteContent } =
     useConversationView();
   const theme = useTheme();
+  const [currentTime, setCurrentTime] = useState<string>(
+    dayjs().format('h:mm A -D MMMM, YYYY'),
+  );
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTime(dayjs().format('h:mm A -D MMMM, YYYY'));
+    }, 1000 * 60);
+
+    return () => clearInterval(interval);
+  }, []);
 
   const renderConversationItem = ([id, conversationData]: [
     string,
@@ -85,9 +97,7 @@ const ConversationView: React.FC<{
                       </Typography>
                     ))}
                 </Box>
-                <Typography sx={styles?.date}>
-                  11:02 PM-5 March, 2023
-                </Typography>
+                <Typography sx={styles?.date}>{currentTime}</Typography>
               </Box>
             </Box>
             <Box>

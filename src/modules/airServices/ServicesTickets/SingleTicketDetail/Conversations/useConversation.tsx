@@ -66,9 +66,7 @@ export const UseConversation = () => {
 
       reset();
       setShow(false);
-    } catch (error) {
-      // Handle error
-    }
+    } catch (error) {}
   };
 
   const handleCloseButtonMenu = (e: any) => {

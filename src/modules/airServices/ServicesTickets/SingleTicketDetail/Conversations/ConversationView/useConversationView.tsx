@@ -1,15 +1,16 @@
+import React from 'react';
+import DeleteIcon from '@mui/icons-material/Delete';
 import {
   EditBlackIcon,
   ShortcutSharpLeftIcon,
   ShortcutSharpRightIcon,
 } from '@/assets/icons';
-import React from 'react';
-import DeleteIcon from '@mui/icons-material/Delete';
 import { ConversationDataI } from '../Conversation.interface';
 import {
   TICKETS_CONVERSATION_Description_Type,
   TICKETS_CONVERSATION_TYPE,
 } from '@/constants/strings';
+
 export const useConversationView = () => {
   const conversationNoteContent = (conversationData: ConversationDataI) => {
     const content: { [key: string]: string } = {};
@@ -79,6 +80,7 @@ export const useConversationView = () => {
         return null;
     }
   };
+
   return {
     conversationNoteContent,
     conversationActionIcon,

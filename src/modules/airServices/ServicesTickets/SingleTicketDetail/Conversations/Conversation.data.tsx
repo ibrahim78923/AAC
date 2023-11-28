@@ -1,4 +1,9 @@
-import { RHFTextField, RHFSelect, RHFEditor } from '@/components/ReactHookForm';
+import {
+  RHFTextField,
+  RHFSelect,
+  RHFEditor,
+  // RHFDropZone,
+} from '@/components/ReactHookForm';
 import { TICKETS_CONVERSATION_TYPE } from '@/constants/strings';
 import * as Yup from 'yup';
 export const conversationValidationSchema = (action) => {
@@ -8,6 +13,7 @@ export const conversationValidationSchema = (action) => {
         note: Yup?.string()?.required('Field is Required'),
         notify: Yup?.string()?.required('Field is Required'),
         noteDescription: Yup?.string()?.trim()?.required('Field is Required'),
+        // file: Yup?.string()?.trim()?.required('Field is Required'),
       });
     case TICKETS_CONVERSATION_TYPE?.REPLY:
       return Yup?.object()?.shape({
@@ -15,6 +21,7 @@ export const conversationValidationSchema = (action) => {
         replyFrom: Yup?.string()?.required('Field is Required'),
         replyTo: Yup?.string()?.required('Field is Required'),
         replyDescription: Yup?.string()?.trim()?.required('Field is Required'),
+        // file: Yup?.string()?.trim()?.required('Field is Required'),
       });
     case TICKETS_CONVERSATION_TYPE?.FORWARD:
       return Yup?.object()?.shape({
@@ -24,6 +31,7 @@ export const conversationValidationSchema = (action) => {
         forwardDescription: Yup?.string()
           ?.trim()
           ?.required('Field is Required'),
+        // file: Yup?.string()?.required('Field is Required'),
       });
     default:
       return Yup?.object()?.shape({});
@@ -34,6 +42,7 @@ export const conversationModalsDefaultValues: any = {
   note: '',
   notify: '',
   noteDescription: '',
+  // file: '',
   reply: '',
   replyFrom: '',
   replyTo: '',
@@ -43,6 +52,11 @@ export const conversationModalsDefaultValues: any = {
   forwardTo: '',
   forwardDescription: '',
 };
+export const conversationOptions = [
+  { value: 'Forward', label: 'Forward' },
+  { value: 'Note', label: 'Note' },
+  { value: 'Reply', label: 'Reply' },
+];
 
 export const conversationNoteArray = [
   {
@@ -53,11 +67,7 @@ export const conversationNoteArray = [
       select: true,
     },
     defaultValue: 'Reply',
-    options: [
-      { value: 'Note', label: 'Note' },
-      { value: 'Reply', label: 'Reply' },
-      { value: 'Forward', label: 'Forward' },
-    ],
+    options: conversationOptions,
 
     component: RHFSelect,
 
@@ -83,6 +93,15 @@ export const conversationNoteArray = [
     md: 12,
     mb: 2,
   },
+  // {
+  //   componentProps: {
+  //     name: 'file',
+  //     label: '',
+  //     fullWidth: true,
+  //   },
+  //   component: RHFDropZone,
+  //   md: 12,
+  // },
 ];
 export const conversationReplyArray = [
   {
@@ -93,11 +112,7 @@ export const conversationReplyArray = [
       select: true,
     },
 
-    options: [
-      { value: 'Reply', label: 'Reply' },
-      { value: 'Forward', label: 'Forward' },
-      { value: 'Note', label: 'Note' },
-    ],
+    options: conversationOptions,
 
     component: RHFSelect,
 
@@ -132,6 +147,15 @@ export const conversationReplyArray = [
     md: 12,
     mb: 2,
   },
+  // {
+  //   componentProps: {
+  //     name: 'file',
+  //     label: '',
+  //     fullWidth: true,
+  //   },
+  //   component: RHFDropZone,
+  //   md: 12,
+  // },
 ];
 export const conversationForwardArray = [
   {
@@ -141,13 +165,7 @@ export const conversationForwardArray = [
       fullWidth: true,
       select: true,
     },
-
-    options: [
-      { value: 'Forward', label: 'Forward' },
-      { value: 'Note', label: 'Note' },
-      { value: 'Reply', label: 'Reply' },
-    ],
-
+    options: conversationOptions,
     component: RHFSelect,
 
     md: 12,
@@ -181,6 +199,15 @@ export const conversationForwardArray = [
     md: 12,
     mb: 2,
   },
+  // {
+  //   componentProps: {
+  //     name: 'file',
+  //     label: '',
+  //     fullWidth: true,
+  //   },
+  //   component: RHFDropZone,
+  //   md: 12,
+  // },
 ];
 
 export const menuOptionsAddConversation = [
@@ -210,17 +237,6 @@ export const conversationAddArticleData = [
   },
 ];
 
-export const conversationData = [
-  {
-    image: 'image1',
-    sender: 'John',
-    action: 'reply',
-    to: 'nickofl@gmail.com',
-    message:
-      'Hi Guys We have been facing issue  when we try to reach email server 3 Hi Guys .',
-    time: '11:02 PM-5 March,  2023',
-  },
-];
 export const modules = {
   toolbar: {
     container: [
@@ -245,5 +261,21 @@ export const stepsDiscuss = [
     id: '1',
     message: 'Hello Air AppleCart',
     end: true,
+  },
+];
+export const conversationData = [
+  {
+    image: 'image1',
+    sender: 'John',
+    action: 'reply',
+    to: 'nickofl@gmail.com',
+    message:
+      'Hi Guys We have been facing issues when we try to reach the email server 3 Hi Guys .',
+    time: '11:02 PM-5 March,  2023',
+    noteFile: {
+      name: 'Picture.pdf',
+      size: '12KB',
+      type: 'pdf',
+    },
   },
 ];
