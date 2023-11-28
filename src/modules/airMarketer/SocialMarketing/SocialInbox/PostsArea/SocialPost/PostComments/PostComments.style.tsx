@@ -16,6 +16,12 @@ export const styles = {
       border: '1px solid #E5E7EB',
       width: '90%',
       borderRadius: '8px',
+      '@media (max-width:700px)': {
+        width: '70vw',
+      },
+      '@media (max-width:400px)': {
+        width: '55vw',
+      },
     };
   },
   unStyledButton: () => {

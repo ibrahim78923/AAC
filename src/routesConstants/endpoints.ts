@@ -37,6 +37,7 @@ export const END_POINTS = {
   TASK_MANAGEMENT: '/task/management',
   DEALS_ASSOCIATION: '/deals/get-associations',
   ENQUIRIES: '/enquiries/',
+  TASK_MANAGEMENT: '/task/management',
 };
 
 export const superAdminBillingInvoices = {

@@ -7,7 +7,7 @@ import {
   ToggleButton,
   ToggleButtonGroup,
 } from '@mui/material';
-import React from 'react';
+import React, { useState } from 'react';
 import { FilterSharedIcon } from '@/assets/icons';
 import { useSocialInbox } from './useSocialInbox';
 import SocialModes from './SocialModes';
@@ -18,7 +18,10 @@ import PostsArea from './PostsArea';
 
 const SocialInbox = () => {
   const { theme, socialModeState, handleSelection } = useSocialInbox();
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+
+  const [postMode, setPostMode] = useState('fbPost');
+
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const actionMenuOpen = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event?.currentTarget);
@@ -30,7 +33,7 @@ const SocialInbox = () => {
   return (
     <Box>
       <Grid container spacing={3}>
-        <Grid item xs={12} md={3}>
+        <Grid item xs={12} md={4}>
           <Box sx={styles?.mainWrapperBox}>
             <Box sx={styles?.wrapperBox}>
               <ToggleButtonGroup
@@ -79,12 +82,16 @@ const SocialInbox = () => {
               </Button>
             </Box>
 
-            <SocialModes socialModeState={socialModeState} />
+            <SocialModes
+              socialModeState={socialModeState}
+              postMode={postMode}
+              setPostMode={setPostMode}
+            />
           </Box>
         </Grid>
-        <Grid item xs={12} md={9}>
+        <Grid item xs={12} md={8}>
           <Box sx={styles?.mainWrapperBox}>
-            <PostsArea />
+            <PostsArea postMode={postMode} />
           </Box>
         </Grid>
         <FilterDropdown

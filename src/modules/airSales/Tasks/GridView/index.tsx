@@ -15,15 +15,12 @@ const GridView = ({
       <CustomGridWithCardContent title={title} data={data} />
       {title === 'All' && (
         <>
-          <CustomGridWithCardContent title={'pending'} data={pendingData} />
+          <CustomGridWithCardContent title={'Pending'} data={pendingData} />
           <CustomGridWithCardContent
-            title={'inprogress'}
+            title={'Inprogress'}
             data={inprogressData}
           />
-          <CustomGridWithCardContent
-            title={'comppleted'}
-            data={completedData}
-          />
+          <CustomGridWithCardContent title={'Complete'} data={completedData} />
         </>
       )}
     </Grid>

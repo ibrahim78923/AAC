@@ -7,58 +7,9 @@ import {
 import { Checkbox } from '@mui/material';
 import TanstackTable from '@/components/Table/TanstackTable';
 import GridView from './GridView';
-
-export const tasksColumns: any = [
-  {
-    accessorFn: (row?: any) => row?.Id,
-    id: 'Id',
-    cell: (info: any) => <Checkbox color="primary" name={info?.getValue()} />,
-    header: <Checkbox color="primary" name="Id" />,
-    isSortable: false,
-  },
-  {
-    accessorFn: (row?: any) => row?.taskName,
-    id: 'taskName',
-    cell: (info?: any) => info?.getValue(),
-    header: 'Task Name',
-    isSortable: true,
-  },
-  {
-    accessorFn: (row?: any) => row?.taskStatus,
-    id: 'taskStatus',
-    isSortable: true,
-    header: 'Task Status',
-    cell: (info?: any) => info?.getValue(),
-  },
-  {
-    accessorFn: (row?: any) => row?.linkedCompany,
-    id: 'linkedCompany',
-    isSortable: true,
-    header: 'Linked Company',
-    cell: (info?: any) => info?.getValue(),
-  },
-  {
-    accessorFn: (row?: any) => row?.assignedUser,
-    id: 'assignedUser',
-    isSortable: true,
-    header: 'Assigned User',
-    cell: (info?: any) => info?.getValue(),
-  },
-  {
-    accessorFn: (row?: any) => row?.taskType,
-    id: 'taskType',
-    isSortable: true,
-    header: 'task Type',
-    cell: (info?: any) => info?.getValue(),
-  },
-  {
-    accessorFn: (row?: any) => row?.lastDate,
-    id: 'lastDate',
-    isSortable: true,
-    header: 'last Date',
-    cell: (info?: any) => info?.getValue(),
-  },
-];
+import { useTask } from './useTask';
+import * as Yup from 'yup';
+import SearchableTabsSelect from '@/modules/airSales/Tasks/searchableTabsSelect/SearchableTabsSelect';
 
 export const filterData = [
   {
@@ -163,15 +114,42 @@ export const matchColumnsData = [
   },
 ];
 
+export const createTaskValidationSchema = Yup?.object()?.shape({
+  name: Yup?.string()?.trim()?.required('Field is Required'),
+  type: Yup?.string()?.trim()?.required('Field is Required'),
+  priority: Yup?.string()?.trim()?.required('Field is Required'),
+  status: Yup?.string()?.trim()?.required('Field is Required'),
+  deal: Yup?.string()?.trim()?.required('Field is Required'),
+  associate: Yup?.string()?.trim()?.required('Field is Required'),
+  assignTo: Yup?.string()?.trim()?.required('Field is Required'),
+  dueDate: Yup?.string()?.trim()?.required('Field is Required'),
+  time: Yup?.string()?.trim()?.required('Field is Required'),
+  reminder: Yup?.string()?.trim()?.required('Field is Required'),
+  note: Yup?.string()?.trim()?.required('Field is Required'),
+});
+
+export const createTaskDefaultValues = {
+  name: '',
+  type: '',
+  priority: '',
+  status: '',
+  deal: '',
+  associate: '',
+  assignTo: '',
+  dueDate: '',
+  time: '',
+  reminder: '',
+  note: '',
+};
+
 export const createTaskData = [
   {
     gridLength: 12,
     title: 'Task Name',
     symbol: '*',
     componentProps: {
-      label: 'Enter Name',
       placeholder: 'Enter Name',
-      name: 'taskName',
+      name: 'name',
     },
     component: RHFTextField,
   },
@@ -180,11 +158,13 @@ export const createTaskData = [
     title: 'Task Type',
     symbol: '*',
     componentProps: {
-      name: 'taskType',
-      label: 'Select',
+      name: 'type',
       select: true,
     },
-    options: [{ label: 'label', value: 'value' }],
+    options: [
+      { label: 'Call', value: 'Call' },
+      { label: 'Email', value: 'Email' },
+    ],
     component: RHFTextField,
   },
   {
@@ -192,67 +172,74 @@ export const createTaskData = [
     title: 'Priority',
     symbol: '*',
     componentProps: {
-      label: 'Select',
       name: 'priority',
       select: true,
     },
-    options: [{ label: 'label', value: 'value' }],
+    options: [
+      { label: 'Low', value: 'Low' },
+      { label: 'Medium', value: 'Medium' },
+      { label: 'High', value: 'High' },
+    ],
     component: RHFTextField,
   },
   {
     gridLength: 12,
     title: 'Task Status',
     componentProps: {
-      label: 'Select',
-      name: 'taskStatus',
+      name: 'status',
       select: true,
     },
-    options: [{ label: 'label', value: 'value' }],
+    options: [
+      { label: 'Pending', value: 'Pending' },
+      { label: 'Inprogress', value: 'Inprogress' },
+      { label: 'Complete', value: 'Complete' },
+    ],
     component: RHFTextField,
   },
   {
     gridLength: 12,
     title: 'Select Deal (Optional)',
     componentProps: {
-      label: 'Select',
-      name: 'selectDeal',
+      name: 'deal',
       select: true,
     },
-    options: [{ label: 'label', value: 'value' }],
+    options: [
+      { label: 'Laptop Purchase', value: 'Laptop Purchase' },
+      { label: 'Mouse Repair', value: 'Mouse Repair' },
+      { label: 'AC Purchase', value: 'AC Purchase' },
+    ],
     component: RHFTextField,
   },
   {
     gridLength: 12,
     title: 'Associate with records',
     componentProps: {
-      label: 'Select',
-      name: 'associateRecord',
-      select: true,
+      name: 'associate',
     },
-    options: [{ label: 'label', value: 'value' }],
-    component: RHFTextField,
+
+    component: SearchableTabsSelect,
   },
   {
     gridLength: 12,
     title: 'Assigned to',
     componentProps: {
-      label: 'Select',
-      name: 'assignedTo',
+      name: 'assignTo',
       select: true,
     },
-    options: [{ label: 'label', value: 'value' }],
+    options: [
+      { label: 'Jhon Doe', value: 'Jhon Doe' },
+      { label: 'Jhon Doe', value: 'Jhon Doe' },
+    ],
     component: RHFTextField,
   },
   {
     gridLength: 8,
     title: 'Due date',
     componentProps: {
-      label: 'Select',
       name: 'dueDate',
       select: true,
     },
-    options: [{ label: 'label', value: 'value' }],
-    component: RHFTextField,
+    component: RHFDatePicker,
   },
   {
     gridLength: 4,
@@ -267,134 +254,159 @@ export const createTaskData = [
     title: 'Reminder',
     componentProps: {
       name: 'reminder',
-      label: 'Select',
       select: true,
     },
-    options: [{ label: 'label', value: 'value' }],
+    options: [
+      { label: 'Today', value: 'Today' },
+      { label: 'Tomorrow', value: 'Tomorrow' },
+      { label: 'In 1 business day', value: 'in1businessday' },
+      { label: 'In 2 business day', value: 'in2businessday' },
+    ],
     component: RHFTextField,
   },
   {
     gridLength: 12,
     title: 'Note',
     componentProps: {
-      name: 'reminder',
+      name: 'note',
     },
     component: RHFEditor,
   },
 ];
 
-const tableMockData = [
+export const tasksColumns: any = [
   {
-    id: '1',
-    taskName: 'verification',
-    taskStatus: 'inprogress',
-    linkedCompany: 'apple',
-    assignedUser: 'darlene robertson',
-    taskType: 'email',
-    lastDate: '21-03-2023 01:46 PM',
+    accessorFn: (row?: any) => row?.Id,
+    id: '_id',
+    cell: (info: any) => <Checkbox color="primary" name={info?.getValue()} />,
+    header: <Checkbox color="primary" name="Id" />,
+    isSortable: false,
   },
   {
-    id: '2',
-    taskName: 'deal lock',
-    taskStatus: 'pending',
-    linkedCompany: 'dell',
-    assignedUser: 'darlene robertson',
-    taskType: 'call',
-    lastDate: '21-03-2023 01:46 PM',
+    accessorFn: (row?: any) => row?.name,
+    id: 'name',
+    cell: (info?: any) => info?.getValue(),
+    header: 'Task Name',
+    isSortable: true,
   },
   {
-    id: '3',
-    taskName: 'service maintenance',
-    taskStatus: 'completed',
-    linkedCompany: 'microsoft',
-    assignedUser: 'darlene robertson',
-    taskType: 'email',
-    lastDate: '21-03-2023 01:46 PM',
+    accessorFn: (row?: any) => row?.status,
+    id: 'status',
+    isSortable: true,
+    header: 'Task Status',
+    cell: (info?: any) => info?.getValue(),
   },
   {
-    id: '4',
-    taskName: 'server install',
-    taskStatus: 'my-task',
-    linkedCompany: 'apple',
-    assignedUser: 'darlene robertson',
-    taskType: 'email',
-    lastDate: '21-03-2023 01:46 PM',
+    accessorFn: (row?: any) => row?.associate, // TODO Need to discuss
+    id: 'associate',
+    isSortable: true,
+    header: 'Linked Company',
+    cell: (info?: any) => info?.getValue(),
   },
   {
-    id: '5',
-    taskName: 'verification',
-    taskStatus: 'my-task',
-    linkedCompany: 'apple',
-    assignedUser: 'darlene robertson',
-    taskType: 'email',
-    lastDate: '21-03-2023 01:46 PM',
+    accessorFn: (row?: any) => row?.assignTo,
+    id: 'assignTo',
+    isSortable: true,
+    header: 'Assigned User',
+    cell: (info?: any) => info?.getValue(),
+  },
+  {
+    accessorFn: (row?: any) => row?.type,
+    id: 'type',
+    isSortable: true,
+    header: 'task Type',
+    cell: (info?: any) => info?.getValue(),
+  },
+  {
+    accessorFn: (row?: any) => row?.updatedAt,
+    id: 'updatedAt',
+    isSortable: true,
+    header: 'last Date',
+    cell: (info?: any) => info?.getValue(),
   },
 ];
 
-const TaskTableData = (type: string) =>
-  type === 'all'
-    ? tableMockData
-    : tableMockData.filter((obj) => obj.taskStatus === type);
+export const TasksData = () => {
+  const { taskData, setPage, setPageLimit, isLoading } = useTask();
+  const dataCheck = taskData?.data?.taskmanagements ?? [];
+  const TaskTableData = (type: string) =>
+    type === 'all'
+      ? dataCheck
+      : dataCheck?.filter((obj: any) => obj?.status === type);
 
-export const TasksData = [
-  {
-    index: 0,
-    label: 'All',
-    tableChildren: (
-      <TanstackTable data={TaskTableData('all')} columns={tasksColumns} />
-    ),
-    gridChildtren: (
-      <GridView
-        title={'All'}
-        data={TaskTableData('all')}
-        myTaskData={TaskTableData('my-task')}
-        pendingData={TaskTableData('pending')}
-        inprogressData={TaskTableData('inprogress')}
-        completedData={TaskTableData('completed')}
-      />
-    ),
-  },
-  {
-    index: 1,
-    label: 'My Tasks',
-    tableChildren: (
-      <TanstackTable data={TaskTableData('my-task')} columns={tasksColumns} />
-    ),
-    gridChildtren: (
-      <GridView title={'My Tasks'} data={TaskTableData('my-task')} />
-    ),
-  },
-  {
-    index: 2,
-    label: 'Pending',
-    tableChildren: (
-      <TanstackTable data={TaskTableData('pending')} columns={tasksColumns} />
-    ),
-    gridChildtren: (
-      <GridView title={'pending'} data={TaskTableData('pending')} />
-    ),
-  },
-  {
-    index: 3,
-    label: 'In-Progress',
-    tableChildren: (
-      <TanstackTable
-        data={TaskTableData('inprogress')}
-        columns={tasksColumns}
-      />
-    ),
-    gridChildtren: (
-      <GridView title={'inprogress'} data={TaskTableData('inprogress')} />
-    ),
-  },
-  {
-    index: 4,
-    label: 'Completed',
-    tableChildren: (
-      <TanstackTable data={TaskTableData('completed')} columns={tasksColumns} />
-    ),
-    gridChildtren: (
-      <GridView title={'completed'} data={TaskTableData('completed')} />
-    ),
-  },
-];
+  return [
+    {
+      index: 0,
+      label: 'All',
+      tableChildren: (
+        <TanstackTable
+          data={TaskTableData('all')}
+          columns={tasksColumns}
+          isLoading={isLoading}
+          totalRecords={taskData?.data?.meta?.total}
+          onPageChange={(page: any) => setPage(page)}
+          setPage={setPage}
+          setPageLimit={setPageLimit}
+          count={taskData?.data?.meta?.pages}
+          isPagination
+        />
+      ),
+      gridChildtren: (
+        <GridView
+          title={'All'}
+          data={TaskTableData('all')}
+          myTaskData={TaskTableData('my-task')}
+          pendingData={TaskTableData('Pending')}
+          inprogressData={TaskTableData('inprogress')}
+          completedData={TaskTableData('Complete')}
+        />
+      ),
+    },
+    {
+      index: 1,
+      label: 'My Tasks',
+      tableChildren: (
+        <TanstackTable data={TaskTableData('my-task')} columns={tasksColumns} />
+      ),
+      gridChildtren: (
+        <GridView title={'My Tasks'} data={TaskTableData('my-task')} />
+      ),
+    },
+    {
+      index: 2,
+      label: 'Pending',
+      tableChildren: (
+        <TanstackTable data={TaskTableData('Pending')} columns={tasksColumns} />
+      ),
+      gridChildtren: (
+        <GridView title={'Pending'} data={TaskTableData('Pending')} />
+      ),
+    },
+    {
+      index: 3,
+      label: 'In-Progress',
+      tableChildren: (
+        <TanstackTable
+          data={TaskTableData('inprogress')}
+          columns={tasksColumns}
+        />
+      ),
+      gridChildtren: (
+        <GridView title={'inprogress'} data={TaskTableData('inprogress')} />
+      ),
+    },
+    {
+      index: 4,
+      label: 'Completed',
+      tableChildren: (
+        <TanstackTable
+          data={TaskTableData('Complete')}
+          columns={tasksColumns}
+        />
+      ),
+      gridChildtren: (
+        <GridView title={'Complete'} data={TaskTableData('Complete')} />
+      ),
+    },
+  ];
+};
