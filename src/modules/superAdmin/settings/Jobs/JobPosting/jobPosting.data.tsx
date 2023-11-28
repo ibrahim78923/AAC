@@ -6,31 +6,35 @@ import {
 } from '@/components/ReactHookForm';
 import StatusBadge from '@/components/StatusBadge';
 import { Checkbox } from '@mui/material';
+import dayjs from 'dayjs';
 import * as Yup from 'yup';
+import useJobPosting from './useJobPosting';
+import { DATE_FORMAT } from '@/constants';
+
 export const jobPostingValidationSchema = Yup.object().shape({
-  jobTitle: Yup.string().trim().required('Field is Required'),
-  JobType: Yup.string().trim().required('Field is Required'),
-  category: Yup.string().trim().required('Field is Required'),
-  experienceLevel: Yup.string().trim().required('Field is Required'),
-  numberOfVacency: Yup.string().trim().required('Field is Required'),
-  applicationDedlineDates: Yup.string().trim().required('Field is Required'),
-  jobDiscription: Yup.string().trim().required('Field is Required'),
+  title: Yup.string().trim().required('Field is Required'),
+  jobType: Yup.string().trim().required('Field is Required'),
+  jobCategory: Yup.string().trim().required('Field is Required'),
+  experience: Yup.string().trim().required('Field is Required'),
+  numberOfVacancy: Yup.string().trim().required('Field is Required'),
+  deadline: Yup.date().required('Field is Required'),
+  description: Yup.string().trim().required('Field is Required'),
 });
 
 export const jobPostingDefaultValues = {
-  jobTitle: '',
-  JobType: '',
-  category: '',
-  experienceLevel: '',
-  numberOfVacency: '',
-  applicationDedlineDates: '',
-  jobDiscription: '',
+  title: '',
+  jobType: '',
+  jobCategory: '',
+  experience: '',
+  numberOfVacancy: '',
+  deadline: null,
+  description: '',
 };
 
 export const jobPostingDataArray = [
   {
     componentProps: {
-      name: 'jobTitle',
+      name: 'title',
       label: 'Job Title',
       fullWidth: true,
     },
@@ -39,25 +43,40 @@ export const jobPostingDataArray = [
   },
   {
     componentProps: {
-      name: 'JobType',
+      name: 'jobType',
       label: 'Job Type',
+      select: true,
       fullWidth: true,
     },
+    options: [
+      { value: 'FULL_TIME', label: 'Full Time' },
+      { value: 'PART_TIME', label: 'Part Time' },
+      { value: 'PERMANENT', label: 'Permanent' },
+      { value: 'INTERNSHIP', label: 'Internship' },
+    ],
     component: RHFSelect,
     md: 12,
   },
   {
     componentProps: {
-      name: 'category',
+      name: 'jobCategory',
       label: 'Category ',
+      select: true,
       fullWidth: true,
     },
+    options: [
+      { value: 'SALES', label: 'Sales' },
+      { value: 'MARKETING', label: 'Marketing' },
+      { value: 'SERVICES', label: 'Services' },
+      { value: 'OPERATIONS', label: 'Operations' },
+      { value: 'LOYALTY_PROGRAM', label: 'Loyalty Program' },
+    ],
     component: RHFSelect,
     md: 12,
   },
   {
     componentProps: {
-      name: 'experienceLevel',
+      name: 'experience',
       label: 'Experience Level',
       select: true,
     },
@@ -89,7 +108,7 @@ export const jobPostingDataArray = [
   },
   {
     componentProps: {
-      name: 'applicationDedlineDates',
+      name: 'deadline',
       label: 'Application Deadline Date',
       fullWidth: true,
     },
@@ -98,7 +117,7 @@ export const jobPostingDataArray = [
   },
   {
     componentProps: {
-      name: 'jobDiscription',
+      name: 'description',
       label: 'Job Discription',
       fullWidth: true,
     },
@@ -106,8 +125,8 @@ export const jobPostingDataArray = [
     md: 12,
   },
 ];
-// Filters Data
 
+// Filters Data
 export const jobPostingFiltersValidationSchema = Yup.object().shape({
   jobTitle: Yup.string().trim().required('Field is Required'),
   JobType: Yup.string().trim().required('Field is Required'),
@@ -119,123 +138,195 @@ export const jobPostingFiltersValidationSchema = Yup.object().shape({
 });
 
 export const jobPostingFiltersDefaultValues = {
-  jobTitle: '',
-  JobType: '',
-  dummy: '',
-  experienceLevel: '',
-  numberOfVacency: '',
-  applicationDedlineDates: '',
-  jobDiscription: '',
+  jobCategory: '',
+  createdById: '',
+  createdAt: '',
+  status: '',
 };
 
-export const jobPostingFiltersDataArray = [
-  {
-    componentProps: {
-      name: 'category',
-      label: 'Category',
-      select: true,
+export const jobPostingFiltersFields = () => {
+  const { jopPostinData } = useJobPosting();
+  const createdByOptions = jopPostinData?.data?.jobs?.reduce(
+    (uniqueOptions: any, option: any) => {
+      const createdById = option?.createdBy?._id;
+      if (
+        createdById &&
+        !uniqueOptions.some((item: any) => item?.value === createdById)
+      ) {
+        uniqueOptions.push({
+          value: createdById,
+          label: option?.createdBy?.name,
+        });
+      }
+      return uniqueOptions;
     },
-    options: [
-      { value: 'Sales', label: 'Sales' },
-      { value: 'Marketing', label: 'Marketing' },
-      { value: 'Service', label: 'Service' },
-      { value: 'Operations', label: 'Operations' },
-      { value: 'Loyalty Program', label: 'Loyalty Program' },
-    ],
-    component: RHFSelect,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'createdBy',
-      label: 'createdBy',
-      select: true,
-    },
-    options: [
-      { value: 'John Doe', label: 'John Doe' },
-      { value: 'William', label: 'William' },
-      { value: 'Andrew', label: 'Andrew' },
-    ],
-    component: RHFSelect,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'createdDate',
-      label: 'Created Date',
-      fullWidth: true,
-    },
-    component: RHFDatePicker,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'status',
-      label: 'Status',
-      select: true,
-    },
-    options: [
-      { value: 'Open', label: 'Open' },
-      { value: 'Close', label: 'Close' },
-    ],
-    component: RHFSelect,
-    md: 12,
-  },
-];
-
-export const columns = (theme: any) => {
+    [],
+  );
   return [
     {
-      accessorFn: (row: any) => row.id,
-      id: 'id',
-      cell: (info: any) => <Checkbox color="primary" name={info.getValue()} />,
+      componentProps: {
+        name: 'jobCategory',
+        label: 'Category',
+        select: true,
+      },
+      options: [
+        { value: 'SALES', label: 'Sales' },
+        { value: 'MARKETING', label: 'Marketing' },
+        { value: 'SERVICES', label: 'Service' },
+        { value: 'OPERATIONS', label: 'Operations' },
+        { value: 'LOYALTY_PROGRAM', label: 'Loyalty Program' },
+      ],
+      component: RHFSelect,
+      md: 12,
+    },
+    {
+      componentProps: {
+        name: 'createdBy',
+        label: 'Created By',
+        select: true,
+      },
+      options: createdByOptions,
+      component: RHFSelect,
+      md: 12,
+    },
+    {
+      componentProps: {
+        name: 'createdAt',
+        label: 'Created Date',
+        fullWidth: true,
+      },
+      component: RHFDatePicker,
+      md: 12,
+    },
+    {
+      componentProps: {
+        name: 'status',
+        label: 'Status',
+        select: true,
+      },
+      options: [
+        { value: 'Open', label: 'Open' },
+        { value: 'Close', label: 'Close' },
+      ],
+      component: RHFSelect,
+      md: 12,
+    },
+  ];
+};
+
+export const columns = (
+  theme: any,
+  setIsDisabled: (value: boolean) => void,
+  tableRowValues: any,
+  setTableRowValues: any,
+  setRowId: any,
+) => {
+  const handleRowSelect = (id: any) => {
+    const selectedIndex = tableRowValues.indexOf(id);
+    let newSelected: any = [];
+
+    if (selectedIndex === -1) {
+      newSelected = newSelected?.concat(tableRowValues, id);
+    } else if (selectedIndex === 0) {
+      newSelected = newSelected.concat(tableRowValues.slice(1));
+    } else if (selectedIndex === tableRowValues.length - 1) {
+      newSelected = newSelected.concat(tableRowValues.slice(0, -1));
+    } else if (selectedIndex > 0) {
+      newSelected = newSelected.concat(
+        tableRowValues.slice(0, selectedIndex),
+        tableRowValues.slice(selectedIndex + 1),
+      );
+    }
+    const disabled = newSelected.length === 0;
+    setIsDisabled(disabled);
+    setTableRowValues(newSelected);
+    if (newSelected.length === 1) {
+      setRowId(newSelected[0]);
+    } else {
+      setRowId(null);
+    }
+  };
+
+  const isSelected = (id: any) => tableRowValues.indexOf(id) !== -1;
+  return [
+    {
+      accessorFn: (row: any) => row._id,
+      id: '_id',
+      cell: (info: any) => (
+        <Checkbox
+          color="primary"
+          checked={isSelected(info?.cell?.row?.original?._id)}
+          name={info?.cell?.row?.original?._id}
+          onClick={() => {
+            handleRowSelect(info?.cell?.row?.original?._id);
+          }}
+        />
+      ),
       header: <Checkbox color="primary" name="Id" />,
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row.jobTitle,
-      id: 'jobTitle',
-      cell: (info: any) => info.getValue(),
+      accessorFn: (row: any) => row?.title,
+      id: 'title',
+      cell: (info: any) => info?.getValue(),
       header: 'Job Title',
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row.shortDescription,
-      id: 'shortDescription',
+      accessorFn: (row: any) => row?.description,
+      id: 'description',
       isSortable: true,
       header: 'Short Discription',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => {
+        const response = info?.getValue().replace(/<[^>]*>/g, '');
+        return <>{response}</>;
+      },
     },
     {
-      accessorFn: (row: any) => row.category,
-      id: 'category',
+      accessorFn: (row: any) => row.jobCategory,
+      id: 'jobCategory',
       isSortable: true,
       header: 'Category',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => {
+        const category =
+          info?.getValue() === 'SALES'
+            ? 'Sales'
+            : info?.getValue() === 'MARKETING'
+            ? 'Marketing'
+            : info?.getValue() === 'SERVICES'
+            ? 'Services'
+            : info?.getValue() === 'OPERATIONS'
+            ? 'Operations'
+            : 'Loyalty Program';
+        return <>{category}</>;
+      },
     },
     {
-      accessorFn: (row: any) => row.noOfVacancy,
-      id: 'noOfVacancy',
+      accessorFn: (row: any) => row?.numberOfVacancy,
+      id: 'numberOfVacancy',
       isSortable: true,
-      header: 'No ofVacency',
-      cell: (info: any) => info.getValue(),
+      header: 'No of Vacency',
+      cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row.createdBy,
+      accessorFn: (row: any) => row?.createdBy,
       id: 'createdBy',
       isSortable: true,
       header: 'Created By',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue().name,
     },
     {
-      accessorFn: (row: any) => row.createdDate,
-      id: 'createdDate',
+      accessorFn: (row: any) => row?.createdAt,
+      id: 'createdAt',
       isSortable: true,
       header: 'Created date',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => {
+        const formattedDate = dayjs(info?.getValue()).format(DATE_FORMAT.UI);
+        return formattedDate;
+      },
     },
     {
-      accessorFn: (row: any) => row.status,
+      accessorFn: (row: any) => row?.status,
       id: 'status',
       isSortable: true,
       header: 'Status',
@@ -246,15 +337,16 @@ export const columns = (theme: any) => {
           options={[
             {
               label: 'Open',
-              value: 'open',
+              value: 'OPEN',
               color: theme?.palette?.success?.main,
             },
             {
               label: 'Close',
-              value: 'close',
+              value: 'CLOSE',
               color: theme?.palette?.error?.main,
             },
           ]}
+          defaultValue={''}
         />
       ),
     },

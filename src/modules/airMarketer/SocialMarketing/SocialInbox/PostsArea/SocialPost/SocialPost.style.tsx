@@ -3,15 +3,16 @@ export const styles = {
     return {
       borderRadius: '15px',
       width: '100%',
-      border: '1px solid #e7e7e9',
-      padding: '24px',
+      // border: '1px solid #e7e7e9',
+      padding: '10px',
     };
   },
   postCard: () => {
     return {};
   },
-  gallery: () => {
+  gallery: (postType: any) => {
     return {
+      mt: postType === 'fbPost' ? 0 : 2,
       '& img': {
         width: '100%',
         height: 'auto',
@@ -19,16 +20,18 @@ export const styles = {
       },
     };
   },
-  reactionsGripper: () => {
+  reactionsGripper: (postType: any) => {
     return {
-      borderTop: '1px solid #D9DBE9',
-      borderBottom: '1px solid #D9DBE9',
+      borderTop: postType === 'fbPost' ? '1px solid #D9DBE9' : 'none',
+      borderBottom: postType === 'fbPost' ? '1px solid #D9DBE9' : 'none',
       display: 'flex',
+      flexWrap: 'wrap',
+      gap: '10px',
       alignItems: 'center',
       justifyContent: 'space-between',
-      pt: 1,
-      pb: 1,
-      mt: 1,
+      pt: postType === 'fbPost' ? 1 : 0,
+      pb: postType === 'fbPost' ? 1 : 0,
+      mt: postType === 'fbPost' ? 1 : 0,
     };
   },
   reactionsFlex: () => {
@@ -36,12 +39,15 @@ export const styles = {
       display: 'flex',
     };
   },
-  boxReaction: () => {
+  boxReaction: (postType: any) => {
     return {
       display: 'flex',
-      gap: '3px',
-      borderRight: '1px solid #D9DBE9',
-      padding: '0px 14px',
+      alignItems: 'center',
+      gap: '5px',
+      borderRight:
+        postType === 'fbPost' ? '1px solid #D9DBE9' : '1px solid transparent',
+      padding: postType === 'fbPost' ? '0px 14px' : '0px 0px',
+      marginRight: postType === 'fbPost' || 'twitterPost' ? '20px' : '0px',
       cursor: 'pointer',
       '&:last-child': {
         borderRight: '1px solid transparent',

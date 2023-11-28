@@ -9,7 +9,9 @@ import {
   ProductOperationIcon,
   ProductLoyaltyProgramIcon,
 } from '@/assets/icons';
-import { data } from '@/mock/modules/SubscriptionAndInvoices';
+import { useGetSubscriptionsAndInvoicesQuery } from '@/services/orgAdmin/subscription-and-invoices';
+import { DATE_FORMAT } from '@/constants';
+import dayjs from 'dayjs';
 
 const getProductIcon = (product: any) => {
   let iconProduct;
@@ -37,8 +39,10 @@ const getProductIcon = (product: any) => {
 
 const Subscriptions = () => {
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
-
-  const handleDrawerOpen = () => {
+  const [subscriptionId, setSubscriptionId] = useState('');
+  const { data: getSubscriptionData } = useGetSubscriptionsAndInvoicesQuery({});
+  const handleDrawerOpen = (id: any) => {
+    setSubscriptionId(id);
     setIsOpenDrawer(true);
   };
 
@@ -53,27 +57,37 @@ const Subscriptions = () => {
         rowSpacing={'24px'}
         columnSpacing={{ xs: '24px', xl: '60px' }}
       >
-        {data?.map((plan: any) => {
+        {getSubscriptionData?.data?.map((plan: any) => {
           return (
             <Grid item key={plan?.id} xs={12} md={6} lg={4}>
               <PlanCard
                 status={plan?.status}
                 icon={getProductIcon(plan?.product)}
-                title={plan?.product}
+                title={
+                  plan?.planProducts?.map(
+                    (product: { name: string }) => product?.name,
+                  ) ?? plan?.name
+                }
                 planDuration={plan?.planDuration}
-                planUsers={plan?.planUsers}
-                planData={plan?.planData}
-                price={plan?.price}
-                billOn={plan?.billOn}
-                type={plan?.type}
+                planUsers={plan?.additionalUsers}
+                planData={plan?.billingCycle}
+                price={plan?.plans?.planPrice ?? 0}
+                billOn={dayjs(plan?.billingDate).format(DATE_FORMAT?.UI)}
+                type={plan?.plantypes?.name ?? plan?.plan}
                 handleBillingDetail={handleDrawerOpen}
+                id={plan?._id}
+                plan={plan}
               />
             </Grid>
           );
         })}
       </Grid>
 
-      <BillingDetail open={isOpenDrawer} onClose={handleDrawerClose} />
+      <BillingDetail
+        open={isOpenDrawer}
+        onClose={handleDrawerClose}
+        subscriptionId={subscriptionId}
+      />
     </>
   );
 };

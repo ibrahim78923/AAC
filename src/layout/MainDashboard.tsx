@@ -33,7 +33,7 @@ import { styles } from './Layout.style';
 import { v4 as uuidv4 } from 'uuid';
 
 const drawerWidth = 230;
-const role = 'SUPER_ADMIN';
+const role = 'AIR_SALES';
 
 const DashboardLayout = ({ children, window }: any) => {
   const theme = useTheme();

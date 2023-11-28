@@ -4,15 +4,47 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { FormProvider } from '@/components/ReactHookForm';
 import { Grid, MenuItem, useTheme, Typography } from '@mui/material';
 import { v4 as uuid4 } from 'uuid';
-import { useTask } from '../useTask';
-import { createTaskData } from '../Task.data';
+import {
+  createTaskData,
+  createTaskDefaultValues,
+  createTaskValidationSchema,
+} from '../Task.data';
 import { CreateTaskI } from './CreateTask.interface';
+import { yupResolver } from '@hookform/resolvers/yup';
+
+import { useForm } from 'react-hook-form';
+import { usePostCreateTaskMutation } from '@/services/airSales/task';
+import { enqueueSnackbar } from 'notistack';
+import { DATE_FORMAT } from '@/constants';
+import dayjs from 'dayjs';
 
 const CreateTask = ({ title, hideBtn, defaultOpen }: CreateTaskI) => {
   const theme = useTheme();
-  const { createTaskSubmit, createTaskHandleSubmit, createTaskMethods } =
-    useTask();
+  const [postCreateTask] = usePostCreateTaskMutation();
 
+  const methodsFilter: any = useForm({
+    resolver: yupResolver(createTaskValidationSchema),
+    defaultValues: createTaskDefaultValues,
+  });
+  const { handleSubmit: handleMethodFilter } = methodsFilter;
+
+  const onSubmitHandler = async (values: any) => {
+    try {
+      await postCreateTask({
+        body: {
+          ...values,
+          dueDate: dayjs(values?.dueDate).format(DATE_FORMAT.API),
+          time: '00:00',
+        },
+      }).unwrap();
+      enqueueSnackbar('Task Created Successfully', {
+        variant: 'success',
+      });
+    } catch (error: any) {
+      enqueueSnackbar('Something went wrong !', { variant: 'error' });
+    }
+  };
+  const handleFiltersSubmit = handleMethodFilter(onSubmitHandler);
   return (
     <DrawerComp
       defaultOpen={defaultOpen}
@@ -23,11 +55,12 @@ const CreateTask = ({ title, hideBtn, defaultOpen }: CreateTaskI) => {
       btnVariant="contained"
       btnTitle="Create Task"
       hideBtn={hideBtn}
+      submitHandler={() => handleFiltersSubmit(onSubmitHandler)}
       footer
     >
       <FormProvider
-        methods={createTaskMethods}
-        handleSubmit={createTaskHandleSubmit(createTaskSubmit)}
+        methods={methodsFilter}
+        handleSubmit={() => handleFiltersSubmit(onSubmitHandler)}
       >
         <Grid container spacing={2}>
           {createTaskData.map((obj) => (
@@ -37,7 +70,7 @@ const CreateTask = ({ title, hideBtn, defaultOpen }: CreateTaskI) => {
                 fontSize={'14px'}
                 fontWeight={500}
                 sx={{
-                  color: theme.palette.grey[600],
+                  color: theme?.palette?.grey[600],
                   '& .symbol': { color: theme?.palette?.error['light'] },
                 }}
               >

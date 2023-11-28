@@ -26,6 +26,7 @@ const NotesEditorDrawer = (props: any) => {
         title={drawerTitle[openDrawer]}
         okText={drawerButtonTitle[openDrawer]}
         isOk={true}
+        submitHandler={handleSubmit(onSubmit)}
         footer={openDrawer === 'View' ? false : true}
       >
         <Box sx={{ pt: 2 }}>

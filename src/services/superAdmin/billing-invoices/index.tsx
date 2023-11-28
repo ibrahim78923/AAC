@@ -4,16 +4,16 @@ import { baseAPI } from '@/services/base-api';
 export const bilingInvoicesAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getBilingInvoices: builder.query({
-      query: ({ param, query, pagination }: any) => ({
-        url: `${superAdminBillingInvoices.get_org_plan}${pagination}${query}`,
+      query: ({ params }: any) => ({
+        url: `${superAdminBillingInvoices.GET_ORG_PLAN}`,
         method: 'GET',
-        param: param,
+        params: params,
       }),
       providesTags: ['bilingInvoices'],
     }),
     getProducts: builder.query({
       query: () => ({
-        url: `${superAdminBillingInvoices.get_Products}`,
+        url: `${superAdminBillingInvoices.GET_PRODUCTS}`,
         method: 'GET',
       }),
       providesTags: ['getProducts'],
@@ -21,7 +21,7 @@ export const bilingInvoicesAPI = baseAPI.injectEndpoints({
 
     getPlanType: builder.query({
       query: () => ({
-        url: `${superAdminBillingInvoices.get_plan_type}`,
+        url: `${superAdminBillingInvoices.GET_PLAN_TYPE}`,
         method: 'GET',
       }),
       providesTags: ['getPlanType'],
@@ -29,7 +29,7 @@ export const bilingInvoicesAPI = baseAPI.injectEndpoints({
 
     getOrganizations: builder.query({
       query: () => ({
-        url: `${superAdminBillingInvoices.get_organizations}`,
+        url: `${superAdminBillingInvoices.GET_ORGANIZATION}`,
         method: 'GET',
       }),
       providesTags: ['organizations'],
@@ -37,7 +37,7 @@ export const bilingInvoicesAPI = baseAPI.injectEndpoints({
 
     postBilingInvoices: builder.mutation({
       query: ({ body }: any) => ({
-        url: `${superAdminBillingInvoices.post_biling_invoices}`,
+        url: `${superAdminBillingInvoices.POST_BILING_INVOICES}`,
         method: 'POST',
         body: body,
       }),
@@ -46,7 +46,7 @@ export const bilingInvoicesAPI = baseAPI.injectEndpoints({
 
     getPlanId: builder.query({
       query: ({ proId, planTypeId }) => ({
-        url: `${superAdminBillingInvoices.get_plan_id}?productId=${proId}&planTypeId=${planTypeId}`,
+        url: `${superAdminBillingInvoices.GET_PLAN_ID}?productId=${proId}&planTypeId=${planTypeId}`,
         method: 'GET',
       }),
       providesTags: ['bilingInvoices'],
@@ -54,7 +54,7 @@ export const bilingInvoicesAPI = baseAPI.injectEndpoints({
 
     patchBilingInvoices: builder.mutation({
       query: ({ body, organizationPlanId }: any) => ({
-        url: `${superAdminBillingInvoices.patch_assign_plan}?organizationPlanId=${organizationPlanId}`,
+        url: `${superAdminBillingInvoices.PATCH_ASSIGN_PLAN}?organizationPlanId=${organizationPlanId}`,
         method: 'PATCH',
         body: body,
       }),
@@ -62,11 +62,21 @@ export const bilingInvoicesAPI = baseAPI.injectEndpoints({
     }),
 
     getBillingHistory: builder.query({
-      query: ({ pagination }: any) => ({
-        url: `${superAdminBillingInvoices.get_all_invoice}?${pagination}`,
+      query: ({ params }: any) => ({
+        url: `${superAdminBillingInvoices.GET_ALL_INVOICE}`,
         method: 'GET',
+        params: params,
       }),
       providesTags: ['bilingInvoices'],
+    }),
+
+    patchUpdateInvoices: builder.mutation({
+      query: ({ body, invoiceId }: any) => ({
+        url: `${superAdminBillingInvoices.UPDATE_INVOICE}?invoiceId=${invoiceId}`,
+        method: 'PATCH',
+        body: body,
+      }),
+      invalidatesTags: ['bilingInvoices'],
     }),
   }),
 });
@@ -80,4 +90,5 @@ export const {
   useGetPlanIdQuery,
   usePatchBilingInvoicesMutation,
   useGetBillingHistoryQuery,
+  usePatchUpdateInvoicesMutation,
 } = bilingInvoicesAPI;

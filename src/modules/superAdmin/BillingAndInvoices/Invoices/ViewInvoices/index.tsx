@@ -13,10 +13,13 @@ import { ViewInvoicesI } from './ViewInvoices.interface';
 import { CloseModalIcon, LogoIcon } from '@/assets/icons';
 import { styles } from './ViewInvoices.style';
 import TanstackTable from '@/components/Table/TanstackTable';
-import { invoiceProducData } from '@/mock/modules/SubscriptionAndInvoices';
 import { AvatarImage } from '@/assets/images';
+import { v4 as uuidv4 } from 'uuid';
+import jsPDF from 'jspdf';
+import dayjs from 'dayjs';
+import { DATE_FORMAT } from '@/constants';
 
-const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose }) => {
+const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose, isGetRowValues }) => {
   const columns: any = [
     {
       accessorFn: (row: any) => row?.id,
@@ -26,39 +29,46 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose }) => {
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row?.product,
+      accessorFn: (row: any) => row?.products,
       id: 'product',
       cell: (info: any) => (
         <>
           <Box sx={{ fontWeight: '500', color: 'blue.dull_blue' }}>
             {info?.getValue()}
+            {info?.row?.original?.plans?.products?.map((data: any) => (
+              <Typography variant="body3" key={uuidv4()}>
+                {data?.name}{' '}
+              </Typography>
+            ))}
           </Box>
-          <Box>{info?.row?.original?.plan}</Box>
+          <Typography variant="body3">
+            ({info?.row?.original?.plantypes})
+          </Typography>
         </>
       ),
       header: 'Product/Suite',
       isSortable: true,
     },
     {
-      accessorFn: (row: any) => row?.planPrice,
+      accessorFn: (row: any) => row?.details?.plans?.planPrice,
       id: 'planPrice',
       isSortable: true,
       header: 'Plan Price',
       cell: (info: any) => <>£ {info?.getValue()}</>,
     },
     {
-      accessorFn: (row: any) => row?.additionalUsers,
+      accessorFn: (row: any) => row?.details?.additionalUsers,
       id: 'additionalUsers',
       isSortable: true,
       header: 'Additional Users',
       cell: (info: any) => (
         <>
-          {info?.getValue()} (*£15) = £{info?.getValue() * 15}
+          {info?.getValue()} (*£15) = £ {info?.getValue() * 15}
         </>
       ),
     },
     {
-      accessorFn: (row: any) => row?.additionalStorage,
+      accessorFn: (row: any) => row?.details?.additionalStorage,
       id: 'additionalStorage',
       isSortable: true,
       header: 'Additional Storage',
@@ -69,7 +79,7 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose }) => {
       ),
     },
     {
-      accessorFn: (row: any) => row?.discount,
+      accessorFn: (row: any) => row?.invoiceDiscount,
       id: 'discount',
       isSortable: true,
       header: 'Discount(%)',
@@ -88,6 +98,14 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose }) => {
     },
   ];
 
+  const handleDownload = () => {
+    const invoice: any = new jsPDF('portrait', 'pt', [1200, 1200]);
+    invoice.html(document.querySelector('#invoice-data')).then(() => {
+      invoice.save('invoice.pdf');
+    });
+    onClose();
+  };
+
   return (
     <Dialog
       open={open}
@@ -101,7 +119,7 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose }) => {
       }}
     >
       <DialogContent sx={{ p: '12px 24px 24px' }}>
-        <Box>
+        <Box id="invoice-data">
           <Box sx={styles?.topBar}>
             <Box sx={styles?.modalClose} onClick={onClose}>
               <CloseModalIcon />
@@ -127,16 +145,26 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose }) => {
                   Air Applecart
                 </Typography>
                 <Typography variant="body3" sx={styles?.cardLeftText()}>
-                  123 Street Address
+                  {
+                    isGetRowValues?.row?.original?.organizations?.address
+                      ?.street
+                  }
                 </Typography>
                 <Typography variant="body3" sx={styles?.cardLeftText}>
-                  City | State | Zip Code
+                  {isGetRowValues?.row?.original?.organizations?.address?.city}{' '}
+                  |{' '}
+                  {isGetRowValues?.row?.original?.organizations?.address?.state}{' '}
+                  |{' '}
+                  {
+                    isGetRowValues?.row?.original?.organizations?.address
+                      ?.postalCode
+                  }
                 </Typography>
                 <Typography variant="body3" sx={styles?.cardLeftText}>
-                  Phone No
+                  {isGetRowValues?.row?.original?.organizations?.phoneNo}
                 </Typography>
                 <Typography variant="body3" sx={styles?.cardLeftText}>
-                  Company Email
+                  {isGetRowValues?.row?.original?.organizations?.email}
                 </Typography>
               </Box>
             </Box>
@@ -144,25 +172,40 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose }) => {
             <Box sx={styles?.cardRight}>
               <Box sx={styles?.userInfo}>
                 <Avatar sx={styles?.avatar} alt="" src={AvatarImage?.src}>
-                  R
+                  {' '}
                 </Avatar>
                 <Box>
-                  <Typography sx={styles?.userName}>Olivia Rhye</Typography>
-                  <Box sx={styles?.orgName}>Extreme Commerce</Box>
+                  <Typography sx={styles?.userName}>
+                    {isGetRowValues?.row?.original?.usersOrg?.firstName}{' '}
+                    {isGetRowValues?.row?.original?.usersOrg?.lastName}
+                  </Typography>
+                  <Box sx={styles?.orgName}>
+                    {isGetRowValues?.row?.original?.organizations?.name}
+                  </Box>
                 </Box>
               </Box>
               <Box>
                 <Typography variant="body3" sx={styles?.cardLeftText}>
-                  123 Street Address
+                  {
+                    isGetRowValues?.row?.original?.organizations?.address
+                      ?.street
+                  }
                 </Typography>
                 <Typography variant="body3" sx={styles?.cardLeftText}>
-                  City | State | Zip Code
+                  {isGetRowValues?.row?.original?.organizations?.address?.city}{' '}
+                  |{' '}
+                  {isGetRowValues?.row?.original?.organizations?.address?.state}{' '}
+                  |{' '}
+                  {
+                    isGetRowValues?.row?.original?.organizations?.address
+                      ?.postalCode
+                  }
                 </Typography>
                 <Typography variant="body3" sx={styles?.cardLeftText}>
-                  Phone No
+                  {isGetRowValues?.row?.original?.organizations?.phoneNo}
                 </Typography>
                 <Typography variant="body3" sx={styles?.cardLeftText}>
-                  Company Email
+                  {isGetRowValues?.row?.original?.organizations?.email}
                 </Typography>
               </Box>
             </Box>
@@ -170,24 +213,32 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose }) => {
 
           <Box sx={styles?.invoiceInfo}>
             <Grid container spacing={'16px'}>
-              <Grid item xs={3}>
+              <Grid item xs={4}>
                 <Box sx={styles?.invoiceInfoTitle}>
-                  Invoice No: <Box component="span">Doc-3</Box>
+                  Invoice No:{' '}
+                  <Typography>
+                    {isGetRowValues?.row?.original?.invoiceNo}
+                  </Typography>
                 </Box>
               </Grid>
-              <Grid item xs={3}>
+              <Grid item xs={4}>
                 <Box sx={styles?.invoiceInfoTitle}>
-                  Invoice Date: <Box component="span">April 9,2023</Box>
+                  Invoice Date:{' '}
+                  <Typography>
+                    {dayjs(isGetRowValues?.row?.original?.billingDate)?.format(
+                      DATE_FORMAT?.UI,
+                    )}
+                  </Typography>
                 </Box>
               </Grid>
-              <Grid item xs={3}>
+              <Grid item xs={4}>
                 <Box sx={styles?.invoiceInfoTitle}>
-                  Due Date: <Box component="span">April 27,2023</Box>
-                </Box>
-              </Grid>
-              <Grid item xs={3}>
-                <Box sx={styles?.invoiceInfoTitle}>
-                  Prepared By: <Box component="span">Adil Khan</Box>
+                  Due Date:{' '}
+                  <Typography>
+                    {dayjs(isGetRowValues?.row?.original?.dueDate)?.format(
+                      DATE_FORMAT?.UI,
+                    )}
+                  </Typography>
                 </Box>
               </Grid>
             </Grid>
@@ -196,7 +247,10 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose }) => {
           {/* Product Table */}
           <Box sx={styles?.productCont}>
             <Box sx={styles?.productHeading}>Products</Box>
-            <TanstackTable columns={columns} data={invoiceProducData} />
+            <TanstackTable
+              columns={columns}
+              data={[isGetRowValues?.row?.original]}
+            />
           </Box>
 
           {/* Voucher Card*/}
@@ -204,38 +258,42 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose }) => {
             <Box sx={styles?.vRow}>
               <Box sx={styles?.vLabel}>
                 Discount{' '}
-                <Box
-                  component="span"
-                  sx={{ fontWeight: '500', fontSize: '14px' }}
-                >
-                  (10%)
-                </Box>
+                <Typography sx={{ fontWeight: '500', fontSize: '14px' }}>
+                  ({isGetRowValues?.row?.original?.invoiceDiscount}%)
+                </Typography>
               </Box>
-              <Box sx={styles?.vValue}>(£ 10)</Box>
+              <Box sx={styles?.vValue}>
+                (£ {isGetRowValues?.row?.original?.invoiceDiscount})
+              </Box>
             </Box>
             <Box sx={styles?.vRow}>
               <Box sx={styles?.vLabel}>
                 Tax{' '}
-                <Box
-                  component={'span'}
-                  sx={{ fontWeight: '400', fontSize: '12px' }}
-                >
-                  (Vat 20%)
-                </Box>
+                <Typography sx={{ fontWeight: '400', fontSize: '12px' }}>
+                  (Vat {isGetRowValues?.row?.original?.vat}%)
+                </Typography>
               </Box>
-              <Box sx={styles?.vValue}>£ 27</Box>
+              <Box sx={styles?.vValue}>
+                £ {isGetRowValues?.row?.original?.vat}
+              </Box>
             </Box>
             <Divider sx={{ borderColor: 'custom.off_white_one', my: '6px' }} />
             <Box sx={styles?.vRow}>
               <Box sx={styles?.vLabel}>Total Cost</Box>
-              <Box sx={styles?.vValue}>£ 162</Box>
+              <Box sx={styles?.vValue}>
+                £ {isGetRowValues?.row?.original?.total}
+              </Box>
             </Box>
           </Box>
 
           <Divider sx={{ borderColor: 'custom.off_white_one', my: '24px' }} />
 
           <Box sx={{ textAlign: 'right' }}>
-            <Button variant="contained" color="primary">
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleDownload}
+            >
               Download
             </Button>
           </Box>

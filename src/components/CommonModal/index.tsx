@@ -5,6 +5,8 @@ import { Box, Button, Modal, Typography } from '@mui/material';
 import { ModelPropsI } from './CommonModal.interface';
 
 import { styles } from './CommonModal.styles';
+import { CloseDrawerIcon } from '@/assets/icons';
+import { LoadingButton } from '@mui/lab';
 
 const CommonModal = ({
   open,
@@ -17,6 +19,7 @@ const CommonModal = ({
   submitIcon,
   footer,
   footerFill,
+  isLoading,
   handleCancel,
   isSubmitDisabled,
   headerIcon,
@@ -39,10 +42,22 @@ const CommonModal = ({
               display: 'flex',
               gap: 1,
               alignItems: 'center',
+              justifyContent: 'space-between',
             }}
           >
-            {headerIcon}
-            <Typography variant="h5">{title}</Typography>
+            <Box
+              sx={{
+                display: 'flex',
+                gap: 1,
+                alignItems: 'center',
+              }}
+            >
+              {headerIcon}
+              <Typography variant="h5">{title}</Typography>
+            </Box>
+            <Box onClick={handleCancel}>
+              <CloseDrawerIcon />
+            </Box>
           </Box>
           {children}
           {footer && (
@@ -68,7 +83,8 @@ const CommonModal = ({
                   {cancelText}
                 </Button>
               )}
-              <Button
+              <LoadingButton
+                loading={isLoading}
                 onClick={handleSubmit}
                 disabled={isSubmitDisabled ? isSubmitDisabled : false}
                 variant="contained"
@@ -79,7 +95,7 @@ const CommonModal = ({
                 startIcon={submitIcon ? submitIcon : ''}
               >
                 {okText}
-              </Button>
+              </LoadingButton>
             </Box>
           )}
         </Box>

@@ -9,6 +9,7 @@ import {
 } from '@mui/material';
 import { checkModalTypeForImage } from './AlertModals.data';
 import { AlertModalCloseIcon } from '@/assets/icons';
+import { LoadingButton } from '@mui/lab';
 
 export const AlertModals = ({
   message,
@@ -20,6 +21,7 @@ export const AlertModals = ({
   cancelBtnText = 'No',
   submitBtnText = 'Yes',
   typeImage,
+  loading,
 }: any) => {
   return (
     <Dialog
@@ -62,9 +64,13 @@ export const AlertModals = ({
         >
           {cancelBtnText}
         </Button>
-        <Button variant="contained" onClick={() => handleSubmitBtn?.()}>
+        <LoadingButton
+          loading={loading}
+          variant="contained"
+          onClick={handleSubmitBtn}
+        >
           {submitBtnText}
-        </Button>
+        </LoadingButton>
       </DialogActions>
     </Dialog>
   );

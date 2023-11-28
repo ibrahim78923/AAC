@@ -6,6 +6,14 @@ export const END_POINTS = {
   get_permissions: '/premissions',
   reset_password: 'auth/resetPassword',
   forgot_password: 'auth/forgot-password',
+  INVENTORY_ACTIVITY: 'assets/inventory',
+  WORKLOAD: `/workload/workload-management`,
+  INVENTORY_EXPENSE: 'expense/add-expense',
+  GET_INVENTORY_EXPENSE: 'expense/get-expense',
+  TICKET: '/ticket',
+  TICKET_STATUS: '/ticket/status',
+  TICKET_BULK_UPDATE: '/ticket/bulk-ticket-update',
+  USER_LIST: '/users',
   ADD_USER: '/users',
   ADD_USER_ACCOUNT: '/super-admin/add-accounts',
   SUPER_ADMIN_USER_LIST: '/super-admin/user-list',
@@ -13,6 +21,11 @@ export const END_POINTS = {
   USER_ACCOUNTS_LIST: '/super-admin/accounts-list',
   UPDATE_USER_LIST: '/users/edit',
   COMPANY_CRN: '/auth/search-company',
+  auth_search_company: 'auth/search-company',
+  auth_IG_Verification: 'auth/ig-verification',
+  EXPENSE: '/expense/add-expense',
+  DROPDOWN_ORGANIZATIONS: '/dropdown/organizations',
+  DROPDOWN_PRODUCTS: '/dropdown/products',
   AUTH_SEARCH_COMPANY: 'auth/search-company',
   AUTH_IG_VERIFICATION: 'auth/ig-verification',
   PRODUCTS: '/products',
@@ -22,17 +35,21 @@ export const END_POINTS = {
   LIFECYCLE_STAGES: '/lifecycle-stages',
   CONTACT_STATUS: '/contact-status',
   GET_PERMISSIONS_ROLES: '/permissions/role',
+  TASK_MANAGEMENT: '/task/management',
+  DEALS_ASSOCIATION: '/deals/get-associations',
+  ENQUIRIES: '/enquiries/',
 };
 
 export const superAdminBillingInvoices = {
-  get_org_plan: '/super-admin/get-all-orgplans?',
-  get_Products: '/products?status=active',
-  get_plan_type: '/plan/plan-type-list',
-  get_organizations: '/organization/get-organizations',
-  post_biling_invoices: '/super-admin/assign-plan',
-  get_plan_id: '/super-admin/find-plan',
-  patch_assign_plan: '/super-admin/update-assign-plan',
-  get_all_invoice: '/super-admin/get-all-invoice',
+  GET_ORG_PLAN: '/super-admin/get-all-orgplans?',
+  GET_PRODUCTS: '/products?status=active',
+  GET_PLAN_TYPE: '/plan/plan-type-list',
+  GET_ORGANIZATION: '/organization/get-organizations',
+  POST_BILING_INVOICES: '/super-admin/assign-plan',
+  GET_PLAN_ID: '/super-admin/find-plan',
+  PATCH_ASSIGN_PLAN: '/super-admin/update-assign-plan',
+  GET_ALL_INVOICE: '/super-admin/get-all-invoice',
+  UPDATE_INVOICE: '/super-admin/update-invoice',
 };
 
 export const organization = {
@@ -43,4 +60,9 @@ export const organization = {
   UPDATE_ORGANIZATION_ACCOUNT: '/org-company-account',
   DELETE_ORGANIZATION_ACCOUNT: '/org-company-account',
   DELETE_ORGANIZARION_MULTIPLE: '/org-company-account/delete-multiple',
+};
+
+export const ORG_ADMIN = {
+  SUBSCRIPTION_AND_INVOICES: '/org-admin/subscriptions',
+  GET_INVOICES: '/org-admin/invoices',
 };

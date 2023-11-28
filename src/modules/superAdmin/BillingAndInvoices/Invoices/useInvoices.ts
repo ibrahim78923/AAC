@@ -1,12 +1,11 @@
 import { useState } from 'react';
-import {
-  FilterInvoiceDefaultValues,
-  FilterInvoiceValidationSchema,
-  columns,
-} from './Invoices.data';
+import { FilterInvoiceValidationSchema, columns } from './Invoices.data';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
-import { useRouter } from 'next/router';
+import { useGetBillingHistoryQuery } from '@/services/superAdmin/billing-invoices';
+import dayjs from 'dayjs';
+import { DATE_FORMAT } from '@/constants';
+import { PAGINATION } from '@/config';
 
 const useInvoices = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -16,7 +15,16 @@ const useInvoices = () => {
   const [isOpenFilter, setIsOpenFilter] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   const [isGetRowValues, setIsGetRowValues] = useState('');
-  const router = useRouter();
+  const [searchByClientName, setSearchByClientName] = useState('');
+  const [filterValues, setFilterValues] = useState({});
+  const searchObject = { search: searchByClientName };
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+
+  const { data: allInvoicesTableData } = useGetBillingHistoryQuery<any>({
+    pagination: `page=1&limit=10`,
+    params: { ...filterValues, ...searchObject, page: page, limit: pageLimit },
+  });
 
   const handleActionsClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event?.currentTarget);
@@ -47,12 +55,32 @@ const useInvoices = () => {
 
   const FilterInvoiceFilters = useForm({
     resolver: yupResolver(FilterInvoiceValidationSchema),
-    defaultValues: FilterInvoiceDefaultValues,
+    defaultValues: {},
   });
 
-  const onSubmit = () => {
+  const onSubmit = (values: any) => {
+    const { organizationId, productId, planTypeId, status } = values;
+
+    const filterPayloadValues = {
+      organizationId,
+      productId,
+      planTypeId,
+      status,
+      ...(values.billingDate && {
+        billingDate: dayjs(values?.billingDate)?.format(DATE_FORMAT?.API),
+      }),
+      ...(values.dueDate && {
+        dueDate: dayjs(values?.dueDate)?.format(DATE_FORMAT?.API),
+      }),
+    };
+
+    setFilterValues(filterPayloadValues);
     setIsOpenFilter(false);
     reset();
+  };
+
+  const handleRefresh = async () => {
+    setFilterValues('');
   };
 
   const { handleSubmit, reset } = FilterInvoiceFilters;
@@ -85,7 +113,13 @@ const useInvoices = () => {
     setIsGetRowValues,
     setIsChecked,
     isChecked,
-    router,
+    allInvoicesTableData,
+    isGetRowValues,
+    searchByClientName,
+    setSearchByClientName,
+    handleRefresh,
+    setPage,
+    setPageLimit,
   };
 };
 

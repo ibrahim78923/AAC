@@ -10,4 +10,6 @@ export interface PlanCardI {
   type?: string;
   handleBillingDetail?: any;
   handleManagePlan?: any;
+  id?: string;
+  plan?: any;
 }
