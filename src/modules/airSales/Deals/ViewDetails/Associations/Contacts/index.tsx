@@ -14,7 +14,7 @@ import { PlusIcon } from '@/assets/icons';
 
 import { styles } from '../Associations.style';
 
-const Contacts = () => {
+const Contacts = ({ assocaitionData }: any) => {
   const {
     theme,
     isOpenAlert,
@@ -40,6 +40,7 @@ const Contacts = () => {
             02
           </Typography>
 
+          {assocaitionData?.length > 0 && assocaitionData?.map((item) => item)}
           <Typography variant="subtitle2">Contacts</Typography>
         </Grid>
         <Grid item md={8} xs={12}>
@@ -50,6 +51,7 @@ const Contacts = () => {
               gap: 2,
               flexDirection: { xs: 'column', sm: 'row' },
             }}
+            // dangerouslySetInnerHTML={{ __html: '<b>fgggfgdfgdgfdgdgfg</b>' }}
           >
             <Search
               searchBy={searchName}

@@ -5,7 +5,7 @@ import TeamsCard from './TeamsCard';
 import { v4 as uuidv4 } from 'uuid';
 import { SocialTeamsData } from '@/mock/modules/airMarketer/SocialMarketing/SocialInbox';
 
-const TeamsMode = () => {
+const TeamsMode = ({ postMode, setPostMode }: any) => {
   const [selectedValues, setSelectedValues] = useState<any>([]);
   return (
     <>
@@ -15,6 +15,8 @@ const TeamsMode = () => {
           chatGroupsData={item}
           selectedValues={selectedValues}
           setSelectedValues={setSelectedValues}
+          postMode={postMode}
+          setPostMode={setPostMode}
         />
       ))}
     </>

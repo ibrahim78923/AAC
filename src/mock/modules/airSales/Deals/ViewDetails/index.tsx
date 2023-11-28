@@ -17,21 +17,21 @@ export const ActivityLogList = [
 
 export const TasksTableData: any = [
   {
-    Id: 1,
+    id: 1,
     taskno: ` #TSK- 5`,
     taskname: 'Business Platform debt, docs, refactors and stability',
     duedate: 'Mar 3, - Mar 26, 2022',
     assignedTo: 'Robert Fox',
   },
   {
-    Id: 2,
+    id: 2,
     taskno: ` #TSK- 6`,
     taskname: 'Search migration modelling',
     duedate: '--',
     assignedTo: 'Ralph Edwards',
   },
   {
-    Id: 3,
+    id: 3,
     taskno: ` #TSK- 7`,
     taskname: 'Draftstrtr',
     duedate: 'Mar 3, - Mar 26, 2022',

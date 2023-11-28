@@ -7,13 +7,13 @@ export const CustomBox = ({ label, value, changeStatusColor }: CustomBoxI) => {
   const theme = useTheme();
   let color: string | any;
   switch (value) {
-    case 'inprogress':
+    case 'Inprogress':
       color = theme?.palette?.warning?.main;
       break;
-    case 'pending':
+    case 'Pending':
       color = theme?.palette?.error?.main;
       break;
-    case 'completed':
+    case 'Complete':
       color = theme?.palette?.success?.main;
       break;
     default:

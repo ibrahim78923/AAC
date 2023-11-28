@@ -1,6 +1,6 @@
 export interface SearchPropsI {
   label?: string;
-  searchBy?: string;
+  searchBy?: any;
   setSearchBy?: any;
   width?: string | number;
   rest?: any;

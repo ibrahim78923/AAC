@@ -14,6 +14,7 @@ export const TAGS = [
   'DROPDOWNS',
   'INVENTORY_EXPENSE',
   'TICKETS',
+  'TASKS',
 ];
 
 const baseQuery = fetchBaseQuery({

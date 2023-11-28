@@ -2,13 +2,13 @@ import React from 'react';
 import SocialPost from './SocialPost';
 import Mailing from './Mailing';
 
-const PostArea = () => {
-  const postType = 'mail';
-  const renderPostType = {
-    post: <SocialPost />,
+const PostArea = ({ postMode }: any) => {
+  const renderPostType: any = {
+    fbPost: <SocialPost postType={postMode} />,
+    twitterPost: <SocialPost postType={postMode} />,
+    instagramPost: <SocialPost postType={postMode} />,
     mail: <Mailing />,
   };
-  return <>{renderPostType[postType]}</>;
+  return <>{renderPostType[postMode]}</>;
 };
-
 export default PostArea;
