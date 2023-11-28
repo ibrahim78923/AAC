@@ -8,7 +8,15 @@ export const exampleExampleAPI = baseAPI.injectEndpoints({
         url: END_POINTS.CONTACTS,
         method: 'GET',
       }),
-      providesTags: ['Contacts'],
+      providesTags: ['CONTACTS'],
+    }),
+    postContacts: builder.mutation({
+      query: ({ body }: any) => ({
+        url: END_POINTS?.CONTACTS,
+        method: 'POST',
+        body: body,
+      }),
+      invalidatesTags: ['CONTACTS'],
     }),
 
     getLifeCycle: builder.query({
@@ -33,4 +41,5 @@ export const {
   useGetContactsStatusQuery,
   useGetContactsQuery,
   useGetLifeCycleQuery,
+  usePostContactsMutation,
 } = exampleExampleAPI;

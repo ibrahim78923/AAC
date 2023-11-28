@@ -15,17 +15,29 @@ import { FormProvider } from '@/components/ReactHookForm';
 import { v4 as uuidv4 } from 'uuid';
 
 const TaskEditorDrawer = (props: any) => {
-  const { openDrawer, setOpenDrawer } = props;
-  const { handleSubmit, onSubmit, methodsdealsTasks } = useTaskEditor();
+  const {
+    openDrawer,
+    setOpenDrawer,
+    selectedCheckboxes,
+    setSelectedCheckboxes,
+  } = props;
+  const { handleSubmit, onSubmit, methodsdealsTasks, onCloseDrawer } =
+    useTaskEditor({
+      selectedCheckboxes,
+      openDrawer,
+      setOpenDrawer,
+      setSelectedCheckboxes,
+    });
 
   return (
     <div>
       <CommonDrawer
-        isDrawerOpen={openDrawer}
-        onClose={() => setOpenDrawer('')}
+        isDrawerOpen={!!openDrawer}
+        onClose={onCloseDrawer}
         title={drawerTitle[openDrawer]}
         okText={drawerButtonTitle[openDrawer]}
         isOk={true}
+        submitHandler={handleSubmit(onSubmit)}
         footer={openDrawer === 'View' ? false : true}
       >
         <Box sx={{ pt: 2 }}>

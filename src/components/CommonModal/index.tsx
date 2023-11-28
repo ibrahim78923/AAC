@@ -5,6 +5,7 @@ import { Box, Button, Modal, Typography } from '@mui/material';
 import { ModelPropsI } from './CommonModal.interface';
 
 import { styles } from './CommonModal.styles';
+import { CloseDrawerIcon } from '@/assets/icons';
 import { LoadingButton } from '@mui/lab';
 
 const CommonModal = ({
@@ -41,10 +42,22 @@ const CommonModal = ({
               display: 'flex',
               gap: 1,
               alignItems: 'center',
+              justifyContent: 'space-between',
             }}
           >
-            {headerIcon}
-            <Typography variant="h5">{title}</Typography>
+            <Box
+              sx={{
+                display: 'flex',
+                gap: 1,
+                alignItems: 'center',
+              }}
+            >
+              {headerIcon}
+              <Typography variant="h5">{title}</Typography>
+            </Box>
+            <Box onClick={handleCancel}>
+              <CloseDrawerIcon />
+            </Box>
           </Box>
           {children}
           {footer && (
