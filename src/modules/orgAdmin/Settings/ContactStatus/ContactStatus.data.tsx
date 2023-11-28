@@ -8,20 +8,22 @@ import { DeleteCrossIcon, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
 
 import * as Yup from 'yup';
 
-export const ContactStatusvalidationSchema = Yup.object().shape({
-  StatusName: Yup.string().required('Field is Required'),
+export const ContactStatusvalidationSchema: any = Yup.object().shape({
+  name: Yup.string()
+    .required('Field is Required')
+    .matches(/^[a-zA-Z\s]+$/, 'Only letters are allowed in this field'),
   description: Yup.string().required('Field is Required'),
 });
 
 export const ContactStatusDefaultValues = {
-  StatusName: '',
+  name: '',
   description: '',
 };
 
 export const dataArray = [
   {
     componentProps: {
-      name: 'StatusName',
+      name: 'name',
       label: 'Add Status Name',
       fullWidth: true,
       disable: true,
@@ -67,9 +69,9 @@ export const ContactStatusTableData: any = [
 ];
 
 export const columns = (
-  setIsDraweropen: any,
-  setIsOpenAlert: any,
+  handleDeleteRecord: any,
   setIsModalHeading: any,
+  handleEditClick: any,
 ) => {
   return [
     {
@@ -87,15 +89,19 @@ export const columns = (
       isSortable: true,
     },
     {
-      accessorFn: (row: any) => row?.Description,
-      id: 'Description',
+      accessorFn: (row: any) => row?.description,
+      id: 'description',
       isSortable: true,
       header: 'Description',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => (
+        <Box
+          dangerouslySetInnerHTML={{ __html: info?.row?.original?.description }}
+        />
+      ),
     },
     {
-      accessorFn: (row: any) => row?.createdDate,
-      id: 'createdDate',
+      accessorFn: (row: any) => row?.createdAt,
+      id: 'createdAt',
       isSortable: true,
       header: 'Created Date',
       cell: (info: any) => info.getValue(),
@@ -105,12 +111,12 @@ export const columns = (
       id: 'action',
       isSortable: true,
       header: 'Action',
-      cell: () => (
+      cell: (info: any) => (
         <Box sx={{ display: 'flex', gap: 0.5 }}>
           <Box
             sx={{ cursor: 'pointer' }}
             onClick={() => {
-              setIsDraweropen(true);
+              handleEditClick(info?.row?.original);
               setIsModalHeading('View');
             }}
           >
@@ -119,13 +125,15 @@ export const columns = (
           <Box
             sx={{ cursor: 'pointer' }}
             onClick={() => {
-              setIsDraweropen(true);
-              setIsModalHeading('Edit');
+              handleEditClick(info?.row?.original);
             }}
           >
             <EditPenIcon />
           </Box>
-          <Box sx={{ cursor: 'pointer' }} onClick={() => setIsOpenAlert(true)}>
+          <Box
+            sx={{ cursor: 'pointer' }}
+            onClick={() => handleDeleteRecord(info?.row?.original?._id)}
+          >
             <DeleteCrossIcon />
           </Box>
         </Box>

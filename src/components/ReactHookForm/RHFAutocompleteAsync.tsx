@@ -76,6 +76,7 @@ export default function RHFAutocompleteAsync({
             loading={isLoading || isFetching}
             onChange={(e: React.SyntheticEvent, newValue: any) => {
               onChanged(e, newValue, form?.field?.onChange);
+              !multiple && setOpen(false);
             }}
             PaperComponent={(props) => (
               <Paper

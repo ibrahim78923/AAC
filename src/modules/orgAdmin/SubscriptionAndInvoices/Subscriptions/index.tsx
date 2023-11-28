@@ -39,8 +39,10 @@ const getProductIcon = (product: any) => {
 
 const Subscriptions = () => {
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
+  const [subscriptionId, setSubscriptionId] = useState('');
   const { data: getSubscriptionData } = useGetSubscriptionsAndInvoicesQuery({});
-  const handleDrawerOpen = () => {
+  const handleDrawerOpen = (id: any) => {
+    setSubscriptionId(id);
     setIsOpenDrawer(true);
   };
 
@@ -73,13 +75,19 @@ const Subscriptions = () => {
                 billOn={dayjs(plan?.billingDate).format(DATE_FORMAT?.UI)}
                 type={plan?.plantypes?.name ?? plan?.plan}
                 handleBillingDetail={handleDrawerOpen}
+                id={plan?._id}
+                plan={plan}
               />
             </Grid>
           );
         })}
       </Grid>
 
-      <BillingDetail open={isOpenDrawer} onClose={handleDrawerClose} />
+      <BillingDetail
+        open={isOpenDrawer}
+        onClose={handleDrawerClose}
+        subscriptionId={subscriptionId}
+      />
     </>
   );
 };

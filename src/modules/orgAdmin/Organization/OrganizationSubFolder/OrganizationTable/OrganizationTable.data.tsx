@@ -3,6 +3,7 @@ import { Checkbox, Switch } from '@mui/material';
 import { RHFTextField } from '@/components/ReactHookForm';
 
 import * as Yup from 'yup';
+import { enqueueSnackbar } from 'notistack';
 
 export const columns = (
   setIsGetRowValues: any,
@@ -10,6 +11,7 @@ export const columns = (
   ischecked: any,
   isGetRowValues: any,
   setEditData: any,
+  updateOrganizationStatus: any,
 ) => {
   return [
     {
@@ -78,7 +80,21 @@ export const columns = (
       cell: (info: any) => (
         <Switch
           color="primary"
-          checked={info?.getValue() === 'Active' ? true : false}
+          onChange={async () => {
+            try {
+              await updateOrganizationStatus({
+                id: info?.row?.original?._id,
+                isActive: !info?.row?.original?.isActive,
+              }).unwrap();
+
+              enqueueSnackbar('Status Updated Successfully', {
+                variant: 'success',
+              });
+            } catch (error: any) {
+              enqueueSnackbar('Something went wrong !', { variant: 'error' });
+            }
+          }}
+          checked={info?.row?.original?.isActive}
           name={info?.getValue()}
         />
       ),
@@ -90,20 +106,20 @@ export const validationSchema = Yup?.object()?.shape({
   accountName: Yup?.string()?.required('Field is Required'),
   phoneNo: Yup?.string()?.trim()?.required('Field is Required'),
   postCode: Yup?.string()?.trim()?.required('Field is Required'),
+  address: Yup?.string()?.trim()?.required('Field is Required'),
 });
 
 export const defaultValuesOrganization = {
-  logoUrl: '',
   accountName: '',
   phoneNo: '',
   postCode: '',
   address: '',
-  unit: '',
-  buildingName: '',
-  buildingNumber: '',
-  streetName: '',
-  city: '',
-  country: '',
+  // unit: '',
+  // buildingName: '',
+  // buildingNumber: '',
+  // streetName: '',
+  // city: '',
+  // country: '',
 };
 
 export const dataArray = [

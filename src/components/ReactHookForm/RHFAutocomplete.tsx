@@ -15,6 +15,7 @@ export default function RHFAutocomplete({
   required,
   noOptionsText = 'Nothing in the List',
   multiple = false,
+  placeholder,
   ...other
 }: any) {
   const { control } = useFormContext();
@@ -75,6 +76,7 @@ export default function RHFAutocomplete({
                   {...params}
                   label=""
                   error={!!error}
+                  placeholder={placeholder}
                   helperText={
                     <Typography
                       component={'span'}

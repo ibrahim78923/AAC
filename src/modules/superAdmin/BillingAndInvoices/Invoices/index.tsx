@@ -1,11 +1,9 @@
-import { Box, Grid, Button, Menu, MenuItem } from '@mui/material';
+import { Box, Grid, Button, Menu, MenuItem, Typography } from '@mui/material';
 import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
-import CustomPagination from '@/components/CustomPagination';
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
-import { DropdownIcon, FilterSharedIcon } from '@/assets/icons';
-import { invoicesData } from '@/mock/modules/SubscriptionAndInvoices';
+import { DropdownIcon, FilterSharedIcon, RefreshIcon } from '@/assets/icons';
 import ViewInvoices from './ViewInvoices';
 import PayInvoice from './PayInvoice';
 import useInvoices from './useInvoices';
@@ -14,6 +12,7 @@ import { FilterInvoiceFiltersDataArray } from './Invoices.data';
 import { isNullOrEmpty } from '@/utils';
 import { v4 as uuidv4 } from 'uuid';
 import { superAdminBillingInvoicesPath } from '@/routesConstants/paths';
+import Link from 'next/link';
 
 const Invoices = () => {
   const {
@@ -34,7 +33,13 @@ const Invoices = () => {
     handleSubmit,
     getRowValues,
     isChecked,
-    router,
+    allInvoicesTableData,
+    isGetRowValues,
+    handleRefresh,
+    searchByClientName,
+    setSearchByClientName,
+    setPage,
+    setPageLimit,
   } = useInvoices();
 
   return (
@@ -44,18 +49,31 @@ const Invoices = () => {
           <Grid container>
             <Grid item xs={3}>
               <Box sx={styles?.invoicesHeaderLabel}>Invoices Due</Box>
-              <Box sx={styles?.invoicesHeaderValue}>1</Box>
+              <Box sx={styles?.invoicesHeaderValue}>
+                {!allInvoicesTableData?.data?.widget && (
+                  <Typography>No Due Invoices </Typography>
+                )}
+                {allInvoicesTableData?.data?.widget?.countInvoiceDue}
+              </Box>
             </Grid>
             <Grid item xs={9}>
               <Box sx={styles?.invoicesHeaderLabel}>Total Balance Due</Box>
-              <Box sx={styles?.invoicesHeaderValue}>£ 1,234.11</Box>
+              <Box sx={styles?.invoicesHeaderValue}>
+                £ {!allInvoicesTableData?.data?.widget && 0}
+                {allInvoicesTableData?.data?.widget?.totalAmountDue}
+              </Box>
             </Grid>
           </Grid>
         </Box>
 
         <Grid sx={styles?.tableToolbar}>
           <Grid item xs={12} md={6} xl={6} sx={styles?.tableSearch}>
-            <Search size="small" label="Search Here" />
+            <Search
+              searchBy={searchByClientName}
+              setSearchBy={setSearchByClientName}
+              label="Search Here"
+              size="small"
+            />
           </Grid>
           <Grid item xs={12} md={6} xl={6} sx={styles?.tableToolbarActions}>
             <Box>
@@ -88,19 +106,33 @@ const Invoices = () => {
               >
                 {/* <MenuItem onClick={handleOpenPayInvoice}>Pay Now</MenuItem> */}
 
-                <MenuItem
-                  onClick={() =>
-                    router?.push(
-                      `${superAdminBillingInvoicesPath?.generate_invoice}`,
-                    )
-                  }
+                <Link
+                  href={{
+                    pathname: `${superAdminBillingInvoicesPath?.generate_invoice}`,
+                    query: {
+                      key: JSON.stringify(isGetRowValues?.row?.original),
+                    },
+                  }}
+                  as={`${superAdminBillingInvoicesPath?.generate_invoice}`}
                 >
-                  Edit Invoice
-                </MenuItem>
+                  <MenuItem> Edit Invoice</MenuItem>
+                </Link>
+
                 <MenuItem onClick={handleOpenViewInvoice}>
                   View Invoice
                 </MenuItem>
               </Menu>
+
+              <Button
+                sx={{
+                  border: '1px solid #D1D5DB',
+                  marginLeft: '10px',
+                  height: '36px',
+                }}
+                onClick={handleRefresh}
+              >
+                <RefreshIcon />
+              </Button>
 
               <Button
                 size="small"
@@ -114,16 +146,28 @@ const Invoices = () => {
           </Grid>
         </Grid>
 
-        <TanstackTable columns={getRowValues} data={invoicesData} />
-
-        <CustomPagination
+        <TanstackTable
+          columns={getRowValues}
+          data={allInvoicesTableData?.data?.invoices}
+          totalRecords={allInvoicesTableData?.data?.meta?.total}
+          onPageChange={(page: any) => setPage(page)}
+          setPage={setPage}
+          setPageLimit={setPageLimit}
+          count={allInvoicesTableData?.data?.meta?.pages}
+          isPagination
+        />
+        {/* <CustomPagination
           count={3}
           rowsPerPageOptions={[6, 10, 25, 50, 100]}
-          entriePages={invoicesData?.length}
-        />
+          entriePages={allInvoicesTableData?.data?.invoices?.length}
+        /> */}
       </Box>
 
-      <ViewInvoices open={openViewInvoice} onClose={handleCloseViewInvoice} />
+      <ViewInvoices
+        open={openViewInvoice}
+        onClose={handleCloseViewInvoice}
+        isGetRowValues={isGetRowValues}
+      />
       <PayInvoice open={openPayInvoice} onClose={handleClosePayInvoice} />
 
       <CommonDrawer
@@ -139,7 +183,7 @@ const Invoices = () => {
         <Box sx={{ marginTop: '1.5rem' }}>
           <FormProvider methods={FilterInvoiceFilters}>
             <Grid container spacing={4}>
-              {FilterInvoiceFiltersDataArray?.map((item: any, index: any) => (
+              {FilterInvoiceFiltersDataArray()?.map((item: any, index: any) => (
                 <Grid
                   item
                   xs={12}

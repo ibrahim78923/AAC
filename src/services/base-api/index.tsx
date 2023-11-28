@@ -8,12 +8,16 @@ export const TAGS = [
   'USERS',
   'PLAN_MANEGEMENT',
   'Organization',
+  'SettingSalesProductCategories',
+  'SettingLifeCycleStage',
+  'SettingContactStatus',
   'INVENTORY_ACTIVITY',
   'EXPENSE',
   'WORKLOAD',
   'DROPDOWNS',
   'INVENTORY_EXPENSE',
   'TICKETS',
+  'TASKS',
 ];
 
 const baseQuery = fetchBaseQuery({

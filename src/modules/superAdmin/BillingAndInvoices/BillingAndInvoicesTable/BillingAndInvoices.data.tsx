@@ -38,15 +38,20 @@ export const Columns = (
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row?.clientName,
+      accessorFn: (row: any) => {
+        `${row?.usersOrg?.firstName}  ${row?.usersOrg?.lastName}`;
+      },
       id: 'clientName',
       cell: (info: any) => (
         <Box sx={{ display: 'flex', gap: '5px' }}>
           <Avatar alt="Remy Sharp" src={AvatarImage?.src} />
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-            <Typography variant="subtitle2"> {info?.getValue()}</Typography>
+            <Typography variant="subtitle2">
+              {' '}
+              {`${info?.row?.original?.usersOrg?.firstName}  ${info?.row?.original?.usersOrg?.lastName}`}
+            </Typography>
             <Typography variant="body3">
-              {info?.row?.original?.clientSub}
+              {info?.row?.original?.organizations?.name}
             </Typography>
           </Box>
         </Box>
@@ -144,16 +149,10 @@ export const Columns = (
 };
 
 export const validationSchema = Yup?.object()?.shape({
-  ClientOrganization: Yup?.string(),
-  productSuite: Yup?.string()?.trim(),
-  planType: Yup?.string()?.trim(),
+  organizationId: Yup?.string(),
+  productId: Yup?.string()?.trim(),
+  planTypeId: Yup?.string()?.trim(),
 });
-
-export const defaultValues = {
-  ClientOrganization: '',
-  productSuite: '',
-  planType: '',
-};
 
 export const dataArray = () => {
   const { data: productData } = useGetProductsQuery<any>({
@@ -189,7 +188,7 @@ export const dataArray = () => {
   return [
     {
       componentProps: {
-        name: 'ClientOrganization',
+        name: 'organizationId',
         label: 'Client & Organization',
         fullWidth: true,
         select: true,
@@ -203,7 +202,7 @@ export const dataArray = () => {
     },
     {
       componentProps: {
-        name: 'productSuite',
+        name: 'productId',
         label: 'Product/Suite',
         fullWidth: true,
         select: true,
@@ -218,7 +217,7 @@ export const dataArray = () => {
 
     {
       componentProps: {
-        name: 'planType',
+        name: 'planTypeId',
         label: 'Plan Type',
         fullWidth: true,
         select: true,

@@ -113,6 +113,7 @@ const UsersSidebar = () => {
                     color: theme?.palette?.error?.main,
                   },
                 ]}
+                defaultValue={''}
               />
             </Box>
             <Typography>Robert@airapplecart.co.uk</Typography>

@@ -3,55 +3,54 @@ import {
   RHFEditor,
   RHFSelect,
   RHFTextField,
-  RHFTimePicker,
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
 export const dealsTasksValidationSchema = Yup?.object()?.shape({
-  taskname: Yup?.string()?.trim()?.required('Field is Required'),
-  tasktype: Yup?.string()?.trim()?.required('Field is Required'),
-  priority: Yup?.string()?.trim()?.required('Field is Required'),
-  taskstatus: Yup?.string()?.trim()?.required('Field is Required'),
-  selectdeal: Yup?.string()?.trim()?.required('Field is Required'),
-  assignedto: Yup?.string()?.trim()?.required('Field is Required'),
-  associatewithrecords: Yup?.string()?.trim()?.required('Field is Required'),
+  name: Yup?.string()?.trim()?.required('Field is Required'),
+  type: Yup?.string()?.required('Field is Required'),
+  priority: Yup?.string()?.required('Field is Required'),
+  status: Yup?.string()?.required('Field is Required'),
+  deal: Yup?.string()?.required('Field is Required'),
+  // assignto: Yup?.string()?.required('Field is Required'),
+  associate: Yup?.string()?.trim()?.required('Field is Required'),
   reminder: Yup?.string()?.trim()?.required('Field is Required'),
-  note: Yup?.string()?.trim()?.required('Field is Required'),
+  note: Yup?.string()?.required('Field is Required'),
 });
 
 export const dealsTasksDefaultValues = {
-  taskname: '',
-  tasktype: '',
+  name: '',
+  type: '',
   priority: '',
-  taskstatus: '',
-  selectdeal: '',
-  assignedto: '',
-  associatewithrecords: '',
+  status: '',
+  // TODO: Temporary id will come from backend
+  deal: '655b2b2ecd318b576d7d71e8',
+  assignto: '',
+  associate: '',
   reminder: '',
   note: '',
+  dueDate: null,
 };
 
 export const dealsTasksDataArray = [
   {
     componentProps: {
-      name: 'taskname',
+      name: 'name',
       label: 'Task Name',
       fullWidth: true,
     },
     component: RHFTextField,
     md: 12,
   },
-
   {
     componentProps: {
-      name: 'tasktype',
+      name: 'type',
       label: 'Task Type',
       select: true,
     },
     options: [
-      { value: 'To-do', label: 'To-do' },
-      { value: 'Follow-up', label: 'Follow-up' },
-      { value: 'Call reminder', label: 'Call reminder' },
+      { value: 'Call', label: 'Call' },
+      { value: 'Email', label: 'Email' },
     ],
     component: RHFSelect,
     md: 8,
@@ -73,31 +72,33 @@ export const dealsTasksDataArray = [
   },
   {
     componentProps: {
-      name: 'taskstatus',
+      name: 'status',
       label: 'Task Status',
       select: true,
     },
     options: [
       { value: 'Pending', label: 'Pending' },
       { value: 'Inprogress', label: 'Inprogress' },
-      { value: 'Completed', label: 'Completed' },
+      { value: 'Complete', label: 'Complete' },
     ],
     component: RHFSelect,
     md: 12,
   },
   {
     componentProps: {
-      name: 'selectdeal',
+      name: 'deal',
       label: 'Select Deal',
-      disable: true,
+      select: true,
+      disabled: true,
     },
-    options: [],
+    // todo: array come from backend
+    options: [{ value: '655b2b2ecd318b576d7d71e8', label: 'Deal name' }],
     component: RHFSelect,
     md: 12,
   },
   {
     componentProps: {
-      name: 'associatewithrecords',
+      name: 'associate',
       label: 'Associate with Records',
       select: true,
     },
@@ -112,7 +113,7 @@ export const dealsTasksDataArray = [
   },
   {
     componentProps: {
-      name: 'assignedto',
+      name: 'assignto',
       label: 'Assigned to',
       select: true,
     },
@@ -127,21 +128,15 @@ export const dealsTasksDataArray = [
 
   {
     componentProps: {
-      name: 'due-date',
+      name: 'dueDate',
       label: 'Due Date',
       fullWidth: true,
     },
     component: RHFDatePicker,
-    md: 8,
-  },
-  {
-    componentProps: {
-      name: 'create-time',
-      label: '',
-      fullWidth: true,
+    format: (date: any) => {
+      return new Date(date);
     },
-    component: RHFTimePicker,
-    md: 4,
+    md: 12,
   },
 
   {
@@ -153,8 +148,8 @@ export const dealsTasksDataArray = [
     options: [
       { value: 'Today', label: 'Today' },
       { value: 'Tomorrow', label: 'Tomorrow' },
-      { value: 'In 1 business Day', label: 'In 1 business Day' },
-      { value: 'In 2 business Day', label: 'In 2 business Day' },
+      { value: 'in1businessday', label: 'In 1 business Day' },
+      { value: 'in2businessday', label: 'In 2 business Day' },
     ],
     component: RHFSelect,
     md: 12,

@@ -91,8 +91,8 @@ export const jobPostingDataArray = [
   },
   {
     componentProps: {
-      name: 'numberOfVacancy',
-      label: 'Number of Vacency',
+      name: 'numberOfVacency',
+      label: 'Number of Vacancy',
       fullWidth: true,
       select: true,
     },
@@ -346,6 +346,7 @@ export const columns = (
               color: theme?.palette?.error?.main,
             },
           ]}
+          defaultValue={''}
         />
       ),
     },

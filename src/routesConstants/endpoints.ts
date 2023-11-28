@@ -34,18 +34,22 @@ export const END_POINTS = {
   CONTACTS: '/contact',
   LIFECYCLE_STAGES: '/lifecycle-stages',
   CONTACT_STATUS: '/contact-status',
+  TASK_MANAGEMENT: '/task/management',
+  DEALS_ASSOCIATION: '/deals/get-associations',
   ENQUIRIES: '/enquiries/',
+  TASK_MANAGEMENT: '/task/management',
 };
 
 export const superAdminBillingInvoices = {
-  get_org_plan: '/super-admin/get-all-orgplans?',
-  get_Products: '/products?status=active',
-  get_plan_type: '/plan/plan-type-list',
-  get_organizations: '/organization/get-organizations',
-  post_biling_invoices: '/super-admin/assign-plan',
-  get_plan_id: '/super-admin/find-plan',
-  patch_assign_plan: '/super-admin/update-assign-plan',
-  get_all_invoice: '/super-admin/get-all-invoice',
+  GET_ORG_PLAN: '/super-admin/get-all-orgplans?',
+  GET_PRODUCTS: '/products?status=active',
+  GET_PLAN_TYPE: '/plan/plan-type-list',
+  GET_ORGANIZATION: '/organization/get-organizations',
+  POST_BILING_INVOICES: '/super-admin/assign-plan',
+  GET_PLAN_ID: '/super-admin/find-plan',
+  PATCH_ASSIGN_PLAN: '/super-admin/update-assign-plan',
+  GET_ALL_INVOICE: '/super-admin/get-all-invoice',
+  UPDATE_INVOICE: '/super-admin/update-invoice',
 };
 
 export const organization = {
@@ -54,10 +58,31 @@ export const organization = {
   GET_ORGANIZATION_ACCOUNT_ID: '/org-company-account',
   GET_MAIN_ORGANIZATION: '/organization',
   UPDATE_ORGANIZATION_ACCOUNT: '/org-company-account',
+  UPDATE_ORGANIZATION_ACCOUNT_STATUS: '/org-company-account/update-status',
   DELETE_ORGANIZATION_ACCOUNT: '/org-company-account',
   DELETE_ORGANIZARION_MULTIPLE: '/org-company-account/delete-multiple',
 };
 
+export const settingSalesProductCategory = {
+  POST_SALES_PRODUCT_CATEGORY: '/product-categories',
+  GET_SALES_PRODUCT_CATEGORY: '/product-categories',
+  UPDATE_SALES_PRODUCT_CATEGORY: '/product-categories',
+};
+export const settingLifeCycleStage = {
+  POST_LIFE_CYCLE_STAGE: '/lifecycle-stages',
+  GET_LIFE_CYCLE_STAGE: '/lifecycle-stages',
+  GET_LIFE_CYCLE_STAGE_ID: '/lifecycle-stages',
+  UPDATE_LIFE_CYCLE_STAGE: '/lifecycle-stages',
+  DELETE_LIFE_CYCLE_STAGE: '/lifecycle-stages',
+};
+
+export const settingContactStatus = {
+  POST_CONTACT_STATUS: '/contact-status',
+  GET_CONTACT_STATUS: '/contact-status',
+  GET_CONTACT_STATUS_ID: '/contact-status',
+  UPDATE_CONTACT_STATUS: '/contact-status',
+  DELETE_CONTACT_STATUS: '/contact-status',
+};
 export const ORG_ADMIN = {
   SUBSCRIPTION_AND_INVOICES: '/org-admin/subscriptions',
   GET_INVOICES: '/org-admin/invoices',
