@@ -1,7 +1,6 @@
 import { Box, Grid, Button, Menu, MenuItem, Typography } from '@mui/material';
 import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
-import CustomPagination from '@/components/CustomPagination';
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
 import { DropdownIcon, FilterSharedIcon, RefreshIcon } from '@/assets/icons';
@@ -39,6 +38,8 @@ const Invoices = () => {
     handleRefresh,
     searchByClientName,
     setSearchByClientName,
+    setPage,
+    setPageLimit,
   } = useInvoices();
 
   return (
@@ -148,13 +149,18 @@ const Invoices = () => {
         <TanstackTable
           columns={getRowValues}
           data={allInvoicesTableData?.data?.invoices}
+          totalRecords={allInvoicesTableData?.data?.meta?.total}
+          onPageChange={(page: any) => setPage(page)}
+          setPage={setPage}
+          setPageLimit={setPageLimit}
+          count={allInvoicesTableData?.data?.meta?.pages}
+          isPagination
         />
-
-        <CustomPagination
+        {/* <CustomPagination
           count={3}
           rowsPerPageOptions={[6, 10, 25, 50, 100]}
           entriePages={allInvoicesTableData?.data?.invoices?.length}
-        />
+        /> */}
       </Box>
 
       <ViewInvoices

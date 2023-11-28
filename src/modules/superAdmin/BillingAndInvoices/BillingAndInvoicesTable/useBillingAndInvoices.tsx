@@ -7,6 +7,7 @@ import { useGetBilingInvoicesQuery } from '@/services/superAdmin/billing-invoice
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { useForm } from 'react-hook-form';
+import { PAGINATION } from '@/config';
 
 const useBillingAndInvoices = () => {
   const [searchByClientName, setSearchByClientName] = useState('');
@@ -21,12 +22,13 @@ const useBillingAndInvoices = () => {
   const [isChecked, setIsChecked] = useState(false);
   const [isGetRowValues, setIsGetRowValues] = useState('');
   const [filterValues, setFilterValues] = useState({});
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
 
   const searchObject = { search: searchByClientName };
 
   const { data: assignPlanTableData } = useGetBilingInvoicesQuery<any>({
-    pagination: `page=1&limit=10`,
-    params: { ...filterValues, ...searchObject },
+    params: { ...filterValues, ...searchObject, page: page, limit: pageLimit },
   });
 
   const methods: any = useForm({
@@ -79,6 +81,8 @@ const useBillingAndInvoices = () => {
     onSubmit,
     methods,
     handleRefresh,
+    setPage,
+    setPageLimit,
   };
 };
 

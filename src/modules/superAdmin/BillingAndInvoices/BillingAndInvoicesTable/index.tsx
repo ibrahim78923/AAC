@@ -3,7 +3,6 @@ import { Grid, Typography, Button, Box } from '@mui/material';
 import Search from '@/components/Search';
 import GenerateInvoice from '../GenerateInvoice';
 import TanstackTable from '@/components/Table/TanstackTable';
-import CustomPagination from '@/components/CustomPagination';
 import ViewBillingDetails from '../ViewBillingDetails';
 import EditForm from '../EditForm';
 import MenuItems from './MenuOptions';
@@ -44,6 +43,8 @@ const BillingAndInvoicesTable = () => {
     onSubmit,
     methods,
     handleRefresh,
+    setPage,
+    setPageLimit,
   } = useBillingAndInvoices();
 
   return (
@@ -140,9 +141,15 @@ const BillingAndInvoicesTable = () => {
         <TanstackTable
           columns={getRowValues}
           data={assignPlanTableData?.data}
+          totalRecords={assignPlanTableData?.data?.meta?.total}
+          onPageChange={(page: any) => setPage(page)}
+          setPage={setPage}
+          setPageLimit={setPageLimit}
+          count={assignPlanTableData?.data?.meta?.pages}
+          isPagination
         />
       </Grid>
-      <CustomPagination count={1} rowsPerPageOptions={[1, 2]} entriePages={1} />
+      {/* <CustomPagination count={1} rowsPerPageOptions={[1, 2]} entriePages={1} /> */}
       {isOpenDrawer && (
         <EditForm
           isOpenDrawer={isOpenDrawer}

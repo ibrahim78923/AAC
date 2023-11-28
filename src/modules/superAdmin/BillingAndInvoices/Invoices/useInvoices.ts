@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { useGetBillingHistoryQuery } from '@/services/superAdmin/billing-invoices';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
+import { PAGINATION } from '@/config';
 
 const useInvoices = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -17,10 +18,12 @@ const useInvoices = () => {
   const [searchByClientName, setSearchByClientName] = useState('');
   const [filterValues, setFilterValues] = useState({});
   const searchObject = { search: searchByClientName };
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
 
   const { data: allInvoicesTableData } = useGetBillingHistoryQuery<any>({
     pagination: `page=1&limit=10`,
-    params: { ...filterValues, ...searchObject },
+    params: { ...filterValues, ...searchObject, page: page, limit: pageLimit },
   });
 
   const handleActionsClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -115,6 +118,8 @@ const useInvoices = () => {
     searchByClientName,
     setSearchByClientName,
     handleRefresh,
+    setPage,
+    setPageLimit,
   };
 };
 
