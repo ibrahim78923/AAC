@@ -32,7 +32,7 @@ const warrantyValidityMonthsOptions = [
 
 export const upsertVendorValidationSchema = Yup?.object()?.shape({
   vendorCatalog: Yup?.string()?.required('Field is Required'),
-  price: Yup?.string()?.trim()?.required('Field is Required'),
+  price: Yup?.string()?.required('Field is Required'),
   warrantyValidityYrs: Yup?.string(),
   warrantyValidityMonths: Yup?.string(),
   quantity: Yup?.string()?.trim(),
@@ -62,6 +62,7 @@ export const upsertVendorDataArray = [
     componentProps: {
       name: 'price',
       label: 'Price (£)',
+      type: 'number',
       required: true,
     },
     component: RHFTextField,
