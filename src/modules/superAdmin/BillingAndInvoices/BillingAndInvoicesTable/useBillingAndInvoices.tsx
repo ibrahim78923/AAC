@@ -22,11 +22,11 @@ const useBillingAndInvoices = () => {
   const [isGetRowValues, setIsGetRowValues] = useState('');
   const [filterValues, setFilterValues] = useState({});
 
-  const obj = { search: searchByClientName };
+  const searchObject = { search: searchByClientName };
 
   const { data: assignPlanTableData } = useGetBilingInvoicesQuery<any>({
     pagination: `page=1&limit=10`,
-    params: { ...filterValues, ...obj },
+    params: { ...filterValues, ...searchObject },
   });
 
   const methods: any = useForm({

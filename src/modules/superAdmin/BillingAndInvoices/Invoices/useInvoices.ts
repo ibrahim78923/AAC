@@ -16,11 +16,11 @@ const useInvoices = () => {
   const [isGetRowValues, setIsGetRowValues] = useState('');
   const [searchByClientName, setSearchByClientName] = useState('');
   const [filterValues, setFilterValues] = useState({});
-  const obj = { search: searchByClientName };
+  const searchObject = { search: searchByClientName };
 
   const { data: allInvoicesTableData } = useGetBillingHistoryQuery<any>({
     pagination: `page=1&limit=10`,
-    params: { ...filterValues, ...obj },
+    params: { ...filterValues, ...searchObject },
   });
 
   const handleActionsClick = (event: React.MouseEvent<HTMLElement>) => {
