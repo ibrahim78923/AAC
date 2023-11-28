@@ -1,16 +1,27 @@
 import { AIR_SERVICES } from '@/constants';
-import { ASSET_TYPE, PRODUCT_CATALOG_STATUS } from '@/constants/strings';
+import {
+  ASSET_TYPE,
+  MODE_OF_PROCUREMENT,
+  PRODUCT_CATALOG_STATUS,
+} from '@/constants/strings';
 import { Box } from '@mui/material';
 
 export const productAssetTypeOption = [
-  { label: 'Hardware', value: ASSET_TYPE?.HARDWARE },
-  { label: 'Software', value: ASSET_TYPE?.SOFTWARE },
+  ASSET_TYPE?.HARDWARE,
+  ASSET_TYPE?.SOFTWARE,
 ];
+
 export const productCatalogStatusOption = [
-  { label: 'in pipeline', value: PRODUCT_CATALOG_STATUS?.IN_PIPELINE },
-  { label: 'in production', value: PRODUCT_CATALOG_STATUS?.IN_PRODUCTION },
-  { label: 'retired', value: PRODUCT_CATALOG_STATUS?.RETIRED },
+  PRODUCT_CATALOG_STATUS?.PIPELINE,
+  PRODUCT_CATALOG_STATUS?.IN_PRODUCTION,
+  PRODUCT_CATALOG_STATUS?.RETIRED,
 ];
+export const modeOfProcurementOption = [
+  MODE_OF_PROCUREMENT?.BUY,
+  MODE_OF_PROCUREMENT?.LEASE,
+  MODE_OF_PROCUREMENT?.BOTH,
+];
+
 export const PRODUCT_LISTS_ACTION_CONSTANTS = {
   IMPORT: 'import',
 };

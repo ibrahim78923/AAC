@@ -176,7 +176,18 @@ export const TICKET_TYPES = {
 };
 
 export const PRODUCT_CATALOG_STATUS = {
-  IN_PIPELINE: 'in pipeline',
-  IN_PRODUCTION: 'in production',
-  RETIRED: 'retired',
+  IN_PRODUCTION: 'IN_PRODUCTION',
+  PIPELINE: 'PIPELINE',
+  RETIRED: 'RETIRED',
+};
+
+export const MODE_OF_PROCUREMENT = {
+  BUY: 'BUY',
+  LEASE: 'LEASE',
+  BOTH: 'BOTH',
+};
+
+export const MESSAGE_EXPORT_FILE_TYPE: any = {
+  [EXPORT_TYPE?.CSV]: 'csv',
+  [EXPORT_TYPE?.XLS]: 'excel',
 };

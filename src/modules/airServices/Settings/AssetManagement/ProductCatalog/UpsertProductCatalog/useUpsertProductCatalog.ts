@@ -22,9 +22,12 @@ export const useUpsertProductCatalog = () => {
   const { handleSubmit, reset } = methods;
 
   const submitUpsertProductCatalog = async () => {
-    enqueueSnackbar('Product catalog Added Successfully', {
-      variant: NOTISTACK_VARIANTS?.SUCCESS,
-    });
+    enqueueSnackbar(
+      `Product catalog ${productCatalogId ? 'Updated' : 'Added'} Successfully`,
+      {
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
+      },
+    );
     reset();
     return;
   };

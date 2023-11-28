@@ -5,20 +5,25 @@ import { Box, Typography } from '@mui/material';
 
 export const ImportProductCatalog = (props: any) => {
   const { isDrawerOpen } = props;
+
   const { handleSubmit, onClose, submitImportFile, importFormMethod } =
     useImportProductCatalog(props);
+
   return (
     <CommonDrawer
       isDrawerOpen={isDrawerOpen}
       onClose={() => onClose?.()}
-      okText={'Submit'}
+      okText={'Import'}
       title={'Import Assets'}
       submitHandler={() => handleSubmit(submitImportFile)()}
       isOk
       footer
     >
-      <Typography variant="body3"> Add File </Typography>
-      <Box marginY={3} />
+      <Typography variant="h5" color="slateBlue.main">
+        {' '}
+        Add File{' '}
+      </Typography>
+      <Box marginY={2} />
       <FormProvider
         methods={importFormMethod}
         onSubmit={handleSubmit(submitImportFile)}

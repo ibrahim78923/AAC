@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import { Box, Typography, useTheme } from '@mui/material';
 import { useDropzone } from 'react-dropzone';
 import { useFormContext } from 'react-hook-form';
-import { AttachFileIcon } from '@/assets/icons';
+import { CsvImportIcon } from '@/assets/icons';
 
 const RHFFileImport = ({ name }: any) => {
   const {
@@ -11,24 +11,21 @@ const RHFFileImport = ({ name }: any) => {
     formState: { errors },
   }: any = useFormContext();
   const theme = useTheme();
-  const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
-    multiple: false,
-    accept: {
-      'application/vnd.ms-excel': ['.xls', '.xlsx'],
-      'text/csv': ['.csv'],
-    },
-    onDrop: useCallback(
-      (files: any) => {
-        if (files && files?.length > 0) {
-          setValue(name, files?.[0]);
-        }
+  const { acceptedFiles, getRootProps, getInputProps, fileRejections } =
+    useDropzone({
+      multiple: false,
+      accept: {
+        'text/csv': ['.csv'],
       },
-      [setValue, name],
-    ),
-    maxSize: 5 * 1024,
-    onError() {},
-  });
-
+      onDrop: useCallback(
+        (files: any) => {
+          if (files && files?.length > 0) {
+            setValue(name, files?.[0]);
+          }
+        },
+        [setValue, name],
+      ),
+    });
   return (
     <>
       <Box
@@ -49,9 +46,9 @@ const RHFFileImport = ({ name }: any) => {
           </Typography>
         ) : (
           <Box>
-            <AttachFileIcon />
+            <CsvImportIcon />
             <Typography variant="body1" fontWeight={'bold'}>
-              Attach a file
+              CSV File
             </Typography>
             <Typography variant="body2">
               <Typography
@@ -64,7 +61,7 @@ const RHFFileImport = ({ name }: any) => {
               or drag and drop
             </Typography>
             <Typography component="span" fontSize={12}>
-              CSV file (max 2.44 MB)
+              CSV file here
             </Typography>
           </Box>
         )}
@@ -74,6 +71,18 @@ const RHFFileImport = ({ name }: any) => {
           {errors?.[name]?.message}
         </Typography>
       )}
+      {!!fileRejections?.length &&
+        fileRejections?.map((fileError: any, index: any) => (
+          <Typography
+            variant="body2"
+            color="error"
+            key={fileError?.code?.[index]}
+          >
+            {fileError?.errors?.[0]?.message}
+            <br />
+            {fileError?.errors?.[1]?.message}
+          </Typography>
+        ))}
     </>
   );
 };
