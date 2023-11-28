@@ -7,15 +7,17 @@ import Tickets from './Tickets';
 import Contacts from './Contacts';
 import Products from './Products';
 import Quotes from './Quotes';
+import useAssociations from './useAssociations';
 
 const Associations = () => {
+  const { assocaitionData } = useAssociations();
   return (
     <Box sx={styles?.horizontalTabsBox}>
       <Typography variant="h4">Associations </Typography>
       <Box sx={styles?.horizontalTabsInnnerBox}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <Contacts />
+            <Contacts contactsData={assocaitionData?.contacts} />
           </Grid>
           <Grid item xs={12}>
             <Tickets />
