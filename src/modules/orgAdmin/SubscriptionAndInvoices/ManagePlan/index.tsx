@@ -17,15 +17,39 @@ import {
 import { PlaneIcon } from '@/assets/icons';
 import { styles } from './ManagePlan.style';
 import { orgAdminSubcriptionInvoices } from '@/routesConstants/paths';
+import { useUpdateSubscriptionMutation } from '@/services/orgAdmin/subscription-and-invoices';
+import dayjs from 'dayjs';
+import { DATE_FORMAT } from '@/constants';
 
 const ManagePlan = () => {
   const router = useRouter();
   const [value, setValue] = useState('');
 
+  let parsedManageData: any;
+  if (router.query.data) {
+    parsedManageData = JSON.parse(router.query.data);
+  }
+
+  const [updateSubscription] = useUpdateSubscriptionMutation({});
+
   const handleChange = (event: SelectChangeEvent) => {
     setValue(event?.target?.value as string);
   };
+  const updateSubscriptionPayload = {
+    planId: parsedManageData?.plans?._id,
+    additionalUsers: parsedManageData?.plans?.additionalUsers,
+    additionalStorage: parsedManageData?.plans?.additionalStorage,
+    billingDate: dayjs(parsedManageData?.billingDate).format(DATE_FORMAT?.API),
+    status: parsedManageData?.status,
+    billingCycle: parsedManageData?.billingCycle,
+  };
 
+  const handleUpdateSubscription = async () => {
+    await updateSubscription({
+      id: parsedManageData?._id,
+      body: updateSubscriptionPayload,
+    });
+  };
   return (
     <>
       <Box sx={styles?.card}>
@@ -180,7 +204,11 @@ const ManagePlan = () => {
         >
           Cancel
         </Button>
-        <Button variant="contained" color="primary">
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleUpdateSubscription}
+        >
           Update Subscription
         </Button>
       </Stack>

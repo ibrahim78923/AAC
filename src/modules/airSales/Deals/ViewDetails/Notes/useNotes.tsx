@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import { useTheme } from '@mui/material';
+// import { useGetDealNoteQuery } from '@/services/airSales/deals/view-details/Notes';
 
 const useNotes = () => {
   const theme = useTheme();
@@ -8,6 +9,7 @@ const useNotes = () => {
   const [selectedCheckboxes, setSelectedCheckboxes] = useState<
     { id: number }[]
   >([]);
+  // const { data } = useGetDealNoteQuery({});
 
   const handleCheckboxChange = (
     event: React.ChangeEvent<HTMLInputElement>,
