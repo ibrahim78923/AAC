@@ -21,6 +21,7 @@ export const END_POINTS = {
   CONTACTS: '/contact',
   LIFECYCLE_STAGES: '/lifecycle-stages',
   CONTACT_STATUS: '/contact-status',
+  GET_PERMISSIONS_ROLES: '/permissions/role',
 };
 
 export const superAdminBillingInvoices = {

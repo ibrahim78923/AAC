@@ -80,6 +80,11 @@ const CommonTabs = (props: CommonTabsPropsI) => {
         >
           {tabsArray?.map((tab: string, index: number) => (
             <Tab
+              sx={{
+                '&.Mui-selected': {
+                  color: theme?.palette?.custom?.turquoise_Blue,
+                },
+              }}
               classes={{ textColorPrimary: 'text-primary-my' }}
               disableRipple
               key={uuidv4()}

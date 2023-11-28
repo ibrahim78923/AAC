@@ -4,90 +4,77 @@ import RHFSelect from '@/components/ReactHookForm/RHFSelect';
 
 import RHFDatePicker from '@/components/ReactHookForm/RHFDatePicker';
 
-import { RHFTextField } from '@/components/ReactHookForm';
+import { RHFSwitch, RHFTextField } from '@/components/ReactHookForm';
 
 import { SwitchBtn } from '@/components/SwitchButton';
 
 import { ExpandMore } from '@mui/icons-material';
 
 import * as Yup from 'yup';
+import { CommonAPIS } from '@/services/common-APIs';
 
-export const data: any = [
-  {
-    Id: 1,
-    RoleId: `123`,
-    RoleName: 'Company Owner',
-    Products: 'Sales',
-    CompanyAccount: 'Orcalo LTD',
-  },
-  {
-    Id: 2,
-    RoleId: `456`,
-    RoleName: 'Company Owner',
-    Products: 'Services',
-    CompanyAccount: 'Orcalo LTD',
-  },
-  {
-    Id: 3,
-    RoleId: `789`,
-    RoleName: 'Admin',
-    Products: 'Marketing',
-    CompanyAccount: 'Orcalo LTD',
-  },
-  {
-    Id: 4,
-    RoleId: `752`,
-    RoleName: 'Admin',
-    Products: 'Loyalty Program',
-    CompanyAccount: 'Orcalo LTD',
-  },
-];
+export const columns: any = (columnsProps: any) => {
+  const { checkedRows, setCheckedRows } = columnsProps;
+  const handleCheckboxChange = (rowId: string) => {
+    setCheckedRows(rowId);
+  };
 
-export const columns: any = [
-  {
-    accessorFn: (row: any) => row?.Id,
-    id: 'Id',
-    cell: (info: any) => <Checkbox color="primary" name={info?.getValue()} />,
-    header: <Checkbox color="primary" name="Id" />,
-    isSortable: false,
-  },
-  {
-    accessorFn: (row: any) => row?.RoleId,
-    id: 'roleId',
-    cell: (info: any) => info?.getValue(),
-    header: 'Role ID',
-    isSortable: true,
-  },
-  {
-    accessorFn: (row: any) => row?.RoleName,
-    id: 'roleName',
-    isSortable: true,
-    header: 'Role Name',
-    cell: (info: any) => info?.getValue(),
-  },
-  {
-    accessorFn: (row: any) => row?.Products,
-    id: 'products',
-    isSortable: true,
-    header: 'Products',
-    cell: (info: any) => info?.getValue(),
-  },
-  {
-    accessorFn: (row: any) => row?.CompanyAccount,
-    id: 'companyAccount',
-    isSortable: true,
-    header: 'Company Accounts',
-    cell: (info: any) => info?.getValue(),
-  },
-  {
-    accessorFn: (row: any) => row?.Status,
-    id: 'status',
-    isSortable: true,
-    header: 'Status',
-    cell: <SwitchBtn defaultChecked />,
-  },
-];
-
+  return [
+    {
+      accessorFn: (row: any) => row?.organizationId,
+      id: 'Id',
+      cell: (info: any) => (
+        <Checkbox
+          color="primary"
+          name={info?.getValue()}
+          defaultChecked={checkedRows === info?.row?.original?.organizationId}
+          onChange={() =>
+            handleCheckboxChange(info?.row?.original?.organizationId)
+          }
+        />
+      ),
+      header: <Checkbox color="primary" name="Id" />,
+      isSortable: false,
+    },
+    {
+      accessorFn: (row: any) => row?._id,
+      id: '_id',
+      cell: (info: any) => info?.getValue(),
+      header: 'Role ID',
+      isSortable: true,
+    },
+    {
+      accessorFn: (row: any) => row?.name,
+      id: 'name',
+      isSortable: true,
+      header: 'Role Name',
+      cell: (info: any) => info?.getValue(),
+    },
+    {
+      accessorFn: (row: any) => row?.Products,
+      id: 'products',
+      isSortable: true,
+      header: 'Products',
+      cell: (info: any) => info?.getValue(),
+    },
+    {
+      accessorFn: (row: any) => row?.CompanyAccount,
+      id: 'companyAccount',
+      isSortable: true,
+      header: 'Company Accounts',
+      cell: (info: any) => info?.getValue(),
+    },
+    {
+      accessorFn: (row: any) => row?.status,
+      id: 'status',
+      isSortable: true,
+      header: 'Status',
+      cell: (info: any) => (
+        <SwitchBtn defaultValue={info?.row?.status} defaultChecked />
+      ),
+    },
+  ];
+};
 export const rolesValidationSchema = Yup.object().shape({
   roleName: Yup.string().required('Field is Required'),
   product: Yup.string().required('Field is Required'),
@@ -174,72 +161,74 @@ export const addUserDefault = {
   roleName: '',
   defaultUser: '',
   desc: '',
+  dashboardAcord: [],
+  dealsAcordList: [],
+  dealsAcordDetails: [],
 };
 
-export const addUsersArrayData = [
-  {
-    title: 'Select Product',
-    componentProps: {
-      name: 'productType',
-      fullWidth: true,
-      select: true,
+export const addUsersArrayData = () => {
+  const { useGetProductsQuery } = CommonAPIS;
+  const { data: products } = useGetProductsQuery({});
+  return [
+    {
+      title: 'Select Product',
+      componentProps: {
+        name: 'productId',
+        fullWidth: true,
+        select: true,
+      },
+      options: products?.data?.map((item: any) => ({
+        value: item?._id,
+        label: item?.name,
+      })),
+      component: RHFSelect,
+      md: 5,
     },
-    options: [
-      { value: 'airSale', label: 'Air Sale' },
-      { value: 'airMarketer', label: 'Air Marketer' },
-      { value: 'airServices', label: 'Air Services' },
-      { value: 'orgAdmin', label: 'Org Admin' },
-      { value: 'loyalty', label: 'Loyalty' },
-    ],
-    component: RHFSelect,
-    md: 5,
-  },
-  {
-    title: 'Select Company Account',
-    componentProps: {
-      name: 'companyAccount',
-      fullWidth: true,
-      select: true,
+    {
+      title: 'Select Company Account',
+      componentProps: {
+        name: 'companyAccount',
+        fullWidth: true,
+        select: true,
+      },
+      options: [
+        { value: 'orcalo', label: 'Orcalo LTD' },
+        { value: 'acceron', label: 'Acceron LTD' },
+      ],
+      component: RHFSelect,
+      md: 5,
     },
-    options: [
-      { value: 'orcalo', label: 'Orcalo LTD' },
-      { value: 'acceron', label: 'Acceron LTD' },
-    ],
-    component: RHFSelect,
-    md: 5,
-  },
-  {
-    title: 'Role Name',
-    componentProps: {
-      name: 'roleName',
-      placeholder: 'Role Name',
-      fullWidth: true,
+    {
+      title: 'Role Name',
+      componentProps: {
+        name: 'roleName',
+        placeholder: 'Role Name',
+        fullWidth: true,
+      },
+      component: RHFTextField,
+      md: 5,
     },
-    component: RHFTextField,
-    md: 5,
-  },
-  {
-    title: 'Description',
-    componentProps: {
-      name: 'desc',
-      placeholder: 'Description',
-      fullWidth: true,
+    {
+      title: 'Description',
+      componentProps: {
+        name: 'desc',
+        placeholder: 'Description',
+        fullWidth: true,
+      },
+      component: RHFTextField,
+      md: 5,
     },
-    component: RHFTextField,
-    md: 5,
-  },
-  {
-    title: 'Default User',
-    componentProps: {
-      name: 'defaultUser',
-      placeholder: 'Default User',
-      fullWidth: true,
+    {
+      componentProps: {
+        label: 'Default User',
+        name: 'defaultUser',
+        fullWidth: true,
+      },
+      component: RHFSwitch,
+      md: 5,
     },
-    component: RHFTextField,
-    md: 5,
-  },
-];
-
+  ];
+};
 export const accData = [
   {
     title: 'Dashboard',
