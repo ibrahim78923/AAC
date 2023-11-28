@@ -194,3 +194,8 @@ export const TICKET_TYPES = {
   TICKETS_I_REQUESTED: 'Tickets I Requested',
   SHARED_WITH_ME: 'Shared with me',
 };
+export const AGENT_REQUEST_STATUS = {
+  APPROVED: 'Approved',
+  REJECTED: 'Rejected',
+  PENDING: 'Pending',
+};

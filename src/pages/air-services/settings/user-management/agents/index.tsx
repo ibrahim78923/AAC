@@ -1,5 +1,5 @@
 import Layout from '@/layout';
-import { Agents } from '@/modules/airServices/Settings/UserManagement/Agents';
+import Agents from '@/modules/airServices/Settings/UserManagement/Agents';
 
 const AgentsPage = () => {
   return <Agents />;
