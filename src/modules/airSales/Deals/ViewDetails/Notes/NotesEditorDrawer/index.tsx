@@ -15,14 +15,25 @@ import {
 import { v4 as uuidv4 } from 'uuid';
 
 const NotesEditorDrawer = (props: any) => {
-  const { openDrawer, setOpenDrawer } = props;
-  const { handleSubmit, onSubmit, methodsdealsNotes } = useNotesEditorDrawer();
+  const {
+    openDrawer,
+    setOpenDrawer,
+    setSelectedCheckboxes,
+    selectedCheckboxes,
+  } = props;
+  const { handleSubmit, onSubmit, methodsdealsNotes, onCloseDrawer } =
+    useNotesEditorDrawer({
+      openDrawer,
+      setSelectedCheckboxes,
+      setOpenDrawer,
+      selectedCheckboxes,
+    });
 
   return (
     <div>
       <CommonDrawer
         isDrawerOpen={openDrawer}
-        onClose={() => setOpenDrawer('')}
+        onClose={onCloseDrawer}
         title={drawerTitle[openDrawer]}
         okText={drawerButtonTitle[openDrawer]}
         isOk={true}

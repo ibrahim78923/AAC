@@ -10,20 +10,25 @@ import useNameWithStyledWords from '@/hooks/useNameStyledWords';
 
 import { isNullOrEmpty } from '@/utils';
 
-import { NotesDataArray } from '@/mock/modules/airSales/Deals/ViewDetails';
-
 import { MessageIcon, PlusIcon } from '@/assets/icons';
 
 import { styles } from '../ViewDetails.style';
 
 import { v4 as uuidv4 } from 'uuid';
+import { IMG_URL } from '@/config';
+import { DATE_FORMAT } from '@/constants';
+import dayjs from 'dayjs';
+import CustomPagination from '@/components/CustomPagination';
 
 const Notes = () => {
   const {
     openDrawer,
     setOpenDrawer,
     selectedCheckboxes,
+    setSelectedCheckboxes,
     handleCheckboxChange,
+    data,
+    setPagination,
   } = useNotes();
   const { NameWithStyledWords, theme } = useNameWithStyledWords();
 
@@ -33,7 +38,7 @@ const Notes = () => {
         <Grid item xs={12}>
           <Box sx={styles?.headingSpacingBetween}>
             <Typography variant="h4"> Notes</Typography>
-            {!isNullOrEmpty(NotesDataArray) && (
+            {!isNullOrEmpty(data?.data?.notes) && (
               <Box
                 sx={{
                   gap: 1,
@@ -45,6 +50,7 @@ const Notes = () => {
                 <NotesActionDropdown
                   setOpenDrawer={setOpenDrawer}
                   selectedCheckboxes={selectedCheckboxes}
+                  setSelectedCheckboxes={setSelectedCheckboxes}
                 />
                 <Button
                   variant="contained"
@@ -56,7 +62,7 @@ const Notes = () => {
               </Box>
             )}
           </Box>
-          {isNullOrEmpty(NotesDataArray) && (
+          {isNullOrEmpty(data?.data?.notes) && (
             <Box
               sx={{
                 height: '35vh',
@@ -78,9 +84,9 @@ const Notes = () => {
           )}
         </Grid>
 
-        {!isNullOrEmpty(NotesDataArray) && (
+        {!isNullOrEmpty(data?.data?.notes) && (
           <Grid item xs={12} sx={styles?.horizontalTabsInnnerBox}>
-            {NotesDataArray?.map((item) => (
+            {data?.data?.notes?.map((item) => (
               <Grid
                 container
                 key={uuidv4()}
@@ -107,9 +113,9 @@ const Notes = () => {
                   <Checkbox
                     color="primary"
                     name={'name'}
-                    onChange={(event) => handleCheckboxChange(event, item?.id)}
+                    onChange={(event) => handleCheckboxChange(event, item)}
                     checked={selectedCheckboxes?.some(
-                      (selectedItem) => selectedItem?.id === item?.id,
+                      (selectedItem) => selectedItem?._id === item?._id,
                     )}
                   />
                 </Grid>
@@ -124,7 +130,13 @@ const Notes = () => {
                     alignItems: 'center',
                   }}
                 >
-                  <Image src={item?.image} alt="Avatar" />
+                  <Image
+                    src={`${IMG_URL}${item?.file?.url}`}
+                    alt="Avatar"
+                    width={66}
+                    height={66}
+                    style={{ borderRadius: '200px' }}
+                  />
                 </Grid>
                 <Grid item xs={12} lg={10} sm={9} sx={{ gap: 1 }}>
                   <NameWithStyledWords
@@ -135,20 +147,34 @@ const Notes = () => {
                     variant="body3"
                     sx={{ color: theme?.palette?.custom?.main }}
                   >
-                    {item?.date}
+                    {dayjs(item?.createdAt).format(DATE_FORMAT.UI)}
+                    <></>
                   </Typography>
-                  <Typography variant="body2">{item?.description}</Typography>
+                  <Typography
+                    variant="body2"
+                    dangerouslySetInnerHTML={{ __html: item?.description }}
+                  />
                 </Grid>
               </Grid>
             ))}
           </Grid>
         )}
+        <Grid item xs={12}>
+          <CustomPagination
+            totalRecords={data?.data?.meta?.total}
+            setPage={setPagination}
+          />
+        </Grid>
       </Grid>
 
-      <NotesEditorDrawer
-        openDrawer={openDrawer}
-        setOpenDrawer={setOpenDrawer}
-      />
+      {openDrawer && (
+        <NotesEditorDrawer
+          openDrawer={openDrawer}
+          setOpenDrawer={setOpenDrawer}
+          setSelectedCheckboxes={setSelectedCheckboxes}
+          selectedCheckboxes={selectedCheckboxes}
+        />
+      )}
     </Box>
   );
 };
