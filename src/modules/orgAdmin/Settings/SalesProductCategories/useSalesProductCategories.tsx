@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { useForm } from 'react-hook-form';
 
@@ -11,6 +11,13 @@ import {
   ProductCategoryDefaultValues,
   ProductCategoryvalidationSchema,
 } from './SalesProductCategories.data';
+import {
+  useGetSalesProductCategoriesQuery,
+  usePostSalesProductCategoriesMutation,
+  useUpdateSalesProductCategoriesMutation,
+} from '@/services/orgAdmin/settings/sales-product-category';
+import { enqueueSnackbar } from 'notistack';
+import { isNullOrEmpty } from '@/utils';
 
 const useSalesProductCategories = () => {
   const [isDraweropen, setIsDraweropen] = useState(false);
@@ -18,6 +25,12 @@ const useSalesProductCategories = () => {
   const [productSearch, setproductSearch] = useState<string>('');
   const [isChecked, setIsChecked] = useState(false);
   const [isGetRowValues, setIsGetRowValues] = useState('');
+  const [postSalesProductCategories] = usePostSalesProductCategoriesMutation();
+  const [editData, setEditData] = useState<any>({});
+  const { data, isLoading, isError, isFetching, isSuccess } =
+    useGetSalesProductCategoriesQuery([]);
+  const [updateSalesProductCategories] =
+    useUpdateSalesProductCategoriesMutation();
   const [userStatus, setUserStatus] = useState('active');
   const theme = useTheme<Theme>();
 
@@ -26,19 +39,68 @@ const useSalesProductCategories = () => {
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
   const handleCloseDrawer = () => {
+    reset(ProductCategoryvalidationSchema);
+    setEditData({});
     setIsDraweropen(false);
   };
 
-  const ProductCategory = useForm({
+  const ProductCategory: any = useForm({
     resolver: yupResolver(ProductCategoryvalidationSchema),
-    defaultValues: ProductCategoryDefaultValues,
+    defaultValues: async () => {
+      if (editData) {
+        const { name, description } = editData;
+        if (!isNullOrEmpty(Object?.keys(editData))) {
+          return {
+            name,
+            description,
+          };
+        }
+      }
+      return ProductCategoryDefaultValues;
+    },
   });
-  const { handleSubmit } = ProductCategory;
-  const onSubmit = () => {};
+  useEffect(() => {
+    if (editData) {
+      const { name, description } = editData;
+      ProductCategory.setValue('name', name);
+      ProductCategory.setValue('description', description);
+    }
+  }, [editData, ProductCategory]);
+
+  const { handleSubmit, reset } = ProductCategory;
+  const onSubmit = async (data: any) => {
+    const salesProductCartegoryData = {
+      ...data,
+    };
+    try {
+      if (editData) {
+        await updateSalesProductCategories({
+          body: salesProductCartegoryData,
+          id: editData?._id,
+        }).unwrap();
+        setIsDraweropen(false);
+        enqueueSnackbar('Categories Updated Successfully', {
+          variant: 'success',
+        });
+      } else {
+        await postSalesProductCategories({
+          body: salesProductCartegoryData,
+        }).unwrap();
+        enqueueSnackbar('Product Added Successfully', {
+          variant: 'success',
+        });
+        reset(ProductCategoryvalidationSchema);
+        setIsDraweropen(false);
+      }
+    } catch (error: any) {
+      enqueueSnackbar('Something went wrong !', { variant: 'error' });
+    }
+  };
 
   const getRowValues = columns(
     setIsGetRowValues,
@@ -48,9 +110,17 @@ const useSalesProductCategories = () => {
     userStatus,
     setUserStatus,
     theme,
+    setEditData,
+    editData,
+    updateSalesProductCategories,
   );
 
   return {
+    tableRow: data?.data?.productcategories,
+    isLoading,
+    isError,
+    isFetching,
+    isSuccess,
     isDraweropen,
     setIsDraweropen,
     isEditMode,
