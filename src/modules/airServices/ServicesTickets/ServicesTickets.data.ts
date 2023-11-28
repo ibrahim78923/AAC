@@ -78,8 +78,12 @@ export const ticketsTypeOptions = [
     label: 'Urgent and High Priority',
   },
   {
-    value: TICKET_TYPES?.MY_OPEN_AND_PENDING_TICKETS,
-    label: 'My Open and Pending Tickets',
+    value: TICKET_TYPES?.URGENT_AND_HIGH_PRIORITY,
+    label: 'Urgent and High Priority',
+  },
+  {
+    value: TICKET_TYPES?.MY_OVERDUE_TICKETS,
+    label: 'My Overdue Tickets',
   },
   {
     value: TICKET_TYPES?.SPAM,

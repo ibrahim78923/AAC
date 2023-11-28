@@ -6,7 +6,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { debounce } from 'lodash';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
-import { Checkbox, Chip, Paper, useTheme } from '@mui/material';
+import { Checkbox, Chip, Paper, Typography, useTheme } from '@mui/material';
 import { Search } from '@mui/icons-material';
 import CustomLabel from '../CustomLabel';
 
@@ -21,7 +21,8 @@ export default function RHFAutocompleteAsync({
   getOptionLabel = (option: any) => option?.name,
   multiple = false,
   variant = 'outlined',
-  endIcon,
+  EndIcon,
+  endIconClick,
   placeholder,
   noOptionsCase = 'Nothing in the List',
   externalParams = {},
@@ -131,7 +132,14 @@ export default function RHFAutocompleteAsync({
                   label={''}
                   placeholder={placeholder}
                   error={Boolean(form?.fieldState?.error)}
-                  helperText={form?.fieldState?.error?.message}
+                  helperText={
+                    <Typography
+                      component={'span'}
+                      sx={{ display: 'block', mt: -1, ml: -1 }}
+                    >
+                      {form?.fieldState?.error?.message}
+                    </Typography>
+                  }
                   variant={variant}
                   InputProps={{
                     ...params?.InputProps,
@@ -142,7 +150,13 @@ export default function RHFAutocompleteAsync({
                         ) : (
                           <Search sx={{ color: 'inherit' }} />
                         )}
-                        {endIcon ?? params?.InputProps?.endAdornment}
+                        {EndIcon && (
+                          <EndIcon
+                            onClick={() => endIconClick?.()}
+                            sx={{ cursor: 'pointer' }}
+                          />
+                        )}
+                        {params?.InputProps?.endAdornment}
                       </Fragment>
                     ),
                   }}

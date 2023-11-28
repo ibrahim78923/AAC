@@ -90,7 +90,7 @@ export const useUpsertTicket = (props: any) => {
     };
     try {
       const response = await putTicketTrigger(putTicketParameter)?.unwrap();
-      enqueueSnackbar(response?.message ?? 'Ticket Added Successfully', {
+      enqueueSnackbar(response?.message ?? 'Ticket Created Successfully!', {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
       reset();
@@ -122,6 +122,7 @@ export const useUpsertTicket = (props: any) => {
     apiQueryOrganizations,
     apiQueryOrganizations,
     apiQueryOrganizations,
+    router,
   );
   return {
     router,

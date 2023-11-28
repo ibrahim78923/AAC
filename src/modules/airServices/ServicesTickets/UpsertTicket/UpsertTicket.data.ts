@@ -1,9 +1,9 @@
 import {
+  RHFAutocomplete,
   RHFAutocompleteAsync,
   RHFDatePicker,
   RHFDropZone,
   RHFEditor,
-  RHFSelect,
   RHFTextField,
   RHFTimePicker,
 } from '@/components/ReactHookForm';
@@ -15,6 +15,8 @@ import {
   ticketSourceOptions,
   ticketStatusOptions,
 } from '../ServicesTickets.data';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import { AIR_SERVICES } from '@/constants';
 
 const todayDate = dayjs()?.format('MM/DD/YYYY');
 
@@ -31,21 +33,21 @@ export const dropdownDummy = [
 
 export const upsertTicketValidationSchema = Yup?.object()?.shape({
   requester: Yup?.mixed()?.nullable()?.required('Required'),
-  subject: Yup?.string()?.trim()?.required('Field is Required'),
+  subject: Yup?.string()?.trim()?.required('Required'),
   description: Yup?.string(),
-  category: Yup?.mixed()?.nullable()?.required('Required'),
-  status: Yup?.string()?.required('Field is Required'),
-  priority: Yup?.string()?.required('Field is Required'),
-  department: Yup?.mixed()?.nullable()?.required('Required'),
+  category: Yup?.mixed()?.nullable(),
+  status: Yup?.mixed()?.required('Required'),
+  priority: Yup?.mixed()?.required('Required'),
+  department: Yup?.mixed()?.nullable(),
   source: Yup?.string(),
   impact: Yup?.string(),
-  agent: Yup?.mixed()?.nullable()?.required('Required'),
+  agent: Yup?.mixed()?.nullable(),
   plannedStartDate: Yup?.date(),
   plannedStartTime: Yup?.date(),
   plannedEndDate: Yup?.date(),
   plannedEndTime: Yup?.date(),
   plannedEffort: Yup?.mixed(),
-  associatesAsset: Yup?.mixed()?.nullable()?.required('Required'),
+  associatesAssets: Yup?.mixed()?.nullable(),
   attachFile: Yup?.mixed()?.nullable(),
 });
 
@@ -55,8 +57,8 @@ export const upsertTicketDefaultValuesFunction = (data?: any) => {
     subject: data?.subject ?? '',
     description: data?.description ?? '',
     category: data?.category ?? null,
-    status: data?.status ?? '',
-    priority: data?.priority ?? '',
+    status: data?.status ?? null,
+    priority: data?.priority ?? null,
     department: data?.department ?? null,
     source: data?.source ?? '',
     impact: data?.impact ?? '',
@@ -66,7 +68,7 @@ export const upsertTicketDefaultValuesFunction = (data?: any) => {
     plannedEndDate: new Date(data?.plannedEndDate ?? todayDate),
     plannedEndTime: new Date(),
     plannedEffort: !!data?.plannedEffort?.length ? data?.plannedEffort : [],
-    associatesAsset: !!data?.associatesAsset?.length
+    associatesAssets: !!data?.associatesAsset?.length
       ? data?.associatesAsset
       : [],
     attachFile: null ?? '',
@@ -77,13 +79,20 @@ export const upsertTicketFormFieldsDynamic = (
   apiQueryDepartment?: any,
   apiQueryCategory?: any,
   apiQueryAgent?: any,
+  router?: any,
 ) => [
   {
     componentProps: {
       name: 'requester',
       label: 'Requester',
       fullWidth: true,
+      required: true,
       apiQuery: apiQueryRequester,
+      EndIcon: AddCircleIcon,
+      endIconClick: () => {
+        router?.push(AIR_SERVICES?.REQUESTERS_SETTINGS);
+      },
+      placeholder: 'Add Requester',
     },
     component: RHFAutocompleteAsync,
     md: 12,
@@ -93,6 +102,7 @@ export const upsertTicketFormFieldsDynamic = (
       name: 'subject',
       label: 'Subject',
       fullWidth: true,
+      required: true,
     },
     component: RHFTextField,
     md: 12,
@@ -113,6 +123,7 @@ export const upsertTicketFormFieldsDynamic = (
       label: 'Category',
       fullWidth: true,
       apiQuery: apiQueryCategory,
+      placeholder: 'Choose Category',
     },
     component: RHFAutocompleteAsync,
     md: 12,
@@ -122,10 +133,11 @@ export const upsertTicketFormFieldsDynamic = (
       name: 'status',
       label: 'Status',
       fullWidth: true,
-      select: true,
+      required: true,
+      placeholder: 'Choose Status',
+      options: ticketStatusOptions,
     },
-    options: ticketStatusOptions,
-    component: RHFSelect,
+    component: RHFAutocomplete,
     md: 12,
   },
   {
@@ -133,10 +145,11 @@ export const upsertTicketFormFieldsDynamic = (
       name: 'priority',
       label: 'Priority',
       fullWidth: true,
-      select: true,
+      required: true,
+      placeholder: 'Choose Priority',
+      options: ticketPriorityOptions,
     },
-    options: ticketPriorityOptions,
-    component: RHFSelect,
+    component: RHFAutocomplete,
     md: 12,
   },
   {
@@ -145,6 +158,7 @@ export const upsertTicketFormFieldsDynamic = (
       label: 'Department',
       fullWidth: true,
       apiQuery: apiQueryDepartment,
+      placeholder: 'Choose Department',
     },
     component: RHFAutocompleteAsync,
     md: 12,
@@ -154,10 +168,10 @@ export const upsertTicketFormFieldsDynamic = (
       name: 'source',
       label: 'Source',
       fullWidth: true,
-      select: true,
+      placeholder: 'Choose Source',
+      options: ticketSourceOptions,
     },
-    options: ticketSourceOptions,
-    component: RHFSelect,
+    component: RHFAutocomplete,
     md: 12,
   },
   {
@@ -165,10 +179,10 @@ export const upsertTicketFormFieldsDynamic = (
       name: 'impact',
       label: 'Impact',
       fullWidth: true,
-      select: true,
+      placeholder: 'Choose Impact',
+      options: ticketImpactOptions,
     },
-    options: ticketImpactOptions,
-    component: RHFSelect,
+    component: RHFAutocomplete,
     md: 12,
   },
   {
@@ -177,6 +191,7 @@ export const upsertTicketFormFieldsDynamic = (
       label: 'Agent',
       fullWidth: true,
       apiQuery: apiQueryAgent,
+      placeholder: 'Choose Agent',
     },
     component: RHFAutocompleteAsync,
     md: 12,
@@ -223,17 +238,19 @@ export const upsertTicketFormFieldsDynamic = (
       label: 'Planned Effort',
       fullWidth: true,
       multiple: true,
+      placeholder: 'Eg: 1h 10m',
     },
     component: RHFTextField,
     md: 12,
   },
   {
     componentProps: {
-      name: 'associatesAsset',
-      label: 'Associate Asset',
+      name: 'associatesAssets',
+      label: 'Associate Assets',
       fullWidth: true,
       multiple: true,
       apiQuery: apiQueryDepartment,
+      placeholder: 'Choose Assets',
     },
     component: RHFAutocompleteAsync,
     md: 12,

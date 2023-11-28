@@ -18,7 +18,7 @@ export const TicketsFilter = (props: any) => {
       <CommonDrawer
         isDrawerOpen={isDrawerOpen}
         onClose={() => onClose?.()}
-        okText={'Submit'}
+        okText={'Apply'}
         title={'Filter'}
         submitHandler={() => handleSubmit(submitTicketFilterForm)()}
         isOk
@@ -33,15 +33,7 @@ export const TicketsFilter = (props: any) => {
             {ticketsFilterFormFieldsData?.map((form: any) => {
               return (
                 <Grid item xs={12} md={form?.gridLength} key={form?.id}>
-                  <form.component {...form?.componentProps} size="small">
-                    {form?.componentProps?.select
-                      ? form?.componentProps?.options?.map((option: any) => (
-                          <option key={option?.value} value={option?.value}>
-                            {option?.label}
-                          </option>
-                        ))
-                      : null}
-                  </form.component>
+                  <form.component {...form?.componentProps} size="small" />
                 </Grid>
               );
             })}
