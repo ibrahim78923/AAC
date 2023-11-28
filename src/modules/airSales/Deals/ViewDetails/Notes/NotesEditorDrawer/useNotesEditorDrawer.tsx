@@ -27,7 +27,7 @@ const useNotesEditorDrawer = () => {
 
     try {
       await postDealNote({ body: formData })?.unwrap();
-      enqueueSnackbar('Record Updated', { variant: 'success' });
+      enqueueSnackbar('Notes created Successfully', { variant: 'success' });
     } catch (error: any) {
       const errMsg = error?.data?.message;
       enqueueSnackbar(errMsg ?? 'Error occurred', { variant: 'error' });
