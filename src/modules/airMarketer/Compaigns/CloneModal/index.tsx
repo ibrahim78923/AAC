@@ -72,7 +72,7 @@ const CloneModal = ({ openCloneModal, handleCloseFeaturesModal }: any) => {
                   ))}
                 </Grid>
                 <Box sx={styles?.buttonBox} mt={2}>
-                  <Button variant="outlined">Cancle</Button>
+                  <Button variant="outlined">Cancel</Button>
                   <Button
                     variant="contained"
                     type="submit"
