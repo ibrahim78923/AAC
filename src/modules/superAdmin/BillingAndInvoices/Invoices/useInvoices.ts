@@ -7,9 +7,8 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { useGetBillingHistoryQuery } from '@/services/superAdmin/billing-invoices';
-import { isNullOrEmpty } from '@/utils';
-// import dayjs from 'dayjs';
-// import { DATE_FORMAT } from '@/constants';
+import dayjs from 'dayjs';
+import { DATE_FORMAT } from '@/constants';
 
 const useInvoices = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -20,33 +19,9 @@ const useInvoices = () => {
   const [isChecked, setIsChecked] = useState(false);
   const [isGetRowValues, setIsGetRowValues] = useState('');
   const [searchByClientName, setSearchByClientName] = useState('');
-  const [orginzationId, setOrginzationId] = useState('');
-  const [productId, setProductId] = useState('');
-  const [PlanTypeId, setPlanTypeId] = useState('');
-  const [status, setStatus] = useState('');
-  const [invoiceDate, setInvoiceDate] = useState('');
-  const [paymentDate, setPaymentDate] = useState('');
   const [filterValues, setFilterValues] = useState({});
 
-  const paramsObj: any = {};
-
-  if (!isNullOrEmpty(searchByClientName))
-    paramsObj['search'] = searchByClientName;
-  if (!isNullOrEmpty(productId)) paramsObj['productId'] = productId;
-  if (!isNullOrEmpty(PlanTypeId)) paramsObj['planTypeId'] = PlanTypeId;
-  if (!isNullOrEmpty(orginzationId))
-    paramsObj['organizationId'] = orginzationId;
-  if (!isNullOrEmpty(status)) paramsObj['status'] = status;
-  if (!isNullOrEmpty(invoiceDate)) paramsObj['billingDate'] = invoiceDate;
-  if (!isNullOrEmpty(paymentDate)) paramsObj['dueDate'] = paymentDate;
-
-  const queryParams = Object.entries(paramsObj)
-    .map(([key, value]) => `${key}=${encodeURIComponent(value)}`)
-    .join('&');
-  const query = `&${queryParams}`;
-
   const { data: allInvoicesTableData } = useGetBillingHistoryQuery<any>({
-    query,
     pagination: `page=1&limit=10`,
     params: filterValues,
   });
@@ -118,24 +93,29 @@ const useInvoices = () => {
         };
       });
     }
+    if (values?.InvoiceDate != null && values?.InvoiceDate !== '') {
+      setFilterValues((prev) => {
+        return {
+          ...prev,
+          billingDate: dayjs(values?.InvoiceDate)?.format(DATE_FORMAT?.API),
+        };
+      });
+    }
+    if (values?.PaymentDate != null && values?.PaymentDate !== '') {
+      setFilterValues((prev) => {
+        return {
+          ...prev,
+          dueDate: dayjs(values?.PaymentDate)?.format(DATE_FORMAT?.API),
+        };
+      });
+    }
 
-    //   // billingDate: values?.InvoiceDate && dayjs(values?.InvoiceDate)?.format(DATE_FORMAT?.API),
-    //   // dueDate: values?.PaymentDate && dayjs(values?.PaymentDate)?.format(DATE_FORMAT?.API),
-
-    // setInvoiceDate(values?.InvoiceDate && dayjs(values?.InvoiceDate)?.format(DATE_FORMAT?.API));
-    // setPaymentDate(values?.PaymentDate && dayjs(values?.PaymentDate)?.format(DATE_FORMAT?.API));
     setIsOpenFilter(false);
     reset();
   };
 
   const handleRefresh = async () => {
     setFilterValues('');
-    setOrginzationId('');
-    setProductId('');
-    setPlanTypeId('');
-    setStatus('');
-    setInvoiceDate('');
-    setPaymentDate('');
   };
 
   const { handleSubmit, reset } = FilterInvoiceFilters;
