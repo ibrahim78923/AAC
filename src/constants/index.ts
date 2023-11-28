@@ -71,6 +71,7 @@ export const AIR_SERVICES = {
   CANNED_RESPONSE_SETTINGS: `/air-services/settings/agent-performance-management/canned-responses`,
   LEADER_BOARD_SETTINGS: `/air-services/settings/agent-performance-management/leader-board`,
   WORKLOAD_MANAGEMENT_SETTINGS: `/air-services/settings/agent-performance-management/workload-management`,
+  USER_ADD_NEW_ROLES_SETTINGS: `/air-services/settings/user-management/roles/create-role`,
 };
 
 export const AIR_CUSTOMER_PORTAL = {
