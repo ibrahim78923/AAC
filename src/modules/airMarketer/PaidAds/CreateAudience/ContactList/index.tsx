@@ -94,7 +94,7 @@ const ContactList = ({ open, onClose }: any) => {
           <Typography sx={styles?.textTwo(theme)}>
             Your contact list may be too small to match enough people for ad
             targeting. Contact list audiences that have at least 1,000 people
-            are more likely to have a higher match rate which will be more
+            are more likely to have a higher match rate which will be moree
             effective for targeting.
           </Typography>
         </Box>
