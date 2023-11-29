@@ -50,7 +50,7 @@ const AddUser = ({
 
   const companyOwnerMethods: any = useForm({
     resolver: yupResolver(CompanyOwnerValidationSchema),
-    defaultValues: companyOwnerValues ?? companyOwnerDefaultValues,
+    defaultValues: userDetail ? companyOwnerValues : companyOwnerDefaultValues,
   });
 
   const methods =

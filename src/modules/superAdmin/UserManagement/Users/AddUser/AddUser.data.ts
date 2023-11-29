@@ -117,7 +117,7 @@ export const addUsersArray = () => {
     },
     {
       componentProps: {
-        name: 'roducts',
+        name: 'products',
         GridView: 6,
         isCheckBox: true,
         options: productsList?.data?.map((item: any) => ({
