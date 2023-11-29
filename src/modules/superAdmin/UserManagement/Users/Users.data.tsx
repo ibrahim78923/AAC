@@ -15,6 +15,7 @@ import useUserManagement from '../useUserManagement';
 import dayjs from 'dayjs';
 import * as Yup from 'yup';
 import { v4 as uuidv4 } from 'uuid';
+import { DATE_FORMAT } from '@/constants';
 
 export const columns: any = (columnsProps: any) => {
   const { handleUserSwitchChange, checkedRows, setCheckedRows } = columnsProps;
@@ -129,7 +130,7 @@ export const columns: any = (columnsProps: any) => {
       isSortable: true,
       header: 'CreatedOn',
       cell: (info: any) =>
-        dayjs(info?.row?.original?.createdAt).format('DD/MM/YYYY') ?? 'N/A',
+        dayjs(info?.row?.original?.createdAt).format(DATE_FORMAT?.UI) ?? 'N/A',
     },
   ];
 };
@@ -217,7 +218,7 @@ export const superAdminColumns: any = (columnsProps: any) => {
       isSortable: true,
       header: 'CreatedOn',
       cell: (info: any) =>
-        dayjs(info?.row?.original?.createdAt).format('DD/MM/YYYY'),
+        dayjs(info?.row?.original?.createdAt).format(DATE_FORMAT?.UI),
     },
   ];
 };

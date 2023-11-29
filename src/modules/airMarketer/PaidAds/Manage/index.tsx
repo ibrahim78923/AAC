@@ -91,14 +91,12 @@ const Manage = () => {
       <Box mt={4} display="flex" justifyContent="space-between">
         <Search placeholder="Search" size="small" />
         <Button
+          variant="outlined"
+          color="inherit"
+          className="small"
           onClick={() => setIsFilterDrawer(true)}
           startIcon={<FilterrIcon />}
-          sx={{
-            border: `1px solid ${theme?.palette?.custom?.dark}`,
-            color: theme?.palette?.custom?.main,
-            width: '95px',
-            height: '36px',
-          }}
+          sx={{ border: `1px solid ${theme?.palette?.custom?.dark}` }}
         >
           Filter
         </Button>

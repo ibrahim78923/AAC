@@ -20,13 +20,18 @@ const PaidAds = () => {
         <Box display="flex" gap={1} sx={style?.button(theme?.palette)}>
           <CreateAudience />
           <Button
-            className="eventBtn"
+            className="eventBtn small"
             variant="outlined"
+            color="inherit"
             startIcon={<PlusIcon />}
           >
             Create Event
           </Button>
-          <Button variant="contained" startIcon={<PlusIcon />}>
+          <Button
+            className="small"
+            variant="contained"
+            startIcon={<PlusIcon />}
+          >
             Create Ad
           </Button>
         </Box>
