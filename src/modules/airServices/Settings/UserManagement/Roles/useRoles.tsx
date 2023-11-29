@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
+import { AIR_SERVICES } from '@/constants';
 
-export const useAddRole = () => {
+export const useRoles = () => {
   const router = useRouter();
 
   const addNewRole = () => {
