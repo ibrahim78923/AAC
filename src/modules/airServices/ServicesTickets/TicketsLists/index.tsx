@@ -26,12 +26,17 @@ export const TicketsLists = () => {
     selectedTicketList,
     setPageLimit,
     setTicketsListsActiveColumn,
+    setSelectedTicketList,
   } = useTicketsLists();
 
   return (
     <>
       <PageTitledHeader
-        title={'Ticket List - All Tickets'}
+        title={
+          router?.query?.viewType === VIEW_TYPES?.BOARD
+            ? 'Tickets Board'
+            : 'Ticket List - All Tickets'
+        }
         addTitle={'Create Ticket'}
         hasExport
         handleExcelExport={() => getTicketsListDataExport?.(EXPORT_TYPE?.XLS)}
@@ -56,7 +61,10 @@ export const TicketsLists = () => {
       />
       <br />
       {router?.query?.viewType === VIEW_TYPES?.BOARD ? (
-        <TableBoardView />
+        <TableBoardView
+          setTicketAction={setTicketAction}
+          setSelectedTicketList={setSelectedTicketList}
+        />
       ) : (
         <TicketsTableView
           ticketsListsColumn={

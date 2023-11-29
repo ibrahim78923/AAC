@@ -1,5 +1,5 @@
 export const ticketInfoCardAppearanceColor = (appearance: string) => {
-  const New = 'new';
+  const New = 'New';
   const Overdue = 'Overdue';
 
   let color;

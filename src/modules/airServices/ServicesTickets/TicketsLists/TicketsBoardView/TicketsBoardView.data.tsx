@@ -1,6 +1,6 @@
 export const ticketViewBoardArray = [
   {
-    id: 1,
+    _id: 1,
     status: 'Open',
     ticketId: '#INC-3',
     ticketAppearance: 'New',
@@ -11,7 +11,7 @@ export const ticketViewBoardArray = [
     department: 'IT',
   },
   {
-    id: 2,
+    _id: 2,
     status: 'Resolved',
     ticketId: '#INC-4',
     ticketMessage: "What's wrong with my email?",
@@ -21,7 +21,7 @@ export const ticketViewBoardArray = [
     department: 'FI',
   },
   {
-    id: 3,
+    _id: 3,
     status: 'Pending',
     ticketId: '#INC-5',
     ticketAppearance: 'Overdue',
@@ -32,7 +32,7 @@ export const ticketViewBoardArray = [
     department: 'HR',
   },
   {
-    id: 4,
+    _id: 4,
     status: 'Closed',
     ticketId: '#INC-6',
     ticketAppearance: 'Response Due',
@@ -43,7 +43,7 @@ export const ticketViewBoardArray = [
     department: 'IT',
   },
   {
-    id: 5,
+    _id: 5,
     status: 'Closed',
     ticketId: '#INC-3',
     ticketMessage: "What's wrong with my email?",

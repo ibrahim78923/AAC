@@ -36,7 +36,7 @@ export const UpsertTicket = (props: any) => {
             methods={methods}
             onSubmit={handleSubmit(submitUpsertTicket)}
           >
-            <Grid container spacing={4}>
+            <Grid container spacing={2}>
               {upsertTicketFormFields?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={item?.id}>
                   <item.component {...item?.componentProps} size={'small'} />

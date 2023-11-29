@@ -19,7 +19,7 @@ import usePath from '@/hooks/usePath';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 export const useUpsertTicket = (props: any) => {
-  const { setIsDrawerOpen, ticketId } = props;
+  const { setIsDrawerOpen, ticketId, setSelectedTicketList } = props;
 
   const router = useRouter();
   const theme: any = useTheme();
@@ -49,9 +49,10 @@ export const useUpsertTicket = (props: any) => {
   const { handleSubmit, reset } = methods;
 
   const submitUpsertTicket = async (data: any) => {
-    enqueueSnackbar('Ticket Added Successfully', {
+    enqueueSnackbar(`Ticket ${ticketId ? 'Updated' : 'Added'} Successfully`, {
       variant: NOTISTACK_VARIANTS?.SUCCESS,
     });
+    setSelectedTicketList?.([]);
     reset();
     setIsDrawerOpen?.(false);
     return;
@@ -93,6 +94,7 @@ export const useUpsertTicket = (props: any) => {
       enqueueSnackbar(response?.message ?? 'Ticket Created Successfully!', {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
+      setSelectedTicketList([]);
       reset();
       setIsDrawerOpen?.(false);
     } catch (error) {
@@ -112,6 +114,7 @@ export const useUpsertTicket = (props: any) => {
         skipQueries: ['ticketAction'],
       }),
     );
+    setSelectedTicketList([]);
     reset?.();
     setIsDrawerOpen?.(false);
   };

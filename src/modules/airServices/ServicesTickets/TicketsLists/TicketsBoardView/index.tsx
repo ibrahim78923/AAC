@@ -2,10 +2,12 @@ import { Grid, Box, useTheme } from '@mui/material';
 import TicketInfoBoardHeader from './TicketInfoBoardHeader';
 import { TicketInfoCard } from './TicketInfoCard';
 import { Fragment } from 'react';
-import { v4 as uuidv4 } from 'uuid';
 import { ticketViewBoardArray } from './TicketsBoardView.data';
 
-export const TableBoardView = () => {
+export const TableBoardView = ({
+  setTicketAction,
+  setSelectedTicketList,
+}: any) => {
   const theme: any = useTheme();
 
   const HEAD_STATUS = ['Open', 'Resolved', 'Pending', 'Closed'];
@@ -13,7 +15,7 @@ export const TableBoardView = () => {
   return (
     <Grid container spacing={2} overflow={'auto'} flexWrap={'nowrap'}>
       {HEAD_STATUS?.map((heading: any) => (
-        <Grid item xs={3} sx={{ minWidth: '400px' }} key={uuidv4()}>
+        <Grid item xs={3} sx={{ minWidth: '400px' }} key={heading}>
           <TicketInfoBoardHeader title={heading} total={2} />
           <Box
             height={'100%'}
@@ -24,8 +26,12 @@ export const TableBoardView = () => {
             {ticketViewBoardArray?.map(
               (item: any) =>
                 heading === item?.status && (
-                  <Fragment key={uuidv4()}>
-                    <TicketInfoCard details={item} />
+                  <Fragment key={item?._id}>
+                    <TicketInfoCard
+                      details={item}
+                      setTicketAction={setTicketAction}
+                      setSelectedTicketList={setSelectedTicketList}
+                    />
                   </Fragment>
                 ),
             )}

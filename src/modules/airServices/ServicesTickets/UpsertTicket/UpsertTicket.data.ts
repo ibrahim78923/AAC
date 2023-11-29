@@ -36,17 +36,17 @@ export const upsertTicketValidationSchema = Yup?.object()?.shape({
   subject: Yup?.string()?.trim()?.required('Required'),
   description: Yup?.string(),
   category: Yup?.mixed()?.nullable(),
-  status: Yup?.mixed()?.required('Required'),
-  priority: Yup?.mixed()?.required('Required'),
+  status: Yup?.mixed()?.nullable()?.required('Required'),
+  priority: Yup?.mixed()?.nullable()?.required('Required'),
   department: Yup?.mixed()?.nullable(),
-  source: Yup?.string(),
-  impact: Yup?.string(),
+  source: Yup?.mixed()?.nullable(),
+  impact: Yup?.mixed()?.nullable(),
   agent: Yup?.mixed()?.nullable(),
   plannedStartDate: Yup?.date(),
   plannedStartTime: Yup?.date(),
   plannedEndDate: Yup?.date(),
   plannedEndTime: Yup?.date(),
-  plannedEffort: Yup?.mixed(),
+  plannedEffort: Yup?.string()?.trim(),
   associatesAssets: Yup?.mixed()?.nullable(),
   attachFile: Yup?.mixed()?.nullable(),
 });
@@ -60,18 +60,18 @@ export const upsertTicketDefaultValuesFunction = (data?: any) => {
     status: data?.status ?? null,
     priority: data?.priority ?? null,
     department: data?.department ?? null,
-    source: data?.source ?? '',
-    impact: data?.impact ?? '',
+    source: data?.source ?? null,
+    impact: data?.impact ?? null,
     agent: data?.agent ?? null,
     plannedStartDate: new Date(data?.plannedStartDate ?? todayDate),
     plannedStartTime: new Date(),
     plannedEndDate: new Date(data?.plannedEndDate ?? todayDate),
     plannedEndTime: new Date(),
-    plannedEffort: !!data?.plannedEffort?.length ? data?.plannedEffort : [],
+    plannedEffort: !!data?.plannedEffort?.length ? data?.plannedEffort : '',
     associatesAssets: !!data?.associatesAsset?.length
       ? data?.associatesAsset
       : [],
-    attachFile: null ?? '',
+    attachFile: null,
   };
 };
 export const upsertTicketFormFieldsDynamic = (
@@ -95,7 +95,6 @@ export const upsertTicketFormFieldsDynamic = (
       placeholder: 'Add Requester',
     },
     component: RHFAutocompleteAsync,
-    md: 12,
   },
   {
     componentProps: {
@@ -105,7 +104,6 @@ export const upsertTicketFormFieldsDynamic = (
       required: true,
     },
     component: RHFTextField,
-    md: 12,
   },
   {
     componentProps: {
@@ -115,7 +113,6 @@ export const upsertTicketFormFieldsDynamic = (
       style: { height: '250px' },
     },
     component: RHFEditor,
-    md: 12,
   },
   {
     componentProps: {
@@ -126,7 +123,6 @@ export const upsertTicketFormFieldsDynamic = (
       placeholder: 'Choose Category',
     },
     component: RHFAutocompleteAsync,
-    md: 12,
   },
   {
     componentProps: {
@@ -138,7 +134,6 @@ export const upsertTicketFormFieldsDynamic = (
       options: ticketStatusOptions,
     },
     component: RHFAutocomplete,
-    md: 12,
   },
   {
     componentProps: {
@@ -150,7 +145,6 @@ export const upsertTicketFormFieldsDynamic = (
       options: ticketPriorityOptions,
     },
     component: RHFAutocomplete,
-    md: 12,
   },
   {
     componentProps: {
@@ -161,7 +155,6 @@ export const upsertTicketFormFieldsDynamic = (
       placeholder: 'Choose Department',
     },
     component: RHFAutocompleteAsync,
-    md: 12,
   },
   {
     componentProps: {
@@ -172,7 +165,6 @@ export const upsertTicketFormFieldsDynamic = (
       options: ticketSourceOptions,
     },
     component: RHFAutocomplete,
-    md: 12,
   },
   {
     componentProps: {
@@ -183,7 +175,6 @@ export const upsertTicketFormFieldsDynamic = (
       options: ticketImpactOptions,
     },
     component: RHFAutocomplete,
-    md: 12,
   },
   {
     componentProps: {
@@ -194,7 +185,6 @@ export const upsertTicketFormFieldsDynamic = (
       placeholder: 'Choose Agent',
     },
     component: RHFAutocompleteAsync,
-    md: 12,
   },
   {
     componentProps: {
@@ -241,7 +231,6 @@ export const upsertTicketFormFieldsDynamic = (
       placeholder: 'Eg: 1h 10m',
     },
     component: RHFTextField,
-    md: 12,
   },
   {
     componentProps: {
@@ -253,7 +242,6 @@ export const upsertTicketFormFieldsDynamic = (
       placeholder: 'Choose Assets',
     },
     component: RHFAutocompleteAsync,
-    md: 12,
   },
   {
     componentProps: {
@@ -261,6 +249,5 @@ export const upsertTicketFormFieldsDynamic = (
       fullWidth: true,
     },
     component: RHFDropZone,
-    md: 12,
   },
 ];

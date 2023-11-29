@@ -297,7 +297,7 @@ export const ticketsListsColumnFunction: any = (
       accessorFn: (row: any) => row?.createdAt,
       id: 'createdAt',
       isSortable: true,
-      header: 'created Date',
+      header: 'Created Date',
       cell: (info: any) => dayjs(info?.getValue())?.format('MM/DD/YYYY'),
     },
     {
@@ -311,7 +311,7 @@ export const ticketsListsColumnFunction: any = (
       accessorFn: (row: any) => row?.impact,
       id: 'impact',
       isSortable: true,
-      header: 'impact',
+      header: 'Impact',
       cell: (info: any) => info?.getValue(),
     },
     {

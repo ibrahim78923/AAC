@@ -12,6 +12,7 @@ export default function TicketInfoBoardHeader({ title, total }: any) {
         `${ticketInfoBoardHeaderColor(title)}`
       ]?.['main']}`}
       pb={0.5}
+      px={2}
     >
       <Typography
         variant="h6"
@@ -31,7 +32,7 @@ export default function TicketInfoBoardHeader({ title, total }: any) {
         ml={1}
         borderRadius={1}
       >
-        {total}
+        0{total}
       </Typography>
     </Box>
   );

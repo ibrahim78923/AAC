@@ -32,7 +32,7 @@ export const TicketsListSubHeader = (props: any) => {
         flexWrap={'wrap'}
       >
         <Search
-          label="search"
+          label="Search Here"
           width="100%"
           searchBy={search}
           setSearchBy={setSearch}

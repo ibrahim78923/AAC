@@ -182,6 +182,7 @@ export const useTicketsLists: any = () => {
       <UpsertTicket
         setIsDrawerOpen={setHasTicketAction}
         isDrawerOpen={hasTicketAction}
+        setSelectedTicketList={setSelectedTicketList}
       />
     ),
     [TICKETS_ACTION_CONSTANTS?.EDIT_TICKET]: (
@@ -189,6 +190,7 @@ export const useTicketsLists: any = () => {
         setIsDrawerOpen={setHasTicketAction}
         isDrawerOpen={hasTicketAction}
         ticketId={selectedTicketList?.[0]}
+        setSelectedTicketList={setSelectedTicketList}
       />
     ),
     [TICKETS_ACTION_CONSTANTS?.BULK_UPDATE_DATA]: (
@@ -268,5 +270,6 @@ export const useTicketsLists: any = () => {
     setPageLimit,
     setTicketsListsActiveColumn,
     getValueTicketsListData,
+    setSelectedTicketList,
   };
 };
