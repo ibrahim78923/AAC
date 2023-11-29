@@ -87,4 +87,5 @@ export const settingContactStatus = {
 export const ORG_ADMIN = {
   SUBSCRIPTION_AND_INVOICES: '/org-admin/subscriptions',
   GET_INVOICES: '/org-admin/invoices',
+  PRODUCT_PLAN_LIST: '/plan/product-plan-list',
 };

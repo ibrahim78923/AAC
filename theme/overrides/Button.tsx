@@ -59,14 +59,15 @@ const Button = (theme: any) => {
         },
         // outlined
         outlinedInherit: {
-          border: `1px solid ${theme.palette.grey[500_32]}`,
+          border: `1px solid ${theme?.palette?.custom?.dark}`,
+          color: theme?.palette?.custom?.main,
           '&:hover': {
-            backgroundColor: theme.palette.action.hover,
+            backgroundColor: theme?.palette?.action?.hover,
           },
         },
         textInherit: {
           '&:hover': {
-            backgroundColor: theme.palette.action.hover,
+            backgroundColor: theme?.palette?.action?.hover,
           },
         },
       },

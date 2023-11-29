@@ -44,9 +44,12 @@ export const dataArray = [
       name: 'accessDashboard',
       fullWidth: true,
       options: [
-        'Private to owner(me)',
-        'Everyone',
-        'Only special user and teams',
+        { label: 'Private to owner(me)', value: 'Privatetoowner(me)' },
+        { label: 'Everyone', value: 'Everyone' },
+        {
+          label: 'Only special user and teams',
+          value: 'Onlyspecialuserandteams',
+        },
       ],
       row: false,
     },
@@ -125,4 +128,8 @@ export const userAndTeams = [
   { label: 'The Dark Knight', year: 2008 },
   { label: '12 Angry Men', year: 1957 },
   { label: "Schindler's List", year: 1993 },
+];
+export const viewAndEditOptions = [
+  { value: 'Viewandedit', label: 'View and edit' },
+  { value: 'ViewOnly', label: 'View Only' },
 ];
