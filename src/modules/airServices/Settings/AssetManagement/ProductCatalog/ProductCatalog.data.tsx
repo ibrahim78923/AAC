@@ -55,6 +55,7 @@ export const productListsColumnDynamic: any = (router?: any) => {
             });
           }}
           sx={{ cursor: 'pointer' }}
+          color="custom.bright"
         >
           {info?.getValue()}
         </Box>
