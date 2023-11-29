@@ -1,11 +1,4 @@
-import {
-  Box,
-  Checkbox,
-  FormControlLabel,
-  FormGroup,
-  Grid,
-  Typography,
-} from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 import MuiAccordion, { AccordionProps } from '@mui/material/Accordion';
 import MuiAccordionSummary, {
   AccordionSummaryProps,
@@ -15,9 +8,9 @@ import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
 import { styled } from '@mui/material/styles';
 
 import { useDealsAccordion } from './useDealsAccordion';
-import CheckboxLabel from '../CheckboxLabel';
 
-import { v4 as uuidv4 } from 'uuid';
+import { RHFMultiCheckbox } from '@/components/ReactHookForm';
+import { ListAccordionDealsDetailsData } from './DealsAccordion.data';
 
 const DealsAccordion = () => {
   const { ListAccordionDealsData } = useDealsAccordion();
@@ -30,20 +23,11 @@ const DealsAccordion = () => {
         </AccordionSummary>
         <AccordionDetails>
           <Grid container>
-            {ListAccordionDealsData?.map((item: any) => (
-              <Grid item xs={3} key={uuidv4()}>
-                <Box sx={{ width: 'max-content' }}>
-                  <FormGroup>
-                    <FormControlLabel
-                      control={<Checkbox defaultChecked={item?.checked} />}
-                      label={
-                        <CheckboxLabel name={item?.name} desc={item?.desc} />
-                      }
-                    />
-                  </FormGroup>
-                </Box>
-              </Grid>
-            ))}
+            <RHFMultiCheckbox
+              name="dealsAcordList"
+              options={ListAccordionDealsData}
+              GridView={3}
+            />
           </Grid>
         </AccordionDetails>
       </Accordion>
@@ -53,20 +37,11 @@ const DealsAccordion = () => {
         </AccordionSummary>
         <AccordionDetails>
           <Grid container>
-            {ListAccordionDealsData?.map((item: any) => (
-              <Grid item xs={3} key={uuidv4()}>
-                <Box sx={{ width: 'max-content' }}>
-                  <FormGroup>
-                    <FormControlLabel
-                      control={<Checkbox defaultChecked={item?.checked} />}
-                      label={
-                        <CheckboxLabel name={item?.name} desc={item?.desc} />
-                      }
-                    />
-                  </FormGroup>
-                </Box>
-              </Grid>
-            ))}
+            <RHFMultiCheckbox
+              name="dealsAcordDetails"
+              options={ListAccordionDealsDetailsData}
+              GridView={3}
+            />
           </Grid>
         </AccordionDetails>
       </Accordion>

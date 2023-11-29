@@ -28,6 +28,7 @@ const CommonDrawer = ({
   footerActionTextIcon,
   onFooterActionSubmit,
   isCancel,
+  cancelBtnHandler,
   isFooterFeature,
   isFooterFeatureText,
   isFooterFeatureHandler,
@@ -36,7 +37,7 @@ const CommonDrawer = ({
 }: CommonDrawerPropsI) => {
   const theme = useTheme();
 
-  const cancelHandler = isCancel === false ? false : true;
+  const cancelHandlerCheck: boolean = isCancel === false ? false : true;
   const handlerIsFooterFeature = isFooterFeature === true ? true : false;
 
   return (
@@ -124,17 +125,17 @@ const CommonDrawer = ({
                   </Box>
                 )}
                 <Box sx={{ display: 'flex', gap: '10px' }}>
-                  {cancelHandler && (
+                  {cancelHandlerCheck && (
                     <Button
                       sx={{
-                        color: theme.palette?.grey[500],
+                        color: theme?.palette?.grey[500],
                         border: '1px solid #E5E7EB',
                         padding: '0px 22px',
                         height: '44px',
                         fontWeight: '500',
-                        '&:hover': { bgcolor: theme.palette.grey[400] },
+                        '&:hover': { bgcolor: theme?.palette?.grey[400] },
                       }}
-                      onClick={onClose}
+                      onClick={cancelBtnHandler ? cancelBtnHandler : onClose}
                     >
                       {cancelText ? cancelText : 'Cancel'}
                     </Button>

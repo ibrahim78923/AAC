@@ -5,7 +5,7 @@ import {
   RHFTextField,
 } from '@/components/ReactHookForm';
 import StatusBadge from '@/components/StatusBadge';
-import { Checkbox } from '@mui/material';
+import { Box, Checkbox } from '@mui/material';
 import dayjs from 'dayjs';
 import * as Yup from 'yup';
 import useJobPosting from './useJobPosting';
@@ -321,7 +321,7 @@ export const columns = (
       accessorFn: (row: any) => row?.numberOfVacancy,
       id: 'numberOfVacancy',
       isSortable: true,
-      header: 'No of Vacency',
+      header: <Box sx={{ textTransform: 'none' }}>No. of Vacency</Box>,
       cell: (info: any) => info?.getValue(),
     },
     {

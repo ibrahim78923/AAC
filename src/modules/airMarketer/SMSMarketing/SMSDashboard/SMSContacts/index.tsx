@@ -16,12 +16,44 @@ const SMSContacts = () => {
         SMS Contacts
       </Typography>
       <Stack direction="row" justifyContent="space-between">
-        <Typography>Total Contacts: 786</Typography>
-        <Typography>New Contacts: 94</Typography>
+        <Box display="flex">
+          <Typography
+            variant="h5"
+            fontWeight="500"
+            sx={{ color: theme?.palette?.primary?.main }}
+          >
+            Total Contacts:
+          </Typography>
+          <Typography variant="h5" fontWeight="500">
+            {' '}
+            786
+          </Typography>
+        </Box>
+
+        <Box display="flex">
+          <Typography
+            variant="h5"
+            fontWeight="500"
+            sx={{ color: theme?.palette?.primary?.main }}
+          >
+            New Contacts:
+          </Typography>
+          <Typography variant="h5" fontWeight="500">
+            {' '}
+            94
+          </Typography>
+        </Box>
       </Stack>
       <Stack direction="row" justifyContent="space-between">
-        <Typography variant="body2">Latest Added</Typography>
-        <Button size="small">View All</Button>
+        <Typography
+          variant="subtitle2"
+          sx={{ color: theme?.palette?.secondary?.main }}
+        >
+          Latest Added
+        </Typography>
+        <Button variant="text" size="small">
+          View All
+        </Button>
       </Stack>
 
       <Box className="cardWrapper">
@@ -35,9 +67,20 @@ const SMSContacts = () => {
           >
             <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
               {item?.avatar}
-              <Typography>{item?.name}</Typography>
+              <Typography
+                variant="body2"
+                fontWeight="500"
+                sx={{ color: theme?.palette?.grey[600] }}
+              >
+                {item?.name}
+              </Typography>
             </Box>
-            <Typography>{item?.phone}</Typography>
+            <Typography
+              variant="body2"
+              sx={{ color: theme?.palette?.grey[600] }}
+            >
+              {item?.phone}
+            </Typography>
           </Stack>
         ))}
       </Box>

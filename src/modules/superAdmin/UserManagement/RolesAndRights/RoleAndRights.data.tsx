@@ -83,7 +83,7 @@ export const columns: any = [
     accessorFn: (row: any) => row?.CreatedOn,
     id: 'createdOn',
     isSortable: true,
-    header: 'CreatedOn',
+    header: 'Created On',
     cell: (info: any) => info?.getValue(),
   },
 ];

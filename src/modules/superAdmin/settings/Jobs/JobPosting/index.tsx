@@ -94,10 +94,11 @@ const JobPosting = () => {
             aria-expanded={actionMenuOpen ? 'true' : undefined}
             onClick={handleActionsClick}
             sx={{
-              color: theme.palette.grey[500],
-              height: '40px',
+              color: theme?.palette?.grey[500],
+              width: '112px',
               border: '1.5px solid #e7e7e9',
             }}
+            className="small"
             disabled={isActionsDisabled}
           >
             Actions &nbsp; <DownIcon />
@@ -110,21 +111,43 @@ const JobPosting = () => {
             MenuListProps={{
               'aria-labelledby': 'basic-button',
             }}
+            PaperProps={{
+              style: {
+                width: '112px',
+              },
+            }}
           >
-            <MenuItem disabled={!rowId} onClick={handleOpenEditJobPost}>
+            <MenuItem
+              style={{ fontSize: '14px' }}
+              disabled={!rowId}
+              onClick={handleOpenEditJobPost}
+            >
               Edit
             </MenuItem>
-            <MenuItem disabled={!rowId} onClick={handleOpenEditJobPost}>
+            <MenuItem
+              style={{ fontSize: '14px' }}
+              disabled={!rowId}
+              onClick={handleOpenEditJobPost}
+            >
               View
             </MenuItem>
-            <MenuItem onClick={handleOpenModalDeleteJobPost}>Delete</MenuItem>
+            <MenuItem
+              style={{ fontSize: '14px' }}
+              onClick={handleOpenModalDeleteJobPost}
+            >
+              Delete
+            </MenuItem>
           </Menu>
-
-          <Button sx={styles.refreshButton(theme)} onClick={handleRefresh}>
+          <Button
+            sx={styles?.refreshButton(theme)}
+            className="small"
+            onClick={handleRefresh}
+          >
             <RefreshSharedIcon />
           </Button>
           <Button
-            sx={styles.filterButton(theme)}
+            className="small"
+            sx={styles?.filterButton(theme)}
             onClick={handleOpenJobPostingFilters}
           >
             <FilterSharedIcon /> &nbsp; Filter

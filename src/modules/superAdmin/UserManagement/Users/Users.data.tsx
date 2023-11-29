@@ -44,7 +44,7 @@ export const columns: any = (columnsProps: any) => {
     {
       accessorFn: (row: any) => row?._id,
       id: 'userId',
-      header: 'UserID',
+      header: 'User ID',
       isSortable: false,
       cell: (info: any) => info.getValue() ?? 'N/A',
     },
@@ -71,7 +71,7 @@ export const columns: any = (columnsProps: any) => {
       accessorFn: (row: any) => row?.role,
       id: 'userType',
       isSortable: true,
-      header: 'UserType',
+      header: 'User Type',
       cell: (info: any) => (
         <Typography>
           {info?.row?.original?.role?.toLowerCase()?.replace('_', ' ')}
@@ -82,8 +82,8 @@ export const columns: any = (columnsProps: any) => {
       accessorFn: (row: any) => row?.OrganizationName,
       id: 'organizationName',
       isSortable: true,
-      header: 'OrganizationName',
-      cell: (info: any) => info?.row?.original?.organization?.name ?? 'N/A',
+      header: 'Organization Name',
+      cell: (info: any) => info?.getValue() ?? 'N/A',
     },
     {
       accessorFn: (row: any) => row?.Products,
@@ -128,7 +128,7 @@ export const columns: any = (columnsProps: any) => {
       accessorFn: (row: any) => row?.createdAt,
       id: 'createdOn',
       isSortable: true,
-      header: 'CreatedOn',
+      header: 'Created On',
       cell: (info: any) =>
         dayjs(info?.row?.original?.createdAt).format(DATE_FORMAT?.UI) ?? 'N/A',
     },
@@ -162,7 +162,7 @@ export const superAdminColumns: any = (columnsProps: any) => {
     {
       accessorFn: (row: any) => row?._id,
       id: 'userId',
-      header: 'UserID',
+      header: 'User ID',
       isSortable: false,
       cell: (info: any) => info.getValue() ?? 'N/A',
     },
@@ -189,11 +189,33 @@ export const superAdminColumns: any = (columnsProps: any) => {
       accessorFn: (row: any) => row?.role,
       id: 'userType',
       isSortable: true,
-      header: 'UserType',
+      header: 'User Type',
       cell: (info: any) => (
         <Typography>
           {info?.row?.original?.role?.toLowerCase()?.replace('_', ' ')}
         </Typography>
+      ),
+    },
+    {
+      accessorFn: (row: any) => row?.OrganizationName,
+      id: 'organizationName',
+      isSortable: true,
+      header: 'Organization Name',
+      cell: (info: any) => info?.getValue() ?? 'N/A',
+    },
+    {
+      accessorFn: (row: any) => row?.Products,
+      id: 'products',
+      isSortable: true,
+      header: 'Products',
+      cell: (
+        <AvatarGroup max={4} sx={{ display: 'flex', justifyContent: 'start' }}>
+          <Avatar alt="Remy Sharp" src={AvatarImage?.src} />
+          <Avatar alt="Travis Howard" src={AvatarImage?.src} />
+          <Avatar alt="Cindy Baker" src={AvatarImage?.src} />
+          <Avatar alt="Agnes Walker" src={AvatarImage?.src} />
+          <Avatar alt="Trevor Henderson" src={AvatarImage?.src} />
+        </AvatarGroup>
       ),
     },
     {
@@ -216,7 +238,7 @@ export const superAdminColumns: any = (columnsProps: any) => {
       accessorFn: (row: any) => row?.createdOn,
       id: 'createdOn',
       isSortable: true,
-      header: 'CreatedOn',
+      header: 'Created On',
       cell: (info: any) =>
         dayjs(info?.row?.original?.createdAt).format(DATE_FORMAT?.UI),
     },

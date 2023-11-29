@@ -253,7 +253,6 @@ const UsersDetailsList = () => {
                       label: 'Search Here',
                       setSearchBy: setSearch,
                       searchBy: search,
-                      width: '260px',
                     }}
                     isHeader={tabVal === 0 ? true : false}
                     tabsArray={['Company Accounts', 'Profile', 'Delegates']}

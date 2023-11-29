@@ -80,7 +80,7 @@ const SearchableSelect: React.FC<SearchableSelectPropsI> = ({
           <Typography
             variant="body2"
             mt={1}
-            style={{ color: theme?.palette.grey[600] }}
+            style={{ color: theme?.palette?.grey[600] }}
           >
             {label}
           </Typography>

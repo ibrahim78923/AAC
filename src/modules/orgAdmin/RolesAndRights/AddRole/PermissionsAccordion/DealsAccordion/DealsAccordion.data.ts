@@ -1,34 +1,68 @@
 export const ListAccordionDealsData = [
   {
-    id: '01',
-    name: 'Column Customization',
+    value: '01',
+    label: 'Column Customization',
   },
   {
-    id: '02',
-    name: 'Create Deal',
+    value: '02',
+    label: 'Create Deal',
   },
   {
-    id: '03',
-    name: 'Restore',
+    value: '03',
+    label: 'Restore',
   },
   {
-    id: '04',
-    name: 'Export Details',
+    value: '04',
+    label: 'Export Details',
   },
   {
-    id: '05',
-    name: 'Import',
+    value: '05',
+    label: 'Import',
   },
   {
-    id: '06',
-    name: 'Add View',
+    value: '06',
+    label: 'Add View',
   },
   {
-    id: '07',
-    name: 'Delete',
+    value: '07',
+    label: 'Delete',
   },
   {
-    id: '08',
-    name: 'Re-assign/ change owner',
+    value: '08',
+    label: 'Re-assign/ change owner',
+  },
+];
+export const ListAccordionDealsDetailsData = [
+  {
+    value: '01',
+    label: 'Update Info',
+  },
+  {
+    value: '02',
+    label: 'View Activity log',
+  },
+  {
+    value: '03',
+    label: 'Add/Associate Contacts',
+  },
+  {
+    value: '04',
+    label: 'Edit/Update Contacts ',
+  },
+  {
+    value: '05',
+    label: 'Remove Contacts ',
+  },
+  {
+    value: '06',
+    label: 'Add/Associate Tickets',
+  },
+  {
+    value: '07',
+    label: 'Edit/Update Tickets ',
+  },
+  {
+    value: '08',
+    label: 'Remove Tickets',
   },
 ];

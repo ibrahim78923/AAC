@@ -1,27 +1,38 @@
-import { Box, Button, Card, Menu, MenuItem, Typography } from '@mui/material';
+import { Box, Button, Card, Typography } from '@mui/material';
 
 import Search from '@/components/Search';
 import CustomPagination from '@/components/CustomPagination';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { ORG_ADMIN } from '@/constants';
 
-import { columns, data } from './RoleAndRights.data';
+import { columns } from './RoleAndRights.data';
 import useRolesAndRights from './useRolesAndRights';
 import RoleFilters from './RoleFilters';
 
-import { ArrowDropDown } from '@mui/icons-material';
 import { FilterSharedIcon, PlusIcon } from '@/assets/icons';
+import ActionButton from '@/modules/superAdmin/UserManagement/ActionButton';
 
 const RolesAndRights = () => {
   const {
     navigate,
     theme,
-    selectedValue,
     isOpenFilterDrawer,
     setIsOpenFilterDrawer,
-    handleClose,
-    handleClick,
+    getPermissions,
+    checkedRows,
+    setCheckedRows,
+    filterValues,
+    setFilterValues,
+    setPageLimit,
+    setPage,
   } = useRolesAndRights();
+
+  const columnsProps = {
+    // handleUserSwitchChange: handleUserSwitchChange,
+    checkedRows: checkedRows,
+    setCheckedRows: setCheckedRows,
+  };
+  const columnParams = columns(columnsProps);
 
   return (
     <Card sx={{ pt: '24px' }}>
@@ -46,9 +57,15 @@ const RolesAndRights = () => {
         alignItems="center"
         sx={{ padding: '0px 24px', display: { md: 'flex' }, my: 2 }}
       >
-        <Search placeholder="Search Here" size="small" />
+        <Search
+          placeholder="Search Here"
+          size="small"
+          onChange={(e: any) => {
+            setFilterValues({ ...filterValues, search: e?.target?.value });
+          }}
+        />
         <Box sx={{ display: 'flex', gap: '10px' }}>
-          <Box>
+          {/* <Box>
             <Button
               onClick={handleClick}
               sx={{
@@ -84,7 +101,8 @@ const RolesAndRights = () => {
                 View
               </MenuItem>
             </Menu>
-          </Box>
+          </Box> */}
+          <ActionButton checkedRows={checkedRows} />
           <Button
             onClick={() => {
               setIsOpenFilterDrawer(true);
@@ -101,11 +119,22 @@ const RolesAndRights = () => {
           </Button>
         </Box>
       </Box>
-      <TanstackTable columns={columns} data={data} />
+
+      <TanstackTable
+        columns={columnParams}
+        data={getPermissions?.data?.companyaccountroles}
+        totalRecords={getPermissions?.data?.meta?.total}
+        onPageChange={(page: any) => setPage(page)}
+        setPage={setPage}
+        setPageLimit={setPageLimit}
+        count={getPermissions?.data?.meta?.pages}
+      />
       <CustomPagination count={1} rowsPerPageOptions={[1, 2]} entriePages={1} />
 
       {isOpenFilterDrawer && (
         <RoleFilters
+          filterVal={filterValues}
+          setFilterVal={setFilterValues}
           isOpen={isOpenFilterDrawer}
           setIsOpen={() => {
             setIsOpenFilterDrawer(false);
