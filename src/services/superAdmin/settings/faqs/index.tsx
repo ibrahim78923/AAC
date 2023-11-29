@@ -5,7 +5,7 @@ const TAG = ['SETTINGS_FAQS'];
 export const settingsFaqsAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getFaqs: builder.query({
-      query: (params) => ({
+      query: ({ params }) => ({
         url: SUPER_ADMIN_SETTINGS.FAQS,
         method: 'GET',
         params: params,
