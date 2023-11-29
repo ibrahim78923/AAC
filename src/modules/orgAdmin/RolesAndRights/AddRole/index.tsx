@@ -17,7 +17,8 @@ import { ArrowBack } from '@mui/icons-material';
 const AddRole = () => {
   const { navigate, onSubmit, methods, theme } = useAddRole();
 
-  const { handleSubmit } = methods;
+  const { handleSubmit, watch } = methods;
+  const productVal = watch('productId');
 
   return (
     <>
@@ -33,7 +34,7 @@ const AddRole = () => {
       <Box sx={{ my: 3 }}>
         <FormProvider methods={methods}>
           <Grid container spacing={2}>
-            {addUsersArrayData?.map((item: any) => (
+            {addUsersArrayData()?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={uuidv4()}>
                 <Typography variant="body2" fontWeight={500}>
                   {item?.title}
@@ -58,9 +59,11 @@ const AddRole = () => {
                 </Typography>
               </Stack>
             </Grid>
-            <Grid item xs={12} lg={10} mt={2}>
-              <PermissionsAccordion />
-            </Grid>
+            {productVal && (
+              <Grid item xs={12} lg={10} mt={2}>
+                <PermissionsAccordion />
+              </Grid>
+            )}
           </Grid>
           <Divider sx={{ my: 3 }} />
           <Box

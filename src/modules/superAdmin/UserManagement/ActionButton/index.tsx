@@ -15,6 +15,7 @@ const ActionButton = (props?: any) => {
     useGetUsersByIdQuery,
   } = useUserManagement();
   const { data } = useGetUsersByIdQuery(checkedRows);
+
   return (
     <Box>
       <Button

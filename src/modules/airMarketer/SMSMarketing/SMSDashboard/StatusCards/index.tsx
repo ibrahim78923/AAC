@@ -27,8 +27,16 @@ const StatusCards = () => {
               >
                 {item?.icon}
                 <Box>
-                  <Typography variant="h3">{item?.count}</Typography>
-                  <Typography variant="body1">{item?.title}</Typography>
+                  <Typography variant="h3" fontWeight="700">
+                    {item?.count}
+                  </Typography>
+                  <Typography
+                    variant="body1"
+                    fontWeight="500"
+                    color={theme?.palette?.custom?.dim_grey}
+                  >
+                    {item?.title}
+                  </Typography>
                 </Box>
               </Box>
               {item?.divider && (

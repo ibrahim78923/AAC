@@ -1,11 +1,4 @@
-import {
-  Box,
-  Checkbox,
-  FormControlLabel,
-  FormGroup,
-  Grid,
-  Typography,
-} from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 import MuiAccordion, { AccordionProps } from '@mui/material/Accordion';
 import MuiAccordionSummary, {
   AccordionSummaryProps,
@@ -15,9 +8,8 @@ import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
 import { styled } from '@mui/material/styles';
 
 import { useListAccordion } from './useDashboardAccordion';
-import CheckboxLabel from '../CheckboxLabel';
 
-import { v4 as uuidv4 } from 'uuid';
+import { RHFMultiCheckbox } from '@/components/ReactHookForm';
 
 const DashboardAccordion = () => {
   const { ListAccordionDashboardData } = useListAccordion();
@@ -30,20 +22,11 @@ const DashboardAccordion = () => {
         </AccordionSummary>
         <AccordionDetails>
           <Grid container>
-            {ListAccordionDashboardData?.map((item: any) => (
-              <Grid item xs={3} key={uuidv4()}>
-                <Box sx={{ width: 'max-content' }}>
-                  <FormGroup>
-                    <FormControlLabel
-                      control={<Checkbox defaultChecked={item?.checked} />}
-                      label={
-                        <CheckboxLabel name={item?.name} desc={item?.desc} />
-                      }
-                    />
-                  </FormGroup>
-                </Box>
-              </Grid>
-            ))}
+            <RHFMultiCheckbox
+              name="dashboardAcord"
+              options={ListAccordionDashboardData}
+              GridView={3}
+            />
           </Grid>
         </AccordionDetails>
       </Accordion>

@@ -34,6 +34,7 @@ export const END_POINTS = {
   CONTACTS: '/contact',
   LIFECYCLE_STAGES: '/lifecycle-stages',
   CONTACT_STATUS: '/contact-status',
+  GET_PERMISSIONS_ROLES: '/permissions/role',
   TASK_MANAGEMENT: '/task/management',
   DEALS_ASSOCIATION: '/deals/get-associations',
   ENQUIRIES: '/enquiries/',

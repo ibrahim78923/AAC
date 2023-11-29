@@ -20,8 +20,8 @@ const useAddRole = () => {
     defaultValues: addUserDefault,
   });
 
-  const onSubmit = async (data: any) => {
-    alert(data);
+  const onSubmit = async () => {
+    // console.log('values', data)
   };
 
   const handleSwitch = () => {
