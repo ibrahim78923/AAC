@@ -12,7 +12,7 @@ import { AlertModals } from '@/components/AlertModals';
 
 import useLifeCycleStage from './useLifeCycleStage';
 
-import { LifeCycleStageTableData, dataArray } from './LifeCycleStage.data';
+import { dataArray } from './LifeCycleStage.data';
 
 import { styles } from './LifeCycleStage.style';
 
@@ -34,6 +34,8 @@ const LifeCycleStage = () => {
     handleCloseAlert,
     isModalHeading,
     setIsModalHeading,
+    tableRow,
+    deleteStageLifeCycle,
   } = useLifeCycleStage();
 
   return (
@@ -42,7 +44,7 @@ const LifeCycleStage = () => {
         isDrawerOpen={isDraweropen}
         onClose={handleCloseDrawer}
         title={`${isModalHeading} Lifecycle Stage`}
-        okText={'Add'}
+        okText={isModalHeading === 'Edit' ? 'Update' : 'Add'}
         footer={isModalHeading === 'View' ? false : true}
         isOk={true}
         submitHandler={handleSubmit(onSubmit)}
@@ -111,10 +113,7 @@ const LifeCycleStage = () => {
           />
         </Box>
         <Grid>
-          <TanstackTable
-            columns={getRowValues}
-            data={LifeCycleStageTableData}
-          />
+          <TanstackTable columns={getRowValues} data={tableRow} />
           <CustomPagination
             count={1}
             rowsPerPageOptions={[1, 2]}
@@ -127,7 +126,7 @@ const LifeCycleStage = () => {
           type={'delete'}
           open={isOpenAlert}
           handleClose={handleCloseAlert}
-          handleSubmit={() => {}}
+          handleSubmitBtn={() => deleteStageLifeCycle()}
         />
       </Box>
     </>

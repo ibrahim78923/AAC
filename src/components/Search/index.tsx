@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { TextFieldProps } from '@mui/material';
+import { InputAdornment, TextField, TextFieldProps } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
 import { debouncedSearch } from '@/utils';
@@ -19,41 +19,46 @@ const Search = ({ label, width, setSearchBy, ...rest }: CombinedProps) => {
   };
 
   return (
-    <div style={{ position: 'relative' }}>
-      <div
-        style={{
-          position: 'absolute',
-          top: '54%',
-          right: '10px',
-          transform: 'translateY(-50%)',
-        }}
-      >
-        <SearchSharedIcon />
-      </div>
-      <input
-        type="text"
-        onChange={handleChangeSearch}
-        style={{
-          padding: '14px 10px',
-
-          borderRadius: '8px',
-          width: width,
-          border: `1px solid ${theme?.palette?.grey[700]}`,
-          ':hover': {
+    <TextField
+      onChange={handleChangeSearch}
+      sx={{
+        background: 'transparent',
+        '& .MuiOutlinedInput-root ': {
+          '& fieldset': {
+            textAlign: 'right',
+            borderColor: theme?.palette?.grey[700],
+            width: width,
+            borderRadius: '8px',
+            '@media (max-width: 600px)': {
+              width: '100%',
+            },
+          },
+          '&:hover fieldset': {
             borderColor: theme?.palette?.custom?.light_green,
             boxShadow: `0px 0px 0px 3px ${theme?.palette?.custom?.aqua_breeze}`,
           },
-          ':focus': {
-            borderColor: theme?.palette?.grey[700],
-          },
-          '&::placeholder': {
+          '& .MuiInputBase-input': {
             color: theme?.palette?.common?.black,
           },
-        }}
-        placeholder={label}
-        {...rest}
-      />
-    </div>
+          '&.Mui-focused fieldset': {
+            borderColor: theme?.palette?.grey[700],
+          },
+        },
+      }}
+      id="outlined-basic"
+      placeholder={label}
+      variant="outlined"
+      autoComplete="off"
+      {...rest}
+      InputProps={{
+        endAdornment: (
+          <InputAdornment position="end">
+            <SearchSharedIcon />
+          </InputAdornment>
+        ),
+      }}
+      {...rest}
+    />
   );
 };
 

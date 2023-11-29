@@ -4,10 +4,10 @@ import { Tasks } from '../Tasks';
 import { Meetings } from '../Meetings';
 import { Approvals } from '../Approvals';
 import RelatedTickets from '../RelatedTickets';
-import Conversations from '../Conversations';
 import { AssociateAssets } from '../AssociateAssets';
 import { Details } from '../Details';
 import { Activities } from '../Activities';
+import { Conversations } from '../Conversations';
 
 export const SingleTicketDetailTabs = () => {
   return (

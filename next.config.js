@@ -7,8 +7,14 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
-    domains: ['http://airapplecart-public.s3.eu-west-2.amazonaws.com'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'airapplecart-public.s3.eu-west-2.amazonaws.com',
+      },
+    ],
   },
+
   eslint: {
     ignoreDuringBuilds: true,
   },

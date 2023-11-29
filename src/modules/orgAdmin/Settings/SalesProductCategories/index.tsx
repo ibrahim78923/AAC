@@ -12,10 +12,7 @@ import Search from '@/components/Search';
 
 import useSalesProduct from './useSalesProductCategories';
 
-import {
-  ProductCategoryTableData,
-  dataArray,
-} from './SalesProductCategories.data';
+import { dataArray } from './SalesProductCategories.data';
 
 import { styles } from './SalesProductCategories.style';
 
@@ -38,8 +35,9 @@ const SalesProductCategories = () => {
     ProductCategory,
     handleSubmit,
     onSubmit,
-    isChecked,
+    isGetRowValues,
     getRowValues,
+    tableRow,
   } = useSalesProduct();
   return (
     <>
@@ -47,7 +45,7 @@ const SalesProductCategories = () => {
         isDrawerOpen={isDraweropen}
         onClose={handleCloseDrawer}
         title={isEditMode ? 'Edit Category' : 'Product Category'}
-        okText={'Add'}
+        okText={isEditMode ? 'Update' : 'Add'}
         footer={true}
         isOk={true}
         submitHandler={handleSubmit(onSubmit)}
@@ -122,7 +120,7 @@ const SalesProductCategories = () => {
             aria-expanded={open ? 'true' : undefined}
             onClick={handleClick}
             sx={styles?.actionBtn(theme)}
-            disabled={!isChecked}
+            disabled={isGetRowValues?.length === 0}
           >
             Actions <ArrowDropDownIcon />
           </Button>
@@ -143,10 +141,7 @@ const SalesProductCategories = () => {
           </Menu>
         </Box>
         <Grid>
-          <TanstackTable
-            columns={getRowValues}
-            data={ProductCategoryTableData}
-          />
+          <TanstackTable columns={getRowValues} data={tableRow} />
           <CustomPagination
             count={1}
             rowsPerPageOptions={[1, 2]}
