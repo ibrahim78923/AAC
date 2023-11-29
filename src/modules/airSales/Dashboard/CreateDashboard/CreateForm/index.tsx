@@ -29,6 +29,7 @@ import DetailsView from '../DetailsView';
 import { PrimaryPreviewEyeIcon } from '@/assets/icons';
 import DialogCards from '../../Preview/DialogCards';
 import useCreateForm from './useCreateForm';
+import { viewAndEditOptions } from '@/modules/airMarketer/Dashboard/CreateDashboard/CreateForm/CreateForm.data';
 
 const CreateForm = ({
   setIsShowCreateDashboardForm,
@@ -110,7 +111,7 @@ const CreateForm = ({
                       )}
                       {watchFields[0] === 'Everyone' && (
                         <RHFRadioGroup
-                          options={['View and edit', 'View Only']}
+                          options={viewAndEditOptions}
                           name="viewAndEdit"
                           label=""
                           row={false}

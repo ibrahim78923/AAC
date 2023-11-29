@@ -31,7 +31,7 @@ const StatisticsCard = () => {
             options={options}
             series={series}
             type="bar"
-            height={450}
+            height={460}
           />
         </Box>
       </Box>

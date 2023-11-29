@@ -34,6 +34,8 @@ const UserManagement = () => {
     handleAddRole,
     checkedRows,
     setCheckedRows,
+    searchVal,
+    // setSearchVal,
   } = useUserManagement();
 
   return (
@@ -119,11 +121,13 @@ const UserManagement = () => {
               checkedRows={checkedRows}
               setCheckedRows={setCheckedRows}
               filterValues={filterValues}
+              searchVal={searchVal}
             />
             <SuperAdminUsers
               checkedRows={checkedRows}
               setCheckedRows={setCheckedRows}
-              search={filterValues?.search}
+              filterValues={filterValues}
+              searchVal={searchVal}
             />
             <RolesAndRights />
           </CommonTabs>

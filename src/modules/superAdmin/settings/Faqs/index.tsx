@@ -12,7 +12,6 @@ import {
 import Search from '@/components/Search';
 import CommonDrawer from '@/components/CommonDrawer';
 import TanstackTable from '@/components/Table/TanstackTable';
-import CustomPagination from '@/components/CustomPagination';
 import { AlertModals } from '@/components/AlertModals';
 import AddFaq from './AddFaq';
 
@@ -35,19 +34,12 @@ const Faqs = () => {
     actionMenuOpen,
     handleActionsMenuClick,
     handleActionsMenuClose,
-    isDisabled,
-    setIsDisabled,
-    tableRowValues,
-    setTableRowValues,
-    setRowId,
-    rowId,
     openFilters,
     handleOpenFilters,
     handleCloseFilters,
     loagingGetFaqs,
     dataGetFaqs,
-    handleSearch,
-    searchValue,
+    setSearchValue,
     methodsFilter,
     handleFiltersSubmit,
     handleRefresh,
@@ -68,12 +60,21 @@ const Faqs = () => {
     handleSubmitUpdateFaq,
     loadingUpdateFaq,
     methodsEditFaq,
+    setPageLimit,
+    setPage,
+    handlePageChange,
+    selectedRow,
+    setSelectedRow,
+    setIsActionsDisabled,
+    isActionsDisabled,
+    setRowId,
+    rowId,
   } = useFaqs();
   const theme = useTheme();
   const getFaqsTableColumns = columns(
-    setIsDisabled,
-    tableRowValues,
-    setTableRowValues,
+    selectedRow,
+    setSelectedRow,
+    setIsActionsDisabled,
     setRowId,
   );
 
@@ -119,10 +120,10 @@ const Faqs = () => {
           }}
         >
           <Search
-            label={'Search here'}
-            value={searchValue}
-            onChange={handleSearch}
-            width="100%"
+            setSearchBy={setSearchValue}
+            label="Search Here"
+            size="small"
+            width={'100%'}
           />
           <Box
             sx={{
@@ -146,7 +147,7 @@ const Faqs = () => {
                   width: '100%',
                 },
               }}
-              disabled={isDisabled}
+              disabled={isActionsDisabled}
             >
               Actions &nbsp; <DownIcon />
             </Button>
@@ -190,11 +191,12 @@ const Faqs = () => {
           columns={getFaqsTableColumns}
           data={dataGetFaqs?.data?.faqs}
           isLoading={loagingGetFaqs}
-        />
-        <CustomPagination
-          count={1}
-          rowsPerPageOptions={[1, 2]}
-          entriePages={1}
+          isPagination
+          count={dataGetFaqs?.data?.meta?.pages}
+          totalRecords={dataGetFaqs?.data?.meta?.total}
+          onPageChange={handlePageChange}
+          setPage={setPage}
+          setPageLimit={setPageLimit}
         />
       </Box>
       <CommonDrawer

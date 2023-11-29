@@ -3,7 +3,6 @@ import { Box, useTheme, Button, Grid } from '@mui/material';
 import CommonDrawer from '@/components/CommonDrawer';
 import Search from '@/components/Search';
 import TanstackTable from '@/components/Table/TanstackTable';
-import CustomPagination from '@/components/CustomPagination';
 import { FormProvider } from '@/components/ReactHookForm';
 import { FilterSharedIcon, RefreshSharedIcon } from '@/assets/icons';
 import { columns, getFiltersDataArray } from './JobApplication.data';
@@ -15,14 +14,16 @@ const JobApplication = () => {
   const {
     data,
     isLoading,
-    searchValue,
-    handleSearch,
+    setSearchValue,
     handleRefresh,
     openDrawerFilter,
     handleOpenFilters,
     handleCloseFilters,
     methodsFilter,
     handleFiltersSubmit,
+    setPageLimit,
+    setPage,
+    handlePageChange,
   } = useJobApplication();
   const theme = useTheme();
   const getColumns = columns(theme);
@@ -41,10 +42,10 @@ const JobApplication = () => {
         }}
       >
         <Search
-          label={'Search here'}
-          value={searchValue}
-          onChange={handleSearch}
-          width="100%"
+          setSearchBy={setSearchValue}
+          label="Search Here"
+          size="small"
+          width={'100%'}
         />
         <Box
           sx={{
@@ -66,11 +67,12 @@ const JobApplication = () => {
           columns={getColumns}
           data={data?.data?.jobApplications}
           isLoading={isLoading}
-        />
-        <CustomPagination
-          count={1}
-          rowsPerPageOptions={[1, 2]}
-          entriePages={1}
+          isPagination
+          count={data?.data?.meta?.pages}
+          totalRecords={data?.data?.meta?.total}
+          onPageChange={handlePageChange}
+          setPage={setPage}
+          setPageLimit={setPageLimit}
         />
       </Box>
       <CommonDrawer

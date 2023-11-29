@@ -94,19 +94,17 @@ export const columns = (
 };
 
 export const FilterInvoiceValidationSchema = Yup?.object()?.shape({
-  products: Yup?.string()?.trim()?.required('Field is Required'),
-  plan: Yup?.string()?.trim()?.required('Field is Required'),
-  status: Yup?.string()?.trim()?.required('Field is Required'),
-  InvoiceDate: Yup?.string()?.trim()?.required('Field is Required'),
-  PaymentDate: Yup?.string()?.trim()?.required('Field is Required'),
+  productId: Yup?.string()?.trim()?.optional(),
+  planId: Yup?.string()?.trim()?.optional(),
+  status: Yup?.string()?.trim()?.optional(),
+  billingDate: Yup?.string()?.trim()?.optional()?.nullable(),
+  dueDate: Yup?.string()?.trim()?.optional()?.nullable(),
 });
 
 export const FilterInvoiceDefaultValues = {
-  products: '',
-  plan: '',
+  productId: '',
+  planId: '',
   status: '',
-  InvoiceDate: '',
-  PaymentDate: '',
 };
 
 export const FilterInvoiceFiltersDataArray = () => {
@@ -132,7 +130,7 @@ export const FilterInvoiceFiltersDataArray = () => {
   return [
     {
       componentProps: {
-        name: 'products',
+        name: 'productId',
         label: 'Products',
         select: true,
       },
@@ -142,7 +140,7 @@ export const FilterInvoiceFiltersDataArray = () => {
     },
     {
       componentProps: {
-        name: 'plan',
+        name: 'planId',
         label: 'Plan type',
         select: true,
       },
@@ -167,7 +165,7 @@ export const FilterInvoiceFiltersDataArray = () => {
     },
     {
       componentProps: {
-        name: 'InvoiceDate',
+        name: 'billingDate',
         label: 'Invoice Date',
         fullWidth: true,
       },
@@ -176,7 +174,7 @@ export const FilterInvoiceFiltersDataArray = () => {
     },
     {
       componentProps: {
-        name: 'PaymentDate',
+        name: 'dueDate',
         label: 'Payment Date',
         fullWidth: true,
       },

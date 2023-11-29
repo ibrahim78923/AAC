@@ -12,8 +12,8 @@ export const userListApi = baseAPI.injectEndpoints({
     }),
 
     getEmployeeList: builder.query({
-      query: () => ({
-        url: END_POINTS?.SUPER_ADMIN_USER_LIST,
+      query: ({ orgId }: any) => ({
+        url: `${END_POINTS?.ORG_ADMIN_EMP_LIST}/${orgId}`,
         method: 'GET',
       }),
       providesTags: ['USERS'],
@@ -39,9 +39,9 @@ export const userListApi = baseAPI.injectEndpoints({
     }),
 
     postUserEmployee: builder.mutation({
-      query: ({ body }: any) => {
+      query: ({ id, body }: any) => {
         return {
-          url: END_POINTS?.SUPER_ADMIN_ADD_USER,
+          url: `${END_POINTS?.ORG_USER_EMPLOYEE}/${id}`,
           method: 'POST',
           body: body,
         };

@@ -45,6 +45,8 @@ export const SUPER_ADMIN_SETTINGS: any = {
   UNIQUE_CANDIDATE: '/job-applications/get-unique-candidate',
   FAQS: '/faqs',
   TAX_CALCULATION: '/tax-calculation',
+  PRODUCT_FEATURES: '/product-features',
+  PRODUCTS: '/products',
 };
 
 export const SOCIAL_FEATURES = {

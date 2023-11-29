@@ -38,8 +38,8 @@ import Filter from './Filter';
 import AddCompanyDetails from './AddCompanyDetails';
 import StatusBadge from '@/components/StatusBadge';
 import { v4 as uuidv4 } from 'uuid';
-import useUserManagement from '../useUserManagement';
 import { useGetEmployeeListQuery } from '@/services/superAdmin/user-management/UserList';
+import { useGetUsersByIdQuery } from '@/services/superAdmin/user-management/users';
 
 const UsersDetailsList = () => {
   const {
@@ -62,14 +62,23 @@ const UsersDetailsList = () => {
     setTabVal,
     theme,
     navigate,
+    employeeDataById,
+    setEmployeeDataById,
+    isActiveEmp,
+    setIsActiveEmp,
   }: any = useUserDetailsList();
-  const { useGetUsersByIdQuery } = useUserManagement();
 
-  const { id } = navigate.query;
-  const { data: userDetail } = useGetUsersByIdQuery(id);
-  const { data: employeeList } = useGetEmployeeListQuery({ _id: id });
-  const userDetails = userDetail?.data;
-  const empDetail = employeeList?.data?.useros;
+  const { userName, organizationId } = navigate.query;
+  const empListParams = {
+    // orgId: organizationId,
+    orgId: '65531519211df87d0a9c5bc2',
+  };
+  const { data: employeeList } = useGetEmployeeListQuery(empListParams);
+  const empDetail = employeeList?.data?.users;
+
+  const { data: profileData } = useGetUsersByIdQuery(
+    employeeDataById ? employeeDataById : employeeList?.data?.users[0]?._id,
+  );
 
   return (
     <Box>
@@ -94,9 +103,7 @@ const UsersDetailsList = () => {
                   }}
                   sx={{ cursor: 'pointer' }}
                 />
-                <Typography variant="h3">
-                  {userDetails?.firstName} {userDetails?.lastName}
-                </Typography>
+                <Typography variant="h3">{userName}</Typography>
               </Stack>
               <Stack direction={'row'} gap={1}>
                 <Button
@@ -150,17 +157,22 @@ const UsersDetailsList = () => {
               </Stack>
             </Box>
             {empDetail?.length === 0 && <Typography>No user found</Typography>}
-            {empDetail?.map((item: any) => (
+            {empDetail?.map((item: any, index: number) => (
               <Box
                 className="users-wrapper"
                 sx={{
                   my: 2,
-                  backgroundColor: theme?.palette?.grey[400],
+                  backgroundColor:
+                    isActiveEmp === index ? theme?.palette?.grey[400] : '',
                   borderRadius: '4px',
                   padding: '11px 8px',
                   width: '100%',
                 }}
                 key={uuidv4()}
+                onClick={() => {
+                  setEmployeeDataById(item?._id);
+                  setIsActiveEmp(index);
+                }}
               >
                 <Box
                   sx={{
@@ -197,12 +209,12 @@ const UsersDetailsList = () => {
                         options={[
                           {
                             label: 'Active',
-                            value: 'active',
+                            value: 'ACTIVE',
                             color: theme?.palette?.success?.main,
                           },
                           {
                             label: 'Inactive',
-                            value: 'inactive',
+                            value: 'INACTIVE',
                             color: theme?.palette?.error?.main,
                           },
                         ]}
@@ -219,10 +231,10 @@ const UsersDetailsList = () => {
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <ProfileCard
-                userName={`${userDetails?.firstName} ${userDetails?.lastName}`}
-                role={userDetails?.role}
-                email={userDetails?.email}
-                phone={userDetails?.phoneNumber}
+                userName={`${profileData?.data?.firstName} ${profileData?.data?.lastName}`}
+                role={profileData?.data?.role}
+                email={profileData?.data?.email}
+                phone={profileData?.data?.phoneNumber}
                 handleEditProfile={() => setTabVal(1)}
               />
             </Grid>
@@ -264,7 +276,7 @@ const UsersDetailsList = () => {
                     }
                   >
                     <CompanyAccounts />
-                    <UserDetailsProfile userDetails={userDetails} />
+                    <UserDetailsProfile userDetails={profileData?.data} />
                     <Delegates />
                   </CommonTabs>
                 </Card>
@@ -292,6 +304,7 @@ const UsersDetailsList = () => {
         <AddUser
           isOpenDrawer={isOpenAdduserDrawer}
           onClose={handleAddUserDrawer}
+          organizationId={organizationId}
         />
       )}
     </Box>

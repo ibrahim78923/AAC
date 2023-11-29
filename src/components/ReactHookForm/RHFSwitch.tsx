@@ -24,7 +24,7 @@ const AntSwitch = styled(Switch)(({ theme }) => ({
     padding: 2,
     '&.Mui-checked': {
       transform: 'translateX(15px)',
-      color: 'common.white',
+      color: 'white',
       '& + .MuiSwitch-track': {
         opacity: 1,
       },
@@ -42,9 +42,8 @@ const AntSwitch = styled(Switch)(({ theme }) => ({
   '& .MuiSwitch-track': {
     borderRadius: 12,
     opacity: 1,
-    backgroundColor:
-      theme?.palette?.mode === 'dark' ? 'common.white' : 'common.black',
     boxSizing: 'border-box',
+    backgroundColor: 'GrayText',
   },
 }));
 
@@ -56,10 +55,6 @@ export default function RHFSwitch({ name, disabled, required, ...other }: any) {
         ml: '5px',
         '& .MuiFormControlLabel-label': {
           display: 'none',
-        },
-        '& .MuiTypography-root': {
-          textTransform: 'none',
-          color: 'blue.main',
         },
       }}
       control={

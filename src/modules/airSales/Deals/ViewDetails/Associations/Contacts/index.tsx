@@ -8,13 +8,12 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import useContacts from './useContacts';
 
 import { columns } from './Contacts.data';
-import { TasksTableData } from '@/mock/modules/airSales/Deals/ViewDetails';
 
 import { PlusIcon } from '@/assets/icons';
 
 import { styles } from '../Associations.style';
 
-const Contacts = ({ assocaitionData }: any) => {
+const Contacts = ({ contactsData }: any) => {
   const {
     theme,
     isOpenAlert,
@@ -24,6 +23,9 @@ const Contacts = ({ assocaitionData }: any) => {
     openDrawer,
     setOpenDrawer,
     handleCloseAlert,
+    contactRecord,
+    setContactRecord,
+    deleteContactHandler,
   } = useContacts();
 
   return (
@@ -40,7 +42,6 @@ const Contacts = ({ assocaitionData }: any) => {
             02
           </Typography>
 
-          {assocaitionData?.length > 0 && assocaitionData?.map((item) => item)}
           <Typography variant="subtitle2">Contacts</Typography>
         </Grid>
         <Grid item md={8} xs={12}>
@@ -51,7 +52,6 @@ const Contacts = ({ assocaitionData }: any) => {
               gap: 2,
               flexDirection: { xs: 'column', sm: 'row' },
             }}
-            // dangerouslySetInnerHTML={{ __html: '<b>fgggfgdfgdgfdgdgfg</b>' }}
           >
             <Search
               searchBy={searchName}
@@ -71,21 +71,28 @@ const Contacts = ({ assocaitionData }: any) => {
         </Grid>
         <Grid item xs={12}>
           <TanstackTable
-            columns={columns({ setOpenDrawer, setIsOpenAlert })}
-            data={TasksTableData}
+            columns={columns({
+              setOpenDrawer,
+              setIsOpenAlert,
+              setContactRecord,
+            })}
+            data={contactsData}
           />
         </Grid>
       </Grid>
-      <ContactsEditorDrawer
-        openDrawer={openDrawer}
-        setOpenDrawer={setOpenDrawer}
-      />
+      {openDrawer && (
+        <ContactsEditorDrawer
+          openDrawer={openDrawer}
+          setOpenDrawer={setOpenDrawer}
+          contactRecord={contactRecord}
+        />
+      )}
       <AlertModals
         message={"You're about to remove a record. Are you Sure?"}
         type={'delete'}
         open={isOpenAlert}
         handleClose={handleCloseAlert}
-        handleSubmit={() => {}}
+        handleSubmitBtn={deleteContactHandler}
       />
     </Box>
   );

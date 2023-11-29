@@ -1,23 +1,25 @@
 import { Box, Grid, InputAdornment, Typography } from '@mui/material';
-import { FormProvider } from '@/components/ReactHookForm';
+import { FormProvider, RHFTextField } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
 import { EraserIcon } from '@/assets/icons';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import useToggle from '@/hooks/useToggle';
-import { usersApi } from '@/services/superAdmin/user-management/users';
 import { yupResolver } from '@hookform/resolvers/yup';
-
 import {
   addUsersArray,
   superAdminValidationSchema,
   CompanyOwnerValidationSchema,
+  companyOwnerDefaultValues,
 } from './AddUser.data';
 import { useForm } from 'react-hook-form';
 import { enqueueSnackbar } from 'notistack';
 import { SUPER_ADMIN } from '@/constants/index';
-import { v4 as uuidv4 } from 'uuid';
-import { usePostUserEmployeeMutation } from '@/services/superAdmin/user-management/UserList';
 import useUserDetailsList from '../../UsersDetailsList/useUserDetailsList';
+import { useGetAuthCompaniesQuery } from '@/services/auth';
+import { useEffect, useState } from 'react';
+import { debouncedSearch } from '@/utils';
+import useAddUser from './useAddUser';
+import { v4 as uuidv4 } from 'uuid';
 
 const AddUser = ({
   isOpenDrawer,
@@ -25,13 +27,10 @@ const AddUser = ({
   tabVal,
   isOpenAddUserDrawer,
   setIsOpenAddUserDrawer,
+  organizationId,
 }: any) => {
+  const { pathName, postUsers, updateUsers, postUserEmployee } = useAddUser();
   const [isToggled, setIsToggled] = useToggle(false);
-  const { usePostUsersMutation, useUpdateUsersMutation } = usersApi;
-  const [postUsers] = usePostUsersMutation();
-  const [updateUsers] = useUpdateUsersMutation();
-  const [postUserEmployee] = usePostUserEmployeeMutation();
-  const pathName = window?.location?.pathname;
   const userDetail = isOpenAddUserDrawer?.data?.data;
   const tabTitle = tabVal === 0 ? 'COMPANY_OWNER' : 'SUPER_ADMIN';
   const id = isOpenAddUserDrawer?.data?.data?._id;
@@ -42,30 +41,44 @@ const AddUser = ({
     resolver: yupResolver(superAdminValidationSchema),
     defaultValues: userDetail,
   });
+
+  const companyOwnerValues = {
+    ...userDetail,
+    crn: userDetail?.organization?.crn,
+    companyName: userDetail?.organization?.name,
+  };
+
   const companyOwnerMethods: any = useForm({
     resolver: yupResolver(CompanyOwnerValidationSchema),
-    defaultValues: userDetail,
+    defaultValues: userDetail ? companyOwnerValues : companyOwnerDefaultValues,
   });
 
   const methods =
     tabTitle === 'SUPER_ADMIN' ? superAdminMethods : companyOwnerMethods;
-  const {
-    handleSubmit,
-    reset,
-    //  watch
-  } = methods;
-
-  // const crnNumber = watch('crn');
-  // const { crnData } = useGetCompaniesCRNQuery(crnNumber);
+  const { handleSubmit, reset, watch, setValue } = methods;
 
   const onSubmit = async (values: any) => {
     values.role = tabTitle === 'COMPANY_OWNER' ? 'ORG_ADMIN' : 'SUPER_ADMIN';
+    if (values?.compositeAddress) {
+      values.address = {
+        composite: values?.compositeAddress,
+      };
+    } else {
+      values.address = {
+        flatNumber: values.flat,
+        buildingName: values?.buildingName,
+        buildingNumber: values?.buildingNumber,
+        streetName: values?.streetName,
+        city: values?.city,
+        country: values?.country,
+      };
+    }
     try {
       isOpenAddUserDrawer?.type === 'add'
         ? postUsers({ body: values })?.unwrap()
         : pathName === SUPER_ADMIN?.USERS_LIST
-        ? postUserEmployee({ body: values })
-        : updateUsers({ id, ...values });
+        ? postUserEmployee({ id: organizationId, body: values })
+        : updateUsers({ id, body: values });
       enqueueSnackbar('User Added Successfully', {
         variant: 'success',
       });
@@ -78,6 +91,23 @@ const AddUser = ({
       });
     }
   };
+
+  const organizationNumber = watch('crn');
+
+  const [orgNumber, setOrgNumber] = useState('');
+  debouncedSearch(organizationNumber, setOrgNumber);
+  const { data, isSuccess, isError } = useGetAuthCompaniesQuery({
+    q: orgNumber,
+  });
+  let companyDetails: any = {};
+  if (isSuccess) {
+    companyDetails = data?.data;
+  }
+
+  useEffect(() => {
+    setValue('companyName', companyDetails?.company_name);
+    setOrgNumber(organizationNumber);
+  }, [data, isError]);
 
   return (
     <CommonDrawer
@@ -97,7 +127,7 @@ const AddUser = ({
     >
       <FormProvider methods={methods}>
         <Grid container spacing={2} mt={1}>
-          {addUsersArray?.map((item: any) => {
+          {addUsersArray()?.map((item: any) => {
             return (
               item?.toShow?.includes(
                 pathName === SUPER_ADMIN?.USERMANAGMENT
@@ -105,21 +135,18 @@ const AddUser = ({
                   : 'SUPER_ADMIN',
               ) && (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                  <Typography variant="body2" fontWeight={500}>
-                    {item?.title}
-                  </Typography>
                   {item?.componentProps?.heading && (
                     <Typography variant="h5">
                       {item?.componentProps?.heading}
                     </Typography>
                   )}
-                  {item?.componentProps?.name === 'address' && (
+                  {item?.componentProps?.name === 'compositeAddress' && (
                     <Box position="relative">
                       <InputAdornment
                         sx={{
                           position: 'absolute',
                           top: 45,
-                          right: 15,
+                          right: 20,
                           zIndex: 9999,
                         }}
                         position="end"
@@ -149,7 +176,13 @@ const AddUser = ({
                       </InputAdornment>
                     </Box>
                   )}
-                  <item.component {...item.componentProps} size={'small'}>
+                  <item.component
+                    {...item.componentProps}
+                    size={'small'}
+                    disabled={
+                      isOpenAddUserDrawer?.type === 'view' ? true : false
+                    }
+                  >
                     {item?.componentProps?.select &&
                       item?.options?.map((option: any) => (
                         <option key={uuidv4()} value={option?.value}>
@@ -157,10 +190,33 @@ const AddUser = ({
                         </option>
                       ))}
                   </item.component>
+                  {item?.componentProps?.name === 'email' &&
+                    tabTitle === 'COMPANY_OWNER' && (
+                      <Box mt={2}>
+                        <Grid item xs={12}>
+                          <RHFTextField
+                            name="crn"
+                            label="Company Registration Number(CRN)"
+                            placeholder="Enter crn"
+                            size="small"
+                            // defaultValue={userDetail?.organization?.crn}
+                          />
+                        </Grid>
+                        <Grid item xs={12} mt={2}>
+                          <RHFTextField
+                            name="companyName"
+                            label="company Name"
+                            placeholder="Company Name"
+                            size="small"
+                            disabled
+                            // defaultValue={userDetail?.organization?.name}
+                          />
+                        </Grid>
+                      </Box>
+                    )}
                   {isToggled && (
                     <Grid item container spacing={2} mt={1}>
-                      {item?.title === 'Address' &&
-                        isToggled &&
+                      {item?.componentProps?.name === 'compositeAddress' &&
                         item?.subData?.map((data: any) => (
                           <Grid item xs={12} md={item?.md} key={uuidv4()}>
                             <Typography variant="body2" fontWeight={500}>

@@ -6,7 +6,7 @@ import { AlertModals } from '@/components/AlertModals';
 import useNotesActionDropdown from './useNotesActionDropDown';
 
 const NotesActionDropdown = (props: any) => {
-  const { setOpenDrawer, selectedCheckboxes } = props;
+  const { setOpenDrawer, selectedCheckboxes, setSelectedCheckboxes } = props;
   const {
     theme,
     isMenuOpen,
@@ -18,7 +18,12 @@ const NotesActionDropdown = (props: any) => {
     handleOpenViewDrawer,
     handleOpenDeleteAlert,
     handleCloseAlert,
-  } = useNotesActionDropdown({ setOpenDrawer });
+    handleDeleteHandler,
+  } = useNotesActionDropdown({
+    setOpenDrawer,
+    selectedCheckboxes,
+    setSelectedCheckboxes,
+  });
 
   return (
     <div>
@@ -34,9 +39,7 @@ const NotesActionDropdown = (props: any) => {
         aria-haspopup="true"
         aria-expanded={isMenuOpen ? 'true' : undefined}
         onClick={handleOpenMenu}
-        disabled={
-          selectedCheckboxes?.length === 0 || selectedCheckboxes.length > 1
-        }
+        disabled={selectedCheckboxes?.length < 1}
       >
         Action
       </Button>
@@ -49,8 +52,18 @@ const NotesActionDropdown = (props: any) => {
           'aria-labelledby': 'basic-button',
         }}
       >
-        <MenuItem onClick={handleOpenViewDrawer}>View</MenuItem>
-        <MenuItem onClick={handleOpenEditDrawer}>Edit</MenuItem>
+        <MenuItem
+          disabled={selectedCheckboxes?.length > 1}
+          onClick={handleOpenViewDrawer}
+        >
+          View
+        </MenuItem>
+        <MenuItem
+          disabled={selectedCheckboxes?.length > 1}
+          onClick={handleOpenEditDrawer}
+        >
+          Edit
+        </MenuItem>
         <MenuItem onClick={handleOpenDeleteAlert}>Delete</MenuItem>
       </Menu>
 
@@ -61,7 +74,7 @@ const NotesActionDropdown = (props: any) => {
         type={'delete'}
         open={isOpenAlertModal}
         handleClose={handleCloseAlert}
-        handleSubmit={handleCloseAlert}
+        submitHandler={handleDeleteHandler}
       />
     </div>
   );

@@ -16,8 +16,8 @@ export const END_POINTS = {
   USER_LIST: '/users',
   ADD_USER: '/users',
   ADD_USER_ACCOUNT: '/super-admin/add-accounts',
-  SUPER_ADMIN_USER_LIST: '/super-admin/user-list',
-  SUPER_ADMIN_ADD_USER: '/super-admin/add-user',
+  ORG_ADMIN_EMP_LIST: '/users/organization',
+  ORG_USER_EMPLOYEE: '/users/organization',
   USER_ACCOUNTS_LIST: '/super-admin/accounts-list',
   UPDATE_USER_LIST: '/users/edit',
   COMPANY_CRN: '/auth/search-company',
@@ -38,6 +38,8 @@ export const END_POINTS = {
   TASK_MANAGEMENT: '/task/management',
   DEALS_ASSOCIATION: '/deals/get-associations',
   ENQUIRIES: '/enquiries/',
+  CREATE_ASSOCIATION: '/deals/create-association',
+  DELETE_ASSOCIATION: '/deals/delete-association',
 };
 
 export const superAdminBillingInvoices = {
@@ -58,11 +60,33 @@ export const organization = {
   GET_ORGANIZATION_ACCOUNT_ID: '/org-company-account',
   GET_MAIN_ORGANIZATION: '/organization',
   UPDATE_ORGANIZATION_ACCOUNT: '/org-company-account',
+  UPDATE_ORGANIZATION_ACCOUNT_STATUS: '/org-company-account/update-status',
   DELETE_ORGANIZATION_ACCOUNT: '/org-company-account',
   DELETE_ORGANIZARION_MULTIPLE: '/org-company-account/delete-multiple',
 };
 
+export const settingSalesProductCategory = {
+  POST_SALES_PRODUCT_CATEGORY: '/product-categories',
+  GET_SALES_PRODUCT_CATEGORY: '/product-categories',
+  UPDATE_SALES_PRODUCT_CATEGORY: '/product-categories',
+};
+export const settingLifeCycleStage = {
+  POST_LIFE_CYCLE_STAGE: '/lifecycle-stages',
+  GET_LIFE_CYCLE_STAGE: '/lifecycle-stages',
+  GET_LIFE_CYCLE_STAGE_ID: '/lifecycle-stages',
+  UPDATE_LIFE_CYCLE_STAGE: '/lifecycle-stages',
+  DELETE_LIFE_CYCLE_STAGE: '/lifecycle-stages',
+};
+
+export const settingContactStatus = {
+  POST_CONTACT_STATUS: '/contact-status',
+  GET_CONTACT_STATUS: '/contact-status',
+  GET_CONTACT_STATUS_ID: '/contact-status',
+  UPDATE_CONTACT_STATUS: '/contact-status',
+  DELETE_CONTACT_STATUS: '/contact-status',
+};
 export const ORG_ADMIN = {
   SUBSCRIPTION_AND_INVOICES: '/org-admin/subscriptions',
   GET_INVOICES: '/org-admin/invoices',
+  PRODUCT_PLAN_LIST: '/plan/product-plan-list',
 };

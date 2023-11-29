@@ -1,5 +1,4 @@
 import { Grid, Typography, Box } from '@mui/material';
-
 import Actions from './ActionsOptions';
 import Manage from './Manage';
 import MeetingDetails from './MeetingDetails';
@@ -31,6 +30,7 @@ const Dashboard = () => {
             style={{ display: 'flex', justifyContent: 'space-between' }}
           >
             <Typography variant="h4">Sales Dashboard</Typography>
+
             <Box style={{ display: 'flex' }}>
               <Actions setIsShowEditDashboard={setIsShowEditDashboard} />
               <CreateDashboardOptions toggle={toggle} />

@@ -13,7 +13,7 @@ import { AlertModals } from '@/components/AlertModals';
 
 import useContactStatus from './useContactStatus';
 
-import { ContactStatusTableData, dataArray } from './ContactStatus.data';
+import { dataArray } from './ContactStatus.data';
 
 import { styles } from './ContactStatus.style';
 
@@ -35,6 +35,8 @@ const ContactStatus = () => {
     handleCloseAlert,
     isModalHeading,
     setIsModalHeading,
+    tableRow,
+    deleteContactsStatus,
   } = useContactStatus();
 
   return (
@@ -43,7 +45,7 @@ const ContactStatus = () => {
         isDrawerOpen={isDraweropen}
         onClose={handleCloseDrawer}
         title={`${isModalHeading} Status Name`}
-        okText={'Add'}
+        okText={isModalHeading === 'Edit' ? 'Update' : 'Add'}
         footer={isModalHeading === 'View' ? false : true}
         isOk={true}
         submitHandler={handleSubmit(onSubmit)}
@@ -112,7 +114,7 @@ const ContactStatus = () => {
           />
         </Box>
         <Grid>
-          <TanstackTable columns={getRowValues} data={ContactStatusTableData} />
+          <TanstackTable columns={getRowValues} data={tableRow} />
           <CustomPagination
             count={1}
             rowsPerPageOptions={[1, 2]}
@@ -125,7 +127,9 @@ const ContactStatus = () => {
           type={'delete'}
           open={isOpenAlert}
           handleClose={handleCloseAlert}
-          handleSubmit={() => {}}
+          handleSubmitBtn={() => {
+            deleteContactsStatus();
+          }}
         />
       </Box>
     </>

@@ -127,31 +127,31 @@ const SwitchableDatepicker = ({ error, field, ...other }: any) => {
             <List component={'nav'} sx={styles.dpSidebarList}>
               <ListItemButton
                 selected={selectedIndex === 0}
-                onClick={(event) => handleListItemClick(event, 0)}
+                onClick={(event: any) => handleListItemClick(event, 0)}
               >
                 Today
               </ListItemButton>
               <ListItemButton
                 selected={selectedIndex === 1}
-                onClick={(event) => handleListItemClick(event, 1)}
+                onClick={(event: any) => handleListItemClick(event, 1)}
               >
                 Week
               </ListItemButton>
               <ListItemButton
                 selected={selectedIndex === 2}
-                onClick={(event) => handleListItemClick(event, 2)}
+                onClick={(event: any) => handleListItemClick(event, 2)}
               >
                 Month
               </ListItemButton>
               <ListItemButton
                 selected={selectedIndex === 3}
-                onClick={(event) => handleListItemClick(event, 3)}
+                onClick={(event: any) => handleListItemClick(event, 3)}
               >
                 Year
               </ListItemButton>
               <ListItemButton
                 selected={selectedIndex === 4}
-                onClick={(event) => handleListItemClick(event, 4)}
+                onClick={(event: any) => handleListItemClick(event, 4)}
               >
                 Custom
               </ListItemButton>

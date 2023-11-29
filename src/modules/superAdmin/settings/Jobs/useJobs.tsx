@@ -32,7 +32,7 @@ const useJobs = () => {
     try {
       await postAddJobPost({ body: values })?.unwrap();
       handleCloseAddJobPost();
-      enqueueSnackbar('Job added successfully', {
+      enqueueSnackbar('Job Posted Successfully', {
         variant: 'success',
       });
     } catch (error: any) {

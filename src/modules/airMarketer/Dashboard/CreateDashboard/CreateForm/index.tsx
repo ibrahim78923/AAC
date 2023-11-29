@@ -18,6 +18,7 @@ import {
   defaultValues,
   userAndTeams,
   validationSchema,
+  viewAndEditOptions,
 } from './CreateForm.data';
 
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -55,6 +56,7 @@ const CreateForm = ({
     reset();
   };
   const theme = useTheme();
+  //TODO:getting watchfields value in index 0
   const watchFields = watch(['accessDashboard']);
 
   return (
@@ -111,7 +113,7 @@ const CreateForm = ({
                       )}
                       {watchFields[0] === 'Everyone' && (
                         <RHFRadioGroup
-                          options={['View and edit', 'View Only']}
+                          options={viewAndEditOptions}
                           name="viewAndEdit"
                           label=""
                           row={false}
