@@ -299,3 +299,4 @@ export { default as ServicesCatalogIcon } from './modules/airServices/Settings/s
 export { default as CannedResponseIcon } from './modules/airServices/Settings/canned-response-icon';
 export { default as LeadersBoardIcon } from './modules/airServices/Settings/leaders-board-icon';
 export { default as WorkloadManagementIcon } from './modules/airServices/Settings/workload-management-icon';
+export { default as CsvImportIcon } from './shared/csv-import-icon';

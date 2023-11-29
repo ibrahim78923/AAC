@@ -8,7 +8,7 @@ export const newsAndEventsDateValidationSchema = Yup.object().shape({
 });
 
 export const newsAndEventsDateDefaultValues = {
-  createdDate: '',
+  createdDate: null,
   status: '',
   type: '',
 };
@@ -102,7 +102,7 @@ export const columns = (
       accessorFn: (row: any) => row.createdDate,
       id: 'createdDate',
       isSortable: true,
-      header: 'CreatedDate & Time',
+      header: 'Created Date & Time',
       cell: (info: any) => info.getValue(),
     },
     {

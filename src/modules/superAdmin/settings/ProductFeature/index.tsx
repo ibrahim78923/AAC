@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Box,
   Button,
@@ -21,9 +21,11 @@ import PlusShared from '@/assets/icons/shared/plus-shared';
 import { DownIcon } from '@/assets/icons';
 import { v4 as uuidv4 } from 'uuid';
 import useProductFeature from './useProductFeature';
+import MultiSearchableSelect from './multiSearchableSelect';
 
 const ProductFeature = () => {
   const theme = useTheme();
+  const [value, setValue] = useState<any>(); // eslint-disable-line
   const {
     anchorEl,
     actionMenuOpen,
@@ -71,6 +73,8 @@ const ProductFeature = () => {
         <Box
           sx={{
             display: 'flex',
+            flexWrap: 'wrap',
+            gap: '10px',
             justifyContent: 'space-between',
             alignItems: 'center',
             marginBottom: '19px',
@@ -79,8 +83,21 @@ const ProductFeature = () => {
           <Typography variant="h3" sx={{ fontWeight: '600' }}>
             Product Features Setup
           </Typography>
-          <Box>
-            <Box>...</Box>
+          <Box
+            sx={{
+              '@media (max-width:581px)': {
+                width: '100%',
+              },
+            }}
+          >
+            <MultiSearchableSelect
+              options={[
+                { value: 'JohnDoe', label: 'John Doe' },
+                { value: 'SaraAndrew', label: 'Sara Andrew' },
+              ]}
+              setValue={setValue}
+              isCheckBox={true}
+            />
           </Box>
         </Box>
         <Box
@@ -116,8 +133,8 @@ const ProductFeature = () => {
               onClick={handleActionsMenuClick}
               disabled={isDisabled}
               sx={{
-                color: theme.palette.grey[500],
-                height: '40px',
+                color: theme?.palette?.grey[500],
+                width: '112px',
                 border: '1.5px solid #e7e7e9',
                 '@media (max-width:581px)': {
                   width: '100%',
@@ -134,7 +151,11 @@ const ProductFeature = () => {
               MenuListProps={{
                 'aria-labelledby': 'basic-button',
               }}
-              sx={{ '& .MuiMenu-list': { minWidth: '180px' } }}
+              PaperProps={{
+                style: {
+                  width: '112px',
+                },
+              }}
               anchorOrigin={{
                 vertical: 'bottom',
                 horizontal: 'right',
@@ -144,12 +165,18 @@ const ProductFeature = () => {
                 horizontal: 'right',
               }}
             >
-              <MenuItem onClick={handleOpenDrawerEditFeature}>Edit</MenuItem>
+              <MenuItem
+                onClick={handleOpenDrawerEditFeature}
+                style={{ fontSize: '14px' }}
+              >
+                Edit
+              </MenuItem>
             </Menu>
             <Button
               variant="contained"
               sx={{
                 height: '36px',
+                width: '153px',
                 fontWeight: '500',
                 '@media (max-width:581px)': {
                   width: '100%',

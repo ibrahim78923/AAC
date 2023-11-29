@@ -46,7 +46,11 @@ const Jobs = () => {
         {tabsValue === 0 && (
           <Button
             variant="contained"
-            sx={{ height: '36px', fontWeight: '500' }}
+            sx={{
+              height: '36px',
+              fontWeight: '500',
+              textTransform: 'none !important',
+            }}
             onClick={handleOpenAddJobPost}
           >
             <PlusShared /> &nbsp; Post a Job

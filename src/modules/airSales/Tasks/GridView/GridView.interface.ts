@@ -4,4 +4,5 @@ export interface GridViewI {
   pendingData?: any[];
   inprogressData?: any[];
   completedData?: any[];
+  myTaskData?: any[];
 }

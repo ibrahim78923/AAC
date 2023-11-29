@@ -2,7 +2,7 @@ import CommonDrawer from '@/components/CommonDrawer';
 import { Box, Button, Typography } from '@mui/material';
 import React from 'react';
 import { styles } from './CreateAudience.style';
-import { FacebookIcon, LinkdinIcon } from '@/assets/icons';
+import { FacebookIcon, LinkdinIcon, PlusIcon } from '@/assets/icons';
 import usePaidAds from './useCreateAudience';
 import { v4 as uuidv4 } from 'uuid';
 import { createAudience } from './CreateAudience.data';
@@ -24,7 +24,11 @@ const CreateAudience = () => {
 
   return (
     <>
-      <Button variant="contained" onClick={() => setIsCreateAudience(true)}>
+      <Button
+        startIcon={<PlusIcon />}
+        className="audienceBtn small"
+        onClick={() => setIsCreateAudience(true)}
+      >
         Create Audience
       </Button>
       <CommonDrawer

@@ -1,22 +1,40 @@
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import {
+  MESSAGE_EXPORT_FILE_TYPE,
+  NOTISTACK_VARIANTS,
+} from '@/constants/strings';
 import { enqueueSnackbar } from 'notistack';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   PRODUCT_LISTS_ACTION_CONSTANTS,
   productListsColumnDynamic,
 } from './ProductCatalog.data';
 import { useRouter } from 'next/router';
 import { ImportProductCatalog } from './ImportProductCatalog';
+import usePath from '@/hooks/usePath';
 
 export const useProductCatalog = () => {
   const [search, setSearch] = useState('');
+  const { makePath } = usePath();
   const [hasProductAction, setHasProductAction] = useState(false);
   const router = useRouter();
+
+  useEffect(() => {
+    router?.push(
+      makePath({
+        path: router?.pathname,
+        skipQueries: ['productListAction'],
+      }),
+    );
+  }, []);
+
   const getProductListsDataExport = async (type: any) => {
     try {
-      enqueueSnackbar(`Product Exported successfully as ${type}`, {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      enqueueSnackbar(
+        `Product exported successfully as ${MESSAGE_EXPORT_FILE_TYPE?.[type]}`,
+        {
+          variant: NOTISTACK_VARIANTS?.SUCCESS,
+        },
+      );
     } catch (error: any) {
       enqueueSnackbar(`Product not exported as ${type}`, {
         variant: NOTISTACK_VARIANTS?.ERROR,

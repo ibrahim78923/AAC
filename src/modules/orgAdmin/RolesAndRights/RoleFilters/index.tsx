@@ -13,7 +13,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { v4 as uuidv4 } from 'uuid';
 
 const RoleFilters = (props: any) => {
-  const { isOpen, setIsOpen } = props;
+  const { isOpen, setIsOpen, filterVal, setFilterVal } = props;
 
   const methods: any = useForm({
     resolver: yupResolver(rolesValidationSchema),
@@ -22,9 +22,16 @@ const RoleFilters = (props: any) => {
 
   const { handleSubmit } = methods;
 
-  const onSubmit = async () => {
+  const onSubmit = async (values: any) => {
+    setFilterVal({
+      ...filterVal,
+      status: values?.status,
+      productId: values?.product,
+      // dateStart: values?.dateStart
+    });
     setIsOpen(false);
   };
+
   return (
     <CommonDrawer
       isDrawerOpen={isOpen}
@@ -39,7 +46,7 @@ const RoleFilters = (props: any) => {
     >
       <FormProvider methods={methods}>
         <Grid container spacing={2}>
-          {rolesFiltersArray?.map((item: any) => (
+          {rolesFiltersArray()?.map((item: any) => (
             <Grid item xs={12} md={item?.md} key={uuidv4()}>
               <Typography variant="body2" fontWeight={500}>
                 {item?.title}

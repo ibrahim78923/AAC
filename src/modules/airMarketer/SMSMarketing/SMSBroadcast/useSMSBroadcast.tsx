@@ -1,3 +1,4 @@
+import { AIR_MARKETER } from '@/routesConstants/paths';
 import { Theme, useTheme } from '@mui/material';
 
 import { useRouter } from 'next/router';
@@ -7,6 +8,7 @@ import { useState } from 'react';
 const useSMSBroadcast = () => {
   const [selectedValue, setSelectedValue] = useState(null);
   const [isDelete, setIsDelete] = useState(false);
+  const [selectedId, setSelectedId] = useState();
   const theme = useTheme<Theme>();
   const navigate = useRouter();
 
@@ -17,6 +19,14 @@ const useSMSBroadcast = () => {
   const handleDelete = () => {
     setSelectedValue(null);
     setIsDelete(true);
+  };
+
+  const handleEdit = () => {
+    setSelectedValue(null);
+    navigate.push({
+      pathname: AIR_MARKETER?.CREATE_SMS_BROADCAST,
+      query: { type: 'edit' },
+    });
   };
 
   const handleClick = (event: any) => {
@@ -41,10 +51,13 @@ const useSMSBroadcast = () => {
     handleDelete,
     handleClose,
     handleClick,
+    handleEdit,
     setIsDelete,
     statusTag,
     navigate,
     isDelete,
+    selectedId,
+    setSelectedId,
     theme,
   };
 };

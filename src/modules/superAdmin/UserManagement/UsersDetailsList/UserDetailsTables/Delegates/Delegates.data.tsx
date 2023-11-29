@@ -4,48 +4,44 @@ import { SwitchBtn } from '@/components/SwitchButton';
 
 import { AvatarImage } from '@/assets/images';
 
+import { EyeIcon } from '@/assets/icons';
+
 export const delegatesData: any = [
   {
     Id: 1,
     PhoneNumber: 'Orcalo Holding',
     SignUpDate: 'orcalo@airapple.co.uk',
     EarnedAmmount: 'user select here',
-    Actions: 'visibilty icon',
   },
   {
     Id: 2,
     PhoneNumber: 'Orcalo Holding',
     SignUpDate: 'orcalo@airapple.co.uk',
     EarnedAmmount: 'user select here',
-    Actions: 'visibilty icon',
   },
   {
     Id: 3,
     PhoneNumber: 'Orcalo Holding',
     SignUpDate: 'orcalo@airapple.co.uk',
     EarnedAmmount: 'user select here',
-    Actions: 'visibilty icon',
   },
   {
     Id: 4,
     PhoneNumber: 'Orcalo Holding',
     SignUpDate: 'orcalo@airapple.co.uk',
     EarnedAmmount: 'user select here',
-    Actions: 'visibilty icon',
   },
   {
     Id: 5,
     PhoneNumber: 'Orcalo Holding',
     SignUpDate: 'orcalo@airapple.co.uk',
     EarnedAmmount: 'user select here',
-    Actions: 'visibilty icon',
   },
   {
     Id: 6,
     PhoneNumber: 'Orcalo Holding',
     SignUpDate: 'orcalo@airapple.co.uk',
     EarnedAmmount: 'user',
-    Actions: 'visibilty icon',
   },
 ];
 
@@ -90,7 +86,7 @@ export const delegatesColumns: any = [
     accessorFn: (row: any) => row?.EarnedAmmount,
     id: 'earnedAmmount',
     isSortable: true,
-    header: 'Earned Ammount',
+    header: 'Earnned Amount',
     cell: (info: any) => info?.getValue(),
   },
   {
@@ -105,6 +101,10 @@ export const delegatesColumns: any = [
     id: 'Action',
     isSortable: true,
     header: 'Action',
-    cell: (info: any) => info?.getValue(),
+    cell: () => (
+      <Box sx={{ cursor: 'pointer' }}>
+        <EyeIcon />
+      </Box>
+    ),
   },
 ];

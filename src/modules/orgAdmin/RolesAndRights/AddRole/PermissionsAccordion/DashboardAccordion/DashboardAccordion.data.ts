@@ -1,30 +1,30 @@
 export const ListAccordionDashboardData = [
   {
-    id: '01',
-    name: 'Copy URL',
+    value: '01',
+    label: 'Copy URL',
   },
   {
-    id: '02',
-    name: 'Create Dashboard',
+    value: '02',
+    label: 'Create Dashboard',
   },
   {
-    id: '03',
-    name: 'Update Dashboard',
+    value: '03',
+    label: 'Update Dashboard',
   },
   {
-    id: '04',
-    name: 'View Dashboard',
+    value: '04',
+    label: 'View Dashboard',
   },
   {
-    id: '05',
-    name: 'Email Dashboard',
+    value: '05',
+    label: 'Email Dashboard',
   },
   {
-    id: '06',
-    name: 'Delete Dashboard',
+    value: '06',
+    label: 'Delete Dashboard',
   },
   {
-    id: '07',
-    name: 'Set Default ',
+    value: '07',
+    label: 'Set Default ',
   },
 ];

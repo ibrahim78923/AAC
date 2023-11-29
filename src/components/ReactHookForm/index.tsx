@@ -17,3 +17,4 @@ export { default as RHFButtonGroup } from './RHFButtonGroup';
 export { default as RHFSearchableSelect } from './RHFSearchableSelect';
 export { default as RHFMultiSearchableSelect } from './RHFMultiSearchableSelect';
 export { default as RHFSwitchableDatepicker } from './RHFSwitchableDatepicker';
+export { default as RHFFileImport } from './RHFFileImport';

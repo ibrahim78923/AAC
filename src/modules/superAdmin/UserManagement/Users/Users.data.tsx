@@ -1,24 +1,27 @@
-import { Checkbox } from '@mui/material';
-
-import { Avatar, AvatarGroup, Box, Typography } from '@mui/material';
-
+import {
+  Avatar,
+  AvatarGroup,
+  Box,
+  Typography,
+  useTheme,
+  Checkbox,
+} from '@mui/material';
 import RHFSelect from '@/components/ReactHookForm/RHFSelect';
-
 import RHFDatePicker from '@/components/ReactHookForm/RHFDatePicker';
-
 import { SwitchBtn } from '@/components/SwitchButton';
-
 import { AvatarImage } from '@/assets/images';
-
+import { style } from './Users.style';
+import useUserManagement from '../useUserManagement';
 import dayjs from 'dayjs';
 import * as Yup from 'yup';
-import useUserManagement from '../useUserManagement';
+import { v4 as uuidv4 } from 'uuid';
+import { DATE_FORMAT } from '@/constants';
 
 export const columns: any = (columnsProps: any) => {
   const { handleUserSwitchChange, checkedRows, setCheckedRows } = columnsProps;
-
-  const handleCheckboxChange = (rowId: string) => {
-    setCheckedRows(rowId);
+  const theme = useTheme();
+  const handleCheckboxChange = (val: any, rowId: string) => {
+    val?.target?.checked ? setCheckedRows(rowId) : setCheckedRows();
   };
 
   return [
@@ -30,7 +33,9 @@ export const columns: any = (columnsProps: any) => {
           color="primary"
           name={info?.getValue()}
           defaultChecked={checkedRows === info?.row?.original?._id}
-          onChange={() => handleCheckboxChange(info?.row?.original?._id)}
+          onChange={(e: any) =>
+            handleCheckboxChange(e, info?.row?.original?._id)
+          }
         />
       ),
       header: <Checkbox color="primary" name="Id" disabled />,
@@ -39,7 +44,7 @@ export const columns: any = (columnsProps: any) => {
     {
       accessorFn: (row: any) => row?._id,
       id: 'userId',
-      header: 'UserID',
+      header: 'User ID',
       isSortable: false,
       cell: (info: any) => info.getValue() ?? 'N/A',
     },
@@ -56,7 +61,7 @@ export const columns: any = (columnsProps: any) => {
               {info?.row?.original?.firstName} {info?.row?.original?.lastName}
             </Typography>
             <Typography component={'span'}>
-              {info?.row?.original?.email}
+              {info?.row?.original?.email ?? 'N/A'}
             </Typography>
           </Box>
         </Box>
@@ -66,7 +71,7 @@ export const columns: any = (columnsProps: any) => {
       accessorFn: (row: any) => row?.role,
       id: 'userType',
       isSortable: true,
-      header: 'UserType',
+      header: 'User Type',
       cell: (info: any) => (
         <Typography>
           {info?.row?.original?.role?.toLowerCase()?.replace('_', ' ')}
@@ -77,7 +82,7 @@ export const columns: any = (columnsProps: any) => {
       accessorFn: (row: any) => row?.OrganizationName,
       id: 'organizationName',
       isSortable: true,
-      header: 'OrganizationName',
+      header: 'Organization Name',
       cell: (info: any) => info?.getValue() ?? 'N/A',
     },
     {
@@ -85,15 +90,23 @@ export const columns: any = (columnsProps: any) => {
       id: 'products',
       isSortable: true,
       header: 'Products',
-      cell: (
-        <AvatarGroup max={4} sx={{ display: 'flex', justifyContent: 'start' }}>
-          <Avatar alt="Remy Sharp" src={AvatarImage?.src} />
-          <Avatar alt="Travis Howard" src={AvatarImage?.src} />
-          <Avatar alt="Cindy Baker" src={AvatarImage?.src} />
-          <Avatar alt="Agnes Walker" src={AvatarImage?.src} />
-          <Avatar alt="Trevor Henderson" src={AvatarImage?.src} />
-        </AvatarGroup>
-      ),
+      cell: (info: any) =>
+        info?.row?.original?.products?.length ? (
+          <AvatarGroup max={4} sx={style?.avatarStyle(theme)}>
+            {info?.row?.original?.products?.map((item: any) => (
+              <Avatar
+                key={uuidv4()}
+                variant="square"
+                alt="product-avatar"
+                src={item?.logo?.url}
+              >
+                {item?.name?.charAt(0, 1)}
+              </Avatar>
+            ))}
+          </AvatarGroup>
+        ) : (
+          'N/A'
+        ),
     },
     {
       accessorFn: (row: any) => row?.Status,
@@ -115,9 +128,9 @@ export const columns: any = (columnsProps: any) => {
       accessorFn: (row: any) => row?.createdAt,
       id: 'createdOn',
       isSortable: true,
-      header: 'CreatedOn',
+      header: 'Created On',
       cell: (info: any) =>
-        dayjs(info?.row?.original?.createdAt).format('DD/MM/YYYY'),
+        dayjs(info?.row?.original?.createdAt).format(DATE_FORMAT?.UI) ?? 'N/A',
     },
   ];
 };
@@ -125,9 +138,10 @@ export const columns: any = (columnsProps: any) => {
 export const superAdminColumns: any = (columnsProps: any) => {
   const { handleUserSwitchChange, checkedRows, setCheckedRows } = columnsProps;
 
-  const handleCheckboxChange = (rowId: string) => {
-    setCheckedRows(rowId);
+  const handleCheckboxChange = (val: any, rowId: string) => {
+    val?.target?.checked ? setCheckedRows(rowId) : setCheckedRows();
   };
+
   return [
     {
       accessorFn: (row: any) => row?.Id,
@@ -137,7 +151,9 @@ export const superAdminColumns: any = (columnsProps: any) => {
           color="primary"
           name={info?.getValue()}
           defaultChecked={checkedRows === info?.row?.original?._id}
-          onChange={() => handleCheckboxChange(info?.row?.original?._id)}
+          onChange={(e: any) =>
+            handleCheckboxChange(e, info?.row?.original?._id)
+          }
         />
       ),
       header: <Checkbox color="primary" name="Id" disabled />,
@@ -146,7 +162,7 @@ export const superAdminColumns: any = (columnsProps: any) => {
     {
       accessorFn: (row: any) => row?._id,
       id: 'userId',
-      header: 'UserID',
+      header: 'User ID',
       isSortable: false,
       cell: (info: any) => info.getValue() ?? 'N/A',
     },
@@ -163,7 +179,7 @@ export const superAdminColumns: any = (columnsProps: any) => {
               {info?.row?.original?.firstName} {info?.row?.original?.lastName}
             </Typography>
             <Typography component={'span'}>
-              {info?.row?.original?.email}
+              {info?.row?.original?.email ?? 'N/A'}
             </Typography>
           </Box>
         </Box>
@@ -173,7 +189,7 @@ export const superAdminColumns: any = (columnsProps: any) => {
       accessorFn: (row: any) => row?.role,
       id: 'userType',
       isSortable: true,
-      header: 'UserType',
+      header: 'User Type',
       cell: (info: any) => (
         <Typography>
           {info?.row?.original?.role?.toLowerCase()?.replace('_', ' ')}
@@ -184,7 +200,7 @@ export const superAdminColumns: any = (columnsProps: any) => {
       accessorFn: (row: any) => row?.OrganizationName,
       id: 'organizationName',
       isSortable: true,
-      header: 'OrganizationName',
+      header: 'Organization Name',
       cell: (info: any) => info?.getValue() ?? 'N/A',
     },
     {
@@ -222,9 +238,9 @@ export const superAdminColumns: any = (columnsProps: any) => {
       accessorFn: (row: any) => row?.createdOn,
       id: 'createdOn',
       isSortable: true,
-      header: 'CreatedOn',
+      header: 'Created On',
       cell: (info: any) =>
-        dayjs(info?.row?.original?.createdAt).format('DD/MM/YYYY'),
+        dayjs(info?.row?.original?.createdAt).format(DATE_FORMAT?.UI),
     },
   ];
 };
@@ -246,20 +262,6 @@ export const usersFilterArray = () => {
   const { products, organizations } = useUserManagement();
 
   return [
-    {
-      componentProps: {
-        name: 'role',
-        label: 'User Type',
-        fullWidth: true,
-        select: true,
-      },
-      options: [
-        { value: 'ORG_ADMIN', label: 'Company Owner' },
-        { value: 'SUPER_ADMIN', label: 'Super Admin' },
-      ],
-      component: RHFSelect,
-      md: 12,
-    },
     {
       componentProps: {
         name: 'organization',

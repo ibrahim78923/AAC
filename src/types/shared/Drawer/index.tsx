@@ -19,4 +19,5 @@ export interface CommonDrawerPropsI {
   isLoading?: boolean;
   headerIcon?: any;
   isDisabled?: boolean;
+  cancelBtnHandler?: any;
 }

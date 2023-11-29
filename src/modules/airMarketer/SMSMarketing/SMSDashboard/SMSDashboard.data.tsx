@@ -54,32 +54,62 @@ export const scheduledSmsArray = [
 
 export const smsContactsArray = [
   {
-    avatar: <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />,
+    avatar: (
+      <Avatar
+        alt="user_avatar"
+        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJZE0VNh6-l13QFIf7SdXGqFIKnD-qOJP-yzN2r800&s"
+      />
+    ),
     name: 'Leslie Alexander',
     phone: '(480) 555-0103',
   },
   {
-    avatar: <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />,
+    avatar: (
+      <Avatar
+        alt="user_avatar"
+        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJZE0VNh6-l13QFIf7SdXGqFIKnD-qOJP-yzN2r800&s"
+      />
+    ),
     name: 'Leslie Alexander',
     phone: '(480) 555-0103',
   },
   {
-    avatar: <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />,
+    avatar: (
+      <Avatar
+        alt="user_avatar"
+        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJZE0VNh6-l13QFIf7SdXGqFIKnD-qOJP-yzN2r800&s"
+      />
+    ),
     name: 'Leslie Alexander',
     phone: '(480) 555-0103',
   },
   {
-    avatar: <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />,
+    avatar: (
+      <Avatar
+        alt="user_avatar"
+        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJZE0VNh6-l13QFIf7SdXGqFIKnD-qOJP-yzN2r800&s"
+      />
+    ),
     name: 'Leslie Alexander',
     phone: '(480) 555-0103',
   },
   {
-    avatar: <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />,
+    avatar: (
+      <Avatar
+        alt="user_avatar"
+        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJZE0VNh6-l13QFIf7SdXGqFIKnD-qOJP-yzN2r800&s"
+      />
+    ),
     name: 'Leslie Alexander',
     phone: '(480) 555-0103',
   },
   {
-    avatar: <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />,
+    avatar: (
+      <Avatar
+        alt="user_avatar"
+        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJZE0VNh6-l13QFIf7SdXGqFIKnD-qOJP-yzN2r800&s"
+      />
+    ),
     name: 'Leslie Alexander',
     phone: '(480) 555-0103',
   },

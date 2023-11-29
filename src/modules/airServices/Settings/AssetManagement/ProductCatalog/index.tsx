@@ -20,7 +20,7 @@ export const ProductCatalog = () => {
     hasProductAction,
     router,
     setProductListAction,
-  } = useProductCatalog();
+  }: any = useProductCatalog();
   return (
     <>
       <PageTitledHeader
@@ -28,7 +28,7 @@ export const ProductCatalog = () => {
         addTitle={'New Product'}
         hasExport
         hasImport
-        hasMovedBack
+        canMovedBack
         handleExcelExport={() => getProductListsDataExport?.(EXPORT_TYPE?.XLS)}
         handleCsvExport={() => getProductListsDataExport?.(EXPORT_TYPE?.CSV)}
         handleAction={() =>
@@ -47,7 +47,6 @@ export const ProductCatalog = () => {
       />
       <Search
         label="search"
-        width="100%"
         value={search}
         onChange={(e: any) => setSearch(e?.target?.value)}
       />

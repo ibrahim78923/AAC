@@ -25,12 +25,14 @@ import DateRangeIcon from '@mui/icons-material/DateRange';
 import { PlusSharedColorIcon } from '@/assets/icons';
 import useCreateSMSBroadcast from './useCreateSMSBroadcast';
 import AddContactDrawer from './AddContactDrawer';
+import { AIR_MARKETER } from '@/routesConstants/paths';
 
-const CreateSMSBroadcast = (props: any) => {
-  const { setIsCreateSmsBroadcast } = props;
-
-  const { theme, isAddContactDrawerOpen, setIsAddContactDrawerOpen } =
+const CreateSMSBroadcast = () => {
+  const { theme, isAddContactDrawerOpen, setIsAddContactDrawerOpen, navigate } =
     useCreateSMSBroadcast();
+
+  const { type } = navigate.query;
+
   const methods: any = useForm({
     resolver: yupResolver(validationSchema),
     defaultValues: defaultValues,
@@ -44,19 +46,25 @@ const CreateSMSBroadcast = (props: any) => {
 
   return (
     <>
-      <Box
-        alignItems="center"
-        gap={1}
-        sx={{ display: { md: 'flex' }, zIndex: 99, position: 'relative' }}
-      >
-        <ArrowBackIcon
-          sx={{ cursor: 'pointer' }}
-          onClick={() => {
-            setIsCreateSmsBroadcast(false);
-          }}
-        />
-        <Typography variant="h4">Create SMS Broadcast</Typography>
-      </Box>
+      <Stack direction="row" justifyContent="space-between">
+        <Box
+          alignItems="center"
+          gap={1}
+          sx={{ display: { md: 'flex' }, zIndex: 99, position: 'relative' }}
+        >
+          <ArrowBackIcon
+            sx={{ cursor: 'pointer' }}
+            onClick={() => {
+              navigate.push(AIR_MARKETER?.SMS_MARKETING);
+            }}
+          />
+          <Typography variant="h4">
+            {type === 'add' ? 'Create ' : 'Edit '}SMS Broadcast
+          </Typography>
+        </Box>
+        {type !== 'add' && <Button variant="outlined">Save as Draft</Button>}
+      </Stack>
+
       <FormProvider methods={methods}>
         <Grid container spacing={3}>
           <Grid item md={6}>

@@ -1,14 +1,12 @@
 import RHFSelect from '@/components/ReactHookForm/RHFSelect';
-
-import RHFDatePicker from '@/components/ReactHookForm/RHFDatePicker';
-
+import { CommonAPIS } from '@/services/common-APIs';
 import * as Yup from 'yup';
 
 export const rolesValidationSchema = Yup.object().shape({
-  roleName: Yup.string().required('Field is Required'),
-  product: Yup.string().required('Field is Required'),
-  status: Yup.string().required('Field is Required'),
-  createdDate: Yup.date().required('Field is Required'),
+  roleName: Yup.string(),
+  product: Yup.string(),
+  status: Yup.string(),
+  createdDate: Yup.date(),
 });
 
 export const rolesDefaultValues = {
@@ -18,60 +16,64 @@ export const rolesDefaultValues = {
   createdDate: new Date(),
 };
 
-export const rolesFiltersArray = [
-  {
-    title: 'Role Name',
-    componentProps: {
-      name: 'roleName',
-      fullWidth: true,
-      select: true,
-    },
-    options: [
-      { value: 'CompanyOwner', label: 'Company Owner' },
-      { value: 'SuperAdmin', label: 'Super Admin' },
-    ],
-    component: RHFSelect,
-    md: 12,
-  },
-  {
-    title: 'Product',
-    componentProps: {
-      name: 'product',
-      fullWidth: true,
-      select: true,
-    },
-    options: [
-      { value: 'sales', label: 'Sales' },
-      { value: 'services', label: 'Services' },
-      { value: 'marketing', label: 'Marketing' },
-      { value: 'loyaltyProgram', label: 'Loyalty Progrma' },
-    ],
-    component: RHFSelect,
-    md: 12,
-  },
+export const rolesFiltersArray = () => {
+  const { useGetProductsQuery } = CommonAPIS;
+  const { data: products } = useGetProductsQuery({});
 
-  {
-    title: 'Status',
-    componentProps: {
-      name: 'status',
-      fullWidth: true,
-      select: true,
+  return [
+    {
+      title: 'Role Name',
+      componentProps: {
+        name: 'roleName',
+        fullWidth: true,
+        select: true,
+      },
+      options: [
+        { value: 'CompanyOwner', label: 'Company Owner' },
+        { value: 'SuperAdmin', label: 'Super Admin' },
+      ],
+      component: RHFSelect,
+      md: 12,
     },
-    options: [
-      { value: 'active', label: 'Active' },
-      { value: 'inactive', label: 'Inactive' },
-    ],
-    component: RHFSelect,
-    md: 12,
-  },
+    {
+      title: 'Product',
+      componentProps: {
+        name: 'product',
+        fullWidth: true,
+        select: true,
+      },
+      options: products?.data?.map((item: any) => ({
+        value: item?._id,
+        label: item?.name,
+      })),
 
-  {
-    title: 'Created Date',
-    componentProps: {
-      name: 'createdDate',
-      fullWidth: true,
+      component: RHFSelect,
+      md: 12,
     },
-    component: RHFDatePicker,
-    md: 12,
-  },
-];
+
+    {
+      title: 'Status',
+      componentProps: {
+        name: 'status',
+        fullWidth: true,
+        select: true,
+      },
+      options: [
+        { value: 'ACTIVE', label: 'Active' },
+        { value: 'INACTIVE', label: 'Inactive' },
+      ],
+      component: RHFSelect,
+      md: 12,
+    },
+
+    // {
+    //   title: 'Created Date',
+    //   componentProps: {
+    //     name: 'dateStart',
+    //     fullWidth: true,
+    //   },
+    //   component: RHFSwitchableDatepicker,
+    //   md: 12,
+    // },
+  ];
+};

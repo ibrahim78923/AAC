@@ -125,13 +125,14 @@ const NewsAndEvents = () => {
               onClick={handleClick}
               disabled={!isDisabled}
               sx={{
-                color: theme.palette.grey[500],
-                height: '40px',
+                color: theme?.palette?.grey[500],
+                width: '112px',
                 border: '1.5px solid #e7e7e9',
                 '@media (max-width:581px)': {
                   width: '100%',
                 },
               }}
+              className="small"
             >
               Actions &nbsp; <DownIcon />
             </Button>
@@ -143,21 +144,33 @@ const NewsAndEvents = () => {
               MenuListProps={{
                 'aria-labelledby': 'basic-button',
               }}
+              PaperProps={{
+                style: {
+                  width: '112px',
+                },
+              }}
             >
-              <MenuItem onClick={() => setIsOpenEditDrawer(true)}>
+              <MenuItem
+                style={{ fontSize: '14px' }}
+                onClick={() => setIsOpenEditDrawer(true)}
+              >
                 Edit
               </MenuItem>
-              <MenuItem>Active</MenuItem>
-              <MenuItem>Inactive</MenuItem>
-              <MenuItem onClick={() => setisNewsAndEventsDeleteModal(true)}>
+              <MenuItem style={{ fontSize: '14px' }}>Active</MenuItem>
+              <MenuItem style={{ fontSize: '14px' }}>Inactive</MenuItem>
+              <MenuItem
+                style={{ fontSize: '14px' }}
+                onClick={() => setisNewsAndEventsDeleteModal(true)}
+              >
                 Delete
               </MenuItem>
             </Menu>
-            <Button sx={styles.refreshButton(theme)}>
+            <Button sx={styles?.refreshButton(theme)} className="small">
               <RefreshSharedIcon />
             </Button>
             <Button
-              sx={styles.filterButton(theme)}
+              sx={styles?.filterButton(theme)}
+              className="small"
               onClick={() => setIsNewsAndEventsFilterDrawerOpen(true)}
             >
               <FilterSharedIcon /> &nbsp; Filter
@@ -165,12 +178,13 @@ const NewsAndEvents = () => {
             <Button
               variant="contained"
               sx={{
-                height: '36px',
                 fontWeight: '500',
+                width: '90px',
                 '@media (max-width:581px)': {
                   width: '100%',
                 },
               }}
+              className="small"
               onClick={() => setIsNewsAndEventAddModal(true)}
             >
               <PlusShared /> &nbsp; Add

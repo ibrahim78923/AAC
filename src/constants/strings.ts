@@ -195,6 +195,24 @@ export const TICKET_TYPES = {
   TICKETS_I_REQUESTED: 'Tickets I Requested',
   SHARED_WITH_ME: 'Shared with me',
 };
+
+export const PRODUCT_CATALOG_STATUS = {
+  IN_PRODUCTION: 'IN_PRODUCTION',
+  PIPELINE: 'PIPELINE',
+  RETIRED: 'RETIRED',
+};
+
+export const MODE_OF_PROCUREMENT = {
+  BUY: 'BUY',
+  LEASE: 'LEASE',
+  BOTH: 'BOTH',
+};
+
+export const MESSAGE_EXPORT_FILE_TYPE: any = {
+  [EXPORT_TYPE?.CSV]: 'csv',
+  [EXPORT_TYPE?.XLS]: 'excel',
+};
+
 export const AGENT_REQUEST_STATUS = {
   APPROVED: 'Approved',
   REJECTED: 'Rejected',
