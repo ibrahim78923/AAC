@@ -136,13 +136,14 @@ const TaxCalculation = () => {
               aria-expanded={actionMenuOpen ? 'true' : undefined}
               onClick={handleActionsMenuClick}
               sx={{
-                color: theme.palette.grey[500],
-                height: '40px',
+                color: theme?.palette?.grey[500],
+                width: '112px',
                 border: '1.5px solid #e7e7e9',
                 '@media (max-width:581px)': {
                   width: '100%',
                 },
               }}
+              className="small"
               disabled={isActionsDisabled}
             >
               Actions &nbsp; <DownIcon />
@@ -155,28 +156,52 @@ const TaxCalculation = () => {
               MenuListProps={{
                 'aria-labelledby': 'basic-button',
               }}
+              PaperProps={{
+                style: {
+                  width: '112px',
+                },
+              }}
             >
-              <MenuItem disabled={!rowId} onClick={handleOpenDrawerEditTax}>
+              <MenuItem
+                disabled={!rowId}
+                onClick={handleOpenDrawerEditTax}
+                style={{ fontSize: '14px' }}
+              >
                 Edit
               </MenuItem>
               <MenuItem
+                style={{ fontSize: '14px' }}
                 disabled={!rowId}
                 onClick={() => handleUpdateStatus('active')}
               >
                 Active
               </MenuItem>
               <MenuItem
+                style={{ fontSize: '14px' }}
                 disabled={!rowId}
                 onClick={() => handleUpdateStatus('inactive')}
               >
                 Inactive
               </MenuItem>
-              <MenuItem onClick={handleOpenModalDelete}>Delete</MenuItem>
+              <MenuItem
+                style={{ fontSize: '14px' }}
+                onClick={handleOpenModalDelete}
+              >
+                Delete
+              </MenuItem>
             </Menu>
-            <Button sx={styles.refreshButton(theme)} onClick={handleRefresh}>
+            <Button
+              sx={styles?.refreshButton(theme)}
+              className="small"
+              onClick={handleRefresh}
+            >
               <RefreshSharedIcon />
             </Button>
-            <Button sx={styles.filterButton(theme)} onClick={handleOpenFilters}>
+            <Button
+              sx={styles?.filterButton(theme)}
+              className="small"
+              onClick={handleOpenFilters}
+            >
               <FilterSharedIcon /> &nbsp; Filter
             </Button>
           </Box>

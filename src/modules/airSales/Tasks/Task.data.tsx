@@ -136,8 +136,8 @@ export const createTaskDefaultValues = {
   deal: '',
   associate: '',
   assignTo: '',
-  dueDate: '',
-  time: '',
+  dueDate: null,
+  time: null,
   reminder: '',
   note: '',
 };

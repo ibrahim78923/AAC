@@ -27,6 +27,7 @@ export default function RHFMultiSearchableSelect({
   footerText,
   footerActionHandler,
   setIsDropdownClose,
+  label,
   ...other
 }: any) {
   const { control } = useFormContext();
@@ -99,6 +100,7 @@ export default function RHFMultiSearchableSelect({
       control={control}
       render={({ field, fieldState: { error } }) => (
         <>
+          <Typography>{label}</Typography>
           <TextField
             {...field}
             fullWidth

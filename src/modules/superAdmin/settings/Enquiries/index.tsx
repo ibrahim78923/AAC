@@ -25,7 +25,7 @@ import {
   enquiriesFiltersValidationSchema,
 } from './Enquiries.data';
 
-import { DownIcon, FilterSharedIcon } from '@/assets/icons';
+import { DownIcon, FilterSharedIcon, RefreshSharedIcon } from '@/assets/icons';
 
 import { styles } from './Enquiries.styles';
 
@@ -105,7 +105,7 @@ const Enquiries = () => {
             label={'Search here'}
             searchBy={search}
             setSearchBy={setSearch}
-            width="100%"
+            width="260px"
             size="small"
           />
           <Box
@@ -124,13 +124,14 @@ const Enquiries = () => {
               aria-expanded={isActionMenuOpen ? 'true' : undefined}
               onClick={handleClick}
               sx={{
-                color: theme.palette.grey[500],
-                height: '40px',
+                color: theme?.palette?.grey[500],
+                width: '112px',
                 border: '1.5px solid #e7e7e9',
                 '@media (max-width:581px)': {
                   width: '100%',
                 },
               }}
+              className="small"
             >
               Actions &nbsp; <DownIcon />
             </Button>
@@ -142,18 +143,32 @@ const Enquiries = () => {
               MenuListProps={{
                 'aria-labelledby': 'basic-button',
               }}
+              PaperProps={{
+                style: {
+                  width: '112px',
+                },
+              }}
             >
-              <MenuItem onClick={() => setIsQueryModalOpen(true)}>
+              <MenuItem
+                onClick={() => setIsQueryModalOpen(true)}
+                style={{ fontSize: '14px' }}
+              >
                 Reply
               </MenuItem>
-              <MenuItem>View</MenuItem>
-              <MenuItem onClick={handleDeleteModal}>Delete</MenuItem>
+              <MenuItem style={{ fontSize: '14px' }}>View</MenuItem>
+              <MenuItem
+                onClick={handleDeleteModal}
+                style={{ fontSize: '14px' }}
+              >
+                Delete
+              </MenuItem>
             </Menu>
-            <Button sx={styles.refreshButton(theme)}>
-              {/* <RefreshSharedIcon /> */}
+            <Button sx={styles?.refreshButton(theme)} className="small">
+              <RefreshSharedIcon />
             </Button>
             <Button
-              sx={styles.filterButton(theme)}
+              sx={styles?.filterButton(theme)}
+              className="small"
               onClick={() => setIsEnquiriesFilterDrawerOpen(true)}
             >
               <FilterSharedIcon /> &nbsp; Filter
@@ -186,7 +201,7 @@ const Enquiries = () => {
             <Grid container spacing={4}>
               {enquiriesFiltersFiltersDataArray?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                  <item.component {...item.componentProps} size={'small'}>
+                  <item.component {...item?.componentProps} size={'small'}>
                     {item?.componentProps?.select
                       ? item?.options?.map((option: any) => (
                           <option key={option?.value} value={option?.value}>

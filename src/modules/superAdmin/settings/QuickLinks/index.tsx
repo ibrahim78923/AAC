@@ -120,7 +120,7 @@ const QuickLinks = () => {
                 label={'Search here'}
                 searchBy={quickLinksSearch}
                 setSearchBy={setQuickLinksSearch}
-                width="100%"
+                width="260px"
                 size="small"
               />
               <Box
@@ -138,13 +138,14 @@ const QuickLinks = () => {
                   aria-expanded={actionMenuOpen ? 'true' : undefined}
                   onClick={handleClick}
                   sx={{
-                    color: theme.palette.grey[500],
-                    height: '40px',
+                    color: theme?.palette?.grey[500],
+                    width: '112px',
                     border: '1.5px solid #e7e7e9',
                     '@media (max-width:581px)': {
                       width: '100%',
                     },
                   }}
+                  className="small"
                 >
                   Actions &nbsp; <DownIcon />
                 </Button>
@@ -156,16 +157,25 @@ const QuickLinks = () => {
                   MenuListProps={{
                     'aria-labelledby': 'basic-button',
                   }}
+                  PaperProps={{
+                    style: {
+                      width: '112px',
+                    },
+                  }}
                 >
-                  <MenuItem onClick={() => setisQuickLinksDeleteModal(true)}>
+                  <MenuItem
+                    style={{ fontSize: '14px' }}
+                    onClick={() => setisQuickLinksDeleteModal(true)}
+                  >
                     Delete
                   </MenuItem>
                 </Menu>
-                <Button sx={styles.refreshButton(theme)}>
+                <Button sx={styles?.refreshButton(theme)} className="small">
                   <RefreshSharedIcon />
                 </Button>
                 <Button
-                  sx={styles.filterButton(theme)}
+                  sx={styles?.filterButton(theme)}
+                  className="small"
                   onClick={() => setIsQuickLinksFilterDrawerOpen(true)}
                 >
                   <FilterSharedIcon /> &nbsp; Filter
@@ -233,7 +243,7 @@ const QuickLinks = () => {
           <Grid container spacing={2} sx={{ marginTop: '40px' }}>
             {!isNullOrEmpty(quickLinksData) &&
               quickLinksData.map((item: any) => (
-                <Grid item xs={8} lg={4} key={uuidv4()}>
+                <Grid item xs={12} sm={6} md={6} lg={4} key={uuidv4()}>
                   <Box sx={styles.quickLinksCard(theme)}>
                     <Box sx={styles.quickLinksCardHead(theme)}>
                       <Typography variant="h6">{item.label}</Typography>
