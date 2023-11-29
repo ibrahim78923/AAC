@@ -185,6 +185,7 @@ export const TICKETS_ISSUES_TYPE = {
 export const TICKET_TYPES = {
   ALL_TICKETS: 'All Tickets',
   URGENT_AND_HIGH_PRIORITY: 'Urgent and High Priority',
+  MY_OVERDUE_TICKETS: 'My Overdue Tickets',
   MY_OPEN_AND_PENDING_TICKETS: 'My Open and Pending Tickets',
   NEW_AND_MY_OPEN_TICKETS: 'New & My Open Tickets',
   SPAM: 'SPAM',

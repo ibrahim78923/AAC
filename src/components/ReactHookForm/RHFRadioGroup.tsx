@@ -27,11 +27,7 @@ export default function RHFRadioGroup({
       render={({ field, fieldState: { error } }) => (
         <Box position="relative">
           {other?.label && (
-            <CustomLabel
-              label={other?.label}
-              error={error}
-              required={required}
-            />
+            <CustomLabel label={other?.label} required={required} />
           )}
           <RadioGroup {...field} row {...other}>
             {options?.map((option: any) => (

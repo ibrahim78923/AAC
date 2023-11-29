@@ -2,7 +2,6 @@ import {
   RHFAutocomplete,
   RHFAutocompleteAsync,
   RHFDatePicker,
-  RHFSelect,
   RHFTimePicker,
 } from '@/components/ReactHookForm';
 
@@ -27,16 +26,17 @@ export const dropdownDummy = [
 
 export const ticketsFilterFormFieldsDefaultValues = (data?: any) => {
   return {
-    ticketType: data?.ticketType ?? '',
-    createdOn: data?.createdOn ?? '',
-    status: data?.status ?? '',
+    ticketType: data?.ticketType ?? null,
+    createdOn:
+      typeof data?.createdOn === 'object' ? new Date(data?.createdOn) : null,
+    status: data?.status ?? null,
     agent: data?.agent ?? null,
     requester: data?.requester ?? null,
     department: data?.department ?? null,
-    priority: data?.priority ?? '',
-    impact: data?.impact ?? '',
+    priority: data?.priority ?? null,
+    impact: data?.impact ?? null,
     category: data?.category ?? null,
-    source: data?.source ?? '',
+    source: data?.source ?? null,
     plannedStartDate:
       typeof data?.plannedStartDate === 'object'
         ? new Date(data?.plannedStartDate)
@@ -57,14 +57,14 @@ export const ticketsFilterFormFieldsDataFunction = (
 ) => [
   {
     id: 2,
-    component: RHFAutocomplete,
-    gridLength: 12,
     componentProps: {
       fullWidth: true,
       name: 'ticketType',
       label: 'Ticket Type',
+      placeholder: 'All Tickets',
       options: ticketsTypeOptions,
     },
+    component: RHFAutocomplete,
   },
   {
     id: 920,
@@ -72,11 +72,8 @@ export const ticketsFilterFormFieldsDataFunction = (
       fullWidth: true,
       name: 'createdOn',
       label: 'Created On',
-      select: true,
-      options: dropdownDummy,
     },
-    gridLength: 12,
-    component: RHFSelect,
+    component: RHFDatePicker,
   },
   {
     id: 150,
@@ -84,22 +81,21 @@ export const ticketsFilterFormFieldsDataFunction = (
       fullWidth: true,
       name: 'status',
       label: 'Status',
-      select: true,
+      placeholder: 'Status',
       options: ticketStatusOptions,
     },
-    gridLength: 12,
-    component: RHFSelect,
+    component: RHFAutocomplete,
   },
   {
     id: 200,
-    component: RHFAutocompleteAsync,
-    gridLength: 12,
     componentProps: {
       fullWidth: true,
       name: 'agents',
       label: 'Agents',
+      placeholder: 'Choose Agent',
       apiQuery: apiQueryAgent,
     },
+    component: RHFAutocompleteAsync,
   },
   {
     id: 129,
@@ -107,10 +103,10 @@ export const ticketsFilterFormFieldsDataFunction = (
       name: 'requester',
       label: 'Requester',
       fullWidth: true,
+      placeholder: 'Choose Requester',
       apiQuery: apiQueryRequester,
     },
     component: RHFAutocompleteAsync,
-    gridLength: 12,
   },
   {
     id: 129,
@@ -118,9 +114,9 @@ export const ticketsFilterFormFieldsDataFunction = (
       fullWidth: true,
       name: 'department',
       label: 'Department',
+      placeholder: 'Choose Department',
       apiQuery: apiQueryDepartment,
     },
-    gridLength: 12,
     component: RHFAutocompleteAsync,
   },
   {
@@ -129,23 +125,21 @@ export const ticketsFilterFormFieldsDataFunction = (
       fullWidth: true,
       name: 'priority',
       label: 'Priority',
-      select: true,
+      placeholder: 'Priority',
       options: ticketPriorityOptions,
     },
-    gridLength: 12,
-    component: RHFSelect,
+    component: RHFAutocomplete,
   },
   {
     id: 82,
-    component: RHFSelect,
-    gridLength: 12,
     componentProps: {
       fullWidth: true,
       name: 'impact',
       label: 'Impact',
-      select: true,
+      placeholder: 'Impact',
       options: ticketImpactOptions,
     },
+    component: RHFAutocomplete,
   },
   {
     id: 96,
@@ -153,10 +147,9 @@ export const ticketsFilterFormFieldsDataFunction = (
       fullWidth: true,
       name: 'category',
       label: 'Category',
-      options: dropdownDummy,
+      placeholder: 'Choose Category',
       apiQuery: apiQueryCategory,
     },
-    gridLength: 12,
     component: RHFAutocompleteAsync,
   },
   {
@@ -224,10 +217,9 @@ export const ticketsFilterFormFieldsDataFunction = (
       fullWidth: true,
       name: 'typeSource',
       label: 'Type Source',
-      select: true,
+      placeholder: 'Choose Source',
       options: ticketSourceOptions,
     },
-    gridLength: 12,
-    component: RHFSelect,
+    component: RHFAutocomplete,
   },
 ];

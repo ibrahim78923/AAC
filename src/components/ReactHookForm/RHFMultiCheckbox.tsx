@@ -32,9 +32,7 @@ export default function RHFMultiCheckbox({
 
         return (
           <>
-            {label && (
-              <CustomLabel label={label} error={error} required={required} />
-            )}
+            {label && <CustomLabel label={label} required={required} />}
             <FormGroup>
               <Grid container>
                 {options?.map((option: any) => (

@@ -14,11 +14,7 @@ export default function RHFTextField({ name, required, ...other }: any) {
       render={({ field, fieldState: { error } }) => (
         <>
           {other?.label && (
-            <CustomLabel
-              label={other?.label}
-              error={error}
-              required={required}
-            />
+            <CustomLabel label={other?.label} required={required} />
           )}
           <TextField
             {...field}

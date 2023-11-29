@@ -14,7 +14,7 @@ export default function RHFCheckbox({ name, required, ...other }: any) {
         <Controller
           name={name}
           control={control}
-          render={({ field, fieldState: { error } }) => (
+          render={({ field }) => (
             <>
               <Checkbox
                 {...field}
@@ -26,11 +26,7 @@ export default function RHFCheckbox({ name, required, ...other }: any) {
                 })}
               />
               {other?.label && (
-                <CustomLabel
-                  label={other?.label}
-                  error={error}
-                  required={required}
-                />
+                <CustomLabel label={other?.label} required={required} />
               )}
             </>
           )}

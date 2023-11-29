@@ -20,9 +20,7 @@ export default function RHFTimePicker({
       control={control}
       render={({ field, fieldState: { error } }) => (
         <>
-          {label && (
-            <CustomLabel label={label} error={error} required={required} />
-          )}
+          {label && <CustomLabel label={label} required={required} />}
           <TimePicker
             {...field}
             {...other}

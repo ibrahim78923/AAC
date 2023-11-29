@@ -39,14 +39,7 @@ export const UpsertTicket = (props: any) => {
             <Grid container spacing={4}>
               {upsertTicketFormFields?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={item?.id}>
-                  <item.component {...item?.componentProps} size={'small'}>
-                    {item?.componentProps?.select &&
-                      item?.options?.map((option: any) => (
-                        <option key={option?.value} value={option?.value}>
-                          {option?.label}
-                        </option>
-                      ))}
-                  </item.component>
+                  <item.component {...item?.componentProps} size={'small'} />
                 </Grid>
               ))}
             </Grid>

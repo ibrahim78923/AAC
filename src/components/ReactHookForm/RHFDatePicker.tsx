@@ -20,9 +20,7 @@ export default function RHFDatePicker({
       control={control}
       render={({ field, fieldState: { error } }) => (
         <>
-          {label && (
-            <CustomLabel label={label} error={error} required={required} />
-          )}
+          {label && <CustomLabel label={label} required={required} />}
           <DatePicker
             {...field}
             {...other}
