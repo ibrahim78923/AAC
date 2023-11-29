@@ -3,16 +3,15 @@ import { FormProvider } from '@/components/ReactHookForm';
 import { useUpsertProductCatalog } from './useUpsertProductCatalog';
 import { LoadingButton } from '@mui/lab';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import { AIR_SERVICES } from '@/constants';
 
 export const UpsertProductCatalog = () => {
   const {
-    router,
     handleSubmit,
     methods,
     upsertProductCatalogFormFields,
     submitUpsertProductCatalog,
     productCatalogId,
+    moveBack,
   } = useUpsertProductCatalog();
 
   return (
@@ -20,16 +19,7 @@ export const UpsertProductCatalog = () => {
       <PageTitledHeader
         title={!!productCatalogId ? 'Edit Product' : 'Add Product'}
         canMovedBack
-        moveBack={() =>
-          router?.push({
-            pathname: !!!productCatalogId
-              ? AIR_SERVICES?.PRODUCT_CATALOG_SETTINGS
-              : AIR_SERVICES?.SINGLE_PRODUCT_CATALOG,
-            query: {
-              ...router?.query,
-            },
-          })
-        }
+        moveBack={() => moveBack?.()}
       />
       <FormProvider
         methods={methods}
@@ -50,7 +40,12 @@ export const UpsertProductCatalog = () => {
         >
           <Box></Box>
           <Box display={'flex'} gap={2} alignItems={'center'}>
-            <LoadingButton variant="outlined" type="button" color="secondary">
+            <LoadingButton
+              variant="outlined"
+              type="button"
+              onClick={() => moveBack?.()}
+              color="secondary"
+            >
               Cancel
             </LoadingButton>
             <LoadingButton variant="contained" type="submit">

@@ -16,6 +16,7 @@ export const productCatalogStatusOption = [
   PRODUCT_CATALOG_STATUS?.IN_PRODUCTION,
   PRODUCT_CATALOG_STATUS?.RETIRED,
 ];
+
 export const modeOfProcurementOption = [
   MODE_OF_PROCUREMENT?.BUY,
   MODE_OF_PROCUREMENT?.LEASE,

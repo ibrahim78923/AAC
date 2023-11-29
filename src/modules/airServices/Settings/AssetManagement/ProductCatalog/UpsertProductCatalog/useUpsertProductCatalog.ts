@@ -9,6 +9,7 @@ import {
 } from './UpsertProductCatalog.data';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { AIR_SERVICES } from '@/constants';
 
 export const useUpsertProductCatalog = () => {
   const router = useRouter();
@@ -34,6 +35,21 @@ export const useUpsertProductCatalog = () => {
 
   const upsertProductCatalogFormFields =
     upsertProductCatalogFormFieldsDynamic();
+
+  const moveBack = () => {
+    if (!!productCatalogId) {
+      router?.push({
+        pathname: AIR_SERVICES?.SINGLE_PRODUCT_CATALOG,
+        query: {
+          ...router?.query,
+        },
+      });
+      return;
+    }
+    router?.push({
+      pathname: AIR_SERVICES?.PRODUCT_CATALOG,
+    });
+  };
   return {
     router,
     theme,
@@ -42,5 +58,6 @@ export const useUpsertProductCatalog = () => {
     upsertProductCatalogFormFields,
     submitUpsertProductCatalog,
     productCatalogId,
+    moveBack,
   };
 };

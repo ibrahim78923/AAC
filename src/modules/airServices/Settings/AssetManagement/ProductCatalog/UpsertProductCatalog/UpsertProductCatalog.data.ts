@@ -12,10 +12,10 @@ import {
 
 export const upsertProductCatalogValidationSchema = Yup?.object()?.shape({
   name: Yup?.string()?.trim()?.required('Field is Required'),
-  assetType: Yup?.mixed()?.nullable()?.required('Required'),
-  manufacturer: Yup?.string()?.required('Required'),
+  assetType: Yup?.mixed()?.nullable()?.required('Field is Required'),
+  manufacturer: Yup?.string(),
   status: Yup?.mixed()?.nullable()?.required('Field is Required'),
-  modeOfProcurement: Yup?.mixed()?.nullable()?.required('Field is Required'),
+  modeOfProcurement: Yup?.mixed()?.nullable(),
   description: Yup?.string(),
 });
 
@@ -36,6 +36,7 @@ export const upsertProductCatalogFormFieldsDynamic = () => [
       name: 'name',
       label: 'Name',
       fullWidth: true,
+      required: true,
     },
     component: RHFTextField,
     md: 6,
@@ -46,6 +47,7 @@ export const upsertProductCatalogFormFieldsDynamic = () => [
       name: 'assetType',
       label: 'Asset Type',
       fullWidth: true,
+      required: true,
       options: productAssetTypeOption,
     },
     component: RHFAutocomplete,
@@ -67,6 +69,7 @@ export const upsertProductCatalogFormFieldsDynamic = () => [
       name: 'status',
       label: 'Status',
       fullWidth: true,
+      required: true,
       options: productCatalogStatusOption,
     },
     component: RHFAutocomplete,
