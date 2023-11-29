@@ -44,9 +44,12 @@ export const dataArray = [
       name: 'accessDashboard',
       fullWidth: true,
       options: [
-        'Private to owner(me)',
-        'Everyone',
-        'Only special user and teams',
+        { label: 'Private to owner(me)', value: 'Private to owner(me)' },
+        { label: 'Everyone', value: 'Everyone' },
+        {
+          label: 'Only special user and teams',
+          value: 'Only special user and teams',
+        },
       ],
       row: false,
     },

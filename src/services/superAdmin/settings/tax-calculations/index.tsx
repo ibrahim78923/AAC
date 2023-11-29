@@ -5,7 +5,7 @@ const TAG = ['SETTINGS_TAX_CALCULATIONS'];
 export const settingsTaxCalculationAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getTaxCalculation: builder.query({
-      query: (params) => ({
+      query: ({ params }) => ({
         url: SUPER_ADMIN_SETTINGS.TAX_CALCULATION,
         method: 'GET',
         params: params,

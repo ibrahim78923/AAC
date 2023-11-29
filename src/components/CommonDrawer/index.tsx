@@ -62,6 +62,7 @@ const CommonDrawer = ({
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
+              pt: '20px',
             }}
           >
             <Box
@@ -73,7 +74,7 @@ const CommonDrawer = ({
               }}
             >
               {headerIcon}
-              <Typography variant="h5">{title}</Typography>
+              <Typography variant="subtitle1">{title}</Typography>
             </Box>
             <Box onClick={onClose} sx={{ cursor: 'pointer' }}>
               <CloseIcon />

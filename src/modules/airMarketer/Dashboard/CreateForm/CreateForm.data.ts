@@ -43,7 +43,7 @@ export const dataArrayCreateForm = [
         { value: 'Private to owner(me)', label: 'Private to owner(me)' },
         { value: 'Everyone', label: 'Everyone' },
         {
-          value: 'Only special user and teams',
+          value: 'Onlyspecialuserandteams',
           label: 'Only special user and teams',
         },
       ],

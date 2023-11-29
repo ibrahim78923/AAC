@@ -1,10 +1,9 @@
-import AppAvatarGroup from '@/components/AvatarGroup';
 import dayjs from 'dayjs';
 import { DocumentIcon } from '@/assets/icons';
 import {
-  RHFDatePicker,
   RHFMultiSearchableSelect,
   RHFSelect,
+  RHFSwitchableDatepicker,
 } from '@/components/ReactHookForm';
 import StatusBadge from '@/components/StatusBadge';
 import useJobApplication from './useJobApplication';
@@ -18,7 +17,7 @@ export const jobApplicationValidationSchema = Yup.object().shape({
 });
 
 export const jobApplicationDefaultValues = {
-  candidateId: [],
+  candidateId: '',
   applyDate: '',
   status: '',
 };
@@ -50,7 +49,7 @@ export const getFiltersDataArray = () => {
         label: 'Apply Date',
         fullWidth: true,
       },
-      component: RHFDatePicker,
+      component: RHFSwitchableDatepicker,
       md: 12,
     },
     {
@@ -72,8 +71,7 @@ export const getFiltersDataArray = () => {
 };
 
 export const columns = (theme: any) => {
-  const { handleUpdateStatus, statusValue, setStatusValue } =
-    useJobApplication();
+  const { handleUpdateStatus } = useJobApplication();
   return [
     {
       accessorFn: (row: any) => row.jobTitle,
@@ -87,9 +85,7 @@ export const columns = (theme: any) => {
       id: 'candidate',
       isSortable: true,
       header: 'Candidate',
-      cell: (info: any) => (
-        <AppAvatarGroup data={info?.getValue()?.proFileImage || []} />
-      ),
+      cell: (info: any) => info?.row?.original?.candidate?.name,
     },
     {
       accessorFn: (row: any) => row.createdAt,
@@ -131,15 +127,13 @@ export const columns = (theme: any) => {
       isSortable: true,
       header: 'Status',
       cell: (info: any) => {
-        setStatusValue(info.getValue());
         return (
           <StatusBadge
             key={info?.row?.original?._id}
-            defaultValue={info.getValue()}
-            value={statusValue}
-            onChange={(e: any) =>
-              handleUpdateStatus(e?.target?.value, info?.row?.original?._id)
-            }
+            value={info?.row?.original?.status}
+            onChange={(e: any) => {
+              handleUpdateStatus(e?.target?.value, info?.row?.original?._id);
+            }}
             options={[
               {
                 label: 'Pending',
@@ -161,16 +155,6 @@ export const columns = (theme: any) => {
                 value: 'interviewed',
                 color: theme?.palette?.custom.bluish_gray,
               },
-              // {
-              //   label: 'Interview Scheduled',
-              //   value: 'interviewScheduled',
-              //   color: theme?.palette?.error?.main,
-              // },
-              // {
-              //   label: 'Hired',
-              //   value: 'hired',
-              //   color: theme?.palette?.success.main,
-              // },
             ]}
           />
         );
