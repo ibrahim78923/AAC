@@ -14,20 +14,22 @@ import {
 import { v4 as uuidv4 } from 'uuid';
 
 const ContactsEditorDrawer = (props: any) => {
-  const { openDrawer, setOpenDrawer } = props;
+  const { openDrawer, setOpenDrawer, contactRecord } = props;
+
   const {
     handleSubmit,
     onSubmit,
     methodscontacts,
     lifeCycleStagesData,
     contactStatusData,
-  } = useContactsEditorDrawer();
+    onCloseHandler,
+  } = useContactsEditorDrawer({ openDrawer, contactRecord, setOpenDrawer });
 
   return (
     <div>
       <CommonDrawer
         isDrawerOpen={openDrawer}
-        onClose={() => setOpenDrawer('')}
+        onClose={onCloseHandler}
         title={drawerTitle[openDrawer]}
         okText={drawerButtonTitle[openDrawer]}
         isOk={true}

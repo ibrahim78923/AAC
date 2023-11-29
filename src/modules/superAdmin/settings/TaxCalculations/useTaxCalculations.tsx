@@ -13,22 +13,35 @@ import { DATE_FORMAT } from '@/constants';
 import {
   addTaxFormDefaultValues,
   addTaxFormValidationSchema,
-  taxFormFiltersDefaultValues,
 } from './TaxCalculations.data';
+import { PAGINATION } from '@/config';
 
 const useTaxCalculations = () => {
-  const [rowId, setRowId] = useState(null);
+  const [selectedRow, setSelectedRow]: any = useState([]);
   const [isActionsDisabled, setIsActionsDisabled] = useState(true);
-  const [tableRowValues, setTableRowValues] = useState([]);
-  const defaultParams = { page: 1, limit: 5 };
-  const [filterParams, setFilterParams] = useState(defaultParams);
-  const methodsFilter: any = useForm({
-    defaultValues: taxFormFiltersDefaultValues,
+  const [rowId, setRowId] = useState(null);
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const defaultParams = {
+    page: PAGINATION?.CURRENT_PAGE,
+    limit: PAGINATION?.PAGE_LIMIT,
+  };
+  const [searchValue, setSearchValue] = useState(null);
+  const [filterParams, setFilterParams] = useState({
+    page: page,
+    limit: pageLimit,
   });
+  let searchPayLoad;
+  if (searchValue) {
+    searchPayLoad = { search: searchValue };
+  }
+  const methodsFilter: any = useForm();
   const { handleSubmit: handleMethodFilter, reset: resetFilters } =
     methodsFilter;
   const { data: dataGetTaxCalculation, isLoading: loagingGetTaxCalculation } =
-    useGetTaxCalculationQuery(filterParams);
+    useGetTaxCalculationQuery({
+      params: { ...filterParams, ...searchPayLoad },
+    });
 
   // Dropdown Menu
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -53,15 +66,7 @@ const useTaxCalculations = () => {
   };
 
   const onSubmitFilters = async (values: any) => {
-    if (values?.status !== '') {
-      setFilterParams((prev) => {
-        return {
-          ...prev,
-          status: values?.status,
-        };
-      });
-    }
-    if (values?.createdDate != null) {
+    if (values?.createdDate) {
       if (!Array.isArray(values?.createdDate)) {
         const formatedDate = dayjs(values?.createdDate).format(
           DATE_FORMAT?.API,
@@ -83,35 +88,31 @@ const useTaxCalculations = () => {
         });
       }
     }
-    if (values?.applyOn !== '') {
-      setFilterParams((prev) => {
-        return {
-          ...prev,
-          applyOn: values.applyOn,
-        };
-      });
-    }
+    setFilterParams((prev) => {
+      return {
+        ...prev,
+        ...values,
+      };
+    });
     handleCloseFilters();
   };
   const handleFiltersSubmit = handleMethodFilter(onSubmitFilters);
 
-  // Search
-  const [searchValue, setSearchValue] = useState('');
-  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchValue(event.target.value);
-    setFilterParams((prev) => {
-      return {
-        ...prev,
-        search: event.target.value,
-      };
-    });
-  };
-
   // Refresh
   const handleRefresh = () => {
     setFilterParams(defaultParams);
-    setSearchValue('');
     resetFilters();
+  };
+
+  // Hadle PAGE CHANGE
+  const handlePageChange = (newPage: number) => {
+    setPage(newPage);
+    setFilterParams((prev) => {
+      return {
+        ...prev,
+        page: newPage,
+      };
+    });
   };
 
   // Add Tax
@@ -204,6 +205,7 @@ const useTaxCalculations = () => {
     try {
       await updateTax({ id: rowId, body: values })?.unwrap();
       handleCloseDrawerEditTax();
+      setSelectedRow([]);
       enqueueSnackbar('Information updated successfully', {
         variant: 'success',
       });
@@ -228,10 +230,11 @@ const useTaxCalculations = () => {
   };
 
   const handleDeleteTaxCalculation = async () => {
-    const items = await tableRowValues.join(',');
+    const items = await selectedRow.join(',');
     try {
       await deleteTaxCalculation(items)?.unwrap();
       handleCloseModalDelete();
+      setSelectedRow([]);
       enqueueSnackbar('Record has been deleted.', {
         variant: 'success',
       });
@@ -248,22 +251,18 @@ const useTaxCalculations = () => {
     actionMenuOpen,
     handleActionsMenuClick,
     handleActionsMenuClose,
-    isActionsDisabled,
-    setIsActionsDisabled,
-    tableRowValues,
-    setTableRowValues,
-    rowId,
-    setRowId,
     openFilters,
     handleOpenFilters,
     handleCloseFilters,
     loagingGetTaxCalculation,
     dataGetTaxCalculation,
-    handleSearch,
-    searchValue,
+    setSearchValue,
     methodsFilter,
     handleFiltersSubmit,
     handleRefresh,
+    setPageLimit,
+    setPage,
+    handlePageChange,
     isAddTaxCalculationDrawerOpen,
     handleOpenAddDrawer,
     handleCloseAddDrawer,
@@ -283,6 +282,12 @@ const useTaxCalculations = () => {
     loadingUpdateTax,
     handleSubmitEditTax,
     methodsEditTaxForm,
+    selectedRow,
+    setSelectedRow,
+    setIsActionsDisabled,
+    isActionsDisabled,
+    setRowId,
+    rowId,
   };
 };
 

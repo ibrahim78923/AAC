@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-
+import React from 'react';
 import {
   Box,
   Button,
@@ -9,73 +8,56 @@ import {
   MenuItem,
   useTheme,
 } from '@mui/material';
-
 import Search from '@/components/Search';
 import CommonDrawer from '@/components/CommonDrawer';
 import TanstackTable from '@/components/Table/TanstackTable';
-import CustomPagination from '@/components/CustomPagination';
-
 import { FormProvider } from '@/components/ReactHookForm';
-
 import {
   columns,
-  editProductFeaturesDefaultValues,
-  productFeaturesDefaultValues,
-  productFeaturesFiltersDataArray,
-  productFeaturesValidationSchema,
+  addProductFeatureFormData,
+  editProductFeatureFormData,
 } from './ProductFeatures.data';
-
-import { productFeatureTableData } from '@/mock/modules/superAdmin/Settings/ProductFeature';
-
 import PlusShared from '@/assets/icons/shared/plus-shared';
 import { DownIcon } from '@/assets/icons';
-
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
 import { v4 as uuidv4 } from 'uuid';
 import useProductFeature from './useProductFeature';
 
 const ProductFeature = () => {
   const theme = useTheme();
-  const [isAddProductFeatureDrawer, setIsAddProductFeatureDrawer] =
-    useState(false);
-  const [productFeatureSearch, setProductFeatureSearch] = useState('');
-
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const actionMenuOpen = Boolean(anchorEl);
   const {
+    anchorEl,
+    actionMenuOpen,
+    handleActionsMenuClick,
+    handleActionMenuClose,
     isDisabled,
     setIsDisabled,
-    tableRowValues,
-    setTableRowValues,
-    isOpenEditDrawer,
-    setIsOpenEditDrawer,
+    rowId,
+    setRowId,
+    dataProductFeatures,
+    loagingProductFeatures,
+    setSearchValue,
+    setPageLimit,
+    setPage,
+    handlePageChange,
+    openDrawerAddFeature,
+    handleOpenDrawerAddFeature,
+    handleCloseDrawerAddFeature,
+    methodsAddFeature,
+    handleAddFeatureSubmit,
+    loadingAddFeature,
+    loadingEditFeature,
+    openDrawerEditFeature,
+    handleOpenDrawerEditFeature,
+    handleCloseDrawerEditFeature,
+    handleEditFeatureSubmit,
+    methodsEditFeature,
   } = useProductFeature();
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
 
-  const methodsProductFeatures = useForm({
-    resolver: yupResolver(productFeaturesValidationSchema),
-    defaultValues: productFeaturesDefaultValues,
-  });
-  const editmethodsProductFeatures = useForm({
-    resolver: yupResolver(productFeaturesValidationSchema),
-    defaultValues: editProductFeaturesDefaultValues,
-  });
-  const onSubmit = () => {
-    setIsAddProductFeatureDrawer(false);
-  };
-  const { handleSubmit } = methodsProductFeatures;
-
-  const getProductFeatureRowData = columns(
-    isDisabled,
+  const ProductFeatureTableColumns = columns(
     setIsDisabled,
-    tableRowValues,
-    setTableRowValues,
+    setRowId,
+    rowId,
+    theme,
   );
 
   return (
@@ -97,7 +79,9 @@ const ProductFeature = () => {
           <Typography variant="h3" sx={{ fontWeight: '600' }}>
             Product Features Setup
           </Typography>
-          <Box>...</Box>
+          <Box>
+            <Box>...</Box>
+          </Box>
         </Box>
         <Box
           mt={2}
@@ -111,10 +95,10 @@ const ProductFeature = () => {
           }}
         >
           <Search
-            label={'Search here'}
-            searchBy={productFeatureSearch}
-            setSearchBy={setProductFeatureSearch}
-            width="100%"
+            setSearchBy={setSearchValue}
+            label="Search Here"
+            size="small"
+            width={'100%'}
           />
           <Box
             sx={{
@@ -129,8 +113,8 @@ const ProductFeature = () => {
               aria-controls={actionMenuOpen ? 'basic-menu' : undefined}
               aria-haspopup="true"
               aria-expanded={actionMenuOpen ? 'true' : undefined}
-              onClick={handleClick}
-              disabled={!isDisabled}
+              onClick={handleActionsMenuClick}
+              disabled={isDisabled}
               sx={{
                 color: theme.palette.grey[500],
                 height: '40px',
@@ -146,14 +130,21 @@ const ProductFeature = () => {
               id="basic-menu"
               anchorEl={anchorEl}
               open={actionMenuOpen}
-              onClose={handleClose}
+              onClose={handleActionMenuClose}
               MenuListProps={{
                 'aria-labelledby': 'basic-button',
               }}
+              sx={{ '& .MuiMenu-list': { minWidth: '180px' } }}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'right',
+              }}
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
             >
-              <MenuItem onClick={() => setIsOpenEditDrawer(true)}>
-                Edit
-              </MenuItem>
+              <MenuItem onClick={handleOpenDrawerEditFeature}>Edit</MenuItem>
             </Menu>
             <Button
               variant="contained"
@@ -164,7 +155,7 @@ const ProductFeature = () => {
                   width: '100%',
                 },
               }}
-              onClick={() => setIsAddProductFeatureDrawer(true)}
+              onClick={handleOpenDrawerAddFeature}
             >
               <PlusShared /> &nbsp; Add Feature
             </Button>
@@ -173,42 +164,63 @@ const ProductFeature = () => {
       </Box>
       <Box>
         <TanstackTable
-          columns={getProductFeatureRowData}
-          data={productFeatureTableData}
-        />
-        <CustomPagination
-          count={1}
-          rowsPerPageOptions={[1, 2]}
-          entriePages={1}
+          columns={ProductFeatureTableColumns}
+          data={dataProductFeatures?.data?.productfeatures}
+          isLoading={loagingProductFeatures}
+          isPagination
+          count={dataProductFeatures?.data?.meta?.pages}
+          totalRecords={dataProductFeatures?.data?.meta?.total}
+          onPageChange={handlePageChange}
+          setPage={setPage}
+          setPageLimit={setPageLimit}
         />
       </Box>
 
       <CommonDrawer
-        isDrawerOpen={isAddProductFeatureDrawer || isOpenEditDrawer}
-        onClose={() => {
-          setIsAddProductFeatureDrawer(false), setIsOpenEditDrawer(false);
-        }}
-        title={
-          isOpenEditDrawer
-            ? 'Edit Product Feature form'
-            : 'Add Product Feature form'
-        }
+        isDrawerOpen={openDrawerAddFeature}
+        onClose={handleCloseDrawerAddFeature}
+        title={'Add Product Feature form'}
         okText="Apply"
         isOk={true}
         footer={true}
-        submitHandler={handleSubmit(onSubmit)}
+        submitHandler={handleAddFeatureSubmit}
+        isLoading={loadingAddFeature}
       >
         <>
-          <FormProvider
-            methods={
-              isOpenEditDrawer
-                ? editmethodsProductFeatures
-                : methodsProductFeatures
-            }
-            onSubmit={handleSubmit(onSubmit)}
-          >
+          <FormProvider methods={methodsAddFeature}>
             <Grid container spacing={4}>
-              {productFeaturesFiltersDataArray?.map((item: any) => (
+              {addProductFeatureFormData()?.map((item: any) => (
+                <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                  <item.component {...item.componentProps} size={'small'}>
+                    {item?.componentProps?.select
+                      ? item?.options?.map((option: any) => (
+                          <option key={option?.value} value={option?.value}>
+                            {option?.label}
+                          </option>
+                        ))
+                      : null}
+                  </item.component>
+                </Grid>
+              ))}
+            </Grid>
+          </FormProvider>
+        </>
+      </CommonDrawer>
+
+      <CommonDrawer
+        isDrawerOpen={openDrawerEditFeature}
+        onClose={handleCloseDrawerEditFeature}
+        title={'Edit Product Feature form'}
+        okText="Update"
+        isOk={true}
+        footer={true}
+        submitHandler={handleEditFeatureSubmit}
+        isLoading={loadingEditFeature}
+      >
+        <>
+          <FormProvider methods={methodsEditFeature}>
+            <Grid container spacing={4}>
+              {editProductFeatureFormData()?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
                   <item.component {...item.componentProps} size={'small'}>
                     {item?.componentProps?.select

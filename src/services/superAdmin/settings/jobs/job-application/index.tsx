@@ -5,7 +5,7 @@ const TAG = ['SETTINGS_JOB_APPLICATION'];
 export const settingsJobAppsAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getJobApps: builder.query({
-      query: (params) => ({
+      query: ({ params }) => ({
         url: SUPER_ADMIN_SETTINGS.JOB_APPLICATIONS,
         method: 'GET',
         params: params,

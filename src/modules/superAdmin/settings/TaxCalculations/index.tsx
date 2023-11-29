@@ -12,7 +12,6 @@ import {
 import Search from '@/components/Search';
 import CommonDrawer from '@/components/CommonDrawer';
 import TanstackTable from '@/components/Table/TanstackTable';
-import CustomPagination from '@/components/CustomPagination';
 import { AlertModals } from '@/components/AlertModals';
 import { FormProvider } from '@/components/ReactHookForm';
 import {
@@ -32,19 +31,12 @@ const TaxCalculation = () => {
     actionMenuOpen,
     handleActionsMenuClick,
     handleActionsMenuClose,
-    isActionsDisabled,
-    setIsActionsDisabled,
-    tableRowValues,
-    setTableRowValues,
-    rowId,
-    setRowId,
     openFilters,
     handleOpenFilters,
     handleCloseFilters,
     loagingGetTaxCalculation,
     dataGetTaxCalculation,
-    handleSearch,
-    searchValue,
+    setSearchValue,
     methodsFilter,
     handleFiltersSubmit,
     handleRefresh,
@@ -66,12 +58,21 @@ const TaxCalculation = () => {
     methodsEditTaxForm,
     handleSubmitEditTax,
     loadingUpdateTax,
+    setPageLimit,
+    setPage,
+    handlePageChange,
+    selectedRow,
+    setSelectedRow,
+    setIsActionsDisabled,
+    isActionsDisabled,
+    setRowId,
+    rowId,
   } = useTaxCalculations();
   const theme = useTheme();
   const getTableColumns = columns(
+    selectedRow,
+    setSelectedRow,
     setIsActionsDisabled,
-    tableRowValues,
-    setTableRowValues,
     setRowId,
   );
 
@@ -115,10 +116,10 @@ const TaxCalculation = () => {
           }}
         >
           <Search
-            label={'Search here'}
-            value={searchValue}
-            onChange={handleSearch}
-            width="100%"
+            setSearchBy={setSearchValue}
+            label="Search Here"
+            size="small"
+            width={'100%'}
           />
           <Box
             sx={{
@@ -187,11 +188,12 @@ const TaxCalculation = () => {
           columns={getTableColumns}
           data={dataGetTaxCalculation?.data?.taxCalculations}
           isLoading={loagingGetTaxCalculation}
-        />
-        <CustomPagination
-          count={1}
-          rowsPerPageOptions={[1, 2]}
-          entriePages={1}
+          isPagination
+          count={dataGetTaxCalculation?.data?.meta?.pages}
+          totalRecords={dataGetTaxCalculation?.data?.meta?.total}
+          onPageChange={handlePageChange}
+          setPage={setPage}
+          setPageLimit={setPageLimit}
         />
       </Box>
 
@@ -264,7 +266,7 @@ const TaxCalculation = () => {
         isOk={true}
         footer={true}
         submitHandler={handleSubmitEditTax}
-        loading={loadingUpdateTax}
+        isLoading={loadingUpdateTax}
       >
         <>
           <FormProvider methods={methodsEditTaxForm}>

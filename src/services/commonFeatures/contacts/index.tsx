@@ -18,6 +18,14 @@ export const exampleExampleAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: ['CONTACTS'],
     }),
+    updateContacts: builder.mutation({
+      query: ({ body, contactId }: any) => ({
+        url: `${END_POINTS?.CONTACTS}/${contactId}`,
+        method: 'PATCH',
+        body: body,
+      }),
+      invalidatesTags: ['CONTACTS'],
+    }),
 
     getLifeCycle: builder.query({
       query: () => ({
@@ -42,4 +50,5 @@ export const {
   useGetContactsQuery,
   useGetLifeCycleQuery,
   usePostContactsMutation,
+  useUpdateContactsMutation,
 } = exampleExampleAPI;
