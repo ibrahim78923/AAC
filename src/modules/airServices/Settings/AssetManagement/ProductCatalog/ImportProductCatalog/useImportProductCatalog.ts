@@ -16,6 +16,7 @@ export const useImportProductCatalog = (props: any) => {
     enqueueSnackbar('File Uploaded Successfully', {
       variant: NOTISTACK_VARIANTS?.SUCCESS,
     });
+    onClose?.();
   };
 
   const onClose = () => {

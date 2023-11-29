@@ -20,11 +20,12 @@ const ActionsOptions = ({ setIsShowEditDashboard }: any) => {
       <div>
         <Button
           onClick={handleClickActions}
+          className="small"
           sx={{
             border: `1px solid ${theme?.palette?.custom?.dark}`,
             color: theme?.palette?.custom?.main,
             width: '112px',
-            height: '36px',
+
             marginRight: '10px',
           }}
         >

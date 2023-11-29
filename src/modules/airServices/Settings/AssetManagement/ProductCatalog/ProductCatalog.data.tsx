@@ -1,5 +1,27 @@
 import { AIR_SERVICES } from '@/constants';
+import {
+  ASSET_TYPE,
+  MODE_OF_PROCUREMENT,
+  PRODUCT_CATALOG_STATUS,
+} from '@/constants/strings';
 import { Box } from '@mui/material';
+
+export const productAssetTypeOption = [
+  ASSET_TYPE?.HARDWARE,
+  ASSET_TYPE?.SOFTWARE,
+];
+
+export const productCatalogStatusOption = [
+  PRODUCT_CATALOG_STATUS?.PIPELINE,
+  PRODUCT_CATALOG_STATUS?.IN_PRODUCTION,
+  PRODUCT_CATALOG_STATUS?.RETIRED,
+];
+
+export const modeOfProcurementOption = [
+  MODE_OF_PROCUREMENT?.BUY,
+  MODE_OF_PROCUREMENT?.LEASE,
+  MODE_OF_PROCUREMENT?.BOTH,
+];
 
 export const PRODUCT_LISTS_ACTION_CONSTANTS = {
   IMPORT: 'import',
@@ -33,6 +55,7 @@ export const productListsColumnDynamic: any = (router?: any) => {
             });
           }}
           sx={{ cursor: 'pointer' }}
+          color="custom.bright"
         >
           {info?.getValue()}
         </Box>

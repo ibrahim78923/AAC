@@ -3,72 +3,107 @@ import { useForm } from 'react-hook-form';
 import { enqueueSnackbar } from 'notistack';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { parseISO } from 'date-fns';
-import {
-  jobPostingFiltersDefaultValues,
-  jobPostingValidationSchema,
-} from './jobPosting.data';
+import dayjs from 'dayjs';
+import { jobPostingValidationSchema } from './jobPosting.data';
 import {
   useGetJobsQuery,
   useDeleteJobMutation,
   useUpdateJobMutation,
 } from '@/services/superAdmin/settings/jobs';
+import { PAGINATION } from '@/config';
+import { DATE_FORMAT } from '@/constants/index';
 
 const useJobPosting = () => {
+  const [selectedRow, setSelectedRow]: any = useState([]);
+  const [isActionsDisabled, setIsActionsDisabled] = useState(true);
+  const [rowId, setRowId] = useState(null);
+
+  // OPEN/CLOSE ACTIONS MENU
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const actionMenuOpen = Boolean(anchorEl);
-  const [isDisabled, setIsDisabled] = useState(true);
-  const [tableRowValues, setTableRowValues] = useState([]);
-  const [rowId, setRowId] = useState(null);
-  const defaultParams = { page: 1, limit: 5 };
-  const [jobsParams, setJobsParams] = useState(defaultParams);
-  const [searchValue, setSearchValue] = useState('');
-  const [openJobPostingFilter, setOpenJobPostingFilter] = useState(false);
   const handleActionsClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const { data: jopPostinData, isLoading: loadingJobPosting } =
-    useGetJobsQuery(jobsParams);
-  const [deleteJobPost, { isLoading: loadingDeleteJobPost }] =
-    useDeleteJobMutation();
-  const methodsFilter: any = useForm({
-    defaultValues: jobPostingFiltersDefaultValues,
-  });
-  const { handleSubmit: handleMethodFilter } = methodsFilter;
 
+  // GET JOB POSTINGS
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const defaultParams = {
+    page: PAGINATION?.CURRENT_PAGE,
+    limit: PAGINATION?.PAGE_LIMIT,
+  };
+  const [searchValue, setSearchValue] = useState(null);
+  const [filterParams, setFilterParams] = useState({
+    page: page,
+    limit: pageLimit,
+  });
+  let searchPayLoad;
+  if (searchValue) {
+    searchPayLoad = { search: searchValue };
+  }
+  const { data: jopPostingData, isLoading: loadingJobPosting } =
+    useGetJobsQuery({ params: { ...filterParams, ...searchPayLoad } });
+  const methodsFilter: any = useForm();
+  const { handleSubmit: handleMethodFilter, reset: ressetFilterForm } =
+    methodsFilter;
+
+  // HANDLE REFRESH
   const handleRefresh = () => {
-    setJobsParams(defaultParams);
-    setSearchValue('');
+    setFilterParams(defaultParams);
+    ressetFilterForm();
   };
 
-  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchValue(event?.target?.value);
-    setJobsParams((prev) => {
+  // Hadle PAGE CHANGE
+  const handlePageChange = (newPage: number) => {
+    setPage(newPage);
+    setFilterParams((prev) => {
       return {
         ...prev,
-        search: event?.target?.value,
+        page: newPage,
       };
     });
   };
 
+  // OPEN/CLOSE FILTER DRAWER
+  const [openJobPostingFilter, setOpenJobPostingFilter] = useState(false);
   const handleOpenJobPostingFilters = () => {
     setOpenJobPostingFilter(true);
   };
   const handleCloseJobPostingFilters = () => {
     setOpenJobPostingFilter(false);
+    ressetFilterForm();
   };
 
   const onSubmitFilters = async (values: any) => {
-    const updatedParams: any = { ...jobsParams };
-    for (const field in values) {
-      if (values[field] !== '') {
-        updatedParams[field] = values[field];
+    if (values?.createdAt) {
+      if (!Array.isArray(values?.createdAt)) {
+        setFilterParams((prev) => {
+          return {
+            ...prev,
+            dateStart: dayjs(values?.createdAt).format(DATE_FORMAT.API),
+            dateEnd: dayjs(values?.createdAt).format(DATE_FORMAT.API),
+          };
+        });
+      } else {
+        setFilterParams((prev) => {
+          return {
+            ...prev,
+            dateStart: dayjs(values?.createdAt[0]).format(DATE_FORMAT.API),
+            dateEnd: dayjs(values?.createdAt[1]).format(DATE_FORMAT.API),
+          };
+        });
       }
     }
-    setJobsParams(updatedParams);
-    handleCloseJobPostingFilters();
+    setFilterParams((prev) => {
+      return {
+        ...prev,
+        ...values,
+      };
+    });
+    setOpenJobPostingFilter(false);
   };
   const handleFiltersSubmit = handleMethodFilter(onSubmitFilters);
 
@@ -83,7 +118,7 @@ const useJobPosting = () => {
   const handleOpenEditJobPost = () => {
     handleClose();
     const selectedItem =
-      jopPostinData?.data?.jobs.find((item: any) => item?._id === rowId) || {};
+      jopPostingData?.data?.jobs.find((item: any) => item?._id === rowId) || {};
     if (selectedItem) {
       methodsEditJobPosting.setValue('title', selectedItem?.title);
       methodsEditJobPosting.setValue('jobType', selectedItem?.jobType);
@@ -110,7 +145,8 @@ const useJobPosting = () => {
     try {
       await updateJobPost({ id: rowId, body: values })?.unwrap();
       handleCloseEditJobPost();
-      enqueueSnackbar('Job updated successfully', {
+      setSelectedRow([]);
+      enqueueSnackbar('Record Details Updated Successfully', {
         variant: 'success',
       });
     } catch (error: any) {
@@ -121,7 +157,29 @@ const useJobPosting = () => {
   };
   const handleSubmitEditJobPost = handleMethodEditJobPosting(onSubmitEditJob);
 
+  // Update Status
+  const handleUpdateStatus = async (status: string, id: any) => {
+    const payLoad = {
+      status: status,
+    };
+    try {
+      await updateJobPost({ id: id, body: payLoad })?.unwrap();
+      enqueueSnackbar(
+        `This job is ${status === 'OPEN' ? 'open' : 'close'} now`,
+        {
+          variant: 'success',
+        },
+      );
+    } catch (error: any) {
+      enqueueSnackbar('An error occured', {
+        variant: 'error',
+      });
+    }
+  };
+
   // Delete JobPosting
+  const [deleteJobPost, { isLoading: loadingDeleteJobPost }] =
+    useDeleteJobMutation();
   const [openModalDeleteJobPost, setOpenModalDeleteJobPost] =
     useState<boolean>(false);
   const handleOpenModalDeleteJobPost = () => {
@@ -134,14 +192,15 @@ const useJobPosting = () => {
   };
 
   const handleDeleteJobPost = async () => {
-    const items = await tableRowValues?.join(',');
+    const items = await selectedRow?.join(',');
     try {
       await deleteJobPost(items)?.unwrap();
-      handleCloseEditJobPost();
+      handleCloseModalDeleteJobPost();
+      setSelectedRow([]);
       enqueueSnackbar('Record has been deleted.', {
         variant: 'success',
       });
-      setIsDisabled(true);
+      setIsActionsDisabled(true);
     } catch (error: any) {
       enqueueSnackbar('An error occured', {
         variant: 'error',
@@ -154,23 +213,20 @@ const useJobPosting = () => {
     actionMenuOpen,
     handleActionsClick,
     handleClose,
-    jopPostinData,
+    jopPostingData,
     loadingJobPosting,
-    jobsParams,
+    filterParams,
     searchValue,
-    handleSearch,
+    setSearchValue,
     handleRefresh,
+    setPageLimit,
+    setPage,
+    handlePageChange,
     openJobPostingFilter,
     handleOpenJobPostingFilters,
     handleCloseJobPostingFilters,
     methodsFilter,
     handleFiltersSubmit,
-    tableRowValues,
-    setTableRowValues,
-    isDisabled,
-    setIsDisabled,
-    setRowId,
-    rowId,
     openModalDeleteJobPost,
     handleOpenModalDeleteJobPost,
     handleCloseModalDeleteJobPost,
@@ -182,7 +238,13 @@ const useJobPosting = () => {
     handleSubmitEditJobPost,
     loadingUpdateJobPost,
     methodsEditJobPosting,
+    handleUpdateStatus,
+    selectedRow,
+    setSelectedRow,
+    setIsActionsDisabled,
+    isActionsDisabled,
+    setRowId,
+    rowId,
   };
 };
-
 export default useJobPosting;

@@ -16,8 +16,8 @@ export const END_POINTS = {
   USER_LIST: '/users',
   ADD_USER: '/users',
   ADD_USER_ACCOUNT: '/super-admin/add-accounts',
-  SUPER_ADMIN_USER_LIST: '/super-admin/user-list',
-  SUPER_ADMIN_ADD_USER: '/super-admin/add-user',
+  ORG_ADMIN_EMP_LIST: '/users/organization',
+  ORG_USER_EMPLOYEE: '/users/organization',
   USER_ACCOUNTS_LIST: '/super-admin/accounts-list',
   UPDATE_USER_LIST: '/users/edit',
   COMPANY_CRN: '/auth/search-company',
@@ -37,7 +37,8 @@ export const END_POINTS = {
   TASK_MANAGEMENT: '/task/management',
   DEALS_ASSOCIATION: '/deals/get-associations',
   ENQUIRIES: '/enquiries/',
-  TASK_MANAGEMENT: '/task/management',
+  CREATE_ASSOCIATION: '/deals/create-association',
+  DELETE_ASSOCIATION: '/deals/delete-association',
 };
 
 export const superAdminBillingInvoices = {
@@ -86,4 +87,5 @@ export const settingContactStatus = {
 export const ORG_ADMIN = {
   SUBSCRIPTION_AND_INVOICES: '/org-admin/subscriptions',
   GET_INVOICES: '/org-admin/invoices',
+  PRODUCT_PLAN_LIST: '/plan/product-plan-list',
 };

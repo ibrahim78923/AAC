@@ -1,7 +1,8 @@
 import Layout from '@/layout';
+import { UpsertProductCatalog } from '@/modules/airServices/Settings/AssetManagement/ProductCatalog/UpsertProductCatalog';
 
 const UpsertProductCatalogPage = () => {
-  return <>UpsertProductCatalog</>;
+  return <UpsertProductCatalog />;
 };
 
 export default UpsertProductCatalogPage;

@@ -4,17 +4,10 @@ import { END_POINTS } from '@/routesConstants/endpoints';
 export const usersApi: any = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getUsers: builder.query({
-      query: ({ role, search, products }) => ({
-        url: `${END_POINTS?.ADD_USER}?page=1&limit=100&role=${role}&search=${search}&products=${products}`,
+      query: (params: any) => ({
+        url: END_POINTS?.ADD_USER,
         method: 'GET',
-      }),
-      providesTags: ['USERS'],
-    }),
-
-    getCompaniesCRN: builder.query({
-      query: ({ num }) => ({
-        url: `${END_POINTS?.COMPANY_CRN}?by=crn&q=${num}`,
-        method: 'GET',
+        params: params,
       }),
       providesTags: ['USERS'],
     }),
@@ -39,12 +32,13 @@ export const usersApi: any = baseAPI.injectEndpoints({
       },
       invalidatesTags: ['USERS'],
     }),
+
     updateUsers: builder.mutation({
-      query: ({ id, ...queryParams }: any) => {
+      query: ({ id, body }: any) => {
         return {
-          url: `${END_POINTS?.UPDATE_USER_LIST}/${id}`,
+          url: `${END_POINTS?.ADD_USER}/${id}`,
           method: 'PATCH',
-          params: queryParams,
+          body: body,
         };
       },
       invalidatesTags: ['USERS'],
@@ -75,7 +69,6 @@ export const {
   useUpdateUsersMutation,
   usePostUsersMutation,
   useGetUsersQuery,
-  useGetCompaniesCRNQuery,
   useDeleteUsersMutation,
   useGetUsersByIdQuery,
   useUpdateUserProfileMutation,

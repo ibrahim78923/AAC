@@ -5,7 +5,7 @@ const TAG = ['SETTINGS_JOBS'];
 export const settingsJobsAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getJobs: builder.query({
-      query: (params) => ({
+      query: ({ params }) => ({
         url: SUPER_ADMIN_SETTINGS.JOBS,
         method: 'GET',
         params: params,

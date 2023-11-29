@@ -4,7 +4,6 @@ import { Box, useTheme, Button, Grid, MenuItem, Menu } from '@mui/material';
 import CommonDrawer from '@/components/CommonDrawer';
 import Search from '@/components/Search';
 import TanstackTable from '@/components/Table/TanstackTable';
-import CustomPagination from '@/components/CustomPagination';
 import { FormProvider } from '@/components/ReactHookForm';
 import { AlertModals } from '@/components/AlertModals';
 
@@ -22,22 +21,15 @@ const JobPosting = () => {
     actionMenuOpen,
     handleActionsClick,
     handleClose,
-    jopPostinData,
+    jopPostingData,
     loadingJobPosting,
-    searchValue,
-    handleSearch,
+    setSearchValue,
     handleRefresh,
     openJobPostingFilter,
     handleOpenJobPostingFilters,
     handleCloseJobPostingFilters,
     handleFiltersSubmit,
     methodsFilter,
-    tableRowValues,
-    setTableRowValues,
-    setIsDisabled,
-    isDisabled,
-    setRowId,
-    rowId,
     openModalDeleteJobPost,
     handleOpenModalDeleteJobPost,
     handleCloseModalDeleteJobPost,
@@ -49,13 +41,22 @@ const JobPosting = () => {
     handleSubmitEditJobPost,
     loadingUpdateJobPost,
     methodsEditJobPosting,
+    setPageLimit,
+    setPage,
+    handlePageChange,
+    selectedRow,
+    setSelectedRow,
+    setIsActionsDisabled,
+    isActionsDisabled,
+    setRowId,
+    rowId,
   } = useJobPosting();
 
   const getColumns = columns(
     theme,
-    setIsDisabled,
-    tableRowValues,
-    setTableRowValues,
+    selectedRow,
+    setSelectedRow,
+    setIsActionsDisabled,
     setRowId,
   );
 
@@ -74,11 +75,10 @@ const JobPosting = () => {
         }}
       >
         <Search
-          label={'Search here'}
-          width="100%"
+          setSearchBy={setSearchValue}
+          label="Search Here"
           size="small"
-          onChange={handleSearch}
-          value={searchValue}
+          width={'100%'}
         />
         <Box
           sx={{
@@ -98,7 +98,7 @@ const JobPosting = () => {
               height: '40px',
               border: '1.5px solid #e7e7e9',
             }}
-            disabled={isDisabled}
+            disabled={isActionsDisabled}
           >
             Actions &nbsp; <DownIcon />
           </Button>
@@ -134,13 +134,14 @@ const JobPosting = () => {
       <Box>
         <TanstackTable
           columns={getColumns}
-          data={jopPostinData?.data?.jobs}
+          data={jopPostingData?.data?.jobs}
           isLoading={loadingJobPosting}
-        />
-        <CustomPagination
-          count={3}
-          rowsPerPageOptions={[5, 10, 25, 50, 100]}
-          entriePages={50}
+          isPagination
+          count={jopPostingData?.data?.meta?.pages}
+          totalRecords={jopPostingData?.data?.meta?.total}
+          onPageChange={handlePageChange}
+          setPage={setPage}
+          setPageLimit={setPageLimit}
         />
       </Box>
 
@@ -152,6 +153,7 @@ const JobPosting = () => {
         isOk={true}
         footer={true}
         submitHandler={handleFiltersSubmit}
+        isLoading={loadingJobPosting}
       >
         <>
           <FormProvider methods={methodsFilter}>
