@@ -41,7 +41,7 @@ export const superAdminValidationSchema = Yup.object().shape({
   postCode: Yup.string()
     .required('Field is Required')
     .matches(/^[0-9]+$/, 'Must be a number'),
-  compositeAddress: Yup.string().required('Field is Required'),
+  compositeAddress: Yup.string(),
   jobTitle: Yup.string()
     .required('Field is Required')
     .matches(/^[A-Za-z]+$/, 'Only alphabetic characters are allowed'),

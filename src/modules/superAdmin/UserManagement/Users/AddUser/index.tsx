@@ -181,6 +181,30 @@ const AddUser = ({
                         </option>
                       ))}
                   </item.component>
+                  {item?.componentProps?.name === 'email' &&
+                    tabTitle === 'COMPANY_OWNER' && (
+                      <Box mt={2}>
+                        <Grid item xs={12}>
+                          <RHFTextField
+                            name="crn"
+                            defaultValue={userDetail?.organization?.crn}
+                            label="Company Registration Number(CRN)"
+                            placeholder="Enter crn"
+                            size="small"
+                          />
+                        </Grid>
+                        <Grid item xs={12} mt={2}>
+                          <RHFTextField
+                            name="companyName"
+                            label="company Name"
+                            placeholder="Company Name"
+                            size="small"
+                            disabled
+                            defaultValue={userDetail?.organization?.name}
+                          />
+                        </Grid>
+                      </Box>
+                    )}
                   {isToggled && (
                     <Grid item container spacing={2} mt={1}>
                       {item?.componentProps?.name === 'compositeAddress' &&
@@ -212,29 +236,6 @@ const AddUser = ({
               )
             );
           })}
-          {tabTitle === 'COMPANY_OWNER' && (
-            <>
-              <Grid item xs={12}>
-                <RHFTextField
-                  name="crn"
-                  defaultValue={userDetail?.organization?.crn}
-                  label="Company Registration Number(CRN)"
-                  placeholder="Enter crn"
-                  size="small"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <RHFTextField
-                  name="companyName"
-                  label="company Name"
-                  placeholder="Company Name"
-                  size="small"
-                  disabled
-                  defaultValue={userDetail?.organization?.name}
-                />
-              </Grid>
-            </>
-          )}
         </Grid>
       </FormProvider>
     </CommonDrawer>

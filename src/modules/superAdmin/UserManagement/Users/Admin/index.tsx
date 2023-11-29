@@ -9,6 +9,8 @@ const Admin = (props: any) => {
   const { checkedRows, setCheckedRows, filterValues, searchVal } = props;
   const { useGetUsersQuery, handleUserSwitchChange } = useUserManagement();
   const params = {
+    page: 1,
+    limit: 100,
     role: 'SUPER_ADMIN',
     search: searchVal ?? '',
     products: filterValues?.products ?? '',
