@@ -56,11 +56,11 @@ export default function RHFAutocompleteAsync({
           <Autocomplete
             {...form?.field}
             multiple={multiple}
+            limitTags={2}
             id={name}
             open={open}
             autoComplete
             includeInputInList
-            filterSelectedOptions
             noOptionsText={noOptionsCase}
             options={data ?? []}
             disableCloseOnSelect
@@ -77,7 +77,7 @@ export default function RHFAutocompleteAsync({
             loading={isLoading || isFetching}
             onChange={(e: React.SyntheticEvent, newValue: any) => {
               onChanged(e, newValue, form?.field?.onChange);
-              !multiple && setOpen(false);
+              setOpen(false);
             }}
             PaperComponent={(props) => (
               <Paper
