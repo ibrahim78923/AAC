@@ -37,7 +37,8 @@ export const END_POINTS = {
   TASK_MANAGEMENT: '/task/management',
   DEALS_ASSOCIATION: '/deals/get-associations',
   ENQUIRIES: '/enquiries/',
-  TASK_MANAGEMENT: '/task/management',
+  CREATE_ASSOCIATION: '/deals/create-association',
+  DELETE_ASSOCIATION: '/deals/delete-association',
 };
 
 export const superAdminBillingInvoices = {
@@ -86,4 +87,5 @@ export const settingContactStatus = {
 export const ORG_ADMIN = {
   SUBSCRIPTION_AND_INVOICES: '/org-admin/subscriptions',
   GET_INVOICES: '/org-admin/invoices',
+  PRODUCT_PLAN_LIST: '/plan/product-plan-list',
 };

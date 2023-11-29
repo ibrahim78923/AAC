@@ -33,6 +33,8 @@ const Invoices = () => {
     getRowValues,
     isChecked,
     invoicesTableData,
+    setSearchByInvoices,
+    searchByInvoices,
   } = useInvoices();
 
   return (
@@ -53,7 +55,12 @@ const Invoices = () => {
 
         <Box sx={styles?.tableToolbar}>
           <Box sx={styles?.tableSearch}>
-            <Search size="small" placeholder="search here" />
+            <Search
+              searchBy={searchByInvoices}
+              setSearchBy={setSearchByInvoices}
+              size="small"
+              placeholder="search here"
+            />
           </Box>
           <Box sx={styles?.tableToolbarActions}>
             <Box>

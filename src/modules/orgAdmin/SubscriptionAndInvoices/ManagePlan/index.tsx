@@ -20,6 +20,8 @@ import { orgAdminSubcriptionInvoices } from '@/routesConstants/paths';
 import { useUpdateSubscriptionMutation } from '@/services/orgAdmin/subscription-and-invoices';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
+import { enqueueSnackbar } from 'notistack';
+import Link from 'next/link';
 
 const ManagePlan = () => {
   const router = useRouter();
@@ -35,20 +37,32 @@ const ManagePlan = () => {
   const handleChange = (event: SelectChangeEvent) => {
     setValue(event?.target?.value as string);
   };
+
   const updateSubscriptionPayload = {
-    planId: parsedManageData?.plans?._id,
-    additionalUsers: parsedManageData?.plans?.additionalUsers,
-    additionalStorage: parsedManageData?.plans?.additionalStorage,
+    planId: parsedManageData?.planId,
+    additionalUsers: parsedManageData?.additionalUsers,
+    additionalStorage: parsedManageData?.additionalStorage,
     billingDate: dayjs(parsedManageData?.billingDate).format(DATE_FORMAT?.API),
     status: parsedManageData?.status,
-    billingCycle: parsedManageData?.billingCycle,
+    //TODO:We will only send billing cycle monthly as discussed
+    billingCycle: 'MONTHLY',
+    planDiscount: 1,
   };
 
   const handleUpdateSubscription = async () => {
-    await updateSubscription({
-      id: parsedManageData?._id,
-      body: updateSubscriptionPayload,
-    });
+    try {
+      await updateSubscription({
+        id: parsedManageData?._id,
+        body: updateSubscriptionPayload,
+      }).unwrap();
+      enqueueSnackbar('Plan Updated Successfully', {
+        variant: 'success',
+      });
+    } catch (error: any) {
+      enqueueSnackbar('SomeThing Went Wrong', {
+        variant: 'success',
+      });
+    }
   };
   return (
     <>
@@ -61,13 +75,15 @@ const ManagePlan = () => {
             Sales
           </Typography>
           <Box sx={styles?.cardHeaderAction}>
-            <Button
-              onClick={() =>
-                router.push(`${orgAdminSubcriptionInvoices.choose_plan}`)
-              }
+            <Link
+              href={{
+                pathname: `${orgAdminSubcriptionInvoices.choose_plan}`,
+                query: { data: parsedManageData?.plans?.planProducts[0] },
+              }}
+              as={`${orgAdminSubcriptionInvoices.choose_plan}`}
             >
-              Change Plan
-            </Button>
+              <Button>Change Plan</Button>
+            </Link>
           </Box>
         </Box>
 
@@ -141,16 +157,20 @@ const ManagePlan = () => {
 
         <Box sx={styles?.planTableRow}>
           <Box sx={styles?.planTableTd}>Plan Price</Box>
-          <Box sx={styles?.planTableTh}>£ 20</Box>
+          <Box sx={styles?.planTableTh}>
+            £ {parsedManageData?.plans?.planPrice}
+          </Box>
         </Box>
         <Box sx={styles?.planTableRow}>
           <Box sx={styles?.planTableTd}>
-            3 Additional Users{' '}
+            {parsedManageData?.additionalUsers} Additional Users{' '}
             <Box component="span" sx={{ fontSize: '12px' }}>
               (£ 15/user)
             </Box>
           </Box>
-          <Box sx={styles?.planTableTh}>£ 45</Box>
+          <Box sx={styles?.planTableTh}>
+            £ {parsedManageData?.additionalUsers * 15}
+          </Box>
         </Box>
         <Box sx={styles?.planTableRow}>
           <Box sx={styles?.planTableTd}>
@@ -159,7 +179,9 @@ const ManagePlan = () => {
               (£ 1/GB)
             </Box>
           </Box>
-          <Box sx={styles?.planTableTh}>£ 1</Box>
+          <Box sx={styles?.planTableTh}>
+            £ {1 * parsedManageData?.additionalStorage}
+          </Box>
         </Box>
         <Box sx={styles?.planTableRow}>
           <Box sx={styles?.planTableTdBold}>

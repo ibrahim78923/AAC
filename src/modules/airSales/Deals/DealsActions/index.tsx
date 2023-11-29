@@ -26,7 +26,6 @@ const DealsActions = ({
   return (
     <div>
       <Button
-        variant="outlined"
         endIcon={<ArrowDropDownIcon />}
         onClick={handleClick}
         disabled={disableActionBtn}

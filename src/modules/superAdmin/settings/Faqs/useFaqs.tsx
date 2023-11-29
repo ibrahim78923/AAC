@@ -9,27 +9,39 @@ import {
   useDeleteFaqsMutation,
   useUpdateFaqsMutation,
 } from '@/services/superAdmin/settings/faqs';
-import { faqsFilterDefaultValues } from './Faqs.data';
 import {
   addFaqsValidationSchema,
   addFaqsDefaultValues,
 } from './AddFaq/AddFaq.data';
 import { DATE_FORMAT } from '@/constants';
+import { PAGINATION } from '@/config';
 
 const useFaqs = () => {
+  const [selectedRow, setSelectedRow]: any = useState([]);
+  const [isActionsDisabled, setIsActionsDisabled] = useState(true);
   const [rowId, setRowId] = useState(null);
-  const [isDisabled, setIsDisabled] = useState(true);
   const [modalTitle, setModalTitle] = useState('FAQ');
-  const [tableRowValues, setTableRowValues] = useState([]);
-  const defaultParams = { page: 1, limit: 5 };
-  const [filterParams, setFilterParams] = useState(defaultParams);
-  const methodsFilter: any = useForm({
-    defaultValues: faqsFilterDefaultValues,
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const defaultParams = {
+    page: PAGINATION?.CURRENT_PAGE,
+    limit: PAGINATION?.PAGE_LIMIT,
+  };
+  const [searchValue, setSearchValue] = useState(null);
+  const [filterParams, setFilterParams] = useState({
+    page: page,
+    limit: pageLimit,
   });
+  let searchPayLoad;
+  if (searchValue) {
+    searchPayLoad = { search: searchValue };
+  }
+  const methodsFilter: any = useForm();
   const { handleSubmit: handleMethodFilter, reset: resetFilters } =
     methodsFilter;
-  const { data: dataGetFaqs, isLoading: loagingGetFaqs } =
-    useGetFaqsQuery(filterParams);
+  const { data: dataGetFaqs, isLoading: loagingGetFaqs } = useGetFaqsQuery({
+    params: { ...filterParams, ...searchPayLoad },
+  });
 
   // Dropdown Menu
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -53,62 +65,51 @@ const useFaqs = () => {
   };
 
   const onSubmitFilters = async (values: any) => {
-    if (values?.faqCategory !== '') {
-      setFilterParams((prev) => {
-        return {
-          ...prev,
-          faqCategory: values.faqCategory,
-        };
-      });
-    }
-    if (values?.createdBy !== '') {
-      setFilterParams((prev) => {
-        return {
-          ...prev,
-          createdBy: values.createdBy,
-        };
-      });
-    }
-    if (values?.createAt != null) {
+    if (values?.createdAt) {
       if (!Array.isArray(values?.createdAt)) {
         setFilterParams((prev) => {
           return {
             ...prev,
-            startDate: dayjs(values?.createdAt).format(DATE_FORMAT.API),
-            endDate: dayjs(values?.createdAt).format(DATE_FORMAT.API),
+            dateStart: dayjs(values?.createdAt).format(DATE_FORMAT.API),
+            dateEnd: dayjs(values?.createdAt).format(DATE_FORMAT.API),
           };
         });
       } else {
         setFilterParams((prev) => {
           return {
             ...prev,
-            startDate: dayjs(values?.createdAt[0]).format(DATE_FORMAT.API),
-            endDate: dayjs(values?.createdAt[1]).format(DATE_FORMAT.API),
+            dateStart: dayjs(values?.createdAt[0]).format(DATE_FORMAT.API),
+            dateEnd: dayjs(values?.createdAt[1]).format(DATE_FORMAT.API),
           };
         });
       }
     }
+    setFilterParams((prev) => {
+      return {
+        ...prev,
+        ...values,
+      };
+    });
+
     handleCloseFilters();
   };
   const handleFiltersSubmit = handleMethodFilter(onSubmitFilters);
 
-  // Search
-  const [searchValue, setSearchValue] = useState('');
-  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchValue(event?.target?.value);
-    setFilterParams((prev) => {
-      return {
-        ...prev,
-        search: event?.target?.value,
-      };
-    });
-  };
-
   // Refresh
   const handleRefresh = () => {
     setFilterParams(defaultParams);
-    setSearchValue('');
     resetFilters();
+  };
+
+  // Hadle PAGE CHANGE
+  const handlePageChange = (newPage: number) => {
+    setPage(newPage);
+    setFilterParams((prev) => {
+      return {
+        ...prev,
+        page: newPage,
+      };
+    });
   };
 
   // Add FAQ
@@ -129,6 +130,7 @@ const useFaqs = () => {
   };
   const handleCloseModalFaq = () => {
     setOpenModalAddFaq(false);
+    resetAddFaqForm();
   };
 
   const onSubmitAddFaq = async (values: any) => {
@@ -174,6 +176,7 @@ const useFaqs = () => {
     try {
       await updateFaq({ id: rowId, body: values })?.unwrap();
       handleCloseModalEditFaq();
+      setSelectedRow([]);
       enqueueSnackbar('FAQ updated successfully', {
         variant: 'success',
       });
@@ -197,14 +200,15 @@ const useFaqs = () => {
   };
 
   const handleDeleteFaq = async () => {
-    const items = await tableRowValues?.join(',');
+    const items = await selectedRow?.join(',');
     try {
       await deleteFaq(items)?.unwrap();
       handleCloseModalDelete();
+      setSelectedRow([]);
       enqueueSnackbar('Record has been deleted.', {
         variant: 'success',
       });
-      setIsDisabled(true);
+      setIsActionsDisabled(true);
     } catch (error: any) {
       enqueueSnackbar('An error occured', {
         variant: 'error',
@@ -217,18 +221,12 @@ const useFaqs = () => {
     actionMenuOpen,
     handleActionsMenuClick,
     handleActionsMenuClose,
-    isDisabled,
-    setIsDisabled,
-    tableRowValues,
-    setTableRowValues,
-    rowId,
-    setRowId,
+    setSearchValue,
     openFilters,
     handleOpenFilters,
     handleCloseFilters,
     loagingGetFaqs,
     dataGetFaqs,
-    handleSearch,
     searchValue,
     methodsFilter,
     handleFiltersSubmit,
@@ -252,6 +250,15 @@ const useFaqs = () => {
     handleSubmitUpdateFaq,
     loadingUpdateFaq,
     methodsEditFaq,
+    setPageLimit,
+    setPage,
+    handlePageChange,
+    selectedRow,
+    setSelectedRow,
+    setIsActionsDisabled,
+    isActionsDisabled,
+    setRowId,
+    rowId,
   };
 };
 

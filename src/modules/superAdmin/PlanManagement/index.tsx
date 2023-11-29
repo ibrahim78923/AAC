@@ -71,7 +71,12 @@ const PlanManagement = () => {
         .
         <Box sx={styles?.linkStyle}>
           <Link href={`${SUPER_ADMIN_PLAN_MANAGEMENT?.ADD_PLAN}`}>
-            <Button variant="contained" fullWidth startIcon={<PlusIcon />}>
+            <Button
+              variant="contained"
+              className="small"
+              fullWidth
+              startIcon={<PlusIcon />}
+            >
               Add Plan
             </Button>
           </Link>
@@ -112,6 +117,7 @@ const PlanManagement = () => {
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
             onClick={handleClick}
+            className="small"
             sx={styles?.actionButton(theme)}
           >
             Actions <ArrowDropDownIcon />
@@ -138,6 +144,7 @@ const PlanManagement = () => {
           </Menu>
 
           <Button
+            className="small"
             sx={styles?.filterButton(theme)}
             onClick={() => setIsFaqsFilterDrawerOpen(true)}
           >

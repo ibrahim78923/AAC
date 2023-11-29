@@ -1,37 +1,52 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { enqueueSnackbar } from 'notistack';
-
-import { jobApplicationDefaultValues } from './JobApplication.data';
+import dayjs from 'dayjs';
 import {
   useGetJobAppsQuery,
   useGetUniqueCandidateQuery,
   useUpdateJobAppMutation,
 } from '@/services/superAdmin/settings/jobs/job-application';
+import { DATE_FORMAT } from '@/constants/index';
+import { PAGINATION } from '@/config';
 
 const useJobApplication = () => {
-  const defaultParams = { page: 1, limit: 5 };
-  const [filterParams, setFilterParams] = useState(defaultParams);
-  const [searchValue, setSearchValue] = useState('');
-  const [openDrawerFilter, setOpenDrawerFilter] = useState(false);
-  const { data, isLoading } = useGetJobAppsQuery(filterParams);
-  const { data: dataUniqueCandidate } = useGetUniqueCandidateQuery({});
-  const methodsFilter: any = useForm({
-    defaultValues: jobApplicationDefaultValues,
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const [searchValue, setSearchValue] = useState(null);
+  const defaultParams = {
+    page: PAGINATION?.CURRENT_PAGE,
+    limit: PAGINATION?.PAGE_LIMIT,
+  };
+  let searchParam;
+  if (searchValue) {
+    searchParam = { search: searchValue };
+  }
+  const [filterParams, setFilterParams] = useState({
+    page: page,
+    limit: pageLimit,
   });
-  const { handleSubmit: handleMethodFilter } = methodsFilter;
+  const [openDrawerFilter, setOpenDrawerFilter] = useState(false);
+  const { data, isLoading } = useGetJobAppsQuery({
+    params: { ...filterParams, ...searchParam },
+  });
+  const { data: dataUniqueCandidate } = useGetUniqueCandidateQuery({});
+  const methodsFilter: any = useForm();
+  const { handleSubmit: handleMethodFilter, reset: ressetFilterForm } =
+    methodsFilter;
 
   const handleRefresh = () => {
     setFilterParams(defaultParams);
-    setSearchValue('');
+    ressetFilterForm();
   };
 
-  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchValue(event?.target?.value);
+  // Hadle PAGE CHANGE
+  const handlePageChange = (newPage: number) => {
+    setPage(newPage);
     setFilterParams((prev) => {
       return {
         ...prev,
-        search: event?.target?.value,
+        page: newPage,
       };
     });
   };
@@ -44,22 +59,38 @@ const useJobApplication = () => {
   };
 
   const onSubmitFilters = async (values: any) => {
-    const updatedParams: any = { ...filterParams };
-    for (const field in values) {
-      if (values[field] !== '') {
-        updatedParams[field] = values[field];
+    if (values?.applyDate) {
+      if (!Array.isArray(values?.applyDate)) {
+        setFilterParams((prev) => {
+          return {
+            ...prev,
+            dateStart: dayjs(values?.applyDate).format(DATE_FORMAT.API),
+            dateEnd: dayjs(values?.applyDate).format(DATE_FORMAT.API),
+          };
+        });
+      } else {
+        setFilterParams((prev) => {
+          return {
+            ...prev,
+            dateStart: dayjs(values?.applyDate[0]).format(DATE_FORMAT.API),
+            dateEnd: dayjs(values?.applyDate[1]).format(DATE_FORMAT.API),
+          };
+        });
       }
     }
-    setFilterParams(updatedParams);
+    setFilterParams((prev) => {
+      return {
+        ...prev,
+        ...values,
+      };
+    });
     handleCloseFilters();
   };
   const handleFiltersSubmit = handleMethodFilter(onSubmitFilters);
 
   // Update Status
-  const [statusValue, setStatusValue] = useState('');
   const [updateJobAPPStatus] = useUpdateJobAppMutation();
   const handleUpdateStatus = async (value: any, id: any) => {
-    setStatusValue(value);
     const payLoad = {
       status: value,
     };
@@ -79,8 +110,7 @@ const useJobApplication = () => {
     data,
     isLoading,
     filterParams,
-    searchValue,
-    handleSearch,
+    setSearchValue,
     handleRefresh,
     openDrawerFilter,
     handleOpenFilters,
@@ -88,9 +118,10 @@ const useJobApplication = () => {
     methodsFilter,
     handleFiltersSubmit,
     handleUpdateStatus,
-    statusValue,
-    setStatusValue,
     dataUniqueCandidate,
+    setPageLimit,
+    setPage,
+    handlePageChange,
   };
 };
 
