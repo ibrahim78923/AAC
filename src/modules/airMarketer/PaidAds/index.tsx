@@ -13,17 +13,25 @@ const PaidAds = () => {
   return (
     <Card sx={{ p: '16px 24px' }}>
       <Stack direction="row" justifyContent="space-between">
-        <Typography variant="h3">Paid Ads</Typography>
+        <Box>
+          <Typography variant="h3">Paid Ads</Typography>
+          <Typography variant="body2">Manage your Ad Creation</Typography>
+        </Box>
         <Box display="flex" gap={1} sx={style?.button(theme?.palette)}>
           <CreateAudience />
           <Button
-            className="eventBtn"
+            className="eventBtn small"
             variant="outlined"
+            color="inherit"
             startIcon={<PlusIcon />}
           >
             Create Event
           </Button>
-          <Button variant="contained" startIcon={<PlusIcon />}>
+          <Button
+            className="small"
+            variant="contained"
+            startIcon={<PlusIcon />}
+          >
             Create Ad
           </Button>
         </Box>

@@ -34,6 +34,8 @@ const UserManagement = () => {
     handleAddRole,
     checkedRows,
     setCheckedRows,
+    searchVal,
+    setSearchVal,
   } = useUserManagement();
 
   return (
@@ -80,8 +82,8 @@ const UserManagement = () => {
             getTabVal={(val: number) => setTabVal(val)}
             searchBarProps={{
               label: 'Search Here',
-              setSearchBy: setFilterValues,
-              searchBy: filterValues?.search,
+              setSearchBy: setSearchVal,
+              searchBy: searchVal,
               width: '260px',
             }}
             isHeader={true}
@@ -118,11 +120,13 @@ const UserManagement = () => {
               checkedRows={checkedRows}
               setCheckedRows={setCheckedRows}
               filterValues={filterValues}
+              searchVal={searchVal}
             />
             <SuperAdminUsers
               checkedRows={checkedRows}
               setCheckedRows={setCheckedRows}
-              search={filterValues?.search}
+              filterValues={filterValues}
+              searchVal={searchVal}
             />
             <RolesAndRights />
           </CommonTabs>
