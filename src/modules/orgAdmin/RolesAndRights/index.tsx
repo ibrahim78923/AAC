@@ -23,6 +23,8 @@ const RolesAndRights = () => {
     setCheckedRows,
     filterValues,
     setFilterValues,
+    setPageLimit,
+    setPage,
   } = useRolesAndRights();
 
   const columnsProps = {
@@ -121,6 +123,11 @@ const RolesAndRights = () => {
       <TanstackTable
         columns={columnParams}
         data={getPermissions?.data?.companyaccountroles}
+        totalRecords={getPermissions?.data?.meta?.total}
+        onPageChange={(page: any) => setPage(page)}
+        setPage={setPage}
+        setPageLimit={setPageLimit}
+        count={getPermissions?.data?.meta?.pages}
       />
       <CustomPagination count={1} rowsPerPageOptions={[1, 2]} entriePages={1} />
 

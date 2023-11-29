@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useTheme } from '@mui/material';
 import { rolesAndRightsAPI } from '@/services/orgAdmin/roles-and-rights';
+import { PAGINATION } from '@/config';
 // import dayjs from 'dayjs';
 
 const useRolesAndRights = () => {
@@ -18,12 +19,14 @@ const useRolesAndRights = () => {
     productId: '',
     // dateStart: null
   });
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
 
   const { useGetPermissionsRolesQuery } = rolesAndRightsAPI;
 
   const permissionParams = {
-    page: 1,
-    limit: 10,
+    page: page,
+    limit: pageLimit,
     organizationCompanyAccountId: '56cb91bdc3464f14678934ca',
     search: filterValues?.search,
     productId: filterValues?.productId,
@@ -58,6 +61,8 @@ const useRolesAndRights = () => {
     handleClick,
     navigate,
     theme,
+    setPageLimit,
+    setPage,
   };
 };
 
