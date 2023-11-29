@@ -46,8 +46,10 @@ const SMSBroadcastHeader = (props: any) => {
         }}
       >
         <Search size="small" placeholder="Search Here" />
+
         <FormControl size="small">
           <Select
+            sx={{ height: '36px' }}
             defaultValue={'status'}
             // value={age}
             // onChange={handleChange}
@@ -61,8 +63,10 @@ const SMSBroadcastHeader = (props: any) => {
             <MenuItem value={'processing'}>Processing</MenuItem>
           </Select>
         </FormControl>
+
         <Box>
           <Button
+            className="small"
             disabled={props?.selectedId ? false : true}
             onClick={handleClick}
             // disabled={checkedRows === undefined ? true : false}

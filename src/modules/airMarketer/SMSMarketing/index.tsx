@@ -62,7 +62,7 @@ const SMSMarketing = () => {
                   <MenuItem value={'monica'}>
                     <Stack direction="row" gap={1} alignItems="center">
                       <Avatar
-                        alt=""
+                        alt="avatar"
                         src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aHVtYW58ZW58MHx8MHx8fDA%3D"
                       />
                       <Box>
@@ -74,7 +74,7 @@ const SMSMarketing = () => {
                   <MenuItem value={'Nakita'}>
                     <Stack direction="row" gap={1} alignItems="center">
                       <Avatar
-                        alt=""
+                        alt="avatar"
                         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJZE0VNh6-l13QFIf7SdXGqFIKnD-qOJP-yzN2r800&s"
                       />
                       <Box>
@@ -100,6 +100,7 @@ const SMSMarketing = () => {
           )}
           {tabVal === 1 && (
             <Button
+              className="small"
               variant="contained"
               onClick={() => {
                 navigate.push({

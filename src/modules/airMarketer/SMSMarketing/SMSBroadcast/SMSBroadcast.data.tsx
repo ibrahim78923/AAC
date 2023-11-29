@@ -80,7 +80,11 @@ export const broadcastColumns: any = (columnsProps: any) => {
       cell: (info: any) => (
         <Link
           href={`/${AIR_MARKETER?.SMS_MARKETING_DETAILS}`}
-          style={{ color: theme?.palette?.custom?.bright, fontWeight: 600 }}
+          style={{
+            color: theme?.palette?.custom?.bright,
+            fontWeight: 500,
+            fontSize: '12px',
+          }}
         >
           {info?.getValue()}
         </Link>
@@ -129,11 +133,26 @@ export const broadcastColumns: any = (columnsProps: any) => {
       cell: (
         <Box sx={{ alignItems: 'center', display: 'flex' }}>
           <AvatarGroup max={4}>
-            <Avatar alt="Remy Sharp" src="" />
-            <Avatar alt="Travis Howard" src="" />
-            <Avatar alt="Cindy Baker" src="" />
-            <Avatar alt="Agnes Walker" src="" />
-            <Avatar alt="Trevor Henderson" src="" />
+            <Avatar
+              alt="recipient_avatar"
+              src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aHVtYW58ZW58MHx8MHx8fDA%3D"
+            />
+            <Avatar
+              alt="recipient_avatar"
+              src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aHVtYW58ZW58MHx8MHx8fDA%3D"
+            />
+            <Avatar
+              alt="recipient_avatar"
+              src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aHVtYW58ZW58MHx8MHx8fDA%3D"
+            />
+            <Avatar
+              alt="recipient_avatar"
+              src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aHVtYW58ZW58MHx8MHx8fDA%3D"
+            />
+            <Avatar
+              alt="recipient_avatar"
+              src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aHVtYW58ZW58MHx8MHx8fDA%3D"
+            />
           </AvatarGroup>
         </Box>
       ),
@@ -146,11 +165,26 @@ export const broadcastColumns: any = (columnsProps: any) => {
       cell: (
         <Box sx={{ alignItems: 'center', display: 'flex' }}>
           <AvatarGroup max={4}>
-            <Avatar alt="Remy Sharp" src="" />
-            <Avatar alt="Travis Howard" src="" />
-            <Avatar alt="Cindy Baker" src="" />
-            <Avatar alt="Agnes Walker" src="" />
-            <Avatar alt="Trevor Henderson" src="" />
+            <Avatar
+              alt="recipient_avatar"
+              src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aHVtYW58ZW58MHx8MHx8fDA%3D"
+            />
+            <Avatar
+              alt="recipient_avatar"
+              src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aHVtYW58ZW58MHx8MHx8fDA%3D"
+            />
+            <Avatar
+              alt="recipient_avatar"
+              src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aHVtYW58ZW58MHx8MHx8fDA%3D"
+            />
+            <Avatar
+              alt="recipient_avatarr"
+              src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aHVtYW58ZW58MHx8MHx8fDA%3D"
+            />
+            <Avatar
+              alt="recipient_avatar"
+              src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aHVtYW58ZW58MHx8MHx8fDA%3D"
+            />
           </AvatarGroup>
         </Box>
       ),
