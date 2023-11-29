@@ -9,6 +9,7 @@ import {
   addUsersArray,
   superAdminValidationSchema,
   CompanyOwnerValidationSchema,
+  companyOwnerDefaultValues,
 } from './AddUser.data';
 import { useForm } from 'react-hook-form';
 import { enqueueSnackbar } from 'notistack';
@@ -40,9 +41,16 @@ const AddUser = ({
     resolver: yupResolver(superAdminValidationSchema),
     defaultValues: userDetail,
   });
+
+  const companyOwnerValues = {
+    ...userDetail,
+    crn: userDetail?.organization?.crn,
+    companyName: userDetail?.organization?.name,
+  };
+
   const companyOwnerMethods: any = useForm({
     resolver: yupResolver(CompanyOwnerValidationSchema),
-    defaultValues: userDetail,
+    defaultValues: companyOwnerValues ?? companyOwnerDefaultValues,
   });
 
   const methods =
@@ -95,6 +103,7 @@ const AddUser = ({
   if (isSuccess) {
     companyDetails = data?.data;
   }
+
   useEffect(() => {
     setValue('companyName', companyDetails?.company_name);
     setOrgNumber(organizationNumber);
@@ -187,10 +196,10 @@ const AddUser = ({
                         <Grid item xs={12}>
                           <RHFTextField
                             name="crn"
-                            defaultValue={userDetail?.organization?.crn}
                             label="Company Registration Number(CRN)"
                             placeholder="Enter crn"
                             size="small"
+                            // defaultValue={userDetail?.organization?.crn}
                           />
                         </Grid>
                         <Grid item xs={12} mt={2}>
@@ -200,7 +209,7 @@ const AddUser = ({
                             placeholder="Company Name"
                             size="small"
                             disabled
-                            defaultValue={userDetail?.organization?.name}
+                            // defaultValue={userDetail?.organization?.name}
                           />
                         </Grid>
                       </Box>

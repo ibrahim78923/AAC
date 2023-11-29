@@ -21,8 +21,8 @@ export const CompanyOwnerValidationSchema = Yup.object().shape({
     .required('Field is Required')
     .matches(/^[0-9]+$/, 'Must be a number'),
   phoneNumber: Yup.string()
-    .required('Field is Required')
-    .matches(/^[0-9]+$/, 'Must be a number'),
+    .matches(/^\+\d{1,}$/, 'Invalid phone number')
+    .required('Phone number is required'),
 });
 
 export const superAdminValidationSchema = Yup.object().shape({
@@ -36,8 +36,8 @@ export const superAdminValidationSchema = Yup.object().shape({
     .required('Field is Required')
     .email('Invalid email address'),
   phoneNumber: Yup.string()
-    .required('Field is Required')
-    .matches(/^[0-9]+$/, 'Must be a number'),
+    .matches(/^\+\d{1,}$/, 'Invalid phone number')
+    .required('Phone number is required'),
   postCode: Yup.string()
     .required('Field is Required')
     .matches(/^[0-9]+$/, 'Must be a number'),
@@ -53,8 +53,12 @@ export const superAdminValidationSchema = Yup.object().shape({
     .matches(/^[A-Za-z]+$/, 'Only alphabetic characters are allowed'),
 });
 
+export const companyOwnerDefaultValues = {
+  products: [],
+};
+
 export const addUsersArray = () => {
-  const { products } = useUserManagement();
+  const { products: productsList } = useUserManagement();
   return [
     {
       componentProps: {
@@ -89,28 +93,6 @@ export const addUsersArray = () => {
       component: RHFTextField,
       md: 12,
     },
-    // {
-    //   componentProps: {
-    //     name: 'crn',
-    //     label: 'Company Registration Number(CRN)',
-    //     placeholder: 'Enter CRN Number',
-    //     fullWidth: true,
-    //   },
-    //   toShow: ['COMPANY_OWNER'],
-    //   component: RHFTextField,
-    //   md: 12,
-    // },
-    // {
-    //   title: 'Company Name',
-    //   componentProps: {
-    //     name: 'companyName',
-    //     placeholder: 'Enter Company  Name',
-    //     fullWidth: true,
-    //   },
-    //   toShow: ['COMPANY_OWNER'],
-    //   component: RHFTextField,
-    //   md: 12,
-    // },
     {
       componentProps: {
         name: 'phoneNumber',
@@ -135,10 +117,10 @@ export const addUsersArray = () => {
     },
     {
       componentProps: {
-        name: 'products',
+        name: 'roducts',
         GridView: 6,
         isCheckBox: true,
-        options: products?.data?.map((item: any) => ({
+        options: productsList?.data?.map((item: any) => ({
           value: item?._id,
           label: item?.name,
         })),

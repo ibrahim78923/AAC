@@ -10,6 +10,8 @@ const Users = (props: any) => {
   const { useGetUsersQuery, handleUserSwitchChange } = useUserManagement();
 
   const params = {
+    page: 1,
+    limit: 100,
     role: 'ORG_ADMIN',
     search: searchVal ?? '',
     products: filterValues?.products ?? '',
