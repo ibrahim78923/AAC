@@ -35,7 +35,16 @@ export const Header = () => {
           <Button variant="outlined" onClick={() => setIsDrawerOpen(true)}>
             Import
           </Button>
-          <Button variant="contained">New Location</Button>
+          <Button
+            variant="contained"
+            onClick={() =>
+              router?.push({
+                pathname: AIR_SERVICES?.ADD_NEW_LOCATION,
+              })
+            }
+          >
+            New Location
+          </Button>
         </Box>
       </Box>
       <ImportLocation
