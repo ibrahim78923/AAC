@@ -15,7 +15,7 @@ export const useInviteAgentModal = (props: any) => {
   });
 
   const onSubmit = () => {
-    enqueueSnackbar('Invite Agent successfully!', {
+    enqueueSnackbar('Invite Agent Successfully!', {
       variant: NOTISTACK_VARIANTS?.SUCCESS,
     });
     setIsAgentModalOpen(false);

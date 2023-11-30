@@ -34,27 +34,27 @@ export const InviteAgentModel = (props: any) => {
             },
           }}
         >
-          <FormProvider
-            methods={inviteAgentMethods}
-            onSubmit={inviteAgentMethods?.handleSubmit?.(onSubmit)}
+          <DialogTitle
+            display={'flex'}
+            justifyContent={'space-between'}
+            alignItems={'center'}
+            pb={2.4}
           >
-            <DialogTitle
-              display={'flex'}
-              justifyContent={'space-between'}
-              alignItems={'center'}
-              pb={2.4}
+            <Typography variant="h4" color="primary?.main">
+              {editAgentModalTitle}
+            </Typography>
+            <IconButton
+              onClick={() => handleAddAgentModal?.()}
+              sx={{ cursor: 'pointer' }}
             >
-              <Typography variant="h4" color="primary?.main">
-                {editAgentModalTitle}
-              </Typography>
-              <IconButton
-                onClick={() => handleAddAgentModal?.()}
-                sx={{ cursor: 'pointer' }}
-              >
-                <CloseModalIcon />
-              </IconButton>
-            </DialogTitle>
-            <DialogContent>
+              <CloseModalIcon />
+            </IconButton>
+          </DialogTitle>
+          <DialogContent>
+            <FormProvider
+              methods={inviteAgentMethods}
+              onSubmit={inviteAgentMethods?.handleSubmit?.(onSubmit)}
+            >
               <Grid container gap={2.4}>
                 {agentFieldsData?.map((form: any) => (
                   <Grid item xs={12} md={form?.gridLength} key={form?.id}>
@@ -62,23 +62,23 @@ export const InviteAgentModel = (props: any) => {
                   </Grid>
                 ))}
               </Grid>
-            </DialogContent>
-            <Divider />
-            <DialogActions>
-              <Box display={'flex'} justifyContent={'flex-end'} gap={2}>
-                <Button
-                  onClick={() => handleAddAgentModal?.()}
-                  variant="outlined"
-                  color="secondary"
-                >
-                  Cancel
-                </Button>
-                <Button type="submit" variant="contained">
-                  save
-                </Button>
-              </Box>
-            </DialogActions>
-          </FormProvider>
+            </FormProvider>
+          </DialogContent>
+          <Divider />
+          <DialogActions>
+            <Box display={'flex'} justifyContent={'flex-end'} gap={2}>
+              <Button
+                onClick={() => handleAddAgentModal?.()}
+                variant="outlined"
+                color="secondary"
+              >
+                Cancel
+              </Button>
+              <Button type="submit" variant="contained">
+                Save
+              </Button>
+            </Box>
+          </DialogActions>
         </Dialog>
       )}
     </>
