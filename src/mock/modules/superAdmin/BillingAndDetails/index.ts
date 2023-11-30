@@ -1,0 +1,40 @@
+export const BillingAndInvoicesTableData: any = [
+  {
+    Id: 1,
+    clientName: `Olivia Rhye`,
+    clientSub: 'Extreme Commerce',
+    productsSuite: 'Air Sales',
+    productSub: '',
+    planType: 'Growth',
+    PlanPricee: '£ 45',
+    discount: '10%',
+    defaultUsers: '04',
+    additionalUsers: '04',
+  },
+
+  {
+    Id: 2,
+    clientName: `Olivia Rhye`,
+    clientSub: 'Acceron',
+    productsSuite: 'CRM 1',
+    productSub: 'Sales, Services',
+    planType: 'Basic',
+    PlanPricee: '£ 45',
+    discount: '10%',
+    defaultUsers: '04',
+    additionalUsers: '04',
+  },
+
+  {
+    Id: 3,
+    clientName: `Olivia Rhye`,
+    clientSub: 'Miracle ',
+    productsSuite: 'CRM 2',
+    productSub: 'Sales, Services, operations',
+    planType: 'Growth',
+    PlanPricee: '£ 45',
+    discount: '10%',
+    defaultUsers: '04',
+    additionalUsers: '04',
+  },
+];

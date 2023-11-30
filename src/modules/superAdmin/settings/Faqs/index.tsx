@@ -1,0 +1,275 @@
+import React from 'react';
+import {
+  Box,
+  Button,
+  Typography,
+  Grid,
+  useTheme,
+  MenuItem,
+  Menu,
+} from '@mui/material';
+
+import Search from '@/components/Search';
+import CommonDrawer from '@/components/CommonDrawer';
+import TanstackTable from '@/components/Table/TanstackTable';
+import { AlertModals } from '@/components/AlertModals';
+import AddFaq from './AddFaq';
+
+import { columns, faqsFilterFiltersDataArray } from './Faqs.data';
+
+import { FormProvider } from '@/components/ReactHookForm';
+
+import { DownIcon, FilterSharedIcon, RefreshSharedIcon } from '@/assets/icons';
+import PlusShared from '@/assets/icons/shared/plus-shared';
+
+import { styles } from './Faqs.styles';
+
+import { v4 as uuidv4 } from 'uuid';
+import useFaqs from './useFaqs';
+import EditFaq from './EditFaq';
+
+const Faqs = () => {
+  const {
+    anchorEl,
+    actionMenuOpen,
+    handleActionsMenuClick,
+    handleActionsMenuClose,
+    openFilters,
+    handleOpenFilters,
+    handleCloseFilters,
+    loagingGetFaqs,
+    dataGetFaqs,
+    setSearchValue,
+    methodsFilter,
+    handleFiltersSubmit,
+    handleRefresh,
+    openModalAddFaq,
+    handleOpenModalFaq,
+    handleCloseModalFaq,
+    methodsAddFaqs,
+    handleAddFaqSubmit,
+    loadingAddFaq,
+    handleDeleteFaq,
+    loadingDelete,
+    isFaqsDeleteModal,
+    handleOpenModalDelete,
+    handleCloseModalDelete,
+    openModalEditFaq,
+    handleOpenModalEditFaq,
+    handleCloseModalEditFaq,
+    handleSubmitUpdateFaq,
+    loadingUpdateFaq,
+    methodsEditFaq,
+    setPageLimit,
+    setPage,
+    handlePageChange,
+    selectedRow,
+    setSelectedRow,
+    setIsActionsDisabled,
+    isActionsDisabled,
+    setRowId,
+    rowId,
+  } = useFaqs();
+  const theme = useTheme();
+  const getFaqsTableColumns = columns(
+    selectedRow,
+    setSelectedRow,
+    setIsActionsDisabled,
+    setRowId,
+  );
+
+  return (
+    <Box
+      sx={{
+        borderRadius: '15px',
+        border: '1px solid #EAECF0',
+        // padding: '16px 24px',
+      }}
+    >
+      <Box sx={{ padding: '16px 24px' }}>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            alignItems: 'center',
+            marginBottom: '19px',
+          }}
+        >
+          <Typography variant="h3" sx={{ fontWeight: '600' }}>
+            FAQs
+          </Typography>
+          <Button
+            variant="contained"
+            sx={{ height: '36px', fontWeight: '500' }}
+            onClick={() => handleOpenModalFaq('Add a New FAQ')}
+          >
+            <PlusShared /> &nbsp; Add
+          </Button>
+        </Box>
+        <Box
+          mt={2}
+          mb={3}
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            gap: '10px',
+            width: '100%',
+          }}
+        >
+          <Search
+            setSearchBy={setSearchValue}
+            label="Search Here"
+            size="small"
+            width={'100%'}
+          />
+          <Box
+            sx={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              alignItems: 'center',
+              gap: '10px',
+            }}
+          >
+            <Button
+              id="basic-button"
+              aria-controls={actionMenuOpen ? 'basic-menu' : undefined}
+              aria-haspopup="true"
+              aria-expanded={actionMenuOpen ? 'true' : undefined}
+              onClick={handleActionsMenuClick}
+              sx={{
+                color: theme?.palette?.grey[500],
+                width: '112px',
+                border: '1.5px solid #e7e7e9',
+                '@media (max-width:581px)': {
+                  width: '100%',
+                },
+              }}
+              className="small"
+              disabled={isActionsDisabled}
+            >
+              Actions &nbsp; <DownIcon />
+            </Button>
+            <Menu
+              id="basic-menu"
+              anchorEl={anchorEl}
+              open={actionMenuOpen}
+              onClose={handleActionsMenuClose}
+              MenuListProps={{
+                'aria-labelledby': 'basic-button',
+              }}
+              PaperProps={{
+                style: {
+                  width: '112px',
+                },
+              }}
+            >
+              <MenuItem
+                disabled={!rowId}
+                onClick={() => handleOpenModalEditFaq()}
+                style={{ fontSize: '14px' }}
+              >
+                Edit
+              </MenuItem>
+              <MenuItem
+                disabled={!rowId}
+                onClick={() => handleOpenModalEditFaq()}
+                style={{ fontSize: '14px' }}
+              >
+                View
+              </MenuItem>
+              <MenuItem
+                onClick={handleOpenModalDelete}
+                style={{ fontSize: '14px' }}
+              >
+                Delete
+              </MenuItem>
+            </Menu>
+            <Button
+              sx={styles?.refreshButton(theme)}
+              className="small"
+              onClick={handleRefresh}
+            >
+              <RefreshSharedIcon />
+            </Button>
+            <Button
+              sx={styles?.filterButton(theme)}
+              onClick={handleOpenFilters}
+              className="small"
+            >
+              <FilterSharedIcon /> &nbsp; Filter
+            </Button>
+          </Box>
+        </Box>
+      </Box>
+      <Box>
+        <TanstackTable
+          columns={getFaqsTableColumns}
+          data={dataGetFaqs?.data?.faqs}
+          isLoading={loagingGetFaqs}
+          isPagination
+          count={dataGetFaqs?.data?.meta?.pages}
+          totalRecords={dataGetFaqs?.data?.meta?.total}
+          onPageChange={handlePageChange}
+          setPage={setPage}
+          setPageLimit={setPageLimit}
+        />
+      </Box>
+      <CommonDrawer
+        isDrawerOpen={openFilters}
+        onClose={handleCloseFilters}
+        title="Filters"
+        okText="Apply"
+        isOk={true}
+        footer={true}
+        submitHandler={handleFiltersSubmit}
+      >
+        <FormProvider methods={methodsFilter}>
+          <Grid container spacing={4}>
+            {faqsFilterFiltersDataArray()?.map((item: any) => (
+              <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                <item.component {...item.componentProps} size={'small'}>
+                  {item?.componentProps?.select
+                    ? item?.options?.map((option: any) => (
+                        <option key={option?.value} value={option?.value}>
+                          {option?.label}
+                        </option>
+                      ))
+                    : null}
+                </item.component>
+              </Grid>
+            ))}
+          </Grid>
+        </FormProvider>
+      </CommonDrawer>
+
+      <AlertModals
+        message={'Are you sure you want to delete this entry ?'}
+        type="delete"
+        open={isFaqsDeleteModal}
+        handleClose={handleCloseModalDelete}
+        handleSubmitBtn={handleDeleteFaq}
+        loading={loadingDelete}
+      />
+      <AddFaq
+        isAddModalOpen={openModalAddFaq}
+        onClose={handleCloseModalFaq}
+        formMethods={methodsAddFaqs}
+        handleSubmit={handleAddFaqSubmit}
+        isLoading={loadingAddFaq}
+      />
+
+      <EditFaq
+        isModalOpen={openModalEditFaq}
+        onClose={handleCloseModalEditFaq}
+        formMethods={methodsEditFaq}
+        handleSubmit={handleSubmitUpdateFaq}
+        isLoading={loadingUpdateFaq}
+      />
+    </Box>
+  );
+};
+
+export default Faqs;

@@ -1,0 +1,93 @@
+import { Button, useTheme, Box, Typography, Chip } from '@mui/material';
+import { Fragment, useState } from 'react';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import NoData from '@/components/NoData';
+import { associationsDataArray, chipColor } from './Associations.data';
+import { v4 as uuidv4 } from 'uuid';
+import { ExistingIncident } from './ExistingIncident';
+import { DialogBox } from './DialogBox';
+import { NewIncident } from './NewIncident';
+import { NoAssociationFoundImage } from '@/assets/images';
+
+export const Associations = () => {
+  const theme: any = useTheme();
+
+  const [openDialog, setOpenDialog] = useState(false);
+  const [openNewIncident, setNewIncident] = useState(false);
+  const [openExistingIncident, setExistingIncident] = useState(false);
+
+  return (
+    <Fragment>
+      {associationsDataArray?.length <= 0 ? (
+        <NoData
+          image={NoAssociationFoundImage}
+          message={'There are no associations'}
+        >
+          <Button
+            variant="outlined"
+            sx={{ backgroundColor: theme?.palette?.grey?.[400] }}
+            onClick={() => setOpenDialog(true)}
+            startIcon={<AddCircleIcon />}
+          >
+            Associate
+          </Button>
+        </NoData>
+      ) : (
+        <Fragment>
+          <Box textAlign={'end'}>
+            <Button
+              variant="contained"
+              onClick={() => setOpenDialog(true)}
+              startIcon={<AddCircleIcon />}
+            >
+              Associate
+            </Button>
+          </Box>
+          {associationsDataArray?.map((item: any) => (
+            <Box
+              border={`1px solid ${theme?.palette?.grey?.[400]}`}
+              borderLeft={`8px solid ${theme?.['palette']?.[
+                `${chipColor(item?.status)}`
+              ]?.['main']}`}
+              boxShadow={4}
+              borderRadius={2}
+              p={1}
+              mt={2}
+              display={'flex'}
+              justifyContent={'space-between'}
+              alignItems={'center'}
+              key={uuidv4()}
+            >
+              <Typography variant="body2" fontWeight={600}>
+                {item?.ticketNo}
+              </Typography>
+              <Chip
+                label={item?.status}
+                sx={{
+                  bgcolor:
+                    theme?.['palette']?.[`${chipColor(item?.status)}`]?.[
+                      'main'
+                    ],
+                  color: theme?.palette?.common?.white,
+                }}
+              />
+            </Box>
+          ))}
+        </Fragment>
+      )}
+
+      <DialogBox
+        openDialog={openDialog}
+        setOpenDialog={setOpenDialog}
+        setNewIncident={setNewIncident}
+        setExistingIncident={setExistingIncident}
+      />
+
+      <NewIncident openDrawer={openNewIncident} onClose={setNewIncident} />
+      <ExistingIncident
+        openDrawer={openExistingIncident}
+        onClose={setExistingIncident}
+      />
+    </Fragment>
+  );
+};

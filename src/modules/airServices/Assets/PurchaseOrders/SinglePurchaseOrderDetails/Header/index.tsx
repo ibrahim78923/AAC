@@ -1,0 +1,54 @@
+import { Typography, Box, Button } from '@mui/material';
+import React from 'react';
+import { SingleDropdownButton } from '@/components/SingleDropdownButton';
+import { ViewDetailBackArrowIcon } from '@/assets/icons';
+
+export const Header = (props: any) => {
+  const {
+    dropdownOptions,
+    handleAddToInventory,
+    handleReceived,
+    statusDropdownOptions,
+    currentStatus,
+  } = props;
+
+  return (
+    <>
+      <Box
+        display={'flex'}
+        alignItems={'center'}
+        justifyContent={'space-between'}
+        flexWrap={'wrap'}
+        gap={1.5}
+      >
+        <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={2}>
+          <ViewDetailBackArrowIcon />
+          <Typography variant="h5">Dell Purchase Order Details</Typography>
+        </Box>
+        <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={2}>
+          <Button
+            color="secondary"
+            variant="outlined"
+            onClick={() => handleReceived?.()}
+          >
+            Received item
+          </Button>
+          <Button
+            color="secondary"
+            variant="outlined"
+            onClick={() => handleAddToInventory?.()}
+          >
+            Add to Inventory
+          </Button>
+          <SingleDropdownButton
+            dropdownOptions={statusDropdownOptions}
+            dropdownName={currentStatus}
+          />
+
+          <SingleDropdownButton dropdownOptions={dropdownOptions} />
+        </Box>
+      </Box>
+      <br />
+    </>
+  );
+};
