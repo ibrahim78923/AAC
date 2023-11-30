@@ -9,16 +9,14 @@ export const EmailNotification = () => {
   return (
     <Box>
       <Box display={'flex'} alignItems={'center'} gap={1}>
-        <Box sx={{ cursor: 'pointer' }}>
-          <ArrowBackIcon
-            sx={{ cursor: 'pointer' }}
-            onClick={() =>
-              Router?.push({
-                pathname: AIR_SERVICES?.ACCOUNT_SETTINGS,
-              })
-            }
-          />
-        </Box>
+        <ArrowBackIcon
+          sx={{ cursor: 'pointer' }}
+          onClick={() =>
+            Router?.push({
+              pathname: AIR_SERVICES?.ACCOUNT_SETTINGS,
+            })
+          }
+        />
         <Typography variant="h3">Email Notification</Typography>
       </Box>
       <Box mt={2}>
