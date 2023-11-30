@@ -20,12 +20,8 @@ export const EmailNotification = () => {
         />
         <Typography variant="h3">Email Notification</Typography>
       </Box>
-      <Box mt={2}>
-        <Divider />
-      </Box>
-      <Box mt={2}>
-        <EmailNotificationDetailTabs />
-      </Box>
+      <Divider sx={{ my: 2 }} />
+      <EmailNotificationDetailTabs />
     </Box>
   );
 };
