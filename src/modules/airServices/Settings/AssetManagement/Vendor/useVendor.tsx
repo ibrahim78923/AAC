@@ -8,13 +8,13 @@ export const useVendor = () => {
   const [isADrawerOpen, setIsADrawerOpen] = useState(false);
   const router = useRouter();
 
-  const VendorListsColumns = vendorListsColumnsFunction(router);
+  const vendorListsColumns = vendorListsColumnsFunction(router);
 
   return {
     router,
     searchValue,
     setSearchValue,
-    VendorListsColumns,
+    vendorListsColumns,
     isDrawerOpen,
     setIsDrawerOpen,
     isADrawerOpen,

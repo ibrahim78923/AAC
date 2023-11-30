@@ -2,7 +2,7 @@ import { RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
 export const newVendorValidationSchema = Yup?.object()?.shape({
-  name: Yup?.string().required(),
+  name: Yup?.string()?.required(),
   contactNumber: Yup?.string(),
   phone: Yup?.string(),
   mobiles: Yup?.string(),
@@ -36,7 +36,7 @@ export const newVendorDataArray = [
       name: 'name',
       label: 'Name',
       fullWidth: true,
-      required: 'true',
+      required: true,
     },
 
     component: RHFTextField,

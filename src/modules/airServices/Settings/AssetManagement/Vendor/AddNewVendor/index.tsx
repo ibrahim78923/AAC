@@ -8,13 +8,8 @@ import { newVendorDataArray } from './AddNewVendor.data';
 const AddNewVendor = (props: any) => {
   const { isADrawerOpen } = props;
 
-  const {
-    methodsNewVendor,
-
-    handleSubmit,
-    onSubmit,
-    onClose,
-  } = useAddNewVendor(props);
+  const { methodsNewVendor, handleSubmit, onSubmit, onClose } =
+    useAddNewVendor(props);
 
   return (
     <>
@@ -34,16 +29,8 @@ const AddNewVendor = (props: any) => {
           >
             <Grid container spacing={2}>
               {newVendorDataArray?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={item.id}>
-                  <item.component {...item?.componentProps} size={'small'}>
-                    {item?.componentProps?.select
-                      ? item?.options?.map((option: any) => (
-                          <option key={option?.value} value={option?.value}>
-                            {option?.label}
-                          </option>
-                        ))
-                      : null}
-                  </item.component>
+                <Grid item xs={12} md={item?.md} key={item?.id}>
+                  <item.component {...item?.componentProps} size={'small'} />
                 </Grid>
               ))}
             </Grid>

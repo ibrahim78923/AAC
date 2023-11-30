@@ -13,7 +13,7 @@ export const Vendor = () => {
     router,
     searchValue,
     setSearchValue,
-    VendorListsColumns,
+    vendorListsColumns,
     isDrawerOpen,
     setIsDrawerOpen,
     isADrawerOpen,
@@ -57,7 +57,7 @@ export const Vendor = () => {
       <br />
       <TanstackTable
         data={vendorData}
-        columns={VendorListsColumns}
+        columns={vendorListsColumns}
         isPagination
       />
       <Box>

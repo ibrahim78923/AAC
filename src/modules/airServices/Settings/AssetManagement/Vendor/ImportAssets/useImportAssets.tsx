@@ -1,22 +1,15 @@
-import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { enqueueSnackbar } from 'notistack';
-import {
-  attachmentsDefaultValues,
-  attachmentsValidationSchema,
-} from './ImportAssets.data';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 export const useImportAssets = (props: any) => {
   const { setIsDrawerOpen } = props;
 
-  const methodsAttachments = useForm({
-    resolver: yupResolver(attachmentsValidationSchema),
-    defaultValues: attachmentsDefaultValues,
-  });
+  const methodsAttachments = useForm({});
   const { handleSubmit } = methodsAttachments;
   const onSubmit = async () => {
     enqueueSnackbar('Import Successfully', {
-      variant: 'success',
+      variant: NOTISTACK_VARIANTS?.SUCCESS,
     });
     setIsDrawerOpen(false);
   };
@@ -25,8 +18,7 @@ export const useImportAssets = (props: any) => {
   };
   return {
     methodsAttachments,
-    attachmentsValidationSchema,
-    attachmentsDefaultValues,
+
     handleSubmit,
     onSubmit,
     onClose,
