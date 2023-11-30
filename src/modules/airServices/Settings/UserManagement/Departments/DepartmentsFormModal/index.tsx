@@ -59,12 +59,7 @@ export const DepartmentsFormModal = (props: any) => {
             >
               Cancel
             </Button>
-            <LoadingButton
-              variant="contained"
-              onClick={() => {
-                handleSubmit(submitForm)();
-              }}
-            >
+            <LoadingButton variant="contained" type="submit">
               Save
             </LoadingButton>
           </Grid>

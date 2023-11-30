@@ -13,6 +13,7 @@ import { departmentsData } from './DepartmentsDetail.data';
 import { useDepartmentsDetail } from './useDepartmentsDetail';
 import { AlertModals } from '@/components/AlertModals';
 import { ALERT_MODALS_TYPE } from '@/constants/strings';
+import { DepartmentsFormModal } from '../DepartmentsFormModal';
 
 export const DepartmentsDetail = () => {
   const {
@@ -25,7 +26,11 @@ export const DepartmentsDetail = () => {
     setOpenDelete,
     handleDeleteClose,
     handleDeleteSubmit,
+    openEdit,
+    setOpenEdit,
+    formProps,
   } = useDepartmentsDetail();
+  const { editFormMethod, handleSubmit, submitEditForm } = formProps;
   return (
     <>
       <Grid container spacing={2}>
@@ -60,7 +65,7 @@ export const DepartmentsDetail = () => {
                   }}
                   transformOrigin={{ vertical: 10, horizontal: 100 }}
                 >
-                  <MenuItem>Edit</MenuItem>
+                  <MenuItem onClick={() => setOpenEdit(true)}>Edit</MenuItem>
                   <MenuItem onClick={() => setOpenDelete(true)}>
                     Delete
                   </MenuItem>
@@ -104,6 +109,14 @@ export const DepartmentsDetail = () => {
         handleSubmitBtn={handleDeleteSubmit}
         message="Are you sure you want to delete this Department?"
         type={ALERT_MODALS_TYPE?.DELETE}
+      />
+      <DepartmentsFormModal
+        formTitle="Edit Department"
+        open={openEdit}
+        handleClose={setOpenEdit}
+        methods={editFormMethod}
+        handleSubmit={handleSubmit}
+        submitForm={submitEditForm}
       />
     </>
   );
