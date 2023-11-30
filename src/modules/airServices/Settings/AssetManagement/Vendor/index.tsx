@@ -5,7 +5,7 @@ import { vendorData } from './Vendor.data';
 import { useVendor } from './useVendor';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { AIR_SERVICES } from '@/constants';
-import ImportAssets from './ImportAssets';
+import ImportAssets from './ImportVendor';
 import AddNewVendor from './AddNewVendor';
 
 export const Vendor = () => {

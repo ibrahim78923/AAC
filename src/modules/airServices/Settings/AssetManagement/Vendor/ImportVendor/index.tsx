@@ -1,13 +1,13 @@
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider, RHFFileImport } from '@/components/ReactHookForm';
 import { Box, Typography } from '@mui/material';
-import { useImportAssets } from './useImportAssets';
+import { useImportVendor } from './useImportAssets';
 
-const ImportAssets = (props: any) => {
+const ImportVendor = (props: any) => {
   const { isDrawerOpen } = props;
 
   const { handleSubmit, onSubmit, methodsAttachments, onClose } =
-    useImportAssets(props);
+    useImportVendor(props);
 
   return (
     <>
@@ -34,4 +34,4 @@ const ImportAssets = (props: any) => {
   );
 };
 
-export default ImportAssets;
+export default ImportVendor;

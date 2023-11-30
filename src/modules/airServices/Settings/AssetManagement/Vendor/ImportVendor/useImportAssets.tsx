@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
-export const useImportAssets = (props: any) => {
+export const useImportVendor = (props: any) => {
   const { setIsDrawerOpen } = props;
 
   const methodsAttachments = useForm({});
