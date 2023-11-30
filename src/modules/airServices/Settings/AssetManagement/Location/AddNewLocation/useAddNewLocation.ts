@@ -17,7 +17,7 @@ export const useAddNewLocation = () => {
   });
 
   const onSubmit = () => {
-    enqueueSnackbar('New Location Add Successfully', {
+    enqueueSnackbar('New Location Added Successfully', {
       variant: NOTISTACK_VARIANTS?.SUCCESS,
     });
     AddNewLocationMethods?.reset?.();
