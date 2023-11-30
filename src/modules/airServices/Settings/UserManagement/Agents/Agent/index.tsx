@@ -6,6 +6,8 @@ import { useAgent } from './useAgent';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { agentListData } from './Agent.data';
 import AgentFilter from './AgentFilter';
+import { InviteAgentModel } from './InviteAgentModal';
+import { AgentDeleteModal } from './AgentDeleteModal';
 
 const Agent = () => {
   const {
@@ -14,9 +16,14 @@ const Agent = () => {
     dropdownOptions,
     setSearchValue,
     searchValue,
-    isAgentFilterDrawerOpen,
+    deleteAgentProps,
     handleOpenDrawer,
+    isAgentFilterDrawerOpen,
     setAgentFilterDrawerOpen,
+    isAgentModalOpen,
+    setEditAgentModalTitle,
+    editAgentModalTitle,
+    handleAddAgentModal,
   } = useAgent();
   return (
     <>
@@ -49,7 +56,11 @@ const Agent = () => {
             dropdownOptions={dropdownOptions}
             disabled={!!!selectedAgentList?.length}
           />
-          <Button variant="contained" startIcon={<PlusSharedColorIcon />}>
+          <Button
+            variant="contained"
+            startIcon={<PlusSharedColorIcon />}
+            onClick={() => handleAddAgentModal?.(true)}
+          >
             Invite Agents
           </Button>
         </Box>
@@ -60,6 +71,17 @@ const Agent = () => {
           columns={agentListsColumns}
           isPagination
         />
+      </Box>
+      <Box>
+        <InviteAgentModel
+          isAgentModalOpen={isAgentModalOpen}
+          setEditAgentModalTitle={setEditAgentModalTitle}
+          editAgentModalTitle={editAgentModalTitle}
+          handleAddAgentModal={handleAddAgentModal}
+        />
+        {deleteAgentProps?.openDeleteModel && (
+          <AgentDeleteModal deleteAgentProps={deleteAgentProps} />
+        )}
       </Box>
       <AgentFilter
         isAgentFilterDrawerOpen={isAgentFilterDrawerOpen}
