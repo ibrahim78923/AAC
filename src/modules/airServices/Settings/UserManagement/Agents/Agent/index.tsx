@@ -5,6 +5,7 @@ import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { useAgent } from './useAgent';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { agentListData } from './Agent.data';
+import AgentFilter from './AgentFilter';
 
 const Agent = () => {
   const {
@@ -13,6 +14,9 @@ const Agent = () => {
     dropdownOptions,
     setSearchValue,
     searchValue,
+    isAgentFilterDrawerOpen,
+    handleOpenDrawer,
+    setAgentFilterDrawerOpen,
   } = useAgent();
   return (
     <>
@@ -37,6 +41,7 @@ const Agent = () => {
             color="secondary"
             variant="outlined"
             startIcon={<FilterSharedIcon />}
+            onClick={handleOpenDrawer}
           >
             Filter
           </Button>
@@ -56,6 +61,10 @@ const Agent = () => {
           isPagination
         />
       </Box>
+      <AgentFilter
+        isAgentFilterDrawerOpen={isAgentFilterDrawerOpen}
+        setAgentFilterDrawerOpen={setAgentFilterDrawerOpen}
+      />
     </>
   );
 };
