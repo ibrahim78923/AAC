@@ -72,6 +72,7 @@ export const AIR_SERVICES = {
   LEADER_BOARD_SETTINGS: `/air-services/settings/agent-performance-management/leader-board`,
   WORKLOAD_MANAGEMENT_SETTINGS: `/air-services/settings/agent-performance-management/workload-management`,
   USER_ADD_NEW_ROLES_SETTINGS: `/air-services/settings/user-management/roles/add-role`,
+  CREATE_BUSINESS_HOUR: `/air-services/settings/service-management/business-hours/create-new`,
 };
 
 export const AIR_CUSTOMER_PORTAL = {
