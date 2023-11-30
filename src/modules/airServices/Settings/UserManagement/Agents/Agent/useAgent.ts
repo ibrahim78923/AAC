@@ -9,7 +9,12 @@ import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 export const useAgent = () => {
   const [selectedAgentList, setSelectedAgentList] = useState([]);
+  const [isAgentFilterDrawerOpen, setAgentFilterDrawerOpen] = useState(false);
   const [searchValue, setSearchValue] = useState<string>('');
+
+  const handleOpenDrawer = () => {
+    setAgentFilterDrawerOpen(true);
+  };
 
   const handleActionClick = () => {
     if (selectedAgentList?.length > 1) {
@@ -35,5 +40,8 @@ export const useAgent = () => {
     handleActionClick,
     setSearchValue,
     searchValue,
+    isAgentFilterDrawerOpen,
+    handleOpenDrawer,
+    setAgentFilterDrawerOpen,
   };
 };
