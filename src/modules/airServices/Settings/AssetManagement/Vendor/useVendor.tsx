@@ -4,6 +4,8 @@ import { vendorListsColumnsFunction } from './Vendor.data';
 
 export const useVendor = () => {
   const [searchValue, setSearchValue] = useState<string>('');
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isADrawerOpen, setIsADrawerOpen] = useState(false);
   const router = useRouter();
 
   const VendorListsColumns = vendorListsColumnsFunction(router);
@@ -13,5 +15,9 @@ export const useVendor = () => {
     searchValue,
     setSearchValue,
     VendorListsColumns,
+    isDrawerOpen,
+    setIsDrawerOpen,
+    isADrawerOpen,
+    setIsADrawerOpen,
   };
 };
