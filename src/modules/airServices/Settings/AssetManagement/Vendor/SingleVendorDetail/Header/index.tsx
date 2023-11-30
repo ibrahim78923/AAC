@@ -17,6 +17,7 @@ export const Header = (props: any) => {
         alignItems={'center'}
         flexWrap={'wrap'}
         gap={2}
+        sx={{ cursor: 'pointer' }}
       >
         <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={2}>
           <ArrowBackIcon
