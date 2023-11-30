@@ -18,21 +18,21 @@ export const productColumns = (
 ): any => [
   {
     accessorFn: (row: any) => row?.productName,
-    _id: 'productName',
+    id: 'productName',
     isSortable: true,
     header: 'Product Name',
     cell: (info: any) => info?.getValue(),
   },
   {
     accessorFn: (row: any) => row?.price,
-    _id: 'price',
+    id: 'price',
     header: 'Price',
     isSortable: true,
     cell: (info: any) => info?.getValue(),
   },
   {
     accessorFn: (row: any) => row?.warrantyValidity,
-    _id: 'warrantyValidity',
+    id: 'warrantyValidity',
     isSortable: true,
     header: 'Warranty/Validity',
     cell: (info: any) =>
@@ -40,35 +40,32 @@ export const productColumns = (
   },
   {
     accessorFn: (row: any) => row?.quantity,
-    _id: 'quantity',
+    id: 'quantity',
     isSortable: true,
     header: 'Quantity',
     cell: (info: any) => info?.getValue(),
   },
   {
     accessorFn: (row: any) => row?.action,
-    _id: 'action',
+    id: 'action',
     isSortable: true,
     header: 'Action',
     cell: (info: any) => (
-      <>
-        <Box display={'flex'} alignItems={'center'}>
-          <ModeEditOutlineSharpIcon
-            sx={{ color: 'warning.main', cursor: 'pointer' }}
-            onClick={() => {
-              setEditData(info?.row?.original);
-              setUpsertProductModal(true);
-            }}
-          />
-          <DeleteIcon
-            onClick={() => {
-              setDeleteModalOpen(true);
-            }}
-            sx={{ color: 'red', cursor: 'pointer' }}
-          />
-        </Box>
-        {info?.getValue()}
-      </>
+      <Box display={'flex'} alignItems={'center'}>
+        <ModeEditOutlineSharpIcon
+          sx={{ color: 'warning.main', cursor: 'pointer' }}
+          onClick={() => {
+            setEditData(info?.row?.original);
+            setUpsertProductModal(true);
+          }}
+        />
+        <DeleteIcon
+          onClick={() => {
+            setDeleteModalOpen(true);
+          }}
+          sx={{ color: 'red', cursor: 'pointer' }}
+        />
+      </Box>
     ),
   },
 ];
