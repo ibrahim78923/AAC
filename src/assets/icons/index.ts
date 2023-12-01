@@ -301,3 +301,11 @@ export { default as LeadersBoardIcon } from './modules/airServices/Settings/lead
 export { default as WorkloadManagementIcon } from './modules/airServices/Settings/workload-management-icon';
 export { default as AddRoleIcon } from './modules/airServices/Settings/UserManagement/Roles/add-role-icon';
 export { default as CsvImportIcon } from './shared/csv-import-icon';
+export { default as ActionMenuIcon } from './shared/action-menu-icon';
+export { default as ViewDetailIcon } from './shared/view-detail-icon';
+export { default as EmbedCodeIcon } from './shared/embed-code-icon';
+export { default as EmbedcodeTickIcon } from './shared/embed-code-tick-icon';
+export { default as ActivateIcon } from './shared/activate-icon';
+export { default as FileIcon } from './shared/file-icon';
+export { default as FilterSubmissionsIcon } from './shared/filter-submission-icon';
+export { default as ExportSubmissionIcon } from './shared/export-submission-icon';
