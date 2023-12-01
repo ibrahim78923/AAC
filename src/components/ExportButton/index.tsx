@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from 'uuid';
 import { Typography, Button, Menu, MenuItem } from '@mui/material';
 import { ExportIcon } from '@/assets/icons';
 import { useExportButton } from './useExportButton';
@@ -30,7 +29,7 @@ export const ExportButton = (props: any) => {
         onClose={handleClose}
       >
         <MenuItem
-          key={uuidv4()}
+          key={1}
           onClick={() => {
             handleCsvExport?.();
             handleClose?.();
@@ -45,7 +44,7 @@ export const ExportButton = (props: any) => {
           </Typography>
         </MenuItem>
         <MenuItem
-          key={uuidv4()}
+          key={2}
           onClick={() => {
             handleExcelExport?.();
             handleClose?.();

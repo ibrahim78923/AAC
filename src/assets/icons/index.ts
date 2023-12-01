@@ -303,3 +303,7 @@ export { default as AddRoleIcon } from './modules/airServices/Settings/UserManag
 export { default as CsvImportIcon } from './shared/csv-import-icon';
 export { default as FolderLargeIcon } from './shared/folder-large-icon';
 export { default as LockedIcon } from './shared/locked-icon';
+
+export { default as BookMarkIcon } from './shared/book-mark-icon';
+export { default as ArrowSquareLeftIcon } from './shared/arrow-square-left';
+export { default as ArrowSquareRightIcon } from './shared/arrow-square-right';
