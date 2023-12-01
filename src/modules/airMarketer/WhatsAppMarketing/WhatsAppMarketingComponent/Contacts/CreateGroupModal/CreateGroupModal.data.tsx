@@ -43,7 +43,7 @@ export const columns: any = ({
     if (isAllUsersSelected) {
       setSelectedUsers([]);
     } else {
-      const allUserIds = smsMarketingContactsData?.map((user: any) => user.id);
+      const allUserIds = smsMarketingContactsData?.map((user: any) => user?.id);
       setSelectedUsers(allUserIds);
     }
   };
