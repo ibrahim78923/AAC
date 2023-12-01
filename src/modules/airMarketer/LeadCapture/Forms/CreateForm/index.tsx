@@ -18,7 +18,7 @@ const CreateForm = () => {
 
   const [value, setValue] = useState('1');
 
-  const handleChange = (newValue: string) => {
+  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
 
