@@ -8,6 +8,7 @@ const WhatsAppMarketing = () => {
   const isNumberConnected = true;
   const [isMainLayoutSwitch, setIsMainLayoutSwitch] = useState(true);
   const [isCreateTemplate, setIsCreateTemplate] = useState(false);
+  const [templateType, setTemplateType] = useState('');
 
   const handelSwitch = (children: any) => {
     setIsMainLayoutSwitch(children);
@@ -21,6 +22,8 @@ const WhatsAppMarketing = () => {
             <WhatsAppMarketingComponent
               handelSwitch={handelSwitch}
               setIsCreateTemplate={setIsCreateTemplate}
+              templateType={templateType}
+              setTemplateType={setTemplateType}
             />
           ) : (
             <ConnectNumber />
@@ -30,7 +33,11 @@ const WhatsAppMarketing = () => {
         <>
           {isCreateTemplate && (
             <LayoutSwitch>
-              <TemplateForm handelSwitch={handelSwitch} />
+              <TemplateForm
+                handelSwitch={handelSwitch}
+                templateType={templateType}
+                setTemplateType={setTemplateType}
+              />
             </LayoutSwitch>
           )}
         </>

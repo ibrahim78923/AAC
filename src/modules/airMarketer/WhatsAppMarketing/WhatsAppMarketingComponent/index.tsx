@@ -11,6 +11,8 @@ import EditSmsIcon from '@/assets/icons/modules/airMarketer/SMSMarketing/edit-sm
 const WhatsAppMarketingComponent = ({
   handelSwitch,
   setIsCreateTemplate,
+  templateType,
+  setTemplateType,
 }: any) => {
   const { tabVal, setTabVal } = useWhatsAppMarketing();
   return (
@@ -61,6 +63,8 @@ const WhatsAppMarketingComponent = ({
         <Templates
           handelSwitch={handelSwitch}
           setIsCreateTemplate={setIsCreateTemplate}
+          templateType={templateType}
+          setTemplateType={setTemplateType}
         />
       </CommonTabs>
     </>

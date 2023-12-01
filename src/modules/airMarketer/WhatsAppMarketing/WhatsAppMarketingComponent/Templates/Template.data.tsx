@@ -11,7 +11,12 @@ export const templateWhatsAppMarketing = [
   },
 ];
 
-export const columns = () => {
+export const columns = ({
+  handelSwitch,
+  setIsCreateTemplate,
+  setTemplateType,
+  setIsDeleteTemplate,
+}: any) => {
   return [
     {
       accessorFn: (row: any) => row?.templateName,
@@ -61,6 +66,11 @@ export const columns = () => {
               height: '30px',
               borderRadius: '50%',
             }}
+            onClick={() => {
+              handelSwitch(false);
+              setIsCreateTemplate(true);
+              setTemplateType('Edit');
+            }}
           >
             <EditPenBorderedIcon size={20} />{' '}
           </Button>
@@ -72,6 +82,7 @@ export const columns = () => {
               height: '30px',
               borderRadius: '50%',
             }}
+            onClick={() => setIsDeleteTemplate(true)}
           >
             <DeleteIcon />
           </Button>

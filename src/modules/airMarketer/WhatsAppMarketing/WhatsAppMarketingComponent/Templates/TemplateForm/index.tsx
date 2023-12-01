@@ -16,14 +16,14 @@ import { useForm } from 'react-hook-form';
 
 import { v4 as uuidv4 } from 'uuid';
 
-const TemplateForm = ({ handelSwitch }: any) => {
+const TemplateForm = ({ handelSwitch, templateType }: any) => {
   const methodsNewsAndEventsFilters = useForm({
     resolver: yupResolver(createTemplateValidationSchema),
     defaultValues: createTemplateDefaultValues,
   });
   const onSubmit = (values: any) => {
     const formData = new FormData();
-    formData.append('file', values.attachment);
+    formData?.append('file', values?.attachment);
   };
   const { handleSubmit } = methodsNewsAndEventsFilters;
 
@@ -43,7 +43,7 @@ const TemplateForm = ({ handelSwitch }: any) => {
         >
           <BackArrIcon />
         </Button>
-        <Typography variant="h3">Create Template</Typography>
+        <Typography variant="h3">{templateType} Template</Typography>
       </Box>
 
       <Grid container spacing={2} sx={{ mt: 2 }}>
@@ -73,7 +73,7 @@ const TemplateForm = ({ handelSwitch }: any) => {
         </Grid>
         <Grid item xs={6}>
           <Box>
-            <Typography variant="h3">Create Template</Typography>
+            <Typography variant="h3">Preview</Typography>
             <Typography variant="body1">
               Your preview will appear here{' '}
             </Typography>
@@ -119,7 +119,34 @@ const TemplateForm = ({ handelSwitch }: any) => {
               ></Box>
             </Box>
           </Box>
-          <Button onClick={handleSubmit(onSubmit)}>Submit</Button>
+          <Box
+            sx={{ display: 'flex', gap: '15px', mt: 5, justifyContent: 'end' }}
+          >
+            <Button
+              onClick={handleSubmit(onSubmit)}
+              color="inherit"
+              sx={{
+                '@media (max-width:581px)': {
+                  flexDirection: 'column-reverse',
+                },
+              }}
+              variant="outlined"
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={handleSubmit(onSubmit)}
+              sx={{
+                width: '140px',
+                '@media (max-width:581px)': {
+                  flexDirection: 'column-reverse',
+                },
+              }}
+              variant="contained"
+            >
+              Save Template
+            </Button>
+          </Box>
         </Grid>
       </Grid>
     </Box>

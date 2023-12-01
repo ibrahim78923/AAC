@@ -4,10 +4,21 @@ import { columns, templateWhatsAppMarketing } from './Template.data';
 import { Box, Button } from '@mui/material';
 import Search from '@/components/Search';
 import { PlusIcon } from '@/assets/icons';
+import { AlertModals } from '@/components/AlertModals';
 
-const Templates = ({ handelSwitch, setIsCreateTemplate }: any) => {
-  const getColumns = columns();
+const Templates = ({
+  handelSwitch,
+  setIsCreateTemplate,
+  setTemplateType,
+}: any) => {
+  const [isDeleteTemplate, setIsDeleteTemplate] = useState(false);
 
+  const getColumns = columns({
+    handelSwitch,
+    setIsCreateTemplate,
+    setTemplateType,
+    setIsDeleteTemplate,
+  });
   const [setSearchBy] = useState('');
 
   return (
@@ -39,6 +50,7 @@ const Templates = ({ handelSwitch, setIsCreateTemplate }: any) => {
           onClick={() => {
             handelSwitch(false);
             setIsCreateTemplate(true);
+            setTemplateType('Create');
           }}
         >
           <PlusIcon /> &nbsp; Create Template
@@ -50,6 +62,13 @@ const Templates = ({ handelSwitch, setIsCreateTemplate }: any) => {
           data={templateWhatsAppMarketing}
           columns={getColumns}
           isPagination
+        />
+        <AlertModals
+          message={'Are you sure you want to delete this template ?'}
+          type="delete"
+          open={isDeleteTemplate}
+          handleClose={() => setIsDeleteTemplate(false)}
+          handleSubmitBtn={() => setIsDeleteTemplate(false)}
         />
       </Box>
     </>
