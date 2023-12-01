@@ -38,7 +38,7 @@ export const ticketsActionDropdownFunction = (
     },
   },
   {
-    title: 'Assignee',
+    title: 'Assign To',
     handleClick: (closeMenu: any) => {
       setTicketAction(TICKETS_ACTION_CONSTANTS?.ASSIGNED_TICKET);
       closeMenu?.();

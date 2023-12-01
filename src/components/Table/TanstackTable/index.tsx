@@ -139,16 +139,19 @@ const TanstackTable = (props: any) => {
         </Grid>
       </Grid>
       {isPagination && (
-        <CustomPagination
-          count={count}
-          pageLimit={pageLimit}
-          rowsPerPageOptions={rowsPerPageOptions}
-          currentPage={currentPage}
-          totalRecords={totalRecords}
-          onPageChange={(page: any) => onPageChange?.(page)}
-          setPage={setPage}
-          setPageLimit={setPageLimit}
-        />
+        <>
+          <br />
+          <CustomPagination
+            count={count}
+            pageLimit={pageLimit}
+            rowsPerPageOptions={rowsPerPageOptions}
+            currentPage={currentPage}
+            totalRecords={totalRecords}
+            onPageChange={(page: any) => onPageChange?.(page)}
+            setPage={setPage}
+            setPageLimit={setPageLimit}
+          />
+        </>
       )}
     </>
   );
