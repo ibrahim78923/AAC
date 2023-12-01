@@ -1,6 +1,7 @@
 import { useTheme } from '@mui/material';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
+import { useForm } from 'react-hook-form';
 import { AIR_MARKETER } from '@/routesConstants/paths';
 const useCompaigns = () => {
   const theme = useTheme();
@@ -16,6 +17,10 @@ const useCompaigns = () => {
     isEditCompaign: false,
   });
   const [isDelete, setIsDelete] = useState(false);
+  const [isCreateTask, setIsCreateTask] = useState(false);
+  const [isCompare, setIsCompare] = useState(false);
+
+  const CampaignTask: any = useForm({});
   const router = useRouter();
   const handleClick = (event: any) => {
     setSelectedValue(event?.currentTarget);
@@ -72,6 +77,11 @@ const useCompaigns = () => {
     setIsDelete,
     actionsModalDetails,
     setActionsModalDetails,
+    isCreateTask,
+    setIsCreateTask,
+    CampaignTask,
+    isCompare,
+    setIsCompare,
   };
 };
 export default useCompaigns;
