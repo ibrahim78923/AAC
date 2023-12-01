@@ -1,7 +1,9 @@
 import {
   Avatar,
+  AvatarGroup,
   Box,
   Button,
+  FormLabel,
   Grid,
   InputAdornment,
   Stack,
@@ -13,40 +15,33 @@ import {
   contactDetails,
   contactsColumns,
   createBroadcast,
-  defaultValues,
-  validationSchema,
 } from './CreateSMSBroadcast.data';
 import { v4 as uuidv4 } from 'uuid';
-import { useForm } from 'react-hook-form';
 import { FormProvider } from '@/components/ReactHookForm';
 import TanstackTable from '@/components/Table/TanstackTable';
-import { yupResolver } from '@hookform/resolvers/yup';
 import DateRangeIcon from '@mui/icons-material/DateRange';
-import { PlusSharedColorIcon } from '@/assets/icons';
+import { BookMarkIcon, PlusSharedColorIcon } from '@/assets/icons';
 import useCreateSMSBroadcast from './useCreateSMSBroadcast';
 import AddContactDrawer from './AddContactDrawer';
 import { AIR_MARKETER } from '@/routesConstants/paths';
 
 const CreateSMSBroadcast = () => {
-  const { theme, isAddContactDrawerOpen, setIsAddContactDrawerOpen, navigate } =
-    useCreateSMSBroadcast();
-
-  const { type } = navigate.query;
-
-  const methods: any = useForm({
-    resolver: yupResolver(validationSchema),
-    defaultValues: defaultValues,
-  });
-
-  const { handleSubmit, reset } = methods;
-
-  const onSubmit = async () => {
-    reset();
-  };
+  const {
+    theme,
+    isAddContactDrawerOpen,
+    setIsAddContactDrawerOpen,
+    type,
+    onSubmit,
+    handleSubmit,
+    methods,
+    navigate,
+    textAreaVal,
+    setTextAreaVal,
+  } = useCreateSMSBroadcast();
 
   return (
     <>
-      <Stack direction="row" justifyContent="space-between">
+      <Stack direction={{ sm: 'row' }} justifyContent="space-between">
         <Box
           alignItems="center"
           gap={1}
@@ -58,11 +53,17 @@ const CreateSMSBroadcast = () => {
               navigate.push(AIR_MARKETER?.SMS_MARKETING);
             }}
           />
-          <Typography variant="h4">
+          <Typography variant="h3">
             {type === 'add' ? 'Create ' : 'Edit '}SMS Broadcast
           </Typography>
         </Box>
-        {type !== 'add' && <Button variant="outlined">Save as Draft</Button>}
+        <Box>
+          {type !== 'add' && (
+            <Button variant="outlined" color="inherit" className="small">
+              Save as Draft
+            </Button>
+          )}
+        </Box>
       </Stack>
 
       <FormProvider methods={methods}>
@@ -102,50 +103,109 @@ const CreateSMSBroadcast = () => {
                         </InputAdornment>
                       </Box>
                     )}
+
                     <item.component {...item.componentProps} size={'small'}>
                       {item?.componentProps?.select &&
                         item?.options?.map((option: any) => (
                           <option key={uuidv4()} value={option?.value}>
-                            {option?.label}
+                            <Typography variant="body2">
+                              {option?.label}
+                            </Typography>
                           </option>
                         ))}
                     </item.component>
+                    {item?.componentProps?.name === 'recipients' && (
+                      <Box sx={{ display: 'flex' }}>
+                        <AvatarGroup
+                          max={4}
+                          sx={{
+                            '& .MuiAvatar-root': {
+                              background: theme?.palette?.primary?.main,
+                              height: '30px',
+                              width: '30px',
+                              fontSize: '12px',
+                            },
+                          }}
+                        >
+                          <Avatar alt="recipient_avatar" src="" />
+                        </AvatarGroup>
+                      </Box>
+                    )}
                   </Grid>
                 );
               })}
+              <Grid item xs={12}>
+                <FormLabel sx={{ color: theme?.palette?.common?.black }}>
+                  Details
+                </FormLabel>
+                <TextareaAutosize
+                  required
+                  name="details"
+                  onChange={(e: any) => {
+                    setTextAreaVal(e?.target?.value);
+                  }}
+                  placeholder="Type"
+                  minRows={10}
+                  style={{
+                    width: '100%',
+                    padding: '16px',
+                    borderRadius: '8px',
+                  }}
+                />
+              </Grid>
             </Grid>
           </Grid>
+
           <Grid item md={6} xs={12}>
             <Typography variant="h4">Preview</Typography>
             <Grid container sx={{ p: 1 }}>
-              <Grid item xs={12}>
+              <Grid item xs={12} my={1}>
                 <Stack direction="row" alignItems="center" gap={1}>
                   <Avatar />
                   <Box>
-                    <Typography variant="h5" sx={{ color: '#405893' }}>
+                    <Typography
+                      variant="body1"
+                      fontWeight={700}
+                      sx={{
+                        color: theme?.palette?.custom?.text_slate_blue,
+                        fontSize: '15px',
+                      }}
+                    >
                       Compaign Name
                     </Typography>
-                    <Typography variant="body2">Just Now</Typography>
+                    <Typography
+                      variant="body2"
+                      fontWeight={500}
+                      sx={{ fontSize: '13px' }}
+                    >
+                      Just Now
+                    </Typography>
                   </Box>
                 </Stack>
               </Grid>
               <Grid item xs={12}>
-                <Typography variant="h6">Details</Typography>
+                <Typography variant="body2" fontWeight={600}>
+                  Details
+                </Typography>
                 <TextareaAutosize
+                  disabled
+                  value={textAreaVal}
+                  minRows={10}
                   style={{
                     width: '100%',
-                    height: '203px',
                     padding: '16px',
-                    border: '1px solid #EAECF0',
+                    border: `1px solid ${theme?.palette?.custom?.off_white_three}`,
                     borderRadius: '8px',
                   }}
                 />
               </Grid>
               <Grid item xs={12}>
-                <Typography variant="h6">Added Contacts</Typography>
+                <Typography variant="body2" fontWeight={600}>
+                  Added Contacts
+                </Typography>
                 <Box
                   sx={{
-                    border: '1px solid #EAECF0',
+                    border: `1px solid ${theme?.palette?.custom?.off_white_three}`,
                     borderRadius: '8px',
                     padding: '10px',
                   }}
@@ -158,20 +218,47 @@ const CreateSMSBroadcast = () => {
               </Grid>
             </Grid>
           </Grid>
+
           <Grid
             item
-            md={12}
-            sx={{ display: 'flex', justifyContent: 'right', gap: '10px' }}
+            lg={12}
+            sx={{
+              display: { xs: 'flex' },
+              flexDirection: { sm: 'row', xs: 'column' },
+              justifyContent: 'right',
+              gap: '10px',
+              width: '100%',
+            }}
           >
-            <Button variant="outlined" startIcon={<DateRangeIcon />}>
+            {type !== 'add' && (
+              <Button
+                className="small"
+                variant="outlined"
+                sx={{ background: theme?.palette?.primary?.light }}
+                startIcon={<BookMarkIcon />}
+              >
+                Save as Template
+              </Button>
+            )}
+            <Button
+              variant="outlined"
+              color="inherit"
+              className="small"
+              startIcon={<DateRangeIcon />}
+            >
               Schedule
             </Button>
-            <Button variant="contained" onClick={handleSubmit(onSubmit)}>
+            <Button
+              variant="contained"
+              className="small"
+              onClick={handleSubmit(onSubmit)}
+            >
               Send Now
             </Button>
           </Grid>
         </Grid>
       </FormProvider>
+
       {isAddContactDrawerOpen && (
         <AddContactDrawer
           isDrawerOpen={isAddContactDrawerOpen}
