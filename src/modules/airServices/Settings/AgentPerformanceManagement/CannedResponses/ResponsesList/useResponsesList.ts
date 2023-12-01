@@ -2,6 +2,7 @@ import { PAGINATION } from '@/config';
 import { useRouter } from 'next/router';
 import { enqueueSnackbar } from 'notistack';
 import { useState } from 'react';
+import { ACTION_TYPES } from './ResponsesList.data';
 
 export const useResponsesList = () => {
   const router = useRouter();
@@ -13,10 +14,10 @@ export const useResponsesList = () => {
   const [deleteModal, setDeleteModal] = useState(false);
   const handleActionClick = (ActionType: string) => {
     // open delete modal on selected action type
-    if (ActionType === 'delete') {
+    if (ActionType === ACTION_TYPES?.DELETE) {
       return setDeleteModal(true);
     }
-    if (ActionType === 'edit') {
+    if (ActionType === ACTION_TYPES?.EDIT) {
       if (selectedData?.length > 1) {
         enqueueSnackbar(`Can't update multiple records`, {
           variant: 'error',
@@ -25,7 +26,7 @@ export const useResponsesList = () => {
       }
       return setOpenAddResponseDrawer(true);
     }
-    if (ActionType === 'move') {
+    if (ActionType === ACTION_TYPES?.MOVE) {
       return setOpenMoveFolderModal(true);
     }
   };
@@ -33,7 +34,7 @@ export const useResponsesList = () => {
     return str
       ?.split?.('-')
       ?.map?.(
-        (word: string) => word?.charAt?.(0).toUpperCase?.() + word?.slice?.(1),
+        (word: string) => word?.charAt?.(0)?.toUpperCase?.() + word?.slice?.(1),
       )
       ?.join?.(' ');
   };

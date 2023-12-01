@@ -124,9 +124,16 @@ export const responsesTableData: any = [
     ],
   },
 ];
-
+export const ACTION_TYPES = {
+  DELETE: 'delete',
+  EDIT: 'edit',
+  MOVE: 'move',
+};
 export const actionsOptions = (handleOptionsClick: any) => [
-  { title: 'Edit', handleClick: () => handleOptionsClick('edit') },
-  { title: 'Delete', handleClick: () => handleOptionsClick('delete') },
-  { title: 'Move', handleClick: () => handleOptionsClick('move') },
+  { title: 'Edit', handleClick: () => handleOptionsClick(ACTION_TYPES?.EDIT) },
+  {
+    title: 'Delete',
+    handleClick: () => handleOptionsClick(ACTION_TYPES?.DELETE),
+  },
+  { title: 'Move', handleClick: () => handleOptionsClick(ACTION_TYPES?.MOVE) },
 ];

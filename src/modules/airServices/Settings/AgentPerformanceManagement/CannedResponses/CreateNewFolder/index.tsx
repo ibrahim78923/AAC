@@ -8,9 +8,10 @@ import {
   Grid,
   Typography,
 } from '@mui/material';
-import { FormProvider, RHFTextField } from '@/components/ReactHookForm';
+import { FormProvider } from '@/components/ReactHookForm';
 import { CloseModalIcon } from '@/assets/icons';
 import { useCreateNewFolder } from './useCreateNewFolder';
+import { createNewFolderArray } from './CreateNewFolder.data';
 
 export const CreateNewFolder = ({
   openCreateNewFolderModal,
@@ -57,44 +58,32 @@ export const CreateNewFolder = ({
             </DialogTitle>
             <DialogContent>
               <Grid container gap={1.4}>
-                <Grid item xs={12}>
-                  <RHFTextField
-                    name="folderName"
-                    label="Folder Name"
-                    size="small"
-                    required
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <RHFTextField
-                    name="description"
-                    label="Description"
-                    size="small"
-                    multiline
-                    rows={3}
-                  />
-                </Grid>
+                {createNewFolderArray?.map((item) => (
+                  <Grid key={item?.id} item xs={12}>
+                    <item.component {...item?.componentProps} />
+                  </Grid>
+                ))}
               </Grid>
             </DialogContent>
+            <DialogActions>
+              <Box display="flex" justifyContent="flex-end" gap={2}>
+                <Button
+                  onClick={closeCreateNewFolderModal}
+                  variant="outlined"
+                  color="secondary"
+                >
+                  Cancel
+                </Button>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  onClick={method?.handleSubmit(onSubmit)}
+                >
+                  {openCreateNewFolderModal?.editData ? 'Apply' : 'Submit'}
+                </Button>
+              </Box>
+            </DialogActions>
           </FormProvider>
-          <DialogActions>
-            <Box display="flex" justifyContent="flex-end" gap={2}>
-              <Button
-                onClick={closeCreateNewFolderModal}
-                variant="outlined"
-                color="secondary"
-              >
-                Cancel
-              </Button>
-              <Button
-                type="submit"
-                variant="contained"
-                onClick={method?.handleSubmit(onSubmit)}
-              >
-                {openCreateNewFolderModal?.editData ? 'Apply' : 'Submit'}
-              </Button>
-            </Box>
-          </DialogActions>
         </Dialog>
       )}
     </>
