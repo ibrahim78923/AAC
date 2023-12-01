@@ -41,7 +41,11 @@ const SMSBroadcastHeader = (props: any) => {
   } = useSMSBroadcast();
 
   return (
-    <Grid container sx={{ justifyContent: 'space-between', my: 1 }}>
+    <Grid
+      container
+      spacing={1}
+      sx={{ justifyContent: 'space-between', my: 1, alignItems: 'center' }}
+    >
       <Grid item xs={12} lg={6}>
         <Stack direction="row" gap={1}>
           <PrimaryCalendarIcon />
@@ -61,8 +65,8 @@ const SMSBroadcastHeader = (props: any) => {
       </Grid>
       <Grid
         item
-        lg={6}
         xs={12}
+        lg={6}
         sx={{
           flexDirection: { md: 'row', xs: 'column' },
           justifyContent: 'right',
