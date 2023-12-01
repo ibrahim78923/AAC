@@ -1,9 +1,5 @@
 export const assetTypeData = [
   {
-    id: 1,
-    title: 'default fields',
-  },
-  {
     id: 2,
     title: 'service',
     childList: [
