@@ -6,6 +6,7 @@ import {
   Menu,
   MenuItem,
   Select,
+  Stack,
 } from '@mui/material';
 
 import Search from '@/components/Search';
@@ -16,7 +17,14 @@ import useSMSBroadcast from '../useSMSBroadcast';
 
 import { ArrowDropDown } from '@mui/icons-material';
 
-import { AlertModalDeleteIcon } from '@/assets/icons';
+import {
+  AlertModalDeleteIcon,
+  ArrowSquareLeft,
+  ArrowSquareRight,
+  PrimaryCalendarIcon,
+} from '@/assets/icons';
+
+import dayjs from 'dayjs';
 
 const SMSBroadcastHeader = (props: any) => {
   const {
@@ -28,21 +36,39 @@ const SMSBroadcastHeader = (props: any) => {
     setIsDelete,
     handleDelete,
     handleEdit,
+    isDatePicker,
+    setIsDatePicker,
   } = useSMSBroadcast();
 
   return (
     <Grid container sx={{ justifyContent: 'space-between', my: 1 }}>
-      <Grid item lg={6}>
-        {/* date calander here */}
+      <Grid item xs={12} lg={6}>
+        <Stack direction="row" gap={1}>
+          <PrimaryCalendarIcon />
+          {`${dayjs().format('MMMM DD')} - ${dayjs().format('MMMM DD')}`}
+          <Stack
+            sx={{ cursor: 'pointer' }}
+            direction="row"
+            onClick={() => {
+              setIsDatePicker(!isDatePicker);
+            }}
+          >
+            <ArrowSquareLeft />
+            <ArrowSquareRight />
+          </Stack>
+        </Stack>
+        {isDatePicker && <Box>Date Picker</Box>}
       </Grid>
       <Grid
         item
         lg={6}
+        xs={12}
         sx={{
-          display: 'flex',
+          flexDirection: { md: 'row', xs: 'column' },
           justifyContent: 'right',
-          gap: '10px',
           alignItems: 'right',
+          display: 'flex',
+          gap: '10px',
         }}
       >
         <Search size="small" placeholder="Search Here" />
@@ -66,7 +92,6 @@ const SMSBroadcastHeader = (props: any) => {
 
         <Box>
           <Button
-
             className="small"
             disabled={props?.selectedId ? false : true}
             onClick={handleClick}

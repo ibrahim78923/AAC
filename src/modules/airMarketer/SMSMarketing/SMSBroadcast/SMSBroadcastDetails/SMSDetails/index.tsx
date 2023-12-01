@@ -15,9 +15,8 @@ import Search from '@/components/Search';
 
 import SMSDetailsTable from './SMSDetailsTable';
 
-import GetAppIcon from '@mui/icons-material/GetApp';
-
 import useSMSBroadcast from '../../useSMSBroadcast';
+import ImportIcon from '@/assets/icons/shared/import-icon';
 
 const SMSDetails = () => {
   const { theme } = useSMSBroadcast();
@@ -27,10 +26,16 @@ const SMSDetails = () => {
         <Stack direction="row" alignItems="center" gap={1}>
           <Avatar />
           <Box>
-            <Typography variant="h5" sx={{ color: '#405893' }}>
+            <Typography
+              variant="body2"
+              fontWeight={700}
+              sx={{ color: '#405893', fontSize: '15px' }}
+            >
               Compaign Name
             </Typography>
-            <Typography variant="body2">Just Now</Typography>
+            <Typography variant="body2" sx={{ fontSize: '13px' }}>
+              Just Now
+            </Typography>
           </Box>
         </Stack>
       </Grid>
@@ -52,6 +57,7 @@ const SMSDetails = () => {
           <Box sx={{ gap: 1, display: 'flex' }}>
             <FormControl size="small">
               <Select
+                sx={{ height: '36px' }}
                 defaultValue={'status'}
                 // value={age}
                 // onChange={handleChange}
@@ -67,9 +73,10 @@ const SMSDetails = () => {
               </Select>
             </FormControl>
             <Button
-              sx={{ height: '40px' }}
+              className="small"
               variant="outlined"
-              endIcon={<GetAppIcon />}
+              color="inherit"
+              endIcon={<ImportIcon />}
             >
               Export
             </Button>

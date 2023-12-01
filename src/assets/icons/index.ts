@@ -301,3 +301,7 @@ export { default as LeadersBoardIcon } from './modules/airServices/Settings/lead
 export { default as WorkloadManagementIcon } from './modules/airServices/Settings/workload-management-icon';
 export { default as AddRoleIcon } from './modules/airServices/Settings/UserManagement/Roles/add-role-icon';
 export { default as CsvImportIcon } from './shared/csv-import-icon';
+
+export { default as BookMarkIcon } from './shared/book-mark-icon';
+export { default as ArrowSquareLeft } from './shared/arrow-square-left';
+export { default as ArrowSquareRight } from './shared/arrow-square-right';
