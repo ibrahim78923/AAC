@@ -1,7 +1,7 @@
 import { AddBox } from '@mui/icons-material';
 import { Box, Button, useTheme } from '@mui/material';
 
-const ChildBarWrapper = ({ children, isZeroBoxShadow = false }: any) => {
+const ChildAssetTypes = ({ children, boxShadow = 2 }: any) => {
   const { palette }: any = useTheme();
   return (
     <Box
@@ -11,7 +11,7 @@ const ChildBarWrapper = ({ children, isZeroBoxShadow = false }: any) => {
       borderRadius={3}
       py={2.4}
       px={'5%'}
-      boxShadow={isZeroBoxShadow ? 0 : 2}
+      boxShadow={boxShadow}
       sx={{
         background: palette?.custom?.light_grayish_blue + 80,
       }}
@@ -31,4 +31,4 @@ const ChildBarWrapper = ({ children, isZeroBoxShadow = false }: any) => {
   );
 };
 
-export default ChildBarWrapper;
+export default ChildAssetTypes;

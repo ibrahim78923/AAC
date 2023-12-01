@@ -1,11 +1,10 @@
 import { Box } from '@mui/material';
-import ChildBarWrapper from './ChildBarWrapper';
+import ChildBarWrapper from './ChildAssetTypes';
 import TitleBar from './TitleBar';
 import { useAssetType } from './useAssetType';
 import { assetTypeData } from './AssetType.data';
 import Header from './Header';
 import { Fragment } from 'react';
-import { v4 as uuidv4 } from 'uuid';
 export const AssetType = () => {
   const {
     collapseItem,
@@ -29,7 +28,7 @@ export const AssetType = () => {
         }}
       >
         {assetTypeData?.map((asset, index) => (
-          <Fragment key={uuidv4()}>
+          <Fragment key={asset?.id}>
             <TitleBar
               title={asset?.title}
               handleCollapse={() => handleCollapse(index)}
@@ -38,7 +37,7 @@ export const AssetType = () => {
             {collapseItem === index && !!asset?.childList && (
               <ChildBarWrapper>
                 {asset?.childList?.map((childAsset, subChildIndex) => (
-                  <Fragment key={uuidv4()}>
+                  <Fragment key={childAsset?.id}>
                     <TitleBar
                       title={childAsset?.title}
                       handleCollapse={() =>
@@ -47,10 +46,10 @@ export const AssetType = () => {
                     />
                     {subChildIndex === subChildCollapseItem &&
                       !!childAsset?.subChildList && (
-                        <ChildBarWrapper isZeroBoxShadow>
+                        <ChildBarWrapper boxShadow={0}>
                           {childAsset?.subChildList?.map((subChildAsset) => (
                             <TitleBar
-                              key={uuidv4()}
+                              key={asset?.id}
                               title={subChildAsset?.title}
                               icNotCollapseAble
                             />

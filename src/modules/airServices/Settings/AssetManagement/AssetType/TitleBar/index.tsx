@@ -1,6 +1,5 @@
 import { Create, KeyboardArrowDown } from '@mui/icons-material';
 import { Box, Divider, Typography, useTheme } from '@mui/material';
-import { v4 as uuidv4 } from 'uuid';
 import { styles } from './TitleBar.style';
 const TitleBar = (props?: any) => {
   const { title, handleCollapse, handleUpdate, icNotCollapseAble } = props;
@@ -15,7 +14,6 @@ const TitleBar = (props?: any) => {
       alignItems={'center'}
       justifyContent="space-between"
       gap={1.8}
-      key={uuidv4()}
       px={1.5}
       sx={{
         backgroundColor: palette?.common?.white,
