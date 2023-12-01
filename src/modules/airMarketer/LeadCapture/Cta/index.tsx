@@ -88,7 +88,7 @@ const CTA = () => {
                 <DeleteIcon
                   color={selectedCheckboxes.length > 0 ? '#FF4A4A' : '#D1D5DB'}
                 />{' '}
-                Delete file
+                Delete
               </Button>
               <Button
                 variant="outlined"
