@@ -24,12 +24,10 @@ import ContactsSMSMarketing from './Contacts';
 import { AIR_MARKETER } from '@/routesConstants/paths';
 
 const SMSMarketing = () => {
-
   const { tabVal, setTabVal, navigate, theme } = useSMSMarketing();
 
   return (
     <>
-
       <Box
         sx={{
           border: `1px solid ${theme?.palette?.custom?.light_lavender_gray}`,
@@ -102,7 +100,6 @@ const SMSMarketing = () => {
           )}
           {tabVal === 1 && (
             <Button
-
               className="small"
               variant="contained"
               onClick={() => {
