@@ -1,11 +1,10 @@
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { Box, Button, Grid, Typography } from '@mui/material';
-import { styles } from './CreateBusinessHour.styles';
 import {
   FormProvider,
+  RHFAutocomplete,
   RHFEditor,
   RHFRadioGroup,
-  RHFSelect,
   RHFSwitch,
   RHFTextField,
 } from '@/components/ReactHookForm';
@@ -27,23 +26,40 @@ import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { LoadingButton } from '@mui/lab';
 import { AddHoliday } from './AddHoliday';
 import { useCreateBusinessHour } from './useCreateBusinessHour';
+import { AIR_SERVICES } from '@/constants';
+import { timeZone } from '@/constants/time-zone';
 
 export const CreateBusinessHour = () => {
-  const { router, businessHourMethod, control, watch, setValue } =
-    useCreateBusinessHour();
+  const {
+    router,
+    businessHourMethod,
+    control,
+    watch,
+    setValue,
+    onSubmitRequest,
+  } = useCreateBusinessHour();
   return (
     <>
-      <Box sx={styles?.headerBox}>
+      <Box
+        borderBottom="0.06rem solid"
+        borderColor="custom.light_lavender_gray"
+        mb={2.5}
+      >
         <PageTitledHeader
           title="Business Hours"
           canMovedBack
-          moveBack={() => router?.back()}
+          moveBack={() => router?.push(AIR_SERVICES?.BUSINESS_HOURS_SETTINGS)}
         />
       </Box>
-      <FormProvider methods={businessHourMethod}>
+      <FormProvider methods={businessHourMethod} onSubmit={onSubmitRequest}>
         <Grid container spacing={3}>
           <Grid item lg={6} xs={12}>
-            <Box sx={styles?.mainBox}>
+            <Box
+              border="0.06rem solid"
+              borderColor="custom.light_lavender_gray"
+              borderRadius={2}
+              p={2.5}
+            >
               <Grid container spacing={3}>
                 <Grid item xs={12}>
                   <RHFTextField name="name" label="Name" size="small" />
@@ -56,10 +72,10 @@ export const CreateBusinessHour = () => {
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <RHFSelect
+                  <RHFAutocomplete
                     name="timeZone"
                     label="Time Zone"
-                    options={[]}
+                    options={timeZone}
                     size="small"
                   />
                 </Grid>
@@ -67,7 +83,12 @@ export const CreateBusinessHour = () => {
             </Box>
           </Grid>
           <Grid item lg={6} xs={12}>
-            <Box sx={styles?.mainBox}>
+            <Box
+              border="0.06rem solid"
+              borderColor="custom.light_lavender_gray"
+              borderRadius={2}
+              p={2.5}
+            >
               <Typography
                 variant="formTopHeading"
                 color="blue.dull_blue"
@@ -77,12 +98,22 @@ export const CreateBusinessHour = () => {
               </Typography>
               <RHFRadioGroup name="serviceHour" options={serviceHour} />
               {watch('serviceHour') === selectWorkingHours ? (
-                <Box sx={styles?.createCard}>
+                <Box mt={2} height={339} overflow="scroll">
                   {weekDays?.map((day) => {
                     const fieldValue = watch(day);
                     return (
                       <>
-                        <Box key={day} sx={styles?.serviceHoursDayContainer}>
+                        <Box
+                          key={day}
+                          mb={2}
+                          p=".67rem 1rem"
+                          border="0.06rem solid"
+                          borderColor="custom.light_lavender_gray"
+                          borderRadius={2}
+                          display="flex"
+                          alignItems="center"
+                          gap={2}
+                        >
                           <RHFSwitch name={day + '.switch'} label={day} />
                           {fieldValue?.timings?.map(
                             (time: any, index: number) => (
@@ -115,7 +146,7 @@ export const CreateBusinessHour = () => {
                   })}
                 </Box>
               ) : (
-                <Box sx={styles?.createCard}>
+                <Box mt={2} height={339} overflow="scroll">
                   <Typography
                     variant="formTopHeading"
                     color="blue.dull_blue"
@@ -124,7 +155,7 @@ export const CreateBusinessHour = () => {
                     Important Holidays
                   </Typography>
                   <Box my={2}>
-                    <RHFSelect
+                    <RHFAutocomplete
                       name="importantHolidays"
                       options={holidaysData}
                       size="small"
@@ -158,8 +189,20 @@ export const CreateBusinessHour = () => {
           </Grid>
         </Grid>
         <Box overflow="auto" mt={2}>
-          <Box component="span" sx={styles?.tableParent}>
-            <Grid container sx={styles?.tableHeader}>
+          <Box
+            component="span"
+            position="relative"
+            display="block"
+            minWidth={850}
+            pt={3}
+          >
+            <Grid
+              container
+              bgcolor="grey.200"
+              position="absolute"
+              zIndex={10}
+              top={0}
+            >
               <Grid item xs={4} px={2} pt={2}>
                 <DateFilter />
               </Grid>
@@ -188,11 +231,15 @@ export const CreateBusinessHour = () => {
           </Box>
         </Box>
       </FormProvider>
-      <Box display="flex" gap="0.6rem" justifyContent="flex-end" mt={8}>
+      <Box display="flex" gap={2} justifyContent="flex-end" mt={8}>
         <LoadingButton variant="outlined" color="secondary">
           Cancel
         </LoadingButton>
-        <LoadingButton variant="contained" type="submit">
+        <LoadingButton
+          variant="contained"
+          type="submit"
+          onClick={onSubmitRequest}
+        >
           Save
         </LoadingButton>
       </Box>
