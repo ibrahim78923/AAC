@@ -5,22 +5,36 @@ import { vendorData } from './Vendor.data';
 import { useVendor } from './useVendor';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { AIR_SERVICES } from '@/constants';
+import ImportAssets from './ImportVendor';
+import AddNewVendor from './AddNewVendor';
 
 export const Vendor = () => {
-  const { router, searchValue, setSearchValue, VendorListsColumns } =
-    useVendor();
+  const {
+    router,
+    searchValue,
+    setSearchValue,
+    vendorListsColumns,
+    isDrawerOpen,
+    setIsDrawerOpen,
+    isADrawerOpen,
+    setIsADrawerOpen,
+  } = useVendor();
   return (
     <>
       <PageTitledHeader
         title={'Vendor'}
         addTitle={'Add New Vendor'}
         hasImport
+        handleImport={() => setIsDrawerOpen(true)}
         hasExport
         canMovedBack
         moveBack={() => {
           router?.push({
             pathname: AIR_SERVICES?.ASSET_MANAGEMENT_SETTINGS,
           });
+        }}
+        handleAction={() => {
+          setIsADrawerOpen(true);
         }}
       />
 
@@ -30,7 +44,7 @@ export const Vendor = () => {
         justifyContent={'space-between'}
         flexWrap={'wrap'}
         gap={1.5}
-        marginTop={10}
+        marginTop={6}
       >
         <Search
           label="search"
@@ -43,9 +57,21 @@ export const Vendor = () => {
       <br />
       <TanstackTable
         data={vendorData}
-        columns={VendorListsColumns}
+        columns={vendorListsColumns}
         isPagination
       />
+      <Box>
+        <ImportAssets
+          isDrawerOpen={isDrawerOpen}
+          setIsDrawerOpen={setIsDrawerOpen}
+        />
+      </Box>
+      <Box>
+        <AddNewVendor
+          isADrawerOpen={isADrawerOpen}
+          setIsADrawerOpen={setIsADrawerOpen}
+        />
+      </Box>
     </>
   );
 };
