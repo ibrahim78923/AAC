@@ -7,7 +7,7 @@ import { Typography } from '@mui/material';
 import { useSingleDropdownButton } from './useSingleDropdownButton';
 
 export const SingleDropdownButton = (props: any) => {
-  const { dropdownOptions, disabled, dropdownName = 'Action' } = props;
+  const { dropdownOptions, disabled, dropdownName = 'Actions' } = props;
   const { anchorEl, open, theme, handleClick, handleClose } =
     useSingleDropdownButton();
   return (

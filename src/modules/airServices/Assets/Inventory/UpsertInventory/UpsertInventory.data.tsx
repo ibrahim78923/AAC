@@ -7,6 +7,7 @@ import {
   RHFTimePicker,
 } from '@/components/ReactHookForm';
 import { Typography } from '@mui/material';
+import { assetTypeOptions } from '../Inventory.data';
 
 export const dropdownDummy = [
   {
@@ -16,45 +17,6 @@ export const dropdownDummy = [
   {
     value: 'option2',
     label: 'Option 2',
-  },
-];
-
-export const assetTypeOptions = [
-  {
-    value: 'Services',
-    label: 'Services',
-  },
-  {
-    value: 'Business Services',
-    label: 'Business Services',
-  },
-  {
-    value: 'Hardware',
-    label: 'Hardware',
-  },
-  {
-    value: 'Utilizable',
-    label: 'Utilizable',
-  },
-  {
-    value: 'IT Servies',
-    label: 'IT Servies',
-  },
-  {
-    value: 'Sales Services',
-    label: 'Sales Services',
-  },
-  {
-    value: 'Email Services',
-    label: 'Email Services',
-  },
-  {
-    value: 'Hosting Services',
-    label: 'Hosting Services',
-  },
-  {
-    value: 'Backup Services',
-    label: 'Backup Services',
   },
 ];
 
@@ -76,7 +38,7 @@ export const defaultValues = {
   assignedOnDate: null,
   assignedOnTime: null,
   usedBy: '',
-  attachFile: '',
+  attachFile: null,
 };
 
 export const addInventoryFields = [
@@ -135,10 +97,8 @@ export const addInventoryFields = [
     id: 5,
     componentProps: {
       fullWidth: true,
-      name: 'department',
+      name: 'departmentId',
       label: 'department',
-      select: true,
-      options: dropdownDummy,
     },
     gridLength: 12,
     component: RHFEditor,
@@ -160,9 +120,6 @@ export const addInventoryFields = [
     id: 7,
     componentProps: {
       variant: 'h4',
-      fontSize: '1.25rem',
-      fontWeight: 600,
-      lineHeight: '1.875rem',
     },
     heading: 'Services Properties',
     gridLength: 12,
@@ -185,9 +142,6 @@ export const addInventoryFields = [
     id: 17,
     componentProps: {
       variant: 'h4',
-      fontSize: '1.25rem',
-      fontWeight: 600,
-      lineHeight: '1.875rem',
     },
     heading: 'Assignment',
     gridLength: 12,
@@ -197,7 +151,7 @@ export const addInventoryFields = [
     id: 7,
     componentProps: {
       fullWidth: true,
-      name: 'location',
+      name: 'locationId',
       label: 'location',
       select: true,
       options: dropdownDummy,
@@ -227,8 +181,6 @@ export const addInventoryFields = [
       fullWidth: true,
       name: 'assignedOnDate',
       label: 'assigned On',
-      select: true,
-      options: dropdownDummy,
     },
     md: 3,
   },
@@ -239,9 +191,7 @@ export const addInventoryFields = [
     componentProps: {
       fullWidth: true,
       name: 'assignedOnTime',
-      sx: { mt: 2.3 },
-      select: true,
-      options: dropdownDummy,
+      label: '\u00a0\u00a0',
     },
     md: 3,
   },

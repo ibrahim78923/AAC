@@ -73,6 +73,7 @@ export const AIR_SERVICES = {
   WORKLOAD_MANAGEMENT_SETTINGS: `/air-services/settings/agent-performance-management/workload-management`,
   USER_ADD_NEW_ROLES_SETTINGS: `/air-services/settings/user-management/roles/add-role`,
   ADD_NEW_LOCATION: `/air-services/settings/asset-management/location/add-new-location`,
+  UPSERT_INVENTORY: `/air-services/assets/inventory/upsert-inventory`,
 };
 
 export const AIR_CUSTOMER_PORTAL = {

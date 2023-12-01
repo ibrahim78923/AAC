@@ -1,13 +1,13 @@
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider, RHFFileImport } from '@/components/ReactHookForm';
-import { useImportProductCatalog } from './useImportProductCatalog';
 import { Box, Typography } from '@mui/material';
+import { useImportInventory } from './useImportInventory';
 
-export const ImportProductCatalog = (props: any) => {
+export const ImportInventory = (props: any) => {
   const { isDrawerOpen } = props;
 
   const { handleSubmit, onClose, submitImportFile, importFormMethod } =
-    useImportProductCatalog(props);
+    useImportInventory(props);
 
   return (
     <CommonDrawer
