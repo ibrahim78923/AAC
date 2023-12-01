@@ -32,8 +32,8 @@ export default function Filters({
     <CommonDrawer
       isDrawerOpen={isOpenDrawer}
       onClose={() => onClose(false)}
-      title={'Export Compaign'}
-      okText={'Export'}
+      title={'Filters'}
+      okText={'Apply'}
       isOk
       cancelText={'Cancel'}
       footer

@@ -31,7 +31,7 @@ const ViewPerforance = () => {
           <Box mt={0.7} mr={2} onClick={() => router.back()}>
             <BackArrowIcon />
           </Box>
-          <Typography variant="h4">Compaigns</Typography>
+          <Typography variant="h4">Campaigns</Typography>
         </Box>
 
         <Box>
