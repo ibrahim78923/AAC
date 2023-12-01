@@ -14,10 +14,10 @@ import { TabContext, TabList, TabPanel } from '@mui/lab';
 import { useState } from 'react';
 
 const CreateForm = () => {
-  const router = useRouter();
-
   const [value, setValue] = useState('1');
+  const [showView, setShowView] = useState(true);
 
+  const router = useRouter();
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
@@ -152,9 +152,13 @@ const CreateForm = () => {
                       startIcon={<MobileFormIcon />}
                       sx={{
                         color: '#38CAB5',
-                        backgroundColor: '#D7F4F0',
+                        // backgroundColor: '#D7F4F0',
                         borderRadius: '5px',
+                        ...(showView
+                          ? { backgroundColor: '#D7F4F0' }
+                          : { backgroundColor: 'transparent' }),
                       }}
+                      onClick={() => setShowView(false)}
                     >
                       {' '}
                       Mobile
@@ -162,12 +166,20 @@ const CreateForm = () => {
                     <Button
                       className="small"
                       startIcon={<MonitorIcon />}
-                      sx={{ color: '#9CA3AF' }}
+                      sx={{
+                        color: '#9CA3AF',
+                        ...(showView
+                          ? { backgroundColor: 'transparent' }
+                          : { backgroundColor: '#D7F4F0' }),
+                      }}
+                      onClick={() => setShowView(true)}
                     >
                       {' '}
                       Desktop
                     </Button>
                   </Box>
+
+                  {showView ? <>Desktop</> : <>Mobile</>}
 
                   {/* <Box sx={styles.subDiv}>
 
