@@ -69,7 +69,11 @@ const FirstPostOverview = (props: any) => {
           </Typography>
           <Box display="flex" gap={3} mt={2}>
             <Box display="flex" flexDirection="column" gap={1}>
-              <Typography variant="body4" fontWeight={600} color="#000">
+              <Typography
+                variant="body4"
+                fontWeight={600}
+                color={theme?.palette?.common?.black}
+              >
                 Network
               </Typography>
               <Typography
@@ -86,7 +90,11 @@ const FirstPostOverview = (props: any) => {
               </Typography>
             </Box>
             <Box display="flex" flexDirection="column" gap={1}>
-              <Typography variant="body4" fontWeight={600} color="#000">
+              <Typography
+                variant="body4"
+                fontWeight={600}
+                color={theme?.palette?.common?.black}
+              >
                 Published Date
               </Typography>
               <Typography

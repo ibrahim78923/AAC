@@ -37,7 +37,7 @@ const ImpressionChart = () => {
       </Box>
       <Box height="350px" sx={style?.chartTitle}>
         <ReactApexChart
-          options={options}
+          options={options(theme?.palette)}
           series={series}
           type="bar"
           height={350}
