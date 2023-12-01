@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 const ViewCompaignDetails = () => {
   return (
-    <Card sx={{ padding: '10px 10px' }}>
+    <Card sx={{ padding: '10px', margin: '15px' }}>
       <Grid container>
         {CompainDetailsCard?.map(
           (performance: { headingName: string; detail: string }) => {

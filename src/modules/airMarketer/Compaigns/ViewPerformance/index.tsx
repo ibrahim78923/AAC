@@ -9,13 +9,15 @@ import Performance from './Tabs/Performace';
 import CommonTabs from '@/components/Tabs';
 
 import { BackArrowIcon } from '@/assets/icons';
-import { FilterrIcon, PlusIcon } from '@/assets/icons';
+import { PlusIcon } from '@/assets/icons';
 
 import Tasks from './Tabs/Tasks';
 import Assets from './Tabs/Assets';
+import { useRouter } from 'next/router';
 
 const ViewPerforance = () => {
-  const { theme, setTabVal } = useCompaigns();
+  const { setTabVal } = useCompaigns();
+  const router = useRouter();
   return (
     <Box
       sx={{ border: '1px solid #EAECF0', p: '24px 0px', borderRadius: '8px' }}
@@ -25,8 +27,8 @@ const ViewPerforance = () => {
         alignItems="center"
         sx={{ padding: '0px 24px', display: { md: 'flex' } }}
       >
-        <Box sx={{ display: 'flex' }}>
-          <Box mt={0.7} mr={2}>
+        <Box sx={{ display: 'flex', cursor: 'pointer' }}>
+          <Box mt={0.7} mr={2} onClick={() => router.back()}>
             <BackArrowIcon />
           </Box>
           <Typography variant="h4">Compaigns</Typography>
@@ -50,43 +52,6 @@ const ViewPerforance = () => {
           }}
           isHeader={true}
           tabsArray={['Performance', 'Assets', 'Tasks']}
-          headerChildren={
-            <>
-              <Button
-                startIcon={<FilterrIcon />}
-                sx={{
-                  border: `1px solid ${theme?.palette?.custom?.dark}`,
-                  color: theme?.palette?.custom?.main,
-                  width: '95px',
-                  height: '36px',
-                }}
-              >
-                Filter
-              </Button>
-              <Button
-                startIcon={<FilterrIcon />}
-                sx={{
-                  border: `1px solid ${theme?.palette?.custom?.dark}`,
-                  color: theme?.palette?.custom?.main,
-                  width: '130px',
-                  height: '36px',
-                }}
-              >
-                Save View
-              </Button>
-              <Button
-                startIcon={<FilterrIcon />}
-                sx={{
-                  border: `1px solid ${theme?.palette?.custom?.dark}`,
-                  color: theme?.palette?.custom?.main,
-                  width: '130px',
-                  height: '36px',
-                }}
-              >
-                See All Views
-              </Button>
-            </>
-          }
         >
           <Performance />
           <Assets />

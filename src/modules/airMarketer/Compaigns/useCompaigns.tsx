@@ -8,7 +8,7 @@ const useCompaigns = () => {
   const [checkedRows, setCheckedRows] = useState<any>();
   const [selectedValue, setSelectedValue] = useState(null);
   const [selectedActionsValue, setSelectedOptionsValue] = useState('');
-
+  const [isOpenFilter, setIsOpenFilter] = useState(false);
   const [actionsModalDetails, setActionsModalDetails] = useState({
     isClone: false,
     isOpenFilterDrawer: false,
@@ -22,7 +22,9 @@ const useCompaigns = () => {
   const handleClick = (event: any) => {
     setSelectedValue(event?.currentTarget);
   };
-
+  const handleOpenFilter = () => {
+    setIsOpenFilter(true);
+  };
   const handleSelectedOptionValue = (option: any) => {
     switch (option) {
       case 'Delete':
@@ -87,6 +89,9 @@ const useCompaigns = () => {
     setIsDelete,
     actionsModalDetails,
     setActionsModalDetails,
+    isOpenFilter,
+    setIsOpenFilter,
+    handleOpenFilter,
   };
 };
 export default useCompaigns;
