@@ -9,6 +9,7 @@ export const validationSchema = Yup.object().shape({
   compaign: Yup.string().required('Field is Required'),
   useTemplate: Yup.string().required('Field is Required'),
   recipients: Yup.string().required('Field is Required'),
+  // Commented for future use
   // details: Yup.string().required('Field is Required'),
 });
 
@@ -17,6 +18,7 @@ export const defaultValues = {
   compaign: '',
   useTemplate: '',
   recipients: '',
+  // Commented for future use
   // details: '',
 };
 
@@ -85,6 +87,7 @@ export const createBroadcast = [
     component: RHFTextField,
     md: 12,
   },
+  // Commented for future use
   // {
   //   componentProps: {
   //     name: 'details',

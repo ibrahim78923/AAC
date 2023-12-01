@@ -166,7 +166,10 @@ const CreateSMSBroadcast = () => {
                     <Typography
                       variant="body1"
                       fontWeight={700}
-                      sx={{ color: '#405893', fontSize: '15px' }}
+                      sx={{
+                        color: theme?.palette?.custom?.text_slate_blue,
+                        fontSize: '15px',
+                      }}
                     >
                       Compaign Name
                     </Typography>

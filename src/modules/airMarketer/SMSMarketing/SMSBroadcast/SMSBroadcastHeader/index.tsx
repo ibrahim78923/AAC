@@ -19,8 +19,8 @@ import { ArrowDropDown } from '@mui/icons-material';
 
 import {
   AlertModalDeleteIcon,
-  ArrowSquareLeft,
-  ArrowSquareRight,
+  ArrowSquareLeftIcon,
+  ArrowSquareRightIcon,
   PrimaryCalendarIcon,
 } from '@/assets/icons';
 
@@ -57,8 +57,8 @@ const SMSBroadcastHeader = (props: any) => {
               setIsDatePicker(!isDatePicker);
             }}
           >
-            <ArrowSquareLeft />
-            <ArrowSquareRight />
+            <ArrowSquareLeftIcon />
+            <ArrowSquareRightIcon />
           </Stack>
         </Stack>
         {isDatePicker && <Box>Date Picker</Box>}
