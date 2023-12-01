@@ -24,7 +24,7 @@ export const styles = {
     return {
       background: theme?.palette?.grey[400],
       // width: 'fit-content',
-      width: '120px',
+      width: '130px',
       borderRadius: '30px',
       p: '8px 16px',
     };
