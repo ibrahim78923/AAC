@@ -3,19 +3,18 @@ import { Grid, Box } from '@mui/material';
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
 
-import {
-  dataArray,
-  defaultValues,
-  validationSchema,
-} from './ExportCompaignDrawer.data';
-
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { useForm } from 'react-hook-form';
 import { enqueueSnackbar } from 'notistack';
 import { v4 as uuidv4 } from 'uuid';
+import {
+  dataArray,
+  defaultValues,
+  validationSchema,
+} from './SaveNewViewDrawer.data';
 
-export default function ExportCompaignDrawer({
+export default function SaveNewViewDrawer({
   isOpenDrawer,
   onClose,
   initialValueProps = defaultValues,

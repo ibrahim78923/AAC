@@ -21,12 +21,17 @@ const Compaigns = () => {
         <Box>
           <Button
             variant="outlined"
+            className="small"
             sx={{ mr: 1, mt: 0.2 }}
             startIcon={<PlusIcon />}
           >
             Compare compaigns
           </Button>
-          <Button variant="contained" startIcon={<PlusIcon />}>
+          <Button
+            variant="contained"
+            className="small"
+            startIcon={<PlusIcon />}
+          >
             Create compaigns
           </Button>
         </Box>

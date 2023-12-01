@@ -12,6 +12,7 @@ import { BackArrowIcon } from '@/assets/icons';
 import { FilterrIcon, PlusIcon } from '@/assets/icons';
 
 import Tasks from './Tabs/Tasks';
+import Assets from './Tabs/Assets';
 
 const ViewPerforance = () => {
   const { theme, setTabVal } = useCompaigns();
@@ -88,7 +89,7 @@ const ViewPerforance = () => {
           }
         >
           <Performance />
-          <Performance />
+          <Assets />
           <Tasks />
         </CommonTabs>
       </Box>

@@ -32,7 +32,7 @@ const Email = ({ isOpenDrawer, onClose }: any) => {
     <CommonDrawer
       isDrawerOpen={isOpenDrawer}
       onClose={() => onClose(false)}
-      title={'Emial this dashboard'}
+      title={'Emailthis dashboard'}
       okText={'Send'}
       isOk
       cancelText={'Cancel'}

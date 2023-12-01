@@ -28,7 +28,7 @@ export default function EditGoalDrawer({
   const { handleSubmit } = methods;
 
   const onSubmit = async () => {
-    enqueueSnackbar('Export Campaign Exported Successfully', {
+    enqueueSnackbar(' Compaign Goal updated Successfully', {
       variant: 'success',
     });
   };
@@ -37,8 +37,8 @@ export default function EditGoalDrawer({
     <CommonDrawer
       isDrawerOpen={isOpenDrawer}
       onClose={() => onClose(false)}
-      title={'Export Campaign'}
-      okText={'Export'}
+      title={'Edit Compaign Goal'}
+      okText={'Update'}
       isOk
       cancelText={'Cancel'}
       footer

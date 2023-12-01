@@ -14,10 +14,11 @@ import { AlertModals } from '@/components/AlertModals';
 import { AlertModalDeleteIcon } from '@/assets/icons';
 
 import { v4 as uuidv4 } from 'uuid';
+import EditColumns from '../EditColumns';
+import CompaignDetails from '../CompaignDetails';
 
 const ActionButton = () => {
   const {
-    theme,
     selectedValue,
     handleClick,
     handleSelectedOptionValue,
@@ -31,9 +32,10 @@ const ActionButton = () => {
     <Box>
       <Button
         onClick={handleClick}
+        className="small"
+        variant="outlined"
+        color="inherit"
         sx={{
-          border: `1px solid ${theme?.palette?.custom?.dark}`,
-          color: theme?.palette?.custom?.main,
           width: '112px',
           height: '36px',
         }}
@@ -103,6 +105,28 @@ const ActionButton = () => {
             setActionsModalDetails({
               ...actionsModalDetails,
               isEditCompaign: false,
+            })
+          }
+        />
+      )}
+      {actionsModalDetails?.isEditColumns && (
+        <EditColumns
+          open={actionsModalDetails?.isEditColumns}
+          onClose={() =>
+            setActionsModalDetails({
+              ...actionsModalDetails,
+              isEditColumns: false,
+            })
+          }
+        />
+      )}
+      {actionsModalDetails?.isViewDeatsils && (
+        <CompaignDetails
+          open={actionsModalDetails?.isViewDeatsils}
+          onClose={() =>
+            setActionsModalDetails({
+              ...actionsModalDetails,
+              isViewDeatsils: false,
             })
           }
         />

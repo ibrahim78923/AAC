@@ -11,18 +11,8 @@ const Table = () => {
     handleCloseDeleteModal,
     handleDelete,
     setIsDeleteModalOpen,
-    isChecked,
-    setIsChecked,
-    isGetRowValues,
-    setIsGetRowValues,
   } = useTable();
-  const getColumns = columns(
-    setIsDeleteModalOpen,
-    isChecked,
-    setIsChecked,
-    isGetRowValues,
-    setIsGetRowValues,
-  );
+  const getColumns = columns(setIsDeleteModalOpen);
   return (
     <>
       <TanstackTable columns={getColumns} data={ManageDashboardTableData} />

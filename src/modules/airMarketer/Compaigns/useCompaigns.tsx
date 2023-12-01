@@ -14,6 +14,8 @@ const useCompaigns = () => {
     isOpenFilterDrawer: false,
     isExportCompaign: false,
     isEditCompaign: false,
+    isEditColumns: false,
+    isViewDeatsils: false,
   });
   const [isDelete, setIsDelete] = useState(false);
   const router = useRouter();
@@ -50,6 +52,19 @@ const useCompaigns = () => {
       case 'View Performance':
         router.push(`${AIR_MARKETER?.VIEW_PERFORMANCE}`);
         break;
+      case 'Edit Columns':
+        setActionsModalDetails({
+          ...actionsModalDetails,
+          isEditColumns: true,
+        });
+        break;
+      case 'View Details':
+        setActionsModalDetails({
+          ...actionsModalDetails,
+          isViewDeatsils: true,
+        });
+        break;
+
       default:
         break;
     }
