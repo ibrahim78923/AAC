@@ -36,7 +36,7 @@ export const AssetType = () => {
                 title={asset?.title}
                 handleCollapse={() => handleCollapse(index)}
               />
-              {collapseItem === index && !!asset?.childList && (
+              {collapseItem === index && !!asset?.childList ? (
                 <ChildBarWrapper>
                   {asset?.childList?.map((childAsset, subChildIndex) => (
                     <Fragment key={childAsset?.id}>
@@ -47,20 +47,24 @@ export const AssetType = () => {
                         }
                       />
                       {subChildIndex === subChildCollapseItem &&
-                        !!childAsset?.subChildList && (
-                          <ChildBarWrapper boxShadow={0}>
-                            {childAsset?.subChildList?.map((subChildAsset) => (
-                              <TitleBar
-                                key={asset?.id}
-                                title={subChildAsset?.title}
-                                icNotCollapseAble
-                              />
-                            ))}
-                          </ChildBarWrapper>
-                        )}
+                      !!childAsset?.subChildList ? (
+                        <ChildBarWrapper boxShadow={0}>
+                          {childAsset?.subChildList?.map((subChildAsset) => (
+                            <TitleBar
+                              key={asset?.id}
+                              title={subChildAsset?.title}
+                              icNotCollapseAble
+                            />
+                          ))}
+                        </ChildBarWrapper>
+                      ) : (
+                        <></>
+                      )}
                     </Fragment>
                   ))}
                 </ChildBarWrapper>
+              ) : (
+                <></>
               )}
             </Fragment>
           ))}
