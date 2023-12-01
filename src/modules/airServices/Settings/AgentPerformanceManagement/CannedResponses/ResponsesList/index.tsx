@@ -14,7 +14,7 @@ import { enqueueSnackbar } from 'notistack';
 import { AlertModals } from '@/components/AlertModals';
 import { MoveFolderModal } from './MoveFolderModal';
 import { useResponsesList } from './useResponsesList';
-import { styles } from './ResponsesList.styles';
+import { AIR_SERVICES } from '@/constants';
 
 export const ResponsesList = () => {
   const {
@@ -42,21 +42,31 @@ export const ResponsesList = () => {
             router?.query?.response,
           )}`}
           canMovedBack
-          moveBack={() => router?.back()}
+          moveBack={() => router?.push(AIR_SERVICES?.CANNED_RESPONSE_SETTINGS)}
         />
       </Box>
-      <Box sx={styles?.tableContainer}>
+      <Box
+        borderRadius={3}
+        border="0.06rem solid"
+        borderColor="custom.light_lavender_gray"
+        px={1}
+      >
         <Grid container>
           <Grid item xs={12}>
             <Box p={1.2}>
               <Grid container>
                 <Grid item xs={6}>
-                  <Box sx={styles?.searchBox}>
+                  <Box display="flex" alignItems="center" gap={2}>
                     <Search size="small" label="Search" />
                   </Box>
                 </Grid>
                 <Grid item xs={6}>
-                  <Box sx={styles?.actionButtonsContainer}>
+                  <Box
+                    display="flex"
+                    justifyContent="flex-end"
+                    alignItems="center"
+                    gap={2}
+                  >
                     <SingleDropdownButton
                       dropdownOptions={actionsOptions(handleActionClick)}
                       dropdownName="Actions"
@@ -64,7 +74,9 @@ export const ResponsesList = () => {
                     />
                     <Button
                       variant="contained"
-                      startIcon={<AddBoxRoundedIcon sx={styles?.plusIcon} />}
+                      startIcon={
+                        <AddBoxRoundedIcon sx={{ color: 'custom.white' }} />
+                      }
                       disableElevation
                       onClick={() => setOpenAddResponseDrawer(true)}
                     >

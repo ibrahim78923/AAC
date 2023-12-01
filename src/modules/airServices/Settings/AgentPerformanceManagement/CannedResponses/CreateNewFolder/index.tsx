@@ -11,7 +11,6 @@ import {
 import { FormProvider, RHFTextField } from '@/components/ReactHookForm';
 import { CloseModalIcon } from '@/assets/icons';
 import { useCreateNewFolder } from './useCreateNewFolder';
-import { styles } from './CreateNewFolder.styles';
 
 export const CreateNewFolder = ({
   openCreateNewFolderModal,
@@ -25,13 +24,23 @@ export const CreateNewFolder = ({
           open={openCreateNewFolderModal?.open}
           onClose={closeCreateNewFolderModal}
           aria-labelledby="responsive-dialog-title"
-          PaperProps={styles?.paperProps}
+          PaperProps={{
+            style: {
+              maxWidth: 736,
+              borderRadius: 12,
+            },
+          }}
         >
           <FormProvider
             methods={method}
             onSubmit={method?.handleSubmit(onSubmit)}
           >
-            <DialogTitle sx={styles?.dialogTitleContainer}>
+            <DialogTitle
+              display="flex"
+              justifyContent="space-between"
+              alignItems="center"
+              paddingBottom={2.4}
+            >
               <Typography variant="h4" color="primary?.main">
                 {openCreateNewFolderModal?.editData
                   ? 'Edit Folder'
@@ -39,7 +48,9 @@ export const CreateNewFolder = ({
               </Typography>
               <Box
                 onClick={closeCreateNewFolderModal}
-                sx={styles?.closeModalIconBox}
+                sx={{
+                  cursor: 'pointer',
+                }}
               >
                 <CloseModalIcon />
               </Box>
@@ -67,7 +78,7 @@ export const CreateNewFolder = ({
             </DialogContent>
           </FormProvider>
           <DialogActions>
-            <Box sx={styles?.dialogActionsBox}>
+            <Box display="flex" justifyContent="flex-end" gap={2}>
               <Button
                 onClick={closeCreateNewFolderModal}
                 variant="outlined"

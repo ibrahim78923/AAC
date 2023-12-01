@@ -6,7 +6,6 @@ import {
   MenuItem,
   Typography,
 } from '@mui/material';
-import { styles } from './CannedResponses.styles';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { FolderLargeIcon, LockedIcon } from '@/assets/icons';
@@ -33,11 +32,13 @@ export const CannedResponses = () => {
   } = useCannedResponses();
   return (
     <>
-      <Box sx={styles?.headerBox}>
+      <Box mb={2}>
         <PageTitledHeader
           title="Canned Responses"
           canMovedBack
-          moveBack={() => router?.back()}
+          moveBack={() =>
+            router?.push(AIR_SERVICES?.AGENT_PERFORMANCE_MANAGEMENT_SETTINGS)
+          }
         />
       </Box>
       <Box mb={2}>
@@ -51,13 +52,29 @@ export const CannedResponses = () => {
             alignItems="center"
             flexDirection="column"
             gap=".7rem"
-            sx={styles?.mainBox}
+            height="12rem"
+            border="0.06rem solid"
+            borderColor="grey.700"
+            borderRadius=".5rem"
+            sx={{ cursor: 'pointer' }}
             onClick={() =>
               setOpenCreateNewFolderModal({ open: true, editData: null })
             }
           >
-            <Box sx={styles?.iconParent}>
-              <AddRoundedIcon sx={styles?.plusIcon} />
+            <Box
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              width="2.1rem"
+              height="2.1rem"
+              bgcolor="custom.light_lavender_gray"
+              borderRadius="50%"
+            >
+              <AddRoundedIcon
+                sx={{
+                  color: 'blue.dull_blue',
+                }}
+              />
             </Box>
             <Typography fontWeight={600} color="blue.dull_blue">
               Add New
@@ -66,7 +83,13 @@ export const CannedResponses = () => {
         </Grid>
         {responseCategories?.map((response) => (
           <Grid item xs={4} key={response?.id}>
-            <Box sx={styles?.mainBox}>
+            <Box
+              height="12rem"
+              border="0.06rem solid"
+              borderColor="grey.700"
+              borderRadius=".5rem"
+              sx={{ cursor: 'pointer' }}
+            >
               <Box display="flex" justifyContent="end">
                 <IconButton
                   disabled={response?.default}
@@ -75,18 +98,21 @@ export const CannedResponses = () => {
                   {response?.default ? (
                     <LockedIcon />
                   ) : (
-                    <MoreHoriz sx={styles?.moreIcon} fontSize="medium" />
+                    <MoreHoriz
+                      sx={{ color: 'secondary.lighter' }}
+                      fontSize="medium"
+                    />
                   )}
                 </IconButton>
                 <Menu
                   open={openAction}
                   anchorEl={actionPop}
                   onClose={handleActionClose}
-                  sx={styles?.menuParent}
+                  sx={{ '& .MuiPaper-root': { boxShadow: 2 } }}
                   transformOrigin={{ vertical: 10, horizontal: 80 }}
                 >
                   <MenuItem
-                    sx={styles?.menuItem}
+                    sx={{ pr: 5 }}
                     onClick={() => {
                       setOpenCreateNewFolderModal({
                         open: true,
@@ -104,7 +130,11 @@ export const CannedResponses = () => {
                 </Menu>
               </Box>
               <Box
-                sx={styles?.cannedResponseCard}
+                display="flex"
+                justifyContent="center"
+                p={2}
+                flexDirection="column"
+                height="60%"
                 component={Link}
                 href={`${AIR_SERVICES?.CANNED_RESPONSE_SETTINGS}/${convertToHyphenCase(
                   response?.name,

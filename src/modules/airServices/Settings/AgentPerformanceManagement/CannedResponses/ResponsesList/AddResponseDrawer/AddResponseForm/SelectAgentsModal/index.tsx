@@ -15,7 +15,6 @@ import { useSelectAgentsModal } from './useSelectAgentsModal';
 import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
 import { SearchableMultiSelect } from './SearchableMultiSelect';
 import { userData } from './SelectAgentsModal.data';
-import { styles } from './SelectAgentsModal.styles';
 
 export const SelectAgentsModal = ({
   openSelectAgentsModal,
@@ -40,21 +39,57 @@ export const SelectAgentsModal = ({
             closeSelectAgentsModal();
           }}
           aria-labelledby="responsive-dialog-title"
-          PaperProps={styles?.paperProps}
+          PaperProps={{
+            style: {
+              width: 468,
+              borderRadius: 12,
+            },
+          }}
         >
-          <DialogTitle sx={styles?.titleContainer}>
-            <Box sx={styles?.titleContainer}>
-              <CheckCircleRoundedIcon sx={styles?.iconContainer} />
+          <DialogTitle
+            display="flex"
+            justifyContent="space-between"
+            alignItems="center"
+            gap={1}
+          >
+            <Box
+              display="flex"
+              justifyContent="space-between"
+              alignItems="center"
+              gap={1}
+            >
+              <CheckCircleRoundedIcon
+                sx={{
+                  color: 'primary.main',
+                }}
+              />
               <Typography variant="h3">Agents</Typography>
             </Box>
-            <Box onClick={closeSelectAgentsModal} sx={styles?.closeModalIcon}>
+            <Box
+              onClick={closeSelectAgentsModal}
+              sx={{
+                cursor: 'pointer',
+              }}
+            >
               <CloseModalIcon />
             </Box>
           </DialogTitle>
           <DialogContent>
             <Grid container gap={1.4}>
               <Grid item xs={12}>
-                <Box onClick={handleOpenUsersList} sx={styles?.selectUserBox}>
+                <Box
+                  onClick={handleOpenUsersList}
+                  p="0.47rem 1rem"
+                  border="0.06rem solid"
+                  borderColor="custom.light_lavender_gray"
+                  borderRadius=".5rem"
+                  display="flex"
+                  justifyContent="space-between"
+                  alignItems="center"
+                  sx={{
+                    cursor: 'pointer',
+                  }}
+                >
                   <Typography variant="body2" color="grey.600">
                     Select User
                   </Typography>
@@ -73,7 +108,12 @@ export const SelectAgentsModal = ({
               </Grid>
               {!!agents?.length && (
                 <Grid item xs={12}>
-                  <AvatarGroup max={4} sx={styles?.avatarGroup}>
+                  <AvatarGroup
+                    max={4}
+                    sx={{
+                      justifyContent: 'flex-end',
+                    }}
+                  >
                     {agents?.map((avatar) => (
                       <Avatar
                         key={avatar?.id}
@@ -86,8 +126,8 @@ export const SelectAgentsModal = ({
               )}
             </Grid>
           </DialogContent>
-          <DialogActions sx={styles?.dialogActions}>
-            <Box sx={styles?.dialogActionsBox}>
+          <DialogActions sx={{ pt: '0 !important' }}>
+            <Box display="flex" justifyContent="flex-end" gap={2}>
               <Button
                 onClick={closeSelectAgentsModal}
                 variant="outlined"

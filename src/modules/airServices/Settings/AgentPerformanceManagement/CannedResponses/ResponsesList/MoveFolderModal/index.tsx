@@ -12,7 +12,6 @@ import { FormProvider, RHFAutocomplete } from '@/components/ReactHookForm';
 import { CloseModalIcon } from '@/assets/icons';
 import { useMoveFolderModal } from './useMoveFolderModal';
 import { moveFolderOptions } from './MoveFolderModal.data';
-import { styles } from './MoveFolderModal.styles';
 
 export const MoveFolderModal = ({
   openMoveFolderModal,
@@ -26,13 +25,23 @@ export const MoveFolderModal = ({
           open={openMoveFolderModal}
           onClose={closeMoveFolderModal}
           aria-labelledby="responsive-dialog-title"
-          PaperProps={styles?.paperProps}
+          PaperProps={{
+            style: {
+              width: 468,
+              borderRadius: 12,
+            },
+          }}
         >
           <FormProvider
             methods={method}
             onSubmit={method?.handleSubmit(onSubmit)}
           >
-            <DialogTitle sx={styles?.titleContainer}>
+            <DialogTitle
+              display="flex"
+              justifyContent="space-between"
+              alignItems="center"
+              pb={2.4}
+            >
               <Typography variant="h3">Move</Typography>
               <Box onClick={closeMoveFolderModal} sx={{ cursor: 'pointer' }}>
                 <CloseModalIcon />
@@ -53,7 +62,12 @@ export const MoveFolderModal = ({
             </DialogContent>
           </FormProvider>
           <DialogActions sx={{ pt: '0 !important' }}>
-            <Box sx={styles?.actionsContainer}>
+            <Box
+              pt="0 !important"
+              display="flex"
+              justifyContent="flex-end"
+              gap={2}
+            >
               <Button
                 onClick={closeMoveFolderModal}
                 variant="outlined"
