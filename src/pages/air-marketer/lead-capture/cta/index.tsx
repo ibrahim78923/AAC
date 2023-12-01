@@ -1,8 +1,9 @@
 import Layout from '@/layout';
+import CTA from '@/modules/airMarketer/LeadCapture/Cta';
 import React from 'react';
 
 const CtaPage = () => {
-  return <div>CTA</div>;
+  return <CTA />;
 };
 
 export default CtaPage;
