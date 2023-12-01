@@ -31,8 +31,15 @@ const CompareSocialPost = () => {
   return (
     <Box>
       <Box width={{ xs: '100%', md: '31%' }}>
-        <Typography variant="h3">Compare posts</Typography>
-        <Typography variant="body2" fontWeight={500} mt={1}>
+        <Typography variant="h3" color={theme?.palette?.grey[800]}>
+          Compare posts
+        </Typography>
+        <Typography
+          variant="body2"
+          fontWeight={500}
+          mt={1}
+          color={theme?.palette?.grey[600]}
+        >
           Choose the posts you want to compare below. You can add up to 10 posts
           to compare.
         </Typography>
@@ -46,7 +53,9 @@ const CompareSocialPost = () => {
               flexDirection={{ xs: 'column', md: 'row' }}
             >
               <Box>
-                <Typography variant="h5">Post</Typography>
+                <Typography variant="h5" color={theme?.palette?.grey[600]}>
+                  Post
+                </Typography>
                 <Box
                   sx={style?.postCompareBox(theme?.palette)}
                   mt={1}
@@ -60,7 +69,10 @@ const CompareSocialPost = () => {
                     {fisrtPost.avatar && (
                       <Avatar src={fisrtPost?.avatar}></Avatar>
                     )}
-                    <Typography className="postContent">
+                    <Typography
+                      className="postContent"
+                      color={theme?.palette?.grey[600]}
+                    >
                       {fisrtPost?.description
                         ? fisrtPost?.description
                         : 'Select post to compare'}
@@ -70,7 +82,9 @@ const CompareSocialPost = () => {
                 </Box>
               </Box>
               <Box>
-                <Typography variant="h5">Post</Typography>
+                <Typography variant="h5" color={theme?.palette?.grey[600]}>
+                  Post
+                </Typography>
                 <Box
                   sx={style?.postCompareBox(theme?.palette)}
                   mt={1}
@@ -84,7 +98,10 @@ const CompareSocialPost = () => {
                     {secondPost?.avatar && (
                       <Avatar src={secondPost?.avatar}></Avatar>
                     )}
-                    <Typography className="postContent">
+                    <Typography
+                      className="postContent"
+                      color={theme?.palette?.grey[600]}
+                    >
                       {secondPost?.description
                         ? secondPost?.description
                         : 'Select post to compare'}
@@ -108,7 +125,9 @@ const CompareSocialPost = () => {
 
       {isOverView && (
         <Box mt={4}>
-          <Typography variant="h4">OverView</Typography>
+          <Typography variant="h4" color={theme?.palette?.slateBlue?.main}>
+            OverView
+          </Typography>
           <Grid container>
             <Grid item xs={12} md={3.5}>
               {fisrtPost?.id && <FirstPostOverview postData={fisrtPost} />}

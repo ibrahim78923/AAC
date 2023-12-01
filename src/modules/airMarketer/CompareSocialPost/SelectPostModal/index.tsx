@@ -38,6 +38,7 @@ const SelectPostModal = (props: any) => {
                 width="230px"
                 searchBy={searchBy}
                 setSearchBy={setSearchBy}
+                size="small"
               />
               <Box display="flex" alignItems="center" gap={1}>
                 <Button variant="outlined">Date</Button>

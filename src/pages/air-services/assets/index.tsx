@@ -1,11 +1,11 @@
 import Layout from '@/layout';
-import Inventory from '@/modules/airServices/Assets/Inventory';
-const ServicesTicketsPage = () => {
-  return <Inventory />;
+import { Assets } from '@/modules/airServices/Assets';
+const AssetsPage = () => {
+  return <Assets />;
 };
 
-ServicesTicketsPage.getLayout = function getLayout(page: any) {
+AssetsPage.getLayout = function getLayout(page: any) {
   return <Layout>{page}</Layout>;
 };
 
-export default ServicesTicketsPage;
+export default AssetsPage;

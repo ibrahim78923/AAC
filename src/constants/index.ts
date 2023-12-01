@@ -74,6 +74,7 @@ export const AIR_SERVICES = {
   USER_ADD_NEW_ROLES_SETTINGS: `/air-services/settings/user-management/roles/add-role`,
   CREATE_BUSINESS_HOUR: `/air-services/settings/service-management/business-hours/create-new`,
   ADD_NEW_LOCATION: `/air-services/settings/asset-management/location/add-new-location`,
+  UPSERT_INVENTORY: `/air-services/assets/inventory/upsert-inventory`,
 };
 
 export const AIR_CUSTOMER_PORTAL = {

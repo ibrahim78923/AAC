@@ -1,7 +1,7 @@
 export const styles = {
   cardStyle: (spacing: any, disableBoxShadow: any, border: any) => {
     return {
-      px: spacing ?? 2,
+      px: spacing,
       boxShadow: disableBoxShadow ? 'none' : undefined,
       border: { border },
     };

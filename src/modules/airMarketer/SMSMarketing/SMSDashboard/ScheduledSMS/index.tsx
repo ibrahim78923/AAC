@@ -52,7 +52,12 @@ const ScheduledSMS = () => {
                     {item?.title}
                   </Typography>
                   <Stack direction="row" alignItems="center">
-                    <Box sx={styles?.cardHeader}>
+                    <Box
+                      sx={styles?.cardHeader}
+                      display="flex"
+                      alignItems="center"
+                      gap={1}
+                    >
                       <Box
                         sx={{
                           width: '10px',
