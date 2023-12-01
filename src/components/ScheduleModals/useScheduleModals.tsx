@@ -1,4 +1,4 @@
-import { AssignContactIcon } from '@/assets/icons';
+import { AssignContactIcon, ExportModalIcon } from '@/assets/icons';
 
 import React from 'react';
 
@@ -6,6 +6,8 @@ const useScheduleModals = ({ type }: { type: string }) => {
   const checkModelType = () =>
     type.toLowerCase() === 'assign'
       ? 'Assign'
+      : type.toLowerCase() === 'export'
+      ? 'Export File'
       : type.toLowerCase() === 'reschedule'
       ? 'Reschedule Call'
       : type.toLowerCase() === 'outcome'
@@ -15,6 +17,8 @@ const useScheduleModals = ({ type }: { type: string }) => {
   const checkModelTypeForImage = () =>
     type.toLowerCase() === 'assign' ? (
       <AssignContactIcon />
+    ) : type.toLowerCase() === 'export' ? (
+      <ExportModalIcon />
     ) : type.toLowerCase() === 'reschedule' ? (
       <AssignContactIcon />
     ) : type.toLowerCase() === 'outcome' ? (
