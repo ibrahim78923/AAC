@@ -5,12 +5,12 @@ import {
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
-export const createTemplateValidationSchema = Yup.object().shape({
-  templateName: Yup.string().trim().required('Field is Required'),
-  category: Yup.string().trim().required('Field is Required'),
-  language: Yup.string().trim().required('Field is Required'),
-  details: Yup.string().trim().required('Field is Required'),
-  attachment: Yup.string().trim().required('Field is Required'),
+export const createTemplateValidationSchema = Yup?.object()?.shape({
+  templateName: Yup?.string()?.trim()?.required('Field is Required'),
+  category: Yup?.string()?.trim()?.required('Field is Required'),
+  language: Yup?.string()?.trim()?.required('Field is Required'),
+  details: Yup?.string()?.trim()?.required('Field is Required'),
+  attachment: Yup?.string()?.trim()?.required('Field is Required'),
 });
 
 export const createTemplateDefaultValues = {

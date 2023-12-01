@@ -26,7 +26,7 @@ export const styles = {
   },
   heading: (theme: any) => {
     return {
-      color: `${theme?.palette?.custom.dark_blue}`,
+      color: `${theme?.palette?.custom?.dark_blue}`,
       fontWeight: 600,
     };
   },
