@@ -9,6 +9,7 @@ const useSMSBroadcast = () => {
   const [selectedValue, setSelectedValue] = useState(null);
   const [isDelete, setIsDelete] = useState(false);
   const [selectedId, setSelectedId] = useState();
+  const [isDatePicker, setIsDatePicker] = useState(false);
   const theme = useTheme<Theme>();
   const navigate = useRouter();
 
@@ -59,6 +60,8 @@ const useSMSBroadcast = () => {
     selectedId,
     setSelectedId,
     theme,
+    setIsDatePicker,
+    isDatePicker,
   };
 };
 

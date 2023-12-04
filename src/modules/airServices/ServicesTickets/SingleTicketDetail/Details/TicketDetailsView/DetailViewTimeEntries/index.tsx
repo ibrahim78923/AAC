@@ -1,4 +1,4 @@
-import { Grid, Typography, Box } from '@mui/material';
+import { Grid, Typography, Box, useTheme } from '@mui/material';
 
 import { useState } from 'react';
 import DetailTimePicker from '../../../Header/TimePicker';
@@ -8,16 +8,24 @@ import { styles } from './DetailViewTimeEntries.style';
 import { DetailTicketDrawer } from './DetailTicketDrawer';
 
 const DetailViewTimeEntries = () => {
+  const theme = useTheme();
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   return (
     <>
-      <Grid container spacing={0} sx={styles?.timeEnterMainGride}>
-        <Grid item md={6} xs={12} sx={styles?.timeEnterInnerGrid}>
+      <Box
+        display={'flex'}
+        alignItems={'center'}
+        justifyContent={'space-between'}
+        border={`1px solid ${theme?.palette?.custom?.off_white_three}`}
+        flexWrap={'wrap'}
+        borderRadius={2}
+      >
+        <Box sx={styles?.timeEnterInnerGrid}>
           <Typography variant="h5" component="span">
             Time Entries
           </Typography>
-        </Grid>
-        <Grid item md={3} xs={11} sx={styles?.timeEnterInnerGrid}>
+        </Box>
+        <Box sx={styles?.timeEnterInnerGrid}>
           <Box sx={styles?.iconBoxStyling}>
             <ViewDetailVuesaxIcon />
           </Box>
@@ -25,22 +33,20 @@ const DetailViewTimeEntries = () => {
             <DetailTimePicker />
           </Box>
           <Box sx={styles?.buttonStyleOFTimeEntries}>
-            <ButtonGroup variant="contained" color="primary">
-              <Button
-                onClick={() => setIsDrawerOpen(true)}
-                startIcon={<CirclePlusIcon />}
-                sx={styles?.buttonHeigh}
-              >
-                Time button
-              </Button>
-            </ButtonGroup>
+            <Button
+              variant="contained"
+              onClick={() => setIsDrawerOpen(true)}
+              startIcon={<CirclePlusIcon />}
+            >
+              Add Time
+            </Button>
             <DetailTicketDrawer
               isDrawerOpen={isDrawerOpen}
               setIsDrawerOpen={setIsDrawerOpen}
             />
           </Box>
-        </Grid>
-      </Grid>
+        </Box>
+      </Box>
       <Grid container spacing={0} sx={styles?.timeEnterSecGride}>
         <Grid xs={12} md={2.5} item sx={styles?.timeEnterInnerSecGrid}>
           <Box sx={styles?.timeEnterInnerBox}>

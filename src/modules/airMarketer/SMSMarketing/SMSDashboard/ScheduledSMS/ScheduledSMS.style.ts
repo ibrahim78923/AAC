@@ -23,12 +23,10 @@ export const styles = {
   cardHeader: (theme: any) => {
     return {
       background: theme?.palette?.grey[400],
-      alignItems: 'center',
-      width: 'fit-content',
+      // width: 'fit-content',
+      width: '130px',
       borderRadius: '30px',
-      display: 'flex',
       p: '8px 16px',
-      gap: 1,
     };
   },
 

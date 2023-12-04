@@ -41,7 +41,7 @@ export const broadcastData: any = [
     Status: 'Draft',
   },
   {
-    Id: 3,
+    Id: 4,
     name: 'Test Campaign sankalp',
     CreatedOn: '10/04/2023',
     Successful: '100%',
@@ -53,8 +53,8 @@ export const broadcastData: any = [
 export const broadcastColumns: any = (columnsProps: any) => {
   const { selectedId, statusTag, theme, setSelectedId } = columnsProps;
 
-  const handleCheckboxChange = (rowId: string) => {
-    setSelectedId(rowId);
+  const handleCheckboxChange = (val: any, rowId: string) => {
+    val?.target?.checked ? setSelectedId(rowId) : setSelectedId();
   };
 
   return [
@@ -66,7 +66,7 @@ export const broadcastColumns: any = (columnsProps: any) => {
           color="primary"
           name={info?.getValue()}
           defaultChecked={selectedId === info?.getValue()}
-          onChange={() => handleCheckboxChange(info?.getValue())}
+          onChange={(e: any) => handleCheckboxChange(e, info?.getValue())}
         />
       ),
       header: <Checkbox color="primary" name="Id" />,
@@ -104,7 +104,7 @@ export const broadcastColumns: any = (columnsProps: any) => {
       header: 'Successful',
       cell: (
         <Stack gap={1}>
-          <Typography variant="body2" textAlign={'center'}>
+          <Typography variant="body3" textAlign={'center'}>
             100%
           </Typography>
           <LinearProgress variant="determinate" value={100} />
@@ -118,7 +118,7 @@ export const broadcastColumns: any = (columnsProps: any) => {
       header: 'Replied',
       cell: (
         <Stack gap={1}>
-          <Typography variant="body2" textAlign={'center'}>
+          <Typography variant="body3" textAlign={'center'}>
             60%
           </Typography>
           <LinearProgress variant="determinate" value={50} />
@@ -132,7 +132,21 @@ export const broadcastColumns: any = (columnsProps: any) => {
       header: 'Recipients',
       cell: (
         <Box sx={{ alignItems: 'center', display: 'flex' }}>
-          <AvatarGroup max={4}>
+          <AvatarGroup
+            max={4}
+            sx={{
+              '& .MuiAvatar-root': {
+                background: theme?.palette?.primary?.main,
+                height: '30px',
+                width: '30px',
+                fontSize: '12px',
+              },
+            }}
+          >
+            <Avatar
+              alt="recipient_avatar"
+              src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aHVtYW58ZW58MHx8MHx8fDA%3D"
+            />
             <Avatar
               alt="recipient_avatar"
               src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aHVtYW58ZW58MHx8MHx8fDA%3D"
@@ -164,7 +178,17 @@ export const broadcastColumns: any = (columnsProps: any) => {
       header: 'Failed',
       cell: (
         <Box sx={{ alignItems: 'center', display: 'flex' }}>
-          <AvatarGroup max={4}>
+          <AvatarGroup
+            max={4}
+            sx={{
+              '& .MuiAvatar-root': {
+                background: theme?.palette?.primary?.main,
+                height: '30px',
+                width: '30px',
+                fontSize: '12px',
+              },
+            }}
+          >
             <Avatar
               alt="recipient_avatar"
               src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aHVtYW58ZW58MHx8MHx8fDA%3D"
@@ -194,8 +218,14 @@ export const broadcastColumns: any = (columnsProps: any) => {
       id: 'status',
       isSortable: false,
       header: 'Status',
+
       cell: (info: any) => (
-        <Box sx={styles?.cardHeader}>
+        <Box
+          sx={styles?.cardHeader}
+          display="flex"
+          alignItems="center"
+          gap={0.5}
+        >
           <Box
             sx={{
               width: '10px',
@@ -204,7 +234,7 @@ export const broadcastColumns: any = (columnsProps: any) => {
               borderRadius: '50%',
             }}
           />
-          {info?.getValue()}
+          <Typography fontSize="12px"> {info?.getValue()}</Typography>
         </Box>
       ),
     },

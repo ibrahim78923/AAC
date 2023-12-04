@@ -1,6 +1,7 @@
 export const singleVendorDetailsActionDropdownFunction = (
   setDeleteModalOpen: any,
   router: any,
+  setIsADrawerOpen: any,
 ) => [
   {
     title: 'Edit',
@@ -12,6 +13,7 @@ export const singleVendorDetailsActionDropdownFunction = (
           action: 'edit',
         },
       });
+      setIsADrawerOpen?.(true);
       closeMenu?.();
     },
   },

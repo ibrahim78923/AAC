@@ -198,3 +198,15 @@ export { default as MessageGreyImage } from './modules/orgAdmin/organization/mes
 export { default as AgentImg } from '../images/shared/agent.png';
 export { default as GoogleAds } from './modules/airMarketer/PaidAds/google-ads.png';
 export { default as HandShakeImage } from './modules/airMarketer/reports/hand-shake.png';
+
+// settings -> performance management leader board
+
+export { default as MostValuableBadgeImage } from './modules/airServices/settings/agentPerformanceManagement/most-valuable-badge-image.png';
+export { default as ChampionBadgeImage } from './modules/airServices/settings/agentPerformanceManagement/champion-badge-image.png';
+export { default as WizardBadgeImage } from './modules/airServices/settings/agentPerformanceManagement/wizard-badge-image.png';
+export { default as SpeedRacerBadgeImage } from './modules/airServices/settings/agentPerformanceManagement/speed-racer-badge-image.png';
+export { default as BeginnerAwardImage } from './modules/airServices/settings/agentPerformanceManagement/beginner-award-image.png';
+export { default as IntermediateAwardImage } from './modules/airServices/settings/agentPerformanceManagement/intermediate-award-image.png';
+export { default as ProfessionalAwardImage } from './modules/airServices/settings/agentPerformanceManagement/professional-award-image.png';
+export { default as MasterAwardImage } from './modules/airServices/settings/agentPerformanceManagement/master-award-image.png';
+export { default as ExpertAwardImage } from './modules/airServices/settings/agentPerformanceManagement/expert-award-image.png';

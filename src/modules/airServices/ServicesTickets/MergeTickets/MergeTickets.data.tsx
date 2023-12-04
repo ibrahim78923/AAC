@@ -1,4 +1,7 @@
-import { RHFAutocompleteAsync, RHFSelect } from '@/components/ReactHookForm';
+import {
+  RHFAutocomplete,
+  RHFAutocompleteAsync,
+} from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
 export const mergeTicketsFormValidationSchema = Yup?.object()?.shape({
@@ -7,7 +10,7 @@ export const mergeTicketsFormValidationSchema = Yup?.object()?.shape({
 });
 
 export const mergeTicketsFormDefaultValue = {
-  ticketSelection: 'requester',
+  ticketSelection: 'Requester',
   searchTicket: null,
 };
 
@@ -19,12 +22,11 @@ const ticketSelectionOptions = [
 export const mergeTicketsFormFieldsDynamic = (apiQuerySearch: any) => [
   {
     id: 1,
-    component: RHFSelect,
+    component: RHFAutocomplete,
     componentProps: {
       name: 'ticketSelection',
-      label: 'Select Ticket',
+      label: 'Find ticket by',
       fullWidth: true,
-      select: true,
       options: ticketSelectionOptions,
     },
   },

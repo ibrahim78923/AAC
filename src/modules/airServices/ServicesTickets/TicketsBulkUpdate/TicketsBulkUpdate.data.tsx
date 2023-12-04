@@ -1,7 +1,7 @@
 import {
   RHFDropZone,
   RHFEditor,
-  RHFSelect,
+  RHFAutocomplete,
   RHFTextField,
 } from '@/components/ReactHookForm';
 
@@ -34,7 +34,6 @@ export const ticketsBulkUpdateAddReplyFormFieldsData = [
   {
     id: 2,
     component: RHFTextField,
-    md: 12,
     componentProps: {
       fullWidth: true,
       name: 'to',
@@ -47,9 +46,9 @@ export const ticketsBulkUpdateAddReplyFormFieldsData = [
       fullWidth: true,
       name: 'description',
       label: 'Description',
+      required: true,
       style: { height: '250px' },
     },
-    md: 12,
     component: RHFEditor,
   },
   {
@@ -59,7 +58,6 @@ export const ticketsBulkUpdateAddReplyFormFieldsData = [
       name: 'file',
       label: 'File',
     },
-    md: 12,
     component: RHFDropZone,
   },
 ];
@@ -88,7 +86,7 @@ export const ticketsBulkUpdateFormValidationSchemaFunction: any = (
     category: Yup?.string(),
     ...(isReplyAdded && {
       to: Yup?.string()?.required(),
-      description: Yup?.mixed(),
+      description: Yup?.mixed()?.required(),
       file: Yup?.mixed(),
     }),
   });
@@ -103,8 +101,7 @@ export const ticketsBulkUpdateFormFieldsData = [
       select: true,
       options: ticketPriorityOptions,
     },
-    md: 12,
-    component: RHFSelect,
+    component: RHFAutocomplete,
   },
   {
     id: 150,
@@ -115,13 +112,11 @@ export const ticketsBulkUpdateFormFieldsData = [
       select: true,
       options: ticketStatusOptions,
     },
-    md: 12,
-    component: RHFSelect,
+    component: RHFAutocomplete,
   },
   {
     id: 82,
-    component: RHFSelect,
-    md: 12,
+    component: RHFAutocomplete,
     componentProps: {
       fullWidth: true,
       name: 'impact',
@@ -132,8 +127,7 @@ export const ticketsBulkUpdateFormFieldsData = [
   },
   {
     id: 200,
-    component: RHFSelect,
-    md: 12,
+    component: RHFAutocomplete,
     componentProps: {
       fullWidth: true,
       name: 'agent',
@@ -144,8 +138,7 @@ export const ticketsBulkUpdateFormFieldsData = [
   },
   {
     id: 2,
-    component: RHFSelect,
-    md: 12,
+    component: RHFAutocomplete,
     componentProps: {
       fullWidth: true,
       name: 'source',
@@ -163,7 +156,6 @@ export const ticketsBulkUpdateFormFieldsData = [
       select: true,
       options: dropdownDummy,
     },
-    md: 12,
-    component: RHFSelect,
+    component: RHFAutocomplete,
   },
 ];

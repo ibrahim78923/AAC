@@ -3,6 +3,8 @@ import { Header } from './Header';
 import { SingleContractDetailsTabs } from './SingleVendorDetailTabs';
 import { useSingleVendorDetails } from './useSingleVendorDetails';
 import { ALERT_MODALS_TYPE } from '@/constants/strings';
+import AddNewVendor from '../AddNewVendor';
+import { Box } from '@mui/material';
 
 export const SingleVendorDetail = () => {
   const {
@@ -10,6 +12,8 @@ export const SingleVendorDetail = () => {
     deleteModalOpen,
     setDeleteModalOpen,
     handleDeleteBtn,
+    isADrawerOpen,
+    setIsADrawerOpen,
   } = useSingleVendorDetails();
   return (
     <>
@@ -26,6 +30,12 @@ export const SingleVendorDetail = () => {
           message="Are you sure you want to delete this Vendor?"
         />
       )}
+      <Box>
+        <AddNewVendor
+          isADrawerOpen={isADrawerOpen}
+          setIsADrawerOpen={setIsADrawerOpen}
+        />
+      </Box>
     </>
   );
 };

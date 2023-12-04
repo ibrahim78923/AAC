@@ -4,7 +4,6 @@ import { useTicketBulkUpdate } from './useTicketsBulkUpdate';
 import CloseIcon from '@mui/icons-material/Close';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import CommonDrawer from '@/components/CommonDrawer';
-import { v4 as uuidv4 } from 'uuid';
 
 export const TicketsBulkUpdate = (props: any) => {
   const { isDrawerOpen } = props;
@@ -65,7 +64,7 @@ export const TicketsBulkUpdate = (props: any) => {
                 <Grid container spacing={1.5}>
                   {ticketsBulkUpdateAddReplyFormFieldsData?.map((form: any) => {
                     return (
-                      <Grid item xs={12} key={uuidv4()}>
+                      <Grid item xs={12} key={form?.id}>
                         <form.component
                           {...form?.componentProps}
                           size="small"
@@ -81,16 +80,8 @@ export const TicketsBulkUpdate = (props: any) => {
           <Grid container spacing={1.5}>
             {ticketsBulkUpdateFormFieldsData?.map((form: any) => {
               return (
-                <Grid item xs={12} key={uuidv4()}>
-                  <form.component {...form?.componentProps} size="small">
-                    {form?.componentProps?.select
-                      ? form?.componentProps?.options?.map?.((option: any) => (
-                          <option key={uuidv4()} value={option?.value}>
-                            {option?.label}
-                          </option>
-                        ))
-                      : null}
-                  </form.component>
+                <Grid item xs={12} key={form?.id}>
+                  <form.component {...form?.componentProps} size="small" />
                 </Grid>
               );
             })}
