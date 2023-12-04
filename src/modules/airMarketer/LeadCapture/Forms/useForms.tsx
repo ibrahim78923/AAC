@@ -31,10 +31,13 @@ const useForms = () => {
 
   const { handleSubmit, reset } = formsMethods;
 
-  const onSubmit = () => {
+  const onSubmit = (values: any) => {
     setIsDraweropen(false);
     reset();
-    router.push(airMarketerLeadCapture.Create_Form);
+    router.push({
+      pathname: airMarketerLeadCapture.Create_Form,
+      query: { formData: JSON?.stringify(values) },
+    });
   };
 
   return {

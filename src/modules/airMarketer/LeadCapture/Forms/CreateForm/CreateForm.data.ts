@@ -1,15 +1,15 @@
 import { RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
-export const verifyEmailValidationSchema = Yup.object().shape({
+export const dynamicallyFormValidationSchema = Yup.object().shape({
   email: Yup?.string()?.trim()?.required('Field is Required'),
 });
 
-export const verifyEmailDefaultValues = {
+export const dynamicallyFormDefaultValues = {
   email: '',
 };
 
-export const verifyEmailArray = [
+export const dynamicallyFormArray = [
   {
     componentProps: {
       name: 'email',
