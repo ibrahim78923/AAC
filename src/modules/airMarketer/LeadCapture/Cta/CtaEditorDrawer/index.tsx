@@ -12,6 +12,8 @@ import useCtaEditor from './useCtaEditor';
 import {
   CTADataArray,
   CTAImageDataArray,
+  CTA_BUTTON_TITLE,
+  FORM_STEP,
   drawerTitle,
   urlRedirectType,
 } from './CtaEditorDrawer.data';
@@ -72,13 +74,18 @@ const CtaEditorDrawer = (props: any) => {
             >
               <Button
                 onClick={() => {
-                  setSelectProductSuite('product'), setButtonStyle('1');
+                  setSelectProductSuite(CTA_BUTTON_TITLE?.CUSTOMIZE_BUTTON),
+                    setButtonStyle(FORM_STEP?.CUSTOM_ACTION);
                 }}
                 variant={`${
-                  selectProductSuite === 'product' ? 'outlined' : 'text'
+                  selectProductSuite === CTA_BUTTON_TITLE?.CUSTOMIZE_BUTTON
+                    ? 'outlined'
+                    : 'text'
                 }`}
                 color={`${
-                  selectProductSuite === 'product' ? 'primary' : 'inherit'
+                  selectProductSuite === CTA_BUTTON_TITLE?.CUSTOMIZE_BUTTON
+                    ? 'primary'
+                    : 'inherit'
                 }`}
                 sx={{
                   height: '25px',
@@ -90,13 +97,18 @@ const CtaEditorDrawer = (props: any) => {
               </Button>
               <Button
                 onClick={() => {
-                  setSelectProductSuite('CRM'), setButtonStyle('3');
+                  setSelectProductSuite(CTA_BUTTON_TITLE?.IMAGE_CUSTOMIZE),
+                    setButtonStyle(FORM_STEP?.IMAGE_ACTION);
                 }}
                 variant={`${
-                  selectProductSuite === 'CRM' ? 'outlined' : 'text'
+                  selectProductSuite === CTA_BUTTON_TITLE?.IMAGE_CUSTOMIZE
+                    ? 'outlined'
+                    : 'text'
                 }`}
                 color={`${
-                  selectProductSuite === 'CRM' ? 'primary' : 'inherit'
+                  selectProductSuite === CTA_BUTTON_TITLE?.IMAGE_CUSTOMIZE
+                    ? 'primary'
+                    : 'inherit'
                 }`}
                 sx={{
                   height: '25px',
@@ -113,9 +125,9 @@ const CtaEditorDrawer = (props: any) => {
             methods={methodsdealsTasks}
             onSubmit={handleSubmit(onSubmit)}
           >
-            {selectProductSuite === 'product' ? (
+            {selectProductSuite === CTA_BUTTON_TITLE?.CUSTOMIZE_BUTTON ? (
               <Grid container spacing={4}>
-                {buttonStyle === '1' && (
+                {buttonStyle === FORM_STEP?.CUSTOM_ACTION && (
                   <>
                     <Grid item xs={12}>
                       <Button variant="outlined" fullWidth>
@@ -144,7 +156,7 @@ const CtaEditorDrawer = (props: any) => {
                     ))}
                   </>
                 )}
-                {buttonStyle === '2' && (
+                {buttonStyle === FORM_STEP?.CTA_INTERNAL && (
                   <>
                     <Grid item xs={12}>
                       <RHFTextField
@@ -191,7 +203,7 @@ const CtaEditorDrawer = (props: any) => {
               </Grid>
             ) : (
               <Grid container spacing={4}>
-                {buttonStyle === '3' && (
+                {buttonStyle === FORM_STEP?.IMAGE_ACTION && (
                   <>
                     {' '}
                     {CTAImageDataArray?.map((item: any) => (
@@ -216,7 +228,7 @@ const CtaEditorDrawer = (props: any) => {
                   </>
                 )}
 
-                {buttonStyle === '4' && (
+                {buttonStyle === FORM_STEP?.IMAGE_CTA_INTERNAL && (
                   <>
                     <Grid item xs={12}>
                       <RHFTextField

@@ -201,6 +201,18 @@ export const drawerButtonTitle: any = {
   Next: 'Next',
 };
 
+export const CTA_BUTTON_TITLE = {
+  CUSTOMIZE_BUTTON: 'Customize',
+  IMAGE_CUSTOMIZE: 'Image',
+};
+
+export const FORM_STEP = {
+  CUSTOM_ACTION: 'custom-action',
+  CTA_INTERNAL: 'cta-internal',
+  IMAGE_ACTION: 'image-action',
+  IMAGE_CTA_INTERNAL: 'custom-action',
+};
+
 export const urlRedirectType = [
   { value: 'New', label: 'New' },
   { value: 'Air Apple Cart Page', label: 'Air Apple Cart Page' },

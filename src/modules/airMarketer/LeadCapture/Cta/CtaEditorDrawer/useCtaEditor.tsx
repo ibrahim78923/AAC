@@ -4,6 +4,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import {
   CTADefaultValues,
   CTAValidationSchema,
+  CTA_BUTTON_TITLE,
+  FORM_STEP,
   drawerButtonTitle,
 } from './CtaEditorDrawer.data';
 import { useState } from 'react';
@@ -16,18 +18,22 @@ const useCtaEditor = ({
   // todo: for edit case taking first element from array
   const editCheckBoxes = selectedCheckboxes && selectedCheckboxes[0];
 
-  const [selectProductSuite, setSelectProductSuite] = useState('product');
-  const [buttonStyle, setButtonStyle] = useState('1');
+  const [selectProductSuite, setSelectProductSuite] = useState(
+    CTA_BUTTON_TITLE?.CUSTOMIZE_BUTTON,
+  );
+  const [buttonStyle, setButtonStyle] = useState(FORM_STEP?.CUSTOM_ACTION);
   const drawerButtonTitleHandler = () => {
     if (
-      (buttonStyle === '1' || buttonStyle === '2') &&
-      selectProductSuite === 'product'
+      (buttonStyle === FORM_STEP?.CUSTOM_ACTION ||
+        buttonStyle === FORM_STEP?.CTA_INTERNAL) &&
+      selectProductSuite === CTA_BUTTON_TITLE?.CUSTOMIZE_BUTTON
     ) {
       return drawerButtonTitle['Next'];
     }
     if (
-      (buttonStyle === '3' || buttonStyle === '4') &&
-      selectProductSuite === 'CRM'
+      (buttonStyle === FORM_STEP?.IMAGE_ACTION ||
+        buttonStyle === FORM_STEP?.IMAGE_CTA_INTERNAL) &&
+      selectProductSuite === CTA_BUTTON_TITLE?.IMAGE_CUSTOMIZE
     ) {
       return drawerButtonTitle['Next'];
     }
@@ -35,11 +41,11 @@ const useCtaEditor = ({
   };
 
   const drawerSubmitHandler = () => {
-    if (selectProductSuite === 'product') {
-      setButtonStyle('2');
+    if (selectProductSuite === CTA_BUTTON_TITLE?.CUSTOMIZE_BUTTON) {
+      setButtonStyle(FORM_STEP?.CTA_INTERNAL);
     }
-    if (selectProductSuite === 'CRM') {
-      setButtonStyle('4');
+    if (selectProductSuite === CTA_BUTTON_TITLE?.IMAGE_CUSTOMIZE) {
+      setButtonStyle(FORM_STEP?.IMAGE_CTA_INTERNAL);
     }
   };
 
