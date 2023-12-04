@@ -8,6 +8,10 @@ export const styles = {
       borderRadius: '8px',
       margin: 'auto',
       padding: '15px',
+      '@media (max-width:500px)': {
+        width: '100%',
+        boxShadow: 'none',
+      },
     };
   },
   headerBar: {
@@ -17,6 +21,10 @@ export const styles = {
     borderBottom: '1px solid #E5E7EB',
     justifyContent: 'space-between',
     textAlign: 'center',
+    '@media (max-width:900px)': {
+      height: 'fit-content',
+      paddingY: '20px',
+    },
   },
   saveChangesBtn: {
     color: '#47B263',
@@ -30,6 +38,9 @@ export const styles = {
   mainDiv: {
     background: '#F7F9FB',
     height: '100vh',
+    '@media (max-width:700px)': {
+      height: 'fit-content',
+    },
   },
 
   innerBox: {

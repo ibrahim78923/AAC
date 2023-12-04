@@ -47,8 +47,8 @@ const CreateForm = () => {
 
   return (
     <Grid sx={styles.mainDiv}>
-      <Grid container gap={1} sx={styles.headerBar}>
-        <Grid item xs={12} md={6} lg={3}>
+      <Grid container sx={styles.headerBar}>
+        <Grid item xs={12} md={4} lg={3}>
           <Button
             className="small"
             sx={{ color: '#374151', marginRight: '20px', fontWeight: '500' }}
@@ -67,7 +67,7 @@ const CreateForm = () => {
             Changes Saved
           </Typography>
         </Grid>
-        <Grid item xs={12} md={6} lg={3}>
+        <Grid item xs={12} md={4} lg={3}>
           <TextField
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
@@ -79,6 +79,9 @@ const CreateForm = () => {
                 height: '6px',
                 color: '#1F305D',
                 fontWeight: '500',
+              },
+              '@media (max-width:900px)': {
+                marginY: '20px',
               },
             }}
             disabled={editFormName}
@@ -97,7 +100,7 @@ const CreateForm = () => {
             }}
           />
         </Grid>
-        <Grid item xs={12} md={6} lg={3}>
+        <Grid item xs={12} md={4} lg={3}>
           <Button
             variant="outlined"
             className="small"
@@ -131,6 +134,7 @@ const CreateForm = () => {
                   borderColor: 'divider',
                   display: 'flex',
                   alignItems: 'center',
+                  flexWrap: 'wrap',
                 }}
               >
                 <Button
@@ -188,6 +192,10 @@ const CreateForm = () => {
                     height: '75vh',
                     padding: '30px',
                     marginTop: '30px',
+                    '@media (max-width:700px)': {
+                      height: 'fit-content',
+                      marginBottom: '30px',
+                    },
                   }}
                 >
                   <TextField
@@ -228,6 +236,9 @@ const CreateForm = () => {
                       padding: '10px',
                       marginTop: '-45px',
                       marginBottom: '35px',
+                      '@media (max-width:700px)': {
+                        marginTop: '45px',
+                      },
                     }}
                   >
                     <Button
@@ -274,6 +285,10 @@ const CreateForm = () => {
                     height: '75vh',
                     padding: '30px',
                     marginTop: '30px',
+                    '@media (max-width:700px)': {
+                      height: 'fit-content',
+                      marginBottom: '30px',
+                    },
                   }}
                 >
                   <TextField
@@ -314,6 +329,9 @@ const CreateForm = () => {
                       padding: '10px',
                       marginTop: '-45px',
                       marginBottom: '35px',
+                      '@media (max-width:700px)': {
+                        marginTop: '45px',
+                      },
                     }}
                   >
                     <Button
