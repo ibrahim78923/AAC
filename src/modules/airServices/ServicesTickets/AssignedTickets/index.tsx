@@ -47,7 +47,7 @@ export const AssignedTickets = (props: any) => {
               flexWrap={'wrap'}
             >
               <Typography variant="h3" textTransform={'capitalize'}>
-                Assigned To
+                Assign To
               </Typography>
             </Box>
             <Box

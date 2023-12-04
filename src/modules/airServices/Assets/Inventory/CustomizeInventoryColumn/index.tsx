@@ -11,17 +11,16 @@ import {
 } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
 import { useCustomizeInventoryColumn } from './useCustomizeInventoryColumn';
+import { inventoryListsInitialColumns } from '../Inventory.data';
 
 export const CustomizeInventoryColumn = (props: any) => {
-  const { isCustomizeModalOpen } = props;
+  const { isCustomizeModalOpen, inventoryListsColumnsPersist } = props;
   const {
     submit,
     onClose,
     checkboxHandler,
-    inventoryListsColumnsPersist,
     customizeColumn,
     applyAllCheckboxHandler,
-    inventoryListsColumns,
   } = useCustomizeInventoryColumn(props);
   return (
     <Dialog
@@ -46,8 +45,7 @@ export const CustomizeInventoryColumn = (props: any) => {
               color="primary"
               name={'apply all'}
               checked={
-                inventoryListsColumnsPersist?.length ===
-                inventoryListsColumns?.length
+                inventoryListsInitialColumns?.length === customizeColumn?.length
               }
               onChange={(e: any): any => applyAllCheckboxHandler?.(e)}
             ></Checkbox>
@@ -71,8 +69,8 @@ export const CustomizeInventoryColumn = (props: any) => {
                 <Checkbox
                   color="primary"
                   name={column?.id}
-                  defaultChecked={customizeColumn?.[column?.id]}
-                  onChange={(): any => checkboxHandler?.(column)}
+                  checked={customizeColumn?.includes(column?.id)}
+                  onChange={(e: any): any => checkboxHandler?.(e, column)}
                 ></Checkbox>
                 <Typography variant="h5" fontWeight={500} color="secondary">
                   {column?.id}

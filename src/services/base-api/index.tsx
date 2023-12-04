@@ -18,6 +18,7 @@ export const TAGS = [
   'INVENTORY_EXPENSE',
   'TICKETS',
   'TASKS',
+  'ASSETS_INVENTORY',
 ];
 
 const baseQuery = fetchBaseQuery({

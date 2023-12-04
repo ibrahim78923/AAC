@@ -304,3 +304,9 @@ export { default as CsvImportIcon } from './shared/csv-import-icon';
 
 export { default as ExportDownloadIcon } from './shared/export-download';
 export { default as ExportModalIcon } from './shared/export-modal-icon';
+export { default as ClockWithBagIcon } from './shared/clock-with-bag-icon';
+export { default as CopyPrimaryColorIcon } from './shared/copy-primary-color-icon';
+
+export { default as BookMarkIcon } from './shared/book-mark-icon';
+export { default as ArrowSquareLeftIcon } from './shared/arrow-square-left';
+export { default as ArrowSquareRightIcon } from './shared/arrow-square-right';

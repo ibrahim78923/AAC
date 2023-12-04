@@ -40,6 +40,7 @@ export const END_POINTS = {
   ENQUIRIES: '/enquiries/',
   CREATE_ASSOCIATION: '/deals/create-association',
   DELETE_ASSOCIATION: '/deals/delete-association',
+  ASSETS_INVENTORY: '/assets/inventory',
 };
 
 export const superAdminBillingInvoices = {

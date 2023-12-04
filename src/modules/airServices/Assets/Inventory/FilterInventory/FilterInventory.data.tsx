@@ -1,5 +1,15 @@
-import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
-import * as Yup from 'yup';
+import {
+  RHFAutocomplete,
+  RHFAutocompleteAsync,
+  RHFTextField,
+} from '@/components/ReactHookForm';
+
+import {
+  assetLifeExpiryOptions,
+  assetTypeOptions,
+  assetsImpactOptions,
+  dateOptions,
+} from '../Inventory.data';
 
 export const dropdownDummy = [
   {
@@ -12,234 +22,111 @@ export const dropdownDummy = [
   },
 ];
 
-export const assetTypeOptions = [
-  {
-    value: 'services',
-    label: 'Services',
-  },
-  {
-    value: 'Business Services',
-    label: 'Business Services',
-  },
-  {
-    value: 'Hardware',
-    label: 'Hardware',
-  },
-  {
-    value: 'Utilizable',
-    label: 'Utilizable',
-  },
-  {
-    value: 'IT Services',
-    label: 'IT Services',
-  },
-  {
-    value: 'Sales Services',
-    label: 'Sales Services',
-  },
-  {
-    value: 'Email Services',
-    label: 'Email Services',
-  },
-  {
-    value: 'Hosting Services',
-    label: 'Hosting Services',
-  },
-  {
-    value: 'Backup Services',
-    label: 'Backup Services',
-  },
-];
-export const dateOptions = [
-  {
-    value: 'None',
-    label: 'None',
-  },
-  {
-    value: 'All Time',
-    label: 'All Time',
-  },
-  {
-    value: 'Today',
-    label: 'Today',
-  },
-  {
-    value: 'Yesterday',
-    label: 'Yesterday',
-  },
-  {
-    value: 'Previous Week',
-    label: 'Previous Week',
-  },
-  {
-    value: 'Previous Month',
-    label: 'Previous Month',
-  },
-];
-export const assetLifeExpiryOptions = [
-  {
-    value: 'None',
-    label: 'None',
-  },
-  {
-    value: 'All Time',
-    label: 'All Time',
-  },
-  {
-    value: 'Today',
-    label: 'Today',
-  },
-  {
-    value: 'Yesterday',
-    label: 'Yesterday',
-  },
-  {
-    value: 'Previous Week',
-    label: 'Previous Week',
-  },
-  {
-    value: 'Previous Month',
-    label: 'Previous Month',
-  },
-  {
-    value: 'Next Week',
-    label: 'Next Week',
-  },
-  {
-    value: 'Next Month',
-    label: 'Next Month',
-  },
-];
-
-export const inventoryFilterFormDefaultValuesFunction = (data?: any) => {
+export const inventoryFilterFormDefaultValues = (data: any) => {
   return {
-    assetType: data?.assetType ?? '',
-    usedBy: data?.usedBy ?? '',
-    department: data?.department ?? '',
-    locations: data?.locations ?? '',
-    createdDate: data?.createdDate ?? '',
-    updatedDate: data?.updatedDate ?? '',
-    impact: data?.impact ?? '',
+    assetType: data?.assetType ?? null,
+    usedBy: data?.usedBy ?? null,
+    department: data?.department ?? null,
+    locations: data?.locations ?? null,
+    createdDate: data?.createdDate ?? null,
+    updatedDate: data?.updatedDate ?? null,
+    impact: data?.impact ?? null,
     createdBy: data?.createdBy ?? '',
-    assetLifeExpiry: data?.assetLifeExpiry ?? '',
+    assetLifeExpiry: data?.assetLifeExpiry ?? null,
   };
 };
-
-export const inventoryFilterFormSchema: any = Yup?.object()?.shape({
-  assetType: Yup?.string(),
-  usedBy: Yup?.string(),
-  department: Yup?.string(),
-  locations: Yup?.string(),
-  createdDate: Yup?.string(),
-  updatedDate: Yup?.string(),
-  impact: Yup?.string(),
-  createdBy: Yup?.string(),
-  assetLifeExpiry: Yup?.string(),
-});
-
 export const inventoryFilterFormFieldsDataFunction = (
-  isFieldDisable = false,
+  apiQueryDepartment: any,
+  apiQueryLocation: any,
+  apiQueryUsedBy: any,
 ) => [
   {
-    id: 2,
-    component: RHFSelect,
-    gridLength: 12,
+    id: 1,
+    component: RHFAutocomplete,
     componentProps: {
       fullWidth: true,
       name: 'assetType',
       label: 'Asset Type',
       select: true,
       options: assetTypeOptions,
-      disabled: isFieldDisable,
     },
   },
   {
-    id: 920,
+    id: 2,
     componentProps: {
       fullWidth: true,
       name: 'usedBy',
       label: 'Used By',
-      disabled: isFieldDisable,
+      apiQuery: apiQueryUsedBy,
     },
-    gridLength: 12,
-    component: RHFTextField,
+    component: RHFAutocompleteAsync,
   },
   {
-    id: 150,
+    id: 3,
     componentProps: {
       fullWidth: true,
       name: 'department',
       label: 'Department',
-      disabled: isFieldDisable,
+      apiQuery: apiQueryDepartment,
     },
-    gridLength: 12,
-    component: RHFTextField,
+    component: RHFAutocompleteAsync,
   },
   {
-    id: 200,
-    component: RHFTextField,
-    gridLength: 12,
+    id: 4,
     componentProps: {
       fullWidth: true,
       name: 'locations',
       label: 'Locations',
-      disabled: isFieldDisable,
+      apiQuery: apiQueryLocation,
     },
+    component: RHFAutocompleteAsync,
   },
   {
-    id: 129,
+    id: 5,
     componentProps: {
       fullWidth: true,
       name: 'createdDate',
       label: 'Created Date',
-      disabled: isFieldDisable,
       select: true,
       options: dateOptions,
     },
-    gridLength: 12,
-    component: RHFSelect,
+    component: RHFAutocomplete,
   },
   {
-    id: 129,
+    id: 6,
     componentProps: {
       fullWidth: true,
       name: 'updatedDate',
       label: 'Updated Date',
       select: true,
       options: dateOptions,
-      disabled: isFieldDisable,
     },
-    gridLength: 12,
-    component: RHFSelect,
+    component: RHFAutocomplete,
   },
-
   {
-    id: 82,
-    component: RHFSelect,
-    gridLength: 12,
+    id: 7,
+    component: RHFAutocomplete,
     componentProps: {
       fullWidth: true,
       name: 'impact',
       label: 'Impact',
       select: true,
-      options: dropdownDummy,
-      disabled: isFieldDisable,
+      options: assetsImpactOptions,
     },
   },
   {
-    id: 96,
+    id: 8,
     componentProps: {
       fullWidth: true,
       name: 'createdBy',
       label: 'Created By',
-      disabled: isFieldDisable,
     },
     gridLength: 12,
     component: RHFTextField,
   },
   {
-    id: 8281,
-    component: RHFSelect,
+    id: 9,
+    component: RHFAutocomplete,
     gridLength: 12,
     componentProps: {
       fullWidth: true,
@@ -247,7 +134,6 @@ export const inventoryFilterFormFieldsDataFunction = (
       label: 'Asset Life Expire On',
       select: true,
       options: assetLifeExpiryOptions,
-      disabled: isFieldDisable,
     },
   },
 ];

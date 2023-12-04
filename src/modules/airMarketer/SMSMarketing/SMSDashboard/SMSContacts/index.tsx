@@ -15,7 +15,10 @@ const SMSContacts = () => {
       <Typography variant="h4" sx={styles?.heading(theme)}>
         SMS Contacts
       </Typography>
-      <Stack direction="row" justifyContent="space-between">
+      <Stack
+        direction={{ sm: 'row', xs: 'column' }}
+        justifyContent="space-between"
+      >
         <Box display="flex">
           <Typography
             variant="h5"
@@ -25,7 +28,6 @@ const SMSContacts = () => {
             Total Contacts:
           </Typography>
           <Typography variant="h5" fontWeight="500">
-            {' '}
             786
           </Typography>
         </Box>
@@ -39,7 +41,6 @@ const SMSContacts = () => {
             New Contacts:
           </Typography>
           <Typography variant="h5" fontWeight="500">
-            {' '}
             94
           </Typography>
         </Box>
@@ -65,7 +66,13 @@ const SMSContacts = () => {
             alignItems="center"
             className="innerCard"
           >
-            <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+            <Box
+              sx={{
+                display: { sm: 'flex', xs: 'block' },
+                gap: 1,
+                alignItems: 'center',
+              }}
+            >
               {item?.avatar}
               <Typography
                 variant="body2"
