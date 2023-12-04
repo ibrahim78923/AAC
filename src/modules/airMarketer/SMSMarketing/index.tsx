@@ -24,12 +24,10 @@ import ContactsSMSMarketing from './Contacts';
 import { AIR_MARKETER } from '@/routesConstants/paths';
 
 const SMSMarketing = () => {
-
   const { tabVal, setTabVal, navigate, theme } = useSMSMarketing();
 
   return (
     <>
-
       <Box
         sx={{
           border: `1px solid ${theme?.palette?.custom?.light_lavender_gray}`,
@@ -42,7 +40,9 @@ const SMSMarketing = () => {
           alignItems={{ sm: 'center' }}
           justifyContent="space-between"
         >
-          <Typography variant="h3">SMS Marketing</Typography>
+          <Typography variant="h3" pb={1}>
+            SMS Marketing
+          </Typography>
 
           {tabVal === 0 && (
             <Stack direction={{ sm: 'row', xs: 'column' }} gap={1.5}>
@@ -102,7 +102,6 @@ const SMSMarketing = () => {
           )}
           {tabVal === 1 && (
             <Button
-
               className="small"
               variant="contained"
               onClick={() => {
