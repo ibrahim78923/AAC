@@ -321,3 +321,8 @@ export { default as CopyPrimaryColorIcon } from './shared/copy-primary-color-ico
 export { default as BookMarkIcon } from './shared/book-mark-icon';
 export { default as ArrowSquareLeftIcon } from './shared/arrow-square-left';
 export { default as ArrowSquareRightIcon } from './shared/arrow-square-right';
+export { default as TextIcon } from './modules/airMarketer/LeadCapture/text';
+export { default as ImageIcon } from './modules/airMarketer/LeadCapture/image';
+export { default as SpaceIcon } from './modules/airMarketer/LeadCapture/space';
+export { default as DividerIcon } from './modules/airMarketer/LeadCapture/divider';
+export { default as InputIcon } from './modules/airMarketer/LeadCapture/input';

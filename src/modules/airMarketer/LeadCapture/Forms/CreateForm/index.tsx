@@ -22,6 +22,7 @@ import { useRouter } from 'next/router';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 import { useState } from 'react';
 import InnerTab from './InnerTab';
+import FormSideBar from './FormSideBar';
 
 const CreateForm = () => {
   const [value, setValue] = useState('1');
@@ -120,7 +121,7 @@ const CreateForm = () => {
         </Grid>
       </Grid>
 
-      <Grid container gap={1}>
+      <Grid container>
         <Grid item xs={12} md={6} lg={8}>
           <Box sx={{ width: '94%', margin: 'auto' }}>
             <TabContext value={value}>
@@ -355,7 +356,9 @@ const CreateForm = () => {
             </TabContext>
           </Box>
         </Grid>
-        <Grid item xs={12} md={6} lg={4}></Grid>
+        <Grid item xs={12} md={6} lg={4}>
+          <FormSideBar />
+        </Grid>
       </Grid>
     </Grid>
   );

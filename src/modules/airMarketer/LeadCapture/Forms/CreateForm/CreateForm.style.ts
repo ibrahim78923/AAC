@@ -48,4 +48,18 @@ export const styles = {
       boxShadow: 'none',
     },
   },
+  formSideBar: {
+    backgroundColor: 'white',
+    padding: '20px',
+    borderTopLeftRadius: '20px',
+    borderBottomLeftRadius: '20px',
+    height: '90vh',
+    overflow: 'scroll',
+  },
+  customField: {
+    borderRadius: ' 8px',
+    border: '1px solid #E5E7EB',
+    marginTop: '25px',
+    cursor: 'pointer',
+  },
 };
