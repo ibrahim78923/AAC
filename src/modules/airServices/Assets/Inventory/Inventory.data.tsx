@@ -1,65 +1,92 @@
 import { AIR_SERVICES } from '@/constants';
+import { ASSET_IMPACT, ASSET_TYPE, TIME_PERIODS } from '@/constants/strings';
 import { Checkbox, Typography } from '@mui/material';
 
-export const data: any = [
+export const inventoryListsData: any = [
   {
-    id: 1,
-    Name: 'Logitech Mouse',
-    AssetType: 'Hardware',
-    Location: '---',
-    UsedBy: '---',
-    Department: '---',
-    Impact: 'Low',
+    _id: 1,
+    displayName: 'Logitech Mouse',
+    assetType: 'Hardware',
+    locationId: 'UK',
+    UsedBy: 'john Doe',
+    departmentId: 'IT',
+    impact: 'Low',
   },
-  {
-    id: 2,
-    Name: 'Dell Monitor',
-    AssetType: 'Hardware',
-    Location: '---',
-    UsedBy: '---',
-    Department: '---',
-    Impact: 'Low',
-  },
-  {
-    id: 3,
-    Name: 'Andrea’s Laptop',
-    AssetType: `Hardware`,
-    Location: '---',
-    UsedBy: 'Andrea',
-    Department: '---',
-    Impact: 'Medium',
-  },
+];
+
+export const assetTypeOptions = [
+  ASSET_TYPE?.SERVICES,
+  ASSET_TYPE?.HARDWARE,
+  ASSET_TYPE?.SOFTWARE,
+];
+
+export const dateOptions = [
+  TIME_PERIODS?.NONE,
+  TIME_PERIODS?.ALL_TIME,
+  TIME_PERIODS?.TODAY,
+  TIME_PERIODS?.YESTERDAY,
+  TIME_PERIODS?.PREVIOUS_WEEK,
+  TIME_PERIODS?.PREVIOUS_MONTH,
+];
+export const assetLifeExpiryOptions = [
+  TIME_PERIODS?.NONE,
+  TIME_PERIODS?.ALL_TIME,
+  TIME_PERIODS?.TODAY,
+  TIME_PERIODS?.YESTERDAY,
+  TIME_PERIODS?.PREVIOUS_WEEK,
+  TIME_PERIODS?.PREVIOUS_MONTH,
+  TIME_PERIODS?.NEXT_WEEK,
+  TIME_PERIODS?.NEXT_MONTH,
+];
+export const assetsImpactOptions = [
+  ASSET_IMPACT?.LOW,
+  ASSET_IMPACT?.MEDIUM,
+  ASSET_IMPACT?.HIGH,
+];
+
+export const inventoryListsInitialColumns = [
+  '_id',
+  'displayName',
+  'assetType',
+  'locationId',
+  'UsedBy',
+  'departmentId',
+  'impact',
 ];
 
 export const INVENTORY_LIST_ACTIONS = {
   FILTER: 'filter',
   CUSTOMIZE_COLUMN: 'customize-column',
+  DELETE: 'delete',
+  IMPORT: 'import',
 };
 
-export const inventoryListsColumnsFunction = (
-  inventoryData: any,
-  setInventoryData: any,
-  data: any,
+export const inventoryListsColumnsFunction: any = (
+  selectedInventoryLists: any,
+  setSelectedInventoryLists: any,
+  inventoryLists: any = inventoryListsData,
   router: any,
 ): any => [
   {
-    accessorFn: (row: any) => row?.id,
-    id: 'id',
+    accessorFn: (row: any) => row?._id,
+    id: '_id',
     cell: (info: any) => (
       <Checkbox
         checked={
-          !!inventoryData?.find((item: any) => item?.id === info?.getValue())
+          !!selectedInventoryLists?.find(
+            (item: any) => item === info?.getValue(),
+          )
         }
         onChange={(e: any) => {
           e?.target?.checked
-            ? setInventoryData([
-                ...inventoryData,
-                data?.find((item: any) => item?.id === info?.getValue()),
+            ? setSelectedInventoryLists([
+                ...selectedInventoryLists,
+                info?.getValue(),
               ])
-            : setInventoryData(
-                inventoryData?.filter((item: any) => {
-                  return item?.id !== info?.getValue();
-                }),
+            : setSelectedInventoryLists(
+                selectedInventoryLists?.filter(
+                  (item: any) => item !== info?.getValue(),
+                ),
               );
         }}
         color="primary"
@@ -68,11 +95,13 @@ export const inventoryListsColumnsFunction = (
     ),
     header: (
       <Checkbox
-        checked={inventoryData?.length === data?.length}
+        checked={selectedInventoryLists?.length === inventoryLists?.length}
         onChange={(e: any) => {
           e?.target?.checked
-            ? setInventoryData([...data])
-            : setInventoryData([]);
+            ? setSelectedInventoryLists(
+                inventoryLists?.map((list: any) => list?._id),
+              )
+            : setSelectedInventoryLists([]);
         }}
         color="primary"
         name="id"
@@ -81,8 +110,8 @@ export const inventoryListsColumnsFunction = (
     isSortable: false,
   },
   {
-    accessorFn: (row: any) => row?.Name,
-    id: 'Name',
+    accessorFn: (row: any) => row?.displayName,
+    id: 'displayName',
     isSortable: true,
     header: 'Name',
     cell: (info: any) => (
@@ -92,7 +121,7 @@ export const inventoryListsColumnsFunction = (
           router?.push({
             pathname: AIR_SERVICES?.ASSETS_INVENTORY_DETAIL,
             query: {
-              inventoryId: info?.row?.id,
+              inventoryId: info?.row?.original._id,
             },
           })
         }
@@ -104,15 +133,15 @@ export const inventoryListsColumnsFunction = (
     ),
   },
   {
-    accessorFn: (row: any) => row?.AssetType,
-    id: 'AssetType',
+    accessorFn: (row: any) => row?.assetType,
+    id: 'assetType',
     header: 'Asset Type',
     isSortable: true,
     cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row?.Location,
-    id: 'Location',
+    accessorFn: (row: any) => row?.locationId,
+    id: 'locationId',
     isSortable: true,
     header: 'Location',
     cell: (info: any) => info?.getValue(),
@@ -125,15 +154,15 @@ export const inventoryListsColumnsFunction = (
     cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row?.Department,
-    id: 'Department',
+    accessorFn: (row: any) => row?.departmentId,
+    id: 'departmentId',
     isSortable: true,
     header: 'Department',
     cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row?.Impact,
-    id: 'Impact',
+    accessorFn: (row: any) => row?.impact,
+    id: 'impact',
     isSortable: true,
     header: 'Impact',
     cell: (info: any) => info?.getValue(),

@@ -17,7 +17,9 @@ export const vendorData: any = [
     mobile: 'xyz',
   },
 ];
-
+export const PRODUCT_LISTS_ACTION_CONSTANTS = {
+  IMPORT: 'import',
+};
 export const vendorListsColumnsFunction = (router: any): any => [
   {
     accessorFn: (row: any) => row?.name,

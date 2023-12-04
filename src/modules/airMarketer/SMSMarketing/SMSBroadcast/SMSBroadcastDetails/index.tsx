@@ -37,7 +37,7 @@ const SMSBroadcastDetails = () => {
               borderRadius: '50%',
             }}
           />
-          <Typography>Completed</Typography>
+          <Typography variant="body2">Completed</Typography>
         </Box>
       </Stack>
       <CommonTabs tabsArray={['SMS Details', 'Analytics']}>
