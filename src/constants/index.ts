@@ -95,3 +95,10 @@ export const ORG_ADMIN: any = {
   ROLES_AND_RIGHTS: '/org-admin/roles-and-rights',
   ADD_ROLE: '/org-admin/roles-and-rights/add-role',
 };
+
+export const AIR_OPERATIONS = {
+  WORKFLOW_AUTOMATION: `/air-operations/workflow-automation`,
+  SALES_WORKFLOW: `/air-operations/workflow-automation/sales-workflow`,
+  SERVICES_WORKFLOW: `/air-operations/workflow-automation/services-workflow`,
+  MARKETING_WORKFLOW: `/air-operations/workflow-automation/marketing-workflow`,
+};
