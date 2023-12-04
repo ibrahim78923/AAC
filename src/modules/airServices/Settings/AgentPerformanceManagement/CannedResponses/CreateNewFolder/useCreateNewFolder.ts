@@ -5,21 +5,26 @@ import {
   createNewFolderSchema,
 } from './CreateNewFolder.data';
 import { useEffect } from 'react';
+import { enqueueSnackbar } from 'notistack';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 export const useCreateNewFolder = (openCreateNewFolderModal: any) => {
   const method = useForm({
     defaultValues: createNewFolderDefaultValues,
     resolver: yupResolver(createNewFolderSchema),
   });
-  const { setValue } = method;
-  const onSubmit = () => {};
+  const { setValue, reset } = method;
+  const onSubmit = () => {
+    enqueueSnackbar('Folder Created Successfully!', {
+      variant: NOTISTACK_VARIANTS?.SUCCESS,
+    });
+  };
   useEffect(() => {
     if (openCreateNewFolderModal?.editData) {
       setValue('folderName', openCreateNewFolderModal?.editData?.name);
       setValue('description', openCreateNewFolderModal?.editData?.description);
     } else {
-      setValue('folderName', '');
-      setValue('description', '');
+      reset();
     }
   }, [openCreateNewFolderModal]);
   return {
