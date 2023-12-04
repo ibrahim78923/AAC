@@ -1,4 +1,5 @@
-import { FacebookOutlined, Instagram } from '@mui/icons-material';
+import Facebook from '@/assets/icons/modules/airMarketer/SocialMarketing/PostBox/facebook';
+import Instagram from '@/assets/icons/modules/airMarketer/SocialMarketing/PostBox/instagram';
 
 export const postData = [
   {
@@ -6,7 +7,7 @@ export const postData = [
     image:
       'https://media.istockphoto.com/id/699612158/photo/bandra-worli-sea-link.jpg?s=1024x1024&w=is&k=20&c=S_7OBBz5C0iRzsnXwVDiPzLMdXYzzJ1zHGMz1KRjmtQ=',
     category: 'facebook',
-    categoryIcon: <FacebookOutlined sx={{ width: '16px', height: '16px' }} />,
+    categoryIcon: <Facebook />,
     heading: 'Brooklyn',
     avatar:
       'https://media.istockphoto.com/id/1318459282/photo/portrait-smile-beautiful-business-asian-woman-in-pink-suit-working-in-office-desk-virtual.jpg?s=612x612&w=0&k=20&c=1eBdU6IMx0KYKwzMrW12FO3QrRdO3uBHjOlCzYBeHEA=',
@@ -25,7 +26,7 @@ export const postData = [
     image:
       'https://media.istockphoto.com/id/803849852/photo/bandra-worli-sea-link.jpg?s=612x612&w=0&k=20&c=dBeZlyhuUbrLopmj09fsoJsi_3ysmSHIS7WXrz4V_0A=',
     category: 'facebook',
-    categoryIcon: <FacebookOutlined sx={{ width: '16px', height: '16px' }} />,
+    categoryIcon: <Facebook />,
     heading: 'Bessie',
     avatar:
       'https://media.istockphoto.com/id/1365310330/photo/excited-young-indian-man-winner-using-smartphone-isolated-on-yellow-background.jpg?s=612x612&w=0&k=20&c=mbCnh1Bd715P9JSdqrllYYmshIyfDkgafYPK53_S-m0=',
@@ -44,7 +45,7 @@ export const postData = [
     image:
       'https://media.istockphoto.com/id/915681526/photo/bandra-worli-sea-link-mumbai.jpg?s=1024x1024&w=is&k=20&c=L5ZbPXc0iBCgz7zL6nP-Det8lXCLXeUxxBW8TBNPLVQ=',
     category: 'instagram',
-    categoryIcon: <Instagram sx={{ width: '16px', height: '16px' }} />,
+    categoryIcon: <Instagram />,
     heading: 'James',
     avatar:
       'https://media.istockphoto.com/id/1388644810/photo/happy-caucasian-young-man-using-smart-phone-cellphone-for-calls-social-media-mobile.jpg?s=612x612&w=0&k=20&c=yDQ9bsnRb-diOKvUQDJ6pklSmiHE3-QmSP-L8FuL2vc=',
@@ -63,7 +64,7 @@ export const postData = [
     image:
       'https://media.istockphoto.com/id/699612158/photo/bandra-worli-sea-link.jpg?s=1024x1024&w=is&k=20&c=S_7OBBz5C0iRzsnXwVDiPzLMdXYzzJ1zHGMz1KRjmtQ=',
     category: 'facebook',
-    categoryIcon: <FacebookOutlined sx={{ width: '16px', height: '16px' }} />,
+    categoryIcon: <Facebook />,
     heading: 'Brooklyn',
     avatar:
       'https://media.istockphoto.com/id/1318459282/photo/portrait-smile-beautiful-business-asian-woman-in-pink-suit-working-in-office-desk-virtual.jpg?s=612x612&w=0&k=20&c=1eBdU6IMx0KYKwzMrW12FO3QrRdO3uBHjOlCzYBeHEA=',
@@ -82,7 +83,7 @@ export const postData = [
     image:
       'https://media.istockphoto.com/id/803849852/photo/bandra-worli-sea-link.jpg?s=612x612&w=0&k=20&c=dBeZlyhuUbrLopmj09fsoJsi_3ysmSHIS7WXrz4V_0A=',
     category: 'instagram',
-    categoryIcon: <FacebookOutlined sx={{ width: '16px', height: '16px' }} />,
+    categoryIcon: <Instagram />,
     heading: 'Bessie',
     avatar:
       'https://media.istockphoto.com/id/1365310330/photo/excited-young-indian-man-winner-using-smartphone-isolated-on-yellow-background.jpg?s=612x612&w=0&k=20&c=mbCnh1Bd715P9JSdqrllYYmshIyfDkgafYPK53_S-m0=',
@@ -101,7 +102,7 @@ export const postData = [
     image:
       'https://media.istockphoto.com/id/915681526/photo/bandra-worli-sea-link-mumbai.jpg?s=1024x1024&w=is&k=20&c=L5ZbPXc0iBCgz7zL6nP-Det8lXCLXeUxxBW8TBNPLVQ=',
     category: 'facebook',
-    categoryIcon: <FacebookOutlined sx={{ width: '16px', height: '16px' }} />,
+    categoryIcon: <Facebook />,
     heading: 'James',
     avatar:
       'https://media.istockphoto.com/id/1388644810/photo/happy-caucasian-young-man-using-smart-phone-cellphone-for-calls-social-media-mobile.jpg?s=612x612&w=0&k=20&c=yDQ9bsnRb-diOKvUQDJ6pklSmiHE3-QmSP-L8FuL2vc=',

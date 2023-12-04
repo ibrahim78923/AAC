@@ -72,7 +72,12 @@ const CompareSocialPost = () => {
                 >
                   <Box display="flex" gap={1} alignItems="center">
                     {fisrtPost.avatar && (
-                      <Box sx={style?.avatarStyle(fisrtPost?.category)}>
+                      <Box
+                        sx={style?.avatarStyle(
+                          fisrtPost?.category,
+                          theme?.palette,
+                        )}
+                      >
                         <Avatar src={fisrtPost?.avatar}></Avatar>
                         <Box className="avatar-category">
                           {fisrtPost?.category === 'facebook' ? (
@@ -110,7 +115,12 @@ const CompareSocialPost = () => {
                 >
                   <Box display="flex" gap={1} alignItems="center">
                     {secondPost?.avatar && (
-                      <Box sx={style?.avatarStyle(secondPost?.category)}>
+                      <Box
+                        sx={style?.avatarStyle(
+                          secondPost?.category,
+                          theme?.palette,
+                        )}
+                      >
                         <Avatar src={secondPost?.avatar}></Avatar>
                         <Box className="avatar-category">
                           {secondPost?.category === 'facebook' ? (

@@ -19,7 +19,7 @@ export const style = {
       display: 'none',
     },
   },
-  avatarStyle: (category: any) => ({
+  avatarStyle: (category: any, theme?: any) => ({
     backgroundColor: category === 'facebook' ? '#3B5998' : '#E1306C',
     height: '44px',
     width: '44px',
@@ -30,7 +30,7 @@ export const style = {
     justifyContent: 'center',
     position: 'relative',
     '.MuiAvatar-root': {
-      border: '2px solid #fff',
+      border: `2px solid ${theme?.common?.white}`,
     },
     '.avatar-category': {
       position: 'absolute',
@@ -45,4 +45,17 @@ export const style = {
       },
     },
   }),
+  selectCard: {
+    position: 'absolute',
+    right: '5px',
+    top: '6px',
+    backgroundColor: 'white',
+    borderRadius: '50%',
+    width: '16px',
+    height: '16px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: '2px',
+  },
 };
