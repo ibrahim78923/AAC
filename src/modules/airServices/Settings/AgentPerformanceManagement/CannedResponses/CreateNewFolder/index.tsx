@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   Dialog,
   DialogActions,
   DialogContent,
@@ -12,6 +11,7 @@ import { FormProvider } from '@/components/ReactHookForm';
 import { CloseModalIcon } from '@/assets/icons';
 import { useCreateNewFolder } from './useCreateNewFolder';
 import { createNewFolderArray } from './CreateNewFolder.data';
+import { LoadingButton } from '@mui/lab';
 
 export const CreateNewFolder = ({
   openCreateNewFolderModal,
@@ -67,20 +67,20 @@ export const CreateNewFolder = ({
             </DialogContent>
             <DialogActions>
               <Box display="flex" justifyContent="flex-end" gap={2}>
-                <Button
+                <LoadingButton
                   onClick={closeCreateNewFolderModal}
                   variant="outlined"
                   color="secondary"
                 >
                   Cancel
-                </Button>
-                <Button
+                </LoadingButton>
+                <LoadingButton
                   type="submit"
                   variant="contained"
                   onClick={method?.handleSubmit(onSubmit)}
                 >
                   {openCreateNewFolderModal?.editData ? 'Apply' : 'Submit'}
-                </Button>
+                </LoadingButton>
               </Box>
             </DialogActions>
           </FormProvider>

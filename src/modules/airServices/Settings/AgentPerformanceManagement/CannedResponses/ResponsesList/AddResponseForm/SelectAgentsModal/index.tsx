@@ -2,7 +2,6 @@ import {
   Avatar,
   AvatarGroup,
   Box,
-  Button,
   Dialog,
   DialogActions,
   DialogContent,
@@ -15,6 +14,7 @@ import { useSelectAgentsModal } from './useSelectAgentsModal';
 import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
 import { userData } from './SelectAgentsModal.data';
 import { FormProvider, RHFAutocomplete } from '@/components/ReactHookForm';
+import { LoadingButton } from '@mui/lab';
 
 export const SelectAgentsModal = ({
   openSelectAgentsModal,
@@ -99,14 +99,14 @@ export const SelectAgentsModal = ({
           </FormProvider>
           <DialogActions sx={{ pt: '0 !important' }}>
             <Box display="flex" justifyContent="flex-end" gap={2}>
-              <Button
+              <LoadingButton
                 onClick={closeSelectAgentsModal}
                 variant="outlined"
                 color="secondary"
               >
                 Cancel
-              </Button>
-              <Button
+              </LoadingButton>
+              <LoadingButton
                 type="submit"
                 variant="contained"
                 disabled={!!!agents?.length}
@@ -116,7 +116,7 @@ export const SelectAgentsModal = ({
                 }}
               >
                 Assign
-              </Button>
+              </LoadingButton>
             </Box>
           </DialogActions>
         </Dialog>
