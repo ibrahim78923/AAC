@@ -96,16 +96,6 @@ export const columns = ({
   ];
 };
 
-export const ctAdata = [
-  {
-    name: 'Files 2',
-    viewCount: '00',
-    clickRate: '0%',
-    clickCount: '00',
-    lastModified: 'Mar 3 - Mar 26, 2022',
-  },
-];
-
 export const exportData = [
   {
     value: 'CSV',
@@ -118,5 +108,16 @@ export const exportData = [
   {
     value: 'PDF',
     label: 'PDF',
+  },
+];
+
+// Todo: Temporay data will be removed afterapi integration
+export const ctAdata = [
+  {
+    name: 'Files 2',
+    viewCount: '00',
+    clickRate: '0%',
+    clickCount: '00',
+    lastModified: 'Mar 3 - Mar 26, 2022',
   },
 ];

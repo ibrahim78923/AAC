@@ -81,13 +81,13 @@ const CTA = () => {
               <Button
                 variant="outlined"
                 color="inherit"
-                disabled={selectedCheckboxes.length === 0}
+                disabled={selectedCheckboxes?.length === 0}
                 sx={{ minWidth: '0px', height: '35px', gap: 0.5, color: 'red' }}
                 onClick={() => setOpenModal('Delete')}
               >
                 <DeleteIcon
-                  color={selectedCheckboxes.length > 0 ? '#FF4A4A' : '#D1D5DB'}
-                />{' '}
+                  color={selectedCheckboxes?.length > 0 ? '#FF4A4A' : '#D1D5DB'}
+                />
                 Delete
               </Button>
               <Button

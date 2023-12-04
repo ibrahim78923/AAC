@@ -3,12 +3,10 @@ import { useTheme } from '@mui/material';
 
 const useCta = () => {
   const theme = useTheme();
-  const [openDrawer, setOpenDrawer] = useState('');
   const [openModal, setOpenModal] = useState('');
-
-  const [selectedCheckboxes, setSelectedCheckboxes] = useState<any>([]);
+  const [openDrawer, setOpenDrawer] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
-
+  const [selectedCheckboxes, setSelectedCheckboxes] = useState<any>([]);
   const [checkExportFormats, setCheckExportFormats] = useState([]);
 
   const handlecheckExportFormats = (
