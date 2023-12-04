@@ -304,7 +304,10 @@ export { default as AddRoleIcon } from './modules/airServices/Settings/UserManag
 export { default as CsvImportIcon } from './shared/csv-import-icon';
 export { default as ClockWithBagIcon } from './shared/clock-with-bag-icon';
 export { default as CopyPrimaryColorIcon } from './shared/copy-primary-color-icon';
+export { default as SearchAdIcon } from './modules/paidAds/search-ad';
 
 export { default as BookMarkIcon } from './shared/book-mark-icon';
 export { default as ArrowSquareLeftIcon } from './shared/arrow-square-left';
 export { default as ArrowSquareRightIcon } from './shared/arrow-square-right';
+export { default as FacebookSquareIcon } from './modules/paidAds/facebook-square';
+export { default as LinkedInSquareIcon } from './modules/paidAds/linkedin-square';
