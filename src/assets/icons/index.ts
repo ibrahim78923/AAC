@@ -198,6 +198,7 @@ export { default as ForwardIcon } from './modules/superAdmin/email/forward-icon'
 export { default as ReplyAllIcon } from './modules/superAdmin/email/reply-all-icon';
 export { default as EmailReplyIcon } from './modules/superAdmin/email/reply-icon';
 export { default as AddPlusPrimaryIcon } from './shared/add-plus-primary';
+export { default as MinimizePrimaryIcon } from './modules/airMarketer/CreatePost/minimize-icon';
 export { default as AirPlaneIcon } from './shared/airplane';
 export { default as EditPenBorderedIcon } from './shared/edit-pen-bordered';
 export { default as SendIconLifted } from './modules/SocialComponents/Calling/send';

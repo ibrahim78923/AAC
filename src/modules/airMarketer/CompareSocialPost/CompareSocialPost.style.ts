@@ -19,4 +19,30 @@ export const style = {
       display: 'none',
     },
   },
+  avatarStyle: (category: any) => ({
+    backgroundColor: category === 'facebook' ? '#3B5998' : '#E1306C',
+    height: '44px',
+    width: '44px',
+    borderRadius: '50%',
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    position: 'relative',
+    '.MuiAvatar-root': {
+      border: '2px solid #fff',
+    },
+    '.avatar-category': {
+      position: 'absolute',
+      right: '0',
+      bottom: '-7px',
+      svg: {
+        backgroundColor: 'white',
+        padding: '1px',
+        borderRadius: '50%',
+        width: '16px',
+        height: '16px',
+      },
+    },
+  }),
 };

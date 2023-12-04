@@ -9,6 +9,9 @@ import {
 } from '@mui/material';
 import { postsOverviewData } from '../../SelectPostModal/SelectPostModal.data';
 import { v4 as uuidv4 } from 'uuid';
+import { style } from '../../CompareSocialPost.style';
+import Facebook from '@/assets/icons/modules/airMarketer/SocialMarketing/PostBox/facebook';
+import Instagram from '@/assets/icons/modules/airMarketer/SocialMarketing/PostBox/instagram';
 
 const SecondPostOverview = ({ postData }: any) => {
   return (
@@ -32,12 +35,16 @@ const SecondPostOverview = ({ postData }: any) => {
         <CardMedia component="img" height="162" image={postData?.image} />
         <CardHeader
           avatar={
-            <Avatar
-              src={postData?.avatar}
-              sx={{ width: '30px', height: '30px' }}
-            >
-              R
-            </Avatar>
+            <Box sx={style?.avatarStyle(postData?.category)}>
+              <Avatar src={postData?.avatar}></Avatar>
+              <Box className="avatar-category">
+                {postData?.category === 'facebook' ? (
+                  <Facebook />
+                ) : (
+                  <Instagram />
+                )}
+              </Box>
+            </Box>
           }
           title={
             <Typography variant="body2" fontWeight={600}>

@@ -24,7 +24,7 @@ export const postData = [
     id: 'post2',
     image:
       'https://media.istockphoto.com/id/803849852/photo/bandra-worli-sea-link.jpg?s=612x612&w=0&k=20&c=dBeZlyhuUbrLopmj09fsoJsi_3ysmSHIS7WXrz4V_0A=',
-    category: 'instagram',
+    category: 'facebook',
     categoryIcon: <FacebookOutlined sx={{ width: '16px', height: '16px' }} />,
     heading: 'Bessie',
     avatar:
@@ -43,7 +43,7 @@ export const postData = [
     id: 'post3',
     image:
       'https://media.istockphoto.com/id/915681526/photo/bandra-worli-sea-link-mumbai.jpg?s=1024x1024&w=is&k=20&c=L5ZbPXc0iBCgz7zL6nP-Det8lXCLXeUxxBW8TBNPLVQ=',
-    category: 'facebook',
+    category: 'instagram',
     categoryIcon: <Instagram sx={{ width: '16px', height: '16px' }} />,
     heading: 'James',
     avatar:

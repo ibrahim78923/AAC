@@ -6,7 +6,9 @@ import { useComparePost } from './useComparePost';
 import SelectPostModal from './SelectPostModal';
 import FirstPostOverview from './PostOverview/FirstPostOverView';
 import SecondPostOverview from './PostOverview/SecondPostOverview';
-import { PlusPrimaryIcon } from '@/assets/icons';
+import { MinimizePrimaryIcon, PlusPrimaryIcon } from '@/assets/icons';
+import Facebook from '@/assets/icons/modules/airMarketer/SocialMarketing/PostBox/facebook';
+import Instagram from '@/assets/icons/modules/airMarketer/SocialMarketing/PostBox/instagram';
 import {
   postPerformanceColumn,
   postPerformanceData,
@@ -27,6 +29,9 @@ const CompareSocialPost = () => {
     setSecondPost,
   } = useComparePost();
   const [isPost, setisPost] = useState<any>();
+
+  const firstPostLength = Object?.keys(fisrtPost)?.length;
+  const secondPostLength = Object?.keys(secondPost)?.length;
 
   return (
     <Box>
@@ -67,7 +72,16 @@ const CompareSocialPost = () => {
                 >
                   <Box display="flex" gap={1} alignItems="center">
                     {fisrtPost.avatar && (
-                      <Avatar src={fisrtPost?.avatar}></Avatar>
+                      <Box sx={style?.avatarStyle(fisrtPost?.category)}>
+                        <Avatar src={fisrtPost?.avatar}></Avatar>
+                        <Box className="avatar-category">
+                          {fisrtPost?.category === 'facebook' ? (
+                            <Facebook />
+                          ) : (
+                            <Instagram />
+                          )}
+                        </Box>
+                      </Box>
                     )}
                     <Typography
                       className="postContent"
@@ -78,7 +92,7 @@ const CompareSocialPost = () => {
                         : 'Select post to compare'}
                     </Typography>
                   </Box>
-                  <PlusPrimaryIcon />
+                  {isOverView ? <MinimizePrimaryIcon /> : <PlusPrimaryIcon />}
                 </Box>
               </Box>
               <Box>
@@ -96,7 +110,16 @@ const CompareSocialPost = () => {
                 >
                   <Box display="flex" gap={1} alignItems="center">
                     {secondPost?.avatar && (
-                      <Avatar src={secondPost?.avatar}></Avatar>
+                      <Box sx={style?.avatarStyle(secondPost?.category)}>
+                        <Avatar src={secondPost?.avatar}></Avatar>
+                        <Box className="avatar-category">
+                          {secondPost?.category === 'facebook' ? (
+                            <Facebook />
+                          ) : (
+                            <Instagram />
+                          )}
+                        </Box>
+                      </Box>
                     )}
                     <Typography
                       className="postContent"
@@ -107,7 +130,7 @@ const CompareSocialPost = () => {
                         : 'Select post to compare'}
                     </Typography>
                   </Box>
-                  <PlusPrimaryIcon />
+                  {isOverView ? <MinimizePrimaryIcon /> : <PlusPrimaryIcon />}
                 </Box>
               </Box>
             </Box>
@@ -122,7 +145,6 @@ const CompareSocialPost = () => {
         setFirstPost={setFirstPost}
         post={isPost}
       />
-
       {isOverView && (
         <Box mt={4}>
           <Typography variant="h4" color={theme?.palette?.slateBlue?.main}>
@@ -136,28 +158,30 @@ const CompareSocialPost = () => {
               {secondPost?.id && <SecondPostOverview postData={secondPost} />}
             </Grid>
           </Grid>
-          <Grid container>
-            <Grid item xs={5}>
-              <Box my={2} sx={style?.comparePosts}>
-                <Typography variant="h4">Social Post Performance</Typography>
-                <Card sx={{ mt: 2 }}>
-                  <TanstackTable
-                    columns={postPerformanceColumn}
-                    data={postPerformanceData}
-                  />
-                </Card>
-              </Box>
-              <Box my={2} sx={style?.comparePosts}>
-                <Typography variant="h4">Video Post Performance</Typography>
-                <Card sx={{ mt: 2 }}>
-                  <TanstackTable
-                    columns={videoPerformanceColumn}
-                    data={videoPerformanceData}
-                  />
-                </Card>
-              </Box>
+          {firstPostLength > 0 && secondPostLength > 0 && (
+            <Grid container>
+              <Grid item xs={5}>
+                <Box my={2} sx={style?.comparePosts}>
+                  <Typography variant="h4">Social Post Performance</Typography>
+                  <Card sx={{ mt: 2 }}>
+                    <TanstackTable
+                      columns={postPerformanceColumn}
+                      data={postPerformanceData}
+                    />
+                  </Card>
+                </Box>
+                <Box my={2} sx={style?.comparePosts}>
+                  <Typography variant="h4">Video Post Performance</Typography>
+                  <Card sx={{ mt: 2 }}>
+                    <TanstackTable
+                      columns={videoPerformanceColumn}
+                      data={videoPerformanceData}
+                    />
+                  </Card>
+                </Box>
+              </Grid>
             </Grid>
-          </Grid>
+          )}
         </Box>
       )}
     </Box>
