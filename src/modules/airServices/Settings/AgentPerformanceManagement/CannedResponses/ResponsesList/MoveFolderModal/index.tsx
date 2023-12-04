@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   Dialog,
   DialogActions,
   DialogContent,
@@ -12,6 +11,7 @@ import { FormProvider, RHFAutocomplete } from '@/components/ReactHookForm';
 import { CloseModalIcon } from '@/assets/icons';
 import { useMoveFolderModal } from './useMoveFolderModal';
 import { moveFolderOptions } from './MoveFolderModal.data';
+import { LoadingButton } from '@mui/lab';
 
 export const MoveFolderModal = ({
   openMoveFolderModal,
@@ -68,20 +68,20 @@ export const MoveFolderModal = ({
               justifyContent="flex-end"
               gap={2}
             >
-              <Button
+              <LoadingButton
                 onClick={closeMoveFolderModal}
                 variant="outlined"
                 color="secondary"
               >
                 Cancel
-              </Button>
-              <Button
+              </LoadingButton>
+              <LoadingButton
                 type="submit"
                 variant="contained"
                 onClick={method.handleSubmit(onSubmit)}
               >
                 Move
-              </Button>
+              </LoadingButton>
             </Box>
           </DialogActions>
         </Dialog>

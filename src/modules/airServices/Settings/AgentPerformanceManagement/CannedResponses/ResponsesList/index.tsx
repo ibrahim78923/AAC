@@ -4,17 +4,12 @@ import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { Box, Button, Grid } from '@mui/material';
 import AddBoxRoundedIcon from '@mui/icons-material/AddBoxRounded';
 import TanstackTable from '@/components/Table/TanstackTable';
-import {
-  actionsOptions,
-  responsesTableColumns,
-  responsesTableData,
-} from './ResponsesList.data';
-import { AddResponseDrawer } from './AddResponseDrawer';
-import { enqueueSnackbar } from 'notistack';
-import { AlertModals } from '@/components/AlertModals';
+import { actionsOptions, responsesTableData } from './ResponsesList.data';
 import { MoveFolderModal } from './MoveFolderModal';
 import { useResponsesList } from './useResponsesList';
 import { AIR_SERVICES } from '@/constants';
+import { DeleteResponseModal } from './DeleteResponseModal';
+import { AddResponseForm } from './AddResponseForm';
 
 export const ResponsesList = () => {
   const {
@@ -33,6 +28,7 @@ export const ResponsesList = () => {
     convertToTitleCase,
     router,
     handleActionClick,
+    tableColumns,
   } = useResponsesList();
   return (
     <>
@@ -89,11 +85,7 @@ export const ResponsesList = () => {
           </Grid>
           <Grid item xs={12}>
             <TanstackTable
-              columns={responsesTableColumns(
-                selectedData,
-                setSelectedData,
-                responsesTableData,
-              )}
+              columns={tableColumns}
               data={responsesTableData}
               isLoading={false}
               isFetching={false}
@@ -111,22 +103,14 @@ export const ResponsesList = () => {
           </Grid>
         </Grid>
       </Box>
-      <AddResponseDrawer
+      <AddResponseForm
         open={openAddResponseDrawer}
         setDrawerOpen={setOpenAddResponseDrawer}
       />
-      <AlertModals
-        message={'Are you sure you want to delete?'}
-        type={'delete'}
-        open={deleteModal}
-        handleClose={() => setDeleteModal(false)}
-        handleSubmitBtn={() => {
-          setSelectedData([]);
-          enqueueSnackbar('Deleted Successfully!', {
-            variant: 'success',
-          });
-          setDeleteModal(false);
-        }}
+      <DeleteResponseModal
+        deleteModal={deleteModal}
+        setDeleteModal={setDeleteModal}
+        setSelectedData={setSelectedData}
       />
       <MoveFolderModal
         openMoveFolderModal={openMoveFolderModal}

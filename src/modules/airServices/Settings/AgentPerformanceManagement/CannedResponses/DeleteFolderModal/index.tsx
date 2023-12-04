@@ -3,12 +3,11 @@ import { useState } from 'react';
 import { AlertModals } from '@/components/AlertModals';
 import { enqueueSnackbar } from 'notistack';
 import { ALERT_MODALS_TYPE, NOTISTACK_VARIANTS } from '@/constants/strings';
-import { styles } from '../CannedResponses.styles';
 export const DeleteFolderModal = ({ id, handleActionClose }: any) => {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   return (
     <>
-      <MenuItem sx={styles?.menuItem} onClick={() => setOpenDeleteModal(true)}>
+      <MenuItem sx={{ pr: 5 }} onClick={() => setOpenDeleteModal(true)}>
         Delete
       </MenuItem>
       <AlertModals

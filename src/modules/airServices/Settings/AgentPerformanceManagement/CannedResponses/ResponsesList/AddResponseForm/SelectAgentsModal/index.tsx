@@ -10,25 +10,18 @@ import {
   Grid,
   Typography,
 } from '@mui/material';
-import { ArrowDownIcon, CloseModalIcon } from '@/assets/icons';
+import { CloseModalIcon } from '@/assets/icons';
 import { useSelectAgentsModal } from './useSelectAgentsModal';
 import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
-import { SearchableMultiSelect } from './SearchableMultiSelect';
 import { userData } from './SelectAgentsModal.data';
+import { FormProvider, RHFAutocomplete } from '@/components/ReactHookForm';
 
 export const SelectAgentsModal = ({
   openSelectAgentsModal,
   closeSelectAgentsModal,
   setAgentsResponses,
 }: any) => {
-  const {
-    agents,
-    setPendingValue,
-    pendingValue,
-    handleCloseUsersList,
-    anchorElUserList,
-    handleOpenUsersList,
-  } = useSelectAgentsModal();
+  const { agents, method, onSubmit } = useSelectAgentsModal();
   return (
     <>
       {openSelectAgentsModal && (
@@ -74,58 +67,36 @@ export const SelectAgentsModal = ({
               <CloseModalIcon />
             </Box>
           </DialogTitle>
-          <DialogContent>
-            <Grid container gap={1.4}>
-              <Grid item xs={12}>
-                <Box
-                  onClick={handleOpenUsersList}
-                  p="0.47rem 1rem"
-                  border="0.06rem solid"
-                  borderColor="custom.light_lavender_gray"
-                  borderRadius=".5rem"
-                  display="flex"
-                  justifyContent="space-between"
-                  alignItems="center"
-                  sx={{
-                    cursor: 'pointer',
-                  }}
-                >
-                  <Typography variant="body2" color="grey.600">
-                    Select User
-                  </Typography>
-                  <Box>
-                    <ArrowDownIcon />
-                  </Box>
-                </Box>
-                <SearchableMultiSelect
-                  labels={userData}
-                  anchorEl={anchorElUserList}
-                  handleClose={handleCloseUsersList}
-                  pendingValue={pendingValue}
-                  setPendingValue={setPendingValue}
-                  value={agents}
-                />
-              </Grid>
-              {!!agents?.length && (
+          <FormProvider
+            methods={method}
+            onSubmit={method?.handleSubmit(onSubmit)}
+          >
+            <DialogContent>
+              <Grid container gap={1.4}>
                 <Grid item xs={12}>
-                  <AvatarGroup
-                    max={4}
-                    sx={{
-                      justifyContent: 'flex-end',
-                    }}
-                  >
-                    {agents?.map((avatar) => (
-                      <Avatar
-                        key={avatar?.id}
-                        alt={avatar?.name}
-                        src={avatar?.src?.src}
-                      />
-                    ))}
-                  </AvatarGroup>
+                  <RHFAutocomplete name="agents" options={userData} multiple />
                 </Grid>
-              )}
-            </Grid>
-          </DialogContent>
+                {!!agents?.length && (
+                  <Grid item xs={12}>
+                    <AvatarGroup
+                      max={4}
+                      sx={{
+                        justifyContent: 'flex-end',
+                      }}
+                    >
+                      {agents?.map((avatar: any) => (
+                        <Avatar
+                          key={avatar?.id}
+                          alt={avatar?.label}
+                          src={avatar?.src?.src}
+                        />
+                      ))}
+                    </AvatarGroup>
+                  </Grid>
+                )}
+              </Grid>
+            </DialogContent>
+          </FormProvider>
           <DialogActions sx={{ pt: '0 !important' }}>
             <Box display="flex" justifyContent="flex-end" gap={2}>
               <Button

@@ -21,7 +21,7 @@ export const responsesTableColumns = (
           !!responsesData?.find((item: any) => item?.id === info?.getValue())
         }
         onChange={(e: any) => {
-          e.target.checked
+          e?.target?.checked
             ? setResponsesData([
                 ...responsesData,
                 responsesMainData?.find(

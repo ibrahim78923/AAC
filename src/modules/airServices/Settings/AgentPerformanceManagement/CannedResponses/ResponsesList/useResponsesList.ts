@@ -2,7 +2,11 @@ import { PAGINATION } from '@/config';
 import { useRouter } from 'next/router';
 import { enqueueSnackbar } from 'notistack';
 import { useState } from 'react';
-import { ACTION_TYPES } from './ResponsesList.data';
+import {
+  ACTION_TYPES,
+  responsesTableColumns,
+  responsesTableData,
+} from './ResponsesList.data';
 
 export const useResponsesList = () => {
   const router = useRouter();
@@ -38,6 +42,11 @@ export const useResponsesList = () => {
       )
       ?.join?.(' ');
   };
+  const tableColumns = responsesTableColumns(
+    selectedData,
+    setSelectedData,
+    responsesTableData,
+  );
   return {
     setOpenMoveFolderModal,
     openMoveFolderModal,
@@ -54,5 +63,6 @@ export const useResponsesList = () => {
     convertToTitleCase,
     router,
     handleActionClick,
+    tableColumns,
   };
 };
