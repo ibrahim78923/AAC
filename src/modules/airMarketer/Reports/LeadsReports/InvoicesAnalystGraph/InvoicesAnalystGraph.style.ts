@@ -6,9 +6,16 @@ export const styles = {
       marginTop: '10px',
       '.apexcharts-legend': {
         padding: '15px 0px',
-        marginTop: '20px 0',
+        margin: '-5px 10px',
         position: 'relative !important',
         justifyContent: 'flex-end !important',
+        gap: '24px',
+        '& .apexcharts-legend-series': {
+          gap: '5px',
+        },
+      },
+      '.apexcharts-toolbar .apexcharts-menu-icon': {
+        display: 'none',
       },
     };
   },
