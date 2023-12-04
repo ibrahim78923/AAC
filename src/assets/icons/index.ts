@@ -201,7 +201,7 @@ export { default as AddPlusPrimaryIcon } from './shared/add-plus-primary';
 export { default as MinimizePrimaryIcon } from './modules/airMarketer/CreatePost/minimize-icon';
 export { default as AirPlaneIcon } from './shared/airplane';
 export { default as EditPenBorderedIcon } from './shared/edit-pen-bordered';
-export { default as SendIconLifted } from './modules/SocialComponents/Calling/send';
+export { default as SendLiftedIcon } from './modules/SocialComponents/Calling/send';
 export { default as MessagesIcon } from './modules/SocialComponents/Calling/messages';
 export { default as MuteIcon } from './modules/SocialComponents/Calling/mute';
 export { default as HoldIcon } from './modules/SocialComponents/Calling/hold';
