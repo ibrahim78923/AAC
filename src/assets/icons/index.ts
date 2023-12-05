@@ -15,6 +15,7 @@ export { default as ArrowBackIcon } from './modules/orgAdmin/SubscriptionAndInvo
 export { default as MinusCircleIcon } from './modules/orgAdmin/SubscriptionAndInvoices/minus-cirlce-icon';
 export { default as AddCircleIcon } from './modules/orgAdmin/SubscriptionAndInvoices/add-circle-icon';
 export { default as LogoIcon } from './modules/orgAdmin/SubscriptionAndInvoices/logo-icon';
+export { default as EditRequestorsIcon } from './modules/airServices/Settings/Requestors/edit-requestors-icon';
 export { default as PaymentMethodIcon } from './modules/orgAdmin/SubscriptionAndInvoices/payment-method-icon';
 export { default as TickCircleIcon } from './modules/orgAdmin/SubscriptionAndInvoices/tick-circle-icon';
 export { default as CannedResponseModalIcon } from './modules/airServices/Tickets/canned-response-modal-icon';
@@ -315,6 +316,9 @@ export { default as StyleFormIcon } from './shared/style-form';
 export { default as PageIcon } from './shared/Page';
 export { default as MobileFormIcon } from './shared/mobile-icon';
 export { default as MonitorIcon } from './shared/monitor';
+
+export { default as ExportDownloadIcon } from './shared/export-download';
+export { default as ExportModalIcon } from './shared/export-modal-icon';
 export { default as ClockWithBagIcon } from './shared/clock-with-bag-icon';
 export { default as CopyPrimaryColorIcon } from './shared/copy-primary-color-icon';
 
