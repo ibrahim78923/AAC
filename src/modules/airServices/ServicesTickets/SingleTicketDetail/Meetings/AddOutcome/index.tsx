@@ -55,6 +55,7 @@ export const AddOutcomeModal = ({
             <Button
               sx={{ maxWidth: '90px' }}
               variant="outlined"
+              color="secondary"
               onClick={() => setShow(false)}
             >
               Cancel

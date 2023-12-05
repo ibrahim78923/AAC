@@ -185,7 +185,7 @@ export const ServicesRoutes: any = [
   {
     key: 'air-services/control-panel',
     icon: CustomerPortalImage,
-    label: 'Control Panel',
+    label: 'Customer Portal',
     role: 'SERVICE',
     permissions: [],
   },
@@ -404,11 +404,6 @@ export const LowerServicesRoutes = [
         permissions: [],
       },
       {
-        key: 'air-services/settings/project-workload',
-        label: 'Project&Workload',
-        permissions: [],
-      },
-      {
         key: 'air-services/settings/user-management',
         label: 'User Management',
         permissions: [],
@@ -419,8 +414,8 @@ export const LowerServicesRoutes = [
         permissions: [],
       },
       {
-        key: 'air-services/settings/automation-productivity',
-        label: 'Automation & Productivity',
+        key: 'air-services/settings/agent-performance-management',
+        label: 'Agent Productivity & Workload Management',
         permissions: [],
       },
       {
