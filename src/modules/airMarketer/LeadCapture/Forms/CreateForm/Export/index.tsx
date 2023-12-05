@@ -21,6 +21,8 @@ import {
   ExportFormDefaultValues,
   ExportFormValidationSchema,
 } from './Export.data';
+import { airMarketerLeadCapture } from '@/routesConstants/paths';
+import { useRouter } from 'next/router';
 
 const Export = ({
   openAlert,
@@ -28,6 +30,7 @@ const Export = ({
   setOpenAlert,
   showExportText,
 }: any) => {
+  const router = useRouter();
   const ExportFormMethods = useForm({
     resolver: yupResolver(ExportFormValidationSchema),
     defaultValues: ExportFormDefaultValues,
@@ -116,8 +119,7 @@ const Export = ({
                   variant="contained"
                   sx={{ marginLeft: '10px' }}
                   onClick={() => {
-                    setOpenAlert(false);
-                    setShowExportText(false);
+                    router.push(airMarketerLeadCapture.All_Table);
                   }}
                 >
                   Export
