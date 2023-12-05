@@ -129,6 +129,7 @@ export const NOTISTACK_VARIANTS: any = {
 
 export const ALERT_MODALS_TYPE = {
   DELETE: 'delete',
+  WARNING: 'warning',
 };
 
 export const CATALOG_SERVICE_TYPES = {
@@ -217,4 +218,14 @@ export const AGENT_REQUEST_STATUS = {
   APPROVED: 'Approved',
   REJECTED: 'Rejected',
   PENDING: 'Pending',
+};
+
+export const REQUESTORS_STATUS = {
+  ACTIVE: 'Active',
+  INACTIVE: 'Inactive',
+};
+export const REQUESTORS_ASSIGNED_STATUS = {
+  OPEN: 'Open',
+  CLOSED: 'Closed',
+  RESOLVED: 'Resolved',
 };

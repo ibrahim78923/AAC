@@ -7,7 +7,6 @@ const CustomLabel: FC<{ label: string; required?: boolean }> = (props) => {
   const { palette }: any = useTheme();
   return (
     <Typography
-      component={'span'}
       sx={{
         textTransform: 'capitalize',
         '&::after': required
@@ -17,6 +16,7 @@ const CustomLabel: FC<{ label: string; required?: boolean }> = (props) => {
             }
           : '',
         color: 'inherit',
+        marginBottom: 0.4,
       }}
     >
       {label}
