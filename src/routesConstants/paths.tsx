@@ -87,4 +87,8 @@ export const AIR_MARKETER = {
   SMS_MARKETING_DETAILS: '/air-marketer/sms-marketing/sms-marketing-details',
   CREATE_SMS_BROADCAST: '/air-marketer/sms-marketing/create-sms-broadcast',
   VIEW_PERFORMANCE: '/air-marketer/compaigns/view-performance',
+  REPORTS: '/air-marketer/reports',
+  REPORTS_LEADS: '/air-marketer/reports/leads',
+  REPORTS_EMAIL: '/air-marketer/reports/email-marketing',
+  REPORTS_CAMPAIGNS: '/air-marketer/reports/add-campaigns',
 };

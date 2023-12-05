@@ -2,22 +2,19 @@ import dynamic from 'next/dynamic';
 
 import { Box, Card, Grid, useTheme } from '@mui/material';
 
-import {
-  options,
-  series,
-  totalAddSpendoptions,
-  totalAddSpendseries,
-} from './campaignsGraphs.data';
 import { styles } from './campaignsGraphs.styles';
+import useCampaignsGraphs from './useCampaignsGraphs';
 
 const CampaignsGraphs = () => {
   const theme = useTheme();
+  const { series, options, totalAddSpendseries, totalAddSpendoptions } =
+    useCampaignsGraphs();
   const ReactApexChart = dynamic(() => import('react-apexcharts'), {
     ssr: false,
   });
   return (
-    <Grid container spacing={0.5}>
-      <Grid item xs={6}>
+    <Grid container spacing={2}>
+      <Grid item md={6} sm={12} xs={12}>
         <Card sx={{ p: '24px' }}>
           <Box height="350px" sx={styles?.appexChart(theme)}>
             <ReactApexChart
@@ -29,7 +26,7 @@ const CampaignsGraphs = () => {
           </Box>
         </Card>
       </Grid>
-      <Grid item xs={6}>
+      <Grid item md={6} sm={12} xs={12}>
         <Card sx={{ p: '24px' }}>
           <Box height="350px" sx={styles?.appexChart(theme)}>
             <ReactApexChart

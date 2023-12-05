@@ -2,11 +2,12 @@ import dynamic from 'next/dynamic';
 
 import { Box, Typography, useTheme } from '@mui/material';
 
-import { styles } from './InvoicesAnalystGraph.style';
-import { options, series } from './InvoicesAnalystGraph.data';
+import useLeadsReportGraph from './useLeadsReportGraph';
+import { styles } from './useLeadsReportGraph.style';
 
 const InvoicesAnalystGraph = () => {
   const theme = useTheme();
+  const { series, options } = useLeadsReportGraph();
   const ReactApexChart = dynamic(() => import('react-apexcharts'), {
     ssr: false,
   });

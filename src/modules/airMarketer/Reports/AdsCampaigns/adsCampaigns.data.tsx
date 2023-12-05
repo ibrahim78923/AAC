@@ -1,4 +1,4 @@
-import { Avatar, AvatarGroup, Box, Typography } from '@mui/material';
+import { Avatar, AvatarGroup, Box, Typography, useTheme } from '@mui/material';
 import { FacebookRounded, LinkedIn } from '@mui/icons-material';
 
 import { AvatarImage } from '@/assets/images';
@@ -23,113 +23,120 @@ export const CampaignsCradsData = [
   },
 ];
 
-export const usersData: any = [
-  {
-    Id: 1,
-    campaignsName: (
-      <Box display="flex" alignItems="center">
-        <FacebookRounded style={{ color: '#1877F2' }} />
-        <Typography
-          sx={{ fontSize: '12px', fontWeight: 500, color: '#111827', ml: 1 }}
-        >
-          Facebook ad
-        </Typography>
-      </Box>
-    ),
-    accountName: (
-      <Box sx={{ display: 'flex', gap: '5px' }}>
-        <Avatar alt="Remy Sharp" src={AvatarImage?.src} />
-        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-          <Typography component={'span'}>Olivia Rhyeh</Typography>
-          <Typography component={'span'}>@Olivia</Typography>
+export const usersData = () => {
+  const theme = useTheme();
+  const iconsColor = '#1877F2';
+  return [
+    {
+      Id: 1,
+      campaignsName: (
+        <Box display="flex" alignItems="center">
+          <FacebookRounded style={{ color: iconsColor }} />
+          <Typography
+            variant="body4"
+            sx={{ color: theme?.palette?.blue?.dull_blue, ml: 1 }}
+          >
+            Facebook ad
+          </Typography>
         </Box>
-      </Box>
-    ),
-    ROI: '34%',
-    revenue: '£ 34',
-    Products: (
-      <AvatarGroup max={4} sx={{ display: 'flex', justifyContent: 'start' }}>
-        <Avatar alt="Remy Sharp" src={AvatarImage.src} />
-        <Avatar alt="Travis Howard" src={AvatarImage.src} />
-        <Avatar alt="Cindy Baker" src={AvatarImage.src} />
-      </AvatarGroup>
-    ),
-    Impressions: '200',
-    Clicks: '30',
-    costPerContact: '£ 34.43',
-    amountSpend: '£44.4',
-  },
-  {
-    Id: 2,
-    campaignsName: (
-      <Box display="flex" alignItems="center">
-        <LinkedIn style={{ color: '#1877F2' }} />
-        <Typography
-          sx={{ fontSize: '12px', fontWeight: 500, color: '#111827', ml: 1 }}
-        >
-          Linkedin
-        </Typography>
-      </Box>
-    ),
-    accountName: (
-      <Box sx={{ display: 'flex', gap: '5px' }}>
-        <Avatar alt="Remy Sharp" src={AvatarImage.src} />
-        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-          <Typography component={'span'}>Olivia Rhyeh</Typography>
-          <Typography component={'span'}>@Olivia</Typography>
+      ),
+      accountName: (
+        <Box sx={{ display: 'flex', gap: '5px' }}>
+          <Avatar alt="Remy Sharp" src={AvatarImage?.src} />
+          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+            <Typography component={'span'}>Olivia Rhyeh</Typography>
+            <Typography component={'span'}>@Olivia</Typography>
+          </Box>
         </Box>
-      </Box>
-    ),
-    ROI: '34%',
-    revenue: '£ 34',
-    Products: (
-      <AvatarGroup max={4} sx={{ display: 'flex', justifyContent: 'start' }}>
-        <Avatar alt="Remy Sharp" src={AvatarImage.src} />
-        <Avatar alt="Travis Howard" src={AvatarImage.src} />
-        <Avatar alt="Cindy Baker" src={AvatarImage.src} />
-      </AvatarGroup>
-    ),
-    Impressions: '200',
-    Clicks: '30',
-    costPerContact: '£ 34.43',
-    amountSpend: '£44.4',
-  },
-  {
-    Id: 3,
-    campaignsName: (
-      <Box display="flex" alignItems="center">
-        <GoogleDriveIcon />
-        <Typography
-          sx={{ fontSize: '12px', fontWeight: 500, color: '#111827', ml: 1 }}
-        >
-          Facebook ad
-        </Typography>
-      </Box>
-    ),
-    accountName: (
-      <Box sx={{ display: 'flex', gap: '5px' }}>
-        <Avatar alt="Remy Sharp" src={AvatarImage.src} />
-        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-          <Typography component={'span'}>Olivia Rhyeh</Typography>
-          <Typography component={'span'}>@Olivia</Typography>
+      ),
+      ROI: '34%',
+      revenue: '£ 34',
+      Products: (
+        <AvatarGroup max={4} sx={{ display: 'flex', justifyContent: 'start' }}>
+          <Avatar alt="Remy Sharp" src={AvatarImage.src} />
+          <Avatar alt="Travis Howard" src={AvatarImage.src} />
+          <Avatar alt="Cindy Baker" src={AvatarImage.src} />
+        </AvatarGroup>
+      ),
+      Impressions: '200',
+      Clicks: '30',
+      costPerContact: '£ 34.43',
+      amountSpend: '£44.4',
+    },
+    {
+      Id: 2,
+      campaignsName: (
+        <Box display="flex" alignItems="center">
+          <LinkedIn style={{ color: iconsColor }} />
+          <Typography
+            variant="body4"
+            sx={{ color: theme?.palette?.blue?.dull_blue, ml: 1 }}
+          >
+            Linkedin
+          </Typography>
         </Box>
-      </Box>
-    ),
-    ROI: '34%',
-    revenue: '£ 34',
-    Products: (
-      <AvatarGroup max={4} sx={{ display: 'flex', justifyContent: 'start' }}>
-        <Avatar alt="Remy Sharp" src={AvatarImage.src} />
-        <Avatar alt="Travis Howard" src={AvatarImage.src} />
-        <Avatar alt="Cindy Baker" src={AvatarImage.src} />
-      </AvatarGroup>
-    ),
-    Impressions: '200',
-    Clicks: '30',
-    costPerContact: '£ 34.43',
-    amountSpend: '£44.4',
-  },
-];
+      ),
+      accountName: (
+        <Box sx={{ display: 'flex', gap: '5px' }}>
+          <Avatar alt="Remy Sharp" src={AvatarImage.src} />
+          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+            <Typography component={'span'}>Olivia Rhyeh</Typography>
+            <Typography component={'span'}>@Olivia</Typography>
+          </Box>
+        </Box>
+      ),
+      ROI: '34%',
+      revenue: '£ 34',
+      Products: (
+        <AvatarGroup max={4} sx={{ display: 'flex', justifyContent: 'start' }}>
+          <Avatar alt="Remy Sharp" src={AvatarImage.src} />
+          <Avatar alt="Travis Howard" src={AvatarImage.src} />
+          <Avatar alt="Cindy Baker" src={AvatarImage.src} />
+        </AvatarGroup>
+      ),
+      Impressions: '200',
+      Clicks: '30',
+      costPerContact: '£ 34.43',
+      amountSpend: '£44.4',
+    },
+    {
+      Id: 3,
+      campaignsName: (
+        <Box display="flex" alignItems="center">
+          <GoogleDriveIcon />
+          <Typography
+            variant="body4"
+            sx={{ color: theme?.palette?.blue?.dull_blue, ml: 1 }}
+          >
+            Facebook ad
+          </Typography>
+        </Box>
+      ),
+      accountName: (
+        <Box sx={{ display: 'flex', gap: '5px' }}>
+          <Avatar alt="Remy Sharp" src={AvatarImage.src} />
+          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+            <Typography component={'span'}>Olivia Rhyeh</Typography>
+            <Typography component={'span'}>@Olivia</Typography>
+          </Box>
+        </Box>
+      ),
+      ROI: '34%',
+      revenue: '£ 34',
+      Products: (
+        <AvatarGroup max={4} sx={{ display: 'flex', justifyContent: 'start' }}>
+          <Avatar alt="Remy Sharp" src={AvatarImage.src} />
+          <Avatar alt="Travis Howard" src={AvatarImage.src} />
+          <Avatar alt="Cindy Baker" src={AvatarImage.src} />
+        </AvatarGroup>
+      ),
+      Impressions: '200',
+      Clicks: '30',
+      costPerContact: '£ 34.43',
+      amountSpend: '£44.4',
+    },
+  ];
+};
 
 export const usersColumns: any = [
   {

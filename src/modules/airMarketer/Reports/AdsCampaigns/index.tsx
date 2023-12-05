@@ -26,6 +26,7 @@ import useMarketerReports from '../LeadsReports/useMarketerReports';
 import { DownloadIcon } from '@/assets/icons';
 
 import { v4 as uuidv4 } from 'uuid';
+import { AIR_MARKETER } from '@/routesConstants/paths';
 
 const AdsCampaigns = () => {
   const theme = useTheme();
@@ -33,33 +34,45 @@ const AdsCampaigns = () => {
 
   return (
     <>
-      <Box display="flex" alignItems="center" gap={1} mb={2}>
-        <Box mt={1}>
-          <Link href="/air-marketer/reports">
-            <ArrowBack />
+      <Box
+        display="flex"
+        alignItems="center"
+        justifyContent="space-between"
+        flexWrap="wrap"
+        gap={1}
+        mb={2}
+      >
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+          }}
+        >
+          <Link href={AIR_MARKETER?.REPORTS}>
+            <ArrowBack sx={{ mt: 1 }} />
           </Link>
-        </Box>
-        <Box width="100%" display="flex" justifyContent="space-between">
           <Typography
             variant="h3"
             sx={{ color: theme?.palette?.slateBlue['main'] }}
           >
-            Ads Campaigns
+            Ad’s Campaigns
           </Typography>
-          <SwitchableDatepicker />
         </Box>
-        <Button
-          sx={{ p: 0 }}
-          className="small"
-          variant="outlined"
-          color="inherit"
-        >
-          <DownloadIcon />
-        </Button>
+        <Box display="flex" flexWrap="wrap" alignItems="center" gap={1}>
+          <SwitchableDatepicker />
+          <Button
+            sx={{ p: 0 }}
+            className="small"
+            variant="outlined"
+            color="inherit"
+          >
+            <DownloadIcon />
+          </Button>
+        </Box>
       </Box>
-      <Grid container gap={1.5}>
+      <Grid container item spacing={2}>
         {CampaignsCradsData?.map((item: any) => (
-          <Grid lg={2.9} md={4} sm={6} xs={12} key={uuidv4()}>
+          <Grid item lg={3} md={4} sm={6} xs={12} key={uuidv4()}>
             <Card sx={{ border: '1px solid #D2D6DF', mb: 1, height: 100 }}>
               <CardContent
                 sx={{
@@ -116,7 +129,7 @@ const AdsCampaigns = () => {
           />
         </Box>
         <Box>
-          <TanstackTable columns={usersColumns} data={usersData} />
+          <TanstackTable columns={usersColumns} data={usersData()} />
           <CustomPagination
             count={1}
             rowsPerPageOptions={[1, 2]}

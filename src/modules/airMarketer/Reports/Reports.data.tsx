@@ -1,5 +1,7 @@
 import Image from 'next/image';
 
+import { AIR_MARKETER } from '@/routesConstants/paths';
+
 import { HandShakeImage } from '@/assets/images';
 
 export const ReportsCardsData = [
@@ -7,18 +9,18 @@ export const ReportsCardsData = [
     icon: <Image src={HandShakeImage} alt="image" width={30} height={30} />,
     title: 'Leads CTAs',
     description: 'Overview CTAs Report',
-    link: '/air-marketer/reports/leads',
+    link: AIR_MARKETER?.REPORTS_LEADS,
   },
   {
     icon: <Image src={HandShakeImage} alt="image" width={30} height={30} />,
     title: 'Email Marketing',
     description: 'Overview Marketing Report',
-    link: '/air-marketer/reports/email-marketing',
+    link: AIR_MARKETER?.REPORTS_EMAIL,
   },
   {
     title: "Ad's Campaigns",
     description: 'Overview Ads Reports',
-    link: '/air-marketer/reports/add-campaigns',
+    link: AIR_MARKETER?.REPORTS_CAMPAIGNS,
     icon: <Image src={HandShakeImage} alt="image" width={30} height={30} />,
   },
 ];

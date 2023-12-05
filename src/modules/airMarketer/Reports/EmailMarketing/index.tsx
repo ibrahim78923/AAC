@@ -16,38 +16,52 @@ import { v4 as uuidv4 } from 'uuid';
 import LinearProgress from '@mui/material/LinearProgress';
 import SwitchableDatepicker from '@/components/SwitchableDatepicker';
 import { DownloadIcon } from '@/assets/icons';
+import { AIR_MARKETER } from '@/routesConstants/paths';
 
 const EmailMarketing = () => {
   const theme = useTheme();
   return (
     <>
-      <Box display="flex" alignItems="center" gap={1} mb={2}>
-        <Box mt={1}>
-          <Link href="/air-marketer/reports">
-            <ArrowBack />
+      <Box
+        display="flex"
+        alignItems="center"
+        justifyContent="space-between"
+        flexWrap="wrap"
+        gap={1}
+        mb={2}
+      >
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+          }}
+        >
+          <Link href={AIR_MARKETER?.REPORTS}>
+            <ArrowBack sx={{ mt: 1 }} />
           </Link>
-        </Box>
-        <Box width="100%" display="flex" justifyContent="space-between">
           <Typography
             variant="h3"
-            sx={{ color: theme?.palette?.slateBlue['main'], mt: '3px' }}
+            sx={{ color: theme?.palette?.slateBlue['main'] }}
           >
             Email Marketing
           </Typography>
-          <SwitchableDatepicker />
         </Box>
-        <Button
-          sx={{ p: 0 }}
-          className="small"
-          variant="outlined"
-          color="inherit"
-        >
-          <DownloadIcon />
-        </Button>
+        <Box display="flex" flexWrap="wrap" alignItems="center" gap={1}>
+          <SwitchableDatepicker />
+          <Button
+            sx={{ p: 0 }}
+            className="small"
+            variant="outlined"
+            color="inherit"
+          >
+            <DownloadIcon />
+          </Button>
+        </Box>
       </Box>
-      <Grid container gap={1.5}>
+
+      <Grid container item spacing={3}>
         {EmailCradsData?.map((item: any) => (
-          <Grid lg={2.9} md={4} sm={6} xs={12} key={uuidv4()}>
+          <Grid item lg={3} md={4} sm={6} xs={12} key={uuidv4()}>
             <Card sx={{ border: '1px solid #D2D6DF', mb: 1, height: 100 }}>
               <CardContent
                 sx={{
@@ -82,85 +96,86 @@ const EmailMarketing = () => {
 
       <Grid container spacing={1.5}>
         {EmailMarketingRateCard?.map((item: any) => (
-          <Box key={uuidv4()}>
-            <Grid item lg={6} md={4} sm={6} xs={12}>
-              <Card sx={{ mb: 1 }}>
-                <CardContent>
-                  <Grid container>
-                    <Grid item xs={2}>
-                      <Typography
-                        sx={{
-                          fontSize: '16px',
-                          color: '#79839E',
-                          fontWeight: 600,
-                        }}
-                        color="text.secondary"
-                        gutterBottom
-                      >
-                        {item?.heading}
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={10}>
-                      <Typography
-                        sx={{
-                          mb: 1.5,
-                          fontSize: 24,
-                          color: '#4CCFBC',
-                          fontWeight: 600,
-                        }}
-                        color="text.secondary"
-                      >
-                        <Typography variant="h4" sx={{ textAlign: 'end' }}>
-                          {' '}
-                          {item?.precentage}
-                        </Typography>
-                        <Stack gap={1}>
-                          <LinearProgress
-                            variant="determinate"
-                            value={item?.precentage}
-                            sx={{ height: '13px', background: '#FFC20E' }}
-                          />
-                        </Stack>
-                      </Typography>
-                    </Grid>
-                  </Grid>
-
-                  {item?.rates?.map((data: any) => (
-                    <Box
-                      key={uuidv4()}
+          <Grid item key={uuidv4()} lg={6} md={6} sm={6} xs={12}>
+            <Card sx={{ mb: 1 }}>
+              <CardContent>
+                <Grid container>
+                  <Grid item xs={2}>
+                    <Typography
                       sx={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
+                        fontSize: '16px',
+                        color: '#79839E',
+                        fontWeight: 600,
+                      }}
+                      color="text.secondary"
+                      gutterBottom
+                    >
+                      {item?.heading}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={10}>
+                    <Typography
+                      sx={{
                         mb: 1.5,
+                        fontSize: 24,
+                        color: '#4CCFBC',
+                        fontWeight: 600,
+                      }}
+                      color="text.secondary"
+                    >
+                      <Typography variant="h4" sx={{ textAlign: 'end' }}>
+                        {' '}
+                        {item?.precentage}
+                      </Typography>
+                      <Stack gap={1}>
+                        <LinearProgress
+                          variant="determinate"
+                          value={item?.precentage}
+                          sx={{ height: '13px', background: '#FFC20E' }}
+                        />
+                      </Stack>
+                    </Typography>
+                  </Grid>
+                </Grid>
+
+                {item?.rates?.map((data: any) => (
+                  <Box
+                    key={uuidv4()}
+                    sx={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      mb: 1.5,
+                    }}
+                  >
+                    <Typography
+                      sx={{
+                        fontSize: '16px',
+                        fontWeight: 500,
+                        color: '#626E8E',
                       }}
                     >
-                      <Typography
-                        sx={{
-                          fontSize: '16px',
-                          fontWeight: 500,
-                          color: '#626E8E',
-                        }}
-                      >
-                        {data?.newHeading}
-                      </Typography>
-                      <Typography
-                        sx={{
-                          fontSize: '16px',
-                          fontWeight: 600,
-                          color: '#626E8E',
-                        }}
-                      >
-                        {data?.value}
-                      </Typography>
-                    </Box>
-                  ))}
-                </CardContent>
-              </Card>
-            </Grid>
-          </Box>
+                      {data?.newHeading}
+                    </Typography>
+                    <Typography
+                      sx={{
+                        fontSize: '16px',
+                        fontWeight: 600,
+                        color: '#626E8E',
+                      }}
+                    >
+                      {data?.value}
+                    </Typography>
+                  </Box>
+                ))}
+              </CardContent>
+            </Card>
+          </Grid>
         ))}
       </Grid>
-      <ProductWiseGrpah />
+
+      <Box>
+        <ProductWiseGrpah />
+      </Box>
     </>
   );
 };
