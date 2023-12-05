@@ -8,7 +8,7 @@ const useSocialSettings = () => {
   const searchParams = useSearchParams();
   const isMobile = useMediaQuery('(max-width: 899px)');
   const tabsOrientation = isMobile ? 'horizontal' : 'vertical';
-  const tabValue = searchParams.get('tab');
+  const tabValue = searchParams?.get('tab');
 
   useEffect(() => {
     //todo: isReady check router fields are updated client-side and ready for use
