@@ -153,7 +153,7 @@ const UserManagement = ({ initialValueProps = defaultValues }: any) => {
             flexWrap: 'wrap',
           }}
         >
-          <Typography variant="h3">User Manangement</Typography>
+          <Typography variant="h3">User Management</Typography>
           <Button
             onClick={() => {
               {
