@@ -108,6 +108,7 @@ const UserTable = ({ initialValueProps = defaultValues }: any) => {
           width="100%"
           label={'Search here'}
           setSearchBy={() => {}}
+          size="small"
         />
         <Button
           id="basic-button"
@@ -115,6 +116,7 @@ const UserTable = ({ initialValueProps = defaultValues }: any) => {
           aria-haspopup="true"
           aria-expanded={open ? 'true' : undefined}
           onClick={handleClick}
+          className="small"
           sx={{
             border: `1px solid ${theme?.palette?.grey[700]}`,
             borderRadius: '4px',

@@ -91,6 +91,7 @@ const LifeCycleStage = () => {
               variant="contained"
               sx={styles?.createBtn}
               onClick={() => setIsDraweropen('Add')}
+              className="small"
             >
               <AddCircleIcon
                 sx={{

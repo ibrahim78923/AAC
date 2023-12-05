@@ -162,6 +162,7 @@ const UserManagement = ({ initialValueProps = defaultValues }: any) => {
                   : setIsCreateTeamOpen(true);
               }
             }}
+            className="small"
             variant="contained"
             sx={{ display: 'flex', alignItems: 'center', columnGap: '10px' }}
           >

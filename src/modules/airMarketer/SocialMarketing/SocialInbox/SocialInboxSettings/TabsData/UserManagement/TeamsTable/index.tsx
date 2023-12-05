@@ -18,6 +18,7 @@ const TeamsTable = () => {
         width="100%"
         label={'Search here'}
         setSearchBy={() => {}}
+        size="small"
       />
       <Grid sx={{ paddingTop: '1rem' }}>
         <TanstackTable columns={columnsTeams} data={teamsTableData} />
