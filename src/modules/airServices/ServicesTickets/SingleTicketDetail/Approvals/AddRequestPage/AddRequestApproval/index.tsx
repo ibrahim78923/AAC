@@ -22,7 +22,7 @@ export const AddRequestApproval = (props: any) => {
         footer={true}
         isDrawerOpen={isDrawerOpen}
         onClose={() => setIsDrawerOpen(false)}
-        title="Filters"
+        title="Send for Approvals"
         okText="Send"
         isOk
         submitHandler={handleSubmit(onSubmit)}

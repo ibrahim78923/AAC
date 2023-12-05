@@ -129,6 +129,7 @@ export const NOTISTACK_VARIANTS: any = {
 
 export const ALERT_MODALS_TYPE = {
   DELETE: 'delete',
+  WARNING: 'warning',
 };
 
 export const CATALOG_SERVICE_TYPES = {
@@ -217,4 +218,28 @@ export const AGENT_REQUEST_STATUS = {
   APPROVED: 'Approved',
   REJECTED: 'Rejected',
   PENDING: 'Pending',
+};
+
+export const SETTINGS_ADD_ROLE = {
+  VIEW_TICKET: 'viewTickets',
+  EDIT_TASKS: 'createEditTasks',
+  ANNOUNCEMENTS: 'announcements',
+  EDIT_NOTES: 'editNotes',
+  INVENTORY_ASSET: 'viewAsset',
+  CONTRACT_ASSET: 'viewContracts',
+  PURCHASE_ASSET: 'viewPurchase',
+  TICKET_SOLUTIONS: 'solutions',
+  DEPARTMENT_HEAD: 'Department Head',
+  ADD_ROLE: 'Add Role',
+  EDIT: 'Edit',
+  DELETE: 'Delete',
+};
+export const REQUESTORS_STATUS = {
+  ACTIVE: 'Active',
+  INACTIVE: 'Inactive',
+};
+export const REQUESTORS_ASSIGNED_STATUS = {
+  OPEN: 'Open',
+  CLOSED: 'Closed',
+  RESOLVED: 'Resolved',
 };

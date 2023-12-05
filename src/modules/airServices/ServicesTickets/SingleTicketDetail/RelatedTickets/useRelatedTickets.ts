@@ -5,6 +5,7 @@ export function useRelatedTickets() {
   const { enqueueSnackbar } = useSnackbar();
   const theme = useTheme();
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
+  const [drawerType, setDrawerType] = useState<string>('Add');
   const [isActive, setActive] = useState<any>([]);
   const handleCheckboxChange = (event: any) => {
     setActive(event?.target.checked);
@@ -33,6 +34,8 @@ export function useRelatedTickets() {
     enqueueSnackbar,
     setIsDrawerOpen,
     isDrawerOpen,
+    drawerType,
+    setDrawerType,
     handleCheckboxChange,
     setActive,
     isActive,
