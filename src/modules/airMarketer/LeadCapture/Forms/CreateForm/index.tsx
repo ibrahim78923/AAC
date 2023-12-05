@@ -18,32 +18,34 @@ import {
   StyleFormIcon,
 } from '@/assets/icons';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
-import { useRouter } from 'next/router';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
-import { useState } from 'react';
 import InnerTab from './InnerTab';
 import FormSideBar from './FormSideBar';
+import CommonDrawer from '@/components/CommonDrawer';
+import { FormProvider } from '@/components/ReactHookForm';
+import { styleFormArray } from './CreateForm.data';
+import { v4 as uuidv4 } from 'uuid';
+import useCreateForm from './useCreateForm';
 
 const CreateForm = () => {
-  const [value, setValue] = useState('1');
-  const [showView, setShowView] = useState(true);
-  const [editFormName, setEditFormName] = useState(true);
-  const [pageName, setPageName] = useState('Profile');
-
-  const router = useRouter();
-  const { formData }: any = router.query;
-
-  const formValue = JSON?.parse(formData);
-  const [inputValue, setInputValue] = useState(formValue?.Name);
-
-  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-    setValue(newValue);
-    if (value === '1') {
-      setPageName('Success');
-    } else {
-      setPageName('Profile');
-    }
-  };
+  const {
+    setIsDraweropen,
+    isDraweropen,
+    handleCloseDrawer,
+    handleSubmit,
+    onSubmit,
+    styleFormMethods,
+    value,
+    pageName,
+    setPageName,
+    handleChange,
+    editFormName,
+    setEditFormName,
+    showView,
+    setShowView,
+    inputValue,
+    setInputValue,
+  } = useCreateForm();
 
   return (
     <Grid sx={styles.mainDiv}>
@@ -111,6 +113,7 @@ const CreateForm = () => {
               border: '1px solid #D1D5DB',
               fontWeight: '500',
             }}
+            onClick={() => setIsDraweropen(true)}
           >
             Styling
           </Button>
@@ -378,6 +381,57 @@ const CreateForm = () => {
           <FormSideBar />
         </Grid>
       </Grid>
+
+      <CommonDrawer
+        isDrawerOpen={isDraweropen}
+        onClose={handleCloseDrawer}
+        title={'Styling'}
+        okText={'Done'}
+        footer={true}
+        isOk={true}
+        submitHandler={handleSubmit(onSubmit)}
+      >
+        <Box sx={{ paddingTop: '1rem' }}>
+          <FormProvider methods={styleFormMethods}>
+            <Grid container spacing={4}>
+              {styleFormArray?.map((item: any) => (
+                <Grid
+                  item
+                  xs={12}
+                  md={item?.md}
+                  key={uuidv4()}
+                  sx={{
+                    paddingTop: [
+                      item?.componentProps?.paragraph
+                        ? '0px !important'
+                        : '20px !important',
+                    ],
+                  }}
+                >
+                  {item?.componentProps?.heading && (
+                    <Typography variant="h5">
+                      {item?.componentProps?.heading}
+                    </Typography>
+                  )}
+                  {item?.componentProps?.paragraph && (
+                    <Typography variant="body2">
+                      {item?.componentProps?.paragraph}
+                    </Typography>
+                  )}
+                  <item.component {...item?.componentProps} size={'small'}>
+                    {item?.componentProps?.select &&
+                      item?.options?.map((option: any) => (
+                        <option key={uuidv4()} value={option?.value}>
+                          {option?.label}
+                        </option>
+                      ))}
+                  </item.component>
+                </Grid>
+              ))}
+            </Grid>
+          </FormProvider>
+        </Box>
+      </CommonDrawer>
     </Grid>
   );
 };
