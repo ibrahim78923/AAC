@@ -59,7 +59,6 @@ const Cta = () => {
               variant="contained"
               className="small"
               sx={{ minWidth: '0px', gap: 0.5 }}
-              onClick={() => setOpenDrawer('Add')}
             >
               <PlusIcon /> View all blog posts
             </Button>

@@ -46,11 +46,13 @@ export const dataArray = [
       row: false,
       options: [
         {
-          value: " No, this email will only be sent once'",
-          label: " 'No, this email will only be sent once'",
+          value: ' No, this email will only be sent once',
+          label: ' No, this email will only be sent once',
         },
-
-        // 'Yes, this is recurring email',
+        {
+          value: 'Yes, this is recurring email',
+          label: ' Yes, this is recurring email',
+        },
       ],
     },
     component: RHFRadioGroup,
@@ -121,8 +123,12 @@ export const dataArray = [
       row: false,
       options: [
         {
-          value: " No, this email will only be sent once'",
-          label: " No, this email will only be sent once'",
+          value: ' Include all reports',
+          label: ' Include all reports',
+        },
+        {
+          value: ' Include selected reports',
+          label: ' Include selected reports',
         },
       ],
     },

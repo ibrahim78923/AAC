@@ -2,7 +2,7 @@ import { Box, Button, Menu, MenuItem } from '@mui/material';
 
 import { ArrowDropDown } from '@mui/icons-material';
 
-import useCompaigns from '../useCompaigns';
+import useCompaigns from '../useCampaigns';
 import { actionsOptions } from './ActionButton.data';
 
 import CloneModal from '../CloneModal';

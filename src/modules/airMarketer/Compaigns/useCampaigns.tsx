@@ -2,6 +2,8 @@ import { useTheme } from '@mui/material';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { AIR_MARKETER } from '@/routesConstants/paths';
+import { campaignsOptions } from './Campaigns.data';
+
 const useCompaigns = () => {
   const theme = useTheme();
   const [tabVal, setTabVal] = useState<number>(0);
@@ -27,40 +29,40 @@ const useCompaigns = () => {
   };
   const handleSelectedOptionValue = (option: any) => {
     switch (option) {
-      case 'Delete':
+      case campaignsOptions?.DELETE:
         setIsDelete(true);
         break;
-      case 'Clone':
+      case campaignsOptions?.CLONE:
         setActionsModalDetails({ ...actionsModalDetails, isClone: true });
         break;
-      case 'Edit Goal':
+      case campaignsOptions?.EDIT_GOAL:
         setActionsModalDetails({
           ...actionsModalDetails,
           isOpenFilterDrawer: true,
         });
         break;
-      case 'Export Compaign':
+      case campaignsOptions?.EXPORT_CAMPAIGN:
         setActionsModalDetails({
           ...actionsModalDetails,
           isExportCompaign: true,
         });
         break;
-      case 'Edit Compaign':
+      case campaignsOptions?.EDIT_CAMPAIGN:
         setActionsModalDetails({
           ...actionsModalDetails,
           isEditCompaign: true,
         });
         break;
-      case 'View Performance':
+      case campaignsOptions?.VIEW_PERFORMANCE:
         router.push(`${AIR_MARKETER?.VIEW_PERFORMANCE}`);
         break;
-      case 'Edit Columns':
+      case campaignsOptions?.EDIT_COLUMNS:
         setActionsModalDetails({
           ...actionsModalDetails,
           isEditColumns: true,
         });
         break;
-      case 'View Details':
+      case campaignsOptions?.VIEW_DETAILS:
         setActionsModalDetails({
           ...actionsModalDetails,
           isViewDeatsils: true,

@@ -5,7 +5,7 @@ export const styles = {
     return {
       padding: '4px 7px 2px 5px',
       background: theme?.palette?.blue?.main,
-      color: 'white',
+      color: theme?.palette?.common?.white,
       borderRadius: '4px',
     };
   },

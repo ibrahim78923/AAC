@@ -3,7 +3,7 @@ import React from 'react';
 import { Box, Button, Typography } from '@mui/material';
 
 import ViewCompaignDetails from './ViewCompaignDetails';
-import useCompaigns from '../useCompaigns';
+import useCompaigns from '../useCampaigns';
 import Performance from './Tabs/Performace';
 
 import CommonTabs from '@/components/Tabs';
@@ -14,6 +14,7 @@ import { PlusIcon } from '@/assets/icons';
 import Tasks from './Tabs/Tasks';
 import Assets from './Tabs/Assets';
 import { useRouter } from 'next/router';
+import { ViewPerformanceTabsArray } from './ViewPerformance.data';
 
 const ViewPerforance = () => {
   const { setTabVal } = useCompaigns();
@@ -51,7 +52,7 @@ const ViewPerforance = () => {
             width: '260px',
           }}
           isHeader={true}
-          tabsArray={['Performance', 'Assets', 'Tasks']}
+          tabsArray={ViewPerformanceTabsArray}
         >
           <Performance />
           <Assets />

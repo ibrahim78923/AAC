@@ -19,7 +19,7 @@ const useTasks = () => {
   const handleActionsMenuClick = (
     event: React.MouseEvent<HTMLButtonElement>,
   ) => {
-    setAnchorEl(event.currentTarget);
+    setAnchorEl(event?.currentTarget);
   };
   return {
     anchorEl,

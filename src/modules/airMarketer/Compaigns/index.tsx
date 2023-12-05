@@ -1,11 +1,12 @@
 import CommonTabs from '@/components/Tabs';
 import { Box, Button, Typography } from '@mui/material';
 import Manage from './Manage';
-import useCompaigns from './useCompaigns';
+import useCompaigns from './useCampaigns';
 import { PlusIcon } from '@/assets/icons';
 import Tasks from './Tasks';
 import ImportIcon from '@/assets/icons/shared/import-icon';
 import Filters from './Filters';
+import { campaignsTabs } from './Campaigns.data';
 
 const Compaigns = () => {
   const { setTabVal, isOpenFilter, setIsOpenFilter } = useCompaigns();
@@ -45,7 +46,7 @@ const Compaigns = () => {
           <CommonTabs
             getTabVal={(val: number) => setTabVal(val)}
             isHeader={true}
-            tabsArray={['Manage', 'Calendar', 'Tasks']}
+            tabsArray={campaignsTabs}
           >
             <Manage />
             <Manage />

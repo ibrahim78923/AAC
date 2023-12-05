@@ -1,13 +1,10 @@
-// import { Box, Button, Typography, useTheme } from '@mui/material';
-// import AddCircleIcon from '@mui/icons-material/AddCircle';
-
 import CommonDrawer from '@/components/CommonDrawer';
+import Search from '@/components/Search';
 
 import ColumnsWrapper from './ColumnsWrapper';
+import { columnsData } from './EditColumns.data';
 
 import { v4 as uuidv4 } from 'uuid';
-import { columnsData } from './EditColumns.data';
-import Search from '@/components/Search';
 
 const EditColumns = ({ open, onClose }: any) => {
   return (
@@ -22,13 +19,7 @@ const EditColumns = ({ open, onClose }: any) => {
     >
       <Search label="Search Here" size="small" fullWidth />
       {columnsData?.map((column) => (
-        <ColumnsWrapper
-          key={uuidv4()}
-          title={column?.title}
-          checkboxProps={{
-            onChange: () => {},
-          }}
-        />
+        <ColumnsWrapper key={uuidv4()} title={column?.title} />
       ))}
     </CommonDrawer>
   );

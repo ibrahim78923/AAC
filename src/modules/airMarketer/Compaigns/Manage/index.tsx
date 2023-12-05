@@ -1,14 +1,14 @@
 import CustomPagination from '@/components/CustomPagination';
-
 import TanstackTable from '@/components/Table/TanstackTable';
+import Search from '@/components/Search';
 
 import { columns, data } from './Manage.data';
 import { Box, Button, Grid, useTheme } from '@mui/material';
+
 import ActionButton from '../ActionButton';
 import { FilterrIcon } from '@/assets/icons';
-import useCompaigns from '../useCompaigns';
+import useCompaigns from '../useCampaigns';
 import Filters from '../Filters';
-import Search from '@/components/Search';
 
 const Manage = () => {
   const theme = useTheme();
