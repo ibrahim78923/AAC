@@ -123,6 +123,7 @@ const SMSMarketing = () => {
           <SMSDashboard />
           <SMSBroadcast />
           <ContactsSMSMarketing />
+          <SMSBroadcast />
         </CommonTabs>
       </Box>
     </>
