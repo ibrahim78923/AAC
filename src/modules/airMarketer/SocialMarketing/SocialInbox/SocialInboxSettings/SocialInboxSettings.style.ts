@@ -2,7 +2,7 @@ export const styles = {
   tabsStyle: () => {
     return {
       marginTop: '1.5rem',
-      // paddingTop: '8px',
+      paddingTop: '8px',
       width: '15%',
       marginRight: '1%',
       borderTop: '1px solid #EDEDED',
@@ -37,6 +37,7 @@ export const styles = {
       },
     };
   },
+
   tabData: {
     width: '100%',
     position: 'relative',
