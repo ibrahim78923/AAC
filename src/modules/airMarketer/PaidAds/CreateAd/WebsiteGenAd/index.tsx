@@ -9,6 +9,7 @@ import {
   RadioGroup,
 } from '@mui/material';
 import Image from 'next/image';
+import { styles } from '../CreateAd.style';
 
 const WebsiteGenAd = () => {
   return (
@@ -28,16 +29,19 @@ const WebsiteGenAd = () => {
           />
         </RadioGroup>
       </FormControl>
-      <Card
-        sx={{
-          height: '70vh',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <Image src={MockUpImage} alt="eng-img" />
-      </Card>
+      <Box sx={styles?.cardStyle}>
+        <Card
+          sx={{
+            height: '50vh',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            mt: 2,
+          }}
+        >
+          <Image src={MockUpImage} alt="eng-img" />
+        </Card>
+      </Box>
     </Box>
   );
 };

@@ -89,4 +89,5 @@ export const AIR_MARKETER = {
   VIEW_PERFORMANCE: '/air-marketer/compaigns/view-performance',
   PAID_ADS: '/air-marketer/paid-ads',
   CREATE_AD: '/air-marketer/paid-ads/create-ad',
+  ENGAGEMENT_ADS: '/air-marketer/paid-ads/create-ad/engagement-ads',
 };

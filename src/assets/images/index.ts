@@ -198,6 +198,7 @@ export { default as MessageGreyImage } from './modules/orgAdmin/organization/mes
 export { default as AgentImg } from '../images/shared/agent.png';
 export { default as GoogleAds } from './modules/airMarketer/PaidAds/google-ads.png';
 export { default as MockUpImage } from './modules/paidAds/mockUpImage.png';
+export { default as MockEngagementTabsImage } from './modules/paidAds/engagementTabs-img.png';
 
 // settings -> performance management leader board
 
