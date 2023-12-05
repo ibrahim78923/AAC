@@ -26,6 +26,7 @@ import { FormProvider } from '@/components/ReactHookForm';
 import { styleFormArray } from './CreateForm.data';
 import { v4 as uuidv4 } from 'uuid';
 import useCreateForm from './useCreateForm';
+import Export from './Export';
 
 const CreateForm = () => {
   const {
@@ -45,6 +46,10 @@ const CreateForm = () => {
     setShowView,
     inputValue,
     setInputValue,
+    openAlert,
+    setOpenAlert,
+    showExportText,
+    setShowExportText,
   } = useCreateForm();
 
   return (
@@ -121,6 +126,7 @@ const CreateForm = () => {
             variant="contained"
             className="small"
             sx={{ marginLeft: '10px', fontWeight: '500' }}
+            onClick={() => setOpenAlert(true)}
           >
             Create Form
           </Button>
@@ -432,6 +438,13 @@ const CreateForm = () => {
           </FormProvider>
         </Box>
       </CommonDrawer>
+
+      <Export
+        openAlert={openAlert}
+        setOpenAlert={setOpenAlert}
+        showExportText={showExportText}
+        setShowExportText={setShowExportText}
+      />
     </Grid>
   );
 };

@@ -13,6 +13,8 @@ const useCreateForm = () => {
   const [editFormName, setEditFormName] = useState(true);
   const [pageName, setPageName] = useState('Profile');
   const [isDraweropen, setIsDraweropen] = useState(false);
+  const [openAlert, setOpenAlert] = useState(false);
+  const [showExportText, setShowExportText] = useState(false);
 
   const router = useRouter();
   const { formData }: any = router.query;
@@ -32,6 +34,7 @@ const useCreateForm = () => {
   const handleCloseDrawer = () => {
     setIsDraweropen(false);
   };
+
   const styleFormMethods = useForm({
     resolver: yupResolver(styleFormvalidationSchema),
     defaultValues: styleFormDefaultValues,
@@ -61,6 +64,10 @@ const useCreateForm = () => {
     setShowView,
     inputValue,
     setInputValue,
+    openAlert,
+    setOpenAlert,
+    showExportText,
+    setShowExportText,
   };
 };
 
