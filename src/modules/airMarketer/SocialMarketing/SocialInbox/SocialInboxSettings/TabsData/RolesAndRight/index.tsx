@@ -117,14 +117,7 @@ const RolesRight = ({ initialValueProps = defaultValues }: any) => {
           </FormProvider>
         </Box>
       </CommonDrawer>
-      <Box
-        sx={{
-          border: `1px solid ${theme?.palette?.grey[700]}`,
-          padding: '1rem',
-          boxShadow: '0px 1px 2px 0px #1018280F',
-          borderRadius: '8px',
-        }}
-      >
+      <Box>
         <Box
           sx={{
             display: 'flex',
@@ -132,7 +125,7 @@ const RolesRight = ({ initialValueProps = defaultValues }: any) => {
             flexWrap: 'wrap',
           }}
         >
-          <Typography variant="h4">Roles and Rights</Typography>
+          <Typography variant="h3">Roles and Rights</Typography>
           <Button
             variant="contained"
             sx={{

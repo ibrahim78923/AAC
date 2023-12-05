@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-import { Box, Tabs, Tab, Typography, useMediaQuery } from '@mui/material';
+import { Box, Tabs, Tab, Typography } from '@mui/material';
 
-import RolesRight from './TabsData/RolesAndRight';
-import UserManagement from './TabsData/UserManagement';
-import Notification from './TabsData/Notification';
-import { SalesSettingProps } from './SettingSales.interface';
-import { styles } from './SettingSales.style';
-import LifeCycleStage from './TabsData/LifecycleStage';
-import SocialAccounts from './TabsData/SocialAccounts';
+import { SalesSettingProps } from './SocialInboxSettings.interface';
+import { styles } from './SocialInboxSettings.style';
+
+import { tabComponents, tabLabels } from './SocialInboxSettings.data';
+import useSocialSettings from './useSocialSettings';
+import SkeletonForm from '@/components/Skeletons/SkeletonForm';
+
+import { v4 as uuidv4 } from 'uuid';
 
 function TabPanel(props: SalesSettingProps) {
   const { children, value, index, ...other } = props;
@@ -30,13 +31,9 @@ function TabPanel(props: SalesSettingProps) {
     </Box>
   );
 }
+
 const SocialInboxSettings = () => {
-  const [value, setValue] = useState<any>(0);
-  const isMobile = useMediaQuery('(max-width: 899px)');
-  const tabsOrientation = isMobile ? 'horizontal' : 'vertical';
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
-  };
+  const { tabsOrientation, tabValue, handleChange } = useSocialSettings();
   return (
     <Box>
       <Box>
@@ -49,32 +46,21 @@ const SocialInboxSettings = () => {
         >
           <Tabs
             orientation={tabsOrientation}
-            value={value}
+            value={Number(tabValue)}
             onChange={handleChange}
             aria-label="Vertical tabs example"
             sx={styles?.tabsStyle}
           >
-            <Tab label="Lifecycle Stages" />
-            <Tab label="Social Accounts" />
-            <Tab label="Roles and Rights" />
-            <Tab label="User Management" />
-            <Tab label="Notifications" />
+            {tabLabels?.map((label) => <Tab key={uuidv4()} label={label} />)}
           </Tabs>
-          <TabPanel value={value} index={0}>
-            <LifeCycleStage />
-          </TabPanel>
-          <TabPanel value={value} index={1}>
-            <SocialAccounts />
-          </TabPanel>
-          <TabPanel value={value} index={2}>
-            <RolesRight />
-          </TabPanel>
-          <TabPanel value={value} index={3}>
-            <UserManagement />
-          </TabPanel>
-          <TabPanel value={value} index={4}>
-            <Notification />
-          </TabPanel>
+
+          {tabComponents?.map((Component, index) => (
+            <TabPanel key={uuidv4()} value={Number(tabValue)} index={index}>
+              <Box sx={styles?.tabsPanel}>
+                {!tabValue ? <SkeletonForm /> : <Component />}
+              </Box>
+            </TabPanel>
+          ))}
         </Box>
       </Box>
     </Box>

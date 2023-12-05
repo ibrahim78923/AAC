@@ -2,7 +2,7 @@ export const styles = {
   tabsStyle: () => {
     return {
       marginTop: '1.5rem',
-      paddingTop: '8px',
+      // paddingTop: '8px',
       width: '15%',
       marginRight: '1%',
       borderTop: '1px solid #EDEDED',
@@ -47,5 +47,13 @@ export const styles = {
       top: '0px',
       borderLeft: 'none',
     },
+  },
+
+  tabsPanel: {
+    borderRadius: '8px',
+    border: '1px solid  #EAECF0',
+    boxShadow:
+      '0px 1px 2px 0px rgba(16, 24, 40, 0.06), 0px 1px 3px 0px rgba(16, 24, 40, 0.10)',
+    padding: '20px',
   },
 };
