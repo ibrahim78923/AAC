@@ -32,7 +32,7 @@ export const detailDrawerArray = [
       label: 'Task',
       fullWidth: true,
       select: false,
-
+      placeholder: 'Search Here',
       InputProps: {
         endAdornment: (
           <InputAdornment position="end">

@@ -10,10 +10,11 @@ import {
 } from '@/assets/icons';
 import { styles } from './Header.style';
 import { SmsImage } from '@/assets/images';
-
+import { useRouter } from 'next/router';
+import { AIR_SERVICES } from '@/constants';
 const Header = () => {
   const theme: any = useTheme();
-
+  const { push } = useRouter();
   return (
     <>
       <Grid
@@ -31,7 +32,12 @@ const Header = () => {
             gap: 1,
           }}
         >
-          <ViewDetailBackArrowIcon />
+          <Box
+            onClick={() => push(AIR_SERVICES?.TICKETS)}
+            sx={{ cursor: 'pointer' }}
+          >
+            <ViewDetailBackArrowIcon />
+          </Box>
           <Typography
             variant="h6"
             sx={{ color: theme?.palette?.primary?.main }}

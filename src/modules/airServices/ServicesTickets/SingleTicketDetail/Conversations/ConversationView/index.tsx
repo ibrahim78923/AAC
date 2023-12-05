@@ -89,8 +89,11 @@ const ConversationView: React.FC<{
           sx={styles?.parent}
           mb="1.25rem"
           key={id}
+          gap={2}
+          alignItems={'center'}
+          flexWrap={'wrap'}
         >
-          <Grid item lg={5} xs={12} paddingTop="0 !important">
+          <Grid item lg={5} xs={12} paddingTop="0 !important" flex={1}>
             <Box sx={styles?.leftSideParent}>
               <Box
                 display="flex"
@@ -140,7 +143,7 @@ const ConversationView: React.FC<{
               </Box>
             </Box>
           </Grid>
-          <Grid lg={4} xs={12}>
+          <Grid lg={3} xs={12}>
             {transformedData
               ?.filter((value) => value?.name || value?.size)
               ?.map((value) => (
@@ -193,7 +196,7 @@ const ConversationView: React.FC<{
         <>
           <Box marginTop={-10}>
             <NoData
-              message="There are no selected conversations"
+              message="There are no conversation available"
               image={NoAssociationFoundImage}
             >
               <ConversationMenu

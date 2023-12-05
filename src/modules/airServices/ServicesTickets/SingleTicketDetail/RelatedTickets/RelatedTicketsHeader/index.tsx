@@ -3,7 +3,11 @@ import { ActionButtonIcon, CirclePlusIcon } from '@/assets/icons';
 import { styles } from '../RelatedTickets.styles';
 import { useRelatedTickets } from '../useRelatedTickets';
 
-export const RelatedTicketsHeader = ({ isActive, setIsDrawerOpen }: any) => {
+export const RelatedTicketsHeader = ({
+  isActive,
+  setIsDrawerOpen,
+  setDrawerType,
+}: any) => {
   const {
     enqueueSnackbar,
     handleActionClick,
@@ -63,6 +67,7 @@ export const RelatedTicketsHeader = ({ isActive, setIsDrawerOpen }: any) => {
           <MenuItem
             onClick={() => {
               setIsDrawerOpen(true), setActionPop(null);
+              setDrawerType('Update');
             }}
             sx={{ p: 1 }}
           >

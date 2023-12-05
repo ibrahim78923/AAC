@@ -25,6 +25,7 @@ export const createTicketValidationSchema: any = Yup?.object()?.shape({
   plannedStartTime: Yup?.date(),
   plannedEndDate: Yup?.date(),
   plannedEndTime: Yup?.date(),
+  associateAssets: Yup?.string(),
   plannedEffort: Yup?.string(),
   attachFile: Yup?.mixed(),
 });
@@ -45,6 +46,7 @@ export const createTicketDefaultValues: any = {
   plannedEndDate: new Date(), //13
   plannedEndTime: new Date(), //14
   plannedEffort: '',
+  associateAssets: '',
   attachFile: null, //16
 };
 
@@ -286,7 +288,7 @@ export const createTicketDataArray = [
   },
   {
     componentProps: {
-      name: 'requester',
+      name: 'associateAssets',
       label: 'Associate Assets',
       fullWidth: true,
       select: false,
