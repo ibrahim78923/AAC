@@ -1,15 +1,6 @@
 import React from 'react';
 
-import {
-  Box,
-  Button,
-  Grid,
-  IconButton,
-  Menu,
-  MenuItem,
-  Tooltip,
-  Typography,
-} from '@mui/material';
+import { Box, Button, Grid, Menu, MenuItem, Typography } from '@mui/material';
 
 import { AddCircle } from '@mui/icons-material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
@@ -41,6 +32,7 @@ import ReassignModal from './CompanyActions/ReassignModal';
 import MergeModal from './CompanyActions/MergeModal';
 import ImportCompanies from './ImportCompanies';
 import { companiesTableData } from '@/mock/modules/SocialComponents/Companies';
+import ExportModal from './CompanyActions/ExportModal';
 
 const Companies = () => {
   const {
@@ -65,6 +57,7 @@ const Companies = () => {
     setIsPreview,
     isReassign,
     setIsReassign,
+    isExport,
     setIsExport,
     isDeleteCompany,
     setIsDeleteCompany,
@@ -134,6 +127,8 @@ const Companies = () => {
             <CommonTabs
               tabsArray={companyTabs}
               isHeader={true}
+              addIcon
+              onAddClick={() => setIsCreateView(true)}
               searchBarProps={{
                 label: 'Search Here',
                 setSearchBy: setSearch,
@@ -142,14 +137,6 @@ const Companies = () => {
               }}
               headerChildren={
                 <>
-                  <Tooltip title="Add View" placement="bottom" arrow>
-                    <IconButton>
-                      <AddCircle
-                        sx={{ color: `${theme?.palette?.grey[900]}` }}
-                        onClick={() => setIsCreateView(true)}
-                      />
-                    </IconButton>
-                  </Tooltip>
                   <Button
                     variant="outlined"
                     className="small"
@@ -249,6 +236,7 @@ const Companies = () => {
           />
           <MergeModal isMerge={isMerge} setIsMerge={setIsMerge} />
           <ImportCompanies isImport={isImport} setIsImport={setIsImport} />
+          <ExportModal isExport={isExport} setIsExport={setIsExport} />
         </>
       )}
     </>

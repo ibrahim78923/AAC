@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Box, Grid } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 
 import CommonDrawer from '@/components/CommonDrawer';
 
@@ -13,6 +13,7 @@ import useCustomizeCompany from './useCustomizeCompany';
 import { CustomizeArr } from './CustomizeCompany.data';
 
 import { v4 as uuidv4 } from 'uuid';
+import { AddCircle } from '@mui/icons-material';
 
 const CustomizeCompany = ({ setIsCustomize, isCustomize }: any) => {
   const { methods } = useCustomizeCompany();
@@ -46,6 +47,19 @@ const CustomizeCompany = ({ setIsCustomize, isCustomize }: any) => {
               })}
             </Grid>
           </FormProvider>
+          <Typography
+            variant="body2"
+            sx={{
+              color: '#374151',
+              fontWeight: 500,
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              paddingLeft: '8px',
+            }}
+          >
+            <AddCircle /> Add Columns
+          </Typography>
         </Box>
       </CommonDrawer>
     </>

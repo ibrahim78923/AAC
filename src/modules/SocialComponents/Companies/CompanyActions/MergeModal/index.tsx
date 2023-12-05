@@ -1,9 +1,19 @@
 import React from 'react';
-import { Box, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import {
+  Box,
+  FormControl,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Select,
+  Typography,
+} from '@mui/material';
 
 import { AlertModals } from '@/components/AlertModals';
 
-import { AssignCommonIcon } from '@/assets/icons';
+import { MergeCompaniesIcon } from '@/assets/icons';
+import { CompanyLogoImage } from '@/assets/images';
+import Image from 'next/image';
 
 const MergeModal = ({ isMerge, setIsMerge }: any) => {
   const [age, setAge] = React.useState('');
@@ -13,24 +23,52 @@ const MergeModal = ({ isMerge, setIsMerge }: any) => {
   };
   return (
     <AlertModals
-      typeImage={<AssignCommonIcon />}
+      typeImage={<MergeCompaniesIcon />}
       message={
         <Box>
-          <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">Deals Owner</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={age}
-              label="Deals Owner"
-              onChange={handleChange}
-            >
-              <MenuItem value={10}>Savannah Shane</MenuItem>
-              <MenuItem value={20}>Phoenix Baker</MenuItem>
-              <MenuItem value={30}>Cameron Waliamson</MenuItem>
-              <MenuItem value={40}>Brooklyn Simmons</MenuItem>
-            </Select>
-          </FormControl>
+          <Grid container>
+            <Grid item lg={6}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                <Image
+                  src={CompanyLogoImage}
+                  alt="logo"
+                  width={40}
+                  height={40}
+                />
+                <Box>
+                  <Typography
+                    variant="subtitle2"
+                    sx={{ fontWeight: 500, color: '#111827' }}
+                  >
+                    Share my dine
+                  </Typography>
+                  <Typography
+                    variant="subtitle2"
+                    sx={{ fontWeight: 400, color: '#667085' }}
+                  >
+                    smd.com
+                  </Typography>
+                </Box>
+              </Box>
+            </Grid>
+            <Grid item lg={6}>
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">
+                  Select Company
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={age}
+                  label="Deals Owner"
+                  onChange={handleChange}
+                >
+                  <MenuItem value={10}>OneCare Media (ocm.com)</MenuItem>
+                  <MenuItem value={20}>Udemy (udemy.com)</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+          </Grid>
         </Box>
       }
       type="Merge Companies"

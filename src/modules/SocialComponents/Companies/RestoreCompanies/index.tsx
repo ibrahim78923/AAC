@@ -69,7 +69,11 @@ const RestoreCompanies = (props: any) => {
             </Box>
           </Grid>
         </Grid>
-        <Grid container spacing={1} sx={{ paddingTop: '2rem' }}>
+        <Grid
+          container
+          spacing={1}
+          sx={{ paddingTop: '2rem', paddingBottom: '1rem' }}
+        >
           <Grid item lg={6} md={6} sm={12} xs={12}>
             <Search
               label="Search here"
@@ -126,6 +130,8 @@ const RestoreCompanies = (props: any) => {
                   display: 'flex',
                   alignContent: 'center',
                   columnGap: '10px',
+                  border: '1px solid #D1D5DB',
+                  color: '#6B7280',
                 }}
               >
                 <FilterIcon /> Filter
@@ -133,14 +139,12 @@ const RestoreCompanies = (props: any) => {
             </Box>
           </Grid>
         </Grid>
-        <Grid container>
-          <TanstackTable columns={columns} data={restoreTableData} />
-          <CustomPagination
-            count={1}
-            rowsPerPageOptions={[1, 2]}
-            entriePages={1}
-          />
-        </Grid>
+        <TanstackTable columns={columns} data={restoreTableData} />
+        <CustomPagination
+          count={1}
+          rowsPerPageOptions={[1, 2]}
+          entriePages={1}
+        />
       </Box>
       <CommonDrawer
         isDrawerOpen={isDrawer}
