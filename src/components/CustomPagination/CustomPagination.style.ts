@@ -40,6 +40,7 @@ export const styles = {
   },
   tablePaginationStyle: (theme: any) => {
     return {
+      border: 'none',
       '& .MuiTablePagination-select': {
         border: `1px solid ${theme?.palette?.custom?.dark}`,
         borderRadius: '4px',

@@ -1,9 +1,10 @@
 import { ViewDetailDocumentTextIcon } from '@/assets/icons';
 import { AvatarImage } from '@/assets/images';
-import { Box, Chip, Grid, Typography, useTheme } from '@mui/material';
+import { Avatar, Box, Chip, Grid, Typography, useTheme } from '@mui/material';
 import Image from 'next/image';
 
-export const DetailCard = () => {
+export const DetailCard = (props: any) => {
+  const { detail } = props;
   const theme = useTheme();
   return (
     <Box
@@ -39,7 +40,7 @@ export const DetailCard = () => {
               <div>
                 <Typography variant="body2" fontWeight={600}>
                   {' '}
-                  Sophie Baxter
+                  {detail?.name || 'Sophia Baxtar'}
                 </Typography>
               </div>
             </Box>
@@ -50,10 +51,10 @@ export const DetailCard = () => {
               marginBottom={1}
             >
               <Typography variant="body2" fontWeight={600}>
-                Email
+                Email:
               </Typography>
               <Typography variant="body2" sx={{ wordBreak: 'break-all' }}>
-                sophiebaxterl@gmail.com
+                {detail?.email || 'sophiebaxterl@gmail.com'}
               </Typography>
             </Box>
             <Box
@@ -65,7 +66,9 @@ export const DetailCard = () => {
               <Typography variant="body2" fontWeight={600}>
                 Created on:
               </Typography>
-              <Typography variant="body2">Sun, 5 Mar 9:41 PM</Typography>
+              <Typography variant="body2">
+                {detail?.createdOn ?? 'Sun, 5 Mar 9:41 PM'}
+              </Typography>
             </Box>
           </Box>
         </Grid>
@@ -87,17 +90,33 @@ export const DetailCard = () => {
               Description:
             </Typography>
             <Typography variant="body2" sx={{ flex: '1' }}>
-              Hi Team, I have been unable to send any emails since this morning.
-              What’s going on? Regards, Andrea
+              {detail?.description ??
+                ` Hi Team, I have been unable to send any emails since this morning.
+              What’s going on? Regards, Andrea`}
             </Typography>
           </Box>
           <Box display={'flex'} flexWrap={'wrap'} gap={1} marginBottom={1}>
             <Typography variant="body2" fontWeight={600}>
               Attachments:
             </Typography>
-            <Box display={'flex'} flexWrap={'wrap'} gap={0.5} marginBottom={1}>
-              <ViewDetailDocumentTextIcon />
-              <Typography variant="body2">file-mame-0.text</Typography>
+            <Box
+              display={'flex'}
+              alignItems={'center'}
+              flexWrap={'wrap'}
+              gap={1}
+              marginBottom={1}
+            >
+              <Avatar sx={{ backgroundColor: 'primary.lighter' }}>
+                <ViewDetailDocumentTextIcon />
+              </Avatar>
+              <Box>
+                <Typography variant="body2" color="slateBlue.main">
+                  {detail?.filename ?? 'file-name-0.txt'}
+                </Typography>
+                <Typography variant="body3" color="grey.500">
+                  {detail?.size ?? '1Kb'}
+                </Typography>
+              </Box>
             </Box>
           </Box>
         </Grid>
@@ -109,10 +128,10 @@ export const DetailCard = () => {
             marginBottom={1}
           >
             <Typography variant="body2" fontWeight={600}>
-              Status
+              Status:
             </Typography>
             <Chip
-              label={'Open'}
+              label={detail?.status ?? 'Open'}
               variant="outlined"
               size="small"
               color="primary"
@@ -125,9 +144,11 @@ export const DetailCard = () => {
             marginBottom={1}
           >
             <Typography variant="body2" fontWeight={600}>
-              Due by
+              Due by:
             </Typography>
-            <Typography variant="body2">Tue, 14 Mar 10:00 AM</Typography>
+            <Typography variant="body2">
+              {detail?.dueBy ?? 'Tue, 14 Mar 10:00 AM'}
+            </Typography>
           </Box>
           <Box
             display={'flex'}
@@ -142,7 +163,7 @@ export const DetailCard = () => {
               variant="body2"
               sx={{ color: 'primary.main', textDecoration: 'underline' }}
             >
-              Deals
+              {detail?.association ?? 'Deals'}
             </Typography>
           </Box>
         </Grid>
