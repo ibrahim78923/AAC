@@ -32,30 +32,30 @@ export const CreateNewFolder = ({
             },
           }}
         >
+          <DialogTitle
+            display="flex"
+            justifyContent="space-between"
+            alignItems="center"
+            paddingBottom={2.4}
+          >
+            <Typography variant="h4" color="primary?.main">
+              {openCreateNewFolderModal?.editData
+                ? 'Edit Folder'
+                : 'Create New Folder'}
+            </Typography>
+            <Box
+              onClick={closeCreateNewFolderModal}
+              sx={{
+                cursor: 'pointer',
+              }}
+            >
+              <CloseModalIcon />
+            </Box>
+          </DialogTitle>
           <FormProvider
             methods={method}
             onSubmit={method?.handleSubmit(onSubmit)}
           >
-            <DialogTitle
-              display="flex"
-              justifyContent="space-between"
-              alignItems="center"
-              paddingBottom={2.4}
-            >
-              <Typography variant="h4" color="primary?.main">
-                {openCreateNewFolderModal?.editData
-                  ? 'Edit Folder'
-                  : 'Create New Folder'}
-              </Typography>
-              <Box
-                onClick={closeCreateNewFolderModal}
-                sx={{
-                  cursor: 'pointer',
-                }}
-              >
-                <CloseModalIcon />
-              </Box>
-            </DialogTitle>
             <DialogContent>
               <Grid container gap={1.4}>
                 {createNewFolderArray?.map((item) => (

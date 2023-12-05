@@ -2,10 +2,10 @@ import { RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 export const createNewFolderSchema = Yup?.object()?.shape({
   folderName: Yup?.string()
-    ?.required('Folder Name is required')
-    ?.min(3, 'Folder Name must be at least 3 characters')
-    ?.max(30, 'Folder Name must not exceed 30 characters'),
-  description: Yup?.string()?.required('Description is required'),
+    ?.required('Required')
+    ?.min(3, 'At least 3 characters Required')
+    ?.max(30, 'Must not exceed 30 characters'),
+  description: Yup?.string()?.required('Required'),
 });
 export const createNewFolderDefaultValues = {
   folderName: '',
@@ -33,7 +33,6 @@ export const createNewFolderArray = [
       rows: 3,
     },
     component: RHFTextField,
-    mb: '12px',
     id: 2,
   },
 ];

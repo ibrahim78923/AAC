@@ -1,5 +1,5 @@
 import { AlertModals } from '@/components/AlertModals';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { ALERT_MODALS_TYPE, NOTISTACK_VARIANTS } from '@/constants/strings';
 import { enqueueSnackbar } from 'notistack';
 export const DeleteResponseModal = ({
   deleteModal,
@@ -10,7 +10,7 @@ export const DeleteResponseModal = ({
     <>
       <AlertModals
         message={'Are you sure you want to delete?'}
-        type={'delete'}
+        type={ALERT_MODALS_TYPE?.DELETE}
         open={deleteModal}
         handleClose={() => setDeleteModal(false)}
         handleSubmitBtn={() => {

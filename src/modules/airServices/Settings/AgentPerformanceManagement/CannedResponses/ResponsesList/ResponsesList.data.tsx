@@ -91,7 +91,7 @@ export const responsesTableColumns = (
 
 export const responsesTableData: any = [
   {
-    id: '1',
+    id: 1,
     title: "We've received your request",
     createdDate: '06:45 - 07:15, Wed 29 Mar, 2023',
     availableFor: [
@@ -102,7 +102,7 @@ export const responsesTableData: any = [
     ],
   },
   {
-    id: '2',
+    id: 2,
     title: 'Delete',
     createdDate: '06:45 - 07:15, Wed 29 Mar, 2023',
     availableFor: [
@@ -113,7 +113,7 @@ export const responsesTableData: any = [
     ],
   },
   {
-    id: '3',
+    id: 3,
     title: 'Update',
     createdDate: '06:45 - 07:15, Wed 29 Mar, 2023',
     availableFor: [

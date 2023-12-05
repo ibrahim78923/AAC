@@ -96,29 +96,29 @@ export const SelectAgentsModal = ({
                 )}
               </Grid>
             </DialogContent>
+            <DialogActions sx={{ pt: '0 !important' }}>
+              <Box display="flex" justifyContent="flex-end" gap={2}>
+                <LoadingButton
+                  onClick={closeSelectAgentsModal}
+                  variant="outlined"
+                  color="secondary"
+                >
+                  Cancel
+                </LoadingButton>
+                <LoadingButton
+                  type="submit"
+                  variant="contained"
+                  disabled={!!!agents?.length}
+                  onClick={() => {
+                    setAgentsResponses(agents);
+                    closeSelectAgentsModal();
+                  }}
+                >
+                  Assign
+                </LoadingButton>
+              </Box>
+            </DialogActions>
           </FormProvider>
-          <DialogActions sx={{ pt: '0 !important' }}>
-            <Box display="flex" justifyContent="flex-end" gap={2}>
-              <LoadingButton
-                onClick={closeSelectAgentsModal}
-                variant="outlined"
-                color="secondary"
-              >
-                Cancel
-              </LoadingButton>
-              <LoadingButton
-                type="submit"
-                variant="contained"
-                disabled={!!!agents?.length}
-                onClick={() => {
-                  setAgentsResponses(agents);
-                  closeSelectAgentsModal();
-                }}
-              >
-                Assign
-              </LoadingButton>
-            </Box>
-          </DialogActions>
         </Dialog>
       )}
     </>

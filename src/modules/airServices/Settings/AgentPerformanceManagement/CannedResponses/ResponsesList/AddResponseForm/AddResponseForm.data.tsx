@@ -22,7 +22,7 @@ const availableForOptions = [
 export const AVAILABLE_FOR = 'availableFor';
 export const SELECT_AGENTS = 'selectAgents';
 export const addResponseValidationSchema = Yup?.object()?.shape({
-  title: Yup?.string()?.required('Field is Required'),
+  title: Yup?.string()?.required('Required'),
   message: Yup?.string(),
 });
 
@@ -53,7 +53,7 @@ export const addResponseDataArray = [
       fullWidth: true,
       required: true,
       style: {
-        height: '200px',
+        height: '12rem',
       },
     },
     component: RHFEditor,

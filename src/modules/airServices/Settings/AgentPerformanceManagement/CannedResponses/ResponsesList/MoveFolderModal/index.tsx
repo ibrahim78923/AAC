@@ -60,30 +60,30 @@ export const MoveFolderModal = ({
                 </Grid>
               </Grid>
             </DialogContent>
+            <DialogActions sx={{ pt: '0 !important' }}>
+              <Box
+                pt="0 !important"
+                display="flex"
+                justifyContent="flex-end"
+                gap={2}
+              >
+                <LoadingButton
+                  onClick={closeMoveFolderModal}
+                  variant="outlined"
+                  color="secondary"
+                >
+                  Cancel
+                </LoadingButton>
+                <LoadingButton
+                  type="submit"
+                  variant="contained"
+                  onClick={method.handleSubmit(onSubmit)}
+                >
+                  Move
+                </LoadingButton>
+              </Box>
+            </DialogActions>
           </FormProvider>
-          <DialogActions sx={{ pt: '0 !important' }}>
-            <Box
-              pt="0 !important"
-              display="flex"
-              justifyContent="flex-end"
-              gap={2}
-            >
-              <LoadingButton
-                onClick={closeMoveFolderModal}
-                variant="outlined"
-                color="secondary"
-              >
-                Cancel
-              </LoadingButton>
-              <LoadingButton
-                type="submit"
-                variant="contained"
-                onClick={method.handleSubmit(onSubmit)}
-              >
-                Move
-              </LoadingButton>
-            </Box>
-          </DialogActions>
         </Dialog>
       )}
     </>
