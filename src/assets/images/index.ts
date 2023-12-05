@@ -211,3 +211,5 @@ export { default as IntermediateAwardImage } from './modules/airServices/setting
 export { default as ProfessionalAwardImage } from './modules/airServices/settings/agentPerformanceManagement/professional-award-image.png';
 export { default as MasterAwardImage } from './modules/airServices/settings/agentPerformanceManagement/master-award-image.png';
 export { default as ExpertAwardImage } from './modules/airServices/settings/agentPerformanceManagement/expert-award-image.png';
+export { default as BudgetScheduleMockImage } from './modules/paidAds/budget-schedule-mock.png';
+export { default as AudienceMockImage } from './modules/paidAds/audience-mock.png';

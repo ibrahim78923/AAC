@@ -3,9 +3,9 @@ import { useRouter } from 'next/router';
 import { AIR_MARKETER } from '@/routesConstants/paths';
 import Ad from './StepperComponent/Ad';
 import Targeting from './StepperComponent/Targeting';
-import BudgetAndShedule from './StepperComponent/BudgetAndShedule';
-import Automation from './StepperComponent/Automation';
 import { v4 as uuidv4 } from 'uuid';
+import BudgetAndSchedule from './StepperComponent/BudgetAndSchedule/BudgetAndSchedule';
+import Automation from './StepperComponent/Automation';
 
 const useEngagementAd = () => {
   const router = useRouter();
@@ -25,7 +25,7 @@ const useEngagementAd = () => {
     {
       key: uuidv4(),
       label: 'Budget & Shedule',
-      component: <BudgetAndShedule />,
+      component: <BudgetAndSchedule />,
     },
     {
       key: uuidv4(),
