@@ -8,6 +8,11 @@ export const styles = {
     bgcolor: '#fff',
     border: `1px solid #E6E6E6`,
     borderRadius: '4px',
+    maxWidth: '410px',
+    position: 'absolute',
+    top: '100%',
+    left: '0',
+    zIndex: '1201',
   }),
   dpContent: () => ({
     display: 'flex',
@@ -210,7 +215,7 @@ export const styles = {
           fontSize: '12px',
           fontWeight: '400',
           margin: '0',
-          '&:nth-child(n+5):not(:nth-last-child(-n+4))': {
+          '&:nth-child(n+5):not(:nth-last-of-type(-n+4))': {
             my: '42px',
           },
           '&:hover': {

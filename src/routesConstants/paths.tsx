@@ -87,4 +87,5 @@ export const AIR_MARKETER = {
   SMS_MARKETING_DETAILS: '/air-marketer/sms-marketing/sms-marketing-details',
   CREATE_SMS_BROADCAST: '/air-marketer/sms-marketing/create-sms-broadcast',
   VIEW_PERFORMANCE: '/air-marketer/compaigns/view-performance',
+  WHATSAPP_MERKETING: '/air-marketer/whatsapp-marketing',
 };

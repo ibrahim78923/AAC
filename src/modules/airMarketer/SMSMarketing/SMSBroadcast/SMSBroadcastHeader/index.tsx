@@ -66,7 +66,6 @@ const SMSBroadcastHeader = (props: any) => {
 
         <Box>
           <Button
-
             className="small"
             disabled={props?.selectedId ? false : true}
             onClick={handleClick}
