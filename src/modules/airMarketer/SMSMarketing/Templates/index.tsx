@@ -2,67 +2,32 @@ import React from 'react';
 
 import { Box, Button, Grid } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-
-import { FormProvider } from '@/components/ReactHookForm';
-import CommonDrawer from '@/components/CommonDrawer';
 import TanstackTable from '@/components/Table/TanstackTable';
 import CustomPagination from '@/components/CustomPagination';
 import Search from '@/components/Search';
 import { AlertModals } from '@/components/AlertModals';
 
-import { TemplatesTableData, dataArray } from './Templates.data';
+import { TemplatesTableData } from './Templates.data';
 
 import { styles } from './Templates.style';
 
-import { v4 as uuidv4 } from 'uuid';
 import useTemplates from './useTemplates';
+import { AIR_MARKETER } from '@/routesConstants/paths';
 
 const Templates = () => {
   const {
-    isDraweropen,
-    setIsDraweropen,
+    router,
     productSearch,
     setproductSearch,
     theme,
-    handleCloseDrawer,
-    Templates,
-    handleSubmit,
-    onSubmit,
     getRowValues,
     isOpenAlert,
     handleCloseAlert,
-    isModalHeading,
-    setIsModalHeading,
-    deleteStageLifeCycle,
+    deleteTemplete,
   } = useTemplates();
 
   return (
     <>
-      <CommonDrawer
-        isDrawerOpen={isDraweropen}
-        onClose={handleCloseDrawer}
-        title={`${isModalHeading} Lifecycle Stage`}
-        okText={isModalHeading === 'Edit' ? 'Update' : 'Add'}
-        footer={isModalHeading === 'View' ? false : true}
-        isOk={true}
-        submitHandler={handleSubmit(onSubmit)}
-      >
-        <Box sx={{ paddingTop: '1rem' }}>
-          <FormProvider methods={Templates}>
-            <Grid container spacing={4}>
-              {dataArray?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                  <item.component
-                    {...item.componentProps}
-                    size={'small'}
-                  ></item.component>
-                </Grid>
-              ))}
-            </Grid>
-          </FormProvider>
-        </Box>
-      </CommonDrawer>
-
       <Box
         sx={{
           border: `1px solid ${theme?.palette?.grey[700]}`,
@@ -95,9 +60,9 @@ const Templates = () => {
           <Button
             variant="contained"
             sx={styles?.createBtn}
+            className="small"
             onClick={() => {
-              setIsDraweropen(true);
-              setIsModalHeading('Create');
+              router.push(AIR_MARKETER.CREATE_TEMPLATE);
             }}
           >
             <AddCircleIcon
@@ -106,7 +71,7 @@ const Templates = () => {
                 fontSize: '16px',
               }}
             />{' '}
-            Add Stage
+            Create Template
           </Button>
         </Box>
 
@@ -120,11 +85,11 @@ const Templates = () => {
         </Grid>
 
         <AlertModals
-          message={"You're about to delete the lifecycle stage Lead."}
+          message={'Are you sure you want to delete this Template?'}
           type={'delete'}
           open={isOpenAlert}
           handleClose={handleCloseAlert}
-          handleSubmitBtn={() => deleteStageLifeCycle()}
+          handleSubmitBtn={() => deleteTemplete()}
         />
       </Box>
     </>

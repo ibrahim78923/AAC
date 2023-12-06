@@ -1,131 +1,101 @@
 import { Box } from '@mui/material';
-
-import { RHFEditor, RHFTextField } from '@/components/ReactHookForm';
-
-import { DeleteCrossIcon, EditPenIcon } from '@/assets/icons';
-
-import * as Yup from 'yup';
-
-export const TemplatesvalidationSchema: any = Yup.object().shape({
-  name: Yup.string()
-    .required('Field is Required')
-    .matches(/^[a-zA-Z\s]+$/, 'Only letters are allowed in this field'),
-  description: Yup.string().required('Field is Required'),
-});
-
-export const TemplatesDefaultValues = {
-  name: '',
-  description: '',
-};
-
-export const dataArray = [
-  {
-    componentProps: {
-      name: 'name',
-      label: 'Add stage name',
-      fullWidth: true,
-    },
-    component: RHFTextField,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'description',
-      label: 'Description',
-      fullWidth: true,
-    },
-    component: RHFEditor,
-    md: 12,
-  },
-];
+import { DeleteIcon, EditBlackIcon } from '@/assets/icons';
+import { AIR_MARKETER } from '@/routesConstants/paths';
 
 // table
 export const TemplatesTableData: any = [
   {
     Id: 1,
-    name: `Subscriber`,
-    Description: 'Subscriber',
-    CompaniesUsage: '8',
-    Category: '8',
-    createdDate: '12/01/2023',
+    name: `Fund Raising`,
+    Description:
+      'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo con',
+    Category: ' Account update',
+    createdDate: ' 31-Dec-2023 ',
     action: 'action',
   },
   {
     Id: 2,
-    name: `Lead`,
-    Description: 'Lead',
-    CompaniesUsage: '0',
-    Category: '0',
-    createdDate: '12/02/2023',
+    name: `Summer Sale`,
+    Description:
+      'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed qu',
+    Category: ' Ticket Update',
+    createdDate: ' 14-Dec-2022',
     action: 'action',
   },
 
   {
     Id: 3,
-    name: `Customer`,
-    Description: 'Customer',
-    CompaniesUsage: '3',
-    Category: '3',
-    createdDate: '23/12/2022',
+    name: `New Launch`,
+    Description:
+      'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut al',
+    Category: ' Alert Update',
+    createdDate: '11-Dec-2022',
     action: 'action',
   },
 ];
 
-export const columns = (
-  setIsModalHeading: any,
-  handleDeleteRecord: any,
-  handleEditClick: any,
-) => {
+export const columns = (setIsOpenAlert: any, router: any) => {
   return [
     {
       accessorFn: (row: any) => row?.name,
       id: 'name',
       cell: (info: any) => info.getValue(),
       header: 'Template Name',
-      isSortable: true,
+      isSortable: false,
     },
     {
       accessorFn: (row: any) => row?.Description,
       id: 'description',
-      isSortable: true,
+      isSortable: false,
       header: 'Description',
       cell: (info: any) => info.getValue(),
     },
     {
       accessorFn: (row: any) => row?.Category,
       id: 'Category',
-      isSortable: true,
+      isSortable: false,
       header: 'Category',
       cell: (info: any) => info.getValue(),
     },
     {
       accessorFn: (row: any) => row?.createdDate,
       id: 'createdDate',
-      isSortable: true,
+      isSortable: false,
       header: 'createdDate',
       cell: (info: any) => info.getValue(),
     },
     {
       accessorFn: (row: any) => row?.action,
       id: 'action',
-      isSortable: true,
+      isSortable: false,
       header: 'Action',
-      cell: (info: any) => (
+      cell: () => (
         <Box sx={{ display: 'flex', gap: 0.5 }}>
           <Box
-            sx={{ cursor: 'pointer' }}
+            sx={{
+              cursor: 'pointer',
+              background: '#F3F4F6',
+              padding: '5px',
+              borderRadius: '50%',
+            }}
             onClick={() => {
-              handleEditClick(info?.row?.original);
-              setIsModalHeading('Edit');
+              router.push(AIR_MARKETER.CREATE_TEMPLATE);
             }}
           >
-            <EditPenIcon />
+            <EditBlackIcon />
           </Box>
           <Box
-            sx={{ cursor: 'pointer' }}
-            onClick={() => handleDeleteRecord(info?.row?.original?._id)}
+            sx={{
+              cursor: 'pointer',
+              background: '#F3F4F6',
+              padding: '5px',
+              borderRadius: '50%',
+            }}
+            onClick={() => {
+              setIsOpenAlert(true);
+            }}
           >
-            <DeleteCrossIcon />
+            <DeleteIcon />
           </Box>
         </Box>
       ),
