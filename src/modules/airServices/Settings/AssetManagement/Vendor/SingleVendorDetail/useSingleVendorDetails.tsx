@@ -6,10 +6,15 @@ import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 export const useSingleVendorDetails = () => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [isADrawerOpen, setIsADrawerOpen] = useState(false);
   const router = useRouter();
 
   const singleVendorDetailsActionDropdown =
-    singleVendorDetailsActionDropdownFunction(setDeleteModalOpen, router);
+    singleVendorDetailsActionDropdownFunction(
+      setDeleteModalOpen,
+      router,
+      setIsADrawerOpen,
+    );
   const handleDeleteBtn = () => {
     setDeleteModalOpen(false);
     enqueueSnackbar('Vendor deleted Successfully', {
@@ -21,5 +26,7 @@ export const useSingleVendorDetails = () => {
     deleteModalOpen,
     setDeleteModalOpen,
     handleDeleteBtn,
+    isADrawerOpen,
+    setIsADrawerOpen,
   };
 };

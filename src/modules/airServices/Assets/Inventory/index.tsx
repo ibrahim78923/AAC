@@ -3,52 +3,41 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
 import { Button } from '@mui/material';
 import { FilterSharedIcon, CustomizeSharedIcon } from '@/assets/icons';
-import { enqueueSnackbar } from 'notistack';
 import { PageTitledHeader } from '../../../../components/PageTitledHeader/index';
-import { AlertModals } from '@/components/AlertModals';
 import { useInventory } from './useInventory';
-import { INVENTORY_LIST_ACTIONS } from './Inventory.data';
-import CustomPagination from '@/components/CustomPagination';
+import { INVENTORY_LIST_ACTIONS, inventoryListsData } from './Inventory.data';
+import { EXPORT_TYPE } from '@/constants/strings';
 
-function Inventory() {
+const Inventory = () => {
   const {
     handleAddInventory,
     router,
-    isDrawerOpen,
-    renderComponent,
-    openDrawer,
-    openDeleteModal,
-    setOpenDeleteModal,
-    searchValue,
-    SetSearchValue,
+    hasInventoryAction,
+    setInventoryAction,
+    inventoryActionComponent,
     inventoryListsColumns,
-    data,
-    inventoryData,
+    selectedInventoryLists,
+    getInventoryListDataExport,
+    lazyGetInventoryStatus,
+    setPage,
+    setPageLimit,
+    search,
+    setSearch,
+    inventoryListsColumnsPersist,
   } = useInventory();
   return (
     <>
-      <AlertModals
-        message={'Are you sure you want to delete this record?'}
-        type={'Delete'}
-        typeImage={<CustomizeSharedIcon />}
-        open={openDeleteModal}
-        handleClose={() => {
-          setOpenDeleteModal(false);
-        }}
-        handleSubmit={() => {
-          enqueueSnackbar('Delete successfully', {
-            variant: 'error',
-            autoHideDuration: 3000,
-          });
-          setOpenDeleteModal(false);
-        }}
-      />
       <PageTitledHeader
         title={'Inventory'}
         addTitle={'Add'}
         hasImport
         hasExport
+        handleExcelExport={() => getInventoryListDataExport?.(EXPORT_TYPE?.XLS)}
+        handleCsvExport={() => getInventoryListDataExport?.(EXPORT_TYPE?.CSV)}
         handleAction={handleAddInventory}
+        handleImport={() =>
+          setInventoryAction?.(INVENTORY_LIST_ACTIONS?.IMPORT)
+        }
       />
       <Box
         display={'flex'}
@@ -61,17 +50,17 @@ function Inventory() {
           <Search
             label="search"
             width="100%"
-            searchBy={searchValue}
-            setSearchBy={SetSearchValue}
+            value={search}
+            onChange={(e: any) => setSearch(e?.target?.value)}
           />
         </Box>
         <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={1.5}>
           <Button
             color="secondary"
             variant="outlined"
-            disabled={!!!inventoryData?.length}
+            disabled={!!!selectedInventoryLists?.length}
             onClick={() => {
-              setOpenDeleteModal(true);
+              setInventoryAction(INVENTORY_LIST_ACTIONS?.DELETE);
             }}
           >
             Delete
@@ -80,7 +69,9 @@ function Inventory() {
             color="secondary"
             variant="outlined"
             startIcon={<CustomizeSharedIcon />}
-            onClick={() => openDrawer(INVENTORY_LIST_ACTIONS?.CUSTOMIZE_COLUMN)}
+            onClick={() =>
+              setInventoryAction(INVENTORY_LIST_ACTIONS?.CUSTOMIZE_COLUMN)
+            }
           >
             Customize
           </Button>
@@ -88,18 +79,39 @@ function Inventory() {
             color="secondary"
             variant="outlined"
             startIcon={<FilterSharedIcon />}
-            onClick={() => openDrawer(INVENTORY_LIST_ACTIONS?.FILTER)}
+            onClick={() => setInventoryAction(INVENTORY_LIST_ACTIONS?.FILTER)}
           >
             Filter
           </Button>
         </Box>
       </Box>
       <br />
-      <TanstackTable data={data} columns={inventoryListsColumns} />
-      <CustomPagination count={1} rowsPerPageOptions={[1, 2]} entriePages={1} />
-      {isDrawerOpen && renderComponent?.[router?.query?.tableAction as string]}
+      <TanstackTable
+        columns={
+          inventoryListsColumnsPersist?.filter(
+            (col: any) => inventoryListsColumns?.includes?.(col?.id),
+          ) ?? []
+        }
+        data={lazyGetInventoryStatus?.data?.data?.result ?? inventoryListsData}
+        isLoading={lazyGetInventoryStatus?.isLoading}
+        currentPage={lazyGetInventoryStatus?.data?.data?.metadata?.page}
+        count={lazyGetInventoryStatus?.data?.data?.metadata?.totalPages}
+        pageLimit={lazyGetInventoryStatus?.data?.data?.metadata?.limit}
+        totalRecords={lazyGetInventoryStatus?.data?.data?.metadata?.total}
+        setPage={setPage}
+        setPageLimit={setPageLimit}
+        isFetching={lazyGetInventoryStatus?.isFetching}
+        isError={lazyGetInventoryStatus?.isError}
+        isSuccess={lazyGetInventoryStatus?.isSuccess || true}
+        onPageChange={(page: any) => setPage(page)}
+        isPagination
+      />
+      {hasInventoryAction &&
+        inventoryActionComponent?.[
+          router?.query?.inventoryListsAction as string
+        ]}
     </>
   );
-}
+};
 
 export default Inventory;

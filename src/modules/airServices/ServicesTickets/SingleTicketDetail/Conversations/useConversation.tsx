@@ -58,7 +58,7 @@ export const UseConversation = () => {
     try {
       const successMessage = `${selectedItem} Added Successfully!`;
       const values = await getValues();
-      setSelectedValues((prevValues) => {
+      setSelectedValues((prevValues: any) => {
         return {
           ...prevValues,
           [uuidv4()]: values,
@@ -73,7 +73,7 @@ export const UseConversation = () => {
     } catch (error) {}
   };
 
-  const handleCloseButtonMenu = (e?: any = '') => {
+  const handleCloseButtonMenu = (e: any = '') => {
     e && setSelectedItem(e);
     setShow(true);
     setAddConversation(null);
@@ -81,7 +81,7 @@ export const UseConversation = () => {
     e && setValue(e?.toLocaleLowerCase?.(), e);
   };
 
-  const getArrayByTitle = (title) => {
+  const getArrayByTitle = (title: any) => {
     switch (title) {
       case TICKETS_CONVERSATION_TYPE?.NOTE:
         return conversationNoteArray;

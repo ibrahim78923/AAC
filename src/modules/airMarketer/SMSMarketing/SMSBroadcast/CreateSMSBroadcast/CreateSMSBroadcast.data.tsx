@@ -6,22 +6,20 @@ import * as Yup from 'yup';
 
 export const validationSchema = Yup.object().shape({
   sender: Yup.string().required('Field is Required'),
-  details: Yup.string().required('Field is Required'),
   compaign: Yup.string().required('Field is Required'),
-  addedContacts: Yup.string().required('Field is Required'),
   useTemplate: Yup.string().required('Field is Required'),
   recipients: Yup.string().required('Field is Required'),
-  details2: Yup.string().required('Field is Required'),
+  // Commented for future use
+  // details: Yup.string().required('Field is Required'),
 });
 
 export const defaultValues = {
   sender: '',
-  details: '',
   compaign: '',
-  addedContacts: '',
   useTemplate: '',
   recipients: '',
-  details2: '',
+  // Commented for future use
+  // details: '',
 };
 
 export const createBroadcast = [
@@ -32,6 +30,7 @@ export const createBroadcast = [
       name: 'sender',
       fullWidth: true,
       select: true,
+      required: true,
     },
     options: [
       { value: '13', label: '(217)555-0113' },
@@ -49,6 +48,7 @@ export const createBroadcast = [
       name: 'compaign',
       fullWidth: true,
       select: true,
+      required: true,
     },
     options: [
       { value: 'compaign1', label: 'Compaign 1' },
@@ -81,19 +81,22 @@ export const createBroadcast = [
       name: 'recipients',
       label: 'Recipients',
       fullWidth: true,
+      placeholder: 'Select',
+      required: true,
     },
     component: RHFTextField,
     md: 12,
   },
-  {
-    componentProps: {
-      name: 'details',
-      label: 'Details',
-      fullWidth: true,
-    },
-    component: RHFTextField,
-    md: 12,
-  },
+  // Commented for future use
+  // {
+  //   componentProps: {
+  //     name: 'details',
+  //     label: 'Details',
+  //     fullWidth: true,
+  //   },
+  //   component: RHFTextField,
+  //   md: 12,
+  // },
 ];
 
 export const contactDetails: any = [

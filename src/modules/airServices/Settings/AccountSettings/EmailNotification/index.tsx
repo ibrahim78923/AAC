@@ -1,9 +1,9 @@
 import { Box, Divider, Typography } from '@mui/material';
-import { EmailNotificationDetailTabs } from './EmailNotificationDetailTabs';
 
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useRouter } from 'next/router';
 import { AIR_SERVICES } from '@/constants';
+import { EmailNotificationDetailTabs } from './EmailNotificationDetailTabs';
 
 export const EmailNotification = () => {
   const router = useRouter();

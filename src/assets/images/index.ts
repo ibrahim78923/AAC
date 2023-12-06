@@ -120,6 +120,7 @@ export { default as SecondAidKitImage } from './modules/airServices/Dashboard/se
 export { default as ThirdAidKitImage } from './modules/airServices/Dashboard/third-aid-kit-image.png';
 export { default as FourAidKitImage } from './modules/airServices/Dashboard/four-aid-kit-image.png';
 export { default as FiveAidKitImage } from './modules/airServices/Dashboard/five-aid-kit-image.png';
+export { default as ProfileImage } from './modules/airServices/Settings/Requestors/profile-image.png';
 export { default as CustomerWowChampionImage } from './modules/airServices/Dashboard/customer-wow-champion-image.png';
 export { default as MostValuablePlayerImage } from './modules/airServices/Dashboard/most-valuable-player-image.png';
 export { default as DashboardAvatarImage } from './modules/airServices/Dashboard/avatar-image.png';
@@ -197,3 +198,15 @@ export { default as UserRetroImage } from './modules/airMarketer/SocialMarketing
 export { default as MessageGreyImage } from './modules/orgAdmin/organization/message.png';
 export { default as AgentImg } from '../images/shared/agent.png';
 export { default as GoogleAds } from './modules/airMarketer/PaidAds/google-ads.png';
+
+// settings -> performance management leader board
+
+export { default as MostValuableBadgeImage } from './modules/airServices/settings/agentPerformanceManagement/most-valuable-badge-image.png';
+export { default as ChampionBadgeImage } from './modules/airServices/settings/agentPerformanceManagement/champion-badge-image.png';
+export { default as WizardBadgeImage } from './modules/airServices/settings/agentPerformanceManagement/wizard-badge-image.png';
+export { default as SpeedRacerBadgeImage } from './modules/airServices/settings/agentPerformanceManagement/speed-racer-badge-image.png';
+export { default as BeginnerAwardImage } from './modules/airServices/settings/agentPerformanceManagement/beginner-award-image.png';
+export { default as IntermediateAwardImage } from './modules/airServices/settings/agentPerformanceManagement/intermediate-award-image.png';
+export { default as ProfessionalAwardImage } from './modules/airServices/settings/agentPerformanceManagement/professional-award-image.png';
+export { default as MasterAwardImage } from './modules/airServices/settings/agentPerformanceManagement/master-award-image.png';
+export { default as ExpertAwardImage } from './modules/airServices/settings/agentPerformanceManagement/expert-award-image.png';

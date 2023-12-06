@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
 import { Box, Stack, Button, List, ListItemButton } from '@mui/material';
+import {
+  PrimaryCalendarIcon,
+  CanlendarButtonIcon,
+  ArrowSquareLeftIcon,
+  ArrowSquareRightIcon,
+} from '@/assets/icons';
 import dayjs from 'dayjs';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { styles } from './style';
+import { styles } from './SwitchableDatepicker.style';
 import { DATE_FORMAT } from '@/constants';
-import { PrimaryCalendarIcon, CanlendarButtonIcon } from '@/assets/icons';
 
 const SwitchableDatepicker = ({
   renderInput = 'button',
@@ -208,10 +213,8 @@ const SwitchableDatepicker = ({
           <PrimaryCalendarIcon />
           {dateString}
           <Stack sx={{ cursor: 'pointer' }} direction="row">
-            <Box>B</Box>
-            <Box>N</Box>
-            {/* <ArrowSquareLeftIcon />
-            <ArrowSquareRightIcon /> */}
+            <ArrowSquareLeftIcon />
+            <ArrowSquareRightIcon />
           </Stack>
         </Stack>
       )}

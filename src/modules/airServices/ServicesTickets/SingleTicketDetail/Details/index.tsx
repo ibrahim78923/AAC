@@ -5,6 +5,7 @@ export const Details = () => {
   return (
     <>
       <DetailsViewPropertiesSection />
+      <br />
       <DetailViewTimeEntries />
     </>
   );
