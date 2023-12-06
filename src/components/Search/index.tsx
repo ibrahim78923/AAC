@@ -23,15 +23,16 @@ const Search = ({ label, width, setSearchBy, ...rest }: CombinedProps) => {
       onChange={handleChangeSearch}
       sx={{
         background: 'transparent',
+        width: { width },
+        '@media (max-width: 600px)': {
+          width: '100%',
+        },
         '& .MuiOutlinedInput-root ': {
+          height: '44px',
           '& fieldset': {
             textAlign: 'right',
             borderColor: theme?.palette?.grey[700],
-            width: width,
             borderRadius: '8px',
-            '@media (max-width: 600px)': {
-              width: '100%',
-            },
           },
           '&:hover fieldset': {
             borderColor: theme?.palette?.custom?.light_green,

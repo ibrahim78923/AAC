@@ -16,7 +16,7 @@ import { v4 as uuidv4 } from 'uuid';
 const SocialCard = ({ handleShowCard }: { handleShowCard: () => void }) => {
   return (
     <>
-      <Typography variant="h4">Social Accounts</Typography>
+      <Typography variant="h3">Social Accounts</Typography>
       <Grid
         container
         spacing={2}

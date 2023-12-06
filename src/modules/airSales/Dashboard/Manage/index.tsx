@@ -18,13 +18,16 @@ const Manage = ({ toggle, setIsShowCreateDashboardForm }: any) => {
   const theme: any = useTheme();
 
   return (
-    <Grid container>
-      <Grid item xs={6} sm={6}>
+    <Grid container style={{ paddingLeft: '0px' }}>
+      <Grid item xs={6} sm={6} style={{ paddingLeft: '0px' }}>
         <Box sx={{ display: 'flex' }}>
           <Box mt={0.7} onClick={() => toggle()}>
             <ArrowLeft />
           </Box>
-          <Typography variant="h4" sx={{ marginLeft: '15px' }}>
+          <Typography
+            variant="h4"
+            sx={{ marginLeft: '15px', marginTop: '4px' }}
+          >
             Manage Dashboards
           </Typography>
         </Box>

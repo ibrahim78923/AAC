@@ -21,7 +21,7 @@ export const styles: any = {
   detailDrawerGridCenter: { display: 'flex', alignItems: 'center' },
   taskDetailStyle: (taskDetailStatus: any, theme: any) => ({
     position: 'absolute',
-    top: 16,
+    top: 30,
     right: '4.5rem',
     border: `1px solid ${
       taskDetailStatus === TO_DO
@@ -49,7 +49,7 @@ export const styles: any = {
   }),
   valStyle: (drawerStatusVal: any, theme: any) => ({
     position: 'absolute',
-    top: 16,
+    top: 30,
     right: '4.5rem',
     border: `1px solid ${
       drawerStatusVal === TO_DO

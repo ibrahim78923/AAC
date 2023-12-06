@@ -94,7 +94,7 @@ const UserManagement = ({ initialValueProps = defaultValues }: any) => {
           sx={{
             fontWeight: 500,
             fontSize: '12px',
-            color: `${theme.palette.custom.main}`,
+            color: `${theme?.palette?.custom?.main}`,
           }}
         >
           Add New User to Organization
@@ -145,14 +145,7 @@ const UserManagement = ({ initialValueProps = defaultValues }: any) => {
           </FormProvider>
         </Box>
       </CommonDrawer>
-      <Box
-        sx={{
-          border: `1px solid ${theme?.palette?.grey[700]}`,
-          borderRadius: '8px',
-          boxShadow: '0px 1px 2px 0px #1018280F, 0px 1px 3px 0px #1018281A',
-          padding: '1rem',
-        }}
-      >
+      <Box>
         <Box
           sx={{
             display: 'flex',
@@ -160,7 +153,7 @@ const UserManagement = ({ initialValueProps = defaultValues }: any) => {
             flexWrap: 'wrap',
           }}
         >
-          <Typography variant="h4">User Manangement</Typography>
+          <Typography variant="h3">User Management</Typography>
           <Button
             onClick={() => {
               {
@@ -169,12 +162,13 @@ const UserManagement = ({ initialValueProps = defaultValues }: any) => {
                   : setIsCreateTeamOpen(true);
               }
             }}
+            className="small"
             variant="contained"
             sx={{ display: 'flex', alignItems: 'center', columnGap: '10px' }}
           >
             <AddCircleIcon
               sx={{
-                color: `${theme?.palette?.common.white}`,
+                color: `${theme?.palette?.common?.white}`,
                 fontSize: '16px',
               }}
             />
