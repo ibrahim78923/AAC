@@ -27,7 +27,7 @@ export default function SaveNewViewDrawer({
   const { handleSubmit } = methods;
 
   const onSubmit = async () => {
-    enqueueSnackbar('Export Compaign Exported Successfully', {
+    enqueueSnackbar('Export Campaign Exported Successfully', {
       variant: 'success',
     });
   };
@@ -36,7 +36,7 @@ export default function SaveNewViewDrawer({
     <CommonDrawer
       isDrawerOpen={isOpenDrawer}
       onClose={() => onClose(false)}
-      title={'Export Compaign'}
+      title={'Export Campaign'}
       okText={'Export'}
       isOk
       cancelText={'Cancel'}
