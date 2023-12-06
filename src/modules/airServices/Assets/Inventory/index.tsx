@@ -48,7 +48,7 @@ const Inventory = () => {
       >
         <Box>
           <Search
-            label="search"
+            label="Search Here"
             width="100%"
             value={search}
             onChange={(e: any) => setSearch(e?.target?.value)}
