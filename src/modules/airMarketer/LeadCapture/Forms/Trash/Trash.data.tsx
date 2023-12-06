@@ -2,7 +2,11 @@ import { Box, Typography } from '@mui/material';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import { FileIcon } from '@/assets/icons';
 
-export const columns: any = (setShowSignUpForm: any, setFindStatus: any) => {
+export const columns: any = (
+  setShowSignUpForm: any,
+  setFindStatus: any,
+  theme: any,
+) => {
   return [
     {
       accessorFn: (row: any) => row?.FormName,
@@ -22,7 +26,10 @@ export const columns: any = (setShowSignUpForm: any, setFindStatus: any) => {
           }}
         >
           <FileIcon />{' '}
-          <Typography variant="body4" sx={{ color: '#111827' }}>
+          <Typography
+            variant="body4"
+            sx={{ color: theme?.palette?.blue?.dull_blue }}
+          >
             {info?.getValue()}{' '}
           </Typography>
         </Box>
@@ -34,7 +41,10 @@ export const columns: any = (setShowSignUpForm: any, setFindStatus: any) => {
       isSortable: true,
       header: 'Page View',
       cell: (info: any) => (
-        <Typography variant="body4" sx={{ color: '#6B7280' }}>
+        <Typography
+          variant="body4"
+          sx={{ color: theme?.palette?.custom?.main }}
+        >
           {info?.getValue()}{' '}
         </Typography>
       ),
@@ -45,7 +55,10 @@ export const columns: any = (setShowSignUpForm: any, setFindStatus: any) => {
       isSortable: true,
       header: 'Submission',
       cell: (info: any) => (
-        <Typography variant="body4" sx={{ color: '#6B7280' }}>
+        <Typography
+          variant="body4"
+          sx={{ color: theme?.palette?.custom?.main }}
+        >
           {info?.getValue()}{' '}
         </Typography>
       ),
@@ -56,7 +69,10 @@ export const columns: any = (setShowSignUpForm: any, setFindStatus: any) => {
       isSortable: true,
       header: 'Page Responses',
       cell: (info: any) => (
-        <Typography variant="body4" sx={{ color: '#6B7280' }}>
+        <Typography
+          variant="body4"
+          sx={{ color: theme?.palette?.custom?.main }}
+        >
           {info?.getValue()}{' '}
         </Typography>
       ),
@@ -69,8 +85,8 @@ export const columns: any = (setShowSignUpForm: any, setFindStatus: any) => {
       cell: (info: any) => (
         <Box
           sx={{
-            background: '#D2D6DF',
-            color: '#1F305D',
+            background: theme?.palette?.custom?.Trash_bg,
+            color: theme?.palette?.blue?.main,
             width: 'fit-content',
             padding: '5px 12px',
             borderRadius: '25px',

@@ -119,7 +119,7 @@ const Export = ({
                   variant="contained"
                   sx={{ marginLeft: '10px' }}
                   onClick={() => {
-                    router.push(airMarketerLeadCapture.All_Table);
+                    router.push(airMarketerLeadCapture.ALL_TABLE);
                   }}
                 >
                   Export

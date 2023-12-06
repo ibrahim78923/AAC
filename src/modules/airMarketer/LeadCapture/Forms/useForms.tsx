@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { FormsDefaultValues, FormsvalidationSchema } from './Forms.data';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { airMarketerLeadCapture } from '@/routesConstants/paths';
+import { useTheme } from '@mui/material';
 
 const useForms = () => {
   const [showSignUpForm, setShowSignUpForm] = useState(false);
@@ -13,7 +14,7 @@ const useForms = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const router = useRouter();
-
+  const theme = useTheme();
   const handleActionsClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event?.currentTarget);
   };
@@ -35,7 +36,7 @@ const useForms = () => {
     setIsDraweropen(false);
     reset();
     router.push({
-      pathname: airMarketerLeadCapture.Create_Form,
+      pathname: airMarketerLeadCapture.CREATE_FORM,
       query: { formData: JSON?.stringify(values) },
     });
   };
@@ -58,6 +59,7 @@ const useForms = () => {
     handleSubmit,
     onSubmit,
     formsMethods,
+    theme,
   };
 };
 

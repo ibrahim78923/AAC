@@ -4,12 +4,13 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import { columns } from './Trash.data';
 import Search from '@/components/Search';
 import { useState } from 'react';
-import { Box, Divider } from '@mui/material';
+import { Box, Divider, useTheme } from '@mui/material';
 import { TrashTableData } from '@/mock/modules/airMarketer/LeadCapture/Forms';
 
 const Trash = ({ setShowSignUpForm, setFindStatus }: any) => {
   const [searchByClientName, setSearchByClientName] = useState('');
-  const getColums = columns(setShowSignUpForm, setFindStatus);
+  const theme = useTheme();
+  const getColums = columns(setShowSignUpForm, setFindStatus, theme);
   return (
     <Box
       sx={{

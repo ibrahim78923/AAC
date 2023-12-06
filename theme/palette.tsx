@@ -103,6 +103,10 @@ const CUSTOM_COLORS = {
   dim_grey: '#555656',
   dim_blue: '#6E7191',
   text_slate_blue: '#405893',
+  published: '#ECFDF3',
+  published_not_bg: '#FFF6DD',
+  published_not_color: '#F2B500',
+  Trash_bg: '#D2D6DF',
 };
 const GRADIENTS = {
   primary: createGradient(PRIMARY?.light, PRIMARY?.main),

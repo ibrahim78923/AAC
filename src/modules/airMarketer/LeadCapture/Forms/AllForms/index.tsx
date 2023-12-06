@@ -4,13 +4,13 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import { columns } from './AllForms.data';
 import Search from '@/components/Search';
 import { useState } from 'react';
-import { Box, Divider } from '@mui/material';
+import { Box, Divider, useTheme } from '@mui/material';
 import { AllFormsTableData } from '@/mock/modules/airMarketer/LeadCapture/Forms';
 
 const AllForms = ({ setShowSignUpForm, setFindStatus }: any) => {
   const [searchByClientName, setSearchByClientName] = useState('');
-
-  const getColums = columns(setShowSignUpForm, setFindStatus);
+  const theme = useTheme();
+  const getColums = columns(setShowSignUpForm, setFindStatus, theme);
 
   return (
     <Box

@@ -5,11 +5,12 @@ import {
   submissionsDefaultValues,
   submissionsValidationSchema,
 } from './Submissions.data';
+import { useTheme } from '@mui/material';
 
 const useSubmissions = () => {
   const [isFIlterDraweropen, setIsFIlterDraweropen] = useState(false);
   const [searchByClientName, setSearchByClientName] = useState('');
-
+  const theme = useTheme();
   const handleCloseDrawer = () => {
     setIsFIlterDraweropen(false);
   };
@@ -34,6 +35,7 @@ const useSubmissions = () => {
     submissionsMethods,
     searchByClientName,
     setSearchByClientName,
+    theme,
   };
 };
 

@@ -90,7 +90,7 @@ export const AIR_MARKETER = {
 };
 
 export const airMarketerLeadCapture = {
-  Verify_Email: '/air-marketer/lead-capture/verify-email',
-  Create_Form: '/air-marketer/lead-capture/create-form',
-  All_Table: '/air-marketer/lead-capture/forms',
+  VERIFY_EMAIL: '/air-marketer/lead-capture/verify-email',
+  CREATE_FORM: '/air-marketer/lead-capture/create-form',
+  ALL_TABLE: '/air-marketer/lead-capture/forms',
 };

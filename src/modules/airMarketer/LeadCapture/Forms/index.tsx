@@ -45,6 +45,7 @@ const Forms = () => {
     handleSubmit,
     onSubmit,
     formsMethods,
+    theme,
   } = useForms();
 
   return (
@@ -120,11 +121,11 @@ const Forms = () => {
                   startIcon={<ViewDetailIcon />}
                   sx={{
                     marginRight: '10px',
-                    border: '1px solid #D1D5DB',
+                    border: `1px solid ${theme?.palette?.custom?.dark}`,
                     color: '#38CAB5',
                   }}
                   onClick={() =>
-                    router.push(airMarketerLeadCapture.Verify_Email)
+                    router.push(airMarketerLeadCapture.VERIFY_EMAIL)
                   }
                 >
                   View
@@ -137,7 +138,7 @@ const Forms = () => {
                   startIcon={<AddPenIcon />}
                   sx={{
                     marginRight: '10px',
-                    border: '1px solid #D1D5DB',
+                    border: `1px solid ${theme?.palette?.custom?.dark}`,
                     color: '#38CAB5',
                   }}
                 >

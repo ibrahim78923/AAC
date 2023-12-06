@@ -1,5 +1,3 @@
-import CustomPagination from '@/components/CustomPagination';
-
 import TanstackTable from '@/components/Table/TanstackTable';
 import { columns, submissionsArray } from './Submissions.data';
 import Search from '@/components/Search';
@@ -21,12 +19,13 @@ const Submissions = () => {
     submissionsMethods,
     searchByClientName,
     setSearchByClientName,
+    theme,
   } = useSubmissions();
 
   return (
     <Box
       sx={{
-        border: '1px solid #EAECF0',
+        border: `1px solid ${theme?.palette?.custom?.off_white_three}`,
         borderRadius: '8px',
       }}
     >
@@ -66,8 +65,11 @@ const Submissions = () => {
       </Box>
 
       <Divider sx={{ marginBottom: '15px' }} />
-      <TanstackTable columns={columns()} data={SubmissionsTableData} />
-      <CustomPagination count={1} rowsPerPageOptions={[1, 2]} entriePages={1} />
+      <TanstackTable
+        columns={columns()}
+        data={SubmissionsTableData}
+        isPagination
+      />
 
       <CommonDrawer
         isDrawerOpen={isFIlterDraweropen}
