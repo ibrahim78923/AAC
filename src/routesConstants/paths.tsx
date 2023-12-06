@@ -125,3 +125,9 @@ export const AIR_OPERATION = {
   ROLE_AND_RIGHT: path(AIR_OPERATIONS_PAGE, '/role-and-rights'),
   USER_MANAGEMENT: path(AIR_OPERATIONS_PAGE, '/user-management'),
 };
+
+export const airMarketerLeadCapture = {
+  VERIFY_EMAIL: '/air-marketer/lead-capture/verify-email',
+  CREATE_FORM: '/air-marketer/lead-capture/create-form',
+  ALL_TABLE: '/air-marketer/lead-capture/forms',
+};

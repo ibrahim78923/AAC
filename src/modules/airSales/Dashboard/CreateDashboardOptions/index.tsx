@@ -12,9 +12,9 @@ const CreateDashboardOptions = ({ toggle }: any) => {
     <div>
       <Button
         className="small"
+        variant="outlined"
+        color="inherit"
         sx={{
-          border: `1px solid ${theme?.palette?.custom?.dark}`,
-          color: theme?.palette?.custom?.main,
           padding: '0px 18px 0px 18px',
         }}
         onClick={handleClickActions}
@@ -50,10 +50,10 @@ const CreateDashboardOptions = ({ toggle }: any) => {
         <MenuItem onClick={() => toggle()}>
           <Button
             sx={{
-              border: `1px solid ${theme?.palette?.custom?.dark}`,
               color: theme?.palette?.grey[500],
             }}
             variant="outlined"
+            color="inherit"
           >
             Manage Dashboards
           </Button>

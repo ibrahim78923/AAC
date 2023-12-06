@@ -303,6 +303,20 @@ export { default as LeadersBoardIcon } from './modules/airServices/Settings/lead
 export { default as WorkloadManagementIcon } from './modules/airServices/Settings/workload-management-icon';
 export { default as AddRoleIcon } from './modules/airServices/Settings/UserManagement/Roles/add-role-icon';
 export { default as CsvImportIcon } from './shared/csv-import-icon';
+export { default as ActionMenuIcon } from './shared/action-menu-icon';
+export { default as ViewDetailIcon } from './shared/view-detail-icon';
+export { default as EmbedCodeIcon } from './shared/embed-code-icon';
+export { default as EmbedcodeTickIcon } from './shared/embed-code-tick-icon';
+export { default as ActivateIcon } from './shared/activate-icon';
+export { default as FileIcon } from './shared/file-icon';
+export { default as FilterSubmissionsIcon } from './shared/filter-submission-icon';
+export { default as ExportSubmissionIcon } from './shared/export-submission-icon';
+export { default as BlackDeleteIcon } from './shared/black-delete';
+export { default as EditFormIcon } from './shared/edit-form';
+export { default as StyleFormIcon } from './shared/style-form';
+export { default as PageIcon } from './shared/Page';
+export { default as MobileFormIcon } from './shared/mobile-icon';
+export { default as MonitorIcon } from './shared/monitor';
 
 export { default as ExportDownloadIcon } from './shared/export-download';
 export { default as ExportModalIcon } from './shared/export-modal-icon';
@@ -312,3 +326,8 @@ export { default as CopyPrimaryColorIcon } from './shared/copy-primary-color-ico
 export { default as BookMarkIcon } from './shared/book-mark-icon';
 export { default as ArrowSquareLeftIcon } from './shared/arrow-square-left';
 export { default as ArrowSquareRightIcon } from './shared/arrow-square-right';
+export { default as TextIcon } from './modules/airMarketer/LeadCapture/text';
+export { default as ImageIcon } from './modules/airMarketer/LeadCapture/image';
+export { default as SpaceIcon } from './modules/airMarketer/LeadCapture/space';
+export { default as DividerIcon } from './modules/airMarketer/LeadCapture/divider';
+export { default as InputIcon } from './modules/airMarketer/LeadCapture/input';
