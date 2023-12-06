@@ -130,8 +130,8 @@ const RestoreCompanies = (props: any) => {
                   display: 'flex',
                   alignContent: 'center',
                   columnGap: '10px',
-                  border: '1px solid #D1D5DB',
-                  color: '#6B7280',
+                  border: `1px solid ${theme?.palette?.grey[100]}`,
+                  color: `${theme?.palette?.custom?.main}`,
                 }}
               >
                 <FilterIcon /> Filter

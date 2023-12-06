@@ -4,21 +4,12 @@ import * as Yup from 'yup';
 
 export const validationSchema = Yup.object().shape({
   role: Yup.string().required('Field is Required'),
-
-  desciption: Yup.string().trim().required('Field is Required'),
+  description: Yup.string().trim().required('Field is Required'),
 });
 
 export const defaultValues = {
   role: '',
-  desciption: '',
-  postCode: '',
-  address: '',
-  unit: '',
-  buildingName: '',
-  buildingNumber: '',
-  streetName: '',
-  city: '',
-  country: '',
+  description: '',
 };
 
 export const dataArray = [
@@ -38,80 +29,12 @@ export const dataArray = [
   },
   {
     componentProps: {
-      name: 'phoneNumber',
-      label: 'Phone No',
+      name: 'description',
+      label: 'Description',
       fullWidth: true,
       select: false,
     },
     component: RHFTextField,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'deals',
-      label: 'Deals',
-      fullWidth: true,
-      select: true,
-    },
-    options: [
-      { value: 'CompanY Owner', label: 'All' },
-      { value: 'Admin', label: 'Copy URL' },
-      { value: 'Admin', label: 'Create Dashboard' },
-      { value: 'Admin', label: 'Update Dashboard' },
-      { value: 'Admin', label: 'View Dashboard' },
-    ],
-    component: RHFSelect,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'tasks',
-      label: 'Tasks',
-      fullWidth: true,
-      select: true,
-    },
-    options: [
-      { value: 'CompanY Owner', label: 'All' },
-      { value: 'Admin', label: 'Copy URL' },
-      { value: 'Admin', label: 'Create Dashboard' },
-      { value: 'Admin', label: 'Update Dashboard' },
-      { value: 'Admin', label: 'View Dashboard' },
-    ],
-    component: RHFSelect,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'forecast',
-      label: 'Forecast',
-      fullWidth: true,
-      select: true,
-    },
-    options: [
-      { value: 'CompanY Owner', label: 'All' },
-      { value: 'Admin', label: 'Copy URL' },
-      { value: 'Admin', label: 'Create Dashboard' },
-      { value: 'Admin', label: 'Update Dashboard' },
-      { value: 'Admin', label: 'View Dashboard' },
-    ],
-    component: RHFSelect,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'quotes',
-      label: 'Quotes',
-      fullWidth: true,
-      select: true,
-    },
-    options: [
-      { value: 'CompanY Owner', label: 'All' },
-      { value: 'Admin', label: 'Copy URL' },
-      { value: 'Admin', label: 'Create Dashboard' },
-      { value: 'Admin', label: 'Update Dashboard' },
-      { value: 'Admin', label: 'View Dashboard' },
-    ],
-    component: RHFSelect,
     md: 12,
   },
 ];
@@ -151,5 +74,110 @@ export const columns: any = [
     isSortable: true,
     header: 'Decription',
     cell: (info: any) => info.getValue(),
+  },
+];
+
+export const permissionArr = [
+  {
+    id: '1',
+    mainTitle: 'Deals',
+    subModule: [
+      {
+        subTitle: 'Deals Details',
+        mainCheck: 'All',
+        fetaures: [
+          {
+            label: 'Copy Url',
+          },
+          {
+            label: 'Create Dashboard',
+          },
+          {
+            label: 'Update Dashboard',
+          },
+          {
+            label: 'View Dashboard',
+          },
+          {
+            label: 'View Dashboard',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: '2',
+    mainTitle: 'Tasks',
+    subModule: [
+      {
+        subTitle: 'Tasks Details',
+        mainCheck: 'All',
+        fetaures: [
+          {
+            label: 'Copy Url',
+          },
+          {
+            label: 'Create Dashboard',
+          },
+          {
+            label: 'Update Dashboard',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: '3',
+    mainTitle: 'Forecast',
+    subModule: [
+      {
+        subTitle: 'Forecast Details',
+        mainCheck: 'All',
+        fetaures: [
+          {
+            label: 'Copy Url',
+          },
+          {
+            label: 'Create Dashboard',
+          },
+          {
+            label: 'Update Dashboard',
+          },
+          {
+            label: 'View Dashboard',
+          },
+          {
+            label: 'View Dashboard',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: '4',
+    mainTitle: 'Quotes',
+    subModule: [
+      {
+        subTitle: 'Quotes Details',
+        mainCheck: 'All',
+        fetaures: [
+          {
+            label: 'Copy Url',
+          },
+          {
+            label: 'Create Dashboard',
+          },
+          {
+            label: 'Update Dashboard',
+          },
+          {
+            label: 'View Dashboard',
+          },
+          {
+            label: 'View Dashboard',
+          },
+        ],
+      },
+    ],
   },
 ];

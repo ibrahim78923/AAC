@@ -6,7 +6,9 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  Theme,
   Typography,
+  useTheme,
 } from '@mui/material';
 
 import { AlertModals } from '@/components/AlertModals';
@@ -16,6 +18,7 @@ import { CompanyLogoImage } from '@/assets/images';
 import Image from 'next/image';
 
 const MergeModal = ({ isMerge, setIsMerge }: any) => {
+  const theme = useTheme<Theme>();
   const [age, setAge] = React.useState('');
 
   const handleChange = (event: any) => {
@@ -38,13 +41,19 @@ const MergeModal = ({ isMerge, setIsMerge }: any) => {
                 <Box>
                   <Typography
                     variant="subtitle2"
-                    sx={{ fontWeight: 500, color: '#111827' }}
+                    sx={{
+                      fontWeight: 500,
+                      color: `${theme?.palette?.blue?.dull_blue}`,
+                    }}
                   >
                     Share my dine
                   </Typography>
                   <Typography
                     variant="subtitle2"
-                    sx={{ fontWeight: 400, color: '#667085' }}
+                    sx={{
+                      fontWeight: 400,
+                      color: `${theme?.palette?.custom?.light}`,
+                    }}
                   >
                     smd.com
                   </Typography>
