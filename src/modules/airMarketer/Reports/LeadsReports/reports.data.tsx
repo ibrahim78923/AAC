@@ -11,7 +11,7 @@ export const usersData = () => {
       Id: 1,
       clientName: (
         <Box sx={{ display: 'flex', gap: '5px' }}>
-          <Avatar alt="Remy Sharp" src={AvatarImage.src} />
+          <Avatar alt="Remy Sharp" src={AvatarImage?.src} />
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             <Typography component={'span'}>Olivia Rhyeh</Typography>
             <Typography component={'span'}>@Olivia</Typography>
@@ -30,7 +30,7 @@ export const usersData = () => {
       Id: 2,
       clientName: (
         <Box sx={{ display: 'flex', gap: '5px' }}>
-          <Avatar alt="Remy Sharp" src={AvatarImage.src} />
+          <Avatar alt="Remy Sharp" src={AvatarImage?.src} />
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             <Typography component={'span'}>Olivia Rhyeh</Typography>
             <Typography component={'span'}>@Olivia</Typography>
@@ -49,7 +49,7 @@ export const usersData = () => {
       Id: 3,
       clientName: (
         <Box sx={{ display: 'flex', gap: '5px' }}>
-          <Avatar alt="Remy Sharp" src={AvatarImage.src} />
+          <Avatar alt="Remy Sharp" src={AvatarImage?.src} />
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             <Typography component={'span'}>Olivia Rhyeh</Typography>
             <Typography component={'span'}>@Olivia</Typography>
@@ -68,7 +68,7 @@ export const usersData = () => {
       Id: 4,
       clientName: (
         <Box sx={{ display: 'flex', gap: '5px' }}>
-          <Avatar alt="Remy Sharp" src={AvatarImage.src} />
+          <Avatar alt="Remy Sharp" src={AvatarImage?.src} />
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             <Typography component={'span'}>Olivia Rhyeh</Typography>
             <Typography component={'span'}>@Olivia</Typography>
