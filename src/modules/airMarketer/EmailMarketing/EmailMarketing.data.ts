@@ -8,4 +8,10 @@ export const emailOptions = {
   DELETE: 'Delete',
 };
 
-export const campaignsTabs = ['Manage', 'Calendar', 'Tasks'];
+export const emailMarketingTabsData = [
+  'All',
+  'Scheduled',
+  'Draft',
+  'Sent',
+  'Archived',
+];
