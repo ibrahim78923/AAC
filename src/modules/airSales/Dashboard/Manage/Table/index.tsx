@@ -1,6 +1,4 @@
 import { AlertModals } from '@/components/AlertModals';
-import CustomPagination from '@/components/CustomPagination';
-
 import { ManageDashboardTableData, columns } from './Table.data';
 import useTable from './useTable';
 import TanstackTable from '@/components/Table/TanstackTable';
@@ -11,22 +9,16 @@ const Table = () => {
     handleCloseDeleteModal,
     handleDelete,
     setIsDeleteModalOpen,
-    isChecked,
-    setIsChecked,
-    isGetRowValues,
-    setIsGetRowValues,
   } = useTable();
-  const getColumns = columns(
-    setIsDeleteModalOpen,
-    isChecked,
-    setIsChecked,
-    isGetRowValues,
-    setIsGetRowValues,
-  );
+  const getColumns = columns(setIsDeleteModalOpen);
   return (
     <>
-      <TanstackTable columns={getColumns} data={ManageDashboardTableData} />
-      <CustomPagination count={1} rowsPerPageOptions={[1, 2]} entriePages={1} />
+      <TanstackTable
+        columns={getColumns}
+        data={ManageDashboardTableData}
+        isPagination
+      />
+
       <AlertModals
         message="Are you sure you want to delete dashboard"
         type="delete"
