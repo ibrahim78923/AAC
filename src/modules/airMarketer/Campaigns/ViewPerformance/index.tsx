@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, Typography, useTheme } from '@mui/material';
 
 import ViewCompaignDetails from './ViewCompaignDetails';
 import useCampaigns from '../useCampaigns';
@@ -19,9 +19,14 @@ import { ViewPerformanceTabsArray } from './ViewPerformance.data';
 const ViewPerforance = () => {
   const { setTabVal } = useCampaigns();
   const router = useRouter();
+  const theme = useTheme();
   return (
     <Box
-      sx={{ border: '1px solid #EAECF0', p: '24px 0px', borderRadius: '8px' }}
+      sx={{
+        border: `1px solid ${theme?.palette?.custom?.off_white_three} `,
+        p: '24px 0px',
+        borderRadius: '8px',
+      }}
     >
       <Box
         justifyContent="space-between"

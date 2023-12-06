@@ -9,11 +9,15 @@ import Filters from './Filters';
 import { campaignsTabs } from './Campaigns.data';
 
 const Campaigns = () => {
-  const { setTabVal, isOpenFilter, setIsOpenFilter } = useCampaigns();
+  const { setTabVal, isOpenFilter, setIsOpenFilter, theme } = useCampaigns();
   return (
     <Box>
       <Box
-        sx={{ border: '1px solid #EAECF0', p: '24px 0px', borderRadius: '8px' }}
+        sx={{
+          border: `1px solid ${theme?.palette?.custom?.off_white_three} `,
+          p: '24px 0px',
+          borderRadius: '8px',
+        }}
       >
         <Box
           justifyContent="space-between"
