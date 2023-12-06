@@ -33,7 +33,7 @@ import { styles } from './Layout.style';
 import { v4 as uuidv4 } from 'uuid';
 
 const drawerWidth = 230;
-const role = 'AIR_SERVICES';
+const role = 'AIR_OPERATIONS';
 
 const DashboardLayout = ({ children, window }: any) => {
   const theme = useTheme();

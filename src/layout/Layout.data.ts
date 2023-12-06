@@ -12,8 +12,10 @@ import {
   ContactImage,
   CustomerPortalImage,
   DashboardImage,
+  DataManagementImage,
   DocumentImage,
   ForecastImage,
+  IntegrationsImage,
   KnowledgeBaseImage,
   LogoutImage,
   MailImage,
@@ -22,12 +24,14 @@ import {
   MessageImage,
   PlanManagementImage,
   ProfileUserImage,
+  ProfileUserManagementImage,
   QuotesImage,
   ReportsImage,
   SettingImage,
   SettingQuickImage,
   TicketDiscountImage,
   UserManagementImage,
+  WorkFlowAutomationImage,
   WorkLoadImage,
 } from '@/assets/images';
 import { Permissions } from '@/constants/permissions';
@@ -222,6 +226,58 @@ export const CustomerPortalRoutes: any = [
   },
 ];
 
+export const AirOperationsRoutes: any = [
+  {
+    key: 'air-operations',
+    icon: DashboardImage,
+    label: 'Dashboard',
+    role: 'AIR_OPERATIONS',
+    permissions: [],
+  },
+  {
+    key: 'air-operations/data-management',
+    icon: DataManagementImage,
+    label: 'Data Management',
+    role: 'AIR_OPERATIONS',
+    permissions: [],
+  },
+  {
+    key: 'air-operations/integrations',
+    icon: IntegrationsImage,
+    label: 'Integrations',
+    role: 'AIR_OPERATIONS',
+    permissions: [],
+  },
+  {
+    key: 'air-operations/workflow',
+    icon: WorkFlowAutomationImage,
+    label: 'Workflow',
+    role: 'AIR_OPERATIONS',
+    permissions: [],
+  },
+  {
+    key: 'air-operations/reports',
+    icon: ReportsImage,
+    label: 'Reports',
+    role: 'AIR_OPERATIONS',
+    permissions: [],
+  },
+  {
+    key: 'air-operations/role-and-rights',
+    icon: ForecastImage,
+    label: 'Role and Rights',
+    role: 'AIR_OPERATIONS',
+    permissions: [],
+  },
+  {
+    key: 'air-operations/user-management',
+    icon: ProfileUserManagementImage,
+    label: 'User Management',
+    role: 'AIR_OPERATIONS',
+    permissions: [],
+  },
+];
+
 export const SalesRoutes: any = [
   {
     key: 'air-sales',
@@ -370,6 +426,16 @@ export const LowerOrgAdminRoutes = [
     key: 'logout',
     permissions: [],
     role: 'AIR_SALES',
+    icon: LogoutImage,
+  },
+];
+
+export const LowerAirOperationRoutes = [
+  {
+    label: 'Logout',
+    key: 'logout',
+    role: 'AIR_OPERATIONS',
+    permissions: [],
     icon: LogoutImage,
   },
 ];
@@ -543,6 +609,7 @@ const ROLES_ROUTES: any = {
   AIR_SERVICES: ServicesRoutes,
   ORG_ADMIN: OrgAdminRoutes,
   CUSTOMER_PORTAL: CustomerPortalRoutes,
+  AIR_OPERATIONS: AirOperationsRoutes,
 };
 
 export const getRoutes = (role: any) => {
@@ -554,6 +621,7 @@ const LOWER_ROLES_ROUTES: any = {
   AIR_SALES: LowerSalesRoutes,
   AIR_SERVICES: LowerServicesRoutes,
   ORG_ADMIN: LowerOrgAdminRoutes,
+  AIR_OPERATIONS: LowerAirOperationRoutes,
 };
 
 export const getLowerRoutes = (role: any) => {
