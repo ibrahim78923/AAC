@@ -216,3 +216,12 @@ export { default as IntegrationsImage } from './modules/HeaderAndSidebar/integra
 
 export { default as DataManagementImage } from './modules/HeaderAndSidebar/data-management.png';
 export { default as ProfileUserManagementImage } from './modules/HeaderAndSidebar/profile-user-management.png';
+export { default as WhatsappMarketingImage } from './modules/HeaderAndSidebar/whatsapp-marketing.png';
+export { default as CampaignImage } from './modules/HeaderAndSidebar/campaigns.png';
+
+export { default as LeadCaptureImage } from './modules/HeaderAndSidebar/lead-capture.png';
+
+export { default as SocialMarketingImage } from './modules/HeaderAndSidebar/social-marketing.png';
+export { default as PaidAdsImage } from './modules/HeaderAndSidebar/paid-ads.png';
+export { default as SmsMarketingImage } from './modules/HeaderAndSidebar/sms-marketing.png';
+export { default as EmailMarketingImage } from './modules/HeaderAndSidebar/email-marketing.png';

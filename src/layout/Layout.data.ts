@@ -8,20 +8,24 @@ import {
   BuildingImage,
   BusyImage,
   CallImage,
+  CampaignImage,
   CompaniesImage,
   ContactImage,
   CustomerPortalImage,
   DashboardImage,
   DataManagementImage,
   DocumentImage,
+  EmailMarketingImage,
   ForecastImage,
   IntegrationsImage,
   KnowledgeBaseImage,
+  LeadCaptureImage,
   LogoutImage,
   MailImage,
   MeetingImage,
   MeetingTopImage,
   MessageImage,
+  PaidAdsImage,
   PlanManagementImage,
   ProfileUserImage,
   ProfileUserManagementImage,
@@ -29,6 +33,8 @@ import {
   ReportsImage,
   SettingImage,
   SettingQuickImage,
+  SmsMarketingImage,
+  SocialMarketingImage,
   TicketDiscountImage,
   UserManagementImage,
   WorkFlowAutomationImage,
@@ -191,6 +197,108 @@ export const ServicesRoutes: any = [
     icon: CustomerPortalImage,
     label: 'Control Panel',
     role: 'SERVICE',
+    permissions: [],
+  },
+];
+
+export const AirMarketingRoutes: any = [
+  {
+    key: 'air-marketing',
+    icon: DashboardImage,
+    label: 'Dashboard',
+    role: 'AIR_MARKETING',
+    permissions: [],
+  },
+  {
+    key: 'air-marketing/paid-ads',
+    icon: PaidAdsImage,
+    label: 'Paid Ads',
+    role: 'AIR_MARKETING',
+    permissions: [],
+  },
+  {
+    key: 'air-marketing/campaign',
+    icon: CampaignImage,
+    label: 'Campaign',
+    role: 'AIR_MARKETING',
+    permissions: [],
+  },
+  {
+    key: 'air-marketing/email-marketing/inventory',
+    label: 'Email Marketing',
+    icon: EmailMarketingImage,
+    role: 'AIR_MARKETING',
+    permissions: [],
+    textNames: [
+      {
+        key: 'air-marketing/email-marketing/email-templates',
+        label: 'Email Templates',
+        permissions: [],
+      },
+      {
+        key: 'air-marketing/email-marketing/email-folder',
+        label: 'Email Folder',
+        permissions: [],
+      },
+      {
+        key: 'air-marketing/email-marketing/email-reports',
+        label: 'Email Reports',
+        permissions: [],
+      },
+      {
+        key: 'air-marketing/assets/purchase-orders',
+        label: 'Purchase Orders',
+        permissions: [],
+      },
+    ],
+  },
+
+  {
+    key: 'air-marketing/social-marketing',
+    label: 'Social Marketing',
+    icon: SocialMarketingImage,
+    role: 'AIR_MARKETING',
+    permissions: [],
+    textNames: [
+      {
+        key: 'air-marketing/social-marketing/social-inbox',
+        label: 'SociaL Inbox',
+        permissions: [],
+      },
+    ],
+  },
+
+  {
+    key: 'air-marketing/sms-marketing',
+    icon: SmsMarketingImage,
+    label: 'SMS Marketing',
+    role: 'AIR_MARKETING',
+    permissions: [],
+  },
+  {
+    key: 'air-marketing/lead-capture',
+    label: 'Lead Capture',
+    icon: LeadCaptureImage,
+    role: 'AIR_MARKETING',
+    permissions: [],
+    textNames: [
+      {
+        key: 'air-marketing/lead-capture/cta',
+        label: 'CTA',
+        permissions: [],
+      },
+      {
+        key: 'air-marketing/lead-capture/Forms',
+        label: 'Forms',
+        permissions: [],
+      },
+    ],
+  },
+  {
+    key: 'air-operations/reports',
+    icon: ReportsImage,
+    label: 'Reports',
+    role: 'AIR_MARKETING',
     permissions: [],
   },
 ];
@@ -456,6 +564,24 @@ export const LowerSalesRoutes = [
     icon: LogoutImage,
   },
 ];
+
+export const LowerAirMarketingRoutes = [
+  {
+    label: 'Settings',
+    icon: SettingImage,
+    role: 'AIR_SALES',
+    key: 'air-sales/settings',
+    permissions: [],
+  },
+
+  {
+    label: 'Logout',
+    key: 'logout',
+    role: 'AIR_SALES',
+    permissions: [],
+    icon: LogoutImage,
+  },
+];
 export const LowerServicesRoutes = [
   {
     label: 'Settings',
@@ -610,6 +736,7 @@ const ROLES_ROUTES: any = {
   ORG_ADMIN: OrgAdminRoutes,
   CUSTOMER_PORTAL: CustomerPortalRoutes,
   AIR_OPERATIONS: AirOperationsRoutes,
+  AIR_MARKETER: AirMarketingRoutes,
 };
 
 export const getRoutes = (role: any) => {
@@ -622,6 +749,7 @@ const LOWER_ROLES_ROUTES: any = {
   AIR_SERVICES: LowerServicesRoutes,
   ORG_ADMIN: LowerOrgAdminRoutes,
   AIR_OPERATIONS: LowerAirOperationRoutes,
+  AIR_MARKETER: LowerAirMarketingRoutes,
 };
 
 export const getLowerRoutes = (role: any) => {
