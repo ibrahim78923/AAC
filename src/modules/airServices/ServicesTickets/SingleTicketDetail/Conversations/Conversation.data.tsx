@@ -10,26 +10,26 @@ export const conversationValidationSchema = (action) => {
   switch (action) {
     case TICKETS_CONVERSATION_TYPE?.NOTE:
       return Yup?.object()?.shape({
-        note: Yup?.string()?.required('Field is Required'),
-        notify: Yup?.string()?.required('Field is Required'),
-        description: Yup?.string()?.trim()?.required('Field is Required'),
-        file: Yup?.string()?.trim()?.required('Field is Required'),
+        note: Yup?.string()?.required('Required Field'),
+        notify: Yup?.string()?.required('Required Field'),
+        description: Yup?.string()?.trim()?.required('Required Field'),
+        file: Yup?.string()?.trim()?.required('Required Field'),
       });
     case TICKETS_CONVERSATION_TYPE?.REPLY:
       return Yup?.object()?.shape({
-        reply: Yup?.string()?.required('Field is Required'),
-        replyFrom: Yup?.string()?.required('Field is Required'),
-        replyTo: Yup?.string()?.required('Field is Required'),
-        description: Yup?.string()?.trim()?.required('Field is Required'),
-        file: Yup?.string()?.trim()?.required('Field is Required'),
+        reply: Yup?.string()?.required('Required Field'),
+        replyFrom: Yup?.string()?.required('Required Field'),
+        replyTo: Yup?.string()?.required('Required Field'),
+        description: Yup?.string()?.trim()?.required('Required Field'),
+        file: Yup?.string()?.trim()?.required('Required Field'),
       });
     case TICKETS_CONVERSATION_TYPE?.FORWARD:
       return Yup?.object()?.shape({
-        forward: Yup?.string()?.required('Field is Required'),
-        forwardFrom: Yup?.string()?.required('Field is Required'),
-        forwardTo: Yup?.string()?.required('Field is Required'),
-        description: Yup?.string()?.trim()?.required('Field is Required'),
-        file: Yup?.string()?.required('Field is Required'),
+        forward: Yup?.string()?.required('Required Field'),
+        forwardFrom: Yup?.string()?.required('Required Field'),
+        forwardTo: Yup?.string()?.required('Required Field'),
+        description: Yup?.string()?.trim()?.required('Required Field'),
+        file: Yup?.string()?.required('Required Field'),
       });
     default:
       return Yup?.object()?.shape({});
@@ -74,6 +74,7 @@ export const conversationNoteArray = [
     componentProps: {
       name: 'notify',
       label: 'Notify to',
+      placeholder: 'Search Email',
       fullWidth: true,
     },
     component: RHFTextField,

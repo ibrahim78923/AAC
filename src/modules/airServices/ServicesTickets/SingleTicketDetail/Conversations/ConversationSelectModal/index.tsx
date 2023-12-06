@@ -5,6 +5,8 @@ import Search from '@/components/Search';
 import { v4 as uuidv4 } from 'uuid';
 import PlusSharedIconColor from '@/assets/icons/shared/plus-shared-color';
 import { TICKETS_CONVERSATION_MODAL_TYPE } from '@/constants/strings';
+import { useRouter } from 'next/router';
+import { AIR_SERVICES } from '@/constants';
 
 const ConversationSelectModal = ({
   theme,
@@ -14,13 +16,14 @@ const ConversationSelectModal = ({
   setSearchTerm,
   title,
 }) => {
+  const { push } = useRouter();
   const handleAddClick = (selectedTitle) => {
     onAddButtonClick(selectedTitle);
   };
 
   return (
     <Grid padding={'1.2rem'}>
-      <Box width={{ md: 528, xs: 260 }} marginBottom={'1rem'}>
+      <Box width={{ md: 528, xs: 260 }} marginBottom={'0.25rem'}>
         <Search
           value={searchTerm}
           onChange={(event) => setSearchTerm(event?.target?.value)}
@@ -31,12 +34,14 @@ const ConversationSelectModal = ({
       </Box>
 
       <Box>
-        <Box display={'flex'} alignItems="center" cursor={'pointer'}>
+        <Box
+          sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
+          onClick={() => push(AIR_SERVICES?.NEW_PURCHASE_ORDER)}
+        >
           <PlusSharedIconColor color={theme?.palette?.primary?.main} />
           <Typography marginLeft={1}>{title}</Typography>
         </Box>
 
-        <br />
         {filteredContent?.map((item) => (
           <Box
             marginTop={2}
@@ -48,12 +53,24 @@ const ConversationSelectModal = ({
             <Typography>{item?.title}</Typography>
             <Box display="flex" alignItems="center" marginTop={1}>
               {title === TICKETS_CONVERSATION_MODAL_TYPE.ARTICLE && (
-                <Typography marginRight={'.50rem'}>{item?.link}</Typography>
+                <Typography fontSize={12} marginRight={'.50rem'}>
+                  {item?.link}
+                </Typography>
               )}
-              <Button onClick={() => handleAddClick(item?.title)}>
+              <Button
+                variant="outlined"
+                size="small"
+                sx={{
+                  height: 30,
+                  background: theme?.palette?.primary?.main + 50,
+                  fontSize: 12,
+                  fontWeight: 500,
+                }}
+                onClick={() => handleAddClick(item?.title)}
+              >
                 {title === TICKETS_CONVERSATION_MODAL_TYPE.CANNED
-                  ? 'ADD'
-                  : 'ADD Content'}
+                  ? 'Add'
+                  : 'Add Content'}
               </Button>
             </Box>
           </Box>

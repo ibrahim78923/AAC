@@ -94,7 +94,7 @@ export const TasksHeader = ({
       </Grid>
       <AlertModals
         type="delete"
-        message="Are you sure you want to delete this Asset?"
+        message="Are you sure you want to delete this task?"
         open={deleteModal}
         handleClose={() => setDeleteModal(false)}
         handleSubmit={submitDeleteModel}
