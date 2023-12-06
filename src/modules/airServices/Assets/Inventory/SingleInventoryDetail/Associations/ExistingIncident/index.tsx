@@ -68,8 +68,9 @@ export const ExistingIncident = ({ openDrawer, onClose }: any) => {
             label={item?.status}
             sx={{
               bgcolor:
-                theme?.['palette']?.[`${chipColor(item?.status)}`]?.['main'],
-              color: theme?.palette?.common?.white,
+                theme?.['palette']?.[`${chipColor(item?.status)}`]?.['lighter'],
+              color:
+                theme?.['palette']?.[`${chipColor(item?.status)}`]?.['darker'],
             }}
           />
         </Box>

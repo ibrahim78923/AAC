@@ -304,6 +304,9 @@ export { default as LeadersBoardIcon } from './modules/airServices/Settings/lead
 export { default as WorkloadManagementIcon } from './modules/airServices/Settings/workload-management-icon';
 export { default as AddRoleIcon } from './modules/airServices/Settings/UserManagement/Roles/add-role-icon';
 export { default as CsvImportIcon } from './shared/csv-import-icon';
+export { default as FolderLargePrimaryIcon } from './shared/folder-large-primary-icon';
+export { default as FolderLargeYellowIcon } from './shared/folder-large-yellow-icon';
+export { default as LockedIcon } from './shared/locked-icon';
 export { default as ActionMenuIcon } from './shared/action-menu-icon';
 export { default as ViewDetailIcon } from './shared/view-detail-icon';
 export { default as EmbedCodeIcon } from './shared/embed-code-icon';

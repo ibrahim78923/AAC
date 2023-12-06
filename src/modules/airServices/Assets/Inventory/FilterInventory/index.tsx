@@ -16,7 +16,7 @@ export const FilterInventory = (props: any) => {
   return (
     <>
       <CommonDrawer
-        title="Filter"
+        title="Filters"
         isDrawerOpen={isDrawerOpen}
         submitHandler={() => {
           handleSubmit?.(submitInventoryFilterForm)();
