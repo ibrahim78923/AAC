@@ -88,3 +88,9 @@ export const AIR_MARKETER = {
   CREATE_SMS_BROADCAST: '/air-marketer/sms-marketing/create-sms-broadcast',
   VIEW_PERFORMANCE: '/air-marketer/campaigns/view-performance',
 };
+
+export const airMarketerLeadCapture = {
+  VERIFY_EMAIL: '/air-marketer/lead-capture/verify-email',
+  CREATE_FORM: '/air-marketer/lead-capture/create-form',
+  ALL_TABLE: '/air-marketer/lead-capture/forms',
+};
