@@ -175,10 +175,18 @@ const RHFSwitchableDatepicker = ({ name, required, ...other }: any) => {
         <Box sx={styles.dpFooter}>
           <Box sx={styles.dpFooterText}>{formattedDate}</Box>
           <Stack direction="row" spacing="12px">
-            <Button variant="outlined" onClick={() => setIsOpen(false)}>
+            <Button
+              className="small"
+              variant="outlined"
+              onClick={() => setIsOpen(false)}
+            >
               Cancel
             </Button>
-            <Button variant="contained" onClick={() => setIsOpen(false)}>
+            <Button
+              className="small"
+              variant="contained"
+              onClick={() => setIsOpen(false)}
+            >
               Apply
             </Button>
           </Stack>

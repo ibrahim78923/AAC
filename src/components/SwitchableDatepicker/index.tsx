@@ -5,7 +5,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { styles } from './style';
 import { DATE_FORMAT } from '@/constants';
-import { PrimaryCalendarIcon } from '@/assets/icons';
+import { PrimaryCalendarIcon, CanlendarButtonIcon } from '@/assets/icons';
 
 const SwitchableDatepicker = ({
   renderInput = 'button',
@@ -155,10 +155,15 @@ const SwitchableDatepicker = ({
             )}
           </Box>
           <Stack direction="row" spacing="12px">
-            <Button variant="outlined" onClick={() => setIsOpen(false)}>
+            <Button
+              className="small"
+              variant="outlined"
+              onClick={() => setIsOpen(false)}
+            >
               Cancel
             </Button>
             <Button
+              className="small"
               variant="contained"
               onClick={() => {
                 handleDateSubmit?.();
@@ -190,7 +195,7 @@ const SwitchableDatepicker = ({
           color="inherit"
           onClick={handleClick}
         >
-          <PrimaryCalendarIcon />
+          <CanlendarButtonIcon />
           <Box sx={{ ml: '8px', display: 'inline-flex' }}>Date</Box>
         </Button>
       ) : (
