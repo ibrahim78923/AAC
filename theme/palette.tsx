@@ -107,6 +107,7 @@ const CUSTOM_COLORS = {
   published_not_bg: '#FFF6DD',
   published_not_color: '#F2B500',
   Trash_bg: '#D2D6DF',
+  slate_gray: '#EDEDED',
 };
 const GRADIENTS = {
   primary: createGradient(PRIMARY?.light, PRIMARY?.main),
