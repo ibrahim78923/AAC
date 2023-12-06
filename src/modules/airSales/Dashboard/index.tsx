@@ -20,14 +20,18 @@ const Dashboard = () => {
   const [isToggled, toggle] = useToggle(false);
 
   return (
-    <Grid container spacing={2} pl={5}>
+    <Grid container spacing={2} sx={{ paddingLeft: '0px' }}>
       {!isToggled && !isShowEditDashboard && (
         <>
           <Grid
             item
             md={12}
             lg={12}
-            style={{ display: 'flex', justifyContent: 'space-between' }}
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              paddingLeft: '0px',
+            }}
           >
             <Typography variant="h4">Sales Dashboard</Typography>
 
@@ -36,14 +40,14 @@ const Dashboard = () => {
               <CreateDashboardOptions toggle={toggle} />
             </Box>
           </Grid>
-          <Grid item xs={12} lg={6}>
+          <Grid item xs={12} lg={6} style={{ paddingLeft: '0px' }}>
             <DealsGraph />
           </Grid>
 
           <Grid item xs={12} lg={6}>
             <TeamActivity />
           </Grid>
-          <Grid item xs={12} lg={6}>
+          <Grid item xs={12} lg={6} style={{ paddingLeft: '0px' }}>
             <MeetingDetails />
           </Grid>
           <Grid item xs={12} lg={6}>

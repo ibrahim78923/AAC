@@ -2,7 +2,6 @@ import React from 'react';
 import { Box, Typography } from '@mui/material';
 import ConversationView from '../ConversationView';
 import { UseConversation } from '../useConversation';
-import { menuOptionsAddConversation } from '../Conversation.data';
 import ConversationMenu from '../ConversationMenu';
 
 const ConversationsDetails = () => {
@@ -32,7 +31,6 @@ const ConversationsDetails = () => {
             addConversation={addConversation}
             handleCloseButtonMenu={handleCloseButtonMenu}
             setSelectedItem={setSelectedItem}
-            menuOptionsAddConversation={menuOptionsAddConversation}
           />
         )}
       </Box>

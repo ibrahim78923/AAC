@@ -41,6 +41,7 @@ export const RelatedTicketsHeader = ({
           endIcon={<ActionButtonIcon />}
           onClick={handleActionClick}
           disabled={!!!isActive?.length}
+          variant={'outlined'}
         >
           Action
         </Button>

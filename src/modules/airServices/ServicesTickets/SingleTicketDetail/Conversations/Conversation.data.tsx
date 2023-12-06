@@ -6,7 +6,7 @@ import {
 } from '@/components/ReactHookForm';
 import { TICKETS_CONVERSATION_TYPE } from '@/constants/strings';
 import * as Yup from 'yup';
-export const conversationValidationSchema = (action) => {
+export const conversationValidationSchema = (action: any) => {
   switch (action) {
     case TICKETS_CONVERSATION_TYPE?.NOTE:
       return Yup?.object()?.shape({
@@ -76,6 +76,7 @@ export const conversationNoteArray = [
       label: 'Notify to',
       placeholder: 'Search Email',
       fullWidth: true,
+      required: true,
     },
     component: RHFTextField,
     md: 12,
@@ -85,6 +86,7 @@ export const conversationNoteArray = [
       name: 'description',
       label: 'Description',
       fullWidth: true,
+      required: true,
       style: { height: '20vh' },
     },
     component: RHFEditor,

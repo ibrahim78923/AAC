@@ -1,33 +1,15 @@
-import { Box, Checkbox, Switch } from '@mui/material';
+import { Box, Switch } from '@mui/material';
 
 import { DeleteCrossIcon, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
 
-export const columns = (
-  setIsDeleteModalOpen: any,
-  isChecked: any,
-  setIsChecked: any,
-  isGetRowValues: any,
-  setIsGetRowValues: any,
-) => {
+export const columns = (setIsDeleteModalOpen: any) => {
   return [
     {
-      accessorFn: (row: any) => row?.Id,
-      id: 'Id',
-      cell: (info: any) => (
-        <Checkbox
-          color="primary"
-          checked={
-            info.cell.row.original.Id ===
-              isGetRowValues?.cell?.row?.original?.Id && isChecked
-          }
-          name={info.getValue()}
-          onClick={() => {
-            setIsGetRowValues(info), setIsChecked(!isChecked);
-          }}
-        />
-      ),
-      header: <Checkbox color="primary" name="Id" />,
-      isSortable: false,
+      accessorFn: (row: any) => row?.dashboardName,
+      id: 'dashboardName',
+      isSortable: true,
+      header: 'Dashboard Name',
+      cell: (info: any) => info?.getValue(),
     },
 
     {
@@ -101,6 +83,7 @@ export const ManageDashboardTableData: any = [
     id: 1,
     default: true,
     owner: 'Olivia Rhye',
+    dashboardName: 'Sale_1',
     accessRights: 'Everyone',
     lastViewed: '10/04/2023',
     lastUpdated: '10/04/2023',
@@ -108,6 +91,7 @@ export const ManageDashboardTableData: any = [
   {
     id: 2,
     default: true,
+    dashboardName: 'Sale_1',
     owner: 'Olivia Rhye',
     accessRights: 'Everyone',
     lastViewed: '10/04/2023',
@@ -116,6 +100,7 @@ export const ManageDashboardTableData: any = [
   {
     id: 3,
     default: true,
+    dashboardName: 'Sale_1',
     owner: 'Olivia Rhye',
     accessRights: 'Everyone',
     lastViewed: '10/04/2023',
@@ -124,6 +109,7 @@ export const ManageDashboardTableData: any = [
   {
     id: 4,
     default: true,
+    dashboardName: 'Sale_1',
     owner: 'Olivia Rhye',
     accessRights: 'Everyone',
     lastViewed: '10/04/2023',
@@ -132,6 +118,7 @@ export const ManageDashboardTableData: any = [
   {
     id: 5,
     default: true,
+    dashboardName: 'Sale_1',
     owner: 'Olivia Rhye',
     accessRights: 'Everyone',
     lastViewed: '10/04/2023',

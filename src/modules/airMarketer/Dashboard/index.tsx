@@ -20,7 +20,7 @@ const Dashboard = () => {
   } = useDashboard();
   return (
     <>
-      <Grid container spacing={2} pl={5}>
+      <Grid container spacing={2} sx={{ paddingLeft: '0px' }}>
         {!isToggled && !isShowEditDashboard && (
           <>
             <Grid
@@ -35,14 +35,14 @@ const Dashboard = () => {
                 <ManageDashboardOptions toggle={toggle} />
               </Box>
             </Grid>
-            <Grid item xs={12} lg={6}>
+            <Grid item xs={12} lg={6} sx={{ paddingLeft: '0px' }}>
               <ContactCustomerGraph />
             </Grid>
 
             <Grid item xs={12} lg={6}>
               <CtaViews />
             </Grid>
-            <Grid item xs={12} lg={6}>
+            <Grid item xs={12} lg={6} sx={{ paddingLeft: '0px' }}>
               <TotalMarketingEmail />
             </Grid>
             <Grid item xs={12} lg={6}>

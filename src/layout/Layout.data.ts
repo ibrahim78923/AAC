@@ -193,28 +193,28 @@ export const ServicesRoutes: any = [
 
 export const CustomerPortalRoutes: any = [
   {
-    key: 'customer-portal',
+    key: 'air-customer-portal',
     icon: DashboardImage,
     label: 'Dashboard',
     role: 'CUSTOMER_PORTAL',
     permissions: [],
   },
   {
-    key: 'customer-portal/tickets',
+    key: 'air-customer-portal/tickets',
     icon: TicketDiscountImage,
     label: 'Tickets',
     role: 'CUSTOMER_PORTAL',
     permissions: [],
   },
   {
-    key: 'customer-portal/knowledge-base',
+    key: 'air-customer-portal/knowledge-base',
     icon: KnowledgeBaseImage,
     label: 'Knowledge Base',
     role: 'CUSTOMER_PORTAL',
     permissions: [],
   },
   {
-    key: 'customer-portal/catalog',
+    key: 'air-customer-portal/catalog',
     icon: WorkLoadImage,
     label: 'Catalog',
     role: 'CUSTOMER_PORTAL',

@@ -12,6 +12,8 @@ const ManageDashboardOptions = ({ toggle }: any) => {
     <div>
       <Button
         className="small"
+        variant="outlined"
+        color="inherit"
         sx={{
           border: `1px solid ${theme?.palette?.custom?.dark}`,
           color: theme?.palette?.custom?.main,
@@ -54,6 +56,8 @@ const ManageDashboardOptions = ({ toggle }: any) => {
               color: theme?.palette?.grey[500],
             }}
             variant="outlined"
+            color="inherit"
+            className="small"
           >
             Manage Dashboards
           </Button>
