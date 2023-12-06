@@ -1,5 +1,9 @@
 import { Typography } from '@mui/material';
-import { RHFRadioGroup, RHFSelect } from '@/components/ReactHookForm';
+import {
+  RHFRadioGroup,
+  RHFSelect,
+  RHFTextField,
+} from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
 export const targetingValidation = Yup.object().shape({
@@ -88,30 +92,18 @@ export const targetingFormData = [
     componentProps: {
       name: 'location',
       fullWidth: true,
-      select: true,
+      placeholder: 'Start Age',
     },
-    options: [
-      { value: '15', label: '15' },
-      { value: '16', label: '16' },
-      { value: '17', label: '17' },
-      { value: '18', label: '18' },
-    ],
-    component: RHFSelect,
+    component: RHFTextField,
     md: 6,
   },
   {
     componentProps: {
       name: 'location',
       fullWidth: true,
-      select: true,
+      placeholder: 'End Age',
     },
-    options: [
-      { value: '15', label: '15' },
-      { value: '16', label: '16' },
-      { value: '17', label: '17' },
-      { value: '18', label: '18' },
-    ],
-    component: RHFSelect,
+    component: RHFTextField,
     md: 6,
   },
 ];

@@ -38,7 +38,7 @@ const SecondPostOverview = ({ postData }: any) => {
             <Box sx={style?.avatarStyle(postData?.category)}>
               <Avatar src={postData?.avatar}></Avatar>
               <Box className="avatar-category">
-                {socialCatgory[postData.category]}
+                {socialCatgory[postData?.category]}
               </Box>
             </Box>
           }
