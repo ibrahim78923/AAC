@@ -43,7 +43,7 @@ export const styles = {
       width: '100%',
       position: 'relative',
       top: '-58px',
-      borderLeft: `1px solid ${theme?.palette.custom?.slate_gray}`,
+      borderLeft: `1px solid ${theme?.palette?.custom?.slate_gray}`,
       '@media (max-width: 899px)': {
         width: '100%',
         top: '0px',
