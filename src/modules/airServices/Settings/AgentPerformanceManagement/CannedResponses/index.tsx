@@ -8,7 +8,11 @@ import {
 } from '@mui/material';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import { FolderLargeIcon, LockedIcon } from '@/assets/icons';
+import {
+  FolderLargePrimaryIcon,
+  FolderLargeYellowIcon,
+  LockedIcon,
+} from '@/assets/icons';
 import { responseCategories } from './CannedResponses.data';
 import { MoreHoriz } from '@mui/icons-material';
 import { CreateNewFolder } from './CreateNewFolder';
@@ -21,7 +25,6 @@ import { DeleteFolderModal } from './DeleteFolderModal';
 export const CannedResponses = () => {
   const {
     router,
-    theme,
     convertToHyphenCase,
     handleActionClose,
     actionPop,
@@ -141,13 +144,11 @@ export const CannedResponses = () => {
                 )}`}
               >
                 <Box>
-                  <FolderLargeIcon
-                    color={
-                      response?.default
-                        ? theme?.palette?.primary?.main
-                        : theme?.palette?.warning?.main
-                    }
-                  />
+                  {response?.default ? (
+                    <FolderLargePrimaryIcon />
+                  ) : (
+                    <FolderLargeYellowIcon />
+                  )}
                 </Box>
                 <Typography fontWeight={700} color="blue.dark" mt={1}>
                   {response?.name}

@@ -4,6 +4,7 @@ import {
   DysonAvatarImage,
   UserAvatarImage,
 } from '@/assets/images';
+import { CANNED_RESPONSES } from '@/constants/strings';
 import { AvatarGroup, Box, Checkbox, Avatar } from '@mui/material';
 export const responsesTableColumns = (
   responsesData: any,
@@ -124,16 +125,18 @@ export const responsesTableData: any = [
     ],
   },
 ];
-export const ACTION_TYPES = {
-  DELETE: 'delete',
-  EDIT: 'edit',
-  MOVE: 'move',
-};
+
 export const actionsOptions = (handleOptionsClick: any) => [
-  { title: 'Edit', handleClick: () => handleOptionsClick(ACTION_TYPES?.EDIT) },
+  {
+    title: 'Edit',
+    handleClick: () => handleOptionsClick(CANNED_RESPONSES?.EDIT),
+  },
   {
     title: 'Delete',
-    handleClick: () => handleOptionsClick(ACTION_TYPES?.DELETE),
+    handleClick: () => handleOptionsClick(CANNED_RESPONSES?.DELETE),
   },
-  { title: 'Move', handleClick: () => handleOptionsClick(ACTION_TYPES?.MOVE) },
+  {
+    title: 'Move',
+    handleClick: () => handleOptionsClick(CANNED_RESPONSES?.MOVE),
+  },
 ];

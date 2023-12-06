@@ -19,8 +19,7 @@ const availableForOptions = [
     value: 'selectAgents',
   },
 ];
-export const AVAILABLE_FOR = 'availableFor';
-export const SELECT_AGENTS = 'selectAgents';
+
 export const addResponseValidationSchema = Yup?.object()?.shape({
   title: Yup?.string()?.required('Required'),
   message: Yup?.string(),
@@ -38,7 +37,7 @@ export const addResponseDataArray = [
     id: 1,
     componentProps: {
       name: 'title',
-      label: 'Responses Title',
+      label: 'Responses title',
       fullWidth: true,
       required: true,
     },
@@ -63,7 +62,7 @@ export const addResponseDataArray = [
     id: 4,
     componentProps: {
       name: 'availableFor',
-      label: 'Available For:',
+      label: 'Available for:',
       fullWidth: true,
       avatarGroup: true,
       options: availableForOptions,
@@ -86,7 +85,7 @@ export const addResponseDataArray = [
     id: 2,
     componentProps: {
       name: 'attachFile',
-      label: 'Attach a File',
+      label: 'Attach a file',
       fullWidth: true,
     },
     component: RHFDropZone,

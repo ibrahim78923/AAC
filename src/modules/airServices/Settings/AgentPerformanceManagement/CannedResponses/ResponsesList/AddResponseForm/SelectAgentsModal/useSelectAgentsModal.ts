@@ -1,28 +1,33 @@
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { CANNED_RESPONSES, NOTISTACK_VARIANTS } from '@/constants/strings';
 import { enqueueSnackbar } from 'notistack';
 import { useForm } from 'react-hook-form';
 import {
-  AGENTS,
   selectAgentDefaultValues,
   selectAgentSchema,
 } from './SelectAgentsModal.data';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-export const useSelectAgentsModal = () => {
+export const useSelectAgentsModal = (props: any) => {
+  const { openSelectAgentsModal, closeSelectAgentsModal, setAgentsResponses } =
+    props;
   const method = useForm({
     defaultValues: selectAgentDefaultValues,
     resolver: yupResolver(selectAgentSchema),
   });
-  const { watch } = method;
-  const agents = watch(AGENTS);
+  const { watch }: any = method;
+  const agents = watch(CANNED_RESPONSES?.AGENTS);
   const onSubmit = () => {
-    enqueueSnackbar('Moved Successfully!', {
+    setAgentsResponses(agents);
+    enqueueSnackbar('Agents Selected!', {
       variant: NOTISTACK_VARIANTS?.SUCCESS,
     });
+    closeSelectAgentsModal();
   };
   return {
     method,
     onSubmit,
     agents,
+    openSelectAgentsModal,
+    closeSelectAgentsModal,
   };
 };

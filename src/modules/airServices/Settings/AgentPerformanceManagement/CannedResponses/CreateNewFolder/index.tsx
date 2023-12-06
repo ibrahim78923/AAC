@@ -13,11 +13,13 @@ import { useCreateNewFolder } from './useCreateNewFolder';
 import { createNewFolderArray } from './CreateNewFolder.data';
 import { LoadingButton } from '@mui/lab';
 
-export const CreateNewFolder = ({
-  openCreateNewFolderModal,
-  closeCreateNewFolderModal,
-}: any) => {
-  const { method, onSubmit } = useCreateNewFolder(openCreateNewFolderModal);
+export const CreateNewFolder = (props: any) => {
+  const {
+    method,
+    onSubmit,
+    openCreateNewFolderModal,
+    closeCreateNewFolderModal,
+  } = useCreateNewFolder(props);
   return (
     <>
       {openCreateNewFolderModal?.open && (
@@ -74,11 +76,7 @@ export const CreateNewFolder = ({
                 >
                   Cancel
                 </LoadingButton>
-                <LoadingButton
-                  type="submit"
-                  variant="contained"
-                  onClick={method?.handleSubmit(onSubmit)}
-                >
+                <LoadingButton type="submit" variant="contained">
                   {openCreateNewFolderModal?.editData ? 'Apply' : 'Submit'}
                 </LoadingButton>
               </Box>

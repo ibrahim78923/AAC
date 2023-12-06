@@ -11,7 +11,7 @@ export const DeleteFolderModal = ({ id, handleActionClose }: any) => {
         Delete
       </MenuItem>
       <AlertModals
-        message={'Are you sure you want to delete this Folder prenatally?'}
+        message={'Are you sure you want to delete this Folder?'}
         type={ALERT_MODALS_TYPE?.DELETE}
         open={openDeleteModal}
         handleClose={() => {

@@ -17,7 +17,7 @@ export const userData = [
     value: 'Aleesha Kong',
   },
 ];
-export const AGENTS = 'agents';
+
 export const selectAgentSchema = Yup?.object()?.shape({
   agents: Yup?.array()?.required('Required'),
 });

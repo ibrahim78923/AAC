@@ -1,10 +1,8 @@
-import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
 import { MouseEvent, useState } from 'react';
 
 export const useCannedResponses = () => {
   const router = useRouter();
-  const theme = useTheme();
   const [actionPop, setActionPop] = useState<HTMLElement | null>(null);
   const [openCreateNewFolderModal, setOpenCreateNewFolderModal] = useState<any>(
     { open: false, editData: null },
@@ -24,7 +22,6 @@ export const useCannedResponses = () => {
   const openAction = Boolean(actionPop);
   return {
     router,
-    theme,
     convertToHyphenCase,
     handleActionClose,
     actionPop,

@@ -13,11 +13,9 @@ import { useMoveFolderModal } from './useMoveFolderModal';
 import { moveFolderOptions } from './MoveFolderModal.data';
 import { LoadingButton } from '@mui/lab';
 
-export const MoveFolderModal = ({
-  openMoveFolderModal,
-  closeMoveFolderModal,
-}: any) => {
-  const { method, onSubmit } = useMoveFolderModal();
+export const MoveFolderModal = (props: any) => {
+  const { method, onSubmit, openMoveFolderModal, closeMoveFolderModal } =
+    useMoveFolderModal(props);
   return (
     <>
       {openMoveFolderModal && (
@@ -74,11 +72,7 @@ export const MoveFolderModal = ({
                 >
                   Cancel
                 </LoadingButton>
-                <LoadingButton
-                  type="submit"
-                  variant="contained"
-                  onClick={method.handleSubmit(onSubmit)}
-                >
+                <LoadingButton type="submit" variant="contained">
                   Move
                 </LoadingButton>
               </Box>

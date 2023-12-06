@@ -16,12 +16,14 @@ import { userData } from './SelectAgentsModal.data';
 import { FormProvider, RHFAutocomplete } from '@/components/ReactHookForm';
 import { LoadingButton } from '@mui/lab';
 
-export const SelectAgentsModal = ({
-  openSelectAgentsModal,
-  closeSelectAgentsModal,
-  setAgentsResponses,
-}: any) => {
-  const { agents, method, onSubmit } = useSelectAgentsModal();
+export const SelectAgentsModal = (props: any) => {
+  const {
+    method,
+    onSubmit,
+    agents,
+    openSelectAgentsModal,
+    closeSelectAgentsModal,
+  } = useSelectAgentsModal(props);
   return (
     <>
       {openSelectAgentsModal && (
@@ -109,10 +111,6 @@ export const SelectAgentsModal = ({
                   type="submit"
                   variant="contained"
                   disabled={!!!agents?.length}
-                  onClick={() => {
-                    setAgentsResponses(agents);
-                    closeSelectAgentsModal();
-                  }}
                 >
                   Assign
                 </LoadingButton>

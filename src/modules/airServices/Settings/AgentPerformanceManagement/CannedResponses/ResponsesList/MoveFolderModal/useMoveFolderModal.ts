@@ -7,7 +7,8 @@ import {
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
-export const useMoveFolderModal = () => {
+export const useMoveFolderModal = (props: any) => {
+  const { openMoveFolderModal, closeMoveFolderModal } = props;
   const method = useForm({
     defaultValues: moveFolderDefaultValues,
     resolver: yupResolver(moveFolderSchema),
@@ -16,9 +17,12 @@ export const useMoveFolderModal = () => {
     enqueueSnackbar('Moved Successfully!', {
       variant: NOTISTACK_VARIANTS?.SUCCESS,
     });
+    closeMoveFolderModal();
   };
   return {
     method,
     onSubmit,
+    openMoveFolderModal,
+    closeMoveFolderModal,
   };
 };
