@@ -81,12 +81,51 @@ export const airMarketingCalendar = {
   create_post: '/air-marketer/social-marketing/create-post',
 };
 
+const AIR_MARKETING_PAGE = 'air-marketing';
 export const AIR_MARKETER = {
-  SOCIAL_INBOX_SETTINGS: '/air-marketer/social-marketing/social-inbox/settings',
-  SMS_MARKETING: '/air-marketer/sms-marketing',
-  SMS_MARKETING_DETAILS: '/air-marketer/sms-marketing/sms-marketing-details',
-  CREATE_SMS_BROADCAST: '/air-marketer/sms-marketing/create-sms-broadcast',
-  VIEW_PERFORMANCE: '/air-marketer/campaigns/view-performance',
+  root: AIR_MARKETING_PAGE,
+  PAID_ADS: path(AIR_MARKETING_PAGE, '/paid-ads'),
+  CREATE_AD: path(AIR_MARKETING_PAGE, '/paid-ads/create-ad'),
+  ENGAGEMENT_ADS: path(AIR_MARKETING_PAGE, '/paid-ads/create-ad/engagement-ads'),
+  EMAIL_MARKETING: path(AIR_MARKETING_PAGE, '/email-marketing'),
+  EMAIL_TEMPLATES: path(AIR_MARKETING_PAGE, '/email-marketing/email-templates'),
+  EMAIL_FOLDER: path(AIR_MARKETING_PAGE, '/email-marketing/email-folder'),
+  EMAIL_REPORTS: path(AIR_MARKETING_PAGE, '/email-marketing/email-reports'),
+  SOCIAL_MARKETING: path(AIR_MARKETING_PAGE, '/social-marketing'),
+  SOCIAL_INBOX: path(AIR_MARKETING_PAGE, '/social-marketing/social-inbox'),
+  SMS_MARKETING: path(AIR_MARKETING_PAGE, '/sms-marketing'),
+  WHATSAPP_MARKETING: path(AIR_MARKETING_PAGE, '/whatsapp-marketing'),
+  LEAD_CAPTURE: path(AIR_MARKETING_PAGE, '/lead-capture'),
+  LEAD_CAPTURE_CTA: path(AIR_MARKETING_PAGE, '/lead-capture/cta'),
+  LEAD_CAPTURE_FORMS: path(AIR_MARKETING_PAGE, '/lead-capture/forms'),
+  REPORTS: path(AIR_MARKETING_PAGE, '/reports'),
+  CAMPAIGNS: path(AIR_MARKETING_PAGE, '/campaigns'),
+  SETTINGS: path(AIR_MARKETING_PAGE, '/settings'),
+  SOCIAL_INBOX_SETTINGS: path(
+    AIR_MARKETING_PAGE,
+    '/social-marketing/social-inbox/settings',
+  ),
+  SMS_MARKETING_DETAILS: path(
+    AIR_MARKETING_PAGE,
+    '/sms-marketing/sms-marketing-details',
+  ),
+  CREATE_SMS_BROADCAST: path(
+    AIR_MARKETING_PAGE,
+    '/sms-marketing/create-sms-broadcast',
+  ),
+  VIEW_PERFORMANCE: path(AIR_MARKETING_PAGE, '/compaigns/view-performance'),
+};
+
+const AIR_OPERATIONS_PAGE = 'air-operation';
+
+export const AIR_OPERATION = {
+  root: AIR_OPERATIONS_PAGE,
+  WORK_FLOW: path(AIR_OPERATIONS_PAGE, '/workflow'),
+  DATA_MANAGEMENT: path(AIR_OPERATIONS_PAGE, '/data-management'),
+  INTEGRATIONS: path(AIR_OPERATIONS_PAGE, '/integrations'),
+  REPORTS: path(AIR_OPERATIONS_PAGE, '/reports'),
+  ROLE_AND_RIGHT: path(AIR_OPERATIONS_PAGE, '/role-and-rights'),
+  USER_MANAGEMENT: path(AIR_OPERATIONS_PAGE, '/user-management'),
 };
 
 export const airMarketerLeadCapture = {

@@ -53,7 +53,7 @@ const Manage = () => {
                   </Box>
                   {item?.divider && (
                     <Divider
-                      sx={{ borderColor: '#E5E7EB' }}
+                      sx={{ borderColor: theme?.palette?.grey[700] }}
                       orientation="vertical"
                     />
                   )}
@@ -86,7 +86,7 @@ const Manage = () => {
                   </Box>
                   {item?.divider && (
                     <Divider
-                      sx={{ borderColor: '#E5E7EB' }}
+                      sx={{ borderColor: theme?.palette?.grey[700] }}
                       orientation="vertical"
                     />
                   )}
@@ -111,7 +111,7 @@ const Manage = () => {
       </Box>
       <Box mt={2}>
         <TanstackTable
-          columns={manageTableColumns(statusBtnValue)}
+          columns={manageTableColumns(statusBtnValue, theme)}
           data={manageTableData}
         />
         <CustomPagination

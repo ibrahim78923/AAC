@@ -104,9 +104,10 @@ export const rolesDefaultValues = {
 
 export const rolesFiltersArray = [
   {
-    title: 'Role Name',
     componentProps: {
+      label: 'Role Name',
       name: 'roleName',
+      required: true,
       fullWidth: true,
       select: true,
     },
@@ -118,9 +119,10 @@ export const rolesFiltersArray = [
     md: 12,
   },
   {
-    title: 'Product',
     componentProps: {
+      label: 'Product',
       name: 'product',
+      required: true,
       fullWidth: true,
       select: true,
     },
