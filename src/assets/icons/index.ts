@@ -308,3 +308,11 @@ export { default as CopyPrimaryColorIcon } from './shared/copy-primary-color-ico
 export { default as BookMarkIcon } from './shared/book-mark-icon';
 export { default as ArrowSquareLeftIcon } from './shared/arrow-square-left';
 export { default as ArrowSquareRightIcon } from './shared/arrow-square-right';
+export { default as UploadDocumentIcon } from './modules/orgAdmin/dashboard/upload-document';
+export { default as EditProfilelLineIcon } from './modules/orgAdmin/dashboard/edit-profilel-line';
+export { default as SalesIcon } from './modules/orgAdmin/dashboard/sales';
+export { default as MarketerIcon } from './modules/orgAdmin/dashboard/marketer';
+export { default as SalesArrowsIcon } from './modules/orgAdmin/dashboard/sales-arrows';
+export { default as SenderMarketerIcon } from './modules/orgAdmin/dashboard/sender-marketer';
+export { default as ServicesIcon } from './modules/orgAdmin/dashboard/services';
+export { default as OperationIcon } from './modules/orgAdmin/dashboard/operation';

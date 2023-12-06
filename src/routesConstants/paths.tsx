@@ -92,3 +92,6 @@ export const AIR_MARKETER = {
   REPORTS_EMAIL: '/air-marketer/reports/email-marketing',
   REPORTS_CAMPAIGNS: '/air-marketer/reports/add-campaigns',
 };
+export const ORG_ADMIN = {
+  DASHBOARD_EDIT_PROFILE: '/org-admin/dashboard/edit-profile',
+};
