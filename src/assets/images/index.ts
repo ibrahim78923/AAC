@@ -120,6 +120,7 @@ export { default as SecondAidKitImage } from './modules/airServices/Dashboard/se
 export { default as ThirdAidKitImage } from './modules/airServices/Dashboard/third-aid-kit-image.png';
 export { default as FourAidKitImage } from './modules/airServices/Dashboard/four-aid-kit-image.png';
 export { default as FiveAidKitImage } from './modules/airServices/Dashboard/five-aid-kit-image.png';
+export { default as ProfileImage } from './modules/airServices/Settings/Requestors/profile-image.png';
 export { default as CustomerWowChampionImage } from './modules/airServices/Dashboard/customer-wow-champion-image.png';
 export { default as MostValuablePlayerImage } from './modules/airServices/Dashboard/most-valuable-player-image.png';
 export { default as DashboardAvatarImage } from './modules/airServices/Dashboard/avatar-image.png';

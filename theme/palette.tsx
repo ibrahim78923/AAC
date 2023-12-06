@@ -112,6 +112,7 @@ const CUSTOM_COLORS = {
 const GRAPH = {
   cyan: 'blue',
   Tropical_Rain_Forest: '#0AADC7',
+  slate_gray: '#EDEDED',
 };
 const GRADIENTS = {
   primary: createGradient(PRIMARY?.light, PRIMARY?.main),

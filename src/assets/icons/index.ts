@@ -15,6 +15,7 @@ export { default as ArrowBackIcon } from './modules/orgAdmin/SubscriptionAndInvo
 export { default as MinusCircleIcon } from './modules/orgAdmin/SubscriptionAndInvoices/minus-cirlce-icon';
 export { default as AddCircleIcon } from './modules/orgAdmin/SubscriptionAndInvoices/add-circle-icon';
 export { default as LogoIcon } from './modules/orgAdmin/SubscriptionAndInvoices/logo-icon';
+export { default as EditRequestorsIcon } from './modules/airServices/Settings/Requestors/edit-requestors-icon';
 export { default as PaymentMethodIcon } from './modules/orgAdmin/SubscriptionAndInvoices/payment-method-icon';
 export { default as TickCircleIcon } from './modules/orgAdmin/SubscriptionAndInvoices/tick-circle-icon';
 export { default as CannedResponseModalIcon } from './modules/airServices/Tickets/canned-response-modal-icon';
@@ -221,6 +222,7 @@ export { default as EditGreyIcon } from './shared/edit-grey-icon';
 export { default as AttachIcon } from './shared/attach-file-icon';
 export { default as CompanyIcon } from './modules/SocialComponents/Companies/company';
 export { default as ImportCompaniesIcon } from './modules/SocialComponents/Companies/import';
+export { default as MergeCompaniesIcon } from './modules/SocialComponents/Companies/merge';
 export { default as BackArrowIcon } from './modules/airSales/deals/back-arrow';
 export { default as AssignCommonIcon } from './shared/assign-common';
 export { default as ExportRecordIcon } from './modules/airSales/deals/export-record';
@@ -302,6 +304,9 @@ export { default as WorkloadManagementIcon } from './modules/airServices/Setting
 export { default as AddRoleIcon } from './modules/airServices/Settings/UserManagement/Roles/add-role-icon';
 export { default as CsvImportIcon } from './shared/csv-import-icon';
 export { default as GoogleDriveIcon } from './modules/airMarketer/reports/google-drive';
+
+export { default as ExportDownloadIcon } from './shared/export-download';
+export { default as ExportModalIcon } from './shared/export-modal-icon';
 export { default as ClockWithBagIcon } from './shared/clock-with-bag-icon';
 export { default as CopyPrimaryColorIcon } from './shared/copy-primary-color-icon';
 

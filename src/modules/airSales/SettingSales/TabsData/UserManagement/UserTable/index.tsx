@@ -77,7 +77,7 @@ const UserTable = ({ initialValueProps = defaultValues }: any) => {
         </Typography>
         <Box sx={{ paddingTop: '1rem' }}>
           <FormProvider methods={methods}>
-            <Grid container spacing={4}>
+            <Grid container spacing={1}>
               {dataArray?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
                   <item.component {...item.componentProps} size={'small'}>

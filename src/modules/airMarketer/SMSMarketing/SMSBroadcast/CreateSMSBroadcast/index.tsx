@@ -171,7 +171,7 @@ const CreateSMSBroadcast = () => {
                         fontSize: '15px',
                       }}
                     >
-                      Compaign Name
+                      Campaign Name
                     </Typography>
                     <Typography
                       variant="body2"

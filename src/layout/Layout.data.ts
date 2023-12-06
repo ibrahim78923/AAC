@@ -8,7 +8,6 @@ import {
   BuildingImage,
   BusyImage,
   CallImage,
-  ChangeCircleImage,
   CompaniesImage,
   ContactImage,
   CustomerPortalImage,
@@ -22,12 +21,8 @@ import {
   MeetingTopImage,
   MessageImage,
   PlanManagementImage,
-  ProblemImage,
   ProfileUserImage,
-  ProjectImage,
   QuotesImage,
-  ReleasesImage,
-  ReportingImage,
   ReportsImage,
   SettingImage,
   SettingQuickImage,
@@ -144,28 +139,7 @@ export const ServicesRoutes: any = [
     permissions: [],
   },
   {
-    key: 'air-services/problems',
-    icon: ProblemImage,
-    label: 'Problems',
-    role: 'SERVICE',
-    permissions: [],
-  },
-  {
-    key: 'air-services/changes',
-    icon: ChangeCircleImage,
-    label: 'Changes',
-    role: 'SERVICE',
-    permissions: [],
-  },
-  {
-    key: 'air-services/releases',
-    icon: ReleasesImage,
-    label: 'Releases',
-    role: 'SERVICE',
-    permissions: [],
-  },
-  {
-    key: 'air-services/assets',
+    key: 'air-services/assets/inventory',
     label: 'Assets',
     icon: AssetsImage,
     role: 'SERVICE',
@@ -195,26 +169,6 @@ export const ServicesRoutes: any = [
   },
 
   {
-    key: 'air-services/projects',
-    label: 'Projects',
-    icon: ProjectImage,
-    role: 'SERVICE',
-    permissions: [],
-    textNames: [
-      {
-        key: 'air-services/projects/project-tasks',
-        label: 'Project Tasks',
-        permissions: [],
-      },
-      {
-        key: 'air-services/projects/project-template',
-        label: 'Project Template',
-        permissions: [],
-      },
-    ],
-  },
-
-  {
     key: 'air-services/knowledge-base',
     icon: KnowledgeBaseImage,
     label: 'Knowledge Base',
@@ -229,28 +183,9 @@ export const ServicesRoutes: any = [
     permissions: [],
   },
   {
-    key: 'air-services/reportings',
-    label: 'Reportings',
-    icon: ReportingImage,
-    role: 'SERVICE',
-    permissions: [],
-    textNames: [
-      {
-        key: 'air-services/reportings/analytics',
-        label: 'Analytics',
-        permissions: [],
-      },
-      {
-        key: 'air-services/reportings/project-analytics',
-        label: 'Project Analytics',
-        permissions: [],
-      },
-    ],
-  },
-  {
     key: 'air-services/control-panel',
     icon: CustomerPortalImage,
-    label: 'Control Panel',
+    label: 'Customer Portal',
     role: 'SERVICE',
     permissions: [],
   },
@@ -258,28 +193,28 @@ export const ServicesRoutes: any = [
 
 export const CustomerPortalRoutes: any = [
   {
-    key: 'customer-portal',
+    key: 'air-customer-portal',
     icon: DashboardImage,
     label: 'Dashboard',
     role: 'CUSTOMER_PORTAL',
     permissions: [],
   },
   {
-    key: 'customer-portal/tickets',
+    key: 'air-customer-portal/tickets',
     icon: TicketDiscountImage,
     label: 'Tickets',
     role: 'CUSTOMER_PORTAL',
     permissions: [],
   },
   {
-    key: 'customer-portal/knowledge-base',
+    key: 'air-customer-portal/knowledge-base',
     icon: KnowledgeBaseImage,
     label: 'Knowledge Base',
     role: 'CUSTOMER_PORTAL',
     permissions: [],
   },
   {
-    key: 'customer-portal/catalog',
+    key: 'air-customer-portal/catalog',
     icon: WorkLoadImage,
     label: 'Catalog',
     role: 'CUSTOMER_PORTAL',
@@ -469,11 +404,6 @@ export const LowerServicesRoutes = [
         permissions: [],
       },
       {
-        key: 'air-services/settings/project-workload',
-        label: 'Project&Workload',
-        permissions: [],
-      },
-      {
         key: 'air-services/settings/user-management',
         label: 'User Management',
         permissions: [],
@@ -484,8 +414,8 @@ export const LowerServicesRoutes = [
         permissions: [],
       },
       {
-        key: 'air-services/settings/automation-productivity',
-        label: 'Automation & Productivity',
+        key: 'air-services/settings/agent-performance-management',
+        label: 'Agent Productivity & Workload Management',
         permissions: [],
       },
       {

@@ -91,4 +91,5 @@ export const AIR_MARKETER = {
   REPORTS_LEADS: '/air-marketer/reports/leads',
   REPORTS_EMAIL: '/air-marketer/reports/email-marketing',
   REPORTS_CAMPAIGNS: '/air-marketer/reports/add-campaigns',
+  VIEW_PERFORMANCE: '/air-marketer/campaigns/view-performance',
 };

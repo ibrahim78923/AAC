@@ -18,7 +18,7 @@ function ConversationArticleSelect() {
     title: '',
   });
 
-  const handleIconClick = (title) => {
+  const handleIconClick = (title: any) => {
     setSelectedComponent({
       title,
     });
@@ -37,11 +37,15 @@ function ConversationArticleSelect() {
     <Box>
       <Box
         onClick={() => handleIconClick(TICKETS_CONVERSATION_MODAL_TYPE.CANNED)}
+        sx={{ cursor: 'pointer' }}
+        width={'fit-content'}
       >
         <CannedResponseModalIcon />
       </Box>
       <Box
         onClick={() => handleIconClick(TICKETS_CONVERSATION_MODAL_TYPE.ARTICLE)}
+        sx={{ cursor: 'pointer' }}
+        width={'fit-content'}
       >
         <ArticleModalIcon />
       </Box>
