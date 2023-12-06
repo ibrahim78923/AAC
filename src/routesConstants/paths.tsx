@@ -86,6 +86,12 @@ export const AIR_MARKETER = {
   SMS_MARKETING: '/air-marketer/sms-marketing',
   SMS_MARKETING_DETAILS: '/air-marketer/sms-marketing/sms-marketing-details',
   CREATE_SMS_BROADCAST: '/air-marketer/sms-marketing/create-sms-broadcast',
-  VIEW_PERFORMANCE: '/air-marketer/compaigns/view-performance',
   CREATE_TEMPLATE: '/air-marketer/sms-marketing/create-template',
+  VIEW_PERFORMANCE: '/air-marketer/campaigns/view-performance',
+};
+
+export const airMarketerLeadCapture = {
+  VERIFY_EMAIL: '/air-marketer/lead-capture/verify-email',
+  CREATE_FORM: '/air-marketer/lead-capture/create-form',
+  ALL_TABLE: '/air-marketer/lead-capture/forms',
 };

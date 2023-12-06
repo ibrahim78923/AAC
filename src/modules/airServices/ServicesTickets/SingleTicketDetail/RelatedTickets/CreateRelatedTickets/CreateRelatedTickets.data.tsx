@@ -8,7 +8,7 @@ import {
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 import { InputAdornment } from '@mui/material';
-import { PlusSharedColorIcon } from '@/assets/icons';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 export const createTicketValidationSchema: any = Yup?.object()?.shape({
   requester: Yup?.string()?.required('Field is Required'),
@@ -27,7 +27,7 @@ export const createTicketValidationSchema: any = Yup?.object()?.shape({
   plannedEndTime: Yup?.date(),
   associateAssets: Yup?.string(),
   plannedEffort: Yup?.string(),
-  attachFile: Yup?.mixed(),
+  attachFile: Yup?.mixed()?.nullable(),
 });
 
 export const createTicketDefaultValues: any = {
@@ -61,7 +61,7 @@ export const createTicketDataArray = [
       InputProps: {
         endAdornment: (
           <InputAdornment position="end">
-            <PlusSharedColorIcon color={'#6B7280'} />
+            <AddCircleIcon color={'secondary'} />
           </InputAdornment>
         ),
       },
@@ -296,7 +296,7 @@ export const createTicketDataArray = [
       InputProps: {
         endAdornment: (
           <InputAdornment position="end">
-            <PlusSharedColorIcon color={'#38CAB5'} />
+            <AddCircleIcon color={'secondary'} />
           </InputAdornment>
         ),
       },

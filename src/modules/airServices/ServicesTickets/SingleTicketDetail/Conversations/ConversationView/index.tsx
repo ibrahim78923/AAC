@@ -52,9 +52,9 @@ const ConversationView: React.FC<{
     return () => clearInterval(interval);
   }, []);
 
-  const renderConversationItem = ([id, conversationData]) => {
+  const renderConversationItem = ([id, conversationData]: any) => {
     const transformedData = Object?.entries(conversationData)?.map(
-      ([key, value]) => {
+      ([key, value]: any) => {
         const itemData = () => {
           switch (key) {
             case TICKETS_CONVERSATION_VALUE.FILE: {
@@ -93,7 +93,7 @@ const ConversationView: React.FC<{
           alignItems={'center'}
           flexWrap={'wrap'}
         >
-          <Grid item lg={5} xs={12} paddingTop="0 !important" flex={1}>
+          <Grid item xl={5} xs={12} paddingTop="0 !important" flex={1}>
             <Box sx={styles?.leftSideParent}>
               <Box
                 display="flex"
@@ -114,8 +114,8 @@ const ConversationView: React.FC<{
                     }}
                   >
                     {transformedData
-                      ?.filter((value) => !value?.name && !value?.size)
-                      ?.map((value) => (
+                      ?.filter((value: any) => !value?.name && !value?.size)
+                      ?.map((value: any) => (
                         <Typography
                           key={uuidv4()}
                           component="span"
@@ -136,17 +136,18 @@ const ConversationView: React.FC<{
               <Box>
                 <div
                   dangerouslySetInnerHTML={{
-                    __html: transformedData?.find((value) => value?.description)
-                      ?.description,
+                    __html: transformedData?.find(
+                      (value: any) => value?.description,
+                    )?.description,
                   }}
                 ></div>
               </Box>
             </Box>
           </Grid>
-          <Grid lg={3} xs={12}>
+          <Grid xl={3} xs={12}>
             {transformedData
-              ?.filter((value) => value?.name || value?.size)
-              ?.map((value) => (
+              ?.filter((value: any) => value?.name || value?.size)
+              ?.map((value: any) => (
                 <Typography
                   key={uuidv4()}
                   component="span"
@@ -167,7 +168,7 @@ const ConversationView: React.FC<{
                 </Typography>
               ))}
           </Grid>
-          <Grid item lg={3} xs={12} paddingTop="0 !important">
+          <Grid item xl={3} xs={12} paddingTop="0 !important">
             <Box sx={styles?.buttonBox}>
               {conversationActionIcon(actionType)}
             </Box>
