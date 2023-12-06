@@ -15,9 +15,9 @@ const ConversationSelectModal = ({
   searchTerm,
   setSearchTerm,
   title,
-}) => {
+}: any) => {
   const { push } = useRouter();
-  const handleAddClick = (selectedTitle) => {
+  const handleAddClick = (selectedTitle: any) => {
     onAddButtonClick(selectedTitle);
   };
 
@@ -42,7 +42,7 @@ const ConversationSelectModal = ({
           <Typography marginLeft={1}>{title}</Typography>
         </Box>
 
-        {filteredContent?.map((item) => (
+        {filteredContent?.map((item: any) => (
           <Box
             marginTop={2}
             key={uuidv4()}
