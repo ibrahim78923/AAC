@@ -26,7 +26,7 @@ import { AIR_MARKETER } from '@/routesConstants/paths';
 
 const LeadaReports = () => {
   const theme = useTheme();
-  const { searchBy, setSearchBy, cardBorder }: any = useMarketerReports();
+  const { searchBy, setSearchBy }: any = useMarketerReports();
 
   return (
     <Box>
@@ -101,7 +101,7 @@ const LeadaReports = () => {
               <Card
                 sx={{
                   height: '98px',
-                  border: `1px solid ${cardBorder}`,
+                  border: `1px solid ${theme?.palette?.custom?.hawkes_blue}`,
                   mb: 1,
                 }}
               >
@@ -158,7 +158,7 @@ const LeadaReports = () => {
           />
         </Box>
         <Box>
-          <TanstackTable columns={usersColumns} data={usersData} />
+          <TanstackTable columns={usersColumns} data={usersData()} />
           <CustomPagination
             count={1}
             rowsPerPageOptions={[1, 2]}

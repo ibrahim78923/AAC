@@ -1,9 +1,11 @@
+import type { Theme } from '@mui/material';
+
 export const styles = {
-  statusButton: {
+  statusButton: (theme: Theme) => ({
     padding: '4px 12px',
-    backgroundColor: '#F3F4F6',
-    color: '#374151',
+    backgroundColor: theme?.palette?.grey[400],
+    color: theme?.palette?.custom?.pale_blue_light,
     width: 'fit-content',
     borderRadius: '16px',
-  },
+  }),
 };

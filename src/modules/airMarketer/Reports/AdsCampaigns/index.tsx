@@ -73,7 +73,13 @@ const AdsCampaigns = () => {
       <Grid container item spacing={2}>
         {CampaignsCradsData?.map((item: any) => (
           <Grid item lg={3} md={4} sm={6} xs={12} key={uuidv4()}>
-            <Card sx={{ border: '1px solid #D2D6DF', mb: 1, height: 100 }}>
+            <Card
+              sx={{
+                border: `1px solid ${theme?.palette?.custom?.hawkes_blue}`,
+                mb: 1,
+                height: 100,
+              }}
+            >
               <CardContent
                 sx={{
                   display: 'flex',
@@ -82,7 +88,11 @@ const AdsCampaigns = () => {
                 }}
               >
                 <Typography
-                  sx={{ fontSize: 16, color: '#79839E', fontWeight: 500 }}
+                  sx={{
+                    fontSize: 16,
+                    color: theme?.palette?.custom?.steel_blue_alpha,
+                    fontWeight: 500,
+                  }}
                   color="text.secondary"
                   gutterBottom
                 >
@@ -92,7 +102,7 @@ const AdsCampaigns = () => {
                   sx={{
                     mb: 1.5,
                     fontSize: 24,
-                    color: '#4CCFBC',
+                    color: theme?.palette?.custom?.turquoise_Blue,
                     fontWeight: 600,
                   }}
                   color="text.secondary"

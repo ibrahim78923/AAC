@@ -62,7 +62,13 @@ const EmailMarketing = () => {
       <Grid container item spacing={3}>
         {EmailCradsData?.map((item: any) => (
           <Grid item lg={3} md={4} sm={6} xs={12} key={uuidv4()}>
-            <Card sx={{ border: '1px solid #D2D6DF', mb: 1, height: 100 }}>
+            <Card
+              sx={{
+                border: `1px solid ${theme?.palette?.custom?.hawkes_blue}`,
+                mb: 1,
+                height: 100,
+              }}
+            >
               <CardContent
                 sx={{
                   display: 'flex',
@@ -71,7 +77,11 @@ const EmailMarketing = () => {
                 }}
               >
                 <Typography
-                  sx={{ fontSize: 16, color: '#79839E', fontWeight: 500 }}
+                  sx={{
+                    fontSize: 16,
+                    color: theme?.palette?.custom?.steel_blue_alpha,
+                    fontWeight: 500,
+                  }}
                   color="text.secondary"
                   gutterBottom
                 >
@@ -81,7 +91,7 @@ const EmailMarketing = () => {
                   sx={{
                     mb: 1.5,
                     fontSize: 24,
-                    color: '#4CCFBC',
+                    color: theme?.palette?.custom?.turquoise_Blue,
                     fontWeight: 600,
                   }}
                   color="text.secondary"
@@ -104,7 +114,7 @@ const EmailMarketing = () => {
                     <Typography
                       sx={{
                         fontSize: '16px',
-                        color: '#79839E',
+                        color: theme?.palette?.custom?.steel_blue_alpha,
                         fontWeight: 600,
                       }}
                       color="text.secondary"
@@ -118,7 +128,7 @@ const EmailMarketing = () => {
                       sx={{
                         mb: 1.5,
                         fontSize: 24,
-                        color: '#4CCFBC',
+                        color: theme?.palette?.custom?.turquoise_Blue,
                         fontWeight: 600,
                       }}
                       color="text.secondary"
@@ -131,7 +141,10 @@ const EmailMarketing = () => {
                         <LinearProgress
                           variant="determinate"
                           value={item?.precentage}
-                          sx={{ height: '13px', background: '#FFC20E' }}
+                          sx={{
+                            height: '13px',
+                            background: theme?.palette?.warning['main'],
+                          }}
                         />
                       </Stack>
                     </Typography>
@@ -151,7 +164,7 @@ const EmailMarketing = () => {
                       sx={{
                         fontSize: '16px',
                         fontWeight: 500,
-                        color: '#626E8E',
+                        color: theme?.palette?.blue?.lighter,
                       }}
                     >
                       {data?.newHeading}
@@ -160,7 +173,7 @@ const EmailMarketing = () => {
                       sx={{
                         fontSize: '16px',
                         fontWeight: 600,
-                        color: '#626E8E',
+                        color: theme?.palette?.blue?.lighter,
                       }}
                     >
                       {data?.value}

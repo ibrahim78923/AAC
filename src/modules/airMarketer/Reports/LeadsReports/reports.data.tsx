@@ -1,87 +1,90 @@
-import { Avatar, Box, Typography } from '@mui/material';
+import { Avatar, Box, Typography, useTheme } from '@mui/material';
 
 import { AvatarImage } from '@/assets/images';
 
 import { styles } from './InVoiceReports.style';
 
-export const usersData: any = [
-  {
-    Id: 1,
-    clientName: (
-      <Box sx={{ display: 'flex', gap: '5px' }}>
-        <Avatar alt="Remy Sharp" src={AvatarImage.src} />
-        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-          <Typography component={'span'}>Olivia Rhyeh</Typography>
-          <Typography component={'span'}>@Olivia</Typography>
+export const usersData = () => {
+  const theme = useTheme();
+  return [
+    {
+      Id: 1,
+      clientName: (
+        <Box sx={{ display: 'flex', gap: '5px' }}>
+          <Avatar alt="Remy Sharp" src={AvatarImage.src} />
+          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+            <Typography component={'span'}>Olivia Rhyeh</Typography>
+            <Typography component={'span'}>@Olivia</Typography>
+          </Box>
         </Box>
-      </Box>
-    ),
-    products: 'Air sales',
-    planType: 'Basic',
-    planPrice: '$ 45',
-    details: 'Invoices # 4236346',
-    dueDate: 'Mar 04, 2023',
-    invoiceAmount: '£ 4521,11',
-    status: <Box sx={styles.statusButton}>Paid</Box>,
-  },
-  {
-    Id: 2,
-    clientName: (
-      <Box sx={{ display: 'flex', gap: '5px' }}>
-        <Avatar alt="Remy Sharp" src={AvatarImage.src} />
-        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-          <Typography component={'span'}>Olivia Rhyeh</Typography>
-          <Typography component={'span'}>@Olivia</Typography>
+      ),
+      products: 'Air sales',
+      planType: 'Basic',
+      planPrice: '$ 45',
+      details: 'Invoices # 4236346',
+      dueDate: 'Mar 04, 2023',
+      invoiceAmount: '£ 4521,11',
+      status: <Box sx={styles?.statusButton(theme)}>Paid</Box>,
+    },
+    {
+      Id: 2,
+      clientName: (
+        <Box sx={{ display: 'flex', gap: '5px' }}>
+          <Avatar alt="Remy Sharp" src={AvatarImage.src} />
+          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+            <Typography component={'span'}>Olivia Rhyeh</Typography>
+            <Typography component={'span'}>@Olivia</Typography>
+          </Box>
         </Box>
-      </Box>
-    ),
-    products: 'Air sales',
-    planType: 'Growth',
-    planPrice: '$ 45',
-    details: 'Invoices # 4236346',
-    dueDate: 'Mar 04, 2023',
-    invoiceAmount: '£ 4521,11',
-    status: <Box sx={styles.statusButton}>Follow up soon</Box>,
-  },
-  {
-    Id: 3,
-    clientName: (
-      <Box sx={{ display: 'flex', gap: '5px' }}>
-        <Avatar alt="Remy Sharp" src={AvatarImage.src} />
-        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-          <Typography component={'span'}>Olivia Rhyeh</Typography>
-          <Typography component={'span'}>@Olivia</Typography>
+      ),
+      products: 'Air sales',
+      planType: 'Growth',
+      planPrice: '$ 45',
+      details: 'Invoices # 4236346',
+      dueDate: 'Mar 04, 2023',
+      invoiceAmount: '£ 4521,11',
+      status: <Box sx={styles?.statusButton(theme)}>Follow up soon</Box>,
+    },
+    {
+      Id: 3,
+      clientName: (
+        <Box sx={{ display: 'flex', gap: '5px' }}>
+          <Avatar alt="Remy Sharp" src={AvatarImage.src} />
+          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+            <Typography component={'span'}>Olivia Rhyeh</Typography>
+            <Typography component={'span'}>@Olivia</Typography>
+          </Box>
         </Box>
-      </Box>
-    ),
-    products: 'Air sales',
-    planType: 'Basic',
-    planPrice: '$ 45',
-    details: 'Invoices # 4236346',
-    dueDate: 'Mar 04, 2023',
-    invoiceAmount: '£ 4521,11',
-    status: <Box sx={styles.statusButton}>Follow up soon</Box>,
-  },
-  {
-    Id: 4,
-    clientName: (
-      <Box sx={{ display: 'flex', gap: '5px' }}>
-        <Avatar alt="Remy Sharp" src={AvatarImage.src} />
-        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-          <Typography component={'span'}>Olivia Rhyeh</Typography>
-          <Typography component={'span'}>@Olivia</Typography>
+      ),
+      products: 'Air sales',
+      planType: 'Basic',
+      planPrice: '$ 45',
+      details: 'Invoices # 4236346',
+      dueDate: 'Mar 04, 2023',
+      invoiceAmount: '£ 4521,11',
+      status: <Box sx={styles?.statusButton(theme)}>Follow up soon</Box>,
+    },
+    {
+      Id: 4,
+      clientName: (
+        <Box sx={{ display: 'flex', gap: '5px' }}>
+          <Avatar alt="Remy Sharp" src={AvatarImage.src} />
+          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+            <Typography component={'span'}>Olivia Rhyeh</Typography>
+            <Typography component={'span'}>@Olivia</Typography>
+          </Box>
         </Box>
-      </Box>
-    ),
-    products: 'Air sales',
-    planType: 'Growth',
-    planPrice: '$ 45',
-    details: 'Invoices # 4236346',
-    dueDate: 'Mar 04, 2023',
-    invoiceAmount: '£ 4521,11',
-    status: <Box sx={styles.statusButton}>Paid</Box>,
-  },
-];
+      ),
+      products: 'Air sales',
+      planType: 'Growth',
+      planPrice: '$ 45',
+      details: 'Invoices # 4236346',
+      dueDate: 'Mar 04, 2023',
+      invoiceAmount: '£ 4521,11',
+      status: <Box sx={styles?.statusButton(theme)}>Paid</Box>,
+    },
+  ];
+};
 
 export const usersColumns: any = [
   {

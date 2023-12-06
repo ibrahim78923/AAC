@@ -1,11 +1,12 @@
 import dynamic from 'next/dynamic';
 import { Box, Typography, useTheme } from '@mui/material';
 
-import { emailReviewSeries, options, series } from './ProductWiseGraph.data';
+import useProductWiseGraph from './useProductWiseGraph';
 
 import { styles } from './ProductWiseGraph.style';
 
 const ProductWiseGrpah = () => {
+  const { series, options, emailReviewSeries } = useProductWiseGraph();
   const theme = useTheme();
   const ReactApexChart = dynamic(() => import('react-apexcharts'), {
     ssr: false,
@@ -56,7 +57,6 @@ const ProductWiseGrpah = () => {
                 shape: 'circle',
                 height: 10,
                 width: 10,
-                colors: ['red', 'green', 'blue', 'orange'],
               },
               dataLabels: {
                 enabled: true,
