@@ -3,7 +3,6 @@ import { useFormContext, Controller } from 'react-hook-form';
 // @mui
 import { Switch, FormControlLabel } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import CustomLabel from '../CustomLabel';
 
 // ----------------------------------------------------------------------
 const AntSwitch = styled(Switch)(({ theme }) => ({
@@ -47,7 +46,7 @@ const AntSwitch = styled(Switch)(({ theme }) => ({
   },
 }));
 
-export default function RHFSwitch({ name, disabled, required, ...other }: any) {
+export default function RHFSwitch({ name, disabled, ...other }: any) {
   const { control } = useFormContext();
   return (
     <FormControlLabel
@@ -68,9 +67,6 @@ export default function RHFSwitch({ name, disabled, required, ...other }: any) {
                 {...field}
                 checked={field?.value}
               />
-              {other?.label && (
-                <CustomLabel label={other?.label} required={required} />
-              )}
             </>
           )}
         />

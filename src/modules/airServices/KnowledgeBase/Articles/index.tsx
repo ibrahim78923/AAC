@@ -1,9 +1,8 @@
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Button, Grid, Typography } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
 
-import { FolderGreyIcon } from '@/assets/icons';
+import { FilterIcon, FolderGreyIcon } from '@/assets/icons';
 import TanstackTable from '@/components/Table/TanstackTable';
-import CustomPagination from '@/components/CustomPagination';
 
 import { articlesTabs, data } from './Articles.data';
 import { useArticles } from './useArticles';
@@ -55,29 +54,35 @@ export const Articles = () => {
           </Box>
         </Grid>
         <Grid item xs={12} sm={8} md={7.25} lg={9} xl={10.25}>
-          <Grid
-            container
-            alignItems={'flex-end'}
+          <Box
+            display={'flex'}
             justifyContent={'space-between'}
+            gap={1}
+            flexWrap={'wrap'}
           >
             <Search placeholder="Search Here" />
-            <SingleDropdownButton
-              disabled={!!!selectedArticlesData?.length}
-              dropdownOptions={dropdownOptions}
-            />
-          </Grid>
+            <Box display={'flex'} gap={1}>
+              <SingleDropdownButton
+                disabled={!!!selectedArticlesData?.length}
+                dropdownOptions={dropdownOptions}
+              />
+              <Button
+                variant="outlined"
+                size="large"
+                startIcon={<FilterIcon />}
+                color="secondary"
+              >
+                Filter
+              </Button>
+            </Box>
+          </Box>
           <br />
-          <TanstackTable data={data} columns={articlesColumns} />
-          <CustomPagination
-            count={1}
-            rowsPerPageOptions={[1, 2]}
-            entriePages={1}
-          />
+          <TanstackTable data={data} columns={articlesColumns} isPagination />
         </Grid>
       </Grid>
       <AlertModals
         type="delete"
-        message="Do you want to delete?"
+        message="Do you want to delete the selected article?"
         open={openDeleteModal}
         handleClose={() => setOpenDeleteModal(false)}
         handleSubmitBtn={handleDeleteSubmit}
