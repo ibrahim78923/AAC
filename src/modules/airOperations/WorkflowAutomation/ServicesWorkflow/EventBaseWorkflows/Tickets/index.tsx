@@ -1,5 +1,5 @@
 import TanstackTable from '@/components/Table/TanstackTable';
-import Header from '../Header';
+import Header from './Header';
 import { ticketsListData } from './Tickets.data';
 import { useTickets } from './useTickets';
 

@@ -1,7 +1,28 @@
 import { AntSwitch } from '@/components/AntSwitch';
 import { Avatar, Box, Checkbox } from '@mui/material';
 
-export const ticketsListData: any = [
+export const EventBaseWorkflowActionsDropdown = (handleActionClick: any) => [
+  {
+    title: 'Edit',
+    handleClick: () => {
+      handleActionClick('edit');
+    },
+  },
+  {
+    title: 'Clone',
+    handleClick: () => {
+      handleActionClick('clone');
+    },
+  },
+  {
+    title: 'Delete',
+    handleClick: () => {
+      handleActionClick?.('delete');
+    },
+  },
+];
+
+export const assetsListData: any = [
   {
     id: 1,
     workflowName: 'Update Assets',
@@ -19,9 +40,9 @@ export const ticketsListData: any = [
     lastActivity: 'Update by Shaw',
   },
 ];
-export const ticketsListsColumnsFunction = (
-  selectedTicketsList: any,
-  setSelectedTicketsList: any,
+export const assetsListsColumnsFunction = (
+  selectedAssetsList: any,
+  setSelectedAssetsList: any,
   listData: any,
 ): any => [
   {
@@ -30,20 +51,20 @@ export const ticketsListsColumnsFunction = (
     cell: (info: any) => (
       <Checkbox
         checked={
-          !!selectedTicketsList?.find(
+          !!selectedAssetsList?.find(
             (item: any) => item?.id === info?.getValue(),
           )
         }
         onChange={(e: any) => {
           e?.target?.checked
-            ? setSelectedTicketsList([
-                ...selectedTicketsList,
-                ticketsListData?.find(
+            ? setSelectedAssetsList([
+                ...selectedAssetsList,
+                assetsListData?.find(
                   (item: any) => item?.id === info?.getValue(),
                 ),
               ])
-            : setSelectedTicketsList(
-                selectedTicketsList?.filter((item: any) => {
+            : setSelectedAssetsList(
+                selectedAssetsList?.filter((item: any) => {
                   return item?.id !== info?.getValue();
                 }),
               );
@@ -54,11 +75,11 @@ export const ticketsListsColumnsFunction = (
     ),
     header: (
       <Checkbox
-        checked={selectedTicketsList?.length === listData?.length}
+        checked={selectedAssetsList?.length === listData?.length}
         onChange={(e: any) => {
           e?.target?.checked
-            ? setSelectedTicketsList([...listData])
-            : setSelectedTicketsList([]);
+            ? setSelectedAssetsList([...listData])
+            : setSelectedAssetsList([]);
         }}
         color="primary"
         name="id"

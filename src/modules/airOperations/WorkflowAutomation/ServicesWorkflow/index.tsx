@@ -11,7 +11,6 @@ import { useServiceWorkflow } from './useServiceWorkflow';
 
 export const ServicesWorkflow = () => {
   const { theme, router, activeItem, handleItemClick } = useServiceWorkflow();
-
   return (
     <>
       <Box
@@ -66,7 +65,7 @@ export const ServicesWorkflow = () => {
                 <Typography variant="h5" py={1}>
                   {item?.title}
                 </Typography>
-                <Typography textAlign={'center'} height={100}>
+                <Typography textAlign={'center'} height={90}>
                   {item?.description}
                 </Typography>
                 <Button
