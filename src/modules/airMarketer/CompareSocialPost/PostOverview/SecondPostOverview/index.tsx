@@ -14,6 +14,7 @@ import Facebook from '@/assets/icons/modules/airMarketer/SocialMarketing/PostBox
 import Instagram from '@/assets/icons/modules/airMarketer/SocialMarketing/PostBox/instagram';
 
 const SecondPostOverview = ({ postData }: any) => {
+  const socialCatgory = 'facebook';
   return (
     <Box>
       <Typography variant="body4" fontWeight={600}>
@@ -38,7 +39,7 @@ const SecondPostOverview = ({ postData }: any) => {
             <Box sx={style?.avatarStyle(postData?.category)}>
               <Avatar src={postData?.avatar}></Avatar>
               <Box className="avatar-category">
-                {postData?.category === 'facebook' ? (
+                {postData?.category === socialCatgory ? (
                   <Facebook />
                 ) : (
                   <Instagram />

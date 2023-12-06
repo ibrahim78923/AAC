@@ -16,7 +16,7 @@ export const manageAccountData = [
 ];
 
 //table data
-export const manageTableColumns: any = (statusBtnValue: any) => {
+export const manageTableColumns: any = (statusBtnValue: any, theme: any) => {
   return [
     {
       accessorFn: (row: any) => row?.name,
@@ -29,7 +29,7 @@ export const manageTableColumns: any = (statusBtnValue: any) => {
           <Box>
             <Typography>Azeem Aslam</Typography>
             <Box
-              sx={style?.statusBtn}
+              sx={style?.statusBtn(theme)}
               bgcolor={statusBtnValue(info?.getValue())}
               display="flex"
               gap={0.5}

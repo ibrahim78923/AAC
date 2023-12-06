@@ -32,7 +32,8 @@ const CompareSocialPost = () => {
 
   const firstPostLength = Object?.keys(fisrtPost)?.length;
   const secondPostLength = Object?.keys(secondPost)?.length;
-  const facebook_category = 'facebook';
+  const socialCatgory = 'facebook';
+
   return (
     <Box>
       <Box width={{ xs: '100%', md: '31%' }}>
@@ -80,7 +81,7 @@ const CompareSocialPost = () => {
                       >
                         <Avatar src={fisrtPost?.avatar}></Avatar>
                         <Box className="avatar-category">
-                          {fisrtPost?.category === facebook_category ? (
+                          {fisrtPost?.category === socialCatgory ? (
                             <Facebook />
                           ) : (
                             <Instagram />
@@ -123,7 +124,7 @@ const CompareSocialPost = () => {
                       >
                         <Avatar src={secondPost?.avatar}></Avatar>
                         <Box className="avatar-category">
-                          {secondPost?.category === facebook_category ? (
+                          {secondPost?.category === socialCatgory ? (
                             <Facebook />
                           ) : (
                             <Instagram />

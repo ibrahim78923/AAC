@@ -70,7 +70,6 @@ export const searchAdFormData = [
   },
   {
     componentProps: {
-      color: '#7a7a7b',
       varient: 'h6',
       heading: 'Select an ad network',
     },
