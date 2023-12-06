@@ -85,6 +85,8 @@ const AIR_MARKETING_PAGE = 'air-marketing';
 export const AIR_MARKETER = {
   root: AIR_MARKETING_PAGE,
   PAID_ADS: path(AIR_MARKETING_PAGE, '/paid-ads'),
+  CREATE_AD: path(AIR_MARKETING_PAGE, '/paid-ads/create-ad'),
+  ENGAGEMENT_ADS: path(AIR_MARKETING_PAGE, '/paid-ads/create-ad/engagement-ads'),
   EMAIL_MARKETING: path(AIR_MARKETING_PAGE, '/email-marketing'),
   EMAIL_TEMPLATES: path(AIR_MARKETING_PAGE, '/email-marketing/email-templates'),
   EMAIL_FOLDER: path(AIR_MARKETING_PAGE, '/email-marketing/email-folder'),

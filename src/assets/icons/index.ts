@@ -199,9 +199,10 @@ export { default as ForwardIcon } from './modules/superAdmin/email/forward-icon'
 export { default as ReplyAllIcon } from './modules/superAdmin/email/reply-all-icon';
 export { default as EmailReplyIcon } from './modules/superAdmin/email/reply-icon';
 export { default as AddPlusPrimaryIcon } from './shared/add-plus-primary';
+export { default as MinimizePrimaryIcon } from './modules/airMarketer/CreatePost/minimize-icon';
 export { default as AirPlaneIcon } from './shared/airplane';
 export { default as EditPenBorderedIcon } from './shared/edit-pen-bordered';
-export { default as SendIconLifted } from './modules/SocialComponents/Calling/send';
+export { default as SendLiftedIcon } from './modules/SocialComponents/Calling/send';
 export { default as MessagesIcon } from './modules/SocialComponents/Calling/messages';
 export { default as MuteIcon } from './modules/SocialComponents/Calling/mute';
 export { default as HoldIcon } from './modules/SocialComponents/Calling/hold';
@@ -322,10 +323,15 @@ export { default as ExportDownloadIcon } from './shared/export-download';
 export { default as ExportModalIcon } from './shared/export-modal-icon';
 export { default as ClockWithBagIcon } from './shared/clock-with-bag-icon';
 export { default as CopyPrimaryColorIcon } from './shared/copy-primary-color-icon';
+export { default as SearchAdIcon } from './modules/paidAds/search-ad';
 
 export { default as BookMarkIcon } from './shared/book-mark-icon';
 export { default as ArrowSquareLeftIcon } from './shared/arrow-square-left';
 export { default as ArrowSquareRightIcon } from './shared/arrow-square-right';
+
+export { default as FacebookSquareIcon } from './modules/paidAds/facebook-square';
+export { default as LinkedInSquareIcon } from './modules/paidAds/linkedin-square';
+
 export { default as TextIcon } from './modules/airMarketer/LeadCapture/text';
 export { default as ImageIcon } from './modules/airMarketer/LeadCapture/image';
 export { default as SpaceIcon } from './modules/airMarketer/LeadCapture/space';
