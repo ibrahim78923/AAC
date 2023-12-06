@@ -40,8 +40,8 @@ export const dataArrayCreateForm = [
       name: 'accessDashboard',
       fullWidth: true,
       options: [
-        { value: 'Privatetoowner(me)', label: 'Privatetoowner(me)' },
-        { value: 'Everyone', label: 'Everyone' },
+        { value: 'privateToOwner(me)', label: 'Private to owner(me)' },
+        { value: 'everyOne', label: 'Everyone' },
         {
           value: 'Onlyspecialuserandteams',
           label: 'Only special user and teams',
