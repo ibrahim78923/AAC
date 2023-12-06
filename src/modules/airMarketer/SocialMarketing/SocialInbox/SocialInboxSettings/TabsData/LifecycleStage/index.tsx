@@ -75,7 +75,7 @@ const LifeCycleStage = () => {
             flexWrap: 'wrap',
           }}
         >
-          <Typography variant="h4">Life Cycle Stages</Typography>
+          <Typography variant="h3">Life Cycle Stages</Typography>
           <Box
             sx={{
               display: 'flex',

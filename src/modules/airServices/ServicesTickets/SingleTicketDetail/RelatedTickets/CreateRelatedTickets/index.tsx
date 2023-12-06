@@ -11,7 +11,11 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { enqueueSnackbar } from 'notistack';
 
-function CreateRelatedTickets({ isDrawerOpen, setIsDrawerOpen }: any) {
+function CreateRelatedTickets({
+  isDrawerOpen,
+  setIsDrawerOpen,
+  drawerType,
+}: any) {
   const methods: any = useForm({
     resolver: yupResolver(createTicketValidationSchema),
     defaultValues: createTicketDefaultValues,
@@ -20,7 +24,7 @@ function CreateRelatedTickets({ isDrawerOpen, setIsDrawerOpen }: any) {
   const { handleSubmit } = methods;
 
   const submit = () => {
-    enqueueSnackbar('child ticket added successfully', {
+    enqueueSnackbar(`child ticket ${drawerType} successfully`, {
       variant: 'success',
     });
   };
@@ -31,11 +35,11 @@ function CreateRelatedTickets({ isDrawerOpen, setIsDrawerOpen }: any) {
         onClose={() => {
           setIsDrawerOpen(false);
         }}
-        title="Add child ticket"
+        title={`${drawerType} child ticket`}
         submitHandler={() => methods?.handleSubmit(submit)()}
         footer={true}
         isOk={true}
-        okText="Add child ticket"
+        okText={`${drawerType} child ticket`}
       >
         <Box mt={1}>
           <FormProvider methods={methods} onSubmit={handleSubmit?.(submit)}>

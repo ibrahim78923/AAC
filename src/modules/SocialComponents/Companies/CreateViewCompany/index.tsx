@@ -1,6 +1,13 @@
 import React from 'react';
 
-import { Box, Grid } from '@mui/material';
+import {
+  Box,
+  FormControlLabel,
+  Grid,
+  Radio,
+  RadioGroup,
+  Typography,
+} from '@mui/material';
 
 import CommonDrawer from '@/components/CommonDrawer';
 import useCreateViewCompany from './useCreateViewCompany';
@@ -12,7 +19,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 const CreateViewCompany = (props: any) => {
   const { isCreateView, setIsCreateView } = props;
-  const { methods } = useCreateViewCompany();
+  const { methods, theme } = useCreateViewCompany();
 
   return (
     <>
@@ -41,6 +48,39 @@ const CreateViewCompany = (props: any) => {
                   </item.component>
                 </Grid>
               ))}
+              <Grid>
+                <Typography
+                  sx={{
+                    mt: '20px',
+                    color: theme?.palette?.slateBlue['main'],
+                    fontSize: '18px',
+                    fontWeight: 600,
+                  }}
+                >
+                  Shared with
+                </Typography>
+                <RadioGroup
+                  aria-labelledby="demo-radio-buttons-group-label"
+                  defaultValue="female"
+                  name="radio-buttons-group"
+                >
+                  <FormControlLabel
+                    value="female"
+                    control={<Radio />}
+                    label="Private"
+                  />
+                  <FormControlLabel
+                    value="male"
+                    control={<Radio />}
+                    label="My Teams (test)"
+                  />
+                  <FormControlLabel
+                    value="other"
+                    control={<Radio />}
+                    label="Everyone"
+                  />
+                </RadioGroup>
+              </Grid>
             </Grid>
           </FormProvider>
         </Box>
