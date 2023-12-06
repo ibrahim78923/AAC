@@ -1,29 +1,18 @@
 import React, { useState } from 'react';
-import {
-  Box,
-  Stack,
-  Button,
-  List,
-  ListItemButton,
-  TextField,
-  Typography,
-} from '@mui/material';
+import { Box, Stack, Button, List, ListItemButton } from '@mui/material';
 import dayjs from 'dayjs';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { styles } from './style';
 import { DATE_FORMAT } from '@/constants';
 import { PrimaryCalendarIcon } from '@/assets/icons';
-import CustomLabel from '../CustomLabel';
 
 const SwitchableDatepicker = ({
-  renderInput = 'input',
-  required,
-  error,
-  field,
-  ...other
+  renderInput = 'button',
+  dateValue,
+  setDateValue,
+  handleDateSubmit,
 }: any) => {
-  const [dateValue, setDateValue] = useState<any>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [isWeekPicker, setIsWeekPicker] = useState(false);
@@ -32,7 +21,6 @@ const SwitchableDatepicker = ({
   const [isRangePicker, setIsRangePicker] = useState(false);
   const [startDate, setStartDate]: any = useState(null);
   const [endDate, setEndDate] = useState(null);
-  const [dateFormat, setDateFormat] = useState('MM/dd/yyyy');
 
   const handleListItemClick = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
@@ -40,7 +28,6 @@ const SwitchableDatepicker = ({
   ) => {
     setSelectedIndex(index);
     if (index === 4) {
-      setDateFormat('MM/dd/yyyy');
       setStartDate(null);
       setEndDate(null);
       setIsWeekPicker(false);
@@ -48,7 +35,6 @@ const SwitchableDatepicker = ({
       setIsYearPicker(false);
       setIsRangePicker(true);
     } else if (index === 3) {
-      setDateFormat('yyyy');
       setStartDate(null);
       setEndDate(null);
       setIsWeekPicker(false);
@@ -56,7 +42,6 @@ const SwitchableDatepicker = ({
       setIsYearPicker(true);
       setIsRangePicker(false);
     } else if (index === 2) {
-      setDateFormat('MM/yyyy');
       setStartDate(null);
       setEndDate(null);
       setIsWeekPicker(false);
@@ -64,7 +49,6 @@ const SwitchableDatepicker = ({
       setIsYearPicker(false);
       setIsRangePicker(false);
     } else if (index === 1) {
-      setDateFormat('I/R');
       setStartDate(null);
       setEndDate(null);
       setIsWeekPicker(true);
@@ -72,7 +56,6 @@ const SwitchableDatepicker = ({
       setIsYearPicker(false);
       setIsRangePicker(false);
     } else {
-      setDateFormat('MM/dd/yyyy');
       setStartDate(null);
       setEndDate(null);
       setIsWeekPicker(false);
@@ -175,7 +158,13 @@ const SwitchableDatepicker = ({
             <Button variant="outlined" onClick={() => setIsOpen(false)}>
               Cancel
             </Button>
-            <Button variant="contained" onClick={() => setIsOpen(false)}>
+            <Button
+              variant="contained"
+              onClick={() => {
+                handleDateSubmit?.();
+                setIsOpen(false);
+              }}
+            >
               Apply
             </Button>
           </Stack>
@@ -204,7 +193,7 @@ const SwitchableDatepicker = ({
           <PrimaryCalendarIcon />
           <Box sx={{ ml: '8px', display: 'inline-flex' }}>Date</Box>
         </Button>
-      ) : renderInput === 'date' ? (
+      ) : (
         <Stack
           direction="row"
           gap={1}
@@ -220,49 +209,14 @@ const SwitchableDatepicker = ({
             <ArrowSquareRightIcon /> */}
           </Stack>
         </Stack>
-      ) : (
-        <>
-          {other?.label && (
-            <CustomLabel label={other?.label} required={required} />
-          )}
-          <TextField
-            value={dateString}
-            onClick={handleClick}
-            {...field}
-            fullWidth
-            error={!!error}
-            helperText={
-              <Typography
-                component={'span'}
-                sx={{ display: 'block', mt: -1, ml: -1 }}
-              >
-                {error?.message}
-              </Typography>
-            }
-            FormHelperTextProps={{
-              classes: {
-                root: '',
-                color: 'green',
-              },
-            }}
-            {...other}
-            label=""
-          />
-        </>
       )}
       {isOpen && (
         <>
           <DatePicker
             inline
-            dateFormat={dateFormat}
             calendarContainer={Container}
             selected={startDate}
-            onChange={(date: any) => {
-              handleChange(date);
-              if (renderInput === 'input') {
-                field.onChange(dateString);
-              }
-            }}
+            onChange={handleChange}
             showWeekPicker={isWeekPicker}
             showMonthYearPicker={isMonthPicker}
             showYearPicker={isYearPicker}

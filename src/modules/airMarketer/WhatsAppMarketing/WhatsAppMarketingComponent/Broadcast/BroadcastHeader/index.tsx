@@ -1,13 +1,14 @@
+import { useState } from 'react';
 import { Box, Button, Menu, MenuItem, Stack } from '@mui/material';
 import { ArrowDropDown } from '@mui/icons-material';
 import Search from '@/components/Search';
-
 import useBroadcast from '../useBroadcast';
 import { BroadcastHeaderI } from './BroadcastHeader.interface';
 import { styles } from './BroadcastHeader.style';
 import SwitchableDatepicker from '@/components/SwitchableDatepicker';
 
 const BroadcastHeader = (props: BroadcastHeaderI) => {
+  const [dateValue, setDateValue] = useState<any>([new Date(), new Date()]);
   const { handleOpenDelete, setIsCreateBroadcast } = props;
   const {
     theme,
@@ -24,7 +25,11 @@ const BroadcastHeader = (props: BroadcastHeaderI) => {
   return (
     <Box sx={styles?.cont}>
       <Box sx={styles?.headerLeft}>
-        <SwitchableDatepicker renderInput="date" />
+        <SwitchableDatepicker
+          renderInput="date"
+          dateValue={dateValue}
+          setDateValue={setDateValue}
+        />
       </Box>
       <Stack direction="row" spacing={'8px'} sx={styles?.headerRight}>
         <Search size="small" placeholder="Search Here" />

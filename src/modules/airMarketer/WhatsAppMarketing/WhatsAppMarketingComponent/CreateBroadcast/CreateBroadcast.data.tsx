@@ -2,41 +2,27 @@ import {
   RHFSelect,
   RHFDropZone,
   RHFTextField,
-  RHFSwitchableDatepicker,
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
 export const validationSchema = Yup.object().shape({
-  sender: Yup.string().required('Field is Required'),
-  details: Yup.string().required('Field is Required'),
+  name: Yup.string().required('Field is Required'),
   compaign: Yup.string().required('Field is Required'),
-  addedContacts: Yup.string().required('Field is Required'),
-  useTemplate: Yup.string().required('Field is Required'),
-  recipients: Yup.string().required('Field is Required'),
-  details2: Yup.string().required('Field is Required'),
+  contacts: Yup.string().required('Field is Required'),
+  details: Yup.string().required('Field is Required'),
+  attachment: Yup.string().required('Field is Required'),
 });
 
 export const defaultValues = {
-  sender: '',
-  details: '',
+  name: '',
   compaign: '',
-  addedContacts: '',
-  useTemplate: '',
-  recipients: '',
-  details2: '',
+  template: '',
+  contacts: '',
+  details: '',
+  attachment: '',
 };
 
 export const createBroadcastFields = [
-  {
-    componentProps: {
-      label: 'Broadcast Name',
-      name: 'name',
-      fullWidth: true,
-      placeholder: 'Enter Name',
-    },
-    component: RHFSwitchableDatepicker,
-    md: 12,
-  },
   {
     componentProps: {
       label: 'Broadcast Name',
