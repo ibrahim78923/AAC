@@ -29,7 +29,7 @@ export const AddAssociationsDrawer = ({
         <Grid container>
           <Grid item xs={12}>
             <Search
-              label="Search"
+              label="Search Here"
               width="100%"
               searchBy=""
               setSearchBy={() => {}}
