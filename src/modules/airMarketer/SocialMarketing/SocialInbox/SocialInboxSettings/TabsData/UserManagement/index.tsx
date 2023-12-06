@@ -94,7 +94,7 @@ const UserManagement = ({ initialValueProps = defaultValues }: any) => {
           sx={{
             fontWeight: 500,
             fontSize: '12px',
-            color: `${theme.palette.custom.main}`,
+            color: `${theme?.palette?.custom?.main}`,
           }}
         >
           Add New User to Organization
@@ -168,7 +168,7 @@ const UserManagement = ({ initialValueProps = defaultValues }: any) => {
           >
             <AddCircleIcon
               sx={{
-                color: `${theme?.palette?.common.white}`,
+                color: `${theme?.palette?.common?.white}`,
                 fontSize: '16px',
               }}
             />
