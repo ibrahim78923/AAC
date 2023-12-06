@@ -14,6 +14,8 @@ const useCreateTemplate = () => {
   const { handleSubmit, watch } = methods;
 
   const TemplateName = watch('TemplateName');
+  const Category = watch('Category');
+  const Details = watch('Details');
 
   const onSubmit = async () => {};
 
@@ -23,6 +25,8 @@ const useCreateTemplate = () => {
     handleSubmit,
     onSubmit,
     TemplateName,
+    Category,
+    Details,
   };
 };
 

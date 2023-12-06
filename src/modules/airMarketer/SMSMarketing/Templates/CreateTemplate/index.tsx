@@ -1,13 +1,28 @@
 import React from 'react';
 import { ArrowBackIcon } from '@/assets/icons';
-import { Box, Button, Grid, Skeleton, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Grid,
+  Skeleton,
+  TextareaAutosize,
+  Typography,
+} from '@mui/material';
 import { CreateTemplateDataArray } from './CreateTemplate.data';
 import { v4 as uuidv4 } from 'uuid';
 import { FormProvider } from '@/components/ReactHookForm';
 import useCreateTemplate from './useCreateTemplate';
 
 const CreateTemplate = () => {
-  const { router, methods, handleSubmit, onSubmit } = useCreateTemplate();
+  const {
+    router,
+    methods,
+    handleSubmit,
+    onSubmit,
+    TemplateName,
+    Category,
+    Details,
+  } = useCreateTemplate();
 
   return (
     <Grid container spacing={4}>
@@ -51,7 +66,10 @@ const CreateTemplate = () => {
       <Grid item xs={12} lg={6}>
         <Box sx={{ marginTop: '40px' }}>
           <Typography variant="h4">Preview</Typography>
-          <Typography variant="body2">Your Preview will appear here</Typography>
+          <Typography variant="body2">
+            {TemplateName ? TemplateName : 'Your Preview will appear here'}
+          </Typography>
+          <Typography variant="body2">{Category}</Typography>
 
           <Box
             sx={{
@@ -59,35 +77,53 @@ const CreateTemplate = () => {
               marginTop: '20px',
             }}
           >
-            <Box sx={{ display: 'Flex', alignItems: 'center' }}>
-              <Box>
+            {!Category && (
+              <Box sx={{ display: 'Flex', alignItems: 'center' }}>
+                <Box>
+                  <Skeleton
+                    variant="rounded"
+                    sx={{ marginY: '15px', bgcolor: '#EBECF1' }}
+                    width={94}
+                    height={10}
+                  />
+                </Box>
+              </Box>
+            )}
+
+            {!Details ? (
+              <>
                 <Skeleton
                   variant="rounded"
-                  sx={{ marginY: '15px', bgcolor: '#EBECF1' }}
-                  width={94}
+                  sx={{ marginTop: '20px', bgcolor: '#EBECF1' }}
+                  width={443}
                   height={10}
                 />
-              </Box>
-            </Box>
-
-            <Skeleton
-              variant="rounded"
-              sx={{ marginTop: '20px', bgcolor: '#EBECF1' }}
-              width={443}
-              height={10}
-            />
-            <Skeleton
-              variant="rounded"
-              sx={{ marginTop: '10px', bgcolor: '#EBECF1' }}
-              width={348}
-              height={10}
-            />
-            <Skeleton
-              variant="rounded"
-              sx={{ marginTop: '10px', bgcolor: '#EBECF1' }}
-              width={280}
-              height={10}
-            />
+                <Skeleton
+                  variant="rounded"
+                  sx={{ marginTop: '10px', bgcolor: '#EBECF1' }}
+                  width={348}
+                  height={10}
+                />
+                <Skeleton
+                  variant="rounded"
+                  sx={{ marginTop: '10px', bgcolor: '#EBECF1' }}
+                  width={280}
+                  height={10}
+                />
+              </>
+            ) : (
+              <TextareaAutosize
+                value={Details}
+                minRows={3}
+                maxRows={10}
+                style={{
+                  width: '100%',
+                  border: '1px solid #E5E7EB',
+                  padding: '15px',
+                  borderRadius: '8px',
+                }}
+              />
+            )}
           </Box>
 
           <Box sx={{ display: 'flex', justifyContent: 'end', marginY: '20px' }}>
