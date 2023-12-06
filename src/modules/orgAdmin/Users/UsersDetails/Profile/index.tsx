@@ -16,8 +16,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import { v4 as uuidv4 } from 'uuid';
 import useToggle from '@/hooks/useToggle';
-import { EraserIcon } from '@/assets/icons';
-import { BorderColor } from '@mui/icons-material';
+import { EditInputIcon, RevertIcon } from '@/assets/icons';
 
 const UserDetailsProfile = () => {
   const [isToggled, setIsToggled] = useToggle(false);
@@ -36,51 +35,28 @@ const UserDetailsProfile = () => {
   return (
     <FormProvider methods={methods}>
       <Typography variant="h5">Personal Details</Typography>
-      <Grid container spacing={2} sx={{ mt: '5px' }}>
+      <Grid container spacing={1} sx={{ mt: '5px' }}>
         {profileFields?.map((item: any) => {
           return (
             <Grid item xs={12} md={item?.md} key={uuidv4()}>
-              {isToggled && item?.toShow?.includes('address') && (
-                <Typography variant="body2" fontWeight={500}>
-                  {item?.title}
-                </Typography>
-              )}
-              {!item?.toShow?.includes('address') && (
-                <Typography variant="body2" fontWeight={500}>
-                  {item?.title}
-                </Typography>
-              )}
               {item?.componentProps?.heading && (
                 <Typography variant="h5">
                   {item?.componentProps?.heading}
                 </Typography>
               )}
-              {!item?.toShow?.includes('address') && (
-                <item.component {...item?.componentProps} size={'small'}>
-                  {item?.componentProps?.select &&
-                    item?.options?.map((option: any) => (
-                      <option key={uuidv4()} value={option?.value}>
-                        {option?.label}
-                      </option>
-                    ))}
-                </item.component>
-              )}
-
               {/* for address fileds */}
               {item?.componentProps?.name === 'address' && (
                 <Box
                   sx={{
-                    backgroundColor: '',
                     position: 'relative',
-                    right: 0,
                   }}
                 >
                   <InputAdornment
                     sx={{
                       position: 'absolute',
-                      top: -20,
+                      top: 45,
                       right: 15,
-                      zIndex: 999,
+                      zIndex: 99,
                     }}
                     position="end"
                   >
@@ -95,15 +71,27 @@ const UserDetailsProfile = () => {
                         sx={{ cursor: 'pointer' }}
                         onClick={() => setIsToggled(false)}
                       >
-                        <EraserIcon />
+                        <RevertIcon />
                       </Box>
-                      <BorderColor
+                      <Box
                         onClick={() => setIsToggled(true)}
                         sx={{ cursor: 'pointer', fontSize: '20px' }}
-                      />
+                      >
+                        <EditInputIcon />
+                      </Box>
                     </Box>
                   </InputAdornment>
                 </Box>
+              )}
+              {!item?.toShow?.includes('address') && (
+                <item.component {...item?.componentProps} size={'small'}>
+                  {item?.componentProps?.select &&
+                    item?.options?.map((option: any) => (
+                      <option key={uuidv4()} value={option?.value}>
+                        {option?.label}
+                      </option>
+                    ))}
+                </item.component>
               )}
 
               {isToggled && item?.toShow?.includes('address') && (
@@ -125,7 +113,9 @@ const UserDetailsProfile = () => {
         lg={12}
         sx={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', my: 2 }}
       >
-        <Button variant="outlined">Cancel</Button>
+        <Button variant="outlined" color="inherit">
+          Cancel
+        </Button>
         <Button variant="contained" onClick={handleSubmit(onSubmit)}>
           Save
         </Button>

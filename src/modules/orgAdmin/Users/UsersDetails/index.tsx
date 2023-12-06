@@ -8,11 +8,11 @@ import Accounts from './Accounts';
 
 import Profile from './Profile';
 
-import ControlPointIcon from '@mui/icons-material/ControlPoint';
-
 import AddAccount from '../Drawers/AddAccount';
 
 import useUsersDetails from './useUsersDetails';
+
+import { AddCircle } from '@mui/icons-material';
 
 const UsersDetails = () => {
   const {
@@ -42,19 +42,14 @@ const UsersDetails = () => {
                 isHeader={tabValue === 0 ? true : false}
                 getTabVal={(val: number) => setTabVal(val)}
                 tabsArray={['Accounts', 'Profile']}
-                searchBarProps={{
-                  label: 'Search Here',
-                  width: '260px',
-                }}
+                searchBarProps={{ label: 'Search Here' }}
                 headerChildren={
                   <Button
-                    onClick={() => setIsOpenAddAccountDrawer(true)}
-                    sx={{
-                      border: `1px solid ${theme?.palette?.custom?.dark}`,
-                      color: `${theme?.palette?.custom?.main}`,
-                    }}
+                    className="small"
                     variant="outlined"
-                    startIcon={<ControlPointIcon />}
+                    color="inherit"
+                    onClick={() => setIsOpenAddAccountDrawer(true)}
+                    startIcon={<AddCircle />}
                   >
                     Add account
                   </Button>
