@@ -11,7 +11,9 @@ const useCreateTemplate = () => {
     defaultValues: defaultValues,
   });
 
-  const { handleSubmit } = methods;
+  const { handleSubmit, watch } = methods;
+
+  const TemplateName = watch('TemplateName');
 
   const onSubmit = async () => {};
 
@@ -20,6 +22,7 @@ const useCreateTemplate = () => {
     methods,
     handleSubmit,
     onSubmit,
+    TemplateName,
   };
 };
 
