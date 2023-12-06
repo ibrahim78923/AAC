@@ -55,7 +55,7 @@ export const styles = {
   tabsPanel: (theme: any) => {
     return {
       borderRadius: '8px',
-      border: `1px solid  ${theme?.palette.custom?.off_white_three}`,
+      border: `1px solid  ${theme?.palette?.custom?.off_white_three}`,
       boxShadow:
         '0px 1px 2px 0px rgba(16, 24, 40, 0.06), 0px 1px 3px 0px rgba(16, 24, 40, 0.10)',
       padding: '20px',
