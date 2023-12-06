@@ -11,6 +11,7 @@ import LiveHelpIcon from '@mui/icons-material/LiveHelp';
 import Image from 'next/image';
 import { BudgetScheduleMockImage } from '@/assets/images';
 import { styles } from '../../../EngagementAd.style';
+import { styles as style } from '../../../../CreateAd.style';
 import { v4 as uuidv4 } from 'uuid';
 
 const BudgetAndSchedule = () => {
@@ -71,7 +72,7 @@ const BudgetAndSchedule = () => {
               </Grid>
             </Grid>
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} md={6} sx={style?.cardStyle}>
             <Card
               sx={{
                 height: '60vh',

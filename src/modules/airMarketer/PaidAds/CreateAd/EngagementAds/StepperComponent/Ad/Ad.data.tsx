@@ -71,6 +71,7 @@ export const AdFormData = [
     },
     gridLength: 12,
     component: Typography,
+    isNewAdFields: ['existingAd', 'newAd'],
   },
   {
     componentProps: {
@@ -102,6 +103,7 @@ export const AdFormData = [
     },
     gridLength: 12,
     component: Typography,
+    isNewAdFields: ['existingAd', 'newAd'],
   },
   {
     componentProps: {

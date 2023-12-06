@@ -10,6 +10,7 @@ import {
 import Image from 'next/image';
 import { AudienceMockImage, BudgetScheduleMockImage } from '@/assets/images';
 import { styles } from '../.../../../EngagementAd.style';
+import { styles as style } from '../../../CreateAd.style';
 import { v4 as uuidv4 } from 'uuid';
 
 const Automation = () => {
@@ -28,7 +29,7 @@ const Automation = () => {
   return (
     <Box sx={styles?.engagementStyle}>
       <FormProvider methods={methods}>
-        <Grid container spacing={1}>
+        <Grid container spacing={2}>
           <Grid item xs={12} md={6}>
             {automationDataArray?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={uuidv4()}>
@@ -111,7 +112,7 @@ const Automation = () => {
               </Typography>
             </Box>
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} md={6} sx={style?.cardStyle}>
             <Card
               sx={{
                 height: '60vh',
