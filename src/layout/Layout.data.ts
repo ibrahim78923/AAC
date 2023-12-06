@@ -41,6 +41,7 @@ import {
   WorkLoadImage,
 } from '@/assets/images';
 import { Permissions } from '@/constants/permissions';
+import { AIR_MARKETER, AIR_OPERATION } from '@/routesConstants/paths';
 
 type MenuItemI = {
   key: React.Key;
@@ -203,65 +204,60 @@ export const ServicesRoutes: any = [
 
 export const AirMarketingRoutes: any = [
   {
-    key: 'air-marketing',
+    key: AIR_MARKETER?.root,
     icon: DashboardImage,
     label: 'Dashboard',
     role: 'AIR_MARKETING',
     permissions: [],
   },
   {
-    key: 'air-marketing/paid-ads',
+    key: AIR_MARKETER?.PAID_ADS,
     icon: PaidAdsImage,
     label: 'Paid Ads',
     role: 'AIR_MARKETING',
     permissions: [],
   },
   {
-    key: 'air-marketing/campaign',
+    key: AIR_MARKETER?.CAMPAIGNS,
     icon: CampaignImage,
     label: 'Campaign',
     role: 'AIR_MARKETING',
     permissions: [],
   },
   {
-    key: 'air-marketing/email-marketing/inventory',
+    key: AIR_MARKETER?.EMAIL_MARKETING,
     label: 'Email Marketing',
     icon: EmailMarketingImage,
     role: 'AIR_MARKETING',
     permissions: [],
     textNames: [
       {
-        key: 'air-marketing/email-marketing/email-templates',
+        key: AIR_MARKETER?.EMAIL_TEMPLATES,
         label: 'Email Templates',
         permissions: [],
       },
       {
-        key: 'air-marketing/email-marketing/email-folder',
+        key: AIR_MARKETER?.EMAIL_FOLDER,
         label: 'Email Folder',
         permissions: [],
       },
       {
-        key: 'air-marketing/email-marketing/email-reports',
+        key: AIR_MARKETER?.EMAIL_REPORTS,
         label: 'Email Reports',
-        permissions: [],
-      },
-      {
-        key: 'air-marketing/assets/purchase-orders',
-        label: 'Purchase Orders',
         permissions: [],
       },
     ],
   },
 
   {
-    key: 'air-marketing/social-marketing',
+    key: AIR_MARKETER?.SOCIAL_MARKETING,
     label: 'Social Marketing',
     icon: SocialMarketingImage,
     role: 'AIR_MARKETING',
     permissions: [],
     textNames: [
       {
-        key: 'air-marketing/social-marketing/social-inbox',
+        key: AIR_MARKETER?.SOCIAL_INBOX,
         label: 'SociaL Inbox',
         permissions: [],
       },
@@ -269,33 +265,33 @@ export const AirMarketingRoutes: any = [
   },
 
   {
-    key: 'air-marketing/sms-marketing',
+    key: AIR_MARKETER?.SMS_MARKETING,
     icon: SmsMarketingImage,
     label: 'SMS Marketing',
     role: 'AIR_MARKETING',
     permissions: [],
   },
   {
-    key: 'air-marketing/lead-capture',
+    key: AIR_MARKETER?.LEAD_CAPTURE,
     label: 'Lead Capture',
     icon: LeadCaptureImage,
     role: 'AIR_MARKETING',
     permissions: [],
     textNames: [
       {
-        key: 'air-marketing/lead-capture/cta',
+        key: AIR_MARKETER?.LEAD_CAPTURE_CTA,
         label: 'CTA',
         permissions: [],
       },
       {
-        key: 'air-marketing/lead-capture/Forms',
+        key: AIR_MARKETER?.LEAD_CAPTURE_FORMS,
         label: 'Forms',
         permissions: [],
       },
     ],
   },
   {
-    key: 'air-operations/reports',
+    key: AIR_MARKETER?.REPORTS,
     icon: ReportsImage,
     label: 'Reports',
     role: 'AIR_MARKETING',
@@ -336,49 +332,49 @@ export const CustomerPortalRoutes: any = [
 
 export const AirOperationsRoutes: any = [
   {
-    key: 'air-operations',
+    key: AIR_OPERATION?.root,
     icon: DashboardImage,
     label: 'Dashboard',
     role: 'AIR_OPERATIONS',
     permissions: [],
   },
   {
-    key: 'air-operations/data-management',
+    key: AIR_OPERATION?.DATA_MANAGEMENT,
     icon: DataManagementImage,
     label: 'Data Management',
     role: 'AIR_OPERATIONS',
     permissions: [],
   },
   {
-    key: 'air-operations/integrations',
+    key: AIR_OPERATION?.INTEGRATIONS,
     icon: IntegrationsImage,
     label: 'Integrations',
     role: 'AIR_OPERATIONS',
     permissions: [],
   },
   {
-    key: 'air-operations/workflow',
+    key: AIR_OPERATION?.WORK_FLOW,
     icon: WorkFlowAutomationImage,
     label: 'Workflow',
     role: 'AIR_OPERATIONS',
     permissions: [],
   },
   {
-    key: 'air-operations/reports',
+    key: AIR_OPERATION?.REPORTS,
     icon: ReportsImage,
     label: 'Reports',
     role: 'AIR_OPERATIONS',
     permissions: [],
   },
   {
-    key: 'air-operations/role-and-rights',
+    key: AIR_OPERATION?.ROLE_AND_RIGHT,
     icon: ForecastImage,
     label: 'Role and Rights',
     role: 'AIR_OPERATIONS',
     permissions: [],
   },
   {
-    key: 'air-operations/user-management',
+    key: AIR_OPERATION?.USER_MANAGEMENT,
     icon: ProfileUserManagementImage,
     label: 'User Management',
     role: 'AIR_OPERATIONS',
@@ -541,7 +537,7 @@ export const LowerOrgAdminRoutes = [
 export const LowerAirOperationRoutes = [
   {
     label: 'Logout',
-    key: 'logout',
+    key: '',
     role: 'AIR_OPERATIONS',
     permissions: [],
     icon: LogoutImage,
@@ -569,15 +565,15 @@ export const LowerAirMarketingRoutes = [
   {
     label: 'Settings',
     icon: SettingImage,
-    role: 'AIR_SALES',
-    key: 'air-sales/settings',
+    role: 'AIR_MARKETING',
+    key: AIR_MARKETER?.SETTINGS,
     permissions: [],
   },
 
   {
     label: 'Logout',
-    key: 'logout',
-    role: 'AIR_SALES',
+    key: '',
+    role: 'AIR_MARKETING',
     permissions: [],
     icon: LogoutImage,
   },
