@@ -1,4 +1,4 @@
-export const faceBookLikesData: any = [
+export const faceBookLikesData = [
   {
     Id: 1,
     title: `New Campaign Group`,
@@ -12,7 +12,7 @@ export const faceBookLikesData: any = [
     comments: 0,
   },
 ];
-export const CtaData: any = [
+export const CtaData = [
   {
     Id: 1,
     title: `Check`,
