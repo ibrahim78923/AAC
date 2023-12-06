@@ -5,7 +5,7 @@ import LayoutSwitch from './WhatsAppMarketingComponent/LayoutSwitch';
 import TemplateForm from './WhatsAppMarketingComponent/Templates/TemplateForm';
 
 const WhatsAppMarketing = () => {
-  const isNumberConnected = true;
+  const isNumberConnected = false;
   const [isMainLayoutSwitch, setIsMainLayoutSwitch] = useState(true);
   const [isCreateTemplate, setIsCreateTemplate] = useState(false);
   const [templateType, setTemplateType] = useState('');
