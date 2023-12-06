@@ -1,4 +1,3 @@
-import CommonTabs from '@/components/Tabs';
 import { Box, Button, Typography } from '@mui/material';
 import Manage from './Manage';
 import useCampaigns from './useCampaigns';
@@ -7,9 +6,10 @@ import Tasks from './Tasks';
 import ImportIcon from '@/assets/icons/shared/import-icon';
 import Filters from './Filters';
 import { campaignsTabs } from './Campaigns.data';
+import HorizontalTabs from '@/components/Tabs/HorizontalTabs';
 
 const Campaigns = () => {
-  const { setTabVal, isOpenFilter, setIsOpenFilter, theme } = useCampaigns();
+  const { isOpenFilter, setIsOpenFilter, theme } = useCampaigns();
   return (
     <Box>
       <Box
@@ -47,15 +47,11 @@ const Campaigns = () => {
         </Box>
 
         <Box sx={{ padding: '0px 24px' }}>
-          <CommonTabs
-            getTabVal={(val: number) => setTabVal(val)}
-            isHeader={true}
-            tabsArray={campaignsTabs}
-          >
+          <HorizontalTabs tabsDataArray={campaignsTabs}>
             <Manage />
             <Manage />
             <Tasks />
-          </CommonTabs>
+          </HorizontalTabs>
         </Box>
       </Box>
       {isOpenFilter && (
