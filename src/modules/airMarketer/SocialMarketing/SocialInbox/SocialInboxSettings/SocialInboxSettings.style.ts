@@ -5,14 +5,14 @@ export const styles = {
       paddingTop: '8px',
       width: '15%',
       marginRight: '1%',
-      borderTop: `1px solid ${theme?.palette.custom?.slate_gray}`,
+      borderTop: `1px solid ${theme?.palette?.custom?.slate_gray}`,
       '@media (max-width: 1500px)': {
         width: '30%',
       },
       '@media (max-width: 899px)': {
         width: '100%',
         marginRight: '0px',
-        borderBottom: `1px solid ${theme?.palette.custom?.slate_gray}`,
+        borderBottom: `1px solid ${theme?.palette?.custom?.slate_gray}`,
       },
       '& .MuiTabs-flexContainer': {
         display: 'flex',
