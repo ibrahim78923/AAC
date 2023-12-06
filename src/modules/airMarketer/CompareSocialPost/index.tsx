@@ -7,8 +7,6 @@ import SelectPostModal from './SelectPostModal';
 import FirstPostOverview from './PostOverview/FirstPostOverView';
 import SecondPostOverview from './PostOverview/SecondPostOverview';
 import { MinimizePrimaryIcon, PlusPrimaryIcon } from '@/assets/icons';
-import Facebook from '@/assets/icons/modules/airMarketer/SocialMarketing/PostBox/facebook';
-import Instagram from '@/assets/icons/modules/airMarketer/SocialMarketing/PostBox/instagram';
 import {
   postPerformanceColumn,
   postPerformanceData,
@@ -23,16 +21,16 @@ const CompareSocialPost = () => {
     setIsSelectPostModal,
     isOverView,
     setIsOverview,
-    fisrtPost,
+    firstPost,
     secondPost,
     setFirstPost,
     setSecondPost,
+    socialCatgory,
   } = useComparePost();
   const [isPost, setisPost] = useState<any>();
 
-  const firstPostLength = Object?.keys(fisrtPost)?.length;
+  const firstPostLength = Object?.keys(firstPost)?.length;
   const secondPostLength = Object?.keys(secondPost)?.length;
-  const socialCatgory = 'facebook';
 
   return (
     <Box>
@@ -72,20 +70,16 @@ const CompareSocialPost = () => {
                   }}
                 >
                   <Box display="flex" gap={1} alignItems="center">
-                    {fisrtPost.avatar && (
+                    {firstPost.avatar && (
                       <Box
                         sx={style?.avatarStyle(
-                          fisrtPost?.category,
+                          firstPost?.category,
                           theme?.palette,
                         )}
                       >
-                        <Avatar src={fisrtPost?.avatar}></Avatar>
+                        <Avatar src={firstPost?.avatar}></Avatar>
                         <Box className="avatar-category">
-                          {fisrtPost?.category === socialCatgory ? (
-                            <Facebook />
-                          ) : (
-                            <Instagram />
-                          )}
+                          {socialCatgory[firstPost?.category]}
                         </Box>
                       </Box>
                     )}
@@ -93,8 +87,8 @@ const CompareSocialPost = () => {
                       className="postContent"
                       color={theme?.palette?.grey[600]}
                     >
-                      {fisrtPost?.description
-                        ? fisrtPost?.description
+                      {firstPost?.description
+                        ? firstPost?.description
                         : 'Select post to compare'}
                     </Typography>
                   </Box>
@@ -124,11 +118,7 @@ const CompareSocialPost = () => {
                       >
                         <Avatar src={secondPost?.avatar}></Avatar>
                         <Box className="avatar-category">
-                          {secondPost?.category === socialCatgory ? (
-                            <Facebook />
-                          ) : (
-                            <Instagram />
-                          )}
+                          {socialCatgory[secondPost?.category]}
                         </Box>
                       </Box>
                     )}
@@ -163,7 +153,7 @@ const CompareSocialPost = () => {
           </Typography>
           <Grid container>
             <Grid item xs={12} md={3.5}>
-              {fisrtPost?.id && <FirstPostOverview postData={fisrtPost} />}
+              {firstPost?.id && <FirstPostOverview postData={firstPost} />}
             </Grid>
             <Grid item xs={12} md={3.5}>
               {secondPost?.id && <SecondPostOverview postData={secondPost} />}

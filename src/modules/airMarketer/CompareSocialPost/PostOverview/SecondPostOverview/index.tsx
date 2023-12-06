@@ -10,11 +10,10 @@ import {
 import { postsOverviewData } from '../../SelectPostModal/SelectPostModal.data';
 import { v4 as uuidv4 } from 'uuid';
 import { style } from '../../CompareSocialPost.style';
-import Facebook from '@/assets/icons/modules/airMarketer/SocialMarketing/PostBox/facebook';
-import Instagram from '@/assets/icons/modules/airMarketer/SocialMarketing/PostBox/instagram';
+import { useComparePost } from '../../useComparePost';
 
 const SecondPostOverview = ({ postData }: any) => {
-  const socialCatgory = 'facebook';
+  const { socialCatgory } = useComparePost();
   return (
     <Box>
       <Typography variant="body4" fontWeight={600}>
@@ -39,11 +38,7 @@ const SecondPostOverview = ({ postData }: any) => {
             <Box sx={style?.avatarStyle(postData?.category)}>
               <Avatar src={postData?.avatar}></Avatar>
               <Box className="avatar-category">
-                {postData?.category === socialCatgory ? (
-                  <Facebook />
-                ) : (
-                  <Instagram />
-                )}
+                {socialCatgory[postData.category]}
               </Box>
             </Box>
           }

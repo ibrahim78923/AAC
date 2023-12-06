@@ -28,6 +28,7 @@ export const manageTableColumns: any = (statusBtnValue: any, theme: any) => {
           <LinkedIn sx={{ height: '32px', width: '32px', fill: '#0a66c2' }} />
           <Box>
             <Typography>Azeem Aslam</Typography>
+
             <Box
               sx={style?.statusBtn(theme)}
               bgcolor={statusBtnValue(info?.getValue())}
