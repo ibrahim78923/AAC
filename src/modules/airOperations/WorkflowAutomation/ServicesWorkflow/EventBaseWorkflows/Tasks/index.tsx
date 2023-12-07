@@ -1,20 +1,20 @@
 import TanstackTable from '@/components/Table/TanstackTable';
 import Header from '../Tickets/Header';
-import { useAssets } from '../Assets/useAssets';
 import { assetsListData } from '../Assets/Assets.data';
+import { useTasks } from './useTasks';
 
-const Assets = () => {
-  const { assetsListsColumns, selectedAssetsList } = useAssets();
+const Tasks = () => {
+  const { selectedTasksList, tasksListsColumns } = useTasks();
   return (
     <>
-      <Header selectedTicketsList={selectedAssetsList} />
+      <Header selectedTicketsList={selectedTasksList} />
       <TanstackTable
         data={assetsListData}
-        columns={assetsListsColumns}
+        columns={tasksListsColumns}
         isPagination
       />
     </>
   );
 };
 
-export default Assets;
+export default Tasks;

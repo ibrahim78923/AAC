@@ -13,7 +13,7 @@ export const useTasks = () => {
     theme,
   );
   return {
-    tasksListsColumns,
     selectedTasksList,
+    tasksListsColumns,
   };
 };
