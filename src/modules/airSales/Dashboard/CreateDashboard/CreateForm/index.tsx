@@ -131,7 +131,7 @@ const CreateForm = ({ isShowEditDashboard }: any) => {
                         color={theme?.palette?.slateBlue.main}
                         variant="h6"
                       >
-                        {item.componentProps?.heading}
+                        {item?.componentProps?.heading}
                       </Typography>
                       <item.component {...item?.componentProps} size="small" />
                     </>
