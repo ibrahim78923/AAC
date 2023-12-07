@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FormsDefaultValues, FormsvalidationSchema } from './Forms.data';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { airMarketerLeadCapture } from '@/routesConstants/paths';
+import { AIR_MARKETER } from '@/routesConstants/paths';
 import { useTheme } from '@mui/material';
 
 const useForms = () => {
@@ -36,7 +36,7 @@ const useForms = () => {
     setIsDraweropen(false);
     reset();
     router.push({
-      pathname: airMarketerLeadCapture.CREATE_FORM,
+      pathname: AIR_MARKETER.CREATE_FORM,
       query: { formData: JSON?.stringify(values) },
     });
   };

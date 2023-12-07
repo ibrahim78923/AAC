@@ -6,7 +6,7 @@ import {
   styleFormDefaultValues,
   styleFormvalidationSchema,
 } from './CreateForm.data';
-import { airMarketerLeadCapture } from '@/routesConstants/paths';
+import { AIR_MARKETER } from '@/routesConstants/paths';
 
 const useCreateForm = () => {
   const [value, setValue] = useState('1');
@@ -53,7 +53,7 @@ const useCreateForm = () => {
     if (router?.query?.formData) {
       // Clear the query parameters
       router.push({
-        pathname: airMarketerLeadCapture?.CREATE_FORM,
+        pathname: AIR_MARKETER?.CREATE_FORM,
         query: {},
       });
     }

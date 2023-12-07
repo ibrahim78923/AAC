@@ -105,6 +105,9 @@ export const AIR_MARKETER = {
   CAMPAIGNS: path(AIR_MARKETING_PAGE, '/campaigns'),
   SETTINGS: path(AIR_MARKETING_PAGE, '/settings'),
   CREATE_TEMPLATE: path(AIR_MARKETING_PAGE, '/sms-marketing/create-template'),
+  VERIFY_EMAIL: path(AIR_MARKETING_PAGE, '/lead-capture/verify-email'),
+  CREATE_FORM: path(AIR_MARKETING_PAGE, '/lead-capture/create-form'),
+  ALL_TABLE: path(AIR_MARKETING_PAGE, '/lead-capture/forms'),
   SOCIAL_INBOX_SETTINGS: path(
     AIR_MARKETING_PAGE,
     '/social-marketing/social-inbox/settings',
@@ -130,10 +133,4 @@ export const AIR_OPERATION = {
   REPORTS: path(AIR_OPERATIONS_PAGE, '/reports'),
   ROLE_AND_RIGHT: path(AIR_OPERATIONS_PAGE, '/role-and-rights'),
   USER_MANAGEMENT: path(AIR_OPERATIONS_PAGE, '/user-management'),
-};
-
-export const airMarketerLeadCapture = {
-  VERIFY_EMAIL: '/air-marketer/lead-capture/verify-email',
-  CREATE_FORM: '/air-marketer/lead-capture/create-form',
-  ALL_TABLE: '/air-marketer/lead-capture/forms',
 };
