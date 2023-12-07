@@ -1,4 +1,5 @@
-import { Checkbox } from '@mui/material';
+import { Box, Checkbox } from '@mui/material';
+import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 
 export const usersTableColumns = (
   usersData: any,
@@ -10,6 +11,8 @@ export const usersTableColumns = (
     id: 'id',
     cell: (info: any) => (
       <Checkbox
+        icon={<CheckboxIcon />}
+        checkedIcon={<CheckboxCheckedIcon />}
         checked={
           !!usersData?.find((item: any) => item?.id === info?.getValue())
         }
@@ -32,6 +35,8 @@ export const usersTableColumns = (
     ),
     header: (
       <Checkbox
+        icon={<CheckboxIcon />}
+        checkedIcon={<CheckboxCheckedIcon />}
         checked={usersData?.length === usersMainData?.length}
         onChange={(e) => {
           if (e?.target?.checked) {
@@ -49,7 +54,7 @@ export const usersTableColumns = (
   {
     accessorFn: (row: any) => row?.username,
     id: 'Name',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => <Box fontWeight={700}>{info?.getValue()}</Box>,
     header: 'Name',
     isSortable: true,
   },

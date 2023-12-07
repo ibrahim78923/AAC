@@ -125,7 +125,6 @@ export const eventDataArray = [
   },
   {
     componentProps: {
-      color: '#7a7a7b',
       varient: 'body2',
       heading: `Select a lifecycle stage. You may also change which stage you'd like it to map to in the ad network.`,
     },
@@ -157,7 +156,6 @@ export const eventDataArray = [
   {
     componentProps: {
       label: 'Value',
-      color: '#7a7a7b',
       varient: 'body2',
     },
     gridLength: 12,
@@ -166,7 +164,6 @@ export const eventDataArray = [
   },
   {
     componentProps: {
-      color: '#7a7a7b',
       varient: 'h6',
       heading: `Value`,
     },
@@ -176,7 +173,6 @@ export const eventDataArray = [
   },
   {
     componentProps: {
-      color: '#7a7a7b',
       varient: 'body2',
       heading: `Select a value for this lifecycle stage to send to the ad network. This helps them know what this stage is worth to you to better optimize delivering your ads to high value potential customers.`,
     },
@@ -186,7 +182,6 @@ export const eventDataArray = [
   },
   {
     componentProps: {
-      color: '#7a7a7b',
       varient: 'h6',
       heading: `Use Deal Amount`,
     },
