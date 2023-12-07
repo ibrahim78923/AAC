@@ -24,19 +24,11 @@ export const dataArray = [
       name: 'dashboardName',
       label: 'Dashboard Name',
       fullWidth: true,
+      required: true,
+      placeholder: 'Dashboard Name',
     },
     component: RHFTextField,
     md: 9,
-  },
-  {
-    componentProps: {
-      color: '#7a7a7b',
-      varient: 'h4',
-      heading: 'Who can access this dashboard?',
-    },
-    gridLength: 8,
-
-    component: Typography,
   },
 
   {
@@ -55,6 +47,16 @@ export const dataArray = [
     },
     component: RHFRadioGroup,
     md: 12,
+  },
+  {
+    componentProps: {
+      color: '#7a7a7b',
+      varient: 'h4',
+      heading: 'Use the checkboxes to remove/add any report you want',
+    },
+    gridLength: 8,
+
+    component: Typography,
   },
   {
     componentProps: {
