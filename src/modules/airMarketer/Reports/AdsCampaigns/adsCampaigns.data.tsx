@@ -25,13 +25,14 @@ export const CampaignsCradsData = [
 
 export const usersData = () => {
   const theme = useTheme();
-  const iconsColor = '#1877F2';
   return [
     {
       Id: 1,
       campaignsName: (
         <Box display="flex" alignItems="center">
-          <FacebookRounded style={{ color: iconsColor }} />
+          <FacebookRounded
+            style={{ color: theme?.palette?.custom?.blue_crayola }}
+          />
           <Typography
             variant="body4"
             sx={{ color: theme?.palette?.blue?.dull_blue, ml: 1 }}
@@ -53,9 +54,9 @@ export const usersData = () => {
       revenue: '£ 34',
       Products: (
         <AvatarGroup max={4} sx={{ display: 'flex', justifyContent: 'start' }}>
-          <Avatar alt="Remy Sharp" src={AvatarImage.src} />
-          <Avatar alt="Travis Howard" src={AvatarImage.src} />
-          <Avatar alt="Cindy Baker" src={AvatarImage.src} />
+          <Avatar alt="Remy Sharp" src={AvatarImage?.src} />
+          <Avatar alt="Travis Howard" src={AvatarImage?.src} />
+          <Avatar alt="Cindy Baker" src={AvatarImage?.src} />
         </AvatarGroup>
       ),
       Impressions: '200',
@@ -67,7 +68,7 @@ export const usersData = () => {
       Id: 2,
       campaignsName: (
         <Box display="flex" alignItems="center">
-          <LinkedIn style={{ color: iconsColor }} />
+          <LinkedIn style={{ color: theme?.palette?.custom?.blue_crayola }} />
           <Typography
             variant="body4"
             sx={{ color: theme?.palette?.blue?.dull_blue, ml: 1 }}
@@ -78,7 +79,7 @@ export const usersData = () => {
       ),
       accountName: (
         <Box sx={{ display: 'flex', gap: '5px' }}>
-          <Avatar alt="Remy Sharp" src={AvatarImage.src} />
+          <Avatar alt="Remy Sharp" src={AvatarImage?.src} />
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             <Typography component={'span'}>Olivia Rhyeh</Typography>
             <Typography component={'span'}>@Olivia</Typography>
@@ -89,9 +90,9 @@ export const usersData = () => {
       revenue: '£ 34',
       Products: (
         <AvatarGroup max={4} sx={{ display: 'flex', justifyContent: 'start' }}>
-          <Avatar alt="Remy Sharp" src={AvatarImage.src} />
-          <Avatar alt="Travis Howard" src={AvatarImage.src} />
-          <Avatar alt="Cindy Baker" src={AvatarImage.src} />
+          <Avatar alt="Remy Sharp" src={AvatarImage?.src} />
+          <Avatar alt="Travis Howard" src={AvatarImage?.src} />
+          <Avatar alt="Cindy Baker" src={AvatarImage?.src} />
         </AvatarGroup>
       ),
       Impressions: '200',
@@ -114,7 +115,7 @@ export const usersData = () => {
       ),
       accountName: (
         <Box sx={{ display: 'flex', gap: '5px' }}>
-          <Avatar alt="Remy Sharp" src={AvatarImage.src} />
+          <Avatar alt="Remy Sharp" src={AvatarImage?.src} />
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             <Typography component={'span'}>Olivia Rhyeh</Typography>
             <Typography component={'span'}>@Olivia</Typography>
@@ -125,9 +126,9 @@ export const usersData = () => {
       revenue: '£ 34',
       Products: (
         <AvatarGroup max={4} sx={{ display: 'flex', justifyContent: 'start' }}>
-          <Avatar alt="Remy Sharp" src={AvatarImage.src} />
-          <Avatar alt="Travis Howard" src={AvatarImage.src} />
-          <Avatar alt="Cindy Baker" src={AvatarImage.src} />
+          <Avatar alt="Remy Sharp" src={AvatarImage?.src} />
+          <Avatar alt="Travis Howard" src={AvatarImage?.src} />
+          <Avatar alt="Cindy Baker" src={AvatarImage?.src} />
         </AvatarGroup>
       ),
       Impressions: '200',

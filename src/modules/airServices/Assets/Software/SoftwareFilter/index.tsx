@@ -12,7 +12,7 @@ export default function SoftwareFilter({ isOpenDrawer, onClose }: any) {
     <CommonDrawer
       isDrawerOpen={isOpenDrawer}
       onClose={() => onClose(false)}
-      title={'Filter'}
+      title={'Filters'}
       okText={'Apply'}
       isOk
       cancelText={'Cancel'}
@@ -22,14 +22,7 @@ export default function SoftwareFilter({ isOpenDrawer, onClose }: any) {
           <Grid container spacing={4}>
             {dataArray?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                <item.component {...item?.componentProps} size={'small'}>
-                  {item?.componentProps?.select &&
-                    item?.options?.map((option: any) => (
-                      <option key={uuidv4()} value={option?.value}>
-                        {option?.label}
-                      </option>
-                    ))}
-                </item.component>
+                <item.component {...item?.componentProps} size={'small'} />
               </Grid>
             ))}
           </Grid>

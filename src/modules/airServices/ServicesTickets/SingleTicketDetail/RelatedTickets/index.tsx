@@ -5,18 +5,27 @@ import { RelatedTicketsHeader } from './RelatedTicketsHeader';
 import CreateRelatedTickets from './CreateRelatedTickets';
 
 const RelatedTickets = () => {
-  const { setIsDrawerOpen, isDrawerOpen, setActive, isActive, theme } =
-    useRelatedTickets();
+  const {
+    setIsDrawerOpen,
+    isDrawerOpen,
+    drawerType,
+    setDrawerType,
+    setActive,
+    isActive,
+    theme,
+  } = useRelatedTickets();
 
   return (
     <div>
       <RelatedTicketsHeader
         isActive={isActive}
         setIsDrawerOpen={setIsDrawerOpen}
+        setDrawerType={setDrawerType}
       />
       <CreateRelatedTickets
         isDrawerOpen={isDrawerOpen}
         setIsDrawerOpen={setIsDrawerOpen}
+        drawerType={drawerType}
       />
       <br />
       <TanstackTable

@@ -13,7 +13,6 @@ import { ArrowBack } from '@mui/icons-material';
 
 import Search from '@/components/Search';
 import TanstackTable from '@/components/Table/TanstackTable';
-import CustomPagination from '@/components/CustomPagination';
 import SwitchableDatepicker from '@/components/SwitchableDatepicker';
 import { usersData, usersColumns, CTAReport } from './reports.data';
 import InvoicesAnalystGraph from './InvoicesAnalystGraph';
@@ -26,7 +25,7 @@ import { AIR_MARKETER } from '@/routesConstants/paths';
 
 const LeadaReports = () => {
   const theme = useTheme();
-  const { searchBy, setSearchBy, cardBorder }: any = useMarketerReports();
+  const { searchBy, setSearchBy }: any = useMarketerReports();
 
   return (
     <Box>
@@ -101,7 +100,7 @@ const LeadaReports = () => {
               <Card
                 sx={{
                   height: '98px',
-                  border: `1px solid ${cardBorder}`,
+                  border: `1px solid ${theme?.palette?.custom?.hawkes_blue}`,
                   mb: 1,
                 }}
               >
@@ -116,7 +115,6 @@ const LeadaReports = () => {
                 >
                   <Typography
                     sx={{ color: theme?.palette?.custom?.steel_blue_alpha }}
-                    color="text.secondary"
                     variant="h6"
                     gutterBottom
                   >
@@ -128,7 +126,6 @@ const LeadaReports = () => {
                       color: theme?.palette?.custom?.turquoise_Blue,
                       mb: 1.5,
                     }}
-                    color="text.secondary"
                   >
                     {item?.Values}
                   </Typography>
@@ -158,11 +155,13 @@ const LeadaReports = () => {
           />
         </Box>
         <Box>
-          <TanstackTable columns={usersColumns} data={usersData} />
-          <CustomPagination
-            count={1}
-            rowsPerPageOptions={[1, 2]}
-            entriePages={1}
+          <TanstackTable
+            columns={usersColumns}
+            data={usersData()}
+            isPagination
+            count={10}
+            totalRecords={10}
+            setPageLimit={10}
           />
         </Box>
       </Card>

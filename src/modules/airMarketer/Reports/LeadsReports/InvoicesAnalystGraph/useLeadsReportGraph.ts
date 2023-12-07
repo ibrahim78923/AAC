@@ -35,7 +35,6 @@ const useLeadsReportGraph = () => {
       type: 'bar',
       height: 350,
     },
-    colors: ['#47B263', '#0AADC7', '#FF4A4A', 'yellow', 'green', 'blue'],
     plotOptions: {
       bar: {
         horizontal: false,
@@ -43,7 +42,6 @@ const useLeadsReportGraph = () => {
         endingShape: 'rounded',
       },
     },
-
     dataLabels: {
       enabled: false,
     },

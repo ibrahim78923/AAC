@@ -10,7 +10,6 @@ export const styles = {
           position: 'relative',
           height: '20px',
           width: '20px',
-          background: 'black',
         },
       '.apexcharts-legend': {
         padding: '10px 0px',

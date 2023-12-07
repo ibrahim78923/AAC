@@ -1,5 +1,7 @@
+import type { Theme } from '@mui/material';
+
 export const style = {
-  statusBtn: {
+  statusBtn: (theme: Theme) => ({
     width: 'fit-content',
     borderRadius: '16px',
     padding: '2px 8px',
@@ -7,11 +9,11 @@ export const style = {
       width: '6px',
       height: '6px',
       borderRadius: '50%',
-      backgroundColor: '#47B263',
+      backgroundColor: theme?.palette?.success?.main,
     },
     '.pauseIcon': {
       width: '8px',
       height: '8px',
     },
-  },
+  }),
 };

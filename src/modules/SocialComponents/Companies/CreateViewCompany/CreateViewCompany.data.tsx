@@ -66,15 +66,4 @@ export const viewCompanyArr = [
     component: RHFDatePicker,
     md: 12,
   },
-  {
-    componentProps: {
-      name: 'createdDate',
-      label: 'Shared with',
-      fullWidth: true,
-      select: false,
-    },
-    component: RHFSelect,
-
-    md: 12,
-  },
 ];

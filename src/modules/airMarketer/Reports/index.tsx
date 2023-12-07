@@ -3,13 +3,11 @@ import Link from 'next/link';
 import { Box, Card, Stack, Typography, useTheme } from '@mui/material';
 
 import { ReportsCardsData } from './Reports.data';
-import useReports from './useReports';
 
 import { v4 as uuidv4 } from 'uuid';
 
 const Reports = () => {
   const theme: any = useTheme();
-  const { bgColor, descriptionColor } = useReports();
 
   return (
     <Box>
@@ -36,7 +34,7 @@ const Reports = () => {
                       height: '48px',
                       display: 'flex',
                       alignItems: 'center',
-                      backgroundColor: bgColor,
+                      backgroundColor: theme?.palette?.custom?.pale_blue_light,
                       opacity: '.8',
                     }}
                   >
@@ -54,7 +52,7 @@ const Reports = () => {
                     </Typography>
                     <Typography
                       variant="body4"
-                      sx={{ color: descriptionColor }}
+                      sx={{ color: theme?.palette?.custom?.dark_grey }}
                     >
                       {item?.description}
                     </Typography>
