@@ -1,17 +1,12 @@
 import { Box, Button, Typography } from '@mui/material';
 import { SingleLoginMethodCard } from './SingleLoginMethodCard';
-import { useLoginMethods } from './useLoginMethods';
 import { EditLoginMethod } from '../EditLoginMethod';
+import { useState } from 'react';
+import { useTheme } from '@mui/material';
 
-export const LoginMethods = () => {
-  const {
-    methods,
-    theme,
-    timeOut,
-    timeOutMethods,
-    isOpenDrawer,
-    setIsOpenDrawer,
-  } = useLoginMethods();
+export const LoginMethods = ({ timeOut }: any) => {
+  const [isOpenDrawer, setIsOpenDrawer] = useState(false);
+  const theme = useTheme();
 
   return (
     <>
@@ -19,12 +14,7 @@ export const LoginMethods = () => {
         <Typography variant="h5">Login Methods</Typography>
         <Button onClick={() => setIsOpenDrawer(true)}>Edit</Button>
       </Box>
-      <SingleLoginMethodCard
-        methods={methods}
-        theme={theme}
-        timeOut={timeOut}
-        timeOutMethods={timeOutMethods}
-      />
+      <SingleLoginMethodCard theme={theme} timeOut={timeOut} />
       <EditLoginMethod
         isOpenDrawer={isOpenDrawer}
         setIsOpenDrawer={setIsOpenDrawer}

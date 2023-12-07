@@ -1,28 +1,7 @@
 import { RHFAutocomplete, RHFTextField } from '@/components/ReactHookForm';
-import * as Yup from 'yup';
-
-export const settingsFormValidationSchema = Yup?.object()?.shape({
-  portalName: Yup?.string(),
-  portalURL: Yup?.string(),
-  dateFormat: Yup?.string(),
-  timeFormat: Yup?.string(),
-  primaryLanguage: Yup?.string(),
-});
-
-export const settingsFormDefaultValues = (data?: any) => {
-  return {
-    portalName: data?.productName ?? '',
-    portalURL: data?.price ?? '',
-    dateFormat: data?.warrantyValidity?.month ?? '',
-    timeFormat: data?.warrantyValidity?.year ?? '',
-    primaryLanguage: data?.quantity ?? '',
-  };
-};
 
 const primaryLanguageOptions = ['English', 'Spanish', 'French'];
-
 const timeFormatOptions = ['12-hours', '24 hours'];
-
 const dateFormatOptions = [
   'DAY-MONTH-YEAR',
   'MONTH-DAY-YEAR',
@@ -42,7 +21,7 @@ export const settingsFormDataArray = [
     component: RHFTextField,
   },
   {
-    _id: 2786,
+    _id: 6578,
     gridLength: 6,
     componentProps: {
       name: 'portalURL',
