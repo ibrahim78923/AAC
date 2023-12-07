@@ -1,20 +1,14 @@
 import * as yup from 'yup';
 import {
+  RHFAutocomplete,
   RHFDatePicker,
   RHFSelect,
   RHFTextField,
 } from '@/components/ReactHookForm';
 
-export const dropdownDummy = [
-  {
-    value: 'option1',
-    label: 'Option 1',
-  },
-  {
-    value: 'option2',
-    label: 'Option 2',
-  },
-];
+export const dropdownDummy = ['Option 1', 'Option 2'];
+
+export const currencyOptions = ['Pound', 'Dollars'];
 
 const ticketsTypeOptions = [
   {
@@ -65,18 +59,18 @@ const ticketsTypeOptions = [
 
 // form validation schema
 export const validationSchema: any = yup?.object()?.shape({
-  orderName: yup?.string()?.required('Required field!'),
+  orderName: yup?.string()?.required('Required'),
   orderNumber: yup
     ?.number()
     ?.typeError('Enter valid format!')
-    ?.required('Required field!'),
-  vendor: yup?.string()?.required('Required field!'),
-  currency: yup?.string()?.required('Required field!'),
+    ?.required('Required'),
+  vendor: yup?.string()?.required('Required'),
+  currency: yup?.string()?.required('Required'),
   department: yup?.string(),
   deliverDate: yup
     ?.date()
     ?.typeError('Enter valid date format!')
-    ?.required('Required field!'),
+    ?.required('Required'),
   location: yup?.string(),
   termsAndConditions: yup?.string(),
 });
@@ -102,7 +96,7 @@ export const newPurchaseFieldsFunction = (
     componentProps: {
       fullWidth: true,
       name: 'orderName',
-      label: 'order Name',
+      label: 'Order Name',
       required: true,
     },
   },
@@ -113,7 +107,7 @@ export const newPurchaseFieldsFunction = (
     componentProps: {
       fullWidth: true,
       name: 'orderNumber',
-      label: 'order Number',
+      label: 'Order Number',
       required: true,
       type: 'number',
     },
@@ -125,7 +119,7 @@ export const newPurchaseFieldsFunction = (
     componentProps: {
       fullWidth: true,
       name: 'vendor',
-      label: 'vendor',
+      label: 'Vendor',
       select: true,
       options: ticketsTypeOptions,
       required: true,
@@ -134,15 +128,16 @@ export const newPurchaseFieldsFunction = (
   },
   {
     id: 4,
-    component: RHFSelect,
+    component: RHFAutocomplete,
     gridLength: 6,
     componentProps: {
       fullWidth: true,
       name: 'currency',
-      label: 'currency',
+      label: 'Currency',
       select: true,
-      options: ticketsTypeOptions,
+      options: currencyOptions,
       required: true,
+      placeholder: 'Select Currency',
     },
   },
   {
@@ -150,12 +145,13 @@ export const newPurchaseFieldsFunction = (
     componentProps: {
       fullWidth: true,
       name: 'department',
-      label: 'department',
+      label: 'Department',
       select: true,
       options: dropdownDummy,
+      placeholder: 'Select Department',
     },
     gridLength: 6,
-    component: RHFSelect,
+    component: RHFAutocomplete,
   },
   {
     id: 6,
@@ -164,9 +160,7 @@ export const newPurchaseFieldsFunction = (
     componentProps: {
       fullWidth: true,
       name: 'deliverDate',
-      label: 'expected Deliver Date',
-      select: true,
-      options: dropdownDummy,
+      label: 'Expected delivery date',
     },
   },
   {
@@ -174,21 +168,23 @@ export const newPurchaseFieldsFunction = (
     componentProps: {
       fullWidth: true,
       name: 'location',
-      label: 'location',
+      label: 'Location',
       select: true,
       options: dropdownDummy,
+      placeholder: 'Select Location',
     },
     gridLength: 6,
-    component: RHFSelect,
+    component: RHFAutocomplete,
   },
   {
     id: 8,
     componentProps: {
       fullWidth: true,
       name: 'termsAndConditions',
-      label: 'terms And Conditions',
+      label: 'Terms and Conditions',
       multiline: true,
       minRows: 3,
+      placeholder: 'Enter Description',
     },
     gridLength: 12,
     component: RHFTextField,
