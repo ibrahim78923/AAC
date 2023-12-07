@@ -37,7 +37,7 @@ export default function ExportCampaignDrawer({
     <CommonDrawer
       isDrawerOpen={isOpenDrawer}
       onClose={() => onClose(false)}
-      title={'Export Compaign'}
+      title={'Export Campaign'}
       okText={'Export'}
       isOk
       cancelText={'Cancel'}

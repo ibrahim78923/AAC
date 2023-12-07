@@ -1,4 +1,4 @@
-import { Grid, Box } from '@mui/material';
+import { Grid, Box, useTheme } from '@mui/material';
 
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
@@ -27,16 +27,16 @@ export default function SaveNewViewDrawer({
   const { handleSubmit } = methods;
 
   const onSubmit = async () => {
-    enqueueSnackbar('Export Compaign Exported Successfully', {
+    enqueueSnackbar('Export Campaign Exported Successfully', {
       variant: 'success',
     });
   };
-
+  const theme = useTheme();
   return (
     <CommonDrawer
       isDrawerOpen={isOpenDrawer}
       onClose={() => onClose(false)}
-      title={'Export Compaign'}
+      title={'Export Campaign'}
       okText={'Export'}
       isOk
       cancelText={'Cancel'}
@@ -46,7 +46,7 @@ export default function SaveNewViewDrawer({
       <Box mt={1}>
         <FormProvider methods={methods}>
           <Grid container spacing={4}>
-            {dataArray?.map((item: any) => (
+            {dataArray(theme)?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={uuidv4()}>
                 <item.component {...item?.componentProps} size={'small'}>
                   {item?.componentProps?.select &&

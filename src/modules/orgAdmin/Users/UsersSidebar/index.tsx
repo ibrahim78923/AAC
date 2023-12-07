@@ -4,7 +4,7 @@ import { Avatar, Box, Button, Divider, Typography } from '@mui/material';
 
 import FilterUser from '../Drawers/FilterUser';
 
-import { FilterSharedIcon, PlusIcon } from '@/assets/icons';
+import { FilterSharedIcon } from '@/assets/icons';
 
 import Search from '@/components/Search';
 
@@ -15,6 +15,8 @@ import AddUser from '../Drawers/AddUser';
 import useUsersSidebar from './useUsersSidebar';
 
 import { AvatarImage } from '@/assets/images';
+
+import { AddCircle } from '@mui/icons-material';
 
 const UsersSidebar = () => {
   const {
@@ -45,11 +47,15 @@ const UsersSidebar = () => {
       >
         <Typography variant="h3">Users</Typography>
         <Button
+          variant="outlined"
+          sx={{ background: theme?.palette?.primary?.light }}
+          className="small"
+          startIcon={
+            <AddCircle sx={{ color: theme?.palette?.primary?.main }} />
+          }
           onClick={() => {
             setIsOpenAdduserDrawer(true);
           }}
-          variant="contained"
-          startIcon={<PlusIcon />}
         >
           Add User
         </Button>
@@ -61,14 +67,10 @@ const UsersSidebar = () => {
       >
         <Search placeholder="Placeholder" size="small" />
         <Button
+          variant="outlined"
+          color="inherit"
           onClick={() => {
             setIsOpenFilterDrawer(true);
-          }}
-          sx={{
-            border: '1px solid grey',
-            justifyContent: 'center',
-            display: 'flex',
-            alignItems: 'center',
           }}
         >
           <FilterSharedIcon />
@@ -97,7 +99,9 @@ const UsersSidebar = () => {
           </Avatar>
           <Box sx={{ width: '100%' }}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-              <Typography>Roberts Rohan</Typography>
+              <Typography variant="body2" fontWeight={600}>
+                Roberts Rohan
+              </Typography>
               <StatusBadge
                 value={userStatus}
                 onChange={(e: any) => setUserStatus(e?.target?.value)}
@@ -116,7 +120,9 @@ const UsersSidebar = () => {
                 defaultValue={''}
               />
             </Box>
-            <Typography>Robert@airapplecart.co.uk</Typography>
+            <Typography variant="body2" color={theme?.palette?.grey[600]}>
+              Robert@airapplecart.co.uk
+            </Typography>
           </Box>
         </Box>
       </Box>

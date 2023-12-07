@@ -141,6 +141,7 @@ const TanstackTable = (props: any) => {
       {isPagination && (
         <>
           <br />
+          <br />
           <CustomPagination
             count={count}
             pageLimit={pageLimit}

@@ -23,7 +23,7 @@ export default function Filters({
   const { handleSubmit } = methods;
 
   const onSubmit = async () => {
-    enqueueSnackbar('Export Compaign Exported Successfully', {
+    enqueueSnackbar('Export Campaign Exported Successfully', {
       variant: 'success',
     });
   };

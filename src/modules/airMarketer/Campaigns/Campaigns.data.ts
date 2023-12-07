@@ -6,6 +6,6 @@ export const campaignsOptions = {
   CLONE: 'Clone',
   EDIT_GOAL: 'Edit Goal',
   VIEW_PERFORMANCE: 'View Performance',
-  EDIT_CAMPAIGN: 'Edit Compaign',
-  EXPORT_CAMPAIGN: 'Export Compaign',
+  EDIT_CAMPAIGN: 'Edit Campaign',
+  EXPORT_CAMPAIGN: 'Export Campaign',
 };

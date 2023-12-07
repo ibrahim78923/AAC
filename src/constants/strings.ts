@@ -220,6 +220,20 @@ export const AGENT_REQUEST_STATUS = {
   PENDING: 'Pending',
 };
 
+export const SETTINGS_ADD_ROLE = {
+  VIEW_TICKET: 'viewTickets',
+  EDIT_TASKS: 'createEditTasks',
+  ANNOUNCEMENTS: 'announcements',
+  EDIT_NOTES: 'editNotes',
+  INVENTORY_ASSET: 'viewAsset',
+  CONTRACT_ASSET: 'viewContracts',
+  PURCHASE_ASSET: 'viewPurchase',
+  TICKET_SOLUTIONS: 'solutions',
+  DEPARTMENT_HEAD: 'Department Head',
+  ADD_ROLE: 'Add Role',
+  EDIT: 'Edit',
+  DELETE: 'Delete',
+};
 export const REQUESTORS_STATUS = {
   ACTIVE: 'Active',
   INACTIVE: 'Inactive',
@@ -228,4 +242,13 @@ export const REQUESTORS_ASSIGNED_STATUS = {
   OPEN: 'Open',
   CLOSED: 'Closed',
   RESOLVED: 'Resolved',
+};
+
+export const CANNED_RESPONSES = {
+  AVAILABLE_FOR: 'availableFor',
+  DELETE: 'delete',
+  EDIT: 'edit',
+  MOVE: 'move',
+  SELECT_AGENTS: 'selectAgents',
+  AGENTS: 'agents',
 };

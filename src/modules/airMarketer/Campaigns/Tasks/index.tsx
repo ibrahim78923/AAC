@@ -1,6 +1,5 @@
 import { Box, Button, Grid, Menu, MenuItem } from '@mui/material';
 
-import CustomPagination from '@/components/CustomPagination';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { AlertModals } from '@/components/AlertModals';
 
@@ -109,8 +108,8 @@ const Tasks = () => {
         </Grid>
       </Box>
 
-      <TanstackTable columns={columns} data={tableData} />
-      <CustomPagination count={1} rowsPerPageOptions={[1, 2]} entriePages={1} />
+      <TanstackTable columns={columns} data={tableData} isPagination />
+
       {isOpenEditTaskDrawer && (
         <EditTask
           isOpenDrawer={isOpenEditTaskDrawer}

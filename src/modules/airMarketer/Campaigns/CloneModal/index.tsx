@@ -48,14 +48,22 @@ const CloneModal = ({ openCloneModal, handleCloseFeaturesModal }: any) => {
                 sx={{ cursor: 'pointer' }}
                 onClick={handleCloseFeaturesModal}
               >
-                <CloseIcon />
+                <Box sx={{ display: 'block' }}>
+                  {' '}
+                  <CloseIcon />
+                </Box>
+                <Box>
+                  <Typography
+                    id="modal-modal-title"
+                    variant="h3"
+                    component="h2"
+                  >
+                    Clone a saved view
+                  </Typography>
+                </Box>
               </Box>
             </Box>
             <Box sx={{ margin: '20px 0' }}>
-              <Typography id="modal-modal-title" variant="h3" component="h2">
-                Clone a saved view
-              </Typography>
-
               <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
                 <Grid container spacing={4}>
                   {dataArrayFeatures?.map((item: any) => (

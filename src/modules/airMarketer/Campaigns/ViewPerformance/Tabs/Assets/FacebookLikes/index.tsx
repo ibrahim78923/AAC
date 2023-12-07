@@ -1,28 +1,17 @@
 import { Box, Button, Grid, Typography } from '@mui/material';
 
-import Search from '@/components/Search';
-
 import TanstackTable from '@/components/Table/TanstackTable';
-
 import useProducts from './useProducts';
 
 import { columns } from './FacebookLikes.data';
 
-import { PlusIcon } from '@/assets/icons';
-
 import { styles } from '../Associations.style';
 import { faceBookLikesData } from '@/mock/modules/airMarketer/Campaigns/Assets';
+import Image from 'next/image';
+import { FaceBookPerformanceImage } from '@/assets/images';
 
 const FacebookLikes = () => {
-  const {
-    theme,
-
-    setIsOpenAlert,
-    searchName,
-    setSearchName,
-
-    setOpenDrawer,
-  } = useProducts();
+  const { setIsOpenAlert, setOpenDrawer } = useProducts();
 
   return (
     <Box
@@ -34,10 +23,10 @@ const FacebookLikes = () => {
     >
       <Grid container spacing={2}>
         <Grid item md={4} sx={styles?.countBox}>
-          <Typography sx={styles?.associationCount(theme)} variant="body3">
-            02
-          </Typography>
-
+          <Image
+            src={FaceBookPerformanceImage}
+            alt="FaceBookPerformanceImage"
+          />
           <Typography variant="subtitle2">Facebook Likes</Typography>
         </Grid>
         <Grid item md={8}>
@@ -49,18 +38,12 @@ const FacebookLikes = () => {
               flexDirection: { xs: 'column', sm: 'row' },
             }}
           >
-            <Search
-              searchBy={searchName}
-              setSearchBy={setSearchName}
-              label="Search By Name"
-              size="small"
-            />
             <Button
-              variant="contained"
+              variant="outlined"
               className="small"
               sx={{ minWidth: '0px', gap: 0.5 }}
             >
-              <PlusIcon /> View all ad campaigns
+              View all ad campaigns
             </Button>
           </Box>
         </Grid>

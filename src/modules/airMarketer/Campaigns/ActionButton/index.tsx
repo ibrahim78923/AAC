@@ -74,7 +74,15 @@ const ActionButton = () => {
         />
       )}
       {actionsModalDetails?.isClone && (
-        <CloneModal openCloneModal={actionsModalDetails?.isClone} />
+        <CloneModal
+          openCloneModal={actionsModalDetails?.isClone}
+          handleCloseFeaturesModal={() =>
+            setActionsModalDetails({
+              ...actionsModalDetails,
+              isClone: false,
+            })
+          }
+        />
       )}
       {actionsModalDetails?.isOpenFilterDrawer && (
         <EditGoalDrawer

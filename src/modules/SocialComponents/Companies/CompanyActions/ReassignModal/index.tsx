@@ -18,7 +18,7 @@ const ReassignModal = ({ isReassign, setIsReassign }: any) => {
       message={
         <Box>
           <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">Deals Owner</InputLabel>
+            <InputLabel id="demo-simple-select-label">Company Owner</InputLabel>
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"

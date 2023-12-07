@@ -1,4 +1,3 @@
-import CustomPagination from '@/components/CustomPagination';
 import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
 
@@ -88,8 +87,8 @@ const Manage = () => {
           Matt Anderson first view
         </Button>
       </Box>
-      <TanstackTable columns={columns} data={data} />
-      <CustomPagination count={1} rowsPerPageOptions={[1, 2]} entriePages={1} />
+      <TanstackTable columns={columns} data={data} isPagination />
+
       {isOpenFilter && (
         <Filters
           isOpenDrawer={isOpenFilter}
