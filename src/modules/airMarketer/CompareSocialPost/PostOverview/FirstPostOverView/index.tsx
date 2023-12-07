@@ -6,16 +6,25 @@ import {
   CardHeader,
   CardMedia,
   Typography,
+  useTheme,
 } from '@mui/material';
 import { postsOverviewData } from '../../SelectPostModal/SelectPostModal.data';
 import { v4 as uuidv4 } from 'uuid';
+import { style } from '../../CompareSocialPost.style';
+import { useComparePost } from '../../useComparePost';
 
 const FirstPostOverview = (props: any) => {
   const { postData } = props;
+  const theme = useTheme();
+  const { socialCatgory } = useComparePost();
 
   return (
     <Box>
-      <Typography variant="body4" fontWeight={600}>
+      <Typography
+        variant="body4"
+        fontWeight={600}
+        color={theme?.palette?.grey[600]}
+      >
         Compaign
       </Typography>
       <Box>
@@ -26,6 +35,7 @@ const FirstPostOverview = (props: any) => {
             p: '2px 8px',
             borderRadius: '16px',
           }}
+          color={theme?.palette?.slateBlue?.main}
         >
           {postData?.compaign}
         </Typography>
@@ -34,27 +44,39 @@ const FirstPostOverview = (props: any) => {
         <CardMedia component="img" height="162" image={postData?.image} />
         <CardHeader
           avatar={
-            <Avatar
-              src={postData?.avatar}
-              sx={{ width: '30px', height: '30px' }}
-            >
-              R
-            </Avatar>
+            <Box sx={style?.avatarStyle(postData?.category)}>
+              <Avatar src={postData?.avatar}></Avatar>
+              <Box className="avatar-category">
+                {socialCatgory[postData?.category]}
+              </Box>
+            </Box>
           }
           title={
-            <Typography variant="body2" fontWeight={600}>
+            <Typography
+              variant="body2"
+              fontWeight={600}
+              color={theme?.palette?.grey[800]}
+            >
               {postData?.heading}
             </Typography>
           }
           sx={{ py: '6px', px: '0px' }}
         />
         <CardContent sx={{ p: '0px' }}>
-          <Typography variant="body1" fontWeight={500}>
+          <Typography
+            variant="body1"
+            fontWeight={500}
+            color={theme?.palette?.grey[600]}
+          >
             {postData?.description}
           </Typography>
           <Box display="flex" gap={3} mt={2}>
             <Box display="flex" flexDirection="column" gap={1}>
-              <Typography variant="body4" fontWeight={600}>
+              <Typography
+                variant="body4"
+                fontWeight={600}
+                color={theme?.palette?.common?.black}
+              >
                 Network
               </Typography>
               <Typography
@@ -65,12 +87,17 @@ const FirstPostOverview = (props: any) => {
                   p: '4px 10px',
                   borderRadius: '5px',
                 }}
+                color={theme?.palette?.secondary?.main}
               >
                 {postData?.category}
               </Typography>
             </Box>
             <Box display="flex" flexDirection="column" gap={1}>
-              <Typography variant="body4" fontWeight={600}>
+              <Typography
+                variant="body4"
+                fontWeight={600}
+                color={theme?.palette?.common?.black}
+              >
                 Published Date
               </Typography>
               <Typography
@@ -81,6 +108,7 @@ const FirstPostOverview = (props: any) => {
                   p: '4px 10px',
                   borderRadius: '5px',
                 }}
+                color={theme?.palette?.secondary?.main}
               >
                 {postData?.date}
               </Typography>

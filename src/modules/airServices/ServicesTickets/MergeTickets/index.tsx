@@ -51,7 +51,7 @@ export const MergeTickets = (props: any) => {
               flexWrap={'wrap'}
             >
               <Typography variant="h3" textTransform={'capitalize'}>
-                Assigned To
+                Merge
               </Typography>
             </Box>
             <Box
@@ -80,6 +80,9 @@ export const MergeTickets = (props: any) => {
             ))}
           </Grid>
           <br />
+          <Typography variant="body1" textTransform={'capitalize'}>
+            Primary
+          </Typography>
           <Box
             padding={1.5}
             border={{

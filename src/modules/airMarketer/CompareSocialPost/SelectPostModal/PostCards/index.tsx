@@ -6,9 +6,11 @@ import {
   Avatar,
   CardContent,
   Box,
+  useTheme,
 } from '@mui/material';
 import { postData } from '../SelectPostModal.data';
 import { v4 as uuidv4 } from 'uuid';
+import { style } from '../../CompareSocialPost.style';
 
 const PostCards = (props: any) => {
   const {
@@ -18,7 +20,7 @@ const PostCards = (props: any) => {
     setFirstPost,
     post,
   } = props;
-
+  const theme = useTheme();
   return (
     <Box display="flex" gap={2} flexWrap="wrap">
       {postData?.map((item: any) => (
@@ -31,22 +33,7 @@ const PostCards = (props: any) => {
           }}
           key={uuidv4()}
         >
-          <Box
-            sx={{
-              position: 'absolute',
-              right: '5px',
-              top: '6px',
-              backgroundColor: 'white',
-              borderRadius: '50%',
-              width: '20px',
-              height: '20px',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-          >
-            {item?.categoryIcon}
-          </Box>
+          <Box sx={style?.selectCard}>{item?.categoryIcon}</Box>
           <CardMedia component="img" height="81" image={item?.image} />
           <CardHeader
             avatar={
@@ -55,15 +42,25 @@ const PostCards = (props: any) => {
               </Avatar>
             }
             title={
-              <Typography variant="body4" fontWeight={600}>
+              <Typography
+                variant="body4"
+                fontWeight={600}
+                color={theme?.palette?.secondary?.main}
+              >
                 {item?.heading}
               </Typography>
             }
-            subheader={<Typography fontSize={8}>{item?.date}</Typography>}
+            subheader={
+              <Typography fontSize={8} color={theme?.palette?.secondary?.main}>
+                {item?.date}
+              </Typography>
+            }
             sx={{ py: '6px', px: '0px' }}
           />
           <CardContent sx={{ p: '0px' }}>
-            <Typography variant="body4">{item?.description}</Typography>
+            <Typography variant="body4" color={theme?.palette?.blue?.lighter}>
+              {item?.description}
+            </Typography>
           </CardContent>
         </Card>
       ))}

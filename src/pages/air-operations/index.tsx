@@ -1,8 +1,9 @@
 import Layout from '@/layout';
+import { Dashboard } from '@/modules/airOperations/Dashboard';
 import React from 'react';
 
 const AirOperationsDashboard = () => {
-  return <div>AirOperationsDashboard</div>;
+  return <Dashboard />;
 };
 
 export default AirOperationsDashboard;

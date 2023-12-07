@@ -1,4 +1,4 @@
-import { Box, Button, Card, Stack, Typography } from '@mui/material';
+import { Box, Button, Card, Stack, Typography, useTheme } from '@mui/material';
 import { style } from './PaidAds.style';
 import { PlusIcon } from '@/assets/icons';
 import CommonTabs from '@/components/Tabs';
@@ -7,50 +7,51 @@ import Analyze from './Analyze';
 import Manage from './Manage';
 import Events from './Events';
 import CreateAudience from './CreateAudience';
-import CreateEvent from './CreateEvent';
-import usePaidAds from './usePaidAds';
+import { useRouter } from 'next/router';
+import { AIR_MARKETER } from '@/routesConstants/paths';
 
 const PaidAds = () => {
-  const { isOpenEventDrawer, setIsOpenEventDrawer, theme } = usePaidAds();
+  const theme = useTheme();
+  const router = useRouter();
   return (
-    <Box>
-      <Card sx={{ p: '16px 24px' }}>
-        <Stack direction="row" justifyContent="space-between">
-          <Typography variant="h3">Paid Ads</Typography>
-          <Box display="flex" gap={1} sx={style?.button(theme?.palette)}>
-            <CreateAudience />
-            <Button
-              className="eventBtn"
-              variant="outlined"
-              startIcon={<PlusIcon />}
-              onClick={() => setIsOpenEventDrawer(true)}
-            >
-              Create Event
-            </Button>
-            <Button variant="contained" startIcon={<PlusIcon />}>
-              Create Ad
-            </Button>
-          </Box>
-        </Stack>
+    <Card sx={{ p: '16px 24px' }}>
+      <Stack direction="row" justifyContent="space-between">
         <Box>
-          <CommonTabs tabsArray={['Manage', 'Audiences', 'Events', 'Analyze']}>
-            <Manage />
-            <Audience />
-            <Events />
-            <Analyze />
-          </CommonTabs>
+          <Typography variant="h3">Paid Ads</Typography>
+          <Typography variant="body2" color={theme?.palette?.custom?.main}>
+            Manage your Ad Creation
+          </Typography>
         </Box>
-        {/* {isAudience && <CreateAudience />} */}
-      </Card>
-      {isOpenEventDrawer && (
-        <CreateEvent
-          isDrawerOpen={isOpenEventDrawer}
-          onClose={() => {
-            setIsOpenEventDrawer(false);
-          }}
-        />
-      )}
-    </Box>
+        <Box display="flex" gap={1} sx={style?.button(theme?.palette)}>
+          <CreateAudience />
+          <Button
+            className="eventBtn small"
+            variant="outlined"
+            color="inherit"
+            startIcon={<PlusIcon />}
+          >
+            Create Event
+          </Button>
+          <Button
+            className="small"
+            variant="contained"
+            startIcon={<PlusIcon />}
+            onClick={() => router.push(AIR_MARKETER?.CREATE_AD)}
+          >
+            Create Ad
+          </Button>
+        </Box>
+      </Stack>
+      <Box>
+        <CommonTabs tabsArray={['Manage', 'Audiences', 'Events', 'Analyze']}>
+          <Manage />
+          <Audience />
+          <Events />
+          <Analyze />
+        </CommonTabs>
+      </Box>
+      {/* {isAudience && <CreateAudience />} */}
+    </Card>
   );
 };
 

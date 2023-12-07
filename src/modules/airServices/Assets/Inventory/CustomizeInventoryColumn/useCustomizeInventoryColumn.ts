@@ -1,5 +1,7 @@
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import { inventoryListsInitialColumns } from '../Inventory.data';
+import usePath from '@/hooks/usePath';
 
 export const useCustomizeInventoryColumn = (props: any) => {
   const {
@@ -7,81 +9,38 @@ export const useCustomizeInventoryColumn = (props: any) => {
     setInventoryListsColumns,
     setIsDrawerOpen,
     inventoryListsColumns,
+    setSelectedInventoryLists,
   } = props;
   const router = useRouter();
-
+  const { makePath } = usePath();
   const [customizeColumn, setCustomizeColumn]: any = useState<any>(
-    inventoryListsColumns?.reduce((x: any, y: any) => {
-      const { id } = y;
-      return { ...x, [id]: true };
-    }, {}),
+    inventoryListsColumns,
   );
 
-  const checkboxHandler = (col: any) => {
-    if (customizeColumn[col?.id]) {
-      delete customizeColumn[col?.id];
-
-      const newTableColumns = inventoryListsColumnsPersist?.filter(
-        (x: any) => customizeColumn?.[x?.id],
-      );
-
-      setInventoryListsColumns(newTableColumns);
-      return;
-    }
-    setCustomizeColumn({
-      ...customizeColumn,
-      id: true,
-      [col?.id]: true,
-    });
-    const newTableColumns = inventoryListsColumnsPersist?.filter(
-      (x: any) => customizeColumn?.[x?.id],
-    );
-    setInventoryListsColumns(newTableColumns);
+  const checkboxHandler = (e: any, col: any) => {
+    e?.target?.checked
+      ? setCustomizeColumn([...customizeColumn, col?.id])
+      : setCustomizeColumn(
+          customizeColumn?.filter((item: any) => item !== col?.id),
+        );
   };
   const submit = () => {
-    const newTableColumns = inventoryListsColumnsPersist?.filter(
-      (x: any) => customizeColumn?.[x?.id],
-    );
-    setInventoryListsColumns(newTableColumns);
-    //TODO: destructing as i do not need that in rest queries.
-    /* eslint-disable @typescript-eslint/no-unused-vars */
-    const { tableAction, ...restQueries } = router?.query;
-    router?.push({
-      pathname: router?.pathname,
-      query: {
-        ...restQueries,
-      },
-    });
-    setIsDrawerOpen(false);
+    setInventoryListsColumns(customizeColumn);
+    setSelectedInventoryLists([]);
+    onClose?.();
   };
   const onClose = () => {
-    //TODO: destructing as i do not need that in rest queries.
-    /* eslint-disable @typescript-eslint/no-unused-vars */
-    const { tableAction, ...restQueries } = router?.query;
-    router?.push({
-      pathname: router?.pathname,
-      query: {
-        ...restQueries,
-      },
-    });
-    setIsDrawerOpen?.(false);
+    makePath({
+      path: router?.pathname,
+      skipQueries: ['inventoryListsAction'],
+    }),
+      setIsDrawerOpen?.(false);
   };
 
   const applyAllCheckboxHandler = (e: any) => {
-    if (e?.target?.checked) {
-      const inventory: any = inventoryListsColumnsPersist?.reduce(
-        (x: any, y: any) => {
-          const { id } = y;
-          return { ...x, [id]: true };
-        },
-        {},
-      );
-      setCustomizeColumn(inventory);
-      setInventoryListsColumns(inventoryListsColumnsPersist);
-      return;
-    }
-    setCustomizeColumn({});
-    setInventoryListsColumns([]);
+    e?.target?.checked
+      ? setCustomizeColumn(inventoryListsInitialColumns)
+      : setCustomizeColumn([]);
   };
 
   return {

@@ -14,5 +14,5 @@ export interface ConversationDataI {
 }
 
 export interface ConversationSelectedValuesI {
-  [id?: string]: ConversationDataI;
+  [id: string]: ConversationDataI;
 }

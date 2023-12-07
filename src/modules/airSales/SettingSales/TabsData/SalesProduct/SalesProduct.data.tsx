@@ -1,132 +1,9 @@
 import { Checkbox, Switch } from '@mui/material';
 
-import {
-  RHFDropZone,
-  RHFEditor,
-  RHFSelect,
-  RHFTextField,
-} from '@/components/ReactHookForm';
-
-import * as Yup from 'yup';
-
-export const salesProductvalidationSchema = Yup?.object()?.shape({
-  productName: Yup?.string()?.required('Field is Required'),
-  SKU: Yup?.string(),
-  purchasePrice: Yup?.string()?.required('Field is Required'),
-  category: Yup?.string(),
-  description: Yup?.string(),
-  activeProduct: Yup?.string(),
-  unitPrice: Yup?.string()?.required('Field is Required'),
-  upload: Yup?.string(),
-});
-
-export const salesProductDefaultValues = {
-  productName: '',
-  SKU: '',
-  purchasePrice: '',
-  category: '',
-  description: '',
-  activeProduct: '',
-  unitPrice: '',
-  upload: '',
-};
-
-export const dataArray = [
-  {
-    componentProps: {
-      name: 'productName',
-      label: 'Product Name',
-      fullWidth: true,
-    },
-    component: RHFTextField,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'SKU',
-      label: 'SKU',
-      fullWidth: true,
-      select: false,
-    },
-    component: RHFTextField,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'purchasePrice',
-      label: 'Purchase Price',
-      fullWidth: true,
-    },
-    component: RHFTextField,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'category',
-      label: 'Category',
-      fullWidth: true,
-      select: true,
-    },
-    options: [
-      { value: 'CompanY Owner', label: 'All' },
-      { value: 'Admin', label: 'Copy URL' },
-      { value: 'Admin', label: 'Create Dashboard' },
-      { value: 'Admin', label: 'Update Dashboard' },
-      { value: 'Admin', label: 'View Dashboard' },
-    ],
-    component: RHFSelect,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'description',
-      label: 'Description',
-      fullWidth: true,
-    },
-    component: RHFEditor,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'activeProduct',
-      label: 'Active Product',
-      fullWidth: true,
-      select: true,
-    },
-    options: [
-      { value: 'CompanY Owner', label: 'All' },
-      { value: 'Admin', label: 'Copy URL' },
-      { value: 'Admin', label: 'Create Dashboard' },
-      { value: 'Admin', label: 'Update Dashboard' },
-      { value: 'Admin', label: 'View Dashboard' },
-    ],
-    component: RHFSelect,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'unitPrice',
-      label: 'Unit Price',
-      fullWidth: true,
-    },
-    component: RHFTextField,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'upload',
-      label: 'Upload',
-      fullWidth: true,
-    },
-    component: RHFDropZone,
-    md: 12,
-  },
-];
-
-// table
+// todo:temporary data will be removed after api integration
 export const SalesProductTableData: any = [
   {
-    Id: 1,
+    id: 1,
     name: `Orcalo Holdings`,
     sku: '123412341',
     unitPrice: '563',
@@ -134,9 +11,11 @@ export const SalesProductTableData: any = [
     createdBy: 'John Doe',
     createdDate: '12/01/2023',
     action: 'action',
+    category: 'All',
+    description: 'Sales',
   },
   {
-    Id: 2,
+    id: 2,
     name: `Airapplecart`,
     sku: '76548709',
     unitPrice: '888',
@@ -144,10 +23,12 @@ export const SalesProductTableData: any = [
     createdBy: 'Liever anderson',
     createdDate: '12/02/2023',
     action: 'action',
+    category: 'All',
+    description: 'Sales',
   },
 
   {
-    Id: 3,
+    id: 3,
     name: `PPCN`,
     sku: '44 1234 567',
     unitPrice: '123',
@@ -155,30 +36,24 @@ export const SalesProductTableData: any = [
     createdBy: 'Little Struit',
     createdDate: '23/12/2022',
     action: 'action',
+    category: 'All',
+    description: 'Sales',
   },
 ];
 
-export const columns = (
-  setIsGetRowValues: any,
-  setIschecked: any,
-  ischecked: any,
-  isGetRowValues: any,
-) => {
+export const columns = ({ handleCheckboxChange, selectedCheckboxes }: any) => {
   return [
     {
-      accessorFn: (row: any) => row.Id,
+      accessorFn: (row: any) => row?.id,
       id: 'Id',
       cell: (info: any) => (
         <Checkbox
           color="primary"
-          checked={
-            info?.cell?.row?.original?.Id ===
-              isGetRowValues?.cell?.row?.original?.Id && ischecked
-          }
-          name={info?.getValue()}
-          onClick={() => {
-            setIsGetRowValues(info), setIschecked(!ischecked);
-          }}
+          name="name"
+          onChange={(event) => handleCheckboxChange(event, info?.row?.original)}
+          checked={selectedCheckboxes?.some(
+            (selectedItem: any) => selectedItem?.id === info?.row?.original?.id,
+          )}
         />
       ),
       header: <Checkbox color="primary" name="Id" />,
@@ -213,7 +88,7 @@ export const columns = (
       cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row.createdBy,
+      accessorFn: (row: any) => row?.createdBy,
       id: 'createdBy',
       isSortable: true,
       header: 'Created By',

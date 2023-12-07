@@ -42,14 +42,18 @@ const Manage = () => {
                   justifyContent="space-around"
                 >
                   <Box>
-                    <Typography variant="body3" fontWeight={500}>
+                    <Typography
+                      variant="body2"
+                      fontWeight={500}
+                      color={theme?.palette?.grey[900]}
+                    >
                       {item?.title}
                     </Typography>
-                    <Typography variant="h2">{item?.count}</Typography>
+                    <Typography variant="h3">{item?.count}</Typography>
                   </Box>
                   {item?.divider && (
                     <Divider
-                      sx={{ borderColor: '#E5E7EB' }}
+                      sx={{ borderColor: theme?.palette?.grey[700] }}
                       orientation="vertical"
                     />
                   )}
@@ -71,14 +75,18 @@ const Manage = () => {
                   justifyContent="space-around"
                 >
                   <Box>
-                    <Typography variant="body3" fontWeight={500}>
+                    <Typography
+                      variant="body3"
+                      fontWeight={500}
+                      color={theme?.palette?.grey[900]}
+                    >
                       {item?.title}
                     </Typography>
-                    <Typography variant="h2">{item?.count}</Typography>
+                    <Typography variant="h3">{item?.count}</Typography>
                   </Box>
                   {item?.divider && (
                     <Divider
-                      sx={{ borderColor: '#E5E7EB' }}
+                      sx={{ borderColor: theme?.palette?.grey[700] }}
                       orientation="vertical"
                     />
                   )}
@@ -103,7 +111,7 @@ const Manage = () => {
       </Box>
       <Box mt={2}>
         <TanstackTable
-          columns={manageTableColumns(statusBtnValue)}
+          columns={manageTableColumns(statusBtnValue, theme)}
           data={manageTableData}
         />
         <CustomPagination

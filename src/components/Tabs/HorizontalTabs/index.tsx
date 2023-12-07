@@ -10,7 +10,7 @@ const HorizontalTabs = (props: any) => {
     children,
     setActiveTab = () => {},
     variant = 'scrollable',
-    spacing,
+    spacing = 0,
     defaultValue = 0,
     disableBoxShadow = true,
     disabled = false,
