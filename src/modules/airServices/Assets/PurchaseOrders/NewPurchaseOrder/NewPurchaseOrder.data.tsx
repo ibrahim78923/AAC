@@ -60,17 +60,11 @@ const ticketsTypeOptions = [
 // form validation schema
 export const validationSchema: any = yup?.object()?.shape({
   orderName: yup?.string()?.required('Required'),
-  orderNumber: yup
-    ?.number()
-    ?.typeError('Enter valid format!')
-    ?.required('Required'),
+  orderNumber: yup?.number()?.required('Required'),
   vendor: yup?.string()?.required('Required'),
   currency: yup?.string()?.required('Required'),
   department: yup?.string(),
-  deliverDate: yup
-    ?.date()
-    ?.typeError('Enter valid date format!')
-    ?.required('Required'),
+  deliverDate: yup?.date()?.required('Required'),
   location: yup?.string(),
   termsAndConditions: yup?.string(),
 });
