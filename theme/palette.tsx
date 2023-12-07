@@ -112,6 +112,10 @@ const CUSTOM_COLORS = {
 const GRAPH = {
   cyan: 'blue',
   Tropical_Rain_Forest: '#0AADC7',
+  published: '#ECFDF3',
+  published_not_bg: '#FFF6DD',
+  published_not_color: '#F2B500',
+  Trash_bg: '#D2D6DF',
   slate_gray: '#EDEDED',
 };
 const GRADIENTS = {

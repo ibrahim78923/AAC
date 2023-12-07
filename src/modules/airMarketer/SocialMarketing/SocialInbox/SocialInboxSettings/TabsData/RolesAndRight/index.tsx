@@ -132,6 +132,7 @@ const RolesRight = ({ initialValueProps = defaultValues }: any) => {
               display: 'flex',
               columnGap: '10px',
             }}
+            className="small"
             onClick={() => setIsDraweropen(true)}
           >
             <AddCircleIcon
@@ -169,10 +170,11 @@ const RolesRight = ({ initialValueProps = defaultValues }: any) => {
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
             onClick={handleClick}
+            className="small"
             sx={{
-              border: `1px solid ${theme?.palette?.custom.dark}`,
+              border: `1px solid ${theme?.palette?.custom?.dark}`,
               borderRadius: '4px',
-              color: `${theme?.palette?.custom.main}`,
+              color: `${theme?.palette?.custom?.main}`,
               display: 'flex',
               alignItems: 'center',
             }}
