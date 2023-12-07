@@ -1,10 +1,14 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import { useTheme } from '@mui/material';
 import { SettingsForm } from './SettingsForm';
 import { LoginMethods } from './LoginMethods';
+import { useSettings } from './useSettings';
+import { FormProvider } from '@/components/ReactHookForm';
 
 export const Settings = () => {
   const theme = useTheme();
+  const { settingsMethods, reset, timeOut, handleSubmitSettings } =
+    useSettings();
 
   return (
     <Box
@@ -14,9 +18,19 @@ export const Settings = () => {
     >
       <Typography variant="h4">Security Help Desk</Typography>
       <Box bgcolor={theme?.palette?.grey?.[400]} borderRadius={3} p={2} mt={1}>
-        <SettingsForm />
-        <br />
-        <LoginMethods />
+        <FormProvider methods={settingsMethods} onSubmit={handleSubmitSettings}>
+          <SettingsForm />
+          <br />
+          <LoginMethods timeOut={timeOut} />
+          <Box display={'flex'} justifyContent={'end'} gap={1}>
+            <Button variant="contained" type="submit">
+              Save
+            </Button>
+            <Button variant="outlined" onClick={() => reset()}>
+              cancel
+            </Button>
+          </Box>
+        </FormProvider>
       </Box>
     </Box>
   );

@@ -3,29 +3,6 @@ import {
   RHFSwitch,
   RHFTextField,
 } from '@/components/ReactHookForm';
-import * as Yup from 'yup';
-
-export const loginMethodsValidationSchema = Yup?.object()?.shape({
-  adminNotification: Yup?.string(),
-});
-
-export const loginMethodsDefaultValues = (data?: any) => {
-  return {
-    adminNotification: data?.adminNotification ?? '',
-  };
-};
-
-export const timeOutValidationSchema = Yup?.object()?.shape({
-  time: Yup?.string(),
-  days: Yup?.string(),
-});
-
-export const timeOutDefaultValues = (data?: any) => {
-  return {
-    time: data?.time ?? '',
-    days: data?.days ?? '',
-  };
-};
 
 const timeoutOptions = [
   '1',
@@ -133,15 +110,18 @@ export const loginMethodsDataArray = [
 export const timeoutDataArray = [
   {
     _id: 8678,
+    gridLength: 1.5,
     componentProps: {
       name: 'time',
       label: '',
       size: 'small',
+      type: 'number',
     },
     component: RHFTextField,
   },
   {
     _id: 9080,
+    gridLength: 1.5,
     componentProps: {
       name: 'day',
       label: '',
