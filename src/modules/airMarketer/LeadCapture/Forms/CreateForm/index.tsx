@@ -27,6 +27,7 @@ import { styleFormArray } from './CreateForm.data';
 import { v4 as uuidv4 } from 'uuid';
 import useCreateForm from './useCreateForm';
 import Export from './Export';
+import { AIR_MARKETER } from '@/routesConstants/paths';
 
 const CreateForm = () => {
   const {
@@ -61,7 +62,7 @@ const CreateForm = () => {
             className="small"
             sx={{ color: '#374151', marginRight: '20px', fontWeight: '500' }}
             startIcon={<BlackDeleteIcon />}
-            onClick={() => router?.back()}
+            onClick={() => router?.push(AIR_MARKETER.ALL_TABLE)}
           >
             {' '}
             Back to all forms

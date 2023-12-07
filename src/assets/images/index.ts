@@ -215,7 +215,6 @@ export { default as ExpertAwardImage } from './modules/airServices/settings/agen
 export { default as BudgetScheduleMockImage } from './modules/paidAds/budget-schedule-mock.png';
 export { default as AudienceMockImage } from './modules/paidAds/audience-mock.png';
 
-
 export { default as WorkFlowAutomationImage } from './modules/HeaderAndSidebar/workflow-automation.png';
 export { default as IntegrationsImage } from './modules/HeaderAndSidebar/integrations.png';
 

@@ -21,7 +21,7 @@ import {
   ExportFormDefaultValues,
   ExportFormValidationSchema,
 } from './Export.data';
-import { airMarketerLeadCapture } from '@/routesConstants/paths';
+import { AIR_MARKETER } from '@/routesConstants/paths';
 import { useRouter } from 'next/router';
 
 const Export = ({
@@ -119,7 +119,7 @@ const Export = ({
                   variant="contained"
                   sx={{ marginLeft: '10px' }}
                   onClick={() => {
-                    router.push(airMarketerLeadCapture.ALL_TABLE);
+                    router.push(AIR_MARKETER.ALL_TABLE);
                   }}
                 >
                   Export

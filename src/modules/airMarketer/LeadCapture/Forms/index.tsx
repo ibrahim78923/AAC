@@ -17,7 +17,7 @@ import Published from './Published';
 import Draft from './Draft';
 import Trash from './Trash';
 import Overview from './Overview';
-import { airMarketerLeadCapture } from '@/routesConstants/paths';
+import { AIR_MARKETER } from '@/routesConstants/paths';
 import Submissions from './Submissions';
 import Responses from './Responses';
 import useForms from './useForms';
@@ -124,9 +124,7 @@ const Forms = () => {
                     border: `1px solid ${theme?.palette?.custom?.dark}`,
                     color: '#38CAB5',
                   }}
-                  onClick={() =>
-                    router.push(airMarketerLeadCapture.VERIFY_EMAIL)
-                  }
+                  onClick={() => router.push(AIR_MARKETER.VERIFY_EMAIL)}
                 >
                   View
                 </Button>
