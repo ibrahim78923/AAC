@@ -14,7 +14,12 @@ import {
 
 import { FormProvider, RHFSwitch } from '@/components/ReactHookForm';
 
-import { dataArray, defaultValues, validationSchema } from './CreateForm.data';
+import {
+  createFormOptions,
+  dataArray,
+  defaultValues,
+  validationSchema,
+} from './CreateForm.data';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 
@@ -90,7 +95,7 @@ const CreateForm = ({ isShowEditDashboard }: any) => {
                               control={<Radio />}
                               label="Everyone"
                             />
-                            {accessValue === 'Everyone' && (
+                            {accessValue === createFormOptions?.everyOne && (
                               <FormControl sx={{ ml: 2 }} component="fieldset">
                                 <RadioGroup aria-label="child" name="child">
                                   <FormControlLabel
@@ -107,19 +112,10 @@ const CreateForm = ({ isShowEditDashboard }: any) => {
                               </FormControl>
                             )}
                             <FormControlLabel
-                              // onClick={handleOpenUsersList}
                               value="Only specific user and teams"
                               control={<Radio />}
                               label="Only specific user and teams"
                             />
-                            {/* <SearchableMultiSelect
-                        labels={userData}
-                       anchorEl={anchorElUserList}
-                         handleClose={handleCloseUsersList}
-                         pendingValue={pendingValue}
-                        setPendingValue={setPendingValue}
-                        value={specificUsers}
-                      /> */}
                           </RadioGroup>
                         </FormControl>
                       </Box>

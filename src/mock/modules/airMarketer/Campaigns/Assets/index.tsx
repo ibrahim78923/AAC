@@ -26,7 +26,7 @@ export const CtaData = [
     comments: 0,
   },
 ];
-export const SocialsData = [
+export const socialsData = [
   {
     Id: 1,
     title: `Export the data from your campaign's into a spreadsheet. The exported file will be sent to the email address`,

@@ -50,7 +50,6 @@ export const dataArray = [
   },
   {
     componentProps: {
-      color: '#7a7a7b',
       varient: 'h4',
       heading: 'Use the checkboxes to remove/add any report you want',
     },
@@ -250,3 +249,6 @@ export const userAndTeams = [
   { label: '3 Idiots', year: 2009 },
   { label: 'Monty Python and the Holy Grail', year: 1975 },
 ];
+export const createFormOptions = {
+  everyOne: 'Everyone',
+};

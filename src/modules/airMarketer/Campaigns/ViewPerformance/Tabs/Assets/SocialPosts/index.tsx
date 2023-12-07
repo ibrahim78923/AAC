@@ -3,7 +3,7 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import useSocialPosts from './useSocialPosts';
 import { columns } from './SocialPosts.data';
 import { styles } from '../Associations.style';
-import { SocialsData } from '@/mock/modules/airMarketer/Campaigns/Assets';
+import { socialsData } from '@/mock/modules/airMarketer/Campaigns/Assets';
 
 const SocialPosts = () => {
   const { theme, setIsOpenAlert, setOpenDrawer } = useSocialPosts();
@@ -45,7 +45,7 @@ const SocialPosts = () => {
         <Grid item xs={12}>
           <TanstackTable
             columns={columns({ setOpenDrawer, setIsOpenAlert })}
-            data={SocialsData}
+            data={socialsData}
           />
         </Grid>
       </Grid>
