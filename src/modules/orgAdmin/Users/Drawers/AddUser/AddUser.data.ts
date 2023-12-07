@@ -4,16 +4,11 @@ import * as Yup from 'yup';
 
 export const validationSchema = Yup.object().shape({
   firstName: Yup.string().required('Field is Required'),
-  middleName: Yup.string().required('Field is Required'),
   lastName: Yup.string().required('Field is Required'),
   postCode: Yup.string().required('Field is Required'),
   address: Yup.string().required('Field is Required'),
   email: Yup.string().required('Field is Required'),
   phoneNo: Yup.string().required('Field is Required'),
-  jobTitle: Yup.string().required('Field is Required'),
-  fbUrl: Yup.string().required('Field is Required'),
-  linkinUrl: Yup.string().required('Field is Required'),
-  twitterUrl: Yup.string().required('Field is Required'),
 });
 
 export const defaultValues = {
@@ -32,18 +27,19 @@ export const defaultValues = {
 
 export const addUsersArray = [
   {
-    title: 'First Name',
     componentProps: {
+      label: 'First Name',
       name: 'firstName',
       placeholder: 'Enter First Name',
       fullWidth: true,
+      required: true,
     },
     component: RHFTextField,
     md: 12,
   },
   {
-    title: 'Middle Name',
     componentProps: {
+      label: 'Middle Name',
       name: 'middleName',
       placeholder: 'Enter Middle Name',
       fullWidth: true,
@@ -52,99 +48,98 @@ export const addUsersArray = [
     md: 12,
   },
   {
-    title: 'Last Name',
     componentProps: {
+      label: 'Last Name',
       name: 'lastName',
       placeholder: 'Enter Last  Name',
       fullWidth: true,
+      required: true,
     },
     component: RHFTextField,
     md: 12,
   },
   {
-    title: 'Email',
     componentProps: {
+      label: 'Email',
       name: 'email',
       placeholder: 'Enter Email',
       fullWidth: true,
+      required: true,
     },
     component: RHFTextField,
     md: 12,
   },
 
   {
-    title: 'Phone Number',
     componentProps: {
+      label: 'Phone Number',
       name: 'phoneNo',
       placeholder: 'Enter Number',
       fullWidth: true,
+      required: true,
     },
     component: RHFTextField,
     md: 12,
   },
   {
-    title: 'Post Code',
     componentProps: {
+      label: 'Post Code',
       name: 'postCode',
       placeholder: 'Enter Post Code',
       fullWidth: true,
+      required: true,
     },
-
     component: RHFTextField,
     md: 12,
   },
   {
-    title: 'Address',
     componentProps: {
+      label: 'Address',
       name: 'address',
       placeholder: 'Enter Address',
       fullWidth: true,
+      required: true,
     },
-
     component: RHFTextField,
     md: 12,
   },
   {
-    title: 'Job Title',
     componentProps: {
+      label: 'Job Title',
       name: 'jobTitle',
       placeholder: 'Enter Job Title',
       fullWidth: true,
     },
-
     component: RHFTextField,
     md: 12,
   },
   {
-    title: 'Facebook URL',
     componentProps: {
+      label: 'Facebook URL',
       name: 'fbUrl',
       placeholder: 'Enter Facebook URL',
       fullWidth: true,
     },
-
     component: RHFTextField,
     md: 12,
   },
   {
-    title: 'LinkedIn URL',
     componentProps: {
+      label: 'LinkedIn URL',
       name: 'linkinUrl',
       placeholder: 'Enter LinkedIn URL',
       fullWidth: true,
     },
-
     component: RHFTextField,
     md: 12,
   },
   {
-    title: 'Twitter URL',
     componentProps: {
+      label: 'Twitter URL',
       name: 'twitterUrl',
       placeholder: 'Enter Twitter URL',
       fullWidth: true,
     },
-
     component: RHFTextField,
     md: 12,
   },

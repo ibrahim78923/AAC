@@ -340,6 +340,8 @@ export { default as SalesArrowsIcon } from './modules/orgAdmin/dashboard/sales-a
 export { default as SenderMarketerIcon } from './modules/orgAdmin/dashboard/sender-marketer';
 export { default as ServicesIcon } from './modules/orgAdmin/dashboard/services';
 export { default as OperationIcon } from './modules/orgAdmin/dashboard/operation';
+export { default as RevertIcon } from './shared/revert-icon';
+export { default as EditInputIcon } from './shared/edit-input-icon';
 
 export { default as FacebookSquareIcon } from './modules/paidAds/facebook-square';
 export { default as LinkedInSquareIcon } from './modules/paidAds/linkedin-square';
