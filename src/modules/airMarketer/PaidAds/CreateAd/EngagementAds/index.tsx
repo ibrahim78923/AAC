@@ -35,7 +35,11 @@ const EngagementAds = () => {
                 >
                   Back
                 </Button>
-                <Button variant="contained" onClick={handleCompleteStep}>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  onClick={handleCompleteStep}
+                >
                   Next
                 </Button>
               </Stack>
