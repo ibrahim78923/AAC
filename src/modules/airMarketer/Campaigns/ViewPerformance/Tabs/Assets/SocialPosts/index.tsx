@@ -1,17 +1,12 @@
 import { Box, Button, Grid, Typography } from '@mui/material';
-
 import TanstackTable from '@/components/Table/TanstackTable';
-import useProducts from './useProducts';
-
-import { columns } from './FacebookLikes.data';
-
+import useSocialPosts from './useSocialPosts';
+import { columns } from './SocialPosts.data';
 import { styles } from '../Associations.style';
-import { faceBookLikesData } from '@/mock/modules/airMarketer/Campaigns/Assets';
-import Image from 'next/image';
-import { FaceBookPerformanceImage } from '@/assets/images';
+import { SocialsData } from '@/mock/modules/airMarketer/Campaigns/Assets';
 
-const FacebookLikes = () => {
-  const { setIsOpenAlert, setOpenDrawer } = useProducts();
+const SocialPosts = () => {
+  const { theme, setIsOpenAlert, setOpenDrawer } = useSocialPosts();
 
   return (
     <Box
@@ -23,11 +18,11 @@ const FacebookLikes = () => {
     >
       <Grid container spacing={2}>
         <Grid item md={4} sx={styles?.countBox}>
-          <Image
-            src={FaceBookPerformanceImage}
-            alt="FaceBookPerformanceImage"
-          />
-          <Typography variant="subtitle2">Facebook Likes</Typography>
+          <Typography sx={styles?.associationCount(theme)} variant="body3">
+            02
+          </Typography>
+
+          <Typography variant="subtitle2">Social Posts</Typography>
         </Grid>
         <Grid item md={8}>
           <Box
@@ -43,14 +38,14 @@ const FacebookLikes = () => {
               className="small"
               sx={{ minWidth: '0px', gap: 0.5 }}
             >
-              View all ad campaigns
+              View all social posts
             </Button>
           </Box>
         </Grid>
         <Grid item xs={12}>
           <TanstackTable
             columns={columns({ setOpenDrawer, setIsOpenAlert })}
-            data={faceBookLikesData}
+            data={SocialsData}
           />
         </Grid>
       </Grid>
@@ -58,4 +53,4 @@ const FacebookLikes = () => {
   );
 };
 
-export default FacebookLikes;
+export default SocialPosts;

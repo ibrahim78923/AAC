@@ -7,9 +7,10 @@ import MuiAccordionSummary, {
 } from '@mui/material/AccordionSummary';
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
-import { accordionNames } from './CustomizedAccordians.data';
+import { accordionNames } from './CustomizedAccordian.data';
 import { v4 as uuidv4 } from 'uuid';
 import { Grid } from '@mui/material';
+import useCustomizedAccordians from './useCustomizedAccordians';
 
 const Accordion = styled((props: AccordionProps) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -48,21 +49,27 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
 }));
 
 export default function CustomizedAccordions() {
-  const [expanded, setExpanded] = React.useState<string | false>('panel1');
+  const [expanded, setExpanded] = React.useState<any>(null);
 
   const handleChange =
     (panel: string) => (event: React.SyntheticEvent, newExpanded: boolean) => {
       setExpanded(newExpanded ? panel : false);
     };
 
+  const { SelectedAccordianTable, accordianTableInfo } =
+    useCustomizedAccordians();
   return (
     <div>
       {accordionNames?.map((accordianDescription: any) => {
         return (
           <Accordion
             key={uuidv4()}
-            expanded={expanded === 'panel1'}
-            onChange={handleChange('panel1')}
+            expanded={expanded === accordianDescription?.id}
+            onChange={(event, newExpanded) => {
+              handleChange(accordianDescription?.id)(event, newExpanded);
+              SelectedAccordianTable(accordianDescription);
+            }}
+            style={{ marginTop: '15px' }}
           >
             <AccordionSummary
               aria-controls="panel1d-content"
@@ -96,9 +103,7 @@ export default function CustomizedAccordions() {
                 </Grid>
               </Grid>
             </AccordionSummary>
-            <AccordionDetails>
-              <Typography></Typography>
-            </AccordionDetails>
+            <AccordionDetails>{accordianTableInfo}</AccordionDetails>
           </Accordion>
         );
       })}

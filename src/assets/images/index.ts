@@ -198,6 +198,8 @@ export { default as UserRetroImage } from './modules/airMarketer/SocialMarketing
 export { default as MessageGreyImage } from './modules/orgAdmin/organization/message.png';
 export { default as AgentImg } from '../images/shared/agent.png';
 export { default as GoogleAds } from './modules/airMarketer/PaidAds/google-ads.png';
+export { default as FaceBookPerformanceImage } from './modules/airMarketer/Campaigns/facebook.png';
+export { default as CtaImage } from './modules/airMarketer/Campaigns/cta.png';
 
 // settings -> performance management leader board
 

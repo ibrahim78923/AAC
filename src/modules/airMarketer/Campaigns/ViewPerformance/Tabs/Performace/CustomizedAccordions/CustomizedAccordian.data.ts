@@ -1,6 +1,7 @@
 export const dataAdCampaigns: any = [
   {
     id: 1,
+
     name: `Campaign Name`,
     contacts: 'Campaign Owner',
     clicks: 0,
@@ -9,6 +10,7 @@ export const dataAdCampaigns: any = [
   {
     id: 2,
     name: `Campaign Name`,
+
     contacts: 'Campaign Owner',
     clicks: 0,
     spent: 0,
@@ -194,3 +196,42 @@ export const columnsSocialPosts: any = [
     cell: (info: any) => info?.getValue(),
   },
 ];
+
+export const accordionNames = [
+  { id: 1, name: 'Ad campaigns(1)', description: 'Attribution' },
+  {
+    id: 2,
+    name: "CTA'S",
+    description: "CTA'S Views",
+    actionViews: "CTA'S Clicks",
+  },
+  {
+    id: 3,
+    name: 'Email',
+    description: 'Sent',
+    opens: 'Open -',
+    clicks: 'Click 0',
+  },
+  {
+    id: 4,
+    name: 'Forms',
+    description: 'Form Views',
+    opens: 'View 0',
+    submissions: 'Submissions 0',
+  },
+  {
+    id: 5,
+    name: 'Social Posts(2)',
+    description: 'Post Views',
+    opens: 'View -',
+    submissions: 'Submissions -',
+    contacts: 'Contacts (First Touch) -',
+  },
+];
+export const accordionNameInfo = {
+  adCampaign: 'Ad campaigns(1)',
+  cta: "CTA'S",
+  email: 'Email',
+  forms: 'Forms',
+  socailPosts: 'Social Posts(2)',
+};
