@@ -89,7 +89,7 @@ const CreateForm = ({
                     </Grid>
                   )}
 
-                  {item.componentProps.name === 'accessDashboard' ? (
+                  {item?.componentProps?.name === 'accessDashboard' ? (
                     <Box>
                       <item.component {...item.componentProps} size="small">
                         {item?.componentProps?.select &&

@@ -69,7 +69,7 @@ const CreateForm = ({ isShowEditDashboard }: any) => {
                   key={uuidv4()}
                   style={{ paddingTop: '10px' }}
                 >
-                  {item.componentProps.name ===
+                  {item?.componentProps?.name ===
                   createFormOptions?.accessDashboard ? (
                     <Box display="flex" justifyContent="space-between">
                       <Box>
