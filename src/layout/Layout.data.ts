@@ -8,29 +8,40 @@ import {
   BuildingImage,
   BusyImage,
   CallImage,
+  CampaignImage,
   CompaniesImage,
   ContactImage,
   CustomerPortalImage,
   DashboardImage,
+  DataManagementImage,
   DocumentImage,
+  EmailMarketingImage,
   ForecastImage,
+  IntegrationsImage,
   KnowledgeBaseImage,
+  LeadCaptureImage,
   LogoutImage,
   MailImage,
   MeetingImage,
   MeetingTopImage,
   MessageImage,
+  PaidAdsImage,
   PlanManagementImage,
   ProfileUserImage,
+  ProfileUserManagementImage,
   QuotesImage,
   ReportsImage,
   SettingImage,
   SettingQuickImage,
+  SmsMarketingImage,
+  SocialMarketingImage,
   TicketDiscountImage,
   UserManagementImage,
+  WorkFlowAutomationImage,
   WorkLoadImage,
 } from '@/assets/images';
 import { Permissions } from '@/constants/permissions';
+import { AIR_MARKETER, AIR_OPERATION } from '@/routesConstants/paths';
 
 type MenuItemI = {
   key: React.Key;
@@ -191,6 +202,103 @@ export const ServicesRoutes: any = [
   },
 ];
 
+export const AirMarketingRoutes: any = [
+  {
+    key: AIR_MARKETER?.root,
+    icon: DashboardImage,
+    label: 'Dashboard',
+    role: 'AIR_MARKETING',
+    permissions: [],
+  },
+  {
+    key: AIR_MARKETER?.PAID_ADS,
+    icon: PaidAdsImage,
+    label: 'Paid Ads',
+    role: 'AIR_MARKETING',
+    permissions: [],
+  },
+  {
+    key: AIR_MARKETER?.CAMPAIGNS,
+    icon: CampaignImage,
+    label: 'Campaign',
+    role: 'AIR_MARKETING',
+    permissions: [],
+  },
+  {
+    key: AIR_MARKETER?.EMAIL_MARKETING,
+    label: 'Email Marketing',
+    icon: EmailMarketingImage,
+    role: 'AIR_MARKETING',
+    permissions: [],
+    textNames: [
+      {
+        key: AIR_MARKETER?.EMAIL_TEMPLATES,
+        label: 'Email Templates',
+        permissions: [],
+      },
+      {
+        key: AIR_MARKETER?.EMAIL_FOLDER,
+        label: 'Email Folder',
+        permissions: [],
+      },
+      {
+        key: AIR_MARKETER?.EMAIL_REPORTS,
+        label: 'Email Reports',
+        permissions: [],
+      },
+    ],
+  },
+
+  {
+    key: AIR_MARKETER?.SOCIAL_MARKETING,
+    label: 'Social Marketing',
+    icon: SocialMarketingImage,
+    role: 'AIR_MARKETING',
+    permissions: [],
+    textNames: [
+      {
+        key: AIR_MARKETER?.SOCIAL_INBOX,
+        label: 'SociaL Inbox',
+        permissions: [],
+      },
+    ],
+  },
+
+  {
+    key: AIR_MARKETER?.SMS_MARKETING,
+    icon: SmsMarketingImage,
+    label: 'SMS Marketing',
+    role: 'AIR_MARKETING',
+    permissions: [],
+  },
+  {
+    key: AIR_MARKETER?.LEAD_CAPTURE,
+    label: 'Lead Capture',
+    icon: LeadCaptureImage,
+    role: 'AIR_MARKETING',
+    permissions: [],
+    textNames: [
+      {
+        key: AIR_MARKETER?.LEAD_CAPTURE_CTA,
+        label: 'CTA',
+        permissions: [],
+      },
+      {
+        key: AIR_MARKETER?.LEAD_CAPTURE_FORMS,
+        label: 'Forms',
+        permissions: [],
+      },
+    ],
+  },
+  {
+    key: AIR_MARKETER?.REPORTS,
+    icon: ReportsImage,
+    label: 'Reports',
+    role: 'AIR_MARKETING',
+    permissions: [],
+  },
+];
+
 export const CustomerPortalRoutes: any = [
   {
     key: 'air-customer-portal',
@@ -218,6 +326,58 @@ export const CustomerPortalRoutes: any = [
     icon: WorkLoadImage,
     label: 'Catalog',
     role: 'CUSTOMER_PORTAL',
+    permissions: [],
+  },
+];
+
+export const AirOperationsRoutes: any = [
+  {
+    key: AIR_OPERATION?.root,
+    icon: DashboardImage,
+    label: 'Dashboard',
+    role: 'AIR_OPERATIONS',
+    permissions: [],
+  },
+  {
+    key: AIR_OPERATION?.DATA_MANAGEMENT,
+    icon: DataManagementImage,
+    label: 'Data Management',
+    role: 'AIR_OPERATIONS',
+    permissions: [],
+  },
+  {
+    key: AIR_OPERATION?.INTEGRATIONS,
+    icon: IntegrationsImage,
+    label: 'Integrations',
+    role: 'AIR_OPERATIONS',
+    permissions: [],
+  },
+  {
+    key: AIR_OPERATION?.WORK_FLOW,
+    icon: WorkFlowAutomationImage,
+    label: 'Workflow',
+    role: 'AIR_OPERATIONS',
+    permissions: [],
+  },
+  {
+    key: AIR_OPERATION?.REPORTS,
+    icon: ReportsImage,
+    label: 'Reports',
+    role: 'AIR_OPERATIONS',
+    permissions: [],
+  },
+  {
+    key: AIR_OPERATION?.ROLE_AND_RIGHT,
+    icon: ForecastImage,
+    label: 'Role and Rights',
+    role: 'AIR_OPERATIONS',
+    permissions: [],
+  },
+  {
+    key: AIR_OPERATION?.USER_MANAGEMENT,
+    icon: ProfileUserManagementImage,
+    label: 'User Management',
+    role: 'AIR_OPERATIONS',
     permissions: [],
   },
 ];
@@ -373,6 +533,16 @@ export const LowerOrgAdminRoutes = [
     icon: LogoutImage,
   },
 ];
+
+export const LowerAirOperationRoutes = [
+  {
+    label: 'Logout',
+    key: '',
+    role: 'AIR_OPERATIONS',
+    permissions: [],
+    icon: LogoutImage,
+  },
+];
 export const LowerSalesRoutes = [
   {
     label: 'Settings',
@@ -386,6 +556,24 @@ export const LowerSalesRoutes = [
     label: 'Logout',
     key: 'logout',
     role: 'AIR_SALES',
+    permissions: [],
+    icon: LogoutImage,
+  },
+];
+
+export const LowerAirMarketingRoutes = [
+  {
+    label: 'Settings',
+    icon: SettingImage,
+    role: 'AIR_MARKETING',
+    key: AIR_MARKETER?.SETTINGS,
+    permissions: [],
+  },
+
+  {
+    label: 'Logout',
+    key: '',
+    role: 'AIR_MARKETING',
     permissions: [],
     icon: LogoutImage,
   },
@@ -538,6 +726,8 @@ const ROLES_ROUTES: any = {
   AIR_SERVICES: ServicesRoutes,
   ORG_ADMIN: OrgAdminRoutes,
   CUSTOMER_PORTAL: CustomerPortalRoutes,
+  AIR_OPERATIONS: AirOperationsRoutes,
+  AIR_MARKETER: AirMarketingRoutes,
 };
 
 export const getRoutes = (role: any) => {
@@ -549,6 +739,8 @@ const LOWER_ROLES_ROUTES: any = {
   AIR_SALES: LowerSalesRoutes,
   AIR_SERVICES: LowerServicesRoutes,
   ORG_ADMIN: LowerOrgAdminRoutes,
+  AIR_OPERATIONS: LowerAirOperationRoutes,
+  AIR_MARKETER: LowerAirMarketingRoutes,
 };
 
 export const getLowerRoutes = (role: any) => {

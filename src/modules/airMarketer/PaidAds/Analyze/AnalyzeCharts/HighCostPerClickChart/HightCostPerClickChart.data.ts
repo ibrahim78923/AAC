@@ -9,13 +9,13 @@ export const series = [
   },
 ];
 
-export const options: any = {
+export const options: any = (theme: any) => ({
   chart: {
     type: 'bar',
     height: 350,
     margin: '90px',
   },
-  colors: ['#47B263', '#0AADC7'],
+  colors: [theme?.palette?.custom?.main, theme?.palette?.custom?.bright],
   plotOptions: {
     bar: {
       horizontal: false,
@@ -54,4 +54,4 @@ export const options: any = {
   fill: {
     opacity: 1,
   },
-};
+});
