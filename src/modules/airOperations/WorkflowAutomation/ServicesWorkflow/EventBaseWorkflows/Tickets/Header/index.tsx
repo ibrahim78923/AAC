@@ -1,42 +1,25 @@
-import { useState } from 'react';
 import { FilterSharedIcon } from '@/assets/icons';
 import Search from '@/components/Search';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { Box, Button } from '@mui/material';
 import FilterWorkflow from '../../../FilterWorkflow';
-
-export const EventBaseWorkflowActionsDropdown = () => [
-  {
-    title: 'Edit',
-    //   handleClick: () => {
-    //     handleActionClick('edit');
-    //   },
-  },
-  {
-    title: 'Clone',
-    //   handleClick: () => {
-    //     handleActionClick('clone');
-    //   },
-  },
-  {
-    title: 'Delete',
-    //   handleClick: () => {
-    //     handleActionClick?.('delete');
-    //   },
-  },
-];
+import { useHeader } from './useHeader';
 
 const Header = ({ selectedTicketsList }: any) => {
-  const [searchValue, setSearchValue] = useState<string>('');
-  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
-  const dropdownOptions = EventBaseWorkflowActionsDropdown();
+  const {
+    searchValue,
+    setSearchValue,
+    dropdownOptions,
+    isDrawerOpen,
+    setIsDrawerOpen,
+  } = useHeader();
   return (
     <>
       <Box display={'flex'} justifyContent={'space-between'}>
         <Box mb={1}>
           <Search
             value={searchValue}
-            label="search"
+            label="Search here"
             setSearchBy={setSearchValue}
             onChange={(e: any) => setSearchValue(e?.target?.value)}
           />

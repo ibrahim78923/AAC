@@ -3,6 +3,7 @@ import { Box, useTheme } from '@mui/material';
 import { eventBaseWorkflowTabsData } from './EventBaseWorkflow.data';
 import Tickets from './Tickets';
 import Assets from './Assets';
+import Tasks from './Tasks';
 
 const EventBaseWorkflows = () => {
   const theme = useTheme();
@@ -17,6 +18,7 @@ const EventBaseWorkflows = () => {
         <HorizontalTabs tabsDataArray={eventBaseWorkflowTabsData}>
           <Tickets />
           <Assets />
+          <Tasks />
         </HorizontalTabs>
       </Box>
     </>

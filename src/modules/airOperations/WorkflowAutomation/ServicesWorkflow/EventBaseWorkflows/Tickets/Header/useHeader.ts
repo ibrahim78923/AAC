@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { EventBaseWorkflowActionsDropdown } from '../Assets.data';
+import { EventBaseWorkflowActionsDropdown } from '../Tickets.data';
 
 export const useHeader = () => {
   const [searchValue, setSearchValue] = useState<string>('');

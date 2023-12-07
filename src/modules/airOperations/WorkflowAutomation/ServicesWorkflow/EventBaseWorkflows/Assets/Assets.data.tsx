@@ -1,5 +1,6 @@
 import { AntSwitch } from '@/components/AntSwitch';
-import { Avatar, Box, Checkbox } from '@mui/material';
+import { Avatar, Box, Checkbox, Chip } from '@mui/material';
+import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 
 export const EventBaseWorkflowActionsDropdown = (handleActionClick: any) => [
   {
@@ -44,6 +45,7 @@ export const assetsListsColumnsFunction = (
   selectedAssetsList: any,
   setSelectedAssetsList: any,
   listData: any,
+  theme: any,
 ): any => [
   {
     accessorFn: (row: any) => row?.id,
@@ -92,7 +94,23 @@ export const assetsListsColumnsFunction = (
     id: 'workflowName',
     isSortable: false,
     header: 'Workflow Name',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => (
+      <Box display={'flex'} gap={0.3}>
+        {info?.getValue()}
+        {info?.row?.original?.draft && (
+          <Chip
+            icon={
+              <FiberManualRecordIcon
+                fontSize="small"
+                color={theme?.palette?.grey?.[900]}
+              />
+            }
+            label="Draft"
+            size="small"
+          />
+        )}
+      </Box>
+    ),
   },
   {
     accessorFn: (row: any) => row?.status,

@@ -22,10 +22,11 @@ export const EventBaseWorkflowActionsDropdown = (handleActionClick: any) => [
     },
   },
 ];
-export const ticketsListData: any = [
+
+export const tasksListData: any = [
   {
     id: 1,
-    workflowName: 'Update Assets',
+    workflowName: 'Update Tasks',
     status: true,
     createdBy: 'Jane Cooper',
     createdOn: 'Oct 15, 2023 4:56:44 PM',
@@ -39,18 +40,10 @@ export const ticketsListData: any = [
     createdOn: 'Oct 15, 2023 4:56:44 PM',
     lastActivity: 'Update by Shaw',
   },
-  {
-    id: 3,
-    workflowName: 'Update Task',
-    createdBy: 'Esther Howard',
-    createdOn: 'Oct 15, 2023 4:56:44 PM',
-    lastActivity: 'Update by Shaw',
-    draft: true,
-  },
 ];
-export const ticketsListsColumnsFunction = (
-  selectedTicketsList: any,
-  setSelectedTicketsList: any,
+export const tasksListsColumnsFunction = (
+  selectedTasksList: any,
+  setSelectedTasksList: any,
   listData: any,
   theme: any,
 ): any => [
@@ -60,20 +53,20 @@ export const ticketsListsColumnsFunction = (
     cell: (info: any) => (
       <Checkbox
         checked={
-          !!selectedTicketsList?.find(
+          !!selectedTasksList?.find(
             (item: any) => item?.id === info?.getValue(),
           )
         }
         onChange={(e: any) => {
           e?.target?.checked
-            ? setSelectedTicketsList([
-                ...selectedTicketsList,
-                ticketsListData?.find(
+            ? setSelectedTasksList([
+                ...selectedTasksList,
+                tasksListData?.find(
                   (item: any) => item?.id === info?.getValue(),
                 ),
               ])
-            : setSelectedTicketsList(
-                selectedTicketsList?.filter((item: any) => {
+            : setSelectedTasksList(
+                selectedTasksList?.filter((item: any) => {
                   return item?.id !== info?.getValue();
                 }),
               );
@@ -84,11 +77,11 @@ export const ticketsListsColumnsFunction = (
     ),
     header: (
       <Checkbox
-        checked={selectedTicketsList?.length === listData?.length}
+        checked={selectedTasksList?.length === listData?.length}
         onChange={(e: any) => {
           e?.target?.checked
-            ? setSelectedTicketsList([...listData])
-            : setSelectedTicketsList([]);
+            ? setSelectedTasksList([...listData])
+            : setSelectedTasksList([]);
         }}
         color="primary"
         name="id"
