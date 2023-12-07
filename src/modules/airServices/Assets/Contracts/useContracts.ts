@@ -12,7 +12,7 @@ export function useContracts() {
   const router = useRouter();
   const handleAddNewContractClick = () => {
     router?.push({
-      pathname: AIR_SERVICES?.CONTRACT_FORM,
+      pathname: AIR_SERVICES?.UPSERT_CONTRACT,
     });
   };
   useEffect(() => {}, []);

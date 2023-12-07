@@ -2,23 +2,33 @@ import { useState } from 'react';
 
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
-import { ServiceCatalogHardwareActionDropdownFunction } from './ServiceCatalogHardwareAction.data';
+import { ServicesActionDropdownFunction } from './ServicesAction.data';
 
-export const useServiceCatalogHardwareAction = () => {
+export const useServicesAction = () => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-
-  const ServiceCatalogHardwareActionDropdown =
-    ServiceCatalogHardwareActionDropdownFunction(setDeleteModalOpen);
+  const [open, setOpen] = useState(false);
+  const [openStatus, setOpenStatus] = useState(false);
+  const ServicesActionDropdown = ServicesActionDropdownFunction(
+    setDeleteModalOpen,
+    setOpen,
+    setOpenStatus,
+  );
   const handleDeleteBtn = () => {
     setDeleteModalOpen(false);
     enqueueSnackbar('Vendor deleted Successfully', {
       variant: NOTISTACK_VARIANTS?.SUCCESS,
     });
   };
+
   return {
-    ServiceCatalogHardwareActionDropdown,
+    ServicesActionDropdown,
     deleteModalOpen,
     setDeleteModalOpen,
     handleDeleteBtn,
+    open,
+    setOpen,
+
+    openStatus,
+    setOpenStatus,
   };
 };
