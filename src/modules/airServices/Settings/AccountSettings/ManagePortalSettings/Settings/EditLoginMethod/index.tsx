@@ -1,10 +1,19 @@
 import CommonDrawer from '@/components/CommonDrawer';
-import { Box, Typography } from '@mui/material';
+import { Box, Tooltip, Typography } from '@mui/material';
 import { PasswordPolicy } from './PasswordPolicy';
 import { TwoFactorPolicy } from './TwoFactorPolicy';
+import ErrorIcon from '@mui/icons-material/Error';
+import { headingMessage, passwordPolicy } from './EditLoginMethod.data';
+import { enqueueSnackbar } from 'notistack';
 
 export const EditLoginMethod = (props: any) => {
   const { setIsOpenDrawer, isOpenDrawer } = props;
+  const handleSubmit = () => {
+    enqueueSnackbar('Apply Successfully', {
+      variant: 'success',
+    });
+    setIsOpenDrawer(false);
+  };
 
   return (
     <CommonDrawer
@@ -15,20 +24,20 @@ export const EditLoginMethod = (props: any) => {
       isOk
       cancelText={'Cancel'}
       footer
-      submitHandler={() => setIsOpenDrawer(false)}
+      submitHandler={handleSubmit}
+      headerIcon={
+        <Tooltip title={headingMessage} arrow>
+          <ErrorIcon color="primary" />
+        </Tooltip>
+      }
     >
       <Box mt={1}>
         <Typography variant="h5" mb={0.5}>
           Password Policy
         </Typography>
-        <Typography variant="body2">
-          Define your password policy for your organization and encourage your
-          agents and admins to set stronger passwords. Choose either a pre-set
-          level or create a custom level to suit your need.
-        </Typography>
+        <Typography variant="body2">{passwordPolicy}</Typography>
         <br />
         <PasswordPolicy />
-
         <TwoFactorPolicy />
       </Box>
     </CommonDrawer>

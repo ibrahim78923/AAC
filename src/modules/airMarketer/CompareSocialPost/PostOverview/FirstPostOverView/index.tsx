@@ -10,10 +10,13 @@ import {
 } from '@mui/material';
 import { postsOverviewData } from '../../SelectPostModal/SelectPostModal.data';
 import { v4 as uuidv4 } from 'uuid';
+import { style } from '../../CompareSocialPost.style';
+import { useComparePost } from '../../useComparePost';
 
 const FirstPostOverview = (props: any) => {
   const { postData } = props;
   const theme = useTheme();
+  const { socialCatgory } = useComparePost();
 
   return (
     <Box>
@@ -41,12 +44,12 @@ const FirstPostOverview = (props: any) => {
         <CardMedia component="img" height="162" image={postData?.image} />
         <CardHeader
           avatar={
-            <Avatar
-              src={postData?.avatar}
-              sx={{ width: '30px', height: '30px' }}
-            >
-              R
-            </Avatar>
+            <Box sx={style?.avatarStyle(postData?.category)}>
+              <Avatar src={postData?.avatar}></Avatar>
+              <Box className="avatar-category">
+                {socialCatgory[postData?.category]}
+              </Box>
+            </Box>
           }
           title={
             <Typography

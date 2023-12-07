@@ -6,7 +6,7 @@ import { Teams } from './Teams';
 export const UserManagement = () => {
   return (
     <Box>
-      <Typography>User Management</Typography>
+      <Typography variant="h3">User Management</Typography>
       <br />
       <HorizontalTabs tabsDataArray={['User', 'Teams']}>
         <User />

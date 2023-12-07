@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import * as yup from 'yup';
-import { Checkbox } from '@mui/material';
+import { Box, Checkbox } from '@mui/material';
 import {
   RHFDatePicker,
   RHFSelect,
@@ -64,7 +64,7 @@ export const addExpenseFormData = [
       name: 'cost',
       fullWidth: true,
       placeholder: 'cost',
-      label: 'Cost',
+      label: 'Cost (£)',
       required: true,
     },
     gridLength: 12,
@@ -132,7 +132,7 @@ export const addExpenseColumnsFunction = (
     id: 'type',
     isSortable: true,
     header: 'Expense Type',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => <Box fontWeight={700}>{info?.getValue()}</Box>,
   },
   {
     accessorFn: (row: any) => row?.cost,
