@@ -1,28 +1,14 @@
 import { Box, Button, Grid, Typography } from '@mui/material';
-
-import Search from '@/components/Search';
-
 import TanstackTable from '@/components/Table/TanstackTable';
-
 import useProducts from './useProducts';
-
 import { columns } from './Cta.data';
-
-import { PlusIcon } from '@/assets/icons';
-
 import { styles } from '../Associations.style';
 import { CtaData } from '@/mock/modules/airMarketer/Campaigns/Assets';
+import { CtaImage } from '@/assets/images';
+import Image from 'next/image';
 
 const Cta = () => {
-  const {
-    theme,
-
-    setIsOpenAlert,
-    searchName,
-    setSearchName,
-
-    setOpenDrawer,
-  } = useProducts();
+  const { setIsOpenAlert, setOpenDrawer } = useProducts();
 
   return (
     <Box
@@ -34,10 +20,7 @@ const Cta = () => {
     >
       <Grid container spacing={2}>
         <Grid item md={4} sx={styles?.countBox}>
-          <Typography sx={styles?.associationCount(theme)} variant="body3">
-            02
-          </Typography>
-
+          <Image src={CtaImage} alt="CtaImage" />
           <Typography variant="subtitle2">CTA</Typography>
         </Grid>
         <Grid item md={8}>
@@ -49,18 +32,12 @@ const Cta = () => {
               flexDirection: { xs: 'column', sm: 'row' },
             }}
           >
-            <Search
-              searchBy={searchName}
-              setSearchBy={setSearchName}
-              label="Search By Name"
-              size="small"
-            />
             <Button
-              variant="contained"
+              variant="outlined"
               className="small"
               sx={{ minWidth: '0px', gap: 0.5 }}
             >
-              <PlusIcon /> View all blog posts
+              View all blog posts
             </Button>
           </Box>
         </Grid>
