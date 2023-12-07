@@ -1,16 +1,19 @@
-export const ServiceCatalogHardwareActionDropdownFunction = (
+export const ServicesActionDropdownFunction = (
   setDeleteModalOpen: any,
+  setOpen: any,
+  setOpenStatus: any,
 ) => [
   {
     title: 'Move To Category',
     handleClick: (closeMenu: any) => {
+      setOpen?.(true);
       closeMenu?.();
     },
   },
   {
     title: 'Change Status',
     handleClick: (closeMenu: any) => {
-      closeMenu?.();
+      setOpenStatus?.(true), closeMenu?.();
     },
   },
   {

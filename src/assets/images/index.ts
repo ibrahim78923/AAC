@@ -198,6 +198,11 @@ export { default as UserRetroImage } from './modules/airMarketer/SocialMarketing
 export { default as MessageGreyImage } from './modules/orgAdmin/organization/message.png';
 export { default as AgentImg } from '../images/shared/agent.png';
 export { default as GoogleAds } from './modules/airMarketer/PaidAds/google-ads.png';
+export { default as ServiceCatalogPmToolsAsanaImage } from './modules/airServices/Settings/ServiceManagement/ServiceCatalog/service-catalog-pm-tools-asana-image.png';
+export { default as ServiceCatalogPmToolsTroolsImage } from './modules/airServices/Settings/ServiceManagement/ServiceCatalog/service-catalog-pm-tools-trools-image.png';
+export { default as ServiceCatalogHardwareTrelloImage } from './modules/airServices/Settings/ServiceManagement/ServiceCatalog/service-catalog-hardware-trello-image.png';
+export { default as ServiceCatalogHardwareAsanaImage } from './modules/airServices/Settings/ServiceManagement/ServiceCatalog/service-catalog-hardware-asana-image.png';
+export { default as ServiceCatalogSoftwareAdobePhotoshopImage } from './modules/airServices/Settings/ServiceManagement/ServiceCatalog/service-catalog-software-adobe-photoshop-image.png';
 export { default as HandShakeImage } from './modules/airMarketer/reports/hand-shake.png';
 export { default as MockUpImage } from './modules/paidAds/mockUpImage.png';
 export { default as MockEngagementTabsImage } from './modules/paidAds/engagementTabs-img.png';

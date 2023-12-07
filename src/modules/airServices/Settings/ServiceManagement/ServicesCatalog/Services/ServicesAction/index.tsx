@@ -1,18 +1,25 @@
 import { Header } from '@/modules/airServices/Settings/ServiceManagement/ServicesCatalog/Header';
-import { useServiceCatalogHardwareAction } from './useServiceCatalogHardware';
+
 import { AlertModals } from '@/components/AlertModals';
 import { ALERT_MODALS_TYPE } from '@/constants/strings';
+import { MoveToCategory } from '../MoveToCategory';
+import { ChangeStatus } from '../ChangeStatus';
+import { useServicesAction } from './useServicesAction';
 
-export const ServiceCatalogHardwareAction = () => {
+export const ServicesAction = () => {
   const {
-    ServiceCatalogHardwareActionDropdown,
+    ServicesActionDropdown,
     deleteModalOpen,
     setDeleteModalOpen,
     handleDeleteBtn,
-  } = useServiceCatalogHardwareAction();
+    open,
+    setOpen,
+    openStatus,
+    setOpenStatus,
+  } = useServicesAction();
   return (
     <>
-      <Header dropdownOptions={ServiceCatalogHardwareActionDropdown} />
+      <Header dropdownOptions={ServicesActionDropdown} />
       <br />
       {deleteModalOpen && (
         <AlertModals
@@ -22,6 +29,10 @@ export const ServiceCatalogHardwareAction = () => {
           handleSubmitBtn={handleDeleteBtn}
           message="Are you sure you want to delete this Vendor?"
         />
+      )}
+      {open && <MoveToCategory open={open} setOpen={setOpen} />}
+      {openStatus && (
+        <ChangeStatus openStatus={openStatus} setOpenStatus={setOpenStatus} />
       )}
     </>
   );
