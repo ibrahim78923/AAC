@@ -87,7 +87,7 @@ const CreateForm = ({ isShowEditDashboard }: any) => {
                             name="access"
                           >
                             <FormControlLabel
-                              value="PrivateToOwner"
+                              value="privateToOwner"
                               control={<Radio />}
                               label="Private to owner (me)"
                             />
@@ -100,12 +100,12 @@ const CreateForm = ({ isShowEditDashboard }: any) => {
                               <FormControl sx={{ ml: 2 }} component="fieldset">
                                 <RadioGroup aria-label="child" name="child">
                                   <FormControlLabel
-                                    value="ViewAndEdit"
+                                    value="viewAndEdit"
                                     control={<Radio />}
                                     label="View and edit"
                                   />
                                   <FormControlLabel
-                                    value="ViewOnly"
+                                    value="viewOnly"
                                     control={<Radio />}
                                     label="View only"
                                   />
@@ -113,7 +113,7 @@ const CreateForm = ({ isShowEditDashboard }: any) => {
                               </FormControl>
                             )}
                             <FormControlLabel
-                              value="OnlySpecificUserAndTeams"
+                              value="onlySpecificUserAndTeams"
                               control={<Radio />}
                               label="Only specific user and teams"
                             />
