@@ -52,9 +52,6 @@ export default function RHFSwitch({ name, disabled, ...other }: any) {
     <FormControlLabel
       sx={{
         ml: '5px',
-        '& .MuiFormControlLabel-label': {
-          display: 'none',
-        },
       }}
       control={
         <Controller

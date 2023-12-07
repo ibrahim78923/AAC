@@ -11,6 +11,7 @@ import Search from '@/components/Search';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { AlertModals } from '@/components/AlertModals';
 import { MoveFolderModal } from './MoveFolderModal';
+import FilterArticles from './FilterArticles';
 
 export const Articles = () => {
   const {
@@ -25,6 +26,8 @@ export const Articles = () => {
     setMoveFolderModal,
     dropdownOptions,
     theme,
+    openFilter,
+    setOpenFilter,
   } = useArticles();
 
   const { tabWrapper, selectedTabColor } = styles();
@@ -71,6 +74,7 @@ export const Articles = () => {
                 size="large"
                 startIcon={<FilterIcon />}
                 color="secondary"
+                onClick={() => setOpenFilter(true)}
               >
                 Filter
               </Button>
@@ -90,6 +94,10 @@ export const Articles = () => {
       <MoveFolderModal
         moveFolderModal={moveFolderModal}
         setMoveFolderModal={setMoveFolderModal}
+      />
+      <FilterArticles
+        isOpenFilterDrawer={openFilter}
+        setIsOpenFilterDrawer={setOpenFilter}
       />
     </>
   );
