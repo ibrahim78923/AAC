@@ -6,9 +6,7 @@ const useDashboard = () => {
   const theme = useTheme();
   const [tabVal, setTabVal] = useState(0);
 
-  const descriptionColor = '#A5ACBE';
   return {
-    descriptionColor,
     theme,
     tabVal,
     setTabVal,

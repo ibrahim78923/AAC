@@ -13,7 +13,7 @@ import { styles } from './dashboard.style';
 import { v4 as uuidv4 } from 'uuid';
 
 const Dashboard = () => {
-  const { descriptionColor, theme } = useDashboard();
+  const { theme } = useDashboard();
   const navigate = useRouter();
   return (
     <>
@@ -74,7 +74,7 @@ const Dashboard = () => {
         </Typography>
         <Typography
           variant="body2"
-          sx={{ color: descriptionColor, fontWeight: 400 }}
+          sx={{ color: theme?.palette?.custom?.cadet_color, fontWeight: 400 }}
         >
           All the accounts in this organization that you have access to. Click
           to open.
@@ -123,7 +123,7 @@ const Dashboard = () => {
         </Typography>
         <Typography
           variant="body2"
-          sx={{ color: descriptionColor, fontWeight: 400 }}
+          sx={{ color: theme?.palette?.custom?.cadet_color, fontWeight: 400 }}
         >
           Our products help your teams deliver the best customer experiences
         </Typography>

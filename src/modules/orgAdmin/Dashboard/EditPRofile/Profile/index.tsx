@@ -39,7 +39,7 @@ const Profile = () => {
                   {item?.componentProps?.heading}
                 </Typography>
               )}
-              <item.component {...item.componentProps} size={'small'}>
+              <item.component {...item?.componentProps} size={'small'}>
                 {item?.componentProps?.select
                   ? item?.options?.map((option: any) => (
                       <option key={option?.value} value={option?.value}>
