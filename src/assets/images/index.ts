@@ -198,6 +198,7 @@ export { default as UserRetroImage } from './modules/airMarketer/SocialMarketing
 export { default as MessageGreyImage } from './modules/orgAdmin/organization/message.png';
 export { default as AgentImg } from '../images/shared/agent.png';
 export { default as GoogleAds } from './modules/airMarketer/PaidAds/google-ads.png';
+export { default as HandShakeImage } from './modules/airMarketer/reports/hand-shake.png';
 export { default as MockUpImage } from './modules/paidAds/mockUpImage.png';
 export { default as MockEngagementTabsImage } from './modules/paidAds/engagementTabs-img.png';
 
@@ -214,7 +215,6 @@ export { default as MasterAwardImage } from './modules/airServices/settings/agen
 export { default as ExpertAwardImage } from './modules/airServices/settings/agentPerformanceManagement/expert-award-image.png';
 export { default as BudgetScheduleMockImage } from './modules/paidAds/budget-schedule-mock.png';
 export { default as AudienceMockImage } from './modules/paidAds/audience-mock.png';
-
 
 export { default as WorkFlowAutomationImage } from './modules/HeaderAndSidebar/workflow-automation.png';
 export { default as IntegrationsImage } from './modules/HeaderAndSidebar/integrations.png';

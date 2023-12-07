@@ -81,12 +81,15 @@ export const airMarketingCalendar = {
   create_post: '/air-marketer/social-marketing/create-post',
 };
 
-const AIR_MARKETING_PAGE = 'air-marketing';
+const AIR_MARKETING_PAGE = '/air-marketer';
 export const AIR_MARKETER = {
   root: AIR_MARKETING_PAGE,
   PAID_ADS: path(AIR_MARKETING_PAGE, '/paid-ads'),
   CREATE_AD: path(AIR_MARKETING_PAGE, '/paid-ads/create-ad'),
-  ENGAGEMENT_ADS: path(AIR_MARKETING_PAGE, '/paid-ads/create-ad/engagement-ads'),
+  ENGAGEMENT_ADS: path(
+    AIR_MARKETING_PAGE,
+    '/paid-ads/create-ad/engagement-ads',
+  ),
   EMAIL_MARKETING: path(AIR_MARKETING_PAGE, '/email-marketing'),
   EMAIL_TEMPLATES: path(AIR_MARKETING_PAGE, '/email-marketing/email-templates'),
   EMAIL_FOLDER: path(AIR_MARKETING_PAGE, '/email-marketing/email-folder'),
@@ -99,8 +102,15 @@ export const AIR_MARKETER = {
   LEAD_CAPTURE_CTA: path(AIR_MARKETING_PAGE, '/lead-capture/cta'),
   LEAD_CAPTURE_FORMS: path(AIR_MARKETING_PAGE, '/lead-capture/forms'),
   REPORTS: path(AIR_MARKETING_PAGE, '/reports'),
+  REPORTS_LEADS: path(AIR_MARKETING_PAGE, '/reports/leads'),
+  REPORTS_EMAIL: path(AIR_MARKETING_PAGE, '/reports/email-marketing'),
+  REPORTS_CAMPAIGNS: path(AIR_MARKETING_PAGE, '/reports/add-campaigns'),
   CAMPAIGNS: path(AIR_MARKETING_PAGE, '/campaigns'),
   SETTINGS: path(AIR_MARKETING_PAGE, '/settings'),
+  CREATE_TEMPLATE: path(AIR_MARKETING_PAGE, '/sms-marketing/create-template'),
+  VERIFY_EMAIL: path(AIR_MARKETING_PAGE, '/lead-capture/verify-email'),
+  CREATE_FORM: path(AIR_MARKETING_PAGE, '/lead-capture/create-form'),
+  ALL_TABLE: path(AIR_MARKETING_PAGE, '/lead-capture/forms'),
   SOCIAL_INBOX_SETTINGS: path(
     AIR_MARKETING_PAGE,
     '/social-marketing/social-inbox/settings',
@@ -126,10 +136,4 @@ export const AIR_OPERATION = {
   REPORTS: path(AIR_OPERATIONS_PAGE, '/reports'),
   ROLE_AND_RIGHT: path(AIR_OPERATIONS_PAGE, '/role-and-rights'),
   USER_MANAGEMENT: path(AIR_OPERATIONS_PAGE, '/user-management'),
-};
-
-export const airMarketerLeadCapture = {
-  VERIFY_EMAIL: '/air-marketer/lead-capture/verify-email',
-  CREATE_FORM: '/air-marketer/lead-capture/create-form',
-  ALL_TABLE: '/air-marketer/lead-capture/forms',
 };
