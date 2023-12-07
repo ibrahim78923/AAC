@@ -114,6 +114,7 @@ const CreateSMSBroadcast = () => {
                           </option>
                         ))}
                     </item.component>
+
                     {item?.componentProps?.name === 'recipients' && (
                       <Box sx={{ display: 'flex' }}>
                         <AvatarGroup

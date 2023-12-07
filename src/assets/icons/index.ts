@@ -332,6 +332,8 @@ export { default as SearchAdIcon } from './modules/paidAds/search-ad';
 export { default as BookMarkIcon } from './shared/book-mark-icon';
 export { default as ArrowSquareLeftIcon } from './shared/arrow-square-left';
 export { default as ArrowSquareRightIcon } from './shared/arrow-square-right';
+export { default as RevertIcon } from './shared/revert-icon';
+export { default as EditInputIcon } from './shared/edit-input-icon';
 
 export { default as FacebookSquareIcon } from './modules/paidAds/facebook-square';
 export { default as LinkedInSquareIcon } from './modules/paidAds/linkedin-square';
