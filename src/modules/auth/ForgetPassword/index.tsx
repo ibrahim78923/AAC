@@ -57,7 +57,7 @@ const ForgetPassword = () => {
               variant="h3"
               sx={{ color: theme?.palette?.grey[500_8], textAlign: 'center' }}
             >
-              Forget Password{' '}
+              Forget Passwords{' '}
             </Typography>
             {!isEmailSuccess && (
               <Typography

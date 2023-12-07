@@ -56,7 +56,7 @@ const Login = () => {
           <CompanyLogoIcon />
         </Box>
         <Box>
-          <Link href="/sign-up">SignUp</Link>
+          <Link href="/sign-up">Sign Up</Link>
         </Box>
       </Box>
       <Grid

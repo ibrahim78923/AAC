@@ -61,10 +61,16 @@ const SignUp = () => {
 
   const theme = useTheme();
 
-  const [showPassword, setShowPassword] = React.useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [ConfirmShowPassword, setShowConfirmPassword] = useState(false);
 
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
-
+  const handleClickShowPassword = (field: any) => {
+    if (field === 'Password') {
+      setShowPassword((show) => !show);
+    } else if (field === 'confirmPassword') {
+      setShowConfirmPassword((show) => !show);
+    }
+  };
   const handleMouseDownPassword = (
     event: React.MouseEvent<HTMLButtonElement>,
   ) => {
@@ -187,7 +193,7 @@ const SignUp = () => {
                         <Grid item xs={12}>
                           <RHFSelect
                             name="numberOfEmployees"
-                            label="No of Employees"
+                            label="Number of Employees"
                             size="small"
                           >
                             {noOfEmployee?.map((option: any) => (
@@ -261,7 +267,9 @@ const SignUp = () => {
                                 <InputAdornment position="end">
                                   <IconButton
                                     aria-label="toggle password visibility"
-                                    onClick={handleClickShowPassword}
+                                    onClick={() =>
+                                      handleClickShowPassword('Password')
+                                    }
                                     onMouseDown={handleMouseDownPassword}
                                   >
                                     {!showPassword ? (
@@ -282,16 +290,18 @@ const SignUp = () => {
                             label="Confirm password"
                             placeholder="Enter Password"
                             size="small"
-                            type={showPassword ? 'text' : 'password'}
+                            type={ConfirmShowPassword ? 'text' : 'password'}
                             InputProps={{
                               endAdornment: (
                                 <InputAdornment position="end">
                                   <IconButton
                                     aria-label="toggle password visibility"
-                                    onClick={handleClickShowPassword}
+                                    onClick={() =>
+                                      handleClickShowPassword('confirmPassword')
+                                    }
                                     onMouseDown={handleMouseDownPassword}
                                   >
-                                    {!showPassword ? (
+                                    {!ConfirmShowPassword ? (
                                       <EyeSlashIcon />
                                     ) : (
                                       <EyeIcon />
