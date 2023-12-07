@@ -18,4 +18,7 @@ export const styles = {
     borderTop: `1px solid ${theme.palette.grey[700]}`,
     my: '36px',
   }),
+  listItemText: (theme: any) => ({
+    color: theme.palette.custom.main,
+  }),
 };

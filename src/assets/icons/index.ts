@@ -310,3 +310,5 @@ export { default as ArrowSquareLeftIcon } from './shared/arrow-square-left';
 export { default as ArrowSquareRightIcon } from './shared/arrow-square-right';
 export { default as WhatsApp55Icon } from './modules/airMarketer/WhatsAppMarketing/whatsapp';
 export { default as TickListIcon } from './modules/airMarketer/WhatsAppMarketing/tick-list';
+export { default as CustomizeIcon } from './shared/customize-icon';
+export { default as ArrowDropDown } from './shared/customize-icon';

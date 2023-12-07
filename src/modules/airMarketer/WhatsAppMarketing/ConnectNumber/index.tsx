@@ -11,10 +11,22 @@ import {
 import { styles } from './ConnectNumber.style';
 import { TickListIcon, WhatsApp55Icon } from '@/assets/icons';
 import { listData } from './ConnectNumber.data';
+import useConnectNumber from './useConnectNumber';
+import AddRegNumber from './AddRegNumber';
+import OTPVerification from './OTPVerification';
 
-const ConnectNumber = () => {
+const ConnectNumber = ({ setIsNumberConnected }: any) => {
+  const {
+    openDialogRegNumber,
+    handleOpenDialogRegNumber,
+    handleCloseDialogRegNumber,
+    handleAddRegNumSubmit,
+    openDialogVerification,
+    handleCloseDialogVerification,
+    handleVerificationSubmit,
+  } = useConnectNumber();
   return (
-    <Box>
+    <>
       <Box sx={styles.header}>
         <Box sx={styles.icon}>
           <WhatsApp55Icon />
@@ -40,15 +52,34 @@ const ConnectNumber = () => {
               <ListItemIcon>
                 <TickListIcon />
               </ListItemIcon>
-              <ListItemText primary={item?.text} />
+              <ListItemText sx={styles.listItemText} primary={item?.text} />
             </ListItem>
           ))}
         </List>
-        <Button sx={{ mt: '10px' }} variant="contained">
+        <Button
+          sx={{ mt: '10px' }}
+          variant="contained"
+          onClick={handleOpenDialogRegNumber}
+        >
           Connect Your WhatsApp Account
         </Button>
       </Box>
-    </Box>
+
+      <AddRegNumber
+        open={openDialogRegNumber}
+        onClose={handleCloseDialogRegNumber}
+        onSubmit={handleAddRegNumSubmit}
+      />
+
+      <OTPVerification
+        open={openDialogVerification}
+        onClose={handleCloseDialogVerification}
+        onSubmit={() => {
+          handleVerificationSubmit();
+          setIsNumberConnected(true);
+        }}
+      />
+    </>
   );
 };
 
