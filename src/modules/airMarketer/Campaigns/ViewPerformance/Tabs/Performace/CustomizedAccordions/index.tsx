@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from 'react';
 import Typography from '@mui/material/Typography';
 import { accordionNames } from './CustomizedAccordian.data';
 import { v4 as uuidv4 } from 'uuid';
@@ -11,7 +12,7 @@ import {
 import useCustomizedAccordians from './useCustomizedAccordians';
 
 export default function CustomizedAccordions() {
-  const [expanded, setExpanded] = React.useState<any>(null);
+  const [expanded, setExpanded] = useState<any>(null);
 
   const handleChange =
     (panel: string) => (event: React.SyntheticEvent, newExpanded: boolean) => {

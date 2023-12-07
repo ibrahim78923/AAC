@@ -251,4 +251,5 @@ export const userAndTeams = [
 ];
 export const createFormOptions = {
   everyOne: 'Everyone',
+  accessDashboard: 'accessDashboard',
 };

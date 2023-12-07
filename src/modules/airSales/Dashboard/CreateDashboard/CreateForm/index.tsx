@@ -69,14 +69,15 @@ const CreateForm = ({ isShowEditDashboard }: any) => {
                   key={uuidv4()}
                   style={{ paddingTop: '10px' }}
                 >
-                  {item.componentProps.name === 'accessDashboard' ? (
+                  {item.componentProps.name ===
+                  createFormOptions?.accessDashboard ? (
                     <Box display="flex" justifyContent="space-between">
                       <Box>
                         <FormControl>
                           <Typography
                             variant="h6"
                             fontWeight={600}
-                            color="slateblue.main"
+                            color={theme?.palette?.slateBlue.main}
                           >
                             Who can access this dashboard?
                           </Typography>
@@ -86,12 +87,12 @@ const CreateForm = ({ isShowEditDashboard }: any) => {
                             name="access"
                           >
                             <FormControlLabel
-                              value="Private to owner (me)"
+                              value="PrivateToOwner"
                               control={<Radio />}
                               label="Private to owner (me)"
                             />
                             <FormControlLabel
-                              value="Everyone"
+                              value="everyOne"
                               control={<Radio />}
                               label="Everyone"
                             />
@@ -99,12 +100,12 @@ const CreateForm = ({ isShowEditDashboard }: any) => {
                               <FormControl sx={{ ml: 2 }} component="fieldset">
                                 <RadioGroup aria-label="child" name="child">
                                   <FormControlLabel
-                                    value="View and edit"
+                                    value="ViewAndEdit"
                                     control={<Radio />}
                                     label="View and edit"
                                   />
                                   <FormControlLabel
-                                    value="View only"
+                                    value="ViewOnly"
                                     control={<Radio />}
                                     label="View only"
                                   />
@@ -112,7 +113,7 @@ const CreateForm = ({ isShowEditDashboard }: any) => {
                               </FormControl>
                             )}
                             <FormControlLabel
-                              value="Only specific user and teams"
+                              value="OnlySpecificUserAndTeams"
                               control={<Radio />}
                               label="Only specific user and teams"
                             />
@@ -127,12 +128,12 @@ const CreateForm = ({ isShowEditDashboard }: any) => {
                     <>
                       <Typography
                         fontWeight={600}
-                        color="slateblue.main"
+                        color={theme?.palette?.slateBlue.main}
                         variant="h6"
                       >
                         {item.componentProps?.heading}
                       </Typography>
-                      <item.component {...item.componentProps} size="small" />
+                      <item.component {...item?.componentProps} size="small" />
                     </>
                   )}
                 </Grid>

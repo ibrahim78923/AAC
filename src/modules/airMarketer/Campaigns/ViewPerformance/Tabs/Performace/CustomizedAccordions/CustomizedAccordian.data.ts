@@ -10,7 +10,6 @@ export const dataAdCampaigns: any = [
   {
     id: 2,
     name: `Campaign Name`,
-
     contacts: 'Campaign Owner',
     clicks: 0,
     spent: 0,
