@@ -32,7 +32,7 @@ const Profile = () => {
         onSubmit={handleSubmit(onSubmit)}
       >
         <Grid container spacing={3}>
-          {editProfileDataArray?.map((item: any) => (
+          {editProfileDataArray()?.map((item: any) => (
             <Grid item xs={12} md={item?.md} key={uuidv4()}>
               {item?.componentProps?.heading && (
                 <Typography variant="h5">

@@ -36,7 +36,7 @@ const Security = () => {
   const theme = useTheme();
 
   const SwitchhandleChange = (e: any) => {
-    setIsChecked(e.target.checked);
+    setIsChecked(e?.target?.checked);
   };
 
   const profileSecurityForm = useForm({
@@ -45,7 +45,7 @@ const Security = () => {
   });
 
   const onSubmit = (values: any) => {
-    if (values.newPassword !== values.confirmPassword) {
+    if (values?.newPassword !== values?.confirmPassword) {
       setIsMatchPassword(true);
     } else {
       setIsMatchPassword(false);
