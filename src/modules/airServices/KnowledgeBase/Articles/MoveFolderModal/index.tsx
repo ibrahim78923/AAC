@@ -1,4 +1,4 @@
-import { Box, Button, Dialog, Grid, Typography } from '@mui/material';
+import { Box, Dialog, Grid, Typography } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
 import { LoadingButton } from '@mui/lab';
 import { FormProvider } from '@/components/ReactHookForm';
@@ -49,13 +49,13 @@ export const MoveFolderModal = ({
           </FormProvider>
         </Box>
         <Box display={'flex'} justifyContent={'flex-end'} gap={1} mt={2}>
-          <Button
+          <LoadingButton
             variant="outlined"
             color="secondary"
             onClick={() => setMoveFolderModal(false)}
           >
             Cancel
-          </Button>
+          </LoadingButton>
           <LoadingButton variant="contained" onClick={modalSubmitHandler}>
             Move
           </LoadingButton>

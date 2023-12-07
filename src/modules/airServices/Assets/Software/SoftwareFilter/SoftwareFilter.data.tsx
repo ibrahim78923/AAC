@@ -1,4 +1,4 @@
-import { RHFSelect } from '@/components/ReactHookForm';
+import { RHFAutocomplete } from '@/components/ReactHookForm';
 
 import * as Yup from 'yup';
 
@@ -27,17 +27,9 @@ export const dataArray = [
       label: 'Status',
       fullWidth: true,
       select: true,
+      options: ['Restricted', 'Ignored', 'Managed', 'disabled', 'InReview'],
     },
-
-    options: [
-      { value: 'Restricted', label: 'Restricted' },
-      { value: 'Ignored', label: 'Ignored' },
-      { value: 'Managed', label: 'Managed' },
-      { value: 'disabled', label: 'disabled' },
-      { value: 'InReview', label: 'In Review' },
-    ],
-
-    component: RHFSelect,
+    component: RHFAutocomplete,
     md: 12,
   },
   {
@@ -46,15 +38,9 @@ export const dataArray = [
       label: 'Type',
       fullWidth: true,
       select: true,
+      options: ['Desktop', 'SaaS', 'Mobile'],
     },
-
-    options: [
-      { value: 'Desktop', label: 'Desktop' },
-      { value: 'SaaS', label: 'SaaS' },
-      { value: 'Mobile', label: 'Mobile' },
-    ],
-
-    component: RHFSelect,
+    component: RHFAutocomplete,
     md: 12,
   },
 
@@ -65,8 +51,7 @@ export const dataArray = [
       fullWidth: true,
       select: false,
     },
-
-    component: RHFSelect,
+    component: RHFAutocomplete,
     md: 12,
   },
 
@@ -77,8 +62,7 @@ export const dataArray = [
       fullWidth: true,
       select: false,
     },
-
-    component: RHFSelect,
+    component: RHFAutocomplete,
     md: 12,
   },
 
@@ -88,18 +72,17 @@ export const dataArray = [
       label: 'Created Date',
       fullWidth: true,
       select: true,
+      placeholder: 'Select a time period',
+      options: [
+        'None',
+        'AllTime',
+        'Today',
+        'Yesterday',
+        'PreviousWeek',
+        'PreviousMonth',
+      ],
     },
-
-    options: [
-      { value: 'None', label: 'None' },
-      { value: 'AllTime', label: 'All Time' },
-      { value: 'Today', label: 'Today' },
-      { value: 'Yesterday', label: 'Yesterday' },
-      { value: 'PreviousWeek', label: 'Previous Week' },
-      { value: 'PreviousMonth', label: 'Previous Month' },
-    ],
-
-    component: RHFSelect,
+    component: RHFAutocomplete,
     md: 12,
   },
 
@@ -109,18 +92,17 @@ export const dataArray = [
       label: 'Updated Date',
       fullWidth: true,
       select: true,
+      placeholder: 'Select a time period',
+      options: [
+        'None',
+        'AllTime',
+        'Today',
+        'Yesterday',
+        'PreviousWeek',
+        'PreviousMonth',
+      ],
     },
-
-    options: [
-      { value: 'None', label: 'None' },
-      { value: 'AllTime', label: 'All Time' },
-      { value: 'Today', label: 'Today' },
-      { value: 'Yesterday', label: 'Yesterday' },
-      { value: 'PreviousWeek', label: 'Previous Week' },
-      { value: 'PreviousMonth', label: 'Previous Month' },
-    ],
-
-    component: RHFSelect,
+    component: RHFAutocomplete,
     md: 12,
   },
 ];

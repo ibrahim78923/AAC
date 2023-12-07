@@ -75,9 +75,7 @@ export default function RHFDropZone({ name }: any) {
         )}
       </Box>
       {!!errors[name] && !!!getValues(name)?.name && (
-        <Typography variant="body2" color="error">
-          {errors[name]?.message}
-        </Typography>
+        <Typography color="error">{errors[name]?.message}</Typography>
       )}
     </>
   );

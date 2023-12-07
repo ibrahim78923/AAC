@@ -10,7 +10,7 @@ const ConversationMenu = ({
   addConversation,
   handleCloseButtonMenu,
   setSelectedItem,
-}) => {
+}: any) => {
   return (
     <>
       <Button
@@ -23,7 +23,7 @@ const ConversationMenu = ({
         onClick={handleClickButtonMenu}
         sx={{ marginLeft: 'auto' }}
       >
-        Add Conversation
+        Add
       </Button>
       <Menu
         id="conversation-menu"

@@ -12,15 +12,6 @@ export const styles: any = {
     };
   },
 
-  iconKabaMenuStyle: {
-    width: '32px',
-    height: '32px',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    margin: '4px',
-  },
-
   iconBoxTimerStyling: {
     width: '80px',
     height: '32px',
@@ -49,14 +40,12 @@ export const styles: any = {
       borderRadius: '8px',
     };
   },
-  timeEnterSecGride: (theme: any) => {
+  timeEnterSecGride: () => {
     return {
       justifyContent: 'space-between',
       display: 'flex',
       flexDirection: 'row',
       maxWidth: '100%',
-      border: `2px solid ${theme?.palette?.custom?.dark}`,
-      borderRadius: '8px',
     };
   },
   timeEnterInnerGrid: {
@@ -92,14 +81,9 @@ export const styles: any = {
     m: '4px',
     flexDirection: 'column',
   },
-  timeEnterInnerTypogrph: {
+  timeEnterInnerTypography: {
     ml: '4rem',
     justifyContent: 'end',
     display: 'flex',
-  },
-  timeEnterInnerLastGrid: {
-    display: 'flex',
-    justifyContent: 'end',
-    mt: '2rem',
   },
 };

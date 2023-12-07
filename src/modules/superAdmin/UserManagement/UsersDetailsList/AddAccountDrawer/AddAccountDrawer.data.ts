@@ -6,9 +6,10 @@ export const AddAccountArray = () => {
   const { products, organizations } = useUserManagement();
   return [
     {
-      title: 'Products',
       componentProps: {
+        label: 'Products',
         name: 'products',
+        required: true,
         fullWidth: true,
         select: true,
       },
@@ -20,10 +21,11 @@ export const AddAccountArray = () => {
       md: 12,
     },
     {
-      title: 'Company',
       componentProps: {
+        label: 'Company',
         name: 'company',
         fullWidth: true,
+        required: true,
         select: true,
       },
       options: organizations?.data?.map((item: any) => ({
@@ -34,9 +36,10 @@ export const AddAccountArray = () => {
       md: 12,
     },
     {
-      title: 'Manage Role',
       componentProps: {
+        label: 'Manage Role',
         name: 'manageRole',
+        required: true,
         fullWidth: true,
         select: true,
       },
@@ -49,8 +52,9 @@ export const AddAccountArray = () => {
       md: 6,
     },
     {
-      title: 'Status',
       componentProps: {
+        label: 'Status',
+        required: true,
         name: 'status',
         fullWidth: true,
         select: true,

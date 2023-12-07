@@ -1,9 +1,9 @@
-import ServicesCatalogHardware from './ServiceCatalogHardware';
+import Services from './Services';
 
 export const ServicesCatalog = () => {
   return (
     <>
-      <ServicesCatalogHardware />
+      <Services />
     </>
   );
 };

@@ -1,4 +1,4 @@
-import { Button, Menu, MenuItem, Fade, useTheme } from '@mui/material';
+import { Button, Menu, MenuItem, Fade } from '@mui/material';
 import { ArrowDropDown } from '@mui/icons-material';
 import EmailDashboard from '../Email';
 import useActionsOptions from './useActionsOptions';
@@ -14,16 +14,16 @@ const ActionsOptions = ({ setIsShowEditDashboard }: any) => {
     openDropDown,
     handleShowEmailDashboard,
   } = useActionsOptions();
-  const theme = useTheme();
+
   return (
     <>
       <div>
         <Button
           onClick={handleClickActions}
           className="small"
+          variant="outlined"
+          color="inherit"
           sx={{
-            border: `1px solid ${theme?.palette?.custom?.dark}`,
-            color: theme?.palette?.custom?.main,
             width: '112px',
 
             marginRight: '10px',

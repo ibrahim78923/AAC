@@ -49,6 +49,7 @@ export const upsertSoftwareFormFields = [
     componentProps: {
       name: 'description',
       label: 'Description',
+      placeholder: 'Enter Description',
       fullWidth: true,
       multiline: true,
       minRows: 3,
