@@ -93,7 +93,6 @@ const AdsCampaigns = () => {
                     color: theme?.palette?.custom?.steel_blue_alpha,
                     fontWeight: 500,
                   }}
-                  color="text.secondary"
                   gutterBottom
                 >
                   {item?.reportView}
@@ -105,7 +104,6 @@ const AdsCampaigns = () => {
                     color: theme?.palette?.custom?.turquoise_Blue,
                     fontWeight: 600,
                   }}
-                  color="text.secondary"
                 >
                   {item?.Values}
                 </Typography>

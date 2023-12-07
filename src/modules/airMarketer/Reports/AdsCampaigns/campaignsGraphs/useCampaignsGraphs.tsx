@@ -40,7 +40,7 @@ const useCampaignsGraphs = () => {
         return (
           val +
           ' - ' +
-          opts.w.globals.series[opts.seriesIndex][opts.dataPointIndex] +
+          opts?.w?.globals?.series[opts?.seriesIndex][opts?.dataPointIndex] +
           ''
         );
       },

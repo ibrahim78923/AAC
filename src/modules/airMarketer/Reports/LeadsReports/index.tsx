@@ -13,7 +13,6 @@ import { ArrowBack } from '@mui/icons-material';
 
 import Search from '@/components/Search';
 import TanstackTable from '@/components/Table/TanstackTable';
-import CustomPagination from '@/components/CustomPagination';
 import SwitchableDatepicker from '@/components/SwitchableDatepicker';
 import { usersData, usersColumns, CTAReport } from './reports.data';
 import InvoicesAnalystGraph from './InvoicesAnalystGraph';
@@ -116,7 +115,6 @@ const LeadaReports = () => {
                 >
                   <Typography
                     sx={{ color: theme?.palette?.custom?.steel_blue_alpha }}
-                    color="text.secondary"
                     variant="h6"
                     gutterBottom
                   >
@@ -128,7 +126,6 @@ const LeadaReports = () => {
                       color: theme?.palette?.custom?.turquoise_Blue,
                       mb: 1.5,
                     }}
-                    color="text.secondary"
                   >
                     {item?.Values}
                   </Typography>
@@ -158,11 +155,13 @@ const LeadaReports = () => {
           />
         </Box>
         <Box>
-          <TanstackTable columns={usersColumns} data={usersData()} />
-          <CustomPagination
-            count={1}
-            rowsPerPageOptions={[1, 2]}
-            entriePages={1}
+          <TanstackTable
+            columns={usersColumns}
+            data={usersData()}
+            isPagination
+            count={10}
+            totalRecords={10}
+            setPageLimit={10}
           />
         </Box>
       </Card>

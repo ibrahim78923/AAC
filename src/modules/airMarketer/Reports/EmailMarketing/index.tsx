@@ -82,7 +82,6 @@ const EmailMarketing = () => {
                     color: theme?.palette?.custom?.steel_blue_alpha,
                     fontWeight: 500,
                   }}
-                  color="text.secondary"
                   gutterBottom
                 >
                   {item?.reportView}
@@ -94,7 +93,6 @@ const EmailMarketing = () => {
                     color: theme?.palette?.custom?.turquoise_Blue,
                     fontWeight: 600,
                   }}
-                  color="text.secondary"
                 >
                   {item?.Values}
                 </Typography>
@@ -117,7 +115,6 @@ const EmailMarketing = () => {
                         color: theme?.palette?.custom?.steel_blue_alpha,
                         fontWeight: 600,
                       }}
-                      color="text.secondary"
                       gutterBottom
                     >
                       {item?.heading}
@@ -131,7 +128,6 @@ const EmailMarketing = () => {
                         color: theme?.palette?.custom?.turquoise_Blue,
                         fontWeight: 600,
                       }}
-                      color="text.secondary"
                     >
                       <Typography variant="h4" sx={{ textAlign: 'end' }}>
                         {' '}
