@@ -11,19 +11,24 @@ export const MarketingWorkflow: any = () => {
     search,
     setSearch,
     marketingWorkflowActionDropdown,
+    handleBack,
+    handleCreateWorkflow,
   } = useMarketingWorkflow();
   return (
     <>
       <PageTitledHeader
         title={'Marketing Workflow'}
         addTitle={'Create Workflow'}
+        canMovedBack
+        moveBack={handleBack}
+        handleAction={handleCreateWorkflow}
       />
       <br />
       <MarketingWorkflowSubHeader
         disabledActionButton={!!!selectedMarketingWorkflowLists?.length}
         search={search}
         setSearch={setSearch}
-        salesWorkflowActionDropdown={marketingWorkflowActionDropdown}
+        marketingWorkflowActionDropdown={marketingWorkflowActionDropdown}
       />
       <br />
       <TanstackTable

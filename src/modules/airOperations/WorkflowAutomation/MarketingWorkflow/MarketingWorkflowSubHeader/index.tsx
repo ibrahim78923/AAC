@@ -20,12 +20,7 @@ export const MarketingWorkflowSubHeader = (props: any) => {
         justifyContent={'space-between'}
         flexWrap={'wrap'}
       >
-        <Search
-          label="search"
-          width="100%"
-          searchBy={search}
-          setSearchBy={setSearch}
-        />
+        <Search label="Search Here" searchBy={search} setSearchBy={setSearch} />
         <Box
           display={'flex'}
           justifyContent={'space-between'}

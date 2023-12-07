@@ -102,4 +102,5 @@ export const AIR_OPERATIONS = {
   SALES_WORKFLOW: `/air-operations/workflow-automation/sales-workflow`,
   SERVICES_WORKFLOW: `/air-operations/workflow-automation/services-workflow`,
   MARKETING_WORKFLOW: `/air-operations/workflow-automation/marketing-workflow`,
+  UPSERT_MARKETING_WORKFLOW: `/air-operations/workflow-automation/marketing-workflow/upsert-marketing-workflow`,
 };
