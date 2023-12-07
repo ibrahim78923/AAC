@@ -22,29 +22,34 @@ export const RecentActivitiesDashboardCard = ({
             />
           </Box>
           <Box>
-            <Typography color={'grey?.[600]'} variant="body3">
+            <Typography color={'grey.[600]'} variant="body3">
               <Typography
-                style={styles?.recentActivitiesTextBoldWord(theme)}
                 component="span"
+                color="custom.bright"
+                variant="subtitle2"
               >
                 John Doe
               </Typography>
               {recentActivity}
               <Typography
-                style={styles?.recentActivitiesTextBoldWord(theme)}
                 component="span"
+                color="custom.bright"
+                variant="subtitle2"
               >
                 {' '}
                 Mark Dyson
               </Typography>
             </Typography>
-            <br />
-            <Typography variant="body3" color={'grey?.[800]'}>
+            <Typography
+              variant="body3"
+              component={'p'}
+              color={'grey.[800]'}
+              fontWeight={700}
+            >
               {recentActivityRequest}
             </Typography>
-            <br />
-            <Typography color={'grey?.[600]'} variant="body3">
-              {dayjs(new Date()).format('ddd, MMM D, YYYY, h:mm A')}
+            <Typography color={'grey?.[600]'} component={'p'} variant="body3">
+              {dayjs(new Date())?.format('ddd, MMM D, YYYY, h:mm A')}
             </Typography>
           </Box>
         </Box>
