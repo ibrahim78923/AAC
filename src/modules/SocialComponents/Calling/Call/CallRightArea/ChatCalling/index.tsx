@@ -6,7 +6,7 @@ import { Box, TextField, Typography, useTheme } from '@mui/material';
 
 import UserDetailCard from '../../UserDetailCard';
 
-import { SendIconLifted } from '@/assets/icons';
+import { SendLiftedIcon } from '@/assets/icons';
 
 import { styles } from './ChatCalling.style';
 
@@ -78,7 +78,7 @@ const ChatCalling = ({
       <Box sx={styles?.chatFooter}>
         <Box sx={styles?.chatFooterInset}>
           <TextField placeholder="Write message" sx={styles?.chatTextarea} />
-          <SendIconLifted />
+          <SendLiftedIcon />
         </Box>
       </Box>
     </Box>

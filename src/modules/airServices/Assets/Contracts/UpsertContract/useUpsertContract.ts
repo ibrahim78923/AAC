@@ -7,7 +7,7 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { enqueueSnackbar } from 'notistack';
 import { AIR_SERVICES } from '@/constants';
 
@@ -43,11 +43,9 @@ export const useUpsertContract = () => {
   };
 
   // TODO: we will use it in BE integration
-  // useEffect(() => {
-  //   reset(() =>
-  //     upsertContractFormDefaultValuesFunction(contractType),
-  //   );
-  // }, [contractType,  reset]);
+  useEffect(() => {
+    reset(upsertContractFormDefaultValuesFunction(contractType));
+  }, [contractType, reset]);
 
   const submitUpsertContractForm = () => {
     enqueueSnackbar('Contract Created Successfully', {

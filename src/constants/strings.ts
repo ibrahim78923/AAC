@@ -243,3 +243,12 @@ export const REQUESTORS_ASSIGNED_STATUS = {
   CLOSED: 'Closed',
   RESOLVED: 'Resolved',
 };
+
+export const CANNED_RESPONSES = {
+  AVAILABLE_FOR: 'availableFor',
+  DELETE: 'delete',
+  EDIT: 'edit',
+  MOVE: 'move',
+  SELECT_AGENTS: 'selectAgents',
+  AGENTS: 'agents',
+};

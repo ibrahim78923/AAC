@@ -103,6 +103,21 @@ const CUSTOM_COLORS = {
   dim_grey: '#555656',
   dim_blue: '#6E7191',
   text_slate_blue: '#405893',
+  cadet_color: '#A5ACBE',
+  dark_grey: '#8F98AE ',
+  pale_blue_light: '#AFEAE1',
+  hawkes_blue: '#D2D6DF',
+  blue_crayola: '#1877F2',
+  white_smoke: '#f3f3f3',
+};
+const GRAPH = {
+  cyan: 'blue',
+  Tropical_Rain_Forest: '#0AADC7',
+  published: '#ECFDF3',
+  published_not_bg: '#FFF6DD',
+  published_not_color: '#F2B500',
+  Trash_bg: '#D2D6DF',
+  slate_gray: '#EDEDED',
 };
 const GRADIENTS = {
   primary: createGradient(PRIMARY?.light, PRIMARY?.main),
@@ -122,6 +137,7 @@ const COMMON = {
   info: { ...INFO, contrastText: GREY[800] },
   custom: { ...CUSTOM_COLORS, contrastText: GREY[800] },
   slateBlue: { ...SLATE_BLUE, contrastText: GREY[800] },
+  graph: { ...GRAPH, contrastText: '#fff' },
   grey: GREY,
   gradients: GRADIENTS,
 
@@ -164,11 +180,13 @@ declare module '@mui/material/styles' {
     custom: any;
     blue: any;
     slateBlue: any;
+    graph?: any;
   }
 
   interface PaletteOptions {
     custom?: any;
     blue?: any;
     slateBlue?: any;
+    graph?: any;
   }
 }

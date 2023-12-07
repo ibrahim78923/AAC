@@ -28,7 +28,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { useForm } from 'react-hook-form';
 
 import useCreateForm from './useCreateForm';
-import { PrimaryPreviewEyeIcon } from '@/assets/icons';
+import { EyeIcon } from '@/assets/icons';
 import DialogCards from '../../Preview/DialogCards';
 import DetailsView from '../DetailsView';
 
@@ -89,7 +89,7 @@ const CreateForm = ({
                     </Grid>
                   )}
 
-                  {item.componentProps.name === 'accessDashboard' ? (
+                  {item?.componentProps?.name === 'accessDashboard' ? (
                     <Box>
                       <item.component {...item.componentProps} size="small">
                         {item?.componentProps?.select &&
@@ -130,7 +130,7 @@ const CreateForm = ({
                   <Button
                     variant="outlined"
                     onClick={() => setIsOpenPreview(true)}
-                    startIcon={<PrimaryPreviewEyeIcon />}
+                    startIcon={<EyeIcon />}
                   >
                     Preview Dashboard
                   </Button>

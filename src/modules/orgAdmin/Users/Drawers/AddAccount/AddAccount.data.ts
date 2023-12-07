@@ -3,11 +3,12 @@ import { RHFSelect } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 export const AddAccountArray = [
   {
-    title: 'Products',
     componentProps: {
+      label: 'Products',
       name: 'products',
       fullWidth: true,
       select: true,
+      required: true,
     },
     options: [
       { value: 'airMarketer', label: 'Air Marketer' },
@@ -19,11 +20,12 @@ export const AddAccountArray = [
     md: 12,
   },
   {
-    title: 'Company',
     componentProps: {
+      label: 'Company',
       name: 'company',
       fullWidth: true,
       select: true,
+      required: true,
     },
     options: [
       { value: 'abc.pvt.ltd', label: 'ABC.pvt.ltd' },
@@ -35,11 +37,12 @@ export const AddAccountArray = [
     md: 12,
   },
   {
-    title: 'Manage Role',
     componentProps: {
+      label: 'Manage Role',
       name: 'manageRole',
       fullWidth: true,
       select: true,
+      required: true,
     },
     options: [
       { value: 'accountAdmin', label: 'Account Admin' },
@@ -50,11 +53,12 @@ export const AddAccountArray = [
     md: 6,
   },
   {
-    title: 'Status',
     componentProps: {
+      label: 'Status',
       name: 'status',
       fullWidth: true,
       select: true,
+      required: true,
     },
     options: [
       { value: 'active', label: 'Active' },

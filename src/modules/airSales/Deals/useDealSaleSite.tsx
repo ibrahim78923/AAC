@@ -29,6 +29,7 @@ const useDealSaleSite = () => {
   };
 
   const handleChange = () => setIsOpen(!isOpen);
+
   const handleDealCustomize = () => setIsDealCustomize(!isDealCustomize);
 
   const handleSMD = () => {

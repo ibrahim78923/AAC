@@ -17,4 +17,5 @@ export interface CommonTabsPropsI {
   getTabVal?: ({}: number) => void;
   addIcon?: boolean;
   onAddClick?: () => void;
+  activeTab?: number;
 }

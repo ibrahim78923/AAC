@@ -51,7 +51,7 @@ const AddAccount = (props: any) => {
     >
       <Box mt={1}>
         <FormProvider methods={methods}>
-          <Grid container spacing={2}>
+          <Grid container spacing={1}>
             {AddAccountArray?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={uuidv4()}>
                 <Typography variant="body2" fontWeight={500}>
