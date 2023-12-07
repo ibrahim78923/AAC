@@ -1,5 +1,3 @@
-import React from 'react';
-
 import TanstackTable from '@/components/Table/TanstackTable';
 
 import { companyColumns, companyData } from './Accounts.data';

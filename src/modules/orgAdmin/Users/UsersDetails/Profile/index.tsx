@@ -93,7 +93,6 @@ const UserDetailsProfile = () => {
                     ))}
                 </item.component>
               )}
-
               {isToggled && item?.toShow?.includes('address') && (
                 <item.component {...item.componentProps} size={'small'}>
                   {item?.componentProps?.select &&

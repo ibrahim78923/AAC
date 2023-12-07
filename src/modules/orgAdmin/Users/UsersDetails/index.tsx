@@ -27,7 +27,12 @@ const UsersDetails = () => {
     <Box>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <ProfileCard isBadge={false} />
+          <ProfileCard
+            isBadge={false}
+            handleEditProfile={() => {
+              setTabVal(1);
+            }}
+          />
         </Grid>
         <Grid item xs={12}>
           <Box
@@ -40,6 +45,7 @@ const UsersDetails = () => {
             <Card sx={{ padding: '0px 24px' }}>
               <CommonTabs
                 isHeader={tabValue === 0 ? true : false}
+                activeTab={tabValue}
                 getTabVal={(val: number) => setTabVal(val)}
                 tabsArray={['Accounts', 'Profile']}
                 searchBarProps={{ label: 'Search Here' }}
