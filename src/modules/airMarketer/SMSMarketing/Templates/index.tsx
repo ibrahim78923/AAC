@@ -3,7 +3,6 @@ import React from 'react';
 import { Box, Button, Grid } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import TanstackTable from '@/components/Table/TanstackTable';
-import CustomPagination from '@/components/CustomPagination';
 import Search from '@/components/Search';
 import { AlertModals } from '@/components/AlertModals';
 
@@ -16,7 +15,6 @@ import { AIR_MARKETER } from '@/routesConstants/paths';
 
 const Templates = () => {
   const {
-    router,
     productSearch,
     setproductSearch,
     theme,
@@ -24,6 +22,7 @@ const Templates = () => {
     isOpenAlert,
     handleCloseAlert,
     deleteTemplete,
+    navigate,
   } = useTemplates();
 
   return (
@@ -32,7 +31,7 @@ const Templates = () => {
         sx={{
           border: `1px solid ${theme?.palette?.grey[700]}`,
           padding: '1rem',
-          boxShadow: '0px 1px 2px 0px #1018280F',
+          boxShadow: `0px 1px 2px 0px ${theme?.palette?.custom?.dark_shade_green}`,
           borderRadius: '8px',
         }}
       >
@@ -62,7 +61,10 @@ const Templates = () => {
             sx={styles?.createBtn}
             className="small"
             onClick={() => {
-              router.push(AIR_MARKETER.CREATE_TEMPLATE);
+              navigate.push({
+                pathname: AIR_MARKETER?.CREATE_TEMPLATE,
+                query: { type: 'Create' },
+              });
             }}
           >
             <AddCircleIcon
@@ -76,11 +78,10 @@ const Templates = () => {
         </Box>
 
         <Grid>
-          <TanstackTable columns={getRowValues} data={TemplatesTableData} />
-          <CustomPagination
-            count={1}
-            rowsPerPageOptions={[1, 2]}
-            entriePages={1}
+          <TanstackTable
+            columns={getRowValues}
+            data={TemplatesTableData}
+            isPagination
           />
         </Grid>
 

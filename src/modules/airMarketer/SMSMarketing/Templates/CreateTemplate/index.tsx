@@ -22,6 +22,8 @@ const CreateTemplate = () => {
     TemplateName,
     Category,
     Details,
+    type,
+    theme,
   } = useCreateTemplate();
 
   return (
@@ -34,7 +36,7 @@ const CreateTemplate = () => {
           >
             <ArrowBackIcon />
           </Box>
-          <Typography variant="h4">Create Post</Typography>
+          <Typography variant="h4">{type} Post</Typography>
         </Box>
 
         <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
@@ -63,7 +65,7 @@ const CreateTemplate = () => {
           </Grid>
         </FormProvider>
       </Grid>
-      <Grid item xs={12} lg={6}>
+      <Grid item xs={12} lg={6} sx={{ position: 'relative' }}>
         <Box sx={{ marginTop: '40px' }}>
           <Typography variant="h4">Preview</Typography>
           <Typography variant="body2">
@@ -82,7 +84,10 @@ const CreateTemplate = () => {
                 <Box>
                   <Skeleton
                     variant="rounded"
-                    sx={{ marginY: '15px', bgcolor: '#EBECF1' }}
+                    sx={{
+                      marginY: '15px',
+                      bgcolor: theme?.palette?.custom?.off_white_three,
+                    }}
                     width={94}
                     height={10}
                   />
@@ -94,19 +99,28 @@ const CreateTemplate = () => {
               <>
                 <Skeleton
                   variant="rounded"
-                  sx={{ marginTop: '20px', bgcolor: '#EBECF1' }}
+                  sx={{
+                    marginTop: '20px',
+                    bgcolor: theme?.palette?.custom?.off_white_three,
+                  }}
                   width={443}
                   height={10}
                 />
                 <Skeleton
                   variant="rounded"
-                  sx={{ marginTop: '10px', bgcolor: '#EBECF1' }}
+                  sx={{
+                    marginTop: '10px',
+                    bgcolor: theme?.palette?.custom?.off_white_three,
+                  }}
                   width={348}
                   height={10}
                 />
                 <Skeleton
                   variant="rounded"
-                  sx={{ marginTop: '10px', bgcolor: '#EBECF1' }}
+                  sx={{
+                    marginTop: '10px',
+                    bgcolor: theme?.palette?.custom?.off_white_three,
+                  }}
                   width={280}
                   height={10}
                 />
@@ -118,7 +132,7 @@ const CreateTemplate = () => {
                 maxRows={10}
                 style={{
                   width: '100%',
-                  border: '1px solid #E5E7EB',
+                  border: `1px solid ${theme?.palette?.grey?.[700]}`,
                   padding: '15px',
                   borderRadius: '8px',
                 }}
@@ -126,16 +140,26 @@ const CreateTemplate = () => {
             )}
           </Box>
 
-          <Box sx={{ display: 'flex', justifyContent: 'end', marginY: '20px' }}>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'end',
+              marginY: '20px',
+              position: 'absolute',
+              bottom: '0',
+              right: '40px',
+            }}
+          >
             <Button
               className="small"
               variant="outlined"
               sx={{
                 marginLeft: '10px',
                 backgroundColor: 'white',
-                border: '1px solid #D1D5DB',
-                color: '#6B7280',
+                border: `1px solid ${theme?.palette?.custom?.dark}`,
+                color: theme?.palette?.custom?.main,
               }}
+              onClick={() => router?.back()}
             >
               Cancel
             </Button>

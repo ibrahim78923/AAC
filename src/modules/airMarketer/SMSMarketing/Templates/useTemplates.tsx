@@ -8,8 +8,7 @@ import { useRouter } from 'next/router';
 const useTemplatese = () => {
   const [productSearch, setproductSearch] = useState<string>('');
   const [isOpenAlert, setIsOpenAlert] = useState(false);
-
-  const router = useRouter();
+  const navigate = useRouter();
   const theme = useTheme<Theme>();
   const deleteTemplete = async () => {
     setIsOpenAlert(false);
@@ -19,10 +18,9 @@ const useTemplatese = () => {
     setIsOpenAlert(false);
   };
 
-  const getRowValues = columns(setIsOpenAlert, router);
+  const getRowValues = columns(setIsOpenAlert, navigate, theme);
 
   return {
-    router,
     productSearch,
     setproductSearch,
     theme,
@@ -30,6 +28,7 @@ const useTemplatese = () => {
     isOpenAlert,
     handleCloseAlert,
     deleteTemplete,
+    navigate,
   };
 };
 

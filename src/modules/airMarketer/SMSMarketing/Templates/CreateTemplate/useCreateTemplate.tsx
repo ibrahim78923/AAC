@@ -2,10 +2,13 @@ import { useRouter } from 'next/router';
 import { defaultValues, validationSchema } from './CreateTemplate.data';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
+import { useTheme } from '@mui/material';
 
 const useCreateTemplate = () => {
   const router = useRouter();
-
+  const navigate = useRouter();
+  const { type } = navigate.query;
+  const theme = useTheme();
   const methods: any = useForm({
     resolver: yupResolver(validationSchema),
     defaultValues: defaultValues,
@@ -27,6 +30,8 @@ const useCreateTemplate = () => {
     TemplateName,
     Category,
     Details,
+    type,
+    theme,
   };
 };
 

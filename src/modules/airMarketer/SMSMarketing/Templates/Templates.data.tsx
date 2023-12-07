@@ -34,7 +34,7 @@ export const TemplatesTableData: any = [
   },
 ];
 
-export const columns = (setIsOpenAlert: any, router: any) => {
+export const columns = (setIsOpenAlert: any, navigate: any, theme: any) => {
   return [
     {
       accessorFn: (row: any) => row?.name,
@@ -74,12 +74,15 @@ export const columns = (setIsOpenAlert: any, router: any) => {
           <Box
             sx={{
               cursor: 'pointer',
-              background: '#F3F4F6',
+              background: theme?.palette?.grey?.[400],
               padding: '5px',
               borderRadius: '50%',
             }}
             onClick={() => {
-              router.push(AIR_MARKETER.CREATE_TEMPLATE);
+              navigate.push({
+                pathname: AIR_MARKETER?.CREATE_TEMPLATE,
+                query: { type: 'Edit' },
+              });
             }}
           >
             <EditBlackIcon />
@@ -87,7 +90,7 @@ export const columns = (setIsOpenAlert: any, router: any) => {
           <Box
             sx={{
               cursor: 'pointer',
-              background: '#F3F4F6',
+              background: theme?.palette?.grey?.[400],
               padding: '5px',
               borderRadius: '50%',
             }}
