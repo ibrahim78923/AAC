@@ -137,3 +137,6 @@ export const AIR_OPERATION = {
   ROLE_AND_RIGHT: path(AIR_OPERATIONS_PAGE, '/role-and-rights'),
   USER_MANAGEMENT: path(AIR_OPERATIONS_PAGE, '/user-management'),
 };
+export const ORG_ADMIN = {
+  DASHBOARD_EDIT_PROFILE: '/org-admin/dashboard/edit-profile',
+};
