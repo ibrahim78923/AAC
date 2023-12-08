@@ -23,16 +23,16 @@ export const createAnnouncementDashboardValidationSchema: any =
   });
 
 export const createAnnouncementDashboardDefaultValues: any = {
-  title: 'Enter a  Project name', //01
-  description: '', //2
-  scheduleMeeting: '', //3
-  startDate: new Date(), //4
-  endDate: new Date(), //5
-  managedBy: '', //6
-  visibility: '', //7
-  notifyMember: '', //8
-  emailRecipients: 'Enter Value', //9
-  addMember: 'Search agents and requesters', //10
+  title: '',
+  description: '',
+  scheduleMeeting: '',
+  startDate: new Date(),
+  endDate: new Date(),
+  managedBy: '',
+  visibility: '',
+  notifyMember: '',
+  emailRecipients: '',
+  addMember: '',
 };
 
 const managedBy = [{ value: 'James Harry', label: 'James Harry' }];
@@ -50,6 +50,7 @@ export const createAnnouncementDashboardDataArray = [
       label: 'Title',
       fullWidth: true,
       required: true,
+      placeholder: 'Enter a project name',
     },
     component: RHFTextField,
     md: 12,
@@ -61,6 +62,7 @@ export const createAnnouncementDashboardDataArray = [
       label: 'Description',
       fullWidth: true,
       required: false,
+      style: { height: '200px' },
     },
     component: RHFEditor,
     md: 12,
@@ -103,6 +105,7 @@ export const createAnnouncementDashboardDataArray = [
       fullWidth: true,
       select: true,
       required: true,
+      placeholder: 'James Harry',
     },
     options: managedBy,
     component: RHFSelect,
@@ -137,6 +140,7 @@ export const createAnnouncementDashboardDataArray = [
       name: 'emailRecipients',
       label: 'Additional Email recipients',
       fullWidth: true,
+      placeholder: 'Enter Value',
     },
     component: RHFTextField,
     md: 12,
@@ -147,6 +151,7 @@ export const createAnnouncementDashboardDataArray = [
       name: 'addMember',
       label: 'Add Members',
       fullWidth: true,
+      placeholder: 'Search agents and requesters',
     },
     component: RHFTextField,
     md: 12,
