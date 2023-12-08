@@ -3,8 +3,10 @@ import { settingTabsOptions } from './Settings.data';
 import CommonModal from '@/components/CommonModal';
 import Search from '@/components/Search';
 import { v4 as uuidv4 } from 'uuid';
+import useSettings from './useSettings';
 
 const Settings = ({ closeAddAssets, isOpenAddAssets }: any) => {
+  const { accordianTableInfo, SelectedAccordianTable } = useSettings();
   return (
     <CommonModal
       title="Add Assets"
@@ -15,7 +17,12 @@ const Settings = ({ closeAddAssets, isOpenAddAssets }: any) => {
         <Grid item lg={3}>
           <Typography variant="h4">Settings</Typography>
           {settingTabsOptions?.map((settingTabsOptionsNames) => (
-            <Typography key={uuidv4()} pt={3} style={{ cursor: 'pointer' }}>
+            <Typography
+              onClick={() => SelectedAccordianTable(settingTabsOptionsNames)}
+              key={uuidv4()}
+              pt={3}
+              style={{ cursor: 'pointer' }}
+            >
               {settingTabsOptionsNames?.name}
             </Typography>
           ))}
@@ -24,6 +31,7 @@ const Settings = ({ closeAddAssets, isOpenAddAssets }: any) => {
           <Box>
             <Search width={260} label="Search Here" />
           </Box>
+          {accordianTableInfo}
         </Grid>
       </Grid>
     </CommonModal>

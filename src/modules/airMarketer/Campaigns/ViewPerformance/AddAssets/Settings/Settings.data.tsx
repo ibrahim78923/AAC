@@ -20,3 +20,10 @@ export const settingTabsOptions = [
     name: 'Social Posts',
   },
 ];
+export const assetsTabInfo = {
+  adCampaign: 'Ad campaigns',
+  cta: 'CTAS',
+  email: 'Emails',
+  forms: 'Forms',
+  socailPosts: 'Social Posts',
+};
