@@ -1,12 +1,8 @@
 import { Box, Button, Menu, MenuItem } from '@mui/material';
-
 import { ArrowDropDown } from '@mui/icons-material';
-
 import { actionsOptions } from './NewFolderActions.data';
-
 import { AlertModals } from '@/components/AlertModals';
 import { AlertModalDeleteIcon } from '@/assets/icons';
-
 import { v4 as uuidv4 } from 'uuid';
 import useNewFolderActions from './useNewFolderActions';
 

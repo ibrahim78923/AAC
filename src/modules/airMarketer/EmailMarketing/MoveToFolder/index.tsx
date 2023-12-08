@@ -1,9 +1,7 @@
 import * as React from 'react';
 
 import { Grid, Box, Button, Typography, Modal, useTheme } from '@mui/material';
-
 import { FormProvider } from '@/components/ReactHookForm';
-
 import { enqueueSnackbar } from 'notistack';
 import {
   dataArrayMoveToFolder,
@@ -11,7 +9,6 @@ import {
   validationSchemaMoveToFolder,
 } from './MoveToFolder.data';
 import { styles } from './MoveToFolder.style';
-
 import { yupResolver } from '@hookform/resolvers/yup';
 import CloseIcon from '@/assets/icons/shared/close-icon';
 import { useForm } from 'react-hook-form';

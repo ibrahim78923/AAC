@@ -24,11 +24,7 @@ const useNewFolderActions = () => {
       case folderOptions?.DELETE:
         setActionsModalDetails({ ...actionsModalDetails, isDelete: true });
         break;
-
-      default:
-        break;
     }
-
     setSelectedOptionsValue(option);
     setSelectedValue(null);
   };

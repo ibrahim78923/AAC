@@ -106,64 +106,6 @@ const ActionButton = () => {
           }
         />
       )}
-      {/* {actionsModalDetails?.isClone && (
-        <CloneModal openCloneModal={actionsModalDetails?.isClone} />
-      )}
-      {actionsModalDetails?.isOpenFilterDrawer && (
-        <EditGoalDrawer
-          isOpenDrawer={actionsModalDetails?.isOpenFilterDrawer}
-          onClose={() =>
-            setActionsModalDetails({
-              ...actionsModalDetails,
-              isOpenFilterDrawer: false,
-            })
-          }
-        />
-      )}
-      {actionsModalDetails?.isExportCompaign && (
-        <ExportCompaignDrawer
-          isOpenDrawer={actionsModalDetails?.isExportCompaign}
-          onClose={() =>
-            setActionsModalDetails({
-              ...actionsModalDetails,
-              isExportCompaign: false,
-            })
-          }
-        />
-      )}
-      {actionsModalDetails?.isEditCompaign && (
-        <EditCompaign
-          isOpenDrawer={actionsModalDetails?.isEditCompaign}
-          onClose={() =>
-            setActionsModalDetails({
-              ...actionsModalDetails,
-              isEditCompaign: false,
-            })
-          }
-        />
-      )}
-      {actionsModalDetails?.isEditColumns && (
-        <EditColumns
-          open={actionsModalDetails?.isEditColumns}
-          onClose={() =>
-            setActionsModalDetails({
-              ...actionsModalDetails,
-              isEditColumns: false,
-            })
-          }
-        />
-      )}
-      {actionsModalDetails?.isViewDeatsils && (
-        <CompaignDetails
-          open={actionsModalDetails?.isViewDeatsils}
-          onClose={() =>
-            setActionsModalDetails({
-              ...actionsModalDetails,
-              isViewDeatsils: false,
-            })
-          }
-        />
-      )} */}
     </Box>
   );
 };

@@ -1,8 +1,8 @@
 import { RHFSearchableSelect } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
-export const validationSchemaMoveToFolder = Yup.object().shape({
-  chooseTemplate: Yup.string()?.trim()?.required('Field is Required'),
+export const validationSchemaMoveToFolder = Yup?.object()?.shape({
+  chooseTemplate: Yup?.string()?.trim()?.required('Field is Required'),
 });
 
 export const defaultValuesMoveToFolder = {
