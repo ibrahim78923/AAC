@@ -8,7 +8,8 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { styles } from './SMSContacts.style';
 
-const SMSContacts = () => {
+const SMSContacts = (props: any) => {
+  const { setTabVal } = props;
   const { theme } = useSMSContacts();
   return (
     <Box sx={styles?.SMSContactsCardStyle}>
@@ -52,7 +53,13 @@ const SMSContacts = () => {
         >
           Latest Added
         </Typography>
-        <Button variant="text" size="small">
+        <Button
+          variant="text"
+          size="small"
+          onClick={() => {
+            setTabVal(2);
+          }}
+        >
           View All
         </Button>
       </Stack>

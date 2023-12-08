@@ -25,7 +25,7 @@ export const useFilterInventory = (props: any) => {
       ?.filter(
         ([, value]: any) => value !== undefined && value != '' && value != null,
       )
-      .reduce((acc: any, [key, value]: any) => ({ ...acc, [key]: value }), {});
+      ?.reduce((acc: any, [key, value]: any) => ({ ...acc, [key]: value }), {});
     if (!Object?.keys(inventoryFilteredFields || {})?.length) {
       closeInventoryFilterForm();
       return;

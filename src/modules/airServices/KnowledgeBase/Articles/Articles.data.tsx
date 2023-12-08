@@ -1,5 +1,4 @@
-import { Checkbox } from '@mui/material';
-import { styles } from './Articles.style';
+import { Checkbox, Chip } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 
 export const data: any = [
@@ -20,14 +19,25 @@ export const data: any = [
     folder: 'tech support',
   },
 ];
+const bgColor: any = {
+  published: 'blue.main',
+  draft: 'grey.400',
+};
+const color: any = {
+  published: 'white',
+  draft: 'slateBlue.main',
+};
 
+export const styleFunction: any = (value: any) => ({
+  bgColor: bgColor?.[value?.toLowerCase()],
+  color: color?.[value?.toLowerCase()],
+});
 export const articlesColumnsFunction = (
   articlesList: any,
   selectedArticlesData: any,
   setSelectedArticlesData: any,
   handleSingleArticleNavigation: any,
 ) => {
-  const { articleStatus }: any = styles();
   return [
     {
       accessorFn: (row: any) => row?.id,
@@ -82,7 +92,7 @@ export const articlesColumnsFunction = (
       cell: (info: any) => (
         <span
           onClick={() => handleSingleArticleNavigation(info?.row?.id)}
-          style={{ cursor: 'pointer', fontWeight: 500 }}
+          style={{ cursor: 'pointer', fontWeight: 600 }}
         >
           {info?.getValue()}
         </span>
@@ -94,9 +104,14 @@ export const articlesColumnsFunction = (
       header: <span>Status</span>,
       isSortable: true,
       cell: (info: any) => (
-        <span style={{ ...articleStatus(info?.getValue()) }}>
-          {info?.getValue()}
-        </span>
+        <Chip
+          label={info?.getValue()}
+          size="small"
+          sx={{
+            backgroundColor: styleFunction?.(info?.getValue())?.bgColor,
+            color: styleFunction?.(info?.getValue())?.color,
+          }}
+        />
       ),
     },
     {

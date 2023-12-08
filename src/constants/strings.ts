@@ -252,3 +252,13 @@ export const CANNED_RESPONSES = {
   SELECT_AGENTS: 'selectAgents',
   AGENTS: 'agents',
 };
+
+export const ROLES_ACTION_CONSTANTS = {
+  EDIT: 'Edit',
+  VIEW: 'View',
+  DELETE: 'Delete',
+};
+export const ROLES_ACTION_CONSTANTS_DRAWER_ACTION = {
+  ADD_ROLE: 'Add Roles',
+  UPDATE_ROLE: 'Update Roles',
+};

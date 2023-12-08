@@ -16,8 +16,8 @@ export const defaultValues = {
 
 export const usersFilterArray = [
   {
-    title: 'Product',
     componentProps: {
+      label: 'Product',
       name: 'product',
       fullWidth: true,
       select: true,
@@ -30,8 +30,8 @@ export const usersFilterArray = [
     md: 12,
   },
   {
-    title: 'Company',
     componentProps: {
+      label: 'Company',
       name: 'company',
       fullWidth: true,
       select: true,
@@ -44,8 +44,8 @@ export const usersFilterArray = [
     md: 12,
   },
   {
-    title: 'Users',
     componentProps: {
+      label: 'Users',
       name: 'users',
       fullWidth: true,
       select: true,

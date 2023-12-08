@@ -1,6 +1,6 @@
 import { Avatar, Box, Grid, Typography, useTheme } from '@mui/material';
-import { workflowAutomationTypes } from './WorkflowAutomation.data';
 import { useRouter } from 'next/router';
+import { workflowAutomationTypes } from './WorkflowAutomation.data';
 
 export const WorkflowAutomation = () => {
   const theme = useTheme();
@@ -32,11 +32,14 @@ export const WorkflowAutomation = () => {
               borderRadius={2}
               gap={2}
               padding={1}
+              height={'100%'}
             >
               <Avatar
                 variant="rounded"
                 sx={{ backgroundColor: theme?.palette?.primary?.light }}
-              />
+              >
+                {workflow?.avatar}
+              </Avatar>
               <Box flex={1}>
                 <Typography variant="h5" whiteSpace={'nowrap'}>
                   {workflow?.type}

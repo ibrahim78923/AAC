@@ -102,6 +102,9 @@ export const AIR_MARKETER = {
   LEAD_CAPTURE_CTA: path(AIR_MARKETING_PAGE, '/lead-capture/cta'),
   LEAD_CAPTURE_FORMS: path(AIR_MARKETING_PAGE, '/lead-capture/forms'),
   REPORTS: path(AIR_MARKETING_PAGE, '/reports'),
+  REPORTS_LEADS: path(AIR_MARKETING_PAGE, '/reports/leads'),
+  REPORTS_EMAIL: path(AIR_MARKETING_PAGE, '/reports/email-marketing'),
+  REPORTS_CAMPAIGNS: path(AIR_MARKETING_PAGE, '/reports/add-campaigns'),
   CAMPAIGNS: path(AIR_MARKETING_PAGE, '/campaigns'),
   SETTINGS: path(AIR_MARKETING_PAGE, '/settings'),
   CREATE_TEMPLATE: path(AIR_MARKETING_PAGE, '/sms-marketing/create-template'),
@@ -120,7 +123,7 @@ export const AIR_MARKETER = {
     AIR_MARKETING_PAGE,
     '/sms-marketing/create-sms-broadcast',
   ),
-  VIEW_PERFORMANCE: path(AIR_MARKETING_PAGE, '/compaigns/view-performance'),
+  VIEW_PERFORMANCE: path(AIR_MARKETING_PAGE, '/campaigns/view-performance'),
 };
 
 const AIR_OPERATIONS_PAGE = 'air-operation';
@@ -133,4 +136,7 @@ export const AIR_OPERATION = {
   REPORTS: path(AIR_OPERATIONS_PAGE, '/reports'),
   ROLE_AND_RIGHT: path(AIR_OPERATIONS_PAGE, '/role-and-rights'),
   USER_MANAGEMENT: path(AIR_OPERATIONS_PAGE, '/user-management'),
+};
+export const ORG_ADMIN = {
+  DASHBOARD_EDIT_PROFILE: '/org-admin/dashboard/edit-profile',
 };

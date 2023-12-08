@@ -15,26 +15,30 @@ export const AnnouncementDashboardCard = ({
     <Box>
       <Box sx={styles?.boxMain(theme, isBorderBottom)}>
         <Box marginTop={1}>
-          <Typography variant="body3" color={'grey.800'}>
+          <Typography variant="body3" color={'slateBlue.main'} fontWeight={600}>
             {announcement}
           </Typography>
           <Typography>
-            <Typography variant="body3" color={'grey.800'}>
+            <Typography variant="body3" color={'custom.main'}>
               {announcementTime}
             </Typography>
           </Typography>
         </Box>
-        <Box display={'flex'} justifyContent={'center'}>
+        <Box
+          display={'flex'}
+          gap={1}
+          justifyContent={'center'}
+          flexWrap={'wrap'}
+        >
           <Avatar
             alt=""
             src={icon?.src}
             sx={{
               width: '1.125rem',
               height: '1.125rem',
-              marginRight: '0.625rem',
             }}
           />
-          <Typography variant="body3" color={'custom?.main'}>
+          <Typography variant="body3" color={'custom.main'}>
             {announcementAvatar}
           </Typography>
         </Box>

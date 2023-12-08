@@ -1,6 +1,6 @@
 import IndeterminateCheckBoxRoundedIcon from '@mui/icons-material/IndeterminateCheckBoxRounded';
 import { AlertModals } from '@/components/AlertModals';
-import { Box, Button, Collapse, Typography } from '@mui/material';
+import { Box, Chip, Collapse, Typography } from '@mui/material';
 import { useSingleAssociationsTicket } from './useSingleAssociationsTicket';
 
 export const SingleAssociationsTicket = ({ associationsItem }: any) => {
@@ -18,7 +18,7 @@ export const SingleAssociationsTicket = ({ associationsItem }: any) => {
         display={'flex'}
         justifyContent={'space-between'}
         alignItems={'center'}
-        boxShadow={'4px 4px 4px rgba(0, 0, 0, 0.1)'}
+        boxShadow={2}
         borderLeft={`.5rem solid ${theme?.palette?.primary?.main}`}
         borderRadius={'.6rem'}
         padding={'.7rem'}
@@ -40,14 +40,11 @@ export const SingleAssociationsTicket = ({ associationsItem }: any) => {
           </Collapse>
           <Typography>{associationsItem?.title}</Typography>
         </Box>
-        <Button
-          sx={{
-            backgroundColor: theme?.palette?.primary?.light,
-            borderRadius: '1rem',
-          }}
-        >
-          {associationsItem?.buttonText}
-        </Button>
+        <Chip
+          label={associationsItem?.buttonText}
+          color="success"
+          sx={{ color: 'common.white' }}
+        />
       </Box>
       <AlertModals
         open={disassociateModal}

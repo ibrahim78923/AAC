@@ -3,7 +3,6 @@ import dynamic from 'next/dynamic';
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import 'react-quill/dist/quill.snow.css';
-import { CustomTextEditorPropsI } from './CustomTextEditor.interface';
 
 const ReactQuill = dynamic(() => import('react-quill'), {
   ssr: false,
@@ -14,7 +13,8 @@ const CustomTextEditor = ({
   onChange,
   style,
   toolbar,
-}: CustomTextEditorPropsI) => {
+  ...other
+}: any) => {
   const theme: any = useTheme();
   const modules = {
     toolbar: toolbar || {
@@ -60,6 +60,7 @@ const CustomTextEditor = ({
         onChange={(newValue) => onChange(newValue)}
         modules={modules}
         style={{ position: 'relative', ...style }}
+        {...other}
       />
     </Box>
   );

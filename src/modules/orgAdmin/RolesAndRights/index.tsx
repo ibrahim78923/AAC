@@ -28,7 +28,6 @@ const RolesAndRights = () => {
   } = useRolesAndRights();
 
   const columnsProps = {
-    // handleUserSwitchChange: handleUserSwitchChange,
     checkedRows: checkedRows,
     setCheckedRows: setCheckedRows,
   };
@@ -43,6 +42,7 @@ const RolesAndRights = () => {
       >
         <Typography variant="h3">Roles and Rights</Typography>
         <Button
+          className="small"
           onClick={() => {
             navigate.push(ORG_ADMIN?.ADD_ROLE);
           }}
@@ -65,43 +65,6 @@ const RolesAndRights = () => {
           }}
         />
         <Box sx={{ display: 'flex', gap: '10px' }}>
-          {/* <Box>
-            <Button
-              onClick={handleClick}
-              sx={{
-                border: `1px solid ${theme?.palette?.custom?.dark}`,
-                color: theme?.palette?.custom?.main,
-                width: '112px',
-                height: '36px',
-              }}
-            >
-              Actions
-              <ArrowDropDown />
-            </Button>
-            <Menu
-              id="simple-menu"
-              anchorEl={selectedValue}
-              open={Boolean(selectedValue)}
-              onClose={handleClose}
-            >
-              <MenuItem
-                onClick={() => {
-                  handleClose;
-                  navigate.push(ORG_ADMIN?.ADD_ROLE);
-                }}
-              >
-                Edit
-              </MenuItem>
-              <MenuItem
-                onClick={() => {
-                  handleClose;
-                  navigate.push(ORG_ADMIN?.ADD_ROLE);
-                }}
-              >
-                View
-              </MenuItem>
-            </Menu>
-          </Box> */}
           <ActionButton checkedRows={checkedRows} />
           <Button
             onClick={() => {

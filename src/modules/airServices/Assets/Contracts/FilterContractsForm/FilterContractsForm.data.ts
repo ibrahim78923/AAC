@@ -1,108 +1,34 @@
-import { RHFSelect } from '@/components/ReactHookForm';
+import { RHFAutocomplete } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
 const contractTypeOptions = [
-  {
-    value: 'All',
-    label: 'All',
-  },
-  {
-    value: 'Lease',
-    label: 'Lease',
-  },
-  {
-    value: 'Maintenance',
-    label: 'Maintenance',
-  },
-  {
-    value: 'Software License',
-    label: 'Software License',
-  },
-  {
-    value: 'Warranty',
-    label: 'Warranty',
-  },
+  'All',
+  'Lease',
+  'Maintenance',
+  'Software License',
+  'Warranty',
 ];
 
 const contractStatusOptions = [
-  {
-    value: 'Draft',
-    label: 'Draft',
-  },
-  {
-    value: 'Pending Approval',
-    label: 'Pending Approval',
-  },
-  {
-    value: 'Approved',
-    label: 'Approved',
-  },
-  {
-    value: 'Expired',
-    label: 'Expired',
-  },
-  {
-    value: 'Rejected',
-    label: 'Rejected',
-  },
-  {
-    value: 'Terminated',
-    label: 'Terminated',
-  },
+  'Draft',
+  'Pending Approval',
+  'Approved',
+  'Expired',
+  'Rejected',
+  'Terminated',
 ];
 
-const vendorOptions = [
-  {
-    value: 'Microsoft',
-    label: 'Microsoft',
-  },
-  {
-    value: 'Dell',
-    label: 'Dell',
-  },
-  {
-    value: 'Apple',
-    label: 'Apple',
-  },
-  {
-    value: 'Samsung',
-    label: 'Samsung',
-  },
-];
+const vendorOptions = ['Microsoft', 'Dell', 'Apple', 'Samsung'];
 
 const expiryOptions = [
-  {
-    value: 'None',
-    label: 'None',
-  },
-  {
-    value: 'All Time',
-    label: 'All Time',
-  },
-  {
-    value: 'Today',
-    label: 'Today',
-  },
-  {
-    value: 'Yesterday',
-    label: 'Yesterday',
-  },
-  {
-    value: 'Previous Week',
-    label: 'Previous Week',
-  },
-  {
-    value: 'Previous Month',
-    label: 'Previous Month',
-  },
-  {
-    value: 'Next Week',
-    label: 'Next Week',
-  },
-  {
-    value: 'Next Month',
-    label: 'Next Month',
-  },
+  'None',
+  'All Time',
+  'Today',
+  'Yesterday',
+  'Previous Week',
+  'Previous Month',
+  'Next Week',
+  'Next Month',
 ];
 
 export const filterContractsFormValidationSchema = Yup?.object()?.shape({
@@ -123,22 +49,24 @@ export const filterContractsFormDataArray = [
   {
     componentProps: {
       name: 'type',
-      label: 'Contact Type',
+      label: 'Contract Type',
       fullWidth: true,
+      placeholder: 'All Assets',
       select: true,
+      options: contractTypeOptions,
     },
-    options: contractTypeOptions,
-    component: RHFSelect,
+    component: RHFAutocomplete,
   },
   {
     componentProps: {
       name: 'status',
-      label: 'Contact Status',
+      label: 'Contract Status',
+      placeholder: 'Any',
       fullWidth: true,
       select: true,
+      options: contractStatusOptions,
     },
-    options: contractStatusOptions,
-    component: RHFSelect,
+    component: RHFAutocomplete,
   },
   {
     componentProps: {
@@ -146,18 +74,20 @@ export const filterContractsFormDataArray = [
       label: 'Vender',
       fullWidth: true,
       select: true,
+      placeholder: 'Select Vendor',
+      options: vendorOptions,
     },
-    options: vendorOptions,
-    component: RHFSelect,
+    component: RHFAutocomplete,
   },
   {
     componentProps: {
       name: 'expiry',
       label: 'Expiry',
       fullWidth: true,
+      placeholder: 'Select Expiry',
       select: true,
+      options: expiryOptions,
     },
-    options: expiryOptions,
-    component: RHFSelect,
+    component: RHFAutocomplete,
   },
 ];

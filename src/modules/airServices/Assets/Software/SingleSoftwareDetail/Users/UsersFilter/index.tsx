@@ -44,8 +44,8 @@ export const UsersFilter = () => {
       <CommonDrawer
         isDrawerOpen={isFilterOpen}
         onClose={closeFilterDrawer}
-        title={'Filter'}
-        okText={'Save'}
+        title={'Filters'}
+        okText={'Apply'}
         footer={true}
         isOk={true}
       >

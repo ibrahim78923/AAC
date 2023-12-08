@@ -4,6 +4,7 @@ import { UserList } from './User.data';
 
 export const useUser = () => {
   const theme = useTheme();
+  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [searchValue, setSearchValue] = useState<string>('');
   const [selectedUserList, setSelectedUserList] = useState<any>([]);
   const userListColumn = UserList(selectedUserList, setSelectedUserList);
@@ -14,5 +15,7 @@ export const useUser = () => {
     userListColumn,
     searchValue,
     setSearchValue,
+    isDrawerOpen,
+    setIsDrawerOpen,
   };
 };

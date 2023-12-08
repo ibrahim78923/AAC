@@ -2,6 +2,7 @@ import { Box, Grid, Typography } from '@mui/material';
 import Cta from './Cta';
 import { styles } from './Assets.style';
 import FacebookLikes from './FacebookLikes';
+import SocialPosts from './SocialPosts';
 
 const Assets = () => {
   return (
@@ -12,6 +13,7 @@ const Assets = () => {
           <Grid item xs={12}>
             <Cta />
             <FacebookLikes />
+            <SocialPosts />
           </Grid>
         </Grid>
       </Box>

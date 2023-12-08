@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { useFilterArticles } from './useFilterArticle';
 import { filterArticlesData } from './FilterArticles.data';
 
-const ArticleFilter = (props: any) => {
+const FilterArticles = (props: any) => {
   const { submitHandler, isOpenFilterDrawer, setIsOpenFilterDrawer, methods } =
     useFilterArticles(props);
 
@@ -43,4 +43,4 @@ const ArticleFilter = (props: any) => {
   );
 };
 
-export default ArticleFilter;
+export default FilterArticles;
