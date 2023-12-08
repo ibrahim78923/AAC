@@ -2,6 +2,7 @@ import { Box, Grid, Typography } from '@mui/material';
 import { settingTabsOptions } from './Settings.data';
 import CommonModal from '@/components/CommonModal';
 import Search from '@/components/Search';
+import { v4 as uuidv4 } from 'uuid';
 
 const Settings = ({ closeAddAssets, isOpenAddAssets }: any) => {
   return (
@@ -14,11 +15,7 @@ const Settings = ({ closeAddAssets, isOpenAddAssets }: any) => {
         <Grid item lg={3}>
           <Typography variant="h4">Settings</Typography>
           {settingTabsOptions?.map((settingTabsOptionsNames) => (
-            <Typography
-              key={settingTabsOptionsNames?.name}
-              pt={3}
-              style={{ cursor: 'pointer' }}
-            >
+            <Typography key={uuidv4()} pt={3} style={{ cursor: 'pointer' }}>
               {settingTabsOptionsNames?.name}
             </Typography>
           ))}
