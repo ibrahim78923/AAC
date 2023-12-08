@@ -1,15 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import Image from 'next/image';
 import Link from 'next/link';
 
 import { Grid, Typography, Box, useTheme } from '@mui/material';
-
-import {
-  loginDataArray,
-  loginDefaultValues,
-  loginValidationSchema,
-} from './Login.data';
 
 import { FormProvider } from '@/components/ReactHookForm';
 
@@ -26,9 +20,25 @@ import { useAuthLoginMutation } from '@/services/auth';
 import { enqueueSnackbar } from 'notistack';
 import { v4 as uuidv4 } from 'uuid';
 import { LoadingButton } from '@mui/lab';
+import {
+  loginDataArray,
+  loginDefaultValues,
+  loginValidationSchema,
+} from './LoginData.data';
 
 const Login = () => {
   const theme = useTheme();
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleClickShowPassword = () => {
+    setShowPassword((show) => !show);
+  };
+  const handleMouseDownPassword = (
+    event: React.MouseEvent<HTMLButtonElement>,
+  ) => {
+    event.preventDefault();
+  };
+
   const loginForm = useForm({
     resolver: yupResolver(loginValidationSchema),
     defaultValues: loginDefaultValues,
@@ -85,7 +95,11 @@ const Login = () => {
                 onSubmit={handleSubmit(onSubmit)}
               >
                 <Grid container spacing={4}>
-                  {loginDataArray?.map((item: any) => (
+                  {loginDataArray(
+                    handleClickShowPassword,
+                    handleMouseDownPassword,
+                    showPassword,
+                  )?.map((item: any) => (
                     <Grid item xs={12} md={item?.md} key={uuidv4()}>
                       <item.component
                         {...item?.componentProps}
