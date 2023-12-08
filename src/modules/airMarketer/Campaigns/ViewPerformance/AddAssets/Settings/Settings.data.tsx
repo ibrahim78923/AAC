@@ -25,5 +25,5 @@ export const assetsTabInfo = {
   cta: 'CTAS',
   email: 'Emails',
   forms: 'Forms',
-  socailPosts: 'Social Posts',
+  socialPosts: 'Social Posts',
 };

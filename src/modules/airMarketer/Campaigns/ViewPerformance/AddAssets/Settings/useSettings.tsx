@@ -37,7 +37,7 @@ const useSettings = () => {
       setAccordianTableInfo(
         <TanstackTable columns={columnsEmail} data={dataEmail} isPagination />,
       );
-    } else if (accordianDescription?.name === assetsTabInfo?.socailPosts) {
+    } else if (accordianDescription?.name === assetsTabInfo?.socialPosts) {
       setAccordianTableInfo(
         <TanstackTable
           columns={columnsSocialPosts}
