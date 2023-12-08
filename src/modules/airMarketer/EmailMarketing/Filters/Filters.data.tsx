@@ -22,10 +22,10 @@ export const dataArray = [
     },
 
     options: [
-      { value: 'Admin', label: 'Admin' },
-      { value: 'Albert Paul', label: 'Albert Paul' },
-      { value: 'Nick James', label: 'Nick James' },
-      { value: 'Robert Fox', label: 'Robert Fox' },
+      { value: 'admin', label: 'Admin' },
+      { value: 'albertPaul', label: 'Albert Paul' },
+      { value: 'nickJames', label: 'Nick James' },
+      { value: 'robertFox', label: 'Robert Fox' },
     ],
 
     component: RHFSelect,

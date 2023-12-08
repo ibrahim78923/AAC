@@ -2,6 +2,7 @@ import { Button, Grid, Typography } from '@mui/material';
 import Folders from './Folders';
 import { PlusIcon } from '@/assets/icons';
 import Search from '@/components/Search';
+import NewFolderActions from './NewFolderActions';
 
 const EmailFolder = () => {
   return (
@@ -10,7 +11,7 @@ const EmailFolder = () => {
         <Typography variant="h4">All Emails</Typography>
       </Grid>
       <Grid item lg={6} sx={{ textAlign: 'end' }}>
-        <Button variant="contained">
+        <Button variant="contained" className="small">
           <PlusIcon /> Create New Folder
         </Button>
       </Grid>
@@ -18,9 +19,7 @@ const EmailFolder = () => {
         <Search label="Search Here" width="260px" />
       </Grid>
       <Grid item lg={6} sx={{ textAlign: 'end' }}>
-        <Button variant="contained">
-          <PlusIcon /> Create New Folder
-        </Button>
+        <NewFolderActions />
       </Grid>
       <Grid item xs={12}>
         <Folders />

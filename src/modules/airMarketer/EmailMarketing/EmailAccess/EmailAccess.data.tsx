@@ -1,7 +1,7 @@
 import { RHFRadioGroup } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
-export const validationSchemaEmailAccess = Yup.object().shape({
+export const validationSchemaEmailAccess = Yup?.object()?.shape({
   emailAccess: Yup.string()?.trim()?.required('Field is Required'),
 });
 
@@ -15,10 +15,10 @@ export const dataArrayEmailAccess = [
       name: 'emailAccess',
       fullWidth: true,
       options: [
-        { label: 'Available to everyone', value: 'Available to everyone' },
+        { label: 'Available to everyone', value: 'availableToEveryone' },
         {
           label: 'Select user and team who can edit',
-          value: 'Select user and team who can edit',
+          value: 'selectUserAndTeamWhoCanEdit',
         },
       ],
       row: false,

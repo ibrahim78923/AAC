@@ -60,7 +60,7 @@ export const allTabTableData: any = [
 export const columns: any = [
   {
     accessorFn: (row: any) => row?.id,
-    id: 'Id',
+    id: 'id',
     cell: (info: any) => <Checkbox color="primary" name={info?.getValue()} />,
     header: <Checkbox color="primary" name="id" />,
     isSortable: false,
