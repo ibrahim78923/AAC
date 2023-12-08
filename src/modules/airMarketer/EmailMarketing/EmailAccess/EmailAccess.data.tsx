@@ -2,7 +2,7 @@ import { RHFRadioGroup } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
 export const validationSchemaEmailAccess = Yup?.object()?.shape({
-  emailAccess: Yup.string()?.trim()?.required('Field is Required'),
+  emailAccess: Yup?.string()?.trim()?.required('Field is Required'),
 });
 
 export const defaultValuesEmailAccess = {

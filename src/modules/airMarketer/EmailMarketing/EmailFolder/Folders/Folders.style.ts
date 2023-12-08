@@ -48,14 +48,7 @@ export const styles = {
       fontWeight: 600,
     };
   },
-  folderRow: () => {
-    return {
-      display: 'flex',
-      alignItems: 'center',
-      gap: '1rem',
-      paddingTop: '2rem',
-    };
-  },
+
   folderBackground: (theme: any) => {
     return {
       background: `${theme?.palette?.grey[400]}`,
@@ -67,14 +60,7 @@ export const styles = {
       alignItems: 'center',
     };
   },
-  teamRow: () => {
-    return {
-      display: 'flex',
-      alignItems: 'center',
-      gap: '1rem',
-      paddingTop: '1rem',
-    };
-  },
+
   documentTitle: (theme: any) => {
     return {
       fontWeight: 500,
@@ -85,30 +71,6 @@ export const styles = {
         sm: 'start',
         xs: 'center',
       },
-    };
-  },
-  actionButtonBox: () => {
-    return {
-      display: 'flex',
-      justifyContent: {
-        lg: 'flex-end',
-        md: 'flex-end',
-        sm: 'flex-end',
-        xs: 'center',
-      },
-    };
-  },
-  actionFilterBox: () => {
-    return {
-      display: 'flex',
-      justifyContent: {
-        lg: 'flex-end',
-        md: 'flex-end',
-        sm: 'flex-end',
-        xs: 'center',
-      },
-      flexWrap: 'wrap',
-      gap: '10px',
     };
   },
 };
