@@ -2,7 +2,7 @@ import { RHFDatePicker, RHFSelect } from '@/components/ReactHookForm';
 
 import * as Yup from 'yup';
 
-export const validationSchema = Yup.object().shape({
+export const validationSchema = Yup?.object()?.shape({
   users: Yup?.string()?.required('Field is Required'),
   createdDate: Yup?.string()?.trim()?.required('Field is Required'),
 });
