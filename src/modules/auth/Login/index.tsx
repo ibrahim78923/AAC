@@ -24,7 +24,7 @@ import {
   loginDataArray,
   loginDefaultValues,
   loginValidationSchema,
-} from './LoginData.data';
+} from './Login.data';
 
 const Login = () => {
   const theme = useTheme();
