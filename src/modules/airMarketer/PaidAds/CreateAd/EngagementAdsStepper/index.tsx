@@ -20,8 +20,8 @@ const EngagementAdsStepper = () => {
         <Grid item xs={12}>
           <Stepper activeStep={activeStep}>
             {stepperArray?.map((item) => (
-              <Step key={item.name}>
-                <StepButton color="inherit">{item.name}</StepButton>
+              <Step key={item?.name}>
+                <StepButton color="inherit">{item?.name}</StepButton>
               </Step>
             ))}
           </Stepper>
@@ -35,7 +35,10 @@ const EngagementAdsStepper = () => {
                   item?.formFields?.map((item: any) => {
                     return (
                       <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                        <item.component {...item.componentProps} size={'small'}>
+                        <item.component
+                          {...item?.componentProps}
+                          size={'small'}
+                        >
                           {item?.componentProps?.select &&
                             item?.options?.map((option: any) => (
                               <option key={option?.value} value={option?.value}>
