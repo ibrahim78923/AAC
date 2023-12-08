@@ -237,3 +237,5 @@ export { default as SocialMarketingImage } from './modules/HeaderAndSidebar/soci
 export { default as PaidAdsImage } from './modules/HeaderAndSidebar/paid-ads.png';
 export { default as SmsMarketingImage } from './modules/HeaderAndSidebar/sms-marketing.png';
 export { default as EmailMarketingImage } from './modules/HeaderAndSidebar/email-marketing.png';
+
+export { default as EmailMockupImage } from './modules/airMarketer/EmailMarketing/email-mockup.png';
