@@ -9,7 +9,6 @@ import {
   Grid,
   Typography,
 } from '@mui/material';
-import { v4 as uuidv4 } from 'uuid';
 import { useCustomizeInventoryColumn } from './useCustomizeInventoryColumn';
 import { inventoryListsInitialColumns } from '../Inventory.data';
 
@@ -59,7 +58,7 @@ export const CustomizeInventoryColumn = (props: any) => {
       <DialogContent>
         <Grid container>
           {inventoryListsColumnsPersist?.slice?.(1)?.map((column: any) => (
-            <Grid item xs={12} sm={6} key={uuidv4()}>
+            <Grid item xs={12} sm={6} key={column?.id}>
               <Box
                 display={'flex'}
                 alignItems={'center'}
@@ -71,9 +70,9 @@ export const CustomizeInventoryColumn = (props: any) => {
                   name={column?.id}
                   checked={customizeColumn?.includes(column?.id)}
                   onChange={(e: any): any => checkboxHandler?.(e, column)}
-                ></Checkbox>
+                />
                 <Typography variant="h5" fontWeight={500} color="secondary">
-                  {column?.id}
+                  {column?.header}
                 </Typography>
               </Box>
             </Grid>

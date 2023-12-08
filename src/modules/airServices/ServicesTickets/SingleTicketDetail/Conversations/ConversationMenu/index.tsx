@@ -10,7 +10,7 @@ const ConversationMenu = ({
   addConversation,
   handleCloseButtonMenu,
   setSelectedItem,
-}) => {
+}: any) => {
   return (
     <>
       <Button

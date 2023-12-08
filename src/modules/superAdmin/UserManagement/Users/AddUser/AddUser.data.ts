@@ -64,6 +64,7 @@ export const addUsersArray = () => {
       componentProps: {
         name: 'firstName',
         label: 'First Name',
+        required: true,
         placeholder: 'Enter First Name',
         fullWidth: true,
       },
@@ -75,6 +76,7 @@ export const addUsersArray = () => {
       componentProps: {
         name: 'lastName',
         label: 'Last Name',
+        required: true,
         placeholder: 'Enter Last  Name',
         fullWidth: true,
       },
@@ -86,6 +88,7 @@ export const addUsersArray = () => {
       componentProps: {
         name: 'email',
         label: 'Email',
+        required: true,
         placeholder: 'Enter Email',
         fullWidth: true,
       },
@@ -135,6 +138,7 @@ export const addUsersArray = () => {
       componentProps: {
         name: 'postCode',
         label: 'Post Code',
+        required: true,
         placeholder: 'Enter Post Code',
         fullWidth: true,
       },
@@ -146,6 +150,7 @@ export const addUsersArray = () => {
       componentProps: {
         name: 'compositeAddress',
         label: 'Address',
+        required: true,
         placeholder: 'Address',
         fullWidth: true,
       },

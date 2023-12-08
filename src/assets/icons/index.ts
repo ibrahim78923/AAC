@@ -199,9 +199,10 @@ export { default as ForwardIcon } from './modules/superAdmin/email/forward-icon'
 export { default as ReplyAllIcon } from './modules/superAdmin/email/reply-all-icon';
 export { default as EmailReplyIcon } from './modules/superAdmin/email/reply-icon';
 export { default as AddPlusPrimaryIcon } from './shared/add-plus-primary';
+export { default as MinimizePrimaryIcon } from './modules/airMarketer/CreatePost/minimize-icon';
 export { default as AirPlaneIcon } from './shared/airplane';
 export { default as EditPenBorderedIcon } from './shared/edit-pen-bordered';
-export { default as SendIconLifted } from './modules/SocialComponents/Calling/send';
+export { default as SendLiftedIcon } from './modules/SocialComponents/Calling/send';
 export { default as MessagesIcon } from './modules/SocialComponents/Calling/messages';
 export { default as MuteIcon } from './modules/SocialComponents/Calling/mute';
 export { default as HoldIcon } from './modules/SocialComponents/Calling/hold';
@@ -303,12 +304,52 @@ export { default as LeadersBoardIcon } from './modules/airServices/Settings/lead
 export { default as WorkloadManagementIcon } from './modules/airServices/Settings/workload-management-icon';
 export { default as AddRoleIcon } from './modules/airServices/Settings/UserManagement/Roles/add-role-icon';
 export { default as CsvImportIcon } from './shared/csv-import-icon';
+export { default as GoogleDriveIcon } from './modules/airMarketer/reports/google-drive';
+export { default as FolderLargePrimaryIcon } from './shared/folder-large-primary-icon';
+export { default as FolderLargeYellowIcon } from './shared/folder-large-yellow-icon';
+export { default as LockedIcon } from './shared/locked-icon';
+export { default as ActionMenuIcon } from './shared/action-menu-icon';
+export { default as ViewDetailIcon } from './shared/view-detail-icon';
+export { default as EmbedCodeIcon } from './shared/embed-code-icon';
+export { default as EmbedcodeTickIcon } from './shared/embed-code-tick-icon';
+export { default as ActivateIcon } from './shared/activate-icon';
+export { default as FileIcon } from './shared/file-icon';
+export { default as FilterSubmissionsIcon } from './shared/filter-submission-icon';
+export { default as ExportSubmissionIcon } from './shared/export-submission-icon';
+export { default as BlackDeleteIcon } from './shared/black-delete';
+export { default as EditFormIcon } from './shared/edit-form';
+export { default as StyleFormIcon } from './shared/style-form';
+export { default as PageIcon } from './shared/Page';
+export { default as MobileFormIcon } from './shared/mobile-icon';
+export { default as MonitorIcon } from './shared/monitor';
 
 export { default as ExportDownloadIcon } from './shared/export-download';
 export { default as ExportModalIcon } from './shared/export-modal-icon';
 export { default as ClockWithBagIcon } from './shared/clock-with-bag-icon';
 export { default as CopyPrimaryColorIcon } from './shared/copy-primary-color-icon';
+export { default as SearchAdIcon } from './modules/paidAds/search-ad';
 
 export { default as BookMarkIcon } from './shared/book-mark-icon';
 export { default as ArrowSquareLeftIcon } from './shared/arrow-square-left';
 export { default as ArrowSquareRightIcon } from './shared/arrow-square-right';
+export { default as UploadDocumentIcon } from './modules/orgAdmin/dashboard/upload-document';
+export { default as EditProfilelLineIcon } from './modules/orgAdmin/dashboard/edit-profilel-line';
+export { default as SalesIcon } from './modules/orgAdmin/dashboard/sales';
+export { default as MarketerIcon } from './modules/orgAdmin/dashboard/marketer';
+export { default as SalesArrowsIcon } from './modules/orgAdmin/dashboard/sales-arrows';
+export { default as SenderMarketerIcon } from './modules/orgAdmin/dashboard/sender-marketer';
+export { default as ServicesIcon } from './modules/orgAdmin/dashboard/services';
+export { default as OperationIcon } from './modules/orgAdmin/dashboard/operation';
+export { default as RevertIcon } from './shared/revert-icon';
+export { default as EditInputIcon } from './shared/edit-input-icon';
+
+export { default as FacebookSquareIcon } from './modules/paidAds/facebook-square';
+export { default as LinkedInSquareIcon } from './modules/paidAds/linkedin-square';
+
+export { default as TextIcon } from './modules/airMarketer/LeadCapture/text';
+export { default as ImageIcon } from './modules/airMarketer/LeadCapture/image';
+export { default as SpaceIcon } from './modules/airMarketer/LeadCapture/space';
+export { default as DividerIcon } from './modules/airMarketer/LeadCapture/divider';
+export { default as InputIcon } from './modules/airMarketer/LeadCapture/input';
+export { default as SalesWorkflowIcon } from './modules/airOperations/workflowAutomation/sales-workflow-icon';
+export { default as ServiceWorkflowIcon } from './modules/airOperations/workflowAutomation/service-workflow-icon';

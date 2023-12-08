@@ -45,7 +45,7 @@ function PurchaseOrder() {
           flexWrap={'wrap'}
           gap={1.5}
         >
-          <Search label="search" searchBy="" setSearchBy={''} />
+          <Search label="Search Here" searchBy="" setSearchBy={''} />
           <Box
             display={'flex'}
             alignItems={'center'}

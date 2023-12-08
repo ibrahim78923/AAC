@@ -55,6 +55,8 @@ export const RequestApprovalForm = ({ openDialog, setOpenDialog }: any) => {
                 name="approvers"
                 label="Approvers"
                 options={['BE', 'BE1', 'BE2']}
+                placeholder={'Select a User'}
+                required
               />
             </Grid>
 

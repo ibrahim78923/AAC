@@ -67,10 +67,8 @@ export const TasksHeader = ({
           >
             Edit
           </MenuItem>
-          <MenuItem sx={{ p: 1 }} onClick={() => setDeleteModal(true)}>
-            Delete
-          </MenuItem>
-          <MenuItem sx={{ p: 1 }}>
+          <MenuItem onClick={() => setDeleteModal(true)}>Delete</MenuItem>
+          <MenuItem>
             <a onClick={handleActionExportClick}>Export Task</a>
             <Popover
               open={openActionExport}

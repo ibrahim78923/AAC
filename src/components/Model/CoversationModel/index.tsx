@@ -13,12 +13,12 @@ const ConversationModel = ({
       onClose={handleClose}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
-      sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+      maxWidth={'sm'}
+      fullWidth
     >
       <Box
         boxShadow={2}
         sx={{
-          maxWidth: '580px',
           width: '100%',
           borderRadius: '10px',
           border: '1px solid grey.700',

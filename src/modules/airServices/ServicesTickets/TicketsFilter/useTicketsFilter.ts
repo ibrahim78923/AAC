@@ -21,7 +21,7 @@ export const useTicketsFilter = (props: any) => {
   const { handleSubmit, reset } = methods;
 
   const submitTicketFilterForm = async (data: any) => {
-    const ticketsFiltered = Object?.entries(data || {})
+    const ticketsFiltered: any = Object?.entries(data || {})
       ?.filter(
         ([, value]: any) => value !== undefined && value != '' && value != null,
       )
