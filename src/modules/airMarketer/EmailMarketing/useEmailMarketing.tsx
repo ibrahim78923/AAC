@@ -1,6 +1,5 @@
 import { useTheme } from '@mui/material';
 import { useState } from 'react';
-
 import { emailOptions } from './EmailMarketing.data';
 
 const useEmailMarketing = () => {
@@ -8,7 +7,7 @@ const useEmailMarketing = () => {
   const [checkedRows, setCheckedRows] = useState<any>();
   const [selectedValue, setSelectedValue] = useState(null);
   const [selectedActionsValue, setSelectedOptionsValue] = useState('');
-
+  const [isOpenFilter, setIsOpenFilter] = useState(false);
   const [actionsModalDetails, setActionsModalDetails] = useState({
     isClone: false,
     isOpenFilterDrawer: false,
@@ -24,7 +23,9 @@ const useEmailMarketing = () => {
   const handleClick = (event: any) => {
     setSelectedValue(event?.currentTarget);
   };
-
+  const handleOpenFilter = () => {
+    setIsOpenFilter(true);
+  };
   const handleSelectedOptionValue = (option: any) => {
     switch (option) {
       case emailOptions?.DUPLICATE:
@@ -51,6 +52,7 @@ const useEmailMarketing = () => {
 
   return {
     theme,
+
     checkedRows,
     setCheckedRows,
     selectedValue,
@@ -61,6 +63,9 @@ const useEmailMarketing = () => {
     setIsDelete,
     actionsModalDetails,
     setActionsModalDetails,
+    isOpenFilter,
+    setIsOpenFilter,
+    handleOpenFilter,
   };
 };
 export default useEmailMarketing;

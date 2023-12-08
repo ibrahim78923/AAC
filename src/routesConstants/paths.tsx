@@ -123,7 +123,7 @@ export const AIR_MARKETER = {
     AIR_MARKETING_PAGE,
     '/sms-marketing/create-sms-broadcast',
   ),
-  VIEW_PERFORMANCE: path(AIR_MARKETING_PAGE, '/compaigns/view-performance'),
+  VIEW_PERFORMANCE: path(AIR_MARKETING_PAGE, '/campaigns/view-performance'),
 };
 
 const AIR_OPERATIONS_PAGE = 'air-operation';
