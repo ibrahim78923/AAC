@@ -1,9 +1,11 @@
+import { Box } from '@mui/material';
+
 export const contractsTableColumns: any = () => {
   return [
     {
       accessorFn: (row: any) => row?.contractName,
       id: 'contractName',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => <Box fontWeight={700}>{info?.getValue()}</Box>,
       header: 'Contract Name',
     },
     {

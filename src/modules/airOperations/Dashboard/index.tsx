@@ -1,7 +1,3 @@
 export const Dashboard = () => {
-  return (
-    <>
-      <>Dashboard</>
-    </>
-  );
+  return <>Air Operations Dashboard</>;
 };

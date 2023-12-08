@@ -6,12 +6,15 @@ import useNewPurchaseOrder from './useNewPurchaseOrder';
 import ItemsDetails from './ItemsDetails';
 import { styles } from './NewPurchaseOrder.style';
 import { v4 as uuidv4 } from 'uuid';
+import { useRouter } from 'next/router';
 
 const NewPurchaseOrder = () => {
   const { methods, submit, handlePageBack, vendor, handleVenderSelect } =
     useNewPurchaseOrder();
   const { flexBetween, mainWrapper, mainHeading, subHeading } = styles();
   const newPurchaseFields = newPurchaseFieldsFunction(handleVenderSelect);
+
+  const router = useRouter();
 
   return (
     <Box>
@@ -76,7 +79,7 @@ const NewPurchaseOrder = () => {
               Cancel
             </Button>
             <Button type="submit" variant="contained">
-              Add
+              {router?.query?.purchaseOrderId ? 'Update' : 'Save'}
             </Button>
           </Box>
         </FormProvider>

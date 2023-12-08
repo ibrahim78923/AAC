@@ -13,6 +13,7 @@ export const AnnouncementHeader = () => {
         display={'flex'}
         justifyContent={'space-between'}
         alignItems={'center'}
+        flexWrap={'wrap'}
         px={2}
         mb={1}
       >

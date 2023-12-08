@@ -12,6 +12,7 @@ export const HeaderPieChart = () => {
         justifyContent={'space-between'}
         marginRight={3}
         marginTop={1}
+        flexWrap={'wrap'}
       >
         <Typography variant="h5">Agent Availability</Typography>
         <SingleDropdownButton

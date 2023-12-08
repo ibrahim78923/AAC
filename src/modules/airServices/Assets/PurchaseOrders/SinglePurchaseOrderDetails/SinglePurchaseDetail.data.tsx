@@ -27,13 +27,13 @@ export const singlePurchaseDetailActionDropdownFunction = (
 
 export const singlePurchaseDetailStatusDropdownFunction = () => [
   {
-    title: 'Close',
+    title: 'Ordered',
     handleClick: (closeMenu: any) => {
       closeMenu?.();
     },
   },
   {
-    title: 'Submit',
+    title: 'Cancelled',
     handleClick: (closeMenu: any) => {
       closeMenu?.();
     },
