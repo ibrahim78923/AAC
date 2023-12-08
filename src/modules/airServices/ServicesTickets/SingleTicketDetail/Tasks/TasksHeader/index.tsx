@@ -67,10 +67,8 @@ export const TasksHeader = ({
           >
             Edit
           </MenuItem>
-          <MenuItem sx={{ p: 1 }} onClick={() => setDeleteModal(true)}>
-            Delete
-          </MenuItem>
-          <MenuItem sx={{ p: 1 }}>
+          <MenuItem onClick={() => setDeleteModal(true)}>Delete</MenuItem>
+          <MenuItem>
             <a onClick={handleActionExportClick}>Export Task</a>
             <Popover
               open={openActionExport}
@@ -94,7 +92,7 @@ export const TasksHeader = ({
       </Grid>
       <AlertModals
         type="delete"
-        message="Are you sure you want to delete this Asset?"
+        message="Are you sure you want to delete this task?"
         open={deleteModal}
         handleClose={() => setDeleteModal(false)}
         handleSubmit={submitDeleteModel}

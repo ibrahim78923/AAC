@@ -20,6 +20,7 @@ const Button = (theme: any) => {
           },
           '&.Mui-disabled': {
             fontWeight: 500,
+            borderColor: '#dddfe3',
             color: '#D1D5DB',
             fontSize: '14px',
             '& .MuiLoadingButton-loadingIndicator': {

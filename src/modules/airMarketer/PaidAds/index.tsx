@@ -7,9 +7,12 @@ import Analyze from './Analyze';
 import Manage from './Manage';
 import Events from './Events';
 import CreateAudience from './CreateAudience';
+import { useRouter } from 'next/router';
+import { AIR_MARKETER } from '@/routesConstants/paths';
 
 const PaidAds = () => {
   const theme = useTheme();
+  const router = useRouter();
   return (
     <Card sx={{ p: '16px 24px' }}>
       <Stack direction="row" justifyContent="space-between">
@@ -33,6 +36,7 @@ const PaidAds = () => {
             className="small"
             variant="contained"
             startIcon={<PlusIcon />}
+            onClick={() => router.push(AIR_MARKETER?.CREATE_AD)}
           >
             Create Ad
           </Button>

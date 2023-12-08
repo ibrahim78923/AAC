@@ -12,8 +12,6 @@ import { AlertModals } from '@/components/AlertModals';
 import { styles } from './LifecycleStage.style';
 import TanstackTable from '@/components/Table/TanstackTable';
 
-import CustomPagination from '@/components/CustomPagination';
-
 import { drawerButtonTitle, drawerTitle } from './LifecycleStage.data';
 import { LifeCycleStageTableData } from '@/mock/modules/airMarketer/SocialMarketing/SocialInbox';
 
@@ -75,7 +73,7 @@ const LifeCycleStage = () => {
             flexWrap: 'wrap',
           }}
         >
-          <Typography variant="h4">Life Cycle Stages</Typography>
+          <Typography variant="h3">Life Cycle Stages</Typography>
           <Box
             sx={{
               display: 'flex',
@@ -91,10 +89,11 @@ const LifeCycleStage = () => {
               variant="contained"
               sx={styles?.createBtn}
               onClick={() => setIsDraweropen('Add')}
+              className="small"
             >
               <AddCircleIcon
                 sx={{
-                  color: `${theme?.palette?.common.white}`,
+                  color: `${theme?.palette?.common?.white}`,
                   fontSize: '16px',
                 }}
               />
@@ -116,11 +115,7 @@ const LifeCycleStage = () => {
           <TanstackTable
             columns={getRowValues}
             data={LifeCycleStageTableData}
-          />
-          <CustomPagination
-            count={1}
-            rowsPerPageOptions={[1, 2]}
-            entriePages={1}
+            isPagination
           />
         </Grid>
       </Box>

@@ -1,43 +1,41 @@
-import { Grid, Typography, useTheme } from '@mui/material';
-import { SingleDropdownButton } from '../../../../components/SingleDropdownButton';
+import { Box, Typography, useTheme } from '@mui/material';
 import { dropDownMenus, dashboardFunction } from './HeaderDashboard.data';
-import { styles } from './HeaderDashboard.styles';
 import { useRouter } from 'next/router';
+import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 
 export const HeaderDashboard = () => {
   const theme = useTheme();
   const router = useRouter();
   return (
-    <Grid container>
-      <Grid item xs={12}>
-        <Typography sx={styles?.serviceText}>Service</Typography>
-      </Grid>
-      <Grid item xs={12}>
-        <Grid container justifyContent="space-between">
-          <Grid item>
-            <Typography variant="h4" sx={{ marginTop: 2 }}>
-              <span style={{ color: theme?.palette?.blue?.main }}>Hi Sam!</span>{' '}
-              Happy to See You again
-            </Typography>
-          </Grid>
-          <Grid item>
-            <Grid container spacing={1}>
-              <Grid item>
-                <SingleDropdownButton
-                  dropdownOptions={dropDownMenus}
-                  dropdownName="Actions"
-                />
-              </Grid>
-              <Grid item>
-                <SingleDropdownButton
-                  dropdownOptions={dashboardFunction(theme, router)}
-                  dropdownName="Dashboards"
-                />
-              </Grid>
-            </Grid>
-          </Grid>
-        </Grid>
-      </Grid>
-    </Grid>
+    <>
+      <Typography variant="h3" color="primary.main">
+        Service
+      </Typography>
+      <Box
+        display={'flex'}
+        alignItems={'center'}
+        justifyContent={'space-between'}
+        flexWrap={'wrap'}
+        gap={1}
+        mt={1}
+      >
+        <Typography variant="h4" fontWeight={500} color="blue.main">
+          <Typography component="span" variant="h4">
+            Hi Sam!
+          </Typography>{' '}
+          Happy to See You again
+        </Typography>
+        <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={1}>
+          <SingleDropdownButton
+            dropdownOptions={dropDownMenus}
+            dropdownName="Actions"
+          />
+          <SingleDropdownButton
+            dropdownOptions={dashboardFunction(theme, router)}
+            dropdownName="Dashboards"
+          />
+        </Box>
+      </Box>
+    </>
   );
 };

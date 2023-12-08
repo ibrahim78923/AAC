@@ -1,4 +1,6 @@
+import { DeleteCrossIcon, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
 import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
+import { Box } from '@mui/material';
 
 import * as Yup from 'yup';
 
@@ -16,6 +18,26 @@ export const columnsTeams: any = [
     isSortable: true,
     header: 'Team Member',
     cell: (info: any) => info?.getValue(),
+  },
+
+  {
+    accessorFn: (row: any) => row?.action,
+    id: 'action',
+    isSortable: true,
+    header: 'Action',
+    cell: () => (
+      <Box sx={{ display: 'flex', gap: 0.5 }}>
+        <Box sx={{ cursor: 'pointer' }}>
+          <ViewEyeIcon />
+        </Box>
+        <Box sx={{ cursor: 'pointer' }}>
+          <EditPenIcon />
+        </Box>
+        <Box sx={{ cursor: 'pointer' }}>
+          <DeleteCrossIcon />
+        </Box>
+      </Box>
+    ),
   },
 ];
 

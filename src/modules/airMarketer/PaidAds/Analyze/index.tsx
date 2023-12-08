@@ -33,7 +33,7 @@ const Analyze = () => {
                   </Box>
                   {item?.divider && (
                     <Divider
-                      sx={{ borderColor: '#E5E7EB' }}
+                      sx={{ borderColor: theme?.palette?.grey[700] }}
                       orientation="vertical"
                     />
                   )}
@@ -66,7 +66,7 @@ const Analyze = () => {
                   </Box>
                   {item?.divider && (
                     <Divider
-                      sx={{ borderColor: '#E5E7EB' }}
+                      sx={{ borderColor: theme?.palette?.grey[700] }}
                       orientation="vertical"
                     />
                   )}

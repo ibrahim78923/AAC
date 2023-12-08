@@ -8,7 +8,6 @@ const CustomLabel: FC<{ label: string; required?: boolean }> = (props) => {
   return (
     <Typography
       sx={{
-        textTransform: 'capitalize',
         '&::after': required
           ? {
               content: '"*"',
@@ -16,7 +15,7 @@ const CustomLabel: FC<{ label: string; required?: boolean }> = (props) => {
             }
           : '',
         color: 'inherit',
-        marginBottom: 0.4,
+        marginBottom: 0.6,
       }}
     >
       {label}

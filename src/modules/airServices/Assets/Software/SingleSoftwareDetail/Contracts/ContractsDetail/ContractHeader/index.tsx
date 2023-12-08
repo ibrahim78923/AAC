@@ -3,6 +3,7 @@ import { AddCircleBlackIcon } from '@/assets/icons';
 import Search from '@/components/Search';
 import { AIR_SERVICES } from '@/constants';
 import { useRouter } from 'next/router';
+import { CONTRACT_TYPES } from '@/constants/strings';
 
 export const ContractsHeader = () => {
   const router = useRouter();
@@ -22,9 +23,10 @@ export const ContractsHeader = () => {
           size="large"
           onClick={() =>
             router?.push({
-              pathname: AIR_SERVICES?.CONTRACT_FORM,
+              pathname: AIR_SERVICES?.UPSERT_CONTRACT,
               query: {
-                contractType: 'Software License',
+                ...router?.query,
+                contractType: CONTRACT_TYPES?.SOFTWARE_LICENSE,
               },
             })
           }

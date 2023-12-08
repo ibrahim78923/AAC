@@ -120,6 +120,7 @@ export { default as SecondAidKitImage } from './modules/airServices/Dashboard/se
 export { default as ThirdAidKitImage } from './modules/airServices/Dashboard/third-aid-kit-image.png';
 export { default as FourAidKitImage } from './modules/airServices/Dashboard/four-aid-kit-image.png';
 export { default as FiveAidKitImage } from './modules/airServices/Dashboard/five-aid-kit-image.png';
+export { default as ProfileImage } from './modules/airServices/Settings/Requestors/profile-image.png';
 export { default as CustomerWowChampionImage } from './modules/airServices/Dashboard/customer-wow-champion-image.png';
 export { default as MostValuablePlayerImage } from './modules/airServices/Dashboard/most-valuable-player-image.png';
 export { default as DashboardAvatarImage } from './modules/airServices/Dashboard/avatar-image.png';
@@ -197,6 +198,16 @@ export { default as UserRetroImage } from './modules/airMarketer/SocialMarketing
 export { default as MessageGreyImage } from './modules/orgAdmin/organization/message.png';
 export { default as AgentImg } from '../images/shared/agent.png';
 export { default as GoogleAds } from './modules/airMarketer/PaidAds/google-ads.png';
+export { default as FaceBookPerformanceImage } from './modules/airMarketer/Campaigns/facebook.png';
+export { default as CtaImage } from './modules/airMarketer/Campaigns/cta.png';
+export { default as ServiceCatalogPmToolsAsanaImage } from './modules/airServices/Settings/ServiceManagement/ServiceCatalog/service-catalog-pm-tools-asana-image.png';
+export { default as ServiceCatalogPmToolsTroolsImage } from './modules/airServices/Settings/ServiceManagement/ServiceCatalog/service-catalog-pm-tools-trools-image.png';
+export { default as ServiceCatalogHardwareTrelloImage } from './modules/airServices/Settings/ServiceManagement/ServiceCatalog/service-catalog-hardware-trello-image.png';
+export { default as ServiceCatalogHardwareAsanaImage } from './modules/airServices/Settings/ServiceManagement/ServiceCatalog/service-catalog-hardware-asana-image.png';
+export { default as ServiceCatalogSoftwareAdobePhotoshopImage } from './modules/airServices/Settings/ServiceManagement/ServiceCatalog/service-catalog-software-adobe-photoshop-image.png';
+export { default as HandShakeImage } from './modules/airMarketer/reports/hand-shake.png';
+export { default as MockUpImage } from './modules/paidAds/mockUpImage.png';
+export { default as MockEngagementTabsImage } from './modules/paidAds/engagementTabs-img.png';
 
 // settings -> performance management leader board
 
@@ -209,3 +220,20 @@ export { default as IntermediateAwardImage } from './modules/airServices/setting
 export { default as ProfessionalAwardImage } from './modules/airServices/settings/agentPerformanceManagement/professional-award-image.png';
 export { default as MasterAwardImage } from './modules/airServices/settings/agentPerformanceManagement/master-award-image.png';
 export { default as ExpertAwardImage } from './modules/airServices/settings/agentPerformanceManagement/expert-award-image.png';
+export { default as BudgetScheduleMockImage } from './modules/paidAds/budget-schedule-mock.png';
+export { default as AudienceMockImage } from './modules/paidAds/audience-mock.png';
+
+export { default as WorkFlowAutomationImage } from './modules/HeaderAndSidebar/workflow-automation.png';
+export { default as IntegrationsImage } from './modules/HeaderAndSidebar/integrations.png';
+
+export { default as DataManagementImage } from './modules/HeaderAndSidebar/data-management.png';
+export { default as ProfileUserManagementImage } from './modules/HeaderAndSidebar/profile-user-management.png';
+export { default as WhatsappMarketingImage } from './modules/HeaderAndSidebar/whatsapp-marketing.png';
+export { default as CampaignImage } from './modules/HeaderAndSidebar/campaigns.png';
+
+export { default as LeadCaptureImage } from './modules/HeaderAndSidebar/lead-capture.png';
+
+export { default as SocialMarketingImage } from './modules/HeaderAndSidebar/social-marketing.png';
+export { default as PaidAdsImage } from './modules/HeaderAndSidebar/paid-ads.png';
+export { default as SmsMarketingImage } from './modules/HeaderAndSidebar/sms-marketing.png';
+export { default as EmailMarketingImage } from './modules/HeaderAndSidebar/email-marketing.png';

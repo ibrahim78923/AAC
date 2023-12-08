@@ -68,10 +68,12 @@ export const useTicketsLists: any = () => {
       enqueueSnackbar(response?.message ?? 'Tickets Retrieved successfully', {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
+      setSelectedTicketList([]);
     } catch (error: any) {
       enqueueSnackbar(error?.data?.message ?? 'Error', {
         variant: NOTISTACK_VARIANTS?.ERROR,
       });
+      setSelectedTicketList([]);
     }
   };
 
@@ -97,6 +99,7 @@ export const useTicketsLists: any = () => {
           variant: NOTISTACK_VARIANTS?.SUCCESS,
         },
       );
+      setSelectedTicketList([]);
     } catch (error: any) {
       enqueueSnackbar(
         error?.data?.message ?? `Tickets not exported as ${type}`,
@@ -104,6 +107,7 @@ export const useTicketsLists: any = () => {
           variant: NOTISTACK_VARIANTS?.ERROR,
         },
       );
+      setSelectedTicketList([]);
     }
   };
   //TODO: we will be used while doing BE integration
@@ -226,6 +230,7 @@ export const useTicketsLists: any = () => {
         deleteModalOpen={hasTicketAction}
         setDeleteModalOpen={setHasTicketAction}
         selectedTicketList={selectedTicketList}
+        setSelectedTicketList={setSelectedTicketList}
       />
     ),
   };

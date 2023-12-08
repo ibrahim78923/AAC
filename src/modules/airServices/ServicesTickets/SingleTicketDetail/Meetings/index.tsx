@@ -1,4 +1,4 @@
-import { DownIcon, PlusSharedIcon } from '@/assets/icons';
+import { DownIcon, PlusSharedColorIcon } from '@/assets/icons';
 import {
   Box,
   Button,
@@ -139,7 +139,7 @@ export const Meetings = () => {
             <Button
               sx={styles?.addMeetingButton}
               fullWidth={matches}
-              startIcon={<PlusSharedIcon />}
+              startIcon={<PlusSharedColorIcon />}
               disableElevation
               onClick={() => setDrawerOpen(true)}
               variant="contained"

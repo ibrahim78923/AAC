@@ -36,7 +36,7 @@ export const AIR_SERVICES = {
     '/air-services/assets/contracts/detail/add-associate-asset',
   ASSETS_CONTRACTS: '/air-services/assets/contracts',
   ASSETS_CONTRACTS_DETAIL: '/air-services/assets/contracts/detail',
-  CONTRACT_FORM: `/air-services/assets/contracts/contract-form`,
+  UPSERT_CONTRACT: `/air-services/assets/contracts/upsert-contract`,
   UPDATE_CONTRACT: `/air-services/assets/contracts/detail/update-contract`,
   ASSETS_INVENTORY: `/air-services/assets/inventory`,
   ASSETS_INVENTORY_DETAIL: `/air-services/assets/inventory/detail`,
@@ -62,6 +62,7 @@ export const AIR_SERVICES = {
   DEPARTMENT_SETTINGS: `/air-services/settings/user-management/departments`,
   AGENTS_SETTINGS: `/air-services/settings/user-management/agents`,
   REQUESTERS_SETTINGS: `/air-services/settings/user-management/requesters`,
+  SINGLE_REQUESTERS_DETAILS: `/air-services/settings/user-management/requesters/requesters-view-details`,
   USER_ROLES_SETTINGS: `/air-services/settings/user-management/roles`,
   VENDOR_DETAIL: '/air-services/settings/asset-management/vendor/details',
   PRODUCT_CATALOG: `/air-services/settings/asset-management/product-catalog`,
@@ -94,4 +95,17 @@ export const AIR_CUSTOMER_PORTAL = {
 export const ORG_ADMIN: any = {
   ROLES_AND_RIGHTS: '/org-admin/roles-and-rights',
   ADD_ROLE: '/org-admin/roles-and-rights/add-role',
+};
+
+export const AIR_OPERATIONS = {
+  WORKFLOW_AUTOMATION: `/air-operations/workflow-automation`,
+  SALES_WORKFLOW: `/air-operations/workflow-automation/sales-workflow`,
+  SERVICES_WORKFLOW: `/air-operations/workflow-automation/services-workflow`,
+  MARKETING_WORKFLOW: `/air-operations/workflow-automation/marketing-workflow`,
+  UPSERT_MARKETING_WORKFLOW: `/air-operations/workflow-automation/marketing-workflow/upsert-marketing-workflow`,
+};
+
+export const AIR_LOYALTY_PROGRAM = {
+  REWARDS: `/air-loyalty-program/loyalty/rewards`,
+  GIFT_CARDS: `/air-loyalty-program/gift-cards/gift-cards`,
 };

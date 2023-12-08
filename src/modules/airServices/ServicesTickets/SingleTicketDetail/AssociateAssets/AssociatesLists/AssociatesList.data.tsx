@@ -24,20 +24,20 @@ export const ASSETS_IMPACTS = {
   MEDIUM: 'Medium',
 };
 
-const styleFunction: any = {
-  [ASSETS_IMPACTS.LOW]: {
-    color: 'success.main',
-    bgColor: 'primary.light',
-  },
-  [ASSETS_IMPACTS.MEDIUM]: {
-    color: 'warning.main',
-    bgColor: 'primary.light',
-  },
-};
 export const associatesListsColumnFunction: any = (
   setDeleteModal: any,
   theme: any,
 ) => {
+  const styleFunction: any = {
+    [ASSETS_IMPACTS.LOW]: {
+      color: 'success.main',
+      bgColor: theme?.palette?.success?.lighter + 30,
+    },
+    [ASSETS_IMPACTS.MEDIUM]: {
+      color: 'warning.main',
+      bgColor: theme?.palette?.warning?.lighter + 30,
+    },
+  };
   return [
     {
       accessorFn: (row: any) => row?.asset,
@@ -81,7 +81,6 @@ export const associatesListsColumnFunction: any = (
             size="small"
             label={info?.getValue()}
             sx={{
-              backgroundColor: styleFunction?.[info?.getValue()]?.bgColor,
               color: theme?.palette?.common?.black,
             }}
           />

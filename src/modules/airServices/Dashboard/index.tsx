@@ -32,17 +32,17 @@ const Dashboard = () => {
     <Box>
       <HeaderDashboard />
       <br />
-      <Box display={'flex'} flexWrap={'wrap'} gap={1}>
-        {ticketDashboardCardsData?.map((item) => (
-          <Box key={uuidv4()} flex={1}>
+      <Grid container spacing={3}>
+        {ticketDashboardCardsData?.map((item: any) => (
+          <Grid item xs={12} sm={6} md={4} lg={3} xl={2.4} key={item?.id}>
             <TicketDashboardCards
               icon={item?.icon}
               count={item?.count}
               label={item?.label}
             />
-          </Box>
+          </Grid>
         ))}
-      </Box>
+      </Grid>
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Grid container spacing={2}>
