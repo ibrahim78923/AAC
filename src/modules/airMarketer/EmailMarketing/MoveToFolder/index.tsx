@@ -25,7 +25,7 @@ const MoveToFolder = ({ openCloneModal, handleCloseFeaturesModal }: any) => {
 
   const onSubmit = async () => {
     handleCloseFeaturesModal();
-    enqueueSnackbar('Clone Successfully', {
+    enqueueSnackbar('Move To Folder Added Successfully', {
       variant: 'success',
     });
   };
