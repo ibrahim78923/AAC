@@ -1,60 +1,36 @@
-import {
-  RHFRadioGroup,
-  RHFSelect,
-  RHFTextField,
-} from '@/components/ReactHookForm';
-import { Typography } from '@mui/material';
+import { RHFDatePicker, RHFSelect } from '@/components/ReactHookForm';
 
 import * as Yup from 'yup';
 
 export const validationSchema = Yup.object().shape({
-  compaignStatus: Yup?.string()?.required('Field is Required'),
+  campaignStatus: Yup?.string()?.required('Field is Required'),
   startDate: Yup?.string()?.trim()?.required('Field is Required'),
   endDate: Yup?.string()?.required('Field is Required'),
 });
 
 export const defaultValues = {
-  compaignStatus: '',
+  campaignStatus: '',
   startDate: '',
   endDate: '',
 };
 
-export const dataArray = (theme: any) => {
+export const dataArray = () => {
   return [
     {
       componentProps: {
-        color: theme?.palette?.grey[500],
-        varient: 'h4',
-        heading:
-          'Export the data from your campaigns dashboard into a spreadsheet. The exported file will be sent to the email address and also posted to your Notification Center',
-      },
-
-      gridLength: 12,
-      component: Typography,
-    },
-    {
-      componentProps: {
-        name: 'name',
-        label: 'Name',
-        fullWidth: true,
-      },
-
-      component: RHFTextField,
-
-      md: 12,
-    },
-    {
-      componentProps: {
-        name: 'format',
-        label: 'Format',
+        name: 'campaignStatus',
+        label: 'Campaign Status',
         fullWidth: true,
         select: true,
       },
 
       options: [
-        { value: 'xlsx', label: 'XLSX' },
-        { value: 'csv', label: 'CSV' },
-        { value: 'xls', label: 'XLS' },
+        { value: 'scheduled', label: 'Scheduled' },
+        { value: 'inProgress', label: 'InProgress' },
+        { value: 'active', label: 'Active' },
+        { value: 'active', label: 'Active' },
+        { value: 'paused', label: 'Paused' },
+        { value: 'completed', label: 'Completed' },
       ],
 
       component: RHFSelect,
@@ -63,44 +39,39 @@ export const dataArray = (theme: any) => {
     },
     {
       componentProps: {
-        name: 'sendTo',
-        label: 'Send To',
+        name: 'startDate',
+        label: 'Start Date',
         fullWidth: true,
       },
 
-      component: RHFTextField,
+      component: RHFDatePicker,
 
       md: 12,
     },
     {
       componentProps: {
-        name: '',
+        name: 'endDate',
+        label: 'End Date',
         fullWidth: true,
-        defaultValue: 'all',
-        options: [
-          {
-            value: 'Datafromthecurrentviewofcampaigndashboard',
-            label: 'Data from the current view of campaign dashboard',
-          },
-          {
-            value: 'Alldatafromcampaigndashboard',
-            label: 'All data from campaign dashboard',
-          },
-        ],
-      },
-      component: RHFRadioGroup,
-      md: 12,
-    },
-    {
-      componentProps: {
-        color: theme?.palette?.grey[500],
-        varient: 'h4',
-        heading:
-          'Note: Only data available from the campaigns dashboard can be included in the export',
       },
 
-      gridLength: 12,
-      component: Typography,
+      component: RHFDatePicker,
+
+      md: 12,
     },
   ];
 };
+export const teamsArr = [
+  {
+    label: 'Marketing Team',
+    value: 'marketingTeam',
+  },
+  {
+    label: 'Team Alpha',
+    value: 'teamAlpha',
+  },
+  {
+    label: 'Team Bravo',
+    value: 'teamBravo',
+  },
+];

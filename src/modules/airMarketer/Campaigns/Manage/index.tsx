@@ -8,10 +8,18 @@ import ActionButton from '../ActionButton';
 import { FilterrIcon } from '@/assets/icons';
 import useCampaigns from '../useCampaigns';
 import Filters from '../Filters';
+import SaveNewViewDrawer from '../SaveNewViewDrawer';
 
 const Manage = () => {
   const theme = useTheme();
-  const { handleOpenFilter, isOpenFilter, setIsOpenFilter } = useCampaigns();
+  const {
+    handleOpenFilter,
+    isOpenFilter,
+    setIsOpenFilter,
+    handleSaveView,
+    actionsModalDetails,
+    setActionsModalDetails,
+  } = useCampaigns();
   return (
     <>
       <Box sx={{ paddingTop: '10px' }}>
@@ -31,7 +39,7 @@ const Manage = () => {
               <ActionButton />
               <Button
                 startIcon={<FilterrIcon />}
-                onClick={handleOpenFilter}
+                onClick={() => handleOpenFilter()}
                 sx={{
                   border: `1px solid ${theme?.palette?.custom?.dark}`,
                   color: theme?.palette?.custom?.main,
@@ -43,6 +51,7 @@ const Manage = () => {
                 Filter
               </Button>
               <Button
+                onClick={handleSaveView}
                 startIcon={<FilterrIcon />}
                 className="samll"
                 variant="outlined"
@@ -93,6 +102,17 @@ const Manage = () => {
         <Filters
           isOpenDrawer={isOpenFilter}
           onClose={() => setIsOpenFilter(false)}
+        />
+      )}
+      {actionsModalDetails?.isSaveView && (
+        <SaveNewViewDrawer
+          isOpenDrawer={actionsModalDetails?.isSaveView}
+          onClose={() =>
+            setActionsModalDetails({
+              ...actionsModalDetails,
+              isSaveView: false,
+            })
+          }
         />
       )}
     </>
