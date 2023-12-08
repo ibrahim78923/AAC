@@ -231,10 +231,16 @@ const SignUp = () => {
                       </Grid>
                     ) : (
                       <Grid container spacing={4}>
-                        <Grid item xs={12}>
+                        <Grid
+                          item
+                          xs={12}
+                          display={'flex'}
+                          alignItems={'center'}
+                        >
                           <Box
                             onClick={() => setIsStepComplete(false)}
                             sx={{ cursor: 'pointer' }}
+                            mr={1}
                           >
                             <ArrowBackIcon />
                           </Box>
