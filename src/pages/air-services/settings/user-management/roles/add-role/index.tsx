@@ -1,8 +1,8 @@
 import Layout from '@/layout';
-import AddRole from '@/modules/airServices/Settings/UserManagement/Roles/AddRole';
+import UpsertRoles from '@/modules/airServices/Settings/UserManagement/Roles/UpsertRoles';
 
 const AddRolePage = () => {
-  return <AddRole />;
+  return <UpsertRoles />;
 };
 
 export default AddRolePage;

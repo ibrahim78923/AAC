@@ -13,12 +13,6 @@ export const Header = (props: any) => {
         flexWrap={'wrap'}
         gap={2}
       >
-        <Box
-          display={'flex'}
-          alignItems={'center'}
-          flexWrap={'wrap'}
-          gap={2}
-        ></Box>
         <Box>
           <SingleDropdownButton dropdownOptions={dropdownOptions} />
         </Box>

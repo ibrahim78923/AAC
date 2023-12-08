@@ -22,6 +22,7 @@ import EditSmsIcon from '@/assets/icons/modules/airMarketer/SMSMarketing/edit-sm
 import ContactsSMSMarketing from './Contacts';
 
 import { AIR_MARKETER } from '@/routesConstants/paths';
+import Templates from './Templates';
 
 const SMSMarketing = () => {
   const { tabVal, setTabVal, navigate, theme } = useSMSMarketing();
@@ -119,10 +120,12 @@ const SMSMarketing = () => {
         <CommonTabs
           tabsArray={['Dashboard', 'SMS Broadcast', 'Contacts', 'Templates']}
           getTabVal={(val: number) => setTabVal(val)}
+          activeTab={tabVal}
         >
-          <SMSDashboard />
+          <SMSDashboard setTabVal={setTabVal} />
           <SMSBroadcast />
           <ContactsSMSMarketing />
+          <Templates />
         </CommonTabs>
       </Box>
     </>

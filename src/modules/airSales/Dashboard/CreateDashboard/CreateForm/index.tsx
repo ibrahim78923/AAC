@@ -3,20 +3,21 @@ import React from 'react';
 import {
   Grid,
   Box,
-  Autocomplete,
-  TextField,
   Button,
   useTheme,
   Typography,
-  Switch,
+  FormControl,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
 } from '@mui/material';
 
-import { FormProvider, RHFRadioGroup } from '@/components/ReactHookForm';
+import { FormProvider, RHFSwitch } from '@/components/ReactHookForm';
 
 import {
+  createFormOptions,
   dataArray,
   defaultValues,
-  userAndTeams,
   validationSchema,
 } from './CreateForm.data';
 
@@ -26,26 +27,24 @@ import { enqueueSnackbar } from 'notistack';
 import { v4 as uuidv4 } from 'uuid';
 import { useForm } from 'react-hook-form';
 import DetailsView from '../DetailsView';
-import { PrimaryPreviewEyeIcon } from '@/assets/icons';
+import { EyeIcon } from '@/assets/icons';
 import DialogCards from '../../Preview/DialogCards';
 import useCreateForm from './useCreateForm';
-import { viewAndEditOptions } from '@/modules/airMarketer/Dashboard/CreateDashboard/CreateForm/CreateForm.data';
 
-const CreateForm = ({
-  setIsShowCreateDashboardForm,
-  isShowEditDashboard,
-}: any) => {
+const CreateForm = ({ isShowEditDashboard }: any) => {
   const {
     isOpenPreview,
     setIsOpenPreview,
     selectedDashoardWidget,
     setSelectedDashboardWidgets,
+    handleChangeAccessValue,
+    accessValue,
   } = useCreateForm();
   const methods = useForm({
     resolver: yupResolver(validationSchema),
     defaultValues: defaultValues,
   });
-  const { handleSubmit, watch, reset } = methods;
+  const { handleSubmit, reset } = methods;
 
   const onSubmit = async (values: any) => {
     setSelectedDashboardWidgets(values);
@@ -55,7 +54,6 @@ const CreateForm = ({
     reset();
   };
   const theme = useTheme();
-  const watchFields = watch(['accessDashboard']);
 
   return (
     <>
@@ -71,55 +69,72 @@ const CreateForm = ({
                   key={uuidv4()}
                   style={{ paddingTop: '10px' }}
                 >
-                  {item?.componentProps?.heading && (
-                    <Grid item container>
-                      <Grid item xs={6}>
-                        <Typography variant="h5">
-                          {item?.componentProps?.heading}
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={6}>
-                        <Typography variant="h6">
-                          Set as default
-                          <Switch />
-                        </Typography>
-                      </Grid>
-                    </Grid>
-                  )}
-
-                  {item.componentProps.name === 'accessDashboard' ? (
-                    <Box>
-                      <item.component {...item.componentProps} size="small">
-                        {item?.componentProps?.select &&
-                          item?.options?.map((option: any) => (
-                            <option value={option.value} key={uuidv4()}>
-                              {option.label}
-                            </option>
-                          ))}
-                      </item.component>
-
-                      {watchFields[0] === 'Only special user and teams' && (
-                        <Autocomplete
-                          disablePortal
-                          id="combo-box-demo"
-                          options={userAndTeams}
-                          sx={{ width: 300 }}
-                          renderInput={(params) => (
-                            <TextField {...params} label="users" />
-                          )}
-                        />
-                      )}
-                      {watchFields[0] === 'Everyone' && (
-                        <RHFRadioGroup
-                          options={viewAndEditOptions}
-                          name="viewAndEdit"
-                          label=""
-                          row={false}
-                        />
-                      )}
+                  {item?.componentProps?.name ===
+                  createFormOptions?.accessDashboard ? (
+                    <Box display="flex" justifyContent="space-between">
+                      <Box>
+                        <FormControl>
+                          <Typography
+                            variant="h6"
+                            fontWeight={600}
+                            color={theme?.palette?.slateBlue.main}
+                          >
+                            Who can access this dashboard?
+                          </Typography>
+                          <RadioGroup
+                            value={accessValue}
+                            onChange={handleChangeAccessValue}
+                            name="access"
+                          >
+                            <FormControlLabel
+                              value="privateToOwner"
+                              control={<Radio />}
+                              label="Private to owner (me)"
+                            />
+                            <FormControlLabel
+                              value="everyOne"
+                              control={<Radio />}
+                              label="Everyone"
+                            />
+                            {accessValue === createFormOptions?.everyOne && (
+                              <FormControl sx={{ ml: 2 }} component="fieldset">
+                                <RadioGroup aria-label="child" name="child">
+                                  <FormControlLabel
+                                    value="viewAndEdit"
+                                    control={<Radio />}
+                                    label="View and edit"
+                                  />
+                                  <FormControlLabel
+                                    value="viewOnly"
+                                    control={<Radio />}
+                                    label="View only"
+                                  />
+                                </RadioGroup>
+                              </FormControl>
+                            )}
+                            <FormControlLabel
+                              value="onlySpecificUserAndTeams"
+                              control={<Radio />}
+                              label="Only specific user and teams"
+                            />
+                          </RadioGroup>
+                        </FormControl>
+                      </Box>
+                      <Box display={{ xl: 'block', xs: 'none' }}>
+                        <RHFSwitch name="default" label="Set as default" />
+                      </Box>
                     </Box>
                   ) : (
-                    <item.component {...item.componentProps} size="small" />
+                    <>
+                      <Typography
+                        fontWeight={600}
+                        color={theme?.palette?.slateBlue.main}
+                        variant="h6"
+                      >
+                        {item?.componentProps?.heading}
+                      </Typography>
+                      <item.component {...item?.componentProps} size="small" />
+                    </>
                   )}
                 </Grid>
               ))}
@@ -128,7 +143,7 @@ const CreateForm = ({
                   <Button
                     variant="outlined"
                     onClick={() => setIsOpenPreview(true)}
-                    startIcon={<PrimaryPreviewEyeIcon />}
+                    startIcon={<EyeIcon />}
                   >
                     Preview Dashboard
                   </Button>
@@ -138,22 +153,8 @@ const CreateForm = ({
             <Grid sm={12} lg={6}>
               <DetailsView selectedDashoardWidget={selectedDashoardWidget} />
             </Grid>
-            <Grid item sm={4}>
-              <Button
-                className="small"
-                onClick={() => {
-                  setIsShowCreateDashboardForm(false);
-                }}
-                sx={{
-                  border: `1px solid ${theme?.palette?.custom?.dark}`,
-                  color: theme?.palette?.custom?.main,
-                  width: '112px',
-                }}
-              >
-                Back
-              </Button>
-            </Grid>
-            <Grid item sm={8} style={{ textAlign: 'end' }}>
+
+            <Grid item sm={12} style={{ textAlign: 'end' }}>
               <Button
                 className="small"
                 sx={{
