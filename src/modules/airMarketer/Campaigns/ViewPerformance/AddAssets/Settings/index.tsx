@@ -8,7 +8,7 @@ const Settings = ({ closeAddAssets, isOpenAddAssets }: any) => {
     <CommonModal
       title="Add Assets"
       open={isOpenAddAssets}
-      handleClose={closeAddAssets}
+      handleCancel={closeAddAssets}
     >
       <Grid container>
         <Grid item lg={3}>
