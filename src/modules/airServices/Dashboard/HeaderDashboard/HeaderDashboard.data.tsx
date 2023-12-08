@@ -8,6 +8,9 @@ export const dropDownMenus = [
   {
     title: 'Email this dashboard',
   },
+  {
+    title: 'Edit',
+  },
 ];
 
 export const dashboardFunction = (theme: any, router: any) => [

@@ -262,3 +262,7 @@ export const ROLES_ACTION_CONSTANTS_DRAWER_ACTION = {
   ADD_ROLE: 'Add Roles',
   UPDATE_ROLE: 'Update Roles',
 };
+
+export const DASHBOARD = {
+  EDIT: 'edit',
+};
