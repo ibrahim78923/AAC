@@ -33,7 +33,7 @@ const Dashboard = () => {
               paddingLeft: '0px',
             }}
           >
-            <Typography variant="h4">Sales Dashboard</Typography>
+            <Typography variant="h3">Sales Dashboard</Typography>
 
             <Box style={{ display: 'flex' }}>
               <Actions setIsShowEditDashboard={setIsShowEditDashboard} />
@@ -58,7 +58,7 @@ const Dashboard = () => {
       {isToggled && !isShowCreateDashboardForm && (
         <>
           {' '}
-          <Grid item xs={12} sm={12}>
+          <Grid item xs={12} sm={12} style={{ paddingLeft: '0px' }}>
             <Manage
               toggle={toggle}
               setIsShowCreateDashboardForm={setIsShowCreateDashboardForm}

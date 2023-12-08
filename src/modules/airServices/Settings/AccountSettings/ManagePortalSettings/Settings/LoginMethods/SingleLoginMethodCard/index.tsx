@@ -1,13 +1,12 @@
 import { Box, Grid, Tooltip, Typography } from '@mui/material';
 import { loginMethodsDataArray, timeoutDataArray } from '../LoginMethods.data';
-import { FormProvider } from '@/components/ReactHookForm';
 import ErrorIcon from '@mui/icons-material/Error';
 
 export const SingleLoginMethodCard = (props: any) => {
-  const { methods, theme, timeOut, timeOutMethods } = props;
+  const { theme, timeOut } = props;
 
   return (
-    <FormProvider methods={methods}>
+    <>
       {loginMethodsDataArray?.map((item: any) => (
         <>
           {item?.showAdmin ? (
@@ -25,7 +24,7 @@ export const SingleLoginMethodCard = (props: any) => {
                   <ErrorIcon color="primary" />
                 </Tooltip>
               </Box>
-              <Grid item sm={12} lg={item?.gridLength}>
+              <Grid item sm={12} lg={item?.gridLength} key={item?._id}>
                 <item.component {...item?.componentProps} />
               </Grid>
             </Grid>
@@ -55,32 +54,36 @@ export const SingleLoginMethodCard = (props: any) => {
                 <item.component {...item?.componentProps} />
               </Box>
               {timeOut && item?.componentProps?.name === 'sessionTimeout' && (
-                <Grid
-                  container
+                <Box
                   bgcolor={theme?.palette?.grey?.[100]}
-                  flex={1}
                   mb={1}
                   p={2}
-                  alignItems={'center'}
+                  alignItems={{ xs: 'start', lg: 'center' }}
+                  display={'flex'}
+                  flexDirection={{ xs: 'column', lg: 'row' }}
                 >
-                  <Typography variant="body1" mr={2}>
+                  <Typography variant="body1" mr={1}>
                     Timeout:
                   </Typography>
-                  <FormProvider methods={timeOutMethods}>
-                    <Grid container spacing={2}>
-                      {timeoutDataArray?.map((item: any) => (
-                        <Grid item key={item?.id} xs={5}>
-                          <item.component {...item?.componentProps} />
-                        </Grid>
-                      ))}
-                    </Grid>
-                  </FormProvider>
-                </Grid>
+                  <Grid container spacing={1}>
+                    {timeoutDataArray?.map((item: any) => (
+                      <Grid
+                        item
+                        key={item?._id}
+                        xs={5}
+                        sm={2}
+                        lg={item?.gridLength}
+                      >
+                        <item.component {...item?.componentProps} />
+                      </Grid>
+                    ))}
+                  </Grid>
+                </Box>
               )}
             </>
           )}
         </>
       ))}
-    </FormProvider>
+    </>
   );
 };

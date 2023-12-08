@@ -64,6 +64,7 @@ export const UpsertArticle = () => {
               value=""
               onChange={() => {}}
               style={{ height: '65vh' }}
+              placeholder={`Title for article \n Description`}
             />
           </Box>
           <CustomDropZone name="file" />

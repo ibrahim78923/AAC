@@ -6,24 +6,20 @@ export const Timeline = ({ data }: any) => {
   const theme = useTheme();
   return (
     <>
-      <Box
-        display={'flex'}
-        flexWrap={'wrap'}
-        alignItems={'center'}
-        gap={1.25}
-        marginBottom={1.5}
-      >
-        <Typography variant="body3" sx={{ flex: 0.15 }}>
+      <Box display={'flex'} flexWrap={'wrap'} gap={1.25}>
+        <Typography variant="body3" sx={{ flex: 0.15 }} pt={1}>
           {' '}
           {data?.date}
         </Typography>
-        <IconButton
-          disabled
-          color="primary"
-          sx={{ border: `1px solid ${theme?.palette?.primary?.main}` }}
-        >
-          <BorderColorIcon color="primary" />
-        </IconButton>
+        <Box>
+          <IconButton
+            disabled
+            color="primary"
+            sx={{ border: `1px solid ${theme?.palette?.primary?.main}` }}
+          >
+            <BorderColorIcon color="primary" />
+          </IconButton>
+        </Box>
         <Box sx={{ flex: 0.8 }}>
           {' '}
           <Typography

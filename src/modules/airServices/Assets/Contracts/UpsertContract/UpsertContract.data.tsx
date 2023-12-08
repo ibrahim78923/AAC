@@ -170,9 +170,9 @@ export const upsertContractFormDefaultValuesFunction = (
 };
 
 export const upsertContractFormSchemaFunction: any = Yup?.object()?.shape({
-  contractName: Yup?.string()?.required('Contract Name is required'),
-  contractNumber: Yup?.string()?.required('Contract Number is required'),
-  type: Yup?.string()?.required('Type is required'),
+  contractName: Yup?.string()?.required('Required'),
+  contractNumber: Yup?.string(),
+  type: Yup?.string()?.required('Required'),
   associateAssets: Yup?.string()
     ?.ensure()
     ?.when('type', {
@@ -180,13 +180,13 @@ export const upsertContractFormSchemaFunction: any = Yup?.object()?.shape({
       then: (schema: any) => schema?.required(),
       otherwise: (schema) => schema?.notRequired(),
     }),
-  cost: Yup?.string()?.required('Cost is required'),
-  status: Yup?.string()?.required('Status is required'),
-  vendor: Yup?.string()?.required('Vendor is required'),
-  approver: Yup?.string()?.required('approver is required'),
-  startDate: Yup?.date()?.required('Start date is required'),
-  endDate: Yup?.date()?.required('End date is required'),
-  autoRenew: Yup?.boolean()?.required('auto renew is required'),
+  cost: Yup?.string(),
+  status: Yup?.string()?.required('Required'),
+  vendor: Yup?.string(),
+  approver: Yup?.string(),
+  startDate: Yup?.date(),
+  endDate: Yup?.date(),
+  autoRenew: Yup?.boolean(),
   notifyExpiry: Yup?.boolean(),
   notifyBefore: Yup?.string()
     ?.trim()
@@ -272,7 +272,7 @@ export const upsertContractFormFieldsDataFunction = (
   isFieldDisable = false,
 ) => [
   {
-    id: 3092,
+    id: 1,
     componentProps: {
       color: 'slateBlue.main',
       variant: 'h4',
@@ -290,10 +290,11 @@ export const upsertContractFormFieldsDataFunction = (
       name: 'contractName',
       label: 'Contract Name',
       disabled: isFieldDisable,
+      required: true,
     },
   },
   {
-    id: 20,
+    id: 3,
     component: RHFTextField,
     md: 6,
     componentProps: {
@@ -304,7 +305,7 @@ export const upsertContractFormFieldsDataFunction = (
     },
   },
   {
-    id: 129091,
+    id: 4,
     componentProps: {
       fullWidth: true,
       name: 'type',
@@ -312,6 +313,7 @@ export const upsertContractFormFieldsDataFunction = (
       select: true,
       options: contractTypeOptions,
       disabled: isFieldDisable,
+      required: true,
       onChange: (e: any) => {
         setValue?.('type', e?.target?.value);
         setContractType?.(getValues?.('type'));
@@ -335,20 +337,21 @@ export const upsertContractFormFieldsDataFunction = (
     component: RHFSelect,
   },
   {
-    id: 150,
+    id: 5,
     componentProps: {
       fullWidth: true,
       name: 'associateAssets',
       label: 'Associate Assets',
       select: true,
       options: dropdownDummy,
+      required: contractType !== CONTRACT_TYPES?.SOFTWARE_LICENSE,
       disabled: contractType === CONTRACT_TYPES?.SOFTWARE_LICENSE,
     },
     md: 6,
     component: RHFSelect,
   },
   {
-    id: 129,
+    id: 6,
     componentProps: {
       fullWidth: true,
       name: 'status',
@@ -356,12 +359,13 @@ export const upsertContractFormFieldsDataFunction = (
       select: true,
       options: contractStatusOptions,
       disabled: isFieldDisable,
+      required: true,
     },
     md: 6,
     component: RHFSelect,
   },
   {
-    id: 200,
+    id: 7,
     component: RHFTextField,
     md: 6,
     componentProps: {
@@ -372,7 +376,7 @@ export const upsertContractFormFieldsDataFunction = (
     },
   },
   {
-    id: 82,
+    id: 8,
     component: RHFSelect,
     md: 6,
     componentProps: {
@@ -385,7 +389,7 @@ export const upsertContractFormFieldsDataFunction = (
     },
   },
   {
-    id: 100,
+    id: 9,
     componentProps: {
       fullWidth: true,
       name: 'vendor',
@@ -398,7 +402,7 @@ export const upsertContractFormFieldsDataFunction = (
     component: RHFSelect,
   },
   {
-    id: 36677,
+    id: 10,
     componentProps: {
       color: 'slateBlue.main',
       variant: 'h4',
@@ -408,7 +412,7 @@ export const upsertContractFormFieldsDataFunction = (
     component: Typography,
   },
   {
-    id: 4246,
+    id: 11,
     componentProps: {
       name: 'startDate',
       label: 'Start Date',
@@ -418,7 +422,7 @@ export const upsertContractFormFieldsDataFunction = (
     md: 6,
   },
   {
-    id: 54223,
+    id: 12,
     componentProps: {
       name: 'endDate',
       label: 'End Date',
@@ -428,7 +432,7 @@ export const upsertContractFormFieldsDataFunction = (
     md: 6,
   },
   {
-    id: 6524,
+    id: 13,
     componentProps: {
       name: 'autoRenew',
       label: (
@@ -448,7 +452,7 @@ export const upsertContractFormFieldsDataFunction = (
     md: 12,
   },
   {
-    id: 435,
+    id: 14,
     componentProps: {
       name: 'notifyExpiry',
       label: (
@@ -470,7 +474,7 @@ export const upsertContractFormFieldsDataFunction = (
   ...(watchForNotifyExpiry
     ? [
         {
-          id: 24230,
+          id: 15,
           component: RHFTextField,
           md: 6,
           componentProps: {
@@ -481,7 +485,7 @@ export const upsertContractFormFieldsDataFunction = (
           },
         },
         {
-          id: 20421,
+          id: 16,
           component: RHFTextField,
           md: 6,
           componentProps: {
@@ -496,7 +500,7 @@ export const upsertContractFormFieldsDataFunction = (
   ...(contractType === CONTRACT_TYPES?.SOFTWARE_LICENSE
     ? [
         {
-          id: 3,
+          id: 17,
           componentProps: {
             color: 'slateBlue.main',
             variant: 'h4',
@@ -506,7 +510,7 @@ export const upsertContractFormFieldsDataFunction = (
           component: Typography,
         },
         {
-          id: 82,
+          id: 18,
           component: RHFSelect,
           md: 6,
           componentProps: {
@@ -516,10 +520,11 @@ export const upsertContractFormFieldsDataFunction = (
             select: true,
             options: dropdownDummy,
             disabled: isFieldDisable,
+            required: true,
           },
         },
         {
-          id: 54383,
+          id: 19,
           componentProps: {
             name: 'itemDetail',
           },
@@ -528,7 +533,7 @@ export const upsertContractFormFieldsDataFunction = (
         },
 
         {
-          id: 82,
+          id: 20,
           component: RHFSelect,
           md: 12,
           componentProps: {
@@ -541,7 +546,7 @@ export const upsertContractFormFieldsDataFunction = (
           },
         },
         {
-          id: 3,
+          id: 21,
           componentProps: {
             color: 'slateBlue.main',
             variant: 'h4',
@@ -551,7 +556,7 @@ export const upsertContractFormFieldsDataFunction = (
           component: Typography,
         },
         {
-          id: 82,
+          id: 22,
           component: RHFSelect,
           md: 6,
           componentProps: {
@@ -564,7 +569,7 @@ export const upsertContractFormFieldsDataFunction = (
           },
         },
         {
-          id: 24230,
+          id: 23,
           component: RHFTextField,
           md: 6,
           componentProps: {

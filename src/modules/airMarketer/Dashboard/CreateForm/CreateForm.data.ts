@@ -177,7 +177,7 @@ export const userAndTeams = [
   { label: 'The Kid', year: 1921 },
   { label: 'Inglourious Basterds', year: 2009 },
   { label: 'Snatch', year: 2000 },
-  { label: '3 Idiots', year: 2009 },
+
   { label: 'Monty Python and the Holy Grail', year: 1975 },
 ];
 export const optionViews = [

@@ -54,6 +54,7 @@ export default function RHFAutocomplete({
             autoComplete
             noOptionsText={noOptionsText}
             value={value}
+            getOptionLabel={(options) => options?.replaceAll?.('_', ' ')}
             PaperComponent={(props) => (
               <Paper
                 {...props}

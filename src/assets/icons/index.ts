@@ -332,6 +332,14 @@ export { default as SearchAdIcon } from './modules/paidAds/search-ad';
 export { default as BookMarkIcon } from './shared/book-mark-icon';
 export { default as ArrowSquareLeftIcon } from './shared/arrow-square-left';
 export { default as ArrowSquareRightIcon } from './shared/arrow-square-right';
+export { default as UploadDocumentIcon } from './modules/orgAdmin/dashboard/upload-document';
+export { default as EditProfilelLineIcon } from './modules/orgAdmin/dashboard/edit-profilel-line';
+export { default as SalesIcon } from './modules/orgAdmin/dashboard/sales';
+export { default as MarketerIcon } from './modules/orgAdmin/dashboard/marketer';
+export { default as SalesArrowsIcon } from './modules/orgAdmin/dashboard/sales-arrows';
+export { default as SenderMarketerIcon } from './modules/orgAdmin/dashboard/sender-marketer';
+export { default as ServicesIcon } from './modules/orgAdmin/dashboard/services';
+export { default as OperationIcon } from './modules/orgAdmin/dashboard/operation';
 export { default as RevertIcon } from './shared/revert-icon';
 export { default as EditInputIcon } from './shared/edit-input-icon';
 
@@ -343,3 +351,8 @@ export { default as ImageIcon } from './modules/airMarketer/LeadCapture/image';
 export { default as SpaceIcon } from './modules/airMarketer/LeadCapture/space';
 export { default as DividerIcon } from './modules/airMarketer/LeadCapture/divider';
 export { default as InputIcon } from './modules/airMarketer/LeadCapture/input';
+export { default as SalesWorkflowIcon } from './modules/airOperations/workflowAutomation/sales-workflow-icon';
+export { default as ServiceWorkflowIcon } from './modules/airOperations/workflowAutomation/service-workflow-icon';
+
+export { default as DocumentDownloadIcon } from './modules/airMarketer/EmailReports/document-download';
+export { default as SmileIcon } from './modules/airMarketer/EmailMarketing/smile-emoji-icon';
