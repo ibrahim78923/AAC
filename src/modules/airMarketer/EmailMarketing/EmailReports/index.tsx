@@ -3,8 +3,7 @@ import PerformanceChart from './PerformanceChart';
 import ActivityChart from './ActivityChart';
 import { styles } from './styles';
 import RecipientEngagement from './RecipientEngagement';
-import DownloadReportIcon from '../../../../assets/icons/modules/airMarketer/EmailReports/document-download.svg';
-import Image from 'next/image';
+import { DocumentDownloadIcon } from '@/assets/icons';
 
 const EmailReports = () => {
   return (
@@ -20,7 +19,7 @@ const EmailReports = () => {
         <Box sx={{ ...styles?.emailReportsWrap, my: 2 }}>
           <Typography variant="h4">Email Chart</Typography>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <Image src={DownloadReportIcon} alt="" />
+            <DocumentDownloadIcon />
             <Typography variant="h4" sx={{ fontWeight: 400, color: '#38CAB5' }}>
               Download Reports
             </Typography>

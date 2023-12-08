@@ -353,3 +353,6 @@ export { default as DividerIcon } from './modules/airMarketer/LeadCapture/divide
 export { default as InputIcon } from './modules/airMarketer/LeadCapture/input';
 export { default as SalesWorkflowIcon } from './modules/airOperations/workflowAutomation/sales-workflow-icon';
 export { default as ServiceWorkflowIcon } from './modules/airOperations/workflowAutomation/service-workflow-icon';
+
+export { default as DocumentDownloadIcon } from './modules/airMarketer/EmailReports/document-download';
+export { default as SmileIcon } from './modules/airMarketer/EmailMarketing/smile-emoji-icon';

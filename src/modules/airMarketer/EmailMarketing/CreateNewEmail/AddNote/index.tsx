@@ -5,9 +5,8 @@ import { Box, Popover, Typography } from '@mui/material';
 import { useAddNote } from './useAddNote';
 import Image from 'next/image';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import EmailImage from '../../../../../assets/images/modules/airMarketer/EmailMarketing/mockup-email.png';
-import AvatarImage from '../../../../../assets/images/shared/avatar.png';
-import EmojiIcon from '../../../../../assets/images/modules/airMarketer/EmailMarketing/emoji-icon.svg';
+import { SmileIcon } from '@/assets/icons';
+import { AvatarImage, EmailMockupImage } from '@/assets/images';
 
 interface noteProps {
   open: boolean;
@@ -31,7 +30,7 @@ const AddANote = ({ open, onClose }: noteProps) => {
         <SubjectComp title="Subject" value="Business Consultant" />
       </Box>
       <Box>
-        <Image src={EmailImage} alt="" style={{ paddingTop: '15px' }} />
+        <Image src={EmailMockupImage} alt="" style={{ paddingTop: '15px' }} />
         <Box sx={styles?.chatCardContent}>
           <Box sx={styles?.chatWrap}>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -52,7 +51,7 @@ const AddANote = ({ open, onClose }: noteProps) => {
             <Typography variant="body3" sx={{ color: '#14142B' }}>
               This is an employee email
             </Typography>
-            <Image src={EmojiIcon} alt="" />
+            <SmileIcon />
           </Box>
         </Box>
         <Box></Box>
