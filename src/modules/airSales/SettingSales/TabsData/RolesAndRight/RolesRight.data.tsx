@@ -69,10 +69,10 @@ export const columns: any = [
     cell: (info: any) => info.getValue(),
   },
   {
-    accessorFn: (row: any) => row.decription,
-    id: 'decription',
+    accessorFn: (row: any) => row.description,
+    id: 'description',
     isSortable: true,
-    header: 'Decription',
+    header: 'Description',
     cell: (info: any) => info.getValue(),
   },
 ];

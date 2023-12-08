@@ -7,22 +7,17 @@ import {
 import * as Yup from 'yup';
 
 export const validationSchema = Yup?.object()?.shape({
-  accountName: Yup?.string()?.required('Field is Required'),
-  phoneNo: Yup?.string()?.trim()?.required('Field is Required'),
-  postCode: Yup?.string()?.trim()?.required('Field is Required'),
+  name: Yup?.string()?.required('Field is Required'),
+  industry: Yup?.string()?.trim()?.required('Field is Required'),
+  companyOwner: Yup?.string()?.trim()?.required('Field is Required'),
+  createdDate: Yup?.string()?.trim()?.required('Field is Required'),
 });
 
 export const defaultValuesOrganization = {
-  accountName: '',
-  phoneNo: '',
-  postCode: '',
-  address: '',
-  unit: '',
-  buildingName: '',
-  buildingNumber: '',
-  streetName: '',
-  city: '',
-  country: '',
+  name: '',
+  industry: '',
+  companyOwner: '',
+  createdDate: '',
 };
 
 export const viewCompanyArr = [
@@ -38,7 +33,7 @@ export const viewCompanyArr = [
   },
   {
     componentProps: {
-      name: 'Industry',
+      name: 'industry',
       label: 'Industry',
       fullWidth: true,
       select: true,

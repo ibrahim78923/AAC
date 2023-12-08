@@ -3,7 +3,8 @@ export const styles = {
     return {
       marginTop: '1.5rem',
       paddingTop: '8px',
-      width: '15%',
+      width: '20%',
+      height: { lg: '100vh', xs: '0vh' },
       marginRight: '1%',
       borderTop: '1px solid #EDEDED',
       '@media (max-width: 1500px)': {

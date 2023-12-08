@@ -2,7 +2,7 @@ export const series = [28, 18, 54];
 const colors = ['#FF4A4A', '#47B263', '#0AADC7'];
 export const options: any = {
   chart: {
-    width: 380,
+    width: 450,
     type: 'pie',
   },
   labels: ['Loss', 'Win', 'Open'],
@@ -11,6 +11,20 @@ export const options: any = {
   responsive: [
     {
       breakpoint: 480,
+      options: {
+        chart: {
+          width: 320,
+        },
+        legend: {
+          position: 'bottom',
+          itemMargin: {
+            vertical: 12,
+          },
+        },
+      },
+    },
+    {
+      breakpoint: 375,
       options: {
         chart: {
           width: 200,
