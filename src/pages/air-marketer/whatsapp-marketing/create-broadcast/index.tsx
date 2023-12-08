@@ -1,5 +1,5 @@
 import Layout from '@/layout';
-import CreateBroadcast from '@/modules/airMarketer/WhatsAppMarketing/WhatsAppMarketingComponent/CreateBroadcast';
+import CreateBroadcast from '@/modules/airMarketer/WhatsAppMarketing/WhatsAppMarketingComponent/Broadcast/CreateBroadcast';
 
 const CreateBroadcastPage = () => {
   return <CreateBroadcast />;

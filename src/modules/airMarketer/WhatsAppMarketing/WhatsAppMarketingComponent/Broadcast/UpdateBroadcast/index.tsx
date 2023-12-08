@@ -8,6 +8,7 @@ import {
   InputAdornment,
   Stack,
 } from '@mui/material';
+import { useRouter } from 'next/navigation';
 import { ArrowBackIcon, PlusSharedColorIcon } from '@/assets/icons';
 import DateRangeIcon from '@mui/icons-material/DateRange';
 import {
@@ -25,7 +26,8 @@ import useCreateBroadcast from './useCreateBroadcast';
 import { styles } from './CreateBroadcast.style';
 import TanstackTable from '@/components/Table/TanstackTable';
 
-const CreateBroadcast = ({ setIsCreateBroadcast }: any) => {
+const UpdateBroadcast = () => {
+  const router = useRouter();
   const { theme, setIsAddContactDrawerOpen } = useCreateBroadcast();
 
   const methods: any = useForm({
@@ -43,15 +45,13 @@ const CreateBroadcast = ({ setIsCreateBroadcast }: any) => {
     <>
       <Box sx={{ display: 'flex', alignItems: 'center', mb: '27px' }}>
         <Box
-          onClick={() => {
-            setIsCreateBroadcast(false);
-          }}
+          onClick={() => router.push('/air-marketer/whatsapp-marketing')}
           sx={{ cursor: 'pointer', lineHeight: '1', mr: '12px' }}
         >
           <ArrowBackIcon />
         </Box>
         <Typography sx={styles.heading} variant="h3">
-          Create Broadcast
+          Update Broadcast
         </Typography>
       </Box>
 
@@ -165,4 +165,4 @@ const CreateBroadcast = ({ setIsCreateBroadcast }: any) => {
   );
 };
 
-export default CreateBroadcast;
+export default UpdateBroadcast;

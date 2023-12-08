@@ -1,6 +1,22 @@
 import { useState } from 'react';
+import { PhoneNumberUtil } from 'google-libphonenumber';
+
+const phoneUtil = PhoneNumberUtil.getInstance();
+const isValid = (phone: string) => {
+  try {
+    return phoneUtil.isValidNumber(phoneUtil.parseAndKeepRawInput(phone));
+  } catch (error) {
+    return false;
+  }
+};
 
 const useConnectNumber = () => {
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const isPhoneValid = isValid(phoneNumber);
+  const handlePhoneChange = (phone: any) => {
+    setPhoneNumber(phone);
+  };
+
   const [openDialogRegNumber, setOpenDialogRegNumber] = useState(false);
   const [openDialogVerification, setOpenDialogVerification] = useState(false);
   const handleOpenDialogRegNumber = () => {
@@ -10,6 +26,9 @@ const useConnectNumber = () => {
     setOpenDialogRegNumber(false);
   };
   const handleAddRegNumSubmit = () => {
+    if (!isPhoneValid) {
+      return true;
+    }
     setOpenDialogRegNumber(false);
     setOpenDialogVerification(true);
   };
@@ -25,6 +44,9 @@ const useConnectNumber = () => {
   };
 
   return {
+    isPhoneValid,
+    phoneNumber,
+    handlePhoneChange,
     openDialogRegNumber,
     handleOpenDialogRegNumber,
     handleCloseDialogRegNumber,

@@ -6,10 +6,12 @@ import useBroadcast from '../useBroadcast';
 import { BroadcastHeaderI } from './BroadcastHeader.interface';
 import { styles } from './BroadcastHeader.style';
 import SwitchableDatepicker from '@/components/SwitchableDatepicker';
+import { useRouter } from 'next/navigation';
 
 const BroadcastHeader = (props: BroadcastHeaderI) => {
+  const router = useRouter();
   const [dateValue, setDateValue] = useState<any>([new Date(), new Date()]);
-  const { handleOpenDelete, setIsCreateBroadcast } = props;
+  const { handleOpenDelete } = props;
   const {
     theme,
     statusEl,
@@ -107,8 +109,10 @@ const BroadcastHeader = (props: BroadcastHeaderI) => {
           >
             <MenuItem
               onClick={() => {
-                setIsCreateBroadcast(true);
                 handleActionsMenuClose();
+                router.push(
+                  '/air-marketer/whatsapp-marketing/update-broadcast',
+                );
               }}
             >
               Edit

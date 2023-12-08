@@ -36,6 +36,9 @@ export default function RHFTextField({ name, required, ...other }: any) {
             }}
             {...other}
             label=""
+            onBlur={(e) => {
+              e.preventDefault();
+            }}
           />
         </>
       )}

@@ -1,69 +1,63 @@
-import { RHFSelect } from '@/components/ReactHookForm';
-
-import RHFTextField from '@/components/ReactHookForm/RHFTextField';
-
+import {
+  RHFSelect,
+  RHFDropZone,
+  RHFTextField,
+  RHFEditor,
+} from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
 export const validationSchema = Yup.object().shape({
-  sender: Yup.string().required('Field is Required'),
+  name: Yup.string().required('Field is Required'),
+  campaign: Yup.string().required('Field is Required'),
+  contacts: Yup.string().required('Field is Required'),
   details: Yup.string().required('Field is Required'),
-  compaign: Yup.string().required('Field is Required'),
-  addedContacts: Yup.string().required('Field is Required'),
-  useTemplate: Yup.string().required('Field is Required'),
-  recipients: Yup.string().required('Field is Required'),
-  details2: Yup.string().required('Field is Required'),
 });
 
 export const defaultValues = {
-  sender: '',
+  name: '',
+  campaign: '',
+  template: '',
+  contacts: '',
   details: '',
-  compaign: '',
-  addedContacts: '',
-  useTemplate: '',
-  recipients: '',
-  details2: '',
+  attachment: '',
 };
 
-export const createBroadcast = [
+export const createBroadcastFields = [
   {
-    title: 'Sender',
+    id: '01',
     componentProps: {
-      label: 'Sender',
-      name: 'sender',
+      label: 'Broadcast Name',
+      name: 'name',
+      fullWidth: true,
+      placeholder: 'Enter Name',
+      required: true,
+    },
+    component: RHFTextField,
+    md: 12,
+  },
+  {
+    id: '02',
+    componentProps: {
+      label: 'Campaign',
+      name: 'campaign',
       fullWidth: true,
       select: true,
+      required: true,
     },
     options: [
-      { value: '13', label: '(217)555-0113' },
-      { value: '14', label: '(217)555-0114' },
-      { value: '09', label: '(217)555-0109' },
-      { value: '15', label: '(217)555-0115' },
+      { value: 'campaign1', label: 'Campaign 1' },
+      { value: 'campaign2', label: 'Campaign 2' },
+      { value: 'campaign3', label: 'Campaign 3' },
+      { value: 'campaign4', label: 'Campaign 4' },
     ],
     component: RHFSelect,
     md: 12,
   },
   {
-    title: 'Compaign',
-    componentProps: {
-      label: 'Compaign',
-      name: 'compaign',
-      fullWidth: true,
-      select: true,
-    },
-    options: [
-      { value: 'compaign1', label: 'Compaign 1' },
-      { value: 'compaign2', label: 'Compaign 2' },
-      { value: 'compaign3', label: 'Compaign 3' },
-      { value: 'compaign4', label: 'Compaign 4' },
-    ],
-    component: RHFSelect,
-    md: 12,
-  },
-  {
-    title: 'useTemplate',
+    id: '03',
     componentProps: {
       label: 'Use Template (Optional)',
-      name: 'useTemplate',
+      name: 'template',
       fullWidth: true,
       select: true,
     },
@@ -77,22 +71,39 @@ export const createBroadcast = [
     md: 12,
   },
   {
+    id: '04',
     componentProps: {
-      name: 'recipients',
-      label: 'Recipients',
+      name: 'contacts',
+      label: 'Add Contacts',
       fullWidth: true,
+      required: true,
     },
     component: RHFTextField,
     md: 12,
   },
   {
+    id: '05',
+    component: RHFEditor,
+    md: 12,
     componentProps: {
       name: 'details',
       label: 'Details',
       fullWidth: true,
+      required: true,
     },
-    component: RHFTextField,
+  },
+  {
+    id: '06',
+    component: RHFDropZone,
     md: 12,
+    title: 'Attachment',
+    componentProps: {
+      name: 'attachment',
+      label: 'Attachment',
+      fullWidth: true,
+      multiline: true,
+      rows: '4',
+    },
   },
 ];
 

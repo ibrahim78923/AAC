@@ -24,6 +24,9 @@ const ConnectNumber = ({ setIsNumberConnected }: any) => {
     openDialogVerification,
     handleCloseDialogVerification,
     handleVerificationSubmit,
+    isPhoneValid,
+    phoneNumber,
+    handlePhoneChange,
   } = useConnectNumber();
   return (
     <>
@@ -69,6 +72,9 @@ const ConnectNumber = ({ setIsNumberConnected }: any) => {
         open={openDialogRegNumber}
         onClose={handleCloseDialogRegNumber}
         onSubmit={handleAddRegNumSubmit}
+        onPhoneChange={handlePhoneChange}
+        phoneValue={phoneNumber}
+        isPhoneValid={isPhoneValid}
       />
 
       <OTPVerification

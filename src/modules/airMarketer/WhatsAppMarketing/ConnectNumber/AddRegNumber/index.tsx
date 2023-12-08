@@ -1,4 +1,4 @@
-import React, { useState, FC } from 'react';
+import React, { FC } from 'react';
 import {
   Box,
   Button,
@@ -13,8 +13,14 @@ import { AddRegNumberI } from './AddRegNumber.interface';
 import { styles } from './AddRegNumber.style';
 import PhoneNumberInput from '@/components/PhoneNumberInput';
 
-const AddRegNumber: FC<AddRegNumberI> = ({ open, onClose, onSubmit }) => {
-  const [phone, setPhone] = useState('');
+const AddRegNumber: FC<AddRegNumberI> = ({
+  open,
+  onClose,
+  onSubmit,
+  onPhoneChange,
+  phoneValue,
+  isPhoneValid,
+}) => {
   return (
     <Dialog
       open={open}
@@ -35,10 +41,9 @@ const AddRegNumber: FC<AddRegNumberI> = ({ open, onClose, onSubmit }) => {
         </Box>
         <Box sx={{ mt: '20px' }}>
           <PhoneNumberInput
-            value={phone}
-            onChange={(phone: any) => {
-              setPhone(phone);
-            }}
+            value={phoneValue}
+            onChange={onPhoneChange}
+            valid={isPhoneValid}
           />
         </Box>
       </DialogContent>

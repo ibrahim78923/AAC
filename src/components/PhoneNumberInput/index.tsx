@@ -1,5 +1,4 @@
-import 'react-international-phone/style.css';
-
+import React from 'react';
 import {
   BaseTextFieldProps,
   Box,
@@ -9,7 +8,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import React from 'react';
+import 'react-international-phone/style.css';
 import {
   CountryIso2,
   defaultCountries,
@@ -22,16 +21,18 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 export interface MUIPhoneProps extends BaseTextFieldProps {
   value: string;
   onChange: (phone: string) => void;
+  valid: boolean;
 }
 
 const PhoneNumberInput: React.FC<MUIPhoneProps> = ({
   value,
   onChange,
+  valid,
   ...restProps
 }) => {
   const { inputValue, handlePhoneValueChange, inputRef, country, setCountry } =
     usePhoneInput({
-      defaultCountry: 'us',
+      defaultCountry: 'gb',
       value,
       countries: defaultCountries,
       onChange: (data) => {
@@ -48,7 +49,7 @@ const PhoneNumberInput: React.FC<MUIPhoneProps> = ({
             style: {
               height: '300px',
               width: '360px',
-              top: '0',
+              top: '8px',
               left: '-71px',
             },
             transformOrigin: {
@@ -58,7 +59,6 @@ const PhoneNumberInput: React.FC<MUIPhoneProps> = ({
           }}
           sx={{
             width: '142px',
-            height: '58px',
             svg: {
               right: '16px',
             },
@@ -97,7 +97,15 @@ const PhoneNumberInput: React.FC<MUIPhoneProps> = ({
           type="tel"
           inputRef={inputRef}
           {...restProps}
-          sx={{ height: '58px' }}
+          error={!valid}
+          helperText={!valid && 'Phone number is not valid.'}
+          sx={{
+            '& .MuiFormHelperText-root': {
+              fontSize: '14px',
+              ml: '0',
+              mt: '4px',
+            },
+          }}
         />
       </Box>
     </Stack>
