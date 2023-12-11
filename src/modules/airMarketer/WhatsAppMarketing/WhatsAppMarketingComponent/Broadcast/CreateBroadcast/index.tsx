@@ -1,15 +1,7 @@
 import React from 'react';
-import {
-  Typography,
-  Avatar,
-  Box,
-  Button,
-  Grid,
-  InputAdornment,
-  Stack,
-} from '@mui/material';
+import { Typography, Avatar, Box, Button, Grid, Stack } from '@mui/material';
 import { useRouter } from 'next/navigation';
-import { ArrowBackIcon, PlusSharedColorIcon } from '@/assets/icons';
+import { ArrowBackIcon } from '@/assets/icons';
 import DateRangeIcon from '@mui/icons-material/DateRange';
 import {
   contactDetails,
@@ -21,15 +13,22 @@ import { v4 as uuidv4 } from 'uuid';
 import useCreateBroadcast from './useCreateBroadcast';
 import { styles } from './CreateBroadcast.style';
 import TanstackTable from '@/components/Table/TanstackTable';
+import AddContactDrawer from './AddContactDrawer/index';
 
 const CreateBroadcast = () => {
   const router = useRouter();
   const {
-    theme,
-    setIsAddContactDrawerOpen,
+    isAddContactDrawerOpen,
+    handleOpenContactsDrawer,
+    handleCloseContactsDrawer,
     handleCreateBroadcastSubmit,
     methods,
   } = useCreateBroadcast();
+  const { watch } = methods;
+  const previewName = watch('name');
+  const previewDetail = watch('details');
+
+  const formFields = createBroadcastFields(handleOpenContactsDrawer);
 
   return (
     <>
@@ -49,39 +48,9 @@ const CreateBroadcast = () => {
         <Grid container spacing={3}>
           <Grid item md={7}>
             <Grid container spacing={2}>
-              {createBroadcastFields?.map((item: any) => {
+              {formFields?.map((item: any) => {
                 return (
                   <Grid item xs={12} md={item?.md} key={item?.id}>
-                    {item?.componentProps?.name === 'recipients' && (
-                      <Box position="relative">
-                        <InputAdornment
-                          sx={{
-                            position: 'absolute',
-                            top: 48,
-                            right: 15,
-                            zIndex: 9999,
-                          }}
-                          position="end"
-                        >
-                          <Box
-                            sx={{
-                              display: 'flex',
-                              gap: '10px',
-                              alignItems: 'center',
-                            }}
-                          >
-                            <Box
-                              sx={{ cursor: 'pointer' }}
-                              onClick={() => setIsAddContactDrawerOpen(true)}
-                            >
-                              <PlusSharedColorIcon
-                                color={theme?.palette?.primary?.main}
-                              />
-                            </Box>
-                          </Box>
-                        </InputAdornment>
-                      </Box>
-                    )}
                     <item.component {...item.componentProps} size={'small'}>
                       {item?.componentProps?.select &&
                         item?.options?.map((option: any) => (
@@ -111,7 +80,7 @@ const CreateBroadcast = () => {
                   </Avatar>
                   <Box>
                     <Typography variant="h5" sx={styles.previewName}>
-                      Broadcast Name
+                      {previewName === '' ? 'Broadcast Name' : previewName}
                     </Typography>
                     <Typography sx={styles.previewTime} variant="body2">
                       Just Now
@@ -124,7 +93,9 @@ const CreateBroadcast = () => {
               </Grid>
               <Grid item xs={12}>
                 <Box sx={styles.previewLabel}>Details</Box>
-                <Box sx={styles.previewDetails}></Box>
+                <Box sx={styles.previewDetails}>
+                  <Box dangerouslySetInnerHTML={{ __html: previewDetail }} />
+                </Box>
               </Grid>
               <Grid item xs={12}>
                 <Box sx={styles.previewLabel}>Added Contacts</Box>
@@ -151,6 +122,11 @@ const CreateBroadcast = () => {
           </Grid>
         </Grid>
       </FormProvider>
+
+      <AddContactDrawer
+        isDrawerOpen={isAddContactDrawerOpen}
+        onClose={handleCloseContactsDrawer}
+      />
     </>
   );
 };

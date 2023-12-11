@@ -5,6 +5,8 @@ import {
   RHFEditor,
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
+import { InputAdornment, IconButton } from '@mui/material';
+import { AddPlusPrimaryIcon } from '@/assets/icons';
 
 export const validationSchema = Yup.object().shape({
   name: Yup.string().required('Field is Required'),
@@ -22,7 +24,7 @@ export const defaultValues = {
   attachment: '',
 };
 
-export const createBroadcastFields = [
+export const createBroadcastFields = (handleOpenContactsDrawer: any) => [
   {
     id: '01',
     componentProps: {
@@ -77,6 +79,15 @@ export const createBroadcastFields = [
       label: 'Add Contacts',
       fullWidth: true,
       required: true,
+      InputProps: {
+        endAdornment: (
+          <InputAdornment position="end">
+            <IconButton onClick={handleOpenContactsDrawer} edge="end">
+              <AddPlusPrimaryIcon />
+            </IconButton>
+          </InputAdornment>
+        ),
+      },
     },
     component: RHFTextField,
     md: 12,

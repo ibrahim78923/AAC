@@ -17,13 +17,21 @@ const useCreateBroadcast = () => {
   };
   const handleCreateBroadcastSubmit = handleSubmit(onBroadcastSubmit);
   const theme = useTheme<Theme>();
+
+  // Contacts Drawer
   const [isAddContactDrawerOpen, setIsAddContactDrawerOpen] = useState(false);
+  const handleOpenContactsDrawer = () => {
+    setIsAddContactDrawerOpen(true);
+  };
+  const handleCloseContactsDrawer = () => {
+    setIsAddContactDrawerOpen(false);
+  };
 
   return {
     theme,
     isAddContactDrawerOpen,
-    setIsAddContactDrawerOpen,
-
+    handleOpenContactsDrawer,
+    handleCloseContactsDrawer,
     handleCreateBroadcastSubmit,
     methods,
   };
