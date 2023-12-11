@@ -33,9 +33,7 @@ export const eventValidationSchema = Yup.object().shape({
       return true;
     })
     .typeError('Must be a number')
-    .positive('Must be a positive number')
     .integer('Must be an integer'),
-
   customContact: Yup.string().test(
     'conditionalValidation',
     'Field is Required',
