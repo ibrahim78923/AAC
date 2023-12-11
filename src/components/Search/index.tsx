@@ -10,7 +10,13 @@ import { SearchPropsI } from './Search.interface';
 import SearchSharedIcon from '@/assets/icons/shared/search-shared';
 
 type CombinedProps = TextFieldProps & SearchPropsI;
-const Search = ({ label, width, setSearchBy, ...rest }: CombinedProps) => {
+const Search = ({
+  label,
+  width,
+  setSearchBy,
+  size,
+  ...rest
+}: CombinedProps) => {
   const theme = useTheme();
 
   const handleChangeSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -28,7 +34,7 @@ const Search = ({ label, width, setSearchBy, ...rest }: CombinedProps) => {
           width: '100%',
         },
         '& .MuiOutlinedInput-root ': {
-          height: '44px',
+          height: size === 'small' ? '36px' : '44px',
           '& fieldset': {
             textAlign: 'right',
             borderColor: theme?.palette?.grey[700],

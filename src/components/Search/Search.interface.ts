@@ -4,4 +4,5 @@ export interface SearchPropsI {
   setSearchBy?: any;
   width?: string | number;
   rest?: any;
+  size?: any;
 }

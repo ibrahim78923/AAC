@@ -124,6 +124,7 @@ export const AIR_MARKETER = {
     '/sms-marketing/create-sms-broadcast',
   ),
   VIEW_PERFORMANCE: path(AIR_MARKETING_PAGE, '/campaigns/view-performance'),
+  ALL_VIEW: path(AIR_MARKETING_PAGE, '/campaigns/all-view'),
 };
 
 const AIR_OPERATIONS_PAGE = 'air-operation';

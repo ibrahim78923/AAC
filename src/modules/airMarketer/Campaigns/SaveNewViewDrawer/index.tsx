@@ -70,56 +70,55 @@ export default function SaveNewViewDrawer({
                 </item.component>
               </Grid>
             ))}
-
-            <FormControl>
-              <Typography
-                variant="h6"
-                fontWeight={600}
-                color={theme?.palette?.slateBlue.main}
-              >
-                Shared with
-              </Typography>
-              <RadioGroup
-                value={accessValue}
-                onChange={handleChangeAccessValue}
-                name="access"
-              >
-                <FormControlLabel
-                  value="private"
-                  control={<Radio />}
-                  label="Private"
-                />
-                <FormControlLabel
-                  value="specificUserOrTeam"
-                  control={<Radio />}
-                  label="Specific User or Team"
-                />
-                {accessValue === 'specificUserOrTeam' && (
-                  <FormControl sx={{ ml: 2 }} component="fieldset">
-                    <RHFSelect name="users" label="Users" size="small">
-                      {teamsArr?.map((option: any) => (
-                        <option key={uuidv4()} value={option?.value}>
-                          {option?.label}
-                        </option>
-                      ))}
-                    </RHFSelect>
-                    <RHFSelect name="teams" label="Teams" size="small">
-                      {teamsArr?.map((option: any) => (
-                        <option key={uuidv4()} value={option?.value}>
-                          {option?.label}
-                        </option>
-                      ))}
-                    </RHFSelect>
-                  </FormControl>
-                )}
-                <FormControlLabel
-                  value="everyOne"
-                  control={<Radio />}
-                  label="EveryOne"
-                />
-              </RadioGroup>
-            </FormControl>
           </Grid>
+          <FormControl>
+            <Typography
+              variant="h6"
+              fontWeight={600}
+              color={theme?.palette?.slateBlue.main}
+            >
+              Shared with
+            </Typography>
+            <RadioGroup
+              value={accessValue}
+              onChange={handleChangeAccessValue}
+              name="access"
+            >
+              <FormControlLabel
+                value="private"
+                control={<Radio />}
+                label="Private"
+              />
+              <FormControlLabel
+                value="specificUserOrTeam"
+                control={<Radio />}
+                label="Specific User or Team"
+              />
+              {accessValue === 'specificUserOrTeam' && (
+                <FormControl sx={{ ml: 2 }} component="fieldset">
+                  <RHFSelect name="users" label="Users" size="small">
+                    {teamsArr?.map((option: any) => (
+                      <option key={uuidv4()} value={option?.value}>
+                        {option?.label}
+                      </option>
+                    ))}
+                  </RHFSelect>
+                  <RHFSelect name="teams" label="Teams" size="small">
+                    {teamsArr?.map((option: any) => (
+                      <option key={uuidv4()} value={option?.value}>
+                        {option?.label}
+                      </option>
+                    ))}
+                  </RHFSelect>
+                </FormControl>
+              )}
+              <FormControlLabel
+                value="everyOne"
+                control={<Radio />}
+                label="EveryOne"
+              />
+            </RadioGroup>
+          </FormControl>
         </FormProvider>
       </Box>
     </CommonDrawer>

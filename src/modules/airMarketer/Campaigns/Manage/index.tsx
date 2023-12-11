@@ -9,6 +9,8 @@ import { FilterrIcon } from '@/assets/icons';
 import useCampaigns from '../useCampaigns';
 import Filters from '../Filters';
 import SaveNewViewDrawer from '../SaveNewViewDrawer';
+import { useRouter } from 'next/router';
+import { AIR_MARKETER } from '@/routesConstants/paths';
 
 const Manage = () => {
   const theme = useTheme();
@@ -20,6 +22,7 @@ const Manage = () => {
     actionsModalDetails,
     setActionsModalDetails,
   } = useCampaigns();
+  const router = useRouter();
   return (
     <>
       <Box sx={{ paddingTop: '10px' }}>
@@ -67,6 +70,7 @@ const Manage = () => {
                 Save View
               </Button>
               <Button
+                onClick={() => router.push(AIR_MARKETER?.ALL_VIEW)}
                 startIcon={<FilterrIcon />}
                 sx={{
                   border: `1px solid ${theme?.palette?.custom?.dark}`,

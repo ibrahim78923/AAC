@@ -26,6 +26,7 @@ const Tasks = () => {
     handleDeleteModal,
     setIsOpenDeleteDrawer,
   } = useTasks();
+
   return (
     <>
       <Box sx={{ paddingTop: '10px' }}>
