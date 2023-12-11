@@ -37,6 +37,7 @@ const SalesProduct = () => {
     handleCloseDeleteModal,
     handleDelete,
     getRowValues,
+    setAnchorEl,
   } = useSalesProduct();
 
   return (
@@ -68,6 +69,7 @@ const SalesProduct = () => {
             variant="contained"
             sx={styles?.createBtn}
             onClick={() => (setIsDraweropen(true), setIsEditMode(false))}
+            className="small"
           >
             <AddCircleIcon
               sx={{
@@ -93,6 +95,7 @@ const SalesProduct = () => {
           />
           <Button
             id="basic-button"
+            className="small"
             aria-controls={open ? 'basic-menu' : undefined}
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
@@ -124,6 +127,7 @@ const SalesProduct = () => {
         <MenuItem
           onClick={() => {
             setIsEditMode(true), setIsDraweropen(true);
+            setAnchorEl(null);
           }}
           disabled={selectedCheckboxes?.length > 1}
         >
@@ -132,6 +136,7 @@ const SalesProduct = () => {
         <MenuItem
           onClick={() => {
             setDeleteModalOpen(true);
+            setAnchorEl(null);
           }}
         >
           Delete

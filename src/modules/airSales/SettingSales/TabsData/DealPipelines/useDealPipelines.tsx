@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { useForm } from 'react-hook-form';
 
-import { Theme, useTheme } from '@mui/material';
+import { IconButton, InputAdornment, Theme, useTheme } from '@mui/material';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 
@@ -15,6 +15,7 @@ import {
 } from './DealPipelines.data';
 
 import { RHFTextField } from '@/components/ReactHookForm';
+import { PercentageCircleIcon } from '@/assets/icons';
 
 const useDealPipelines = () => {
   const [isDraweropen, setIsDraweropen] = useState(false);
@@ -22,6 +23,7 @@ const useDealPipelines = () => {
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
   const [productSearch, setproductSearch] = useState<string>('');
   const [isDisableButton, setDisableButton] = useState(false);
+  const [isdefaultValue, setdefaultValue] = useState(false);
   const [dynamicFields, setDynamicFields] = useState([...dataArray]);
 
   const theme = useTheme<Theme>();
@@ -53,8 +55,9 @@ const useDealPipelines = () => {
     setDeleteModalOpen(false);
   };
 
-  const getCheckbox = (event: any) => {
+  const getCheckbox = (event: any, value: any) => {
     setDisableButton(event?.target?.checked);
+    setdefaultValue(value === 'default');
   };
 
   const addField = () => {
@@ -63,8 +66,9 @@ const useDealPipelines = () => {
       {
         componentProps: {
           name: `dynamicField${uuidv4()}_1`,
-          label: 'Dynamic Field',
+          label: '',
           fullWidth: true,
+          placeholder: 'New',
         },
         component: RHFTextField,
         md: 5,
@@ -72,8 +76,18 @@ const useDealPipelines = () => {
       {
         componentProps: {
           name: `dynamicField${uuidv4()}_2`,
-          label: 'Dynamic Field',
+          label: '',
           fullWidth: true,
+          placeholder: 'New',
+          InputProps: {
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton>
+                  <PercentageCircleIcon />
+                </IconButton>
+              </InputAdornment>
+            ),
+          },
         },
         component: RHFTextField,
         md: 5,
@@ -113,6 +127,8 @@ const useDealPipelines = () => {
     dynamicFields,
     addField,
     deleteField,
+    setAnchorEl,
+    isdefaultValue,
   };
 };
 

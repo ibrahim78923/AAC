@@ -16,7 +16,6 @@ import {
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
-import InfoIcon from '@mui/icons-material/Info';
 
 import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
@@ -28,6 +27,7 @@ import useSalesProduct from './useDealPipelines';
 import { styles } from './DealPipelines.style';
 
 import { v4 as uuidv4 } from 'uuid';
+import { BlueInfoIcon } from '@/assets/icons';
 
 const DealPipelines = () => {
   const {
@@ -55,25 +55,45 @@ const DealPipelines = () => {
     dynamicFields,
     addField,
     deleteField,
+    setAnchorEl,
+    isdefaultValue,
   } = useSalesProduct();
-
   return (
     <>
       <CommonDrawer
         isDrawerOpen={isDraweropen}
         onClose={handleCloseDrawer}
-        title={isEditMode ? 'Edit Pipelines' : 'Create Pipelines'}
+        title={isEditMode ? 'Edit Pipeline' : 'Create Pipeline'}
         okText={'Add'}
         footer={true}
         isOk={true}
         submitHandler={handleSubmit(onSubmit)}
       >
-        <Box sx={{ paddingTop: '1rem' }}>
+        <Box sx={{ paddingTop: '1rem !important' }}>
           <FormProvider methods={dealPipelines}>
-            <Grid container spacing={4}>
+            <Grid
+              container
+              spacing={4}
+              sx={{
+                borderBottom: `1px solid ${theme?.palette?.custom?.off_white_three}`,
+              }}
+            >
               {dynamicFields?.map((item: any, index: any) => (
                 <>
-                  <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                  <Grid
+                    item
+                    xs={index < 2 ? 12 : 7}
+                    md={item?.md}
+                    key={uuidv4()}
+                    sx={{
+                      paddingTop:
+                        index == '0' ? '20px !important' : '10px !important',
+                      borderTop:
+                        index > '3'
+                          ? `1px solid ${theme?.palette?.custom?.off_white_three}`
+                          : 'none',
+                    }}
+                  >
                     {index % 2 === 0 && (
                       <item.component {...item.componentProps} size={'small'} />
                     )}
@@ -86,11 +106,14 @@ const DealPipelines = () => {
                         {index < 2 && (
                           <Grid
                             container
-                            spacing={2}
                             sx={styles?.BoxStyling}
-                            style={{ marginBottom: '15px' }}
+                            style={{ marginBottom: '10px' }}
                           >
-                            <Grid item xs={5} sx={{ padding: '0px' }}>
+                            <Grid
+                              item
+                              xs={5}
+                              sx={{ paddingTop: '0px !important' }}
+                            >
                               <Typography
                                 variant="body2"
                                 sx={{ color: theme?.palette?.blue?.main }}
@@ -99,7 +122,11 @@ const DealPipelines = () => {
                                 <span style={{ color: 'red' }}> *</span>{' '}
                               </Typography>
                             </Grid>
-                            <Grid item xs={5}>
+                            <Grid
+                              item
+                              xs={5}
+                              sx={{ paddingTop: '0px !important' }}
+                            >
                               <Typography
                                 variant="body2"
                                 sx={{ color: theme?.palette?.blue?.main }}
@@ -108,7 +135,11 @@ const DealPipelines = () => {
                                 <span style={{ color: 'red' }}> *</span>{' '}
                               </Typography>
                             </Grid>
-                            <Grid item xs={2}>
+                            <Grid
+                              item
+                              xs={2}
+                              sx={{ paddingTop: '0px !important' }}
+                            >
                               <Typography
                                 variant="body2"
                                 sx={{ color: theme?.palette?.blue?.main }}
@@ -124,7 +155,17 @@ const DealPipelines = () => {
 
                   {index === 1 ||
                     (index % 2 === 1 && (
-                      <Grid item md={2}>
+                      <Grid
+                        item
+                        md={2}
+                        sx={{
+                          paddingTop: '10px !important',
+                          borderTop:
+                            index > '3'
+                              ? `1px solid ${theme?.palette?.custom?.off_white_three}`
+                              : 'none',
+                        }}
+                      >
                         <Button
                           onClick={() => deleteField(index - 1)}
                           disabled={index === 3}
@@ -145,7 +186,7 @@ const DealPipelines = () => {
             </Grid>
             <Button
               onClick={addField}
-              sx={{ color: theme?.palette?.slateBlue?.main, marginTop: '20px' }}
+              sx={{ color: theme?.palette?.slateBlue?.main, marginTop: '15px' }}
             >
               <AddCircleIcon sx={{ marginRight: '8px' }} />
               Add Deal stage
@@ -155,11 +196,16 @@ const DealPipelines = () => {
       </CommonDrawer>
 
       <AlertModals
-        message="You're about to delete Pipeline. Are you sure?"
-        type="delete"
+        message={
+          isdefaultValue
+            ? 'You cannot delete default pipeline'
+            : "You're about to delete Pipeline. Are you sure?"
+        }
+        type={isdefaultValue ? 'Alert' : 'delete'}
         open={isDeleteModalOpen}
         handleClose={handleCloseDeleteModal}
         handleSubmit={handleDelete}
+        typeImage={<BlueInfoIcon />}
       />
       <Box>
         <Box
@@ -202,11 +248,17 @@ const DealPipelines = () => {
               }}
             >
               <MenuItem
-                onClick={() => (setIsEditMode(true), setIsDraweropen(true))}
+                onClick={() => (
+                  setIsEditMode(true), setIsDraweropen(true), setAnchorEl(null)
+                )}
               >
                 Edit
               </MenuItem>
-              <MenuItem onClick={() => setDeleteModalOpen(true)}>
+              <MenuItem
+                onClick={() => {
+                  setDeleteModalOpen(true), setAnchorEl(null);
+                }}
+              >
                 Delete
               </MenuItem>
             </Menu>
@@ -215,6 +267,7 @@ const DealPipelines = () => {
               variant="contained"
               sx={styles?.createBtn}
               onClick={() => (setIsDraweropen(true), setIsEditMode(false))}
+              className="small"
             >
               <AddCircleIcon
                 sx={{
@@ -255,7 +308,10 @@ const DealPipelines = () => {
               },
             }}
           >
-            <Checkbox value="default" onChange={getCheckbox} />
+            <Checkbox
+              value="default"
+              onChange={(value) => getCheckbox(value, 'default')}
+            />
             <Typography
               variant="h6"
               sx={{ color: theme?.palette?.slateBlue?.main, fontWeight: '600' }}
@@ -276,22 +332,6 @@ const DealPipelines = () => {
                 <Checkbox />
                 <Typography variant="body2">
                   Marked as default pipeline{' '}
-                </Typography>
-              </Box>
-
-              <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                <InfoIcon
-                  sx={{
-                    color: theme?.palette?.error?.main,
-                    fontSize: '1.4rem',
-                    transform: 'rotate(180deg)',
-                  }}
-                />{' '}
-                <Typography
-                  variant="body2"
-                  sx={{ color: theme?.palette?.error?.main, marginLeft: '7px' }}
-                >
-                  Deals rots after 30 days
                 </Typography>
               </Box>
             </Box>
@@ -351,7 +391,10 @@ const DealPipelines = () => {
               },
             }}
           >
-            <Checkbox value="default" onChange={getCheckbox} />
+            <Checkbox
+              value="Notdefault"
+              onChange={(value) => getCheckbox(value, 'Notdefault')}
+            />
             <Typography
               variant="h6"
               sx={{ color: theme?.palette?.slateBlue?.main, fontWeight: '600' }}
@@ -372,22 +415,6 @@ const DealPipelines = () => {
                 <Checkbox />
                 <Typography variant="body2">
                   Marked as default pipeline{' '}
-                </Typography>
-              </Box>
-
-              <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                <InfoIcon
-                  sx={{
-                    color: theme?.palette?.error?.main,
-                    fontSize: '1.4rem',
-                    transform: 'rotate(180deg)',
-                  }}
-                />{' '}
-                <Typography
-                  variant="body2"
-                  sx={{ color: theme?.palette?.error?.main, marginLeft: '7px' }}
-                >
-                  Deals rots after 30 days
                 </Typography>
               </Box>
             </Box>
