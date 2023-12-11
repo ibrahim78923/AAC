@@ -4,7 +4,7 @@ import * as Yup from 'yup';
 export const forgetPasswordValidationSchema = Yup.object().shape({
   ForgetPassword: Yup.string()
     .trim()
-    .required('Field is Required')
+    .required('Required field')
     .test('email', 'Invalid email address', function (value) {
       if (value) {
         return /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value);
@@ -30,8 +30,10 @@ export const forgetPasswordDataArray = [
   {
     componentProps: {
       name: 'ForgetPassword',
-      label: 'Forget Password',
+      label: 'Email',
       fullWidth: true,
+      placeholder: 'Enter Email',
+      required: true,
     },
     component: RHFTextField,
     md: 12,

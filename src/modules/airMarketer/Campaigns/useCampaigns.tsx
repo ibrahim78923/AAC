@@ -11,6 +11,7 @@ const useCampaigns = () => {
   const [selectedValue, setSelectedValue] = useState(null);
   const [selectedActionsValue, setSelectedOptionsValue] = useState('');
   const [isOpenFilter, setIsOpenFilter] = useState(false);
+  const [isOpenAddAssets, setIsOpenAddAssets] = useState(false);
   const [actionsModalDetails, setActionsModalDetails] = useState({
     isClone: false,
     isOpenFilterDrawer: false,
@@ -23,6 +24,10 @@ const useCampaigns = () => {
   const router = useRouter();
   const handleClick = (event: any) => {
     setSelectedValue(event?.currentTarget);
+  };
+
+  const handleCloseAddAssetsModal = () => {
+    setIsOpenAddAssets(false);
   };
   const handleOpenFilter = () => {
     setIsOpenFilter(true);
@@ -94,6 +99,9 @@ const useCampaigns = () => {
     isOpenFilter,
     setIsOpenFilter,
     handleOpenFilter,
+    handleCloseAddAssetsModal,
+    isOpenAddAssets,
+    setIsOpenAddAssets,
   };
 };
 export default useCampaigns;
