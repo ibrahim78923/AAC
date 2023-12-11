@@ -1,5 +1,10 @@
 import { Typography, useTheme } from '@mui/material';
 
+const TITLE_KEYS = {
+  ACTIVITY_LIST: 'Activitylist',
+  ACTIVITY_HEAD: 'ActivityHead',
+};
+
 const useNameWithStyledWords = () => {
   const theme = useTheme();
   const NameWithStyledWords = ({
@@ -13,10 +18,10 @@ const useNameWithStyledWords = () => {
 
     const styledName = (
       <Typography
-        variant={customKey === 'ActivityHead' ? 'h5' : 'body2'}
+        variant={customKey === TITLE_KEYS?.ACTIVITY_HEAD ? 'h5' : 'body2'}
         sx={{ fontWeight: 400 }}
       >
-        {customKey === 'Activitylist' && (
+        {customKey === TITLE_KEYS?.ACTIVITY_LIST && (
           <span
             style={{
               width: '6px',
@@ -31,7 +36,7 @@ const useNameWithStyledWords = () => {
         <span
           style={{
             color:
-              customKey === 'ActivityHead'
+              customKey === TITLE_KEYS?.ACTIVITY_HEAD
                 ? theme.palette.primary.main
                 : theme.palette.custom.main,
           }}
@@ -41,7 +46,7 @@ const useNameWithStyledWords = () => {
         <span
           style={{
             color:
-              customKey === 'Activitylist'
+              customKey === TITLE_KEYS?.ACTIVITY_LIST
                 ? theme.palette.custom.main
                 : theme.palette.common.black,
           }}
