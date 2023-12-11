@@ -46,7 +46,7 @@ export const ProductCatalog = () => {
         }
       />
       <Search
-        label="search"
+        label="Search Here"
         value={search}
         onChange={(e: any) => setSearch(e?.target?.value)}
       />

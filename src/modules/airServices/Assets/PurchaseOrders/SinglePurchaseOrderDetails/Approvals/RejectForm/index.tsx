@@ -56,6 +56,7 @@ export const RejectForm = ({ rejectDialog, setRejectDialog }: any) => {
                 rows={3}
                 name="reason"
                 label="Reason For Rejection"
+                required
               />
             </Grid>
 

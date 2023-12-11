@@ -3,6 +3,9 @@ const Menu = (theme: any) => {
     MuiMenuItem: {
       styleOverrides: {
         root: {
+          '&.MuiMenuItem-root': {
+            fontSize: '14px',
+          },
           '&.Mui-selected': {
             backgroundColor: theme.palette.action.selected,
             '&:hover': {

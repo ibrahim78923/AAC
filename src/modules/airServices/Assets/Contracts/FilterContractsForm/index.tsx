@@ -17,7 +17,7 @@ const FilterContractsForm = (props: any) => {
         isDrawerOpen={isDrawerOpen}
         onClose={() => setIsDrawerOpen(false)}
         title="Filters"
-        okText="Send"
+        okText="Apply"
         isOk
         submitHandler={handleSubmit(onSubmit)}
       >

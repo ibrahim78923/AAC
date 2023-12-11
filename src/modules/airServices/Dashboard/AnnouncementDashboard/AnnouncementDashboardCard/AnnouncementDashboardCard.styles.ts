@@ -4,11 +4,13 @@ export const styles: any = {
     justifyContent: 'space-between',
     alignItems: 'center',
     flex: 1,
+    gap: 1,
+    flexWrap: 'wrap',
     background: theme?.palette?.common?.white,
     borderBottom: isBorderBottom
       ? `0.063rem solid ${theme?.palette?.grey?.[700]}`
       : '',
     px: 2,
-    height: 81,
+    py: 1,
   }),
 };

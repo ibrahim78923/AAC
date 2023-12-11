@@ -56,6 +56,7 @@ export const ApproveForm = ({ approveDialog, setApproveDialog }: any) => {
                 rows={3}
                 name="reason"
                 label="Reason For Approval"
+                required
               />
             </Grid>
 

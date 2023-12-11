@@ -2,10 +2,10 @@ const radialBarChartData = [100, 55, 67, 83];
 const radialBarChartDataOptions = (theme: any) => ({
   labels: ['Low', 'Medium', 'High', 'Urgent'],
   colors: [
-    theme?.palette?.custom?.bright,
-    theme?.palette?.error?.main,
     theme?.palette?.warning?.main,
+    theme?.palette?.custom?.bright,
     '#35A275', //This color is not available in palette
+    theme?.palette?.error?.main,
   ],
   plotOptions: {
     radialBar: {

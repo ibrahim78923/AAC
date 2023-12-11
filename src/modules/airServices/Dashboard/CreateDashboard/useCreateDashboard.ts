@@ -7,8 +7,11 @@ import {
   createDashboardDefaultValue,
   dashboardCheckboxData,
 } from './CreateDashboard.data';
+import { useSearchParams } from 'next/navigation';
 export const useCreateDashboard = () => {
   const theme = useTheme();
+  const searchParams = useSearchParams();
+  const action = searchParams.get('action');
   const methodsCreateDashboardFilterForm = useForm({
     defaultValues: createDashboardDefaultValue,
   });
@@ -112,5 +115,6 @@ export const useCreateDashboard = () => {
     dashboardItems,
     onDragEnd,
     dashboardCheckboxItems,
+    action,
   };
 };

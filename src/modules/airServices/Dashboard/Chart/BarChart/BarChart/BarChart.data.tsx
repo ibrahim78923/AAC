@@ -4,7 +4,7 @@ const barChartData = [
     name: 'Pending',
   },
   {
-    data: [44, 55, 41, 64, 22, 43],
+    data: [44, 55, 41, 4, 22, 43],
     name: 'Closed',
   },
   {
@@ -25,6 +25,7 @@ const barChartDataOptions = (theme: any) => ({
     theme?.palette?.warning?.main,
     '#35A275', //This color is not available in palette
   ],
+
   plotOptions: {
     bar: {
       columnWidth: '30%',

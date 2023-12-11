@@ -40,7 +40,7 @@ function Software() {
       >
         <Box>
           <Search
-            label="search"
+            label="Search Here"
             width="100%"
             searchBy={searchValue}
             setSearchBy={SetSearchValue}
