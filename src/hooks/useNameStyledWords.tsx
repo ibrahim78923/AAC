@@ -26,7 +26,7 @@ const useNameWithStyledWords = () => {
             style={{
               width: '6px',
               height: '6px',
-              background: theme.palette.custom.main,
+              background: theme?.palette?.custom?.main,
               borderRadius: '20px',
               display: 'inline-block',
               marginRight: '5px',
@@ -37,8 +37,8 @@ const useNameWithStyledWords = () => {
           style={{
             color:
               customKey === TITLE_KEYS?.ACTIVITY_HEAD
-                ? theme.palette.primary.main
-                : theme.palette.custom.main,
+                ? theme?.palette?.primary?.main
+                : theme?.palette?.custom?.main,
           }}
         >
           {words[0]} &nbsp;
@@ -47,14 +47,14 @@ const useNameWithStyledWords = () => {
           style={{
             color:
               customKey === TITLE_KEYS?.ACTIVITY_LIST
-                ? theme.palette.custom.main
-                : theme.palette.common.black,
+                ? theme?.palette?.custom?.main
+                : theme?.palette?.common?.black,
           }}
         >
-          {words.slice(1, -2).join(' ')} &nbsp;
+          {words?.slice(1, -2)?.join(' ')} &nbsp;
         </span>
-        <span style={{ color: theme.palette.primary.main }}>
-          {words[words.length - 2]} {words[words.length - 1]}
+        <span style={{ color: theme?.palette?.primary?.main }}>
+          {words[words?.length - 2]} {words[words?.length - 1]}
         </span>
       </Typography>
     );

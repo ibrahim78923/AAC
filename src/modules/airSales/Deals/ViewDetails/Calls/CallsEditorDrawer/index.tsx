@@ -63,6 +63,7 @@ const CallsEditorDrawer = (props: any) => {
                   label="Attendees"
                   name="attendee"
                   options={attendeesOptions}
+                  placeholder="Select Option"
                 />
               </Grid>
               <Grid item xs={12} md={4}>
@@ -71,7 +72,7 @@ const CallsEditorDrawer = (props: any) => {
                 </Box>
               </Grid>
               <Grid item xs={12}>
-                <RHFSelect name="template" label="Template" size="small">
+                <RHFSelect name="outcomes" label="Outcomes" size="small">
                   {options?.map((option: any) => (
                     <option key={uuidv4()} value={option?.value}>
                       {option?.label}

@@ -44,12 +44,21 @@ const TicketsEditorDrawer = (props: any) => {
             <Grid container spacing={4}>
               <Grid item xs={12}>
                 <RHFRadioGroup
-                  options={['New Ticket', 'Existing Ticket']}
+                  options={[
+                    {
+                      label: 'New Ticket',
+                      value: 'new-ticket',
+                    },
+                    {
+                      label: 'Existing Ticket',
+                      value: 'existing-ticket',
+                    },
+                  ]}
                   name={'ticketStatus'}
                   label={false}
                 />
               </Grid>
-              {watchTickets[0] === 'New Ticket' ? (
+              {watchTickets[0] === 'new-ticket' ? (
                 ticketsDataArray?.map((item: any) => (
                   <Grid item xs={12} md={item?.md} key={uuidv4()}>
                     <item.component {...item?.componentProps} size={'small'}>

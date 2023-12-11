@@ -12,7 +12,7 @@ export const productsValidationSchema = Yup?.object()?.shape({
 });
 
 export const productsDefaultValues = {
-  productStatus: 'Custom Line Item',
+  productStatus: 'customLineItem',
   productName: '',
   sku: '',
   description: '',
@@ -26,7 +26,10 @@ export const productsDataArray = [
   {
     componentProps: {
       name: 'productName',
+      placeholder: 'Product Name',
       label: 'Product Name',
+      required: true,
+
       fullWidth: true,
     },
     component: RHFTextField,
@@ -36,6 +39,7 @@ export const productsDataArray = [
   {
     componentProps: {
       name: 'sku',
+      placeholder: 'SKU',
       label: 'SKU',
       fullWidth: true,
     },
@@ -45,13 +49,23 @@ export const productsDataArray = [
   {
     componentProps: {
       name: 'category',
+      placeholder: '',
       label: 'Category',
       select: true,
     },
     options: [
-      { value: 'Inventory', label: 'Inventory' },
-      { value: 'Non-Inventory', label: 'Non-Inventory' },
-      { value: 'Service', label: 'Service' },
+      {
+        value: 'Inventory',
+        label: 'Inventory',
+      },
+      {
+        value: 'Non-Inventory',
+        label: 'Non-Inventory',
+      },
+      {
+        value: 'Service',
+        label: 'Service',
+      },
     ],
     component: RHFSelect,
     md: 12,
@@ -69,6 +83,7 @@ export const productsDataArray = [
   {
     componentProps: {
       name: 'activeProducts',
+
       label: 'Active Products',
       fullWidth: true,
     },
@@ -78,7 +93,9 @@ export const productsDataArray = [
   {
     componentProps: {
       name: 'unitPrice',
-      label: 'Unit Price',
+      placeholder: 'Price',
+      required: true,
+      label: 'Unit Price (£) ',
       fullWidth: true,
     },
     component: RHFTextField,
@@ -88,6 +105,7 @@ export const productsDataArray = [
   {
     componentProps: {
       name: 'attachFile',
+      placeholder: '',
       label: '',
       fullWidth: true,
     },
@@ -97,9 +115,9 @@ export const productsDataArray = [
 ];
 
 export const drawerTitle: any = {
-  Add: 'Add products',
-  Edit: 'Edit products',
-  View: 'View products',
+  Add: 'Add product',
+  Edit: 'Edit product',
+  View: 'View product',
 };
 export const drawerButtonTitle: any = {
   Add: 'Add',

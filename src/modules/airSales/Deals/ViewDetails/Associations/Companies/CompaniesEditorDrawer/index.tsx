@@ -43,12 +43,18 @@ const CompaniesEditorDrawer = (props: any) => {
             <Grid container spacing={4}>
               <Grid item xs={12}>
                 <RHFRadioGroup
-                  options={['New Company', 'Existing Company']}
-                  name={'companieStatus'}
+                  options={[
+                    {
+                      label: 'New Company',
+                      value: 'new-company',
+                    },
+                    { label: 'Existing Company', value: 'existing-company' },
+                  ]}
+                  name={'companyStatus'}
                   label={false}
                 />
               </Grid>
-              {watchProducts[0] === 'New Company' ? (
+              {watchProducts[0] === 'new-company' ? (
                 companiesDataArray?.map((item: any) => (
                   <Grid item xs={12} md={item?.md} key={uuidv4()}>
                     <item.component {...item?.componentProps} size={'small'}>

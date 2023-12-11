@@ -10,7 +10,7 @@ import * as Yup from 'yup';
 export const companiesValidationSchema = Yup?.object()?.shape({});
 
 export const companiesDefaultValues = {
-  companieStatus: 'New Company',
+  companyStatus: 'new-company',
   companyName: '',
   companyOwner: '',
   description: '',
@@ -21,14 +21,15 @@ export const companiesDefaultValues = {
   annualRevenue: '',
   timeZone: '',
   companyPage: '',
-  joiningDate: '',
-  joiningTime: '',
+  joiningDate: null,
+  joiningTime: null,
 };
 
 export const companiesDataArray = [
   {
     componentProps: {
       name: 'companyDomainName',
+      placeholder: 'Domain Name',
       label: 'Company Domain Name',
       fullWidth: true,
     },
@@ -39,6 +40,7 @@ export const companiesDataArray = [
     componentProps: {
       name: 'companyName',
       label: 'Company Name',
+      placeholder: 'Company Name',
       fullWidth: true,
     },
     component: RHFTextField,
@@ -86,6 +88,7 @@ export const companiesDataArray = [
   {
     componentProps: {
       name: 'city',
+      placeholder: 'City',
       label: 'City',
       fullWidth: true,
     },
@@ -96,6 +99,7 @@ export const companiesDataArray = [
     componentProps: {
       name: 'postalCode',
       label: 'Postal Code',
+      placeholder: 'Postal Code',
       fullWidth: true,
     },
     component: RHFTextField,
@@ -105,6 +109,7 @@ export const companiesDataArray = [
     componentProps: {
       name: 'numberOfEmployee',
       label: 'Number of employee',
+      placeholder: 'Number of employee',
       fullWidth: true,
     },
     component: RHFTextField,
@@ -114,6 +119,8 @@ export const companiesDataArray = [
     componentProps: {
       name: 'annualRevenue',
       label: 'Annual Revenue',
+      placeholder: '£',
+
       fullWidth: true,
     },
     component: RHFTextField,
@@ -123,6 +130,7 @@ export const companiesDataArray = [
     componentProps: {
       name: 'timeZone',
       label: 'Time Zone',
+      placeholder: 'Time Zone',
       fullWidth: true,
     },
     component: RHFTextField,
@@ -132,6 +140,7 @@ export const companiesDataArray = [
     componentProps: {
       name: 'companyPage',
       label: 'Company Page',
+      placeholder: 'CompanyLink',
       fullWidth: true,
     },
     component: RHFTextField,

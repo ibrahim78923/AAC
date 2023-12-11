@@ -60,7 +60,7 @@ const Meetings = () => {
                   className="small"
                 >
                   <PlusIcon />
-                  <Typography variant="body2">Create Meetings</Typography>
+                  <Typography variant="body2">Create Meeting</Typography>
                 </Button>
               </Box>
             )}

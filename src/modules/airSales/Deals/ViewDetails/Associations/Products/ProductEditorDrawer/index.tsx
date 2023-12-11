@@ -42,12 +42,20 @@ const ProductEditorDrawer = (props: any) => {
             <Grid container spacing={4}>
               <Grid item xs={12}>
                 <RHFRadioGroup
-                  options={['Custom Line Item', 'Existing Products']}
+                  options={[
+                    {
+                      label: 'Custom Line Item',
+                      value: 'customLineItem',
+                    },
+                    {
+                      label: 'Existing Products',
+                      value: 'existingProducts',
+                    },
+                  ]}
                   name={'productStatus'}
-                  label={''}
                 />
               </Grid>
-              {watchProductstatus[0] === 'Custom Line Item' ? (
+              {watchProductstatus[0] === 'customLineItem' ? (
                 productsDataArray?.map((item: any) => (
                   <Grid item xs={12} md={item?.md} key={uuidv4()}>
                     <item.component {...item?.componentProps} size={'small'}>
