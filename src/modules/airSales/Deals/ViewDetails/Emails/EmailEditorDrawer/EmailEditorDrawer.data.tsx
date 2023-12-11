@@ -19,8 +19,8 @@ export const options = [
 export const scheduleEmailValidationSchema = Yup?.object()?.shape({});
 
 export const scheduleEmailDefaultValues = {
-  date: '',
-  time: '',
+  date: null,
+  time: null,
   location: '',
 };
 
