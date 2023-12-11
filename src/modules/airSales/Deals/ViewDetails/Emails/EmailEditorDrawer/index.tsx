@@ -71,6 +71,7 @@ const EmailEditorDrawer = (props: any) => {
                 <RHFAutocomplete
                   name="toEmail"
                   label="To"
+                  placeholder="To"
                   options={options}
                   multiple
                   freeSolo
@@ -108,6 +109,25 @@ const EmailEditorDrawer = (props: any) => {
                   />
                 </Grid>
               )}
+              <Grid item md={6}>
+                <RHFTextField
+                  name="subject"
+                  label="Subject"
+                  required={true}
+                  size="small"
+                  placeholder={'Write a subject line'}
+                />
+              </Grid>
+
+              <Grid item md={6}>
+                <RHFSelect name="template" label="Template" size="small">
+                  {options?.map((option: any) => (
+                    <option key={uuidv4()} value={option?.value}>
+                      {option?.label}
+                    </option>
+                  ))}
+                </RHFSelect>
+              </Grid>
               <Grid item xs={12}>
                 <Box
                   sx={{
@@ -154,7 +174,7 @@ const EmailEditorDrawer = (props: any) => {
                       }}
                       className="small"
                     >
-                      <GmailIcon />{' '}
+                      <GmailIcon width={22} height={22} />
                       <Typography variant="body2">Gmail</Typography>
                     </Button>
 
@@ -167,7 +187,7 @@ const EmailEditorDrawer = (props: any) => {
                       }}
                       className="small"
                     >
-                      <OutlookIcon />
+                      <OutlookIcon width={22} height={22} />
                       <Typography variant="body2">Microsoft Outlook</Typography>
                     </Button>
 
@@ -180,24 +200,11 @@ const EmailEditorDrawer = (props: any) => {
                       }}
                       className="small"
                     >
-                      <SMSIcon />{' '}
+                      <SMSIcon width={22} height={22} />
                       <Typography variant="body2">Others</Typography>
                     </Button>
                   </Box>
                 </Box>
-              </Grid>
-              <Grid item md={6}>
-                <RHFTextField name="subject" label="Subject" size="small" />
-              </Grid>
-
-              <Grid item md={6}>
-                <RHFSelect name="template" label="Template" size="small">
-                  {options?.map((option: any) => (
-                    <option key={uuidv4()} value={option?.value}>
-                      {option?.label}
-                    </option>
-                  ))}
-                </RHFSelect>
               </Grid>
 
               <Grid item xs={12}>

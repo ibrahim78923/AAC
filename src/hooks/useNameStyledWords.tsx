@@ -13,8 +13,8 @@ const useNameWithStyledWords = () => {
 
     const styledName = (
       <Typography
-        variant={customKey === 'ActivityHead' ? 'subtitle2' : 'body2'}
-        sx={{ fontWeight: 500, display: 'flex', alignItems: 'center' }}
+        variant={customKey === 'ActivityHead' ? 'h5' : 'body2'}
+        sx={{ fontWeight: 400 }}
       >
         {customKey === 'Activitylist' && (
           <span

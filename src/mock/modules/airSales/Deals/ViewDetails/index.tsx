@@ -1,4 +1,4 @@
-import { NotesAvatarImage } from '@/assets/images';
+import { AttendeeAvatarImage, NotesAvatarImage } from '@/assets/images';
 
 export const ActivityLogList = [
   {
@@ -12,6 +12,24 @@ export const ActivityLogList = [
       'System Executed Default OLA',
       'System applied Business hours Default',
     ],
+  },
+];
+
+export const attendeesOptions = [
+  {
+    value: 'Guy Hawkins',
+    label: 'Guy Hawkins',
+    image: AttendeeAvatarImage,
+  },
+  {
+    value: 'Jacob Jones',
+    label: 'Jacob Jones',
+    image: AttendeeAvatarImage,
+  },
+  {
+    value: 'Courtney Henry',
+    label: 'Courtney Henry',
+    image: AttendeeAvatarImage,
   },
 ];
 

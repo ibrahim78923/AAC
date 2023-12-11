@@ -24,6 +24,7 @@ export const dealsCallsDataArray = [
     componentProps: {
       name: 'title',
       label: 'Title',
+      required: true,
       fullWidth: true,
     },
     component: RHFTextField,
