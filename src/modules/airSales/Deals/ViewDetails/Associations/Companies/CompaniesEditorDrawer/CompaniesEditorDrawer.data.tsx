@@ -165,6 +165,13 @@ export const companiesDataArray = [
     md: 6,
   },
 ];
+export const companiesOptions = [
+  {
+    label: 'New Company',
+    value: 'new-company',
+  },
+  { label: 'Existing Company', value: 'existing-company' },
+];
 
 export const drawerTitle: any = {
   Add: 'Add companies',

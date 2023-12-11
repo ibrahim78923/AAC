@@ -23,6 +23,7 @@ export const dealsCallsDataArray = [
     componentProps: {
       name: 'title',
       label: 'Title',
+      placeholder: 'Title',
       fullWidth: true,
       required: true,
     },

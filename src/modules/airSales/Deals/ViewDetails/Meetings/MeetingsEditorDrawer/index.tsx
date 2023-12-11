@@ -54,7 +54,7 @@ const MeetingsEditorDrawer = (props: any) => {
             methods={methodsdealsCalls}
             onSubmit={handleSubmit(onSubmit)}
           >
-            <Grid container spacing={4}>
+            <Grid container spacing={2}>
               {dealsCallsDataArray?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
                   <item.component {...item?.componentProps} size={'small'}>
@@ -85,7 +85,7 @@ const MeetingsEditorDrawer = (props: any) => {
                   }}
                 >
                   <Typography
-                    variant="body2"
+                    variant="body1"
                     sx={{ color: theme?.palette?.grey[600] }}
                   >
                     Add Video Conferencing
@@ -103,7 +103,7 @@ const MeetingsEditorDrawer = (props: any) => {
                       sx={{ color: 'grey', gap: 0.5 }}
                       className="small"
                     >
-                      <ZoomIcon />{' '}
+                      <ZoomIcon />
                       <Typography variant="body2">Connect Zoom</Typography>
                     </Button>
 
@@ -125,15 +125,16 @@ const MeetingsEditorDrawer = (props: any) => {
                   label="Attendees"
                   name="attendee"
                   options={attendeesOptions}
+                  placeholder="Select Option"
                 />
               </Grid>
               <Grid item xs={12} md={4}>
-                <Box sx={{ pt: 2 }}>
+                <Box sx={{ pt: 2.6 }}>
                   <AppAvatarGroup data={avatarGroupMockData} />
                 </Box>
               </Grid>
               <Grid item xs={12}>
-                <RHFSelect name="template" label="Template" size="small">
+                <RHFSelect name="outcomes" label="Outcomes" size="small">
                   {options?.map((option: any) => (
                     <option key={uuidv4()} value={option?.value}>
                       {option?.label}

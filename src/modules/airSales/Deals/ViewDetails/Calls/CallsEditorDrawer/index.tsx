@@ -67,7 +67,7 @@ const CallsEditorDrawer = (props: any) => {
                 />
               </Grid>
               <Grid item xs={12} md={4}>
-                <Box sx={{ pt: 2 }}>
+                <Box sx={{ pt: 2.6 }}>
                   <AppAvatarGroup data={avatarGroupMockData} />
                 </Box>
               </Grid>

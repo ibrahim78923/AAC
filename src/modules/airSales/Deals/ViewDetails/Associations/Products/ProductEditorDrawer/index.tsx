@@ -10,6 +10,7 @@ import { v4 as uuidv4 } from 'uuid';
 import {
   drawerButtonTitle,
   drawerTitle,
+  productOptions,
   productsDataArray,
 } from './ProductEditorDrawer.data';
 
@@ -42,16 +43,7 @@ const ProductEditorDrawer = (props: any) => {
             <Grid container spacing={4}>
               <Grid item xs={12}>
                 <RHFRadioGroup
-                  options={[
-                    {
-                      label: 'Custom Line Item',
-                      value: 'customLineItem',
-                    },
-                    {
-                      label: 'Existing Products',
-                      value: 'existingProducts',
-                    },
-                  ]}
+                  options={productOptions}
                   name={'productStatus'}
                 />
               </Grid>

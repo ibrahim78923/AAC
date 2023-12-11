@@ -113,6 +113,16 @@ export const productsDataArray = [
     md: 12,
   },
 ];
+export const productOptions = [
+  {
+    label: 'Custom Line Item',
+    value: 'customLineItem',
+  },
+  {
+    label: 'Existing Products',
+    value: 'existingProducts',
+  },
+];
 
 export const drawerTitle: any = {
   Add: 'Add product',
