@@ -17,19 +17,7 @@ export const dynamicallyFormDefaultValues = {
   email: '',
 };
 
-export const dynamicallyFormArray = [
-  {
-    componentProps: {
-      name: 'email',
-      label: 'Email',
-      fullWidth: true,
-      placeholder: 'Enter form email',
-      required: true,
-    },
-    component: RHFTextField,
-    md: 12,
-  },
-];
+export const dynamicallyFormArray = [];
 
 export const styleFormvalidationSchema = Yup?.object()?.shape({
   Width: Yup?.string(),
@@ -145,8 +133,13 @@ export const styleFormArray = [
 
 export const sideBarMenuArray = [
   {
-    name: 'Text',
-    type: 'Text',
+    name: 'Heading',
+    type: 'Heading',
+    icon: <TextIcon />,
+  },
+  {
+    name: 'paragraph',
+    type: 'paragraph',
     icon: <TextIcon />,
   },
   {
@@ -174,7 +167,7 @@ export const sideBarMenuArray = [
 export const customersAttributesArray = [
   {
     name: 'First Name',
-    type: 'Text',
+    type: 'Input',
     icon: <InputIcon />,
   },
   {
@@ -184,32 +177,32 @@ export const customersAttributesArray = [
   },
   {
     name: 'Last Name',
-    type: 'Text',
+    type: 'Input',
     icon: <InputIcon />,
   },
   {
     name: ' Email',
-    type: 'Text',
+    type: 'Input',
     icon: <InputIcon />,
   },
   {
-    name: 'Brith Date',
-    type: 'Text',
+    name: 'Date of Birth',
+    type: 'DatePicker',
     icon: <InputIcon />,
   },
   {
     name: 'Phone Number',
-    type: 'Text',
+    type: 'Input',
     icon: <InputIcon />,
   },
   {
     name: 'Address',
-    type: 'Text',
+    type: 'Input',
     icon: <InputIcon />,
   },
   {
     name: ' Preferred Language',
-    type: 'Text',
+    type: 'Input',
     icon: <InputIcon />,
   },
 ];

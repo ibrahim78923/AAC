@@ -56,7 +56,9 @@ const CreateForm = () => {
     showExportText,
     setShowExportText,
     router,
-    // addField
+    addField,
+    dynamicFields,
+    deleteField,
   } = useCreateForm();
 
   return (
@@ -291,7 +293,11 @@ const CreateForm = () => {
                       Desktop
                     </Button>
                   </Box>
-                  <InnerTab showView={showView} />
+                  <InnerTab
+                    showView={showView}
+                    dynamicFields={dynamicFields}
+                    deleteField={deleteField}
+                  />
                 </Box>
               </TabPanel>
               <TabPanel value="2">
@@ -384,7 +390,11 @@ const CreateForm = () => {
                       Desktop
                     </Button>
                   </Box>
-                  <InnerTab showView={showView} />
+                  <InnerTab
+                    showView={showView}
+                    dynamicFields={dynamicFields}
+                    deleteField={deleteField}
+                  />
                 </Box>
               </TabPanel>
             </TabContext>
@@ -412,7 +422,7 @@ const CreateForm = () => {
                 padding={'12px'}
                 sx={styles.customField}
                 key={uuidv4()}
-                // onClick={() => addField(item?.type)}
+                onClick={() => addField(item?.type, item?.name)}
               >
                 {item?.icon}
                 <Typography variant="h6" sx={{ color: '#35456D' }}>
@@ -438,6 +448,7 @@ const CreateForm = () => {
                 padding={'12px'}
                 sx={styles.customField}
                 key={uuidv4()}
+                onClick={() => addField(item?.type, item?.name)}
               >
                 {item?.icon}
                 <Typography variant="h6" sx={{ color: '#35456D' }}>
