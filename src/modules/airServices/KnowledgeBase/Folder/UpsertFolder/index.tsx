@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   Dialog,
   DialogActions,
   DialogContent,
@@ -12,13 +11,19 @@ import { v4 as uuidv4 } from 'uuid';
 import { upsertDataArray } from './UpsertFolder.data';
 import { AlertModalCloseIcon } from '@/assets/icons';
 import { useUpsertFolder } from './useUpsertFolder';
+import { LoadingButton } from '@mui/lab';
 
 export const UpsertFolder = (props: any) => {
   const { openDialog, setOpenDialog } = props;
   const { methods, handleSubmit, onSubmit } = useUpsertFolder(props);
 
   return (
-    <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
+    <Dialog
+      open={openDialog}
+      onClose={() => setOpenDialog(false)}
+      maxWidth={'sm'}
+      fullWidth
+    >
       <DialogTitle>
         <Box
           display={'flex'}
@@ -56,12 +61,16 @@ export const UpsertFolder = (props: any) => {
           marginBottom={'2rem'}
           gap={'1rem'}
         >
-          <Button variant="outlined" onClick={() => setOpenDialog(false)}>
+          <LoadingButton
+            variant="outlined"
+            color="secondary"
+            onClick={() => setOpenDialog(false)}
+          >
             Cancel
-          </Button>
-          <Button variant="contained" onClick={onSubmit}>
+          </LoadingButton>
+          <LoadingButton variant="contained" onClick={onSubmit}>
             Create
-          </Button>
+          </LoadingButton>
         </Box>
       </DialogActions>
     </Dialog>

@@ -81,7 +81,6 @@ export const associatesListsColumnFunction: any = (
             size="small"
             label={info?.getValue()}
             sx={{
-              backgroundColor: styleFunction?.[info?.getValue()]?.bgColor,
               color: theme?.palette?.common?.black,
             }}
           />

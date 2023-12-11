@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { useRouter } from 'next/router';
+import { AIR_OPERATIONS } from '@/constants';
 import {
   salesWorkflowActionDropdownDynamic,
   salesWorkflowListsColumnDynamic,
@@ -15,8 +17,13 @@ export const useSalesWorkflow = () => {
   );
   const salesWorkflowActionDropdown = salesWorkflowActionDropdownDynamic(
     selectedSalesWorkflowLists,
-    setSelectedSalesWorkflowLists,
   );
+  const { push } = useRouter();
+  const handleBack = () => {
+    push({
+      pathname: AIR_OPERATIONS?.WORKFLOW_AUTOMATION,
+    });
+  };
   return {
     selectedSalesWorkflowLists,
     setSelectedSalesWorkflowLists,
@@ -24,5 +31,6 @@ export const useSalesWorkflow = () => {
     search,
     setSearch,
     salesWorkflowActionDropdown,
+    handleBack,
   };
 };

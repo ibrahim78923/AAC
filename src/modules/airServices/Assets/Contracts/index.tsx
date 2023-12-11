@@ -37,7 +37,7 @@ function Contracts() {
         gap={2}
       >
         <Box>
-          <Search label="search" width="100%" />
+          <Search label="Search Here" width="100%" />
         </Box>
 
         <Box display={'flex'} alignItems={'center'} gap={2} flexWrap={'wrap'}>

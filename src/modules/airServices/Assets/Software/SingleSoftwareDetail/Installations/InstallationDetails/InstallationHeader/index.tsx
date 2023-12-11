@@ -5,8 +5,9 @@ import { ExportButton } from '@/components/ExportButton';
 import AddDevice from '../../AddDevice';
 import { useInstallationHeader } from './useInstallationHeader';
 
-const DELETE_MESSAGE = 'Are you sure you want to delete this Associate Asset?';
+const DELETE_MESSAGE = 'Are you sure you want to delete selected Device?';
 const MODAL_TYPE = 'delete';
+
 export const InstallationHeader = ({ activeCheck }: any) => {
   const { deleteModal, setDeleteModal, submitDeleteModel, handleMenuExport } =
     useInstallationHeader();

@@ -48,7 +48,7 @@ export const newArticleFieldsFunction = (needApprovals: any) => {
       componentProps: {
         fullWidth: true,
         name: 'reviewDate',
-        label: 'review Date',
+        label: 'Review Date',
         select: true,
         options: dropdownDummy,
         sx: { pb: 1.2 },
@@ -63,7 +63,8 @@ export const newArticleFieldsFunction = (needApprovals: any) => {
       componentProps: {
         fullWidth: true,
         name: 'folder',
-        label: 'folder',
+        label: 'Folder',
+        placeholder: 'Training',
         select: true,
         options: dropdownDummy,
         sx: { pb: 1.2 },
@@ -74,7 +75,8 @@ export const newArticleFieldsFunction = (needApprovals: any) => {
       componentProps: {
         fullWidth: true,
         name: 'tags',
-        label: 'tags',
+        label: 'Tags',
+        placeholder: '#example',
         sx: { pb: 1.2 },
       },
       gridLength: 12,
@@ -85,7 +87,8 @@ export const newArticleFieldsFunction = (needApprovals: any) => {
       componentProps: {
         fullWidth: true,
         name: 'keywords',
-        label: 'keywords',
+        label: 'Keywords',
+        placeholder: 'Keywords',
         sx: { pb: 1.2 },
       },
       gridLength: 12,

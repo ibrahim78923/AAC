@@ -1,14 +1,10 @@
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { Checkbox } from '@mui/material';
 import { enqueueSnackbar } from 'notistack';
-
-export const SALES_WORKFLOW_ACTION_CONSTANTS = {
-  FILTER_DATA: 'filter-data',
-  DELETE: 'delete',
-};
+import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { AntSwitch } from '@/components/AntSwitch';
 
 export const salesWorkflowActionDropdownDynamic = (
-  setSalesWorkflowAction: any,
   selectedSalesWorkflowLists: any,
 ) => [
   {
@@ -45,7 +41,6 @@ export const salesWorkflowActionDropdownDynamic = (
   {
     title: 'Delete',
     handleClick: (closeMenu: any) => {
-      setSalesWorkflowAction(SALES_WORKFLOW_ACTION_CONSTANTS?.DELETE);
       closeMenu?.();
     },
   },
@@ -53,11 +48,52 @@ export const salesWorkflowActionDropdownDynamic = (
 
 export const salesWorkflowListsData: any = [
   {
-    _id: 4,
-    name: ` Quote`,
+    _id: 1,
+    name: 'Start Quote',
     type: 'Quote',
     lastActivity: 'Updated By Andrew',
-    createdBy: 'John ',
+    createdBy: 'Devon Lane ',
+    status: true,
+  },
+  {
+    _id: 2,
+    name: 'Complete Deal',
+    type: 'Deal',
+    lastActivity: 'Update by Shaw',
+    createdBy: 'Esther Howard',
+    status: false,
+  },
+  {
+    _id: 3,
+    name: 'Update Task',
+    type: 'Meeting',
+    lastActivity: 'Paused by mcLester',
+    createdBy: 'Annette Black',
+    status: true,
+  },
+  {
+    _id: 4,
+    name: 'Change Deal Stage',
+    type: 'Task',
+    lastActivity: 'Paused by mcLester',
+    createdBy: 'Jenny Wilson',
+    status: false,
+  },
+  {
+    _id: 5,
+    name: 'Mark Task Complete',
+    type: 'Deal',
+    lastActivity: 'Paused by mcLester',
+    createdBy: 'Ronald Richards',
+    status: true,
+  },
+  {
+    _id: 6,
+    name: 'Update Task',
+    type: 'Quote',
+    lastActivity: 'Paused by mcLester',
+    createdBy: 'Courtney Henry',
+    status: true,
   },
 ];
 export const salesWorkflowListsColumnDynamic: any = (
@@ -88,6 +124,8 @@ export const salesWorkflowListsColumnDynamic: any = (
                   ),
                 );
           }}
+          icon={<CheckboxIcon />}
+          checkedIcon={<CheckboxCheckedIcon />}
           color="primary"
           name={info?.getValue()}
         />
@@ -107,6 +145,8 @@ export const salesWorkflowListsColumnDynamic: any = (
                 )
               : setSelectedSalesWorkflowLists([]);
           }}
+          icon={<CheckboxIcon />}
+          checkedIcon={<CheckboxCheckedIcon />}
           color="primary"
           name="_id"
         />
@@ -140,6 +180,13 @@ export const salesWorkflowListsColumnDynamic: any = (
       isSortable: true,
       header: 'Created By',
       cell: (info: any) => info?.getValue(),
+    },
+    {
+      accessorFn: (row: any) => row?.status,
+      id: 'status',
+      isSortable: true,
+      header: 'Status',
+      cell: (info: any) => <AntSwitch values={info?.getValue()} />,
     },
   ];
 };

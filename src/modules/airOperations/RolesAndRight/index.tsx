@@ -1,3 +1,9 @@
+import RolesAndRightTable from './RolesAndRightTable';
+
 export const RolesAndRight = () => {
-  return <>Roles and right</>;
+  return (
+    <>
+      <RolesAndRightTable />
+    </>
+  );
 };

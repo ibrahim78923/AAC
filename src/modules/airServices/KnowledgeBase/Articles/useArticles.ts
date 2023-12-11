@@ -14,6 +14,7 @@ export const useArticles = () => {
   const [selectedArticlesTab, setSelectedArticlesTab] = useState('all');
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [moveFolderModal, setMoveFolderModal] = useState(false);
+  const [openFilter, setOpenFilter] = useState(false);
 
   const handleSelectedArticlesTab = (tab: string) => {
     setSelectedArticlesTab(tab);
@@ -55,5 +56,7 @@ export const useArticles = () => {
     setMoveFolderModal,
     dropdownOptions,
     theme,
+    openFilter,
+    setOpenFilter,
   };
 };

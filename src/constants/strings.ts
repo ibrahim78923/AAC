@@ -243,3 +243,26 @@ export const REQUESTORS_ASSIGNED_STATUS = {
   CLOSED: 'Closed',
   RESOLVED: 'Resolved',
 };
+
+export const CANNED_RESPONSES = {
+  AVAILABLE_FOR: 'availableFor',
+  DELETE: 'delete',
+  EDIT: 'edit',
+  MOVE: 'move',
+  SELECT_AGENTS: 'selectAgents',
+  AGENTS: 'agents',
+};
+
+export const ROLES_ACTION_CONSTANTS = {
+  EDIT: 'Edit',
+  VIEW: 'View',
+  DELETE: 'Delete',
+};
+export const ROLES_ACTION_CONSTANTS_DRAWER_ACTION = {
+  ADD_ROLE: 'Add Roles',
+  UPDATE_ROLE: 'Update Roles',
+};
+
+export const DASHBOARD = {
+  EDIT: 'edit',
+};

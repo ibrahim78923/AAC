@@ -16,7 +16,8 @@ import { v4 as uuidv4 } from 'uuid';
 import { styles } from './ScheduledSMS.style';
 import { DotsBoldIcon } from '@/assets/icons';
 
-const ScheduledSMS = () => {
+const ScheduledSMS = (props: any) => {
+  const { setTabVal } = props;
   const { theme, statusTag } = useScheduledSMS();
 
   return (
@@ -29,6 +30,7 @@ const ScheduledSMS = () => {
           variant="outlined"
           sx={{ background: theme?.palette?.primary?.light }}
           className="small"
+          onClick={() => setTabVal(1)}
         >
           View All
         </Button>
