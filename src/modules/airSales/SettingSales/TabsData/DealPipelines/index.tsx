@@ -181,7 +181,7 @@ const DealPipelines = () => {
               sx={{ color: theme?.palette?.slateBlue?.main, marginTop: '15px' }}
             >
               <AddCircleIcon sx={{ marginRight: '8px' }} />
-              Add Deal stage
+              Add Deal stage fghgfh
             </Button>
           </FormProvider>
         </Box>
