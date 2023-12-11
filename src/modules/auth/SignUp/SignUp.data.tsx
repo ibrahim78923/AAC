@@ -2,16 +2,14 @@ import { RHFMultiCheckbox, RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
 export const validationSchema = Yup.object().shape({
-  firstName: Yup.string().required('Field is Required'),
-  lastName: Yup.string().required('Field is Required'),
-  email: Yup.string().required('Field is Required'),
-  organizationName: Yup.string().required('Field is Required'),
-  crn: Yup.string().required('Field is Required'),
-  numberOfEmployees: Yup.string().required('Field is Required'),
-  phoneNumber: Yup.string().required('Field is Required'),
-  products: Yup.array()
-    .min(1, 'Field is Required')
-    ?.required('Field is Required'),
+  firstName: Yup.string().required('Required field'),
+  lastName: Yup.string().required('Required field'),
+  email: Yup.string().required('Required field'),
+  organizationName: Yup.string().required('Required field'),
+  crn: Yup.string().required('Required field'),
+  numberOfEmployees: Yup.string().required('Required field'),
+  phoneNumber: Yup.string().required('Required field'),
+  products: Yup.array().min(1, 'Required field')?.required('Required field'),
   password: Yup.string()
     .required('Password is required')
     .matches(
@@ -45,9 +43,9 @@ export const options = [
 ];
 
 export const noOfEmployee = [
-  { value: '0001', label: '001' },
-  { value: '0002', label: '0200' },
-  { value: '1000-5000', label: '100-500' },
+  { value: '0001', label: '10' },
+  { value: '0002', label: '200' },
+  { value: '1000-5000', label: '200-500' },
   { value: '5000+ ', label: '500+ ' },
 ];
 
