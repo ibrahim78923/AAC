@@ -2,7 +2,6 @@ import {
   Box,
   Button,
   FormControl,
-  Grid,
   MenuItem,
   Select,
   Stack,
@@ -11,18 +10,33 @@ import Search from '@/components/Search';
 import DetailsTable from './DetailsTable';
 import GetAppIcon from '@mui/icons-material/GetApp';
 import { styles } from './BroadcastDetailsTab.style';
+import { AlertModals } from '@/components/AlertModals';
+import { AlertModalDeleteIcon } from '@/assets/icons';
+import useBroadcastDetails from '../useBroadcastDetails';
 
 const BroadcastDetailsTab = () => {
+  const { openModalDelete, handleOpenDelete, handleCloseDelete } =
+    useBroadcastDetails();
+
   return (
-    <Grid container spacing={'16px'}>
-      <Grid item xs={12}>
-        <Box sx={styles.media}></Box>
-      </Grid>
-      <Grid item xs={12}>
-        <Box sx={styles.previewDetails}></Box>
-      </Grid>
-      <Grid xs={12}>
-        <Stack direction="row" justifyContent="space-between" my={2}>
+    <>
+      <Box sx={{ p: '0 24px' }}>
+        <Box sx={styles.media}>{/* Image here */}</Box>
+
+        <Box sx={styles.previewDetails}>
+          <p>
+            <b>Hello</b>
+          </p>
+          <p>Welcome to | Lashes Makeup Studio</p>
+          <p>For bridal makeup package details plz click the link below</p>
+          <a href="https://google.com">Link</a>
+        </Box>
+
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          sx={{ pt: '32px', pb: '16px' }}
+        >
           <Search placeholder="Search Here" size="small" />
           <Box sx={{ gap: 1, display: 'flex' }}>
             <FormControl size="small">
@@ -50,9 +64,19 @@ const BroadcastDetailsTab = () => {
             </Button>
           </Box>
         </Stack>
-        <DetailsTable />
-      </Grid>
-    </Grid>
+      </Box>
+
+      <DetailsTable deleteBroadcast={handleOpenDelete} />
+
+      <AlertModals
+        message="Are you sure you want to delete this broadcast?"
+        type="Delete Broadcast"
+        typeImage={<AlertModalDeleteIcon />}
+        open={openModalDelete}
+        handleClose={handleCloseDelete}
+        handleSubmit={handleCloseDelete}
+      />
+    </>
   );
 };
 

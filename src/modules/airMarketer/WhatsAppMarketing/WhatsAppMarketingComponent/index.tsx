@@ -13,11 +13,11 @@ import Dashboard from './Dashboard';
 import Broadcast from './Broadcast';
 import Contacts from './Contacts';
 import Templates from './Templates';
-
-import { styles } from './WhatsAppMarketing.style';
 import { PlusIcon } from '@/assets/icons';
 import useWhatsAppMarketingComponent from './useWhatsAppMarketingComponent';
 import EditSmsIcon from '@/assets/icons/modules/airMarketer/SMSMarketing/edit-sms-icon';
+import { styles } from './WhatsAppMarketing.style';
+import { AIR_MARKETER } from '@/routesConstants/paths';
 
 const WhatsAppMarketingComponent = ({
   handelSwitch,
@@ -65,7 +65,7 @@ const WhatsAppMarketingComponent = ({
             className="small"
             variant="contained"
             onClick={() =>
-              router.push('/air-marketer/whatsapp-marketing/create-broadcast')
+              router.push(AIR_MARKETER?.WHATSAPP_MERKETING_CREATE_BROADCAST)
             }
           >
             Create Broadcast

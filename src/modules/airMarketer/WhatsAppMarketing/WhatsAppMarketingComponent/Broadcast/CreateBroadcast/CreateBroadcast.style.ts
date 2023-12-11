@@ -8,37 +8,42 @@ export const styles = {
     bgcolor: 'primary.main',
     fontSize: '14px',
   }),
-  previewName: () => ({
+  previewName: (theme: any) => ({
     fontSize: '15px !important',
     lineHeight: '1',
     fontWeight: '700',
-    color: '#405893',
+    color: theme.palette.custom.text_slate_blue,
   }),
   previewTime: () => ({
     fontSize: '13px !important',
     lineHeight: '1',
     mt: '5px',
   }),
-  previewAttachment: () => ({
-    bgcolor: '#E9EAEF',
+  previewAttachment: (theme: any) => ({
+    bgcolor: theme.palette.custom.light_grayish_blue,
     height: '150px',
     borderRadius: '12px',
   }),
-  previewLabel: () => ({
+  previewLabel: (theme: any) => ({
     fontSize: '14px',
     lineHeight: '20px',
     fontWeight: '600',
-    color: '#4E4B66',
+    color: theme.palette.custom.mulled_wine,
     mb: '8px',
   }),
-  previewDetails: () => ({
-    border: '1.5px solid #E5E7EB',
+  previewDetails: (theme: any) => ({
+    border: `1.5px solid ${theme.palette.grey[700]}`,
     borderRadius: '8px',
     p: '10px 16px',
     minHeight: '80px',
+    fontSize: '12px',
+    color: theme.palette.custom.mulled_wine,
+    '& a': {
+      color: theme.palette.custom.bright,
+    },
   }),
-  previewContacts: () => ({
-    border: '1px solid #EAECF0',
+  previewContacts: (theme: any) => ({
+    border: `1px solid ${theme.palette.custom.light_lavender_gray}`,
     borderRadius: '8px',
     padding: '10px',
   }),

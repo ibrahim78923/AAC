@@ -109,6 +109,7 @@ const CUSTOM_COLORS = {
   hawkes_blue: '#D2D6DF',
   blue_crayola: '#1877F2',
   white_smoke: '#f3f3f3',
+  mulled_wine: '#4E4B66',
 };
 const GRAPH = {
   cyan: 'blue',

@@ -7,6 +7,7 @@ import { BroadcastHeaderI } from './BroadcastHeader.interface';
 import { styles } from './BroadcastHeader.style';
 import SwitchableDatepicker from '@/components/SwitchableDatepicker';
 import { useRouter } from 'next/navigation';
+import { AIR_MARKETER } from '@/routesConstants/paths';
 
 const BroadcastHeader = (props: BroadcastHeaderI) => {
   const router = useRouter();
@@ -110,9 +111,7 @@ const BroadcastHeader = (props: BroadcastHeaderI) => {
             <MenuItem
               onClick={() => {
                 handleActionsMenuClose();
-                router.push(
-                  '/air-marketer/whatsapp-marketing/update-broadcast',
-                );
+                router.push(AIR_MARKETER?.WHATSAPP_MERKETING_UPDATE_BROADCAST);
               }}
             >
               Edit

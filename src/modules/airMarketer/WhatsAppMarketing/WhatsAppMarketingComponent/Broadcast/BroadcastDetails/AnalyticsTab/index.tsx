@@ -1,13 +1,17 @@
-import { Grid } from '@mui/material';
-// import StatusCards from '../../../SMSDashboard/StatusCards';
-// import StatisticsCard from '../../../SMSDashboard/StatisticsCard';
+import { Box } from '@mui/material';
+import StatusCards from '../../../Dashboard/StatusCards';
+import StatisticsCard from '../../../Dashboard/StatisticsCard';
 
 const AnalyticsTab = () => {
   return (
-    <Grid container>
-      <Grid xs={12}>{/* <StatusCards /> */}</Grid>
-      <Grid xs={12}>{/* <StatisticsCard /> */}</Grid>
-    </Grid>
+    <>
+      <Box sx={{ p: '24px' }}>
+        <StatusCards />
+      </Box>
+      <Box sx={{ p: '24px' }}>
+        <StatisticsCard />
+      </Box>
+    </>
   );
 };
 

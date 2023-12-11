@@ -37,7 +37,7 @@ const Broadcast = ({ setIsCreateBroadcast }: any) => {
 
       <AlertModals
         message="Are you sure you want to delete this broadcast?"
-        type="Delete SMS Broadcast"
+        type="Delete Broadcast"
         typeImage={<AlertModalDeleteIcon />}
         open={openModalDelete}
         handleClose={handleCloseDelete}

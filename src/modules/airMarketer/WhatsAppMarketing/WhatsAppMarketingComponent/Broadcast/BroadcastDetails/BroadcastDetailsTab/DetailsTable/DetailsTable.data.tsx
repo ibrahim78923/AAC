@@ -2,7 +2,7 @@ import { Box } from '@mui/material';
 
 import DeleteIcon from '@mui/icons-material/Delete';
 
-export const smsDetailsData: any = [
+export const detailsData: any = [
   {
     Id: 1,
     Name: 'Joesph',
@@ -29,7 +29,7 @@ export const smsDetailsData: any = [
   },
 ];
 
-export const smsDetailsColumns: any = (handleDelete: any) => {
+export const detailsColumns: any = (handleDelete: any) => {
   return [
     {
       accessorFn: (row: any) => row?.Name,

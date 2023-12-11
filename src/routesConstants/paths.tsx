@@ -83,7 +83,6 @@ export const airMarketingCalendar = {
 
 const AIR_MARKETING_PAGE = '/air-marketer';
 export const AIR_MARKETER = {
-  WHATSAPP_MERKETING: '/air-marketer/whatsapp-marketing',
   root: AIR_MARKETING_PAGE,
   PAID_ADS: path(AIR_MARKETING_PAGE, '/paid-ads'),
   CREATE_AD: path(AIR_MARKETING_PAGE, '/paid-ads/create-ad'),
@@ -125,6 +124,15 @@ export const AIR_MARKETER = {
     '/sms-marketing/create-sms-broadcast',
   ),
   VIEW_PERFORMANCE: path(AIR_MARKETING_PAGE, '/compaigns/view-performance'),
+  WHATSAPP_MERKETING: path(AIR_MARKETING_PAGE, '/whatsapp-marketing'),
+  WHATSAPP_MERKETING_CREATE_BROADCAST: path(
+    AIR_MARKETING_PAGE,
+    '/whatsapp-marketing/create-broadcast',
+  ),
+  WHATSAPP_MERKETING_UPDATE_BROADCAST: path(
+    AIR_MARKETING_PAGE,
+    '/whatsapp-marketing/update-broadcast',
+  ),
 };
 
 const AIR_OPERATIONS_PAGE = 'air-operation';

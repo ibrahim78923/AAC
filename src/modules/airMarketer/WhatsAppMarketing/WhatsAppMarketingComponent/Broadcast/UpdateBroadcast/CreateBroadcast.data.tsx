@@ -2,54 +2,61 @@ import {
   RHFSelect,
   RHFDropZone,
   RHFTextField,
+  RHFEditor,
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
+import { InputAdornment, IconButton } from '@mui/material';
+import { AddPlusPrimaryIcon } from '@/assets/icons';
 
 export const validationSchema = Yup.object().shape({
   name: Yup.string().required('Field is Required'),
-  compaign: Yup.string().required('Field is Required'),
+  campaign: Yup.string().required('Field is Required'),
   contacts: Yup.string().required('Field is Required'),
   details: Yup.string().required('Field is Required'),
-  attachment: Yup.string().required('Field is Required'),
 });
 
 export const defaultValues = {
   name: '',
-  compaign: '',
+  campaign: '',
   template: '',
   contacts: '',
   details: '',
   attachment: '',
 };
 
-export const createBroadcastFields = [
+export const createBroadcastFields = (handleOpenContactsDrawer: any) => [
   {
+    id: '01',
     componentProps: {
       label: 'Broadcast Name',
       name: 'name',
       fullWidth: true,
       placeholder: 'Enter Name',
+      required: true,
     },
     component: RHFTextField,
     md: 12,
   },
   {
+    id: '02',
     componentProps: {
-      label: 'Compaign',
-      name: 'compaign',
+      label: 'Campaign',
+      name: 'campaign',
       fullWidth: true,
       select: true,
+      required: true,
     },
     options: [
-      { value: 'compaign1', label: 'Compaign 1' },
-      { value: 'compaign2', label: 'Compaign 2' },
-      { value: 'compaign3', label: 'Compaign 3' },
-      { value: 'compaign4', label: 'Compaign 4' },
+      { value: 'campaign1', label: 'Campaign 1' },
+      { value: 'campaign2', label: 'Campaign 2' },
+      { value: 'campaign3', label: 'Campaign 3' },
+      { value: 'campaign4', label: 'Campaign 4' },
     ],
     component: RHFSelect,
     md: 12,
   },
   {
+    id: '03',
     componentProps: {
       label: 'Use Template (Optional)',
       name: 'template',
@@ -66,26 +73,38 @@ export const createBroadcastFields = [
     md: 12,
   },
   {
+    id: '04',
     componentProps: {
       name: 'contacts',
       label: 'Add Contacts',
       fullWidth: true,
+      required: true,
+      InputProps: {
+        endAdornment: (
+          <InputAdornment position="end">
+            <IconButton onClick={handleOpenContactsDrawer} edge="end">
+              <AddPlusPrimaryIcon />
+            </IconButton>
+          </InputAdornment>
+        ),
+      },
     },
     component: RHFTextField,
     md: 12,
   },
   {
-    component: RHFTextField,
+    id: '05',
+    component: RHFEditor,
     md: 12,
     componentProps: {
       name: 'details',
       label: 'Details',
       fullWidth: true,
-      multiline: true,
-      rows: '4',
+      required: true,
     },
   },
   {
+    id: '06',
     component: RHFDropZone,
     md: 12,
     title: 'Attachment',

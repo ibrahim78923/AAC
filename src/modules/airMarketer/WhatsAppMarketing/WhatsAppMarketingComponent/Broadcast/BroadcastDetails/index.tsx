@@ -1,4 +1,4 @@
-import { Box, Stack, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import CommonTabs from '@/components/Tabs';
 import useSMSBroadcast from '../useBroadcast';
 import BroadcastDetailsTab from './BroadcastDetailsTab';
@@ -10,8 +10,8 @@ import { AIR_MARKETER } from '@/routesConstants/paths';
 const BroadcastDetails = () => {
   const { navigate, statusTag } = useSMSBroadcast();
   return (
-    <>
-      <Stack direction="row" justifyContent="space-between">
+    <Box sx={styles.wrapper}>
+      <Box sx={styles.pageHeader}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <ArrowBackIcon
             onClick={() => {
@@ -32,12 +32,12 @@ const BroadcastDetails = () => {
           />
           <Typography>Completed</Typography>
         </Box>
-      </Stack>
+      </Box>
       <CommonTabs tabsArray={['Broadcast Details', 'Analytics']}>
         <BroadcastDetailsTab />
         <AnalyticsTab />
       </CommonTabs>
-    </>
+    </Box>
   );
 };
 

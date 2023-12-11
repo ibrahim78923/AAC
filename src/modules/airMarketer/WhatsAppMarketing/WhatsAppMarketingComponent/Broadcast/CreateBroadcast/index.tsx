@@ -14,6 +14,7 @@ import useCreateBroadcast from './useCreateBroadcast';
 import { styles } from './CreateBroadcast.style';
 import TanstackTable from '@/components/Table/TanstackTable';
 import AddContactDrawer from './AddContactDrawer/index';
+import { AIR_MARKETER } from '@/routesConstants/paths';
 
 const CreateBroadcast = () => {
   const router = useRouter();
@@ -34,7 +35,7 @@ const CreateBroadcast = () => {
     <>
       <Box sx={{ display: 'flex', alignItems: 'center', mb: '27px' }}>
         <Box
-          onClick={() => router.push('/air-marketer/whatsapp-marketing')}
+          onClick={() => router.push(AIR_MARKETER.WHATSAPP_MARKETING)}
           sx={{ cursor: 'pointer', lineHeight: '1', mr: '12px' }}
         >
           <ArrowBackIcon />
