@@ -11,6 +11,7 @@ import {
   ticketsDataArray,
   drawerButtonTitle,
   drawerTitle,
+  ticketOptions,
 } from './TicketsEditorDrawer.data';
 
 import { v4 as uuidv4 } from 'uuid';
@@ -44,16 +45,7 @@ const TicketsEditorDrawer = (props: any) => {
             <Grid container spacing={4}>
               <Grid item xs={12}>
                 <RHFRadioGroup
-                  options={[
-                    {
-                      label: 'New Ticket',
-                      value: 'new-ticket',
-                    },
-                    {
-                      label: 'Existing Ticket',
-                      value: 'existing-ticket',
-                    },
-                  ]}
+                  options={ticketOptions}
                   name={'ticketStatus'}
                   label={false}
                 />

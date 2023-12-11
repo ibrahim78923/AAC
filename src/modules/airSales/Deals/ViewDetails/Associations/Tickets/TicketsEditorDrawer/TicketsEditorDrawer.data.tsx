@@ -114,6 +114,17 @@ export const ticketsDataArray = [
   },
 ];
 
+export const ticketOptions = [
+  {
+    label: 'New Ticket',
+    value: 'new-ticket',
+  },
+  {
+    label: 'Existing Ticket',
+    value: 'existing-ticket',
+  },
+];
+
 export const drawerTitle: any = {
   Add: 'Add Tickets',
   Edit: 'Edit Tickets',
