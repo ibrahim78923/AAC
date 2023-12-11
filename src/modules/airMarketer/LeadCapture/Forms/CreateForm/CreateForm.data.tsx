@@ -1,6 +1,13 @@
 import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
 import { Typography } from '@mui/material';
 import * as Yup from 'yup';
+import {
+  ImageIcon,
+  SpaceIcon,
+  TextIcon,
+  DividerIcon,
+  InputIcon,
+} from '@/assets/icons';
 
 export const dynamicallyFormValidationSchema = Yup.object().shape({
   email: Yup?.string()?.trim()?.required('Field is Required'),
@@ -133,5 +140,76 @@ export const styleFormArray = [
     },
     md: 12,
     component: Typography,
+  },
+];
+
+export const sideBarMenuArray = [
+  {
+    name: 'Text',
+    type: 'Text',
+    icon: <TextIcon />,
+  },
+  {
+    name: 'Image',
+    type: 'Image',
+    icon: <ImageIcon />,
+  },
+  {
+    name: 'Spacing',
+    type: 'Spacing',
+    icon: <SpaceIcon />,
+  },
+  {
+    name: 'Divider',
+    type: 'Divider',
+    icon: <DividerIcon />,
+  },
+  {
+    name: 'Button',
+    type: 'Button',
+    icon: <InputIcon />,
+  },
+];
+
+export const customersAttributesArray = [
+  {
+    name: 'First Name',
+    type: 'Text',
+    icon: <InputIcon />,
+  },
+  {
+    name: 'Avatar',
+    type: 'Image',
+    icon: <InputIcon />,
+  },
+  {
+    name: 'Last Name',
+    type: 'Text',
+    icon: <InputIcon />,
+  },
+  {
+    name: ' Email',
+    type: 'Text',
+    icon: <InputIcon />,
+  },
+  {
+    name: 'Brith Date',
+    type: 'Text',
+    icon: <InputIcon />,
+  },
+  {
+    name: 'Phone Number',
+    type: 'Text',
+    icon: <InputIcon />,
+  },
+  {
+    name: 'Address',
+    type: 'Text',
+    icon: <InputIcon />,
+  },
+  {
+    name: ' Preferred Language',
+    type: 'Text',
+    icon: <InputIcon />,
   },
 ];

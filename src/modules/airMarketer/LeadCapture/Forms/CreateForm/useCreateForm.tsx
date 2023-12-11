@@ -16,6 +16,8 @@ const useCreateForm = () => {
   const [isDraweropen, setIsDraweropen] = useState(false);
   const [openAlert, setOpenAlert] = useState(false);
   const [showExportText, setShowExportText] = useState(false);
+  // const [dynamicFields, setDynamicFields] = useState([...dynamicallyFormArray]);
+  // const [fields, setFields] = useState([]);
 
   const router = useRouter();
   const { formData }: any = router.query;
@@ -47,6 +49,29 @@ const useCreateForm = () => {
     setIsDraweropen(false);
     reset();
   };
+
+  // const addField = (value: any) => {
+  //   console.log('value', value);
+  //   setDynamicFields((prevFields) => [
+  //     ...prevFields,
+  //     {
+  //       componentProps: {
+  //         name: `dynamicField${uuidv4()}_1`,
+  //         label: 'Dynamic Field',
+  //         fullWidth: true,
+  //       },
+  //       component: RHFTextField,
+  //       md: 12,
+  //     }
+  //   ]);
+  // };
+
+  // const deleteField = (index: any) => {
+  //   setDynamicFields((prevFields) => [
+  //     ...prevFields.slice(0, index),
+  //     ...prevFields.slice(index + 2),
+  //   ]);
+  // };
 
   useEffect(() => {
     // Check if formData is present in the query parameters
@@ -81,6 +106,7 @@ const useCreateForm = () => {
     showExportText,
     setShowExportText,
     router,
+    // addField
   };
 };
 
