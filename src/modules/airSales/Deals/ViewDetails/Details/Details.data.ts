@@ -23,6 +23,7 @@ export const detailsDataArray = [
     componentProps: {
       name: 'deal-name',
       label: 'Deal Name',
+      placeholder: 'Name',
       fullWidth: true,
     },
     component: RHFTextField,
@@ -32,6 +33,8 @@ export const detailsDataArray = [
     componentProps: {
       name: 'amount',
       label: 'Amount',
+      placeholder: '£',
+      type: 'number',
       fullWidth: true,
     },
     component: RHFTextField,
@@ -41,6 +44,8 @@ export const detailsDataArray = [
     componentProps: {
       name: 'deal-owner',
       label: 'Deal Owner',
+      placeholder: 'Deal Owner',
+
       fullWidth: true,
     },
     component: RHFTextField,
@@ -133,6 +138,9 @@ export const detailsDataArray = [
     componentProps: {
       name: 'last-activity',
       label: 'Last Activity',
+
+      placeholder: 'Last Activity',
+
       fullWidth: true,
     },
     component: RHFTextField,
@@ -149,31 +157,14 @@ export const detailsDataArray = [
   },
   {
     componentProps: {
-      name: 'create-time',
-      label: '',
-      fullWidth: true,
-    },
-    component: RHFTextField,
-    md: 4,
-  },
-  {
-    componentProps: {
       name: 'closed-date',
       label: 'Closed Date',
       fullWidth: true,
     },
-    component: RHFTextField,
+    component: RHFDatePicker,
     md: 4,
   },
-  {
-    componentProps: {
-      name: 'close-time',
-      label: '',
-      fullWidth: true,
-    },
-    component: RHFTextField,
-    md: 4,
-  },
+
   {
     componentProps: {
       name: 'last-activity-date',

@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, TextField } from '@mui/material';
 
 import { DeleteCrossIcon, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
 export const columns: any = ({
@@ -22,7 +22,18 @@ export const columns: any = ({
       id: 'quantity',
       isSortable: true,
       header: 'Quantity',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => (
+        <TextField
+          defaultValue={info?.getValue()}
+          inputProps={{
+            min: 1,
+            max: 100,
+          }}
+          type="number"
+          size="small"
+          sx={{ width: '200px' }}
+        />
+      ),
     },
 
     {

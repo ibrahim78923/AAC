@@ -28,7 +28,7 @@ const Quotes = () => {
             02
           </Typography>
 
-          <Typography variant="subtitle2">Quotes</Typography>
+          <Typography variant="h5">Quotes</Typography>
         </Grid>
         <Grid item md={8}>
           <Box
@@ -43,11 +43,12 @@ const Quotes = () => {
               searchBy={searchName}
               setSearchBy={setSearchName}
               label="Search By Name"
-              size="small"
+              size="medium"
             />
             <Button
               variant="contained"
-              sx={{ minWidth: '0px', height: '35px', gap: 0.5 }}
+              className="medium"
+              sx={{ minWidth: '0px', gap: 0.5 }}
             >
               <PlusIcon /> Add Quotes
             </Button>

@@ -14,7 +14,7 @@ export const ticketsValidationSchema = Yup?.object()?.shape({
 });
 
 export const ticketsDefaultValues = {
-  ticketStatus: 'New Ticket',
+  ticketStatus: 'new-ticket',
   subject: '',
   requester: '',
   description: '',
@@ -29,6 +29,7 @@ export const ticketsDataArray = [
     componentProps: {
       name: 'requester',
       label: 'Requester',
+      required: true,
       select: true,
     },
     options: [
@@ -42,7 +43,9 @@ export const ticketsDataArray = [
   {
     componentProps: {
       name: 'subject',
-      label: 'subject',
+      label: 'Subject',
+      required: true,
+      placeHolder: 'Subject',
       fullWidth: true,
     },
     component: RHFTextField,
@@ -75,6 +78,7 @@ export const ticketsDataArray = [
     componentProps: {
       name: 'status',
       label: 'Status',
+      required: true,
       select: true,
     },
     options: [
@@ -107,6 +111,17 @@ export const ticketsDataArray = [
     },
     component: RHFDropZone,
     md: 12,
+  },
+];
+
+export const ticketOptions = [
+  {
+    label: 'New Ticket',
+    value: 'new-ticket',
+  },
+  {
+    label: 'Existing Ticket',
+    value: 'existing-ticket',
   },
 ];
 
