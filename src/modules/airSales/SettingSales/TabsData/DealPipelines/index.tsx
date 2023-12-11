@@ -74,7 +74,9 @@ const DealPipelines = () => {
             <Grid
               container
               spacing={4}
-              sx={{ borderBottom: '1px solid #EAECF0' }}
+              sx={{
+                borderBottom: `1px solid ${theme?.palette?.custom?.off_white_three}`,
+              }}
             >
               {dynamicFields?.map((item: any, index: any) => (
                 <>
@@ -86,7 +88,10 @@ const DealPipelines = () => {
                     sx={{
                       paddingTop:
                         index == '0' ? '20px !important' : '10px !important',
-                      borderTop: index > '3' ? '1px solid #EAECF0' : 'none',
+                      borderTop:
+                        index > '3'
+                          ? `1px solid ${theme?.palette?.custom?.off_white_three}`
+                          : 'none',
                     }}
                   >
                     {index % 2 === 0 && (
@@ -155,7 +160,10 @@ const DealPipelines = () => {
                         md={2}
                         sx={{
                           paddingTop: '10px !important',
-                          borderTop: index > '3' ? '1px solid #EAECF0' : 'none',
+                          borderTop:
+                            index > '3'
+                              ? `1px solid ${theme?.palette?.custom?.off_white_three}`
+                              : 'none',
                         }}
                       >
                         <Button
