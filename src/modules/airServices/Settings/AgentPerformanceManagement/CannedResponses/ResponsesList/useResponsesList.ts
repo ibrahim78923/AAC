@@ -3,10 +3,10 @@ import { useRouter } from 'next/router';
 import { enqueueSnackbar } from 'notistack';
 import { useState } from 'react';
 import {
-  ACTION_TYPES,
   responsesTableColumns,
   responsesTableData,
 } from './ResponsesList.data';
+import { CANNED_RESPONSES } from '@/constants/strings';
 
 export const useResponsesList = () => {
   const router = useRouter();
@@ -18,10 +18,10 @@ export const useResponsesList = () => {
   const [deleteModal, setDeleteModal] = useState(false);
   const handleActionClick = (ActionType: string) => {
     // open delete modal on selected action type
-    if (ActionType === ACTION_TYPES?.DELETE) {
+    if (ActionType === CANNED_RESPONSES?.DELETE) {
       return setDeleteModal(true);
     }
-    if (ActionType === ACTION_TYPES?.EDIT) {
+    if (ActionType === CANNED_RESPONSES?.EDIT) {
       if (selectedData?.length > 1) {
         enqueueSnackbar(`Can't update multiple records`, {
           variant: 'error',
@@ -30,7 +30,7 @@ export const useResponsesList = () => {
       }
       return setOpenAddResponseDrawer(true);
     }
-    if (ActionType === ACTION_TYPES?.MOVE) {
+    if (ActionType === CANNED_RESPONSES?.MOVE) {
       return setOpenMoveFolderModal(true);
     }
   };

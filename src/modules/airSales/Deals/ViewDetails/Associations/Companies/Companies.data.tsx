@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { Box, Typography } from '@mui/material';
 
 import { NotesAvatarImage } from '@/assets/images';
-import { DeleteCrossIcon, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
+import { DeleteCrossIcon, ViewEyeIcon } from '@/assets/icons';
 export const columns: any = ({
   setOpenDrawer,
   setIsOpenAlert,
@@ -58,9 +58,6 @@ export const columns: any = ({
         <Box sx={{ display: 'flex', gap: 0.5 }}>
           <Box sx={{ cursor: 'pointer' }} onClick={() => setOpenDrawer('View')}>
             <ViewEyeIcon />
-          </Box>
-          <Box sx={{ cursor: 'pointer' }} onClick={() => setOpenDrawer('Edit')}>
-            <EditPenIcon />
           </Box>
           <Box sx={{ cursor: 'pointer' }} onClick={() => setIsOpenAlert(true)}>
             <DeleteCrossIcon />

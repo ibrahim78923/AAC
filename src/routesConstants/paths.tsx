@@ -57,6 +57,7 @@ export const AIR_SALES = {
   SALES_INVOICES: '/air-sales/invoices',
   SALES_VIEW_INVOICES: '/air-sales/invoices/view-invoices',
   SALES_CREATE_INVOICES: '/air-sales/invoices/create-invoices',
+  DEAL: ' /air-sales/deals',
 };
 
 export const SUPER_ADMIN_PLAN_MANAGEMENT: any = {
@@ -123,7 +124,7 @@ export const AIR_MARKETER = {
     AIR_MARKETING_PAGE,
     '/sms-marketing/create-sms-broadcast',
   ),
-  VIEW_PERFORMANCE: path(AIR_MARKETING_PAGE, '/compaigns/view-performance'),
+  VIEW_PERFORMANCE: path(AIR_MARKETING_PAGE, '/campaigns/view-performance'),
 };
 
 const AIR_OPERATIONS_PAGE = 'air-operation';

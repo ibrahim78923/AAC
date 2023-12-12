@@ -54,7 +54,7 @@ const Calls = () => {
                   sx={{ minWidth: '0px', height: '35px', gap: 0.5 }}
                   onClick={() => setOpenDrawer('Add')}
                 >
-                  <PlusIcon /> Add Calls
+                  <PlusIcon /> Add Call
                 </Button>
               </Box>
             )}

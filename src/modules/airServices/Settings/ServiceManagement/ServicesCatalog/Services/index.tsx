@@ -47,7 +47,17 @@ const Services = () => {
       >
         <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={1}>
           <ArrowBackIcon
-            onClick={() => router.push(AIR_SERVICES?.SERVICE_MANAGEMENT)}
+            onClick={() => {
+              const isMatch = services?.some(
+                (service) => service?.title === router?.query?.subQuery,
+              );
+
+              if (isMatch) {
+                router.push(AIR_SERVICES?.SERVICE_CATALOG);
+              } else {
+                router.push(AIR_SERVICES?.SERVICE_MANAGEMENT);
+              }
+            }}
           />
           <Typography variant="h3">Service Management</Typography>
           <ArrowForwardIosIcon fontSize="small" />
@@ -60,7 +70,11 @@ const Services = () => {
           )}
         </Box>
         <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'}>
-          <Button variant="contained" startIcon={<CirclePlusIcon />}>
+          <Button
+            variant="contained"
+            startIcon={<CirclePlusIcon />}
+            onClick={() => router.push(AIR_SERVICES?.UPSERT_SERVICE)}
+          >
             Add Service
           </Button>
         </Box>

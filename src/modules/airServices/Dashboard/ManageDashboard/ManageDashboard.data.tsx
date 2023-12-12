@@ -7,6 +7,7 @@ import { PreviewDashboardModal } from '../PreviewDashboardItems/PreviewDashboard
 import Link from 'next/link';
 import { AIR_SERVICES } from '@/constants';
 import { AntSwitch } from './ManageDashboard.styles';
+import { DASHBOARD } from '@/constants/strings';
 
 export const manageDashboardsDataColumns = [
   {
@@ -79,7 +80,9 @@ export const manageDashboardsDataColumns = [
         <PreviewDashboardModal
           dashboardItems={['Graphical Representation of Tickets by Statuses']}
         />
-        <Link href={`${AIR_SERVICES?.CREATE_DASHBOARD}?action="edit"`}>
+        <Link
+          href={`${AIR_SERVICES?.CREATE_DASHBOARD}?action=${DASHBOARD?.EDIT}`}
+        >
           <EditYellowBGPenIcon />
         </Link>
         <DeleteDashboardModal />

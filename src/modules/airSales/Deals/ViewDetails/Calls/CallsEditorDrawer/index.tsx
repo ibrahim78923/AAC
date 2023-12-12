@@ -20,9 +20,8 @@ import {
 import { avatarGroupMockData } from '@/modules/superAdmin/PlanManagement/PlanManagement.data';
 import { options } from '../../Emails/EmailEditorDrawer/EmailEditorDrawer.data';
 
-import { AttendeeAvatarImage } from '@/assets/images';
-
 import { v4 as uuidv4 } from 'uuid';
+import { attendeesOptions } from '@/mock/modules/airSales/Deals/ViewDetails';
 
 const CallsEditorDrawer = (props: any) => {
   const { openDrawer, setOpenDrawer } = props;
@@ -43,7 +42,7 @@ const CallsEditorDrawer = (props: any) => {
             methods={methodsdealsCalls}
             onSubmit={handleSubmit(onSubmit)}
           >
-            <Grid container spacing={5}>
+            <Grid container spacing={3}>
               {dealsCallsDataArray?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
                   <item.component {...item.componentProps} size={'small'}>
@@ -63,30 +62,17 @@ const CallsEditorDrawer = (props: any) => {
                   size="small"
                   label="Attendees"
                   name="attendee"
-                  options={[
-                    {
-                      value: 'Guy Hawkins',
-                      label: 'Guy Hawkins',
-                      image: AttendeeAvatarImage,
-                    },
-                    {
-                      value: 'Jacob Jones',
-                      label: 'Jacob Jones',
-                      image: AttendeeAvatarImage,
-                    },
-                    {
-                      value: 'Courtney Henry',
-                      label: 'Courtney Henry',
-                      image: AttendeeAvatarImage,
-                    },
-                  ]}
+                  options={attendeesOptions}
+                  placeholder="Select Option"
                 />
               </Grid>
               <Grid item xs={12} md={4}>
-                <AppAvatarGroup data={avatarGroupMockData} />
+                <Box sx={{ pt: 2.6 }}>
+                  <AppAvatarGroup data={avatarGroupMockData} />
+                </Box>
               </Grid>
               <Grid item xs={12}>
-                <RHFSelect name="template" label="Template" size="small">
+                <RHFSelect name="outcomes" label="Outcomes" size="small">
                   {options?.map((option: any) => (
                     <option key={uuidv4()} value={option?.value}>
                       {option?.label}

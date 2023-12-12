@@ -19,6 +19,7 @@ import { ArrowBackIcon } from '@/assets/icons';
 import { NotesAvatarImage } from '@/assets/images';
 
 import { styles } from './ViewDetails.style';
+import { AIR_SALES } from '@/routesConstants/paths';
 
 const ViewDetails = () => {
   const theme = useTheme();
@@ -26,8 +27,8 @@ const ViewDetails = () => {
     <Box>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-            <Link href="/air-sales/deals">
+          <Box sx={{ display: 'flex', gap: 1, alignItems: 'flex-start' }}>
+            <Link href={AIR_SALES?.DEAL} style={{ paddingTop: '6px' }}>
               <ArrowBackIcon />
             </Link>
             <Box>

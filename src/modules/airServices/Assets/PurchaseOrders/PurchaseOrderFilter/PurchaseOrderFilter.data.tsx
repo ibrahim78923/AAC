@@ -1,4 +1,4 @@
-import { RHFSelect } from '@/components/ReactHookForm';
+import { RHFAutocomplete } from '@/components/ReactHookForm';
 
 export const venderOptions = [
   {
@@ -127,9 +127,10 @@ export const defaultValues = {
 export const filterFields = [
   {
     id: 2,
-    component: RHFSelect,
+    component: RHFAutocomplete,
     gridLength: 12,
     componentProps: {
+      placeholder: 'Select Vendor',
       fullWidth: true,
       name: 'vendor',
       label: 'vendor',
@@ -140,6 +141,7 @@ export const filterFields = [
   {
     id: 920,
     componentProps: {
+      placeholder: 'Select Status',
       fullWidth: true,
       name: 'status',
       label: 'status',
@@ -147,11 +149,12 @@ export const filterFields = [
       options: statusOptions,
     },
     gridLength: 12,
-    component: RHFSelect,
+    component: RHFAutocomplete,
   },
   {
     id: 150,
     componentProps: {
+      placeholder: 'Select time period',
       fullWidth: true,
       name: 'createdDate',
       label: 'created Date',
@@ -159,13 +162,14 @@ export const filterFields = [
       options: createdDateOptions,
     },
     gridLength: 12,
-    component: RHFSelect,
+    component: RHFAutocomplete,
   },
   {
     id: 200,
-    component: RHFSelect,
+    component: RHFAutocomplete,
     gridLength: 12,
     componentProps: {
+      placeholder: 'Select time period',
       fullWidth: true,
       name: 'deliverDate',
       label: 'Deliver Date',
@@ -176,6 +180,7 @@ export const filterFields = [
   {
     id: 129,
     componentProps: {
+      placeholder: 'Select Department',
       fullWidth: true,
       name: 'department',
       label: 'department',
@@ -183,6 +188,6 @@ export const filterFields = [
       options: departmentOptions,
     },
     gridLength: 12,
-    component: RHFSelect,
+    component: RHFAutocomplete,
   },
 ];
