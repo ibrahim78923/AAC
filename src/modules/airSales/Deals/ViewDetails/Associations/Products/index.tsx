@@ -42,7 +42,7 @@ const Products = () => {
             02
           </Typography>
 
-          <Typography variant="subtitle2">Products</Typography>
+          <Typography variant="h5">Products</Typography>
         </Grid>
         <Grid item md={8}>
           <Box
@@ -57,11 +57,11 @@ const Products = () => {
               searchBy={searchName}
               setSearchBy={setSearchName}
               label="Search By Name"
-              size="small"
+              size="medium"
             />
             <Button
               variant="contained"
-              className="small"
+              className="medium"
               sx={{ minWidth: '0px', gap: 0.5 }}
               onClick={() => setOpenDrawer('Add')}
             >

@@ -75,7 +75,7 @@ const CallsActionDropdown = (props: any) => {
           "You're about to delete a record. Deleted records can't be restored after 90 days."
         }
         type={'delete'}
-        open={Boolean(openAlertModal)}
+        open={openAlertModal === 'Delete'}
         handleClose={handleCloseAlert}
         handleSubmit={handleCloseAlert}
       />

@@ -12,12 +12,14 @@ import CreateDashboard from './CreateDashboard';
 
 const Dashboard = () => {
   const [isToggled, toggle] = useToggle(false);
+
   const {
     isShowCreateDashboardForm,
     setIsShowCreateDashboardForm,
     isShowEditDashboard,
     setIsShowEditDashboard,
   } = useDashboard();
+
   return (
     <>
       <Grid container spacing={2} sx={{ paddingLeft: '0px' }}>
