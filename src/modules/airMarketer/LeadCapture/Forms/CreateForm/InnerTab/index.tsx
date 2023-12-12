@@ -11,6 +11,7 @@ import {
 } from '../CreateForm.data';
 import { useState } from 'react';
 import { DeleteIcon } from '@/assets/icons';
+import { isNullOrEmpty } from '@/utils';
 
 const InnerTab = ({ showView, dynamicFields, deleteField }: any) => {
   const [hoveredIndex, setHoveredIndex] = useState(null);
@@ -27,20 +28,16 @@ const InnerTab = ({ showView, dynamicFields, deleteField }: any) => {
   return (
     <Box sx={styles.subDiv(showView)}>
       <Box sx={styles.innerBox}>
-        <Typography variant="h5" sx={{ textAlign: 'center' }}>
-          Hi there!{' '}
-        </Typography>
-        <Typography
-          variant="body2"
-          sx={{ textAlign: 'center', marginBottom: '45px' }}
-        >
-          Please fill in the attributes below to continue.
-        </Typography>
+        {isNullOrEmpty(dynamicFields) && (
+          <Typography variant="body2" sx={{ textAlign: 'center' }}>
+            Please Create your Form from side bar menu selection.
+          </Typography>
+        )}
         <FormProvider
           methods={dynamicallyFormForm}
           onSubmit={handleSubmit(onSubmit)}
         >
-          <Grid container spacing={4}>
+          <Grid container spacing={4} sx={{ marginTop: '-20px' }}>
             {dynamicFields?.map((item: any, index: any) => (
               <Grid
                 item
@@ -48,8 +45,7 @@ const InnerTab = ({ showView, dynamicFields, deleteField }: any) => {
                 md={item?.md}
                 key={uuidv4()}
                 sx={{
-                  textAlign: 'center',
-                  padding: '20px !important',
+                  padding: '10px !important',
                   marginLeft: '40px !important',
                   position: 'relative',
                   cursor: 'pointer',
@@ -79,14 +75,19 @@ const InnerTab = ({ showView, dynamicFields, deleteField }: any) => {
                   </Box>
                 )}
                 {item?.componentProps?.heading && (
-                  <Typography variant="h5">
+                  <Typography variant="h5" sx={{ textAlign: 'center' }}>
                     {item?.componentProps?.heading}
                   </Typography>
                 )}
                 {item?.componentProps?.paragraph && (
-                  <Typography variant="body2">
+                  <Typography variant="body2" sx={{ textAlign: 'center' }}>
                     {item?.componentProps?.paragraph}
                   </Typography>
+                )}
+                {item?.componentProps?.button && (
+                  <Button variant="contained">
+                    {item?.componentProps?.text}
+                  </Button>
                 )}
                 <item.component
                   {...item?.componentProps}
@@ -95,14 +96,6 @@ const InnerTab = ({ showView, dynamicFields, deleteField }: any) => {
               </Grid>
             ))}
           </Grid>
-
-          <Button
-            variant="contained"
-            sx={{ position: 'absolute', bottom: '30px', width: 'fit-content' }}
-            type="submit"
-          >
-            submit
-          </Button>
         </FormProvider>
       </Box>
     </Box>

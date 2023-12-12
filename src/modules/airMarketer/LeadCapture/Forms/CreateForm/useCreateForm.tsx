@@ -113,6 +113,16 @@ const useCreateForm = () => {
             component: RHFDatePicker,
             md: 12,
           };
+        case 'Button':
+          return {
+            componentProps: {
+              variant: 'contained',
+              text: 'submit',
+              button: 'text of button',
+            },
+            component: 'Button',
+            md: 12,
+          };
         default:
           return null;
       }

@@ -54,6 +54,7 @@ export const styles = {
     margin: 'auto',
     padding: '20px',
     position: 'relative',
+    overflow: 'scroll',
     '@media (max-width:500px)': {
       width: '100%',
       boxShadow: 'none',

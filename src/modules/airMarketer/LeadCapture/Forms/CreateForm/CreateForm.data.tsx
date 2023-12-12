@@ -143,6 +143,11 @@ export const sideBarMenuArray = [
     icon: <TextIcon />,
   },
   {
+    name: 'Input Field',
+    type: 'Input',
+    icon: <InputIcon />,
+  },
+  {
     name: 'Image',
     type: 'Image',
     icon: <ImageIcon />,
