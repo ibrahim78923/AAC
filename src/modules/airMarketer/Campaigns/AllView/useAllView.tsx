@@ -35,7 +35,6 @@ const useAllView = () => {
         break;
     }
 
-    // setSelectedOptionsValue(option);
     setSelectedValue(null);
   };
   return {

@@ -12,17 +12,3 @@ const useManageSharingModal = () => {
   };
 };
 export default useManageSharingModal;
-export const teamsArr = [
-  {
-    label: 'Marketing Team',
-    value: 'marketingTeam',
-  },
-  {
-    label: 'Team Alpha',
-    value: 'teamAlpha',
-  },
-  {
-    label: 'Team Bravo',
-    value: 'teamBravo',
-  },
-];

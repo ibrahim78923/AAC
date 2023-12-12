@@ -20,7 +20,9 @@ import { v4 as uuidv4 } from 'uuid';
 import {
   dataArray,
   defaultValues,
+  specificUserOrTeamOptions,
   teamsArr,
+  usersArr,
   validationSchema,
 } from './SaveNewViewDrawer.data';
 import useSaveAndNewViewDrawer from './useSaveNewViewDrawer';
@@ -48,8 +50,8 @@ export default function SaveNewViewDrawer({
     <CommonDrawer
       isDrawerOpen={isOpenDrawer}
       onClose={() => onClose(false)}
-      title={'Export Campaign'}
-      okText={'Export'}
+      title={'Save New View'}
+      okText={'Save'}
       isOk
       cancelText={'Cancel'}
       footer
@@ -94,7 +96,8 @@ export default function SaveNewViewDrawer({
                 control={<Radio />}
                 label="Specific User or Team"
               />
-              {accessValue === 'specificUserOrTeam' && (
+              {accessValue ===
+                specificUserOrTeamOptions?.specificUserOrTeam && (
                 <FormControl sx={{ ml: 2 }} component="fieldset">
                   <RHFSelect name="users" label="Users" size="small">
                     {teamsArr?.map((option: any) => (
@@ -104,7 +107,7 @@ export default function SaveNewViewDrawer({
                     ))}
                   </RHFSelect>
                   <RHFSelect name="teams" label="Teams" size="small">
-                    {teamsArr?.map((option: any) => (
+                    {usersArr?.map((option: any) => (
                       <option key={uuidv4()} value={option?.value}>
                         {option?.label}
                       </option>

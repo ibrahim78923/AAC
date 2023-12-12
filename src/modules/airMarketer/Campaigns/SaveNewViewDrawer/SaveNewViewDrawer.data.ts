@@ -2,7 +2,7 @@ import { RHFDatePicker, RHFSelect } from '@/components/ReactHookForm';
 
 import * as Yup from 'yup';
 
-export const validationSchema = Yup.object().shape({
+export const validationSchema = Yup?.object()?.shape({
   campaignStatus: Yup?.string()?.required('Field is Required'),
   startDate: Yup?.string()?.trim()?.required('Field is Required'),
   endDate: Yup?.string()?.required('Field is Required'),
@@ -75,3 +75,16 @@ export const teamsArr = [
     value: 'teamBravo',
   },
 ];
+export const usersArr = [
+  {
+    label: 'Zahir Abbas',
+    value: 'zahirAbbas',
+  },
+  {
+    label: 'Sir Usman',
+    value: 'sirUsman',
+  },
+];
+export const specificUserOrTeamOptions = {
+  specificUserOrTeam: 'specificUserOrTeam',
+};

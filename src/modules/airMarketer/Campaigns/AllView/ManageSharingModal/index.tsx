@@ -16,9 +16,12 @@ import { FormProvider, RHFSelect } from '@/components/ReactHookForm';
 
 import { enqueueSnackbar } from 'notistack';
 import {
-  dataArraySavedView,
-  defaultValuesFeatures,
-  validationSchemaFeatures,
+  dataArrayManageSharing,
+  defaultValuesManageSharing,
+  specificUserOrTeamOptions,
+  teamsArr,
+  usersArr,
+  validationSchemaManageSharing,
 } from './ManageSharingModal.data';
 import { styles } from './ManageSharingModal.style';
 
@@ -26,7 +29,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { v4 as uuidv4 } from 'uuid';
 import CommonModal from '@/components/CommonModal';
-import useManageSharingModal, { teamsArr } from './useManageSharingModal';
+import useManageSharingModal from './useManageSharingModal';
 
 const ManageSharingModal = ({
   isAllViewActionsModal,
@@ -34,8 +37,8 @@ const ManageSharingModal = ({
 }: any) => {
   const { accessValue, handleChangeAccessValue } = useManageSharingModal();
   const methods: any = useForm({
-    resolver: yupResolver(validationSchemaFeatures),
-    defaultValues: defaultValuesFeatures,
+    resolver: yupResolver(validationSchemaManageSharing),
+    defaultValues: defaultValuesManageSharing,
   });
 
   const { handleSubmit } = methods;
@@ -60,7 +63,7 @@ const ManageSharingModal = ({
         <Box sx={{ margin: '20px 0' }}>
           <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
             <Grid container spacing={4}>
-              {dataArraySavedView?.map((item: any) => (
+              {dataArrayManageSharing?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
                   <item.component {...item?.componentProps} size={'small'}>
                     {item?.componentProps?.select &&
@@ -96,7 +99,8 @@ const ManageSharingModal = ({
                   control={<Radio />}
                   label="Specific User or Team"
                 />
-                {accessValue === 'specificUserOrTeam' && (
+                {accessValue ===
+                  specificUserOrTeamOptions?.specificUserOrTeam && (
                   <FormControl sx={{ ml: 2 }} component="fieldset">
                     <RHFSelect name="users" label="Users" size="small">
                       {teamsArr?.map((option: any) => (
@@ -106,7 +110,7 @@ const ManageSharingModal = ({
                       ))}
                     </RHFSelect>
                     <RHFSelect name="teams" label="Teams" size="small">
-                      {teamsArr?.map((option: any) => (
+                      {usersArr?.map((option: any) => (
                         <option key={uuidv4()} value={option?.value}>
                           {option?.label}
                         </option>

@@ -42,7 +42,7 @@ const Manage = () => {
               <ActionButton />
               <Button
                 startIcon={<FilterrIcon />}
-                onClick={() => handleOpenFilter()}
+                onClick={handleOpenFilter}
                 sx={{
                   border: `1px solid ${theme?.palette?.custom?.dark}`,
                   color: theme?.palette?.custom?.main,

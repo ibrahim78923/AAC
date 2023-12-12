@@ -33,13 +33,6 @@ export const styles = {
     gap: '10px',
   },
 
-  messageText: {
-    fontSize: '16px',
-    fontStyle: 'normal',
-    fontWeight: 400,
-    lineHeight: '24px',
-    color: '#4B5563',
-  },
   buttonBox: {
     display: 'flex',
     alignItems: 'center',

@@ -1,11 +1,11 @@
 import { RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
-export const validationSchemaFeatures = Yup.object().shape({
-  newSaveViewCopy: Yup.string()?.trim()?.required('Field is Required'),
+export const validationSchemaCloneModal = Yup?.object()?.shape({
+  newSaveViewCopy: Yup?.string()?.trim()?.required('Field is Required'),
 });
 
-export const defaultValuesFeatures = {
+export const defaultValuesCloneModal = {
   newSaveViewCopy: '',
 };
 

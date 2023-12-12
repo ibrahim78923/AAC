@@ -1,17 +1,18 @@
 import { Box, Button, Menu, MenuItem } from '@mui/material';
-
 import { ArrowDropDown } from '@mui/icons-material';
 
 import { actionsOptions } from './ActionButton.data';
 
 import { AlertModals } from '@/components/AlertModals';
-import { AlertModalDeleteIcon } from '@/assets/icons';
 
-import { v4 as uuidv4 } from 'uuid';
 import useAllView from '../useAllView';
 import CloneModal from '../CloneModal';
 import RenameModal from '../RenameModal';
 import ManageSharingModal from '../ManageSharingModal';
+
+import { AlertModalDeleteIcon } from '@/assets/icons';
+
+import { v4 as uuidv4 } from 'uuid';
 
 const ActionButton = () => {
   const {
@@ -31,7 +32,6 @@ const ActionButton = () => {
         color="inherit"
         sx={{
           width: '112px',
-          height: '36px',
         }}
       >
         Actions

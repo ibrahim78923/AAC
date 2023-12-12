@@ -7,8 +7,8 @@ import { FormProvider } from '@/components/ReactHookForm';
 import { enqueueSnackbar } from 'notistack';
 import {
   dataArraySavedView,
-  defaultValuesFeatures,
-  validationSchemaFeatures,
+  defaultValuesCloneModal,
+  validationSchemaCloneModal,
 } from './CloneModal.data';
 import { styles } from './CloneModal.style';
 
@@ -19,8 +19,8 @@ import CommonModal from '@/components/CommonModal';
 
 const CloneModal = ({ isAllViewActionsModal, handleCloseModal }: any) => {
   const methods: any = useForm({
-    resolver: yupResolver(validationSchemaFeatures),
-    defaultValues: defaultValuesFeatures,
+    resolver: yupResolver(validationSchemaCloneModal),
+    defaultValues: defaultValuesCloneModal,
   });
 
   const { handleSubmit } = methods;
