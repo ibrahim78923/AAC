@@ -8,18 +8,25 @@ import CustomPagination from '@/components/CustomPagination';
 import FilterQuotes from './FilterQuotes';
 import useQuotes from './useQuotes';
 import CustomizeColumns from './CustomizeColumns';
-import { initColumns } from './Quotes.data';
+import { quotesColumns } from './Quotes.data';
 import { styles } from './Quotes.style';
+import { useEffect } from 'react';
 
 const Quotes = () => {
   const {
+    selectedRow,
+    setSelectedRow,
+    setIsActionsDisabled,
+    setRowId,
     openFilter,
     handleCloseFilter,
     handleOpenFilter,
     openCustomizeColumns,
     handleOpenCustomizeColumns,
     handleCloseCustomizeColumns,
-    customizedColumns,
+    checkedColumns,
+    setcheckedColumns,
+    handleToggleColumns,
     handleApplyColumns,
     handleEditQuote,
     handleViewQuote,
@@ -27,6 +34,17 @@ const Quotes = () => {
     handleOpenDeleteQuote,
     handleCloseDeleteQuote,
   } = useQuotes();
+
+  const getQuotesColumns = quotesColumns(
+    selectedRow,
+    setSelectedRow,
+    setIsActionsDisabled,
+    setRowId,
+  );
+
+  useEffect(() => {
+    setcheckedColumns(getQuotesColumns?.map((column: any) => column.id));
+  }, []);
 
   return (
     <>
@@ -42,7 +60,7 @@ const Quotes = () => {
           handleOpenDeleteQuote={handleOpenDeleteQuote}
         />
 
-        <TanstackTable columns={customizedColumns} data={quotesListData} />
+        <TanstackTable columns={getQuotesColumns} data={quotesListData} />
 
         <CustomPagination
           count={3}
@@ -56,8 +74,10 @@ const Quotes = () => {
       <CustomizeColumns
         open={openCustomizeColumns}
         onClose={handleCloseCustomizeColumns}
-        columns={initColumns}
+        columns={getQuotesColumns}
         onSubmit={handleApplyColumns}
+        checkedColumns={checkedColumns}
+        handleToggleColumns={handleToggleColumns}
       />
 
       <AlertModals

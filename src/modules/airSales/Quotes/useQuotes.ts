@@ -1,56 +1,17 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-import { initColumns } from './Quotes.data';
 
 const useQuotes = () => {
   const router = useRouter();
+
+  // Actions Dopdown
   const [actionsEl, setActionsEl] = useState<null | HTMLElement>(null);
   const openActionsDropdown = Boolean(actionsEl);
-  const [openFilter, setOpenFilter] = useState(false);
-  const [openCustomizeColumns, setOpenCustomizeColumns] = useState(false);
-  const [colsChecked, setColsChecked] = useState(
-    initColumns.map((col: any) => col.id),
-  );
-  const [customizedColumns, setCustomizedColumns] = useState(initColumns);
-  const [openDeleteQuote, setOpenDeleteQuote] = useState(false);
   const handleActionsDropdown = (event: React.MouseEvent<HTMLElement>) => {
     setActionsEl(event.currentTarget);
   };
   const handleActionsDropdownClose = () => {
     setActionsEl(null);
-  };
-
-  const handleOpenFilter = () => {
-    setOpenFilter(true);
-  };
-  const handleCloseFilter = () => {
-    setOpenFilter(false);
-  };
-
-  const handleOpenCustomizeColumns = () => {
-    setOpenCustomizeColumns(true);
-  };
-  const handleCloseCustomizeColumns = () => {
-    setOpenCustomizeColumns(false);
-  };
-
-  const handleToggleColumns = (value: number) => () => {
-    const currentIndex = colsChecked.indexOf(value);
-    const newChecked = [...colsChecked];
-
-    if (currentIndex === -1) {
-      newChecked.push(value);
-    } else {
-      newChecked.splice(currentIndex, 1);
-    }
-    setColsChecked(newChecked);
-  };
-
-  const handleApplyColumns = () => {
-    const col = customizedColumns.filter((column: any) =>
-      colsChecked.includes(column.id),
-    );
-    setCustomizedColumns(col);
   };
 
   const handleEditQuote = () => {
@@ -63,6 +24,49 @@ const useQuotes = () => {
     handleActionsDropdownClose();
   };
 
+  // Row Selection
+  const [selectedRow, setSelectedRow]: any = useState([]);
+  const [isActionsDisabled, setIsActionsDisabled] = useState(true);
+  const [rowId, setRowId] = useState(null);
+
+  // Filter Drawer
+  const [openFilter, setOpenFilter] = useState(false);
+  const handleOpenFilter = () => {
+    setOpenFilter(true);
+  };
+  const handleCloseFilter = () => {
+    setOpenFilter(false);
+  };
+
+  // Customize Columns Drawer
+  const [checkedColumns, setcheckedColumns] = useState<any>(null);
+  const [customizedColumns, setCustomizedColumns] = useState(checkedColumns);
+  const [openCustomizeColumns, setOpenCustomizeColumns] = useState(false);
+  const handleOpenCustomizeColumns = () => {
+    setOpenCustomizeColumns(true);
+  };
+  const handleCloseCustomizeColumns = () => {
+    setOpenCustomizeColumns(false);
+  };
+  const handleToggleColumns = (value: number) => () => {
+    const currentIndex = checkedColumns?.indexOf(value);
+    const newChecked = [...checkedColumns];
+
+    if (currentIndex === -1) {
+      newChecked.push(value);
+    } else {
+      newChecked.splice(currentIndex, 1);
+    }
+    setcheckedColumns(newChecked);
+  };
+  const handleApplyColumns = () => {
+    customizedColumns.filter((column: any) =>
+      checkedColumns.includes(column.id),
+    );
+  };
+
+  // Modal Delete Quote
+  const [openDeleteQuote, setOpenDeleteQuote] = useState(false);
   const handleOpenDeleteQuote = () => {
     setOpenDeleteQuote(true);
     handleActionsDropdownClose();
@@ -72,6 +76,12 @@ const useQuotes = () => {
   };
 
   return {
+    selectedRow,
+    setSelectedRow,
+    setIsActionsDisabled,
+    isActionsDisabled,
+    setRowId,
+    rowId,
     actionsEl,
     openActionsDropdown,
     handleActionsDropdown,
@@ -83,7 +93,8 @@ const useQuotes = () => {
     handleOpenCustomizeColumns,
     handleCloseCustomizeColumns,
     handleToggleColumns,
-    colsChecked,
+    checkedColumns,
+    setcheckedColumns,
     customizedColumns,
     setCustomizedColumns,
     handleApplyColumns,
