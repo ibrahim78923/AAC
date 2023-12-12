@@ -1,6 +1,6 @@
 import { Checkbox } from '@mui/material';
 
-export const companyTabs = ['All Companies', 'My Companies'];
+export const companyTabs: any = ['All Companies', 'My Companies'];
 
 export const columns: any = [
   {

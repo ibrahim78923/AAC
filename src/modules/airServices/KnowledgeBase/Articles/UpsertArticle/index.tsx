@@ -64,6 +64,7 @@ export const UpsertArticle = () => {
               value=""
               onChange={() => {}}
               style={{ height: '65vh' }}
+              placeholder={`Title for article \n Description`}
             />
           </Box>
           <CustomDropZone name="file" />
@@ -94,7 +95,7 @@ export const UpsertArticle = () => {
                 Save as Draft
               </Button>
               <Button type="submit" variant="contained">
-                Publish Now
+                {needApprovals ? 'Send For Approval' : 'Publish Now'}
               </Button>
             </Box>
           </Grid>

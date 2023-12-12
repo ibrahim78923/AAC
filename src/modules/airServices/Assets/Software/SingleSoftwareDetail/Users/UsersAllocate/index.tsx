@@ -1,28 +1,19 @@
 import { Box } from '@mui/material';
 import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import UserSearchableSelect from '../UsersSearchableSelect';
+import { RHFAutocomplete } from '@/components/ReactHookForm';
 
-const userAllocateSelectOptions = [
-  { value: 'option1', title: 'Aws', des: `Aws Available contract: 1` },
-  {
-    value: 'Microsoft services',
-    title: 'Microsoft services',
-    des: `Microsoft services Available contract: Unlimited`,
-  },
-  { value: 'Figma', title: 'Figma', des: ` Figma Available contract: 1` },
-];
+const userAllocateSelectOptions = ['BE1', 'BE2', 'BE3'];
 
 const UsersAllocate = () => {
   const methods = useForm();
   return (
     <FormProvider {...methods}>
-      <Box>
-        <UserSearchableSelect
+      <Box maxWidth={'sm'}>
+        <RHFAutocomplete
           name="selectedOption"
           options={userAllocateSelectOptions}
           placeholder="Select Contract"
-          showSearchBar={false}
           label="Contract"
         />
       </Box>

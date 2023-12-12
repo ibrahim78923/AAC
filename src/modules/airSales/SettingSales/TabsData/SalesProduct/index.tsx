@@ -1,31 +1,31 @@
 import React from 'react';
 
 import { Box, Typography, Button, MenuItem, Menu, Grid } from '@mui/material';
+
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
-import { FormProvider } from '@/components/ReactHookForm';
-import CommonDrawer from '@/components/CommonDrawer';
-import TanstackTable from '@/components/Table/TanstackTable';
-import CustomPagination from '@/components/CustomPagination';
 import Search from '@/components/Search';
 import { AlertModals } from '@/components/AlertModals';
+import TanstackTable from '@/components/Table/TanstackTable';
+
+import SalesEditorDrawer from './SalesEdItorDrawer';
 
 import useSalesProduct from './useSalesProduct';
 
-import { SalesProductTableData, dataArray } from './SalesProduct.data';
+import { SalesProductTableData } from './SalesProduct.data';
 
 import { styles } from './SalesProduct.style';
 
-import { v4 as uuidv4 } from 'uuid';
-
 const SalesProduct = () => {
   const {
-    isDraweropen,
-    setIsDraweropen,
     isEditMode,
+    selectedCheckboxes,
+    setIsDraweropen,
+    isDraweropen,
     setIsEditMode,
     isDeleteModalOpen,
+    handleCloseDrawer,
     setDeleteModalOpen,
     productSearch,
     setproductSearch,
@@ -34,47 +34,14 @@ const SalesProduct = () => {
     open,
     handleClick,
     handleClose,
-    handleCloseDrawer,
-    salesProduct,
-    handleSubmit,
-    onSubmit,
     handleCloseDeleteModal,
     handleDelete,
-    isChecked,
     getRowValues,
+    setAnchorEl,
   } = useSalesProduct();
 
   return (
     <>
-      <CommonDrawer
-        isDrawerOpen={isDraweropen}
-        onClose={handleCloseDrawer}
-        title={isEditMode ? 'Edit Product' : 'Create Product'}
-        okText={'Add'}
-        footer={true}
-        isOk={true}
-        submitHandler={handleSubmit(onSubmit)}
-      >
-        <Box sx={{ paddingTop: '1rem' }}>
-          <FormProvider methods={salesProduct}>
-            <Grid container spacing={4}>
-              {dataArray?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                  <item.component {...item.componentProps} size={'small'}>
-                    {item?.componentProps?.select &&
-                      item?.options?.map((option: any) => (
-                        <option key={option?.value} value={option?.value}>
-                          {option?.label}
-                        </option>
-                      ))}
-                  </item.component>
-                </Grid>
-              ))}
-            </Grid>
-          </FormProvider>
-        </Box>
-      </CommonDrawer>
-
       <AlertModals
         message="Are you sure, you want to delete this product?"
         type="delete"
@@ -102,13 +69,14 @@ const SalesProduct = () => {
             variant="contained"
             sx={styles?.createBtn}
             onClick={() => (setIsDraweropen(true), setIsEditMode(false))}
+            className="small"
           >
             <AddCircleIcon
               sx={{
-                color: `${theme?.palette?.common.white}`,
+                color: `${theme?.palette?.common?.white}`,
                 fontSize: '16px',
               }}
-            />{' '}
+            />
             Create Product
           </Button>
         </Box>
@@ -127,41 +95,63 @@ const SalesProduct = () => {
           />
           <Button
             id="basic-button"
+            className="small"
             aria-controls={open ? 'basic-menu' : undefined}
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
             onClick={handleClick}
             sx={styles?.actionBtn(theme)}
-            disabled={!isChecked}
+            disabled={selectedCheckboxes?.length === 0}
           >
             Actions <ArrowDropDownIcon />
           </Button>
-          <Menu
-            id="basic-menu"
-            anchorEl={anchorEl}
-            open={open}
-            onClose={handleClose}
-            MenuListProps={{
-              'aria-labelledby': 'basic-button',
-            }}
-          >
-            <MenuItem
-              onClick={() => (setIsEditMode(true), setIsDraweropen(true))}
-            >
-              Edit
-            </MenuItem>
-            <MenuItem onClick={() => setDeleteModalOpen(true)}>Delete</MenuItem>
-          </Menu>
         </Box>
         <Grid>
-          <TanstackTable columns={getRowValues} data={SalesProductTableData} />
-          <CustomPagination
-            count={1}
-            rowsPerPageOptions={[1, 2]}
-            entriePages={1}
+          <TanstackTable
+            columns={getRowValues}
+            data={SalesProductTableData}
+            isPagination
           />
         </Grid>
       </Box>
+
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          'aria-labelledby': 'basic-button',
+        }}
+      >
+        <MenuItem
+          onClick={() => {
+            setIsEditMode(true), setIsDraweropen(true);
+            setAnchorEl(null);
+          }}
+          disabled={selectedCheckboxes?.length > 1}
+        >
+          Edit
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            setDeleteModalOpen(true);
+            setAnchorEl(null);
+          }}
+        >
+          Delete
+        </MenuItem>
+      </Menu>
+
+      {isDraweropen && (
+        <SalesEditorDrawer
+          isDraweropen={isDraweropen}
+          setIsDraweropen={setIsDraweropen}
+          isEditMode={isEditMode}
+          handleCloseDrawer={handleCloseDrawer}
+          selectedCheckboxes={selectedCheckboxes}
+        />
+      )}
     </>
   );
 };

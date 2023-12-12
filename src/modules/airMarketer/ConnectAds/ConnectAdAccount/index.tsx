@@ -12,6 +12,8 @@ import { styles } from './connectAds.Style';
 import CommonModal from '@/components/CommonModal';
 import TanstackTable from '@/components/Table/TanstackTable';
 import TrackVisitors from '../TrackVisitors';
+import { useRouter } from 'next/router';
+import { AIR_MARKETER } from '@/routesConstants/paths';
 
 const ConnectAdAccount = () => {
   const [isLinkedinModal, isSetLinkedinModal] = useState(false);
@@ -21,6 +23,7 @@ const ConnectAdAccount = () => {
     FacebookIcon: <FacebookIcon />,
     LinkdinIcon: <LinkdinIcon />,
   };
+  const router = useRouter();
   return (
     <Box>
       {isTrackVisitors ? (
@@ -115,6 +118,7 @@ const ConnectAdAccount = () => {
           variant="contained"
           onClick={() => {
             setIsTrackVisitors(true);
+            router.push(AIR_MARKETER?.PAID_ADS);
           }}
         >
           Next

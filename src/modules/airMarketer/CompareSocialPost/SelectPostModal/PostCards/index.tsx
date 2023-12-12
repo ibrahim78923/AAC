@@ -10,6 +10,7 @@ import {
 } from '@mui/material';
 import { postData } from '../SelectPostModal.data';
 import { v4 as uuidv4 } from 'uuid';
+import { style } from '../../CompareSocialPost.style';
 
 const PostCards = (props: any) => {
   const {
@@ -32,22 +33,7 @@ const PostCards = (props: any) => {
           }}
           key={uuidv4()}
         >
-          <Box
-            sx={{
-              position: 'absolute',
-              right: '5px',
-              top: '6px',
-              backgroundColor: 'white',
-              borderRadius: '50%',
-              width: '20px',
-              height: '20px',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-          >
-            {item?.categoryIcon}
-          </Box>
+          <Box sx={style?.selectCard}>{item?.categoryIcon}</Box>
           <CardMedia component="img" height="81" image={item?.image} />
           <CardHeader
             avatar={

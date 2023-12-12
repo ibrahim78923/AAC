@@ -1,26 +1,15 @@
 import React, { useState } from 'react';
 
-import { useForm } from 'react-hook-form';
-
 import { Theme, useTheme } from '@mui/material';
-
-import { yupResolver } from '@hookform/resolvers/yup';
-
-import {
-  columns,
-  salesProductDefaultValues,
-  salesProductvalidationSchema,
-} from './SalesProduct.data';
+import { columns } from './SalesProduct.data';
 
 const useSalesProduct = () => {
+  const theme = useTheme<Theme>();
   const [isDraweropen, setIsDraweropen] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
   const [productSearch, setproductSearch] = useState<string>('');
-  const [isChecked, setIsChecked] = useState(false);
-  const [isGetRowValues, setIsGetRowValues] = useState('');
-  const theme = useTheme<Theme>();
-
+  const [selectedCheckboxes, setSelectedCheckboxes] = useState<any>([]);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -33,13 +22,6 @@ const useSalesProduct = () => {
     setIsDraweropen(false);
   };
 
-  const salesProduct = useForm({
-    resolver: yupResolver(salesProductvalidationSchema),
-    defaultValues: salesProductDefaultValues,
-  });
-  const { handleSubmit } = salesProduct;
-  const onSubmit = () => {};
-
   const handleCloseDeleteModal = () => {
     setDeleteModalOpen(false);
   };
@@ -48,12 +30,22 @@ const useSalesProduct = () => {
     setDeleteModalOpen(false);
   };
 
-  const getRowValues = columns(
-    setIsGetRowValues,
-    setIsChecked,
-    isChecked,
-    isGetRowValues,
-  );
+  const handleCheckboxChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    row: any,
+  ) => {
+    const isChecked = event?.target?.checked;
+
+    if (isChecked) {
+      setSelectedCheckboxes((prevSelected: any) => [...prevSelected, row]);
+    } else {
+      setSelectedCheckboxes(
+        (prevSelected: any) =>
+          prevSelected?.filter((item: any) => item?.id !== row?.id),
+      );
+    }
+  };
+  const getRowValues = columns({ handleCheckboxChange, selectedCheckboxes });
 
   return {
     isDraweropen,
@@ -70,16 +62,11 @@ const useSalesProduct = () => {
     handleClick,
     handleClose,
     handleCloseDrawer,
-    salesProduct,
-    handleSubmit,
-    onSubmit,
     handleCloseDeleteModal,
     handleDelete,
-    isChecked,
-    setIsChecked,
-    isGetRowValues,
-    setIsGetRowValues,
+    selectedCheckboxes,
     getRowValues,
+    setAnchorEl,
   };
 };
 

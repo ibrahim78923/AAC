@@ -8,13 +8,13 @@ const { NEW_PURCHASE_ORDER } = AIR_SERVICES;
 
 const usePurchaseOrders = () => {
   const router = useRouter();
+  const [purchaseOrderData, setPurchaseOrderData] = useState([]);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isNewPurchaseOrder, setIsNewPurchaseOrder] = useState(true);
-
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const methodsPurchaseOrderFilterForm = useForm({
     defaultValues,
   });
-
   const handleNewPurchaseOrder = () => {
     router?.push(NEW_PURCHASE_ORDER);
   };
@@ -36,6 +36,10 @@ const usePurchaseOrders = () => {
     isNewPurchaseOrder,
     setIsNewPurchaseOrder,
     router,
+    deleteModalOpen,
+    setDeleteModalOpen,
+    purchaseOrderData,
+    setPurchaseOrderData,
   };
 };
 export default usePurchaseOrders;

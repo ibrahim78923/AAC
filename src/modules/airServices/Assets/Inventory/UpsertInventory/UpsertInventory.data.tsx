@@ -1,5 +1,6 @@
 import * as yup from 'yup';
 import {
+  RHFAutocomplete,
   RHFDatePicker,
   RHFEditor,
   RHFSelect,
@@ -21,9 +22,8 @@ export const dropdownDummy = [
 ];
 
 export const validationSchema: any = yup?.object()?.shape({
-  displayName: yup?.string()?.required('Required field!'),
-  assetType: yup?.string()?.required('Required field!'),
-  impact: yup?.string()?.required('Required field!'),
+  displayName: yup?.string()?.required('Required'),
+  assetType: yup?.string()?.required('Required'),
 });
 
 export const defaultValues = {
@@ -49,7 +49,7 @@ export const addInventoryFields = [
     componentProps: {
       fullWidth: true,
       name: 'displayName',
-      label: 'display Name',
+      label: 'Display name',
       required: true,
     },
     md: 6,
@@ -61,7 +61,7 @@ export const addInventoryFields = [
     componentProps: {
       fullWidth: true,
       name: 'assetTag',
-      label: 'asset Tag',
+      label: 'Asset tag',
     },
     md: 6,
   },
@@ -72,7 +72,7 @@ export const addInventoryFields = [
     componentProps: {
       fullWidth: true,
       name: 'assetType',
-      label: 'asset Type',
+      label: 'Asset type',
       select: true,
       options: assetTypeOptions,
       required: true,
@@ -86,10 +86,9 @@ export const addInventoryFields = [
     componentProps: {
       fullWidth: true,
       name: 'impact',
-      label: 'impact',
+      label: 'Impact',
       select: true,
       options: dropdownDummy,
-      required: true,
     },
     md: 6,
   },
@@ -98,7 +97,7 @@ export const addInventoryFields = [
     componentProps: {
       fullWidth: true,
       name: 'departmentId',
-      label: 'department',
+      label: 'Department',
     },
     gridLength: 12,
     component: RHFEditor,
@@ -110,7 +109,7 @@ export const addInventoryFields = [
     componentProps: {
       fullWidth: true,
       name: 'assetLifeExpireOn',
-      label: 'asset Life Expire On',
+      label: 'Asset life expire on',
       select: true,
       options: dropdownDummy,
     },
@@ -130,7 +129,7 @@ export const addInventoryFields = [
     componentProps: {
       fullWidth: true,
       name: 'services',
-      label: 'services',
+      label: 'Services',
       select: true,
       options: dropdownDummy,
     },
@@ -152,7 +151,7 @@ export const addInventoryFields = [
     componentProps: {
       fullWidth: true,
       name: 'locationId',
-      label: 'location',
+      label: 'Location',
       select: true,
       options: dropdownDummy,
     },
@@ -165,7 +164,7 @@ export const addInventoryFields = [
     componentProps: {
       fullWidth: true,
       name: 'department',
-      label: 'department',
+      label: 'Department',
       select: true,
       options: dropdownDummy,
     },
@@ -180,7 +179,7 @@ export const addInventoryFields = [
     componentProps: {
       fullWidth: true,
       name: 'assignedOnDate',
-      label: 'assigned On',
+      label: 'Assigned on',
     },
     md: 3,
   },
@@ -200,12 +199,13 @@ export const addInventoryFields = [
     componentProps: {
       fullWidth: true,
       name: 'usedBy',
-      label: 'used By',
+      label: 'Used by',
       select: true,
       options: dropdownDummy,
+      placeholder: 'Search for User',
     },
     gridLength: 6,
     md: 6,
-    component: RHFSelect,
+    component: RHFAutocomplete,
   },
 ];

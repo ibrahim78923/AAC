@@ -9,7 +9,7 @@ export const singleContractDetailsActionDropdownFunction = (
     title: 'Edit',
     handleClick: (closeMenu: any) => {
       router?.push({
-        pathname: AIR_SERVICES?.CONTRACT_FORM,
+        pathname: AIR_SERVICES?.UPSERT_CONTRACT,
         query: {
           ...router?.query,
           action: 'edit',

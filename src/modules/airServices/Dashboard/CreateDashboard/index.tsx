@@ -24,6 +24,7 @@ import { PreviewDashboardModal } from '../PreviewDashboardItems/PreviewDashboard
 import { DragDropContext } from 'react-beautiful-dnd';
 import dynamic from 'next/dynamic';
 import { LoadingButton } from '@mui/lab';
+import { DASHBOARD } from '@/constants/strings';
 const RHFMultiCheckboxDraggable = dynamic(
   () => import('@/components/ReactHookForm/RHFMultiCheckboxDraggable'),
   { ssr: false },
@@ -49,6 +50,7 @@ export const CreateDashboard = () => {
     dashboardItems,
     onDragEnd,
     dashboardCheckboxItems,
+    action,
   } = useCreateDashboard();
   return (
     <>
@@ -60,7 +62,7 @@ export const CreateDashboard = () => {
           position="relative"
         >
           <Typography variant="h3" color="grey.800">
-            Create dashboard
+            {action === DASHBOARD?.EDIT ? 'Edit' : 'Create'} dashboard
           </Typography>
           <Box sx={styles()?.rhfSwitchBox}>
             <RHFSwitch name="default" label="Set as default" />
@@ -73,7 +75,9 @@ export const CreateDashboard = () => {
                 fullWidth={true}
                 name="dashboardName"
                 label="Dashboard Name"
+                placeholder="Enter Name"
                 required={true}
+                size="small"
               />
             </Box>
             <Box display="flex" justifyContent="space-between">
@@ -254,7 +258,7 @@ export const CreateDashboard = () => {
           onSubmit={submitCreateDashboardFilterForm}
           type="submit"
         >
-          Create
+          {action === DASHBOARD?.EDIT ? 'Update' : 'Create'}
         </LoadingButton>
       </Box>
     </>

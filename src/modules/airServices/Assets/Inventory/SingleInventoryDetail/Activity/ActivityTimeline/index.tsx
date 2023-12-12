@@ -16,7 +16,7 @@ export const ActivityTimeline = ({ activityData }: any) => {
         marginBottom={1.5}
       >
         <Typography variant="body3" sx={{ flex: 0.15 }}>
-          {activityData?.createdBy}
+          {activityData?.date}
         </Typography>
         <IconButton
           disabled
@@ -26,8 +26,13 @@ export const ActivityTimeline = ({ activityData }: any) => {
           <BorderColorIcon color="primary" />
         </IconButton>
         <Typography variant="body2" sx={{ flex: 0.8 }}>
-          <Typography variant="body2" color="primary" marginRight={0.3}>
-            {activityData?.displayName}
+          <Typography
+            variant="body2"
+            color="primary"
+            marginRight={0.3}
+            component={'span'}
+          >
+            {activityData?.createdBy}
           </Typography>
           {activityData?.description}
         </Typography>

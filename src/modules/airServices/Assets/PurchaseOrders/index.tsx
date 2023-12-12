@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import { Box } from '@mui/material';
 import { data, purchaseOrderColumnsFunction } from './PurchaseOrders.data';
 import TanstackTable from '@/components/Table/TanstackTable';
@@ -11,9 +10,9 @@ import usePurchaseOrders from './usePurchaseOrders';
 import { filterFields } from './PurchaseOrderFilter/PurchaseOrderFilter.data';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import CustomPagination from '@/components/CustomPagination';
+import { DeletePurchaseOrder } from './DeletePurchaseOrder';
 
 function PurchaseOrder() {
-  const [purchaseOrderData, setPurchaseOrderData] = useState([]);
   const {
     isDrawerOpen,
     setIsDrawerOpen,
@@ -22,6 +21,10 @@ function PurchaseOrder() {
     submitPurchaseOrderFilterForm,
     resetPurchaseOrderFilterForm,
     router,
+    deleteModalOpen,
+    setDeleteModalOpen,
+    purchaseOrderData,
+    setPurchaseOrderData,
   } = usePurchaseOrders();
 
   const purchaseOrderColumns = purchaseOrderColumnsFunction(
@@ -30,6 +33,7 @@ function PurchaseOrder() {
     data,
     router,
   );
+
   return (
     <>
       <PageTitledHeader
@@ -45,13 +49,19 @@ function PurchaseOrder() {
           flexWrap={'wrap'}
           gap={1.5}
         >
-          <Search label="search" searchBy="" setSearchBy={''} />
+          <Search label="Search Here" searchBy="" setSearchBy={''} />
           <Box
             display={'flex'}
             alignItems={'center'}
             flexWrap={'wrap'}
             gap={1.5}
           >
+            <DeletePurchaseOrder
+              deleteModalOpen={deleteModalOpen}
+              setDeleteModalOpen={setDeleteModalOpen}
+              purchaseOrderData={purchaseOrderData}
+              isDisabled={!!!purchaseOrderData?.length}
+            />
             <PurchaseOrderExport />
             <PurchaseOrderFilter
               isDrawerOpen={isDrawerOpen}

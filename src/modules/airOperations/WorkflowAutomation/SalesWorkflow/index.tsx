@@ -11,10 +11,16 @@ export const SalesWorkflow = () => {
     search,
     setSearch,
     salesWorkflowActionDropdown,
+    handleBack,
   } = useSalesWorkflow();
   return (
     <>
-      <PageTitledHeader title={'Sales Workflow'} addTitle={'Create Workflow'} />
+      <PageTitledHeader
+        title={'Sales Workflow'}
+        addTitle={'Create Workflow'}
+        canMovedBack
+        moveBack={handleBack}
+      />
       <br />
       <SalesWorkflowSubHeader
         disabledActionButton={!!!selectedSalesWorkflowLists?.length}

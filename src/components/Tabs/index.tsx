@@ -11,7 +11,6 @@ import { v4 as uuidv4 } from 'uuid';
 
 const CustomTabPanel = (props: TabPanelPropsI) => {
   const { children, value, index, ...other } = props;
-
   return (
     <div
       role="tabpanel"
@@ -40,7 +39,9 @@ const CommonTabs = (props: CommonTabsPropsI) => {
     getTabVal = () => {},
     addIcon = false,
     onAddClick = () => {},
+    activeTab = 0,
   } = props;
+
   const theme = useTheme();
   const arrayChildren = React.Children.toArray(children);
 
@@ -49,6 +50,11 @@ const CommonTabs = (props: CommonTabsPropsI) => {
   useEffect(() => {
     getTabVal(value);
   }, []);
+
+  useEffect(() => {
+    setValue(activeTab);
+  }, [activeTab]);
+
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
     getTabVal(newValue);
@@ -60,7 +66,7 @@ const CommonTabs = (props: CommonTabsPropsI) => {
         sx={{
           mt: '20px',
           borderBottom: 1,
-          borderColor: '#EAECF0',
+          borderColor: theme?.palette?.custom?.off_white_three,
           display: 'flex',
           justifyContent: 'flex-start',
           alignItems: 'center',
@@ -68,6 +74,7 @@ const CommonTabs = (props: CommonTabsPropsI) => {
       >
         <Tabs
           variant="scrollable"
+          defaultValue={activeTab}
           value={value}
           onChange={handleChange}
           aria-label="common tabs"
