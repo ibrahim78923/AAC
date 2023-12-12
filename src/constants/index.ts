@@ -76,6 +76,9 @@ export const AIR_SERVICES = {
   UPSERT_BUSINESS_HOUR: `/air-services/settings/service-management/business-hours/upsert-business-hour`,
   ADD_NEW_LOCATION: `/air-services/settings/asset-management/location/add-new-location`,
   UPSERT_INVENTORY: `/air-services/assets/inventory/upsert-inventory`,
+  UPSERT_SERVICE:
+    '/air-services/settings/service-management/services-catalog/upsert-service',
+  SERVICE_CATALOG: '/air-services/settings/service-management/services-catalog',
 };
 
 export const AIR_CUSTOMER_PORTAL = {
@@ -102,6 +105,7 @@ export const AIR_OPERATIONS = {
   SALES_WORKFLOW: `/air-operations/workflow-automation/sales-workflow`,
   SERVICES_WORKFLOW: `/air-operations/workflow-automation/services-workflow`,
   MARKETING_WORKFLOW: `/air-operations/workflow-automation/marketing-workflow`,
+  ROLES_AND_RIGHTS: `/air-operations/role-and-right`,
   UPSERT_MARKETING_WORKFLOW: `/air-operations/workflow-automation/marketing-workflow/upsert-marketing-workflow`,
 };
 

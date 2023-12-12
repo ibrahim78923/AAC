@@ -18,6 +18,7 @@ export const styles = {
       '& .MuiTabs-flexContainer': {
         display: 'flex',
         alignItems: 'flex-start',
+        overflow: 'scroll',
       },
       '& .MuiTab-root': {
         color: '#9CA3AF',

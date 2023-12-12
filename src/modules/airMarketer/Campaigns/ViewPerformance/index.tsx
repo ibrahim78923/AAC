@@ -10,10 +10,14 @@ import Tasks from './Tabs/Tasks';
 import Assets from './Tabs/Assets';
 import { useRouter } from 'next/router';
 import HorizontalTabs from '@/components/Tabs/HorizontalTabs';
+import useCampaigns from '../useCampaigns';
+import AddAssets from './AddAssets/Settings';
 
-const ViewPerforance = () => {
+const ViewPerformance = () => {
   const router = useRouter();
   const theme = useTheme();
+  const { setIsOpenAddAssets, handleCloseAddAssetsModal, isOpenAddAssets } =
+    useCampaigns();
   return (
     <Box
       sx={{
@@ -35,7 +39,11 @@ const ViewPerforance = () => {
         </Box>
 
         <Box>
-          <Button variant="contained" startIcon={<PlusIcon />}>
+          <Button
+            variant="contained"
+            startIcon={<PlusIcon />}
+            onClick={() => setIsOpenAddAssets(true)}
+          >
             View Assets
           </Button>
         </Box>
@@ -48,7 +56,14 @@ const ViewPerforance = () => {
           <Tasks />
         </HorizontalTabs>
       </Box>
+      {isOpenAddAssets && (
+        <AddAssets
+          closeAddAssets={handleCloseAddAssetsModal}
+          isOpenAddAssets={isOpenAddAssets}
+          theme={theme}
+        />
+      )}
     </Box>
   );
 };
-export default ViewPerforance;
+export default ViewPerformance;

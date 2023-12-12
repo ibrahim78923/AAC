@@ -39,7 +39,7 @@ const EmailActionDropDown = (props: any) => {
         sx={{
           border: `1px solid ${theme?.palette?.custom?.dark}`,
           color: `${theme?.palette?.custom?.main}`,
-          minWidth: '0px',
+          minWidth: '100%',
         }}
         aria-controls={isMenuOpen ? 'basic-menu' : undefined}
         aria-haspopup="true"

@@ -58,6 +58,7 @@ export { default as CheckboxIcon } from './shared/checkbox-icon';
 export { default as CheckboxCheckedIcon } from './shared/checkbox-checked-icon';
 export { default as ExportIcon } from './shared/export-icon';
 export { default as ExportShared } from './shared/export-icon';
+export { default as CustomizeIcon } from './shared/customize-icon';
 
 export { default as ViewDetailAvaterIcon } from './modules/airServices/Tickets/view-detail-avatar-icon';
 export { default as ViewDetailSharedIcon } from './modules/airServices/Tickets/view-detail-shared-icon';
@@ -277,10 +278,8 @@ export { default as ReplyRoundedIcon } from './modules/airMarketer/SocialMarketi
 export { default as DotsBoldIcon } from './modules/airMarketer/SocialInbox/dots-bold';
 export { default as ReplyMailIcon } from './modules/airMarketer/SocialInbox/reply-mail';
 export { default as EmojiOutlinedIcon } from './shared/emoji-outlined';
-
 export { default as InstaLikeIcon } from './modules/airMarketer/SocialMarketing/SocialInbox/insta-like';
 export { default as InstaCommentIcon } from './modules/airMarketer/SocialMarketing/SocialInbox/insta-comments';
-
 export { default as TwitterCommentIcon } from './modules/airMarketer/SocialMarketing/SocialInbox/twitter-comment';
 export { default as TwitterShareIcon } from './modules/airMarketer/SocialMarketing/SocialInbox/twitter-share';
 export { default as RetweetIcon } from './modules/airMarketer/SocialMarketing/SocialInbox/re-tweet';
@@ -304,6 +303,7 @@ export { default as LeadersBoardIcon } from './modules/airServices/Settings/lead
 export { default as WorkloadManagementIcon } from './modules/airServices/Settings/workload-management-icon';
 export { default as AddRoleIcon } from './modules/airServices/Settings/UserManagement/Roles/add-role-icon';
 export { default as CsvImportIcon } from './shared/csv-import-icon';
+export { default as CanlendarButtonIcon } from './shared/calendar-button-icon';
 export { default as GoogleDriveIcon } from './modules/airMarketer/reports/google-drive';
 export { default as FolderLargePrimaryIcon } from './shared/folder-large-primary-icon';
 export { default as FolderLargeYellowIcon } from './shared/folder-large-yellow-icon';
@@ -327,11 +327,13 @@ export { default as ExportDownloadIcon } from './shared/export-download';
 export { default as ExportModalIcon } from './shared/export-modal-icon';
 export { default as ClockWithBagIcon } from './shared/clock-with-bag-icon';
 export { default as CopyPrimaryColorIcon } from './shared/copy-primary-color-icon';
-export { default as SearchAdIcon } from './modules/paidAds/search-ad';
-
 export { default as BookMarkIcon } from './shared/book-mark-icon';
 export { default as ArrowSquareLeftIcon } from './shared/arrow-square-left';
 export { default as ArrowSquareRightIcon } from './shared/arrow-square-right';
+export { default as WhatsApp55Icon } from './modules/airMarketer/WhatsAppMarketing/whatsapp';
+export { default as TickListIcon } from './modules/airMarketer/WhatsAppMarketing/tick-list';
+export { default as ArrowDropDown } from './modules/airMarketer/WhatsAppMarketing/arrow-down';
+export { default as SearchAdIcon } from './modules/paidAds/search-ad';
 export { default as UploadDocumentIcon } from './modules/orgAdmin/dashboard/upload-document';
 export { default as EditProfilelLineIcon } from './modules/orgAdmin/dashboard/edit-profilel-line';
 export { default as SalesIcon } from './modules/orgAdmin/dashboard/sales';
@@ -351,5 +353,9 @@ export { default as ImageIcon } from './modules/airMarketer/LeadCapture/image';
 export { default as SpaceIcon } from './modules/airMarketer/LeadCapture/space';
 export { default as DividerIcon } from './modules/airMarketer/LeadCapture/divider';
 export { default as InputIcon } from './modules/airMarketer/LeadCapture/input';
+export { default as BlueInfoIcon } from './shared/bule-info';
 export { default as SalesWorkflowIcon } from './modules/airOperations/workflowAutomation/sales-workflow-icon';
 export { default as ServiceWorkflowIcon } from './modules/airOperations/workflowAutomation/service-workflow-icon';
+
+export { default as DocumentDownloadIcon } from './modules/airMarketer/EmailReports/document-download';
+export { default as SmileIcon } from './modules/airMarketer/EmailMarketing/smile-emoji-icon';

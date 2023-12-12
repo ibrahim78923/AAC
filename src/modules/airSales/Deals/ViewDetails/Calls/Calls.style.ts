@@ -10,19 +10,20 @@ export const styles = {
     };
   },
 
-  callsGrid: {
-    boxShadow:
-      '0px 1px 2px 0px rgba(16, 24, 40, 0.06), 0px 1px 3px 0px rgba(16, 24, 40, 0.10)',
-    borderRadius: '8px',
-    border: ' 1px solid  #EAECF0',
+  callsGrid: (theme: any) => {
+    return {
+      boxShadow:
+        '0px 1px 2px 0px rgba(16, 24, 40, 0.06), 0px 1px 3px 0px rgba(16, 24, 40, 0.10)',
+      borderRadius: '8px',
+      border: `1px solid  ${theme?.custom?.light_lavender_gray}`,
+    };
   },
   callsSpacingBetween: {
+    gap: 1,
     display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    gap: 0.7,
-    padding: '12px',
     flexDirection: { xs: 'column', sm: 'row' },
+    justifyContent: 'end',
+    padding: { xs: '0px 12px', md: '12px' },
   },
   noCallsBox: {
     display: 'flex',

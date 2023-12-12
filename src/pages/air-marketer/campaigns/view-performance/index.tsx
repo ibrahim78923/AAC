@@ -1,8 +1,8 @@
 import Layout from '@/layout';
-import ViewPerforance from '@/modules/airMarketer/Campaigns/ViewPerformance';
+import ViewPerformance from '@/modules/airMarketer/Campaigns/ViewPerformance';
 
 const CompaignsPage = () => {
-  return <ViewPerforance />;
+  return <ViewPerformance />;
 };
 export default CompaignsPage;
 CompaignsPage.getLayout = function getLayout(page: any) {

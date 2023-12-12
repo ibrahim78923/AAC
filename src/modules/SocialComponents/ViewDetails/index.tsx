@@ -2,7 +2,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 import { Box, Grid, Typography, useTheme } from '@mui/material';
-
 import HorizontalTabs from '@/components/Tabs/HorizontalTabs';
 import Details from './Details';
 import ActivityLog from './ActivityLog';

@@ -8,6 +8,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import {
   companiesDataArray,
+  companiesOptions,
   drawerButtonTitle,
   drawerTitle,
 } from './CompaniesEditorDrawer.data';
@@ -43,12 +44,12 @@ const CompaniesEditorDrawer = (props: any) => {
             <Grid container spacing={4}>
               <Grid item xs={12}>
                 <RHFRadioGroup
-                  options={['New Company', 'Existing Company']}
-                  name={'companieStatus'}
+                  options={companiesOptions}
+                  name={'companyStatus'}
                   label={false}
                 />
               </Grid>
-              {watchProducts[0] === 'New Company' ? (
+              {watchProducts[0] === 'new-company' ? (
                 companiesDataArray?.map((item: any) => (
                   <Grid item xs={12} md={item?.md} key={uuidv4()}>
                     <item.component {...item?.componentProps} size={'small'}>

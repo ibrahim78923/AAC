@@ -1,7 +1,16 @@
-import { Grid, Box, useTheme } from '@mui/material';
+import {
+  Grid,
+  Box,
+  useTheme,
+  FormControl,
+  RadioGroup,
+  FormControlLabel,
+  Typography,
+  Radio,
+} from '@mui/material';
 
 import CommonDrawer from '@/components/CommonDrawer';
-import { FormProvider } from '@/components/ReactHookForm';
+import { FormProvider, RHFSelect } from '@/components/ReactHookForm';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 
@@ -11,8 +20,12 @@ import { v4 as uuidv4 } from 'uuid';
 import {
   dataArray,
   defaultValues,
+  specificUserOrTeamOptions,
+  teamsArr,
+  usersArr,
   validationSchema,
 } from './SaveNewViewDrawer.data';
+import useSaveAndNewViewDrawer from './useSaveNewViewDrawer';
 
 export default function SaveNewViewDrawer({
   isOpenDrawer,
@@ -32,12 +45,13 @@ export default function SaveNewViewDrawer({
     });
   };
   const theme = useTheme();
+  const { accessValue, handleChangeAccessValue } = useSaveAndNewViewDrawer();
   return (
     <CommonDrawer
       isDrawerOpen={isOpenDrawer}
       onClose={() => onClose(false)}
-      title={'Export Campaign'}
-      okText={'Export'}
+      title={'Save New View'}
+      okText={'Save'}
       isOk
       cancelText={'Cancel'}
       footer
@@ -46,7 +60,7 @@ export default function SaveNewViewDrawer({
       <Box mt={1}>
         <FormProvider methods={methods}>
           <Grid container spacing={4}>
-            {dataArray(theme)?.map((item: any) => (
+            {dataArray()?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={uuidv4()}>
                 <item.component {...item?.componentProps} size={'small'}>
                   {item?.componentProps?.select &&
@@ -59,6 +73,55 @@ export default function SaveNewViewDrawer({
               </Grid>
             ))}
           </Grid>
+          <FormControl>
+            <Typography
+              variant="h6"
+              fontWeight={600}
+              color={theme?.palette?.slateBlue.main}
+            >
+              Shared with
+            </Typography>
+            <RadioGroup
+              value={accessValue}
+              onChange={handleChangeAccessValue}
+              name="access"
+            >
+              <FormControlLabel
+                value="private"
+                control={<Radio />}
+                label="Private"
+              />
+              <FormControlLabel
+                value="specificUserOrTeam"
+                control={<Radio />}
+                label="Specific User or Team"
+              />
+              {accessValue ===
+                specificUserOrTeamOptions?.specificUserOrTeam && (
+                <FormControl sx={{ ml: 2 }} component="fieldset">
+                  <RHFSelect name="users" label="Users" size="small">
+                    {teamsArr?.map((option: any) => (
+                      <option key={uuidv4()} value={option?.value}>
+                        {option?.label}
+                      </option>
+                    ))}
+                  </RHFSelect>
+                  <RHFSelect name="teams" label="Teams" size="small">
+                    {usersArr?.map((option: any) => (
+                      <option key={uuidv4()} value={option?.value}>
+                        {option?.label}
+                      </option>
+                    ))}
+                  </RHFSelect>
+                </FormControl>
+              )}
+              <FormControlLabel
+                value="everyOne"
+                control={<Radio />}
+                label="EveryOne"
+              />
+            </RadioGroup>
+          </FormControl>
         </FormProvider>
       </Box>
     </CommonDrawer>

@@ -97,7 +97,7 @@ const CUSTOM_COLORS = {
   turquoise_Blue: '#4CCFBC',
   dark_blue: '#030229',
   pale_grayish_blue: '#F7F9FB',
-  dark_shade_green: '# 1018280F',
+  dark_shade_green: '#1018280F',
   pale_gray: '#E9E9E9',
   border_grayish_blue: '#e7e7e9',
   dim_grey: '#555656',
@@ -109,6 +109,10 @@ const CUSTOM_COLORS = {
   hawkes_blue: '#D2D6DF',
   blue_crayola: '#1877F2',
   white_smoke: '#f3f3f3',
+  mulled_wine: '#4E4B66',
+  silver_chalice: '#ABAFB1',
+  white_rock: '#E6E6E6',
+  black_pearl: '#14142B',
 };
 const GRAPH = {
   cyan: 'blue',

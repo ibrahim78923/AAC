@@ -8,7 +8,7 @@ export const DeleteDashboardModal = () => {
   return (
     <>
       <Box sx={{ cursor: 'pointer' }} onClick={() => setOpenDeleteModal(true)}>
-        <CancelRoundedIcon color="error" />
+        <CancelRoundedIcon color="error" sx={{ fontSize: '24px' }} />
       </Box>
       <AlertModals
         message={'Are you sure you want to delete dashboard'}

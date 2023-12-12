@@ -53,7 +53,10 @@ const Dashboard = () => {
               >
                 <br />
                 <Box marginLeft={2}>
-                  <HeaderBarChart setIsBarChart={setIsBarChart} />
+                  <HeaderBarChart
+                    setIsBarChart={setIsBarChart}
+                    isbarchart={isbarchart}
+                  />
                 </Box>
                 <Box marginTop={2} marginBottom={2}>
                   {isbarchart ? <BarChart /> : <RadialBarChart />}
