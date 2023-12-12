@@ -124,6 +124,15 @@ export const AIR_MARKETER = {
     AIR_MARKETING_PAGE,
     '/sms-marketing/create-sms-broadcast',
   ),
+  WHATSAPP_MERKETING: path(AIR_MARKETING_PAGE, '/whatsapp-marketing'),
+  WHATSAPP_MERKETING_CREATE_BROADCAST: path(
+    AIR_MARKETING_PAGE,
+    '/whatsapp-marketing/create-broadcast',
+  ),
+  WHATSAPP_MERKETING_UPDATE_BROADCAST: path(
+    AIR_MARKETING_PAGE,
+    '/whatsapp-marketing/update-broadcast',
+  ),
   VIEW_PERFORMANCE: path(AIR_MARKETING_PAGE, '/campaigns/view-performance'),
   ALL_VIEW: path(AIR_MARKETING_PAGE, '/campaigns/all-view'),
 };
