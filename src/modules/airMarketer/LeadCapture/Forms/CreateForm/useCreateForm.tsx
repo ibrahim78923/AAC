@@ -75,6 +75,10 @@ const useCreateForm = () => {
               name: type,
               paragraph:
                 'This is paragraph text need to show paragraph in this font',
+              editorConfig: {
+                // CKEditor configuration options
+              },
+              editorOpen: false,
             },
             md: 12,
             component: Typography,
@@ -178,6 +182,7 @@ const useCreateForm = () => {
     addField,
     dynamicFields,
     deleteField,
+    setDynamicFields,
   };
 };
 

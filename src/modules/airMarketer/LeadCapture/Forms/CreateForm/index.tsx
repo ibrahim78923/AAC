@@ -59,6 +59,7 @@ const CreateForm = () => {
     addField,
     dynamicFields,
     deleteField,
+    setDynamicFields,
   } = useCreateForm();
 
   return (
@@ -297,6 +298,7 @@ const CreateForm = () => {
                     showView={showView}
                     dynamicFields={dynamicFields}
                     deleteField={deleteField}
+                    setDynamicFields={setDynamicFields}
                   />
                 </Box>
               </TabPanel>
@@ -394,6 +396,7 @@ const CreateForm = () => {
                     showView={showView}
                     dynamicFields={dynamicFields}
                     deleteField={deleteField}
+                    setDynamicFields={setDynamicFields}
                   />
                 </Box>
               </TabPanel>

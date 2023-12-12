@@ -12,8 +12,15 @@ import {
 import { useState } from 'react';
 import { DeleteIcon } from '@/assets/icons';
 import { isNullOrEmpty } from '@/utils';
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
-const InnerTab = ({ showView, dynamicFields, deleteField }: any) => {
+const InnerTab = ({
+  showView,
+  dynamicFields,
+  deleteField,
+  setDynamicFields,
+}: any) => {
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const theme = useTheme<Theme>();
   const dynamicallyFormForm = useForm({
@@ -25,9 +32,36 @@ const InnerTab = ({ showView, dynamicFields, deleteField }: any) => {
 
   const { handleSubmit } = dynamicallyFormForm;
 
+  const handleEditorChange = (index: any, editor: any) => {
+    const content = editor?.getData();
+    setDynamicFields((prevFields: any) => {
+      const updatedFields = [...prevFields];
+      // updatedFields[index].componentProps.paragraph = content;
+      updatedFields[index].componentProps.paragraph = content;
+
+      // Assuming 'paragraph' is the key for the Typography component content
+      // Update the Typography component content as well
+      updatedFields[index].componentProps.paragraphTypography = content;
+
+      return updatedFields;
+    });
+  };
+
+  const handleEditorClick = (clickedIndex: any) => {
+    setDynamicFields((prevFields: any) => {
+      const updatedFields = [...prevFields];
+      updatedFields.forEach((field, i) => {
+        field.componentProps.editorOpen =
+          i === clickedIndex && !field.componentProps.editorOpen;
+      });
+
+      return updatedFields;
+    });
+  };
+
   return (
-    <Box sx={styles.subDiv(showView)}>
-      <Box sx={styles.innerBox}>
+    <Box sx={styles?.subDiv(showView)}>
+      <Box sx={styles?.innerBox}>
         {isNullOrEmpty(dynamicFields) && (
           <Typography variant="body2" sx={{ textAlign: 'center' }}>
             Please Create your Form from side bar menu selection.
@@ -79,10 +113,66 @@ const InnerTab = ({ showView, dynamicFields, deleteField }: any) => {
                     {item?.componentProps?.heading}
                   </Typography>
                 )}
-                {item?.componentProps?.paragraph && (
+                {/* {item?.componentProps?.paragraph && (
                   <Typography variant="body2" sx={{ textAlign: 'center' }}>
                     {item?.componentProps?.paragraph}
                   </Typography>
+                )} */}
+                {/* {item?.componentProps?.paragraph && (
+                  <div
+                    onClick={() => handleEditorClick(index)}
+                    style={{ position: 'relative' }}
+                  >
+                    {item?.componentProps?.editorOpen ? (
+                      <CKEditor
+                        editor={ClassicEditor}
+                        data={item?.componentProps?.paragraph}
+                        config={item?.componentProps?.editorConfig}
+                        onChange={(event, editor) => handleEditorChange(index, editor)}
+                      />
+                    ) : (
+                      <Typography variant="body2" sx={{ textAlign: 'center' }}>
+                        {item?.componentProps?.paragraph}
+                      </Typography>
+                    )}
+                  </div>
+                )} */}
+                {item?.componentProps?.paragraph && (
+                  <Box
+                    onClick={() => handleEditorClick(index)}
+                    sx={{ position: 'relative' }}
+                  >
+                    <Typography
+                      variant="body2"
+                      sx={{ textAlign: 'center' }}
+                      dangerouslySetInnerHTML={{
+                        __html:
+                          item?.componentProps?.paragraphTypography ||
+                          item?.componentProps?.paragraph,
+                      }}
+                    />
+                    {item?.componentProps.editorOpen && (
+                      <Box
+                        sx={{
+                          position: 'absolute',
+                          top: '50px',
+                          left: 0,
+                          width: '100%',
+                          zIndex: 1,
+                        }}
+                        onClick={(e) => e?.stopPropagation()}
+                      >
+                        <CKEditor
+                          editor={ClassicEditor}
+                          data={item?.componentProps?.paragraph}
+                          config={item?.componentProps?.editorConfig}
+                          onChange={(event, editor) =>
+                            handleEditorChange(index, editor)
+                          }
+                        />
+                      </Box>
+                    )}
+                  </Box>
                 )}
                 {item?.componentProps?.button && (
                   <Button variant="contained">
