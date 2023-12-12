@@ -1,12 +1,12 @@
 import HorizontalTabs from '@/components/Tabs/HorizontalTabs';
 import { accountDetailsTabsData } from './AccountDetailsTabs.data';
 import { AccountDetailSecurity } from '../AccountDetailSecurity';
-import { AccountDetailProfile } from '../AccountDetailProfile';
+import { AccountDetailsProfile } from '../AccountDetailsProfile';
 
 export const AccountDetailsTabs = () => {
   return (
     <HorizontalTabs tabsDataArray={accountDetailsTabsData}>
-      <AccountDetailProfile />
+      <AccountDetailsProfile />
       <AccountDetailSecurity />
     </HorizontalTabs>
   );
