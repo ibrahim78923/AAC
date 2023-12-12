@@ -38,7 +38,7 @@ const CustomizeColumns = ({
             <ListItem key={col?.id} disablePadding>
               <ListItemButton
                 className={
-                  checkedColumns.indexOf(col.id) !== -1 ? 'selected' : ''
+                  checkedColumns?.indexOf(col.id) !== -1 ? 'selected' : ''
                 }
                 role={undefined}
                 onClick={handleToggleColumns(col.id)}
@@ -50,7 +50,7 @@ const CustomizeColumns = ({
                 <ListItemText primary={col?.header} />
                 <Checkbox
                   edge="start"
-                  checked={checkedColumns.indexOf(col?.id) !== -1}
+                  checked={checkedColumns?.indexOf(col?.id) !== -1}
                   tabIndex={-1}
                   disableRipple
                 />
