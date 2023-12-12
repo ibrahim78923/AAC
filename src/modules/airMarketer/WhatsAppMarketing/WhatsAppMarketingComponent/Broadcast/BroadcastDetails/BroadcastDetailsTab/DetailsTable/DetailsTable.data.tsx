@@ -61,7 +61,7 @@ export const detailsColumns: any = (handleDelete: any) => {
         <Box
           onClick={() => handleDelete()}
           sx={{
-            background: (theme: any) => theme.Palette.grey[400],
+            background: (theme: any) => theme?.Palette?.grey[400],
             width: 'fit-content',
             borderRadius: '100%',
             p: 1,

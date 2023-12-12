@@ -75,7 +75,7 @@ const CreateBroadcast = () => {
                 <Stack direction="row" alignItems="center" gap={'10px'}>
                   <Avatar
                     alt="Remy Sharp"
-                    src={AvatarImage.src}
+                    src={AvatarImage?.src}
                     sx={styles?.previewAvatar}
                   >
                     AB

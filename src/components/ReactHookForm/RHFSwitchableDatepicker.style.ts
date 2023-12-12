@@ -189,7 +189,7 @@ export const styles = {
             },
             '&.react-datepicker__month-text--keyboard-selected': {
               bgcolor: 'primary.main',
-              color: theme.palette.common.white,
+              color: theme?.palette?.common?.white,
             },
           },
         },
@@ -224,7 +224,7 @@ export const styles = {
           '&.react-datepicker__year-text--keyboard-selected, &.react-datepicker__year-text--selected':
             {
               bgcolor: 'primary.main',
-              color: theme.palette.common.white,
+              color: theme?.palette?.common?.white,
             },
         },
       },
