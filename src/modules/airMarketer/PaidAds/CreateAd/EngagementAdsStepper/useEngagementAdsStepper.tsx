@@ -12,6 +12,10 @@ import {
 } from './EngagementAdsStepper.data';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import {
+  BudgetScheduleMockImage,
+  MockEngagementTabsImage,
+} from '@/assets/images';
 
 const useTempStepper = () => {
   const router = useRouter();
@@ -50,11 +54,25 @@ const useTempStepper = () => {
     }
   };
 
+  const stepperImages: any = (val: any) => {
+    switch (val) {
+      case 0:
+        return MockEngagementTabsImage;
+      case 1:
+        return BudgetScheduleMockImage;
+      case 2:
+        return BudgetScheduleMockImage;
+      case 3:
+        return BudgetScheduleMockImage;
+    }
+  };
+
   const methods = useForm({
     resolver: yupResolver(stepperValidator(activeStep)),
     defaultValues: steppeDefaultValues(activeStep),
   });
-  const { handleSubmit } = methods;
+  const { handleSubmit, watch } = methods;
+  const isNewAd = watch('creative') ? watch('creative') : 'existingAd';
 
   return {
     router,
@@ -66,6 +84,8 @@ const useTempStepper = () => {
     steppeDefaultValues,
     methods,
     handleSubmit,
+    isNewAd,
+    stepperImages,
   };
 };
 
