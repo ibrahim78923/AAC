@@ -99,6 +99,7 @@ export const ASSET_TYPE = {
   SERVICES: 'services',
   HARDWARE: 'hardware',
   SOFTWARE: 'software',
+  HARDWARE_CONSUMABLE: 'HardWare/Consumable',
 };
 
 export const SOFTWARE_STATUS = {

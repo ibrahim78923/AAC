@@ -16,8 +16,15 @@ export const columns: any = ({
 }) => {
   return [
     {
-      accessorFn: (row: any) => row?.taskno,
+      accessorFn: (row: any) => row?._id,
       id: 'contact_id',
+      isSortable: true,
+      header: 'Contact ID',
+      cell: (info: any) => info?.getValue(),
+    },
+    {
+      accessorFn: (row: any) => row?.name,
+      id: 'name',
       cell: (info: any) => (
         <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
           <Image src={NotesAvatarImage} width={40} height={40} alt="avatar" />
@@ -32,8 +39,8 @@ export const columns: any = ({
           </Box>
         </Box>
       ),
-      header: 'Contact ID',
-      isSortable: false,
+      header: 'Name',
+      isSortable: true,
     },
     {
       accessorFn: (row: any) => row?.phoneNumber,

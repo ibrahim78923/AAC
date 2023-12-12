@@ -17,6 +17,7 @@ export const dealsCallsDefaultValues = {
   description: '',
   attachfile: '',
   owner: '',
+  outcomes: '',
 };
 
 export const dealsCallsDataArray = [
@@ -24,6 +25,8 @@ export const dealsCallsDataArray = [
     componentProps: {
       name: 'title',
       label: 'Title',
+      required: true,
+      placeholder: 'Title',
       fullWidth: true,
     },
     component: RHFTextField,
@@ -86,9 +89,9 @@ export const dealsCallsDataArray = [
 ];
 
 export const drawerTitle: any = {
-  Add: 'Add Calls',
-  Edit: 'Edit Calls',
-  View: 'View Calls',
+  Add: 'Add Call',
+  Edit: 'Edit Call',
+  View: 'View Call',
 };
 export const drawerButtonTitle: any = {
   Add: 'Add',
