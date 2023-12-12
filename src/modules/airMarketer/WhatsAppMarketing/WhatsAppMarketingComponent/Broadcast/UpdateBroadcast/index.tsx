@@ -15,6 +15,7 @@ import { styles } from './CreateBroadcast.style';
 import TanstackTable from '@/components/Table/TanstackTable';
 import AddContactDrawer from './AddContactDrawer/index';
 import { AIR_MARKETER } from '@/routesConstants/paths';
+import { AvatarImage } from '@/assets/images';
 
 const CreateBroadcast = () => {
   const router = useRouter();
@@ -40,7 +41,7 @@ const CreateBroadcast = () => {
         >
           <ArrowBackIcon />
         </Box>
-        <Typography sx={styles.heading} variant="h3">
+        <Typography sx={styles?.heading} variant="h3">
           Update Broadcast
         </Typography>
       </Box>
@@ -74,33 +75,33 @@ const CreateBroadcast = () => {
                 <Stack direction="row" alignItems="center" gap={'10px'}>
                   <Avatar
                     alt="Remy Sharp"
-                    src="/broken-image.jpg"
-                    sx={styles.previewAvatar}
+                    src={AvatarImage?.src}
+                    sx={styles?.previewAvatar}
                   >
                     AB
                   </Avatar>
                   <Box>
-                    <Typography variant="h5" sx={styles.previewName}>
+                    <Typography variant="h5" sx={styles?.previewName}>
                       {previewName === '' ? 'Broadcast Name' : previewName}
                     </Typography>
-                    <Typography sx={styles.previewTime} variant="body2">
+                    <Typography sx={styles?.previewTime} variant="body2">
                       Just Now
                     </Typography>
                   </Box>
                 </Stack>
               </Grid>
               <Grid item xs={12}>
-                <Box sx={styles.previewAttachment}></Box>
+                <Box sx={styles?.previewAttachment}></Box>
               </Grid>
               <Grid item xs={12}>
-                <Box sx={styles.previewLabel}>Details</Box>
-                <Box sx={styles.previewDetails}>
+                <Box sx={styles?.previewLabel}>Details</Box>
+                <Box sx={styles?.previewDetails}>
                   <Box dangerouslySetInnerHTML={{ __html: previewDetail }} />
                 </Box>
               </Grid>
               <Grid item xs={12}>
-                <Box sx={styles.previewLabel}>Added Contacts</Box>
-                <Box sx={styles.previewContacts}>
+                <Box sx={styles?.previewLabel}>Added Contacts</Box>
+                <Box sx={styles?.previewContacts}>
                   <TanstackTable
                     columns={contactsColumns}
                     data={contactDetails}

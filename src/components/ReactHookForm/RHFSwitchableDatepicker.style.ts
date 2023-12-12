@@ -4,9 +4,9 @@ export const styles = {
       display: 'block',
     },
   }),
-  dpContainer: () => ({
+  dpContainer: (theme: any) => ({
     bgcolor: '#fff',
-    border: `1px solid #E6E6E6`,
+    border: `1px solid ${theme?.palette?.custom?.white_rock}`,
     borderRadius: '4px',
     maxWidth: '410px',
     position: 'absolute',
@@ -17,9 +17,9 @@ export const styles = {
   dpContent: () => ({
     display: 'flex',
   }),
-  dpSidebar: () => ({
+  dpSidebar: (theme: any) => ({
     p: '16px',
-    borderRight: `1px solid #E6E6E6`,
+    borderRight: `1px solid ${theme?.palette?.custom?.white_rock}`,
   }),
   dpSidebarList: (theme: any) => ({
     p: 0,
@@ -33,7 +33,7 @@ export const styles = {
       borderRadisu: '4px',
       mt: '6px',
       '&:hover': {
-        bgcolor: theme.palette.primary.lighter,
+        bgcolor: theme?.palette?.primary?.lighter,
       },
       '&:first-of-type': {
         mt: '0',
@@ -50,18 +50,18 @@ export const styles = {
       },
 
       '&.Mui-selected': {
-        bgcolor: theme.palette.primary.lighter,
+        bgcolor: theme?.palette?.primary?.lighter,
         '&::before': {
-          bgcolor: theme.palette.primary.main,
+          bgcolor: theme?.palette?.primary?.main,
         },
       },
     },
   }),
-  dpFooter: () => ({
+  dpFooter: (theme: any) => ({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    borderTop: `1px solid #E6E6E6`,
+    borderTop: `1px solid ${theme?.palette?.custom?.white_rock}`,
     p: '16px',
   }),
   dpFooterText: (theme: any) => ({
@@ -100,13 +100,13 @@ export const styles = {
       fontSize: '16px',
       fontWeight: '500',
       lineHeight: '1.5',
-      color: theme.palette.grey[600],
+      color: theme?.palette?.grey[600],
 
       '& .react-datepicker__current-month': {
         fontSize: '16px',
         fontWeight: '500',
         lineHeight: '1.5',
-        color: theme.palette.grey[600],
+        color: theme?.palette?.grey[600],
         pl: '16px',
         height: '36px',
         display: 'flex',
@@ -122,7 +122,7 @@ export const styles = {
         '& .react-datepicker__day-name': {
           fontSize: '12px',
           fontWeight: '500',
-          color: theme.palette.grey[600],
+          color: theme?.palette?.grey[600],
           lineHeight: '1.5',
           width: '36px',
           height: '28px',
@@ -148,7 +148,7 @@ export const styles = {
           justifyContent: 'center',
           fontSize: '12px',
           fontWeight: '400',
-          color: theme.palette.grey[600],
+          color: theme?.palette?.grey[600],
           lineHeight: '1.5',
           m: '0',
           '&:hover': {
@@ -189,7 +189,7 @@ export const styles = {
             },
             '&.react-datepicker__month-text--keyboard-selected': {
               bgcolor: 'primary.main',
-              color: '#fff',
+              color: theme.palette.common.white,
             },
           },
         },
@@ -224,7 +224,7 @@ export const styles = {
           '&.react-datepicker__year-text--keyboard-selected, &.react-datepicker__year-text--selected':
             {
               bgcolor: 'primary.main',
-              color: '#fff',
+              color: theme.palette.common.white,
             },
         },
       },

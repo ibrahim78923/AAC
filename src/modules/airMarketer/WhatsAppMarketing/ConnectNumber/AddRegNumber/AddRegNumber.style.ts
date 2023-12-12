@@ -1,9 +1,9 @@
 export const styles = {
-  regNumText: () => ({
+  regNumText: (theme: any) => ({
     fontSize: '14px',
     fontWeight: '500',
     lineHeight: '21px',
-    color: '#14142B',
+    color: theme?.palette?.custom?.black_pearl,
   }),
   dialog: (theme: any) => ({
     '& .MuiDialog-paper': {
@@ -14,7 +14,7 @@ export const styles = {
         fontSize: '24px',
         fontWeight: '600',
         lineHeight: '1.25',
-        color: theme.palette.slateBlue.main,
+        color: theme?.palette?.slateBlue?.main,
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',

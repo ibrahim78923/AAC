@@ -36,7 +36,7 @@ const AddRegNumber: FC<AddRegNumberI> = ({
         </IconButton>
       </DialogTitle>
       <DialogContent sx={{ p: '12px 24px 24px' }}>
-        <Box sx={styles.regNumText}>
+        <Box sx={styles?.regNumText}>
           Register phone number to get started WhatsApp broadcast
         </Box>
         <Box sx={{ mt: '20px' }}>

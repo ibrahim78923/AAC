@@ -30,21 +30,21 @@ const ConnectNumber = ({ setIsNumberConnected }: any) => {
   } = useConnectNumber();
   return (
     <>
-      <Box sx={styles.header}>
-        <Box sx={styles.icon}>
+      <Box sx={styles?.header}>
+        <Box sx={styles?.icon}>
           <WhatsApp55Icon />
         </Box>
         <Box>
           <Typography sx={{ lineHeight: '1.25' }} variant="h3">
             WhatsApp
           </Typography>
-          <Box sx={styles.headerText}>
+          <Box sx={styles?.headerText}>
             Connect WhatsApp Business numbers and bring all your conversation
             here
           </Box>
         </Box>
       </Box>
-      <Box sx={styles.divider} />
+      <Box sx={styles?.divider} />
       <Box>
         <Typography sx={{ lineHeight: '1.25' }} variant="h3">
           Get started with WhatsApp Marketing
@@ -55,7 +55,7 @@ const ConnectNumber = ({ setIsNumberConnected }: any) => {
               <ListItemIcon>
                 <TickListIcon />
               </ListItemIcon>
-              <ListItemText sx={styles.listItemText} primary={item?.text} />
+              <ListItemText sx={styles?.listItemText} primary={item?.text} />
             </ListItem>
           ))}
         </List>

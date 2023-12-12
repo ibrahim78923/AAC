@@ -20,7 +20,7 @@ const RHFSwitchableDatepicker = ({ name, required, ...other }: any) => {
   const { control, setValue } = useFormContext();
   const [formattedDate, setFormattedDate] = useState<string>('');
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [selectedIndex, setSelectedIndex] = useState('today');
   const [isWeekPicker, setIsWeekPicker] = useState(false);
   const [isMonthPicker, setIsMonthPicker] = useState(false);
   const [isYearPicker, setIsYearPicker] = useState(false);
@@ -30,31 +30,31 @@ const RHFSwitchableDatepicker = ({ name, required, ...other }: any) => {
 
   const handleListItemClick = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    index: number,
+    index: string,
   ) => {
     setSelectedIndex(index);
-    if (index === 4) {
+    if (index === 'custom') {
       setStartDate(null);
       setEndDate(null);
       setIsWeekPicker(false);
       setIsMonthPicker(false);
       setIsYearPicker(false);
       setIsRangePicker(true);
-    } else if (index === 3) {
+    } else if (index === 'year') {
       setStartDate(null);
       setEndDate(null);
       setIsWeekPicker(false);
       setIsMonthPicker(false);
       setIsYearPicker(true);
       setIsRangePicker(false);
-    } else if (index === 2) {
+    } else if (index === 'month') {
       setStartDate(null);
       setEndDate(null);
       setIsWeekPicker(false);
       setIsMonthPicker(true);
       setIsYearPicker(false);
       setIsRangePicker(false);
-    } else if (index === 1) {
+    } else if (index === 'week') {
       setStartDate(null);
       setEndDate(null);
       setIsWeekPicker(true);
@@ -77,7 +77,7 @@ const RHFSwitchableDatepicker = ({ name, required, ...other }: any) => {
   };
 
   const handleChange = (date: any) => {
-    if (selectedIndex === 4) {
+    if (selectedIndex === 'custom') {
       const [start, end]: any = date;
       setStartDate(start);
       setEndDate(end);
@@ -89,7 +89,7 @@ const RHFSwitchableDatepicker = ({ name, required, ...other }: any) => {
           )}`,
         );
       }
-    } else if (selectedIndex === 3) {
+    } else if (selectedIndex === 'year') {
       setStartDate(date);
       const start = new Date(date?.getFullYear(), 0, 1);
       const end = new Date(date?.getFullYear(), 11, 31);
@@ -99,7 +99,7 @@ const RHFSwitchableDatepicker = ({ name, required, ...other }: any) => {
         )}`,
       );
       setValue(name, [start, end]);
-    } else if (selectedIndex === 2) {
+    } else if (selectedIndex === 'month') {
       setStartDate(date);
       const start = new Date(date);
       start?.setDate(1);
@@ -112,7 +112,7 @@ const RHFSwitchableDatepicker = ({ name, required, ...other }: any) => {
         )}`,
       );
       setValue(name, [start, end]);
-    } else if (selectedIndex === 1) {
+    } else if (selectedIndex === 'week') {
       setStartDate(date);
       const start = new Date(date);
       start.setDate(date.getDate() - date.getDay());
@@ -134,46 +134,46 @@ const RHFSwitchableDatepicker = ({ name, required, ...other }: any) => {
   // Datepicker custom container
   const Container = ({ children }: any) => {
     return (
-      <Box sx={styles.dpContainer}>
-        <Box sx={styles.dpContent}>
-          <Box sx={styles.dpSidebar}>
-            <List component={'nav'} sx={styles.dpSidebarList}>
+      <Box sx={styles?.dpContainer}>
+        <Box sx={styles?.dpContent}>
+          <Box sx={styles?.dpSidebar}>
+            <List component={'nav'} sx={styles?.dpSidebarList}>
               <ListItemButton
-                selected={selectedIndex === 0}
-                onClick={(event: any) => handleListItemClick(event, 0)}
+                selected={selectedIndex === 'today'}
+                onClick={(event: any) => handleListItemClick(event, 'today')}
               >
                 Today
               </ListItemButton>
               <ListItemButton
-                selected={selectedIndex === 1}
-                onClick={(event: any) => handleListItemClick(event, 1)}
+                selected={selectedIndex === 'week'}
+                onClick={(event: any) => handleListItemClick(event, 'week')}
               >
                 Week
               </ListItemButton>
               <ListItemButton
-                selected={selectedIndex === 2}
-                onClick={(event: any) => handleListItemClick(event, 2)}
+                selected={selectedIndex === 'month'}
+                onClick={(event: any) => handleListItemClick(event, 'month')}
               >
                 Month
               </ListItemButton>
               <ListItemButton
-                selected={selectedIndex === 3}
-                onClick={(event: any) => handleListItemClick(event, 3)}
+                selected={selectedIndex === 'year'}
+                onClick={(event: any) => handleListItemClick(event, 'year')}
               >
                 Year
               </ListItemButton>
               <ListItemButton
-                selected={selectedIndex === 4}
-                onClick={(event: any) => handleListItemClick(event, 4)}
+                selected={selectedIndex === 'custom'}
+                onClick={(event: any) => handleListItemClick(event, 'custom')}
               >
                 Custom
               </ListItemButton>
             </List>
           </Box>
-          <Box sx={styles.dpBody}>{children}</Box>
+          <Box sx={styles?.dpBody}>{children}</Box>
         </Box>
-        <Box sx={styles.dpFooter}>
-          <Box sx={styles.dpFooterText}>{formattedDate}</Box>
+        <Box sx={styles?.dpFooter}>
+          <Box sx={styles?.dpFooterText}>{formattedDate}</Box>
           <Stack direction="row" spacing="12px">
             <Button
               className="small"

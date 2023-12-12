@@ -21,9 +21,9 @@ const BroadcastDetailsTab = () => {
   return (
     <>
       <Box sx={{ p: '0 24px' }}>
-        <Box sx={styles.media}>{/* Image here */}</Box>
+        <Box sx={styles?.media}>{/* Image here */}</Box>
 
-        <Box sx={styles.previewDetails}>
+        <Box sx={styles?.previewDetails}>
           <p>
             <b>Hello</b>
           </p>

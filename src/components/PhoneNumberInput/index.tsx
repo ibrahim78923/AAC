@@ -36,7 +36,7 @@ const PhoneNumberInput: React.FC<MUIPhoneProps> = ({
       value,
       countries: defaultCountries,
       onChange: (data) => {
-        onChange(data.phone);
+        onChange(data?.phone);
       },
     });
 
@@ -63,24 +63,32 @@ const PhoneNumberInput: React.FC<MUIPhoneProps> = ({
               right: '16px',
             },
           }}
-          value={country.iso2}
-          onChange={(e) => setCountry(e.target.value as CountryIso2)}
+          value={country?.iso2}
+          onChange={(e) => setCountry(e?.target?.value as CountryIso2)}
           renderValue={(value) => (
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
               <FlagImage iso2={value} style={{ display: 'flex' }} />
-              <Box sx={{ ml: '8px', color: '#ABAFB1' }}>
-                +{country.dialCode}
+              <Box
+                sx={{
+                  ml: '8px',
+                  color: (theme: any) => theme?.palette?.custom?.silver_chalice,
+                }}
+              >
+                +{country?.dialCode}
               </Box>
             </Box>
           )}
         >
-          {defaultCountries.map((c) => {
+          {defaultCountries?.map((c) => {
             const country = parseCountry(c);
             return (
-              <MenuItem key={country.iso2} value={country.iso2}>
-                <FlagImage iso2={country.iso2} style={{ marginRight: '8px' }} />
-                <Typography marginRight="8px">{country.name}</Typography>
-                <Typography color="gray">+{country.dialCode}</Typography>
+              <MenuItem key={country?.iso2} value={country?.iso2}>
+                <FlagImage
+                  iso2={country?.iso2}
+                  style={{ marginRight: '8px' }}
+                />
+                <Typography marginRight="8px">{country?.name}</Typography>
+                <Typography color="gray">+{country?.dialCode}</Typography>
               </MenuItem>
             );
           })}
