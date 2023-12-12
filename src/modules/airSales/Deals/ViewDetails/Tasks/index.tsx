@@ -27,24 +27,32 @@ const Tasks = () => {
         borderRadius: '10px',
       }}
     >
-      <Grid container spacing={3}>
-        <Grid item xs={12}>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-            <Typography variant="h4"> Tasks</Typography>
-            <Box sx={{ gap: 1, display: 'flex' }}>
-              <ActionDropdown
-                selectedCheckboxes={selectedCheckboxes}
-                setSelectedCheckboxes={setSelectedCheckboxes}
-                setOpenDrawer={setOpenDrawer}
-              />
-              <Button
-                variant="contained"
-                sx={{ minWidth: '0px', height: '35px', gap: 0.5 }}
-                onClick={() => setOpenDrawer('Add')}
-              >
-                <PlusIcon /> Add New Task
-              </Button>
-            </Box>
+      <Grid container spacing={1}>
+        <Grid item xs={12} md={4}>
+          <Typography variant="h4"> Tasks</Typography>
+        </Grid>
+        <Grid item xs={12} md={8}>
+          <Box
+            sx={{
+              gap: 1,
+              display: 'flex',
+              justifyContent: 'end',
+              flexDirection: { xs: 'column', sm: 'row' },
+            }}
+          >
+            <ActionDropdown
+              selectedCheckboxes={selectedCheckboxes}
+              setSelectedCheckboxes={setSelectedCheckboxes}
+              setOpenDrawer={setOpenDrawer}
+            />
+            <Button
+              variant="contained"
+              sx={{ minWidth: '0px', gap: 0.5 }}
+              onClick={() => setOpenDrawer('Add')}
+              className="small"
+            >
+              <PlusIcon /> Add New Task
+            </Button>
           </Box>
         </Grid>
         <Grid item xs={12}>

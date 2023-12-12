@@ -8,10 +8,21 @@ import ActionButton from '../ActionButton';
 import { FilterrIcon } from '@/assets/icons';
 import useCampaigns from '../useCampaigns';
 import Filters from '../Filters';
+import SaveNewViewDrawer from '../SaveNewViewDrawer';
+import { useRouter } from 'next/router';
+import { AIR_MARKETER } from '@/routesConstants/paths';
 
 const Manage = () => {
   const theme = useTheme();
-  const { handleOpenFilter, isOpenFilter, setIsOpenFilter } = useCampaigns();
+  const {
+    handleOpenFilter,
+    isOpenFilter,
+    setIsOpenFilter,
+    handleSaveView,
+    actionsModalDetails,
+    setActionsModalDetails,
+  } = useCampaigns();
+  const router = useRouter();
   return (
     <>
       <Box sx={{ paddingTop: '10px' }}>
@@ -43,6 +54,7 @@ const Manage = () => {
                 Filter
               </Button>
               <Button
+                onClick={handleSaveView}
                 startIcon={<FilterrIcon />}
                 className="samll"
                 variant="outlined"
@@ -58,6 +70,7 @@ const Manage = () => {
                 Save View
               </Button>
               <Button
+                onClick={() => router.push(AIR_MARKETER?.ALL_VIEW)}
                 startIcon={<FilterrIcon />}
                 sx={{
                   border: `1px solid ${theme?.palette?.custom?.dark}`,
@@ -93,6 +106,17 @@ const Manage = () => {
         <Filters
           isOpenDrawer={isOpenFilter}
           onClose={() => setIsOpenFilter(false)}
+        />
+      )}
+      {actionsModalDetails?.isSaveView && (
+        <SaveNewViewDrawer
+          isOpenDrawer={actionsModalDetails?.isSaveView}
+          onClose={() =>
+            setActionsModalDetails({
+              ...actionsModalDetails,
+              isSaveView: false,
+            })
+          }
         />
       )}
     </>

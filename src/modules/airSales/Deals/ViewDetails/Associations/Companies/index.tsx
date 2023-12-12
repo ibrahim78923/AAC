@@ -35,14 +35,14 @@ const Companies = () => {
       }}
     >
       <Grid container spacing={2}>
-        <Grid item md={4} sx={styles?.countBox}>
+        <Grid item md={4} xs={12} sx={styles?.countBox}>
           <Typography sx={styles?.associationCount(theme)} variant="body3">
             02
           </Typography>
 
           <Typography variant="h5">Companies</Typography>
         </Grid>
-        <Grid item md={8}>
+        <Grid item md={8} xs={12}>
           <Box
             sx={{
               display: 'flex',

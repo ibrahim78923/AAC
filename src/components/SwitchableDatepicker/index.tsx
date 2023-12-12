@@ -1,121 +1,112 @@
 import React, { useState } from 'react';
+import { Box, Stack, Button, List, ListItemButton } from '@mui/material';
 import {
-  Box,
-  Stack,
-  TextField,
-  Button,
-  List,
-  ListItemButton,
-} from '@mui/material';
+  PrimaryCalendarIcon,
+  CanlendarButtonIcon,
+  ArrowSquareLeftIcon,
+  ArrowSquareRightIcon,
+} from '@/assets/icons';
 import dayjs from 'dayjs';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { styles } from './SwitchableDatepicker.style';
+import { DATE_FORMAT } from '@/constants';
 
-const SwitchableDatepicker = ({ error, field, ...other }: any) => {
-  const [selectedIndex, setSelectedIndex] = useState(0);
-  const [isMonthYearPicker, setIsMonthYearPicker] = useState(false);
+const SwitchableDatepicker = ({
+  renderInput = 'button',
+  dateValue,
+  setDateValue,
+  handleDateSubmit,
+}: any) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState('today');
+  const [isWeekPicker, setIsWeekPicker] = useState(false);
+  const [isMonthPicker, setIsMonthPicker] = useState(false);
   const [isYearPicker, setIsYearPicker] = useState(false);
   const [isRangePicker, setIsRangePicker] = useState(false);
   const [startDate, setStartDate]: any = useState(null);
-  const [endDate, setEndDate]: any = useState(null);
-  const [dateFormat, setDateFormat] = useState('MM/dd/yyyy');
+  const [endDate, setEndDate] = useState(null);
 
   const handleListItemClick = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    index: number,
+    index: string,
   ) => {
     setSelectedIndex(index);
-    if (index === 4) {
-      setDateFormat('MM/dd/yyyy');
+    if (index === 'custom') {
       setStartDate(null);
       setEndDate(null);
-      setIsMonthYearPicker(false);
+      setIsWeekPicker(false);
+      setIsMonthPicker(false);
       setIsYearPicker(false);
       setIsRangePicker(true);
-    } else if (index === 3) {
-      setDateFormat('yyyy');
+    } else if (index === 'year') {
       setStartDate(null);
       setEndDate(null);
-      setIsRangePicker(false);
-      setIsMonthYearPicker(false);
+      setIsWeekPicker(false);
+      setIsMonthPicker(false);
       setIsYearPicker(true);
-    } else if (index === 2) {
-      setDateFormat('MM/yyyy');
+      setIsRangePicker(false);
+    } else if (index === 'month') {
       setStartDate(null);
       setEndDate(null);
-      setIsRangePicker(false);
+      setIsWeekPicker(false);
+      setIsMonthPicker(true);
       setIsYearPicker(false);
-      setIsMonthYearPicker(true);
-    } else if (index === 1) {
-      setDateFormat('MM/dd/yyyy');
+      setIsRangePicker(false);
+    } else if (index === 'week') {
       setStartDate(null);
       setEndDate(null);
-      setIsRangePicker(false);
+      setIsWeekPicker(true);
+      setIsMonthPicker(false);
       setIsYearPicker(false);
-      setIsMonthYearPicker(false);
+      setIsRangePicker(false);
     } else {
-      setDateFormat('MM/dd/yyyy');
       setStartDate(null);
       setEndDate(null);
-      setIsRangePicker(false);
-      setIsMonthYearPicker(false);
+      setIsWeekPicker(false);
+      setIsMonthPicker(false);
       setIsYearPicker(false);
+      setIsRangePicker(false);
     }
   };
 
-  const handleDateChange = (date: any) => {
-    if (selectedIndex === 4) {
+  const handleClick = (e: any) => {
+    e.preventDefault();
+    setIsOpen(!isOpen);
+  };
+
+  const handleChange = (date: any) => {
+    if (selectedIndex === 'custom') {
       const [start, end]: any = date;
       setStartDate(start);
       setEndDate(end);
-    } else if (selectedIndex === 3) {
-      const startOfYear = new Date(date?.getFullYear(), 0, 1);
-      const endOfYear = new Date(date?.getFullYear(), 11, 31);
-      setStartDate(startOfYear);
-      setEndDate(endOfYear);
-    } else if (selectedIndex === 2) {
-      const startOfMonth = new Date(date);
-      startOfMonth?.setDate(1);
-      const endOfMonth = new Date(date);
-      endOfMonth?.setMonth(endOfMonth.getMonth() + 1);
-      endOfMonth?.setDate(0);
-      setStartDate(startOfMonth);
-      setEndDate(endOfMonth);
-    } else if (selectedIndex === 1) {
-      const startOfWeek = new Date(date);
-      startOfWeek?.setDate(date?.getDate() - date?.getDay());
-      const endOfWeek = new Date(startOfWeek);
-      endOfWeek.setDate(startOfWeek?.getDate() + 6);
-      setStartDate(startOfWeek);
-      setEndDate(endOfWeek);
+      if (start && end) {
+        setDateValue(date);
+      }
+    } else if (selectedIndex === 'year') {
+      setStartDate(date);
+      const start = new Date(date?.getFullYear(), 0, 1);
+      const end = new Date(date?.getFullYear(), 11, 31);
+      setDateValue([start, end]);
+    } else if (selectedIndex === 'month') {
+      setStartDate(date);
+      const start = new Date(date);
+      start?.setDate(1);
+      const end = new Date(date);
+      end?.setMonth(end.getMonth() + 1);
+      end?.setDate(0);
+      setDateValue([start, end]);
+    } else if (selectedIndex === 'week') {
+      setStartDate(date);
+      const start = new Date(date);
+      start.setDate(date.getDate() - date.getDay());
+      const end = new Date(start);
+      end.setDate(start.getDate() + 6);
+      setDateValue([start, end]);
     } else {
       setStartDate(date);
-      setEndDate(null);
+      setDateValue([date, date]);
     }
-  };
-
-  const getStartAndEndOfWeek = (date: any) => {
-    const startOfWeek = new Date(date);
-    startOfWeek.setDate(date.getDate() - date.getDay());
-    const endOfWeek = new Date(startOfWeek);
-    endOfWeek.setDate(startOfWeek.getDate() + 6);
-    return [startOfWeek, endOfWeek];
-  };
-
-  const getStartAndEndOfMonth = (date: any) => {
-    const startOfMonth = new Date(date);
-    startOfMonth?.setDate(1);
-    const endOfMonth = new Date(date);
-    endOfMonth?.setMonth(endOfMonth.getMonth() + 1);
-    endOfMonth?.setDate(0);
-    return [startOfMonth, endOfMonth];
-  };
-
-  const getStartAndEndOfYear = (date: any) => {
-    const startOfYear = new Date(date?.getFullYear(), 0, 1);
-    const endOfYear = new Date(date?.getFullYear(), 11, 31);
-    return [startOfYear, endOfYear];
   };
 
   // Datepicker custom container
@@ -126,32 +117,32 @@ const SwitchableDatepicker = ({ error, field, ...other }: any) => {
           <Box sx={styles.dpSidebar}>
             <List component={'nav'} sx={styles.dpSidebarList}>
               <ListItemButton
-                selected={selectedIndex === 0}
-                onClick={(event: any) => handleListItemClick(event, 0)}
+                selected={selectedIndex === 'today'}
+                onClick={(event: any) => handleListItemClick(event, 'today')}
               >
                 Today
               </ListItemButton>
               <ListItemButton
-                selected={selectedIndex === 1}
-                onClick={(event: any) => handleListItemClick(event, 1)}
+                selected={selectedIndex === 'week'}
+                onClick={(event: any) => handleListItemClick(event, 'week')}
               >
                 Week
               </ListItemButton>
               <ListItemButton
-                selected={selectedIndex === 2}
-                onClick={(event: any) => handleListItemClick(event, 2)}
+                selected={selectedIndex === 'month'}
+                onClick={(event: any) => handleListItemClick(event, 'month')}
               >
                 Month
               </ListItemButton>
               <ListItemButton
-                selected={selectedIndex === 3}
-                onClick={(event: any) => handleListItemClick(event, 3)}
+                selected={selectedIndex === 'year'}
+                onClick={(event: any) => handleListItemClick(event, 'year')}
               >
                 Year
               </ListItemButton>
               <ListItemButton
-                selected={selectedIndex === 4}
-                onClick={(event: any) => handleListItemClick(event, 4)}
+                selected={selectedIndex === 'custom'}
+                onClick={(event: any) => handleListItemClick(event, 'custom')}
               >
                 Custom
               </ListItemButton>
@@ -161,88 +152,89 @@ const SwitchableDatepicker = ({ error, field, ...other }: any) => {
         </Box>
         <Box sx={styles.dpFooter}>
           <Box sx={styles.dpFooterText}>
-            {startDate && (
+            {dateValue && (
               <>
-                {dayjs(startDate).format('MMMM DD, YYYY')}{' '}
-                {endDate && <> - {dayjs(endDate).format('MMMM DD, YYYY')}</>}
+                {dayjs(dateValue[0]).format(DATE_FORMAT.UI)} -{' '}
+                {dayjs(dateValue[1]).format(DATE_FORMAT.UI)}
               </>
             )}
           </Box>
           <Stack direction="row" spacing="12px">
-            <Button variant="outlined">Cancel</Button>
-            <Button variant="contained">Apply</Button>
+            <Button
+              className="small"
+              variant="outlined"
+              onClick={() => setIsOpen(false)}
+            >
+              Cancel
+            </Button>
+            <Button
+              className="small"
+              variant="contained"
+              onClick={() => {
+                handleDateSubmit?.();
+                setIsOpen(false);
+              }}
+            >
+              Apply
+            </Button>
           </Stack>
         </Box>
       </Box>
     );
   };
 
+  let dateString = '';
+  if (dateValue) {
+    const START_DATE = dateValue[0];
+    const END_DATE = dateValue[1];
+    dateString =
+      dayjs(START_DATE).format(DATE_FORMAT.UI) +
+      ' - ' +
+      dayjs(END_DATE).format(DATE_FORMAT.UI);
+  }
+
   return (
-    <Box sx={styles.dpWrapper}>
-      {selectedIndex === 4 ? (
-        <DatePicker
-          {...field}
-          selected={startDate}
-          startDate={startDate}
-          endDate={endDate}
-          onChange={(date: any) => {
-            field.onChange(date);
-            handleDateChange(date);
-          }}
-          dateFormat={dateFormat}
-          shouldCloseOnSelect={false}
-          isClearable
-          calendarContainer={Container}
-          showMonthYearPicker={isMonthYearPicker}
-          showYearPicker={isYearPicker}
-          selectsRange={isRangePicker}
-          customInput={
-            <TextField
-              label="Created Date"
-              size="small"
-              fullWidth
-              error={!!error}
-              helperText={error?.message}
-              {...other}
-            />
-          }
-        />
+    <Box sx={{ position: 'relative' }}>
+      {renderInput === 'button' ? (
+        <Button
+          className="small"
+          variant="outlined"
+          color="inherit"
+          onClick={handleClick}
+        >
+          <CanlendarButtonIcon />
+          <Box sx={{ ml: '8px', display: 'inline-flex' }}>Date</Box>
+        </Button>
       ) : (
-        <DatePicker
-          {...field}
-          selected={startDate}
-          startDate={startDate}
-          endDate={endDate}
-          onChange={(date: any) => {
-            field.onChange(
-              selectedIndex === 1
-                ? getStartAndEndOfWeek(date)
-                : selectedIndex === 2
-                ? getStartAndEndOfMonth(date)
-                : selectedIndex === 3
-                ? getStartAndEndOfYear(date)
-                : date,
-            );
-            handleDateChange(date);
-          }}
-          dateFormat={dateFormat}
-          shouldCloseOnSelect={false}
-          isClearable
-          calendarContainer={Container}
-          showMonthYearPicker={isMonthYearPicker}
-          showYearPicker={isYearPicker}
-          selectsRange={isRangePicker}
-          customInput={
-            <TextField
-              label="Created Date"
-              size="small"
-              fullWidth
-              error={!!error}
-              helperText={error?.message}
-              {...other}
-            />
-          }
-        />
+        <Stack
+          direction="row"
+          gap={1}
+          onClick={handleClick}
+          sx={{ cursor: 'pointer' }}
+        >
+          <PrimaryCalendarIcon />
+          {dateString}
+          <Stack sx={{ cursor: 'pointer' }} direction="row">
+            <ArrowSquareLeftIcon />
+            <ArrowSquareRightIcon />
+          </Stack>
+        </Stack>
+      )}
+      {isOpen && (
+        <>
+          <DatePicker
+            inline
+            calendarContainer={Container}
+            selected={startDate}
+            onChange={handleChange}
+            showWeekPicker={isWeekPicker}
+            showMonthYearPicker={isMonthPicker}
+            showYearPicker={isYearPicker}
+            startDate={startDate}
+            endDate={endDate}
+            selectsRange={isRangePicker}
+          />
+        </>
       )}
     </Box>
   );
