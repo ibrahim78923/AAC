@@ -70,7 +70,7 @@ const Meetings = () => {
           <Grid item xs={12}>
             <Box
               sx={{
-                height: '24vh',
+                minHeight: '24vh',
                 display: 'flex',
                 justifyContent: 'center',
                 flexDirection: 'column',
@@ -92,7 +92,7 @@ const Meetings = () => {
                 className="small"
               >
                 <PlusIcon />
-                <Typography variant="body2">Create Meetings</Typography>
+                <Typography variant="body2">Create Meeting</Typography>
               </Button>
               <Typography
                 variant="body2"

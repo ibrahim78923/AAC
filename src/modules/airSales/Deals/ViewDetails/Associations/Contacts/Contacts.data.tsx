@@ -40,7 +40,7 @@ export const columns: any = ({
         </Box>
       ),
       header: 'Name',
-      isSortable: false,
+      isSortable: true,
     },
     {
       accessorFn: (row: any) => row?.phoneNumber,

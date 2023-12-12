@@ -30,7 +30,7 @@ const Quotes = () => {
 
           <Typography variant="h5">Quotes</Typography>
         </Grid>
-        <Grid item md={8}>
+        <Grid item md={8} xs={12}>
           <Box
             sx={{
               display: 'flex',
