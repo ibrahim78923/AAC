@@ -332,7 +332,6 @@ export { default as ArrowSquareLeftIcon } from './shared/arrow-square-left';
 export { default as ArrowSquareRightIcon } from './shared/arrow-square-right';
 export { default as WhatsApp55Icon } from './modules/airMarketer/WhatsAppMarketing/whatsapp';
 export { default as TickListIcon } from './modules/airMarketer/WhatsAppMarketing/tick-list';
-export { default as CustomizeIcon } from './shared/customize-icon';
 export { default as ArrowDropDown } from './modules/airMarketer/WhatsAppMarketing/arrow-down';
 export { default as SearchAdIcon } from './modules/paidAds/search-ad';
 export { default as UploadDocumentIcon } from './modules/orgAdmin/dashboard/upload-document';
