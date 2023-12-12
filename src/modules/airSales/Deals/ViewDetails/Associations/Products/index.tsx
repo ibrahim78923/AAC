@@ -42,9 +42,9 @@ const Products = () => {
             02
           </Typography>
 
-          <Typography variant="subtitle2">Products</Typography>
+          <Typography variant="h5">Products</Typography>
         </Grid>
-        <Grid item md={8}>
+        <Grid item md={8} xs={12}>
           <Box
             sx={{
               display: 'flex',
@@ -57,11 +57,12 @@ const Products = () => {
               searchBy={searchName}
               setSearchBy={setSearchName}
               label="Search By Name"
-              size="small"
+              size="medium"
+              width={'250px'}
             />
             <Button
               variant="contained"
-              className="small"
+              className="medium"
               sx={{ minWidth: '0px', gap: 0.5 }}
               onClick={() => setOpenDrawer('Add')}
             >

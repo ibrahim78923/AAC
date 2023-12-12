@@ -40,9 +40,9 @@ const Attachments = () => {
             02
           </Typography>
 
-          <Typography variant="subtitle2">Attachments</Typography>
+          <Typography variant="h5">Attachments</Typography>
         </Grid>
-        <Grid item md={8}>
+        <Grid item md={8} xs={12}>
           <Box
             sx={{
               display: 'flex',
@@ -55,11 +55,11 @@ const Attachments = () => {
               searchBy={searchName}
               setSearchBy={setSearchName}
               label="Search By Name"
-              size="small"
+              size="medium"
             />
             <Button
               variant="contained"
-              className="small"
+              className="medium"
               sx={{ minWidth: '0px', gap: 0.5 }}
               onClick={() => setOpenDrawer('Add')}
             >

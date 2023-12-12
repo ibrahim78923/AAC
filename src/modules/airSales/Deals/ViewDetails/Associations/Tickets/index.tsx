@@ -41,9 +41,9 @@ const Tickets = () => {
             02
           </Typography>
 
-          <Typography variant="subtitle2">Tickets</Typography>
+          <Typography variant="h5">Tickets</Typography>
         </Grid>
-        <Grid item md={8}>
+        <Grid item md={8} xs={12}>
           <Box
             sx={{
               display: 'flex',
@@ -56,11 +56,11 @@ const Tickets = () => {
               searchBy={searchName}
               setSearchBy={setSearchName}
               label="Search By Name"
-              size="small"
+              size="medium"
             />
             <Button
               variant="contained"
-              className="small"
+              className="medium"
               sx={{ minWidth: '0px', gap: 0.5 }}
               onClick={() => setOpenDrawer('Add')}
             >
@@ -80,7 +80,7 @@ const Tickets = () => {
         setOpenDrawer={setOpenDrawer}
       />
       <AlertModals
-        message={"You're about to remove a record. Are you Sure?"}
+        message={"You're about to remove a record. Are you sure?"}
         type={'delete'}
         open={isOpenAlert}
         handleClose={handleCloseAlert}

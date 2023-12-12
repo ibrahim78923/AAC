@@ -44,9 +44,9 @@ const CallsActionDropdown = (props: any) => {
         sx={{
           border: `1px solid ${theme?.palette?.custom?.dark}`,
           color: `${theme?.palette?.custom?.main}`,
-          minWidth: '0px',
-          height: '35px',
+          minWidth: '100%',
         }}
+        className="small"
         aria-controls={isMenuOpen ? 'basic-menu' : undefined}
         aria-haspopup="true"
         aria-expanded={isMenuOpen ? 'true' : undefined}
@@ -75,7 +75,7 @@ const CallsActionDropdown = (props: any) => {
           "You're about to delete a record. Deleted records can't be restored after 90 days."
         }
         type={'delete'}
-        open={Boolean(openAlertModal)}
+        open={openAlertModal === 'Delete'}
         handleClose={handleCloseAlert}
         handleSubmit={handleCloseAlert}
       />
