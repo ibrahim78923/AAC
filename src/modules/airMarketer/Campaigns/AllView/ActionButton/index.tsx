@@ -11,6 +11,7 @@ import { v4 as uuidv4 } from 'uuid';
 import useAllView from '../useAllView';
 import CloneModal from '../CloneModal';
 import RenameModal from '../RenameModal';
+import ManageSharingModal from '../ManageSharingModal';
 
 const ActionButton = () => {
   const {
@@ -94,6 +95,17 @@ const ActionButton = () => {
             setIsAllViewActionsModal({
               ...isAllViewActionsModal,
               isRename: false,
+            })
+          }
+        />
+      )}
+      {isAllViewActionsModal?.isManage && (
+        <ManageSharingModal
+          isAllViewActionsModal={isAllViewActionsModal?.isManage}
+          handleCloseModal={() =>
+            setIsAllViewActionsModal({
+              ...isAllViewActionsModal,
+              isManage: false,
             })
           }
         />

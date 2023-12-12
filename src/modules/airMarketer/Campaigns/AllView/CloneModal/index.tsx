@@ -39,7 +39,7 @@ const CloneModal = ({ isAllViewActionsModal, handleCloseModal }: any) => {
         handleClose={handleCloseModal}
         handleCancel={handleCloseModal}
         handleSubmit={handleCloseModal}
-        title="Comment Activity"
+        title="Clone a saved view"
       >
         <Box sx={{ margin: '20px 0' }}>
           <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
