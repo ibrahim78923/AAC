@@ -158,8 +158,8 @@ const EmailEditorDrawer = (props: any) => {
                       variant="body2"
                       sx={{ color: theme?.palette?.slateBlue?.main }}
                     >
-                      You haven’t connected your email to the CRM?. Connect it
-                      now to keep your conversations synced?.
+                      You haven’t connected your email to the CRM? <br />
+                      Connect it now to keep your conversations synced?
                     </Typography>
                   </Box>
 

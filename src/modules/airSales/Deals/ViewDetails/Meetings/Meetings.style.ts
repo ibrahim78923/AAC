@@ -10,11 +10,13 @@ export const styles = {
     };
   },
 
-  callsGrid: {
-    boxShadow:
-      '0px 1px 2px 0px rgba(16, 24, 40, 0.06), 0px 1px 3px 0px rgba(16, 24, 40, 0.10)',
-    borderRadius: '8px',
-    border: ' 1px solid  #EAECF0',
+  callsGrid: (theme: any) => {
+    return {
+      boxShadow:
+        '0px 1px 2px 0px rgba(16, 24, 40, 0.06), 0px 1px 3px 0px rgba(16, 24, 40, 0.10)',
+      borderRadius: '8px',
+      border: ` 1px solid ${theme?.custom?.light_lavender_gray} `,
+    };
   },
   callsSpacingBetween: {
     display: 'flex',
