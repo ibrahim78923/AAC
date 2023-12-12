@@ -1,8 +1,8 @@
 import Layout from '@/layout';
-import EngagementAds from '@/modules/airMarketer/PaidAds/CreateAd/EngagementAds';
+import EngagementAdsStepper from '@/modules/airMarketer/PaidAds/CreateAd/EngagementAdsStepper';
 
 const EngagementAdsPage = () => {
-  return <EngagementAds />;
+  return <EngagementAdsStepper />;
 };
 
 export default EngagementAdsPage;

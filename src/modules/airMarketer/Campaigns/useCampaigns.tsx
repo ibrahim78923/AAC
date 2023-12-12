@@ -19,6 +19,7 @@ const useCampaigns = () => {
     isEditCompaign: false,
     isEditColumns: false,
     isViewDeatsils: false,
+    isSaveView: false,
   });
   const [isDelete, setIsDelete] = useState(false);
   const router = useRouter();
@@ -28,6 +29,9 @@ const useCampaigns = () => {
 
   const handleCloseAddAssetsModal = () => {
     setIsOpenAddAssets(false);
+  };
+  const handleSaveView = () => {
+    setActionsModalDetails({ ...actionsModalDetails, isSaveView: true });
   };
   const handleOpenFilter = () => {
     setIsOpenFilter(true);
@@ -102,6 +106,7 @@ const useCampaigns = () => {
     handleCloseAddAssetsModal,
     isOpenAddAssets,
     setIsOpenAddAssets,
+    handleSaveView,
   };
 };
 export default useCampaigns;

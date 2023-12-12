@@ -9,10 +9,13 @@ import Events from './Events';
 import CreateAudience from './CreateAudience';
 import { useRouter } from 'next/router';
 import { AIR_MARKETER } from '@/routesConstants/paths';
+import usePaidAds from './usePaidAds';
+import CreateEvent from './CreateEvent';
 
 const PaidAds = () => {
   const theme = useTheme();
   const router = useRouter();
+  const { isOpenEventDrawer, setIsOpenEventDrawer } = usePaidAds();
   return (
     <Card sx={{ p: '16px 24px' }}>
       <Stack direction="row" justifyContent="space-between">
@@ -29,6 +32,9 @@ const PaidAds = () => {
             variant="outlined"
             color="inherit"
             startIcon={<PlusIcon />}
+            onClick={() => {
+              setIsOpenEventDrawer(true);
+            }}
           >
             Create Event
           </Button>
@@ -51,6 +57,14 @@ const PaidAds = () => {
         </CommonTabs>
       </Box>
       {/* {isAudience && <CreateAudience />} */}
+      {isOpenEventDrawer && (
+        <CreateEvent
+          isDrawerOpen={isOpenEventDrawer}
+          onClose={() => {
+            setIsOpenEventDrawer(false);
+          }}
+        />
+      )}
     </Card>
   );
 };
