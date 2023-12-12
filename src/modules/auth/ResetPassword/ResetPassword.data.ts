@@ -4,7 +4,7 @@ import * as Yup from 'yup';
 export const resetPasswordValidationSchema = Yup.object().shape({
   newPassword: Yup.string()
     .trim()
-    .required('Field is Required')
+    .required('Required field')
     .test(
       'email',
       'The Password must be at least 8 characters long having 1 capital letter,1 small letter and 1 numeric digit',
@@ -16,7 +16,7 @@ export const resetPasswordValidationSchema = Yup.object().shape({
       },
     ),
 
-  confirmPassword: Yup.string().trim().required('Field is Required'),
+  confirmPassword: Yup.string().trim().required('Required field'),
 });
 
 const data = {

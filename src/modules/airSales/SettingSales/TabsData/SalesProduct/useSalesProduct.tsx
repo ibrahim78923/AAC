@@ -66,6 +66,7 @@ const useSalesProduct = () => {
     handleDelete,
     selectedCheckboxes,
     getRowValues,
+    setAnchorEl,
   };
 };
 

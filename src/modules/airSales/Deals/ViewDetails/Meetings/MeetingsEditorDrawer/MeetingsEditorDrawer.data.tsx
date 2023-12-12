@@ -23,7 +23,9 @@ export const dealsCallsDataArray = [
     componentProps: {
       name: 'title',
       label: 'Title',
+      placeholder: 'Title',
       fullWidth: true,
+      required: true,
     },
     component: RHFTextField,
     md: 12,
@@ -32,6 +34,7 @@ export const dealsCallsDataArray = [
     componentProps: {
       name: 'startdate',
       label: 'Start Date',
+      required: true,
       fullWidth: true,
     },
     component: RHFDatePicker,
@@ -50,6 +53,7 @@ export const dealsCallsDataArray = [
     componentProps: {
       name: 'enddate',
       label: '  End Date',
+      required: true,
       fullWidth: true,
     },
     component: RHFDatePicker,

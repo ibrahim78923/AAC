@@ -40,7 +40,7 @@ const Companies = () => {
             02
           </Typography>
 
-          <Typography variant="subtitle2">Companies</Typography>
+          <Typography variant="h5">Companies</Typography>
         </Grid>
         <Grid item md={8}>
           <Box
@@ -55,11 +55,11 @@ const Companies = () => {
               searchBy={searchName}
               setSearchBy={setSearchName}
               label="Search By Name"
-              size="small"
+              size="medium"
             />
             <Button
               variant="contained"
-              className="small"
+              className="medium"
               sx={{ minWidth: '0px', gap: 0.5 }}
               onClick={() => setOpenDrawer('Add')}
             >
@@ -79,7 +79,7 @@ const Companies = () => {
         setOpenDrawer={setOpenDrawer}
       />
       <AlertModals
-        message={"You're about to remove a record. Are you Sure?"}
+        message={"You're about to remove a record. Are you sure?"}
         type={'delete'}
         open={isOpenAlert}
         handleClose={handleCloseAlert}

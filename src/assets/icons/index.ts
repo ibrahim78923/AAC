@@ -58,6 +58,7 @@ export { default as CheckboxIcon } from './shared/checkbox-icon';
 export { default as CheckboxCheckedIcon } from './shared/checkbox-checked-icon';
 export { default as ExportIcon } from './shared/export-icon';
 export { default as ExportShared } from './shared/export-icon';
+export { default as CustomizeIcon } from './shared/customize-icon';
 
 export { default as ViewDetailAvaterIcon } from './modules/airServices/Tickets/view-detail-avatar-icon';
 export { default as ViewDetailSharedIcon } from './modules/airServices/Tickets/view-detail-shared-icon';
@@ -351,6 +352,7 @@ export { default as ImageIcon } from './modules/airMarketer/LeadCapture/image';
 export { default as SpaceIcon } from './modules/airMarketer/LeadCapture/space';
 export { default as DividerIcon } from './modules/airMarketer/LeadCapture/divider';
 export { default as InputIcon } from './modules/airMarketer/LeadCapture/input';
+export { default as BlueInfoIcon } from './shared/bule-info';
 export { default as SalesWorkflowIcon } from './modules/airOperations/workflowAutomation/sales-workflow-icon';
 export { default as ServiceWorkflowIcon } from './modules/airOperations/workflowAutomation/service-workflow-icon';
 

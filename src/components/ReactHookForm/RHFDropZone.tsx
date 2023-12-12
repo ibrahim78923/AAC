@@ -69,7 +69,7 @@ export default function RHFDropZone({ name }: any) {
               or drag and drop
             </Typography>
             <Typography component="span" fontSize={12}>
-              SVG, PNG, JPG or GIF orGIF (max 2.44 MB)
+              SVG, PNG, JPG or GIF (max 2.44 MB)
             </Typography>
           </Box>
         )}

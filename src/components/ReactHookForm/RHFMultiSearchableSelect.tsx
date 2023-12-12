@@ -100,7 +100,7 @@ export default function RHFMultiSearchableSelect({
       control={control}
       render={({ field, fieldState: { error } }) => (
         <>
-          <Typography>{label}</Typography>
+          <Typography sx={{ margin: '0px 0px 6px 0px' }}>{label}</Typography>
           <TextField
             {...field}
             fullWidth
@@ -112,7 +112,7 @@ export default function RHFMultiSearchableSelect({
             InputProps={{
               inputRef: inputRef,
               endAdornment: (
-                <InputAdornment position="start">
+                <InputAdornment position="end">
                   <ArrowDownIcon />
                 </InputAdornment>
               ),

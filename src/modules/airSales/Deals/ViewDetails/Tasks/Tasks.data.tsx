@@ -27,7 +27,7 @@ export const columns = ({ handleCheckboxChange, selectedCheckboxes }: any) => {
       id: 'taskno',
       cell: (info: any) => info?.getValue(),
       header: 'Task No',
-      isSortable: false,
+      isSortable: true,
     },
 
     {

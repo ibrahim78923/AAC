@@ -54,7 +54,7 @@ const UserDetailsProfile = () => {
                   <InputAdornment
                     sx={{
                       position: 'absolute',
-                      top: 45,
+                      top: 53,
                       right: 15,
                       zIndex: 99,
                     }}
@@ -69,7 +69,7 @@ const UserDetailsProfile = () => {
                     >
                       <Box
                         sx={{ cursor: 'pointer' }}
-                        onClick={() => setIsToggled(false)}
+                        // onClick={() => setIsToggled(false)}
                       >
                         <RevertIcon />
                       </Box>

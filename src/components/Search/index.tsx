@@ -34,12 +34,13 @@ const Search = ({
           width: '100%',
         },
         '& .MuiOutlinedInput-root ': {
-          height: size === 'small' ? '36px' : '44px',
+          height: size === 'small' ? '38px' : '46px',
           '& fieldset': {
             textAlign: 'right',
             borderColor: theme?.palette?.grey[700],
             borderRadius: '8px',
           },
+
           '&:hover fieldset': {
             borderColor: theme?.palette?.custom?.light_green,
             boxShadow: `0px 0px 0px 3px ${theme?.palette?.custom?.aqua_breeze}`,
