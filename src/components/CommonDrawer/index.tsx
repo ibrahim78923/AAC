@@ -34,6 +34,7 @@ const CommonDrawer = ({
   isFooterFeatureHandler,
   isLoading,
   isDisabled,
+  variant,
 }: CommonDrawerPropsI) => {
   const theme = useTheme();
 
@@ -141,7 +142,10 @@ const CommonDrawer = ({
                     </Button>
                   )}
                   {handlerIsFooterFeature && (
-                    <Button onClick={isFooterFeatureHandler}>
+                    <Button
+                      onClick={isFooterFeatureHandler}
+                      variant={variant ?? 'outlined'}
+                    >
                       {isFooterFeatureText}
                     </Button>
                   )}
