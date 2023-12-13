@@ -14,7 +14,7 @@ import {
   RHFSelect,
   RHFTextField,
 } from '@/components/ReactHookForm';
-import { Typography } from '@mui/material';
+import { Theme, Typography, useTheme } from '@mui/material';
 
 const useCreateForm = () => {
   const [value, setValue] = useState('1');
@@ -25,7 +25,7 @@ const useCreateForm = () => {
   const [openAlert, setOpenAlert] = useState(false);
   const [showExportText, setShowExportText] = useState(false);
   const [dynamicFields, setDynamicFields] = useState([...dynamicallyFormArray]);
-
+  const theme = useTheme<Theme>();
   const router = useRouter();
   const { formData }: any = router.query;
 
@@ -204,6 +204,7 @@ const useCreateForm = () => {
     dynamicFields,
     deleteField,
     setDynamicFields,
+    theme,
   };
 };
 

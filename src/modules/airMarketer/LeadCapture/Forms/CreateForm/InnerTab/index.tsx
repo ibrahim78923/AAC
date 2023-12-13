@@ -58,7 +58,7 @@ const InnerTab = ({
   const handleEditorClick = (clickedIndex: any) => {
     setDynamicFields((prevFields: any) => {
       const updatedFields = [...prevFields];
-      updatedFields.forEach((field, i) => {
+      updatedFields?.forEach((field, i) => {
         field.componentProps.editorOpen =
           i === clickedIndex && !field.componentProps.editorOpen;
       });

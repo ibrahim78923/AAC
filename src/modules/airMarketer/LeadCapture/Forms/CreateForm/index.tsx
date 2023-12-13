@@ -60,6 +60,7 @@ const CreateForm = () => {
     dynamicFields,
     deleteField,
     setDynamicFields,
+    theme,
   } = useCreateForm();
 
   return (
@@ -428,7 +429,10 @@ const CreateForm = () => {
                 onClick={() => addField(item?.type, item?.name)}
               >
                 {item?.icon}
-                <Typography variant="h6" sx={{ color: '#35456D' }}>
+                <Typography
+                  variant="h6"
+                  sx={{ color: theme?.palette?.secondary?.main }}
+                >
                   {item?.name}
                 </Typography>
               </Box>
@@ -454,7 +458,10 @@ const CreateForm = () => {
                 onClick={() => addField(item?.type, item?.name)}
               >
                 {item?.icon}
-                <Typography variant="h6" sx={{ color: '#35456D' }}>
+                <Typography
+                  variant="h6"
+                  sx={{ color: theme?.palette?.secondary?.main }}
+                >
                   {item?.name}
                 </Typography>
               </Box>
