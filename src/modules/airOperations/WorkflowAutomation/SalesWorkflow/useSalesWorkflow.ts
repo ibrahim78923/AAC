@@ -11,6 +11,7 @@ export const useSalesWorkflow = () => {
     [],
   );
   const [search, setSearch] = useState('');
+  const [deleteWorkflow, setDeleteWorkflow] = useState(false);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const salesWorkflowListsColumn = salesWorkflowListsColumnDynamic(
     selectedSalesWorkflowLists,
@@ -18,6 +19,7 @@ export const useSalesWorkflow = () => {
   );
   const salesWorkflowActionDropdown = salesWorkflowActionDropdownDynamic(
     selectedSalesWorkflowLists,
+    setDeleteWorkflow,
   );
   const { push } = useRouter();
   const handleBack = () => {
@@ -33,6 +35,8 @@ export const useSalesWorkflow = () => {
     setSearch,
     salesWorkflowActionDropdown,
     handleBack,
+    deleteWorkflow,
+    setDeleteWorkflow,
     isFilterOpen,
     setIsFilterOpen,
   };
