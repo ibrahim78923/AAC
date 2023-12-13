@@ -43,7 +43,7 @@ const Tickets = () => {
 
           <Typography variant="h5">Tickets</Typography>
         </Grid>
-        <Grid item md={8}>
+        <Grid item md={8} xs={12}>
           <Box
             sx={{
               display: 'flex',

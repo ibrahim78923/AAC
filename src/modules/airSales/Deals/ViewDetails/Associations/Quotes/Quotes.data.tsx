@@ -1,4 +1,4 @@
-import { DeleteCrossIcon, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
+import { DeleteCrossIcon, ViewEyeIcon } from '@/assets/icons';
 import { Box } from '@mui/material';
 export const columns: any = () => {
   return [
@@ -32,22 +32,10 @@ export const columns: any = () => {
       header: 'Actions',
       cell: () => (
         <Box sx={{ display: 'flex', gap: 0.5 }}>
-          <Box
-            sx={{ cursor: 'pointer' }}
-            //  onClick={() => setOpenDrawer('View')}
-          >
+          <Box sx={{ cursor: 'pointer' }}>
             <ViewEyeIcon />
           </Box>
-          <Box
-            sx={{ cursor: 'pointer' }}
-            // onClick={() => setOpenDrawer('Edit')}
-          >
-            <EditPenIcon />
-          </Box>
-          <Box
-            sx={{ cursor: 'pointer' }}
-            // onClick={() => setIsOpenAlert(true)}
-          >
+          <Box sx={{ cursor: 'pointer' }}>
             <DeleteCrossIcon />
           </Box>
         </Box>

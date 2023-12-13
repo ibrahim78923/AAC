@@ -44,7 +44,7 @@ const Products = () => {
 
           <Typography variant="h5">Products</Typography>
         </Grid>
-        <Grid item md={8}>
+        <Grid item md={8} xs={12}>
           <Box
             sx={{
               display: 'flex',
@@ -58,6 +58,7 @@ const Products = () => {
               setSearchBy={setSearchName}
               label="Search By Name"
               size="medium"
+              width={'250px'}
             />
             <Button
               variant="contained"

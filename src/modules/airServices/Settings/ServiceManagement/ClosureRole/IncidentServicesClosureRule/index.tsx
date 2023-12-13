@@ -8,7 +8,10 @@ export const IncidentServicesClosureRule = () => {
     <>
       <Box>
         <Typography variant="body1" mb={1}>
-          Condition For Incident
+          Condition For{' '}
+          <Typography variant="body1" component={'span'} fontWeight={600}>
+            Incident
+          </Typography>
         </Typography>
         <Box
           display={'flex'}
@@ -18,7 +21,7 @@ export const IncidentServicesClosureRule = () => {
           p={3}
         >
           <Box>
-            <Typography variant="body1" mb={2}>
+            <Typography variant="body1" mb={2} fontWeight={600}>
               Close an Incident only if
             </Typography>
             <ClosureRulesConditions closeIncident />
@@ -33,7 +36,7 @@ export const IncidentServicesClosureRule = () => {
             }}
           />
           <Box>
-            <Typography variant="body1" mb={2}>
+            <Typography variant="body1" fontWeight={600} mb={2}>
               Resolve an Incident only if
             </Typography>
             <ClosureRulesConditions resolveIncident />
@@ -43,7 +46,11 @@ export const IncidentServicesClosureRule = () => {
 
       <Box mt={2}>
         <Typography variant="body1" mb={1}>
-          Condition For Services Request
+          Condition For
+          <Typography variant="body1" component={'span'} fontWeight={600}>
+            {' '}
+            Services Request
+          </Typography>
         </Typography>
         <Box
           display={'flex'}
@@ -53,7 +60,7 @@ export const IncidentServicesClosureRule = () => {
           p={3}
         >
           <Box>
-            <Typography variant="body1" mb={2}>
+            <Typography variant="body1" mb={2} fontWeight={600}>
               Resolve an Incident only if
             </Typography>
             <ClosureRulesConditions serviceResolveIncident />
@@ -68,7 +75,7 @@ export const IncidentServicesClosureRule = () => {
             }}
           />
           <Box>
-            <Typography variant="body1" mb={2}>
+            <Typography variant="body1" mb={2} fontWeight={600}>
               Close an Incident only if
             </Typography>
             <ClosureRulesConditions serviceCloseIncident />

@@ -114,10 +114,20 @@ const RestoreCompanies = (props: any) => {
                   'aria-labelledby': 'basic-button',
                 }}
               >
-                <MenuItem onClick={() => setIsRestoreItem(true)}>
+                <MenuItem
+                  onClick={() => {
+                    handleClose();
+                    setIsRestoreItem(true);
+                  }}
+                >
                   Restore
                 </MenuItem>
-                <MenuItem onClick={() => setIsRestoreDelete(true)}>
+                <MenuItem
+                  onClick={() => {
+                    handleClose();
+                    setIsRestoreDelete(true);
+                  }}
+                >
                   Delete
                 </MenuItem>
               </Menu>
@@ -130,7 +140,7 @@ const RestoreCompanies = (props: any) => {
                   display: 'flex',
                   alignContent: 'center',
                   columnGap: '10px',
-                  border: `1px solid ${theme?.palette?.grey[100]}`,
+                  border: `1px solid ${theme?.palette?.grey[500]}`,
                   color: `${theme?.palette?.custom?.main}`,
                 }}
               >

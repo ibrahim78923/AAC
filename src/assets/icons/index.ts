@@ -278,10 +278,8 @@ export { default as ReplyRoundedIcon } from './modules/airMarketer/SocialMarketi
 export { default as DotsBoldIcon } from './modules/airMarketer/SocialInbox/dots-bold';
 export { default as ReplyMailIcon } from './modules/airMarketer/SocialInbox/reply-mail';
 export { default as EmojiOutlinedIcon } from './shared/emoji-outlined';
-
 export { default as InstaLikeIcon } from './modules/airMarketer/SocialMarketing/SocialInbox/insta-like';
 export { default as InstaCommentIcon } from './modules/airMarketer/SocialMarketing/SocialInbox/insta-comments';
-
 export { default as TwitterCommentIcon } from './modules/airMarketer/SocialMarketing/SocialInbox/twitter-comment';
 export { default as TwitterShareIcon } from './modules/airMarketer/SocialMarketing/SocialInbox/twitter-share';
 export { default as RetweetIcon } from './modules/airMarketer/SocialMarketing/SocialInbox/re-tweet';
@@ -305,6 +303,7 @@ export { default as LeadersBoardIcon } from './modules/airServices/Settings/lead
 export { default as WorkloadManagementIcon } from './modules/airServices/Settings/workload-management-icon';
 export { default as AddRoleIcon } from './modules/airServices/Settings/UserManagement/Roles/add-role-icon';
 export { default as CsvImportIcon } from './shared/csv-import-icon';
+export { default as CanlendarButtonIcon } from './shared/calendar-button-icon';
 export { default as GoogleDriveIcon } from './modules/airMarketer/reports/google-drive';
 export { default as FolderLargePrimaryIcon } from './shared/folder-large-primary-icon';
 export { default as FolderLargeYellowIcon } from './shared/folder-large-yellow-icon';
@@ -328,11 +327,13 @@ export { default as ExportDownloadIcon } from './shared/export-download';
 export { default as ExportModalIcon } from './shared/export-modal-icon';
 export { default as ClockWithBagIcon } from './shared/clock-with-bag-icon';
 export { default as CopyPrimaryColorIcon } from './shared/copy-primary-color-icon';
-export { default as SearchAdIcon } from './modules/paidAds/search-ad';
-
 export { default as BookMarkIcon } from './shared/book-mark-icon';
 export { default as ArrowSquareLeftIcon } from './shared/arrow-square-left';
 export { default as ArrowSquareRightIcon } from './shared/arrow-square-right';
+export { default as WhatsApp55Icon } from './modules/airMarketer/WhatsAppMarketing/whatsapp';
+export { default as TickListIcon } from './modules/airMarketer/WhatsAppMarketing/tick-list';
+export { default as ArrowDropDown } from './modules/airMarketer/WhatsAppMarketing/arrow-down';
+export { default as SearchAdIcon } from './modules/paidAds/search-ad';
 export { default as UploadDocumentIcon } from './modules/orgAdmin/dashboard/upload-document';
 export { default as EditProfilelLineIcon } from './modules/orgAdmin/dashboard/edit-profilel-line';
 export { default as SalesIcon } from './modules/orgAdmin/dashboard/sales';
@@ -358,3 +359,8 @@ export { default as ServiceWorkflowIcon } from './modules/airOperations/workflow
 
 export { default as DocumentDownloadIcon } from './modules/airMarketer/EmailReports/document-download';
 export { default as SmileIcon } from './modules/airMarketer/EmailMarketing/smile-emoji-icon';
+
+export { default as PmToolsIcon } from './shared/pm-tools-icon';
+export { default as HardwareIcon } from './shared/hardware-icon';
+export { default as SoftwareCatalogIcon } from './shared/software-catalog-icon';
+export { default as CpuSettingsIcon } from './shared/cpu-settings-icon';

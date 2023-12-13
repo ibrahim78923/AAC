@@ -34,7 +34,6 @@ const CreateInvoice = () => {
               <Box width={{ xs: '100%', sm: 'auto' }}>
                 <Button
                   variant="outlined"
-                  disabled={activeStep === 0 ? true : false}
                   sx={style?.outlinedButton}
                   onClick={hanldeGoPreviousBack}
                   fullWidth

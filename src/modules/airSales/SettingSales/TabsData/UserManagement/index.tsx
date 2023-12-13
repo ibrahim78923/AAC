@@ -45,7 +45,7 @@ function CustomTabPanel(props: UserManagementProps) {
       {...other}
     >
       {value === index && (
-        <Box sx={{ p: 3 }}>
+        <Box>
           <Typography>{children}</Typography>
         </Box>
       )}
@@ -86,7 +86,7 @@ const UserManagement = ({ initialValueProps = defaultValues }: any) => {
         isDrawerOpen={isAddUserOpen}
         onClose={handleCloseDrawer}
         title={'Add User'}
-        okText={'OK'}
+        okText={'Add'}
         footer={true}
         isOk={true}
       >
@@ -122,13 +122,13 @@ const UserManagement = ({ initialValueProps = defaultValues }: any) => {
         isDrawerOpen={isCreateTeamOpen}
         onClose={handleCloseDrawer}
         title={'Create Team'}
-        okText={'OK'}
+        okText={'Add'}
         footer={true}
         isOk={true}
       >
         <Box sx={{ paddingTop: '1rem' }}>
           <FormProvider methods={methods}>
-            <Grid container spacing={4}>
+            <Grid container spacing={1}>
               {teamsDataArray?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
                   <item.component {...item.componentProps} size={'small'}>
@@ -160,8 +160,9 @@ const UserManagement = ({ initialValueProps = defaultValues }: any) => {
             flexWrap: 'wrap',
           }}
         >
-          <Typography variant="h4">User Manangement</Typography>
+          <Typography variant="h4">User Management</Typography>
           <Button
+            className="small"
             onClick={() => {
               {
                 value === 0

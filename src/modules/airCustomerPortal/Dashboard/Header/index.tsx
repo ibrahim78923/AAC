@@ -4,6 +4,8 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import ReportAnIssueModal from '../ReportAnIssueModal';
 import { useDashboard } from '../useDashboard';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { AIR_CUSTOMER_PORTAL } from '@/constants';
 
 export const Header = () => {
   const {
@@ -14,7 +16,8 @@ export const Header = () => {
     handleButtonClick,
     handleClose,
     handleSubmitModal,
-  } = useDashboard();
+    push,
+  }: any = useDashboard();
   return (
     <>
       <Box
@@ -40,7 +43,13 @@ export const Header = () => {
             gap: 2.4,
           }}
         >
-          <Button variant="outlined" color="secondary">
+          <Button
+            variant="outlined"
+            color="secondary"
+            startIcon={
+              <ArrowBackIcon color={'secondary'} sx={{ cursor: 'pointer' }} />
+            }
+          >
             revert
           </Button>
           <Button
@@ -54,7 +63,7 @@ export const Header = () => {
             startIcon={<AddBoxIcon />}
             endIcon={<ArrowDropDownIcon />}
           >
-            Add
+            New
           </Button>
           <Popover
             anchorEl={anchorEl}
@@ -71,7 +80,15 @@ export const Header = () => {
             sx={{ mt: '0.5rem' }}
           >
             <MenuItem onClick={handleClose}>Report an Issue</MenuItem>
-            <MenuItem onClick={handleClose}>Request a service</MenuItem>
+            <MenuItem
+              onClick={() =>
+                push({
+                  pathname: AIR_CUSTOMER_PORTAL?.CATALOG_SERVICES,
+                })
+              }
+            >
+              Request a service
+            </MenuItem>
           </Popover>
         </Box>
       </Box>

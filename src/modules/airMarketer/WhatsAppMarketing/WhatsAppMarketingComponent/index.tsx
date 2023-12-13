@@ -1,12 +1,23 @@
-import CommonTabs from '@/components/Tabs';
 import React from 'react';
-import useWhatsAppMarketing from '../useWhatsAppMarketing';
+import {
+  Box,
+  Button,
+  Typography,
+  FormControl,
+  MenuItem,
+  Select,
+} from '@mui/material';
+import { useRouter } from 'next/navigation';
+import CommonTabs from '@/components/Tabs';
 import Dashboard from './Dashboard';
 import Broadcast from './Broadcast';
 import Contacts from './Contacts';
 import Templates from './Templates';
-import { Box, FormControl, MenuItem, Select, Typography } from '@mui/material';
+import { PlusIcon } from '@/assets/icons';
+import useWhatsAppMarketingComponent from './useWhatsAppMarketingComponent';
 import EditSmsIcon from '@/assets/icons/modules/airMarketer/SMSMarketing/edit-sms-icon';
+import { styles } from './WhatsAppMarketing.style';
+import { AIR_MARKETER } from '@/routesConstants/paths';
 
 const WhatsAppMarketingComponent = ({
   handelSwitch,
@@ -14,17 +25,13 @@ const WhatsAppMarketingComponent = ({
   templateType,
   setTemplateType,
 }: any) => {
-  const { tabVal, setTabVal } = useWhatsAppMarketing();
+  const router = useRouter();
+  const { tabVal, setTabVal } = useWhatsAppMarketingComponent();
+
   return (
-    <>
-      <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}
-      >
-        <Typography variant="h4">WhatsApp Marketing</Typography>
+    <Box sx={styles?.wrapper}>
+      <Box sx={styles.heading}>
+        <Typography variant="h3">WhatsApp Marketing </Typography>
         {tabVal === 0 && (
           <Box
             sx={{
@@ -52,7 +59,20 @@ const WhatsAppMarketingComponent = ({
             </Box>
           </Box>
         )}
+        {tabVal === 1 && (
+          <Button
+            startIcon={<PlusIcon />}
+            className="small"
+            variant="contained"
+            onClick={() =>
+              router.push(AIR_MARKETER?.WHATSAPP_MERKETING_CREATE_BROADCAST)
+            }
+          >
+            Create Broadcast
+          </Button>
+        )}
       </Box>
+
       <CommonTabs
         tabsArray={['Dashboard', 'Broadcast', 'Contacts', 'Templates']}
         getTabVal={(val: number) => setTabVal(val)}
@@ -67,7 +87,7 @@ const WhatsAppMarketingComponent = ({
           setTemplateType={setTemplateType}
         />
       </CommonTabs>
-    </>
+    </Box>
   );
 };
 

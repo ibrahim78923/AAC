@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Divider,
   Grid,
   IconButton,
   InputAdornment,
@@ -20,10 +21,13 @@ import {
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 import InnerTab from './InnerTab';
-import FormSideBar from './FormSideBar';
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
-import { styleFormArray } from './CreateForm.data';
+import {
+  customersAttributesArray,
+  sideBarMenuArray,
+  styleFormArray,
+} from './CreateForm.data';
 import { v4 as uuidv4 } from 'uuid';
 import useCreateForm from './useCreateForm';
 import Export from './Export';
@@ -52,6 +56,11 @@ const CreateForm = () => {
     showExportText,
     setShowExportText,
     router,
+    addField,
+    dynamicFields,
+    deleteField,
+    setDynamicFields,
+    theme,
   } = useCreateForm();
 
   return (
@@ -286,7 +295,12 @@ const CreateForm = () => {
                       Desktop
                     </Button>
                   </Box>
-                  <InnerTab showView={showView} />
+                  <InnerTab
+                    showView={showView}
+                    dynamicFields={dynamicFields}
+                    deleteField={deleteField}
+                    setDynamicFields={setDynamicFields}
+                  />
                 </Box>
               </TabPanel>
               <TabPanel value="2">
@@ -379,14 +393,80 @@ const CreateForm = () => {
                       Desktop
                     </Button>
                   </Box>
-                  <InnerTab showView={showView} />
+                  <InnerTab
+                    showView={showView}
+                    dynamicFields={dynamicFields}
+                    deleteField={deleteField}
+                    setDynamicFields={setDynamicFields}
+                  />
                 </Box>
               </TabPanel>
             </TabContext>
           </Box>
         </Grid>
         <Grid item xs={12} md={6} lg={4}>
-          <FormSideBar />
+          <Box sx={styles.formSideBar}>
+            <Typography variant="h4">Form Block</Typography>
+            <Typography variant="body2">
+              Add blocks to your form by dragging them into place.
+            </Typography>
+            <Divider sx={{ marginY: '20px' }} />
+            <Typography variant="body2" sx={{ fontWeight: '600' }}>
+              Static Blocks
+            </Typography>
+            <Typography variant="body2">
+              Add text or an image to your form page.
+            </Typography>
+
+            {sideBarMenuArray?.map((item: any) => (
+              <Box
+                display={'flex'}
+                alignItems={'center'}
+                gap={'10px'}
+                padding={'12px'}
+                sx={styles.customField}
+                key={uuidv4()}
+                onClick={() => addField(item?.type, item?.name)}
+              >
+                {item?.icon}
+                <Typography
+                  variant="h6"
+                  sx={{ color: theme?.palette?.secondary?.main }}
+                >
+                  {item?.name}
+                </Typography>
+              </Box>
+            ))}
+
+            <Divider sx={{ marginY: '20px' }} />
+
+            <Typography variant="body2" sx={{ fontWeight: '600' }}>
+              Customers Attributes
+            </Typography>
+            <Typography variant="body2">
+              Request information from your customers
+            </Typography>
+
+            {customersAttributesArray?.map((item: any) => (
+              <Box
+                display={'flex'}
+                alignItems={'center'}
+                gap={'10px'}
+                padding={'12px'}
+                sx={styles.customField}
+                key={uuidv4()}
+                onClick={() => addField(item?.type, item?.name)}
+              >
+                {item?.icon}
+                <Typography
+                  variant="h6"
+                  sx={{ color: theme?.palette?.secondary?.main }}
+                >
+                  {item?.name}
+                </Typography>
+              </Box>
+            ))}
+          </Box>
         </Grid>
       </Grid>
 

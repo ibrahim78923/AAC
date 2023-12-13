@@ -44,7 +44,11 @@ const ReportAnIssueModal = ({
             <Grid container spacing={4}>
               <Grid item xs={12}>
                 {reportAnIssueModalFormFields?.map((item: any) => (
-                  <item.component {...item?.componentProps} key={item?.id}>
+                  <item.component
+                    {...item?.componentProps}
+                    key={item?.id}
+                    size="small"
+                  >
                     {item?.componentProps?.select &&
                       item?.options?.map((option: any) => (
                         <option key={option?.value} value={option?.value}>

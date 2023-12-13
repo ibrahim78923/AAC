@@ -6,6 +6,7 @@ export const styles = {
       alignItems: 'center',
       border: `1px solid ${theme?.palette?.custom.off_white_three}`,
       padding: '24px',
+      flexWrap: 'wrap',
     };
   },
 };

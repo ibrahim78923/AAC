@@ -28,7 +28,7 @@ export const scheduleEmailDataArray = [
   {
     componentProps: {
       name: 'date',
-      label: '',
+      label: 'Date Picker',
       fullWidth: true,
     },
     component: RHFDatePicker,
@@ -37,7 +37,7 @@ export const scheduleEmailDataArray = [
   {
     componentProps: {
       name: 'time',
-      label: '',
+      label: 'Time Picker',
       fullWidth: true,
     },
     component: RHFTimePicker,
@@ -46,7 +46,7 @@ export const scheduleEmailDataArray = [
   {
     componentProps: {
       name: 'location',
-      label: '',
+      label: 'Location',
       fullWidth: true,
       select: true,
     },

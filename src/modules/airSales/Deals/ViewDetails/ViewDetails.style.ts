@@ -44,11 +44,8 @@ export const styles = {
   },
   headingSpacingBetween: {
     display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    gap: 0.7,
-
-    padding: '12px',
+    justifyContent: 'end',
+    gap: 1,
     flexDirection: { xs: 'column', sm: 'row' },
   },
   salesPriority: (theme: any) => {

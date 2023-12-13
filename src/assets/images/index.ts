@@ -239,3 +239,4 @@ export { default as SmsMarketingImage } from './modules/HeaderAndSidebar/sms-mar
 export { default as EmailMarketingImage } from './modules/HeaderAndSidebar/email-marketing.png';
 
 export { default as EmailMockupImage } from './modules/airMarketer/EmailMarketing/email-mockup.png';
+export { default as ViewDetailsImage } from './modules/airMarketer/EmailMarketing/viewdetails.png';

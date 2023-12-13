@@ -35,57 +35,59 @@ const Calls = () => {
           </Grid>
         ))}
       </Grid>
-      <Grid container sx={styles?.callsGrid}>
-        <Grid item xs={12}>
-          <Box sx={styles?.callsSpacingBetween}>
-            <Typography variant="h4"> Calls</Typography>
+      <Box sx={styles?.callsGrid(theme)}>
+        <Grid container spacing={1}>
+          <Grid item md={4} xs={12}>
+            <Typography
+              variant="h4"
+              sx={{ padding: { xs: '12px 0px 0px 12px', md: '12px' } }}
+            >
+              {' '}
+              Calls
+            </Typography>
+          </Grid>
+          <Grid item xs={12} md={8}>
             {!isNullOrEmpty(TasksTableData) && (
-              <Box
-                sx={{
-                  gap: 1,
-                  display: 'flex',
-                  flexDirection: { xs: 'column', sm: 'row' },
-                  alignItems: 'center',
-                }}
-              >
+              <Box sx={styles?.callsSpacingBetween}>
                 <CallsActionDropdown setOpenDrawer={setOpenDrawer} />
                 <Button
                   variant="contained"
-                  sx={{ minWidth: '0px', height: '35px', gap: 0.5 }}
+                  sx={{ minWidth: '0px', gap: 1 }}
                   onClick={() => setOpenDrawer('Add')}
+                  className="small"
                 >
                   <PlusIcon /> Add Call
                 </Button>
               </Box>
             )}
-          </Box>
+          </Grid>
+          {isNullOrEmpty(TasksTableData) && (
+            <Grid item xs={12}>
+              <Box sx={styles?.noCallsBox}>
+                <ViewCallIcon />
+                <Typography
+                  variant="body3"
+                  sx={{ color: theme?.palette?.grey[900] }}
+                >
+                  Schedule a call right now from the CRM
+                </Typography>
+                <Button
+                  variant="contained"
+                  sx={{ height: '35px' }}
+                  onClick={() => setOpenDrawer('Add')}
+                >
+                  <PlusIcon /> Add Call
+                </Button>
+              </Box>
+            </Grid>
+          )}
+          {!isNullOrEmpty(TasksTableData) && (
+            <Grid item xs={12} sx={{ height: '24vh', overflow: 'auto' }}>
+              <TanstackTable columns={columns} data={TasksTableData} />
+            </Grid>
+          )}
         </Grid>
-        {isNullOrEmpty(TasksTableData) && (
-          <Grid item xs={12}>
-            <Box sx={styles?.noCallsBox}>
-              <ViewCallIcon />
-              <Typography
-                variant="body3"
-                sx={{ color: theme?.palette?.grey[900] }}
-              >
-                Schedule a call right now from the CRM
-              </Typography>
-              <Button
-                variant="contained"
-                sx={{ height: '35px' }}
-                onClick={() => setOpenDrawer('Add')}
-              >
-                <PlusIcon /> Add Calls
-              </Button>
-            </Box>
-          </Grid>
-        )}
-        {!isNullOrEmpty(TasksTableData) && (
-          <Grid item xs={12} sx={{ height: '24vh', overflow: 'auto' }}>
-            <TanstackTable columns={columns} data={TasksTableData} />
-          </Grid>
-        )}
-      </Grid>
+      </Box>
 
       <CallsEditorDrawer
         openDrawer={openDrawer}
