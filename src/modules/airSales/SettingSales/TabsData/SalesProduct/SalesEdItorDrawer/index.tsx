@@ -32,7 +32,7 @@ const SalesEditorDrawer = ({
       >
         <Box sx={{ paddingTop: '1rem' }}>
           <FormProvider methods={salesProduct}>
-            <Grid container spacing={4}>
+            <Grid container spacing={2}>
               {dataArray?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
                   <item.component {...item.componentProps} size={'small'}>
