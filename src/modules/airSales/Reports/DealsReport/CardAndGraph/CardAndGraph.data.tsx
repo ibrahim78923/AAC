@@ -1,5 +1,13 @@
+import { Theme, useTheme } from '@mui/material';
+
+const theme = useTheme<Theme>();
+
 export const series = [28, 18, 54];
-const colors = ['#FF4A4A', '#47B263', '#0AADC7'];
+const colors = [
+  `${theme?.palette?.error?.main}`,
+  `${theme?.palette?.success?.main}`,
+  `${theme?.palette?.custom?.bright}`,
+];
 export const options: any = {
   chart: {
     width: 450,
@@ -40,14 +48,18 @@ export const options: any = {
     fontSize: '14px',
     fontWeight: 500,
     offsetY: 45,
-    color: '#374151',
+    color: `${theme?.palette?.slateBlue?.main}`,
     itemMargin: {
       vertical: 16,
     },
   },
 };
 
-const colorsBar = ['#FF4A4A', '#47B263', '#0AADC7'];
+const colorsBar = [
+  `${theme?.palette?.error?.main}`,
+  `${theme?.palette?.success?.main}`,
+  `${theme?.palette?.custom?.bright}`,
+];
 export const seriesBar = [
   {
     name: 'All Deals',

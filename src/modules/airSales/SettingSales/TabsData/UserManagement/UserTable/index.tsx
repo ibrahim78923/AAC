@@ -16,7 +16,6 @@ import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
 import Search from '@/components/Search';
 import TanstackTable from '@/components/Table/TanstackTable';
-import CustomPagination from '@/components/CustomPagination';
 import { AlertModals } from '@/components/AlertModals';
 import { userTableData } from '@/mock/modules/airSales/SettingSales';
 
@@ -131,8 +130,7 @@ const UserTable = ({ initialValueProps = defaultValues }: any) => {
           <MenuItem onClick={() => setIsOpenDelete(true)}>Delete</MenuItem>
         </Menu>
       </Box>
-      <TanstackTable columns={columns} data={userTableData} />
-      <CustomPagination count={1} rowsPerPageOptions={[1, 2]} entriePages={1} />
+      <TanstackTable columns={columns} data={userTableData} isPagination />
       <AlertModals
         message={'Are you sure you want to delete this role?'}
         type={'delete'}

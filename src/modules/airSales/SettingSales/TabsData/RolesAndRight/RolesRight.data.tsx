@@ -2,9 +2,9 @@ import { Checkbox } from '@mui/material';
 import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
-export const validationSchema = Yup.object().shape({
-  role: Yup.string().required('Field is Required'),
-  description: Yup.string().trim().required('Field is Required'),
+export const validationSchema = Yup?.object()?.shape({
+  role: Yup?.string()?.required('Field is Required'),
+  description: Yup?.string()?.trim()?.required('Field is Required'),
 });
 
 export const defaultValues = {
@@ -41,39 +41,39 @@ export const dataArray = [
 
 export const columns: any = [
   {
-    accessorFn: (row: any) => row.Id,
+    accessorFn: (row: any) => row?.Id,
     id: 'Id',
-    cell: (info: any) => <Checkbox color="primary" name={info.getValue()} />,
+    cell: (info: any) => <Checkbox color="primary" name={info?.getValue()} />,
     header: <Checkbox color="primary" name="Id" />,
     isSortable: false,
   },
   {
-    accessorFn: (row: any) => row.roleId,
+    accessorFn: (row: any) => row?.roleId,
     id: 'roleId',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
     header: 'Role ID',
     isSortable: true,
   },
   {
-    accessorFn: (row: any) => row.roleName,
+    accessorFn: (row: any) => row?.roleName,
     id: 'roleName',
     isSortable: true,
     header: 'Role Name',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.createdOn,
+    accessorFn: (row: any) => row?.createdOn,
     id: 'createdOn',
     isSortable: true,
     header: 'Created On',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.description,
+    accessorFn: (row: any) => row?.description,
     id: 'description',
     isSortable: true,
     header: 'Description',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
 ];
 

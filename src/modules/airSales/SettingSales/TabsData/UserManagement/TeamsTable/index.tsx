@@ -9,7 +9,6 @@ import { AddCircle } from '@mui/icons-material';
 
 import Search from '@/components/Search';
 import TanstackTable from '@/components/Table/TanstackTable';
-import CustomPagination from '@/components/CustomPagination';
 import CommonDrawer from '@/components/CommonDrawer';
 import { AlertModals } from '@/components/AlertModals';
 
@@ -44,11 +43,10 @@ const TeamsTable = () => {
           setSearchBy={() => {}}
         />
         <Grid sx={{ paddingTop: '1rem' }}>
-          <TanstackTable columns={getRowValues} data={teamsTableData} />
-          <CustomPagination
-            count={1}
-            rowsPerPageOptions={[1, 2]}
-            entriePages={1}
+          <TanstackTable
+            columns={getRowValues}
+            data={teamsTableData}
+            isPagination
           />
         </Grid>
       </Box>
