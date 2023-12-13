@@ -35,7 +35,7 @@ const UserManagement = () => {
     checkedRows,
     setCheckedRows,
     searchVal,
-    // setSearchVal,
+    setSearchVal,
   } = useUserManagement();
 
   return (
@@ -83,9 +83,8 @@ const UserManagement = () => {
             getTabVal={(val: number) => setTabVal(val)}
             searchBarProps={{
               label: 'Search Here',
-              setSearchBy: setFilterValues,
-              searchBy: filterValues?.search,
-              // width: '260px',
+              setSearchBy: setSearchVal,
+              searchBy: searchVal,
             }}
             isHeader={true}
             tabsArray={[

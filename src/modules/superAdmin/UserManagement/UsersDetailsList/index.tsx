@@ -66,14 +66,26 @@ const UsersDetailsList = () => {
     setEmployeeDataById,
     isActiveEmp,
     setIsActiveEmp,
+    searchEmployee,
+    setSearchEmployee,
+    employeeFilter,
+    setEmployeeFilter,
   }: any = useUserDetailsList();
 
   const { userName, organizationId } = navigate.query;
+
   const empListParams = {
-    // orgId: organizationId,
-    orgId: '65531519211df87d0a9c5bc2',
+    page: 1,
+    limit: 10,
+    search: searchEmployee,
+    // status:'ACTIVE'
+    product: employeeFilter?.product,
+    company: employeeFilter?.company,
   };
-  const { data: employeeList } = useGetEmployeeListQuery(empListParams);
+  const { data: employeeList } = useGetEmployeeListQuery({
+    orgId: organizationId,
+    values: empListParams,
+  });
   const empDetail = employeeList?.data?.users;
 
   const { data: profileData } = useGetUsersByIdQuery(
@@ -141,7 +153,11 @@ const UsersDetailsList = () => {
                 justifyContent={'space-between'}
                 alignItems={'center'}
               >
-                <Search placeholder="Search" size="small" />
+                <Search
+                  placeholder="Search"
+                  size="small"
+                  onChange={(val: any) => setSearchEmployee(val?.target?.value)}
+                />
                 <Button
                   sx={{
                     border: '1px solid grey',
@@ -227,63 +243,67 @@ const UsersDetailsList = () => {
             ))}
           </Box>
         </Grid>
-        <Grid item xl={9} lg={8} xs={12}>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <ProfileCard
-                userName={`${profileData?.data?.firstName} ${profileData?.data?.lastName}`}
-                role={profileData?.data?.role}
-                email={profileData?.data?.email}
-                phone={profileData?.data?.phoneNumber}
-                handleEditProfile={() => setTabVal(1)}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <Box
-                p="10px"
-                sx={{
-                  borderRadius: '8px',
-                  background: theme?.palette?.common?.white,
-                }}
-              >
-                <Card sx={{ padding: '0px 24px' }}>
-                  <CommonTabs
-                    getTabVal={(val: number) => setTabVal(val)}
-                    searchBarProps={{
-                      label: 'Search Here',
-                      setSearchBy: setSearch,
-                      searchBy: search,
-                    }}
-                    isHeader={tabVal === 0 ? true : false}
-                    tabsArray={['Company Accounts', 'Profile', 'Delegates']}
-                    headerChildren={
-                      <>
-                        <Button
-                          onClick={() => {
-                            setIsOpenAddAccountDrawer(true);
-                          }}
-                          sx={{
-                            border: `1px solid ${theme?.palette?.custom?.dark}`,
-                            color: theme?.palette?.custom?.main,
-                            width: '146px',
-                            height: '36px',
-                          }}
-                          startIcon={<AddCircleOutlined />}
-                        >
-                          Add Account
-                        </Button>
-                      </>
-                    }
-                  >
-                    <CompanyAccounts />
-                    <UserDetailsProfile userDetails={profileData?.data} />
-                    <Delegates />
-                  </CommonTabs>
-                </Card>
-              </Box>
+        {empDetail?.length > 0 ? (
+          <Grid item xl={9} lg={8} xs={12}>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <ProfileCard
+                  userName={`${profileData?.data?.firstName} ${profileData?.data?.lastName}`}
+                  role={profileData?.data?.role}
+                  email={profileData?.data?.email}
+                  phone={profileData?.data?.phoneNumber}
+                  handleEditProfile={() => setTabVal(1)}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Box
+                  p="10px"
+                  sx={{
+                    borderRadius: '8px',
+                    background: theme?.palette?.common?.white,
+                  }}
+                >
+                  <Card sx={{ padding: '0px 24px' }}>
+                    <CommonTabs
+                      getTabVal={(val: number) => setTabVal(val)}
+                      searchBarProps={{
+                        label: 'Search Here',
+                        setSearchBy: setSearch,
+                        searchBy: search,
+                      }}
+                      isHeader={tabVal === 0 ? true : false}
+                      tabsArray={['Company Accounts', 'Profile', 'Delegates']}
+                      headerChildren={
+                        <>
+                          <Button
+                            onClick={() => {
+                              setIsOpenAddAccountDrawer(true);
+                            }}
+                            sx={{
+                              border: `1px solid ${theme?.palette?.custom?.dark}`,
+                              color: theme?.palette?.custom?.main,
+                              width: '146px',
+                              height: '36px',
+                            }}
+                            startIcon={<AddCircleOutlined />}
+                          >
+                            Add Account
+                          </Button>
+                        </>
+                      }
+                    >
+                      <CompanyAccounts organizationId={organizationId} />
+                      <UserDetailsProfile userDetails={profileData?.data} />
+                      <Delegates />
+                    </CommonTabs>
+                  </Card>
+                </Box>
+              </Grid>
             </Grid>
           </Grid>
-        </Grid>
+        ) : (
+          'No user found'
+        )}
       </Grid>
       {isOpenAddAccountDrawer && (
         <AddAccountDrawer
@@ -292,7 +312,12 @@ const UsersDetailsList = () => {
         />
       )}
       {isOpenDrawer && (
-        <Filter isOpenDrawer={isOpenDrawer} onClose={handleCloseDrawer} />
+        <Filter
+          isOpenDrawer={isOpenDrawer}
+          onClose={handleCloseDrawer}
+          employeeFilter={employeeFilter}
+          setEmployeeFilter={setEmployeeFilter}
+        />
       )}
       {isOpenAddCompanyDrawer && (
         <AddCompanyDetails

@@ -62,7 +62,7 @@ const useUserManagement = () => {
       pathname: SUPER_ADMIN?.USERS_LIST,
       query: {
         userName: `${data?.firstName} ${data?.lastName}`,
-        organizationId: data?.organization?._id,
+        organizationId: data?.organization,
       },
     });
     setSelectedValue(null);

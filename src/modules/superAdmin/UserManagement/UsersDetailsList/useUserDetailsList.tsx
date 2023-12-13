@@ -8,6 +8,7 @@ const useUserDetailsList = () => {
   const theme = useTheme();
   const navigate = useRouter();
   const [search, setSearch] = useState('');
+  const [searchEmployee, setSearchEmployee] = useState('');
   const [tabVal, setTabVal] = useState<number>();
   const [userStatus, setUserStatus] = useState();
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
@@ -16,6 +17,11 @@ const useUserDetailsList = () => {
   const [isOpenAdduserDrawer, setIsOpenAdduserDrawer] = useState(false);
   const [employeeDataById, setEmployeeDataById] = useState();
   const [isActiveEmp, setIsActiveEmp] = useState(0);
+  const [employeeFilter, setEmployeeFilter] = useState({
+    status: '',
+    product: '',
+    company: '',
+  });
 
   const handleCloseDrawer = () => {
     setIsOpenDrawer(false);
@@ -50,6 +56,10 @@ const useUserDetailsList = () => {
     setEmployeeDataById,
     isActiveEmp,
     setIsActiveEmp,
+    searchEmployee,
+    setSearchEmployee,
+    employeeFilter,
+    setEmployeeFilter,
   };
 };
 export default useUserDetailsList;
