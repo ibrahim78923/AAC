@@ -20,6 +20,11 @@ export const RulesAndTiers = () => {
             RULES_AND_TIERS_ACTION_CONSTANTS?.UPSERT_RULES,
           )
         }
+        upsertTiersHandler={() =>
+          setRulesAndTiersAction?.(
+            RULES_AND_TIERS_ACTION_CONSTANTS?.UPSERT_TIERS,
+          )
+        }
       />
       <br />
       <HorizontalTabs tabsDataArray={['Tiers', 'Rules']}>
