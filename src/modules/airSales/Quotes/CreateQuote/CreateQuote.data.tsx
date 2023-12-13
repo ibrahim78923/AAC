@@ -11,18 +11,18 @@ export const validationSchema = Yup.object().shape({
   selectDeal: Yup.string().required('Field is Required'),
   quoteTemplate: Yup.string().required('Field is Required'),
   quoteName: Yup.string().required('Field is Required'),
-  quoteExpiration: Yup.string().required('Field is Required'),
+  quoteExpiration: Yup.date().required('Field is Required'),
 });
 
 export const initValues = {
   selectDeal: '',
   quoteTemplate: '',
   quoteName: '',
-  quoteExpiration: '',
+  quoteExpiration: null,
   quoteNotes: '',
   quoteTerms: '',
   templateComment: '',
-  signature: 'No Signature',
+  signature: 'noSignature',
 };
 
 export const createQuoteFormFields = [
@@ -31,8 +31,9 @@ export const createQuoteFormFields = [
     component: RHFSearchableSelect,
     componentProps: {
       name: 'selectDeal',
-      label: 'Select Deal*',
+      label: 'Select Deal',
       fullWidth: true,
+      required: true,
       options: [
         { value: 'deal1', label: 'Deal Name 1' },
         { value: 'deal2', label: 'Deal Name 2' },
@@ -46,10 +47,11 @@ export const createQuoteFormFields = [
     component: RHFSelect,
     componentProps: {
       name: 'quoteTemplate',
-      label: 'Select Quote template*',
+      label: 'Select Quote template',
       fullWidth: true,
       select: true,
       placeholder: 'Select',
+      required: true,
     },
     options: [
       { value: 'basic', label: 'Basic' },
@@ -61,9 +63,10 @@ export const createQuoteFormFields = [
     component: RHFTextField,
     componentProps: {
       name: 'quoteName',
-      label: 'Quote Name*',
+      label: 'Quote Name',
       fullWidth: true,
       placeholder: 'New quote',
+      required: true,
     },
   },
   {
@@ -71,9 +74,10 @@ export const createQuoteFormFields = [
     component: RHFDatePicker,
     componentProps: {
       name: 'quoteExpiration',
-      label: 'Quote Expiration Date*',
+      label: 'Quote Expiration Date',
       fullWidth: true,
       placeholder: 'Select',
+      required: true,
     },
   },
   {
@@ -117,7 +121,13 @@ export const createQuoteFormFields = [
     componentProps: {
       name: 'signature',
       fullWidth: true,
-      options: ['No Signature', 'Include Space for a written signature'],
+      options: [
+        { value: 'noSignature', label: 'No Signature' },
+        {
+          value: 'includeSignature',
+          label: 'Include Space for a written signature',
+        },
+      ],
       row: false,
     },
   },

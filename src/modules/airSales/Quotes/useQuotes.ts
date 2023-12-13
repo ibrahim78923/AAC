@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
+import { PAGINATION } from '@/config';
 
 const useQuotes = () => {
   const router = useRouter();
@@ -36,6 +37,13 @@ const useQuotes = () => {
   };
   const handleCloseFilter = () => {
     setOpenFilter(false);
+  };
+
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  // Hadle PAGE CHANGE
+  const handlePageChange = (newPage: number) => {
+    setPage(newPage);
   };
 
   // Customize Columns Drawer
@@ -76,6 +84,11 @@ const useQuotes = () => {
   };
 
   return {
+    pageLimit,
+    setPageLimit,
+    page,
+    setPage,
+    handlePageChange,
     selectedRow,
     setSelectedRow,
     setIsActionsDisabled,

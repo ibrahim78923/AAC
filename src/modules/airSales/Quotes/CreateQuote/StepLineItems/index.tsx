@@ -86,7 +86,7 @@ const StepLineItems = ({ openCreateProduct }: any) => {
             Products
           </Typography>
           <Stack direction="row" spacing={'12px'}>
-            <Search size="small" placeholder="Search Here" />
+            <Search placeholder="Search Here" />
             <Button
               variant="contained"
               color="primary"

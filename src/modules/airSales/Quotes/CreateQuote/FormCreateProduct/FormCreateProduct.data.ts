@@ -30,7 +30,10 @@ export const addContactFields = [
     componentProps: {
       name: 'productType',
       fullWidth: true,
-      options: ['Custom Line Item', 'Existing Products'],
+      options: [
+        { value: 'Custom Line Item', label: 'Custom Line Item' },
+        { value: 'Existing Products', label: 'Existing Products' },
+      ],
     },
   },
   {
@@ -40,6 +43,7 @@ export const addContactFields = [
       name: 'productName',
       label: 'Product Name',
       placeholder: 'Enter here',
+      required: 'true',
     },
   },
   {
@@ -90,6 +94,7 @@ export const addContactFields = [
       name: 'unitPrice',
       label: 'Unit Price (£)',
       placeholder: 'Enter here',
+      required: 'true',
     },
   },
   {

@@ -9,7 +9,7 @@ const StepDetails = ({ values }: any) => {
   return (
     <Grid container spacing={'40px'}>
       <Grid item xs={5}>
-        <Grid container spacing={4}>
+        <Grid container spacing={'20px'}>
           {createQuoteFormFields?.map((item: any, index) => {
             if (index === 0) {
               return null;

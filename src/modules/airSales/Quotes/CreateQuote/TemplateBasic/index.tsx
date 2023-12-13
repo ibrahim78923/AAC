@@ -106,7 +106,7 @@ const TemplateBasic = ({ values }: any) => {
           <Box sx={styles?.total}>£0.00</Box>
         </Box>
       </Box>
-      {values?.signature === 'Include Space for a written signature' && (
+      {values?.signature === 'includeSignature' && (
         <Box sx={styles?.signatureCard}>
           <Box sx={styles?.signatureBox}>
             <Box sx={styles?.signatureSpace}>signature here...</Box>

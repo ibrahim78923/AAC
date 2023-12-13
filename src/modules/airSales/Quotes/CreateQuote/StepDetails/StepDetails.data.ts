@@ -26,6 +26,7 @@ export const formFields = [
       label: 'Select Quote template',
       fullWidth: true,
       select: true,
+      required: true,
     },
   },
   {
@@ -35,6 +36,7 @@ export const formFields = [
       name: 'quoteName',
       label: 'Quote Name ',
       fullWidth: true,
+      required: true,
     },
   },
   {
@@ -42,8 +44,9 @@ export const formFields = [
     component: RHFDatePicker,
     componentProps: {
       name: 'quoteExpiration',
-      label: 'Quote Expiration Date *',
+      label: 'Quote Expiration Date',
       fullWidth: true,
+      required: true,
     },
   },
   {

@@ -4,7 +4,6 @@ import { quotesListData } from '@/mock/modules/Quotes';
 import TanstackTable from '@/components/Table/TanstackTable';
 import TableToolbar from './TableToolbar';
 import PageHeader from './PageHeader';
-import CustomPagination from '@/components/CustomPagination';
 import FilterQuotes from './FilterQuotes';
 import useQuotes from './useQuotes';
 import CustomizeColumns from './CustomizeColumns';
@@ -14,6 +13,9 @@ import { useEffect } from 'react';
 
 const Quotes = () => {
   const {
+    setPageLimit,
+    setPage,
+    handlePageChange,
     selectedRow,
     setSelectedRow,
     setIsActionsDisabled,
@@ -60,12 +62,16 @@ const Quotes = () => {
           handleOpenDeleteQuote={handleOpenDeleteQuote}
         />
 
-        <TanstackTable columns={getQuotesColumns} data={quotesListData} />
-
-        <CustomPagination
-          count={3}
-          rowsPerPageOptions={[6, 10, 25, 50, 100]}
-          entriePages={quotesListData.length}
+        <TanstackTable
+          columns={getQuotesColumns}
+          data={quotesListData}
+          //isLoading={loagingGetFaqs}
+          isPagination
+          count={4}
+          totalRecords={26}
+          onPageChange={handlePageChange}
+          setPage={setPage}
+          setPageLimit={setPageLimit}
         />
       </Box>
 

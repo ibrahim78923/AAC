@@ -16,7 +16,13 @@ export const signatureFields = [
     componentProps: {
       name: 'signature',
       fullWidth: true,
-      options: ['No Signature', 'Include Space for a written signature'],
+      options: [
+        { value: 'noSignature', label: 'No Signature' },
+        {
+          value: 'includeSignature',
+          label: 'Include Space for a written signature',
+        },
+      ],
       row: false,
     },
   },
