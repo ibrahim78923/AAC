@@ -7,7 +7,6 @@ import {
   MenuItem,
   Theme,
   useTheme,
-  Typography,
   Grid,
 } from '@mui/material';
 
@@ -17,7 +16,6 @@ import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
 import Search from '@/components/Search';
 import TanstackTable from '@/components/Table/TanstackTable';
-import CustomPagination from '@/components/CustomPagination';
 import { AlertModals } from '@/components/AlertModals';
 import { userTableData } from '@/mock/modules/airSales/SettingSales';
 
@@ -62,19 +60,10 @@ const UserTable = ({ initialValueProps = defaultValues }: any) => {
         isDrawerOpen={isEditOpen}
         onClose={handleCloseDrawer}
         title={'User View'}
-        okText={'OK'}
+        okText={'Update'}
         footer={true}
         isOk={true}
       >
-        <Typography
-          sx={{
-            fontWeight: 500,
-            fontSize: '12px',
-            color: `${theme.palette.custom.main}`,
-          }}
-        >
-          Add New User to Organization
-        </Typography>
         <Box sx={{ paddingTop: '1rem' }}>
           <FormProvider methods={methods}>
             <Grid container spacing={1}>
@@ -105,7 +94,7 @@ const UserTable = ({ initialValueProps = defaultValues }: any) => {
       >
         <Search
           searchBy=""
-          width="100%"
+          width="260px"
           label={'Search here'}
           setSearchBy={() => {}}
         />
@@ -122,6 +111,7 @@ const UserTable = ({ initialValueProps = defaultValues }: any) => {
             display: 'flex',
             alignItems: 'center',
             padding: '0.7rem',
+            fontWeight: 500,
           }}
         >
           Actions <ArrowDropDownIcon />
@@ -140,14 +130,7 @@ const UserTable = ({ initialValueProps = defaultValues }: any) => {
           <MenuItem onClick={() => setIsOpenDelete(true)}>Delete</MenuItem>
         </Menu>
       </Box>
-      <Grid>
-        <TanstackTable columns={columns} data={userTableData} />
-        <CustomPagination
-          count={1}
-          rowsPerPageOptions={[1, 2]}
-          entriePages={1}
-        />
-      </Grid>
+      <TanstackTable columns={columns} data={userTableData} isPagination />
       <AlertModals
         message={'Are you sure you want to delete this role?'}
         type={'delete'}
