@@ -9,7 +9,6 @@ import { stepperArray } from './EngagementAdsStepper.data';
 import useTempStepper from './useEngagementAdsStepper';
 import { AIR_MARKETER } from '@/routesConstants/paths';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import * as React from 'react';
 import Image from 'next/image';
 import { AudienceMockImage } from '@/assets/images';
 import { styles } from './EngagementAds.style';
@@ -19,6 +18,8 @@ const EngagementAdsStepper = () => {
   const isMobileScreen = useMediaQuery(theme?.breakpoints?.down('sm'));
   const {
     activeStep,
+    initialStep,
+    stepThree,
     router,
     handleBack,
     handleNext,
@@ -57,7 +58,7 @@ const EngagementAdsStepper = () => {
                 (item: any) =>
                   item?.formFields?.map((item: any) => {
                     return (
-                      (activeStep === 0
+                      (activeStep === initialStep
                         ? item?.isNewAdFields?.includes(isNewAd)
                         : item) && (
                         <Grid item xs={12} md={item?.md} key={uuidv4()}>
@@ -93,7 +94,7 @@ const EngagementAdsStepper = () => {
                   }),
               )}
           </Grid>
-          {activeStep === 3 && (
+          {activeStep === stepThree && (
             <Grid container spacing={2} mt={1}>
               <Grid item xs={12}>
                 <Card>
@@ -197,7 +198,7 @@ const EngagementAdsStepper = () => {
               color="inherit"
               variant="outlined"
               onClick={() =>
-                activeStep < 0
+                activeStep < initialStep
                   ? router.push(AIR_MARKETER?.CREATE_AD)
                   : handleBack
               }
@@ -206,7 +207,7 @@ const EngagementAdsStepper = () => {
               Back
             </Button>
             <Box sx={{ flex: '1 1 auto' }} />
-            {activeStep === 3 ? (
+            {activeStep === stepThree ? (
               <Button>Publish</Button>
             ) : (
               <Button type="submit" sx={{ mr: 1 }} variant="contained">

@@ -29,40 +29,45 @@ const useTempStepper = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
+  const initialStep = 0;
+  const stepOne = 1;
+  const stepTwo = 2;
+  const stepThree = 3;
+
   const stepperValidator: any = (val: any) => {
     switch (val) {
-      case 0:
+      case initialStep:
         return adValidation;
-      case 1:
+      case stepOne:
         return taregtValidation;
-      case 2:
+      case stepTwo:
         return budgetValidation;
-      case 3:
+      case stepThree:
         return autoValidation;
     }
   };
   const steppeDefaultValues: any = (val: any) => {
     switch (val) {
-      case 0:
+      case initialStep:
         return adDefaultValues;
-      case 1:
+      case stepOne:
         return targetDefaultValues;
-      case 2:
+      case stepTwo:
         return budgetDefaultValues;
-      case 3:
+      case stepThree:
         return autoDefaultValues;
     }
   };
 
   const stepperImages: any = (val: any) => {
     switch (val) {
-      case 0:
+      case initialStep:
         return MockEngagementTabsImage;
-      case 1:
+      case stepOne:
         return BudgetScheduleMockImage;
-      case 2:
+      case stepTwo:
         return BudgetScheduleMockImage;
-      case 3:
+      case stepThree:
         return BudgetScheduleMockImage;
     }
   };
@@ -75,6 +80,8 @@ const useTempStepper = () => {
   const isNewAd = watch('creative') ? watch('creative') : 'existingAd';
 
   return {
+    initialStep,
+    stepThree,
     router,
     activeStep,
     setActiveStep,
