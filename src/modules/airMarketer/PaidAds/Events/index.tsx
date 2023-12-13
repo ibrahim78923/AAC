@@ -14,7 +14,12 @@ const Events = () => {
   const { isFilterDrawer, setIsFilterDrawer } = usePaidAds();
   return (
     <Box>
-      <Box display="flex" justifyContent="space-between">
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        flexDirection={{ xs: 'column', sm: 'row' }}
+        gap={1}
+      >
         <Search placeholder="Search" size="small" />
         <Button
           variant="outlined"

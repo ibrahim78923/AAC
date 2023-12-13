@@ -12,12 +12,9 @@ export const style = {
             stroke: 'transparent',
           },
         },
-        '&.eventBtn': {
-          border: `1px solid ${theme?.grey[0]}`,
-          'svg path': {
-            fill: theme?.custom?.main,
-            stroke: 'transparent',
-          },
+        '&.eventBtn svg path': {
+          fill: theme?.custom?.main,
+          stroke: 'transparent',
         },
       },
     };

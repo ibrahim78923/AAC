@@ -12,13 +12,15 @@ const ClicksChart = () => {
 
   return (
     <Card sx={{ p: '24px' }}>
-      <Box display="flex" justifyContent="space-between" alignItems="center">
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+        flexWrap="wrap"
+      >
         <Typography
-          sx={{
-            color: `${theme?.palette?.slateBlue?.main}`,
-            fontWeight: 600,
-            fontSize: '18px',
-          }}
+          variant="h5"
+          sx={{ color: `${theme?.palette?.slateBlue?.main}` }}
         >
           Clicks
         </Typography>

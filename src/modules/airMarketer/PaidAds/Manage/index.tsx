@@ -37,9 +37,10 @@ const Manage = () => {
                   container
                   item
                   xs={12}
-                  md={3}
+                  sm={6}
+                  lg={3}
                   key={uuidv4()}
-                  justifyContent="space-around"
+                  justifyContent={{ xs: 'flex-start', lg: 'space-around' }}
                 >
                   <Box>
                     <Typography
@@ -53,7 +54,10 @@ const Manage = () => {
                   </Box>
                   {item?.divider && (
                     <Divider
-                      sx={{ borderColor: theme?.palette?.grey[700] }}
+                      sx={{
+                        borderColor: theme?.palette?.grey[700],
+                        display: { xs: 'none', lg: 'block' },
+                      }}
                       orientation="vertical"
                     />
                   )}
@@ -70,9 +74,9 @@ const Manage = () => {
                   container
                   item
                   xs={12}
-                  md={6}
+                  lg={6}
                   key={uuidv4()}
-                  justifyContent="space-around"
+                  justifyContent={{ xs: 'flex-start', lg: 'space-around' }}
                 >
                   <Box>
                     <Typography
@@ -86,7 +90,10 @@ const Manage = () => {
                   </Box>
                   {item?.divider && (
                     <Divider
-                      sx={{ borderColor: theme?.palette?.grey[700] }}
+                      sx={{
+                        borderColor: theme?.palette?.grey[700],
+                        display: { xs: 'none', lg: 'block' },
+                      }}
                       orientation="vertical"
                     />
                   )}
@@ -96,7 +103,13 @@ const Manage = () => {
           </Card>
         </Grid>
       </Grid>
-      <Box mt={4} display="flex" justifyContent="space-between">
+      <Box
+        mt={4}
+        display="flex"
+        justifyContent="space-between"
+        flexDirection={{ xs: 'column', sm: 'row' }}
+        gap={1}
+      >
         <Search placeholder="Search" size="small" />
         <Button
           variant="outlined"
