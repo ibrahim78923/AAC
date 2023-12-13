@@ -82,17 +82,28 @@ const Calendar = () => {
               <TableCell>Created by</TableCell>
               <TableCell>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-                  <Image src={AvatarImage} alt="dd" width={40} height={40} />
+                  <Image
+                    src={AvatarImage?.src}
+                    alt="avatar"
+                    width={40}
+                    height={40}
+                  />
                   <Box>
                     <Typography
                       variant="body2"
-                      sx={{ fontWeight: 500, color: '#111827' }}
+                      sx={{
+                        fontWeight: 500,
+                        color: `${theme?.palette?.blue?.dull_blue}`,
+                      }}
                     >
                       Sophie Anderson
                     </Typography>
                     <Typography
                       variant="body2"
-                      sx={{ fontWeight: 400, color: '#667085' }}
+                      sx={{
+                        fontWeight: 400,
+                        color: `${theme?.palette?.custom?.light}`,
+                      }}
                     >
                       Sophie@airapplecart.co.uk
                     </Typography>
@@ -112,13 +123,19 @@ const Calendar = () => {
                   <Box>
                     <Typography
                       variant="body2"
-                      sx={{ fontWeight: 500, color: '#111827' }}
+                      sx={{
+                        fontWeight: 500,
+                        color: `${theme?.palette?.blue?.dull_blue}`,
+                      }}
                     >
                       Lilly Drew
                     </Typography>
                     <Typography
                       variant="body2"
-                      sx={{ fontWeight: 400, color: '#667085' }}
+                      sx={{
+                        fontWeight: 400,
+                        color: `${theme?.palette?.custom?.light}`,
+                      }}
                     >
                       L_drew@airapplecart.co.uk
                     </Typography>
