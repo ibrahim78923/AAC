@@ -17,8 +17,11 @@ import useUsersSidebar from './useUsersSidebar';
 import { AvatarImage } from '@/assets/images';
 
 import { AddCircle } from '@mui/icons-material';
+import useUsers from '../useUsers';
+import { v4 as uuidv4 } from 'uuid';
 
-const UsersSidebar = () => {
+const UsersSidebar = (props: any) => {
+  const { setEmployeeDataById } = props;
   const {
     userStatus,
     setUserStatus,
@@ -26,8 +29,12 @@ const UsersSidebar = () => {
     setIsOpenFilterDrawer,
     isOpenAdduserDrawer,
     setIsOpenAdduserDrawer,
+    isActiveEmp,
+    setIsActiveEmp,
     theme,
   } = useUsersSidebar();
+  const { employeeDetails, setSearchEmployee } = useUsers();
+
   return (
     <Box
       sx={{
@@ -65,7 +72,11 @@ const UsersSidebar = () => {
         py={1}
         sx={{ display: 'flex', justifyContent: 'space-between', gap: '10px' }}
       >
-        <Search placeholder="Placeholder" size="small" />
+        <Search
+          placeholder="Placeholder"
+          size="small"
+          onChange={(val: any) => setSearchEmployee(val?.target?.value)}
+        />
         <Button
           variant="outlined"
           color="inherit"
@@ -76,56 +87,68 @@ const UsersSidebar = () => {
           <FilterSharedIcon />
         </Button>
       </Box>
-
-      <Box
-        className="users-wrapper"
-        sx={{
-          backgroundColor: theme?.palette?.grey[400],
-          borderRadius: '4px',
-          padding: '11px 8px',
-          width: '100%',
-        }}
-      >
+      {employeeDetails?.length === 0 && <Typography>No user found</Typography>}
+      {employeeDetails?.map((item: any, index: number) => (
         <Box
+          className="users-wrapper"
           sx={{
-            display: 'flex',
-            gap: '10px',
-            alignItems: 'center',
-            flexWrap: { xs: 'wrap', sm: 'nowrap', lg: 'wrap', xl: 'nowrap' },
+            my: 2,
+            backgroundColor:
+              isActiveEmp === index ? theme?.palette?.grey[400] : '',
+            borderRadius: '4px',
+            padding: '11px 8px',
+            width: '100%',
+          }}
+          key={uuidv4()}
+          onClick={() => {
+            setEmployeeDataById(item?._id);
+            setIsActiveEmp(index);
           }}
         >
-          <Avatar>
-            <Image src={AvatarImage} alt="Avatar" width={40} height={40} />
-          </Avatar>
-          <Box sx={{ width: '100%' }}>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-              <Typography variant="body2" fontWeight={600}>
-                Roberts Rohan
-              </Typography>
-              <StatusBadge
-                value={userStatus}
-                onChange={(e: any) => setUserStatus(e?.target?.value)}
-                options={[
-                  {
-                    label: 'Active',
-                    value: 'active',
-                    color: theme?.palette?.success?.main,
-                  },
-                  {
-                    label: 'Inactive',
-                    value: 'inactive',
-                    color: theme?.palette?.error?.main,
-                  },
-                ]}
-                defaultValue={''}
-              />
+          <Box
+            sx={{
+              display: 'flex',
+              gap: '10px',
+              alignItems: 'center',
+              flexWrap: {
+                xs: 'wrap',
+                sm: 'nowrap',
+                lg: 'wrap',
+                xl: 'nowrap',
+              },
+            }}
+          >
+            <Avatar>
+              <Image src={AvatarImage} alt="Avatar" width={40} height={40} />
+            </Avatar>
+            <Box sx={{ width: '100%' }}>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                <Typography>
+                  {item?.firstName} {item?.lastName}
+                </Typography>
+                <StatusBadge
+                  defaultValue={item?.status}
+                  value={userStatus}
+                  onChange={(e: any) => setUserStatus(e?.target?.value)}
+                  options={[
+                    {
+                      label: 'Active',
+                      value: 'ACTIVE',
+                      color: theme?.palette?.success?.main,
+                    },
+                    {
+                      label: 'Inactive',
+                      value: 'INACTIVE',
+                      color: theme?.palette?.error?.main,
+                    },
+                  ]}
+                />
+              </Box>
+              <Typography>{item?.email}</Typography>
             </Box>
-            <Typography variant="body2" color={theme?.palette?.grey[600]}>
-              Robert@airapplecart.co.uk
-            </Typography>
           </Box>
         </Box>
-      </Box>
+      ))}
 
       {isOpenFilterDrawer && (
         <FilterUser

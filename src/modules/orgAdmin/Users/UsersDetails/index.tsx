@@ -13,8 +13,11 @@ import AddAccount from '../Drawers/AddAccount';
 import useUsersDetails from './useUsersDetails';
 
 import { AddCircle } from '@mui/icons-material';
+import useUsers from '../useUsers';
+import { useGetUsersByIdQuery } from '@/services/superAdmin/user-management/users';
 
-const UsersDetails = () => {
+const UsersDetails = (props: any) => {
+  const { employeeDataById } = props;
   const {
     tabValue,
     setTabVal,
@@ -22,16 +25,22 @@ const UsersDetails = () => {
     setIsOpenAddAccountDrawer,
     theme,
   } = useUsersDetails();
+  const { employeeList } = useUsers();
+
+  const { data: profileData } = useGetUsersByIdQuery(
+    employeeDataById ? employeeDataById : employeeList?.data?.users[0]?._id,
+  );
 
   return (
     <Box>
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <ProfileCard
-            isBadge={false}
-            handleEditProfile={() => {
-              setTabVal(1);
-            }}
+            userName={`${profileData?.data?.firstName} ${profileData?.data?.lastName}`}
+            role={profileData?.data?.role}
+            email={profileData?.data?.email}
+            phone={profileData?.data?.phoneNumber}
+            handleEditProfile={() => setTabVal(1)}
           />
         </Grid>
         <Grid item xs={12}>
