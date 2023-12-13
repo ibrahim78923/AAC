@@ -41,17 +41,18 @@ const Emails = () => {
         borderRadius: '10px',
       }}
     >
-      <Grid container>
-        <Grid item xs={12}>
+      <Grid container spacing={1}>
+        <Grid item xs={12} md={4}>
+          <Typography variant="h4"> Emails</Typography>
+        </Grid>
+        <Grid item xs={12} md={8}>
           <Box sx={styles?.headingSpacingBetween}>
-            <Typography variant="h4"> Emails</Typography>
             {!isNullOrEmpty(NotesDataArray) && (
               <Box
                 sx={{
                   gap: 1,
                   display: 'flex',
                   flexDirection: { xs: 'column', sm: 'row' },
-                  alignItems: 'center',
                 }}
               >
                 <EmailActionDropDown
