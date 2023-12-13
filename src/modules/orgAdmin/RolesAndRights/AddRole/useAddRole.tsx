@@ -20,6 +20,9 @@ const useAddRole = () => {
     defaultValues: addUserDefault,
   });
 
+  const { handleSubmit, watch } = methods;
+  const productVal = watch('productType');
+
   const onSubmit = async () => {
     // console.log('values', data)
   };
@@ -36,6 +39,8 @@ const useAddRole = () => {
     handleSwitch,
     methods,
     theme,
+    handleSubmit,
+    productVal,
   };
 };
 
