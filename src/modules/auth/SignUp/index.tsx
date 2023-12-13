@@ -30,7 +30,6 @@ import {
   EyeSlashIcon,
   CompanyLogoIcon,
   VerifiedIcon,
-  ArrowBackIcon,
 } from '@/assets/icons';
 
 import { LoginDashboardImage } from '@/assets/images';
@@ -230,20 +229,8 @@ const SignUp = () => {
                         </Grid>
                       </Grid>
                     ) : (
-                      <Grid container spacing={4}>
-                        <Grid
-                          item
-                          xs={12}
-                          display={'flex'}
-                          alignItems={'center'}
-                        >
-                          <Box
-                            onClick={() => setIsStepComplete(false)}
-                            sx={{ cursor: 'pointer' }}
-                            mr={1}
-                          >
-                            <ArrowBackIcon />
-                          </Box>
+                      <Grid container spacing={2}>
+                        <Grid item xs={12}>
                           <RHFMultiCheckbox
                             name="products"
                             GridView={6}
@@ -319,7 +306,16 @@ const SignUp = () => {
                           />
                         </Grid>
 
-                        <Grid item xs={12}>
+                        <Grid item xs={6}>
+                          <Button
+                            variant="outlined"
+                            sx={{ width: '100%' }}
+                            onClick={() => setIsStepComplete(false)}
+                          >
+                            Back
+                          </Button>
+                        </Grid>
+                        <Grid item xs={6}>
                           <LoadingButton
                             variant="contained"
                             sx={{ width: '100%' }}
