@@ -13,8 +13,6 @@ import SalesEditorDrawer from './SalesEdItorDrawer';
 
 import useSalesProduct from './useSalesProduct';
 
-import { SalesProductTableData } from './SalesProduct.data';
-
 import { styles } from './SalesProduct.style';
 
 const SalesProduct = () => {
@@ -22,6 +20,7 @@ const SalesProduct = () => {
     isEditMode,
     selectedCheckboxes,
     setIsDraweropen,
+    salesProductData,
     isDraweropen,
     setIsEditMode,
     isDeleteModalOpen,
@@ -38,6 +37,10 @@ const SalesProduct = () => {
     handleDelete,
     getRowValues,
     setAnchorEl,
+    setPageLimit,
+    setPage,
+    isLoading,
+    isSuccess,
   } = useSalesProduct();
 
   return (
@@ -85,13 +88,7 @@ const SalesProduct = () => {
             label={'Search here'}
             searchBy={productSearch}
             setSearchBy={setproductSearch}
-            width="100%"
             size="small"
-            sx={{
-              '@media (max-width: 500px)': {
-                width: '100%',
-              },
-            }}
           />
           <Button
             id="basic-button"
@@ -109,8 +106,17 @@ const SalesProduct = () => {
         <Grid>
           <TanstackTable
             columns={getRowValues}
-            data={SalesProductTableData}
+            data={salesProductData?.salesproducts}
+            setPage={setPage}
+            setPageLimit={setPageLimit}
             isPagination
+            isLoading={isLoading}
+            currentPage={salesProductData?.meta?.pages}
+            count={salesProductData?.meta?.total}
+            pageLimit={salesProductData?.meta?.limit}
+            totalRecords={salesProductData?.meta?.total}
+            isSuccess={isSuccess || true}
+            onPageChange={(page: any) => setPage(page)}
           />
         </Grid>
       </Box>

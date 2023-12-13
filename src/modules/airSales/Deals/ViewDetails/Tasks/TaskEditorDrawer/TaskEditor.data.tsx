@@ -38,6 +38,8 @@ export const dealsTasksDataArray = [
       name: 'name',
       label: 'Task Name',
       fullWidth: true,
+      placeholder: 'Task Name',
+      required: true,
     },
     component: RHFTextField,
     md: 12,
@@ -46,7 +48,7 @@ export const dealsTasksDataArray = [
     componentProps: {
       name: 'type',
       label: 'Task Type',
-      select: true,
+      required: true,
     },
     options: [
       { value: 'Call', label: 'Call' },
@@ -61,6 +63,7 @@ export const dealsTasksDataArray = [
       name: 'priority',
       label: 'Priority',
       select: true,
+      required: true,
     },
     options: [
       { value: '-', label: '-' },
@@ -74,7 +77,6 @@ export const dealsTasksDataArray = [
     componentProps: {
       name: 'status',
       label: 'Task Status',
-      select: true,
     },
     options: [
       { value: 'Pending', label: 'Pending' },
@@ -88,8 +90,8 @@ export const dealsTasksDataArray = [
     componentProps: {
       name: 'deal',
       label: 'Select Deal',
-      select: true,
       disabled: true,
+      required: true,
     },
     // todo: array come from backend
     options: [{ value: '655b2b2ecd318b576d7d71e8', label: 'Deal name' }],
@@ -100,7 +102,6 @@ export const dealsTasksDataArray = [
     componentProps: {
       name: 'associate',
       label: 'Associate with Records',
-      select: true,
     },
     options: [
       { value: 'Companies', label: 'Companies' },
@@ -115,7 +116,6 @@ export const dealsTasksDataArray = [
     componentProps: {
       name: 'assignto',
       label: 'Assigned to',
-      select: true,
     },
     options: [
       { value: 'John Doe', label: 'John Doe' },
