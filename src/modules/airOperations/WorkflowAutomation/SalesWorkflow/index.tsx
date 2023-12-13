@@ -13,6 +13,7 @@ export const SalesWorkflow = () => {
     setSearch,
     salesWorkflowActionDropdown,
     handleBack,
+    handleCreateWorkflow,
     deleteWorkflow,
     setDeleteWorkflow,
     isFilterOpen,
@@ -25,6 +26,7 @@ export const SalesWorkflow = () => {
         addTitle={'Create Workflow'}
         canMovedBack
         moveBack={handleBack}
+        handleAction={handleCreateWorkflow}
       />
       <br />
       <SalesWorkflowSubHeader

@@ -27,6 +27,9 @@ export const useSalesWorkflow = () => {
       pathname: AIR_OPERATIONS?.WORKFLOW_AUTOMATION,
     });
   };
+  const handleCreateWorkflow = () => {
+    push(AIR_OPERATIONS?.UPSERT_SALES_WORKFLOW);
+  };
   return {
     selectedSalesWorkflowLists,
     setSelectedSalesWorkflowLists,
@@ -35,6 +38,7 @@ export const useSalesWorkflow = () => {
     setSearch,
     salesWorkflowActionDropdown,
     handleBack,
+    handleCreateWorkflow,
     deleteWorkflow,
     setDeleteWorkflow,
     isFilterOpen,
