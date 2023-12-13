@@ -14,6 +14,7 @@ const useEmailMarketing = () => {
     isArchive: false,
     isDelete: false,
     isMoveToFolder: false,
+    isSaveAsTemplate: false,
   });
   const [isDelete, setIsDelete] = useState(false);
 
@@ -53,7 +54,7 @@ const useEmailMarketing = () => {
       case emailOptions?.SAVE_EMAIL_AS_TEMPLATE:
         setActionsModalDetails({
           ...actionsModalDetails,
-          isViewDeatsils: true,
+          isSaveAsTemplate: true,
         });
         break;
 

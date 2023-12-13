@@ -51,28 +51,19 @@ const ManageSharingModal = ({
     });
   };
   const theme = useTheme();
+  const closeManageSharingModal = (key: any) => {
+    setIsAllViewActionsModal({
+      ...isAllViewActionsModal,
+      [key]: false,
+    });
+  };
   return (
     <div>
       <CommonModal
         open={isAllViewActionsModal}
-        handleClose={() =>
-          setIsAllViewActionsModal({
-            ...isAllViewActionsModal,
-            isManage: false,
-          })
-        }
-        handleCancel={() =>
-          setIsAllViewActionsModal({
-            ...isAllViewActionsModal,
-            isManage: false,
-          })
-        }
-        handleSubmit={() =>
-          setIsAllViewActionsModal({
-            ...isAllViewActionsModal,
-            isManage: false,
-          })
-        }
+        handleClose={() => closeManageSharingModal('isManage')}
+        handleCancel={() => closeManageSharingModal('isManage')}
+        handleSubmit={() => closeManageSharingModal('isManage')}
         title="Create a new saved view"
       >
         <Box sx={{ margin: '20px 0' }}>
