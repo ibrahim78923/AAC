@@ -4,7 +4,7 @@ import { Box, Theme, Typography, useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
 import { airMarketingCalendar } from '@/routesConstants/paths';
 import Image from 'next/image';
-import { DATE_FORMAT } from '@/constants';
+import { CALENDAR_FORMAT } from '@/constants';
 
 const useCalendar = () => {
   const [selectedEventData, setSelectedEventData] = useState<any>({});
@@ -63,7 +63,7 @@ const useCalendar = () => {
   const handlePrevClick = () => {
     const newDate = dayjs(calendarDate)
       ?.subtract(1, 'day')
-      ?.format(DATE_FORMAT?.UI);
+      ?.format(CALENDAR_FORMAT?.UI);
 
     setCalendarDate(newDate);
   };
@@ -71,7 +71,7 @@ const useCalendar = () => {
   const handleNextClick = () => {
     const newDate = dayjs(calendarDate)
       ?.add(1, 'day')
-      ?.format(DATE_FORMAT?.UI);
+      ?.format(CALENDAR_FORMAT?.UI);
     setCalendarDate(newDate);
   };
 
