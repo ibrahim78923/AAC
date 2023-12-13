@@ -230,15 +230,16 @@ const SignUp = () => {
                         </Grid>
                       </Grid>
                     ) : (
-                      <Grid container spacing={4}>
-                        <Grid item xs={12}>
+                      <Grid container spacing={2}>
+                        <Grid item xs={1}>
                           <Box
                             onClick={() => setIsStepComplete(false)}
                             sx={{ cursor: 'pointer' }}
-                            mr={1}
                           >
                             <ArrowBackIcon />
                           </Box>
+                        </Grid>
+                        <Grid item xs={11}>
                           <RHFMultiCheckbox
                             name="products"
                             GridView={6}

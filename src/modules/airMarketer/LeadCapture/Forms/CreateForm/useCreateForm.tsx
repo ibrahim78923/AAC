@@ -65,7 +65,7 @@ const useCreateForm = () => {
           return {
             componentProps: {
               name: type,
-              Text: 'This is paragraph text need to show paragraph in this font',
+              Text: 'Your Text goes here adjust style accordingly',
               editorConfig: {},
               editorOpen: false,
             },
