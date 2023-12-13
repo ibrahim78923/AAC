@@ -18,14 +18,23 @@ const PaidAds = () => {
   const { isOpenEventDrawer, setIsOpenEventDrawer } = usePaidAds();
   return (
     <Card sx={{ p: '16px 24px' }}>
-      <Stack direction="row" justifyContent="space-between">
+      <Stack
+        direction={{ xs: 'column', lg: 'row' }}
+        gap={2}
+        justifyContent="space-between"
+      >
         <Box>
           <Typography variant="h3">Paid Ads</Typography>
           <Typography variant="body2" color={theme?.palette?.custom?.main}>
             Manage your Ad Creation
           </Typography>
         </Box>
-        <Box display="flex" gap={1} sx={style?.button(theme?.palette)}>
+        <Box
+          display="flex"
+          gap={1}
+          sx={style?.button(theme?.palette)}
+          flexWrap="wrap"
+        >
           <CreateAudience />
           <Button
             className="eventBtn small"
@@ -35,6 +44,7 @@ const PaidAds = () => {
             onClick={() => {
               setIsOpenEventDrawer(true);
             }}
+            sx={{ width: { xs: '100%', sm: 'auto' } }}
           >
             Create Event
           </Button>
@@ -43,6 +53,7 @@ const PaidAds = () => {
             variant="contained"
             startIcon={<PlusIcon />}
             onClick={() => router.push(AIR_MARKETER?.CREATE_AD)}
+            sx={{ width: { xs: '100%', sm: 'auto' } }}
           >
             Create Ad
           </Button>
@@ -56,7 +67,6 @@ const PaidAds = () => {
           <Analyze />
         </CommonTabs>
       </Box>
-      {/* {isAudience && <CreateAudience />} */}
       {isOpenEventDrawer && (
         <CreateEvent
           isDrawerOpen={isOpenEventDrawer}
