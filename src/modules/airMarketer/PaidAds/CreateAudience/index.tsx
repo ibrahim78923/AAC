@@ -28,6 +28,7 @@ const CreateAudience = () => {
         startIcon={<PlusIcon />}
         className="audienceBtn small"
         onClick={() => setIsCreateAudience(true)}
+        sx={{ width: { xs: '100%', sm: 'auto' } }}
       >
         Create Audience
       </Button>

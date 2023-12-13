@@ -1,7 +1,7 @@
 export const styles = {
   mainWrapper: (palette: any) => ({
     p: '0.75rem 1rem 0.5rem',
-    background: palette?.grey?.[0],
+    background: palette?.grey?.[100],
     borderRadius: '0.75rem',
     border: `1px solid ${palette?.grey?.[700]}`,
     mb: 1,

@@ -14,7 +14,7 @@ export const ImportProductCatalog = (props: any) => {
       isDrawerOpen={isDrawerOpen}
       onClose={() => onClose?.()}
       okText={'Import'}
-      title={'Import'}
+      title={'Import Assets'}
       submitHandler={() => handleSubmit(submitImportFile)()}
       isOk
       footer

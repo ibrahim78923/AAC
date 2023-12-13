@@ -1,8 +1,10 @@
 import {
-  HardwareFeaturedImage,
-  PmFeaturedImage,
-  ServiceFeaturedImage,
-  SoftwareFeaturedImage,
+  CpuSettingsIcon,
+  HardwareIcon,
+  PmToolsIcon,
+  SoftwareCatalogIcon,
+} from '@/assets/icons';
+import {
   CatalogDatabaseImage,
   CatalogAdobePremiereImage,
   CatalogSkillIllustratorImage,
@@ -24,28 +26,28 @@ export const services = [
     title: CATALOG_SERVICE_TYPES?.ALL,
     description:
       'Browse the list of all services  offered and raise a request.',
-    image: ServiceFeaturedImage,
+    image: CpuSettingsIcon,
   },
   {
     id: 2,
     title: CATALOG_SERVICE_TYPES?.SOFTWARE_INSTALLATION,
     description:
       'Browse the list of  Softer ware installation services  offered and raise a request.',
-    image: SoftwareFeaturedImage,
+    image: SoftwareCatalogIcon,
   },
   {
     id: 3,
     title: CATALOG_SERVICE_TYPES?.PM_TOOLS,
     description:
       'Browse the list of project management services  offered and raise a request..',
-    image: PmFeaturedImage,
+    image: PmToolsIcon,
   },
   {
     id: 4,
     title: CATALOG_SERVICE_TYPES?.HARDWARE,
     description:
       'Browse the list of hardware services  offered and raise a request.',
-    image: HardwareFeaturedImage,
+    image: HardwareIcon,
   },
 ];
 export const allServices = [

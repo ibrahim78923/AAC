@@ -9,14 +9,12 @@ const useEmailMarketing = () => {
   const [selectedActionsValue, setSelectedOptionsValue] = useState('');
   const [isOpenFilter, setIsOpenFilter] = useState(false);
   const [actionsModalDetails, setActionsModalDetails] = useState({
-    isClone: false,
-    isOpenFilterDrawer: false,
-    isExportCompaign: false,
-    isEditCompaign: false,
-    isEditColumns: false,
     isViewDeatsils: false,
     isDuplicate: false,
     isArchive: false,
+    isDelete: false,
+    isMoveToFolder: false,
+    isSaveAsTemplate: false,
   });
   const [isDelete, setIsDelete] = useState(false);
 
@@ -35,10 +33,28 @@ const useEmailMarketing = () => {
         setActionsModalDetails({ ...actionsModalDetails, isArchive: true });
         break;
 
+      case emailOptions?.DELETE:
+        setActionsModalDetails({
+          ...actionsModalDetails,
+          isDelete: true,
+        });
+        break;
       case emailOptions?.VIEW_DETAILS:
         setActionsModalDetails({
           ...actionsModalDetails,
           isViewDeatsils: true,
+        });
+        break;
+      case emailOptions?.MOVE_TO_FOLDER:
+        setActionsModalDetails({
+          ...actionsModalDetails,
+          isMoveToFolder: true,
+        });
+        break;
+      case emailOptions?.SAVE_EMAIL_AS_TEMPLATE:
+        setActionsModalDetails({
+          ...actionsModalDetails,
+          isSaveAsTemplate: true,
         });
         break;
 
