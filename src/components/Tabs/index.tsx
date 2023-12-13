@@ -3,8 +3,6 @@ import React, { useState, useEffect } from 'react';
 import { Tabs, Tab, Box, useTheme } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
-import Search from '../Search';
-
 import { CommonTabsPropsI, TabPanelPropsI } from './Tabs.interface';
 
 import { styles } from './Tabs.style';
@@ -38,9 +36,6 @@ const CommonTabs = (props: CommonTabsPropsI) => {
     tabStyle = 'horizontal',
     tabsArray,
     children,
-    isHeader,
-    headerChildren,
-    searchBarProps = {},
     getTabVal = () => {},
     addIcon = false,
     onAddClick = () => {},
@@ -107,12 +102,12 @@ const CommonTabs = (props: CommonTabsPropsI) => {
           </Box>
         )}
       </Box>
-      {isHeader && (
+      {/* {isHeader && (
         <Box sx={styles.headerWrapper}>
           <Search size="small" {...searchBarProps} />
           <Box sx={styles.headerChild}>{headerChildren}</Box>
         </Box>
-      )}
+      )} */}
       {arrayChildren?.map((tab: React.ReactNode | string, index: number) => (
         <div key={uuidv4()}>
           {value === index && (
