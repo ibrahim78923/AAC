@@ -21,7 +21,7 @@ const useDocuments = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [postDocumentFolder] = usePostDocumentFolderMutation();
   const { data, isLoading, isError, isFetching, isSuccess } =
-    useGetDocumentFolderQuery({ createdById: '' });
+    useGetDocumentFolderQuery([]);
 
   const open = Boolean(anchorEl);
 
@@ -38,11 +38,11 @@ const useDocuments = () => {
     defaultValues: defaultValuesFolder,
   });
 
-  const { handleSubmit } = FolderAdd;
+  const { handleSubmit, watch, reset } = FolderAdd;
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async () => {
     const documentData = {
-      data,
+      name: watch('name'),
     };
     try {
       await postDocumentFolder({
@@ -51,15 +51,15 @@ const useDocuments = () => {
       enqueueSnackbar('Folder Created Successfully', {
         variant: 'success',
       });
-      // reset(ContactStatusvalidationSchema);
-      // setIsDraweropen(false);
+      reset(validationSchema);
+      setIsOpenModal(false);
     } catch (error: any) {
       enqueueSnackbar('Something went wrong !', { variant: 'error' });
     }
   };
 
   return {
-    data,
+    data: data?.folders,
     isLoading,
     isError,
     isFetching,

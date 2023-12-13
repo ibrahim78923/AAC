@@ -64,7 +64,6 @@ const Documents = (props: any) => {
     handleClose,
     FolderAdd,
     onSubmit,
-    data,
   } = useDocuments();
 
   return (
@@ -406,7 +405,7 @@ const Documents = (props: any) => {
                         color: `${theme?.palette?.grey[600]}`,
                       }}
                     >
-                      {item?.folderName}
+                      {item?.name}
                     </Typography>
                     <Typography
                       variant="body3"
@@ -458,9 +457,10 @@ const Documents = (props: any) => {
       <CommonModal
         open={isOpenModal}
         handleClose={() => setIsOpenModal(false)}
-        handleSubmit={() => onSubmit(data)}
+        handleSubmit={() => onSubmit()}
         title={'Create new folder'}
         okText={'Create Folder'}
+        cancelText="Cancel"
         footerFill={true}
         footer={true}
       >
@@ -476,29 +476,6 @@ const Documents = (props: any) => {
             ))}
           </Grid>
         </FormProvider>
-        {/* <Box
-          sx={{
-            paddingTop: '10px',
-            display: 'flex',
-            justifyContent: 'flex-end',
-            gap: '1rem',
-          }}
-        >
-          <Button
-            variant="outlined"
-            className="small"
-            onClick={() => setIsOpenModal(false)}
-          >
-            Cancel
-          </Button>
-          <Button
-            className="small"
-            variant="contained"
-            onClick={() => setIsOpenModal(false)}
-          >
-            Create Folder
-          </Button>
-        </Box> */}
       </CommonModal>
       <CommonModal
         open={isEditOpenModal}

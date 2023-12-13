@@ -93,7 +93,7 @@ export const ORG_ADMIN = {
 };
 
 export const COMMON_DOCUMENTS = {
-  POST_DOCUMENTS_FOLDER: '/documents/folders',
+  POST_DOCUMENTS_FOLDER: '/documents/folder',
   POST_DOCUMENTS_FILE: '/documents/file',
   GET_DOCUMENT_FOLDER: '/documents/folders',
   GET_DOCUMENT_FILE: '/documents/files',
