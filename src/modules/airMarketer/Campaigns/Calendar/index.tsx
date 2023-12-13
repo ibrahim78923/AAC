@@ -119,7 +119,12 @@ const Calendar = () => {
               <TableCell>Assigned to</TableCell>
               <TableCell>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-                  <Image src={AvatarImage} alt="dd" width={40} height={40} />
+                  <Image
+                    src={AvatarImage.src}
+                    alt="dd"
+                    width={40}
+                    height={40}
+                  />
                   <Box>
                     <Typography
                       variant="body2"

@@ -62,8 +62,8 @@ const useCalendar = () => {
 
   const handlePrevClick = () => {
     const newDate = dayjs(calendarDate)
-      .subtract(1, 'day')
-      .format('D MMMM YYYY');
+      ?.subtract(1, 'day')
+      ?.format(DATE_FORMAT?.UI);
 
     setCalendarDate(newDate);
   };
