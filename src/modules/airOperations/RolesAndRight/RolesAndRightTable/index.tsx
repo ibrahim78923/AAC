@@ -1,15 +1,18 @@
 import { PlusSharedColorIcon } from '@/assets/icons';
 import Search from '@/components/Search';
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, Grid, Typography } from '@mui/material';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { rolesListData } from './RolesAndRightTable.data';
 import { useRolesAndRightTable } from './useRolesAndRightTable';
 import { AlertModals } from '@/components/AlertModals';
-import { ALERT_MODALS_TYPE } from '@/constants/strings';
+import { ALERT_MODALS_TYPE, ROLES_ACTION_CONSTANTS } from '@/constants/strings';
 import ErrorIcon from '@mui/icons-material/Error';
 import CommonDrawer from '@/components/CommonDrawer';
-
+import { v4 as uuidv4 } from 'uuid';
+import { FormProvider } from '@/components/ReactHookForm';
+import { upsertRolesData } from '../UpsertRoleAndRightForm/UpsertRoleAndRightForm.data';
+import RolesAndRightFormAccordion from '../RolesAndRightFormAccordion';
 const RolesAndRightTable = () => {
   const {
     selectedRolesList,
@@ -20,11 +23,15 @@ const RolesAndRightTable = () => {
     openDeleteModel,
     handleDeleteClose,
     handleDelete,
-    handleCloseEditRole,
+    handleCloseRole,
     isRolesModalOpen,
-
     handleAddRolesModal,
+    handleSubmit,
+    onSubmit,
+    rolesMethods,
+    currentActionType,
   } = useRolesAndRightTable();
+
   return (
     <>
       <Box
@@ -37,7 +44,9 @@ const RolesAndRightTable = () => {
         <Button
           variant="contained"
           startIcon={<PlusSharedColorIcon />}
-          onClick={() => handleAddRolesModal?.(true)}
+          onClick={() =>
+            handleAddRolesModal(ROLES_ACTION_CONSTANTS?.ADD_NEW_ROLE, true)
+          }
         >
           Add new role
         </Button>
@@ -76,15 +85,38 @@ const RolesAndRightTable = () => {
       <Box>
         <CommonDrawer
           isDrawerOpen={isRolesModalOpen}
-          onClose={handleCloseEditRole}
-          title={'Add New Role'}
+          onClose={handleCloseRole}
+          title={
+            currentActionType === ROLES_ACTION_CONSTANTS?.ADD_NEW_ROLE
+              ? 'Add New Role'
+              : 'User Role'
+          }
           okText={'Add'}
           isOk
+          isDisabled={currentActionType === ROLES_ACTION_CONSTANTS?.VIEW}
           cancelText={'Cancel'}
           footer
-          submitHandler={() => {}}
+          submitHandler={handleSubmit(onSubmit)}
         >
-          <Box></Box>
+          <Box mt={1}>
+            <FormProvider methods={rolesMethods}>
+              <Grid container spacing={4}>
+                {upsertRolesData?.map((item: any) => (
+                  <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                    <item.component {...item?.componentProps} size={'small'}>
+                      {item?.componentProps?.select &&
+                        item?.options?.map((option: any) => (
+                          <option key={uuidv4()} value={option?.value}>
+                            {option?.label}
+                          </option>
+                        ))}
+                    </item.component>
+                  </Grid>
+                ))}
+                <RolesAndRightFormAccordion />
+              </Grid>
+            </FormProvider>
+          </Box>
         </CommonDrawer>
         <AlertModals
           message="Are you sure you want to delete Role"

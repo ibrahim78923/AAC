@@ -36,8 +36,10 @@ const Notes = () => {
     <Box sx={styles?.horizontalTabsBox}>
       <Grid container spacing={2}>
         <Grid item xs={12}>
+          <Typography variant="h4"> Notes</Typography>
+        </Grid>
+        <Grid item xs={12}>
           <Box sx={styles?.headingSpacingBetween}>
-            <Typography variant="h4"> Notes</Typography>
             {!isNullOrEmpty(data?.data?.notes) && (
               <Box
                 sx={{

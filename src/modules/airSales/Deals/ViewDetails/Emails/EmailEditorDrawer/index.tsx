@@ -65,12 +65,18 @@ const EmailEditorDrawer = (props: any) => {
           >
             <Grid container spacing={3}>
               <Grid item xs={12}>
-                <RHFTextField name="fromEmail" label="From" size="small" />
+                <RHFTextField
+                  name="fromEmail"
+                  label="From"
+                  size="small"
+                  placeholder="From"
+                />
               </Grid>
               <Grid item xs={12}>
                 <RHFAutocomplete
                   name="toEmail"
                   label="To"
+                  placeholder="To"
                   options={options}
                   multiple
                   freeSolo
@@ -108,6 +114,25 @@ const EmailEditorDrawer = (props: any) => {
                   />
                 </Grid>
               )}
+              <Grid item md={6}>
+                <RHFTextField
+                  name="subject"
+                  label="Subject"
+                  required={true}
+                  size="small"
+                  placeholder={'Write a subject line'}
+                />
+              </Grid>
+
+              <Grid item md={6}>
+                <RHFSelect name="outcomes" label="Outcomes" size="small">
+                  {options?.map((option: any) => (
+                    <option key={uuidv4()} value={option?.value}>
+                      {option?.label}
+                    </option>
+                  ))}
+                </RHFSelect>
+              </Grid>
               <Grid item xs={12}>
                 <Box
                   sx={{
@@ -133,8 +158,8 @@ const EmailEditorDrawer = (props: any) => {
                       variant="body2"
                       sx={{ color: theme?.palette?.slateBlue?.main }}
                     >
-                      You haven’t connected your email to the CRM?. Connect it
-                      now to keep your conversations synced?.
+                      You haven’t connected your email to the CRM? <br />
+                      Connect it now to keep your conversations synced?
                     </Typography>
                   </Box>
 
@@ -154,7 +179,7 @@ const EmailEditorDrawer = (props: any) => {
                       }}
                       className="small"
                     >
-                      <GmailIcon />{' '}
+                      <GmailIcon width={22} height={22} />
                       <Typography variant="body2">Gmail</Typography>
                     </Button>
 
@@ -167,7 +192,7 @@ const EmailEditorDrawer = (props: any) => {
                       }}
                       className="small"
                     >
-                      <OutlookIcon />
+                      <OutlookIcon width={22} height={22} />
                       <Typography variant="body2">Microsoft Outlook</Typography>
                     </Button>
 
@@ -180,24 +205,11 @@ const EmailEditorDrawer = (props: any) => {
                       }}
                       className="small"
                     >
-                      <SMSIcon />{' '}
+                      <SMSIcon width={22} height={22} />
                       <Typography variant="body2">Others</Typography>
                     </Button>
                   </Box>
                 </Box>
-              </Grid>
-              <Grid item md={6}>
-                <RHFTextField name="subject" label="Subject" size="small" />
-              </Grid>
-
-              <Grid item md={6}>
-                <RHFSelect name="template" label="Template" size="small">
-                  {options?.map((option: any) => (
-                    <option key={uuidv4()} value={option?.value}>
-                      {option?.label}
-                    </option>
-                  ))}
-                </RHFSelect>
               </Grid>
 
               <Grid item xs={12}>

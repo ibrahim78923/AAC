@@ -42,7 +42,7 @@ const Contacts = ({ contactsData }: any) => {
             02
           </Typography>
 
-          <Typography variant="subtitle2">Contacts</Typography>
+          <Typography variant="h5">Contacts</Typography>
         </Grid>
         <Grid item md={8} xs={12}>
           <Box
@@ -57,11 +57,11 @@ const Contacts = ({ contactsData }: any) => {
               searchBy={searchName}
               setSearchBy={setSearchName}
               label="Search By Name"
-              size="small"
+              size="medium"
             />
             <Button
               variant="contained"
-              className="small"
+              className="medium"
               sx={{ minWidth: '0px', gap: 0.5 }}
               onClick={() => setOpenDrawer('Add')}
             >

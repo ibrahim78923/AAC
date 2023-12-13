@@ -99,6 +99,7 @@ export const ASSET_TYPE = {
   SERVICES: 'services',
   HARDWARE: 'hardware',
   SOFTWARE: 'software',
+  HARDWARE_CONSUMABLE: 'HardWare/Consumable',
 };
 
 export const SOFTWARE_STATUS = {
@@ -257,10 +258,13 @@ export const ROLES_ACTION_CONSTANTS = {
   EDIT: 'Edit',
   VIEW: 'View',
   DELETE: 'Delete',
+  ADD_NEW_ROLE: 'Add New Role',
 };
 export const ROLES_ACTION_CONSTANTS_DRAWER_ACTION = {
   ADD_ROLE: 'Add Roles',
-  UPDATE_ROLE: 'Update Roles',
+};
+export const ROLES_ACCORDION_DETAILS = {
+  ALL: 'all',
 };
 
 export const DASHBOARD = {

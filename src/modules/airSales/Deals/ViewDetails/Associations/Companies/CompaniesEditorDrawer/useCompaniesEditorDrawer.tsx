@@ -16,7 +16,7 @@ const useCompaniesEditorDrawer = () => {
 
   const onSubmit = () => {};
   const { handleSubmit, watch } = methodsCompanies;
-  const watchProducts = watch(['companieStatus']);
+  const watchProducts = watch(['companyStatus']);
   return {
     handleSubmit,
     onSubmit,

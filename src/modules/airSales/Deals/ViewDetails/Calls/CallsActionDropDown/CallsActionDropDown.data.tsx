@@ -9,14 +9,14 @@ import * as Yup from 'yup';
 
 export const reAssignCallValidationSchema = Yup?.object()?.shape({
   reschedule: Yup?.string()?.trim()?.required('Field is Required'),
-  date: Yup?.string()?.trim()?.required('Field is Required'),
-  time: Yup?.string()?.trim()?.required('Field is Required'),
+  date: Yup?.string()?.nullable()?.required('Field is Required'),
+  time: Yup?.string()?.nullable()?.required('Field is Required'),
 });
 
 export const reAssignCallDefaultValues = {
   reschedule: '',
-  date: '',
-  time: '',
+  date: null,
+  time: null,
 };
 
 export const outcomesValidationSchema = Yup?.object()?.shape({

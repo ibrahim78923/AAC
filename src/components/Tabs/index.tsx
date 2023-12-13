@@ -63,6 +63,7 @@ const CommonTabs = (props: CommonTabsPropsI) => {
   return (
     <Box sx={styles.tabWrapper}>
       <Box
+        className="tabs-container"
         sx={{
           mt: '20px',
           borderBottom: 1,

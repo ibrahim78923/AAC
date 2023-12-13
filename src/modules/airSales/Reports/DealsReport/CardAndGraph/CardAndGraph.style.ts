@@ -48,6 +48,8 @@ export const styles = {
       display: 'flex',
       justifyContent: 'space-between',
       borderRadius: '8px',
+      flexDirection: { lg: 'row', xs: 'column' },
+      alignItems: { lg: 'unset', xs: 'center' },
     };
   },
 };

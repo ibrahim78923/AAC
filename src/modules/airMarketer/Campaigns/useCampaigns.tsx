@@ -20,6 +20,7 @@ const useCampaigns = () => {
     isEditCompaign: false,
     isEditColumns: false,
     isViewDeatsils: false,
+    isSaveView: false,
   });
   const [isDelete, setIsDelete] = useState(false);
   const [isCreateTask, setIsCreateTask] = useState(false);
@@ -31,6 +32,15 @@ const useCampaigns = () => {
     setSelectedValue(event?.currentTarget);
   };
 
+  const handleCloseAddAssetsModal = () => {
+    setIsOpenAddAssets(false);
+  };
+  const handleSaveView = () => {
+    setActionsModalDetails({ ...actionsModalDetails, isSaveView: true });
+  };
+  const handleOpenFilter = () => {
+    setIsOpenFilter(true);
+  };
   const handleSelectedOptionValue = (option: any) => {
     switch (option) {
       case campaignsOptions?.DELETE:
@@ -104,6 +114,9 @@ const useCampaigns = () => {
     isOpenAddAssets,
     setIsOpenFilter,
     setIsOpenAddAssets,
+    handleSaveView,
+    handleCloseAddAssetsModal,
+    handleOpenFilter,
   };
 };
 export default useCampaigns;
