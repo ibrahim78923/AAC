@@ -11,6 +11,7 @@ export const useSalesWorkflow = () => {
     [],
   );
   const [search, setSearch] = useState('');
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
   const salesWorkflowListsColumn = salesWorkflowListsColumnDynamic(
     selectedSalesWorkflowLists,
     setSelectedSalesWorkflowLists,
@@ -32,5 +33,7 @@ export const useSalesWorkflow = () => {
     setSearch,
     salesWorkflowActionDropdown,
     handleBack,
+    isFilterOpen,
+    setIsFilterOpen,
   };
 };

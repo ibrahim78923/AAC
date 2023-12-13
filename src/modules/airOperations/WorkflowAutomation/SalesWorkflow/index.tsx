@@ -12,6 +12,8 @@ export const SalesWorkflow = () => {
     setSearch,
     salesWorkflowActionDropdown,
     handleBack,
+    isFilterOpen,
+    setIsFilterOpen,
   } = useSalesWorkflow();
   return (
     <>
@@ -27,6 +29,8 @@ export const SalesWorkflow = () => {
         search={search}
         setSearch={setSearch}
         salesWorkflowActionDropdown={salesWorkflowActionDropdown}
+        isFilterOpen={isFilterOpen}
+        setIsFilterOpen={setIsFilterOpen}
       />
       <br />
       <TanstackTable
