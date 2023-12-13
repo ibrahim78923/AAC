@@ -11,6 +11,7 @@ import { AIR_MARKETER } from '@/routesConstants/paths';
 import {
   RHFDatePicker,
   RHFDropZone,
+  RHFSelect,
   RHFTextField,
 } from '@/components/ReactHookForm';
 import { Typography } from '@mui/material';
@@ -60,24 +61,12 @@ const useCreateForm = () => {
     // Create a mapping function to translate the type to form configuration
     const mapTypeToConfig = (type: any, label: any) => {
       switch (type) {
-        case 'Heading':
+        case 'Text':
           return {
             componentProps: {
               name: type,
-              heading: 'This Heading text',
-            },
-            md: 12,
-            component: Typography,
-          };
-        case 'paragraph':
-          return {
-            componentProps: {
-              name: type,
-              paragraph:
-                'This is paragraph text need to show paragraph in this font',
-              editorConfig: {
-                // CKEditor configuration options
-              },
+              Text: 'This is paragraph text need to show paragraph in this font',
+              editorConfig: {},
               editorOpen: false,
             },
             md: 12,
@@ -125,6 +114,38 @@ const useCreateForm = () => {
               button: 'text of button',
             },
             component: 'Button',
+            md: 12,
+          };
+        case 'Spacing':
+          return {
+            componentProps: {
+              Spacing: 'for Spacing',
+            },
+            component: 'Spacing',
+            md: 12,
+          };
+        case 'Divider':
+          return {
+            componentProps: {
+              Divider: 'for Divider',
+            },
+            component: 'Divider',
+            md: 12,
+          };
+        case 'Select':
+          return {
+            componentProps: {
+              name: 'PreferredLanguage',
+              label: 'Preferred Language',
+              fullWidth: true,
+              select: true,
+            },
+            options: [
+              { value: 'English', label: 'English' },
+              { value: 'French', label: 'French' },
+              { value: 'Urdu', label: 'Urdu' },
+            ],
+            component: RHFSelect,
             md: 12,
           };
         default:

@@ -133,13 +133,8 @@ export const styleFormArray = [
 
 export const sideBarMenuArray = [
   {
-    name: 'Heading',
-    type: 'Heading',
-    icon: <TextIcon />,
-  },
-  {
-    name: 'paragraph',
-    type: 'paragraph',
+    name: 'Text',
+    type: 'Text',
     icon: <TextIcon />,
   },
   {
@@ -176,11 +171,6 @@ export const customersAttributesArray = [
     icon: <InputIcon />,
   },
   {
-    name: 'Avatar',
-    type: 'Image',
-    icon: <InputIcon />,
-  },
-  {
     name: 'Last Name',
     type: 'Input',
     icon: <InputIcon />,
@@ -206,8 +196,8 @@ export const customersAttributesArray = [
     icon: <InputIcon />,
   },
   {
-    name: ' Preferred Language',
-    type: 'Input',
+    name: 'Preferred Language',
+    type: 'Select',
     icon: <InputIcon />,
   },
 ];

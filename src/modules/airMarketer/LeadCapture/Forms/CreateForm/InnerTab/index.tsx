@@ -1,4 +1,12 @@
-import { Box, Button, Grid, Typography, useTheme, Theme } from '@mui/material';
+import {
+  Box,
+  Button,
+  Grid,
+  Typography,
+  useTheme,
+  Theme,
+  Divider,
+} from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useForm } from 'react-hook-form';
@@ -10,7 +18,7 @@ import {
   dynamicallyFormValidationSchema,
 } from '../CreateForm.data';
 import { useState } from 'react';
-import { DeleteIcon } from '@/assets/icons';
+import { DeleteIcon, DragSharedIcon } from '@/assets/icons';
 import { isNullOrEmpty } from '@/utils';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
@@ -37,7 +45,7 @@ const InnerTab = ({
     setDynamicFields((prevFields: any) => {
       const updatedFields = [...prevFields];
       // updatedFields[index].componentProps.paragraph = content;
-      updatedFields[index].componentProps.paragraph = content;
+      updatedFields[index].componentProps.Text = content;
 
       // Assuming 'paragraph' is the key for the Typography component content
       // Update the Typography component content as well
@@ -79,7 +87,7 @@ const InnerTab = ({
                 md={item?.md}
                 key={uuidv4()}
                 sx={{
-                  padding: '10px !important',
+                  padding: '30px !important',
                   marginLeft: '40px !important',
                   position: 'relative',
                   cursor: 'pointer',
@@ -94,50 +102,20 @@ const InnerTab = ({
                 onMouseLeave={() => setHoveredIndex(null)}
               >
                 {hoveredIndex === index && (
-                  <Box
-                    style={{
-                      position: 'absolute',
-                      top: '10px',
-                      right: '10px',
-                      zIndex: 1,
-                    }}
-                    onClick={() => {
-                      deleteField(index);
-                    }}
-                  >
-                    <DeleteIcon />
+                  <Box sx={styles?.hoverEffect}>
+                    <DragSharedIcon />
+                    <Box
+                      onClick={() => {
+                        deleteField(index);
+                      }}
+                    >
+                      {' '}
+                      <DeleteIcon />
+                    </Box>
                   </Box>
                 )}
-                {item?.componentProps?.heading && (
-                  <Typography variant="h5" sx={{ textAlign: 'center' }}>
-                    {item?.componentProps?.heading}
-                  </Typography>
-                )}
-                {/* {item?.componentProps?.paragraph && (
-                  <Typography variant="body2" sx={{ textAlign: 'center' }}>
-                    {item?.componentProps?.paragraph}
-                  </Typography>
-                )} */}
-                {/* {item?.componentProps?.paragraph && (
-                  <div
-                    onClick={() => handleEditorClick(index)}
-                    style={{ position: 'relative' }}
-                  >
-                    {item?.componentProps?.editorOpen ? (
-                      <CKEditor
-                        editor={ClassicEditor}
-                        data={item?.componentProps?.paragraph}
-                        config={item?.componentProps?.editorConfig}
-                        onChange={(event, editor) => handleEditorChange(index, editor)}
-                      />
-                    ) : (
-                      <Typography variant="body2" sx={{ textAlign: 'center' }}>
-                        {item?.componentProps?.paragraph}
-                      </Typography>
-                    )}
-                  </div>
-                )} */}
-                {item?.componentProps?.paragraph && (
+
+                {item?.componentProps?.Text && (
                   <Box
                     onClick={() => handleEditorClick(index)}
                     sx={{ position: 'relative' }}
@@ -148,7 +126,7 @@ const InnerTab = ({
                       dangerouslySetInnerHTML={{
                         __html:
                           item?.componentProps?.paragraphTypography ||
-                          item?.componentProps?.paragraph,
+                          item?.componentProps?.Text,
                       }}
                     />
                     {item?.componentProps.editorOpen && (
@@ -164,7 +142,7 @@ const InnerTab = ({
                       >
                         <CKEditor
                           editor={ClassicEditor}
-                          data={item?.componentProps?.paragraph}
+                          data={item?.componentProps?.Text}
                           config={item?.componentProps?.editorConfig}
                           onChange={(event, editor) =>
                             handleEditorChange(index, editor)
@@ -179,10 +157,16 @@ const InnerTab = ({
                     {item?.componentProps?.text}
                   </Button>
                 )}
-                <item.component
-                  {...item?.componentProps}
-                  size={'small'}
-                ></item.component>
+                {item?.componentProps?.Spacing && <Box></Box>}
+                {item?.componentProps?.Divider && <Divider />}
+                <item.component {...item?.componentProps} size={'small'}>
+                  {item?.componentProps?.select &&
+                    item?.options?.map((option: any) => (
+                      <option key={uuidv4()} value={option?.value}>
+                        {option?.label}
+                      </option>
+                    ))}
+                </item.component>
               </Grid>
             ))}
           </Grid>

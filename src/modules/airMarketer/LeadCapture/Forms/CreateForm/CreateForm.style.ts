@@ -74,4 +74,15 @@ export const styles = {
     marginTop: '25px',
     cursor: 'pointer',
   },
+  hoverEffect: {
+    position: 'absolute',
+    top: '0px',
+    right: '10px',
+    zIndex: 1,
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '100%',
+    padding: '10px',
+  },
 };

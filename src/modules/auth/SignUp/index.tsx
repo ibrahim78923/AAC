@@ -231,12 +231,7 @@ const SignUp = () => {
                       </Grid>
                     ) : (
                       <Grid container spacing={4}>
-                        <Grid
-                          item
-                          xs={12}
-                          display={'flex'}
-                          alignItems={'center'}
-                        >
+                        <Grid item xs={12}>
                           <Box
                             onClick={() => setIsStepComplete(false)}
                             sx={{ cursor: 'pointer' }}
