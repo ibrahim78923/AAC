@@ -55,7 +55,10 @@ const CommonModal = ({
               {headerIcon}
               <Typography variant="h5">{title}</Typography>
             </Box>
-            <Box onClick={handleCancel}>
+            <Box
+              onClick={handleCancel}
+              sx={{ width: '30px', height: '40px', cursor: 'pointer' }}
+            >
               <CloseDrawerIcon />
             </Box>
           </Box>

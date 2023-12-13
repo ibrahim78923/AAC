@@ -66,13 +66,13 @@ const ActionButton = () => {
           handleClose={() =>
             setIsAllViewActionsModal({
               ...isAllViewActionsModal,
-              isClone: false,
+              isDelete: false,
             })
           }
           handleSubmit={() =>
             setIsAllViewActionsModal({
               ...isAllViewActionsModal,
-              isClone: false,
+              isDelete: false,
             })
           }
         />
@@ -102,6 +102,7 @@ const ActionButton = () => {
       {isAllViewActionsModal?.isManage && (
         <ManageSharingModal
           isAllViewActionsModal={isAllViewActionsModal?.isManage}
+          setIsAllViewActionsModal={setIsAllViewActionsModal}
           handleCloseModal={() =>
             setIsAllViewActionsModal({
               ...isAllViewActionsModal,
