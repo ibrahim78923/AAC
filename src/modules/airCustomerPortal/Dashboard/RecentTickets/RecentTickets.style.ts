@@ -6,7 +6,7 @@ export const styles = {
     alignItems: { xs: 'start', lg: 'center' },
     flexDirection: { xs: 'column', lg: 'row' },
     gap: 1.6,
-    background: palette?.grey?.[0],
+    background: palette?.grey?.[100],
     borderRadius: '0.75rem',
     mb: 1,
   }),
