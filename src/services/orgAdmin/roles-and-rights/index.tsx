@@ -8,6 +8,9 @@ export const rolesAndRightsAPI = baseAPI.injectEndpoints({
         url: END_POINTS?.GET_PERMISSIONS_ROLES,
         method: 'GET',
         params: values,
+        // headers: {
+        //   "ngrok-skip-browser-warning": "Bearer YOUR_ACCESS_TOKEN_HERE",
+        // },
       }),
       providesTags: ['PERMISSIONS'],
     }),
