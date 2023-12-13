@@ -1,11 +1,7 @@
-
-
 :root {
   --max-width: 1100px;
   --border-radius: 12px;
-  --font-mono:  'Plus Jakarta Sans',
-
-  --foreground-rgb: 0, 0, 0;
+  --font-mono: 'Plus Jakarta Sans', --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
 
@@ -40,8 +36,6 @@
   --card-border-rgb: 131, 134, 135;
 }
 
-
-
 * {
   box-sizing: border-box;
   padding: 0;
@@ -56,23 +50,20 @@ body {
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: transparent
+  background: transparent;
 }
-.ant-drawer-header-title{
+.ant-drawer-header-title {
   flex-direction: row-reverse !important;
-
 }
 .ant-drawer-content {
   border-radius: 12px 0px 0px 12px !important;
   box-shadow: -2px 0px 4px 4px rgba(55, 58, 60, 0.04) !important;
- 
 }
 @media screen and (min-width: 1000px) {
-.ant-drawer-content-wrapper{
-  width: 508px !important;
+  .ant-drawer-content-wrapper {
+    width: 508px !important;
+  }
 }
-}
-
 
 a {
   color: inherit;
@@ -84,7 +75,7 @@ a {
   /* Add other styles as needed */
 }
 
-.fc-direction-ltr .fc-toolbar>*> :not(:first-child),
+.fc-direction-ltr .fc-toolbar > * > :not(:first-child),
 .fc .fc-button:not(:disabled) {
   background-color: white;
   border-color: transparent;
@@ -93,4 +84,21 @@ a {
 
 .fc .fc-button-primary:focus {
   box-shadow: none;
+}
+
+.fc-Prev-button {
+  background-color: #6b7280 !important;
+  color: #ffffff !important;
+  border-radius: 8px !important;
+}
+.fc-Next-button {
+  background-color: #6b7280 !important;
+  color: #ffffff !important;
+  border-radius: 8px !important;
+}
+
+.fc-today-button {
+  font-size: 18px !important;
+  font-weight: 500 !important;
+  color: #6b7280 !important;
 }
