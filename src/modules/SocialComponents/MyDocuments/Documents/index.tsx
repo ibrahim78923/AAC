@@ -10,6 +10,7 @@ import {
   Menu,
   MenuItem,
   TextField,
+  Tooltip,
   Typography,
 } from '@mui/material';
 
@@ -28,6 +29,7 @@ import {
   TeamUserIcon,
   TwoUserBlackIcon,
   FilterrIcon,
+  RefreshTasksIcon,
 } from '@/assets/icons';
 import { UserRoundImage } from '@/assets/images';
 
@@ -315,6 +317,7 @@ const Documents = (props: any) => {
               aria-haspopup="true"
               aria-expanded={open ? 'true' : undefined}
               onClick={handleClick}
+              className="small"
             >
               Action
               <ArrowDropDownIcon
@@ -356,12 +359,20 @@ const Documents = (props: any) => {
                 Delete
               </MenuItem>
             </Menu>
+            <Box>
+              <Tooltip title={'Refresh Filter'}>
+                <Button variant="outlined" color="inherit" className="small">
+                  <RefreshTasksIcon />
+                </Button>
+              </Tooltip>
+            </Box>
             <Button
               onClick={() => {
                 setIsOpenDrawer(true);
               }}
               variant="outlined"
               sx={styles?.fiterButton(theme)}
+              className="small"
             >
               <FilterrIcon /> Any
             </Button>
