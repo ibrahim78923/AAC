@@ -94,3 +94,14 @@ export const ORG_ADMIN = {
   GET_INVOICES: '/org-admin/invoices',
   PRODUCT_PLAN_LIST: '/plan/product-plan-list',
 };
+
+export const COMMON_DOCUMENTS = {
+  POST_DOCUMENTS_FOLDER: '/documents/folder',
+  POST_DOCUMENTS_FILE: '/documents/file',
+  GET_DOCUMENT_FOLDER: '/documents/folders',
+  GET_DOCUMENT_FILE: '/documents/files',
+  PATCH_DOCUMENT_FOLDER_ID: '/documents/folders',
+  PATCH_DOCUMENT_FILE_ID: '/documents/file',
+  DELETE_DOCUMENT_FOLDER_ID: '/documents/folder',
+  DELETE_DOCUMENT_FILE_ID: '/documents/file',
+};
