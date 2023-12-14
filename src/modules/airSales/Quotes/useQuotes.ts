@@ -1,6 +1,13 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { PAGINATION } from '@/config';
+import { useForm } from 'react-hook-form';
+import {
+  useGetQuotesQuery,
+  // usePostQuoteMutation,
+  // useDeleteQuotesMutation,
+  // useUpdateQuoteMutation,
+} from '@/services/airSales/quotes';
 
 const useQuotes = () => {
   const router = useRouter();
@@ -38,12 +45,38 @@ const useQuotes = () => {
   const handleCloseFilter = () => {
     setOpenFilter(false);
   };
-
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const defaultParams = {
+    page: PAGINATION?.CURRENT_PAGE,
+    limit: PAGINATION?.PAGE_LIMIT,
+  };
+  const [searchValue, setSearchValue] = useState(null);
+  const [filterParams, setFilterParams] = useState({
+    page: page,
+    limit: pageLimit,
+  });
+  let searchPayLoad;
+  if (searchValue) {
+    searchPayLoad = { search: searchValue };
+  }
+  const methodsFilter: any = useForm();
+  const { handleSubmit: handleMethodFilter, reset: resetFilters } =
+    methodsFilter;
+  const { data: dataGetQuotes, isLoading: loagingGetQuotes } =
+    useGetQuotesQuery({
+      params: { ...filterParams, ...searchPayLoad },
+    });
+
   // Hadle PAGE CHANGE
   const handlePageChange = (newPage: number) => {
     setPage(newPage);
+  };
+
+  // Refresh
+  const handleRefresh = () => {
+    setFilterParams(defaultParams);
+    resetFilters();
   };
 
   // Customize Columns Drawer
@@ -84,10 +117,13 @@ const useQuotes = () => {
   };
 
   return {
+    handleMethodFilter,
     pageLimit,
     setPageLimit,
+    setSearchValue,
     page,
     setPage,
+    handleRefresh,
     handlePageChange,
     selectedRow,
     setSelectedRow,
@@ -116,6 +152,9 @@ const useQuotes = () => {
     openDeleteQuote,
     handleOpenDeleteQuote,
     handleCloseDeleteQuote,
+
+    dataGetQuotes,
+    loagingGetQuotes,
   };
 };
 

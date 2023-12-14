@@ -1,6 +1,5 @@
 import { Box } from '@mui/material';
 import { AlertModals } from '@/components/AlertModals';
-import { quotesListData } from '@/mock/modules/Quotes';
 import TanstackTable from '@/components/Table/TanstackTable';
 import TableToolbar from './TableToolbar';
 import PageHeader from './PageHeader';
@@ -23,6 +22,7 @@ const Quotes = () => {
     openFilter,
     handleCloseFilter,
     handleOpenFilter,
+    setSearchValue,
     openCustomizeColumns,
     handleOpenCustomizeColumns,
     handleCloseCustomizeColumns,
@@ -35,6 +35,8 @@ const Quotes = () => {
     openDeleteQuote,
     handleOpenDeleteQuote,
     handleCloseDeleteQuote,
+    dataGetQuotes,
+    loagingGetQuotes,
   } = useQuotes();
 
   const getQuotesColumns = quotesColumns(
@@ -54,6 +56,7 @@ const Quotes = () => {
         <PageHeader />
 
         <TableToolbar
+          setSearchValue={setSearchValue}
           handleFilters={handleOpenFilter}
           handleCustomizeColumns={handleOpenCustomizeColumns}
           handleResetFilters={() => alert('Refresh')}
@@ -64,8 +67,8 @@ const Quotes = () => {
 
         <TanstackTable
           columns={getQuotesColumns}
-          data={quotesListData}
-          //isLoading={loagingGetFaqs}
+          data={dataGetQuotes?.data}
+          isLoading={loagingGetQuotes}
           isPagination
           count={4}
           totalRecords={26}
