@@ -55,7 +55,7 @@ const useSalesEditorDrawer = ({ selectedCheckboxes, isEditMode }: any) => {
             body: values,
             id: editRowValue?._id,
           }).unwrap()
-        : await postSalesProduct({ body: values }).unwrap();
+        : await postSalesProduct({ body: values })?.unwrap();
     } catch (error) {
       const errMsg = error?.data?.message;
       enqueueSnackbar(errMsg ?? 'Error occurred', {
