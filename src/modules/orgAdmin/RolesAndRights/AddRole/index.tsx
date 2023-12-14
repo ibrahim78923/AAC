@@ -15,10 +15,8 @@ import useAddRole from './useAddRole';
 import { ArrowBack } from '@mui/icons-material';
 
 const AddRole = () => {
-  const { navigate, onSubmit, methods, theme } = useAddRole();
-
-  const { handleSubmit, watch } = methods;
-  const productVal = watch('productId');
+  const { navigate, onSubmit, methods, theme, handleSubmit, productVal } =
+    useAddRole();
 
   return (
     <>
@@ -36,9 +34,6 @@ const AddRole = () => {
           <Grid container spacing={2}>
             {addUsersArrayData()?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                <Typography variant="body2" fontWeight={500}>
-                  {item?.title}
-                </Typography>
                 <item.component {...item.componentProps} size={'small'}>
                   {item?.componentProps?.select &&
                     item?.options?.map((option: any) => (
@@ -71,6 +66,7 @@ const AddRole = () => {
           >
             <Button
               variant="outlined"
+              color="inherit"
               onClick={() => {
                 navigate.push(ORG_ADMIN.ROLES_AND_RIGHTS);
               }}

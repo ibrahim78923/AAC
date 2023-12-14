@@ -1,13 +1,18 @@
 import { useTheme } from '@mui/material';
 import { useState } from 'react';
-import { UserList } from './User.data';
+import { userList } from './User.data';
 
 export const useUser = () => {
   const theme = useTheme();
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [searchValue, setSearchValue] = useState<string>('');
   const [selectedUserList, setSelectedUserList] = useState<any>([]);
-  const userListColumn = UserList(selectedUserList, setSelectedUserList);
+
+  const userListColumn = userList(
+    selectedUserList,
+    setSelectedUserList,
+    setIsDrawerOpen,
+  );
   return {
     theme,
     selectedUserList,

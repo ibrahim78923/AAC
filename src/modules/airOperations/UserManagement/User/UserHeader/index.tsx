@@ -24,7 +24,7 @@ export const UserHeader = ({ selectedUserList }: any) => {
       <Box display={'flex'} gap={1} mt={{ xs: 2, sm: 0 }}>
         <SingleDropdownButton
           dropdownName={'Actions'}
-          disabled={!!!selectedUserList?.length}
+          disabled={!selectedUserList?.length}
         />
         <Button
           startIcon={<CirclePlusIcon />}

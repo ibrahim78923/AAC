@@ -27,10 +27,10 @@ const useRolesAndRights = () => {
   const permissionParams = {
     page: page,
     limit: pageLimit,
-    organizationCompanyAccountId: '56cb91bdc3464f14678934ca',
-    search: filterValues?.search,
+    organizationCompanyAccountId: '653f2b8d0637653df4a4f859',
     productId: filterValues?.productId,
     status: filterValues?.status,
+    search: filterValues?.search,
     // dateStart: dayjs(filterValues?.dateStart)?.format('YYYY-MM-DD')
   };
 
@@ -57,12 +57,12 @@ const useRolesAndRights = () => {
     setFilterValues,
     checkedRows,
     getPermissions,
+    setPageLimit,
     handleClose,
     handleClick,
     navigate,
-    theme,
-    setPageLimit,
     setPage,
+    theme,
   };
 };
 

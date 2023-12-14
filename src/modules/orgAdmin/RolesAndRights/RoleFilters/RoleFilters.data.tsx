@@ -22,8 +22,8 @@ export const rolesFiltersArray = () => {
 
   return [
     {
-      title: 'Role Name',
       componentProps: {
+        label: 'Role Name',
         name: 'roleName',
         fullWidth: true,
         select: true,
@@ -36,8 +36,8 @@ export const rolesFiltersArray = () => {
       md: 12,
     },
     {
-      title: 'Product',
       componentProps: {
+        label: 'Product',
         name: 'product',
         fullWidth: true,
         select: true,
@@ -52,8 +52,8 @@ export const rolesFiltersArray = () => {
     },
 
     {
-      title: 'Status',
       componentProps: {
+        label: 'Status',
         name: 'status',
         fullWidth: true,
         select: true,
@@ -67,8 +67,8 @@ export const rolesFiltersArray = () => {
     },
 
     // {
-    //   title: 'Created Date',
     //   componentProps: {
+    //   label: 'Created Date',
     //     name: 'dateStart',
     //     fullWidth: true,
     //   },
