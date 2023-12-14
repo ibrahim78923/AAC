@@ -1,4 +1,4 @@
-import { Grid, Typography } from '@mui/material';
+import { Grid } from '@mui/material';
 
 import CommonDrawer from '@/components/CommonDrawer';
 import {
@@ -48,9 +48,6 @@ const RoleFilters = (props: any) => {
         <Grid container spacing={2}>
           {rolesFiltersArray()?.map((item: any) => (
             <Grid item xs={12} md={item?.md} key={uuidv4()}>
-              <Typography variant="body2" fontWeight={500}>
-                {item?.title}
-              </Typography>
               <item.component {...item?.componentProps} size={'small'}>
                 {item?.componentProps?.select &&
                   item?.options?.map((option: any) => (

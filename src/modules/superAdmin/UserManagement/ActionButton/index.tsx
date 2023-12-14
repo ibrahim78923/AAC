@@ -6,7 +6,6 @@ import AddUser from '../Users/AddUser';
 const ActionButton = (props?: any) => {
   const { checkedRows, tabVal, setIsOpenAddUserDrawer } = props;
   const {
-    theme,
     selectedValue,
     handleClick,
     handleClose,
@@ -17,16 +16,14 @@ const ActionButton = (props?: any) => {
   const { data } = useGetUsersByIdQuery(checkedRows);
 
   return (
-    <Box>
+    <Box sx={{ width: { xs: '100%', sm: 'auto' } }}>
       <Button
+        className="small"
+        variant="outlined"
+        color="inherit"
         onClick={handleClick}
         disabled={checkedRows === undefined ? true : false}
-        sx={{
-          border: `1px solid ${theme?.palette?.custom?.dark}`,
-          color: theme?.palette?.custom?.main,
-          width: '112px',
-          height: '36px',
-        }}
+        sx={{ width: { sm: '112px', xs: '100%' } }}
       >
         Actions
         <ArrowDropDown />
@@ -69,7 +66,6 @@ const ActionButton = (props?: any) => {
           Edit
         </MenuItem>
       </Menu>
-
       {isOpenAddUserDrawer?.drawer && (
         <AddUser
           tabVal={tabVal}

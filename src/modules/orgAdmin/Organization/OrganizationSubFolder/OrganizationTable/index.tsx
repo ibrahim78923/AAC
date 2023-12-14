@@ -64,6 +64,8 @@ const OrganizationTable = () => {
     imageHandler,
     setImageHandler,
     editData,
+    value,
+    setValue,
   } = useOrganizationTable();
 
   return (
@@ -327,14 +329,27 @@ const OrganizationTable = () => {
                   'aria-labelledby': 'basic-button',
                 }}
               >
-                <MenuItem onClick={() => setIsOpenDrawer(true)}>Edit</MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    handleClose();
+                    setIsOpenDrawer(true);
+                  }}
+                >
+                  Edit
+                </MenuItem>
                 <MenuItem onClick={handleClose}>View</MenuItem>
-                <MenuItem onClick={() => setIsOpenDelete(true)}>
+                <MenuItem
+                  onClick={() => {
+                    handleClose();
+                    setIsOpenDelete(true);
+                  }}
+                >
                   Delete
                 </MenuItem>
               </Menu>
               <Button
                 onClick={() => {
+                  handleClose();
                   setIsOpenDrawer(true);
                 }}
                 variant="contained"

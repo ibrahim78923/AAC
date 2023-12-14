@@ -114,7 +114,9 @@ const CatalogService = () => {
             bottom={'1rem'}
             right={'2rem'}
           >
-            <Button>Cancel</Button>
+            <Button variant="outlined" color="secondary">
+              Cancel
+            </Button>
             <Button
               variant="contained"
               sx={{ ml: '1rem' }}

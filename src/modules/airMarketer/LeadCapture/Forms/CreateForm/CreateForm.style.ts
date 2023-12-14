@@ -54,6 +54,7 @@ export const styles = {
     margin: 'auto',
     padding: '20px',
     position: 'relative',
+    overflow: 'scroll',
     '@media (max-width:500px)': {
       width: '100%',
       boxShadow: 'none',
@@ -72,5 +73,16 @@ export const styles = {
     border: '1px solid #E5E7EB',
     marginTop: '25px',
     cursor: 'pointer',
+  },
+  hoverEffect: {
+    position: 'absolute',
+    top: '0px',
+    right: '10px',
+    zIndex: 1,
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '100%',
+    padding: '10px',
   },
 };

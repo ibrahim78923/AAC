@@ -8,25 +8,38 @@ import {
 import {
   NOTISTACK_VARIANTS,
   ROLES_ACTION_CONSTANTS,
-  ROLES_ACTION_CONSTANTS_DRAWER_ACTION,
 } from '@/constants/strings';
+import {
+  rolesFormDefaultValues,
+  rolesFormValidationSchema,
+} from '../UpsertRoleAndRightForm/UpsertRoleAndRightForm.data';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 export const useRolesAndRightTable = () => {
   const [selectedRolesList, setSelectedRolesList] = useState([]);
   const [isRolesFilterDrawerOpen, setRolesFilterDrawerOpen] = useState(false);
   const [searchValue, setSearchValue] = useState<string>('');
-  const [editRolesModalTitle, setEditRolesModalTitle] = useState('');
+  const [rolesModalTitle, setRolesModalTitle] = useState('');
   const [isRolesModalOpen, setIsRolesModalOpen] = useState<boolean>(false);
   const [openDeleteModel, setOpenDeleteModel] = useState<boolean>(false);
+  const [currentActionType, setCurrentActionType] = useState<string>('');
+
+  const rolesMethods: any = useForm({
+    resolver: yupResolver(rolesFormValidationSchema),
+    defaultValues: rolesFormDefaultValues,
+  });
 
   const handleOpenDrawer = () => {
     setRolesFilterDrawerOpen(true);
   };
-  const handleCloseEditRole = () => {
+
+  const handleCloseRole = () => {
     setIsRolesModalOpen(false);
   };
-  const handleActionClick = (ActionType: string) => {
-    if (ActionType === ROLES_ACTION_CONSTANTS?.DELETE) {
+
+  const handleActionClick = (actionType: string) => {
+    if (actionType === ROLES_ACTION_CONSTANTS?.DELETE) {
       if (selectedRolesList?.length > 1) {
         enqueueSnackbar(`Record deleted Successfully`, {
           variant: NOTISTACK_VARIANTS?.SUCCESS,
@@ -38,26 +51,37 @@ export const useRolesAndRightTable = () => {
     }
 
     if (selectedRolesList?.length > 1) {
-      enqueueSnackbar(`Can't ${ActionType} multiple records`, {
+      enqueueSnackbar(`Can't ${actionType} multiple records`, {
         variant: NOTISTACK_VARIANTS?.WARNING,
       });
       return;
     }
 
-    if (ActionType === ROLES_ACTION_CONSTANTS?.EDIT) {
-      setEditRolesModalTitle(ROLES_ACTION_CONSTANTS_DRAWER_ACTION?.UPDATE_ROLE);
-    } else if (ActionType === ROLES_ACTION_CONSTANTS?.VIEW) {
+    if (actionType === ROLES_ACTION_CONSTANTS?.EDIT) {
+      setRolesModalTitle(ROLES_ACTION_CONSTANTS?.ADD_NEW_ROLE);
+    } else if (actionType === ROLES_ACTION_CONSTANTS?.VIEW) {
     }
 
+    setCurrentActionType(actionType);
     setIsRolesModalOpen(true);
   };
 
-  const handleAddRolesModal = (isOpen?: boolean) => {
+  const handleAddRolesModal = (actionType: string, isOpen?: boolean) => {
     if (isOpen) {
-      setEditRolesModalTitle(ROLES_ACTION_CONSTANTS_DRAWER_ACTION?.ADD_ROLE);
-      return setIsRolesModalOpen(true);
+      setRolesModalTitle(
+        actionType === ROLES_ACTION_CONSTANTS?.ADD_NEW_ROLE
+          ? ROLES_ACTION_CONSTANTS?.ADD_NEW_ROLE
+          : actionType === ROLES_ACTION_CONSTANTS?.EDIT
+          ? ROLES_ACTION_CONSTANTS?.ADD_NEW_ROLE
+          : '',
+      );
+
+      setCurrentActionType(actionType);
+      setIsRolesModalOpen(true);
+    } else {
+      setCurrentActionType('');
+      setIsRolesModalOpen(false);
     }
-    setIsRolesModalOpen(false);
   };
 
   const RolesListsColumns = rolesListsColumnsFunction(
@@ -78,6 +102,31 @@ export const useRolesAndRightTable = () => {
     setOpenDeleteModel(false);
     setSelectedRolesList([]);
   };
+
+  const { handleSubmit, reset } = rolesMethods;
+
+  const onSubmit = async () => {
+    let successMessage = '';
+
+    switch (currentActionType) {
+      case ROLES_ACTION_CONSTANTS?.ADD_NEW_ROLE:
+        successMessage = 'Role Added Successfully';
+        break;
+      case ROLES_ACTION_CONSTANTS?.EDIT:
+        successMessage = 'Role Updated Successfully';
+        break;
+      default:
+        successMessage = '';
+    }
+
+    enqueueSnackbar(successMessage, {
+      variant: NOTISTACK_VARIANTS?.SUCCESS,
+    });
+
+    reset(rolesFormDefaultValues);
+    setIsRolesModalOpen(false);
+  };
+
   const dropdownOptions = rolesActionsDropdown(handleActionClick);
 
   return {
@@ -92,13 +141,17 @@ export const useRolesAndRightTable = () => {
     setRolesFilterDrawerOpen,
     setIsRolesModalOpen,
     isRolesModalOpen,
-    setEditRolesModalTitle,
-    editRolesModalTitle,
+    setRolesModalTitle,
+    rolesModalTitle,
     handleAddRolesModal,
     openDeleteModel,
     setOpenDeleteModel,
     handleDelete,
     handleDeleteClose,
-    handleCloseEditRole,
+    handleCloseRole,
+    onSubmit,
+    handleSubmit,
+    rolesMethods,
+    currentActionType,
   };
 };

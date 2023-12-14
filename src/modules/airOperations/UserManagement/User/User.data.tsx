@@ -32,9 +32,10 @@ export const userListData: UserListI[] = [
     icon: AvatarImage,
   },
 ];
-export const UserList: any = (
+export const userList: any = (
   selectedUserList: any,
   setSelectedUserList: any,
+  setIsDrawerOpen: any,
 ) => [
   {
     accessorFn: (row: any) => row?.id,
@@ -92,6 +93,7 @@ export const UserList: any = (
             color: 'blue.dull_blue',
             cursor: 'pointer',
           }}
+          onClick={() => setIsDrawerOpen(info?.getValue(), true)}
         >
           {info?.getValue()}
         </Typography>

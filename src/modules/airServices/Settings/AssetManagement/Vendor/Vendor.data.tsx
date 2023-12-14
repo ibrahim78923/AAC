@@ -58,13 +58,6 @@ export const vendorListsColumnsFunction = (router: any): any => [
     cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row?.usedBy,
-    id: 'usedBy',
-    isSortable: true,
-    header: 'UsedBy',
-    cell: (info: any) => info?.getValue(),
-  },
-  {
     accessorFn: (row: any) => row?.mobile,
     id: ' Mobile',
     isSortable: true,

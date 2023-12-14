@@ -159,19 +159,46 @@ const Companies = () => {
                       'aria-labelledby': 'basic-button',
                     }}
                   >
-                    <MenuItem onClick={() => setIsPreview(true)}>
+                    <MenuItem
+                      onClick={() => {
+                        handleClose();
+                        setIsPreview(true);
+                      }}
+                    >
                       Preview
                     </MenuItem>
-                    <MenuItem onClick={() => setIsReassign(true)}>
+                    <MenuItem
+                      onClick={() => {
+                        handleClose();
+                        setIsReassign(true);
+                      }}
+                    >
                       Re-assign
                     </MenuItem>
-                    <MenuItem onClick={() => setIsExport(true)}>
+                    <MenuItem
+                      onClick={() => {
+                        handleClose();
+                        setIsExport(true);
+                      }}
+                    >
                       Export
                     </MenuItem>
-                    <MenuItem onClick={() => setIsDeleteCompany(true)}>
+                    <MenuItem
+                      onClick={() => {
+                        handleClose();
+                        setIsDeleteCompany(true);
+                      }}
+                    >
                       Delete
                     </MenuItem>
-                    <MenuItem onClick={() => setIsMerge(true)}>Merge</MenuItem>
+                    <MenuItem
+                      onClick={() => {
+                        handleClose();
+                        setIsMerge(true);
+                      }}
+                    >
+                      Merge
+                    </MenuItem>
                   </Menu>
 
                   <Button

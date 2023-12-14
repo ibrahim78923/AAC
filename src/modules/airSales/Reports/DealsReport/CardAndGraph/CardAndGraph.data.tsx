@@ -1,8 +1,16 @@
+import { Theme, useTheme } from '@mui/material';
+
+const theme = useTheme<Theme>();
+
 export const series = [28, 18, 54];
-const colors = ['#FF4A4A', '#47B263', '#0AADC7'];
+const colors = [
+  `${theme?.palette?.error?.main}`,
+  `${theme?.palette?.success?.main}`,
+  `${theme?.palette?.custom?.bright}`,
+];
 export const options: any = {
   chart: {
-    width: 380,
+    width: 450,
     type: 'pie',
   },
   labels: ['Loss', 'Win', 'Open'],
@@ -11,6 +19,20 @@ export const options: any = {
   responsive: [
     {
       breakpoint: 480,
+      options: {
+        chart: {
+          width: 320,
+        },
+        legend: {
+          position: 'bottom',
+          itemMargin: {
+            vertical: 12,
+          },
+        },
+      },
+    },
+    {
+      breakpoint: 375,
       options: {
         chart: {
           width: 200,
@@ -26,14 +48,18 @@ export const options: any = {
     fontSize: '14px',
     fontWeight: 500,
     offsetY: 45,
-    color: '#374151',
+    color: `${theme?.palette?.slateBlue?.main}`,
     itemMargin: {
       vertical: 16,
     },
   },
 };
 
-const colorsBar = ['#FF4A4A', '#47B263', '#0AADC7'];
+const colorsBar = [
+  `${theme?.palette?.error?.main}`,
+  `${theme?.palette?.success?.main}`,
+  `${theme?.palette?.custom?.bright}`,
+];
 export const seriesBar = [
   {
     name: 'All Deals',

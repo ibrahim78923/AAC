@@ -190,7 +190,8 @@ export const TICKET_TYPES = {
   MY_OVERDUE_TICKETS: 'My Overdue Tickets',
   MY_OPEN_AND_PENDING_TICKETS: 'My Open and Pending Tickets',
   NEW_AND_MY_OPEN_TICKETS: 'New & My Open Tickets',
-  SPAM: 'SPAM',
+  OPEN_TICKETS_IN_MY_GROUP: 'Open Tickets in My Groups',
+  SPAM_TICKETS: 'Spam Tickets',
   UNRESOLVED_TICKETS: 'All Unresolved Tickets',
   INCIDENTS: 'Incidents',
   SERVICE_REQUEST: 'Service Requests',
@@ -258,12 +259,22 @@ export const ROLES_ACTION_CONSTANTS = {
   EDIT: 'Edit',
   VIEW: 'View',
   DELETE: 'Delete',
+  ADD_NEW_ROLE: 'Add New Role',
 };
 export const ROLES_ACTION_CONSTANTS_DRAWER_ACTION = {
   ADD_ROLE: 'Add Roles',
-  UPDATE_ROLE: 'Update Roles',
+};
+export const ROLES_ACCORDION_DETAILS = {
+  ALL: 'all',
 };
 
 export const DASHBOARD = {
   EDIT: 'edit',
+};
+
+export const USER_MANAGEMENT = {
+  USERVIEW: 'User View',
+  EDIT: 'Edit',
+  BACK: 'Back',
+  CANCEL: 'Cancel',
 };

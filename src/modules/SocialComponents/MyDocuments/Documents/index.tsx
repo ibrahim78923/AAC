@@ -193,7 +193,7 @@ const Documents = (props: any) => {
           setIsOpenFolderDrawer(false);
         }}
         title="Move to folder"
-        okText="ok"
+        okText="Add"
         isOk={true}
         footer={true}
       >
@@ -295,7 +295,7 @@ const Documents = (props: any) => {
         >
           <Search
             label="Search here"
-            width="100%"
+            width="260px"
             searchBy={value}
             setSearchBy={(e: string) => {
               setValue(e);
@@ -326,13 +326,30 @@ const Documents = (props: any) => {
               }}
             >
               <MenuItem onClick={handleClose}>Download</MenuItem>
-              <MenuItem onClick={() => setIsOpenFolderDrawer(true)}>
+              <MenuItem
+                onClick={() => {
+                  handleClose();
+                  setIsOpenFolderDrawer(true);
+                }}
+              >
                 Move To Folder
               </MenuItem>
-              <MenuItem onClick={() => setIsEditOpenModal(true)}>
+              <MenuItem
+                onClick={() => {
+                  handleClose();
+                  setIsEditOpenModal(true);
+                }}
+              >
                 Rename
               </MenuItem>
-              <MenuItem onClick={() => setIsOpenDelete(true)}>Delete</MenuItem>
+              <MenuItem
+                onClick={() => {
+                  handleClose();
+                  setIsOpenDelete(true);
+                }}
+              >
+                Delete
+              </MenuItem>
             </Menu>
             <Button
               onClick={() => {
@@ -354,6 +371,7 @@ const Documents = (props: any) => {
                     border: `1.16px solid ${theme?.palette?.custom?.pale_gray}`,
                     borderRadius: '11.56px',
                     padding: '0.6rem',
+                    cursor: 'pointer',
                   }}
                   key={uuidv4()}
                   onClick={() => {
@@ -462,12 +480,18 @@ const Documents = (props: any) => {
         >
           <Button
             variant="outlined"
-            className="large"
+            className="small"
             onClick={() => setIsOpenModal(false)}
           >
             Cancel
           </Button>
-          <Button variant="contained">Create Folder</Button>
+          <Button
+            className="small"
+            variant="contained"
+            onClick={() => setIsOpenModal(false)}
+          >
+            Create Folder
+          </Button>
         </Box>
       </CommonModal>
       <CommonModal
@@ -491,12 +515,16 @@ const Documents = (props: any) => {
         >
           <Button
             variant="outlined"
-            className="large"
+            className="small"
             onClick={() => setIsEditOpenModal(false)}
           >
             Cancel
           </Button>
-          <Button variant="contained" className="large">
+          <Button
+            variant="contained"
+            className="small"
+            onClick={() => setIsEditOpenModal(false)}
+          >
             Save
           </Button>
         </Box>

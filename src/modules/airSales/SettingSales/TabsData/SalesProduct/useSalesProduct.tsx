@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 
 import { Theme, useTheme } from '@mui/material';
 import { columns } from './SalesProduct.data';
+import { useGetSalesProductQuery } from '@/services/airSales/deals/settings/sales-product';
+import { PAGINATION } from '@/config';
 
 const useSalesProduct = () => {
   const theme = useTheme<Theme>();
@@ -10,11 +12,24 @@ const useSalesProduct = () => {
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
   const [productSearch, setproductSearch] = useState<string>('');
   const [selectedCheckboxes, setSelectedCheckboxes] = useState<any>([]);
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event?.currentTarget);
   };
+
+  const paramsObj: any = {};
+  if (productSearch) paramsObj['search'] = productSearch;
+  const query = '&' + new URLSearchParams(paramsObj)?.toString();
+
+  const { data, isLoading, isSuccess } = useGetSalesProductQuery({
+    query,
+    page,
+    pageLimit,
+  });
+
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -56,6 +71,8 @@ const useSalesProduct = () => {
     setDeleteModalOpen,
     productSearch,
     setproductSearch,
+    setPageLimit,
+    setPage,
     theme,
     anchorEl,
     open,
@@ -67,6 +84,9 @@ const useSalesProduct = () => {
     selectedCheckboxes,
     getRowValues,
     setAnchorEl,
+    salesProductData: data?.data,
+    isLoading,
+    isSuccess,
   };
 };
 
