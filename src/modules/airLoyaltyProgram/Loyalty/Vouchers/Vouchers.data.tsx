@@ -7,6 +7,7 @@ import { AIR_LOYALTY_PROGRAM } from '@/constants';
 import { EyeIcon } from '@/assets/icons';
 import { UserAvatarImage } from '@/assets/images';
 import LocalPrintshopRoundedIcon from '@mui/icons-material/LocalPrintshopRounded';
+import { REQUESTORS_STATUS } from '@/constants/strings';
 
 export const vouchersColumns = [
   {
@@ -54,16 +55,23 @@ export const vouchersColumns = [
       <Chip
         sx={{
           backgroundColor:
-            info?.getValue() === 'Active'
+            info?.getValue() === REQUESTORS_STATUS?.ACTIVE
               ? 'success.lighter'
               : 'custom.error_lighter',
-          color: info?.getValue() === 'Active' ? 'success.main' : 'error.main',
+          color:
+            info?.getValue() === REQUESTORS_STATUS?.ACTIVE
+              ? 'success.main'
+              : 'error.main',
           fontWeight: 500,
           fontSize: '0.7rem',
         }}
         icon={
           <FiberManualRecordIcon
-            color={info?.getValue() === 'Active' ? 'success' : 'error'}
+            color={
+              info?.getValue() === REQUESTORS_STATUS?.ACTIVE
+                ? 'success'
+                : 'error'
+            }
             sx={{ fontSize: '0.7rem' }}
           />
         }
