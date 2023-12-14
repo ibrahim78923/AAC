@@ -1,5 +1,3 @@
-import CustomPagination from '@/components/CustomPagination';
-
 import TanstackTable from '@/components/Table/TanstackTable';
 
 import { superAdminColumns } from '../Users.data';
@@ -7,10 +5,17 @@ import useUserManagement from '../../useUserManagement';
 
 const Admin = (props: any) => {
   const { checkedRows, setCheckedRows, filterValues, searchVal } = props;
-  const { useGetUsersQuery, handleUserSwitchChange } = useUserManagement();
+  const {
+    useGetUsersQuery,
+    handleUserSwitchChange,
+    pageLimit,
+    setPageLimit,
+    page,
+    setPage,
+  } = useUserManagement();
   const params = {
-    page: 1,
-    limit: 100,
+    page: page,
+    limit: pageLimit,
     role: 'SUPER_ADMIN',
     search: searchVal ?? '',
     products: filterValues?.products ?? '',
@@ -26,8 +31,15 @@ const Admin = (props: any) => {
 
   return (
     <>
-      <TanstackTable columns={columnParams} data={data?.data?.users} />
-      <CustomPagination count={1} rowsPerPageOptions={[1, 2]} entriePages={1} />
+      <TanstackTable
+        columns={columnParams}
+        data={data?.data?.users}
+        onPageChange={(page: any) => setPage(page)}
+        setPage={setPage}
+        setPageLimit={setPageLimit}
+        count={data?.data?.meta?.pages}
+        isPagination
+      />
     </>
   );
 };

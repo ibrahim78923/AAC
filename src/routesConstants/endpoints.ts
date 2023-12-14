@@ -19,6 +19,7 @@ export const END_POINTS = {
   ORG_ADMIN_EMP_LIST: '/users/organization',
   ORG_USER_EMPLOYEE: '/users/organization',
   USER_ACCOUNTS_LIST: '/super-admin/accounts-list',
+  USER_ACCOUNT: '/account',
   UPDATE_USER_LIST: '/users/edit',
   COMPANY_CRN: '/auth/search-company',
   auth_search_company: 'auth/search-company',

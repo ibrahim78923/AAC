@@ -45,7 +45,7 @@ const FilterUser = ({ isOpenDrawer, onClose }: any) => {
     >
       <FormProvider methods={methods}>
         <Grid container spacing={1}>
-          {usersFilterArray?.map((item: any) => {
+          {usersFilterArray()?.map((item: any) => {
             return (
               <Grid item xs={12} md={item?.md} key={uuidv4()}>
                 <Typography variant="body2" fontWeight={500}>
