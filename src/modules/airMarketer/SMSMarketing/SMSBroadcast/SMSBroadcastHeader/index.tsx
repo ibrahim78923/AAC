@@ -7,6 +7,7 @@ import {
   MenuItem,
   Select,
   Stack,
+  Tooltip,
 } from '@mui/material';
 
 import Search from '@/components/Search';
@@ -22,6 +23,7 @@ import {
   ArrowSquareLeftIcon,
   ArrowSquareRightIcon,
   PrimaryCalendarIcon,
+  RefreshTasksIcon,
 } from '@/assets/icons';
 
 import dayjs from 'dayjs';
@@ -76,6 +78,12 @@ const SMSBroadcastHeader = (props: any) => {
         }}
       >
         <Search size="small" placeholder="Search Here" />
+
+        <Tooltip title={'Refresh Filter'}>
+          <Button variant="outlined" color="inherit" className="small">
+            <RefreshTasksIcon />
+          </Button>
+        </Tooltip>
 
         <FormControl size="small">
           <Select

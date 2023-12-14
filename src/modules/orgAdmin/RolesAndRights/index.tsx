@@ -1,4 +1,4 @@
-import { Box, Button, Card, Stack, Typography } from '@mui/material';
+import { Box, Button, Card, Stack, Tooltip, Typography } from '@mui/material';
 
 import Search from '@/components/Search';
 import TanstackTable from '@/components/Table/TanstackTable';
@@ -8,13 +8,12 @@ import { columns } from './RoleAndRights.data';
 import useRolesAndRights from './useRolesAndRights';
 import RoleFilters from './RoleFilters';
 
-import { FilterSharedIcon, PlusIcon } from '@/assets/icons';
+import { FilterSharedIcon, PlusIcon, RefreshTasksIcon } from '@/assets/icons';
 import ActionButton from './ActionButton';
 
 const RolesAndRights = () => {
   const {
     navigate,
-    // theme,
     isOpenFilterDrawer,
     setIsOpenFilterDrawer,
     getPermissions,
@@ -24,9 +23,12 @@ const RolesAndRights = () => {
     setFilterValues,
     setPageLimit,
     setPage,
+    resetFilters,
+    updateStatus,
   } = useRolesAndRights();
 
   const columnsProps = {
+    updateStatus: updateStatus,
     checkedRows: checkedRows,
     setCheckedRows: setCheckedRows,
   };
@@ -70,6 +72,18 @@ const RolesAndRights = () => {
 
         <Stack direction="row" gap={1} sx={{ flexWrap: 'wrap' }}>
           <ActionButton checkedRows={checkedRows} />
+
+          <Tooltip title={'Refresh Filter'}>
+            <Button
+              variant="outlined"
+              color="inherit"
+              className="small"
+              onClick={resetFilters}
+            >
+              <RefreshTasksIcon />
+            </Button>
+          </Tooltip>
+
           <Button
             className="small"
             variant="outlined"
