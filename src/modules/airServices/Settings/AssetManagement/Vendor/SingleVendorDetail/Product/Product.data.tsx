@@ -1,6 +1,6 @@
 import DeleteIcon from '@mui/icons-material/Delete';
 import ModeEditOutlineSharpIcon from '@mui/icons-material/ModeEditOutlineSharp';
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 
 export const productData: any = [
   {
@@ -21,7 +21,9 @@ export const productColumns = (
     id: 'productName',
     isSortable: true,
     header: 'Product Name',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => (
+      <Typography fontWeight={600}> {info?.getValue()}</Typography>
+    ),
   },
   {
     accessorFn: (row: any) => row?.price,

@@ -3,8 +3,15 @@ import { Box, Typography, useTheme } from '@mui/material';
 import { useDropzone } from 'react-dropzone';
 import { useFormContext } from 'react-hook-form';
 import { AttachFileIcon } from '@/assets/icons';
+import CustomLabel from '../CustomLabel';
 
-export default function RHFDropZone({ name }: any) {
+export default function RHFDropZone({
+  name,
+  required,
+  fileName = 'Attach a file',
+  fileType = 'SVG, PNG, JPG or GIF (max 2.44 MB)',
+  ...other
+}: any) {
   const {
     setValue,
     getValues,
@@ -36,6 +43,7 @@ export default function RHFDropZone({ name }: any) {
 
   return (
     <>
+      {other?.label && <CustomLabel label={other?.label} required={required} />}
       <Box
         {...getRootProps()}
         sx={{
@@ -56,7 +64,7 @@ export default function RHFDropZone({ name }: any) {
           <Box>
             <AttachFileIcon />
             <Typography variant="body1" fontWeight={'bold'}>
-              Attach a file
+              {fileName}
             </Typography>
             <Typography variant="body2">
               <Typography
@@ -69,7 +77,7 @@ export default function RHFDropZone({ name }: any) {
               or drag and drop
             </Typography>
             <Typography component="span" fontSize={12}>
-              SVG, PNG, JPG or GIF (max 2.44 MB)
+              {fileType}
             </Typography>
           </Box>
         )}

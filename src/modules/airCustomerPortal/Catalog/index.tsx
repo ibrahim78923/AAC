@@ -1,11 +1,12 @@
 import React from 'react';
-import { Box, Grid, Typography } from '@mui/material';
+import { Avatar, Box, Grid, Typography, useTheme } from '@mui/material';
 import Image from 'next/image';
 import { v4 as uuidv4 } from 'uuid';
 import { services } from './Catalog.data';
 import useCatalog from './useCatalog';
 
 const Catalog = () => {
+  const theme = useTheme();
   const { handleClick, result, handleClickService } = useCatalog();
   return (
     <>
@@ -20,19 +21,19 @@ const Catalog = () => {
               borderColor={'primary.lighter'}
               textAlign="center"
               mt={2}
+              p={2}
               sx={{ cursor: 'pointer' }}
             >
-              <Box
-                alignItems={'center'}
-                display={'flex'}
-                justifyContent={'center'}
-              >
-                <Image
-                  src={service?.image}
-                  height={40}
-                  width={40}
+              <Box textAlign={'center'}>
+                <Avatar
+                  sx={{
+                    backgroundColor: theme?.palette?.primary?.light,
+                    margin: 'auto',
+                  }}
                   alt={`Service ${service?.id} Image`}
-                />
+                >
+                  <service.image />
+                </Avatar>
               </Box>
               <Typography variant="h5" mt={2}>
                 {service?.title}

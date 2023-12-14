@@ -32,7 +32,7 @@ export const UpsertAsset = (props: any) => {
         mb={1}
       >
         <Typography variant={'h3'}>
-          {isUpsertModalOpen?.id ? 'Edit' : 'Add'} Vendor
+          {isUpsertModalOpen?.id ? 'Update' : 'Add'} Vendor
         </Typography>
         <CloseIcon
           sx={{ cursor: 'pointer' }}
@@ -58,7 +58,7 @@ export const UpsertAsset = (props: any) => {
                 Cancel
               </Button>
               <Button type={'submit'} variant={'contained'}>
-                Save
+                {isUpsertModalOpen?.id ? 'Update' : 'Save'}
               </Button>
             </Grid>
           </Grid>

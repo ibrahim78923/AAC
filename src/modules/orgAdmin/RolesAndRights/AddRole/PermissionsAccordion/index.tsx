@@ -49,7 +49,9 @@ const PermissionsAccordion = () => {
         >
           <Box display="flex" alignItems="center">
             <FormControlLabel control={<SwitchBtn />} label="" />
-            <Typography variant="h4">Dashboard</Typography>
+            <Typography variant="h4" fontWeight={700}>
+              Dashboard
+            </Typography>
           </Box>
         </AccordionSummary>
         <AccordionDetails>
@@ -87,7 +89,7 @@ const PermissionsAccordion = () => {
             <Typography variant="h4">Deals</Typography>
           </Box>
         </AccordionSummary>
-        <AccordionDetails>
+        <AccordionDetails sx={{ p: 0 }}>
           <DealsAccordion />
         </AccordionDetails>
       </Accordion>

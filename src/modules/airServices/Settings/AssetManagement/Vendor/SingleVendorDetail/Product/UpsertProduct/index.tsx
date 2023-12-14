@@ -32,7 +32,7 @@ export const UpsertProduct = (props: any) => {
           paddingBottom={'1rem'}
         >
           <Typography variant="h5">
-            {editData?._id ? 'Edit Product' : 'Add Product'}
+            {editData?._id ? 'Update Product' : 'Add Product'}
           </Typography>
           <AlertModalCloseIcon
             onClick={() => {
@@ -61,7 +61,7 @@ export const UpsertProduct = (props: any) => {
           marginBottom={'2rem'}
           gap={'1rem'}
         >
-          <Button variant="outlined" onClick={handleCancel}>
+          <Button variant="outlined" color="secondary" onClick={handleCancel}>
             Cancel
           </Button>
           <Button
@@ -71,7 +71,7 @@ export const UpsertProduct = (props: any) => {
               editData?._id ? handleSubmit(editSubmit) : handleSubmit(isSubmit)
             }
           >
-            Save
+            {editData?._id ? 'Update' : 'Save'}
           </Button>
         </Box>
       </DialogActions>

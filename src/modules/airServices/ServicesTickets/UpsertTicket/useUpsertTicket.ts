@@ -49,7 +49,7 @@ export const useUpsertTicket = (props: any) => {
   const { handleSubmit, reset } = methods;
 
   const submitUpsertTicket = async (data: any) => {
-    enqueueSnackbar(`Ticket ${ticketId ? 'Updated' : 'Added'} Successfully`, {
+    enqueueSnackbar(`Ticket ${ticketId ? 'Updated' : 'Created'} Successfully`, {
       variant: NOTISTACK_VARIANTS?.SUCCESS,
     });
     setSelectedTicketList?.([]);

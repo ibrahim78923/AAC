@@ -34,6 +34,7 @@ import useManageSharingModal from './useManageSharingModal';
 const ManageSharingModal = ({
   isAllViewActionsModal,
   handleCloseModal,
+  setIsAllViewActionsModal,
 }: any) => {
   const { accessValue, handleChangeAccessValue } = useManageSharingModal();
   const methods: any = useForm({
@@ -45,19 +46,24 @@ const ManageSharingModal = ({
 
   const onSubmit = async () => {
     handleCloseModal;
-    enqueueSnackbar('Clone Successfully', {
+    enqueueSnackbar('Manage Sharing Successfully', {
       variant: 'success',
     });
   };
   const theme = useTheme();
-
+  const closeManageSharingModal = (key: any) => {
+    setIsAllViewActionsModal({
+      ...isAllViewActionsModal,
+      [key]: false,
+    });
+  };
   return (
     <div>
       <CommonModal
         open={isAllViewActionsModal}
-        handleClose={handleCloseModal}
-        handleCancel={handleCloseModal}
-        handleSubmit={handleCloseModal}
+        handleClose={() => closeManageSharingModal('isManage')}
+        handleCancel={() => closeManageSharingModal('isManage')}
+        handleSubmit={() => closeManageSharingModal('isManage')}
         title="Create a new saved view"
       >
         <Box sx={{ margin: '20px 0' }}>
