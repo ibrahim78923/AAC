@@ -32,6 +32,15 @@ const useUserDetailsList = () => {
   const handleAddUserDrawer = () => {
     setIsOpenAdduserDrawer(false);
   };
+
+  const resetFilters = () => {
+    setEmployeeFilter({
+      status: '',
+      product: '',
+      company: '',
+    });
+  };
+
   return {
     handleCloseDrawer,
     isOpenDrawer,
@@ -60,6 +69,7 @@ const useUserDetailsList = () => {
     setSearchEmployee,
     employeeFilter,
     setEmployeeFilter,
+    resetFilters,
   };
 };
 export default useUserDetailsList;

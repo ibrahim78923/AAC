@@ -12,6 +12,7 @@ import {
 } from '@/services/superAdmin/user-management/users';
 import { enqueueSnackbar } from 'notistack';
 import { CommonAPIS, useGetOrganizationsQuery } from '@/services/common-APIs';
+import { PAGINATION } from '@/config';
 
 const useUserManagement = () => {
   const navigate = useRouter();
@@ -33,6 +34,9 @@ const useUserManagement = () => {
     organization: '',
     createdDate: '',
   });
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+
   // imports users API's
   const {
     useGetUsersQuery,
@@ -76,6 +80,15 @@ const useUserManagement = () => {
     });
   };
 
+  const resetFilters = () => {
+    setFilterValues({
+      role: '',
+      products: '',
+      organization: '',
+      createdDate: '',
+    });
+  };
+
   return {
     navigate,
     theme,
@@ -104,7 +117,12 @@ const useUserManagement = () => {
     products,
     searchVal,
     setSearchVal,
+    resetFilters,
     organizations,
+    pageLimit,
+    setPageLimit,
+    page,
+    setPage,
   };
 };
 

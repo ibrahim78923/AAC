@@ -1,10 +1,17 @@
 import Image from 'next/image';
 
-import { Avatar, Box, Button, Divider, Typography } from '@mui/material';
+import {
+  Avatar,
+  Box,
+  Button,
+  Divider,
+  Tooltip,
+  Typography,
+} from '@mui/material';
 
 import FilterUser from '../Drawers/FilterUser';
 
-import { FilterSharedIcon } from '@/assets/icons';
+import { FilterSharedIcon, RefreshTasksIcon } from '@/assets/icons';
 
 import Search from '@/components/Search';
 
@@ -77,9 +84,15 @@ const UsersSidebar = (props: any) => {
           size="small"
           onChange={(val: any) => setSearchEmployee(val?.target?.value)}
         />
+        <Tooltip title={'Refresh Filter'}>
+          <Button variant="outlined" color="inherit" className="small">
+            <RefreshTasksIcon />
+          </Button>
+        </Tooltip>
         <Button
           variant="outlined"
           color="inherit"
+          className="small"
           onClick={() => {
             setIsOpenFilterDrawer(true);
           }}

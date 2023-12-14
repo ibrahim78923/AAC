@@ -8,6 +8,7 @@ import {
   Typography,
   Avatar,
   Card,
+  Tooltip,
 } from '@mui/material';
 
 import Search from '@/components/Search';
@@ -30,7 +31,12 @@ import Delegates from './UserDetailsTables/Delegates';
 
 import { ArrowBack, AddCircleOutlined } from '@mui/icons-material';
 
-import { AddShopIcon, AddUserCircleIcon, FilterrIcon } from '@/assets/icons';
+import {
+  AddShopIcon,
+  AddUserCircleIcon,
+  FilterrIcon,
+  RefreshTasksIcon,
+} from '@/assets/icons';
 
 import { AvatarImage } from '@/assets/images';
 import useUserDetailsList from './useUserDetailsList';
@@ -70,6 +76,7 @@ const UsersDetailsList = () => {
     setSearchEmployee,
     employeeFilter,
     setEmployeeFilter,
+    resetFilters,
   }: any = useUserDetailsList();
 
   const { userName, organizationId } = navigate.query;
@@ -117,7 +124,7 @@ const UsersDetailsList = () => {
                 />
                 <Typography variant="h3">{userName}</Typography>
               </Stack>
-              <Stack direction={'row'} gap={1}>
+              <Stack direction="row" gap={1}>
                 <Button
                   sx={{
                     border: '1px solid grey',
@@ -125,6 +132,7 @@ const UsersDetailsList = () => {
                     width: '44px',
                   }}
                   variant="outlined"
+                  className="small"
                   onClick={() => {
                     setIsOpenAdduserDrawer(true);
                   }}
@@ -138,6 +146,7 @@ const UsersDetailsList = () => {
                     width: '44px',
                   }}
                   variant="outlined"
+                  className="small"
                   onClick={() => {
                     setISOpenCompanyDrawer(true);
                   }}
@@ -152,13 +161,25 @@ const UsersDetailsList = () => {
                 direction={'row'}
                 justifyContent={'space-between'}
                 alignItems={'center'}
+                gap={1}
               >
                 <Search
                   placeholder="Search"
                   size="small"
                   onChange={(val: any) => setSearchEmployee(val?.target?.value)}
                 />
+                <Tooltip title={'Refresh Filter'}>
+                  <Button
+                    variant="outlined"
+                    color="inherit"
+                    className="small"
+                    onClick={resetFilters}
+                  >
+                    <RefreshTasksIcon />
+                  </Button>
+                </Tooltip>
                 <Button
+                  className="small"
                   sx={{
                     border: '1px solid grey',
                     justifyContent: 'center',

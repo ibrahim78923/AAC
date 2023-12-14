@@ -70,8 +70,8 @@ const UsersDetails = (props: any) => {
                   </Button>
                 }
               >
-                <Accounts />
-                <Profile />
+                <Accounts employeeDataById={employeeDataById} />
+                <Profile profileData={profileData?.data} />
               </CommonTabs>
             </Card>
           </Box>
