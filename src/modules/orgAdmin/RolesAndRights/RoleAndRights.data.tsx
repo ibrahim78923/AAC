@@ -16,7 +16,7 @@ import { CommonAPIS } from '@/services/common-APIs';
 import { getSession } from '@/utils';
 
 export const columns: any = (columnsProps: any) => {
-  const { checkedRows, setCheckedRows } = columnsProps;
+  const { updateStatus, checkedRows, setCheckedRows } = columnsProps;
 
   const handleCheckboxChange = (val: any, rowId: string) => {
     val?.target?.checked ? setCheckedRows(rowId) : setCheckedRows();
@@ -61,19 +61,26 @@ export const columns: any = (columnsProps: any) => {
       cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row?.CompanyAccount,
+      accessorFn: (row: any) => row?.companyAccountDetails?.name,
       id: 'companyAccount',
       isSortable: true,
       header: 'Company Accounts',
       cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row?.status,
+      accessorFn: (row: any) => row?.Status,
       id: 'status',
       isSortable: true,
       header: 'Status',
       cell: (info: any) => (
-        <SwitchBtn defaultValue={info?.row?.status} defaultChecked />
+        <SwitchBtn
+          defaultChecked={
+            info?.row?.original?.status === 'ACTIVE' ? true : false
+          }
+          handleSwitchChange={(e: any) =>
+            updateStatus(info?.row?.original?._id, e)
+          }
+        />
       ),
     },
   ];
@@ -171,9 +178,8 @@ export const addUserDefault = {
 
 export const addUsersArrayData = () => {
   const { user } = getSession();
-  const { useGetProductsQuery, useGetCompanyAccountsQuery } = CommonAPIS;
+  const { useGetCompanyAccountsQuery } = CommonAPIS;
 
-  const { data: products } = useGetProductsQuery({});
   const { data: companyAccounts } = useGetCompanyAccountsQuery({
     orgId: user?.organization?._id,
   });
@@ -187,7 +193,7 @@ export const addUsersArrayData = () => {
         required: true,
         select: true,
       },
-      options: products?.data?.map((item: any) => ({
+      options: user?.products?.map((item: any) => ({
         value: item?._id,
         label: item?.name,
       })),
@@ -234,16 +240,6 @@ export const addUsersArrayData = () => {
       component: RHFTextField,
       md: 5,
     },
-    // {
-    //   componentProps: {
-    //     label: 'Description',
-    //     name: 'desc',
-    //     placeholder: 'Description',
-    //     fullWidth: true,
-    //   },
-    //   component: RHFTextField,
-    //   md: 5,
-    // },
     {
       componentProps: {
         label: 'Default User',
