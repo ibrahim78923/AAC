@@ -36,7 +36,7 @@ const Tasks = () => {
     <>
       <Box sx={{ paddingTop: '10px' }}>
         <Grid container>
-          <Grid item md={12} lg={5}>
+          <Grid item md={12} lg={5} mb={3}>
             <Search label="Search Here" width="260px" />
           </Grid>
 
@@ -46,6 +46,7 @@ const Tasks = () => {
             md={12}
             sm={12}
             sx={{ display: { lg: 'flex' }, justifyContent: { lg: 'end' } }}
+            mb={3}
           >
             <Box sx={{ display: { lg: 'flex' }, marginTop: '8px' }}>
               <Box>
