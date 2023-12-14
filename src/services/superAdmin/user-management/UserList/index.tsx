@@ -5,7 +5,7 @@ export const userListApi = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getUsersAccounts: builder.query({
       query: (values: any) => ({
-        url: `${END_POINTS?.ORG_ADMIN_EMP_LIST}/${values?.orgId}/account`,
+        url: `${END_POINTS?.ORG_ADMIN_EMP_LIST}/${values?.orgId}${END_POINTS?.USER_ACCOUNT}`,
         method: 'GET',
       }),
       providesTags: ['USERS'],
