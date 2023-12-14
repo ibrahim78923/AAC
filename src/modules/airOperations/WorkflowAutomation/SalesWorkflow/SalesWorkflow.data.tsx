@@ -6,6 +6,7 @@ import { AntSwitch } from '@/components/AntSwitch';
 
 export const salesWorkflowActionDropdownDynamic = (
   selectedSalesWorkflowLists: any,
+  setDeleteWorkflow: any,
 ) => [
   {
     title: 'Edit',
@@ -27,20 +28,9 @@ export const salesWorkflowActionDropdownDynamic = (
     },
   },
   {
-    title: 'Enable',
-    handleClick: (closeMenu: any) => {
-      closeMenu?.();
-    },
-  },
-  {
-    title: 'Disable',
-    handleClick: (closeMenu: any) => {
-      closeMenu?.();
-    },
-  },
-  {
     title: 'Delete',
     handleClick: (closeMenu: any) => {
+      setDeleteWorkflow(true);
       closeMenu?.();
     },
   },

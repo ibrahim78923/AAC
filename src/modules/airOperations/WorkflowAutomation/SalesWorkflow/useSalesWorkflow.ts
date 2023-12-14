@@ -11,18 +11,24 @@ export const useSalesWorkflow = () => {
     [],
   );
   const [search, setSearch] = useState('');
+  const [deleteWorkflow, setDeleteWorkflow] = useState(false);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
   const salesWorkflowListsColumn = salesWorkflowListsColumnDynamic(
     selectedSalesWorkflowLists,
     setSelectedSalesWorkflowLists,
   );
   const salesWorkflowActionDropdown = salesWorkflowActionDropdownDynamic(
     selectedSalesWorkflowLists,
+    setDeleteWorkflow,
   );
   const { push } = useRouter();
   const handleBack = () => {
     push({
       pathname: AIR_OPERATIONS?.WORKFLOW_AUTOMATION,
     });
+  };
+  const handleCreateWorkflow = () => {
+    push(AIR_OPERATIONS?.UPSERT_SALES_WORKFLOW);
   };
   return {
     selectedSalesWorkflowLists,
@@ -32,5 +38,10 @@ export const useSalesWorkflow = () => {
     setSearch,
     salesWorkflowActionDropdown,
     handleBack,
+    handleCreateWorkflow,
+    deleteWorkflow,
+    setDeleteWorkflow,
+    isFilterOpen,
+    setIsFilterOpen,
   };
 };
