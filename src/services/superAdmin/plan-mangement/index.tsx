@@ -23,7 +23,7 @@ export const planManagementAPI = baseAPI.injectEndpoints({
     }),
     getProducts: builder.query({
       query: () => ({
-        url: `${superAdminBillingInvoices?.get_Products}`,
+        url: `${superAdminBillingInvoices?.GET_PRODUCTS}`,
         method: 'GET',
       }),
       providesTags: TAG,
@@ -65,7 +65,13 @@ export const planManagementAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: TAG,
     }),
-
+    getPermissionsByProducts: builder.query({
+      query: ({ id }) => ({
+        url: `permissions/permissions-by-product/${id}`,
+        method: 'GET',
+      }),
+      providesTags: TAG,
+    }),
     updatePlanMangement: builder.mutation({
       query: ({ id, body }: any) => ({
         url: `${SUPER_ADMIN_PLAN_MANAGEMENT?.PLAN_MANAGEMENT}/${id}`,
@@ -96,4 +102,5 @@ export const {
   useGetPlanTypesQuery,
   useGetProductsFeaturesQuery,
   useGetProductsFeaturesAllQuery,
+  useGetPermissionsByProductsQuery,
 } = planManagementAPI;

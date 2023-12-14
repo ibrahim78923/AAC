@@ -82,7 +82,7 @@ export const airMarketingCalendar = {
   create_post: '/air-marketer/social-marketing/create-post',
 };
 
-const AIR_MARKETING_PAGE = '/air-marketer';
+const AIR_MARKETING_PAGE = 'air-marketer';
 export const AIR_MARKETER = {
   root: AIR_MARKETING_PAGE,
   PAID_ADS: path(AIR_MARKETING_PAGE, '/paid-ads'),

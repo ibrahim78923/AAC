@@ -207,28 +207,28 @@ export const AirMarketingRoutes: any = [
     key: AIR_MARKETER?.root,
     icon: DashboardImage,
     label: 'Dashboard',
-    role: 'AIR_MARKETING',
+    role: 'AIR_MARKETE',
     permissions: [],
   },
   {
     key: AIR_MARKETER?.PAID_ADS,
     icon: PaidAdsImage,
     label: 'Paid Ads',
-    role: 'AIR_MARKETING',
+    role: 'AIR_MARKETE',
     permissions: [],
   },
   {
     key: AIR_MARKETER?.CAMPAIGNS,
     icon: CampaignImage,
     label: 'Campaign',
-    role: 'AIR_MARKETING',
+    role: 'AIR_MARKETE',
     permissions: [],
   },
   {
     key: AIR_MARKETER?.EMAIL_MARKETING,
     label: 'Email Marketing',
     icon: EmailMarketingImage,
-    role: 'AIR_MARKETING',
+    role: 'AIR_MARKETE',
     permissions: [],
     textNames: [
       {
@@ -253,7 +253,7 @@ export const AirMarketingRoutes: any = [
     key: AIR_MARKETER?.SOCIAL_MARKETING,
     label: 'Social Marketing',
     icon: SocialMarketingImage,
-    role: 'AIR_MARKETING',
+    role: 'AIR_MARKETE',
     permissions: [],
     textNames: [
       {
@@ -268,14 +268,14 @@ export const AirMarketingRoutes: any = [
     key: AIR_MARKETER?.SMS_MARKETING,
     icon: SmsMarketingImage,
     label: 'SMS Marketing',
-    role: 'AIR_MARKETING',
+    role: 'AIR_MARKETE',
     permissions: [],
   },
   {
     key: AIR_MARKETER?.LEAD_CAPTURE,
     label: 'Lead Capture',
     icon: LeadCaptureImage,
-    role: 'AIR_MARKETING',
+    role: 'AIR_MARKETE',
     permissions: [],
     textNames: [
       {
@@ -294,7 +294,7 @@ export const AirMarketingRoutes: any = [
     key: AIR_MARKETER?.REPORTS,
     icon: ReportsImage,
     label: 'Reports',
-    role: 'AIR_MARKETING',
+    role: 'AIR_MARKETE',
     permissions: [],
   },
 ];
@@ -565,7 +565,7 @@ export const LowerAirMarketingRoutes = [
   {
     label: 'Settings',
     icon: SettingImage,
-    role: 'AIR_MARKETING',
+    role: 'AIR_MARKETE',
     key: AIR_MARKETER?.SETTINGS,
     permissions: [],
   },
@@ -573,7 +573,7 @@ export const LowerAirMarketingRoutes = [
   {
     label: 'Logout',
     key: '',
-    role: 'AIR_MARKETING',
+    role: 'AIR_MARKETE',
     permissions: [],
     icon: LogoutImage,
   },

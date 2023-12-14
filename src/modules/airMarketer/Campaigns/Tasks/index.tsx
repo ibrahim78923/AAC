@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Menu, MenuItem } from '@mui/material';
+import { Box, Button, Grid, Menu, MenuItem, Tooltip } from '@mui/material';
 
 import TanstackTable from '@/components/Table/TanstackTable';
 import { AlertModals } from '@/components/AlertModals';
@@ -9,7 +9,12 @@ import EditTask from './EditTask';
 
 import { tableData } from '@/mock/modules/airMarketer/Campaigns/Tasks';
 
-import { AlertModalDeleteIcon, DownIcon, FilterrIcon } from '@/assets/icons';
+import {
+  AlertModalDeleteIcon,
+  DownIcon,
+  FilterrIcon,
+  RefreshTasksIcon,
+} from '@/assets/icons';
 import Search from '@/components/Search';
 
 const Tasks = () => {
@@ -91,7 +96,16 @@ const Tasks = () => {
               >
                 Filter
               </Button>
-
+              <Tooltip title={'Refresh Filter'}>
+                <Button
+                  sx={{ marginLeft: '8px' }}
+                  variant="outlined"
+                  color="inherit"
+                  className="small"
+                >
+                  <RefreshTasksIcon />
+                </Button>
+              </Tooltip>
               <Button
                 startIcon={<FilterrIcon />}
                 sx={{

@@ -2,10 +2,10 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
 
 import { columns, data } from './Manage.data';
-import { Box, Button, Grid, useTheme } from '@mui/material';
+import { Box, Button, Grid, Tooltip, useTheme } from '@mui/material';
 
 import ActionButton from '../ActionButton';
-import { FilterrIcon } from '@/assets/icons';
+import { FilterrIcon, RefreshTasksIcon } from '@/assets/icons';
 import useCampaigns from '../useCampaigns';
 import Filters from '../Filters';
 import SaveNewViewDrawer from '../SaveNewViewDrawer';
@@ -69,6 +69,16 @@ const Manage = () => {
               >
                 Save View
               </Button>
+              <Tooltip title={'Refresh Filter'}>
+                <Button
+                  sx={{ marginLeft: '8px' }}
+                  variant="outlined"
+                  color="inherit"
+                  className="small"
+                >
+                  <RefreshTasksIcon />
+                </Button>
+              </Tooltip>
               <Button
                 onClick={() => router.push(AIR_MARKETER?.ALL_VIEW)}
                 startIcon={<FilterrIcon />}

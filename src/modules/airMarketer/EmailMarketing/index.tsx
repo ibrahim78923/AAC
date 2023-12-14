@@ -1,5 +1,5 @@
 import HorizontalTabs from '@/components/Tabs/HorizontalTabs';
-import { Box, Button, Grid, Typography } from '@mui/material';
+import { Box, Button, Grid, Tooltip, Typography } from '@mui/material';
 import { emailMarketingTabsData } from './EmailMarketing.data';
 import All from './Tabs/All';
 import Archived from './Tabs/Archived';
@@ -7,10 +7,9 @@ import Draft from './Tabs/Draft';
 import Scheduled from './Tabs/Scheduled';
 import Sent from './Tabs/Sent';
 import Search from '@/components/Search';
-import { FilterrIcon, PlusIcon } from '@/assets/icons';
+import { FilterrIcon, PlusIcon, RefreshTasksIcon } from '@/assets/icons';
 import ActionButton from './ActionButton';
 import useEmailMarketing from './useEmailMarketing';
-import EmailFolder from './EmailFolder';
 
 const EmailMarketing = () => {
   const { handleOpenFilter, theme } = useEmailMarketing();
@@ -64,6 +63,16 @@ const EmailMarketing = () => {
           >
             Filter
           </Button>
+          <Tooltip title={'Refresh Filter'}>
+            <Button
+              sx={{ marginLeft: '8px' }}
+              variant="outlined"
+              color="inherit"
+              className="small"
+            >
+              <RefreshTasksIcon />
+            </Button>
+          </Tooltip>
         </Box>
       </Grid>
 
@@ -75,9 +84,6 @@ const EmailMarketing = () => {
           <Scheduled />
           <Sent />
         </HorizontalTabs>
-      </Grid>
-      <Grid item lg={12}>
-        <EmailFolder />
       </Grid>
     </Grid>
   );

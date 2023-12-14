@@ -14,7 +14,10 @@ import CloseIcon from '@/assets/icons/shared/close-icon';
 import { useForm } from 'react-hook-form';
 import { v4 as uuidv4 } from 'uuid';
 
-const MoveToFolder = ({ openCloneModal, handleCloseFeaturesModal }: any) => {
+const MoveToFolder = ({
+  openMoveToFolderModal,
+  handleCloseMoveToFolderModal,
+}: any) => {
   const theme = useTheme();
   const methods: any = useForm({
     resolver: yupResolver(validationSchemaMoveToFolder),
@@ -24,7 +27,7 @@ const MoveToFolder = ({ openCloneModal, handleCloseFeaturesModal }: any) => {
   const { handleSubmit } = methods;
 
   const onSubmit = async () => {
-    handleCloseFeaturesModal();
+    handleCloseMoveToFolderModal();
     enqueueSnackbar('Move To Folder Added Successfully', {
       variant: 'success',
     });
@@ -33,8 +36,8 @@ const MoveToFolder = ({ openCloneModal, handleCloseFeaturesModal }: any) => {
   return (
     <div>
       <Modal
-        open={openCloneModal}
-        onClose={handleCloseFeaturesModal}
+        open={openMoveToFolderModal}
+        onClose={handleCloseMoveToFolderModal}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
@@ -43,7 +46,7 @@ const MoveToFolder = ({ openCloneModal, handleCloseFeaturesModal }: any) => {
             <Box sx={styles?.innerBoxOne}>
               <Box
                 sx={{ cursor: 'pointer' }}
-                onClick={handleCloseFeaturesModal}
+                onClick={handleCloseMoveToFolderModal}
               >
                 <CloseIcon />
               </Box>

@@ -5,10 +5,12 @@ import { ArrowDropDown } from '@mui/icons-material';
 import { actionsOptions } from './ActionButton.data';
 
 import { AlertModals } from '@/components/AlertModals';
-import { AlertModalDeleteIcon } from '@/assets/icons';
+import { AlertModalDeleteIcon, InfoBlueIcon } from '@/assets/icons';
 
 import { v4 as uuidv4 } from 'uuid';
 import useEmailMarketing from '../useEmailMarketing';
+import MoveToFolder from '../MoveToFolder';
+import ViewDetailsAndPerformance from '../ViewDetailsAndPerformance';
 
 const ActionButton = () => {
   const {
@@ -71,7 +73,7 @@ const ActionButton = () => {
           message="Are you sure you want to duplicate this item?"
           type="Information"
           typeImage={<AlertModalDeleteIcon />}
-          open={isDelete}
+          open={actionsModalDetails?.isDuplicate}
           handleClose={() =>
             setActionsModalDetails({
               ...actionsModalDetails,
@@ -90,8 +92,8 @@ const ActionButton = () => {
         <AlertModals
           message="Are you sure you want to archive this item?"
           type="Information"
-          typeImage={<AlertModalDeleteIcon />}
-          open={isDelete}
+          typeImage={<InfoBlueIcon />}
+          open={actionsModalDetails?.isArchive}
           handleClose={() =>
             setActionsModalDetails({
               ...actionsModalDetails,
@@ -102,6 +104,28 @@ const ActionButton = () => {
             setActionsModalDetails({
               ...actionsModalDetails,
               isArchive: false,
+            })
+          }
+        />
+      )}
+      {actionsModalDetails?.isMoveToFolder && (
+        <MoveToFolder
+          openMoveToFolderModal={actionsModalDetails?.isMoveToFolder}
+          handleCloseMoveToFolderModal={() =>
+            setActionsModalDetails({
+              ...actionsModalDetails,
+              isArchive: false,
+            })
+          }
+        />
+      )}
+      {actionsModalDetails?.isViewDeatsils && (
+        <ViewDetailsAndPerformance
+          openViewDetails={actionsModalDetails?.isViewDeatsils}
+          handleCloseViewDetails={() =>
+            setActionsModalDetails({
+              ...actionsModalDetails,
+              isViewDeatsils: false,
             })
           }
         />
