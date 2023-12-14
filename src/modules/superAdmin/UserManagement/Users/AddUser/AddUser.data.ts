@@ -45,10 +45,10 @@ export const superAdminValidationSchema = Yup.object().shape({
   jobTitle: Yup.string()
     .required('Field is Required')
     .matches(/^[A-Za-z]+$/, 'Only alphabetic characters are allowed'),
-  fbUrl: Yup.string()
+  facebookUrl: Yup.string()
     .required('Field is Required')
     .matches(/^[A-Za-z]+$/, 'Only alphabetic characters are allowed'),
-  linkinUrl: Yup.string()
+  linkedInUrl: Yup.string()
     .required('Field is Required')
     .matches(/^[A-Za-z]+$/, 'Only alphabetic characters are allowed'),
 });
@@ -245,7 +245,7 @@ export const addUsersArray = () => {
     },
     {
       componentProps: {
-        name: 'fbUrl',
+        name: 'facebookUrl',
         label: 'Facebook URL',
         placeholder: 'Enter Facebook URL',
         fullWidth: true,
@@ -256,7 +256,7 @@ export const addUsersArray = () => {
     },
     {
       componentProps: {
-        name: 'linkinUrl',
+        name: 'linkedInUrl',
         label: 'LinkedIn URL',
         placeholder: 'Enter LinkedIn URL',
         fullWidth: true,

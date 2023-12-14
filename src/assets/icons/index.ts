@@ -353,6 +353,8 @@ export { default as ImageIcon } from './modules/airMarketer/LeadCapture/image';
 export { default as SpaceIcon } from './modules/airMarketer/LeadCapture/space';
 export { default as DividerIcon } from './modules/airMarketer/LeadCapture/divider';
 export { default as InputIcon } from './modules/airMarketer/LeadCapture/input';
+export { default as WhiteBookIcon } from './shared/white-book';
+export { default as GrayBookIcon } from './shared/grey-book';
 export { default as BlueInfoIcon } from './shared/bule-info';
 export { default as SalesWorkflowIcon } from './modules/airOperations/workflowAutomation/sales-workflow-icon';
 export { default as ServiceWorkflowIcon } from './modules/airOperations/workflowAutomation/service-workflow-icon';

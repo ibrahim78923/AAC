@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, Tooltip, Typography } from '@mui/material';
 
 import CommonTabs from '@/components/Tabs';
 
@@ -12,7 +12,7 @@ import AddUser from './Users/AddUser';
 
 import SuperAdminUsers from './Users/Admin';
 
-import { FilterrIcon, PlusIcon } from '@/assets/icons';
+import { FilterrIcon, PlusIcon, RefreshTasksIcon } from '@/assets/icons';
 
 import useUserManagement from './useUserManagement';
 import ActionButton from './ActionButton';
@@ -35,7 +35,8 @@ const UserManagement = () => {
     checkedRows,
     setCheckedRows,
     searchVal,
-    // setSearchVal,
+    setSearchVal,
+    resetFilters,
   } = useUserManagement();
 
   return (
@@ -83,9 +84,8 @@ const UserManagement = () => {
             getTabVal={(val: number) => setTabVal(val)}
             searchBarProps={{
               label: 'Search Here',
-              setSearchBy: setFilterValues,
-              searchBy: filterValues?.search,
-              // width: '260px',
+              setSearchBy: setSearchVal,
+              searchBy: searchVal,
             }}
             isHeader={true}
             tabsArray={[
@@ -100,6 +100,16 @@ const UserManagement = () => {
                   tabVal={tabVal}
                   setIsOpenAddUserDrawer={setIsOpenAddUserDrawer}
                 />
+                <Tooltip title={'Refresh Filter'}>
+                  <Button
+                    variant="outlined"
+                    color="inherit"
+                    className="small"
+                    onClick={resetFilters}
+                  >
+                    <RefreshTasksIcon />
+                  </Button>
+                </Tooltip>
                 <Button
                   onClick={() => {
                     setIsOpenFilterDrawer(true);

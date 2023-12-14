@@ -33,6 +33,7 @@ import {
   TeamUserIcon,
   TwoUserBlackIcon,
   FilterrIcon,
+  RefreshTasksIcon,
 } from '@/assets/icons';
 import { UserRoundImage } from '@/assets/images';
 
@@ -515,6 +516,7 @@ const Folders = (props: any) => {
                     aria-haspopup="true"
                     aria-expanded={open ? 'true' : undefined}
                     onClick={handleClick}
+                    className="small"
                   >
                     Action
                     <ArrowDropDownIcon
@@ -571,6 +573,17 @@ const Folders = (props: any) => {
                       Delete
                     </MenuItem>
                   </Menu>
+                  <Box>
+                    <Tooltip title={'Refresh Filter'}>
+                      <Button
+                        variant="outlined"
+                        color="inherit"
+                        className="small"
+                      >
+                        <RefreshTasksIcon />
+                      </Button>
+                    </Tooltip>
+                  </Box>
                   <Button
                     onClick={() => {
                       setAnchorEl(null);
@@ -578,6 +591,7 @@ const Folders = (props: any) => {
                     }}
                     variant="outlined"
                     sx={styles?.fiterButton(theme)}
+                    className="small"
                   >
                     <FilterrIcon /> Any
                   </Button>

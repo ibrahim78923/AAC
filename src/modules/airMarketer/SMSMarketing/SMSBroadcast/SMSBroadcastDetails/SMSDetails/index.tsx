@@ -8,6 +8,7 @@ import {
   Select,
   Stack,
   TextareaAutosize,
+  Tooltip,
   Typography,
 } from '@mui/material';
 
@@ -17,6 +18,7 @@ import SMSDetailsTable from './SMSDetailsTable';
 
 import useSMSBroadcast from '../../useSMSBroadcast';
 import ImportIcon from '@/assets/icons/shared/import-icon';
+import { RefreshTasksIcon } from '@/assets/icons';
 
 const SMSDetails = () => {
   const { theme } = useSMSBroadcast();
@@ -75,6 +77,11 @@ const SMSDetails = () => {
                 <MenuItem value={'failed'}>Failed</MenuItem>
               </Select>
             </FormControl>
+            <Tooltip title={'Refresh Filter'}>
+              <Button variant="outlined" color="inherit" className="small">
+                <RefreshTasksIcon />
+              </Button>
+            </Tooltip>
             <Button
               className="small"
               variant="outlined"

@@ -19,6 +19,7 @@ export const TAGS = [
   'TICKETS',
   'TASKS',
   'ASSETS_INVENTORY',
+  'MyDocuments',
 ];
 
 const baseQuery = fetchBaseQuery({

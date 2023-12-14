@@ -1,6 +1,14 @@
 import React from 'react';
 
-import { Box, Button, Grid, Menu, MenuItem, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Grid,
+  Menu,
+  MenuItem,
+  Tooltip,
+  Typography,
+} from '@mui/material';
 
 import { AddCircle } from '@mui/icons-material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
@@ -23,6 +31,7 @@ import {
   CutomizeIcon,
   FilterIcon,
   ImportCompaniesIcon,
+  RefreshTasksIcon,
   RestoreIcon,
 } from '@/assets/icons';
 import CreateViewCompany from './CreateViewCompany';
@@ -200,7 +209,6 @@ const Companies = () => {
                       Merge
                     </MenuItem>
                   </Menu>
-
                   <Button
                     onClick={() => toggle(true)}
                     variant="outlined"
@@ -218,6 +226,15 @@ const Companies = () => {
                       <CutomizeIcon /> &nbsp; Customize
                     </Button>
                   </>
+                  <Tooltip title={'Refresh Filter'}>
+                    <Button
+                      variant="outlined"
+                      color="inherit"
+                      className="small"
+                    >
+                      <RefreshTasksIcon />
+                    </Button>
+                  </Tooltip>
                   <Button
                     variant="outlined"
                     sx={styles?.actionButton}
