@@ -363,6 +363,7 @@ export { default as ServiceWorkflowIcon } from './modules/airOperations/workflow
 export { default as DocumentDownloadIcon } from './modules/airMarketer/EmailReports/document-download';
 export { default as SmileIcon } from './modules/airMarketer/EmailMarketing/smile-emoji-icon';
 
+export { default as FilterLinesIcon } from './modules/loyaltyProgram/Transactions/filter-lines-icon';
 export { default as PmToolsIcon } from './shared/pm-tools-icon';
 export { default as HardwareIcon } from './shared/hardware-icon';
 export { default as SoftwareCatalogIcon } from './shared/software-catalog-icon';
