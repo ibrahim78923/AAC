@@ -1,4 +1,4 @@
-import { RHFDatePicker } from '@/components/ReactHookForm';
+import { RHFSwitchableDatepicker } from '@/components/ReactHookForm';
 import RHFSelect from '@/components/ReactHookForm/RHFSelect';
 import { CommonAPIS } from '@/services/common-APIs';
 import * as Yup from 'yup';
@@ -55,9 +55,10 @@ export const rolesFiltersArray = () => {
       componentProps: {
         label: 'Created Date',
         name: 'dateStart',
+        placeholder: 'Select',
         fullWidth: true,
       },
-      component: RHFDatePicker,
+      component: RHFSwitchableDatepicker,
       md: 12,
     },
   ];
