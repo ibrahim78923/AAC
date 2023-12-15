@@ -92,6 +92,7 @@ const Tasks = () => {
                   handleTaskDrawer(), setTaskCreate('Create Task');
                 }}
                 startIcon={<FilterrIcon />}
+                className="small"
                 sx={{
                   border: `1px solid ${theme?.palette?.custom?.dark}`,
                   color: theme?.palette?.custom?.main,

@@ -10,9 +10,11 @@ import Search from '@/components/Search';
 import { FilterrIcon, PlusIcon, RefreshTasksIcon } from '@/assets/icons';
 import ActionButton from './ActionButton';
 import useEmailMarketing from './useEmailMarketing';
+import Filters from './Filters';
 
 const EmailMarketing = () => {
-  const { handleOpenFilter, theme } = useEmailMarketing();
+  const { handleOpenFilter, theme, isOpenFilter, setIsOpenFilter } =
+    useEmailMarketing();
   return (
     <Grid container>
       <Grid item lg={3}>
@@ -46,6 +48,7 @@ const EmailMarketing = () => {
         lg={12}
         md={12}
         sm={12}
+        mt={3}
         sx={{ display: { lg: 'flex' }, justifyContent: { lg: 'end' } }}
       >
         <Box sx={{ display: { lg: 'flex' }, marginTop: '8px' }}>
@@ -85,6 +88,12 @@ const EmailMarketing = () => {
           <Sent />
         </HorizontalTabs>
       </Grid>
+      {
+        <Filters
+          isOpenDrawer={isOpenFilter}
+          onClose={() => setIsOpenFilter(false)}
+        />
+      }
     </Grid>
   );
 };

@@ -11,6 +11,8 @@ import { v4 as uuidv4 } from 'uuid';
 import useEmailMarketing from '../useEmailMarketing';
 import MoveToFolder from '../MoveToFolder';
 import ViewDetailsAndPerformance from '../ViewDetailsAndPerformance';
+import SaveEmailAsTemplate from '../SaveEmailAsTemplate';
+import ManageAccess from '../ManageAccess';
 
 const ActionButton = () => {
   const {
@@ -19,8 +21,6 @@ const ActionButton = () => {
     handleSelectedOptionValue,
     actionsModalDetails,
     setActionsModalDetails,
-    isDelete,
-    setIsDelete,
   } = useEmailMarketing();
 
   return (
@@ -58,21 +58,31 @@ const ActionButton = () => {
         })}
       </Menu>
 
-      {isDelete && (
+      {actionsModalDetails?.isDelete && (
         <AlertModals
-          message="Are you sure you want to delete this broadcast?"
-          type="Delete SMS Broadcast"
+          message="Are you sure you want to delete this?"
+          type="Delete"
           typeImage={<AlertModalDeleteIcon />}
-          open={isDelete}
-          handleClose={() => setIsDelete(false)}
-          handleSubmit={() => setIsDelete(false)}
+          open={actionsModalDetails?.isDelete}
+          handleClose={() =>
+            setActionsModalDetails({
+              ...actionsModalDetails,
+              isDelete: false,
+            })
+          }
+          handleSubmit={() =>
+            setActionsModalDetails({
+              ...actionsModalDetails,
+              isDelete: false,
+            })
+          }
         />
       )}
       {actionsModalDetails?.isDuplicate && (
         <AlertModals
           message="Are you sure you want to duplicate this item?"
           type="Information"
-          typeImage={<AlertModalDeleteIcon />}
+          typeImage={<InfoBlueIcon />}
           open={actionsModalDetails?.isDuplicate}
           handleClose={() =>
             setActionsModalDetails({
@@ -114,7 +124,7 @@ const ActionButton = () => {
           handleCloseMoveToFolderModal={() =>
             setActionsModalDetails({
               ...actionsModalDetails,
-              isArchive: false,
+              isMoveToFolder: false,
             })
           }
         />
@@ -126,6 +136,39 @@ const ActionButton = () => {
             setActionsModalDetails({
               ...actionsModalDetails,
               isViewDeatsils: false,
+            })
+          }
+        />
+      )}
+      {actionsModalDetails?.isSaveAsTemplate && (
+        <SaveEmailAsTemplate
+          openSaveEmailAsTemplateModal={actionsModalDetails?.isSaveAsTemplate}
+          handleCloseSaveEmailAsTemplateModal={() =>
+            setActionsModalDetails({
+              ...actionsModalDetails,
+              isSaveAsTemplate: false,
+            })
+          }
+        />
+      )}
+      {actionsModalDetails?.isSaveAsTemplate && (
+        <SaveEmailAsTemplate
+          openSaveEmailAsTemplateModal={actionsModalDetails?.isSaveAsTemplate}
+          handleCloseSaveEmailAsTemplateModal={() =>
+            setActionsModalDetails({
+              ...actionsModalDetails,
+              isSaveAsTemplate: false,
+            })
+          }
+        />
+      )}
+      {actionsModalDetails?.isManageAccess && (
+        <ManageAccess
+          isOpenManageAccessModal={actionsModalDetails?.isManageAccess}
+          handleCloseManageAccessModal={() =>
+            setActionsModalDetails({
+              ...actionsModalDetails,
+              isManageAccess: false,
             })
           }
         />
