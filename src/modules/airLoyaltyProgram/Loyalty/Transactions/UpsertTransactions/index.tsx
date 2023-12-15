@@ -10,7 +10,8 @@ function UpsertTransactions({
   title,
   okText,
 }: any) {
-  const { methods, handleSubmit, submit } = useUpsertTransactions();
+  const { methods, handleSubmit, submit } =
+    useUpsertTransactions(setIsDrawerOpen);
 
   return (
     <>

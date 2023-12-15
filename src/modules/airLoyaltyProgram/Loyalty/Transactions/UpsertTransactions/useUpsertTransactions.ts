@@ -6,11 +6,8 @@ import {
 } from './UpsertTransactions.data';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
-import { useState } from 'react';
 
-export const useUpsertTransactions = () => {
-  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
-
+export const useUpsertTransactions = (setIsDrawerOpen: any) => {
   const methods: any = useForm({
     resolver: yupResolver(upsertTransactionsValidationSchema),
     defaultValues: upsertTransactionsDefaultValues,
@@ -29,7 +26,5 @@ export const useUpsertTransactions = () => {
     methods,
     handleSubmit,
     submit,
-    isDrawerOpen,
-    setIsDrawerOpen,
   };
 };

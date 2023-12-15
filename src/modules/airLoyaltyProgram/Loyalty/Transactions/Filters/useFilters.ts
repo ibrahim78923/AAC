@@ -3,11 +3,8 @@ import { useForm } from 'react-hook-form';
 import { filtersDefaultValues, filtersValidationSchema } from './Filters.data';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
-import { useState } from 'react';
 
-export const useFilters = () => {
-  const [isDrawerOpens, setIsDrawerOpens] = useState<boolean>(false);
-
+export const useFilters = (setIsFilterDrawerOpen: any) => {
   const methods: any = useForm({
     resolver: yupResolver(filtersValidationSchema),
     defaultValues: filtersDefaultValues,
@@ -19,13 +16,12 @@ export const useFilters = () => {
       variant: NOTISTACK_VARIANTS?.SUCCESS,
     });
     reset();
+    setIsFilterDrawerOpen(false);
   };
 
   return {
     methods,
     handleSubmit,
     submit,
-    isDrawerOpens,
-    setIsDrawerOpens,
   };
 };

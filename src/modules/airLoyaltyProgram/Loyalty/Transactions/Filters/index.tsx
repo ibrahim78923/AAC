@@ -4,15 +4,20 @@ import { filtersArray } from './Filters.data';
 import CommonDrawer from '@/components/CommonDrawer';
 import { useFilters } from './useFilters';
 
-function Filters({ isDrawerOpen, setIsDrawerOpen, title, okText }: any) {
-  const { methods, handleSubmit, submit } = useFilters();
+function Filters({
+  isFilterDrawerOpen,
+  setIsFilterDrawerOpen,
+  title,
+  okText,
+}: any) {
+  const { methods, handleSubmit, submit } = useFilters(setIsFilterDrawerOpen);
 
   return (
     <>
       <CommonDrawer
-        isDrawerOpen={isDrawerOpen}
+        isDrawerOpen={isFilterDrawerOpen}
         onClose={() => {
-          setIsDrawerOpen(false);
+          setIsFilterDrawerOpen(false);
         }}
         title={title}
         submitHandler={() => {
