@@ -6,11 +6,11 @@ import AddRewardsdrawer from './AddRewardsDrawer';
 export const AddRewards = () => {
   const { palette } = useTheme();
   const [openDrawer, setOpenDrawer] = useState(false);
-  const [actionType, setActionType] = useState("");
+  const [actionType, setActionType] = useState('');
 
   const handleOpenDrawer = () => {
-    setOpenDrawer(!openDrawer)
-  }
+    setOpenDrawer(!openDrawer);
+  };
   return (
     <Box>
       <Typography variant="body1" color={'secondary'}>
@@ -27,7 +27,7 @@ export const AddRewards = () => {
               lg={4}
               onClick={() => {
                 handleOpenDrawer();
-                setActionType(item?.name)
+                setActionType(item?.name);
               }}
               sx={{ cursor: 'pointer' }}
             >
@@ -65,12 +65,11 @@ export const AddRewards = () => {
             </Grid>
           ))}
         </Grid>
-        
+
         <AddRewardsdrawer
           isDrawerOpen={openDrawer}
           actionType={actionType}
           onClose={handleOpenDrawer}
-          
         />
       </Box>
     </Box>

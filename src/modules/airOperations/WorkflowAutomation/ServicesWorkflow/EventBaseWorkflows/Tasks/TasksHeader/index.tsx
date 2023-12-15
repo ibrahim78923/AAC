@@ -2,17 +2,19 @@ import { FilterSharedIcon } from '@/assets/icons';
 import Search from '@/components/Search';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { Box, Button } from '@mui/material';
-import { useHeader } from './useHeader';
 import FilterWorkflow from '../../../FilterWorkflow';
+import { useTasksHeader } from './useTasksHeader';
+import { AIR_OPERATIONS } from '@/constants';
 
-const Header = ({ selectedTasksList }: any) => {
+const TasksHeader = ({ selectedTasksList }: any) => {
   const {
     searchValue,
     setSearchValue,
     dropdownOptions,
     isDrawerOpen,
     setIsDrawerOpen,
-  } = useHeader();
+    router,
+  } = useTasksHeader();
   return (
     <>
       <Box display={'flex'} justifyContent={'space-between'}>
@@ -36,7 +38,14 @@ const Header = ({ selectedTasksList }: any) => {
           >
             Filter
           </Button>
-          <Button variant="contained">Create Event base workflows</Button>
+          <Button
+            variant="contained"
+            onClick={() =>
+              router?.push(AIR_OPERATIONS?.UPSERT_EVENT_BASED_WORKFLOW)
+            }
+          >
+            Create Event base workflows
+          </Button>
         </Box>
       </Box>
       <FilterWorkflow
@@ -47,4 +56,4 @@ const Header = ({ selectedTasksList }: any) => {
   );
 };
 
-export default Header;
+export default TasksHeader;

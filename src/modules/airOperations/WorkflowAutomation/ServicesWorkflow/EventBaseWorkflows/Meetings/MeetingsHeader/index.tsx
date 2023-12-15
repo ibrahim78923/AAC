@@ -3,16 +3,18 @@ import Search from '@/components/Search';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { Box, Button } from '@mui/material';
 import FilterWorkflow from '../../../FilterWorkflow';
-import { useHeader } from './useHeader';
+import { useMeetingsHeader } from './useMeetingsHeader';
+import { AIR_OPERATIONS } from '@/constants';
 
-const Header = ({ selectedAssetsList }: any) => {
+const MeetingsHeader = ({ selectedMeetingsList }: any) => {
   const {
     searchValue,
     setSearchValue,
+    dropdownOptions,
     isDrawerOpen,
     setIsDrawerOpen,
-    dropdownOptions,
-  } = useHeader();
+    router,
+  } = useMeetingsHeader();
   return (
     <>
       <Box display={'flex'} justifyContent={'space-between'}>
@@ -27,17 +29,23 @@ const Header = ({ selectedAssetsList }: any) => {
         <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={1.5}>
           <SingleDropdownButton
             dropdownOptions={dropdownOptions}
-            disabled={!!!selectedAssetsList?.length}
+            disabled={!!!selectedMeetingsList?.length}
           />
           <Button
             color="secondary"
             variant="outlined"
             startIcon={<FilterSharedIcon />}
-            onClick={() => setIsDrawerOpen?.(true)}
           >
             Filter
           </Button>
-          <Button variant="contained">Create Event base workflows</Button>
+          <Button
+            variant="contained"
+            onClick={() =>
+              router?.push(AIR_OPERATIONS?.UPSERT_EVENT_BASED_WORKFLOW)
+            }
+          >
+            Create Event base workflows
+          </Button>
         </Box>
       </Box>
       <FilterWorkflow
@@ -48,4 +56,4 @@ const Header = ({ selectedAssetsList }: any) => {
   );
 };
 
-export default Header;
+export default MeetingsHeader;

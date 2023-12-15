@@ -1,7 +1,9 @@
 import { useState } from 'react';
-import { EventBaseWorkflowActionsDropdown } from '../Assets.data';
+import { EventBaseWorkflowActionsDropdown } from '../Meetings.data';
+import { useRouter } from 'next/router';
 
-export const useHeader = () => {
+export const useMeetingsHeader = () => {
+  const router = useRouter();
   const [searchValue, setSearchValue] = useState<string>('');
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
@@ -13,5 +15,6 @@ export const useHeader = () => {
     isDrawerOpen,
     setIsDrawerOpen,
     dropdownOptions,
+    router,
   };
 };

@@ -3,16 +3,18 @@ import Search from '@/components/Search';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { Box, Button } from '@mui/material';
 import FilterWorkflow from '../../../FilterWorkflow';
-import { useHeader } from './useHeader';
+import { useTicketsHeader } from './useTicketsHeader';
+import { AIR_OPERATIONS } from '@/constants';
 
-const Header = ({ selectedTicketsList }: any) => {
+const TicketsHeader = ({ selectedTicketsList }: any) => {
   const {
     searchValue,
     setSearchValue,
     dropdownOptions,
     isDrawerOpen,
     setIsDrawerOpen,
-  } = useHeader();
+    router,
+  } = useTicketsHeader();
   return (
     <>
       <Box display={'flex'} justifyContent={'space-between'}>
@@ -37,7 +39,14 @@ const Header = ({ selectedTicketsList }: any) => {
           >
             Filter
           </Button>
-          <Button variant="contained">Create Event base workflows</Button>
+          <Button
+            variant="contained"
+            onClick={() =>
+              router?.push(AIR_OPERATIONS?.UPSERT_EVENT_BASED_WORKFLOW)
+            }
+          >
+            Create Event base workflows
+          </Button>
         </Box>
       </Box>
       <FilterWorkflow
@@ -48,4 +57,4 @@ const Header = ({ selectedTicketsList }: any) => {
   );
 };
 
-export default Header;
+export default TicketsHeader;

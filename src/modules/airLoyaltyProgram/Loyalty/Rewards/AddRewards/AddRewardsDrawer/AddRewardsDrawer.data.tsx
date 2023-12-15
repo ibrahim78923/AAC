@@ -37,7 +37,7 @@ export const defaultValues = {
 
 export const addRewardsDrawerData = [
   {
-    id:1,
+    id: 1,
     componentProps: {
       name: 'title',
       label: 'Title',
@@ -49,7 +49,7 @@ export const addRewardsDrawerData = [
     md: 12,
   },
   {
-    id:2,
+    id: 2,
     componentProps: {
       name: 'description',
       label: 'Description',
@@ -61,7 +61,7 @@ export const addRewardsDrawerData = [
     md: 12,
   },
   {
-    id:3,
+    id: 3,
     componentProps: {
       name: 'addImage',
       label: 'Add Image',
@@ -73,7 +73,7 @@ export const addRewardsDrawerData = [
     md: 12,
   },
   {
-    id:4,
+    id: 4,
     componentProps: {
       name: 'requiredPoints',
       label: 'RequiredPoints',
@@ -85,7 +85,7 @@ export const addRewardsDrawerData = [
     md: 12,
   },
   {
-    id:5,
+    id: 5,
     componentProps: {
       name: 'chooseRewards',
       label: 'Choose Rewards',
@@ -98,7 +98,7 @@ export const addRewardsDrawerData = [
     md: 12,
   },
   {
-    id:6,
+    id: 6,
     componentProps: {
       name: 'visibleto',
       label: 'Visible to',
@@ -111,7 +111,7 @@ export const addRewardsDrawerData = [
     md: 12,
   },
   {
-    id:7,
+    id: 7,
     componentProps: {
       name: 'costPrice',
       label: 'CostPrice',
@@ -122,7 +122,7 @@ export const addRewardsDrawerData = [
     md: 12,
   },
   {
-    id:8,
+    id: 8,
     componentProps: {
       name: 'activefrom',
       label: 'Active from',
@@ -133,7 +133,7 @@ export const addRewardsDrawerData = [
     md: 12,
   },
   {
-    id:9,
+    id: 9,
     componentProps: {
       name: 'activeto',
       label: 'Active to',
@@ -144,7 +144,7 @@ export const addRewardsDrawerData = [
     md: 12,
   },
   {
-    id:10,
+    id: 10,
     componentProps: {
       name: 'untilDeacticateIt',
       label: 'Until Deacticate it',

@@ -1,6 +1,7 @@
 import { AntSwitch } from '@/components/AntSwitch';
 import { Avatar, Box, Checkbox, Chip } from '@mui/material';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
+import dayjs from 'dayjs';
 
 export const EventBaseWorkflowActionsDropdown = (handleActionClick: any) => [
   {
@@ -28,7 +29,7 @@ export const ticketsListData: any = [
     workflowName: 'Update Assets',
     status: true,
     createdBy: 'Jane Cooper',
-    createdOn: 'Oct 15, 2023 4:56:44 PM',
+    createdOn: '2023-12-14T11:59:08.238Z',
     lastActivity: 'Update by Andrew',
   },
   {
@@ -36,14 +37,14 @@ export const ticketsListData: any = [
     workflowName: 'Update Task',
     status: false,
     createdBy: 'Esther Howard',
-    createdOn: 'Oct 15, 2023 4:56:44 PM',
+    createdOn: '2023-12-14T11:59:08.238Z',
     lastActivity: 'Update by Shaw',
   },
   {
     id: 3,
     workflowName: 'Update Task',
     createdBy: 'Esther Howard',
-    createdOn: 'Oct 15, 2023 4:56:44 PM',
+    createdOn: '2023-12-14T11:59:08.238Z',
     lastActivity: 'Update by Shaw',
     draft: true,
   },
@@ -143,7 +144,8 @@ export const ticketsListsColumnsFunction = (
     id: 'createdOn',
     isSortable: false,
     header: 'Created On',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) =>
+      dayjs(info?.getValue())?.format('MMMM DD, YYYY: hh:mm'),
   },
   {
     accessorFn: (row: any) => row?.lastActivity,

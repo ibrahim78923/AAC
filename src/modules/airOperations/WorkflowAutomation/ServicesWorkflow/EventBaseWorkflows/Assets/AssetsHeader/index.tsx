@@ -2,24 +2,26 @@ import { FilterSharedIcon } from '@/assets/icons';
 import Search from '@/components/Search';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { Box, Button } from '@mui/material';
-import { useHeader } from './useHeader';
 import FilterWorkflow from '../../../FilterWorkflow';
+import { useAssetsHeader } from './useAssetsHeader';
+import { AIR_OPERATIONS } from '@/constants';
 
-const Header = ({ selectedMeetingsList }: any) => {
+const AssetsHeader = ({ selectedAssetsList }: any) => {
   const {
     searchValue,
     setSearchValue,
-    dropdownOptions,
     isDrawerOpen,
     setIsDrawerOpen,
-  } = useHeader();
+    dropdownOptions,
+    router,
+  } = useAssetsHeader();
   return (
     <>
       <Box display={'flex'} justifyContent={'space-between'}>
         <Box mb={1}>
           <Search
             value={searchValue}
-            label="Search here"
+            label="Search Here"
             setSearchBy={setSearchValue}
             onChange={(e: any) => setSearchValue(e?.target?.value)}
           />
@@ -27,16 +29,24 @@ const Header = ({ selectedMeetingsList }: any) => {
         <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={1.5}>
           <SingleDropdownButton
             dropdownOptions={dropdownOptions}
-            disabled={!!!selectedMeetingsList?.length}
+            disabled={!!!selectedAssetsList?.length}
           />
           <Button
             color="secondary"
             variant="outlined"
             startIcon={<FilterSharedIcon />}
+            onClick={() => setIsDrawerOpen?.(true)}
           >
             Filter
           </Button>
-          <Button variant="contained">Create Event base workflows</Button>
+          <Button
+            variant="contained"
+            onClick={() =>
+              router?.push(AIR_OPERATIONS?.UPSERT_EVENT_BASED_WORKFLOW)
+            }
+          >
+            Create Event base Workflow
+          </Button>
         </Box>
       </Box>
       <FilterWorkflow
@@ -47,4 +57,4 @@ const Header = ({ selectedMeetingsList }: any) => {
   );
 };
 
-export default Header;
+export default AssetsHeader;
