@@ -3,16 +3,21 @@ import Search from '@/components/Search';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { Box, Button } from '@mui/material';
 import FilterWorkflow from '../../../FilterWorkflow';
-import { useHeader } from './useHeader';
+import { useTasksHeader } from './useTasksHeader';
+import { AIR_OPERATIONS } from '@/constants';
+import { ScheduledWorkflowDelete } from '../../ScheduledWorkflowDelete';
 
-const Header = ({ selectedAssetsList }: any) => {
+const TasksHeader = ({ selectedTasksList }: any) => {
   const {
     searchValue,
     setSearchValue,
+    dropdownOptions,
     isDrawerOpen,
     setIsDrawerOpen,
-    dropdownOptions,
-  } = useHeader();
+    router,
+    setDeleteWorkflow,
+    deleteWorkflow,
+  } = useTasksHeader();
   return (
     <>
       <Box display={'flex'} justifyContent={'space-between'}>
@@ -27,25 +32,35 @@ const Header = ({ selectedAssetsList }: any) => {
         <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={1.5}>
           <SingleDropdownButton
             dropdownOptions={dropdownOptions}
-            disabled={!!!selectedAssetsList?.length}
+            disabled={!!!selectedTasksList?.length}
           />
           <Button
             color="secondary"
             variant="outlined"
             startIcon={<FilterSharedIcon />}
-            onClick={() => setIsDrawerOpen?.(true)}
           >
             Filter
           </Button>
-          <Button variant="contained">Create Event base workflows</Button>
+          <Button
+            variant="contained"
+            onClick={() =>
+              router?.push(AIR_OPERATIONS?.UPSERT_SCHEDULE_WORKFLOW)
+            }
+          >
+            Create Scheduled workflows
+          </Button>
         </Box>
       </Box>
       <FilterWorkflow
         isDrawerOpen={isDrawerOpen}
         setIsDrawerOpen={setIsDrawerOpen}
       />
+      <ScheduledWorkflowDelete
+        deleteWorkflow={deleteWorkflow}
+        setDeleteWorkflow={setDeleteWorkflow}
+      />
     </>
   );
 };
 
-export default Header;
+export default TasksHeader;

@@ -2,17 +2,22 @@ import { FilterSharedIcon } from '@/assets/icons';
 import Search from '@/components/Search';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { Box, Button } from '@mui/material';
-import { useHeader } from './useHeader';
 import FilterWorkflow from '../../../FilterWorkflow';
+import { useMeetingsHeader } from './useMeetingsHeader';
+import { ScheduledWorkflowDelete } from '../../ScheduledWorkflowDelete';
+import { AIR_OPERATIONS } from '@/constants';
 
-const Header = ({ selectedTasksList }: any) => {
+const MeetingsHeader = ({ selectedMeetingsList }: any) => {
   const {
     searchValue,
     setSearchValue,
     dropdownOptions,
     isDrawerOpen,
     setIsDrawerOpen,
-  } = useHeader();
+    setDeleteWorkflow,
+    deleteWorkflow,
+    router,
+  } = useMeetingsHeader();
   return (
     <>
       <Box display={'flex'} justifyContent={'space-between'}>
@@ -27,7 +32,7 @@ const Header = ({ selectedTasksList }: any) => {
         <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={1.5}>
           <SingleDropdownButton
             dropdownOptions={dropdownOptions}
-            disabled={!!!selectedTasksList?.length}
+            disabled={!!!selectedMeetingsList?.length}
           />
           <Button
             color="secondary"
@@ -36,15 +41,26 @@ const Header = ({ selectedTasksList }: any) => {
           >
             Filter
           </Button>
-          <Button variant="contained">Create Event base workflows</Button>
+          <Button
+            variant="contained"
+            onClick={() =>
+              router?.push(AIR_OPERATIONS?.UPSERT_SCHEDULE_WORKFLOW)
+            }
+          >
+            Create Scheduled workflows
+          </Button>
         </Box>
       </Box>
       <FilterWorkflow
         isDrawerOpen={isDrawerOpen}
         setIsDrawerOpen={setIsDrawerOpen}
       />
+      <ScheduledWorkflowDelete
+        deleteWorkflow={deleteWorkflow}
+        setDeleteWorkflow={setDeleteWorkflow}
+      />
     </>
   );
 };
 
-export default Header;
+export default MeetingsHeader;

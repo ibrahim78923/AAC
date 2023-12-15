@@ -1,0 +1,30 @@
+import { useState } from 'react';
+import { EventBaseWorkflowActionsDropdown } from '../Meetings.data';
+import { AIR_OPERATIONS } from '@/constants';
+import { useRouter } from 'next/router';
+
+export const useMeetingsHeader = () => {
+  const router = useRouter();
+  const [searchValue, setSearchValue] = useState<string>('');
+  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
+  const [deleteWorkflow, setDeleteWorkflow] = useState(false);
+
+  const handleActionClick = (actionType: string) => {
+    if (actionType === 'delete') {
+      setDeleteWorkflow(true);
+    } else if (actionType === 'edit') {
+      router?.push(AIR_OPERATIONS?.UPSERT_SCHEDULE_WORKFLOW);
+    }
+  };
+  const dropdownOptions = EventBaseWorkflowActionsDropdown(handleActionClick);
+  return {
+    searchValue,
+    setSearchValue,
+    isDrawerOpen,
+    setIsDrawerOpen,
+    dropdownOptions,
+    setDeleteWorkflow,
+    deleteWorkflow,
+    router,
+  };
+};

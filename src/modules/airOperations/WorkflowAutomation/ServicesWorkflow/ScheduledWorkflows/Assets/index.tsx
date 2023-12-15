@@ -1,13 +1,13 @@
 import TanstackTable from '@/components/Table/TanstackTable';
-import Header from '../Tickets/Header';
 import { useAssets } from './useAssets';
 import { assetsListData } from './Assets.data';
+import AssetsHeader from './AssetsHeader';
 
 const Assets = () => {
   const { assetsListsColumns, selectedAssetsList } = useAssets();
   return (
     <>
-      <Header selectedTicketsList={selectedAssetsList} />
+      <AssetsHeader selectedAssetsList={selectedAssetsList} />
       <TanstackTable
         data={assetsListData}
         columns={assetsListsColumns}
