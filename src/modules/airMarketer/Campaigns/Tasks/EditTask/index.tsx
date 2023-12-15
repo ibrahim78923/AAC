@@ -10,6 +10,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { enqueueSnackbar } from 'notistack';
 import { v4 as uuidv4 } from 'uuid';
+import useTasks from '../useTasks';
 
 export default function EditTask({
   isOpenDrawer,
@@ -20,7 +21,7 @@ export default function EditTask({
     resolver: yupResolver(validationSchema),
     defaultValues: initialValueProps,
   });
-
+  const { isTaskCreate } = useTasks();
   const { handleSubmit } = methods;
 
   const onSubmit = async () => {
@@ -33,7 +34,7 @@ export default function EditTask({
     <CommonDrawer
       isDrawerOpen={isOpenDrawer}
       onClose={() => onClose(false)}
-      title={'Edit Task'}
+      title={isTaskCreate ? 'Create Task' : 'Edit Task'}
       okText={'Update'}
       isOk
       cancelText={'Cancel'}

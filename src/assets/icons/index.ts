@@ -359,3 +359,4 @@ export { default as ServiceWorkflowIcon } from './modules/airOperations/workflow
 
 export { default as DocumentDownloadIcon } from './modules/airMarketer/EmailReports/document-download';
 export { default as SmileIcon } from './modules/airMarketer/EmailMarketing/smile-emoji-icon';
+export { default as BoardIcon } from './shared/board';

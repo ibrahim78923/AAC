@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Menu, MenuItem, Tooltip } from '@mui/material';
+import { Box, Button, Grid, Menu, MenuItem } from '@mui/material';
 
 import TanstackTable from '@/components/Table/TanstackTable';
 import { AlertModals } from '@/components/AlertModals';
@@ -11,9 +11,10 @@ import { tableData } from '@/mock/modules/airMarketer/Campaigns/Tasks';
 
 import {
   AlertModalDeleteIcon,
+  BoardIcon,
   DownIcon,
   FilterrIcon,
-  RefreshTasksIcon,
+  ListViewIcon,
 } from '@/assets/icons';
 import Search from '@/components/Search';
 
@@ -30,6 +31,7 @@ const Tasks = () => {
     isOpenDeleteDrawer,
     handleDeleteModal,
     setIsOpenDeleteDrawer,
+    setTaskCreate,
   } = useTasks();
 
   return (
@@ -86,28 +88,9 @@ const Tasks = () => {
                 </Menu>
               </Box>
               <Button
-                startIcon={<FilterrIcon />}
-                sx={{
-                  border: `1px solid ${theme?.palette?.custom?.dark}`,
-                  color: theme?.palette?.custom?.main,
-                  width: '95px',
-                  height: '36px',
-                  marginLeft: '8px',
+                onClick={() => {
+                  handleTaskDrawer(), setTaskCreate('Create Task');
                 }}
-              >
-                Filter
-              </Button>
-              <Tooltip title={'Refresh Filter'}>
-                <Button
-                  sx={{ marginLeft: '8px' }}
-                  variant="outlined"
-                  color="inherit"
-                  className="small"
-                >
-                  <RefreshTasksIcon />
-                </Button>
-              </Tooltip>
-              <Button
                 startIcon={<FilterrIcon />}
                 sx={{
                   border: `1px solid ${theme?.palette?.custom?.dark}`,
@@ -117,7 +100,23 @@ const Tasks = () => {
                   marginLeft: '8px',
                 }}
               >
-                See All Views
+                Create Task
+              </Button>
+              <Button
+                variant="outlined"
+                color="inherit"
+                className="small"
+                style={{ marginLeft: '8px' }}
+              >
+                <ListViewIcon />
+              </Button>
+              <Button
+                variant="outlined"
+                color="inherit"
+                className="small"
+                style={{ marginLeft: '8px' }}
+              >
+                <BoardIcon />
               </Button>
             </Box>
           </Grid>

@@ -5,9 +5,11 @@ import ActionButton from '../ActionButton';
 import Search from '@/components/Search';
 import { useState } from 'react';
 import { BackArrowIcon } from '@/assets/icons';
+import { useRouter } from 'next/router';
 
 const Table = () => {
   const [seacrhBy, setSearchBy] = useState('');
+  const router = useRouter();
   return (
     <Grid container>
       <Grid
@@ -16,7 +18,7 @@ const Table = () => {
         lg={12}
         style={{ display: 'flex', justifyContent: 'space-between' }}
       >
-        <Typography variant="h3">
+        <Typography variant="h3" onClick={() => router.back()}>
           <BackArrowIcon /> &nbsp; All View
         </Typography>
       </Grid>
