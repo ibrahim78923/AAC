@@ -2,16 +2,16 @@ import { FilterSharedIcon } from '@/assets/icons';
 import Search from '@/components/Search';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { Box, Button } from '@mui/material';
+import FilterWorkflow from '../../../FilterWorkflow';
 import { useHeader } from './useHeader';
-import FilterWorkflow from '../../FilterWorkflow';
 
-const Header = ({ selectedSupervisorList }: any) => {
+const Header = ({ selectedAssetsList }: any) => {
   const {
     searchValue,
     setSearchValue,
-    dropdownOptions,
     isDrawerOpen,
     setIsDrawerOpen,
+    dropdownOptions,
   } = useHeader();
   return (
     <>
@@ -27,7 +27,7 @@ const Header = ({ selectedSupervisorList }: any) => {
         <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={1.5}>
           <SingleDropdownButton
             dropdownOptions={dropdownOptions}
-            disabled={!!!selectedSupervisorList?.length}
+            disabled={!!!selectedAssetsList?.length}
           />
           <Button
             color="secondary"

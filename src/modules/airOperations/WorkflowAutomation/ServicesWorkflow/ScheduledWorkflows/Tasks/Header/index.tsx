@@ -3,9 +3,9 @@ import Search from '@/components/Search';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { Box, Button } from '@mui/material';
 import { useHeader } from './useHeader';
-import FilterWorkflow from '../../FilterWorkflow';
+import FilterWorkflow from '../../../FilterWorkflow';
 
-const Header = ({ selectedSupervisorList }: any) => {
+const Header = ({ selectedTasksList }: any) => {
   const {
     searchValue,
     setSearchValue,
@@ -27,13 +27,12 @@ const Header = ({ selectedSupervisorList }: any) => {
         <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={1.5}>
           <SingleDropdownButton
             dropdownOptions={dropdownOptions}
-            disabled={!!!selectedSupervisorList?.length}
+            disabled={!!!selectedTasksList?.length}
           />
           <Button
             color="secondary"
             variant="outlined"
             startIcon={<FilterSharedIcon />}
-            onClick={() => setIsDrawerOpen?.(true)}
           >
             Filter
           </Button>
