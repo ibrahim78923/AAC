@@ -9,7 +9,7 @@ export const DeleteResponseModal = ({
   return (
     <>
       <AlertModals
-        message={'Are you sure you want to delete?'}
+        message={'Are you sure you want to delete this response parentally?'}
         type={ALERT_MODALS_TYPE?.DELETE}
         open={deleteModal}
         handleClose={() => setDeleteModal(false)}

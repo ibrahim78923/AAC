@@ -43,6 +43,7 @@ export const upsertTransactionsArray = [
       placeholder: 'ABC',
       fullWidth: true,
       options: jobTitleOptions,
+      getOptionLabel: (option: any) => option?.label,
     },
     component: RHFAutocomplete,
     md: 12,
@@ -55,8 +56,10 @@ export const upsertTransactionsArray = [
       placeholder: 'ABC',
       fullWidth: true,
       options: jobTitleOptions,
+      getOptionLabel: (option: any) => option?.label,
     },
     component: RHFAutocomplete,
+
     md: 12,
   },
   {
@@ -67,6 +70,7 @@ export const upsertTransactionsArray = [
       placeholder: 'ABC',
       fullWidth: true,
       options: jobTitleOptions,
+      getOptionLabel: (option: any) => option?.label,
     },
     component: RHFAutocomplete,
     md: 12,
