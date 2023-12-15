@@ -2,13 +2,13 @@ import React from 'react';
 import useCatalogRequest from '../CatalogRequest/useCatalogRequest';
 import { useRouter } from 'next/router';
 import { allServices } from '../Catalog.data';
-import { DialogActions, DialogContent, Grid } from '@mui/material';
+import { Box, DialogContent, Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { placeRequest } from '../CatalogRequest/CatalogRequest.data';
 import { useWatch } from 'react-hook-form';
 import { LoadingButton } from '@mui/lab';
 
-const CatalogItemRequest = () => {
+const CatalogItemRequest = ({ handleClose }: any) => {
   const { methodRequest, onSubmitRequest, control, getValues } =
     useCatalogRequest();
   useWatch<any>({ control, name: 'requestForSomeOneElse' });
@@ -21,7 +21,7 @@ const CatalogItemRequest = () => {
   return (
     <DialogContent dividers>
       <FormProvider methods={methodRequest} onSubmit={onSubmitRequest}>
-        <Grid container spacing={2}>
+        <Grid container>
           {placeRequest?.map((item: any) => {
             const { shouldDisplay } = item;
             let display = true;
@@ -35,12 +35,18 @@ const CatalogItemRequest = () => {
             );
           })}
         </Grid>
-        <DialogActions>
-          <LoadingButton>cancel</LoadingButton>
+        <Box display={'flex'} justifyContent={'flex-end'} gap={1}>
+          <LoadingButton
+            variant="outlined"
+            color="secondary"
+            onClick={handleClose}
+          >
+            cancel
+          </LoadingButton>
           <LoadingButton variant="contained" type="submit">
             confirm
           </LoadingButton>
-        </DialogActions>
+        </Box>
       </FormProvider>
     </DialogContent>
   );
