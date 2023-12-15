@@ -371,3 +371,4 @@ export { default as PmToolsIcon } from './shared/pm-tools-icon';
 export { default as HardwareIcon } from './shared/hardware-icon';
 export { default as SoftwareCatalogIcon } from './shared/software-catalog-icon';
 export { default as CpuSettingsIcon } from './shared/cpu-settings-icon';
+export { default as DateRangePickerIcon } from './shared/date-range-picker-icon';

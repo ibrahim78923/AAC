@@ -3,10 +3,10 @@ import { Button } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
 
 export const itemDetailColumns = [
-  'Service Name',
-  'Price Model',
-  'Cost',
-  'Count',
+  'Service Name *',
+  'Price Model *',
+  'Cost *',
+  'Count *',
   'Comments',
   'Action',
 ];
