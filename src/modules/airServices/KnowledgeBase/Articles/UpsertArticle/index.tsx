@@ -98,7 +98,7 @@ export const UpsertArticle = () => {
               >
                 Save as Draft
               </Button>
-              <Button type="submit" variant="contained" className="large">
+              <Button type="submit" variant="contained">
                 {needApprovals ? 'Send For Approval' : 'Publish Now'}
               </Button>
             </Box>
