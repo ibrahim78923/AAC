@@ -1,9 +1,8 @@
-import React, { FC } from 'react';
 import { Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
-const CustomLabel: FC<{ label: string; required?: boolean }> = (props) => {
-  const { label, required = false } = props;
+const CustomLabel = (props: any) => {
+  const { label, required = false, marginBottom = 0.6 } = props;
   const { palette }: any = useTheme();
   return (
     <Typography
@@ -15,7 +14,7 @@ const CustomLabel: FC<{ label: string; required?: boolean }> = (props) => {
             }
           : '',
         color: 'inherit',
-        marginBottom: 0.6,
+        marginBottom: marginBottom,
       }}
     >
       {label}
