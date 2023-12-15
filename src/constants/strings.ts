@@ -282,4 +282,5 @@ export const USER_MANAGEMENT = {
   EDIT: 'Edit',
   BACK: 'Back',
   CANCEL: 'Cancel',
+  EDIT_TEAM: 'Edit Team',
 };
