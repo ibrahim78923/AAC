@@ -3,10 +3,20 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
 import { ExportBlackIcon } from '@/assets/icons';
 import { useNotAssignedPhysicalGiftCards } from './useNotAssignedPhysicalGiftCards';
+import { ExportModal } from '@/components/ExportModal';
 
 export const NotAssignedPhysicalGiftCards = () => {
-  const { notAssignedPhysicalGiftCardColumns, data, setSearch, search } =
-    useNotAssignedPhysicalGiftCards();
+  const {
+    notAssignedPhysicalGiftCardColumns,
+    data,
+    setSearch,
+    search,
+    handleClick,
+    onSubmit,
+    open,
+    setOpen,
+    handleClose,
+  } = useNotAssignedPhysicalGiftCards();
 
   return (
     <>
@@ -26,6 +36,7 @@ export const NotAssignedPhysicalGiftCards = () => {
           variant="outlined"
           color="secondary"
           startIcon={<ExportBlackIcon />}
+          onClick={handleClick}
         >
           Export
         </Button>
@@ -35,6 +46,12 @@ export const NotAssignedPhysicalGiftCards = () => {
         data={data}
         columns={notAssignedPhysicalGiftCardColumns}
         isPagination
+      />
+      <ExportModal
+        open={open}
+        setOpen={setOpen}
+        onSubmit={onSubmit}
+        handleClose={handleClose}
       />
     </>
   );

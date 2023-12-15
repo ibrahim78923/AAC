@@ -5,11 +5,23 @@ import Search from '@/components/Search';
 import { AddWhiteBgIcon, ExportBlackIcon } from '@/assets/icons';
 import FilterListIcon from '@mui/icons-material/FilterList';
 
+import { ExportModal } from '@/components/ExportModal';
+
 export const DigitalGiftCards = (props: any) => {
   const { setShowButtons }: { setShowButtons: (value: boolean) => void } =
     props;
-  const { theme, digitalGiftCardColumns, data, search, setSearch } =
-    useDigitalGiftCards(setShowButtons);
+  const {
+    theme,
+    digitalGiftCardColumns,
+    data,
+    search,
+    setSearch,
+    handleClick,
+    onSubmit,
+    open,
+    setOpen,
+    handleClose,
+  } = useDigitalGiftCards(setShowButtons);
 
   return (
     <Box
@@ -41,9 +53,16 @@ export const DigitalGiftCards = (props: any) => {
             variant="outlined"
             color="secondary"
             startIcon={<ExportBlackIcon />}
+            onClick={handleClick}
           >
             Export
           </Button>
+          <ExportModal
+            open={open}
+            setOpen={setOpen}
+            onSubmit={onSubmit}
+            handleClose={handleClose}
+          />
           <Button variant="contained" startIcon={<AddWhiteBgIcon />}>
             Add
           </Button>

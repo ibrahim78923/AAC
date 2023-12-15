@@ -4,10 +4,23 @@ import Search from '@/components/Search';
 import { ExportBlackIcon } from '@/assets/icons';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { useAssignedPhysicalGiftCards } from './useAssignedPhysicalGiftCards';
+import { ExportModal } from '@/components/ExportModal';
+import { AssignedPhysicalGiftCardsFilter } from './AssignedPhysicalGiftCardsFilter';
 
 export const AssignedPhysicalGiftCards = () => {
-  const { assignedPhysicalGiftCardColumns, data, setSearch, search } =
-    useAssignedPhysicalGiftCards();
+  const {
+    assignedPhysicalGiftCardColumns,
+    data,
+    setSearch,
+    search,
+    handleClick,
+    onSubmit,
+    open,
+    setOpen,
+    handleClose,
+    isDrawerOpen,
+    setIsADrawerOpen,
+  } = useAssignedPhysicalGiftCards();
 
   return (
     <>
@@ -28,6 +41,7 @@ export const AssignedPhysicalGiftCards = () => {
             variant="outlined"
             color="secondary"
             startIcon={<FilterListIcon />}
+            onClick={() => setIsADrawerOpen(true)}
           >
             Filter
           </Button>
@@ -35,9 +49,16 @@ export const AssignedPhysicalGiftCards = () => {
             variant="outlined"
             color="secondary"
             startIcon={<ExportBlackIcon />}
+            onClick={handleClick}
           >
             Export
           </Button>
+          <ExportModal
+            open={open}
+            setOpen={setOpen}
+            onSubmit={onSubmit}
+            handleClose={handleClose}
+          />
         </Box>
       </Box>
       <br />
@@ -45,6 +66,10 @@ export const AssignedPhysicalGiftCards = () => {
         data={data}
         columns={assignedPhysicalGiftCardColumns}
         isPagination
+      />
+      <AssignedPhysicalGiftCardsFilter
+        isDrawerOpen={isDrawerOpen}
+        setIsDrawerOpen={setIsADrawerOpen}
       />
     </>
   );
