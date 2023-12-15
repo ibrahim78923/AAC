@@ -3,7 +3,7 @@ import { loginMethodsDataArray, timeoutDataArray } from '../LoginMethods.data';
 import ErrorIcon from '@mui/icons-material/Error';
 
 export const SingleLoginMethodCard = (props: any) => {
-  const { theme, timeOut } = props;
+  const { timeOut } = props;
 
   return (
     <>
@@ -35,8 +35,12 @@ export const SingleLoginMethodCard = (props: any) => {
                 justifyContent={'space-between'}
                 key={item?._id}
                 p={1.5}
-                bgcolor={theme?.palette?.grey?.[700]}
-                borderRadius={2}
+                sx={{ bgcolor: 'custom.off_white_one' }}
+                borderRadius={
+                  timeOut && item?.componentProps?.name === 'sessionTimeout'
+                    ? 0.5
+                    : 2
+                }
                 mb={
                   timeOut && item?.componentProps?.name === 'sessionTimeout'
                     ? 0
@@ -55,9 +59,10 @@ export const SingleLoginMethodCard = (props: any) => {
               </Box>
               {timeOut && item?.componentProps?.name === 'sessionTimeout' && (
                 <Box
-                  bgcolor={theme?.palette?.grey?.[100]}
+                  sx={{ bgcolor: 'custom.off_white_one' }}
                   mb={1}
                   p={2}
+                  borderRadius={0.5}
                   alignItems={{ xs: 'start', lg: 'center' }}
                   display={'flex'}
                   flexDirection={{ xs: 'column', lg: 'row' }}
