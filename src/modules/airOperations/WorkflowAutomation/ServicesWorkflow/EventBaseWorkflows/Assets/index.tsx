@@ -7,7 +7,7 @@ const Assets = () => {
   const { assetsListsColumns, selectedAssetsList } = useAssets();
   return (
     <>
-      <AssetsHeader selectedTicketsList={selectedAssetsList} />
+      <AssetsHeader selectedAssetsList={selectedAssetsList} />
       <TanstackTable
         data={assetsListData}
         columns={assetsListsColumns}

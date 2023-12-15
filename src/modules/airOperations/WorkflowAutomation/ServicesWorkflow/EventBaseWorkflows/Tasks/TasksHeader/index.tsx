@@ -5,6 +5,7 @@ import { Box, Button } from '@mui/material';
 import FilterWorkflow from '../../../FilterWorkflow';
 import { useTasksHeader } from './useTasksHeader';
 import { AIR_OPERATIONS } from '@/constants';
+import { EventBasedWorkflowDelete } from '../../EventBasedWorkflowDelete';
 
 const TasksHeader = ({ selectedTasksList }: any) => {
   const {
@@ -14,6 +15,8 @@ const TasksHeader = ({ selectedTasksList }: any) => {
     isDrawerOpen,
     setIsDrawerOpen,
     router,
+    setDeleteWorkflow,
+    deleteWorkflow,
   } = useTasksHeader();
   return (
     <>
@@ -51,6 +54,10 @@ const TasksHeader = ({ selectedTasksList }: any) => {
       <FilterWorkflow
         isDrawerOpen={isDrawerOpen}
         setIsDrawerOpen={setIsDrawerOpen}
+      />
+      <EventBasedWorkflowDelete
+        deleteWorkflow={deleteWorkflow}
+        setDeleteWorkflow={setDeleteWorkflow}
       />
     </>
   );

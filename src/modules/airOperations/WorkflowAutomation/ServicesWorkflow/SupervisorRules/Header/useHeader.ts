@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { EventBaseWorkflowActionsDropdown } from '../SupervisorRules.data';
 import { useRouter } from 'next/router';
 import { AIR_OPERATIONS } from '@/constants';
+import { ACTIONS_TYPES } from '@/constants/strings';
 
 export const useHeader = () => {
   const router = useRouter();
@@ -10,10 +11,10 @@ export const useHeader = () => {
   const [deleteWorkflow, setDeleteWorkflow] = useState(false);
 
   const handleActionClick = (actionType: string) => {
-    if (actionType === 'delete') {
+    if (actionType === ACTIONS_TYPES?.DELETE) {
       setDeleteWorkflow(true);
-    } else if (actionType === 'edit') {
-      router.push(AIR_OPERATIONS?.UPSERT_SUPERVISOR_RULES);
+    } else if (actionType === ACTIONS_TYPES?.EDIT) {
+      router?.push(AIR_OPERATIONS?.UPSERT_EVENT_BASED_WORKFLOW);
     }
   };
   const dropdownOptions = EventBaseWorkflowActionsDropdown(handleActionClick);

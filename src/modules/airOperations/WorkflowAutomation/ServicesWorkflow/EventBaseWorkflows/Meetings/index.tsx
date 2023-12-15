@@ -7,7 +7,7 @@ const Meetings = () => {
   const { selectedMeetingsList, meetingsListsColumns } = useMeetings();
   return (
     <>
-      <MeetingsHeader selectedTicketsList={selectedMeetingsList} />
+      <MeetingsHeader selectedMeetingsList={selectedMeetingsList} />
       <TanstackTable
         data={meetingsListData}
         columns={meetingsListsColumns}

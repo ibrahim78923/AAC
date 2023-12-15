@@ -7,7 +7,7 @@ const Tasks = () => {
   const { selectedTasksList, tasksListsColumns } = useTasks();
   return (
     <>
-      <TasksHeader selectedTicketsList={selectedTasksList} />
+      <TasksHeader selectedTasksList={selectedTasksList} />
       <TanstackTable
         data={assetsListData}
         columns={tasksListsColumns}

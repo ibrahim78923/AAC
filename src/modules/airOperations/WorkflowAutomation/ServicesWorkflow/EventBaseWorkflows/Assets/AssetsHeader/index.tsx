@@ -5,6 +5,7 @@ import { Box, Button } from '@mui/material';
 import FilterWorkflow from '../../../FilterWorkflow';
 import { useAssetsHeader } from './useAssetsHeader';
 import { AIR_OPERATIONS } from '@/constants';
+import { EventBasedWorkflowDelete } from '../../EventBasedWorkflowDelete';
 
 const AssetsHeader = ({ selectedAssetsList }: any) => {
   const {
@@ -14,6 +15,8 @@ const AssetsHeader = ({ selectedAssetsList }: any) => {
     setIsDrawerOpen,
     dropdownOptions,
     router,
+    setDeleteWorkflow,
+    deleteWorkflow,
   } = useAssetsHeader();
   return (
     <>
@@ -52,6 +55,10 @@ const AssetsHeader = ({ selectedAssetsList }: any) => {
       <FilterWorkflow
         isDrawerOpen={isDrawerOpen}
         setIsDrawerOpen={setIsDrawerOpen}
+      />
+      <EventBasedWorkflowDelete
+        deleteWorkflow={deleteWorkflow}
+        setDeleteWorkflow={setDeleteWorkflow}
       />
     </>
   );

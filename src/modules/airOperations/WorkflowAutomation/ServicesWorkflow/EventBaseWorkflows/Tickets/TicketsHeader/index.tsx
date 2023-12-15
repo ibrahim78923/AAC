@@ -5,6 +5,7 @@ import { Box, Button } from '@mui/material';
 import FilterWorkflow from '../../../FilterWorkflow';
 import { useTicketsHeader } from './useTicketsHeader';
 import { AIR_OPERATIONS } from '@/constants';
+import { EventBasedWorkflowDelete } from '../../EventBasedWorkflowDelete';
 
 const TicketsHeader = ({ selectedTicketsList }: any) => {
   const {
@@ -14,6 +15,8 @@ const TicketsHeader = ({ selectedTicketsList }: any) => {
     isDrawerOpen,
     setIsDrawerOpen,
     router,
+    setDeleteWorkflow,
+    deleteWorkflow,
   } = useTicketsHeader();
   return (
     <>
@@ -52,6 +55,10 @@ const TicketsHeader = ({ selectedTicketsList }: any) => {
       <FilterWorkflow
         isDrawerOpen={isDrawerOpen}
         setIsDrawerOpen={setIsDrawerOpen}
+      />
+      <EventBasedWorkflowDelete
+        deleteWorkflow={deleteWorkflow}
+        setDeleteWorkflow={setDeleteWorkflow}
       />
     </>
   );

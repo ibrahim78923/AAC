@@ -284,3 +284,8 @@ export const USER_MANAGEMENT = {
   CANCEL: 'Cancel',
   EDIT_TEAM: 'Edit Team',
 };
+export const ACTIONS_TYPES = {
+  DELETE: 'delete',
+  EDIT: 'edit',
+  CLONE: 'clone',
+};

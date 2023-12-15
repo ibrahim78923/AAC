@@ -5,6 +5,7 @@ import { Box, Button } from '@mui/material';
 import FilterWorkflow from '../../../FilterWorkflow';
 import { useMeetingsHeader } from './useMeetingsHeader';
 import { AIR_OPERATIONS } from '@/constants';
+import { EventBasedWorkflowDelete } from '../../EventBasedWorkflowDelete';
 
 const MeetingsHeader = ({ selectedMeetingsList }: any) => {
   const {
@@ -14,6 +15,8 @@ const MeetingsHeader = ({ selectedMeetingsList }: any) => {
     isDrawerOpen,
     setIsDrawerOpen,
     router,
+    setDeleteWorkflow,
+    deleteWorkflow,
   } = useMeetingsHeader();
   return (
     <>
@@ -51,6 +54,10 @@ const MeetingsHeader = ({ selectedMeetingsList }: any) => {
       <FilterWorkflow
         isDrawerOpen={isDrawerOpen}
         setIsDrawerOpen={setIsDrawerOpen}
+      />
+      <EventBasedWorkflowDelete
+        deleteWorkflow={deleteWorkflow}
+        setDeleteWorkflow={setDeleteWorkflow}
       />
     </>
   );

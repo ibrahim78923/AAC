@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { EventBaseWorkflowActionsDropdown } from '../Tasks.data';
 import { AIR_OPERATIONS } from '@/constants';
 import { useRouter } from 'next/router';
+import { ACTIONS_TYPES } from '@/constants/strings';
 
 export const useTasksHeader = () => {
   const router = useRouter();
@@ -10,10 +11,10 @@ export const useTasksHeader = () => {
   const [deleteWorkflow, setDeleteWorkflow] = useState(false);
 
   const handleActionClick = (actionType: string) => {
-    if (actionType === 'delete') {
+    if (actionType === ACTIONS_TYPES?.DELETE) {
       setDeleteWorkflow(true);
-    } else if (actionType === 'edit') {
-      router?.push(AIR_OPERATIONS?.UPSERT_SCHEDULE_WORKFLOW);
+    } else if (actionType === ACTIONS_TYPES?.EDIT) {
+      router?.push(AIR_OPERATIONS?.UPSERT_EVENT_BASED_WORKFLOW);
     }
   };
   const dropdownOptions = EventBaseWorkflowActionsDropdown(handleActionClick);
