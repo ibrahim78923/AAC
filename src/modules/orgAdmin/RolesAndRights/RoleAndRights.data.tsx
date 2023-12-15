@@ -2,7 +2,7 @@ import { Checkbox } from '@mui/material';
 
 import RHFSelect from '@/components/ReactHookForm/RHFSelect';
 
-import RHFDatePicker from '@/components/ReactHookForm/RHFDatePicker';
+// import RHFDatePicker from '@/components/ReactHookForm/RHFDatePicker';
 
 import { RHFSwitch, RHFTextField } from '@/components/ReactHookForm';
 
@@ -85,82 +85,81 @@ export const columns: any = (columnsProps: any) => {
     },
   ];
 };
-export const rolesValidationSchema = Yup.object().shape({
-  roleName: Yup?.string()?.required('Field is Required'),
-  product: Yup?.string()?.required('Field is Required'),
-  status: Yup?.string()?.required('Field is Required'),
-  createdDate: Yup?.date()?.required('Field is Required'),
-});
 
-export const rolesDefaultValues = {
-  roleName: '',
-  product: '',
-  status: '',
-  createdDate: new Date(),
-};
+// export const rolesValidationSchema = Yup.object().shape({
+//   roleName: Yup?.string()?.required('Field is Required'),
+//   product: Yup?.string()?.required('Field is Required'),
+//   status: Yup?.string()?.required('Field is Required'),
+//   createdDate: Yup?.date()?.required('Field is Required'),
+// });
 
-export const rolesFiltersArray = [
-  {
-    componentProps: {
-      name: 'roleName',
-      label: 'Role Name',
-      fullWidth: true,
-      select: true,
-    },
-    options: [
-      { value: 'CompanyOwner', label: 'Company Owner' },
-      { value: 'SuperAdmin', label: 'Super Admin' },
-    ],
-    component: RHFSelect,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'product',
-      label: 'Product',
-      fullWidth: true,
-      select: true,
-    },
-    options: [
-      { value: 'sales', label: 'Sales' },
-      { value: 'services', label: 'Services' },
-      { value: 'marketing', label: 'Marketing' },
-      { value: 'loyaltyProgram', label: 'Loyalty Progrma' },
-    ],
-    component: RHFSelect,
-    md: 12,
-  },
+// export const rolesDefaultValues = {
+//   roleName: '',
+//   product: '',
+//   status: '',
+//   createdDate: new Date(),
+// };
 
-  {
-    componentProps: {
-      name: 'status',
-      label: 'Status',
-      fullWidth: true,
-      select: true,
-    },
-    options: [
-      { value: 'active', label: 'Active' },
-      { value: 'inactive', label: 'Inactive' },
-    ],
-    component: RHFSelect,
-    md: 12,
-  },
-
-  {
-    componentProps: {
-      name: 'createdDate',
-      label: 'Created Date',
-      fullWidth: true,
-    },
-    component: RHFDatePicker,
-    md: 12,
-  },
-];
+// export const rolesFiltersArray = [
+//   {
+//     componentProps: {
+//       name: 'roleName',
+//       label: 'Role Name',
+//       fullWidth: true,
+//       select: true,
+//     },
+//     options: [
+//       { value: 'CompanyOwner', label: 'Company Owner' },
+//       { value: 'SuperAdmin', label: 'Super Admin' },
+//     ],
+//     component: RHFSelect,
+//     md: 12,
+//   },
+//   {
+//     componentProps: {
+//       name: 'product',
+//       label: 'Product',
+//       fullWidth: true,
+//       select: true,
+//     },
+//     options: [
+//       { value: 'sales', label: 'Sales' },
+//       { value: 'services', label: 'Services' },
+//       { value: 'marketing', label: 'Marketing' },
+//       { value: 'loyaltyProgram', label: 'Loyalty Progrma' },
+//     ],
+//     component: RHFSelect,
+//     md: 12,
+//   },
+//   {
+//     componentProps: {
+//       name: 'status',
+//       label: 'Status',
+//       fullWidth: true,
+//       select: true,
+//     },
+//     options: [
+//       { value: 'active', label: 'Active' },
+//       { value: 'inactive', label: 'Inactive' },
+//     ],
+//     component: RHFSelect,
+//     md: 12,
+//   },
+//   {
+//     componentProps: {
+//       name: 'createdDate',
+//       label: 'Created Date',
+//       fullWidth: true,
+//     },
+//     component: RHFDatePicker,
+//     md: 12,
+//   },
+// ];
 
 export const addUserSchema = Yup.object().shape({
-  productType: Yup?.string()?.required('Field is Required'),
-  companyAccount: Yup?.string()?.required('Field is Required'),
-  roleName: Yup?.string()?.required('Field is Required'),
+  productDetails: Yup?.string()?.required('Field is Required'),
+  companyAccountDetails: Yup?.string()?.required('Field is Required'),
+  name: Yup?.string()?.required('Field is Required'),
   defaultUser: Yup?.string()?.required('Field is Required'),
   // desc: Yup?.string()?.required('Field is Required'),
 });
@@ -188,7 +187,7 @@ export const addUsersArrayData = () => {
     {
       componentProps: {
         label: 'Select Product',
-        name: 'productType',
+        name: 'productDetails',
         fullWidth: true,
         required: true,
         select: true,
@@ -203,7 +202,7 @@ export const addUsersArrayData = () => {
     {
       componentProps: {
         label: 'Select Company Account',
-        name: 'companyAccount',
+        name: 'companyAccountDetails',
         fullWidth: true,
         required: true,
         select: true,
@@ -220,7 +219,7 @@ export const addUsersArrayData = () => {
     {
       componentProps: {
         label: 'Role Name',
-        name: 'roleName',
+        name: 'name',
         placeholder: 'Role Name',
         fullWidth: true,
         required: true,
@@ -231,7 +230,7 @@ export const addUsersArrayData = () => {
     {
       componentProps: {
         label: 'Description',
-        name: 'desc',
+        name: 'description',
         fullWidth: true,
         placeholder: 'Description',
         multiline: true,

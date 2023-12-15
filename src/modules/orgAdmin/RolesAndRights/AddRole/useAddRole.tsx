@@ -6,9 +6,9 @@ import { useTheme } from '@mui/material';
 
 import { useForm } from 'react-hook-form';
 
-import { yupResolver } from '@hookform/resolvers/yup';
+// import { yupResolver } from '@hookform/resolvers/yup';
 
-import { addUserDefault, addUserSchema } from '../RoleAndRights.data';
+// import { addUserDefault, addUserSchema } from '../RoleAndRights.data';
 import { rolesAndRightsAPI } from '@/services/orgAdmin/roles-and-rights';
 
 const useAddRole = () => {
@@ -16,13 +16,27 @@ const useAddRole = () => {
   const theme = useTheme();
   const [isSwitchVal, setIsSwitchVal] = useState(false);
 
+  const { query } = navigate;
+  const { useGetPermissionsRolesByIdQuery } = rolesAndRightsAPI;
+
+  const { data: viewPerdetails } = useGetPermissionsRolesByIdQuery(query?.id);
+
+  const roleDefaultValues = {
+    productDetails: viewPerdetails?.data?.productDetails?.name,
+    companyAccountsDetails:
+      viewPerdetails?.data[0]?.companyAccountsDetails?.name,
+    name: viewPerdetails?.data[0]?.name,
+    description: viewPerdetails?.data[0]?.description,
+    defaultUser: viewPerdetails?.data?.status,
+  };
+
   const methods: any = useForm({
-    resolver: yupResolver(addUserSchema),
-    defaultValues: addUserDefault,
+    // resolver: yupResolver(addUserSchema),
+    defaultValues: roleDefaultValues,
   });
 
   const { handleSubmit, watch } = methods;
-  const productVal = watch('productType');
+  const productVal = watch('productDetails');
 
   const onSubmit = async () => {
     // console.log('values', data)

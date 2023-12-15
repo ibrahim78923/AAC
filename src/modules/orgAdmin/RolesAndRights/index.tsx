@@ -62,7 +62,7 @@ const RolesAndRights = () => {
       >
         <Box>
           <Search
-            placeholder="Search Here"
+            placeholder="Search by role name"
             size="small"
             onChange={(e: any) => {
               setFilterValues({ ...filterValues, search: e?.target?.value });
@@ -75,6 +75,7 @@ const RolesAndRights = () => {
 
           <Tooltip title={'Refresh Filter'}>
             <Button
+              sx={{ width: { xs: '100%', sm: '50px' } }}
               variant="outlined"
               color="inherit"
               className="small"

@@ -35,7 +35,10 @@ const ActionButton = (props?: any) => {
         <MenuItem
           onClick={() => {
             handleClose();
-            navigate?.push(ORG_ADMIN?.ADD_ROLE);
+            navigate?.push({
+              pathname: ORG_ADMIN?.ADD_ROLE,
+              query: { id: checkedRows },
+            });
           }}
         >
           View
