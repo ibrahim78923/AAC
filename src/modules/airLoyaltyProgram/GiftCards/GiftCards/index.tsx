@@ -1,3 +1,5 @@
+import { GiftCardTabs } from './GiftCardTabs';
+
 export const GiftCards = () => {
-  return <>GiftCards</>;
+  return <GiftCardTabs />;
 };

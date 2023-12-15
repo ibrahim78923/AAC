@@ -344,6 +344,7 @@ export { default as ServicesIcon } from './modules/orgAdmin/dashboard/services';
 export { default as OperationIcon } from './modules/orgAdmin/dashboard/operation';
 export { default as RevertIcon } from './shared/revert-icon';
 export { default as EditInputIcon } from './shared/edit-input-icon';
+export { default as DesignPenIcon } from './shared/design-pen-icon';
 export { default as IncTicketIcon } from './shared/inc-ticket-icon';
 
 export { default as FacebookSquareIcon } from './modules/paidAds/facebook-square';
