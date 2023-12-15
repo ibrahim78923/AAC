@@ -355,6 +355,8 @@ export { default as ImageIcon } from './modules/airMarketer/LeadCapture/image';
 export { default as SpaceIcon } from './modules/airMarketer/LeadCapture/space';
 export { default as DividerIcon } from './modules/airMarketer/LeadCapture/divider';
 export { default as InputIcon } from './modules/airMarketer/LeadCapture/input';
+export { default as InfoCircleGreenIcon } from './shared/info-circle-green-icon';
+export { default as AvailableIcon } from './shared/available-icon';
 export { default as WhiteBookIcon } from './shared/white-book';
 export { default as GrayBookIcon } from './shared/grey-book';
 export { default as BlueInfoIcon } from './shared/bule-info';
