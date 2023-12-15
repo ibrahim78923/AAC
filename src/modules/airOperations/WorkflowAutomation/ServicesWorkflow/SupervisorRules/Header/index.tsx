@@ -4,6 +4,8 @@ import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { Box, Button } from '@mui/material';
 import { useHeader } from './useHeader';
 import FilterWorkflow from '../../FilterWorkflow';
+import { AIR_OPERATIONS } from '@/constants';
+import { SupervisorRulesDelete } from '../SupervisorRulesDelete';
 
 const Header = ({ selectedSupervisorList }: any) => {
   const {
@@ -12,6 +14,9 @@ const Header = ({ selectedSupervisorList }: any) => {
     dropdownOptions,
     isDrawerOpen,
     setIsDrawerOpen,
+    router,
+    deleteWorkflow,
+    setDeleteWorkflow,
   } = useHeader();
   return (
     <>
@@ -37,12 +42,23 @@ const Header = ({ selectedSupervisorList }: any) => {
           >
             Filter
           </Button>
-          <Button variant="contained">Create Event base workflows</Button>
+          <Button
+            variant="contained"
+            onClick={() =>
+              router?.push(AIR_OPERATIONS?.UPSERT_SUPERVISOR_RULES)
+            }
+          >
+            Create Rules
+          </Button>
         </Box>
       </Box>
       <FilterWorkflow
         isDrawerOpen={isDrawerOpen}
         setIsDrawerOpen={setIsDrawerOpen}
+      />
+      <SupervisorRulesDelete
+        deleteWorkflow={deleteWorkflow}
+        setDeleteWorkflow={setDeleteWorkflow}
       />
     </>
   );

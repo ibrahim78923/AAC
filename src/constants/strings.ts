@@ -271,7 +271,12 @@ export const ROLES_ACCORDION_DETAILS = {
 export const DASHBOARD = {
   EDIT: 'edit',
 };
-
+export const ACTION_STATUS_OPTIONS = {
+  OPEN: 'Open',
+  PENDING: 'Pending',
+  RESOLVED: 'Resolved',
+  CLOSE: 'Close',
+};
 export const USER_MANAGEMENT = {
   USERVIEW: 'User View',
   EDIT: 'Edit',
