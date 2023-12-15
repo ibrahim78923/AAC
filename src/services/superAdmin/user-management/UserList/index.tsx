@@ -4,17 +4,18 @@ import { END_POINTS } from '@/routesConstants/endpoints';
 export const userListApi = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getUsersAccounts: builder.query({
-      query: () => ({
-        url: END_POINTS?.USER_ACCOUNTS_LIST,
+      query: (values: any) => ({
+        url: `${END_POINTS?.ORG_ADMIN_EMP_LIST}/${values?.orgId}${END_POINTS?.USER_ACCOUNT}`,
         method: 'GET',
       }),
       providesTags: ['USERS'],
     }),
 
     getEmployeeList: builder.query({
-      query: ({ orgId }: any) => ({
+      query: ({ orgId, values }: any) => ({
         url: `${END_POINTS?.ORG_ADMIN_EMP_LIST}/${orgId}`,
         method: 'GET',
+        params: values,
       }),
       providesTags: ['USERS'],
     }),

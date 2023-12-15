@@ -1,20 +1,21 @@
+import { Typography } from '@mui/material';
 import { DeleteHolidayModal } from './DeleteDashboardModal';
 
 export const holidaysListsData: any = [
   {
     _id: 3,
     date: `Aug 27, 2019`,
-    holidayName: 'Kashmir Doy',
+    holidayName: 'Kashmir Day',
   },
   {
     _id: 4,
     date: `Aug 27, 2019`,
-    holidayName: 'Kashmir Doy',
+    holidayName: 'Kashmir Day',
   },
   {
     _id: 5,
     date: `Aug 27, 2019`,
-    holidayName: 'Kashmir Doy',
+    holidayName: 'Kashmir Day',
   },
 ];
 
@@ -23,13 +24,21 @@ export const holidaysListsColumn: any = [
     accessorFn: (row: any) => row?.date,
     id: 'date',
     header: '',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => (
+      <Typography variant="body4" color="blue.dull_blue">
+        {info?.getValue()}
+      </Typography>
+    ),
   },
   {
     accessorFn: (row: any) => row?.holidayName,
     id: 'holidayName',
     header: '',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => (
+      <Typography variant="body4" color="blue.dull_blue">
+        {info?.getValue()}
+      </Typography>
+    ),
   },
   {
     accessorFn: (row: any) => row?._id,

@@ -50,7 +50,7 @@ const SalesProduct = () => {
         type="delete"
         open={isDeleteModalOpen}
         handleClose={handleCloseDeleteModal}
-        handleSubmit={handleDelete}
+        handleSubmitBtn={handleDelete}
       />
       <Box
         sx={{

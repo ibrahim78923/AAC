@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
-
 import { Theme, useTheme } from '@mui/material';
 import { columns } from './SalesProduct.data';
-import { useGetSalesProductQuery } from '@/services/airSales/deals/settings/sales-product';
+import {
+  useDeleteSalesProductMutation,
+  useGetSalesProductQuery,
+} from '@/services/airSales/deals/settings/sales-product';
 import { PAGINATION } from '@/config';
+import { enqueueSnackbar } from 'notistack';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 const useSalesProduct = () => {
   const theme = useTheme<Theme>();
@@ -19,6 +23,8 @@ const useSalesProduct = () => {
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event?.currentTarget);
   };
+
+  const [deleteSalesProduct] = useDeleteSalesProductMutation();
 
   const paramsObj: any = {};
   if (productSearch) paramsObj['search'] = productSearch;
@@ -40,9 +46,25 @@ const useSalesProduct = () => {
   const handleCloseDeleteModal = () => {
     setDeleteModalOpen(false);
   };
+  const editRowValue = selectedCheckboxes && selectedCheckboxes[0];
 
-  const handleDelete = () => {
-    setDeleteModalOpen(false);
+  const handleDelete = async () => {
+    try {
+      const response: any = await deleteSalesProduct({
+        id: editRowValue?._id,
+      })?.unwrap();
+      enqueueSnackbar(
+        response?.message ?? 'Sales Product Deleted Successfully!',
+        {
+          variant: NOTISTACK_VARIANTS?.SUCCESS,
+        },
+      );
+      setDeleteModalOpen(false);
+    } catch (error: any) {
+      enqueueSnackbar(error?.data?.message ?? 'Something Went Wrong!', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
+    }
   };
 
   const handleCheckboxChange = (
