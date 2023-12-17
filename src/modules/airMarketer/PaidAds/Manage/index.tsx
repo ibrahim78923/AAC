@@ -4,6 +4,7 @@ import {
   Card,
   Divider,
   Grid,
+  Tooltip,
   Typography,
   useTheme,
 } from '@mui/material';
@@ -18,7 +19,7 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import CustomPagination from '@/components/CustomPagination';
 import useManage from './useManage';
 import Search from '@/components/Search';
-import { FilterrIcon } from '@/assets/icons';
+import { FilterrIcon, RefreshTasksIcon } from '@/assets/icons';
 import usePaidAds from '../usePaidAds';
 import PaidAdsFilterDrawer from '../FilterDrwaer';
 
@@ -111,16 +112,23 @@ const Manage = () => {
         gap={1}
       >
         <Search placeholder="Search" size="small" />
-        <Button
-          variant="outlined"
-          color="inherit"
-          className="small"
-          onClick={() => setIsFilterDrawer(true)}
-          startIcon={<FilterrIcon />}
-          sx={{ border: `1px solid ${theme?.palette?.custom?.dark}` }}
-        >
-          Filter
-        </Button>
+        <Box display="flex" gap={1}>
+          <Tooltip title={'Refresh Filter'}>
+            <Button variant="outlined" color="inherit" className="small">
+              <RefreshTasksIcon />
+            </Button>
+          </Tooltip>
+          <Button
+            variant="outlined"
+            color="inherit"
+            className="small"
+            onClick={() => setIsFilterDrawer(true)}
+            startIcon={<FilterrIcon />}
+            sx={{ border: `1px solid ${theme?.palette?.custom?.dark}` }}
+          >
+            Filter
+          </Button>
+        </Box>
       </Box>
       <Box mt={2}>
         <TanstackTable

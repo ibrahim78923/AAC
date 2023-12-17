@@ -139,7 +139,7 @@ const TanstackTable = (props: any) => {
         </Grid>
       </Grid>
       {isPagination && (
-        <>
+        <Box px={2}>
           <br />
           <br />
           <CustomPagination
@@ -152,7 +152,7 @@ const TanstackTable = (props: any) => {
             setPage={setPage}
             setPageLimit={setPageLimit}
           />
-        </>
+        </Box>
       )}
     </>
   );

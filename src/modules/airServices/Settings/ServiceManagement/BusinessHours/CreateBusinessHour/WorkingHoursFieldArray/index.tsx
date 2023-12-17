@@ -12,7 +12,7 @@ export const WorkingHoursFieldArray = ({ control, name }: any) => {
   return (
     <>
       <Box
-        p={2.5}
+        p={{ sm: 2.5, xs: 1 }}
         borderRadius={2}
         border="0.06rem solid"
         borderColor="custom.light_grayish_blue"
@@ -25,14 +25,15 @@ export const WorkingHoursFieldArray = ({ control, name }: any) => {
             container
             alignItems="center"
             justifyContent="center"
+            spacing={1}
           >
-            <Grid item xs={5}>
+            <Grid item sm={5}>
               <RHFTimePicker name={`${name}.${index}.startTime`} />
             </Grid>
-            <Grid item xs={1}>
+            <Grid item sm={1}>
               to
             </Grid>
-            <Grid item xs={5}>
+            <Grid item sm={5}>
               <RHFTimePicker name={`${name}.${index}.endTime`} />
             </Grid>
             <Grid item xs={1}>

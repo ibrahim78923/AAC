@@ -1,4 +1,4 @@
-import { useState, Children, cloneElement } from 'react';
+import { useState, Children, cloneElement, useEffect } from 'react';
 import { Tabs, Tab, Typography, useTheme, Box, Card } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { styles } from './HorizontalTabs.style';
@@ -23,6 +23,10 @@ const HorizontalTabs = (props: any) => {
   const handleChange = (_: any, newValue: number) => {
     setValue(newValue);
   };
+
+  useEffect(() => {
+    setValue(defaultValue);
+  }, [defaultValue]);
 
   const arrayChildren = Children?.toArray(children);
 
@@ -52,7 +56,7 @@ const HorizontalTabs = (props: any) => {
               setActiveTab ? setActiveTab(title) : null;
             }}
             label={
-              <Typography variant="subtitle2" component="span">
+              <Typography variant="body2" component="span">
                 {title}
               </Typography>
             }

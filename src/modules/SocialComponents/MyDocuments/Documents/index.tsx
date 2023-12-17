@@ -10,6 +10,7 @@ import {
   Menu,
   MenuItem,
   TextField,
+  Tooltip,
   Typography,
 } from '@mui/material';
 
@@ -28,6 +29,7 @@ import {
   TeamUserIcon,
   TwoUserBlackIcon,
   FilterrIcon,
+  RefreshTasksIcon,
 } from '@/assets/icons';
 import { UserRoundImage } from '@/assets/images';
 
@@ -35,9 +37,12 @@ import { documentFolderArr } from '@/mock/modules/SocialComponents/Documents';
 
 import useDocuments from './useDocuments';
 
+import { FormProvider } from '@/components/ReactHookForm';
+
 import { v4 as uuidv4 } from 'uuid';
 
 import { styles } from './Documents.style';
+import { dataArray } from './Documents.data';
 
 const Documents = (props: any) => {
   const { toggle } = props;
@@ -59,6 +64,8 @@ const Documents = (props: any) => {
     open,
     handleClick,
     handleClose,
+    FolderAdd,
+    onSubmit,
   } = useDocuments();
 
   return (
@@ -310,6 +317,7 @@ const Documents = (props: any) => {
               aria-haspopup="true"
               aria-expanded={open ? 'true' : undefined}
               onClick={handleClick}
+              className="small"
             >
               Action
               <ArrowDropDownIcon
@@ -351,12 +359,20 @@ const Documents = (props: any) => {
                 Delete
               </MenuItem>
             </Menu>
+            <Box>
+              <Tooltip title={'Refresh Filter'}>
+                <Button variant="outlined" color="inherit" className="small">
+                  <RefreshTasksIcon />
+                </Button>
+              </Tooltip>
+            </Box>
             <Button
               onClick={() => {
                 setIsOpenDrawer(true);
               }}
               variant="outlined"
               sx={styles?.fiterButton(theme)}
+              className="small"
             >
               <FilterrIcon /> Any
             </Button>
@@ -400,7 +416,7 @@ const Documents = (props: any) => {
                         color: `${theme?.palette?.grey[600]}`,
                       }}
                     >
-                      {item?.folderName}
+                      {item?.name}
                     </Typography>
                     <Typography
                       variant="body3"
@@ -452,47 +468,25 @@ const Documents = (props: any) => {
       <CommonModal
         open={isOpenModal}
         handleClose={() => setIsOpenModal(false)}
-        handleSubmit={function (): void {
-          throw new Error('Function not implemented.');
-        }}
+        handleSubmit={() => onSubmit()}
         title={'Create new folder'}
         okText={'Create Folder'}
-        footerFill={undefined}
+        cancelText="Cancel"
+        footerFill={true}
+        footer={true}
       >
-        <Typography
-          variant="body2"
-          sx={{
-            fontWeight: 500,
-            color: `${theme?.palette?.grey[600]}`,
-            paddingBottom: '5px',
-          }}
-        >
-          Folder Name
-        </Typography>
-        <TextField type="text" placeholder="Enter Name" fullWidth />
-        <Box
-          sx={{
-            paddingTop: '10px',
-            display: 'flex',
-            justifyContent: 'flex-end',
-            gap: '1rem',
-          }}
-        >
-          <Button
-            variant="outlined"
-            className="small"
-            onClick={() => setIsOpenModal(false)}
-          >
-            Cancel
-          </Button>
-          <Button
-            className="small"
-            variant="contained"
-            onClick={() => setIsOpenModal(false)}
-          >
-            Create Folder
-          </Button>
-        </Box>
+        <FormProvider methods={FolderAdd}>
+          <Grid container spacing={4}>
+            {dataArray?.map((item: any) => (
+              <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                <item.component
+                  {...item.componentProps}
+                  size={'small'}
+                ></item.component>
+              </Grid>
+            ))}
+          </Grid>
+        </FormProvider>
       </CommonModal>
       <CommonModal
         open={isEditOpenModal}

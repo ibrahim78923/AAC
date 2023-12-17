@@ -20,12 +20,14 @@ export const rulesColumns = [
     accessorFn: (info: any) => info?.rulesTitle,
     id: 'rulesTitle',
     header: 'Rules Title',
+    isSortable: true,
     cell: (info: any) => info?.getValue(),
   },
   {
     accessorFn: (info: any) => info?.tiers,
     id: 'tiers',
     header: 'Tiers',
+    isSortable: true,
     cell: (info: any) => info?.getValue(),
   },
 

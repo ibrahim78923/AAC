@@ -13,9 +13,8 @@ export const profileValidationSchema = Yup.object().shape({
 
 export const profileDefaultValues = {
   firstName: '',
-  middleName: '',
   lastName: '',
-  phoneNo: '',
+  phoneNumber: '',
   email: '',
   jobTitlle: '',
   postCode: '',
@@ -26,7 +25,7 @@ export const profileDefaultValues = {
   streetName: '',
   townCity: '',
   country: '',
-  fbUrl: '',
+  facebookUrl: '',
   TwitterUrl: '',
 };
 
@@ -38,17 +37,6 @@ export const profileFields = [
       placeholder: 'Enter First Name',
       fullWidth: true,
       required: true,
-    },
-    component: RHFTextField,
-    md: 6,
-  },
-
-  {
-    componentProps: {
-      label: 'Middle Name',
-      name: 'middleName',
-      placeholder: 'Enter Middle Name',
-      fullWidth: true,
     },
     component: RHFTextField,
     md: 6,
@@ -68,7 +56,7 @@ export const profileFields = [
     componentProps: {
       label: 'Phone Number',
       placeholder: 'Enter Number',
-      name: 'phoneNo',
+      name: 'phoneNumber',
       fullWidth: true,
     },
     component: RHFTextField,
@@ -204,7 +192,7 @@ export const profileFields = [
   {
     componentProps: {
       label: 'Facebook URL',
-      name: 'fbUrl',
+      name: 'facebookUrl',
       placeholder: 'Enter Facebook URL',
       fullWidth: true,
     },

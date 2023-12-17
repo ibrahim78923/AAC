@@ -3,33 +3,11 @@ import { RHFAutocomplete, RHFTextField } from '@/components/ReactHookForm';
 import { timeZone } from '@/constants/time-zone';
 
 export const departmentData = [
-  {
-    value: 'The Designer Team',
-    label: 'The Designer Team',
-  },
-  {
-    value: 'Developers Team',
-    label: 'Developers Team',
-  },
-  {
-    value: 'Handlers',
-    label: 'Handlers',
-  },
+  'The Designer Team',
+  'Developers Team',
+  'Handlers',
 ];
-export const roleData = [
-  {
-    value: 'Account Admin',
-    label: 'Account Admin',
-  },
-  {
-    value: 'Department Head',
-    label: 'Department Head',
-  },
-  {
-    value: 'HR Admin',
-    label: 'HR Admin',
-  },
-];
+export const roleData = ['Account Admin', 'Department Head', 'HR Admin'];
 
 export const validationSchemaAgentFields: any = yup?.object()?.shape({
   firstName: yup?.string(),
@@ -127,10 +105,8 @@ export const agentFieldsData = [
       name: 'timeZone',
       label: 'Time Zone',
       placeholder: 'Select Time Zone',
-      options: timeZone?.map((item: any) => ({
-        label: item?.label,
-        value: item?.label,
-      })),
+      options: timeZone,
+      getOptionLabel: (option: any) => option?.label,
     },
     gridLength: 12,
     component: RHFAutocomplete,

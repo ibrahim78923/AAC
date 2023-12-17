@@ -59,7 +59,7 @@ const Catalog = () => {
           </Grid>
         ))}
       </Grid>
-      <Grid container spacing={2}>
+      <Grid container>
         {result?.map((allService: any) => (
           <Grid item xs={12} md={6} lg={4} key={uuidv4()}>
             <Box

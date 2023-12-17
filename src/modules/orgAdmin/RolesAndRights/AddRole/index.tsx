@@ -15,8 +15,15 @@ import useAddRole from './useAddRole';
 import { ArrowBack } from '@mui/icons-material';
 
 const AddRole = () => {
-  const { navigate, onSubmit, methods, theme, handleSubmit, productVal } =
-    useAddRole();
+  const {
+    navigate,
+    onSubmit,
+    methods,
+    theme,
+    handleSubmit,
+    productVal,
+    productPermissionsData,
+  } = useAddRole();
 
   return (
     <>
@@ -56,7 +63,9 @@ const AddRole = () => {
             </Grid>
             {productVal && (
               <Grid item xs={12} lg={10} mt={2}>
-                <PermissionsAccordion />
+                <PermissionsAccordion
+                  permissionsData={productPermissionsData}
+                />
               </Grid>
             )}
           </Grid>

@@ -19,6 +19,7 @@ export const END_POINTS = {
   ORG_ADMIN_EMP_LIST: '/users/organization',
   ORG_USER_EMPLOYEE: '/users/organization',
   USER_ACCOUNTS_LIST: '/super-admin/accounts-list',
+  USER_ACCOUNT: '/account',
   UPDATE_USER_LIST: '/users/edit',
   COMPANY_CRN: '/auth/search-company',
   auth_search_company: 'auth/search-company',
@@ -46,6 +47,7 @@ export const END_POINTS = {
   SALE_PRODUCTS: '/sales-product',
   ACTIVITY_LOG: '/activity-log',
   DEAL_PIPELINE: '/deal-pipeline',
+  GET_PRODUCTS_PERMISSIONS: '/permissions/permissions-by-product',
 };
 
 export const superAdminBillingInvoices = {
@@ -95,4 +97,15 @@ export const ORG_ADMIN = {
   SUBSCRIPTION_AND_INVOICES: '/org-admin/subscriptions',
   GET_INVOICES: '/org-admin/invoices',
   PRODUCT_PLAN_LIST: '/plan/product-plan-list',
+};
+
+export const COMMON_DOCUMENTS = {
+  POST_DOCUMENTS_FOLDER: '/documents/folder',
+  POST_DOCUMENTS_FILE: '/documents/file',
+  GET_DOCUMENT_FOLDER: '/documents/folders',
+  GET_DOCUMENT_FILE: '/documents/files',
+  PATCH_DOCUMENT_FOLDER_ID: '/documents/folders',
+  PATCH_DOCUMENT_FILE_ID: '/documents/file',
+  DELETE_DOCUMENT_FOLDER_ID: '/documents/folder',
+  DELETE_DOCUMENT_FILE_ID: '/documents/file',
 };
