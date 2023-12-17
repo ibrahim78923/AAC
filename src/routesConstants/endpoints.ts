@@ -44,6 +44,8 @@ export const END_POINTS = {
   GET_COMPANY_ORGANIZATION_DROPDOWN: '/dropdown/organizations',
   GET_COMPANY_ACCOUNTS: '/company-accounts',
   SALE_PRODUCTS: '/sales-product',
+  ACTIVITY_LOG: '/activity-log',
+  DEAL_PIPELINE: '/deal-pipeline',
 };
 
 export const superAdminBillingInvoices = {
