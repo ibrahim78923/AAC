@@ -9,7 +9,7 @@ export const ActivityLogAPI = baseAPI.injectEndpoints({
         method: 'GET',
         params: params,
       }),
-      providesTags: ['DEALS_NOTES'],
+      providesTags: ['DEALS_ACTIVITY_LOG'],
     }),
   }),
 });

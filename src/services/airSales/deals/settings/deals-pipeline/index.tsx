@@ -12,7 +12,7 @@ export const DealPipelineAPI = baseAPI.injectEndpoints({
     }),
     postDealsPipeline: builder.mutation({
       query: ({ body }: any) => ({
-        url: `${END_POINTS?.SALE_PRODUCTS}`,
+        url: `${END_POINTS?.DEAL_PIPELINE}`,
         method: 'POST',
         body: body,
       }),
@@ -20,15 +20,15 @@ export const DealPipelineAPI = baseAPI.injectEndpoints({
     }),
     updateDealsPipeline: builder.mutation({
       query: ({ id, body }: any) => ({
-        url: `${END_POINTS?.SALE_PRODUCTS}/${id}`,
+        url: `${END_POINTS?.DEAL_PIPELINE}/${id}`,
         method: 'PATCH',
         body: body,
       }),
       invalidatesTags: ['SETTINGS_DEAL_PIPELINE'],
     }),
-    deleteSalesProduct: builder?.mutation({
+    deleteDealsPipeline: builder?.mutation({
       query: ({ id }) => ({
-        url: `${END_POINTS?.SALE_PRODUCTS}/${id}`,
+        url: `${END_POINTS?.DEAL_PIPELINE}/${id}`,
         method: 'DELETE',
       }),
       invalidatesTags: ['SETTINGS_DEAL_PIPELINE'],
