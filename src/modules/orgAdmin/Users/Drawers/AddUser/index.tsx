@@ -4,30 +4,14 @@ import { FormProvider } from '@/components/ReactHookForm';
 
 import CommonDrawer from '@/components/CommonDrawer';
 
-import { addUsersArray, defaultValues, validationSchema } from './AddUser.data';
-
-import { useForm } from 'react-hook-form';
-
-import { yupResolver } from '@hookform/resolvers/yup';
-
+import { addUsersArray } from './AddUser.data';
 import { v4 as uuidv4 } from 'uuid';
+import useAddUsers from './useAddUsers';
 
-import { enqueueSnackbar } from 'notistack';
-
-const AddUser = ({ isOpenDrawer, onClose }: any) => {
-  const methods: any = useForm({
-    resolver: yupResolver(validationSchema),
-    defaultValues: defaultValues,
-  });
-
-  const { handleSubmit, reset } = methods;
-
-  const onSubmit = async () => {
-    enqueueSnackbar('User Added Successfully', {
-      variant: 'success',
-    });
-    reset();
-  };
+const AddUser = ({ isOpenDrawer, onClose, setIsOpenAdduserDrawer }: any) => {
+  const { handleSubmit, onSubmit, methods } = useAddUsers(
+    setIsOpenAdduserDrawer,
+  );
 
   return (
     <CommonDrawer

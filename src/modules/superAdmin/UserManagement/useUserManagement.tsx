@@ -11,7 +11,7 @@ import {
   usersApi,
 } from '@/services/superAdmin/user-management/users';
 import { enqueueSnackbar } from 'notistack';
-import { CommonAPIS, useGetOrganizationsQuery } from '@/services/common-APIs';
+import { CommonAPIS } from '@/services/common-APIs';
 import { PAGINATION } from '@/config';
 
 const useUserManagement = () => {
@@ -49,7 +49,6 @@ const useUserManagement = () => {
   const [updateUsers] = useUpdateUsersMutation();
   const [updateUserProfile] = useUpdateUserProfileMutation();
   const { data: products } = useGetProductsQuery({});
-  const { data: organizations } = useGetOrganizationsQuery({});
   const handleClick = (event: any) => {
     setSelectedValue(event?.currentTarget);
   };
@@ -67,6 +66,7 @@ const useUserManagement = () => {
       query: {
         userName: `${data?.firstName} ${data?.lastName}`,
         organizationId: data?.organization,
+        userId: data?._id,
       },
     });
     setSelectedValue(null);
@@ -118,7 +118,6 @@ const useUserManagement = () => {
     searchVal,
     setSearchVal,
     resetFilters,
-    organizations,
     pageLimit,
     setPageLimit,
     page,
