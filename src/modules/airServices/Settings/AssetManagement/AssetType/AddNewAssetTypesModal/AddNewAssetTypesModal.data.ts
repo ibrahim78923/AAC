@@ -17,7 +17,7 @@ export const addNewAssetTypesModalField = [
     componentProps: {
       name: 'name',
       fullWidth: true,
-      placeholder: 'Enter Your Name',
+      // placeholder: 'Enter Your Name',
       label: 'Name',
       required: true,
     },

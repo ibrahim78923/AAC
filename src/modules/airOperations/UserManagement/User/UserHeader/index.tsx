@@ -4,9 +4,17 @@ import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { Box, Button } from '@mui/material';
 import { useUser } from '../useUser';
 import UpsertUser from '../UpsertUser';
+import { AgentConversionDelete } from '../../AgentConversionDelete';
 
 export const UserHeader = ({ selectedUserList }: any) => {
-  const { setSearchValue, isDrawerOpen, setIsDrawerOpen } = useUser();
+  const {
+    setSearchValue,
+    isDrawerOpen,
+    setIsDrawerOpen,
+    userDropdownOptions,
+    deleteModal,
+    setDeleteModal,
+  } = useUser();
   return (
     <Box
       display={'flex'}
@@ -24,7 +32,8 @@ export const UserHeader = ({ selectedUserList }: any) => {
       <Box display={'flex'} gap={1} mt={{ xs: 2, sm: 0 }}>
         <SingleDropdownButton
           dropdownName={'Actions'}
-          disabled={!!!selectedUserList?.length}
+          dropdownOptions={userDropdownOptions}
+          disabled={!selectedUserList?.length}
         />
         <Button
           startIcon={<CirclePlusIcon />}
@@ -38,6 +47,12 @@ export const UserHeader = ({ selectedUserList }: any) => {
           setIsDrawerOpen={setIsDrawerOpen}
           title={'Add User'}
           okText={'Add'}
+        />
+        <AgentConversionDelete
+          open={deleteModal}
+          handleClose={() => {
+            setDeleteModal(false);
+          }}
         />
       </Box>
     </Box>

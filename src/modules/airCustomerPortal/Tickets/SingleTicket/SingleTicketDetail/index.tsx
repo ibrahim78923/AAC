@@ -1,10 +1,12 @@
 import { AIR_CUSTOMER_PORTAL_TICKET } from '@/constants/strings';
-import { Box, Typography } from '@mui/material';
+import { Box, Divider, Typography, useTheme } from '@mui/material';
+import Chip from '@mui/material/Chip';
 
 export const SingleTicketDetail = ({
   status,
   singleTicketDetailContent,
 }: any) => {
+  const theme = useTheme();
   return (
     <Box display={'flex'} flexDirection={{ xs: 'column', sm: 'row' }}>
       <Box
@@ -12,6 +14,15 @@ export const SingleTicketDetail = ({
         height={'20rem'}
         overflow={'scroll'}
         dangerouslySetInnerHTML={{ __html: singleTicketDetailContent }}
+      />
+      <Divider
+        orientation="vertical"
+        flexItem
+        sx={{
+          margin: '0 2rem',
+          border: `.1rem solid ${theme?.palette?.grey[700]}`,
+          backgroundColor: 'transparent',
+        }}
       />
       <Box
         gap={1}
@@ -28,20 +39,16 @@ export const SingleTicketDetail = ({
         <Typography variant="h4" mt={2}>
           Status
         </Typography>
-        <Typography
-          variant="body1"
-          borderRadius={3}
-          bgcolor="primary.main"
-          maxWidth={'7rem'}
-          width={'100%'}
-          display={'flex'}
-          alignItems={'center'}
-          justifyContent={'center'}
-        >
-          {status
-            ? AIR_CUSTOMER_PORTAL_TICKET?.CLOSED
-            : AIR_CUSTOMER_PORTAL_TICKET?.PROCESSING}
-        </Typography>
+        <Box>
+          <Chip
+            label={
+              status
+                ? AIR_CUSTOMER_PORTAL_TICKET?.CLOSED
+                : AIR_CUSTOMER_PORTAL_TICKET?.PROCESSING
+            }
+            sx={{ backgroundColor: 'custom.bright' }}
+          />
+        </Box>
       </Box>
     </Box>
   );

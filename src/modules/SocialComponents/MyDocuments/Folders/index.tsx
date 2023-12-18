@@ -33,6 +33,7 @@ import {
   TeamUserIcon,
   TwoUserBlackIcon,
   FilterrIcon,
+  RefreshTasksIcon,
 } from '@/assets/icons';
 import { UserRoundImage } from '@/assets/images';
 
@@ -67,6 +68,7 @@ const Folders = (props: any) => {
     setIsEditOpenModal,
     isOpenDelete,
     setIsOpenDelete,
+    setAnchorEl,
     open,
     openSide,
     handleCloseSide,
@@ -83,6 +85,7 @@ const Folders = (props: any) => {
     setIsPdfOpen,
     handlePdfOpen,
     handlePdfClose,
+    setAnchorElSide,
   } = useFolder();
   return (
     <>
@@ -92,14 +95,14 @@ const Folders = (props: any) => {
           setIsOpenDrawer(false);
         }}
         title="Filters"
-        okText="ok"
+        okText="Apply"
         isOk={true}
         footer={true}
       >
         <Box sx={{ paddingTop: '1rem' }}>
           <Search
             label="Search here"
-            sx={{ width: '100%' }}
+            sx={{ width: '260px' }}
             searchBy={value}
             setSearchBy={(e: string) => {
               setValue(e);
@@ -115,14 +118,14 @@ const Folders = (props: any) => {
           >
             <Button
               variant="outlined"
-              className="large"
+              className="small"
               sx={styles?.filterUserButton}
             >
               <SingleUserBlackIcon /> Me
             </Button>
             <Button
               variant="outlined"
-              className="large"
+              className="small"
               sx={styles?.filterUserButton}
             >
               <TwoUserBlackIcon /> My Team
@@ -130,7 +133,7 @@ const Folders = (props: any) => {
             <Button
               onClick={() => setIsOpenDrawer(true)}
               variant="contained"
-              className="large"
+              className="small"
               sx={styles?.filterUserAnyButton(theme)}
             >
               <AnyRoundIcon /> Any
@@ -307,6 +310,7 @@ const Folders = (props: any) => {
                 sx={{
                   color: `${theme?.palette?.custom?.light}`,
                   fontSize: '30px',
+                  cursor: 'pointer',
                 }}
               />
             </Box>
@@ -344,19 +348,44 @@ const Folders = (props: any) => {
                     'aria-labelledby': 'basic-button',
                   }}
                 >
-                  <MenuItem onClick={() => setIsOpenModal(true)}>
+                  <MenuItem
+                    onClick={() => {
+                      setAnchorElSide(null);
+                      setIsOpenModal(true);
+                    }}
+                  >
                     Create Folder
                   </MenuItem>
-                  <MenuItem onClick={() => setIsOpenFolderDrawer(true)}>
+                  <MenuItem
+                    onClick={() => {
+                      setAnchorElSide(null);
+                      setIsOpenFolderDrawer(true);
+                    }}
+                  >
                     Download
                   </MenuItem>
-                  <MenuItem onClick={() => setIsOpenFolderDrawer(true)}>
+                  <MenuItem
+                    onClick={() => {
+                      setAnchorElSide(null);
+                      setIsOpenFolderDrawer(true);
+                    }}
+                  >
                     Move to Folder
                   </MenuItem>
-                  <MenuItem onClick={() => setIsOpenDelete(true)}>
+                  <MenuItem
+                    onClick={() => {
+                      setAnchorElSide(null);
+                      setIsOpenDelete(true);
+                    }}
+                  >
                     Rename
                   </MenuItem>
-                  <MenuItem onClick={() => setIsOpenDelete(true)}>
+                  <MenuItem
+                    onClick={() => {
+                      setAnchorElSide(null);
+                      setIsOpenDelete(true);
+                    }}
+                  >
                     Delete
                   </MenuItem>
                 </Menu>
@@ -472,7 +501,7 @@ const Folders = (props: any) => {
               >
                 <Search
                   label="Search here"
-                  width="100%"
+                  width="260px"
                   searchBy={value}
                   setSearchBy={(e: string) => {
                     setValue(e);
@@ -487,6 +516,7 @@ const Folders = (props: any) => {
                     aria-haspopup="true"
                     aria-expanded={open ? 'true' : undefined}
                     onClick={handleClick}
+                    className="small"
                   >
                     Action
                     <ArrowDropDownIcon
@@ -502,28 +532,66 @@ const Folders = (props: any) => {
                       'aria-labelledby': 'basic-button',
                     }}
                   >
-                    <MenuItem onClick={() => setIsLinkOpen(true)}>
+                    <MenuItem
+                      onClick={() => {
+                        setAnchorEl(null);
+                        setIsLinkOpen(true);
+                      }}
+                    >
                       Create Link
                     </MenuItem>
-                    <MenuItem onClick={() => setIsPdfOpen(true)}>
+                    <MenuItem
+                      onClick={() => {
+                        setAnchorEl(null);
+                        setIsPdfOpen(true);
+                      }}
+                    >
                       Preview
                     </MenuItem>
-                    <MenuItem onClick={() => setIsEditOpenModal(true)}>
+                    <MenuItem
+                      onClick={() => {
+                        setAnchorEl(null);
+                        setIsEditOpenModal(true);
+                      }}
+                    >
                       Download
                     </MenuItem>
-                    <MenuItem onClick={() => setIsOpenFolderDrawer(true)}>
+                    <MenuItem
+                      onClick={() => {
+                        setAnchorEl(null);
+                        setIsOpenFolderDrawer(true);
+                      }}
+                    >
                       Move to Folder
                     </MenuItem>
-                    <MenuItem onClick={() => setIsOpenDelete(true)}>
+                    <MenuItem
+                      onClick={() => {
+                        setAnchorEl(null);
+                        setIsOpenDelete(true);
+                      }}
+                    >
                       Delete
                     </MenuItem>
                   </Menu>
+                  <Box>
+                    <Tooltip title={'Refresh Filter'}>
+                      <Button
+                        variant="outlined"
+                        color="inherit"
+                        className="small"
+                      >
+                        <RefreshTasksIcon />
+                      </Button>
+                    </Tooltip>
+                  </Box>
                   <Button
                     onClick={() => {
+                      setAnchorEl(null);
                       setIsOpenDrawer(true);
                     }}
                     variant="outlined"
                     sx={styles?.fiterButton(theme)}
+                    className="small"
                   >
                     <FilterrIcon /> Any
                   </Button>
@@ -572,7 +640,7 @@ const Folders = (props: any) => {
         >
           <Button
             variant="outlined"
-            className="large"
+            className="small"
             onClick={() => setIsOpenModal(false)}
           >
             Cancel
@@ -601,12 +669,12 @@ const Folders = (props: any) => {
         >
           <Button
             variant="outlined"
-            className="large"
+            className="small"
             onClick={() => setIsEditOpenModal(false)}
           >
             Cancel
           </Button>
-          <Button variant="contained" className="large">
+          <Button variant="contained" className="small">
             Save
           </Button>
         </Box>
@@ -677,7 +745,7 @@ const Folders = (props: any) => {
         >
           <Button
             variant="contained"
-            className="large"
+            className="small"
             onClick={() => {
               setIsLinkOpen(false);
               setIsCreateLinkOpen(true);
@@ -723,7 +791,7 @@ const Folders = (props: any) => {
           <Button
             onClick={() => setIsCreateLinkOpen(false)}
             variant="contained"
-            className="large"
+            className="small"
           >
             Send Via Email
           </Button>

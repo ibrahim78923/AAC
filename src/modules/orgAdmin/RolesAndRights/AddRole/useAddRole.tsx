@@ -9,6 +9,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { addUserDefault, addUserSchema } from '../RoleAndRights.data';
+import { rolesAndRightsAPI } from '@/services/orgAdmin/roles-and-rights';
 
 const useAddRole = () => {
   const navigate = useRouter();
@@ -20,6 +21,9 @@ const useAddRole = () => {
     defaultValues: addUserDefault,
   });
 
+  const { handleSubmit, watch } = methods;
+  const productVal = watch('productType');
+
   const onSubmit = async () => {
     // console.log('values', data)
   };
@@ -27,6 +31,11 @@ const useAddRole = () => {
   const handleSwitch = () => {
     setIsSwitchVal(!isSwitchVal);
   };
+
+  const { useGetProductsPermissionsQuery } = rolesAndRightsAPI;
+  const { data: productPermissionsData } = useGetProductsPermissionsQuery({
+    productId: productVal,
+  });
 
   return {
     isSwitchVal,
@@ -36,6 +45,9 @@ const useAddRole = () => {
     handleSwitch,
     methods,
     theme,
+    handleSubmit,
+    productVal,
+    productPermissionsData,
   };
 };
 

@@ -113,6 +113,7 @@ const CUSTOM_COLORS = {
   silver_chalice: '#ABAFB1',
   white_rock: '#E6E6E6',
   black_pearl: '#14142B',
+  error_lighter: 'rgba(255, 74, 74, 0.10)',
 };
 const GRAPH = {
   cyan: 'blue',

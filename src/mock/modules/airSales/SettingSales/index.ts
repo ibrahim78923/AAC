@@ -47,14 +47,14 @@ export const rolesAndRightTableData: any = [
     roleId: `123`,
     roleName: 'User',
     createdOn: '12/10/2023',
-    decription: 'This Role is of Xyz and will do this & that.',
+    description: 'This Role is of Xyz and will do this & that.',
   },
   {
     Id: 2,
     roleId: `456`,
     roleName: 'Accountant Admin',
     createdOn: '12/10/2023',
-    decription: 'This Role is of Xyz and will do this & that.',
+    description: 'This Role is of Xyz and will do this & that.',
   },
 
   {
@@ -62,6 +62,6 @@ export const rolesAndRightTableData: any = [
     roleId: `7899`,
     roleName: 'Admin',
     createdOn: '12/10/2023',
-    decription: 'This Role is of Xyz and will do this & that.',
+    description: 'This Role is of Xyz and will do this & that.',
   },
 ];

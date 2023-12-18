@@ -34,6 +34,7 @@ export const closeIncidentDataArray = [
     componentProps: {
       name: 'closeIncidentClosedResolved',
       label: '',
+      sx: { ml: 2 },
       row: false,
       options: [
         { value: 'Closed', label: 'Closed' },
@@ -81,6 +82,7 @@ export const resolveIncidentDataArray = [
     componentProps: {
       name: 'resolveIncidentClosedResolved',
       label: '',
+      sx: { ml: 2 },
       row: false,
       options: [
         { value: 'Closed', label: 'Closed' },
@@ -128,6 +130,7 @@ export const serviceCloseDataArray = [
     componentProps: {
       name: 'serviceCloseClosedResolved',
       label: '',
+      sx: { ml: 2 },
       row: false,
       options: [
         { value: 'Closed', label: 'Closed' },
@@ -174,6 +177,7 @@ export const serviceResolveDataArray = [
     serviceResolveIncident: true,
     componentProps: {
       name: 'serviceResolveClosedResolved',
+      sx: { ml: 2 },
       label: '',
       row: false,
       options: [

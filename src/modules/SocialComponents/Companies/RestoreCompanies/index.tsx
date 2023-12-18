@@ -1,10 +1,18 @@
 import React from 'react';
 
-import { Box, Button, Grid, Menu, MenuItem, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Grid,
+  Menu,
+  MenuItem,
+  Tooltip,
+  Typography,
+} from '@mui/material';
 
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
-import { BackArrowIcon, FilterIcon } from '@/assets/icons';
+import { BackArrowIcon, FilterIcon, RefreshTasksIcon } from '@/assets/icons';
 
 import CommonDrawer from '@/components/CommonDrawer';
 import TanstackTable from '@/components/Table/TanstackTable';
@@ -77,7 +85,7 @@ const RestoreCompanies = (props: any) => {
           <Grid item lg={6} md={6} sm={12} xs={12}>
             <Search
               label="Search here"
-              width="100%"
+              width="260px"
               searchBy={search}
               setSearchBy={(e: string) => {
                 setSearch(e);
@@ -99,6 +107,7 @@ const RestoreCompanies = (props: any) => {
                 aria-haspopup="true"
                 aria-expanded={open ? 'true' : undefined}
                 onClick={handleClick}
+                className="small"
               >
                 Action
                 <ArrowDropDownIcon
@@ -114,23 +123,39 @@ const RestoreCompanies = (props: any) => {
                   'aria-labelledby': 'basic-button',
                 }}
               >
-                <MenuItem onClick={() => setIsRestoreItem(true)}>
+                <MenuItem
+                  onClick={() => {
+                    handleClose();
+                    setIsRestoreItem(true);
+                  }}
+                >
                   Restore
                 </MenuItem>
-                <MenuItem onClick={() => setIsRestoreDelete(true)}>
+                <MenuItem
+                  onClick={() => {
+                    handleClose();
+                    setIsRestoreDelete(true);
+                  }}
+                >
                   Delete
                 </MenuItem>
               </Menu>
+              <Tooltip title={'Refresh Filter'}>
+                <Button variant="outlined" color="inherit" className="small">
+                  <RefreshTasksIcon />
+                </Button>
+              </Tooltip>
               <Button
                 onClick={() => {
                   setIsDrawer(true);
                 }}
                 variant="outlined"
+                className="small"
                 sx={{
                   display: 'flex',
                   alignContent: 'center',
                   columnGap: '10px',
-                  border: `1px solid ${theme?.palette?.grey[100]}`,
+                  border: `1px solid ${theme?.palette?.grey[500]}`,
                   color: `${theme?.palette?.custom?.main}`,
                 }}
               >

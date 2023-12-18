@@ -11,12 +11,15 @@ import { SwitchBtn } from '@/components/SwitchButton';
 import { ExpandMore } from '@mui/icons-material';
 
 import * as Yup from 'yup';
+
 import { CommonAPIS } from '@/services/common-APIs';
+import { getSession } from '@/utils';
 
 export const columns: any = (columnsProps: any) => {
-  const { checkedRows, setCheckedRows } = columnsProps;
-  const handleCheckboxChange = (rowId: string) => {
-    setCheckedRows(rowId);
+  const { updateStatus, checkedRows, setCheckedRows } = columnsProps;
+
+  const handleCheckboxChange = (val: any, rowId: string) => {
+    val?.target?.checked ? setCheckedRows(rowId) : setCheckedRows();
   };
 
   return [
@@ -27,9 +30,9 @@ export const columns: any = (columnsProps: any) => {
         <Checkbox
           color="primary"
           name={info?.getValue()}
-          defaultChecked={checkedRows === info?.row?.original?.organizationId}
-          onChange={() =>
-            handleCheckboxChange(info?.row?.original?.organizationId)
+          defaultChecked={checkedRows === info?.row?.original?._id}
+          onChange={(e: any) =>
+            handleCheckboxChange(e, info?.row?.original?._id)
           }
         />
       ),
@@ -51,35 +54,42 @@ export const columns: any = (columnsProps: any) => {
       cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row?.Products,
+      accessorFn: (row: any) => row?.productDetails?.name,
       id: 'products',
       isSortable: true,
       header: 'Products',
       cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row?.CompanyAccount,
+      accessorFn: (row: any) => row?.companyAccountDetails?.name,
       id: 'companyAccount',
       isSortable: true,
       header: 'Company Accounts',
       cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row?.status,
+      accessorFn: (row: any) => row?.Status,
       id: 'status',
       isSortable: true,
       header: 'Status',
       cell: (info: any) => (
-        <SwitchBtn defaultValue={info?.row?.status} defaultChecked />
+        <SwitchBtn
+          defaultChecked={
+            info?.row?.original?.status === 'ACTIVE' ? true : false
+          }
+          handleSwitchChange={(e: any) =>
+            updateStatus(info?.row?.original?._id, e)
+          }
+        />
       ),
     },
   ];
 };
 export const rolesValidationSchema = Yup.object().shape({
-  roleName: Yup.string().required('Field is Required'),
-  product: Yup.string().required('Field is Required'),
-  status: Yup.string().required('Field is Required'),
-  createdDate: Yup.date().required('Field is Required'),
+  roleName: Yup?.string()?.required('Field is Required'),
+  product: Yup?.string()?.required('Field is Required'),
+  status: Yup?.string()?.required('Field is Required'),
+  createdDate: Yup?.date()?.required('Field is Required'),
 });
 
 export const rolesDefaultValues = {
@@ -148,11 +158,11 @@ export const rolesFiltersArray = [
 ];
 
 export const addUserSchema = Yup.object().shape({
-  productType: Yup.string().required('Field is Required'),
-  companyAccount: Yup.string().required('Field is Required'),
-  roleName: Yup.string().required('Field is Required'),
-  defaultUser: Yup.string().required('Field is Required'),
-  desc: Yup.string().required('Field is Required'),
+  productType: Yup?.string()?.required('Field is Required'),
+  companyAccount: Yup?.string()?.required('Field is Required'),
+  roleName: Yup?.string()?.required('Field is Required'),
+  defaultUser: Yup?.string()?.required('Field is Required'),
+  // desc: Yup?.string()?.required('Field is Required'),
 });
 
 export const addUserDefault = {
@@ -167,17 +177,23 @@ export const addUserDefault = {
 };
 
 export const addUsersArrayData = () => {
-  const { useGetProductsQuery } = CommonAPIS;
-  const { data: products } = useGetProductsQuery({});
+  const { user } = getSession();
+  const { useGetCompanyAccountsQuery } = CommonAPIS;
+
+  const { data: companyAccounts } = useGetCompanyAccountsQuery({
+    orgId: user?.organization?._id,
+  });
+
   return [
     {
-      title: 'Select Product',
       componentProps: {
-        name: 'productId',
+        label: 'Select Product',
+        name: 'productType',
         fullWidth: true,
+        required: true,
         select: true,
       },
-      options: products?.data?.map((item: any) => ({
+      options: user?.products?.map((item: any) => ({
         value: item?._id,
         label: item?.name,
       })),
@@ -185,35 +201,41 @@ export const addUsersArrayData = () => {
       md: 5,
     },
     {
-      title: 'Select Company Account',
       componentProps: {
+        label: 'Select Company Account',
         name: 'companyAccount',
         fullWidth: true,
+        required: true,
         select: true,
       },
-      options: [
-        { value: 'orcalo', label: 'Orcalo LTD' },
-        { value: 'acceron', label: 'Acceron LTD' },
-      ],
+      options: companyAccounts?.data?.organizationcompanyaccounts?.map(
+        (item: any) => ({
+          value: item?._id,
+          label: item?.accountName,
+        }),
+      ),
       component: RHFSelect,
       md: 5,
     },
     {
-      title: 'Role Name',
       componentProps: {
+        label: 'Role Name',
         name: 'roleName',
         placeholder: 'Role Name',
         fullWidth: true,
+        required: true,
       },
       component: RHFTextField,
       md: 5,
     },
     {
-      title: 'Description',
       componentProps: {
+        label: 'Description',
         name: 'desc',
-        placeholder: 'Description',
         fullWidth: true,
+        placeholder: 'Description',
+        multiline: true,
+        rows: 3,
       },
       component: RHFTextField,
       md: 5,

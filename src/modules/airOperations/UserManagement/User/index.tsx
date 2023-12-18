@@ -3,9 +3,11 @@ import { userListData } from './User.data';
 import { UserHeader } from './UserHeader';
 import { Box } from '@mui/material';
 import { useUser } from './useUser';
+import UpsertUser from './UpsertUser';
 
 export const User = () => {
-  const { selectedUserList, userListColumn } = useUser();
+  const { selectedUserList, userListColumn, isDrawerOpen, setIsDrawerOpen } =
+    useUser();
   return (
     <Box>
       <UserHeader selectedUserList={selectedUserList} />
@@ -14,6 +16,12 @@ export const User = () => {
           data={userListData}
           columns={userListColumn}
           isPagination={true}
+        />
+        <UpsertUser
+          isDrawerOpen={isDrawerOpen}
+          setIsDrawerOpen={setIsDrawerOpen}
+          title={'User View'}
+          okText={'Save'}
         />
       </Box>
     </Box>

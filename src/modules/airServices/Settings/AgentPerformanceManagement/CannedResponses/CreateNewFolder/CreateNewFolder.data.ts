@@ -5,7 +5,7 @@ export const createNewFolderSchema = Yup?.object()?.shape({
     ?.required('Required')
     ?.min(3, 'At least 3 characters Required')
     ?.max(30, 'Must not exceed 30 characters'),
-  description: Yup?.string()?.required('Required'),
+  description: Yup?.string(),
 });
 export const upsertFolderDefaultValuesFunction = (data?: any) => {
   return {
@@ -19,9 +19,10 @@ export const createNewFolderArray = [
   {
     componentProps: {
       name: 'folderName',
-      label: 'Folder name',
+      label: 'Folder Name',
       size: 'small',
       required: true,
+      placeholder: 'Enter Name',
     },
     component: RHFTextField,
     md: 12,
@@ -34,6 +35,7 @@ export const createNewFolderArray = [
       size: 'small',
       multiline: true,
       rows: 3,
+      placeholder: 'Description',
     },
     component: RHFTextField,
     id: 2,

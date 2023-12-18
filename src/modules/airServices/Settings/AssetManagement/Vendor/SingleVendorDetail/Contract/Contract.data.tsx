@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 
 export const data: any = [
   {
@@ -17,7 +17,9 @@ export const columns = (): any => [
     id: 'contractName',
     isSortable: true,
     header: 'Contract Name',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => (
+      <Typography fontWeight={600}> {info?.getValue()}</Typography>
+    ),
   },
   {
     accessorFn: (row: any) => row?.type,
