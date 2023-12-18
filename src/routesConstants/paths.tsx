@@ -135,6 +135,8 @@ export const AIR_MARKETER = {
   ),
   VIEW_PERFORMANCE: path(AIR_MARKETING_PAGE, '/campaigns/view-performance'),
   ALL_VIEW: path(AIR_MARKETING_PAGE, '/campaigns/all-view'),
+  COMMON_DOCUMENTS: path(AIR_MARKETING_PAGE, '/my-documents'),
+  COMMON_DOCUMENTS_FOLDER: path(AIR_MARKETING_PAGE, '/my-documents/my-folders'),
 };
 
 const AIR_OPERATIONS_PAGE = 'air-operation';

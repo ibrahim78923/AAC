@@ -1,5 +1,5 @@
 import HorizontalTabs from '@/components/Tabs/HorizontalTabs';
-import { Box, Button, Grid, Typography } from '@mui/material';
+import { Box, Button, Grid, Tooltip, Typography } from '@mui/material';
 import { emailMarketingTabsData } from './EmailMarketing.data';
 import All from './Tabs/All';
 import Archived from './Tabs/Archived';
@@ -7,19 +7,20 @@ import Draft from './Tabs/Draft';
 import Scheduled from './Tabs/Scheduled';
 import Sent from './Tabs/Sent';
 import Search from '@/components/Search';
-import { FilterrIcon, PlusIcon } from '@/assets/icons';
+import { FilterrIcon, PlusIcon, RefreshTasksIcon } from '@/assets/icons';
 import ActionButton from './ActionButton';
 import useEmailMarketing from './useEmailMarketing';
-import EmailFolder from './EmailFolder';
+import Filters from './Filters';
 
 const EmailMarketing = () => {
-  const { handleOpenFilter, theme } = useEmailMarketing();
+  const { handleOpenFilter, theme, isOpenFilter, setIsOpenFilter } =
+    useEmailMarketing();
   return (
     <Grid container>
-      <Grid item lg={3}>
+      <Grid item md={12} lg={3}>
         <Typography variant="h4">Email Marketing</Typography>
       </Grid>
-      <Grid item lg={9} sx={{ textAlign: 'end' }}>
+      <Grid item md={12} lg={9} sx={{ textAlign: 'end' }}>
         <Search label="Search Here" width={260} size="small" />
 
         <Button
@@ -27,10 +28,16 @@ const EmailMarketing = () => {
           color="inherit"
           className="small"
           style={{ margin: '0px 18px' }}
+          sx={{ md: { m: 3 } }}
         >
           Export
         </Button>
-        <Button variant="outlined" color="inherit" className="small">
+        <Button
+          variant="outlined"
+          color="inherit"
+          className="small"
+          sx={{ md: { mt: 3 } }}
+        >
           Compare Email
         </Button>
         <Button
@@ -38,6 +45,7 @@ const EmailMarketing = () => {
           className="small"
           style={{ margin: '0px 18px' }}
           startIcon={<PlusIcon />}
+          sx={{ md: { mt: 3 } }}
         >
           Create New Email
         </Button>
@@ -47,6 +55,7 @@ const EmailMarketing = () => {
         lg={12}
         md={12}
         sm={12}
+        mt={3}
         sx={{ display: { lg: 'flex' }, justifyContent: { lg: 'end' } }}
       >
         <Box sx={{ display: { lg: 'flex' }, marginTop: '8px' }}>
@@ -64,6 +73,16 @@ const EmailMarketing = () => {
           >
             Filter
           </Button>
+          <Tooltip title={'Refresh Filter'}>
+            <Button
+              sx={{ marginLeft: '8px' }}
+              variant="outlined"
+              color="inherit"
+              className="small"
+            >
+              <RefreshTasksIcon />
+            </Button>
+          </Tooltip>
         </Box>
       </Grid>
 
@@ -76,9 +95,12 @@ const EmailMarketing = () => {
           <Sent />
         </HorizontalTabs>
       </Grid>
-      <Grid item lg={12}>
-        <EmailFolder />
-      </Grid>
+      {
+        <Filters
+          isOpenDrawer={isOpenFilter}
+          onClose={() => setIsOpenFilter(false)}
+        />
+      }
     </Grid>
   );
 };

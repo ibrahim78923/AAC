@@ -2,10 +2,10 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
 
 import { columns, data } from './Manage.data';
-import { Box, Button, Grid, useTheme } from '@mui/material';
+import { Box, Button, Grid, Tooltip, useTheme } from '@mui/material';
 
 import ActionButton from '../ActionButton';
-import { FilterrIcon } from '@/assets/icons';
+import { FilterrIcon, RefreshTasksIcon } from '@/assets/icons';
 import useCampaigns from '../useCampaigns';
 import Filters from '../Filters';
 import SaveNewViewDrawer from '../SaveNewViewDrawer';
@@ -25,10 +25,10 @@ const Manage = () => {
   const router = useRouter();
   return (
     <>
-      <Box sx={{ paddingTop: '10px' }}>
+      <Box>
         <Grid container>
           <Grid item md={12} lg={5}>
-            <Search label="Search Here" width="260px" />
+            <Search label="Search Here" width="260px" size="small" />
           </Grid>
 
           <Grid
@@ -53,6 +53,16 @@ const Manage = () => {
               >
                 Filter
               </Button>
+              <Tooltip title={'Refresh Filter'}>
+                <Button
+                  sx={{ marginLeft: '8px' }}
+                  variant="outlined"
+                  color="inherit"
+                  className="small"
+                >
+                  <RefreshTasksIcon />
+                </Button>
+              </Tooltip>
               <Button
                 onClick={handleSaveView}
                 startIcon={<FilterrIcon />}
@@ -69,9 +79,11 @@ const Manage = () => {
               >
                 Save View
               </Button>
+
               <Button
-                onClick={() => router.push(AIR_MARKETER?.ALL_VIEW)}
+                onClick={() => router?.push(AIR_MARKETER?.ALL_VIEW)}
                 startIcon={<FilterrIcon />}
+                className="small"
                 sx={{
                   border: `1px solid ${theme?.palette?.custom?.dark}`,
                   color: theme?.palette?.custom?.main,

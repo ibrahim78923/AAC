@@ -1,33 +1,33 @@
 import * as React from 'react';
 
-import { Grid, Box, Button } from '@mui/material';
+import { Grid, Box, Typography } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { enqueueSnackbar } from 'notistack';
 import {
-  dataArrayMoveToFolder,
-  defaultValuesMoveToFolder,
-  validationSchemaMoveToFolder,
-} from './MoveToFolder.data';
-import { styles } from './MoveToFolder.style';
+  dataArraySaveEmailAsTemplate,
+  defaultValuesSaveEmailAsTemplate,
+  validationSchemaSaveEmailAsTemplate,
+} from './SaveEmailAsTemplate.data';
+
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { useForm } from 'react-hook-form';
 import { v4 as uuidv4 } from 'uuid';
 import CommonModal from '@/components/CommonModal';
 
-const MoveToFolder = ({
-  openMoveToFolderModal,
-  handleCloseMoveToFolderModal,
+const SaveEmailAsTemplate = ({
+  openSaveEmailAsTemplateModal,
+  handleCloseSaveEmailAsTemplateModal,
 }: any) => {
   const methods: any = useForm({
-    resolver: yupResolver(validationSchemaMoveToFolder),
-    defaultValues: defaultValuesMoveToFolder,
+    resolver: yupResolver(validationSchemaSaveEmailAsTemplate),
+    defaultValues: defaultValuesSaveEmailAsTemplate,
   });
 
   const { handleSubmit } = methods;
 
   const onSubmit = async () => {
-    handleCloseMoveToFolderModal();
+    handleCloseSaveEmailAsTemplateModal();
     enqueueSnackbar('Move To Folder Added Successfully', {
       variant: 'success',
     });
@@ -36,16 +36,23 @@ const MoveToFolder = ({
   return (
     <div>
       <CommonModal
-        open={openMoveToFolderModal}
-        handleClose={handleCloseMoveToFolderModal}
-        handleCancel={handleCloseMoveToFolderModal}
-        handleSubmit={handleCloseMoveToFolderModal}
-        title="Move to folder"
+        open={openSaveEmailAsTemplateModal}
+        handleClose={handleCloseSaveEmailAsTemplateModal}
+        handleCancel={handleCloseSaveEmailAsTemplateModal}
+        handleSubmit={handleCloseSaveEmailAsTemplateModal}
+        title="Save as  Template"
       >
         <Box sx={{ margin: '20px 0' }}>
+          <Grid container>
+            <Grid item xs={12} mb={2}>
+              <Typography>
+                Are you sure you want to save this email as a template ?
+              </Typography>
+            </Grid>
+          </Grid>
           <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
             <Grid container spacing={4}>
-              {dataArrayMoveToFolder?.map((item: any) => (
+              {dataArraySaveEmailAsTemplate?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
                   <item.component {...item?.componentProps} size={'small'}>
                     {item?.componentProps?.select &&
@@ -58,16 +65,10 @@ const MoveToFolder = ({
                 </Grid>
               ))}
             </Grid>
-            <Box sx={styles?.buttonBox} mt={2}>
-              <Button variant="outlined">Cancel</Button>
-              <Button variant="contained" type="submit" onClick={handleSubmit}>
-                Save
-              </Button>
-            </Box>
           </FormProvider>
         </Box>
       </CommonModal>
     </div>
   );
 };
-export default MoveToFolder;
+export default SaveEmailAsTemplate;
