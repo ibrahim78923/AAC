@@ -32,10 +32,10 @@ const useUserTable = ({ initialValueProps = defaultValues }: any) => {
   });
 
   const handleTeam = (event: any) => {
-    setTeam(event.target.value);
+    setTeam(event?.target?.value);
   };
   const handleRole = (event: any) => {
-    setRole(event.target.value);
+    setRole(event?.target?.value);
   };
 
   const getRowValues: any = columnsUser(handleTeam, handleRole, team, role);
