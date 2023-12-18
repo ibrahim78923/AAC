@@ -7,7 +7,12 @@ import { Typography } from '@mui/material';
 import { useSingleDropdownButton } from './useSingleDropdownButton';
 
 export const SingleDropdownButton = (props: any) => {
-  const { dropdownOptions, disabled, dropdownName = 'Actions' } = props;
+  const {
+    dropdownOptions,
+    disabled,
+    dropdownName = 'Actions',
+    ...buttonProps
+  } = props;
   const { anchorEl, open, theme, handleClick, handleClose } =
     useSingleDropdownButton();
   return (
@@ -23,6 +28,7 @@ export const SingleDropdownButton = (props: any) => {
         color="secondary"
         disabled={disabled}
         sx={{ textTransform: 'capitalize' }}
+        {...buttonProps}
       >
         {dropdownName?.[0]?.toUpperCase() +
           dropdownName?.slice?.(1)?.toLowerCase()}

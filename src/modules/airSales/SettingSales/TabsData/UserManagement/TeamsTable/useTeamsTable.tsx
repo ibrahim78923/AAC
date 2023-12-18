@@ -18,7 +18,7 @@ const useTeamsTable = () => {
     setIsTeamDrawer(true);
   };
 
-  const getRowValues = columnsTeams(setIsTeamDrawer, setIsOpenDelete);
+  const getRowValues = columnsTeams(setIsTeamDrawer, setIsOpenDelete, theme);
   return {
     isTeamDrawer,
     setIsTeamDrawer,

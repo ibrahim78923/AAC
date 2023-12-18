@@ -91,7 +91,11 @@ export const UpsertArticle = () => {
           ))}
           <Grid item width="100%" xs={12} minHeight={44}>
             <Box sx={{ ...formBtnWrapper }}>
-              <Button onClick={() => methods?.reset?.()} variant="outlined">
+              <Button
+                onClick={() => methods?.reset?.()}
+                variant="outlined"
+                className="large"
+              >
                 Save as Draft
               </Button>
               <Button type="submit" variant="contained">

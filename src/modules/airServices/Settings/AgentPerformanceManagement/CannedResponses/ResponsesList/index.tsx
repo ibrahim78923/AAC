@@ -34,7 +34,7 @@ export const ResponsesList = () => {
     <>
       <Box>
         <PageTitledHeader
-          title={`Canned Responses > ${convertToTitleCase(
+          title={`Canned Response > ${convertToTitleCase(
             router?.query?.response,
           )}`}
           canMovedBack

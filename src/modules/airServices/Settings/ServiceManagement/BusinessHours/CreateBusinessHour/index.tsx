@@ -121,6 +121,13 @@ export const CreateBusinessHour = () => {
                                 key={time?.id ?? day}
                                 variant="body2"
                                 color="grey.0"
+                                sx={{
+                                  overflow: 'hidden',
+                                  textOverflow: 'ellipsis',
+                                  display: '-webkit-box',
+                                  WebkitLineClamp: '1',
+                                  WebkitBoxOrient: 'vertical',
+                                }}
                               >
                                 {!!time?.startTime &&
                                   dayjs(time?.startTime)?.format('h:mm A')}
@@ -219,6 +226,14 @@ export const CreateBusinessHour = () => {
                   <SingleDropdownButton
                     dropdownOptions={importHolidaysDropDown}
                     dropdownName="Import Holydays"
+                    variant="contained"
+                    color="primary"
+                    sx={{
+                      bgcolor: 'primary.light',
+                      color: 'primary.main',
+                      '&: hover': { bgcolor: 'primary.light' },
+                    }}
+                    disableElevation
                   />
                   <AddHoliday />
                 </Box>

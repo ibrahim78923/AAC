@@ -87,7 +87,7 @@ export const EditArticle = () => {
                 Save
               </LoadingButton>
               <LoadingButton type="submit" variant="contained">
-                Publish Now
+                {needApprovals ? 'Send For Approval' : 'Publish Now'}
               </LoadingButton>
             </Box>
           </Grid>

@@ -18,6 +18,7 @@ const SalesEditorDrawer = ({
 }: any) => {
   const { handleSubmit, onSubmit, salesProduct } = useSalesEditorDrawer({
     selectedCheckboxes,
+    isEditMode,
   });
   return (
     <>
