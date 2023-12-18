@@ -327,9 +327,9 @@ const DealPipelines = () => {
                   </Box>
                 </Box>
                 {dealPipeline?.stages?.map((stage: any) => (
-                  <Box sx={styles.BoxStyling} key={uuidv4()}>
+                  <Box sx={styles?.BoxStyling} key={uuidv4()}>
                     <Typography variant="body2" sx={{ fontWeight: '600' }}>
-                      {stage.name}
+                      {stage?.name}
                     </Typography>
                     <Typography
                       variant="body2"
