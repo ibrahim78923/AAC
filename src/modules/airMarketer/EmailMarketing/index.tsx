@@ -17,10 +17,10 @@ const EmailMarketing = () => {
     useEmailMarketing();
   return (
     <Grid container>
-      <Grid item lg={3}>
+      <Grid item md={12} lg={3}>
         <Typography variant="h4">Email Marketing</Typography>
       </Grid>
-      <Grid item lg={9} sx={{ textAlign: 'end' }}>
+      <Grid item md={12} lg={9} sx={{ textAlign: 'end' }}>
         <Search label="Search Here" width={260} size="small" />
 
         <Button
@@ -28,10 +28,16 @@ const EmailMarketing = () => {
           color="inherit"
           className="small"
           style={{ margin: '0px 18px' }}
+          sx={{ md: { m: 3 } }}
         >
           Export
         </Button>
-        <Button variant="outlined" color="inherit" className="small">
+        <Button
+          variant="outlined"
+          color="inherit"
+          className="small"
+          sx={{ md: { mt: 3 } }}
+        >
           Compare Email
         </Button>
         <Button
@@ -39,6 +45,7 @@ const EmailMarketing = () => {
           className="small"
           style={{ margin: '0px 18px' }}
           startIcon={<PlusIcon />}
+          sx={{ md: { mt: 3 } }}
         >
           Create New Email
         </Button>
