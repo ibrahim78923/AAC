@@ -5,6 +5,7 @@ const useTasks = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [isOpenEditTaskDrawer, setIsOpenEditTaskDrawer] = useState(false);
   const [isOpenDeleteDrawer, setIsOpenDeleteDrawer] = useState(false);
+  const [isTaskCreate, setTaskCreate] = useState('');
   const theme = useTheme();
   const actionMenuOpen = Boolean(anchorEl);
   const handleTaskDrawer = () => {
@@ -21,6 +22,7 @@ const useTasks = () => {
   ) => {
     setAnchorEl(event?.currentTarget);
   };
+
   return {
     anchorEl,
     setAnchorEl,
@@ -34,6 +36,8 @@ const useTasks = () => {
     isOpenDeleteDrawer,
     handleDeleteModal,
     setIsOpenDeleteDrawer,
+    setTaskCreate,
+    isTaskCreate,
   };
 };
 export default useTasks;

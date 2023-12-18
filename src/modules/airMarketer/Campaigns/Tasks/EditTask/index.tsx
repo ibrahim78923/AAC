@@ -6,7 +6,6 @@ import { FormProvider } from '@/components/ReactHookForm';
 import { dataArray, defaultValues, validationSchema } from './EditTask.data';
 
 import { yupResolver } from '@hookform/resolvers/yup';
-
 import { useForm } from 'react-hook-form';
 import { enqueueSnackbar } from 'notistack';
 import { v4 as uuidv4 } from 'uuid';
@@ -33,7 +32,7 @@ export default function EditTask({
     <CommonDrawer
       isDrawerOpen={isOpenDrawer}
       onClose={() => onClose(false)}
-      title={'Edit Task'}
+      title={'Create Task'}
       okText={'Update'}
       isOk
       cancelText={'Cancel'}
