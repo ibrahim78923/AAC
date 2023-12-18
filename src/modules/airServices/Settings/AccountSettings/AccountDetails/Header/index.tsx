@@ -1,4 +1,4 @@
-import { Typography, Box } from '@mui/material';
+import { Typography, Box, useTheme } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { AIR_SERVICES } from '@/constants';
 import { EmailIcon, PhoneIcon } from '@/assets/icons';
@@ -6,8 +6,11 @@ import { UserProfileImage } from '@/assets/images';
 import Image from 'next/image';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { useHeader } from './useHeader';
+import Chip from '@mui/material/Chip';
 
 export const Header = () => {
+  const theme = useTheme();
+
   const {
     handleFileChange,
     uploadedImage,
@@ -18,7 +21,12 @@ export const Header = () => {
   } = useHeader();
 
   return (
-    <>
+    <Box
+      border={`.1rem solid ${theme?.palette?.grey?.[700]}`}
+      p={{ xs: 1, sm: 2 }}
+      borderRadius={2}
+      mb={1}
+    >
       <Box
         display={'flex'}
         justifyContent={'space-between'}
@@ -38,7 +46,7 @@ export const Header = () => {
           <Typography variant="h5">Account Detail</Typography>
         </Box>
       </Box>
-      <Box display={'flex'} gap={2} mt={2} mb={2}>
+      <Box display={'flex'} gap={{ xs: 1, sm: 2 }} mt={2}>
         <Box
           position="relative"
           onMouseEnter={() => setIsHovered(true)}
@@ -81,20 +89,14 @@ export const Header = () => {
         >
           <Box display={'flex'} gap={1}>
             <Typography variant="h4">John Doe</Typography>
-            <Typography
-              p={0.5}
-              borderRadius={3}
-              color={'success.main'}
-              sx={{ backgroundColor: 'success.lighter' }}
-              textAlign={'center'}
-              variant="body2"
-            >
-              Admin
-            </Typography>
+            <Chip
+              label={'Admin'}
+              sx={{ backgroundColor: 'success.lighter', color: 'success.main' }}
+            />
           </Box>
           <Box
             display={'flex'}
-            flexDirection={{ xs: 'column', lg: 'row' }}
+            flexDirection={{ xs: 'column', sm: 'row' }}
             gap={1}
           >
             <Box display={'flex'} gap={1}>
@@ -108,6 +110,6 @@ export const Header = () => {
           </Box>
         </Box>
       </Box>
-    </>
+    </Box>
   );
 };

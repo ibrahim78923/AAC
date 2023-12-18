@@ -16,7 +16,12 @@ export const audienceTableColumns: any = (statusBtnValue: any) => {
           <LinkedIn sx={{ height: '32px', width: '32px', fill: '#0a66c2' }} />
           <Box>
             <Typography>Azeem Aslam</Typography>
-            <Box display="flex" gap={0.5} alignItems="center">
+            <Box
+              display="flex"
+              gap={0.5}
+              alignItems="center"
+              flexDirection={{ xs: 'column', md: 'row' }}
+            >
               <Box
                 sx={style?.statusBtn}
                 bgcolor={statusBtnValue(info?.getValue())}

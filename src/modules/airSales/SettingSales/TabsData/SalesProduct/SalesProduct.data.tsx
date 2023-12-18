@@ -1,4 +1,6 @@
+import { DATE_FORMAT } from '@/constants';
 import { Checkbox, Switch } from '@mui/material';
+import dayjs from 'dayjs';
 
 // todo:temporary data will be removed after api integration
 export const SalesProductTableData: any = [
@@ -95,11 +97,11 @@ export const columns = ({ handleCheckboxChange, selectedCheckboxes }: any) => {
       cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row?.createdDate,
-      id: 'createdDate',
+      accessorFn: (row: any) => row?.createdAt,
+      id: 'createdAt',
       isSortable: true,
       header: 'Created Date',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => dayjs(info?.getValue())?.format(DATE_FORMAT?.UI),
     },
     {
       accessorFn: (row: any) => row?.action,

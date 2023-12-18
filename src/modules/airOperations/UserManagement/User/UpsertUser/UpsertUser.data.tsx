@@ -23,6 +23,24 @@ export const upsertUserValidationSchema: any = Yup?.object()?.shape({
   twitterUrl: Yup?.string(),
 });
 
+export const upsertUserData = [
+  {
+    id: 1,
+    firstName: 'John',
+    middleName: 'E',
+    lastName: 'Doe',
+    address: 'Enter business address',
+    email: '746 SpringfieldRoad',
+    phoneNumber: '+447975777666',
+    jobTitle: 'UI UX Designer',
+    assignRole: 'Designer',
+    selectTeam: 'Alfa',
+    language: 'English',
+    facebookUrl: 'facebook.com/johnDoe',
+    linkedinUrl: 'Linkedin.com/johnDoe',
+    twitterUrl: 'Twitter.com/johnDoe',
+  },
+];
 export const upsertUserDefaultValues: any = {
   firstName: '',
   middleName: '',

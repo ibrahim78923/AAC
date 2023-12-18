@@ -3,22 +3,32 @@ import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
 export const validationSchema = Yup?.object()?.shape({
-  accountName: Yup?.string()?.required('Field is Required'),
-  phoneNo: Yup?.string()?.trim()?.required('Field is Required'),
-  postCode: Yup?.string()?.trim()?.required('Field is Required'),
+  domainName: Yup?.string()?.required('Field is Required'),
+  name: Yup?.string()?.trim()?.required('Field is Required'),
+  companyOwner: Yup?.string()?.trim()?.required('Field is Required'),
+  industry: Yup?.string()?.trim()?.required('Field is Required'),
+  companyType: Yup?.string()?.trim()?.required('Field is Required'),
+  noOfEmployees: Yup?.string()?.trim()?.required('Field is Required'),
+  totalRevenue: Yup?.string()?.trim()?.required('Field is Required'),
+  streetName: Yup?.string()?.trim()?.required('Field is Required'),
+  companyAddress: Yup?.string()?.trim()?.required('Field is Required'),
+  description: Yup?.string()?.trim()?.required('Field is Required'),
+  linkdInCompany: Yup?.string()?.trim()?.required('Field is Required'),
 });
 
 export const defaultValuesOrganization = {
-  accountName: '',
-  phoneNo: '',
-  postCode: '',
-  address: '',
-  unit: '',
-  buildingName: '',
-  buildingNumber: '',
+  domainName: '',
+  name: '',
+  companyOwner: '',
+  industry: '',
+  companyType: '',
+  noOfEmployees: '',
+  totalRevenue: '',
   streetName: '',
+  companyAddress: '',
+  description: '',
   city: '',
-  country: '',
+  linkdInCompany: '',
 };
 
 export const dataArray = [
@@ -88,8 +98,6 @@ export const dataArray = [
       name: 'totalRevenue',
       fullWidth: true,
       label: 'Total Revenue',
-      multiline: true,
-      rows: 3,
     },
   },
   {
@@ -99,8 +107,6 @@ export const dataArray = [
       name: 'city',
       fullWidth: true,
       label: 'City',
-      multiline: true,
-      rows: 3,
     },
   },
   {
@@ -110,8 +116,6 @@ export const dataArray = [
       name: 'postCode',
       fullWidth: true,
       label: 'Postal Code',
-      multiline: true,
-      rows: 3,
     },
   },
   {
@@ -121,8 +125,6 @@ export const dataArray = [
       name: 'companyAddress',
       fullWidth: true,
       label: 'Company Address',
-      multiline: true,
-      rows: 3,
     },
   },
   {

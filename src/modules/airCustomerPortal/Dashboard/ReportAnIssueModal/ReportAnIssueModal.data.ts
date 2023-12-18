@@ -17,9 +17,9 @@ export const issueRelated = [
   },
 ];
 export const validationSchemaReportAnIssueModal = Yup?.object()?.shape({
-  issueRelatedTo: Yup?.string().required(),
-  requester: Yup?.string(),
-  subject: Yup?.string(),
+  issueRelatedTo: Yup?.string()?.trim()?.required('Required'),
+  requester: Yup?.string()?.trim()?.required('Required'),
+  subject: Yup?.string()?.trim()?.required('Required'),
 });
 
 export const defaultValues = {
@@ -48,6 +48,7 @@ export const reportAnIssueModalFormFields = [
       name: 'requester',
       label: 'Requester',
       fullWidth: true,
+      required: true,
     },
     component: RHFTextField,
     md: 12,
@@ -58,6 +59,7 @@ export const reportAnIssueModalFormFields = [
       name: 'subject',
       label: 'Subject',
       fullWidth: true,
+      required: true,
     },
     component: RHFTextField,
     md: 12,
@@ -71,6 +73,7 @@ export const reportAnIssueModalFormFields = [
       placeholder: 'Description',
       multiline: true,
       minRows: 5,
+      required: true,
     },
     component: RHFTextField,
     md: 12,
@@ -78,8 +81,9 @@ export const reportAnIssueModalFormFields = [
   {
     componentProps: {
       name: 'attachFile',
-      label: '',
+      label: 'Attach File',
       fullWidth: true,
+      fileType: 'Upload any file',
     },
     component: RHFDropZone,
     md: 12,

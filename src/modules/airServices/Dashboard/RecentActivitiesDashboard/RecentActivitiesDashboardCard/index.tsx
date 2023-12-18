@@ -12,7 +12,7 @@ export const RecentActivitiesDashboardCard = ({
   const theme = useTheme();
   return (
     <Grid container>
-      <Grid item xs={12} height={{ md: 88, xs: 122 }}>
+      <Grid item xs={12}>
         <Box sx={styles?.boxMain(isBorderBottom, theme)} overflow={'scroll'}>
           <Box marginLeft={2}>
             <Avatar

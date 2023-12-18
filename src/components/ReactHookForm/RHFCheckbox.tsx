@@ -26,7 +26,11 @@ export default function RHFCheckbox({ name, required, ...other }: any) {
                 })}
               />
               {other?.label && (
-                <CustomLabel label={other?.label} required={required} />
+                <CustomLabel
+                  label={other?.label}
+                  required={required}
+                  marginBottom={0}
+                />
               )}
             </>
           )}

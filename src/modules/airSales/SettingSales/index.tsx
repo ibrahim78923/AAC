@@ -1,6 +1,14 @@
 import React from 'react';
 
-import { Box, Tabs, Tab, Typography, useMediaQuery } from '@mui/material';
+import {
+  Box,
+  Tabs,
+  Tab,
+  Typography,
+  useMediaQuery,
+  useTheme,
+  Theme,
+} from '@mui/material';
 
 import RolesRight from './TabsData/RolesAndRight';
 import UserManagement from './TabsData/UserManagement';
@@ -11,6 +19,7 @@ import { SalesSettingProps } from './SettingSales.interface';
 import { styles } from './SettingSales.style';
 
 function TabPanel(props: SalesSettingProps) {
+  const theme = useTheme<Theme>();
   const { children, value, index, ...other } = props;
 
   return (
@@ -20,7 +29,7 @@ function TabPanel(props: SalesSettingProps) {
       id={`vertical-tabpanel-${index}`}
       aria-labelledby={`vertical-tab-${index}`}
       {...other}
-      sx={styles?.tabData}
+      sx={styles?.tabData(theme)}
     >
       {value === index && (
         <Box sx={{ p: { xs: 1, md: 3 } }}>
@@ -32,7 +41,9 @@ function TabPanel(props: SalesSettingProps) {
 }
 const SettingSales = () => {
   const [value, setValue] = React.useState<any>(0);
+  const theme = useTheme<Theme>();
   const isMobile = useMediaQuery('(max-width: 899px)');
+
   const tabsOrientation = isMobile ? 'horizontal' : 'vertical';
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -52,7 +63,7 @@ const SettingSales = () => {
             value={value}
             onChange={handleChange}
             aria-label="Vertical tabs example"
-            sx={styles?.tabsStyle}
+            sx={styles?.tabsStyle(theme)}
           >
             <Tab label="Deals Pipelines" />
             <Tab label="Sales Product" />

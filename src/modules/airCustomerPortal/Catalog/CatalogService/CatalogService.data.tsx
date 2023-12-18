@@ -4,16 +4,17 @@ import {
   RHFTimePicker,
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
+
 export const dataBackUpValidationSchema = Yup?.object()?.shape({
   dataBaseName: Yup?.string(),
-  backUpData: Yup?.string(),
-  backUpTime: Yup?.string(),
+  backUpData: Yup?.date(),
+  backUpTime: Yup?.date(),
 });
 
 export const dataBackUpDefaultValues = {
   dataBaseName: '',
-  backUpData: '',
-  backUpTime: '',
+  backUpData: new Date(),
+  backUpTime: new Date(),
 };
 
 export const dataBackUp = [

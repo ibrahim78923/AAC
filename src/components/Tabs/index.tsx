@@ -3,13 +3,12 @@ import React, { useState, useEffect } from 'react';
 import { Tabs, Tab, Box, useTheme } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
-import Search from '../Search';
-
 import { CommonTabsPropsI, TabPanelPropsI } from './Tabs.interface';
 
 import { styles } from './Tabs.style';
 
 import { v4 as uuidv4 } from 'uuid';
+import Search from '../Search';
 
 const CustomTabPanel = (props: TabPanelPropsI) => {
   const { children, value, index, ...other } = props;
@@ -38,13 +37,13 @@ const CommonTabs = (props: CommonTabsPropsI) => {
     tabStyle = 'horizontal',
     tabsArray,
     children,
-    isHeader,
-    headerChildren,
-    searchBarProps = {},
     getTabVal = () => {},
     addIcon = false,
     onAddClick = () => {},
     activeTab = 0,
+    isHeader = false,
+    headerChildren,
+    searchBarProps = {},
   } = props;
 
   const theme = useTheme();

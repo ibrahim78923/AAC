@@ -11,7 +11,7 @@ const CreateAd = () => {
   return (
     <Box>
       <Grid container spacing={5}>
-        <Grid item xs={12} md={4}>
+        <Grid item xs={12} md={6} lg={4}>
           <Typography
             variant="h4"
             fontWeight={500}
@@ -58,7 +58,7 @@ const CreateAd = () => {
             </Box>
           ))}
         </Grid>
-        <Grid item xs={12} md={8}>
+        <Grid item xs={12} md={6} lg={8}>
           {activeAdComponent(isActiveAd)}
         </Grid>
       </Grid>

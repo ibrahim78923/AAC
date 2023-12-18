@@ -421,6 +421,7 @@ const RolesRight = () => {
               color: `${theme?.palette?.custom.main}`,
               display: 'flex',
               alignItems: 'center',
+              fontWeight: 500,
             }}
           >
             Actions <ArrowDropDownIcon />
@@ -436,7 +437,14 @@ const RolesRight = () => {
           >
             <MenuItem onClick={handleClose}>Edit</MenuItem>
             <MenuItem onClick={handleClose}>View</MenuItem>
-            <MenuItem onClick={() => setIsOpenDelete(true)}>Delete</MenuItem>
+            <MenuItem
+              onClick={() => {
+                handleClose();
+                setIsOpenDelete(true);
+              }}
+            >
+              Delete
+            </MenuItem>
           </Menu>
         </Box>
         <Grid>

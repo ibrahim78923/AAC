@@ -24,9 +24,10 @@ export const Announcements = ({
               <Box sx={avatarWrapper}>
                 <Avatar src={user?.profileImage} />
                 <Typography
+                  variant="body3"
                   color={palette?.blue?.main}
                   fontWeight={500}
-                >{`${user?.firstName} ${user?.lastName} sent approval request `}</Typography>
+                >{`${user?.firstName} ${user?.lastName}`}</Typography>
               </Box>
             </Box>
             <Typography color={palette?.grey?.[900]} fontSize={'0.75rem'}>

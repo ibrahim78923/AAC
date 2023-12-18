@@ -1,6 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { enqueueSnackbar } from 'notistack';
+import { useRef } from 'react';
 
 export const useSingleTicketForm = (props: any) => {
   const { singleTicketFormDefaultValues, singleTicketFormValidationSchema } =
@@ -18,9 +19,16 @@ export const useSingleTicketForm = (props: any) => {
     });
     reset(singleTicketFormDefaultValues);
   };
+
+  const fileImport: any = useRef();
+  const handleImport = () => {
+    fileImport?.current?.click();
+  };
   return {
     methods,
     handleSubmit,
     onSubmit,
+    fileImport,
+    handleImport,
   };
 };

@@ -58,7 +58,16 @@ const AddUser = ({
   const { handleSubmit, reset, watch, setValue } = methods;
 
   const onSubmit = async (values: any) => {
-    values.role = tabTitle === 'COMPANY_OWNER' ? 'ORG_ADMIN' : 'SUPER_ADMIN';
+    if (tabTitle === 'COMPANY_OWNER') {
+      values.role = 'ORG_ADMIN';
+      delete values['address'];
+    } else if (tabTitle === 'SUPER_ADMIN') {
+      delete values['phoneNumber'];
+      delete values['postCode'];
+      values.role = 'SUPER_ADMIN';
+    } else {
+      values.role = 'ORG_EMPLOYEE';
+    }
     if (values?.compositeAddress) {
       values.address = {
         composite: values?.compositeAddress,
@@ -73,6 +82,7 @@ const AddUser = ({
         country: values?.country,
       };
     }
+    delete values['compositeAddress'];
     try {
       isOpenAddUserDrawer?.type === 'add'
         ? postUsers({ body: values })?.unwrap()
@@ -140,7 +150,7 @@ const AddUser = ({
                       {item?.componentProps?.heading}
                     </Typography>
                   )}
-                  {item?.componentProps?.name === 'compositeAddress' && (
+                  {item?.componentProps?.name === 'compositeAddress ' && (
                     <Box position="relative">
                       <InputAdornment
                         sx={{
@@ -216,7 +226,7 @@ const AddUser = ({
                     )}
                   {isToggled && (
                     <Grid item container spacing={2} mt={1}>
-                      {item?.componentProps?.name === 'compositeAddress' &&
+                      {item?.componentProps?.name === 'compositeAddress ' &&
                         item?.subData?.map((data: any) => (
                           <Grid item xs={12} md={item?.md} key={uuidv4()}>
                             <Typography variant="body2" fontWeight={500}>

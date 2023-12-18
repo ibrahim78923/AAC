@@ -1,18 +1,16 @@
 import { Grid, Box, Typography } from '@mui/material';
-
 import { dataArray, defaultValues, validationSchema } from './Filter.data';
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
-
 import { useForm } from 'react-hook-form';
-import { enqueueSnackbar } from 'notistack';
 import { yupResolver } from '@hookform/resolvers/yup';
-
 import { v4 as uuidv4 } from 'uuid';
 
 export default function Filter({
   isOpenDrawer,
   onClose,
+  employeeFilter,
+  setEmployeeFilter,
   initialValueProps = defaultValues,
 }: any) {
   const methods: any = useForm({
@@ -22,9 +20,11 @@ export default function Filter({
 
   const { handleSubmit } = methods;
 
-  const onSubmit = async () => {
-    enqueueSnackbar('Ticket Updated Successfully', {
-      variant: 'success',
+  const onSubmit = async (values: any) => {
+    setEmployeeFilter({
+      ...employeeFilter,
+      product: values?.product,
+      company: values?.company,
     });
   };
 
@@ -42,7 +42,7 @@ export default function Filter({
       <Box mt={1}>
         <FormProvider methods={methods}>
           <Grid container spacing={2}>
-            {dataArray?.map((item: any) => (
+            {dataArray()?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={uuidv4()}>
                 <Typography variant="body2" fontWeight={500}>
                   {item?.title}

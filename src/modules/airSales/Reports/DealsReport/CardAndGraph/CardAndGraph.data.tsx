@@ -1,39 +1,59 @@
 export const series = [28, 18, 54];
-const colors = ['#FF4A4A', '#47B263', '#0AADC7'];
-export const options: any = {
-  chart: {
-    width: 380,
-    type: 'pie',
-  },
-  labels: ['Loss', 'Win', 'Open'],
-  colors: colors,
 
-  responsive: [
-    {
-      breakpoint: 480,
-      options: {
-        chart: {
-          width: 200,
-        },
-        legend: {
-          position: 'bottom',
+export const options: any = (theme: any) => {
+  const colors = [
+    `${theme?.palette?.error?.main}`,
+    `${theme?.palette?.success?.main}`,
+    `${theme?.palette?.custom?.bright}`,
+  ];
+  return {
+    chart: {
+      width: 450,
+      type: 'pie',
+    },
+    labels: ['Loss', 'Win', 'Open'],
+    colors: colors,
+
+    responsive: [
+      {
+        breakpoint: 480,
+        options: {
+          chart: {
+            width: 320,
+          },
+          legend: {
+            position: 'bottom',
+            itemMargin: {
+              vertical: 12,
+            },
+          },
         },
       },
+      {
+        breakpoint: 375,
+        options: {
+          chart: {
+            width: 200,
+          },
+          legend: {
+            position: 'bottom',
+          },
+        },
+      },
+    ],
+    legend: {
+      position: 'right',
+      fontSize: '14px',
+      fontWeight: 500,
+      offsetY: 45,
+      color: `${theme?.palette?.slateBlue?.main}`,
+      itemMargin: {
+        vertical: 16,
+      },
     },
-  ],
-  legend: {
-    position: 'right',
-    fontSize: '14px',
-    fontWeight: 500,
-    offsetY: 45,
-    color: '#374151',
-    itemMargin: {
-      vertical: 16,
-    },
-  },
+  };
 };
 
-const colorsBar = ['#FF4A4A', '#47B263', '#0AADC7'];
 export const seriesBar = [
   {
     name: 'All Deals',
@@ -49,66 +69,73 @@ export const seriesBar = [
   },
 ];
 
-export const optionsBar: any = {
-  chart: {
-    type: 'bar',
-    toolbar: {
-      show: false,
-    },
-  },
-
-  plotOptions: {
-    bar: {
-      horizontal: false,
-      columnWidth: '40%',
-      endingShape: 'rounded',
-    },
-  },
-  colors: colorsBar,
-
-  dataLabels: {
-    enabled: false,
-  },
-
-  stroke: {
-    show: true,
-    width: 2,
-    colors: ['transparent'],
-  },
-
-  xaxis: {
-    categories: [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'July',
-      'Aug',
-      'Oct',
-      'Nov',
-      'Dec',
-    ],
-  },
-  legend: {
-    position: 'top',
-    horizontalAlign: 'right',
-    itemMargin: {
-      horizontal: 16,
-    },
-    markers: {
-      radius: 12,
-    },
-  },
-  fill: {
-    opacity: 1,
-  },
-  tooltip: {
-    y: {
-      formatter: function (val: any) {
-        return '$ ' + val + ' thousands';
+export const optionsBar: any = (theme: any) => {
+  const colorsBar = [
+    `${theme?.palette?.error?.main}`,
+    `${theme?.palette?.success?.main}`,
+    `${theme?.palette?.custom?.bright}`,
+  ];
+  return {
+    chart: {
+      type: 'bar',
+      toolbar: {
+        show: false,
       },
     },
-  },
+
+    plotOptions: {
+      bar: {
+        horizontal: false,
+        columnWidth: '40%',
+        endingShape: 'rounded',
+      },
+    },
+    colors: colorsBar,
+
+    dataLabels: {
+      enabled: false,
+    },
+
+    stroke: {
+      show: true,
+      width: 2,
+      colors: ['transparent'],
+    },
+
+    xaxis: {
+      categories: [
+        'Jan',
+        'Feb',
+        'Mar',
+        'Apr',
+        'May',
+        'Jun',
+        'July',
+        'Aug',
+        'Oct',
+        'Nov',
+        'Dec',
+      ],
+    },
+    legend: {
+      position: 'top',
+      horizontalAlign: 'right',
+      itemMargin: {
+        horizontal: 16,
+      },
+      markers: {
+        radius: 12,
+      },
+    },
+    fill: {
+      opacity: 1,
+    },
+    tooltip: {
+      y: {
+        formatter: function (val: any) {
+          return '$ ' + val + ' thousands';
+        },
+      },
+    },
+  };
 };

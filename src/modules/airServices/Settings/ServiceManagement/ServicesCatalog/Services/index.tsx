@@ -72,7 +72,7 @@ const Services = () => {
         <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'}>
           <Button
             variant="contained"
-            startIcon={<CirclePlusIcon />}
+            startIcon={<CirclePlusIcon f />}
             onClick={() => router.push(AIR_SERVICES?.UPSERT_SERVICE)}
           >
             Add Service

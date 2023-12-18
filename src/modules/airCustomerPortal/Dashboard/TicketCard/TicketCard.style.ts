@@ -10,9 +10,7 @@ export const styles = {
   },
   contentWrapper: {
     display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
-    gap: 0.6,
+    gap: 1.2,
     pb: 1.2,
   },
   ticketColors: (palette: any) => ({

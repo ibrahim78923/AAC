@@ -194,7 +194,7 @@ export const ServicesRoutes: any = [
     permissions: [],
   },
   {
-    key: 'air-services/control-panel',
+    key: 'air-customer-portal',
     icon: CustomerPortalImage,
     label: 'Customer Portal',
     role: 'SERVICE',

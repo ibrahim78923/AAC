@@ -14,7 +14,6 @@ import { useRouter } from 'next/router';
 export const SingleTicket = () => {
   const router = useRouter();
   const id = router?.query?.id;
-
   const { status, openPopup, setOpenPopup, onSubmit } = useSingleTicket();
 
   return (

@@ -25,6 +25,7 @@ export const TAGS = [
   'AIR_SALES_QUOTES',
   'SETTINGS_PRODUCT_FEATURES',
   'SETTINGS_TAX_CALCULATIONS',
+  'MyDocuments',
 ];
 
 const baseQuery = fetchBaseQuery({

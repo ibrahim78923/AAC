@@ -17,7 +17,19 @@ export const CommonAPIS = baseAPI.injectEndpoints({
       }),
       providesTags: ['PRODUCTS'],
     }),
+
+    getCompanyAccounts: builder.query({
+      query: ({ orgId }: any) => ({
+        url: `${END_POINTS?.GET_COMPANY_ORGANIZATION_DROPDOWN}/${orgId}${END_POINTS?.GET_COMPANY_ACCOUNTS}`,
+        method: 'GET',
+      }),
+      providesTags: ['PRODUCTS'],
+    }),
   }),
 });
 
-export const { useGetProductsQuery, useGetOrganizationsQuery } = CommonAPIS;
+export const {
+  useGetProductsQuery,
+  useGetOrganizationsQuery,
+  useGetCompanyAccountsQuery,
+} = CommonAPIS;

@@ -1,16 +1,45 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Theme, useTheme } from '@mui/material';
 
-const useDocuments = () => {
+import {
+  useGetDocumentFolderQuery,
+  usePostDocumentFolderMutation,
+  useUpdateFolderMutation,
+} from '@/services/commonFeatures/documents';
+
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import useAuth from '@/hooks/useAuth';
+
+import { enqueueSnackbar } from 'notistack';
+import { validationSchema } from './Documents.data';
+import { isNullOrEmpty } from '@/utils';
+
+const useDocuments: any = () => {
   const theme = useTheme<Theme>();
-  const [value, setValue] = useState('search here');
+  const [value, setValue] = useState('Search here');
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
   const [isOpenFolderDrawer, setIsOpenFolderDrawer] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState(false);
-  const [isEditOpenModal, setIsEditOpenModal] = useState(false);
+  const [isEditOpenModal, setIsEditOpenModal] = useState();
+  const [modalHeading, setModalHeading] = useState('Create New Folder');
   const [isOpenDelete, setIsOpenDelete] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [postDocumentFolder] = usePostDocumentFolderMutation();
+  const [updateFolder] = useUpdateFolderMutation();
+  const [checkboxChecked, setCheckboxChecked] = useState<string[]>([]);
+  const { user }: any = useAuth();
+  const { data, isLoading, isError, isFetching, isSuccess } =
+    useGetDocumentFolderQuery({ organizationId: user?.organization?._id });
+
+  const handleCheckboxChange = (id: string) => {
+    if (checkboxChecked?.includes(id)) {
+      setCheckboxChecked(checkboxChecked.filter((item: string) => item != id));
+    } else {
+      setCheckboxChecked([...checkboxChecked, id]);
+    }
+  };
 
   const open = Boolean(anchorEl);
 
@@ -22,7 +51,63 @@ const useDocuments = () => {
     setAnchorEl(null);
   };
 
+  const FolderAdd: any = useForm({
+    resolver: yupResolver(validationSchema),
+    defaultValues: async () => {
+      if (isEditOpenModal) {
+        if (!isNullOrEmpty(Object.keys(isEditOpenModal))) {
+          return {
+            name: watch('name'),
+          };
+        }
+      }
+      return validationSchema;
+    },
+  });
+
+  useEffect(() => {
+    if (isEditOpenModal) {
+      const { name } = isEditOpenModal;
+      FolderAdd.setValue('name', name);
+    }
+  }, [isEditOpenModal, FolderAdd]);
+
+  const { handleSubmit, watch, reset } = FolderAdd;
+
+  const onSubmit = async () => {
+    const documentData = {
+      name: watch('name'),
+    };
+    try {
+      if (isEditOpenModal) {
+        await updateFolder({
+          id: checkboxChecked,
+          body: documentData,
+        }).unwrap();
+        enqueueSnackbar('Folder Update Successfully', {
+          variant: 'success',
+        });
+      } else {
+        await postDocumentFolder({
+          body: documentData,
+        }).unwrap();
+        enqueueSnackbar('Folder Created Successfully', {
+          variant: 'success',
+        });
+        reset(validationSchema);
+        setIsOpenModal(false);
+      }
+    } catch (error: any) {
+      enqueueSnackbar('Something went wrong !', { variant: 'error' });
+    }
+  };
+
   return {
+    documentData: data?.data?.folders,
+    isLoading,
+    isError,
+    isFetching,
+    isSuccess,
     open,
     handleClick,
     handleClose,
@@ -41,6 +126,13 @@ const useDocuments = () => {
     setIsOpenDelete,
     anchorEl,
     setAnchorEl,
+    handleSubmit,
+    onSubmit,
+    FolderAdd,
+    handleCheckboxChange,
+    checkboxChecked,
+    modalHeading,
+    setModalHeading,
   };
 };
 

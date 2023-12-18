@@ -18,6 +18,7 @@ const useCatalogRequest = () => {
     onSubmitRequest,
     getValues,
     control,
+    open,
   };
 };
 export default useCatalogRequest;

@@ -16,8 +16,8 @@ export const Assets = () => {
         return (
           <Box
             key={item?.id}
-            p={2}
-            my={1}
+            p={1}
+            mt={1}
             bgcolor={'grey.300'}
             borderRadius={2}
             height={{ xs: 'unset', md: 50 }}

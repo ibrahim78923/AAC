@@ -80,7 +80,7 @@ const RolesView = ({ roleData }) => {
         </Box>
       </CardContent>
       <AlertModals
-        message="Are you sure you want to delete this conversation?"
+        message="Are you sure you want to delete this Member?"
         type="delete"
         open={isRoleDeleteModalOpen}
         handleClose={roleCloseHandler}

@@ -32,7 +32,11 @@ export const Header = () => {
           <Typography variant="h5">Location</Typography>
         </Box>
         <Box display={'flex'} alignItems={'center'} gap={1}>
-          <Button variant="outlined" onClick={() => setIsDrawerOpen(true)}>
+          <Button
+            variant="outlined"
+            color="secondary"
+            onClick={() => setIsDrawerOpen(true)}
+          >
             Import
           </Button>
           <Button

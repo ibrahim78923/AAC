@@ -20,7 +20,7 @@ export const ClosureRole = () => {
         <Button variant="contained" type="submit">
           Save
         </Button>
-        <Button variant="outlined" onClick={() => reset()}>
+        <Button variant="outlined" onClick={() => reset()} color="secondary">
           cancel
         </Button>
       </Box>

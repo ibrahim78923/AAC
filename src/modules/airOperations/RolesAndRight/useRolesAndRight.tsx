@@ -1,84 +1,40 @@
+import { useTheme } from '@mui/material';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useForm } from 'react-hook-form';
 import { enqueueSnackbar } from 'notistack';
-import { useState } from 'react';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import {
-  rolesActionsDropdown,
-  rolesAndRightListData,
-  rolesListsColumnsFunction,
-} from './RolesAndRight.data';
-
-export const useRolesAndRight = () => {
-  const [selectedAgentList, setSelectedAgentList] = useState([]);
-  const [isAgentFilterDrawerOpen, setAgentFilterDrawerOpen] = useState(false);
-  const [searchValue, setSearchValue] = useState<string>('');
-  const [editAgentModalTitle, setEditAgentModalTitle] = useState('Edit');
-  const [isAgentModalOpen, setIsAgentModalOpen] = useState<boolean>(false);
-  const [openDeleteModel, setOpenDeleteModel] = useState<boolean>(false);
-
-  const handleOpenDrawer = () => {
-    setAgentFilterDrawerOpen(true);
+  rolesFormDefaultValues,
+  rolesFormValidationSchema,
+} from './UpsertRoleAndRightForm/UpsertRoleAndRightForm.data';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { useState } from 'react';
+const useRolesAndRight = () => {
+  const [expandedRoleAccordion, setExpandedRoleAccordion] = useState(false);
+  const theme = useTheme();
+  const rolesMethods: any = useForm({
+    resolver: yupResolver(rolesFormValidationSchema),
+    defaultValues: rolesFormDefaultValues,
+  });
+  const handleChangeExpandAccordion = () => {
+    setExpandedRoleAccordion(!expandedRoleAccordion);
   };
 
-  const handleActionClick = (ActionType: string) => {
-    if (ActionType === 'delete') {
-      return setOpenDeleteModel(true);
-    }
-    if (selectedAgentList?.length > 1) {
-      enqueueSnackbar(`Can't update multiple records`, {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
-      return;
-    }
-    setEditAgentModalTitle('Update Agent');
-    setIsAgentModalOpen(true);
-  };
+  const { handleSubmit, reset, setIsRolesModalOpen } = rolesMethods;
 
-  const handleAddAgentModal = (isOpen?: boolean) => {
-    if (isOpen) {
-      setEditAgentModalTitle('Invite Agent');
-      return setIsAgentModalOpen(true);
-    }
-    setIsAgentModalOpen(false);
-  };
-
-  const rolesListsColumns = rolesListsColumnsFunction(
-    selectedAgentList,
-    setSelectedAgentList,
-    rolesAndRightListData,
-  );
-
-  const handleDelete = () => {
-    setOpenDeleteModel(false);
-    setSelectedAgentList([]);
-    enqueueSnackbar('Record deleted Successfully', {
+  const onSubmit = async () => {
+    enqueueSnackbar('Role Add Successfully', {
       variant: NOTISTACK_VARIANTS?.SUCCESS,
     });
+    reset(rolesFormDefaultValues);
+    setIsRolesModalOpen(false);
   };
-
-  const deleteRolesProps = {
-    openDeleteModel,
-    setOpenDeleteModel,
-    handleDelete,
-  };
-
-  const dropdownOptions = rolesActionsDropdown(handleActionClick);
-
   return {
-    selectedAgentList,
-    rolesListsColumns,
-    dropdownOptions,
-    handleActionClick,
-    setSearchValue,
-    searchValue,
-    deleteRolesProps,
-    handleOpenDrawer,
-    isAgentFilterDrawerOpen,
-    setAgentFilterDrawerOpen,
-    setIsAgentModalOpen,
-    isAgentModalOpen,
-    setEditAgentModalTitle,
-    editAgentModalTitle,
-    handleAddAgentModal,
-    rolesListsColumnsFunction,
+    theme,
+    onSubmit,
+    rolesMethods,
+    handleSubmit,
+    handleChangeExpandAccordion,
   };
 };
+
+export default useRolesAndRight;

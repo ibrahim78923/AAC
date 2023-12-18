@@ -51,6 +51,8 @@ const LifeCycleStage = () => {
                   name="StageName"
                   label="Stage Name"
                   size="small"
+                  placeholder="Stage Name"
+                  required={true}
                 />
               </Grid>
             </Grid>
@@ -71,47 +73,37 @@ const LifeCycleStage = () => {
             display: 'flex',
             justifyContent: 'space-between',
             flexWrap: 'wrap',
+            marginBottom: '10px',
           }}
         >
           <Typography variant="h3">Life Cycle Stages</Typography>
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              flexWrap: 'wrap',
-              '@media (max-width: 500px)': {
-                justifyContent: 'end',
-                marginTop: '10px',
-              },
-            }}
+          <Button
+            variant="contained"
+            sx={styles?.createBtn}
+            onClick={() => setIsDraweropen('Add')}
+            className="small"
           >
-            <Button
-              variant="contained"
-              sx={styles?.createBtn}
-              onClick={() => setIsDraweropen('Add')}
-              className="small"
-            >
-              <AddCircleIcon
-                sx={{
-                  color: `${theme?.palette?.common?.white}`,
-                  fontSize: '16px',
-                }}
-              />
-              Add Stage
-            </Button>
-          </Box>
+            <AddCircleIcon
+              sx={{
+                color: `${theme?.palette?.common?.white}`,
+                fontSize: '16px',
+              }}
+            />
+            Add Stage
+          </Button>
         </Box>
 
         <Search
           label={'Search here'}
           searchBy={productSearch}
           setSearchBy={setproductSearch}
-          width="100%"
+          width="260px"
           size="small"
-          sx={{ marginTop: '2rem', marginBottom: '1rem' }}
+
+          // sx={{ marginTop: '2rem', marginBottom: '1rem' }}
         />
 
-        <Grid>
+        <Grid sx={{ marginTop: '2rem' }}>
           <TanstackTable
             columns={getRowValues}
             data={LifeCycleStageTableData}

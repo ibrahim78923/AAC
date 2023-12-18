@@ -1,6 +1,14 @@
 import React from 'react';
 
-import { Box, Button, Grid, Menu, MenuItem, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Grid,
+  Menu,
+  MenuItem,
+  Tooltip,
+  Typography,
+} from '@mui/material';
 
 import { AddCircle } from '@mui/icons-material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
@@ -23,6 +31,7 @@ import {
   CutomizeIcon,
   FilterIcon,
   ImportCompaniesIcon,
+  RefreshTasksIcon,
   RestoreIcon,
 } from '@/assets/icons';
 import CreateViewCompany from './CreateViewCompany';
@@ -159,21 +168,47 @@ const Companies = () => {
                       'aria-labelledby': 'basic-button',
                     }}
                   >
-                    <MenuItem onClick={() => setIsPreview(true)}>
+                    <MenuItem
+                      onClick={() => {
+                        handleClose();
+                        setIsPreview(true);
+                      }}
+                    >
                       Preview
                     </MenuItem>
-                    <MenuItem onClick={() => setIsReassign(true)}>
+                    <MenuItem
+                      onClick={() => {
+                        handleClose();
+                        setIsReassign(true);
+                      }}
+                    >
                       Re-assign
                     </MenuItem>
-                    <MenuItem onClick={() => setIsExport(true)}>
+                    <MenuItem
+                      onClick={() => {
+                        handleClose();
+                        setIsExport(true);
+                      }}
+                    >
                       Export
                     </MenuItem>
-                    <MenuItem onClick={() => setIsDeleteCompany(true)}>
+                    <MenuItem
+                      onClick={() => {
+                        handleClose();
+                        setIsDeleteCompany(true);
+                      }}
+                    >
                       Delete
                     </MenuItem>
-                    <MenuItem onClick={() => setIsMerge(true)}>Merge</MenuItem>
+                    <MenuItem
+                      onClick={() => {
+                        handleClose();
+                        setIsMerge(true);
+                      }}
+                    >
+                      Merge
+                    </MenuItem>
                   </Menu>
-
                   <Button
                     onClick={() => toggle(true)}
                     variant="outlined"
@@ -191,6 +226,15 @@ const Companies = () => {
                       <CutomizeIcon /> &nbsp; Customize
                     </Button>
                   </>
+                  <Tooltip title={'Refresh Filter'}>
+                    <Button
+                      variant="outlined"
+                      color="inherit"
+                      className="small"
+                    >
+                      <RefreshTasksIcon />
+                    </Button>
+                  </Tooltip>
                   <Button
                     variant="outlined"
                     sx={styles?.actionButton}

@@ -28,9 +28,9 @@ function RecentActivitiesDashboardDrawer({
             <Box key={uuidv4()} marginTop={1}>
               <RecentActivitiesDashboardCard
                 icon={item?.icon}
-                recentActivityText={item?.recentActivityText}
-                recentActivityRequestText={item?.recentActivityRequestText}
-                recentActivityTextDateTime={item?.recentActivityTextDateTime}
+                recentActivity={item?.recentActivity}
+                recentActivityRequest={item?.recentActivityRequest}
+                recentActivityDateTime={item?.recentActivityDateTime}
                 isBorderBottom={
                   recentActivitiesDashboardCardData?.length - 1 !== index
                 }
