@@ -46,7 +46,7 @@ const Campaigns = () => {
           </Box>
         </Box>
 
-        <Box sx={{ padding: '0px 24px' }}>
+        <Box sx={{ padding: '0px 24px' }} mt={1.6}>
           <HorizontalTabs tabsDataArray={campaignsTabs}>
             <Manage />
             <Manage />

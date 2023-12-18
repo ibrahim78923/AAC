@@ -55,7 +55,7 @@ const RejectedModal = (props: any) => {
                 Cancel
               </Button>
               <Button variant="contained" type="submit">
-                Reject
+                Submit
               </Button>
             </Box>
           </Box>

@@ -12,14 +12,25 @@ export const commonDocumentsAPI = baseAPI.injectEndpoints({
       invalidatesTags: ['MyDocuments'],
     }),
     getDocumentFolder: builder.query({
-      query: ({ createdById, pages = 1, limit = 10 }: any) => ({
-        url: `${COMMON_DOCUMENTS.GET_DOCUMENT_FOLDER}?page=${pages}&limit=${limit}&createdById=${createdById}`,
+      query: ({ organizationId, pages = 1, limit = 10 }: any) => ({
+        url: `${COMMON_DOCUMENTS.GET_DOCUMENT_FOLDER}?page=${pages}&limit=${limit}&organizationId=${organizationId}`,
         method: 'GET',
       }),
       providesTags: ['MyDocuments'],
     }),
+    updateFolder: builder.mutation({
+      query: ({ id, body }: any) => ({
+        url: `${COMMON_DOCUMENTS.PATCH_DOCUMENT_FOLDER_ID}/${id}`,
+        method: 'PATCH',
+        body: body,
+      }),
+      invalidatesTags: ['MyDocuments'],
+    }),
   }),
 });
 
-export const { usePostDocumentFolderMutation, useGetDocumentFolderQuery } =
-  commonDocumentsAPI;
+export const {
+  usePostDocumentFolderMutation,
+  useGetDocumentFolderQuery,
+  useUpdateFolderMutation,
+} = commonDocumentsAPI;

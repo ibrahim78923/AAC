@@ -11,6 +11,7 @@ export const CatalogRequest = ({ open, setOpen }: any) => {
   const handleClose = () => {
     setOpen(false);
   };
+
   const { onSubmitRequest } = useCatalogRequest();
   return (
     <Fragment>
@@ -19,7 +20,6 @@ export const CatalogRequest = ({ open, setOpen }: any) => {
         onSubmit={onSubmitRequest}
         aria-labelledby="customized-dialog-title"
         open={open}
-        fullWidth
       >
         <DialogTitle>
           <Typography variant="h4">Item Requested</Typography>
@@ -36,7 +36,7 @@ export const CatalogRequest = ({ open, setOpen }: any) => {
             <CloseIcon />
           </IconButton>
         </DialogTitle>
-        <CatalogItemRequest />
+        <CatalogItemRequest handleClose={handleClose} />
       </Dialog>
     </Fragment>
   );

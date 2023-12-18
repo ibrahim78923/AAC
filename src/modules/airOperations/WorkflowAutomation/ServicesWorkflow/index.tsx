@@ -1,4 +1,3 @@
-import Button from '@mui/material/Button';
 import { Box, Grid, IconButton, Typography } from '@mui/material';
 import { AIR_OPERATIONS } from '@/constants';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -68,7 +67,10 @@ export const ServicesWorkflow = () => {
                 <Typography textAlign={'center'} height={90}>
                   {item?.description}
                 </Typography>
-                <Button
+                <Box
+                  p={1}
+                  textAlign={'center'}
+                  borderRadius={1}
                   sx={{
                     width: 258,
                     backgroundColor:
@@ -82,7 +84,7 @@ export const ServicesWorkflow = () => {
                   }}
                 >
                   {item?.buttonTitle}
-                </Button>
+                </Box>
               </Grid>
             );
           })}

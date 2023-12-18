@@ -25,6 +25,7 @@ import store, { useAppSelector } from '@/redux/store';
 
 import {
   useGetProductsFeaturesAllQuery,
+  useGetPermissionsByProductsQuery,
   usePostPlanMangementMutation,
   useUpdatePlanMangementMutation,
 } from '@/services/superAdmin/plan-mangement';
@@ -40,6 +41,8 @@ import { SUPER_ADMIN_PLAN_MANAGEMENT_PERMISSIONS } from '@/constants/permission-
 export const useAddPlan = () => {
   const [addPlanFormValues, setAddPlanFormValues] = useState({});
   const [activeStep, setActiveStep] = useState(0);
+  const [skip, setSkip] = useState(true);
+  const [productIdModules, setProductIdModules] = useState([]);
 
   const [postPlanMangement] = usePostPlanMangementMutation();
   const [updatePlanMangement] = useUpdatePlanMangementMutation();
@@ -119,6 +122,10 @@ export const useAddPlan = () => {
     (state) => state?.planManagementForms?.planManagement?.planFeature,
   );
   const { data, isSuccess } = useGetProductsFeaturesAllQuery({});
+  const { data: modulesData } = useGetPermissionsByProductsQuery({
+    id: productIdModules,
+    skip,
+  });
   let productFeatures: any;
   if (isSuccess) {
     productFeatures = data;
@@ -131,6 +138,16 @@ export const useAddPlan = () => {
     enqueueSnackbar('Plan Details Added Successfully', {
       variant: 'success',
     });
+    const productIdArray = values?.suite;
+    const modulesPermissionsArray = [];
+
+    for (const productId of productIdArray) {
+      setSkip(false);
+      setProductIdModules(productId);
+
+      modulesPermissionsArray?.push(modulesData);
+    }
+
     reset();
   };
   const onSubmitPlanFeaturesHandler = async (values: any) => {
@@ -146,7 +163,7 @@ export const useAddPlan = () => {
             featureId: item,
           },
         ],
-        productId: productId?.productId || null, // Use null or a default value if productId is not found
+        productId: productId?.productId || null,
       };
     });
     dispatch(planFeaturesFormData(featuresData));
@@ -173,23 +190,10 @@ export const useAddPlan = () => {
       });
     });
 
-    const modulesPermissionsData = productNamesWithPermissions?.map(
-      (item: any) => {
-        const productId = productFeatures?.data?.productfeatures?.find(
-          (id: any) => id?.productName === item,
-        );
-
-        return {
-          permissionSlugs: values?.permissionSlugs,
-          productId: productId?.productId || null, // Use null or a default value if productId is not found
-        };
-      },
-    );
-
     dispatch(modulesFormData(values));
     if (activeStep == AddPlanStepperData?.length - 1) {
       const planFormData = {
-        //we are getting array when we select options in searchable select
+        //Todo: getting product id at index 0
         productId: planForm?.productId[0],
 
         ...(isNullOrEmpty(planForm?.productId) && { suite: planForm?.suite }),
@@ -224,10 +228,13 @@ export const useAddPlan = () => {
         })),
       };
       const transformedModulesFormData = {
-        planPermission: modulesPermissionsData?.flat()?.map((item: any) => ({
-          permissionSlugs: item?.permissionSlugs,
-          productId: item?.productId,
-        })),
+        planPermission: [
+          {
+            permissionSlugs: values?.permissionSlugs,
+            //Todo: getting product id at index 0
+            productId: planForm?.productId[0],
+          },
+        ],
       };
       try {
         parsedRowData

@@ -1,6 +1,9 @@
-export const upsertRulesGlobalFormFields = [{}];
-
-import { RHFAutocomplete, RHFTextField } from '@/components/ReactHookForm';
+import {
+  RHFAutocomplete,
+  RHFDateRangePicker,
+  RHFTextField,
+} from '@/components/ReactHookForm';
+import * as Yup from 'yup';
 
 export const RULES_ATTRIBUTES = {
   PURCHASE_AMOUNT: 'Purchase amount',
@@ -24,7 +27,61 @@ export const attributesOption = [
   RULES_ATTRIBUTES?.FREE_SHIPPING,
 ];
 
-export const dummyDropdown = ['1', '2'];
+export const validationAttributes = [
+  RULES_ATTRIBUTES?.MONEY_OFF,
+  RULES_ATTRIBUTES?.FREE_SHIPPING,
+];
+
+export const upsertRulesFormValidationSchema = Yup?.object()?.shape(
+  {
+    attribute: Yup?.string(),
+    description: Yup?.string()?.trim()?.max(100, 'maximum 100 characters only'),
+    discount: Yup?.string()?.when(['attribute', 'awardPoints'], {
+      is: (attribute: any, awardPoints: any) =>
+        !validationAttributes?.includes(attribute) && awardPoints === '',
+      then: (schema: any) =>
+        schema?.required('Either discount or award point or both are required'),
+      otherwise: (schema) => schema?.notRequired(),
+    }),
+    awardPoints: Yup?.string()?.when(['attribute', 'discount'], {
+      is: (attribute: any, discount: any) =>
+        !validationAttributes?.includes(attribute) && discount === '',
+      then: (schema: any) =>
+        schema?.required('Either discount or award point or both are required'),
+      otherwise: (schema) => schema?.notRequired(),
+    }),
+    percentageOff: Yup?.string()?.when(['attribute', 'flatOff'], {
+      is: (attribute: any, flatOff: any) =>
+        attribute === RULES_ATTRIBUTES?.MONEY_OFF && flatOff === '',
+      then: (schema: any) =>
+        schema?.required(
+          'Either percentageOff or flatOff or both are required',
+        ),
+      otherwise: (schema) => schema?.notRequired(),
+    }),
+    flatOff: Yup?.string()?.when(['attribute', 'percentageOff'], {
+      is: (attribute: any, percentageOff: any) =>
+        attribute === RULES_ATTRIBUTES?.MONEY_OFF && percentageOff === '',
+      then: (schema: any) =>
+        schema?.required(
+          'Either percentageOff or flatOff or both are required',
+        ),
+      otherwise: (schema) => schema?.notRequired(),
+    }),
+  },
+  [
+    ['attribute', 'awardPoints'],
+    ['attribute', 'discount'],
+    ['awardPoints', 'discount'],
+    ['discount', 'awardPoints'],
+    ['attribute', 'percentageOff'],
+    ['attribute', 'flatOff'],
+    ['flatOff', 'percentageOff'],
+    ['percentageOff', 'flatOff'],
+  ],
+);
+
+export const tiersListsDropdown = ['Base', 'Bronze', 'Gold', 'Silver'];
 
 export const amountOperatorOption = [
   'Less then',
@@ -33,21 +90,34 @@ export const amountOperatorOption = [
   'Less then or equal to',
   'Greater then and equal to',
 ];
-export const accountCreatedInOption = [
-  'This week',
-  'Last week',
-  'This month',
-  'Last month',
-  'Custom month',
-  'Custom date',
-];
-export const upsertRulesFormFieldsDynamic = [
+
+export const upsertRulesFormDefaultValues = {
+  attribute: '',
+  accountCreatedIn: {
+    startDate: new Date(),
+    endDate: new Date(),
+    key: 'selection',
+  },
+  timeSpanOf: {
+    startDate: new Date(),
+    endDate: new Date(),
+    key: 'selection',
+  },
+  awardPoints: '',
+  discount: '',
+  percentageOff: '',
+  flatOff: '',
+  organizationNumber: [],
+};
+
+export const upsertRulesFormFieldsDynamic = (onChangeCustom: any) => [
   {
     id: 10,
     componentProps: {
       name: 'percentageOff',
       label: 'Percentage Off',
       placeholder: '',
+      onChange: (e: any) => onChangeCustom?.(e, 'percentageOff', 'flatOff'),
     },
     attributeType: [RULES_ATTRIBUTES?.MONEY_OFF],
     component: RHFTextField,
@@ -59,6 +129,7 @@ export const upsertRulesFormFieldsDynamic = [
       name: 'flatOff',
       label: 'Flat off (on entire purchase)',
       placeholder: '',
+      onChange: (e: any) => onChangeCustom?.(e, 'flatOff', 'percentageOff'),
     },
     attributeType: [RULES_ATTRIBUTES?.MONEY_OFF],
     component: RHFTextField,
@@ -70,10 +141,9 @@ export const upsertRulesFormFieldsDynamic = [
       name: 'accountCreatedIn',
       label: 'Account created in',
       placeholder: 'Select',
-      options: accountCreatedInOption,
     },
     attributeType: [RULES_ATTRIBUTES?.ACCOUNT_CREATION],
-    component: RHFAutocomplete,
+    component: RHFDateRangePicker,
     md: 12,
   },
   {
@@ -95,6 +165,7 @@ export const upsertRulesFormFieldsDynamic = [
     component: RHFAutocomplete,
     md: 6,
   },
+
   {
     id: 2,
     componentProps: {
@@ -107,6 +178,7 @@ export const upsertRulesFormFieldsDynamic = [
       RULES_ATTRIBUTES?.PURCHASE_AMOUNT,
       RULES_ATTRIBUTES?.PRODUCT_QTY,
       RULES_ATTRIBUTES?.NO_OF_VISITS,
+      RULES_ATTRIBUTES?.FREE_SHIPPING,
     ],
     component: RHFTextField,
     md: 6,
@@ -128,10 +200,9 @@ export const upsertRulesFormFieldsDynamic = [
       name: 'timeSpanOf',
       label: 'Time span of',
       placeholder: 'Select',
-      options: accountCreatedInOption,
     },
     attributeType: [RULES_ATTRIBUTES?.NO_OF_VISITS, RULES_ATTRIBUTES?.BIRTHDAY],
-    component: RHFAutocomplete,
+    component: RHFDateRangePicker,
     md: 12,
   },
   {
@@ -140,6 +211,7 @@ export const upsertRulesFormFieldsDynamic = [
       name: 'discount',
       label: 'Give discount',
       placeholder: '',
+      onChange: (e: any) => onChangeCustom?.(e, 'discount', 'awardPoints'),
     },
     attributeType: [
       RULES_ATTRIBUTES?.PURCHASE_AMOUNT,
@@ -155,9 +227,10 @@ export const upsertRulesFormFieldsDynamic = [
   {
     id: 4,
     componentProps: {
-      name: 'awardpoints',
+      name: 'awardPoints',
       label: 'Award points',
       placeholder: '',
+      onChange: (e: any) => onChangeCustom?.(e, 'awardPoints', 'discount'),
     },
     attributeType: [
       RULES_ATTRIBUTES?.PURCHASE_AMOUNT,
@@ -176,7 +249,7 @@ export const upsertRulesFormFieldsDynamic = [
       name: 'appliedTo',
       label: 'Applied to',
       placeholder: 'Select',
-      options: dummyDropdown,
+      options: tiersListsDropdown,
     },
     attributeType: [
       RULES_ATTRIBUTES?.PURCHASE_AMOUNT,
@@ -197,7 +270,7 @@ export const upsertRulesFormFieldsDynamic = [
       label: 'Description',
       placeholder: 'Placeholder',
       multiline: true,
-      minRows: 3,
+      minRows: 4,
     },
     attributeType: [
       RULES_ATTRIBUTES?.PURCHASE_AMOUNT,

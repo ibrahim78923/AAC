@@ -1,10 +1,15 @@
-export const singleTicketDetailTabsData = [
-  'Details',
-  'Tasks',
-  'Related Tickets',
-  'Associates Assets',
-  'Approvals',
-  'Meetings',
-  'Activities',
-  'Conversation',
+export const singleTicketDetailTabsData = (
+  totalRelatedTickets: any,
+  totalAssets: any,
+) => [
+  `Details `,
+  `Tasks `,
+  `Related Tickets ${
+    !!totalRelatedTickets ? `${' '} (${totalRelatedTickets})` : ''
+  }`,
+  `Associates Assets ${!!totalAssets ? `${' '} (${totalAssets})` : ''}`,
+  `Approvals `,
+  `Meetings `,
+  `Activities `,
+  `Conversation `,
 ];

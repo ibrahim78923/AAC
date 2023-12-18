@@ -1,13 +1,12 @@
 import {
   Box,
   Dialog,
-  DialogActions,
   DialogContent,
   DialogTitle,
+  Grid,
   Typography,
 } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
-import { v4 as uuidv4 } from 'uuid';
 import { singleTicketPopupDataArray } from './SingleTicketPopup.data';
 import { AlertModalCloseIcon } from '@/assets/icons';
 import { useSingleTicketPopup } from './useSingleTicketPopup';
@@ -15,7 +14,8 @@ import { LoadingButton } from '@mui/lab';
 
 export const SingleTicketPopup = (props: any) => {
   const { openPopup, setOpenPopup } = props;
-  const { methods, handleSubmit, onSubmit } = useSingleTicketPopup(props);
+  const { methods, handleSubmit, onSubmit, handleClose } =
+    useSingleTicketPopup(props);
 
   return (
     <Dialog open={openPopup} onClose={() => setOpenPopup(false)}>
@@ -37,33 +37,27 @@ export const SingleTicketPopup = (props: any) => {
       </DialogTitle>
       <DialogContent>
         <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-          {singleTicketPopupDataArray?.map((item: any) => (
-            <item.component {...item?.componentProps} key={uuidv4()}>
-              {item?.componentProps?.select &&
-                item?.options?.map((option: any) => (
-                  <option key={uuidv4()} value={option?.value}>
-                    {option?.label}
-                  </option>
-                ))}
-            </item.component>
-          ))}
+          <Grid container>
+            {singleTicketPopupDataArray?.map((item: any) => (
+              <Grid item xs={12} key={item?.id}>
+                <item.component {...item?.componentProps} />
+              </Grid>
+            ))}
+          </Grid>
+          <Box display={'flex'} justifyContent={'flex-end'} gap={1}>
+            <LoadingButton
+              variant="outlined"
+              color="secondary"
+              onClick={handleClose}
+            >
+              Cancel
+            </LoadingButton>
+            <LoadingButton variant="contained" type="submit">
+              OK
+            </LoadingButton>
+          </Box>
         </FormProvider>
       </DialogContent>
-      <DialogActions sx={{ height: '2rem' }}>
-        <Box
-          display={'flex'}
-          justifyContent={'flex-end'}
-          marginBottom={'2rem'}
-          gap={'1rem'}
-        >
-          <LoadingButton variant="outlined" onClick={() => setOpenPopup(false)}>
-            Cancel
-          </LoadingButton>
-          <LoadingButton variant="contained" onClick={onSubmit}>
-            OK
-          </LoadingButton>
-        </Box>
-      </DialogActions>
     </Dialog>
   );
 };

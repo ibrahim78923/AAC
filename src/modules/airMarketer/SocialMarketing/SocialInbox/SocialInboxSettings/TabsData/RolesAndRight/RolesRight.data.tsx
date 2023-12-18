@@ -26,6 +26,7 @@ export const dataArray = [
     componentProps: {
       name: 'role',
       label: 'Role',
+
       fullWidth: true,
       select: true,
     },
@@ -40,6 +41,7 @@ export const dataArray = [
     componentProps: {
       name: 'phoneNumber',
       label: 'Phone No',
+      placeholder: 'Phone No',
       fullWidth: true,
       select: false,
     },
@@ -51,6 +53,7 @@ export const dataArray = [
       name: 'deals',
       label: 'Deals',
       fullWidth: true,
+      required: true,
       select: true,
     },
     options: [

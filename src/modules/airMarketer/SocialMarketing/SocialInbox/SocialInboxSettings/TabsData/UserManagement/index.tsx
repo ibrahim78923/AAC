@@ -151,6 +151,8 @@ const UserManagement = ({ initialValueProps = defaultValues }: any) => {
             display: 'flex',
             justifyContent: 'space-between',
             flexWrap: 'wrap',
+            gap: 1,
+            marginBottom: 1,
           }}
         >
           <Typography variant="h3">User Management</Typography>
@@ -164,7 +166,14 @@ const UserManagement = ({ initialValueProps = defaultValues }: any) => {
             }}
             className="small"
             variant="contained"
-            sx={{ display: 'flex', alignItems: 'center', columnGap: '10px' }}
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              columnGap: '10px',
+              '@media (max-width: 500px)': {
+                width: '100%',
+              },
+            }}
           >
             <AddCircleIcon
               sx={{

@@ -29,7 +29,7 @@ export const TicketsFilter = (props: any) => {
           methods={methods}
           onSubmit={handleSubmit(submitTicketFilterForm)}
         >
-          <Grid container rowSpacing={2.6} columnSpacing={2} mt={-1}>
+          <Grid container spacing={1}>
             {ticketsFilterFormFieldsData?.map((form: any) => {
               return (
                 <Grid item xs={12} md={form?.gridLength} key={form?.id}>

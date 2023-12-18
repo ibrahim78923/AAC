@@ -43,7 +43,6 @@ import {
 } from '@/mock/modules/SocialComponents/Documents';
 
 import TanstackTable from '@/components/Table/TanstackTable';
-import CustomPagination from '@/components/CustomPagination';
 import { columns, toolTipData } from './Folder.data';
 import useFolder from './useFolder';
 
@@ -51,9 +50,11 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { styles } from './Folder.style';
 import PreviewPdf from './PreviewPdf';
+import { useRouter } from 'next/router';
+import { AIR_MARKETER } from '@/routesConstants/paths';
 
-const Folders = (props: any) => {
-  const { toggle } = props;
+const Folders = () => {
+  const navigate = useRouter();
   const {
     value,
     setValue,
@@ -86,6 +87,7 @@ const Folders = (props: any) => {
     handlePdfOpen,
     handlePdfClose,
     setAnchorElSide,
+    documentData,
   } = useFolder();
   return (
     <>
@@ -306,7 +308,12 @@ const Folders = (props: any) => {
           >
             <Box sx={{ paddingBottom: '0.5rem' }}>
               <ArrowBackIcon
-                onClick={() => toggle()}
+                onClick={() => {
+                  navigate.push({
+                    pathname: AIR_MARKETER?.COMMON_DOCUMENTS,
+                    // query: { type: 'edit' },
+                  });
+                }}
                 sx={{
                   color: `${theme?.palette?.custom?.light}`,
                   fontSize: '30px',
@@ -412,7 +419,7 @@ const Folders = (props: any) => {
                 variant="h6"
                 sx={{ fontWeight: 400, color: `${theme?.palette?.grey[600]}` }}
               >
-                Default
+                {documentData?.name}
               </Typography>
             </Box>
             <Box
@@ -598,11 +605,10 @@ const Folders = (props: any) => {
                 </Box>
               </Grid>
               <Grid item lg={12} md={12} sm={12} xs={12}>
-                <TanstackTable columns={columns} data={documentTableData} />
-                <CustomPagination
-                  count={1}
-                  rowsPerPageOptions={[1, 2]}
-                  entriePages={1}
+                <TanstackTable
+                  columns={columns}
+                  data={documentTableData}
+                  isPagination
                 />
               </Grid>
             </Grid>

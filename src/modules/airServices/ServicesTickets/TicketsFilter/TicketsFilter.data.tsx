@@ -13,17 +13,6 @@ import {
   ticketsTypeOptions,
 } from '../ServicesTickets.data';
 
-export const dropdownDummy = [
-  {
-    value: 'option1',
-    label: 'Option 1',
-  },
-  {
-    value: 'option2',
-    label: 'Option 2',
-  },
-];
-
 export const ticketsFilterFormFieldsDefaultValues = (data?: any) => {
   return {
     ticketType: data?.ticketType ?? null,
@@ -41,12 +30,22 @@ export const ticketsFilterFormFieldsDefaultValues = (data?: any) => {
       typeof data?.plannedStartDate === 'object'
         ? new Date(data?.plannedStartDate)
         : null,
-    plannedStartTime: null,
+    plannedStartTime:
+      typeof data?.plannedStartTime === 'object'
+        ? new Date(data?.plannedStartTime)
+        : null,
     plannedEndDate:
       typeof data?.plannedEndDate === 'object'
         ? new Date(data?.plannedEndDate)
         : null,
-    plannedEndTime: null,
+    plannedEndTime:
+      typeof data?.plannedEndTime === 'object'
+        ? new Date(data?.plannedEndTime)
+        : null,
+    dueByDate:
+      typeof data?.dueByDate === 'object' ? new Date(data?.dueByDate) : null,
+    dueByTime:
+      typeof data?.dueByTime === 'object' ? new Date(data?.dueByTime) : null,
   };
 };
 export const ticketsFilterFormFieldsDataFunction = (
@@ -56,27 +55,27 @@ export const ticketsFilterFormFieldsDataFunction = (
   apiQueryAgent?: any,
 ) => [
   {
-    id: 2,
+    id: 1,
     componentProps: {
       fullWidth: true,
       name: 'ticketType',
-      label: 'Ticket Type',
+      label: 'Ticket type',
       placeholder: 'All Tickets',
       options: ticketsTypeOptions,
     },
     component: RHFAutocomplete,
   },
   {
-    id: 920,
+    id: 2,
     componentProps: {
       fullWidth: true,
       name: 'createdOn',
-      label: 'Created On',
+      label: 'Created on',
     },
     component: RHFDatePicker,
   },
   {
-    id: 150,
+    id: 3,
     componentProps: {
       fullWidth: true,
       name: 'status',
@@ -87,18 +86,18 @@ export const ticketsFilterFormFieldsDataFunction = (
     component: RHFAutocomplete,
   },
   {
-    id: 200,
+    id: 4,
     componentProps: {
       fullWidth: true,
-      name: 'agents',
-      label: 'Agents',
+      name: 'agent',
+      label: 'Agent',
       placeholder: 'Choose Agent',
       apiQuery: apiQueryAgent,
     },
     component: RHFAutocompleteAsync,
   },
   {
-    id: 129,
+    id: 5,
     componentProps: {
       name: 'requester',
       label: 'Requester',
@@ -109,7 +108,7 @@ export const ticketsFilterFormFieldsDataFunction = (
     component: RHFAutocompleteAsync,
   },
   {
-    id: 129,
+    id: 6,
     componentProps: {
       fullWidth: true,
       name: 'department',
@@ -120,7 +119,7 @@ export const ticketsFilterFormFieldsDataFunction = (
     component: RHFAutocompleteAsync,
   },
   {
-    id: 100,
+    id: 7,
     componentProps: {
       fullWidth: true,
       name: 'priority',
@@ -131,7 +130,7 @@ export const ticketsFilterFormFieldsDataFunction = (
     component: RHFAutocomplete,
   },
   {
-    id: 82,
+    id: 8,
     componentProps: {
       fullWidth: true,
       name: 'impact',
@@ -142,7 +141,7 @@ export const ticketsFilterFormFieldsDataFunction = (
     component: RHFAutocomplete,
   },
   {
-    id: 96,
+    id: 9,
     componentProps: {
       fullWidth: true,
       name: 'category',
@@ -153,7 +152,7 @@ export const ticketsFilterFormFieldsDataFunction = (
     component: RHFAutocompleteAsync,
   },
   {
-    id: 97,
+    id: 10,
     componentProps: {
       fullWidth: true,
       name: 'plannedStartDate',
@@ -163,7 +162,7 @@ export const ticketsFilterFormFieldsDataFunction = (
     component: RHFDatePicker,
   },
   {
-    id: 985,
+    id: 11,
     componentProps: {
       name: 'plannedStartTime',
       label: '\u00a0\u00a0',
@@ -172,7 +171,7 @@ export const ticketsFilterFormFieldsDataFunction = (
     component: RHFTimePicker,
   },
   {
-    id: 974,
+    id: 12,
     componentProps: {
       fullWidth: true,
       name: 'plannedEndDate',
@@ -182,7 +181,7 @@ export const ticketsFilterFormFieldsDataFunction = (
     component: RHFDatePicker,
   },
   {
-    id: 958,
+    id: 13,
     componentProps: {
       name: 'plannedEndTime',
       label: '\u00a0\u00a0',
@@ -192,7 +191,7 @@ export const ticketsFilterFormFieldsDataFunction = (
     component: RHFTimePicker,
   },
   {
-    id: 9657,
+    id: 14,
     componentProps: {
       fullWidth: true,
       name: 'dueByDate',
@@ -202,7 +201,7 @@ export const ticketsFilterFormFieldsDataFunction = (
     component: RHFDatePicker,
   },
   {
-    id: 98676,
+    id: 15,
     componentProps: {
       fullWidth: true,
       name: 'dueByTime',
@@ -212,11 +211,11 @@ export const ticketsFilterFormFieldsDataFunction = (
     component: RHFTimePicker,
   },
   {
-    id: 96215,
+    id: 16,
     componentProps: {
       fullWidth: true,
       name: 'typeSource',
-      label: 'Type Source',
+      label: 'Source',
       placeholder: 'Choose Source',
       options: ticketSourceOptions,
     },

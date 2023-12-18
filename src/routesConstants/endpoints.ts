@@ -45,6 +45,8 @@ export const END_POINTS = {
   GET_COMPANY_ORGANIZATION_DROPDOWN: '/dropdown/organizations',
   GET_COMPANY_ACCOUNTS: '/company-accounts',
   SALE_PRODUCTS: '/sales-product',
+  ACTIVITY_LOG: '/activity-log',
+  DEAL_PIPELINE: '/deal-pipeline',
   GET_PRODUCTS_PERMISSIONS: '/permissions/permissions-by-product',
 };
 
@@ -102,7 +104,7 @@ export const COMMON_DOCUMENTS = {
   POST_DOCUMENTS_FILE: '/documents/file',
   GET_DOCUMENT_FOLDER: '/documents/folders',
   GET_DOCUMENT_FILE: '/documents/files',
-  PATCH_DOCUMENT_FOLDER_ID: '/documents/folders',
+  PATCH_DOCUMENT_FOLDER_ID: '/documents/folder',
   PATCH_DOCUMENT_FILE_ID: '/documents/file',
   DELETE_DOCUMENT_FOLDER_ID: '/documents/folder',
   DELETE_DOCUMENT_FILE_ID: '/documents/file',

@@ -4,9 +4,11 @@ import CommonModal from '@/components/CommonModal';
 import Search from '@/components/Search';
 import { v4 as uuidv4 } from 'uuid';
 import useSettings from './useSettings';
+import { useState } from 'react';
 
 const Settings = ({ closeAddAssets, isOpenAddAssets }: any) => {
   const { accordianTableInfo, SelectedAccordianTable } = useSettings();
+  const [searchBy, setSearchBy] = useState('');
   return (
     <CommonModal
       title="Add Assets"
@@ -28,8 +30,14 @@ const Settings = ({ closeAddAssets, isOpenAddAssets }: any) => {
           ))}
         </Grid>
         <Grid item lg={9}>
-          <Box>
-            <Search width={260} label="Search Here" />
+          <Box mb={4}>
+            <Search
+              width={260}
+              label="Search Here"
+              size="small"
+              setSearchBy={setSearchBy}
+              searchBy={searchBy}
+            />
           </Box>
           {accordianTableInfo}
         </Grid>

@@ -43,9 +43,12 @@ const TanstackTable = (props: any) => {
     onPageChange,
     setPage,
     setPageLimit,
+    paginationPaddingX = 2,
+    noDataTableText = 'No data is available',
+    noDataTableImage = NoAssociationFoundImage,
   } = props;
 
-  const table = useTanstackTable(data, columns, showSerialNo);
+  const { table } = useTanstackTable(data, columns, showSerialNo);
   if (isLoading || isFetching) return <SkeletonTable />;
 
   return (
@@ -55,7 +58,7 @@ const TanstackTable = (props: any) => {
           <TableContainer>
             <Table>
               <TableHead>
-                {table?.getHeaderGroups()?.map((headerGroup) => (
+                {table?.getHeaderGroups()?.map((headerGroup: any) => (
                   <TableRow key={uuidv4()}>
                     {headerGroup?.headers?.map((header: any) => (
                       <StyledTableCell key={uuidv4()}>
@@ -66,7 +69,6 @@ const TanstackTable = (props: any) => {
                                 header?.column?.columnDef?.header,
                                 header?.getContext(),
                               )}
-
                           {header?.column?.columnDef?.isSortable && (
                             <Box
                               display={'flex'}
@@ -129,17 +131,14 @@ const TanstackTable = (props: any) => {
             ) : (
               !!!table?.getRowModel()?.rows?.length &&
               isSuccess && (
-                <NoData
-                  image={NoAssociationFoundImage}
-                  message={'No data is available'}
-                />
+                <NoData image={noDataTableImage} message={noDataTableText} />
               )
             )}
           </TableContainer>
         </Grid>
       </Grid>
       {isPagination && (
-        <>
+        <Box px={paginationPaddingX}>
           <br />
           <br />
           <CustomPagination
@@ -152,7 +151,7 @@ const TanstackTable = (props: any) => {
             setPage={setPage}
             setPageLimit={setPageLimit}
           />
-        </>
+        </Box>
       )}
     </>
   );
