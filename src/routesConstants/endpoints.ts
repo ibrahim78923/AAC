@@ -19,6 +19,7 @@ export const END_POINTS = {
   ORG_ADMIN_EMP_LIST: '/users/organization',
   ORG_USER_EMPLOYEE: '/users/organization',
   USER_ACCOUNTS_LIST: '/super-admin/accounts-list',
+  USER_ACCOUNT: '/account',
   UPDATE_USER_LIST: '/users/edit',
   COMPANY_CRN: '/auth/search-company',
   auth_search_company: 'auth/search-company',
@@ -44,6 +45,9 @@ export const END_POINTS = {
   GET_COMPANY_ORGANIZATION_DROPDOWN: '/dropdown/organizations',
   GET_COMPANY_ACCOUNTS: '/company-accounts',
   SALE_PRODUCTS: '/sales-product',
+  ACTIVITY_LOG: '/activity-log',
+  DEAL_PIPELINE: '/deal-pipeline',
+  GET_PRODUCTS_PERMISSIONS: '/permissions/permissions-by-product',
 };
 
 export const superAdminBillingInvoices = {

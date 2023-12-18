@@ -8,6 +8,7 @@ import { CommonTabsPropsI, TabPanelPropsI } from './Tabs.interface';
 import { styles } from './Tabs.style';
 
 import { v4 as uuidv4 } from 'uuid';
+import Search from '../Search';
 
 const CustomTabPanel = (props: TabPanelPropsI) => {
   const { children, value, index, ...other } = props;
@@ -40,6 +41,9 @@ const CommonTabs = (props: CommonTabsPropsI) => {
     addIcon = false,
     onAddClick = () => {},
     activeTab = 0,
+    isHeader = false,
+    headerChildren,
+    searchBarProps = {},
   } = props;
 
   const theme = useTheme();
@@ -102,12 +106,12 @@ const CommonTabs = (props: CommonTabsPropsI) => {
           </Box>
         )}
       </Box>
-      {/* {isHeader && (
+      {isHeader && (
         <Box sx={styles.headerWrapper}>
           <Search size="small" {...searchBarProps} />
           <Box sx={styles.headerChild}>{headerChildren}</Box>
         </Box>
-      )} */}
+      )}
       {arrayChildren?.map((tab: React.ReactNode | string, index: number) => (
         <div key={uuidv4()}>
           {value === index && (

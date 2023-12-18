@@ -34,7 +34,11 @@ export const SingleTicketHeader = (props: any) => {
         gap={1}
         margin={{ xs: 1, sm: 1 }}
       >
-        <Button variant="outlined" onClick={() => setOpenPopup(true)}>
+        <Button
+          variant="outlined"
+          color="secondary"
+          onClick={() => setOpenPopup(true)}
+        >
           Share
         </Button>
         <Button variant="contained" onClick={onSubmit}>

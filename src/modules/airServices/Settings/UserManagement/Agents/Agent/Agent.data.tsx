@@ -81,7 +81,7 @@ export const agentsListsColumnsFunction = (
   {
     accessorFn: (row: any) => row?.agentName,
     id: 'agentName',
-    isSortable: false,
+    isSortable: true,
     header: 'Name',
     cell: (info: any) => (
       <Box display={'flex'} gap={1} alignItems={'center'}>
@@ -94,20 +94,20 @@ export const agentsListsColumnsFunction = (
     accessorFn: (row: any) => row?.email,
     id: 'email',
     header: 'Email',
-    isSortable: false,
+    isSortable: true,
     cell: (info: any) => info?.getValue(),
   },
   {
     accessorFn: (row: any) => row?.department,
     id: 'department',
-    isSortable: false,
+    isSortable: true,
     header: 'Department',
     cell: (info: any) => info?.getValue(),
   },
   {
     accessorFn: (row: any) => row?.role,
     id: 'role',
-    isSortable: false,
+    isSortable: true,
     header: 'Role',
     cell: (info: any) => info?.getValue(),
   },

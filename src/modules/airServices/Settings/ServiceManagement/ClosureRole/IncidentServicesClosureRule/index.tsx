@@ -9,7 +9,7 @@ export const IncidentServicesClosureRule = () => {
       <Box>
         <Typography variant="body1" mb={1}>
           Condition For{' '}
-          <Typography variant="body1" component={'span'} fontWeight={600}>
+          <Typography variant="body1" fontWeight={600} component="span">
             Incident
           </Typography>
         </Typography>
@@ -36,7 +36,7 @@ export const IncidentServicesClosureRule = () => {
             }}
           />
           <Box>
-            <Typography variant="body1" fontWeight={600} mb={2}>
+            <Typography variant="body1" mb={2} fontWeight={600}>
               Resolve an Incident only if
             </Typography>
             <ClosureRulesConditions resolveIncident />
@@ -46,9 +46,8 @@ export const IncidentServicesClosureRule = () => {
 
       <Box mt={2}>
         <Typography variant="body1" mb={1}>
-          Condition For
-          <Typography variant="body1" component={'span'} fontWeight={600}>
-            {' '}
+          Condition For{' '}
+          <Typography variant="body1" fontWeight={600} component="span">
             Services Request
           </Typography>
         </Typography>

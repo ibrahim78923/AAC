@@ -1,5 +1,6 @@
 import { Box, Typography, useTheme } from '@mui/material';
 import { useTickets } from '../useTickets';
+import Chip from '@mui/material/Chip';
 
 export const TicketsCard = (props: any) => {
   const { id, heading, subHeading, created, status, icon } = props;
@@ -8,10 +9,10 @@ export const TicketsCard = (props: any) => {
   return (
     <Box
       gap={2}
-      padding={1.4}
       borderRadius={3}
+      p={1.6}
       display={'flex'}
-      flexDirection={{ xs: 'column', sm: 'row', lg: 'row' }}
+      flexDirection={{ xs: 'column', sm: 'row' }}
       justifyContent={{
         xs: 'center',
         sm: 'space-between',
@@ -28,12 +29,9 @@ export const TicketsCard = (props: any) => {
         display={'flex'}
         justifyContent={'center'}
         flexDirection={'column'}
-        alignItems={'center'}
-        padding={2}
-        gap={1}
+        gap={0.6}
       >
         <Typography variant="h5">{heading}</Typography>
-
         <Typography
           width={'100%'}
           gap={1}
@@ -46,23 +44,18 @@ export const TicketsCard = (props: any) => {
           {subHeading}
         </Typography>
 
-        <Box display={'flex'} alignItems={'center'}>
-          <Typography variant="body2">Created: {created} -</Typography>
+        <Box
+          display={'flex'}
+          alignItems={'center'}
+          flexDirection={{ xs: 'column', sm: 'row' }}
+        >
+          <Typography variant="body2">Created On {created} - </Typography>
           <Typography variant="body2" color="primary">
             Via Portal
           </Typography>
         </Box>
       </Box>
-      <Box
-        display={'flex'}
-        justifyContent={'center'}
-        alignItems={'center'}
-        borderRadius={5}
-        padding={1}
-        bgcolor={theme?.palette?.grey?.[400]}
-      >
-        <Typography variant="body2">{status}</Typography>
-      </Box>
+      <Chip label={status} />
     </Box>
   );
 };

@@ -5,6 +5,7 @@ const useUsersSidebar = () => {
   const [userStatus, setUserStatus] = useState('active');
   const [isOpenFilterDrawer, setIsOpenFilterDrawer] = useState(false);
   const [isOpenAdduserDrawer, setIsOpenAdduserDrawer] = useState(false);
+  const [isActiveEmp, setIsActiveEmp] = useState(0);
   const theme = useTheme();
 
   return {
@@ -14,6 +15,8 @@ const useUsersSidebar = () => {
     setIsOpenFilterDrawer,
     isOpenAdduserDrawer,
     setIsOpenAdduserDrawer,
+    isActiveEmp,
+    setIsActiveEmp,
     theme,
   };
 };

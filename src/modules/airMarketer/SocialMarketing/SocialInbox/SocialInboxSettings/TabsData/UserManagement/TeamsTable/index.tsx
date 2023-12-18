@@ -14,7 +14,7 @@ const TeamsTable = () => {
     <Box>
       <Search
         searchBy=""
-        width="100%"
+        width="260px"
         label={'Search here'}
         setSearchBy={() => {}}
         size="small"

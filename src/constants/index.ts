@@ -113,9 +113,16 @@ export const AIR_OPERATIONS = {
   MARKETING_WORKFLOW: `/air-operations/workflow-automation/marketing-workflow`,
   ROLES_AND_RIGHTS: `/air-operations/role-and-right`,
   UPSERT_MARKETING_WORKFLOW: `/air-operations/workflow-automation/marketing-workflow/upsert-marketing-workflow`,
+  UPSERT_SCHEDULE_WORKFLOW: `/air-operations/workflow-automation/services-workflow/upsert-schedule-workflow`,
+  UPSERT_EVENT_BASED_WORKFLOW: `/air-operations/workflow-automation/services-workflow/upsert-event-based-workflow`,
+  UPSERT_SUPERVISOR_RULES: `/air-operations/workflow-automation/services-workflow/upsert-supervisor-rules`,
 };
 
 export const AIR_LOYALTY_PROGRAM = {
   REWARDS: `/air-loyalty-program/loyalty/rewards`,
   GIFT_CARDS: `/air-loyalty-program/gift-cards/gift-cards`,
+  DIGITAL_REWARDS_DETAIL: `/air-loyalty-program/loyalty/rewards/digital/single-digital-detail`,
+  PHYSICAL_REWARDS_DETAIL: `/air-loyalty-program/loyalty/rewards/physical/single-physical-detail`,
+  VOUCHERS: `/air-loyalty-program/loyalty/vouchers`,
+  VOUCHER_REDEMPTION_LIST: `/air-loyalty-program/loyalty/vouchers/voucher-redemptions-list`,
 };

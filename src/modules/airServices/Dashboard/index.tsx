@@ -106,10 +106,10 @@ const Dashboard = () => {
             <Grid item xs={12} lg={4}>
               <Box
                 borderRadius={3}
+                p={2}
                 border={`1px solid ${theme?.palette?.grey?.[700]}`}
               >
-                <br />
-                <Box sx={{ marginLeft: 2 }}>
+                <Box>
                   <HeaderPieChart />
                 </Box>
                 <Box sx={{ marginTop: 2 }}>

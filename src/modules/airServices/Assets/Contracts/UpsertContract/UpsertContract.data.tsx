@@ -211,27 +211,28 @@ export const upsertContractFormSchemaFunction: any = Yup?.object()?.shape({
       then: (schema: any) => schema?.required(),
       otherwise: (schema) => schema?.notRequired(),
     }),
-  billingCycle: Yup?.string()
-    ?.ensure()
-    ?.when('type', {
-      is: (value: any) => value === CONTRACT_TYPES?.SOFTWARE_LICENSE,
-      then: (schema: any) => schema?.required(),
-      otherwise: (schema) => schema?.notRequired(),
-    }),
-  licenseType: Yup?.string()
-    ?.ensure()
-    ?.when('type', {
-      is: (value: any) => value === CONTRACT_TYPES?.SOFTWARE_LICENSE,
-      then: (schema: any) => schema?.required(),
-      otherwise: (schema) => schema?.notRequired(),
-    }),
-  licenseKey: Yup?.string()
-    ?.ensure()
-    ?.when('type', {
-      is: (value: any) => value === CONTRACT_TYPES?.SOFTWARE_LICENSE,
-      then: (schema: any) => schema?.required(),
-      otherwise: (schema) => schema?.notRequired(),
-    }),
+  //TODO: will be cater in integration
+  // billingCycle: Yup?.string()
+  //   ?.ensure()
+  //   ?.when('type', {
+  //     is: (value: any) => value === CONTRACT_TYPES?.SOFTWARE_LICENSE,
+  //     then: (schema: any) => schema?.required(),
+  //     otherwise: (schema) => schema?.notRequired(),
+  //   }),
+  // licenseType: Yup?.string()
+  //   ?.ensure()
+  //   ?.when('type', {
+  //     is: (value: any) => value === CONTRACT_TYPES?.SOFTWARE_LICENSE,
+  //     then: (schema: any) => schema?.required(),
+  //     otherwise: (schema) => schema?.notRequired(),
+  //   }),
+  // licenseKey: Yup?.string()
+  //   ?.ensure()
+  //   ?.when('type', {
+  //     is: (value: any) => value === CONTRACT_TYPES?.SOFTWARE_LICENSE,
+  //     then: (schema: any) => schema?.required(),
+  //     otherwise: (schema) => schema?.notRequired(),
+  //   }),
   itemDetail: Yup?.array()
     ?.of(
       Yup?.object()?.shape({
@@ -482,6 +483,7 @@ export const upsertContractFormFieldsDataFunction = (
             name: 'notifyBefore',
             label: 'Notify Before',
             disabled: isFieldDisable,
+            required: true,
           },
         },
         {
@@ -493,6 +495,7 @@ export const upsertContractFormFieldsDataFunction = (
             name: 'notifyTo',
             label: 'Notify To',
             disabled: isFieldDisable,
+            required: true,
           },
         },
       ]
