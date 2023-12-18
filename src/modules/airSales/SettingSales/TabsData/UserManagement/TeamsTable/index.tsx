@@ -1,10 +1,7 @@
 import React from 'react';
 
-import Image from 'next/image';
+import { Box, Grid, Typography } from '@mui/material';
 
-import { Box, Button, Grid, Menu, MenuItem, Typography } from '@mui/material';
-
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { AddCircle } from '@mui/icons-material';
 
 import Search from '@/components/Search';
@@ -18,6 +15,7 @@ import useTeamsTable from './useTeamsTable';
 import { styles } from './TeamsTable.style';
 import { memberDetails } from './TeamsTable.data';
 import { v4 as uuidv4 } from 'uuid';
+import MemberDetails from './MemberDetails';
 
 const TeamsTable = () => {
   const {
@@ -25,10 +23,6 @@ const TeamsTable = () => {
     setIsTeamDrawer,
     getRowValues,
     theme,
-    anchorEl,
-    open,
-    handleClose,
-    handleClick,
     isOpenDelete,
     setIsOpenDelete,
   } = useTeamsTable();
@@ -38,7 +32,7 @@ const TeamsTable = () => {
       <Box>
         <Search
           searchBy=""
-          width="100%"
+          width="260px"
           label={'Search here'}
           setSearchBy={() => {}}
         />
@@ -86,96 +80,15 @@ const TeamsTable = () => {
             <Typography>Members detail</Typography>
             <AddCircle sx={{ color: '#A0A3BD', cursor: 'pointer' }} />
           </Box>
-          {memberDetails?.map((items: any) => {
+          {memberDetails?.map((item: any) => {
             return (
-              <Box
+              <MemberDetails
                 key={uuidv4()}
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  borderBottom: `1px solid ${theme?.palette?.custom?.off_white_three}`,
-                  paddingBottom: '1rem',
-                  marginY: '1rem',
-                }}
-              >
-                <Box
-                  sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '4px',
-                  }}
-                >
-                  <Image src={items?.img} alt="--" width={40} height={40} />
-                  <Box sx={{ display: 'grid' }}>
-                    <Typography
-                      variant="body3"
-                      sx={{
-                        fontWeight: 500,
-                        color: `${theme?.palette?.blue?.dull_blue}`,
-                      }}
-                    >
-                      {items?.name}
-                    </Typography>
-                    <Typography
-                      variant="body3"
-                      sx={{
-                        fontWeight: 400,
-                        color: `${theme?.palette?.custom?.steel_blue_alpha}`,
-                      }}
-                    >
-                      {items?.email}
-                    </Typography>
-                    <Typography
-                      variant="body3"
-                      sx={{
-                        fontWeight: 400,
-                        color: `${theme?.palette?.custom?.steel_blue_alpha}`,
-                      }}
-                    >
-                      {items?.designation}
-                    </Typography>
-                  </Box>
-                </Box>
-
-                <Button
-                  aria-controls={open ? 'basic-menu' : undefined}
-                  aria-haspopup="true"
-                  aria-expanded={open ? 'true' : undefined}
-                  onClick={handleClick}
-                >
-                  <KeyboardArrowDownIcon
-                    sx={{ color: `${theme?.palette?.custom?.main}` }}
-                  />
-                </Button>
-                <Menu
-                  id="basic-menu"
-                  anchorEl={anchorEl}
-                  open={open}
-                  onClose={handleClose}
-                  MenuListProps={{
-                    'aria-labelledby': 'basic-button',
-                  }}
-                >
-                  <MenuItem
-                    onClick={() => {
-                      handleClose();
-                      setIsTeamDrawer(false);
-                    }}
-                  >
-                    Details
-                  </MenuItem>
-                  <MenuItem
-                    onClick={() => {
-                      handleClose();
-                      setIsTeamDrawer(false);
-                      setIsOpenDelete(true);
-                    }}
-                  >
-                    Delete
-                  </MenuItem>
-                </Menu>
-              </Box>
+                img={item?.img}
+                name={item?.name}
+                email={item?.email}
+                designation={item?.designation}
+              />
             );
           })}
         </>

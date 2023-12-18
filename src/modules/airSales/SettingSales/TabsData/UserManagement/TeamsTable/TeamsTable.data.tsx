@@ -1,4 +1,4 @@
-import { Box, Theme, useTheme } from '@mui/material';
+import { Box } from '@mui/material';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { EditPenIcon } from '@/assets/icons';
@@ -7,9 +7,11 @@ import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 import { UserAvatarImage } from '@/assets/images';
 
-const theme = useTheme<Theme>();
-
-export const columnsTeams = (setIsTeamDrawer: any, setIsOpenDelete: any) => {
+export const columnsTeams = (
+  setIsTeamDrawer: any,
+  setIsOpenDelete: any,
+  theme: any,
+) => {
   return [
     {
       accessorFn: (row: any) => row?.name,
@@ -94,7 +96,7 @@ export const teamsDataArray = [
   },
 ];
 
-export const memberDetails = [
+export const memberDetails: any = [
   {
     img: UserAvatarImage,
     name: 'Olivia Rhye',
