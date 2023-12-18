@@ -31,12 +31,7 @@ import Delegates from './UserDetailsTables/Delegates';
 
 import { ArrowBack, AddCircleOutlined } from '@mui/icons-material';
 
-import {
-  AddShopIcon,
-  AddUserCircleIcon,
-  FilterrIcon,
-  RefreshTasksIcon,
-} from '@/assets/icons';
+import { FilterrIcon, RefreshTasksIcon } from '@/assets/icons';
 
 import { AvatarImage } from '@/assets/images';
 import useUserDetailsList from './useUserDetailsList';
@@ -79,7 +74,7 @@ const UsersDetailsList = () => {
     resetFilters,
   }: any = useUserDetailsList();
 
-  const { userName, organizationId } = navigate.query;
+  const { userName, organizationId, userId } = navigate.query;
 
   const empListParams = {
     page: 1,
@@ -113,7 +108,7 @@ const UsersDetailsList = () => {
           >
             <Box
               py={1}
-              sx={{ display: 'flex', justifyContent: 'space-between' }}
+              sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}
             >
               <Stack direction={'row'} gap={1} alignItems="center">
                 <ArrowBack
@@ -126,32 +121,26 @@ const UsersDetailsList = () => {
               </Stack>
               <Stack direction="row" gap={1}>
                 <Button
-                  sx={{
-                    border: '1px solid grey',
-                    height: '44px',
-                    width: '44px',
-                  }}
                   variant="outlined"
+                  color="inherit"
                   className="small"
                   onClick={() => {
                     setIsOpenAdduserDrawer(true);
                   }}
                 >
-                  <AddUserCircleIcon />
+                  Add User
+                  {/* <AddUserCircleIcon /> */}
                 </Button>
                 <Button
-                  sx={{
-                    border: '1px solid grey',
-                    height: '44px',
-                    width: '44px',
-                  }}
                   variant="outlined"
                   className="small"
+                  color="inherit"
                   onClick={() => {
                     setISOpenCompanyDrawer(true);
                   }}
                 >
-                  <AddShopIcon />
+                  Add Company
+                  {/* <AddShopIcon /> */}
                 </Button>
               </Stack>
             </Box>
@@ -326,12 +315,14 @@ const UsersDetailsList = () => {
           'No user found'
         )}
       </Grid>
-      {isOpenAddAccountDrawer && (
-        <AddAccountDrawer
-          isOpen={isOpenAddAccountDrawer}
-          setIsOpen={setIsOpenAddAccountDrawer}
-        />
-      )}
+      {/* {isOpenAddAccountDrawer && ( */}
+      <AddAccountDrawer
+        isOpen={isOpenAddAccountDrawer}
+        setIsOpen={setIsOpenAddAccountDrawer}
+        organizationId={organizationId}
+        userId={userId}
+      />
+      {/* )} */}
       {isOpenDrawer && (
         <Filter
           isOpenDrawer={isOpenDrawer}

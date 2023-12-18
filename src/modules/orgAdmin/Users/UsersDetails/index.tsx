@@ -36,7 +36,9 @@ const UsersDetails = (props: any) => {
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <ProfileCard
-            userName={`${profileData?.data?.firstName} ${profileData?.data?.lastName}`}
+            userName={`${profileData?.data?.firstName ?? 'N/A'} ${
+              profileData?.data?.lastName ?? ''
+            }`}
             role={profileData?.data?.role}
             email={profileData?.data?.email}
             phone={profileData?.data?.phoneNumber}
