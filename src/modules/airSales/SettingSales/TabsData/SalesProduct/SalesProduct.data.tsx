@@ -70,7 +70,7 @@ export const columns = ({ handleCheckboxChange, selectedCheckboxes }: any) => {
     },
     {
       accessorFn: (row: any) => row?.sku,
-      id: 'sku',
+      id: 'SKU',
       isSortable: true,
       header: 'SKU',
       cell: (info: any) => info?.getValue(),

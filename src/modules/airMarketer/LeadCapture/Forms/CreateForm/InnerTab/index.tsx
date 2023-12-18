@@ -20,8 +20,15 @@ import {
 import { useState } from 'react';
 import { DeleteIcon, DragSharedIcon } from '@/assets/icons';
 import { isNullOrEmpty } from '@/utils';
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+
+import dynamic from 'next/dynamic';
+
+const CustomEditor = dynamic(
+  () => {
+    return import('../../../../../../components/CustomEditor');
+  },
+  { ssr: false },
+);
 
 const InnerTab = ({
   showView,
@@ -140,13 +147,10 @@ const InnerTab = ({
                         }}
                         onClick={(e) => e?.stopPropagation()}
                       >
-                        <CKEditor
-                          editor={ClassicEditor}
-                          data={item?.componentProps?.Text}
-                          config={item?.componentProps?.editorConfig}
-                          onChange={(event, editor) =>
-                            handleEditorChange(index, editor)
-                          }
+                        <CustomEditor
+                          initialData={item?.componentProps?.Text}
+                          handleEditorChange={handleEditorChange}
+                          index={index}
                         />
                       </Box>
                     )}
