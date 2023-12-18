@@ -51,6 +51,10 @@ export const styles = {
     justifyContent: 'space-between',
     flexWrap: 'wrap',
     gap: '15px',
+    '&:hover': {
+      background: '#EBFAF8',
+      cursor: 'pointer',
+    },
   }),
   msg: {
     color: '#38CAB5',
@@ -61,7 +65,7 @@ export const styles = {
     padding: '2px 12px',
     background: theme?.palette?.custom?.bright,
     ml: 'auto',
-    textTransform: 'capitalize',
+    textTransform: 'lowercase',
   }),
   avatar: {
     fontSize: '14px',
@@ -70,7 +74,7 @@ export const styles = {
 };
 
 export const renderLabelColors: RenderLabelColorsI = {
-  added: { background: '#0AADC733', color: '#0AADC7' },
-  failed: { background: '#FF4A4A33', color: '#FF4A4A' },
-  updated: { background: '#47B26333', color: '#47B263' },
+  ADDED: { background: '#0AADC733', color: '#0AADC7' },
+  FAILED: { background: '#FF4A4A33', color: '#FF4A4A' },
+  UPDATED: { background: '#47B26333', color: '#47B263' },
 };

@@ -39,6 +39,7 @@ const UserLists = ({
             </Box>
           </Box>
           <Typography
+            variant="body3"
             component={'span'}
             sx={{ ...styles?.label(useTheme()), ...renderLabelColors[label] }}
           >
