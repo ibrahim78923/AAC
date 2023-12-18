@@ -245,3 +245,4 @@ export { default as GiftCongratsImage } from './modules/loyaltyProgram/GiftCards
 export { default as GiftScanImage } from './modules/loyaltyProgram/GiftCards/Gift-scan-image.png';
 export { default as VoucherImage } from './shared/voucher-image.png';
 export { default as ExportModalImage } from './shared/export-modal-image.png';
+export { default as CatalogAddImage } from './modules/airCustomerPortal/catalog/catalog-add-image.png';
