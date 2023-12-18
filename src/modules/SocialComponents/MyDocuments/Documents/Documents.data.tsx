@@ -1,7 +1,7 @@
 import { RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
-export const validationSchema = Yup?.object()?.shape({
+export const validationSchema: any = Yup?.object()?.shape({
   name: Yup?.string()?.required('Field is Required'),
 });
 
