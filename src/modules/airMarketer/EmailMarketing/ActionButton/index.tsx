@@ -151,17 +151,7 @@ const ActionButton = () => {
           }
         />
       )}
-      {actionsModalDetails?.isSaveAsTemplate && (
-        <SaveEmailAsTemplate
-          openSaveEmailAsTemplateModal={actionsModalDetails?.isSaveAsTemplate}
-          handleCloseSaveEmailAsTemplateModal={() =>
-            setActionsModalDetails({
-              ...actionsModalDetails,
-              isSaveAsTemplate: false,
-            })
-          }
-        />
-      )}
+
       {actionsModalDetails?.isManageAccess && (
         <ManageAccess
           isOpenManageAccessModal={actionsModalDetails?.isManageAccess}

@@ -63,8 +63,6 @@ const Tasks = () => {
                   onClick={handleActionsMenuClick}
                   sx={{
                     color: theme?.palette?.grey[500],
-
-                    //
                     border: `1.5px solid ${theme?.palette?.custom?.border_grayish_blue}`,
                     '@media (max-width:581px)': {
                       width: '100%',

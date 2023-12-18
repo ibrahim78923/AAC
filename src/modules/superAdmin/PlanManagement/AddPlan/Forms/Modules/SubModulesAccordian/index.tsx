@@ -21,65 +21,62 @@ const SubModulesAccordion = ({ subModules, methods, handleSubmit }: any) => {
 
   const groupedDataSubModules: any = {};
   subModules?.forEach((item: any) => {
-    // Extract module name
-    const moduleName = item.subModule; // Replace with the actual property name
+    const moduleName = item?.subModule;
 
-    // If the module name is not already a key in groupedData, create an array for it
     if (!groupedDataSubModules[moduleName]) {
       groupedDataSubModules[moduleName] = [];
     }
 
-    // Extract relevant properties and push into the array
     groupedDataSubModules[moduleName].push({
-      slug: item.slug,
-      name: item.name,
-      subModule: item.subModule,
+      slug: item?.slug,
+      name: item?.name,
+      subModule: item?.subModule,
     });
   });
 
   return (
     <>
-      {Object.keys(groupedDataSubModules)?.length > 0
-        ? Object.keys(groupedDataSubModules).map((subModule: any) => {
-            return (
-              <Accordion
-                key={uuidv4()}
-                expanded={expandedAccordian === subModule}
-                onChange={handleChangeAccordian(subModule)}
+      {Object.keys(groupedDataSubModules)?.length ? (
+        Object.keys(groupedDataSubModules).map((subModule: any) => {
+          return (
+            <Accordion
+              key={uuidv4()}
+              expanded={expandedAccordian === subModule}
+              onChange={handleChangeAccordian(subModule)}
+            >
+              <AccordionSummary
+                aria-controls={`accordion-${subModule}`}
+                id={`accordion-${subModule}`}
               >
-                <AccordionSummary
-                  aria-controls={`accordion-${subModule}`}
-                  id={`accordion-${subModule}`}
-                >
-                  <Typography variant="h4">{subModule}</Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <FormProvider methods={methods} onSubmit={handleSubmit}>
-                    <Grid container>
-                      {groupedDataSubModules[subModule]?.map(
-                        (subModule: any) => {
-                          return (
-                            <div key={uuidv4()}>
-                              <RHFMultiCheckbox
-                                name="permissionSlugs"
-                                options={[
-                                  {
-                                    label: subModule?.name,
-                                    value: subModule?.slug,
-                                  },
-                                ]}
-                              />
-                            </div>
-                          );
-                        },
-                      )}
-                    </Grid>
-                  </FormProvider>
-                </AccordionDetails>
-              </Accordion>
-            );
-          })
-        : 'No Data'}
+                <Typography variant="h4">{subModule}</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <FormProvider methods={methods} onSubmit={handleSubmit}>
+                  <Grid container>
+                    {groupedDataSubModules[subModule]?.map((subModule: any) => {
+                      return (
+                        <div key={uuidv4()}>
+                          <RHFMultiCheckbox
+                            name="permissionSlugs"
+                            options={[
+                              {
+                                label: subModule?.name,
+                                value: subModule?.slug,
+                              },
+                            ]}
+                          />
+                        </div>
+                      );
+                    })}
+                  </Grid>
+                </FormProvider>
+              </AccordionDetails>
+            </Accordion>
+          );
+        })
+      ) : (
+        <Typography>No Data</Typography>
+      )}
     </>
   );
 };

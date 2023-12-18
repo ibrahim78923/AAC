@@ -138,19 +138,14 @@ export const useAddPlan = () => {
     enqueueSnackbar('Plan Details Added Successfully', {
       variant: 'success',
     });
-    const productIdArray = values?.suite; // Replace with your actual array of productIds
+    const productIdArray = values?.suite;
     const modulesPermissionsArray = [];
 
     for (const productId of productIdArray) {
       setSkip(false);
       setProductIdModules(productId);
 
-      // getPermissionsByProducts({id: productId})
-      // const { data: modulesPermissions } = useGetPermissionsByProductsQuery({
-      //   id: productId,
-      // });
-
-      modulesPermissionsArray.push(modulesData);
+      modulesPermissionsArray?.push(modulesData);
     }
 
     reset();
@@ -168,7 +163,7 @@ export const useAddPlan = () => {
             featureId: item,
           },
         ],
-        productId: productId?.productId || null, // Use null or a default value if productId is not found
+        productId: productId?.productId || null,
       };
     });
     dispatch(planFeaturesFormData(featuresData));
@@ -195,23 +190,10 @@ export const useAddPlan = () => {
       });
     });
 
-    // const modulesPermissionsData = productNamesWithPermissions?.map(
-    //   (item: any) => {
-    //     const productId = productFeatures?.data?.productfeatures?.find(
-    //       (id: any) => id?.productName === item,
-    //     );
-
-    //     return {
-    //       permissionSlugs: values?.permissionSlugs,
-    //       productId: productId?.productId || null, // Use null or a default value if productId is not found
-    //     };
-    //   },
-    // );
-
     dispatch(modulesFormData(values));
     if (activeStep == AddPlanStepperData?.length - 1) {
       const planFormData = {
-        //we are getting array when we select options in searchable select
+        //Todo: getting product id at index 0
         productId: planForm?.productId[0],
 
         ...(isNullOrEmpty(planForm?.productId) && { suite: planForm?.suite }),
@@ -249,6 +231,7 @@ export const useAddPlan = () => {
         planPermission: [
           {
             permissionSlugs: values?.permissionSlugs,
+            //Todo: getting product id at index 0
             productId: planForm?.productId[0],
           },
         ],
