@@ -9,13 +9,7 @@ import EditTask from './EditTask';
 
 import { tableData } from '@/mock/modules/airMarketer/Campaigns/Tasks';
 
-import {
-  AlertModalDeleteIcon,
-  BoardIcon,
-  DownIcon,
-  FilterrIcon,
-  ListViewIcon,
-} from '@/assets/icons';
+import { AlertModalDeleteIcon, DownIcon, FilterrIcon } from '@/assets/icons';
 import Search from '@/components/Search';
 
 const Tasks = () => {
@@ -106,17 +100,13 @@ const Tasks = () => {
                 color="inherit"
                 className="small"
                 style={{ marginLeft: '8px' }}
-              >
-                <ListViewIcon />
-              </Button>
+              ></Button>
               <Button
                 variant="outlined"
                 color="inherit"
                 className="small"
                 style={{ marginLeft: '8px' }}
-              >
-                <BoardIcon />
-              </Button>
+              ></Button>
             </Box>
           </Grid>
         </Grid>

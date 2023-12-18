@@ -365,7 +365,6 @@ export { default as ServiceWorkflowIcon } from './modules/airOperations/workflow
 
 export { default as DocumentDownloadIcon } from './modules/airMarketer/EmailReports/document-download';
 export { default as SmileIcon } from './modules/airMarketer/EmailMarketing/smile-emoji-icon';
-export { default as BoardIcon } from './shared/board';
 
 export { default as FilterLinesIcon } from './modules/loyaltyProgram/Transactions/filter-lines-icon';
 export { default as PmToolsIcon } from './shared/pm-tools-icon';
