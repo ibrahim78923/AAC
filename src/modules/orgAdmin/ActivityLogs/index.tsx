@@ -35,9 +35,11 @@ const ActivityLogs = () => {
       // Log with the same date exists, add the new user data to the existing log
       existingLog.userLists.push({
         id: log?._id,
-        name: log?.performedByName,
-        desc: log?.moduleName,
-        message: 'Placeholder message',
+        performedByName: log?.performedByName,
+        moduleName: log?.moduleName,
+        performedBy: log?.performedBy,
+        moduleId: log?.moduleId,
+        message: 'Placeholder message?',
         userImg: 'ExampleKababCaseImg',
         label: log.activityType,
         time: new Date(log.createdAt).toLocaleTimeString('en-US', {
@@ -53,9 +55,11 @@ const ActivityLogs = () => {
         userLists: [
           {
             id: log?._id,
-            name: log?.performedByName,
-            desc: log?.moduleName,
-            message: 'Placeholder message',
+            performedByName: log?.performedByName,
+            moduleName: log?.moduleName,
+            performedBy: log?.performedBy,
+            moduleId: log?.moduleId,
+            message: 'Placeholder message?',
             userImg: 'ExampleKababCaseImg',
             label: log.activityType,
             time: new Date(log.createdAt).toLocaleTimeString('en-US', {
@@ -73,7 +77,7 @@ const ActivityLogs = () => {
       <Typography variant="h3" mb={'24px'}>
         Activity Logs
       </Typography>
-      <Box display={'flex'} alignItems={'center'} gap={'24px'} mb={'24px'}>
+      <Box display={'flex'} alignItems={'center'} gap={'24px'}>
         <Search size="small" sx={{ flex: 1 }} />
         <Button variant="outlined">Date</Button>
       </Box>

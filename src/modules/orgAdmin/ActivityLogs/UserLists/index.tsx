@@ -3,14 +3,17 @@ import { Avatar, Box, Typography, useTheme } from '@mui/material';
 import { UserListI } from './UserList.interface';
 import { styles, renderLabelColors } from './UserList.style';
 import { v4 as uuidv4 } from 'uuid';
+import Link from 'next/link';
 
 const UserLists = ({
-  name = '',
-  desc,
+  performedByName = '',
+  moduleName,
   message,
   label = '',
   time,
   userImg,
+  performedBy,
+  moduleId,
 }: UserListI) => {
   return (
     <Box key={uuidv4()} sx={styles?.customWrapper()}>
@@ -26,16 +29,26 @@ const UserLists = ({
               src={userImg?.src}
               sx={{ ...styles?.avatar, ...renderLabelColors[label] }}
             >
-              {name.charAt(0)} {name.charAt(1)}
+              {performedByName.charAt(0)} {performedByName.charAt(1)}
             </Avatar>
             <Box>
-              <Typography variant="body1">{name}</Typography>
+              <Typography variant="body1">{performedByName}</Typography>
               <Typography variant="body2">
-                {desc}
+                {moduleName}
                 <Typography variant="body2" sx={styles?.msg} component={'span'}>
                   {message}
                 </Typography>
               </Typography>
+
+              {/* This line is more modify WRF Backend data */}
+              <Link href={`${performedBy}`}>
+                {' '}
+                {performedByName}
+                has {label} <Link href={`${moduleId}`}>{moduleName}</Link>
+              </Link>
+
+              {/* <a href(user_url/performedBy)> {name.charAt(0)} {name.charAt(1)} </a> has label
+                <a href="moduleArray[data.module]/moduleId" > moduleName </a> */}
             </Box>
           </Box>
           <Typography
