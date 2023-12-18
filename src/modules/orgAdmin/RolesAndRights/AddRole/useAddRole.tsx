@@ -6,9 +6,10 @@ import { useTheme } from '@mui/material';
 
 import { useForm } from 'react-hook-form';
 
-// import { yupResolver } from '@hookform/resolvers/yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 
-// import { addUserDefault, addUserSchema } from '../RoleAndRights.data';
+import { addUserSchema } from '../RoleAndRights.data';
+
 import { rolesAndRightsAPI } from '@/services/orgAdmin/roles-and-rights';
 
 const useAddRole = () => {
@@ -22,16 +23,15 @@ const useAddRole = () => {
   const { data: viewPerdetails } = useGetPermissionsRolesByIdQuery(query?.id);
 
   const roleDefaultValues = {
-    productDetails: viewPerdetails?.data?.productDetails?.name,
-    companyAccountsDetails:
-      viewPerdetails?.data[0]?.companyAccountsDetails?.name,
-    name: viewPerdetails?.data[0]?.name,
-    description: viewPerdetails?.data[0]?.description,
+    productDetails: viewPerdetails?.data?.productDetails?.id,
+    companyAccountsDetails: viewPerdetails?.data?.companyAccountDetails?.id,
+    name: viewPerdetails?.data?.name,
+    description: viewPerdetails?.data?.description,
     defaultUser: viewPerdetails?.data?.status,
   };
 
-  const methods: any = useForm({
-    // resolver: yupResolver(addUserSchema),
+  const methods: any = useForm<any>({
+    resolver: yupResolver(addUserSchema),
     defaultValues: roleDefaultValues,
   });
 

@@ -1,33 +1,35 @@
 import { Grid } from '@mui/material';
 
 import CommonDrawer from '@/components/CommonDrawer';
-import {
-  rolesDefaultValues,
-  rolesFiltersArray,
-  rolesValidationSchema,
-} from './RoleFilters.data';
+import { rolesFiltersArray } from './RoleFilters.data';
 
 import { FormProvider } from '@/components/ReactHookForm';
 import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
+
 import { v4 as uuidv4 } from 'uuid';
+import dayjs from 'dayjs';
+import { DATE_FORMAT } from '@/constants';
 
 const RoleFilters = (props: any) => {
   const { isOpen, setIsOpen, filterVal, setFilterVal } = props;
 
-  const methods: any = useForm({
-    resolver: yupResolver(rolesValidationSchema),
-    defaultValues: rolesDefaultValues,
-  });
+  const methods: any = useForm();
 
   const { handleSubmit } = methods;
 
   const onSubmit = async (values: any) => {
+    const { date } = values;
+    const dateStart = date?.[0]
+      ? dayjs(date[0])?.format(DATE_FORMAT?.API)
+      : null;
+    const dateEnd = date?.[1] ? dayjs(date[1])?.format(DATE_FORMAT?.API) : null;
+
     setFilterVal({
       ...filterVal,
       status: values?.status,
       productId: values?.product,
-      // dateStart: values?.dateStart
+      dateStart: dateStart,
+      dateEnd: dateEnd,
     });
     setIsOpen(false);
   };

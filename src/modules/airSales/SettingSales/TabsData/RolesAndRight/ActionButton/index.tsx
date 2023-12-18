@@ -1,12 +1,10 @@
 import { Box, Button, Menu, MenuItem } from '@mui/material';
 import { ArrowDropDown } from '@mui/icons-material';
-import useRolesAndRights from '../useRolesAndRights';
-import { ORG_ADMIN } from '@/constants';
+import useRoleAndRight from '../useRoleAndRight';
 
 const ActionButton = (props?: any) => {
-  const { checkedRows } = props;
-  const { selectedValue, handleClick, handleClose, navigate } =
-    useRolesAndRights();
+  const { checkedRows, setIsDraweropen, setIsOpenDelete } = props;
+  const { selectedValue, handleClick, handleClose } = useRoleAndRight();
 
   return (
     <Box sx={{ width: { xs: '100%', sm: 'auto' } }}>
@@ -21,38 +19,43 @@ const ActionButton = (props?: any) => {
         Actions
         <ArrowDropDown />
       </Button>
+
       <Menu
+        id="simple-menu"
+        anchorEl={selectedValue}
+        open={Boolean(selectedValue)}
+        onClose={handleClose}
         sx={{
           '.MuiPopover-paper': {
             minWidth: '115px',
           },
         }}
-        id="simple-menu"
-        anchorEl={selectedValue}
-        open={Boolean(selectedValue)}
-        onClose={handleClose}
       >
         <MenuItem
           onClick={() => {
             handleClose();
-            navigate?.push({
-              pathname: ORG_ADMIN?.ADD_ROLE,
-              query: { id: checkedRows, type: 'view' },
-            });
+            setIsDraweropen({ isToggle: true, type: 'edit' });
+          }}
+        >
+          Edit
+        </MenuItem>
+
+        <MenuItem
+          onClick={() => {
+            handleClose();
+            setIsDraweropen({ isToggle: true, type: 'view' });
           }}
         >
           View
         </MenuItem>
+
         <MenuItem
           onClick={() => {
             handleClose();
-            navigate?.push({
-              pathname: ORG_ADMIN?.ADD_ROLE,
-              query: { id: checkedRows, type: 'edit' },
-            });
+            setIsOpenDelete(true);
           }}
         >
-          Edit
+          Delete
         </MenuItem>
       </Menu>
     </Box>
