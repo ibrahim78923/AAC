@@ -73,12 +73,17 @@ const useFaqs = () => {
       ? dayjs(createdAt[1]).format(DATE_FORMAT.API)
       : null;
     setFilterParams((prev) => {
-      return {
+      const updatedParams = {
         ...prev,
         ...others,
-        dateStart,
-        dateEnd,
       };
+
+      if (dateStart !== null && dateEnd !== null) {
+        updatedParams.dateStart = dateStart;
+        updatedParams.dateEnd = dateEnd;
+      }
+
+      return updatedParams;
     });
     handleCloseFilters();
   };

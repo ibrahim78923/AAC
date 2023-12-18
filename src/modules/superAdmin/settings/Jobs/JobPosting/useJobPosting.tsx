@@ -78,30 +78,25 @@ const useJobPosting = () => {
   };
 
   const onSubmitFilters = async (values: any) => {
-    if (values?.createdAt) {
-      if (!Array.isArray(values?.createdAt)) {
-        setFilterParams((prev) => {
-          return {
-            ...prev,
-            dateStart: dayjs(values?.createdAt).format(DATE_FORMAT.API),
-            dateEnd: dayjs(values?.createdAt).format(DATE_FORMAT.API),
-          };
-        });
-      } else {
-        setFilterParams((prev) => {
-          return {
-            ...prev,
-            dateStart: dayjs(values?.createdAt[0]).format(DATE_FORMAT.API),
-            dateEnd: dayjs(values?.createdAt[1]).format(DATE_FORMAT.API),
-          };
-        });
-      }
-    }
+    const { createdAt, ...others } = values;
+    const dateStart = createdAt?.[0]
+      ? dayjs(createdAt[0]).format(DATE_FORMAT.API)
+      : null;
+    const dateEnd = createdAt?.[1]
+      ? dayjs(createdAt[1]).format(DATE_FORMAT.API)
+      : null;
     setFilterParams((prev) => {
-      return {
+      const updatedParams = {
         ...prev,
-        ...values,
+        ...others,
       };
+
+      if (dateStart !== null && dateEnd !== null) {
+        updatedParams.dateStart = dateStart;
+        updatedParams.dateEnd = dateEnd;
+      }
+
+      return updatedParams;
     });
     setOpenJobPostingFilter(false);
   };

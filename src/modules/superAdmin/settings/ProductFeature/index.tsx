@@ -22,6 +22,7 @@ import { DownIcon } from '@/assets/icons';
 import { v4 as uuidv4 } from 'uuid';
 import useProductFeature from './useProductFeature';
 import MultiSearchableSelect from './multiSearchableSelect';
+import { styles } from './ProductFeature.style';
 
 const ProductFeature = () => {
   const theme = useTheme();
@@ -69,27 +70,12 @@ const ProductFeature = () => {
         border: '1px solid #EAECF0',
       }}
     >
-      <Box sx={{ padding: '16px 24px' }}>
-        <Box
-          sx={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            gap: '10px',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            marginBottom: '19px',
-          }}
-        >
+      <Box sx={styles?.pageHeader}>
+        <Box sx={styles?.heading}>
           <Typography variant="h3" sx={{ fontWeight: '600' }}>
             Product Features Setup
           </Typography>
-          <Box
-            sx={{
-              '@media (max-width:581px)': {
-                width: '100%',
-              },
-            }}
-          >
+          <Box>
             <MultiSearchableSelect
               options={[
                 { value: 'JohnDoe', label: 'John Doe' },
@@ -100,31 +86,16 @@ const ProductFeature = () => {
             />
           </Box>
         </Box>
-        <Box
-          mt={2}
-          mb={3}
-          sx={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            gap: '10px',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-          }}
-        >
-          <Search
-            setSearchBy={setSearchValue}
-            label="Search Here"
-            size="small"
-            width={'100%'}
-          />
-          <Box
-            sx={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              alignItems: 'center',
-              gap: '10px',
-            }}
-          >
+        <Box sx={styles?.filterBar}>
+          <Box sx={styles?.search}>
+            <Search
+              setSearchBy={setSearchValue}
+              label="Search Here"
+              size="small"
+              width={'100%'}
+            />
+          </Box>
+          <Box sx={styles?.filterButtons}>
             <Button
               id="basic-button"
               aria-controls={actionMenuOpen ? 'basic-menu' : undefined}
@@ -132,14 +103,8 @@ const ProductFeature = () => {
               aria-expanded={actionMenuOpen ? 'true' : undefined}
               onClick={handleActionsMenuClick}
               disabled={isDisabled}
-              sx={{
-                color: theme?.palette?.grey[500],
-                width: '112px',
-                border: '1.5px solid #e7e7e9',
-                '@media (max-width:581px)': {
-                  width: '100%',
-                },
-              }}
+              sx={styles?.actionBtn}
+              className="small"
             >
               Actions &nbsp; <DownIcon />
             </Button>
@@ -174,14 +139,7 @@ const ProductFeature = () => {
             </Menu>
             <Button
               variant="contained"
-              sx={{
-                height: '36px',
-                width: '153px',
-                fontWeight: '500',
-                '@media (max-width:581px)': {
-                  width: '100%',
-                },
-              }}
+              className="small"
               onClick={handleOpenDrawerAddFeature}
             >
               <PlusShared /> &nbsp; Add Feature
