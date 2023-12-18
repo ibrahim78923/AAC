@@ -1,7 +1,6 @@
 import Search from '@/components/Search';
 import { Box } from '@mui/material';
 import TanstackTable from '@/components/Table/TanstackTable';
-import { vendorData } from './Vendor.data';
 import { useVendor } from './useVendor';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { AIR_SERVICES } from '@/constants';
@@ -11,14 +10,21 @@ import AddNewVendor from './AddNewVendor';
 export const Vendor = () => {
   const {
     router,
-    searchValue,
-    setSearchValue,
     vendorListsColumns,
     isDrawerOpen,
     setIsDrawerOpen,
     isADrawerOpen,
     setIsADrawerOpen,
+    vendorData,
+    isLoading,
+    isError,
+    isFetching,
+    isSuccess,
+    setPageLimit,
+    setPage,
+    setSearch,
   } = useVendor();
+
   return (
     <>
       <PageTitledHeader
@@ -46,19 +52,25 @@ export const Vendor = () => {
         gap={1.5}
         marginTop={6}
       >
-        <Search
-          label="search"
-          width="100%"
-          onChange={(e: any) => setSearchValue(e?.target?.value)}
-          value={searchValue}
-        />
+        <Search label="search" setSearchBy={setSearch} />
       </Box>
 
       <br />
       <TanstackTable
-        data={vendorData}
+        data={vendorData?.data?.vendors}
         columns={vendorListsColumns}
         isPagination
+        isLoading={isLoading}
+        isError={isError}
+        isFetching={isFetching}
+        isSuccess={isSuccess}
+        setPageLimit={setPageLimit}
+        setPage={setPage}
+        currentPage={vendorData?.data?.meta?.page}
+        count={vendorData?.data?.meta?.pages}
+        pageLimit={vendorData?.data?.meta?.limit}
+        totalRecords={vendorData?.data?.meta?.total}
+        onPageChange={(page: any) => setPage(page)}
       />
       <Box>
         <ImportAssets

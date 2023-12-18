@@ -48,6 +48,7 @@ export const END_POINTS = {
   ACTIVITY_LOG: '/activity-log',
   DEAL_PIPELINE: '/deal-pipeline',
   GET_PRODUCTS_PERMISSIONS: '/permissions/permissions-by-product',
+  VENDOR_LIST: '/vendors/get-vendors',
   DELETE_PRODUCT_CATALOG: '/product-catalog/delete-product-catalog',
   PRODUCT_CATALOG_VENDOR_LIST: '/product-catalog/vendor-list',
 };
