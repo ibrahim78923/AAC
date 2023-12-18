@@ -1,4 +1,7 @@
-import { superAdminBillingInvoices } from '@/routesConstants/endpoints';
+import {
+  END_POINTS,
+  superAdminBillingInvoices,
+} from '@/routesConstants/endpoints';
 import { SUPER_ADMIN_PLAN_MANAGEMENT } from '@/routesConstants/paths';
 import { baseAPI } from '@/services/base-api';
 
@@ -67,7 +70,7 @@ export const planManagementAPI = baseAPI.injectEndpoints({
     }),
     getPermissionsByProducts: builder.query({
       query: ({ id }) => ({
-        url: `permissions/permissions-by-product/${id}`,
+        url: `${END_POINTS?.GET_PRODUCTS_PERMISSIONS}/${id}`,
         method: 'GET',
       }),
       providesTags: TAG,
