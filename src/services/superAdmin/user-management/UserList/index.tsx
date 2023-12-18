@@ -31,7 +31,7 @@ export const userListApi = baseAPI.injectEndpoints({
     postUsersAccount: builder.mutation({
       query: ({ id, body }: any) => {
         return {
-          url: `${END_POINTS?.ADD_USER_ACCOUNT}/${id}`,
+          url: `${END_POINTS?.ADD_USER_ACCOUNT}/${id}${END_POINTS?.USER_ACCOUNT}`,
           method: 'POST',
           body: body,
         };

@@ -33,7 +33,7 @@ import { ArrowBack, AddCircleOutlined } from '@mui/icons-material';
 
 import { FilterrIcon, RefreshTasksIcon } from '@/assets/icons';
 
-import { AvatarImage } from '@/assets/images';
+import { AvatarImage, NoAssociationFoundImage } from '@/assets/images';
 import useUserDetailsList from './useUserDetailsList';
 import Filter from './Filter';
 import AddCompanyDetails from './AddCompanyDetails';
@@ -41,6 +41,7 @@ import StatusBadge from '@/components/StatusBadge';
 import { v4 as uuidv4 } from 'uuid';
 import { useGetEmployeeListQuery } from '@/services/superAdmin/user-management/UserList';
 import { useGetUsersByIdQuery } from '@/services/superAdmin/user-management/users';
+import NoData from '@/components/NoData';
 
 const UsersDetailsList = () => {
   const {
@@ -182,7 +183,12 @@ const UsersDetailsList = () => {
                 </Button>
               </Stack>
             </Box>
-            {empDetail?.length === 0 && <Typography>No user found</Typography>}
+            {empDetail?.length === 0 && (
+              <NoData
+                image={NoAssociationFoundImage}
+                message={'No data is available'}
+              />
+            )}
             {empDetail?.map((item: any, index: number) => (
               <Box
                 className="users-wrapper"
@@ -193,6 +199,7 @@ const UsersDetailsList = () => {
                   borderRadius: '4px',
                   padding: '11px 8px',
                   width: '100%',
+                  cursor: 'pointer',
                 }}
                 key={uuidv4()}
                 onClick={() => {
@@ -253,67 +260,75 @@ const UsersDetailsList = () => {
             ))}
           </Box>
         </Grid>
-        {empDetail?.length > 0 ? (
-          <Grid item xl={9} lg={8} xs={12}>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <ProfileCard
-                  userName={`${profileData?.data?.firstName} ${profileData?.data?.lastName}`}
-                  role={profileData?.data?.role}
-                  email={profileData?.data?.email}
-                  phone={profileData?.data?.phoneNumber}
-                  handleEditProfile={() => setTabVal(1)}
+        <Grid item xl={9} lg={8} xs={12}>
+          <Grid container spacing={2}>
+            {empDetail?.length > 0 && (
+              <>
+                <Grid item xs={12}>
+                  <ProfileCard
+                    userName={`${profileData?.data?.firstName} ${profileData?.data?.lastName}`}
+                    role={profileData?.data?.role}
+                    email={profileData?.data?.email}
+                    phone={profileData?.data?.phoneNumber}
+                    handleEditProfile={() => setTabVal(1)}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <Box
+                    p="10px"
+                    sx={{
+                      borderRadius: '8px',
+                      background: theme?.palette?.common?.white,
+                    }}
+                  >
+                    <Card sx={{ padding: '0px 24px' }}>
+                      <CommonTabs
+                        getTabVal={(val: number) => setTabVal(val)}
+                        searchBarProps={{
+                          label: 'Search Here',
+                          setSearchBy: setSearch,
+                          searchBy: search,
+                        }}
+                        isHeader={tabVal === 0 ? true : false}
+                        tabsArray={['Company Accounts', 'Profile', 'Delegates']}
+                        headerChildren={
+                          <>
+                            <Button
+                              onClick={() => {
+                                setIsOpenAddAccountDrawer(true);
+                              }}
+                              sx={{
+                                border: `1px solid ${theme?.palette?.custom?.dark}`,
+                                color: theme?.palette?.custom?.main,
+                                width: '146px',
+                                height: '36px',
+                              }}
+                              startIcon={<AddCircleOutlined />}
+                            >
+                              Add Account
+                            </Button>
+                          </>
+                        }
+                      >
+                        <CompanyAccounts organizationId={organizationId} />
+                        <UserDetailsProfile userDetails={profileData?.data} />
+                        <Delegates />
+                      </CommonTabs>
+                    </Card>
+                  </Box>
+                </Grid>{' '}
+              </>
+            )}
+            {empDetail?.length === 0 && (
+              <Grid item xs={12} mt={10}>
+                <NoData
+                  image={NoAssociationFoundImage}
+                  message={'No data is available'}
                 />
               </Grid>
-              <Grid item xs={12}>
-                <Box
-                  p="10px"
-                  sx={{
-                    borderRadius: '8px',
-                    background: theme?.palette?.common?.white,
-                  }}
-                >
-                  <Card sx={{ padding: '0px 24px' }}>
-                    <CommonTabs
-                      getTabVal={(val: number) => setTabVal(val)}
-                      searchBarProps={{
-                        label: 'Search Here',
-                        setSearchBy: setSearch,
-                        searchBy: search,
-                      }}
-                      isHeader={tabVal === 0 ? true : false}
-                      tabsArray={['Company Accounts', 'Profile', 'Delegates']}
-                      headerChildren={
-                        <>
-                          <Button
-                            onClick={() => {
-                              setIsOpenAddAccountDrawer(true);
-                            }}
-                            sx={{
-                              border: `1px solid ${theme?.palette?.custom?.dark}`,
-                              color: theme?.palette?.custom?.main,
-                              width: '146px',
-                              height: '36px',
-                            }}
-                            startIcon={<AddCircleOutlined />}
-                          >
-                            Add Account
-                          </Button>
-                        </>
-                      }
-                    >
-                      <CompanyAccounts organizationId={organizationId} />
-                      <UserDetailsProfile userDetails={profileData?.data} />
-                      <Delegates />
-                    </CommonTabs>
-                  </Card>
-                </Box>
-              </Grid>
-            </Grid>
+            )}
           </Grid>
-        ) : (
-          'No user found'
-        )}
+        </Grid>
       </Grid>
       {/* {isOpenAddAccountDrawer && ( */}
       <AddAccountDrawer
