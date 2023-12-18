@@ -74,7 +74,7 @@ const useDealPipelines = () => {
       });
     } catch (error) {
       const errMsg = error?.data?.message;
-      const errMessage = Array.isArray(errMsg) ? errMsg[0] : errMsg;
+      const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;
       enqueueSnackbar(errMessage ?? 'Error occurred', {
         variant: NOTISTACK_VARIANTS?.ERROR,
       });

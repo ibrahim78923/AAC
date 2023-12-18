@@ -29,10 +29,10 @@ function CustomEditor(props: any) {
   return (
     <CKEditor
       editor={ClassicEditor}
-      data={props.initialData}
+      data={props?.initialData}
       config={editorConfiguration}
       onChange={(event, editor) =>
-        props?.handleEditorChange(props.index, editor)
+        props?.handleEditorChange(props?.index, editor)
       }
     />
   );
