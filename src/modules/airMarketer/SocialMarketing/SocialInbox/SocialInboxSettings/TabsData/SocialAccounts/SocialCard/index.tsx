@@ -23,7 +23,7 @@ const SocialCard = ({ handleShowCard }: { handleShowCard: () => void }) => {
         sx={{ maxWidth: '900px', paddingTop: '20px' }}
       >
         {accountData?.map((item) => (
-          <Grid item xs={6} key={uuidv4()}>
+          <Grid item xs={12} md={6} key={uuidv4()}>
             <Box sx={styles?.socialCards}>
               <Box>
                 <Image src={item?.logo} alt="logo" />

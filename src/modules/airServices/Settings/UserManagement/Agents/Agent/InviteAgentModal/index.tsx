@@ -2,10 +2,8 @@ import {
   Box,
   Button,
   Dialog,
-  DialogActions,
   DialogContent,
   DialogTitle,
-  Divider,
   Grid,
   IconButton,
   Typography,
@@ -50,7 +48,7 @@ export const InviteAgentModel = (props: any) => {
               <CloseModalIcon />
             </IconButton>
           </DialogTitle>
-          <DialogContent>
+          <DialogContent sx={{ mt: 2 }}>
             <FormProvider
               methods={inviteAgentMethods}
               onSubmit={inviteAgentMethods?.handleSubmit?.(onSubmit)}
@@ -63,10 +61,7 @@ export const InviteAgentModel = (props: any) => {
                 ))}
               </Grid>
             </FormProvider>
-          </DialogContent>
-          <Divider />
-          <DialogActions>
-            <Box display={'flex'} justifyContent={'flex-end'} gap={2}>
+            <Box display={'flex'} justifyContent={'flex-end'} gap={2} mt={0.5}>
               <Button
                 onClick={() => handleAddAgentModal?.()}
                 variant="outlined"
@@ -78,7 +73,7 @@ export const InviteAgentModel = (props: any) => {
                 Save
               </Button>
             </Box>
-          </DialogActions>
+          </DialogContent>
         </Dialog>
       )}
     </>

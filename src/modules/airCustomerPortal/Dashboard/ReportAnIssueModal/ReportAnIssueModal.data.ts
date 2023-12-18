@@ -81,8 +81,9 @@ export const reportAnIssueModalFormFields = [
   {
     componentProps: {
       name: 'attachFile',
-      label: '',
+      label: 'Attach File',
       fullWidth: true,
+      fileType: 'Upload any file',
     },
     component: RHFDropZone,
     md: 12,

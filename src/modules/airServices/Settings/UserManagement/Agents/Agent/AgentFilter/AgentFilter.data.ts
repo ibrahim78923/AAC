@@ -2,34 +2,8 @@ import { RHFAutocomplete } from '@/components/ReactHookForm';
 
 import * as Yup from 'yup';
 
-const departmentOptions = [
-  {
-    value: 'The Designer Team',
-    label: 'The Designer Team',
-  },
-  {
-    value: 'Developers Team',
-    label: 'Developers Team',
-  },
-  {
-    value: 'Handlers',
-    label: 'Handlers',
-  },
-];
-const roleOptions = [
-  {
-    value: 'The Designer Team',
-    label: 'The Designer Team',
-  },
-  {
-    value: 'Developers Team',
-    label: 'Developers Team',
-  },
-  {
-    value: 'Handlers',
-    label: 'Handlers',
-  },
-];
+const departmentOptions = ['The Designer Team', 'Developers Team', 'Handlers'];
+const roleOptions = ['The Designer Team', 'Developers Team', 'Handlers'];
 
 export const validationSchemaAgentFilterFields = Yup?.object()?.shape({
   department: Yup?.string(),

@@ -58,6 +58,7 @@ const DealPipelines = () => {
     setAnchorEl,
     isdefaultValue,
   } = useSalesProduct();
+
   return (
     <>
       <CommonDrawer
@@ -118,8 +119,8 @@ const DealPipelines = () => {
                                 variant="body2"
                                 sx={{ color: theme?.palette?.blue?.main }}
                               >
-                                Deal Stage{' '}
-                                <span style={{ color: 'red' }}> *</span>{' '}
+                                Deal Stage
+                                <span style={{ color: 'red' }}> *</span>
                               </Typography>
                             </Grid>
                             <Grid
@@ -131,8 +132,8 @@ const DealPipelines = () => {
                                 variant="body2"
                                 sx={{ color: theme?.palette?.blue?.main }}
                               >
-                                Stage Probability{' '}
-                                <span style={{ color: 'red' }}> *</span>{' '}
+                                Stage Probability
+                                <span style={{ color: 'red' }}> *</span>
                               </Typography>
                             </Grid>
                             <Grid
@@ -274,7 +275,7 @@ const DealPipelines = () => {
                   color: `${theme?.palette?.common.white}`,
                   fontSize: '16px',
                 }}
-              />{' '}
+              />
               Create Pipeline
             </Button>
           </Box>
@@ -331,13 +332,13 @@ const DealPipelines = () => {
               <Box sx={{ display: 'flex', alignItems: 'center' }}>
                 <Checkbox />
                 <Typography variant="body2">
-                  Marked as default pipeline{' '}
+                  Marked as default pipeline
                 </Typography>
               </Box>
             </Box>
             <Box sx={styles.BoxStyling}>
               <Typography variant="body2" sx={{ fontWeight: '600' }}>
-                New{' '}
+                New
               </Typography>
               <Typography
                 variant="body2"
@@ -348,7 +349,7 @@ const DealPipelines = () => {
             </Box>
             <Box sx={styles?.BoxStyling}>
               <Typography variant="body2" sx={{ fontWeight: '600' }}>
-                Follow-up{' '}
+                Follow-up
               </Typography>
               <Typography
                 variant="body2"
@@ -360,7 +361,7 @@ const DealPipelines = () => {
 
             <Box sx={styles?.BoxStyling}>
               <Typography variant="body2" sx={{ fontWeight: '600' }}>
-                Under review{' '}
+                Under review
               </Typography>
               <Typography
                 variant="body2"
@@ -414,13 +415,13 @@ const DealPipelines = () => {
               <Box sx={{ display: 'flex', alignItems: 'center' }}>
                 <Checkbox />
                 <Typography variant="body2">
-                  Marked as default pipeline{' '}
+                  Marked as default pipeline
                 </Typography>
               </Box>
             </Box>
             <Box sx={styles?.BoxStyling}>
               <Typography variant="body2" sx={{ fontWeight: '600' }}>
-                New{' '}
+                New
               </Typography>
               <Typography
                 variant="body2"
@@ -431,7 +432,7 @@ const DealPipelines = () => {
             </Box>
             <Box sx={styles?.BoxStyling}>
               <Typography variant="body2" sx={{ fontWeight: '600' }}>
-                Follow-up{' '}
+                Follow-up
               </Typography>
               <Typography
                 variant="body2"
@@ -443,7 +444,7 @@ const DealPipelines = () => {
 
             <Box sx={styles?.BoxStyling}>
               <Typography variant="body2" sx={{ fontWeight: '600' }}>
-                Under review{' '}
+                Under review
               </Typography>
               <Typography
                 variant="body2"

@@ -3,6 +3,15 @@ import { UserListI } from './User.interface';
 import { AvatarImage } from '@/assets/images';
 import { AntSwitch } from '@/components/AntSwitch';
 
+export const userDropdown = (setDeleteModal: any) => [
+  {
+    title: 'Delete',
+    handleClick: (close: any) => {
+      setDeleteModal(true);
+      close(null);
+    },
+  },
+];
 export const userListData: UserListI[] = [
   {
     id: 1,

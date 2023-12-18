@@ -6,9 +6,20 @@ import { vouchersColumns, vouchersData } from './Vouchers.data';
 import Image from 'next/image';
 import { VoucherImage } from '@/assets/images';
 import { useVouchers } from './useVouchers';
+import { AddVouchers } from './AddVouchers';
+import { Filters } from './Filters';
 
 export const Vouchers = () => {
-  const { page, setPage, pageLimit, setPageLimit } = useVouchers();
+  const {
+    page,
+    setPage,
+    pageLimit,
+    setPageLimit,
+    addVouchersOpen,
+    setAddVouchersOpen,
+    filtersOpen,
+    setFiltersOpen,
+  } = useVouchers();
   return (
     <>
       <Grid
@@ -46,6 +57,7 @@ export const Vouchers = () => {
             variant="outlined"
             color="secondary"
             startIcon={<FilterListIcon />}
+            onClick={() => setFiltersOpen(true)}
           >
             Filters
           </Button>
@@ -53,6 +65,7 @@ export const Vouchers = () => {
             variant="contained"
             color="primary"
             startIcon={<AddCircleIcon />}
+            onClick={() => setAddVouchersOpen(true)}
             disableElevation
           >
             Add
@@ -80,6 +93,11 @@ export const Vouchers = () => {
           <Image src={VoucherImage} alt="voucher" />
         </Grid>
       </Grid>
+      <AddVouchers
+        addVouchersOpen={addVouchersOpen}
+        setAddVouchersOpen={setAddVouchersOpen}
+      />
+      <Filters filtersOpen={filtersOpen} setFiltersOpen={setFiltersOpen} />
     </>
   );
 };

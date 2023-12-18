@@ -17,7 +17,7 @@ export const Settings = () => {
       borderRadius={4}
     >
       <Typography variant="h4">Security Help Desk</Typography>
-      <Box bgcolor={theme?.palette?.grey?.[400]} borderRadius={3} p={2} mt={1}>
+      <Box bgcolor={theme?.palette?.grey?.[100]} borderRadius={3} p={2} mt={1}>
         <FormProvider methods={settingsMethods} onSubmit={handleSubmitSettings}>
           <SettingsForm />
           <br />

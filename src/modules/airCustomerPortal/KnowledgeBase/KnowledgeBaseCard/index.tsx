@@ -15,7 +15,7 @@ export const KnowledgeBaseCard = (props: any) => {
       justifyContent={'center'}
       flexDirection={'column'}
       alignItems={'center'}
-      maxWidth={'18rem'}
+      maxWidth={{ xs: '32rem', sm: '25rem', lg: '18rem', xl: '34rem' }}
       width={'100%'}
       height={'auto'}
       border={`.1rem solid ${theme?.palette?.grey?.[700]}`}
