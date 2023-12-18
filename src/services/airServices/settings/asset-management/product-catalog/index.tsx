@@ -48,7 +48,7 @@ export const productCatalogAPI: any = baseAPI?.injectEndpoints({
 
     deleteProductCatalog: builder?.mutation({
       query: (deleteProductCatalogParameter: any) => ({
-        url: `${END_POINTS}`,
+        url: `${END_POINTS?.DELETE_PRODUCT_CATALOG}`,
         method: 'DELETE',
         params: deleteProductCatalogParameter?.queryParams,
       }),
