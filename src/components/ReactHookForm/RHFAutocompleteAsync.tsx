@@ -82,7 +82,13 @@ export default function RHFAutocompleteAsync({
             PaperComponent={(props) => (
               <Paper
                 {...props}
-                style={{ backgroundColor: theme?.palette?.grey?.[100] }}
+                sx={{
+                  backgroundColor: theme?.palette?.common?.white,
+                  border: `1px solid ${theme?.palette?.custom?.off_white_three}`,
+                  borderRadius: 1,
+                  boxShadow: 1,
+                  color: 'grey.600',
+                }}
               >
                 {props?.children}
               </Paper>

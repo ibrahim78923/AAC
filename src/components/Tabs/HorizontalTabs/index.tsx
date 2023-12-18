@@ -1,5 +1,5 @@
 import { useState, Children, cloneElement, useEffect } from 'react';
-import { Tabs, Tab, Typography, useTheme, Box, Card } from '@mui/material';
+import { Tabs, Tab, useTheme, Box, Card } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { styles } from './HorizontalTabs.style';
 import { v4 as uuidv4 } from 'uuid';
@@ -56,9 +56,10 @@ const HorizontalTabs = (props: any) => {
               setActiveTab ? setActiveTab(title) : null;
             }}
             label={
-              <Typography variant="body2" component="span">
-                {title}
-              </Typography>
+              // <Typography variant="body2" component="span">
+              // {title}
+              title
+              // </Typography>
             }
           />
         ))}
