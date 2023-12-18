@@ -27,7 +27,7 @@ const RenameModal = ({ isAllViewActionsModal, handleCloseModal }: any) => {
 
   const onSubmit = async () => {
     handleCloseModal;
-    enqueueSnackbar('Clone Successfully', {
+    enqueueSnackbar('Rename Successfully', {
       variant: 'success',
     });
   };

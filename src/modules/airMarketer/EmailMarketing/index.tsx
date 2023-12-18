@@ -20,7 +20,7 @@ const EmailMarketing = () => {
         <Typography variant="h4">Email Marketing</Typography>
       </Grid>
       <Grid item lg={9} sx={{ textAlign: 'end' }}>
-        <Search label="Search Here" width={260} />
+        <Search label="Search Here" width={260} size="small" />
 
         <Button
           variant="outlined"

@@ -22,7 +22,12 @@ const ActionButton = () => {
     selectedValue,
     handleSelectedOptionValue,
   } = useAllView();
-
+  const handleCloseModal = (key: any) => {
+    setIsAllViewActionsModal({
+      ...isAllViewActionsModal,
+      [key]: false,
+    });
+  };
   return (
     <Box>
       <Button
@@ -63,18 +68,8 @@ const ActionButton = () => {
           type="Delete SMS Broadcast"
           typeImage={<AlertModalDeleteIcon />}
           open={isAllViewActionsModal?.isDelete}
-          handleClose={() =>
-            setIsAllViewActionsModal({
-              ...isAllViewActionsModal,
-              isClone: false,
-            })
-          }
-          handleSubmit={() =>
-            setIsAllViewActionsModal({
-              ...isAllViewActionsModal,
-              isClone: false,
-            })
-          }
+          handleClose={() => handleCloseModal('isDelete')}
+          handleSubmit={() => handleCloseModal('isDelete')}
         />
       )}
       {isAllViewActionsModal?.isClone && (
@@ -102,6 +97,7 @@ const ActionButton = () => {
       {isAllViewActionsModal?.isManage && (
         <ManageSharingModal
           isAllViewActionsModal={isAllViewActionsModal?.isManage}
+          setIsAllViewActionsModal={setIsAllViewActionsModal}
           handleCloseModal={() =>
             setIsAllViewActionsModal({
               ...isAllViewActionsModal,

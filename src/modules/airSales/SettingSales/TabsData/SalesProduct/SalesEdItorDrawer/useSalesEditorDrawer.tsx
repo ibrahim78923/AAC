@@ -5,9 +5,18 @@ import {
 
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import {
+  usePostSalesProductMutation,
+  useUpdateSalesProductMutation,
+} from '@/services/airSales/deals/settings/sales-product';
+import { enqueueSnackbar } from 'notistack';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
-const useSalesEditorDrawer = ({ selectedCheckboxes }: any) => {
+const useSalesEditorDrawer = ({ selectedCheckboxes, isEditMode }: any) => {
   const editRowValue = selectedCheckboxes && selectedCheckboxes[0];
+  const [postSalesProduct] = usePostSalesProductMutation();
+  const [updateSalesProduct] = useUpdateSalesProductMutation();
+
   const salesProduct = useForm({
     resolver: yupResolver(salesProductvalidationSchema),
     defaultValues: async () => {
@@ -39,7 +48,21 @@ const useSalesEditorDrawer = ({ selectedCheckboxes }: any) => {
     },
   });
   const { handleSubmit } = salesProduct;
-  const onSubmit = () => {};
+  const onSubmit = async (values: any) => {
+    try {
+      isEditMode
+        ? await updateSalesProduct({
+            body: values,
+            id: editRowValue?._id,
+          }).unwrap()
+        : await postSalesProduct({ body: values })?.unwrap();
+    } catch (error) {
+      const errMsg = error?.data?.message;
+      enqueueSnackbar(errMsg[0] ?? 'Error occurred', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
+    }
+  };
   return {
     handleSubmit,
     onSubmit,

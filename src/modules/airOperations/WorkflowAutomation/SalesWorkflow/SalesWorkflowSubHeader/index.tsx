@@ -2,16 +2,17 @@ import Search from '@/components/Search';
 import { Box, Button } from '@mui/material';
 import { FilterIcon } from '@/assets/icons';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
+import { FilterSalesWorkflow } from '../FilterSalesWorkflow';
 
 export const SalesWorkflowSubHeader = (props: any) => {
   const {
-    onFilterClick,
+    isFilterOpen,
+    setIsFilterOpen,
     salesWorkflowActionDropdown,
     search,
     setSearch,
     disabledActionButton,
   } = props;
-
   return (
     <>
       <Box
@@ -20,12 +21,7 @@ export const SalesWorkflowSubHeader = (props: any) => {
         justifyContent={'space-between'}
         flexWrap={'wrap'}
       >
-        <Search
-          label="search"
-          width="100%"
-          searchBy={search}
-          setSearchBy={setSearch}
-        />
+        <Search label="Search Here" searchBy={search} setSearchBy={setSearch} />
         <Box
           display={'flex'}
           justifyContent={'space-between'}
@@ -38,7 +34,7 @@ export const SalesWorkflowSubHeader = (props: any) => {
           />
           <Button
             variant="outlined"
-            onClick={() => onFilterClick?.()}
+            onClick={() => setIsFilterOpen?.(true)}
             size="large"
             startIcon={<FilterIcon />}
             color="secondary"
@@ -47,6 +43,10 @@ export const SalesWorkflowSubHeader = (props: any) => {
           </Button>
         </Box>
       </Box>
+      <FilterSalesWorkflow
+        isFilterOpen={isFilterOpen}
+        setIsFilterOpen={setIsFilterOpen}
+      />
     </>
   );
 };

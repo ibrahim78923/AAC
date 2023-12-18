@@ -5,7 +5,6 @@ import { Box, Button, Grid, InputAdornment, Typography } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 
 import {
-  profileDefaultValues,
   profileFields,
   profileValidationSchema,
 } from './UserDetailsProfile.data';
@@ -18,12 +17,18 @@ import { v4 as uuidv4 } from 'uuid';
 import useToggle from '@/hooks/useToggle';
 import { EditInputIcon, RevertIcon } from '@/assets/icons';
 
-const UserDetailsProfile = () => {
+const UserDetailsProfile = (props: any) => {
+  const { profileData } = props;
   const [isToggled, setIsToggled] = useToggle(false);
+
+  const profileDefaulValues = {
+    ...profileData,
+    address: profileData?.address?.composite,
+  };
 
   const methods: any = useForm({
     resolver: yupResolver(profileValidationSchema),
-    defaultValues: profileDefaultValues,
+    defaultValues: profileDefaulValues,
   });
 
   const { handleSubmit } = methods;

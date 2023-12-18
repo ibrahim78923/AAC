@@ -11,7 +11,30 @@ export const rolesAndRightsAPI = baseAPI.injectEndpoints({
       }),
       providesTags: ['PERMISSIONS'],
     }),
+
+    getProductsPermissions: builder.query({
+      query: ({ productId }: any) => ({
+        url: `${END_POINTS?.GET_PRODUCTS_PERMISSIONS}/${productId}`,
+        method: 'GET',
+      }),
+      providesTags: ['PERMISSIONS'],
+    }),
+
+    updateRoleRights: builder.mutation({
+      query: ({ id, body }: any) => {
+        return {
+          url: `${END_POINTS?.GET_PERMISSIONS_ROLES}/${id}`,
+          method: 'PATCH',
+          body: body,
+        };
+      },
+      invalidatesTags: ['ROLESANDRIGHTS'],
+    }),
   }),
 });
 
-export const { useGetPermissionsRolesQuery } = rolesAndRightsAPI;
+export const {
+  useGetPermissionsRolesQuery,
+  useGetProductsPermissionsQuery,
+  useUpdateRoleRightsMutation,
+} = rolesAndRightsAPI;

@@ -15,11 +15,15 @@ export const useSingleTicketPopup = (props: any) => {
 
   const { handleSubmit, reset } = methods;
 
-  const onSubmit = async () => {
+  const onSubmit = () => {
     enqueueSnackbar('Added 1 email(s) to the ticket', {
       variant: 'success',
-      autoHideDuration: 3000,
     });
+    setOpenPopup(false);
+    reset(singleTicketPopupDefaultValues);
+  };
+
+  const handleClose = () => {
     setOpenPopup(false);
     reset(singleTicketPopupDefaultValues);
   };
@@ -27,5 +31,6 @@ export const useSingleTicketPopup = (props: any) => {
     methods,
     handleSubmit,
     onSubmit,
+    handleClose,
   };
 };

@@ -1,9 +1,9 @@
-import { RHFCheckbox, RHFSelect } from '@/components/ReactHookForm';
+import { RHFAutocomplete, RHFCheckbox } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
 export const singleTicketPopupValidationSchema = Yup?.object()?.shape({
   addPeople: Yup?.string()?.required('Field is Required'),
-  emailNotification: Yup?.string()?.required('Field is Required'),
+  emailNotification: Yup?.string(),
 });
 
 export const singleTicketPopupDefaultValues = {
@@ -11,29 +11,27 @@ export const singleTicketPopupDefaultValues = {
   emailNotification: '',
 };
 
+const addPeopleAutocomplete = ['All', 'Only to you'];
+
 export const singleTicketPopupDataArray = [
   {
+    id: 7797,
     componentProps: {
       name: 'addPeople',
       label: 'Add People',
       type: 'text',
       size: 'small',
+      placeholder: 'Select',
       fullWidth: true,
-      select: true,
-      required: false,
+      options: addPeopleAutocomplete,
     },
-    options: [
-      { value: 'All', label: 'All' },
-      { value: 'Only to you', label: 'Only to you' },
-    ],
-    component: RHFSelect,
-    md: 12,
+    component: RHFAutocomplete,
   },
   {
+    id: 7578,
     componentProps: {
       name: 'emailNotification',
       label: 'Also send Email Notification',
-      required: false,
     },
     component: RHFCheckbox,
   },

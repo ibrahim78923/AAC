@@ -52,6 +52,7 @@ export const MoveFolderModal = (props: any) => {
                     name="folderName"
                     label="Folder Name"
                     size="small"
+                    placeholder="select"
                     options={moveFolderOptions}
                     required
                   />

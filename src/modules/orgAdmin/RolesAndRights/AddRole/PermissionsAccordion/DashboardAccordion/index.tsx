@@ -16,11 +16,17 @@ const DashboardAccordion = () => {
 
   return (
     <>
-      <Accordion>
-        <AccordionSummary aria-controls="panel2a-content" id="panel2a-header">
-          <Typography variant="h4">Dashboard Details</Typography>
+      <Accordion sx={{ p: 0 }}>
+        <AccordionSummary
+          aria-controls="panel2a-content"
+          id="panel2a-header"
+          sx={{ p: 0 }}
+        >
+          <Typography variant="h6" fontWeight={600}>
+            Dashboard Details
+          </Typography>
         </AccordionSummary>
-        <AccordionDetails>
+        <AccordionDetails sx={{ p: 0 }}>
           <Grid container>
             <RHFMultiCheckbox
               name="dashboardAcord"

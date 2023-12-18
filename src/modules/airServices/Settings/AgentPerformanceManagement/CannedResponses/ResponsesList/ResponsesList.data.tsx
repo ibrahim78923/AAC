@@ -81,7 +81,12 @@ export const responsesTableColumns = (
             {info
               ?.getValue()
               ?.map((avatar: { src: string | undefined }) => (
-                <Avatar key={avatar?.src} alt="User Avatar" src={avatar?.src} />
+                <Avatar
+                  key={avatar?.src}
+                  alt="User Avatar"
+                  src={avatar?.src}
+                  sx={{ height: '30px', width: '30px' }}
+                />
               ))}
           </AvatarGroup>
         </Box>

@@ -3,12 +3,13 @@ import { useRouter } from 'next/router';
 import { useTheme } from '@mui/material';
 import { rolesAndRightsAPI } from '@/services/orgAdmin/roles-and-rights';
 import { PAGINATION } from '@/config';
-// import dayjs from 'dayjs';
+import { getSession } from '@/utils';
+import { enqueueSnackbar } from 'notistack';
 
 const useRolesAndRights = () => {
   const navigate = useRouter();
   const theme = useTheme();
-
+  const { user } = getSession();
   const [isOpenAddUserDrawer, setIsOpenAddUserDrawer] = useState(false);
   const [isOpenFilterDrawer, setIsOpenFilterDrawer] = useState(false);
   const [selectedValue, setSelectedValue] = useState(null);
@@ -17,20 +18,23 @@ const useRolesAndRights = () => {
     search: '',
     status: '',
     productId: '',
-    // dateStart: null
   });
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
 
-  const { useGetPermissionsRolesQuery } = rolesAndRightsAPI;
+  const { useGetPermissionsRolesQuery, useUpdateRoleRightsMutation } =
+    rolesAndRightsAPI;
+
+  const [updateRoleRights] = useUpdateRoleRightsMutation();
 
   const permissionParams = {
     page: page,
     limit: pageLimit,
-    organizationCompanyAccountId: '56cb91bdc3464f14678934ca',
-    search: filterValues?.search,
+    organizationId: user?.organization?._id,
     productId: filterValues?.productId,
     status: filterValues?.status,
+    search: filterValues?.search,
+    //commented for future use
     // dateStart: dayjs(filterValues?.dateStart)?.format('YYYY-MM-DD')
   };
 
@@ -45,6 +49,22 @@ const useRolesAndRights = () => {
     setSelectedValue(event?.currentTarget);
   };
 
+  const resetFilters = () => {
+    setFilterValues({
+      search: '',
+      status: '',
+      productId: '',
+    });
+  };
+
+  const updateStatus = (id: any, val: any) => {
+    const status = val?.target?.checked ? 'ACTIVE' : 'INACTIVE';
+    updateRoleRights({ id, body: { status: status } });
+    enqueueSnackbar('User updated successfully', {
+      variant: 'success',
+    });
+  };
+
   return {
     setIsOpenAddUserDrawer,
     isOpenFilterDrawer,
@@ -57,12 +77,14 @@ const useRolesAndRights = () => {
     setFilterValues,
     checkedRows,
     getPermissions,
+    setPageLimit,
     handleClose,
     handleClick,
+    resetFilters,
     navigate,
-    theme,
-    setPageLimit,
     setPage,
+    theme,
+    updateStatus,
   };
 };
 

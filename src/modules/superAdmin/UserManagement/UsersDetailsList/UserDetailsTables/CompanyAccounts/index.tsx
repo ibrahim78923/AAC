@@ -3,10 +3,15 @@ import CustomPagination from '@/components/CustomPagination';
 import TanstackTable from '@/components/Table/TanstackTable';
 
 import { companyColumns } from './CompanyAccounts.data';
-import useCompanyAccounts from './useCompanyAccounts';
+import { userListApi } from '@/services/superAdmin/user-management/UserList';
 
-const CompanyAccounts = () => {
-  const { data } = useCompanyAccounts();
+const CompanyAccounts = (props: any) => {
+  const { organizationId } = props;
+  const { useGetUsersAccountsQuery } = userListApi;
+  const params = {
+    orgId: organizationId,
+  };
+  const { data } = useGetUsersAccountsQuery(params);
 
   return (
     <>

@@ -2,8 +2,8 @@ import { RHFCheckbox, RHFTextField } from '@/components/ReactHookForm';
 import { CATALOG_SERVICE_TYPES } from '@/constants/strings';
 import * as Yup from 'yup';
 export const placeRequestValidationSchema = Yup?.object()?.shape({
-  requestor: Yup?.string()?.required('Field is Required'),
-  requestorFor: Yup?.string()?.required('Field is Required'),
+  requestor: Yup?.string()?.required('Required'),
+  requestorFor: Yup?.string()?.required('Required'),
   noOfItem: Yup?.number(),
 });
 export const placeRequestDefaultValues = {
@@ -17,7 +17,7 @@ export const placeRequest = [
       name: 'noOfItem ',
       label: 'No of item',
       fullWidth: true,
-      require: true,
+      required: true,
       type: 'number',
     },
     shouldDisplay: ({ other: { serviceId } }: any) =>
@@ -30,7 +30,8 @@ export const placeRequest = [
       name: 'requestor',
       label: 'Requestor',
       fullWidth: true,
-      require: true,
+      required: true,
+      placeholder: 'Enter name or email',
     },
 
     component: RHFTextField,
@@ -49,7 +50,8 @@ export const placeRequest = [
       name: 'requestorFor',
       label: 'Requestor for',
       fullWidth: true,
-      require: true,
+      required: true,
+      placeholder: 'Enter name or email',
     },
     component: RHFTextField,
     shouldDisplay: ({ getValues }: any) => getValues('requestForSomeOneElse'),

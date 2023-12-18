@@ -17,9 +17,10 @@ const Analyze = () => {
                   container
                   item
                   xs={12}
-                  md={3}
+                  sm={6}
+                  lg={3}
                   key={uuidv4()}
-                  justifyContent="space-around"
+                  justifyContent={{ xs: 'flex-start', lg: 'space-around' }}
                 >
                   <Box>
                     <Typography
@@ -33,7 +34,10 @@ const Analyze = () => {
                   </Box>
                   {item?.divider && (
                     <Divider
-                      sx={{ borderColor: theme?.palette?.grey[700] }}
+                      sx={{
+                        borderColor: theme?.palette?.grey[700],
+                        display: { xs: 'none', lg: 'block' },
+                      }}
                       orientation="vertical"
                     />
                   )}
@@ -50,9 +54,9 @@ const Analyze = () => {
                   container
                   item
                   xs={12}
-                  md={6}
+                  lg={6}
                   key={uuidv4()}
-                  justifyContent="space-around"
+                  justifyContent={{ xs: 'flex-start', lg: 'space-around' }}
                 >
                   <Box>
                     <Typography
@@ -66,7 +70,10 @@ const Analyze = () => {
                   </Box>
                   {item?.divider && (
                     <Divider
-                      sx={{ borderColor: theme?.palette?.grey[700] }}
+                      sx={{
+                        borderColor: theme?.palette?.grey[700],
+                        display: { xs: 'none', lg: 'block' },
+                      }}
                       orientation="vertical"
                     />
                   )}

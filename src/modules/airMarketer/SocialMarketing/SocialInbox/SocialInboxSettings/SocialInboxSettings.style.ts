@@ -1,10 +1,11 @@
 export const styles = {
   tabsStyle: (theme: any) => {
     return {
-      marginTop: '1.5rem',
+      marginTop: '0.5rem',
       paddingTop: '8px',
-      width: '15%',
-      marginRight: '1%',
+      minWidth: '12%',
+      // marginRight: '1%',
+      height: { lg: '100vh', xs: '0vh' },
       borderTop: `1px solid ${theme?.palette?.custom?.slate_gray}`,
       '@media (max-width: 1500px)': {
         width: '30%',
@@ -56,6 +57,8 @@ export const styles = {
     return {
       borderRadius: '8px',
       border: `1px solid  ${theme?.palette?.custom?.off_white_three}`,
+      borderLeft: `1px solid ${theme?.palette?.graph?.slate_gray}`,
+
       boxShadow:
         '0px 1px 2px 0px rgba(16, 24, 40, 0.06), 0px 1px 3px 0px rgba(16, 24, 40, 0.10)',
       padding: '20px',

@@ -56,6 +56,7 @@ export const teamsDataArray = [
     componentProps: {
       name: 'teamName',
       label: 'Team Name',
+      placeholder: 'Team Name',
       fullWidth: true,
       select: false,
     },
