@@ -9,7 +9,7 @@ const TemplatePlaceholder = () => {
         <TemplatePlaceholderIcon />
       </Box>
       <Typography sx={styles?.text} variant="body1">
-        You haven’t choose any template yet.
+        You haven’t chosen any template yet.
       </Typography>
     </Box>
   );

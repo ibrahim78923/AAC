@@ -3,7 +3,6 @@ import { useRouter } from 'next/router';
 import { PAGINATION } from '@/config';
 import { useForm } from 'react-hook-form';
 import {
-  useGetDealsQuery,
   useGetQuotesQuery,
   // useDeleteQuotesMutation,
   // useUpdateQuoteMutation,
@@ -11,7 +10,6 @@ import {
 
 const useQuotes = () => {
   const router = useRouter();
-  const { data: dataGetDeals } = useGetDealsQuery({ page: 1, limit: 20 });
 
   // Actions Dopdown
   const [actionsEl, setActionsEl] = useState<null | HTMLElement>(null);
@@ -169,7 +167,6 @@ const useQuotes = () => {
     handleCloseDeleteQuote,
     dataGetQuotes,
     loagingGetQuotes,
-    dataGetDeals,
   };
 };
 

@@ -4,16 +4,23 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { enqueueSnackbar } from 'notistack';
 import StepDeal from './StepDeal';
-import StepDetails from './StepDetails';
+// import StepDetails from './StepDetails';
 import StepBuyerInfo from './StepBuyerInfo';
 import StepYourInfo from './StepYourInfo';
 import StepSignature from './StepSignature';
 import StepLineItems from './StepLineItems';
 import StepReview from './StepReview';
-import { initValues, validationSchema } from './CreateQuote.data';
+import {
+  dealInitValues,
+  dealValidationSchema,
+  initValues,
+  validationSchema,
+} from './CreateQuote.data';
+import { useGetDealsQuery } from '@/services/airSales/quotes';
 
 const useCreateQuote = () => {
   const router = useRouter();
+  const { data: dataGetDeals } = useGetDealsQuery({ page: 1, limit: 20 });
   const methods: any = useForm({
     resolver: yupResolver(validationSchema),
     defaultValues: initValues,
@@ -105,11 +112,11 @@ const useCreateQuote = () => {
         />
       ),
     },
-    {
-      key: 'details',
-      label: 'Details',
-      component: <StepDetails values={watchFields} />,
-    },
+    // {
+    //   key: 'details',
+    //   label: 'Details',
+    //   component: <StepDetails values={watchFields} />,
+    // },
     {
       key: 'buyerInfo',
       label: 'Buyer Info',
@@ -145,10 +152,11 @@ const useCreateQuote = () => {
   ];
 
   // Create Quote
-  // const methodsAddQuote = useForm({
-  //   resolver: yupResolver(addFaqsValidationSchema),
-  //   defaultValues: addFaqsDefaultValues,
-  // });
+  const methodsAddQuote = useForm({
+    resolver: yupResolver(dealValidationSchema),
+    defaultValues: dealInitValues,
+  });
+
   // const { handleSubmit: handleMethodAddFaq, reset: resetAddFaqForm } =
   //   methodsAddFaqs;
 
@@ -168,6 +176,8 @@ const useCreateQuote = () => {
   // const handleAddFaqSubmit = handleMethodAddQuote(onSubmitCreateQuote);
 
   return {
+    dataGetDeals,
+    methodsAddQuote,
     methods,
     createQuoteSteps,
     activeStep,

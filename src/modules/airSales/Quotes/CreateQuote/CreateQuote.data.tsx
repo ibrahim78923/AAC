@@ -7,23 +7,12 @@ import {
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
-export const validationSchema = Yup.object().shape({
+export const dealValidationSchema = Yup.object().shape({
   selectDeal: Yup.string().required('Field is Required'),
   quoteTemplate: Yup.string().required('Field is Required'),
   quoteName: Yup.string().required('Field is Required'),
   quoteExpiration: Yup.date().required('Field is Required'),
 });
-
-export const initValues = {
-  selectDeal: '',
-  quoteTemplate: '',
-  quoteName: '',
-  quoteExpiration: null,
-  quoteNotes: '',
-  quoteTerms: '',
-  templateComment: '',
-  signature: 'noSignature',
-};
 
 export const dealInitValues = {
   selectDeal: '',
@@ -32,26 +21,24 @@ export const dealInitValues = {
   quoteExpiration: null,
   quoteNotes: '',
   quoteTerms: '',
-  templateComment: '',
-  signature: 'noSignature',
 };
 
-export const dealFormData = () => {
+export const dealFormData = (dealsData: any, openCreateDeal: any) => {
   return [
     {
-      id: 'selectDeal',
+      md: 12,
       component: RHFSearchableSelect,
       componentProps: {
         name: 'selectDeal',
         label: 'Select Deal',
-        fullWidth: true,
         required: true,
-        options: [
-          { value: 'deal1', label: 'Deal Name 1' },
-          { value: 'deal2', label: 'Deal Name 2' },
-        ],
+        fullWidth: true,
+        options: dealsData?.map((deal: any) => {
+          return { value: deal?._id, label: deal?.name };
+        }),
         isFooter: true,
         footerText: 'Create New Deal',
+        footerActionHandler: openCreateDeal,
       },
     },
     {
@@ -117,6 +104,24 @@ export const dealFormData = () => {
       },
     },
   ];
+};
+
+export const validationSchema = Yup.object().shape({
+  selectDeal: Yup.string().required('Field is Required'),
+  // quoteTemplate: Yup.string().required('Field is Required'),
+  // quoteName: Yup.string().required('Field is Required'),
+  // quoteExpiration: Yup.date().required('Field is Required'),
+});
+
+export const initValues = {
+  selectDeal: '',
+  quoteTemplate: '',
+  quoteName: '',
+  quoteExpiration: null,
+  quoteNotes: '',
+  quoteTerms: '',
+  templateComment: '',
+  signature: 'noSignature',
 };
 
 export const createQuoteFormFields = [
