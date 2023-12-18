@@ -49,6 +49,7 @@ export const END_POINTS = {
   DEAL_PIPELINE: '/deal-pipeline',
   GET_PRODUCTS_PERMISSIONS: '/permissions/permissions-by-product',
   DELETE_PRODUCT_CATALOG: '/product-catalog/delete-product-catalog',
+  PRODUCT_CATALOG_VENDOR_LIST: '/product-catalog/vendor-list',
 };
 
 export const superAdminBillingInvoices = {

@@ -3,7 +3,6 @@ import { Fragment } from 'react';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { useVendors } from './useVendors';
 import TanstackTable from '@/components/Table/TanstackTable';
-import { vendorsData } from './Vendors.data';
 import { AlertModals } from '@/components/AlertModals';
 import { ALERT_MODALS_TYPE } from '@/constants/strings';
 import { UpsertAsset } from './UpsertVendor';
@@ -16,6 +15,13 @@ export const Vendors = () => {
     handleSubmitDelete,
     setIsUpsertModalOpen,
     isUpsertModalOpen,
+    data,
+    isLoading,
+    isFetching,
+    isError,
+    isSuccess,
+    setPage,
+    setLimit,
   } = useVendors();
 
   return (
@@ -30,7 +36,22 @@ export const Vendors = () => {
         </Button>
       </Box>
 
-      <TanstackTable data={vendorsData} columns={vendorsColumns} isPagination />
+      <TanstackTable
+        data={data?.data?.vendorproductcatalogs}
+        columns={vendorsColumns}
+        isPagination
+        currentPage={data?.data?.meta?.page}
+        count={data?.data?.meta?.pages}
+        pageLimit={data?.data?.meta?.limit}
+        totalRecords={data?.data?.meta?.total}
+        onPageChange={(page: any) => setPage(page)}
+        setPage={setPage}
+        setPageLimit={setLimit}
+        isLoading={isLoading}
+        isFetching={isFetching}
+        isError={isError}
+        isSuccess={isSuccess}
+      />
 
       {isDeleteModalOpen && (
         <AlertModals
