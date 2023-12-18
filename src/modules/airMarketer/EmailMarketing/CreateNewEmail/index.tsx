@@ -3,6 +3,11 @@ import { Box, Button, Grid, Stack, Typography } from '@mui/material';
 import { useCreateNewEmail } from './useCreateNewEmail';
 import { createNewEmailData } from './CreateNewEmail.data';
 import AddANote from './AddNote';
+import { useState } from 'react';
+import 'react-quill/dist/quill.snow.css';
+import dynamic from 'next/dynamic';
+
+const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
 const CreateNewEmail = () => {
   const {
@@ -16,6 +21,29 @@ const CreateNewEmail = () => {
     handleAddNoteDrawer,
     isAddNoteDrawer,
   } = useCreateNewEmail();
+  const [value, setValue] = useState('');
+
+  const modules = {
+    toolbar: [['image', 'video', 'bold', 'italic', 'underline']],
+  };
+
+  const formats = [
+    'image',
+    'video',
+    'bold',
+    'italic',
+    'underline',
+    'strike',
+    'blockquote',
+  ];
+
+  // const defaultFeatures = [
+  //   ['bold', 'italic', 'underline'],
+  //   [{ align: 'center' }, { align: 'right' }, { align: 'justify' }],
+  //   [{ list: 'bullet' }, { list: 'ordered' }],
+  //   [{ color: [] }],
+  //   ['capitalize'],
+  // ];
 
   return (
     <>
@@ -97,6 +125,16 @@ const CreateNewEmail = () => {
               );
             })}
           </Grid>
+          <Box sx={styles.reactQuill}>
+            <ReactQuill
+              theme="snow"
+              value={value}
+              onChange={setValue}
+              modules={modules}
+              formats={formats}
+              placeholder="Write something..."
+            />
+          </Box>
         </FormProvider>
       </Box>
       {isAddNoteDrawer && (
@@ -122,4 +160,23 @@ const styles = {
     textTransform: 'uppercase',
   },
   emailBccWrap: { display: 'flex', alignItems: 'center', gap: '8px' },
+  reactQuill: {
+    marginTop: '20px',
+    '.ql-container.ql-snow': {
+      display: 'flex',
+      flexDirection: 'column',
+      order: 1,
+      height: '300px',
+    },
+    '.ql-toolbar.ql-snow': {
+      // background: 'red',
+      display: 'flex',
+      order: 2,
+      mt: 1.5,
+    },
+    '.quill': {
+      display: 'flex',
+      flexDirection: 'column',
+    },
+  },
 };

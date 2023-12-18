@@ -240,3 +240,5 @@ export { default as EmailMarketingImage } from './modules/HeaderAndSidebar/email
 
 export { default as EmailMockupImage } from './modules/airMarketer/EmailMarketing/email-mockup.png';
 export { default as ViewDetailsImage } from './modules/airMarketer/EmailMarketing/viewdetails.png';
+export { default as TemplateOneImage } from './modules/airMarketer/EmailMarketing/EmailTemplates/templateOne.png';
+export { default as TemplateTwoImage } from './modules/airMarketer/EmailMarketing/EmailTemplates/templateTwo.png';
