@@ -10,15 +10,10 @@ export const styles = {
     flexWrap: 'wrap',
   },
   createBtn: {
-    display: 'flex',
     columnGap: '10px',
-    height: '38px',
-    fontWeight: '500',
-    marginLeft: '15px',
     '@media (max-width: 500px)': {
       marginTop: '20px',
       width: '100%',
-      marginLeft: '0px',
     },
   },
   actionBtn: (theme: any) => {

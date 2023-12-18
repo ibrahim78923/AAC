@@ -26,6 +26,8 @@ const useDealPipelines = () => {
   const [isdefaultValue, setdefaultValue] = useState(false);
   const [dynamicFields, setDynamicFields] = useState([...dataArray]);
 
+  // const [postDealsPipeline] = usePostDealsPipelineMutation()
+
   const theme = useTheme<Theme>();
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -45,7 +47,9 @@ const useDealPipelines = () => {
     defaultValues: dealPipelinesDefaultValues,
   });
   const { handleSubmit } = dealPipelines;
-  const onSubmit = () => {};
+  const onSubmit = () => {
+    // console.log('postDealsPipeline', values);
+  };
 
   const handleCloseDeleteModal = () => {
     setDeleteModalOpen(false);

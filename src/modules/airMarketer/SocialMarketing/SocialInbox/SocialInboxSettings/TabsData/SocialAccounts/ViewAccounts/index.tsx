@@ -39,7 +39,7 @@ const ViewAccount = ({ handleShowCard }: { handleShowCard: () => void }) => {
             setSearchBy={setSearchTerm}
             label="Search By Name"
             size="small"
-            sx={{ marginBottom: '15px' }}
+            // sx={{ marginBottom: '15px' }}
           />
         </Grid>
         <Grid item xs={12}>

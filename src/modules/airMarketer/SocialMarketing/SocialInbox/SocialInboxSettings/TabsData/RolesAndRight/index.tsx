@@ -4,8 +4,6 @@ import {
   Box,
   Typography,
   Button,
-  InputAdornment,
-  TextField,
   MenuItem,
   Menu,
   Theme,
@@ -13,7 +11,6 @@ import {
   Grid,
 } from '@mui/material';
 
-import SearchIcon from '@mui/icons-material/Search';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
@@ -35,6 +32,7 @@ import { rolesAndRightTableData } from '@/mock/modules/airSales/SettingSales';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { v4 as uuidv4 } from 'uuid';
+import Search from '@/components/Search';
 
 const RolesRight = ({ initialValueProps = defaultValues }: any) => {
   const [isDraweropen, setIsDraweropen] = useState(false);
@@ -60,6 +58,7 @@ const RolesRight = ({ initialValueProps = defaultValues }: any) => {
     resolver: yupResolver(validationSchema),
     defaultValues: initialValueProps,
   });
+  const [productSearch, setproductSearch] = useState('');
 
   return (
     <>
@@ -131,6 +130,10 @@ const RolesRight = ({ initialValueProps = defaultValues }: any) => {
             sx={{
               display: 'flex',
               columnGap: '10px',
+              '@media (max-width: 500px)': {
+                marginTop: '20px',
+                width: '100%',
+              },
             }}
             className="small"
             onClick={() => setIsDraweropen(true)}
@@ -149,20 +152,19 @@ const RolesRight = ({ initialValueProps = defaultValues }: any) => {
             display: 'flex',
             justifyContent: 'space-between',
             flexWrap: 'wrap',
-            marginTop: '2rem',
+            marginTop: '1rem',
             marginBottom: '1rem',
+            gap: 1,
           }}
         >
-          <TextField
-            placeholder="Search Here"
+          <Search
+            label={'Search here'}
+            searchBy={productSearch}
+            setSearchBy={setproductSearch}
+            width="260px"
             size="small"
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <SearchIcon />
-                </InputAdornment>
-              ),
-            }}
+
+            // sx={{ marginTop: '2rem', marginBottom: '1rem' }}
           />
           <Button
             id="basic-button"
@@ -177,6 +179,9 @@ const RolesRight = ({ initialValueProps = defaultValues }: any) => {
               color: `${theme?.palette?.custom?.main}`,
               display: 'flex',
               alignItems: 'center',
+              '@media (max-width: 500px)': {
+                width: '100%',
+              },
             }}
           >
             Actions <ArrowDropDownIcon />
