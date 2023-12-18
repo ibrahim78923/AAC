@@ -19,9 +19,9 @@ const Quotes = () => {
     setSelectedRow,
     setIsActionsDisabled,
     setRowId,
-    openFilter,
-    handleCloseFilter,
-    handleOpenFilter,
+    openFilters,
+    handleOpenFilters,
+    handleCloseFilters,
     setSearchValue,
     openCustomizeColumns,
     handleOpenCustomizeColumns,
@@ -37,6 +37,9 @@ const Quotes = () => {
     handleCloseDeleteQuote,
     dataGetQuotes,
     loagingGetQuotes,
+    handleFiltersSubmit,
+    methodsFilter,
+    handleRefresh,
   } = useQuotes();
 
   const getQuotesColumns = quotesColumns(
@@ -57,9 +60,9 @@ const Quotes = () => {
 
         <TableToolbar
           setSearchValue={setSearchValue}
-          handleFilters={handleOpenFilter}
+          handleFilters={handleOpenFilters}
           handleCustomizeColumns={handleOpenCustomizeColumns}
-          handleResetFilters={() => alert('Refresh')}
+          handleResetFilters={handleRefresh}
           handleEditQuote={handleEditQuote}
           handleViewQuote={handleViewQuote}
           handleOpenDeleteQuote={handleOpenDeleteQuote}
@@ -78,7 +81,12 @@ const Quotes = () => {
         />
       </Box>
 
-      <FilterQuotes open={openFilter} onClose={handleCloseFilter} />
+      <FilterQuotes
+        open={openFilters}
+        onClose={handleCloseFilters}
+        methods={methodsFilter}
+        onFilterSubmit={handleFiltersSubmit}
+      />
 
       <CustomizeColumns
         open={openCustomizeColumns}

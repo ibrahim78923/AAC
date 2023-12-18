@@ -1,4 +1,6 @@
-import { Checkbox } from '@mui/material';
+import { DATE_FORMAT } from '@/constants';
+import { Box, Checkbox } from '@mui/material';
+import dayjs from 'dayjs';
 
 export const quotesColumns = (
   selectedRow: any,
@@ -83,25 +85,33 @@ export const quotesColumns = (
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row.quoteName,
-      id: 'quoteName',
-      cell: (info: any) => info.getValue(),
+      accessorFn: (row: any) => row?.name,
+      id: 'name',
+      cell: (info: any) => info?.getValue(),
       header: 'Quote Name',
       isSortable: true,
     },
     {
-      accessorFn: (row: any) => row.quoteAmount,
-      id: 'quoteAmount',
+      accessorFn: (row: any) => row?.deal,
+      id: 'deal',
       isSortable: true,
       header: 'Quote Amount',
-      cell: (info: any) => <>£{info.getValue()}</>,
+      cell: (info: any) => {
+        return <>£{info?.getValue()?.amount}</>;
+      },
     },
     {
-      accessorFn: (row: any) => row.status,
-      id: 'status',
+      accessorFn: (row: any) => row.isSubmitted,
+      id: 'isSubmitted',
       isSortable: true,
       header: 'Status',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => {
+        if (info?.getValue()) {
+          return <Box sx={{ color: 'success.main' }}>Published</Box>;
+        } else {
+          return <>Draft</>;
+        }
+      },
     },
     {
       accessorFn: (row: any) => row?.deal,
@@ -118,18 +128,18 @@ export const quotesColumns = (
       cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row.createdDate,
-      id: 'createdDate',
+      accessorFn: (row: any) => row?.createdAt,
+      id: 'createdAt',
       isSortable: true,
       header: 'Created Date',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => dayjs(info?.getValue()).format(DATE_FORMAT.UI),
     },
     {
-      accessorFn: (row: any) => row?.expirationDate,
-      id: 'expirationDate',
+      accessorFn: (row: any) => row?.expiryDate,
+      id: 'expiryDate',
       isSortable: true,
       header: 'Expiration Date',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => dayjs(info?.getValue()).format(DATE_FORMAT.UI),
     },
   ];
 };

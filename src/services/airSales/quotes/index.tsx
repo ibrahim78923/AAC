@@ -4,6 +4,15 @@ import { END_POINTS } from '@/routesConstants/endpoints';
 const TAG = ['AIR_SALES_QUOTES'];
 export const quotesAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
+    getDeals: builder.query({
+      query: ({ params }) => ({
+        url: '/deals/get-deals-list-view',
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: TAG,
+    }),
+
     getQuotes: builder.query({
       query: ({ params }) => ({
         url: END_POINTS?.QUOTES,
@@ -23,7 +32,7 @@ export const quotesAPI = baseAPI.injectEndpoints({
 
     postQuote: builder.mutation({
       query: ({ body }: any) => ({
-        url: END_POINTS?.QUOTES,
+        url: END_POINTS?.QUOTE_CREATE,
         method: 'POST',
         body: body,
       }),
@@ -50,6 +59,7 @@ export const quotesAPI = baseAPI.injectEndpoints({
 });
 
 export const {
+  useGetDealsQuery,
   useGetQuotesQuery,
   useGetQuoteByIdQuery,
   useUpdateQuoteMutation,

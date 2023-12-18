@@ -3,14 +3,15 @@ import { useRouter } from 'next/router';
 import { PAGINATION } from '@/config';
 import { useForm } from 'react-hook-form';
 import {
+  useGetDealsQuery,
   useGetQuotesQuery,
-  // usePostQuoteMutation,
   // useDeleteQuotesMutation,
   // useUpdateQuoteMutation,
 } from '@/services/airSales/quotes';
 
 const useQuotes = () => {
   const router = useRouter();
+  const { data: dataGetDeals } = useGetDealsQuery({ page: 1, limit: 20 });
 
   // Actions Dopdown
   const [actionsEl, setActionsEl] = useState<null | HTMLElement>(null);
@@ -37,14 +38,6 @@ const useQuotes = () => {
   const [isActionsDisabled, setIsActionsDisabled] = useState(true);
   const [rowId, setRowId] = useState(null);
 
-  // Filter Drawer
-  const [openFilter, setOpenFilter] = useState(false);
-  const handleOpenFilter = () => {
-    setOpenFilter(true);
-  };
-  const handleCloseFilter = () => {
-    setOpenFilter(false);
-  };
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const defaultParams = {
@@ -67,6 +60,26 @@ const useQuotes = () => {
     useGetQuotesQuery({
       params: { ...filterParams, ...searchPayLoad },
     });
+
+  // Filters
+  const [openFilters, setOpenFilters] = useState(false);
+  const handleOpenFilters = () => {
+    setOpenFilters(true);
+  };
+  const handleCloseFilters = () => {
+    setOpenFilters(false);
+  };
+
+  const onSubmitFilters = async (values: any) => {
+    setFilterParams((prev) => {
+      return {
+        ...prev,
+        ...values,
+      };
+    });
+    handleCloseFilters();
+  };
+  const handleFiltersSubmit = handleMethodFilter(onSubmitFilters);
 
   // Hadle PAGE CHANGE
   const handlePageChange = (newPage: number) => {
@@ -117,7 +130,12 @@ const useQuotes = () => {
   };
 
   return {
+    openFilters,
+    handleOpenFilters,
+    handleCloseFilters,
+    methodsFilter,
     handleMethodFilter,
+    handleFiltersSubmit,
     pageLimit,
     setPageLimit,
     setSearchValue,
@@ -135,9 +153,6 @@ const useQuotes = () => {
     openActionsDropdown,
     handleActionsDropdown,
     handleActionsDropdownClose,
-    openFilter,
-    handleOpenFilter,
-    handleCloseFilter,
     openCustomizeColumns,
     handleOpenCustomizeColumns,
     handleCloseCustomizeColumns,
@@ -152,9 +167,9 @@ const useQuotes = () => {
     openDeleteQuote,
     handleOpenDeleteQuote,
     handleCloseDeleteQuote,
-
     dataGetQuotes,
     loagingGetQuotes,
+    dataGetDeals,
   };
 };
 

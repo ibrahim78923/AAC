@@ -98,7 +98,12 @@ const useCreateQuote = () => {
     {
       key: 'deal',
       label: 'Deal',
-      component: <StepDeal openCreateDeal={handleOpenFormCreateDeal} />,
+      component: (
+        <StepDeal
+          openCreateDeal={handleOpenFormCreateDeal}
+          values={watchFields}
+        />
+      ),
     },
     {
       key: 'details',
@@ -138,6 +143,29 @@ const useCreateQuote = () => {
       component: <StepReview />,
     },
   ];
+
+  // Create Quote
+  // const methodsAddQuote = useForm({
+  //   resolver: yupResolver(addFaqsValidationSchema),
+  //   defaultValues: addFaqsDefaultValues,
+  // });
+  // const { handleSubmit: handleMethodAddFaq, reset: resetAddFaqForm } =
+  //   methodsAddFaqs;
+
+  // const [postAddQuote, { isLoading: loadingAddQuote }] = usePostQuoteMutation();
+  // const onSubmitCreateQuote = async (values: any) => {
+  //   try {
+  //     await postAddQuote({ body: values })?.unwrap();
+  //     enqueueSnackbar('Quote added successfully', {
+  //       variant: 'success',
+  //     });
+  //   } catch (error: any) {
+  //     enqueueSnackbar('An error occured', {
+  //       variant: 'error',
+  //     });
+  //   }
+  // };
+  // const handleAddFaqSubmit = handleMethodAddQuote(onSubmitCreateQuote);
 
   return {
     methods,

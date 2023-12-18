@@ -1,22 +1,9 @@
 import { Grid, Box } from '@mui/material';
-import { useForm } from 'react-hook-form';
-import { enqueueSnackbar } from 'notistack';
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
-import { dataArray, defaultValues } from './FilterQuotes.data';
+import { dataArray } from './FilterQuotes.data';
 
-const FilterQuotes = ({ open, onClose }: any) => {
-  const methods: any = useForm({
-    defaultValues: defaultValues,
-  });
-  const { handleSubmit } = methods;
-
-  const onSubmit = async () => {
-    enqueueSnackbar('Ticket Updated Successfully', {
-      variant: 'success',
-    });
-  };
-
+const FilterQuotes = ({ open, onClose, methods, onFilterSubmit }: any) => {
   return (
     <CommonDrawer
       isDrawerOpen={open}
@@ -26,7 +13,7 @@ const FilterQuotes = ({ open, onClose }: any) => {
       isOk
       cancelText={'Cancel'}
       footer
-      submitHandler={handleSubmit(onSubmit)}
+      submitHandler={onFilterSubmit}
     >
       <Box sx={{ pt: '24px' }}>
         <FormProvider methods={methods}>

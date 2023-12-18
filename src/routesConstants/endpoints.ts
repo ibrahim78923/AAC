@@ -42,6 +42,7 @@ export const END_POINTS = {
   DELETE_ASSOCIATION: '/deals/delete-association',
   ASSETS_INVENTORY: '/assets/inventory',
   QUOTES: '/quote',
+  QUOTE_CREATE: '/quote/add-deal',
 };
 
 export const superAdminBillingInvoices = {
