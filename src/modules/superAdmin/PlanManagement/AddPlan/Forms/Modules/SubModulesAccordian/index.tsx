@@ -36,8 +36,8 @@ const SubModulesAccordion = ({ subModules, methods, handleSubmit }: any) => {
 
   return (
     <>
-      {Object.keys(groupedDataSubModules)?.length ? (
-        Object.keys(groupedDataSubModules).map((subModule: any) => {
+      {Object?.keys(groupedDataSubModules)?.length ? (
+        Object?.keys(groupedDataSubModules).map((subModule: any) => {
           return (
             <Accordion
               key={uuidv4()}

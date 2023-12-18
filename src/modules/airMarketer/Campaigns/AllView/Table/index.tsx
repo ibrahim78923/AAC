@@ -18,7 +18,7 @@ const Table = () => {
         lg={12}
         style={{ display: 'flex', justifyContent: 'space-between' }}
       >
-        <Typography variant="h3" onClick={() => router.back()}>
+        <Typography variant="h3" onClick={() => router?.back()}>
           <BackArrowIcon /> &nbsp; All View
         </Typography>
       </Grid>

@@ -20,6 +20,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { useAppSelector } from '@/redux/store';
 import { useGetPermissionsByProductsQuery } from '@/services/superAdmin/plan-mangement';
+import { isNullOrEmpty } from '@/utils';
 
 const Modules = ({ methods, handleSubmit }: any) => {
   const { theme, isAccordionExpanded, handleExpandAccordionChange } =
@@ -44,7 +45,7 @@ const Modules = ({ methods, handleSubmit }: any) => {
   }
 
   const groupedData: any = {};
-  modulesPermissions?.data.forEach((item: any) => {
+  modulesPermissions?.data?.forEach((item: any) => {
     const moduleName = item?.module;
 
     if (!groupedData[moduleName]) {
@@ -74,8 +75,8 @@ const Modules = ({ methods, handleSubmit }: any) => {
 
   return (
     <div>
-      {planManagement?.addPlanForm?.productId.length
-        ? Object.keys(groupedData).map((productModulePermissions: any) => (
+      {!isNullOrEmpty(planManagement?.addPlanForm?.productId)
+        ? Object?.keys(groupedData)?.map((productModulePermissions: any) => (
             <Accordion
               key={uuidv4()}
               expanded={isAccordionExpanded === productModulePermissions}
@@ -124,7 +125,7 @@ const Modules = ({ methods, handleSubmit }: any) => {
               </AccordionDetails>
             </Accordion>
           ))
-        : Object.keys(groupedDataCrm).map((productModulePermissions: any) => (
+        : Object?.keys(groupedDataCrm).map((productModulePermissions: any) => (
             <Accordion
               key={uuidv4()}
               expanded={isAccordionExpanded === productModulePermissions}

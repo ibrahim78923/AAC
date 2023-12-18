@@ -60,7 +60,7 @@ const ManageAccess = ({
             <Typography
               variant="h6"
               fontWeight={600}
-              color={theme?.palette?.slateBlue.main}
+              color={theme?.palette?.slateBlue?.main}
             >
               Shared with *
             </Typography>
