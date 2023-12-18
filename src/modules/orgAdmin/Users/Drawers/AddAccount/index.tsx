@@ -1,42 +1,17 @@
-import React from 'react';
-
 import { Grid, Box, Typography } from '@mui/material';
 
 import CommonDrawer from '@/components/CommonDrawer';
 
 import { FormProvider } from '@/components/ReactHookForm';
 
-import {
-  AddAccountArray,
-  AddAccountDefaultValues,
-  AddAccountValidationSchema,
-} from './AddAccount.data';
+import { AddAccountArray } from './AddAccount.data';
 
 import { v4 as uuidv4 } from 'uuid';
-
-import { useForm } from 'react-hook-form';
-
-import { yupResolver } from '@hookform/resolvers/yup';
-
-import { enqueueSnackbar } from 'notistack';
+import useAddAccount from './useAddAccount';
 
 const AddAccount = (props: any) => {
   const { isOpen, setIsOpen } = props;
-
-  const methods: any = useForm({
-    resolver: yupResolver(AddAccountValidationSchema),
-    defaultValues: AddAccountDefaultValues,
-  });
-
-  const { handleSubmit, reset } = methods;
-
-  const onSubmit = async () => {
-    enqueueSnackbar('User Added Successfully', {
-      variant: 'success',
-    });
-    reset();
-  };
-
+  const { handleSubmit, onSubmit, methods } = useAddAccount();
   return (
     <CommonDrawer
       isDrawerOpen={isOpen}
@@ -52,7 +27,7 @@ const AddAccount = (props: any) => {
       <Box mt={1}>
         <FormProvider methods={methods}>
           <Grid container spacing={1}>
-            {AddAccountArray?.map((item: any) => (
+            {AddAccountArray()?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={uuidv4()}>
                 <Typography variant="body2" fontWeight={500}>
                   {item?.title}
