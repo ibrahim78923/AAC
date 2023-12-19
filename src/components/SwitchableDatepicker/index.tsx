@@ -114,9 +114,9 @@ const SwitchableDatepicker = ({
   // Datepicker custom container
   const Container = ({ children }: any) => {
     return (
-      <Box sx={{ ...styles.dpContainer, ...placement }}>
-        <Box sx={styles.dpContent}>
-          <Box sx={styles.dpSidebar}>
+      <Box sx={{ ...styles?.dpContainer, ...placement }}>
+        <Box sx={styles?.dpContent}>
+          <Box sx={styles?.dpSidebar}>
             <List component={'nav'} sx={styles.dpSidebarList}>
               <ListItemButton
                 selected={selectedIndex === 'today'}

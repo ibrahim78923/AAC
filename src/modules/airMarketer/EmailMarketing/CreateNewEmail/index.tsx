@@ -25,6 +25,7 @@ const CreateNewEmail = () => {
     handleActionsButton,
     // isScheduleModalOpen,
     openCalendar,
+    theme,
   } = useCreateNewEmail();
   const [value, setValue] = useState('');
 
@@ -123,7 +124,7 @@ const CreateNewEmail = () => {
               );
             })}
           </Grid>
-          <Box sx={styles.reactQuill}>
+          <Box sx={styles?.reactQuill(theme?.palette)}>
             <ReactQuill
               theme="snow"
               value={value}
@@ -134,7 +135,6 @@ const CreateNewEmail = () => {
             />
           </Box>
           <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
-            {/* <Button variant='contained' type="submit"> Send</Button> */}
             <ActionBtn
               variant="contained"
               menuItems={CreateEmailData}
@@ -153,29 +153,23 @@ const CreateNewEmail = () => {
 };
 
 export default CreateNewEmail;
+
 const styles = {
   createNewEmailWrap: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-  emailBcc: {
-    color: '#6B7280',
-    border: '1px solid #D1D5DB',
-    p: '7px 8px',
-    width: '72px',
-    textAlign: 'center',
-    textTransform: 'uppercase',
-  },
+
   emailBccWrap: { display: 'flex', alignItems: 'center', gap: '8px' },
-  reactQuill: {
+  reactQuill: (theme: any) => ({
     marginTop: '20px',
     '.ql-container.ql-snow': {
       display: 'flex',
       flexDirection: 'column',
       order: 1,
       height: '300px',
-      border: '1px solid #E5E7EB !important',
+      border: `1px solid ${theme?.grey[700]} !important`,
       p: 1,
       borderRadius: '16px',
     },
@@ -183,7 +177,7 @@ const styles = {
       left: '24px !important',
     },
     '.ql-toolbar.ql-snow': {
-      background: '#F3F4F6',
+      background: `${theme?.grey[400]}`,
       border: 'none',
       borderRadius: '8px',
       display: 'flex',
@@ -195,5 +189,5 @@ const styles = {
       display: 'flex',
       flexDirection: 'column',
     },
-  },
+  }),
 };

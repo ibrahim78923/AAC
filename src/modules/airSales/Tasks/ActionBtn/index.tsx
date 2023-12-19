@@ -59,9 +59,9 @@ const ActionBtn = ({
               onChange(item?.name);
               handleClose();
             }}
-            key={item.item}
+            key={item?.item}
           >
-            {item.item}
+            {item?.item}
           </MenuItem>
         ))}
       </Popover>

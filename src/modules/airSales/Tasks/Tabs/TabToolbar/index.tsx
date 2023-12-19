@@ -21,12 +21,11 @@ const TabToolbar = ({
     if (item === 'edit') {
       setIsEditAction(!isEditAction);
     }
-    // console.log('item', item);
   };
 
   return (
     <>
-      <Box sx={styles.filterWrapper}>
+      <Box sx={styles?.filterWrapper}>
         <Box
           display={'flex'}
           alignItems={'center'}

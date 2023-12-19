@@ -1,5 +1,5 @@
 // import React, { useState } from 'react';
-import { Typography, MenuItem, Box } from '@mui/material';
+import { Typography, MenuItem, Box, useTheme } from '@mui/material';
 import DrawerComp from '../Drawer';
 import { FilterIcon } from '@/assets/icons';
 import { uuid } from 'uuidv4';
@@ -16,6 +16,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 // import { useGetDealsTasksManagementQuery } from '@/services/airSales/deals/view-details/tasks';
 
 const Filter = () => {
+  const theme = useTheme();
+
   // const [taskFilters, setTaskFilters] = useState<any>({});
   const methods = useForm({
     resolver: yupResolver(filterValidationSchema),
@@ -52,7 +54,7 @@ const Filter = () => {
           <Box key={uuid()} mb="32px">
             <Typography
               sx={{
-                color: '#4B5563',
+                color: theme?.palette?.grey[600],
                 fontSize: '16px',
                 fontWeight: 500,
                 mb: '8px',
