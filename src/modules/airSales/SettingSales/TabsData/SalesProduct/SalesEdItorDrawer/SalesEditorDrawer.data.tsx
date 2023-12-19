@@ -9,24 +9,26 @@ import * as Yup from 'yup';
 
 export const salesProductvalidationSchema = Yup?.object()?.shape({
   name: Yup?.string()?.required('Field is Required'),
-  SKU: Yup?.string(),
-  purchasePrice: Yup?.string()?.required('Field is Required'),
+  sku: Yup?.string(),
+  purchasePrice: Yup?.number()?.required('Field is Required'),
   category: Yup?.string(),
   description: Yup?.string(),
-  activeProduct: Yup?.string(),
-  unitPrice: Yup?.string()?.required('Field is Required'),
-  upload: Yup?.string(),
+  // activeProduct: Yup?.string(),
+  unitPrice: Yup?.number()?.required('Field is Required'),
+  // upload: Yup?.string(),
 });
 
 export const salesProductDefaultValues = {
   name: '',
-  SKU: '',
-  purchasePrice: '',
+  sku: '',
+  purchasePrice: null,
   category: '',
   description: '',
-  activeProduct: '',
-  unitPrice: '',
-  upload: '',
+  // activeProduct: false,
+  unitPrice: null,
+  fileUrl: '',
+  isActive: true,
+  // upload: '',
 };
 
 export const dataArray = [
@@ -59,6 +61,7 @@ export const dataArray = [
       fullWidth: true,
       placeholder: 'Enter here',
       required: true,
+      type: 'number',
     },
     component: RHFTextField,
     md: 12,
@@ -113,6 +116,7 @@ export const dataArray = [
       fullWidth: true,
       placeholder: 'Enter here',
       required: true,
+      type: 'number',
     },
     component: RHFTextField,
     md: 12,
