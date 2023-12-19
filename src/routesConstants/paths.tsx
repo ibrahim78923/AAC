@@ -9,6 +9,7 @@ function path(root: string, sublink: string) {
 const AUTH_ROOT_PAGE = '/auth';
 const DASHBOARD_ROOT_PAGE = '/dashboard';
 const SOCIAL_ROOT_PAGE = '/social-components';
+const AIR_SALES_PAGE = '/air-sales';
 
 // ======================================================================
 
@@ -54,6 +55,10 @@ export const SOCIAL_FEATURES = {
 };
 
 export const AIR_SALES = {
+  root: AIR_SALES_PAGE,
+  QUOTES: path(AIR_SALES_PAGE, '/quotes'),
+  CREATE_QUOTE: path(AIR_SALES_PAGE, '/quotes/create-quote'),
+  UPDATE_QUOTE: path(AIR_SALES_PAGE, '/quotes/update-quote'),
   SALES_INVOICES: '/air-sales/invoices',
   SALES_VIEW_INVOICES: '/air-sales/invoices/view-invoices',
   SALES_CREATE_INVOICES: '/air-sales/invoices/create-invoices',

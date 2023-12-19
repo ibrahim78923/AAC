@@ -43,7 +43,7 @@ export const END_POINTS = {
   DELETE_ASSOCIATION: '/deals/delete-association',
   ASSETS_INVENTORY: '/assets/inventory',
   QUOTES: '/quote',
-  QUOTE_CREATE: '/quote/add-deal',
+  QUOTE_CREATE: '/quote/add-details',
   GET_COMPANY_ORGANIZATION_DROPDOWN: '/dropdown/organizations',
   GET_COMPANY_ACCOUNTS: '/company-accounts',
   SALE_PRODUCTS: '/sales-product',
