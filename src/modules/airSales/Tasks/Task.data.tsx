@@ -11,12 +11,25 @@ import { useTask } from './useTask';
 import * as Yup from 'yup';
 import SearchableTabsSelect from '@/modules/airSales/Tasks/searchableTabsSelect/SearchableTabsSelect';
 
+export const filterDefaultValues = {
+  assignee: '',
+  taskStatus: '',
+  priority: '',
+  dueDate: '',
+};
+
+export const filterValidationSchema = Yup?.object()?.shape({
+  assignee: Yup?.string(),
+  taskStatus: Yup?.string(),
+  priority: Yup?.string(),
+  dueDate: Yup?.string(),
+});
+
 export const filterData = [
   {
     title: 'Assignee',
     componentProps: {
       name: 'assignee',
-      label: 'select',
       select: true,
     },
     options: [{ value: 'value', label: 'label' }],
@@ -26,7 +39,6 @@ export const filterData = [
     title: 'Task Status',
     componentProps: {
       name: 'taskStatus',
-      label: 'select',
       select: true,
     },
     options: [{ value: 'value', label: 'label' }],
@@ -36,7 +48,6 @@ export const filterData = [
     title: 'Priority',
     componentProps: {
       name: 'priority',
-      label: 'select',
       select: true,
     },
     options: [{ value: 'value', label: 'label' }],
@@ -46,19 +57,8 @@ export const filterData = [
     title: 'Due date',
     componentProps: {
       name: 'dueDate',
-      label: 'select',
     },
     component: RHFDatePicker,
-  },
-  {
-    title: 'Queue',
-    componentProps: {
-      name: 'queue',
-      label: 'select',
-      select: true,
-    },
-    options: [{ value: 'value', label: 'label' }],
-    component: RHFTextField,
   },
 ];
 
@@ -115,7 +115,7 @@ export const matchColumnsData = [
 ];
 
 export const createTaskValidationSchema = Yup?.object()?.shape({
-  name: Yup?.string()?.trim()?.required('Field is Required'),
+  name: Yup?.string()?.required('Field is Required'),
   type: Yup?.string()?.trim()?.required('Field is Required'),
   priority: Yup?.string()?.trim()?.required('Field is Required'),
   status: Yup?.string()?.trim()?.required('Field is Required'),

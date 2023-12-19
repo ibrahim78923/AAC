@@ -1,9 +1,11 @@
 import React from 'react';
-import { Box, Button, Typography } from '@mui/material';
+import { Box, InputAdornment, Typography } from '@mui/material';
 import Search from '@/components/Search';
 import { ActivityLogsData } from '@/mock/modules/orgAdmin/ActivityLogs';
 import { v4 as uuidv4 } from 'uuid';
 import UserLists from './UserLists';
+import SearchSharedIcon from '@/assets/icons/shared/search-shared';
+import SwitchableDatepicker from '@/components/SwitchableDatepicker';
 
 const ActivityLogs = () => {
   return (
@@ -12,8 +14,21 @@ const ActivityLogs = () => {
         Activity Logs
       </Typography>
       <Box display={'flex'} alignItems={'center'} gap={'24px'} mb={'24px'}>
-        <Search size="small" sx={{ flex: 1 }} />
-        <Button variant="outlined">Date</Button>
+        <Search
+          size="small"
+          sx={{ flex: 1 }}
+          placeholder="What are you looking for"
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchSharedIcon />
+              </InputAdornment>
+            ),
+          }}
+        />
+        <Box>
+          <SwitchableDatepicker />
+        </Box>
       </Box>
       {ActivityLogsData.map((data) => (
         <Box key={uuidv4()}>
