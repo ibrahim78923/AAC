@@ -7,23 +7,31 @@ const useUsers = () => {
   const [employeeDataById, setEmployeeDataById] = useState();
   const [searchEmployee, setSearchEmployee] = useState('');
   const [employeeFilter, setEmployeeFilter] = useState({
-    status: '',
     product: '',
     company: '',
+    user: '',
   });
   const empListParams = {
     page: 1,
     limit: 10,
     search: searchEmployee,
-    // status:'ACTIVE'
     product: employeeFilter?.product,
     company: employeeFilter?.company,
+    // user: employeeFilter?.user
   };
   const { data: employeeList } = useGetEmployeeListQuery({
     orgId: user?.organization?._id,
     values: empListParams,
   });
   const employeeDetails = employeeList?.data?.users;
+
+  const resetFilter = () => {
+    setEmployeeFilter({
+      product: '',
+      company: '',
+      user: '',
+    });
+  };
 
   return {
     user,
@@ -35,6 +43,7 @@ const useUsers = () => {
     employeeDetails,
     employeeDataById,
     setEmployeeDataById,
+    resetFilter,
   };
 };
 

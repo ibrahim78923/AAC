@@ -40,7 +40,13 @@ const UsersSidebar = (props: any) => {
     setIsActiveEmp,
     theme,
   } = useUsersSidebar();
-  const { employeeDetails, setSearchEmployee } = useUsers();
+  const {
+    employeeDetails,
+    setSearchEmployee,
+    employeeFilter,
+    setEmployeeFilter,
+    resetFilter,
+  } = useUsers();
 
   return (
     <Box
@@ -85,7 +91,12 @@ const UsersSidebar = (props: any) => {
           onChange={(val: any) => setSearchEmployee(val?.target?.value)}
         />
         <Tooltip title={'Refresh Filter'}>
-          <Button variant="outlined" color="inherit" className="small">
+          <Button
+            variant="outlined"
+            color="inherit"
+            className="small"
+            onClick={resetFilter}
+          >
             <RefreshTasksIcon />
           </Button>
         </Tooltip>
@@ -166,6 +177,8 @@ const UsersSidebar = (props: any) => {
       {isOpenFilterDrawer && (
         <FilterUser
           isOpenDrawer={isOpenFilterDrawer}
+          employeeFilter={employeeFilter}
+          setEmployeeFilter={setEmployeeFilter}
           onClose={() => {
             setIsOpenFilterDrawer(false);
           }}
