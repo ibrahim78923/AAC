@@ -48,6 +48,9 @@ export const END_POINTS = {
   ACTIVITY_LOG: '/activity-log',
   DEAL_PIPELINE: '/deal-pipeline',
   GET_PRODUCTS_PERMISSIONS: '/permissions/permissions-by-product',
+  VENDOR_LIST: '/vendors/get-vendors',
+  DELETE_PRODUCT_CATALOG: '/product-catalog/delete-product-catalog',
+  PRODUCT_CATALOG_VENDOR_LIST: '/product-catalog/vendor-list',
 };
 
 export const superAdminBillingInvoices = {
@@ -104,7 +107,7 @@ export const COMMON_DOCUMENTS = {
   POST_DOCUMENTS_FILE: '/documents/file',
   GET_DOCUMENT_FOLDER: '/documents/folders',
   GET_DOCUMENT_FILE: '/documents/files',
-  PATCH_DOCUMENT_FOLDER_ID: '/documents/folders',
+  PATCH_DOCUMENT_FOLDER_ID: '/documents/folder',
   PATCH_DOCUMENT_FILE_ID: '/documents/file',
   DELETE_DOCUMENT_FOLDER_ID: '/documents/folder',
   DELETE_DOCUMENT_FILE_ID: '/documents/file',

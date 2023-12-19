@@ -1,6 +1,6 @@
 export const actionsOptions = [
   'View Details',
-  'Send Email as Template',
+  'Save Email as Template',
   'Move to folder',
   'Manage Access',
   'Archived',

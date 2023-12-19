@@ -21,6 +21,7 @@ const useCampaigns = () => {
     isEditColumns: false,
     isViewDeatsils: false,
     isSaveView: false,
+    isDelete: false,
   });
   const [isDelete, setIsDelete] = useState(false);
   const [isCreateTask, setIsCreateTask] = useState(false);
@@ -44,7 +45,7 @@ const useCampaigns = () => {
   const handleSelectedOptionValue = (option: any) => {
     switch (option) {
       case campaignsOptions?.DELETE:
-        setIsDelete(true);
+        setActionsModalDetails({ ...actionsModalDetails, isDelete: true });
         break;
       case campaignsOptions?.CLONE:
         setActionsModalDetails({ ...actionsModalDetails, isClone: true });

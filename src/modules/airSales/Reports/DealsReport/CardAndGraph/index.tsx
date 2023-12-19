@@ -85,7 +85,7 @@ const CardAndGraphs = () => {
               </Typography>
             </Box>
             <ReactApexChart
-              options={optionsBar}
+              options={optionsBar(theme)}
               series={seriesBar}
               type="bar"
               height={290}
@@ -103,7 +103,7 @@ const CardAndGraphs = () => {
               </Typography>
             </Box>
             <ReactApexChart
-              options={options}
+              options={options(theme)}
               series={series}
               type="pie"
               width={450}

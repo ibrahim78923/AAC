@@ -96,7 +96,7 @@ export const teamsDataArray = [
   },
 ];
 
-export const memberDetails = [
+export const memberDetails: any = [
   {
     img: UserAvatarImage,
     name: 'Olivia Rhye',
