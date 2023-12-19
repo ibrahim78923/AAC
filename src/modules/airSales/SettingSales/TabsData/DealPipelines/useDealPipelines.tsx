@@ -64,7 +64,7 @@ const useDealPipelines = () => {
   const { handleSubmit } = dealPipelines;
   const onSubmit = async (values: any) => {
     const payload = {
-      name: values.pipelineName,
+      name: values?.pipelineName,
       isDefault: values?.defaultPipeline,
       dealStages: inputFields,
     };
@@ -98,13 +98,13 @@ const useDealPipelines = () => {
 
   const addField = () => {
     const newInputFields = [...inputFields];
-    const indexToInsert = inputFields.length - 2;
-    newInputFields.splice(indexToInsert, 0, { name: '', probability: null });
+    const indexToInsert = inputFields?.length - 2;
+    newInputFields?.splice(indexToInsert, 0, { name: '', probability: null });
     setInputFields(newInputFields);
   };
   const deleteField = (index: any) => {
     const values = [...inputFields];
-    values.splice(index, 1);
+    values?.splice(index, 1);
     setInputFields(values);
   };
   const handleChangeInput = (index: any, event: any) => {
