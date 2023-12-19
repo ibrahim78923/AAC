@@ -8,20 +8,19 @@ export const validationSchema = Yup.object().shape({
   postCode: Yup.string().required('Field is Required'),
   address: Yup.string().required('Field is Required'),
   email: Yup.string().required('Field is Required'),
-  phoneNo: Yup.string().required('Field is Required'),
+  phoneNumber: Yup.string().required('Field is Required'),
 });
 
 export const defaultValues = {
   firstName: '',
-  middleName: '',
   lastName: '',
   postCode: '',
   address: '',
   email: '',
-  phoneNo: '',
+  phoneNumber: '',
   jobTitle: '',
-  fbUrl: '',
-  linkinUrl: '',
+  facebookUrl: '',
+  linkedInUrl: '',
   twitterUrl: '',
 };
 
@@ -33,16 +32,6 @@ export const addUsersArray = [
       placeholder: 'Enter First Name',
       fullWidth: true,
       required: true,
-    },
-    component: RHFTextField,
-    md: 12,
-  },
-  {
-    componentProps: {
-      label: 'Middle Name',
-      name: 'middleName',
-      placeholder: 'Enter Middle Name',
-      fullWidth: true,
     },
     component: RHFTextField,
     md: 12,
@@ -73,7 +62,7 @@ export const addUsersArray = [
   {
     componentProps: {
       label: 'Phone Number',
-      name: 'phoneNo',
+      name: 'phoneNumber',
       placeholder: 'Enter Number',
       fullWidth: true,
       required: true,
@@ -116,7 +105,7 @@ export const addUsersArray = [
   {
     componentProps: {
       label: 'Facebook URL',
-      name: 'fbUrl',
+      name: 'facebookUrl',
       placeholder: 'Enter Facebook URL',
       fullWidth: true,
     },
@@ -126,7 +115,7 @@ export const addUsersArray = [
   {
     componentProps: {
       label: 'LinkedIn URL',
-      name: 'linkinUrl',
+      name: 'linkedInUrl',
       placeholder: 'Enter LinkedIn URL',
       fullWidth: true,
     },

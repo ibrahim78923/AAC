@@ -150,7 +150,7 @@ const AddUser = ({
                       {item?.componentProps?.heading}
                     </Typography>
                   )}
-                  {item?.componentProps?.name === 'compositeAddress ' && (
+                  {item?.componentProps?.name === 'compositeAddress' && (
                     <Box position="relative">
                       <InputAdornment
                         sx={{
@@ -226,7 +226,7 @@ const AddUser = ({
                     )}
                   {isToggled && (
                     <Grid item container spacing={2} mt={1}>
-                      {item?.componentProps?.name === 'compositeAddress ' &&
+                      {item?.componentProps?.name === 'compositeAddress' &&
                         item?.subData?.map((data: any) => (
                           <Grid item xs={12} md={item?.md} key={uuidv4()}>
                             <Typography variant="body2" fontWeight={500}>

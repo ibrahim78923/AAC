@@ -15,7 +15,7 @@ export const END_POINTS = {
   TICKET_BULK_UPDATE: '/ticket/bulk-ticket-update',
   USER_LIST: '/users',
   ADD_USER: '/users',
-  ADD_USER_ACCOUNT: '/super-admin/add-accounts',
+  ADD_USER_ACCOUNT: '/users/organization',
   ORG_ADMIN_EMP_LIST: '/users/organization',
   ORG_USER_EMPLOYEE: '/users/organization',
   USER_ACCOUNTS_LIST: '/super-admin/accounts-list',
@@ -48,6 +48,10 @@ export const END_POINTS = {
   ACTIVITY_LOG: '/activity-log',
   DEAL_PIPELINE: '/deal-pipeline',
   GET_PRODUCTS_PERMISSIONS: '/permissions/permissions-by-product',
+  VENDOR_LIST: '/vendors/get-vendors',
+  DELETE_PRODUCT_CATALOG: '/product-catalog/delete-product-catalog',
+  PRODUCT_CATALOG_VENDOR_LIST: '/product-catalog/vendor-list',
+  POST_COMPANY_ACCOUNT: '/org-company-account',
 };
 
 export const superAdminBillingInvoices = {

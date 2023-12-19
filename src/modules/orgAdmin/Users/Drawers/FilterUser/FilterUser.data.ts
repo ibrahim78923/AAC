@@ -1,18 +1,5 @@
 import { RHFSelect } from '@/components/ReactHookForm';
 import { CommonAPIS } from '@/services/common-APIs';
-import * as Yup from 'yup';
-
-export const userFilterValSchema = Yup.object().shape({
-  product: Yup.string(),
-  company: Yup.string(),
-  users: Yup.string(),
-});
-
-export const defaultValues = {
-  product: '',
-  company: '',
-  users: '',
-};
 
 export const usersFilterArray = () => {
   const { useGetProductsQuery, useGetOrganizationsQuery }: any = CommonAPIS;
@@ -50,8 +37,8 @@ export const usersFilterArray = () => {
     },
     {
       componentProps: {
-        label: 'Users',
-        name: 'users',
+        label: 'User',
+        name: 'user',
         fullWidth: true,
         select: true,
       },

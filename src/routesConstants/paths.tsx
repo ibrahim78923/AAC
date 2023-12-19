@@ -140,7 +140,6 @@ export const AIR_MARKETER = {
 };
 
 const AIR_OPERATIONS_PAGE = 'air-operation';
-
 export const AIR_OPERATION = {
   root: AIR_OPERATIONS_PAGE,
   WORK_FLOW: path(AIR_OPERATIONS_PAGE, '/workflow'),
@@ -150,6 +149,28 @@ export const AIR_OPERATION = {
   ROLE_AND_RIGHT: path(AIR_OPERATIONS_PAGE, '/role-and-rights'),
   USER_MANAGEMENT: path(AIR_OPERATIONS_PAGE, '/user-management'),
 };
+
+const LOYALTY_PROGRAM_PAGE = '/loyalty-program';
+export const LOYALTY_PROGRAM = {
+  root: LOYALTY_PROGRAM_PAGE,
+  LOYALTY_REWARD: path(LOYALTY_PROGRAM_PAGE, '/loyalty/reward'),
+  LOYALTY_TRANSACTIONS: path(LOYALTY_PROGRAM_PAGE, '/loyalty/reward'),
+  LOYALTY_RULES_TIERS: path(LOYALTY_PROGRAM_PAGE, '/loyalty/rules-tiers'),
+  LOYALTY_RULES_VOUCHERS: path(LOYALTY_PROGRAM_PAGE, '/loyalty/vouchers'),
+  GIFT_CARDS: path(LOYALTY_PROGRAM_PAGE, '/gift-card'),
+  GIFT_CARDS_TRANSACTIONS: path(
+    LOYALTY_PROGRAM_PAGE,
+    '/gift-card/transactions',
+  ),
+  GIFT_CARDS_SETTLEMENTS: path(LOYALTY_PROGRAM_PAGE, '/gift-card/settlements'),
+  GIFT_CARDS_SETTLED: path(LOYALTY_PROGRAM_PAGE, '/gift-card/settled'),
+  PREPARED_FUNDS_TRANSACTIONS: path(
+    LOYALTY_PROGRAM_PAGE,
+    '/prepaid/funds-transactions',
+  ),
+  SETTINGS: path(LOYALTY_PROGRAM_PAGE, '/settings'),
+};
+
 export const ORG_ADMIN = {
   DASHBOARD_EDIT_PROFILE: '/org-admin/dashboard/edit-profile',
 };
