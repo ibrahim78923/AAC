@@ -1,17 +1,21 @@
-import { useForm } from 'react-hook-form';
-
-import { Grid, MenuItem, Typography, useTheme } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 
 import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
 
-import { createContactsData } from './CreateContactsdata';
+import { contactsDataArray } from './CreateContactsdata';
 
 import { v4 as uuidv4 } from 'uuid';
+import useCreateContacts from './useCreateContacts';
 
 const CreateContacts = ({ open, onClose }: any) => {
-  const methods = useForm({});
-  const theme = useTheme();
+  const {
+    handleSubmit,
+    onSubmit,
+    methodscontacts,
+    lifeCycleStagesData,
+    contactStatusData,
+  } = useCreateContacts();
 
   return (
     <CommonDrawer
@@ -20,39 +24,33 @@ const CreateContacts = ({ open, onClose }: any) => {
       title="Create Contact"
       footer
       okText="Create"
+      submitHandler={handleSubmit(onSubmit)}
       isOk
     >
-      <FormProvider methods={methods}>
-        <Grid container spacing={2} gap={'7px'}>
-          {createContactsData?.map((obj) => (
-            <Grid item xs={12} key={uuidv4()}>
-              <Typography
-                sx={{
-                  colors: theme?.palette?.grey[600],
-                  fontWeight: 500,
-                  fontSize: '14px',
-                }}
-              >
-                {obj?.title}
-              </Typography>
-              <obj.component
-                fullWidth
-                size={'small'}
-                SelectProps={{ sx: { borderRadius: '8px' } }}
-                {...obj?.componentProps}
-              >
-                {obj?.componentProps?.select
-                  ? obj?.options?.map((option) => (
-                      <MenuItem key={uuidv4()} value={option?.value}>
-                        {option?.label}
-                      </MenuItem>
-                    ))
-                  : null}
-              </obj.component>
-            </Grid>
-          ))}
-        </Grid>
-      </FormProvider>
+      <Box sx={{ pt: 2 }}>
+        <FormProvider
+          methods={methodscontacts}
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          <Grid container spacing={4}>
+            {contactsDataArray(lifeCycleStagesData, contactStatusData)?.map(
+              (item: any) => (
+                <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                  <item.component {...item?.componentProps} size={'small'}>
+                    {item?.componentProps?.select
+                      ? item?.options?.map((option: any) => (
+                          <option key={option?.value} value={option?.value}>
+                            {option?.label}
+                          </option>
+                        ))
+                      : null}
+                  </item.component>
+                </Grid>
+              ),
+            )}
+          </Grid>
+        </FormProvider>
+      </Box>
     </CommonDrawer>
   );
 };
