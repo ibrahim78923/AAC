@@ -16,6 +16,7 @@ export default function RHFAutocomplete({
   noOptionsText = 'Nothing in the List',
   multiple = false,
   placeholder,
+  getOptionLabel = (option: any) => option?.replaceAll?.('_', ' '),
   ...other
 }: any) {
   const { control } = useFormContext();
@@ -54,11 +55,17 @@ export default function RHFAutocomplete({
             autoComplete
             noOptionsText={noOptionsText}
             value={value}
-            getOptionLabel={(options) => options?.replaceAll?.('_', ' ')}
+            getOptionLabel={getOptionLabel}
             PaperComponent={(props) => (
               <Paper
                 {...props}
-                style={{ backgroundColor: theme?.palette?.grey?.[100] }}
+                sx={{
+                  backgroundColor: theme?.palette?.common?.white,
+                  border: `1px solid ${theme?.palette?.custom?.off_white_three}`,
+                  borderRadius: 1,
+                  boxShadow: 1,
+                  color: 'grey.600',
+                }}
               >
                 {props?.children}
               </Paper>

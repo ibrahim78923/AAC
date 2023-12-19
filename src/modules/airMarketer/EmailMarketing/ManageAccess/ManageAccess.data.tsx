@@ -27,3 +27,6 @@ export const dataArrayEmailAccess = [
     md: 12,
   },
 ];
+export const manageAccess = {
+  manageAccess: 'selectUserAndTeamWhoCanEdit',
+};

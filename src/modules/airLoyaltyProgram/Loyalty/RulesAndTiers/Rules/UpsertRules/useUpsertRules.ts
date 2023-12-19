@@ -9,6 +9,7 @@ import usePath from '@/hooks/usePath';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useEffect } from 'react';
 
 export const useUpsertRules = (props: any) => {
   const { setIsDrawerOpen, setActiveTab } = props;
@@ -44,6 +45,10 @@ export const useUpsertRules = (props: any) => {
     name: 'attribute',
     defaultValue: '',
   });
+
+  useEffect(() => {
+    clearErrors();
+  }, [watchForAttribute]);
 
   const upsertRulesFormFields = upsertRulesFormFieldsDynamic(
     onChangeCustom,

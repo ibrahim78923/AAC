@@ -31,7 +31,6 @@ const ManagePlan = () => {
   if (router.query.data) {
     parsedManageData = JSON.parse(router.query.data);
   }
-
   const [updateSubscription] = useUpdateSubscriptionMutation({});
 
   const handleChange = (event: SelectChangeEvent) => {
@@ -64,6 +63,7 @@ const ManagePlan = () => {
       });
     }
   };
+
   return (
     <>
       <Box sx={styles?.card}>
@@ -78,7 +78,7 @@ const ManagePlan = () => {
             <Link
               href={{
                 pathname: `${orgAdminSubcriptionInvoices.choose_plan}`,
-                query: { data: parsedManageData?.plans?.planProducts[0] },
+                query: { data: parsedManageData?._id },
               }}
               as={`${orgAdminSubcriptionInvoices.choose_plan}`}
             >

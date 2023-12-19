@@ -208,7 +208,7 @@ const EngagementAdsStepper = () => {
             </Button>
             <Box sx={{ flex: '1 1 auto' }} />
             {activeStep === stepThree ? (
-              <Button>Publish</Button>
+              <Button variant="contained">Publish</Button>
             ) : (
               <Button type="submit" sx={{ mr: 1 }} variant="contained">
                 Next

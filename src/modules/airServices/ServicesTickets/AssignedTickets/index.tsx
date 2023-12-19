@@ -19,7 +19,7 @@ export const AssignedTickets = (props: any) => {
     submitAssignedTicketsForm,
     closeTicketsAssignedModal,
     apiQueryOrganizations,
-  } = useAssignedTickets(props);
+  }: any = useAssignedTickets(props);
 
   return (
     <Dialog
@@ -61,7 +61,7 @@ export const AssignedTickets = (props: any) => {
         <DialogContent>
           <br />
           <RHFAutocompleteAsync
-            label="select User"
+            label="Select user"
             name="user"
             fullWidth
             apiQuery={apiQueryOrganizations}

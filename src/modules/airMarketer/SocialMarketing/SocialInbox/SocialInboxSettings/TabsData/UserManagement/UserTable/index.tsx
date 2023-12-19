@@ -100,11 +100,12 @@ const UserTable = ({ initialValueProps = defaultValues }: any) => {
           flexWrap: 'wrap',
           marginTop: '1rem',
           marginBottom: '1rem',
+          gap: 1,
         }}
       >
         <Search
           searchBy=""
-          width="100%"
+          width="260px"
           label={'Search here'}
           setSearchBy={() => {}}
           size="small"
@@ -123,6 +124,10 @@ const UserTable = ({ initialValueProps = defaultValues }: any) => {
             display: 'flex',
             alignItems: 'center',
             padding: '0.7rem',
+
+            '@media (max-width: 500px)': {
+              width: '100%',
+            },
           }}
         >
           Actions <ArrowDropDownIcon />
