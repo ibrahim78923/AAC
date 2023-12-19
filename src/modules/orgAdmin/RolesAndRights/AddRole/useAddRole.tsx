@@ -11,23 +11,27 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { addUserSchema } from '../RoleAndRights.data';
 
 import { rolesAndRightsAPI } from '@/services/orgAdmin/roles-and-rights';
+import { enqueueSnackbar } from 'notistack';
+
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { ORG_ADMIN } from '@/constants';
 
 const useAddRole = () => {
-  const navigate = useRouter();
   const theme = useTheme();
+  const navigate = useRouter();
+  const { query }: any = navigate;
+
   const [isSwitchVal, setIsSwitchVal] = useState(false);
 
-  const { query } = navigate;
-  const { useGetPermissionsRolesByIdQuery } = rolesAndRightsAPI;
+  const viewPerdetails = query?.type !== 'add' && JSON?.parse(query?.data);
 
-  const { data: viewPerdetails } = useGetPermissionsRolesByIdQuery(query?.id);
-
-  const roleDefaultValues = {
-    productDetails: viewPerdetails?.data?.productDetails?.id,
-    companyAccountsDetails: viewPerdetails?.data?.companyAccountDetails?.id,
+  // getting form values from querydata
+  const roleDefaultValues: any = {
+    productId: viewPerdetails?.data?.productDetails?.id,
+    companyAccountRoleId: viewPerdetails?.data?.companyAccountDetails?.id,
     name: viewPerdetails?.data?.name,
     description: viewPerdetails?.data?.description,
-    defaultUser: viewPerdetails?.data?.status,
+    status: viewPerdetails?.data?.status,
   };
 
   const methods: any = useForm<any>({
@@ -36,32 +40,43 @@ const useAddRole = () => {
   });
 
   const { handleSubmit, watch } = methods;
-  const productVal = watch('productDetails');
-
-  const onSubmit = async () => {
-    // console.log('values', data)
-  };
+  const productVal = watch('productId');
 
   const handleSwitch = () => {
     setIsSwitchVal(!isSwitchVal);
   };
 
-  const { useGetProductsPermissionsQuery } = rolesAndRightsAPI;
+  const { useGetProductsPermissionsQuery, useUpdateRoleRightsMutation } =
+    rolesAndRightsAPI;
+
   const { data: productPermissionsData } = useGetProductsPermissionsQuery({
     productId: productVal,
   });
 
+  const [updateRoleRights] = useUpdateRoleRightsMutation();
+
+  const onSubmit = async (values: any) => {
+    updateRoleRights({ id: viewPerdetails?.data?._id, body: values });
+    navigate.push({
+      pathname: ORG_ADMIN?.ROLES_AND_RIGHTS,
+      query: { type: 'add' },
+    });
+    enqueueSnackbar('User updated successfully', {
+      variant: NOTISTACK_VARIANTS?.SUCCESS,
+    });
+  };
+
   return {
-    isSwitchVal,
+    productPermissionsData,
     setIsSwitchVal,
+    handleSubmit,
+    handleSwitch,
+    isSwitchVal,
+    productVal,
     navigate,
     onSubmit,
-    handleSwitch,
     methods,
     theme,
-    handleSubmit,
-    productVal,
-    productPermissionsData,
   };
 };
 

@@ -7,14 +7,14 @@ import { getSession } from '@/utils';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
-// import dayjs from 'dayjs';
-
 const useRolesAndRights = () => {
   const navigate = useRouter();
   const theme = useTheme();
   const { user } = getSession();
   const [isOpenAddUserDrawer, setIsOpenAddUserDrawer] = useState(false);
   const [isOpenFilterDrawer, setIsOpenFilterDrawer] = useState(false);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [selectedValue, setSelectedValue] = useState(null);
   const [checkedRows, setCheckedRows] = useState();
   const [filterValues, setFilterValues] = useState({
@@ -24,8 +24,6 @@ const useRolesAndRights = () => {
     dateStart: null,
     dateEnd: null,
   });
-  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
-  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
 
   const { useGetPermissionsRolesQuery, useUpdateRoleRightsMutation } =
     rolesAndRightsAPI;
