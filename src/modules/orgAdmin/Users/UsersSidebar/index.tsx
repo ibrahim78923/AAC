@@ -175,6 +175,7 @@ const UsersSidebar = (props: any) => {
       {isOpenAdduserDrawer && (
         <AddUser
           isOpenDrawer={isOpenAdduserDrawer}
+          setIsOpenAdduserDrawer={setIsOpenAdduserDrawer}
           onClose={() => {
             setIsOpenAdduserDrawer(false);
           }}

@@ -2,7 +2,6 @@ import { Box, Button, Chip, Divider, Grid } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { AddCircle } from '@mui/icons-material';
 import { conditionTypeOptions } from '../WorkflowConditions.data';
-import { eventBasedWorkflowValues } from '../../UpsertEventBasedWorkflow.data';
 import { useSubWorkflowConditions } from './useSubWorkflowConditions';
 import { RHFAutocomplete } from '@/components/ReactHookForm';
 import {
@@ -12,6 +11,7 @@ import {
   statusOptions,
   ticketsFieldsOptions,
 } from './SubWorkflowConditions.data';
+import { defaultValues } from '../../CreateRules.data';
 
 export const SubWorkflowConditions = (props: any) => {
   const { index, conditionType, watch, register } = props;
@@ -91,7 +91,7 @@ export const SubWorkflowConditions = (props: any) => {
       })}
       <Button
         onClick={() =>
-          append(eventBasedWorkflowValues?.workflowConditions?.[0]?.conditions)
+          append(defaultValues?.workflowConditions?.[0]?.conditions)
         }
         color="secondary"
         startIcon={<AddCircle color="action" />}
