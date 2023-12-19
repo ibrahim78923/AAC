@@ -12,8 +12,13 @@ export const commonDocumentsAPI = baseAPI.injectEndpoints({
       invalidatesTags: ['MyDocuments'],
     }),
     getDocumentFolder: builder.query({
-      query: ({ organizationId, pages = 1, limit = 10 }: any) => ({
-        url: `${COMMON_DOCUMENTS.GET_DOCUMENT_FOLDER}?page=${pages}&limit=${limit}&organizationId=${organizationId}`,
+      query: ({
+        organizationId = '',
+        parentFolderId = '',
+        pages = 1,
+        limit = 10,
+      }: any) => ({
+        url: `${COMMON_DOCUMENTS.GET_DOCUMENT_FOLDER}?page=${pages}&limit=${limit}&organizationId=${organizationId}&parentFolderId=${parentFolderId}`,
         method: 'GET',
       }),
       providesTags: ['MyDocuments'],

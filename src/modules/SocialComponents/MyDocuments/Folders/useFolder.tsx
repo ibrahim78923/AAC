@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { Theme, useTheme } from '@mui/material';
 import { useGetDocumentFolderQuery } from '@/services/commonFeatures/documents';
-import useAuth from '@/hooks/useAuth';
+import { useSearchParams } from 'next/navigation';
 
 const useFolder: any = () => {
   const theme = useTheme<Theme>();
@@ -19,9 +19,11 @@ const useFolder: any = () => {
   const [isCreateLinkOpen, setIsCreateLinkOpen] = useState(false);
   const open = Boolean(anchorEl);
   const openSide = Boolean(anchorElSide);
-  const { user }: any = useAuth();
+  const searchParams = useSearchParams();
+
+  const parentFolderId = searchParams.get('folder');
   const { data, isLoading, isError, isFetching, isSuccess } =
-    useGetDocumentFolderQuery({ organizationId: user?.organization?._id });
+    useGetDocumentFolderQuery({ parentFolderId });
 
   const handlePdfOpen = () => setIsPdfOpen(true);
   const handlePdfClose = () => setIsPdfOpen(false);
@@ -42,7 +44,7 @@ const useFolder: any = () => {
   };
 
   return {
-    documentData: data?.data?.folders,
+    documentData: data?.data,
     isLoading,
     isError,
     isFetching,
@@ -78,6 +80,7 @@ const useFolder: any = () => {
     setIsPdfOpen,
     handlePdfOpen,
     handlePdfClose,
+    parentFolderId,
   };
 };
 

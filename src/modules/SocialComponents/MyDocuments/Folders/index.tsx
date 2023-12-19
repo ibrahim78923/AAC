@@ -89,6 +89,7 @@ const Folders = () => {
     setAnchorElSide,
     documentData,
   } = useFolder();
+
   return (
     <>
       <CommonDrawer
@@ -419,7 +420,7 @@ const Folders = () => {
                 variant="h6"
                 sx={{ fontWeight: 400, color: `${theme?.palette?.grey[600]}` }}
               >
-                {documentData?.name}
+                {documentData && documentData[0]?.name}
               </Typography>
             </Box>
             <Box
