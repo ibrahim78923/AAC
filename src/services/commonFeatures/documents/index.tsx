@@ -24,8 +24,8 @@ export const commonDocumentsAPI = baseAPI.injectEndpoints({
       providesTags: ['MyDocuments'],
     }),
     updateFolder: builder.mutation({
-      query: ({ id, body }: any) => ({
-        url: `${COMMON_DOCUMENTS.PATCH_DOCUMENT_FOLDER_ID}/${id}`,
+      query: ({ id = '', body, parentFolderId = '' }: any) => ({
+        url: `${COMMON_DOCUMENTS.PATCH_DOCUMENT_FOLDER_ID}/${id}&parentFolderId=${parentFolderId}`,
         method: 'PATCH',
         body: body,
       }),

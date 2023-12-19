@@ -427,10 +427,9 @@ const Documents = () => {
                           pathname: AIR_MARKETER?.COMMON_DOCUMENTS_FOLDER,
                           query: {
                             folder: item?._id,
+                            name: item?.name,
                           },
                         });
-                        // onClick={() => {
-                        //   toggle();
                       }}
                     >
                       <Typography
