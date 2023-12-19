@@ -20,6 +20,7 @@ export const TAGS = [
   'TASKS',
   'ASSETS_INVENTORY',
   'MyDocuments',
+  'LOCATION',
   'VENDOR_LIST',
   'PRODUCT_CATALOG',
 ];

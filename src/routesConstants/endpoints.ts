@@ -50,6 +50,8 @@ export const END_POINTS = {
   GET_PRODUCTS_PERMISSIONS: '/permissions/permissions-by-product',
   VENDOR_LIST: '/vendors/get-vendors',
   DELETE_PRODUCT_CATALOG: '/product-catalog/delete-product-catalog',
+  ADD_LOCATION: '/location/add-location',
+  GET_LOCATION: '/location/get-location',
   PRODUCT_CATALOG_VENDOR_LIST: '/product-catalog/vendor-list',
   DELETE_PRODUCT_CATALOG_VENDOR: '/product-catalog/vendors/delete-vendor',
   POST_COMPANY_ACCOUNT: '/org-company-account',
