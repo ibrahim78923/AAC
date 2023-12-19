@@ -246,3 +246,7 @@ export { default as GiftScanImage } from './modules/loyaltyProgram/GiftCards/Gif
 export { default as VoucherImage } from './shared/voucher-image.png';
 export { default as ExportModalImage } from './shared/export-modal-image.png';
 export { default as CatalogAddImage } from './modules/airCustomerPortal/catalog/catalog-add-image.png';
+
+export { default as GiftCardImage } from './modules/HeaderAndSidebar/gift.png';
+export { default as LoyaltyImage } from './modules/HeaderAndSidebar/loyalty.png';
+export { default as PrepaidImage } from './modules/HeaderAndSidebar/prepaid.png';
