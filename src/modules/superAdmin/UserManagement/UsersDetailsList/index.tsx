@@ -78,8 +78,6 @@ const UsersDetailsList = () => {
   const { userName, organizationId, userId } = navigate.query;
 
   const empListParams = {
-    page: 1,
-    limit: 10,
     search: searchEmployee,
     // status:'ACTIVE'
     product: employeeFilter?.product,
