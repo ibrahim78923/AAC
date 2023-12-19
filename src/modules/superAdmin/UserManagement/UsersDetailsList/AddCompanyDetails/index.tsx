@@ -1,48 +1,20 @@
-import Image from 'next/image';
-
-import { Grid, Box, Checkbox, Typography, useTheme } from '@mui/material';
-
+import { Grid, Box, Typography, InputAdornment } from '@mui/material';
 import CommonDrawer from '@/components/CommonDrawer';
-import { FormProvider } from '@/components/ReactHookForm';
-
-import {
-  dataArray,
-  defaultValues,
-  validationSchema,
-} from './AddCompanyDetails.data';
+import { FormProvider, RHFMultiCheckbox } from '@/components/ReactHookForm';
+import { dataArray } from './AddCompanyDetails.data';
 import UploadLogo from './UploadLogo';
 import { styles } from './AddCompanyDetails.style';
-
-import { FeaturedImage } from '@/assets/images';
-
-import { enqueueSnackbar } from 'notistack';
-
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-
+import BorderColorIcon from '@mui/icons-material/BorderColor';
+import { EraserIcon } from '@/assets/icons';
 import { v4 as uuidv4 } from 'uuid';
+import useToggle from '@/hooks/useToggle';
+import useAddCompanyDetails from './useAddCompanyDetails';
 
-export default function AddCompanyDetails({
-  isOpenDrawer,
+export default function AddCompanyDetails({ isOpenDrawer, onClose }: any) {
+  const { theme, productsList, methods, handleSubmit, onSubmit } =
+    useAddCompanyDetails();
+  const [isToggled, setIsToggled] = useToggle(false);
 
-  onClose,
-
-  initialValueProps = defaultValues,
-}: any) {
-  const methods: any = useForm({
-    resolver: yupResolver(validationSchema),
-
-    defaultValues: initialValueProps,
-  });
-
-  const { handleSubmit } = methods;
-
-  const onSubmit = async () => {
-    enqueueSnackbar('Ticket Updated Successfully', {
-      variant: 'success',
-    });
-  };
-  const theme = useTheme();
   return (
     <CommonDrawer
       isDrawerOpen={isOpenDrawer}
@@ -56,7 +28,7 @@ export default function AddCompanyDetails({
     >
       <Box mt={1}>
         <FormProvider methods={methods}>
-          <Grid container spacing={2}>
+          <Grid container spacing={1}>
             <Grid item sm={12}>
               <Typography variant="h4">Company Logo</Typography>
               <Box>
@@ -65,60 +37,8 @@ export default function AddCompanyDetails({
             </Grid>
             <Grid item sm={12}>
               <Typography variant="h4">Products</Typography>
-              <Box
-                mt={2}
-                sx={{
-                  display: 'flex',
-                  columnGap: '1rem',
-                  alignItems: 'center',
-                  overflowY: 'scroll',
-                  marginBottom: '1rem',
-                }}
-              >
-                <Box sx={styles?.productCard(theme)}>
-                  <Checkbox
-                    sx={{
-                      marginLeft: '7rem',
-                    }}
-                  />
-                  <Box sx={styles?.productItem}>
-                    <Image src={FeaturedImage} alt="sales-image" />
-                    <Typography>Sales</Typography>
-                  </Box>
-                </Box>
-                <Box sx={styles?.productCard(theme)}>
-                  <Checkbox
-                    sx={{
-                      marginLeft: '7rem',
-                    }}
-                  />
-                  <Box sx={styles.productItem}>
-                    <Image src={FeaturedImage} alt="marketing-image" />
-                    <Typography>Marketing</Typography>
-                  </Box>
-                </Box>
-                <Box sx={styles?.productCard(theme)}>
-                  <Checkbox
-                    sx={{
-                      marginLeft: '7rem',
-                    }}
-                  />
-                  <Box sx={styles?.productItem}>
-                    <Image src={FeaturedImage} alt="service-image" />
-                    <Typography>Service</Typography>
-                  </Box>
-                </Box>
-                <Box sx={styles.productCard(theme)}>
-                  <Checkbox
-                    sx={{
-                      marginLeft: '7rem',
-                    }}
-                  />
-                  <Box sx={styles?.productItem}>
-                    <Image src={FeaturedImage} alt="operation-image" />
-                    <Typography>Operation</Typography>
-                  </Box>
-                </Box>
+              <Box mt={2} sx={styles?.productItem}>
+                <RHFMultiCheckbox name="products" options={productsList} />
               </Box>
             </Grid>
             {dataArray?.map((item: any) => (
@@ -134,6 +54,78 @@ export default function AddCompanyDetails({
                       </option>
                     ))}
                 </item.component>
+                {item?.componentProps?.name === 'compositeAddress' && (
+                  <Box position="relative">
+                    <InputAdornment
+                      sx={{
+                        position: 'absolute',
+                        top: -28,
+                        right: 20,
+                        zIndex: 9999,
+                      }}
+                      position="end"
+                    >
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          gap: '10px',
+                          alignItems: 'center',
+                        }}
+                      >
+                        <Box
+                          sx={{ cursor: 'pointer' }}
+                          onClick={() => {
+                            setIsToggled(false);
+                          }}
+                        >
+                          <EraserIcon />
+                        </Box>
+                        <BorderColorIcon
+                          onClick={() => {
+                            setIsToggled(true);
+                          }}
+                          sx={{ cursor: 'pointer', fontSize: '20px' }}
+                        />
+                      </Box>
+                    </InputAdornment>
+                  </Box>
+                )}
+                {isToggled && (
+                  <>
+                    <Grid item container spacing={1} mt={1}>
+                      {item?.componentProps?.name === 'compositeAddress' &&
+                        item?.subData?.map((data: any) => (
+                          <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                            <data.component
+                              {...data.componentProps}
+                              size={'small'}
+                            >
+                              {data?.componentProps?.select
+                                ? data?.options?.map((option: any) => (
+                                    <option
+                                      key={uuidv4()}
+                                      value={option?.value}
+                                    >
+                                      {option?.label}
+                                    </option>
+                                  ))
+                                : null}
+                            </data.component>
+                          </Grid>
+                        ))}
+                    </Grid>
+                    {item?.componentProps?.name === 'compositeAddress' && (
+                      <Typography
+                        variant="body3"
+                        sx={{ cursor: 'pointer' }}
+                        color={theme?.palette?.primary?.main}
+                        onClick={() => setIsToggled(false)}
+                      >
+                        Back to Summary view
+                      </Typography>
+                    )}
+                  </>
+                )}
               </Grid>
             ))}
           </Grid>
