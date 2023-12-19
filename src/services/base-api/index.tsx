@@ -23,6 +23,7 @@ export const TAGS = [
   'LOCATION',
   'VENDOR_LIST',
   'PRODUCT_CATALOG',
+  'DROPDOWN_ASSET_TYPE_LIST',
 ];
 
 const baseQuery = fetchBaseQuery({
