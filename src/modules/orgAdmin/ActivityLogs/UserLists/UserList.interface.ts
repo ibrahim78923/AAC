@@ -4,7 +4,6 @@ export interface UserListI {
   key?: string | number;
   performedByName?: string;
   moduleName?: string;
-  message?: string;
   label?: string;
   time?: string;
   userImg?: string | undefined | StaticImageData | any;

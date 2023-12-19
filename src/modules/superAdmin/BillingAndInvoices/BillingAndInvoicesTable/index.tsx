@@ -1,4 +1,4 @@
-import { Grid, Typography, Button, Box } from '@mui/material';
+import { Grid, Typography, Button, Box, Tooltip } from '@mui/material';
 
 import Search from '@/components/Search';
 import GenerateInvoice from '../GenerateInvoice';
@@ -11,10 +11,9 @@ import useBillingAndInvoices from './useBillingAndInvoices';
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
 import { styles } from '../Invoices/Invoices.style';
-import { FilterSharedIcon } from '@/assets/icons';
+import { FilterSharedIcon, RefreshTasksIcon } from '@/assets/icons';
 import { dataArray } from './BillingAndInvoices.data';
 import { v4 as uuidv4 } from 'uuid';
-import { RefreshIcon } from '@/assets/icons';
 
 const BillingAndInvoicesTable = () => {
   const {
@@ -96,16 +95,17 @@ const BillingAndInvoicesTable = () => {
                 setIsEditModal={setIsEditModal}
               />
 
-              <Button
-                sx={{
-                  border: '1px solid #D1D5DB',
-                  marginLeft: '10px',
-                  height: '36px',
-                }}
-                onClick={handleRefresh}
-              >
-                <RefreshIcon />
-              </Button>
+              <Tooltip title={'Refresh Filter'}>
+                <Button
+                  variant="outlined"
+                  color="inherit"
+                  className="small"
+                  onClick={handleRefresh}
+                  sx={{ marginLeft: '10px' }}
+                >
+                  <RefreshTasksIcon />
+                </Button>
+              </Tooltip>
 
               <Button
                 onClick={() => setIsOpenFilter(true)}

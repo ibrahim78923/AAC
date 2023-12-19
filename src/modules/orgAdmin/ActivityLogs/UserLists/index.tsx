@@ -8,7 +8,6 @@ import Link from 'next/link';
 const UserLists = ({
   performedByName = '',
   moduleName,
-  message,
   label = '',
   time,
   userImg,
@@ -32,23 +31,20 @@ const UserLists = ({
               {performedByName.charAt(0)} {performedByName.charAt(1)}
             </Avatar>
             <Box>
-              <Typography variant="body1">{performedByName}</Typography>
-              <Typography variant="body2">
-                {moduleName}
-                <Typography variant="body2" sx={styles?.msg} component={'span'}>
-                  {message}
-                </Typography>
-              </Typography>
-
               {/* This line is more modify WRF Backend data */}
               <Link href={`${performedBy}`}>
-                {' '}
                 {performedByName}
-                has {label} <Link href={`${moduleId}`}>{moduleName}</Link>
+                <Box sx={{ textTransform: 'lowercase' }}>
+                  has {label}{' '}
+                  <Link href={`${moduleId}`} style={styles?.msg}>
+                    {' '}
+                    {moduleName}{' '}
+                  </Link>
+                </Box>
               </Link>
 
-              {/* <a href(user_url/performedBy)> {name.charAt(0)} {name.charAt(1)} </a> has label
-                <a href="moduleArray[data.module]/moduleId" > moduleName </a> */}
+              {/* <a href(user_url/data.performedBy)>performByName </a> has data.activityType 
+              <a href="moduleArray[data.module]/data.moduleId" > data.moduleName </a> */}
             </Box>
           </Box>
           <Typography

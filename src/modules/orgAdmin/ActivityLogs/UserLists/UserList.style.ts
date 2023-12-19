@@ -74,6 +74,7 @@ export const styles = {
 };
 
 export const renderLabelColors: RenderLabelColorsI = {
+  CREATED: { background: '#0AADC733', color: '#0AADC7' },
   ADDED: { background: '#0AADC733', color: '#0AADC7' },
   FAILED: { background: '#FF4A4A33', color: '#FF4A4A' },
   UPDATED: { background: '#47B26333', color: '#47B263' },
