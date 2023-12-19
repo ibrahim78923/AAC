@@ -1,11 +1,11 @@
 import React from 'react';
-import { Box, Button, InputAdornment, Typography } from '@mui/material';
+import { Box, InputAdornment, Typography } from '@mui/material';
 import Search from '@/components/Search';
 import { ActivityLogsData } from '@/mock/modules/orgAdmin/ActivityLogs';
 import { v4 as uuidv4 } from 'uuid';
 import UserLists from './UserLists';
-import { ActivityLogCalenderIcon } from '@/assets/icons';
 import SearchSharedIcon from '@/assets/icons/shared/search-shared';
+import SwitchableDatepicker from '@/components/SwitchableDatepicker';
 
 const ActivityLogs = () => {
   return (
@@ -27,9 +27,7 @@ const ActivityLogs = () => {
           }}
         />
         <Box>
-          <Button variant="outlined" color="inherit">
-            <ActivityLogCalenderIcon /> &nbsp; Date
-          </Button>
+          <SwitchableDatepicker />
         </Box>
       </Box>
       {ActivityLogsData.map((data) => (

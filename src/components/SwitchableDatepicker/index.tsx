@@ -13,10 +13,12 @@ import { styles } from './SwitchableDatepicker.style';
 import { DATE_FORMAT } from '@/constants';
 
 const SwitchableDatepicker = ({
-  renderInput = 'button',
+  renderInput,
   dateValue,
+  isCalendarOpen = true,
   setDateValue,
   handleDateSubmit,
+  placement = { left: 0 },
 }: any) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState('today');
@@ -112,7 +114,7 @@ const SwitchableDatepicker = ({
   // Datepicker custom container
   const Container = ({ children }: any) => {
     return (
-      <Box sx={styles.dpContainer}>
+      <Box sx={{ ...styles.dpContainer, ...placement }}>
         <Box sx={styles.dpContent}>
           <Box sx={styles.dpSidebar}>
             <List component={'nav'} sx={styles.dpSidebarList}>
@@ -195,32 +197,34 @@ const SwitchableDatepicker = ({
 
   return (
     <Box sx={{ position: 'relative' }}>
-      {renderInput === 'button' ? (
-        <Button
-          className="small"
-          variant="outlined"
-          color="inherit"
-          onClick={handleClick}
-        >
-          <CanlendarButtonIcon />
-          <Box sx={{ ml: '8px', display: 'inline-flex' }}>Date</Box>
-        </Button>
-      ) : (
-        <Stack
-          direction="row"
-          gap={1}
-          onClick={handleClick}
-          sx={{ cursor: 'pointer' }}
-        >
-          <PrimaryCalendarIcon />
-          {dateString}
-          <Stack sx={{ cursor: 'pointer' }} direction="row">
-            <ArrowSquareLeftIcon />
-            <ArrowSquareRightIcon />
+      {renderInput &&
+        (renderInput === 'button' ? (
+          <Button
+            className="small"
+            variant="outlined"
+            color="inherit"
+            onClick={handleClick}
+          >
+            <CanlendarButtonIcon />
+            <Box sx={{ ml: '8px', display: 'inline-flex' }}>Date</Box>
+          </Button>
+        ) : (
+          <Stack
+            direction="row"
+            gap={1}
+            onClick={handleClick}
+            sx={{ cursor: 'pointer' }}
+          >
+            <PrimaryCalendarIcon />
+            {dateString}
+            <Stack sx={{ cursor: 'pointer' }} direction="row">
+              <ArrowSquareLeftIcon />
+              <ArrowSquareRightIcon />
+            </Stack>
           </Stack>
-        </Stack>
-      )}
-      {isOpen && (
+        ))}
+
+      {(isCalendarOpen || isOpen) && (
         <>
           <DatePicker
             inline

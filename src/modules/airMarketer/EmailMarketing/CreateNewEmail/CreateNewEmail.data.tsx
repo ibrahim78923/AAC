@@ -2,23 +2,37 @@ import { RHFTextField } from '@/components/ReactHookForm';
 import { Typography } from '@mui/material';
 import * as Yup from 'yup';
 
+export const CreateEmailData = [
+  {
+    item: 'Send',
+    name: 'send',
+  },
+  {
+    item: 'Schedule',
+    name: 'schedule',
+  },
+  {
+    item: 'Save as Draft',
+    name: 'saveDraft',
+  },
+];
+
 export const createNewEmailSchema = Yup?.object()?.shape({
-  issueRelatedTo: Yup?.string().required(),
-  requester: Yup?.string(),
-  subject: Yup?.string(),
+  issueRelatedTo: Yup?.string().required('Required Field!'),
+  requester: Yup?.string().required('Required Field!'),
+  subject: Yup?.string().required('Required Field!'),
 });
 
 export const defaultValues = {
   issueRelatedTo: '',
   requester: '',
   subject: '',
-  description: '',
 };
 
 export const createNewEmailData = [
   {
     componentProps: {
-      name: 'from',
+      name: 'issueRelatedTo',
       label: 'From:',
       placeholder: 'Hycholic@gmail.com',
       fullWidth: true,
@@ -29,7 +43,7 @@ export const createNewEmailData = [
   },
   {
     componentProps: {
-      name: 'to',
+      name: 'requester',
       label: 'To:',
       placeholder: 'Enter Email',
       fullWidth: true,

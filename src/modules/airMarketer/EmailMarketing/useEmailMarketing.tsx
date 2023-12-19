@@ -8,6 +8,8 @@ const useEmailMarketing = () => {
   const [selectedValue, setSelectedValue] = useState(null);
   const [selectedActionsValue, setSelectedOptionsValue] = useState('');
   const [isOpenFilter, setIsOpenFilter] = useState(false);
+  const [searchEmailMarketing, setSearchEmailMarketing] = useState('');
+  const [isExportModalOpen, setIsExportModalOpen] = useState(false);
   const [actionsModalDetails, setActionsModalDetails] = useState({
     isViewDeatsils: false,
     isDuplicate: false,
@@ -23,6 +25,9 @@ const useEmailMarketing = () => {
   };
   const handleOpenFilter = () => {
     setIsOpenFilter(true);
+  };
+  const handleExportModalOpen = () => {
+    setIsExportModalOpen(!isExportModalOpen);
   };
   const handleSelectedOptionValue = (option: any) => {
     switch (option) {
@@ -82,6 +87,10 @@ const useEmailMarketing = () => {
     isOpenFilter,
     setIsOpenFilter,
     handleOpenFilter,
+    handleExportModalOpen,
+    isExportModalOpen,
+    searchEmailMarketing,
+    setSearchEmailMarketing,
   };
 };
 export default useEmailMarketing;
