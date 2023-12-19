@@ -51,6 +51,7 @@ export const END_POINTS = {
   VENDOR_LIST: '/vendors/get-vendors',
   DELETE_PRODUCT_CATALOG: '/product-catalog/delete-product-catalog',
   PRODUCT_CATALOG_VENDOR_LIST: '/product-catalog/vendor-list',
+  DELETE_PRODUCT_CATALOG_VENDOR: '/product-catalog/vendors/delete-vendor',
   POST_COMPANY_ACCOUNT: '/org-company-account',
 };
 

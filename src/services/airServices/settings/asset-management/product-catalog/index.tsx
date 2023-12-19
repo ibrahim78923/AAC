@@ -68,6 +68,15 @@ export const productCatalogAPI: any = baseAPI?.injectEndpoints({
       }),
       providesTags: [TAG],
     }),
+
+    deleteProductCatalogVendor: builder?.mutation({
+      query: (deleteVendorParameter: any) => ({
+        url: `${END_POINTS?.DELETE_PRODUCT_CATALOG_VENDOR}`,
+        method: 'DELETE',
+        params: deleteVendorParameter?.queryParams,
+      }),
+      invalidatesTags: [TAG],
+    }),
   }),
 });
 
@@ -80,4 +89,5 @@ export const {
   useDeleteProductCatalogMutation,
   useLazyGetExportProductCatalogQuery,
   useGetProductCatalogVendorListQuery,
+  useDeleteProductCatalogVendorMutation,
 } = productCatalogAPI;
