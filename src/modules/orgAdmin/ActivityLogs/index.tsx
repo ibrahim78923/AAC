@@ -1,5 +1,11 @@
 import React from 'react';
-import { Box, Button, Tooltip, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Tooltip,
+  Typography,
+} from '@mui/material';
 import Search from '@/components/Search';
 import { v4 as uuidv4 } from 'uuid';
 import UserLists from './UserLists';
@@ -16,6 +22,7 @@ const ActivityLogs = () => {
     handleDateSubmit,
     ActivityLogsData,
     handleRefresh,
+    isLoading,
   } = useActivityLog();
 
   return (
@@ -25,7 +32,6 @@ const ActivityLogs = () => {
       </Typography>
 
       <Box display={'flex'} alignItems={'center'} gap={'12px'}>
-        {/* <Search size="small" sx={{ flex: 1 }} /> */}
         <Search
           label="What are you looking for?"
           searchBy={search}
@@ -51,6 +57,20 @@ const ActivityLogs = () => {
           handleDateSubmit={handleDateSubmit}
         />
       </Box>
+      {isLoading && (
+        <Box sx={{ textAlign: 'center', marginTop: '100px' }}>
+          {' '}
+          <CircularProgress />
+        </Box>
+      )}
+      {ActivityLogsData?.length === 0 && !isLoading && (
+        <Typography
+          variant="h6"
+          sx={{ textAlign: 'center', marginTop: '20px', color: 'red' }}
+        >
+          No Data{' '}
+        </Typography>
+      )}
       {ActivityLogsData.map((data: any) => (
         <Box key={uuidv4()} sx={{ overflowY: 'scroll', maxHeight: '65vh' }}>
           <Typography

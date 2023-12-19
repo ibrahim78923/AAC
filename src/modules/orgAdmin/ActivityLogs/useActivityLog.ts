@@ -22,7 +22,7 @@ const useActivityLog = () => {
     setFilterValues('');
   };
 
-  const { data } = useGetActivityLogQuery({
+  const { data, isLoading } = useGetActivityLogQuery({
     params: { ...filterValues, ...searchParam },
   });
   const ActivityLogsData: any = [];
@@ -88,6 +88,7 @@ const useActivityLog = () => {
     handleDateSubmit,
     ActivityLogsData,
     handleRefresh,
+    isLoading,
   };
 };
 
