@@ -10,6 +10,7 @@ const useEmailMarketing = () => {
   const [isOpenFilter, setIsOpenFilter] = useState(false);
   const [searchEmailMarketing, setSearchEmailMarketing] = useState('');
   const [isExportModalOpen, setIsExportModalOpen] = useState(false);
+  const [isAccessValue, setAccessValue] = useState('');
   const [actionsModalDetails, setActionsModalDetails] = useState({
     isViewDeatsils: false,
     isDuplicate: false,
@@ -17,9 +18,12 @@ const useEmailMarketing = () => {
     isDelete: false,
     isMoveToFolder: false,
     isSaveAsTemplate: false,
+    isManageAccess: false,
   });
   const [isDelete, setIsDelete] = useState(false);
-
+  const handleChangeAccessValue = (event: any) => {
+    setAccessValue(event?.target?.value);
+  };
   const handleClick = (event: any) => {
     setSelectedValue(event?.currentTarget);
   };
@@ -62,7 +66,12 @@ const useEmailMarketing = () => {
           isSaveAsTemplate: true,
         });
         break;
-
+      case emailOptions?.MANAGE_ACCESS:
+        setActionsModalDetails({
+          ...actionsModalDetails,
+          isManageAccess: true,
+        });
+        break;
       default:
         break;
     }
@@ -91,6 +100,9 @@ const useEmailMarketing = () => {
     isExportModalOpen,
     searchEmailMarketing,
     setSearchEmailMarketing,
+    handleChangeAccessValue,
+    isAccessValue,
+    setAccessValue,
   };
 };
 export default useEmailMarketing;

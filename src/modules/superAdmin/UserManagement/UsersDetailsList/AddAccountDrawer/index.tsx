@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Grid, Box } from '@mui/material';
 
 import CommonDrawer from '@/components/CommonDrawer';
@@ -20,9 +18,11 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import { enqueueSnackbar } from 'notistack';
 import { usePostUsersAccountMutation } from '@/services/superAdmin/user-management/UserList';
+import { CommonAPIS } from '@/services/common-APIs';
+import { useGetPermissionsRolesQuery } from '@/services/orgAdmin/roles-and-rights';
 
 const AddAccountDrawer = (props: any) => {
-  const { isOpen, setIsOpen } = props;
+  const { isOpen, setIsOpen, organizationId, userId } = props;
   const [postUsersAccount] = usePostUsersAccountMutation();
 
   const methods: any = useForm({
@@ -30,11 +30,13 @@ const AddAccountDrawer = (props: any) => {
     defaultValues: AddAccountDefaultValues,
   });
 
-  const { handleSubmit, reset } = methods;
+  const { handleSubmit, reset, watch } = methods;
+  const organizationValue = watch('company');
 
   const onSubmit = async (values: any) => {
+    values.user = userId;
     try {
-      postUsersAccount({ body: values });
+      postUsersAccount({ id: organizationId, body: values });
       enqueueSnackbar('User Added Successfully', {
         variant: 'success',
       });
@@ -45,6 +47,17 @@ const AddAccountDrawer = (props: any) => {
       });
     }
   };
+
+  const { useGetCompanyAccountsQuery } = CommonAPIS;
+  const { data: companyAccounts } = useGetCompanyAccountsQuery({
+    orgId: organizationId,
+  });
+  const params = {
+    page: 1,
+    limit: 10,
+    organizationCompanyAccountId: organizationValue,
+  };
+  const { data: companyRoles } = useGetPermissionsRolesQuery(params);
 
   return (
     <CommonDrawer
@@ -61,18 +74,20 @@ const AddAccountDrawer = (props: any) => {
       <Box mt={1}>
         <FormProvider methods={methods}>
           <Grid container spacing={2}>
-            {AddAccountArray()?.map((item: any) => (
-              <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                <item.component {...item.componentProps} size={'small'}>
-                  {item?.componentProps?.select &&
-                    item?.options?.map((option: any) => (
-                      <option key={uuidv4()} value={option?.value}>
-                        {option?.label}
-                      </option>
-                    ))}
-                </item.component>
-              </Grid>
-            ))}
+            {AddAccountArray(companyAccounts, companyRoles)?.map(
+              (item: any) => (
+                <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                  <item.component {...item.componentProps} size={'small'}>
+                    {item?.componentProps?.select &&
+                      item?.options?.map((option: any) => (
+                        <option key={uuidv4()} value={option?.value}>
+                          {option?.label}
+                        </option>
+                      ))}
+                  </item.component>
+                </Grid>
+              ),
+            )}
           </Grid>
         </FormProvider>
       </Box>

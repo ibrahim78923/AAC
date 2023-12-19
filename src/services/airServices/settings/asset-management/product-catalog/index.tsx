@@ -13,6 +13,7 @@ export const productCatalogAPI: any = baseAPI?.injectEndpoints({
       }),
       providesTags: [TAG],
     }),
+
     getProductCatalogById: builder?.query({
       query: (getSingleProductCatalogParameter: any) => ({
         url: `${END_POINTS}/${getSingleProductCatalogParameter?.pathParam?.productCatalogId}`,
@@ -20,6 +21,7 @@ export const productCatalogAPI: any = baseAPI?.injectEndpoints({
       }),
       providesTags: [TAG],
     }),
+
     getExportProductCatalog: builder?.query({
       query: (getExportProductCatalogParameter: any) => ({
         url: `${END_POINTS}`,
@@ -29,6 +31,7 @@ export const productCatalogAPI: any = baseAPI?.injectEndpoints({
       }),
       providesTags: [TAG],
     }),
+
     postProductCatalog: builder?.mutation({
       query: (postProductCatalogParameter: any) => ({
         url: `${END_POINTS}`,
@@ -37,6 +40,7 @@ export const productCatalogAPI: any = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
+
     putProductCatalog: builder?.mutation({
       query: (putProductCatalogParameter: any) => ({
         url: `${END_POINTS}/${putProductCatalogParameter?.pathParam?.id}`,
@@ -48,11 +52,21 @@ export const productCatalogAPI: any = baseAPI?.injectEndpoints({
 
     deleteProductCatalog: builder?.mutation({
       query: (deleteProductCatalogParameter: any) => ({
-        url: `${END_POINTS}`,
+        url: `${END_POINTS?.DELETE_PRODUCT_CATALOG}`,
         method: 'DELETE',
         params: deleteProductCatalogParameter?.queryParams,
       }),
       invalidatesTags: [TAG],
+    }),
+
+    // Vendors Tab
+    getProductCatalogVendorList: builder?.query({
+      query: (getProductCatalogVendorParameter: any) => ({
+        url: `${END_POINTS?.PRODUCT_CATALOG_VENDOR_LIST}`,
+        method: 'GET',
+        params: getProductCatalogVendorParameter?.queryParams,
+      }),
+      providesTags: [TAG],
     }),
   }),
 });
@@ -65,4 +79,5 @@ export const {
   usePutProductCatalogMutation,
   useDeleteProductCatalogMutation,
   useLazyGetExportProductCatalogQuery,
+  useGetProductCatalogVendorListQuery,
 } = productCatalogAPI;

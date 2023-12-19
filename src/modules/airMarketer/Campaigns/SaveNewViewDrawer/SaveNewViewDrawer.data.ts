@@ -10,8 +10,8 @@ export const validationSchema = Yup?.object()?.shape({
 
 export const defaultValues = {
   campaignStatus: '',
-  startDate: '',
-  endDate: '',
+  startDate: null,
+  endDate: null,
 };
 
 export const dataArray = () => {

@@ -1,8 +1,9 @@
 import { Box, Checkbox, Avatar, Typography } from '@mui/material';
-import { AIR_SERVICES } from '@/constants';
+import { AIR_SERVICES, DATE_FORMAT } from '@/constants';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS, TICKET_STATUS } from '@/constants/strings';
 import dayjs from 'dayjs';
+import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 
 const todayDate = dayjs()?.format('MM/DD/YYYY');
 
@@ -103,8 +104,6 @@ export const ticketsListInitialColumns = [
   'state',
   'status',
   'priority',
-  'createdAt',
-  'impact',
 ];
 
 export const ticketsListsData: any = [
@@ -157,6 +156,8 @@ export const ticketsListsColumnFunction: any = (
       id: '_id',
       cell: (info: any) => (
         <Checkbox
+          icon={<CheckboxIcon />}
+          checkedIcon={<CheckboxCheckedIcon />}
           checked={
             !!selectedTicketList?.find((item: any) => item === info?.getValue())
           }
@@ -175,6 +176,8 @@ export const ticketsListsColumnFunction: any = (
       ),
       header: (
         <Checkbox
+          icon={<CheckboxIcon />}
+          checkedIcon={<CheckboxCheckedIcon />}
           checked={
             ticketList?.length
               ? selectedTicketList?.length === ticketList?.length
@@ -200,7 +203,7 @@ export const ticketsListsColumnFunction: any = (
         return (
           <Box
             display={'flex'}
-            gap={0.5}
+            gap={0.25}
             flexWrap={'wrap'}
             alignItems={'center'}
           >
@@ -216,6 +219,7 @@ export const ticketsListsColumnFunction: any = (
                 color: theme?.palette?.primary?.main,
                 cursor: 'pointer',
               }}
+              variant="body2"
               onClick={() => {
                 router?.push({
                   pathname: AIR_SERVICES?.TICKETS_LIST,
@@ -262,7 +266,7 @@ export const ticketsListsColumnFunction: any = (
       accessorFn: (row: any) => row?.assignedTo,
       id: 'assignedTo',
       isSortable: true,
-      header: 'Assigned To',
+      header: 'Assigned to',
       cell: (info: any) => info?.getValue(),
     },
     {
@@ -298,14 +302,14 @@ export const ticketsListsColumnFunction: any = (
       id: 'createdAt',
       isSortable: true,
       header: 'Created Date',
-      cell: (info: any) => dayjs(info?.getValue())?.format('MM/DD/YYYY'),
+      cell: (info: any) => dayjs(info?.getValue())?.format(DATE_FORMAT?.UI),
     },
     {
       accessorFn: (row: any) => row?.dueDate,
       id: 'dueDate',
       isSortable: true,
       header: 'Due Date',
-      cell: (info: any) => dayjs(info?.getValue())?.format('MM/DD/YYYY'),
+      cell: (info: any) => dayjs(info?.getValue())?.format(DATE_FORMAT?.UI),
     },
     {
       accessorFn: (row: any) => row?.impact,
@@ -319,14 +323,14 @@ export const ticketsListsColumnFunction: any = (
       id: 'plannedStartDate',
       isSortable: true,
       header: 'Planned Start Date',
-      cell: (info: any) => dayjs(info?.getValue())?.format('MM/DD/YYYY'),
+      cell: (info: any) => dayjs(info?.getValue())?.format(DATE_FORMAT?.UI),
     },
     {
       accessorFn: (row: any) => row?.plannedEndDate,
       id: 'plannedEndDate',
       isSortable: true,
       header: 'Planned End Date',
-      cell: (info: any) => dayjs(info?.getValue())?.format('MM/DD/YYYY'),
+      cell: (info: any) => dayjs(info?.getValue())?.format(DATE_FORMAT?.UI),
     },
     {
       accessorFn: (row: any) => row?.plannedEffort,

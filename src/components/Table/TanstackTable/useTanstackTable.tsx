@@ -33,7 +33,7 @@ const useTanstackTable = (data: any, columns: any, showSerialNo: boolean) => {
     getCoreRowModel: getCoreRowModel(),
   });
 
-  return table;
+  return { table };
 };
 
 export default useTanstackTable;

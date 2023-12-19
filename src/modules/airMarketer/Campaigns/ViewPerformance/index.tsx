@@ -41,6 +41,7 @@ const ViewPerformance = () => {
         <Box>
           <Button
             variant="contained"
+            className="small"
             startIcon={<PlusIcon />}
             onClick={() => setIsOpenAddAssets(true)}
           >

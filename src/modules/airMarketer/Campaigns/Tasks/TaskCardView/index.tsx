@@ -8,7 +8,7 @@ import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { v4 as uuidv4 } from 'uuid';
 
 const TaskViewCard = () => {
-  const theme = useTheme<Theme>();
+  const theme: any = useTheme<Theme>();
   const [taskCardData, setTaskCardData] = useState<any[]>([]);
 
   useEffect(() => {

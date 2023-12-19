@@ -9,7 +9,7 @@ export const validationSchema = Yup?.object()?.shape({
 
 export const defaultValues = {
   users: '',
-  createdDate: '',
+  createdDate: null,
 };
 
 export const dataArray = [

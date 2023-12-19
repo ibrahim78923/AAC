@@ -4,7 +4,7 @@ import { useRelatedTickets } from './useRelatedTickets';
 import { RelatedTicketsHeader } from './RelatedTicketsHeader';
 import CreateRelatedTickets from './CreateRelatedTickets';
 
-const RelatedTickets = () => {
+const RelatedTickets = (props: any) => {
   const {
     setIsDrawerOpen,
     isDrawerOpen,
@@ -14,7 +14,7 @@ const RelatedTickets = () => {
     isActive,
     theme,
   } = useRelatedTickets();
-
+  const {} = props;
   return (
     <div>
       <RelatedTicketsHeader
