@@ -10,9 +10,13 @@ import { v4 as uuidv4 } from 'uuid';
 import useToggle from '@/hooks/useToggle';
 import useAddCompanyDetails from './useAddCompanyDetails';
 
-export default function AddCompanyDetails({ isOpenDrawer, onClose }: any) {
+export default function AddCompanyDetails({
+  isOpenDrawer,
+  onClose,
+  organizationId,
+}: any) {
   const { theme, productsList, methods, handleSubmit, onSubmit } =
-    useAddCompanyDetails();
+    useAddCompanyDetails(organizationId);
   const [isToggled, setIsToggled] = useToggle(false);
 
   return (

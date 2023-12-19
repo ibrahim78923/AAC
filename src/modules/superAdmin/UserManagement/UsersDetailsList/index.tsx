@@ -350,6 +350,7 @@ const UsersDetailsList = () => {
         <AddCompanyDetails
           isOpenDrawer={isOpenAddCompanyDrawer}
           onClose={handleCloseAddCompanyDrawer}
+          organizationId={organizationId}
         />
       )}
       {isOpenAdduserDrawer && (
