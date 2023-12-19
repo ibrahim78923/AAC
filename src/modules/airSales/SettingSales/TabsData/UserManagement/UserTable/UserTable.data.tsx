@@ -6,7 +6,6 @@ import * as Yup from 'yup';
 
 export const validationSchema = Yup?.object()?.shape({
   firstName: Yup?.string()?.required('Field is Required'),
-  middleName: Yup?.string()?.required('Field is Required'),
   lastName: Yup?.string()?.required('Field is Required'),
   email: Yup?.string()?.trim()?.required('Field is Required'),
   team: Yup?.string()?.trim()?.required('Field is Required'),
@@ -20,7 +19,6 @@ export const validationSchema = Yup?.object()?.shape({
 
 export const defaultValues = {
   firstName: '',
-  middleName: '',
   lastName: '',
   address: '',
   email: '',
@@ -36,16 +34,6 @@ export const dataArray = [
     componentProps: {
       name: 'firstName',
       label: 'First Name',
-      fullWidth: true,
-      select: false,
-    },
-    component: RHFTextField,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'middleName',
-      label: 'Middle Name',
       fullWidth: true,
       select: false,
     },
