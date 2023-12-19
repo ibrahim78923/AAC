@@ -12,41 +12,46 @@ import ActionButton from './ActionButton';
 import useEmailMarketing from './useEmailMarketing';
 import Filters from './Filters';
 import EmailFolder from './EmailFolder';
+import { ExportButton } from './ExportButton';
 
 const EmailMarketing = () => {
-  const { isOpenFilter, setIsOpenFilter, handleExportModalOpen } =
-    useEmailMarketing();
+  const {
+    isOpenFilter,
+    setIsOpenFilter,
+    handleExportModalOpen,
+    searchEmailMarketing,
+    isExportModalOpen,
+    setSearchEmailMarketing,
+  } = useEmailMarketing();
   return (
     <Grid container>
       <Grid item md={12} lg={3}>
         <Typography variant="h4">Email Marketing</Typography>
       </Grid>
       <Grid item md={12} lg={9} sx={{ textAlign: 'end' }}>
-        <Search label="Search Here" width={260} size="small" />
+        <Search
+          searchBy={searchEmailMarketing}
+          setSearchBy={setSearchEmailMarketing}
+          label="Search Here"
+          width={260}
+          size="large"
+        />
 
         <Button
           variant="outlined"
           color="inherit"
-          className="small"
-          style={{ margin: '0px 18px' }}
-          sx={{ md: { m: 3 } }}
+          sx={{ margin: '0px 18px', py: '15px' }}
+          onClick={handleExportModalOpen}
         >
-          Export
+          <ExportIcon /> &nbsp; Export
         </Button>
-        <Button
-          variant="outlined"
-          color="inherit"
-          className="small"
-          sx={{ md: { mt: 3 } }}
-        >
+        <Button variant="outlined" color="inherit">
           Compare Email
         </Button>
         <Button
           variant="contained"
-          className="small"
           style={{ margin: '0px 18px' }}
           startIcon={<PlusIcon />}
-          sx={{ md: { mt: 3 } }}
         >
           Create New Email
         </Button>
@@ -61,20 +66,11 @@ const EmailMarketing = () => {
       >
         <Box sx={{ display: { lg: 'flex' }, marginTop: '8px' }}>
           <ActionButton />
-          <Button
-            variant="outlined"
-            color="inherit"
-            sx={{ margin: '0px 18px', py: '15px' }}
-            onClick={handleExportModalOpen}
-          >
-            <ExportIcon /> &nbsp; Export
-          </Button>
           <Tooltip title={'Refresh Filter'}>
             <Button
               sx={{ marginLeft: '8px' }}
               variant="outlined"
               color="inherit"
-              className="small"
             >
               <RefreshTasksIcon />
             </Button>
@@ -100,6 +96,12 @@ const EmailMarketing = () => {
           onClose={() => setIsOpenFilter(false)}
         />
       }
+      {isExportModalOpen && (
+        <ExportButton
+          isExportModalOpen={isExportModalOpen}
+          handleExportModalOpen={handleExportModalOpen}
+        />
+      )}
     </Grid>
   );
 };
