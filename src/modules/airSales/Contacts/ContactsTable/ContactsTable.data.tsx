@@ -3,12 +3,8 @@ import Link from 'next/link';
 import { Checkbox } from '@mui/material';
 import { DATE_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
+import { AIR_SALES } from '@/routesConstants/paths';
 
-// href={{
-//   pathname: `${SUPER_ADMIN_PLAN_MANAGEMENT?.ADD_PLAN}`,
-//   query: { data: JSON?.stringify(tableRowValues?.row?.original) },
-// }}
-// as={`${SUPER_ADMIN_PLAN_MANAGEMENT?.ADD_PLAN}`}
 export const ContactsColumns = () => {
   return [
     {
@@ -19,7 +15,7 @@ export const ContactsColumns = () => {
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row?.firstName + ' ' + row?.lastName,
+      accessorFn: (row: any) => `${row?.firstName} ${row?.lastName}`,
       id: 'firstName',
       header: 'Contacts',
       isSortable: true,
@@ -31,10 +27,10 @@ export const ContactsColumns = () => {
         return (
           <Link
             href={{
-              pathname: '/air-sales/contacts/view-details',
+              pathname: `${AIR_SALES?.CONTACTS}`,
               query: { data: contactInfo },
             }}
-            as={'/air-sales/contacts/view-details'}
+            as={`${AIR_SALES?.CONTACTS}`}
           >
             {info?.getValue()}
           </Link>

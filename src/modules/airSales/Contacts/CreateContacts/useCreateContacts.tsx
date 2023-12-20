@@ -68,7 +68,6 @@ const useCreateContacts = () => {
         try {
           await createAssociation({
             body: {
-              dealId: '655b2b2ecd318b576d7d71e8',
               contactId: response?.data?._id,
             },
           }).unwrap();

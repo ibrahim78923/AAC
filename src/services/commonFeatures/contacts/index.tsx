@@ -5,7 +5,7 @@ export const exampleExampleAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getContacts: builder.query({
       query: ({ params }: any) => ({
-        url: END_POINTS.CONTACTS,
+        url: END_POINTS?.CONTACTS,
         method: 'GET',
         params: params,
       }),

@@ -202,74 +202,74 @@ export const detailsDataArray = [
     md: 4,
   },
 
-  // {
-  //   label: 'Created at',
-  //   componentProps: {
-  //     name: 'createdAt',
-  //     placeholder: 'Created at',
-  //     fullWidth: true,
-  //   },
-  //   component: RHFTextField,
-  //   md: 4,
-  // },
-  // {
-  //   label: 'Created by',
-  //   componentProps: {
-  //     name: 'createdBy',
-  //     placeholder: 'Created by',
-  //     fullWidth: true,
-  //   },
-  //   component: RHFTextField,
-  //   md: 4,
-  // },
-  // {
-  //   label: 'Updated at',
-  //   componentProps: {
-  //     name: 'updatedAt',
-  //     placeholder: 'Updated at',
-  //     fullWidth: true,
-  //   },
-  //   component: RHFTextField,
-  //   md: 4,
-  // },
-  // {
-  //   label: 'Updated by',
-  //   componentProps: {
-  //     name: 'updatedby',
-  //     placeholder: 'Updated by',
-  //     select: false,
-  //   },
-  //   component: RHFTextField,
-  //   md: 4,
-  // },
-  // {
-  //   label: 'Last Activity',
-  //   componentProps: {
-  //     name: 'lastActivity',
-  //     placeholder: 'Last Activity',
-  //     select: false,
-  //   },
-  //   component: RHFTextField,
-  //   md: 4,
-  // },
-  // {
-  //   label: 'Next ACtivity',
-  //   componentProps: {
-  //     name: 'nextActivity',
-  //     placeholder: 'Next ACtivity',
-  //     select: false,
-  //   },
-  //   component: RHFTextField,
-  //   md: 4,
-  // },
-  // {
-  //   label: 'Last Contacted',
-  //   componentProps: {
-  //     name: 'lastContacted',
-  //     placeholder: 'Last Contacted',
-  //     select: false,
-  //   },
-  //   component: RHFTextField,
-  //   md: 4,
-  // },
+  {
+    label: 'Created at',
+    componentProps: {
+      name: 'createdAt',
+      placeholder: 'Created at',
+      fullWidth: true,
+    },
+    component: RHFTextField,
+    md: 4,
+  },
+  {
+    label: 'Created by',
+    componentProps: {
+      name: 'createdBy',
+      placeholder: 'Created by',
+      fullWidth: true,
+    },
+    component: RHFTextField,
+    md: 4,
+  },
+  {
+    label: 'Updated at',
+    componentProps: {
+      name: 'updatedAt',
+      placeholder: 'Updated at',
+      fullWidth: true,
+    },
+    component: RHFTextField,
+    md: 4,
+  },
+  {
+    label: 'Updated by',
+    componentProps: {
+      name: 'updatedby',
+      placeholder: 'Updated by',
+      select: false,
+    },
+    component: RHFTextField,
+    md: 4,
+  },
+  {
+    label: 'Last Activity',
+    componentProps: {
+      name: 'lastActivity',
+      placeholder: 'Last Activity',
+      select: false,
+    },
+    component: RHFTextField,
+    md: 4,
+  },
+  {
+    label: 'Next ACtivity',
+    componentProps: {
+      name: 'nextActivity',
+      placeholder: 'Next ACtivity',
+      select: false,
+    },
+    component: RHFTextField,
+    md: 4,
+  },
+  {
+    label: 'Last Contacted',
+    componentProps: {
+      name: 'lastContacted',
+      placeholder: 'Last Contacted',
+      select: false,
+    },
+    component: RHFTextField,
+    md: 4,
+  },
 ];
