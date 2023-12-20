@@ -1,4 +1,4 @@
-import EventBaseWorkflows from './EventBaseWorkflows';
+// import EventBaseWorkflows from './EventBaseWorkflows';
 import ScheduledWorkflows from './ScheduledWorkflows';
 import SupervisorRules from './SupervisorRules';
 
@@ -26,7 +26,7 @@ export const serviceWorkflowsCardData = [
   },
 ];
 export const cardRelatedData: any = {
-  1: <EventBaseWorkflows />,
+  // 1: <EventBaseWorkflows />,
   2: <ScheduledWorkflows />,
   3: <SupervisorRules />,
 };
