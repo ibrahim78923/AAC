@@ -4,9 +4,10 @@ import { baseAPI } from '@/services/base-api';
 export const exampleExampleAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getContacts: builder.query({
-      query: () => ({
-        url: END_POINTS.CONTACTS,
+      query: ({ params }: any) => ({
+        url: END_POINTS?.CONTACTS,
         method: 'GET',
+        params: params,
       }),
       providesTags: ['CONTACTS'],
     }),
