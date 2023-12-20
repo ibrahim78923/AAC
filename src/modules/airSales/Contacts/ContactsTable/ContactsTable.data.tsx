@@ -10,7 +10,7 @@ export const ContactsColumns = () => {
     {
       accessorFn: (row: any) => row?.id,
       id: 'id',
-      cell: () => <Checkbox color="primary" name="id" />,
+      cell: (info: any) => <Checkbox color="primary" name={info?.getValue()} />,
       header: <Checkbox color="primary" name="id" />,
       isSortable: false,
     },
