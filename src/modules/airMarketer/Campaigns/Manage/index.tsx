@@ -81,7 +81,7 @@ const Manage = () => {
               </Button>
 
               <Button
-                onClick={() => router?.push(AIR_MARKETER?.ALL_VIEW)}
+                onClick={() => router?.push(`/${AIR_MARKETER?.ALL_VIEW}`)}
                 startIcon={<FilterrIcon />}
                 className="small"
                 sx={{
