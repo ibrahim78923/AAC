@@ -6,7 +6,6 @@ import {
   Grid,
   Button,
   ButtonGroup,
-  Divider,
   Menu,
   MenuItem,
 } from '@mui/material';
@@ -15,7 +14,7 @@ import { FormProvider } from '@/components/ReactHookForm';
 
 import useDetails from './useDetails';
 
-import { detailsDataArray, systemInformationDataArray } from './Details.data';
+import { detailsDataArray } from './Details.data';
 
 import { styles } from '../ViewDetails.style';
 
@@ -27,7 +26,6 @@ import { v4 as uuidv4 } from 'uuid';
 
 const Details = () => {
   const {
-    theme,
     methodsDetails,
     onSubmit,
     handleSubmit,
@@ -99,7 +97,7 @@ const Details = () => {
               </Grid>
             ))}
           </Grid>
-          <Typography sx={{ mt: '24px', mb: '24px' }} variant="h4">
+          {/* <Typography sx={{ mt: '24px', mb: '24px' }} variant="h4">
             System Information
           </Typography>
           <Grid container spacing={4}>
@@ -120,7 +118,7 @@ const Details = () => {
             <Grid item xs={12}>
               <Divider sx={{ borderColor: theme?.palette?.grey[700] }} />
             </Grid>
-          </Grid>
+          </Grid> */}
 
           <Grid item xs={12}>
             <Box
