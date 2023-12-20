@@ -103,10 +103,6 @@ const Chat = () => {
     },
   ];
 
-  // const chatContacts = useAppSelector((state) => state?.chat?.chatContacts);
-
-  // console.log("chatContacts", chatContacts)
-
   const { user }: { accessToken: string; refreshToken: string; user: any } =
     getSession();
 
