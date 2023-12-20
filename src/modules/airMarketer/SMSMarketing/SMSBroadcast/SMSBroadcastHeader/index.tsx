@@ -51,7 +51,7 @@ const SMSBroadcastHeader = (props: any) => {
     >
       <Grid item xs={12} lg={6}>
         <Stack direction="row" gap={1}>
-          <SwitchableDatepicker renderInput={'date'} value={isDatePicker} />
+          <SwitchableDatepicker renderInput={'date'} dateValue={isDatePicker} />
         </Stack>
       </Grid>
       <Grid
