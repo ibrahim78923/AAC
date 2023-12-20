@@ -1,33 +1,20 @@
-import { RHFCheckbox } from '@/components/ReactHookForm';
-
-import * as Yup from 'yup';
-
-export const customValidationSchema = Yup?.object()?.shape({
-  file: Yup?.string()?.required('Field is Required'),
-});
+import { RHFMultiCheckbox } from '@/components/ReactHookForm';
 
 export const customDefaultValues = {
-  file: '',
+  file: [],
 };
 
 export const RecordModalData = [
   {
-    label: 'File Format',
     componentProps: {
+      // label: 'Select Forms*',
       name: 'file',
-      // placeholder: 'Select',
-      select: false,
+      GridView: 6,
+      options: [
+        { value: 'CSV', label: 'CSV' },
+        { value: 'XLV', label: 'XLV' },
+      ],
     },
-    component: RHFCheckbox,
-    md: 4,
-  },
-  {
-    componentProps: {
-      name: 'file',
-      // placeholder: 'Select',
-      select: false,
-    },
-    component: RHFCheckbox,
-    md: 4,
+    component: RHFMultiCheckbox,
   },
 ];
