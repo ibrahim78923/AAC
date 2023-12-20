@@ -1,8 +1,8 @@
 import Layout from '@/layout';
-// import { UpsertEventBasedWorkflow } from '@/modules/airOperations/WorkflowAutomation/ServicesWorkflow/EventBaseWorkflows/UpsertEventBasedWorkflow';
+import { UpsertEventBasedWorkflow } from '@/modules/airOperations/WorkflowAutomation/ServicesWorkflow/EventBaseWorkflows/UpsertEventBasedWorkflow';
 
 const UpsertEventBasedWorkflowPage = () => {
-  return <></>;
+  return <UpsertEventBasedWorkflow />;
 };
 
 export default UpsertEventBasedWorkflowPage;
