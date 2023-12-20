@@ -18,7 +18,7 @@ const Dashboard = () => {
   return (
     <>
       <Grid container spacing={2}>
-        <Grid item md={8}>
+        <Grid item lg={8} md={6} sm={12} xs={12}>
           <Card>
             <ProfileCard
               userName="John Doe"
@@ -33,7 +33,7 @@ const Dashboard = () => {
             />
           </Card>
         </Grid>
-        <Grid item md={4}>
+        <Grid item lg={4} md={6} sm={12} xs={12}>
           <Card
             sx={{
               display: 'flex',
@@ -82,7 +82,7 @@ const Dashboard = () => {
       </Box>
       <Grid container spacing={2}>
         {myAccountData?.map((item: any) => (
-          <Grid item md={3} key={uuidv4()}>
+          <Grid item lg={3} md={6} sm={12} xs={12} key={uuidv4()}>
             <Card sx={{ p: '24px', mt: 3 }}>
               {item?.icon}
               <Typography
@@ -130,7 +130,7 @@ const Dashboard = () => {
       </Box>
       <Grid container>
         {exploreProduct?.map((item: any) => (
-          <Grid item md={2} key={uuidv4()}>
+          <Grid item lg={2} md={3} sm={6} xs={12} key={uuidv4()}>
             <Box mt={3} sx={styles?.explore_icons}>
               <Typography sx={{ textAlign: 'center' }}>{item?.icon}</Typography>
               <Typography
