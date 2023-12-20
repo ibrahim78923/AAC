@@ -148,31 +148,31 @@ export const AIR_MARKETER = {
   COMMON_DOCUMENTS_FOLDER: path(AIR_MARKETING_PAGE, '/my-documents/my-folders'),
 };
 
-const AIR_OPERATIONS_PAGE = '/air-operation';
+const AIR_OPERATIONS_PAGE = '/air-operations';
 export const AIR_OPERATION = {
   root: AIR_OPERATIONS_PAGE,
-  WORK_FLOW: path(AIR_OPERATIONS_PAGE, '/workflow'),
+  WORK_FLOW: path(AIR_OPERATIONS_PAGE, '/workflow-automation'),
   DATA_MANAGEMENT: path(AIR_OPERATIONS_PAGE, '/data-management'),
   INTEGRATIONS: path(AIR_OPERATIONS_PAGE, '/integrations'),
   REPORTS: path(AIR_OPERATIONS_PAGE, '/reports'),
-  ROLE_AND_RIGHT: path(AIR_OPERATIONS_PAGE, '/role-and-rights'),
+  ROLE_AND_RIGHT: path(AIR_OPERATIONS_PAGE, '/roles-and-right'),
   USER_MANAGEMENT: path(AIR_OPERATIONS_PAGE, '/user-management'),
 };
 
-const LOYALTY_PROGRAM_PAGE = '/loyalty-program';
+const LOYALTY_PROGRAM_PAGE = '/air-loyalty-program';
 export const LOYALTY_PROGRAM = {
   root: LOYALTY_PROGRAM_PAGE,
-  LOYALTY_REWARD: path(LOYALTY_PROGRAM_PAGE, '/loyalty/reward'),
-  LOYALTY_TRANSACTIONS: path(LOYALTY_PROGRAM_PAGE, '/loyalty/reward'),
-  LOYALTY_RULES_TIERS: path(LOYALTY_PROGRAM_PAGE, '/loyalty/rules-tiers'),
+  LOYALTY_REWARD: path(LOYALTY_PROGRAM_PAGE, '/loyalty/rewards'),
+  LOYALTY_TRANSACTIONS: path(LOYALTY_PROGRAM_PAGE, '/loyalty/transactions'),
+  LOYALTY_RULES_TIERS: path(LOYALTY_PROGRAM_PAGE, '/loyalty/rules-and-tiers'),
   LOYALTY_RULES_VOUCHERS: path(LOYALTY_PROGRAM_PAGE, '/loyalty/vouchers'),
-  GIFT_CARDS: path(LOYALTY_PROGRAM_PAGE, '/gift-card'),
+  GIFT_CARDS: path(LOYALTY_PROGRAM_PAGE, '/gift-cards'),
   GIFT_CARDS_TRANSACTIONS: path(
     LOYALTY_PROGRAM_PAGE,
-    '/gift-card/transactions',
+    '/gift-cards/transactions',
   ),
-  GIFT_CARDS_SETTLEMENTS: path(LOYALTY_PROGRAM_PAGE, '/gift-card/settlements'),
-  GIFT_CARDS_SETTLED: path(LOYALTY_PROGRAM_PAGE, '/gift-card/settled'),
+  GIFT_CARDS_SETTLEMENTS: path(LOYALTY_PROGRAM_PAGE, '/gift-cards/settlements'),
+  GIFT_CARDS_SETTLED: path(LOYALTY_PROGRAM_PAGE, '/gift-cards/settled'),
   PREPARED_FUNDS_TRANSACTIONS: path(
     LOYALTY_PROGRAM_PAGE,
     '/prepaid/funds-transactions',
