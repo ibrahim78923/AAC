@@ -54,6 +54,7 @@ const UserManagement = () => {
         >
           <Button
             sx={{ mt: { md: 0, xs: 1 } }}
+            className="small"
             onClick={() =>
               tabVal === 2
                 ? handleAddRole()

@@ -29,6 +29,7 @@ const ActionButton = () => {
         onClick={handleClick}
         variant="outlined"
         color="inherit"
+        className="small"
         sx={{
           width: '112px',
         }}

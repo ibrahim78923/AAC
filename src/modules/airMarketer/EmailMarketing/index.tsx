@@ -7,7 +7,12 @@ import Draft from './Tabs/Draft';
 import Scheduled from './Tabs/Scheduled';
 import Sent from './Tabs/Sent';
 import Search from '@/components/Search';
-import { ExportIcon, PlusIcon, RefreshTasksIcon } from '@/assets/icons';
+import {
+  ExportIcon,
+  FilterrIcon,
+  PlusIcon,
+  RefreshTasksIcon,
+} from '@/assets/icons';
 import ActionButton from './ActionButton';
 import useEmailMarketing from './useEmailMarketing';
 import Filters from './Filters';
@@ -34,22 +39,24 @@ const EmailMarketing = () => {
           setSearchBy={setSearchEmailMarketing}
           label="Search Here"
           width={260}
-          size="large"
+          size="small"
         />
 
         <Button
           variant="outlined"
           color="inherit"
+          className="small"
           sx={{ margin: '0px 18px', py: '15px' }}
           onClick={handleExportModalOpen}
         >
           <ExportIcon /> &nbsp; Export
         </Button>
-        <Button variant="outlined" color="inherit">
+        <Button variant="outlined" className="small" color="inherit">
           Compare Email
         </Button>
         <Button
           variant="contained"
+          className="small"
           style={{ margin: '0px 18px' }}
           startIcon={<PlusIcon />}
         >
@@ -68,6 +75,7 @@ const EmailMarketing = () => {
           <ActionButton />
           <Tooltip title={'Refresh Filter'}>
             <Button
+              className="small"
               sx={{ marginLeft: '8px' }}
               variant="outlined"
               color="inherit"
@@ -75,6 +83,16 @@ const EmailMarketing = () => {
               <RefreshTasksIcon />
             </Button>
           </Tooltip>
+          <Button
+            onClick={() => setIsOpenFilter(true)}
+            className="small"
+            startIcon={<FilterrIcon />}
+            sx={{ marginLeft: '8px' }}
+            variant="outlined"
+            color="inherit"
+          >
+            Filters
+          </Button>
         </Box>
       </Grid>
 
@@ -90,12 +108,12 @@ const EmailMarketing = () => {
       <Grid item lg={12}>
         <EmailFolder />
       </Grid>
-      {
+      {isOpenFilter && (
         <Filters
           isOpenDrawer={isOpenFilter}
           onClose={() => setIsOpenFilter(false)}
         />
-      }
+      )}
       {isExportModalOpen && (
         <ExportButton
           isExportModalOpen={isExportModalOpen}

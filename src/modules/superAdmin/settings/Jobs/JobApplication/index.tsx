@@ -45,7 +45,7 @@ const JobApplication = () => {
           setSearchBy={setSearchValue}
           label="Search Here"
           size="small"
-          width={'100%'}
+          width={'260px'}
         />
         <Box
           sx={{

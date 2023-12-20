@@ -143,7 +143,7 @@ const CallingMain = ({ setAddaNumber }: any) => {
             label={'Search here'}
             searchBy={callingSearch}
             setSearchBy={setCallingSearch}
-            width="100%"
+            size="small"
           />
           <Box
             sx={{
