@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useRouter } from 'next/router';
 
@@ -15,23 +15,26 @@ import { enqueueSnackbar } from 'notistack';
 
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { ORG_ADMIN } from '@/constants';
+import { useSearchParams } from 'next/navigation';
 
 const useAddRole = () => {
   const theme = useTheme();
   const navigate = useRouter();
-  const { query }: any = navigate;
+  const roleId = useSearchParams().get('id');
+
+  const { useLazyGetPermissionsRolesByIdQuery } = rolesAndRightsAPI;
+
+  const [trigger, { data: viewPerdetails }] =
+    useLazyGetPermissionsRolesByIdQuery();
 
   const [isSwitchVal, setIsSwitchVal] = useState(false);
 
-  const viewPerdetails = query?.type !== 'add' && JSON?.parse(query?.data);
-
-  // getting form values from querydata
   const roleDefaultValues: any = {
-    productId: viewPerdetails?.data?.productDetails?.id,
-    companyAccountRoleId: viewPerdetails?.data?.companyAccountDetails?.id,
-    name: viewPerdetails?.data?.name,
-    description: viewPerdetails?.data?.description,
-    status: viewPerdetails?.data?.status,
+    productId: '',
+    companyAccountRoleId: '',
+    name: '',
+    description: '',
+    status: '',
   };
 
   const methods: any = useForm<any>({
@@ -39,8 +42,26 @@ const useAddRole = () => {
     defaultValues: roleDefaultValues,
   });
 
-  const { handleSubmit, watch } = methods;
+  const { handleSubmit, watch, setValue } = methods;
   const productVal = watch('productId');
+
+  useEffect(() => {
+    trigger(roleId);
+  }, [roleId]);
+
+  useEffect(() => {
+    const data = viewPerdetails?.data;
+    const fieldsToSet: any = {
+      productId: data?.productDetails?.id,
+      companyAccountRoleId: data?.companyAccountDetails?.id,
+      name: data?.name,
+      description: data?.description,
+      status: data?.status,
+    };
+    for (const key in fieldsToSet) {
+      setValue(key, fieldsToSet[key]);
+    }
+  }, [viewPerdetails]);
 
   const handleSwitch = () => {
     setIsSwitchVal(!isSwitchVal);
@@ -56,7 +77,7 @@ const useAddRole = () => {
   const [updateRoleRights] = useUpdateRoleRightsMutation();
 
   const onSubmit = async (values: any) => {
-    updateRoleRights({ id: viewPerdetails?.data?._id, body: values });
+    updateRoleRights({ id: roleId, body: values });
     navigate.push({
       pathname: ORG_ADMIN?.ROLES_AND_RIGHTS,
       query: { type: 'add' },

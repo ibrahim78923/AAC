@@ -6,7 +6,7 @@ export const customValidationSchema = Yup?.object()?.shape({
   contact: Yup?.string()?.required('Field is Required'),
 });
 
-export const customDefaultValues = {
+export const defaultValues = {
   contact: '',
 };
 

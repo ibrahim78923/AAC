@@ -16,11 +16,11 @@ const array = [
   },
 
   {
-    email: 'zahir.abbas@ceative.co.uk',
+    email: 'airmarketerapplecart@yopmail.com',
     path: '/air-marketer/dashboard',
   },
   {
-    email: 'waqas.ahmed@ceative.co.uk',
+    email: 'orgadminairapplecard@yopmail.com',
     path: '/org-admin/dashboard',
   },
 ];
@@ -36,10 +36,12 @@ export default function GuestGuard({ children }: any) {
 
   const path: any = findSkillByEmail({ user, array });
 
+  const pathVariable = path ? path?.path : '/org-admin/dashboard';
+
   useEffect(() => {
     if (!isInitialized) return;
     if (isAuthenticated) {
-      push(path?.path);
+      push(pathVariable);
       return;
     }
     setIsLoading(false);
