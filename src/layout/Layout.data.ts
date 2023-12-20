@@ -21,7 +21,6 @@ import {
   IntegrationsImage,
   KnowledgeBaseImage,
   LeadCaptureImage,
-  LogoutImage,
   LoyaltyImage,
   MailImage,
   MeetingImage,
@@ -98,7 +97,7 @@ export const SuperAdminRoutes: MenuItemI[] = [
 
 export const OrgAdminRoutes: MenuItemI[] = [
   {
-    key: 'org-admin',
+    key: 'org-admin/dashboard',
     icon: DashboardImage,
     label: 'Dashboard',
     role: 'org-admin',
@@ -474,7 +473,7 @@ export const AirOperationsRoutes: any = [
 
 export const SalesRoutes: any = [
   {
-    key: 'air-sales',
+    key: 'air-sales/dashboard',
     icon: DashboardImage,
     label: 'Dashboard',
     role: 'AIR_SALES',
@@ -581,13 +580,6 @@ export const LowerSuperAdminRoutes = [
       },
     ],
   },
-  {
-    label: 'Logout',
-    permissions: [],
-    key: 'logout',
-    role: 'AIR_SALES',
-    icon: LogoutImage,
-  },
 ];
 
 export const LowerOrgAdminRoutes = [
@@ -615,24 +607,9 @@ export const LowerOrgAdminRoutes = [
       },
     ],
   },
-  {
-    label: 'Logout',
-    key: 'logout',
-    permissions: [],
-    role: 'AIR_SALES',
-    icon: LogoutImage,
-  },
 ];
 
-export const LowerAirOperationRoutes = [
-  {
-    label: 'Logout',
-    key: '',
-    role: 'AIR_OPERATIONS',
-    permissions: [],
-    icon: LogoutImage,
-  },
-];
+export const LowerAirOperationRoutes = [];
 export const LowerSalesRoutes = [
   {
     label: 'Settings',
@@ -640,14 +617,6 @@ export const LowerSalesRoutes = [
     role: 'AIR_SALES',
     key: 'air-sales/settings',
     permissions: [],
-  },
-
-  {
-    label: 'Logout',
-    key: 'logout',
-    role: 'AIR_SALES',
-    permissions: [],
-    icon: LogoutImage,
   },
 ];
 
@@ -659,14 +628,6 @@ export const LowerLoyaltyProgramRoutes = [
     key: LOYALTY_PROGRAM?.SETTINGS,
     permissions: [],
   },
-
-  {
-    label: 'Logout',
-    key: 'logout',
-    role: 'AIR_SALES',
-    permissions: [],
-    icon: LogoutImage,
-  },
 ];
 
 export const LowerAirMarketingRoutes = [
@@ -676,14 +637,6 @@ export const LowerAirMarketingRoutes = [
     role: 'AIR_MARKETING',
     key: AIR_MARKETER?.SETTINGS,
     permissions: [],
-  },
-
-  {
-    label: 'Logout',
-    key: '',
-    role: 'AIR_MARKETING',
-    permissions: [],
-    icon: LogoutImage,
   },
 ];
 export const LowerServicesRoutes = [
@@ -720,12 +673,6 @@ export const LowerServicesRoutes = [
         permissions: [],
       },
     ],
-  },
-  {
-    label: 'Logout',
-    key: 'logout',
-    role: 'AIR_SALES',
-    icon: LogoutImage,
   },
 ];
 

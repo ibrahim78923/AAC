@@ -64,6 +64,7 @@ export const useCreateNewEmail = () => {
     setIsActive,
     handleAddNoteDrawer,
     isAddNoteDrawer,
+    setIsAddNoteDrawer,
     handleActionsButton,
     isScheduleModalOpen,
     handleScheduleModal,

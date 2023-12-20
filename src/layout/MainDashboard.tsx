@@ -27,27 +27,59 @@ import {
   setSocketConnection,
 } from '@/redux/slices/chat/slice';
 import { useAppDispatch } from '@/redux/store';
-
-import { ArrowDownImage, ArrowUpImage, LogoImage } from '@/assets/images';
+import { getSession, isNullOrEmpty } from '@/utils';
 
 import { getLowerRoutes, getRoutes, zeroPaddingRoutes } from './Layout.data';
 
-import { v4 as uuidv4 } from 'uuid';
+import {
+  ArrowDownImage,
+  ArrowUpImage,
+  LogoImage,
+  LogoutImage,
+} from '@/assets/images';
 
-import { getSession, isNullOrEmpty } from '@/utils';
+import { v4 as uuidv4 } from 'uuid';
+import useAuth from '@/hooks/useAuth';
+
 import * as io from 'socket.io-client';
 import { styles } from './Layout.style';
 
 const drawerWidth = 230;
-const role = 'SUPER_ADMIN';
+
+const array = [
+  {
+    email: 'mubashir.yusuf@ceative.co.uk',
+    role: 'SUPER_ADMIN',
+  },
+  {
+    email: 'azeem.aslam@ceative.co.uk',
+    role: 'AIR_SALES',
+  },
+  {
+    email: 'zahir.abbas@ceative.co.uk',
+    role: 'AIR_MARKETER',
+  },
+  {
+    email: 'waqas.ahmed@ceative.co.uk',
+    role: 'ORG_ADMIN',
+  },
+];
 
 const DashboardLayout = ({ children, window }: any) => {
   const theme = useTheme();
 
   const router = useRouter();
 
-  const routes = getRoutes(role);
-  const lowerRoutes = getLowerRoutes(role);
+  const { user }: { user: any } = getSession();
+  const findRoleByEmail = ({ user, array }: any) => {
+    return array.find((skill: any) => skill?.email === user?.email);
+  };
+
+  const findEmail: any = findRoleByEmail({ user, array });
+
+  const routes = getRoutes(findEmail?.role);
+
+  const lowerRoutes = getLowerRoutes(findEmail?.role);
   const pathname = usePathname();
   const routerPathName =
     pathname.split('/').splice(2)[0] ?? pathname.split('/').splice(1)[0];
@@ -66,6 +98,7 @@ const DashboardLayout = ({ children, window }: any) => {
   };
 
   const isZeroPaddingRoutes = zeroPaddingRoutes.includes(pathname);
+  const { logout } = useAuth();
 
   const drawer = (
     <>
@@ -81,7 +114,7 @@ const DashboardLayout = ({ children, window }: any) => {
                 color: theme?.palette?.primary?.main,
               }}
             >
-              {role?.replaceAll('_', ' ')}
+              {findEmail?.role?.replaceAll('_', ' ')}
             </Typography>
           </Box>
         </Box>
@@ -300,7 +333,7 @@ const DashboardLayout = ({ children, window }: any) => {
                         </Collapse>
                       </>
                     ) : (
-                      <Link key={uuidv4()} href={`${link?.key}`}>
+                      <Link key={uuidv4()} href={`/${link?.key}`}>
                         <ListItem sx={{ padding: '6px 0px 6px 0px' }}>
                           <ListItemButton
                             sx={styles?.mainNavLink(link, router, theme)}
@@ -323,6 +356,26 @@ const DashboardLayout = ({ children, window }: any) => {
                         </ListItem>
                       </Link>
                     )}
+
+                    <ListItem
+                      sx={{ padding: '6px 0px 6px 0px' }}
+                      onClick={logout}
+                    >
+                      <ListItemButton
+                        sx={styles?.mainNavLink(link, router, theme)}
+                      >
+                        <ListItemIcon sx={{ minWidth: 20 }}>
+                          <Image
+                            src={LogoutImage}
+                            alt={'LogoutImage'}
+                            style={{
+                              opacity: '0.4',
+                            }}
+                          />
+                        </ListItemIcon>
+                        Logout
+                      </ListItemButton>
+                    </ListItem>
                   </div>
                 );
               })}

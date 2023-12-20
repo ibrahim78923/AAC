@@ -58,6 +58,7 @@ export const AIR_SALES = {
   SALES_VIEW_INVOICES: '/air-sales/invoices/view-invoices',
   SALES_CREATE_INVOICES: '/air-sales/invoices/create-invoices',
   DEAL: ' /air-sales/deals',
+  CONTACTS: '/air-sales/contacts/view-details',
 };
 
 export const SUPER_ADMIN_PLAN_MANAGEMENT: any = {
@@ -84,7 +85,7 @@ export const airMarketingCalendar = {
 
 const AIR_MARKETING_PAGE = '/air-marketer';
 export const AIR_MARKETER = {
-  root: AIR_MARKETING_PAGE,
+  root: path(AIR_MARKETING_PAGE, '/dashboard'),
   PAID_ADS: path(AIR_MARKETING_PAGE, '/paid-ads'),
   CREATE_AD: path(AIR_MARKETING_PAGE, '/paid-ads/create-ad'),
   ENGAGEMENT_ADS: path(
@@ -133,6 +134,7 @@ export const AIR_MARKETER = {
     AIR_MARKETING_PAGE,
     '/whatsapp-marketing/update-broadcast',
   ),
+
   VIEW_PERFORMANCE: path(AIR_MARKETING_PAGE, '/campaigns/view-performance'),
   ALL_VIEW: path(AIR_MARKETING_PAGE, '/campaigns/all-view'),
   COMMON_DOCUMENTS: path(AIR_MARKETING_PAGE, '/my-documents'),
