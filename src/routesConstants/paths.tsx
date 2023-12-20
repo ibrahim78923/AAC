@@ -84,7 +84,7 @@ export const airMarketingCalendar = {
 
 const AIR_MARKETING_PAGE = '/air-marketer';
 export const AIR_MARKETER = {
-  root: AIR_MARKETING_PAGE,
+  root: path(AIR_MARKETING_PAGE, '/dashboard'),
   PAID_ADS: path(AIR_MARKETING_PAGE, '/paid-ads'),
   CREATE_AD: path(AIR_MARKETING_PAGE, '/paid-ads/create-ad'),
   ENGAGEMENT_ADS: path(
