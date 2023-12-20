@@ -1,30 +1,60 @@
-import React from 'react';
-import { Typography, MenuItem, Box } from '@mui/material';
+// import React, { useState } from 'react';
+import { Typography, MenuItem, Box, useTheme } from '@mui/material';
 import DrawerComp from '../Drawer';
 import { FilterIcon } from '@/assets/icons';
 import { uuid } from 'uuidv4';
-import { filterData } from '../Task.data';
+import {
+  filterData,
+  filterDefaultValues,
+  filterValidationSchema,
+} from '../Task.data';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useForm } from 'react-hook-form';
 import { styles } from './Filter.style';
+import { yupResolver } from '@hookform/resolvers/yup';
+// import dayjs from 'dayjs';
+// import { useGetDealsTasksManagementQuery } from '@/services/airSales/deals/view-details/tasks';
 
 const Filter = () => {
-  const methods = useForm({});
+  const theme = useTheme();
+
+  // const [taskFilters, setTaskFilters] = useState<any>({});
+  const methods = useForm({
+    resolver: yupResolver(filterValidationSchema),
+    defaultValues: filterDefaultValues,
+  });
+
+  // const paramsObj = {
+  //   assignTo: taskFilters.assignee,
+  //   dueDate: dayjs(taskFilters.dueDate),
+  //   priority: taskFilters?.priority,
+  //   status: taskFilters?.taskStatus,
+  // };
+
+  // const query = "?" + new URLSearchParams(paramsObj).toString();
+  // const { isError } = useGetDealsTasksManagementQuery({ query: query });
+
+  // const { handleSubmit } = methods;
+
+  // const onSubmit = (values: any) => {
+  //   setTaskFilters(values);
+  // };
 
   return (
     <DrawerComp
       btnTitle="Filter"
       title="Filter"
       btnIcon={<FilterIcon />}
-      key={'filter'}
+      key="filter"
       footer
+      // submitHandler={handleSubmit(onSubmit)}
     >
       <FormProvider methods={methods}>
-        {filterData.map((obj) => (
-          <Box key={uuid()} mb={'32px'}>
+        {filterData?.map((obj) => (
+          <Box key={uuid()} mb="32px">
             <Typography
               sx={{
-                color: '#4B5563',
+                color: theme?.palette?.grey[600],
                 fontSize: '16px',
                 fontWeight: 500,
                 mb: '8px',
@@ -33,7 +63,7 @@ const Filter = () => {
               {obj?.title}
             </Typography>
             <obj.component
-              size={'small'}
+              size="small"
               fullWidth
               {...styles}
               {...obj?.componentProps}

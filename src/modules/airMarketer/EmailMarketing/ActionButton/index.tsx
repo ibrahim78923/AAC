@@ -5,10 +5,14 @@ import { ArrowDropDown } from '@mui/icons-material';
 import { actionsOptions } from './ActionButton.data';
 
 import { AlertModals } from '@/components/AlertModals';
-import { AlertModalDeleteIcon } from '@/assets/icons';
+import { AlertModalDeleteIcon, InfoBlueIcon } from '@/assets/icons';
 
 import { v4 as uuidv4 } from 'uuid';
 import useEmailMarketing from '../useEmailMarketing';
+import MoveToFolder from '../MoveToFolder';
+import ViewDetailsAndPerformance from '../ViewDetailsAndPerformance';
+import SaveEmailAsTemplate from '../SaveEmailAsTemplate';
+import ManageAccess from '../ManageAccess';
 
 const ActionButton = () => {
   const {
@@ -17,20 +21,16 @@ const ActionButton = () => {
     handleSelectedOptionValue,
     actionsModalDetails,
     setActionsModalDetails,
-    isDelete,
-    setIsDelete,
   } = useEmailMarketing();
 
   return (
     <Box>
       <Button
         onClick={handleClick}
-        className="small"
         variant="outlined"
         color="inherit"
         sx={{
           width: '112px',
-          height: '36px',
         }}
       >
         Actions
@@ -56,22 +56,32 @@ const ActionButton = () => {
         })}
       </Menu>
 
-      {isDelete && (
+      {actionsModalDetails?.isDelete && (
         <AlertModals
-          message="Are you sure you want to delete this broadcast?"
-          type="Delete SMS Broadcast"
+          message="Are you sure you want to delete this?"
+          type="Delete"
           typeImage={<AlertModalDeleteIcon />}
-          open={isDelete}
-          handleClose={() => setIsDelete(false)}
-          handleSubmit={() => setIsDelete(false)}
+          open={actionsModalDetails?.isDelete}
+          handleClose={() =>
+            setActionsModalDetails({
+              ...actionsModalDetails,
+              isDelete: false,
+            })
+          }
+          handleSubmit={() =>
+            setActionsModalDetails({
+              ...actionsModalDetails,
+              isDelete: false,
+            })
+          }
         />
       )}
       {actionsModalDetails?.isDuplicate && (
         <AlertModals
           message="Are you sure you want to duplicate this item?"
           type="Information"
-          typeImage={<AlertModalDeleteIcon />}
-          open={isDelete}
+          typeImage={<InfoBlueIcon />}
+          open={actionsModalDetails?.isDuplicate}
           handleClose={() =>
             setActionsModalDetails({
               ...actionsModalDetails,
@@ -90,8 +100,8 @@ const ActionButton = () => {
         <AlertModals
           message="Are you sure you want to archive this item?"
           type="Information"
-          typeImage={<AlertModalDeleteIcon />}
-          open={isDelete}
+          typeImage={<InfoBlueIcon />}
+          open={actionsModalDetails?.isArchive}
           handleClose={() =>
             setActionsModalDetails({
               ...actionsModalDetails,
@@ -102,6 +112,51 @@ const ActionButton = () => {
             setActionsModalDetails({
               ...actionsModalDetails,
               isArchive: false,
+            })
+          }
+        />
+      )}
+      {actionsModalDetails?.isMoveToFolder && (
+        <MoveToFolder
+          openMoveToFolderModal={actionsModalDetails?.isMoveToFolder}
+          handleCloseMoveToFolderModal={() =>
+            setActionsModalDetails({
+              ...actionsModalDetails,
+              isMoveToFolder: false,
+            })
+          }
+        />
+      )}
+      {actionsModalDetails?.isViewDeatsils && (
+        <ViewDetailsAndPerformance
+          openViewDetails={actionsModalDetails?.isViewDeatsils}
+          handleCloseViewDetails={() =>
+            setActionsModalDetails({
+              ...actionsModalDetails,
+              isViewDeatsils: false,
+            })
+          }
+        />
+      )}
+      {actionsModalDetails?.isSaveAsTemplate && (
+        <SaveEmailAsTemplate
+          openSaveEmailAsTemplateModal={actionsModalDetails?.isSaveAsTemplate}
+          handleCloseSaveEmailAsTemplateModal={() =>
+            setActionsModalDetails({
+              ...actionsModalDetails,
+              isSaveAsTemplate: false,
+            })
+          }
+        />
+      )}
+
+      {actionsModalDetails?.isManageAccess && (
+        <ManageAccess
+          isOpenManageAccessModal={actionsModalDetails?.isManageAccess}
+          handleCloseManageAccessModal={() =>
+            setActionsModalDetails({
+              ...actionsModalDetails,
+              isManageAccess: false,
             })
           }
         />

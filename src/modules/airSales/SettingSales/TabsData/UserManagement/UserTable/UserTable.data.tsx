@@ -4,36 +4,35 @@ import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
 
 import * as Yup from 'yup';
 
-export const validationSchema = Yup.object().shape({
-  accountName: Yup.string().required('Field is Required'),
-  phoneNumber: Yup.string().trim().required('Field is Required'),
-  postCode: Yup.string().trim().required('Field is Required'),
-  address: Yup.string(),
-  buildingName: Yup.string().required('Field is Required'),
-  unit: Yup.string().required('Field is Required'),
-  buildingNumber: Yup.string(),
-  streetName: Yup.string(),
-  city: Yup.string(),
-  country: Yup.string(),
+export const validationSchema = Yup?.object()?.shape({
+  firstName: Yup?.string()?.required('Field is Required'),
+  lastName: Yup?.string()?.required('Field is Required'),
+  email: Yup?.string()?.trim()?.required('Field is Required'),
+  team: Yup?.string()?.trim()?.required('Field is Required'),
+  address: Yup?.string(),
+  phoneNumber: Yup?.string()?.required('Field is Required'),
+  jobTitle: Yup?.string(),
+  assignRole: Yup?.string(),
+  faceBookUrl: Yup?.string(),
+  country: Yup?.string(),
 });
 
 export const defaultValues = {
-  accountName: '',
-  phoneNumber: '',
-  postCode: '',
+  firstName: '',
+  lastName: '',
   address: '',
-  unit: '',
-  buildingName: '',
-  buildingNumber: '',
-  streetName: '',
-  city: '',
+  email: '',
+  phoneNumber: '',
+  jobTitle: '',
+  assignRole: '',
+  team: '',
   country: '',
 };
 
 export const dataArray = [
   {
     componentProps: {
-      name: 'accountName',
+      name: 'firstName',
       label: 'First Name',
       fullWidth: true,
       select: false,
@@ -43,17 +42,7 @@ export const dataArray = [
   },
   {
     componentProps: {
-      name: 'phoneNumber',
-      label: 'Middle Name',
-      fullWidth: true,
-      select: false,
-    },
-    component: RHFTextField,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'postCode',
+      name: 'lastName',
       label: 'Last Name',
       fullWidth: true,
     },
@@ -82,7 +71,7 @@ export const dataArray = [
   },
   {
     componentProps: {
-      name: 'buildingName',
+      name: 'phoneNumber',
       label: 'Phone Number',
       fullWidth: true,
       select: false,
@@ -92,7 +81,7 @@ export const dataArray = [
   },
   {
     componentProps: {
-      name: 'buildingNumber',
+      name: 'jobTitle',
       label: 'Job Title',
       fullWidth: true,
       select: false,
@@ -102,7 +91,7 @@ export const dataArray = [
   },
   {
     componentProps: {
-      name: 'streetName',
+      name: 'assignRole',
       label: 'Assign role',
       fullWidth: true,
       select: true,
@@ -117,7 +106,7 @@ export const dataArray = [
   },
   {
     componentProps: {
-      name: 'city',
+      name: 'team',
       label: 'Select Team',
       fullWidth: true,
       select: true,
@@ -133,7 +122,7 @@ export const dataArray = [
   },
   {
     componentProps: {
-      name: 'city',
+      name: 'language',
       label: 'Language',
       fullWidth: true,
       select: true,
@@ -148,7 +137,7 @@ export const dataArray = [
   },
   {
     componentProps: {
-      name: 'city',
+      name: 'timeZone',
       label: 'Time Zone',
       fullWidth: true,
       select: true,
@@ -163,7 +152,7 @@ export const dataArray = [
   },
   {
     componentProps: {
-      name: 'country',
+      name: 'facwBookUrl',
       label: 'Facebook URL',
       fullWidth: true,
       select: false,
@@ -174,7 +163,7 @@ export const dataArray = [
   },
   {
     componentProps: {
-      name: 'country',
+      name: 'linkdINuRL',
       label: 'Linkdin URL',
       fullWidth: true,
       select: false,
@@ -185,7 +174,7 @@ export const dataArray = [
   },
   {
     componentProps: {
-      name: 'country',
+      name: 'TWITTERuRL',
       label: 'Twitter URL',
       fullWidth: true,
       select: false,
@@ -196,78 +185,82 @@ export const dataArray = [
   },
 ];
 
-export const columns: any = [
-  {
-    accessorFn: (row: any) => row.Id,
-    id: 'Id',
-    cell: (info: any) => <Checkbox color="primary" name={info.getValue()} />,
-    header: <Checkbox color="primary" name="Id" />,
-    isSortable: false,
-  },
-  {
-    accessorFn: (row: any) => row.name,
-    id: 'name',
-    cell: (info: any) => info.getValue(),
-    header: 'Name',
-    isSortable: true,
-  },
-  {
-    accessorFn: (row: any) => row.email,
-    id: 'email',
-    isSortable: true,
-    header: 'Email',
-    cell: (info: any) => info.getValue(),
-  },
-  {
-    accessorFn: (row: any) => row.team,
-    id: 'team',
-    isSortable: true,
-    header: 'Team',
-    cell: (info: any) => (
-      <Select
-        variant="standard"
-        labelId="demo-simple-select-standard-label"
-        id="demo-simple-select-standard"
-        value="Alfa"
-        // onChange={handleChange}
-        label="Select"
-        name={info.getValue()}
-      >
-        <MenuItem value={10}>Ten</MenuItem>
-        <MenuItem value={20}>Twenty</MenuItem>
-        <MenuItem value={30}>Thirty</MenuItem>
-      </Select>
-    ),
-  },
-  {
-    accessorFn: (row: any) => row.role,
-    id: 'role',
-    isSortable: true,
-    header: 'Role',
-    cell: (info: any) => (
-      <Select
-        variant="standard"
-        labelId="demo-simple-select-standard-label"
-        id="demo-simple-select-standard"
-        value="Alfa"
-        // onChange={handleChange}
-        label="Select"
-        name={info.getValue()}
-      >
-        <MenuItem value="">
-          <em>None</em>
-        </MenuItem>
-        <MenuItem value={10}>Ten</MenuItem>
-        <MenuItem value={20}>Twenty</MenuItem>
-        <MenuItem value={30}>Thirty</MenuItem>
-      </Select>
-    ),
-  },
-  {
-    accessorFn: (row: any) => row.status,
-    id: 'status',
-    isSortable: true,
-    header: 'Status',
-    cell: (info: any) => <Switch color="primary" name={info.getValue()} />,
-  },
-];
+export const columnsUser = (
+  handleTeam: any,
+  handleRole: any,
+  team: any,
+  role: any,
+) => {
+  return [
+    {
+      accessorFn: (row: any) => row?.Id,
+      id: 'Id',
+      cell: (info: any) => <Checkbox color="primary" name={info?.getValue()} />,
+      header: <Checkbox color="primary" name="Id" />,
+      isSortable: false,
+    },
+    {
+      accessorFn: (row: any) => row?.name,
+      id: 'name',
+      cell: (info: any) => info?.getValue(),
+      header: 'Name',
+      isSortable: true,
+    },
+    {
+      accessorFn: (row: any) => row?.email,
+      id: 'email',
+      isSortable: true,
+      header: 'Email',
+      cell: (info: any) => info?.getValue(),
+    },
+    {
+      accessorFn: (row: any) => row?.team,
+      id: 'team',
+      isSortable: true,
+      header: 'Team',
+      cell: (info: any) => (
+        <Select
+          variant="standard"
+          labelId="demo-simple-select-standard-label"
+          id="demo-simple-select-standard"
+          value={team}
+          onChange={handleTeam}
+          label="Select"
+          name={info.getValue()}
+        >
+          <MenuItem value="Alfa">Alfa</MenuItem>
+          <MenuItem value="Alfa">Alfa</MenuItem>
+          <MenuItem value="Alfa">Alfa</MenuItem>
+        </Select>
+      ),
+    },
+    {
+      accessorFn: (row: any) => row?.role,
+      id: 'role',
+      isSortable: true,
+      header: 'Role',
+      cell: (info: any) => (
+        <Select
+          variant="standard"
+          labelId="demo-simple-select-standard-label"
+          id="demo-simple-select-standard"
+          value={role}
+          onChange={handleRole}
+          label="Select"
+          name={info.getValue()}
+        >
+          <MenuItem value="Team">Team</MenuItem>
+          <MenuItem value="Team">Team</MenuItem>
+          <MenuItem value="Team">Team</MenuItem>
+        </Select>
+      ),
+    },
+    {
+      accessorFn: (row: any) => row?.status,
+      id: 'status',
+      isSortable: true,
+      header: 'Status',
+      cell: (info: any) => <Switch color="primary" name={info?.getValue()} />,
+    },
+  ];
+};

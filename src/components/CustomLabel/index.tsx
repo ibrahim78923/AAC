@@ -7,17 +7,19 @@ const CustomLabel = (props: any) => {
   return (
     <Typography
       sx={{
-        '&::after': required
-          ? {
-              content: '"*"',
-              color: palette?.error?.main,
-            }
-          : '',
-        color: 'inherit',
+        color: 'grey.600',
         marginBottom: marginBottom,
       }}
+      variant="body2"
+      fontWeight={500}
     >
       {label}
+      {required && (
+        <Typography color={palette?.error?.main} component="span">
+          {' '}
+          *{' '}
+        </Typography>
+      )}
     </Typography>
   );
 };

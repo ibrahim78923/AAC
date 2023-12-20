@@ -17,16 +17,19 @@ import {
   DocumentImage,
   EmailMarketingImage,
   ForecastImage,
+  GiftCardImage,
   IntegrationsImage,
   KnowledgeBaseImage,
   LeadCaptureImage,
   LogoutImage,
+  LoyaltyImage,
   MailImage,
   MeetingImage,
   MeetingTopImage,
   MessageImage,
   PaidAdsImage,
   PlanManagementImage,
+  PrepaidImage,
   ProfileUserImage,
   ProfileUserManagementImage,
   QuotesImage,
@@ -41,7 +44,11 @@ import {
   WorkLoadImage,
 } from '@/assets/images';
 import { Permissions } from '@/constants/permissions';
-import { AIR_MARKETER, AIR_OPERATION } from '@/routesConstants/paths';
+import {
+  AIR_MARKETER,
+  AIR_OPERATION,
+  LOYALTY_PROGRAM,
+} from '@/routesConstants/paths';
 
 type MenuItemI = {
   key: React.Key;
@@ -199,6 +206,89 @@ export const ServicesRoutes: any = [
     label: 'Customer Portal',
     role: 'SERVICE',
     permissions: [],
+  },
+];
+
+export const LoyaltyProgramsRoutes: any = [
+  {
+    key: LOYALTY_PROGRAM?.root,
+    icon: DashboardImage,
+    label: 'Dashboard',
+    role: 'Loyalty-Program',
+    permissions: [],
+  },
+
+  {
+    key: LOYALTY_PROGRAM?.LOYALTY_REWARD,
+    label: 'Loyalty',
+    icon: LoyaltyImage,
+    role: 'Loyalty-Program',
+    permissions: [],
+    textNames: [
+      {
+        key: LOYALTY_PROGRAM?.LOYALTY_REWARD,
+        label: 'Rewards',
+        permissions: [],
+      },
+      {
+        key: LOYALTY_PROGRAM?.LOYALTY_TRANSACTIONS,
+        label: 'Transactions',
+        permissions: [],
+      },
+      {
+        key: LOYALTY_PROGRAM?.LOYALTY_RULES_TIERS,
+        label: 'Rules & Tiers',
+        permissions: [],
+      },
+      {
+        key: LOYALTY_PROGRAM?.LOYALTY_RULES_VOUCHERS,
+        label: 'Vouchers',
+        permissions: [],
+      },
+    ],
+  },
+  {
+    key: LOYALTY_PROGRAM?.GIFT_CARDS,
+    label: 'Gift Cards',
+    icon: GiftCardImage,
+    role: 'Loyalty-Program',
+    permissions: [],
+    textNames: [
+      {
+        key: LOYALTY_PROGRAM?.GIFT_CARDS,
+        label: 'Gift Cards',
+        permissions: [],
+      },
+      {
+        key: LOYALTY_PROGRAM?.GIFT_CARDS_TRANSACTIONS,
+        label: 'Transactions',
+        permissions: [],
+      },
+      {
+        key: LOYALTY_PROGRAM?.GIFT_CARDS_SETTLEMENTS,
+        label: 'Settlements',
+        permissions: [],
+      },
+      {
+        key: LOYALTY_PROGRAM?.GIFT_CARDS_SETTLED,
+        label: 'Settled',
+        permissions: [],
+      },
+    ],
+  },
+  {
+    key: LOYALTY_PROGRAM?.PREPARED_FUNDS_TRANSACTIONS,
+    label: 'Prepaid',
+    icon: PrepaidImage,
+    role: 'Loyalty-Program',
+    permissions: [],
+    textNames: [
+      {
+        key: LOYALTY_PROGRAM?.PREPARED_FUNDS_TRANSACTIONS,
+        label: 'Funds & Transactions',
+        permissions: [],
+      },
+    ],
   },
 ];
 
@@ -561,6 +651,24 @@ export const LowerSalesRoutes = [
   },
 ];
 
+export const LowerLoyaltyProgramRoutes = [
+  {
+    label: 'Settings',
+    icon: SettingImage,
+    role: 'Loyalty-program',
+    key: LOYALTY_PROGRAM?.SETTINGS,
+    permissions: [],
+  },
+
+  {
+    label: 'Logout',
+    key: 'logout',
+    role: 'AIR_SALES',
+    permissions: [],
+    icon: LogoutImage,
+  },
+];
+
 export const LowerAirMarketingRoutes = [
   {
     label: 'Settings',
@@ -728,6 +836,7 @@ const ROLES_ROUTES: any = {
   CUSTOMER_PORTAL: CustomerPortalRoutes,
   AIR_OPERATIONS: AirOperationsRoutes,
   AIR_MARKETER: AirMarketingRoutes,
+  LOYALTY_PROGRAM: LoyaltyProgramsRoutes,
 };
 
 export const getRoutes = (role: any) => {
@@ -741,6 +850,7 @@ const LOWER_ROLES_ROUTES: any = {
   ORG_ADMIN: LowerOrgAdminRoutes,
   AIR_OPERATIONS: LowerAirOperationRoutes,
   AIR_MARKETER: LowerAirMarketingRoutes,
+  LOYALTY_PROGRAM: LowerLoyaltyProgramRoutes,
 };
 
 export const getLowerRoutes = (role: any) => {

@@ -11,6 +11,12 @@ export const useCreateNewEmail = () => {
   const { enqueueSnackbar } = useSnackbar();
   const [isBcc, setIsBcc] = useState<string[]>(['both']);
   const [isAddNoteDrawer, setIsAddNoteDrawer] = useState<boolean>(false);
+  const [isScheduleModalOpen, setIsScheduleModalOpen] = useState(false);
+
+  const [openCalendar, setOpenCalendar] = useState(false);
+
+  const [actionName, setActionName] = useState('');
+
   const [isActive, setIsActive] = useState({
     bcc: false,
     cc: false,
@@ -27,7 +33,23 @@ export const useCreateNewEmail = () => {
     setIsAddNoteDrawer(!isAddNoteDrawer);
   };
 
-  const onSubmit = () => {};
+  const handleScheduleModal = () => {
+    setIsScheduleModalOpen(!isScheduleModalOpen);
+  };
+
+  const handleActionsButton = (value: string) => {
+    if (value === 'schedule') {
+      setOpenCalendar(true);
+    }
+    setActionName(value);
+  };
+
+  const onSubmit = () => {
+    // console.log('values', values);
+    if (actionName === 'schedule') {
+      setIsScheduleModalOpen(true);
+    }
+  };
 
   return {
     methods,
@@ -42,5 +64,9 @@ export const useCreateNewEmail = () => {
     setIsActive,
     handleAddNoteDrawer,
     isAddNoteDrawer,
+    handleActionsButton,
+    isScheduleModalOpen,
+    handleScheduleModal,
+    openCalendar,
   };
 };

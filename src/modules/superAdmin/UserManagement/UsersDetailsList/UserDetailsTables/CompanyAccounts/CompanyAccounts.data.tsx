@@ -53,7 +53,7 @@ export const companyColumns: any = [
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
         <LogoIcon />
         <Typography sx={{ fontSize: '12px' }}>
-          {info?.row?.original?.products}
+          {info?.row?.original?.product?.name}
         </Typography>
       </Box>
     ),

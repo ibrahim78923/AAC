@@ -31,8 +31,8 @@ const warrantyValidityMonthsOptions = [
 ];
 
 export const upsertVendorValidationSchema = Yup?.object()?.shape({
-  vendorCatalog: Yup?.string()?.required('Field is Required'),
-  price: Yup?.number()?.required('Field is Required'),
+  vendorCatalog: Yup?.string()?.required('Required'),
+  price: Yup?.number()?.typeError('Number')?.required('Required'),
   warrantyValidityYrs: Yup?.string(),
   warrantyValidityMonths: Yup?.string(),
   quantity: Yup?.number(),

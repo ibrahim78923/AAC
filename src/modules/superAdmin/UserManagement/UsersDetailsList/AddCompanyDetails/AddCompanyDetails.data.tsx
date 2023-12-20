@@ -3,66 +3,137 @@ import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
 export const validationSchema = Yup.object().shape({
-  companyName: Yup.string().trim().required('Field is Required'),
-  phoneNo: Yup.string().trim().required('Field is Required'),
-  product: Yup.string().trim().required('Field is Required'),
-  company: Yup.string().trim().required('Field is Required'),
+  accountName: Yup.string().required('Field is Required'),
+  phoneNo: Yup.string().required('Field is Required'),
+  postCode: Yup.string().required('Field is Required'),
+  compositeAddress: Yup.string().required('Field is Required'),
 });
 
 export const defaultValues = {
-  companyName: '',
+  accountName: '',
   phoneNo: '',
-  product: '',
-  company: '',
+  postCode: '',
+  products: [],
+  compositeAddress: '',
 };
 
 export const dataArray = [
   {
-    title: 'Company Name',
     componentProps: {
+      label: 'Company Name',
       placeholder: 'Enter Company Name',
-      name: 'companyName',
+      name: 'accountName',
       fullWidth: true,
+      required: true,
     },
     component: RHFTextField,
     md: 12,
   },
   {
-    title: 'Phone No',
     componentProps: {
+      label: 'PhoneNo',
       placeholder: 'Enter Number',
       name: 'phoneNo',
       fullWidth: true,
+      required: true,
     },
     component: RHFTextField,
     md: 12,
   },
   {
-    title: 'Product',
     componentProps: {
-      name: 'product',
+      label: 'Post Code',
+      placeholder: 'Enter Number',
+      name: 'postCode',
       fullWidth: true,
-      select: true,
+      required: true,
     },
-    options: [
-      { value: 'serviceCart', label: 'Service Cart' },
-      { value: 'marketingCart', label: 'Marketing Cart' },
-    ],
-    component: RHFSelect,
+    component: RHFTextField,
     md: 12,
   },
   {
-    title: 'Company',
     componentProps: {
-      name: 'company',
+      label: 'Address',
+      placeholder: 'Enter Number',
+      name: 'compositeAddress',
       fullWidth: true,
-      select: true,
+      required: true,
     },
-    options: [
-      { value: 'orcaloHoldings', label: 'Orcalo Holdings' },
-      { value: 'airAppleCart', label: 'Air applecart' },
-    ],
-    component: RHFSelect,
+    component: RHFTextField,
     md: 12,
+    subData: [
+      {
+        componentProps: {
+          name: 'flat',
+          label: 'Flat/Unit',
+          placeholder: 'Enter Flat/Unit',
+          fullWidth: true,
+        },
+        toShow: ['SUPER_ADMIN'],
+        component: RHFTextField,
+        md: 12,
+      },
+      {
+        componentProps: {
+          name: 'buildingName',
+          label: 'Building Name',
+          placeholder: 'Enter Building Name',
+          fullWidth: true,
+        },
+        toShow: ['SUPER_ADMIN'],
+        component: RHFTextField,
+        md: 12,
+      },
+      {
+        componentProps: {
+          name: 'buildingNumber',
+          label: 'Building Number',
+          placeholder: 'Enter Building Number',
+          fullWidth: true,
+        },
+        toShow: ['SUPER_ADMIN'],
+        component: RHFTextField,
+        md: 12,
+      },
+      {
+        componentProps: {
+          name: 'streetName',
+          label: 'Street Name',
+          placeholder: 'Enter Street Name',
+          fullWidth: true,
+        },
+        toShow: ['SUPER_ADMIN'],
+        component: RHFTextField,
+        md: 12,
+      },
+      {
+        componentProps: {
+          name: 'city',
+          label: 'Town/CIty',
+          placeholder: 'Enter Town/City',
+          fullWidth: true,
+        },
+        toShow: ['SUPER_ADMIN'],
+        component: RHFTextField,
+        md: 12,
+      },
+      {
+        componentProps: {
+          name: 'country',
+          label: 'Country',
+          fullWidth: true,
+          select: true,
+        },
+        options: [
+          { value: 'pakistan', label: 'Pakistan' },
+          { value: 'India', label: 'India' },
+          { value: 'uk', label: 'UK' },
+          { value: 'us', label: 'US' },
+        ],
+        component: RHFSelect,
+        toShow: ['SUPER_ADMIN'],
+        md: 12,
+      },
+    ],
   },
 ];

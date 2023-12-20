@@ -1,22 +1,6 @@
 import { AIR_SERVICES } from '@/constants';
 import { Typography } from '@mui/material';
 
-export const vendorData: any = [
-  {
-    name: 'apple',
-    email: 'johndoe@gmail.com',
-    phone: '12345',
-    usedBy: 'doe',
-    mobile: '00000',
-  },
-  {
-    name: 'dell',
-    email: 'john@gmail.com',
-    phone: 'xyz',
-    usedBy: 'john',
-    mobile: 'xyz',
-  },
-];
 export const PRODUCT_LISTS_ACTION_CONSTANTS = {
   IMPORT: 'import',
 };

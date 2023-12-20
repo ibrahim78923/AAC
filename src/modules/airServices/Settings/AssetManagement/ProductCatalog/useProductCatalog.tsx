@@ -18,9 +18,11 @@ import {
   useLazyGetProductCatalogQuery,
 } from '@/services/airServices/settings/asset-management/product-catalog';
 import { downloadFile } from '@/utils/file';
+import { useTheme } from '@mui/material';
 
 export const useProductCatalog = () => {
   const [search, setSearch] = useState('');
+  const theme = useTheme();
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const { makePath } = usePath();
@@ -65,24 +67,26 @@ export const useProductCatalog = () => {
     );
   }, []);
 
-  //TODO: we will be used while doing BE integration
-  // useEffect(() => {
-  //   getProductCatalogListData();
-  // }, [search, page, pageLimit]);
+  useEffect(() => {
+    getProductCatalogListData();
+  }, [search, page, pageLimit]);
 
   const getProductListsDataExport = async (type: any) => {
     const getProductCatalogExportParam = {
       exportType: type,
+      page,
+      limit: pageLimit,
+      search,
     };
 
     const getProductCatalogExportParameter = {
       queryParams: getProductCatalogExportParam,
     };
-    const response: any = await lazyGetExportProductCatalogTrigger(
-      getProductCatalogExportParameter,
-    )?.unwrap();
-    downloadFile(response, 'productCatalogLists', EXPORT_FILE_TYPE?.[type]);
     try {
+      const response: any = await lazyGetExportProductCatalogTrigger(
+        getProductCatalogExportParameter,
+      )?.unwrap();
+      downloadFile(response, 'productCatalogLists', EXPORT_FILE_TYPE?.[type]);
       enqueueSnackbar(
         `Product exported successfully as ${MESSAGE_EXPORT_FILE_TYPE?.[type]}`,
         {
@@ -95,6 +99,7 @@ export const useProductCatalog = () => {
       });
     }
   };
+
   const productListActionComponent: any = {
     [PRODUCT_LISTS_ACTION_CONSTANTS?.IMPORT]: (
       <ImportProductCatalog
@@ -103,6 +108,7 @@ export const useProductCatalog = () => {
       />
     ),
   };
+
   const setProductListAction = (productListActionQuery: any) => {
     router?.push({
       pathname: router?.pathname,
@@ -130,5 +136,6 @@ export const useProductCatalog = () => {
     getProductCatalogListData,
     setPage,
     setPageLimit,
+    theme,
   };
 };

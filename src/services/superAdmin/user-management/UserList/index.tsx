@@ -29,9 +29,20 @@ export const userListApi = baseAPI.injectEndpoints({
     }),
 
     postUsersAccount: builder.mutation({
+      query: ({ id, body }: any) => {
+        return {
+          url: `${END_POINTS?.ADD_USER_ACCOUNT}/${id}${END_POINTS?.USER_ACCOUNT}`,
+          method: 'POST',
+          body: body,
+        };
+      },
+      invalidatesTags: ['USERS'],
+    }),
+
+    postCompany: builder.mutation({
       query: ({ body }: any) => {
         return {
-          url: END_POINTS?.ADD_USER_ACCOUNT,
+          url: END_POINTS?.POST_COMPANY_ACCOUNT,
           method: 'POST',
           body: body,
         };
@@ -73,6 +84,7 @@ export const {
   useGetEmployeeListQuery,
   useGetUserAccountsByIdQuery,
   usePostUsersAccountMutation,
+  usePostCompanyMutation,
   useUpdateUsersAccountMutation,
   useDeleteUsersMutation,
   usePostUserEmployeeMutation,
