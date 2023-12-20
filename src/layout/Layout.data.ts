@@ -98,7 +98,7 @@ export const SuperAdminRoutes: MenuItemI[] = [
 
 export const OrgAdminRoutes: MenuItemI[] = [
   {
-    key: 'org-admin',
+    key: 'org-admin/dashboard',
     icon: DashboardImage,
     label: 'Dashboard',
     role: 'org-admin',
@@ -474,7 +474,7 @@ export const AirOperationsRoutes: any = [
 
 export const SalesRoutes: any = [
   {
-    key: 'air-sales',
+    key: 'air-sales/dashboard',
     icon: DashboardImage,
     label: 'Dashboard',
     role: 'AIR_SALES',
@@ -584,7 +584,7 @@ export const LowerSuperAdminRoutes = [
   {
     label: 'Logout',
     permissions: [],
-    key: 'logout',
+    key: 'login',
     role: 'AIR_SALES',
     icon: LogoutImage,
   },
@@ -617,7 +617,7 @@ export const LowerOrgAdminRoutes = [
   },
   {
     label: 'Logout',
-    key: 'logout',
+    key: 'login',
     permissions: [],
     role: 'AIR_SALES',
     icon: LogoutImage,
@@ -644,7 +644,7 @@ export const LowerSalesRoutes = [
 
   {
     label: 'Logout',
-    key: 'logout',
+    key: 'login',
     role: 'AIR_SALES',
     permissions: [],
     icon: LogoutImage,
@@ -680,7 +680,7 @@ export const LowerAirMarketingRoutes = [
 
   {
     label: 'Logout',
-    key: '',
+    key: 'login',
     role: 'AIR_MARKETING',
     permissions: [],
     icon: LogoutImage,
@@ -723,7 +723,7 @@ export const LowerServicesRoutes = [
   },
   {
     label: 'Logout',
-    key: 'logout',
+    key: 'login',
     role: 'AIR_SALES',
     icon: LogoutImage,
   },
