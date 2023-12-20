@@ -141,7 +141,7 @@ export const AIR_MARKETER = {
   COMMON_DOCUMENTS_FOLDER: path(AIR_MARKETING_PAGE, '/my-documents/my-folders'),
 };
 
-const AIR_OPERATIONS_PAGE = 'air-operation';
+const AIR_OPERATIONS_PAGE = '/air-operation';
 export const AIR_OPERATION = {
   root: AIR_OPERATIONS_PAGE,
   WORK_FLOW: path(AIR_OPERATIONS_PAGE, '/workflow'),
