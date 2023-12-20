@@ -15,6 +15,7 @@ const Drawer = ({
   isOk = true,
   okText = 'submit',
   footer = false,
+  color = 'inherit',
 }: TaskDrawerI) => {
   const [open, setOpen] = useState(false);
   const handleToggle = () => setOpen(!open);
@@ -22,6 +23,8 @@ const Drawer = ({
     <>
       {!hideBtn && (
         <Button
+          className="small"
+          color={color}
           variant={btnVariant}
           startIcon={btnIcon}
           sx={{

@@ -18,15 +18,8 @@ import useSMSBroadcast from '../useSMSBroadcast';
 
 import { ArrowDropDown } from '@mui/icons-material';
 
-import {
-  AlertModalDeleteIcon,
-  // ArrowSquareLeftIcon,
-  // ArrowSquareRightIcon,
-  // PrimaryCalendarIcon,
-  RefreshTasksIcon,
-} from '@/assets/icons';
+import { AlertModalDeleteIcon, RefreshTasksIcon } from '@/assets/icons';
 
-// import dayjs from 'dayjs';
 import SwitchableDatepicker from '@/components/SwitchableDatepicker';
 
 const SMSBroadcastHeader = (props: any) => {
@@ -39,8 +32,8 @@ const SMSBroadcastHeader = (props: any) => {
     setIsDelete,
     handleDelete,
     handleEdit,
-    isDatePicker,
-    // setIsDatePicker,
+    datePickerVal,
+    setDatePickerVal,
   } = useSMSBroadcast();
 
   return (
@@ -51,7 +44,11 @@ const SMSBroadcastHeader = (props: any) => {
     >
       <Grid item xs={12} lg={6}>
         <Stack direction="row" gap={1}>
-          <SwitchableDatepicker renderInput={'date'} dateValue={isDatePicker} />
+          <SwitchableDatepicker
+            renderInput={'date'}
+            dateValue={datePickerVal}
+            setDateValue={setDatePickerVal}
+          />
         </Stack>
       </Grid>
       <Grid
@@ -75,12 +72,7 @@ const SMSBroadcastHeader = (props: any) => {
         </Tooltip>
 
         <FormControl size="small">
-          <Select
-            sx={{ height: '36px' }}
-            defaultValue={'status'}
-            // value={age}
-            // onChange={handleChange}
-          >
+          <Select sx={{ height: '36px' }} defaultValue={'status'}>
             <MenuItem value={'status'} disabled>
               Status
             </MenuItem>
@@ -96,7 +88,6 @@ const SMSBroadcastHeader = (props: any) => {
             className="small"
             disabled={props?.selectedId ? false : true}
             onClick={handleClick}
-            // disabled={checkedRows === undefined ? true : false}
             sx={{
               border: `1px solid ${theme?.palette?.custom?.dark}`,
               color: theme?.palette?.custom?.main,

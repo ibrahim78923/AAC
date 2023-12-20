@@ -1,5 +1,13 @@
 import React from 'react';
-import { Box, useTheme, Button, Grid, MenuItem, Menu } from '@mui/material';
+import {
+  Box,
+  useTheme,
+  Button,
+  Grid,
+  MenuItem,
+  Menu,
+  Tooltip,
+} from '@mui/material';
 
 import CommonDrawer from '@/components/CommonDrawer';
 import Search from '@/components/Search';
@@ -62,42 +70,23 @@ const JobPosting = () => {
 
   return (
     <Box>
-      <Box
-        mt={2}
-        mb={3}
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          flexWrap: 'wrap',
-          gap: '10px',
-          padding: '0px 24px',
-        }}
-      >
-        <Search
-          setSearchBy={setSearchValue}
-          label="Search Here"
-          size="small"
-          width={'100%'}
-        />
-        <Box
-          sx={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            gap: '10px',
-          }}
-        >
+      <Box sx={styles?.filterBar}>
+        <Box sx={styles?.search}>
+          <Search
+            setSearchBy={setSearchValue}
+            label="Search Here"
+            size="small"
+            width={'100%'}
+          />
+        </Box>
+        <Box sx={styles?.filterButtons}>
           <Button
             id="basic-button"
             aria-controls={actionMenuOpen ? 'basic-menu' : undefined}
             aria-haspopup="true"
             aria-expanded={actionMenuOpen ? 'true' : undefined}
             onClick={handleActionsClick}
-            sx={{
-              color: theme?.palette?.grey[500],
-              width: '112px',
-              border: '1.5px solid #e7e7e9',
-            }}
+            sx={styles?.actionBtn}
             className="small"
             disabled={isActionsDisabled}
           >
@@ -138,13 +127,15 @@ const JobPosting = () => {
               Delete
             </MenuItem>
           </Menu>
-          <Button
-            sx={styles?.refreshButton(theme)}
-            className="small"
-            onClick={handleRefresh}
-          >
-            <RefreshSharedIcon />
-          </Button>
+          <Tooltip title={'Refresh Filter'} placement="top-start" arrow>
+            <Button
+              sx={styles?.refreshButton(theme)}
+              className="small"
+              onClick={handleRefresh}
+            >
+              <RefreshSharedIcon />
+            </Button>
+          </Tooltip>
           <Button
             className="small"
             sx={styles?.filterButton(theme)}

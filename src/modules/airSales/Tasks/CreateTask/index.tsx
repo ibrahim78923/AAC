@@ -47,6 +47,7 @@ const CreateTask = ({ title, hideBtn, defaultOpen }: CreateTaskI) => {
   const handleFiltersSubmit = handleMethodFilter(onSubmitHandler);
   return (
     <DrawerComp
+      color="primary"
       defaultOpen={defaultOpen}
       title={title ?? 'Create Task'}
       isOk

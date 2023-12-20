@@ -7,7 +7,7 @@ const Tooltip = (theme: any) => {
           padding: '8px',
         },
         arrow: {
-          color: theme.palette.common?.white,
+          color: theme.palette.blue?.main,
         },
       },
     },
