@@ -108,11 +108,18 @@ export const AIR_MARKETER = {
   REPORTS_EMAIL: path(AIR_MARKETING_PAGE, '/reports/email-marketing'),
   REPORTS_CAMPAIGNS: path(AIR_MARKETING_PAGE, '/reports/add-campaigns'),
   CAMPAIGNS: path(AIR_MARKETING_PAGE, '/campaigns'),
+  TASK_CARD: path(AIR_MARKETING_PAGE, '/campaigns/task-card'),
   SETTINGS: path(AIR_MARKETING_PAGE, '/settings'),
   CREATE_TEMPLATE: path(AIR_MARKETING_PAGE, '/sms-marketing/create-template'),
   VERIFY_EMAIL: path(AIR_MARKETING_PAGE, '/lead-capture/verify-email'),
   CREATE_FORM: path(AIR_MARKETING_PAGE, '/lead-capture/create-form'),
   ALL_TABLE: path(AIR_MARKETING_PAGE, '/lead-capture/forms'),
+  CREATE_NEW_EMAIL: path(
+    AIR_MARKETING_PAGE,
+    '/email-marketing/create-new-email',
+  ),
+  COMPARE_EMAIL: path(AIR_MARKETING_PAGE, '/email-marketing/compare-email'),
+
   SOCIAL_INBOX_SETTINGS: path(
     AIR_MARKETING_PAGE,
     '/social-marketing/social-inbox/settings',
