@@ -15,10 +15,10 @@ import { DATE_FORMAT } from '@/constants';
 const SwitchableDatepicker = ({
   renderInput,
   dateValue,
-  isCalendarOpen = true,
+  isCalendarOpen,
   setDateValue,
   handleDateSubmit,
-  placement = { left: 0 },
+  placement = 'left',
 }: any) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState('today');
@@ -114,7 +114,20 @@ const SwitchableDatepicker = ({
   // Datepicker custom container
   const Container = ({ children }: any) => {
     return (
-      <Box sx={{ ...styles?.dpContainer, ...placement }}>
+      <Box
+        sx={{
+          bgcolor: '#fff',
+          border: (theme: any) =>
+            `1px solid ${theme?.palette?.custom?.white_rock}`,
+          borderRadius: '4px',
+          maxWidth: '410px',
+          position: 'absolute',
+          top: '100%',
+          left: placement === 'left' ? '0' : 'auto',
+          right: placement === 'right' ? '0' : 'auto',
+          zIndex: '1201',
+        }}
+      >
         <Box sx={styles?.dpContent}>
           <Box sx={styles?.dpSidebar}>
             <List component={'nav'} sx={styles.dpSidebarList}>
