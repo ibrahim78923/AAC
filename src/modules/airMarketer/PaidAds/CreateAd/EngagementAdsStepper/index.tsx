@@ -198,7 +198,7 @@ const EngagementAdsStepper = () => {
               color="inherit"
               variant="outlined"
               onClick={() =>
-                activeStep === 0
+                activeStep === initialStep
                   ? router?.push(AIR_MARKETER?.CREATE_AD)
                   : handleBack()
               }
