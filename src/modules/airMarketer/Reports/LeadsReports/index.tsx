@@ -54,7 +54,7 @@ const LeadaReports = () => {
           </Typography>
         </Box>
         <Box display="flex" flexWrap="wrap" alignItems="center" gap={1}>
-          <SwitchableDatepicker />
+          <SwitchableDatepicker renderInput={'button'} />
           <Button
             sx={{ p: 0 }}
             className="small"

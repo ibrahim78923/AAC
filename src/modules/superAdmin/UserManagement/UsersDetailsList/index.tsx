@@ -78,8 +78,6 @@ const UsersDetailsList = () => {
   const { userName, organizationId, userId } = navigate.query;
 
   const empListParams = {
-    page: 1,
-    limit: 10,
     search: searchEmployee,
     // status:'ACTIVE'
     product: employeeFilter?.product,
@@ -120,7 +118,7 @@ const UsersDetailsList = () => {
                 />
                 <Typography variant="h3">{userName}</Typography>
               </Stack>
-              <Stack direction="row" gap={1}>
+              <Stack direction={{ sm: 'row' }} gap={1}>
                 <Button
                   variant="outlined"
                   color="inherit"
@@ -148,9 +146,9 @@ const UsersDetailsList = () => {
             <Divider />
             <Box sx={{ mt: 2 }}>
               <Stack
-                direction={'row'}
+                direction={{ sm: 'row', xs: 'column' }}
                 justifyContent={'space-between'}
-                alignItems={'center'}
+                alignItems={{ sm: 'center' }}
                 gap={1}
               >
                 <Search
@@ -158,29 +156,31 @@ const UsersDetailsList = () => {
                   size="small"
                   onChange={(val: any) => setSearchEmployee(val?.target?.value)}
                 />
-                <Tooltip title={'Refresh Filter'}>
+                <Box gap={1} display="flex" justifyContent="flex-end">
+                  <Tooltip title={'Refresh Filter'}>
+                    <Button
+                      variant="outlined"
+                      color="inherit"
+                      className="small"
+                      onClick={resetFilters}
+                    >
+                      <RefreshTasksIcon />
+                    </Button>
+                  </Tooltip>
                   <Button
-                    variant="outlined"
-                    color="inherit"
                     className="small"
-                    onClick={resetFilters}
+                    sx={{
+                      border: '1px solid grey',
+                      justifyContent: 'center',
+                      display: 'flex',
+                      alignItems: 'center',
+                      height: '44px',
+                    }}
+                    onClick={() => setIsOpenDrawer(true)}
                   >
-                    <RefreshTasksIcon />
+                    <FilterrIcon />
                   </Button>
-                </Tooltip>
-                <Button
-                  className="small"
-                  sx={{
-                    border: '1px solid grey',
-                    justifyContent: 'center',
-                    display: 'flex',
-                    alignItems: 'center',
-                    height: '44px',
-                  }}
-                  onClick={() => setIsOpenDrawer(true)}
-                >
-                  <FilterrIcon />
-                </Button>
+                </Box>
               </Stack>
             </Box>
             {empDetail?.length === 0 && (
@@ -350,6 +350,7 @@ const UsersDetailsList = () => {
         <AddCompanyDetails
           isOpenDrawer={isOpenAddCompanyDrawer}
           onClose={handleCloseAddCompanyDrawer}
+          organizationId={organizationId}
         />
       )}
       {isOpenAdduserDrawer && (

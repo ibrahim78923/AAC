@@ -1,7 +1,7 @@
 import { RHFSelect } from '@/components/ReactHookForm';
-
-import * as Yup from 'yup';
 import useAddAccount from './useAddAccount';
+import * as Yup from 'yup';
+
 export const AddAccountArray = () => {
   const { products, companyAccounts, companyRoles } = useAddAccount();
   return [
@@ -61,8 +61,8 @@ export const AddAccountArray = () => {
         required: true,
       },
       options: [
-        { value: 'active', label: 'Active' },
-        { value: 'inactive', label: 'Inactive' },
+        { value: 'ACTIVE', label: 'Active' },
+        { value: 'INACTIVE', label: 'Inactive' },
       ],
       component: RHFSelect,
       md: 6,

@@ -198,9 +198,9 @@ const EngagementAdsStepper = () => {
               color="inherit"
               variant="outlined"
               onClick={() =>
-                activeStep < initialStep
-                  ? router.push(AIR_MARKETER?.CREATE_AD)
-                  : handleBack
+                activeStep === initialStep
+                  ? router?.push(AIR_MARKETER?.CREATE_AD)
+                  : handleBack()
               }
               sx={{ mr: 1 }}
             >
@@ -208,7 +208,12 @@ const EngagementAdsStepper = () => {
             </Button>
             <Box sx={{ flex: '1 1 auto' }} />
             {activeStep === stepThree ? (
-              <Button variant="contained">Publish</Button>
+              <Button
+                variant="contained"
+                onClick={() => router?.push(AIR_MARKETER?.PAID_ADS)}
+              >
+                Publish
+              </Button>
             ) : (
               <Button type="submit" sx={{ mr: 1 }} variant="contained">
                 Next
