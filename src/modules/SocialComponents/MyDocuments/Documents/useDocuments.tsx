@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Theme, useTheme } from '@mui/material';
 
 import {
+  useDeleteFoldersMutation,
   useGetDocumentFolderQuery,
   usePostDocumentFolderMutation,
   useUpdateFolderMutation,
@@ -28,14 +29,28 @@ const useDocuments: any = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [postDocumentFolder] = usePostDocumentFolderMutation();
   const [updateFolder] = useUpdateFolderMutation();
+  const [deleteFolders] = useDeleteFoldersMutation();
   const [checkboxChecked, setCheckboxChecked] = useState<string[]>([]);
   const { user }: any = useAuth();
   const { data, isLoading, isError, isFetching, isSuccess } =
     useGetDocumentFolderQuery({ organizationId: user?.organization?._id });
 
+  const deleteUserFolders = async () => {
+    try {
+      await deleteFolders({
+        ids: checkboxChecked?.map((id) => `ids=${id}`)?.join('&'),
+      }).unwrap();
+      enqueueSnackbar('Company Deleted Successfully', {
+        variant: 'success',
+      });
+    } catch (error: any) {
+      enqueueSnackbar('Something went wrong!', { variant: 'error' });
+    }
+  };
+
   const handleCheckboxChange = (id: string) => {
     if (checkboxChecked?.includes(id)) {
-      setCheckboxChecked(checkboxChecked.filter((item: string) => item != id));
+      setCheckboxChecked(checkboxChecked?.filter((item: string) => item != id));
     } else {
       setCheckboxChecked([...checkboxChecked, id]);
     }
@@ -44,7 +59,7 @@ const useDocuments: any = () => {
   const open = Boolean(anchorEl);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
+    setAnchorEl(event?.currentTarget);
   };
 
   const handleClose = () => {
@@ -55,7 +70,7 @@ const useDocuments: any = () => {
     resolver: yupResolver(validationSchema),
     defaultValues: async () => {
       if (isEditOpenModal) {
-        if (!isNullOrEmpty(Object.keys(isEditOpenModal))) {
+        if (!isNullOrEmpty(Object?.keys(isEditOpenModal))) {
           return {
             name: watch('name'),
           };
@@ -68,7 +83,7 @@ const useDocuments: any = () => {
   useEffect(() => {
     if (isEditOpenModal) {
       const { name } = isEditOpenModal;
-      FolderAdd.setValue('name', name);
+      FolderAdd?.setValue('name', name);
     }
   }, [isEditOpenModal, FolderAdd]);
 
@@ -133,6 +148,7 @@ const useDocuments: any = () => {
     checkboxChecked,
     modalHeading,
     setModalHeading,
+    deleteUserFolders,
   };
 };
 

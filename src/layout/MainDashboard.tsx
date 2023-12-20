@@ -26,11 +26,17 @@ import { getSession, isNullOrEmpty } from '@/utils';
 
 import { getLowerRoutes, getRoutes, zeroPaddingRoutes } from './Layout.data';
 
-import { ArrowDownImage, ArrowUpImage, LogoImage } from '@/assets/images';
+import {
+  ArrowDownImage,
+  ArrowUpImage,
+  LogoImage,
+  LogoutImage,
+} from '@/assets/images';
 
 import { styles } from './Layout.style';
 
 import { v4 as uuidv4 } from 'uuid';
+import useAuth from '@/hooks/useAuth';
 
 const drawerWidth = 230;
 
@@ -86,10 +92,7 @@ const DashboardLayout = ({ children, window }: any) => {
   };
 
   const isZeroPaddingRoutes = zeroPaddingRoutes.includes(pathname);
-
-  const ClearStorage = (link: any) => {
-    return link === 'Logout' && localStorage.removeItem('session');
-  };
+  const { logout } = useAuth();
 
   const drawer = (
     <>
@@ -325,10 +328,7 @@ const DashboardLayout = ({ children, window }: any) => {
                       </>
                     ) : (
                       <Link key={uuidv4()} href={`/${link?.key}`}>
-                        <ListItem
-                          sx={{ padding: '6px 0px 6px 0px' }}
-                          onClick={() => ClearStorage(link?.label)}
-                        >
+                        <ListItem sx={{ padding: '6px 0px 6px 0px' }}>
                           <ListItemButton
                             sx={styles?.mainNavLink(link, router, theme)}
                           >
@@ -350,6 +350,26 @@ const DashboardLayout = ({ children, window }: any) => {
                         </ListItem>
                       </Link>
                     )}
+
+                    <ListItem
+                      sx={{ padding: '6px 0px 6px 0px' }}
+                      onClick={logout}
+                    >
+                      <ListItemButton
+                        sx={styles?.mainNavLink(link, router, theme)}
+                      >
+                        <ListItemIcon sx={{ minWidth: 20 }}>
+                          <Image
+                            src={LogoutImage}
+                            alt={'LogoutImage'}
+                            style={{
+                              opacity: '0.4',
+                            }}
+                          />
+                        </ListItemIcon>
+                        Logout
+                      </ListItemButton>
+                    </ListItem>
                   </div>
                 );
               })}
