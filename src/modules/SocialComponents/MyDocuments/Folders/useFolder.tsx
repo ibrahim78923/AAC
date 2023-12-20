@@ -38,8 +38,8 @@ const useFolder: any = () => {
 
   const searchParams = useSearchParams();
 
-  const parentFolderId = searchParams.get('folder');
-  const parentFolderName = searchParams.get('name');
+  const parentFolderId = searchParams?.get('folder');
+  const parentFolderName = searchParams?.get('name');
 
   const { data, isLoading, isError, isFetching, isSuccess } =
     useGetDocumentFolderQuery({ parentFolderId });
@@ -50,7 +50,7 @@ const useFolder: any = () => {
   const deleteUserFolders = async () => {
     try {
       await deleteFolders({
-        ids: cardBox.map((id) => `ids=${id}`).join('&'),
+        ids: cardBox?.map((id) => `ids=${id}`)?.join('&'),
       }).unwrap();
       enqueueSnackbar('Folder Deleted Successfully', {
         variant: 'success',
@@ -64,7 +64,7 @@ const useFolder: any = () => {
     resolver: yupResolver(validationSchema),
     defaultValues: async () => {
       if (isEditOpenModal) {
-        if (!isNullOrEmpty(Object.keys(isEditOpenModal))) {
+        if (!isNullOrEmpty(Object?.keys(isEditOpenModal))) {
           return {
             name: watch('name'),
           };
@@ -77,7 +77,7 @@ const useFolder: any = () => {
   useEffect(() => {
     if (isEditOpenModal) {
       const { name } = isEditOpenModal;
-      FolderAdd.setValue('name', name);
+      FolderAdd?.setValue('name', name);
     }
   }, [isEditOpenModal, FolderAdd]);
 
@@ -113,10 +113,10 @@ const useFolder: any = () => {
   };
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
+    setAnchorEl(event?.currentTarget);
   };
   const handleClickSide = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorElSide(event.currentTarget);
+    setAnchorElSide(event?.currentTarget);
   };
 
   const handleClose = () => {

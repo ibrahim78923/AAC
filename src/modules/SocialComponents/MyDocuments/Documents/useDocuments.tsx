@@ -38,7 +38,7 @@ const useDocuments: any = () => {
   const deleteUserFolders = async () => {
     try {
       await deleteFolders({
-        ids: checkboxChecked.map((id) => `ids=${id}`).join('&'),
+        ids: checkboxChecked?.map((id) => `ids=${id}`)?.join('&'),
       }).unwrap();
       enqueueSnackbar('Company Deleted Successfully', {
         variant: 'success',
@@ -50,7 +50,7 @@ const useDocuments: any = () => {
 
   const handleCheckboxChange = (id: string) => {
     if (checkboxChecked?.includes(id)) {
-      setCheckboxChecked(checkboxChecked.filter((item: string) => item != id));
+      setCheckboxChecked(checkboxChecked?.filter((item: string) => item != id));
     } else {
       setCheckboxChecked([...checkboxChecked, id]);
     }
@@ -59,7 +59,7 @@ const useDocuments: any = () => {
   const open = Boolean(anchorEl);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
+    setAnchorEl(event?.currentTarget);
   };
 
   const handleClose = () => {
@@ -70,7 +70,7 @@ const useDocuments: any = () => {
     resolver: yupResolver(validationSchema),
     defaultValues: async () => {
       if (isEditOpenModal) {
-        if (!isNullOrEmpty(Object.keys(isEditOpenModal))) {
+        if (!isNullOrEmpty(Object?.keys(isEditOpenModal))) {
           return {
             name: watch('name'),
           };
@@ -83,7 +83,7 @@ const useDocuments: any = () => {
   useEffect(() => {
     if (isEditOpenModal) {
       const { name } = isEditOpenModal;
-      FolderAdd.setValue('name', name);
+      FolderAdd?.setValue('name', name);
     }
   }, [isEditOpenModal, FolderAdd]);
 
