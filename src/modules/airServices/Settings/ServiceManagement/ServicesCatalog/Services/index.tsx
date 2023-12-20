@@ -16,13 +16,11 @@ import { useRouter } from 'next/router';
 import { AIR_SERVICES } from '@/constants';
 import { services } from './Services.data';
 import Image from 'next/image';
-
-import AddIcon from '@mui/icons-material/Add';
-
 import { CirclePlusIcon } from '@/assets/icons';
 import { AddServiceCatalog } from './AddServiceCatalog';
 import useServices from './useServices';
 import { ServicesAction } from './ServicesAction';
+import { CatalogAddImage } from '@/assets/images';
 const Services = () => {
   const router = useRouter();
   const theme = useTheme();
@@ -72,7 +70,7 @@ const Services = () => {
         <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'}>
           <Button
             variant="contained"
-            startIcon={<CirclePlusIcon f />}
+            startIcon={<CirclePlusIcon />}
             onClick={() => router.push(AIR_SERVICES?.UPSERT_SERVICE)}
           >
             Add Service
@@ -100,7 +98,12 @@ const Services = () => {
             height={'100%'}
             onClick={handleClickOpen}
           >
-            <AddIcon color="primary" fontSize="large" />
+            <Image
+              src={CatalogAddImage}
+              height={64}
+              width={64}
+              alt={'catalogAdd'}
+            />
           </Box>
           <AddServiceCatalog open={open} setOpen={setOpen} />
         </Grid>

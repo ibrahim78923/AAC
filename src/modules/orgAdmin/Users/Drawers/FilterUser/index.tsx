@@ -4,33 +4,28 @@ import { FormProvider } from '@/components/ReactHookForm';
 
 import CommonDrawer from '@/components/CommonDrawer';
 
-import {
-  usersFilterArray,
-  defaultValues,
-  userFilterValSchema,
-} from './FilterUser.data';
+import { usersFilterArray } from './FilterUser.data';
 
 import { useForm } from 'react-hook-form';
 
-import { yupResolver } from '@hookform/resolvers/yup';
-
 import { v4 as uuidv4 } from 'uuid';
 
-import { enqueueSnackbar } from 'notistack';
+const FilterUser = ({
+  isOpenDrawer,
+  onClose,
+  employeeFilter,
+  setEmployeeFilter,
+}: any) => {
+  const methods: any = useForm();
+  const { handleSubmit } = methods;
 
-const FilterUser = ({ isOpenDrawer, onClose }: any) => {
-  const methods: any = useForm({
-    resolver: yupResolver(userFilterValSchema),
-    defaultValues: defaultValues,
-  });
-
-  const { handleSubmit, reset } = methods;
-
-  const onSubmit = async () => {
-    enqueueSnackbar('User Added Successfully', {
-      variant: 'success',
+  const onSubmit = async (values: any) => {
+    setEmployeeFilter({
+      ...employeeFilter,
+      product: values?.product,
+      company: values?.company,
+      user: values?.user,
     });
-    reset();
   };
 
   return (

@@ -34,7 +34,6 @@ export default function RHFAutocompleteAsync({
 }: any): JSX.Element {
   const { control } = useFormContext();
   const [open, setOpen] = useState(false);
-
   const [trigger, { data, isLoading, isFetching }]: any = apiQuery;
 
   const triggerDebounce = debounce((newInputValue) => {
@@ -67,7 +66,7 @@ export default function RHFAutocompleteAsync({
             {...other}
             onOpen={() => {
               setOpen(true);
-              trigger({ params: {} });
+              trigger({ params: { ...externalParams } });
             }}
             onClose={() => {
               setOpen(false);
@@ -95,7 +94,7 @@ export default function RHFAutocompleteAsync({
             )}
             onInputChange={(event, newInputValue) => {
               triggerDebounce?.cancel();
-              if (newInputValue?.trim()) triggerDebounce(newInputValue);
+              triggerDebounce(newInputValue);
             }}
             filterOptions={(x) => x}
             renderOption={(props, option: any, { selected }) => {

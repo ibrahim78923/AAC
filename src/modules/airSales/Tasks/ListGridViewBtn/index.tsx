@@ -17,6 +17,8 @@ const ListGridViewBtn = ({ onClick }: { onClick: ({}) => void }) => {
       sx={{ minHeight: '36px' }}
     >
       <Button
+        color="inherit"
+        className="small"
         onClick={() => handleClick('listView')}
         sx={{
           '&:hover': { backgroundColor: '#F3F4F6' },
@@ -26,11 +28,13 @@ const ListGridViewBtn = ({ onClick }: { onClick: ({}) => void }) => {
         <ListViewIcon />
       </Button>
       <Button
+        color="inherit"
+        className="small"
         onClick={() => handleClick('gridView')}
-        sx={{
-          '&:hover': { backgroundColor: '#F3F4F6' },
-          backgroundColor: activeColor === 'gridView' ? '#F3F4F6' : '',
-        }}
+        // sx={{
+        //   '&:hover': { backgroundColor: '#F3F4F6' },
+        //   backgroundColor: activeColor === 'gridView' ? '#F3F4F6' : '',
+        // }}
       >
         <GridViewIcon />
       </Button>

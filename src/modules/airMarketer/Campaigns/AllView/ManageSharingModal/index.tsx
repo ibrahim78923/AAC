@@ -108,20 +108,31 @@ const ManageSharingModal = ({
                 {accessValue ===
                   specificUserOrTeamOptions?.specificUserOrTeam && (
                   <FormControl sx={{ ml: 2 }} component="fieldset">
-                    <RHFSelect name="users" label="Users" size="small">
-                      {teamsArr?.map((option: any) => (
-                        <option key={uuidv4()} value={option?.value}>
-                          {option?.label}
-                        </option>
-                      ))}
-                    </RHFSelect>
-                    <RHFSelect name="teams" label="Teams" size="small">
-                      {usersArr?.map((option: any) => (
-                        <option key={uuidv4()} value={option?.value}>
-                          {option?.label}
-                        </option>
-                      ))}
-                    </RHFSelect>
+                    <Grid container>
+                      <Grid item xs={12}>
+                        <RHFSelect
+                          name="users"
+                          label="Users"
+                          size="small"
+                          fullWidth
+                        >
+                          {teamsArr?.map((option: any) => (
+                            <option key={uuidv4()} value={option?.value}>
+                              {option?.label}
+                            </option>
+                          ))}
+                        </RHFSelect>
+                      </Grid>
+                      <Grid item xs={12}>
+                        <RHFSelect name="teams" label="Teams" size="small">
+                          {usersArr?.map((option: any) => (
+                            <option key={uuidv4()} value={option?.value}>
+                              {option?.label}
+                            </option>
+                          ))}
+                        </RHFSelect>
+                      </Grid>
+                    </Grid>
                   </FormControl>
                 )}
                 <FormControlLabel

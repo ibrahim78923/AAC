@@ -21,8 +21,8 @@ export const defaultValues = {
   taskType: '',
   selectCompaign: '',
   assignedTo: '',
-  dueDate: '',
-  dueTime: '',
+  dueDate: null,
+  dueTime: null,
 };
 
 export const dataArray = [
@@ -40,7 +40,7 @@ export const dataArray = [
   {
     componentProps: {
       name: 'selectCompaign',
-      label: 'selectCompaign',
+      label: 'Select Campaign',
       fullWidth: true,
       select: true,
     },
@@ -57,7 +57,7 @@ export const dataArray = [
   {
     componentProps: {
       name: 'assignedTo',
-      label: 'assignedTo',
+      label: 'Assigned To',
       fullWidth: true,
       select: true,
     },

@@ -12,13 +12,13 @@ const EmailFolder = () => {
       </Grid>
       <Grid item lg={6} sx={{ textAlign: 'end' }}>
         <Button variant="contained" className="small">
-          <PlusIcon /> Create New Folder
+          <PlusIcon /> &nbsp; Create New Folder
         </Button>
       </Grid>
-      <Grid item lg={6}>
-        <Search label="Search Here" width="260px" />
+      <Grid item lg={6} mt={4}>
+        <Search label="Search Here" width="260px" size="small" />
       </Grid>
-      <Grid item lg={6} sx={{ textAlign: 'end' }}>
+      <Grid item lg={6} mt={4} sx={{ textAlign: 'end' }}>
         <NewFolderActions />
       </Grid>
       <Grid item xs={12}>

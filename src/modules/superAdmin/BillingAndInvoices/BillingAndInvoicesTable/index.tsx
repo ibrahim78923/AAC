@@ -11,7 +11,7 @@ import useBillingAndInvoices from './useBillingAndInvoices';
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
 import { styles } from '../Invoices/Invoices.style';
-import { FilterSharedIcon } from '@/assets/icons';
+import { FilterSharedIcon, PlusSharedIcon } from '@/assets/icons';
 import { dataArray } from './BillingAndInvoices.data';
 import { v4 as uuidv4 } from 'uuid';
 import { RefreshIcon } from '@/assets/icons';
@@ -64,7 +64,7 @@ const BillingAndInvoicesTable = () => {
               className="small"
               disabled={isChecked}
             >
-              Assign Plan
+              <PlusSharedIcon /> &nbsp; Assign Plan
             </Button>
           </Grid>
         </Grid>
