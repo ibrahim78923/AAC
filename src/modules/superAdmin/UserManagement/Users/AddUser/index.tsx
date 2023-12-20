@@ -58,14 +58,21 @@ const AddUser = ({
   const { handleSubmit, reset, watch, setValue } = methods;
 
   const onSubmit = async (values: any) => {
-    if (tabTitle === 'COMPANY_OWNER') {
+    if (
+      pathName === SUPER_ADMIN?.USERMANAGMENT &&
+      tabTitle === 'COMPANY_OWNER'
+    ) {
       values.role = 'ORG_ADMIN';
       delete values['address'];
-    } else if (tabTitle === 'SUPER_ADMIN') {
+      delete values['phoneNumber'];
+    } else if (
+      pathName === SUPER_ADMIN?.USERMANAGMENT &&
+      tabTitle === 'SUPER_ADMIN'
+    ) {
       delete values['phoneNumber'];
       delete values['postCode'];
       values.role = 'SUPER_ADMIN';
-    } else {
+    } else if (pathName === SUPER_ADMIN?.USERS_LIST) {
       values.role = 'ORG_EMPLOYEE';
     }
     if (values?.compositeAddress) {
@@ -103,7 +110,18 @@ const AddUser = ({
   };
 
   const organizationNumber = watch('crn');
-
+  const flatVal = watch('flat');
+  const buildingName = watch('buildingName');
+  const buildingNumber = watch('buildingNumber');
+  const city = watch('city');
+  const country = watch('country');
+  const streetName = watch('streetName');
+  const addressToggledValue = `${flatVal ?? ''},
+  house # ${buildingNumber ?? ''}
+   ${buildingName ?? ''},
+    ${streetName ?? ''} ,
+     ${city ?? ''}, 
+     ${country ?? ''}`;
   const [orgNumber, setOrgNumber] = useState('');
   debouncedSearch(organizationNumber, setOrgNumber);
   const { data, isSuccess, isError } = useGetAuthCompaniesQuery({
@@ -136,7 +154,7 @@ const AddUser = ({
       footer
     >
       <FormProvider methods={methods}>
-        <Grid container spacing={2} mt={1}>
+        <Grid container spacing={1} mt={1}>
           {addUsersArray()?.map((item: any) => {
             return (
               item?.toShow?.includes(
@@ -144,13 +162,13 @@ const AddUser = ({
                   ? tabTitle
                   : 'SUPER_ADMIN',
               ) && (
-                <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                <Grid item xs={12} md={item?.md} key={item?.name}>
                   {item?.componentProps?.heading && (
                     <Typography variant="h5">
                       {item?.componentProps?.heading}
                     </Typography>
                   )}
-                  {item?.componentProps?.name === 'compositeAddress ' && (
+                  {item?.componentProps?.name === 'compositeAddress' && (
                     <Box position="relative">
                       <InputAdornment
                         sx={{
@@ -192,6 +210,12 @@ const AddUser = ({
                     disabled={
                       isOpenAddUserDrawer?.type === 'view' ? true : false
                     }
+                    value={
+                      item?.componentProps?.name === 'compositeAddress' &&
+                      isToggled
+                        ? addressToggledValue ?? ''
+                        : ''
+                    }
                   >
                     {item?.componentProps?.select &&
                       item?.options?.map((option: any) => (
@@ -226,9 +250,9 @@ const AddUser = ({
                     )}
                   {isToggled && (
                     <Grid item container spacing={2} mt={1}>
-                      {item?.componentProps?.name === 'compositeAddress ' &&
+                      {item?.componentProps?.name === 'compositeAddress' &&
                         item?.subData?.map((data: any) => (
-                          <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                          <Grid item xs={12} md={item?.md} key={item?.name}>
                             <Typography variant="body2" fontWeight={500}>
                               {data?.title}
                             </Typography>

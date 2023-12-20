@@ -2,12 +2,16 @@ import { Box, Button, Menu, MenuItem } from '@mui/material';
 import { ArrowDropDown } from '@mui/icons-material';
 import useRolesAndRights from '../useRolesAndRights';
 import { ORG_ADMIN } from '@/constants';
+import { rolesAndRightsAPI } from '@/services/orgAdmin/roles-and-rights';
 
 const ActionButton = (props?: any) => {
   const { checkedRows } = props;
   const { selectedValue, handleClick, handleClose, navigate } =
     useRolesAndRights();
 
+  const { useGetPermissionsRolesByIdQuery } = rolesAndRightsAPI;
+
+  const { data: viewPerdetails } = useGetPermissionsRolesByIdQuery(checkedRows);
   return (
     <Box sx={{ width: { xs: '100%', sm: 'auto' } }}>
       <Button
@@ -35,7 +39,10 @@ const ActionButton = (props?: any) => {
         <MenuItem
           onClick={() => {
             handleClose();
-            navigate?.push(ORG_ADMIN?.ADD_ROLE);
+            navigate?.push({
+              pathname: ORG_ADMIN?.ADD_ROLE,
+              query: { data: JSON.stringify(viewPerdetails), type: 'view' },
+            });
           }}
         >
           View
@@ -43,7 +50,10 @@ const ActionButton = (props?: any) => {
         <MenuItem
           onClick={() => {
             handleClose();
-            navigate?.push(ORG_ADMIN?.ADD_ROLE);
+            navigate?.push({
+              pathname: ORG_ADMIN?.ADD_ROLE,
+              query: { data: JSON.stringify(viewPerdetails), type: 'edit' },
+            });
           }}
         >
           Edit

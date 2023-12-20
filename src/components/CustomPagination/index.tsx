@@ -55,7 +55,7 @@ const CustomPagination = (props: any) => {
         </Box>
         <Box display={'flex'}>
           <IconButton
-            disabled={currentPage === 1}
+            disabled={currentPage === 1 || currentPage < 1}
             onClick={() => setPage?.((page: any) => page - 1)}
             sx={styles?.iconStyleTwo(theme)}
           >

@@ -21,11 +21,12 @@ import AddUser from '../Drawers/AddUser';
 
 import useUsersSidebar from './useUsersSidebar';
 
-import { AvatarImage } from '@/assets/images';
+import { AvatarImage, NoAssociationFoundImage } from '@/assets/images';
 
 import { AddCircle } from '@mui/icons-material';
 import useUsers from '../useUsers';
 import { v4 as uuidv4 } from 'uuid';
+import NoData from '@/components/NoData';
 
 const UsersSidebar = (props: any) => {
   const { setEmployeeDataById } = props;
@@ -40,7 +41,13 @@ const UsersSidebar = (props: any) => {
     setIsActiveEmp,
     theme,
   } = useUsersSidebar();
-  const { employeeDetails, setSearchEmployee } = useUsers();
+  const {
+    employeeDetails,
+    setSearchEmployee,
+    employeeFilter,
+    setEmployeeFilter,
+    resetFilter,
+  } = useUsers();
 
   return (
     <Box
@@ -85,7 +92,12 @@ const UsersSidebar = (props: any) => {
           onChange={(val: any) => setSearchEmployee(val?.target?.value)}
         />
         <Tooltip title={'Refresh Filter'}>
-          <Button variant="outlined" color="inherit" className="small">
+          <Button
+            variant="outlined"
+            color="inherit"
+            className="small"
+            onClick={resetFilter}
+          >
             <RefreshTasksIcon />
           </Button>
         </Tooltip>
@@ -100,7 +112,12 @@ const UsersSidebar = (props: any) => {
           <FilterSharedIcon />
         </Button>
       </Box>
-      {employeeDetails?.length === 0 && <Typography>No user found</Typography>}
+      {employeeDetails?.length === 0 && (
+        <NoData
+          image={NoAssociationFoundImage}
+          message={'No data is available'}
+        />
+      )}
       {employeeDetails?.map((item: any, index: number) => (
         <Box
           className="users-wrapper"
@@ -166,6 +183,8 @@ const UsersSidebar = (props: any) => {
       {isOpenFilterDrawer && (
         <FilterUser
           isOpenDrawer={isOpenFilterDrawer}
+          employeeFilter={employeeFilter}
+          setEmployeeFilter={setEmployeeFilter}
           onClose={() => {
             setIsOpenFilterDrawer(false);
           }}

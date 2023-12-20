@@ -11,7 +11,6 @@ export const styles = {
     maxWidth: '410px',
     position: 'absolute',
     top: '100%',
-    left: '0',
     zIndex: '1201',
   }),
   dpContent: () => ({

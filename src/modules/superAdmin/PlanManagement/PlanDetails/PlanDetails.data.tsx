@@ -1,6 +1,8 @@
 import { Checkbox } from '@mui/material';
 
 import { avatarGroupMockData } from '../PlanManagement.data';
+import { DATE_FORMAT } from '@/constants';
+import dayjs from 'dayjs';
 
 export const TABLE_CONSTANTS = {
   CUSTOMIZE_COLUMN: 'customize-column',
@@ -74,86 +76,54 @@ export const PlanDetailsDataColumnFunction: any = (
       header: <Checkbox color="primary" name="id" />,
       isSortable: false,
     },
-    // {
-    //   accessorFn: (row: any) => row.planId,
-    //   id: 'planId',
-    //   cell: (info: any) => (
-    //     <Box display={'flex'} gap={1} flexWrap={'wrap'} alignItems={'center'}>
-    //       <Image src={AvatarImage} alt="Avatar" />
-    //       <div
-    //         style={{
-    //           color: theme?.palette?.primary?.main,
-    //           cursor: 'pointer',
-    //         }}
-    //         onClick={() => {
-    //           router.push({
-    //             pathname: `#`,
-    //             query: {
-    //               id: info?.getValue(),
-    //             },
-    //           });
-    //         }}
-    //       >
-    //         {info?.getValue()}
-    //       </div>
-    //     </Box>
-    //   ),
-    //   header: 'Plan ID',
-    //   isSortable: false,
-    // },
-    // {
-    //   accessorFn: (row: any) => row?.product,
-    //   id: 'product',
-    //   isSortable: true,
-    //   header: 'Product/Suite',
-    //   cell: (info: any) => (
-    //     <Box margin={'auto'}>
-    //       <AppAvatarGroup data={info?.getValue()} />
-    //     </Box>
-    //   ),
-    // },
-    // {
-    //   accessorFn: (row: any) => row?.planType,
-    //   id: 'planType',
-    //   isSortable: true,
-    //   header: 'Plan Type',
-    //   cell: (info: any) => (
-    //     <Box display={'flex'} flexWrap={'wrap'} alignItems={'center'} gap={1}>
-    //       <Image src={AvatarImage} alt="Avatar" />
-    //       <div style={{ color: theme?.palette?.primary?.main }}>
-    //         {info?.getValue()}
-    //       </div>
-    //     </Box>
-    //   ),
-    // },
+
     {
-      accessorFn: (row: any) => row?.description,
-      id: 'description',
+      accessorFn: (row: any) => row?.planType?.name,
+      id: 'planType',
       isSortable: true,
-      header: 'Created On',
+      header: 'Plan Type',
       cell: (info: any) => info?.getValue(),
     },
-    // {
-    //   accessorFn: (row: any) => row?.createdOn,
-    //   id: 'createdOn',
-    //   isSortable: true,
-    //   header: 'Default Users',
-    //   cell: (info: any) => info?.getValue(),
-    // },
-    // {
-    //   accessorFn: (row: any) => row?.planPrice,
-    //   id: 'planPrice',
-    //   isSortable: true,
-    //   header: 'Plan Price',
-    //   cell: (info: any) => info?.getValue(),
-    // },
-    // {
-    //   accessorFn: (row: any) => row?.status,
-    //   id: 'status',
-    //   isSortable: true,
-    //   header: 'Status',
-    //   cell: (info: any) => info?.getValue(),
-    // },
+    {
+      //Todo: Getting description at index 0
+      accessorFn: (row: any) => row?.planProducts[0]?.description,
+      id: 'description',
+      isSortable: true,
+      header: 'Description',
+      cell: (info: any) => info?.getValue(),
+    },
+    {
+      //Todo: Getting createdAt at index 0
+      accessorFn: (row: any) =>
+        dayjs(row?.planProducts[0]?.createdAt)?.format(DATE_FORMAT?.UI),
+      id: 'createdAt',
+      isSortable: true,
+      header: 'Created on',
+      cell: (info: any) => info?.getValue(),
+    },
+    {
+      //Todo: Getting status at index 0
+      accessorFn: (row: any) => row?.planProducts[0]?.status,
+      id: 'status',
+      isSortable: true,
+      header: 'Status',
+      cell: (info: any) => info?.getValue(),
+    },
+    {
+      accessorFn: (row: any) => row?.defaultUsers,
+      id: 'defaultUsers',
+      isSortable: true,
+      header: 'Default Users',
+      cell: (info: any) => info?.getValue(),
+    },
+    {
+      accessorFn: (row: any) => row?.planPrice,
+      id: 'planPrice',
+      isSortable: true,
+      header: 'Plan Price',
+      cell: (info: any) => info?.getValue(),
+    },
+
     {
       accessorFn: (row: any) => row?.defaultStorage,
       id: 'defaultStorage',

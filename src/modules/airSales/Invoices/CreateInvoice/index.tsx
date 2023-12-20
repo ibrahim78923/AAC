@@ -4,6 +4,8 @@ import AppHorizontalStepper from '@/components/Stepper';
 import useCreateInvoices from './useCreateInvoices';
 import useReviewInvoice from './ReviewInvoice/useReviewInvoice';
 import { style } from './CreateInvoice.style';
+import { AIR_SALES } from '@/routesConstants/paths';
+import { useRouter } from 'next/router';
 
 const CreateInvoice = () => {
   const {
@@ -13,7 +15,7 @@ const CreateInvoice = () => {
     hanldeGoPreviousBack,
     handlerCancelButton,
   } = useCreateInvoices();
-
+  const router = useRouter();
   const { isEmailModal, setIsEmailModal } = useReviewInvoice();
 
   return (
@@ -96,7 +98,9 @@ const CreateInvoice = () => {
         handleClose={() => {
           setIsEmailModal(false);
         }}
-        handleSubmit={() => {}}
+        handleSubmit={() => {
+          router.push(AIR_SALES?.SALES_INVOICES);
+        }}
         submitButonText="Send"
         isFooter
       >

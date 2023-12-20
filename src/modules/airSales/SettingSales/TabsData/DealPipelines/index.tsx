@@ -151,13 +151,19 @@ const DealPipelines = () => {
                         </Typography>
                       )}
                       <Button
-                        onClick={() => deleteField(index - 1)}
-                        disabled={index === 0}
+                        onClick={() => deleteField(index)}
+                        disabled={
+                          index === 0 ||
+                          index === inputFields?.length - 1 ||
+                          index === inputFields?.length - 2
+                        }
                       >
                         <CancelIcon
                           sx={{
                             color:
-                              index === 0
+                              index === 0 ||
+                              index === inputFields?.length - 1 ||
+                              index === inputFields?.length - 2
                                 ? theme?.palette?.custom?.main
                                 : theme?.palette?.error?.main,
                           }}

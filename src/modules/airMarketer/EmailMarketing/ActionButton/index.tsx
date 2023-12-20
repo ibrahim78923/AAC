@@ -27,12 +27,10 @@ const ActionButton = () => {
     <Box>
       <Button
         onClick={handleClick}
-        className="small"
         variant="outlined"
         color="inherit"
         sx={{
           width: '112px',
-          height: '36px',
         }}
       >
         Actions

@@ -10,31 +10,107 @@ import {
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { AIR_SERVICES } from '@/constants';
+import {
+  useGetProductCatalogByIdQuery,
+  useLazyGetAssetTypeQuery,
+  usePatchProductCatalogMutation,
+  usePostProductCatalogMutation,
+} from '@/services/airServices/settings/asset-management/product-catalog';
+import { useEffect } from 'react';
 
 export const useUpsertProductCatalog = () => {
   const router = useRouter();
   const { productCatalogId } = router?.query;
   const theme: any = useTheme();
+  const [postProductCatalogTrigger, postProductCatalogStatus] =
+    usePostProductCatalogMutation();
+  const [patchProductCatalogTrigger, patchProductCatalogStatus] =
+    usePatchProductCatalogMutation();
   const methods: any = useForm<any>({
     resolver: yupResolver(upsertProductCatalogValidationSchema),
     defaultValues: upsertProductCatalogDefaultValuesFunction(),
   });
 
-  const { handleSubmit, reset } = methods;
-
-  const submitUpsertProductCatalog = async () => {
-    enqueueSnackbar(
-      `Product catalog ${productCatalogId ? 'Updated' : 'Added'} Successfully`,
-      {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      },
-    );
-    reset();
-    return;
+  const getSingleProductCatalogParameter = {
+    pathParam: {
+      productCatalogId,
+    },
   };
 
+  const { data, isLoading, isFetching } = useGetProductCatalogByIdQuery(
+    getSingleProductCatalogParameter,
+    {
+      refetchOnMountOrArgChange: true,
+      skip: !!!productCatalogId,
+    },
+  );
+
+  const { handleSubmit, reset } = methods;
+
+  useEffect(() => {
+    reset(() => upsertProductCatalogDefaultValuesFunction(data?.data?.[0]));
+  }, [data, reset]);
+
+  const submitUpsertProductCatalog = async (data: any) => {
+    const body = {
+      ...data,
+      assetType: data?.assetType?._id,
+    };
+    if (!!productCatalogId) {
+      submitUpdateProductCatalog(body);
+      return;
+    }
+    const postProductCatalogParameter = {
+      body,
+    };
+
+    try {
+      const response = await postProductCatalogTrigger(
+        postProductCatalogParameter,
+      )?.unwrap();
+      enqueueSnackbar(
+        response?.message ?? 'ProductCatalog Added Successfully',
+        {
+          variant: NOTISTACK_VARIANTS?.SUCCESS,
+        },
+      );
+      moveBack?.();
+      reset();
+    } catch (error) {
+      enqueueSnackbar('Something went wrong', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
+    }
+  };
+
+  const submitUpdateProductCatalog = async (data: any) => {
+    const patchProductCatalogParameter = {
+      body: {
+        id: productCatalogId,
+        ...data,
+      },
+    };
+    try {
+      const response = await patchProductCatalogTrigger(
+        patchProductCatalogParameter,
+      )?.unwrap();
+      enqueueSnackbar(
+        response?.message ?? 'ProductCatalog Created Successfully!',
+        {
+          variant: NOTISTACK_VARIANTS?.SUCCESS,
+        },
+      );
+      moveBack?.();
+      reset();
+    } catch (error) {
+      enqueueSnackbar('Something went wrong', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
+    }
+  };
+  const apiQueryAssetType = useLazyGetAssetTypeQuery();
   const upsertProductCatalogFormFields =
-    upsertProductCatalogFormFieldsDynamic();
+    upsertProductCatalogFormFieldsDynamic(apiQueryAssetType);
 
   const moveBack = () => {
     if (!!productCatalogId) {
@@ -59,5 +135,9 @@ export const useUpsertProductCatalog = () => {
     submitUpsertProductCatalog,
     productCatalogId,
     moveBack,
+    postProductCatalogStatus,
+    patchProductCatalogStatus,
+    isLoading,
+    isFetching,
   };
 };
