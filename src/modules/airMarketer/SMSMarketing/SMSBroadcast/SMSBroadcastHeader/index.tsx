@@ -99,6 +99,11 @@ const SMSBroadcastHeader = (props: any) => {
             <ArrowDropDown />
           </Button>
           <Menu
+            sx={{
+              '.MuiPopover-paper': {
+                minWidth: '115px',
+              },
+            }}
             id="simple-menu"
             anchorEl={selectedValue}
             open={Boolean(selectedValue)}
