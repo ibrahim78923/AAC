@@ -31,7 +31,7 @@ export const AddServiceCatalog = (prop: any) => {
           justifyContent={'space-between'}
           alignItems={'center'}
         >
-          <Typography variant="h4">New Service Catalog</Typography>
+          <Typography variant="h4">New Service Category</Typography>
           <CloseIcon sx={{ cursor: 'pointer' }} onClick={handleClose} />
         </DialogTitle>
         <FormProvider methods={methodAdd} onSubmit={handleSubmit(onSubmit)}>

@@ -1,14 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-import {
-  Box,
-  Button,
-  Menu,
-  MenuItem,
-  Theme,
-  useTheme,
-  Grid,
-} from '@mui/material';
+import { Box, Button, Menu, MenuItem, Grid } from '@mui/material';
 
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
@@ -19,40 +11,25 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import { AlertModals } from '@/components/AlertModals';
 import { userTableData } from '@/mock/modules/airSales/SettingSales';
 
-import {
-  dataArray,
-  defaultValues,
-  validationSchema,
-  columns,
-} from './UserTable.data';
+import { dataArray } from './UserTable.data';
 
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { v4 as uuidv4 } from 'uuid';
+import useUserTable from './useUserTable';
 
-const UserTable = ({ initialValueProps = defaultValues }: any) => {
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const [isOpenDelete, setIsOpenDelete] = useState(false);
-  const [isEditOpen, setIsEditOpen] = useState(false);
-  const theme = useTheme<Theme>();
-
-  const open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-    setIsEditOpen(true);
-  };
-
-  const handleCloseDrawer = () => {
-    setIsEditOpen(false);
-  };
-
-  const methods: any = useForm({
-    resolver: yupResolver(validationSchema),
-    defaultValues: initialValueProps,
-  });
+const UserTable = () => {
+  const {
+    getRowValues,
+    isOpenDelete,
+    setIsOpenDelete,
+    anchorEl,
+    open,
+    theme,
+    handleClick,
+    handleClose,
+    methods,
+    handleCloseDrawer,
+    isEditOpen,
+  } = useUserTable('');
 
   return (
     <>
@@ -130,7 +107,7 @@ const UserTable = ({ initialValueProps = defaultValues }: any) => {
           <MenuItem onClick={() => setIsOpenDelete(true)}>Delete</MenuItem>
         </Menu>
       </Box>
-      <TanstackTable columns={columns} data={userTableData} isPagination />
+      <TanstackTable columns={getRowValues} data={userTableData} isPagination />
       <AlertModals
         message={'Are you sure you want to delete this role?'}
         type={'delete'}

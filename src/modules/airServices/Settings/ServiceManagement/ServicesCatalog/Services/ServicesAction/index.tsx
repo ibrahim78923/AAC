@@ -95,7 +95,7 @@ export const ServicesAction = () => {
           open={deleteModalOpen}
           handleClose={() => setDeleteModalOpen(false)}
           handleSubmitBtn={handleDeleteBtn}
-          message="Are you sure you want to delete this Vendor?"
+          message="Are you sure you want to delete this field ?"
         />
       )}
       {open && <MoveToCategory open={open} setOpen={setOpen} />}

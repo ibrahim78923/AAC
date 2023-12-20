@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 
 import { Theme, useTheme } from '@mui/material';
+import { useGetDocumentFolderQuery } from '@/services/commonFeatures/documents';
+import useAuth from '@/hooks/useAuth';
 
-const useFolder = () => {
+const useFolder: any = () => {
   const theme = useTheme<Theme>();
   const [value, setValue] = useState('search here');
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
@@ -17,6 +19,9 @@ const useFolder = () => {
   const [isCreateLinkOpen, setIsCreateLinkOpen] = useState(false);
   const open = Boolean(anchorEl);
   const openSide = Boolean(anchorElSide);
+  const { user }: any = useAuth();
+  const { data, isLoading, isError, isFetching, isSuccess } =
+    useGetDocumentFolderQuery({ organizationId: user?.organization?._id });
 
   const handlePdfOpen = () => setIsPdfOpen(true);
   const handlePdfClose = () => setIsPdfOpen(false);
@@ -37,6 +42,11 @@ const useFolder = () => {
   };
 
   return {
+    documentData: data?.data?.folders,
+    isLoading,
+    isError,
+    isFetching,
+    isSuccess,
     open,
     openSide,
     handleCloseSide,

@@ -2,13 +2,13 @@ import { RHFSelect } from '@/components/ReactHookForm';
 import useUserManagement from '../../useUserManagement';
 import * as Yup from 'yup';
 
-export const AddAccountArray = () => {
-  const { products, organizations } = useUserManagement();
+export const AddAccountArray = (companyAccounts: any, companyRoles: any) => {
+  const { products } = useUserManagement();
   return [
     {
       componentProps: {
         label: 'Products',
-        name: 'products',
+        name: 'product',
         required: true,
         fullWidth: true,
         select: true,
@@ -28,26 +28,27 @@ export const AddAccountArray = () => {
         required: true,
         select: true,
       },
-      options: organizations?.data?.map((item: any) => ({
-        value: item?._id,
-        label: item?.name,
-      })),
+      options: companyAccounts?.data?.organizationcompanyaccounts?.map(
+        (item: any) => ({
+          value: item?._id,
+          label: item?.accountName,
+        }),
+      ),
       component: RHFSelect,
       md: 12,
     },
     {
       componentProps: {
         label: 'Manage Role',
-        name: 'manageRole',
+        name: 'role',
         required: true,
         fullWidth: true,
         select: true,
       },
-      options: [
-        { value: 'accountAdmin', label: 'Account Admin' },
-        { value: 'administrator', label: 'Administrator' },
-        { value: 'marketingManager', label: 'Marketing Manager' },
-      ],
+      options: companyRoles?.data.companyaccountroles?.map((item: any) => ({
+        value: item?._id,
+        label: item?.name,
+      })),
       component: RHFSelect,
       md: 6,
     },
@@ -69,15 +70,15 @@ export const AddAccountArray = () => {
   ];
 };
 export const AddAccountValidationSchema = Yup.object().shape({
-  products: Yup.string().required('Field is Required'),
+  product: Yup.string().required('Field is Required'),
   company: Yup.string().required('Field is Required'),
-  manageRole: Yup.string().required('Field is Required'),
+  role: Yup.string().required('Field is Required'),
   status: Yup.string().required('Field is Required'),
 });
 
 export const AddAccountDefaultValues = {
-  products: '',
+  product: '',
   company: '',
-  manageRole: '',
+  role: '',
   status: '',
 };

@@ -13,3 +13,4 @@ export const ticketsFieldsOptions = [
 ];
 export const fieldOptions = ['Is', 'Is not', 'Equal', 'Not equal', 'Contains'];
 export const statusOptions = ['Open', 'Pending', 'Resolved', 'Close'];
+export const TICKET_FIELDS = 'Ticket Fields';

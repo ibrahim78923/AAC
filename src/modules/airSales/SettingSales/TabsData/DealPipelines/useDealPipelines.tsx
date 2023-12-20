@@ -2,31 +2,48 @@ import React, { useState } from 'react';
 
 import { useForm } from 'react-hook-form';
 
-import { IconButton, InputAdornment, Theme, useTheme } from '@mui/material';
+import { Theme, useTheme } from '@mui/material';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import { v4 as uuidv4 } from 'uuid';
-
 import {
-  dataArray,
   dealPipelinesDefaultValues,
   dealPipelinesvalidationSchema,
 } from './DealPipelines.data';
 
-import { RHFTextField } from '@/components/ReactHookForm';
-import { PercentageCircleIcon } from '@/assets/icons';
+import {
+  useGetDealsPipelineQuery,
+  usePostDealsPipelineMutation,
+} from '@/services/airSales/deals/settings/deals-pipeline';
+import { PAGINATION } from '@/config';
+import { enqueueSnackbar } from 'notistack';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 const useDealPipelines = () => {
+  const theme = useTheme<Theme>();
   const [isDraweropen, setIsDraweropen] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
   const [productSearch, setproductSearch] = useState<string>('');
   const [isDisableButton, setDisableButton] = useState(false);
   const [isdefaultValue, setdefaultValue] = useState(false);
-  const [dynamicFields, setDynamicFields] = useState([...dataArray]);
+  const [inputFields, setInputFields] = useState([
+    { name: 'New', probability: null },
+    { name: 'Lost', probability: null },
+    { name: 'Won', probability: null },
+  ]);
 
-  const theme = useTheme<Theme>();
+  const [postDealsPipeline] = usePostDealsPipelineMutation();
+
+  const paramsObj: any = {};
+  if (productSearch) paramsObj['search'] = productSearch;
+  const query = '&' + new URLSearchParams(paramsObj)?.toString();
+
+  const { data, isLoading } = useGetDealsPipelineQuery({
+    query,
+    page: PAGINATION?.CURRENT_PAGE,
+    pageLimit: PAGINATION?.PAGE_LIMIT,
+  });
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -45,7 +62,26 @@ const useDealPipelines = () => {
     defaultValues: dealPipelinesDefaultValues,
   });
   const { handleSubmit } = dealPipelines;
-  const onSubmit = () => {};
+  const onSubmit = async (values: any) => {
+    const payload = {
+      name: values?.pipelineName,
+      isDefault: values?.defaultPipeline,
+      dealStages: inputFields,
+    };
+
+    try {
+      await postDealsPipeline({ body: payload })?.unwrap();
+      enqueueSnackbar('Record Added Successfully', {
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
+      });
+    } catch (error) {
+      const errMsg = error?.data?.message;
+      const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;
+      enqueueSnackbar(errMessage ?? 'Error occurred', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
+    }
+  };
 
   const handleCloseDeleteModal = () => {
     setDeleteModalOpen(false);
@@ -61,50 +97,27 @@ const useDealPipelines = () => {
   };
 
   const addField = () => {
-    setDynamicFields((prevFields) => [
-      ...prevFields,
-      {
-        componentProps: {
-          name: `dynamicField${uuidv4()}_1`,
-          label: '',
-          fullWidth: true,
-          placeholder: 'New',
-        },
-        component: RHFTextField,
-        md: 5,
-      },
-      {
-        componentProps: {
-          name: `dynamicField${uuidv4()}_2`,
-          label: '',
-          fullWidth: true,
-          placeholder: 'New',
-          InputProps: {
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton>
-                  <PercentageCircleIcon />
-                </IconButton>
-              </InputAdornment>
-            ),
-          },
-        },
-        component: RHFTextField,
-        md: 5,
-      },
-    ]);
+    const newInputFields = [...inputFields];
+    const indexToInsert = inputFields?.length - 2;
+    newInputFields?.splice(indexToInsert, 0, { name: '', probability: null });
+    setInputFields(newInputFields);
   };
   const deleteField = (index: any) => {
-    setDynamicFields((prevFields) => [
-      ...prevFields.slice(0, index),
-      ...prevFields.slice(index + 2),
-    ]);
+    const values = [...inputFields];
+    values?.splice(index, 1);
+    setInputFields(values);
+  };
+  const handleChangeInput = (index: any, event: any) => {
+    const values: any = [...inputFields];
+    values[index][event?.target?.name] = event?.target?.value;
+    setInputFields(values);
   };
 
   return {
     isDraweropen,
     setIsDraweropen,
     isEditMode,
+    dealPipelinesData: data?.data,
     setIsEditMode,
     isDeleteModalOpen,
     setDeleteModalOpen,
@@ -124,11 +137,13 @@ const useDealPipelines = () => {
     getCheckbox,
     setDisableButton,
     isDisableButton,
-    dynamicFields,
     addField,
     deleteField,
     setAnchorEl,
     isdefaultValue,
+    isLoading,
+    inputFields,
+    handleChangeInput,
   };
 };
 

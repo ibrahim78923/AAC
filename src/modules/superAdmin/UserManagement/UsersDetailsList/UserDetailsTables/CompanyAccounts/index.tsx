@@ -15,7 +15,10 @@ const CompanyAccounts = (props: any) => {
 
   return (
     <>
-      <TanstackTable columns={companyColumns} data={data?.data?.useraccounts} />
+      <TanstackTable
+        columns={companyColumns}
+        data={data?.data?.usercompanyaccounts}
+      />
       <CustomPagination count={1} rowsPerPageOptions={[1, 2]} entriePages={1} />
     </>
   );

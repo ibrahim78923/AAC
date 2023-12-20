@@ -4,14 +4,14 @@ import { TableCell, TableRow, styled, tableCellClasses } from '@mui/material';
 // STYLED COMPONENTS
 export const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses?.head}`]: {
-    color: 'slateBlue.dark',
+    color: theme?.palette?.blue?.main,
     fontSize: '14px',
     lineHeight: '18px',
     borderBottom: `1px solid  ${theme?.palette?.custom?.off_white_three}`,
-    background: 'grey.100',
-    fontWeight: theme?.typography?.fontWeightMedium,
+    borderTop: `1px solid  ${theme?.palette?.custom?.off_white_three}`,
+    backgroundColor: theme?.palette?.grey?.[100],
+    fontWeight: 600,
     backgroundImage: 'unset',
-    textTransform: 'capitalize',
     whiteSpace: 'nowrap',
     cursor: 'pointer',
     zIndex: '1',
@@ -27,15 +27,13 @@ export const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
 
   [`&.${tableCellClasses?.body}`]: {
-    fontSize: '14px',
-    fontStyle: 'initial',
+    fontSize: '13px',
     color: theme?.palette?.custom?.main,
-    textTransform: 'capitalize',
     lineHeight: '18px',
     fontFamily: theme?.typography?.fontFamily,
-    fontWeight: theme?.typography?.fontWeightRegular,
-    borderBottom: 'none',
+    fontWeight: 500,
     whiteSpace: 'pre-wrap',
+    borderBottom: `1px solid  ${theme?.palette?.custom?.off_white_three}`,
     '&:first-of-type': {
       borderLeft: `1px solid  ${theme?.palette?.custom?.off_white_three}`,
     },
@@ -46,7 +44,7 @@ export const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 export const StyledTableRow = styled(TableRow)((theme: any) => ({
-  borderBottom: `1px solid  ${theme?.palette?.custom?.off_white_three}`,
+  border: `1px solid  ${theme?.palette?.custom?.off_white_three}`,
 }));
 
 export const styles = {

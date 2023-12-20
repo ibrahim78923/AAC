@@ -32,28 +32,34 @@ const RolesAndRights = () => {
     checkedRows: checkedRows,
     setCheckedRows: setCheckedRows,
   };
+
   const columnParams = columns(columnsProps);
   return (
     <Card sx={{ pt: '24px' }}>
       <Stack
         justifyContent="space-between"
+        sx={{ padding: '0px 24px' }}
         direction={{ sm: 'row' }}
         gap={1}
-        sx={{ padding: '0px 24px' }}
       >
         <Typography variant="h3">Roles and Rights</Typography>
+
         <Button
           className="small"
           variant="contained"
           startIcon={<PlusIcon />}
           sx={{ width: { sm: '121px', xs: '100%' } }}
           onClick={() => {
-            navigate.push(ORG_ADMIN?.ADD_ROLE);
+            navigate.push({
+              pathname: ORG_ADMIN?.ADD_ROLE,
+              query: { type: 'add' },
+            });
           }}
         >
           Add Role
         </Button>
       </Stack>
+
       <Stack
         direction={{ sm: 'row' }}
         justifyContent="space-between"
@@ -62,7 +68,7 @@ const RolesAndRights = () => {
       >
         <Box>
           <Search
-            placeholder="Search Here"
+            placeholder="Search by Role Name"
             size="small"
             onChange={(e: any) => {
               setFilterValues({ ...filterValues, search: e?.target?.value });
@@ -75,6 +81,7 @@ const RolesAndRights = () => {
 
           <Tooltip title={'Refresh Filter'}>
             <Button
+              sx={{ width: { xs: '100%', sm: '50px' } }}
               variant="outlined"
               color="inherit"
               className="small"
@@ -109,6 +116,7 @@ const RolesAndRights = () => {
         count={getPermissions?.data?.meta?.pages}
         isPagination
       />
+
       {isOpenFilterDrawer && (
         <RoleFilters
           filterVal={filterValues}

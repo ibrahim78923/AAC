@@ -6,6 +6,12 @@ import {
 } from '@/constants/strings';
 import { Box } from '@mui/material';
 
+export const TRANSFORM_STATUS = {
+  [PRODUCT_CATALOG_STATUS?.IN_PRODUCTION]: 'In Production',
+  [PRODUCT_CATALOG_STATUS?.PIPELINE]: 'Pipeline',
+  [PRODUCT_CATALOG_STATUS?.IN_PRODUCTION]: 'Retired',
+};
+
 export const productAssetTypeOption = [
   ASSET_TYPE?.HARDWARE,
   ASSET_TYPE?.SOFTWARE,
@@ -50,7 +56,7 @@ export const productListsColumnDynamic: any = (router?: any) => {
             router?.push({
               pathname: AIR_SERVICES?.SINGLE_PRODUCT_CATALOG,
               query: {
-                productCatalogId: info?.getValue(),
+                productCatalogId: info?.row?.original?._id,
               },
             });
           }}
@@ -62,8 +68,8 @@ export const productListsColumnDynamic: any = (router?: any) => {
       ),
     },
     {
-      accessorFn: (row: any) => row?.type,
-      id: 'type',
+      accessorFn: (row: any) => row?.assetTypeName,
+      id: 'assetTypeName',
       isSortable: true,
       header: 'Type',
       cell: (info: any) => info?.getValue(),
@@ -80,7 +86,7 @@ export const productListsColumnDynamic: any = (router?: any) => {
       id: 'status',
       isSortable: true,
       header: 'Status',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => info?.getValue()?.replaceAll('_', ' '),
     },
   ];
 };
