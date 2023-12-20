@@ -32,6 +32,7 @@ const RolesAndRights = () => {
     checkedRows: checkedRows,
     setCheckedRows: setCheckedRows,
   };
+
   const columnParams = columns(columnsProps);
   return (
     <Card sx={{ pt: '24px' }}>
@@ -67,7 +68,7 @@ const RolesAndRights = () => {
       >
         <Box>
           <Search
-            placeholder="Search by Role name"
+            placeholder="Search by Role Name"
             size="small"
             onChange={(e: any) => {
               setFilterValues({ ...filterValues, search: e?.target?.value });

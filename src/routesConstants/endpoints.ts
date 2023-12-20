@@ -50,8 +50,15 @@ export const END_POINTS = {
   GET_PRODUCTS_PERMISSIONS: '/permissions/permissions-by-product',
   VENDOR_LIST: '/vendors/get-vendors',
   DELETE_PRODUCT_CATALOG: '/product-catalog/delete-product-catalog',
+  ADD_LOCATION: '/location/add-location',
+  GET_LOCATION: '/location/get-location',
   PRODUCT_CATALOG_VENDOR_LIST: '/product-catalog/vendor-list',
+  PRODUCT_CATALOG_LIST: '/product-catalog/list',
+  PRODUCT_CATALOG: '/product-catalog',
+  EDIT_PRODUCT_CATALOG: '/product-catalog/edit-product-catalog',
+  DELETE_PRODUCT_CATALOG_VENDOR: '/product-catalog/vendors/delete-vendor',
   POST_COMPANY_ACCOUNT: '/org-company-account',
+  DROPDOWN_ASSET_TYPE_LIST: `/asset-type/assset-type-list`,
 };
 
 export const superAdminBillingInvoices = {

@@ -2,33 +2,14 @@ import * as yup from 'yup';
 import { RHFAutocomplete, RHFTextField } from '@/components/ReactHookForm';
 import { Typography } from '@mui/material';
 
-export const parentLocationOptions = [
-  {
-    value: 'america',
-    label: 'America',
-  },
-  {
-    value: 'asia',
-    label: 'Asia',
-  },
-  {
-    value: 'europe',
-    label: 'Europe',
-  },
-];
+export const parentLocationOptions = ['America', 'Asia', 'Europe'];
 
 export const validationSchemaAddNewLocation: any = yup?.object()?.shape({
-  locationName: yup?.string()?.required('Required field!'),
-  parentLocation: yup?.string(),
-  contactName: yup?.string(),
-  email: yup?.string(),
-  phone: yup?.string(),
-  addressLine1: yup?.string(),
-  addressLine2: yup?.string(),
-  city: yup?.string(),
-  country: yup?.string(),
-  state: yup?.string(),
-  zipCode: yup?.string(),
+  locationName: yup?.string()?.required('Required'),
+  parentLocation: yup?.string()?.required('Required'),
+  contactName: yup?.string()?.required('Required'),
+  email: yup?.string()?.required('Required'),
+  phone: yup?.string()?.required('Required'),
 });
 
 export const defaultValues = {
@@ -37,12 +18,6 @@ export const defaultValues = {
   contactName: '',
   email: '',
   phone: '',
-  addressLine1: '',
-  addressLine2: '',
-  city: '',
-  country: '',
-  state: '',
-  zipCode: '',
 };
 
 export const addNewLocationDataFields = [
@@ -65,6 +40,7 @@ export const addNewLocationDataFields = [
       fullWidth: true,
       name: 'parentLocation',
       label: 'Parent Location',
+      required: true,
       options: parentLocationOptions,
     },
     component: RHFAutocomplete,
@@ -76,6 +52,7 @@ export const addNewLocationDataFields = [
       fullWidth: true,
       name: 'contactName',
       label: 'Contact Name',
+      required: true,
     },
     component: RHFTextField,
     gridLength: 6,
@@ -88,6 +65,7 @@ export const addNewLocationDataFields = [
       fullWidth: true,
       name: 'email',
       label: 'Email',
+      required: true,
     },
     component: RHFTextField,
     md: 6,
@@ -98,6 +76,7 @@ export const addNewLocationDataFields = [
       fullWidth: true,
       name: 'phone',
       label: 'Phone',
+      required: true,
     },
     component: RHFTextField,
     gridLength: 6,
