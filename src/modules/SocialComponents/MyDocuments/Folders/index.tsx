@@ -49,7 +49,8 @@ import { styles } from './Folder.style';
 import PreviewPdf from './PreviewPdf';
 import { useRouter } from 'next/router';
 import { AIR_MARKETER } from '@/routesConstants/paths';
-import { FormProvider } from '@/components/ReactHookForm';
+import { FormProvider, RHFDropZone } from '@/components/ReactHookForm';
+import { enqueueSnackbar } from 'notistack';
 
 const Folders = () => {
   const navigate = useRouter();
@@ -90,6 +91,11 @@ const Folders = () => {
     setModalHeading,
     onSubmit,
     FolderAdd,
+    cardBox,
+    setCardBox,
+    deleteUserFolders,
+    setIsImage,
+    isImage,
   } = useFolder();
 
   return (
@@ -314,7 +320,6 @@ const Folders = () => {
                 onClick={() => {
                   navigate.push({
                     pathname: AIR_MARKETER?.COMMON_DOCUMENTS,
-                    // query: { type: 'edit' },
                   });
                 }}
                 sx={{
@@ -438,13 +443,22 @@ const Folders = () => {
                 return (
                   <>
                     <Box
-                      onClick={() => {}}
+                      onClick={() => {
+                        setCardBox(item?._id);
+                        setIsEditOpenModal(item);
+                      }}
                       sx={{
                         display: 'flex',
                         alignItems: 'center',
                         gap: '1rem',
-                        paddingY: '10PX',
+                        marginY: '4px',
                         cursor: 'pointer',
+                        background:
+                          item?._id === cardBox
+                            ? `${theme?.palette?.grey[400]}`
+                            : `${theme?.palette?.common?.white}`,
+                        borderRadius: '8px',
+                        padding: '8px',
                       }}
                       key={uuidv4()}
                     >
@@ -489,6 +503,7 @@ const Folders = () => {
               >
                 <Button
                   variant="outlined"
+                  className="small"
                   onClick={() => {
                     setIsOpenModal(true);
                   }}
@@ -498,7 +513,10 @@ const Folders = () => {
                 </Button>
                 <Button
                   variant="contained"
-                  onClick={() => {}}
+                  className="small"
+                  onClick={() => {
+                    setIsImage(true);
+                  }}
                   sx={styles?.uploadDocumentsButton(theme)}
                 >
                   Upload Documents
@@ -623,12 +641,12 @@ const Folders = () => {
       </Grid>
       <CommonModal
         open={isOpenModal}
-        handleClose={() => setIsOpenModal(false)}
+        handleCancel={() => setIsOpenModal(false)}
         handleSubmit={() => onSubmit()}
         title={`${modalHeading}`}
         okText={modalHeading === 'Edit Name' ? 'Update' : 'Create Folder'}
         cancelText="Cancel"
-        footerFill={true}
+        footerFill={false}
         footer={true}
       >
         <FormProvider methods={FolderAdd}>
@@ -644,46 +662,16 @@ const Folders = () => {
           </Grid>
         </FormProvider>
       </CommonModal>
-      {/* <CommonModal
-        open={isEditOpenModal}
-        handleClose={() => setIsEditOpenModal(false)}
-        handleSubmit={function (): void {
-          throw new Error('Function not implemented.');
-        }}
-        title={'Edit Name'}
-        okText={'Save'}
-        footerFill={undefined}
-      >
-        <TextField type="text" placeholder="Enter Name" fullWidth />
-        <Box
-          sx={{
-            paddingTop: '10px',
-            display: 'flex',
-            justifyContent: 'flex-end',
-            gap: '1rem',
-          }}
-        >
-          <Button
-            variant="outlined"
-            className="small"
-            onClick={() => setIsEditOpenModal(false)}
-          >
-            Cancel
-          </Button>
-          <Button variant="contained" className="small">
-            Save
-          </Button>
-        </Box>
-      </CommonModal> */}
       <CommonModal
         open={isLinkOpen}
-        handleClose={() => setIsLinkOpen(false)}
+        handleCancel={() => setIsLinkOpen(false)}
         handleSubmit={function (): void {
           throw new Error('Function not implemented.');
         }}
         title={'Create Link'}
         okText={'Share'}
-        footerFill={undefined}
+        cancelText="Cancel"
+        footerFill={false}
       >
         <Typography
           variant="h6"
@@ -754,13 +742,14 @@ const Folders = () => {
 
       <CommonModal
         open={isCreateLinkOpen}
-        handleClose={() => setIsCreateLinkOpen(false)}
+        handleCancel={() => setIsCreateLinkOpen(false)}
         handleSubmit={function (): void {
           throw new Error('Function not implemented.');
         }}
         title={'Create Link'}
         okText={'Share'}
-        footerFill={undefined}
+        cancelText="Cancel"
+        footerFill={false}
       >
         <Typography
           variant="h6"
@@ -773,9 +762,22 @@ const Folders = () => {
           You have created a link for adnanlatif2000@gmail.com. You can view
           document using this link.
         </Typography>
-        <TextField type="text" placeholder="Enter Name" fullWidth />
+        <TextField
+          type="text"
+          placeholder="https://eu1.hubs.ly/H0361Lq0"
+          fullWidth
+        />
 
-        <Typography> Or </Typography>
+        <Typography
+          variant="body2"
+          sx={{
+            color: `${theme?.palette?.slateBlue?.main}`,
+            textAlign: 'center',
+            fontWeight: 600,
+          }}
+        >
+          OR
+        </Typography>
         <Box
           sx={{
             paddingTop: '10px',
@@ -785,7 +787,12 @@ const Folders = () => {
           }}
         >
           <Button
-            onClick={() => setIsCreateLinkOpen(false)}
+            onClick={() => {
+              setIsCreateLinkOpen(false);
+              enqueueSnackbar('Email sent Successfully', {
+                variant: 'success',
+              });
+            }}
             variant="contained"
             className="small"
           >
@@ -799,9 +806,7 @@ const Folders = () => {
         type={'delete'}
         open={isOpenDelete}
         handleClose={() => setIsOpenDelete(false)}
-        handleSubmit={function (): void {
-          throw new Error('Function not implemented.');
-        }}
+        handleSubmitBtn={deleteUserFolders}
       />
       <PreviewPdf
         isPdfOpen={isPdfOpen}
@@ -809,6 +814,25 @@ const Folders = () => {
         handlePdfOpen={handlePdfOpen}
         handlePdfClose={handlePdfClose}
       />
+      <CommonModal
+        open={isImage}
+        handleCancel={() => setIsImage(false)}
+        handleSubmit={() => {
+          setIsImage(false);
+          enqueueSnackbar('Document Upload Successfully', {
+            variant: 'success',
+          });
+        }}
+        title={'Upload Documents'}
+        okText={'Upload'}
+        cancelText="Cancel"
+        footerFill={false}
+        footer={true}
+      >
+        <FormProvider methods={FolderAdd}>
+          <RHFDropZone name="logoUrl" />
+        </FormProvider>
+      </CommonModal>
     </>
   );
 };

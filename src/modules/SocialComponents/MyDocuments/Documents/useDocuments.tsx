@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Theme, useTheme } from '@mui/material';
 
 import {
+  useDeleteFoldersMutation,
   useGetDocumentFolderQuery,
   usePostDocumentFolderMutation,
   useUpdateFolderMutation,
@@ -28,10 +29,24 @@ const useDocuments: any = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [postDocumentFolder] = usePostDocumentFolderMutation();
   const [updateFolder] = useUpdateFolderMutation();
+  const [deleteFolders] = useDeleteFoldersMutation();
   const [checkboxChecked, setCheckboxChecked] = useState<string[]>([]);
   const { user }: any = useAuth();
   const { data, isLoading, isError, isFetching, isSuccess } =
     useGetDocumentFolderQuery({ organizationId: user?.organization?._id });
+
+  const deleteUserFolders = async () => {
+    try {
+      await deleteFolders({
+        ids: checkboxChecked.map((id) => `ids=${id}`).join('&'),
+      }).unwrap();
+      enqueueSnackbar('Company Deleted Successfully', {
+        variant: 'success',
+      });
+    } catch (error: any) {
+      enqueueSnackbar('Something went wrong!', { variant: 'error' });
+    }
+  };
 
   const handleCheckboxChange = (id: string) => {
     if (checkboxChecked?.includes(id)) {
@@ -133,6 +148,7 @@ const useDocuments: any = () => {
     checkboxChecked,
     modalHeading,
     setModalHeading,
+    deleteUserFolders,
   };
 };
 

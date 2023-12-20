@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import { Theme, useTheme } from '@mui/material';
 import {
+  useDeleteFoldersMutation,
   useGetDocumentFolderQuery,
   usePostDocumentFolderMutation,
   useUpdateFolderMutation,
@@ -17,6 +18,7 @@ const useFolder: any = () => {
   const theme = useTheme<Theme>();
   const [value, setValue] = useState('search here');
   const [modalHeading, setModalHeading] = useState('Create New Folder');
+  const [cardBox, setCardBox] = useState<string[]>([]);
   const [isEditOpenModal, setIsEditOpenModal] = useState();
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
   const [isOpenFolderDrawer, setIsOpenFolderDrawer] = useState(false);
@@ -27,9 +29,11 @@ const useFolder: any = () => {
   const [anchorElSide, setAnchorElSide] = useState<null | HTMLElement>(null);
   const [isLinkOpen, setIsLinkOpen] = useState(false);
   const [isCreateLinkOpen, setIsCreateLinkOpen] = useState(false);
+  const [isImage, setIsImage] = useState(false);
   const open = Boolean(anchorEl);
   const [postDocumentFolder] = usePostDocumentFolderMutation();
   const [updateFolder] = useUpdateFolderMutation();
+  const [deleteFolders] = useDeleteFoldersMutation();
   const openSide = Boolean(anchorElSide);
 
   const searchParams = useSearchParams();
@@ -42,6 +46,19 @@ const useFolder: any = () => {
 
   const handlePdfOpen = () => setIsPdfOpen(true);
   const handlePdfClose = () => setIsPdfOpen(false);
+
+  const deleteUserFolders = async () => {
+    try {
+      await deleteFolders({
+        ids: cardBox.map((id) => `ids=${id}`).join('&'),
+      }).unwrap();
+      enqueueSnackbar('Folder Deleted Successfully', {
+        variant: 'success',
+      });
+    } catch (error: any) {
+      enqueueSnackbar('Something went wrong!', { variant: 'error' });
+    }
+  };
 
   const FolderAdd: any = useForm({
     resolver: yupResolver(validationSchema),
@@ -74,7 +91,7 @@ const useFolder: any = () => {
     try {
       if (isEditOpenModal) {
         await updateFolder({
-          id: parentFolderId,
+          id: cardBox,
           body: documentData,
         }).unwrap();
         enqueueSnackbar('Folder Update Successfully', {
@@ -154,6 +171,11 @@ const useFolder: any = () => {
     onSubmit,
     handleSubmit,
     FolderAdd,
+    cardBox,
+    setCardBox,
+    deleteUserFolders,
+    setIsImage,
+    isImage,
   };
 };
 
