@@ -116,7 +116,12 @@ const AddUser = ({
   const city = watch('city');
   const country = watch('country');
   const streetName = watch('streetName');
-  const addressToggledValue = `${flatVal},house # ${buildingNumber} ${buildingName}, ${streetName} , ${city}, ${country}`;
+  const addressToggledValue = `${flatVal ?? ''},
+  house # ${buildingNumber ?? ''}
+   ${buildingName ?? ''},
+    ${streetName ?? ''} ,
+     ${city ?? ''}, 
+     ${country ?? ''}`;
   const [orgNumber, setOrgNumber] = useState('');
   debouncedSearch(organizationNumber, setOrgNumber);
   const { data, isSuccess, isError } = useGetAuthCompaniesQuery({
@@ -149,7 +154,7 @@ const AddUser = ({
       footer
     >
       <FormProvider methods={methods}>
-        <Grid container spacing={2} mt={1}>
+        <Grid container spacing={1} mt={1}>
           {addUsersArray()?.map((item: any) => {
             return (
               item?.toShow?.includes(
