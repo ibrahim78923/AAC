@@ -1,5 +1,8 @@
+import { RHFTextField } from '@/components/ReactHookForm';
 import { Box, Checkbox } from '@mui/material';
 import Image from 'next/image';
+
+import * as Yup from 'yup';
 
 export const columns: any = [
   {
@@ -47,4 +50,25 @@ export const columns: any = [
 
 export const toolTipData = [
   'To track who has viewed this link, make sure Require an email address to view document is enabled. Disabling this option will prevent HubSpot from tracking who is viewing your Document',
+];
+
+export const validationSchema: any = Yup?.object()?.shape({
+  name: Yup?.string()?.required('Field is Required'),
+});
+
+export const defaultValuesFolder = {
+  name: '',
+};
+
+export const dataArray = [
+  {
+    componentProps: {
+      name: 'name',
+      label: 'Folder Name',
+      fullWidth: true,
+      select: false,
+    },
+    component: RHFTextField,
+    md: 12,
+  },
 ];

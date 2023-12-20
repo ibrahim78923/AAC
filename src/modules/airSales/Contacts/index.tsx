@@ -52,6 +52,7 @@ const Contacts = () => {
           label: 'Search Here',
           setSearchBy: setSearch,
           searchBy: search,
+          width: '260px',
         }}
         headerChildren={
           <>
@@ -98,7 +99,7 @@ const Contacts = () => {
           </>
         }
       >
-        <ContactsTable />
+        <ContactsTable search={search} />
       </CommonTabs>
       <CreateView open={isOpen} onClose={handleChange} />
       <ContactsCustomize open={isDealCustomize} onClose={handleDealCustomize} />

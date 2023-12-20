@@ -41,9 +41,9 @@ const CommonTabs = (props: CommonTabsPropsI) => {
     addIcon = false,
     onAddClick = () => {},
     activeTab = 0,
-    isHeader = false,
     headerChildren,
     searchBarProps = {},
+    isHeader = false,
   } = props;
 
   const theme = useTheme();

@@ -20,8 +20,10 @@ export const TAGS = [
   'TASKS',
   'ASSETS_INVENTORY',
   'MyDocuments',
+  'LOCATION',
   'VENDOR_LIST',
   'PRODUCT_CATALOG',
+  'DROPDOWN_ASSET_TYPE_LIST',
 ];
 
 const baseQuery = fetchBaseQuery({

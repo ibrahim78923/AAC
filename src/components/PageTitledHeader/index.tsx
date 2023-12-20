@@ -24,6 +24,7 @@ export const PageTitledHeader = ({
         alignItems={'center'}
         justifyContent={'space-between'}
         flexWrap={'wrap'}
+        gap={1}
       >
         <Box display={'flex'} alignItems={'center'} gap={1} flexWrap={'wrap'}>
           {canMovedBack && (

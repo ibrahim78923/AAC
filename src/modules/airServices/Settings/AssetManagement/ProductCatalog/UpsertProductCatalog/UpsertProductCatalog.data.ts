@@ -1,12 +1,12 @@
 import {
   RHFAutocomplete,
+  RHFAutocompleteAsync,
   RHFEditor,
   RHFTextField,
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 import {
   modeOfProcurementOption,
-  productAssetTypeOption,
   productCatalogStatusOption,
 } from '../ProductCatalog.data';
 
@@ -29,7 +29,9 @@ export const upsertProductCatalogDefaultValuesFunction = (data?: any) => {
     description: data?.description ?? '',
   };
 };
-export const upsertProductCatalogFormFieldsDynamic = () => [
+export const upsertProductCatalogFormFieldsDynamic = (
+  apiQueryAssetType: any,
+) => [
   {
     id: 1,
     componentProps: {
@@ -48,9 +50,10 @@ export const upsertProductCatalogFormFieldsDynamic = () => [
       label: 'Asset Type',
       fullWidth: true,
       required: true,
-      options: productAssetTypeOption,
+      apiQuery: apiQueryAssetType,
+      externalParams: { meta: false, limit: 50 },
     },
-    component: RHFAutocomplete,
+    component: RHFAutocompleteAsync,
     md: 6,
   },
   {
