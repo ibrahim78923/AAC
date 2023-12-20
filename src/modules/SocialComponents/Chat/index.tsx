@@ -30,6 +30,7 @@ const Chat = () => {
   const socket = useAppSelector((state) => state?.chat?.socket);
 
   const activeChatId = useAppSelector((state) => state?.chat?.activeChatId);
+  const chatContacts = useAppSelector((state) => state?.chat?.chatContacts);
   const activeReceiverId = useAppSelector(
     (state) => state?.chat?.activeReceiverId,
   );
@@ -138,6 +139,8 @@ const Chat = () => {
     );
   };
 
+  const handelUserExists = () => {};
+
   return (
     <Box sx={{ position: 'relative' }}>
       <Grid container spacing={2}>
@@ -211,7 +214,7 @@ const Chat = () => {
             sx={{ marginBottom: '15px' }}
           />
           <Box sx={styles?.usersBox}>
-            {options?.map((item: any) => (
+            {/* {options?.map((item: any) => (
               <Button
                 key={uuidv4()}
                 sx={styles?.userCard}
@@ -227,7 +230,35 @@ const Chat = () => {
                   {item?.firstName}&nbsp;{item?.lastName}
                 </Typography>
               </Button>
-            ))}
+            ))} */}
+            {options?.map((item: any) => {
+              const isUserExists = chatContacts.some(
+                (chat: any) =>
+                  chat?.participants.some(
+                    (participant: any) => participant?._id === item?.id,
+                  ),
+              );
+              // console.log("isUserExists", isUserExists)
+              return (
+                <Button
+                  key={uuidv4()}
+                  sx={styles?.userCard}
+                  onClick={() =>
+                    isUserExists ? handelUserExists() : handelNewUserChat(item)
+                  }
+                >
+                  <Image
+                    width={30}
+                    height={30}
+                    src={item?.src}
+                    alt={item?.name}
+                  />
+                  <Typography variant="body2" color={theme?.palette?.grey[600]}>
+                    {item?.firstName}&nbsp;{item?.lastName}
+                  </Typography>
+                </Button>
+              );
+            })}
           </Box>
         </Box>
       </Popover>
