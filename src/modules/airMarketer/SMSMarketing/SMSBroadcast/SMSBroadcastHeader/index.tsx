@@ -20,13 +20,14 @@ import { ArrowDropDown } from '@mui/icons-material';
 
 import {
   AlertModalDeleteIcon,
-  ArrowSquareLeftIcon,
-  ArrowSquareRightIcon,
-  PrimaryCalendarIcon,
+  // ArrowSquareLeftIcon,
+  // ArrowSquareRightIcon,
+  // PrimaryCalendarIcon,
   RefreshTasksIcon,
 } from '@/assets/icons';
 
-import dayjs from 'dayjs';
+// import dayjs from 'dayjs';
+import SwitchableDatepicker from '@/components/SwitchableDatepicker';
 
 const SMSBroadcastHeader = (props: any) => {
   const {
@@ -39,7 +40,7 @@ const SMSBroadcastHeader = (props: any) => {
     handleDelete,
     handleEdit,
     isDatePicker,
-    setIsDatePicker,
+    // setIsDatePicker,
   } = useSMSBroadcast();
 
   return (
@@ -50,20 +51,8 @@ const SMSBroadcastHeader = (props: any) => {
     >
       <Grid item xs={12} lg={6}>
         <Stack direction="row" gap={1}>
-          <PrimaryCalendarIcon />
-          {`${dayjs().format('MMMM DD')} - ${dayjs().format('MMMM DD')}`}
-          <Stack
-            sx={{ cursor: 'pointer' }}
-            direction="row"
-            onClick={() => {
-              setIsDatePicker(!isDatePicker);
-            }}
-          >
-            <ArrowSquareLeftIcon />
-            <ArrowSquareRightIcon />
-          </Stack>
+          <SwitchableDatepicker renderInput={'date'} dateValue={isDatePicker} />
         </Stack>
-        {isDatePicker && <Box>Date Picker</Box>}
       </Grid>
       <Grid
         item

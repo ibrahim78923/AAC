@@ -71,7 +71,16 @@ const CallingMain = ({ setAddaNumber }: any) => {
           <Typography variant="h3" sx={{ fontWeight: '600' }}>
             Calling
           </Typography>
-          <Box sx={{ display: 'flex', gap: '10px' }}>
+          <Box
+            sx={{
+              display: 'flex',
+              gap: '10px',
+              flexDirection: { xs: 'column', md: 'row' },
+              '@media(max-width: 500px)': {
+                width: '100%',
+              },
+            }}
+          >
             {callingData?.length > 0 ? (
               <>
                 <Button
@@ -135,6 +144,8 @@ const CallingMain = ({ setAddaNumber }: any) => {
           mb={3}
           sx={{
             display: 'flex',
+            flexDirection: { xs: 'column', md: 'row' },
+            gap: '10px',
             alignItems: 'center',
             justifyContent: 'space-between',
           }}
@@ -145,55 +156,50 @@ const CallingMain = ({ setAddaNumber }: any) => {
             setSearchBy={setCallingSearch}
             size="small"
           />
-          <Box
+
+          <Button
+            id="basic-button"
+            aria-controls={actionMenuOpenAction ? 'basic-menu' : undefined}
+            aria-haspopup="true"
+            aria-expanded={actionMenuOpenAction ? 'true' : undefined}
+            onClick={handleClickAction}
+            variant="outlined"
+            color="inherit"
             sx={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '10px',
+              '@media(max-width: 500px)': {
+                width: '100%',
+              },
             }}
           >
-            <Button
-              id="basic-button"
-              aria-controls={actionMenuOpenAction ? 'basic-menu' : undefined}
-              aria-haspopup="true"
-              aria-expanded={actionMenuOpenAction ? 'true' : undefined}
-              onClick={handleClickAction}
-              sx={{
-                color: theme?.palette?.grey[500],
-                height: '40px',
-                border: '1?.5px solid #e7e7e9',
+            Actions &nbsp; <DownIcon />
+          </Button>
+          <Menu
+            id="basic-menu"
+            anchorEl={anchorElAction}
+            open={actionMenuOpenAction}
+            onClose={handleCloseAction}
+            MenuListProps={{
+              'aria-labelledby': 'basic-button',
+            }}
+          >
+            <MenuItem
+              onClick={() => {
+                setOpenDrawer('Edit'), handleCloseAction;
               }}
             >
-              Actions &nbsp; <DownIcon />
-            </Button>
-            <Menu
-              id="basic-menu"
-              anchorEl={anchorElAction}
-              open={actionMenuOpenAction}
-              onClose={handleCloseAction}
-              MenuListProps={{
-                'aria-labelledby': 'basic-button',
+              Edit
+            </MenuItem>
+            <MenuItem
+              onClick={() => {
+                setIsDeleteModalOpen(true), handleCloseAction;
               }}
             >
-              <MenuItem
-                onClick={() => {
-                  setOpenDrawer('Edit'), handleCloseAction;
-                }}
-              >
-                Edit
-              </MenuItem>
-              <MenuItem
-                onClick={() => {
-                  setIsDeleteModalOpen(true), handleCloseAction;
-                }}
-              >
-                Delete
-              </MenuItem>
-            </Menu>
-          </Box>
+              Delete
+            </MenuItem>
+          </Menu>
         </Box>
       </Box>
-      <TanstackTable columns={getColumns} data={callingData} />
+      <TanstackTable columns={getColumns} data={callingData} isPagination />
 
       <ScheduleCallDrawer
         openDrawer={openDrawer}

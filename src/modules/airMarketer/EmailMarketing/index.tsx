@@ -18,6 +18,7 @@ import useEmailMarketing from './useEmailMarketing';
 import Filters from './Filters';
 import EmailFolder from './EmailFolder';
 import { ExportButton } from './ExportButton';
+import { useRouter } from 'next/router';
 
 const EmailMarketing = () => {
   const {
@@ -28,6 +29,7 @@ const EmailMarketing = () => {
     isExportModalOpen,
     setSearchEmailMarketing,
   } = useEmailMarketing();
+  const router = useRouter();
   return (
     <Grid container>
       <Grid item md={12} lg={3}>
@@ -51,10 +53,20 @@ const EmailMarketing = () => {
         >
           <ExportIcon /> &nbsp; Export
         </Button>
-        <Button variant="outlined" className="small" color="inherit">
+        <Button
+          variant="outlined"
+          className="small"
+          color="inherit"
+          onClick={() =>
+            router.push('/air-marketer/email-marketing/compare-email')
+          }
+        >
           Compare Email
         </Button>
         <Button
+          onClick={() =>
+            router.push('/air-marketer/email-marketing/create-new-email')
+          }
           variant="contained"
           className="small"
           style={{ margin: '0px 18px' }}

@@ -51,6 +51,7 @@ const ListView = () => {
         <Grid item xs={12} md={6}>
           <Search
             label="Search Here"
+            size="small"
             searchBy={searchBy}
             setSearchBy={setSearchBy}
             width={240}
@@ -62,7 +63,9 @@ const ListView = () => {
               <Button
                 // disabled={selected.length > 0 ? false : true}
                 onClick={handleClick}
-                sx={{ border: '1px solid #D1D5DB', color: '#6B7280' }}
+                variant="outlined"
+                color="inherit"
+                className="small"
               >
                 Actions
                 <ArrowDropDown />
@@ -85,6 +88,7 @@ const ListView = () => {
                 justifyContent: 'center',
                 alignItems: 'center',
                 width: '50px',
+                cursor: 'pointer',
               }}
             >
               <RefreshIcon />
