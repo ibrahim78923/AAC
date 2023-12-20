@@ -32,7 +32,7 @@ const CreateContacts = ({ open, onClose }: any) => {
           methods={methodscontacts}
           onSubmit={handleSubmit(onSubmit)}
         >
-          <Grid container spacing={4}>
+          <Grid container spacing={2}>
             {contactsDataArray(lifeCycleStagesData, contactStatusData)?.map(
               (item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
