@@ -116,7 +116,7 @@ const SwitchableDatepicker = ({
     return (
       <Box
         sx={{
-          bgcolor: '#fff',
+          bgcolor: (theme: any) => theme.palette.common?.white,
           border: (theme: any) =>
             `1px solid ${theme?.palette?.custom?.white_rock}`,
           borderRadius: '4px',

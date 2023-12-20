@@ -81,7 +81,8 @@ const TaxCalculation = () => {
     <Box
       sx={{
         borderRadius: '15px',
-        border: '1px solid #EAECF0',
+        border: (theme: any) =>
+          `1px solid ${theme?.palette?.custom?.light_lavender_gray}`,
       }}
     >
       <Box sx={styles?.pageHeader}>
