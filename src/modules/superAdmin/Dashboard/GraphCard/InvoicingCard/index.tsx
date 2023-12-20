@@ -5,9 +5,11 @@ import dynamic from 'next/dynamic';
 import { Box, Typography, Grid } from '@mui/material';
 
 import useInvoicingCard from './useInvoicingCard';
+import { useRouter } from 'next/router';
 
 const InvoicingCard = () => {
   const { options, theme } = useInvoicingCard();
+  const router = useRouter();
   const ReactApexChart = dynamic(() => import('react-apexcharts'), {
     ssr: false,
   });
@@ -15,6 +17,11 @@ const InvoicingCard = () => {
   return (
     <>
       <Box
+        onClick={() => {
+          router?.push({
+            pathname: 'http://localhost:3000/super-admin/billing-invoices ',
+          });
+        }}
         sx={{
           border: `1px solid ${theme?.palette?.grey[700]}`,
           borderRadius: '8px',

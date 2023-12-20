@@ -7,6 +7,7 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import { columns } from './PlanList.data';
 
 import { planListData } from '@/mock/modules/superAdmin/SuperAdminDashboard';
+import Link from 'next/link';
 
 const PlanList = () => {
   const theme = useTheme<Theme>();
@@ -35,20 +36,20 @@ const PlanList = () => {
         >
           Plan list
         </Typography>
-        <Typography
-          variant="body2"
-          sx={{
-            color: `${theme?.palette?.primary?.main}`,
-            fontWeight: 600,
-          }}
-        >
-          View All
-        </Typography>
+        <Link href="http://localhost:3000/super-admin/plan-management">
+          <Typography
+            variant="body2"
+            sx={{
+              color: `${theme?.palette?.primary?.main}`,
+              fontWeight: 600,
+            }}
+          >
+            View All
+          </Typography>
+        </Link>
       </Box>
-      <Grid container sx={{ paddingTop: '1rem' }}>
-        <Grid item xs={12}>
-          <TanstackTable columns={columns} data={planListData} />
-        </Grid>
+      <Grid sx={{ paddingTop: '1rem' }}>
+        <TanstackTable columns={columns} data={planListData} />
       </Grid>
     </Box>
   );

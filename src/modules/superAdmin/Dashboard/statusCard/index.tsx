@@ -11,6 +11,7 @@ import {
 } from '@/assets/icons';
 
 import { style } from './StatusCard.style';
+import Link from 'next/link';
 
 const StatusCards = () => {
   const theme = useTheme<Theme>();
@@ -18,170 +19,174 @@ const StatusCards = () => {
     <>
       <Grid container spacing={2} sx={{ paddingBottom: '1rem' }}>
         <Grid item xl={3.5} lg={3} md={6} sm={6} xs={12}>
-          <Box sx={style?.TotalClientStyle(theme)}>
-            <Box sx={{ display: 'grid' }}>
-              <UserGroupFilledIcon />
-              <Typography
-                variant="h6"
+          <Link href="http://localhost:3000/super-admin/user-management">
+            <Box sx={style?.TotalClientStyle(theme)}>
+              <Box sx={{ display: 'grid' }}>
+                <UserGroupFilledIcon />
+                <Typography
+                  variant="h6"
+                  sx={{
+                    color: `${theme?.palette?.blue?.light}`,
+                    fontWeight: 400,
+                  }}
+                >
+                  Total Clients
+                </Typography>
+                <Typography
+                  variant="h4"
+                  sx={{
+                    color: `${theme?.palette?.custom?.main}`,
+                    fontWeight: 500,
+                  }}
+                >
+                  95
+                </Typography>
+              </Box>
+              <Divider
+                orientation="vertical"
+                variant="middle"
+                flexItem
                 sx={{
-                  color: `${theme?.palette?.blue?.light}`,
-                  fontWeight: 400,
+                  border: `2px solid ${theme?.palette?.primary?.main}`,
+                  borderRadius: '20px',
+                }}
+              />
+              <Box
+                sx={{
+                  paddingRight: {
+                    lg: '2.3rem',
+                    md: '0rem',
+                    sm: '3.3rem',
+                    xs: '0rem',
+                  },
                 }}
               >
-                Total Clients
-              </Typography>
-              <Typography
-                variant="h4"
-                sx={{
-                  color: `${theme?.palette?.custom?.main}`,
-                  fontWeight: 500,
-                }}
-              >
-                95
-              </Typography>
+                <Typography
+                  variant="h6"
+                  sx={{
+                    color: `${theme?.palette?.blue?.light}`,
+                  }}
+                >
+                  <BlueDotIcon />
+                  &nbsp; Active
+                </Typography>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    fontWeight: 400,
+                    color: `${theme?.palette?.slateBlue?.main}`,
+                    marginLeft: '0.8rem',
+                  }}
+                >
+                  60
+                </Typography>
+                <Typography
+                  variant="body1"
+                  sx={{
+                    color: `${theme?.palette?.blue?.light}`,
+                  }}
+                >
+                  <RedDotIcon />
+                  &nbsp; In Active
+                </Typography>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    fontWeight: 400,
+                    color: `${theme?.palette?.slateBlue?.main}`,
+                    marginLeft: '0.8rem',
+                  }}
+                >
+                  20
+                </Typography>
+              </Box>
             </Box>
-            <Divider
-              orientation="vertical"
-              variant="middle"
-              flexItem
-              sx={{
-                border: `2px solid ${theme?.palette?.primary?.main}`,
-                borderRadius: '20px',
-              }}
-            />
-            <Box
-              sx={{
-                paddingRight: {
-                  lg: '2.3rem',
-                  md: '0rem',
-                  sm: '3.3rem',
-                  xs: '0rem',
-                },
-              }}
-            >
-              <Typography
-                variant="h6"
-                sx={{
-                  color: `${theme?.palette?.blue?.light}`,
-                }}
-              >
-                <BlueDotIcon />
-                &nbsp; Active
-              </Typography>
-              <Typography
-                variant="body2"
-                sx={{
-                  fontWeight: 400,
-                  color: `${theme?.palette?.slateBlue?.main}`,
-                  marginLeft: '0.8rem',
-                }}
-              >
-                60
-              </Typography>
-              <Typography
-                variant="body1"
-                sx={{
-                  color: `${theme?.palette?.blue?.light}`,
-                }}
-              >
-                <RedDotIcon />
-                &nbsp; In Active
-              </Typography>
-              <Typography
-                variant="body2"
-                sx={{
-                  fontWeight: 400,
-                  color: `${theme?.palette?.slateBlue?.main}`,
-                  marginLeft: '0.8rem',
-                }}
-              >
-                20
-              </Typography>
-            </Box>
-          </Box>
+          </Link>
         </Grid>
         <Grid item xl={3.5} lg={3} md={6} sm={6} xs={12}>
-          <Box sx={style?.TotalUserStyle(theme)}>
-            <Box>
-              <TwoUserIcon />
-              <Typography
-                variant="h6"
+          <Link href="http://localhost:3000/super-admin/user-management">
+            <Box sx={style?.TotalUserStyle(theme)}>
+              <Box>
+                <TwoUserIcon />
+                <Typography
+                  variant="h6"
+                  sx={{
+                    color: `${theme?.palette?.blue?.light}`,
+                    fontWeight: 400,
+                  }}
+                >
+                  Total Users
+                </Typography>
+                <Typography
+                  variant="h4"
+                  sx={{
+                    color: `${theme?.palette?.custom?.main}`,
+                    fontWeight: 500,
+                  }}
+                >
+                  95
+                </Typography>
+              </Box>
+              <Divider
+                orientation="vertical"
+                variant="middle"
+                flexItem
                 sx={{
-                  color: `${theme?.palette?.blue?.light}`,
-                  fontWeight: 400,
+                  border: `2px solid ${theme?.palette?.custom?.turquoise_Blue}`,
+                  borderRadius: '20px',
+                }}
+              />
+              <Box
+                sx={{
+                  paddingRight: {
+                    lg: '2.3rem',
+                    md: '0rem',
+                    sm: '3.3rem',
+                    xs: '0rem',
+                  },
                 }}
               >
-                Total Users
-              </Typography>
-              <Typography
-                variant="h4"
-                sx={{
-                  color: `${theme?.palette?.custom?.main}`,
-                  fontWeight: 500,
-                }}
-              >
-                95
-              </Typography>
+                <Typography
+                  variant="h6"
+                  sx={{
+                    color: `${theme?.palette?.blue?.light}`,
+                  }}
+                >
+                  <BlueDotIcon />
+                  &nbsp; Active
+                </Typography>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    fontWeight: 400,
+                    color: `${theme?.palette?.slateBlue?.main}`,
+                    marginLeft: '0.8rem',
+                  }}
+                >
+                  60
+                </Typography>
+                <Typography
+                  variant="h6"
+                  sx={{
+                    color: `${theme?.palette?.blue?.light}`,
+                  }}
+                >
+                  <RedDotIcon />
+                  &nbsp; In Active
+                </Typography>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    fontWeight: 400,
+                    color: `${theme?.palette?.slateBlue?.main}`,
+                    marginLeft: '0.8rem',
+                  }}
+                >
+                  20
+                </Typography>
+              </Box>
             </Box>
-            <Divider
-              orientation="vertical"
-              variant="middle"
-              flexItem
-              sx={{
-                border: `2px solid ${theme?.palette?.custom?.turquoise_Blue}`,
-                borderRadius: '20px',
-              }}
-            />
-            <Box
-              sx={{
-                paddingRight: {
-                  lg: '2.3rem',
-                  md: '0rem',
-                  sm: '3.3rem',
-                  xs: '0rem',
-                },
-              }}
-            >
-              <Typography
-                variant="h6"
-                sx={{
-                  color: `${theme?.palette?.blue?.light}`,
-                }}
-              >
-                <BlueDotIcon />
-                &nbsp; Active
-              </Typography>
-              <Typography
-                variant="body2"
-                sx={{
-                  fontWeight: 400,
-                  color: `${theme?.palette?.slateBlue?.main}`,
-                  marginLeft: '0.8rem',
-                }}
-              >
-                60
-              </Typography>
-              <Typography
-                variant="h6"
-                sx={{
-                  color: `${theme?.palette?.blue?.light}`,
-                }}
-              >
-                <RedDotIcon />
-                &nbsp; In Active
-              </Typography>
-              <Typography
-                variant="body2"
-                sx={{
-                  fontWeight: 400,
-                  color: `${theme?.palette?.slateBlue?.main}`,
-                  marginLeft: '0.8rem',
-                }}
-              >
-                20
-              </Typography>
-            </Box>
-          </Box>
+          </Link>
         </Grid>
         <Grid item xl={5} lg={6} md={12} sm={6} xs={12}>
           <Box sx={style?.EarningCardStyle(theme)}>
