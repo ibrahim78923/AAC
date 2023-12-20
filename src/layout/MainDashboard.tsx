@@ -50,11 +50,11 @@ const array = [
     role: 'AIR_SALES',
   },
   {
-    email: 'zahir.abbas@ceative.co.uk',
+    email: 'airmarketerapplecart@yopmail.com',
     role: 'AIR_MARKETER',
   },
   {
-    email: 'waqas.ahmed@ceative.co.uk',
+    email: 'orgadminairapplecard@yopmail.com',
     role: 'ORG_ADMIN',
   },
 ];
@@ -70,10 +70,11 @@ const DashboardLayout = ({ children, window }: any) => {
   };
 
   const findEmail: any = findRoleByEmail({ user, array });
+  const findEmailRole = findEmail ? findEmail?.role : 'ORG_ADMIN';
 
-  const routes = getRoutes(findEmail?.role);
+  const routes = getRoutes(findEmailRole);
 
-  const lowerRoutes = getLowerRoutes(findEmail?.role);
+  const lowerRoutes = getLowerRoutes(findEmailRole);
   const pathname = usePathname();
   const routerPathName =
     pathname.split('/').splice(2)[0] ?? pathname.split('/').splice(1)[0];
@@ -91,7 +92,7 @@ const DashboardLayout = ({ children, window }: any) => {
     }));
   };
 
-  const isZeroPaddingRoutes = zeroPaddingRoutes.includes(pathname);
+  const isZeroPaddingRoutes = zeroPaddingRoutes?.includes(pathname);
   const { logout } = useAuth();
 
   const drawer = (
@@ -108,7 +109,7 @@ const DashboardLayout = ({ children, window }: any) => {
                 color: theme?.palette?.primary?.main,
               }}
             >
-              {findEmail?.role?.replaceAll('_', ' ')}
+              {findEmailRole?.replaceAll('_', ' ')}
             </Typography>
           </Box>
         </Box>
