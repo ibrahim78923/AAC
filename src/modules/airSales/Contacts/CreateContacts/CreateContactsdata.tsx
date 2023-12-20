@@ -138,7 +138,12 @@ export const contactsDataArray = (
         name: 'contactOwner',
         label: 'Contact Owner',
         select: true,
-        options: [],
+        options: [
+          { value: 'Savanah Shane', label: 'Savanah Shane' },
+          { value: 'Phoenix Baker', label: 'Phoenix Baker' },
+          { value: 'Cameron Williamson', label: 'Cameron Williamson' },
+          { value: 'Brooklyn Simmons', label: 'Brooklyn Simmons' },
+        ],
       },
       md: 12,
       component: RHFSelect,
