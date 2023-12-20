@@ -2,13 +2,8 @@ import { useState } from 'react';
 import { Box, Button, Grid } from '@mui/material';
 import CommonDrawer from '@/components/CommonDrawer';
 import { FilterAlt } from '@mui/icons-material';
-import {
-  invoiceFilterFields,
-  defaultValues,
-  validationSchema,
-} from '../../Invoices.data';
+import { invoiceFilterFields } from '../../Invoices.data';
 import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { v4 as uuidv4 } from 'uuid';
 import { FormProvider } from '@/components/ReactHookForm';
 
@@ -17,16 +12,15 @@ const FilterDrawer = () => {
 
   const onSubmit = () => {};
 
-  const methods: any = useForm({
-    resolver: yupResolver(validationSchema),
-    defaultValues: defaultValues,
-  });
+  const methods: any = useForm();
   const { handleSubmit } = methods;
 
   return (
     <Box>
       <Button
-        sx={{ border: '1px solid #D1D5DB', color: '#6B7280' }}
+        variant="outlined"
+        color="inherit"
+        className="small"
         startIcon={<FilterAlt />}
         onClick={() => setIsDrawerOpen(true)}
       >
@@ -44,7 +38,7 @@ const FilterDrawer = () => {
         submitHandler={handleSubmit(onSubmit)}
       >
         <FormProvider methods={methods}>
-          <Grid container spacing={4}>
+          <Grid container spacing={1}>
             {invoiceFilterFields?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={uuidv4()}>
                 <item.component {...item.componentProps} size={'small'}>
