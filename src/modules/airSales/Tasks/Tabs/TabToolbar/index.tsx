@@ -33,7 +33,12 @@ const TabToolbar = ({
           flexWrap={'wrap'}
         >
           <Tooltip title={'Refresh Filter'}>
-            <Button variant="outlined" onClick={handleRefreshList}>
+            <Button
+              color="inherit"
+              className="small"
+              variant="outlined"
+              onClick={handleRefreshList}
+            >
               <RefreshTasksIcon />
             </Button>
           </Tooltip>

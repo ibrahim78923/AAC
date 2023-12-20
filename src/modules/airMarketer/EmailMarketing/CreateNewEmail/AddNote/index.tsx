@@ -16,13 +16,15 @@ interface noteProps {
 const AddANote = ({ open, onClose }: noteProps) => {
   const { handlePopverClick, handlePopverClose, popverId, anchorEl } =
     useAddNote();
+
   return (
     <CommonDrawer
-      isOk={false}
-      okText={''}
       isDrawerOpen={open}
       onClose={onClose}
-      footer={false}
+      isOk
+      okText={'Add'}
+      footer
+      handlerIsFooterFeature={() => {}}
     >
       <Box sx={styles?.subjectWrapper}>
         <SubjectComp title="To" value="CustomerCare@Airapplecart.com" />
