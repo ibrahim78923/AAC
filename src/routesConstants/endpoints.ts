@@ -49,6 +49,7 @@ export const END_POINTS = {
   DEAL_PIPELINE: '/deal-pipeline',
   GET_PRODUCTS_PERMISSIONS: '/permissions/permissions-by-product',
   VENDOR_LIST: '/vendors/get-vendors',
+  POST_VENDOR: '/vendors/add-vendors',
   DELETE_PRODUCT_CATALOG: '/product-catalog/delete-product-catalog',
   ADD_LOCATION: '/location/add-location',
   GET_LOCATION: '/location/get-location',
