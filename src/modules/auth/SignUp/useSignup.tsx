@@ -40,8 +40,11 @@ const useSignup = () => {
   });
 
   const onSubmit = async (value: any) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { organizationName, confirmPassword, DRN, ...rest } = value;
+
     const user = {
-      ...value,
+      ...rest,
       role: 'ORG_ADMIN',
     };
 
