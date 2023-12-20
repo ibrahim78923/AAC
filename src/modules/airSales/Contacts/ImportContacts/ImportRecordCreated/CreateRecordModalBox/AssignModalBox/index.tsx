@@ -8,7 +8,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import {
   AssignModalData,
-  customDefaultValues,
+  defaultValues,
   customValidationSchema,
 } from './AssignModal.data';
 
@@ -19,7 +19,7 @@ import { v4 as uuidv4 } from 'uuid';
 const AssignModalBox = ({ open, onClose }: any) => {
   const methods: any = useForm({
     resolver: yupResolver(customValidationSchema),
-    defaultValues: customDefaultValues,
+    defaultValues: defaultValues,
   });
 
   const { handleSubmit } = methods;

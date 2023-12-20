@@ -12,9 +12,9 @@ export const defaultValues = {
 
 export const AssignModalData = [
   {
-    label: 'Contact Owner',
     componentProps: {
       name: 'Contact Owner',
+      label: 'Contact Owner',
       placeholder: 'Select',
       select: true,
     },

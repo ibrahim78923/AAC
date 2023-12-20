@@ -1,4 +1,4 @@
-import { RHFDropZone, RHFTextField } from '@/components/ReactHookForm';
+import { RHFDropZone, RHFSelect } from '@/components/ReactHookForm';
 
 import { Typography } from '@mui/material';
 
@@ -60,7 +60,7 @@ export const importContactsData = [
       { value: 'optional Fields', label: 'optional Fields' },
       { value: 'Related Fields', label: 'Related Fields' },
     ],
-    component: RHFTextField,
+    component: RHFSelect,
     md: 4,
   },
   {
@@ -80,14 +80,14 @@ export const importContactsData = [
       select: true,
     },
     options: [
-      { head: 'head' },
+      // { head: 'head' },
       { label: 'Mandatory Fields', value: 'Mandatory Fields' },
       { label: 'Date', value: 'Date' },
       { label: 'Amount', value: 'Amount' },
       { label: 'optional Fields', value: 'optional Fields' },
       { label: 'Related Fields', value: 'Related Fields' },
     ],
-    component: RHFTextField,
+    component: RHFSelect,
     md: 4,
   },
 ];
