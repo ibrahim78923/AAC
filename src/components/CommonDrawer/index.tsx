@@ -125,7 +125,7 @@ const CommonDrawer = ({
                     </Typography>
                   </Box>
                 )}
-                <Box sx={{ display: 'flex', gap: '10px', border: '1px solid' }}>
+                <Box sx={{ display: 'flex', gap: '10px' }}>
                   {cancelHandlerCheck && (
                     <Button
                       sx={{
