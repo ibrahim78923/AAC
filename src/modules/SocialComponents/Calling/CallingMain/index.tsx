@@ -154,6 +154,7 @@ const CallingMain = ({ setAddaNumber }: any) => {
             label={'Search here'}
             searchBy={callingSearch}
             setSearchBy={setCallingSearch}
+            size="small"
           />
 
           <Button

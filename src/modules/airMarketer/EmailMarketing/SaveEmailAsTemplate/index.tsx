@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Grid, Box, Typography } from '@mui/material';
+import { Grid, Box, Typography, Button } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { enqueueSnackbar } from 'notistack';
 import {
@@ -14,6 +14,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { v4 as uuidv4 } from 'uuid';
 import CommonModal from '@/components/CommonModal';
+import { styles } from '../ManageAccess/ManageAccess.style';
 
 const SaveEmailAsTemplate = ({
   openSaveEmailAsTemplateModal,
@@ -65,6 +66,12 @@ const SaveEmailAsTemplate = ({
                 </Grid>
               ))}
             </Grid>
+            <Box sx={styles?.buttonBox} mt={2}>
+              <Button variant="outlined">Cancel</Button>
+              <Button variant="contained" type="submit" onClick={handleSubmit}>
+                Save
+              </Button>
+            </Box>
           </FormProvider>
         </Box>
       </CommonModal>
