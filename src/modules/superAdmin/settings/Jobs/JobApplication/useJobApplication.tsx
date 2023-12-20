@@ -59,30 +59,25 @@ const useJobApplication = () => {
   };
 
   const onSubmitFilters = async (values: any) => {
-    if (values?.applyDate) {
-      if (!Array.isArray(values?.applyDate)) {
-        setFilterParams((prev) => {
-          return {
-            ...prev,
-            dateStart: dayjs(values?.applyDate).format(DATE_FORMAT.API),
-            dateEnd: dayjs(values?.applyDate).format(DATE_FORMAT.API),
-          };
-        });
-      } else {
-        setFilterParams((prev) => {
-          return {
-            ...prev,
-            dateStart: dayjs(values?.applyDate[0]).format(DATE_FORMAT.API),
-            dateEnd: dayjs(values?.applyDate[1]).format(DATE_FORMAT.API),
-          };
-        });
-      }
-    }
+    const { applyDate, ...others } = values;
+    const dateStart = applyDate?.[0]
+      ? dayjs(applyDate[0]).format(DATE_FORMAT.API)
+      : null;
+    const dateEnd = applyDate?.[1]
+      ? dayjs(applyDate[1]).format(DATE_FORMAT.API)
+      : null;
     setFilterParams((prev) => {
-      return {
+      const updatedParams = {
         ...prev,
-        ...values,
+        ...others,
       };
+
+      if (dateStart !== null && dateEnd !== null) {
+        updatedParams.dateStart = dateStart;
+        updatedParams.dateEnd = dateEnd;
+      }
+
+      return updatedParams;
     });
     handleCloseFilters();
   };
