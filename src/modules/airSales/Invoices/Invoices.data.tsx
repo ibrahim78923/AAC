@@ -3,7 +3,6 @@ import { RemoveRedEye, Delete } from '@mui/icons-material';
 import RHFDatePicker from '@/components/ReactHookForm/RHFDatePicker';
 import RHFSelect from '@/components/ReactHookForm/RHFSelect';
 import { EditYellowBgIcon } from '@/assets/icons';
-import * as Yup from 'yup';
 import { StatusDropdown } from './InvoicesCommonComponents/StatusDropDown';
 import { QuantityNumber } from './InvoicesCommonComponents/QuantityNumber';
 import { SelectUnit } from './InvoicesCommonComponents/SelectUnit';
@@ -155,17 +154,6 @@ export const invoicesTableData: any = [
 ];
 
 //filter drwaer form
-export const validationSchema = Yup?.object().shape({
-  requester: Yup?.string().required('Field is Required'),
-  impact: Yup?.string().required('Field is Required'),
-  plannedEndDate: Yup?.date(),
-});
-
-export const defaultValues = {
-  requester: '',
-  impact: '',
-  plannedEndDate: '',
-};
 
 export const invoiceFilterFields = [
   {

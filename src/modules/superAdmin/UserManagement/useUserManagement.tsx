@@ -44,11 +44,12 @@ const useUserManagement = () => {
     useGetCompaniesCRNQuery,
     useGetUsersByIdQuery,
   }: any = usersApi;
-  const { useGetProductsQuery } = CommonAPIS;
+  const { useGetProductsQuery, useGetOrganizationsQuery } = CommonAPIS;
 
   const [updateUsers] = useUpdateUsersMutation();
   const [updateUserProfile] = useUpdateUserProfileMutation();
   const { data: products } = useGetProductsQuery({});
+  const { data: organizations } = useGetOrganizationsQuery({});
   const handleClick = (event: any) => {
     setSelectedValue(event?.currentTarget);
   };
@@ -122,6 +123,7 @@ const useUserManagement = () => {
     setPageLimit,
     page,
     setPage,
+    organizations,
   };
 };
 
