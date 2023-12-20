@@ -8,16 +8,42 @@ import * as Yup from 'yup';
 
 export const detailsValidationSchema = Yup?.object()?.shape({
   CompanyName: Yup?.string()?.trim()?.required('Field is Required'),
-  DomainName: Yup?.string()?.trim()?.required('Field is Required'),
-  CompanyRegistrationNumber: Yup?.string()
-    ?.trim()
-    ?.required('Field is Required'),
+  DomainName: Yup?.string(),
+  CompanyRegistrationNumber: Yup?.string(),
+  CompanyOwner: Yup?.string(),
+  PhoneNumber: Yup?.string(),
+  Industry: Yup?.string(),
+  CompanyType: Yup?.string(),
+  NumberOfEmployees: Yup?.string(),
+  AnnualRevenue: Yup?.string(),
+  City: Yup?.string(),
+  PostalCode: Yup?.string(),
+  LifeCycleStage: Yup?.string(),
+  LastActivityDate: Yup?.string(),
+  CreatedDate: Yup?.string(),
+  time: Yup?.string(),
+  LinkedInCompanyPage: Yup?.string(),
+  Address: Yup?.string(),
 });
 
 export const detailsDefaultValues = {
   CompanyName: '',
   DomainName: '',
   CompanyRegistrationNumber: '',
+  CompanyOwner: '',
+  PhoneNumber: '',
+  Industry: '',
+  CompanyType: '',
+  NumberOfEmployees: '',
+  AnnualRevenue: '',
+  City: '',
+  PostalCode: '',
+  LifeCycleStage: '',
+  LastActivityDate: '',
+  CreatedDate: '',
+  time: '',
+  LinkedInCompanyPage: '',
+  Address: '',
 };
 
 export const detailsDataArray = [
@@ -202,7 +228,8 @@ export const detailsDataArray = [
       label: 'Address',
       fullWidth: true,
       placeholder: 'Type Here',
-      // row:4
+      multiline: true,
+      rows: 4,
     },
     component: RHFTextField,
     md: 4,
@@ -213,7 +240,8 @@ export const detailsDataArray = [
       label: 'Description',
       fullWidth: true,
       placeholder: 'Type Here',
-      // row:4
+      multiline: true,
+      rows: 4,
     },
     component: RHFTextField,
     md: 4,
