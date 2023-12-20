@@ -29,6 +29,8 @@ const ActionBtn = ({
   return (
     <>
       <Button
+        className="small"
+        color="inherit"
         variant={variant}
         endIcon={<ArrowDropDownIcon />}
         onClick={handleClick}
