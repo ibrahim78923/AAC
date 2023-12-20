@@ -20,9 +20,14 @@ import {
   ThreeDotsIcon,
 } from '@/assets/icons';
 
-import { styles } from '../ChatField.style';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
+import { setChatMessages } from '@/redux/slices/chat/slice';
 
+import { UserDefault } from '@/assets/images';
+import { getSession } from '@/utils';
 import { v4 as uuidv4 } from 'uuid';
+
+import { styles } from '../ChatField.style';
 
 const ChatBox = ({
   item,
@@ -30,8 +35,13 @@ const ChatBox = ({
   setActiveChat,
   customEmojis,
   activeChat,
+  role,
 }: any) => {
   const theme = useTheme();
+
+  const { user }: { accessToken: string; refreshToken: string; user: any } =
+    getSession();
+
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -40,11 +50,41 @@ const ChatBox = ({
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const dispatch = useAppDispatch();
+
+  const socket = useAppSelector((state) => state?.chat?.socket);
+
+  const handelSendReaction = (emoji: any, item: any) => {
+    const isReactionExists = item?.reactions?.some(
+      (reaction: any) => reaction.userId === user?._id,
+    );
+
+    socket.emit(
+      'update-message',
+      {
+        updateReaction: isReactionExists > 0 ? true : false,
+        messageId: item?._id,
+        reaction: {
+          userId: user?._id,
+          userReaction: emoji,
+        },
+      },
+      (response: any) => {
+        dispatch(setChatMessages(response?.data));
+      },
+    );
+  };
+
   return (
     <Box sx={{ marginTop: '20px' }}>
-      <Box sx={styles?.mainChatArea(item?.role)}>
+      <Box sx={styles?.mainChatArea(role)}>
         <Box sx={{ marginBottom: '25px' }}>
-          <Image width={30} height={30} src={item?.userImage} alt="avatar" />
+          <Image
+            width={30}
+            height={30}
+            src={item?.userImage ?? UserDefault}
+            alt="avatar"
+          />
         </Box>
         <Box>
           {chatMode === 'groupChat' && (
@@ -86,17 +126,17 @@ const ChatBox = ({
             </>
           )}
           <Box
-            sx={styles?.chatMessageArea(item?.role)}
-            onMouseOver={() => setActiveChat(item?.chatID)}
+            sx={styles?.chatMessageArea(role)}
+            onMouseOver={() => setActiveChat(item?._id)}
             onMouseLeave={() => setActiveChat('')}
           >
             <Box>
-              <Box sx={styles?.chatBoxWrapperInset(theme, item?.role)}>
+              <Box sx={styles?.chatBoxWrapperInset(theme, role)}>
                 {!item?.attachment?.document && (
                   <Typography
                     variant="body3"
                     dangerouslySetInnerHTML={{
-                      __html: item?.message,
+                      __html: item?.content,
                     }}
                   />
                 )}
@@ -156,19 +196,20 @@ const ChatBox = ({
                 >
                   <CharmTickIcon />
                 </Box>
-                {item?.chatReaction && (
+                {item?.reactions?.length > 0 && (
                   <Box
                     sx={styles?.chatReaction}
                     dangerouslySetInnerHTML={{
-                      __html: item?.chatReaction,
+                      __html: item?.reactions[0]?.userReaction,
                     }}
                   />
                 )}
-                {item?.chatID === activeChat && (
+                {item?._id === activeChat && (
                   <Box sx={styles?.sendReaction(theme)}>
                     {customEmojis?.map((emoji: any) => (
                       <Box
                         key={uuidv4()}
+                        onClick={() => handelSendReaction(emoji, item)}
                         dangerouslySetInnerHTML={{
                           __html: emoji,
                         }}
@@ -200,7 +241,7 @@ const ChatBox = ({
               >
                 <ThreeDotsIcon color={theme?.palette?.custom?.grayish_blue} />
               </Button>
-              {item?.chatID === activeChat && (
+              {item?._id === activeChat && (
                 <Menu
                   id="basic-menu"
                   anchorEl={anchorEl}

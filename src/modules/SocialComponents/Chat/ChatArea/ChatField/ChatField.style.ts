@@ -92,7 +92,7 @@ export const styles = {
       width: '100%',
       height: '50px',
       position: 'absolute',
-      bottom: '-59px',
+      bottom: '-50px',
       left: '0px',
       borderRadius: '8px',
       border: `1px solid ${theme?.palette?.grey[400]}`,
@@ -101,6 +101,7 @@ export const styles = {
       justifyContent: 'space-between',
       cursor: 'pointer',
       padding: '0px 15px',
+      zIndex: '1',
     };
   },
   unStyledButton: () => {

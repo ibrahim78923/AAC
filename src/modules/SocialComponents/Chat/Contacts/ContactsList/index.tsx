@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Box, Button, Checkbox } from '@mui/material';
 
@@ -6,20 +6,22 @@ import ContactsCard from './ContactsCard';
 import Search from '@/components/Search';
 import AddGroupModal from './AddGroupModal';
 import ChatDropdown from '../../ChatDropdown';
+import { AlertModals } from '@/components/AlertModals';
 
-import { PlusIcon } from '@/assets/icons';
-
-import {
-  chatContactsData,
-  chatGroupsData,
-} from '@/mock/modules/SocialComponents/Chat';
+import { FilterSharedIcon, PlusIcon } from '@/assets/icons';
 
 import { styles } from './ContactsList.style';
 
 import { v4 as uuidv4 } from 'uuid';
-import { AlertModals } from '@/components/AlertModals';
+import { useGetChatsContactsQuery } from '@/services/chat';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
+import { setChatContacts } from '@/redux/slices/chat/slice';
 
-const ContactList = ({ chatMode }: any) => {
+const ContactList = ({ chatMode, handleManualRefetch }: any) => {
+  const dispatch = useAppDispatch();
+
+  const { data: contactsData } = useGetChatsContactsQuery({});
+
   const [searchContacts, setSearchContacts] = useState('');
   const [isAddGroupModal, setIsAddGroupModal] = useState(false);
   const [isDeleteModal, setIsDeleteModal] = useState(false);
@@ -34,8 +36,15 @@ const ContactList = ({ chatMode }: any) => {
     setAnchorEl(null);
   };
 
-  const chatsTypeToShow =
-    chatMode === 'groupChat' ? chatGroupsData : chatContactsData;
+  useEffect(() => {
+    if (contactsData?.data?.chats.length > 0) {
+      dispatch(setChatContacts(contactsData?.data?.chats));
+    }
+  }, [contactsData?.data?.chats]);
+
+  const chatContacts = useAppSelector((state) => state?.chat?.chatContacts);
+
+  // const chatsTypeToShow = chatMode === 'groupChat' ? chatGroupsData : chatContacts;
 
   const menuItemsData = [
     {
@@ -81,7 +90,7 @@ const ContactList = ({ chatMode }: any) => {
             aria-expanded={actionMenuOpen ? 'true' : undefined}
             onClick={handleClick}
           >
-            {/* <FilterSharedIcon /> */}
+            <FilterSharedIcon />
           </Button>
           <ChatDropdown
             anchorEl={anchorEl}
@@ -100,15 +109,17 @@ const ContactList = ({ chatMode }: any) => {
             &nbsp;&nbsp;Create New Group
           </Button>
         )}
-        <Box mt={2}>
-          {chatsTypeToShow?.map((item) => (
-            <ContactsCard
-              key={uuidv4()}
-              cardData={item}
-              selectedValues={selectedValues}
-              setSelectedValues={setSelectedValues}
-            />
-          ))}
+        <Box mt={2} sx={{ overflow: 'scroll', maxHeight: '52vh' }}>
+          {chatContacts &&
+            chatContacts?.map((item: any) => (
+              <ContactsCard
+                key={uuidv4()}
+                cardData={{ item }}
+                selectedValues={selectedValues}
+                setSelectedValues={setSelectedValues}
+                handleManualRefetch={handleManualRefetch}
+              />
+            ))}
         </Box>
       </Box>
       <AddGroupModal

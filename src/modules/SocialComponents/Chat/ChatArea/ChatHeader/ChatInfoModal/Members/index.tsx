@@ -30,7 +30,7 @@ const Members = () => {
             <AddMembers setIsAddMembers={setIsAddMembers} />
           </Box>
         )}
-        <Box sx={{ height: '380px', overflow: 'scroll' }}>
+        <Box sx={{ height: '262px', overflow: 'scroll' }}>
           {groupMembers.slice(0, 5).map((item: any) => (
             <Box sx={styles.boxMemberCard} key={uuidv4()}>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
