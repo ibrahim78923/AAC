@@ -36,10 +36,12 @@ export default function GuestGuard({ children }: any) {
 
   const path: any = findSkillByEmail({ user, array });
 
+  const pathVariable = path ? path?.path : '/org-admin/dashboard';
+
   useEffect(() => {
     if (!isInitialized) return;
     if (isAuthenticated) {
-      push(path?.path);
+      push(pathVariable);
       return;
     }
     setIsLoading(false);

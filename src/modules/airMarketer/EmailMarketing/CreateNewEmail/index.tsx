@@ -8,6 +8,7 @@ import 'react-quill/dist/quill.snow.css';
 import dynamic from 'next/dynamic';
 import ActionBtn from '@/modules/airSales/Tasks/ActionBtn';
 import SwitchableDatepicker from '@/components/SwitchableDatepicker';
+import { PlusIcon } from '@/assets/icons';
 
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
@@ -20,9 +21,9 @@ const CreateNewEmail = () => {
     setIsBcc,
     isActive,
     setIsActive,
-    handleAddNoteDrawer,
     isAddNoteDrawer,
     handleActionsButton,
+    handleAddNoteDrawer,
     // isScheduleModalOpen,
     openCalendar,
     theme,
@@ -49,7 +50,12 @@ const CreateNewEmail = () => {
         <Typography variant="h5" sx={{ fontWeight: 500 }}>
           Create New Email
         </Typography>
-        <Button onClick={handleAddNoteDrawer}>Add a note</Button>
+        <Box>
+          <Button variant="contained" onClick={handleAddNoteDrawer}>
+            <PlusIcon />
+            &nbsp; Add a note
+          </Button>
+        </Box>
       </Box>
       <Box sx={{ mt: 3 }}>
         <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>

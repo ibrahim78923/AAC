@@ -11,14 +11,14 @@ export const validationSchema = Yup.object().shape({
   selectDeal: Yup.string().required('Field is Required'),
   quoteTemplate: Yup.string().required('Field is Required'),
   quoteName: Yup.string().required('Field is Required'),
-  quoteExpiration: Yup.string().required('Field is Required'),
+  quoteExpiration: Yup.date().required('Field is Required'),
 });
 
 export const initValues = {
   selectDeal: '',
   quoteTemplate: '',
   quoteName: '',
-  quoteExpiration: '',
+  quoteExpiration: null,
   quoteNotes: '',
   quoteTerms: '',
   templateComment: '',
@@ -117,7 +117,13 @@ export const createQuoteFormFields = [
     componentProps: {
       name: 'signature',
       fullWidth: true,
-      options: ['No Signature', 'Include Space for a written signature'],
+      options: [
+        { value: 'No Signature', label: 'No Signature' },
+        {
+          value: 'Include Space for a written signature',
+          label: 'Include Space for a written signature',
+        },
+      ],
       row: false,
     },
   },

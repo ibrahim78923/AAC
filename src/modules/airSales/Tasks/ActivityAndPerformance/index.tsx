@@ -10,7 +10,12 @@ const ActivityAndPerformance = () => {
   const theme = useTheme();
   const { counter, handleInsightsBtnClick, handleFeedBtnClick } = useTask();
   return (
-    <DrawerComp title="" btnVariant="contained" btnIcon={<RecycleIcon />}>
+    <DrawerComp
+      title=""
+      color="secondary"
+      btnVariant="contained"
+      btnIcon={<RecycleIcon />}
+    >
       <ButtonGroup size="small" sx={{ mb: '24px' }}>
         <Button
           onClick={handleInsightsBtnClick}

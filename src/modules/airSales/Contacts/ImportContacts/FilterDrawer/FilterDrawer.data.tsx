@@ -2,9 +2,8 @@ import { RHFTextField } from '@/components/ReactHookForm';
 
 export const importFilterData = [
   {
-    title: 'Deal Pipeline',
     componentProps: {
-      name: 'DealPipline',
+      name: 'Deal Pipeline',
       label: 'Select',
       select: true,
     },
@@ -17,10 +16,9 @@ export const importFilterData = [
     component: RHFTextField,
   },
   {
-    title: 'Deal Name',
     componentProps: {
       name: 'DealName',
-      label: 'Select',
+      label: 'Deal Name',
       select: true,
     },
     options: [

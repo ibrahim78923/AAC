@@ -2,10 +2,10 @@ import { RHFTextField } from '@/components/ReactHookForm';
 
 export const CreateViewData = [
   {
-    title: 'Name',
     componentProps: {
       name: 'Name',
-      label: 'Enter Name',
+      label: 'Name',
+      placeholder: 'Enter Name',
       select: false,
     },
     options: [

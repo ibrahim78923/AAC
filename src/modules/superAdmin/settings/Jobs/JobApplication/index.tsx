@@ -4,7 +4,7 @@ import CommonDrawer from '@/components/CommonDrawer';
 import Search from '@/components/Search';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { FormProvider } from '@/components/ReactHookForm';
-import { FilterSharedIcon, RefreshSharedIcon } from '@/assets/icons';
+import { FilterSharedIcon } from '@/assets/icons';
 import { columns, getFiltersDataArray } from './JobApplication.data';
 import { styles } from './JobsApplication.styles';
 import { v4 as uuidv4 } from 'uuid';
@@ -15,7 +15,6 @@ const JobApplication = () => {
     data,
     isLoading,
     setSearchValue,
-    handleRefresh,
     openDrawerFilter,
     handleOpenFilters,
     handleCloseFilters,
@@ -55,14 +54,7 @@ const JobApplication = () => {
           }}
         >
           <Button
-            sx={styles?.refreshButton(theme)}
-            className="small"
-            onClick={handleRefresh}
-          >
-            <RefreshSharedIcon />
-          </Button>
-          <Button
-            sx={styles?.filterButton(theme)}
+            sx={styles?.filterButton}
             className="small"
             onClick={handleOpenFilters}
           >
