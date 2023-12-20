@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, useTheme, Button, Grid } from '@mui/material';
+import { Box, useTheme, Button, Grid, Tooltip } from '@mui/material';
 import CommonDrawer from '@/components/CommonDrawer';
 import Search from '@/components/Search';
 import TanstackTable from '@/components/Table/TanstackTable';
@@ -30,39 +30,27 @@ const JobApplication = () => {
 
   return (
     <Box>
-      <Box
-        mt={2}
-        mb={3}
-        sx={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          justifyContent: 'space-between',
-          gap: '10px',
-          padding: '0px 24px',
-        }}
-      >
-        <Search
-          setSearchBy={setSearchValue}
-          label="Search Here"
-          size="small"
-          width={'100%'}
-        />
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '10px',
-          }}
-        >
+      <Box sx={styles?.filterBar}>
+        <Box sx={styles?.search}>
+          <Search
+            setSearchBy={setSearchValue}
+            label="Search Here"
+            size="small"
+            width={'100%'}
+          />
+        </Box>
+        <Box sx={styles?.filterButtons}>
+          <Tooltip title={'Refresh Filter'} placement="top-start" arrow>
+            <Button
+              sx={styles?.refreshButton}
+              className="small"
+              onClick={handleRefresh}
+            >
+              <RefreshSharedIcon />
+            </Button>
+          </Tooltip>
           <Button
-            sx={styles?.refreshButton(theme)}
-            className="small"
-            onClick={handleRefresh}
-          >
-            <RefreshSharedIcon />
-          </Button>
-          <Button
-            sx={styles?.filterButton(theme)}
+            sx={styles?.filterButton}
             className="small"
             onClick={handleOpenFilters}
           >
