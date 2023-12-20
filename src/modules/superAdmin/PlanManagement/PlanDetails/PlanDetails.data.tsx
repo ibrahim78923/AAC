@@ -93,7 +93,7 @@ export const PlanDetailsDataColumnFunction: any = (
       cell: (info: any) => info?.getValue(),
     },
     {
-      //Todo: Getting description at index 0
+      //Todo: Getting createdAt at index 0
       accessorFn: (row: any) =>
         dayjs(row?.planProducts[0]?.createdAt)?.format(DATE_FORMAT?.UI),
       id: 'createdAt',
@@ -102,7 +102,7 @@ export const PlanDetailsDataColumnFunction: any = (
       cell: (info: any) => info?.getValue(),
     },
     {
-      //Todo: Getting description at index 0
+      //Todo: Getting status at index 0
       accessorFn: (row: any) => row?.planProducts[0]?.status,
       id: 'status',
       isSortable: true,

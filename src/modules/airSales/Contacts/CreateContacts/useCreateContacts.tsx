@@ -42,27 +42,27 @@ const useCreateContacts = () => {
 
   const onSubmit = async (values: any) => {
     const formData = new FormData();
-    formData.append('profilePicture', values?.profilePicture);
-    formData.append('email', values?.email);
-    formData.append('firstName', values?.firstName);
-    formData.append('lastName', values?.lastName);
-    formData.append('phoneNumber', values?.phoneNumber);
-    formData.append('whatsAppNumber', values?.whatsAppNumber);
-    formData.append(
+    formData?.append('profilePicture', values?.profilePicture);
+    formData?.append('email', values?.email);
+    formData?.append('firstName', values?.firstName);
+    formData?.append('lastName', values?.lastName);
+    formData?.append('phoneNumber', values?.phoneNumber);
+    formData?.append('whatsAppNumber', values?.whatsAppNumber);
+    formData?.append(
       'dateOfBirth',
       dayjs(values?.dateOfBirth)?.format(DATE_FORMAT?.API),
     );
-    formData.append('address', values?.address);
-    formData.append('jobTitle', values?.jobTitle);
-    formData.append('lifeCycleStageId', values?.lifeCycleStageId);
-    formData.append('statusId', values?.statusId);
-    formData.append(
+    formData?.append('address', values?.address);
+    formData?.append('jobTitle', values?.jobTitle);
+    formData?.append('lifeCycleStageId', values?.lifeCycleStageId);
+    formData?.append('statusId', values?.statusId);
+    formData?.append(
       'dataOfJoinig',
       dayjs(values?.dataOfJoinig)?.format(DATE_FORMAT?.API),
     );
 
     try {
-      const response = await postContacts({ body: formData }).unwrap();
+      const response = await postContacts({ body: formData })?.unwrap();
 
       if (response?.data) {
         try {
