@@ -55,6 +55,7 @@ const AddUser = ({
 
   const methods =
     tabTitle === 'SUPER_ADMIN' ? superAdminMethods : companyOwnerMethods;
+
   const { handleSubmit, reset, watch, setValue } = methods;
 
   const onSubmit = async (values: any) => {
@@ -110,18 +111,20 @@ const AddUser = ({
   };
 
   const organizationNumber = watch('crn');
-  const flatVal = watch('flat');
-  const buildingName = watch('buildingName');
-  const buildingNumber = watch('buildingNumber');
-  const city = watch('city');
-  const country = watch('country');
-  const streetName = watch('streetName');
-  const addressToggledValue = `${flatVal ?? ''},
-  house # ${buildingNumber ?? ''}
-   ${buildingName ?? ''},
-    ${streetName ?? ''} ,
-     ${city ?? ''}, 
-     ${country ?? ''}`;
+  // const flatVal = watch('flat');
+  // const buildingName = watch('buildingName');
+  // const buildingNumber = watch('buildingNumber');
+  // const city = watch('city');
+  // const country = watch('country');
+  // const streetName = watch('streetName');
+
+  // const addressToggledValue = `${flatVal ?? ''},
+  // house # ${buildingNumber ?? ''}
+  //  ${buildingName ?? ''},
+  //   ${streetName ?? ''} ,
+  //    ${city ?? ''},
+  //    ${country ?? ''}`;
+
   const [orgNumber, setOrgNumber] = useState('');
   debouncedSearch(organizationNumber, setOrgNumber);
   const { data, isSuccess, isError } = useGetAuthCompaniesQuery({
@@ -210,12 +213,12 @@ const AddUser = ({
                     disabled={
                       isOpenAddUserDrawer?.type === 'view' ? true : false
                     }
-                    value={
-                      item?.componentProps?.name === 'compositeAddress' &&
-                      isToggled
-                        ? addressToggledValue ?? ''
-                        : ''
-                    }
+                    // value={
+                    //   item?.componentProps?.name === 'compositeAddress' &&
+                    //     isToggled
+                    //     ? addressToggledValue ?? ''
+                    //     : null
+                    // }
                   >
                     {item?.componentProps?.select &&
                       item?.options?.map((option: any) => (

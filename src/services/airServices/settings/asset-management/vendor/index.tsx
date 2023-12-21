@@ -12,7 +12,15 @@ export const vendorsAPI = baseAPI?.injectEndpoints({
       }),
       providesTags: [TAG],
     }),
+    postNewVendor: builder?.mutation({
+      query: (payload) => ({
+        url: `${END_POINTS?.POST_VENDOR}`,
+        method: 'POST',
+        body: payload?.body,
+      }),
+      invalidatesTags: [TAG],
+    }),
   }),
 });
 
-export const { useGetVendorsListQuery } = vendorsAPI;
+export const { useGetVendorsListQuery, usePostNewVendorMutation } = vendorsAPI;

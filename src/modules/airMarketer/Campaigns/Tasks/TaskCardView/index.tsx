@@ -6,6 +6,8 @@ import { taskCardViewData } from './TaskCardView.data';
 
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { v4 as uuidv4 } from 'uuid';
+import { BackArrIcon } from '@/assets/icons';
+import { useRouter } from 'next/router';
 
 const TaskViewCard = () => {
   const theme: any = useTheme<Theme>();
@@ -31,8 +33,12 @@ const TaskViewCard = () => {
     newTaskCardData?.splice(destinationIndex, 0, draggedItem);
     setTaskCardData(newTaskCardData);
   };
+  const router = useRouter();
   return (
     <>
+      <Box mb={1} sx={{ cursor: 'pointer' }} onClick={() => router.back()}>
+        <BackArrIcon />
+      </Box>
       <Box
         sx={{
           display: 'flex',

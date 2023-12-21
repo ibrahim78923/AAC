@@ -1,5 +1,13 @@
 import React from 'react';
-import { Box, useTheme, Button, Grid, MenuItem, Menu } from '@mui/material';
+import {
+  Box,
+  useTheme,
+  Button,
+  Grid,
+  MenuItem,
+  Menu,
+  Tooltip,
+} from '@mui/material';
 
 import CommonDrawer from '@/components/CommonDrawer';
 import Search from '@/components/Search';
@@ -78,7 +86,7 @@ const JobPosting = () => {
           setSearchBy={setSearchValue}
           label="Search Here"
           size="small"
-          width={'100%'}
+          width={'260px'}
         />
         <Box
           sx={{
@@ -93,11 +101,7 @@ const JobPosting = () => {
             aria-haspopup="true"
             aria-expanded={actionMenuOpen ? 'true' : undefined}
             onClick={handleActionsClick}
-            sx={{
-              color: theme?.palette?.grey[500],
-              width: '112px',
-              border: '1.5px solid #e7e7e9',
-            }}
+            sx={styles?.actionBtn}
             className="small"
             disabled={isActionsDisabled}
           >
@@ -138,13 +142,15 @@ const JobPosting = () => {
               Delete
             </MenuItem>
           </Menu>
-          <Button
-            sx={styles?.refreshButton(theme)}
-            className="small"
-            onClick={handleRefresh}
-          >
-            <RefreshSharedIcon />
-          </Button>
+          <Tooltip title={'Refresh Filter'} placement="top-start" arrow>
+            <Button
+              sx={styles?.refreshButton(theme)}
+              className="small"
+              onClick={handleRefresh}
+            >
+              <RefreshSharedIcon />
+            </Button>
+          </Tooltip>
           <Button
             className="small"
             sx={styles?.filterButton(theme)}

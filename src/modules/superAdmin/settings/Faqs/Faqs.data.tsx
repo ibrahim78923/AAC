@@ -11,12 +11,6 @@ export const faqsFilterValidationSchema = Yup.object().shape({
   createdAt: Yup.string().trim().required('Field is Required'),
 });
 
-export const faqsFilterDefaultValues = {
-  faqCategory: '',
-  createdBy: '',
-  createdAt: null,
-};
-
 export const faqsFilterFiltersDataArray = () => {
   const { dataGetFaqs } = useFaqs();
   const createdByOptions = dataGetFaqs?.data?.faqs?.reduce(

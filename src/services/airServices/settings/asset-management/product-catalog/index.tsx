@@ -29,7 +29,7 @@ export const productCatalogAPI: any = baseAPI?.injectEndpoints({
         url: `${END_POINTS?.PRODUCT_CATALOG_LIST}`,
         method: 'GET',
         params: getExportProductCatalogParameter?.queryParams,
-        responseHandler: (response: { text: () => any }) => response?.text(),
+        responseHandler: (response: any) => response?.blob(),
       }),
       providesTags: [TAG],
     }),
