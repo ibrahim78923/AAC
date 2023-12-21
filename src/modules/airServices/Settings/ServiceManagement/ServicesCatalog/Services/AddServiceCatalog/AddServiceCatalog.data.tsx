@@ -15,7 +15,7 @@ export const addServiceCatalogData = [
     componentProps: {
       name: 'categoryName',
       label: 'Category Name',
-      placeholder: 'Enter Name',
+      placeholder: 'Enter name',
       fullWidth: true,
     },
 

@@ -63,7 +63,7 @@ const ActionButton = () => {
         })}
       </Menu>
 
-      {isDelete && (
+      {actionsModalDetails?.isClone && (
         <AlertModals
           message="Are you sure you want to delete this broadcast?"
           type="Delete SMS Broadcast"

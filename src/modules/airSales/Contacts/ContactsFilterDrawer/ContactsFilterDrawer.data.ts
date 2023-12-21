@@ -2,10 +2,9 @@ import { RHFDatePicker, RHFTextField } from '@/components/ReactHookForm';
 
 export const FilterData = [
   {
-    title: 'Contact Owner',
     componentProps: {
       name: 'ContactOwner',
-      label: 'Select',
+      label: 'Contact Owner',
       select: true,
     },
     options: [
@@ -17,10 +16,9 @@ export const FilterData = [
     component: RHFTextField,
   },
   {
-    title: 'Lifecycle Stage',
     componentProps: {
       name: 'LifecycleStage',
-      label: 'Select',
+      label: 'Lifecycle Stage',
       select: true,
     },
     options: [
@@ -32,10 +30,9 @@ export const FilterData = [
     component: RHFTextField,
   },
   {
-    title: 'Status',
     componentProps: {
       name: 'Status',
-      label: 'Select',
+      label: 'Status',
       select: true,
     },
     options: [
@@ -47,18 +44,16 @@ export const FilterData = [
     component: RHFTextField,
   },
   {
-    title: 'Created Date',
     componentProps: {
       name: 'CreatedDate',
-      label: 'Select',
+      label: 'Created Date',
     },
     component: RHFDatePicker,
   },
   {
-    title: 'Last Activity Date',
     componentProps: {
       name: 'LastActivityDate',
-      label: 'Select',
+      label: 'Last Activity Date',
       select: true,
     },
     options: [
@@ -73,10 +68,9 @@ export const FilterData = [
     component: RHFTextField,
   },
   {
-    title: 'Next Activity Date',
     componentProps: {
       name: 'NextActivityDate',
-      label: 'Select',
+      label: 'Next Activity Date',
       select: true,
     },
     options: [

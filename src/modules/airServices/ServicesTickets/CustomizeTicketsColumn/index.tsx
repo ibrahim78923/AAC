@@ -1,8 +1,8 @@
 import { Box, Checkbox, Typography } from '@mui/material';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
-import { v4 as uuidv4 } from 'uuid';
 import CommonDrawer from '@/components/CommonDrawer';
 import { useCustomizeTicketColumn } from './useCustomizeTicketsColumn';
+import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 export const CustomizeTicketsColumn = (props: any) => {
   const { isDrawerOpen } = props;
   const {
@@ -29,9 +29,9 @@ export const CustomizeTicketsColumn = (props: any) => {
           {' '}
           Selected ({customizeColumn?.length})
         </Typography>
-        {ticketsListsColumnPersist?.slice?.(1)?.map((column: any) => (
+        {ticketsListsColumnPersist?.slice?.(2)?.map((column: any) => (
           <Box
-            key={uuidv4()}
+            key={column?.id}
             display={'flex'}
             alignItems={'center'}
             flexWrap={'wrap'}
@@ -51,11 +51,17 @@ export const CustomizeTicketsColumn = (props: any) => {
               alignItems={'center'}
               justifyContent={'space-between'}
             >
-              <Typography variant="body1" whiteSpace={'nowrap'}>
+              <Typography
+                variant="body1"
+                color="slateblue.main"
+                whiteSpace={'nowrap'}
+              >
                 {column?.header}
               </Typography>
               <Box>
                 <Checkbox
+                  icon={<CheckboxIcon />}
+                  checkedIcon={<CheckboxCheckedIcon />}
                   color="primary"
                   name={column?.id}
                   checked={customizeColumn?.includes?.(column?.id)}

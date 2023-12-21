@@ -9,7 +9,6 @@ import {
   Grid,
   Menu,
   MenuItem,
-  TextField,
   Tooltip,
   Typography,
 } from '@mui/material';
@@ -33,19 +32,21 @@ import {
 } from '@/assets/icons';
 import { UserRoundImage } from '@/assets/images';
 
-import { documentFolderArr } from '@/mock/modules/SocialComponents/Documents';
-
 import useDocuments from './useDocuments';
 
 import { FormProvider } from '@/components/ReactHookForm';
-
-import { v4 as uuidv4 } from 'uuid';
+import { DATE_FORMAT } from '@/constants';
 
 import { styles } from './Documents.style';
 import { dataArray } from './Documents.data';
 
-const Documents = (props: any) => {
-  const { toggle } = props;
+import { v4 as uuidv4 } from 'uuid';
+import dayjs from 'dayjs';
+import { useRouter } from 'next/router';
+import { AIR_MARKETER } from '@/routesConstants/paths';
+
+const Documents = () => {
+  const navigate = useRouter();
   const {
     value,
     setValue,
@@ -56,7 +57,6 @@ const Documents = (props: any) => {
     theme,
     isOpenFolderDrawer,
     setIsOpenFolderDrawer,
-    isEditOpenModal,
     setIsEditOpenModal,
     isOpenDelete,
     setIsOpenDelete,
@@ -66,6 +66,12 @@ const Documents = (props: any) => {
     handleClose,
     FolderAdd,
     onSubmit,
+    documentData,
+    handleCheckboxChange,
+    checkboxChecked,
+    modalHeading,
+    setModalHeading,
+    deleteUserFolders,
   } = useDocuments();
 
   return (
@@ -284,8 +290,10 @@ const Documents = (props: any) => {
         <Grid item lg={6} md={6} sm={6} xs={12} sx={styles?.actionButtonBox}>
           <Button
             variant="outlined"
+            className="small"
             onClick={() => {
               setIsOpenModal(true);
+              setModalHeading('Create New Folder');
             }}
             sx={styles?.createFolderButton(theme)}
           >
@@ -318,6 +326,7 @@ const Documents = (props: any) => {
               aria-expanded={open ? 'true' : undefined}
               onClick={handleClick}
               className="small"
+              disabled={checkboxChecked.length > 0 ? false : true}
             >
               Action
               <ArrowDropDownIcon
@@ -345,7 +354,8 @@ const Documents = (props: any) => {
               <MenuItem
                 onClick={() => {
                   handleClose();
-                  setIsEditOpenModal(true);
+                  setModalHeading('Edit Name');
+                  setIsOpenModal(true);
                 }}
               >
                 Rename
@@ -378,7 +388,7 @@ const Documents = (props: any) => {
             </Button>
           </Box>
         </Grid>
-        {documentFolderArr?.map((item: any) => {
+        {documentData?.map((item: any) => {
           return (
             <>
               <Grid item lg={3} md={3} sm={6} xs={12}>
@@ -387,77 +397,100 @@ const Documents = (props: any) => {
                     border: `1.16px solid ${theme?.palette?.custom?.pale_gray}`,
                     borderRadius: '11.56px',
                     padding: '0.6rem',
-                    cursor: 'pointer',
+                    '&:hover': {
+                      boxShadow: ' 0px 0px 5px 3px #A0E5DB40',
+                      border: 'unset',
+                    },
                   }}
                   key={uuidv4()}
-                  onClick={() => {
-                    toggle();
-                  }}
                 >
                   <Box
                     sx={{
                       display: 'flex',
                       justifyContent: 'space-between',
                       alignItems: 'center',
+                      mb: '10px',
                     }}
                   >
                     <Box sx={styles?.folderBackground(theme)}>
                       <FolderIcon />
                     </Box>
-                    <Box>
-                      <Checkbox />
+                    <Box sx={{ zIndex: 999, cursor: 'unset' }}>
+                      <Checkbox
+                        checked={checkboxChecked.includes(item?._id)}
+                        onChange={() => {
+                          handleCheckboxChange(item?._id);
+                          setIsEditOpenModal(item);
+                        }}
+                      />
                     </Box>
                   </Box>
-                  <Grid item lg={6} md={12} sm={12} xs={12}>
-                    <Typography
-                      variant="h6"
-                      sx={{
-                        fontWeight: 500,
-                        color: `${theme?.palette?.grey[600]}`,
+                  <Grid item lg={12} md={12} sm={12} xs={12}>
+                    <Box
+                      sx={{ cursor: 'pointer' }}
+                      onClick={() => {
+                        navigate.push({
+                          pathname: AIR_MARKETER?.COMMON_DOCUMENTS_FOLDER,
+                          query: {
+                            folder: item?._id,
+                            name: item?.name,
+                          },
+                        });
                       }}
                     >
-                      {item?.name}
-                    </Typography>
-                    <Typography
-                      variant="body3"
-                      sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '5px',
-                        color: `${theme?.palette?.grey[900]}`,
-                        fontWeight: 400,
-                      }}
-                    >
-                      Created By:
                       <Typography
+                        variant="h6"
                         sx={{
-                          color: `${theme?.palette?.custom?.main}`,
                           fontWeight: 500,
+                          color: `${theme?.palette?.grey[600]}`,
                         }}
                       >
-                        {item?.createdBy}
+                        {item?.name}
                       </Typography>
-                    </Typography>
-                    <Typography
-                      variant="body3"
-                      sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '5px',
-                        color: `${theme?.palette?.grey[900]}`,
-                        fontWeight: 400,
-                      }}
-                    >
-                      Created Date:
                       <Typography
+                        variant="body3"
                         sx={{
-                          color: `${theme?.palette?.custom?.main}`,
-                          fontWeight: 500,
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '5px',
+                          color: `${theme?.palette?.grey[900]}`,
+                          fontWeight: 400,
                         }}
                       >
-                        {item?.createdAt}
+                        Created By:
+                        <Typography
+                          variant="subtitle2"
+                          sx={{
+                            color: `${theme?.palette?.custom?.main}`,
+                            fontWeight: 500,
+                          }}
+                        >
+                          {item?.createdBy?.firstName}
+                          {item?.createdBy?.lastName}
+                        </Typography>
                       </Typography>
-                    </Typography>
+                      <Typography
+                        variant="body3"
+                        sx={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '5px',
+                          color: `${theme?.palette?.grey[900]}`,
+                          fontWeight: 400,
+                        }}
+                      >
+                        Created Date:
+                        <Typography
+                          variant="subtitle2"
+                          sx={{
+                            color: `${theme?.palette?.custom?.main}`,
+                            fontWeight: 500,
+                          }}
+                        >
+                          {dayjs(item?.createdAt).format(DATE_FORMAT.API)}
+                        </Typography>
+                      </Typography>
+                    </Box>
                   </Grid>
                 </Box>
               </Grid>
@@ -467,12 +500,12 @@ const Documents = (props: any) => {
       </Grid>
       <CommonModal
         open={isOpenModal}
-        handleClose={() => setIsOpenModal(false)}
+        handleCancel={() => setIsOpenModal(false)}
         handleSubmit={() => onSubmit()}
-        title={'Create new folder'}
-        okText={'Create Folder'}
+        title={`${modalHeading}`}
+        okText={modalHeading === 'Edit Name' ? 'Update' : 'Create Folder'}
         cancelText="Cancel"
-        footerFill={true}
+        footerFill={false}
         footer={true}
       >
         <FormProvider methods={FolderAdd}>
@@ -488,49 +521,12 @@ const Documents = (props: any) => {
           </Grid>
         </FormProvider>
       </CommonModal>
-      <CommonModal
-        open={isEditOpenModal}
-        handleClose={() => setIsEditOpenModal(false)}
-        handleSubmit={function (): void {
-          throw new Error('Function not implemented.');
-        }}
-        title={'Edit Name'}
-        okText={'Save'}
-        footerFill={undefined}
-      >
-        <TextField type="text" placeholder="Enter Name" fullWidth />
-        <Box
-          sx={{
-            paddingTop: '10px',
-            display: 'flex',
-            justifyContent: 'flex-end',
-            gap: '1rem',
-          }}
-        >
-          <Button
-            variant="outlined"
-            className="small"
-            onClick={() => setIsEditOpenModal(false)}
-          >
-            Cancel
-          </Button>
-          <Button
-            variant="contained"
-            className="small"
-            onClick={() => setIsEditOpenModal(false)}
-          >
-            Save
-          </Button>
-        </Box>
-      </CommonModal>
       <AlertModals
         message={'Are you sure you want to delete this folder?'}
         type={'delete'}
         open={isOpenDelete}
         handleClose={() => setIsOpenDelete(false)}
-        handleSubmit={function (): void {
-          throw new Error('Function not implemented.');
-        }}
+        handleSubmitBtn={deleteUserFolders}
       />
     </>
   );

@@ -58,6 +58,7 @@ export const AIR_SALES = {
   SALES_VIEW_INVOICES: '/air-sales/invoices/view-invoices',
   SALES_CREATE_INVOICES: '/air-sales/invoices/create-invoices',
   DEAL: ' /air-sales/deals',
+  CONTACTS: '/air-sales/contacts/view-details',
 };
 
 export const SUPER_ADMIN_PLAN_MANAGEMENT: any = {
@@ -84,7 +85,7 @@ export const airMarketingCalendar = {
 
 const AIR_MARKETING_PAGE = '/air-marketer';
 export const AIR_MARKETER = {
-  root: AIR_MARKETING_PAGE,
+  root: path(AIR_MARKETING_PAGE, '/dashboard'),
   PAID_ADS: path(AIR_MARKETING_PAGE, '/paid-ads'),
   CREATE_AD: path(AIR_MARKETING_PAGE, '/paid-ads/create-ad'),
   ENGAGEMENT_ADS: path(
@@ -107,11 +108,18 @@ export const AIR_MARKETER = {
   REPORTS_EMAIL: path(AIR_MARKETING_PAGE, '/reports/email-marketing'),
   REPORTS_CAMPAIGNS: path(AIR_MARKETING_PAGE, '/reports/add-campaigns'),
   CAMPAIGNS: path(AIR_MARKETING_PAGE, '/campaigns'),
+  TASK_CARD: path(AIR_MARKETING_PAGE, '/campaigns/task-card'),
   SETTINGS: path(AIR_MARKETING_PAGE, '/settings'),
   CREATE_TEMPLATE: path(AIR_MARKETING_PAGE, '/sms-marketing/create-template'),
   VERIFY_EMAIL: path(AIR_MARKETING_PAGE, '/lead-capture/verify-email'),
   CREATE_FORM: path(AIR_MARKETING_PAGE, '/lead-capture/create-form'),
   ALL_TABLE: path(AIR_MARKETING_PAGE, '/lead-capture/forms'),
+  CREATE_NEW_EMAIL: path(
+    AIR_MARKETING_PAGE,
+    '/email-marketing/create-new-email',
+  ),
+  COMPARE_EMAIL: path(AIR_MARKETING_PAGE, '/email-marketing/compare-email'),
+
   SOCIAL_INBOX_SETTINGS: path(
     AIR_MARKETING_PAGE,
     '/social-marketing/social-inbox/settings',
@@ -133,21 +141,45 @@ export const AIR_MARKETER = {
     AIR_MARKETING_PAGE,
     '/whatsapp-marketing/update-broadcast',
   ),
+
   VIEW_PERFORMANCE: path(AIR_MARKETING_PAGE, '/campaigns/view-performance'),
   ALL_VIEW: path(AIR_MARKETING_PAGE, '/campaigns/all-view'),
+  COMMON_DOCUMENTS: path(AIR_MARKETING_PAGE, '/my-documents'),
+  COMMON_DOCUMENTS_FOLDER: path(AIR_MARKETING_PAGE, '/my-documents/my-folders'),
 };
 
-const AIR_OPERATIONS_PAGE = 'air-operation';
-
+const AIR_OPERATIONS_PAGE = '/air-operations';
 export const AIR_OPERATION = {
   root: AIR_OPERATIONS_PAGE,
-  WORK_FLOW: path(AIR_OPERATIONS_PAGE, '/workflow'),
+  WORK_FLOW: path(AIR_OPERATIONS_PAGE, '/workflow-automation'),
   DATA_MANAGEMENT: path(AIR_OPERATIONS_PAGE, '/data-management'),
   INTEGRATIONS: path(AIR_OPERATIONS_PAGE, '/integrations'),
   REPORTS: path(AIR_OPERATIONS_PAGE, '/reports'),
-  ROLE_AND_RIGHT: path(AIR_OPERATIONS_PAGE, '/role-and-rights'),
+  ROLE_AND_RIGHT: path(AIR_OPERATIONS_PAGE, '/roles-and-right'),
   USER_MANAGEMENT: path(AIR_OPERATIONS_PAGE, '/user-management'),
 };
+
+const LOYALTY_PROGRAM_PAGE = '/air-loyalty-program';
+export const LOYALTY_PROGRAM = {
+  root: LOYALTY_PROGRAM_PAGE,
+  LOYALTY_REWARD: path(LOYALTY_PROGRAM_PAGE, '/loyalty/rewards'),
+  LOYALTY_TRANSACTIONS: path(LOYALTY_PROGRAM_PAGE, '/loyalty/transactions'),
+  LOYALTY_RULES_TIERS: path(LOYALTY_PROGRAM_PAGE, '/loyalty/rules-and-tiers'),
+  LOYALTY_RULES_VOUCHERS: path(LOYALTY_PROGRAM_PAGE, '/loyalty/vouchers'),
+  GIFT_CARDS: path(LOYALTY_PROGRAM_PAGE, '/gift-cards'),
+  GIFT_CARDS_TRANSACTIONS: path(
+    LOYALTY_PROGRAM_PAGE,
+    '/gift-cards/transactions',
+  ),
+  GIFT_CARDS_SETTLEMENTS: path(LOYALTY_PROGRAM_PAGE, '/gift-cards/settlements'),
+  GIFT_CARDS_SETTLED: path(LOYALTY_PROGRAM_PAGE, '/gift-cards/settled'),
+  PREPARED_FUNDS_TRANSACTIONS: path(
+    LOYALTY_PROGRAM_PAGE,
+    '/prepaid/funds-transactions',
+  ),
+  SETTINGS: path(LOYALTY_PROGRAM_PAGE, '/settings'),
+};
+
 export const ORG_ADMIN = {
   DASHBOARD_EDIT_PROFILE: '/org-admin/dashboard/edit-profile',
 };

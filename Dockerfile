@@ -1,8 +1,8 @@
 FROM node:18-alpine AS builder
 RUN mkdir -p /app
 WORKDIR /app
-COPY package*.json /app/
-RUN npm i -f 
+COPY package*.json .
+RUN npm i -f
 COPY . .
 ENV NODE_OPTIONS="--max-old-space-size=4096"
 RUN npm run build
@@ -17,3 +17,5 @@ COPY --from=builder /app/next-env.d.ts ./
 COPY --from=builder /app/node_modules ./node_modules
 EXPOSE 3000
 CMD ["npm", "run", "start"]
+
+

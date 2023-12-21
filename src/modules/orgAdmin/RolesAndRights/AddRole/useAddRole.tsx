@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useRouter } from 'next/router';
 
@@ -8,46 +8,96 @@ import { useForm } from 'react-hook-form';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import { addUserDefault, addUserSchema } from '../RoleAndRights.data';
+import { addUserSchema } from '../RoleAndRights.data';
+
 import { rolesAndRightsAPI } from '@/services/orgAdmin/roles-and-rights';
+import { enqueueSnackbar } from 'notistack';
+
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { ORG_ADMIN } from '@/constants';
+import { useSearchParams } from 'next/navigation';
 
 const useAddRole = () => {
-  const navigate = useRouter();
   const theme = useTheme();
+  const navigate = useRouter();
+  const roleId = useSearchParams().get('id');
+
+  const { useLazyGetPermissionsRolesByIdQuery } = rolesAndRightsAPI;
+
+  const [trigger, { data: viewPerdetails }] =
+    useLazyGetPermissionsRolesByIdQuery();
+
   const [isSwitchVal, setIsSwitchVal] = useState(false);
 
-  const methods: any = useForm({
+  const roleDefaultValues: any = {
+    productId: '',
+    companyAccountRoleId: '',
+    name: '',
+    description: '',
+    status: '',
+  };
+
+  const methods: any = useForm<any>({
     resolver: yupResolver(addUserSchema),
-    defaultValues: addUserDefault,
+    defaultValues: roleDefaultValues,
   });
 
-  const { handleSubmit, watch } = methods;
-  const productVal = watch('productType');
+  const { handleSubmit, watch, setValue } = methods;
+  const productVal = watch('productId');
 
-  const onSubmit = async () => {
-    // console.log('values', data)
-  };
+  useEffect(() => {
+    trigger(roleId);
+  }, [roleId]);
+
+  useEffect(() => {
+    const data = viewPerdetails?.data;
+    const fieldsToSet: any = {
+      productId: data?.productDetails?.id,
+      companyAccountRoleId: data?.companyAccountDetails?.id,
+      name: data?.name,
+      description: data?.description,
+      status: data?.status,
+    };
+    for (const key in fieldsToSet) {
+      setValue(key, fieldsToSet[key]);
+    }
+  }, [viewPerdetails]);
 
   const handleSwitch = () => {
     setIsSwitchVal(!isSwitchVal);
   };
 
-  const { useGetProductsPermissionsQuery } = rolesAndRightsAPI;
+  const { useGetProductsPermissionsQuery, useUpdateRoleRightsMutation } =
+    rolesAndRightsAPI;
+
   const { data: productPermissionsData } = useGetProductsPermissionsQuery({
     productId: productVal,
   });
 
+  const [updateRoleRights] = useUpdateRoleRightsMutation();
+
+  const onSubmit = async (values: any) => {
+    updateRoleRights({ id: roleId, body: values });
+    navigate.push({
+      pathname: ORG_ADMIN?.ROLES_AND_RIGHTS,
+      query: { type: 'add' },
+    });
+    enqueueSnackbar('User updated successfully', {
+      variant: NOTISTACK_VARIANTS?.SUCCESS,
+    });
+  };
+
   return {
-    isSwitchVal,
+    productPermissionsData,
     setIsSwitchVal,
+    handleSubmit,
+    handleSwitch,
+    isSwitchVal,
+    productVal,
     navigate,
     onSubmit,
-    handleSwitch,
     methods,
     theme,
-    handleSubmit,
-    productVal,
-    productPermissionsData,
   };
 };
 

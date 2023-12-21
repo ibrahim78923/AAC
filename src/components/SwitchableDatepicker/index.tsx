@@ -13,10 +13,12 @@ import { styles } from './SwitchableDatepicker.style';
 import { DATE_FORMAT } from '@/constants';
 
 const SwitchableDatepicker = ({
-  renderInput = 'button',
+  renderInput,
   dateValue,
+  isCalendarOpen,
   setDateValue,
   handleDateSubmit,
+  placement = 'left',
 }: any) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState('today');
@@ -112,9 +114,22 @@ const SwitchableDatepicker = ({
   // Datepicker custom container
   const Container = ({ children }: any) => {
     return (
-      <Box sx={styles.dpContainer}>
-        <Box sx={styles.dpContent}>
-          <Box sx={styles.dpSidebar}>
+      <Box
+        sx={{
+          bgcolor: (theme: any) => theme.palette.common?.white,
+          border: (theme: any) =>
+            `1px solid ${theme?.palette?.custom?.white_rock}`,
+          borderRadius: '4px',
+          maxWidth: '410px',
+          position: 'absolute',
+          top: '100%',
+          left: placement === 'left' ? '0' : 'auto',
+          right: placement === 'right' ? '0' : 'auto',
+          zIndex: '1201',
+        }}
+      >
+        <Box sx={styles?.dpContent}>
+          <Box sx={styles?.dpSidebar}>
             <List component={'nav'} sx={styles.dpSidebarList}>
               <ListItemButton
                 selected={selectedIndex === 'today'}
@@ -195,32 +210,34 @@ const SwitchableDatepicker = ({
 
   return (
     <Box sx={{ position: 'relative' }}>
-      {renderInput === 'button' ? (
-        <Button
-          className="small"
-          variant="outlined"
-          color="inherit"
-          onClick={handleClick}
-        >
-          <CanlendarButtonIcon />
-          <Box sx={{ ml: '8px', display: 'inline-flex' }}>Date</Box>
-        </Button>
-      ) : (
-        <Stack
-          direction="row"
-          gap={1}
-          onClick={handleClick}
-          sx={{ cursor: 'pointer' }}
-        >
-          <PrimaryCalendarIcon />
-          {dateString}
-          <Stack sx={{ cursor: 'pointer' }} direction="row">
-            <ArrowSquareLeftIcon />
-            <ArrowSquareRightIcon />
+      {renderInput &&
+        (renderInput === 'button' ? (
+          <Button
+            className="small"
+            variant="outlined"
+            color="inherit"
+            onClick={handleClick}
+          >
+            <CanlendarButtonIcon />
+            <Box sx={{ ml: '8px', display: 'inline-flex' }}>Date</Box>
+          </Button>
+        ) : (
+          <Stack
+            direction="row"
+            gap={1}
+            onClick={handleClick}
+            sx={{ cursor: 'pointer' }}
+          >
+            <PrimaryCalendarIcon />
+            {dateString}
+            <Stack sx={{ cursor: 'pointer' }} direction="row">
+              <ArrowSquareLeftIcon />
+              <ArrowSquareRightIcon />
+            </Stack>
           </Stack>
-        </Stack>
-      )}
-      {isOpen && (
+        ))}
+
+      {(isCalendarOpen || isOpen) && (
         <>
           <DatePicker
             inline

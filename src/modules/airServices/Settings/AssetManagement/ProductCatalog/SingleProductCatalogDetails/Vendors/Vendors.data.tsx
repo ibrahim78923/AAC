@@ -1,24 +1,13 @@
 import { EditYellowBGPenIcon } from '@/assets/icons';
 import { DeleteForever } from '@mui/icons-material';
 import { Box } from '@mui/material';
-import dayjs from 'dayjs';
-
-export const vendorsData = [
-  {
-    _id: 1,
-    vendorName: "Andrea's laptop",
-    price: 'Andrea',
-    warrantyValidity: '2023-11-06T10:34:00.891Z',
-    quantity: '4',
-  },
-];
 
 export const getVendorsColumns = (
   setIsDeleteModalOpen: any,
   setIsUpsertModalOpen: any,
 ) => [
   {
-    accessorFn: (row: any) => row?.vendorName,
+    accessorFn: (row: any) => row?.vendor?.name,
     id: 'vendorName',
     isSortable: true,
     header: 'Vendor Name',
@@ -32,12 +21,11 @@ export const getVendorsColumns = (
     cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row?.warrantyValidity,
+    accessorFn: (row: any) => row?.months,
     id: 'warrantyValidity',
     isSortable: true,
     header: 'Warranty/Validity',
-    cell: (info: any) =>
-      dayjs(info?.getValue()).format('dddd, MMMM DD, YYYY - HH:mm'),
+    cell: (info: any) => `${info?.getValue()}Yrs ${info?.getValue()}Months`,
   },
   {
     accessorFn: (row: any) => row?.quantity,

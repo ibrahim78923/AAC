@@ -32,7 +32,7 @@ export const MoveToCategory = (prop: any) => {
           justifyContent={'space-between'}
           alignItems={'center'}
         >
-          <Typography variant="h4">Move To Category</Typography>
+          <Typography variant="h4">Move to Category</Typography>
 
           <CloseIcon sx={{ cursor: 'pointer' }} onClick={handleClose} />
         </DialogTitle>
@@ -48,7 +48,13 @@ export const MoveToCategory = (prop: any) => {
             />
           </DialogContent>
           <DialogActions>
-            <LoadingButton onClick={handleClose}>cancel</LoadingButton>
+            <LoadingButton
+              onClick={handleClose}
+              variant="outlined"
+              color="secondary"
+            >
+              cancel
+            </LoadingButton>
             <LoadingButton variant="contained" type="submit">
               Move
             </LoadingButton>

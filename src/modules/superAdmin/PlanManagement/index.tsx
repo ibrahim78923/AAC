@@ -10,6 +10,7 @@ import {
   MenuItem,
   Stack,
   Grid,
+  Tooltip,
 } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
@@ -25,7 +26,7 @@ import { styles } from './PlanManagement.style';
 
 import { isNullOrEmpty } from '@/utils';
 
-import { FilterSharedIcon, PlusIcon } from '@/assets/icons';
+import { FilterSharedIcon, PlusIcon, RefreshTasksIcon } from '@/assets/icons';
 
 import { v4 as uuidv4 } from 'uuid';
 import { PlanDetailsDataColumnFunction } from './PlanDetails/PlanDetails.data';
@@ -97,6 +98,7 @@ const PlanManagement = () => {
             label="Search here"
             width={'260px'}
             searchBy={searchBy}
+            size="small"
             fullWidth
             setSearchBy={setSearchBy}
           />
@@ -122,7 +124,11 @@ const PlanManagement = () => {
           >
             Actions <ArrowDropDownIcon />
           </Button>
-
+          <Tooltip title={'Refresh Filter'}>
+            <Button variant="outlined" color="inherit" className="small">
+              <RefreshTasksIcon />
+            </Button>
+          </Tooltip>
           <Menu
             id="basic-menu"
             anchorEl={anchorEl}

@@ -1,18 +1,11 @@
-import { RHFDatePicker } from '@/components/ReactHookForm';
+import { RHFSwitchableDatepicker } from '@/components/ReactHookForm';
 import RHFSelect from '@/components/ReactHookForm/RHFSelect';
 import { CommonAPIS } from '@/services/common-APIs';
-import * as Yup from 'yup';
-
-export const rolesValidationSchema = Yup.object().shape({
-  product: Yup.string(),
-  status: Yup.string(),
-  createdDate: Yup.date(),
-});
 
 export const rolesDefaultValues = {
   product: '',
   status: '',
-  createdDate: new Date(),
+  date: null,
 };
 
 export const rolesFiltersArray = () => {
@@ -54,10 +47,11 @@ export const rolesFiltersArray = () => {
     {
       componentProps: {
         label: 'Created Date',
-        name: 'dateStart',
+        name: 'date',
+        placeholder: 'Select',
         fullWidth: true,
       },
-      component: RHFDatePicker,
+      component: RHFSwitchableDatepicker,
       md: 12,
     },
   ];
