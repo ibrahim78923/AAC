@@ -20,13 +20,13 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
 import TanstackTable from '@/components/Table/TanstackTable';
-import CustomPagination from '@/components/CustomPagination';
+// import CustomPagination from '@/components/CustomPagination';
 import { AlertModals } from '@/components/AlertModals';
 
 import { columns, dataArray, permissionArr } from './RolesRight.data';
 import useRoleAndRight from './useRoleAndRight';
 
-import { rolesAndRightTableData } from '@/mock/modules/airSales/SettingSales';
+// import { rolesAndRightTableData } from '@/mock/modules/airSales/SettingSales';
 
 import { v4 as uuidv4 } from 'uuid';
 import Search from '@/components/Search';
@@ -45,6 +45,11 @@ const RolesRight = () => {
     expanded,
     methods,
     theme,
+    getPermissions,
+    setPage,
+    setPageLimit,
+    setFilterValues,
+    filterValues,
   } = useRoleAndRight();
 
   const columnsProps = {
@@ -84,7 +89,13 @@ const RolesRight = () => {
           gap={1}
           my={2}
         >
-          <Search placeholder="Search by Role Name" size="small" />
+          <Search
+            placeholder="Search by Role Name"
+            size="small"
+            onChange={(e: any) => {
+              setFilterValues({ ...filterValues, search: e?.target?.value });
+            }}
+          />
 
           <ActionButton
             checkedRows={checkedRows}
@@ -93,11 +104,15 @@ const RolesRight = () => {
           />
         </Stack>
         <Grid>
-          <TanstackTable columns={columnParams} data={rolesAndRightTableData} />
-          <CustomPagination
-            count={1}
-            rowsPerPageOptions={[1, 2]}
-            entriePages={1}
+          <TanstackTable
+            columns={columnParams}
+            data={getPermissions?.data?.companyaccountroles}
+            totalRecords={getPermissions?.data?.meta?.total}
+            onPageChange={(page: any) => setPage(page)}
+            setPage={setPage}
+            setPageLimit={setPageLimit}
+            count={getPermissions?.data?.meta?.pages}
+            isPagination
           />
         </Grid>
       </Box>
