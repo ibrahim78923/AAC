@@ -70,7 +70,7 @@ const chatSlice = createSlice({
 
     setUpdateChatContacts(state, action) {
       const updatedChatContacts = state?.chatContacts?.map((chat: any) => {
-        if (chat.ownerId === action?.payload?.ownerId) {
+        if (chat?.ownerId === action?.payload?.ownerId) {
           return {
             ...chat,
             _id: action?.payload?.chatId,
