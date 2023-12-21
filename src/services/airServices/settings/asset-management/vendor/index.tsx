@@ -20,7 +20,29 @@ export const vendorsAPI = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
+    getExportNewVendor: builder?.query({
+      query: (getExportNewVendorParameter: any) => ({
+        url: `${END_POINTS?.VENDOR_LIST}`,
+        method: 'GET',
+        params: getExportNewVendorParameter?.queryParams,
+        responseHandler: (response: any) => response?.blob(),
+      }),
+      providesTags: [TAG],
+    }),
+    patchNewVendor: builder?.mutation({
+      query: (putNewVendorParameter: any) => ({
+        url: `${END_POINTS?.EDIT_NEW_VENDOR}`,
+        method: 'PATCH',
+        body: putNewVendorParameter?.body,
+      }),
+      invalidatesTags: [TAG],
+    }),
   }),
 });
 
-export const { useGetVendorsListQuery, usePostNewVendorMutation } = vendorsAPI;
+export const {
+  useGetVendorsListQuery,
+  usePostNewVendorMutation,
+  useLazyGetExportNewVendorQuery,
+  usePatchNewVendorMutation,
+} = vendorsAPI;
