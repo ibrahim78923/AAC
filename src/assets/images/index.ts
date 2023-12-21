@@ -245,3 +245,7 @@ export { default as GiftCongratsImage } from './modules/loyaltyProgram/GiftCards
 export { default as GiftScanImage } from './modules/loyaltyProgram/GiftCards/Gift-scan-image.png';
 export { default as VoucherImage } from './shared/voucher-image.png';
 export { default as ExportModalImage } from './shared/export-modal-image.png';
+
+export { default as TaskAvatarImage } from './modules/airMarketer/Campaigns/task-avatar.png';
+export { default as CampaignAvatarImage } from './modules/airMarketer/Campaigns/campaign-avatar.png';
+export { default as YouTubeAvatarImage } from './modules/airMarketer/Campaigns/youtube-avatar.png';
