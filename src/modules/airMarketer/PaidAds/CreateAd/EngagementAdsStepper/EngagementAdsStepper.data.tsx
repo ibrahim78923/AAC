@@ -13,22 +13,19 @@ import * as Yup from 'yup';
 export const adValidation = Yup.object().shape({
   account: Yup.string().required('Field is Required'),
   fbPage: Yup.string().required('Field is Required'),
-  fbCampaign: Yup.string().required('Field is Required'),
+  // fbCampaign: Yup.string().required('Field is Required'),
   date: Yup.string().required('Field is Required'),
   creative: Yup.string().required('Field is Required'),
   existingAccount: Yup.string().required('Field is Required'),
   // websiteUrl: Yup.string().required('Field is Required'),
-  image: Yup.string().required('Field is Required'),
-  text: Yup.string().required('Field is Required'),
-  headline: Yup.string().required('Field is Required'),
-  callToAction: Yup.string().required('Field is Required'),
+  // image: Yup.string().required('Field is Required'),
+  // text: Yup.string().required('Field is Required'),
+  // headline: Yup.string().required('Field is Required'),
+  // callToAction: Yup.string().required('Field is Required'),
 });
 export const taregtValidation = Yup.object().shape({
   category: Yup.string().required('Field is Required'),
-  audience: Yup.string().required('Field is Required'),
   location: Yup.string().required('Field is Required'),
-  startAge: Yup.string().required('Field is Required'),
-  endAge: Yup.string().required('Field is Required'),
 });
 export const budgetValidation = Yup.object().shape({
   budget: Yup.string().required('Field is Required'),

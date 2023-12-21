@@ -16,11 +16,11 @@ const useTasks = () => {
     const isChecked = event?.target?.checked;
 
     if (isChecked) {
-      setSelectedCheckboxes((prevSelected) => [...prevSelected, row]);
+      setSelectedCheckboxes((prevSelected: any) => [...prevSelected, row]);
     } else {
       setSelectedCheckboxes(
-        (prevSelected) =>
-          prevSelected?.filter((item) => item?._id !== row?._id),
+        (prevSelected: any) =>
+          prevSelected?.filter((item: any) => item?._id !== row?._id),
       );
     }
   };

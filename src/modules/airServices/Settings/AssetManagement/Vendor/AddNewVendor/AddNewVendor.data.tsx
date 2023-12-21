@@ -3,7 +3,7 @@ import * as Yup from 'yup';
 
 export const newVendorValidationSchema = Yup?.object()?.shape({
   name: Yup?.string()?.required('Required'),
-  contactNumber: Yup?.string(),
+  contactName: Yup?.string(),
   phone: Yup?.string(),
   mobiles: Yup?.string(),
   email: Yup?.string(),
@@ -17,7 +17,7 @@ export const newVendorValidationSchema = Yup?.object()?.shape({
 
 export const newVendorDefaultValues = {
   name: '',
-  contactNumber: '',
+  contactName: '',
   phone: '',
   mobile: '',
   email: '',
@@ -45,8 +45,8 @@ export const newVendorDataArray = [
   {
     id: 2,
     componentProps: {
-      name: 'contactNumber',
-      label: 'Contact Number',
+      name: 'contactName',
+      label: 'Contact Name',
       fullWidth: true,
     },
 

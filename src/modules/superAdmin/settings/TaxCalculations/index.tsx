@@ -7,6 +7,7 @@ import {
   Grid,
   Menu,
   MenuItem,
+  Tooltip,
 } from '@mui/material';
 
 import Search from '@/components/Search';
@@ -80,19 +81,12 @@ const TaxCalculation = () => {
     <Box
       sx={{
         borderRadius: '15px',
-        border: '1px solid #EAECF0',
+        border: (theme: any) =>
+          `1px solid ${theme?.palette?.custom?.light_lavender_gray}`,
       }}
     >
-      <Box sx={{ padding: '16px 24px' }}>
-        <Box
-          sx={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            marginBottom: '19px',
-          }}
-        >
+      <Box sx={styles?.pageHeader}>
+        <Box sx={styles?.heading}>
           <Typography variant="h3" sx={{ fontWeight: '600' }}>
             Tax Calculation
           </Typography>
@@ -104,45 +98,23 @@ const TaxCalculation = () => {
             <PlusShared /> &nbsp; Add
           </Button>
         </Box>
-        <Box
-          mt={2}
-          mb={3}
-          sx={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            alignItems: 'center',
-            gap: '10px',
-            justifyContent: 'space-between',
-          }}
-        >
-          <Search
-            setSearchBy={setSearchValue}
-            label="Search Here"
-            size="small"
-            width={'100%'}
-          />
-          <Box
-            sx={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              alignItems: 'center',
-              gap: '10px',
-            }}
-          >
+        <Box sx={styles?.filterBar}>
+          <Box sx={styles?.search}>
+            <Search
+              setSearchBy={setSearchValue}
+              label="Search Here"
+              size="small"
+              width={'100%'}
+            />
+          </Box>
+          <Box sx={styles?.filterButtons}>
             <Button
               id="basic-button"
               aria-controls={actionMenuOpen ? 'basic-menu' : undefined}
               aria-haspopup="true"
               aria-expanded={actionMenuOpen ? 'true' : undefined}
               onClick={handleActionsMenuClick}
-              sx={{
-                color: theme?.palette?.grey[500],
-                width: '112px',
-                border: '1.5px solid #e7e7e9',
-                '@media (max-width:581px)': {
-                  width: '100%',
-                },
-              }}
+              sx={styles?.actionBtn}
               className="small"
               disabled={isActionsDisabled}
             >
@@ -190,13 +162,15 @@ const TaxCalculation = () => {
                 Delete
               </MenuItem>
             </Menu>
-            <Button
-              sx={styles?.refreshButton(theme)}
-              className="small"
-              onClick={handleRefresh}
-            >
-              <RefreshSharedIcon />
-            </Button>
+            <Tooltip title={'Refresh Filter'} placement="top-start" arrow>
+              <Button
+                sx={styles?.refreshButton(theme)}
+                className="small"
+                onClick={handleRefresh}
+              >
+                <RefreshSharedIcon />
+              </Button>
+            </Tooltip>
             <Button
               sx={styles?.filterButton(theme)}
               className="small"
@@ -233,7 +207,7 @@ const TaxCalculation = () => {
       >
         <>
           <FormProvider methods={methodsFilter}>
-            <Grid container spacing={4}>
+            <Grid container spacing={'22px'}>
               {taxFormFiltersDataArray?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
                   <item.component {...item.componentProps} size={'small'}>
@@ -264,7 +238,7 @@ const TaxCalculation = () => {
       >
         <>
           <FormProvider methods={methodsAddTaxForm}>
-            <Grid container spacing={4}>
+            <Grid container spacing={'22px'}>
               {addTaxFormDataArray?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
                   <item.component {...item.componentProps} size={'small'}>
@@ -295,7 +269,7 @@ const TaxCalculation = () => {
       >
         <>
           <FormProvider methods={methodsEditTaxForm}>
-            <Grid container spacing={4}>
+            <Grid container spacing={'22px'}>
               {addTaxFormDataArray?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
                   <item.component {...item.componentProps} size={'small'}>

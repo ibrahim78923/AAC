@@ -71,6 +71,7 @@ const Documents = () => {
     checkboxChecked,
     modalHeading,
     setModalHeading,
+    deleteUserFolders,
   } = useDocuments();
 
   return (
@@ -289,6 +290,7 @@ const Documents = () => {
         <Grid item lg={6} md={6} sm={6} xs={12} sx={styles?.actionButtonBox}>
           <Button
             variant="outlined"
+            className="small"
             onClick={() => {
               setIsOpenModal(true);
               setModalHeading('Create New Folder');
@@ -395,6 +397,10 @@ const Documents = () => {
                     border: `1.16px solid ${theme?.palette?.custom?.pale_gray}`,
                     borderRadius: '11.56px',
                     padding: '0.6rem',
+                    '&:hover': {
+                      boxShadow: ' 0px 0px 5px 3px #A0E5DB40',
+                      border: 'unset',
+                    },
                   }}
                   key={uuidv4()}
                 >
@@ -427,10 +433,9 @@ const Documents = () => {
                           pathname: AIR_MARKETER?.COMMON_DOCUMENTS_FOLDER,
                           query: {
                             folder: item?._id,
+                            name: item?.name,
                           },
                         });
-                        // onClick={() => {
-                        //   toggle();
                       }}
                     >
                       <Typography
@@ -495,12 +500,12 @@ const Documents = () => {
       </Grid>
       <CommonModal
         open={isOpenModal}
-        handleClose={() => setIsOpenModal(false)}
+        handleCancel={() => setIsOpenModal(false)}
         handleSubmit={() => onSubmit()}
         title={`${modalHeading}`}
         okText={modalHeading === 'Edit Name' ? 'Update' : 'Create Folder'}
         cancelText="Cancel"
-        footerFill={true}
+        footerFill={false}
         footer={true}
       >
         <FormProvider methods={FolderAdd}>
@@ -521,9 +526,7 @@ const Documents = () => {
         type={'delete'}
         open={isOpenDelete}
         handleClose={() => setIsOpenDelete(false)}
-        handleSubmit={function (): void {
-          throw new Error('Function not implemented.');
-        }}
+        handleSubmitBtn={deleteUserFolders}
       />
     </>
   );

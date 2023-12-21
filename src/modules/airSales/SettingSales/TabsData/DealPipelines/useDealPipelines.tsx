@@ -28,7 +28,9 @@ const useDealPipelines = () => {
   const [isDisableButton, setDisableButton] = useState(false);
   const [isdefaultValue, setdefaultValue] = useState(false);
   const [inputFields, setInputFields] = useState([
-    { name: '', probability: null },
+    { name: 'New', probability: null },
+    { name: 'Lost', probability: null },
+    { name: 'Won', probability: null },
   ]);
 
   const [postDealsPipeline] = usePostDealsPipelineMutation();
@@ -62,7 +64,7 @@ const useDealPipelines = () => {
   const { handleSubmit } = dealPipelines;
   const onSubmit = async (values: any) => {
     const payload = {
-      name: values.pipelineName,
+      name: values?.pipelineName,
       isDefault: values?.defaultPipeline,
       dealStages: inputFields,
     };
@@ -95,15 +97,18 @@ const useDealPipelines = () => {
   };
 
   const addField = () => {
-    setInputFields([...inputFields, { name: '', probability: null }]);
+    const newInputFields = [...inputFields];
+    const indexToInsert = inputFields?.length - 2;
+    newInputFields?.splice(indexToInsert, 0, { name: '', probability: null });
+    setInputFields(newInputFields);
   };
-  const deleteField = (index) => {
+  const deleteField = (index: any) => {
     const values = [...inputFields];
-    values.splice(index, 1);
+    values?.splice(index, 1);
     setInputFields(values);
   };
   const handleChangeInput = (index: any, event: any) => {
-    const values = [...inputFields];
+    const values: any = [...inputFields];
     values[index][event?.target?.name] = event?.target?.value;
     setInputFields(values);
   };

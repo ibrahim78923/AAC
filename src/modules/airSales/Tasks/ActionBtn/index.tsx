@@ -4,7 +4,13 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { TaskInterfacePropsI } from './ActionBtn.interface';
 import { styles } from './ActionBtn.style';
 
-const ActionBtn = ({ disableActionBtn, onChange }: TaskInterfacePropsI) => {
+const ActionBtn = ({
+  disableActionBtn,
+  onChange,
+  variant = 'outlined',
+  menuItems,
+  title = 'Actions',
+}: TaskInterfacePropsI) => {
   const theme = useTheme();
 
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
@@ -12,7 +18,6 @@ const ActionBtn = ({ disableActionBtn, onChange }: TaskInterfacePropsI) => {
   );
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
-  const MenuItems = ['Edit', 'View Activity', 'Change Status', 'Delete'];
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event?.currentTarget);
@@ -24,14 +29,17 @@ const ActionBtn = ({ disableActionBtn, onChange }: TaskInterfacePropsI) => {
   return (
     <>
       <Button
-        variant="outlined"
+        className="small"
+        color="inherit"
+        variant={variant}
         endIcon={<ArrowDropDownIcon />}
         onClick={handleClick}
         disabled={disableActionBtn}
         classes={{ outlined: 'outlined_btn' }}
+        type="submit"
         sx={styles(theme, disableActionBtn)}
       >
-        Actions
+        {title}
       </Button>
       <Popover
         id={id}
@@ -47,15 +55,15 @@ const ActionBtn = ({ disableActionBtn, onChange }: TaskInterfacePropsI) => {
           horizontal: 'right',
         }}
       >
-        {MenuItems.map((item) => (
+        {menuItems.map((item: any) => (
           <MenuItem
             onClick={() => {
-              onChange(item);
+              onChange(item?.name);
               handleClose();
             }}
-            key={item}
+            key={item?.item}
           >
-            {item}
+            {item?.item}
           </MenuItem>
         ))}
       </Popover>
