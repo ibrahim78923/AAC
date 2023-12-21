@@ -54,6 +54,8 @@ export const END_POINTS = {
   ADD_LOCATION: '/location/add-location',
   GET_LOCATION: '/location/get-location',
   PRODUCT_CATALOG_VENDOR_LIST: '/product-catalog/vendor-list',
+  ADD_CANNED_RESPONSES: '/canned-responses/add-canned-response',
+  GET_CANNED_RESPONSES: '/canned-responses/get-canned-response',
   PRODUCT_CATALOG_LIST: '/product-catalog/list',
   PRODUCT_CATALOG: '/product-catalog',
   EDIT_PRODUCT_CATALOG: '/product-catalog/edit-product-catalog',
@@ -110,6 +112,7 @@ export const ORG_ADMIN = {
   SUBSCRIPTION_AND_INVOICES: '/org-admin/subscriptions',
   GET_INVOICES: '/org-admin/invoices',
   PRODUCT_PLAN_LIST: '/plan/product-plan-list',
+  ACTIVITY_LOG: '/activity-log',
 };
 
 export const COMMON_DOCUMENTS = {
