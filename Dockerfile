@@ -1,6 +1,8 @@
 FROM node:18-alpine AS builder
 RUN mkdir -p /app
 WORKDIR /app
+COPY package*.json .
+RUN npm i -f
 COPY . .
 ENV NODE_OPTIONS="--max-old-space-size=4096"
 RUN npm run build

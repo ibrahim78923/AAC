@@ -57,6 +57,22 @@ const array = [
     email: 'orgadminairapplecard@yopmail.com',
     role: 'ORG_ADMIN',
   },
+  {
+    email: 'wan@yopmail.com',
+    role: 'AIR_SERVICES',
+  },
+  {
+    email: 'operations@example.com',
+    role: 'AIR_OPERATIONS',
+  },
+  {
+    email: 'loyalty@example.com',
+    role: 'LOYALTY_PROGRAM',
+  },
+  {
+    email: 'customer@example.com',
+    role: 'CUSTOMER_PORTAL',
+  },
 ];
 
 const DashboardLayout = ({ children, window }: any) => {

@@ -151,7 +151,7 @@ export const columns = (
       id: 'createdBy',
       isSortable: true,
       header: 'Created By',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => info?.getValue()?.name,
     },
     {
       accessorFn: (row: any) => row?.createdAt,
