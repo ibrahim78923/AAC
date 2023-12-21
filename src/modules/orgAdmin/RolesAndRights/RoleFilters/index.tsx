@@ -16,10 +16,13 @@ const RoleFilters = (props: any) => {
   const methods: any = useForm();
 
   const { handleSubmit } = methods;
+
   const startedDate = 0;
   const endedDate = 1;
+
   const onSubmit = async (values: any) => {
     const { date } = values;
+
     const dateStart = date?.[startedDate]
       ? dayjs(date[startedDate])?.format(DATE_FORMAT?.API)
       : null;

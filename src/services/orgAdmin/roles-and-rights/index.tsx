@@ -36,7 +36,7 @@ export const rolesAndRightsAPI = baseAPI.injectEndpoints({
           body: body,
         };
       },
-      invalidatesTags: ['ROLESANDRIGHTS'],
+      invalidatesTags: ['PERMISSIONS'],
     }),
   }),
 });
@@ -46,4 +46,5 @@ export const {
   useGetProductsPermissionsQuery,
   useUpdateRoleRightsMutation,
   useGetPermissionsRolesByIdQuery,
+  useLazyGetPermissionsRolesByIdQuery,
 } = rolesAndRightsAPI;

@@ -1,5 +1,5 @@
 import { Checkbox } from '@mui/material';
-import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
+import { RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
 // add new role drawer form data starts here
@@ -17,17 +17,24 @@ export const defaultValues = {
 export const dataArray = [
   {
     componentProps: {
-      name: 'role',
-      label: 'Role',
-      required: true,
+      label: 'Role ID',
+      name: 'roleId',
+      placeholder: 'Role Name',
       fullWidth: true,
-      select: true,
+      required: true,
     },
-    options: [
-      { value: 'CompanY Owner', label: 'Company Owner' },
-      { value: 'Admin', label: 'Admin' },
-    ],
-    component: RHFSelect,
+    component: RHFTextField,
+    md: 12,
+  },
+  {
+    componentProps: {
+      label: 'Role Name',
+      name: 'name',
+      placeholder: 'Role Name',
+      fullWidth: true,
+      required: true,
+    },
+    component: RHFTextField,
     md: 12,
   },
   {

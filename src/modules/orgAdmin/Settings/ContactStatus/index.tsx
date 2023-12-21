@@ -104,13 +104,8 @@ const ContactStatus = () => {
             label={'Search here'}
             searchBy={productSearch}
             setSearchBy={setproductSearch}
-            width="100%"
+            width="260px"
             size="small"
-            sx={{
-              '@media (max-width: 500px)': {
-                width: '100%',
-              },
-            }}
           />
         </Box>
         <Grid>

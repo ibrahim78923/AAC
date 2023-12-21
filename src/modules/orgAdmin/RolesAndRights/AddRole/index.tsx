@@ -49,7 +49,11 @@ const AddRole = () => {
           <Grid container spacing={2}>
             {addUsersArrayData()?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                <item.component {...item.componentProps} size={'small'}>
+                <item.component
+                  {...item.componentProps}
+                  size={'small'}
+                  disabled={query?.type === 'view' ? true : false}
+                >
                   {item?.componentProps?.select &&
                     item?.options?.map((option: any) => (
                       <option key={uuidv4()} value={option?.value}>

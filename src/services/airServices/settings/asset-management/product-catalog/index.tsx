@@ -1,13 +1,15 @@
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
+import { transformResponse } from '@/utils/api';
 
 const TAG = 'PRODUCT_CATALOG';
+const TAG_TWO = 'DROPDOWN_ASSET_TYPE_LIST';
 
 export const productCatalogAPI: any = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
     getProductCatalog: builder?.query({
       query: (getProductCatalogParameter: any) => ({
-        url: `${END_POINTS}`,
+        url: `${END_POINTS?.PRODUCT_CATALOG_LIST}`,
         method: 'GET',
         params: getProductCatalogParameter?.queryParams,
       }),
@@ -16,7 +18,7 @@ export const productCatalogAPI: any = baseAPI?.injectEndpoints({
 
     getProductCatalogById: builder?.query({
       query: (getSingleProductCatalogParameter: any) => ({
-        url: `${END_POINTS}/${getSingleProductCatalogParameter?.pathParam?.productCatalogId}`,
+        url: `${END_POINTS?.PRODUCT_CATALOG}/${getSingleProductCatalogParameter?.pathParam?.productCatalogId}`,
         method: 'GET',
       }),
       providesTags: [TAG],
@@ -24,27 +26,27 @@ export const productCatalogAPI: any = baseAPI?.injectEndpoints({
 
     getExportProductCatalog: builder?.query({
       query: (getExportProductCatalogParameter: any) => ({
-        url: `${END_POINTS}`,
+        url: `${END_POINTS?.PRODUCT_CATALOG_LIST}`,
         method: 'GET',
         params: getExportProductCatalogParameter?.queryParams,
-        responseHandler: (response: { text: () => any }) => response?.text(),
+        responseHandler: (response: any) => response?.blob(),
       }),
       providesTags: [TAG],
     }),
 
     postProductCatalog: builder?.mutation({
       query: (postProductCatalogParameter: any) => ({
-        url: `${END_POINTS}`,
+        url: `${END_POINTS?.PRODUCT_CATALOG}`,
         method: 'POST',
         body: postProductCatalogParameter?.body,
       }),
       invalidatesTags: [TAG],
     }),
 
-    putProductCatalog: builder?.mutation({
+    patchProductCatalog: builder?.mutation({
       query: (putProductCatalogParameter: any) => ({
-        url: `${END_POINTS}/${putProductCatalogParameter?.pathParam?.id}`,
-        method: 'PUT',
+        url: `${END_POINTS?.EDIT_PRODUCT_CATALOG}`,
+        method: 'PATCH',
         body: putProductCatalogParameter?.body,
       }),
       invalidatesTags: [TAG],
@@ -68,6 +70,26 @@ export const productCatalogAPI: any = baseAPI?.injectEndpoints({
       }),
       providesTags: [TAG],
     }),
+
+    deleteProductCatalogVendor: builder?.mutation({
+      query: (deleteVendorParameter: any) => ({
+        url: `${END_POINTS?.DELETE_PRODUCT_CATALOG_VENDOR}`,
+        method: 'DELETE',
+        params: deleteVendorParameter?.queryParams,
+      }),
+      invalidatesTags: [TAG],
+    }),
+
+    //dropdowns
+    getAssetType: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_ASSET_TYPE_LIST}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => transformResponse(response),
+      providesTags: [TAG_TWO],
+    }),
   }),
 });
 
@@ -76,8 +98,10 @@ export const {
   useLazyGetProductCatalogQuery,
   useGetProductCatalogByIdQuery,
   usePostProductCatalogMutation,
-  usePutProductCatalogMutation,
+  usePatchProductCatalogMutation,
   useDeleteProductCatalogMutation,
   useLazyGetExportProductCatalogQuery,
   useGetProductCatalogVendorListQuery,
+  useDeleteProductCatalogVendorMutation,
+  useLazyGetAssetTypeQuery,
 } = productCatalogAPI;

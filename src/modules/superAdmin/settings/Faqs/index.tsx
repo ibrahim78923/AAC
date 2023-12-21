@@ -7,6 +7,7 @@ import {
   useTheme,
   MenuItem,
   Menu,
+  Tooltip,
 } from '@mui/material';
 
 import Search from '@/components/Search';
@@ -83,19 +84,10 @@ const Faqs = () => {
       sx={{
         borderRadius: '15px',
         border: '1px solid #EAECF0',
-        // padding: '16px 24px',
       }}
     >
-      <Box sx={{ padding: '16px 24px' }}>
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            flexWrap: 'wrap',
-            alignItems: 'center',
-            marginBottom: '19px',
-          }}
-        >
+      <Box sx={styles?.pageHeader}>
+        <Box sx={styles?.heading}>
           <Typography variant="h3" sx={{ fontWeight: '600' }}>
             FAQs
           </Typography>
@@ -107,46 +99,23 @@ const Faqs = () => {
             <PlusShared /> &nbsp; Add
           </Button>
         </Box>
-        <Box
-          mt={2}
-          mb={3}
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            flexWrap: 'wrap',
-            gap: '10px',
-            width: '100%',
-          }}
-        >
-          <Search
-            setSearchBy={setSearchValue}
-            label="Search Here"
-            size="small"
-            width={'100%'}
-          />
-          <Box
-            sx={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              alignItems: 'center',
-              gap: '10px',
-            }}
-          >
+        <Box sx={styles?.filterBar}>
+          <Box sx={styles?.search}>
+            <Search
+              setSearchBy={setSearchValue}
+              label="Search Here"
+              size="small"
+              width={'100%'}
+            />
+          </Box>
+          <Box sx={styles?.filterButtons}>
             <Button
               id="basic-button"
               aria-controls={actionMenuOpen ? 'basic-menu' : undefined}
               aria-haspopup="true"
               aria-expanded={actionMenuOpen ? 'true' : undefined}
               onClick={handleActionsMenuClick}
-              sx={{
-                color: theme?.palette?.grey[500],
-                width: '112px',
-                border: '1.5px solid #e7e7e9',
-                '@media (max-width:581px)': {
-                  width: '100%',
-                },
-              }}
+              sx={styles?.actionBtn}
               className="small"
               disabled={isActionsDisabled}
             >
@@ -187,13 +156,15 @@ const Faqs = () => {
                 Delete
               </MenuItem>
             </Menu>
-            <Button
-              sx={styles?.refreshButton(theme)}
-              className="small"
-              onClick={handleRefresh}
-            >
-              <RefreshSharedIcon />
-            </Button>
+            <Tooltip title={'Refresh Filter'} placement="top-start" arrow>
+              <Button
+                sx={styles?.refreshButton(theme)}
+                className="small"
+                onClick={handleRefresh}
+              >
+                <RefreshSharedIcon />
+              </Button>
+            </Tooltip>
             <Button
               sx={styles?.filterButton(theme)}
               onClick={handleOpenFilters}
@@ -227,7 +198,7 @@ const Faqs = () => {
         submitHandler={handleFiltersSubmit}
       >
         <FormProvider methods={methodsFilter}>
-          <Grid container spacing={4}>
+          <Grid container spacing={'22px'}>
             {faqsFilterFiltersDataArray()?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={uuidv4()}>
                 <item.component {...item.componentProps} size={'small'}>

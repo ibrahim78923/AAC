@@ -83,10 +83,10 @@ export const columns: any = (columnsProps: any) => {
 };
 
 export const addUserSchema = Yup.object().shape({
-  productDetails: Yup?.string()?.required('Field is Required'),
-  companyAccountsDetails: Yup?.string()?.required('Field is Required'),
+  productId: Yup?.string()?.required('Field is Required'),
+  companyAccountRoleId: Yup?.string()?.required('Field is Required'),
   name: Yup?.string()?.required('Field is Required'),
-  defaultUser: Yup?.string()?.required('Field is Required'),
+  status: Yup?.string()?.required('Field is Required'),
 });
 
 export const addUsersArrayData = () => {
@@ -101,7 +101,7 @@ export const addUsersArrayData = () => {
     {
       componentProps: {
         label: 'Select Product',
-        name: 'productDetails',
+        name: 'productId',
         fullWidth: true,
         required: true,
         select: true,
@@ -116,7 +116,7 @@ export const addUsersArrayData = () => {
     {
       componentProps: {
         label: 'Select Company Account',
-        name: 'companyAccountsDetails',
+        name: 'companyAccountRoleId',
         fullWidth: true,
         required: true,
         select: true,
@@ -156,7 +156,7 @@ export const addUsersArrayData = () => {
     {
       componentProps: {
         label: 'Default User',
-        name: 'defaultUser',
+        name: 'status',
         fullWidth: true,
       },
       component: RHFSwitch,

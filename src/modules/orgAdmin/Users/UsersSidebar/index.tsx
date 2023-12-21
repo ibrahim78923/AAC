@@ -21,11 +21,12 @@ import AddUser from '../Drawers/AddUser';
 
 import useUsersSidebar from './useUsersSidebar';
 
-import { AvatarImage } from '@/assets/images';
+import { AvatarImage, NoAssociationFoundImage } from '@/assets/images';
 
 import { AddCircle } from '@mui/icons-material';
 import useUsers from '../useUsers';
 import { v4 as uuidv4 } from 'uuid';
+import NoData from '@/components/NoData';
 
 const UsersSidebar = (props: any) => {
   const { setEmployeeDataById } = props;
@@ -111,7 +112,12 @@ const UsersSidebar = (props: any) => {
           <FilterSharedIcon />
         </Button>
       </Box>
-      {employeeDetails?.length === 0 && <Typography>No user found</Typography>}
+      {employeeDetails?.length === 0 && (
+        <NoData
+          image={NoAssociationFoundImage}
+          message={'No data is available'}
+        />
+      )}
       {employeeDetails?.map((item: any, index: number) => (
         <Box
           className="users-wrapper"

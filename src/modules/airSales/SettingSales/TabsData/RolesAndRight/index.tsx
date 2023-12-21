@@ -84,7 +84,7 @@ const RolesRight = () => {
           gap={1}
           my={2}
         >
-          <Search placeholder="Search Here" size="small" />
+          <Search placeholder="Search by Role Name" size="small" />
 
           <ActionButton
             checkedRows={checkedRows}
