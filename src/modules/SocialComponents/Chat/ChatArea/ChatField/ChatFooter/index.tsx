@@ -1,6 +1,13 @@
 import React from 'react';
 
-import { Box, Button, useTheme, TextField, Popover } from '@mui/material';
+import {
+  Box,
+  Button,
+  useTheme,
+  TextField,
+  Popover,
+  Typography,
+} from '@mui/material';
 
 import EmojiPickerComponent from './EmojiPicker';
 
@@ -11,6 +18,7 @@ import { AttachmentIcon, PostIcon, StickerIcon } from '@/assets/icons';
 import { styles } from './ChatFooter.style';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { setUpdateChatContacts } from '@/redux/slices/chat/slice';
+import { getSession } from '@/utils';
 
 const ChatFooter = () => {
   const theme = useTheme();
@@ -33,9 +41,6 @@ const ChatFooter = () => {
   const activeChatId = useAppSelector((state) => state?.chat?.activeChatId);
   const activeReceiverId = useAppSelector(
     (state) => state?.chat?.activeReceiverId,
-  );
-  const activeParticipant = useAppSelector(
-    (state) => state?.chat?.activeParticipant,
   );
 
   const setAddMessageHandler = () => {
@@ -71,8 +76,13 @@ const ChatFooter = () => {
     }
   };
 
+  const { user }: { accessToken: string; refreshToken: string; user: any } =
+    getSession();
+
   const checkTypingPayload = {
-    typingUserName: activeParticipant?.firstName,
+    typingUserName: `${
+      user?.firstName.toLowerCase() + ' ' + user?.lastName.toLowerCase()
+    }`,
     isGroup: false,
     receiverId: activeReceiverId && activeReceiverId[0],
     chatId: activeChatId,
@@ -85,8 +95,18 @@ const ChatFooter = () => {
     socket.emit('stop-typing', checkTypingPayload);
   };
 
+  const typingUserData = useAppSelector((state) => state?.chat?.typingUserData);
+
   return (
     <Box sx={{ padding: '30px' }}>
+      {typingUserData?.userName ? (
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Typography sx={{ textTransform: 'lowercase' }}>
+            {typingUserData?.userName}
+          </Typography>
+          is typing ...
+        </Box>
+      ) : null}
       <Box sx={styles?.chatFooter(theme)}>
         <Button sx={styles?.unStyledButton}>
           <AttachmentIcon />

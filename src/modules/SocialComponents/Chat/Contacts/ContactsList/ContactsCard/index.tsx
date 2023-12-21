@@ -17,6 +17,7 @@ import {
 } from '@/redux/slices/chat/slice';
 import { getSession } from '@/utils';
 import dayjs from 'dayjs';
+import { TIME_FORMAT } from '@/constants';
 
 const ContactsCard = ({
   cardData,
@@ -56,7 +57,7 @@ const ContactsCard = ({
         setActiveReceiverId(
           cardData?.item?.participants
             ?.filter((_: any, index: any) => index !== currentUserIndex)
-            ?.map((participant: any) => participant._id),
+            ?.map((participant: any) => participant?._id),
         ),
       ),
       dispatch(
@@ -161,7 +162,9 @@ const ContactsCard = ({
             {cardData?.item?.lastMessage?.content}
           </Box>
           <Typography variant="body3" sx={{ color: theme?.palette?.grey[900] }}>
-            {dayjs(cardData?.item?.lastMessage?.createdAt).format('h:mm A')}
+            {dayjs(cardData?.item?.lastMessage?.createdAt).format(
+              TIME_FORMAT?.UI,
+            )}
           </Typography>
         </Box>
       </Box>

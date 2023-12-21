@@ -2,6 +2,10 @@ export const DATE_FORMAT = {
   UI: 'MM/DD/YYYY',
   API: 'YYYY-MM-DD',
 };
+export const TIME_FORMAT = {
+  UI: 'h:mm A',
+  API: 'h:mm A',
+};
 
 export const CALENDAR_FORMAT = {
   UI: 'D MMMM YYYY',

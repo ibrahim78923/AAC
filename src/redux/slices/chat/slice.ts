@@ -11,6 +11,7 @@ interface ChatStateI {
   isConnected: boolean;
   messageStatus: boolean;
   activeParticipant: any;
+  typingUserData: any;
 }
 
 const initialState: ChatStateI = {
@@ -24,6 +25,7 @@ const initialState: ChatStateI = {
   isConnected: false,
   messageStatus: false,
   activeParticipant: {},
+  typingUserData: {},
 };
 
 const chatSlice = createSlice({
@@ -40,11 +42,11 @@ const chatSlice = createSlice({
       if (Array.isArray(action?.payload)) {
         state.chatMessages = action?.payload;
       } else {
-        const existingMessageIndex = state.chatMessages.findIndex(
+        const existingMessageIndex = state?.chatMessages?.findIndex(
           (message: any) => message?._id === action?.payload?._id,
         );
         if (existingMessageIndex === -1) {
-          state.chatMessages?.unshift(action.payload);
+          state.chatMessages?.unshift(action?.payload);
         } else {
           state.chatMessages[existingMessageIndex] = action?.payload;
         }
@@ -67,7 +69,7 @@ const chatSlice = createSlice({
     },
 
     setUpdateChatContacts(state, action) {
-      const updatedChatContacts = state.chatContacts?.map((chat: any) => {
+      const updatedChatContacts = state?.chatContacts?.map((chat: any) => {
         if (chat.ownerId === action?.payload?.ownerId) {
           return {
             ...chat,
@@ -102,6 +104,10 @@ const chatSlice = createSlice({
     setActiveParticipant(state, action) {
       state.activeParticipant = action?.payload;
     },
+
+    setTypingUserData(state, action) {
+      state.typingUserData = action?.payload;
+    },
   },
 });
 export const {
@@ -116,5 +122,6 @@ export const {
   setIsNewChat,
   setMessageStatus,
   setActiveParticipant,
+  setTypingUserData,
 } = chatSlice.actions;
 export default chatSlice.reducer;

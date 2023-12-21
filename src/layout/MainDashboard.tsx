@@ -25,6 +25,7 @@ import Header from './Header';
 import {
   setChatMessages,
   setSocketConnection,
+  setTypingUserData,
 } from '@/redux/slices/chat/slice';
 import { useAppDispatch } from '@/redux/store';
 import { getSession, isNullOrEmpty } from '@/utils';
@@ -415,7 +416,7 @@ const DashboardLayout = ({ children, window }: any) => {
   const [socket, setSocket] = useState<any>();
   useEffect(() => {
     if (!socket) {
-      const res: any = io.connect('https://8e84-203-175-73-3.ngrok-free.app', {
+      const res: any = io.connect(`${process.env.NEXT_PUBLIC_BASE_URL}`, {
         auth: (cb) => {
           cb({
             accessToken: accessToken,
@@ -434,14 +435,30 @@ const DashboardLayout = ({ children, window }: any) => {
     socket.on('on-status-change', () => {});
     socket.on('add-message', () => {});
     socket.on('on-message-received', (payload: any) => {
-      if (payload.data) {
+      if (payload?.data) {
         dispatch(setChatMessages(payload?.data));
       }
     });
-    socket.on('update-message', () => {});
-    socket.on('on-message-update', () => {});
-    socket.on('on-typing-start', () => {});
-    socket.on('on-typing-stop', () => {});
+    socket.on('update-message', () => {
+      // console.log("update-message", payload)
+    });
+
+    socket.on('on-message-update', () => {
+      // console.log("on-message-update", payload)
+    });
+
+    socket.on('on-typing-start', (payload: any) => {
+      // console.log("on-typing-start", payload)
+      dispatch(
+        setTypingUserData({
+          userName: payload?.typingUserName,
+        }),
+      );
+    });
+
+    socket.on('on-typing-stop', () => {
+      dispatch(setTypingUserData({}));
+    });
   }
 
   return (

@@ -16,7 +16,8 @@ import { PlusIcon } from '@/assets/icons';
 import Search from '@/components/Search';
 import Image from 'next/image';
 import { v4 as uuidv4 } from 'uuid';
-import { GroupAvatarImage, UserAvatarImage } from '@/assets/images';
+
+import { options } from '@/mock/modules/SocialComponents/Chat';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { setChatContacts, setChatMessages } from '@/redux/slices/chat/slice';
 import { useGetUserChatsQuery } from '@/services/chat';
@@ -66,44 +67,6 @@ const Chat = () => {
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
 
-  const options = [
-    {
-      id: '655dcbb8425d2c04a46a3830',
-      firstName: 'waqas',
-      lastName: 'khan',
-      email: 'testWAQASKhan@example.com',
-      src: UserAvatarImage,
-    },
-    {
-      id: '655dcda7425d2c04a46a3836',
-      firstName: 'zahir',
-      lastName: 'khan',
-      email: 'testZahirKhan@example.com',
-      src: GroupAvatarImage,
-    },
-    {
-      id: '655dcdc8425d2c04a46a3838',
-      firstName: 'ahsan',
-      lastName: 'khan',
-      email: 'testAhsanKhan@example.com',
-      src: UserAvatarImage,
-    },
-    {
-      id: '655dcde8425d2c04a46a383a',
-      firstName: 'nabeel',
-      lastName: 'khan',
-      email: 'testNableeKhan@example.com',
-      src: UserAvatarImage,
-    },
-    {
-      id: '655dcdfd425d2c04a46a383c',
-      firstName: 'waseem',
-      lastName: 'khan',
-      email: 'testWaseemKhan@example.com',
-      src: UserAvatarImage,
-    },
-  ];
-
   const { user }: { accessToken: string; refreshToken: string; user: any } =
     getSession();
 
@@ -127,9 +90,9 @@ const Chat = () => {
                   lastName: user?.lastName,
                 },
                 {
-                  _id: item.id,
-                  firstName: item.firstName,
-                  lastName: item.lastName,
+                  _id: item?.id,
+                  firstName: item?.firstName,
+                  lastName: item?.lastName,
                 },
               ],
             }),
@@ -156,7 +119,7 @@ const Chat = () => {
             ) : (
               <Box
                 sx={{
-                  background: '#fff',
+                  background: theme.palette.common.white,
                   width: '100%',
                   height: '80vh',
                   p: 2,
@@ -185,7 +148,7 @@ const Chat = () => {
         aria-describedby={id}
         onClick={handleClick}
       >
-        <PlusIcon width={55} color={'#38CAB5'} />
+        <PlusIcon width={55} color={theme?.palette?.primary?.main} />
       </Button>
       <Popover
         id={id}
