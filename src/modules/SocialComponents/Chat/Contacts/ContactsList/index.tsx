@@ -7,7 +7,7 @@ import Search from '@/components/Search';
 import AddGroupModal from './AddGroupModal';
 import ChatDropdown from '../../ChatDropdown';
 
-import { PlusIcon } from '@/assets/icons';
+import { FilterSharedIcon, PlusIcon } from '@/assets/icons';
 
 import {
   chatContactsData,
@@ -81,7 +81,7 @@ const ContactList = ({ chatMode }: any) => {
             aria-expanded={actionMenuOpen ? 'true' : undefined}
             onClick={handleClick}
           >
-            {/* <FilterSharedIcon /> */}
+            <FilterSharedIcon />
           </Button>
           <ChatDropdown
             anchorEl={anchorEl}

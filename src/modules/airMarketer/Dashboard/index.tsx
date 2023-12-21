@@ -32,7 +32,7 @@ const Dashboard = () => {
               style={{ display: 'flex', justifyContent: 'space-between' }}
             >
               <Typography variant="h4">Marketing Dashboard</Typography>
-              <Box style={{ display: 'flex' }}>
+              <Box sx={{ display: { lg: 'flex', md: 'block' } }}>
                 <ShareOptions setIsShowEditDashboard={setIsShowEditDashboard} />
                 <ManageDashboardOptions toggle={toggle} />
               </Box>

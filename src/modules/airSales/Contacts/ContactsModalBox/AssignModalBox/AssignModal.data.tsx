@@ -6,15 +6,15 @@ export const customValidationSchema = Yup?.object()?.shape({
   contact: Yup?.string()?.required('Field is Required'),
 });
 
-export const customDefaultValues = {
+export const defaultValues = {
   contact: '',
 };
 
 export const AssignModalData = [
   {
-    label: 'Contact Owner',
     componentProps: {
       name: 'Contact Owner',
+      label: 'Contact Owner',
       placeholder: 'Select',
       select: true,
     },

@@ -56,16 +56,15 @@ export const contactsDataArray = (
 ) => {
   return [
     {
-      title: 'Email',
       componentProps: {
         name: 'email',
-        label: 'Enter Email',
+        label: 'Email',
+        placeholder: 'Enter Email',
       },
       md: 12,
       component: RHFTextField,
     },
     {
-      title: 'Profile Pictures',
       componentProps: {
         name: 'profilePicture',
         label: 'Profile Picture',
@@ -76,10 +75,10 @@ export const contactsDataArray = (
       component: RHFDropZone,
     },
     {
-      title: 'First Name',
       componentProps: {
         name: 'firstName',
-        label: 'Enter First Name',
+        label: 'First Name',
+        placeholder: 'Enter Email',
       },
       md: 12,
       component: RHFTextField,
@@ -88,17 +87,18 @@ export const contactsDataArray = (
       title: 'Last Name',
       componentProps: {
         name: 'lastName',
-        label: ' Enter Last Name',
+        label: 'Last Name',
+        placeholder: 'Enter Email',
         type: 'text',
       },
       md: 12,
       component: RHFTextField,
     },
     {
-      title: 'Address',
       componentProps: {
         name: 'address',
-        label: 'Enter Address',
+        label: 'Address',
+        placeholder: 'Enter Email',
       },
       md: 12,
       component: RHFTextField,
@@ -117,16 +117,17 @@ export const contactsDataArray = (
       componentProps: {
         name: 'phoneNumber',
         label: 'Phone Number',
+        placeholder: 'Enter Phone Email',
         type: 'number',
       },
       md: 12,
       component: RHFTextField,
     },
     {
-      title: 'WhatsApp Number',
       componentProps: {
         name: 'whatsAppNumber',
         label: 'WhatsApp Number',
+        placeholder: 'Enter WhatsApp Number',
         type: 'number',
       },
       md: 12,
@@ -152,6 +153,7 @@ export const contactsDataArray = (
       componentProps: {
         name: 'jobTitle',
         label: 'Job Title',
+        placeholder: 'Enter Job Title',
       },
       md: 12,
       component: RHFTextField,
