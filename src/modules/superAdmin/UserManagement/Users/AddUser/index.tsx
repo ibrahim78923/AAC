@@ -27,6 +27,7 @@ const AddUser = ({
   tabVal,
   isOpenAddUserDrawer,
   setIsOpenAddUserDrawer,
+  setIsOpenAdduserDrawer,
   organizationId,
 }: any) => {
   const { pathName, postUsers, updateUsers, postUserEmployee } = useAddUser();
@@ -93,14 +94,15 @@ const AddUser = ({
     delete values['compositeAddress'];
     try {
       isOpenAddUserDrawer?.type === 'add'
-        ? postUsers({ body: values })?.unwrap()
+        ? (postUsers({ body: values })?.unwrap(),
+          setIsOpenAddUserDrawer({ ...isOpenAddUserDrawer, drawer: false }))
         : pathName === SUPER_ADMIN?.USERS_LIST
-        ? postUserEmployee({ id: organizationId, body: values })
+        ? (postUserEmployee({ id: organizationId, body: values }),
+          setIsOpenAdduserDrawer(false))
         : updateUsers({ id, body: values });
       enqueueSnackbar('User Added Successfully', {
         variant: 'success',
       });
-      setIsOpenAddUserDrawer({ ...isOpenAddUserDrawer, drawer: false });
       setIsAddEmployyeDrawer(false);
       reset();
     } catch (error: any) {
