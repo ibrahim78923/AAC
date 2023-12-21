@@ -17,7 +17,9 @@ const Quotes = () => {
     handlePageChange,
     selectedRow,
     setSelectedRow,
+    isActionsDisabled,
     setIsActionsDisabled,
+    rowId,
     setRowId,
     openFilters,
     handleOpenFilters,
@@ -66,6 +68,8 @@ const Quotes = () => {
           handleEditQuote={handleEditQuote}
           handleViewQuote={handleViewQuote}
           handleOpenDeleteQuote={handleOpenDeleteQuote}
+          isActionsDisabled={isActionsDisabled}
+          rowId={rowId}
         />
 
         <TanstackTable

@@ -19,6 +19,7 @@ const useCreateQuote = () => {
     defaultValues: dealInitValues,
   });
   const { watch, trigger } = methodsAddQuote;
+  const watchFields = watch();
 
   // Step add deal / Create Quote
   const { handleSubmit: handleMethodAddQuote, reset: resetAddQuoteForm } =
@@ -33,7 +34,7 @@ const useCreateQuote = () => {
         variant: 'success',
       });
       resetAddQuoteForm();
-      router.push(`${AIR_SALES.UPDATE_QUOTE}?id=${id}`);
+      router.push({ pathname: AIR_SALES.UPDATE_QUOTE, query: { data: id } });
     } catch (error: any) {
       enqueueSnackbar('An error occured', {
         variant: 'error',
@@ -42,7 +43,6 @@ const useCreateQuote = () => {
   };
   const handleAddQuoteSubmit = handleMethodAddQuote(onSubmitCreateQuote);
 
-  const watchFields = watch();
   const [activeStep, setActiveStep] = useState(0);
   const [isOpenFormCreateDeal, setIsOpenFormCreateDeal] = useState(false);
 

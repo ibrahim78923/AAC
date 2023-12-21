@@ -40,8 +40,10 @@ const StepDeal = ({ openCreateDeal, values, methods }: any) => {
           </Grid>
           <Grid item xs={7}>
             <TemplateFrame>
-              {values?.quoteTemplate === '' || values?.quoteTemplate == null ? (
+              {values?.template === '' || values?.template == null ? (
                 <TemplatePlaceholder />
+              ) : values?.template === 'Basic' ? (
+                <TemplateBasic />
               ) : (
                 <TemplateBasic />
               )}

@@ -3,6 +3,7 @@ import AppHorizontalStepper from '@/components/Stepper';
 import FormCreateDeal from './FormCreateDeal';
 import useCreateQuote from './useCreateQuote';
 import { styles } from './CreateQuote.style';
+import { LoadingButton } from '@mui/lab';
 
 const CreateQuote = () => {
   const {
@@ -14,6 +15,7 @@ const CreateQuote = () => {
     isOpenFormCreateDeal,
     handleCloseFormCreateDeal,
     handleAddQuoteSubmit,
+    loadingAddQuote,
   } = useCreateQuote();
 
   return (
@@ -41,9 +43,13 @@ const CreateQuote = () => {
               >
                 Cancel
               </Button>
-              <Button variant="contained" onClick={handleAddQuoteSubmit}>
+              <LoadingButton
+                loading={loadingAddQuote}
+                variant="contained"
+                onClick={handleAddQuoteSubmit}
+              >
                 Save & Continue
-              </Button>
+              </LoadingButton>
             </Stack>
           </Box>
         }

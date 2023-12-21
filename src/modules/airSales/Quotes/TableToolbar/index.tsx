@@ -19,6 +19,8 @@ const TableToolbar: FC<TableToolbarI> = ({
   handleEditQuote,
   handleViewQuote,
   handleOpenDeleteQuote,
+  isActionsDisabled,
+  rowId,
 }) => {
   const {
     actionsEl,
@@ -44,6 +46,7 @@ const TableToolbar: FC<TableToolbarI> = ({
             sx={styles?.actionButton}
             endIcon={<DropdownIcon />}
             onClick={handleActionsDropdown}
+            disabled={isActionsDisabled}
           >
             Actions
           </Button>
@@ -65,8 +68,12 @@ const TableToolbar: FC<TableToolbarI> = ({
               },
             }}
           >
-            <MenuItem onClick={handleEditQuote}>Edit</MenuItem>
-            <MenuItem onClick={handleViewQuote}>View</MenuItem>
+            <MenuItem disabled={!rowId} onClick={handleEditQuote}>
+              Edit
+            </MenuItem>
+            <MenuItem disabled={!rowId} onClick={handleViewQuote}>
+              View
+            </MenuItem>
             <MenuItem onClick={handleOpenDeleteQuote}>Delete</MenuItem>
           </Menu>
         </Box>

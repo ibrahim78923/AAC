@@ -18,11 +18,17 @@ import {
 import {
   useGetDealsQuery,
   usePostQuoteMutation,
+  // useGetQuoteByIdQuery,
 } from '@/services/airSales/quotes';
 
 const useCreateQuote = () => {
   const router = useRouter();
+  // console.log('router?.query?.id', router?.query);
   const { data: dataGetDeals } = useGetDealsQuery({ page: 1, limit: 20 });
+
+  // const { data: dataGetQuoteById } = useGetQuoteByIdQuery(router?.query?.data);
+
+  // console.log('dataGetQuoteById::::::  ', dataGetQuoteById);
   const methodsAddQuote = useForm({
     resolver: yupResolver(dealValidationSchema),
     defaultValues: dealInitValues,
@@ -38,6 +44,10 @@ const useCreateQuote = () => {
 
   // Step add deal / Create Quote
   const { handleSubmit: handleMethodAddQuote } = methodsAddQuote;
+  // const singleQuote = dataGetQuoteById?.data;
+  // if(singleQuote) {
+  //   methodsAddQuote.setValue('dealId', singleQuote?._id);
+  // }
 
   const [postAddQuote, { isLoading: loadingAddQuote }] = usePostQuoteMutation();
   const onSubmitCreateQuote = async (values: any) => {
@@ -55,7 +65,7 @@ const useCreateQuote = () => {
   const handleAddQuoteSubmit = handleMethodAddQuote(onSubmitCreateQuote);
 
   const watchFields = watch();
-  const [activeStep, setActiveStep] = useState(0);
+  const [activeStep, setActiveStep] = useState(1);
   const [isOpenFormCreateDeal, setIsOpenFormCreateDeal] = useState(false);
   const [isOpenFormAddContact, setIsOpenFormAddContact] = useState(false);
   const [isOpenFormAddCompany, setIsOpenFormAddCompany] = useState(false);

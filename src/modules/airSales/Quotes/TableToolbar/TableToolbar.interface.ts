@@ -6,4 +6,6 @@ export interface TableToolbarI {
   handleEditQuote: () => void;
   handleViewQuote: () => void;
   handleOpenDeleteQuote: () => void;
+  isActionsDisabled: boolean;
+  rowId: any;
 }
