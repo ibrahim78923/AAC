@@ -62,4 +62,14 @@ export const styles = {
       gap: 0.2,
     };
   },
+  uploadImage: {
+    borderRadius: '50%',
+    border: '2px solid #D1D5DB',
+    height: '80px',
+    width: '80px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 'auto',
+  },
 };
