@@ -129,7 +129,7 @@ const useDealSaleSite = () => {
         handleExportRecord();
         break;
       case 'View Details':
-        router.push({ pathname: AIR_SALES?.DEALS_VIEWDETIALS });
+        router.push({ pathname: AIR_SALES?.VIEW_DETAILS });
         break;
       default:
         break;
