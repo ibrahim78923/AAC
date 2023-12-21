@@ -57,6 +57,22 @@ const array = [
     email: 'orgadminairapplecard@yopmail.com',
     role: 'ORG_ADMIN',
   },
+  {
+    email: 'wan@yopmail.com',
+    role: 'AIR_SERVICES',
+  },
+  {
+    email: 'operations@example.com',
+    role: 'AIR_OPERATIONS',
+  },
+  {
+    email: 'loyalty@example.com',
+    role: 'LOYALTY_PROGRAM',
+  },
+  {
+    email: 'customer@example.com',
+    role: 'CUSTOMER_PORTAL',
+  },
 ];
 
 const DashboardLayout = ({ children, window }: any) => {
@@ -76,8 +92,8 @@ const DashboardLayout = ({ children, window }: any) => {
 
   const lowerRoutes = getLowerRoutes(findEmailRole);
   const pathname = usePathname();
-  const routerPathName =
-    pathname.split('/').splice(2)[0] ?? pathname.split('/').splice(1)[0];
+
+  const routerPathName = pathname.split('/')[2] ?? pathname.split('/')[1];
 
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [dropDownOpen, setDropDownOpen] = useState<any>({});
@@ -127,7 +143,8 @@ const DashboardLayout = ({ children, window }: any) => {
             {!isNullOrEmpty(routes) &&
               routes?.map((link: any) => {
                 const pathNameKey =
-                  link?.key?.split('/')[1] ?? link?.key?.split('/')[0];
+                  link?.key?.split('/')[2] ?? link?.key?.split('/')[1];
+
                 return (
                   <div key={uuidv4()}>
                     {link?.textNames ? (
@@ -136,7 +153,7 @@ const DashboardLayout = ({ children, window }: any) => {
 
                         <ListItem sx={{ padding: '6px 0px 6px 0px' }}>
                           <Link
-                            href={`/${link?.key}`}
+                            href={`${link?.key}`}
                             style={{
                               width: '100%',
                               padding: '0px',
@@ -188,7 +205,7 @@ const DashboardLayout = ({ children, window }: any) => {
                         >
                           <List component="div" disablePadding>
                             {link?.textNames?.map((subItem: any) => (
-                              <Link href={`/${subItem?.key}`} key={uuidv4()}>
+                              <Link href={`${subItem?.key}`} key={uuidv4()}>
                                 <ListItem sx={{ padding: '0px' }}>
                                   <ListItemButton
                                     sx={styles?.collapseMenu(
@@ -209,7 +226,7 @@ const DashboardLayout = ({ children, window }: any) => {
                       </>
                     ) : (
                       // <PermissionsGuard permissions={link?.permissions}>
-                      <Link key={uuidv4()} href={`/${link?.key}`}>
+                      <Link key={uuidv4()} href={`${link?.key}`}>
                         <ListItem
                           sx={{ padding: '6px 0px 6px 0px' }}
                           onClick={() => setDropDownOpen({})}
@@ -308,7 +325,7 @@ const DashboardLayout = ({ children, window }: any) => {
                         >
                           <List component="div" disablePadding>
                             {link?.textNames?.map((subItem: any) => (
-                              <Link href={`/${subItem?.key}`} key={uuidv4()}>
+                              <Link href={`${subItem?.key}`} key={uuidv4()}>
                                 <ListItem sx={{ padding: '0px' }}>
                                   <ListItemButton
                                     sx={styles?.collapseMenu(
@@ -328,7 +345,7 @@ const DashboardLayout = ({ children, window }: any) => {
                         </Collapse>
                       </>
                     ) : (
-                      <Link key={uuidv4()} href={`/${link?.key}`}>
+                      <Link key={uuidv4()} href={`${link?.key}`}>
                         <ListItem sx={{ padding: '6px 0px 6px 0px' }}>
                           <ListItemButton
                             sx={styles?.mainNavLink(link, router, theme)}

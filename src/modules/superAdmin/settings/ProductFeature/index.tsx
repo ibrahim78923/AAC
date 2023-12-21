@@ -21,7 +21,7 @@ import PlusShared from '@/assets/icons/shared/plus-shared';
 import { DownIcon } from '@/assets/icons';
 import { v4 as uuidv4 } from 'uuid';
 import useProductFeature from './useProductFeature';
-import MultiSearchableSelect from './multiSearchableSelect';
+// import MultiSearchableSelect from './multiSearchableSelect';
 import { styles } from './ProductFeature.style';
 
 const ProductFeature = () => {
@@ -75,7 +75,7 @@ const ProductFeature = () => {
           <Typography variant="h3" sx={{ fontWeight: '600' }}>
             Product Features Setup
           </Typography>
-          <Box>
+          {/* <Box>
             <MultiSearchableSelect
               options={[
                 { value: 'JohnDoe', label: 'John Doe' },
@@ -84,7 +84,7 @@ const ProductFeature = () => {
               setValue={setValue}
               isCheckBox={true}
             />
-          </Box>
+          </Box> */}
         </Box>
         <Box sx={styles?.filterBar}>
           <Box sx={styles?.search}>

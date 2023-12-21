@@ -9,8 +9,15 @@ import EditTask from './EditTask';
 
 import { tableData } from '@/mock/modules/airMarketer/Campaigns/Tasks';
 
-import { AlertModalDeleteIcon, DownIcon, FilterrIcon } from '@/assets/icons';
+import {
+  AlertModalDeleteIcon,
+  DownIcon,
+  FilterLinesIcon,
+  FilterrIcon,
+} from '@/assets/icons';
 import Search from '@/components/Search';
+import { useRouter } from 'next/router';
+import { AIR_MARKETER } from '@/routesConstants/paths';
 
 const Tasks = () => {
   const {
@@ -27,7 +34,7 @@ const Tasks = () => {
     setIsOpenDeleteDrawer,
     setTaskCreate,
   } = useTasks();
-
+  const router = useRouter();
   return (
     <>
       <Box sx={{ paddingTop: '10px' }}>
@@ -96,13 +103,16 @@ const Tasks = () => {
                 Create Task
               </Button>
               <Button
+                onClick={() => router.push(`${AIR_MARKETER?.TASK_CARD}`)}
                 variant="outlined"
                 color="inherit"
+                startIcon={<FilterLinesIcon />}
                 className="small"
                 style={{ marginLeft: '8px' }}
               ></Button>
               <Button
                 variant="outlined"
+                startIcon={<FilterrIcon />}
                 color="inherit"
                 className="small"
                 style={{ marginLeft: '8px' }}

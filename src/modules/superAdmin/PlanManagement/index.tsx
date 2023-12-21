@@ -98,6 +98,7 @@ const PlanManagement = () => {
             label="Search here"
             width={'260px'}
             searchBy={searchBy}
+            size="small"
             fullWidth
             setSearchBy={setSearchBy}
           />

@@ -35,7 +35,7 @@ const ContactsSMSMarketing = () => {
       <Typography variant="h4" mb={2}>
         Contact Groups
       </Typography>
-      <Box sx={{ position: 'relative', mb: 1 }}>
+      <Box sx={{ position: 'relative', mb: 2 }}>
         <Button
           sx={styles?.btnLeft}
           onClick={() => handleScroll(-100)}

@@ -70,16 +70,31 @@ const JobPosting = () => {
 
   return (
     <Box>
-      <Box sx={styles?.filterBar}>
-        <Box sx={styles?.search}>
-          <Search
-            setSearchBy={setSearchValue}
-            label="Search Here"
-            size="small"
-            width={'100%'}
-          />
-        </Box>
-        <Box sx={styles?.filterButtons}>
+      <Box
+        mt={2}
+        mb={3}
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          flexWrap: 'wrap',
+          gap: '10px',
+          padding: '0px 24px',
+        }}
+      >
+        <Search
+          setSearchBy={setSearchValue}
+          label="Search Here"
+          size="small"
+          width={'260px'}
+        />
+        <Box
+          sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: '10px',
+          }}
+        >
           <Button
             id="basic-button"
             aria-controls={actionMenuOpen ? 'basic-menu' : undefined}
