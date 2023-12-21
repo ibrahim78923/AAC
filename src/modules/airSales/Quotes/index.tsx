@@ -65,7 +65,7 @@ const Quotes = () => {
           handleFilters={handleOpenFilters}
           handleCustomizeColumns={handleOpenCustomizeColumns}
           handleResetFilters={handleRefresh}
-          handleEditQuote={handleEditQuote}
+          handleEditQuote={() => handleEditQuote(rowId)}
           handleViewQuote={handleViewQuote}
           handleOpenDeleteQuote={handleOpenDeleteQuote}
           isActionsDisabled={isActionsDisabled}

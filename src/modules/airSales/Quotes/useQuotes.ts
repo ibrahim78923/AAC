@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { PAGINATION } from '@/config';
 import { useForm } from 'react-hook-form';
+import { AIR_SALES } from '@/routesConstants/paths';
 import {
   useGetQuotesQuery,
   // useDeleteQuotesMutation,
@@ -21,8 +22,8 @@ const useQuotes = () => {
     setActionsEl(null);
   };
 
-  const handleEditQuote = () => {
-    router.push('/air-sales/quotes/create-quote');
+  const handleEditQuote = (id: any) => {
+    router.push({ pathname: AIR_SALES.UPDATE_QUOTE, query: { data: id } });
     handleActionsDropdownClose();
   };
 

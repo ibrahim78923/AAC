@@ -4,12 +4,11 @@ import TemplatePlaceholder from '../TemplatePlaceholder';
 import { styles } from './StepDeal.style';
 import { dealFormData } from '../CreateQuote.data';
 import TemplateBasic from '../TemplateBasic';
-import useCreateQuotes from '../useCreateQuote';
+// import useCreateQuotes from '../useCreateQuote';
 import { FormProvider } from '@/components/ReactHookForm';
 
-const StepDeal = ({ openCreateDeal, values, methods }: any) => {
-  const { dataGetDeals } = useCreateQuotes();
-  const formArray = dealFormData(dataGetDeals?.data?.deals, openCreateDeal);
+const StepDeal = ({ openCreateDeal, values, methods, dataGetDeals }: any) => {
+  const formArray = dealFormData(dataGetDeals, openCreateDeal);
 
   return (
     <>
@@ -40,8 +39,10 @@ const StepDeal = ({ openCreateDeal, values, methods }: any) => {
           </Grid>
           <Grid item xs={7}>
             <TemplateFrame>
-              {values?.quoteTemplate === '' || values?.quoteTemplate == null ? (
+              {values?.template === '' || values?.template == null ? (
                 <TemplatePlaceholder />
+              ) : values?.template === 'Basic' ? (
+                <TemplateBasic />
               ) : (
                 <TemplateBasic />
               )}
