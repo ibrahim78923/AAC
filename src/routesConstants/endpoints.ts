@@ -109,6 +109,7 @@ export const ORG_ADMIN = {
   SUBSCRIPTION_AND_INVOICES: '/org-admin/subscriptions',
   GET_INVOICES: '/org-admin/invoices',
   PRODUCT_PLAN_LIST: '/plan/product-plan-list',
+  ACTIVITY_LOG: '/activity-log',
 };
 
 export const COMMON_DOCUMENTS = {
