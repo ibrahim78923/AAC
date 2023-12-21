@@ -1,6 +1,6 @@
 #!/usr/bin/env groovy
 def deployImg(){
-          lock('deploy_lock'){
+          lock('deploy_AAC_FE_lock'){
             sshagent(['AAC']) {
               sh """
                 ssh -o StrictHostKeyChecking=no -tt ubuntu@18.171.60.181 '
