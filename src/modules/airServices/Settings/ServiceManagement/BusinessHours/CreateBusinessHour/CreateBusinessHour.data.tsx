@@ -1,3 +1,4 @@
+import * as yup from 'yup';
 import { Typography } from '@mui/material';
 import { DeleteHolidayModal } from './DeleteDashboardModal';
 
@@ -57,15 +58,6 @@ export const weekDays = [
   'Saturday',
   'Sunday',
 ];
-export const holidaysData = [
-  { label: 'Holidays in Andorra', value: 'Andorra' },
-  { label: 'Holidays in UAE', value: 'UAE' },
-  { label: 'Holidays in Pakistan', value: 'Pakistan' },
-  { label: 'Holidays in Albania', value: 'Albania' },
-  { label: 'Holidays in Armenia', value: 'Armenia' },
-  { label: 'Holidays in Angola', value: 'Angola' },
-  { label: 'Holidays in Austria', value: 'Austria' },
-];
 export const importHolidaysDropDown = [
   {
     title: 'Holidays in Andorra',
@@ -122,3 +114,39 @@ export const businessHourDefaultValues = {
   Saturday: defaultTimings,
   Sunday: defaultTimings,
 };
+
+const dayTimingsValidationSchema = yup.object().shape({
+  switch: yup.boolean(),
+  timings: yup.array().of(
+    yup.object().shape({
+      startTime: yup
+        .string()
+        .nullable()
+        .matches(
+          /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/,
+          'Invalid start time format (HH:mm)',
+        ),
+      endTime: yup
+        .string()
+        .nullable()
+        .matches(
+          /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/,
+          'Invalid end time format (HH:mm)',
+        ),
+    }),
+  ),
+});
+
+export const businessHourValidationSchema = yup.object().shape({
+  name: yup.string().required('Required'),
+  description: yup.string().required('Required'),
+  timeZone: yup.string().required('Required'),
+  serviceHour: yup.string().required('Required'),
+  Monday: dayTimingsValidationSchema,
+  Tuesday: dayTimingsValidationSchema,
+  Wednesday: dayTimingsValidationSchema,
+  Thursday: dayTimingsValidationSchema,
+  Friday: dayTimingsValidationSchema,
+  Saturday: dayTimingsValidationSchema,
+  Sunday: dayTimingsValidationSchema,
+});
