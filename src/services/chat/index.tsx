@@ -5,7 +5,7 @@ export const chatApi = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getUserChats: builder.query({
       query: ({ activeChatId, params }: any) => ({
-        url: `${SOCIAL_FEATURES_CHAT.CHAT}${activeChatId}?page=1&limit=100`,
+        url: `${SOCIAL_FEATURES_CHAT?.CHAT}${activeChatId}?page=1&limit=100`,
         method: 'GET',
         params: params,
         headers: {
@@ -16,7 +16,7 @@ export const chatApi = baseAPI.injectEndpoints({
     }),
     getChatsContacts: builder.query({
       query: ({ params }: any) => ({
-        url: `${SOCIAL_FEATURES_CHAT.CHAT_LIST}?page=1&limit=10&isGroup=false`,
+        url: `${SOCIAL_FEATURES_CHAT?.CHAT_LIST}?page=1&limit=10&isGroup=false`,
         method: 'GET',
         params: params,
         headers: {

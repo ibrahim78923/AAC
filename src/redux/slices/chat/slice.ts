@@ -34,11 +34,11 @@ const chatSlice = createSlice({
       state.chatModeState = action?.payload;
     },
     setAddMessage(state, action) {
-      state.chatMessages = action.payload;
+      state.chatMessages = action?.payload;
     },
     setChatMessages(state, action) {
       if (Array.isArray(action?.payload)) {
-        state.chatMessages = action.payload;
+        state.chatMessages = action?.payload;
       } else {
         const existingMessageIndex = state.chatMessages.findIndex(
           (message: any) => message?._id === action?.payload?._id,
@@ -55,7 +55,7 @@ const chatSlice = createSlice({
       if (Array.isArray(action?.payload)) {
         state.chatContacts = action?.payload;
       } else {
-        const existingContactsIndex = state.chatContacts.findIndex(
+        const existingContactsIndex = state?.chatContacts?.findIndex(
           (contact: any) => contact?._id === action?.payload?._id,
         );
         if (existingContactsIndex === -1) {

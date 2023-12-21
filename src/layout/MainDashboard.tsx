@@ -435,18 +435,14 @@ const DashboardLayout = ({ children, window }: any) => {
     socket.on('add-message', () => {});
     socket.on('on-message-received', (payload: any) => {
       if (payload.data) {
-        dispatch(setChatMessages(payload.data));
+        dispatch(setChatMessages(payload?.data));
       }
     });
     socket.on('update-message', () => {});
     socket.on('on-message-update', () => {});
-
     socket.on('on-typing-start', () => {});
-
     socket.on('on-typing-stop', () => {});
   }
-
-  // console.log('socket', socket);
 
   return (
     <Box sx={{ display: 'flex' }}>

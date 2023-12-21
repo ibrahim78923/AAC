@@ -56,7 +56,7 @@ const ChatBox = ({
 
   const handelSendReaction = (emoji: any, item: any) => {
     const isReactionExists = item?.reactions?.some(
-      (reaction: any) => reaction.userId === user?._id,
+      (reaction: any) => reaction?.userId === user?._id,
     );
 
     socket.emit(

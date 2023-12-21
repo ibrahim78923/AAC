@@ -31,7 +31,9 @@ const ChatField = () => {
     getSession();
 
   const boxRef = useRef<any>(null);
-  const chatMessages = useAppSelector((state) => state?.chat?.messageStatus);
+  const chatMessages = useAppSelector(
+    (state: any) => state?.chat?.messageStatus,
+  );
 
   useEffect(() => {
     if (boxRef?.current) {
@@ -86,7 +88,7 @@ const ChatField = () => {
               chatDataToShow &&
               chatDataToShow
                 ?.slice()
-                .reverse()
+                ?.reverse()
                 ?.map((item: any) => {
                   const role =
                     item?.ownerId === user?._id ? 'sender' : 'receiver';

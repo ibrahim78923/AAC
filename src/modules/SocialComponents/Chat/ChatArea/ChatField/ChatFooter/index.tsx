@@ -27,7 +27,7 @@ const ChatFooter = () => {
     id,
   } = useChatFooter();
 
-  const socket = useAppSelector((state) => state.chat.socket);
+  const socket = useAppSelector((state) => state?.chat?.socket);
 
   const chatMessages = useAppSelector((state) => state?.chat?.chatMessages);
   const activeChatId = useAppSelector((state) => state?.chat?.activeChatId);
@@ -37,8 +37,6 @@ const ChatFooter = () => {
   const activeParticipant = useAppSelector(
     (state) => state?.chat?.activeParticipant,
   );
-  // console.log("activeParticipant", activeParticipant)
-  // console.log("activeReceiverId", activeReceiverId[0])
 
   const setAddMessageHandler = () => {
     if (chatMessages?.length > 0) {
@@ -62,7 +60,6 @@ const ChatFooter = () => {
         },
         (response: any) => {
           setMessageText('');
-          // logic for add chat id
           dispatch(
             setUpdateChatContacts({
               ownerId: response?.data?.ownerId,

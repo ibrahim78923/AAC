@@ -20,7 +20,7 @@ import { GroupAvatarImage, UserAvatarImage } from '@/assets/images';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { setChatContacts, setChatMessages } from '@/redux/slices/chat/slice';
 import { useGetUserChatsQuery } from '@/services/chat';
-import { getSession } from '@/utils';
+import { getSession, isNullOrEmpty } from '@/utils';
 import { styles } from './Chat.style';
 
 const Chat = () => {
@@ -200,7 +200,7 @@ const Chat = () => {
         <Box sx={{ width: '300px', m: 2 }}>
           <Typography
             variant="h5"
-            color={theme.palette.grey[600]}
+            color={theme?.palette?.grey[600]}
             sx={{ mb: 1 }}
           >
             New Chat
@@ -214,51 +214,39 @@ const Chat = () => {
             sx={{ marginBottom: '15px' }}
           />
           <Box sx={styles?.usersBox}>
-            {/* {options?.map((item: any) => (
-              <Button
-                key={uuidv4()}
-                sx={styles?.userCard}
-                onClick={() => handelNewUserChat(item)}
-              >
-                <Image
-                  width={30}
-                  height={30}
-                  src={item?.src}
-                  alt={item?.name}
-                />
-                <Typography variant="body2" color={theme?.palette?.grey[600]}>
-                  {item?.firstName}&nbsp;{item?.lastName}
-                </Typography>
-              </Button>
-            ))} */}
-            {options?.map((item: any) => {
-              const isUserExists = chatContacts.some(
-                (chat: any) =>
-                  chat?.participants.some(
-                    (participant: any) => participant?._id === item?.id,
-                  ),
-              );
-              // console.log("isUserExists", isUserExists)
-              return (
-                <Button
-                  key={uuidv4()}
-                  sx={styles?.userCard}
-                  onClick={() =>
-                    isUserExists ? handelUserExists() : handelNewUserChat(item)
-                  }
-                >
-                  <Image
-                    width={30}
-                    height={30}
-                    src={item?.src}
-                    alt={item?.name}
-                  />
-                  <Typography variant="body2" color={theme?.palette?.grey[600]}>
-                    {item?.firstName}&nbsp;{item?.lastName}
-                  </Typography>
-                </Button>
-              );
-            })}
+            {!isNullOrEmpty(options) &&
+              options?.map((item: any) => {
+                const isUserExists = chatContacts?.some(
+                  (chat: any) =>
+                    chat?.participants?.some(
+                      (participant: any) => participant?._id === item?.id,
+                    ),
+                );
+                return (
+                  <Button
+                    key={uuidv4()}
+                    sx={styles?.userCard}
+                    onClick={() =>
+                      isUserExists
+                        ? handelUserExists()
+                        : handelNewUserChat(item)
+                    }
+                  >
+                    <Image
+                      width={30}
+                      height={30}
+                      src={item?.src}
+                      alt={item?.name}
+                    />
+                    <Typography
+                      variant="body2"
+                      color={theme?.palette?.grey[600]}
+                    >
+                      {item?.firstName}&nbsp;{item?.lastName}
+                    </Typography>
+                  </Button>
+                );
+              })}
           </Box>
         </Box>
       </Popover>
