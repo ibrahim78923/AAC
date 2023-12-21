@@ -28,7 +28,7 @@ const UserLists = ({
               src={userImg?.src}
               sx={{ ...styles?.avatar, ...renderLabelColors[label] }}
             >
-              {performedByName.charAt(0)} {performedByName.charAt(1)}
+              {performedByName?.charAt(0)} {performedByName?.charAt(1)}
             </Avatar>
             <Box>
               {/* This line is more modify WRF Backend data */}
@@ -43,8 +43,8 @@ const UserLists = ({
                 </Box>
               </Link>
 
-              {/* <a href(user_url/data.performedBy)>performByName </a> has data.activityType 
-              <a href="moduleArray[data.module]/data.moduleId" > data.moduleName </a> */}
+              {/* <a href(user_url/data?.performedBy)>performByName </a> has data?.activityType 
+              <a href="moduleArray[data?.module]/data?.moduleId" > data?.moduleName </a> */}
             </Box>
           </Box>
           <Typography

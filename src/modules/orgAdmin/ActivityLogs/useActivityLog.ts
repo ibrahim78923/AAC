@@ -8,11 +8,13 @@ const useActivityLog = () => {
   const [dateValue, setDateValue] = useState<any>([new Date(), new Date()]);
   const [filterValues, setFilterValues] = useState({});
   const searchParam = { search: search };
+  const startDate = 0,
+    endaDate = 1;
 
   const handleDateSubmit = () => {
     const filterPayloadValues = {
-      startDate: dayjs(dateValue[0])?.format(DATE_FORMAT?.API),
-      endDate: dayjs(dateValue[1])?.format(DATE_FORMAT?.API),
+      startDate: dayjs(dateValue[startDate])?.format(DATE_FORMAT?.API),
+      endDate: dayjs(dateValue[endaDate])?.format(DATE_FORMAT?.API),
     };
 
     setFilterValues(filterPayloadValues);
@@ -37,13 +39,13 @@ const useActivityLog = () => {
     });
 
     // Check if the log with the same date already exists in ActivityLogsData
-    const existingLog = ActivityLogsData.find(
-      (item: any) => item.date === logDate,
+    const existingLog = ActivityLogsData?.find(
+      (item: any) => item?.date === logDate,
     );
 
     if (existingLog) {
       // Log with the same date exists, add the new user data to the existing log
-      existingLog.userLists.push({
+      existingLog?.userLists?.push({
         id: log?._id,
         performedByName: log?.performedByName,
         moduleName: log?.moduleName,
@@ -51,14 +53,14 @@ const useActivityLog = () => {
         moduleId: log?.moduleId,
         userImg: 'ExampleKababCaseImg',
         label: log.activityType,
-        time: new Date(log.createdAt).toLocaleTimeString('en-US', {
+        time: new Date(log.createdAt)?.toLocaleTimeString('en-US', {
           hour: 'numeric',
           minute: 'numeric',
         }),
       });
     } else {
       // Log with the same date does not exist, create a new log entry
-      ActivityLogsData.push({
+      ActivityLogsData?.push({
         id: ActivityLogsData?.length + 1,
         date: logDate,
         userLists: [
@@ -70,7 +72,7 @@ const useActivityLog = () => {
             moduleId: log?.moduleId,
             userImg: 'ExampleKababCaseImg',
             label: log.activityType,
-            time: new Date(log.createdAt).toLocaleTimeString('en-US', {
+            time: new Date(log.createdAt)?.toLocaleTimeString('en-US', {
               hour: 'numeric',
               minute: 'numeric',
             }),

@@ -55,6 +55,8 @@ const ActivityLogs = () => {
           dateValue={dateValue}
           setDateValue={setDateValue}
           handleDateSubmit={handleDateSubmit}
+          renderInput="button"
+          placement="right"
         />
       </Box>
       {isLoading && (
