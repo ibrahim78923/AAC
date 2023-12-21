@@ -30,17 +30,24 @@ import {
 import { styles } from './ShareMyDine.style';
 
 import { v4 as uuidv4 } from 'uuid';
+import { useGetDealsActionPreviewQuery } from '@/services/airSales/deals';
 
-const ShareMyDine = ({ open, onClose }: any) => {
+const ShareMyDine = ({ open, onClose, selectedTableIds }: any) => {
   const theme = useTheme();
+  const { data: DealsActionData }: any = useGetDealsActionPreviewQuery({
+    id: selectedTableIds[0],
+  });
+  // console.log(DealsActionData?.data?.deals, 'DealsActionData');
+
   return (
     <>
       <CommonDrawer
         isDrawerOpen={open}
         onClose={onClose}
         footer
-        isOk
-        okText="Submit"
+        isCancel={false}
+        isOk={false}
+        okText=""
         title="ShareMyDine"
       >
         <Box sx={styles?.iconWrap}>
@@ -51,11 +58,11 @@ const ShareMyDine = ({ open, onClose }: any) => {
           <SaveIcon />
         </Box>
         <Box sx={{ marginTop: '40px' }}>
-          {ShareData?.map((item: any) => (
+          {ShareData(DealsActionData?.data).map((item: any) => (
             <Box key={uuidv4()} sx={styles?.heading}>
               <Typography
                 sx={{
-                  fontSize: '14x',
+                  fontSize: '14px',
                   fontWeight: 400,
                   color: theme?.palette?.custom['main'],
                 }}
@@ -112,10 +119,10 @@ const ShareMyDine = ({ open, onClose }: any) => {
                       >
                         <Stack>
                           <Typography sx={styles?.accordianText(theme)}>
-                            {data?.name}
+                            {data?.name ?? 'N/A'}
                           </Typography>
                           <Typography sx={styles?.accordianEmail(theme)}>
-                            {data?.email}
+                            {data?.email ?? 'N/A'}
                           </Typography>
                         </Stack>
                         <Typography
@@ -125,7 +132,7 @@ const ShareMyDine = ({ open, onClose }: any) => {
                             fontWeight: 500,
                           }}
                         >
-                          {data?.number}
+                          {data?.number ?? 'N/A'}
                         </Typography>
                       </Stack>
                     </Stack>

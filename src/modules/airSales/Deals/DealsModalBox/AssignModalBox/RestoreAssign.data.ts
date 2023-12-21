@@ -1,13 +1,28 @@
-export const RestoreModalData = {
-  title: 'Deal Owner',
-  componentProps: {
-    name: 'dealOwner',
-    label: 'Select',
-  },
-  options: [
-    { value: 'Savannah Shane', label: 'Savannah Shane' },
-    { value: 'Phoenix Baker', label: 'Phoenix Baker' },
-    { value: 'Cameron Williamson', label: 'Cameron Williamson' },
-    { value: 'Brooklyn Simmons', label: 'Brooklyn Simmons' },
-  ],
+import { RHFTextField } from '@/components/ReactHookForm';
+
+import useDealSaleSite from '../../useDealSaleSite';
+
+export const defaultValues = {
+  dealOwnerId: 'select',
+};
+export const RestoreModalData = () => {
+  const { DealsUserListData } = useDealSaleSite();
+
+  return [
+    {
+      componentProps: {
+        name: 'dealOwnerId',
+        label: 'Deal Owner',
+        select: true,
+        defaultValues: 'Select',
+      },
+      options: DealsUserListData?.data?.useros?.map((item: any) => {
+        return {
+          value: item?._id,
+          label: `${item?.firstName} ${item?.lastName}`,
+        };
+      }) ?? [{ label: 'Select', value: 'Select' }],
+      component: RHFTextField,
+    },
+  ];
 };

@@ -57,7 +57,7 @@ export const AIR_SALES = {
   SALES_INVOICES: '/air-sales/invoices',
   SALES_VIEW_INVOICES: '/air-sales/invoices/view-invoices',
   SALES_CREATE_INVOICES: '/air-sales/invoices/create-invoices',
-  DEAL: ' /air-sales/deals',
+  DEAL: '/air-sales/deals',
   CONTACTS: '/air-sales/contacts/view-details',
 };
 

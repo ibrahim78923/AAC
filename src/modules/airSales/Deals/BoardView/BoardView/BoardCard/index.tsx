@@ -4,13 +4,13 @@ import { Box, Typography } from '@mui/material';
 
 import { BoardCardI } from './BoardCard.interface';
 import { styles } from './BoardCard.style';
-import DealCard from './DealCard';
 
 const BoardCard: FC<BoardCardI> = ({
   dealStage,
   stageDealsNumber,
   stageDealsAmount,
   stageDealsPercent,
+  children,
 }) => {
   return (
     <Box sx={styles?.card}>
@@ -22,7 +22,7 @@ const BoardCard: FC<BoardCardI> = ({
           >
             {dealStage}
           </Typography>
-          <Box sx={styles.dealsNumber}>{stageDealsNumber}</Box>
+          <Box sx={styles?.dealsNumber}>{stageDealsNumber}</Box>
         </Box>
 
         <Box sx={styles?.cardHeaderRight}>
@@ -33,10 +33,7 @@ const BoardCard: FC<BoardCardI> = ({
         </Box>
       </Box>
 
-      <Box sx={styles?.cardBody}>
-        <DealCard />
-        <DealCard />
-      </Box>
+      <Box sx={styles?.cardBody}>{children}</Box>
     </Box>
   );
 };
