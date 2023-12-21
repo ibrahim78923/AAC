@@ -22,6 +22,7 @@ const useOrganizationTable = () => {
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   const [editData, setEditData] = useState<any>({});
+  const [drawerHeading, setDrawerHeading] = useState('Create Company');
   const [isGetRowValues, setIsGetRowValues] = useState<any>([]);
   const [isOpenDelete, setIsOpenDelete] = useState(false);
   const [isToggled, toggle] = useToggle(false);
@@ -167,6 +168,8 @@ const useOrganizationTable = () => {
     imageHandler,
     setImageHandler,
     editData,
+    drawerHeading,
+    setDrawerHeading,
   };
 };
 

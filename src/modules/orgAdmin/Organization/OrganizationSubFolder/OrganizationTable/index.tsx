@@ -63,21 +63,21 @@ const OrganizationTable = () => {
     deleteOrganizationCompany,
     imageHandler,
     setImageHandler,
-    editData,
     value,
     setValue,
+    drawerHeading,
+    setDrawerHeading,
   } = useOrganizationTable();
 
   return (
     <>
-      {/* Add form */}
       <CommonDrawer
         isDrawerOpen={isOpenDrawer}
         onClose={() => {
           setIsOpenDrawer(false);
         }}
-        title={editData ? 'Edit Data' : 'Create Company'}
-        okText={editData ? 'Update' : 'Add'}
+        title={`${drawerHeading}`}
+        okText={drawerHeading === 'Edit Company' ? 'Update' : 'Add'}
         isOk
         footer={true}
         submitHandler={handleSubmit(onSubmit)}
@@ -332,6 +332,7 @@ const OrganizationTable = () => {
                 <MenuItem
                   onClick={() => {
                     handleClose();
+                    setDrawerHeading('Edit Comapny');
                     setIsOpenDrawer(true);
                   }}
                 >
