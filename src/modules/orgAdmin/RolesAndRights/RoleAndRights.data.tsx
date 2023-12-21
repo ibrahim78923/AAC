@@ -84,9 +84,8 @@ export const columns: any = (columnsProps: any) => {
 
 export const addUserSchema = Yup.object().shape({
   productId: Yup?.string()?.required('Field is Required'),
-  companyAccountRoleId: Yup?.string()?.required('Field is Required'),
+  organizationCompanyAccountId: Yup?.string()?.required('Field is Required'),
   name: Yup?.string()?.required('Field is Required'),
-  status: Yup?.string()?.required('Field is Required'),
 });
 
 export const addUsersArrayData = () => {
@@ -116,7 +115,7 @@ export const addUsersArrayData = () => {
     {
       componentProps: {
         label: 'Select Company Account',
-        name: 'companyAccountRoleId',
+        name: 'organizationCompanyAccountId',
         fullWidth: true,
         required: true,
         select: true,

@@ -26,7 +26,7 @@ const DashboardAccordion = ({ subModules }: any) => {
           <AccordionDetails sx={{ p: 0 }}>
             <Grid container>
               <RHFMultiCheckbox
-                name="dashboardAcord"
+                name="permissions"
                 options={item?.permissions?.map((item: any) => ({
                   label: item?.name,
                   value: item?.slug,
