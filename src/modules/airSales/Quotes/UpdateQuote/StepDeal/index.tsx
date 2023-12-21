@@ -2,13 +2,15 @@ import { Grid, Typography } from '@mui/material';
 import TemplateFrame from '../TemplateFrame/index';
 import TemplatePlaceholder from '../TemplatePlaceholder';
 import { styles } from './StepDeal.style';
-import { dealFormData } from '../CreateQuote.data';
+import { dealFormData } from '../UpdateQuote.data';
 import TemplateBasic from '../TemplateBasic';
-// import useCreateQuotes from '../useCreateQuote';
+import useUpdateQuote from '../useUpdateQuote';
 import { FormProvider } from '@/components/ReactHookForm';
 
-const StepDeal = ({ openCreateDeal, values, methods, dataGetDeals }: any) => {
-  const formArray = dealFormData(dataGetDeals, openCreateDeal);
+const StepDeal = ({ openCreateDeal, values, methods }: any) => {
+  const { dataGetDeals } = useUpdateQuote();
+
+  const formArray = dealFormData(dataGetDeals?.data?.deals, openCreateDeal);
 
   return (
     <>

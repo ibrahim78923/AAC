@@ -23,12 +23,12 @@ const useQuotes = () => {
   };
 
   const handleEditQuote = (id: any) => {
-    router.push({ pathname: AIR_SALES.UPDATE_QUOTE, query: { data: id } });
+    router.push({ pathname: AIR_SALES?.UPDATE_QUOTE, query: { data: id } });
     handleActionsDropdownClose();
   };
 
   const handleViewQuote = () => {
-    router.push('/air-sales/quotes/view-quote');
+    router.push(AIR_SALES?.VIEW_QUOTE);
     handleActionsDropdownClose();
   };
 

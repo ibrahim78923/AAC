@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid } from '@mui/material';
-import { createQuoteFormFields } from '../CreateQuote.data';
+import { createQuoteFormFields } from '../UpdateQuote.data';
 import TemplateFrame from '../TemplateFrame';
 import TemplateBasic from '../TemplateBasic';
 import TemplatePlaceholder from '../TemplatePlaceholder';

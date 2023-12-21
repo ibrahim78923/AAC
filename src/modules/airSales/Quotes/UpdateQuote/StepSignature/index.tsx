@@ -3,7 +3,7 @@ import { Box, Grid, Typography } from '@mui/material';
 import TemplateFrame from '../TemplateFrame';
 import TemplateBasic from '../TemplateBasic';
 import { styles } from './StepSignature.style';
-import { signatureFormData } from '../CreateQuote.data';
+import { signatureFormData } from '../UpdateQuote.data';
 import { FormProvider } from '@/components/ReactHookForm';
 
 const StepSignature = ({ values, methods }: any) => {

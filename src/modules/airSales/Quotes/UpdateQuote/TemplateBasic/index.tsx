@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Typography, Grid, Divider } from '@mui/material';
-import { createQuoteFormFields } from '../CreateQuote.data';
+import { createQuoteFormFields } from '../UpdateQuote.data';
 import { styles } from './TemplateBasic.style';
 
 const TemplateBasic = ({ values }: any) => {
