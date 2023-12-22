@@ -23,10 +23,12 @@ import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
 import { useState } from 'react';
 import UploadImageModal from './UploadImageModal';
+import EditDomainModal from './EditDomainModal';
 
 const ViewDetails = () => {
   const [isHovered, setIsHovered] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
+  const [isUploadImageOpen, setIsUploadImageOpen] = useState(false);
+  const [isEditDomainOpen, setIsEditDomainOpen] = useState(false);
 
   const theme = useTheme();
   const { data } = useGetCompaniesDetailsQuery({
@@ -64,7 +66,7 @@ const ViewDetails = () => {
               }}
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
-              onClick={() => setIsOpen(true)}
+              onClick={() => setIsUploadImageOpen(true)}
             >
               <Image
                 src={NotesAvatarImage}
@@ -83,9 +85,20 @@ const ViewDetails = () => {
               <Typography variant="h4">{data?.data?.name}</Typography>
               <Typography
                 variant="body2"
-                sx={{ color: theme?.palette?.custom?.main }}
+                sx={{
+                  color: theme?.palette?.custom?.main,
+                  display: 'flex',
+                  alignItems: 'center',
+                }}
               >
                 {data?.data?.domain}
+                <Box
+                  sx={{ marginLeft: '5px', cursor: 'pointer' }}
+                  onClick={() => setIsEditDomainOpen(true)}
+                >
+                  {' '}
+                  <EditFormIcon />
+                </Box>
               </Typography>
             </Box>
           </Box>
@@ -232,7 +245,14 @@ const ViewDetails = () => {
         </Grid>
       </Grid>
 
-      <UploadImageModal isOpen={isOpen} setIsOpen={setIsOpen} />
+      <UploadImageModal
+        isUploadImageOpen={isUploadImageOpen}
+        setIsUploadImageOpen={setIsUploadImageOpen}
+      />
+      <EditDomainModal
+        isEditDomainOpen={isEditDomainOpen}
+        setIsEditDomainOpen={setIsEditDomainOpen}
+      />
     </Box>
   );
 };

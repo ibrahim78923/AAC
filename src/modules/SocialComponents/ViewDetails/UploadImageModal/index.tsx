@@ -22,7 +22,7 @@ import {
 import { useState } from 'react';
 import { styles } from '../ViewDetails.style';
 
-const UploadImageModal = ({ isOpen, setIsOpen }: any) => {
+const UploadImageModal = ({ isUploadImageOpen, setIsUploadImageOpen }: any) => {
   const [selectedImage, setSelectedImage] = useState(null);
 
   const theme = useTheme();
@@ -43,8 +43,8 @@ const UploadImageModal = ({ isOpen, setIsOpen }: any) => {
 
   return (
     <Dialog
-      open={isOpen}
-      onClose={() => setIsOpen(false)}
+      open={isUploadImageOpen}
+      onClose={() => setIsUploadImageOpen(false)}
       fullWidth
       maxWidth={'sm'}
     >
@@ -58,7 +58,10 @@ const UploadImageModal = ({ isOpen, setIsOpen }: any) => {
         >
           <Box></Box>
           <Typography variant="h4">Upload Image</Typography>
-          <Box sx={{ cursor: 'pointer' }} onClick={() => setIsOpen(false)}>
+          <Box
+            sx={{ cursor: 'pointer' }}
+            onClick={() => setIsUploadImageOpen(false)}
+          >
             <AlertModalCloseIcon />
           </Box>
         </Box>
@@ -123,7 +126,7 @@ const UploadImageModal = ({ isOpen, setIsOpen }: any) => {
           <Button
             variant="outlined"
             color="secondary"
-            onClick={() => setIsOpen(false)}
+            onClick={() => setIsUploadImageOpen(false)}
             sx={{
               marginRight: '15px',
               border: `1px solid ${theme?.palette?.grey[900]}`,
@@ -134,7 +137,7 @@ const UploadImageModal = ({ isOpen, setIsOpen }: any) => {
           </Button>
           <Button
             variant="contained"
-            onClick={() => setIsOpen(false)}
+            onClick={() => setIsUploadImageOpen(false)}
             disabled={!selectedImage}
           >
             confirm
