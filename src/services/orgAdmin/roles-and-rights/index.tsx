@@ -38,6 +38,17 @@ export const rolesAndRightsAPI = baseAPI.injectEndpoints({
       },
       invalidatesTags: ['PERMISSIONS'],
     }),
+
+    postPermissionRole: builder.mutation({
+      query: ({ body }: any) => {
+        return {
+          url: END_POINTS?.GET_PERMISSIONS_ROLES,
+          method: 'POST',
+          body: body,
+        };
+      },
+      invalidatesTags: ['PERMISSIONS'],
+    }),
   }),
 });
 
@@ -47,4 +58,5 @@ export const {
   useUpdateRoleRightsMutation,
   useGetPermissionsRolesByIdQuery,
   useLazyGetPermissionsRolesByIdQuery,
+  usePostPermissionRoleMutation,
 } = rolesAndRightsAPI;
