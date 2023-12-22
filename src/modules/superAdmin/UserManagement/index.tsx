@@ -84,7 +84,7 @@ const UserManagement = () => {
           <CommonTabs
             getTabVal={(val: number) => setTabVal(val)}
             searchBarProps={{
-              label: 'Search Here',
+              label: 'Search by Name',
               setSearchBy: setSearchVal,
               searchBy: searchVal,
             }}
