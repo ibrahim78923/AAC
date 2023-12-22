@@ -63,7 +63,7 @@ export default function RHFMultiSearchableSelect({
   };
 
   const handleOptionSelect = (value: string, field: any) => {
-    if (!selectedValues.includes(value)) {
+    if (!selectedValues?.includes(value)) {
       setSelectedValues([...selectedValues, value]);
       field?.onChange([...selectedValues, value]);
     } else {

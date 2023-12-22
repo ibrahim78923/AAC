@@ -11,12 +11,13 @@ import {
 import { DATE_FORMAT, TIME_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
 import { enqueueSnackbar } from 'notistack';
-import { useGetDealsListViewQuery } from '@/services/airSales/deals';
+
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { useGetDealsListQuery } from '@/services/airSales/deals';
 
 const useScheduleEditorDrawer = () => {
   const { user } = getSession();
-  const { data: deals } = useGetDealsListViewQuery({});
+  const { data: deals } = useGetDealsListQuery({});
 
   const { data: employeeList } = useGetEmployeeListQuery({
     orgId: user?.organization?._id,
