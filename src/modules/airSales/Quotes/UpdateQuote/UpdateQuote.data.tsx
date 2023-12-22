@@ -161,7 +161,7 @@ interface QuotesUpdateI {
   methodsSignature?: any;
 }
 export const updateQuoteSteps = (params: QuotesUpdateI) => {
-  // console.log('septArrray::: datafile:::', params?.dealsList)
+  // console.log('septArrray::: datafile:::', params?.data)
   return [
     {
       key: 'deal',

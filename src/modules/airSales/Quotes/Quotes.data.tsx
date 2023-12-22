@@ -125,7 +125,8 @@ export const quotesColumns = (
       id: 'createdBy',
       isSortable: true,
       header: 'Created By',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) =>
+        `${info?.getValue()?.firstName} ${info?.getValue()?.lastName}`,
     },
     {
       accessorFn: (row: any) => row?.createdAt,
