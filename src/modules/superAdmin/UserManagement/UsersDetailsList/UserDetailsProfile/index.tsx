@@ -1,17 +1,12 @@
 import { Box, Button, Grid, InputAdornment, Typography } from '@mui/material';
-
 import { FormProvider } from '@/components/ReactHookForm';
-
 import {
   profileFields,
   profileValidationSchema,
 } from './UserDetailsProfile.data';
-
 import { useForm } from 'react-hook-form';
-
 import { yupResolver } from '@hookform/resolvers/yup';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
-
 import { v4 as uuidv4 } from 'uuid';
 import useToggle from '@/hooks/useToggle';
 import { EraserIcon } from '@/assets/icons';
@@ -23,9 +18,23 @@ const UserDetailsProfile = (props: any) => {
   const [isToggled, setIsToggled] = useToggle(false);
   const id = userDetails?._id;
 
+  const userProfileDefaultValues = {
+    ...userDetails,
+    address: userDetails?.address?.composite
+      ? userDetails?.address?.composite
+      : `Flat # ${userDetails?.address?.flatNumber}, building # ${userDetails?.address?.buildingNumber} ,
+    ${userDetails?.address?.buildingName}, street # ${userDetails?.address?.streetName},${userDetails?.address?.city}, ${userDetails?.address?.country} `,
+    flat: userDetails?.address?.flatNumber ?? 'N/A',
+    city: userDetails?.address?.city ?? 'N/A',
+    country: userDetails?.address?.country ?? 'N/A',
+    buildingName: userDetails?.address?.buildingName ?? 'N/A',
+    buildingNumber: userDetails?.address?.buildingNumber ?? 'N/A',
+    streetName: userDetails?.address?.streetName ?? 'N/A',
+  };
+
   const methods: any = useForm({
     resolver: yupResolver(profileValidationSchema),
-    defaultValues: userDetails,
+    defaultValues: userProfileDefaultValues,
   });
 
   const { handleSubmit } = methods;

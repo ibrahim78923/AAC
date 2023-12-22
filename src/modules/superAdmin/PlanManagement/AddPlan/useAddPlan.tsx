@@ -204,8 +204,6 @@ export const useAddPlan = () => {
         planPrice: parseInt(planForm?.planPrice),
         additionalPerUserPrice: parseInt(planForm?.additionalPerUserPrice),
         additionalStoragePrice: parseInt(planForm?.additionalStoragePrice),
-        allowAdditionalUsers: planForm?.allowAdditionalUsers,
-        allowAdditionalStorage: planForm?.allowAdditionalStorage,
       };
       const planFeaturesFormData = featuresFormData?.map(
         (item: any) =>
