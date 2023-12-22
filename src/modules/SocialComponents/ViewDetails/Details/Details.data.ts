@@ -238,7 +238,7 @@ export const detailsDataArray = [
   },
   {
     componentProps: {
-      name: 'Description',
+      name: 'description',
       label: 'Description',
       fullWidth: true,
       placeholder: 'Type Here',

@@ -5,9 +5,12 @@ import { useTheme } from '@mui/material';
 import { detailsDefaultValues, detailsValidationSchema } from './Details.data';
 
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useCompanyUpdateMutation } from '@/services/commonFeatures/companies';
+import { enqueueSnackbar } from 'notistack';
 
 const useDetails = (data: any) => {
   const theme = useTheme();
+  const [CompanyUpdate] = useCompanyUpdateMutation();
 
   const rowApiValues = {
     CompanyName: data?.name,
@@ -81,7 +84,20 @@ const useDetails = (data: any) => {
     },
   });
 
-  const onSubmit = () => {};
+  const onSubmit = async (values: any) => {
+    try {
+      await CompanyUpdate({
+        body: values,
+        Id: data?._id,
+      }).unwrap();
+
+      enqueueSnackbar(`plan updated Successfully`, { variant: 'success' });
+    } catch (error) {
+      enqueueSnackbar('Some thing went wrong', {
+        variant: 'error',
+      });
+    }
+  };
   const { handleSubmit } = methodsDetails;
   return {
     theme,
