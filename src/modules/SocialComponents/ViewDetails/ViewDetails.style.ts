@@ -62,25 +62,29 @@ export const styles = {
       gap: 0.2,
     };
   },
-  uploadImage: {
-    borderRadius: '50%',
-    border: '2px solid #D1D5DB',
-    height: '80px',
-    width: '80px',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    margin: 'auto',
-    marginBottom: '15px',
+  uploadImage: (theme: any) => {
+    return {
+      borderRadius: '50%',
+      border: `2px solid ${theme?.palette?.custom?.dark}`,
+      height: '80px',
+      width: '80px',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      margin: 'auto',
+      marginBottom: '15px',
+    };
   },
   inputStyle: {
     display: 'none', // Hide the default input element
   },
-  labelStyle: {
-    color: '#9CA3AF',
-    padding: '8px',
-    borderRadius: '4px',
-    cursor: 'pointer',
-    fontSize: '12px',
+  labelStyle: (theme: any) => {
+    return {
+      color: theme?.palette?.grey[900],
+      padding: '8px',
+      borderRadius: '4px',
+      cursor: 'pointer',
+      fontSize: '12px',
+    };
   },
 };

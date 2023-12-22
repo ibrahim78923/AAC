@@ -70,7 +70,7 @@ const UploadImageModal = ({ isUploadImageOpen, setIsUploadImageOpen }: any) => {
         sx={{ textAlign: 'center', paddingBottom: '15px !important' }}
       >
         <Box>
-          <Box sx={styles.uploadImage}>
+          <Box sx={styles.uploadImage(theme)}>
             {selectedImage ? (
               <Image
                 src={selectedImage}
@@ -91,13 +91,16 @@ const UploadImageModal = ({ isUploadImageOpen, setIsUploadImageOpen }: any) => {
           <Box sx={{ marginTop: '15px' }}>
             <Input
               accept="image/png, image/jpeg" // Specify accepted file types if needed
-              style={styles.inputStyle}
+              style={styles?.inputStyle}
               id="contained-button-file"
               multiple
               type="file"
               onChange={handleFileChange}
             />
-            <label htmlFor="contained-button-file" style={styles.labelStyle}>
+            <label
+              htmlFor="contained-button-file"
+              style={styles?.labelStyle(theme)}
+            >
               <ImageUploadIcon />
               <br />
               Upload image (max 5)

@@ -122,7 +122,7 @@ const ViewDetails = () => {
                   sx={{ color: theme?.palette?.custom?.main }}
                 >
                   Created on{' '}
-                  {dayjs(data?.data?.createdAt)?.format(DATE_FORMAT?.API)},{' '}
+                  {dayjs(data?.data?.createdAt)?.format(DATE_FORMAT?.UI)},{' '}
                   {formattedTime}
                 </Typography>
               </Box>
