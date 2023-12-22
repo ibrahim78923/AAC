@@ -6,6 +6,7 @@ import {
   Grid,
   Menu,
   MenuItem,
+  Stack,
   Tooltip,
   Typography,
 } from '@mui/material';
@@ -28,7 +29,7 @@ import useCompanies from './useCompanies';
 
 import {
   CompanyIcon,
-  CutomizeIcon,
+  CustomizeIcon,
   FilterIcon,
   ImportCompaniesIcon,
   RefreshTasksIcon,
@@ -83,56 +84,49 @@ const Companies = () => {
       ) : (
         <>
           <Box sx={styles?.mainCompanyBox(theme)}>
-            <Grid container>
-              <Grid item lg={6} md={6} sm={6} xs={12}>
-                <Typography
-                  variant="h3"
-                  sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.5rem',
-                    color: `${theme?.palette?.grey[800]}`,
-                  }}
-                >
-                  <CompanyIcon /> Companies
-                </Typography>
-              </Grid>
-              <Grid
-                item
-                lg={6}
-                md={6}
-                sm={6}
-                xs={12}
+            <Stack
+              direction={{ md: 'row', xs: 'column' }}
+              justifyContent="space-between"
+              gap={1}
+            >
+              <Typography
+                variant="h3"
                 sx={{
                   display: 'flex',
-                  justifyContent: 'flex-end',
-                  gap: '1rem',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  color: `${theme?.palette?.grey[800]}`,
                 }}
               >
+                <CompanyIcon /> Companies
+              </Typography>
+              <Box
+                display="flex"
+                gap={1}
+                flexDirection={{ sm: 'row', xs: 'column' }}
+              >
                 <Button
-                  onClick={() => setIsImport(true)}
+                  className="small"
+                  color="inherit"
                   variant="outlined"
-                  sx={styles?.importButton(theme)}
+                  startIcon={<ImportCompaniesIcon />}
+                  onClick={() => setIsImport(true)}
                 >
-                  <ImportCompaniesIcon />
                   Import
                 </Button>
                 <Button
+                  className="small"
                   variant="contained"
+                  startIcon={<AddCircle />}
                   onClick={() => {
                     setIsOpenDrawer(true);
                   }}
-                  sx={styles?.createButton(theme)}
                 >
-                  <AddCircle
-                    sx={{
-                      color: `${theme?.palette?.common?.white}`,
-                    }}
-                  />
                   Create Company
                 </Button>
-              </Grid>
-            </Grid>
+              </Box>
+            </Stack>
+
             <CommonTabs
               tabsArray={companyTabs}
               isHeader={true}
@@ -147,18 +141,16 @@ const Companies = () => {
               headerChildren={
                 <>
                   <Button
-                    variant="outlined"
                     className="small"
-                    sx={styles?.actionButton}
+                    color="inherit"
+                    variant="outlined"
+                    endIcon={<ArrowDropDownIcon />}
                     aria-controls={open ? 'basic-menu' : undefined}
                     aria-haspopup="true"
                     aria-expanded={open ? 'true' : undefined}
                     onClick={handleClick}
                   >
                     Action
-                    <ArrowDropDownIcon
-                      sx={{ color: `${theme?.palette?.custom?.main}` }}
-                    />
                   </Button>
                   <Menu
                     anchorEl={anchorEl}
@@ -210,44 +202,48 @@ const Companies = () => {
                     </MenuItem>
                   </Menu>
                   <Button
-                    onClick={() => toggle(true)}
                     variant="outlined"
-                    sx={styles?.actionButton}
+                    className="small"
+                    color="inherit"
                     startIcon={<RestoreIcon />}
+                    onClick={() => toggle(true)}
                   >
                     Restore
                   </Button>
                   <>
                     <Button
-                      onClick={() => setIsCustomize(true)}
                       variant="outlined"
-                      sx={styles?.actionButton}
+                      className="small"
+                      color="inherit"
+                      startIcon={<CustomizeIcon />}
+                      onClick={() => setIsCustomize(true)}
                     >
-                      <CutomizeIcon /> &nbsp; Customize
+                      Customize
                     </Button>
                   </>
                   <Tooltip title={'Refresh Filter'}>
                     <Button
                       variant="outlined"
-                      color="inherit"
                       className="small"
+                      color="inherit"
                     >
                       <RefreshTasksIcon />
                     </Button>
                   </Tooltip>
                   <Button
                     variant="outlined"
-                    sx={styles?.actionButton}
+                    className="small"
+                    color="inherit"
+                    startIcon={<FilterIcon />}
                     onClick={() => setIsFilter(true)}
                   >
-                    <FilterIcon />
-                    &nbsp; Filter
+                    Filter
                   </Button>
                 </>
               }
             >
               <Grid item lg={12} md={12} sm={12} xs={12}>
-                <TanstackTable columns={columns} data={companiesTableData} />
+                <TanstackTable columns={columns()} data={companiesTableData} />
                 <CustomPagination
                   count={1}
                   rowsPerPageOptions={[1, 2]}

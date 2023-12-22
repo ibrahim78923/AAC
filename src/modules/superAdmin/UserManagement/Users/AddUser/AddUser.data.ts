@@ -98,6 +98,30 @@ export const addUsersArray = () => {
     },
     {
       componentProps: {
+        name: 'crn',
+        label: 'Company Registration Number(CRN)',
+        required: true,
+        placeholder: 'Enter CRN number',
+        fullWidth: true,
+      },
+      toShow: ['COMPANY_OWNER'],
+      component: RHFTextField,
+      md: 12,
+    },
+    {
+      componentProps: {
+        name: 'companyName',
+        label: 'Company Name',
+        required: true,
+        placeholder: 'Enter CRN number',
+        fullWidth: true,
+      },
+      toShow: ['COMPANY_OWNER'],
+      component: RHFTextField,
+      md: 12,
+    },
+    {
+      componentProps: {
         name: 'phoneNumber',
         label: 'Phone Number',
         placeholder: 'Enter Number',

@@ -351,6 +351,7 @@ const UsersDetailsList = () => {
           isOpenDrawer={isOpenAddCompanyDrawer}
           onClose={handleCloseAddCompanyDrawer}
           organizationId={organizationId}
+          setISOpenCompanyDrawer={setISOpenCompanyDrawer}
         />
       )}
       {isOpenAdduserDrawer && (
@@ -358,6 +359,7 @@ const UsersDetailsList = () => {
           isOpenDrawer={isOpenAdduserDrawer}
           onClose={handleAddUserDrawer}
           organizationId={organizationId}
+          setIsOpenAdduserDrawer={setIsOpenAdduserDrawer}
         />
       )}
     </Box>

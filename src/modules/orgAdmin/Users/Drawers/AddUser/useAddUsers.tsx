@@ -21,6 +21,9 @@ const useAddUsers = (setIsOpenAdduserDrawer: any) => {
       values.role = 'ORG_EMPLOYEE';
       postUserEmployee({ id: user?.organization?._id, body: values })?.unwrap();
       setIsOpenAdduserDrawer(false);
+      enqueueSnackbar('User Added Successfully', {
+        variant: 'success',
+      });
       reset();
     } catch (error: any) {
       enqueueSnackbar(error, {

@@ -9,7 +9,10 @@ import { validationSchema, defaultValues } from './AddCompanyDetails.data';
 import { userListApi } from '@/services/superAdmin/user-management/UserList';
 import { enqueueSnackbar } from 'notistack';
 
-const useAddCompanyDetails = (organizationId: any) => {
+const useAddCompanyDetails = (
+  organizationId: any,
+  setISOpenCompanyDrawer: any,
+) => {
   const theme = useTheme();
   const { useGetProductsQuery } = CommonAPIS;
   const { usePostCompanyMutation } = userListApi;
@@ -42,6 +45,7 @@ const useAddCompanyDetails = (organizationId: any) => {
 
     try {
       postCompany({ body: values })?.unwrap();
+      setISOpenCompanyDrawer(false);
       enqueueSnackbar('Company Added Successfully', { variant: 'success' });
       reset();
     } catch {

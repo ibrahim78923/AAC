@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import { Button } from '@mui/material';
+import { Button, Tooltip } from '@mui/material';
 
 import CommonTabs from '@/components/Tabs';
 
@@ -19,7 +19,12 @@ import DeleteModal from './ContactsModalBox/DeleteModal';
 import AssignModalBox from './ContactsModalBox/AssignModalBox';
 import ExportModal from './ContactsModalBox/ExportModal';
 
-import { FilterIcon, RestoreIcon, CutomizeIcon } from '@/assets/icons';
+import {
+  FilterIcon,
+  RestoreIcon,
+  CutomizeIcon,
+  RefreshTasksIcon,
+} from '@/assets/icons';
 
 const Contacts = () => {
   const {
@@ -65,7 +70,9 @@ const Contacts = () => {
             <Link href={SUPER_ADMIN?.AIRSALES_CONTCATS_RESTORE}>
               <Button
                 variant="outlined"
-                sx={{ height: '30px', color: theme?.palette?.custom['main'] }}
+                className="small"
+                color="inherit"
+                sx={{ color: theme?.palette?.custom['main'] }}
                 startIcon={<RestoreIcon />}
               >
                 Restore
@@ -75,22 +82,33 @@ const Contacts = () => {
               <Button
                 onClick={handleDealCustomize}
                 variant="outlined"
-                sx={{ height: '30px', color: theme?.palette?.custom['main'] }}
+                className="small"
+                color="inherit"
+                sx={{ color: theme?.palette?.custom['main'] }}
               >
                 <CutomizeIcon /> &nbsp; Customize
               </Button>
             </>
             <Button
               variant="outlined"
-              sx={{ height: '30px', color: theme?.palette?.custom['main'] }}
+              className="small"
+              color="inherit"
+              sx={{ color: theme?.palette?.custom['main'] }}
               onClick={handleFilter}
             >
               <FilterIcon />
               &nbsp; Filter
             </Button>
+            <Tooltip title={'Refresh Filter'}>
+              <Button variant="outlined" color="inherit" className="small">
+                <RefreshTasksIcon />
+              </Button>
+            </Tooltip>
             <Button
               variant="outlined"
-              sx={{ height: '30px', color: theme?.palette?.custom['main'] }}
+              className="small"
+              color="inherit"
+              sx={{ color: theme?.palette?.custom['main'] }}
               onClick={handleExportModal}
             >
               <FilterIcon />

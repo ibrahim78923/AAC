@@ -1,6 +1,5 @@
 import { CommonAPIS } from '@/services/common-APIs';
 import useUsers from '../../useUsers';
-import { useGetPermissionsRolesQuery } from '@/services/orgAdmin/roles-and-rights';
 import { enqueueSnackbar } from 'notistack';
 import {
   AddAccountDefaultValues,
@@ -11,7 +10,11 @@ import { useForm } from 'react-hook-form';
 
 const useAddAccount = () => {
   const { user } = useUsers();
-  const { useGetProductsQuery, useGetCompanyAccountsQuery } = CommonAPIS;
+  const {
+    useGetProductsQuery,
+    useGetCompanyAccountsQuery,
+    useGetCompanyAccountsRolesQuery,
+  } = CommonAPIS;
   const { data: products } = useGetProductsQuery({});
   const { data: companyAccounts } = useGetCompanyAccountsQuery({
     orgId: user?.organization?._id,
@@ -32,11 +35,9 @@ const useAddAccount = () => {
   };
 
   const roleParams = {
-    page: 1,
-    limit: 10,
     organizationCompanyAccountId: companyAccountValue,
   };
-  const { data: companyRoles } = useGetPermissionsRolesQuery(roleParams);
+  const { data: companyRoles } = useGetCompanyAccountsRolesQuery(roleParams);
 
   return {
     products,
