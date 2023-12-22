@@ -266,3 +266,30 @@ export const options = [
     src: UserAvatarImage,
   },
 ];
+
+export const participantsDataSelect = [
+  {
+    id: '1',
+    image: UserSenderImage,
+    value: '1',
+    label: 'John Doe',
+  },
+  {
+    id: '2',
+    image: UserSenderImage,
+    value: '2',
+    label: 'Andrew',
+  },
+  {
+    id: '3',
+    image: UserSenderImage,
+    value: '3',
+    label: 'Richard robertson',
+  },
+  {
+    id: '4',
+    image: UserSenderImage,
+    value: '4',
+    label: 'Franksten',
+  },
+];

@@ -2,8 +2,6 @@ import { useState } from 'react';
 
 import { useTheme } from '@mui/material';
 
-import { groupChatsData } from '@/mock/modules/SocialComponents/Chat';
-
 import { useAppSelector } from '@/redux/store';
 
 export const useChatField = () => {
@@ -17,8 +15,7 @@ export const useChatField = () => {
   const [isDeleteModal, setIsDeleteModal] = useState(false);
   const chatMode = chatModeState?.chatModeState;
 
-  const chatDataToShow =
-    chatMode === 'groupChat' ? groupChatsData : chatMessages;
+  const chatDataToShow = chatMode === 'groupChat' ? [] : chatMessages;
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const actionMenuOpen = Boolean(anchorEl);

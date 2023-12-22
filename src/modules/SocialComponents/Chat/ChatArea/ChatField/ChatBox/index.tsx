@@ -200,6 +200,7 @@ const ChatBox = ({
                   <Box
                     sx={styles?.chatReaction}
                     dangerouslySetInnerHTML={{
+                      // this will update is future due to some pending changes
                       __html: item?.reactions[0]?.userReaction,
                     }}
                   />

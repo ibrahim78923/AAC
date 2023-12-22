@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Image from 'next/image';
 
@@ -18,35 +18,58 @@ import {
   addGroupFiltersDataArray,
   addGroupValidationSchema,
   columns,
-  participantsData,
 } from './AddGroupModal.data';
 import { AddGroupPropsI } from './AddGroup.interface';
 
-import {
-  AddRoundedImage,
-  UserProfileAvatarImage,
-  UserSenderImage,
-} from '@/assets/images';
+import { AddRoundedImage } from '@/assets/images';
 
 import { v4 as uuidv4 } from 'uuid';
 import { useForm } from 'react-hook-form';
+import { isNullOrEmpty } from '@/utils';
+import { participantsDataSelect } from '@/mock/modules/SocialComponents/Chat';
 
 const AddGroupModal = ({
   isAddGroupModal,
   setIsAddGroupModal,
 }: AddGroupPropsI) => {
+  const [setValues] = useState<any>([]);
+
   const methodsAddGroup = useForm({
     resolver: yupResolver(addGroupValidationSchema),
     defaultValues: addGroupDefaultValues,
   });
 
+  const { handleSubmit, watch } = methodsAddGroup;
+
+  const participantIds = watch('participant');
+
+  const [participantsIdsValues, setParticipantsIdsValues] = useState<any>();
+
   const onSubmit = () => {
     setIsAddGroupModal(false);
   };
 
-  const { handleSubmit } = methodsAddGroup;
+  const handleRemoveParticipant = (id: any) => {
+    const updatedParticipantsIds = participantsIdsValues?.filter(
+      (participantId: any) => participantId !== id,
+    );
+    setParticipantsIdsValues(updatedParticipantsIds);
+  };
 
-  const getColumns = columns();
+  const getColumns = columns(handleRemoveParticipant);
+
+  const filteredParticipants = participantsDataSelect
+    ?.filter(
+      (participant: any) => participantsIdsValues?.includes(participant?.id),
+    )
+    ?.map((participant: any) => ({
+      id: participant?.id,
+      participant: participant?.label,
+    }));
+
+  useEffect(() => {
+    setParticipantsIdsValues(participantIds);
+  }, [participantIds]);
 
   return (
     <CommonModal
@@ -75,7 +98,7 @@ const AddGroupModal = ({
           methods={methodsAddGroup}
           onSubmit={handleSubmit(onSubmit)}
         >
-          <Grid container spacing={4}>
+          <Grid container spacing={2}>
             {addGroupFiltersDataArray?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={uuidv4()}>
                 <item.component
@@ -98,34 +121,17 @@ const AddGroupModal = ({
                 name="participant"
                 isCheckBox={true}
                 label="Candidates"
-                options={[
-                  {
-                    image: UserProfileAvatarImage,
-                    value: 'JohnDoe',
-                    label: 'John Doe',
-                  },
-                  {
-                    image: UserSenderImage,
-                    value: 'Andrew',
-                    label: 'Andrew',
-                  },
-                  {
-                    image: UserProfileAvatarImage,
-                    value: 'RichardRobertson',
-                    label: 'Richard robertson',
-                  },
-                  {
-                    image: UserSenderImage,
-                    value: 'Franksten',
-                    label: 'Franksten',
-                  },
-                ]}
+                size="small"
+                setValues={setValues}
+                options={participantsDataSelect}
               />
             </Grid>
           </Grid>
         </FormProvider>
         <br />
-        <TanstackTable columns={getColumns} data={participantsData} />
+        {!isNullOrEmpty(filteredParticipants) && (
+          <TanstackTable columns={getColumns} data={filteredParticipants} />
+        )}
       </>
     </CommonModal>
   );

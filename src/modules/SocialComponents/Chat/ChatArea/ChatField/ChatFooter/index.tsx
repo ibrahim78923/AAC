@@ -107,29 +107,35 @@ const ChatFooter = () => {
           is typing ...
         </Box>
       ) : null}
-      <Box sx={styles?.chatFooter(theme)}>
-        <Button sx={styles?.unStyledButton}>
-          <AttachmentIcon />
-        </Button>
-        <TextField
-          placeholder="Write message"
-          sx={styles?.chatTextarea}
-          value={messageText}
-          onChange={(e) => setMessageText(e?.target?.value)}
-          onInput={() => handleTypingStart()}
-          onBlur={() => handleTypingStop()}
-        />
-        <Button
-          sx={styles?.unStyledButton}
-          aria-describedby={id}
-          onClick={handleClick}
-        >
-          <StickerIcon />
-        </Button>
-        <Button sx={styles?.unStyledButton} onClick={setAddMessageHandler}>
-          <PostIcon />
-        </Button>
+      <Box sx={styles?.chatFooterWrapper(theme)}>
+        <Box sx={styles?.chatReply(theme)}>
+          <Typography variant="body3">You</Typography>
+        </Box>
+        <Box sx={styles?.chatFooter}>
+          <Button sx={styles?.unStyledButton}>
+            <AttachmentIcon />
+          </Button>
+          <TextField
+            placeholder="Write message"
+            sx={styles?.chatTextarea}
+            value={messageText}
+            onChange={(e) => setMessageText(e?.target?.value)}
+            onInput={() => handleTypingStart()}
+            onBlur={() => handleTypingStop()}
+          />
+          <Button
+            sx={styles?.unStyledButton}
+            aria-describedby={id}
+            onClick={handleClick}
+          >
+            <StickerIcon />
+          </Button>
+          <Button sx={styles?.unStyledButton} onClick={setAddMessageHandler}>
+            <PostIcon />
+          </Button>
+        </Box>
       </Box>
+
       <Popover
         id={id}
         open={isOpen}

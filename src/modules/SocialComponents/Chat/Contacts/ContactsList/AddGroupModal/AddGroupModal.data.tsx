@@ -1,5 +1,5 @@
 import { RHFTextField } from '@/components/ReactHookForm';
-import { Box, Checkbox } from '@mui/material';
+import { Box, Checkbox, Typography, useTheme } from '@mui/material';
 
 import * as Yup from 'yup';
 export const addGroupValidationSchema = Yup?.object()?.shape({
@@ -28,7 +28,8 @@ export const participantsData = [
   },
 ];
 
-export const columns = () => {
+export const columns = (handleRemoveParticipant: any) => {
+  const theme = useTheme();
   return [
     {
       accessorFn: (row: any) => row?.id,
@@ -42,13 +43,29 @@ export const columns = () => {
       id: 'participant',
       isSortable: false,
       header: 'participant',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => (
+        <Typography variant="body3">{info?.getValue()}</Typography>
+      ),
     },
     {
       id: 'Remove Participant',
       isSortable: false,
-      header: 'Remove Participant',
-      cell: () => <Box>Remove</Box>,
+      header: (
+        <Box sx={{ textAlign: 'right', width: '100%' }}>Remove Participant</Box>
+      ),
+      cell: (info: any) => (
+        <Box
+          sx={{ textAlign: 'right' }}
+          onClick={() => handleRemoveParticipant(info?.cell?.row?.original?.id)}
+        >
+          <Typography
+            variant="body3"
+            sx={{ color: theme.palette.error.main, cursor: 'pointer' }}
+          >
+            Remove
+          </Typography>
+        </Box>
+      ),
     },
   ];
 };

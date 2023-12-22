@@ -23,7 +23,7 @@ import { useAppSelector } from '@/redux/store';
 const ChatHeader = ({ chatMode }: any) => {
   const theme = useTheme();
 
-  const activeChatId = useAppSelector(
+  const activeParticipant = useAppSelector(
     (state) => state?.chat?.activeParticipant,
   );
 
@@ -68,7 +68,7 @@ const ChatHeader = ({ chatMode }: any) => {
               variant="h4"
               sx={{ fontWeight: '500', color: theme?.palette?.common?.white }}
             >
-              {activeChatId?.firstName}&nbsp;{activeChatId?.lastName}
+              {activeParticipant?.firstName}&nbsp;{activeParticipant?.lastName}
             </Typography>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
               <Box sx={styles?.userStatus}></Box>

@@ -20,7 +20,9 @@ import { setChatContacts } from '@/redux/slices/chat/slice';
 const ContactList = ({ chatMode, handleManualRefetch }: any) => {
   const dispatch = useAppDispatch();
 
-  const { data: contactsData } = useGetChatsContactsQuery({});
+  const { data: contactsData } = useGetChatsContactsQuery({
+    isGroup: chatMode === 'groupChat' ? true : false,
+  });
 
   const [searchContacts, setSearchContacts] = useState('');
   const [isAddGroupModal, setIsAddGroupModal] = useState(false);
@@ -37,14 +39,18 @@ const ContactList = ({ chatMode, handleManualRefetch }: any) => {
   };
 
   useEffect(() => {
-    if (contactsData?.data?.chats.length > 0) {
-      dispatch(setChatContacts(contactsData?.data?.chats));
+    if (chatMode === 'groupChat') {
+      null;
+    } else {
+      if (contactsData?.data?.chats.length > 0) {
+        dispatch(setChatContacts(contactsData?.data?.chats));
+      }
     }
   }, [contactsData?.data?.chats]);
 
   const chatContacts = useAppSelector((state) => state?.chat?.chatContacts);
 
-  // const chatsTypeToShow = chatMode === 'groupChat' ? chatGroupsData : chatContacts;
+  const chatsTypeToShow = chatMode === 'groupChat' ? [] : chatContacts;
 
   const menuItemsData = [
     {
@@ -110,8 +116,8 @@ const ContactList = ({ chatMode, handleManualRefetch }: any) => {
           </Button>
         )}
         <Box mt={2} sx={{ overflow: 'scroll', maxHeight: '52vh' }}>
-          {chatContacts &&
-            chatContacts?.map((item: any) => (
+          {chatsTypeToShow &&
+            chatsTypeToShow?.map((item: any) => (
               <ContactsCard
                 key={uuidv4()}
                 cardData={{ item }}

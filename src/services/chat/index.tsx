@@ -15,8 +15,8 @@ export const chatApi = baseAPI.injectEndpoints({
       providesTags: TAG,
     }),
     getChatsContacts: builder.query({
-      query: ({ params }: any) => ({
-        url: `${SOCIAL_FEATURES_CHAT?.CHAT_LIST}?page=1&limit=10&isGroup=false`,
+      query: ({ params, isGroup }: any) => ({
+        url: `${SOCIAL_FEATURES_CHAT?.CHAT_LIST}?page=1&limit=10&isGroup=${isGroup}`,
         method: 'GET',
         params: params,
         headers: {
