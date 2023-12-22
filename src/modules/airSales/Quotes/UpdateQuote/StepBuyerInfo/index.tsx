@@ -6,12 +6,17 @@ import { AvatarCompanyImage, AvatarContactImage } from '@/assets/images';
 import { buyerContactList, buyerCompanyList } from '@/mock/modules/Quotes';
 import { styles } from './StepBuyerInfo.style';
 
-const StepBuyerInfo = ({ openAddContact, openAddCompany }: any) => {
+const StepBuyerInfo = ({
+  dataContacts,
+  dataCompanies,
+  openAddContact,
+  openAddCompany,
+}: any) => {
   return (
     <Grid container spacing={'40px'}>
       <Grid item xs={5}>
         <Box>
-          {buyerContactList?.length !== 0 && (
+          {dataContacts?.length !== 0 && (
             <>
               <Box sx={styles?.rowBuyerInfo}>
                 <Typography variant="h4" sx={styles?.buyerInfoTitle}>
@@ -55,7 +60,7 @@ const StepBuyerInfo = ({ openAddContact, openAddCompany }: any) => {
               </Box>
             </>
           )}
-          {buyerContactList.length === 0 && (
+          {dataContacts.length === 0 && (
             <Box sx={styles?.button} onClick={openAddContact}>
               <Box sx={{ mr: '8px', display: 'inline-flex' }}>
                 <ProfileCircleIcon />
@@ -65,7 +70,7 @@ const StepBuyerInfo = ({ openAddContact, openAddCompany }: any) => {
           )}
         </Box>
         <Box sx={styles?.companyInformation}>
-          {buyerContactList.length !== 0 ? (
+          {dataCompanies.length !== 0 ? (
             <Box sx={styles?.contactsCont}>
               <Typography variant="h6" sx={styles?.contactsHeading}>
                 Buyer’s Company
