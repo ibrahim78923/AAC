@@ -65,6 +65,8 @@ export const END_POINTS = {
   EDIT_NEW_VENDOR: '/vendors/update-vendor',
   DELETE_NEW_VENDOR: '/vendors/delete-vendor',
   VENDOR: '/vendors/get-vendor',
+  GET_BUSINESS_HOUR: `/business-hour/list`,
+  DELETE_BUSINESS_HOUR: `/business-hour/delete-business-hour`,
   COMPANY: `/companies`,
   DROPDOWN_ACCOUNTS_ROLE: '/dropdown/company-accounts-roles',
 };
