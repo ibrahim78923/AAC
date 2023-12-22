@@ -24,6 +24,7 @@ export const detailsValidationSchema = Yup?.object()?.shape({
   time: Yup?.string(),
   LinkedInCompanyPage: Yup?.string(),
   Address: Yup?.string(),
+  description: Yup?.string(),
 });
 
 export const detailsDefaultValues = {
@@ -44,6 +45,7 @@ export const detailsDefaultValues = {
   time: '',
   LinkedInCompanyPage: '',
   Address: '',
+  description: '',
 };
 
 export const detailsDataArray = [

@@ -232,7 +232,7 @@ const ViewDetails = () => {
         <Grid item xs={12}>
           <Box>
             <HorizontalTabs tabsDataArray={singleUserDealTabsData}>
-              <Details />
+              <Details data={data?.data} />
               <ActivityLog />
               <Associations />
               <Tasks />

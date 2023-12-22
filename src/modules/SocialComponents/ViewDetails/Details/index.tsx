@@ -17,8 +17,8 @@ import { styles } from '../ViewDetails.style';
 
 import { v4 as uuidv4 } from 'uuid';
 
-const Details = () => {
-  const { theme, methodsDetails, onSubmit, handleSubmit } = useDetails();
+const Details = ({ data }: any) => {
+  const { theme, methodsDetails, onSubmit, handleSubmit } = useDetails(data);
 
   return (
     <Box sx={styles?.horizontalTabsBox}>
