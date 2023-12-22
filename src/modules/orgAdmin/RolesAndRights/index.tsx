@@ -25,6 +25,8 @@ const RolesAndRights = () => {
     setPage,
     resetFilters,
     updateStatus,
+    isSuccess,
+    isLoading,
   } = useRolesAndRights();
 
   const columnsProps = {
@@ -115,6 +117,9 @@ const RolesAndRights = () => {
         setPageLimit={setPageLimit}
         count={getPermissions?.data?.meta?.pages}
         isPagination
+        pageLimit={getPermissions?.data?.meta?.limit}
+        isLoading={isLoading}
+        isSuccess={isSuccess}
       />
 
       {isOpenFilterDrawer && (
