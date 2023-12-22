@@ -63,6 +63,8 @@ export const END_POINTS = {
   POST_COMPANY_ACCOUNT: '/org-company-account',
   DROPDOWN_ASSET_TYPE_LIST: `/asset-type/assset-type-list`,
   EDIT_NEW_VENDOR: '/vendors/update-vendor',
+  DELETE_NEW_VENDOR: '/vendors/delete-vendor',
+  VENDOR: '/vendors/get-vendor',
 };
 
 export const superAdminBillingInvoices = {

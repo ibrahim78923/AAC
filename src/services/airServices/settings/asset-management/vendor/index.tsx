@@ -12,6 +12,14 @@ export const vendorsAPI = baseAPI?.injectEndpoints({
       }),
       providesTags: [TAG],
     }),
+    getVendorsById: builder?.query({
+      query: (payload: any) => ({
+        url: `${END_POINTS?.VENDOR}`,
+        method: 'GET',
+        params: payload.params,
+      }),
+      providesTags: [TAG],
+    }),
     postNewVendor: builder?.mutation({
       query: (payload) => ({
         url: `${END_POINTS?.POST_VENDOR}`,
@@ -37,12 +45,23 @@ export const vendorsAPI = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
+    deleteVendor: builder?.mutation({
+      query: (deleteVendorParameter: any) => ({
+        url: `${END_POINTS?.DELETE_NEW_VENDOR}`,
+        method: 'DELETE',
+        params: deleteVendorParameter?.queryParams,
+      }),
+      invalidatesTags: [TAG],
+    }),
   }),
 });
 
 export const {
   useGetVendorsListQuery,
+  useGetVendorsByIdQuery,
   usePostNewVendorMutation,
   useLazyGetExportNewVendorQuery,
   usePatchNewVendorMutation,
+  useDeleteVendorMutation,
+  useLazyGetVendorsByIdQuery,
 } = vendorsAPI;

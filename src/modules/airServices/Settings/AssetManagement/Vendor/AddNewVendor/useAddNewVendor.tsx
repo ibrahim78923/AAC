@@ -7,6 +7,8 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import {
+  useGetVendorsByIdQuery,
+  useLazyGetVendorsByIdQuery,
   usePatchNewVendorMutation,
   usePostNewVendorMutation,
 } from '@/services/airServices/settings/asset-management/vendor';
@@ -14,20 +16,47 @@ import { useRouter } from 'next/router';
 
 export const useAddNewVendor = (props: any) => {
   const router = useRouter();
-  const { NewVendorId } = router?.query;
+  const { vendorId } = router?.query;
   const { setIsADrawerOpen } = props;
   const [postNewVendorTrigger] = usePostNewVendorMutation();
   const [patchNewVendorTrigger] = usePatchNewVendorMutation();
+  const [getVendorsById] = useLazyGetVendorsByIdQuery();
+  const getDefaultValues = async () => {
+    try {
+      const response = await getVendorsById({
+        params: {
+          id: vendorId,
+        },
+      }).unwrap();
+
+      return response.data;
+    } catch (error) {
+      return newVendorDefaultValues;
+    }
+  };
   const methodsNewVendor: any = useForm<any>({
     resolver: yupResolver(newVendorValidationSchema),
-    defaultValues: newVendorDefaultValues,
+    defaultValues: getDefaultValues,
   });
-  const { handleSubmit, reset } = methodsNewVendor;
+  const getSingleVendorParameter = {
+    pathParam: {
+      vendorId,
+    },
+  };
+
+  const { data, isLoading, isFetching } = useGetVendorsByIdQuery(
+    getSingleVendorParameter,
+    {
+      refetchOnMountOrArgChange: true,
+      skip: !!!vendorId,
+    },
+  );
+  const { handleSubmit } = methodsNewVendor;
   const onSubmit = async (data: any) => {
     const body = {
       ...data,
     };
-    if (!!NewVendorId) {
+    if (!!vendorId) {
       submitUpdateNewVendor(body);
       return;
     }
@@ -37,7 +66,6 @@ export const useAddNewVendor = (props: any) => {
       enqueueSnackbar(response?.message ?? 'Vendor Added Successfully', {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
-      reset(newVendorDefaultValues);
     } catch (error) {
       enqueueSnackbar('Something went wrong', {
         variant: NOTISTACK_VARIANTS?.ERROR,
@@ -48,10 +76,16 @@ export const useAddNewVendor = (props: any) => {
   };
 
   const submitUpdateNewVendor = async (data: any) => {
+    const updateData: any = {};
+    for (const key in newVendorDefaultValues) {
+      if (data[key] !== undefined) {
+        updateData[key] = data[key];
+      }
+    }
     const patchNewVendorParameter = {
       body: {
-        id: NewVendorId,
-        ...data,
+        id: vendorId,
+        ...updateData,
       },
     };
     try {
@@ -61,15 +95,14 @@ export const useAddNewVendor = (props: any) => {
       enqueueSnackbar(response?.message ?? 'NewVendor Updated Successfully!', {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
-      reset(newVendorDefaultValues);
     } catch (error) {
       enqueueSnackbar('Something went wrong', {
         variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }
+    setIsADrawerOpen(false);
   };
   const onClose = () => {
-    reset(newVendorDefaultValues);
     setIsADrawerOpen?.(false);
   };
   return {
@@ -80,5 +113,8 @@ export const useAddNewVendor = (props: any) => {
     onSubmit,
     onClose,
     submitUpdateNewVendor,
+    data,
+    isLoading,
+    isFetching,
   };
 };
