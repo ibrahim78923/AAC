@@ -1,37 +1,30 @@
-import {
-  Box,
-  Grid,
-  IconButton,
-  Menu,
-  MenuItem,
-  Typography,
-} from '@mui/material';
+import { Box, Grid, Skeleton, Typography } from '@mui/material';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import {
-  FolderLargePrimaryIcon,
-  FolderLargeYellowIcon,
-  LockedIcon,
-} from '@/assets/icons';
-import { responseCategories } from './CannedResponses.data';
-import { MoreHoriz } from '@mui/icons-material';
+import { FolderLargePrimaryIcon, FolderLargeYellowIcon } from '@/assets/icons';
 import { CreateNewFolder } from './CreateNewFolder';
 import Search from '@/components/Search';
 import Link from 'next/link';
 import { AIR_SERVICES } from '@/constants';
 import { useCannedResponses } from './useCannedResponses';
-import { DeleteFolderModal } from './DeleteFolderModal';
+import { FolderMenu } from './FolderMenu';
+import CustomPagination from '@/components/CustomPagination';
 
 export const CannedResponses = () => {
   const {
     router,
     convertToHyphenCase,
-    handleActionClose,
-    actionPop,
-    openAction,
-    handleActionClick,
     setOpenCreateNewFolderModal,
     openCreateNewFolderModal,
+    search,
+    setSearch,
+    cannedResponses,
+    lazyGetCannedResponsesStatus,
+    setPageLimit,
+    setPage,
+    pageLimit,
+    page,
+    cannedResponsesMetaData,
   } = useCannedResponses();
   return (
     <>
@@ -45,10 +38,15 @@ export const CannedResponses = () => {
         />
       </Box>
       <Box mb={2}>
-        <Search size="small" label="Search" />
+        <Search
+          size="small"
+          label="Search"
+          searchBy={search}
+          setSearchBy={setSearch}
+        />
       </Box>
       <Grid container spacing={3}>
-        <Grid item xs={4}>
+        <Grid item lg={4} sm={6} xs={12}>
           <Box
             display="flex"
             justifyContent="center"
@@ -84,79 +82,51 @@ export const CannedResponses = () => {
             </Typography>
           </Box>
         </Grid>
-        {responseCategories?.map((response) => (
-          <Grid item xs={4} key={response?.id}>
+        {cannedResponses?.map((response: any) => (
+          <Grid item lg={4} sm={6} xs={12} key={response?._id}>
             <Box
               height="12rem"
               border="0.06rem solid"
+              overflow="hidden"
               borderColor="grey.700"
               borderRadius=".5rem"
               sx={{ cursor: 'pointer' }}
             >
-              <Box display="flex" justifyContent="end">
-                <IconButton
-                  disabled={response?.default}
-                  onClick={handleActionClick}
-                >
-                  {response?.default ? (
-                    <LockedIcon />
-                  ) : (
-                    <MoreHoriz
-                      sx={{ color: 'secondary.lighter' }}
-                      fontSize="medium"
-                    />
-                  )}
-                </IconButton>
-                <Menu
-                  open={openAction}
-                  anchorEl={actionPop}
-                  onClose={handleActionClose}
-                  sx={{ '& .MuiPaper-root': { boxShadow: 2 } }}
-                  transformOrigin={{ vertical: 10, horizontal: 80 }}
-                >
-                  <MenuItem
-                    sx={{ pr: 5 }}
-                    onClick={() => {
-                      setOpenCreateNewFolderModal({
-                        open: true,
-                        editData: response,
-                      });
-                      handleActionClose();
-                    }}
-                  >
-                    Edit
-                  </MenuItem>
-                  <DeleteFolderModal
-                    id={response?.id}
-                    handleActionClose={handleActionClose}
-                  />
-                </Menu>
-              </Box>
+              <FolderMenu
+                response={response}
+                setOpenCreateNewFolderModal={setOpenCreateNewFolderModal}
+              />
               <Box
                 display="flex"
                 justifyContent="center"
-                p={2}
+                p={{ sm: 2, xs: 1 }}
                 flexDirection="column"
-                height="60%"
                 component={Link}
                 href={`${AIR_SERVICES?.CANNED_RESPONSE_SETTINGS}/${convertToHyphenCase(
-                  response?.name,
+                  response?.folderName,
                 )}`}
               >
                 <Box>
-                  {response?.default ? (
+                  {!response?.isDeletedAble ? (
                     <FolderLargePrimaryIcon />
                   ) : (
                     <FolderLargeYellowIcon />
                   )}
                 </Box>
                 <Typography fontWeight={700} color="blue.dark" mt={1}>
-                  {response?.name}
+                  {response?.folderName}
                 </Typography>
                 <Typography
                   fontWeight={500}
                   variant="body2"
                   color="custom.main"
+                  sx={{
+                    textOverflow: 'break-all',
+                    wordBreak: 'break-all',
+                    display: '-webkit-box',
+                    WebkitLineClamp: 2,
+                    WebkitBoxOrient: 'vertical',
+                  }}
                 >
                   {response?.description}
                 </Typography>
@@ -164,6 +134,25 @@ export const CannedResponses = () => {
             </Box>
           </Grid>
         ))}
+        {lazyGetCannedResponsesStatus?.isLoading &&
+          Array?.from({ length: 5 })?.map((response: any) => (
+            <Grid item lg={4} sm={6} xs={12} key={response?._id}>
+              <Skeleton height="12rem" variant="rectangular" />
+            </Grid>
+          ))}
+        {cannedResponsesMetaData && cannedResponsesMetaData?.total > 5 && (
+          <Grid item xs={12}>
+            <CustomPagination
+              currentPage={page}
+              count={cannedResponsesMetaData?.pages}
+              pageLimit={pageLimit}
+              totalRecords={cannedResponsesMetaData?.total}
+              onPageChange={(page: any) => setPage(page)}
+              setPage={setPage}
+              setPageLimit={setPageLimit}
+            />
+          </Grid>
+        )}
       </Grid>
       <CreateNewFolder
         openCreateNewFolderModal={openCreateNewFolderModal}
