@@ -21,7 +21,7 @@ const FilterCompany = ({ isFilter, setIsFilter }: any) => {
         onClose={() => {
           setIsFilter(false);
         }}
-        title="Filter"
+        title="Filters"
         okText="Apply"
         isOk={true}
         footer={true}

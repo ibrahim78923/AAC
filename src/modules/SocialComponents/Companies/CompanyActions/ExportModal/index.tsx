@@ -32,10 +32,10 @@ const ExportModal = ({ setIsExport, isExport }: any) => {
             </FormControl>
           </Box>
         }
-        type="Assign"
+        type="Export Record"
         open={isExport}
         cancelBtnText="Cancel"
-        submitBtnText="Update"
+        submitBtnText="Export"
         handleClose={() => setIsExport(false)}
         handleSubmit={function (): void {
           throw new Error('Function not implemented.');
