@@ -67,9 +67,7 @@ const DelasTable = ({
         <Box sx={{ display: 'flex', gap: '5px' }}>
           <Avatar
             alt="Remy Sharp"
-            src={
-              'https://www.pexels.com/photo/woman-jumping-wearing-green-backpack-214574/'
-            }
+            // src={}
           />
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             <Typography component={'span'}>
