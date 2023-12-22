@@ -64,6 +64,7 @@ export const END_POINTS = {
   DROPDOWN_ASSET_TYPE_LIST: `/asset-type/assset-type-list`,
   CALLS: '/calls',
   DEALS_LIST_VIEW: '/deals/get-deals-list-view',
+  COMPANY: `/companies`,
   DROPDOWN_ACCOUNTS_ROLE: '/dropdown/company-accounts-roles',
 };
 
