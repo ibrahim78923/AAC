@@ -15,7 +15,7 @@ export const CommonAPIS = baseAPI.injectEndpoints({
         url: END_POINTS?.ORGANIZATIONS,
         method: 'GET',
       }),
-      providesTags: ['PRODUCTS'],
+      providesTags: ['ORGANIZATIONS'],
     }),
 
     getCompanyAccounts: builder.query({
@@ -23,7 +23,16 @@ export const CommonAPIS = baseAPI.injectEndpoints({
         url: `${END_POINTS?.GET_COMPANY_ORGANIZATION_DROPDOWN}/${orgId}${END_POINTS?.GET_COMPANY_ACCOUNTS}`,
         method: 'GET',
       }),
-      providesTags: ['PRODUCTS'],
+      providesTags: ['USERS'],
+    }),
+
+    getCompanyAccountsRoles: builder.query({
+      query: (params: any) => ({
+        url: END_POINTS?.DROPDOWN_ACCOUNTS_ROLE,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: ['USERS'],
     }),
   }),
 });
@@ -32,4 +41,5 @@ export const {
   useGetProductsQuery,
   useGetOrganizationsQuery,
   useGetCompanyAccountsQuery,
+  useGetCompanyAccountsRolesQuery,
 } = CommonAPIS;
