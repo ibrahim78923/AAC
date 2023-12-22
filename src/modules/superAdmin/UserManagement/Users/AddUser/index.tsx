@@ -1,23 +1,10 @@
 import { Box, Grid, InputAdornment, Typography } from '@mui/material';
-import { FormProvider, RHFTextField } from '@/components/ReactHookForm';
+import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
-import { EraserIcon } from '@/assets/icons';
-import BorderColorIcon from '@mui/icons-material/BorderColor';
+import { EditInputIcon, RevertIcon } from '@/assets/icons';
 import useToggle from '@/hooks/useToggle';
-import { yupResolver } from '@hookform/resolvers/yup';
-import {
-  addUsersArray,
-  superAdminValidationSchema,
-  CompanyOwnerValidationSchema,
-  companyOwnerDefaultValues,
-} from './AddUser.data';
-import { useForm } from 'react-hook-form';
-import { enqueueSnackbar } from 'notistack';
+import { addUsersArray } from './AddUser.data';
 import { SUPER_ADMIN } from '@/constants/index';
-import useUserDetailsList from '../../UsersDetailsList/useUserDetailsList';
-import { useGetAuthCompaniesQuery } from '@/services/auth';
-import { useEffect, useState } from 'react';
-import { debouncedSearch } from '@/utils';
 import useAddUser from './useAddUser';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -30,117 +17,19 @@ const AddUser = ({
   setIsOpenAdduserDrawer,
   organizationId,
 }: any) => {
-  const { pathName, postUsers, updateUsers, postUserEmployee } = useAddUser();
   const [isToggled, setIsToggled] = useToggle(false);
-  const userDetail = isOpenAddUserDrawer?.data?.data;
   const tabTitle = tabVal === 0 ? 'COMPANY_OWNER' : 'SUPER_ADMIN';
-  const id = isOpenAddUserDrawer?.data?.data?._id;
-  const { setIsOpenAdduserDrawer: setIsAddEmployyeDrawer } =
-    useUserDetailsList();
 
-  const superAdminMethods: any = useForm({
-    resolver: yupResolver(superAdminValidationSchema),
-    defaultValues: userDetail,
-  });
-
-  const companyOwnerValues = {
-    ...userDetail,
-    crn: userDetail?.organization?.crn,
-    companyName: userDetail?.organization?.name,
+  const useActionParams: any = {
+    tabTitle: tabTitle,
+    isOpenAddUserDrawer: isOpenAddUserDrawer,
+    setIsOpenAddUserDrawer: setIsOpenAddUserDrawer,
+    setIsOpenAdduserDrawer: setIsOpenAdduserDrawer,
+    organizationId: organizationId,
   };
 
-  const companyOwnerMethods: any = useForm({
-    resolver: yupResolver(CompanyOwnerValidationSchema),
-    defaultValues: userDetail ? companyOwnerValues : companyOwnerDefaultValues,
-  });
-
-  const methods =
-    tabTitle === 'SUPER_ADMIN' ? superAdminMethods : companyOwnerMethods;
-
-  const { handleSubmit, reset, watch, setValue } = methods;
-
-  const onSubmit = async (values: any) => {
-    if (
-      pathName === SUPER_ADMIN?.USERMANAGMENT &&
-      tabTitle === 'COMPANY_OWNER'
-    ) {
-      values.role = 'ORG_ADMIN';
-      delete values['address'];
-      delete values['phoneNumber'];
-    } else if (
-      pathName === SUPER_ADMIN?.USERMANAGMENT &&
-      tabTitle === 'SUPER_ADMIN'
-    ) {
-      delete values['phoneNumber'];
-      delete values['postCode'];
-      values.role = 'SUPER_ADMIN';
-    } else if (pathName === SUPER_ADMIN?.USERS_LIST) {
-      values.role = 'ORG_EMPLOYEE';
-    }
-    if (values?.compositeAddress) {
-      values.address = {
-        composite: values?.compositeAddress,
-      };
-    } else {
-      values.address = {
-        flatNumber: values.flat,
-        buildingName: values?.buildingName,
-        buildingNumber: values?.buildingNumber,
-        streetName: values?.streetName,
-        city: values?.city,
-        country: values?.country,
-      };
-    }
-    delete values['compositeAddress'];
-    try {
-      isOpenAddUserDrawer?.type === 'add'
-        ? (postUsers({ body: values })?.unwrap(),
-          setIsOpenAddUserDrawer({ ...isOpenAddUserDrawer, drawer: false }))
-        : pathName === SUPER_ADMIN?.USERS_LIST
-        ? (postUserEmployee({ id: organizationId, body: values }),
-          setIsOpenAdduserDrawer(false))
-        : updateUsers({ id, body: values });
-      enqueueSnackbar('User Added Successfully', {
-        variant: 'success',
-      });
-      setIsAddEmployyeDrawer(false);
-      reset();
-    } catch (error: any) {
-      enqueueSnackbar(error, {
-        variant: 'error',
-      });
-    }
-  };
-
-  const organizationNumber = watch('crn');
-  // const flatVal = watch('flat');
-  // const buildingName = watch('buildingName');
-  // const buildingNumber = watch('buildingNumber');
-  // const city = watch('city');
-  // const country = watch('country');
-  // const streetName = watch('streetName');
-
-  // const addressToggledValue = `${flatVal ?? ''},
-  // house # ${buildingNumber ?? ''}
-  //  ${buildingName ?? ''},
-  //   ${streetName ?? ''} ,
-  //    ${city ?? ''},
-  //    ${country ?? ''}`;
-
-  const [orgNumber, setOrgNumber] = useState('');
-  debouncedSearch(organizationNumber, setOrgNumber);
-  const { data, isSuccess, isError } = useGetAuthCompaniesQuery({
-    q: orgNumber,
-  });
-  let companyDetails: any = {};
-  if (isSuccess) {
-    companyDetails = data?.data;
-  }
-
-  useEffect(() => {
-    setValue('companyName', companyDetails?.company_name);
-    setOrgNumber(organizationNumber);
-  }, [data, isError]);
+  const { pathName, methods, handleSubmit, onSubmit, userDetail } =
+    useAddUser(useActionParams);
 
   return (
     <CommonDrawer
@@ -178,7 +67,7 @@ const AddUser = ({
                       <InputAdornment
                         sx={{
                           position: 'absolute',
-                          top: 45,
+                          top: 53,
                           right: 20,
                           zIndex: 9999,
                         }}
@@ -197,30 +86,27 @@ const AddUser = ({
                               setIsToggled(false);
                             }}
                           >
-                            <EraserIcon />
+                            <RevertIcon />
                           </Box>
-                          <BorderColorIcon
+                          <Box
                             onClick={() => {
                               setIsToggled(true);
                             }}
                             sx={{ cursor: 'pointer', fontSize: '20px' }}
-                          />
+                          >
+                            <EditInputIcon />
+                          </Box>
                         </Box>
                       </InputAdornment>
                     </Box>
                   )}
+
                   <item.component
                     {...item.componentProps}
                     size={'small'}
                     disabled={
                       isOpenAddUserDrawer?.type === 'view' ? true : false
                     }
-                    // value={
-                    //   item?.componentProps?.name === 'compositeAddress' &&
-                    //     isToggled
-                    //     ? addressToggledValue ?? ''
-                    //     : null
-                    // }
                   >
                     {item?.componentProps?.select &&
                       item?.options?.map((option: any) => (
@@ -229,30 +115,6 @@ const AddUser = ({
                         </option>
                       ))}
                   </item.component>
-                  {item?.componentProps?.name === 'email' &&
-                    tabTitle === 'COMPANY_OWNER' && (
-                      <Box mt={2}>
-                        <Grid item xs={12}>
-                          <RHFTextField
-                            name="crn"
-                            label="Company Registration Number(CRN)"
-                            placeholder="Enter crn"
-                            size="small"
-                            // defaultValue={userDetail?.organization?.crn}
-                          />
-                        </Grid>
-                        <Grid item xs={12} mt={2}>
-                          <RHFTextField
-                            name="companyName"
-                            label="company Name"
-                            placeholder="Company Name"
-                            size="small"
-                            disabled
-                            // defaultValue={userDetail?.organization?.name}
-                          />
-                        </Grid>
-                      </Box>
-                    )}
                   {isToggled && (
                     <Grid item container spacing={2} mt={1}>
                       {item?.componentProps?.name === 'compositeAddress' &&
