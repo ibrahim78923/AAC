@@ -102,8 +102,8 @@ const useAddRole = () => {
     enqueueSnackbar(
       `${
         query?.type === 'add'
-          ? `Information Updated successfully`
-          : `Role has been added successfully`
+          ? `Role has been Added successfully`
+          : `Information Updated successfully`
       }`,
       {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
