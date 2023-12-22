@@ -42,6 +42,7 @@ const Quotes = () => {
     handleFiltersSubmit,
     methodsFilter,
     handleRefresh,
+    handleDeleteQoute,
   } = useQuotes();
 
   const getQuotesColumns = quotesColumns(
@@ -106,7 +107,7 @@ const Quotes = () => {
         type="delete"
         open={openDeleteQuote}
         handleClose={handleCloseDeleteQuote}
-        handleSubmit={handleCloseDeleteQuote}
+        handleSubmitBtn={handleDeleteQoute}
       />
     </>
   );

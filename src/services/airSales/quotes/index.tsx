@@ -23,7 +23,7 @@ export const quotesAPI = baseAPI.injectEndpoints({
     }),
 
     getQuoteById: builder.query({
-      query: (id: any) => ({
+      query: ({ id }: any) => ({
         url: `${END_POINTS?.QUOTES}/${id}`,
         method: 'GET',
       }),

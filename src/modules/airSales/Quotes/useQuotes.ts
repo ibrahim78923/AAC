@@ -3,19 +3,20 @@ import { useRouter } from 'next/router';
 import { PAGINATION } from '@/config';
 import { useForm } from 'react-hook-form';
 import {
+  useDeleteQuotesMutation,
   useGetQuotesQuery,
   // useDeleteQuotesMutation,
   // useUpdateQuoteMutation,
 } from '@/services/airSales/quotes';
+import { enqueueSnackbar } from 'notistack';
 
 const useQuotes = () => {
   const router = useRouter();
-
   // Actions Dopdown
   const [actionsEl, setActionsEl] = useState<null | HTMLElement>(null);
   const openActionsDropdown = Boolean(actionsEl);
   const handleActionsDropdown = (event: React.MouseEvent<HTMLElement>) => {
-    setActionsEl(event.currentTarget);
+    setActionsEl(event?.currentTarget);
   };
   const handleActionsDropdownClose = () => {
     setActionsEl(null);
@@ -26,15 +27,15 @@ const useQuotes = () => {
     handleActionsDropdownClose();
   };
 
-  const handleViewQuote = () => {
-    router.push('/air-sales/quotes/view-quote');
-    handleActionsDropdownClose();
-  };
-
   // Row Selection
   const [selectedRow, setSelectedRow]: any = useState([]);
   const [isActionsDisabled, setIsActionsDisabled] = useState(true);
   const [rowId, setRowId] = useState(null);
+
+  const handleViewQuote = () => {
+    router.push(`/air-sales/quotes/view-quote?id=${rowId}`);
+    handleActionsDropdownClose();
+  };
 
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
@@ -58,6 +59,7 @@ const useQuotes = () => {
     useGetQuotesQuery({
       params: { ...filterParams, ...searchPayLoad },
     });
+  const [DeleteQuotes] = useDeleteQuotesMutation();
 
   // Filters
   const [openFilters, setOpenFilters] = useState(false);
@@ -67,7 +69,6 @@ const useQuotes = () => {
   const handleCloseFilters = () => {
     setOpenFilters(false);
   };
-
   const onSubmitFilters = async (values: any) => {
     setFilterParams((prev) => {
       return {
@@ -119,12 +120,27 @@ const useQuotes = () => {
 
   // Modal Delete Quote
   const [openDeleteQuote, setOpenDeleteQuote] = useState(false);
+
   const handleOpenDeleteQuote = () => {
     setOpenDeleteQuote(true);
     handleActionsDropdownClose();
   };
   const handleCloseDeleteQuote = () => {
     setOpenDeleteQuote(false);
+  };
+  const handleDeleteQoute = async () => {
+    try {
+      await DeleteQuotes(selectedRow)?.unwrap();
+      enqueueSnackbar('Record has been deleted.', {
+        variant: 'success',
+      });
+      setSelectedRow([]);
+      setIsActionsDisabled(true);
+    } catch (error: any) {
+      enqueueSnackbar('An error occured', {
+        variant: 'error',
+      });
+    }
   };
 
   return {
@@ -165,6 +181,7 @@ const useQuotes = () => {
     openDeleteQuote,
     handleOpenDeleteQuote,
     handleCloseDeleteQuote,
+    handleDeleteQoute,
     dataGetQuotes,
     loagingGetQuotes,
   };
