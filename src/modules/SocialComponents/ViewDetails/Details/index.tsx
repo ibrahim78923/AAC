@@ -17,8 +17,8 @@ import { styles } from '../ViewDetails.style';
 
 import { v4 as uuidv4 } from 'uuid';
 
-const Details = () => {
-  const { theme, methodsDetails, onSubmit, handleSubmit } = useDetails();
+const Details = ({ data }: any) => {
+  const { theme, methodsDetails, onSubmit, handleSubmit } = useDetails(data);
 
   return (
     <Box sx={styles?.horizontalTabsBox}>
@@ -30,7 +30,13 @@ const Details = () => {
         >
           <Grid container spacing={4}>
             {detailsDataArray?.map((item: any) => (
-              <Grid item xs={12} md={item?.md} key={uuidv4()}>
+              <Grid
+                item
+                xs={12}
+                md={item?.md}
+                key={uuidv4()}
+                sx={{ paddingTop: '20px !important' }}
+              >
                 <item.component {...item?.componentProps} size={'small'}>
                   {item?.componentProps?.select
                     ? item?.options?.map((option: any) => (
@@ -57,7 +63,9 @@ const Details = () => {
                   <Button sx={{ height: '35px' }}>Cancel</Button>
                 </ButtonGroup>
                 <ButtonGroup variant="contained" color="primary">
-                  <Button sx={{ height: '35px' }}>Update</Button>
+                  <Button sx={{ height: '35px' }} type="submit">
+                    Update
+                  </Button>
                 </ButtonGroup>
               </Box>
             </Grid>
