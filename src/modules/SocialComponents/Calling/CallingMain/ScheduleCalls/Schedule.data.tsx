@@ -1,4 +1,6 @@
+import { DATE_FORMAT } from '@/constants';
 import { Checkbox } from '@mui/material';
+import dayjs from 'dayjs';
 
 export const columns = () => {
   return [
@@ -10,7 +12,7 @@ export const columns = () => {
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row?.name,
+      accessorFn: (row: any) => row?.title,
       id: 'name',
       cell: (info: any) => info?.getValue(),
       header: 'Name',
@@ -31,14 +33,14 @@ export const columns = () => {
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row?.date,
+      accessorFn: (row: any) => row?.callFromDate,
       id: 'dateTime',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => dayjs(info?.getValue())?.format(DATE_FORMAT?.UI),
       header: 'Date & Time',
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row?.linkedDeal,
+      accessorFn: (row: any) => row?.dealId,
       id: 'linkedDeals',
       cell: (info: any) => info?.getValue(),
       header: 'Linked Deals',
@@ -48,14 +50,14 @@ export const columns = () => {
       accessorFn: (row: any) => row?.scheduledBy,
       id: 'Scheduled By',
       cell: (info: any) => info?.getValue(),
-      header: 'scheduledBy',
+      header: 'Scheduled By',
       isSortable: false,
     },
     {
       accessorFn: (row: any) => row?.callType,
       id: 'CallType',
       cell: (info: any) => info?.getValue(),
-      header: 'callType',
+      header: 'Call Type',
       isSortable: false,
     },
   ];

@@ -11,7 +11,16 @@ export const exampleExampleAPI = baseAPI.injectEndpoints({
       }),
       providesTags: ['DEALS_ASSOCIATION'],
     }),
+    getDealsListView: builder.query({
+      query: () => ({
+        // todo: used this id to impement all view Details cases temporarily
+        url: `/deals/get-deals-list-view`,
+        method: 'GET',
+      }),
+      providesTags: ['DEALS_ASSOCIATION'],
+    }),
   }),
 });
 
-export const { useGetDealsAssociationsQuery } = exampleExampleAPI;
+export const { useGetDealsAssociationsQuery, useGetDealsListViewQuery } =
+  exampleExampleAPI;
