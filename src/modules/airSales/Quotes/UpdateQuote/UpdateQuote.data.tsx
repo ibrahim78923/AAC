@@ -161,7 +161,6 @@ interface QuotesUpdateI {
   methodsSignature?: any;
 }
 export const updateQuoteSteps = (params: QuotesUpdateI) => {
-  // console.log('septArrray::: datafile:::', params?.data)
   return [
     {
       key: 'deal',
@@ -179,7 +178,8 @@ export const updateQuoteSteps = (params: QuotesUpdateI) => {
       label: 'Buyer Info',
       component: (
         <StepBuyerInfo
-          data={params?.data}
+          dataContacts={params?.data?.deal?.contactsIds || []}
+          dataCompanies={params?.data?.deal?.companiesIds || []}
           openAddContact={params?.openAddContact}
           openAddCompany={params?.openAddCompany}
         />
@@ -194,7 +194,10 @@ export const updateQuoteSteps = (params: QuotesUpdateI) => {
       key: 'lineItems',
       label: 'Line Items',
       component: (
-        <StepLineItems openCreateProduct={params?.openCreateProduct} />
+        <StepLineItems
+          data={params?.data?.deal?.productsIds || []}
+          openCreateProduct={params?.openCreateProduct}
+        />
       ),
     },
     {
