@@ -1,7 +1,8 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, useTheme } from '@mui/material';
 import { WelcomeCardImage } from '@/assets/images';
 
 export const Header = () => {
+  const { palette }: any = useTheme();
   return (
     <>
       <Box
@@ -10,7 +11,7 @@ export const Header = () => {
         alignItems={'center'}
         p={1.5}
         borderRadius={'1rem'}
-        boxShadow={1}
+        border={`.1rem solid ${palette?.grey?.[700]}`}
       >
         <Typography variant="h3">Customer Portal - Dashboard</Typography>
       </Box>

@@ -98,6 +98,7 @@ export const AIR_CUSTOMER_PORTAL = {
   AIR_CUSTOMER_PORTAL_FORGET: '/air-customer-portal/forget-password',
   SINGLE_CATALOG_SERVICE_DETAILS: `/air-customer-portal/catalog/detail`,
   CATALOG_SERVICES: '/air-customer-portal/catalog',
+  NON_REGISTER_DASHBOARD: '/air-customer-portal/non-register-dashboard',
 };
 
 export const ORG_ADMIN: any = {
