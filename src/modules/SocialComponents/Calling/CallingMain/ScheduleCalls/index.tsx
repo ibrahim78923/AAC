@@ -30,7 +30,7 @@ const ScheduleCalls = () => {
 
   const getColumns = columns();
 
-  const { Calls } = useScheduleCalls();
+  const { Calls, setPage, setPageLimit, isLoading } = useScheduleCalls();
 
   return (
     <>
@@ -93,10 +93,20 @@ const ScheduleCalls = () => {
           </MenuItem>
         </Menu>
       </Box>
+
       <TanstackTable
         columns={getColumns}
         data={Calls?.schedulecalls}
+        setPage={setPage}
+        setPageLimit={setPageLimit}
         isPagination
+        isLoading={isLoading}
+        currentPage={Calls?.meta?.pages}
+        count={Calls?.meta?.total}
+        pageLimit={Calls?.meta?.limit}
+        totalRecords={Calls?.meta?.total}
+        isSuccess={true}
+        onPageChange={(page: any) => setPage(page)}
       />
       <ScheduleEditorDrawer
         openDrawer={openDrawer}

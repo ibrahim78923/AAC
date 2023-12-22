@@ -12,6 +12,7 @@ import { DATE_FORMAT, TIME_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
 import { enqueueSnackbar } from 'notistack';
 import { useGetDealsListViewQuery } from '@/services/airSales/deals';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 const useScheduleEditorDrawer = () => {
   const { user } = getSession();
@@ -46,10 +47,10 @@ const useScheduleEditorDrawer = () => {
     const { callToDate, callToTime, callFromTime, callFromDate, ...rest } =
       values;
     const payload = {
-      callToDate: dayjs(callToDate).format(DATE_FORMAT?.API),
-      callToTime: dayjs(callToTime).format(TIME_FORMAT?.API),
-      callFromTime: dayjs(callFromTime).format(TIME_FORMAT?.API),
-      callFromDate: dayjs(callFromDate).format(DATE_FORMAT?.API),
+      callToDate: dayjs(callToDate)?.format(DATE_FORMAT?.API),
+      callToTime: dayjs(callToTime)?.format(TIME_FORMAT?.API),
+      callFromTime: dayjs(callFromTime)?.format(TIME_FORMAT?.API),
+      callFromDate: dayjs(callFromDate)?.format(DATE_FORMAT?.API),
       ...rest,
     };
 
@@ -58,10 +59,14 @@ const useScheduleEditorDrawer = () => {
         body: payload,
       })?.unwrap();
 
-      enqueueSnackbar(`Call Schedule  Successfully`, { variant: 'success' });
+      enqueueSnackbar(`Call Schedule  Successfully`, {
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
+      });
     } catch (error) {
       const errMsg = error?.data?.message;
-      enqueueSnackbar(errMsg ?? 'Error occurred', { variant: 'error' });
+      enqueueSnackbar(errMsg ?? 'Error occurred', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
     }
   };
   const { handleSubmit } = methodsdealsCalls;

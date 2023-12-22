@@ -56,7 +56,7 @@ export const columns = () => {
     {
       accessorFn: (row: any) => row?.callType,
       id: 'CallType',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => info?.getValue()?.replaceAll('_', ' '),
       header: 'Call Type',
       isSortable: false,
     },

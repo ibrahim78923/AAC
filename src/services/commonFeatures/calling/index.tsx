@@ -3,24 +3,22 @@ import { baseAPI } from '@/services/base-api';
 
 export const exampleExampleAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
-    getCalls: builder.query({
-      query: ({ params }: any) => ({
-        url: END_POINTS?.CALLS,
+    getCalls: builder?.query({
+      query: ({ page, pageLimit }: any) => ({
+        url: `${END_POINTS?.CALLS}?page=${page}&limit=${pageLimit}`,
         method: 'GET',
-        params: params,
       }),
       providesTags: ['CALLS'],
     }),
-    postCalls: builder.mutation({
+    postCalls: builder?.mutation({
       query: ({ body }: any) => ({
         url: `${END_POINTS?.CALLS}`,
         method: 'POST',
         body: body,
-        params: body,
       }),
       invalidatesTags: ['CALLS'],
     }),
-    updateCalls: builder.mutation({
+    updateCalls: builder?.mutation({
       query: ({ body, contactId }: any) => ({
         url: `${END_POINTS?.CALLS}/${contactId}`,
         method: 'PATCH',

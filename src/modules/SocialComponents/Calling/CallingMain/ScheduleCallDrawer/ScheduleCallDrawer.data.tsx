@@ -6,17 +6,16 @@ import {
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
-export const dealsCallsValidationSchema = Yup.object().shape({
-  title: Yup.string().trim().required('Field is Required'),
-  callFromDate: Yup.string().required('Field is Required'),
-  callFromTime: Yup.string().required('Field is Required'),
-  callToTime: Yup.string().required('Field is Required'),
-  callToDate: Yup.string().required('Field is Required'),
+export const dealsCallsValidationSchema = Yup?.object()?.shape({
+  title: Yup?.string()?.trim()?.required('Field is Required'),
+  callFromDate: Yup?.string()?.required('Field is Required'),
+  callFromTime: Yup?.string()?.required('Field is Required'),
+  callToTime: Yup?.string()?.required('Field is Required'),
+  callToDate: Yup?.string()?.required('Field is Required'),
 });
 
 export const dealsCallsDefaultValues = {
   title: '',
-  owner: '',
   outcome: '',
   callType: '',
 };
@@ -98,8 +97,8 @@ export const dealsCallsDataArray = (DealsListData: any) => [
       select: true,
     },
     options: [
-      { value: 'Conference call', label: 'Conference call' },
-      { value: 'One-on-One Call', label: 'One-on-One Call' },
+      { value: 'CONFERENCE', label: 'Conference call' },
+      { value: 'ONE_ON_ONE', label: 'One-on-One Call' },
     ],
     component: RHFSelect,
     md: 12,

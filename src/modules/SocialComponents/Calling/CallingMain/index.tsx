@@ -16,7 +16,7 @@ import useCallingMain from './useCallingMain';
 
 import { DownIcon, MobileIcon, PlusIcon } from '@/assets/icons';
 import HorizontalTabs from '@/components/Tabs/HorizontalTabs';
-import ScheduleCalls from './ScheduleCalls/ScheduleCalls';
+import ScheduleCalls from './ScheduleCalls';
 import ScheduleEditorDrawer from './ScheduleCallDrawer';
 
 const CallsTabsData = ['Calls', 'Schedule Calls'];
