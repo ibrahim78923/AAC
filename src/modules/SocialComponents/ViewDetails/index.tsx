@@ -1,18 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 
-import {
-  Box,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Grid,
-  Input,
-  Typography,
-  useTheme,
-} from '@mui/material';
+import { Box, Grid, Typography, useTheme } from '@mui/material';
 import HorizontalTabs from '@/components/Tabs/HorizontalTabs';
 import Details from './Details';
 import ActivityLog from './ActivityLog';
@@ -25,14 +14,7 @@ import Associations from './Associations';
 
 import { singleUserDealTabsData } from './ViewDetails.data';
 
-import {
-  AlertModalCloseIcon,
-  ArrowBackIcon,
-  DeleteIcon,
-  EditFormIcon,
-  ImagePreviewIcon,
-  UploadDocumentIcon,
-} from '@/assets/icons';
+import { ArrowBackIcon, EditFormIcon } from '@/assets/icons';
 import { NotesAvatarImage } from '@/assets/images';
 
 import { styles } from './ViewDetails.style';
@@ -40,6 +22,7 @@ import { useGetCompaniesDetailsQuery } from '@/services/commonFeatures/companies
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
 import { useState } from 'react';
+import UploadImageModal from './UploadImageModal';
 
 const ViewDetails = () => {
   const [isHovered, setIsHovered] = useState(false);
@@ -59,18 +42,6 @@ const ViewDetails = () => {
   const formattedTime = `${formattedHours}:${minutes.toLocaleString('en-US', {
     minimumIntegerDigits: 2,
   })} ${isPM ? 'PM' : 'AM'}`;
-
-  const inputStyle = {
-    display: 'none', // Hide the default input element
-  };
-
-  const labelStyle = {
-    color: '#9CA3AF',
-    padding: '8px',
-    borderRadius: '4px',
-    cursor: 'pointer',
-    fontSize: '12px',
-  };
 
   return (
     <Box>
@@ -261,80 +232,7 @@ const ViewDetails = () => {
         </Grid>
       </Grid>
 
-      <Dialog
-        open={isOpen}
-        onClose={() => setIsOpen(false)}
-        fullWidth
-        maxWidth={'sm'}
-      >
-        <DialogTitle sx={{ marginBottom: '20px' }}>
-          <Box
-            display={'flex'}
-            alignItems={'center'}
-            justifyContent={'space-between'}
-            gap={1}
-            flexWrap={'wrap'}
-          >
-            <Box></Box>
-            <Typography variant="h4">Upload Image</Typography>
-            <Box sx={{ cursor: 'pointer' }} onClick={() => setIsOpen(false)}>
-              <AlertModalCloseIcon />
-            </Box>
-          </Box>
-        </DialogTitle>
-        <DialogContent sx={{ textAlign: 'center' }}>
-          <Box>
-            <Box sx={styles.uploadImage}>
-              <ImagePreviewIcon />
-            </Box>
-            <Typography
-              variant="body3"
-              sx={{ color: '#9CA3AF', marginX: '20px' }}
-            >
-              Drag & drop file here
-              <br />
-              or click to browse.
-            </Typography>
-            <Box>
-              <Input
-                accept="image/png, image/jpeg" // Specify accepted file types if needed
-                style={inputStyle}
-                id="contained-button-file"
-                multiple
-                type="file"
-              />
-              <label htmlFor="contained-button-file" style={labelStyle}>
-                <UploadDocumentIcon />
-                <br />
-                Upload image (max 5)
-              </label>
-            </Box>
-          </Box>
-        </DialogContent>
-        <DialogActions
-          sx={{
-            '&.MuiDialogActions-root': { padding: '1.5rem !important' },
-            justifyContent: 'space-between',
-          }}
-        >
-          <Button variant="outlined" color="secondary">
-            <DeleteIcon />
-          </Button>
-          <Box>
-            <Button
-              variant="outlined"
-              color="secondary"
-              onClick={() => setIsOpen(false)}
-              sx={{ marginRight: '15px' }}
-            >
-              cancel
-            </Button>
-            <Button variant="contained" onClick={() => setIsOpen(false)}>
-              confirm
-            </Button>
-          </Box>
-        </DialogActions>
-      </Dialog>
+      <UploadImageModal isOpen={isOpen} setIsOpen={setIsOpen} />
     </Box>
   );
 };

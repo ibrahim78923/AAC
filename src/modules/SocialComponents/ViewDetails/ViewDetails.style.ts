@@ -71,5 +71,16 @@ export const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     margin: 'auto',
+    marginBottom: '15px',
+  },
+  inputStyle: {
+    display: 'none', // Hide the default input element
+  },
+  labelStyle: {
+    color: '#9CA3AF',
+    padding: '8px',
+    borderRadius: '4px',
+    cursor: 'pointer',
+    fontSize: '12px',
   },
 };
