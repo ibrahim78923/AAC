@@ -21,7 +21,7 @@ const useScheduleCalls = () => {
     (selectedItem: any) => selectedItem?._id,
   );
 
-  const selectedCheckboxesId = selectedCheckboxes && selectedId[0];
+  const selectedCheckboxesId = selectedCheckboxes && selectedId;
 
   const deleteCallsHandler = async () => {
     try {
