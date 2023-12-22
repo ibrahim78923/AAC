@@ -1,4 +1,4 @@
-import { Paper, Box, Checkbox } from '@mui/material';
+import { Paper, Box, Checkbox, Avatar, Typography } from '@mui/material';
 
 import TanstackTable from '@/components/Table/TanstackTable';
 import CustomPagination from '@/components/CustomPagination';
@@ -57,19 +57,30 @@ const DelasTable = ({
       ),
       isSortable: false,
     },
+
     {
-      accessorFn: (row: any) => row?.dealOwner?.name,
-      id: 'createdBy',
-      header: 'Deal Owner',
+      accessorFn: (row: any) => row?.Name,
+      id: 'name',
       isSortable: true,
-      cell: (info: any) => info?.getValue() ?? 'N/A',
-    },
-    {
-      accessorFn: (row: any) => row?.dealOwner?.email,
-      id: 'email',
-      isSortable: true,
-      header: 'Email',
-      cell: (info: any) => info?.getValue() ?? 'N/A',
+      header: 'Name',
+      cell: (info: any) => (
+        <Box sx={{ display: 'flex', gap: '5px' }}>
+          <Avatar
+            alt="Remy Sharp"
+            src={
+              'https://www.pexels.com/photo/woman-jumping-wearing-green-backpack-214574/'
+            }
+          />
+          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+            <Typography component={'span'}>
+              {info?.row?.original?.firstName} {info?.row?.original?.lastName}
+            </Typography>
+            <Typography component={'span'}>
+              {'shayanmalik@gmail.com' ?? 'N/A'}
+            </Typography>
+          </Box>
+        </Box>
+      ),
     },
     {
       accessorFn: (row: any) => row?.name,
