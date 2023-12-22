@@ -80,10 +80,6 @@ const Modules = ({ methods, handleSubmit }: any) => {
       {productPermissionsData?.data?.map((item: any) => (
         <Accordion
           key={uuidv4()}
-          // expanded={isAccordionExpanded === item?.module?.toLowerCase()}
-          // onChange={handleExpandAccordionChange(
-          //   item?.module?.toLowerCase(),
-          // )}
           disableGutters
           sx={{
             '&.MuiAccordion': {
