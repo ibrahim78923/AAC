@@ -6,6 +6,12 @@ import {
   RHFRadioGroup,
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
+import StepBuyerInfo from './StepBuyerInfo/index';
+import StepDeal from './StepDeal/index';
+import StepLineItems from './StepLineItems/index';
+import StepReview from './StepReview/index';
+import StepSignature from './StepSignature/index';
+import StepYourInfo from './StepYourInfo/index';
 
 export const dealValidationSchema = Yup.object().shape({
   dealId: Yup.string().required('Field is Required'),
@@ -142,3 +148,69 @@ export const createQuoteFormFields = [
     },
   },
 ];
+
+interface QuotesUpdateI {
+  data?: any;
+  detailValues?: any;
+  methodStepDeal?: any;
+  openCreateDeal?: any;
+  openAddContact?: any;
+  openAddCompany?: any;
+  openCreateProduct?: any;
+  // signatureValue?: any;
+  methodsSignature?: any;
+}
+export const updateQuoteSteps = (params: QuotesUpdateI) => {
+  // console.log('septArrray::: datafile:::', params?.dealsList)
+  return [
+    {
+      key: 'deal',
+      label: 'Deal & Details',
+      component: (
+        <StepDeal
+          openCreateDeal={params?.openCreateDeal}
+          values={params?.detailValues}
+          methods={params?.methodStepDeal}
+        />
+      ),
+    },
+    {
+      key: 'buyerInfo',
+      label: 'Buyer Info',
+      component: (
+        <StepBuyerInfo
+          data={params?.data}
+          openAddContact={params?.openAddContact}
+          openAddCompany={params?.openAddCompany}
+        />
+      ),
+    },
+    {
+      key: 'yourInfo',
+      label: 'Your Info',
+      component: <StepYourInfo />,
+    },
+    {
+      key: 'lineItems',
+      label: 'Line Items',
+      component: (
+        <StepLineItems openCreateProduct={params?.openCreateProduct} />
+      ),
+    },
+    {
+      key: 'signature',
+      label: 'Signature',
+      component: (
+        <StepSignature
+          // values={params?.signatureValue}
+          methods={params?.methodsSignature}
+        />
+      ),
+    },
+    {
+      key: 'review',
+      label: 'Review',
+      component: <StepReview />,
+    },
+  ];
+};

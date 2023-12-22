@@ -1,37 +1,57 @@
 import { Box, Button, Stack } from '@mui/material';
 import AppHorizontalStepper from '@/components/Stepper';
 import FormCreateDeal from './FormCreateDeal';
-import useCreateQuote from './useCreateQuote';
+import useUpdateQuote from './useUpdateQuote';
 import FormAddContact from './FormAddContact';
 import FormAddCompany from './FormAddCompany';
 import FormCreateProduct from './FormCreateProduct';
 import DialogSendToCustomer from './DialogSendToCustomer';
-import { styles } from './CreateQuote.style';
-// import { useGetQuoteByIdQuery } from '@/services/airSales/quotes';
+import { styles } from './UpdateQuote.style';
+import { updateQuoteSteps } from './UpdateQuote.data';
 
 const UpdateQuote = () => {
-  // const { data: dataGetQuoteById } = useGetQuoteByIdQuery(
-  //   '65816a509aee7fcdde095f03',
-  // );
   const {
-    createQuoteSteps,
+    dataGetDeals,
+    dataGetQuoteById,
+    detailsValues,
+    methodsAddQuote,
     activeStep,
     handleStepNext,
     handleStepBack,
     handleStepperCancel,
     handleFormSubmit,
     isOpenFormCreateDeal,
+    handleOpenFormCreateDeal,
     handleCloseFormCreateDeal,
     isOpenFormAddContact,
+    handleOpenFormAddContact,
     handleCloseFormAddContact,
     isOpenFormAddCompany,
+    handleOpenFormAddCompany,
     handleCloseFormAddCompany,
     isOpenFormCreateProduct,
+    handleOpenFormCreateProduct,
     handleCloseFormCreateProduct,
     handleOpenDialog,
     handleCloseDialog,
     isOpenDialog,
-  } = useCreateQuote();
+    methodsSignature,
+    handleUpdateDetails,
+  } = useUpdateQuote();
+
+  const stepsArgs = {
+    data: dataGetQuoteById?.data['0'],
+    dealList: dataGetDeals?.data?.deals,
+    detailValues: detailsValues,
+    methodStepDeal: methodsAddQuote,
+    openCreateDeal: handleOpenFormCreateDeal,
+    openAddContact: handleOpenFormAddContact,
+    openAddCompany: handleOpenFormAddCompany,
+    openCreateProduct: handleOpenFormCreateProduct,
+    methodsSignature: methodsSignature,
+  };
+
+  const steps = updateQuoteSteps(stepsArgs);
 
   return (
     <>
@@ -39,10 +59,10 @@ const UpdateQuote = () => {
         activeStep={activeStep}
         stepperPadding="4rem 0 0"
         stepperMargin="2rem 0 0"
-        stepsArray={createQuoteSteps}
+        stepsArray={steps}
         stepperButtons={
           <Box sx={styles?.stepperButtons}>
-            {activeStep !== createQuoteSteps.length - 1 && (
+            {activeStep > 0 && (
               <Button
                 onClick={handleStepBack}
                 variant="outlined"
@@ -53,7 +73,7 @@ const UpdateQuote = () => {
             )}
             <Box sx={{ flex: '1' }}></Box>
             <Stack direction={'row'} spacing={'12px'}>
-              {activeStep !== createQuoteSteps.length - 1 && (
+              {activeStep !== steps.length - 1 && (
                 <>
                   <Button
                     onClick={handleStepperCancel}
@@ -62,13 +82,20 @@ const UpdateQuote = () => {
                   >
                     Cancel
                   </Button>
-                  <Button variant="contained" onClick={handleStepNext}>
+                  <Button variant="contained" onClick={handleUpdateDetails}>
                     Save & Continue
+                  </Button>
+                  <Button
+                    onClick={handleStepNext}
+                    variant="outlined"
+                    sx={styles?.btnBack}
+                  >
+                    Next
                   </Button>
                 </>
               )}
 
-              {activeStep === createQuoteSteps.length - 1 && (
+              {activeStep === steps.length - 1 && (
                 <>
                   <Button onClick={handleFormSubmit} variant="contained">
                     Save & Submit Later

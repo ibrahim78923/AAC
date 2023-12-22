@@ -1,39 +1,51 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { enqueueSnackbar } from 'notistack';
-import StepDeal from './StepDeal';
-// import StepDetails from './StepDetails';
-import StepBuyerInfo from './StepBuyerInfo';
-import StepYourInfo from './StepYourInfo';
-import StepSignature from './StepSignature';
-import StepLineItems from './StepLineItems';
-import StepReview from './StepReview';
 import {
   dealInitValues,
   dealValidationSchema,
   signatureInitValues,
-} from './CreateQuote.data';
+} from './UpdateQuote.data';
 import {
   useGetDealsQuery,
   usePostQuoteMutation,
-  // useGetQuoteByIdQuery,
+  useGetQuoteByIdQuery,
 } from '@/services/airSales/quotes';
+import { AIR_SALES } from '@/routesConstants/paths';
 
-const useCreateQuote = () => {
+const useUpdateQuote = () => {
   const router = useRouter();
-  // console.log('router?.query?.id', router?.query);
-  const { data: dataGetDeals } = useGetDealsQuery({ page: 1, limit: 20 });
 
-  // const { data: dataGetQuoteById } = useGetQuoteByIdQuery(router?.query?.data);
+  const { data: dataGetDeals } = useGetDealsQuery({ page: 1, limit: 100 });
 
-  // console.log('dataGetQuoteById::::::  ', dataGetQuoteById);
+  const { data: dataGetQuoteById } = useGetQuoteByIdQuery(router?.query?.data);
+
   const methodsAddQuote = useForm({
     resolver: yupResolver(dealValidationSchema),
     defaultValues: dealInitValues,
   });
-  const { watch, trigger, handleSubmit } = methodsAddQuote;
+
+  const { watch: watchDetail, trigger, handleSubmit } = methodsAddQuote;
+  const detailsValues = watchDetail();
+
+  const singleQuote = dataGetQuoteById?.data['0'];
+
+  useEffect(() => {
+    if (singleQuote) {
+      const { dealId, template, name, expiryDate, notes, termsAndConditions } =
+        singleQuote;
+      const dateObject: any = new Date(expiryDate);
+      methodsAddQuote.setValue('dealId', dealId);
+      methodsAddQuote.setValue('template', template);
+      methodsAddQuote.setValue('name', name);
+      methodsAddQuote.setValue('expiryDate', dateObject);
+      methodsAddQuote.setValue('notes', notes);
+      methodsAddQuote.setValue('termsAndConditions', termsAndConditions);
+    }
+  }, [singleQuote]);
+
   const onSubmit = async () => {
     enqueueSnackbar('Form Submitted', {
       variant: 'success',
@@ -44,11 +56,6 @@ const useCreateQuote = () => {
 
   // Step add deal / Create Quote
   const { handleSubmit: handleMethodAddQuote } = methodsAddQuote;
-  // const singleQuote = dataGetQuoteById?.data;
-  // if(singleQuote) {
-  //   methodsAddQuote.setValue('dealId', singleQuote?._id);
-  // }
-
   const [postAddQuote, { isLoading: loadingAddQuote }] = usePostQuoteMutation();
   const onSubmitCreateQuote = async (values: any) => {
     try {
@@ -64,7 +71,6 @@ const useCreateQuote = () => {
   };
   const handleAddQuoteSubmit = handleMethodAddQuote(onSubmitCreateQuote);
 
-  const watchFields = watch();
   const [activeStep, setActiveStep] = useState(1);
   const [isOpenFormCreateDeal, setIsOpenFormCreateDeal] = useState(false);
   const [isOpenFormAddContact, setIsOpenFormAddContact] = useState(false);
@@ -72,7 +78,7 @@ const useCreateQuote = () => {
   const [isOpenFormCreateProduct, setIsOpenFormCreateProduct] = useState(false);
   const [isOpenDialog, setIsOpenDialog] = useState(false);
 
-  const handleStepNext = async () => {
+  const handleUpdateDetails = async () => {
     let isValid = false;
     if (activeStep === 0) {
       await handleAddQuoteSubmit();
@@ -81,20 +87,21 @@ const useCreateQuote = () => {
       const isNameValid = await trigger('name');
       const isDateValid = await trigger('expiryDate');
       isValid = isDealIDValid && isTemplateValid && isNameValid && isDateValid;
-    } else if (activeStep === 1) {
-    } else {
-      isValid = true;
     }
 
     if (isValid) {
       setActiveStep((prev) => prev + 1);
     }
   };
+
+  const handleStepNext = async () => {
+    setActiveStep((prev) => prev + 1);
+  };
   const handleStepBack = () => {
     setActiveStep((prev) => prev - 1);
   };
   const handleStepperCancel = () => {
-    router.push('/air-sales/quotes');
+    router.push(AIR_SALES?.QUOTES);
   };
 
   const handleOpenFormCreateDeal = () => {
@@ -137,58 +144,11 @@ const useCreateQuote = () => {
     defaultValues: signatureInitValues,
   });
 
-  const createQuoteSteps = [
-    {
-      key: 'deal',
-      label: 'Deal & Details',
-      component: (
-        <StepDeal
-          openCreateDeal={handleOpenFormCreateDeal}
-          values={watchFields}
-          methods={methodsAddQuote}
-        />
-      ),
-    },
-    {
-      key: 'buyerInfo',
-      label: 'Buyer Info',
-      component: (
-        <StepBuyerInfo
-          openAddContact={handleOpenFormAddContact}
-          openAddCompany={handleOpenFormAddCompany}
-        />
-      ),
-    },
-    {
-      key: 'yourInfo',
-      label: 'Your Info',
-      component: <StepYourInfo />,
-    },
-    {
-      key: 'lineItems',
-      label: 'Line Items',
-      component: (
-        <StepLineItems openCreateProduct={handleOpenFormCreateProduct} />
-      ),
-    },
-    {
-      key: 'signature',
-      label: 'Signature',
-      component: (
-        <StepSignature values={watchFields} methods={methodsSignature} />
-      ),
-    },
-    {
-      key: 'review',
-      label: 'Review',
-      component: <StepReview />,
-    },
-  ];
-
   return {
+    dataGetQuoteById,
     dataGetDeals,
     methodsAddQuote,
-    createQuoteSteps,
+    detailsValues,
     activeStep,
     handleStepNext,
     handleStepBack,
@@ -211,9 +171,9 @@ const useCreateQuote = () => {
     handleCloseDialog,
     isOpenDialog,
     methodsSignature,
-    handleAddQuoteSubmit,
+    handleUpdateDetails,
     loadingAddQuote,
   };
 };
 
-export default useCreateQuote;
+export default useUpdateQuote;

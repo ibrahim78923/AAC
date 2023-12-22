@@ -7,6 +7,7 @@ import Quotation from './Quotation';
 
 const ViewQuote = () => {
   // const { viewQuotesData } = useViewQuotes();
+  // console.log(viewQuotesData);
 
   return (
     <>

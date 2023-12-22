@@ -59,6 +59,7 @@ export const AIR_SALES = {
   QUOTES: path(AIR_SALES_PAGE, '/quotes'),
   CREATE_QUOTE: path(AIR_SALES_PAGE, '/quotes/create-quote'),
   UPDATE_QUOTE: path(AIR_SALES_PAGE, '/quotes/update-quote'),
+  VIEW_QUOTE: path(AIR_SALES_PAGE, '/quotes/view-quote'),
   SALES_INVOICES: '/air-sales/invoices',
   SALES_VIEW_INVOICES: '/air-sales/invoices/view-invoices',
   SALES_CREATE_INVOICES: '/air-sales/invoices/create-invoices',
