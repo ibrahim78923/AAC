@@ -2,12 +2,13 @@ import { Box, Button, Stack } from '@mui/material';
 import AppHorizontalStepper from '@/components/Stepper';
 import FormCreateDeal from './FormCreateDeal';
 import useUpdateQuote from './useUpdateQuote';
-import FormAddContact from './FormAddContact';
+// import FormAddContact from './FormAddContact';
 import FormAddCompany from './FormAddCompany';
 import FormCreateProduct from './FormCreateProduct';
 import DialogSendToCustomer from './DialogSendToCustomer';
 import { styles } from './UpdateQuote.style';
 import { updateQuoteSteps } from './UpdateQuote.data';
+import CreateContacts from './CreateContacts';
 
 const UpdateQuote = () => {
   const {
@@ -40,7 +41,7 @@ const UpdateQuote = () => {
   } = useUpdateQuote();
 
   const stepsArgs = {
-    data: dataGetQuoteById?.data['0'],
+    data: dataGetQuoteById?.data,
     dealList: dataGetDeals?.data?.deals,
     detailValues: detailsValues,
     methodStepDeal: methodsAddQuote,
@@ -124,10 +125,14 @@ const UpdateQuote = () => {
         onClose={handleCloseFormCreateDeal}
       />
 
-      <FormAddContact
+      <CreateContacts
         open={isOpenFormAddContact}
         onClose={handleCloseFormAddContact}
       />
+      {/* <FormAddContact
+        open={isOpenFormAddContact}
+        onClose={handleCloseFormAddContact}
+      /> */}
 
       <FormAddCompany
         open={isOpenFormAddCompany}
