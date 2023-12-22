@@ -28,9 +28,16 @@ const ScheduleCalls = () => {
     isDeleteModalOpen,
   } = useCallingMain();
 
-  const getColumns = columns();
-
-  const { Calls, setPage, setPageLimit, isLoading } = useScheduleCalls();
+  const {
+    Calls,
+    setPage,
+    setPageLimit,
+    isLoading,
+    handleCheckboxChange,
+    selectedCheckboxes,
+    deleteCallsHandler,
+  } = useScheduleCalls();
+  const getColumns = columns({ handleCheckboxChange, selectedCheckboxes });
 
   return (
     <>
@@ -116,8 +123,8 @@ const ScheduleCalls = () => {
         message={'Are you sure you want to delete this entry ?'}
         type="delete"
         open={isDeleteModalOpen}
-        handleClose={() => setIsDeleteModalOpen(false)}
-        handleSubmit={() => setIsDeleteModalOpen(false)}
+        handleCloseBtn={() => setIsDeleteModalOpen(false)}
+        handleSubmitBtn={deleteCallsHandler}
       />
     </>
   );

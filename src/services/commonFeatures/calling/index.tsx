@@ -26,6 +26,13 @@ export const exampleExampleAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: ['CALLS'],
     }),
+    deleteCalls: builder.mutation({
+      query: ({ id }: any) => ({
+        url: `${END_POINTS?.CALLS}/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['CALLS'],
+    }),
   }),
 });
 
@@ -33,4 +40,5 @@ export const {
   useGetCallsQuery,
   usePostCallsMutation,
   useUpdateCallsMutation,
+  useDeleteCallsMutation,
 } = exampleExampleAPI;
