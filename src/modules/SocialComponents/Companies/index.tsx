@@ -29,7 +29,7 @@ import useCompanies from './useCompanies';
 
 import {
   CompanyIcon,
-  CutomizeIcon,
+  CustomizeIcon,
   FilterIcon,
   ImportCompaniesIcon,
   RefreshTasksIcon,
@@ -109,9 +109,9 @@ const Companies = () => {
                   className="small"
                   color="inherit"
                   variant="outlined"
+                  startIcon={<ImportCompaniesIcon />}
                   onClick={() => setIsImport(true)}
                 >
-                  <ImportCompaniesIcon />
                   Import
                 </Button>
                 <Button
@@ -144,15 +144,13 @@ const Companies = () => {
                     className="small"
                     color="inherit"
                     variant="outlined"
+                    endIcon={<ArrowDropDownIcon />}
                     aria-controls={open ? 'basic-menu' : undefined}
                     aria-haspopup="true"
                     aria-expanded={open ? 'true' : undefined}
                     onClick={handleClick}
                   >
                     Action
-                    <ArrowDropDownIcon
-                      sx={{ color: `${theme?.palette?.custom?.main}` }}
-                    />
                   </Button>
                   <Menu
                     anchorEl={anchorEl}
@@ -217,9 +215,10 @@ const Companies = () => {
                       variant="outlined"
                       className="small"
                       color="inherit"
+                      startIcon={<CustomizeIcon />}
                       onClick={() => setIsCustomize(true)}
                     >
-                      <CutomizeIcon /> &nbsp; Customize
+                      Customize
                     </Button>
                   </>
                   <Tooltip title={'Refresh Filter'}>
@@ -235,16 +234,16 @@ const Companies = () => {
                     variant="outlined"
                     className="small"
                     color="inherit"
+                    startIcon={<FilterIcon />}
                     onClick={() => setIsFilter(true)}
                   >
-                    <FilterIcon />
-                    &nbsp; Filter
+                    Filter
                   </Button>
                 </>
               }
             >
               <Grid item lg={12} md={12} sm={12} xs={12}>
-                <TanstackTable columns={columns} data={companiesTableData} />
+                <TanstackTable columns={columns()} data={companiesTableData} />
                 <CustomPagination
                   count={1}
                   rowsPerPageOptions={[1, 2]}
