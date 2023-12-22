@@ -16,7 +16,7 @@ import useUserDetailsList from '../../UsersDetailsList/useUserDetailsList';
 
 const useAddUser = (useActionParams: any) => {
   const {
-    tabTitle,
+    tabVal,
     organizationId,
     setIsOpenAdduserDrawer,
     setIsOpenAddUserDrawer,
@@ -32,6 +32,8 @@ const useAddUser = (useActionParams: any) => {
     useUserDetailsList();
   const updateUserId = isOpenAddUserDrawer?.data?.data?._id;
   const userDetail = isOpenAddUserDrawer?.data?.data;
+  const initialTab = 0;
+  const tabTitle = tabVal === initialTab ? 'COMPANY_OWNER' : 'SUPER_ADMIN';
 
   // for super admin form methods
   const superAdminMethods: any = useForm({
@@ -162,6 +164,7 @@ const useAddUser = (useActionParams: any) => {
     handleSubmit,
     onSubmit,
     userDetail,
+    tabTitle,
   };
 };
 

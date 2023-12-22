@@ -18,17 +18,16 @@ const AddUser = ({
   organizationId,
 }: any) => {
   const [isToggled, setIsToggled] = useToggle(false);
-  const tabTitle = tabVal === 0 ? 'COMPANY_OWNER' : 'SUPER_ADMIN';
 
   const useActionParams: any = {
-    tabTitle: tabTitle,
+    tabVal: tabVal,
     isOpenAddUserDrawer: isOpenAddUserDrawer,
     setIsOpenAddUserDrawer: setIsOpenAddUserDrawer,
     setIsOpenAdduserDrawer: setIsOpenAdduserDrawer,
     organizationId: organizationId,
   };
 
-  const { pathName, methods, handleSubmit, onSubmit, userDetail } =
+  const { pathName, methods, handleSubmit, onSubmit, userDetail, tabTitle } =
     useAddUser(useActionParams);
 
   return (
