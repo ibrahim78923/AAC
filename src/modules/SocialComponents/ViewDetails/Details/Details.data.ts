@@ -7,49 +7,82 @@ import {
 import * as Yup from 'yup';
 
 export const detailsValidationSchema = Yup?.object()?.shape({
-  candidates: Yup?.string()?.trim()?.required('Field is Required'),
-  applyDate: Yup?.string()?.trim()?.required('Field is Required'),
-  status: Yup?.string()?.trim()?.required('Field is Required'),
+  CompanyName: Yup?.string()?.trim()?.required('Field is Required'),
+  DomainName: Yup?.string(),
+  CompanyRegistrationNumber: Yup?.string(),
+  CompanyOwner: Yup?.string(),
+  PhoneNumber: Yup?.string(),
+  Industry: Yup?.string(),
+  CompanyType: Yup?.string(),
+  NumberOfEmployees: Yup?.string(),
+  AnnualRevenue: Yup?.string(),
+  City: Yup?.string(),
+  PostalCode: Yup?.string(),
+  LifeCycleStage: Yup?.string(),
+  LastActivityDate: Yup?.string(),
+  CreatedDate: Yup?.string(),
+  time: Yup?.string(),
+  LinkedInCompanyPage: Yup?.string(),
+  Address: Yup?.string(),
+  description: Yup?.string(),
 });
 
 export const detailsDefaultValues = {
-  candidates: '',
-  applyDate: '',
-  status: '',
+  CompanyName: '',
+  DomainName: '',
+  CompanyRegistrationNumber: '',
+  CompanyOwner: '',
+  PhoneNumber: '',
+  Industry: '',
+  CompanyType: '',
+  NumberOfEmployees: '',
+  AnnualRevenue: '',
+  City: '',
+  PostalCode: '',
+  LifeCycleStage: '',
+  LastActivityDate: '',
+  CreatedDate: '',
+  time: '',
+  LinkedInCompanyPage: '',
+  Address: '',
+  description: '',
 };
 
 export const detailsDataArray = [
   {
     componentProps: {
-      name: 'deal-name',
-      label: 'Deal Name',
+      name: 'CompanyName',
+      label: 'Company Name',
       fullWidth: true,
+      placeholder: 'Type Here',
     },
     component: RHFTextField,
     md: 4,
   },
   {
     componentProps: {
-      name: 'amount',
-      label: 'Amount',
+      name: 'DomainName',
+      label: 'Domain Name',
       fullWidth: true,
+      placeholder: 'Type Here',
     },
     component: RHFTextField,
     md: 4,
   },
   {
     componentProps: {
-      name: 'deal-owner',
-      label: 'Deal Owner',
+      name: 'CompanyRegistrationNumber',
+      label: 'Company Registration Number',
       fullWidth: true,
+      placeholder: 'Type Here',
     },
     component: RHFTextField,
     md: 4,
   },
   {
     componentProps: {
-      name: 'deal-type',
-      label: 'Deal Type',
+      name: 'CompanyOwner',
+      label: 'Company Owner',
       select: true,
     },
     options: [
@@ -61,8 +94,18 @@ export const detailsDataArray = [
   },
   {
     componentProps: {
-      name: 'priority',
-      label: 'Priority',
+      name: 'PhoneNumber',
+      label: 'Phone Number',
+      fullWidth: true,
+      placeholder: 'Type Here',
+    },
+    component: RHFTextField,
+    md: 4,
+  },
+  {
+    componentProps: {
+      name: 'Industry',
+      label: 'Industry',
       select: true,
     },
     options: [
@@ -75,8 +118,8 @@ export const detailsDataArray = [
   },
   {
     componentProps: {
-      name: 'new',
-      label: 'Stage',
+      name: 'CompanyType',
+      label: 'Company Type',
       select: true,
     },
     options: [
@@ -89,22 +132,48 @@ export const detailsDataArray = [
   },
   {
     componentProps: {
-      name: 'pipeline',
-      label: 'Pipeline',
-      select: true,
+      name: 'NumberOfEmployees',
+      label: 'Number of Employees',
+      fullWidth: true,
+      placeholder: 'Type Here',
     },
-    options: [
-      { value: 'Sale Pipeline', label: 'Sale Pipeline' },
-      { value: 'Recruitment Pipeline', label: 'Recruitment Pipeline' },
-      { value: 'Test Pipeline', label: 'Test Pipeline' },
-    ],
-    component: RHFSelect,
+    component: RHFTextField,
     md: 4,
   },
   {
     componentProps: {
-      name: 'last-contacted-person',
-      label: 'Last Contacted Person',
+      name: 'AnnualRevenue',
+      label: 'Annual Revenue',
+      fullWidth: true,
+      placeholder: 'Type Here',
+    },
+    component: RHFTextField,
+    md: 4,
+  },
+  {
+    componentProps: {
+      name: 'City',
+      label: 'City',
+      fullWidth: true,
+      placeholder: 'Type Here',
+    },
+    component: RHFTextField,
+    md: 4,
+  },
+  {
+    componentProps: {
+      name: 'PostalCode',
+      label: 'Postal Code',
+      fullWidth: true,
+      placeholder: 'Type Here',
+    },
+    component: RHFTextField,
+    md: 4,
+  },
+  {
+    componentProps: {
+      name: 'LifeCycleStage',
+      label: 'Life Cycle Stage',
       select: true,
     },
     options: [
@@ -117,70 +186,66 @@ export const detailsDataArray = [
   },
   {
     componentProps: {
-      name: 'contacted-mode',
-      label: 'Contacted Mode',
-      select: true,
-    },
-    options: [
-      { value: 'Email', label: 'Email' },
-      { value: 'Call', label: 'Call' },
-      { value: 'Meeting', label: 'Meeting' },
-    ],
-    component: RHFSelect,
-    md: 4,
-  },
-  {
-    componentProps: {
-      name: 'last-activity',
-      label: 'Last Activity',
-      fullWidth: true,
-    },
-    component: RHFTextField,
-    md: 4,
-  },
-  {
-    componentProps: {
-      name: 'created-date',
-      label: 'Created Date',
-      fullWidth: true,
-    },
-    component: RHFDatePicker,
-    md: 4,
-  },
-  {
-    componentProps: {
-      name: 'create-time',
-      label: '',
-      fullWidth: true,
-    },
-    component: RHFTextField,
-    md: 4,
-  },
-  {
-    componentProps: {
-      name: 'closed-date',
-      label: 'Closed Date',
-      fullWidth: true,
-    },
-    component: RHFTextField,
-    md: 4,
-  },
-  {
-    componentProps: {
-      name: 'close-time',
-      label: '',
-      fullWidth: true,
-    },
-    component: RHFTextField,
-    md: 4,
-  },
-  {
-    componentProps: {
-      name: 'last-activity-date',
+      name: 'LastActivityDate',
       label: 'Last Activity Date',
       fullWidth: true,
+      placeholder: 'Type Here',
     },
     component: RHFDatePicker,
+    md: 4,
+  },
+  {
+    componentProps: {
+      name: 'CreatedDate',
+      label: 'Created Date',
+      fullWidth: true,
+      placeholder: 'Type Here',
+    },
+    component: RHFTextField,
+    md: 4,
+  },
+  {
+    componentProps: {
+      name: 'time',
+      label: '------',
+      fullWidth: true,
+      placeholder: 'Type Here',
+    },
+    component: RHFTextField,
+    md: 4,
+  },
+  {
+    componentProps: {
+      name: 'LinkedInCompanyPage',
+      label: 'LinkedIn Company page',
+      fullWidth: true,
+      placeholder: 'Type Here',
+    },
+    component: RHFTextField,
+    md: 4,
+  },
+  {
+    componentProps: {
+      name: 'Address',
+      label: 'Address',
+      fullWidth: true,
+      placeholder: 'Type Here',
+      multiline: true,
+      rows: 4,
+    },
+    component: RHFTextField,
+    md: 4,
+  },
+  {
+    componentProps: {
+      name: 'Description',
+      label: 'Description',
+      fullWidth: true,
+      placeholder: 'Type Here',
+      multiline: true,
+      rows: 4,
+    },
+    component: RHFTextField,
     md: 4,
   },
 ];

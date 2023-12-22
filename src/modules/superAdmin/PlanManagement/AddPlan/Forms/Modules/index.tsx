@@ -20,15 +20,17 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { useAppSelector } from '@/redux/store';
 import { useGetPermissionsByProductsQuery } from '@/services/superAdmin/plan-mangement';
-import { isNullOrEmpty } from '@/utils';
+import { useGetProductsPermissionsQuery } from '@/services/orgAdmin/roles-and-rights';
 
 const Modules = ({ methods, handleSubmit }: any) => {
-  const { theme, isAccordionExpanded, handleExpandAccordionChange } =
-    useModules();
+  const { theme } = useModules();
 
   const { planManagement }: any = useAppSelector(
     (state: any) => state?.planManagementForms,
   );
+  const { data: productPermissionsData } = useGetProductsPermissionsQuery({
+    productId: planManagement?.addPlanForm?.productId,
+  });
   const { data: modulesPermissions } = useGetPermissionsByProductsQuery({
     id: planManagement?.addPlanForm?.productId,
   });
@@ -75,105 +77,48 @@ const Modules = ({ methods, handleSubmit }: any) => {
 
   return (
     <div>
-      {!isNullOrEmpty(planManagement?.addPlanForm?.productId)
-        ? Object?.keys(groupedData)?.map((productModulePermissions: any) => (
-            <Accordion
-              key={uuidv4()}
-              expanded={isAccordionExpanded === productModulePermissions}
-              onChange={handleExpandAccordionChange(productModulePermissions)}
-              disableGutters
-              sx={{
-                '&.MuiAccordion': {
-                  '&.Mui-expanded': {
-                    boxShadow: 'theme.customShadows.z8',
-                    borderRadius: '8px',
-                  },
-                  '&.Mui-disabled': {
-                    backgroundColor: 'transparent',
-                  },
-                },
-                '& .MuiAccordionSummary-root': {
-                  backgroundColor: theme?.palette?.blue?.main,
-                  color: theme?.palette?.common?.white,
-                  borderRadius: '8px',
-                  marginBottom: '11px',
-                },
-              }}
-            >
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls={`accordion-${productModulePermissions}`}
-                id={`accordion-${productModulePermissions}`}
-              >
-                <Box display="flex" alignItems="center">
-                  <FormControlLabel control={<SwitchBtn />} label="" />
-                  <Typography variant="h4">
-                    {productModulePermissions}
-                  </Typography>
-                </Box>
-              </AccordionSummary>
-
-              <AccordionDetails>
-                <SubModulesAccordion
-                  key={uuidv4()}
-                  subModules={groupedData[productModulePermissions]}
-                  methods={methods}
-                  name={productModulePermissions}
-                  value={productModulePermissions}
-                  handleSubmit={handleSubmit}
-                />
-              </AccordionDetails>
-            </Accordion>
-          ))
-        : Object?.keys(groupedDataCrm).map((productModulePermissions: any) => (
-            <Accordion
-              key={uuidv4()}
-              expanded={isAccordionExpanded === productModulePermissions}
-              onChange={handleExpandAccordionChange(productModulePermissions)}
-              disableGutters
-              sx={{
-                '&.MuiAccordion': {
-                  '&.Mui-expanded': {
-                    boxShadow: 'theme.customShadows.z8',
-                    borderRadius: '8px',
-                  },
-                  '&.Mui-disabled': {
-                    backgroundColor: 'transparent',
-                  },
-                },
-                '& .MuiAccordionSummary-root': {
-                  backgroundColor: theme?.palette?.blue?.main,
-                  color: theme?.palette?.common?.white,
-                  borderRadius: '8px',
-                  marginBottom: '11px',
-                },
-              }}
-            >
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls={`accordion-${productModulePermissions}`}
-                id={`accordion-${productModulePermissions}`}
-              >
-                <Box display="flex" alignItems="center">
-                  <FormControlLabel control={<SwitchBtn />} label="" />
-                  <Typography variant="h4">
-                    {productModulePermissions}
-                  </Typography>
-                </Box>
-              </AccordionSummary>
-
-              <AccordionDetails>
-                <SubModulesAccordion
-                  key={uuidv4()}
-                  subModules={groupedDataCrm[productModulePermissions]}
-                  methods={methods}
-                  name={productModulePermissions}
-                  value={productModulePermissions}
-                  handleSubmit={handleSubmit}
-                />
-              </AccordionDetails>
-            </Accordion>
-          ))}
+      {productPermissionsData?.data?.map((item: any) => (
+        <Accordion
+          key={uuidv4()}
+          disableGutters
+          sx={{
+            '&.MuiAccordion': {
+              '&.Mui-expanded': {
+                boxShadow: 'theme.customShadows.z8',
+                borderRadius: '8px',
+              },
+              '&.Mui-disabled': {
+                backgroundColor: 'transparent',
+              },
+            },
+            '& .MuiAccordionSummary-root': {
+              backgroundColor: theme?.palette?.blue?.main,
+              color: theme.palette.common.white,
+              borderRadius: '8px',
+            },
+          }}
+        >
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="dashboard"
+            id="dashboard"
+          >
+            <Box display="flex" alignItems="center">
+              <FormControlLabel control={<SwitchBtn />} label="" />
+              <Typography variant="h4" fontWeight={700}>
+                {item?.name}
+              </Typography>
+            </Box>
+          </AccordionSummary>
+          <AccordionDetails>
+            <SubModulesAccordion
+              subModules={item?.subModules}
+              methods={methods}
+              handleSubmit={handleSubmit}
+            />
+          </AccordionDetails>
+        </Accordion>
+      ))}
     </div>
   );
 };

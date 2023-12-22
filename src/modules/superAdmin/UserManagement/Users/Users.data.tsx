@@ -16,6 +16,7 @@ import dayjs from 'dayjs';
 import * as Yup from 'yup';
 import { v4 as uuidv4 } from 'uuid';
 import { DATE_FORMAT } from '@/constants';
+import { IMG_URL } from '@/config';
 
 export const columns: any = (columnsProps: any) => {
   const { handleUserSwitchChange, checkedRows, setCheckedRows } = columnsProps;
@@ -98,9 +99,9 @@ export const columns: any = (columnsProps: any) => {
                 key={uuidv4()}
                 variant="square"
                 alt="product-avatar"
-                src={item?.logo?.url}
+                src={`${IMG_URL}${item?.logo?.url}`}
               >
-                {item?.name?.charAt(0, 1)}
+                {/* {item?.name?.charAt(0, 1)} */}
               </Avatar>
             ))}
           </AvatarGroup>
@@ -194,28 +195,6 @@ export const superAdminColumns: any = (columnsProps: any) => {
         <Typography>
           {info?.row?.original?.role?.toLowerCase()?.replace('_', ' ')}
         </Typography>
-      ),
-    },
-    {
-      accessorFn: (row: any) => row?.OrganizationName,
-      id: 'organizationName',
-      isSortable: true,
-      header: 'Organization Name',
-      cell: (info: any) => info?.getValue() ?? 'N/A',
-    },
-    {
-      accessorFn: (row: any) => row?.Products,
-      id: 'products',
-      isSortable: true,
-      header: 'Products',
-      cell: (
-        <AvatarGroup max={4} sx={{ display: 'flex', justifyContent: 'start' }}>
-          <Avatar alt="Remy Sharp" src={AvatarImage?.src} />
-          <Avatar alt="Travis Howard" src={AvatarImage?.src} />
-          <Avatar alt="Cindy Baker" src={AvatarImage?.src} />
-          <Avatar alt="Agnes Walker" src={AvatarImage?.src} />
-          <Avatar alt="Trevor Henderson" src={AvatarImage?.src} />
-        </AvatarGroup>
       ),
     },
     {
