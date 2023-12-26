@@ -7,10 +7,28 @@ import { detailsDefaultValues, detailsValidationSchema } from './Details.data';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useCompanyUpdateMutation } from '@/services/commonFeatures/companies';
 import { enqueueSnackbar } from 'notistack';
+import { useGetLifeCycleQuery } from '@/services/commonFeatures/contacts';
+import { useGetUsersQuery } from '@/services/superAdmin/user-management/users';
 
 const useDetails = (data: any) => {
   const theme = useTheme();
   const [CompanyUpdate] = useCompanyUpdateMutation();
+
+  const { data: lifeCycleStages } = useGetLifeCycleQuery({});
+
+  const params = {
+    role: 'ORG_ADMIN',
+  };
+  const { data: userList } = useGetUsersQuery(params);
+
+  const lifeCycleStagesData = lifeCycleStages?.data?.lifecycleStages?.map(
+    (lifecycle: any) => ({ value: lifecycle?._id, label: lifecycle?.name }),
+  );
+
+  const UserListData = userList?.data?.users?.map((lifecycle: any) => ({
+    value: lifecycle?._id,
+    label: `${lifecycle?.firstName} ${lifecycle?.lastName}`,
+  }));
 
   const rowApiValues = {
     CompanyName: data?.name,
@@ -119,6 +137,8 @@ const useDetails = (data: any) => {
     methodsDetails,
     onSubmit,
     handleSubmit,
+    lifeCycleStagesData,
+    UserListData,
   };
 };
 
