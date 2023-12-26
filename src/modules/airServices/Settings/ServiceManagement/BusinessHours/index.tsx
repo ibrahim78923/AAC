@@ -1,27 +1,15 @@
-import {
-  Box,
-  Grid,
-  IconButton,
-  Menu,
-  MenuItem,
-  Typography,
-} from '@mui/material';
+import { Box, Grid, Skeleton, Typography } from '@mui/material';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
-import MoreVert from '@mui/icons-material/MoreVert';
 import { ClockWithBagIcon } from '@/assets/icons';
 import Link from 'next/link';
 import { AIR_SERVICES } from '@/constants';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { useBusinessHour } from './useBusinessHour';
+import { FolderMenu } from './FolderMenu';
 
 export const BusinessHours = () => {
-  const {
-    router,
-    openAction,
-    handleActionClick,
-    handleActionClose,
-    actionPop,
-  } = useBusinessHour();
+  const { router, businessHoursList, isLoading } = useBusinessHour();
+
   return (
     <>
       <Box
@@ -38,7 +26,9 @@ export const BusinessHours = () => {
       <Grid container spacing={3}>
         <Grid
           item
-          xs={3}
+          lg={3}
+          sm={6}
+          xs={12}
           href={AIR_SERVICES?.UPSERT_BUSINESS_HOUR}
           component={Link}
         >
@@ -74,46 +64,50 @@ export const BusinessHours = () => {
             </Typography>
           </Box>
         </Grid>
-        <Grid item xs={3}>
-          <Box
-            height="12rem"
-            border="0.06rem solid"
-            borderColor="primary.main"
-            borderRadius=".5rem"
-            sx={{ cursor: 'pointer' }}
-          >
-            <Box display="flex" justifyContent="end">
-              <IconButton onClick={handleActionClick}>
-                <MoreVert
-                  sx={{ color: 'secondary.lighter' }}
-                  fontSize="medium"
-                />
-              </IconButton>
-              <Menu
-                open={openAction}
-                anchorEl={actionPop}
-                onClose={handleActionClose}
-                sx={{ '& .MuiPaper-root': { boxShadow: 2 } }}
-                transformOrigin={{ vertical: 10, horizontal: 80 }}
-              >
-                <MenuItem sx={{ pr: 5 }}>Edit</MenuItem>
-                <MenuItem sx={{ pr: 5 }}>Delete</MenuItem>
-              </Menu>
-            </Box>
+        {businessHoursList?.map((businessHour: any) => (
+          <Grid item lg={3} sm={6} xs={12} key={businessHour?._id}>
             <Box
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-              flexDirection="column"
-              height="60%"
+              height="12rem"
+              border="0.06rem solid"
+              borderColor="primary.main"
+              borderRadius=".5rem"
+              sx={{ cursor: 'pointer' }}
+              overflow="hidden"
             >
-              <ClockWithBagIcon />
-              <Typography fontWeight={600} color="blue.dark" mt="0.7rem">
-                Clock Log
-              </Typography>
+              <FolderMenu businessHourId={businessHour?._id} />
+              <Box
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                flexDirection="column"
+                overflow="hidden"
+                p={1}
+              >
+                <ClockWithBagIcon />
+                <Typography
+                  fontWeight={600}
+                  color="blue.dark"
+                  mt="0.7rem"
+                  sx={{
+                    textOverflow: 'break-all',
+                    wordBreak: 'break-all',
+                    display: '-webkit-box',
+                    WebkitLineClamp: 2,
+                    WebkitBoxOrient: 'vertical',
+                  }}
+                >
+                  {businessHour?.name}
+                </Typography>
+              </Box>
             </Box>
-          </Box>
-        </Grid>
+          </Grid>
+        ))}
+        {isLoading &&
+          Array?.from({ length: 7 })?.map((response: any) => (
+            <Grid item lg={3} sm={6} xs={12} key={response?._id}>
+              <Skeleton height="12rem" variant="rectangular" />
+            </Grid>
+          ))}
       </Grid>
     </>
   );

@@ -54,12 +54,18 @@ export const END_POINTS = {
   ADD_LOCATION: '/location/add-location',
   GET_LOCATION: '/location/get-location',
   PRODUCT_CATALOG_VENDOR_LIST: '/product-catalog/vendor-list',
+  ADD_CANNED_RESPONSES: '/canned-responses/add-canned-response',
+  GET_CANNED_RESPONSES: '/canned-responses/get-canned-response',
   PRODUCT_CATALOG_LIST: '/product-catalog/list',
   PRODUCT_CATALOG: '/product-catalog',
   EDIT_PRODUCT_CATALOG: '/product-catalog/edit-product-catalog',
   DELETE_PRODUCT_CATALOG_VENDOR: '/product-catalog/vendors/delete-vendor',
   POST_COMPANY_ACCOUNT: '/org-company-account',
   DROPDOWN_ASSET_TYPE_LIST: `/asset-type/assset-type-list`,
+  GET_BUSINESS_HOUR: `/business-hour/list`,
+  DELETE_BUSINESS_HOUR: `/business-hour/delete-business-hour`,
+  COMPANY: `/companies`,
+  DROPDOWN_ACCOUNTS_ROLE: '/dropdown/company-accounts-roles',
 };
 
 export const superAdminBillingInvoices = {
@@ -109,6 +115,7 @@ export const ORG_ADMIN = {
   SUBSCRIPTION_AND_INVOICES: '/org-admin/subscriptions',
   GET_INVOICES: '/org-admin/invoices',
   PRODUCT_PLAN_LIST: '/plan/product-plan-list',
+  ACTIVITY_LOG: '/activity-log',
 };
 
 export const COMMON_DOCUMENTS = {

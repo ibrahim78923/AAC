@@ -14,9 +14,10 @@ export default function AddCompanyDetails({
   isOpenDrawer,
   onClose,
   organizationId,
+  setISOpenCompanyDrawer,
 }: any) {
   const { theme, productsList, methods, handleSubmit, onSubmit } =
-    useAddCompanyDetails(organizationId);
+    useAddCompanyDetails(organizationId, setISOpenCompanyDrawer);
   const [isToggled, setIsToggled] = useToggle(false);
 
   return (

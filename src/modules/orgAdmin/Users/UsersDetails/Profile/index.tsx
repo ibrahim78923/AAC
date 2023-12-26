@@ -1,18 +1,11 @@
-import React from 'react';
-
 import { Box, Button, Grid, InputAdornment, Typography } from '@mui/material';
-
 import { FormProvider } from '@/components/ReactHookForm';
-
 import {
   profileFields,
   profileValidationSchema,
 } from './UserDetailsProfile.data';
-
 import { useForm } from 'react-hook-form';
-
 import { yupResolver } from '@hookform/resolvers/yup';
-
 import { v4 as uuidv4 } from 'uuid';
 import useToggle from '@/hooks/useToggle';
 import { EditInputIcon, RevertIcon } from '@/assets/icons';
