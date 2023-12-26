@@ -41,8 +41,11 @@ const useRolesAndRights = () => {
     dateEnd: filterValues?.dateEnd ?? undefined,
   };
 
-  const { data: getPermissions } =
-    useGetPermissionsRolesQuery(permissionParams);
+  const {
+    data: getPermissions,
+    isSuccess,
+    isLoading,
+  } = useGetPermissionsRolesQuery(permissionParams);
 
   const handleClose = () => {
     setSelectedValue(null);
@@ -90,6 +93,8 @@ const useRolesAndRights = () => {
     navigate,
     setPage,
     theme,
+    isSuccess,
+    isLoading,
   };
 };
 

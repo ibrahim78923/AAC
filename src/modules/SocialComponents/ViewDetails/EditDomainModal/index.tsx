@@ -68,7 +68,7 @@ const EditDomainModal = ({ isEditDomainOpen, setIsEditDomainOpen }: any) => {
               sx={{
                 '& input': {
                   height: '11px',
-                  color: '#1F305D',
+                  color: theme?.palette?.blue?.main,
                   fontWeight: '500',
                 },
               }}
@@ -99,7 +99,7 @@ const EditDomainModal = ({ isEditDomainOpen, setIsEditDomainOpen }: any) => {
                   sx={{
                     '& input': {
                       height: '11px',
-                      color: '#1F305D',
+                      color: theme?.palette?.blue?.main,
                       fontWeight: '500',
                     },
                   }}

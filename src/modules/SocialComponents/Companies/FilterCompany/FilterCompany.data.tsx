@@ -1,9 +1,9 @@
-import { RHFDatePicker, RHFSelect } from '@/components/ReactHookForm';
+import { RHFSelect, RHFSwitchableDatepicker } from '@/components/ReactHookForm';
 
 export const FilterArray = [
   {
     componentProps: {
-      name: 'domainName',
+      name: 'industry',
       label: 'Industry',
       fullWidth: true,
       select: true,
@@ -19,8 +19,25 @@ export const FilterArray = [
   },
   {
     componentProps: {
-      name: 'name',
+      name: 'companyName',
       label: 'Company Name',
+      fullWidth: true,
+      select: true,
+    },
+    options: [
+      { value: '-', label: '-' },
+      { value: 'AirApple Cart', label: 'AirApple Cart' },
+      { value: 'PhoenixBaker', label: 'PhoenixBaker' },
+      { value: 'Foster App', label: 'Foster App' },
+      { value: 'Share My Dine', label: 'Share My Dine' },
+    ],
+    component: RHFSelect,
+    md: 12,
+  },
+  {
+    componentProps: {
+      name: 'companyRegNo',
+      label: 'Company Registration Number',
       fullWidth: true,
       select: true,
     },
@@ -53,12 +70,12 @@ export const FilterArray = [
   },
   {
     componentProps: {
-      name: 'industry',
+      name: 'createdDate',
       label: 'Created Date',
       fullWidth: true,
-      select: true,
+      placeholder: 'Created Date',
     },
-    component: RHFDatePicker,
+    component: RHFSwitchableDatepicker,
     md: 12,
   },
 ];

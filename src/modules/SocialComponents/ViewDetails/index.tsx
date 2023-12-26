@@ -20,7 +20,7 @@ import { NotesAvatarImage } from '@/assets/images';
 import { styles } from './ViewDetails.style';
 import { useGetCompaniesDetailsQuery } from '@/services/commonFeatures/companies';
 import dayjs from 'dayjs';
-import { DATE_FORMAT, SOCIAL_COMPONENT } from '@/constants';
+import { DATE_FORMAT, SOCIAL_COMPONENTS } from '@/constants';
 import { useState } from 'react';
 import UploadImageModal from './UploadImageModal';
 import EditDomainModal from './EditDomainModal';
@@ -50,7 +50,7 @@ const ViewDetails = () => {
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-            <Link href={SOCIAL_COMPONENT.COMPANIES}>
+            <Link href={SOCIAL_COMPONENTS.COMPANIES}>
               <ArrowBackIcon />
             </Link>
             <Box
@@ -122,7 +122,7 @@ const ViewDetails = () => {
                   sx={{ color: theme?.palette?.custom?.main }}
                 >
                   Created on{' '}
-                  {dayjs(data?.data?.createdAt)?.format(DATE_FORMAT?.API)},{' '}
+                  {dayjs(data?.data?.createdAt)?.format(DATE_FORMAT?.UI)},{' '}
                   {formattedTime}
                 </Typography>
               </Box>

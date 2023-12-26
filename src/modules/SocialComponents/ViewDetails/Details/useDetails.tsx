@@ -85,7 +85,7 @@ const useDetails = (data: any) => {
   });
 
   const onSubmit = async (values: any) => {
-    const updatdeBody = {
+    const updatedBody = {
       domain: values?.DomainName,
       name: values?.CompanyName,
       ownerId: values?.CompanyOwner,
@@ -102,7 +102,7 @@ const useDetails = (data: any) => {
 
     try {
       await CompanyUpdate({
-        body: updatdeBody,
+        body: updatedBody,
         Id: data?._id,
       }).unwrap();
 
