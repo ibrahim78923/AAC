@@ -20,6 +20,7 @@ export const TAGS = [
   'TASKS',
   'ASSETS_INVENTORY',
   'MyDocuments',
+  'CLOSURE_ROLE',
   'LOCATION',
   'VENDOR_LIST',
   'PRODUCT_CATALOG',
