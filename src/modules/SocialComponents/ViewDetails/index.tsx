@@ -115,7 +115,7 @@ const ViewDetails = () => {
               />
               <Box>
                 <Typography variant="body2" sx={{ fontWeight: '600' }}>
-                  Olivia Rhye ( Not found)
+                  {data?.data?.owner?.name}
                 </Typography>
                 <Typography
                   variant="body3"
@@ -133,7 +133,7 @@ const ViewDetails = () => {
                 Email
               </Typography>
               <Typography variant="body3" sx={styles?.salesHeading(theme)}>
-                Not found
+                {data?.data?.owner?.email}
               </Typography>
             </Box>
             <Box sx={styles?.salesBox}>
@@ -141,7 +141,7 @@ const ViewDetails = () => {
                 Phone Number
               </Typography>
               <Typography variant="body3" sx={styles?.salesHeading(theme)}>
-                Not found
+                {data?.data?.owner?.phoneNumber}
               </Typography>
             </Box>
             <Box sx={styles?.salesBox}>

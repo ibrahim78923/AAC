@@ -17,7 +17,7 @@ const useDetails = (data: any) => {
     DomainName: data?.domain,
     CompanyRegistrationNumber: data?.CRN,
     CompanyOwner: data?.ownerId,
-    PhoneNumber: data?.phoneNumber,
+    PhoneNumber: data?.owner?.phoneNumber,
     Industry: data?.industry,
     CompanyType: data?.type,
     NumberOfEmployees: data?.noOfEmloyee,
@@ -27,7 +27,7 @@ const useDetails = (data: any) => {
     LifeCycleStage: data?.LifeCycleStage,
     LastActivityDate: data?.LastActivityDate,
     CreatedDate: new Date(data?.createdAt),
-    time: data?.createdAt,
+    time: data?.createdAt?.split('T')[1]?.substring(0, 5),
     LinkedInCompanyPage: data?.linkedInUrl,
     Address: data?.address,
     description: data?.description,
@@ -85,9 +85,24 @@ const useDetails = (data: any) => {
   });
 
   const onSubmit = async (values: any) => {
+    const updatdeBody = {
+      domain: values?.DomainName,
+      name: values?.CompanyName,
+      ownerId: values?.CompanyOwner,
+      industry: values?.Industry,
+      type: values?.CompanyType,
+      noOfEmloyee: values?.NumberOfEmployees,
+      totalRevenue: values?.AnnualRevenue,
+      city: values?.City,
+      postalCode: values?.PostalCode,
+      address: values?.Address,
+      description: values?.description,
+      linkedInUrl: values?.LinkedInCompanyPage,
+    };
+
     try {
       await CompanyUpdate({
-        body: values,
+        body: updatdeBody,
         Id: data?._id,
       }).unwrap();
 

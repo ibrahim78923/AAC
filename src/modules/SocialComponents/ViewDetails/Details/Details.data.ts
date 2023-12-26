@@ -201,13 +201,13 @@ export const detailsDataArray = [
       fullWidth: true,
       placeholder: 'Type Here',
     },
-    component: RHFTextField,
+    component: RHFDatePicker,
     md: 4,
   },
   {
     componentProps: {
       name: 'time',
-      label: '------',
+      label: 'Time',
       fullWidth: true,
       placeholder: 'Type Here',
     },
