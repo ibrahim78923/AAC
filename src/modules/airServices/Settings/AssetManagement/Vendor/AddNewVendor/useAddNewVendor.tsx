@@ -27,7 +27,7 @@ export const useAddNewVendor = (props: any) => {
         params: {
           id: vendorId,
         },
-      }).unwrap();
+      })?.unwrap();
 
       return response.data;
     } catch (error) {
@@ -63,11 +63,12 @@ export const useAddNewVendor = (props: any) => {
 
     try {
       const response = await postNewVendorTrigger({ body })?.unwrap();
+
       enqueueSnackbar(response?.message ?? 'Vendor Added Successfully', {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
-    } catch (error) {
-      enqueueSnackbar('Something went wrong', {
+    } catch (error: any) {
+      enqueueSnackbar(error?.data?.message?.[0] ?? 'Something went wrong', {
         variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }
@@ -78,7 +79,7 @@ export const useAddNewVendor = (props: any) => {
   const submitUpdateNewVendor = async (data: any) => {
     const updateData: any = {};
     for (const key in newVendorDefaultValues) {
-      if (data[key] !== undefined) {
+      if (data?.[key] !== undefined) {
         updateData[key] = data[key];
       }
     }
@@ -95,8 +96,8 @@ export const useAddNewVendor = (props: any) => {
       enqueueSnackbar(response?.message ?? 'NewVendor Updated Successfully!', {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
-    } catch (error) {
-      enqueueSnackbar('Something went wrong', {
+    } catch (error: any) {
+      enqueueSnackbar(error?.data?.message?.[0] ?? 'Something went wrong', {
         variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }

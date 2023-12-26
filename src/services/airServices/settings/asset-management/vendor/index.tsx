@@ -16,7 +16,7 @@ export const vendorsAPI = baseAPI?.injectEndpoints({
       query: (payload: any) => ({
         url: `${END_POINTS?.VENDOR}`,
         method: 'GET',
-        params: payload.params,
+        params: payload?.params,
       }),
       providesTags: [TAG],
     }),

@@ -18,12 +18,7 @@ export const useSingleVendorDetails = () => {
       router,
       setIsADrawerOpen,
     );
-  // const handleDeleteBtn = () => {
-  //   setDeleteModalOpen(false);
-  //   enqueueSnackbar('Vendor deleted Successfully', {
-  //     variant: NOTISTACK_VARIANTS?.SUCCESS,
-  //   });
-  // };
+
   const handleDeleteBtn = async () => {
     const updatedData = { queryParams: { id: vendorId } };
     try {
@@ -32,7 +27,6 @@ export const useSingleVendorDetails = () => {
       enqueueSnackbar(res?.message ?? 'Product Catalog Deleted Successfully!', {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
-      // router?.push(AIR_SERVICES?.PRODUCT_CATALOG);
     } catch (error: any) {
       enqueueSnackbar(error?.data?.message ?? 'Something Went Wrong!', {
         variant: NOTISTACK_VARIANTS?.ERROR,
@@ -47,6 +41,5 @@ export const useSingleVendorDetails = () => {
     handleDeleteBtn,
     isADrawerOpen,
     setIsADrawerOpen,
-    // handleSubmitDelete,
   };
 };
