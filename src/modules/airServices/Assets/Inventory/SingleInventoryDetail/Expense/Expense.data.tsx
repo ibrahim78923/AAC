@@ -50,7 +50,7 @@ export const addExpenseFormData = [
     componentProps: {
       fullWidth: true,
       name: 'type',
-      label: 'expenseType',
+      label: 'Expense Type',
       select: true,
       options: dropdownDummy,
       required: true,
