@@ -1,7 +1,24 @@
 export const styles = {
-  chatFooter: (theme: any) => {
+  chatFooterWrapper: (theme: any) => {
     return {
       border: `1px solid ${theme.palette.grey[700]}`,
+      borderRadius: '8px',
+    };
+  },
+  chatReply: (theme: any) => {
+    return {
+      background: theme.palette.primary.lighter,
+      borderRadius: '8px',
+      padding: '10px',
+      width: '97%',
+      margin: '0 auto',
+      marginTop: '12px',
+      border: `1px solid ${theme.palette.grey[700]}`,
+    };
+  },
+
+  chatFooter: () => {
+    return {
       height: '57px',
       borderRadius: '8px',
       display: 'flex',

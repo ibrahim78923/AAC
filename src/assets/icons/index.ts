@@ -373,5 +373,6 @@ export { default as SoftwareCatalogIcon } from './shared/software-catalog-icon';
 export { default as CpuSettingsIcon } from './shared/cpu-settings-icon';
 export { default as ActivityLogCalenderIcon } from './modules/orgAdmin/activityLogs/calender';
 export { default as DateRangePickerIcon } from './shared/date-range-picker-icon';
+export { default as ImportBoxIcon } from './shared/import-box';
 export { default as ImagePreviewIcon } from './shared/image-preview';
 export { default as ImageUploadIcon } from './shared/image-upload';

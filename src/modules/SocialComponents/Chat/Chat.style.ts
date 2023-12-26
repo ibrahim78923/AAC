@@ -15,4 +15,25 @@ export const styles = {
       borderRadius: '8px',
     };
   },
+  usersBox: () => {
+    return {
+      height: '200px',
+      overflow: 'scroll',
+    };
+  },
+  userCard: () => {
+    return {
+      p: 1,
+      borderRadius: '8px',
+      display: 'flex',
+      alignItems: 'center',
+      gap: '10px',
+      cursor: 'pointer',
+      width: '100%',
+      justifyContent: 'flex-start',
+      '&:hover': {
+        background: '#efefef',
+      },
+    };
+  },
 };

@@ -2,23 +2,20 @@ import { useState } from 'react';
 
 import { useTheme } from '@mui/material';
 
-import {
-  chatsData,
-  groupChatsData,
-} from '@/mock/modules/SocialComponents/Chat';
-
 import { useAppSelector } from '@/redux/store';
 
 export const useChatField = () => {
+  const chatMessages = useAppSelector((state) => state?.chat?.chatMessages);
+
   const theme = useTheme();
   const chatModeState = useAppSelector(
-    (state: any) => state.chat.chatModeState,
+    (state: any) => state?.chat?.chatModeState,
   );
   const [activeChat, setActiveChat] = useState('');
   const [isDeleteModal, setIsDeleteModal] = useState(false);
-  const chatMode = chatModeState.chatModeState;
+  const chatMode = chatModeState?.chatModeState;
 
-  const chatDataToShow = chatMode === 'groupChat' ? groupChatsData : chatsData;
+  const chatDataToShow = chatMode === 'groupChat' ? [] : chatMessages;
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const actionMenuOpen = Boolean(anchorEl);
