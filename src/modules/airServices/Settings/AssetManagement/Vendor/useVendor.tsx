@@ -61,13 +61,14 @@ export const useVendor = () => {
       )?.unwrap();
       downloadFile(response, 'NewVendorLists', EXPORT_FILE_TYPE?.[type]);
       enqueueSnackbar(
-        `Vendor exported successfully as ${MESSAGE_EXPORT_FILE_TYPE?.[type]}`,
+        response?.message ??
+          `Vendor exported successfully as ${MESSAGE_EXPORT_FILE_TYPE?.[type]}`,
         {
           variant: NOTISTACK_VARIANTS?.SUCCESS,
         },
       );
     } catch (error: any) {
-      enqueueSnackbar(`Vendor not exported as ${type}`, {
+      enqueueSnackbar(error?.message ?? `Vendor not exported as ${type}`, {
         variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }

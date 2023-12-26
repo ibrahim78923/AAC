@@ -80,7 +80,7 @@ export const useAddNewVendor = (props: any) => {
     const updateData: any = {};
     for (const key in newVendorDefaultValues) {
       if (data?.[key] !== undefined) {
-        updateData[key] = data[key];
+        updateData[key] = data?.[key];
       }
     }
     const patchNewVendorParameter = {
