@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -22,6 +22,12 @@ import {
 
 import Header from './Header';
 
+import {
+  setChatMessages,
+  setSocketConnection,
+  setTypingUserData,
+} from '@/redux/slices/chat/slice';
+import { useAppDispatch } from '@/redux/store';
 import { getSession, isNullOrEmpty } from '@/utils';
 
 import { getLowerRoutes, getRoutes, zeroPaddingRoutes } from './Layout.data';
@@ -33,10 +39,11 @@ import {
   LogoutImage,
 } from '@/assets/images';
 
-import { styles } from './Layout.style';
-
 import { v4 as uuidv4 } from 'uuid';
 import useAuth from '@/hooks/useAuth';
+
+import * as io from 'socket.io-client';
+import { styles } from './Layout.style';
 
 const drawerWidth = 230;
 
@@ -56,6 +63,22 @@ const array = [
   {
     email: 'orgadminairapplecard@yopmail.com',
     role: 'ORG_ADMIN',
+  },
+  {
+    email: 'wan@yopmail.com',
+    role: 'AIR_SERVICES',
+  },
+  {
+    email: 'operations@example.com',
+    role: 'AIR_OPERATIONS',
+  },
+  {
+    email: 'loyalty@example.com',
+    role: 'LOYALTY_PROGRAM',
+  },
+  {
+    email: 'customer@example.com',
+    role: 'CUSTOMER_PORTAL',
   },
 ];
 
@@ -383,6 +406,60 @@ const DashboardLayout = ({ children, window }: any) => {
 
   const container =
     window !== undefined ? () => window()?.document?.body : undefined;
+
+  const dispatch = useAppDispatch();
+
+  const {
+    accessToken,
+  }: { accessToken: string; refreshToken: string; user: any } = getSession();
+
+  const [socket, setSocket] = useState<any>();
+  useEffect(() => {
+    if (!socket) {
+      const res: any = io.connect(`${process.env.NEXT_PUBLIC_BASE_URL}`, {
+        auth: (cb) => {
+          cb({
+            accessToken: accessToken,
+          });
+        },
+        extraHeaders: {
+          'ngrok-skip-browser-warning': 'Bearer YOUR_ACCESS_TOKEN_HERE',
+        },
+      });
+      setSocket(res);
+      dispatch(setSocketConnection({ isConnected: true, socket: res }));
+    }
+  }, []);
+
+  if (socket) {
+    socket.on('on-status-change', () => {});
+    socket.on('add-message', () => {});
+    socket.on('on-message-received', (payload: any) => {
+      if (payload?.data) {
+        dispatch(setChatMessages(payload?.data));
+      }
+    });
+    socket.on('update-message', () => {
+      // console.log("update-message", payload)
+    });
+
+    socket.on('on-message-update', () => {
+      // console.log("on-message-update", payload)
+    });
+
+    socket.on('on-typing-start', (payload: any) => {
+      // console.log("on-typing-start", payload)
+      dispatch(
+        setTypingUserData({
+          userName: payload?.typingUserName,
+        }),
+      );
+    });
+
+    socket.on('on-typing-stop', () => {
+      dispatch(setTypingUserData({}));
+    });
+  }
 
   return (
     <Box sx={{ display: 'flex' }}>

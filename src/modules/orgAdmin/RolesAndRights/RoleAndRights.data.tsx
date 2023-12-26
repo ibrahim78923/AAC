@@ -38,7 +38,7 @@ export const columns: any = (columnsProps: any) => {
     {
       accessorFn: (row: any) => row?._id,
       id: '_id',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => info?.getValue() ?? 'N/A',
       header: 'Role ID',
       isSortable: true,
     },
@@ -47,21 +47,21 @@ export const columns: any = (columnsProps: any) => {
       id: 'name',
       isSortable: true,
       header: 'Role Name',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => info?.getValue() ?? 'N/A',
     },
     {
       accessorFn: (row: any) => row?.productDetails?.name,
       id: 'products',
       isSortable: true,
       header: 'Products',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => info?.getValue() ?? 'N/A',
     },
     {
       accessorFn: (row: any) => row?.companyAccountDetails?.name,
       id: 'companyAccount',
       isSortable: true,
       header: 'Company Accounts',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => info?.getValue() ?? 'N/A',
     },
     {
       accessorFn: (row: any) => row?.Status,
@@ -84,9 +84,8 @@ export const columns: any = (columnsProps: any) => {
 
 export const addUserSchema = Yup.object().shape({
   productId: Yup?.string()?.required('Field is Required'),
-  companyAccountRoleId: Yup?.string()?.required('Field is Required'),
+  organizationCompanyAccountId: Yup?.string()?.required('Field is Required'),
   name: Yup?.string()?.required('Field is Required'),
-  status: Yup?.string()?.required('Field is Required'),
 });
 
 export const addUsersArrayData = () => {
@@ -116,7 +115,7 @@ export const addUsersArrayData = () => {
     {
       componentProps: {
         label: 'Select Company Account',
-        name: 'companyAccountRoleId',
+        name: 'organizationCompanyAccountId',
         fullWidth: true,
         required: true,
         select: true,

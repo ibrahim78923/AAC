@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 const useWhatsAppMarketing = () => {
-  const [isNumberConnected, setIsNumberConnected] = useState<boolean>(false);
+  const [isNumberConnected, setIsNumberConnected] = useState<boolean>(true);
 
   return {
     isNumberConnected,

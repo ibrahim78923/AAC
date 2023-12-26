@@ -14,13 +14,37 @@ import Associations from './Associations';
 
 import { singleUserDealTabsData } from './ViewDetails.data';
 
-import { ArrowBackIcon } from '@/assets/icons';
+import { ArrowBackIcon, EditFormIcon } from '@/assets/icons';
 import { NotesAvatarImage } from '@/assets/images';
 
 import { styles } from './ViewDetails.style';
+import { useGetCompaniesDetailsQuery } from '@/services/commonFeatures/companies';
+import dayjs from 'dayjs';
+import { DATE_FORMAT } from '@/constants';
+import { useState } from 'react';
+import UploadImageModal from './UploadImageModal';
+import EditDomainModal from './EditDomainModal';
 
 const ViewDetails = () => {
+  const [isHovered, setIsHovered] = useState(false);
+  const [isUploadImageOpen, setIsUploadImageOpen] = useState(false);
+  const [isEditDomainOpen, setIsEditDomainOpen] = useState(false);
+
   const theme = useTheme();
+  const { data } = useGetCompaniesDetailsQuery({
+    Id: '658161e8bc12c9e948cb0d21',
+  });
+
+  const date = new Date(data?.data?.createdAt);
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  const isPM = hours >= 12;
+  const formattedHours = hours % 12 || 12;
+
+  const formattedTime = `${formattedHours}:${minutes.toLocaleString('en-US', {
+    minimumIntegerDigits: 2,
+  })} ${isPM ? 'PM' : 'AM'}`;
+
   return (
     <Box>
       <Grid container spacing={2}>
@@ -29,13 +53,52 @@ const ViewDetails = () => {
             <Link href="/air-sales/deals">
               <ArrowBackIcon />
             </Link>
+            <Box
+              sx={{
+                cursor: 'pointer',
+                position: 'relative',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                '&:hover': {
+                  opacity: 0.4,
+                },
+              }}
+              onMouseEnter={() => setIsHovered(true)}
+              onMouseLeave={() => setIsHovered(false)}
+              onClick={() => setIsUploadImageOpen(true)}
+            >
+              <Image
+                src={NotesAvatarImage}
+                width={50}
+                height={50}
+                alt="companyLogo"
+              />
+              {isHovered && (
+                <Box sx={{ position: 'absolute' }}>
+                  {' '}
+                  <EditFormIcon />{' '}
+                </Box>
+              )}
+            </Box>
             <Box>
-              <Typography variant="h4">Share My Dine</Typography>
+              <Typography variant="h4">{data?.data?.name}</Typography>
               <Typography
                 variant="body2"
-                sx={{ color: theme?.palette?.custom?.main }}
+                sx={{
+                  color: theme?.palette?.custom?.main,
+                  display: 'flex',
+                  alignItems: 'center',
+                }}
               >
-                Amount: £20
+                {data?.data?.domain}
+                <Box
+                  sx={{ marginLeft: '5px', cursor: 'pointer' }}
+                  onClick={() => setIsEditDomainOpen(true)}
+                >
+                  {' '}
+                  <EditFormIcon />
+                </Box>
               </Typography>
             </Box>
           </Box>
@@ -52,13 +115,15 @@ const ViewDetails = () => {
               />
               <Box>
                 <Typography variant="body2" sx={{ fontWeight: '600' }}>
-                  Olivia Rhye
+                  Olivia Rhye ( Not found)
                 </Typography>
                 <Typography
                   variant="body3"
                   sx={{ color: theme?.palette?.custom?.main }}
                 >
-                  Created on Sun, 5 Mar 9:41 PM
+                  Created on{' '}
+                  {dayjs(data?.data?.createdAt)?.format(DATE_FORMAT?.UI)},{' '}
+                  {formattedTime}
                 </Typography>
               </Box>
             </Box>
@@ -68,7 +133,7 @@ const ViewDetails = () => {
                 Email
               </Typography>
               <Typography variant="body3" sx={styles?.salesHeading(theme)}>
-                olivia@gmail.com
+                Not found
               </Typography>
             </Box>
             <Box sx={styles?.salesBox}>
@@ -76,15 +141,15 @@ const ViewDetails = () => {
                 Phone Number
               </Typography>
               <Typography variant="body3" sx={styles?.salesHeading(theme)}>
-                +44 063556245
+                Not found
               </Typography>
             </Box>
             <Box sx={styles?.salesBox}>
               <Typography variant="body3" sx={styles?.salesTextBox(theme)}>
-                Deal Type
+                Company Type
               </Typography>
               <Typography variant="body3" sx={styles?.salesPriority(theme)}>
-                New Business
+                {data?.data?.type}
               </Typography>
             </Box>
           </Box>
@@ -126,7 +191,7 @@ const ViewDetails = () => {
                 Company Type
               </Typography>
               <Typography variant="body3" sx={styles?.salesPriority(theme)}>
-                Partner
+                {data?.data?.type}
               </Typography>
             </Box>
             <Box sx={styles.salesBox}>
@@ -134,7 +199,7 @@ const ViewDetails = () => {
                 No of Employees
               </Typography>
               <Typography variant="body3" sx={styles?.salesHeading(theme)}>
-                100
+                {data?.data?.noOfEmloyee}
               </Typography>
             </Box>
             <Box sx={styles.salesBox}>
@@ -142,7 +207,7 @@ const ViewDetails = () => {
                 Total Revenue
               </Typography>
               <Typography variant="body3" sx={styles?.salesHeading(theme)}>
-                £1000.0000
+                £ {data?.data?.totalRevenue}
               </Typography>
             </Box>
             <Box sx={styles.salesBox}>
@@ -150,7 +215,7 @@ const ViewDetails = () => {
                 LinkedIn
               </Typography>
               <Typography variant="body3" sx={styles?.salesHeading(theme)}>
-                22
+                Not found
               </Typography>
             </Box>
             <Box sx={styles.salesBox}>
@@ -158,7 +223,7 @@ const ViewDetails = () => {
                 Address
               </Typography>
               <Typography variant="body3" sx={styles?.salesHeading(theme)}>
-                SMD,128 City Road, London, EC1V 2NX
+                {data?.data?.address}
               </Typography>
             </Box>
           </Box>
@@ -167,7 +232,7 @@ const ViewDetails = () => {
         <Grid item xs={12}>
           <Box>
             <HorizontalTabs tabsDataArray={singleUserDealTabsData}>
-              <Details />
+              <Details data={data?.data} />
               <ActivityLog />
               <Associations />
               <Tasks />
@@ -179,6 +244,15 @@ const ViewDetails = () => {
           </Box>
         </Grid>
       </Grid>
+
+      <UploadImageModal
+        isUploadImageOpen={isUploadImageOpen}
+        setIsUploadImageOpen={setIsUploadImageOpen}
+      />
+      <EditDomainModal
+        isEditDomainOpen={isEditDomainOpen}
+        setIsEditDomainOpen={setIsEditDomainOpen}
+      />
     </Box>
   );
 };

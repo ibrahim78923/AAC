@@ -76,7 +76,7 @@ export { default as NotesAvatarImage } from './modules/airSales/Deals/notes-avat
 export { default as YellowDotImage } from './shared/yellow-dot.png';
 export { default as EmailMeetingImage } from './modules/airSales/Deals/email-meeting.png';
 export { default as AttendeeAvatarImage } from './modules/airSales/Deals/attendee-avatar.png';
-export { default as DashboardPrototypeImage } from './modules/airServices/dashboard/dashboard-prototype-image.png';
+// export { default as DashboardPrototypeImage } from './modules/airServices/dashboard/dashboard-prototype-image.png';
 export { default as SmsImage } from '@/assets/images/modules/airServices/Tickets/sms-image.png';
 export { default as UsersAvatarRoundedImage } from './modules/socialComponents/calling/user-avatar-rounded.png';
 export { default as DealReportImage } from './modules/airSales/Reports/reports.png';
@@ -247,8 +247,13 @@ export { default as GiftCongratsImage } from './modules/loyaltyProgram/GiftCards
 export { default as GiftScanImage } from './modules/loyaltyProgram/GiftCards/Gift-scan-image.png';
 export { default as VoucherImage } from './shared/voucher-image.png';
 export { default as ExportModalImage } from './shared/export-modal-image.png';
+
+export { default as TaskAvatarImage } from './modules/airMarketer/Campaigns/task-avatar.png';
+export { default as CampaignAvatarImage } from './modules/airMarketer/Campaigns/campaign-avatar.png';
+export { default as YouTubeAvatarImage } from './modules/airMarketer/Campaigns/youtube-avatar.png';
 export { default as CatalogAddImage } from './modules/airCustomerPortal/catalog/catalog-add-image.png';
 
 export { default as GiftCardImage } from './modules/HeaderAndSidebar/gift.png';
 export { default as LoyaltyImage } from './modules/HeaderAndSidebar/loyalty.png';
 export { default as PrepaidImage } from './modules/HeaderAndSidebar/prepaid.png';
+export { default as UserDefault } from './modules/socialComponents/chat/user-default.png';

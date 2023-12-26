@@ -10,7 +10,7 @@ const DeleteModal = ({ isDeleteCompany, setIsDeleteCompany }: any) => {
           "You're about to delete a record .Deleted record can't be restored after 90days"
         }
         type={'delete'}
-        submitBtnText="Ok, Delete"
+        submitBtnText="OK, Delete"
         open={isDeleteCompany}
         handleClose={() => setIsDeleteCompany(false)}
         handleSubmit={function (): void {
