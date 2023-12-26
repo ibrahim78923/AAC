@@ -2,6 +2,10 @@ export const DATE_FORMAT = {
   UI: 'MM/DD/YYYY',
   API: 'YYYY-MM-DD',
 };
+export const TIME_FORMAT = {
+  UI: 'h:mm A',
+  API: 'h:mm A',
+};
 
 export const CALENDAR_FORMAT = {
   UI: 'D MMMM YYYY',
@@ -126,4 +130,7 @@ export const AIR_LOYALTY_PROGRAM = {
   PHYSICAL_REWARDS_DETAIL: `/air-loyalty-program/loyalty/rewards/physical/single-physical-detail`,
   VOUCHERS: `/air-loyalty-program/loyalty/vouchers`,
   VOUCHER_REDEMPTION_LIST: `/air-loyalty-program/loyalty/vouchers/voucher-redemptions-list`,
+};
+export const SOCIAL_COMPONENTS = {
+  VIEW_COMPANY_DETAILS: '/social-components/companies/view-details',
 };

@@ -12,7 +12,6 @@ import { WorkingHoursFieldArray } from './WorkingHoursFieldArray';
 import dayjs from 'dayjs';
 import TanstackTable from '@/components/Table/TanstackTable';
 import {
-  holidaysData,
   holidaysListsColumn,
   holidaysListsData,
   importHolidaysDropDown,
@@ -75,7 +74,7 @@ export const CreateBusinessHour = () => {
                   <RHFAutocomplete
                     name="timeZone"
                     label="Time Zone"
-                    options={timeZone}
+                    options={timeZone?.map((timeZone) => timeZone?.label)}
                     size="small"
                   />
                 </Grid>
@@ -164,7 +163,9 @@ export const CreateBusinessHour = () => {
                   <Box my={2}>
                     <RHFAutocomplete
                       name="importantHolidays"
-                      options={holidaysData}
+                      options={importHolidaysDropDown?.map(
+                        (value) => value?.title,
+                      )}
                       size="small"
                     />
                   </Box>
@@ -245,19 +246,15 @@ export const CreateBusinessHour = () => {
             />
           </Box>
         </Box>
+        <Box display="flex" gap={2} justifyContent="flex-end" mt={8}>
+          <LoadingButton variant="outlined" color="secondary">
+            Cancel
+          </LoadingButton>
+          <LoadingButton variant="contained" type="submit">
+            Save
+          </LoadingButton>
+        </Box>
       </FormProvider>
-      <Box display="flex" gap={2} justifyContent="flex-end" mt={8}>
-        <LoadingButton variant="outlined" color="secondary">
-          Cancel
-        </LoadingButton>
-        <LoadingButton
-          variant="contained"
-          type="submit"
-          onClick={onSubmitRequest}
-        >
-          Save
-        </LoadingButton>
-      </Box>
     </>
   );
 };

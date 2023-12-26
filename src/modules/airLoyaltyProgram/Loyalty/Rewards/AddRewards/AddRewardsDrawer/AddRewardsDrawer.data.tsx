@@ -7,7 +7,7 @@ import {
 } from '@/components/ReactHookForm';
 
 import * as Yup from 'yup';
-const optionsVisibleTo = [' fabrizioRomano', 'fabrizioRoma inono'];
+const optionsVisibleTo = [' All', 'lists', 'tires'];
 
 export const validationSchema = Yup?.object()?.shape({
   title: Yup?.string(),
