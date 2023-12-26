@@ -1,9 +1,9 @@
-import { GiftCardsDetails } from '../GiftCardsDetails';
+import { GiftCardTabs } from './GiftCardTabs';
 
 export const GiftCard = () => {
   return (
     <>
-      <GiftCardsDetails />
+      <GiftCardTabs />
     </>
   );
 };

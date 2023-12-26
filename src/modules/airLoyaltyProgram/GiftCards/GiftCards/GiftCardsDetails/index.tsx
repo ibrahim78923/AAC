@@ -13,7 +13,7 @@ export const GiftCardsDetails = () => {
       <Box>
         <GiftCardsDetailsHeader />
       </Box>
-      <Box mt={2}  border={'1px solid lightgrey'} borderRadius={3}>
+      <Box mt={2} border={'1px solid lightgrey'} borderRadius={3}>
         <Box display={'flex'} justifyContent={'flex-end'} mx={2} gap={1} mt={2}>
           <Button
             variant="outlined"
@@ -26,8 +26,7 @@ export const GiftCardsDetails = () => {
           <ExportButton />
         </Box>
         <Box mt={2}>
-
-        <TanstackTable data={rulesList} columns={rulesColumns} isPagination />
+          <TanstackTable data={rulesList} columns={rulesColumns} isPagination />
         </Box>
       </Box>
     </>
