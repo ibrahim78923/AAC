@@ -9,44 +9,53 @@ import * as Yup from 'yup';
 
 export const dealsTasksValidationSchema = Yup?.object()?.shape({
   taskname: Yup?.string()?.trim()?.required('Field is Required'),
+  Description: Yup?.string()?.trim()?.required('Field is Required'),
   tasktype: Yup?.string()?.trim()?.required('Field is Required'),
-  priority: Yup?.string()?.trim()?.required('Field is Required'),
-  taskstatus: Yup?.string()?.trim()?.required('Field is Required'),
-  selectdeal: Yup?.string()?.trim()?.required('Field is Required'),
+  dueDate: Yup?.string()?.trim()?.required('Field is Required'),
+  createTime: Yup?.string()?.trim()?.required('Field is Required'),
   assignedto: Yup?.string()?.trim()?.required('Field is Required'),
-  associatewithrecords: Yup?.string()?.trim()?.required('Field is Required'),
-  reminder: Yup?.string()?.trim()?.required('Field is Required'),
-  note: Yup?.string()?.trim()?.required('Field is Required'),
+  priority: Yup?.string()?.trim()?.required('Field is Required'),
+  NotifyBefore: Yup?.string()?.trim()?.required('Field is Required'),
 });
 
 export const dealsTasksDefaultValues = {
   taskname: '',
+  Description: '',
   tasktype: '',
-  priority: '',
-  taskstatus: '',
-  selectdeal: '',
+  dueDate: '',
+  createTime: '',
   assignedto: '',
-  associatewithrecords: '',
-  reminder: '',
-  note: '',
+  priority: '',
+  NotifyBefore: '',
 };
 
 export const dealsTasksDataArray = [
   {
     componentProps: {
       name: 'taskname',
-      label: 'Task Name',
+      label: 'Title',
       fullWidth: true,
+      required: true,
+      placeholder: 'Title Here',
     },
     component: RHFTextField,
     md: 12,
   },
-
+  {
+    componentProps: {
+      name: 'Description',
+      label: 'Description',
+      fullWidth: true,
+    },
+    component: RHFEditor,
+    md: 12,
+  },
   {
     componentProps: {
       name: 'tasktype',
       label: 'Task Type',
       select: true,
+      required: true,
     },
     options: [
       { value: 'To-do', label: 'To-do' },
@@ -54,9 +63,40 @@ export const dealsTasksDataArray = [
       { value: 'Call reminder', label: 'Call reminder' },
     ],
     component: RHFSelect,
-    md: 8,
+    md: 12,
   },
-
+  {
+    componentProps: {
+      name: 'dueDate',
+      label: 'Due Date',
+      fullWidth: true,
+    },
+    component: RHFDatePicker,
+    md: 6,
+  },
+  {
+    componentProps: {
+      name: 'createTime',
+      label: 'Time',
+      fullWidth: true,
+    },
+    component: RHFTimePicker,
+    md: 6,
+  },
+  {
+    componentProps: {
+      name: 'assignedto',
+      label: 'Assign To',
+      select: true,
+    },
+    options: [
+      { value: 'John Doe', label: 'John Doe' },
+      { value: 'Alfa Bravo', label: 'Alfa Bravo' },
+      { value: 'John Charlie', label: 'John Charlie' },
+    ],
+    component: RHFSelect,
+    md: 12,
+  },
   {
     componentProps: {
       name: 'priority',
@@ -69,85 +109,12 @@ export const dealsTasksDataArray = [
       { value: 'Medium', label: 'Medium' },
     ],
     component: RHFSelect,
-    md: 4,
-  },
-  {
-    componentProps: {
-      name: 'taskstatus',
-      label: 'Task Status',
-      select: true,
-    },
-    options: [
-      { value: 'Pending', label: 'Pending' },
-      { value: 'Inprogress', label: 'Inprogress' },
-      { value: 'Completed', label: 'Completed' },
-    ],
-    component: RHFSelect,
     md: 12,
   },
   {
     componentProps: {
-      name: 'selectdeal',
-      label: 'Select Deal',
-      disable: true,
-    },
-    options: [],
-    component: RHFSelect,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'associatewithrecords',
-      label: 'Associate with Records',
-      select: true,
-    },
-    options: [
-      { value: 'Companies', label: 'Companies' },
-      { value: 'Contacts', label: 'Contacts' },
-      { value: 'Deals', label: 'Deals' },
-      { value: 'Tickets', label: 'Tickets' },
-    ],
-    component: RHFSelect,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'assignedto',
-      label: 'Assigned to',
-      select: true,
-    },
-    options: [
-      { value: 'John Doe', label: 'John Doe' },
-      { value: 'Alfa Bravo', label: 'Alfa Bravo' },
-      { value: 'John Charlie', label: 'John Charlie' },
-    ],
-    component: RHFSelect,
-    md: 12,
-  },
-
-  {
-    componentProps: {
-      name: 'due-date',
-      label: 'Due Date',
-      fullWidth: true,
-    },
-    component: RHFDatePicker,
-    md: 8,
-  },
-  {
-    componentProps: {
-      name: 'create-time',
-      label: '',
-      fullWidth: true,
-    },
-    component: RHFTimePicker,
-    md: 4,
-  },
-
-  {
-    componentProps: {
-      name: 'reminder',
-      label: 'Reminder',
+      name: 'NotifyBefore',
+      label: 'Notify Before',
       select: true,
     },
     options: [
@@ -157,16 +124,6 @@ export const dealsTasksDataArray = [
       { value: 'In 2 business Day', label: 'In 2 business Day' },
     ],
     component: RHFSelect,
-    md: 12,
-  },
-
-  {
-    componentProps: {
-      name: 'note',
-      label: 'Note',
-      fullWidth: true,
-    },
-    component: RHFEditor,
     md: 12,
   },
 ];
