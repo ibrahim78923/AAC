@@ -26,6 +26,7 @@ export const TAGS = [
   'PRODUCT_CATALOG',
   'CANNED_RESPONSES',
   'DROPDOWN_ASSET_TYPE_LIST',
+  'VENDOR_DETAIL_OVERVIEW',
 ];
 
 const baseQuery = fetchBaseQuery({
