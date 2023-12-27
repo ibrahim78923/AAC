@@ -30,12 +30,12 @@ const useNotes = (companyId: any) => {
     if (isChecked) {
       setSelectedCheckboxes((prevSelected) => [
         ...prevSelected,
-        { id: item._id },
+        { id: item?._id },
       ]);
     } else {
       setSelectedCheckboxes(
         (prevSelected) =>
-          prevSelected?.filter((item: any) => item?.id !== item._id),
+          prevSelected?.filter((data: any) => data?.id !== item?._id),
       );
     }
   };
