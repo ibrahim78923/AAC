@@ -15,6 +15,7 @@ const CreateContacts = ({ open, onClose }: any) => {
     methodscontacts,
     lifeCycleStagesData,
     contactStatusData,
+    userList,
   } = useCreateContacts();
 
   return (
@@ -33,21 +34,23 @@ const CreateContacts = ({ open, onClose }: any) => {
           onSubmit={handleSubmit(onSubmit)}
         >
           <Grid container spacing={2}>
-            {contactsDataArray(lifeCycleStagesData, contactStatusData)?.map(
-              (item: any) => (
-                <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                  <item.component {...item?.componentProps} size={'small'}>
-                    {item?.componentProps?.select
-                      ? item?.options?.map((option: any) => (
-                          <option key={uuidv4()} value={option?.value}>
-                            {option?.label}
-                          </option>
-                        ))
-                      : null}
-                  </item.component>
-                </Grid>
-              ),
-            )}
+            {contactsDataArray(
+              lifeCycleStagesData,
+              contactStatusData,
+              userList,
+            )?.map((item: any) => (
+              <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                <item.component {...item?.componentProps} size={'small'}>
+                  {item?.componentProps?.select
+                    ? item?.options?.map((option: any) => (
+                        <option key={uuidv4()} value={option?.value}>
+                          {option?.label}
+                        </option>
+                      ))
+                    : null}
+                </item.component>
+              </Grid>
+            ))}
           </Grid>
         </FormProvider>
       </Box>

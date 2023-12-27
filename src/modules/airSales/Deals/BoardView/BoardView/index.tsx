@@ -5,7 +5,12 @@ import DealCard from './BoardCard/DealCard';
 
 import { styles } from './BoardView.style';
 
-const BoardView = ({ handleCheckboxChange, selectedIds }: any) => {
+const BoardView = ({
+  handleCheckboxChange,
+  selectedIds,
+  search,
+  filterVal,
+}: any) => {
   return (
     <Box sx={styles?.boardContainer}>
       <Box sx={styles?.boardRow}>
@@ -19,6 +24,8 @@ const BoardView = ({ handleCheckboxChange, selectedIds }: any) => {
             <DealCard
               handleCheckboxChange={handleCheckboxChange}
               selectedIds={selectedIds}
+              search={search}
+              filterVal={filterVal}
             />
           </BoardCard>
         </Box>
@@ -33,6 +40,7 @@ const BoardView = ({ handleCheckboxChange, selectedIds }: any) => {
             <DealCard
               handleCheckboxChange={handleCheckboxChange}
               selectedIds={selectedIds}
+              search={search}
             />
           </BoardCard>
         </Box>

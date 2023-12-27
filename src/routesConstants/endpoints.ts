@@ -80,6 +80,7 @@ export const END_POINTS = {
   DELETE_BUSINESS_HOUR: `/business-hour/delete-business-hour`,
   COMPANY: `/companies`,
   DROPDOWN_ACCOUNTS_ROLE: '/dropdown/company-accounts-roles',
+  USERS_LIST_ADMIN: '/users',
 };
 
 export const superAdminBillingInvoices = {

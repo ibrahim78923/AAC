@@ -4,14 +4,16 @@ import {
   RHFSelect,
   RHFTextField,
 } from '@/components/ReactHookForm';
+import useDealSaleSite from '@/modules/airSales/Deals/useDealSaleSite';
 import * as Yup from 'yup';
+// import useCreateContacts from './useCreateContacts';
 // Define your Yup validation schema
 export const contactsValidationSchema = Yup?.object()?.shape({
   email: Yup?.string()?.email('Invalid email')?.required('Required Field'),
-  profilePicture: Yup?.string()?.trim()?.required('Required Field'),
+  // profilePicture: Yup?.string()?.trim()?.required('Required Field'),
   firstName: Yup?.string()
     ?.trim()
-    ?.matches(/^[a-zA-Z]*$/, 'Alphabets Only')
+    // ?.matches(/^[a-zA-Z]*$/, 'Alphabets Only')
     ?.required('Required Field'),
   lastName: Yup?.string()
     ?.trim()
@@ -51,15 +53,18 @@ export const contactsDefaultValues = {
   dateOfBirth: null,
 };
 export const contactsDataArray = (
-  lifeCycleStagesData: any,
+  // lifeCycleStagesData: any,
   contactStatusData: any,
+  userList: any,
 ) => {
+  const { DealsLifecycleStageData } = useDealSaleSite();
+
   return [
     {
       componentProps: {
         name: 'email',
         label: 'Email',
-        placeholder: 'Enter Email',
+        placeholder: 'Search or Enter Email',
       },
       md: 12,
       component: RHFTextField,
@@ -134,18 +139,15 @@ export const contactsDataArray = (
       component: RHFTextField,
     },
     {
-      title: 'Contact Owner',
       componentProps: {
         name: 'contactOwner',
         label: 'Contact Owner',
         select: true,
-        options: [
-          { value: 'savanahShane', label: 'Savanah Shane' },
-          { value: 'phoenixBaker', label: 'Phoenix Baker' },
-          { value: 'cameronWilliamson', label: 'Cameron Williamson' },
-          { value: 'brooklynSimmons', label: 'Brooklyn Simmons' },
-        ],
       },
+      options: userList?.data?.users?.map((item: any) => ({
+        value: item?._id,
+        label: item?.firstName,
+      })),
       md: 12,
       component: RHFSelect,
     },
@@ -165,7 +167,12 @@ export const contactsDataArray = (
         label: 'Lifecycle Stage',
         select: true,
       },
-      options: lifeCycleStagesData,
+      options: DealsLifecycleStageData?.data?.lifecycleStages?.map(
+        (item: any) => ({
+          value: item?._id,
+          label: item?.name,
+        }),
+      ) ?? [{ label: 'Select', value: 'Select' }],
       md: 12,
       component: RHFSelect,
     },

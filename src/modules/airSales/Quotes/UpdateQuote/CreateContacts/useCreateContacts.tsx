@@ -15,6 +15,7 @@ import {
   contactsDefaultValues,
   contactsValidationSchema,
 } from './CreateContactsdata';
+import { useGetUsersQuery } from '@/services/superAdmin/user-management/users';
 
 const useCreateContacts = () => {
   const { data: lifeCycleStages } = useGetLifeCycleQuery({});
@@ -24,6 +25,8 @@ const useCreateContacts = () => {
   const [postContacts] = usePostContactsMutation();
 
   const [createAssociation] = useCreateAssociationMutation();
+
+  const { data: userList } = useGetUsersQuery({ role: 'ORG_ADMIN' });
 
   const contactStatusData = ContactsStatus?.data?.conatactStatus?.map(
     (lifecycle: any) => ({ value: lifecycle?._id, label: lifecycle?.name }),
@@ -63,7 +66,6 @@ const useCreateContacts = () => {
 
     try {
       const response = await postContacts({ body: formData })?.unwrap();
-
       if (response?.data) {
         try {
           await createAssociation({
@@ -95,6 +97,7 @@ const useCreateContacts = () => {
     lifeCycleStagesData,
     contactStatusData,
     onCloseHandler,
+    userList,
   };
 };
 

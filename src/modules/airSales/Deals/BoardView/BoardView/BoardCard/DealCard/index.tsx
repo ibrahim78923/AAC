@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 
 import {
   Box,
@@ -27,14 +27,34 @@ import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 interface Props {
   handleCheckboxChange?: (event: any, id: string) => void;
   selectedIds?: string[];
+  search?: string;
+  filterVal?: any;
 }
 
 const DealCard = (props: Props) => {
-  const { handleCheckboxChange = () => {}, selectedIds } = props;
+  const {
+    handleCheckboxChange = () => {},
+    selectedIds,
+    search,
+    filterVal,
+  } = props;
   const theme = useTheme();
-  const params = {};
+  const params = {
+    search: search ? search : undefined,
+    dealPiplineId: filterVal?.dealPiplineId
+      ? filterVal?.dealPiplineId
+      : undefined,
+    dealOwnerId: filterVal?.dealOwnerId ? filterVal?.dealOwnerId : undefined,
+    dealStageId: filterVal?.dealStageId ? filterVal?.dealStageId : undefined,
+    dateEnd: filterVal?.closeDate
+      ? dayjs(filterVal?.closeDate)?.toISOString()
+      : undefined,
+  };
   const { data } = useGetDealsGridViewQuery(params);
-  const [taskCardData, setTaskCardData] = useState(data?.data?.new);
+  const [taskCardData, setTaskCardData] = useState([]);
+  useEffect(() => {
+    setTaskCardData(data?.data?.new);
+  }, [data?.data]);
   const [selectedDraggableIds, setSelectedDraggableIds] = useState<string[]>(
     [],
   );
@@ -52,13 +72,13 @@ const DealCard = (props: Props) => {
 
     const sourceIndex = result.source.index;
     const destinationIndex = result.destination.index;
-    const newTaskCardData = [...taskCardData];
+    const newTaskCardData: any = [...taskCardData];
 
-    const [removed] = newTaskCardData.splice(
+    const [removed]: any = newTaskCardData.splice(
       sourceIndex,
       selectedDraggableIds.length,
     );
-    newTaskCardData.splice(destinationIndex, 0, ...removed);
+    newTaskCardData?.splice(destinationIndex, 0, ...removed);
 
     setTaskCardData(newTaskCardData);
   };
@@ -114,7 +134,7 @@ const DealCard = (props: Props) => {
                                 {item?.name ?? 'N/A'}
                               </Typography>
                               <Box sx={styles?.orgName}>
-                                {item?.dealOwner?.name ?? 'N/A'}
+                                {item?.name ?? 'N/A'}
                               </Box>
                             </Box>
                           </Box>

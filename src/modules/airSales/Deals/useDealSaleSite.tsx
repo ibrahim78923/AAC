@@ -35,9 +35,10 @@ const useDealSaleSite = () => {
   const params = {
     page: 1,
     limit: 10,
-    search: '',
+    meta: true,
   };
   const { data: pipelineData } = useGetDealsSalesProductQuery(params);
+
   const { data: DealsLifecycleStageData } = useGetDealsLifecycleStageQuery({});
   const { data: DealsUserListData } = useGetDealsUserListQuery({});
   const [selectedIds, setSelectedIds] = useState<string[]>([]);

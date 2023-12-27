@@ -1,4 +1,11 @@
-import { Paper, Box, Checkbox, Avatar, Typography } from '@mui/material';
+import {
+  Paper,
+  Box,
+  Checkbox,
+  Avatar,
+  Typography,
+  useTheme,
+} from '@mui/material';
 
 import TanstackTable from '@/components/Table/TanstackTable';
 import CustomPagination from '@/components/CustomPagination';
@@ -15,17 +22,18 @@ const DelasTable = ({
   search,
   columns,
 }: any) => {
+  const theme = useTheme();
   const params: any = {
     page: 1,
     limit: 10,
-    seach: search ? search : undefined,
+    search: search ? search : undefined,
     dealPiplineId: filterVal?.dealPiplineId
       ? filterVal?.dealPiplineId
       : undefined,
     dealOwnerId: filterVal?.dealOwnerId ? filterVal?.dealOwnerId : undefined,
     dealStageId: filterVal?.dealStageId ? filterVal?.dealStageId : undefined,
     dateEnd: filterVal?.closeDate
-      ? dayjs(filterVal?.closeDate)?.format('YYYY-DD-MM')
+      ? dayjs(filterVal?.closeDate)?.toISOString()
       : undefined,
   };
   if (filterVal?.name) {
@@ -59,10 +67,10 @@ const DelasTable = ({
     },
 
     {
-      accessorFn: (row: any) => row?.Name,
+      accessorFn: (row: any) => row?.dealOwner,
       id: 'name',
       isSortable: true,
-      header: 'Name',
+      header: 'Deal Owner',
       cell: (info: any) => (
         <Box sx={{ display: 'flex', gap: '5px' }}>
           <Avatar
@@ -70,11 +78,19 @@ const DelasTable = ({
             // src={}
           />
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-            <Typography component={'span'}>
-              {info?.row?.original?.firstName} {info?.row?.original?.lastName}
+            <Typography
+              variant="body4"
+              sx={{ color: theme?.palette?.blue?.dull_blue }}
+            >
+              {info?.row?.original?.dealOwner?.name}
             </Typography>
-            <Typography component={'span'}>
-              {'shayanmalik@gmail.com' ?? 'N/A'}
+            <Typography
+              variant="body3"
+              sx={{ color: theme?.palette?.custom?.light, fontWeight: 400 }}
+            >
+              {info?.row?.original?.dealOwner?.email
+                ? info?.row?.original?.dealOwner?.email
+                : 'N/A'}
             </Typography>
           </Box>
         </Box>

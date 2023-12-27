@@ -63,7 +63,7 @@ const Deals = () => {
     filterVal,
     setFilterVal,
     setIsFilter,
-    dealViewsData,
+    // dealViewsData,
     handleDeleteDeals,
     viewColumns,
     setViewColumns,
@@ -71,45 +71,45 @@ const Deals = () => {
     // tabsArr,
     getTabValue,
     // tab,
-    setTab,
+    // setTab,
   } = useDealSaleSite();
 
-  const handleTabChange = (_: string, index: number) => {
-    if (index > 0) {
-      const dealView = dealViewsData?.data?.[index - 1];
-      setTab(dealView._id);
-      const mockApiResponse = {
-        ...dealView,
-        ...{
-          columns: [
-            'createdBy',
-            'name',
-            'closeDate',
-            'amount',
-            'dealStage',
-            'dealPipeline',
-          ],
-          viewType: 'listView',
-        },
-      };
-      setViewColumns(mockApiResponse.columns);
-      // console.log(mockApiResponse.filters);
-      setFilterVal({ ...filterVal, ...mockApiResponse.filters });
-      handleListViewClick(mockApiResponse.viewType);
-    } else {
-      setTab(0);
-      setFilterVal({});
-      setViewColumns([
-        'createdBy',
-        'name',
-        'closeDate',
-        'amount',
-        'dealStage',
-        'dealPipeline',
-      ]);
-      handleListViewClick('listView');
-    }
-  };
+  // const handleTabChange = (_: string, index: number) => {
+  //   if (index > 0) {
+  //     const dealView = dealViewsData?.data?.[index - 1];
+  //     setTab(dealView._id);
+  //     const mockApiResponse = {
+  //       ...dealView,
+  //       ...{
+  //         columns: [
+  //           'createdBy',
+  //           'name',
+  //           'closeDate',
+  //           'amount',
+  //           'dealStage',
+  //           'dealPipeline',
+  //         ],
+  //         viewType: 'listView',
+  //       },
+  //     };
+  //     setViewColumns(mockApiResponse.columns);
+  //     // console.log(mockApiResponse.filters);
+  //     setFilterVal({ ...filterVal, ...mockApiResponse.filters });
+  //     handleListViewClick(mockApiResponse.viewType);
+  //   } else {
+  //     setTab(0);
+  //     setFilterVal({});
+  //     setViewColumns([
+  //       'createdBy',
+  //       'name',
+  //       'closeDate',
+  //       'amount',
+  //       'dealStage',
+  //       'dealPipeline',
+  //     ]);
+  //     handleListViewClick('listView');
+  //   }
+  // };
 
   // const handleFilterApply = (filterVal) => {
   //   let currentIndex;
@@ -127,10 +127,11 @@ const Deals = () => {
 
   return (
     <>
+      {/* <DragAble /> */}
       <DealHeader />
       <CommonTabs
         tabsArray={DealsTabs} //?.concat(tabsArr)
-        handleTabChange={handleTabChange}
+        // handleTabChange={handleTabChange}
         getTabVal={getTabValue}
         addIcon
         onAddClick={handleChange}
@@ -244,6 +245,8 @@ const Deals = () => {
         <BoardView
           handleCheckboxChange={handleCheckboxChange}
           selectedIds={selectedIds}
+          search={search}
+          filterVal={filterVal}
         />
       )}
       {isOpen && <CreateView open={isOpen} onClose={handleChange} />}

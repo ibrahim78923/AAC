@@ -17,7 +17,11 @@ const FormAddCompany = ({ open, onClose }: any) => {
   });
   const { handleSubmit } = methods;
 
-  const onSubmit = async () => {
+  const onSubmit = async (values: any) => {
+    const formData = new FormData();
+
+    formData?.append('profilePicture', values?.profilePicture);
+
     enqueueSnackbar('Ticket Updated Successfully', {
       variant: 'success',
     });

@@ -34,9 +34,10 @@ export const dealsApi = baseAPI.injectEndpoints({
     }),
 
     getDealsSalesProduct: builder.query({
-      query: () => ({
+      query: ({ ...params }: any) => ({
         url: `${END_POINTS?.DEALS_PIPELINE}`,
         method: 'GET',
+        params,
       }),
       providesTags: ['DEALS'],
     }),
@@ -56,9 +57,10 @@ export const dealsApi = baseAPI.injectEndpoints({
       providesTags: ['DEALS'],
     }),
     getDealsGridView: builder.query({
-      query: ({}) => ({
+      query: (params: any) => ({
         url: `${END_POINTS?.DEALS_GRID_VIEW}`,
         method: 'GET',
+        params: params,
       }),
       providesTags: ['DEALS'],
     }),

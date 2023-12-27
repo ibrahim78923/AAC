@@ -55,6 +55,15 @@ export const quotesAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: TAG,
     }),
+
+    getUserList: builder.query({
+      query: ({ params }) => ({
+        url: END_POINTS?.USERS_LIST_ADMIN,
+        method: 'GET',
+        params: params,
+      }),
+      // providesTags: TAG,
+    }),
   }),
 });
 
@@ -65,4 +74,5 @@ export const {
   useUpdateQuoteMutation,
   usePostQuoteMutation,
   useDeleteQuotesMutation,
+  useGetUserListQuery,
 } = quotesAPI;
