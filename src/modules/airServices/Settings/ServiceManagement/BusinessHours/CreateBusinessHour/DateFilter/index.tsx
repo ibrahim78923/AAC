@@ -46,7 +46,7 @@ export const DateFilter = () => {
 
   return (
     <Fragment>
-      <Box display={'flex'} alignItems={'center'}>
+      <Box display={'flex'} alignItems={'center'} pl={1}>
         <Box
           onClick={handleOpen}
           display={'flex'}

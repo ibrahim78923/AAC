@@ -17,7 +17,7 @@ export const vendorListsColumnsFunction = (router: any): any => [
           router?.push({
             pathname: AIR_SERVICES?.VENDOR_DETAIL,
             query: {
-              vendorId: info?.row?.id,
+              vendorId: info?.row?.original?._id,
             },
           })
         }

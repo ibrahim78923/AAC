@@ -65,6 +65,7 @@ export const RequestApprovalForm = ({ openDialog, setOpenDialog }: any) => {
                 variant="outlined"
                 sx={{ mx: 2 }}
                 onClick={() => setOpenDialog(false)}
+                color={'secondary'}
               >
                 Cancel
               </Button>
