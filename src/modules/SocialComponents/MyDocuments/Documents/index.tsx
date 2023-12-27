@@ -225,8 +225,8 @@ const Documents = () => {
             }}
           />
           {documentData?.map((item: any) => {
-            return checkboxChecked.find(
-              (val: any) => val == item._id,
+            return checkboxChecked?.find(
+              (val: any) => val == item?._id,
             ) ? null : (
               <>
                 <Box
