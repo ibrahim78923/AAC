@@ -22,6 +22,7 @@ const useCreateCompany = () => {
   const { handleSubmit, reset } = methods;
 
   const onSubmit = async () => {
+    // commented for future use
     // console.log(values, 'values are here');
     // if (values) {
     //   postCompanies({ body: values })

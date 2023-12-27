@@ -28,6 +28,15 @@ export const companiesAPI = baseAPI.injectEndpoints({
       invalidatesTags: ['COMPANY'],
     }),
 
+    getAllDeletedCompanies: builder.query({
+      query: (values: any) => ({
+        url: `${END_POINTS?.DELETED_COMPANIES}`,
+        method: 'GET',
+        params: values,
+      }),
+      providesTags: ['DEL_COMPANY'],
+    }),
+
     postCompanies: builder.mutation({
       query: ({ body }: any) => {
         return {
@@ -46,4 +55,5 @@ export const {
   useGetAllCompaniesQuery,
   useDeleteCompaniesMutation,
   usePostCompaniesMutation,
+  useGetAllDeletedCompaniesQuery,
 } = companiesAPI;

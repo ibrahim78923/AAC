@@ -63,6 +63,7 @@ export const END_POINTS = {
   POST_COMPANY_ACCOUNT: '/org-company-account',
   DROPDOWN_ASSET_TYPE_LIST: `/asset-type/assset-type-list`,
   COMPANY: `/companies`,
+  DELETED_COMPANIES: '/companies/deleted',
   DROPDOWN_ACCOUNTS_ROLE: '/dropdown/company-accounts-roles',
 };
 
