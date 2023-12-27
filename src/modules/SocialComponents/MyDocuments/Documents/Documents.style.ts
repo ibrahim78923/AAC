@@ -52,8 +52,10 @@ export const styles = {
     return {
       display: 'flex',
       alignItems: 'center',
+      justifyContent: 'space-between',
       gap: '1rem',
       paddingTop: '2rem',
+      cursor: 'pointer',
     };
   },
   folderBackground: (theme: any) => {
