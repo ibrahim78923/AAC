@@ -74,7 +74,7 @@ export const ImportDealsData = [
     component: RHFTextField,
   },
   {
-    fileColumn: 'Owner(EmailAdress)',
+    fileColumn: 'Owner(EmailAddress)',
     subTitle: 'Janesampleton@gmailcom',
     componentProps: {
       name: 'paymentStatus',
@@ -93,7 +93,7 @@ export const ImportDealsData = [
   },
   {
     fileColumn: 'Type',
-    subTitle: 'NewBusniness',
+    subTitle: 'NewBusiness',
     componentProps: {
       name: 'probability',
       label: 'choose value',

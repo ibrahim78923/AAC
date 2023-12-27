@@ -4,6 +4,7 @@ export const styles = {
     border: `1px solid ${theme?.palette?.grey[700]}`,
     borderRadius: '10px',
     height: '616px',
+    overflowY: 'auto',
   }),
   cardHeader: () => ({
     backgroundColor: 'common.white',

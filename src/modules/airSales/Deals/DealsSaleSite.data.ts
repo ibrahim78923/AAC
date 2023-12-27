@@ -1,1 +1,1 @@
-export const DealsTabs = ['All Deals', 'My Deals'];
+export const DealsTabs = ['All Deals'];

@@ -1,6 +1,6 @@
-import Link from 'next/link';
+import { useRouter } from 'next/router';
 
-import { Button, ButtonGroup } from '@mui/material';
+import { Button, ButtonGroup, Tooltip } from '@mui/material';
 
 import CommonTabs from '@/components/Tabs';
 import { AIR_SERVICES } from '@/constants';
@@ -22,17 +22,23 @@ import BoardView from './BoardView/BoardView';
 
 import {
   FilterIcon,
-  RestoreIcon,
   CutomizeIcon,
   ListViewIcon,
   GridViewIcon,
+  RefreshTasksIcon,
 } from '@/assets/icons';
+// import {
+//   useGetDealsListWithOutParamsQuery,
+//   useGetDealsViewsQuery,
+//   useLazyGetDealsListQuery,
+//   useLazyGetDealsViewsQuery,
+// } from '@/services/airSales/deals';
 
 const Deals = () => {
+  const navigate = useRouter();
   const {
     search,
     setSearch,
-    theme,
     isOpen,
     isDealCustomize,
     isFilter,
@@ -50,12 +56,82 @@ const Deals = () => {
     handleActions,
     listView,
     handleListViewClick,
+    handleCheckboxChange,
+    selectedIds,
+    handleTableCheckboxChange,
+    selectedTableIds,
+    filterVal,
+    setFilterVal,
+    setIsFilter,
+    dealViewsData,
+    handleDeleteDeals,
+    viewColumns,
+    setViewColumns,
+    // setTabData,
+    // tabsArr,
+    getTabValue,
+    // tab,
+    setTab,
   } = useDealSaleSite();
+
+  const handleTabChange = (_: string, index: number) => {
+    if (index > 0) {
+      const dealView = dealViewsData?.data?.[index - 1];
+      setTab(dealView._id);
+      const mockApiResponse = {
+        ...dealView,
+        ...{
+          columns: [
+            'createdBy',
+            'name',
+            'closeDate',
+            'amount',
+            'dealStage',
+            'dealPipeline',
+          ],
+          viewType: 'listView',
+        },
+      };
+      setViewColumns(mockApiResponse.columns);
+      // console.log(mockApiResponse.filters);
+      setFilterVal({ ...filterVal, ...mockApiResponse.filters });
+      handleListViewClick(mockApiResponse.viewType);
+    } else {
+      setTab(0);
+      setFilterVal({});
+      setViewColumns([
+        'createdBy',
+        'name',
+        'closeDate',
+        'amount',
+        'dealStage',
+        'dealPipeline',
+      ]);
+      handleListViewClick('listView');
+    }
+  };
+
+  // const handleFilterApply = (filterVal) => {
+  //   let currentIndex;
+  //   dealViewsData?.data?.filter(({ _id}, index) => {
+  //     if (_id == tab) {
+  //       currentIndex = index;
+  //       return true
+  //     }
+  //   })
+  //   if (currentIndex) {
+  //     dealViewsData.data[currentIndex].filters = filterVal;
+  //   }
+  //   setFilterVal(filterVal);
+  // };
+
   return (
     <>
       <DealHeader />
       <CommonTabs
-        tabsArray={DealsTabs}
+        tabsArray={DealsTabs} //?.concat(tabsArr)
+        handleTabChange={handleTabChange}
+        getTabVal={getTabValue}
         addIcon
         onAddClick={handleChange}
         isHeader={true}
@@ -63,81 +139,150 @@ const Deals = () => {
           label: 'Search Here',
           setSearchBy: setSearch,
           searchBy: search,
-          // width: '260px',
         }}
         headerChildren={
           <>
-            <DealsActions
-              menuItem={[
-                'Preview',
-                'Re-assign',
-                'Export',
-                'Delete',
-                'View Details',
-              ]}
-              disableActionBtn={false}
-              onChange={handleActions}
-            />
+            {selectedTableIds?.length >= 2 ? (
+              <Button
+                variant="outlined"
+                color="inherit"
+                className="small"
+                onClick={HandleDeleteModal}
+                sx={{ width: { xs: '100%', sm: '100px' } }}
+              >
+                Delete
+              </Button>
+            ) : (
+              <DealsActions
+                menuItem={[
+                  'Preview',
+                  'Re-assign',
+                  'Export',
+                  'Delete',
+                  'View Details',
+                ]}
+                disableActionBtn={selectedTableIds?.length > 0 ? false : true}
+                onChange={handleActions}
+                selectedIds={selectedTableIds}
+              />
+            )}
 
-            <Link href={AIR_SERVICES?.AIRDEALS_RESTORE}>
+            <Button
+              onClick={() => navigate?.push(AIR_SERVICES?.AIRDEALS_RESTORE)}
+              variant="outlined"
+              color="inherit"
+              className="small"
+              startIcon={<RefreshTasksIcon />}
+              sx={{ width: { xs: '100%', sm: '100px' } }}
+            >
+              Restore
+            </Button>
+            <Button
+              onClick={handleDealCustomize}
+              variant="outlined"
+              color="inherit"
+              className="small"
+              sx={{ minWidth: '132px', width: { xs: '100%', sm: '100px' } }}
+              startIcon={<CutomizeIcon />}
+            >
+              Customize
+            </Button>
+            <Tooltip title={'Refresh Filter'}>
               <Button
+                onClick={() => setFilterVal('')}
                 variant="outlined"
-                sx={{ height: '30px', color: theme?.palette?.custom['main'] }}
-                startIcon={<RestoreIcon />}
+                color="inherit"
+                className="small"
               >
-                Restore
+                <RefreshTasksIcon />
               </Button>
-            </Link>
-            <>
-              <Button
-                onClick={handleDealCustomize}
-                variant="outlined"
-                sx={{ height: '30px', color: theme?.palette?.custom['main'] }}
-              >
-                <CutomizeIcon /> &nbsp; Customize
-              </Button>
-            </>
+            </Tooltip>
             <Button
               variant="outlined"
-              sx={{ height: '30px', color: theme?.palette?.custom['main'] }}
+              color="inherit"
+              className="small"
               onClick={handleFilter}
+              sx={{ width: { xs: '100%', sm: '100px' } }}
+              startIcon={<FilterIcon />}
             >
-              <FilterIcon />
-              &nbsp; Filter
+              Filter
             </Button>
-
             <ButtonGroup variant="outlined" aria-label="outlined button group">
               <Button
+                variant="contained"
+                color="inherit"
+                className="small"
                 onClick={() => handleListViewClick('listView')}
-                sx={{
-                  '&:hover': { backgroundColor: '#F3F4F6' },
-                  height: '30px',
-                }}
               >
                 <ListViewIcon />
               </Button>
               <Button
                 onClick={() => handleListViewClick('gridView')}
-                sx={{
-                  '&:hover': { backgroundColor: '#F3F4F6' },
-                  height: '30px',
-                }}
+                variant="contained"
+                color="inherit"
+                className="small"
               >
                 <GridViewIcon />
               </Button>
             </ButtonGroup>
           </>
         }
-      >
-        {listView === 'listView' ? <DelasTable /> : <BoardView />}
-      </CommonTabs>
-      <CreateView open={isOpen} onClose={handleChange} />
-      <DealCustomize open={isDealCustomize} onClose={handleDealCustomize} />
-      <DealFilterDrawer open={isFilter} onClose={handleFilter} />
-      <ShareMyDine open={isShareDine} onClose={handleSMD} />
-      <DeleteModal open={isDelete} onClose={HandleDeleteModal} />
-      <AssignModalBox open={isAssign} onClose={handleAssignModal} />
-      <ExportRecordModal open={exportRecord} onClose={handleExportRecord} />
+      ></CommonTabs>
+      {listView === 'listView' ? (
+        <>
+          {/* all deals */}
+          <DelasTable
+            handleTableCheckboxChange={handleTableCheckboxChange}
+            handleSelectAll={() => {}}
+            selectedTableIds={selectedTableIds}
+            filterVal={filterVal}
+            search={search}
+            columns={viewColumns}
+          />
+        </>
+      ) : (
+        <BoardView
+          handleCheckboxChange={handleCheckboxChange}
+          selectedIds={selectedIds}
+        />
+      )}
+      {isOpen && <CreateView open={isOpen} onClose={handleChange} />}
+      {isDealCustomize && (
+        <DealCustomize
+          open={isDealCustomize}
+          onClose={handleDealCustomize}
+          columns={viewColumns}
+          setColumns={setViewColumns}
+        />
+      )}
+      {isFilter && (
+        <DealFilterDrawer
+          setFilterVal={setFilterVal}
+          setIsFilter={setIsFilter}
+          open={isFilter}
+          onClose={handleFilter}
+        />
+      )}
+      {isShareDine && (
+        <ShareMyDine
+          open={isShareDine}
+          onClose={handleSMD}
+          selectedTableIds={selectedTableIds}
+        />
+      )}
+      {isDelete && (
+        <DeleteModal
+          open={isDelete}
+          onClose={HandleDeleteModal}
+          handleSubmitBtn={handleDeleteDeals}
+        />
+      )}
+      {isAssign && (
+        <AssignModalBox open={isAssign} onClose={handleAssignModal} />
+      )}
+      {exportRecord && (
+        <ExportRecordModal open={exportRecord} onClose={handleExportRecord} />
+      )}
     </>
   );
 };

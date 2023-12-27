@@ -1,9 +1,11 @@
 import { Box } from '@mui/material';
 
 import BoardCard from './BoardCard';
+import DealCard from './BoardCard/DealCard';
+
 import { styles } from './BoardView.style';
 
-const BoardView = () => {
+const BoardView = ({ handleCheckboxChange, selectedIds }: any) => {
   return (
     <Box sx={styles?.boardContainer}>
       <Box sx={styles?.boardRow}>
@@ -13,7 +15,12 @@ const BoardView = () => {
             stageDealsNumber={2}
             stageDealsAmount={40}
             stageDealsPercent={20}
-          />
+          >
+            <DealCard
+              handleCheckboxChange={handleCheckboxChange}
+              selectedIds={selectedIds}
+            />
+          </BoardCard>
         </Box>
 
         <Box sx={styles?.boardColumn}>
@@ -22,10 +29,15 @@ const BoardView = () => {
             stageDealsNumber={2}
             stageDealsAmount={40}
             stageDealsPercent={20}
-          />
+          >
+            <DealCard
+              handleCheckboxChange={handleCheckboxChange}
+              selectedIds={selectedIds}
+            />
+          </BoardCard>
         </Box>
 
-        <Box sx={styles?.boardColumn}>
+        {/* <Box sx={styles?.boardColumn}>
           <BoardCard
             dealStage={'Under Review'}
             stageDealsNumber={2}
@@ -68,7 +80,7 @@ const BoardView = () => {
             stageDealsAmount={40}
             stageDealsPercent={20}
           />
-        </Box>
+        </Box> */}
       </Box>
     </Box>
   );
