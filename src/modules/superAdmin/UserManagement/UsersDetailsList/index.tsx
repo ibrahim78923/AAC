@@ -9,6 +9,7 @@ import {
   Avatar,
   Card,
   Tooltip,
+  Pagination,
 } from '@mui/material';
 
 import Search from '@/components/Search';
@@ -74,12 +75,16 @@ const UsersDetailsList = () => {
     employeeFilter,
     setEmployeeFilter,
     resetFilters,
+    handleEmpListPaginationChange,
+    page,
   }: any = useUserDetailsList();
 
   const { userName, userId } = navigate.query;
   const organizationId = useSearchParams()?.get('organizationId');
 
   const empListParams = {
+    page: page,
+    limit: 5,
     search: searchEmployee,
     // status:'ACTIVE'
     product: employeeFilter?.product,
@@ -260,6 +265,12 @@ const UsersDetailsList = () => {
                 </Box>
               </Box>
             ))}
+            <Pagination
+              count={employeeList?.data?.meta?.pages}
+              variant="outlined"
+              shape="rounded"
+              onChange={handleEmpListPaginationChange}
+            />
           </Box>
         </Grid>
         <Grid item xl={9} lg={8} xs={12}>
@@ -269,10 +280,9 @@ const UsersDetailsList = () => {
                 <Grid item xs={12}>
                   <ProfileCard
                     userName={`${profileData?.data?.firstName} ${profileData?.data?.lastName}`}
-                    role={profileData?.data?.role}
+                    isBadge={false}
                     email={profileData?.data?.email}
                     phone={profileData?.data?.phoneNumber}
-                    handleEditProfile={() => setTabVal(1)}
                   />
                 </Grid>
                 <Grid item xs={12}>
