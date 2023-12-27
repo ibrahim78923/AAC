@@ -16,15 +16,34 @@ const useNotesEditorDrawer = (
   openDrawer: any,
   setOpenDrawer: any,
   companyId: any,
+  rowData: any,
 ) => {
   const [postDealNote] = usePostDealNoteMutation();
   const [updateDealNote] = useUpdateDealNoteMutation();
-  const methodsdealsNotes = useForm({
+  const rowApiValues = {
+    title: rowData?.title,
+    description: rowData?.description,
+    attachfile: rowData?.user?.profileImage,
+  };
+
+  const methods = useForm({
     resolver: yupResolver(dealsNotesValidationSchema),
-    defaultValues: dealsNotesDefaultValues,
+    defaultValues: async () => {
+      // if action is view or update
+
+      if (rowApiValues) {
+        const { title, description, attachfile } = rowApiValues;
+        return {
+          title,
+          description,
+          attachfile,
+        };
+      }
+      return dealsNotesDefaultValues;
+    },
   });
 
-  const { handleSubmit, reset } = methodsdealsNotes;
+  const { handleSubmit, reset } = methods;
 
   const onSubmit = async (values: any) => {
     const formData = new FormData();
@@ -37,7 +56,7 @@ const useNotesEditorDrawer = (
       openDrawer === 'Edit'
         ? await updateDealNote({
             body: formData,
-            // id: editCheckBoxes?._id,
+            id: rowData?._id,
           })?.unwrap()
         : await postDealNote({ body: formData })?.unwrap();
       enqueueSnackbar(
@@ -52,7 +71,7 @@ const useNotesEditorDrawer = (
     }
   };
 
-  return { handleSubmit, onSubmit, methodsdealsNotes };
+  return { handleSubmit, onSubmit, methods };
 };
 
 export default useNotesEditorDrawer;

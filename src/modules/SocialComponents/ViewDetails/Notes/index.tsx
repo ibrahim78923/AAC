@@ -27,6 +27,7 @@ const Notes = ({ companyId }: any) => {
     setSelectedCheckboxes,
     handleCheckboxChange,
     NotesData,
+    rowData,
   } = useNotes(companyId);
   const { theme } = useNameWithStyledWords();
 
@@ -115,7 +116,7 @@ const Notes = ({ companyId }: any) => {
                   <Checkbox
                     color="primary"
                     name={'name'}
-                    onChange={(event) => handleCheckboxChange(event, item?._id)}
+                    onChange={(event) => handleCheckboxChange(event, item)}
                     checked={selectedCheckboxes?.some(
                       (selectedItem) => selectedItem?.id === item?._id,
                     )}
@@ -174,6 +175,7 @@ const Notes = ({ companyId }: any) => {
         openDrawer={openDrawer}
         setOpenDrawer={setOpenDrawer}
         companyId={companyId}
+        rowData={rowData}
       />
     </Box>
   );

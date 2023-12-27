@@ -7,6 +7,7 @@ import { PAGINATION } from '@/config';
 const useNotes = (companyId: any) => {
   const theme = useTheme();
   const [openDrawer, setOpenDrawer] = useState('');
+  const [rowData, setRowData] = useState('');
   const [selectedCheckboxes, setSelectedCheckboxes] = useState<
     { id: number }[]
   >([]);
@@ -21,15 +22,20 @@ const useNotes = (companyId: any) => {
 
   const handleCheckboxChange = (
     event: React.ChangeEvent<HTMLInputElement>,
-    id: number,
+    item: any,
   ) => {
+    setRowData(item);
     const isChecked = event?.target?.checked;
 
     if (isChecked) {
-      setSelectedCheckboxes((prevSelected) => [...prevSelected, { id: id }]);
+      setSelectedCheckboxes((prevSelected) => [
+        ...prevSelected,
+        { id: item._id },
+      ]);
     } else {
       setSelectedCheckboxes(
-        (prevSelected) => prevSelected?.filter((item) => item?.id !== id),
+        (prevSelected) =>
+          prevSelected?.filter((item: any) => item?.id !== item._id),
       );
     }
   };
@@ -42,6 +48,7 @@ const useNotes = (companyId: any) => {
     setSelectedCheckboxes,
     handleCheckboxChange,
     NotesData,
+    rowData,
   };
 };
 
