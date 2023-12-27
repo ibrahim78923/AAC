@@ -134,5 +134,6 @@ export const AIR_LOYALTY_PROGRAM = {
   VOUCHER_REDEMPTION_LIST: `/air-loyalty-program/loyalty/vouchers/voucher-redemptions-list`,
 };
 export const SOCIAL_COMPONENTS = {
+  COMPANIES: `/social-components/companies`,
   VIEW_COMPANY_DETAILS: '/social-components/companies/view-details',
 };

@@ -10,7 +10,16 @@ export const companiesAPI = baseAPI.injectEndpoints({
       }),
       providesTags: ['COMPANY'],
     }),
+    CompanyUpdate: builder.mutation({
+      query: ({ body, Id }: any) => ({
+        url: `${END_POINTS?.COMPANY}?Id=${Id}`,
+        method: 'PATCH',
+        body: body,
+      }),
+      invalidatesTags: ['COMPANY'],
+    }),
   }),
 });
 
-export const { useGetCompaniesDetailsQuery } = companiesAPI;
+export const { useGetCompaniesDetailsQuery, useCompanyUpdateMutation } =
+  companiesAPI;
