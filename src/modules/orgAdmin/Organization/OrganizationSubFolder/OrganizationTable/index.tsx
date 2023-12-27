@@ -291,7 +291,7 @@ const OrganizationTable = () => {
           <Grid item lg={3} md={3} sm={6} xs={12}>
             <Search
               label="Search here"
-              width="100%"
+              width="260px"
               searchBy={value}
               setSearchBy={(e: string) => {
                 setValue(e);
@@ -314,6 +314,7 @@ const OrganizationTable = () => {
                 aria-expanded={open ? 'true' : undefined}
                 onClick={handleClick}
                 disabled={isGetRowValues?.length === 0}
+                className="small"
               >
                 Action
                 <ArrowDropDownIcon
@@ -332,7 +333,7 @@ const OrganizationTable = () => {
                 <MenuItem
                   onClick={() => {
                     handleClose();
-                    setDrawerHeading('Edit Comapny');
+                    setDrawerHeading('Edit Company');
                     setIsOpenDrawer(true);
                   }}
                 >
@@ -354,6 +355,7 @@ const OrganizationTable = () => {
                   setIsOpenDrawer(true);
                 }}
                 variant="contained"
+                className="small"
                 sx={{
                   display: 'flex',
                   alignContent: 'center',

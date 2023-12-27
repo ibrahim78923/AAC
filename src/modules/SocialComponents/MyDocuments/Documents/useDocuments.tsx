@@ -31,6 +31,7 @@ const useDocuments: any = () => {
   const [updateFolder] = useUpdateFolderMutation();
   const [deleteFolders] = useDeleteFoldersMutation();
   const [checkboxChecked, setCheckboxChecked] = useState<string[]>([]);
+  const [selectedItemId, setSelectedItemId] = useState(null);
   const { user }: any = useAuth();
   const { data, isLoading, isError, isFetching, isSuccess } =
     useGetDocumentFolderQuery({ organizationId: user?.organization?._id });
@@ -48,12 +49,37 @@ const useDocuments: any = () => {
     }
   };
 
+  const MoveToFolder = async () => {
+    try {
+      for (const item of checkboxChecked) {
+        await updateFolder({
+          id: item,
+          body: {
+            parentFolderId: selectedItemId,
+            name: data?.data?.folders.find((item2: any) => item2._id == item)
+              .name,
+          },
+        }).unwrap();
+      }
+      enqueueSnackbar('Folder Moved Successfully', {
+        variant: 'success',
+      });
+      setIsOpenFolderDrawer(false);
+    } catch (error: any) {
+      enqueueSnackbar('Something went wrong!', { variant: 'error' });
+    }
+  };
+
   const handleCheckboxChange = (id: string) => {
     if (checkboxChecked?.includes(id)) {
       setCheckboxChecked(checkboxChecked?.filter((item: string) => item != id));
     } else {
       setCheckboxChecked([...checkboxChecked, id]);
     }
+  };
+
+  const handleBoxClick = (itemId: any) => {
+    setSelectedItemId(itemId === selectedItemId ? null : itemId);
   };
 
   const open = Boolean(anchorEl);
@@ -149,6 +175,10 @@ const useDocuments: any = () => {
     modalHeading,
     setModalHeading,
     deleteUserFolders,
+    selectedItemId,
+    setSelectedItemId,
+    handleBoxClick,
+    MoveToFolder,
   };
 };
 

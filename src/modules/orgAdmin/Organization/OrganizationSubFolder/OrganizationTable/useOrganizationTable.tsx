@@ -58,7 +58,7 @@ const useOrganizationTable = () => {
     defaultValues: async () => {
       if (editData) {
         const { accountName, phoneNo, postCode, address } = editData;
-        if (!isNullOrEmpty(Object.keys(editData))) {
+        if (!isNullOrEmpty(Object?.keys(editData))) {
           return {
             accountName,
             phoneNo,
@@ -92,7 +92,7 @@ const useOrganizationTable = () => {
       status: 'Active',
     };
     try {
-      if (editData) {
+      if (Object?.keys(editData)[0]) {
         await updateOrganizationCompany({
           body: organizationData,
           id: editData?._id,
@@ -100,6 +100,7 @@ const useOrganizationTable = () => {
         enqueueSnackbar('Company Updated Successfully', {
           variant: 'success',
         });
+        setIsOpenDrawer(false);
       } else {
         await postOrganization({ body: organizationData }).unwrap();
         enqueueSnackbar('Company Created Successfully', {

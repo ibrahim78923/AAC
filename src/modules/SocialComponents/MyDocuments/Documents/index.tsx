@@ -15,6 +15,7 @@ import {
 
 import { AddCircle } from '@mui/icons-material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 import Search from '@/components/Search';
 import CommonModal from '@/components/CommonModal';
@@ -72,6 +73,9 @@ const Documents = () => {
     modalHeading,
     setModalHeading,
     deleteUserFolders,
+    selectedItemId,
+    handleBoxClick,
+    MoveToFolder,
   } = useDocuments();
 
   return (
@@ -206,7 +210,8 @@ const Documents = () => {
           setIsOpenFolderDrawer(false);
         }}
         title="Move to folder"
-        okText="Add"
+        okText="Move"
+        submitHandler={MoveToFolder}
         isOk={true}
         footer={true}
       >
@@ -219,66 +224,43 @@ const Documents = () => {
               setValue(e);
             }}
           />
-          <Box sx={styles?.folderRow}>
-            <FolderIcon />
-            <Typography
-              variant="body2"
-              sx={{
-                fontWeight: 400,
-                color: `${theme?.palette?.slateBlue?.main}`,
-              }}
-            >
-              My PDF
-            </Typography>
-          </Box>
-          <Box sx={styles?.folderRow}>
-            <FolderIcon />
-            <Typography
-              variant="body2"
-              sx={{
-                fontWeight: 400,
-                color: `${theme?.palette?.slateBlue?.main}`,
-              }}
-            >
-              Employee CV’s
-            </Typography>
-          </Box>
-          <Box sx={styles?.folderRow}>
-            <FolderIcon />
-            <Typography
-              variant="body2"
-              sx={{
-                fontWeight: 400,
-                color: `${theme?.palette?.slateBlue?.main}`,
-              }}
-            >
-              AirApple Cart
-            </Typography>
-          </Box>
-          <Box sx={styles?.folderRow}>
-            <FolderIcon />
-            <Typography
-              variant="body2"
-              sx={{
-                fontWeight: 400,
-                color: `${theme?.palette?.slateBlue?.main}`,
-              }}
-            >
-              AirApple Cart document testing
-            </Typography>
-          </Box>
-          <Box sx={styles?.folderRow}>
-            <FolderIcon />
-            <Typography
-              variant="body2"
-              sx={{
-                fontWeight: 400,
-                color: `${theme?.palette?.slateBlue?.main}`,
-              }}
-            >
-              Test
-            </Typography>
-          </Box>
+          {documentData?.map((item: any) => {
+            return checkboxChecked.find(
+              (val: any) => val == item._id,
+            ) ? null : (
+              <>
+                <Box
+                  key={item?._id}
+                  sx={styles?.folderRow}
+                  onClick={() => handleBoxClick(item?._id)}
+                >
+                  <Box
+                    sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}
+                  >
+                    <FolderIcon />
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        fontWeight: 400,
+                        color: `${theme?.palette?.slateBlue?.main}`,
+                      }}
+                    >
+                      {item?.name}
+                    </Typography>
+                  </Box>
+
+                  <Box sx={{ textAlign: 'end' }}>
+                    {item?._id === selectedItemId && (
+                      <CheckCircleIcon
+                        color="primary"
+                        sx={{ fontSize: '20px' }}
+                      />
+                    )}
+                  </Box>
+                </Box>
+              </>
+            );
+          })}
         </Box>
       </CommonDrawer>
       <Grid container spacing={2}>
