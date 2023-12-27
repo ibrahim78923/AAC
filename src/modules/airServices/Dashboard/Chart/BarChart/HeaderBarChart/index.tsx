@@ -10,7 +10,10 @@ export const HeaderBarChart = ({ setIsBarChart, isbarchart }: any) => {
         <Typography variant="h5">
           Tickets based on {!isbarchart ? 'Priority' : 'Status'}
         </Typography>
-        <SingleDropdownButton dropdownOptions={options} dropdownName="Status" />
+        <SingleDropdownButton
+          dropdownOptions={options}
+          dropdownName={!isbarchart ? 'Priority' : 'Status'}
+        />
       </Box>
     </>
   );

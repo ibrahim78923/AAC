@@ -10,7 +10,50 @@ export const companiesAPI = baseAPI.injectEndpoints({
       }),
       providesTags: ['COMPANY'],
     }),
+
+    getAllCompanies: builder.query({
+      query: (values: any) => ({
+        url: `${END_POINTS?.COMPANY}`,
+        method: 'GET',
+        params: values,
+      }),
+      providesTags: ['COMPANY'],
+    }),
+
+    deleteCompanies: builder.mutation({
+      query: ({ id }: any) => ({
+        url: `${END_POINTS?.COMPANY}/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['COMPANY'],
+    }),
+
+    getAllDeletedCompanies: builder.query({
+      query: (values: any) => ({
+        url: `${END_POINTS?.DELETED_COMPANIES}`,
+        method: 'GET',
+        params: values,
+      }),
+      providesTags: ['DEL_COMPANY'],
+    }),
+
+    postCompanies: builder.mutation({
+      query: ({ body }: any) => {
+        return {
+          url: END_POINTS?.COMPANY,
+          method: 'POST',
+          body: body,
+        };
+      },
+      invalidatesTags: ['COMPANY'],
+    }),
   }),
 });
 
-export const { useGetCompaniesDetailsQuery } = companiesAPI;
+export const {
+  useGetCompaniesDetailsQuery,
+  useGetAllCompaniesQuery,
+  useDeleteCompaniesMutation,
+  usePostCompaniesMutation,
+  useGetAllDeletedCompaniesQuery,
+} = companiesAPI;

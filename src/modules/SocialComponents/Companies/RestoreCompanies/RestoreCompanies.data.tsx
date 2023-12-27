@@ -1,60 +1,52 @@
-import { RHFDatePicker } from '@/components/ReactHookForm';
 import { Checkbox } from '@mui/material';
+import dayjs from 'dayjs';
 
-export const restoreArr = [
-  {
-    componentProps: {
-      name: 'startDate',
-      label: 'Start Date',
-      fullWidth: true,
-      select: true,
+export const columns: any = (columnsProps: any) => {
+  const { checkedRows, setCheckedRows } = columnsProps;
+
+  const handleCheckboxChange = (val: any, rowId: string) => {
+    val?.target?.checked ? setCheckedRows(rowId) : setCheckedRows();
+  };
+
+  return [
+    {
+      accessorFn: (row: any) => row?.Id,
+      id: 'Id',
+      cell: (info: any) => (
+        <Checkbox
+          color="primary"
+          name={info?.getValue()}
+          defaultChecked={checkedRows === info?.row?.id}
+          onChange={(e: any) => handleCheckboxChange(e, info?.row?.id)}
+        />
+      ),
+      header: <Checkbox color="primary" name="Id" />,
+      isSortable: false,
     },
-    component: RHFDatePicker,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'endDate',
-      label: 'End Date',
-      fullWidth: true,
-      select: true,
+    {
+      accessorFn: (row: any) => row.name,
+      id: 'name',
+      cell: (info: any) => info?.getValue() ?? 'N/A',
+      header: 'Company Name',
+      isSortable: true,
     },
-    component: RHFDatePicker,
-    md: 12,
-  },
-];
-
-export const columns: any = [
-  {
-    accessorFn: (row: any) => row?.Id,
-    id: 'Id',
-    cell: (info: any) => <Checkbox color="primary" name={info?.getValue()} />,
-    header: <Checkbox color="primary" name="Id" />,
-    isSortable: false,
-  },
-  {
-    accessorFn: (row: any) => row.name,
-    id: 'name',
-    cell: (info: any) => info?.getValue(),
-
-    header: 'Company Name',
-    isSortable: true,
-  },
-  {
-    accessorFn: (row: any) => row?.deletedBy,
-    id: 'deletedBy',
-    isSortable: true,
-    header: 'Deleted By',
-    cell: (info: any) => info?.getValue(),
-  },
-  {
-    accessorFn: (row: any) => row?.timeDeleted,
-    id: 'timeDeleted',
-    isSortable: true,
-    header: 'Tome Deleted',
-    cell: (info: any) => info?.getValue(),
-  },
-];
+    {
+      accessorFn: (row: any) => row?.deletedBy,
+      id: 'deletedBy',
+      isSortable: true,
+      header: 'Deleted By',
+      cell: (info: any) => info?.getValue() ?? 'N/A',
+    },
+    {
+      accessorFn: (row: any) => row?.createdAt,
+      id: 'timeDeleted',
+      isSortable: true,
+      header: 'Time Deleted',
+      cell: (info: any) =>
+        dayjs(info?.getValue())?.format('dddd, MMMM D, YYYY - HH:mm') ?? 'N/A',
+    },
+  ];
+};
 
 export const restoreTableData = [
   {

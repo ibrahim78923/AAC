@@ -14,7 +14,14 @@ export const GiftCardsDetails = () => {
         <GiftCardsDetailsHeader />
       </Box>
       <Box mt={2} border={'1px solid lightgrey'} borderRadius={3}>
-        <Box display={'flex'} justifyContent={'flex-end'} mx={2} gap={1} mt={2}>
+        <Box
+          display={'flex'}
+          flexWrap={'wrap'}
+          justifyContent={'flex-end'}
+          mx={2}
+          gap={1}
+          mt={2}
+        >
           <Button
             variant="outlined"
             color="inherit"

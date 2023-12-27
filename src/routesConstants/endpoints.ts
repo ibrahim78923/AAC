@@ -75,10 +75,13 @@ export const END_POINTS = {
   EDIT_PRODUCT_CATALOG: '/product-catalog/edit-product-catalog',
   DELETE_PRODUCT_CATALOG_VENDOR: '/product-catalog/vendors/delete-vendor',
   POST_COMPANY_ACCOUNT: '/org-company-account',
+  VENDOR_DETAIL_OVERVIEW: '/vendors/get-vendor',
   DROPDOWN_ASSET_TYPE_LIST: `/asset-type/assset-type-list`,
+  POST_CLOSURE_ROLE: '/Closure-Rules/add-closure-rules',
   GET_BUSINESS_HOUR: `/business-hour/list`,
   DELETE_BUSINESS_HOUR: `/business-hour/delete-business-hour`,
   COMPANY: `/companies`,
+  DELETED_COMPANIES: '/companies/deleted',
   DROPDOWN_ACCOUNTS_ROLE: '/dropdown/company-accounts-roles',
   USERS_LIST_ADMIN: '/users',
 };

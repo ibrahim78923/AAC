@@ -1,4 +1,6 @@
+import { EyeIcon, EyeSlashIcon } from '@/assets/icons';
 import { RHFTextField } from '@/components/ReactHookForm';
+import { IconButton, InputAdornment } from '@mui/material';
 import * as Yup from 'yup';
 
 export const loginValidationSchema = Yup?.object()?.shape({
@@ -11,7 +13,10 @@ export const loginDefaultValues = {
   password: '',
 };
 
-export const loginFormFields = [
+export const loginFormFields = (
+  showPassword: any,
+  handleClickShowPassword: any,
+) => [
   {
     id: 1,
     componentProps: {
@@ -31,7 +36,20 @@ export const loginFormFields = [
       fullWidth: true,
       type: 'password',
       required: true,
+      InputProps: {
+        endAdornment: (
+          <InputAdornment position="end">
+            <IconButton
+              aria-label="toggle password visibility"
+              onClick={() => handleClickShowPassword()}
+            >
+              {!showPassword ? <EyeSlashIcon /> : <EyeIcon />}
+            </IconButton>
+          </InputAdornment>
+        ),
+      },
     },
+
     component: RHFTextField,
   },
 ];

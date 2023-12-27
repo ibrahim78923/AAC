@@ -33,7 +33,7 @@ export const newArticleFieldsFunction = (needApprovals: any) => {
       componentProps: {
         fullWidth: true,
         name: 'approver',
-        label: 'approver',
+        label: 'Approver',
         select: true,
         options: dropdownDummy,
         sx: { pb: 1.2 },

@@ -1,10 +1,16 @@
 export const dropDownMenus = (setIsBarChart: any) => [
   {
     title: 'Priority',
-    handleClick: () => setIsBarChart(false),
+    handleClick: (closeMenu: any) => {
+      setIsBarChart(false);
+      closeMenu?.();
+    },
   },
   {
     title: 'Status',
-    handleClick: () => setIsBarChart(true),
+    handleClick: (closeMenu: any) => {
+      setIsBarChart(true);
+      closeMenu?.();
+    },
   },
 ];
