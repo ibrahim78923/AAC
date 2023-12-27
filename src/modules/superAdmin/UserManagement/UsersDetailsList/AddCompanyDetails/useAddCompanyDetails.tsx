@@ -8,6 +8,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { validationSchema, defaultValues } from './AddCompanyDetails.data';
 import { userListApi } from '@/services/superAdmin/user-management/UserList';
 import { enqueueSnackbar } from 'notistack';
+import { useState } from 'react';
 
 const useAddCompanyDetails = (
   organizationId: any,
@@ -18,6 +19,7 @@ const useAddCompanyDetails = (
   const { usePostCompanyMutation } = userListApi;
   const [postCompany] = usePostCompanyMutation();
   const { data: products } = useGetProductsQuery({});
+  const [selectedImg, setSelectedImg] = useState<any>();
   const productsList = products?.data?.map((item: any) => ({
     value: item?._id,
     label: (
@@ -38,11 +40,18 @@ const useAddCompanyDetails = (
   const onSubmit = async (values: any) => {
     values.organizationId = organizationId;
     values.address = {
+      flatNumber: values?.flat,
+      buildingName: values?.buildingName,
+      buildingNumber: values?.buildingNumber,
+      streetName: values?.streetName,
+      city: values?.city,
+      country: values?.country,
       composite: values.compositeAddress,
     };
     delete values['compositeAddress'];
-    delete values['products'];
-
+    delete values['flat'];
+    values.isActive = false;
+    values.unit = values.address?.flatNumber;
     try {
       postCompany({ body: values })?.unwrap();
       setISOpenCompanyDrawer(false);
@@ -59,6 +68,8 @@ const useAddCompanyDetails = (
     methods,
     handleSubmit,
     onSubmit,
+    selectedImg,
+    setSelectedImg,
   };
 };
 
