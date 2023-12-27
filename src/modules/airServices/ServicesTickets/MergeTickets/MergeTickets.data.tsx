@@ -35,7 +35,7 @@ export const mergeTicketsFormFieldsDynamic = (apiQuerySearch: any) => [
     component: RHFAutocompleteAsync,
     componentProps: {
       name: 'searchTicket',
-      label: 'search Ticket',
+      label: 'Search Ticket',
       fullWidth: true,
       apiQuery: apiQuerySearch,
     },

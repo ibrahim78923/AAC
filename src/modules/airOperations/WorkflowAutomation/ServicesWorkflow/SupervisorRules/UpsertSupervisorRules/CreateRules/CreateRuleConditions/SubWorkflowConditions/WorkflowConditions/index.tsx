@@ -5,7 +5,7 @@ import {
   fieldOptions,
   statusOptions,
   ticketsFieldsOptions,
-} from './WorkflowConditionsFields.data';
+} from '../../CreateRuleConditions.data';
 
 const WorkflowConditionsFields = ({
   index,

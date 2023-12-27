@@ -1,10 +1,4 @@
 import { Box, Grid } from '@mui/material';
-import {
-  closeIncidentDataArray,
-  resolveIncidentDataArray,
-  serviceCloseDataArray,
-  serviceResolveDataArray,
-} from './ClosureRulesConditions.data';
 
 export const ClosureRulesConditions = (props: any) => {
   const {
@@ -12,6 +6,10 @@ export const ClosureRulesConditions = (props: any) => {
     closeIncident,
     serviceResolveIncident,
     serviceCloseIncident,
+    closeIncidentData,
+    resolveIncidentData,
+    serviceCloseData,
+    serviceResolveData,
   } = props;
 
   return (
@@ -19,7 +17,7 @@ export const ClosureRulesConditions = (props: any) => {
       <Grid container>
         {closeIncident && (
           <>
-            {closeIncidentDataArray?.map((item: any) => (
+            {closeIncidentData?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={item?.id}>
                 <item.component {...item?.componentProps} />
               </Grid>
@@ -31,7 +29,7 @@ export const ClosureRulesConditions = (props: any) => {
       <Grid container>
         {resolveIncident && (
           <>
-            {resolveIncidentDataArray?.map((item: any) => (
+            {resolveIncidentData?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={item?.id}>
                 <item.component {...item?.componentProps} />
               </Grid>
@@ -43,7 +41,7 @@ export const ClosureRulesConditions = (props: any) => {
       <Grid container>
         {serviceResolveIncident && (
           <>
-            {serviceResolveDataArray?.map((item: any) => (
+            {serviceResolveData?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={item?.id}>
                 <item.component {...item?.componentProps} />
               </Grid>
@@ -55,7 +53,7 @@ export const ClosureRulesConditions = (props: any) => {
       <Grid container>
         {serviceCloseIncident && (
           <>
-            {serviceCloseDataArray?.map((item: any) => (
+            {serviceCloseData?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={item?.id}>
                 <item.component {...item?.componentProps} />
               </Grid>

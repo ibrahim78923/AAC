@@ -18,9 +18,15 @@ import {
 import { styles } from './ChatHeader.style';
 import ChatInfoModal from './ChatInfoModal';
 import ChatDropdown from '../../ChatDropdown';
+import { useAppSelector } from '@/redux/store';
 
 const ChatHeader = ({ chatMode }: any) => {
   const theme = useTheme();
+
+  const activeParticipant = useAppSelector(
+    (state) => state?.chat?.activeParticipant,
+  );
+
   const [isUserProfile, setIsUserProfile] = useState(false);
   const [isDeleteModal, setIsDeleteModal] = useState(false);
 
@@ -60,9 +66,9 @@ const ChatHeader = ({ chatMode }: any) => {
           <Box>
             <Typography
               variant="h4"
-              sx={{ fontWeight: '600', color: theme?.palette?.common?.white }}
+              sx={{ fontWeight: '500', color: theme?.palette?.common?.white }}
             >
-              Paula Griffin
+              {activeParticipant?.firstName}&nbsp;{activeParticipant?.lastName}
             </Typography>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
               <Box sx={styles?.userStatus}></Box>

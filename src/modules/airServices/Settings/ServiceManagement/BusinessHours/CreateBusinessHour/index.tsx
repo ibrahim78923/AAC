@@ -246,19 +246,15 @@ export const CreateBusinessHour = () => {
             />
           </Box>
         </Box>
+        <Box display="flex" gap={2} justifyContent="flex-end" mt={8}>
+          <LoadingButton variant="outlined" color="secondary">
+            Cancel
+          </LoadingButton>
+          <LoadingButton variant="contained" type="submit">
+            Save
+          </LoadingButton>
+        </Box>
       </FormProvider>
-      <Box display="flex" gap={2} justifyContent="flex-end" mt={8}>
-        <LoadingButton variant="outlined" color="secondary">
-          Cancel
-        </LoadingButton>
-        <LoadingButton
-          variant="contained"
-          type="submit"
-          onClick={onSubmitRequest}
-        >
-          Save
-        </LoadingButton>
-      </Box>
     </>
   );
 };

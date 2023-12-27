@@ -70,7 +70,9 @@ export const ExistingIncident = ({ openDrawer, onClose }: any) => {
               bgcolor:
                 theme?.['palette']?.[`${chipColor(item?.status)}`]?.['lighter'],
               color:
-                theme?.['palette']?.[`${chipColor(item?.status)}`]?.['darker'],
+                item?.status === 'InProgress'
+                  ? 'common.white'
+                  : 'success.darker',
             }}
           />
         </Box>

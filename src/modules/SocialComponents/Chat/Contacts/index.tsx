@@ -11,7 +11,7 @@ import { useContacts } from './useContacts.hook';
 
 import { styles } from './Contact.style';
 
-const Contacts = () => {
+const Contacts = ({ handleManualRefetch }: any) => {
   const { handleSelection, theme, chatMode } = useContacts();
 
   return (
@@ -32,19 +32,26 @@ const Contacts = () => {
               sx={styles?.toggleButtonLeft(theme)}
               aria-label="left-aligned"
             >
-              Personal Chat
+              <Typography variant="body2" fontWeight={'400'}>
+                Personal Chat
+              </Typography>
             </ToggleButton>
             <ToggleButton
               value="groupChat"
               sx={styles?.toggleButtonRight(theme)}
               aria-label="right-aligned"
             >
-              Group chat
+              <Typography variant="body2" fontWeight={'400'}>
+                Group chat
+              </Typography>
             </ToggleButton>
           </ToggleButtonGroup>
         </Box>
       </Box>
-      <ContactList chatMode={chatMode} />
+      <ContactList
+        chatMode={chatMode}
+        handleManualRefetch={handleManualRefetch}
+      />
     </>
   );
 };

@@ -1,7 +1,7 @@
 import * as yup from 'yup';
 import { Typography } from '@mui/material';
 import { DeleteHolidayModal } from './DeleteDashboardModal';
-
+import dayjs from 'dayjs';
 export const holidaysListsData: any = [
   {
     _id: 3,
@@ -84,14 +84,14 @@ export const importHolidaysDropDown = [
 export const serviceHour = [
   {
     label: '24 hrs x days',
-    value: '24HrsXDays',
+    value: '24/7',
   },
   {
     label: 'Select working days/hours',
-    value: 'select',
+    value: 'SELECTED',
   },
 ];
-export const selectWorkingHours = 'select';
+export const selectWorkingHours = 'SELECTED';
 const defaultTimings = {
   switch: false,
   timings: [
@@ -105,7 +105,7 @@ export const businessHourDefaultValues = {
   name: '',
   description: '',
   timeZone: '',
-  serviceHour: 'select',
+  serviceHour: 'SELECTED',
   Monday: defaultTimings,
   Tuesday: defaultTimings,
   Wednesday: defaultTimings,
@@ -115,33 +115,55 @@ export const businessHourDefaultValues = {
   Sunday: defaultTimings,
 };
 
-const dayTimingsValidationSchema = yup.object().shape({
-  switch: yup.boolean(),
-  timings: yup.array().of(
-    yup.object().shape({
+const dayTimingsValidationSchema: any = yup?.object()?.shape({
+  switch: yup?.boolean(),
+  timings: yup?.array()?.of(
+    yup?.object()?.shape({
       startTime: yup
-        .string()
-        .nullable()
-        .matches(
-          /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/,
-          'Invalid start time format (HH:mm)',
+        ?.string()
+        ?.nullable()
+        ?.test(
+          'start_time_test',
+          'Start time should follow end time',
+          function (value) {
+            const { endTime } = this?.parent;
+            return isSameOrBeforeFunc(value, endTime);
+          },
         ),
       endTime: yup
-        .string()
-        .nullable()
-        .matches(
-          /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/,
-          'Invalid end time format (HH:mm)',
+        ?.string()
+        ?.nullable()
+        ?.test(
+          'end_time_test',
+          'End time must be After start time',
+          function (value) {
+            const { startTime } = this?.parent;
+            return isSameOrBeforeFunc(startTime, value);
+          },
         ),
     }),
   ),
 });
-
-export const businessHourValidationSchema = yup.object().shape({
-  name: yup.string().required('Required'),
-  description: yup.string().required('Required'),
-  timeZone: yup.string().required('Required'),
-  serviceHour: yup.string().required('Required'),
+const isSameOrBeforeFunc = (startTime: any, endTime: any) => {
+  if (startTime || endTime) {
+    const startTimeObj = dayjs?.(startTime, 'HH:mm');
+    const endTimeObj = dayjs?.(endTime, 'HH:mm');
+    return (
+      endTimeObj?.isAfter?.(startTimeObj) && !endTimeObj?.isSame?.(startTimeObj)
+    );
+  }
+  return true;
+};
+export const businessHourValidationSchema = yup?.object()?.shape({
+  name: yup
+    ?.string()
+    ?.required('Required')
+    ?.required('Required')
+    ?.min(3, 'At least 3 characters Required')
+    ?.max(20, 'Must not exceed 20 characters'),
+  description: yup?.string()?.required('Required'),
+  timeZone: yup?.string()?.required('Required'),
+  serviceHour: yup?.string()?.required('Required'),
   Monday: dayTimingsValidationSchema,
   Tuesday: dayTimingsValidationSchema,
   Wednesday: dayTimingsValidationSchema,

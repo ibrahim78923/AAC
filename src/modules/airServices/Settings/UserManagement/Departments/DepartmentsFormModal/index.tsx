@@ -54,7 +54,7 @@ export const DepartmentsFormModal = (props: any) => {
           <Grid item display={'flex'} mt={2} gap={1} justifyContent={'end'}>
             <Button
               variant="outlined"
-              color="secondary"
+              color="inherit"
               onClick={() => handleClose(false)}
             >
               Cancel
