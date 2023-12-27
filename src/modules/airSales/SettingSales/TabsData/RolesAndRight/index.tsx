@@ -3,46 +3,54 @@ import {
   Typography,
   Button,
   Grid,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  Switch,
-  Checkbox,
-  FormGroup,
-  FormControlLabel,
+  // Accordion,
+  // AccordionSummary,
+  // AccordionDetails,
+  // Switch,
+  // Checkbox,
+  // FormGroup,
+  // FormControlLabel,
   Stack,
 } from '@mui/material';
 
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+// import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+// import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
 import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
 import TanstackTable from '@/components/Table/TanstackTable';
-import CustomPagination from '@/components/CustomPagination';
+
 import { AlertModals } from '@/components/AlertModals';
 
-import { columns, dataArray, permissionArr } from './RolesRight.data';
+import {
+  columns,
+  dataArray,
+  // permissionArr
+} from './RolesRight.data';
 import useRoleAndRight from './useRoleAndRight';
-
-import { rolesAndRightTableData } from '@/mock/modules/airSales/SettingSales';
 
 import { v4 as uuidv4 } from 'uuid';
 import Search from '@/components/Search';
 import ActionButton from './ActionButton';
+import PermissionsAccordion from './PermissionsAccordion';
 
 const RolesRight = () => {
   const {
     handleCloseDrawer,
     setIsDraweropen,
     setIsOpenDelete,
+    setFilterValues,
     setCheckedRows,
-    handleChange,
+    getPermissions,
+    // handleChange,
     isDraweropen,
     isOpenDelete,
+    filterValues,
+    setPageLimit,
     checkedRows,
-    expanded,
+    // expanded,
+    setPage,
     methods,
     theme,
   } = useRoleAndRight();
@@ -84,7 +92,13 @@ const RolesRight = () => {
           gap={1}
           my={2}
         >
-          <Search placeholder="Search by Role Name" size="small" />
+          <Search
+            placeholder="Search by Role Name"
+            size="small"
+            onChange={(e: any) => {
+              setFilterValues({ ...filterValues, search: e?.target?.value });
+            }}
+          />
 
           <ActionButton
             checkedRows={checkedRows}
@@ -93,11 +107,15 @@ const RolesRight = () => {
           />
         </Stack>
         <Grid>
-          <TanstackTable columns={columnParams} data={rolesAndRightTableData} />
-          <CustomPagination
-            count={1}
-            rowsPerPageOptions={[1, 2]}
-            entriePages={1}
+          <TanstackTable
+            columns={columnParams}
+            data={getPermissions?.data?.companyaccountroles}
+            totalRecords={getPermissions?.data?.meta?.total}
+            onPageChange={(page: any) => setPage(page)}
+            setPage={setPage}
+            setPageLimit={setPageLimit}
+            count={getPermissions?.data?.meta?.pages}
+            isPagination
           />
         </Grid>
       </Box>
@@ -119,8 +137,12 @@ const RolesRight = () => {
           isDrawerOpen={isDraweropen?.isToggle}
           onClose={handleCloseDrawer}
           title={isDraweropen?.type === 'add' ? 'Add New Role' : 'User Role'}
-          okText={'Add'}
-          footer={true}
+          okText={isDraweropen?.type === 'add' ? 'Add' : 'Edit'}
+          footer={
+            isDraweropen?.type === 'add' || isDraweropen?.type === 'edit'
+              ? true
+              : false
+          }
           isOk={true}
         >
           <Box sx={{ paddingTop: '1rem' }}>
@@ -141,14 +163,19 @@ const RolesRight = () => {
               </Grid>
               <Typography
                 variant="h5"
-                sx={{ fontWeight: 700, color: `${theme?.palette?.grey[600]}` }}
+                sx={{
+                  fontWeight: 700,
+                  color: `${theme?.palette?.grey[600]}`,
+                  my: 1,
+                }}
               >
                 Permissions
                 <span style={{ color: `${theme?.palette?.error?.main}` }}>
                   *
                 </span>
               </Typography>
-              {permissionArr?.map((item) => {
+              <PermissionsAccordion permissionsData={getPermissions} />
+              {/* {permissionArr?.map((item) => {
                 return (
                   <>
                     <Grid item xs={12} key={uuidv4()}>
@@ -198,9 +225,8 @@ const RolesRight = () => {
                                     expandIcon={
                                       <ChevronRightIcon
                                         sx={{
-                                          transform: `rotate(${
-                                            expanded ? '270deg' : '0deg'
-                                          })`,
+                                          transform: `rotate(${expanded ? '270deg' : '0deg'
+                                            })`,
                                           transition: (theme) =>
                                             theme.transitions.create(
                                               'transform',
@@ -263,7 +289,7 @@ const RolesRight = () => {
                     </Grid>
                   </>
                 );
-              })}
+              })} */}
             </FormProvider>
           </Box>
         </CommonDrawer>

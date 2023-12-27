@@ -1,37 +1,80 @@
 import React from 'react';
-import { Box, InputAdornment, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Tooltip,
+  Typography,
+} from '@mui/material';
 import Search from '@/components/Search';
-import { ActivityLogsData } from '@/mock/modules/orgAdmin/ActivityLogs';
 import { v4 as uuidv4 } from 'uuid';
 import UserLists from './UserLists';
-import SearchSharedIcon from '@/assets/icons/shared/search-shared';
 import SwitchableDatepicker from '@/components/SwitchableDatepicker';
+import useActivityLog from './useActivityLog';
+import { RefreshTasksIcon } from '@/assets/icons';
 
 const ActivityLogs = () => {
+  const {
+    search,
+    setSearch,
+    dateValue,
+    setDateValue,
+    handleDateSubmit,
+    ActivityLogsData,
+    handleRefresh,
+    isLoading,
+  } = useActivityLog();
+
   return (
     <>
       <Typography variant="h3" mb={'24px'}>
         Activity Logs
       </Typography>
-      <Box display={'flex'} alignItems={'center'} gap={'24px'} mb={'24px'}>
+
+      <Box display={'flex'} alignItems={'center'} gap={'12px'}>
         <Search
+          label="What are you looking for?"
+          searchBy={search}
+          setSearchBy={setSearch}
           size="small"
-          sx={{ flex: 1 }}
-          placeholder="What are you looking for"
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchSharedIcon />
-              </InputAdornment>
-            ),
-          }}
+          width={'100%'}
         />
-        <Box>
-          <SwitchableDatepicker />
-        </Box>
+
+        <Tooltip title={'Refresh Filter'}>
+          <Button
+            variant="outlined"
+            color="inherit"
+            className="small"
+            onClick={handleRefresh}
+          >
+            <RefreshTasksIcon />
+          </Button>
+        </Tooltip>
+
+        <SwitchableDatepicker
+          dateValue={dateValue}
+          setDateValue={setDateValue}
+          handleDateSubmit={handleDateSubmit}
+          renderInput="button"
+          placement="right"
+        />
       </Box>
-      {ActivityLogsData.map((data) => (
-        <Box key={uuidv4()}>
+      {isLoading && (
+        <Box sx={{ textAlign: 'center', marginTop: '100px' }}>
+          {' '}
+          <CircularProgress />
+        </Box>
+      )}
+      {ActivityLogsData?.length === 0 && !isLoading && (
+        <Typography
+          variant="h6"
+          sx={{ textAlign: 'center', marginTop: '20px', color: 'red' }}
+        >
+          No Data{' '}
+        </Typography>
+      )}
+      {ActivityLogsData.map((data: any) => (
+        <Box key={uuidv4()} sx={{ overflowY: 'scroll', maxHeight: '65vh' }}>
           <Typography
             variant="body2"
             fontWeight={600}
@@ -40,7 +83,7 @@ const ActivityLogs = () => {
           >
             {data?.date}
           </Typography>
-          {data?.userLists?.map((user) => (
+          {data?.userLists?.map((user: any) => (
             <UserLists key={uuidv4()} {...user} />
           ))}
         </Box>

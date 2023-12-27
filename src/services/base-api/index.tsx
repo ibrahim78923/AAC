@@ -20,10 +20,13 @@ export const TAGS = [
   'TASKS',
   'ASSETS_INVENTORY',
   'MyDocuments',
+  'CLOSURE_ROLE',
   'LOCATION',
   'VENDOR_LIST',
   'PRODUCT_CATALOG',
+  'CANNED_RESPONSES',
   'DROPDOWN_ASSET_TYPE_LIST',
+  'VENDOR_DETAIL_OVERVIEW',
 ];
 
 const baseQuery = fetchBaseQuery({

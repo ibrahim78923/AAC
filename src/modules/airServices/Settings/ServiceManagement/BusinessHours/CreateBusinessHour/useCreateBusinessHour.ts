@@ -1,14 +1,19 @@
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
-import { businessHourDefaultValues } from './CreateBusinessHour.data';
+import {
+  businessHourDefaultValues,
+  businessHourValidationSchema,
+} from './CreateBusinessHour.data';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 export const useCreateBusinessHour = () => {
   const router = useRouter();
   const businessHourMethod = useForm({
     defaultValues: businessHourDefaultValues,
+    resolver: yupResolver(businessHourValidationSchema),
   });
   const { control, watch, setValue, handleSubmit }: any = businessHourMethod;
-  const onSubmitRequest = handleSubmit(() => {});
+  const onSubmitRequest = handleSubmit(async () => {});
   return {
     router,
     businessHourMethod,

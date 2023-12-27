@@ -21,7 +21,7 @@ const Admin = (props: any) => {
     products: filterValues?.products ?? '',
     // organization: filterValues?.organization ?? ''
   };
-  const { data } = useGetUsersQuery(params);
+  const { data, isSuccess, isLoading } = useGetUsersQuery(params);
   const columnsProps = {
     handleUserSwitchChange: handleUserSwitchChange,
     checkedRows: checkedRows,
@@ -39,6 +39,10 @@ const Admin = (props: any) => {
         setPageLimit={setPageLimit}
         count={data?.data?.meta?.pages}
         isPagination
+        pageLimit={data?.data?.meta?.limit}
+        totalRecords={data?.data?.meta?.total}
+        isLoading={isLoading}
+        isSuccess={isSuccess}
       />
     </>
   );

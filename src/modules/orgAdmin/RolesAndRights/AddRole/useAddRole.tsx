@@ -16,13 +16,19 @@ import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { ORG_ADMIN } from '@/constants';
 import { useSearchParams } from 'next/navigation';
+import { getSession } from '@/utils';
 
 const useAddRole = () => {
   const theme = useTheme();
   const navigate = useRouter();
   const roleId = useSearchParams().get('id');
+  const { user } = getSession();
 
-  const { useLazyGetPermissionsRolesByIdQuery } = rolesAndRightsAPI;
+  const { query } = navigate;
+
+  const { useLazyGetPermissionsRolesByIdQuery, usePostPermissionRoleMutation } =
+    rolesAndRightsAPI;
+  const [postPermissionRole] = usePostPermissionRoleMutation();
 
   const [trigger, { data: viewPerdetails }] =
     useLazyGetPermissionsRolesByIdQuery();
@@ -31,10 +37,11 @@ const useAddRole = () => {
 
   const roleDefaultValues: any = {
     productId: '',
-    companyAccountRoleId: '',
+    organizationCompanyAccountId: '',
     name: '',
     description: '',
     status: '',
+    permissions: [],
   };
 
   const methods: any = useForm<any>({
@@ -53,10 +60,11 @@ const useAddRole = () => {
     const data = viewPerdetails?.data;
     const fieldsToSet: any = {
       productId: data?.productDetails?.id,
-      companyAccountRoleId: data?.companyAccountDetails?.id,
+      organizationCompanyAccountId: data?.companyAccountDetails?.id,
       name: data?.name,
       description: data?.description,
       status: data?.status,
+      permissions: data?.permissions?.map((item: any) => item?.slug),
     };
     for (const key in fieldsToSet) {
       setValue(key, fieldsToSet[key]);
@@ -77,14 +85,30 @@ const useAddRole = () => {
   const [updateRoleRights] = useUpdateRoleRightsMutation();
 
   const onSubmit = async (values: any) => {
-    updateRoleRights({ id: roleId, body: values });
+    values.status = values.status ? 'ACTIVE' : 'INACTIVE';
+
+    if (query?.type === 'add') {
+      values.organizationId = user?.organization?._id;
+      postPermissionRole({ body: values });
+    } else {
+      updateRoleRights({ id: roleId, body: values });
+    }
+
     navigate.push({
       pathname: ORG_ADMIN?.ROLES_AND_RIGHTS,
       query: { type: 'add' },
     });
-    enqueueSnackbar('User updated successfully', {
-      variant: NOTISTACK_VARIANTS?.SUCCESS,
-    });
+
+    enqueueSnackbar(
+      `${
+        query?.type === 'add'
+          ? `Role has been Added successfully`
+          : `Information Updated successfully`
+      }`,
+      {
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
+      },
+    );
   };
 
   return {
