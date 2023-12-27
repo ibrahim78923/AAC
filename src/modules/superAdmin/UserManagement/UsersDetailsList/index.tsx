@@ -42,6 +42,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { useGetEmployeeListQuery } from '@/services/superAdmin/user-management/UserList';
 import { useGetUsersByIdQuery } from '@/services/superAdmin/user-management/users';
 import NoData from '@/components/NoData';
+import { useSearchParams } from 'next/navigation';
 
 const UsersDetailsList = () => {
   const {
@@ -75,7 +76,8 @@ const UsersDetailsList = () => {
     resetFilters,
   }: any = useUserDetailsList();
 
-  const { userName, organizationId, userId } = navigate.query;
+  const { userName, userId } = navigate.query;
+  const organizationId = useSearchParams()?.get('organizationId');
 
   const empListParams = {
     search: searchEmployee,
@@ -330,14 +332,14 @@ const UsersDetailsList = () => {
           </Grid>
         </Grid>
       </Grid>
-      {/* {isOpenAddAccountDrawer && ( */}
-      <AddAccountDrawer
-        isOpen={isOpenAddAccountDrawer}
-        setIsOpen={setIsOpenAddAccountDrawer}
-        organizationId={organizationId}
-        userId={userId}
-      />
-      {/* )} */}
+      {isOpenAddAccountDrawer && (
+        <AddAccountDrawer
+          isOpen={isOpenAddAccountDrawer}
+          setIsOpen={setIsOpenAddAccountDrawer}
+          organizationId={organizationId}
+          userId={userId}
+        />
+      )}
       {isOpenDrawer && (
         <Filter
           isOpenDrawer={isOpenDrawer}
