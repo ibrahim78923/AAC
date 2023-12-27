@@ -10,22 +10,25 @@ import useNameWithStyledWords from '@/hooks/useNameStyledWords';
 
 import { isNullOrEmpty } from '@/utils';
 
-import { NotesDataArray } from '@/mock/modules/airSales/Deals/ViewDetails';
-
 import { MessageIcon, PlusIcon } from '@/assets/icons';
 
 import { styles } from '../ViewDetails.style';
 
 import { v4 as uuidv4 } from 'uuid';
+import { NotesAvatarImage } from '@/assets/images';
+import dayjs from 'dayjs';
+import { DATE_FORMAT } from '@/constants';
 
-const Notes = () => {
+const Notes = ({ companyId }: any) => {
   const {
     openDrawer,
     setOpenDrawer,
     selectedCheckboxes,
+    setSelectedCheckboxes,
     handleCheckboxChange,
-  } = useNotes();
-  const { NameWithStyledWords, theme } = useNameWithStyledWords();
+    NotesData,
+  } = useNotes(companyId);
+  const { theme } = useNameWithStyledWords();
 
   return (
     <Box sx={styles?.horizontalTabsBox}>
@@ -33,7 +36,7 @@ const Notes = () => {
         <Grid item xs={12}>
           <Box sx={styles?.headingSpacingBetween}>
             <Typography variant="h4"> Notes</Typography>
-            {!isNullOrEmpty(NotesDataArray) && (
+            {!isNullOrEmpty(NotesData?.data?.notes) && (
               <Box
                 sx={{
                   gap: 1,
@@ -45,6 +48,7 @@ const Notes = () => {
                 <NotesActionDropdown
                   setOpenDrawer={setOpenDrawer}
                   selectedCheckboxes={selectedCheckboxes}
+                  setSelectedCheckboxes={setSelectedCheckboxes}
                 />
                 <Button
                   variant="contained"
@@ -56,7 +60,7 @@ const Notes = () => {
               </Box>
             )}
           </Box>
-          {isNullOrEmpty(NotesDataArray) && (
+          {isNullOrEmpty(NotesData?.data?.notes) && (
             <Box
               sx={{
                 height: '35vh',
@@ -71,16 +75,20 @@ const Notes = () => {
               <Typography variant="body3">
                 There are no notes available{' '}
               </Typography>
-              <Button variant="contained" sx={{ height: '35px' }}>
+              <Button
+                variant="contained"
+                className="small"
+                onClick={() => setOpenDrawer('Add')}
+              >
                 <PlusIcon /> Add Notes
               </Button>
             </Box>
           )}
         </Grid>
 
-        {!isNullOrEmpty(NotesDataArray) && (
+        {!isNullOrEmpty(NotesData?.data?.notes) && (
           <Grid item xs={12} sx={styles?.horizontalTabsInnnerBox}>
-            {NotesDataArray?.map((item) => (
+            {NotesData?.data?.notes?.map((item: any) => (
               <Grid
                 container
                 key={uuidv4()}
@@ -107,9 +115,9 @@ const Notes = () => {
                   <Checkbox
                     color="primary"
                     name={'name'}
-                    onChange={(event) => handleCheckboxChange(event, item?.id)}
+                    onChange={(event) => handleCheckboxChange(event, item?._id)}
                     checked={selectedCheckboxes?.some(
-                      (selectedItem) => selectedItem?.id === item?.id,
+                      (selectedItem) => selectedItem?.id === item?._id,
                     )}
                   />
                 </Grid>
@@ -117,25 +125,42 @@ const Notes = () => {
                   item
                   xs={6}
                   sm={2}
-                  lg={1}
+                  lg={2}
                   sx={{
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
                   }}
                 >
-                  <Image src={item?.image} alt="Avatar" />
-                </Grid>
-                <Grid item xs={12} lg={10} sm={9} sx={{ gap: 1 }}>
-                  <NameWithStyledWords
-                    name={item?.title}
-                    customKey="ActivityHead"
+                  <Image
+                    src={NotesAvatarImage}
+                    width={70}
+                    height={70}
+                    alt="Avatar"
                   />
+                </Grid>
+                <Grid item xs={12} lg={9} sm={9} sx={{ gap: 1 }}>
+                  <Typography
+                    sx={{
+                      color: theme?.palette?.primary?.main,
+                      fontSize: '18px',
+                    }}
+                  >
+                    Note
+                    <span
+                      style={{ color: 'black', textTransform: 'lowercase' }}
+                    >
+                      {' '}
+                      Created by
+                    </span>{' '}
+                    {item?.user?.name}
+                  </Typography>
                   <Typography
                     variant="body3"
                     sx={{ color: theme?.palette?.custom?.main }}
                   >
-                    {item?.date}
+                    {dayjs(item?.createdAt).format(DATE_FORMAT.UI)} -{' '}
+                    {item?.createdAt?.split('T')[1]?.substring(0, 5)}
                   </Typography>
                   <Typography variant="body2">{item?.description}</Typography>
                 </Grid>
@@ -148,6 +173,7 @@ const Notes = () => {
       <NotesEditorDrawer
         openDrawer={openDrawer}
         setOpenDrawer={setOpenDrawer}
+        companyId={companyId}
       />
     </Box>
   );

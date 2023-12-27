@@ -15,8 +15,12 @@ import {
 import { v4 as uuidv4 } from 'uuid';
 
 const NotesEditorDrawer = (props: any) => {
-  const { openDrawer, setOpenDrawer } = props;
-  const { handleSubmit, onSubmit, methodsdealsNotes } = useNotesEditorDrawer();
+  const { openDrawer, setOpenDrawer, companyId } = props;
+  const { handleSubmit, onSubmit, methodsdealsNotes } = useNotesEditorDrawer(
+    openDrawer,
+    setOpenDrawer,
+    companyId,
+  );
 
   return (
     <div>
@@ -27,12 +31,10 @@ const NotesEditorDrawer = (props: any) => {
         okText={drawerButtonTitle[openDrawer]}
         isOk={true}
         footer={openDrawer === 'View' ? false : true}
+        submitHandler={handleSubmit(onSubmit)}
       >
         <Box sx={{ pt: 2 }}>
-          <FormProvider
-            methods={methodsdealsNotes}
-            onSubmit={handleSubmit(onSubmit)}
-          >
+          <FormProvider methods={methodsdealsNotes}>
             <Grid container spacing={4}>
               {dealsNotesDataArray?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
