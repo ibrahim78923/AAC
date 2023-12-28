@@ -104,14 +104,14 @@ export const OrgAdminRoutes: MenuItemI[] = [
     permissions: [],
   },
   {
-    key: '/org-admin/user-management',
+    key: '/org-admin/users',
     icon: UserManagementImage,
     label: 'Users',
     role: 'org-admin',
     permissions: [],
   },
   {
-    key: '/org-admin/plan-management',
+    key: '/org-admin/organization-admin',
     icon: QuotesImage,
     label: 'Organization',
     role: 'org-admin',
@@ -132,7 +132,7 @@ export const OrgAdminRoutes: MenuItemI[] = [
     permissions: [],
   },
   {
-    key: '/org-admin/role-and-rights',
+    key: '/org-admin/roles-and-rights',
     icon: ForecastImage,
     label: 'Role and Rights',
     role: 'org-admin',

@@ -27,12 +27,10 @@ const TaskEditorDrawer = (props: any) => {
         okText={drawerButtonTitle[openDrawer]}
         isOk={true}
         footer={openDrawer === 'View' ? false : true}
+        submitHandler={handleSubmit(onSubmit)}
       >
         <Box sx={{ pt: 2 }}>
-          <FormProvider
-            methods={methodsdealsTasks}
-            onSubmit={handleSubmit(onSubmit)}
-          >
+          <FormProvider methods={methodsdealsTasks}>
             <Grid container spacing={4}>
               {dealsTasksDataArray?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>

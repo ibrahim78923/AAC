@@ -31,7 +31,7 @@ export const dataArray = [
   },
   {
     componentProps: {
-      label: 'PhoneNo',
+      label: 'Phone No',
       placeholder: 'Enter Number',
       name: 'phoneNo',
       fullWidth: true,

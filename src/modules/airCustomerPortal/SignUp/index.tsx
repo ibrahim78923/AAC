@@ -69,8 +69,8 @@ export const SignUp = () => {
                 </item.component>
               </Grid>
             ))}
-            <Box mt={2} >
-              <LoadingButton variant="contained" fullWidth type="submit" >
+            <Box mt={2}>
+              <LoadingButton variant="contained" fullWidth type="submit">
                 Next
               </LoadingButton>
             </Box>

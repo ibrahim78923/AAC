@@ -5,6 +5,7 @@ import {
   Typography,
   useTheme,
   Checkbox,
+  Tooltip,
 } from '@mui/material';
 import RHFSelect from '@/components/ReactHookForm/RHFSelect';
 import RHFDatePicker from '@/components/ReactHookForm/RHFDatePicker';
@@ -16,7 +17,6 @@ import dayjs from 'dayjs';
 import * as Yup from 'yup';
 import { v4 as uuidv4 } from 'uuid';
 import { DATE_FORMAT } from '@/constants';
-import { IMG_URL } from '@/config';
 
 export const columns: any = (columnsProps: any) => {
   const { handleUserSwitchChange, checkedRows, setCheckedRows } = columnsProps;
@@ -94,16 +94,19 @@ export const columns: any = (columnsProps: any) => {
       cell: (info: any) =>
         info?.row?.original?.products?.length ? (
           <AvatarGroup max={4} sx={style?.avatarStyle(theme)}>
-            {info?.row?.original?.products?.map((item: any) => (
-              <Avatar
-                key={uuidv4()}
-                variant="square"
-                alt="product-avatar"
-                src={`${IMG_URL}${item?.logo?.url}`}
-              >
-                {/* {item?.name?.charAt(0, 1)} */}
+            <Tooltip
+              placement="right"
+              title={info?.row?.original?.products?.map((item: any) => (
+                <Typography variant="body3" component="p" key={uuidv4()}>
+                  {item?.name}
+                </Typography>
+              ))}
+              arrow
+            >
+              <Avatar key={uuidv4()} variant="square" alt="product-avatar">
+                {info?.row?.original?.products?.length}
               </Avatar>
-            ))}
+            </Tooltip>
           </AvatarGroup>
         ) : (
           'N/A'

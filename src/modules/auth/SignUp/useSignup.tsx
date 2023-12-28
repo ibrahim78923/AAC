@@ -19,6 +19,8 @@ const useSignup = () => {
 
   const { handleSubmit, watch, setValue } = methodsSignup;
 
+  // const watchField=watch(['firstName', 'lastName', 'email', 'crn',])
+
   const organizationNumber = watch('crn');
   const email = watch('email');
 
