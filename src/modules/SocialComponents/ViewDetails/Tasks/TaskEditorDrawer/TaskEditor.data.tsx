@@ -8,9 +8,9 @@ import {
 import * as Yup from 'yup';
 
 export const dealsTasksValidationSchema = Yup?.object()?.shape({
-  taskname: Yup?.string()?.trim()?.required('Field is Required'),
-  Description: Yup?.string()?.trim()?.required('Field is Required'),
-  tasktype: Yup?.string()?.trim()?.required('Field is Required'),
+  name: Yup?.string()?.trim()?.required('Field is Required'),
+  note: Yup?.string()?.trim()?.required('Field is Required'),
+  type: Yup?.string()?.trim()?.required('Field is Required'),
   dueDate: Yup?.string()?.trim()?.required('Field is Required'),
   createTime: Yup?.string()?.trim()?.required('Field is Required'),
   assignedto: Yup?.string()?.trim()?.required('Field is Required'),
@@ -19,9 +19,9 @@ export const dealsTasksValidationSchema = Yup?.object()?.shape({
 });
 
 export const dealsTasksDefaultValues = {
-  taskname: '',
-  Description: '',
-  tasktype: '',
+  name: '',
+  note: '',
+  type: '',
   dueDate: '',
   createTime: '',
   assignedto: '',
@@ -32,7 +32,7 @@ export const dealsTasksDefaultValues = {
 export const dealsTasksDataArray = [
   {
     componentProps: {
-      name: 'taskname',
+      name: 'name',
       label: 'Title',
       fullWidth: true,
       required: true,
@@ -43,7 +43,7 @@ export const dealsTasksDataArray = [
   },
   {
     componentProps: {
-      name: 'Description',
+      name: 'note',
       label: 'Description',
       fullWidth: true,
     },
@@ -52,7 +52,7 @@ export const dealsTasksDataArray = [
   },
   {
     componentProps: {
-      name: 'tasktype',
+      name: 'type',
       label: 'Task Type',
       select: true,
       required: true,
@@ -61,6 +61,7 @@ export const dealsTasksDataArray = [
       { value: 'To-do', label: 'To-do' },
       { value: 'Follow-up', label: 'Follow-up' },
       { value: 'Call reminder', label: 'Call reminder' },
+      { value: 'Email', label: 'Email' },
     ],
     component: RHFSelect,
     md: 12,
