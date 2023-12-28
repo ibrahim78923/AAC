@@ -14,7 +14,6 @@ export const cannedResponsesAPI = baseAPI?.injectEndpoints({
       }),
       providesTags: [TAG],
     }),
-
     postCannedResponses: builder?.mutation({
       query: (apiDataParameter: any) => ({
         url: `${END_POINTS?.ADD_CANNED_RESPONSES}`,
@@ -45,7 +44,7 @@ export const cannedResponsesAPI = baseAPI?.injectEndpoints({
         method: 'PATCH',
         body: patchResponseParameter?.body,
       }),
-      invalidatesTags: [TAG],
+      invalidatesTags: [TAG1],
     }),
   }),
 });

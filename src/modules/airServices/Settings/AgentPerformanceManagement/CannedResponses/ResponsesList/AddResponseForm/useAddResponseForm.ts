@@ -53,15 +53,12 @@ export const useAddResponseForm = (props: any) => {
 
     try {
       const response = await postResponseTrigger(responseParameter)?.unwrap();
-      enqueueSnackbar(
-        response?.data?.message ?? 'Response Added Successfully',
-        {
-          variant: NOTISTACK_VARIANTS?.SUCCESS,
-        },
-      );
+      enqueueSnackbar(response?.message ?? 'Response Added Successfully', {
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
+      });
       closeDrawer();
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message ?? 'Something went wrong', {
+      enqueueSnackbar(error?.data?.message?.[0] ?? 'Something went wrong', {
         variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }
@@ -72,15 +69,12 @@ export const useAddResponseForm = (props: any) => {
     };
     try {
       const response = await patchResponseTrigger(responseParameter)?.unwrap();
-      enqueueSnackbar(
-        response?.data?.message ?? 'Response Updated Successfully!',
-        {
-          variant: NOTISTACK_VARIANTS?.SUCCESS,
-        },
-      );
+      enqueueSnackbar(response?.message ?? 'Response Updated Successfully!', {
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
+      });
       closeDrawer();
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message ?? 'Something went wrong', {
+      enqueueSnackbar(error?.data?.message?.[0] ?? 'Something went wrong', {
         variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }
