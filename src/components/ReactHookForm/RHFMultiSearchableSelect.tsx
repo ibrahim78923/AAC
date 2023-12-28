@@ -9,6 +9,7 @@ import {
   Checkbox,
   Typography,
   Button,
+  useTheme,
 } from '@mui/material';
 import Search from '../Search';
 
@@ -33,6 +34,7 @@ export default function RHFMultiSearchableSelect({
 }: any) {
   const { control } = useFormContext();
   const [searchTerm, setSearchTerm] = useState('');
+  const theme = useTheme();
 
   const [isSelectAll, setIsSelectAll] = useState<any>();
 
@@ -41,7 +43,7 @@ export default function RHFMultiSearchableSelect({
   const open = Boolean(anchorEl);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
+    setAnchorEl(event?.currentTarget);
   };
 
   const handleClose = () => {
@@ -55,26 +57,27 @@ export default function RHFMultiSearchableSelect({
   const handelSelectAll = (field: any) => {
     if (isSelectAll) {
       setSelectedValues([]);
-      field.onChange([]);
+      field?.onChange([]);
     } else {
-      setSelectedValues(options.map((option: any) => option.value));
-      field.onChange(options.map((option: any) => option.value));
+      setSelectedValues(options?.map((option: any) => option?.value));
+      field?.onChange(options?.map((option: any) => option?.value));
     }
     setIsSelectAll(!isSelectAll);
   };
 
   const handleOptionSelect = (value: string, field: any) => {
-    if (!selectedValues.includes(value)) {
+    if (!selectedValues?.includes(value)) {
       setSelectedValues([...selectedValues, value]);
-      field.onChange([...selectedValues, value]);
+      field?.onChange([...selectedValues, value]);
     } else {
-      setSelectedValues(selectedValues.filter((val) => val !== value));
-      field.onChange(selectedValues.filter((val) => val !== value));
+      setSelectedValues(selectedValues?.filter((val) => val !== value));
+      field?.onChange(selectedValues?.filter((val) => val !== value));
     }
   };
 
-  const filteredOptions = options?.filter((option: any) =>
-    option.label.toLowerCase().includes(searchTerm.toLowerCase()),
+  const filteredOptions = options?.filter(
+    (option: any) =>
+      option?.label?.toLowerCase()?.includes(searchTerm?.toLowerCase()),
   );
 
   const searchHandler = isSearch === false ? false : true;
@@ -82,16 +85,17 @@ export default function RHFMultiSearchableSelect({
 
   const getSelectedLabels = () => {
     return selectedValues
-      .map(
-        (value) => options.find((option: any) => option.value === value)?.label,
+      ?.map(
+        (value) =>
+          options?.find((option: any) => option?.value === value)?.label,
       )
-      .filter((label) => label !== undefined);
+      ?.filter((label) => label !== undefined);
   };
 
   const inputRef = useRef(null);
   useEffect(() => {
     if (defaultOpen) {
-      setAnchorEl(inputRef.current);
+      setAnchorEl(inputRef?.current);
     }
   }, [defaultOpen]);
 
@@ -108,7 +112,7 @@ export default function RHFMultiSearchableSelect({
             error={!!error}
             helperText={error?.message}
             {...other}
-            value={getSelectedLabels().join(', ')}
+            value={getSelectedLabels()?.join(', ')}
             onClick={handleClick}
             size={size}
             InputProps={{
@@ -119,6 +123,7 @@ export default function RHFMultiSearchableSelect({
                 </InputAdornment>
               ),
             }}
+            sx={{ height: '40px' }}
           />
           <Menu
             id="basic-menu"
@@ -130,7 +135,7 @@ export default function RHFMultiSearchableSelect({
             }}
             PaperProps={{
               style: {
-                width: anchorEl ? anchorEl.clientWidth : 'auto',
+                width: anchorEl ? anchorEl?.clientWidth : 'auto',
                 padding: '10px',
               },
             }}
@@ -143,7 +148,6 @@ export default function RHFMultiSearchableSelect({
                   label="Search By Name"
                   fullWidth
                   size="small"
-                  sx={{ marginBottom: '15px' }}
                 />
               )}
               {isAllSelectHandler && (
@@ -156,68 +160,74 @@ export default function RHFMultiSearchableSelect({
                     marginBottom: '10px',
                     gap: '5px',
                     borderRadius: '5px',
+                    overflow: 'scroll',
+                    maxHeight: '200px',
                   }}
                 >
                   <Checkbox
                     onChange={() => handelSelectAll(field)}
                     checked={
-                      selectedValues.length === options.length ? true : false
+                      selectedValues?.length === options?.length ? true : false
                     }
                   />
                   <Typography variant="body1">All</Typography>
                 </Box>
               )}
-              {filteredOptions &&
-                filteredOptions.map((option: any) => (
-                  <Box
-                    key={option.value}
-                    onClick={() => {
-                      {
-                        isCheckBox
-                          ? null
-                          : handleOptionSelect(option.value, field);
-                      }
-                    }}
-                    sx={{
-                      width: '100%',
-                      height: '30px',
-                      padding: '5px 10px',
-                      display: 'flex',
-                      marginBottom: '10px',
-                      gap: '5px',
-                      borderRadius: '5px',
-                      backgroundColor: isCheckBox
-                        ? 'transparent'
-                        : selectedValues.includes(option.value)
-                        ? '#e0e0e0'
-                        : 'transparent',
-                      '&:hover': {
-                        backgroundColor: '#e0e0e0',
-                      },
-                    }}
-                  >
-                    {option.image && (
-                      <Image
-                        width={24}
-                        height={24}
-                        alt="user"
-                        src={option.image}
-                      />
-                    )}
-                    {isCheckBox && (
-                      <Checkbox
-                        onClick={() => {
-                          handleOptionSelect(option.value, field);
-                        }}
-                        checked={
-                          selectedValues.includes(option.value) ? true : false
+              <Box sx={{ overflow: 'scroll', maxHeight: '200px' }}>
+                {filteredOptions &&
+                  filteredOptions?.map((option: any) => (
+                    <Box
+                      key={option?.value}
+                      onClick={() => {
+                        {
+                          isCheckBox
+                            ? null
+                            : handleOptionSelect(option?.value, field);
                         }
-                      />
-                    )}
-                    <Typography variant="body1">{option.label}</Typography>
-                  </Box>
-                ))}
-
+                      }}
+                      sx={{
+                        width: '100%',
+                        height: '30px',
+                        padding: '5px 10px',
+                        display: 'flex',
+                        marginBottom: '10px',
+                        marginTop: '10px',
+                        gap: '5px',
+                        borderRadius: '5px',
+                        backgroundColor: isCheckBox
+                          ? 'transparent'
+                          : selectedValues?.includes(option?.value)
+                          ? theme?.palette?.custom?.hex_grey
+                          : 'transparent',
+                        '&:hover': {
+                          backgroundColor: theme?.palette?.custom?.hex_grey,
+                        },
+                      }}
+                    >
+                      {option?.image && (
+                        <Image
+                          width={24}
+                          height={24}
+                          alt="user"
+                          src={option?.image}
+                        />
+                      )}
+                      {isCheckBox && (
+                        <Checkbox
+                          onClick={() => {
+                            handleOptionSelect(option?.value, field);
+                          }}
+                          checked={
+                            selectedValues?.includes(option?.value)
+                              ? true
+                              : false
+                          }
+                        />
+                      )}
+                      <Typography variant="body1">{option?.label}</Typography>
+                    </Box>
+                  ))}
+              </Box>
               {isFooter && (
                 <Button
                   variant="contained"

@@ -27,7 +27,7 @@ export const defaultValues = {
   email: '',
   crn: '',
   products: [],
-  enableEmployeeVerification: '',
+  enableEmployeeVerification: false,
   organizationName: '',
   numberOfEmployees: '',
   phoneNumber: '',

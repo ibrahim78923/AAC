@@ -12,6 +12,10 @@ export const CALENDAR_FORMAT = {
   API: 'YYYY MMMM D',
 };
 
+export const DATE_TIME_FORMAT = {
+  UI: 'dddd, MMMM D, YYYY - HH:mm',
+};
+
 export const SUPER_ADMIN: any = {
   USERMANAGMENT: '/super-admin/user-management',
   ADDROLE: '/super-admin/user-management/add-role',
@@ -134,5 +138,6 @@ export const AIR_LOYALTY_PROGRAM = {
   VOUCHER_REDEMPTION_LIST: `/air-loyalty-program/loyalty/vouchers/voucher-redemptions-list`,
 };
 export const SOCIAL_COMPONENTS = {
+  COMPANIES: `/social-components/companies`,
   VIEW_COMPANY_DETAILS: '/social-components/companies/view-details',
 };

@@ -66,10 +66,14 @@ export const END_POINTS = {
   EDIT_NEW_VENDOR: '/vendors/update-vendor',
   DELETE_NEW_VENDOR: '/vendors/delete-vendor',
   VENDOR: '/vendors/get-vendor',
+  CALLS: '/calls',
+  DEALS_LIST_VIEW: '/deals/get-deals-list-view',
   POST_CLOSURE_ROLE: '/Closure-Rules/add-closure-rules',
   GET_BUSINESS_HOUR: `/business-hour/list`,
   DELETE_BUSINESS_HOUR: `/business-hour/delete-business-hour`,
   COMPANY: `/companies`,
+  DELETED_COMPANIES: '/companies/deleted',
+  COMPANY_PREVIEW: '/companies/get-company-preview',
   DROPDOWN_ACCOUNTS_ROLE: '/dropdown/company-accounts-roles',
 };
 

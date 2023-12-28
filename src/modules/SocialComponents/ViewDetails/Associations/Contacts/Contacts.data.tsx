@@ -16,6 +16,16 @@ export const columns: any = ({
     {
       accessorFn: (row: any) => row?.taskno,
       id: 'contact_id',
+      cell: (info: any) => <Box>{info?.row?.original?.taskno}</Box>,
+      header: 'Contact ID',
+      isSortable: false,
+    },
+
+    {
+      accessorFn: (row: any) => row?.taskname,
+      id: 'Name',
+      isSortable: true,
+      header: ' Name',
       cell: (info: any) => (
         <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
           <Image src={NotesAvatarImage} width={40} height={40} alt="avatar" />
@@ -30,16 +40,6 @@ export const columns: any = ({
           </Box>
         </Box>
       ),
-      header: 'Contact ID',
-      isSortable: false,
-    },
-
-    {
-      accessorFn: (row: any) => row?.taskname,
-      id: 'Name',
-      isSortable: true,
-      header: ' Name',
-      cell: (info: any) => info?.getValue(),
     },
 
     {

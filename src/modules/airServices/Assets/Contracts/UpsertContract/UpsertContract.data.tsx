@@ -208,7 +208,7 @@ export const upsertContractFormSchemaFunction: any = Yup?.object()?.shape({
     ?.ensure()
     ?.when('type', {
       is: (value: any) => value === CONTRACT_TYPES?.SOFTWARE_LICENSE,
-      then: (schema: any) => schema?.required(),
+      then: (schema: any) => schema?.required('Required'),
       otherwise: (schema) => schema?.notRequired(),
     }),
   //TODO: will be cater in integration
@@ -249,10 +249,14 @@ export const upsertContractFormSchemaFunction: any = Yup?.object()?.shape({
         return Yup?.array()
           ?.of(
             Yup?.object()?.shape({
-              serviceName: Yup?.string()?.required('service name is required'),
-              priceModel: Yup?.string()?.required('Price model is required'),
-              cost: Yup?.number()?.positive()?.typeError('Not a number'),
-              count: Yup?.number()?.positive()?.typeError('Not a number'),
+              serviceName: Yup?.string()?.required('Required'),
+              priceModel: Yup?.string()?.required('Required'),
+              cost: Yup?.number()
+                ?.positive('Greater than zero')
+                ?.typeError('Not a number'),
+              count: Yup?.number()
+                ?.positive('Greater than zero')
+                ?.typeError('Not a number'),
               comments: Yup?.string(),
             }),
           )

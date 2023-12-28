@@ -1,12 +1,20 @@
 import { useState } from 'react';
 
 import { useTheme } from '@mui/material';
+import { useDeleteDealNoteMutation } from '@/services/airSales/deals/view-details/note';
+import { enqueueSnackbar } from 'notistack';
 
-const useNotesActionDropdown = ({ setOpenDrawer }: any) => {
+const useNotesActionDropdown = ({
+  setOpenDrawer,
+  selectedCheckboxes,
+  setSelectedCheckboxes,
+}: any) => {
   const theme = useTheme();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [isOpenAlertModal, setIsOpenAlertModal] = useState(false);
   const isMenuOpen = Boolean(anchorEl);
+  const [deleteDealNote] = useDeleteDealNoteMutation();
+
   const handleOpenMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -26,8 +34,25 @@ const useNotesActionDropdown = ({ setOpenDrawer }: any) => {
   const handleOpenDeleteAlert = () => {
     setIsOpenAlertModal(true);
   };
+
+  const selectedCheckboxesIds = selectedCheckboxes?.map(
+    (checked: any) => checked?.id,
+  );
+
   const handleCloseAlert = () => {
     setIsOpenAlertModal(false);
+  };
+
+  const handleDeleteHandler = async () => {
+    try {
+      await deleteDealNote({ id: selectedCheckboxesIds })?.unwrap();
+      enqueueSnackbar(`Notes Deleted Successfully`, { variant: 'success' });
+      handleCloseAlert();
+      setSelectedCheckboxes([]);
+    } catch (error) {
+      const errMsg = error?.data?.message;
+      enqueueSnackbar(errMsg ?? 'Error occurred', { variant: 'error' });
+    }
   };
 
   return {
@@ -41,6 +66,7 @@ const useNotesActionDropdown = ({ setOpenDrawer }: any) => {
     handleCloseAlert,
     handleOpenEditDrawer,
     handleOpenViewDrawer,
+    handleDeleteHandler,
   };
 };
 

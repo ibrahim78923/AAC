@@ -11,44 +11,29 @@ import {
   useTheme,
 } from '@mui/material';
 
-import Search from '@/components/Search';
-import { AlertModals } from '@/components/AlertModals';
-
 import { callingData } from '@/mock/modules/SocialComponents/Calling';
-import { columns } from './CallingMain.data';
-
 import useCallingMain from './useCallingMain';
 
 import { DownIcon, MobileIcon, PlusIcon } from '@/assets/icons';
-import ScheduleCallDrawer from './ScheduleCallDrawer';
-import TanstackTable from '@/components/Table/TanstackTable';
+import HorizontalTabs from '@/components/Tabs/HorizontalTabs';
+import ScheduleCalls from './ScheduleCalls';
+import ScheduleEditorDrawer from './ScheduleCallDrawer';
+
+const CallsTabsData = ['Calls', 'Schedule Calls'];
 
 const CallingMain = ({ setAddaNumber }: any) => {
   const {
-    callingSearch,
-    setCallingSearch,
     openDrawer,
     setOpenDrawer,
     anchorElCallNow,
-
     handleClickCallNow,
     handleCloseCallNow,
-
     anchorElScheduleCall,
     handleClickScheduleCall,
     handleCloseScheduleCall,
     setAnchorElScheduleCall,
-
-    anchorElAction,
-    actionMenuOpenAction,
-    handleClickAction,
-    handleCloseAction,
-
-    setIsDeleteModalOpen,
-    isDeleteModalOpen,
   } = useCallingMain();
 
-  const getColumns = columns();
   const theme = useTheme();
   return (
     <Box
@@ -139,79 +124,16 @@ const CallingMain = ({ setAddaNumber }: any) => {
             )}
           </Box>
         </Box>
-        <Box
-          mt={2}
-          mb={3}
-          sx={{
-            display: 'flex',
-            flexDirection: { xs: 'column', md: 'row' },
-            gap: '10px',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-          }}
-        >
-          <Search
-            label={'Search here'}
-            searchBy={callingSearch}
-            setSearchBy={setCallingSearch}
-            size="small"
-          />
-
-          <Button
-            id="basic-button"
-            aria-controls={actionMenuOpenAction ? 'basic-menu' : undefined}
-            aria-haspopup="true"
-            aria-expanded={actionMenuOpenAction ? 'true' : undefined}
-            onClick={handleClickAction}
-            variant="outlined"
-            color="inherit"
-            sx={{
-              '@media(max-width: 500px)': {
-                width: '100%',
-              },
-            }}
-          >
-            Actions &nbsp; <DownIcon />
-          </Button>
-          <Menu
-            id="basic-menu"
-            anchorEl={anchorElAction}
-            open={actionMenuOpenAction}
-            onClose={handleCloseAction}
-            MenuListProps={{
-              'aria-labelledby': 'basic-button',
-            }}
-          >
-            <MenuItem
-              onClick={() => {
-                setOpenDrawer('Edit'), handleCloseAction;
-              }}
-            >
-              Edit
-            </MenuItem>
-            <MenuItem
-              onClick={() => {
-                setIsDeleteModalOpen(true), handleCloseAction;
-              }}
-            >
-              Delete
-            </MenuItem>
-          </Menu>
-        </Box>
       </Box>
-      <TanstackTable columns={getColumns} data={callingData} isPagination />
 
-      <ScheduleCallDrawer
+      <HorizontalTabs tabsDataArray={CallsTabsData}>
+        <ScheduleCalls />
+        <ScheduleCalls />
+      </HorizontalTabs>
+
+      <ScheduleEditorDrawer
         openDrawer={openDrawer}
         setOpenDrawer={setOpenDrawer}
-      />
-
-      <AlertModals
-        message={'Are you sure you want to delete this entry ?'}
-        type="delete"
-        open={isDeleteModalOpen}
-        handleClose={() => setIsDeleteModalOpen(false)}
-        handleSubmit={() => setIsDeleteModalOpen(false)}
       />
     </Box>
   );

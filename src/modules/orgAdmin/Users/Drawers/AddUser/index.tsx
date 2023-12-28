@@ -1,4 +1,4 @@
-import { Grid, Typography } from '@mui/material';
+import { Grid, Typography, useTheme } from '@mui/material';
 
 import { FormProvider } from '@/components/ReactHookForm';
 
@@ -12,6 +12,7 @@ const AddUser = ({ isOpenDrawer, onClose, setIsOpenAdduserDrawer }: any) => {
   const { handleSubmit, onSubmit, methods } = useAddUsers(
     setIsOpenAdduserDrawer,
   );
+  const theme = useTheme();
 
   return (
     <CommonDrawer
@@ -24,7 +25,11 @@ const AddUser = ({ isOpenDrawer, onClose, setIsOpenAdduserDrawer }: any) => {
       footer
     >
       <FormProvider methods={methods}>
-        <Typography variant={'subtitle2'}>
+        <Typography
+          variant="body3"
+          fontWeight={500}
+          color={theme?.palette?.custom?.main}
+        >
           Add a new user to this organization.
         </Typography>
         <Grid container spacing={1}>

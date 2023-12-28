@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Box, Grid } from '@mui/material';
 
 import CommonDrawer from '@/components/CommonDrawer';
@@ -12,23 +10,26 @@ import {
   RHFSelect,
 } from '@/components/ReactHookForm';
 
-import useCallsEditorDrawer from './useCallsEditorDrawer';
+import { avatarGroupMockData } from '@/modules/superAdmin/PlanManagement/PlanManagement.data';
+
+import { v4 as uuidv4 } from 'uuid';
 import {
   dealsCallsDataArray,
   drawerButtonTitle,
   drawerTitle,
-  options,
 } from './ScheduleCallDrawer.data';
+import { options } from '@/modules/airSales/Contacts/ViewDetails/Emails/EmailEditorDrawer/EmailEditorDrawer.data';
+import useScheduleEditorDrawer from './useScheduleEditorDrawer';
 
-import { avatarGroupMockData } from '@/modules/superAdmin/PlanManagement/PlanManagement.data';
-
-import { AttendeeAvatarImage } from '@/assets/images';
-
-import { v4 as uuidv4 } from 'uuid';
-
-const ScheduleCallDrawer = (props: any) => {
+const ScheduleEditorDrawer = (props: any) => {
   const { openDrawer, setOpenDrawer } = props;
-  const { handleSubmit, onSubmit, methodsdealsCalls } = useCallsEditorDrawer();
+  const {
+    handleSubmit,
+    onSubmit,
+    methodsdealsCalls,
+    EmployeeData,
+    DealsListData,
+  } = useScheduleEditorDrawer();
 
   return (
     <div>
@@ -38,16 +39,16 @@ const ScheduleCallDrawer = (props: any) => {
         title={drawerTitle[openDrawer]}
         okText={drawerButtonTitle[openDrawer]}
         isOk={true}
-        footer={true}
         submitHandler={handleSubmit(onSubmit)}
+        footer={openDrawer === 'View' ? false : true}
       >
         <Box sx={{ pt: 2 }}>
           <FormProvider
             methods={methodsdealsCalls}
             onSubmit={handleSubmit(onSubmit)}
           >
-            <Grid container spacing={5}>
-              {dealsCallsDataArray?.map((item: any) => (
+            <Grid container spacing={2}>
+              {dealsCallsDataArray(DealsListData)?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
                   <item.component {...item.componentProps} size={'small'}>
                     {item?.componentProps?.select
@@ -65,31 +66,18 @@ const ScheduleCallDrawer = (props: any) => {
                 <RHFMultiSearchableSelect
                   size="small"
                   label="Attendees"
-                  name="attendee"
-                  options={[
-                    {
-                      value: 'Guy Hawkins',
-                      label: 'Guy Hawkins',
-                      image: AttendeeAvatarImage,
-                    },
-                    {
-                      value: 'Jacob Jones',
-                      label: 'Jacob Jones',
-                      image: AttendeeAvatarImage,
-                    },
-                    {
-                      value: 'Courtney Henry',
-                      label: 'Courtney Henry',
-                      image: AttendeeAvatarImage,
-                    },
-                  ]}
+                  name="attendees"
+                  options={EmployeeData}
+                  placeholder="Select Option"
                 />
               </Grid>
               <Grid item xs={12} md={4}>
-                <AppAvatarGroup data={avatarGroupMockData} />
+                <Box sx={{ pt: 2.6 }}>
+                  <AppAvatarGroup data={avatarGroupMockData} />
+                </Box>
               </Grid>
               <Grid item xs={12}>
-                <RHFSelect name="outcome" label="Outcome" size="small">
+                <RHFSelect name="outcome" label="Outcomes" size="small">
                   {options?.map((option: any) => (
                     <option key={uuidv4()} value={option?.value}>
                       {option?.label}
@@ -98,10 +86,7 @@ const ScheduleCallDrawer = (props: any) => {
                 </RHFSelect>
               </Grid>
               <Grid item xs={12}>
-                <RHFEditor label="Outcome" name="outcomeText" />
-              </Grid>
-              <Grid item xs={12}>
-                <RHFEditor label="Call Notes" name="callNotes" />
+                <RHFEditor label="Calling Notes" name="callNotes" />
               </Grid>
             </Grid>
           </FormProvider>
@@ -111,4 +96,4 @@ const ScheduleCallDrawer = (props: any) => {
   );
 };
 
-export default ScheduleCallDrawer;
+export default ScheduleEditorDrawer;
