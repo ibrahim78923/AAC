@@ -17,7 +17,7 @@ export const TransactionsHeader = () => {
       <Typography variant="h4" color={theme?.palette?.slateBlue?.main}>
         Transactions
       </Typography>
-      <Box display={'flex'} flexWrap={'wrap'} gap={1} mt={{ xs: 2, sm: 0 }}>
+      <Box display={'flex'} gap={1} mt={{ xs: 2, sm: 0 }}>
         <Button
           variant="outlined"
           color="inherit"
