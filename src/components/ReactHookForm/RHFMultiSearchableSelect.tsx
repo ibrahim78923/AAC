@@ -29,6 +29,7 @@ export default function RHFMultiSearchableSelect({
   footerActionHandler,
   setIsDropdownClose,
   label,
+  size,
   ...other
 }: any) {
   const { control } = useFormContext();
@@ -113,6 +114,7 @@ export default function RHFMultiSearchableSelect({
             {...other}
             value={getSelectedLabels()?.join(', ')}
             onClick={handleClick}
+            size={size}
             InputProps={{
               inputRef: inputRef,
               endAdornment: (

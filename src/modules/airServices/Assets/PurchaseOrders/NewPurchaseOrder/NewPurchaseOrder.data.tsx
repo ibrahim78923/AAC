@@ -60,7 +60,10 @@ const ticketsTypeOptions = [
 // form validation schema
 export const validationSchema: any = yup?.object()?.shape({
   orderName: yup?.string()?.required('Required'),
-  orderNumber: yup?.number()?.required('Required'),
+  orderNumber: yup
+    ?.number()
+    ?.typeError('Must be a Number')
+    ?.required('Required'),
   vendor: yup?.string()?.required('Required'),
   currency: yup?.string()?.required('Required'),
   department: yup?.string(),
@@ -71,7 +74,7 @@ export const validationSchema: any = yup?.object()?.shape({
 
 export const defaultValues = {
   orderName: '',
-  orderNumber: '',
+  orderNumber: 0,
   vendor: '',
   currency: '',
   department: '',
@@ -153,6 +156,7 @@ export const newPurchaseFieldsFunction = (
     gridLength: 6,
     componentProps: {
       fullWidth: true,
+      required: true,
       name: 'deliverDate',
       label: 'Expected delivery date',
     },

@@ -1,29 +1,25 @@
-import React from 'react';
-import {
-  Box,
-  FormControl,
-  Grid,
-  InputLabel,
-  MenuItem,
-  Select,
-  Theme,
-  Typography,
-  useTheme,
-} from '@mui/material';
+import { Box, Grid, Theme, Typography, useTheme } from '@mui/material';
 
 import { AlertModals } from '@/components/AlertModals';
 
 import { MergeCompaniesIcon } from '@/assets/icons';
 import { CompanyLogoImage } from '@/assets/images';
 import Image from 'next/image';
+import { FormProvider, RHFSelect } from '@/components/ReactHookForm';
+import { useForm } from 'react-hook-form';
+import { v4 as uuidv4 } from 'uuid';
 
 const MergeModal = ({ isMerge, setIsMerge }: any) => {
   const theme = useTheme<Theme>();
-  const [age, setAge] = React.useState('');
+  const methods = useForm();
 
-  const handleChange = (event: any) => {
-    setAge(event.target.value);
-  };
+  const optionsArray = [
+    { value: 'All Industries', label: 'All Industries' },
+    { value: 'Computer Software', label: 'Computer Software' },
+    { value: 'Construction', label: 'Construction' },
+    { value: 'Electronics', label: 'Electronics' },
+  ];
+
   return (
     <AlertModals
       typeImage={<MergeCompaniesIcon />}
@@ -61,21 +57,15 @@ const MergeModal = ({ isMerge, setIsMerge }: any) => {
               </Box>
             </Grid>
             <Grid item lg={6}>
-              <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">
-                  Select Company
-                </InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={age}
-                  label="Deals Owner"
-                  onChange={handleChange}
-                >
-                  <MenuItem value={10}>OneCare Media (ocm.com)</MenuItem>
-                  <MenuItem value={20}>Udemy (udemy.com)</MenuItem>
-                </Select>
-              </FormControl>
+              <FormProvider methods={methods}>
+                <RHFSelect name="mergeCompanies" select={true} size="small">
+                  {optionsArray?.map((item: any) => (
+                    <option key={uuidv4()} value={item?.value}>
+                      {item?.label}
+                    </option>
+                  ))}
+                </RHFSelect>
+              </FormProvider>
             </Grid>
           </Grid>
         </Box>
@@ -83,7 +73,7 @@ const MergeModal = ({ isMerge, setIsMerge }: any) => {
       type="Merge Companies"
       open={isMerge}
       cancelBtnText="Cancel"
-      submitBtnText="Update"
+      submitBtnText="Merge"
       handleClose={() => setIsMerge(false)}
       handleSubmit={function (): void {
         throw new Error('Function not implemented.');

@@ -5,6 +5,7 @@ import {
   Typography,
   useTheme,
   Checkbox,
+  Tooltip,
 } from '@mui/material';
 import RHFSelect from '@/components/ReactHookForm/RHFSelect';
 import RHFDatePicker from '@/components/ReactHookForm/RHFDatePicker';
@@ -93,16 +94,19 @@ export const columns: any = (columnsProps: any) => {
       cell: (info: any) =>
         info?.row?.original?.products?.length ? (
           <AvatarGroup max={4} sx={style?.avatarStyle(theme)}>
-            {info?.row?.original?.products?.map((item: any) => (
-              <Avatar
-                key={uuidv4()}
-                variant="square"
-                alt="product-avatar"
-                src={item?.logo?.url}
-              >
-                {item?.name?.charAt(0, 1)}
+            <Tooltip
+              placement="right"
+              title={info?.row?.original?.products?.map((item: any) => (
+                <Typography variant="body3" component="p" key={uuidv4()}>
+                  {item?.name}
+                </Typography>
+              ))}
+              arrow
+            >
+              <Avatar key={uuidv4()} variant="square" alt="product-avatar">
+                {info?.row?.original?.products?.length}
               </Avatar>
-            ))}
+            </Tooltip>
           </AvatarGroup>
         ) : (
           'N/A'
@@ -194,28 +198,6 @@ export const superAdminColumns: any = (columnsProps: any) => {
         <Typography>
           {info?.row?.original?.role?.toLowerCase()?.replace('_', ' ')}
         </Typography>
-      ),
-    },
-    {
-      accessorFn: (row: any) => row?.OrganizationName,
-      id: 'organizationName',
-      isSortable: true,
-      header: 'Organization Name',
-      cell: (info: any) => info?.getValue() ?? 'N/A',
-    },
-    {
-      accessorFn: (row: any) => row?.Products,
-      id: 'products',
-      isSortable: true,
-      header: 'Products',
-      cell: (
-        <AvatarGroup max={4} sx={{ display: 'flex', justifyContent: 'start' }}>
-          <Avatar alt="Remy Sharp" src={AvatarImage?.src} />
-          <Avatar alt="Travis Howard" src={AvatarImage?.src} />
-          <Avatar alt="Cindy Baker" src={AvatarImage?.src} />
-          <Avatar alt="Agnes Walker" src={AvatarImage?.src} />
-          <Avatar alt="Trevor Henderson" src={AvatarImage?.src} />
-        </AvatarGroup>
       ),
     },
     {

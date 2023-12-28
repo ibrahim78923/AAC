@@ -1,6 +1,8 @@
 import { Checkbox } from '@mui/material';
 import { RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
+import dayjs from 'dayjs';
+import { DATE_FORMAT } from '@/constants';
 
 // add new role drawer form data starts here
 
@@ -19,7 +21,7 @@ export const dataArray = [
     componentProps: {
       label: 'Role ID',
       name: 'roleId',
-      placeholder: 'Role Name',
+      placeholder: 'Role ID',
       fullWidth: true,
       required: true,
     },
@@ -76,32 +78,35 @@ export const columns: any = (columnsProps: any) => {
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row?.roleId,
+      accessorFn: (row: any) => row?._id,
       id: 'roleId',
       cell: (info: any) => info?.getValue(),
       header: 'Role ID',
       isSortable: true,
     },
     {
-      accessorFn: (row: any) => row?.roleName,
+      accessorFn: (row: any) => row?.name,
       id: 'roleName',
       isSortable: true,
       header: 'Role Name',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => info?.getValue() ?? 'N/A',
     },
     {
-      accessorFn: (row: any) => row?.createdOn,
+      accessorFn: (row: any) => row?.createdAt,
       id: 'createdOn',
       isSortable: true,
       header: 'Created On',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) =>
+        info?.getValue()
+          ? dayjs(info?.getValue()).format(DATE_FORMAT?.UI)
+          : 'N/A',
     },
     {
       accessorFn: (row: any) => row?.description,
       id: 'description',
       isSortable: true,
       header: 'Description',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => info?.getValue() ?? 'N/A',
     },
   ];
 };
