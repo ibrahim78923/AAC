@@ -6,7 +6,7 @@ export const stepsColumn: any = [
   {
     accessorFn: (row: any) => row?.fileColumn,
     id: 'fileColumn',
-    header: 'file Column',
+    header: 'File Column',
     cell: (info: any) => (
       <Box>
         <Typography variant="body2" color={'blue.dull_blue'} fontWeight={500}>
@@ -18,13 +18,13 @@ export const stepsColumn: any = [
   {
     accessorFn: (row: any) => row?.crmFields,
     id: 'crmFields',
-    header: 'crm Fields',
+    header: 'Crm Fields',
     cell: (info: any) => <CrmField options={info?.getValue()} />,
   },
   {
     accessorFn: (row: any) => row?.mapped,
     id: 'mapped',
-    header: 'mapped',
+    header: 'Mapped',
     cell: () => (
       <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
         <AvailableIcon />
