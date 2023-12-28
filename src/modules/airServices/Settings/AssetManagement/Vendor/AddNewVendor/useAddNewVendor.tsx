@@ -51,7 +51,7 @@ export const useAddNewVendor = (props: any) => {
       skip: !!!vendorId,
     },
   );
-  const { handleSubmit } = methodsNewVendor;
+  const { handleSubmit, reset } = methodsNewVendor;
   const onSubmit = async (data: any) => {
     const body = {
       ...data,
@@ -67,6 +67,7 @@ export const useAddNewVendor = (props: any) => {
       enqueueSnackbar(response?.message ?? 'Vendor Added Successfully', {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
+      reset(newVendorDefaultValues);
     } catch (error: any) {
       enqueueSnackbar(error?.data?.message?.[0] ?? 'Something went wrong', {
         variant: NOTISTACK_VARIANTS?.ERROR,
