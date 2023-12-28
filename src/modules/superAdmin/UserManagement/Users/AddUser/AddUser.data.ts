@@ -20,9 +20,7 @@ export const CompanyOwnerValidationSchema = Yup.object().shape({
   crn: Yup.string()
     .required('Field is Required')
     .matches(/^[0-9]+$/, 'Must be a number'),
-  phoneNumber: Yup.string()
-    .matches(/^\+\d{1,}$/, 'Invalid phone number')
-    .required('Phone number is required'),
+  phoneNumber: Yup.string().matches(/^\+\d{1,}$/, 'Invalid phone number'),
 });
 
 export const superAdminValidationSchema = Yup.object().shape({
@@ -35,22 +33,15 @@ export const superAdminValidationSchema = Yup.object().shape({
   email: Yup.string()
     .required('Field is Required')
     .email('Invalid email address'),
-  phoneNumber: Yup.string()
-    .matches(/^\+\d{1,}$/, 'Invalid phone number')
-    .required('Phone number is required'),
+  phoneNumber: Yup.string().matches(/^\+\d{1,}$/, 'Invalid phone number'),
   postCode: Yup.string()
     .required('Field is Required')
     .matches(/^[0-9]+$/, 'Must be a number'),
   compositeAddress: Yup.string(),
-  jobTitle: Yup.string()
-    .required('Field is Required')
-    .matches(/^[A-Za-z]+$/, 'Only alphabetic characters are allowed'),
-  facebookUrl: Yup.string()
-    .required('Field is Required')
-    .matches(/^[A-Za-z]+$/, 'Only alphabetic characters are allowed'),
-  linkedInUrl: Yup.string()
-    .required('Field is Required')
-    .matches(/^[A-Za-z]+$/, 'Only alphabetic characters are allowed'),
+  jobTitle: Yup.string().matches(
+    /^[A-Za-z]+$/,
+    'Only alphabetic characters are allowed',
+  ),
 });
 
 export const companyOwnerDefaultValues = {
