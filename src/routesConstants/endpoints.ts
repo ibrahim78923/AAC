@@ -72,6 +72,12 @@ export const END_POINTS = {
   DELETED_COMPANIES: '/companies/deleted',
   COMPANY_PREVIEW: '/companies/get-company-preview',
   DROPDOWN_ACCOUNTS_ROLE: '/dropdown/company-accounts-roles',
+  GET_CHILD_TICKETS: `/ticket/get-child-tickets`,
+  ADD_CHILD_TICKET: `/ticket/add-child-ticket`,
+  DELETE_CHILD_TICKET: `/ticket/delete-child-tickets`,
+  REQUESTER_LIST: `/requester/requester-list`,
+  SERVICES_CATEGORIES: `/service-catalog/get-category-list`,
+  DEPARTMENT_LIST: `/Department/department-list`,
 };
 
 export const superAdminBillingInvoices = {

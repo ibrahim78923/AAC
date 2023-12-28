@@ -3,7 +3,7 @@ import { baseAPI } from '@/services/base-api';
 
 const TAG = 'TICKETS';
 
-export const ticketsAPI: any = baseAPI?.injectEndpoints({
+export const ticketsAPI = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
     getTickets: builder?.query({
       query: (apiDataParameter: any) => ({
