@@ -25,7 +25,7 @@ export const columns: any = (columnsProps: any) => {
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row.name,
+      accessorFn: (row: any) => row?.name,
       id: 'name',
       cell: (info: any) => info?.getValue() ?? 'N/A',
       header: 'Company Name',

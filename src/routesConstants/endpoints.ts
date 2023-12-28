@@ -70,6 +70,7 @@ export const END_POINTS = {
   DELETE_BUSINESS_HOUR: `/business-hour/delete-business-hour`,
   COMPANY: `/companies`,
   DELETED_COMPANIES: '/companies/deleted',
+  COMPANY_PREVIEW: '/companies/get-company-preview',
   DROPDOWN_ACCOUNTS_ROLE: '/dropdown/company-accounts-roles',
 };
 

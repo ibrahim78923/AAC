@@ -47,6 +47,7 @@ export const companiesAPI = baseAPI.injectEndpoints({
       },
       invalidatesTags: ['COMPANY'],
     }),
+
     CompanyUpdate: builder.mutation({
       query: ({ body, Id }: any) => ({
         url: `${END_POINTS?.COMPANY}?Id=${Id}`,
@@ -54,6 +55,15 @@ export const companiesAPI = baseAPI.injectEndpoints({
         body: body,
       }),
       invalidatesTags: ['COMPANY'],
+    }),
+
+    getCompanyPreview: builder.query({
+      query: (values: any) => ({
+        url: `${END_POINTS?.COMPANY_PREVIEW}`,
+        method: 'GET',
+        params: values,
+      }),
+      providesTags: ['COMPANY'],
     }),
   }),
 });
@@ -65,4 +75,5 @@ export const {
   usePostCompaniesMutation,
   useGetAllDeletedCompaniesQuery,
   useCompanyUpdateMutation,
+  useGetCompanyPreviewQuery,
 } = companiesAPI;
