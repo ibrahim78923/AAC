@@ -2,33 +2,33 @@ import { Checkbox, Typography } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 
 export const drawerTableColumns = (
-  DrawerData: any,
-  setDrawerData: any,
-  DrawerMainData: any,
+  selectedAssetToAssociateList: any,
+  setSelectedAssetToAssociateList: any,
+  associatesAssetList: any,
   theme: any,
 ): any => [
   {
-    accessorFn: (row: any) => row?.id,
+    accessorFn: (row: any) => row?._id,
     id: 'id',
     cell: (info: any) => (
       <Checkbox
         icon={<CheckboxIcon />}
         checkedIcon={<CheckboxCheckedIcon />}
         checked={
-          !!DrawerData?.find((item: any) => item?.id === info?.getValue())
+          !!selectedAssetToAssociateList?.find(
+            (item: any) => item === info?.getValue(),
+          )
         }
         onChange={(e: any) => {
           e?.target?.checked
-            ? setDrawerData([
-                ...DrawerData,
-                DrawerMainData?.find(
-                  (item: any) => item?.id === info?.getValue(),
-                ),
+            ? setSelectedAssetToAssociateList([
+                ...selectedAssetToAssociateList,
+                info?.getValue(),
               ])
-            : setDrawerData(
-                DrawerData?.filter((item: any) => {
-                  return item?.id !== info?.getValue();
-                }),
+            : setSelectedAssetToAssociateList(
+                selectedAssetToAssociateList?.filter(
+                  (item: any) => item !== info?.getValue(),
+                ),
               );
         }}
         color="primary"
@@ -39,11 +39,18 @@ export const drawerTableColumns = (
       <Checkbox
         icon={<CheckboxIcon />}
         checkedIcon={<CheckboxCheckedIcon />}
-        checked={DrawerData?.length === DrawerMainData?.length}
+        checked={
+          associatesAssetList?.length
+            ? selectedAssetToAssociateList?.length ===
+              associatesAssetList?.length
+            : false
+        }
         onChange={(e: any) => {
           e?.target?.checked
-            ? setDrawerData([...DrawerMainData])
-            : setDrawerData([]);
+            ? setSelectedAssetToAssociateList(
+                associatesAssetList?.map((asset: any) => asset?._id),
+              )
+            : setSelectedAssetToAssociateList([]);
         }}
         color="primary"
         name="id"
@@ -52,8 +59,8 @@ export const drawerTableColumns = (
     isSortable: false,
   },
   {
-    accessorFn: (row: any) => row?.title,
-    id: 'title',
+    accessorFn: (row: any) => row?.displayName,
+    id: 'displayName',
     cell: (info: any) => (
       <Typography variant="body4" color={theme?.palette?.custom?.bright}>
         {info?.getValue()}
@@ -63,8 +70,8 @@ export const drawerTableColumns = (
     isSortable: true,
   },
   {
-    accessorFn: (row: any) => row?.owner,
-    id: 'owner',
+    accessorFn: (row: any) => row?.assetType,
+    id: 'assetType',
     isSortable: true,
     header: 'Asset Type',
     cell: (info: any) => (

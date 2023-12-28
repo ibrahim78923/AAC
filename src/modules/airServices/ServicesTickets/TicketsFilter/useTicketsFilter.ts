@@ -6,7 +6,12 @@ import {
 } from './TicketsFilter.data';
 import { useForm } from 'react-hook-form';
 import usePath from '@/hooks/usePath';
-import { useLazyGetOrganizationsQuery } from '@/services/dropdowns';
+import {
+  useLazyGetAgentDropdownQuery,
+  useLazyGetCategoriesDropdownQuery,
+  useLazyGetDepartmentDropdownQuery,
+  useLazyGetRequesterDropdownQuery,
+} from '@/services/airServices/tickets';
 
 export const useTicketsFilter = (props: any) => {
   const { setIsDrawerOpen, setFilterTicketLists, filterTicketLists } = props;
@@ -21,6 +26,8 @@ export const useTicketsFilter = (props: any) => {
   const { handleSubmit, reset } = methods;
 
   const submitTicketFilterForm = async (data: any) => {
+    onClose();
+    return;
     const ticketsFiltered: any = Object?.entries(data || {})
       ?.filter(
         ([, value]: any) => value !== undefined && value != '' && value != null,
@@ -49,12 +56,17 @@ export const useTicketsFilter = (props: any) => {
     reset?.();
     setIsDrawerOpen?.(false);
   };
-  const apiQueryOrganizations = useLazyGetOrganizationsQuery();
+
+  const apiQueryDepartment = useLazyGetDepartmentDropdownQuery();
+  const apiQueryRequester = useLazyGetRequesterDropdownQuery();
+  const apiQueryAgent = useLazyGetAgentDropdownQuery();
+  const apiQueryCategories = useLazyGetCategoriesDropdownQuery();
+
   const ticketsFilterFormFieldsData = ticketsFilterFormFieldsDataFunction(
-    apiQueryOrganizations,
-    apiQueryOrganizations,
-    apiQueryOrganizations,
-    apiQueryOrganizations,
+    apiQueryRequester,
+    apiQueryDepartment,
+    apiQueryAgent,
+    apiQueryCategories,
   );
 
   return {

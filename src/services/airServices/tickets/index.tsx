@@ -2,6 +2,11 @@ import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
 const TAG = 'TICKETS';
+const TAG_TWO = 'DROPDOWN_REQUESTER';
+const TAG_THREE = 'DROPDOWN_AGENT';
+const TAG_FOUR = 'DROPDOWN_DEPARTMENT';
+const TAG_FIVE = 'DROPDOWN_ASSOCIATE_ASSET';
+const TAG_SIX = 'DROPDOWN_CATEGORIES';
 
 export const ticketsAPI = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
@@ -25,7 +30,7 @@ export const ticketsAPI = baseAPI?.injectEndpoints({
         url: `${END_POINTS?.TICKET}`,
         method: 'GET',
         params: apiDataParameter?.queryParams,
-        responseHandler: (response: { text: () => any }) => response?.text(),
+        responseHandler: (response: any) => response?.blob(),
       }),
       providesTags: [TAG],
     }),
@@ -70,6 +75,61 @@ export const ticketsAPI = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
+    getRequesterDropdown: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_REQUESTERS}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.users;
+      },
+      providesTags: [TAG_TWO],
+    }),
+    getAgentDropdown: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_AGENTS}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.users;
+      },
+      providesTags: [TAG_THREE],
+    }),
+    getDepartmentDropdown: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_DEPARTMENT}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.departments;
+      },
+      providesTags: [TAG_FOUR],
+    }),
+    getAssociateAssetsDropdown: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_ASSOCIATE_ASSET}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.inventories;
+      },
+      providesTags: [TAG_FIVE],
+    }),
+    getCategoriesDropdown: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_CATEGORIES}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+      providesTags: [TAG_SIX],
+    }),
   }),
 });
 
@@ -82,4 +142,9 @@ export const {
   useLazyGetTicketsQuery,
   useLazyGetExportTicketsQuery,
   usePatchBulkUpdateTicketsMutation,
+  useLazyGetRequesterDropdownQuery,
+  useLazyGetAgentDropdownQuery,
+  useLazyGetDepartmentDropdownQuery,
+  useLazyGetAssociateAssetsDropdownQuery,
+  useLazyGetCategoriesDropdownQuery,
 } = ticketsAPI;
