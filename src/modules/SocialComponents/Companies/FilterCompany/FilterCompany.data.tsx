@@ -19,7 +19,7 @@ export const FilterArray = [
   },
   {
     componentProps: {
-      name: 'companyName',
+      name: 'name',
       label: 'Company Name',
       fullWidth: true,
       select: true,
@@ -36,7 +36,7 @@ export const FilterArray = [
   },
   {
     componentProps: {
-      name: 'companyRegNo',
+      name: 'crn',
       label: 'Company Registration Number',
       fullWidth: true,
       select: true,
@@ -53,7 +53,7 @@ export const FilterArray = [
   },
   {
     componentProps: {
-      name: 'companyOwner',
+      name: 'ownerId',
       label: 'Company Owner',
       fullWidth: true,
       select: true,
@@ -70,7 +70,7 @@ export const FilterArray = [
   },
   {
     componentProps: {
-      name: 'createdDate',
+      name: 'date',
       label: 'Created Date',
       fullWidth: true,
       placeholder: 'Created Date',

@@ -66,6 +66,9 @@ const Companies = () => {
     setSearchVal,
     isLoading,
     isSuccess,
+    filterValues,
+    setFilterValues,
+    handleResetFilters,
   } = useCompanies();
 
   const columnsProps = {
@@ -169,6 +172,7 @@ const Companies = () => {
                       variant="outlined"
                       className="small"
                       color="inherit"
+                      onClick={handleResetFilters}
                     >
                       <RefreshTasksIcon />
                     </Button>
@@ -211,7 +215,12 @@ const Companies = () => {
           )}
 
           {isFilter && (
-            <FilterCompany setIsFilter={setIsFilter} isFilter={isFilter} />
+            <FilterCompany
+              filterValues={filterValues}
+              setFilterValues={setFilterValues}
+              setIsFilter={setIsFilter}
+              isFilter={isFilter}
+            />
           )}
 
           {isCustomize && (
@@ -229,7 +238,11 @@ const Companies = () => {
           )}
 
           {isPreview && (
-            <PreviewDrawer isPreview={isPreview} setIsPreview={setIsPreview} />
+            <PreviewDrawer
+              checkedRows={checkedRows}
+              isPreview={isPreview}
+              setIsPreview={setIsPreview}
+            />
           )}
 
           {isDeleteCompany && (

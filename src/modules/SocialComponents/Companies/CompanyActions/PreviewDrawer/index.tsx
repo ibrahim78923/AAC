@@ -26,8 +26,9 @@ import { accordionData } from '@/mock/modules/SocialComponents/Companies';
 import usePreviewDrawer from './usePreviewDrawer';
 import { v4 as uuidv4 } from 'uuid';
 
-const PreviewDrawer = ({ isPreview, setIsPreview }: any) => {
-  const { theme, companyDetailsArray } = usePreviewDrawer();
+const PreviewDrawer = ({ isPreview, setIsPreview, checkedRows }: any) => {
+  const { theme, companyDetailsArray, companyDetails } =
+    usePreviewDrawer(checkedRows);
 
   return (
     <>
@@ -60,7 +61,7 @@ const PreviewDrawer = ({ isPreview, setIsPreview }: any) => {
                   color: `${theme?.palette?.blue?.dull_blue}`,
                 }}
               >
-                Share My Dine
+                {companyDetails?.name}
               </Typography>
               <Typography
                 sx={{
@@ -69,7 +70,7 @@ const PreviewDrawer = ({ isPreview, setIsPreview }: any) => {
                   color: `${theme?.palette?.custom?.light}`,
                 }}
               >
-                smd.com
+                {companyDetails?.domain}
               </Typography>
             </Box>
           </Box>
@@ -140,7 +141,7 @@ const PreviewDrawer = ({ isPreview, setIsPreview }: any) => {
         </Box>
         <Box
           sx={{
-            boxShadow: '0px 0px 4px 0px #0000001A',
+            boxShadow: ` 0px 0px 4px 0px ${theme?.palette?.grey[700]}`,
             padding: '1rem',
             borderRadius: '8px',
           }}
@@ -177,199 +178,6 @@ const PreviewDrawer = ({ isPreview, setIsPreview }: any) => {
               </Box>
             );
           })}
-
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              marginBottom: '1rem',
-            }}
-          >
-            <Typography
-              variant="body2"
-              sx={{ fontWeight: 400, color: `${theme?.palette?.custom?.main}` }}
-            >
-              Company Owner
-            </Typography>
-            <Typography
-              variant="body2"
-              sx={{
-                fontWeight: 600,
-                color: `${theme?.palette?.slateBlue?.main}`,
-              }}
-            >
-              Savannah Shane
-            </Typography>
-          </Box>
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              marginBottom: '1rem',
-            }}
-          >
-            <Typography
-              variant="body2"
-              sx={{ fontWeight: 400, color: `${theme?.palette?.custom?.main}` }}
-            >
-              Phone Number
-            </Typography>
-            <Typography
-              variant="body2"
-              sx={{
-                fontWeight: 600,
-                color: `${theme?.palette?.slateBlue?.main}`,
-              }}
-            >
-              +44 779 672 6637
-            </Typography>
-          </Box>
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              marginBottom: '1rem',
-            }}
-          >
-            <Typography
-              variant="body2"
-              sx={{ fontWeight: 400, color: `${theme?.palette?.custom?.main}` }}
-            >
-              Comapny Type
-            </Typography>
-            <Typography
-              variant="body2"
-              sx={{
-                fontWeight: 600,
-                color: `${theme?.palette?.slateBlue?.main}`,
-              }}
-            >
-              Partner
-            </Typography>
-          </Box>
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              marginBottom: '1rem',
-            }}
-          >
-            <Typography
-              variant="body2"
-              sx={{ fontWeight: 400, color: `${theme?.palette?.custom?.main}` }}
-            >
-              Industry
-            </Typography>
-            <Typography
-              variant="body2"
-              sx={{
-                fontWeight: 600,
-                color: `${theme?.palette?.slateBlue?.main}`,
-              }}
-            >
-              Consumer Services
-            </Typography>
-          </Box>
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              marginBottom: '1rem',
-            }}
-          >
-            <Typography
-              variant="body2"
-              sx={{ fontWeight: 400, color: `${theme?.palette?.custom?.main}` }}
-            >
-              No of Employees
-            </Typography>
-            <Typography
-              variant="body2"
-              sx={{
-                fontWeight: 600,
-                color: `${theme?.palette?.slateBlue?.main}`,
-              }}
-            >
-              500
-            </Typography>
-          </Box>
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              marginBottom: '1rem',
-            }}
-          >
-            <Typography
-              variant="body2"
-              sx={{ fontWeight: 400, color: `${theme?.palette?.custom?.main}` }}
-            >
-              Total Revenue
-            </Typography>
-            <Typography
-              variant="body2"
-              sx={{
-                fontWeight: 600,
-                color: `${theme?.palette?.slateBlue?.main}`,
-              }}
-            >
-              £50,000,000.00
-            </Typography>
-          </Box>
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              marginBottom: '1rem',
-            }}
-          >
-            <Typography
-              variant="body2"
-              sx={{ fontWeight: 400, color: `${theme?.palette?.custom?.main}` }}
-            >
-              Created Date
-            </Typography>
-            <Typography
-              variant="body2"
-              sx={{
-                fontWeight: 600,
-                color: `${theme?.palette?.slateBlue?.main}`,
-              }}
-            >
-              10/04/2023
-            </Typography>
-          </Box>
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              marginBottom: '1rem',
-            }}
-          >
-            <Typography
-              variant="body2"
-              sx={{ fontWeight: 400, color: `${theme?.palette?.custom?.main}` }}
-            >
-              Address
-            </Typography>
-            <Typography
-              variant="body2"
-              sx={{
-                fontWeight: 600,
-                color: `${theme?.palette?.slateBlue?.main}`,
-              }}
-            >
-              SMD,128 City Road, London, EC1V 2NX
-            </Typography>
-          </Box>
         </Box>
         {accordionData?.map((item) => {
           return (
@@ -377,7 +185,7 @@ const PreviewDrawer = ({ isPreview, setIsPreview }: any) => {
               <Box sx={{ marginTop: '1rem' }}>
                 <Accordion
                   sx={{
-                    boxShadow: '0px 0px 4px 0px #0000001A',
+                    boxShadow: ` 0px 0px 4px 0px ${theme?.palette?.grey[700]}`,
                     borderRadius: '6px',
                   }}
                 >
