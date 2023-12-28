@@ -35,7 +35,6 @@ export default function RHFAutocompleteAsync({
   const { control } = useFormContext();
   const [open, setOpen] = useState(false);
   const [trigger, { data, isLoading, isFetching }]: any = apiQuery;
-
   const triggerDebounce = debounce((newInputValue) => {
     trigger({ params: { [queryKey]: newInputValue, ...externalParams } });
   }, debounceTime);

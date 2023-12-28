@@ -10,11 +10,7 @@ import { useRouter } from 'next/router';
 import { useTheme } from '@mui/material';
 import { TicketsFilter } from '../TicketsFilter';
 import { enqueueSnackbar } from 'notistack';
-import {
-  useLazyGetExportTicketsQuery,
-  useLazyGetTicketsQuery,
-  usePatchBulkUpdateTicketsMutation,
-} from '@/services/airServices/tickets';
+
 import { downloadFile } from '@/utils/file';
 import { UpsertTicket } from '../UpsertTicket';
 import { EXPORT_FILE_TYPE, NOTISTACK_VARIANTS } from '@/constants/strings';
@@ -25,6 +21,11 @@ import { MergeTickets } from '../MergeTickets';
 import { TicketsDelete } from '../TicketsDelete';
 import usePath from '@/hooks/usePath';
 import { PAGINATION } from '@/config';
+import {
+  useLazyGetExportTicketsQuery,
+  useLazyGetTicketsQuery,
+  usePatchBulkUpdateTicketsMutation,
+} from '@/services/airServices/tickets';
 
 export const useTicketsLists: any = () => {
   const [hasTicketAction, setHasTicketAction] = useState(false);
@@ -45,7 +46,6 @@ export const useTicketsLists: any = () => {
   Object?.entries(filterTicketLists || {})?.forEach(
     ([key, value]: any) => getTicketsParam?.append(key, value),
   );
-  getTicketsParam?.append('columnNames', '*');
   getTicketsParam?.append('page', page + '');
   getTicketsParam?.append('limit', pageLimit + '');
   getTicketsParam?.append('search', search);
@@ -63,27 +63,23 @@ export const useTicketsLists: any = () => {
 
   const getValueTicketsListData = async () => {
     try {
-      const response =
-        await lazyGetTicketsTrigger(getTicketsParameter)?.unwrap();
-      enqueueSnackbar(response?.message ?? 'Tickets Retrieved successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      await lazyGetTicketsTrigger(getTicketsParameter)?.unwrap();
       setSelectedTicketList([]);
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message ?? 'Error', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      error?.data?.data?.message &&
+        enqueueSnackbar(error?.data?.message ?? 'Error', {
+          variant: NOTISTACK_VARIANTS?.ERROR,
+        });
       setSelectedTicketList([]);
     }
   };
-
   const getTicketsListDataExport = async (type: any) => {
     const exportTicketsParams = new URLSearchParams();
 
     exportTicketsParams?.append('exportType', type);
-    exportTicketsParams?.append('columnNames', '*');
     exportTicketsParams?.append('page', page + '');
     exportTicketsParams?.append('limit', pageLimit + '');
+    exportTicketsParams?.append('search', search);
     const getTicketsExportParameter = {
       queryParams: exportTicketsParams,
     };
@@ -94,26 +90,23 @@ export const useTicketsLists: any = () => {
       )?.unwrap();
       downloadFile(response, 'TicketLists', EXPORT_FILE_TYPE?.[type]);
       enqueueSnackbar(
-        response?.data?.message ?? `Tickets Exported successfully as ${type}`,
+        response?.data?.message ?? `Tickets Exported successfully`,
         {
           variant: NOTISTACK_VARIANTS?.SUCCESS,
         },
       );
       setSelectedTicketList([]);
     } catch (error: any) {
-      enqueueSnackbar(
-        error?.data?.message ?? `Tickets not exported as ${type}`,
-        {
-          variant: NOTISTACK_VARIANTS?.ERROR,
-        },
-      );
+      enqueueSnackbar(error?.data?.message ?? `Tickets not exported`, {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
       setSelectedTicketList([]);
     }
   };
-  //TODO: we will be used while doing BE integration
-  // useEffect(() => {
-  //   getValueTicketsListData();
-  // }, [search, page, pageLimit, filterTicketLists]);
+
+  useEffect(() => {
+    getValueTicketsListData();
+  }, [search, page, pageLimit, filterTicketLists]);
 
   useEffect(() => {
     router?.push(

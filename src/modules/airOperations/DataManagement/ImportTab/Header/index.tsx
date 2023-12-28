@@ -1,8 +1,8 @@
 import { Box, Button } from '@mui/material';
 import { DownloadLargeIcon } from '@/assets/icons';
 import Search from '@/components/Search';
-import { Filter } from '../../ExportTab/Filter';
 import ImportModal from '../ImportModal';
+import { Filter } from '../Filter';
 
 export const Header = () => {
   return (

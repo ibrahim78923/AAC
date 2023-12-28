@@ -36,22 +36,29 @@ export const Vendors = () => {
         </Button>
       </Box>
 
-      <TanstackTable
-        data={data?.data?.vendorproductcatalogs}
-        columns={vendorsColumns}
-        isPagination
-        currentPage={data?.data?.meta?.page}
-        count={data?.data?.meta?.pages}
-        pageLimit={data?.data?.meta?.limit}
-        totalRecords={data?.data?.meta?.total}
-        onPageChange={(page: any) => setPage(page)}
-        setPage={setPage}
-        setPageLimit={setLimit}
-        isLoading={isLoading}
-        isFetching={isFetching}
-        isError={isError}
-        isSuccess={isSuccess}
-      />
+      <Box
+        borderRadius={2}
+        boxShadow={1}
+        border={`1px solid`}
+        borderColor={'custom.off_white_three'}
+      >
+        <TanstackTable
+          data={data?.data?.vendorproductcatalogs}
+          columns={vendorsColumns}
+          isPagination
+          currentPage={data?.data?.meta?.page}
+          count={data?.data?.meta?.pages}
+          pageLimit={data?.data?.meta?.limit}
+          totalRecords={data?.data?.meta?.total}
+          onPageChange={(page: any) => setPage(page)}
+          setPage={setPage}
+          setPageLimit={setLimit}
+          isLoading={isLoading}
+          isFetching={isFetching}
+          isError={isError}
+          isSuccess={isSuccess}
+        />
+      </Box>
 
       {isDeleteModalOpen && (
         <AlertModals
