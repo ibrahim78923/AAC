@@ -114,6 +114,7 @@ const CUSTOM_COLORS = {
   white_rock: '#E6E6E6',
   black_pearl: '#14142B',
   error_lighter: 'rgba(255, 74, 74, 0.10)',
+  hex_grey: '#e0e0e0',
 };
 const GRAPH = {
   cyan: 'blue',

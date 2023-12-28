@@ -9,6 +9,7 @@ import {
   Checkbox,
   Typography,
   Button,
+  useTheme,
 } from '@mui/material';
 import Search from '../Search';
 
@@ -32,6 +33,7 @@ export default function RHFMultiSearchableSelect({
 }: any) {
   const { control } = useFormContext();
   const [searchTerm, setSearchTerm] = useState('');
+  const theme = useTheme();
 
   const [isSelectAll, setIsSelectAll] = useState<any>();
 
@@ -193,10 +195,10 @@ export default function RHFMultiSearchableSelect({
                         backgroundColor: isCheckBox
                           ? 'transparent'
                           : selectedValues?.includes(option?.value)
-                          ? '#e0e0e0'
+                          ? theme?.palette?.custom?.hex_grey
                           : 'transparent',
                         '&:hover': {
-                          backgroundColor: '#e0e0e0',
+                          backgroundColor: theme?.palette?.custom?.hex_grey,
                         },
                       }}
                     >
