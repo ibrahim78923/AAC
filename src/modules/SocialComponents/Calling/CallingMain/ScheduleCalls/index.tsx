@@ -115,10 +115,13 @@ const ScheduleCalls = () => {
         isSuccess={true}
         onPageChange={(page: any) => setPage(page)}
       />
-      <ScheduleEditorDrawer
-        openDrawer={openDrawer}
-        setOpenDrawer={setOpenDrawer}
-      />
+      {openDrawer && (
+        <ScheduleEditorDrawer
+          openDrawer={openDrawer}
+          setOpenDrawer={setOpenDrawer}
+          selectedCheckboxes={selectedCheckboxes}
+        />
+      )}
       <AlertModals
         message={'Are you sure you want to delete this entry ?'}
         type="delete"

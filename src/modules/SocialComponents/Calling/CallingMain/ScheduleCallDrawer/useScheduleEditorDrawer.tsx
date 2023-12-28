@@ -15,9 +15,10 @@ import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { useGetDealsListQuery } from '@/services/airSales/deals';
 
-const useScheduleEditorDrawer = () => {
+const useScheduleEditorDrawer = ({ selectedCheckboxes, openDrawer }: any) => {
   const { user } = getSession();
   const { data: deals } = useGetDealsListQuery({});
+  const editCallValue = selectedCheckboxes && selectedCheckboxes[0];
 
   const { data: employeeList } = useGetEmployeeListQuery({
     orgId: user?.organization?._id,
@@ -41,7 +42,42 @@ const useScheduleEditorDrawer = () => {
 
   const methodsdealsCalls = useForm({
     resolver: yupResolver(dealsCallsValidationSchema),
-    defaultValues: dealsCallsDefaultValues,
+
+    defaultValues: async () => {
+      if (editCallValue && openDrawer !== 'Add') {
+        const {
+          title,
+          status,
+          callFromDate,
+          // callFromTime,
+          callToDate,
+          // callToTime,
+          dealId,
+          callType,
+          setReminder,
+          attendees,
+          outcome,
+          callNotes,
+          scheduledBy,
+        }: any = editCallValue;
+        return {
+          title,
+          status,
+          callFromDate: new Date(callFromDate),
+          // callFromTime,
+          callToDate: new Date(callToDate),
+          // callToTime,
+          dealId,
+          callType,
+          setReminder,
+          attendees,
+          outcome,
+          callNotes,
+          scheduledBy,
+        };
+      }
+      return dealsCallsDefaultValues;
+    },
   });
 
   const onSubmit = async (values: any) => {
@@ -60,12 +96,13 @@ const useScheduleEditorDrawer = () => {
         body: payload,
       })?.unwrap();
 
-      enqueueSnackbar(`Call Schedule  Successfully`, {
+      enqueueSnackbar(`Call Schedule Successfully`, {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
     } catch (error) {
       const errMsg = error?.data?.message;
-      enqueueSnackbar(errMsg ?? 'Error occurred', {
+      const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;
+      enqueueSnackbar(errMessage ?? 'Error occurred', {
         variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }
