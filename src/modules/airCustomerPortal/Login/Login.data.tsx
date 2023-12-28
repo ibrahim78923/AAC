@@ -13,7 +13,10 @@ export const loginDefaultValues = {
   password: '',
 };
 
-export const loginFormFields = (showPassword:any, handleClickShowPassword :any)=> [
+export const loginFormFields = (
+  showPassword: any,
+  handleClickShowPassword: any,
+) => [
   {
     id: 1,
     componentProps: {
@@ -46,7 +49,7 @@ export const loginFormFields = (showPassword:any, handleClickShowPassword :any)=
         ),
       },
     },
-  
+
     component: RHFTextField,
   },
 ];

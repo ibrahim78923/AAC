@@ -63,6 +63,8 @@ export const END_POINTS = {
   POST_COMPANY_ACCOUNT: '/org-company-account',
   VENDOR_DETAIL_OVERVIEW: '/vendors/get-vendor',
   DROPDOWN_ASSET_TYPE_LIST: `/asset-type/assset-type-list`,
+  CALLS: '/calls',
+  DEALS_LIST_VIEW: '/deals/get-deals-list-view',
   POST_CLOSURE_ROLE: '/Closure-Rules/add-closure-rules',
   GET_BUSINESS_HOUR: `/business-hour/list`,
   DELETE_BUSINESS_HOUR: `/business-hour/delete-business-hour`,
