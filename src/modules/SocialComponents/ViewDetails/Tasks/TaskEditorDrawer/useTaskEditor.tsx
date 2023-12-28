@@ -19,6 +19,7 @@ const useTaskEditor = ({
   openDrawer,
   setOpenDrawer,
   setSelectedCheckboxes,
+  companyId,
 }: any) => {
   const editCheckBoxes = selectedCheckboxes && selectedCheckboxes[0];
 
@@ -55,10 +56,14 @@ const useTaskEditor = ({
   const [updatedDealsTasksManagement] = useUpdateDealsTasksManagementMutation();
 
   const onSubmit = async (values: any) => {
-    const { dueDate, ...rest } = values;
+    const { dueDate, createTime, ...rest } = values;
     const DueDate = dayjs(dueDate)?.format(DATE_FORMAT?.API);
+    const CreateTime = dayjs(createTime)?.format(DATE_FORMAT?.API);
+
     const body = {
       dueDate: DueDate,
+      createTime: CreateTime,
+      recordId: companyId,
       ...rest,
     };
 

@@ -10,7 +10,7 @@ import { columns } from './Tasks.data';
 
 import { PlusIcon } from '@/assets/icons';
 
-const Tasks = () => {
+const Tasks = ({ companyId }: any) => {
   const {
     openDrawer,
     setOpenDrawer,
@@ -60,6 +60,7 @@ const Tasks = () => {
         setOpenDrawer={setOpenDrawer}
         selectedCheckboxes={selectedCheckboxes}
         setSelectedCheckboxes={setSelectedCheckboxes}
+        companyId={companyId}
       />
     </Box>
   );

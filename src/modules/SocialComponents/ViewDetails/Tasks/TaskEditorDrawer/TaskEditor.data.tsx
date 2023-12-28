@@ -9,13 +9,13 @@ import * as Yup from 'yup';
 
 export const dealsTasksValidationSchema = Yup?.object()?.shape({
   name: Yup?.string()?.trim()?.required('Field is Required'),
-  note: Yup?.string()?.trim()?.required('Field is Required'),
+  note: Yup?.string(),
   type: Yup?.string()?.trim()?.required('Field is Required'),
-  dueDate: Yup?.string()?.trim()?.required('Field is Required'),
-  createTime: Yup?.string()?.trim()?.required('Field is Required'),
-  assignedto: Yup?.string()?.trim()?.required('Field is Required'),
+  dueDate: Yup?.string(),
+  createTime: Yup?.string(),
+  assignedto: Yup?.string(),
   priority: Yup?.string()?.trim()?.required('Field is Required'),
-  NotifyBefore: Yup?.string()?.trim()?.required('Field is Required'),
+  reminder: Yup?.string(),
 });
 
 export const dealsTasksDefaultValues = {
@@ -26,7 +26,7 @@ export const dealsTasksDefaultValues = {
   createTime: '',
   assignedto: '',
   priority: '',
-  NotifyBefore: '',
+  reminder: '',
 };
 
 export const dealsTasksDataArray = [
@@ -91,9 +91,9 @@ export const dealsTasksDataArray = [
       select: true,
     },
     options: [
-      { value: 'John Doe', label: 'John Doe' },
-      { value: 'Alfa Bravo', label: 'Alfa Bravo' },
-      { value: 'John Charlie', label: 'John Charlie' },
+      { value: '65782638da7b3457092af1dd', label: 'John Doe' },
+      { value: '65782638da7b3457092af1dd', label: 'Alfa Bravo' },
+      { value: '65782638da7b3457092af1dd', label: 'John Charlie' },
     ],
     component: RHFSelect,
     md: 12,
@@ -103,6 +103,7 @@ export const dealsTasksDataArray = [
       name: 'priority',
       label: 'Priority',
       select: true,
+      required: true,
     },
     options: [
       { value: '-', label: '-' },
@@ -114,7 +115,7 @@ export const dealsTasksDataArray = [
   },
   {
     componentProps: {
-      name: 'NotifyBefore',
+      name: 'reminder',
       label: 'Notify Before',
       select: true,
     },
