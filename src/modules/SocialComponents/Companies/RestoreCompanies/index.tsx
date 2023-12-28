@@ -74,7 +74,7 @@ const RestoreCompanies = (props: any) => {
         >
           <Grid item lg={6} md={6} sm={12} xs={12}>
             <Search
-              label="Search here"
+              label="Search by Name"
               width="260px"
               size="small"
               searchBy={filterValues?.search}
@@ -97,6 +97,7 @@ const RestoreCompanies = (props: any) => {
                 setRestoreModal={setIsRestoreModal}
                 setDeleteModal={setIsDeleteModal}
               />
+
               <SwitchableDatepicker
                 renderInput="button"
                 placement="right"

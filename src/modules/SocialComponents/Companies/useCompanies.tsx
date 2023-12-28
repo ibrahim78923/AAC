@@ -22,15 +22,31 @@ const useCompanies = () => {
   const [isMerge, setIsMerge] = useState(false);
 
   const [searchVal, setSearchVal] = useState('');
+
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [checkedRows, setCheckedRows] = useState();
   const [selectedValue, setSelectedValue] = useState(null);
 
+  const [filterValues, setFilterValues] = useState({
+    industry: '',
+    name: '',
+    crn: '',
+    ownerId: '',
+    dateStart: null,
+    dateEnd: null,
+  });
+
   const companiesParams = {
     page: page,
     limit: pageLimit,
     search: searchVal ?? undefined,
+    industry: filterValues?.industry ? filterValues?.industry : undefined,
+    name: filterValues?.name ? filterValues?.name : undefined,
+    crn: filterValues?.crn ? filterValues?.crn : undefined,
+    ownerId: filterValues?.ownerId ? filterValues?.ownerId : undefined,
+    dateStart: filterValues?.dateStart ?? undefined,
+    dateEnd: filterValues?.dateEnd ?? undefined,
   };
 
   const { useGetAllCompaniesQuery, useDeleteCompaniesMutation } = companiesAPI;
@@ -49,6 +65,17 @@ const useCompanies = () => {
 
   const handleClick = (event: any) => {
     setSelectedValue(event?.currentTarget);
+  };
+
+  const handleResetFilters = () => {
+    setFilterValues({
+      industry: '',
+      name: '',
+      crn: '',
+      ownerId: '',
+      dateStart: null,
+      dateEnd: null,
+    });
   };
 
   return {
@@ -88,6 +115,9 @@ const useCompanies = () => {
     isLoading,
     isSuccess,
     deleteCompanies,
+    filterValues,
+    setFilterValues,
+    handleResetFilters,
   };
 };
 

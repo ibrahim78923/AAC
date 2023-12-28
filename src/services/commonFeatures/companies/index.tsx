@@ -58,10 +58,9 @@ export const companiesAPI = baseAPI.injectEndpoints({
     }),
 
     getCompanyPreview: builder.query({
-      query: (values: any) => ({
-        url: `${END_POINTS?.COMPANY_PREVIEW}`,
+      query: ({ id }: any) => ({
+        url: `${END_POINTS?.COMPANY_PREVIEW}/${id}`,
         method: 'GET',
-        params: values,
       }),
       providesTags: ['COMPANY'],
     }),

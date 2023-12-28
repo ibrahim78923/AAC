@@ -12,8 +12,17 @@ import { FilterArray } from './FilterCompany.data';
 
 import { v4 as uuidv4 } from 'uuid';
 
-const FilterCompany = ({ isFilter, setIsFilter }: any) => {
-  const { methods } = useFilterCompany();
+const FilterCompany = ({
+  isFilter,
+  setIsFilter,
+  filterValues,
+  setFilterValues,
+}: any) => {
+  const { methods, handleSubmit, onSubmit } = useFilterCompany({
+    filterValues,
+    setFilterValues,
+    setIsFilter,
+  });
   return (
     <>
       <CommonDrawer
@@ -25,6 +34,7 @@ const FilterCompany = ({ isFilter, setIsFilter }: any) => {
         okText="Apply"
         isOk={true}
         footer={true}
+        submitHandler={handleSubmit(onSubmit)}
       >
         <Box sx={{ paddingTop: '1rem' }}>
           <FormProvider methods={methods}>

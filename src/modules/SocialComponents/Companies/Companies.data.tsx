@@ -34,7 +34,7 @@ export const columns: any = (columnsProps: any) => {
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row?.Name,
+      accessorFn: (row: any) => row?.owner,
       id: 'owner',
       header: 'Company Owner',
       isSortable: true,
@@ -61,7 +61,10 @@ export const columns: any = (columnsProps: any) => {
         <Box
           sx={{ cursor: 'pointer' }}
           onClick={() => {
-            navigate?.push(SOCIAL_COMPONENTS?.VIEW_COMPANY_DETAILS);
+            navigate?.push({
+              pathname: SOCIAL_COMPONENTS?.VIEW_COMPANY_DETAILS,
+              query: checkedRows,
+            });
           }}
         >
           <Typography
