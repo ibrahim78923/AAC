@@ -12,6 +12,10 @@ export const CALENDAR_FORMAT = {
   API: 'YYYY MMMM D',
 };
 
+export const DATE_TIME_FORMAT = {
+  UI: 'dddd, MMMM D, YYYY - HH:mm',
+};
+
 export const SUPER_ADMIN: any = {
   USERMANAGMENT: '/super-admin/user-management',
   ADDROLE: '/super-admin/user-management/add-role',

@@ -69,6 +69,8 @@ export const END_POINTS = {
   GET_BUSINESS_HOUR: `/business-hour/list`,
   DELETE_BUSINESS_HOUR: `/business-hour/delete-business-hour`,
   COMPANY: `/companies`,
+  DELETED_COMPANIES: '/companies/deleted',
+  COMPANY_PREVIEW: '/companies/get-company-preview',
   DROPDOWN_ACCOUNTS_ROLE: '/dropdown/company-accounts-roles',
 };
 

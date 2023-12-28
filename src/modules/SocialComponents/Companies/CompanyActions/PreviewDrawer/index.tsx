@@ -1,5 +1,3 @@
-import React from 'react';
-
 import Image from 'next/image';
 
 import {
@@ -8,10 +6,8 @@ import {
   AccordionSummary,
   Box,
   Divider,
-  Theme,
   Tooltip,
   Typography,
-  useTheme,
 } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
@@ -27,9 +23,12 @@ import {
 import CommonDrawer from '@/components/CommonDrawer';
 
 import { accordionData } from '@/mock/modules/SocialComponents/Companies';
+import usePreviewDrawer from './usePreviewDrawer';
+import { v4 as uuidv4 } from 'uuid';
 
 const PreviewDrawer = ({ isPreview, setIsPreview }: any) => {
-  const theme = useTheme<Theme>();
+  const { theme, companyDetailsArray } = usePreviewDrawer();
+
   return (
     <>
       <CommonDrawer
@@ -146,30 +145,39 @@ const PreviewDrawer = ({ isPreview, setIsPreview }: any) => {
             borderRadius: '8px',
           }}
         >
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              marginBottom: '1rem',
-            }}
-          >
-            <Typography
-              variant="body2"
-              sx={{ fontWeight: 400, color: `${theme?.palette?.custom?.main}` }}
-            >
-              Company Registration Number
-            </Typography>
-            <Typography
-              variant="body2"
-              sx={{
-                fontWeight: 600,
-                color: `${theme?.palette?.slateBlue?.main}`,
-              }}
-            >
-              AB123456
-            </Typography>
-          </Box>
+          {companyDetailsArray?.map((item: any) => {
+            return (
+              <Box
+                key={uuidv4()}
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  marginBottom: '1rem',
+                }}
+              >
+                <Typography
+                  variant="body2"
+                  sx={{
+                    fontWeight: 400,
+                    color: `${theme?.palette?.custom?.main}`,
+                  }}
+                >
+                  {item?.title}
+                </Typography>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    fontWeight: 600,
+                    color: `${theme?.palette?.slateBlue?.main}`,
+                  }}
+                >
+                  {item?.value}
+                </Typography>
+              </Box>
+            );
+          })}
+
           <Box
             sx={{
               display: 'flex',
