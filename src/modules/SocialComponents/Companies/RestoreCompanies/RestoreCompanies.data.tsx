@@ -1,3 +1,4 @@
+import { DATE_TIME_FORMAT } from '@/constants';
 import { Checkbox } from '@mui/material';
 import dayjs from 'dayjs';
 
@@ -43,7 +44,7 @@ export const columns: any = (columnsProps: any) => {
       isSortable: true,
       header: 'Time Deleted',
       cell: (info: any) =>
-        dayjs(info?.getValue())?.format('dddd, MMMM D, YYYY - HH:mm') ?? 'N/A',
+        dayjs(info?.getValue())?.format(DATE_TIME_FORMAT?.UI) ?? 'N/A',
     },
   ];
 };
