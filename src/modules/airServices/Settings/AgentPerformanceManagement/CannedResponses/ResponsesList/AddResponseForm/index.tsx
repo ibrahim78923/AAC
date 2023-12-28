@@ -15,20 +15,26 @@ export const AddResponseForm = (props: any) => {
     setOpenSelectAgentsModal,
     openSelectAgentsModal,
     open,
-    setDrawerOpen,
+    closeDrawer,
+    editableObj,
+    postResponseStatus,
+    patchResponseStatus,
   } = useAddResponseForm(props);
   return (
     <>
       <CommonDrawer
         isDrawerOpen={open}
-        onClose={() => setDrawerOpen(false)}
-        title="Add Response"
+        onClose={closeDrawer}
+        title={`${editableObj ? 'Update' : 'Add'} Response`}
         submitHandler={() => {
           methodsAddResponseForm?.handleSubmit(submitAddResponse)();
         }}
         isOk={true}
+        isLoading={
+          postResponseStatus?.isLoading || patchResponseStatus?.isLoading
+        }
         footer={true}
-        okText="Save"
+        okText={`${editableObj ? 'Update' : 'Save'}`}
       >
         <Box mt={1}>
           <FormProvider

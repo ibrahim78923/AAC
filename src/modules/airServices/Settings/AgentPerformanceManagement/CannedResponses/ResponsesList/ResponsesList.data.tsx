@@ -1,37 +1,33 @@
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
-import {
-  AvatarImage,
-  DysonAvatarImage,
-  UserAvatarImage,
-} from '@/assets/images';
 import { CANNED_RESPONSES } from '@/constants/strings';
 import { AvatarGroup, Box, Checkbox, Avatar } from '@mui/material';
+import dayjs from 'dayjs';
 export const responsesTableColumns = (
   responsesData: any,
   setResponsesData: any,
   responsesMainData: any,
 ): any => [
   {
-    accessorFn: (row: any) => row?.id,
-    id: 'id',
+    accessorFn: (row: any) => row?._id,
+    id: '_id',
     cell: (info: any) => (
       <Checkbox
         icon={<CheckboxIcon />}
         checkedIcon={<CheckboxCheckedIcon />}
         checked={
-          !!responsesData?.find((item: any) => item?.id === info?.getValue())
+          !!responsesData?.find((item: any) => item?._id === info?.getValue())
         }
         onChange={(e: any) => {
           e?.target?.checked
             ? setResponsesData([
                 ...responsesData,
                 responsesMainData?.find(
-                  (item: any) => item?.id === info?.getValue(),
+                  (item: any) => item?._id === info?.getValue(),
                 ),
               ])
             : setResponsesData(
                 responsesData?.filter((item: any) => {
-                  return item?.id !== info?.getValue();
+                  return item?._id !== info?.getValue();
                 }),
               );
         }}
@@ -63,11 +59,12 @@ export const responsesTableColumns = (
     isSortable: true,
   },
   {
-    accessorFn: (row: any) => row?.createdDate,
-    id: 'createdDate',
+    accessorFn: (row: any) => row?.createdAt,
+    id: 'createdAt',
     isSortable: true,
     header: 'Created Date',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) =>
+      dayjs(info?.getValue()).format('ddd MM, YYYY hh:mm:ss A'),
   },
   {
     accessorFn: (row: any) => row?.availableFor,
@@ -77,71 +74,48 @@ export const responsesTableColumns = (
     cell: (info: any) => {
       return (
         <Box>
-          <AvatarGroup max={4} sx={{ justifyContent: 'flex-end' }}>
-            {info
-              ?.getValue()
-              ?.map((avatar: { src: string | undefined }) => (
-                <Avatar
-                  key={avatar?.src}
-                  alt="User Avatar"
-                  src={avatar?.src}
-                  sx={{ height: '30px', width: '30px' }}
-                />
-              ))}
-          </AvatarGroup>
+          {true ? (
+            info?.getValue()
+          ) : (
+            <AvatarGroup max={4} sx={{ justifyContent: 'flex-end' }}>
+              {info
+                ?.getValue()
+                ?.map((avatar: { src: string | undefined }) => (
+                  <Avatar
+                    key={avatar?.src}
+                    alt="User Avatar"
+                    src={avatar?.src}
+                    sx={{ height: '30px', width: '30px' }}
+                  />
+                ))}
+            </AvatarGroup>
+          )}
         </Box>
       );
     },
   },
 ];
 
-export const responsesTableData: any = [
-  {
-    id: 1,
-    title: "We've received your request",
-    createdDate: '06:45 - 07:15, Wed 29 Mar, 2023',
-    availableFor: [
-      UserAvatarImage,
-      DysonAvatarImage,
-      AvatarImage,
-      DysonAvatarImage,
-    ],
-  },
-  {
-    id: 2,
-    title: 'Delete',
-    createdDate: '06:45 - 07:15, Wed 29 Mar, 2023',
-    availableFor: [
-      UserAvatarImage,
-      DysonAvatarImage,
-      AvatarImage,
-      DysonAvatarImage,
-    ],
-  },
-  {
-    id: 3,
-    title: 'Update',
-    createdDate: '06:45 - 07:15, Wed 29 Mar, 2023',
-    availableFor: [
-      UserAvatarImage,
-      DysonAvatarImage,
-      AvatarImage,
-      DysonAvatarImage,
-    ],
-  },
-];
-
 export const actionsOptions = (handleOptionsClick: any) => [
   {
     title: 'Edit',
-    handleClick: () => handleOptionsClick(CANNED_RESPONSES?.EDIT),
+    handleClick: (close: any) => {
+      handleOptionsClick(CANNED_RESPONSES?.EDIT);
+      close();
+    },
   },
   {
     title: 'Delete',
-    handleClick: () => handleOptionsClick(CANNED_RESPONSES?.DELETE),
+    handleClick: (close: any) => {
+      handleOptionsClick(CANNED_RESPONSES?.DELETE);
+      close();
+    },
   },
   {
     title: 'Move',
-    handleClick: () => handleOptionsClick(CANNED_RESPONSES?.MOVE),
+    handleClick: (close: any) => {
+      handleOptionsClick(CANNED_RESPONSES?.MOVE);
+      close();
+    },
   },
 ];
