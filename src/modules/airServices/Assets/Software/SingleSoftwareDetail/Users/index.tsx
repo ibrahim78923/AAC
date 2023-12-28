@@ -74,7 +74,7 @@ export const Users = () => {
         gap={2}
       >
         <Box>
-          <Search label="Search" searchBy="" setSearchBy="" />
+          <Search label="Search Here" searchBy="" setSearchBy="" />
         </Box>
         <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={2}>
           <SingleDropdownButton
@@ -103,7 +103,7 @@ export const Users = () => {
               : selectedActionTitle === 'Deallocate'
               ? 'Deallocate Contract'
               : selectedActionTitle === 'Remove'
-              ? 'Remove Contract'
+              ? 'Remove User'
               : 'Add Device'
           }
         >
@@ -122,7 +122,11 @@ export const Users = () => {
             gap={2}
             marginTop={2}
           >
-            <Button onClick={userActionDropdownCloseHandler} variant="outlined">
+            <Button
+              onClick={userActionDropdownCloseHandler}
+              variant="outlined"
+              color="secondary"
+            >
               No
             </Button>
             <Button

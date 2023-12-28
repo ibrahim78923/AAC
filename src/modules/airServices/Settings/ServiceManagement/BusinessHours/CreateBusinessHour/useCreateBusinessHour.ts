@@ -13,7 +13,7 @@ export const useCreateBusinessHour = () => {
     resolver: yupResolver(businessHourValidationSchema),
   });
   const { control, watch, setValue, handleSubmit }: any = businessHourMethod;
-  const onSubmitRequest = handleSubmit(() => {});
+  const onSubmitRequest = handleSubmit(async () => {});
   return {
     router,
     businessHourMethod,

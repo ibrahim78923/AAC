@@ -20,7 +20,7 @@ export const DeletePurchaseOrder = (props: any) => {
       {deleteModalOpen && (
         <AlertModals
           type={ALERT_MODALS_TYPE?.DELETE}
-          message="Are you sure you want to delete the selected inventory?"
+          message="Are you sure you want to delete the selected purchase order?"
           open={deleteModalOpen}
           handleClose={() => setDeleteModalOpen?.(false)}
           handleSubmitBtn={() => deletePurchaseOrder?.()}

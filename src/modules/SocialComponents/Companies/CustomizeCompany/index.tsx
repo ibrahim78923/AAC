@@ -26,7 +26,7 @@ const CustomizeCompany = ({ setIsCustomize, isCustomize }: any) => {
         onClose={() => {
           setIsCustomize(false);
         }}
-        title="Filter"
+        title="Customize Columns"
         okText="Save"
         isOk={true}
         footer={true}

@@ -3,10 +3,12 @@ import { enqueueSnackbar } from 'notistack';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { AntSwitch } from '@/components/AntSwitch';
+import { AIR_OPERATIONS } from '@/constants';
 
 export const salesWorkflowActionDropdownDynamic = (
   selectedSalesWorkflowLists: any,
   setDeleteWorkflow: any,
+  push: any,
 ) => [
   {
     title: 'Edit',
@@ -18,6 +20,9 @@ export const salesWorkflowActionDropdownDynamic = (
         closeMenu?.();
         return;
       }
+      push({
+        pathname: AIR_OPERATIONS?.UPSERT_SALES_WORKFLOW,
+      });
       closeMenu?.();
     },
   },

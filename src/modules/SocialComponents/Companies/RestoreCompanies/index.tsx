@@ -102,17 +102,16 @@ const RestoreCompanies = (props: any) => {
               }}
             >
               <Button
-                sx={styles?.actionButton(theme)}
                 aria-controls={open ? 'basic-menu' : undefined}
                 aria-haspopup="true"
                 aria-expanded={open ? 'true' : undefined}
                 onClick={handleClick}
                 className="small"
+                variant="outlined"
+                color="inherit"
+                endIcon={<ArrowDropDownIcon />}
               >
                 Action
-                <ArrowDropDownIcon
-                  sx={{ color: `${theme?.palette?.custom?.main}` }}
-                />
               </Button>
               <Menu
                 id="basic-menu"
@@ -151,13 +150,7 @@ const RestoreCompanies = (props: any) => {
                 }}
                 variant="outlined"
                 className="small"
-                sx={{
-                  display: 'flex',
-                  alignContent: 'center',
-                  columnGap: '10px',
-                  border: `1px solid ${theme?.palette?.grey[500]}`,
-                  color: `${theme?.palette?.custom?.main}`,
-                }}
+                color="inherit"
               >
                 <FilterIcon /> Filter
               </Button>

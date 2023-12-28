@@ -35,7 +35,7 @@ const ContactsWhatsappMarketing = () => {
       <Typography variant="h4" mb={2}>
         Contact Groups
       </Typography>
-      <Box sx={{ position: 'relative', mb: 1 }}>
+      <Box sx={{ position: 'relative', mb: 2 }}>
         <Button
           sx={styles?.btnLeft}
           onClick={() => handleScroll(-100)}
@@ -74,10 +74,6 @@ const ContactsWhatsappMarketing = () => {
           <ArrowCircleRightIcon />
         </Button>
       </Box>
-      {/* <Typography variant="h4" mt={2} mb={2}>
-        All Contacts
-      </Typography> */}
-      {/* <TanstackTable columns={columns} data={smsMarketingContactsData} /> */}
       <Contacts />
 
       <CreateGroupModal
