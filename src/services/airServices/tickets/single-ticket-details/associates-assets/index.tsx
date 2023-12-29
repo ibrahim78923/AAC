@@ -28,6 +28,14 @@ export const ticketsAssociatesAssetsAPI = baseAPI?.injectEndpoints({
         params: postTicketsAssociatesAssetsParameter?.queryParams,
       }),
     }),
+    deleteTicketsAssociatesAssets: builder?.mutation({
+      query: (deleteTicketsAssociatesAssetsParameter: any) => ({
+        url: `${END_POINTS?.TICKETS_DETACH_ASSOCIATES_ASSETS}`,
+        method: 'DELETE',
+        params: deleteTicketsAssociatesAssetsParameter?.queryParams,
+      }),
+      invalidatesTags: [TAG],
+    }),
   }),
 });
 
@@ -35,4 +43,5 @@ export const {
   useGetTicketsAssociatesAssetsQuery,
   useGetAssociatesAssetsQuery,
   usePostTicketsAssociatesAssetsMutation,
+  useDeleteTicketsAssociatesAssetsMutation,
 } = ticketsAssociatesAssetsAPI;

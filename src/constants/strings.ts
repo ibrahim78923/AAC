@@ -299,3 +299,9 @@ export enum ROLES {
   ORG_REQUESTER = 'ORG_REQUESTER',
   ORG_AGENT = 'ORG_AGENT',
 }
+
+export const TICKETS_STATE = {
+  NEW: 'New',
+  RESPONSE_DUE: 'Response due',
+  OVERDUE: 'Overdue',
+};

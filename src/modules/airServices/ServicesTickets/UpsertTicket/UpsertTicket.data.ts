@@ -42,7 +42,7 @@ export const upsertTicketValidationSchema = Yup?.object()?.shape({
 
 export const upsertTicketDefaultValuesFunction = (data?: any) => {
   return {
-    requester: !!Object(data?.requesterDetails)?.keys?.length
+    requester: !!Object?.keys(data?.requesterDetails ?? {})?.length
       ? {
           name: `${data?.requesterDetails?.firstName} ${data?.requesterDetails?.firstName}`,
           _id: data?.requesterDetails?._id,
@@ -53,7 +53,7 @@ export const upsertTicketDefaultValuesFunction = (data?: any) => {
     category: data?.category ?? null,
     status: data?.status ?? null,
     priority: data?.pirority ?? null,
-    department: !!Object(data?.departmentDetails)?.keys?.length
+    department: !!Object?.keys(data?.departmentDetails ?? {})?.length
       ? {
           name: data?.departmentDetails?.name,
           _id: data?.departmentDetails?._id,
@@ -61,7 +61,7 @@ export const upsertTicketDefaultValuesFunction = (data?: any) => {
       : null,
     source: data?.source ?? null,
     impact: data?.impact ?? null,
-    agent: !!Object(data?.agentDetails)?.keys?.length
+    agent: !!Object?.keys(data?.agentDetails ?? {})?.length
       ? {
           name: `${data?.agentDetails?.firstName} ${data?.agentDetails?.firstName}`,
           _id: data?.agentDetails?._id,
@@ -138,7 +138,6 @@ export const upsertTicketFormFieldsDynamic = (
       fullWidth: true,
       apiQuery: apiQueryCategory,
       placeholder: 'Choose Category',
-      // externalParams: { limit: 50 },
       getOptionLabel: (option: any) => option?.categoryName,
     },
     component: RHFAutocompleteAsync,
@@ -172,7 +171,6 @@ export const upsertTicketFormFieldsDynamic = (
       fullWidth: true,
       apiQuery: apiQueryDepartment,
       placeholder: 'Choose Department',
-      // externalParams: { limit: 50, role: 'ORG_REQUESTER' },
     },
     component: RHFAutocompleteAsync,
   },
@@ -265,6 +263,11 @@ export const upsertTicketFormFieldsDynamic = (
       externalParams: { limit: 50 },
       getOptionLabel: (option: any) => option?.displayName,
       placeholder: 'Choose Assets',
+      EndIcon: AddCircleIcon,
+      endIconSx: { color: 'primary.main' },
+      endIconClick: () => {
+        router?.push(AIR_SERVICES?.UPSERT_INVENTORY);
+      },
     },
     component: RHFAutocompleteAsync,
   },
@@ -272,6 +275,7 @@ export const upsertTicketFormFieldsDynamic = (
     componentProps: {
       name: 'attachFile',
       fullWidth: true,
+      fileType: '',
     },
     component: RHFDropZone,
   },

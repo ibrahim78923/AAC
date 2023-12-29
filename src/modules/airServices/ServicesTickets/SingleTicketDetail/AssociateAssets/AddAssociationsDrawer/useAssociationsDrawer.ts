@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTheme } from '@mui/material';
 import { PAGINATION } from '@/config';
 import {
@@ -45,7 +45,18 @@ export const useAssociationsDrawer = (props: any) => {
     theme,
   );
 
+  useEffect(() => {
+    setSelectedAssetToAssociateList([]);
+  }, [page, pageLimit, search]);
+
   const submitAssetAssociationList = async () => {
+    if (!!!selectedAssetToAssociateList?.length) {
+      enqueueSnackbar('Please select at least one asset', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
+      return;
+    }
+
     const body = {
       id: ticketId,
       assetIds: selectedAssetToAssociateList,

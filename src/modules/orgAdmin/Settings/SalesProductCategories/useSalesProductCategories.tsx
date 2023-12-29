@@ -78,7 +78,7 @@ const useSalesProductCategories = () => {
       ...data,
     };
     try {
-      if (editData) {
+      if (Object?.keys(editData)[0]) {
         await updateSalesProductCategories({
           body: salesProductCartegoryData,
           id: editData?._id,

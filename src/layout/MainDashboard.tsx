@@ -89,7 +89,7 @@ const DashboardLayout = ({ children, window }: any) => {
 
   const { user }: { user: any } = getSession();
   const findRoleByEmail = ({ user, array }: any) => {
-    return array.find((skill: any) => skill?.email === user?.email);
+    return array?.find((skill: any) => skill?.email === user?.email);
   };
 
   const findEmail: any = findRoleByEmail({ user, array });
